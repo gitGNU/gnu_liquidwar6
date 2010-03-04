@@ -1,0 +1,373 @@
+@deftypefun {int} {lw6ldr_body_read} (lw6map_body_t * @var{body}, char * @var{dirname}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{display_w}, int @var{display_h}, float @var{ratio}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@var{body}:  the body to read, must point to allocated memory
+
+@var{dirname}:  the directory of the map
+
+@var{param}:  map parameters
+
+@var{hints}:  map hints
+
+@var{display_w}:  the display width
+
+@var{display_h}:  the display height
+
+@var{ratio}:  wished map ratio
+
+@var{bench_value}:  the bench value (depends on computer capacity)
+
+@var{magic_number}:  arbitrary constant
+
+@var{progress}:  structure to transmit loading progress
+
+Reads the map body, that is, all the layers.
+
+@strong{Return value:}  1 if OK, 0 if failed.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_auto_colors} (lw6map_style_t * @var{style}, lw6ldr_hints_t * @var{hints})
+@var{style}:  the style structure to process.
+
+@var{hints}:  additionnal hints to know what to set automatically
+
+Deduces all colors from background color, if needed. The function
+will check color_auto parameters and replace all other colors
+by base and alternate colors if needed. Note that the background
+color itself is not changed by this function. Background can only
+be guessed from texture.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_free_entry} (lw6ldr_entry_t * @var{entry})
+@var{entry}:  the entry to free
+
+Frees a map entry.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (char * @var{map_path}, char * @var{relative_path})
+@var{map_path}:  the map_path environment config variable, delimited path list
+
+@var{relative_path}:  the relative path to use to find the map directory
+
+Lists all maps in a given directory. Returns a list of lw6ldr_entry_t
+which can contain both directories with subdirs and actual maps. Maps
+are sorted before being returned, first directories, then maps, sorted
+in alphabetical order.
+
+@strong{Return value:}  a list of dynamically allocated lw6ldr_entry_t.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_for_all_entries} (char * @var{map_path}, char * @var{relative_path}, int @var{recursive}, lw6sys_list_callback_func_t @var{callback_func}, void * @var{func_data})
+@var{map_path}:  the map_path environment config variable, delimited path list
+
+@var{relative_path}:  the relative path to use to find the map directory
+
+@var{recursive}:  if non-zero, map search will recurse in subdirs
+
+@var{callback_func}:  the function which will be called on each entry
+
+@var{func_data}:  an extra pointer to pass data to callback_func
+
+Executes a given function on all maps in a given place, typically
+used in test programs.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_grease_apply} (lw6map_layer_t * @var{layer}, lw6map_rules_t * @var{rules}, lw6ldr_hints_t * @var{hints}, lw6sys_progress_t * @var{progress})
+@var{layer}:  the layer on which to apply the grease
+
+@var{rules}:  map rules
+
+@var{hints}:  map hints
+
+@var{progress}:  structure to transmit loading progress
+
+Reads the map body, that is, all the layers.
+
+@strong{Return value:}  1 if OK, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_hints_read} (lw6ldr_hints_t * @var{hints}, char * @var{dirname})
+@var{dirname}:  the directory of the map
+
+Read the hints (hints.xml) of a map. Pointer to hints must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_hints_set} (lw6ldr_hints_t * @var{hints}, char * @var{key}, char * @var{value})
+@var{hints}:  the hints to modify
+
+@var{key}:  the key to modify
+
+@var{value}:  the value to affect to the key, as a string
+
+Sets one single parameter in a hints structure. Value must
+always be passed as a string, will be converted to the right
+type automatically when storing it in the structure.
+
+@strong{Return value:}  1 if success, 0 if failed. Note that while 0 really
+means there's a problem, some affectations can fail and return 1,
+needs to be worked on.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_hints_update} (lw6ldr_hints_t * @var{hints}, lw6sys_assoc_t * @var{values})
+@var{hints}:  the hints struct to fill with values (read/write parameter)
+
+@var{values}:  an assoc containing strings with the new values
+
+Overrides hints with values. Pointer to hints must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values. Not all parameters need be defined in values. It can
+even be NULL. The idea is just that if something is defined in values,
+it will override the existing hints.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_meta_layer_read} (lw6map_meta_layer_t * @var{meta_layer}, char * @var{filename}, int @var{target_w}, int @var{target_h}, int @var{analog})
+@var{meta_layer}:  the meta layer to read
+
+@var{filename}:  the file to open
+
+@var{target_w}:  the wanted width
+
+@var{target_h}:  the wanted height
+
+@var{analog}:  wether to use analog info (0-255) or boolean (0-1)
+
+Reads a meta-layer from the disj, resampling is done according
+to the given parameters.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_meta_layer_read_if_exists} (lw6map_meta_layer_t * @var{meta_layer}, char * @var{dirname}, char * @var{file_only}, int @var{target_w}, int @var{target_h}, int @var{analog})
+@var{meta_layer}:  the meta layer to read
+
+@var{dirname}:  the map directory
+
+@var{file_only}:  the meta-layer file name only (without the path)
+
+@var{target_w}:  the wanted width
+
+@var{target_h}:  the wanted height
+
+@var{analog}:  wether to use analog info (0-255) or boolean (0-1)
+
+Reads a meta-layer from the disj, resampling is done according
+to the given parameters. This function is different
+from @code{lw6ldr_meta_layer_read} for it will 1) concatenate @code{dirname}
+and @code{file_only} and 2) return OK (1) if file does not exist.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_param_read} (lw6map_param_t * @var{param}, char * @var{dirname})
+@var{param}:  the parameter struct to fill with values (read/write parameter)
+
+@var{dirname}:  the directory of the map
+
+Read the parameters associated to a map. Pointer to param must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_param_update} (lw6map_param_t * @var{param}, lw6sys_assoc_t * @var{values})
+@var{param}:  the parameter struct to fill with values (read/write parameter)
+
+@var{values}:  an assoc containing strings with the new values
+
+Overrides param with values. Pointer to param must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values. Not all parameters need be defined in values. It can
+even be NULL. The idea is just that if something is defined in values,
+it will override the existing param.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_print_example_rules_xml} (FILE * @var{f})
+@var{f}:  file to output content to
+
+Print to a file a typical map rules.xml file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_print_example_hints_xml} (FILE * @var{f})
+@var{f}:  file to output content to
+
+Print to a file a typical map hints.xml file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ldr_print_example_style_xml} (FILE * @var{f})
+@var{f}:  file to output content to
+
+Print to a file a typical map style.xml file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_print_examples} (char * @var{user_dir})
+@var{user_dir}:  the user directory or at least, a writable one
+
+Writes all example XML files in 'user_dir/example/', will
+create the directory if needed.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6ldr_read} (char * @var{dirname}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@var{dirname}:  the directory containing the map
+
+@var{default_param}:  default parameters, as strings
+
+@var{forced_param}:  forced parameters, as strings
+
+@var{display_w}:  the width of the display output (resolution)
+
+@var{display_h}:  the height of the display output (resolution)
+
+@var{bench_value}:  the bench value (depends on computer capacity)
+
+@var{magic_number}:  arbitrary constant
+
+@var{progress}:  information used to handle the progress bar
+
+Loads a map from dist. The default_param and forced_param can contain
+values corresponding to rules.xml and style.xml entries. Parameters
+are read in 4 steps. 1st, a default value is picked by the program.
+2nd, any value in @code{default_param} replaces previous values. 3rd, any
+value in rules.xml or style.xml replaces previous values.
+4th, any value in @code{forced_param} replaces previous values. In practice,
+the @code{default_param} allows the user to set defaults which can still
+be overwritten by the map, while @code{forced_param} is a definitive 'ignore
+what is is defined in the map' way of doing things.
+See also @code{lw6ldr_read_relative}.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6ldr_read_relative} (char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@var{map_path}:  a collection of paths where to find maps
+
+@var{relative_path}:  something which will be appended to a @code{map_path} member
+
+@var{default_param}:  default parameters, as strings
+
+@var{forced_param}:  forced parameters, as strings
+
+@var{display_w}:  the width of the display output (resolution)
+
+@var{display_h}:  the height of the display output (resolution)
+
+@var{bench_value}:  the bench value (depends on computer capacity)
+
+@var{magic_number}:  arbitrary constant
+
+@var{progress}:  information used to handle the progress bar
+
+Reads a map from disk, using the map-path value, which is a collection
+of paths defined by the command-line, the environment variables, and
+the config file. @code{default_param} and @code{forced_param} work as in the
+function @code{lw6ldr_read}.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_rules_read} (lw6map_rules_t * @var{rules}, char * @var{dirname})
+@var{dirname}:  the directory of the map
+
+Read the rules (rules.xml) of a map. Pointer to rules must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_rules_update} (lw6map_rules_t * @var{rules}, lw6sys_assoc_t * @var{values})
+@var{rules}:  the rules struct to fill with values (read/write parameter)
+
+@var{values}:  an assoc containing strings with the new values
+
+Overrides rules with values. Pointer to rules must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values. Not all parameters need be defined in values. It can
+even be NULL. The idea is just that if something is defined in values,
+it will override the existing rules.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_style_read} (lw6map_style_t * @var{style}, char * @var{dirname})
+@var{dirname}:  the directory of the map
+
+Read the style (style.xml) of a map. Pointer to style must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_style_set} (lw6map_style_t * @var{style}, char * @var{key}, char * @var{value})
+@var{style}:  the style to modify
+
+@var{key}:  the key to modify
+
+@var{value}:  the value to affect to the key, as a string
+
+Sets one single parameter in a style structure. Value must
+always be passed as a string, will be converted to the right
+type automatically when storing it in the structure.
+
+@strong{Return value:}  1 if success, 0 if failed. Note that while 0 really
+means there's a problem, some affectations can fail and return 1,
+needs to be worked on.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_style_update} (lw6map_style_t * @var{style}, lw6sys_assoc_t * @var{values})
+@var{style}:  the style struct to fill with values (read/write parameter)
+
+@var{values}:  an assoc containing strings with the new values
+
+Overrides style with values. Pointer to style must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values. Not all parameters need be defined in values. It can
+even be NULL. The idea is just that if something is defined in values,
+it will override the existing style.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{ldr} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_use_update} (lw6ldr_use_t * @var{use}, lw6sys_assoc_t * @var{values})
+@var{use}:  the use struct to fill with values (read/write parameter)
+
+@var{values}:  an assoc containing strings with the new values
+
+Overrides use with values. Pointer to use must be valid,
+and values already initialized, either zeroed or filled in with defaults
+or custom values. Not all parameters need be defined in values. It can
+even be NULL. The idea is just that if something is defined in values,
+it will override the existing use.
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+<float key="speed" value="0.5" />
+
+  <!--TECHNICAL -->
+  <int key="wall-grease" value="0" />
+  
+  
+   <bool key="guess-colors" value="true" />  
+   
+     <!-- all of these "color-auto" asigns colors automatically, from the following:
+	  color-base-bg
+	  color-base-fg
+	  color-alternate-bg
+	  color-alternate-fg
+  -->
+  
+  <bool key="background-color-auto" value="false" />
+  <bool key="hud-color-auto" value="true" />
+  <bool key="menu-color-auto" value="true" />
+  <bool key="view-color-auto" value="false" />
+   
+   
+
+</lw6mapparam>

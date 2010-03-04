@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <int key="x-polarity" value="1" />
+  <int key="y-polarity" value="0" />
+  
+   <!-- FIGHTERS -->
+  <!-- There is an invisible one called max-fighter-health which always is equal to 10000 
+        All other values are relative to that -->
+  <int key="fighter-attack" value="700"/> <!-- Default: 500   Min: 1  Max: max-fighter-health-->
+  <int key="fighter-defense" value="10"/> <!-- Default: 50 -->
+  <int key="fighter-new-health" value="6500"/> <!-- Default: 5000 (it is the health of a converted fighter) -->
+  <int key="fighter-regenerate" value="500"/> <!-- Default: 5   Min: 1  Max: max-fighter-health -->
+
+  <int key="nb-attack-tries" value="1"/> <!--  Default: 3   Min: 1   Max: 7 -->
+  <int key="nb-defense-tries" value="5"/> <!-- Default: 1   Min: 1   Max: 7 -->
+  <int key="nb-move-tries" value="5"/> <!--    Default: 5   Min: 3   Max: 7   -->
+  
+  <int key="side-attack-factor" value="0"/>  <!--  Default: 20   Percentage - defines how hard the fighter attacks sideways -->
+  <int key="side-defense-factor" value="0"/>  <!-- Default: 20   Percentage - defines how hard the fighter will heal sideways -->
+
+
+  <!-- ARMY -->
+  <int key="single-army-size" value="20"/> <!--  Default: 30   Min: 1   Max: 95   -->
+  <int key="total-armies-size" value="60"/> <!-- Default: 60   Min: 1   Max: 95   -->
+  
+  <!--
+	single-army-size should determine the optimal size you want for one army
+	total-army-size should be used for the maximum space occupied for all the fighters
+	10 - 30     1% - 9%
+	14 - 40     2% - 16%
+	20 - 60     4% - 36%
+	30 - 60     9% - 36%
+	40 - 70    16% - 49%
+	50 - 80    25% - 64 %
+-->
+  
+  
+  
+  <int key="start-position-mode" value="2"/> <!-- 0 = Pre-defined   1 = rtfm  2 = Random -->
+
+
+  
+  
+  
+  
+  
+</lw6mapparam>

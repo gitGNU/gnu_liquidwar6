@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  
+
+
+  <!-- ARMY -->
+  <int key="single-army-size" value="30"/> <!--  Default: 30   Min: 1   Max: 95   -->
+  <int key="total-armies-size" value="60"/> <!-- Default: 60   Min: 1   Max: 95   -->
+  
+  <!--
+	single-army-size should determine the optimal size you want for one army
+	total-army-size should be used for the maximum space occupied for all the fighters
+	10 - 30     1% - 9%
+	14 - 40     2% - 16%
+	20 - 60     4% - 36%
+	30 - 60     9% - 36%
+	40 - 70    16% - 49%
+	50 - 80    25% - 64 %
+-->
+  
+  
+  
+  <int key="start-position-mode" value="2"/> <!-- 0 = Pre-defined   1 = rtfm  2 = Random -->
+
+
+  <!-- WRAP AROUND -->
+  <int key="x-polarity" value="0" /> <!-- 0 = no wrap   1 = wrap  -1 = wrap inverted  -->
+  <int key="y-polarity" value="0" /> <!-- 0 = no wrap   1 = wrap  -1 = wrap inverted  -->
+  
+  
+  
+</lw6mapparam>

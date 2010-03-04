@@ -1,0 +1,722 @@
+# French translations for liquidwar6 package.
+# Copyright (C) 2005 Christian Mauduit
+# This file is distributed under the same license as the liquidwar6 package.
+# Christian Mauduit <ufoot@ufoot.org>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: liquidwar6 dev\n"
+"Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
+"POT-Creation-Date: 2009-11-22 15:13+0100\n"
+"PO-Revision-Date: 2008-12-30 21:46+0100\n"
+"Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
+"Language-Team: French <traduc@traduc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/scriptpo.c:1
+msgid "no gfx backend found"
+msgstr "aucun moteur graphique (gfx) trouvé"
+
+#: src/scriptpo.c:2
+msgid "no snd backend found"
+msgstr "aucun moteur de son (snd) trouvé"
+
+#: src/scriptpo.c:3
+msgid "gfx backend ~a not available"
+msgstr "moteur graphique (gfx)  ~a non disponible"
+
+#: src/scriptpo.c:4
+msgid "snd backend ~a not available"
+msgstr "moteur de son (snd) ~a non disponible"
+
+#: src/scriptpo.c:5
+msgid "red"
+msgstr "rouge"
+
+#: src/scriptpo.c:6
+msgid "green"
+msgstr "vert"
+
+#: src/scriptpo.c:7
+msgid "blue"
+msgstr "bleu"
+
+#: src/scriptpo.c:8
+msgid "yellow"
+msgstr "jaune"
+
+#: src/scriptpo.c:9
+msgid "cyan"
+msgstr "cyan"
+
+#: src/scriptpo.c:10
+msgid "magenta"
+msgstr "magenta"
+
+#: src/scriptpo.c:11
+msgid "orange"
+msgstr "orange"
+
+#: src/scriptpo.c:12
+msgid "light blue"
+msgstr "bleu ciel"
+
+#: src/scriptpo.c:13
+msgid "purple"
+msgstr "violet"
+
+#: src/scriptpo.c:14
+msgid "pink"
+msgstr "rose"
+
+#: src/scriptpo.c:15
+msgid "Mouse"
+msgstr "Souris"
+
+#: src/scriptpo.c:16
+msgid "Keyboard"
+msgstr "Clavier"
+
+#: src/scriptpo.c:17
+msgid "Joystick 1"
+msgstr "Joystick 1"
+
+#: src/scriptpo.c:18
+msgid "Joystick 2"
+msgstr "Joystick 2"
+
+#: src/scriptpo.c:19
+msgid "Custom"
+msgstr "Sur mesure"
+
+#: src/scriptpo.c:20 src/scriptpo.c:25
+msgid "~a (mouse)"
+msgstr "~a (souris)"
+
+#: src/scriptpo.c:21
+msgid "~a (keyb)"
+msgstr "~a (clavier)"
+
+#: src/scriptpo.c:22
+msgid "~a (joy1)"
+msgstr "~a (joy1)"
+
+#: src/scriptpo.c:23
+msgid "~a (joy2)"
+msgstr "~a (joy2)"
+
+#: src/scriptpo.c:24
+msgid "~a (custom)"
+msgstr "~a (util.)"
+
+#: src/scriptpo.c:26
+msgid "scheme error"
+msgstr "erreur scheme"
+
+#: src/scriptpo.c:27
+msgid "running scheme code with Guile"
+msgstr "éxécution de code scheme depuis Guile"
+
+#: src/scriptpo.c:28
+msgid "leaving Guile"
+msgstr "fin de la session Guile"
+
+#: src/scriptpo.c:29
+msgid "catched Guile error"
+msgstr "erreur Guile \"catchée\""
+
+#: src/scriptpo.c:30
+msgid "begin main game loop"
+msgstr "début de la boucle de contrôle générale"
+
+#: src/scriptpo.c:31
+msgid "running \"~a\""
+msgstr "exécution de \"~a\""
+
+#: src/scriptpo.c:32
+msgid "upgrading to version ~a"
+msgstr "mise à jour vers la version ~a"
+
+#: src/scriptpo.c:33
+msgid ""
+"no graphical backend found, game can only run in pure server/console mode"
+msgstr ""
+"aucun backend graphique trouvé, le jeu ne peut fonctionner qu'en mode "
+"serveur/console pur"
+
+#: src/scriptpo.c:34
+msgid "server mode not implemented yet"
+msgstr "le mode serveur n'est pas encore implémenté"
+
+#: src/scriptpo.c:35
+msgid "Esc"
+msgstr "Esc"
+
+#: src/scriptpo.c:36
+msgid "Quit"
+msgstr "Quit"
+
+#: src/scriptpo.c:37
+msgid "Resume"
+msgstr "Continuer"
+
+#: src/scriptpo.c:38
+msgid "Quit Liquid War 6?"
+msgstr "Quitter Liquid War 6?"
+
+#: src/scriptpo.c:39
+msgid "Playing"
+msgstr "Jen en cours"
+
+#: src/scriptpo.c:40 src/scriptpo.c:107
+msgid "Choose map"
+msgstr "Choisir le tableau"
+
+#: src/scriptpo.c:41
+msgid "No sound FX"
+msgstr "Pas de bruitages"
+
+#: src/scriptpo.c:42
+msgid "Sound FX ~a%"
+msgstr "Bruitages ~a%"
+
+#: src/scriptpo.c:43
+msgid "No music"
+msgstr "Pas de musique"
+
+#: src/scriptpo.c:44
+msgid "Music ~a%"
+msgstr "Musique ~a%"
+
+#: src/scriptpo.c:45 src/scriptpo.c:83
+msgid "Backend ~a"
+msgstr "Moteur ~a"
+
+#: src/scriptpo.c:46 src/scriptpo.c:142
+msgid "Sound options"
+msgstr "Options son"
+
+#: src/scriptpo.c:47
+msgid "Armies ~a% - ~a%"
+msgstr "Armées ~a% - ~a%"
+
+#: src/scriptpo.c:48
+msgid "Keep map ratio"
+msgstr "Conserver les proportions"
+
+#: src/scriptpo.c:49
+msgid "Fit map to screen"
+msgstr "Etaler sur tout l'écran"
+
+#: src/scriptpo.c:50
+msgid "Use texture"
+msgstr "Texture utilisée"
+
+#: src/scriptpo.c:51
+msgid "Ignore texture"
+msgstr "Texture ignorée"
+
+#: src/scriptpo.c:52
+msgid "Use XML files"
+msgstr "Utiliser les fichiers XML"
+
+#: src/scriptpo.c:53
+msgid "Ignore XML files"
+msgstr "Ignorer rules.xml"
+
+#: src/scriptpo.c:54
+msgid "Use ~a"
+msgstr "Utiliser ~a"
+
+#: src/scriptpo.c:55
+msgid " and "
+msgstr " et "
+
+#: src/scriptpo.c:56
+msgid "Map options"
+msgstr "Options du tableau"
+
+#: src/scriptpo.c:57
+msgid "One life (last wins)"
+msgstr "Une seule vie (dernier gagne)"
+
+#: src/scriptpo.c:58
+msgid "Respawn (deatchmatch)"
+msgstr "Les équipes revivent (DM)"
+
+#: src/scriptpo.c:59
+msgid "Cursors can have any color"
+msgstr "Couleur des curseurs libre"
+
+#: src/scriptpo.c:60
+msgid "Can collaborate locally"
+msgstr "Collaboration locale possible"
+
+#: src/scriptpo.c:61
+msgid "One cursor per team"
+msgstr "Un curseur par équipe"
+
+#: src/scriptpo.c:62 src/scriptpo.c:86
+msgid "Rules"
+msgstr "Règles"
+
+#: src/scriptpo.c:63
+msgid "Display FPS"
+msgstr "Montrer les FPS"
+
+#: src/scriptpo.c:64
+msgid "FPS hidden"
+msgstr "FPS cachés"
+
+#: src/scriptpo.c:65
+msgid "Display MPS"
+msgstr "Montrer les MPS"
+
+#: src/scriptpo.c:66
+msgid "MPS hidden"
+msgstr "MPS cachés"
+
+#: src/scriptpo.c:67
+msgid "Console enabled"
+msgstr "Console activée"
+
+#: src/scriptpo.c:68
+msgid "Console disabled"
+msgstr "Console éteinte"
+
+#: src/scriptpo.c:69
+msgid "System options"
+msgstr "Options système"
+
+#: src/scriptpo.c:70
+msgid "Time ~a:~a~a:~a~a"
+msgstr "Temps ~a:~a~a:~a~a"
+
+#: src/scriptpo.c:71
+msgid "Default speed"
+msgstr "Vitesse par défaut"
+
+#: src/scriptpo.c:72
+msgid "Speed x~a"
+msgstr "Vitesse x~a"
+
+#: src/scriptpo.c:73
+msgid "Speed ~a%"
+msgstr "Vitesse ~a%"
+
+#: src/scriptpo.c:74
+msgid "Unknown speed"
+msgstr "Vitesse inconnue"
+
+#: src/scriptpo.c:75
+msgid "Bench ~a"
+msgstr "Marque ~a"
+
+#: src/scriptpo.c:76 src/scriptpo.c:85
+msgid "Time & speed"
+msgstr "Temps et vitesse"
+
+#: src/scriptpo.c:77 src/scriptpo.c:140
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+#: src/scriptpo.c:78
+msgid "Windowed"
+msgstr "Fenêtré"
+
+#: src/scriptpo.c:79
+msgid "Low res"
+msgstr "Basse rés."
+
+#: src/scriptpo.c:80
+msgid "Standard res"
+msgstr "Rés. standard"
+
+#: src/scriptpo.c:81
+msgid "High res"
+msgstr "Haute rés."
+
+#: src/scriptpo.c:82
+msgid "User res"
+msgstr "Rés. util."
+
+#: src/scriptpo.c:84
+msgid "Video options"
+msgstr "Options vidéos"
+
+#: src/scriptpo.c:87
+msgid "Map"
+msgstr "Tableau"
+
+#: src/scriptpo.c:88
+msgid "Video"
+msgstr "Vidéo"
+
+#: src/scriptpo.c:89 src/scriptpo.c:138
+msgid "Sound"
+msgstr "Son"
+
+#: src/scriptpo.c:90
+msgid "System"
+msgstr "Système"
+
+#: src/scriptpo.c:91
+msgid "Stop current game"
+msgstr "Arrêter le jeu en cours"
+
+#: src/scriptpo.c:92 src/scriptpo.c:93 src/scriptpo.c:109 src/scriptpo.c:122
+#: src/scriptpo.c:136
+msgid "Options"
+msgstr "Options"
+
+#: src/scriptpo.c:94 src/scriptpo.c:118
+msgid "Local game"
+msgstr "Jeu local"
+
+#: src/scriptpo.c:95
+msgid "Join network game"
+msgstr "Se connecter"
+
+#: src/scriptpo.c:96
+msgid "Start server"
+msgstr "Démarrer un serveur"
+
+#: src/scriptpo.c:97
+msgid "Demo"
+msgstr "Démo"
+
+#: src/scriptpo.c:98
+msgid "Back to main menu"
+msgstr "Menu principal"
+
+#: src/scriptpo.c:99 src/scriptpo.c:100 src/scriptpo.c:106
+msgid "Play"
+msgstr "Jouer"
+
+#: src/scriptpo.c:101
+msgid "Unknown bot"
+msgstr "Bot inconnu"
+
+#: src/scriptpo.c:102
+msgid "Not playing"
+msgstr "Ne joue pas"
+
+#: src/scriptpo.c:103
+msgid "Free slot"
+msgstr "Libre"
+
+#: src/scriptpo.c:104 src/scriptpo.c:108
+msgid "Players"
+msgstr "Joueurs"
+
+#: src/scriptpo.c:105 src/scriptpo.c:117 src/scriptpo.c:124
+msgid "Quick start"
+msgstr "Jouer tout de suite"
+
+#: src/scriptpo.c:110
+msgid "Welcome to Liquid War 6"
+msgstr "Bienvenue dans Liquid War 6"
+
+#: src/scriptpo.c:111 src/scriptpo.c:112
+msgid "Please wait..."
+msgstr "Patience..."
+
+#: src/scriptpo.c:113
+msgid "Exit?"
+msgstr "Fin?"
+
+#: src/scriptpo.c:114
+msgid "Exit"
+msgstr "Fin"
+
+#: src/scriptpo.c:115
+msgid "Resume LW6"
+msgstr "Retourner à LW6"
+
+#: src/scriptpo.c:116
+msgid "Liquid War 6"
+msgstr "Liquid War 6"
+
+#: src/scriptpo.c:119
+msgid "Network game"
+msgstr "Jeu réseau"
+
+#: src/scriptpo.c:120 src/scriptpo.c:135
+msgid "Level"
+msgstr "Tableau"
+
+#: src/scriptpo.c:121
+msgid "Teams"
+msgstr "Equipe"
+
+#: src/scriptpo.c:123 src/scriptpo.c:125
+msgid "About"
+msgstr "A propos"
+
+#: src/scriptpo.c:126
+msgid "Authors"
+msgstr "Auteurs"
+
+#: src/scriptpo.c:127
+msgid "Copyright"
+msgstr "Copyright"
+
+#: src/scriptpo.c:128
+msgid "License"
+msgstr "Licence"
+
+#: src/scriptpo.c:129
+msgid "Version"
+msgstr "Version"
+
+#: src/scriptpo.c:130
+msgid "View level"
+msgstr "Voir le tableau"
+
+#: src/scriptpo.c:131
+msgid "Confirm level choice"
+msgstr "Confirmer le choix du tableau"
+
+#: src/scriptpo.c:132
+msgid "Choose it"
+msgstr "Le choisir"
+
+#: src/scriptpo.c:133
+msgid "View"
+msgstr "Voir"
+
+#: src/scriptpo.c:134
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/scriptpo.c:137
+msgid "Graphics"
+msgstr "Vidéo"
+
+#: src/scriptpo.c:139
+msgid "Graphics options"
+msgstr "Options vidéo"
+
+#: src/scriptpo.c:141 src/scriptpo.c:146
+msgid "Graphics backend"
+msgstr "Moteur graphique"
+
+#: src/scriptpo.c:143
+msgid "Sound fx volume"
+msgstr "Volume bruitages"
+
+#: src/scriptpo.c:144
+msgid "Music volume"
+msgstr "Volume musique"
+
+#: src/scriptpo.c:145 src/scriptpo.c:147
+msgid "Sound backend"
+msgstr "Moteur de son"
+
+#: src/scriptpo.c:148
+msgid "testing map"
+msgstr "test du niveau"
+
+#: src/scriptpo.c:149
+msgid "testing game struct"
+msgstr "test game struct"
+
+#: src/scriptpo.c:150
+msgid "testing game state"
+msgstr "test de \"game state\""
+
+#: src/scriptpo.c:151
+msgid "testing pilot"
+msgstr "test de \"pilot\""
+
+#: src/scriptpo.c:152
+msgid "testing bot"
+msgstr "test des bots"
+
+#: src/scriptpo.c:153
+msgid "testing smobs GC, step 1"
+msgstr "test smobs GC, étape 1"
+
+#: src/scriptpo.c:154
+msgid "testing smobs GC, step 2"
+msgstr "test smobs GC, étape 2"
+
+#: src/scriptpo.c:155
+msgid "testing async load"
+msgstr "test chargement asynchrone"
+
+#: src/scriptpo.c:156
+#, fuzzy
+msgid "testing node"
+msgstr "test des bots"
+
+#: src/lib/sys/sys-log.c:61
+msgid "log_file is NULL"
+msgstr "Le fichier de log est NULL"
+
+#: src/lib/sys/sys-log.c:520
+#, c-format
+msgid "can't open log file \"%s\""
+msgstr "impossible d'ouvrir le fichier de log \"%s\""
+
+#: src/lib/sys/sys-log.c:625
+msgid "Error (message too long...)"
+msgstr "Erreur (message trop long...)"
+
+#: src/lib/sys/sys-log.c:727
+#, c-format
+msgid "ERROR! (errno=%d:%s) "
+msgstr "ERREUR! (erro=%d:%s)"
+
+#: src/lib/sys/sys-log.c:732
+msgid "ERROR! "
+msgstr "ERREUR! "
+
+#: src/lib/sys/sys-log.c:742
+#, c-format
+msgid "WARNING! (errno=%d:%s) "
+msgstr "ATTENTION! (errno=%d:%s) "
+
+#: src/lib/sys/sys-log.c:747
+msgid "WARNING! "
+msgstr "ATTENTION! "
+
+#: src/lib/sys/sys-log.c:766
+msgid "[tmp] "
+msgstr "[temp] "
+
+#: src/lib/sys/sys-log.c:772
+msgid "[debug] "
+msgstr "[déboggage] "
+
+#: src/lib/sys/sys-log.c:860
+msgid "CRITICAL! "
+msgstr "CRITIQUE! "
+
+#: src/lib/hlp/hlp-credits.c:77
+#, c-format
+msgid "Codename \"%s\""
+msgstr "Nom de code \"%s\""
+
+#: src/lib/hlp/hlp-credits.c:84
+#, c-format
+msgid "Idea: %s"
+msgstr "Idée : %s"
+
+#: src/lib/hlp/hlp-credits.c:87
+#, c-format
+msgid "Programming: %s"
+msgstr "Programmation : %s"
+
+#: src/lib/hlp/hlp-credits.c:90
+#, c-format
+msgid "Maps: %s"
+msgstr "Tableaux : %s"
+
+#: src/lib/hlp/hlp-credits.c:93
+#, c-format
+msgid "Menu music: %s"
+msgstr "Musique des menus : %s"
+
+#: src/lib/hlp/hlp-credits.c:97 src/lib/hlp/hlp-credits.c:102
+#: src/lib/hlp/hlp-credits.c:107
+#, c-format
+msgid "Song \"%s\" by %s"
+msgstr "Chanson \"%s\" par %s"
+
+#: src/lib/hlp/hlp-credits.c:111
+msgid "Thanks to all other contributors"
+msgstr "Merci à tous les autres contributeurs"
+
+#: src/lib/hlp/hlp-credits.c:114
+msgid "Help is always appreciated"
+msgstr "L'aide est toujours appréciée"
+
+#: src/lib/hlp/hlp-credits.c:117
+msgid "Join us now!"
+msgstr "Rejoignez-nous!"
+
+#: src/lib/hlp/hlp-credits.c:120
+#, c-format
+msgid "Mailing list: <%s>"
+msgstr "Liste de diffusion : <%s>"
+
+#: src/lib/hlp/hlp-credits.c:123
+msgid "Free as in \"free speech\" (not beer)"
+msgstr "Ceci est un Logiciel Libre"
+
+#: src/lib/hlp/hlp-credits.c:127
+#, c-format
+msgid "License: %s"
+msgstr "Licence : %s"
+
+#: src/lib/hlp/hlp-credits.c:134
+#, c-format
+msgid "Built on %s at %s"
+msgstr "Compilé le %s à %s"
+
+#: src/lib/hlp/hlp-credits.c:139
+#, c-format
+msgid "Stamp %s, Id %d"
+msgstr "Stamp %s, Id %d"
+
+#: src/lib/hlp/hlp-credits.c:143
+#, c-format
+msgid "Help GNU %s"
+msgstr "Aidez GNU %s"
+
+#: src/lib/hlp/hlp-credits.c:146
+#, c-format
+msgid "Fight software patents %s"
+msgstr "Contre les brevets logiciels %s"
+
+#: src/lib/hlp/hlp-credits.c:149
+#, c-format
+msgid "unable to handle credits id %d"
+msgstr "impossible de lire la ligne de 'credits' %d"
+
+#: src/lib/lw6-print.c:39
+#, c-format
+msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+
+#: src/lib/lw6-print.c:51
+#, c-format
+msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
+msgstr ""
+"Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
+
+#: src/lib/lw6-print.c:53
+#, c-format
+msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
+msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"
+
+#: src/lib/lw6-print.c:74
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"License GPLv3+: Licence Générale Publique GNU version 3 ou supérieure "
+"<http://gnu.org/licenses/gpl.html>\n"
+"Ceci est un logiciel libre et vous êtes invité à le redistribuer suivant "
+"certaines conditions.\n"
+"Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
+
+#: src/lib/lw6-print.c:622
+msgid "hello"
+msgstr "bonjour"
+
+#: src/lib/lw6-print.c:629
+#, c-format
+msgid "approx. %d megabytes available"
+msgstr "environ %d méga-octets disponibles"
+
+#: src/lib/lw6-print.c:636
+msgid "goodbye"
+msgstr "au revoir"

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <bool key="keep-ratio" value="true" />
+  <bool key="pixelize" value="true" />
+  <string key="music-file" value="thmoov.mid" />
+  
+  
+	<!--
+		turn this one on, if you want to define your own color values ... a lot
+		of stuff would also need to be turned on in hints.xml
+	-->
+	<bool key="colorize" value="false" />
+  
+	
+
+
+
+</lw6mapparam>

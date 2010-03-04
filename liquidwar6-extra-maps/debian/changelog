@@ -1,0 +1,18 @@
+liquidwar6-extra-maps (0.0.6beta-2vendor) unstable; urgency=low
+
+  * Fixed path /data/map -> /map
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Sat, 10 Jan 2009 13:25:00 +0100
+
+liquidwar6-extra-maps (0.0.6beta-1vendor) unstable; urgency=low
+
+  * Version upgrade.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Sat, 10 Jan 2009 13:05:00 +0100
+
+liquidwar6-extra-maps (0.0.3beta-1vendor) unstable; urgency=low
+
+  * First release, separated from main liquidwar6.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Tue, 11 Oct 2007 11:30:34 +0100
+

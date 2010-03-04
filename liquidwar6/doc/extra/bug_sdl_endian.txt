@@ -1,0 +1,49 @@
+Log message:
+
+Date: Sun, 16 Jan 2005 19:20:15 +0100
+From: Stephane Marchesin
+To: Kirill Ponomarew
+Subject: [SDL] Problem on x86_64 with latest CVS (Re: sdl12 with gcc-2.95)
+
+>-I../../src -I../../src/main/freebsd -I../../src/audio
+>-I../../src/video -I../../src/video/XFree86/extensions
+>-I../../src/events -I../../src/joystick -I../../src/cdrom
+>-I../../src/thread -I../../src/timer -I../../src/endian
+>-I../../src/file -I../../src/thread -MT SDL_endian.lo -MD -MP -MF
+>.deps/SDL_endian.Tpo -c SDL_endian.c  -fPIC -DPIC -o
+>.libs/SDL_endian.o
+>{standard input}: Assembler messages:
+>{standard input}:144: Error: suffix or operands invalid for `xchg'
+>*** Error code 1
+>
+That's a totally different problem. This was introduced in CVS 4 days ago :
+http://www.libsdl.org/cgi/cvsweb.cgi/SDL12/include/SDL_endian.h.diff?r1=1.11\
+&r2=1.12
+
+Just revert this patch.
+
+Modified files:
+     include/SDL_endian.h
+-------------- next part --------------
+Index: SDL12/include/SDL_endian.h
+diff -u SDL12/include/SDL_endian.h:1.12 SDL12/include/SDL_endian.h:1.13
+--- SDL12/include/SDL_endian.h:1.12	Tue Jan 11 22:04:47 2005
++++ SDL12/include/SDL_endian.h	Tue Jan 18 10:40:48 2005
+@@ -22,7 +22,7 @@
+ 
+ #ifdef SAVE_RCSID
+ static char rcsid =
+- "@(#) $Id: SDL_endian.h,v 1.12 2005/01/12 06:04:47 slouken Exp $";
++ "@(#) $Id: SDL_endian.h,v 1.13 2005/01/18 18:40:48 slouken Exp $";
+ #endif
+ 
+ /* Functions for reading and writing endian-specific values */
+@@ -68,7 +68,7 @@
+ #elif defined(__GNUC__) && defined(__x86_64__)
+ static __inline__ Uint16 SDL_Swap16(Uint16 x)
+ {
+-	__asm__("xchgb %b0,%h0" : "=Q" (x) :  "0" (x));
++	__asm__("xchgb %b0,%h0" : "=q" (x) :  "0" (x));
+ 	return x;
+ }
+ #elif defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))

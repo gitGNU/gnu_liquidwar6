@@ -1,0 +1,13 @@
+<!ELEMENT liquidwar6 (bool | float | int | string)*>
+<!ELEMENT bool EMPTY>
+<!ATTLIST bool key CDATA #REQUIRED>
+<!ATTLIST bool value CDATA #REQUIRED>
+<!ELEMENT float EMPTY>
+<!ATTLIST float key CDATA #REQUIRED>
+<!ATTLIST float value CDATA #REQUIRED>
+<!ELEMENT int EMPTY>
+<!ATTLIST int key CDATA #REQUIRED>
+<!ATTLIST int value CDATA #REQUIRED>
+<!ELEMENT string EMPTY>
+<!ATTLIST string key CDATA #REQUIRED>
+<!ATTLIST string value CDATA #REQUIRED>

@@ -1,0 +1,62 @@
+The musics here are a collection of songs which will, by default, be played
+randomly when playing Liquid War 6. They are all in Ogg Vorbis format, but
+the game can also play midis, mods (.mod, .s3m, .xm) and possibly some
+other files through SDL_mixer.
+
+You're free to enhance this list by adding your own files and, additionnally,
+maps (levels) can embed their own custom musics.
+
+Below is the list of the files, and where they come from.
+
+Christian Mauduit <ufoot@ufoot.org>
+
+Menu (AKA "ambiance") music
+===========================
+
+Files have been taken from http://orbitalwintersong.org.uk/ and have been
+composed by Tim Chadburn, which was also the composer of all the songs of the 
+previous version of the game (Liquid War 5).
+
+http://orbitalwintersong.org.uk/7.ogg
+http://orbitalwintersong.org.uk/vaguely-jazzy-thing.ogg
+
+These files are distributed with Liquid War 6 under the terms of the GNU GPL,
+more precisely they are dual-licensed, and also distributed under
+Creative Commons http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+In-game music
+=============
+
+These Ogg Vorbis (.ogg -> http://vorbis.com/) were taken from Dogmazic:
+http://www.dogmazic.net/
+This site does have many free songs, including some released under the GNU GPL
+("GNUArt") and therefore fully compatible with the game licensing scheme.
+The filenames are believed to be sufficiently explicit to give the author,
+the name of the song and the license as well. They have (the filenames, not
+the files themselves) been slightly edited, mostly for syntax, because for
+some reason the 'make dist' command and more precisely, tar, would not handle
+files with more than 99 characters. Thanks to all these authors for
+publishing their (great!) work under a Free (as in speech) license.
+
+28035-Robert_Radamant-Free_the_sounds-GNU_GPL-Dogmazic.ogg 
+----------------------------------------------------------
+
+Source: http://www.dogmazic.net/m3u/dwncounttitre.php?id=28035
+Author: Robert Radamant http://www.dogmazic.net/Robert_Radamant
+License: GNU GPL
+
+38018-LapSuS-heav_hypnosis-GNU_GPL-Dogmazic.ogg
+-----------------------------------------------
+
+Source: http://www.dogmazic.net/m3u/dwncounttitre.php?id=38018
+Author: LapSuS http://www.dogmazic.net/LapSuS
+License: GNU GPL
+
+44213-Nighter313-Oriental_travels-GNU_GPL-Dogmazic.ogg
+------------------------------------------------------
+
+Source: http://www.dogmazic.net/m3u/dwncounttitre.php?id=44213
+Author: Nighter313 http://www.dogmazic.net/Nighter313
+License: GNU GPL
+
+

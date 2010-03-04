@@ -1,0 +1,101 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "map.h"
+
+#define _DANGER_BUILTIN_SOUTH_POLAR_PERCENT 20
+
+static int
+_default_source (lw6map_meta_layer_t * danger, int width, int height)
+{
+  int ret = 0;
+  int x, y;
+  u_int8_t value = 0;
+  int south_polar;
+
+  danger->shape.w = width;
+  danger->shape.h = height;
+  danger->shape.d = 1;		// allways 1
+  danger->data =
+    (u_int8_t *) LW6SYS_CALLOC (danger->shape.w * danger->shape.h *
+				sizeof (u_int8_t));
+
+  south_polar = (height * _DANGER_BUILTIN_SOUTH_POLAR_PERCENT) / 100;
+  if (danger->data)
+    {
+      ret = 1;
+      for (y = 0; y < height; ++y)
+	{
+	  value = 0;
+	  if (y > south_polar)
+	    {
+	      if (height > south_polar)
+		{
+		  value = (0xFF * (y - south_polar)) / (height - south_polar);
+		}
+	    }
+	  for (x = 0; x < width; ++x)
+	    {
+	      lw6map_meta_layer_set (danger, x, y, value);
+	    }
+	}
+    }
+
+  if (!ret)
+    {
+      lw6map_meta_layer_clear (danger);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_danger_builtin_whd
+ *
+ * @danger: the danger to init
+ * @w: width
+ * @h: height
+ *
+ * Creates a default danger. This is mostly for testing purposes, the default
+ * danger is not empty, it contains a horizontal line of danger at the bottom.
+ * This is to match the default builtin layer which is a map of the world.
+ *
+ * Return value: none
+ */
+void
+lw6map_danger_builtin_whd (lw6map_meta_layer_t * danger, int w, int h)
+{
+  lw6map_meta_layer_clear (danger);
+
+  if (!_default_source (danger, w, h))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("unable to construct default map danger"));
+      danger->shape.w = 0;
+      danger->shape.h = 0;
+      danger->shape.d = 0;
+    }
+}

@@ -1,0 +1,8 @@
+usr/games/liquidwar6
+usr/lib/liquidwar6-0.0.8beta/bot/libmod_*.*.*.so
+usr/lib/liquidwar6-0.0.8beta/cli/libmod_tcp-*.*.*.so
+usr/lib/liquidwar6-0.0.8beta/cli/libmod_udp-*.*.*.so
+usr/lib/liquidwar6-0.0.8beta/srv/libmod_*.*.*.so
+usr/share/info
+usr/share/man/man6
+usr/share/doc/liquidwar6/html

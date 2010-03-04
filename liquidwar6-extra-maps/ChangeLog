@@ -1,0 +1,112 @@
+2009-12-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added January map by kasper.
+
+	* Copyright 2009 -> 2010
+
+2009-11-29 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed .xcf files from dist tar.gz.
+
+2009-11-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed huge .xcf, was bloating the package.
+
+2009-11-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added infinite-loop map to show one-way feature.
+
+2009-10-29 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added "good-and-bad" map which shows danger.png/medicine.png usage.
+
+	* Added "spots" map which shows boost.png/glue.png usage.
+
+2009-10-25 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Inverted the texture-alpha.jpeg convention. White == transparent.
+
+2009-10-16 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added fluffy map.
+
+	* 0.0.7beta -> 0.0.8beta.
+
+2009-09-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Four new maps by Kasper Hviid.
+
+2009-09-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new maze map, demonstrates algo + zoom capabilities.
+
+	* Fixed texture for copyright notice map.
+
+	* Fixed normalize.sh script to be Mac OS X compliant.
+
+2009-04-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* New solsystem map by M (AKA Rezifull)
+
+2009-01-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* 0.0.6beta -> 0.0.7beta.
+
+2009-01-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.6beta.
+	
+	* Fixed rpm & deb packaging, added zip file support.
+
+2009-01-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* New ufoot/concept/pass map to work with layers.
+
+	* options.xml -> rules.xml
+
+	* Copyright 2008 -> 2009
+
+2008-12-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.5beta.
+
+2008-12-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed kasper/motherboard, map colors were inverted.
+
+2008-11-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Imported more LW5 maps.
+
+2008-11-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed errors in ufoot maps (deprecated huds & backgrounds)
+
+2008-08-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* 0.0.4beta released.
+
+2008-08-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Mass import from main beta package (13 Kasper maps).
+
+2008-01-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* 0.0.3beta
+
+2008-01-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Copyright 2007 -> 2008
+
+2007-11-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added version in map path.
+
+2007-10-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Imported most maps from core package.
+
+2007-10-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Package creation, separated maps from core liquidwar6 package.
+

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <color key="team-color-red" value="#a60000" />
+  <color key="team-color-green" value="#00d200" />
+  <color key="team-color-blue" value="#0000ef" />
+  <color key="team-color-yellow" value="#a6ff00" />
+  <color key="team-color-cyan" value="#00ffef" />
+  <color key="team-color-magenta" value="#a600ef" />
+  <color key="team-color-orange" value="#a68800" />
+  <color key="team-color-lightblue" value="#59bbef" />
+  <color key="team-color-purple" value="#606cbd" />
+  <color key="team-color-pink" value="#a688af" />  
+</lw6mapparam>

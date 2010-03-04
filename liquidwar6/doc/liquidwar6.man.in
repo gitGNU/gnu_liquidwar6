@@ -1,0 +1,41 @@
+.TH "@PACKAGE_NAME@" 6 "@PACKAGE_VERSION@"
+.SH NAME
+liquidwar6 \- a unique multiplayer wargame
+.SH SYNOPSIS
+liquidwar6 [--option1[=value1]] \.\.\. [--optionN[=valueN]]
+.SH DESCRIPTION
+Liquid War 6 is a unique multiplayer wargame. Your army is a blob of
+liquid and you have to try and eat your opponents\. Rules are very
+simple yet original, they have been invented by Thomas Colcombet\. It
+is possible to play alone against the computer but the game is really
+designed to be played with friends, on a single computer, on a LAN, or
+on Internet\.
+
+.SH WARNING
+Liquid War 6 is documented using the GNU info documentation system,
+and is also self-documented\.
+.HP 0
+Type "info liquidwar6", "liquidwar6 --help" or 
+read the documentation online on
+http://www.gnu.org/software/liquidwar6/manual/
+
+.SH
+COPYING
+Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot\.org>
+.HP 0
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version\.
+.HP 0
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\.  See the
+GNU General Public License for more details\.
+.HP 0
+You should have received a copy of the GNU General Public License
+along with this program\.  If not, see <http://www\.gnu\.org/licenses/>\.
+.HP 0
+.SH AUTHOR
+Christian Mauduit <ufoot@ufoot\.org>
+

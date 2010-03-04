@@ -1,0 +1,185 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "sys.h"
+
+/**
+ * lw6sys_clear_file
+ *
+ * @filename: absolute or relative filename
+ *
+ * Clears a file, that is, make it a 0 byte file, empty, ready
+ * to be filled if needed. If this function is called successfully,
+ * program can reasonnably assume file will be writable during its
+ * execution.
+ *
+ * Return value: 1 if success, 0 if failure.
+ */
+int
+lw6sys_clear_file (char *filename)
+{
+  int ret = 0;
+  FILE *f = NULL;
+  char *dir = NULL;
+
+  dir = lw6sys_path_parent (filename);
+  if (dir)
+    {
+      if (!lw6sys_dir_exists (dir))
+	{
+	  lw6sys_create_dir_silent (dir);
+	}
+      LW6SYS_FREE (dir);
+    }
+
+  f = fopen (filename, "wb");
+  if (f)
+    {
+      fclose (f);
+      ret = 1;
+    }
+  else
+    {
+      // unwise to log something here, can be called from log_...
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_read_file_content
+ *
+ * @filename: absolute or relative filename
+ *
+ * Reads the content of a file, and returns it as a string.
+ * Note that content might or might not be ascii or binary,
+ * the function will however put a tailing 0 character
+ * at the end so that low-level standard C functions do not
+ * segfault when used with the returned value.
+ *
+ * Return value: a newly allocated pointer, must be freed.
+ */
+char *
+lw6sys_read_file_content (char *filename)
+{
+  char *file_content = NULL;
+  FILE *f;
+  int size;
+  size_t read = 0;
+
+  f = fopen (filename, "r");
+  if (f)
+    {
+      fseek (f, 0, SEEK_END);
+      size = ftell (f);
+      if (size >= 0)
+	{
+	  fseek (f, 0, SEEK_SET);
+	  file_content = LW6SYS_CALLOC (size + 1);
+	  if (file_content)
+	    {
+	      clearerr (f);
+	      while ((!feof (f)) && (!ferror (f)) && (read < size))
+		{
+		  read +=
+		    fread (file_content + read, sizeof (char), size - read,
+			   f);
+		}
+	      if (read < size)
+		{
+		  /*
+		   * Under Microsoft platforms, ftell always returns a
+		   * bigger, rounded value, greater than the real size.
+		   */
+#ifndef LW6_MS_WINDOWS
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _
+			      ("couldn't read all of file \"%s\", size was supposed to be %d but only read %d"),
+			      filename, size, read);
+#endif
+		}
+	      else if (read > size)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("inconsistency in file \"%s\", size is %d but read %d"),
+			      filename, size, read);
+		}
+	    }
+	}
+      fclose (f);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("can't open file \"%s\" for reading"), filename);
+    }
+
+  return file_content;
+}
+
+/**
+ * lw6sys_write_file_content
+ *
+ * @filename: absolute or relative filename
+ * @content: the content to be written.
+ *
+ * Writes the content into the file. Content is assumed to
+ * be a string, function will segfault if it's not correctly
+ * 0 terminated as in C string convention. So this function
+ * will not allow you to write down arbitrary binary data,
+ * however LW6 uses mostly text files to store information,
+ * and opaque binary data usage is not recommended.
+ */
+int
+lw6sys_write_file_content (char *filename, char *content)
+{
+  FILE *f = NULL;
+  int ret = 0;
+
+  f = fopen (filename, "wb");
+  if (f)
+    {
+      if (strlen (content) == fprintf (f, "%s", content))
+	{
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("unable to write %d bytes in file \"%s\""),
+		      strlen (content), filename);
+	}
+      fclose (f);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("unable open file \"%s\" for reading"), filename);
+    }
+
+  return ret;
+}

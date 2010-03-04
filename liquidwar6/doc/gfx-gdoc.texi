@@ -1,0 +1,128 @@
+@deftypefun {int} {lw6gfx_init} (lw6gfx_backend_t * @var{backend}, lw6gui_video_mode_t * @var{video_mode}, lw6gui_resize_callback_func_t @var{resize_callback})
+@var{backend}:  the graphical backend to use
+
+@var{video_mode}:  the video mode to use at start up
+
+@var{resize_callback}:  a callback function which will be called at each resize event
+
+Sets up the graphical backend for good, initializing a video mode and allocating
+ressources. This call can typically fail if there's no device available, if
+the user doesn't have enough rights to access the hardware, and so on.
+
+@strong{Return value:}  1 on success, 0 if not
+@end deftypefun
+
+@deftypefun {void} {lw6gfx_quit} (lw6gfx_backend_t * @var{backend})
+@var{backend}:  the backend to free
+
+Uninitializes the backend, that is, exits the graphical mode. All threads that
+use graphics must be closed when this is called.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6gfx_repr} (lw6gfx_backend_t * @var{backend})
+@var{backend}:  the backend to represent
+
+Returns a readable version of the backend object.
+
+@strong{Return value:}  a newly allocated pointer.
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_set_video_mode} (lw6gfx_backend_t * @var{backend}, lw6gui_video_mode_t * @var{video_mode})
+@var{backend}:  the backend to use
+
+@var{video_mode}:  the new video mode
+
+This function changes the video mode. Note that the first time you set up
+the graphical environment you must call @code{lw6gfx_init} but to change the current
+mode, use this function. It should reload backend data automatically if needed
+(textures for instance). Note that before giving up and failing this function
+will try alternate video modes, and you're not garanteed to have the right mode
+after the call, even if it returns true. To check this, use @code{lw6gfx_get_video_mode}.
+
+@strong{Return value:}  1 on success, 0 on failure;
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_get_video_mode} (lw6gfx_backend_t * @var{backend}, lw6gui_video_mode_t * @var{video_mode})
+@var{backend}:  the backend to use
+
+@var{video_mode}:  the current video mode (will be overwritten, out parameter)
+
+This function returns the current video mode.
+
+@strong{Return value:}  1 on success, 0 on failure;
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_get_fullscreen_modes} (lw6gfx_backend_t * @var{backend}, lw6gui_fullscreen_modes_t * @var{fullscreen_modes})
+@var{backend}:  the backend to use
+
+@var{fullscreen_modes}:  the available fullscreen modes (will be overwritten, out parameter)
+
+This function returns the current video mode.
+
+@strong{Return value:}  1 on success, 0 on failure;
+@end deftypefun
+
+@deftypefun {lw6gui_input_t *} {lw6gfx_pump_events} (lw6gfx_backend_t * @var{backend})
+@var{backend}:  the backend to use
+
+This function "pumps" events, that is gets pending events, puts them in queues,
+maintains internal states up to date. You really must call this very often or
+no input will be processed at all.
+
+@strong{Return value:}  a pointer on the internal input state, musn't be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_display} (lw6gfx_backend_t * @var{backend}, int @var{mask}, lw6gui_look_t * @var{look}, lw6map_level_t * @var{level}, lw6ker_game_struct_t * @var{game_struct}, lw6ker_game_state_t * @var{game_state}, lw6pil_local_cursors_t * @var{local_cursors}, lw6gui_menu_t * @var{menu}, float @var{progress}, float @var{fps}, float @var{mps}, char ** @var{log_list}, int @var{capture}, int @var{gfx_debug}, int @var{debug_team_id}, int @var{debug_layer_id})
+@var{backend}:  the graphical backend to use
+
+@var{mask}:  display flag, tells what to display
+
+@var{look}:  the look, the skin, contains display options
+
+@var{level}:  the level to display
+
+@var{game_struct}:  the game_struct associated with the level
+
+@var{game_state}:  the game_state associated with the level
+
+@var{local_cursors}:  the cursor to center the focus on
+
+@var{menu}:  the menu to display
+
+@var{progress}:  the value of the progress indicator
+
+@var{fps}:  the number of frames per second to display
+
+@var{mps}:  the number of moves per second to display
+
+@var{log_list}:  log messages to display
+
+@var{capture}:  wether to enable capture mode or not
+
+@var{gfx_debug}:  wether to enable gfx debugging tools
+
+@var{debug_team_id}:  for debug display, team to display informations about
+
+@var{debug_layer_id}:  for debug display, layer to display
+
+This is the major drawing function, the one that encapsulates all others. As 
+the program uses a separate thread to display things, we just pass this function
+many parameters, and let it do its job alone. So many parameters might sometimes
+be useless. It also allows the graphics backend decide wether menus and hud
+and background should interact. Or not.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6gfx_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{gfx} module test suite. In check-only mode, this
+function won't test many things, for it requires a graphical
+mode to be available to perform the complete test.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

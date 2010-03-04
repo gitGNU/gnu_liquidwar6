@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+	<!-- =========================
+								LEVEL DISPLAY
+	==========================-->
+
+
+	<float key="cursor-size" value="0.85" />	
+
+	<!-- =========================
+								TEAM COLORS
+	==========================-->
+
+  <color key="team-color-red" value="#4c2339" />
+  <color key="team-color-green" value="#1c5338" />
+  <color key="team-color-blue" value="#1d246c" />
+  <color key="team-color-yellow" value="#4c5439" />
+  <color key="team-color-cyan" value="#1d546c" />
+  <color key="team-color-magenta" value="#4c246c" />
+  <color key="team-color-orange" value="#4c3e39" />
+  <color key="team-color-lightblue" value="#34466c" />
+  <color key="team-color-purple" value="#3f3c6d" />
+  <color key="team-color-pink" value="#4d3c5e" />  
+
+	<!-- =========================
+								COLORS
+	==========================-->
+
+
+	<!--
+		turn this one on, if you want to define your own color values ... a lot
+		of stuff would also need to be turned on in hints.xml
+	-->
+	<bool key="colorize" value="true" />
+
+
+	<!-- 
+		A lot of colors will be grabbed from these four, if color-auto is enabled
+		and various guess-colors is disabled in hints.xml
+	-->
+	<color key="color-base-bg" value="#000000" /> <!-- black part of sky -  -->
+	<color key="color-base-fg" value="#000000" /> <!-- white part of sky -  -->
+	<color key="color-alternate-bg" value="#869eae" /> <!-- GUI bg color - HUD text shadow -->
+	<color key="color-alternate-fg" value="#151d28" /> <!-- GUI text color - Bubbles - cursor color -->
+
+
+
+
+
+
+
+</lw6mapparam>

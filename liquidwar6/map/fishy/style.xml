@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+	<!-- =========================
+	LEVEL DISPLAY
+	==========================-->
+
+
+	<float key="cursor-size" value="1.2" />
+	
+  
+  <color key="team-color-red" value="#b20000" />
+  <color key="team-color-green" value="#00c800" />
+  <color key="team-color-blue" value="#6c69c9" />
+  <color key="team-color-yellow" value="#e9e600" />
+  <color key="team-color-cyan" value="#00bdaa" />
+  <color key="team-color-magenta" value="#c000a5" />
+  <color key="team-color-orange" value="#d28200" />
+  <color key="team-color-lightblue" value="#87a1b9" />
+  <color key="team-color-purple" value="#a181ab" />
+  <color key="team-color-pink" value="#cd828f" />  
+
+</lw6mapparam>

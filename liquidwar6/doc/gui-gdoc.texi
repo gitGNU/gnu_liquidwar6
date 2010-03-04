@@ -1,0 +1,1132 @@
+@deftypefun {void} {lw6gui_button_register_down} (lw6gui_button_t * @var{button}, int64_t @var{timestamp})
+@var{button}:  the button to update
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Registers a "down" (press) event on a button.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_button_register_up} (lw6gui_button_t * @var{button})
+@var{button}:  the button to update
+
+Registers a "up" (release) event on a button.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_button_is_pressed} (lw6gui_button_t * @var{button})
+@var{button}:  the button to query
+
+Tells wether a button is pressed or not.
+
+@strong{Return value:}  1 if pressed, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_button_pop_press} (lw6gui_button_t * @var{button})
+@var{button}:  the button to query
+
+Tells how many times the button has been pressed. Typical usage: the
+button is pressed, released, pressed, released several times. Then,
+after all this, you want to know how many times it has been pressed.
+Querying its state with @code{lw6gui_button_is_pressed} won't tell you much
+but this @code{pop_press} function will return 1 for each press there's been.
+
+@strong{Return value:}  1 if there's a press event in the queue, 0 if empty.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_button_update_repeat} (lw6gui_button_t * @var{button}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@var{button}:  the button to update
+
+@var{repeat_settings}:  the repeat settings (delay + interval)
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Updates the repeat informations for a button, must be called
+regularly, as often as possible.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_button_sync} (lw6gui_button_t * @var{dst}, lw6gui_button_t * @var{src})
+@var{dst}:  the target button object
+
+@var{src}:  the source button object
+
+Synchronizes two button objects. This is typically used to pass data from
+one thread to another. This is not a simple copy, it will handle data
+such as "when was it pressed last" it an intelligent manner, popping src
+data to put it in dst, and clearing src.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_coord_calc_xy} (float * @var{dst_x}, float * @var{dst_y}, float @var{dst_x0}, float @var{dst_y0}, float @var{dst_w}, float @var{dst_h}, float @var{src_x}, float @var{src_y}, float @var{src_x0}, float @var{src_y0}, float @var{src_w}, float @var{src_h})
+@var{dst_x}:  the x coord to return
+
+@var{dst_y}:  the y coord to return
+
+@var{dst_x0}:  the x coord of point 0 in destination coord system
+
+@var{dst_y0}:  the y coord of point 0 in destination coord system
+
+@var{dst_w}:  the width of the area in destination coord system
+
+@var{dst_h}:  the width of the area in destination coord system
+
+@var{src_x}:  the x coord in source coord system
+
+@var{src_y}:  the y coord in source coord system
+
+@var{src_x0}:  the x coord of point 0 in source coord system
+
+@var{src_y0}:  the y coord of point 0 in source coord system
+
+@var{src_w}:  the width of the area in source coord system
+
+@var{src_h}:  the width of the area in source coord system
+
+Registers a "down" (press) event on a button.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_input_init} (lw6gui_input_t * @var{input})
+@var{input}:  the input struct to initialise
+
+Initialises an input structure, don't use twice, it won't free a previous init.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_quit} (lw6gui_input_t * @var{input})
+@var{input}:  the input struct to uninitialise
+
+Unitialises an input structure, need to call it to free event queue.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {lw6gui_input_t *} {lw6gui_input_new} ()
+
+Creates an input structure, which can be used to handle input state & buffer.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_free} (lw6gui_input_t * @var{input})
+@var{input}:  the input object to free.
+
+Deletes an input structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_input_reset} (lw6gui_input_t * @var{input})
+@var{input}:  the input struct to reset
+
+Resets an input structure. Must have been initialized before. It will empty
+all queues and mark everything as unpressed.
+
+@strong{Return value:}  1 on success, 0 if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_update_repeat} (lw6gui_input_t * @var{input}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@var{input}:  the input to update
+
+@var{repeat_settings}:  the repeat settings (delay + interval)
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Updates the repeat informations for an input, must be called
+regularly, as often as possible.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_register_change} (lw6gui_input_t * @var{input})
+@var{input}:  the input to update
+
+Tells an input object that one of its descendants has been
+modified. This will affect the return value of @code{lw6gui_input_need_sync}
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_input_need_sync} (lw6gui_input_t * @var{input})
+@var{input}:  the input to test
+
+Tests wether an input object contains was modified and
+needs synchronisation.
+
+@strong{Return value:}  1 if sync is need, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_input_sync} (lw6gui_input_t * @var{dst}, lw6gui_input_t * @var{src})
+@var{dst}:  the target input object
+
+@var{src}:  the source input object
+
+Synchronizes two input objects. This is typically used to pass data from
+one thread to another. This is not a copy, it will brute-force copy the
+static data such as mouse position, but anything like a queue will be
+treated in a "empty source and fill target with data" scheme. So source
+will be affected by this, the key buffer will be emptied, and so on.
+And if there are key in the target buffer, they won't be overwritten
+but kept in front of the FIFO list.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_input_poll_quit} (lw6gui_input_t * @var{input})
+@var{input}:  the input to query
+
+Asks the display manager wether a quit event (usually CTRL-C or
+click on close button) has been detected.
+
+@strong{Return value:}  1 if quit was receivedm 0 if not
+@end deftypefun
+
+@deftypefun {void} {lw6gui_input_send_quit} (lw6gui_input_t * @var{input})
+@var{input}:  the input to send an event to
+
+Artificially send a QUIT event (equivalent of CTRL-C or click on close
+button). This allow a uniform treatment of game stopping.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6gui_joystick_check_index} (int @var{i})
+@var{i}:  index to check
+
+Checks wether the index is correct. Does not mean the joystick exists, it's
+just to avoid out of bounds errors.
+
+@strong{Return value:}  1 if within range, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_joystick_update_axis_x} (lw6gui_joystick_t * @var{joystick}, int @var{x}, int @var{limit}, int64_t @var{timestamp})
+@var{joystick}:  joystick to update
+
+@var{x}:  x-axis position, as returned by the driver
+
+@var{limit}:  the limit, under this, buttons are considered unpressed.
+
+@var{timestamp}:  current ticks (timestamp in ms)
+
+Updates the x axis of a joystick, this will convert an information of analog
+type such as "joystick is here" to a pad-like information such as "pressed
+in that direction".
+
+@strong{Return value:}  1 if within range, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_joystick_update_axis_y} (lw6gui_joystick_t * @var{joystick}, int @var{y}, int @var{limit}, int64_t @var{timestamp})
+@var{joystick}:  joystick to update
+
+@var{limit}:  the limit, under this, buttons are considered unpressed.
+
+@var{timestamp}:  current ticks (timestamp in ms)
+
+Updates the y axis of a joystick, this will convert an information of analog
+type such as "joystick is here" to a pad-like information such as "pressed
+in that direction".
+
+@strong{Return value:}  1 if within range, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_joystick_update_repeat} (lw6gui_joystick_t * @var{joystick}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@var{joystick}:  the joystick to update
+
+@var{repeat_settings}:  the repeat settings (delay + interval)
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Updates the repeat informations for a joystick, must be called
+regularly, as often as possible.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_joystick_sync} (lw6gui_joystick_t * @var{dst}, lw6gui_joystick_t * @var{src})
+@var{dst}:  the target joystick object
+
+@var{src}:  the source joystick object
+
+Synchronizes two joystick objects. This is typically used to pass data from
+one thread to another.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_joystick_get_move_pad} (lw6gui_joystick_t * @var{joystick}, lw6gui_move_pad_t * @var{move_pad})
+@var{joystick}:  the joystick to query
+
+@var{move_pad}:  the structure which will contain the results
+
+Returns the state of the joystick in a uniform, non-device specific structure
+containing only the up/down/left/right information.
+
+@strong{Return value:}  none, the value are stored in @code{move_pad}.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_keyboard_check_keysym} (int @var{keysym})
+@var{keysym}:  the keysym to check
+
+Tells wether the keysym is valid or not.
+
+@strong{Return value:}  1 if valid, 0 if not
+@end deftypefun
+
+@deftypefun {lw6gui_keypress_t *} {lw6gui_keyboard_pop_keypress} (lw6gui_keyboard_t * @var{keyboard})
+@var{keyboard}:  the keyboard structure which stores keyboard state
+
+Pops (in FIFO mode) a keypress stored in the keyboard buffer. You must
+free the obtained keypress object after you're done with it.
+
+@strong{Return value:}  a newly allocated pointer, or NULL if no keypress pending.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_keyboard_is_pressed} (lw6gui_keyboard_t * @var{keyboard}, int @var{keysym})
+@var{keyboard}:  the keyboard structure which stores keyboard state
+
+Tells wether a key is pressed or not. The function will test out of
+bound values.
+
+@strong{Return value:}  1 if pressed, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_keyboard_register_key_down} (lw6gui_keyboard_t * @var{keyboard}, int @var{keysym}, int @var{unicode}, char * @var{label}, int64_t @var{timestamp})
+@var{keyboard}:  the keyboard structure which will store the keypress
+
+@var{keysym}:  the keysym for the keypress
+
+@var{unicode}:  the ASCII/unicode code for the keypress
+
+@var{label}:  the label for the keypress
+
+@var{timestamp}:  the current ticks (timestamp in ms)
+
+Registers a keypress event, that is, puts it in the event queue. This
+function does not take an @code{lw6gui_keypress_t} structure but separated
+args, this is because it will construct the object internally. You
+may free @code{label} after calling this, an internal copy will be done.
+This function will also maintain the array of key states up to date.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_keyboard_register_key_up} (lw6gui_keyboard_t * @var{keyboard}, int @var{keysym})
+@var{keyboard}:  the keyboard structure which will store the keypress
+
+@var{keysym}:  the keysym for the keypress
+
+Registers a key release event.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_keyboard_update_repeat} (lw6gui_keyboard_t * @var{keyboard}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@var{keyboard}:  the keyboard to update
+
+@var{repeat_settings}:  the repeat settings (delay + interval)
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Updates the repeat informations for a keyboard, must be called
+regularly, as often as possible.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_keyboard_sync} (lw6gui_keyboard_t * @var{dst}, lw6gui_keyboard_t * @var{src})
+@var{dst}:  the target keyboard object
+
+@var{src}:  the source keyboard object
+
+Synchronizes two keyboard objects. This is typically used to pass data from
+one thread to another. Will pop the src queue to fill the dst queue.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_keyboard_get_move_pad} (lw6gui_keyboard_t * @var{keyboard}, lw6gui_move_pad_t * @var{move_pad})
+@var{keyboard}:  the keyboard to query
+
+@var{move_pad}:  the structure which will contain the results
+
+Returns the state of the keyboard in a uniform, non-device specific structure
+containing only the up/down/left/right information.
+
+@strong{Return value:}  none, the value are stored in @code{move_pad}.
+@end deftypefun
+
+@deftypefun {lw6gui_keypress_t *} {lw6gui_keypress_new} (int @var{keysym}, int @var{unicode}, char * @var{label})
+@var{keysym}:  the keysym to use
+
+@var{unicode}:  the unicode value for this keysym
+
+@var{label}:  the label (optional, might be NULL)
+
+Creates a keypress structure, the only reason for needing a contructor
+is that the label field needs be duplicated.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_keypress_free} (lw6gui_keypress_t * @var{keypress})
+@var{keypress}:  the keypress object to free.
+
+Deletes a keypress structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6gui_keypress_repr} (lw6gui_keypress_t * @var{keypress})
+@var{keypress}:  the keypress to work on
+
+Returns a human-readable representation of the keypress.
+
+@strong{Return value:}  a newly allocated string
+@end deftypefun
+
+@deftypefun {lw6gui_menu_t *} {lw6gui_menu_new} (char * @var{title}, char * @var{esc}, int @var{enable_esc})
+@var{title}:  the string to be displayed, what the user sees. Can be freed after
+the call is done, function will make a copy internally.
+
+@var{esc}:  the label to be displayed in the ESC button
+
+@var{enable_esc}:  wether to enable the escape button.
+
+Constructs a new menu object. Note that you can always call other
+functions to modify it afterwards.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_free} (lw6gui_menu_t * @var{menu})
+@var{menu}:  a pointer to the menu.
+
+Frees the menu, checking if things are OK before doing so.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_memory_footprint} (lw6gui_menu_t * @var{menu})
+@var{menu}:  a pointer to the menu.
+
+Gets the memory occupied by the menu. Could be usefull to help
+a garbage collector taking decisions or reporting erros, for instance.
+
+@strong{Return value:}  the number of bytes used.
+@end deftypefun
+
+@deftypefun {char *} {lw6gui_menu_repr} (lw6gui_menu_t * @var{menu})
+@var{menu}:  a pointer to the menu.
+
+Constructs a readable description of the object. Usefull for
+debugging, or to introspect things using scripts, at run-time.
+Does not necessarly describe all the informations about the
+object, but helps knowing what it is.
+
+@strong{Return value:}  a string describing the object, must be freed.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_set_title} (lw6gui_menu_t * @var{menu}, char * @var{title})
+@var{menu}:  a pointer to the menu.
+
+@var{title}:  the new title, you can free it after calling the function,
+an internal copy will be made. 
+
+Change the title of the menu. That is to say, its title.
+Use this function to change the title, don't try to access the 
+struct directly. The idea is to have safe memory management.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {lw6gui_menuitem_t *} {lw6gui_menu_get_item} (lw6gui_menu_t * @var{menu}, int @var{position})
+@var{menu}:  the menu we want to query
+
+@var{position}:  the order of the item we want
+
+Gets the menu item at the given position. First item is 0, last is N-1.
+Returns a pointer on the real object, not a copy.
+
+@strong{Return value:}  a pointer to a menu item, NULL if out of range.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_select} (lw6gui_menu_t * @var{menu}, int @var{position}, int @var{allow_scroll}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{position}:  the position of the item we want to select
+
+@var{allow_scroll}:  wether scrolling should be allowed when displaying it
+
+@var{now}:  the current time, as a timestamp.
+
+Selects the item at the given position. Use this function to be sure
+that only one item is selected, and all other states are consistent.
+Timestamp is needed for the sake of eye-candy.
+
+@strong{Return value:}  1 if success, 0 if failure (out of range).
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_select_esc} (lw6gui_menu_t * @var{menu}, int @var{state}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{state}:  1 to select, 0 to unselect
+
+@var{now}:  the current time, as a timestamp.
+
+Selects the escape item, this does not affect other items, it's mostly.
+to handle eye candy.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_enable_esc} (lw6gui_menu_t * @var{menu}, int @var{state}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{state}:  1 to enable, 0 to disable
+
+@var{now}:  the current time, as a timestamp.
+
+Enables the escape item, this does not affect other items, it's mostly.
+to handle eye candy.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_scroll_up} (lw6gui_menu_t * @var{menu})
+@var{menu}:  the menu to scroll
+
+Scrolls a menu up, used as a callback for mouse wheel up for instance.
+The idea is just to decrement the first displayed item index.
+
+@strong{Return value:}  1 if OK, 0 if failed (out of range).
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_scroll_down} (lw6gui_menu_t * @var{menu})
+@var{menu}:  the menu to scroll
+
+Scrolls a menu down, used as a callback for mouse wheel down for instance.
+The idea is just to increment the first displayed item index.
+
+@strong{Return value:}  1 if OK, 0 if failed (out of range).
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_center} (lw6gui_menu_t * @var{menu}, int @var{position}, int @var{max_displayed_items})
+@var{menu}:  the menu to center
+
+@var{position}:  the position of the menuitem to be put in the center
+
+@var{max_displayed_items}:  the maximum number of items displayed
+
+Centers the menu on a given menuitem. Typically used when pushing
+a menu with a menuitem selected 'anywhere' in the list.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_insert} (lw6gui_menu_t * @var{menu}, lw6gui_menuitem_t * @var{menuitem}, int @var{position}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{menuitem}:  the item to insert
+
+@var{position}:  the position the new item will occupy ("insert before" mode)
+
+@var{now}:  the current time, as a timestamp.
+
+Inserts the given item in the menu. All items starting at the insert
+position will be "pushed" (that is, their position incremented by 1).
+Once the menuitem is inserted, the menu object will take care of
+memory management and automatically free it when needed.
+
+@strong{Return value:}  1 if success, 0 if failure (memory problem, out of range).
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_append} (lw6gui_menu_t * @var{menu}, lw6gui_menuitem_t * @var{menuitem}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{menuitem}:  the item to insert
+
+@var{now}:  the current time, as a timestamp.
+
+Appends the given item to the menu.
+Once the menuitem is appended, the menu object will take care of
+memory management and automatically free it when needed.
+
+@strong{Return value:}  1 if success, 0 if failure (memory problem).
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_remove} (lw6gui_menu_t * @var{menu}, int @var{position}, int64_t @var{now})
+@var{menu}:  the menu we want to modify
+
+@var{position}:  the item to insert
+
+@var{now}:  the current time, as a timestamp.
+
+Removes an item from the menu. It will automatically be freed.
+
+@strong{Return value:}  1 if success, 0 if failure (out of range).
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_update_display_range} (lw6gui_menu_t * @var{menu}, int @var{max_displayed_items})
+@var{menu}:  the menu concerned
+
+@var{max_displayed_items}:  the maximum number of items to display at once
+
+Updates the display range. The reason for having this is that the
+first item, that is, how far we scroll in a very long menu, depends
+on the previous position. Plus you have to handle limit cases (begin/end).
+Thus, this function, which will automatically pick-up a suitable
+position. Of course, @code{first_item_displayed} is not necessarly
+equal to @code{selected_item}.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_insert_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int @var{position}, int64_t @var{now})
+@var{menu}:  the menu to work on
+
+@var{label}:  the label of the menuitem to append
+
+@var{value}:  the value of the menuitem to append
+
+@var{enabled}:  wether the inserted menuitem should be enabled
+
+@var{selected}:  wether the inserted menuitem should be selected
+
+@var{colored}:  wether the inserted menuitem should use value as its color
+
+@var{now}:  current time (timestamp)
+
+Inserts a menu item at the given position. The idea is that the
+menu item object is automatically constructed on the fly, and an
+id is returned, which can be passed to '_using_id' menu-related
+functions. This is typically for using in scripts. The idea is
+that the script just keeps a copy of the id returned, and can
+this way operate directly on the menuitem without keeping a
+pointer, a smob or anything internally. From the C point of view,
+having a real C structure enables persistent data from one display
+to the other, and this is nice and conveninent. I acknowledge
+the prototype is scary.
+
+@strong{Return value:}  0 if error, or else an id which will later be
+used with '_using_id' functions.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_append_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
+@var{menu}:  the menu to work on
+
+@var{label}:  the label of the menuitem to append
+
+@var{value}:  the value of the menuitem to append
+
+@var{enabled}:  wether the appended menuitem should be enabled
+
+@var{selected}:  wether the appended menuitem should be selected
+
+@var{colored}:  wether the appended menuitem should use value as its color
+
+@var{now}:  current time (timestamp)
+
+Appends a menuitem using the same logic as @code{lw6gui_menu_insert_for_id_use}
+that is to say a parameter is returned which can later be used to
+directly operate on a given menuitem, without having its pointer,
+and even if its position changes.
+
+@strong{Return value:}  0 if error, or else an id which will later be
+used with '_using_id' functions.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_remove_using_id} (lw6gui_menu_t * @var{menu}, int @var{menuitem_id}, int64_t @var{now})
+@var{menu}:  the menu to work on
+
+@var{menuitem_id}:  the id of the menuitem to remove
+
+@var{now}:  current time (timestamp)
+
+Deletes the menuitem with the given id. Very important: the id is not
+the position. Id are arbitrary numbers that stick to menuitems, but
+they are not directly linked with the position. This function is practical
+to use if, for some reason, you don't have the pointer on the menuitem.
+
+@strong{Return value:}  1 if success, 0 if failure (out of range).
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_sync_using_id} (lw6gui_menu_t * @var{menu}, int @var{menuitem_id}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
+@var{menu}:  the menu to work on
+
+@var{menuitem_id}:  the id of the menuitem to synchronize
+
+@var{now}:  current time (timestamp)
+
+Updates the menuitem with the given id. Very important: the id is not
+the position. Id are arbitrary numbers that stick to menuitems, but
+they are not directly linked with the position. This function is practical
+to use if, for some reason, you don't have the pointer on the menuitem.
+In practice, it's heavily used in the game to transmit informations from
+the scripts to the core C engine. Additionnaly, this function will
+automatically synchronize the @code{selected_item} field of the menu struct.
+
+@strong{Return value:}  1 if success, 0 if failure (out of range).
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_is_same} (lw6gui_menu_t * @var{menu_a}, lw6gui_menu_t * @var{menu_b})
+@var{menu_a}:  first item to compare
+
+@var{menu_b}:  second item to compare
+
+Compares two menus.
+
+@strong{Return value:}  1 if they are the same, 0 if not
+@end deftypefun
+
+@deftypefun {lw6gui_menu_t *} {lw6gui_menu_dup} (lw6gui_menu_t * @var{menu})
+@var{menu}:  the menu to duplicate
+
+Duplicates a menu structure.
+
+@strong{Return value:}  a pointer to the new menu.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_sync} (lw6gui_menu_t * @var{dst}, lw6gui_menu_t * @var{src})
+@var{dst}:  the target menu
+
+@var{src}:  the source menu
+
+Synchronizes two menus, this supposes that they represent the same menu, but
+simply in a different state. This function does not really copy src to dst, it 
+has a special behavior, indeed everything is copied from src to dst, except
+the @code{first_item_displayed} and @code{nb_items_displayed} which are taken from dst
+and copied to src. This is because in practise, those values are updated
+in the display loop/thread, which is the one which uses the target. This is
+not very orthodox, but should work.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {lw6gui_menuitem_t *} {lw6gui_menuitem_new} (char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored})
+@var{label}:  the string to be displayed, what the user sees. Can be freed after
+the call is done, function will make a copy internally.
+
+@var{value}:  the value. No GUI function uses this, this is the "real" value
+associated to the item.
+
+@var{enabled}:  wether the menu item can be selected, used, and so on
+
+@var{selected}:  wether the menu item is the item selected among all menu items.
+
+@var{colored}:  wetherr the menu item must, when drawn, be colored according
+to its value.
+
+Constructs a new menuitem object. Note that you can always call other
+functions to modify these values afterwards, this might change rendering
+since @code{lw6gui_menuitem_set_value} or @code{lw6gui_menuitem_set_label} will,
+for instance, modify the "when was that item last modified" information.
+
+@strong{Return value:}  a pointer to the newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menuitem_free} (lw6gui_menuitem_t * @var{menuitem})
+@var{menuitem}:  a pointer to the menuitem.
+
+Frees the menuitem, checking if things are OK before doing so.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menuitem_memory_footprint} (lw6gui_menuitem_t * @var{menuitem})
+@var{menuitem}:  a pointer to the menuitem.
+
+Gets the memory occupied by the menuitem. Could be usefull to help
+a garbage collector taking decisions or reporting erros, for instance.
+
+@strong{Return value:}  the number of bytes used.
+@end deftypefun
+
+@deftypefun {char *} {lw6gui_menuitem_repr} (lw6gui_menuitem_t * @var{menuitem})
+@var{menuitem}:  a pointer to the menuitem.
+
+Constructs a readable description of the object. Usefull for
+debugging, or to introspect things using scripts, at run-time.
+Does not necessarly describe all the informations about the
+object, but helps knowing what it is.
+
+@strong{Return value:}  a string describing the object, must be freed.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menuitem_set_label} (lw6gui_menuitem_t * @var{menuitem}, char * @var{label}, int64_t @var{now})
+@var{menuitem}:  a pointer to the menuitem.
+
+@var{label}:  the new label, you can free it after calling the function,
+an internal copy will be made. 
+
+@var{now}:  the current time, as a timestamp.
+
+Change the label of the menu item. That is to say, what the user sees.
+Use this function to change the menuitem 
+value, don't try to access the struct directly. The idea is 1) to have safe 
+memory management and 2) to keep the @code{last_change} member up to date. 
+It can be later used for eye-candy effects.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menuitem_set_value} (lw6gui_menuitem_t * @var{menuitem}, int @var{value}, int64_t @var{now})
+@var{menuitem}:  a pointer to the menuitem.
+
+@var{now}:  the current time, as a timestamp.
+
+Changes the value of a menuitem. This is the internal value, not what
+the user sees. Use this function to change the menuitem 
+value, don't try to access the struct directly. The idea is to keep 
+the @code{last_change} member up to date. 
+It can be later used for eye-candy effects.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menuitem_select} (lw6gui_menuitem_t * @var{menuitem}, int @var{state}, int64_t @var{now})
+@var{menuitem}:  a pointer to the menuitem.
+
+@var{state}:  1 to select, 0 to unselect
+
+@var{now}:  the current time, as a timestamp.
+
+Switches the menuitem to (un)selected state. Use this function, don't try
+to modify the struct members directly. The idea is to have
+the @code{last_select} parameter up to date.
+It can be later used for eye-candy effects.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menuitem_enable} (lw6gui_menuitem_t * @var{menuitem}, int @var{state}, int64_t @var{now})
+@var{menuitem}:  a pointer to the menuitem.
+
+@var{state}:  1 to enable, 0 to disable
+
+@var{now}:  the current time, as a timestamp.
+
+Switches the menuitem to enabled/disabled state. Use this function, don't try
+to modify the struct members directly. The idea is to have
+the @code{last_select} parameter up to date.
+It can be later used for eye-candy effects.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6gui_menuitem_checksum} (lw6gui_menuitem_t * @var{menuitem}, lw6gui_look_t * @var{look})
+@var{menuitem}:  the menuitem we want to identify
+
+Returns a checksum which can be used to know, for
+instance, wether the menuitem has changed or not, and if we should
+redraw it.
+
+@strong{Return value:}  a checksum.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menuitem_is_same} (lw6gui_menuitem_t * @var{menuitem_a}, lw6gui_menuitem_t * @var{menuitem_b})
+@var{menuitem_a}:  first item to compare
+
+@var{menuitem_b}:  second item to compare
+
+Compares two menuitems.
+
+@strong{Return value:}  1 if they are the same, 0 if not
+@end deftypefun
+
+@deftypefun {lw6gui_menuitem_t *} {lw6gui_menuitem_dup} (lw6gui_menuitem_t * @var{menuitem})
+@var{menuitem}:  the menuitem to duplicate
+
+The menuitem to duplicate.
+
+@strong{Return value:}  a pointer to the duplicted menuitem.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menuitem_sync} (lw6gui_menuitem_t * @var{dst}, lw6gui_menuitem_t * @var{src})
+@var{dst}:  the target menuitem
+
+@var{src}:  the source menuitem
+
+Synchronizes two menuitems, this supposes that they represent the same item, but
+simply in a different state. 
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {void} {lw6gui_mouse_register_move} (lw6gui_mouse_t * @var{mouse}, int @var{x}, int @var{y}, int64_t @var{timestamp})
+@var{mouse}:  the mouse object to work on
+
+@var{x}:  the x position
+
+@var{y}:  the y position
+
+@var{timestamp}:  current timestamp
+
+Registers a mouse move event.
+
+@strong{Return value:}  note. 
+@end deftypefun
+
+@deftypefun {int} {lw6gui_mouse_poll_move} (lw6gui_mouse_t * @var{mouse}, int * @var{x}, int * @var{y})
+@var{mouse}:  the mouse object to poll
+
+@var{x}:  pointer to the x position (can be NULL), will be updated even if no move
+
+@var{y}:  pointer to the y position (can be NULL), will be updated even if no move
+
+Asks wether the mouse has moved or not.
+
+@strong{Return value:}  1 if mouse was moved since last call, 0 if not. 
+@end deftypefun
+
+@deftypefun {void} {lw6gui_mouse_update_repeat} (lw6gui_mouse_t * @var{mouse}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
+@var{mouse}:  the mouse to update
+
+@var{repeat_settings}:  the repeat settings (delay + interval)
+
+@var{timestamp}:  the current ticks (milliseconds)
+
+Updates the repeat informations for a mouse, must be called
+regularly, as often as possible.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_mouse_sync} (lw6gui_mouse_t * @var{dst}, lw6gui_mouse_t * @var{src})
+@var{dst}:  the target mouse object
+
+@var{src}:  the source mouse object
+
+Synchronizes two mouse objects. This is typically used to pass data from
+one thread to another. Will handle "mouse move" attribute and clear it
+in src if needed while setting it in dst.
+
+@strong{Return value:}  1 if success, O if failure.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_smoother_init} (lw6gui_smoother_t * @var{smoother}, float @var{value}, int @var{duration})
+@var{smoother}:  the structure to initialize
+
+@var{value}:  the value to use for now
+
+@var{duration}:  the duration of a standard move, in ticks (msec)
+
+Initializes a smoother object, with a default value. The important point
+is the duration which will condition all the behavior of the object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_smoother_immediate_force} (lw6gui_smoother_t * @var{smoother}, float @var{value})
+@var{smoother}:  the structure to use
+
+@var{value}:  the target value
+
+Forces a smoother object to immediately point on a value.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_smoother_set_target} (lw6gui_smoother_t * @var{smoother}, float @var{value}, int64_t @var{now})
+@var{smoother}:  the structure to use
+
+@var{value}:  the target value
+
+@var{now}:  the current timestamp
+
+Sets a new target, will automatically calculate current speed to smooth
+the next returned values.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {float} {lw6gui_smoother_get_value} (lw6gui_smoother_t * @var{smoother}, int64_t @var{now})
+@var{smoother}:  the structure to use
+
+@var{now}:  the current timestamp
+
+Returns the current value of the smoother.
+
+@strong{Return value:}  a float.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Run tests in the gui module.
+
+@strong{Return value:}  1 if successfull, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_video_mode_find_closest} (lw6gui_video_mode_t * @var{closest}, lw6gui_video_mode_t * @var{wished}, lw6sys_list_t * @var{available})
+@var{closest}:  the closest video_mode found
+
+@var{wished}:  the wished video_mode
+
+@var{available}:  a list of available video_modes (list of lw6gui_video_mode_t *)
+
+Finds the closest video_mode available, this is just a small utility
+to cope with different screen shapes and avoid requesting 640x480 when
+it's just not available but there's a 640x400 instead.
+
+@strong{Return value:}  1 if the wished video_mode exists in available list
+and was found, else 0 if the wished video_mode doesn't exist and
+an approximative match was picked.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_video_mode_is_same} (lw6gui_video_mode_t * @var{mode_a}, lw6gui_video_mode_t * @var{mode_b})
+@var{mode_a}:  first mode to compare
+
+@var{mode_b}:  second mode to compare
+
+Compares two video modes, to know if they're the same.
+
+@strong{Return value:}  1 if equal, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_video_mode_sync_ratio} (lw6gui_video_mode_t * @var{dst}, lw6gui_video_mode_t * @var{src})
+@var{dst}:  the target video mode
+
+@var{src}:  the source video mode
+
+Applies the ratio of src to dst, for instance if src is 16/9, then
+dst will be made 16/9 too, trying to keep the same surface.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {int} {lw6gui_viewport_init} (lw6gui_viewport_t * @var{viewport}, int @var{screen_w}, int @var{screen_h}, float @var{drawable_x1}, float @var{drawable_y1}, float @var{drawable_x2}, float @var{drawable_y2}, float @var{center_x}, float @var{center_y}, int @var{map_w}, int @var{map_h}, int @var{x_polarity}, int @var{y_polarity}, int @var{x_wrap}, int @var{y_wrap}, int @var{keep_ratio}, float @var{global_zoom})
+@var{viewport}:  the viewport to initalize
+
+@var{screen_w}:  screen width
+
+@var{screen_h}:  screen height
+
+@var{drawable_x1}:  viewport min x
+
+@var{drawable_y1}:  viewport min y
+
+@var{drawable_x2}:  viewport max x
+
+@var{drawable_y2}:  viewport max y
+
+@var{center_x}:  center of display (in map coordinates)
+
+@var{center_y}:  center of display (in map coordinates)
+
+@var{map_w}:  map width (shape)
+
+@var{map_h}:  map height (shape)
+
+@var{x_polarity}:  x polarity
+
+@var{y_polarity}:  y polarity
+
+@var{x_wrap}:  wether to wrap horizontally
+
+@var{y_wrap}:  wether to wrap vertically
+
+@var{keep_ratio}:  wether to adapt to viewport shape or keep original
+
+@var{global_zoom}:  global zoom is style_zoom * dynamic_zoom
+
+Initializes all the (jumbo?) viewport structure which will
+contain valuable informations for a simple "flat" display.
+Special renderers might not find usefull some fields and
+handle wrapping and zooming their own way, but this offers
+a basic skeleton.
+
+@strong{Return value:}  1 if ok, 0 on failure
+@end deftypefun
+
+@deftypefun {void} {lw6gui_viewport_map_to_screen} (lw6gui_viewport_t * @var{viewport}, float * @var{screen_x}, float * @var{screen_y}, float @var{map_x}, float @var{map_y}, int @var{clip})
+@var{viewport}:  the viewport to use
+
+@var{screen_x}:  the x coord on the screen
+
+@var{screen_y}:  the y coord on the screen
+
+@var{map_x}:  the x coord in map coordinates
+
+@var{map_y}:  the y coord in map coordinates
+
+@var{clip}:  wether to clip returned values
+
+Translates from map coords to screen coords. Returned values might
+be outside screen boundaries if clip is 0. If screen coords are outside
+drawable area anc clip is 1, then they will be clipped.
+
+@strong{Return value:}  NULL
+@end deftypefun
+
+@deftypefun {void} {lw6gui_viewport_screen_to_map} (lw6gui_viewport_t * @var{viewport}, float * @var{map_x}, float * @var{map_y}, float @var{screen_x}, float @var{screen_y}, int @var{wrap})
+@var{viewport}:  the viewport to use
+
+@var{map_x}:  the x coord in map coordinates
+
+@var{map_y}:  the y coord in map coordinates
+
+@var{screen_x}:  the x coord on the screen
+
+@var{screen_y}:  the y coord on the screen
+
+@var{wrap}:  wether to use polarity informations to wrap coords.
+
+Translates from screen coords to map coords. If wrap is set, it will
+interpret coords the way @code{lw6map_coords_fix_xy} would, only it can still
+be formally outside map boundaries for it can return a value exactly
+equal to w,h while in interger mode it would be w-1,h-1.
+
+@strong{Return value:}  NULL
+@end deftypefun
+
+@deftypefun {void} {lw6gui_zone_init_x1y1x2y2} (lw6gui_zone_t * @var{zone}, float @var{x1}, float @var{y1}, float @var{x2}, float @var{y2})
+@var{zone}:  the structure to initialize
+
+@var{x1}:  x for top left corner
+
+@var{y1}:  y for top left corner
+
+@var{x2}:  x for bottom right corner
+
+@var{y2}:  y for bottom right corner
+
+Initializes a zone structure, will calculate w & h.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_zone_init_xywh} (lw6gui_zone_t * @var{zone}, float @var{x}, float @var{y}, float @var{w}, float @var{h})
+@var{zone}:  the structure to initialize
+
+@var{x}:  x for top left corner
+
+@var{y}:  y for top left corner
+
+@var{w}:  width
+
+@var{h}:  height
+
+Initializes a zone structure, will calculate x2 & y2.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_zone_clip} (lw6gui_zone_t * @var{dst}, lw6gui_zone_t * @var{src}, lw6gui_zone_t * @var{clip})
+@var{dst}:  the structure which will contain the result
+
+@var{src}:  the source zone
+
+@var{clip}:  the clipping zone (boundaries)
+
+Clips a zone (think of rectangle clips).
+
+@strong{Return value:}  none.
+@end deftypefun
+

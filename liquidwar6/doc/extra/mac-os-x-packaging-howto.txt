@@ -1,0 +1,87 @@
+http://www.rawmaterialsoftware.com/juceforum/viewtopic.php?t=2510
+
+No problem... Here is the line from my script which makes the installer package file:
+
+Code:
+/Developer/Tools/packagemaker -build -p $PACKAGE_FILE -f content -r resources -i tmp/Info.plist -d plist/Description.plist
+
+
+In my case the variable $PACKAGE_FILE is set to pkg/productname-x.x.x.pkg. Of course constant value of the -p switch can be used instead of variable but I run this script in several runs with different values.
+
+The -f switch defines package contents directory (content in my case). And it is the same directory I used earlier when I was working with the GUI version of Package Maker.
+
+The resources directory passed to -r switch contains files to be included to generated installer package. There are three files in this directory: background.jpg, License.txt and Welcome.txt
+
+Info.plist and Description.plist are included to the generated package file too. I have them in different source locations because Description.plist is the same across all versions of the installers while the tmp/Info.plist is generated dynamically based on Info.plist template (I just modify it a bit in few steps earlier in the script to change the bundle version in the template but it's not very important).
+
+And that's all - after this line I get the destination package file (*.pkg) which is further processed with the hdiutil tool to make a disk image file (*.dmg) and uploaded to ftp server Wink
+
+In any case I paste also the both .plist files. I'm almost sure that I got them from the package made earlier with the GUI version and modified them a little to actual needs.
+
+The Info.plist file:
+Code:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>CFBundleGetInfoString</key>
+   <string>1.0.0, My Company Name</string>
+   <key>CFBundleIdentifier</key>
+   <string>com.company.productname</string>
+   <key>CFBundleShortVersionString</key>
+   <string>1.0.0</string>
+   <key>IFMajorVersion</key>
+   <integer>1</integer>
+   <key>IFMinorVersion</key>
+   <integer>0</integer>
+   <key>IFPkgFlagAllowBackRev</key>
+   <false/>
+   <key>IFPkgFlagAuthorizationAction</key>
+   <string>AdminAuthorization</string>
+   <key>IFPkgFlagBackgroundAlignment</key>
+   <string>topleft</string>
+   <key>IFPkgFlagBackgroundScaling</key>
+   <string>none</string>
+   <key>IFPkgFlagDefaultLocation</key>
+   <string>/Library</string>
+   <key>IFPkgFlagFollowLinks</key>
+   <true/>
+   <key>IFPkgFlagInstallFat</key>
+   <false/>
+   <key>IFPkgFlagInstalledSize</key>
+   <integer>18536</integer>
+   <key>IFPkgFlagIsRequired</key>
+   <false/>
+   <key>IFPkgFlagOverwritePermissions</key>
+   <false/>
+   <key>IFPkgFlagRelocatable</key>
+   <false/>
+   <key>IFPkgFlagRestartAction</key>
+   <string>NoRestart</string>
+   <key>IFPkgFlagRootVolumeOnly</key>
+   <true/>
+   <key>IFPkgFlagUpdateInstalledLanguages</key>
+   <false/>
+   <key>IFPkgFormatVersion</key>
+   <real>0.10000000149011612</real>
+</dict>
+</plist>
+
+
+... and the Description.plist file:
+Code:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>IFPkgDescriptionDescription</key>
+   <string>My Great product ;)</string>
+   <key>IFPkgDescriptionTitle</key>
+   <string>Product Name</string>
+</dict>
+</plist>
+
+
+Hope this helps Smile

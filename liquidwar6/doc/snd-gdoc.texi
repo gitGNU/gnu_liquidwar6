@@ -1,0 +1,10 @@
+@deftypefun {int} {lw6snd_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{snd} module test suite. If run in check mode (0),
+won't really perform the test, since it could fail because
+of hardware problems, context, permissions...
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

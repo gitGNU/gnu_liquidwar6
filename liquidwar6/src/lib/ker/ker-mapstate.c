@@ -1,0 +1,793 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <string.h>
+#include <math.h>
+
+#include "ker.h"
+#include "ker-internal.h"
+
+int
+_lw6ker_map_state_init (lw6ker_map_state_t * map_state,
+			lw6ker_map_struct_t * map_struct,
+			lw6map_rules_t * rules, lw6sys_progress_t * progress)
+{
+  int ret = 0;
+  int32_t i;
+
+  lw6sys_progress_begin (progress);
+
+  map_state->map_struct = map_struct;
+  map_state->shape = map_struct->shape;
+  map_state->shape_surface = map_struct->nb_places;
+
+  ret = 1;
+
+  ret = ret && _lw6ker_armies_init (&(map_state->armies), map_struct, rules);
+
+  lw6sys_progress_update (progress, 0, 3, 1);
+
+  map_state->max_nb_teams = rules->max_nb_teams;
+  for (i = 0; i < map_state->max_nb_teams; ++i)
+    {
+      ret = ret
+	&& _lw6ker_team_init (&(map_state->teams[i]), map_struct, rules);
+    }
+
+  _lw6ker_cursor_array_init (&(map_state->cursor_array));
+
+  lw6sys_progress_update (progress, 0, 3, 2);
+
+  map_state->nb_slots =
+    map_struct->shape.w * map_struct->shape.h * map_struct->shape.d;
+  map_state->slots =
+    (lw6ker_slot_state_t *) LW6SYS_CALLOC (map_state->nb_slots *
+					   sizeof (lw6ker_slot_state_t));
+  if (map_state->slots)
+    {
+      for (i = 0; i < map_state->nb_slots; ++i)
+	{
+	  map_state->slots[i].fighter_id = -1;
+	}
+    }
+  else
+    {
+      ret = 0;
+
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("unable to allocate SLOT_STATE array"));
+    }
+
+  lw6sys_progress_end (progress);
+
+  return ret;
+}
+
+void
+_lw6ker_map_state_clear (lw6ker_map_state_t * map_state)
+{
+  int32_t i;
+
+  if (map_state->slots)
+    {
+      LW6SYS_FREE (map_state->slots);
+    }
+  for (i = 0; i < map_state->max_nb_teams; ++i)
+    {
+      _lw6ker_team_clear (&(map_state->teams[i]));
+    }
+  _lw6ker_armies_clear (&(map_state->armies));
+  memset (map_state, 0, sizeof (lw6ker_map_state_t));
+}
+
+int
+_lw6ker_map_state_sync (lw6ker_map_state_t * dst, lw6ker_map_state_t * src)
+{
+  int ret = 0;
+
+  if (dst && src
+      && _lw6ker_map_struct_lazy_compare (dst->map_struct, src->map_struct))
+    {
+      int i;
+
+      dst->shape = src->shape;
+      dst->shape_surface = src->shape_surface;
+      ret = _lw6ker_armies_sync (&(dst->armies), &(src->armies));
+      dst->max_nb_teams = src->max_nb_teams;
+      for (i = 0; i < src->max_nb_teams; ++i)
+	{
+	  ret = ret && _lw6ker_team_sync (&(dst->teams[i]), &(src->teams[i]));
+	}
+      memcpy (&(dst->cursor_array), &(src->cursor_array),
+	      sizeof (lw6ker_cursor_array_t));
+      dst->nb_slots = src->nb_slots;
+      memcpy (dst->slots, src->slots,
+	      src->map_struct->nb_slots * sizeof (lw6ker_slot_state_t));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("map_state_copy only works if dst and src point to the same map_struct"));
+    }
+
+  return ret;
+}
+
+void
+_lw6ker_map_state_update_checksum (lw6ker_map_state_t * map_state,
+				   u_int32_t * checksum)
+{
+  int i;
+  /*
+   * No need to compute map_struct checksum again, it's done
+   * within game_state_update_checksum which itself calls 
+   * game_struct_update_checksum.
+   */
+  lw6sys_checksum_update_whd (checksum, &(map_state->shape));
+  lw6sys_checksum_update_int32 (checksum, map_state->shape_surface);
+  _lw6ker_armies_update_checksum (&(map_state->armies), checksum);
+  lw6sys_checksum_update_int32 (checksum, map_state->max_nb_teams);
+  for (i = 0; i < map_state->max_nb_teams; ++i)
+    {
+      _lw6ker_team_update_checksum (&(map_state->teams[i]), checksum);
+    }
+  _lw6ker_cursor_array_update_checksum (&(map_state->cursor_array), checksum);
+  lw6sys_checksum_update_int32 (checksum, map_state->nb_slots);
+  for (i = 0; i < map_state->nb_slots; ++i)
+    {
+      _lw6ker_slot_state_update_checksum (&(map_state->slots[i]), checksum);
+    }
+}
+
+int
+lw6ker_map_state_get_free_team_color (lw6ker_map_state_t * map_state)
+{
+  int32_t i;
+  int32_t ret = LW6MAP_TEAM_COLOR_INVALID;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && ret < 0; ++i)
+    {
+      if (!map_state->teams[i].active)
+	{
+	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+int32_t
+lw6ker_map_state_populate_team (lw6ker_map_state_t * map_state,
+				int32_t team_color,
+				int32_t nb_fighters,
+				lw6sys_xyz_t desired_center,
+				lw6map_rules_t * rules)
+{
+  lw6sys_xyz_t real_center;
+  int32_t angle, radius;
+  int32_t max_radius, max_angle;
+  int32_t x, y, z;
+  int32_t nb_fighters_added = 0;
+  int32_t new_fighter_id;
+  lw6ker_fighter_t new_fighter;
+  lw6sys_whd_t shape;
+
+  shape = map_state->shape;
+  _lw6ker_fighter_clear (&new_fighter);
+  lw6ker_map_struct_find_free_slot_near (map_state->map_struct, &real_center,
+					 desired_center);
+  max_radius = 2 * (map_state->map_struct->shape.w + map_state->map_struct->shape.h);	// +, not *
+  for (radius = 1; radius < max_radius && nb_fighters_added < nb_fighters;
+       ++radius)
+    {
+      max_angle = radius * M_PI * 4;
+      for (angle = 0; angle < max_angle && nb_fighters_added < nb_fighters;
+	   ++angle)
+	{
+	  x =
+	    real_center.x +
+	    (lw6ker_cos ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
+	    (LW6KER_TRIGO_RADIUS * 2);
+	  y =
+	    real_center.y -
+	    (lw6ker_sin ((angle * LW6KER_TRIGO_2PI) / max_angle) * radius) /
+	    (LW6KER_TRIGO_RADIUS * 2);
+
+	  lw6map_coords_fix_xy (rules, &shape, &x, &y);
+
+	  for (z = 0; z < map_state->shape.d; ++z)
+	    {
+	      if (lw6ker_map_struct_get_zone_id
+		  (map_state->map_struct, x, y, z) >= 0)
+		{
+		  if (lw6ker_map_state_get_fighter_id (map_state, x, y, z)
+		      < 0)
+		    {
+		      new_fighter.team_color = team_color;
+		      new_fighter.pos.x = x;
+		      new_fighter.pos.y = y;
+		      new_fighter.pos.z = z;
+		      new_fighter.health = LW6MAP_MAX_FIGHTER_HEALTH;
+		      new_fighter.last_direction = 0;
+		      new_fighter_id =
+			lw6ker_armies_add_fighter (&(map_state->armies),
+						   new_fighter);
+		      if (new_fighter_id >= 0)
+			{
+			  nb_fighters_added++;
+			  lw6ker_map_state_set_fighter_id (map_state,
+							   x, y, z,
+							   new_fighter_id);
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+  lw6ker_team_activate (&(map_state->teams[team_color]), real_center);
+
+  return nb_fighters_added;
+}
+
+int
+lw6ker_map_state_redistribute_team (lw6ker_map_state_t * map_state,
+				    int32_t dst_team_color,
+				    int32_t src_team_color,
+				    int32_t nb_fighters,
+				    lw6map_rules_t * rules)
+{
+  int ret = 0;
+  int32_t i, j;
+  int32_t nb_fighters_redistributed = 0;
+
+  if (nb_fighters <= map_state->armies.fighters_per_team[src_team_color])
+    {
+      while (nb_fighters_redistributed < nb_fighters)
+	{
+	  for (i = 0;
+	       i < LW6MAP_MAX_NB_TEAMS
+	       && nb_fighters_redistributed < nb_fighters; ++i)
+	    {
+	      for (j = i;
+		   j < map_state->armies.active_fighters
+		   && nb_fighters_redistributed < nb_fighters;
+		   j += LW6MAP_MAX_NB_TEAMS)
+		{
+		  if (map_state->armies.fighters[j].team_color ==
+		      src_team_color)
+		    {
+		      map_state->armies.fighters[j].team_color =
+			dst_team_color;
+		      (map_state->armies.fighters_per_team[src_team_color])--;
+		      (map_state->armies.fighters_per_team[dst_team_color])++;
+		      map_state->armies.fighters[j].health =
+			LW6MAP_MAX_FIGHTER_HEALTH;
+		      nb_fighters_redistributed++;
+		    }
+		}
+	    }
+	}
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("can't redistribute %d fighters from team %d which has only %d"),
+		  nb_fighters, src_team_color,
+		  map_state->armies.fighters_per_team[src_team_color]);
+    }
+
+  return ret;
+}
+
+int
+lw6ker_map_state_cancel_team (lw6ker_map_state_t * map_state,
+			      int32_t team_color)
+{
+  int ret = 0;
+
+  if (map_state->teams[team_color].active)
+    {
+      if (map_state->armies.fighters_per_team[team_color] == 0)
+	{
+	  lw6ker_team_unactivate (&(map_state->teams[team_color]));
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("trying to cancel non-zeroed team %d, still has %d fighters"),
+		      team_color,
+		      map_state->armies.fighters_per_team[team_color]);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("trying to cancel inactive team %d"), team_color);
+    }
+
+  return ret;
+}
+
+int
+lw6ker_map_state_remove_fighter (lw6ker_map_state_t * map_state,
+				 int32_t fighter_id)
+{
+  int ret = 0;
+  int32_t last_fighter_id;
+
+  last_fighter_id = map_state->armies.active_fighters - 1;
+  if (fighter_id >= 0 && fighter_id <= last_fighter_id)
+    {
+      lw6ker_fighter_t fighter;
+      lw6ker_fighter_t last_fighter;
+
+      fighter = map_state->armies.fighters[fighter_id];
+      last_fighter = map_state->armies.fighters[last_fighter_id];
+
+      if (fighter_id < last_fighter_id)
+	{
+	  lw6ker_map_state_set_fighter_id (map_state,
+					   last_fighter.pos.x,
+					   last_fighter.pos.y,
+					   last_fighter.pos.z, fighter_id);
+	  /*
+	   * It's important to really *exchange* the fighters, for
+	   * deletion in the armies struct will read the last fighter's
+	   * team_color for instance, to maintain the list of active
+	   * fighters in each team. So affecting the remaining one
+	   * is not enough.
+	   */
+	  map_state->armies.fighters[fighter_id] = last_fighter;
+	  map_state->armies.fighters[last_fighter_id] = fighter;
+	}
+
+      lw6ker_map_state_set_fighter_id (map_state,
+				       fighter.pos.x, fighter.pos.y,
+				       fighter.pos.z, -1);
+      lw6ker_armies_remove_fighter (&(map_state->armies));
+
+      ret = 1;
+    }
+
+  return ret;
+}
+
+int
+lw6ker_map_state_remove_fighters (lw6ker_map_state_t * map_state,
+				  int32_t nb_fighters)
+{
+  int32_t i, j;
+  int ret = 0;
+  int32_t nb_fighters_removed = 0;
+
+  if (nb_fighters <= map_state->armies.active_fighters)
+    {
+      while (nb_fighters_removed < nb_fighters)
+	{
+	  /*
+	   * To remove fighters, we simply pseudo-randomly
+	   * pass the current map, trying not to process
+	   * low-numbered fighters systematically to avoid
+	   * disadvantaging "first" teams, and whenever we
+	   * encounter a fighter, we delete it. We count on
+	   * statistics so that deletion is globally fair
+	   * and no team should especially be adavantaged
+	   * by this. But it's true there's some luck and
+	   * a slight probability that all of the fighters
+	   * of a given team are deleted at once...
+	   */
+	  for (i = 0;
+	       i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters;
+	       ++i)
+	    {
+	      for (j = i;
+		   j < map_state->armies.active_fighters
+		   && nb_fighters_removed < nb_fighters;
+		   j += LW6MAP_MAX_NB_TEAMS)
+		{
+		  lw6ker_map_state_remove_fighter (map_state, j);
+		  nb_fighters_removed++;
+		}
+	    }
+	}
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("can't remove %d fighters, map only has %d"),
+		  nb_fighters, map_state->armies.active_fighters);
+    }
+
+  return ret;
+}
+
+int
+lw6ker_map_state_remove_team_fighters (lw6ker_map_state_t * map_state,
+				       int32_t team_color,
+				       int32_t nb_fighters)
+{
+  int ret = 0;
+  int32_t nb_fighters_removed = 0;
+  int32_t i, j;
+
+  nb_fighters =
+    lw6sys_min (nb_fighters, map_state->armies.fighters_per_team[team_color]);
+
+  while (nb_fighters_removed < nb_fighters)
+    {
+      for (i = 0;
+	   i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters; ++i)
+	{
+	  for (j = i;
+	       j < map_state->armies.active_fighters
+	       && nb_fighters_removed < nb_fighters; j += LW6MAP_MAX_NB_TEAMS)
+	    {
+	      if (map_state->armies.fighters[j].team_color == team_color)
+		{
+		  lw6ker_map_state_remove_fighter (map_state, j);
+		  nb_fighters_removed++;
+		}
+	    }
+	}
+    }
+
+  ret = 1;
+
+  return ret;
+}
+
+lw6ker_fighter_t *
+lw6ker_map_state_get_fighter_safe (lw6ker_map_state_t * map_state,
+				   int32_t x, int32_t y, int32_t z)
+{
+  lw6ker_fighter_t *ret = NULL;
+  int fighter_id;
+
+  if (x >= 0
+      && x < map_state->shape.w && y >= 0 && y < map_state->shape.h && z >= 0
+      && z < map_state->shape.d)
+    {
+      fighter_id =
+	map_state->slots[lw6ker_map_state_slot_index (map_state, x, y, z)].
+	fighter_id;
+      if (fighter_id >= 0)
+	{
+	  ret = &(map_state->armies.fighters[fighter_id]);
+	}
+    }
+
+  return ret;
+};
+
+void
+lw6ker_map_state_print_debug (lw6ker_map_state_t * map_state)
+{
+  int32_t i;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("active_fighters = %d"),
+	      map_state->armies.active_fighters);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("max_fighters = %d"),
+	      map_state->armies.max_fighters);
+  if (map_state->armies.active_fighters > 0)
+    {
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("team %d has %d fighters (%2.1f%%)"), i,
+		      map_state->armies.fighters_per_team[i],
+		      ((float) map_state->armies.fighters_per_team[i]) /
+		      ((float) map_state->armies.active_fighters) * 100.0f);
+	}
+    }
+}
+
+int
+lw6ker_map_state_sanity_check (lw6ker_map_state_t * map_state)
+{
+  int ret = 1;
+  int32_t i;
+  int32_t real_fighters_per_team[LW6MAP_MAX_NB_TEAMS];
+  int32_t fighter_id;
+  lw6ker_fighter_t fighter;
+
+  if (map_state->armies.active_fighters > map_state->armies.max_fighters)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("active_fighters (%d) > max_fighters (%d)"),
+		  map_state->armies.active_fighters,
+		  map_state->armies.max_fighters);
+      ret = 0;
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      real_fighters_per_team[i] = 0;
+    }
+  for (i = 0; i < map_state->armies.active_fighters; ++i)
+    {
+      fighter = map_state->armies.fighters[i];
+      if (fighter.team_color >= LW6MAP_MAX_NB_TEAMS)	// <0 check useless, unsigned
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("fighter.team_color out of range (%d) for fighter %d"),
+		      fighter.team_color, i);
+	  ret = 0;
+	}
+      (real_fighters_per_team[fighter.team_color])++;
+      fighter_id =
+	lw6ker_map_state_get_fighter_id (map_state,
+					 fighter.pos.x, fighter.pos.y,
+					 fighter.pos.z);
+      if (i != fighter_id)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("fighter %d in armies array pretends to be at layer=%d,x=%d,y=%d, but in fact there is fighter %d there from slots point of view"),
+		      i, fighter.pos.x, fighter.pos.y, fighter.pos.z,
+		      fighter_id);
+	  ret = 0;
+	}
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (map_state->armies.fighters_per_team[i] > 0
+	  && !map_state->teams[i].active)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("team %d pretends to have %d fighters but is inactive"),
+		      i, map_state->armies.fighters_per_team[i]);
+	  ret = 0;
+	}
+      if (map_state->armies.fighters_per_team[i] != real_fighters_per_team[i])
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("team %d pretends to have %d fighters but counting them one founds %d"),
+		      i, map_state->armies.fighters_per_team[i],
+		      real_fighters_per_team[i]);
+	  ret = 0;
+	}
+    }
+
+  return ret;
+}
+
+/*
+ * Applies the cursors before spreading the gradient.
+ */
+void
+lw6ker_map_state_spread_gradient (lw6ker_map_state_t * map_state,
+				  lw6map_rules_t * rules, int32_t nb_spreads,
+				  u_int32_t team_mask)
+{
+  int i, j;
+
+  lw6ker_map_state_apply_cursors (map_state, rules, team_mask);
+  for (i = 0; i < map_state->max_nb_teams; ++i)
+    {
+      if (map_state->teams[i].active)
+	{
+	  if (lw6ker_team_mask_is_concerned (i, team_mask))
+	    {
+	      for (j = 0; j < nb_spreads; ++j)
+		{
+		  _lw6ker_spread_update_gradient (&(map_state->teams[i]),
+						  map_state->shape.d == 1);
+		}
+	    }
+	}
+    }
+}
+
+int
+_lw6ker_map_state_get_nb_teams (lw6ker_map_state_t * map_state)
+{
+  int ret = 0;
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (map_state->teams[i].active)
+	{
+	  ret++;
+	}
+    }
+
+  return ret;
+}
+
+void
+lw6ker_map_state_move_fighters (lw6ker_map_state_t * map_state,
+				int parity, lw6map_rules_t * rules,
+				int32_t nb_moves, u_int32_t team_mask)
+{
+  _lw6ker_move_context_t context;
+  int move_i = 0;
+
+  memset (&context, 0, sizeof (_lw6ker_move_context_t));
+
+  context.parity = parity;
+  context.team_mask = team_mask;
+  context.map_state = map_state;
+  context.map_struct = map_state->map_struct;
+  context.rules = *rules;
+  context.armies = &(map_state->armies);
+  context.active_fighters = context.armies->active_fighters;
+  context.fighter_side_attack =
+    lw6ker_percent (rules->fighter_attack, rules->side_attack_factor);
+  context.fighter_side_defense =
+    lw6sys_max (rules->fighter_regenerate,
+		lw6ker_percent (rules->fighter_defense,
+				rules->side_defense_factor));
+  context.shape = map_state->shape;
+
+  for (move_i = 0; move_i < nb_moves; ++move_i)
+    {
+      _lw6ker_move_update_fighters_universal (&context);
+    }
+}
+
+void
+lw6ker_map_state_apply_cursors (lw6ker_map_state_t * map_state,
+				lw6map_rules_t * rules, u_int32_t team_mask)
+{
+  int32_t i, team_color;
+  int32_t zone_id = -1;
+  int32_t z;
+  int32_t max_pot[LW6MAP_MAX_NB_TEAMS];
+  int32_t round_delta[LW6MAP_MAX_NB_TEAMS];
+
+  /*
+   * Wizardry to determine a new cursor_ref_pot. In most cases
+   * it will end with max_pot being the old cursor_ref_pot+1
+   * and delta being 1. But it's there for special cases, mostly
+   * at game startup and when one fiddles arround with cursors
+   * pot_offset fields..
+   */
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (lw6ker_team_mask_is_concerned (i, team_mask))
+	{
+	  max_pot[i] = map_state->teams[i].cursor_ref_pot;
+	  round_delta[i] = rules->round_delta;
+	}
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      if (map_state->cursor_array.cursors[i].enabled)
+	{
+	  team_color = map_state->cursor_array.cursors[i].team_color;
+	  if (lw6ker_team_mask_is_concerned (team_color, team_mask))
+	    {
+	      {
+		_lw6ker_cursor_update_apply_pos (&
+						 (map_state->cursor_array.
+						  cursors[i]),
+						 map_state->map_struct);
+		for (z = 0, zone_id = -1;
+		     z < map_state->shape.d && zone_id < 0; ++z)
+		  {
+		    zone_id =
+		      lw6ker_map_struct_get_zone_id (map_state->map_struct,
+						     map_state->cursor_array.
+						     cursors[i].apply_pos.x,
+						     map_state->cursor_array.
+						     cursors[i].apply_pos.y,
+						     z);
+		  }
+		if (zone_id >= 0)
+		  {
+		    max_pot[team_color] =
+		      lw6sys_max (max_pot[team_color],
+				  map_state->teams[team_color].
+				  gradient[zone_id].potential);
+		    round_delta[team_color] =
+		      lw6sys_max (round_delta[team_color],
+				  map_state->
+				  teams[team_color].cursor_ref_pot +
+				  map_state->cursor_array.
+				  cursors[i].pot_offset -
+				  map_state->teams[team_color].
+				  gradient[zone_id].potential);
+		    round_delta[team_color] =
+		      lw6sys_min (round_delta[team_color],
+				  rules->max_round_delta);
+		  }
+	      }
+	    }
+	}
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (lw6ker_team_mask_is_concerned (i, team_mask))
+	{
+	  /*
+	   * Following line is essential, it ensures that cursor potentials
+	   * will increase at each game turn. A consequence is that one
+	   * shouldn't call apply_cursors twice per game round. Indeed,
+	   * calling apply_cursors changes the map state (cursor_ref_pot)
+	   * so calling it twice isn't the same as calling it only once.
+	   */
+	  map_state->teams[i].cursor_ref_pot = max_pot[i] + round_delta[i];
+
+	  if (map_state->teams[i].cursor_ref_pot +
+	      rules->max_cursor_pot_offset > rules->max_cursor_pot)
+	    {
+	      lw6ker_team_normalize_pot (&(map_state->teams[i]), rules);
+	    }
+	}
+    }
+
+  /*
+   * We actually apply the cursors
+   */
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      if (map_state->cursor_array.cursors[i].enabled)
+	{
+	  team_color = map_state->cursor_array.cursors[i].team_color;
+	  if (lw6ker_team_mask_is_concerned (team_color, team_mask))
+	    {
+	      for (z = 0; z < map_state->shape.d; ++z)
+		{
+		  zone_id =
+		    lw6ker_map_struct_get_zone_id (map_state->map_struct,
+						   map_state->cursor_array.
+						   cursors[i].apply_pos.x,
+						   map_state->cursor_array.
+						   cursors[i].apply_pos.y, z);
+		  if (zone_id >= 0)
+		    {
+		      /*
+		       * Beware of multiple cursors, we check again if changing
+		       * the value is needed.
+		       */
+		      if (map_state->teams[team_color].
+			  gradient[zone_id].potential <
+			  map_state->teams[team_color].cursor_ref_pot +
+			  map_state->cursor_array.cursors[i].pot_offset)
+			{
+			  map_state->teams[team_color].
+			    gradient[zone_id].potential =
+			    map_state->teams[team_color].cursor_ref_pot +
+			    map_state->cursor_array.cursors[i].pot_offset;
+			  map_state->teams[team_color].
+			    gradient[zone_id].closest_cursor_pos =
+			    map_state->cursor_array.cursors[i].apply_pos;
+			}
+		    }
+		}
+	    }
+	}
+    }
+}

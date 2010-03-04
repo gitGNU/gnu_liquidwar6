@@ -1,0 +1,4 @@
+src/scriptpo.c
+src/lib/sys/sys-log.c
+src/lib/hlp/hlp-credits.c
+src/lib/lw6-print.c

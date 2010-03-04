@@ -1,0 +1,291 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifndef LIQUIDWAR6_H
+#define LIQUIDWAR6_H
+
+/*
+ * This is the main Liquid War 6 header file.
+ */
+
+#define LW6_VERSION "@PACKAGE_VERSION@"
+
+#include <pthread.h>
+#include <libguile.h>
+
+#include "sys/sys.h"
+#include "dyn/dyn.h"
+#include "cns/cns.h"
+#include "hlp/hlp.h"
+#include "cfg/cfg.h"
+#include "map/map.h"
+#include "ker/ker.h"
+#include "bot/bot.h"
+#include "ldr/ldr.h"
+#include "tsk/tsk.h"
+#include "gui/gui.h"
+#include "gfx/gfx.h"
+#include "dsp/dsp.h"
+#include "snd/snd.h"
+#include "img/img.h"
+#include "pil/pil.h"
+#include "net/net.h"
+#include "cli/cli.h"
+#include "srv/srv.h"
+#include "p2p/p2p.h"
+
+typedef struct lw6_smob_types_s
+{
+  scm_t_bits dsp;
+  scm_t_bits snd;
+  scm_t_bits map;
+  scm_t_bits menu;
+  scm_t_bits game_struct;
+  scm_t_bits game_state;
+  scm_t_bits pilot;
+  scm_t_bits bot;
+  scm_t_bits look;
+  scm_t_bits loader;
+  scm_t_bits node;
+}
+lw6_smob_types_t;
+
+typedef struct lw6_dsp_smob_s
+{
+  lw6dsp_backend_t *c_dsp;
+  SCM level;
+  SCM game_struct;
+  SCM game_state;
+  SCM pilot;
+}
+lw6_dsp_smob_t;
+
+typedef struct lw6_snd_smob_s
+{
+  lw6snd_backend_t *c_snd;
+}
+lw6_snd_smob_t;
+
+typedef struct lw6_map_smob_s
+{
+  lw6map_level_t *c_map;
+}
+lw6_map_smob_t;
+
+typedef struct lw6_menu_smob_s
+{
+  lw6gui_menu_t *c_menu;
+}
+lw6_menu_smob_t;
+
+typedef struct lw6_game_struct_smob_s
+{
+  lw6ker_game_struct_t *c_game_struct;
+  SCM map;
+}
+lw6_game_struct_smob_t;
+
+typedef struct lw6_game_state_smob_s
+{
+  lw6ker_game_state_t *c_game_state;
+  SCM game_struct;
+}
+lw6_game_state_smob_t;
+
+typedef struct lw6_pilot_smob_s
+{
+  lw6pil_pilot_t *c_pilot;
+}
+lw6_pilot_smob_t;
+
+typedef struct lw6_bot_smob_s
+{
+  lw6bot_backend_t *c_bot;
+  SCM game_state;
+  SCM pilot;
+}
+lw6_bot_smob_t;
+
+typedef struct lw6_look_smob_s
+{
+  lw6gui_look_t *c_look;
+}
+lw6_look_smob_t;
+
+typedef struct lw6_loader_smob_s
+{
+  lw6tsk_loader_t *c_loader;
+}
+lw6_loader_smob_t;
+
+typedef struct lw6_node_smob_s
+{
+  lw6p2p_node_t *c_node;
+}
+lw6_node_smob_t;
+
+typedef struct lw6_global_s
+{
+  pthread_mutex_t mutex;
+  void *cfg_context;
+  int cfg_initialized;
+  int cns_initialized;
+  int net_initialized;
+  int start_time;
+  int argc;
+  char **argv;
+  float progress;
+  lw6_smob_types_t smob_types;
+  lw6sys_assoc_t *dsp_smobs;
+  lw6sys_assoc_t *snd_smobs;
+  lw6sys_assoc_t *map_smobs;
+  lw6sys_assoc_t *menu_smobs;
+  lw6sys_assoc_t *game_struct_smobs;
+  lw6sys_assoc_t *game_state_smobs;
+  lw6sys_assoc_t *pilot_smobs;
+  lw6sys_assoc_t *bot_smobs;
+  lw6sys_assoc_t *look_smobs;
+  lw6sys_assoc_t *loader_smobs;
+  lw6sys_assoc_t *node_smobs;
+}
+lw6_global_t;
+
+/*
+ * In global.c
+ */
+#define LW6_MUTEX_LOCK pthread_mutex_lock( &lw6_global.mutex );
+#define LW6_MUTEX_UNLOCK pthread_mutex_unlock( &lw6_global.mutex );
+
+extern lw6_global_t lw6_global;
+extern int lw6_init_global (int argc, char *argv[]);
+extern void lw6_quit_global_1 ();
+extern void lw6_quit_global_2 ();
+
+/*
+ * Functions in callback.c
+ */
+extern void lw6_resize_callback (lw6gui_video_mode_t * video_mode);
+
+/*
+ * Functions in control.c
+ */
+extern void lw6_release ();
+extern void lw6_exit ();
+
+/*
+ * Functions in funcs.c
+ */
+extern int lw6_register_funcs ();
+extern void lw6_cns_handler (char *line);
+
+/*
+ * Functions in main.c
+ */
+extern int lw6_main (int argc, char *argv[]);
+
+/*
+ * Functions in options.c
+ */
+extern int lw6_process_non_run_options (int argc, char *argv[],
+					int *run_game);
+
+/*
+ * In print.c
+ */
+extern void lw6_print_help ();
+extern void lw6_print_version ();
+extern void lw6_print_short_copyright ();
+extern void lw6_print_long_copyright ();
+extern void lw6_print_bench (float bench_result);
+extern void lw6_print_pedigree ();
+extern void lw6_print_host ();
+extern void lw6_print_audit (int argc, char *argv[]);
+extern void lw6_print_modules ();
+extern void lw6_print_list_quick ();
+extern void lw6_print_list_doc ();
+extern void lw6_print_list_show ();
+extern void lw6_print_list_path ();
+extern void lw6_print_list_players ();
+extern void lw6_print_list_input ();
+extern void lw6_print_list_graphics ();
+extern void lw6_print_list_sound ();
+extern void lw6_print_list_network ();
+extern void lw6_print_list_map ();
+extern void lw6_print_list_map_hints ();
+extern void lw6_print_list_map_rules ();
+extern void lw6_print_list_map_style ();
+extern void lw6_print_list_funcs ();
+extern void lw6_print_list_hooks ();
+extern void lw6_print_list_tuning ();
+extern void lw6_print_list_aliases ();
+extern void lw6_print_list ();
+extern void lw6_print_about (char *keyword);
+extern void lw6_print_hello (int argc, char *argv[]);
+extern void lw6_print_goodbye ();
+
+/*
+ * Functions in smobs.c
+ */
+extern SCM lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp);
+extern lw6dsp_backend_t *lw6_scm_to_dsp (SCM dsp);
+extern void lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob);
+extern SCM lw6_make_scm_snd (lw6snd_backend_t * c_snd);
+extern lw6snd_backend_t *lw6_scm_to_snd (SCM snd);
+extern void lw6_free_snd_smob (lw6_snd_smob_t * snd_smob);
+extern SCM lw6_make_scm_map (lw6map_level_t * c_map);
+extern lw6map_level_t *lw6_scm_to_map (SCM map);
+extern void lw6_free_map_smob (lw6_map_smob_t * map_smob);
+extern SCM lw6_make_scm_menu (lw6gui_menu_t * c_menu);
+extern lw6gui_menu_t *lw6_scm_to_menu (SCM menu);
+extern void lw6_free_menu_smob (lw6_menu_smob_t * menu_smob);
+extern SCM lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct,
+				     SCM map);
+extern lw6ker_game_struct_t *lw6_scm_to_game_struct (SCM game_struct);
+extern void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
+				       game_struct_smob);
+extern SCM lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state,
+				    SCM game_struct);
+extern lw6ker_game_state_t *lw6_scm_to_game_state (SCM game_state);
+extern void lw6_free_game_state_smob (lw6_game_state_smob_t *
+				      game_state_smob);
+extern SCM lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot);
+extern lw6pil_pilot_t *lw6_scm_to_pilot (SCM pilot);
+extern void lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob);
+extern SCM lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state,
+			     SCM pilot);
+extern lw6bot_backend_t *lw6_scm_to_bot (SCM bot);
+extern void lw6_free_bot_smob (lw6_bot_smob_t * bot_smob);
+extern SCM lw6_make_scm_look (lw6gui_look_t * c_look);
+extern lw6gui_look_t *lw6_scm_to_look (SCM look);
+extern void lw6_free_look_smob (lw6_look_smob_t * look_smob);
+extern SCM lw6_make_scm_loader (lw6tsk_loader_t * c_loader);
+extern lw6tsk_loader_t *lw6_scm_to_loader (SCM loader);
+extern void lw6_free_loader_smob (lw6_loader_smob_t * loader_smob);
+extern SCM lw6_make_scm_node (lw6p2p_node_t * c_node);
+extern lw6p2p_node_t *lw6_scm_to_node (SCM node);
+extern void lw6_free_node_smob (lw6_node_smob_t * node_smob);
+extern int lw6_register_smobs ();
+
+/* lw6-test.c */
+extern int lw6_test (int mode);
+
+#endif

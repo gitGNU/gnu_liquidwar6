@@ -1,0 +1,156 @@
+@deftypefun {int} {lw6hlp_is_documented} (char * @var{keyword})
+@var{keyword}:  the keyword we want to check out
+
+Checks wether a given keyword is documented or not.
+
+@strong{Return value:}  1 if documented, 0 if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6hlp_about} (lw6hlp_type_t * @var{type}, char ** @var{default_value}, int * @var{min_value}, int * @var{max_value}, char * @var{keyword})
+@var{type}:  the type of the data associated to the keyword, will be written
+
+@var{default_value}:  the default value for the keyword, will be written
+
+@var{min_value}:  the min value for the keyword, will be written
+
+@var{max_value}:  the max value for the keyword, will be written
+
+@var{keyword}:  the keyword we want help about
+
+Returns the documentation string associated to a keyword. The keyword
+might be a command-line option, a Guile function, an XML file entry.
+Raises a warning if the keyword is undocumented, but never returns
+NULL, you can use the returned value without checking it. String
+is localized if a translation is available. It's safe to call this
+function with type or other parameters being NULL.
+
+@strong{Return value:}  a help string, never NULL, must not be freed.
+Additionnally, type will be updated.
+@end deftypefun
+
+@deftypefun {lw6hlp_type_t} {lw6hlp_get_type} (char * @var{keyword})
+@var{keyword}:  the keyword we want the type of
+
+Returns the type of a keyword. Calls lw6hlp_about internally.
+
+@strong{Return value:}  the type, might be LW6HLP_TYPE_VOID.
+@end deftypefun
+
+@deftypefun {char *} {lw6hlp_get_default_value} (char * @var{keyword})
+@var{keyword}:  the keyword we want the default for
+
+Returns the default value for a keyword. Note that it can be NULL!
+The returned value is always a string, it's suitable to store in
+the config file, it's the value a user would pass on a command line,
+the one he wants documented.
+
+@strong{Return value:}  a pointer, which can be NULL, must not be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6hlp_get_min_value} (char * @var{keyword})
+@var{keyword}:  the keyword we want the min for
+
+Returns the min value for a keyword. Wether this is relevant for a
+given keyword does not affect the fact that you can call this function.
+A min and max of zero means min and max make no sense.
+
+@strong{Return value:}  the value (integer)
+@end deftypefun
+
+@deftypefun {int} {lw6hlp_get_max_value} (char * @var{keyword})
+@var{keyword}:  the keyword we want the max for
+
+Returns the max value for a keyword. Wether this is relevant for a
+given keyword does not affect the fact that you can call this function.
+A min and max of zero means min and max make no sense.
+
+@strong{Return value:}  the value (integer)
+@end deftypefun
+
+@deftypefun {char *} {lw6hlp_get_credits} (int @var{id})
+@var{id}:  the id of the credits line to return
+
+Returns a "credit line", that is a short sentence, about 30 to 50 chars,
+saying who developped the game, created graphics, giving important URLs,
+and so on. One can pass an arbitraty high @code{id}, no risk.
+
+@strong{Return value:}  the string, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6hlp_match} (char * @var{keyword1}, char * @var{keyword2})
+@var{keyword1}:  the 1st keyword
+
+@var{keyword2}:  the 2nd keyword
+
+Checks wether a keyword matches another. Not only a string
+comparison, will also try and guess if the error is only
+about dash "-" replaced by underscode "_", for instance.
+
+@strong{Return value:}  1 if matches, 0 if different.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list} ()
+
+Returns a list of all available keywords.
+
+@strong{Return value:}  a list containing all the keywords. Strings are not
+dynamically allocated, you can't modify them.
+@end deftypefun
+
+@deftypefun {void} {lw6hlp_print_keyword} (lw6sys_list_t ** @var{list}, FILE * @var{f})
+@var{list}:  a pointer to a list of keywords
+
+@var{f}:  the file to print the content to
+
+Prints all the keywords from the list. One keyword per line.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6hlp_print_content} (lw6sys_list_t ** @var{list}, FILE * @var{f})
+@var{list}:  a pointer to a list of keywords
+
+@var{f}:  the file to print the content to
+
+Prints all the keywords from the list, with the associated
+keyword help, to the given file. Output is formatted to fit
+on the standard terminal/console.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6hlp_print_about} (char * @var{keyword}, FILE * @var{f})
+@var{keyword}:  the keyword to print help about
+
+@var{f}:  the file to print the content to
+
+Displays the help about a keyword, to a file, directly.
+It's formatted for the purpose of the --about=<value> option.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6hlp_reference_init} ()
+
+Initializes the help reference, this must be called before
+any call to lw6hlp_about or such help related functions.
+
+@strong{Return value:}  1 on success, 0 if failed
+@end deftypefun
+
+@deftypefun {void} {lw6hlp_reference_quit} ()
+
+Un-initializes the help reference, this must be called at the
+end of the program.
+
+@strong{Return value:}  1 on success, 0 if failed
+@end deftypefun
+
+@deftypefun {int} {lw6hlp_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{hlp} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

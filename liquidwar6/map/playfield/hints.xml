@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+<float key="speed" value="0.9" />
+
+  <!--TECHNICAL -->
+  <int key="wall-grease" value="-4" />
+  
+
+</lw6mapparam>

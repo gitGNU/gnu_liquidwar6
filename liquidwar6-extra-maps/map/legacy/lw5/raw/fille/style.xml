@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE liquidwar6 SYSTEM "/home/mauduit/home/local/culture/share/doc/liquidwar6/dtd/liquidwar6.dtd">
+<liquidwar6>
+  <color key="color-base-fg" value="#faa" />
+  <color key="color-base-bg" value="#555" />
+  <color key="color-alternate-fg" value="#fee" />
+  <color key="color-alternate-bg" value="#733" />
+</liquidwar6>

@@ -1,0 +1,11 @@
+Usefull sample tla commands:
+
+tla tag -S liquidwar6@sv.gnu.org/liquidwar6--alpha--0.1--patch-101 liquidwar6--alpha--0.2
+
+tla cacherev liquidwar6--alpha--0.1--patch-100
+
+tla missing --summary liquidwar6--alpha--0.1 
+
+tla star-merge liquidwar6@sv.gnu.org/liquidwar6--alpha--0.1
+
+

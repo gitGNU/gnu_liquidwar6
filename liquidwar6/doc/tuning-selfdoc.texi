@@ -1,0 +1,586 @@
+@subsection audit
+@deffn {Command-line option} @code{--audit}
+@deffnx {Environment variable} @code{LW6_AUDIT}
+Display all path values, defaults and current settings. This output is very
+usefull to track down problems such as missing directories, broken
+installations. If you get an error message that suggests some file is missing,
+then give this option a try.
+@end deffn
+
+@subsection bench
+@deffn {Command-line option} @code{--bench}
+@deffnx {Environment variable} @code{LW6_BENCH}
+Runs a benchmarking test which will report an approximative performance
+estimation of the game on your computer.
+@end deffn
+
+@subsection bench-value
+@deffn {Command-line option} @code{--bench-value=<value>}
+@deffnx {Environment variable} @code{LW6_BENCH_VALUE}
+@deffnx {XML key} @code{bench-value}
+Type: integer
+
+Default value: 20
+
+Contains the current bench value of the computer running the game. This is
+used internally to choose the right map settings. You can override this value
+and use your own but... use at your own risk. Pretending you have a faster
+computer than what you really have can lead to confusion.
+@end deffn
+
+@subsection bin-id
+@deffn {Command-line option} @code{--bin-id=<value>}
+@deffnx {Environment variable} @code{LW6_BIN_ID}
+@deffnx {XML key} @code{bin-id}
+Type: integer
+
+Default value: 0
+
+The internal 'bin-id' value. Note that this is not necessarly equal to the
+value returned by 'show-build-bin-id'. When they are different, it is assumed
+this is because of a software upgrade.
+@end deffn
+
+@subsection bot-iq
+@deffn {Command-line option} @code{--bot-iq=<value>}
+@deffnx {Environment variable} @code{LW6_BOT_IQ}
+@deffnx {XML key} @code{bot-iq}
+Type: integer
+
+Default value: 100
+Min value: 0
+Max value: 200
+
+The IQ (intelligence quotient) of bots. Typically, a value of 100 will make
+the bot behave normally, performing at its best. A value of 0 will just make
+it act the worst way it can. Values over 100 probably won't change anything
+compared to 100, but this truely depends on which bot backend you're running.
+@end deffn
+
+@subsection bot-speed
+@deffn {Command-line option} @code{--bot-speed=<value>}
+@deffnx {Environment variable} @code{LW6_BOT_SPEED}
+@deffnx {XML key} @code{bot-speed}
+Type: float
+
+Default value: 1.0
+
+The speed of bots, 1 means normal speed, higher value will speed it up, lower
+will slow it down. Note that this only has an impact on bot engines, not on
+the game speed itself.
+@end deffn
+
+@subsection check
+@deffn {Command-line option} @code{--check}
+@deffnx {Environment variable} @code{LW6_CHECK}
+Running the game with '--check' is almost like running '--test', the
+difference is that '--check' will not run tests which involve graphics or
+sound backends, so it's adapted to pure console mode. This can be usefull for
+automated checks on a build farm, or if you want to check things in a headless
+(pure console) environment.
+@end deffn
+
+@subsection commands-per-sec
+@deffn {Command-line option} @code{--commands-per-sec=<value>}
+@deffnx {Environment variable} @code{LW6_COMMANDS_PER_SEC}
+@deffnx {XML key} @code{commands-per-sec}
+Type: integer
+
+Default value: 5
+
+Defines the number of commands per second. When a command is generated, orders
+are actually sent to the game engine, for instance, 'this cursor moved there'.
+So this option will affect game responsiveness, setting this to a high value
+will make the game more responsive but consume bandwidth on network games.
+@end deffn
+
+@subsection debug-layer-id
+@deffn {Command-line option} @code{--debug-layer-id=<value>}
+@deffnx {Environment variable} @code{LW6_DEBUG_LAYER_ID}
+@deffnx {XML key} @code{debug-layer-id}
+Type: integer
+
+Default value: 0
+Min value: 0
+Max value: 6
+
+A team id which will be used for debugging purposes, for instance when
+displaying gradient.
+@end deffn
+
+@subsection debug-team-id
+@deffn {Command-line option} @code{--debug-team-id=<value>}
+@deffnx {Environment variable} @code{LW6_DEBUG_TEAM_ID}
+@deffnx {XML key} @code{debug-team-id}
+Type: integer
+
+Default value: 0
+Min value: 0
+Max value: 9
+
+A team id which will be used for debugging purposes, for instance when
+displaying gradient.
+@end deffn
+
+@subsection demo
+@deffn {Command-line option} @code{--demo}
+@deffnx {Environment variable} @code{LW6_DEMO}
+Start the game in demo mode. 2 bots play against each other forever.
+@end deffn
+
+@subsection dirty-read
+@deffn {Command-line option} @code{--dirty-read=<value>}
+@deffnx {Environment variable} @code{LW6_DIRTY_READ}
+@deffnx {XML key} @code{dirty-read}
+Type: integer
+
+Default value: 2
+Min value: 0
+Max value: 2
+
+How to handle dirty reads and locks when displaying stuff. If set to 0, there
+will be no dirty reads at all, a lock (mutex) will be set whenever it's
+needed. If set to 1, display might be done with inconsistent data, however the
+data itself won't be modified while displaying. If set to 2, displayed data
+can (and will) be modified while the rendering thread is running.
+@end deffn
+
+@subsection display-background
+@deffn {Command-line option} @code{--display-background=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_BACKGROUND}
+@deffnx {XML key} @code{display-background}
+Type: boolean
+
+Default value: true
+
+Decides wether the background animation/image should be displayed at all.
+@end deffn
+
+@subsection display-console
+@deffn {Command-line option} @code{--display-console=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_CONSOLE}
+@deffnx {XML key} @code{display-console}
+Type: boolean
+
+Default value: false
+
+Defines wether the interactive system console must be displayed. Note that
+console support must have been enabled at compilation time. It might not be
+available on your computer, for instance if you are running a system such as
+Microsoft Windows.
+@end deffn
+
+@subsection display-cursors
+@deffn {Command-line option} @code{--display-cursors=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_CURSORS}
+@deffnx {XML key} @code{display-cursors}
+Type: boolean
+
+Default value: true
+
+Debugging option which can be set to 'false' to disable the display of cursors
+when playing.
+@end deffn
+
+@subsection display-debug-gradient
+@deffn {Command-line option} @code{--display-debug-gradient=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_DEBUG_GRADIENT}
+@deffnx {XML key} @code{display-debug-gradient}
+Type: boolean
+
+Default value: false
+
+Set this to 'true' to display the gradient, this is usefull to debug the core
+algorithm or understand how it works.
+@end deffn
+
+@subsection display-debug-zones
+@deffn {Command-line option} @code{--display-debug-zones=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_DEBUG_ZONES}
+@deffnx {XML key} @code{display-debug-zones}
+Type: boolean
+
+Default value: false
+
+Set this to 'true' to display the zones, this is usefull to debug the core
+algorithm or understand how it works.
+@end deffn
+
+@subsection display-fighters
+@deffn {Command-line option} @code{--display-fighters=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_FIGHTERS}
+@deffnx {XML key} @code{display-fighters}
+Type: boolean
+
+Default value: true
+
+Debugging option which can be set to 'false' to disable the display of
+fighters when playing.
+@end deffn
+
+@subsection display-fps
+@deffn {Command-line option} @code{--display-fps=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_FPS}
+@deffnx {XML key} @code{display-fps}
+Type: boolean
+
+Default value: false
+
+Set this to 'true' to display the number of frames per second. When this gets
+too low... play a smaller map, buy a new computer or contribute and hack
+Liquid War 6 so that it runs faster!
+@end deffn
+
+@subsection display-hud
+@deffn {Command-line option} @code{--display-hud=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_HUD}
+@deffnx {XML key} @code{display-hud}
+Type: boolean
+
+Default value: true
+
+Decides wether the hud (informations while playing) should be displayed.
+@end deffn
+
+@subsection display-log
+@deffn {Command-line option} @code{--display-log=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_LOG}
+@deffnx {XML key} @code{display-log}
+Type: boolean
+
+Default value: true
+
+Set this to 'false' to disable the display of error messages on the screen.
+Mote that you can miss valuable informations.
+@end deffn
+
+@subsection display-map
+@deffn {Command-line option} @code{--display-map=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_MAP}
+@deffnx {XML key} @code{display-map}
+Type: boolean
+
+Default value: true
+
+Debugging option which can be set to 'false' to disable map (level) display
+when playing.
+@end deffn
+
+@subsection display-menu
+@deffn {Command-line option} @code{--display-menu=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_MENU}
+@deffnx {XML key} @code{display-menu}
+Type: boolean
+
+Default value: true
+
+Debugging option which can be set to 'false' to disable the display of menus.
+@end deffn
+
+@subsection display-mouse
+@deffn {Command-line option} @code{--display-mouse=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_MOUSE}
+@deffnx {XML key} @code{display-mouse}
+Type: boolean
+
+Default value: true
+
+Set this to 'false' to always hide the mouse pointer.
+@end deffn
+
+@subsection display-mps
+@deffn {Command-line option} @code{--display-mps=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_MPS}
+@deffnx {XML key} @code{display-mps}
+Type: boolean
+
+Default value: false
+
+Set this to 'true' to display the number of moves per second. In theory the
+game should maintain this constant but in practise it can get low if your
+computer is too slow or too busy.
+@end deffn
+
+@subsection display-preview
+@deffn {Command-line option} @code{--display-preview=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_PREVIEW}
+@deffnx {XML key} @code{display-preview}
+Type: boolean
+
+Default value: true
+
+Decides wether a map preview should be displayed when choosing a level.
+@end deffn
+
+@subsection display-progress
+@deffn {Command-line option} @code{--display-progress=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_PROGRESS}
+@deffnx {XML key} @code{display-progress}
+Type: boolean
+
+Default value: true
+
+Decides wether a progress bar should be displayed when a long operation is
+realized as a background task.
+@end deffn
+
+@subsection display-score
+@deffn {Command-line option} @code{--display-score=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_SCORE}
+@deffnx {XML key} @code{display-score}
+Type: boolean
+
+Default value: true
+
+Decides wether the score screen should be displayed.
+@end deffn
+
+@subsection display-splash
+@deffn {Command-line option} @code{--display-splash=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_SPLASH}
+@deffnx {XML key} @code{display-splash}
+Type: boolean
+
+Default value: true
+
+Set this to 'false' to disable the display of the splash screen at game
+startup.
+@end deffn
+
+@subsection display-url
+@deffn {Command-line option} @code{--display-url=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_URL}
+@deffnx {XML key} @code{display-url}
+Type: boolean
+
+Default value: false
+
+Set this to 'true' to display the URL (homepage) of the game. This is mostly
+used when doing screenshots, so that generated images contain a link to the
+homepage.
+@end deffn
+
+@subsection gfx-cpu-usage
+@deffn {Command-line option} @code{--gfx-cpu-usage=<value>}
+@deffnx {Environment variable} @code{LW6_GFX_CPU_USAGE}
+@deffnx {XML key} @code{gfx-cpu-usage}
+Type: float
+
+Default value: 0.75
+Min value: 0
+Max value: 1
+
+Percentage of the CPU which will be used by the display thread. It's wise to
+leave some time to other threads to execute. The OS does it naturally, but
+setting this helps the whole process by explicitely pausing (sleep call) the
+display thread. You could change this to a low value if you have lagging games
+but smooth display.
+@end deffn
+
+@subsection gfx-debug
+@deffn {Command-line option} @code{--gfx-debug=<value>}
+@deffnx {Environment variable} @code{LW6_GFX_DEBUG}
+@deffnx {XML key} @code{gfx-debug}
+Type: boolean
+
+Default value: false
+
+Enables dedicated graphics debugging tools. This is different from 'debug'
+mode which is global, this one is really graphics specific.
+@end deffn
+
+@subsection host
+@deffn {Command-line option} @code{--host}
+@deffnx {Environment variable} @code{LW6_HOST}
+Display all known system host properties, including os and cpu informations.
+@end deffn
+
+@subsection io-per-sec
+@deffn {Command-line option} @code{--io-per-sec=<value>}
+@deffnx {Environment variable} @code{LW6_IO_PER_SEC}
+@deffnx {XML key} @code{io-per-sec}
+Type: integer
+
+Default value: 15
+
+Defines the number of calls to input/output functions per second. This can
+affect speed of menus but also cursors, but won't change the speed of the game
+itself. It's a cosmectic, comfort option.
+@end deffn
+
+@subsection loader-sleep
+@deffn {Command-line option} @code{--loader-sleep=<value>}
+@deffnx {Environment variable} @code{LW6_LOADER_SLEEP}
+@deffnx {XML key} @code{loader-sleep}
+Type: float
+
+Default value: 0.5
+
+Defines how long the loader thread should wait between two polls. Default
+value should fit in most cases.
+@end deffn
+
+@subsection log-level
+@deffn {Command-line option} @code{--log-level=<value>}
+@deffnx {Environment variable} @code{LW6_LOG_LEVEL}
+@deffnx {XML key} @code{log-level}
+Type: integer
+
+Default value: 3
+Min value: 0
+Max value: 4
+
+Defines the log level, that is, how verbose the program will be regarding logs
+and console output. 0 (ERROR) is the minimum, only errors are reported. 1
+(WARNING) means errors + warnings. 2 (NOTICE) displays most important
+messages. 3 (INFO) is the default, the log file will contain all messages but
+debug stuff. 4 (DEBUG) logs everything, including debug informations.
+@end deffn
+
+@subsection log-timeout
+@deffn {Command-line option} @code{--log-timeout=<value>}
+@deffnx {Environment variable} @code{LW6_LOG_TIMEOUT}
+@deffnx {XML key} @code{log-timeout}
+Type: integer
+
+Default value: 5000
+
+Delay, in msec, for which a log message will stay displayed on the screen.
+@end deffn
+
+@subsection magic-number
+@deffn {Command-line option} @code{--magic-number=<value>}
+@deffnx {Environment variable} @code{LW6_MAGIC_NUMBER}
+@deffnx {XML key} @code{magic-number}
+Type: integer
+
+Default value: 43261
+
+This 'magic' number probably requires an explanation. It's used to estimate
+how big a map can be built. The calculus is very approximative, basically
+bench_value*magic_number=total_fighters_on_map*rounds_per_sec*moves_per_round
+with total_fighters_on_map depending on various parameters such as map size
+but also how many fighters are on the map. The map loader will try and adjust
+the map size so that it is just big enough not to saturate your CPU while
+being as high-res as possible. The magic number in itself has no real meaning,
+the higher it gets, the more optimized it means the game is. Normally you
+shouldn't change this but if you find the map resizing is too agressively
+pessimistic, or if for some reason bench returns bogus values, you can modify
+it.
+@end deffn
+
+@subsection memory-bazooka-eraser
+@deffn {Command-line option} @code{--memory-bazooka-eraser=<value>}
+@deffnx {Environment variable} @code{LW6_MEMORY_BAZOOKA_ERASER}
+@deffnx {XML key} @code{memory-bazooka-eraser}
+Type: boolean
+
+Default value: true
+
+The memory eraser is a tool which will systematically fill allocated memory
+with 'M', and overwrite all allocated bytes with 'F' before freeing memory. It
+will even handle realloc calls. This is usefull to track bugs. Indeed, with
+this option enabled, freshly allocated memory will never contain zeroes unless
+one calls calloc, and if you ever free some memory zone before being done with
+it, it will be filled with junk and therefore not be usable. The memory
+bazooka must be big enough if you want this feature to actually work.
+@end deffn
+
+@subsection memory-bazooka-size
+@deffn {Command-line option} @code{--memory-bazooka-size=<value>}
+@deffnx {Environment variable} @code{LW6_MEMORY_BAZOOKA_SIZE}
+@deffnx {XML key} @code{memory-bazooka-size}
+Type: integer
+
+Default value: 99991
+
+The memory bazooka is a brute-force tool, conceived after a full night spent
+tracking some memory leak. The idea is to keep a track of all allocated
+pointers, when the data was allocated (timestamp), where in the code (file,
+line), and even point out what data there is in that place. A memory bazooka
+report at the end of the game will just show what's left. There should be
+nothing. This parameter is here to avoid wasting CPU cycles on a feature which
+is very debug-oriented and does not really make sense for the casual user. Set
+it to 0 for best performance, something like 100 might just be helpfull, but
+1000000 is the right way to seriously debug code.
+@end deffn
+
+@subsection modules
+@deffn {Command-line option} @code{--modules}
+@deffnx {Environment variable} @code{LW6_MODULES}
+Tells which modules have been enabled when the game was compiled. It's still
+possible to add or remove modules afterwards, but this option allows you to
+know how things were at first.
+@end deffn
+
+@subsection pedigree
+@deffn {Command-line option} @code{--pedigree}
+@deffnx {Environment variable} @code{LW6_PEDIGREE}
+Display all build values, these are general constants which can help
+debugging, tracing what binary you are running, and so on. It's a good idea to
+take a look at the output of 'pedigree' if you have problems running the game.
+@end deffn
+
+@subsection pilot-lag
+@deffn {Command-line option} @code{--pilot-lag=<value>}
+@deffnx {Environment variable} @code{LW6_PILOT_LAG}
+@deffnx {XML key} @code{pilot-lag}
+Type: integer
+
+Default value: 10
+
+Maximum lag, in rounds, until the game engine is slowed down. This will
+typically be usefull if your computer is too slow for the map resolution and
+the game speed you set up.
+@end deffn
+
+@subsection quick-start
+@deffn {Command-line option} @code{--quick-start}
+@deffnx {Environment variable} @code{LW6_QUICK_START}
+Start the game just like if the player had requested a quick start, without
+showing any menu.
+@end deffn
+
+@subsection reset
+@deffn {Command-line option} @code{--reset}
+@deffnx {Environment variable} @code{LW6_RESET}
+Clears the config file so that the game will run with defaults next time. The
+idea is to get rid of traces of previous executions. The difference with
+'--defaults' is that '--reset' does not run the game, while '--defaults' does.
+@end deffn
+
+@subsection reset-config-on-upgrade
+@deffn {Command-line option} @code{--reset-config-on-upgrade=<value>}
+@deffnx {Environment variable} @code{LW6_RESET_CONFIG_ON_UPGRADE}
+@deffnx {XML key} @code{reset-config-on-upgrade}
+Type: boolean
+
+Default value: true
+
+If set, then a reset (config file set to defaults) is run every time you
+upgrade the game.
+@end deffn
+
+@subsection server
+@deffn {Command-line option} @code{--server}
+@deffnx {Environment variable} @code{LW6_SERVER}
+Start the game in server mode, without requiring any graphics backend.
+@end deffn
+
+@subsection target-fps
+@deffn {Command-line option} @code{--target-fps=<value>}
+@deffnx {Environment variable} @code{LW6_TARGET_FPS}
+@deffnx {XML key} @code{target-fps}
+Type: integer
+
+Default value: 60
+
+Defines how many frames will be displayed per second. Of course this is a
+maximum value, if your hardware can't keep up with this value, display will
+just be slow, no matter what value you define here. Note that you might really
+wish to have something rather low here, to keep network and 'logic' function
+responsiveness. Passed 60 frames per second, speed is really only for visual
+comfort, as Liquid War 6 is now so fast-paced that it requires 200 frames/sec
+to outperform opponents.
+@end deffn
+

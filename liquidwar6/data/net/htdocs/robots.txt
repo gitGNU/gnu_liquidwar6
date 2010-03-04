@@ -1,0 +1,5 @@
+# Leave txt files alone
+User-agent: *
+Disallow: /list.txt
+Disallow: /status.txt
+Disallow: /gpl.txt

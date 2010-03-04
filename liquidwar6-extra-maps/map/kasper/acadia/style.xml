@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <bool key="keep-ratio" value="true" />
+  <float key="zoom" value="1.0" />
+  <string key="background-style" value="bubbles" />
+  <string key="menu-style" value="cylinder" />
+  <string key="view-style" value="flat" />
+  <string key="hud-style" value="floating" />
+  <color key="team-color-red" value="#691b28" />
+  <color key="team-color-green" value="#087c28" />
+  <color key="team-color-blue" value="#081b89" />
+  <color key="team-color-yellow" value="#697c28" />
+  <color key="team-color-cyan" value="#087c89" />
+  <color key="team-color-magenta" value="#691b89" />
+  <color key="team-color-orange" value="#694f28" />
+  <color key="team-color-lightblue" value="#3c6289" />
+  <color key="team-color-purple" value="#4f4f89" />
+  <color key="team-color-pink" value="#694f6f" />  
+</lw6mapparam>

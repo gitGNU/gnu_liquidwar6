@@ -1,0 +1,66 @@
+liquidwar6 (0.0.6beta-4vendor) unstable; urgency=low
+
+  * Fixed devel package, conflicting libs.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Tue, 06 Jan 2009 20:10:00 +0100
+
+liquidwar6 (0.0.6beta-3vendor) unstable; urgency=low
+
+  * Fixed devel package, was missing bot modules.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Tue, 06 Jan 2009 20:10:00 +0100
+
+liquidwar6 (0.0.6beta-2vendor) unstable; urgency=low
+
+  * Added mod-http support.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Tue, 06 Jan 2009 20:05:00 +0100
+
+liquidwar6 (0.0.6beta-1vendor) unstable; urgency=low
+
+  * Added bot modules support.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Mon, 22 Dec 2008 15:08:00 +0100
+
+liquidwar6 (0.0.3beta-1vendor) unstable; urgency=low
+
+  * Split with liquidwar6-extra-maps
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Fri, 11 Feb 2007 02:30:27 +0100
+
+liquidwar6 (0.0.2beta-2vendor) unstable; urgency=low
+
+  * Renamed all libliquidwar6foobar packages to plain liquidwar6foobar
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Mon, 19 Feb 2007 23:30:34 +0100
+
+liquidwar6 (0.0.2beta-1vendor) unstable; urgency=low
+
+  * Moved snd & gfx libs.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Mon, 19 Feb 2007 23:30:34 +0100
+
+liquidwar6 (0.0.1beta-4vendor) unstable; urgency=low
+
+  * Path fixes.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Mon, 18 Dec 2006 16:30:34 +0100
+
+liquidwar6 (0.0.1beta-3vendor) unstable; urgency=low
+
+  * Reorganized modules.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Tue, 05 Dec 2006 20:00:53 +0100
+
+liquidwar6 (0.0.1beta-2vendor) unstable; urgency=low
+
+  * First working package
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Mon, 04 Dec 2006 15:38:34 +0100
+
+liquidwar6 (0.0.1beta-1vendor) unstable; urgency=low
+
+  * Initial release
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Sat,  2 Dec 2006 21:25:42 +0100
+

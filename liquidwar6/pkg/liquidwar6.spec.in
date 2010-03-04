@@ -1,0 +1,181 @@
+%define name @PACKAGE_TARNAME@
+%define version @PACKAGE_VERSION@
+%define release 1ufoot
+
+#Put this in /etc/rpm/macros.ufoot
+#%_signature gpg
+#%_gpg_path /home/ufoot/.gnupg
+#%_gpg_name Christian Mauduit (U-Foot) <ufoot@ufoot.org>
+#%_gpgbin /usr/bin/gpg
+
+## Uncomment these if complaints about unpackaged files
+#%define _unpackaged_files_terminate_build 0
+#%define _missing_doc_files_terminate_build 0
+
+Summary: A unique multiplayer wargame.
+Summary(fr): Un "wargame" multijoueur inédit.
+Summary(de): Ein einzigartiges Kriegspiel für mehrere Spieler.
+Name: %{name}
+Version: %{version}
+Release: %{release}
+License: GPL
+Group: Amusements/Games
+Source: http://download.savannah.gnu.org/releases/liquidwar6/%{version}/%{name}-%{version}.tar.gz
+URL: http://www.gnu.org/software/liquidwar6
+Vendor: Christian Mauduit <ufoot@ufoot.org>
+Packager: Christian Mauduit <ufoot@ufoot.org>
+Requires: glibc
+Requires: guile
+Requires: gmp
+Requires: zlib
+Requires: expat
+Requires: libpng
+Requires: libjpeg
+Requires: sqlite
+Requires: ncurses
+Requires: readline
+Requires: libGL
+Requires: libGLU
+Requires: SDL
+Requires: SDL_image
+Requires: SDL_mixer
+Requires: freetype
+Requires: SDL_ttf
+Requires: libcurl
+BuildRequires: make
+BuildRequires: gcc
+BuildRequires: glibc-devel
+BuildRequires: binutils
+BuildRequires: guile-devel
+BuildRequires: gmp-devel
+BuildRequires: libtool
+BuildRequires: libtool-ltdl
+BuildRequires: libtool-ltdl-devel
+BuildRequires: zlib-devel
+BuildRequires: expat-devel
+BuildRequires: libpng-devel
+BuildRequires: libjpeg-devel
+BuildRequires: sqlite-devel
+BuildRequires: ncurses-devel
+BuildRequires: readline-devel
+BuildRequires: libGL-devel
+BuildRequires: libGLU-devel
+BuildRequires: SDL-devel
+BuildRequires: SDL_image-devel
+BuildRequires: SDL_mixer-devel
+BuildRequires: freetype-devel
+BuildRequires: SDL_ttf-devel
+BuildRequires: libcurl-devel
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+
+%description
+Liquid War 6 is a unique multiplayer wargame. Your army is a blob of
+liquid and you have to try and eat your opponents. Rules are very
+simple yet original, they have been invented by Thomas Colcombet. It
+is possible to play alone against the computer but the game is really
+designed to be played with friends, on a single computer, on a LAN, or
+on Internet.
+
+%description -l fr
+Liquid War 6 est un wargame multijoueurs unique en son genre. Votre
+armée est une masse informe de liquide, et vous devez essayer de
+manger votre adversaire. La règle est très simple mais originale, elle
+a été inventée par Thomas Colcombet. Il est possible de jouer seul
+contre l'ordinateur mais le jeu est vraiment conçu pour être joué à
+plusieurs, sur une seule machine, sur un réseau local, ou sur
+Internet.
+
+%description -l de
+Liquid War 6 ist ein einzigartiges Kriegsspiel für mehrere Spieler. Die
+Regeln sind wahrhaft neuartig und wurden von Thomas Colcombet entwickelt.
+Man steuert eine flüssige Armee und muss versuchen die Gegner aufzufressen.
+Es gibt einen Einzelspielermodus, aber das Spiel ist eindeutig auf mehrere
+Spieler ausgelegt und unterstützt das Spielen über Netzwerk.
+
+%description -l dk
+Liquid war 6 er et unikt multiplayer krigsspil. Reglerne er
+uhyre originale og er opfundet af Thomas Colcombet. Du styrer
+en hær af væske og skal prøve at æde dine modstandere.
+Liquid War kan spilles alene, men er helt afgjort designet
+til multiplayer, og har netværks-support.
+
+# Preparation of the package
+%prep
+%setup
+./configure --prefix=%{_prefix} --docdir=%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ --infodir=%{_prefix}/info --enable-allinone --disable-mod-csound
+
+# Building the package
+%build
+make 
+cd doc; make liquidwar6.html liquidwar6.pdf
+
+# Installing the package
+%install
+rm -rf %{buildroot}%{_prefix}/bin
+rm -rf %{buildroot}%{_prefix}/share
+rm -rf %{buildroot}%{_prefix}/info
+export DESTDIR=%{buildroot} && make install 
+cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+for i in %{buildroot}%{_prefix}/info/liquidwar6*info*; do gzip $i; done
+# No devel stuff in this RPM
+rm -rf %{buildroot}%{_prefix}/include
+rm -rf %{buildroot}%{_prefix}/lib
+rm -rf %{buildroot}%{_prefix}/libexec
+
+# Cleaning
+%clean
+rm -rf %{buildroot}
+
+# Pre-install script
+%pre
+
+# Post-install script
+# Adds info page to Top info page directory.
+%post
+if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir && test -f %{_prefix}/info/liquidwar6.info.gz ; then install-info --info-dir=%{_prefix}/info %{_prefix}/info/liquidwar6.info.gz; fi
+
+# Pre-uninstall script
+%preun
+
+# Post-uninstall script
+# Remove info page from Top info page directory.
+%postun
+if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir; then install-info --info-dir=%{_prefix}/info --remove liquidwar6; fi
+
+%files
+%defattr(-,root,root)
+%{_prefix}/bin/*
+%{_prefix}/share/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+%{_prefix}/share/locale/fr/LC_MESSAGES/*
+%{_prefix}/share/pixmaps/*
+%{_prefix}/info/*
+%{_prefix}/share/man/man6/*
+%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+
+%changelog
+
+* Tue Oct 20 2009 Christian Mauduit <ufoot@ufoot.org>
+- Added proper GPG info.
+
+* Mon Oct 05 2009 Christian Mauduit <ufoot@ufoot.org>
+- Fixed info postinstall script.
+
+* Tue Sep 09 2009 Christian Mauduit <ufoot@ufoot.org>
+- Added Requires and BuildRequires declarations.
+
+* Sat Jan 10 2009 Christian Mauduit <ufoot@ufoot.org>
+- Fixed source URL.
+
+* Thu Jan 08 2009 Christian Mauduit <ufoot@ufoot.org>
+- Disabled csound support by default.
+- Fixed info file handling.
+
+* Wed Nov 07 2007 Christian Mauduit <ufoot@ufoot.org>
+- Added version in data path.
+
+* Mon Dec 18 2006 Christian Mauduit <ufoot@ufoot.org>
+- Minor fixes, only a single jumbo binary is generated.
+
+* Tue Dec 05 2006 Christian Mauduit <ufoot@ufoot.org> 
+- First RPM, inspired from Liquid War 5
+

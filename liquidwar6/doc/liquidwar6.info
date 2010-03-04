@@ -1,0 +1,85 @@
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+
+Liquid War 6, a unique multiplayer wargame.
+
+   Copyright (c)  2005, 2006, 2007, 2008, 2009  Christian Mauduit
+<ufoot@ufoot.org>
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.3 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, no Front-Cover Texts and
+     no Back-Cover Texts.  A copy of the license is included in the
+     section entitled "GNU Free Documentation License".
+
+START-INFO-DIR-ENTRY
+* Liquid War 6: (liquidwar6).   A unique multiplayer wargame.
+END-INFO-DIR-ENTRY
+
+
+Indirect:
+liquidwar6.info-1: 782
+liquidwar6.info-2: 250437
+liquidwar6.info-3: 518841
+
+Tag Table:
+(Indirect)
+Node: Top782
+Node: Introduction3870
+Node: In a nutshell4229
+Node: Project status5133
+Node: How you can help10449
+Node: User's manual11926
+Node: Mailing lists13003
+Node: Getting the game15493
+Node: Installation17102
+Node: Extra maps24776
+Node: Troubleshooting26782
+Node: Quick start30512
+Node: Strategy tips31261
+Node: User interface31408
+Node: Network games33606
+Node: Graphics33772
+Node: Sound & music36747
+Node: Config file37441
+Node: Logs38502
+Node: Report bugs39202
+Node: Hacker's guide39800
+Node: Designing levels40934
+Node: Translating58151
+Node: Architecture61439
+Node: About mod-gl74480
+Node: Compilation tips76748
+Node: Coding guidelines99830
+Node: Using the console107331
+Node: Advanced tweaking108987
+Node: Writing modules110332
+Node: Use as a library110505
+Node: Network protocol110679
+Node: Using GNU Arch112350
+Node: Reference117669
+Node: Basic options119135
+Node: Doc options121317
+Node: Show options125007
+Node: Path options143494
+Node: Graphics options150341
+Node: Sound options153344
+Node: Network options155698
+Node: Map parameters158470
+Node: Map rules.xml161870
+Node: Map hints.xml192462
+Node: Map style.xml206703
+Node: Advanced settings230279
+Node: Script hooks250143
+Node: C to Guile API250291
+Node: C functions250437
+Node: 2005 .plan498565
+Node: Fanfic510833
+Node: Links517166
+Node: Copying518841
+Node: GNU Free Documentation License556419
+Node: Indexes581582
+
+End Tag Table

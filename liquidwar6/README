@@ -1,0 +1,49 @@
+Liquid War 6 is a unique multiplayer wargame. Your army is a blob of
+liquid and you have to try and eat your opponents. Rules are very
+simple yet original, they have been invented by Thomas Colcombet. It
+is possible to play alone against the computer but the game is really
+designed to be played with friends, on a single computer, on a LAN, or
+on Internet.
+
+Liquid War 6 is a GNU package (http://www.gnu.org).
+
+Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+Documentation         : http://www.gnu.org/software/liquidwar6/manual/
+Contact author        : ufoot@ufoot.org
+Download              : http://download.savannah.gnu.org/releases/liquidwar6/
+GNU Arch repository   : http://arch.sv.gnu.org/archives/liquidwar6/
+Project on Savannah   : http://savannah.gnu.org/projects/liquidwar6/
+Mailing-list          : help-liquidwar6@gnu.org
+
+WARNING: this is an a beta release of the upcoming "6.x.x" branch.
+So there's nothing playable yet. I you're searching for a playable
+version, see http://www.ufoot.org/liquidwar/v5 ("5.x.x" branch).
+
+The liquidwar6-extra-maps package contains extra maps for the game.
+It has been separated for there are many maps and package is too big.
+
+This is the core liquidwar6 package.
+
+Have a nice day,
+
+U-Foot.
+
+
+----------------- L E G A L     I N F O R M A T I O N ----------------
+
+Liquid War 6 is a unique multiplayer wargame.
+Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

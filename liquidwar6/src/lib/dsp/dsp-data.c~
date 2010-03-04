@@ -1,0 +1,63 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "dsp-internal.h"
+
+_lw6dsp_data_t *
+_lw6dsp_data_new ()
+{
+  _lw6dsp_data_t *ret = NULL;
+
+  ret = (_lw6dsp_data_t *) LW6SYS_CALLOC (sizeof (_lw6dsp_data_t));
+  if (ret)
+    {
+      ret->instant_fps = 0.0f;
+      ret->average_fps = 0.0f;
+    }
+
+  return ret;
+}
+
+void
+_lw6dsp_data_free (_lw6dsp_data_t * data)
+{
+  if (data->gfx_backend_name)
+    {
+      LW6SYS_FREE (data->gfx_backend_name);
+    }
+  if (data->gfx_backend)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("graphics backend is still defined but we're freeing data, the backend should have be closed before, int the display thread (join function)"));
+    }
+  if (data->render_mutex)
+    {
+      lw6sys_mutex_destroy (data->render_mutex);
+    }
+  _lw6dsp_param_clear (&(data->param));
+  LW6SYS_FREE (data);
+}

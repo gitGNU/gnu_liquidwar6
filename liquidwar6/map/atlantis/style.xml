@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+
+	<!-- =========================
+	TEAM COLORS
+	==========================-->
+
+
+  <color key="team-color-red" value="#442526" />
+  <color key="team-color-green" value="#155525" />
+  <color key="team-color-blue" value="#152456" />
+  <color key="team-color-yellow" value="#455626" />
+  <color key="team-color-cyan" value="#155556" />
+  <color key="team-color-magenta" value="#452557" />
+  <color key="team-color-orange" value="#444026" />
+  <color key="team-color-lightblue" value="#2c4857" />
+  <color key="team-color-purple" value="#373e57" />
+  <color key="team-color-pink" value="#443d48" />  
+
+
+	<!-- =========================
+	COLORS
+	==========================-->
+
+
+	<!--
+		turn this one on, if you want to define your own color values ... a lot
+		of stuff would also need to be turned on in hints.xml
+	-->
+	<bool key="colorize" value="true" />
+
+
+	<!-- 
+		A lot of colors will be grabbed from these four, if color-auto is enabled
+		and various guess-colors is disabled in hints.xml
+	-->
+	<color key="color-base-bg" value="#44435d" /> <!-- black part of sky -  -->
+	<color key="color-base-fg" value="#44435d" /> <!-- white part of sky -  -->
+	<color key="color-alternate-bg" value="#44435d" /> <!-- GUI bg color - HUD text shadow -->
+	<color key="color-alternate-fg" value="#99e8ff" /> <!-- GUI text color - Bubbles - cursor color -->
+
+
+
+	<!--
+		Cursor
+	-->
+	<color key="view-color-cursor-bg" value="#2d2c41" />
+	<color key="view-color-cursor-fg" value="#44435d" />
+
+
+
+</lw6mapparam>

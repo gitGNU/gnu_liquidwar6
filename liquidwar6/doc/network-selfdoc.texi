@@ -1,0 +1,82 @@
+@subsection bind-ip
+@deffn {Command-line option} @code{--bind-ip=<value>}
+@deffnx {Environment variable} @code{LW6_BIND_IP}
+@deffnx {XML key} @code{bind-ip}
+Type: string
+
+Default value: 0.0.0.0
+
+The IP address to bind on when listening to network messages. You can use this
+to specifically use a given network interface, the default will listen on any
+available interface.
+@end deffn
+
+@subsection bind-port
+@deffn {Command-line option} @code{--bind-port=<value>}
+@deffnx {Environment variable} @code{LW6_BIND_PORT}
+@deffnx {XML key} @code{bind-port}
+Type: integer
+
+Default value: 8056
+Min value: 1
+Max value: 65535
+
+The IP port to bind on when listening to network messages. The default should
+work out of the box, and will ease up the discovery process. That is, if you
+use your own settings, automatic detection of your server by other servers
+might not work so well.
+@end deffn
+
+@subsection cli-backends
+@deffn {Command-line option} @code{--cli-backends=<value>}
+@deffnx {Environment variable} @code{LW6_CLI_BACKENDS}
+@deffnx {XML key} @code{cli-backends}
+Type: string
+
+Default value: tcp,udp,http
+
+The client backends to use. Most of the time the default is fine, change it
+only if you specifically want to disactivate some protocol, or if you want to
+activate a custom-made client backend. It's a comma separated list.
+@end deffn
+
+@subsection local
+@deffn {Command-line option} @code{--local=<value>}
+@deffnx {Environment variable} @code{LW6_LOCAL}
+@deffnx {XML key} @code{local}
+Type: boolean
+
+Default value: false
+
+If set, then game won't do anything network related. No listen, no connect, no
+nothing. You are playing locally.
+@end deffn
+
+@subsection public-url
+@deffn {Command-line option} @code{--public-url=<value>}
+@deffnx {Environment variable} @code{LW6_PUBLIC_URL}
+@deffnx {XML key} @code{public-url}
+Type: string
+
+Default value: 
+
+The public URL of your server. By default the game will pick up one for you.
+In fact, the clients discovering your server should guess the public URL,
+probably http://<your-ip>:<your-port>/ but you might need to use your own
+settings if you are using NAT or an Apache reverse-proxy to rewrite HTTP
+requests.
+@end deffn
+
+@subsection srv-backends
+@deffn {Command-line option} @code{--srv-backends=<value>}
+@deffnx {Environment variable} @code{LW6_SRV_BACKENDS}
+@deffnx {XML key} @code{srv-backends}
+Type: string
+
+Default value: tcpd,udpd,httpd
+
+The server backends to use. Most of the time the default is fine, change it
+only if you specifically want to disactivate some protocol, or if you want to
+activate a custom-made server backend. It's a comma separated list.
+@end deffn
+

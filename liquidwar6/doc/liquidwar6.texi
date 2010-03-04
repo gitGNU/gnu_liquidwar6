@@ -1,0 +1,3572 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename liquidwar6.info
+@settitle Liquid War 6
+@finalout
+@setchapternewpage odd
+@c %**end of header
+
+@include version.texi
+
+@copying
+Liquid War 6, a unique multiplayer wargame.
+
+Copyright (c)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@@ufoot.org>
+
+@quotation
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.3 or any later version published by the Free Software
+Foundation; with no Invariant Sections, no Front-Cover Texts and
+no Back-Cover Texts.  A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+@end quotation
+@end copying
+
+@ifinfo
+
+@direntry
+* Liquid War 6: (liquidwar6).   A unique multiplayer wargame.
+@end direntry
+
+@end ifinfo
+
+
+@titlepage
+@title Liquid War 6
+@subtitle A unique multiplayer wargame
+@subtitle Edition @value{EDITION}, for Liquid War 6 Version @value{VERSION}
+@subtitle @value{UPDATED}
+@author by Christian Mauduit <ufoot@@ufoot.org>
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+
+@end titlepage
+
+@node Top, , ,(dir)
+
+@ifinfo
+Liquid War 6, a unique multiplayer wargame.
+@end ifinfo
+
+@ifhtml
+@uref{http://www.gnu.org/software/liquidwar6/, Liquid War 6}, 
+a unique multiplayer wargame.
+@end ifhtml
+
+@menu
+* Introduction::        What's all this about.
+* User's manual::       README!
+* Hacker's guide::      How to hack the game and make it better.
+* Reference::           Technical informations.
+@end menu
+
+@menu
+Introduction
+
+* In a nutshell::       Quick introduction to Liquid War 6.
+* Project status::      Where we are, where we are heading.
+* How you can help::    How you can help Liquid War 6 and the GNU Project.
+
+User's manual
+
+* Mailing lists::       Mailing lists related to Liquid War 6.
+* Getting the game::    Get the latest version.
+* Installation::        How to install Liquid War 6.
+* Extra maps::          More and more maps.
+* Troubleshooting::     Problems running the game?
+* Quick start::         Ready, set, go!
+* Strategy tips::       Keep this under your pillow.
+* User interface::      How to control the game.
+* Network games::       Set up and run network games.
+* Graphics::            3D-acceleration issues.
+* Sound & music::       Let's get noisy.
+* Config file::         How to use the config file.
+* Logs::                Log file contains valuable information.
+* Report bugs::         How to report bugs.
+
+Hacker's guide
+
+* Designing levels::    How to draw new maps.
+* Translating::         Translation HOWTO.
+* Architecture::        C, Scheme, modules and the rest.
+* About mod-gl::        The definitive graphics backend.
+* Compilation tips::    Advice for developpers and packagers.
+* Coding guidelines::   Ensure code remains maintainable.
+* Using the console::   How to interact with the game.
+* Advanced tweaking::   Do this at your own risk.
+* Writing modules::     How to develop your own extensions.
+* Use as a library::    Liquid War 6 can be embedded in your own programs.
+* Network protocol::    How the game communicates with others.
+* Using GNU Arch::      A quick tla survival guide.
+
+Reference
+
+* Basic options::       Basic command-line parameters.
+* Doc options::         Liquid War 6 is self-documented.
+* Show options::        Show informations about the program.
+* Path options::        Change default paths.
+* Graphics options::    Change display settings.
+* Sound options::       Change audio settings.
+* Network options::     Tweak network parameters.
+* Map parameters::      Global map parameters.
+* Map rules.xml::       Change game rules.
+* Map hints.xml::       Tune map loader.
+* Map style.xml::       Modify map appearance.
+* Advanced settings::   You probably don't want to change these.
+* Script hooks::        Available script hooks.
+* C to Guile API::      C functions available to Guile scripts.
+* C functions::         C functions available in libliquidwar6.
+
+Appendices
+
+* 2005 .plan::          This is how it started.                     
+* Fanfic::              A historical Liquid War fanfic.
+* Links::               Liquid War on the web
+* Copying::             GNU General Public License version 3.
+* GNU Free Documentation License:: The license for this documentation.
+* Indexes::             Concept, function and keyword indexes.
+
+@end menu
+
+@contents
+
+@c ===========================================================================
+@c Introduction
+@c ===========================================================================
+
+@node Introduction, User's manual, , Top
+@chapter Introduction
+
+Read this chapter to discover Liquid War 6.
+
+@menu
+* In a nutshell::       Quick introduction to Liquid War 6.
+* Project status::      Where we are, where we are heading.
+* How you can help::    How you can help Liquid War 6 and the GNU Project.
+@end menu
+
+@c ---------------------------------------------------------------------------
+@c In a nutshell
+@c ---------------------------------------------------------------------------
+
+@node In a nutshell, Project status, , Introduction
+@section In a nutshell
+
+Liquid War 6 is a unique multiplayer wargame. Your army is a blob of liquid and you have to try and eat your opponents. Rules are very simple yet original, they have been invented by Thomas Colcombet. It is possible to play alone against the computer but the game is really designed to be played with friends, on a single computer, on a LAN, or on Internet.
+
+An older version, @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5},
+is available, but is not part of the GNU Project.
+Only Liquid War 6 is part of the @uref{http://www.gnu.org/,GNU Project},
+it is a complete rewrite.
+
+The official page of Liquid War 6 is 
+@uref{http://www.gnu.org/software/liquidwar6/}.
+For more information, you can read the @uref{http://en.wikipedia.org/wiki/Liquid_War, Wikipedia article} about Liquid War.
+
+@c ---------------------------------------------------------------------------
+@c Project status
+@c ---------------------------------------------------------------------------
+
+@node Project status, How you can help, In a nutshell, Introduction
+@section Project status
+
+@subsection What works, and what does not (yet)
+
+As of today, the game is in beta state. It can be installed, and you
+can toy arround with. You can even play with. It is still far from
+being complete as some key features are still missing.
+
+What works:
+
+@itemize
+@item
+The whole framework is here, some functions are not implemented yet, but
+the bases are set up, and they are believed solid. The game is very modular,
+and is fully threaded.
+It is designed so that graphics, sound, network and bot backends can be hacked
+at will. It has a complete self-test suite, many debugging built-in tools,
+and is regularly checked with automated tools. For instance, you can check
+reports concerning
+@uref{http://www.gnu.org/software/liquidwar6/global/, global references},
+@uref{http://www.gnu.org/software/liquidwar6/coverage/, code coverage} and
+@uref{http://www.gnu.org/software/liquidwar6/cyclo/, cyclomatic complexity}.
+This is not a quick hack.
+@item
+Documentation. Yes, you're reading it.
+@item
+Version 0.0.7beta is playable. Local game between humans (up to 4 players)
+is possible. Two bots are implemented, named random and stupid. No great
+players but well, they move the cursor. A new ``deatchmatch'' mode,
+different from LW5, is in place.
+@item
+Liquid War 6 already has some features which are nowhere to be found
+in Liquid War 5, such as multiple layers. It can be worth the upgrade.
+@item
+Maps. A number of interesting maps have already been designed (thanks
+to Kasper Hviid).
+@item
+The game has been ported to Microsoft Windows 32-bit proprietary platform.
+It also runs on Mac OS X (but you'll have to compile it yourself).
+It still runs fine under GNU/Linux, of course.
+@end itemize
+
+In the near future:
+@itemize
+@item
+Network play. Top-level priority. Yes, network has been promised for months
+(years?) and is still not there. I said ``when it's done''.
+@item
+Fix bugs ;) The current engine is somewhat buggy, fighters might loose
+the cursor, it clearly needs polishing.
+@end itemize
+
+In the long run:
+@itemize
+@item
+Write new graphical backends so that the game does not require Mesa or
+any OpenGL-like subsystem. The idea is to get rid of the 3D-accelerator
+dependency.
+@item
+Implement all the fancy 3D features, make it possible to play
+Liquid War 6 on a Moebius ring.
+@item
+Use the cool features of CSound to provide dynamic, contextualized
+sounds & musics.
+@item
+Optimize the bot algorithm, which is probably a complex AI problem.
+@end itemize
+
+You might be interested in checking the following URLs, which give
+a view on opened tasks and bugs:
+
+@itemize
+@item
+bug list: @uref{http://savannah.gnu.org/bugs/?group=liquidwar6}
+@item
+task list: @uref{http://savannah.gnu.org/task/?group=liquidwar6}
+@end itemize
+
+@subsection What has changed since Liquid War 5.x?
+
+Liquid War 6 is a complete rewrite of @uref{http://www.ufoot.org/liquidwar/v5, Liquid War 5}.
+The rewrite started in 2005. So a good question is ``was the rewrite worth it?''...
+
+Here's a list of key improvements:
+@itemize
+@item
+appearance, global rendering quality. Call it the way you want, Liquid War 6 simply
+looks nicer than any previous release. Period.
+@item
+level features, including multi-layer (allowing the map designer to create
+bridges and tunnels), wrapping (fighters disappearing on the left
+can reappear on the right). Those really change the gameplay.
+@item
+deathmatch mode. Give it a try, it does change the deal ;)
+@item
+modularity, overall code quality. While this is not a user-visible change, the game
+is far less monolithic, therefore hacking to revamp the graphics engine,
+the algorithm, whatever, is easier. The situation has changed from
+``this is impossible to hack'' to ``OK, how much time can this take?''.
+So while one can't promise every idea will be implemented some day,
+at least many more things become possible with the new codebase.
+@end itemize
+
+The most interesting change is still to come, and concerns network games.
+
+Stay tuned.
+
+@subsection Revision history
+
+Liquid War 6 releases are ``codenamed'' after famous, historical,
+real or mythical characters. Here is a short revision history.
+For details, see the @code{ChangeLog}
+and @code{NEWS} files distributed with the game. Additionnally, there's
+an ever-increasing ``stamp'' number which is incremented each time
+a build is done with a different source.
+
+@itemize
+@item
+2006-12-18 : 0.0.1beta
+@item
+2007-09-07 : 0.0.2beta
+@item
+2008-01-30 : 0.0.3beta, codename ``Napoleon'', stamp 549
+@item
+2008-09-19 : 0.0.4beta, codename ``Clovis'', stamp 756
+@item
+2008-12-20 : 0.0.5beta, codename ``Henri IV'', stamp 1082
+@item
+2009-01-10 : 0.0.6beta, codename ``Cesar'', stamp 1124
+@item
+2009-10-03 : 0.0.7beta, codename ``Geronimo'', stamp 1465
+@end itemize
+
+@subsection Road map
+
+The game will probably be labelled ``6.0.0'' when network mode is up
+and running. Until then there will probably be other improvements 
+concerning gameplay and appearance (``eye candy''). There's a balance
+to keep between the major goals such as ``make that network thingy work''
+and the very real fact that ``hacking must be fun''.
+
+@c ---------------------------------------------------------------------------
+@c How you can help
+@c ---------------------------------------------------------------------------
+
+@node How you can help, , Project status, Introduction
+@section How you can help
+
+@subsection Help GNU
+
+Please remember that development of Liquid War 6 is a volunteer effort, and you can also contribute to its development. For information about contributing to the GNU Project, please read @uref{http://www.gnu.org/help/help.html, How to help GNU}.
+
+@subsection Todo list
+
+Here's a short list of todo items. It is probably too early to start
+hacking the core engine itself, for it is still under heavy development,
+might undergo major rewrites, and it's hard for documentation to keep
+up with the reality of the code. However, there are still many things to
+do.
+
+@itemize
+@item
+Try the game. Play. Test. Send bug reports.
+Without bug reports, bugs don't get fixed.
+@item
+Write maps. Obviously, this is something which can perfectly be delegated.
+Experience shows user-contributed maps are, on average, better than
+maps conceived by the author...
+@item
+Translate texts. Liquid War 6 uses GNU gettext, so all messages can
+be translated.
+@item
+...any help is welcome.
+@end itemize
+
+Feel free to join the mailing-lists, this is clearly the best place to start with.
+
+There's also a list of opened tasks on Savannah at
+@uref{http://savannah.gnu.org/task/?group=liquidwar6}
+which you can browse online. Maybe there's some task for you!
+
+Alternatively, you can contact @uref{mailto:ufoot@@ufoot.org, Christian Mauduit}.
+
+
+@c ===========================================================================
+@c User's manual
+@c ===========================================================================
+
+@node User's manual, Hacker's guide, Introduction, Top
+@chapter User's manual
+
+The Liquid War 6 user's manual hopefully contains any usefull
+information to install the program and play the game.
+If you just want to enjoy Liquid War 6 without diving into
+map creation and programming, this is just for you.
+
+@menu
+* Mailing lists::       Mailing lists related to Liquid War 6.
+* Getting the game::    Get the latest version.
+* Installation::        How to install Liquid War 6.
+* Extra maps::          More and more maps.
+* Troubleshooting::     Problems running the game?
+* Quick start::         Ready, set, go!
+* Strategy tips::       Keep this under your pillow.
+* User interface::      How to control the game.
+* Network games::       Set up and run network games.
+* Graphics::            3D-acceleration issues.
+* Sound & music::       Let's get noisy.
+* Config file::         How to use the config file.
+* Logs::                Log file contains valuable information.
+* Report bugs::         How to report bugs.
+@end menu
+
+@c ---------------------------------------------------------------------------
+@c Mailing lists
+@c ---------------------------------------------------------------------------
+
+@node Mailing lists, Getting the game, , User's manual
+@section Mailing lists
+
+@subsection General discussion
+
+The main discussion list is 
+@uref{mailto:help-liquidwar6@@gnu.org,<help-liquidwar6@@gnu.org>},
+and is used to discuss all aspects of Liquid War 6, including installation, development, game strategies, and whatever subject players and hackers might want to talk about, provided it is Liquid War 6 related. If you don't know
+on which list to subscribe, this is the one.
+
+To subscribe to it, please send an empty mail with a Subject: header line of just "subscribe" to the @code{-request} list, that is 
+@uref{mailto:help-liquidwar6-request@@gnu.org,<help-liquidwar6-request@@gnu.org>}.
+
+You can also subscribe to the list using the Mailman
+@uref{http://lists.gnu.org/mailman/listinfo/help-liquidwar6,web interface for help-liquidwar6} and consult
+@uref{http://lists.gnu.org/archive/html/help-liquidwar6/,help-liquidwar6 archives}.
+
+@subsection Announcements
+
+Announcements about LiquidWar 6 are made on 
+@uref{mailto:info-liquidwar6@@gnu.org,<info-liquidwar6@@gnu.org>}. 
+Subscribe to it to be informed of major releases, and other significant news.
+
+To subscribe to it, please send an empty mail with a Subject: header line of just "subscribe" to the @code{-request} list, that is 
+@uref{mailto:info-liquidwar6-request@@gnu.org,<info-liquidwar6-request@@gnu.org>}.
+
+You can also subscribe to the list using the Mailman
+@uref{http://lists.gnu.org/mailman/listinfo/info-liquidwar6,web interface for info-liquidwar6} and consult
+@uref{http://lists.gnu.org/archive/html/info-liquidwar6/,info-liquidwar6 archives}.
+
+Please also consider reading the
+@uref{http://savannah.gnu.org/news/?group=liquidwar6, latest news on Savannah}.
+
+@subsection Bugs
+
+@cindex Bug report
+
+There is also a special list used for reporting bugs, 
+@uref{mailto:bug-liquidwar6@@gnu.org,<bug-liquidwar6@@gnu.org>}. 
+Please try and describe the bug as precisely as possible. The more accurate the description, the more chances it will get to be fixed.
+
+While this is the standard GNU way of reporting bugs, modern SPAM standards
+make it very hard to filter real bug reports from junk on this list.
+It is more convenient to use a web interface, the URL is:
+@uref{http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6}
+and you're really encouraged to use it instead of sending emails.
+
+Please take a look at the
+@uref{http://savannah.gnu.org/bugs/?group=liquidwar6, bug list}
+before submitting new bugs.
+
+@c ---------------------------------------------------------------------------
+@c Getting the game
+@c ---------------------------------------------------------------------------
+
+@node Getting the game, Installation, Mailing lists, User's manual
+@section Getting the game
+
+@subsection Download source
+
+@cindex Download
+
+Liquid War 6 can be found on
+@uref{http://download.savannah.gnu.org/releases/liquidwar6/}
+and
+@uref{http://www.ufoot.org/download/liquidwar/v6/}.
+
+Downloading the latest file from this place, and compile
+it yourself on your computer with a classical
+@code{./configure && make && make install} is the recommended
+way to install Liquid War 6.
+
+@subsection Download binaries
+
+Some binary packages might be available. Your mileage may vary.
+
+GNU/Linux based systems are supported, through
+@uref{http://www.debian.org/,Debian} @code{.deb} and
+@uref{http://www.redhat.com/,Red Hat} @code{RPM} packages.
+There is also a Microsoft Windows installer.
+
+However these binaries are not necessarly available for every
+single version of the game.
+
+@subsection Work in progress
+
+Latest work in progress versions can be obtained with GNU Arch.
+Here's a typical set of commands which will fetch the latest version:
+
+@example
+tla register-archive http://arch.sv.gnu.org/archives/liquidwar6
+tla get -A liquidwar6@@sv.gnu.org liquidwar6--beta
+@end example
+
+Alternatively, you can download daily snapshots on
+@uref{http://www.ufoot.org/liquidwar/v6/snapshots/}
+These files should be built every day, but a @code{make distcheck} is
+done before creating them. So if the source code is, for some reason, broken, then
+they won't be generated. So this is a good source if you want the
+most up-to-date source which is not completely unstable.
+
+@c ---------------------------------------------------------------------------
+@c Installation
+@c ---------------------------------------------------------------------------
+
+@node Installation, Extra maps, Getting the game, User's manual
+@section Installation
+
+This section covers installation from source. Other ways of installing
+the program are not described here.
+
+@subsection Requirements
+
+All these libraries are mandatory to compile the game.
+Liquid War 6 won't compile, let alone run, without them.
+Some of them could probably be replaced by equivalent tools,
+but this would certainly require a programming effort and
+some changes in Liquid War 6 source code.
+
+@itemize
+
+@item
+@uref{http://www.gnu.org/software/make/, GNU Make}.
+Liquid War 6 might and certainly does use GNU Make extensions.
+
+@item
+@uref{http://www.gnu.org/software/libc/, GNU C library}. 
+Sounds obvious, but you need a standard C library. It happens
+that glibc has some rather usefull extensions (yes, as of 2006, some
+vendors continue to offer C libraries without @code{snprintf}...)
+and Liquid War 6 might use them. In a general manner, Liquid War 6
+is part of and designed for GNU. You might however manage to compile
+it with limited libc support, this is the case with mingw32 for instance
+but, do it at your own risk.
+
+@item
+@uref{http://www.perl.com/, Perl}.
+Some Makefile commands require Perl. You don't need any Perl
+devel packages, and you can probably use any Perl 5.x version,
+since no fancy recent feature of Perl is used. Just plain Perl.
+
+@item
+@uref{http://www.gnu.org/software/guile/, Guile}.
+Possibly the most required library, since Liquid War 6
+is a scheme program which uses a set of functions
+coded in standard C. You need at least Guile 1.8.
+
+@item
+@uref{http://gmplib.org/, GNU MP}.
+GMP is a free library for arbitrary precision arithmetic,
+required by Guile.
+
+@item
+@uref{http://www.gnu.org/software/libtool/, ltdl}. 
+This library, which comes with libtool, provides a portable
+alternative to @code{dlopen} and @code{dlclose}. Check
+that you have a @code{/usr/include/ltdl.h} file, or install
+the corresponding package.
+
+@item
+@uref{http://www.zlib.net/, zlib}. Required by other
+libraries, but can also be used directly by Liquid War 6 to
+compress network messages for instance.
+
+@item
+@uref{http://www.libexpat.org/, expat}.
+Used to read and write XML files, which contain constants
+and configuration data.
+
+@item
+@uref{http://www.libpng.org/pub/png/libpng.html, libpng}.
+Liquid War 6 uses libpng to read levels (maps), not
+to speak of other optional libraries (SDL and the rest)
+who need it themselves.
+
+@item
+@uref{http://www.ijg.org/, libjpeg}.
+Maps can also be provided as jpeg files, so libjpeg
+is required as well.
+
+@item
+@uref{http://www.sqlite.org, SQLite 3}.
+Used to handle the list of available servers.
+
+@end itemize
+
+@subsection Optional libraries
+
+While all these libraries are theorically optional (the game will
+successfully compile without them), you'll obviously need, for instance,
+one graphics backend. Otherwise, you'll simply have no display. This is
+not acceptable. As of today, one can reasonnably consider all SDL-related
+libraries are required. The rest is truely optional.
+
+@itemize
+
+@item
+@uref{http://www.gnu.org/software/ncurses/, ncurses}.
+Required by readline, needs to be there otherwise readline
+might not be detected properly on some systems.
+
+@item
+@uref{http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html, GNU readline}.
+Used to handle input on the console. Console is not absolutely
+mandatory, but it's a must-have if you want to hack the game.
+Console unavailable does not mean you won't get anything on stdout but,
+the interactive script shell just won't work.
+
+@item
+@uref{http://www.mesa3d.org/, Mesa}. This library
+provides an API similar to OpenGL and enables 2-D and 3-D
+drawing.
+
+@item 
+@uref{http://www.libsdl.org/, SDL}.
+SDL is used to set up a working OpenGL environnement,
+and handle input (mouse and keyboard).
+
+@item
+@uref{http://www.libsdl.org/projects/SDL_image/, SDL_image}.
+This SDL extension is used to read textures and
+other graphics from disk.
+
+@item
+@uref{http://freetype.sourceforge.net/, FreeType 2}.
+This library is required by SDL_ttf, to draw fonts.
+
+@item
+@uref{http://www.libsdl.org/projects/SDL_ttf/, SDL_ttf}.
+This SDL extension is used to draw fonts. It is UTF-8
+enabled.
+
+@item
+@uref{http://www.csounds.com/, libcsound}.
+While this tool is not used yet, it is meant to be
+the final sound backend, as CSounds offers great power to the composer,
+enabling truely dynamically generated sound & music.
+For now Liquid War 6 tries to detect csound 4 but as the mainstream
+stable release is now 5 an update is needed. It will probably be
+updated/fixed (Liquid War 6 using csounds 5) some day, for now you
+can safely *not* install csound on your system and enjoy all the
+possibilities of the game.
+
+@item
+@uref{http://www.libsdl.org/projects/SDL_mixer/, SDL_mixer}.
+This SDL extension is used to allow dynamic mixing of
+sounds, and it also provides a builtin @code{OGG/Vorbis}
+file renderer.
+
+@item
+@uref{http://curl.haxx.se/libcurl/, libcURL}.
+Used to handle HTTP requests, the idea being not to re-invent the
+wheel but use a robust standards-compliant generic library.
+@end itemize
+
+@subsection Installing requirements using RPM/DEB packages
+
+You might find it convenient not to install all the requirements
+from source, but use your favorite GNU/Linux distribution packages.
+
+On an RPM based GNU/Linux 
+system, a typical command
+(tested with @uref{http://www.fedoraproject.org/, Fedora} 11)
+could be:
+
+@example
+yum install \
+make gcc glibc glibc-devel binutils \
+guile guile-devel gmp gmp-devel \
+libtool libtool-ltdl libtool-ltdl-devel \
+zlib zlib-devel expat expat-devel \
+libpng libpng-devel libjpeg libjpeg-devel \
+sqlite sqlite-devel \
+ncurses ncurses-devel readline readline-devel \
+libGL libGL-devel libGLU libGLU-devel \
+SDL SDL-devel SDL_image SDL_image-devel \
+SDL_mixer SDL_mixer-devel \
+freetype freetype-devel SDL_ttf SDL_ttf-devel \
+libcurl libcurl-devel \
+perl lcov global valgrind graphviz gv texinfo-tex
+@end example
+
+On a DEB package based GNU/Linux system this command
+(tested with @uref{http://www.debian.org/, Debian} lenny)
+would be:
+
+@example
+apt-get install \
+make gcc libc6 libc6-dev binutils \
+guile-1.8 guile-1.8-dev guile-1.8-libs libgmp3c2 libgmp3-dev \
+libtool libltdl3 libltdl3-dev \
+zlib1g zlib1g-dev libexpat1 libexpat1-dev \
+libpng12-0 libpng12-dev libjpeg62 libjpeg62-dev \
+libsqlite3-0 libsqlite3-dev \
+libncurses5 libncurses5-dev libreadline5 libreadline5-dev \
+libgl1-mesa-glx libgl1-mesa-dri libgl1-mesa-dev libglu1-mesa libglu1-mesa-dev \
+libsdl1.2debian-alsa libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
+libsdl-mixer1.2 libsdl-mixer1.2-dev \
+libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
+libcurl4-gnutls-dev \
+perl lcov global valgrind graphviz gv texinfo texlive-full
+@end example
+
+Note that those requirements really depend on the exact distribution you
+have, package names may vary from one to another.
+
+@subsection Compiling
+
+Liquid War 6 uses @uref{http://www.gnu.org/software/automake/, GNU Automake},
+@uref{http://www.gnu.org/software/autoconf/, Autoconf} and
+@uref{http://www.gnu.org/software/libtool/, GNU Libtool}.
+
+Once all the requirements are installed, run:
+
+@example
+./configure
+make
+make install
+@end example
+
+Liquid War 6 supports the standard @code{./configure --prefix=/my/path} option
+(in fact, it supports much more than that) so you can install the game
+in any directory. You do not need to be @code{root} to install Liquid War 6.
+
+@c ---------------------------------------------------------------------------
+@c Extra maps
+@c ---------------------------------------------------------------------------
+
+@node Extra maps, Troubleshooting, Installation, User's manual
+@section Extra maps
+
+@subsection The extra maps package
+
+The main package contains some maps so that you can try out
+the game. Still, an additionnal package, called @code{extra-maps}
+or @code{liquidwar6-extra-maps} is available, containing more maps.
+It really does contain many of them, including most Liquid War 3
+and Liquid War 5 legacy maps, plus new Liquid War 6 maps.
+
+@subsection Install extra maps on GNU/Linux and POSIX systems
+
+On GNU/Linux systems (and possibly any POSIX unixish system)
+running: 
+
+@example
+./configure
+make
+make install
+@end example
+
+will install the extra maps on your system automatically,
+they will then be available in the @code{extra/} sub-directory
+when browsing maps.
+
+The @code{./configure} script has a @code{--enable-liquidwar6} switch
+which will try and find automatically if there's an existing @code{liquidwar6}
+binary in the path. If there's such a binary, it will run it and
+ask for its @code{map-path} and use this value automatically.
+
+@subsection Raw install of extra maps (all-platforms)
+
+Another solution, which works on all platforms including MS-Windows
+but also works on GNU/Linux, is to simply unpack the @code{extra-maps}
+package (unzip or untar) in your custom map directory, or in the
+system map directory. There's nothing else to do to install these maps
+but simply put them on your hard drive in the right directory.
+
+Typically on an MS-Windows system, you would unpack the extra maps in
+@code{C:\Program Files\Liquid War 6\map\} (system directory)
+and on a GNU/Linux or POSIX system
+you would unpack them in @code{$HOME/.liquidwar6/map/} (user directory).
+
+Next time you run the game, the maps should be browsable.
+
+If you can't see them, run @code{liquidwar6 --audit} and check that
+the place where you unpacked the files is actually searched by the binary.
+
+@c ---------------------------------------------------------------------------
+@c Troubleshooting
+@c ---------------------------------------------------------------------------
+
+@node Troubleshooting, Quick start, Extra maps, User's manual
+@section Troubleshooting
+
+@subsection Compilation problems
+
+@cindex Compilation
+
+A quick survival guide:
+
+@itemize
+@item
+Check that you have all dependencies installed.
+Also check their version number. Double-check that you
+have devel packages installed, not only run-time binaries.
+@item
+Read carefully the output of @code{./configure}. Running @code{./configure > configure.log 2> configure.err} does help.
+@item
+Editing @code{/etc/ld.so.conf} and running @code{ldconfig} as @code{root} 
+can help if some dependencies are installed in exotic places.
+@item
+Check the values of the 
+environment variables @code{CFLAGS}, @code{LDFLAGS} and @code{LD_LIBRARY_PATH}.
+@item
+Try @code{./configure --enable-allinone}, this will disable
+some fancy but somewhat complicated dynamic @code{.so} file support,
+it can help if shared libraries are handled differently on your system
+than on a plain GNU/Linux box.
+@end itemize
+
+If none of these help, consider reporting a bug, or search
+the mailing-lists for help.
+
+@subsection Check installation
+
+Here's a check-list to ensure that your installation is correct:
+@itemize
+@item
+What was the output of @code{make install}? @code{make check}?
+@item
+Is the @code{liquidwar6} binary in your @code{PATH} environment variable?
+It might be in @code{/usr/games}.
+@item
+Run @code{liquidwar6 --pedigree}. Look at the output. Check the
+compilation date & time, the version number.
+@item
+Run @code{liquidwar6 --audit}. What do these paths look like?
+Are they absolute paths? Do they exist? What's there?
+Normally, once the game is installed, all of them should exist,
+and be populated with sub-directories and files.
+@item
+Run @code{liquidwar6 --modules}, to know which modules where compiled.
+You need at least one graphical module, for instance @code{mod-gl},
+else the game won't run.
+@item
+Run @code{liquidwar6 --host}, this displays informations about
+the host system the binary has been built for.
+@end itemize
+
+@subsection Problems running the game
+
+Now, game looks correctly installed, but you have problems running it.
+
+@itemize
+@item
+Run the game from a terminal, not from a Gnome or KDE launcher, you
+need to see the console output.
+@item
+In the @code{$HOME/.liquidwar6/} directory, you'll find two files, @code{log.csv} and @code{dump.txt}. They might contain valuable information, read them.
+@item
+Run @code{liquidwar6 --defaults}. This will reset all options to defaults.
+You might need to run this when upgrading from a version to another, since
+some options might appear, disappear, or defaults values can change.
+@item
+Run @code{liquidwar6 --test}. This should run a complete test suite, many functions in the game will be tested automatically, and errors reported.
+@item
+Run @code{liquidwar6 --show-script-file}. Are you really running the right code?
+@item
+Game segfaults: try @code{make uninstall && make clean && make && make install}.
+Many problems can come from using a wrong shared module,
+especially with beta versions.
+@item
+Game (still) segfaults: try @code{gdb liquidwar6}. Type @code{run} and watch output.
+@item
+The dynamic library loader can sometimes have problemes, and does not
+always report explicit messages on @code{stdout} or @code{stderr}.
+You can change this
+by modifying some environment variables: @code{export LD_DEBUG=all}.
+This is very verbose but does help finding bugs.
+@item
+Consider compiling the game using @code{./configure --enable-valgrind} and
+then run it using @uref{http://valgrind.org/, Valgrind}.
+@item
+Try @code{find / -type d -a -name "liquidwar6*" 2> /dev/null} to ensure you don't
+have an old version of Liquid War 6 somewhere else...
+@end itemize
+
+@c ---------------------------------------------------------------------------
+@c Quick start
+@c ---------------------------------------------------------------------------
+
+@node Quick start, Strategy tips, Troubleshooting, User's manual
+@section Quick start
+
+@subsection Quick start
+
+Once the game is installed, run it,
+click on @code{Quick start} with the mouse, and control
+the red @code{'a'} cursor with the mouse, or keyboard, both work.
+Try and surround the green team, it's a stupid bot, you should win ;)
+
+You army is formed by all the red pixels on the screen, they should
+try and rejoin the cursor (the blinking @code{'a'} letter) using the
+shortest path. When red and green meet, they fight. Try it, toy arround.
+
+The @code{Quick start} button will always make you play red against
+a green stupid bot, whatever other options you have set up.
+
+@c ---------------------------------------------------------------------------
+@c Strategy tips
+@c ---------------------------------------------------------------------------
+
+Todo...
+
+@node Strategy tips, User interface, Quick start, User's manual
+@section Strategy tips
+
+@c ---------------------------------------------------------------------------
+@c User interface
+@c ---------------------------------------------------------------------------
+
+@node User interface, Network games, Strategy tips, User's manual
+@section User interface
+
+@subsection A reduced set of keys
+
+Liquid War 6 can be controlled using a reduced set of keys. This is
+to make the game more portable and allow possible ports to platforms
+where a full keyboard is not available. Depending on the graphics backend,
+exact mapping might change, they should be obvious and intuitive.
+
+Those keys are:
+@itemize
+@item
+@code{up} : the arrow up key
+@item
+@code{down} : the down arrow key
+@item
+@code{left} : the left arrow key
+@item
+@code{right} : the right arrow key
+@item
+@code{enter} : the enter / return key
+@item
+@code{esc} : the escape key
+@item
+@code{pgup} : the page up key
+@item
+@code{pgdown} : the page down key
+@end itemize
+
+@subsection Combining mouse, keyboard and joysticks
+
+It's also possible to control the game with the mouse only, or with a joystick.
+By default the interface will trap all events and respond on any of these possible 
+devices.
+
+The mouse follows these rules:
+@itemize
+@item
+mouse left-click is equivalent to the keyboard @code{enter}, it validates an item
+@item
+mouse right-click is equivalent to the keyboard @code{esc}, it goes back, cancels, ...
+@item
+mouse wheel-up is equivalent to the keyboard @code{pgup}
+@item
+mouse wheel-down is equivalent to the keyboard @code{pgdown}
+@end itemize
+
+The joytick bindings is done as follows:
+@itemize
+@item
+button @code{A} is equivalent to the keyboard @code{enter}, it validates an item
+@item
+button @code{B} is equivalent to the keyboard @code{esc}, it goes back, cancels, ...
+@item
+button @code{C} is equivalent to the keyboard @code{pgup}
+@item
+button @code{D} is equivalent to the keyboard @code{pgdown}
+@end itemize
+
+What these buttons are exactly on your joystick depends on your hardware and
+driver. Note that Liquid War 6 converts any analog joystick input to a
+digital pad-like information.
+
+@subsection Quit with F10
+
+There's also an (almost) hardcoded shortcut which will quit the game
+immediately, or at least as quickly as possible, without any prompt or warning.
+
+It is the @code{F10} key.
+
+Think of this feature as the procastinator's ``whoops, here comes my boss!!!''
+emergency function.
+
+@c ---------------------------------------------------------------------------
+@c Network games
+@c ---------------------------------------------------------------------------
+
+@node Network games, Graphics, User interface, User's manual
+@section Network games
+
+Not implemented yet.
+
+@c ---------------------------------------------------------------------------
+@c Graphics
+@c ---------------------------------------------------------------------------
+
+@node Graphics, Sound & music, Network games, User's manual
+@section Graphics
+
+@subsection Standard, high and low resolution
+
+Liquid War 6 will try and pick up a default resolution when the game
+is launched the first time. It won't use your maximum screen resolution
+but will instead list all available fullscreen modes, and pick up one which
+is usually something like two thirds of the highest mode. This is to allow
+switching back and forth between fullscreen and windowed mode using the same
+settings. This automatically picked-up resolution really depends on your hardware
+and driver. It is called ``standard'' in the graphics options menu.
+
+Then it is possible to automatically select the minimum and maximum resolution
+your hardware allows in fullscreen mode. These are called ``low'' and ``high''
+in the graphics options menu. Just click on the button that display the
+resolution, it will change and use the next setting. In windowed mode, the game
+won't accept the highest available mode but will instead use a percentage of it,
+defined by the @code{--windowed-mode-limit} parameter.
+
+You might still be in a case where this is not enough. For instance your maximum
+resolution is 1600x1200, Liquid War 6 picks a default mode of 1280x960 for you but
+for some reason you want to play in 800x600, fullscreen. In this case, simply switch
+to windowed mode, resize the window with the mouse (the resolution button will
+show you the current resolution) and just choose a resolution near 800x600. It does not
+even need to be exactly 800x600, 798x603 would probably fit. Then when switching
+back to fullscreen, you'll be in 800x600, the game will automatically pick up
+the fullscreen mode which is closest to the current windowed mode resolution.
+
+@subsection Display rate
+
+By default the game will try and run at 60 frames per second. Given the nature
+of Liquid War 6, this is probably enough. Higher values will maybe give a slightly
+smoother display, but barely noticeable.
+
+You can activate the display of frames per seconds (aka ``fps'') through the
+menu (``options -> system'') or with the command line (``--display-fps'').
+
+On a single processor system, reducing the number of frames per second might
+allow the rest of the game run faster. So if you notice the game is really
+slow, in terms of ``fighters move slowly'' then you might be happy reducing
+the display rate and therefore giving power back to the other parts of the
+program. On a dual-core (or more) or on a multi-processor system, this is
+probably useless since the game is threaded and has a dedicated thread for
+display purposes. The command line option to reduce the number of frames
+per second is @code{--target-fps}.
+
+Additionnally, the parameter @code{--gfx-cpu-usage} allows you to force
+the display thread to ``take a rest'' and go idle for some time. This is
+advanced settings, most users won't touch this.
+
+@c ---------------------------------------------------------------------------
+@c Sound & music
+@c ---------------------------------------------------------------------------
+
+@node Sound & music, Config file, Graphics, User's manual
+@section Sound & music
+
+@subsection Current status
+
+As of today, the game is capable of playing @uref{http://www.vorbis.com/, Ogg Vorbis}
+audio files. That's it.
+
+@subsection The future
+
+In the long run, what is planned is to support @uref{http://www.csounds.com/, Csound}
+which would allow very cool effects, such as dynamically changing the music while
+the game is running, typically following the action. If there's a lot of fight,
+the music could reflect this.
+
+For now this is only vaporware, just a nice idea among others, nothing implmented yet.
+
+@c ---------------------------------------------------------------------------
+@c Config file
+@c ---------------------------------------------------------------------------
+
+@node Config file, Logs, Sound & music, User's manual
+@section Config file
+
+The config file is a simple XML file. It uses XML only to benefit
+standard parsing tools, but it's not a structured XML file, in the
+sense that the tree is so simple that all items are at the same level.
+It is just a simple key-value binding.
+
+This file is in @code{$HOME/.liquidwar6/config.xml}, you're free to
+edit it manually, but all parameters are changeable with command line
+options. The program will overwrite this file each time it exits, so
+if you put comments in it, they will disappear. The advantage of this
+is that if you mispell something, or if for some reason the game does
+not understand a value, then when rewriting the file, it will show
+you it just did not get it.
+
+The file embeds the documentation for all its entries, 
+it is therefore rather verbose. The documentation is the same you will
+find online or by quering the game with the @code{--about} option,
+also the same you would get reading this manual.
+
+@c ---------------------------------------------------------------------------
+@c Logs
+@c ---------------------------------------------------------------------------
+
+@node Logs, Report bugs, Config file, User's manual
+@section Logs
+
+@cindex Log file
+
+Liquid War 6 uses @code{stdout} to output important messages,
+and @code{stderr} to log warnings and errors.
+It will also use @uref{http://en.wikipedia.org/wiki/Syslog, syslog} if available.
+
+Additionnally, a verbose log is available in @code{$HOME/.liquidwar6/log.csv}.
+You can read this using any spreadsheet software capable of reading
+csv file. It uses the tab (@code{\t}) character as a separator.
+It contains valuable informations including version and most default
+values for the game, and for each line logged, it says where in the
+code the log function was called. A must-have for debugging.
+
+@c ---------------------------------------------------------------------------
+@c Report bugs
+@c ---------------------------------------------------------------------------
+
+@node Report bugs, , Logs, User's manual
+@section Report bugs
+
+@cindex Bug report
+
+There are two ways to report bugs:
+
+@itemize
+@item
+send a mail to 
+@uref{mailto:bug-liquidwar6@@gnu.org,<bug-liquidwar6@@gnu.org>};
+@item
+use the web-based Savannah bug tracker:
+@uref{http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6}.
+@end itemize
+
+The latter (@uref{http://savannah.gnu.org,Savannah}) is much preferred,
+because the mailing-list is bloated with spam... 
+It also offers a @uref{http://savannah.gnu.org/bugs/?group=liquidwar6, list of bugs} which you should read before submitting a new one. 
+
+@c ===========================================================================
+@c Hacker's guide
+@c ===========================================================================
+
+@node Hacker's guide, Reference, User's manual, Top
+@chapter Hacker's guide
+
+This hacker's guide is for anyone who is curious about the game,
+and wants to know how it works. It covers many aspects from
+simple map creation to technical program internals.
+A great effort has been done in Liquid War 6 so that it should
+be much more hackable than previous versions. Any feedback
+is welcome.
+
+@menu
+* Designing levels::    How to draw new maps.
+* Translating::         Translation HOWTO.
+* Architecture::        C, Scheme, modules and the rest.
+* About mod-gl::        The definitive graphics backend.
+* Compilation tips::    Advice for developpers and packagers.
+* Coding guidelines::   Ensure code remains maintainable.
+* Using the console::   How to interact with the game.
+* Advanced tweaking::   Do this at your own risk.
+* Writing modules::     How to develop your own extensions.
+* Use as a library::    Liquid War 6 can be embedded in your own programs.
+* Network protocol::    How the game communicates with others.
+* Using GNU Arch::      A quick tla survival guide.
+@end menu
+
+@c ---------------------------------------------------------------------------
+@c Designing levels
+@c ---------------------------------------------------------------------------
+
+@node Designing levels, Translating, , Hacker's guide
+@section Designing levels
+
+@subsection Why is level design so important?
+
+As of @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, most levels 
+have been contributed by players.
+While the maintainer of Liquid War 6 has technical knowledge to
+develop the game, artistic talent and taste might not be his domain
+of excellence 8-)
+
+Therefore contribution are truely welcomed when they take the
+form of a new, original, fun and good looking level.
+It's believed the levels often make the game much more than
+its engine. This is true for any type of game, and Liquid War
+is no exception.
+
+So this section is here to help players understand how to
+hack existing levels, and create new ones, in the hope that 1) they
+can enjoy their own creations and 2) possibly share their work
+with others.
+
+Note that this manual might refer to levels and maps: they
+are just two different names to describe the very same thing.
+It's an alias.
+
+@subsection Format overview
+
+Liquid War 6 stores level information in a plain directory.
+
+There is no such thing as an opaque @code{.dat} binary file.
+The name of the level is the name of the directory itself,
+and its elements are the files contained in it.
+
+Files must follow a precise naming scheme. For instance
+Liquid War 6 expects a @code{map.png} file to be present
+in each map directory.
+
+All image files in a level use the
+@uref{http://www.w3.org/Graphics/PNG/,Portable Network Graphics}
+or @uref{http://www.jpeg.org/,JPEG} format.
+It is possible that in the long term, Liquid War 6 will
+be able to handle levels as @code{.tar.gz} or @code{.zip}
+files. In that case these files will only be a compressed
+image of the actual level directory.
+
+See the @code{./map/} directory of the source Liquid War 6
+distribution to see example of maps.
+
+@subsection map.png
+
+This is the only required file in a level.
+
+In fact, the existence of @code{map.png} makes a
+directory a level. When checking wether a directory
+is a correct level, Liquid War 6 simply tests the
+existence and validity of @code{map.png}.
+
+This image is a simple black & white area, where
+white zones are the background, the sea, the places
+where fighters can move, and black zones are the
+foreground, the walls, the places where fighters
+can't go.
+
+This informations can be stored in a 2-color indexed
+file, or in a grayscaled or even truecolor RGB file,
+but color information won't be used. Internally,
+Liquid War 6 will read the color of every point. If
+it is over 127 on a 0 to 255 scale, it will be considered
+as background, if it is below 127, it will be considered
+as foreground.
+
+@subsection layer2.png ... layer7.png
+
+Liquid War 6 can handle mutiple layer maps. Think of a pile
+of maps, one being on top of the other. This allows you to
+create a volume, the game considers every layer has two axis
+x and y, and the z axis is to travel through layers. First
+layer corresponds to z=0, second layer to z=1, and so on.
+
+Here are the files you can use to define layers:
+@itemize
+@item
+@code{map.png} this one is on top, it's always defined (z=0)
+@item
+@code{layer2.png} (z=1)
+@item
+@code{layer3.png} (z=2)
+@item
+@code{layer4.png} (z=3)
+@item
+@code{layer5.png} (z=4)
+@item
+@code{layer6.png} (z=5)
+@item
+@code{layer7.png} (z=6)
+@end itemize
+
+A @code{layerX.png} file should be designed exactly like @code{map.png}.
+In fact, @code{map.png} could simply have been called @code{layer1.png}.
+
+Up to 6 extra layers can be defined
+(from @code{layer2.png} to @code{layer7.png}).
+This is a hardcoded limit.
+It allows you to define 7 different layers, including 
+the top @code{map.png} layer.
+Keep in mind this layer system is not real 3D,
+it's more a ``2D and a half''
+model. Adding layers can considerably slow down the game, so it's
+wise to try and use as few layers as possible. Technically, 3 layers
+will allow you to build bridges and tunnels, which is probably
+the most usefull construction using layers. Fighters can also
+have difficulties navigating through layers so piling up layers
+in narrow ``vertical'' z-axis based tunnels is probably not a
+great idea.
+
+The @code{ufoot/concept/pass} map of the @code{liquidwar6-extra-maps}
+demonstrates basic layer usage.
+
+@subsection texture.png, texture.jpeg and texture-alpha.jpeg
+
+It is possible to define a texture for the map by
+putting a @code{texture.png} or @code{texture.jpeg} file.
+It does not need to have the
+same dimensions as the map itself. Indeed, textures can
+be much more precise than the actual logical map.
+
+There's no theorical limit on how big a texture can be, more
+precisely, it can be much bigger than any hardware/driver
+maximum texture size. In practice, a too big texture will
+waste your video card RAM, and slow everything down.
+Sizes ranging from 640x480 to 1600x1200 are reasonable
+texture sizes.
+
+If you don't define this, the @code{map.png} file will
+be used as the texture, and also import colors from
+@code{style.xml} if defined.
+
+Note that the shape of the texture defines the shape of the map,
+that is, the ratio with which it will appear on the screen.
+
+The PNG alpha layer will be used for transparency.
+But to save disk space, it can be convienient to prefer the JPEG
+format, use @code{texture.jpeg} instead of @code{texture.png}
+ and store the alpha layer in a separated file,
+called @code{texture-alpha.jpeg}. This avoids handling heavy
+PNG files, PNG compression not being performant on most textures.
+
+In @code{texture-alpha.jpeg}, black is considered opaque,
+and white is transparent. Different levels of gray correspond to
+different levels of opacity. Previous versions of the game
+used the other way of doing things (black is transparent) because
+this is technically, the most obvious way to do things. Black is 0
+and transparent is 0. But for a human ``reader'' of the map
+this does not make sense. One generally expects white to be the
+equivalent of ``undrawn'' or ``blank'', well, if it's undecided,
+void, transparent, whatever, it's white. When @uref{http://www.gimp.org/, the Gimp}
+flattens an image, it becomes white, not black.
+
+So white is transparent. Period.
+
+@subsection glue.png and boost.png
+
+If there's a @code{glue.png} or @code{boost.png} file in the map directory
+(you can use one of them or both) then they will be interpreted as follow:
+
+@itemize
+@item
+on areas where @code{glue.png} and @code{boost.png} are white, nothing special
+happens, fighters follow their default behavior
+@item
+on areas where @code{glue.png} is black, fighters will be slowed down. How
+slowish they will be depends on the 'glue-power' parameter. If 'glue-power' is
+3 then fighters will move three times slower.
+@item
+on areas where @code{boost.png} is black, fighters will behave faster. How
+fast they will be depends on the 'boost-power' parameter. If 'boost-power' is
+2 then fighters will move two times faster.
+@item
+on areas where @code{glue.png} or @code{boost.png} are gray, they will
+be slowed down less or speeded up less depending on how dark the grey is.
+@end itemize
+
+There can be, at the same place, some gray or black in both @code{boost.png}
+and @code{glue.png}. How this will behave exactly is not really clear at this
+stage, the recommendation is not to do this (it does not really make sense
+anyway) but if you do it, game won't complain.
+
+It's also wise not to abuse of @code{boost.png} for obviously, a map
+filled with ``boosted'' zones at a X10 pace will require much more CPU
+than the same map with no such setting. This might fool the automatic
+resampling algorithm and lead to maps that are unplayable. The spirit of
+@code{boost.png} is just to make a few spots go faster.
+
+It's also important to note that behaving faster or slower means moving
+faster or slower but also attacking faster or slower, and, in a general
+manner  doing any action with a different pace.
+
+@subsection danger.png and medicine.png
+
+If there's a @code{danger.png} or @code{medicine.png} file in the map directory
+(you can use one of them or both) then they will be interpreted as follow:
+
+@itemize
+@item
+on areas where @code{danger.png} and @code{medicine.png} are white, nothing special
+happens, fighters follow their default behavior
+@item
+on areas where @code{danger.png} is black, fighters die automatically, that is,
+they become black and loose health. How dangerous these zones are depends
+on the 'danger-power' parameter.
+@item
+on areas where @code{medicine.png} is black, fighters regenerate faster, they
+become bright and shiny as if auto-healing. How efficient this medicine is
+depends on the 'medicine-power' parameter.
+@item
+on areas where @code{danger.png} or @code{medicine.png} are gray, well,
+it's in between, the ``danger'' and ``medicine'' effect will be proportional
+to the level of gray.
+@end itemize
+
+There can be, at the same place, some gray or black in both @code{medicine.png}
+and @code{danger.png}. How this will behave exactly is not really clear at this
+stage, the recommendation is not to do this (it does not really make sense
+anyway) but if you do it, game won't complain.
+
+@subsection one-way-<direction>.png
+
+The four files:
+
+@itemize
+@item 
+@code{one-way-north.png} (AKA ``up'')
+@item 
+@code{one-way-east.png} (AKA ``right'')
+@item 
+@code{one-way-south.png} (AKA ``down'')
+@item 
+@code{one-way-west.png} (AKA ``left'')
+@end itemize
+
+can be used to force the fighters to go in one given direction, on some parts of
+the map. If an area is black on one of this meta-layers, then fighters will go
+in the given direction. For instance, a black zone in @code{one-way-north} will
+make fighters go to the north (AKA ``up'' direction) regardless of the cursor
+position. The fact that this is a one-way path is understood by fighters and they
+will take this in account when choosing the shortest path to go somewhere.
+You can combine vertical and horizontal one-way informations, making diagonal
+one-way paths.
+
+@subsection rules.xml
+
+@cindex rules.xml
+
+Whereas @code{style.xml} is only about the appearance
+of the map, @code{rules.xml} allows the map designer
+to change pretty much any parameter.
+
+Ultimately, the player can still ignore these settings
+and overide them with its own values, but the idea is:
+most game options are only pertinent in a given context.
+For instance, on some maps it's interesting to move
+slowly, on some other it's interesting to move fast. Some
+maps might be playable packed with fighters everywhere,
+some other might be much more fun with almost nobody on
+them.
+
+The approach in @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}
+was to make the options available, but let the player himself
+find the right settings for the right map. The consequence is that
+no one ever used all those cryptic options in the advanced options
+menu, and probably 99% of the players ended up playing with default
+settings. This is not that bad, but given the fact that changing
+a few parameters one can totally transform the gameplay, it has decided
+been that in Liquid War 6, the map designer suggests the right
+options that matches his map.
+
+This does not prevent the player from toying with options himself,
+he can still do it.
+
+There's also one important point to note: all these options are
+technically implemented as integer parameters. We certainly do not
+want any float here, since, and it is a Liquid War specific behavior,
+the game must be 100,00% predictable and behave the same on every platform.
+As there is nothing like exactness when speaking of floats, those are
+forbidden here. As for strings, we are dealing here with low-level
+internals, and this section is not about telling a story. They
+are technical options only. Booleans are implemented with the usual
+@code{false = 0} and @code{true = 1} convention. Note that other
+config files in Liquid War 6 might rely on floats, strings, and
+booleans with conventionnal @code{true} and @code{false} values,
+but not this one. @code{rules.xml} is special.
+
+This @code{rules.xml} file is a direct image of the internal
+``rules'' structure, so it contains technical, sometimes not very
+user-friendly parameters. While hacking @code{rules.xml} directly
+is a good way to test things, most of the time, the other file
+@code{hints.xml} contains more high-level informations that do
+the job the right way. A typicall example is speed.
+
+@xref{Map rules.xml, rules.xml reference}.
+
+@subsection hints.xml
+
+@cindex hints.xml
+
+This parameter is only used by the map loader. The map itself
+contains none of these parameters, they are only clues (hints, in fact..)
+on ``how to load the map'' which are passed to the loader.
+
+Let's take an example : speed. This @code{rules.xml} file has
+a (rather) easy to use ``speed'' parameter, which will do all the job
+of finding the right resolution for your map, the right ``rounds-per-sec''
+and ``moves-per-round'' parameters, in short, it will set many
+other parameters to fit your needs.
+
+As far as the map designer is concerned, @code{rules.xml} and @code{hints.xml}
+could have been merged (but so would have @code{style.xml}) but internally
+they are very different: @code{rules.xml} contains the real parameters,
+the one used by the algorithm whereas @code{hints.xml} contains only instructions
+which are used once when loading the map and then disappear. The core algorithm
+has no idea of what was in @code{hints.xml}, once it's loaded.
+
+@xref{Map hints.xml, hints.xml reference}.
+
+@subsection style.xml
+
+@cindex style.xml
+
+This is a simple XML file defining various appearance parameters.
+It has absolutely no effect on gameplay. These settings can
+ultimately be overriden by the player, but the idea is that
+if the map designer thinks this level looks better with this
+or that option, let him say it in this file.
+
+@xref{Map style.xml, style.xml reference}.
+
+@subsection Resampling
+
+This is a very important point. Liquid War almost *always* resamples
+maps, unless you ask it not to do it. This is not recommended, it is believed
+in the general case, letting the internal algorithm make its own decisions
+is better than trying to figure out oneself ``which is the best resolution''.
+
+The reason is, the right resolution (we're talking here of the logical resolution,
+how many fighters wide is the battlefield) often depends on the speed and
+general ressources the of the computer the program is running on. The map
+designer does not have this information. The program does. It runs a
+bench at startup. So this way it can choose, at runtime, the resolution
+which fits best.
+
+The recommended way of doing things is not to try to be too picky about
+@code{rules.xml} parameters related to speed and also let the default
+map size limits in @code{hints.xml} to their defaults. Do not use them
+unless debugging stuff.
+Then the program will resample the map so that the player can play
+on it at a reasonnable speed.
+If map is too big, and it's often the case, then it will downsize it until
+there are sufficiently few fighters so that the CPU can handle the job.
+This, of course, is not rocket science. The bench calculation is a
+somewhat brute-force approach of doing things. Formally, we would have
+to run the map for good to figure out what is the right speed. Still,
+this bench gives good approximations.
+
+Previous versions of the game relied heavily on 'fighter-scale' to
+resample maps, but this is not the case anymore. The 'fighter-scale' is now
+a minor parameter which is used to upsize maps if they are too small.
+In 99.9% of the cases, the map is first upsized by 'fighter-scale' for
+this parameter is by default set low (1.0) then downsized by 'bench-value'
+for real-life personnal computers can't handle 1600x1200 maps in real-time.
+Not yet.
+
+There are a bazillion options to control map size, including
+'min-map-surface'. They are here because it's important that, ultimately,
+people can do whatever they want with the game. But for map design, this
+is another story. Don't use them. Rely on 'bench-value' and just
+care about game speed. This is achieved by changing the ``speed'' parameter.
+
+@subsection Music
+
+It is possible to store your own custom music file within the map directory.
+You can call it whatever you want (you can keep its original name, which is
+something music authors usually appreciate, even if there's no strong
+``attribution'' clause on the license, it can be considered fair use not
+to fiddle to much with the name) you just have to place it in the same
+directory than the other files like @code{map.png} or @code{texture.jpeg}.
+
+The following formats are known to work with the default 
+@uref{http://www.libsdl.org/projects/SDL_mixer/, SDL_mixer} based @code{mod_ogg}
+backend:
+@itemize
+@item
+@code{ogg} (@uref{http://www.vorbis.com/, Ogg Vorbis} files)
+@item
+@code{wav}
+@item
+@code{midi} (extensions @code{.mid} and @code{.midi} should both work)
+@item
+@code{mod}, @code{s3m} and @code{xm} files, AKA ``modules''.
+@end itemize
+
+To be more precise, here's how things work:
+@itemize
+@item
+step 1: the game tries to find the file @code{music-file} (parameter taken
+from @code{style.xml} or defined/overriden by player) in the current map
+directory;
+step 2: if not found, it will try every path in @code{music-path} to find
+this file. This includes the ``system'' music directory with musics that
+ship with the game, but also the @code{./music} subfolder in the user
+directory;
+step 3: if still not found, it will try to play a random file, relying
+on @code{music-filter} to ignore some files.
+@end itemize
+
+@c ---------------------------------------------------------------------------
+@c Translating
+@c ---------------------------------------------------------------------------
+
+@node Translating, Architecture, Designing levels, Hacker's guide
+@section Translating
+
+@subsection Using gettext
+
+Liquid War 6 uses @uref{http://www.gnu.org/software/gettext/,GNU gettext} for all
+its messages. There's an @uref{http://www.gnu.org/software/gettext/manual/gettext.html, online manual}
+about this tool. In practice, what you have to do as a translator is to
+edit the @code{po/xx.po} file with @code{xx} being your language / country code.
+For instance, to translate the game in French, one needs to edit @code{po/fr.po}.
+
+@subsection Formatted strings
+
+This is very important, you might already be aware of it if you are familiar
+with gettext, but still it's worth mentionning : when a string contains special
+characters such as @code{%d} or @code{%s} (in a general manner, anything with
+a @code{%} it's important that all translations contain exactly the same number
+of @code{%d}s and @code{%s}s than the original.
+
+For instance:
+
+@example
+"foo has %d bars (%s)"
+@end example
+
+can be translated to:
+
+@example
+"ziblug zdonc %d zuc - %s - tac"
+@end example
+
+The number, order and type of @code{%} entries is preserved. To learn more
+about these formats, use @code{info printf} or @code{man 3 printf}. In a
+general manner, get informations about @uref{http://en.wikipedia.org/wiki/Printf, printf}.
+
+Additionnally, some strings are used by Scheme (Guile) code and not
+by C code. Thus, they don't use the standard C/printf convention.
+In these strings, what you must preserve and be aware of is the tilde
+character @code{~}. Very often you'll see @code{~a} in a string. As
+with the printf @code{%}, you must preserve the number, order and type
+of those. There is a complete
+@uref{http://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html, online reference}
+about this way of formatting strings.
+
+@subsection Partial translation
+
+Liquid War 6 has thousands and thousands of messages which could theorically
+be translated. In practise it's counter-productive to spend time to translate
+those, as the game is still evolving constantly, and as most of these messages
+are technical messages which inform about rare bugs and strange conditions. All sort
+of informations which, while valuable, are not intented for end-users and are more
+destinated to be reported in bug reports. To select only the interesting messages
+to translate, the current gettext configuration only uses a reduced set of files.
+
+@itemize
+@item
+@code{src/scriptpo.c} : the most important file. It contains the definitions used
+by all the Guile code, this is where you'll find all the menu labels.
+@item
+@code{src/lib/sys/sys-log.c} : log messages and keywords. These are not the log
+messages themselves, it only concerns the log engine. One can for instance
+replace @code{WARNING} by @code{ATTENTION}.
+@item
+@code{src/lib/hlp/hlp-credits.c} : the credits, which are
+displayed at game startup in the splash screen.
+@item
+@code{src/lib/lw6-print.c} : contains some messages printed on the console.
+@end itemize
+
+As a side note, the file @code{src/lib/hlp/hlp-reference.c} contains all the
+entries for the various configuration options, anything that can be queried
+by @code{liquidwar6 --about=<keyword>}. This is several hundred messages. It
+might be interesting to translate them some day, but it's obviously not a
+priority today.
+
+@c ---------------------------------------------------------------------------
+@c Architecture
+@c ---------------------------------------------------------------------------
+
+@node Architecture, About mod-gl, Translating, Hacker's guide
+@section Architecture
+
+@subsection C + Guile
+
+Technically, Liquid War 6 is a collection of C functions
+which are exported to Guile. The main binary embeds a Guile interpreter,
+which will run a Guile script. This script calls the exported C functions,
+and glues them together.
+
+It should be possible to implement the game without using Guile at all,
+using C code to make the various modules communicate together. This might
+seem an easier way to go, not involving several languages. However, using
+this script level is a good way to achieve several important goals:
+
+@itemize
+@item
+it's possible, at any time, to query the game about its internal state,
+dump objects, take actions. That's what the console is about. It's a bit
+like having an embedded debugger, it's really a very convenient tool to
+develop, make experiments and track problems.
+@item
+many hacks can be done without recompiling anything at all. Simply edit
+a few files with an editor, and your patch is running. Once the binary
+base is set up, hacking scripts on top of it is (almost) a piece of cake.
+@item
+forcing the program to use scripts to transfer informations from a module
+to another is a good way to avoid ``spaghetti'' code, when modules cross-use
+each other in an uncontrollable way. Of course in some cases, modules 
+communicate directly, especially when performance is important. But for
+many tasks, it's just very comfortable and safe to have module A send
+orders to module B through a high-level script API.
+@end itemize
+
+Having Guile to implement high-level stuff also decreases, to some extent,
+the need for object-oriented features of C++. The big picture is : low level code
+that require speed, optimized data processing, is written in C. Code which
+is more high level and requires abstraction is written in scheme.
+
+@subsection Threading and SMP
+
+Liquid War 6 makes a heavy usage of threads. Early versions of the game
+did not have this feature but starting with 0.0.7beta, one can really consider
+the game is heavily threaded.
+
+There's basically:
+@itemize
+@item
+a thread to handle the main control flow. This thread runs scheme code
+which Guile. It's not the most CPU-greedy thread, but when it's stalled,
+there's no more interaction between the user and the program.
+@item
+a thread to handle the display. Depending on rendering options, this thread
+can consume lots of CPU cycle. On a single processor/core system, it can be
+interesting to lower rendering options in order to gain speed on other
+aspects of the game. On a quad-core system, it's probably useless, just
+play with all bells and whistles activated.
+@item
+two threads to run the core algorithm. One maintains the so-called reference
+state, the other being dedicated to the draft sate. In a local game there's
+no draft state so only one of those two threads is used. There's even a
+technical optimization which can be turned on and can theorically use
+even more threads and be efficient on very big maps but well, it's rather
+untested and still has to prove its real efficiency.
+@item
+a thread to handle map loading. This one is not active all the time, it's
+just here to keep a preemptive interface while loading complex maps.
+@item
+network code can also fire threads, especially when connecting on remote
+systems.
+@end itemize
+
+So globally, if you have an SMP system, the game will be happy with it.
+It will also run on a single processor, as the program uses POSIX pthreads
+it's capable to run on any computer which has pthreads implemented for it.
+
+But, and this is a strong limitation, without pthreads, the game won't run.
+At all. Or at least, not unless it's almost completely rewritten.
+
+@subsection Internal libraries
+
+The C code is splitted into several internal libraries. This allow
+independant testing of various game modules.
+
+The main module, the most important one, is @code{ker} (stands for ``kernel'').
+This is were the core algorithm is. To some extent, the rest of the code is
+just about how to provide this module with the right data and environment.
+Logically, if you profle the game, you should find out that a great part
+of the CPU time is spent here. Code here is about spreading gradients, moving
+fighters and cursors.
+
+The @code{map} module is here to handle maps, it contains the code to manipulate
+maps in memory. But it does not know how to load them from disk. This is the
+responsability of another module, @code{ldr}, which is linked against libraries
+such as @uref{http://www.libpng.org/pub/png/libpng.html, libpng} or
+@uref{http://www.ijg.org/, libjpeg} and does the job of transforming those
+standard formats into a usable in-memory structure. There's still a third
+moduled involved in map handling, it's @code{tsk}, whose job is to load a
+level in the background. It has a 2-steps asynchronous loading system which allows
+the game to load maps while the user interface is still responsive, and give
+a preview of the map as soon as possible, when loading continues in the background,
+building optimizing structures which are usefull when playing but not mandatory
+just to show the map.
+
+At the other end of the algorithm-chain, the @code{pil} module will ``pilot''
+things. It's this module which will translate text readable orders (typically
+adapted for network usage) into function calls. It has event lists, keeps
+them in the right order, and will also permanently maintain
+three different states of the game. A backup state which can be used any time
+to go back in time and get the game in a stable 100% sure state. A reference state which
+is correct but ever changing. Basically backup plus all the orders received
+between backup and reference gives reference. And finally a draft state which
+is as up to date as possible but might be wrong. This is typically interesting
+in network game, where we want to show something moving, something fast, even
+if there's lag on the network and other computers fail to send information in time. 
+In this case we display draft while still keeping reference and updating it
+when we finally receive valid informations. Backup would be used to send
+bootstrap information when people are joining a new game, or to check up if
+things are going right.
+
+A special @code{bot} module is here to handle bot algorithms. A bot is just
+a simple @code{move} function which takes a game state as an input, and returns
+an @code{x,y} position, just the way a mouse handler would. How complex a 
+bot is ``under the hood'' depends on the type of bot. Current bots are really
+basic.
+
+The @code{gfx} module handles all the graphics stuff. It is itself splitted
+in several sub-modules, that is, it does not do anything but load a module
+such as @code{mod-gl} which will actually contain the implementation. In an
+object-oriented language, it would be an abstract class, an inteface. The
+implementation does not need to be thread-safe. It's better if it is, for
+theorically it could be possible to fire Liquid War 6 with two display
+backends running at the same time on the same game instance, but this code
+has yet to be written, and it's a rare dual headed configuration which
+probably has no real-life usage. If only one graphics backend is activated
+at a time, the rest of the implementation garantees there will never
+be two concurrent calls to a function is this module. It is the
+@code{dsp} (``display'') which handles this. It fires a thread for
+rendering purposes, and sends information to this thread, detecting
+automatically if it's necessary to acquire a mutex and update rendering
+informations. For the caller, this is transparent, one just has to
+call an update function from time to time. The module will even perform
+``dirty-reads'' on a game state being calculated, to render things
+in real time, as soon as possible.
+
+To ease up the implementation of different graphics backends, a @code{gui}
+module contains code which is meant to be used by any graphics backend.
+It's just a factorisation module, containing common code and interfaces,
+related to displaying things. This is where, for instance, one can find
+a high level menu object.
+
+The @code{snd} module handles sound. It's also an abstract class, an interface,
+which uses dynamic backends as implementations.
+
+The @code{net} module is a wrapper over different network APIs, it
+handles Winsock and POSIX sockets in a uniform manner.
+The @code{cli} and @code{srv} contain network client and server code,
+implementing the various protocols in dynamically loadable sub-modules.
+It's the role of @code{p2p} to glue this together, handle the list
+of available servers, the message queue, verifying nobody is cheating,
+and so on.
+
+The @code{sys} contains most system and convenience functions, it handles
+logs, type conversions, timer, memory allocation, it's the fundamental
+module every other module depends on.
+
+The @code{hlp} is used to handle keywords and internal self-documentation
+(this is what is used by @code{--list} and @code{--about}), @code{cfg}
+knows how to read and save config files,  @code{cns} handles the console,
+and @code{dyn} can load @code{.so} shared files dynamically.
+
+Finally the @code{img} module is just here to make screenshots of the game,
+it's been separated for this feature required to link against a dedicated
+library.
+
+So well, this is a lot of modules. The list might move a bit, but the
+big picture is here. Each module is testable separately.
+
+@section Memory structures
+
+The most important memory structures in Liquid War 6 are:
+
+@itemize
+@item
+map (@code{lw6map_level_t}) : this contain the map immutable informations.
+This is what resides in memory after a map has been loaded from the disk.
+It contains all the various @code{.png} and @code{.jpeg} files stored
+as pixel arrays, resampled if need, and also contains the various map
+attributes. Once this structure is ready, the game is capable of displaying
+the map on the screen, but it can not do anything with it yet.
+@item
+game_struct (@code{lw6ker_game_struct_t}) : this one contains the same informations
+as the previous structure, only the information has been post-treated so that it's
+ready for use by the core algorithm. It will, for instance, contain the famous
+mesh structure, which groups squares by packets of 1, 4, 16, 64 or more. The reason
+it's been separated from the level is that operations such as creating the mesh
+might require a lot of time. So to allow players to see the level while black magic
+is still running in the background, it was required to make a difference between
+what is required to view the map (``level'') and what is required to play on
+it (``game_struct'').
+@item
+game_state (@code{lw6ker_game_state_t}) : contains all the variable, ever
+changing game data. This is where the position of fighters is stored, their
+health, and such things. It is designed to be synchronizable by using mostly
+simple calls to @code{memcpy}. It heavily relies on the previous structures,
+the idea is that one can have several ``game_state'' plugged on a 
+single ``game_struct''.
+@end itemize
+
+All these structures are defined in the @code{ker/ker.h} header.
+
+@section 100% predictable algorithm
+
+The core Liquid War 6 algorithm is 100% predictable, that is to say, given
+the same input, it will produce the same results, on any computer. Previous
+versions of the game also had this property. This is very important for network
+games, since in a network only informations such as ``cursor A is at position x,y''
+are transmitted. Every node maintains its own internal game state, so it's very
+important that every node comes with the same output given the same input.
+
+For this reason Liquid War 6 never uses floating point numbers for its core
+algorithm, it uses fixed point numbers instead. It also never relies on a
+real ``random'' function but fakes random behavior by using predictable
+pseudo-random sources, implementation independant, such as checksums, or modulos.
+
+There are also some optimizations which are not possible because of
+the predictability requirement, for instance one can not spread a gradient
+and move the fighters in concurrent threads, or move fighters from different
+teams in different threads.
+
+If you read the code, you'll find lots of checksums here and there, a global
+checksum not being enough for you never know where the problem happened.
+The test suite uses those facilities to garantee that the game will run
+the same on any platform.
+
+Not being able to rely on a predictable algorithm would require to send
+whole game states on the network, and this is certainly way too much data
+to transmit. A moderate 200x200 map has a memory footprint of possibly
+several megabytes, so serializing this and sending it to multiple computers
+at a fast-paced rate is very hard, if possible at all, even with a high
+bandwidth. We're talking about Internet play here.
+
+@c ---------------------------------------------------------------------------
+@c About mod-gl
+@c ---------------------------------------------------------------------------
+
+@node About mod-gl, Compilation tips, Architecture, Hacker's guide
+@section About mod-gl
+
+@subsection The main renderer
+
+Liquid War 6 has a modular architecture which allows the programmer
+(and the player) to plug pretty much any rendering/graphics backend,
+provided this one is... developped.
+
+As of 2009 the only available backend is still @code{mod-gl}, it will
+display the game using 3D acceleration, if available, through the
+@uref{http://www.libsdl.org/,SDL} library, using its GL bindings.
+
+Additionnally, versions available for MS-Windows and Mac OS X will
+probably never any other backends available. For technical reasons, those
+platforms do not have the flexibility of GNU/Linux and do not allow
+graphical libraries to be loaded dynamically. In practice, both of them
+require hacks that override the standard @code{main} function. MS-Windows
+has its @code{WinMain} instead, and Mac OS X is even more pedantic,
+requiring graphical functions to be executed in the main thread.
+So @code{mod-gl} is just linked statically in those versions, and
+the modularity of the game is purely theorical on these platforms.
+
+This @code{mod-gl} module is really one of the key stones of
+Liquid War 6, and if you want to change graphical things, it's definitely
+the place to hack on. The source is in @code{src/lib/gfx/mod-gl}.
+
+@subsection Hardware requirements
+
+The @code{mod-gl} backend requires ``moderate'' hardware, but it
+still does require hardware acceleration. Pure software rendering
+through @uref{http://www.mesa3d.org/, mesa} for instance, won't
+be enough.
+
+So if you're running Xorg on GNU/Linux and there's a DRI driver 
+for your card, the game should run fine.
+
+On the programmer side, the counterpart is that one should not rely
+on fancy OpenGL features. Textures have a maximum size of 512x512
+for instance. Of course some maps are bigger than this but this
+means that internally, @code{mod-gl} splits them into smaller tiles,
+and displays those tiles one by one.
+
+@subsection The gl-utils toolbox
+
+Inside the @code{mod-gl} backend, the @code{src/lib/gfx/mod-gl/gl-utils}
+directory contains lots of common structures, factorized functions which
+can (and should, if appliable) be used.
+
+@c ---------------------------------------------------------------------------
+@c Compilation tips
+@c ---------------------------------------------------------------------------
+
+@node Compilation tips, Coding guidelines, About mod-gl, Hacker's guide
+@section Compilation tips
+
+@subsection Advanced ./configure options
+
+In addition to all the common
+@uref{http://www.gnu.org/software/autoconf/, Autoconf} switches
+such as @code{--prefix}, Liquid War 6 has some custom switches:
+
+@itemize
+@item
+@code{--enable-optimize}: will turn on optimizations. This will
+turn on compiler options such as @code{-fomit-frame-pointer}
+but also disable some code in the program. Indeed, most of
+the advanced memory checking in the game - which ensures it
+does not leak - will be turned of. This will certainly speed up
+things, however, it's not recommended to turn this on until
+program is not stable enough so that memory leaks and other
+problems can be declared 'impossible'. Turn this on if you
+really have some speed problem, otherwise it's safer to use
+the full-featured 'slow' version of the game.
+@item
+@code{--enable-paranoid}: will turn on very picky and pedantic
+checks in the code, try this when you suspect a serious memory
+bug, a race condition whatsoever, and want to track it down.
+Useless for players.
+@item
+@code{--enable-headless}: will allow compilation without any
+graphics backend. The game is unplayable in that state but one
+can can still wish to compile what is compilable, for testing purposes.
+@item
+@code{--enable-allinone}: will stuff all the internal libraries
+into one big executable.
+Very convenient for profiling. The major drawback is that
+you need to have all the optional libraries installed
+to compile all the optional modules. Another side effect is that
+with this option there's no more dynamic loading of binary modules,
+so if your platform has a strange or buggy support for @code{.so}
+files, this option can help.
+@item
+@code{--enable-fullstatic}: will build a totally static
+binary, that is using the @code{--static} option
+for @code{gcc} and the @code{-all-static} option
+for @code{libtool}. Currently broken, this option could
+in the future allow for building binaries that run
+pretty much everywhere, without requiring any dependency
+but a Kernel.
+@item
+@code{--enable-gprof}: will enable profiling informations.
+This will activate @code{--enable-allinone}, else you would
+only track the time spent in functions
+in the main @code{liquidwar6} executable, and exclude lots
+of interesting code contained in dynamic libraries.
+@item
+@code{--enable-instrument}: will instrument functions for
+profiling. This will turn on the @code{-finstrument-functions}
+switch when compiling, so that the hooks 
+@code{__cyg_profile_func_enter} and @code{__cyg_profile_func_exit}
+are called automatically. Then you can link against tools like
+@uref{http://cprof.sourceforge.net/, cprof} or
+@uref{http://sourceforge.net/projects/fnccheck/, FunctionCheck}.
+@item
+@code{--enable-profiler}: will enable 
+@uref{http://code.google.com/p/google-perftools/, Google Performance Tools}
+support. Basically, this means linking against @code{libtcmalloc}
+and @code{libprofiler}. You could activate those by using
+@code{LD_PRELOAD} or by using your own @code{LDFLAGS} but
+using this option will also make the game tell you if
+@code{CPUPROFILE} or @code{HEAPPROFILE} are set
+when it starts. The @code{pprof -gv} output is very handy.
+@item
+@code{--enable-gcov}: will enable coverage informations,
+to use with @uref{http://gcc.gnu.org/onlinedocs/gcc/Gcov.html,gcov}
+and @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov}.
+This is for developpers only. It will activate @code{--enable-allinone},
+else there would be some link errors when opening dynamic libraries.
+The obtained information is available online:
+@uref{http://www.gnu.org/software/liquidwar6/coverage/, coverage}.
+and
+@uref{http://www.gnu.org/software/liquidwar6/global/, GNU global}.
+@item
+@code{--enable-valgrind}: will enable some @code{CFLAGS}
+options which are suitable for the use of
+@uref{http://www.valgrind.org/,Valgrind}, to track
+down memory leaks and other common programming errors.
+Use for debugging only, usually together with
+@code{--enable-allinone}.
+@end itemize
+
+@subsection Microsoft Windows msys/mingw32 port
+
+@cindex Microsoft Windows
+@cindex Compilation
+
+This section describes how to compile the game from source under 
+Microsoft Windows. Note that players are encouraged to use a free
+system such as GNU/Linux, which is the platform Liquid War 6 is
+being hacked on by default. If you encounter problems with this
+port, you'll probably save time by installing a double-boot with
+GNU/Linux coexisting with your previous Microsoft Windows install.
+
+Basically, Liquid War 6 requires
+@uref{http://www.mingw.org/,MinGW}.
+More precisely, it requires @uref{http://www.mingw.org/msys.shtml,MSYS}.
+A standard @uref{http://www.cygwin.com/,Cygwin} installation won't
+work, because it is too UNIXish to allow third party libraries
+like @uref{http://www.libsdl.org/,SDL} to compile natively.
+You might argue that SDL is available for Cygwin, but in reality,
+the Cygwin port of SDL is a MinGW port. Indeed, Cygwin brings
+all standard POSIX functions including the use of @code{main}
+instead of @code{WinMain} and I suspect this is a problem for
+graphical libraries like SDL which do require some sort of direct
+access to the OS low-level functions. Therefore, MinGW is more
+adapted for it does not define all these functions, and
+allows any library to hook on Microsoft Windows internals directly.
+Point is then, you also loose the cool effect of Cygwin which
+is to have a complete @uref{http://www.gnu.org/software/libc,glibc}
+available,
+including network functions like @code{select} defined the
+POSIX way, and not the WinSock way. If you ever ported code from
+POSIX sockets to WinSock 2, you know what I mean. Using MinGW
+is also embarassing for some libraries won't compile easily, and
+for instance programs which heavily rely on a real @code{TTY}
+interface to work are usually hard to port. This includes
+@uref{http://www.gnu.org/software/ncurses/, ncurses}
+and
+@uref{http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html, GNU readline}.
+Liquid War 6 tries to have workarrounds for all this, and in
+some cases the workarround is simply that embarassing code
+is not compiled on Microsoft Windows. For this reason, some
+features are not available on this platform. Period.
+
+Now the reason you need MSYS and not only MinGW is that MSYS
+will allow @code{./configure} scripts to run, and this eases
+up the porting process a lot. MinGW and MSYS packages are
+downloadable on the
+@uref{http://sourceforge.net/project/showfiles.php?group_id=2435, SourceForge MinGW download page}. Alternatively, there is a
+@uref{http://www.ufoot.org/download/liquidwar/v6/mingw32/pkg/, mirror on ufoot.org},
+but files might be outdated.
+
+To compile Liquid War 6, first download and unzip all the
+following files in
+the same directory, for instance @code{C:\MSYS}.
+If you do not have any tool to handle @code{.tar.gz} and @code{.tar.bz2}
+files under Microsoft Windows, which is likely to be the case
+when MSYS is not installed yet, you can untar these on any GNU/Linux box,
+then upload the whole directory to the target Windows host.
+
+@itemize
+@item autoconf2.5-2.61-1-bin.tar.bz2
+@item autoconf-4-1-bin.tar.bz2
+@item autogen-5.9.2-MSYS-1.0.11-1-bin.tar.gz
+@item autogen-5.9.2-MSYS-1.0.11-1-dev.tar.gz
+@item autogen-5.9.2-MSYS-1.0.11-1-dll25.tar.gz
+@item automake1.10-1.10-1-bin.tar.bz2
+@item automake-3-1-bin.tar.bz2
+@item bash-3.1-MSYS-1.0.11-1.tar.bz2
+@item binutils-2.18.50-20080109-2.tar.gz
+@item bison-2.3-MSYS-1.0.11-1.tar.bz2
+@item coreutils-5.97-MSYS-1.0.11-snapshot.tar.bz2
+@item crypt-1.1-1-MSYS-1.0.11-1.tar.bz2
+@item csmake-3.81-MSYS-1.0.11-2.tar.bz2
+@item cvs-1.11.22-MSYS-1.0.11-1-bin.tar.gz
+@item diffutils-2.8.7-MSYS-1.0.11-1.tar.bz2
+@item findutils-4.3-MSYS-1.0.11-1.tar.bz2
+@item flex-2.5.33-MSYS-1.0.11-1.tar.bz2
+@item gawk-3.1.5-MSYS-1.0.11-1.tar.bz2
+@item gcc-core-3.4.5-20060117-3.tar.gz
+@item gcc-g++-3.4.5-20060117-3.tar.gz
+@item gcc-g77-3.4.5-20060117-3.tar.gz
+@item gcc-objc-3.4.5-20060117-3.tar.gz
+@item gdb-6.8-mingw-3.tar.bz2
+@item gdbm-1.8.3-MSYS-1.0.11-1.tar.bz2
+@item gettext-0.16.1-1-bin.tar.bz2
+@item gettext-0.16.1-1-dll.tar.bz2
+@item gettext-0.16.1-MSYS-1.0.11-1.tar.bz2
+@item gettext-devel-0.16.1-MSYS-1.0.11-1.tar.bz2
+@item inetutils-1.3.2-40-MSYS-1.0.11-2-bin.tar.gz
+@item libiconv-1.11-1-bin.tar.bz2
+@item libiconv-1.11-1-dll.tar.bz2
+@item libiconv-1.11-MSYS-1.0.11-1.tar.bz2
+@item libtool1.5-1.5.25a-1-bin.tar.bz2
+@item libtool1.5-1.5.25a-1-dll.tar.bz2
+@item libtool1.5-1.5.25a-20070701-MSYS-1.0.11-1.tar.bz2
+@item lndir-6.8.1.0-MSYS-1.0.11-1.tar.bz2
+@item lpr-1.0.1-MSYS.tar.gz
+@item lzma-4.43-MSYS-1.0.11-1-bin.tar.gz
+@item make-3.81-MSYS-1.0.11-2.tar.bz2
+@item mingw-runtime-3.14.tar.gz
+@item mingw-utils-0.3.tar.gz
+@item minires-1.01-1-MSYS-1.0.11-1.tar.bz2
+@item MSYS-1.0.11-20071204.tar.bz2
+@item msysCORE-1.0.11-2007.01.19-1.tar.bz2
+@item openssh-4.7p1-MSYS-1.0.11-1-bin.tar.gz
+@item openssl-0.9.8g-1-MSYS-1.0.11-2-bin.tar.gz
+@item openssl-0.9.8g-1-MSYS-1.0.11-2-dev.tar.gz
+@item openssl-0.9.8g-1-MSYS-1.0.11-2-dll098.tar.gz
+@item perl-5.6.1-MSYS-1.0.11-1.tar.bz2
+@item perl-man-5.6.1-MSYS-1.0.11-1.tar.bz2
+@item regex-0.12-MSYS-1.0.11-1.tar.bz2
+@item tar-1.19.90-MSYS-1.0.11-1-bin.tar.gz
+@item texinfo-4.11-MSYS-1.0.11-1.tar.bz2
+@item vim-7.1-MSYS-1.0.11-1-bin.tar.gz
+@item w32api-3.11.tar.gz
+@item zlib-1.2.3-MSYS-1.0.11-1.tar.bz2
+@end itemize
+
+This file list might contain file which are not absolutely mandatory
+for Liquid War 6, for instance the Fortran 77 compiler is absolutely
+useless, but installing it won't harm either. Some packages might
+unzip things the right way, but some do it in a subfolder. You might
+need to run commands like:
+
+@example
+cp -r coreutils*/* .
+rm -rf coreutils*
+@end example
+
+Get rid of useless files:
+@example
+rm ._.DS_Store .DS_Store 
+@end example
+
+It's also mandatory to move everything that has been installed in
+@code{/usr} or @code{/usr/local} to @code{/} since MSYS has some
+builtin wizardry which maps @code{/usr} on @code{/}.
+You need to do this if you don't unzip files from a MinGW shell,
+which is obviously the case when you first install it. Usefull command
+can be:
+
+@example
+mv usr/* .
+rmdir usr
+@end example
+
+Next, @code{libintl} is not correctly handled/detected by LW6,
+and can raise an error like 
+@code{"gcc.exe: C:/msys/local/lib/.libs/libintl.dll.a: No such file or directory"}
+so one needs to copy some libraries in @code{/usr/local/lib/.libs/}:
+
+@example
+mkdir local/lib/.libs
+cp local/lib/libintl.* local/lib/.libs/
+@end example
+
+Another step is to edit @code{/etc/profile} and add lines like:
+
+@example
+export CFLAGS="-g -I/usr/local/include"
+export LDFLAGS="-L/usr/local/lib"
+export GUILE_LOAD_PATH="C:\\MSYS\\local\\share\\guile\\1.8\\"
+@end example
+
+Close and re-launch your msys shell (rxvt) so that these changes take effect.
+Check that those values are correctly set:
+
+@example
+env | grep FLAGS
+env | grep GUILE
+@end example
+
+Finally, your MSYS environment is (hopefully...) working.
+
+Now you need to compile the following programs, from source.
+Files are @uref{http://www.ufoot.org/download/liquidwar/v6/mingw32/src/, mirrored on ufoot.org} for your convenience, however these might be outdated.
+Still, there are known to work.
+Proceed like if you were under a POSIX system.
+Some packages use the @code{--disable-rpath} swith, there are various
+reasons for which @uref{http://wiki.debian.org/RpathIssue, rpath is an issue}.
+In the same manner, @code{--disable-nls} when linking against @code{libintl}
+or @code{libiconv} was painful.
+
+@itemize
+@item
+@uref{http://sourceware.org/pthreads-win32/, pthreads-win32},
+untar pthreads-w32-2-8-0-release.tar.gz
+then @code{make clean GC; cp pthread.h sched.h /usr/local/include/; cp pthreadGC2.dll /usr/local/bin/; cp libpthreadGC2.a /usr/local/lib/}
+@item
+@uref{http://gmplib.org/, GNU MP},
+untar @code{gmp-4.2.2.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.gnu.org/software/guile/, Guile},
+untar @code{guile-1.8.5.tar.gz}.
+Edit @code{libguile/guile.c}
+and insert  @code{#undef SCM_IMPORT}
+just before @code{#include <libguile.h>}.
+Edit @code{./libguile/threads.c} and place @code{struct timespec @{ long tv_sec; long tv_nsec; @};} just before @code{#include "libguile/_scm.h"}.
+Then @code{./configure --disable-nls --disable-rpath --disable-error-on-warning --without-threads && make && make install}. The @code{GUILE_LOAD_PATH} value must be correctly
+set for @code{guile-config} to work. For unknown reasons, running @code{guile}
+can throw a stack overflow error. Don't panic.
+See @uref{https://sourceforge.net/tracker/?func=detail&atid=102435&aid=2007506&group_id=2435, bug 2007506 on SourceForge.net} for an explanation on
+why the Guile binary shipped with MSYS is not suitable for Liquid War 6.
+@item
+@uref{http://www.libexpat.org/, expat},
+untar @code{expat-2.0.1.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.sqlite.org/, SQLite},
+untar @code{sqlite-amalgamation-3.5.9.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.libpng.org/pub/png/libpng.html, libpng},
+untar @code{libpng-1.2.29.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.ijg.org/, libjpeg},
+untar @code{jpegsrc.v6b.tar.gz}
+then @code{./configure && make && make install && make install-lib}
+@item
+@uref{http://curl.haxx.se/libcurl/, libcURL},
+untar @code{curl-7.18.1.tar.gz}
+then @code{./configure --without-ssl && make && make install}
+@item
+@uref{http://freetype.sourceforge.net/, FreeType 2},
+untar @code{freetype-2.3.5.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.xiph.org/, libogg},
+untar @code{libogg-1.1.3.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.xiph.org/, libvorbis},
+untar @code{libvorbis-1.2.0.tar.gz}
+then @code{LDFLAGS="$LDFLAGS -logg" && ./configure && make && make install}
+@item
+@uref{http://www.libsdl.org/, SDL},
+untar @code{SDL-1.2.13.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.libsdl.org/projects/SDL_image/, SDL_image},
+untar @code{SDL_image-1.2.6.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.libsdl.org/projects/SDL_mixer/, SDL_mixer},
+untar @code{SDL_mixer-1.2.8.tar.gz}
+then @code{./configure && make && make install}
+@item
+@uref{http://www.libsdl.org/projects/SDL_ttf/, SDL_ttf},
+untar @code{SDL_ttf-2.0.9.tar.gz}
+then @code{./configure && make && make install}
+@end itemize
+
+For your convenience, a zip file containing a complete MSYS "Liquid War 6 ready"
+environment is available. It is simply the result of all the operations
+described above.
+Simply unzip @uref{http://www.ufoot.org/download/liquidwar/v6/mingw32/msys-for-liquidwar6-20080819.zip, msys-for-liquidwar6-20080819.zip} 
+(about 240 megs) in @code{C:\MSYS\}.
+All dependencies compiled in @code{/local} have been generated
+using the command:
+@example
+cd /usr/local/src
+./msys-for-liquidwar6-build.sh > ./msys-for-liquidwar6-build.log 2>&1
+@end example
+Note that this script does't do everything, you'll still need
+to edit Guile source code and patch it manually.
+
+It might even be possible to use this MSYS environment
+under @uref{http://www.winehq.com/, Wine}.
+Simply unzip it under @code{$HOME/.wine/drive_c}, and run
+@code{wine "$HOME/.wine/drive_c/windows/system32/cmd.exe" /c "c:\\msys\\msys.bat"} and with
+luck, you'll get a working shell. Note that this might allow you to compile
+the game, but running it is another story. Consider this MSYS over Wine trick
+as a hack enabling the use of free software only when compiling for
+Microsoft proprietary platform. It is not a reasonnable way to run the game.
+If running under a UNIXish platform, or better, GNU, simply run native code.
+Use the Windows 32-bit port only if you are jailed on a Microsoft system.
+
+Now, let's come to the real meat, untar the Liquid War 6 source
+tarball, launch your MSYS shell, and:
+
+@example
+./configure
+make
+make install
+@end example
+
+Now the binary is in @code{src/.libs/liquidwar6.exe}
+(beware, @code{src/liquidwar6.exe} is only a wrapper).
+This binary is an MSYS/MinGW binary, so it read paths ``à la''
+Microsoft, that is, it has no knowledge of what @code{/usr} is,
+for instance. It requires paths starting by @code{C:\}.
+
+@subsection Mac OS X port
+
+@cindex Apple
+@cindex Mac OS X
+
+This is still experimental. Basically, install MacPorts, and most dependencies with,
+except for SDL which you compile from source. The idea is to compile SDL using
+the native OS X bindings (and not some other GL files you could have in @code{/opt/local}
+installed by MacPorts), then compile the game and other SDL dependencies
+against this SDL.
+
+The SDL_mixer library might need to be told to compile itself without dynamic ogg support.
+By default it seems that it tries to load @code{libvorbisfile.dylib} at runtime, and it can fail.
+To disable this dynamic loading, use for instance :
+
+@verbatim
+/configure --prefix=/opt/extra --enable-music-ogg --disable-music-ogg-shared 
+@end verbatim
+
+Also, it might seem obvious for Mac OS X users, but there are some important issues related
+to compiling options and handling dynamic libraries at runtime.
+@itemize
+@item
+The command @code{ldd} does not exist, run @code{otool -L} instead.
+@item
+The equivalent of @code{LD_LIBRARY_PATH} is @code{DYLD_LIBRARY_PATH}.
+@item
+The extension for shared binaries is @code{.dylib} and not @code{.so}.
+@item
+You might need to set the @code{OBJCFLAGS} environment variable along with @code{CFLAGS}
+because the Mac OS X port uses some Objective-C code.
+@end itemize
+
+It is very important to have the right SDL flags when linking the Liquid War 6 binaries.
+For instance it could be:
+
+@verbatim
+-I/opt/extra/include -I/opt/local/include -Wl,-framework -Wl,CoreFoundation -I/opt/local/include -D_THREAD_SAFE -Wl,-framework -Wl,Cocoa -Wl,-framework -Wl,OpenGL -Wl,-framework -Wl,Cocoa 
+@end verbatim
+
+The point is to have Cocoa and OpenGL support. Depending on the way you installed SDL,
+you might also need to include an SDL framework support, this is mostly if you installed SDL from
+.dmg binary images, and not from source with the command line. A typical output of @code{sdl-config --libs} is:
+
+@verbatim
+-L/opt/extra/lib -lSDLmain -lSDL -Wl,-framework,Cocoa
+@end verbatim
+
+Another important issue is to include @code{SDL.h}, which in turn includes @code{SDLmain.h}, in
+all the .c source files defining the standard @code{main} function. This is done in liquidwar6 but
+should you try to link yourself on liquidwar6 libraries and/or hack code, you must do this or
+you'll get errors when running the game. Such errors look like:
+
+@verbatim
+*** _NSAutoreleaseNoPool(): Object 0x420c90 of class NSCFNumber autoreleased with no pool in place - just leaking
+@end verbatim
+
+The reason is that SDL replaces your @code{main} with its own version of it. One strong implication
+is that all the dynamic loading of SDL, which works on sandard GNU/Linux boxes, won't work under
+Mac OS X, since SDL hard codes itself by patching @code{main} with @code{#define} C-preprocessor commands.
+
+As of today, there's still no nice @code{.dmg} package containing
+a @code{Liquid War 6.app} folder with its @code{info.plist} file.
+
+@subsection GP2X port
+
+This is not working yet, but there are good hopes that some day,
+Liquid War 6 can run on a @uref{http://www.gp2xwiz.co.kr/,GP2X console}.
+This handled gaming device uses a @uref{http://kernel.org, Linux kernel}
+on an ARM processor,
+does support most @uref{http://www.gnu.org/, GNU} packages through
+cross-compilation, and has basic @uref{http://www.libsdl.org/, SDL} support.
+
+To compile Liquid War 6 for GP2X, you first need to set up a
+working ``toolchain''. It's suggested you do this on a working
+GNU/Linux box. There are several solutions, the recommended one
+being @uref{http://www.open2x.org/, Open2x}. Read the online
+documentation on 
+@uref{http://wiki.gp2x.org/wiki/Installing_the_Open2x_toolchain, how to install Open2x}.
+
+Basically, the following should work:
+
+@verbatim
+mkdir /opt/open2x # check that you can write here
+svn co https://open2x.svn.sourceforge.net/svnroot/open2x/trunk/toolchain-new open2x-toolchain 
+./open2x-gp2x-apps.sh
+cd open2x-toolchain
+@end verbatim
+
+Then, for your environment to be complete, you need to set up
+some environment variables. For instance:
+
+@verbatim
+export OPEN2X_SYSTEM_PREFIX=/opt/open2x/gcc-4.1.1-glibc-2.3.6/arm-open2x-linux
+export GP2X_USER_PREFIX=$HOME/gp2x
+
+export CC=${OPEN2X_SYSTEM_PREFIX}/bin/arm-open2x-linux-gcc
+export CPP=${OPEN2X_SYSTEM_PREFIX}/bin/arm-open2x-linux-cpp
+export CXX=${OPEN2X_SYSTEM_PREFIX}/bin/arm-open2x-linux-g++
+export AS=${OPEN2X_SYSTEM_PREFIX}/bin/arm-open2x-linux-as
+
+export CFLAGS=''-I${OPEN2X_PREFIX}/include -I${GP2X_USER_PREFIX}/include''
+export CPPFLAGS=''-I${OPEN2X_PREFIX}/include -I${GP2X_USER_PREFIX}/include''
+export CXXFLAGS=''-I${OPEN2X_PREFIX}/include -I${GP2X_USER_PREFIX}/include''
+export LDFLAGS=''-L${OPEN2X_PREFIX}/lib -L${GP2X_USER_PREFIX}/lib''
+
+export PATH=''${GP2X_USER_PREFIX}/bin:${OPEN2X_SYSTEM_PREFIX}/bin:$PATH''
+@end verbatim
+
+In this setting, there's a user @code{$HOME/gp2x} directory which will
+contain all the Liquid War 6 related libraries while the @code{/opt/open2x}
+remains untouched.
+
+Then you need to install the requirements. All these packages need to
+be cross-compiled. To make things clear and non-ambiguous, even if you
+have @code{CC} set up in your environment variables, pass @code{--build}
+and @code{--host} arguments to the @code{./configure} script of all these
+packages. A typical command is:
+
+@verbatim
+./configure --build=i686-pc-linux-gnu --host=arm-open2x-linux --prefix=${GP2X_USER_PREFIX}
+@end verbatim
+
+Here's the list of the requirements:
+
+@itemize
+@item
+@uref{http://www.gnu.org/software/libtool/, libtool}. Install a 1.5.x version,
+and not 2.2.x. For some reasons, 2.2.x is unusable, it keeps on complaining that
+@uref{http://lists.cistron.nl/pipermail/freeradius-users/2009-September/msg00149.html, lt_libltdl_LTX_preloaded_symbols is not defined}.
+Apparently the bug has already been @uref{http://www.archivum.info/bug-libtool@@gnu.org/2009-01/00014/undefined_lt_ptr, reported}.
+For Liquid War 6 needs, 1.5.x is very fine, use 1.5.26 for instance, it works well.
+
+@item
+@uref{http://gmplib.org/, GNU MP} (version 4.3.1 reported to work)
+
+@item
+@uref{http://www.gnu.org/software/guile/, Guile} (version 1.8.7 reported to work).
+You need to pass the @code{--witout-threads} switch to the @code{./configure}
+script else it will try (and fail!) to run a test program. Liquid War 6 does
+not use Guile threads, it does use threads but uses them ``directly'' outside
+the Guile layer.
+
+@item
+@uref{http://www.zlib.net/, zlib} (version 1.2.3 reported to work).
+Do not use @code{--build} and @code{--host} for this one, they are
+unsupported. Package compiles fine anyway.
+
+@item
+@uref{http://www.libexpat.org/, expat} (version 2.0.1 reported to work).
+
+@item
+@uref{http://www.libpng.org/pub/png/libpng.html, libpng} (version 1.2.3 reported to work).
+
+@item
+@uref{http://www.ijg.org/, libjpeg} (version 7 reported to work).
+
+@item
+@uref{http://www.sqlite.org, SQLite 3} (version 3.6.18 reported to work).
+
+@item
+@uref{http://curl.haxx.se/libcurl/, libcURL} (version 7.19.6 reported to work).
+@end itemize
+
+Next, one needs to install a special version of SDL, which targets 
+the GP2X specifically. This is not a generic SDL, and it does have
+limitations, which are related to the GP2X peculiar hardware.
+There are @uref{http://wiki.gp2x.org/wiki/How_to_install_the_SDL_libraries, installation instructions}
+about how to do this. The following should work:
+
+@verbatim
+cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/open2x login # blank password
+cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/open2x co libs-gp2x 
+@end verbatim
+
+@c ---------------------------------------------------------------------------
+@c Coding guidelines
+@c ---------------------------------------------------------------------------
+
+@node Coding guidelines, Using the console, Compilation tips, Hacker's guide
+@section Coding guidelines
+
+@subsection Project goals reminder
+
+One of the purposes of Liquid War 6 is to make a cleaner
+implementation of Liquid War than the previous one,
+namely @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}.
+While the latter has achieved the practical goal of providing
+a playable implementation of the game, it failed at providing
+an evolutive platform. Network capabilities where finally
+added to @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, but anyone who played on Internet with
+someone a few hundreds of milliseconds away would agree
+that it's far from being perfect. The main reason for this
+is that it is really had to hack on @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, especially
+when you are not the core developper. The core developper
+himself, even knowing all the various hacks in the game,
+is very quickly lost when trying to implement major changes.
+
+To put it short, @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5} is a global variable hell,
+a pile of hacks on top of a quick and dirty implementation.
+Still, it works.
+
+With Liquid War 6, the idea is to take the time to make something
+stable, something nice which will enable developpers to
+implement the cool features, and have fun along the way.
+Of course, this is only a dream, and in the (hopefully "very") long
+run, Liquid War 6 will also end up as a big unmaintainable mess,
+like any real-life program, until then, it should remain hackable.
+
+@subsection Common sense
+
+Here are a few guidelines which I think are common sense advice,
+but they are still worth mentionning:
+
+@itemize
+@item
+try and respect the
+@uref{http://www.gnu.org/prep/standards/,GNU coding standards};
+@item
+absolutely no @code{strcpy} or @code{sprintf} anywhere in the code.
+Nowhere. Use their equivalent @code{strncpy} and @code{snprintf} systematically,
+as they are part of the glibc and are an order of magnitude safer.
+Moreover, Liquid War 6 provides wrappers, such as @code{lw6sys_new_sprintf}
+which handles all the nasty dirty memory allocation stuff for you;
+@item
+keep global variables for when there is something truely global,
+and even in that case try to fit them in clearly identified structures.
+@end itemize
+
+@subsection Unitary tests
+
+Each of the internal libraries in Liquid War has a ``test'' program
+associated with it. For instance @code{liquidwar6sys-test} is
+associated to @code{libliquidwar6sys}, and its purpose is to
+test the features of this library.
+
+While it is fairly easy to test out unitary functions which require
+no peculiar context, testing high-level functions which requires
+files, graphical and possibly network contexts to exist is obviously
+harder to achieve. There's no easy way to draw the line, but
+the idea is to put in these test executables as many features
+as possible, to be sure that what is tested in them is rock
+solid, bullet proof, and that one can safely rely on it and
+trust that code when running it in a more complex environnement.
+
+These test executables are also very good places to see a
+library API in action, find code fragments, and make experiments.
+
+@subsection Memory allocation
+
+Liquid War 6 provides macros to allocate and
+free memory. One should use them systematically, except when
+trying to free something allocated by another library,
+and in very special cases, mostly concerning low-low level
+operations which are seldom hacked on.
+
+Usage of macros @code{LW6SYS_MALLOC},
+@code{LW6SYS_CALLOC} and @code{LW6SYS_FREE} is straightforward,
+read any random chunk of code, for instance @code{./src/lib/sys/sys-test.c}
+to see them in action. They are defined in @code{sys/sys.h}.
+
+Once used, these macros will track every single call to  @code{malloc} and @code{free},
+and if there's a difference, it will report it. It will also help you by
+showing what's in the non-freed memory area, at which line of code
+it has been allocated, and when. This is very usefull to track down memory leaks.
+Of course a debugger could tell you some of these informations, but experience
+shows than when you encounter a memory bug, it's very often impossible to
+reproduce it. So you one wastes time trying to reproduce the bug, whereas
+with this tool you have the information reported just when the problem happens.
+
+@subsection Private and public interfaces
+
+Each library exports a public interface and hides its internal.
+Since Liquid War 6 uses standard C and no C++, there's no
+real standard way to handle public/private features. The
+convention used in Liquid War 6 is to show internal structures
+as opaque pointers (@code{void *}) whenever some function needs
+to operate on a structure which has possibly private fields.
+This way the caller function has no way to access the internals,
+and we are sure that no reference to any internal implementation
+specific feature will appear.
+
+Here's a code excerpt from @code{src/gfx/setup.c}:
+@example
+void _lw6gfx_quit(_LW6GFX_CONTEXT *context) @{
+  /*
+   * Implementation here.
+   */
+[...]
+@}
+
+void lw6gfx_quit(void *context) @{
+  _lw6gfx_quit((_LW6GFX_CONTEXT *) context);
+@}
+@end example
+
+The function @code{_lw6gfx_quit} (note the ``_'') is internal,
+declared in @code{internal.h} whereas the function @code{lw6gfx_quit}
+is public, and is therefore exported in @code{gfx.h}.
+
+This way, functions in the program using @code{lw6gfx_quit}
+do not know what is in the @code{_LW6GFX_CONTEXT} structure,
+and they need not know it.
+
+This does not mean it is not possible to have public structures,
+only these structures must reflect some truely public, accessible
+and safe to access structures.
+
+@subsection Audit the code
+
+Liquid War 6 is regularly audited with automated tools. You might
+need to pass @code{--enable-gcov} to @code{--configure} if you want
+to use thes tools yourself. More precisely:
+
+@itemize
+@item
+@uref{http://ltp.sourceforge.net/coverage/lcov.php, lcov} is run,
+ideally with each release - but it's not garanteed, check the output date and time -
+and the output is available online on
+@uref{http://www.gnu.org/software/liquidwar6/coverage/}.
+@item
+@uref{http://www.gnu.org/software/global/, GNU global} is run too, ideally
+with each release - again, check the output date and time -
+and the output is available online on
+@uref{http://www.gnu.org/software/liquidwar6/global/}.
+@item
+@uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} reports cyclomatic
+complexity. It shows where the code is too complex and should probably be
+rewritten. Output is post-processed
+using @uref{http://www.gnu.org/software/gnulib/MODULES.html#module=pmccabe2html, pmccabe2html}
+from @uref{http://www.gnu.org/software/gnulib/, gnulib}. The output
+is available online on
+@uref{http://www.gnu.org/software/liquidwar6/cyclo/}.
+@item
+@uref{http://valgrind.org/, Valgrind} is run as well, it should report
+absolutely no leak on all the core sub-libraries, eg running
+@code{liquidwar6ker-test} or @code{liquidwar6ker-pil}.
+Bits of code which depend on other libraries are a different story, for
+some projects on which Liquid War 6 depends might, for some reason, raise
+warnings. But as far as Liquid War 6 is concerned, the goal is simple: zero leak.
+@end itemize
+
+Those tools certainly don't garantee the code is perfect, but they do help
+improving the quality of the program. If you hack, it's recommended you give
+them a try.
+
+@c ---------------------------------------------------------------------------
+@c Using the console
+@c ---------------------------------------------------------------------------
+
+@node Using the console, Advanced tweaking, Coding guidelines, Hacker's guide
+@section Using the console
+
+The console can be activated by passing @code{--display-console} when starting
+the game or by using the system options menu.
+
+When the console is activated, a @code{lw6>} prompt should appear in the
+terminal which launched the program. If you started Liquid War 6 by clicking
+on an icon, console probably won't work at all since @code{stdout} and
+@code{stdin} won't be attached to anything.
+
+The console allows you to type arbitray Scheme/Guile code.
+
+Try, for instance:
+@example
+(+ 1 2)
+(display "foo\n")
+@end example
+
+You can really break things with this console, it gives you a
+direct access to all the program internals. At least, all the
+values which are accessible through the script interface, that is, 
+many of them.
+
+You can call any internal C function which has been exported
+to Guile, here are some examples:
+
+@example
+(c-lw6sys-timestamp)
+(c-lw6bot-get-backends)
+(c-lw6sys-sleep 2.0)
+(lw6-config-get-number "zoom")
+(lw6-config-set-number! "zoom" 0.9)
+(lw6-config-get-number "zoom")
+@end example
+
+While syntax (and possibly other) errors will be trapped by
+the interpreter, note that if you break things inside the game by,
+say, changing some global value, or in a general manner cause
+an error elsewhere in the code, the game will really raise
+a fatal error and stop. That's how you can ``break things''.
+
+Still, this console is a very powerfull tool, very usefull for
+debugging but also for tweaking the game without restarting it
+and/or navigating through the menu interface.
+
+@c ---------------------------------------------------------------------------
+@c Advanced tweaking
+@c ---------------------------------------------------------------------------
+
+@node Advanced tweaking, Writing modules, Using the console, Hacker's guide
+@section Advanced tweaking
+
+@subsection Hacking ressources
+
+Liquid War 6 tries to have as few hardcoded data as possible. So many
+constants, and pretty much all the image files, are accessible in the
+data directory. You can know where it is by launching
+@code{liquidwar6 --show-data-dir}. If you look in this directory
+you'll find different files, among
+them XML files. 
+
+Let's take an example. Try and find the file @code{gfx/gl/hud/floating/gl-floating-const.xml}.
+Edit the line with the @code{clock-y1} entry. Change the number after @code{"value"}.
+Re-run the program. Play a game. What happens? Logically you should see that 
+``something'' is not displayed at the same place than before.
+
+You could also modify the textures (JPEG and PNG files). In a general manner
+it's more cautious to keep them the same size but it depends, sometimes
+other sizes will work as well.
+
+Many of these parameters are really too technical and obscure to have their
+place in the main config file (which is already rather big). Use at your own
+risks, you can really break things touching this, but you can also find out
+lots of things can be tuned.
+
+@subsection Optimize for speed 
+
+Todo...
+
+@c ---------------------------------------------------------------------------
+@c Writing modules
+@c ---------------------------------------------------------------------------
+
+@node Writing modules, Use as a library, Advanced tweaking, Hacker's guide
+@section Writing modules
+
+Todo...
+
+@c ---------------------------------------------------------------------------
+@c Use as a library
+@c ---------------------------------------------------------------------------
+
+@node Use as a library, Network protocol, Writing modules, Hacker's guide
+@section Use as a library
+
+Todo...
+
+@c ---------------------------------------------------------------------------
+@c Network protocol
+@c ---------------------------------------------------------------------------
+
+@node Network protocol, Using GNU Arch, Use as a library, Hacker's guide
+@section Network protocol
+
+This section describes how Liquid War 6 handles network messages.
+Note that for now this is purely theorical, more of a draft, 
+a plan, it might change before being implemented.
+
+Bare technical stuff.
+
+Out of band messages:
+
+@itemize
+@item UPTIME -> uptime in seconds
+@item ROUND -> number of rounds (session related)
+@item BPS -> number of net messages send per second 
+@item LIST -> list all known servers
+@item PEERS -> list servers with active connections
+@item VERSION -> version of the program
+@item ID -> the id of this server
+@item SESSION -> the id of the session
+@item PING -> expects PONG
+@item URL -> an alternate URL, possibly proxied
+@item MAX -> max number of teams on this server/session
+@item PLAYERS -> players playing 
+@item COLORS -> colors playing
+@item LOCKED -> expects "YES" or "NO"
+@item MOTD -> message of the day
+@end itemize
+
+TCP messages:
+
+@verbatim
+LW6 <passwd> <client-id>
+MSG1
+MSG2
+@end verbatim
+
+UDP messages:
+
+@verbatim
+LW6 <passwd> <client-id> MSG1
+LW6 <passwd> <client-id> MSG2
+@end verbatim
+
+HTTP messages:
+
+@verbatim
+/lw6/<passwd>/<client-id>/MSG1
+/lw6/<passwd>/<client-id>/MSG2
+@end verbatim
+
+HTTP public URLs:
+
+@verbatim
+error 404 -> /lw6/
+/lw6/ -> HTML human readbable page
+/favicon.ico
+/lw6/favicon.ico
+/lw6/screenshot.jpg
+/lw6/<oob>
+@end verbatim
+
+MSG syntax:
+
+@verbatim
+<serial>-<i>-<n> COMMAND
+@end verbatim
+
+COMMAND format:
+
+@verbatim
+<round> <server-id> <command> <arg1> ... <argN>
+@end verbatim
+
+COMMAND examples:
+@verbatim
+2 1234abcd1234abcd REGISTER
+3 1234abcd1234abcd ADD 5678 YELLOW
+4 1234abcd1234abcd SET 5678 20 5
+10 1234abcd1234abcd NOP
+400 1234abcd1234abcd REMOVE 5678
+1000 1234abcd1234abcd UNREGISTER
+@end verbatim
+
+@c ---------------------------------------------------------------------------
+@c Using GNU Arch
+@c ---------------------------------------------------------------------------
+
+@node Using GNU Arch, , Network protocol, Hacker's guide
+@section Using GNU Arch
+
+@subsection About GNU Arch
+
+@cindex CVS
+@cindex SVN
+@cindex Arch
+@cindex source code
+                       
+There is no CVS or SVN repository for Liquid War 6.
+Instead, a @uref{http://www.gnu.org/software/gnu-arch/,GNU Arch} repository
+is used to follow the different versions.
+Read the @uref{http://www.gnu.org/software/gnu-arch/tutorial/arch.html,GNU Arch tutorial} to learn how Arch works. Note that there are many other
+source control managers available, some of which provide functionnalities
+similar to GNU Arch / tla. GNU Arch has been chosen for Liquid War 6 because:
+@itemize
+@item
+it is Free Software,
+@item
+it is not limited to per-file commits like CVS, and supports atomic commits involving several files,
+@item
+it is distributed,
+@item
+it enables developpers to sign each of their contributions,
+@item
+it was already available back in 2005.
+@end itemize
+
+@subsection Getting the latest version from the repository                                            
+The repository for Liquid War 6 is accessible on
+@uref{http://arch.savannah.gnu.org/archives/liquidwar6}.
+This is a read-only access, but with the distributed
+nature of GNU Arch, it still allows you to keep track
+of your own changes, and submit patches. Accessing it
+in read/write mode with sftp requires a Savannah account and
+special rights on the Liquid War 6 project.
+
+Here are typicall commands one can use to get Liquid War 6 source
+from the GNU Arch repository:
+
+@example
+tla register-archive http://arch.savannah.gnu.org/archives/liquidwar6
+tla get -A liquidwar6@@sv.gnu.org liquidwar6--beta
+@end example
+
+All the patches in the archive are signed with
+@uref{http://www.gnupg.org/,GnuPG}, so you can check their
+authenticity with @uref{http://www.ufoot.org/ufoot.pub, my public key}.
+
+You might need to edit your @code{$HOME/.arch-params/signing/=default.check}
+file and put the following text in it:
+@example
+tla-gpg-check gpg_command="gpg --verify-files -"
+@end example
+
+@subsection Setting up your own arch repository                                       
+This section is for those who want to hack the game and set up
+their own repositories. This will enable you to keep track of your
+patches, package them, and help the core maintainer merging them
+in the main repository.
+
+You can introduce yourself and
+create a repository by issuing commands like:
+
+You can introduce yourself and
+create a repository by issuing commands like:
+
+@example
+tla my-id me@@home.net
+tla register-archive me@@home.net--2008 /home/me/tla-archives
+@end example
+
+Then, you can get create your own repository, with a command like:
+
+@example
+tla tag -S liquidwar6@@sv.gnu.org/liquidwar6--beta--0.1 me@@home.net--2008/liquidwar6--beta--0.4
+@end example
+
+The idea is that you create, locally, a depot which has a name
+that matches the name on @uref{http://arch.savannah.gnu.org, savannah}
+(this is for convenience, you could technically give it any name...)
+and indicate that they represent, today, the same thing.
+
+You can get a working copy of your depot with the command:
+
+@example
+tla get me@@home.net--2008/liquidwar6--beta--0.4
+@end example
+
+This will create a complete source tree, which you are free
+to modify, this is where you should hack.
+
+
+@subsection Synchronizing your repository with upstream releases                
+
+To synchronize yourself with upstream developments, go into
+your copy (the directory created by @code{tla get}) and type:
+
+@example
+tla star-merge liquidwar6@@sv.gnu.org/liquidwar6--beta--0.1
+@end example
+
+This will apply locally all the changes that happened since the
+last synchronization. Of course this is one way to work, you
+can decide to cherry pick patches and such stuff, but for most
+dayly uses, a good'ol @code{star-merge} is fine.
+
+Not that @code{star-merge} will only apply patches on your
+working copy, not on your repository. The only way to actually
+commit the modifications on the repository is to use the
+@code{commit} command.
+
+@subsection Submitting patches                                                  
+When using Arch, you can of course still send patches created
+with @code{diff}, or even send updated files directly, the way
+you would without revision control.
+
+But it can be more convenient to either
+@itemize
+@item
+Send the patches stored in the depot (@code{/home/me/tla-archives}
+in our example).
+@item
+Make patches using @code{tla mkpatch}.
+@end itemize
+
+Here's an example of an @code{mkpatch} command, and which will
+compute the differences between a previous
+@code{liquidwar6--beta--0.4--patch-2} snapshot and a not yet
+commited latest version:
+
+@example
+tla mkpatch @{arch@}/++pristine-trees/unlocked/liquidwar6/liquidwar6--beta/liquidwar6--beta--0.4/me@@home.net--2006/liquidwar6--beta--0.4--patch-2 . my-patch
+@end example
+
+This will create a @code{my-patch} directory, which can be gzipped
+and sent by mail.
+
+@subsection Recover from broken lock
+
+Sometimes, when signing a patch, you might enter the wrong passphrase
+several times, or you might press CTRL+D inadvertantly. In that case,
+tla will be in a half-broken state, telling you it can't acquire
+revision lock... A quick workarround for this is to go to the depot,
+find the latest patch, and in this repository, create the following folders:
+@example
+++revision-lock/+contents
+@end example
+Both are directories, note the two ++ and the single +. the @code{+contents}
+directory can be empty. Once you've done this, try to re-commit.
+
+@c ===========================================================================
+@c Reference
+@c ===========================================================================
+
+@node Reference, , Hacker's guide, Top
+@chapter Reference
+
+This chapter is a technical reference. Most of its content
+is self-generated by the program itself. That is to say, most
+if its content is already available to you if you have the game
+installed. Running @code{liquidwar6 --list}
+and @code{liquidwar6 --about=<keyword>} is very likely to give
+you the very same informations, the advantage being that you'll
+be sure the information is up-to-date and corresponds to the exact
+version of the program you have. However, publishing this in
+a reader-friendly way is convenient, plus it enables web search
+engines to harvest the content.
+
+@menu
+* Basic options::       Basic command-line parameters.
+* Doc options::         Liquid War 6 is self-documented.
+* Show options::        Show informations about the program.
+* Path options::        Change default paths.
+* Graphics options::    Change display settings.
+* Sound options::       Change audio settings.
+* Network options::     Tweak network parameters.
+* Map parameters::      Global map parameters.
+* Map rules.xml::       Change game rules.
+* Map hints.xml::       Tune map loader.
+* Map style.xml::       Modify map appearance.
+* Advanced settings::   You probably don't want to change these.
+* Script hooks::        Available script hooks.
+* C to Guile API::      C functions available to Guile scripts.
+* C functions::         C functions available in libliquidwar6.
+@end menu
+
+@c ---------------------------------------------------------------------------
+@c Basic options
+@c ---------------------------------------------------------------------------
+
+@node Basic options, Doc options, , Reference
+@section Basic options
+
+@include quick-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Doc options
+@c ---------------------------------------------------------------------------
+
+@node Doc options, Show options, Basic options, Reference
+@section Doc options
+
+@include doc-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Show options
+@c ---------------------------------------------------------------------------
+
+@node Show options, Path options, Doc options, Reference
+@section Show options
+
+@include show-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Path options
+@c ---------------------------------------------------------------------------
+
+@node Path options, Graphics options, Show options, Reference
+@section Path options
+
+@include path-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Graphics options
+@c ---------------------------------------------------------------------------
+
+@node Graphics options, Sound options, Path options, Reference
+@section Graphics options
+
+@include graphics-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Sound options
+@c ---------------------------------------------------------------------------
+
+@node Sound options, Network options, Graphics options, Reference
+@section Sound options
+
+@include sound-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Network options
+@c ---------------------------------------------------------------------------
+
+@node Network options, Map parameters, Sound options, Reference
+@section Network options
+
+@include network-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Map parameters
+@c ---------------------------------------------------------------------------
+
+@node Map parameters, Map rules.xml, Network options, Reference
+@section Map parameters
+
+@include map-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Map rules.xml
+@c ---------------------------------------------------------------------------
+
+@node Map rules.xml, Map hints.xml, Map parameters, Reference
+@section Map rules.xml
+
+@include map-rules-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Map hints.xml
+@c ---------------------------------------------------------------------------
+
+@node Map hints.xml, Map style.xml, Map rules.xml, Reference
+@section Map hints.xml
+
+@include map-hints-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Map style.xml
+@c ---------------------------------------------------------------------------
+
+@node Map style.xml, Advanced settings, Map hints.xml, Reference
+@section Map style.xml
+
+@include map-style-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Advanced settings
+@c ---------------------------------------------------------------------------
+
+@node Advanced settings, Script hooks, Map style.xml, Reference
+@section Advanced settings
+
+@include tuning-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Script hooks
+@c ---------------------------------------------------------------------------
+
+@node Script hooks, C to Guile API, Advanced settings, Reference
+@section Script hooks
+
+@include hooks-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c C to Guile API
+@c ---------------------------------------------------------------------------
+
+@node C to Guile API, C functions, Script hooks, Reference
+@section C to Guile API
+
+@c ---------------------------------------------------------------------------
+@c C functions
+@c ---------------------------------------------------------------------------
+
+@node C functions, ,C to Guile API, Reference
+@section C functions
+
+This section lists all documented C functions in the program. It contains
+many references and is self-generated from C comments using
+@uref{http://josefsson.org/gdoc/,gdoc} by @uref{http://josefsson.org/,Simon Josefsson}.
+
+In order to reduce the number of pages of printed output, this complete reference
+is, by default, disabled in printable versions of the documentation (PostScript, PDF).
+This is both to make the manual more readable and to avoid wasting paper.
+Think about the environment.
+
+It is however available in the HTML version of the documentation, which you
+can read online. The following adresses contain various view on the source code,
+giving informations on all the internal and public C interfaces:
+
+@itemize
+@item
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/C-functions.html}: 
+the @uref{http://josefsson.org/gdoc/,gdoc} reference, generated from source code comments.
+@item
+@uref{http://www.gnu.org/software/liquidwar6/coverage/}:
+the @uref{http://ltp.sourceforge.net/coverage/lcov.php, lcov} output when running @code{./liquidwar6 --test}.
+It shows what functions are actually tested, and how many times they are called.
+@item
+@uref{http://www.gnu.org/software/liquidwar6/global/}:
+the @uref{http://www.gnu.org/software/global/, GNU global} output gives complete cross-references,
+macros, headers, contants declaration. It's a very good place to start browsing the code.
+@item
+@uref{http://www.gnu.org/software/liquidwar6/cyclo/}:
+the @uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} output shows the cyclomatic complexity
+of functions. It enables the programmer to spots the ``ugly'' and dangerous parts of the program.
+@end itemize
+
+@ifinfo
+@include gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include gdoc.texi
+@end ifhtml
+
+@ifplaintext
+@include gdoc.texi
+@end ifplaintext
+
+@c ===========================================================================
+@c Appendices
+@c ===========================================================================
+
+@c ---------------------------------------------------------------------------
+@c 2005 .plan
+@c ---------------------------------------------------------------------------
+
+@node 2005 .plan, Fanfic, , Top
+@appendix 2005 .plan
+
+Here's my .plan file, which describes what I 
+(@uref{mailto:ufoot@@ufoot.org,Christian Mauduit}) have planned for Liquid War 6.
+There's no garantee that what's written here is a precise description of the
+real future, however it should give a good idea of what I have in mind.
+
+Note that the information here was written in summer 2005, it might or not
+be accurate now, as the main reason for plans to exist is that people never
+follow them. I'm no exception.
+
+@section Complete rewrite
+
+Liquid War 6 will be an almost complete rewrite. I mean that common code between branches 5 and 6 might end up in representing 0% of the total code. I think this is a wise decision, for the current code is really hard to maintain, and would not survive any serious cleanup. LW5 was first written in 1998, for DOS, when I had much less experience in programming. In 7 years I - and other people as well - hacked major enhancements in it such as cross-platform support, network games, and if you compare release 5.0 with the latest 5.x.x release, you'll see that a bunch of things have changed. I had never expected I would patch and fix this game for so long, and it's no surprise that it's bloated today.
+
+FYI, here's a list of what makes LW5 unsuitable for major improvements without a complete rewrite:
+
+@itemize
+@item 
+global variable hell. Lots of things are stored in globals.
+@item 
+hard-coded C GUI. Read src/level.c to get an idea of how horrible it is.
+@item 
+hard-coded 256 colors paletted mode. A clever bet in 1998 (performance...). Not anymore.
+@item 
+generally bloated code. Makes bug-finding very tricky. 
+@end itemize
+
+@section Technologies
+
+Liquid War 6 will use a different technical framework than @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}.
+
+@subsection Script + standard C + assembly
+
+It happens that coding a large project in pure C is a waist of time, if possible at all.
+
+If one applies the standard 80/20 rule to a computer game, one might state that 80% of the code eat up 20% of the CPU and the other 20% of the code eat up 80% of the CPU, the former being high-level glue code and the latter being low-level algorithmic code.
+
+With Liquid War, one could speak of the 99/01 rule. I mean that 99% of the CPU time concerns only 1% of the code, and vice-versa. Basically, Liquid War has a very CPU-greedy core algorithm, still spends a fair amount of CPU displaying stuff (but this is delegated to the low-level game programming library) and the rest is totally unsignificant, in terms of CPU. Point is this "rest" represents the vast majority of the code, and also represents the very same buggy code I spend nights to patch on @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}. I'm talking about network code, GUI, and other high-level glue-code which are currently being written in C.
+
+This idea is to write all this in a convenient scripting language. There won't be any impact on performances. I can't garantee Liquid War 6 will be blazingly fast, but for sure it won't be the scripting language fault. And of course if, as in Liquid War 3 and 5, I feel the need to implement some stuff in assembly for performances issues, I will do it.
+
+We end up with a multi-language architecture: script + C + assembly.
+
+My guess is that I'll use @uref{http://www.gnu.org/software/guile/,Scheme} as an extension language. @uref{http://www.python.org,Python} would be a good choice too. Let's say I'll give Scheme a chance, and if it's really not adapted, I'll switch back to Python. The point is that today I know Python and don't really know Scheme, but, well, it's always a pleasure for me to learn new things. It's fun.
+
+So what is planned today is that Liquid War 6 will be a Scheme program, which will call callbacks functions written in C and/or assembly. These functions will do all the low-level time consuming algorithmic and graphical stuff. The rest of the code being entirely scripted.
+
+@subsection OpenGL
+
+Liquid War is not a 3D game, so why use OpenGL?
+
+@itemize
+@item 
+it's a very convenient way to access video hardware acceleration with XFree86.
+@item 
+low-end computers and/or computers without 3D acceleration can still run @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}.
+@item 
+I'm interested in learning/using this API 8-) 
+@end itemize
+
+This choice implies that I won't use @uref{http://alleg.sourceforge.net/,Allegro} anymore. Allegro stays a very convenient library and I would recommend it for it's excellent, easy to learn, powerfull, and stable. But for the needs of Liquid War 6 I'll use something else (because of OpenGL). I first thought of using @uref{http://freeglut.sourceforge.net/,GLUT} but I might end up simply using @uref{http://www.libsdl.org/,SDL}. The idea is just fo have an OpenGL wrapper which sets up OpenGL in a similar manner on all platforms, and handles basic things such as mouse or keyboard.
+
+@subsection CSound
+
+I've got two excellent books on @uref{http://www.csounds.com/,Csound}, and the will to learn how to use this tool.
+
+I'll probably use Csound for a number of things, ranging from "bubbling sounds" to full blown music. Stay tuned 8-)
+
+@section Functionnalities
+
+@subsection Visual enhancements
+
+Of course Liquid War 6 will look nicer than @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, blah blah blah. What do you think?
+
+Maybe I'll try to use some OpenGL features to make it possible to play on a ball, on a Moebius ring, or other fancy things. I have zillion of ideas, future will decide which ones will be implemented first.
+
+To make it clear, visual enhancements aren't my top-level priority. However I'll try and make room for these enhancements, and prepare the terrain correctly. So it's possible that the first releases of Liquid War 6 won't be that much better than @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, but at least Liquid War 6 will have the possibility to evolve. Something @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5} doesn't have.
+
+@subsection Rules enhancements
+
+There are many things that could be done easily:
+
+@itemize
+@item 
+several cursors for one team
+@item 
+alliances between teams
+@item 
+deep places on a map, where more liquid can reside
+@item 
+circular maps which "connect" the left border to the right one
+@item 
+... 
+@end itemize
+
+As for graphical improvements, this is not my top-level priority. Simply, I'll make the game ready-to-improve. Again, all these enhancements are very hard to code in @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, else I would already have coded them.
+Network enhancements
+
+That's my top-level prioriry.
+
+Why is that? Well, think of Liquid War in terms of "what makes it a good game?" and "what makes it a poor game?".
+
+It's a good game because:
+
+@itemize
+@item 
+the idea is original
+@item 
+the gameplay is addictive
+@item 
+you can play on a LAN
+@item 
+all the family can play
+@item 
+it's cross-platform
+@item 
+it's Free Software 
+@end itemize
+
+It's a poor game because:
+
+@itemize
+@item 
+it's somewhat ugly and has a retro "back in the eighties" look
+@item 
+network games are slow on Internet
+@item 
+there are not enough active Internet servers 
+@end itemize
+
+For the ugliness, well, OpenGL and some artwork should make it. But for the network, what's the real problem?
+
+The real problem is that in the current situation, the server needs to have all "keystrokes" before doing anything, and all players must be connected before a game starts. Here's what I plan to do to fix this:
+
+@itemize
+@item 
+players will be able to connect on a game "on the fly". This is done by most online games, and it's IMHO a required features for a network mode to work on Internet (not speaking of local networks, but real wide online gaming). How this will fit with Liquid War's rules is not totally decided, but I already know of several way to achieve this.
+@item 
+I'll implement an "anticipation" system "a la" @uref{http://www.ufoot.org,U61}. This means that no matter if a remote player has a poor network connection, things will behave as if everything was fine. Internally, the system keeps 2 images of the game. One which is "anticipated" and displayed to the player, and one which is validated but outdated, kept internally. It's a little hard to explain, consumes twice as much CPU and memory, but it works. It happens that today the lacking ressource for playing Liquid War online is more on the network side than on the local CPU and memory aspects.
+@item 
+I'll take it to the next level and implement a "peer-to-peer-like" network model, in which any client can become a server. The idea behind is that if a server quits the game, then a client takes its role, letting the game continue for hours. This way one could virtually have a never ending Liquid War game which would last weeks. I believe this could be really cool. I also believe no proprietary game will ever implement that, for in this model there's no way to force people to access a centralized server, this server usually being the major key in the business model of a company which sells proprietary software. 
+@end itemize
+
+This third point will be the real enhancement of Liquid War with version 6. It's one of the very points which drives me to rewrite it completely. First because it's impossible to implement it without some heavy work. Then because I find it very motivating.
+
+@subsection Hey, you forgot my idea!!!
+
+Many gamers submitted suggestions, either by mail or by posting messages on the mailing list.
+
+Don't worry, I keep them. Not reading them here does not mean I won't implement them. It simply means I won't implement them first. I first need the game basically function before enhancing it with fancy stuff.
+
+@section Road map
+
+As I stated on the mailing list, when thinking about Liquid War 6, think of years rather than months (unless I get fired, jobless, or spend several months in a hospital with a laptop).
+
+Note that this road map takes it for granted that I'll be the lone coder on the project. It's unlikely that someone is going to help me for the first stages, until there's at least something real, something playable. Something that proves that the concept is valid. Besides, (real) team work implies a significant overhead, especially at project start. It's hard to figure out how to distribute tasks when the tasks themselves are not clearly identified. But for the rest (starting in 2007 or 2008), it's possible that external help might greatly... ...help!
+
+@itemize
+@item
+2005 : Project framework should be done. This implies that the scripting engine is up and running, graphical mode works, config and data loading work, basic menus are available. Nothing playable.
+@item 
+2006 : Import the core algorithm from @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, make the game playable in "demo mode" ("à la" Liquid War 2), implement the network "peer-to-peer-like" mode. At this stage, it will be possible to know wether Liquid War 6 is true vaporware or not.
+@item
+2007 : glue all this together to make something usable by anyone, heavy work on the GUI, on the options, on error checking, many bug fixes. The goal is to have a game which is equivalent to @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, with the network aspects pushed to the next level.
+@item
+2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform Freshmeat 8-) - and enhance it with all the feedback from gamers (bug reports and suggestions received since 1998). Work on artwork (both graphics and musics). Write documentation.
+@item
+2009 : stabilize the game, patch it for all those things which had been forgotten back then in 2005, optimize for speed, bug-fix bug-fix bug-fix.
+@item
+2010 : stop maintaining @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, invite Liquid War fans and coders to a hudge party in my garden, sing all night, drink beers and wine, teach Liquid War strategies to my 5 and 6 year old daughters, remember the old times when Liquid War wasn't so cool 8-) 
+@end itemize
+
+@c ---------------------------------------------------------------------------
+@c Fanfic
+@c ---------------------------------------------------------------------------
+
+@node Fanfic, Links, 2005 .plan, Top
+@appendix Fanfic
+
+Quoting Gavin: ``I wrote a liquid war fanfic some time ago [...] I wrote it after a friend claimed that there wasn't any liquid war fanfic because it wasn't possible.''
+
+So here it is, a Liquid War fanfic. It was initially written for
+Liquid War 5, but applies to Liquid War 6 as well. Enjoy!
+
+@section The Battle of Emberlificoted
+
+@sp 1
+...
+@sp 1
+
+The General presided over his massing army in his seat, or rather hovering ring, of power. It dipped slightly as he flew low over his troops marching through the viscous marsh-like terrain. They were like children: obedient, loyal, and they ate a lot.
+
+Glancing at the status panel mounted in front of him he grimaced; the other five armies: Yellow, Green, Orange, Turquoise, and, of course, Red, were also readying armies of a similar size to his own. His violet clones would have to fight hard and eat well to win this day.
+
+Today would not be a battle of luck, the General mused, it would be a battle of tactics, of alliances, and of betrayal. Every clone was identical - that was the general idea behind clones - and the terrain seemed strangely symmetrical; it would not give advantage to any of the six armies amassed today. Glancing at the hologram of the battlefield projected in front of him the General noted that he would have to move quickly, Orange and Yellow were too close for comfort, though fortunately Baron Red's army of eponymous coloured clones was the furthest.
+
+General Violet's fingertips were sweaty even before they touched the four main control keys in front of him. They were labeled 'W', 'A', 'D', and, of course, the full retreat button - very useful for misleading foes and ambushing them as they pursued - 'S'. The keys were arrange in a roughly equilateral triangular pattern; with 'S' forming the base and being adjacent to both 'A' and 'D', 'W' formed the tip of the triangle.
+
+A long breath left his parched lips as at last he made his move.
+
+@sp 1
+...
+@sp 1
+
+``Dammit!'' he screamed moments later. He had misjudged Captain Yellow and Commander Orange; he had expected one at least to attack immediately, one he could have handled. They were working together - foiling his attempt to shoot between them to near the center of the battlefield to gain a better vantage point. Yellow had shot down towards him, cutting off his advance, and now Orange had sealed his escape route. ``It's not over yet'' muttered the General. He opened a voice channel with Commander Orange:
+
+``Very clever. Flawed, but still clever.''
+
+``Flawed?'' came the reply.
+
+``Yes flawed, when the good Captain is finished devouring my army who do you think he will turn to next?'', bluffed the General - his hands worked quickly as he manoeuvred his hovering control ring, all that his troops ever saw of him, carefully towards the weakest section of his attackers. If he could just break out a few units he could soon turn the tide against both Yellow and Orange.
+
+``We have an alliance...'' Orange's voice was unsure now.
+
+Time for some sarcasm to through her even more off balance, thought the General,
+
+``I gathered'', he spoke softly, slowly, and with too much meaning. Then closing the channel he turned his attention back to his escape.
+
+@sp 1
+...
+@sp 1
+
+``Yes!'' wooped the ecstatic figure of the General. Fifty or so of his troops had broken free undetected and were even now working their way cautiously towards the camps of the Yellow army, only the front lines were still actively fighting; this opening gambit of Yellow and Orange had turned into a stale siege and Yellow's army had pitched tent.
+
+General Violet steered his hovering guidance ring to the center of the Yellow camp. His troops struck, both those who had got behind the lines and those who were still besieged. Yellow reacted too slowly and suddenly found that her army, was shrinking back from the onslaught. There was nowhere to run to, and bye now her only ally - Commander Orange - had abandoned her to her fate; he was too busy engaging Sir. Turquoise, who had managed to escape from the slaughter that the Baron had caused to the Turquoise ranks and was even now valiantly attacking the flanks of the Orange troops.
+
+A glance at the status panel showed that Yellow's life force was fading quickly: 8%, 3%, 1%, Gone.
+
+The General smiled, he always enjoyed getting the first kill, and by now his armies life force had grown and his clones had replicated. With his, now, formidable fighting force it was no problem to engulf both Sir. Turquoise and Commander Orange's brawling armies and annihilate them. Once again his army grew in size and power. Now if only the Baron didn't notice that..., thought the General.
+
+@sp 1
+...
+@sp 1
+
+``Too late!'' yelped the General, now thrown into panic, as he saw the approaching Baron. His army had also grown in size and power - having fatally injured the Turquoise army within the opening moments of the battle, and having finally managed to catch the elusive fleeing form of, or what remained of, Emperor Green.
+
+Gripping the controls harder the General thought quickly, his army doesn't so completely outnumber me that this is already over, however unless I can cause him to make a mistake that allows me to take the upper hand then I will inevitably lose. Maybe I can...
+
+This thought was terminated and replaced by another as the Baron's angry red troops broke through the undergrowth that had covered their movements and started to surround the General's army. The thought that now throbbed through the panic-stricken mind of General Violet was simply 'Run!'.
+
+Even as he signaled the retreat and made for what seemed to be the only possible means of escape the Baron's blood red control ring appeared at the opening. The General knew it was over, even before the host of red beings appeared at the opening.
+
+There was no escape. His life force was almost depleted and he was surrounded. Then it was that the Baron decided to communicate:
+
+``Too bad. It was a good game''
+
+The General blinked, gaped, and was generally gobsmacked. Just before his life force completely failed and his own weary eyes closed in defeat he snarled,
+
+``What!? This is not a game!'' were the General's dying words. 
+
+@c ---------------------------------------------------------------------------
+@c Links
+@c ---------------------------------------------------------------------------
+
+@node Links, Copying, Fanfic, Top
+@appendix Links
+
+This section lists various Internet Liquid War related links.
+
+@itemize
+@item
+@uref{http://www.gnu.org/software/liquidwar6/, http://www.gnu.org/software/liquidwar6/}: Liquid War 6 homepage
+@item
+@uref{http://www.gnu.org/software/liquidwar6/manual/, http://www.gnu.org/software/liquidwar6/manual/}: Online manual
+@item
+@uref{http://download.savannah.gnu.org/releases/liquidwar6/, http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads
+@item
+@uref{http://www.ufoot.org/download/liquidwar/v6/, http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads
+@item
+@uref{http://arch.sv.gnu.org/archives/liquidwar6/, http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repositoty
+@item
+@uref{http://savannah.gnu.org/projects/liquidwar6/, http://savannah.gnu.org/projects/liquidwar6/}: Project on Savannah
+@item
+@uref{http://lists.gnu.org/archive/html/help-liquidwar6/, http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
+@item
+@uref{http://en.wikipedia.org/wiki/Liquid_War, http://en.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia
+@item
+@uref{http://fr.wikipedia.org/wiki/Liquid_War, http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
+@item
+@uref{http://www.lgdb.org/game/liquid_war, http://www.lgdb.org/game/liquid_war}: Liquid War 6 entry on LGDB
+@item
+@uref{http://libregamewiki.org/Liquid_War_6, http://libregamewiki.org/Liquid_War_6}: Liquid War 6 entry on Libregamewiki
+@item
+@uref{http://www.ufoot.org/liquidwar/v5, http://www.ufoot.org/liquidwar/v5}: Liquid War 5
+@end itemize
+
+@c ---------------------------------------------------------------------------
+@c GNU GENERAL PUBLIC LICENSE
+@c ---------------------------------------------------------------------------
+
+@node Copying, GNU Free Documentation License, Links, Top
+@appendix GNU GENERAL PUBLIC LICENSE
+@include gpl.texi
+
+@c ---------------------------------------------------------------------------
+@c GNU Free Documentation License
+@c ---------------------------------------------------------------------------
+
+@node GNU Free Documentation License, Indexes, Copying, Top
+@appendix GNU Free Documentation License
+@include fdl.texi
+
+@c ---------------------------------------------------------------------------
+@c Indexes
+@c ---------------------------------------------------------------------------
+
+@node Indexes, , GNU Free Documentation License, Top
+@appendix Indexes
+
+@section Concept index
+@printindex cp
+
+@section Function and keyword index
+@printindex fn
+
+@bye
+
+@c lquidwar6.texi ends here

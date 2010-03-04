@@ -1,0 +1,42 @@
+This  directory  contains  all  the  data  for  Liquid  War  6.   Each
+subdirectory should contain its README  file explaining what it is all
+about. Note  that it is very  important to release data  under the GNU
+GPL along with the  code, for a game without the data  which make it a
+playable (and  possibly fun) game is  not really a game  any more, but
+merely an  empty game engine. Some  files are dual  licensed under the
+GNU  GPL and some  other more  artwork oriented  licenses such  as the
+"Creative  Commons  Attribution-ShareAlike  2.5"  or  the  "Free  Art"
+license. The main  reason is that generally, the GNU  GPL might not be
+truely adapted for  purely artistic contents, and some  of the artwork
+in Liquid War 6 might not  be 100% specific to this game.  However, in
+the context  of Liquid War  6, which is  a program, using the  GNU GPL
+does make sense,  for there is not such an  obvious limit between code
+and data (code might embed  data, and data might embed code) therefore
+using the GNU GPL as a global  license does make sense. If you want to
+contribute to Liquid  War 6 and provide artwork,  it is recommended to
+either  release it  under the  GNU GPL  and/or dual  license  it under
+whatever license  fits your  needs as an  artist, and the  GNU General
+Public License.
+
+
+----------------- L E G A L     I N F O R M A T I O N ----------------
+
+Liquid War 6 is a unique multiplayer wargame.
+Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+Contact author        : ufoot@ufoot.org

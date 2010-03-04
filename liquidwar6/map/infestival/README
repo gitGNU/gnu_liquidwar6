@@ -1,0 +1,21 @@
+Infestival
+
+IDEA
+A map without any visible walls - only a few hatchet lines guides the way.
+
+GAMEPLAY
+Fighter-scale is only 2, which is possible because the armies are so small: single-army-size = 14 and total-armies-size = 40
+The rest of the values is kinda mainstream, except fighter-new-health which I have lowered from 5000 to 2500, which gives the battle fronts a darker color.
+
+TEAM COLORS
+I had considered giving the fighters a red tone, but so far, all the colors are quite normal.
+
+
+Made by Kasper Hviid, Denmark
+kasperhviid@gmail.com
+www.kasperhviid.dk
+Created 25/8 2007
+
+License:
+Creative Commons Attribution-ShareAlike 2.5
+http://creativecommons.org/licenses/by-sa/2.5/

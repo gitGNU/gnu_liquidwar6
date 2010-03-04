@@ -1,0 +1,60 @@
+%define name @PACKAGE_TARNAME@
+%define version @PACKAGE_VERSION@
+%define release 1vendor
+
+## Uncomment these if complaints about unpackaged files
+#%define _unpackaged_files_terminate_build 0
+#%define _missing_doc_files_terminate_build 0
+
+Summary: Extra maps for Liquid War 6
+Name: %{name}
+Version: %{version}
+Release: %{release}
+License: GPL
+Group: Amusements/Games
+Source: http://download.savannah.gnu.org/releases/liquidwar6/%{version}/%{name}-%{version}.tar.gz
+URL: http://www.gnu.org/software/liquidwar6
+Vendor: Christian Mauduit <ufoot@ufoot.org>
+Packager: Christian Mauduit <ufoot@ufoot.org>
+BuildRoot: %{_tmppath}/%{name}-buildroot
+BuildArch: noarch
+
+%description
+The basic liquidwar6-data package contains some default maps, but this
+liquidwar6-extra-maps adds extra maps. They are distributed separately 
+because the package is big.
+
+# Preparation of the package
+%prep
+%setup
+./configure --prefix=%{_prefix}
+
+# Building the package
+%build
+make 
+
+# Installing the package
+%install
+rm -rf %{buildroot}%{_prefix}/share
+export DESTDIR=%{buildroot} && make install 
+install -d %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+cp ChangeLog README NEWS COPYING AUTHORS %{buildroot}%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+
+# Cleaning
+%clean
+rm -rf %{buildroot}
+
+%files
+%defattr(-,root,root)
+# using liquidwar6 and *not* PACKAGE_TARNAME here
+%{_prefix}/share/liquidwar6-@PACKAGE_VERSION@/map/extra/*
+%{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
+
+%changelog
+
+* Sat Jan 10 2009 Christian Mauduit <ufoot@ufoot.org>
+- Fixed source URL.
+
+* Tue Oct 11 2007 Christian Mauduit <ufoot@ufoot.org>
+- Package creation.
+

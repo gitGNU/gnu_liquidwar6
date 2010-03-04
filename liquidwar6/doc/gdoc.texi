@@ -1,0 +1,84 @@
+@subsection libbot
+
+@include liquidwar6-gdoc.texi
+ 
+@subsection libbot
+
+@include bot-gdoc.texi
+ 
+@subsection libcfg
+
+@include cfg-gdoc.texi
+ 
+@subsection libcli
+
+@include cli-gdoc.texi
+ 
+@subsection libcns
+
+@include cns-gdoc.texi
+ 
+@subsection libdsp
+
+@include dsp-gdoc.texi
+ 
+@subsection libdyn
+
+@include dyn-gdoc.texi
+ 
+@subsection libgfx
+
+@include gfx-gdoc.texi
+ 
+@subsection libgui
+
+@include gui-gdoc.texi
+ 
+@subsection libhlp
+
+@include hlp-gdoc.texi
+
+@subsection libimg
+
+@include img-gdoc.texi
+ 
+@subsection libker
+
+@include ker-gdoc.texi
+ 
+@subsection libldr
+
+@include ldr-gdoc.texi
+ 
+@subsection libmap
+
+@include map-gdoc.texi
+ 
+@subsection libnet
+
+@include net-gdoc.texi
+ 
+@subsection libp2p
+
+@include p2p-gdoc.texi
+
+@subsection libpil
+
+@include pil-gdoc.texi
+
+@subsection libsnd
+
+@include snd-gdoc.texi
+ 
+@subsection libsrv
+
+@include srv-gdoc.texi
+ 
+@subsection libsys
+
+@include sys-gdoc.texi
+
+@subsection libtsk
+
+@include tsk-gdoc.texi
+

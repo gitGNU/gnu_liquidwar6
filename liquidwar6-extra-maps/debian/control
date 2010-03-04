@@ -1,0 +1,14 @@
+Source: liquidwar6-extra-maps
+Section: games
+Priority: extra
+Maintainer: Christian Mauduit <ufoot@ufoot.org>
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+
+Package: liquidwar6-extra-maps
+Architecture: all
+Description: Extra maps for Liquid War 6
+ The basic liquidwar6-data package contains some default maps, but this
+ liquidwar6-extra-maps adds extra maps. They are distributed separately because
+ the package is big.
+

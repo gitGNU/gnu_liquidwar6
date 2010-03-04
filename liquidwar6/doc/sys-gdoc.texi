@@ -1,0 +1,3678 @@
+@deftypefun {int} {lw6sys_arg_match} (char * @var{keyword}, char * @var{argv_string})
+@var{keyword}:  the option to match, without the prefix "-" or "--"
+
+@var{argv_string}:  the argv value, for instance argv[1]
+
+This is an utility function which allow the program to handle
+options in a uniform manner. Key comparison is insensitive, that is,
+--option and --OPTION are equivalent. Besides, -option and --OPTION
+are equivalent too. Liquid War 6 documentation mentions options in
+lowercase with a double dash (--option) by default, but it's a fact,
+the program supports variants. This is just for convenience, the
+philosophy behind this behavior is "be as permissive as possible
+when interpreting input, and as strict as possible when generating
+output". In fact, it's even said that Liquid War 6 will accept
+the argument without any prefix dash as being valid... This is
+to say running "liquidwar6 --option" is the same as running
+"liquidwar6 option". But, this is a secret 8-)
+
+@strong{Return value:}  non zero if it matches, 0 if it doesn't.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_arg_exists} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@var{argc}:  the number of arguments, as passed to @code{main}
+
+@var{argv}:  an array of arguments, as passed to @code{main}
+
+@var{keyword}:  the keyword to match
+
+Parses all command-line arguments, searching for one
+precise "--key[=...]" entry.
+
+@strong{Return value:}  1 if key is present, 0 if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_arg_get_value} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@var{argc}:  the number of arguments, as passed to @code{main}
+
+@var{argv}:  an array of arguments, as passed to @code{main}
+
+@var{keyword}:  the keyword to match
+
+Parses all command-line arguments, searching for one
+precise "--key=value" pair, and returns the value.
+
+@strong{Return value:}  a pointer to the value. May be NULL. Must be freed. 
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_arg_get_value_with_env} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@var{argc}:  the number of arguments, as passed to @code{main}
+
+@var{argv}:  an array of arguments, as passed to @code{main}
+
+@var{keyword}:  the keyword to match
+
+Parses all command-line arguments, searching for one
+precise "--key=value" pair, and returns the value.
+If a corresponding environment variable is available, but
+no command-line parameter was passed, the environment variable
+is intepreted. Such environment variables are uppercased,
+prefixed by "LW6_" and "_" replaces "-". The
+environment variable will be overriden if the command-line
+parameter is present.
+
+@strong{Return value:}  a pointer to the value. May be NULL. Must be freed. 
+@end deftypefun
+
+@deftypefun {int} {lw6sys_arg_test_mode} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc as passed to main
+
+@var{argv}:  argv as passed to main
+
+Chooses between the two test modes "check" or "test". Check (value 0)
+is a lighter test which should never fail even if some special
+hardware or environment is missing. Test (value 1) is a more complete
+test which does things which *can* require some special conditions.
+Function will log and be verbose is syntax is not correct.
+
+@strong{Return value:}  1 if complete test must be run, 0 is only check
+@end deftypefun
+
+@deftypefun {lw6sys_assoc_t *} {lw6sys_assoc_new} (lw6sys_free_func_t @var{free_func})
+@var{free_func}:  optional callback used to free memory when stored
+date is a pointer. Can be NULL when one stores non dynamically
+allocated data, such as an integer or a static array.
+
+Creates an empty assoc. There's a difference between NULL and an
+empty assoc. The empty assoc would (in Scheme) be '() whereas
+NULL corresponds to undefined "is not a assoc and will generate
+errors if you ever call assoc functions on it". Such created
+assoc are not performant hash tables but slowish "strcmp me for
+each key" associative arrays, the key being a "char *" string
+and the value a "void *" pointer.
+
+@strong{Return value:}  a pointer to the newly allocated associative
+array. Must be freed with @code{lw6sys_assoc_free}.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_assoc_free} (lw6sys_assoc_t * @var{assoc})
+@var{assoc}:  the assoc to be freed.
+
+The function will cascade  delete all elements, using (if not NULL...)
+the callback passed when first creating the assoc.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {int} {lw6sys_assoc_has_key} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@var{assoc}:  the assoc to test
+
+@var{key}:  the key to search
+
+Not a very fast function, since on a "big" assoc, strcmp will be
+called internally until the key is found.
+
+@strong{Return value:}  non-zero if there's an entry with the
+corresponding key. 
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_assoc_get} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@var{assoc}:  the assoc to query
+
+@var{key}:  the key of which we want the value
+
+
+@strong{Return value:}  a void pointer to the data contained
+in the assoc. Note that the pointer on the actual data
+is returned, that is, if it's static data, you must not
+try to free it... As long as memory management is concerned,
+destroying the assoc will actually free the data if needed.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_assoc_set} (lw6sys_assoc_t ** @var{assoc}, char * @var{key}, void * @var{value})
+@var{assoc}:  the assoc to modify
+
+@var{key}:  the key we want to updated
+
+@var{value}:  the new value
+
+Sets a value in an associative array. The key pointer need
+not be persistent, it can be freed after affectation. In
+fact a new string will be created internally. This is not
+true for the value, it's hard to find way to copy "any object".
+So if you want an associative array of strings, key can
+disappear after calling this function, but not value. The
+function passed as free_func when creating the assoc will
+be used to free stuff whenever needed (unset or free).
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_assoc_unset} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@var{assoc}:  the assoc concerned
+
+@var{key}:  the key to unset
+
+Clears an entry in an associative array. The callback passed when
+creating the assoc will be called if needed, to free the data
+automatically.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_assoc_keys} (lw6sys_assoc_t * @var{assoc})
+@var{assoc}:  the assoc to work on
+
+Returns a list containing all the keys of the assoc. The
+list must be free with lw6sys_list_free by the caller.
+This list copies all the keys of the assoc, so it is
+safe to use it once the assoc is deleted. However the
+keys will of course be of little interest in this case.
+But the program won't segfault.
+
+@strong{Return value:}  the list of keys.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_assoc_map} (lw6sys_assoc_t * @var{assoc}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
+@var{assoc}:  the assoc to work on
+
+@var{func}:  a callback to call on each entry
+
+@var{func_data}:  a pointer on some data which will be passed to the callback
+
+Executes a function on all assoc items.
+The func_data parameter allows you to pass extra values to
+the function, such as a file handler or any variable which
+can not be inferred from list item values, and you of course
+do not want to make global...
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_assoc_sort_and_map} (lw6sys_assoc_t * @var{assoc}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
+@var{assoc}:  the assoc to work on
+
+@var{func}:  a callback to call on each entry, may be NULL
+
+@var{func_data}:  a pointer on some data which will be passed to the callback
+
+Executes a function on all assoc items, like @code{lw6sys_assoc_sort_and_map}
+but befor doing so, sorts all entries in alphabetical order.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {lw6sys_assoc_t *} {lw6sys_assoc_dup} (lw6sys_assoc_t * @var{assoc}, lw6sys_dup_func_t @var{dup_func})
+@var{assoc}:  the assoc to duplicate, can be NULL
+
+@var{dup_func}:  the function which will be called to duplicate data
+
+Duplicates an assoc. All keys will be copied so that if the first
+assoc is deleted, the duplicated one is fine. Additionnaly, dup_func
+will be called with all data fields. If dup_func is NULL, then data
+values will simply be copied. This is likely to be usefull when
+data is not dynamically allocated.
+
+@strong{Returned value:}  a newly allocated assoc.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_default_memory_bazooka} ()
+
+Will set up a default memory bazooka, a slow yet convenient
+tool to track down and hopefully kill memory leaks.
+Named bazooka after a night wasted to track down an unfoundable
+leak... BAZOOOOOOKA!!!
+
+@strong{Return value:}  1 if success, 0 if failed.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_clear_memory_bazooka} ()
+
+Clears the memory bazooka.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_set_memory_bazooka_size} (int @var{size})
+@var{size}:  number of items (calls to malloc) to keep
+
+Resizes, the memory bazooka. What's this? It's an inelegant yet 
+efficient tool to track down memory leak. Memory bazooka will keep
+track of every call to malloc, keeping a trace of what has been
+malloced, where it has been called (from which file, which line), how
+much memory was allocated, it will even show you what's at the
+address in a 0-terminated string-friendly fashion. Of course this
+slows down the program, so in production, you might set this to 0,
+but for debugging, a million bazooka is worth the megabytes and
+CPU cycles it wastes.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_size} ()
+
+The companion of @code{lw6sys_set_memory_bazooka_size}. This function
+will return how many calls to malloc can be traced. A return
+value of 0 indicates that feature is disabled.
+
+@strong{Return value:}  size of the bazooka array.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_set_memory_bazooka_eraser} (int @var{state})
+@var{state}:  the state of the eraser
+
+Sets the memory bazooka eraser state. Note that to really work,
+it requires the memory bazooka to be "big enough".
+
+@strong{Return value:}  1 if activated, 0 if not. Note that the main reason
+for it not to be activated is if the memory bazooka has zero size.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_count} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you how many times @code{malloc} 
+has been called.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_free_count} ()
+
+Provided you have always called the @code{LW6SYS_FREE} macro to free
+memory, this function will tell you how many times @code{free} has been called.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_free} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_current_count} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you the current number of
+pointer returned by @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC}, currently
+alive on the heap.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_max_count} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you the maximum of pointers
+returned by @code{malloc} that were present at the same time on the heap.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_megabytes} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you how many bytes @code{malloc} 
+has reserved.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_free_megabytes} ()
+
+Provided you have always called the @code{LW6SYS_FREE} macro to free
+memory, this function will tell you how many bytes @code{free} has freed.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_free} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_current_bytes} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you the current number of
+bytes returned by @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC}, currently
+alive on the heap.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_memory_bazooka_malloc_max_bytes} ()
+
+Provided you have always called the @code{LW6SYS_MALLOC} an @code{LW6SYS_CALLOC} to 
+allocate memory, this function will tell you the maximum bytes
+returned by @code{malloc} that were present at the same time on the heap.
+
+@strong{Return value:}  the number of calls to @code{lw6sys_malloc} or @code{lw6sys_calloc} since
+program was started.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_is_memory_bazooka_trustable} ()
+
+Returns true if memory bazooka data are perfectly trustable, that is,
+it has never been resetted or resized.
+
+@strong{Return value:}  1 if trustable, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_memory_bazooka_report} ()
+
+Reports memory bazooka diagnostics on the console. Carefull, this
+one is not reentrant, call at the end of your program when all threads
+are joined.
+
+@strong{Return value:}  1 if no allocated stuff left, 0 if there are still malloc'ed stuff
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_package_tarname} ()
+
+Returns the name of the package. This is the @code{PACKAGE_TARNAME} constant
+defined by the GNU Autoconf ./configure script. While it's always possible
+to use the defined constant directly, using this function will return
+the value defined when compiling the binary, not the one you're using
+when compiling another program relying on Liquid War as a library.
+
+@strong{Return value:}  a non-NULL string "liquidwar6", must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_package_name} ()
+
+Returns the name of the package, in a user friendly form, which can
+include spaces, for instance. This is the @code{PACKAGE_NAME} constant
+defined by the GNU Autoconf ./configure script. While it's always possible
+to use the defined constant directly, using this function will return
+the value defined when compiling the binary, not the one you're using
+when compiling another program relying on Liquid War as a library.
+
+@strong{Return value:}  a non-NULL string "Liquid War 6", must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_package_string} ()
+
+Returns the description of the package. This is the @code{PACKAGE_STRING} constant
+defined by the GNU Autoconf ./configure script. It's the concatenation
+of @code{PACKAGE_NAME} and @code{VERSION}. While it's always possible
+to use the defined constant directly, using this function will return
+the value defined when compiling the binary, not the one you're using
+when compiling another program relying on Liquid War as a library.
+
+@strong{Return value:}  a non-NULL string "Liquid War 6 <version>", must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_version} ()
+
+Returns the version of the program. This is the @code{VERSION} constant
+defined by the GNU Autoconf ./configure script. Same as @code{PACKAGE_VERSION}.
+Note that while using a function to get @code{PACKAGE_TARNAME} might seem
+useless, having both ways to get the version, that is, a function and
+a constant, is very usefull. Think, for instance, that a dynamically
+loaded shared library might need to check its own version against the
+version of the core program.
+
+@strong{Return value:}  a non-NULL string, which must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_codename} ()
+
+Returns the the program codename. This is the little name of the
+version. It's been decided that all LW6 releases would take the
+name of a famous general, warrior, whatever. For instance, it could
+be "Napoleon".
+
+@strong{Return value:}  a non-NULL string, traditionnally the name of a famous
+general, someone which has been involved in war. Must not be freed
+(I mean, the string, not the general).
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_stamp} ()
+
+Returns the program stamp. This is like a serial number. It's is not
+the same as the version. The version is meant to be set to something
+readable. This is just a cryptic thing, incremented at each ./configure
+or each developper's "I feel like it needs to be incremented". The
+idea is just to keep (one more...) track of which source code is build.
+Ideally, this would be plugged to the source revision control system
+but this has some drawbacks, including that it would require it to
+modify files before commiting them, which is not safe, and almost
+impossible if you sign archives. One more point: this is a string. It's
+true the return value is actually a string containing the representation
+of an integer, but because all other build parameters are strings, and
+because we don't know what the future reserves, it's a string.
+
+@strong{Return value:}  a non-NULL string like "42", which must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_md5sum} ()
+
+Returns an md5 checkum which is caculated from C (.c and .h) source
+files. This is complementary with the build stamp. By default the stamp
+will be enough to check what has been compiled, but one can always
+imagine a case where Bob compiles something a little different than Alice,
+with the same stamp, incremented by 1 from a common source tree. They
+apply their own patches, for instance. This md5sum double-checks that
+two binaries have been built from the same sources. Note that this
+is not the md5 checksum of the generated binary. Nor does it include
+any information about scheme scripts and data.
+
+@strong{Return value:}  a non-NULL string, which must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_copyright} ()
+
+Returns a (very) short copyright information about the program. 
+
+@strong{Return value:}  a non-NULL string, single line whithout '\n' at the end. 
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_license} ()
+
+Returns the license for the program (GNU GPL v3 or later).
+
+@strong{Return value:}  a non-NULL string, single line whithout '\n' at the end. 
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_url} ()
+
+Returns the URL of the game, its homepage.
+
+@strong{Return value:}  a non-NULL string, single line whithout '\n' at the end. 
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_configure_args} ()
+
+Returns the arguments passed to the GNU Autoconf ./configure script when
+buildling the game. Very usefull to know how the binary was generated,
+that is, what kind of optimizations are peculiar settings it uses.
+
+@strong{Return value:}  a non-NULL string, which, passed to ./configure again, would
+hopefully generate the same binary. Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_gcc_version} ()
+
+Returns __VERSION__ GCC preprocessor value, that is, the human readable
+version of the compiler.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_cflags} ()
+
+Returns the arguments which would allow another program to
+use liquidwar6 as a library. Typically, pass this to gcc when
+compiling your sources. Basically contains "-I" switches
+which tell where the headers are.
+
+@strong{Return value:}  a non-NULL string, which must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_ldflags} ()
+
+Returns the arguments which would allow another program to
+link against liquidwar6. Pass this to gcc or libtool when
+compiling your program. Basically contains a "-L" option
+which says where the library is. Note that this will only
+allow you to link against the main libliquidwar6 library,
+but not the dynamically loaded modules.
+
+@strong{Return value:}  a non-NULL string, which must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_hostname} ()
+
+Returns the value return by the standard shell @code{hostname} command
+on the machine where the game has been built. Usefull to track binaries
+and know where do they come from.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_date} ()
+
+Returns the compilation date. While this information can easily be
+obtained with the C @code{__DATE__} macro, having this function is convenient
+for it returns a value which is the same for the whole program, and does
+not possibly change in every file.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_time} ()
+
+Returns the compilation date. While this information can easily be
+obtained with the C @code{__TIME__} macro, having this function is convenient
+for it returns a value which is the same for the whole program, and does
+not possibly change in every file.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_host_cpu} ()
+
+Returns the CPU this program is designed for. Convenient on i386 compatible
+CPUs to know which flavor (i386, i586...) the binary is made for.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_endianness} ()
+
+Returns the endianness of the computer.
+
+@strong{Return value:}  'little' (x86-like) or 'big' (ppc-like), as a string.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_get_pointer_size} ()
+
+Returns the system pointer size, in bytes.
+
+@strong{Return value:}  4 for 32-bit, 8 for 64-bit.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_is_x86} ()
+
+Tells wether CPU belongs to x86 family or not.
+
+@strong{Return value:}  1 if x86, 0 if not
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_host_os} ()
+
+Returns the OS this program is designed for. Usefull for bug reports.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_is_ms_windows} ()
+
+Tells wether the program was compiled for Microsoft Windows, or not.
+
+@strong{Return value:}  1 if compiled on windows, 0 if not
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_is_mac_os_x} ()
+
+Tells wether the program was compiled for Mac OS X, or not.
+
+@strong{Return value:}  1 if compiled on OS X, 0 if not
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_is_gp2x} ()
+
+Tells wether the program was compiled for GP2X, or not.
+
+@strong{Return value:}  1 if compiled on OS X, 0 if not
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_top_srcdir} ()
+
+Returns the top source directory, when the game was built. This can
+seem useless and non relevant on the end-user's machine, but... it's
+a must-have for developpers and packagers. Without this, binaries
+would never find their associated data, especially when building
+outside the source tree. Or, testing the game would be impossible
+without installing it, given the fact that most of the code is in
+scripts that are stored in /usr/local by default, this would be
+painfull. So this function is here to help finding data within the
+source tree when the game is not installed yet. Note that the function
+is rather clever, since it will automatically try to remove useless
+'../' sequences at the beginning of a possibly relative path.
+
+@strong{Return value:}  a non-NULL string, must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_prefix} ()
+
+Returns the @code{prefix} value as given to the GNU Autoconf ./configure script.
+Used to deduce the path to other directories and files.
+
+@strong{Return value:}  a non-NULL string, "/usr/local" by default. 
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_datadir} ()
+
+Returns the @code{datadir} value defined by the GNU Autoconf ./configure script.
+This is not the value which can be overriden by the Liquid War 6 specific.
+"--data-dir" option. @code{datadir} is usually something like "/usr/local/share"
+while the actual Liquid War 6 defined data dir is a more profound path
+which includes the name of the package, its version, and so on.
+
+@strong{Return value:}  a non-NULL string, "/usr/local/share" by default.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_libdir} ()
+
+Returns the @code{libdir} value defined by the GNU Autoconf ./configure script.
+This is not the value which can be overriden by the Liquid War 6 specific.
+"--mod-dir" option. @code{datadir} is usually something like "/usr/local/lib"
+while the actual Liquid War 6 defined module dir is a more profound path
+which includes the name of the package, its version, and so on.
+
+@strong{Return value:}  a non-NULL string, "/usr/local/lib" by default.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_includedir} ()
+
+Returns the @code{includedir} value defined by the GNU Autoconf ./configure script.
+As for other options, it's interesting to have this value, this enables
+the program to inform people who want to hack the game of the place
+headers are supposed to be installed.
+
+@strong{Return value:}  a non-NULL string, "/usr/local/include" by default.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_localedir} ()
+
+Returns the @code{localedir} value defined by the GNU Autoconf
+./configure script.
+Used as an argument for gettext / libintl functions.
+
+@strong{Return value:}  a non-NULL string, "/usr/local/share/locale" by default.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_docdir} ()
+
+Returns the @code{docdir} value defined by the GNU Autoconf
+./configure script.
+Used to write consistent XML file headers.
+
+@strong{Return value:}  a non-NULL string, "/usr/local/share/doc/liquidwar6" by default.
+Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_console} ()
+
+Tells wether console is enabled or not.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_mod_gl} ()
+
+Tells wether the graphical mod-gl backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_mod_csound} ()
+
+Tells wether the audio mod-csound backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_mod_ogg} ()
+
+Tells wether the audio mod-ogg backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_mod_http} ()
+
+Tells wether the network mod-http backend was compiled.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_optimize} ()
+
+Tells wether the game was compiled in optimize mode.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_allinone} ()
+
+Tells wether the game was compiled in allinone mode.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_fullstatic} ()
+
+Tells wether the game was compiled in fullstatic mode.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_paranoid} ()
+
+Tells wether the game was compiled with paranoid memory management.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_gprof} ()
+
+Tells wether the game was compiled with suitable informations for gprof.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_instrument} ()
+
+Tells wether the game was compiled with the '-finstrument-fonctions' GCC flag.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_profiler} ()
+
+Tells wether the game was compiled for later use with Google Profiler support.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_gcov} ()
+
+Tells wether the game was compiled with suitable informations for gcov.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_valgrind} ()
+
+Tells wether the game was compiled for later use with valgrind.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_build_get_bin_id} ()
+
+Returns the internal bin-id value, which does not mean anything
+but changes at each build.
+
+@strong{Return value:}  an integer
+@end deftypefun
+
+@deftypefun {void} {lw6sys_build_log_all} ()
+
+Dumps in the log file the whole program pedigree, host, modules,
+that is, what are the values of all the build options. 
+Usefull for bug reports.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum} (unsigned char * @var{data}, int @var{len})
+@var{data}:  the data to process
+
+@var{len}:  the length, in bytes, of the data to process
+
+Creates a checksum from a byte array. This could be mapped on
+any standard CRC-32 and/or MD5 algorithm, but licence issues
+for those are such a headache that for the sake of simplicity,
+it's wrapped here. In LW6 context, we do not really really
+fear any attack for these checksums are used internally to
+track bugs and check, for instance, that two game states are
+actually the same on two distant computers in a network game.
+Data encryption and security of network links is another debate.
+Additionnally, this function returns an integer, easier to
+handle in standard C than any malloc'ed stuff.
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum_str} (char * @var{value})
+@var{value}:  the string to process
+
+Creates a checksum from a string. This is a convenience
+function to save the programmer the hassle of calling strlen
+before any checksum calculation.
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum_int32} (u_int32_t @var{value})
+@var{value}:  the integer to process
+
+Creates a checksum from an integer. This is a convenience
+function to save the programmer the hassle of passing a pointer
+to the integer with the size of it each time there's a checksum
+to do. Additionnally, with this one you can pass an int8 or an int16,
+and function will work just the same indenpendantly of endianness.
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum_int64} (u_int64_t @var{value})
+@var{value}:  the integer to process
+
+Creates a checksum from an integer. This is a convenience
+function to save the programmer the hassle of passing a pointer
+to the integer with the size of it each time there's a checksum
+to do. This function handles 64-bit long long integers..
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum_whd} (lw6sys_whd_t * @var{whd})
+@var{whd}:  a pointer to the wh struct to be processed
+
+Creates a checksum from the given structure. Convenience
+function to save the hassle of passing a pointer to and the size
+of the @code{lw6sys_wh_t} struct each time, knowing that there are very often
+checksums calculated on it. Also avoids endianess issues.
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_checksum_xyz} (lw6sys_xyz_t * @var{xyz})
+@var{xyz}:  a pointer to the xy struct to be processed
+
+Creates a checksum from the given structure. Convenience
+function to save the hassle of passing a pointer to and the size
+of the @code{lw6sys_xy_t} struct each time, knowing that there are very often
+checksums calculated on it. Also avoids endianess issues.
+
+@strong{Return value:}  the checksum, as an integer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update} (u_int32_t * @var{checksum}, unsigned char * @var{data}, int @var{len})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{data}:  the data to process
+
+@var{len}:  the length, in bytes, of the data to process
+
+Creates a checksum from the given data. The difference
+with @code{lw6sys_checksum} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update_str} (u_int32_t * @var{checksum}, char * @var{value})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{value}:  the string to process
+
+Creates a checksum from the given string. The difference
+with @code{lw6sys_checksum_str} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update_int32} (u_int32_t * @var{checksum}, int32_t @var{value})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{value}:  the integer to process
+
+Creates a checksum from the given integer. The difference
+with @code{lw6sys_checksum_int32} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update_int64} (u_int32_t * @var{checksum}, int64_t @var{value})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{value}:  the integer to process
+
+Creates a checksum from the given integer. The difference
+with @code{lw6sys_checksum_int64} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update_whd} (u_int32_t * @var{checksum}, lw6sys_whd_t * @var{whd})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{whd}:  a pointer to the wh struct to be processed
+
+Creates a checksum from the given structure. The difference
+with @code{lw6sys_checksum_whd} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {void} {lw6sys_checksum_update_xyz} (u_int32_t * @var{checksum}, lw6sys_xyz_t * @var{xyz})
+@var{checksum}:  a pointer to the previous checksum
+
+@var{xyz}:  a pointer to the xy struct to be processed
+
+Creates a checksum from the given structure. The difference
+with @code{lw6sys_checksum_xyz} is that this one updates an existing
+checksum, thus enabling the programmer to call it sequentially
+and get a global checksum on different sources.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {u_int8_t} {lw6sys_color_float2char} (float @var{f})
+@var{f}:  the value to convert, from 0.0f to 1.0f
+
+Converts a floating point value between 0.0f and 1.0f to its
+8-bit equivalent between 0 and 255. Usefull in color conversion.
+
+@strong{Return value:}  an integer between 0 and 255.
+@end deftypefun
+
+@deftypefun {float} {lw6sys_color_char2float} (u_int8_t @var{i})
+@var{i}:  the value to convert, from 0 to 255
+
+Converts an 8-bit value between 0 and 255 to its floating-point
+equivalent between 0.0f and 1.0f. Usefull in color conversion.
+
+@strong{Return value:}  a float between 0.0f and 1.0f.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_f_to_8} (lw6sys_color_f_t * @var{color_f})
+@var{color_f}:  the color to convert
+
+Converts a color from floating point format to the
+integer "0 to 255" common format.
+All fields (RGBA) are converted.
+
+@strong{Return value:}  the color in 8-bit format.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_8_to_f} (lw6sys_color_f_t * @var{color_f}, lw6sys_color_8_t @var{color_8})
+@var{color_f}:  the converted color (pointer must point to writable memory)
+
+@var{color_8}:  the color to convert
+
+Converts a color from the integer "0 to 255" common format
+to floating point format.
+All fields (RGBA) are converted.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_f_to_i} (lw6sys_color_f_t * @var{color_f})
+@var{color_f}:  the color to convert
+
+Converts a color from floating point format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_color_8_to_i} (lw6sys_color_8_t @var{color_8})
+@var{color_8}:  the color to convert
+
+Converts a color from common "0 to 255" structured format to a single
+integer, where all fields (RGBA) are serialized. This
+serialization is endianess independant. Could be used
+directly by low-level libraries such as SDL.
+
+@strong{Return value:}  the color serialized in an integer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_i_to_f} (lw6sys_color_f_t * @var{color_f}, u_int32_t @var{color_i})
+@var{color_f}:  the converted color (point must point to writable memory)
+
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a floating point structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_i_to_8} (u_int32_t @var{color_i})
+@var{color_i}:  the color to convert
+
+Converts a color from a serialized integer format to
+a "0 to 255" based structure.
+
+@strong{Return value:}  the converted color (structure).
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_a_to_8} (char * @var{ascii})
+@var{ascii}:  the color to convert
+
+Converts a color from a human readable string to
+a "0 to 255" based structure. The string must be
+of the form "#RRGGBBAA" or "#RGB", in a general
+manner any HTML-valid value should work.
+
+@strong{Return value:}  the converted color (structure).
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_a_to_f} (lw6sys_color_f_t * @var{color_f}, char * @var{ascii})
+@var{color_f}:  the converted color (pointer must point to writable memory)
+
+@var{ascii}:  the color to convert
+
+Converts a color from a human readable string to
+a float based structure. The string must be
+of the form "#RRGGBBAA" or "#RGB", in a general
+manner any HTML-valid value should work.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_color_8_to_a} (lw6sys_color_8_t @var{color_8})
+@var{color_8}:  the color to convert
+
+Converts a color from a "0 - 255" integer based structure
+to its readable form "#RRGGBBAA". If alpha is 255 (0xFF), that is,
+if it's opaque, then the "AA" part is ommitted.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_rgb_to_hsv} (lw6sys_color_hsv_t * @var{color_hsv}, lw6sys_color_8_t @var{color_8})
+@var{color_hsv}:  the target color, in HSV format
+
+@var{color_8}:  the source color, in RGB 256 format
+
+Converts from HSV to RGB. Usefull for color manipulation,
+since most colors are stored in RGB but HSV is convenient
+for transformation. Alpha layer is kept as is.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_hsv_to_rgb} (lw6sys_color_hsv_t * @var{color_hsv})
+@var{color_hsv}:  the source color, in HSV format
+
+Converts from RGB to HSV. Usefull to make colors transformed in HSV
+format usable again by all display routines, which consume RGB.
+Alpha layer is kept as is.
+
+@strong{Return value:}  the RGB color.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_average} (int @var{size}, lw6sys_color_8_t * @var{colors})
+@var{size}:  number of the color array (number of items)
+
+@var{colors}:  the colors to compute
+
+Tries to find out the "average" color from an array of colors.
+The algorithm is far from perfect, but should output a color which
+reflects the colors passed in.
+
+@strong{Return value:}  the (inexact) average color.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_ponderate} (lw6sys_color_8_t @var{color1}, lw6sys_color_8_t @var{color2}, float @var{coeff})
+@var{color1}:  first color
+
+@var{color2}:  second color
+
+@var{coeff}:  the ponderation coefficient
+
+Tries to find a color between the two colors passed as an argument.
+The coefficient can be used, to set the relative weight of each color.
+Using 0 will return color1, 1 will return color2 and 0.5 will make
+an average between the two colors. Any value between 0 and 1 can be
+used.
+
+@strong{Return value:}  the (inexact) ponderated color.
+@end deftypefun
+
+@deftypefun {float} {lw6sys_color_distance} (lw6sys_color_8_t @var{color1}, lw6sys_color_8_t @var{color2})
+@var{color1}:  first color
+
+@var{color2}:  second color
+
+Calculates the distance between two colors. The unit is arbitrary, a big
+value means "colors are different", 0 means they are the same. A distance
+of 1 corresponds to colors which have barely anything in common, but the
+result can still be greater than 1. Alpha layer is not taken in account.
+
+@strong{Return value:}  the distance.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_color_is_same} (lw6sys_color_8_t @var{color1}, lw6sys_color_8_t @var{color2})
+@var{color1}:  the first color to compare
+
+@var{color2}:  the second color to compare
+
+Compares two colors.
+
+@strong{Return value:}  1 if they are the same, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_8_solid} (lw6sys_color_8_t * @var{color})
+
+color: the color to modify
+
+Make a color "solid" that is make it not transparent at all.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_color_f_solid} (lw6sys_color_f_t * @var{color})
+
+color: the color to modify
+
+Make a color "solid" that is make it not transparent at all.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_atoi} (char * @var{str})
+@var{str}:  string to convert
+
+Just a plain wrapper on @code{atoi}, it's here for API consistency.
+
+@strong{Return value:}  an integer.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_atob} (char * @var{str})
+@var{str}:  string to convert
+
+Transform a string into a boolean value. Accepts "0"/"1" in input,
+but also y/n, yes/no, true/false, on/off.
+
+@strong{Return value:}  an integer, 0 or 1.
+@end deftypefun
+
+@deftypefun {float} {lw6sys_atof} (char * @var{str})
+@var{str}:  string to convert
+
+A wrapper on @code{atof}, makes sure the locale used is C (default)
+and won't change the decimal separator whatsoever. Usefull for
+serialization for instance.
+
+@strong{Return value:}  a float.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_itoa} (int @var{value})
+@var{value}:  the integer to convert
+
+Converts an integer to a string, the advantage of this function
+is it allocates memory, and does the dirty job.
+
+@strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_btoa} (int @var{value})
+@var{value}:  the boolean to convert
+
+Converts a boolean to a string, the advantage of this function
+is it allocates memory, and does the dirty job.
+
+@strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_ftoa} (float @var{value})
+@var{value}:  the float to convert
+
+Converts a float to a string, the advantage of this function
+is it allocates memory, and does the dirty job.
+
+@strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_debug_get} ()
+
+Gets the debug mode.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_debug_set} (int @var{mode})
+@var{mode}:  the debug mode, 1 if set, 0 if not.
+
+Sets the debug mode.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_dump_clear} (char * @var{user_dir})
+@var{user_dir}:  the user directory, where user can write data.
+
+Clears the dump file. That is, resets it to a "0 byte" file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_dump} (char * @var{user_dir}, char * @var{content})
+@var{user_dir}:  the user directory, where user can write data.
+
+@var{content}:  the content to be written in the dump file.
+
+Writes the dump file onto the disk. The dump is used for
+special error messages which do not really fit in the
+standard log, and require a special treatment. In pratice,
+it's used to log fatal script (Guile) errors.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {char} {lw6sys_env_separator_char} ()
+
+Gets the ENV separator, that is, for instance, the character
+used to separate paths in environment variables. Typically,
+this would be ":" on GNU and ";" on Microsft platforms.
+
+@strong{Return value:}  the ascii character code.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_env_separator_str} ()
+
+Gets the ENV separator, that is, for instance, the character
+used to separate paths in environment variables. Typically,
+this would be ":" on GNU and ";" on Microsft platforms.
+
+@strong{Return value:}  a pointer to a single 0-terminated character string
+which contains the character. Must not be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_env_concat} (char * @var{value1}, char * @var{value2})
+@var{value1}:  the left part to be concatenated
+
+@var{value2}:  the right part to be concatenated
+
+Concatenates two values and puts the ENV separator, as returned
+by @code{lw6sys_env_separator_char} between them.
+
+@strong{Return value:}  the concatenated string, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_env_exists} (char * @var{keyword})
+@var{keyword}:  the keyword to be searched in the environment variables.
+
+Searches environment variables for the given keyword. The keyword
+will be fixed so that all dashes "-" characters are replaced
+by underscores "_" characters. Characters will be changed to
+uppercase. Any non alphanumeric character will be replaced
+by "_". Finally, an "LW6_" prefix will be added. That is to say,
+calling this function with "my-param" will search for
+the "LW6_MY_PARAM" environment variable.
+
+@strong{Return value:}  1 if the environment variable exists, 0 if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_getenv} (char * @var{keyword})
+@var{keyword}:  the keyword to be searched in the environment variables.
+
+Searches environment variables for the given value. The keyword
+will be fixed so that all dashes "-" characters are replaced
+by underscores "_" characters. Characters will be changed to
+uppercase. Any non alphanumeric character will be replaced
+by "_". Finally, an "LW6_" prefix will be added. That is to say,
+calling this function with "my-param" will search for
+the "LW6_MY_PARAM" environment variable.
+
+@strong{Return value:}  the value for the given keyword. May be NULL. Must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_setenv} (char * @var{keyword}, char * @var{value})
+@var{keyword}:  the environment variable to set
+
+@var{value}:  the value of the environment variable to set
+
+Sets the environment variable to a given value. If value
+is NULL, variable is unset. Note that unlike lw6sys_getenv,
+this function does not transform the keyword into "LW6_..."
+before setting the value, so it's your responsability to
+call "lw6sys_keyword_as_env" if needed.
+
+@strong{Return value:}  1 if success, 0 if failed
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_env_split} (char * @var{value})
+@var{value}:  the value, a list of item separated by... the separator
+
+Splits the environment value into a list of strings containing
+each element. All strings are dynamically allocated, but they
+will be freed automatically when the list is freed.
+
+@strong{Return value:}  a list of strings.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_home} ()
+
+Gets the home directory of the user. Used internally to calculate
+the @code{user}-dir value. Note that Liquid War 6, by default, never
+stores files under '$HOME', instead it put things in '$HOME/.liquidwar6',
+that is 'user-dir'. If the environment variable 'HOME' is not set,
+will return '.'.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_username} ()
+
+Gets the name of the current user. Difference with the standard
+function @code{getlogin} is that this function will returned a dynamically
+allocated pointer, and provide a default value if it's undefined.
+Also, if will look at the content of the 'LOGNAME' environment
+variable if needed, and will even provide a default value.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_hostname} ()
+
+Gets the name of the current host. The name of the computer.
+Might not work perfectly, this function is just used to
+provide default values for player names and such things.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_clear_file} (char * @var{filename})
+@var{filename}:  absolute or relative filename
+
+Clears a file, that is, make it a 0 byte file, empty, ready
+to be filled if needed. If this function is called successfully,
+program can reasonnably assume file will be writable during its
+execution.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_read_file_content} (char * @var{filename})
+@var{filename}:  absolute or relative filename
+
+Reads the content of a file, and returns it as a string.
+Note that content might or might not be ascii or binary,
+the function will however put a tailing 0 character
+at the end so that low-level standard C functions do not
+segfault when used with the returned value.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_write_file_content} (char * @var{filename}, char * @var{content})
+@var{filename}:  absolute or relative filename
+
+@var{content}:  the content to be written.
+
+Writes the content into the file. Content is assumed to
+be a string, function will segfault if it's not correctly
+0 terminated as in C string convention. So this function
+will not allow you to write down arbitrary binary data,
+however LW6 uses mostly text files to store information,
+and opaque binary data usage is not recommended.
+@end deftypefun
+
+@deftypefun {lw6sys_hash_t *} {lw6sys_hash_new} (lw6sys_free_func_t @var{free_func}, int @var{size})
+@var{free_func}:  optional callback used to free memory when stored
+date is a pointer. Can be NULL when one stores non dynamically
+allocated data, such as an integer or a static array.
+
+@var{size}:  the estimated size of the hash table. Note that this is
+an estimation only. You could theorically fit 1000000 objects
+in a 3-sized hash. Problem -> this is inefficient, you'd better
+use an assoc or a bigger hash. If you store 3 elements in a
+1000000-sized hash, you'll waste memory. It might be wise to
+use a prime number as the estimated size. 421 is prime ;)
+
+Creates an empty hash. There's a difference between NULL and an
+empty hash.
+
+@strong{Return value:}  a pointer to the newly allocated hash table.
+Must be freed with @code{lw6sys_hash_free}.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hash_free} (lw6sys_hash_t * @var{hash})
+@var{hash}:  the hash to be freed.
+
+The function will cascade  delete all elements, using (if not NULL...)
+the callback passed when first creating the hash.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hash_has_key} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@var{hash}:  the hash to test
+
+@var{key}:  the key to search
+
+Not a very fast function, since on a "big" hash, strcmp will be
+called internally until the key is found.
+
+@strong{Return value:}  non-zero if there's an entry with the
+corresponding key. 
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_hash_get} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@var{hash}:  the hash to query
+
+@var{key}:  the key of which we want the value
+
+
+@strong{Return value:}  a void pointer to the data contained
+in the hash. Note that the pointer on the actual data
+is returned, that is, if it's static data, you must not
+try to free it... As long as memory management is concerned,
+destroying the hash will actually free the data if needed.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hash_set} (lw6sys_hash_t * @var{hash}, char * @var{key}, void * @var{value})
+@var{hash}:  the hash to modify
+
+@var{key}:  the key we want to updated
+
+@var{value}:  the new value
+
+Sets a value in a hash table. The key pointer need
+not be persistent, it can be freed after affectation. In
+fact a new string will be created internally. This is not
+true for the value, it's hard to find way to copy "any object".
+So if you want a hash table of strings, key can
+disappear after calling this function, but not value. The
+function passed as free_func when creating the hash will
+be used to free stuff whenever needed (unset or free).
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hash_unset} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@var{hash}:  the hash concerned
+
+@var{key}:  the key to unset
+
+Clears an entry in a hash table. The callback passed when
+creating the hash will be called if needed, to free the data
+automatically.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_hash_keys} (lw6sys_hash_t * @var{hash})
+@var{hash}:  the hash to work on
+
+Returns a list containing all the keys of the hash. The
+list must be free with lw6sys_list_free by the caller.
+This list copies all the keys of the hash, so it is
+safe to use it once the hash is deleted. However the
+keys will of course be of little interest in this case.
+But the program won't segfault.
+
+@strong{Return value:}  the list of keys.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hash_map} (lw6sys_hash_t * @var{hash}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
+@var{hash}:  the hash to work on
+
+@var{func}:  a callback to call on each entry
+
+@var{func_data}:  a pointer on some data which will be passed to the callback
+
+Executes a function on all hash items.
+The func_data parameter allows you to pass extra values to
+the function, such as a file handler or any variable which
+can not be inferred from list item values, and you of course
+do not want to make global...
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hash_sort_and_map} (lw6sys_hash_t * @var{hash}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
+@var{hash}:  the hash to work on
+
+@var{func}:  a callback to call on each entry, may be NULL
+
+@var{func_data}:  a pointer on some data which will be passed to the callback
+
+Executes a function on all hash items, like @code{lw6sys_hash_sort_and_map}
+but befor doing so, sorts all entries in alphabetical order.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {lw6sys_hash_t *} {lw6sys_hash_dup} (lw6sys_hash_t * @var{hash}, lw6sys_dup_func_t @var{dup_func})
+@var{hash}:  the hash to duplicate, can be NULL
+
+@var{dup_func}:  the function which will be called to duplicate data
+
+Duplicates an hash. All keys will be copied so that if the first
+hash is deleted, the duplicated one is fine. Additionnaly, dup_func
+will be called with all data fields. If dup_func is NULL, then data
+values will simply be copied. This is likely to be usefull when
+data is not dynamically allocated.
+
+@strong{Returned value:}  a newly allocated hash.
+@end deftypefun
+
+@deftypefun {lw6sys_hexa_serializer_t *} {lw6sys_hexa_serializer_new} (char * @var{hexa_string})
+@var{hexa_string}:  an initialization string, can be NULL.
+
+Creates an hexa serializer object. It can be initialized or not,
+if an initialization string is provided it must of course be
+valid hexadecimal ascii code, and all serialized content will
+simply be appended to it.
+
+@strong{Return value:}  a newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hexa_serializer_free} (lw6sys_hexa_serializer_t * @var{hexa_serializer})
+@var{hexa_serializer}:  an hexa serializer object
+
+Frees an hexa serializer object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_hexa_serializer_rewind} (lw6sys_hexa_serializer_t * @var{hexa_serializer})
+@var{hexa_serializer}:  an hexa serializer object
+
+Rewinds the serializer pointer, that is, make it point to start.
+Usefull before calling pop functions, when one wants to be
+sure to get the first object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_eof} (lw6sys_hexa_serializer_t * @var{hexa_serializer})
+@var{hexa_serializer}:  an hexa serializer object
+
+Tests wether we're at EOF. Usefull when one wants to know
+if there's still some data or if all objects have been correctly
+popped.
+
+@strong{Return value:}  1 if at end of file, 0 if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_hexa_serializer_as_string} (lw6sys_hexa_serializer_t * @var{hexa_serializer})
+@var{hexa_serializer}:  an hexa serializer object
+
+Exports the current content of the serializer as a string.
+String can then safely be sent on the network, for instance.
+String is copied from internal value, so it's safe to use
+it after serializer has been freed or modified.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_int64} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int64_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a 64 bit integer in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_int32} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int32_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a 32 bit integer in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_int16} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int16_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a 16 bit integer in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_int8} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int8_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes an 8 bit integer in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_float} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, float @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a floating point value in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_str} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, char * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a string in the serializer object. Note that the string
+is not directly copied in the serializer, instead all its characters
+are converted to their ASCII equivalent, then appended.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_xyz} (lw6sys_hexa_serializer_t *      @var{hexa_serializer}, lw6sys_xyz_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a lw6sys_xyz_t structure in the serializer object.
+Calling this avoids calling push for 2 integers separately.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_whd} (lw6sys_hexa_serializer_t *      @var{hexa_serializer}, lw6sys_whd_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a lw6sys_whd_t structure in the serializer object.
+Calling this avoids calling push for 2 integers separately.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_push_color} (lw6sys_hexa_serializer_t *        @var{hexa_serializer}, lw6sys_color_8_t @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to push
+
+Pushes a color structure in the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_int64} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int64_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a 64 bit integer from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_int32} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int32_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a 32 bit integer from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_int16} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int16_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a 16 bit integer from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_int8} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, int8_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops an 8 bit integer from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_float} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, float * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a floating point value from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_str} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, char ** @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a string from the serializer object. The returned value
+is a newly allocated pointer, which must be freed, you don't
+need to provide a buffer, just a valid pointer on a NULL pointer.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_xyz} (lw6sys_hexa_serializer_t *     @var{hexa_serializer}, lw6sys_xyz_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a lw6sys_xyz_t structure from the serializer object.
+Avoids calling two integer pops.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_whd} (lw6sys_hexa_serializer_t *     @var{hexa_serializer}, lw6sys_whd_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a lw6sys_whd_t structure from the serializer object.
+Avoids calling two integer pops.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6sys_hexa_serializer_pop_color} (lw6sys_hexa_serializer_t *       @var{hexa_serializer}, lw6sys_color_8_t * @var{value})
+@var{hexa_serializer}:  an hexa serializer object
+
+@var{value}:  value to pop (returned value)
+
+Pops a color from the serializer object.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {void} {lw6sys_history_init} ()
+
+Initializes the history system. Not initializing won't cause
+any segfault, but data will be inconsistent.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_history_register} (char * @var{msg})
+@var{msg}:  the message to register.
+
+Registers a message in the history log, that is, adds it.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char_ptr_t *} {lw6sys_history_get} (int64_t @var{timeout})
+@var{timeout}:  the message age limit.
+
+Get all the messages that are younger than timeout (in seconds).
+
+@strong{Return value:}  a pointer on string pointers. May be NULL. Last
+pointer is NULL too, that's how you know the array is over.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_history_free} (char ** @var{history})
+@var{history}:  the data to free
+
+Frees a pointer returned by @code{lw6sys_history_get}.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_locale_to_utf8} (char * @var{string})
+@var{string}:  the string to convert
+
+Used to force strings into UTF-8 mode, this is basically
+to match the TTF font settings used when displaying stuff
+on OpenGL. Indeed, in this case, the standard _ gettext
+function won't work, we need to force UTF-8 mode. If the
+locale is UTF-8, then function does nothing, but at least
+it's transparent usage won't hurt.
+
+@strong{Returned value:}  a newly allocated string, always in UTF-8
+no matter what the locale is.
+@end deftypefun
+
+@deftypefun {u_int16_t} {lw6sys_generate_id_16} ()
+
+Long 16-bit ID generator, calls the random function internally.
+As usual, those are not perfect random numbers, however the function
+implementation emphasizes more on 'real randomness' rather than
+relying on performance. Generating twice the same number should be
+fairly rare.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_generate_id_32} ()
+
+Long 32-bit ID generator, calls the random function internally.
+As usual, those are not perfect random numbers, however the function
+implementation emphasizes more on 'real randomness' rather than
+relying on performance. Generating twice the same number should be
+fairly rare.
+@end deftypefun
+
+@deftypefun {u_int64_t} {lw6sys_generate_id_64} ()
+
+Long 64-bit ID generator, calls the random function internally.
+As usual, those are not perfect random numbers, however the function
+implementation emphasizes more on 'real randomness' rather than
+relying on performance. Generating twice the same number should be
+fairly rare.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_id_16} (u_int16_t @var{id_16})
+@var{id_16}:  the id to check
+
+Checks wether the given id is a valid 16-bit id.
+
+@strong{Return value:}  1 if OK, 0 if not a valid id.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_id_32} (u_int32_t @var{id_32})
+@var{id_32}:  the id to check
+
+Checks wether the given id is a valid 32-bit id.
+
+@strong{Return value:}  1 if OK, 0 if not a valid id.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_id_64} (u_int64_t @var{id_64})
+@var{id_64}:  the id to check
+
+Checks wether the given id is a valid 64-bit id.
+
+@strong{Return value:}  1 if OK, 0 if not a valid id.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_id} (u_int64_t @var{id})
+@var{id}:  the id to check
+
+Checks wether the given id is a valid id (16, 32 or 64-bit).
+
+@strong{Return value:}  1 if OK, 0 if not a valid id.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_id_ltoa} (u_int64_t @var{id})
+
+id: the id to convert
+
+Transform an id into its string representation. Error checking is
+done, if the id is invalid, returned value is NULL.
+All ids (16, 32 and 64-bit) are handled.
+
+@strong{Return value:}  a newly allocated string, might be NULL.
+@end deftypefun
+
+@deftypefun {u_int64_t} {lw6sys_id_atol} (char * @var{id})
+
+id: the id to convert
+
+Transform an id into a long integer. Error checking is
+done, if the id is invalid, returned value is 0.
+All ids (16, 32 and 64-bit) are handled.
+
+@strong{Return value:}  the id as a long integer, 0 if incorrect source id.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_keyword_as_key} (char * @var{keyword})
+@var{keyword}:  the keyword to transform
+
+Transforms a keyword into a "key", that is, removes all heading dashes,
+switches to lowercase, and other stuff. This is used internally
+to match options and config file parameters, for instance.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_keyword_as_arg} (char * @var{keyword})
+@var{keyword}:  the keyword to transform
+
+Transforms a keyword into a command-line parameter to be matched.
+Does the same as @code{lw6sys_keyword_as_key}, and adds a "--" prefix.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_keyword_as_env} (char * @var{keyword})
+@var{keyword}:  the keyword to transform
+
+Transforms a keyword into the corresponding environment variable name.
+It will uppercase the name, replace "-" by "_", and add a "LW6_"
+prefix. "my-param" will become "LW6_MY_PARAM".
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_keyword_as_xml} (char * @var{keyword})
+@var{keyword}:  the keyword to transform
+
+Transforms a keyword into the corresponding config file entry.
+In practice, just the same as @code{lw6sys_keyword_as_key}.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_list_new} (lw6sys_free_func_t @var{free_func})
+@var{free_func}:  a callback which will be called on data when freeing the list
+
+Creates an empty list. There's a difference between NULL and an
+empty list. The empty list would (in Scheme) be '() whereas
+NULL corresponds to undefined "is not a list and will generate
+errors if you ever call list functions on it".
+
+@strong{Return value:}  a pointer to the created object, may be NULL.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_list_free} (lw6sys_list_t * @var{list})
+@var{list}:  the list to delete.
+
+Delete a list, this will cascade delete all the following
+items in the list.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_list_next} (lw6sys_list_t * @var{list})
+@var{list}:  the current position in the list
+
+It's safer to call this rather than dig right into
+the internals of the list.
+
+@strong{Return value:}  a new position in the list, may be NULL.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_list_is_empty} (lw6sys_list_t * @var{list})
+@var{list}:  the list we want informations about
+
+Checks wether the list is empty or not. Note that being empty
+and being NULL is not the same. An empty list is a valid pointer
+on a list where there's no item, a NULL pointer is not a list at all.
+Do *NOT* call this function on NULL.
+
+@strong{Return value:}  1 if empty, 0 if there is at list one item.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_list_length} (lw6sys_list_t * @var{list})
+@var{list}:  the list we want informations about
+
+Calculates the length of the list. This is a performance killer
+for lists are inadapted to this. But it can still be usefull.
+
+@strong{Return value:}  the number of elements, 0 is none (empty list).
+@end deftypefun
+
+@deftypefun {void} {lw6sys_list_map} (lw6sys_list_t * @var{list}, lw6sys_list_callback_func_t @var{func}, void * @var{func_data})
+@var{list}:  the list where elements will be taken
+
+@var{func}:  the function which will be executed
+
+@var{func_data}:  additionnal data to be passed to @code{func}
+
+Executes a function on all list items.
+The @code{func_data} parameter allows you to pass extra values to
+the function, such as a file handler or any variable which
+can not be inferred from list item values, and you of course
+do not want to make global... Not as convenient as a
+real "for each" construct as can be found in any modern
+langage, but does the job. No return value, if you really
+want one, pass a structure in @code{func_data} and modify something
+in it on success, failure, whatever.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_list_push_front} (lw6sys_list_t ** @var{list}, void * @var{data})
+@var{list}:  a pointer to the list (pointer on pointer, read/write value)
+
+@var{data}:  the data to be pushed
+
+Pushes data on the list. The @code{free_func} function is copied
+from the previous element. The pointer on the list is
+changed "in place" (in/out). Note that if there's a @code{malloc}
+problem it might end-up being NULL... This should be rare
+but it *can* happen. You cannot push something else than a 
+pointer, pushing an int is a very bad idea. Push a pointer
+on the integer, and ensure it's always there, or @code{malloc} it
+and pass @code{lw6sys_free_callback} when creating the list.
+If you think you can cast an integer into a pointer, think
+64-bit machines...
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_list_pop_front} (lw6sys_list_t ** @var{list})
+@var{list}:  a pointer to the list (pointer on pointer, read/write value)
+
+Pops data from the list, the returned value is what
+was passed to list_push. The pointer on the list is
+changed "in place" (in/out). When data is popped,
+that needs some freeing (i.e. free_func was not NULL
+when creating the list) then it's the responsibility
+of the caller to free it when popping it. One popped
+it's not freed, but it's out of the list scope. Of
+course the lw6sys_list_t is freed, but not the data.
+If you happen to store non-NULL data in your list, you
+can call this function without bothering calling @code{lw6sys_list_is_empty}
+and assume that when you get NULL, there's no data left.
+At this stage, the list won't exist anymore BTW, you won't
+even need to free it. The idea is: popping a list which
+has no elements left (empty list) destroys the list and returns NULL.
+
+@strong{Return value:}  a pointer on the popped data, whatever you pushed.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_list_push_back} (lw6sys_list_t ** @var{list}, void * @var{data})
+@var{list}:  a pointer to the list (pointer on pointer, read/write value)
+
+@var{data}:  the data to be pushed
+
+Pushes data on the list. The @code{free_func} function is copied
+from the previous element. The pointer on the list is
+changed "in place" (in/out). Note that if there's a @code{malloc}
+problem it might end-up being NULL... This should be rare
+but it *can* happen. You cannot push something else than a 
+pointer, pushing an int is a very bad idea. Push a pointer
+on the integer, and ensure it's always there, or @code{malloc} it
+and pass @code{lw6sys_free_callback} when creating the list.
+If you think you can cast an integer into a pointer, think
+64-bit machines...
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_list_pop_back} (lw6sys_list_t ** @var{list})
+@var{list}:  a pointer to the list (pointer on pointer, read/write value)
+
+Pops data from the list, the returned value is what
+was passed to list_push. The pointer on the list is
+changed "in place" (in/out). When data is popped,
+that needs some freeing (i.e. free_func was not NULL
+when creating the list) then it's the responsibility
+of the caller to free it when popping it. One popped
+it's not freed, but it's out of the list scope. Of
+course the lw6sys_list_t is freed, but not the data.
+If you happen to store non-NULL data in your list, you
+can call this function without bothering calling @code{lw6sys_list_is_empty}
+and assume that when you get NULL, there's no data left.
+At this stage, the list won't exist anymore BTW, you won't
+even need to free it. The idea is: popping a list which
+has no elements left (empty list) destroys the list and returns NULL.
+
+@strong{Return value:}  a pointer on the popped data, whatever you pushed.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_list_dup} (lw6sys_list_t * @var{list}, lw6sys_dup_func_t @var{dup_func})
+@var{list}:  the list to duplicate, can be NULL
+
+@var{dup_func}:  the function which will be called to duplicate data
+
+Duplicates a list. All data will be copied so that if the first
+list is deleted, the duplicated one is fine. Addtionnally, dup_func
+will be called to filter all data, and possibly allocated new
+pointers if needed, for instance. If dup_func is NULL, then data
+values will simply be copied. This is likely to be usefull when
+data is not dynamically allocated.
+
+@strong{Returned value:}  a newly allocated list.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log_set_file} (char * @var{filename})
+@var{filename}:  the name of the log file.
+
+Sets up the log file. Until you call this function, messages
+all logged to the default log file, as returned by
+the @code{lw6sys_get_default_log_file} function.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log_clear} (char * @var{filename})
+@var{filename}:  the name of the log file.
+
+Clears the log file, this function would typically be called
+at the beginning of the program. If filename is NULL, then the
+default log file is cleared.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log} (int @var{level_id}, char * @var{file}, int @var{line}, char * @var{fmt},  @var{...})
+@var{level_id}:  the log level to use. Possible values are, by order, 
+LW6SYS_LOG_ERROR_ID (0), 
+LW6SYS_LOG_WARNING_ID (1), 
+LW6SYS_LOG_NOTICE_ID (2), 
+LW6SYS_LOG_INFO_ID (3),
+LW6SYS_LOG_DEBUG_ID (4) and
+LW6SYS_LOG_TMP_ID (5).
+
+@var{file}:  the name of the source file where the function is called,
+one can use __FILE__
+
+@var{line}:  the line in the source file where the function is called,
+one can use __LINE__
+
+@var{fmt}:  a printf-like format string
+@...: printf-like arguments, corresponding to @code{fmt}.
+
+This function is usually called with the first three arguments
+packed into a single macro. For instance the
+@code{LW6SYS_LOG_WARNING} macro expands and fills the first 3
+args, so there's no need to type __FILE__ and __LINE__ again
+and again. Note that this function will reset errno. The
+idea is to call it whenever there's something to do with errno
+(if you deal with errno, it's a good habit to log it) then
+errno is cleared so that it won't interfere with next log messages.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log_critical} (char * @var{fmt},  @var{...})
+@var{fmt}:  a printf-like format string
+@...: printf-like arguments, corresponding to @code{fmt}.
+
+This function is a special log function which will dump informations
+on the console only, without opening any log file whatsoever. The idea
+is that it's a "never fail" function. Additionnally, it will never
+return but quit the program. This can be used as an ultimate emergency
+function, use it when the program won't run for sure, and displaying
+an immediate error message is the only issue.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_log_get_level} ()
+@end deftypefun
+
+@deftypefun {void} {lw6sys_log_set_level} (int @var{level})
+@var{level}:  the log level, integer between 0 & 4. 4 is very verbose (debug),
+0 displays errors only.
+
+@end deftypefun
+
+@deftypefun {void} {lw6sys_math_poly_wy1y2s1} (float * @var{y}, float * @var{s}, float @var{x}, float @var{w}, float @var{y1}, float @var{y2}, float @var{s1})
+@var{y}:  the return value (position, may be NULL)
+
+@var{s}:  the return value (speed, may be NULL)
+
+@var{x}:  the x parameter, the value to iterate on
+
+@var{w}:  the width, that is, the x value after which output is constant
+
+@var{y1}:  the initial value, when v is s1 and x=0
+
+@var{y2}:  the target value, when v=0 and x>=w
+
+@var{s1}:  the initial speed, that is dy/dx at x=0
+
+A function which can be used to implement smooth moving. It will
+extrapolate, for values of x>=0, an y position with a continuous
+derivate (dy/dx is continuous, function is 2nd order polynom) and
+which ends up at x=w with a constant value, that is dy/dx=v=0.
+Typically an item set with an initial speed of v with this function
+@end deftypefun
+
+@deftypefun {float} {lw6sys_math_angle_360} (int @var{x}, int @var{y})
+@var{x}:  x coordinate
+
+@var{y}:  y coordinate
+
+This is a wrapper over the standard @code{atan} function which will
+handle internally the special x == 0 case and the various positive/negative
+values of @code{x} and @code{y}.
+
+@strong{Return value:}  the angle, in degrees
+@end deftypefun
+
+@deftypefun {float} {lw6sys_math_heartbeat} (int64_t @var{x}, int @var{period}, float @var{y1}, float @var{y2})
+@var{x}:  the parameter (typically a timestamp)
+
+@var{period}:  the period (typically something like 1000 milliseconds)
+
+@var{y1}:  the low value (heart at rest)
+
+@var{y2}:  the high value (when bumping)
+
+A heartbeat function, typically usefull to power up eye-candy,
+but it could do something else.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_math_blink} (int64_t @var{x}, int @var{period})
+@var{x}:  the parameter (typically a timestamp)
+
+@var{period}:  the period (typically something like 1000 milliseconds)
+
+This function will alternatively return 1 or 0, usefull
+to handle blinking for instance.
+
+@strong{Return value:}  0 or 1
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_malloc} (int @var{size}, char * @var{file}, int @var{line})
+@var{size}:  number of bytes to allocate.
+
+@var{file}:  name of the file calling the function, use @code{__FILE__}
+
+@var{line}:  line in the file calling the function, use @code{__LINE__}
+
+This is a wrapper over the standard @code{malloc} function. Additionnally
+it will keep track of the call with an internal program-wide counter,
+thus enabling memory leak checks. You should not use this function
+directly but use the macro @code{LW6SYS_MALLOC} which has the same syntax,
+without the last two parameters, which are automatically provided
+by macro expansion.
+
+@strong{Return value:}  the newly allocated pointer. Data is not initialized.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_calloc} (int @var{size}, char * @var{file}, int @var{line})
+@var{size}:  number of bytes to allocate.
+
+@var{file}:  name of the file calling the function, use @code{__FILE__}
+
+@var{line}:  line in the file calling the function, use @code{__LINE__}
+
+This is a wrapper over the standard @code{calloc} function. Additionnally
+it will keep track of the call with an internal program-wide counter,
+thus enabling memory leak checks. You should not use this function
+directly but use the macro @code{LW6SYS_CALLOC} which has the same syntax,
+without the last two parameters, which are automatically provided
+by macro expansion.
+
+@strong{Return value:}  the newly allocated pointer. Data is filled with zeros.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_realloc} (void * @var{ptr}, int @var{size}, char * @var{file}, int @var{line})
+@var{ptr}:  the pointer to reallocate.
+
+@var{size}:  number of bytes to allocate.
+
+@var{file}:  name of the file calling the function, use @code{__FILE__}
+
+@var{line}:  line in the file calling the function, use @code{__LINE__}
+
+This is a wrapper over the standard @code{realloc} function.
+You should not use this function
+directly but use the macro @code{LW6SYS_REALLOC} which has the same syntax,
+without the last two parameters, which are automatically provided
+by macro expansion.
+
+@strong{Return value:}  the newly allocated pointer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_free} (void * @var{ptr}, char * @var{file}, int @var{line})
+@var{ptr}:  the pointer to free.
+
+@var{file}:  name of the file calling the function, use @code{__FILE__}
+
+@var{line}:  line in the file calling the function, use @code{__LINE__}
+
+This is a wrapper over the standard @code{free} function. Additionnally
+it will keep track of the call with an internal program-wide counter,
+thus enabling memory leak checks. You should not use this function
+directly but use the macro @code{LW6SYS_FREE} which has the same syntax,
+without the last two parameters, which are automatically provided
+by macro expansion.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_free_callback} (void * @var{ptr})
+@var{ptr}:  the pointer to free.
+
+This is a callback to be used when the @code{lw6sys_free} does not fit.
+A good example is a list, which, to free its elements, requires
+you to provide a callback that only takes 1 arg, the pointer
+to free. Problem, @code{lw6sys_free} takes 3 args. And the @code{LW6SYS_FREE}
+macro is not usable in such a context. And you can't use standard @code{free}
+either for it would mess up the @code{malloc} / @code{free} automatical count
+which is so convenient to track memory leaks. So this callback is
+here, it's only drawback is that in case of an error, the error
+will not be reported with the real file and line parameters. It's
+still better than nothing.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_megabytes_available} ()
+
+Gives a raw approximation of available memory, in megabytes.
+Value is to be taken with distance, but it can give good hints
+when system is running short of ressources.
+
+@strong{Return value:}  number of megabytes (physical memory) available.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_is_big_endian} ()
+
+Checks the endianess of the machine. PPC is big endian, for instance.
+
+@strong{Return value:}  1 if system is big endian, 0 if little endian.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_is_little_endian} ()
+
+Checks the endianess of the machine. x86 is little endian, for instance.
+
+@strong{Return value:}  1 if system is little endian, 0 if big endian.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_types_size} ()
+
+Checks of common types and usefull structures, this is a debugging
+function which helps finding compiler strange behaviors and 
+programmer's bad intuitions.
+
+@strong{Return value:}  1 if everything is OK, 0 if error.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_mutex_create} ()
+
+Creates a mutex object.
+
+@strong{Return value:}  newly allocated pointer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_mutex_destroy} (void * @var{mutex})
+@var{mutex}:  the mutex to destroy.
+
+Destroys a mutex object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_mutex_lock} (void * @var{mutex})
+@var{mutex}:  the mutex to use
+
+Locks the mutex. Note that this should never fail unless
+there's a serious initialization problem, instead, function
+will wait forever until mutex is released.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_mutex_trylock} (void * @var{mutex})
+@var{mutex}:  the mutex to use
+
+Tries to locks the mutex. That is, tells wether mutex
+can be locked immediately or not. Note that this does
+not mean there's 100% chance next call to lock will
+terminated immediately, since lock can still be acquired
+by another thread.
+
+@strong{Return value:}  1 if mutex unlocked, 0 if locked or error.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_mutex_unlock} (void * @var{mutex})
+@var{mutex}:  the mutex to use
+
+Unlocks a mutex.
+
+@strong{Return value:}  1 if sucess, 0 if error.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_mutex_lock_count} ()
+
+Returns how many mutexes have been locked since program start.
+Usefull for sanity checking when debugging.
+
+@strong{Return value:}  number of calls to lock
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_mutex_unlock_count} ()
+
+Returns how many mutexes have been unlocked since program start.
+Usefull for sanity checking when debugging.
+
+@strong{Return value:}  number of calls to unlock
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_mutex_count} ()
+
+Checks wether unlock has been called as many times as lock.
+Usefull for sanity checking when debugging.
+
+@strong{Return value:}  1 if OK, 0 if inconsistency.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_true} ()
+
+Function which returns always true, that is, something different
+than 0.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_false} ()
+
+Function which returns always false, that is, 0. This can seem
+totally useless but it does have some utility. It's used for instance
+to "fool" the compiler and force it to compile and link functions in
+binaries, so that, afterwards, dynamically loaded .so files can find
+in the main binary some functions which would otherwise be stripped
+during the final link.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_user_dir} ()
+
+Returns the default user directory. Note that this value
+is not static, it can depend, for instance, of the environment
+variable @code{HOME}.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_config_file} ()
+
+Returns the default config file. Note that this value
+is not static, it can depend, for instance, of the environment
+variable @code{HOME}.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_log_file} ()
+
+Returns the default log file. Note that this value
+is not static, it can depend, for instance, of the environment
+variable @code{HOME}.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_prefix} ()
+
+Returns the default prefix, could be /usr/local for instance.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_mod_dir} ()
+
+Returns the default module directory (dynamically loaded libraries).
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_data_dir} ()
+
+Returns the default data directory.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_music_dir} ()
+
+Returns the default music directory.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_music_path} ()
+
+Returns the default music path, which can be composed of several directories.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_map_dir} ()
+
+Returns the default map directory.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_map_path} ()
+
+Returns the default map path, which can be composed of several directories.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_default_script_file} ()
+
+Returns the default script file.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_options_log_defaults} ()
+
+Logs all default values to log file. Usefull for debugging, to
+know where the program is searching for its informations.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_cwd} ()
+
+Returns the current working directory (absolute path).
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_run_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the binary directory, that is, the directory the binary
+is stored in. This is calculated dynamically, by interpreting
+command-line arguments.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_user_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the user dir, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_config_file} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the config file, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_log_file} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the log file, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_prefix} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the prefix, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_mod_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the mod dir (modules, shared .so), 
+taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_data_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the data dir, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_music_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the music dir, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_music_path} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the music path, taking in account command-line and
+environment variables. However config file content has no impact
+on the result. Music path can contain several directories.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_map_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the map dir, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_map_path} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the map path, taking in account command-line and
+environment variables. However config file content has no impact
+on the result. Map path can contain several directories.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_get_script_file} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Returns the script file, taking in account command-line and
+environment variables. However config file content has no impact
+on the result.
+
+@strong{Return value:}  a newly allocated string.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_options_log} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, number of arguments, as given to @code{main}
+
+@var{argv}:  argv, pointer to arguments, as given to @code{main}
+
+Logs all the main options values which are not config-file
+dependant but depend on built-in defaults, command-line arguments
+and environment variables. Usefull to debug and know where the
+program is searching for things.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_file_exists} (char * @var{filename})
+@var{filename}:  the file to test
+
+Tests the existence of a file on the filesystem. File is considered
+to exists if it's at least readable.
+
+@strong{Return value:}  1 if OK, 0 if file doesn't exist or can't be read.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_dir_exists} (char * @var{dirname})
+@var{dirname}:  the directory to test
+
+Tests the existence of a directory on the filesystem.
+
+@strong{Return value:}  1 if OK, 0 if directory doesn't exist.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_create_dir} (char * @var{dirname})
+@var{dirname}:  the directory to create
+
+Creates a directory, performing sanity checks such as verifying
+the directory really exists after being created.
+
+@strong{Return value:}  1 if OK, 0 if error.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_create_dir_silent} (char * @var{dirname})
+@var{dirname}:  the directory to create
+
+Creates a directory like @code{lw6sys_create_dir} but this function
+is silent in the sense that it won't log any error. Usefull
+to create the log directory itself, for instance, and avoid
+infinite loops on error.
+
+@strong{Return value:}  1 if OK, 0 if error.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_add_slash} (char * @var{path})
+@var{path}:  a path
+
+Adds a slash, or in a general manner, a directory separator,
+at the end of a path, if needed. So /foo/bar will become
+/foo/bar/ but /bar/foo/ will remain /bar/foo/.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_strip_slash} (char * @var{path})
+@var{path}:  a path
+
+Strips the slash, or in a general manner, the directory separator,
+at the end of a path, if needed. So /foo/bar/ will become
+/foo/bar but /bar/foo will remain /bar/foo.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_concat} (char * @var{path1}, char * @var{path2})
+@var{path1}:  left part of the path
+
+@var{path2}:  right part of the path
+
+Concatenates 2 parts of a path. Function will try to avoid
+stupid "double-slash" when concatenating /foo/ with /bar/
+and conversely insert a directory separator when concatenating
+/foo with bar/.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_path_split} (char * @var{path})
+@var{path}:  a path
+
+Splits a path into all its parts. For instance /boo/bar/foo2/bar2
+returns a 4 elements list. This is more than a plain split, for
+heading and tailing slashes will be ignored, and various path
+separators will be interpreted (depends on platform).
+
+@strong{Return value:}  a list containing 0-terminated strings.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_path_is_relative} (char * @var{path})
+@var{path}:  a path
+
+Checks wether a path is relative or absolute.
+
+@strong{Return value:}  1 if relative, 0 if absolute.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_path_is_cwd} (char * @var{path})
+@var{path}:  a path
+
+Checks wether a path is "." or not. Will also trap "" and "./".
+
+@strong{Return value:}  1 if relative, 0 if absolute.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_parent} (char * @var{path})
+@var{path}:  a path
+
+Returns the parent path. That will return /foo when given
+/foo/bar in input. 
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_unparent} (char * @var{path})
+@var{path}:  a path
+
+Given the ../foo/bar path, will return foo/bar. Usefull to
+get rid of heading ../ when a path is known to start with it.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_path_unparent_no_malloc} (char * @var{path})
+@var{path}:  a path
+
+Given the ../foo/bar path, will return foo/bar. Usefull to
+get rid of heading ../ when a path is known to start with it.
+This is different from @code{lw6sys_path_unparent} just because
+the result is not dynamically allocated and copied from source.
+
+@strong{Return value:}  a pointer which points somewhere within the
+string passed as an argument.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_dir_list} (char * @var{dir}, lw6sys_dir_list_filter_func_t @var{filter_func}, void * @var{func_data}, int * @var{n})
+@var{dir}:  the path of the directory to list
+
+@var{filter_func}:  a function which will filter entries, can be NULL
+
+@var{func_data}:  additionnal data passed to filter_func
+
+@var{n}:  will contain the number of items found
+
+This list a directory. The filter will be passed the file path
+as an argument. If it returns 1, the file is kept, if it returns 0
+it's suppressed from the list.
+
+@strong{Return value:}  a list containing strings (file paths).
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_path_list} (char * @var{path}, lw6sys_dir_list_filter_func_t     @var{filter_func}, void * @var{func_data}, int * @var{n})
+@var{path}:  the path of the path to list
+
+@var{filter_func}:  a function which will filter entries, can be NULL
+
+@var{func_data}:  additionnal data passed to filter_func
+
+@var{n}:  will contain the number of items found
+
+This list a directory. By path we mean here a list of separated
+directories, separated by : for instance.
+The filter will be passed the file path
+as an argument. If it returns 1, the file is kept, if it returns 0
+it's suppressed from the list. It's like performing a call
+to @code{lw6sys_dir_list} on each of the path members.
+
+@strong{Return value:}  a list containing strings (file paths).
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_find_in_dir_and_path} (char * @var{dir}, char * @var{path}, char * @var{file})
+@var{dir}:  a directory, when to search the file first
+
+@var{path}:  the path to search too, a separated list of dirs
+
+@var{file}:  the filename to search for
+
+Tries to find a file in the given paths. The function is typically
+used to find music files. First it tries to find the file in dir,
+then it tries to find it in each dir of path. @code{file} must be only
+a file name and not contain any directory. The function will use
+the filename only anyway.
+
+@strong{Return value:}  the full path of the found file.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_print_xml_header} (FILE * @var{f}, char * @var{comment})
+@var{f}:  file to output content to
+
+Prints a standard Liquid War compliant XML header in the given file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_print_xml_footer} (FILE * @var{f})
+@var{f}:  file to output content to
+
+Prints a standard Liquid War 6 compliant XML footer in the given file.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_profiler_check} (int @var{verbose})
+@var{verbose}:  wether to display informations on the console
+
+Checks wether Google Profiler support has been built, and if
+it's set, outputs the log file. If CPUPROFILE is defined but
+binary has no support for it, will display a warning message.
+
+@strong{Return value:}  1 if google profile enabled and activated, 0 if not
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_default} (lw6sys_progress_t * @var{progress}, float * @var{value})
+@var{progress}:  the progress struct to initialize
+
+@var{value}:  the value to point to
+
+Sets a progress struct to default values, that is, ranging from 0.0f to 1.0f.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_update} (lw6sys_progress_t * @var{progress}, int @var{min}, int @var{max}, int @var{value})
+@var{progress}:  the progress struct to update
+
+@var{min}:  the min value
+
+@var{max}:  the max value
+
+@var{value}:  the current value
+
+Updates a progress struct. This is typically the function used by a
+callback to show the progress of a process. Note that this is note an
+initializer. Rather, the progress struct was initialized before, and
+this call is done in a loop with min being 0, max being the last value
+in the loop, and value the current index in the loop. NULL pointers
+correctly handled internally, so call this with any parameters, it's safe.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_split} (lw6sys_progress_t * @var{progress1}, lw6sys_progress_t * @var{progress2}, lw6sys_progress_t * @var{progress_src})
+
+progress1: the first part of the splitted progress
+progress2: the second part of the splitted progress
+progress_src: the progress to split
+
+Utility function to split a progress struct, that is, if a progress was
+ranging from a to b, make 2 progress structs, ranging from a to c and
+from c to b, c being between a and b.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_split_here} (lw6sys_progress_t * @var{progress1}, lw6sys_progress_t * @var{progress2}, lw6sys_progress_t * @var{progress_src}, float @var{here})
+
+progress1: the first part of the splitted progress
+progress2: the second part of the splitted progress
+progress_src: the progress to split
+here: where to split
+
+Utility function to split a progress struct, that is, if a progress was
+ranging from a to b, make 2 progress structs, ranging from a to c and
+from c to b, c being between a and b. The here value controls what c
+is. If here=0, then c=a. If here=1, then c=b.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_split3} (lw6sys_progress_t * @var{progress1}, lw6sys_progress_t * @var{progress2}, lw6sys_progress_t * @var{progress3}, lw6sys_progress_t * @var{progress_src})
+
+progress1: the first part of the splitted progress
+progress2: the second part of the splitted progress
+progress3: the third part of the splitted progress
+progress_src: the progress to split
+
+Utility function to split a progress struct, this one will split it
+into 3 equal parts.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_split4} (lw6sys_progress_t * @var{progress1}, lw6sys_progress_t * @var{progress2}, lw6sys_progress_t * @var{progress3}, lw6sys_progress_t * @var{progress4}, lw6sys_progress_t * @var{progress_src})
+
+progress1: the first part of the splitted progress
+progress2: the second part of the splitted progress
+progress3: the third part of the splitted progress
+progress4: the fourth part of the splitted progress
+progress_src: the progress to split
+
+Utility function to split a progress struct, this one will split it
+into 4 equal parts.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_split5} (lw6sys_progress_t * @var{progress1}, lw6sys_progress_t * @var{progress2}, lw6sys_progress_t * @var{progress3}, lw6sys_progress_t * @var{progress4}, lw6sys_progress_t * @var{progress5}, lw6sys_progress_t * @var{progress_src})
+
+progress1: the first part of the splitted progress
+progress2: the second part of the splitted progress
+progress3: the third part of the splitted progress
+progress4: the fourth part of the splitted progress
+progress5: the fourth part of the splitted progress
+progress_src: the progress to split
+
+Utility function to split a progress struct, this one will split it
+into 5 equal parts.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_begin} (lw6sys_progress_t * @var{progress})
+
+progress: the progress to update
+
+Sets the progress to its min value, NULL values correctly handled.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_half} (lw6sys_progress_t * @var{progress})
+
+progress: the progress to update
+
+Sets the progress to the average between min and max, 
+NULL values correctly handled.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6sys_progress_end} (lw6sys_progress_t * @var{progress})
+
+progress: the progress to update
+
+Sets the progress to its max value, NULL values correctly handled.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6sys_random} (u_int32_t @var{range})
+@var{range}:  the high limit for random generated numbers. If you want 
+random numbers between 0 and 5, set this to 6.
+
+Wrapper over standard random function. This one is thread safe.
+This idea is not to provide cryptographic-proof random numbers,
+rather generate sequences which are random enough to generate
+unique server ids and such things. The function is initialized
+on its first call, and results depend on timestamp, host name,
+user name, and memory available.
+@end deftypefun
+
+@deftypefun {float} {lw6sys_random_float} (float @var{min}, float @var{max})
+@var{min}:  the min value, as a float
+
+@var{max}:  the max value, as a float
+
+Returns a random float number between min & max. Can be equal to
+min or max.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sdl_register} ()
+
+Function used to avoid initializing SDL several times in a program.
+AFAIK Allegro has a @code{was_init} function, but SDL doesn't. With this
+function - which every LW6 sub-module should use - one can know
+globally, for the whole program, wether SDL has been initialized 
+or not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sdl_unregister} ()
+
+Call this whenever you are done with SDL and exit it, so that
+the @code{lw6sys_sdl_register} function works correctly.
+
+@strong{Return value:}  1 if SDL needs to be unregistered, that is, if
+it has already been initialized, else 0.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_serialize_int64} (unsigned char * @var{data}, int64_t @var{value})
+@var{data}:  pointer to the data, must contain at least 8 bytes of writable space
+
+@var{value}:  the integer to serialize
+
+Serializes a 64-bit integer in a byte buffer. Result is not dependant
+on machine endianess. Typically used for checksums or high-level
+serializations.
+@end deftypefun
+
+@deftypefun {int64_t} {lw6sys_unserialize_int64} (unsigned char * @var{data})
+@var{data}:  pointer to the data, must contain at least 8 bytes
+
+Recovers a 64-bit integer from a byte buffer created,
+for instance, with @code{lw6sys_serialize_int64}.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_serialize_int32} (unsigned char * @var{data}, int32_t @var{value})
+@var{data}:  pointer to the data, must contain at least 4 bytes of writable space
+
+@var{value}:  the integer to serialize
+
+Serializes a 32-bit integer in a byte buffer. Result is not dependant
+on machine endianess. Typically used for checksums or high-level
+serializations.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6sys_unserialize_int32} (unsigned char * @var{data})
+@var{data}:  pointer to the data, must contain at least 4 bytes
+
+Recovers a 32-bit integer from a byte buffer created,
+for instance, with @code{lw6sys_serialize_int32}.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_serialize_int16} (unsigned char * @var{data}, int16_t @var{value})
+@var{data}:  pointer to the data, must contain at least 2 bytes of writable space
+
+@var{value}:  the integer to serialize
+
+Serializes a 16-bit integer in a byte buffer. Result is not dependant
+on machine endianess. Typically used for checksums or high-level
+serializations.
+@end deftypefun
+
+@deftypefun {int16_t} {lw6sys_unserialize_int16} (unsigned char * @var{data})
+@var{data}:  pointer to the data, must contain at least 2 bytes
+
+Recovers a 16-bit integer from a byte buffer created,
+for instance, with @code{lw6sys_serialize_int16}.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_shape_check_min_max_whd} (lw6sys_whd_t * @var{shape}, int @var{min_wh}, int @var{max_wh}, int @var{max_d})
+@var{shape}:  the dimensions to control
+
+@var{min_wh}:  the min value for w and h
+
+@var{max_wh}:  the max value for w and h
+
+@var{max_d}:  the max value for d
+
+Will check wether the given shape respects some basic constraints,
+being not to small and not too big.
+
+@strong{Return value:}  1 if OK, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_shape_check_pos} (lw6sys_whd_t * @var{shape}, lw6sys_xyz_t * @var{pos})
+@var{shape}:  the boundary box
+
+@var{pos}:  the position
+
+Checks wether position is within the given boundary box.
+
+@strong{Return value:}  1 if OK, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_shape_is_same} (lw6sys_whd_t * @var{shape_a}, lw6sys_whd_t * @var{shape_b})
+@var{shape_a}:  the first shape to compare
+
+@var{shape_b}:  the other shape to compare
+
+Compares two shapes.
+
+@strong{Return value:}  1 if same, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_shape_is_same_xy} (lw6sys_whd_t * @var{shape_a}, lw6sys_whd_t * @var{shape_b})
+@var{shape_a}:  the first shape to compare
+
+@var{shape_b}:  the other shape to compare
+
+Compares two shapes, but ignores the z (d) parameter.
+
+@strong{Return value:}  1 if same_xy, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_int_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of int item
+
+@var{list_b}:  pointer to a list of int item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of integers.
+
+@strong{Return value:}  -1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_int_desc_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of int item
+
+@var{list_b}:  pointer to a list of int item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of integers. This one will sort in reverse mode.
+
+@strong{Return value:}  1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+-1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_float_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of float item
+
+@var{list_b}:  pointer to a list of float item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of floating point numbers.
+
+@strong{Return value:}  -1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_float_desc_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of float item
+
+@var{list_b}:  pointer to a list of float item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of floating point numbers. This one will
+sort in reverse mode.
+
+@strong{Return value:}  1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+-1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_str_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of string item
+
+@var{list_b}:  pointer to a list of string item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of 0-terminated strings.
+
+@strong{Return value:}  -1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {int} {lw6sys_sort_str_desc_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})
+@var{list_a}:  pointer to a list of string item
+
+@var{list_b}:  pointer to a list of string item
+
+A typicall sort callback function, can be passed to @code{lw6sys_sort}
+to sort a list of 0-terminated strings. This one will sort
+in reverse mode.
+
+@strong{Return value:}  1 if @code{list_a} < @code{list_b} , 0 if @code{list_a} == @code{list_b}, 
+-1 if @code{list_a} > @code{list_b}
+@end deftypefun
+
+@deftypefun {void} {lw6sys_sort} (lw6sys_list_t ** @var{list}, lw6sys_sort_callback_func_t @var{sort_func})
+@var{list}:  the list to sort, might be modified by the function
+
+@var{sort_func}:  the callback function used to sort
+
+A general sorting function. Internally, will use the glibc @code{qsort}
+function, but this one is adapted to the LW6 specific data
+structures, more exactly, the @code{lw6sys_list} structure. Several
+default sort callbacks are defined, but one is free to use
+any callback, provided it has the right prototype.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_spinlock_create} ()
+
+Creates a spinlock object.
+
+@strong{Return value:}  newly allocated pointer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_spinlock_destroy} (void * @var{spinlock})
+@var{spinlock}:  the spinlock to destroy.
+
+Destroys a spinlock object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_spinlock_lock} (void * @var{spinlock})
+@var{spinlock}:  the spinlock to use
+
+Locks the spinlock. Note that this should never fail unless
+there's a serious initialization problem, instead, function
+will wait forever until spinlock is released.
+
+@strong{Return value:}  1 if success, 0 if failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_spinlock_trylock} (void * @var{spinlock})
+@var{spinlock}:  the spinlock to use
+
+Tries to locks the spinlock. That is, tells wether spinlock
+can be locked immediately or not. Note that this does
+not mean there's 100% chance next call to lock will
+terminated immediately, since lock can still be acquired
+by another thread.
+
+@strong{Return value:}  1 if spinlock unlocked, 0 if locked or error.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_spinlock_unlock} (void * @var{spinlock})
+@var{spinlock}:  the spinlock to use
+
+Unlocks a spinlock.
+
+@strong{Return value:}  1 if sucess, 0 if error.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_copy} (char * @var{src})
+@var{src}:  the string to copy
+
+Duplicate a string, creating a new pointer on it, which 
+must be freed afterwards. The main difference with @code{strdup}
+is that here we use the LW6SYS_MALLOC macro to track down
+possible memory leaks.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_concat} (char * @var{str1}, char * @var{str2})
+@var{str1}:  the left part to be concatenated
+
+@var{str2}:  the right part to be concatenated
+
+Concatenate 2 strings, and put the result in a newly
+allocated string. Unlike @code{strcat} which uses the same
+pointer.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_new_sprintf} (char * @var{fmt},  @var{...})
+@var{fmt}:  a format string, like the one you would pass to @code{printf}
+@...: optional arguments, like the ones you would pass to @code{printf}
+
+An sprintf like function, except it allocates a new
+string automatically, with "enough space". This is not a highly
+optimized function, it will allocate plenty of memory, possibly
+several times, and thus consume time and resources. But it has
+the great advantage of freeing the programmer of the dirty
+work of guessing "how log will the sprintf'ed string be?" before
+even generating it. So it's a time saver for the programmer.
+Additionnally, helps avoiding memory leaks and buffer overflows.
+
+@strong{Return value:}  a new allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_str_is_blank} (char * @var{str})
+@var{str}:  the string to test
+
+Tests wether a string is blank, that is, if it's composed
+of space, tabs, or carriage returns only.
+
+@strong{Return value:}  1 if blank, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_str_is_same} (char * @var{str_a}, char * @var{str_b})
+@var{str_a}:  1st string to compare, can be NULL
+
+@var{str_b}:  2nd string to compare, can be NULL
+
+Compares two strings for equality. Difference with strcmp
+is that this one won't check for alphabetical order and
+return -1 or +1, but will check for NULL args.
+of space, tabs, or carriage returns only.
+
+@strong{Return value:}  1 if same, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_skip_blanks} (char ** @var{str_ptr})
+@var{str_ptr}:  a pointer to a string pointer (read/write parameter).
+
+Skips blanks at the beginning of a string. The passed parameter
+is modifed in place. Usefull for parsing.
+
+@strong{Return value:}  1 if blanks were found, else 0.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_str_cleanup} (char * @var{str})
+@var{str}:  a pointer to the string, which will be modified in-place.
+
+Used to clean up some strings, for instance if they
+come from the network, we don't necessarly want system
+chars to be displayed on the console. Basically it removes
+all characters with an ASCII code inferior to 32, that is,
+all system characters. This way, there won't be any tab,
+linefeed, or any of such characters left.
+
+@strong{Return value:}  none. 
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_reformat} (char * @var{str}, char * @var{prefix}, int @var{nb_columns})
+@var{str}:  a pointer to the string we want to modify
+
+@var{prefix}:  a prefix to put before each line
+
+Reformats a string, that is, insert newline characters in the
+right places to that it fits in a given number of columns.
+A prefix is appended at the beginning of each line.
+Will not handle strings which already contain newline
+characters perfectly.
+
+@strong{Return value:}  a newly allocated string, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_eol} ()
+
+Returns the value of EOL, that is, the "end of line" sequence.
+Will simply return "\n" on UNIX and "\r\n" on Microsoft platforms.
+Note that while this is convenient to write config and example files,
+for instance, it's a bad idea to use this to generate network messages,
+because this kind of message needs to be platform independant. Thus any
+network protocol oriented string would use chr(10) and char(13) directly.
+
+@strong{Return value:}  the EOL string, must not be freed.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split} (char * @var{str}, char @var{c})
+@var{str}:  a string
+
+@var{c}:  the delimiter to split with
+
+Splits a string, for instance 'foo,bar' splited with 'o' will
+return 'f', '' and ',bar'.
+
+@strong{Return value:}  a list containing 0-terminated strings.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split_no_0} (char * @var{str}, char @var{c})
+@var{str}:  a string
+
+@var{c}:  the delimiter to split with
+
+Splits a string, ignoring empty '0-length' members. For instance 
+'foo,bar' splited with 'o' will return 'f' and ',bar'.
+
+@strong{Return value:}  a list containing 0-terminated strings.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split_config_item} (char * @var{str})
+@var{str}:  a string
+
+Splits a string, ignoring empty '0-length' members, and using
+the comma ',' as a separator. This is typically usefull
+for config elements such as backend lists. Only paths need
+another separator (platform-dependant).
+
+@strong{Return value:}  a list containing 0-terminated strings.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_str_toupper} (char * @var{str})
+@var{str}:  the string to modify
+
+Transforms a string to upper case, the pointer must point
+to modifiable data.
+
+@strong{Return value:}  none, @code{str} pointed data modified in-place
+@end deftypefun
+
+@deftypefun {void} {lw6sys_str_tolower} (char * @var{str})
+@var{str}:  the string to modify
+
+Transforms a string to lower case, the pointer must point
+to modifiable data.
+
+@strong{Return value:}  none, @code{str} pointed data modified in-place
+@end deftypefun
+
+@deftypefun {int} {lw6sys_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{sys} module test suite, testing most (if not all...)
+functions. Note that some tests perform file system operations
+and might therefore fail on a read-only filesystem, or if
+user permissions are not sufficient.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_thread_create} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})
+@var{callback_func}:  the main callback, the function that will run the thread
+
+@var{callback_join}:  function which will be called when joining, at the end
+
+@var{callback_data}:  data which will be passed to the callback
+
+Creates a thread. All threads must be joined. This is because we
+really do not want the game to leak, and detached threads are typically
+the kind of thing that leaves stuff in the heap. Note that callback_func
+is just something which will be called when joining it can be NULL.
+The idea is to put in it free & delete functions, which you can't
+call before joining when you want the main thread to get the results
+of the callback_func.
+
+@strong{Return value:}  an opaque pointer on the thread. Can be NULL if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_thread_is_callback_done} (void * @var{thread_handler})
+@var{thread_handler}:  thread to work on
+
+Tells wether the callback is done, that is to say, wether the
+results are available, and we can join.
+
+@strong{Return value:}  1 if done, else 0.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_thread_get_id} (void * @var{thread_handler})
+@var{thread_handler}:  thread to query
+
+Returns the id of the thread, this is an internal value,
+unique for each process, which can help identifying the thread.
+
+@strong{Return value:}  the id, should be >0.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_thread_get_data} (void * @var{thread_handler})
+@var{thread_handler}:  thread to query
+
+Returns the data associated to the thread, that is, the pointer
+which was passed to the callback function.
+
+@strong{Return value:}  a pointer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_thread_join} (void * @var{thread_handler})
+@var{thread_handler}:  thread to end
+
+Joins the thread, that's to say wait until the thread is over,
+and destroys the ressources associated to it. Note that if the thread
+is looping forever, this function will just wait forever.
+This is the only way to end a thread.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_thread_create_count} ()
+
+Utility function used to check how many threads where created and joined.
+
+@strong{Return value:}  how many threads were created.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_get_thread_join_count} ()
+
+Utility function used to check how many threads where created and joined.
+
+@strong{Return value:}  how many threads were joined.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_check_thread_count} ()
+
+Utility function used to check how many threads where created and joined.
+This one will compare the results of @code{lw6sys_get_thread_create_count}
+and @code{lw6sys_get_thread_join_count}.
+
+@strong{Return value:}  1 if both are equals, 0 if not (error...).
+@end deftypefun
+
+@deftypefun {int64_t} {lw6sys_get_timestamp} ()
+
+Returns a 64-bit timestamp, for general purpose. The unit is milliseconds,
+should return the number of milliseconds since EPOCH. Don't use this
+for accurate date handling, but rather to technical stamp events.
+
+@strong{Return value:}  the timestamp.
+@end deftypefun
+
+@deftypefun {int64_t} {lw6sys_get_uptime} ()
+
+Returns the number of milliseconds since program was started. Milliseconds
+are often referred to as 'ticks'.
+
+@strong{Return value:}  the number of milliseconds (64-bit)
+@end deftypefun
+
+@deftypefun {int32_t} {lw6sys_get_cycle} ()
+
+Returns a 32-bit timestamp, which is likely to "loop" and have twice
+the same value during a single program execution. The idea here is
+just to provide a 32-bit value, not too big, for animation purposes.
+The idea is that with 64-bit values, numbers are too big and if the
+goal is just to animate a cursor or spin a sphere, one does not care
+if every ten hours there's a display glitch because value became
+zero again. Besides, those values are often used for their "rest"
+in a module operation, to translate textures for instance, and
+having too big numbers causes floating point imprecisions. In fact
+those values or even only 20-bit. The function is based 
+on @code{lw6sys_get_uptime}() so it will return 0 at game startup.
+
+@strong{Return value:}  the cycle value, a 20-bit integer.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_timer_update} (int64_t * @var{timestamp}, int64_t * @var{uptime}, int32_t * @var{cycle})
+@var{timestamp}:  the timestamp in msec since EPOCH (output), can be NULL
+
+@var{uptime}:  the uptime in msec since startup (output), can be NULL
+
+@var{cycle}:  a 20-bit value for animation purpose.
+
+Returns timestamp & uptime with only one system call.
+
+@strong{Return value:}  none (parameters modified).
+@end deftypefun
+
+@deftypefun {void} {lw6sys_sleep} (float @var{seconds})
+@var{seconds}:  the number of seconds to wait, fractions allowed
+
+Will sleep for the given amount of seconds. Same as @code{lw6sys_delay}
+only input is provided as a floating number of seconds instead
+of ticks.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_delay} (int @var{msec})
+@var{msec}:  the number of milliseconds (ticks) to wait
+
+Will sleep for the given amount of seconds. Provides accurate timing
+and has "about-millisecond" precision, since it uses @code{select} internally.
+Might however be interrupted in some cases, so consider function can
+always return quicker than specified. A common usage of this function
+is polling loops, where you don't care if 2 polls are very close,
+but simply want to avoid polling continuously, therefore consumming
+100% of the CPU for nothing.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_idle} ()
+
+Will sleep for a minimal amount of time, just giving the OS a chance
+to let other threads/processes execute themselves. This can make
+a big difference in polling loops between a process that eats 100% CPU
+and a process that has a very moderate load.
+of ticks.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_time_init} ()
+
+Global initializations required to handle time properly. 
+@end deftypefun
+
+@deftypefun {int} {lw6sys_vthread_run} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})
+@var{callback_func}:  the main callback, the function that will run the thread
+
+@var{callback_join}:  function which will be called when joining, at the end
+
+@var{callback_data}:  data which will be passed to the callback
+
+This function is similar to @code{lw6sys_thread_create}, but it's dedicated to
+creating a unique (one per process only) thread, which, in turn, will
+be able to run commands in the main thread itself. This is a hack to
+allow apparently spawned child threads to be actually handled by main.
+This is because some libraries, which LW6 uses in threads, need to be
+actually called in the main thread. SDL, for instance. Note that after
+running this you loose control on the main thread, this one will only
+wait for possible commands from the spawned thread, typically sent
+with the @code{lw6sys_vthread_create} function.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_vthread_is_running} ()
+
+Returns true if @code{lw6sys_vthread_run} has been called. Note that this
+is not bullet proof, it will return true in a correct manner only
+if you call it from the vthread itself. In practise this shouldn't
+be a problem, the idea is just to write portable code for the main
+control thread and be able to decide on the fly wether to create
+a thread we should prefer the @code{lw6sys_thread_create} or its
+equivalent the @code{lw6sys_vthread_create} function.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_vthread_create} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})
+@var{callback_func}:  the main callback, the function that will run the thread
+
+@var{callback_join}:  function which will be called when joining, at the end
+
+@var{callback_data}:  data which will be passed to the callback
+
+The equivalent of @code{lw6sys_thread_create} but for the vthread infrastructure.
+The idea is to pretend firing a spawned thread, but in fact it's the main
+thread that runs the code. This function must imperatively be called
+within the @code{lw6sys_vthread_run} function, else it will fail or be buggy.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_vthread_join} ()
+
+The equivalent of @code{lw6sys_thread_join} but for the vthread infrastructure.
+The idea is to pretend firing a spawned thread, but in fact it's the main
+thread that runs the code. This function must imperatively be called
+within the @code{lw6sys_vthread_run} function, else it will fail or be buggy.
+
+@strong{Return value:}  none.
+@end deftypefun
+

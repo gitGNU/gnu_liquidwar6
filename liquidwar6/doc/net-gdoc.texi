@@ -1,0 +1,99 @@
+@deftypefun {int} {lw6net_last_error} ()
+
+Reports the last network error. This is basically a debug function,
+designed mostly for Microsoft Winsock API, but can be safely called
+on any platform.
+
+@strong{Return value:}  the last error code, has no universal meaning, depends
+on the platform you're working on.
+@end deftypefun
+
+@deftypefun {char *} {lw6net_recv_line_tcp} (int @var{sock})
+@var{sock}:  the socket descriptor
+
+Receives a line terminated by LF ("\n", chr(10)) or
+CR/LF ("\r\n", chr(10)chr(13)) on a TCP socket, that is,
+stream oriented. If there's no complete line
+available, function returns immediately with NULL. Same
+if socket is closed, broken, whatever. Only if there's
+something consistent will the function return non-NULL.
+
+@strong{Return value:}  a dynamically allocated string with the
+content received. The tailing (CR)/LF is stripped.
+@end deftypefun
+
+@deftypefun {int} {lw6net_send_line_tcp} (int @var{sock}, char * @var{line})
+@var{sock}:  the socket descriptor
+
+@var{line}:  the line to be sent, without the "\n" at the end
+
+Sends a line terminated by LF ("\n", chr(10)) on a TCP
+socket, that is, stream oriented. The "\n" is automatically
+added, do not bother sending it.
+
+@strong{Return value:}  non-zero if success
+@end deftypefun
+
+@deftypefun {char *} {lw6net_recv_line_udp} (int @var{sock}, char ** @var{incoming_ip}, int * @var{incoming_port})
+@var{sock}:  the socket descriptor
+
+@var{incoming_ip}:  the IP address of the sender (returned)
+
+@var{incoming_port}:  the IP port of the sender (returned)
+
+Receives a line terminated by LF ("\n", chr(10)) or
+CR/LF ("\r\n", chr(10)chr(13)) on a UDP socket, that is,
+datagram oriented. If there's no complete line
+available, function returns immediately with NULL. Same
+if socket is closed, broken, whatever. Only if there's
+something consistent will the function return non-NULL.
+By-value parameters allow the caller to know where the
+data come from.
+
+@strong{Return value:}  a dynamically allocated string with the
+content received. The tailing (CR)/LF is stripped.
+@end deftypefun
+
+@deftypefun {int} {lw6net_send_line_udp} (int @var{sock}, char * @var{line}, char * @var{ip}, int @var{port})
+@var{sock}:  the socket descriptor
+
+@var{line}:  the line to be sent, without the "\n" at the end
+
+@var{ip}:  the IP address of the target
+
+@var{port}:  the IP port of the target
+
+Sends a line terminated by LF ("\n", chr(10)) on a UDP
+socket, that is, datagram oriented. The "\n" is automatically
+added, do not bother sending it.
+
+@strong{Return value:}  the number of bytes sent, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6net_init} (int @var{argc}, char * [] @var{argv})
+
+Initializes the low-level network API, you must call this before
+calling any other network related function, for it allocates a dynamic
+context which is in turn used by every function.
+
+@strong{Return value:}  non-zero if success
+@end deftypefun
+
+@deftypefun {void} {lw6net_quit} ()
+
+Frees memory, joins active threads, and releases everything
+set up by network code.
+
+@strong{Return value:}  void
+@end deftypefun
+
+@deftypefun {int} {lw6net_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{net} module test suite. This one could fail if some
+sockets are already bound, for instance. It's still run even
+in check-only (mode=0) mode.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

@@ -1,0 +1,354 @@
+@deftypefun {void} {lw6map_body_builtin_custom} (lw6map_body_t * @var{body}, int @var{w}, int @var{h}, int @var{d}, int @var{noise_percent}, lw6map_rules_t * @var{rules})
+@var{body}:  the body to initialize
+
+@var{w}:  the width
+
+@var{h}:  the height
+
+@var{d}:  the depth
+
+@var{noise_percent}:  the noise level to fill meta layers with
+
+@var{rules}:  the map rules
+
+Sets up a default body structure.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_body_clear} (lw6map_body_t * @var{body})
+@var{body}:  the structure to clear
+
+Clears a body structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_body_fix_checksum} (lw6map_body_t * @var{body})
+@var{body}:  the structure to update
+
+Updates (calculates) the checksum of a map body structure.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_body_check_and_fix_holes} (lw6map_body_t * @var{body}, lw6map_rules_t * @var{rules})
+@var{body}:  the structure to update
+
+@var{rules}:  the game rules
+
+This (fundamental) function ensures that all playable areas in a map
+are connected. If isolated zones are found out, then they are marked
+as walls and not used any more.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_body_coord_from_texture} (lw6map_level_t * @var{level}, int * @var{body_x}, int * @var{body_y}, int @var{texture_x}, int @var{texture_y})
+@var{level}:  the level to work on
+
+@var{body_x}:  the body (logical) x coord
+
+@var{body_y}:  the body (logical) y coord
+
+@var{texture_x}:  the texture x coord
+
+@var{texture_y}:  the texture y coord
+
+Gets body (logical) coords from texture position.
+
+@strong{Return value:}  1 on success, 0 on failure (out of bounds)
+@end deftypefun
+
+@deftypefun {u_int8_t} {lw6map_body_get_with_texture_coord} (lw6map_level_t * @var{level}, int @var{texture_x}, int @var{texture_y}, int @var{z})
+@var{level}:  the level to work on
+
+@var{texture_x}:  the texture x coord
+
+@var{texture_y}:  the texture y coord
+
+@var{z}:  the z position (depth related)
+
+Tells wether a given map position is free or not, but using
+texture coords.
+
+@strong{Return value:}  1 if position is playable, 0 if not (wall)
+@end deftypefun
+
+@deftypefun {void} {lw6map_color_invert} (lw6map_color_couple_t * @var{color})
+@var{color}:  the color to invert
+
+Inverts a color couple, that is, replace fg by bg and vice-versa.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_color_is_same} (lw6map_color_couple_t * @var{color1}, lw6map_color_couple_t * @var{color2})
+@var{color1}:  1st color to compare
+
+@var{color2}:  2nd color to compare
+
+Compares two colors. 
+
+@strong{Return value:}  1 if equal, 0 if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_team_color_index_to_key} (int @var{index})
+@var{index}:  index of the color between 0 & 9
+
+Transforms a team color index into its readable string form,
+which can be used in config files for instance.
+
+@strong{Return value:}  a string, must *not* be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6map_team_color_key_to_index} (char * @var{key})
+@var{key}:  key of the color, for instance "red"
+
+The index of the color, between 0 & 9
+
+@strong{Return value:}  an integer.
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6map_dup} (lw6map_level_t * @var{source}, lw6sys_progress_t * @var{progress})
+@var{source}:  the map to copy
+
+@var{progress}:  to show advancement
+
+Performs a deep copy of the map, all elements are newly allocated
+and source can safely be destroyed after it's been duplicated.
+
+@strong{Return value:}  a newly allocated map, may be NULL.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_to_hexa} (lw6map_level_t * @var{level})
+Converts a map to something that is later readable by @code{lw6map_from_hexa}
+to reproduce the exact same map. Just a serializer.
+
+@strong{Return value:}  a newly allocated pointer, NULL if conversion failed.
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6map_from_hexa} (char * @var{hexa})
+@var{hexa}:  an hexadecimal ASCII string, created by @code{lw6map_to_hexa}
+
+Constructs a map from an hexadecimal string generated
+by @code{lw6map_to_hexa}. Just an un-serializer.
+
+@strong{Return value:}  a new map, might be NULL if string isn't correct.
+@end deftypefun
+
+@deftypefun {void} {lw6map_layer_builtin_custom} (lw6map_layer_t * @var{layer}, int @var{w}, int @var{h})
+@var{layer}:  the layer to init
+
+@var{w}:  width
+
+@var{h}:  height
+
+Creates a default layer. This is mostly for testing purposes, the default
+layer is not empty, it contains a simplified map of the world.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_layer_clear} (lw6map_layer_t * @var{layer})
+@var{layer}:  the layer to init
+
+Clears a layer struct. This means freeing the pointer
+if it's non NULL and setting everything to 0.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6map_new} ()
+
+Creates a new empty map. This object is perfectly unusable as is,
+since it has a 0x0 size, and many things set to "NULL". Still, it's
+used internally and is the canonical way to create the object, it
+ensures later calls that set up default parameters, for instance,
+will succeed.
+
+@strong{Return value:}  a newly allocated pointer.
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6map_builtin_defaults} ()
+
+Creates a map, set to defaults. This is usefull mostly for testing.
+This builtin map has walls, paths, it's playable.
+
+@strong{Return value:}  a newly allocated map. 
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6map_builtin_custom} (int @var{w}, int @var{h}, int @var{d}, int @var{noise_percent})
+@var{w}:  the width of the map
+
+@var{h}:  the height of the map
+
+@var{d}:  the depth (number of layers) of the map
+
+@var{noise_percent}:  percentage of noise to use for metalayers
+
+Creates a map, set to defaults. This is usefull mostly for testing.
+This one, unlike @code{lw6map_builtin_defaults}  will let you give a width,
+height and a depth.
+
+@strong{Return value:}  a newly allocated map. 
+@end deftypefun
+
+@deftypefun {void} {lw6map_free} (lw6map_level_t * @var{level})
+Frees a map and releases all its internal ressources.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_memory_footprint} (lw6map_level_t * @var{level})
+Reports how many bytes the map needs, in memory. Note that this is
+not contiguous memory, it involves a bunch of pointers, and possibly
+much more...
+@end deftypefun
+
+@deftypefun {char *} {lw6map_repr} (lw6map_level_t * @var{level})
+Returns a string describing the map. This is a very short description,
+use it for logs, and to debug stuff. By no means it's a complete exhaustive
+description. Still, the string returned should be unique.
+
+@strong{Return value:}  a dynamically allocated string.
+@end deftypefun
+
+@deftypefun {int} {lw6map_is_same} (lw6map_level_t * @var{level_a}, lw6map_level_t * @var{level_b})
+@var{level_a}:  the first level to compare
+
+@var{level_b}:  the other level to compare
+
+Compares two level structs, the idea is to compare the content, not
+only the pointers and level ids.
+
+@strong{Return value:}  1 if they're the same, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6map_local_info_set_music_dir} (lw6map_local_info_t * @var{local_info}, char * @var{music_dir})
+@var{local_info}:  the structure to modify
+
+@var{music_dir}:  the new music_dir value
+
+Sets the music_dir value, in a 'safe' manner, freeing any previous
+value and performing a string duplication.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6map_local_info_clear} (lw6map_local_info_t * @var{local_info})
+@var{local_info}:  the structure to clear
+
+Clears the local_info structure, before destroying a level for instance.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_meta_layer_set} (lw6map_meta_layer_t * @var{meta_layer}, int @var{x}, int @var{y}, u_int8_t @var{value})
+@var{meta_layer}:  the meta_layer structure
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+@var{value}:  the value to set at this place
+
+Simple setter for the meta_layer struct.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {u_int8_t} {lw6map_meta_layer_get} (lw6map_meta_layer_t * @var{meta_layer}, int @var{x}, int @var{y})
+@var{meta_layer}:  the meta_layer structure
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+Simple getter for the meta_layer struct.
+
+@strong{Return value:}  the value at this place
+@end deftypefun
+
+@deftypefun {void} {lw6map_meta_layer_clear} (lw6map_meta_layer_t * @var{meta_layer})
+@var{meta_layer}:  the meta_layer to clear
+
+Clears a meta_layer struct. This means freeing the pointer
+if it's non NULL and setting everything to 0.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6map_meta_layer_builtin_custom} (lw6map_meta_layer_t * @var{meta_layer}, int @var{w}, int @var{h}, int @var{analog}, int @var{noise_percent}, int @var{seed})
+@var{meta_layer}:  the object to init
+
+@var{w}:  width
+
+@var{h}:  height
+
+@var{analog}:  wether to use analog mode (0-255) or boolean (0-1)
+
+@var{noise_percent}:  the quantity of noise to initialise the layer with
+
+@var{seed}:  a pseudo-random seed to feed the pseudo-random generator
+
+Builds a custom metalyer, suitable for tests or demo, letting the choice
+of its size and the noise to fill it with. If noise is 100 then metalayer
+is "full". If noise is 0, then meta layer is empty.
+
+@strong{Return value:}  1 if OK, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6map_param_defaults} (lw6map_param_t * @var{param})
+@var{param}:  the param struct to modify
+
+Sets a param structure to its default value, note that current
+structured must be zeroed or correctly initialized.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_param_clear} (lw6map_param_t * @var{param})
+@var{param}:  the param struct to modify
+
+Resets a param structure to nothing. Note that current
+structured must be zeroed or correctly initialized.
+The idea is just to free member pointers before calling free.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_param_copy} (lw6map_param_t * @var{dst}, lw6map_param_t * @var{src})
+@var{dst}:  the destination param struct
+
+@var{src}:  the source param struct
+
+Copies parameters. Both structures must be zeroed or
+correctly initialized.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6map_param_set} (lw6map_param_t * @var{param}, char * @var{key}, char * @var{value})
+@var{param}:  the param struct to modify
+
+@var{key}:  the name of the parameter to modify
+
+@var{value}:  the value of the parameter to modify
+
+Sets an entry in a param struct. All values must be submitted
+as strings, internally, the function will call atoi to convert
+to integers if needed, for instance. It will also dispatch
+automatically between rules and style.
+
+@strong{Return value:}  1 if parameter successfully set, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6map_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{map} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

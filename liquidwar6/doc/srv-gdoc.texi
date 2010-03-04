@@ -1,0 +1,48 @@
+@deftypefun {lw6srv_tcp_accepter_t *} {lw6srv_tcp_accepter_new} (char * @var{client_ip}, int @var{client_port}, int @var{sock})
+@var{client_ip}:  the client ip, will be freed when accepter is freed, do not copy it
+
+@var{client_port}:  the client port
+
+@var{sock}:  the socket used
+
+Creates a tcp_accepter object.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6srv_tcp_accepter_free} (lw6srv_tcp_accepter_t * @var{tcp_accepter})
+@var{tcp_accepter}:  the object to free
+
+Frees a tcp_accepter object.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6srv_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{srv} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {lw6srv_udp_buffer_t *} {lw6srv_udp_buffer_new} (char * @var{client_ip}, int @var{client_port}, char * @var{line})
+@var{client_ip}:  the client ip, will be freed when object is freed, do not copy it
+
+@var{client_port}:  the client port
+
+@var{line}:  the line received, will be freed when object is freed, do not copy it
+
+Creates an udp_buffer object.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6srv_udp_buffer_free} (lw6srv_udp_buffer_t * @var{udp_buffer})
+@var{udp_buffer}:  the object to free
+
+Frees a udp_buffer object.
+
+@strong{Return value:}  none
+@end deftypefun
+

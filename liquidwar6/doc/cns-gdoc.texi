@@ -1,0 +1,8 @@
+@deftypefun {int} {lw6cns_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{cns} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

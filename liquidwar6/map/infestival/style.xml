@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+
+
+	<!-- =========================
+	LEVEL DISPLAY
+	==========================-->
+
+
+	<bool key="keep-ratio" value="true" />
+	<float key="cursor-size" value="0.75" />
+
+
+
+	<!-- =========================
+	COLORS
+	==========================-->
+
+
+	<!--
+		turn this one on, if you want to define your own color values ... a lot
+		of stuff would also need to be turned on in hints.xml
+	-->
+	<bool key="colorize" value="true" />
+
+
+	<!-- 
+		A lot of colors will be grabbed from these four, if color-auto is enabled
+		and various guess-colors is disabled in hints.xml
+	-->
+	<color key="color-base-bg" value="#220000" /> <!-- black part of sky -  -->
+	<color key="color-base-fg" value="#220000" /> <!-- white part of sky -  -->
+	<color key="color-alternate-bg" value="#220000" /> <!-- GUI bg color - HUD text shadow -->
+	<color key="color-alternate-fg" value="#ff0000" /> <!-- GUI text color - Bubbles - cursor color -->
+
+
+
+
+	<!--
+		Background color  shown if texture.jpeg is not there
+	-->
+	<color key="view-color-map-bg" value="#666666" />
+	<color key="view-color-map-fg" value="#666666" />
+
+
+
+	<!--
+		Cursor
+	-->
+	<color key="view-color-cursor-bg" value="#ffffff" />
+	<color key="view-color-cursor-fg" value="#000000" />
+
+
+
+</lw6mapparam>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+  <!--TECHNICAL -->
+  <int key="min-map-surface" value="67500" /> <!-- 300x225 -->
+  <int key="max-map-surface" value="192000000" /> <!-- 16000x12000 -->
+  
+  
+  <float key="fighter-scale" value="3" /> 
+  
+  
+  <!-- NO REASON TO CHANGE: -->
+  <bool key="resample" value="true" />  <!-- false = exact res of map.png -->
+</lw6mapparam>

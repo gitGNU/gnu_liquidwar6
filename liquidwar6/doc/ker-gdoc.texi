@@ -1,0 +1,11 @@
+@deftypefun {int} {lw6ker_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{ker} module test suite. Will perform deep checksums
+and *really* check many things. If this passes, the algorithm
+is fine. What could make it fail is a serious bug and/or some
+weird combination of endianess, byte alignment...
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

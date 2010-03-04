@@ -1,0 +1,117 @@
+# Liquid War 6 is a unique multiplayer wargame.
+# Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# 
+# Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+# Contact author        : ufoot@ufoot.org
+
+EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi liquidwar6.nsi.in Info.plist Info.plist.in
+
+distclean-local:
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -f liquidwar6.exe
+
+clean-local:
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
+	rm -f @PACKAGE_TARNAME@*.deb
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.pkg
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.dmg
+
+# Rules below concern packaging, do not use them on untrusted
+# computers, as they use /tmp and assume they are the only scripts
+# doing things in /tmp/liquidwar6. Use at your own risk.
+
+TMP=/tmp/@PACKAGE_TARNAME@
+PACKAGE_TMP=/tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
+	echo "run make dist to (re)build @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz or copy it here" && false
+
+liquidwar6.exe:
+	echo "Copy src/.libs/liquidwar6.exe here" && false
+
+zip: ms-windows-zip
+
+ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	mv ${PACKAGE_TMP}/NEWS ${PACKAGE_TMP}/news.txt
+	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
+	mv ${PACKAGE_TMP}/COPYING ${PACKAGE_TMP}/license.txt
+	mv ${PACKAGE_TMP}/README ${PACKAGE_TMP}/readme.txt
+	rm -rf ${PACKAGE_TMP}2
+	mv ${PACKAGE_TMP} ${PACKAGE_TMP}2
+	install -d ${PACKAGE_TMP}
+	mv ${PACKAGE_TMP}2/data ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/music ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/map ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/script ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/news.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/changes.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/license.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/readme.txt ${PACKAGE_TMP}/
+	rm -rf ${PACKAGE_TMP}2
+	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
+	find ${PACKAGE_TMP} -name "Makefile*" | xargs rm -f
+	install -d ${PACKAGE_TMP}/doc
+	make -C ../doc liquidwar6.html liquidwar6.pdf
+	cp -r ../doc/liquidwar6.html ${PACKAGE_TMP}/doc/html
+	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.txt"`
+	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.html"`
+	cp ../doc/liquidwar6.pdf ${PACKAGE_TMP}/doc/
+	cp liquidwar6.exe ${PACKAGE_TMP}
+	cd ${PACKAGE_TMP} && unzip ${DLL_ZIP}
+	cd ${TMP} && zip -r @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	mv ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip .
+	rm -rf ${TMP}
+
+installer: ms-windows-installer
+
+ms-windows-installer: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip liquidwar6.nsi
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip ${TMP}
+	cd ${TMP} && unzip @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
+	cp liquidwar6.nsi ${PACKAGE_TMP}
+	cd ${PACKAGE_TMP} && makensis liquidwar6.nsi
+	cp ${PACKAGE_TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe .
+	rm -rf ${TMP}
+
+deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	cd ${PACKAGE_TMP} && ./configure
+	cd ${PACKAGE_TMP} && dpkg-buildpackage -rfakeroot || true
+	cp ${TMP}/*.deb .
+	rm -rf ${TMP}
+
+rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	echo "next command will prompt for root password"
+	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
+	rm -rf ${TMP}

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <float key="cursor-size-min" value="0.015" />
+  <float key="cursor-size-max" value="0.020" />
+  <float key="scroll-limit" value="0.25" />
+  <int key="scroll-min-offset" value="1" />
+  <int key="cursor-blink-period" value="2000" />
+  <int key="cursor-heartbeat-period" value="1000" />
+  <int key="cursor-texture-size" value="64" />
+  <int key="cursor-border-width" value="6" />
+  <int key="cursor-blur-width" value="3" />
+  <int key="tile-size-map" value="512" />
+  <int key="tile-size-armies" value="128" />
+</liquidwar6>

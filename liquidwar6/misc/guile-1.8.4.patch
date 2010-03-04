@@ -1,0 +1,66 @@
+diff -urN old/guile-1.8.4/configure.in new/guile-1.8.4/configure.in
+--- old/guile-1.8.4/configure.in	2008-02-16 18:15:18.000000000 -0500
++++ new/guile-1.8.4/configure.in	2008-03-28 10:45:09.406250000 -0400
+@@ -636,6 +636,8 @@
+ 
+ dnl
+ dnl Check for Winsock and other functionality on Win32 (*not* CygWin)
++dnl Do need part of this for msys, as runtime-pseudo-relocs are not
++dnl   supported in that fork of cygwin
+ dnl
+ EXTRA_DEFS=""
+ case $host in
+@@ -654,6 +656,13 @@
+         [Define if you need additional CPP macros on Win32 platforms.])
+     fi
+     ;;
++  *-*-msys*)
++    if test "$enable_shared" = yes ; then
++      EXTRA_DEFS="-DSCM_IMPORT"
++      AC_DEFINE(USE_DLL_IMPORT, 1,
++        [Define if you need additional CPP macros on Win32 platforms.])
++    fi
++    ;;
+ esac
+ AC_SUBST(EXTRA_DEFS)
+ 
+diff -urN old/guile-1.8.4/guile-readline/configure.in new/guile-1.8.4/guile-readline/configure.in
+--- old/guile-1.8.4/guile-readline/configure.in	2008-01-29 18:03:15.000000000 -0500
++++ new/guile-1.8.4/guile-readline/configure.in	2008-03-28 10:45:09.406250000 -0400
+@@ -17,6 +17,8 @@
+ 
+ dnl
+ dnl Check for Winsock and other functionality on Win32 (*not* CygWin)
++dnl Do need part of this for msys, as runtime-pseudo-relocs are not
++dnl   supported in that fork of cygwin
+ dnl
+ AC_CYGWIN
+ AC_MINGW32
+@@ -26,6 +28,15 @@
+       EXTRA_DEFS="-DSCM_IMPORT"
+     fi
+ fi
++dnl no fancy macro to detect msys
++case $host in
++  *-*-msys*)
++    if test $enable_shared = yes ; then
++      EXTRA_DEFS="-DSCM_IMPORT"
++    fi
++    ;;
++esac
++
+ AC_SUBST(EXTRA_DEFS)
+ 
+ for termlib in ncurses curses termcap terminfo termlib ; do
+diff -urN old/guile-1.8.4/libguile/read.c new/guile-1.8.4/libguile/read.c
+--- old/guile-1.8.4/libguile/read.c	2008-02-07 04:13:17.000000000 -0500
++++ new/guile-1.8.4/libguile/read.c	2008-03-28 11:14:30.843750000 -0400
+@@ -317,7 +317,7 @@
+   register int c;
+   register SCM tmp;
+   register SCM tl, ans = SCM_EOL;
+-  SCM tl2 = SCM_EOL, ans2 = SCM_EOL, copy = SCM_BOOL_F;;
++  SCM tl2 = SCM_EOL, ans2 = SCM_EOL, copy = SCM_BOOL_F;
+   static const int terminating_char = ')';
+ 
+   /* Need to capture line and column numbers here. */

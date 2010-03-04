@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <!--
+    This is an example Liquid War 6 'hints.xml' file. This file can be put
+    along with a 'map.png' file to change the behavior of the map. It is used
+    by the map loader to decide wether it should, for instance, adapt the map
+    to the screen size, guess colors automatically, and such things. It does
+    not really define any real map parameter, it just give clues to the map
+    loader. Note that this example only defines a few parameters, there are
+    many more of them. The idea is to modify just the settings which are
+    important for your map, and let the user choose the best values for other
+    items. Happy hacking!
+  -->
+  <!--
+    "fighter-scale" (default="1.0"): Defines how wide (in pixels) fighters
+    must be. This parameter is very important and will largely condition the
+    number of fighters on the map. It is used when loading the map. If it is,
+    for instance, set to 1, there will be exactly a fighter per pixel on the
+    screen. That is, if you play 640x480 on an empty map, the maximum fighters
+    you could have is about 300000. The idea is that by changing the
+    resolution, you also define the density of the map. In pratice, this is
+    done in the hope that someone with a slow computer will pick up a low
+    resolution and therefore play small levels. Conversely, someone with a
+    brand new computer with powerfull CPU & GPU will use great resolutions and
+    be happy with many fighters on the map. Still, changing the resolution
+    after loading the map will not affet the number of fighters. Same for
+    network games, the first player, who loads the map, defines its properties
+    according to its own settings.
+  -->
+  <float key="fighter-scale" value="2.500000"/>
+  <!--
+    "system-color-auto" (default="true"): Defines wether system colors will be
+    set automatically from base and alternate colors. This is a time saver to
+    keep map designers from requiring to redefined every single color in the
+    game. You only need to set color-base-bg, color-base-fg,
+    color-alternate-bg and color-alternate-fg. Then system_color_bg and
+    system_color_fg will be automatically set.
+  -->
+  <bool key="system-color-auto" value="false"/>
+</liquidwar6>

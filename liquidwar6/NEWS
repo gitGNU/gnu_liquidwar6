@@ -1,0 +1,164 @@
+Liquid War NEWS -- history of user-visible changes.
+
+* October 2009: release of 0.0.7beta. This long waited release
+  introduces a dedicated rendering thread, the idea being to use
+  modern and common multicore CPUs at their best capabilities.
+  Game has also been ported to Mac OS X, even if no package is yet
+  available. Among the new features of this release, it is now 
+  possible to scroll and zoom on maps, games do end at some point,
+  and a deathmatch mode is available. There is still no network,
+  but as far as solo/local mode is concerned, the game works. It is
+  still a beta, but not a demo anymore. There are probably many bugs,
+  but the current codebase needs testing and feedback, so it was
+  released as is.
+
+* January 2009: release of 0.0.6beta. This release has a remarquable
+  new feature, which is a good example of what was perfectly not
+  doable with old Liquid War 5. Indeed, maps can now have several
+  layers, that is, players can move on different levels. This allows
+  construction of tunnels and bridges, for instance. Additionnally,
+  Debian .deb and RedHat .rpm packages are now available again, along
+  with a self-installable MS-Windows .exe binary. As usual, this
+  release comes with its load of bug-fixes.
+
+* December 2008: release of 0.0.5beta. This one is playable. Local
+  games should work, network is not fully implemented yet. There 
+  are still many outstanding bugs and missing features but it should
+  be worth downloading and installing the game even for end-users,
+  non-hackers players, who just want to enjoy the game. Network
+  support and bug-fixing become the next priorities.
+
+* September 2008: release of 0.0.4beta. The major change is that
+  the game now runs on both GNU/Linux and Microsoft Windows. Other
+  ports for platforms such as *BSD or Mac OS/X are very likely to
+  be technically possible, provided all requirements are installed,
+  however this has not been tested. The game has been released in a
+  temporary state which only allows map loading. The motivation was
+  to allow map designers jailed on Microsoft proprietary systems to
+  draw maps without the hassle of trying maps on Liquid War 5 or
+  relying on the mere hope that it would hopefully work, some day.
+
+* January 2008: release of 0.0.3beta, which is not really feature
+  rich from a user/player point of view, but reflects the actual
+  development and recent evolutions in the game structure. Includes
+  multithreading, safer memory management, cleaner interfaces, and
+  revamped documentation.
+
+* October 2007: lots of "underground" work this month. Code has been
+  updated, restructured, fixed, hacked. Package includes new maps
+  by Kasper Hviid, and has been splitted into a core liquidwar6
+  package and an "add-on" liquidwar6-extra-maps package. Now focus
+  will be put on 1) network code and 2) usability. It's time for
+  players to toy arround with the game.
+
+* September 2007: after a long time, finally a new release.
+  Network code started pouring in, but it's not workable yet.
+  Code has been updated so that it (hopefully) compiles better
+  under various flavors of GNU/Linux. Next step remains enabling
+  network. Note that a bunch of cool maps are now included. Oh,
+  and, yes, LW6 is now licensed under the GPL v3.
+
+* December 2006: a great effort has been put on packaging, so
+  that people can try out the game. Debian (.deb) and Red Hat
+  (.rpm) packages are available. Sound has been activated,
+  and documentation updated. Network support is planned for
+  next year, hopefully it should be available in early 2007.
+
+* November 2006: finally, a workable demo. There's still no real
+  interesting gameplay (no winner, no timeout, no goal) so it's
+  really a demo, a toy, and not a real game yet. Still, at this
+  stage, the current snapshot can be used to try out maps, and
+  have an idea of what the game will look like. It (hopefully)
+  compiles and runs, and lets you toy arround with armies. Next
+  major step should be the addition of network code, sound support,
+  along with documentation for map designers.
+
+* October 2006: not many news, but many coding and commits.
+  Most of the coding concerned arcane and very low-level elements.
+  Now there's a serious urge for documentation, as many things
+  have changed. Significant improvements include displaying
+  the armies, having a working "shortest path algorithm", complete
+  suite tests for all modules, full modularity, including dynamic
+  loading of graphical and sound modules, an interactive console
+  which is a Guile interpreter allowing interaction with the game
+  and "whatever would not be available through the menu", and so on.
+  Stay tuned.
+
+* April 2006: Lots of coding recently.  Maps have been imported
+  from Liquid War 5, and some algorithmic code actually started
+  to pour in the game. For instance, teams can be placed on a map
+  now, and most of the memory structures necessary to handle all
+  the game's logic are ready. While the game is still not playable,
+  it's getting closer to being a working demo. Plans have also been
+  made to use libcaca as a third renderer, the first being SDL/GL
+  and the second Allegro.
+
+* March 2006: The refactoring which had been started in early 2006
+  is now over. The game is now much more modular, the graphical 
+  backend is loaded dynamically, and this backend itself is 
+  structured in separated components. The algorithm part, the
+  real "core" of the game is not written yet, but a decicated module
+  "liquidwar6ker" has been set up, which has no dependencies on any 
+  external libraries but liquidwar6sys and glibc. This should, in 
+  the long term, ease up the work of using Liquid War algorithms & 
+  structures in a completely different context.
+
+* February 2006: It's been decided to use dynamic linking through 
+  ltdl (libtool) to handle dynamic loading of graphical backends.
+  This means that the liquidwar6 executable itself will not
+  rely on SDL or any given graphical library. Only
+  libliquidwar6gfx will. While this is not of immediate use
+  since only one backend will be developped at first, it opens
+  interesting perspectives, such as easing up a lot the
+  process of writing an alternative backend, depending on
+  Allegro or plain X11 or whatever is needed, should the
+  default SDL/OpenGL not be fully adapted to one's needs. This
+  is not commited yet, but probably be soon. Additionnally,
+  Liquid War 6 has been tested on a big-endian machine (Apple
+  hardware running GNU/Linux). Some patches are required
+  (mostly linked to bitmap loading) but it basically works.
+
+* January 2006: developpement is following its planned
+  route. According to the "official road map" the project is on its
+  tracks. The framework is here and works, it's possible to load a
+  map, view it, and all this is done with a combination of scheme/C
+  code through Guile, which is an order of magnitude cleaner than
+  legacy Liquid War 5 code.  Documentation is available on
+  http://www.gnu.org/software/liquidwar6/manual/
+
+* December 2005: Liquid War 6 becomes a GNU package.  This is
+  great. The short term and visible impact is that the official web
+  page for Liquid War 6 moves from http://www.ufoot.org/liquidwar/v6
+  to http://www.gnu.org/software/liquidwar6/
+
+* November 2005: Nothing really new on the code side, still I decided
+  to release some package, to save people the hassle of accessing Arch
+  depots directly. However the package does nothing usefull for end
+  users yet. Spent most of my coding time/energy on PyGpsWeb.
+
+* October 2005: Developpement is halted this month, will continue in
+  November. I have other projects to finish now, which have closer
+  deadlines than LW6 (which has none). But don't worry, developpement
+  is now over, it's just halted for a period of a few weeks. FYI I'm
+  concentrating on XUL and PostGIS/UMN Mapserver for now.
+
+* September 2005: Continued the work started in August. I've also
+  fixed some stuff in the old dusty Liquid War 5 code, basically I'm
+  preparing a 5.6.3 release which will fix some bugs, and be Allegro
+  4.2.0 compatible.
+
+* August 2005: Coding is on its way, I've coded a bunch of things
+  while I was in Spain. The good news is that: - OpenGL is rather
+  simple to manage, I've been able to setup basic stuff quickly
+  enough. No problem on this side.  - Guile is pretty usable, the scm_
+  interface lacks a good tutorial, but it's very usable. I'm still no
+  scheme guru, but wait 8-) Right now the current work in progress
+  release does nothing interesting, but the framework is set up. I
+  mean it displays stuff using OpenGL, and it's driven by scheme code
+  which passes orders/parameters to low-level C code through Guile.
+
+* July 2005: Liquid War 6 is launched. For now it's only pure
+  vaporware, but I have decided to devote time to it. I'm not used to
+  drop projects, so be patient and it will be there. I've written a
+  roadmap, which describes what I plan, and well, let's code!
+

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <int key="total-armies-size" value="21" />  
+  <int key="single-army-size" value="7" />  
+</lw6mapparam>

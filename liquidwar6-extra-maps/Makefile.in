@@ -1,0 +1,113 @@
+# Liquid War 6 is a unique multiplayer wargame.
+# Copyright (C)  2005, 2006, 2007, 2008  Christian Mauduit <ufoot@ufoot.org>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# 
+# Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+# Contact author        : ufoot@ufoot.org
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+datarootdir = @datarootdir@
+datadir = @datadir@
+
+LW6_MAP_DIR = @LW6_MAP_DIR@
+
+all:
+	cd $(srcdir) && ./normalize.sh
+	make -C debian
+
+clean:
+	rm -f *.tar.gz *.zip *.deb *.rpm
+
+distclean: clean
+	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz $(srcdir)/autom4te.cache config.* *.spec Makefile
+
+install: install-exec install-data
+
+install-exec:
+
+install-data:
+	install -d "${DESTDIR}$(LW6_MAP_DIR)/extra"
+	cp -r $(srcdir)/map/* "${DESTDIR}$(LW6_MAP_DIR)/extra/"
+
+uninstall:
+	rm -rf "${DESTDIR}$(LW6_MAP_DIR)/extra"
+
+dist:
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@	
+	mkdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	cp -r $(srcdir)/AUTHORS $(srcdir)/configure $(srcdir)/configure.ac $(srcdir)/ChangeLog $(srcdir)/COPYING $(srcdir)/debian $(srcdir)/INSTALL liquidwar6-extra-maps.spec $(srcdir)/liquidwar6-extra-maps.spec.in $(srcdir)/Makefile.in $(srcdir)/map $(srcdir)/NEWS $(srcdir)/normalize.sh $(srcdir)/README @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name ".arch-ids"`
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "CVS"`
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "*~"`
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "*.xcf"`
+	tar czf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@	
+
+# Rules below concern packaging, do not use them on untrusted
+# computers, as they use /tmp and assume they are the only scripts
+# doing things in /tmp/liquidwar6-extra-maps. Use at your own risk.
+
+TMP=/tmp/@PACKAGE_TARNAME@
+PACKAGE_TMP=/tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
+	echo "run make dist to (re)build @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
+
+zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.zip
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@.zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	mv ${PACKAGE_TMP}/NEWS ${PACKAGE_TMP}/news.txt
+	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
+	mv ${PACKAGE_TMP}/COPYING ${PACKAGE_TMP}/license.txt
+	mv ${PACKAGE_TMP}/README ${PACKAGE_TMP}/readme.txt
+	rm -rf ${PACKAGE_TMP}2
+	mv ${PACKAGE_TMP} ${PACKAGE_TMP}2
+	install -d ${PACKAGE_TMP}
+	mv ${PACKAGE_TMP}2/map/* ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/news.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/changes.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/license.txt ${PACKAGE_TMP}/
+	mv ${PACKAGE_TMP}2/readme.txt ${PACKAGE_TMP}/
+	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
+	rm -rf ${PACKAGE_TMP}2
+	cd ${TMP} && zip -r @PACKAGE_TARNAME@-@PACKAGE_VERSION@.zip @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	mv ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.zip .
+	rm -rf ${TMP}
+
+deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	cd ${PACKAGE_TMP} && ./configure
+	cd ${PACKAGE_TMP} && dpkg-buildpackage -rfakeroot || true
+	cp ${TMP}/*.deb .
+	rm -rf ${TMP}
+
+rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps.spec
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	echo "next command will prompt for root password"
+	cd ${TMP} && su -c "rpmbuild -ta @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
+	rm -rf ${TMP}

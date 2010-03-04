@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <int key="frequency" value="44100" />
+  <int key="bits" value="16" />
+  <int key="channels" value="2" />
+  <int key="chunksize" value="4096" />
+</liquidwar6>

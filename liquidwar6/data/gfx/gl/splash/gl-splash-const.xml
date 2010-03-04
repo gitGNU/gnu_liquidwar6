@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <color key="root-bg" value="#ffffff" />
+  <color key="map-fg" value="#ffffff" />
+  <color key="map-bg" value="#cccccc" />
+  <color key="text-fg" value="#eeeeee" />
+  <color key="text-bg" value="#dddddd" />
+  <float key="text-center-x" value="0.5" />
+  <float key="text-center-y" value="0.90" />
+  <float key="text-size" value="0.04" />
+  <float key="text-dw" value="0.0015" />
+  <float key="text-dh" value="0.0015" />
+  <int key="text-period" value="10000" />
+  <float key="rotate-x" value="10.0" />
+  <float key="rotate-y" value="0.0" />
+  <float key="rotate-z" value="20.0" />
+  <float key="planet-x" value="0.0" />
+  <float key="planet-y" value="0.0" />
+  <float key="planet-z" value="-5.0" />
+  <float key="planet-radius" value="1.2" />
+  <int key="slices" value="50" />
+  <int key="stacks" value="50" />
+  <int key="planet-day-period" value="47000" />
+  <float key="satellite-radius" value="0.3" />
+  <float key="satellite-distance" value="2.0" />
+  <int key="satellite-year-period" value="19000" />
+  <int key="satellite-day-period" value="2100" />
+  <float key="cursors-center-speed" value="0.05" />
+  <int key="cursors-spin-radius" value="20" />
+  <int key="cursors-spin-period" value="500" />
+</liquidwar6>
+

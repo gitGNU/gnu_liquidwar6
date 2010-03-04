@@ -1,0 +1,60 @@
+Source: liquidwar6
+Section: games
+Priority: extra
+Maintainer: Christian Mauduit <ufoot@ufoot.org>
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+
+Package: liquidwar6
+Architecture: any
+Depends: liquidwar6-data (= ${source:Version}), liquidwar6-mod-gl (= ${source:Version}), liquidwar6-mod-ogg (= ${source:Version}), ${shlibs:Depends}
+Recommends: liquidwar6-extra-maps (= ${source:Version}), liquidwar6-mod-http (= ${source:Version})
+Suggests: liquidwar6-mod-csound (= ${source:Version})
+Description: A unique multiplayer wargame.
+ Liquid War 6 is a unique multiplayer wargame. Your army is a blob of
+ liquid and you have to try and eat your opponents. Rules are very
+ simple yet original, they have been invented by Thomas Colcombet. It
+ is possible to play alone against the computer but the game is really
+ designed to be played with friends, on a single computer, on a LAN, or
+ on Internet.
+
+Package: liquidwar6-data
+Architecture: all
+Description: Data files for liquidwar6
+ Data for Liquid War 6. Contains maps, but also the main
+ program which is composed of platform independant script files. 
+
+Package: liquidwar6-devel
+Architecture: any
+Depends: liquidwar6 (= ${source:Version}), liquidwar6-mod-gl (= ${source:Version}), liquidwar6-mod-ogg (= ${source:Version}), liquidwar6-mod-http (= ${source:Version}), ${shlibs:Depends}
+Description: Development files for liquidwar6
+ Headers and static libraries for liquidwar6. Also contains a test
+ suite which allows testing of individual libraries.
+
+Package: liquidwar6-mod-gl
+Architecture: any
+Depends: liquidwar6-mod-gl-data (= ${source:Version}), ${shlibs:Depends}
+Description: SDL/OpenGL graphics renderer for liquidwar6
+ An SDL/OpenGL accelerated renderer for Liquid War 6.
+
+Package: liquidwar6-mod-gl-data
+Architecture: all
+Description: Data files for liquidwar6-mod-gl
+ Data for Liquid War 6 mod-gl, mostly graphics.
+
+Package: liquidwar6-mod-ogg
+Architecture: any
+Depends: liquidwar6-mod-ogg-data (= ${source:Version}), ${shlibs:Depends}
+Description: Ogg/Vorbis sound engine for liquidwar6
+ An Ogg/Vorbis sound engine for Liquid War 6.
+
+Package: liquidwar6-mod-ogg-data
+Architecture: all
+Description: Data files for liquidwar6-mod-ogg
+ Data for Liquid War 6 mod-ogg, mostly sounds and musics.
+
+Package: liquidwar6-mod-http
+Architecture: any
+Description: HTTP client for liquidwar6
+ An HTTP client based on libCurl.
+

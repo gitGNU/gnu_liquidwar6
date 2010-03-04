@@ -1,0 +1,9 @@
+@deftypefun {int} {lw6bot_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{bot} module test suite. Will try several engines
+and query basic moves.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

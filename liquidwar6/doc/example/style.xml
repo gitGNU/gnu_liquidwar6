@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <!--
+    This is an example Liquid War 6 'style.xml' file. This file can be put
+    along with a 'map.png' file to change the look of the map. It will not
+    change the gameplay at all, all gameplay related parameters are in
+    'rules.xml', and, to some extent, 'hints.xml'. This file is not required,
+    a map can live without any 'style.xml' file, defaults will be used, that's
+    all. Note that this example only defines a few parameters, there are many
+    more of them. The idea is to modify just the settings which are important
+    for your map, and let the user choose the best values for other items.
+    Happy hacking!
+  -->
+  <!--
+    "guess-colors" (default="true"): Defines wether colors should be set
+    automatically from texture colors. If set to true, then the program will
+    try to pick up colors automatically from the texture, and will override
+    the values of the color-base-bg, color-base-fg, color-alternate-bg and
+    color-alternate-fg parameters. How these colors are picked up can't be
+    garanteed, so if the map does not have strong contrast or if there can be
+    any form of ambiguity, it's safe to set this to false and define one's own
+    colors.
+  -->
+  <bool key="guess-colors" value="false"/>
+  <!--
+    "color-base-bg" (default="#000"): Defines the base color, more precisely,
+    its bg (background) part. Colors are always defined by a bg/fg pair. Most
+    colors in the game can be deduced from this one, usually to color a map
+    you only need to define color-base-bg, color-base-fg, color-alternate-bg
+    and color-alternate-fg.
+  -->
+  <color key="color-base-bg" value="#0000ff"/>
+  <!--
+    "color-base-fg" (default="#ccc"): Defines the base color, more precisely,
+    its fg (foreground) part. Colors are always defined by a bg/fg pair. Most
+    colors in the game can be deduced from this one, usually to color a map
+    you only need to define color-base-bg, color-base-fg, color-alternate-bg
+    and color-alternate-fg.
+  -->
+  <color key="color-base-fg" value="#ffffff"/>
+  <!--
+    "color-alternate-bg" (default="#333"): Defines the alternate color, more
+    precisely, its bg (background) part. Colors are always defined by a bg/fg
+    pair. Most colors in the game can be deduced from this one, usually to
+    color a map you only need to define color-base-bg, color-base-fg,
+    color-alternate-bg and color-alternate-fg.
+  -->
+  <color key="color-alternate-bg" value="#000000"/>
+  <!--
+    "color-alternate-fg" (default="#fff"): Defines the alternate color, more
+    precisely, its fg (foreground) part. Colors are always defined by a bg/fg
+    pair. Most colors in the game can be deduced from this one, usually to
+    color a map you only need to define color-base-bg, color-base-fg,
+    color-alternate-bg and color-alternate-fg.
+  -->
+  <color key="color-alternate-fg" value="#ff0000"/>
+</liquidwar6>

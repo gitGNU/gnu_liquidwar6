@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+  <!-- BASIC -->
+  <int key="total-time" value="180"/> <!-- Default: 900   Min: 10  Max: 864000-->
+  
+
+  <!-- FIGHTERS -->
+  <!-- There is an invisible one called max-fighter-health which always is equal to 10000 
+        All other values are relative to that -->
+  <int key="fighter-attack" value="750"/> <!-- Default: 500   Min: 1  Max: max-fighter-health-->
+  <int key="fighter-defense" value="5"/> <!-- Default: 50 -->
+  <int key="fighter-new-health" value="5000"/> <!-- Default: 5000 (it is the health of a converted fighter -->
+  <int key="fighter-regenerate" value="500"/> <!-- Default: 5   Min: 1  Max: max-fighter-health -->
+
+  <int key="nb-attack-tries" value="3"/> <!--  Default: 3   Min: 1   Max: 7 -->
+  <int key="nb-defense-tries" value="2"/> <!-- Default: 1   Min: 1   Max: 7 -->
+  <int key="nb-move-tries" value="7"/> <!--    Default: 5   Min: 3   Max: 7   -->
+  
+  <int key="side-attack-factor" value="10"/>  <!--  Default: 20   Percentage - defines how hard the fighter attacks sideways -->
+  <int key="side-defense-factor" value="10"/>  <!-- Default: 20   Percentage - defines how hard the fighter will heal sideways -->
+
+
+
+  <!-- ARMY -->
+  <int key="single-army-size" value="18"/> <!--  Default: 30   Min: 1   Max: 95   -->
+  <int key="total-armies-size" value="42"/> <!-- Default: 60   Min: 1   Max: 95   -->
+  
+  <!--
+	single-army-size should determine the optimal size you want for one army
+	total-army-size should be used for the maximum space occupied for all the fighters
+	10 - 30     1% - 9%
+	14 - 40     2% - 16%
+	20 - 60     4% - 36%
+	30 - 60     9% - 36%
+	40 - 70    16% - 49%
+	50 - 80    25% - 64 %
+-->
+  
+<int key="boost-power" value="6"/><!-- Default value: 3 Min value: 0 Max value: 10 -->
+<int key="danger-power" value="150"/><!-- Default value: 200 Min value: 0 Max value: 10000 -->
+<int key="medicine-power" value="150"/><!-- Default value: 100 Min value: 0 Max value: 10000 -->
+
+
+  
+  <int key="start-position-mode" value="0"/> <!-- 0 = Pre-defined   1 = rtfm  2 = Random -->
+
+
+
+<int key="start-blue-x" value="8"/>
+<int key="start-blue-y" value="11"/>
+
+<int key="start-cyan-x" value="8"/>
+<int key="start-cyan-y" value="30"/>
+
+<int key="start-green-x" value="8"/>
+<int key="start-green-y" value="50"/>
+
+<int key="start-lightblue-x" value="8"/>
+<int key="start-lightblue-y" value="69"/>
+
+<int key="start-magenta-x" value="8"/>
+<int key="start-magenta-y" value="88"/>
+
+<int key="start-orange-x" value="91"/>
+<int key="start-orange-y" value="11"/>
+
+<int key="start-pink-x" value="91"/>
+<int key="start-pink-y" value="30"/>
+
+<int key="start-purple-x" value="91"/>
+<int key="start-purple-y" value="50"/>
+
+<int key="start-red-x" value="91"/>
+<int key="start-red-y" value="69"/>
+
+<int key="start-yellow-x" value="91"/>
+<int key="start-yellow-y" value="88"/>
+
+
+
+
+
+  <!-- WRAP AROUND -->
+  <int key="x-polarity" value="0" /> <!-- 0 = no wrap   1 = wrap  -1 = wrap inverted  -->
+  <int key="y-polarity" value="0" /> <!-- 0 = no wrap   1 = wrap  -1 = wrap inverted  -->
+  
+  
+  <!-- GRADIENT -->
+  <!-- Increase it on complex maps. Decrease it on simple maps, to make it more acurate -->
+  <int key="spreads-per-round" value="1" /> <!-- Default: 3  Min: 1  Max: 12   -->
+  
+</lw6mapparam>

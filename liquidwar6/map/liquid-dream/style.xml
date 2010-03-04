@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+	<!-- =========================
+		LEVEL DISPLAY
+	==========================-->
+
+
+	<float key="cursor-size" value="0.85" />	
+
+
+	<!-- =========================
+		TEAM COLORS
+	==========================-->
+
+  <color key="team-color-red" value="#92170a" />
+  <color key="team-color-green" value="#01a80a" />
+  <color key="team-color-blue" value="#01179b" />
+  <color key="team-color-yellow" value="#92a80a" />
+  <color key="team-color-cyan" value="#01a89b" />
+  <color key="team-color-magenta" value="#92179b" />
+  <color key="team-color-orange" value="#92650a" />
+  <color key="team-color-lightblue" value="#4f829b" />
+  <color key="team-color-purple" value="#7e6db3" />
+  <color key="team-color-pink" value="#b8718d" />  
+	
+
+	<!-- =========================
+		COLORS
+	==========================-->
+
+
+	<!--
+		turn this one on, if you want to define your own color values ... a lot
+		of stuff would also need to be turned on in hints.xml
+	-->
+	<bool key="colorize" value="false" />
+
+
+
+</lw6mapparam>

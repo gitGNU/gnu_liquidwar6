@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <int key="fighter-attack" value="2000"/>
+  <int key="fighter-defense" value="75"/>
+  <int key="fighter-new-health" value="10000"/>
+
+  <int key="rounds-per-sec" value="2"/>
+  <int key="moves-per-round" value="10"/>
+
+  <int key="nb-attack-tries" value=""/>
+  <int key="nb-defense-tries" value=""/>
+  <int key="nb-move-tries" value=""/>
+
+  <int key="single-army-size" value="50"/>
+  <int key="total-armies-size" value="71"/>
+
+  <int key="start-position-mode" value="2"/>
+
+  <int key="total-time" value="180"/>
+
+  <int key="x-polarity" value="0"/>
+  <int key="y-polarity" value="0"/>
+  
+</lw6mapparam>

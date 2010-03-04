@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <int key="max-displayed-items" value="9" />
+  <float key="radius1" value="0.3" />
+  <float key="between1" value="0.7" />
+  <float key="cyl-height" value="0.8" />
+  <int key="slices1" value="90" />
+  <int key="slices-min" value="15" />
+  <int key="stacks" value="20" />
+  <float key="oscil-range1" value="0.05" />
+  <int key="oscil-period" value="4000" />
+  <float key="texture-offset" value="-0.03" />
+  <int key="nb-spheres" value="3" />
+  <float key="sphere-radius1" value="0.3" />
+  <float key="sphere-between1" value="0.7" />
+  <int key="sphere-slices1" value="60" />
+  <int key="sphere-slices-min" value="20" />
+  <int key="sphere-blink-period" value="1000" />
+  <float key="progress-offset" value="-0.38" />
+  <float key="progress-radius" value="0.02" /> 
+  <float key="progress-cyl-height" value="0.7" />
+  <float key="esc-offset" value="0.34f" />
+  <float key="esc-radius" value="0.03f" /> 
+  <float key="esc-cyl-height" value="0.4" />
+  <float key="esc-cyl-height-offset" value="-0.35" />
+  <float key="esc-rotate" value="-30.0" />
+</liquidwar6>

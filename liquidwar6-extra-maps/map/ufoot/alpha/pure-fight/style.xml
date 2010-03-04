@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <bool key="keep-ratio" value="false" />  
+  <float key="zoom" value="1.0" />
+  <string key="menu-style" value="cylinder" />
+  <string key="view-style" value="flat" />
+</lw6mapparam>

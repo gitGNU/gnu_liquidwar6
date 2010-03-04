@@ -1,0 +1,117 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "map.h"
+
+#define _GLUE_BUILTIN_EQUATOR_SIZE_PERCENT 20
+
+static int
+_default_source (lw6map_meta_layer_t * glue, int width, int height)
+{
+  int ret = 0;
+  int x, y;
+  u_int8_t value = 0;
+  int tropic_north;
+  int equator;
+  int tropic_south;
+
+  glue->shape.w = width;
+  glue->shape.h = height;
+  glue->shape.d = 1;		// allways 1
+  glue->data =
+    (u_int8_t *) LW6SYS_CALLOC (glue->shape.w * glue->shape.h *
+				sizeof (u_int8_t));
+
+  tropic_north = (height * (100 - _GLUE_BUILTIN_EQUATOR_SIZE_PERCENT)) / 200;
+  equator = height / 2;
+  tropic_south = (height * (100 + _GLUE_BUILTIN_EQUATOR_SIZE_PERCENT)) / 200;
+  if (glue->data)
+    {
+      ret = 1;
+      for (y = 0; y < height; ++y)
+	{
+	  if (y < equator)
+	    {
+	      value = 0;
+	      if (y >= tropic_north && equator > tropic_north)
+		{
+		  value =
+		    tropic_north + (0xFF * (y - tropic_north)) / (equator -
+								  tropic_north);
+		}
+	    }
+	  else
+	    {
+	      value = 0;
+	      if (y < tropic_south && tropic_south > equator)
+		{
+		  value =
+		    tropic_north +
+		    (0xFF * (tropic_south - y)) / (tropic_south - equator);
+		}
+	    }
+	  for (x = 0; x < width; ++x)
+	    {
+	      lw6map_meta_layer_set (glue, x, y, value);
+	    }
+	}
+    }
+
+  if (!ret)
+    {
+      lw6map_meta_layer_clear (glue);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_glue_builtin_whd
+ *
+ * @glue: the glue to init
+ * @w: width
+ * @h: height
+ *
+ * Creates a default glue. This is mostly for testing purposes, the default
+ * glue is not empty, it contains a horizontal line of glue in the middle.
+ * This is to match the default builtin layer which is a map of the world.
+ *
+ * Return value: none
+ */
+void
+lw6map_glue_builtin_whd (lw6map_meta_layer_t * glue, int w, int h)
+{
+  lw6map_meta_layer_clear (glue);
+
+  if (!_default_source (glue, w, h))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("unable to construct default map glue"));
+      glue->shape.w = 0;
+      glue->shape.h = 0;
+      glue->shape.d = 0;
+    }
+}

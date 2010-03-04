@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+  <!-- GAME TIME -->
+  <float key="speed" value="1.0" />
+
+  <!--TECHNICAL -->
+  <int key="wall-grease" value="4" />
+
+  
+</lw6mapparam>

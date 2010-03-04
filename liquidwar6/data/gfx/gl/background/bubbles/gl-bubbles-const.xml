@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <color key="menu-fg" value="#dfdfff" />
+  <color key="menu-bg" value="#00007f" />
+  <color key="menu-fg-selected" value="#00003f" />
+  <color key="menu-bg-selected" value="#efefff" />
+  <int key="nb-bubbles" value="22" />
+  <float key="yspeed" value="0.1" />
+  <float key="bubble-yspeed" value="5.0" />
+  <float key="bubble-size-min" value="0.01" />
+  <float key="bubble-size-max" value="0.1" />
+</liquidwar6>

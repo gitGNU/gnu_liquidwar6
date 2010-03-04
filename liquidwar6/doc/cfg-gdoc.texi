@@ -1,0 +1,187 @@
+@deftypefun {int} {lw6cfg_parse_command_line} (void * @var{context})
+@var{context}:  opaque pointer on a context
+
+Overwrites any existing option with command line args
+
+@strong{Return value:}  1 if success, 0 if error
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_defaults} (void * @var{context})
+@var{context}:  opaque pointer on a context
+
+Sets all values to their defaults.
+
+@strong{Return value:}  1 if success, 0 if error
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_merge_env} (void * @var{cfg_context})
+@var{cfg_context}:  a context returned by @code{lw6cfg_init}
+
+Overwrites any existing vale in the config with environment
+variables prefixed by LW6_.
+
+@strong{Return value:}  1 if successfull, 0 if error.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_format} (char * @var{key}, char * @var{value}, lw6hlp_type_t @var{type})
+@var{key}:  the key of the value to format
+
+@var{value}:  the value to format
+
+@var{type}:  the type of the value to format
+
+Formats, converts, a given value to its cannonical representation.
+Booleans will be converted to true/false, strings containing integers
+will be stripped from junk, and so on. This is a performance killer
+but will ensure everything is correct.
+
+@strong{Return value:}  a newly allocated string, containing the same as the
+input, but reformatted the pedantic way.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_format_guess_type} (char * @var{key}, char * @var{value})
+@var{key}:  the key of the value to format
+
+@var{value}:  the value to format
+
+Formats, converts, a given value to its cannonical representation.
+Booleans will be converted to true/false, strings containing integers
+will be stripped from junk, and so on. This is a performance killer
+but will ensure everything is correct. This function will automatically
+guess the type of the value from its description in the help system.
+
+@strong{Return value:}  a newly allocated string, containing the same as the
+input, but reformatted the pedantic way.
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_load} (void * @var{cfg_context}, char * @var{filename})
+@var{cfg_context}:  a context returned by @code{lw6cfg_init}
+
+@var{filename}:  a file path, absolute or relative
+
+Loads the given config file, and stores its values into the current 
+context. Parameters which are both in the config file and given
+as command line parameters, will be taken from the command-line.
+
+@strong{Return value:}  1 if successfull, 0 if error.
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_save} (void * @var{cfg_context}, char * @var{filename})
+@var{cfg_context}:  a context returned by @code{lw6cfg_init}
+
+@var{filename}:  a file path, absolute or relative
+
+Save current options into the given config file. Before saving
+the file, all command line arguments will be read and will
+override current values. This means the saved file will contain
+values given as command line arguments.
+
+@strong{Return value:}  1 if successfull, 0 if error.
+@end deftypefun
+
+@deftypefun {void *} {lw6cfg_init} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command line arguments, as given to @code{main}
+
+@var{argv}:  a list of command line arguments, as given to @code{main}
+
+Initializes a config context object. This object is hidden
+behind an opaque void * pointer to avoid direct access to
+its elements.
+
+@strong{Return value:}  an opaque pointer, must be freed with @code{lw6cfg_quit}.
+@end deftypefun
+
+@deftypefun {void} {lw6cfg_quit} (void * @var{cfg_context})
+@var{cfg_context}:  a context returned by @code{lw6cfg_init}
+
+Frees a config cfg_context object. You must call this
+once you're done with the context.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6cfg_reset} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command line arguments, as given to @code{main}
+
+@var{argv}:  a list of command line arguments, as given to @code{main}
+
+Overwrites the config file with defaults.
+Use this to get rid of old configurations.
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{cfg} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_unified_get_value} (int @var{argc}, char * [] @var{argv}, char * @var{key})
+@var{argc}:  number of command-line args, as passed to @code{main}
+
+@var{argv}:  arry of command-line args, as passed to @code{main}
+
+@var{key}:  the key to query
+
+Unified "value" getter, which gets informations from environment
+variables, command line, and config file. The rules is that the command-line
+argument always has the last word. It will override any other value.
+Follows environment variables, which will be used if no command-line
+argument is supplied. Note that these are "LW6_" prefixed and uppercased
+environment variables as opposed to lowercased and "dash-separated"
+keys. Finally, if there's no environment variable, nor any config-file
+corresponding entry, the value will be searched in the config file.
+If there's no information in the config file, NULL is returned.
+
+@strong{Return value:}  a string with the value. Can be NULL. Must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_unified_get_user_dir} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command-line args, as passed to @code{main}
+
+@var{argv}:  arry of command-line args, as passed to @code{main}
+
+Gets the user dir, taking all parameters in account, that's to
+say the "LW6_USER_DIR" env value, the "--user-dir" command-line
+paramater and the LW6DEF_USER_DIR config file entry.
+
+@strong{Return value:}  the directory path, might be NULL, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_unified_get_log_file} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command-line args, as passed to @code{main}
+
+@var{argv}:  arry of command-line args, as passed to @code{main}
+
+Gets the log file, taking all parameters in account, that's to
+say the "LW6_LOG_FILE" env value, the "--log-file" command-line
+paramater and the LW6DEF_LOG_FILE config file entry.
+
+@strong{Return value:}  the directory path, might be NULL, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_unified_get_music_path} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command-line args, as passed to @code{main}
+
+@var{argv}:  arry of command-line args, as passed to @code{main}
+
+Gets the user dir, taking all parameters in account, that's to
+say the "LW6_MUSIC_PATH" env value, the "--music-path" command-line
+paramater and the LW6DEF_MUSIC_PATH config file entry.
+
+@strong{Return value:}  the directory path, might be NULL, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6cfg_unified_get_map_path} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of command-line args, as passed to @code{main}
+
+@var{argv}:  arry of command-line args, as passed to @code{main}
+
+Gets the user dir, taking all parameters in account, that's to
+say the "LW6_MAP_PATH" env value, the "--map-path" command-line
+paramater and the LW6DEF_MAP_PATH config file entry.
+
+@strong{Return value:}  the directory path, might be NULL, must be freed.
+@end deftypefun
+
