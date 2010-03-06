@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+This is /home/mauduit/Home/_/culture/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+/home/mauduit/Home/_/culture/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -1245,17 +1245,19 @@ F.1 Concept index
 * Bug report:                            Mailing lists.       (line  51)
 * Compilation <1>:                       Compilation tips.    (line  83)
 * Compilation:                           Troubleshooting.     (line   9)
-* CVS:                                   Using GNU Arch.      (line   9)
+* CVS:                                   Using GIT.           (line   6)
 * Download:                              Getting the game.    (line   9)
+* GIT:                                   Using GIT.           (line   6)
 * GPL, GNU General Public License:       Copying.             (line   6)
 * hints.xml:                             Designing levels.    (line 283)
 * Log file:                              Logs.                (line   6)
 * Mac OS X:                              Compilation tips.    (line 396)
 * Microsoft Windows:                     Compilation tips.    (line  83)
 * rules.xml:                             Designing levels.    (line 236)
-* source code:                           Using GNU Arch.      (line   9)
+* source code:                           Using GIT.           (line   6)
 * style.xml:                             Designing levels.    (line 305)
-* SVN:                                   Using GNU Arch.      (line   9)
+* subversion:                            Using GIT.           (line   6)
+* SVN:                                   Using GIT.           (line   6)
 
 F.2 Function and keyword index
 ==============================

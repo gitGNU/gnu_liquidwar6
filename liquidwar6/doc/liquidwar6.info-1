@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+This is /home/mauduit/Home/_/culture/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+/home/mauduit/Home/_/culture/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -69,6 +69,7 @@ Hacker's guide
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
 * Using GNU Arch::      A quick tla survival guide.
+* Using GIT::           GIT is used to handle source code.
 
 Reference
 
@@ -440,11 +441,19 @@ version of the game.
 2.2.3 Work in progress
 ----------------------
 
-Latest work in progress versions can be obtained with GNU Arch.  Here's
-a typical set of commands which will fetch the latest version:
+Latest work in progress versions can be obtained with GIT
+(http://git-scm.com/).  Here's the typicall command which will fetch
+the latest version:
 
-     tla register-archive http://arch.sv.gnu.org/archives/liquidwar6
-     tla get -A liquidwar6@sv.gnu.org liquidwar6--beta
+     git clone git://git.sv.gnu.org/liquidwar6.git
+
+   If you are behing a firewall and can't use the native GIT protocol,
+you can rely on the (slower) http protocol:
+
+     git clone http://git.sv.gnu.org/r/liquidwar6.git
+
+   The source can be browsed online on
+`http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git'
 
    Alternatively, you can download daily snapshots on
 `http://www.ufoot.org/liquidwar/v6/snapshots/' These files should be
@@ -1068,6 +1077,7 @@ versions. Any feedback is welcome.
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
 * Using GNU Arch::      A quick tla survival guide.
+* Using GIT::           GIT is used to handle source code.
 
 
 File: liquidwar6.info,  Node: Designing levels,  Next: Translating,  Up: Hacker's guide
@@ -2748,7 +2758,7 @@ error 404 -> /lw6/
 1000 1234abcd1234abcd UNREGISTER
 
 
-File: liquidwar6.info,  Node: Using GNU Arch,  Prev: Network protocol,  Up: Hacker's guide
+File: liquidwar6.info,  Node: Using GNU Arch,  Next: Using GIT,  Prev: Network protocol,  Up: Hacker's guide
 
 3.14 Using GNU Arch
 ===================
@@ -2756,9 +2766,21 @@ File: liquidwar6.info,  Node: Using GNU Arch,  Prev: Network protocol,  Up: Hack
 3.14.1 About GNU Arch
 ---------------------
 
-There is no CVS or SVN repository for Liquid War 6.  Instead, a GNU
-Arch (http://www.gnu.org/software/gnu-arch/) repository is used to
-follow the different versions.  Read the GNU Arch tutorial
+Since March, 4th 2010, Liquid War 6 uses GIT (http://git-scm.com/) to
+handle source code, track changes, branches, and the rest. It replaces
+the GNU Arch (http://www.gnu.org/software/gnu-arch/) repository. This
+old repository contains all sources up to version 0.0.7beta, following
+versions, including 0.0.8beta, must be retrieved from GIT.
+
+   So the following informations only concern those who are interested
+in previous versions of the game. Anybody else - probably you - should
+use GIT instead.
+
+   *Note Using GIT::.
+
+   Still, this quick Arch survival guide is kept in the documentation.
+
+   Read the GNU Arch tutorial
 (http://www.gnu.org/software/gnu-arch/tutorial/arch.html) to learn how
 Arch works. Note that there are many other source control managers
 available, some of which provide functionnalities similar to GNU Arch /
@@ -2884,6 +2906,64 @@ folders:
    Both are directories, note the two ++ and the single +. the
 `+contents' directory can be empty. Once you've done this, try to
 re-commit.
+
+
+File: liquidwar6.info,  Node: Using GIT,  Prev: Using GNU Arch,  Up: Hacker's guide
+
+3.15 Using GIT
+==============
+
+3.15.1 About GIT
+----------------
+
+There's no CVS or Subversion (AKA "SVN") source depot for Liquid War 6.
+Instead, a GIT (http://git-scm.com/) depot is used. GIT has many
+advantages over other source control managers (SCM), among them, it's
+distributed, like GNU Arch (http://www.gnu.org/software/gnu-arch).
+
+   You can find interesting informations on GIT here:
+   * `http://git-scm.com/documentation'
+
+   * `http://savannah.gnu.org/maintenance/UsingGit'
+
+   * `http://savannah.gnu.org/git/?group=liquidwar6'
+
+3.15.2 Getting the latest source
+--------------------------------
+
+Simply install git and run the following command:
+
+     git clone git://git.sv.gnu.org/liquidwar6.git
+
+   If you are behing a firewall and can't have direct TCP/IP access:
+
+     git clone http://git.sv.gnu.org/r/liquidwar6.git
+
+   Additionnally, source can be browsed online here:
+`http://git.savannah.gnu.org/cgit/liquidwar6.git'
+
+3.15.3 Developper access
+------------------------
+
+You need an ssh access on Savannah (http://savannah.gnu.org/) and
+appropriate rights on the project, then you can type:
+
+     git clone login@git.sv.gnu.org:/srv/git/liquidwar6.git
+
+3.15.4 Submitting patches
+-------------------------
+
+If you have developper access to the project, then a simply `git push'
+will commit your changes.
+
+   If not (that is, if you checked out anonymously using `git clone
+git://git.sv.gnu.org/liquidwar6.git' for instance, you can still submit
+patches. Follow these steps:
+   * edit the code, make your patches, commit to your local GIT tree
+
+   * run `git format-patch -p origin' this command will generate
+     `.patch' files, one for each of you commits, which you can send by
+     email. They can be easily integrated in the main source tree.
 
 
 File: liquidwar6.info,  Node: Reference,  Prev: Hacker's guide,  Up: Top
