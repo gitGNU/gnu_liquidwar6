@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/culture/doc/liquidwar6.info, produced by
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/mauduit/Home/_/culture/doc/liquidwar6.texi.
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -7272,44 +7272,36 @@ Annexe C Links
 
 This section lists various Internet Liquid War related links.
 
-   * http://www.gnu.org/software/liquidwar6/
-     (http://www.gnu.org/software/liquidwar6/): Liquid War 6 homepage
+   * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
 
-   * http://www.gnu.org/software/liquidwar6/manual/
-     (http://www.gnu.org/software/liquidwar6/manual/): Online manual
+   * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
 
-   * http://download.savannah.gnu.org/releases/liquidwar6/
-     (http://download.savannah.gnu.org/releases/liquidwar6/): Savannah
+   * `http://download.savannah.gnu.org/releases/liquidwar6/': Savannah
      downloads
 
-   * http://www.ufoot.org/download/liquidwar/v6/
-     (http://www.ufoot.org/download/liquidwar/v6/): ufoot.org downloads
+   * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
 
-   * http://arch.sv.gnu.org/archives/liquidwar6/
-     (http://arch.sv.gnu.org/archives/liquidwar6/): GNU Arch repositoty
+   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
+     (deprecated)
 
-   * http://savannah.gnu.org/projects/liquidwar6/
-     (http://savannah.gnu.org/projects/liquidwar6/): Project on Savannah
+   * `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
+     (replaces GNU Arch)
 
-   * http://lists.gnu.org/archive/html/help-liquidwar6/
-     (http://lists.gnu.org/archive/html/help-liquidwar6/): Mailing-list
+   * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
+
+   * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
      archives
 
-   * http://en.wikipedia.org/wiki/Liquid_War
-     (http://en.wikipedia.org/wiki/Liquid_War): Liquid War entry on
+   * `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
      Wikipedia
 
-   * http://fr.wikipedia.org/wiki/Liquid_War
-     (http://fr.wikipedia.org/wiki/Liquid_War): Liquid War entry on
+   * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
      Wikipedia (French)
 
-   * http://www.lgdb.org/game/liquid_war
-     (http://www.lgdb.org/game/liquid_war): Liquid War 6 entry on LGDB
+   * `http://www.lgdb.org/game/liquid_war': Liquid War 6 entry on LGDB
 
-   * http://libregamewiki.org/Liquid_War_6
-     (http://libregamewiki.org/Liquid_War_6): Liquid War 6 entry on
+   * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
      Libregamewiki
 
-   * http://www.ufoot.org/liquidwar/v5
-     (http://www.ufoot.org/liquidwar/v5): Liquid War 5
+   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
 

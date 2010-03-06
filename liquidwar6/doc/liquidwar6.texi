@@ -3113,8 +3113,10 @@ can still submit patches. Follow these steps:
 @item
 edit the code, make your patches, commit to your local GIT tree
 @item
-run @code{git format-patch -p origin} this command will generate @code{.patch} files, one for each of you commits, which you can send by email. They can be easily integrated in the main source tree.
+run @code{git format-patch -p origin} this command will generate @code{.patch} files, one for each of you commits, which you can send by email. They can be easily integrated in the main source tree by using @code{git apply <file.patch>}.
 @end itemize
+
+Note that you can need to run @code{git format-patch -p master} (with @code{master} instead of @code{origin}) it not using a fresh checkout. Also consider adding the @code{--stdout} switch, eg @code{git format-patch -p master --stdout > my-changes.patch} if you're not using a fresh checkout.
 
 @c ===========================================================================
 @c Reference
@@ -3597,29 +3599,31 @@ This section lists various Internet Liquid War related links.
 
 @itemize
 @item
-@uref{http://www.gnu.org/software/liquidwar6/, http://www.gnu.org/software/liquidwar6/}: Liquid War 6 homepage
+@uref{http://www.gnu.org/software/liquidwar6/}: Liquid War 6 homepage
 @item
-@uref{http://www.gnu.org/software/liquidwar6/manual/, http://www.gnu.org/software/liquidwar6/manual/}: Online manual
+@uref{http://www.gnu.org/software/liquidwar6/manual/}: Online manual
 @item
-@uref{http://download.savannah.gnu.org/releases/liquidwar6/, http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads
+@uref{http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads
 @item
-@uref{http://www.ufoot.org/download/liquidwar/v6/, http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads
+@uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads
 @item
-@uref{http://arch.sv.gnu.org/archives/liquidwar6/, http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repositoty
+@uref{http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repository (deprecated)
 @item
-@uref{http://savannah.gnu.org/projects/liquidwar6/, http://savannah.gnu.org/projects/liquidwar6/}: Project on Savannah
+@uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository (replaces GNU Arch)
 @item
-@uref{http://lists.gnu.org/archive/html/help-liquidwar6/, http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
+@uref{http://savannah.gnu.org/projects/liquidwar6/}: Project on Savannah
 @item
-@uref{http://en.wikipedia.org/wiki/Liquid_War, http://en.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia
+@uref{http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
 @item
-@uref{http://fr.wikipedia.org/wiki/Liquid_War, http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
+@uref{http://en.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia
 @item
-@uref{http://www.lgdb.org/game/liquid_war, http://www.lgdb.org/game/liquid_war}: Liquid War 6 entry on LGDB
+@uref{http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
 @item
-@uref{http://libregamewiki.org/Liquid_War_6, http://libregamewiki.org/Liquid_War_6}: Liquid War 6 entry on Libregamewiki
+@uref{http://www.lgdb.org/game/liquid_war}: Liquid War 6 entry on LGDB
 @item
-@uref{http://www.ufoot.org/liquidwar/v5, http://www.ufoot.org/liquidwar/v5}: Liquid War 5
+@uref{http://libregamewiki.org/Liquid_War_6}: Liquid War 6 entry on Libregamewiki
+@item
+@uref{http://www.ufoot.org/liquidwar/v5}: Liquid War 5
 @end itemize
 
 @c ---------------------------------------------------------------------------

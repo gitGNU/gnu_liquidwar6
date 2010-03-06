@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/culture/doc/liquidwar6.info, produced by
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/mauduit/Home/_/culture/doc/liquidwar6.texi.
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -2963,7 +2963,13 @@ patches. Follow these steps:
 
    * run `git format-patch -p origin' this command will generate
      `.patch' files, one for each of you commits, which you can send by
-     email. They can be easily integrated in the main source tree.
+     email. They can be easily integrated in the main source tree by
+     using `git apply <file.patch>'.
+
+   Note that you can need to run `git format-patch -p master' (with
+`master' instead of `origin') it not using a fresh checkout. Also
+consider adding the `--stdout' switch, eg `git format-patch -p master
+--stdout > my-changes.patch' if you're not using a fresh checkout.
 
 
 File: liquidwar6.info,  Node: Reference,  Prev: Hacker's guide,  Up: Top
