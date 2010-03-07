@@ -46,10 +46,13 @@ find $LW6_TMP -type f -exec chmod a+rw "{}" \;
 find $LW6_TMP -type d -exec chmod a+rwx "{}" \;
 rm -rf $LW6_TMP && mkdir $LW6_TMP && cd $LW6_TMP || exit 1
 
-tla register-archive "http://arch.savannah.gnu.org/archives/liquidwar6" > /dev/null 2>&1
-tla get --archive "liquidwar6@sv.gnu.org" $LW6_BRANCH > ${LW6_LOG_FILE}.get.log.txt 2>&1
+#tla register-archive "http://arch.savannah.gnu.org/archives/liquidwar6" > /dev/null 2>&1
+#tla get --archive "liquidwar6@sv.gnu.org" $LW6_BRANCH > ${LW6_LOG_FILE}.get.log.txt 2>&1
+#
+#cd liquidwar6--beta* || exit 1
+git clone git://git.sv.gnu.org/liquidwar6.git > ${LW6_LOG_FILE}.clone.log.txt 2>&1
 
-cd liquidwar6--beta* || exit 1
+cd liquidwar6/liquidwar6 || exit 1
 
 sed -i -e "s/\(^AC_INIT.*War 6\]\,\[\)\(.*\)\(\]\,\[ufoot.*\)/\1${LW6_SNAPSHOT_VERSION}\3/g" configure.ac > ${LW6_LOG_FILE}.sed.log.txt 2>&1
 rm -f configure
@@ -83,9 +86,10 @@ if test -f liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz && test -d doc/liquidwar6.h
 fi
 
 cd ..
+cd ..
 
-tla get --archive "liquidwar6@sv.gnu.org" $LW6_BRANCH_EXTRA_MAPS > ${LW6_LOG_FILE}.get-extra-maps.log.txt 2>&1
-cd liquidwar6--extra-maps* || exit 1
+#tla get --archive "liquidwar6@sv.gnu.org" $LW6_BRANCH_EXTRA_MAPS > ${LW6_LOG_FILE}.get-extra-maps.log.txt 2>&1
+cd liquidwar6/liquidwar6-extra-maps || exit 1
 
 sed -i -e "s/\(^AC_INIT.*War 6 extra maps\]\,\[\)\(.*\)\(\]\,\[ufoot.*\)/\1${LW6_SNAPSHOT_VERSION}\3/g" configure.ac > ${LW6_LOG_FILE}.sed.log.txt 2>&1
 rm -f configure
@@ -100,6 +104,7 @@ if test -f liquidwar6-extra-maps-${LW6_SNAPSHOT_VERSION}.zip ; then
     LW6_OK_EXTRA_MAPS=1
 fi
    
+cd ..
 cd ..
 
 if test x${LW6_OK} = x1 && test x${LW6_OK_EXTRA_MAPS} = x1 ; then

@@ -1,3 +1,11 @@
+2010-03-07 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Updated snapshot generation to use GIT instead of Arch.
+
+2010-03-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Moved depot to GIT instead of Arch.
+
 2010-01-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Minor p2p fix, calling poll in test.
