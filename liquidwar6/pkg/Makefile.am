@@ -115,3 +115,23 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	echo "next command will prompt for root password"
 	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
 	rm -rf ${TMP}
+
+app: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
+	rm -rf ${TMP}
+	install -d ${TMP}
+	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	install -d "${TMP}/@PACKAGE_STRING@.app/Contents/Resources"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	cd ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --prefix=/opt && make
+	install -d "${TMP}/@PACKAGE_STRING@.app/Contents/MacOS"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@.app/Contents/MacOS/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@.app/Contents/"

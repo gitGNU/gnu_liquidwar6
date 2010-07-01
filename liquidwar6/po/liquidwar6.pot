@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.8beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2009-11-22 15:13+0100\n"
+"POT-Creation-Date: 2010-07-01 23:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,537 +17,537 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/scriptpo.c:1
-msgid "no gfx backend found"
-msgstr ""
-
-#: src/scriptpo.c:2
-msgid "no snd backend found"
-msgstr ""
-
-#: src/scriptpo.c:3
-msgid "gfx backend ~a not available"
-msgstr ""
-
-#: src/scriptpo.c:4
-msgid "snd backend ~a not available"
-msgstr ""
-
-#: src/scriptpo.c:5
-msgid "red"
-msgstr ""
-
-#: src/scriptpo.c:6
-msgid "green"
-msgstr ""
-
-#: src/scriptpo.c:7
-msgid "blue"
-msgstr ""
-
-#: src/scriptpo.c:8
-msgid "yellow"
-msgstr ""
-
-#: src/scriptpo.c:9
-msgid "cyan"
-msgstr ""
-
-#: src/scriptpo.c:10
-msgid "magenta"
-msgstr ""
-
-#: src/scriptpo.c:11
-msgid "orange"
-msgstr ""
-
-#: src/scriptpo.c:12
-msgid "light blue"
-msgstr ""
-
-#: src/scriptpo.c:13
-msgid "purple"
-msgstr ""
-
-#: src/scriptpo.c:14
-msgid "pink"
-msgstr ""
-
-#: src/scriptpo.c:15
-msgid "Mouse"
-msgstr ""
-
-#: src/scriptpo.c:16
-msgid "Keyboard"
-msgstr ""
-
-#: src/scriptpo.c:17
-msgid "Joystick 1"
-msgstr ""
-
-#: src/scriptpo.c:18
-msgid "Joystick 2"
-msgstr ""
-
-#: src/scriptpo.c:19
-msgid "Custom"
-msgstr ""
-
-#: src/scriptpo.c:20 src/scriptpo.c:25
-msgid "~a (mouse)"
-msgstr ""
-
-#: src/scriptpo.c:21
-msgid "~a (keyb)"
-msgstr ""
-
-#: src/scriptpo.c:22
-msgid "~a (joy1)"
-msgstr ""
-
-#: src/scriptpo.c:23
-msgid "~a (joy2)"
-msgstr ""
-
-#: src/scriptpo.c:24
-msgid "~a (custom)"
-msgstr ""
-
-#: src/scriptpo.c:26
 msgid "scheme error"
 msgstr ""
 
-#: src/scriptpo.c:27
+#: src/scriptpo.c:2
 msgid "running scheme code with Guile"
 msgstr ""
 
-#: src/scriptpo.c:28
+#: src/scriptpo.c:3
 msgid "leaving Guile"
 msgstr ""
 
-#: src/scriptpo.c:29
+#: src/scriptpo.c:4
 msgid "catched Guile error"
 msgstr ""
 
+#: src/scriptpo.c:5 src/scriptpo.c:33
+msgid "Choose map"
+msgstr ""
+
+#: src/scriptpo.c:6
+msgid "Time ~a:~a~a:~a~a"
+msgstr ""
+
+#: src/scriptpo.c:7
+msgid "Default speed"
+msgstr ""
+
+#: src/scriptpo.c:8
+msgid "Speed x~a"
+msgstr ""
+
+#: src/scriptpo.c:9
+msgid "Speed ~a%"
+msgstr ""
+
+#: src/scriptpo.c:10
+msgid "Unknown speed"
+msgstr ""
+
+#: src/scriptpo.c:11
+msgid "Bench ~a"
+msgstr ""
+
+#: src/scriptpo.c:12 src/scriptpo.c:100
+msgid "Time & speed"
+msgstr ""
+
+#: src/scriptpo.c:13
+msgid "No sound FX"
+msgstr ""
+
+#: src/scriptpo.c:14
+msgid "Sound FX ~a%"
+msgstr ""
+
+#: src/scriptpo.c:15
+msgid "No music"
+msgstr ""
+
+#: src/scriptpo.c:16
+msgid "Music ~a%"
+msgstr ""
+
+#: src/scriptpo.c:17 src/scriptpo.c:25
+msgid "Backend ~a"
+msgstr ""
+
+#: src/scriptpo.c:18 src/scriptpo.c:69
+msgid "Sound options"
+msgstr ""
+
+#: src/scriptpo.c:19 src/scriptpo.c:67
+msgid "Fullscreen"
+msgstr ""
+
+#: src/scriptpo.c:20
+msgid "Windowed"
+msgstr ""
+
+#: src/scriptpo.c:21
+msgid "Low res"
+msgstr ""
+
+#: src/scriptpo.c:22
+msgid "Standard res"
+msgstr ""
+
+#: src/scriptpo.c:23
+msgid "High res"
+msgstr ""
+
+#: src/scriptpo.c:24
+msgid "User res"
+msgstr ""
+
+#: src/scriptpo.c:26
+msgid "Video options"
+msgstr ""
+
+#: src/scriptpo.c:27
+msgid "no gfx backend found"
+msgstr ""
+
+#: src/scriptpo.c:28
+msgid "no snd backend found"
+msgstr ""
+
+#: src/scriptpo.c:29
+msgid "gfx backend ~a not available"
+msgstr ""
+
 #: src/scriptpo.c:30
+msgid "snd backend ~a not available"
+msgstr ""
+
+#: src/scriptpo.c:31 src/scriptpo.c:44 src/scriptpo.c:51
+msgid "Quick start"
+msgstr ""
+
+#: src/scriptpo.c:32 src/scriptpo.c:130 src/scriptpo.c:131
+msgid "Play"
+msgstr ""
+
+#: src/scriptpo.c:34 src/scriptpo.c:156
+msgid "Players"
+msgstr ""
+
+#: src/scriptpo.c:35 src/scriptpo.c:49 src/scriptpo.c:63 src/scriptpo.c:107
+#: src/scriptpo.c:108
+msgid "Options"
+msgstr ""
+
+#: src/scriptpo.c:36
+msgid "Welcome to Liquid War 6"
+msgstr ""
+
+#: src/scriptpo.c:37
+msgid "Quit"
+msgstr ""
+
+#: src/scriptpo.c:38
+msgid "Resume"
+msgstr ""
+
+#: src/scriptpo.c:39
+msgid "Quit Liquid War 6?"
+msgstr ""
+
+#: src/scriptpo.c:40
+msgid "Exit?"
+msgstr ""
+
+#: src/scriptpo.c:41
+msgid "Exit"
+msgstr ""
+
+#: src/scriptpo.c:42
+msgid "Resume LW6"
+msgstr ""
+
+#: src/scriptpo.c:43
+msgid "Liquid War 6"
+msgstr ""
+
+#: src/scriptpo.c:45 src/scriptpo.c:125
+msgid "Local game"
+msgstr ""
+
+#: src/scriptpo.c:46
+msgid "Network game"
+msgstr ""
+
+#: src/scriptpo.c:47 src/scriptpo.c:62
+msgid "Level"
+msgstr ""
+
+#: src/scriptpo.c:48
+msgid "Teams"
+msgstr ""
+
+#: src/scriptpo.c:50 src/scriptpo.c:52
+msgid "About"
+msgstr ""
+
+#: src/scriptpo.c:53
+msgid "Authors"
+msgstr ""
+
+#: src/scriptpo.c:54
+msgid "Copyright"
+msgstr ""
+
+#: src/scriptpo.c:55
+msgid "License"
+msgstr ""
+
+#: src/scriptpo.c:56
+msgid "Version"
+msgstr ""
+
+#: src/scriptpo.c:57
+msgid "View level"
+msgstr ""
+
+#: src/scriptpo.c:58
+msgid "Confirm level choice"
+msgstr ""
+
+#: src/scriptpo.c:59
+msgid "Choose it"
+msgstr ""
+
+#: src/scriptpo.c:60
+msgid "View"
+msgstr ""
+
+#: src/scriptpo.c:61
+msgid "Cancel"
+msgstr ""
+
+#: src/scriptpo.c:64
+msgid "Graphics"
+msgstr ""
+
+#: src/scriptpo.c:65 src/scriptpo.c:104
+msgid "Sound"
+msgstr ""
+
+#: src/scriptpo.c:66
+msgid "Graphics options"
+msgstr ""
+
+#: src/scriptpo.c:68 src/scriptpo.c:73
+msgid "Graphics backend"
+msgstr ""
+
+#: src/scriptpo.c:70
+msgid "Sound fx volume"
+msgstr ""
+
+#: src/scriptpo.c:71
+msgid "Music volume"
+msgstr ""
+
+#: src/scriptpo.c:72 src/scriptpo.c:74
+msgid "Sound backend"
+msgstr ""
+
+#: src/scriptpo.c:75
+msgid "testing map"
+msgstr ""
+
+#: src/scriptpo.c:76
+msgid "testing game struct"
+msgstr ""
+
+#: src/scriptpo.c:77
+msgid "testing game state"
+msgstr ""
+
+#: src/scriptpo.c:78
+msgid "testing pilot"
+msgstr ""
+
+#: src/scriptpo.c:79
+msgid "testing bot"
+msgstr ""
+
+#: src/scriptpo.c:80
+msgid "testing smobs GC, step 1"
+msgstr ""
+
+#: src/scriptpo.c:81
+msgid "testing smobs GC, step 2"
+msgstr ""
+
+#: src/scriptpo.c:82
+msgid "testing async load"
+msgstr ""
+
+#: src/scriptpo.c:83
+msgid "testing node"
+msgstr ""
+
+#: src/scriptpo.c:84
 msgid "begin main game loop"
 msgstr ""
 
-#: src/scriptpo.c:31
+#: src/scriptpo.c:85 src/scriptpo.c:86
+msgid "Please wait..."
+msgstr ""
+
+#: src/scriptpo.c:87
+msgid "Unknown bot"
+msgstr ""
+
+#: src/scriptpo.c:88
+msgid "Not playing"
+msgstr ""
+
+#: src/scriptpo.c:89
+msgid "Mouse"
+msgstr ""
+
+#: src/scriptpo.c:90
+msgid "Keyboard"
+msgstr ""
+
+#: src/scriptpo.c:91
+msgid "Joystick 1"
+msgstr ""
+
+#: src/scriptpo.c:92
+msgid "Joystick 2"
+msgstr ""
+
+#: src/scriptpo.c:93
+msgid "Custom"
+msgstr ""
+
+#: src/scriptpo.c:94 src/scriptpo.c:99
+msgid "~a (mouse)"
+msgstr ""
+
+#: src/scriptpo.c:95
+msgid "~a (keyb)"
+msgstr ""
+
+#: src/scriptpo.c:96
+msgid "~a (joy1)"
+msgstr ""
+
+#: src/scriptpo.c:97
+msgid "~a (joy2)"
+msgstr ""
+
+#: src/scriptpo.c:98
+msgid "~a (custom)"
+msgstr ""
+
+#: src/scriptpo.c:101 src/scriptpo.c:124
+msgid "Rules"
+msgstr ""
+
+#: src/scriptpo.c:102
+msgid "Map"
+msgstr ""
+
+#: src/scriptpo.c:103
+msgid "Video"
+msgstr ""
+
+#: src/scriptpo.c:105
+msgid "System"
+msgstr ""
+
+#: src/scriptpo.c:106
+msgid "Stop current game"
+msgstr ""
+
+#: src/scriptpo.c:109
+msgid "Armies ~a% - ~a%"
+msgstr ""
+
+#: src/scriptpo.c:110
+msgid "Keep map ratio"
+msgstr ""
+
+#: src/scriptpo.c:111
+msgid "Fit map to screen"
+msgstr ""
+
+#: src/scriptpo.c:112
+msgid "Use texture"
+msgstr ""
+
+#: src/scriptpo.c:113
+msgid "Ignore texture"
+msgstr ""
+
+#: src/scriptpo.c:114
+msgid "Use XML files"
+msgstr ""
+
+#: src/scriptpo.c:115
+msgid "Ignore XML files"
+msgstr ""
+
+#: src/scriptpo.c:116
+msgid "Use ~a"
+msgstr ""
+
+#: src/scriptpo.c:117
+msgid " and "
+msgstr ""
+
+#: src/scriptpo.c:118
+msgid "Map options"
+msgstr ""
+
+#: src/scriptpo.c:119
+msgid "One life (last wins)"
+msgstr ""
+
+#: src/scriptpo.c:120
+msgid "Respawn (deatchmatch)"
+msgstr ""
+
+#: src/scriptpo.c:121
+msgid "Cursors can have any color"
+msgstr ""
+
+#: src/scriptpo.c:122
+msgid "Can collaborate locally"
+msgstr ""
+
+#: src/scriptpo.c:123
+msgid "One cursor per team"
+msgstr ""
+
+#: src/scriptpo.c:126
+msgid "Join network game"
+msgstr ""
+
+#: src/scriptpo.c:127
+msgid "Start server"
+msgstr ""
+
+#: src/scriptpo.c:128
+msgid "Demo"
+msgstr ""
+
+#: src/scriptpo.c:129
+msgid "Back to main menu"
+msgstr ""
+
+#: src/scriptpo.c:132
 msgid "running \"~a\""
 msgstr ""
 
-#: src/scriptpo.c:32
+#: src/scriptpo.c:133
 msgid "upgrading to version ~a"
 msgstr ""
 
-#: src/scriptpo.c:33
+#: src/scriptpo.c:134
 msgid ""
 "no graphical backend found, game can only run in pure server/console mode"
 msgstr ""
 
-#: src/scriptpo.c:34
+#: src/scriptpo.c:135
 msgid "server mode not implemented yet"
 msgstr ""
 
-#: src/scriptpo.c:35
-msgid "Esc"
-msgstr ""
-
-#: src/scriptpo.c:36
-msgid "Quit"
-msgstr ""
-
-#: src/scriptpo.c:37
-msgid "Resume"
-msgstr ""
-
-#: src/scriptpo.c:38
-msgid "Quit Liquid War 6?"
-msgstr ""
-
-#: src/scriptpo.c:39
-msgid "Playing"
-msgstr ""
-
-#: src/scriptpo.c:40 src/scriptpo.c:107
-msgid "Choose map"
-msgstr ""
-
-#: src/scriptpo.c:41
-msgid "No sound FX"
-msgstr ""
-
-#: src/scriptpo.c:42
-msgid "Sound FX ~a%"
-msgstr ""
-
-#: src/scriptpo.c:43
-msgid "No music"
-msgstr ""
-
-#: src/scriptpo.c:44
-msgid "Music ~a%"
-msgstr ""
-
-#: src/scriptpo.c:45 src/scriptpo.c:83
-msgid "Backend ~a"
-msgstr ""
-
-#: src/scriptpo.c:46 src/scriptpo.c:142
-msgid "Sound options"
-msgstr ""
-
-#: src/scriptpo.c:47
-msgid "Armies ~a% - ~a%"
-msgstr ""
-
-#: src/scriptpo.c:48
-msgid "Keep map ratio"
-msgstr ""
-
-#: src/scriptpo.c:49
-msgid "Fit map to screen"
-msgstr ""
-
-#: src/scriptpo.c:50
-msgid "Use texture"
-msgstr ""
-
-#: src/scriptpo.c:51
-msgid "Ignore texture"
-msgstr ""
-
-#: src/scriptpo.c:52
-msgid "Use XML files"
-msgstr ""
-
-#: src/scriptpo.c:53
-msgid "Ignore XML files"
-msgstr ""
-
-#: src/scriptpo.c:54
-msgid "Use ~a"
-msgstr ""
-
-#: src/scriptpo.c:55
-msgid " and "
-msgstr ""
-
-#: src/scriptpo.c:56
-msgid "Map options"
-msgstr ""
-
-#: src/scriptpo.c:57
-msgid "One life (last wins)"
-msgstr ""
-
-#: src/scriptpo.c:58
-msgid "Respawn (deatchmatch)"
-msgstr ""
-
-#: src/scriptpo.c:59
-msgid "Cursors can have any color"
-msgstr ""
-
-#: src/scriptpo.c:60
-msgid "Can collaborate locally"
-msgstr ""
-
-#: src/scriptpo.c:61
-msgid "One cursor per team"
-msgstr ""
-
-#: src/scriptpo.c:62 src/scriptpo.c:86
-msgid "Rules"
-msgstr ""
-
-#: src/scriptpo.c:63
+#: src/scriptpo.c:136
 msgid "Display FPS"
 msgstr ""
 
-#: src/scriptpo.c:64
+#: src/scriptpo.c:137
 msgid "FPS hidden"
 msgstr ""
 
-#: src/scriptpo.c:65
+#: src/scriptpo.c:138
 msgid "Display MPS"
 msgstr ""
 
-#: src/scriptpo.c:66
+#: src/scriptpo.c:139
 msgid "MPS hidden"
 msgstr ""
 
-#: src/scriptpo.c:67
+#: src/scriptpo.c:140
 msgid "Console enabled"
 msgstr ""
 
-#: src/scriptpo.c:68
+#: src/scriptpo.c:141
 msgid "Console disabled"
 msgstr ""
 
-#: src/scriptpo.c:69
+#: src/scriptpo.c:142
 msgid "System options"
 msgstr ""
 
-#: src/scriptpo.c:70
-msgid "Time ~a:~a~a:~a~a"
-msgstr ""
-
-#: src/scriptpo.c:71
-msgid "Default speed"
-msgstr ""
-
-#: src/scriptpo.c:72
-msgid "Speed x~a"
-msgstr ""
-
-#: src/scriptpo.c:73
-msgid "Speed ~a%"
-msgstr ""
-
-#: src/scriptpo.c:74
-msgid "Unknown speed"
-msgstr ""
-
-#: src/scriptpo.c:75
-msgid "Bench ~a"
-msgstr ""
-
-#: src/scriptpo.c:76 src/scriptpo.c:85
-msgid "Time & speed"
-msgstr ""
-
-#: src/scriptpo.c:77 src/scriptpo.c:140
-msgid "Fullscreen"
-msgstr ""
-
-#: src/scriptpo.c:78
-msgid "Windowed"
-msgstr ""
-
-#: src/scriptpo.c:79
-msgid "Low res"
-msgstr ""
-
-#: src/scriptpo.c:80
-msgid "Standard res"
-msgstr ""
-
-#: src/scriptpo.c:81
-msgid "High res"
-msgstr ""
-
-#: src/scriptpo.c:82
-msgid "User res"
-msgstr ""
-
-#: src/scriptpo.c:84
-msgid "Video options"
-msgstr ""
-
-#: src/scriptpo.c:87
-msgid "Map"
-msgstr ""
-
-#: src/scriptpo.c:88
-msgid "Video"
-msgstr ""
-
-#: src/scriptpo.c:89 src/scriptpo.c:138
-msgid "Sound"
-msgstr ""
-
-#: src/scriptpo.c:90
-msgid "System"
-msgstr ""
-
-#: src/scriptpo.c:91
-msgid "Stop current game"
-msgstr ""
-
-#: src/scriptpo.c:92 src/scriptpo.c:93 src/scriptpo.c:109 src/scriptpo.c:122
-#: src/scriptpo.c:136
-msgid "Options"
-msgstr ""
-
-#: src/scriptpo.c:94 src/scriptpo.c:118
-msgid "Local game"
-msgstr ""
-
-#: src/scriptpo.c:95
-msgid "Join network game"
-msgstr ""
-
-#: src/scriptpo.c:96
-msgid "Start server"
-msgstr ""
-
-#: src/scriptpo.c:97
-msgid "Demo"
-msgstr ""
-
-#: src/scriptpo.c:98
-msgid "Back to main menu"
-msgstr ""
-
-#: src/scriptpo.c:99 src/scriptpo.c:100 src/scriptpo.c:106
-msgid "Play"
-msgstr ""
-
-#: src/scriptpo.c:101
-msgid "Unknown bot"
-msgstr ""
-
-#: src/scriptpo.c:102
-msgid "Not playing"
-msgstr ""
-
-#: src/scriptpo.c:103
-msgid "Free slot"
-msgstr ""
-
-#: src/scriptpo.c:104 src/scriptpo.c:108
-msgid "Players"
-msgstr ""
-
-#: src/scriptpo.c:105 src/scriptpo.c:117 src/scriptpo.c:124
-msgid "Quick start"
-msgstr ""
-
-#: src/scriptpo.c:110
-msgid "Welcome to Liquid War 6"
-msgstr ""
-
-#: src/scriptpo.c:111 src/scriptpo.c:112
-msgid "Please wait..."
-msgstr ""
-
-#: src/scriptpo.c:113
-msgid "Exit?"
-msgstr ""
-
-#: src/scriptpo.c:114
-msgid "Exit"
-msgstr ""
-
-#: src/scriptpo.c:115
-msgid "Resume LW6"
-msgstr ""
-
-#: src/scriptpo.c:116
-msgid "Liquid War 6"
-msgstr ""
-
-#: src/scriptpo.c:119
-msgid "Network game"
-msgstr ""
-
-#: src/scriptpo.c:120 src/scriptpo.c:135
-msgid "Level"
-msgstr ""
-
-#: src/scriptpo.c:121
-msgid "Teams"
-msgstr ""
-
-#: src/scriptpo.c:123 src/scriptpo.c:125
-msgid "About"
-msgstr ""
-
-#: src/scriptpo.c:126
-msgid "Authors"
-msgstr ""
-
-#: src/scriptpo.c:127
-msgid "Copyright"
-msgstr ""
-
-#: src/scriptpo.c:128
-msgid "License"
-msgstr ""
-
-#: src/scriptpo.c:129
-msgid "Version"
-msgstr ""
-
-#: src/scriptpo.c:130
-msgid "View level"
-msgstr ""
-
-#: src/scriptpo.c:131
-msgid "Confirm level choice"
-msgstr ""
-
-#: src/scriptpo.c:132
-msgid "Choose it"
-msgstr ""
-
-#: src/scriptpo.c:133
-msgid "View"
-msgstr ""
-
-#: src/scriptpo.c:134
-msgid "Cancel"
-msgstr ""
-
-#: src/scriptpo.c:137
-msgid "Graphics"
-msgstr ""
-
-#: src/scriptpo.c:139
-msgid "Graphics options"
-msgstr ""
-
-#: src/scriptpo.c:141 src/scriptpo.c:146
-msgid "Graphics backend"
-msgstr ""
-
 #: src/scriptpo.c:143
-msgid "Sound fx volume"
+msgid "Playing"
 msgstr ""
 
 #: src/scriptpo.c:144
-msgid "Music volume"
+msgid "red"
 msgstr ""
 
-#: src/scriptpo.c:145 src/scriptpo.c:147
-msgid "Sound backend"
+#: src/scriptpo.c:145
+msgid "green"
+msgstr ""
+
+#: src/scriptpo.c:146
+msgid "blue"
+msgstr ""
+
+#: src/scriptpo.c:147
+msgid "yellow"
 msgstr ""
 
 #: src/scriptpo.c:148
-msgid "testing map"
+msgid "cyan"
 msgstr ""
 
 #: src/scriptpo.c:149
-msgid "testing game struct"
+msgid "magenta"
 msgstr ""
 
 #: src/scriptpo.c:150
-msgid "testing game state"
+msgid "orange"
 msgstr ""
 
 #: src/scriptpo.c:151
-msgid "testing pilot"
+msgid "light blue"
 msgstr ""
 
 #: src/scriptpo.c:152
-msgid "testing bot"
+msgid "purple"
 msgstr ""
 
 #: src/scriptpo.c:153
-msgid "testing smobs GC, step 1"
+msgid "pink"
 msgstr ""
 
 #: src/scriptpo.c:154
-msgid "testing smobs GC, step 2"
+msgid "Esc"
 msgstr ""
 
 #: src/scriptpo.c:155
-msgid "testing async load"
-msgstr ""
-
-#: src/scriptpo.c:156
-msgid "testing node"
+msgid "Free slot"
 msgstr ""
 
 #: src/lib/sys/sys-log.c:61

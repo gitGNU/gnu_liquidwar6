@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+This is /Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -20,67 +20,67 @@ END-INFO-DIR-ENTRY
 
 
 Indirect:
-liquidwar6.info-1: 782
-liquidwar6.info-2: 253379
-liquidwar6.info-3: 521325
+liquidwar6.info-1: 784
+liquidwar6.info-2: 253381
+liquidwar6.info-3: 521327
 
 Tag Table:
 (Indirect)
-Node: Top782
-Node: Introduction3929
-Node: In a nutshell4288
-Node: Project status5192
-Node: How you can help10508
-Node: User's manual11985
-Node: Mailing lists13062
-Node: Getting the game15552
-Node: Installation17366
-Node: Extra maps25040
-Node: Troubleshooting27046
-Node: Quick start30776
-Node: Strategy tips31525
-Node: User interface31672
-Node: Network games33870
-Node: Graphics34036
-Node: Sound & music37011
-Node: Config file37705
-Node: Logs38766
-Node: Report bugs39466
-Node: Hacker's guide40064
-Node: Designing levels41257
-Node: Translating58474
-Node: Architecture61762
-Node: About mod-gl74803
-Node: Compilation tips77071
-Node: Coding guidelines100153
-Node: Using the console107654
-Node: Advanced tweaking109310
-Node: Writing modules110655
-Node: Use as a library110828
-Node: Network protocol111002
-Node: Using GNU Arch112673
-Node: Using GIT118443
-Node: Reference120611
-Node: Basic options122077
-Node: Doc options124259
-Node: Show options127949
-Node: Path options146436
-Node: Graphics options153283
-Node: Sound options156286
-Node: Network options158640
-Node: Map parameters161412
-Node: Map rules.xml164812
-Node: Map hints.xml195404
-Node: Map style.xml209645
-Node: Advanced settings233221
-Node: Script hooks253085
-Node: C to Guile API253233
-Node: C functions253379
-Node: 2005 .plan501507
-Node: Fanfic513775
-Node: Links520108
-Node: Copying521325
-Node: GNU Free Documentation License558903
-Node: Indexes584066
+Node: Top784
+Node: Introduction3931
+Node: In a nutshell4290
+Node: Project status5194
+Node: How you can help10510
+Node: User's manual11987
+Node: Mailing lists13064
+Node: Getting the game15554
+Node: Installation17368
+Node: Extra maps25042
+Node: Troubleshooting27048
+Node: Quick start30778
+Node: Strategy tips31527
+Node: User interface31674
+Node: Network games33872
+Node: Graphics34038
+Node: Sound & music37013
+Node: Config file37707
+Node: Logs38768
+Node: Report bugs39468
+Node: Hacker's guide40066
+Node: Designing levels41259
+Node: Translating58476
+Node: Architecture61764
+Node: About mod-gl74805
+Node: Compilation tips77073
+Node: Coding guidelines100155
+Node: Using the console107656
+Node: Advanced tweaking109312
+Node: Writing modules110657
+Node: Use as a library110830
+Node: Network protocol111004
+Node: Using GNU Arch112675
+Node: Using GIT118445
+Node: Reference120613
+Node: Basic options122079
+Node: Doc options124261
+Node: Show options127951
+Node: Path options146438
+Node: Graphics options153285
+Node: Sound options156288
+Node: Network options158642
+Node: Map parameters161414
+Node: Map rules.xml164814
+Node: Map hints.xml195406
+Node: Map style.xml209647
+Node: Advanced settings233223
+Node: Script hooks253087
+Node: C to Guile API253235
+Node: C functions253381
+Node: 2005 .plan501509
+Node: Fanfic513777
+Node: Links520110
+Node: Copying521327
+Node: GNU Free Documentation License558905
+Node: Indexes584068
 
 End Tag Table

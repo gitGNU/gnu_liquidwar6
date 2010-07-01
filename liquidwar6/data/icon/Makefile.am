@@ -20,5 +20,5 @@
 
 pkgdata_DATA = liquidwar6.png liquidwar6.xpm
 pkgdatadir = $(datadir)/pixmaps
-EXTRA_DIST = $(pkgdata_DATA) liquidwar6.ico
+EXTRA_DIST = $(pkgdata_DATA) liquidwar6.ico liquidwar6.icns
 

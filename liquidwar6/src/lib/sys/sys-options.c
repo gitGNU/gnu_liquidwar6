@@ -38,6 +38,11 @@
 #define MOD_PREFIX_MASK "%s/lib/%s-%s"
 #define SHARE_DATADIR_MASK "%s/%s-%s"
 #define SHARE_PREFIX_MASK "%s/share/%s-%s"
+#ifdef LW6_MAC_OS_X
+#define RUN_REL "../Resources"
+#else
+#define RUN_REL ""
+#endif
 #define DATA_DIR "data"
 #define MUSIC_DIR "music"
 #define MAP_DIR "map"
@@ -263,6 +268,7 @@ get_dir_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
 {
   char *dir = NULL;
   char *run_dir = NULL;
+  char *run_dir_rel;
 
   dir = get_dir_common (mask1, prefix1, mask2, prefix2, sub);
 
@@ -279,6 +285,28 @@ get_dir_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
 		  // directory doesn't exist, we ignore it
 		  LW6SYS_FREE (dir);
 		  dir = NULL;
+
+		  if (RUN_REL && strlen (RUN_REL))
+		    {
+		      run_dir_rel = lw6sys_path_concat (run_dir, RUN_REL);
+		      if (run_dir_rel)
+			{
+			  if (lw6sys_dir_exists (run_dir_rel))
+			    {
+			      dir = lw6sys_path_concat (run_dir_rel, sub);
+			      if (dir)
+				{
+				  if (!lw6sys_dir_exists (dir))
+				    {
+				      LW6SYS_FREE (dir);
+				      dir = NULL;
+				      // directory doesn't exist, we ignore it
+				    }
+				}
+			    }
+			  LW6SYS_FREE (run_dir_rel);
+			}
+		    }
 		}
 	    }
 	  LW6SYS_FREE (run_dir);
@@ -386,6 +414,7 @@ get_file_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
 {
   char *file = NULL;
   char *run_dir = NULL;
+  char *run_dir_rel = NULL;
 
   file = get_file_common (mask1, prefix1, mask2, prefix2, sub);
 
@@ -399,9 +428,31 @@ get_file_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
 	    {
 	      if (!lw6sys_file_exists (file))
 		{
-		  // file doesn't exist, we ignore it
 		  LW6SYS_FREE (file);
 		  file = NULL;
+		  // file doesn't exist, we ignore it
+
+		  if (RUN_REL && strlen (RUN_REL))
+		    {
+		      run_dir_rel = lw6sys_path_concat (run_dir, RUN_REL);
+		      if (run_dir_rel)
+			{
+			  if (lw6sys_dir_exists (run_dir_rel))
+			    {
+			      file = lw6sys_path_concat (run_dir_rel, sub);
+			      if (file)
+				{
+				  if (!lw6sys_file_exists (file))
+				    {
+				      LW6SYS_FREE (file);
+				      file = NULL;
+				      // file doesn't exist, we ignore it
+				    }
+				}
+			    }
+			  LW6SYS_FREE (run_dir_rel);
+			}
+		    }
 		}
 	    }
 	  LW6SYS_FREE (run_dir);
