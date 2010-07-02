@@ -41,7 +41,7 @@
 #ifdef LW6_MAC_OS_X
 #define RUN_REL "../Resources"
 #else
-#define RUN_REL ""
+#define RUN_REL ".."
 #endif
 #define DATA_DIR "data"
 #define MUSIC_DIR "music"
