@@ -472,8 +472,7 @@ clean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
 	rm -f @PACKAGE_TARNAME@*.deb
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.pkg
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.dmg
+	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 
 @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
 	echo "run make dist to (re)build @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz or copy it here" && false
@@ -552,25 +551,37 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
 	rm -rf ${TMP}
 
-app: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
+dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
+
+# Packaging for Mac OS X isn't that easy. Following links can help:
+# http://qin.laya.com/tech_coding_help/dylib_linking.html
+
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
 	rm -rf ${TMP}
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	install -d "${TMP}/@PACKAGE_STRING@.app/Contents/Resources"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@.app/Contents/Resources/"
+	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
+	install -d ${TMP}/dll
+	cd ${TMP}/dll && unzip ${DLL_ZIP}
+	cp -r ${TMP}/dll/guile "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
 	cd ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --prefix=/opt && make
-	install -d "${TMP}/@PACKAGE_STRING@.app/Contents/MacOS"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@.app/Contents/MacOS/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@.app/Contents/"
+	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"
+	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library"
+	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/$$j"; install_name_tool -id @executable_path/../Library/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/$$j"; install_name_tool -change $$i @executable_path/../Library/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/liquidwar6"; done
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
+	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
+	rm -rf ${TMP}
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

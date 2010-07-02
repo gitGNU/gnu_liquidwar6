@@ -1,5 +1,9 @@
 2010-07-01 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Mac OS/X .dmg can be generated, .dylib handling needs to be fixed yet.
+
+2010-07-01 : Christian Mauduit <ufoot@ufoot.org>
+
 	* Mac OS/X .app can be generated, correctly finds data in ../Resources
 
 2010-03-07 : Christian Mauduit <ufoot@ufoot.org>
