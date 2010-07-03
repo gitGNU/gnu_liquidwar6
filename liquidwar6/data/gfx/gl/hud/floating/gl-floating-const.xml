@@ -47,8 +47,8 @@
   <float key="gauge-sweep" value="-360.0" /><!-- The end angle of the
 						       gauge, -360 is at the 6 o'clock    default: -270.0 -->
 
-  <float key="gauge-min-size" value="0.10" /><!-- default: 0.05 -->
-  <float key="gauge-max-size" value="0.10" /><!-- default: 0.15 -->
+  <float key="gauge-min-size" value="0.066" /><!-- default: 0.05 -->
+  <float key="gauge-max-size" value="0.133" /><!-- default: 0.15 -->
   <float key="gauge-max-health-angle" value="240" /><!-- Looks like it
 						       is the gradient of the health. Set it to 1 if you don't want any
 						       gradient effect   default: 240 -->

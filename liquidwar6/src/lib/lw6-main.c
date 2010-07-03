@@ -27,9 +27,14 @@
 
 #include "liquidwar6.h"
 
-#ifdef LW6_MS_WINDOWS
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
 #define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
+#if LW6_MS_WINDOWS
 #define GUILE_LOAD_PATH_SUFFIX "guile"
+#endif
+#if LW6_MAC_OS_X
+#define  GUILE_LOAD_PATH_SUFFIX "../Resources/guile"
+#endif
 
 static void
 _fix_guile_load_path (int argc, char *argv[])
