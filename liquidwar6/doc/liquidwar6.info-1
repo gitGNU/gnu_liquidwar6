@@ -175,9 +175,10 @@ being complete as some key features are still missing.
    * Maps. A number of interesting maps have already been designed
      (thanks to Kasper Hviid).
 
-   * The game has been ported to Microsoft Windows 32-bit proprietary
-     platform.  It also runs on Mac OS X (but you'll have to compile it
-     yourself).  It still runs fine under GNU/Linux, of course.
+   * The game runs natively on GNU/Linux and has been ported to
+     Microsoft Windows and Mac OS X.  Binaries are available for all
+     those platforms. Use at your own risk.  If in doubt, get the
+     source and compile.
 
    In the near future:
    * Network play. Top-level priority. Yes, network has been promised
@@ -2248,8 +2249,9 @@ tarball, launch your MSYS shell, and:
 
    Now the binary is in `src/.libs/liquidwar6.exe' (beware,
 `src/liquidwar6.exe' is only a wrapper).  This binary is an MSYS/MinGW
-binary, so it read paths "à la" Microsoft, that is, it has no knowledge
-of what `/usr' is, for instance. It requires paths starting by `C:\'.
+binary, so it read paths "à la" Microsoft, that is, it has no
+knowledge of what `/usr' is, for instance. It requires paths starting
+by `C:\'.
 
 3.7.3 Mac OS X port
 -------------------
@@ -2306,8 +2308,9 @@ which works on sandard GNU/Linux boxes, won't work under Mac OS X,
 since SDL hard codes itself by patching `main' with `#define'
 C-preprocessor commands.
 
-   As of today, there's still no nice `.dmg' package containing a
-`Liquid War 6.app' folder with its `info.plist' file.
+   A `.dmg' file (disk image) containing a `Liquid War 6.app' folder
+(OS X application) is available for your convenience. It might work or
+not. In doubt, compile from source.
 
 3.7.4 GP2X port
 ---------------

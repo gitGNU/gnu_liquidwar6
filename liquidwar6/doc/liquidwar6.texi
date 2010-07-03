@@ -209,9 +209,10 @@ in Liquid War 5, such as multiple layers. It can be worth the upgrade.
 Maps. A number of interesting maps have already been designed (thanks
 to Kasper Hviid).
 @item
-The game has been ported to Microsoft Windows 32-bit proprietary platform.
-It also runs on Mac OS X (but you'll have to compile it yourself).
-It still runs fine under GNU/Linux, of course.
+The game runs natively on GNU/Linux and 
+has been ported to Microsoft Windows and Mac OS X.
+Binaries are available for all those platforms. Use at your own risk.
+If in doubt, get the source and compile.
 @end itemize
 
 In the near future:
@@ -2411,8 +2412,8 @@ The reason is that SDL replaces your @code{main} with its own version of it. One
 is that all the dynamic loading of SDL, which works on sandard GNU/Linux boxes, won't work under
 Mac OS X, since SDL hard codes itself by patching @code{main} with @code{#define} C-preprocessor commands.
 
-As of today, there's still no nice @code{.dmg} package containing
-a @code{Liquid War 6.app} folder with its @code{info.plist} file.
+A @code{.dmg} file (disk image) containing a @code{Liquid War 6.app} folder (OS X application)
+is available for your convenience. It might work or not. In doubt, compile from source.
 
 @subsection GP2X port
 

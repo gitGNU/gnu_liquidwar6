@@ -555,6 +555,7 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 
 # Packaging for Mac OS X isn't that easy. Following links can help:
 # http://qin.laya.com/tech_coding_help/dylib_linking.html
+# http://doc.qt.nokia.com/qq/qq09-mac-deployment.html
 
 @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
 	rm -rf ${TMP}
@@ -577,11 +578,10 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	cd ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --prefix=/opt && make
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS"
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"
-	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library"
-	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/$$j"; install_name_tool -id @executable_path/../Library/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Library/$$j"; install_name_tool -change $$i @executable_path/../Library/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/liquidwar6"; done
+	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/liquidwar6"; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$l"; done; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
 	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
-	rm -rf ${TMP}
+	ttrm -rf ${TMP}
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
