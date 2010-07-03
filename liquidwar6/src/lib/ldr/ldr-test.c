@@ -28,7 +28,7 @@
 
 #include "ldr.h"
 
-#define TEST_MAP "strange-new-world/"
+#define TEST_MAP "subflower/"
 #define TEST_ARGC 2
 #define TEST_ARGV0 "prog"
 #define TEST_ARGV1 "--arg=X"

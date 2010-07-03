@@ -1239,7 +1239,7 @@ F.1 Concept index
  [index ]
 * Menu:
 
-* Apple:                                 Compilation tips.    (line 397)
+* Apple:                                 Compilation tips.    (line 396)
 * Arch:                                  Using GNU Arch.      (line   9)
 * Bug report <1>:                        Mailing lists.       (line  51)
 * Bug report:                            Report bugs.         (line   6)
@@ -1251,7 +1251,7 @@ F.1 Concept index
 * GPL, GNU General Public License:       Copying.             (line   6)
 * hints.xml:                             Designing levels.    (line 283)
 * Log file:                              Logs.                (line   6)
-* Mac OS X:                              Compilation tips.    (line 397)
+* Mac OS X:                              Compilation tips.    (line 396)
 * Microsoft Windows:                     Compilation tips.    (line  83)
 * rules.xml:                             Designing levels.    (line 236)
 * source code:                           Using GIT.           (line   6)

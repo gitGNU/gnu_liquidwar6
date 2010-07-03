@@ -29,7 +29,7 @@
 #define TEST_MANAGER_SLEEP 1.0f
 #define TEST_LOOP_SLEEP 0.1f
 #define TEST_LOOP_N 600
-#define TEST_LOAD_MAP "strange-new-world"
+#define TEST_LOAD_MAP "subflower"
 #define TEST_OPTION_KEY1 LW6DEF_TOTAL_TIME
 #define TEST_OPTION_VALUE1 "250"
 #define TEST_OPTION_KEY2 LW6DEF_BACKGROUND_STYLE

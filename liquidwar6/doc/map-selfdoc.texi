@@ -4,7 +4,7 @@
 @deffnx {XML key} @code{chosen-map}
 Type: string
 
-Default value: strange-new-world
+Default value: subflower
 
 The last map chosen by the player, locally. This is the map which will be used
 for a quick-start game, a local game, or a game started as a server.

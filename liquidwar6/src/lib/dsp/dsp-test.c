@@ -52,7 +52,7 @@
 #define TEST_NB_MENUITEMS2 15
 #define TEST_MENUITEM_LABEL_FORMAT "Item %d"
 #define TEST_MENUITEM_COLORED_INDEX 2
-#define TEST_MAP "strange-new-world/"
+#define TEST_MAP "subflower/"
 #define TEST_NB_ROUNDS 250
 #define TEST_SERVER_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234

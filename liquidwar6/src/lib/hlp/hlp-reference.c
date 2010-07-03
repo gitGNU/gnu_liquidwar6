@@ -853,7 +853,7 @@ populate_references ()
   POPULATE_STR (LW6DEF_CHOSEN_MAP,
 		_
 		("The last map chosen by the player, locally. This is the map which will be used for a quick-start game, a local game, or a game started as a server."),
-		"strange-new-world");
+		"subflower");
   POPULATE_BOOL (LW6DEF_USE_TEXTURE,
 		 _
 		 ("Defines wether the map texture should be used. Of course if there's no map texture, the texture... won't be used. But if there is one, this parameter will force the game to ignore it and play with solid colors. This probably won't look as nice as the textured map in most cases, but some players might find it more readable and confortable to play when throwing eye candy away."),

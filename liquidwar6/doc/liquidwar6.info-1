@@ -2249,9 +2249,8 @@ tarball, launch your MSYS shell, and:
 
    Now the binary is in `src/.libs/liquidwar6.exe' (beware,
 `src/liquidwar6.exe' is only a wrapper).  This binary is an MSYS/MinGW
-binary, so it read paths "à la" Microsoft, that is, it has no
-knowledge of what `/usr' is, for instance. It requires paths starting
-by `C:\'.
+binary, so it read paths "à la" Microsoft, that is, it has no knowledge
+of what `/usr' is, for instance. It requires paths starting by `C:\'.
 
 3.7.3 Mac OS X port
 -------------------
@@ -4259,7 +4258,7 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
  -- XML key: `chosen-map'
      Type: string
 
-     Default value: strange-new-world
+     Default value: subflower
 
      The last map chosen by the player, locally. This is the map which
      will be used for a quick-start game, a local game, or a game
