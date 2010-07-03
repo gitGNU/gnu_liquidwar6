@@ -17,7 +17,7 @@
 
 # Liquid War 6 is a unique multiplayer wargame.
 # Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -27,15 +27,15 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# 
+#
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
+
 VPATH = @srcdir@
-pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkglibexecdir = $(libexecdir)/@PACKAGE@
@@ -54,10 +54,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = pkg
-DIST_COMMON = $(srcdir)/Info.plist.in $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/liquidwar6.nsi.in \
-	$(srcdir)/liquidwar6.spec.in
+subdir = map/acadia
+DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
@@ -71,11 +69,35 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = liquidwar6.spec liquidwar6.nsi Info.plist
+CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__installdirs = "$(DESTDIR)$(pkgdatadir)"
+DATA = $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/acadia
 ACLOCAL = @ACLOCAL@
 ALLINONE_CFLAGS = @ALLINONE_CFLAGS@
 ALLINONE_LDFLAGS = @ALLINONE_LDFLAGS@
@@ -264,14 +286,8 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi liquidwar6.nsi.in Info.plist Info.plist.in
-
-# Rules below concern packaging, do not use them on untrusted
-# computers, as they use /tmp and assume they are the only scripts
-# doing things in /tmp/liquidwar6. Use at your own risk.
-TMP = /tmp/@PACKAGE_TARNAME@
-PACKAGE_TMP = /tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
-DLL_ZIP = /storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
+pkgdata_DATA = README map.png texture.jpeg style.xml
+EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
 .SUFFIXES:
@@ -284,9 +300,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu pkg/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu map/acadia/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu pkg/Makefile
+	  $(AUTOMAKE) --gnu map/acadia/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -305,18 +321,32 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-liquidwar6.spec: $(top_builddir)/config.status $(srcdir)/liquidwar6.spec.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-liquidwar6.nsi: $(top_builddir)/config.status $(srcdir)/liquidwar6.nsi.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-Info.plist: $(top_builddir)/config.status $(srcdir)/Info.plist.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-pkgdataDATA: $(pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgdatadir)" || $(MKDIR_P) "$(DESTDIR)$(pkgdatadir)"
+	@list='$(pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgdatadir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgdatadir)" || exit $$?; \
+	done
+
+uninstall-pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(pkgdatadir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(pkgdatadir)" && rm -f $$files
 tags: TAGS
 TAGS:
 
@@ -356,8 +386,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile
+all-am: Makefile $(DATA)
 installdirs:
+	for dir in "$(DESTDIR)$(pkgdatadir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -385,11 +418,11 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-local mostlyclean-am
+clean-am: clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-local
+distclean-am: clean-am distclean-generic
 
 dvi: dvi-am
 
@@ -403,7 +436,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-pkgdataDATA
 
 install-dvi: install-dvi-am
 
@@ -447,143 +480,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-pkgdataDATA
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
-	clean-local distclean distclean-generic distclean-libtool \
-	distclean-local distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
+	distclean distclean-generic distclean-libtool distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-pkgdataDATA install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-am
+	uninstall uninstall-am uninstall-pkgdataDATA
 
-
-distclean-local:
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -f liquidwar6.exe
-
-clean-local:
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
-	rm -f @PACKAGE_TARNAME@*.deb
-	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
-
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
-	echo "run make dist to (re)build @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz or copy it here" && false
-
-liquidwar6.exe:
-	echo "Copy src/.libs/liquidwar6.exe here" && false
-
-zip: ms-windows-zip
-
-ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
-
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf ${TMP}
-	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
-	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	mv ${PACKAGE_TMP}/NEWS ${PACKAGE_TMP}/news.txt
-	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
-	mv ${PACKAGE_TMP}/COPYING ${PACKAGE_TMP}/license.txt
-	mv ${PACKAGE_TMP}/README ${PACKAGE_TMP}/readme.txt
-	rm -rf ${PACKAGE_TMP}2
-	mv ${PACKAGE_TMP} ${PACKAGE_TMP}2
-	install -d ${PACKAGE_TMP}
-	mv ${PACKAGE_TMP}2/data ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/music ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/map ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/script ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/news.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/changes.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/license.txt ${PACKAGE_TMP}/
-	mv ${PACKAGE_TMP}2/readme.txt ${PACKAGE_TMP}/
-	rm -rf ${PACKAGE_TMP}2
-	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
-	find ${PACKAGE_TMP} -name "Makefile*" | xargs rm -f
-	install -d ${PACKAGE_TMP}/doc
-	make -C ../doc liquidwar6.html liquidwar6.pdf
-	cp -r ../doc/liquidwar6.html ${PACKAGE_TMP}/doc/html
-	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.txt"`
-	${top_srcdir}/src/utod.sh `find ${PACKAGE_TMP} -name "*.html"`
-	cp ../doc/liquidwar6.pdf ${PACKAGE_TMP}/doc/
-	cp liquidwar6.exe ${PACKAGE_TMP}
-	cd ${PACKAGE_TMP} && unzip ${DLL_ZIP}
-	cd ${TMP} && zip -r @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip @PACKAGE_TARNAME@-@PACKAGE_VERSION@
-	mv ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip .
-	rm -rf ${TMP}
-
-installer: ms-windows-installer
-
-ms-windows-installer: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe
-
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip liquidwar6.nsi
-	rm -rf ${TMP}
-	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip ${TMP}
-	cd ${TMP} && unzip @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
-	cp liquidwar6.nsi ${PACKAGE_TMP}
-	cd ${PACKAGE_TMP} && makensis liquidwar6.nsi
-	cp ${PACKAGE_TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe .
-	rm -rf ${TMP}
-
-deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
-	rm -rf ${TMP}
-	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
-	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	cd ${PACKAGE_TMP} && ./configure
-	cd ${PACKAGE_TMP} && dpkg-buildpackage -rfakeroot || true
-	cp ${TMP}/*.deb .
-	rm -rf ${TMP}
-
-rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
-	rm -rf ${TMP}
-	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
-	echo "next command will prompt for root password"
-	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
-	rm -rf ${TMP}
-
-dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
-
-# Packaging for Mac OS X isn't that easy. Following links can help:
-# http://qin.laya.com/tech_coding_help/dylib_linking.html
-# http://doc.qt.nokia.com/qq/qq09-mac-deployment.html
-
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
-	rm -rf ${TMP}
-	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
-	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	install -d ${TMP}/dll
-	cd ${TMP}/dll && unzip ${DLL_ZIP}
-	cp -r ${TMP}/dll/guile "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/Resources/"
-	cd ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --prefix=/opt && make
-	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"
-	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/liquidwar6"; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
-	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; done; done # 2nd pass, we track the references inside every .dylib so that dylibs reference each other correctly
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
-	find ${TMP} -name "Makefile*" | xargs rm -f
-	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
-	rm -rf ${TMP}
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

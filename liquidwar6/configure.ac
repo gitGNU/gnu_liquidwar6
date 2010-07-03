@@ -714,14 +714,16 @@ AC_CONFIG_FILES([Makefile
 	  data/net/template/Makefile
 	  music/Makefile
 	  map/Makefile
-	  map/atlantis/Makefile
+	  map/acadia/Makefile
+	  map/fish/Makefile
 	  map/fishy/Makefile
-	  map/infestival/Makefile
+	  map/five-points/Makefile
 	  map/ink-and-oil/Makefile
+	  map/january/Makefile
 	  map/liquid-dream/Makefile
+	  map/nine-points/Makefile
 	  map/pizza-face/Makefile
 	  map/playfield/Makefile
-	  map/sinusoid/Makefile
 	  map/strange-new-world/Makefile
 	  map/subflower/Makefile
 	  debian/Makefile

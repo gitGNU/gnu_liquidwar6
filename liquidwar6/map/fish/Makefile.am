@@ -18,4 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = acadia fish fishy five-points ink-and-oil january liquid-dream nine-points pizza-face playfield strange-new-world subflower
+pkgdata_DATA = README map.png texture.jpeg texture-alpha.jpeg style.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/fish
+EXTRA_DIST = $(pkgdata_DATA)
+

@@ -302,7 +302,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = atlantis fishy infestival ink-and-oil liquid-dream pizza-face playfield sinusoid strange-new-world subflower
+SUBDIRS = acadia fish fishy five-points ink-and-oil january liquid-dream nine-points pizza-face playfield strange-new-world subflower
 all: all-recursive
 
 .SUFFIXES:

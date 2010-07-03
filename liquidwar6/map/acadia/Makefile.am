@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = README map.png texture.jpeg rules.xml hints.xml style.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/sinusoid
+pkgdata_DATA = README map.png texture.jpeg style.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/acadia
 EXTRA_DIST = $(pkgdata_DATA)
 
