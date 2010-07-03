@@ -146,4 +146,4 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; done; done # 2nd pass, we track the references inside every .dylib so that dylibs reference each other correctly
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
 	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
-	ttrm -rf ${TMP}
+	rm -rf ${TMP}
