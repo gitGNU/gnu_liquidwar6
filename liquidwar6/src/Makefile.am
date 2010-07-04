@@ -48,7 +48,7 @@ bin_PROGRAMS = liquidwar6
 liquidwar6_SOURCES = main.c $(LW6_RC_FILE)
 liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@
 
-EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh dtou.sh utod.sh mswindows.rc.in
+EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh clean.sh dtou.sh utod.sh mswindows.rc.in
 
 SUBDIRS = lib
 
