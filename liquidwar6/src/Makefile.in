@@ -337,7 +337,7 @@ top_srcdir = @top_srcdir@
 @LW6_MS_WINDOWS_TRUE@LW6_RC_FILE = mswindows.rc
 liquidwar6_SOURCES = main.c $(LW6_RC_FILE)
 liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@
-EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh dtou.sh utod.sh mswindows.rc.in
+EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh clean.sh dtou.sh utod.sh mswindows.rc.in
 SUBDIRS = lib
 all: all-recursive
 
