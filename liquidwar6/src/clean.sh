@@ -22,10 +22,12 @@
 
 # Remove temporary & backup files
 
-find ../src/ -name "*~" -exec rm -f "{}" \;
-find ../src/ -name "*-e" -exec rm -f "{}" \;
-find ../src/ -name ".#*" -exec rm -f "{}" \;
-find ../src/ -name ".swp" -exec rm -f "{}" \;
-
-./stamp.sh auto
+find ../ -name "*~" -exec echo "{}" \;
+find ../ -name "*~" -exec rm -f "{}" \;
+find ../ -name "*-e" -exec echo "{}" \;
+find ../ -name "*-e" -exec rm -f "{}" \;
+find ../ -name ".#*" -exec echo "{}" \;
+find ../ -name ".#*" -exec rm -f "{}" \;
+find ../ -name ".swp" -exec echo "{}" \;
+find ../ -name ".swp" -exec rm -f "{}" \;
 
