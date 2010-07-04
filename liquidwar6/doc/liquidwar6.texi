@@ -491,6 +491,8 @@ git clone http://git.sv.gnu.org/r/liquidwar6.git
 @end example
 
 The source can be browsed online on @uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git}
+and latest changes (commit log) can be followed on
+@uref{http://git.savannah.gnu.org/cgit/liquidwar6.git/log/}.
 
 Alternatively, you can download daily snapshots on
 @uref{http://www.ufoot.org/liquidwar/v6/snapshots/}

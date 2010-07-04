@@ -454,7 +454,9 @@ you can rely on the (slower) http protocol:
      git clone http://git.sv.gnu.org/r/liquidwar6.git
 
    The source can be browsed online on
-`http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git'
+`http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git' and latest
+changes (commit log) can be followed on
+`http://git.savannah.gnu.org/cgit/liquidwar6.git/log/'.
 
    Alternatively, you can download daily snapshots on
 `http://www.ufoot.org/liquidwar/v6/snapshots/' These files should be
