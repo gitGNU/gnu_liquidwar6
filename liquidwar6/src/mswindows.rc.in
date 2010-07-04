@@ -17,7 +17,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "A unique multiplayer wargame - http://www.gnu.org/software/liquidwar6/\0"
             VALUE "CompanyName", "N/A\0"
-            VALUE "FileDescription", "Liquid War @VERSION@ main binary for Microsoft Windows 2000/XP/Vista\0"
+            VALUE "FileDescription", "Liquid War @VERSION@ main binary\0"
             VALUE "FileVersion", "@VERSION@-1vendor\0"
             VALUE "InternalName", "liquidwar6\0"
             VALUE "LegalCopyright", "Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit\0"

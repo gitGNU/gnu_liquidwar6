@@ -80,7 +80,8 @@ am__liquidwar6_SOURCES_DIST = main.c mswindows.rc
 am__objects_1 =
 am_liquidwar6_OBJECTS = main.$(OBJEXT) $(am__objects_1)
 liquidwar6_OBJECTS = $(am_liquidwar6_OBJECTS)
-liquidwar6_DEPENDENCIES = lib/libliquidwar6_s.la
+@LW6_MS_WINDOWS_TRUE@am__DEPENDENCIES_1 = mswindows.o
+liquidwar6_DEPENDENCIES = lib/libliquidwar6_s.la $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -333,10 +334,12 @@ top_srcdir = @top_srcdir@
 
 # Note: you might need to edit this to fit your system
 @FULLSTATIC_TRUE@LW6_FLAGS = -all-static -lgpm
-@LW6_MS_WINDOWS_FALSE@LW6_RC_FILE = 
-@LW6_MS_WINDOWS_TRUE@LW6_RC_FILE = mswindows.rc
-liquidwar6_SOURCES = main.c $(LW6_RC_FILE)
-liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@
+@LW6_MS_WINDOWS_FALSE@LW6_RC_SRC = 
+@LW6_MS_WINDOWS_TRUE@LW6_RC_SRC = mswindows.rc
+@LW6_MS_WINDOWS_FALSE@LW6_RC_OBJ = 
+@LW6_MS_WINDOWS_TRUE@LW6_RC_OBJ = mswindows.o
+liquidwar6_SOURCES = main.c $(LW6_RC_SRC)
+liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@ $(LW6_RC_OBJ)
 EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh clean.sh dtou.sh utod.sh mswindows.rc.in
 SUBDIRS = lib
 all: all-recursive
