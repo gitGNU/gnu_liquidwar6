@@ -39,14 +39,16 @@ if LW6_MS_WINDOWS
 mswindows.o : ${srcdir}/mswindows.rc
 	windres $^ -o $@
 
-LW6_RC_FILE = mswindows.rc
+LW6_RC_SRC = mswindows.rc
+LW6_RC_OBJ = mswindows.o
 else
-LW6_RC_FILE =
+LW6_RC_SRC =
+LW6_RC_OBJ =
 endif
 
 bin_PROGRAMS = liquidwar6
-liquidwar6_SOURCES = main.c $(LW6_RC_FILE)
-liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@
+liquidwar6_SOURCES = main.c $(LW6_RC_SRC)
+liquidwar6_LDADD = lib/libliquidwar6_s.la @LW6_LIBINTL_LDADD@ $(LW6_RC_OBJ)
 
 EXTRA_DIST = scriptpo.c indent.sh scriptpo-update.sh stamp.sh clean.sh dtou.sh utod.sh mswindows.rc.in
 
