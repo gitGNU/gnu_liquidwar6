@@ -45,6 +45,7 @@ Section "@PACKAGE_NAME@ (required)"
   File /r "script"
   File /r "data"
   File /r "map"
+  File /r "music"
   File /r "doc"
   File /r "guile"
   
