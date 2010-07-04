@@ -147,8 +147,8 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
 	install -d "${TMP}/@PACKAGE_STRING@/Documentation"
 	make -C ../doc liquidwar6.html liquidwar6.pdf
-	cp -r ../doc/liquidwar6.html ${TMP}/Documentation/html
-	cp ../doc/liquidwar6.pdf ${TMP}/Documentation/
+	cp -r ../doc/liquidwar6.html ${TMP}/@PACKAGE_STRING@/Documentation/html
+	cp ../doc/liquidwar6.pdf ${TMP}/@PACKAGE_STRING@/Documentation/
 	find ${TMP} -name "Makefile*" | xargs rm -f
 	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
 	rm -rf ${TMP}
