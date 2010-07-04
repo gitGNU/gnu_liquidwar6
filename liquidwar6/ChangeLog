@@ -1,5 +1,7 @@
 2010-07-04 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added doc to Mac OS/X package + fixed path issues
+
 	* Fixed windows icon exe support.
 
 2010-07-03 : Christian Mauduit <ufoot@ufoot.org>

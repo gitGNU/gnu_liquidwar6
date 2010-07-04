@@ -145,6 +145,10 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/liquidwar6"; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
 	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/MacOS/$$j"; done; done # 2nd pass, we track the references inside every .dylib so that dylibs reference each other correctly
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_STRING@.app/Contents/"
+	install -d "${TMP}/@PACKAGE_STRING@/Documentation"
+	make -C ../doc liquidwar6.html liquidwar6.pdf
+	cp -r ../doc/liquidwar6.html ${TMP}/Documentation/html
+	cp ../doc/liquidwar6.pdf ${TMP}/Documentation/
 	find ${TMP} -name "Makefile*" | xargs rm -f
 	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
 	rm -rf ${TMP}

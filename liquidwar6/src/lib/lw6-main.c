@@ -189,7 +189,7 @@ lw6_main (int argc, char *argv[])
 
       if (lw6_init_global (argc, argv))
 	{
-#ifdef LW6_MS_WINDOWS
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
 	  _fix_guile_load_path (argc, argv);
 #endif
 
