@@ -109,5 +109,5 @@ rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps.spec
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	echo "next command will prompt for root password"
-	cd ${TMP} && su -c "rpmbuild -ta @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
+	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
 	rm -rf ${TMP}
