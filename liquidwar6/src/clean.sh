@@ -22,12 +22,12 @@
 
 # Remove temporary & backup files
 
-find ../ -name "*~" -exec echo "{}" \;
-find ../ -name "*~" -exec rm -f "{}" \;
-find ../ -name "*-e" -exec echo "{}" \;
-find ../ -name "*-e" -exec rm -f "{}" \;
-find ../ -name ".#*" -exec echo "{}" \;
-find ../ -name ".#*" -exec rm -f "{}" \;
-find ../ -name ".swp" -exec echo "{}" \;
-find ../ -name ".swp" -exec rm -f "{}" \;
+cd ../src && find .. -name "*~" -exec echo "{}" \;
+cd ../src && find .. -name "*~" -exec rm -f "{}" \;
+cd ../src && find .. -name "*-e" -exec echo "{}" \;
+cd ../src && find .. -name "*-e" -exec rm -f "{}" \;
+cd ../src && find .. -name ".#*" -exec echo "{}" \;
+cd ../src && find .. -name ".#*" -exec rm -f "{}" \;
+cd ../src && find .. -name ".swp" -exec echo "{}" \;
+cd ../src && find .. -name ".swp" -exec rm -f "{}" \;
 
