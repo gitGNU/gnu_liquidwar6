@@ -2,6 +2,12 @@
 %define version @PACKAGE_VERSION@
 %define release 1vendor
 
+#Put this in /etc/rpm/macros.ufoot
+#%_signature gpg
+#%_gpg_path /home/ufoot/.gnupg
+#%_gpg_name Christian Mauduit (U-Foot) <ufoot@ufoot.org>
+#%_gpgbin /usr/bin/gpg
+
 ## Uncomment these if complaints about unpackaged files
 #%define _unpackaged_files_terminate_build 0
 #%define _missing_doc_files_terminate_build 0
@@ -51,6 +57,9 @@ rm -rf %{buildroot}
 %{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 
 %changelog
+
+* Mon Jul 05 2010 Christian Mauduit <ufoot@ufoot.org>
+- Added comments on how to sign package.
 
 * Sat Jan 10 2009 Christian Mauduit <ufoot@ufoot.org>
 - Fixed source URL.
