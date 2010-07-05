@@ -761,7 +761,7 @@ ask for its @code{map-path} and use this value automatically.
 
 @subsection Raw install of extra maps (all-platforms)
 
-Another solution, which works on all platforms including MS-Windows
+Another solution, which works on all platforms including MS-Windows and Mac OS X
 but also works on GNU/Linux, is to simply unpack the @code{extra-maps}
 package (unzip or untar) in your custom map directory, or in the
 system map directory. There's nothing else to do to install these maps
@@ -769,7 +769,9 @@ but simply put them on your hard drive in the right directory.
 
 Typically on an MS-Windows system, you would unpack the extra maps in
 @code{C:\Program Files\Liquid War 6\map\} (system directory)
-and on a GNU/Linux or POSIX system
+and on a Mac OS X system you would unpack the extra maps in
+@code{Liquid War 6.app/Contents/Resources/map/}.
+On a GNU/Linux or POSIX system (also works on Mac OS X)
 you would unpack them in @code{$HOME/.liquidwar6/map/} (user directory).
 
 Next time you run the game, the maps should be browsable.
@@ -2415,7 +2417,33 @@ is that all the dynamic loading of SDL, which works on sandard GNU/Linux boxes, 
 Mac OS X, since SDL hard codes itself by patching @code{main} with @code{#define} C-preprocessor commands.
 
 A @code{.dmg} file (disk image) containing a @code{Liquid War 6.app} folder (OS X application)
-is available for your convenience. It might work or not. In doubt, compile from source.
+is available for your convenience. It might work or not. In doubt, compile from source. The complicated part about this package (a ``bundle'' is OS X language) is that
+it needs to embed various libraries which are typically installed in @code{/opt}
+by MacPorts on a developper's machine. So to build this package a heavy use
+of the utilility @code{install_name_tool} is required, normally all libraries
+needed ship with the binary, remaining depedencies concern frameworks which
+should be present on any working Mac OS X install. Still, this is only theory.
+Needs to be widely tested.
+
+The layout of the bundle follows:
+@itemize
+@item
+@code{./Contents/Info.plist}: metadata, bundle description file
+@item
+@code{./Contents/MacOS}: contains the main binary @code{liquidwar6} as well as all specific low-level libraries
+@item
+@code{./Contents/Resources/data}: general game data, does not contain maps.
+@item
+@code{./Contents/Resources/music}: music for the game.
+@item
+@code{./Contents/Resources/map}: system maps, you can put your own maps (or ``extra'' maps) here if you want all users to share them.
+@item
+@code{./Contents/Resources/script}: Liquid War 6 specific scripts, the scheme scripted part of the program.
+@item
+@code{./Contents/Resources/guile}: common shared Guile scripts, part of Guile distribution.
+@item
+@code{./Contents/Resources/doc}: documentation in HTML and PDF formats.
+@end itemize
 
 @subsection GP2X port
 

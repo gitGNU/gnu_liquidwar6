@@ -1,5 +1,11 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* July 2010: release of 0.0.8beta. Game is now packaged for
+  GNU/Linux, Microsoft Windows and Mac OS/X. Has a  bunch of
+  new features including multiple layers, auto speed-calibration,
+  a (totally useless!) splash screen and comes with some music.
+  Network still not working, but getting closer and closer.
+
 * October 2009: release of 0.0.7beta. This long waited release
   introduces a dedicated rendering thread, the idea being to use
   modern and common multicore CPUs at their best capabilities.

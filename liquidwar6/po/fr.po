@@ -298,9 +298,8 @@ msgid "testing async load"
 msgstr "test chargement asynchrone"
 
 #: src/scriptpo.c:83
-#, fuzzy
 msgid "testing node"
-msgstr "test des bots"
+msgstr "test du noeud"
 
 #: src/scriptpo.c:84
 msgid "begin main game loop"
