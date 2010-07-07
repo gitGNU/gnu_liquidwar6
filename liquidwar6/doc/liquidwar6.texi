@@ -291,19 +291,21 @@ a build is done with a different source.
 
 @itemize
 @item
-2006-12-18 : 0.0.1beta
+2006-12-18 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.1beta/,0.0.1beta}
 @item
-2007-09-07 : 0.0.2beta
+2007-09-07 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.2beta/,0.0.2beta}
 @item
-2008-01-30 : 0.0.3beta, codename ``Napoleon'', stamp 549
+2008-01-30 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.3beta/,0.0.3beta}, codename ``Napoleon'', stamp 549
 @item
-2008-09-19 : 0.0.4beta, codename ``Clovis'', stamp 756
+2008-09-19 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.4beta/,0.0.4beta}, codename ``Clovis'', stamp 756
 @item
-2008-12-20 : 0.0.5beta, codename ``Henri IV'', stamp 1082
+2008-12-20 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.5beta/,0.0.5beta}, codename ``Henri IV'', stamp 1082
 @item
-2009-01-10 : 0.0.6beta, codename ``Cesar'', stamp 1124
+2009-01-10 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.6beta/,0.0.6beta}, codename ``Cesar'', stamp 1124
 @item
-2009-10-03 : 0.0.7beta, codename ``Geronimo'', stamp 1465
+2009-10-03 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.7beta/,0.0.7beta}, codename ``Geronimo'', stamp 1465
+@item
+2010-07-05 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.8beta/,0.0.8beta}, codename ``Attila'', stamp 1658
 @end itemize
 
 @subsection Road map

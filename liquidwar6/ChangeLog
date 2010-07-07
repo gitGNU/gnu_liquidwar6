@@ -1,5 +1,7 @@
 2010-07-07 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Codename is "Chuck".
+
 	* Fixed bug 30354 (libpng12 vs libpng14).
 
 	* 0.0.8beta -> 0.0.9beta.
