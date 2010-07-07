@@ -70,6 +70,9 @@
 /* Define to 1 if you have the <libpng12/png.h> header file. */
 #undef HAVE_LIBPNG12_PNG_H
 
+/* Define to 1 if you have the <libpng14/png.h> header file. */
+#undef HAVE_LIBPNG14_PNG_H
+
 /* Define to 1 if you have the <lmcons.h> header file. */
 #undef HAVE_LMCONS_H
 

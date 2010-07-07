@@ -27,7 +27,7 @@
 #undef HAVE_STDDEF_H		// redefined by jpeglib.h
 #undef HAVE_STDLIB_H		// redefined by jpeglib.h
 
-#include <libpng12/png.h>
+#include "ldr-png.h"
 #include <jpeglib.h>
 
 #define LW6_SKIP_WINDOWS_H

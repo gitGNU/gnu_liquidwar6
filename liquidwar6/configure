@@ -832,6 +832,7 @@ MOD_GL_TRUE
 SDL_LIBS
 SDL_CFLAGS
 SDL_CONFIG
+LIBPNG_1X_H
 MOD_HTTP_ENABLE_CFLAGS
 MOD_HTTP_FALSE
 MOD_HTTP_TRUE
@@ -5919,13 +5920,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:5922: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:5923: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:5925: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:5926: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:5928: output\"" >&5)
+  (eval echo "\"\$as_me:5929: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -7130,7 +7131,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 7133 "configure"' > conftest.$ac_ext
+  echo '#line 7134 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -8497,11 +8498,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8500: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8501: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8504: \$? = $ac_status" >&5
+   echo "$as_me:8505: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8836,11 +8837,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8839: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8840: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8843: \$? = $ac_status" >&5
+   echo "$as_me:8844: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8941,11 +8942,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8944: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8945: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8948: \$? = $ac_status" >&5
+   echo "$as_me:8949: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8996,11 +8997,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8999: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9000: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9003: \$? = $ac_status" >&5
+   echo "$as_me:9004: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -11799,7 +11800,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11802 "configure"
+#line 11803 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11895,7 +11896,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11898 "configure"
+#line 11899 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14705,7 +14706,8 @@ LW6_MS_WINDOWS_VERSION="0, 0, 8"
 
 
 
-for ac_header in arpa/inet.h ctype.h dirent.h errno.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h lmcons.h locale.h ltdl.h math.h netinet/in.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
+
+for ac_header in arpa/inet.h ctype.h dirent.h errno.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng14/png.h lmcons.h locale.h ltdl.h math.h netinet/in.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
 do
 as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -17558,16 +17560,162 @@ $as_echo "$ac_cv_header_libpng12_png_h" >&6; }
 fi
 if test "x$ac_cv_header_libpng12_png_h" = x""yes; then
   HAVE_LIBPNG12_PNG_H=1
+fi
+
+
+if test "${ac_cv_header_libpng14_png_h+set}" = set; then
+  { $as_echo "$as_me:$LINENO: checking for libpng14/png.h" >&5
+$as_echo_n "checking for libpng14/png.h... " >&6; }
+if test "${ac_cv_header_libpng14_png_h+set}" = set; then
+  $as_echo_n "(cached) " >&6
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_header_libpng14_png_h" >&5
+$as_echo "$ac_cv_header_libpng14_png_h" >&6; }
 else
-  { { $as_echo "$as_me:$LINENO: error:
-*** Liquid War 6 needs libpng 1.2 (http://www.libpng.org/pub/png/libpng.html)
+  # Is the header compilable?
+{ $as_echo "$as_me:$LINENO: checking libpng14/png.h usability" >&5
+$as_echo_n "checking libpng14/png.h usability... " >&6; }
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <libpng14/png.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_header_compiler=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_header_compiler=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+{ $as_echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+$as_echo "$ac_header_compiler" >&6; }
+
+# Is the header present?
+{ $as_echo "$as_me:$LINENO: checking libpng14/png.h presence" >&5
+$as_echo_n "checking libpng14/png.h presence... " >&6; }
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <libpng14/png.h>
+_ACEOF
+if { (ac_try="$ac_cpp conftest.$ac_ext"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null && {
+	 test -z "$ac_c_preproc_warn_flag$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       }; then
+  ac_header_preproc=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+
+rm -f conftest.err conftest.$ac_ext
+{ $as_echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+$as_echo "$ac_header_preproc" >&6; }
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in
+  yes:no: )
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: accepted by the compiler, rejected by the preprocessor!" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: proceeding with the compiler's result" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: proceeding with the compiler's result" >&2;}
+    ac_header_preproc=yes
+    ;;
+  no:yes:* )
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: present but cannot be compiled" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: present but cannot be compiled" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h:     check for missing prerequisite headers?" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h:     check for missing prerequisite headers?" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: see the Autoconf documentation" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: see the Autoconf documentation" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h:     section \"Present But Cannot Be Compiled\"" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: proceeding with the preprocessor's result" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: proceeding with the preprocessor's result" >&2;}
+    { $as_echo "$as_me:$LINENO: WARNING: libpng14/png.h: in the future, the compiler will take precedence" >&5
+$as_echo "$as_me: WARNING: libpng14/png.h: in the future, the compiler will take precedence" >&2;}
+    ( cat <<\_ASBOX
+## ------------------------------ ##
+## Report this to ufoot@ufoot.org ##
+## ------------------------------ ##
+_ASBOX
+     ) | sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+{ $as_echo "$as_me:$LINENO: checking for libpng14/png.h" >&5
+$as_echo_n "checking for libpng14/png.h... " >&6; }
+if test "${ac_cv_header_libpng14_png_h+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_header_libpng14_png_h=$ac_header_preproc
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_header_libpng14_png_h" >&5
+$as_echo "$ac_cv_header_libpng14_png_h" >&6; }
+
+fi
+if test "x$ac_cv_header_libpng14_png_h" = x""yes; then
+  HAVE_LIBPNG14_PNG_H=1
+fi
+
+
+if test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG_14_PNG_H} = x1; then
+   if test x${HAVE_LIBPNG12_PNG_H} = x1; then
+      LIBPNG_1X_H=libpng12/png.h
+   fi
+   if test x${HAVE_LIBPNG14_PNG_H} = x1; then
+      LIBPNG_1X_H=libpng14/png.h
+   fi
+else
+   { { $as_echo "$as_me:$LINENO: error:
+*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
 " >&5
 $as_echo "$as_me: error:
-*** Liquid War 6 needs libpng 1.2 (http://www.libpng.org/pub/png/libpng.html)
+*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
-
 
 
 { $as_echo "$as_me:$LINENO: checking for png_sig_cmp in -lpng" >&5
@@ -17639,10 +17787,10 @@ if test "x$ac_cv_lib_png_png_sig_cmp" = x""yes; then
   HAVE_LIBPNG=1
 else
   { { $as_echo "$as_me:$LINENO: error:
-*** Liquid War 6 needs libpng 1.2 (http://www.libpng.org/pub/png/libpng.html)
+*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
 " >&5
 $as_echo "$as_me: error:
-*** Liquid War 6 needs libpng 1.2 (http://www.libpng.org/pub/png/libpng.html)
+*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
 " >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -19617,7 +19765,7 @@ LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRU
 
 
 
-ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in doc/Makefile doc/liquidwar6.man doc/coverage/Makefile doc/global/Makefile doc/cyclo/Makefile doc/example/Makefile doc/dtd/Makefile src/Makefile src/lib/Makefile src/lib/liquidwar6.h src/lib/def/Makefile src/lib/sys/Makefile src/lib/sys/sys-build.h src/lib/dyn/Makefile src/lib/cns/Makefile src/lib/hlp/Makefile src/lib/cfg/Makefile src/lib/map/Makefile src/lib/ker/Makefile src/lib/bot/Makefile src/lib/bot/mod-idiot/Makefile src/lib/bot/mod-random/Makefile src/lib/ldr/Makefile src/lib/tsk/Makefile src/lib/gui/Makefile src/lib/gfx/Makefile src/lib/gfx/mod-gl/Makefile src/lib/gfx/mod-gl/gl-utils/Makefile src/lib/gfx/mod-gl/gl-splash/Makefile src/lib/gfx/mod-gl/gl-background/Makefile src/lib/gfx/mod-gl/gl-background/gl-bubbles/Makefile src/lib/gfx/mod-gl/gl-background/gl-void/Makefile src/lib/gfx/mod-gl/gl-hud/Makefile src/lib/gfx/mod-gl/gl-hud/gl-floating/Makefile src/lib/gfx/mod-gl/gl-hud/gl-tactical/Makefile src/lib/gfx/mod-gl/gl-menu/Makefile src/lib/gfx/mod-gl/gl-menu/gl-cylinder/Makefile src/lib/gfx/mod-gl/gl-view/Makefile src/lib/gfx/mod-gl/gl-view/gl-flat/Makefile src/lib/dsp/Makefile src/lib/snd/Makefile src/lib/snd/mod-csound/Makefile src/lib/snd/mod-ogg/Makefile src/lib/net/Makefile src/lib/img/Makefile src/lib/pil/Makefile src/lib/cli/Makefile src/lib/cli/mod-tcp/Makefile src/lib/cli/mod-udp/Makefile src/lib/cli/mod-http/Makefile src/lib/srv/Makefile src/lib/srv/mod-tcpd/Makefile src/lib/srv/mod-udpd/Makefile src/lib/srv/mod-httpd/Makefile src/lib/p2p/Makefile src/mswindows.rc script/Makefile data/Makefile data/icon/Makefile data/gfx/Makefile data/gfx/gl/Makefile data/gfx/gl/utils/Makefile data/gfx/gl/utils/font/Makefile data/gfx/gl/utils/icon/Makefile data/gfx/gl/splash/Makefile data/gfx/gl/splash/image/Makefile data/gfx/gl/background/Makefile data/gfx/gl/background/bubbles/Makefile data/gfx/gl/background/bubbles/image/Makefile data/gfx/gl/hud/Makefile data/gfx/gl/hud/floating/Makefile data/gfx/gl/hud/floating/image/Makefile data/gfx/gl/hud/tactical/Makefile data/gfx/gl/hud/tactical/image/Makefile data/gfx/gl/menu/Makefile data/gfx/gl/menu/cylinder/Makefile data/gfx/gl/view/Makefile data/gfx/gl/view/flat/Makefile data/snd/Makefile data/snd/csound/Makefile data/snd/ogg/Makefile data/snd/ogg/sound/Makefile data/net/Makefile data/net/htdocs/Makefile data/net/template/Makefile music/Makefile map/Makefile map/acadia/Makefile map/fish/Makefile map/fishy/Makefile map/five-points/Makefile map/ink-and-oil/Makefile map/january/Makefile map/liquid-dream/Makefile map/nine-points/Makefile map/pizza-face/Makefile map/playfield/Makefile map/strange-new-world/Makefile map/subflower/Makefile debian/Makefile pkg/Makefile pkg/liquidwar6.spec pkg/liquidwar6.nsi pkg/Info.plist"
+ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in doc/Makefile doc/liquidwar6.man doc/coverage/Makefile doc/global/Makefile doc/cyclo/Makefile doc/example/Makefile doc/dtd/Makefile src/Makefile src/lib/Makefile src/lib/liquidwar6.h src/lib/def/Makefile src/lib/sys/Makefile src/lib/sys/sys-build.h src/lib/dyn/Makefile src/lib/cns/Makefile src/lib/hlp/Makefile src/lib/cfg/Makefile src/lib/map/Makefile src/lib/ker/Makefile src/lib/bot/Makefile src/lib/bot/mod-idiot/Makefile src/lib/bot/mod-random/Makefile src/lib/ldr/Makefile src/lib/ldr/ldr-png.h src/lib/tsk/Makefile src/lib/gui/Makefile src/lib/gfx/Makefile src/lib/gfx/mod-gl/Makefile src/lib/gfx/mod-gl/gl-utils/Makefile src/lib/gfx/mod-gl/gl-splash/Makefile src/lib/gfx/mod-gl/gl-background/Makefile src/lib/gfx/mod-gl/gl-background/gl-bubbles/Makefile src/lib/gfx/mod-gl/gl-background/gl-void/Makefile src/lib/gfx/mod-gl/gl-hud/Makefile src/lib/gfx/mod-gl/gl-hud/gl-floating/Makefile src/lib/gfx/mod-gl/gl-hud/gl-tactical/Makefile src/lib/gfx/mod-gl/gl-menu/Makefile src/lib/gfx/mod-gl/gl-menu/gl-cylinder/Makefile src/lib/gfx/mod-gl/gl-view/Makefile src/lib/gfx/mod-gl/gl-view/gl-flat/Makefile src/lib/dsp/Makefile src/lib/snd/Makefile src/lib/snd/mod-csound/Makefile src/lib/snd/mod-ogg/Makefile src/lib/net/Makefile src/lib/img/Makefile src/lib/pil/Makefile src/lib/cli/Makefile src/lib/cli/mod-tcp/Makefile src/lib/cli/mod-udp/Makefile src/lib/cli/mod-http/Makefile src/lib/srv/Makefile src/lib/srv/mod-tcpd/Makefile src/lib/srv/mod-udpd/Makefile src/lib/srv/mod-httpd/Makefile src/lib/p2p/Makefile src/mswindows.rc script/Makefile data/Makefile data/icon/Makefile data/gfx/Makefile data/gfx/gl/Makefile data/gfx/gl/utils/Makefile data/gfx/gl/utils/font/Makefile data/gfx/gl/utils/icon/Makefile data/gfx/gl/splash/Makefile data/gfx/gl/splash/image/Makefile data/gfx/gl/background/Makefile data/gfx/gl/background/bubbles/Makefile data/gfx/gl/background/bubbles/image/Makefile data/gfx/gl/hud/Makefile data/gfx/gl/hud/floating/Makefile data/gfx/gl/hud/floating/image/Makefile data/gfx/gl/hud/tactical/Makefile data/gfx/gl/hud/tactical/image/Makefile data/gfx/gl/menu/Makefile data/gfx/gl/menu/cylinder/Makefile data/gfx/gl/view/Makefile data/gfx/gl/view/flat/Makefile data/snd/Makefile data/snd/csound/Makefile data/snd/ogg/Makefile data/snd/ogg/sound/Makefile data/net/Makefile data/net/htdocs/Makefile data/net/template/Makefile music/Makefile map/Makefile map/acadia/Makefile map/fish/Makefile map/fishy/Makefile map/five-points/Makefile map/ink-and-oil/Makefile map/january/Makefile map/liquid-dream/Makefile map/nine-points/Makefile map/pizza-face/Makefile map/playfield/Makefile map/strange-new-world/Makefile map/subflower/Makefile debian/Makefile pkg/Makefile pkg/liquidwar6.spec pkg/liquidwar6.nsi pkg/Info.plist"
 
 
 cat >confcache <<\_ACEOF
@@ -20644,6 +20792,7 @@ do
     "src/lib/bot/mod-idiot/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/bot/mod-idiot/Makefile" ;;
     "src/lib/bot/mod-random/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/bot/mod-random/Makefile" ;;
     "src/lib/ldr/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/ldr/Makefile" ;;
+    "src/lib/ldr/ldr-png.h") CONFIG_FILES="$CONFIG_FILES src/lib/ldr/ldr-png.h" ;;
     "src/lib/tsk/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/tsk/Makefile" ;;
     "src/lib/gui/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/gui/Makefile" ;;
     "src/lib/gfx/Makefile") CONFIG_FILES="$CONFIG_FILES src/lib/gfx/Makefile" ;;

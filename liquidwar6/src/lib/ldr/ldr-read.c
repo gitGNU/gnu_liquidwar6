@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <libpng12/png.h>
+#include "ldr-png.h"
 
 #include "ldr.h"
 #include "ldr-internal.h"
