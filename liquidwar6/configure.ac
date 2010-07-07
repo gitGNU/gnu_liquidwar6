@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6],[0.0.8beta],[ufoot@ufoot.org],[liquidwar6])
+AC_INIT([Liquid War 6],[0.0.9beta],[ufoot@ufoot.org],[liquidwar6])
 # latest versions of automake accept a 5th arg mapped to PACKAGE_URL
 # AC_INIT([Liquid War 6],[0.0.8beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
 AC_CANONICAL_BUILD
