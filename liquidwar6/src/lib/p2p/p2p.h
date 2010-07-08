@@ -29,6 +29,19 @@
 #include "../cli/cli.h"
 #include "../srv/srv.h"
 
+#define LW6P2P_DEFAULT_NAME "p2p.db"
+
+typedef struct lw6p2p_db_s
+{
+  /*
+   * The first member, id, is the same as the internal
+   * _lw6p2p_db_t structure. The rest of it is hidden.
+   * The program will cast from lw6p2p_db_t to _lw6p2p_db_t
+   * internally.
+   */
+  u_int32_t id;
+} lw6p2p_db_t;
+
 typedef struct lw6p2p_node_s
 {
   /*
@@ -39,6 +52,11 @@ typedef struct lw6p2p_node_s
    */
   u_int32_t id;
 } lw6p2p_node_t;
+
+/* p2p-db.c */
+extern lw6p2p_db_t *lw6p2p_db_open (int argc, char *argv[], char *name);
+extern void lw6p2p_db_close (lw6p2p_db_t * db);
+extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
 
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],

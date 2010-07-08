@@ -215,6 +215,7 @@ _lw6p2p_node_new (int argc, char *argv[], char *client_backends,
   if ((!ret) && node)
     {
       _lw6p2p_node_free (node);
+      node = NULL;
     }
 
   return node;
@@ -308,10 +309,10 @@ lw6p2p_node_poll (lw6p2p_node_t * node)
   return _lw6p2p_node_poll ((_lw6p2p_node_t *) node);
 }
 
-int
-_lw6p2p_node_poll (_lw6p2p_node_t * node)
+static int
+_poll_step1_accept (_lw6p2p_node_t * node)
 {
-  int ret = 0;
+  int ret = 1;
   char *ip = NULL;
   int port = 0;
   int sock;
@@ -337,6 +338,9 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
 		  ip = NULL;	// tcp_accepter will free it
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
 					  tcp_accepter);
+		}
+	      else
+		{
 		  ret = 0;
 		}
 	    }
@@ -347,6 +351,24 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
     {
       LW6SYS_FREE (ip);
     }
+
+  return ret;
+}
+
+static int
+_poll_step2_reply (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+
+  return ret;
+}
+
+int
+_lw6p2p_node_poll (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  ret = _poll_step1_accept (node) && _poll_step2_reply (node);
 
   return ret;
 }

@@ -24,11 +24,19 @@
 #define LIQUIDWAR6P2P_INTERNAL_H
 
 #include "p2p.h"
+#include <sqlite3.h>
 
 /*
  * This should certainly be made smoe config entry
  */
 #define _LW6P2P_SLEEP_DELAY 0.01f
+
+typedef struct _lw6p2p_db_s
+{
+  u_int32_t id;
+  char *filename;
+  sqlite3 *handler;
+} _lw6p2p_db_t;
 
 typedef struct _lw6p2p_node_s
 {
@@ -43,6 +51,13 @@ typedef struct _lw6p2p_node_s
   int nb_srv_backends;
   lw6srv_backend_t **srv_backends;
 } _lw6p2p_node_t;
+
+/* p2p-db.c */
+extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
+extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
+extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_create_tables (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 
 /* p2p-node.c */
 extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],

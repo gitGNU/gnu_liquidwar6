@@ -35,5 +35,6 @@ find ../src/ -name "*.m" -exec indent "{}" \;
 find ../src/ -name "*.h" -exec indent "{}" \;
 find ../src/ -name "*.h.in" -exec indent "{}" \;
 
+./clean.sh
 ./stamp.sh auto
 

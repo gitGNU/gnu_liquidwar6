@@ -46,6 +46,43 @@
 #define TEST_POLL_DELAY 10
 
 /* 
+ * Testing db
+ */
+static int
+_test_db ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int argc = _TEST_ARGC;
+    char *argv[] = { _TEST_ARGV0 };
+    void *db = NULL;
+    char *repr = NULL;
+
+    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    if (db)
+      {
+	repr = lw6p2p_db_repr (db);
+	if (repr)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
+	    LW6SYS_FREE (repr);
+	  }
+	lw6p2p_db_close (db);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/* 
  * Testing node initialisation
  */
 static int
@@ -250,7 +287,7 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv))
     {
-      ret = _test_node_init () && _test_node_connect ();
+      ret = _test_db () && _test_node_init () && _test_node_connect ();
       lw6net_quit (argc, argv);
     }
 
