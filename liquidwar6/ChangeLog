@@ -1,6 +1,6 @@
 2010-07-09 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Option --reset now clears user-dir files including database.
+	* Database is cleared when binary is upgraded.
 
 	* Added db smob.
 

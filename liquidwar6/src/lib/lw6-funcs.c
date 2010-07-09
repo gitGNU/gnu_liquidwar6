@@ -7154,6 +7154,25 @@ _scm_lw6p2p_db_new ()
 }
 
 static SCM
+_scm_lw6p2p_db_reset ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  if (lw6_global.net_initialized)
+    {
+      ret =
+	lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
+			 LW6P2P_DEFAULT_NAME) ? SCM_BOOL_T : SCM_BOOL_F;
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
 		      SCM bind_ip, SCM bind_port, SCM server_id,
 		      SCM public_url)
@@ -8149,6 +8168,8 @@ lw6_register_funcs ()
    */
   scm_c_define_gsubr ("c-lw6p2p-db-new", 0, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_db_new);
+  scm_c_define_gsubr ("c-lw6p2p-db-reset", 0, 0, 0,
+		      (SCM (*)())_scm_lw6p2p_db_reset);
   scm_c_define_gsubr ("c-lw6p2p-node-new", 7, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_node_new);
   scm_c_define_gsubr ("c-lw6p2p-node-poll", 1, 0, 0,

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <unistd.h>
+
 #include "p2p.h"
 #include "p2p-internal.h"
 
@@ -271,6 +273,57 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 		      _("error executing SQL statement \"%s\" errcode=%d"),
 		      sql, errcode);
 	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6p2p_db_reset
+ *
+ * @argc: number of args, as passed to @main
+ * @argv: args array, as passed to @main
+ * @name: the database name
+ *
+ * Clears the database. Simply removes the db file, in fact. Do
+ * not call while database is used...
+ *
+ * Return value: 1 on success, 0 if failed.
+ */
+int
+lw6p2p_db_reset (int argc, char *argv[], char *name)
+{
+  int ret = 0;
+  char *user_dir = NULL;
+  char *filename = NULL;
+
+  user_dir = lw6sys_get_user_dir (argc, argv);
+  if (user_dir)
+    {
+      filename = lw6sys_path_concat (user_dir, name);
+      if (filename)
+	{
+	  if (lw6sys_file_exists (filename))
+	    {
+	      if (!unlink (filename))
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO, _("database \"%s\" deleted"),
+			      filename);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("can't delete database \"%s\""), filename);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _("no need to delete database \"%s\""), filename);
+	    }
+	  LW6SYS_FREE (filename);
+	}
+      LW6SYS_FREE (user_dir);
     }
 
   return ret;

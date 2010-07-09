@@ -24,8 +24,6 @@
 #include "config.h"
 #endif
 
-#include <unistd.h>
-
 #include "cfg.h"
 #include "cfg-internal.h"
 
@@ -116,24 +114,6 @@ lw6cfg_quit (void *cfg_context)
   _lw6cfg_quit ((_lw6cfg_context_t *) cfg_context);
 }
 
-static int
-_is_file_callback_func (void *func_data, char *file)
-{
-  int ret = 0;
-
-  ret = !lw6sys_dir_exists (file);
-  if (ret)
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("found file \"%s\""), file);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("found dir \"%s\""), file);
-    }
-
-  return ret;
-}
-
 /**
  * lw6cfg_reset
  *
@@ -146,51 +126,10 @@ _is_file_callback_func (void *func_data, char *file)
 void
 lw6cfg_reset (int argc, char *argv[])
 {
-  char *user_dir;
   char *config_file = NULL;
   void *cfg_context = NULL;
   char *value = NULL;
-  char *file;
-  lw6sys_list_t *list;
-  int n;
 
-  /*
-   * First step, we clear any file in user_dir, this will cause, for
-   * instance, database to be cleared, but it won't remove custom
-   * maps (a brute "rm -rf" would do this).
-   */
-  user_dir = lw6sys_get_user_dir (argc, argv);
-  if (user_dir)
-    {
-      if (lw6sys_dir_exists (user_dir))
-	{
-	  list = lw6sys_dir_list (user_dir, _is_file_callback_func, NULL, &n);
-	  if (list)
-	    {
-	      while (list
-		     && ((file = ((char *) lw6sys_list_pop_front (&list))) !=
-			 NULL))
-		{
-		  if (!unlink (file))
-		    {
-		      lw6sys_log (LW6SYS_LOG_NOTICE, _("delete \"%s\""),
-				  file);
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("can't delete \"%s\""), file);
-		    }
-		  LW6SYS_FREE (file);
-		}
-	    }
-	}
-      LW6SYS_FREE (user_dir);
-    }
-
-  /*
-   * Next step, create a default config file
-   */
   config_file = lw6sys_get_config_file (argc, argv);
   if (config_file)
     {

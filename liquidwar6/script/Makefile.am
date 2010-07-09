@@ -28,6 +28,7 @@ config.scm \
 console.scm \
 control.scm \
 cursor.scm \
+db.scm \
 def.scm \
 demo.scm \
 display.scm \

@@ -2891,10 +2891,39 @@ C interfaces:
 4.15.16 libp2p
 --------------
 
+ -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
+          char * NAME)
+     ARGC:  number of args, as passed to `main'
+
+     ARGV:  args array, as passed to `main'
+
+     NAME:  the database name
+
+     Creates a new database object. Normally there's only one object
+     like this at a given time, it can be shared among various nodes.
+     The database name is appended to user directory path, this allows
+     different databases to be created, in theory.
+
+     *Return value:*  a pointer on the newly created object.
+
+ -- Function: void lw6p2p_db_close (lw6p2p_db_t * DB)
+     DB:  the db to close
+
+     Closes a db object, memory ressources will be freed.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6p2p_db_repr (lw6p2p_db_t * DB)
+     DB:  the db to work on
+
+     Gives a readable representation of the db
+
+     *Return value:*  a dynamically allocated string
+
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
-          ARGV, char * CLIENT_BACKENDS, char * SERVER_BACKENDS, char *
-          BIND_IP, int BIND_PORT, u_int64_t SERVER_ID, char *
-          PUBLIC_URL)
+          ARGV, char * CLIENT_BACKENDS, char * SERVER_BACKENDS,
+          lw6p2p_db_t * DB, char * BIND_IP, int BIND_PORT, u_int64_t
+          SERVER_ID, char * PUBLIC_URL)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -2902,6 +2931,8 @@ C interfaces:
      CLIENT_BACKENDS:  the list of client backends to use
 
      SERVER_BACKENDS:  the list of server backends to use
+
+     DB:  the database to use
 
      BIND_IP:  the IP address to bind on
 

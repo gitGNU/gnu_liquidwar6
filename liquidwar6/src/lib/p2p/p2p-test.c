@@ -76,6 +76,16 @@ _test_db ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
 	ret = 0;
       }
+
+    if (lw6p2p_db_reset (argc, argv, LW6P2P_DEFAULT_NAME))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("deleted db"));
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("can't delete db"));
+	ret = 0;
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
