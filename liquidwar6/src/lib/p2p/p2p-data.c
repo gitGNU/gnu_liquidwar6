@@ -30,7 +30,7 @@
 #define _P2P_SUBDIR "p2p"
 #define _CONSTS_FILE "p2p-const.xml"
 #define _SQL_DIR "sql"
-#define _CREATE_DATABASE_SQL_FILE "create-database.sql"
+#define _QUERIES_HASH_SIZE 97
 
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
@@ -58,21 +58,50 @@ _load_consts (_lw6p2p_consts_t * consts, char *consts_file)
   return ret;
 }
 
-static char *
-_read_query (char *sql_dir, char *query_file)
+static int
+_read_query (lw6sys_hash_t * queries, char *sql_dir, char *query_file)
 {
-  char *ret = NULL;
-  char *filename;
+  int ret = 0;
+  char *filename = NULL;
+  char *query = NULL;
 
   filename = lw6sys_path_concat (sql_dir, query_file);
   if (filename)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), filename);
-      ret = lw6sys_read_file_content (filename);
+      query = lw6sys_read_file_content (filename);
+      if (query)
+	{
+	  lw6sys_hash_set (queries, query_file, query);
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("can't read query \"%s\" in \"%s\""), query_file,
+		      filename);
+	}
       LW6SYS_FREE (filename);
     }
 
   return ret;
+}
+
+static void
+_check_query_not_null (void *func_data, char *key, void *value)
+{
+  int *ret = (int *) func_data;
+  char *query = (char *) value;
+
+  if (query == NULL)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("query \"%s\" is NULL"), key);
+      (*ret) = 0;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("query \"%s\" is \"%s\""), key, query);
+    }
 }
 
 static int
@@ -80,9 +109,17 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
 {
   int ret = 0;
 
-  sql->create_database = _read_query (sql_dir, _CREATE_DATABASE_SQL_FILE);
+  sql->queries = lw6sys_hash_new (lw6sys_free_callback, _QUERIES_HASH_SIZE);
+  if (sql->queries)
+    {
+      ret = 1;
 
-  ret = (sql->create_database != NULL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_CREATE_DATABASE_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_SERVER_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_SERVER_SQL);
+
+      lw6sys_hash_map (sql->queries, _check_query_not_null, &ret);
+    }
 
   return ret;
 }
@@ -134,9 +171,10 @@ _unload_sql (_lw6p2p_sql_t * sql)
 {
   int ret = 1;
 
-  if (sql->create_database)
+  if (sql->queries)
     {
-      LW6SYS_FREE (sql->create_database);
+      lw6sys_hash_free (sql->queries);
+      sql->queries = NULL;
     }
 
   return ret;

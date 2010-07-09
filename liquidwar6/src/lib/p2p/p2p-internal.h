@@ -27,6 +27,9 @@
 #include <sqlite3.h>
 
 #define _LW6P2P_DEFAULT_NAME "p2p.db"
+#define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
+#define _LW6P2P_DELETE_SERVER_SQL "delete-server.sql"
+#define _LW6P2P_INSERT_SERVER_SQL "insert-server.sql"
 
 typedef struct _lw6p2p_consts_s
 {
@@ -36,7 +39,7 @@ _lw6p2p_consts_t;
 
 typedef struct _lw6p2p_sql_s
 {
-  char *create_database;
+  lw6sys_hash_t *queries;
 }
 _lw6p2p_sql_t;
 
@@ -77,7 +80,7 @@ extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
-extern int _lw6p2p_db_create_tables (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 
 /* p2p-node.c */

@@ -17,11 +17,10 @@
 -- Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 -- Contact author        : ufoot@ufoot.org
 
-CREATE TABLE IF NOT EXISTS lw6_server(
-	server_id VARCHAR(16) PRIMARY KEY,
-	local_node INTEGER, 
-	server_ip VARCHAR(64),
-	server_port INTEGER,
-	public_url VARCHAR(256),
-	last_ping INTEGER);
-
+INSERT OR REPLACE INTO lw6_server SET (
+       server_id='%s',
+       local_node=%d,
+       server_ip='%s',
+       server_port=%d,
+       public_url='%s',
+       last_ping=%d);

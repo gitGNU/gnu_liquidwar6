@@ -86,14 +86,15 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO, _("opened db \"%s\""),
 				      db->filename);
-			  if (_lw6p2p_db_create_tables (db))
+			  if (_lw6p2p_db_create_database (db))
 			    {
 			      ret = 1;
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _("can't create tables in \"%s\""),
+					  _
+					  ("can't create database in \"%s\""),
 					  db->filename);
 			    }
 			}
@@ -230,11 +231,16 @@ _lw6p2p_db_repr (_lw6p2p_db_t * db)
 }
 
 int
-_lw6p2p_db_create_tables (_lw6p2p_db_t * db)
+_lw6p2p_db_create_database (_lw6p2p_db_t * db)
 {
   int ret = 0;
+  char *query = NULL;
 
-  ret = _lw6p2p_db_exec_ignore_data (db, db->data.sql.create_database);
+  query = lw6sys_hash_get (db->data.sql.queries, _LW6P2P_CREATE_DATABASE_SQL);
+  if (query)
+    {
+      ret = _lw6p2p_db_exec_ignore_data (db, query);
+    }
 
   return ret;
 }
