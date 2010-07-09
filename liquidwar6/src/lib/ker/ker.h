@@ -509,16 +509,17 @@ lw6ker_map_state_set_fighter_id (lw6ker_map_state_t * map_state,
 				 int32_t x,
 				 int32_t y, int32_t z, int32_t fighter_id)
 {
-  map_state->slots[lw6ker_map_state_slot_index (map_state, x, y, z)].
-    fighter_id = fighter_id;
+  map_state->
+    slots[lw6ker_map_state_slot_index (map_state, x, y, z)].fighter_id =
+    fighter_id;
 };
 
 static inline int32_t
 lw6ker_map_state_get_fighter_id (lw6ker_map_state_t * map_state,
 				 int32_t x, int32_t y, int32_t z)
 {
-  return (map_state->slots[lw6ker_map_state_slot_index (map_state, x, y, z)].
-	  fighter_id);
+  return (map_state->
+	  slots[lw6ker_map_state_slot_index (map_state, x, y, z)].fighter_id);
 };
 
 extern lw6ker_fighter_t *lw6ker_map_state_get_fighter_safe (lw6ker_map_state_t
@@ -570,8 +571,9 @@ lw6ker_map_struct_set_zone_id (lw6ker_map_struct_t * map_struct,
 			       int32_t x, int32_t y, int32_t z,
 			       int32_t zone_id)
 {
-  map_struct->slots[lw6ker_map_struct_slot_index (map_struct, x, y, z)].
-    zone_id = zone_id;
+  map_struct->
+    slots[lw6ker_map_struct_slot_index (map_struct, x, y, z)].zone_id =
+    zone_id;
 };
 
 static inline int32_t

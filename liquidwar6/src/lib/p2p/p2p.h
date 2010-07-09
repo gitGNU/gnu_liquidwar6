@@ -29,8 +29,6 @@
 #include "../cli/cli.h"
 #include "../srv/srv.h"
 
-#define LW6P2P_DEFAULT_NAME "p2p.db"
-
 typedef struct lw6p2p_db_s
 {
   /*
@@ -58,6 +56,7 @@ extern lw6p2p_db_t *lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void lw6p2p_db_close (lw6p2p_db_t * db);
 extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
 extern int lw6p2p_db_reset (int argc, char *argv[], char *name);
+extern char *lw6p2p_db_default_name ();
 
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],

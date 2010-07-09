@@ -328,3 +328,17 @@ lw6p2p_db_reset (int argc, char *argv[], char *name)
 
   return ret;
 }
+
+/**
+ * lw6p2p_db_default_name
+ *
+ * Returns the default database name, should be p2p.db (this is a relative path,
+ * not an absolute path, will be appended to user dir).
+ *
+ * Return value: the default database name, need not (must not) be freed.
+ */
+char *
+lw6p2p_db_default_name ()
+{
+  return _LW6P2P_DEFAULT_NAME;
+}

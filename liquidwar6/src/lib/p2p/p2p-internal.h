@@ -26,6 +26,8 @@
 #include "p2p.h"
 #include <sqlite3.h>
 
+#define _LW6P2P_DEFAULT_NAME "p2p.db"
+
 typedef struct _lw6p2p_consts_s
 {
   float sleep_delay;

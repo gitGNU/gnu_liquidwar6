@@ -7130,21 +7130,27 @@ _scm_lw6srv_get_backends ()
  * In liquidwar6p2p
  */
 static SCM
-_scm_lw6p2p_db_new ()
+_scm_lw6p2p_db_new (SCM name)
 {
-  lw6p2p_db_t *c_db;
   SCM ret = SCM_BOOL_F;
+  char *c_name = NULL;
+  lw6p2p_db_t *c_db;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
+  SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
+
   if (lw6_global.net_initialized)
     {
-      c_db =
-	lw6p2p_db_open (lw6_global.argc, lw6_global.argv,
-			LW6P2P_DEFAULT_NAME);
-      if (c_db)
+      c_name = to_0str (name);
+      if (c_name)
 	{
-	  ret = lw6_make_scm_db (c_db);
+	  c_db = lw6p2p_db_open (lw6_global.argc, lw6_global.argv, c_name);
+	  if (c_db)
+	    {
+	      ret = lw6_make_scm_db (c_db);
+	    }
+	  LW6SYS_FREE (c_name);
 	}
     }
 
@@ -7154,15 +7160,38 @@ _scm_lw6p2p_db_new ()
 }
 
 static SCM
-_scm_lw6p2p_db_reset ()
+_scm_lw6p2p_db_reset (SCM name)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_name = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (name), name, SCM_ARG1, __FUNCTION__);
+
+  c_name = to_0str (name);
+  if (c_name)
+    {
+      ret =
+	lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
+			 c_name) ? SCM_BOOL_T : SCM_BOOL_F;
+
+      LW6SYS_FREE (c_name);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_db_default_name ()
 {
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret =
-    lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
-		     LW6P2P_DEFAULT_NAME) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = scm_makfrom0str (lw6p2p_db_default_name ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -8163,10 +8192,12 @@ lw6_register_funcs ()
   /*
    * In liquidwar6p2p
    */
-  scm_c_define_gsubr ("c-lw6p2p-db-new", 0, 0, 0,
+  scm_c_define_gsubr ("c-lw6p2p-db-new", 1, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_db_new);
-  scm_c_define_gsubr ("c-lw6p2p-db-reset", 0, 0, 0,
+  scm_c_define_gsubr ("c-lw6p2p-db-reset", 1, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_db_reset);
+  scm_c_define_gsubr ("c-lw6p2p-db-default-name", 0, 0, 0,
+		      (SCM (*)())_scm_lw6p2p_db_default_name);
   scm_c_define_gsubr ("c-lw6p2p-node-new", 7, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_node_new);
   scm_c_define_gsubr ("c-lw6p2p-node-poll", 1, 0, 0,

@@ -28,6 +28,7 @@
 
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
+#define _TEST_DB_NAME "test.db"
 #define _TEST_NODE_BIND_IP "0.0.0.0"
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
@@ -60,7 +61,12 @@ _test_db ()
     lw6p2p_db_t *db = NULL;
     char *repr = NULL;
 
-    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_
+		("default database name is \"%s\" but we use \"%s\" for some tests"),
+		lw6p2p_db_default_name (), _TEST_DB_NAME);
+
+    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME);
     if (db)
       {
 	repr = lw6p2p_db_repr (db);
@@ -77,7 +83,7 @@ _test_db ()
 	ret = 0;
       }
 
-    if (lw6p2p_db_reset (argc, argv, LW6P2P_DEFAULT_NAME))
+    if (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("deleted db"));
       }
@@ -108,7 +114,7 @@ _test_node_init ()
     lw6p2p_node_t *node = NULL;
     char *repr = NULL;
 
-    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    db = lw6p2p_db_open (argc, argv, lw6p2p_db_default_name ());
     if (db)
       {
 	node =
@@ -254,7 +260,7 @@ _test_node_connect ()
     void *node2 = NULL;
     void *node3 = NULL;
 
-    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    db = lw6p2p_db_open (argc, argv, lw6p2p_db_default_name ());
     if (db)
       {
 	ret = 0;

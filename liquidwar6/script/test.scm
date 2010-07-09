@@ -139,7 +139,7 @@
     (begin
       (c-lw6net-init)
       (let* (
-	     (db (c-lw6p2p-db-new))
+	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	     )
 	(begin
 	  (display db)
@@ -154,7 +154,7 @@
     (begin
       (c-lw6net-init)
       (let* (
-	     (db (c-lw6p2p-db-new))
+	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	     (node (c-lw6p2p-node-new db "tcp,udp" "tcpd,udpd,httpd" "0.0.0.0" 8056 "1234123412341234" "http://localhost/"))
 	     )
 	(begin

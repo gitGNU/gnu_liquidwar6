@@ -23,4 +23,4 @@
     (if (not (equal? 
 	      (lw6-config-get-number lw6def-bin-id)
 	      (c-lw6sys-build-get-bin-id)))
-	(c-lw6p2p-db-reset))))
+	(c-lw6p2p-db-reset (c-lw6p2p-db-default-name)))))
