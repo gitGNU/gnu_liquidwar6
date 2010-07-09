@@ -34,6 +34,7 @@ find ../src/ -name "*.c" -exec indent "{}" \;
 find ../src/ -name "*.m" -exec indent "{}" \;
 find ../src/ -name "*.h" -exec indent "{}" \;
 find ../src/ -name "*.h.in" -exec indent "{}" \;
+indent ../src/lib/ker/ker.h # needs to be indented twice
 
 ./clean.sh
 ./stamp.sh auto
