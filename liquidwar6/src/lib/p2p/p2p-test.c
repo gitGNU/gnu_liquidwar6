@@ -102,8 +102,8 @@ _test_node_init ()
     if (db)
       {
 	node =
-	  lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			   lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
+	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
 			   _TEST_NODE_PUBLIC_URL1);
 	if (node)
@@ -151,8 +151,8 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
   if (node1)
     {
       (*node1) =
-	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
+	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
 			 _TEST_NODE_PUBLIC_URL1);
       if (*node1)
@@ -169,8 +169,8 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
   if (node2)
     {
       (*node2) =
-	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
+	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT2, _TEST_NODE_SERVER_ID2,
 			 _TEST_NODE_PUBLIC_URL2);
       if (*node2)
@@ -187,8 +187,8 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
   if (node3)
     {
       (*node3) =
-	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
+	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT3, _TEST_NODE_SERVER_ID3,
 			 _TEST_NODE_PUBLIC_URL3);
       if (*node3)

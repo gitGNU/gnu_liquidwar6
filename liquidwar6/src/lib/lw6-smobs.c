@@ -36,6 +36,7 @@
 #define SMOB_TYPE_BOT "lw6bot-backend"
 #define SMOB_TYPE_LOOK "lw6gui-look"
 #define SMOB_TYPE_LOADER "lw6tsk-loader"
+#define SMOB_TYPE_DB "lw6p2p-db"
 #define SMOB_TYPE_NODE "lw6p2p-node"
 
 static char *
@@ -1348,11 +1349,137 @@ lw6_free_loader_smob (lw6_loader_smob_t * loader_smob)
 }
 
 /*
+ * Db smob
+ */
+static SCM
+mark_db (SCM db)
+{
+  return SCM_BOOL_F;
+}
+
+static size_t
+free_db (SCM db)
+{
+  char *id = NULL;
+  lw6_db_smob_t *db_smob = (lw6_db_smob_t *) SCM_SMOB_DATA (db);
+
+  LW6_MUTEX_LOCK;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _("garbage collect db smob"));
+  id = smob_id (SMOB_TYPE_DB, db_smob->c_db->id);
+  if (id)
+    {
+      if (lw6_global.db_smobs)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _("request free db smob \"%s\""), id);
+	  lw6sys_assoc_unset (lw6_global.db_smobs, id);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("request free db smob \"%s\" but assoc is NULL"), id);
+	}
+      LW6SYS_FREE (id);
+    }
+
+  LW6_MUTEX_UNLOCK;
+
+  return 0;
+}
+
+static int
+print_db (SCM db, SCM port, scm_print_state * pstate)
+{
+  lw6p2p_db_t *c_db = lw6_scm_to_db (db);
+  char *repr = NULL;
+
+  repr = lw6p2p_db_repr (c_db);
+
+  scm_puts ("#<" SMOB_TYPE_DB " ", port);
+  if (repr)
+    {
+      scm_display (scm_makfrom0str (repr), port);
+      LW6SYS_FREE (repr);
+    }
+  scm_puts (">", port);
+
+  return 1;
+}
+
+SCM
+lw6_make_scm_db (lw6p2p_db_t * c_db)
+{
+  char *repr = NULL;
+  char *id = NULL;
+  lw6_db_smob_t *db_smob = NULL;
+
+  scm_gc ();
+
+  db_smob = (lw6_db_smob_t *) LW6SYS_CALLOC (sizeof (lw6_db_smob_t));
+  if (db_smob)
+    {
+      db_smob->c_db = c_db;
+      id = smob_id (SMOB_TYPE_DB, c_db->id);
+      if (id)
+	{
+	  repr = lw6p2p_db_repr (c_db);
+	  if (repr)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("creating db smob \"%s\""),
+			  repr);
+	      LW6_MUTEX_LOCK;
+	      lw6sys_assoc_set (&lw6_global.db_smobs, id, (void *) db_smob);
+	      LW6_MUTEX_UNLOCK;
+	      LW6SYS_FREE (repr);
+	    }
+	  LW6SYS_FREE (id);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("unable to create db smob, expect trouble"));
+    }
+
+  SCM_RETURN_NEWSMOB (lw6_global.smob_types.db, db_smob);
+}
+
+lw6p2p_db_t *
+lw6_scm_to_db (SCM db)
+{
+  void *c_db;
+
+  c_db = ((lw6_db_smob_t *) SCM_SMOB_DATA (db))->c_db;
+
+  return c_db;
+}
+
+void
+lw6_free_db_smob (lw6_db_smob_t * db_smob)
+{
+  char *repr = NULL;
+
+  repr = lw6p2p_db_repr (db_smob->c_db);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _("freeing db smob \"%s\""), repr);
+      LW6SYS_FREE (repr);
+    }
+
+  lw6p2p_db_close (db_smob->c_db);
+  LW6SYS_FREE (db_smob);
+}
+
+/*
  * Node smob
  */
 static SCM
 mark_node (SCM node)
 {
+  lw6_node_smob_t *node_smob = (lw6_node_smob_t *) SCM_SMOB_DATA (node);
+
+  scm_gc_mark (node_smob->db);
+
   return SCM_BOOL_F;
 }
 
@@ -1408,7 +1535,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
 }
 
 SCM
-lw6_make_scm_node (lw6p2p_node_t * c_node)
+lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1420,6 +1547,8 @@ lw6_make_scm_node (lw6p2p_node_t * c_node)
   if (node_smob)
     {
       node_smob->c_node = c_node;
+      node_smob->db = db;
+
       id = smob_id (SMOB_TYPE_NODE, c_node->id);
       if (id)
 	{
@@ -1540,6 +1669,12 @@ lw6_register_smobs ()
   scm_set_smob_mark (lw6_global.smob_types.loader, mark_loader);
   scm_set_smob_free (lw6_global.smob_types.loader, free_loader);
   scm_set_smob_print (lw6_global.smob_types.loader, print_loader);
+
+  lw6_global.smob_types.db =
+    scm_make_smob_type (SMOB_TYPE_DB, sizeof (lw6_db_smob_t));
+  scm_set_smob_mark (lw6_global.smob_types.db, mark_db);
+  scm_set_smob_free (lw6_global.smob_types.db, free_db);
+  scm_set_smob_print (lw6_global.smob_types.db, print_db);
 
   lw6_global.smob_types.node =
     scm_make_smob_type (SMOB_TYPE_NODE, sizeof (lw6_node_smob_t));

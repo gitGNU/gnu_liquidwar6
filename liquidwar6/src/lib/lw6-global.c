@@ -87,6 +87,8 @@ lw6_init_global (int argc, char *argv[])
     &&
     ((lw6_global.loader_smobs =
       lw6sys_assoc_new ((void (*)(void *)) lw6_free_loader_smob)) != NULL) &&
+    ((lw6_global.db_smobs =
+      lw6sys_assoc_new ((void (*)(void *)) lw6_free_db_smob)) != NULL) &&
     ((lw6_global.node_smobs =
       lw6sys_assoc_new ((void (*)(void *)) lw6_free_node_smob)) != NULL);
 
@@ -149,6 +151,8 @@ lw6_quit_global_2 ()
    */
   lw6sys_assoc_free (lw6_global.node_smobs);
   lw6_global.node_smobs = NULL;
+  lw6sys_assoc_free (lw6_global.db_smobs);
+  lw6_global.db_smobs = NULL;
   lw6sys_assoc_free (lw6_global.loader_smobs);
   lw6_global.loader_smobs = NULL;
   lw6sys_assoc_free (lw6_global.look_smobs);

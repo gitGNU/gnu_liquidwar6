@@ -34,9 +34,9 @@ static u_int32_t seq_id = 0;
  *
  * @argc: number of args, as passed to @main
  * @argv: args array, as passed to @main
+ * @db: the database to use
  * @client_backends: the list of client backends to use
  * @server_backends: the list of server backends to use
- * @db: the database to use
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
  * @server_id: the server unique ID
@@ -49,21 +49,19 @@ static u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created objects.
  */
 lw6p2p_node_t *
-lw6p2p_node_new (int argc, char *argv[], char *client_backends,
-		 char *server_backends, lw6p2p_db_t * db,
-		 char *bind_ip,
+lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
+		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, u_int64_t server_id, char *public_url)
 {
-  return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, client_backends,
-					     server_backends,
-					     (_lw6p2p_db_t *) db, bind_ip,
-					     bind_port, server_id,
+  return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
+					     client_backends, server_backends,
+					     bind_ip, bind_port, server_id,
 					     public_url);
 }
 
 _lw6p2p_node_t *
-_lw6p2p_node_new (int argc, char *argv[], char *client_backends,
-		  char *server_backends, _lw6p2p_db_t * db, char *bind_ip,
+_lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
+		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, u_int64_t server_id, char *public_url)
 {
   _lw6p2p_node_t *node = NULL;

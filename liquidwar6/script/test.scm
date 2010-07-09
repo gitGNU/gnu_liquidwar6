@@ -134,12 +134,28 @@
 		 (display "\n")
 		 #t))))))
 
+(define lw6-test-db
+  (lambda ()
+    (begin
+      (c-lw6net-init)
+      (let* (
+	     (db (c-lw6p2p-db-new))
+	     )
+	(begin
+	  (display db)
+	  (display "\n")
+	  ))
+      (c-lw6net-quit)
+      (gc)
+      )))
+
 (define lw6-test-node
   (lambda ()
     (begin
       (c-lw6net-init)
       (let* (
-	     (node (c-lw6p2p-node-new "tcp,udp" "tcpd,udpd,httpd" "0.0.0.0" 8056 "1234123412341234" "http://localhost/"))
+	     (db (c-lw6p2p-db-new))
+	     (node (c-lw6p2p-node-new db "tcp,udp" "tcpd,udpd,httpd" "0.0.0.0" 8056 "1234123412341234" "http://localhost/"))
 	     )
 	(begin
 	  (display node)
@@ -149,6 +165,7 @@
 	  (c-lw6p2p-node-close node)
 	  ))
       (c-lw6net-quit)
+      (gc)
       )))
 
 (c-lw6sys-log 2 (_ "testing map"))
@@ -167,5 +184,7 @@
 (lw6-test-smobs-gc)
 (c-lw6sys-log 2 (_ "testing async load"))
 (lw6-test-async-load)
+(c-lw6sys-log 2 (_ "testing db"))
+(lw6-test-db)
 (c-lw6sys-log 2 (_ "testing node"))
 (lw6-test-node)

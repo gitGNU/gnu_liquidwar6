@@ -65,6 +65,7 @@ typedef struct lw6_smob_types_s
   scm_t_bits bot;
   scm_t_bits look;
   scm_t_bits loader;
+  scm_t_bits db;
   scm_t_bits node;
 }
 lw6_smob_types_t;
@@ -137,9 +138,16 @@ typedef struct lw6_loader_smob_s
 }
 lw6_loader_smob_t;
 
+typedef struct lw6_db_smob_s
+{
+  lw6p2p_db_t *c_db;
+}
+lw6_db_smob_t;
+
 typedef struct lw6_node_smob_s
 {
   lw6p2p_node_t *c_node;
+  SCM db;
 }
 lw6_node_smob_t;
 
@@ -165,6 +173,7 @@ typedef struct lw6_global_s
   lw6sys_assoc_t *bot_smobs;
   lw6sys_assoc_t *look_smobs;
   lw6sys_assoc_t *loader_smobs;
+  lw6sys_assoc_t *db_smobs;
   lw6sys_assoc_t *node_smobs;
 }
 lw6_global_t;
@@ -280,7 +289,10 @@ extern void lw6_free_look_smob (lw6_look_smob_t * look_smob);
 extern SCM lw6_make_scm_loader (lw6tsk_loader_t * c_loader);
 extern lw6tsk_loader_t *lw6_scm_to_loader (SCM loader);
 extern void lw6_free_loader_smob (lw6_loader_smob_t * loader_smob);
-extern SCM lw6_make_scm_node (lw6p2p_node_t * c_node);
+extern SCM lw6_make_scm_db (lw6p2p_db_t * c_db);
+extern lw6p2p_db_t *lw6_scm_to_db (SCM db);
+extern void lw6_free_db_smob (lw6_db_smob_t * db_smob);
+extern SCM lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db);
 extern lw6p2p_node_t *lw6_scm_to_node (SCM node);
 extern void lw6_free_node_smob (lw6_node_smob_t * node_smob);
 extern int lw6_register_smobs ();

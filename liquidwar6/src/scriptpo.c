@@ -80,6 +80,7 @@ _("testing bot");		// extracted by scriptpo-update.sh
 _("testing smobs GC, step 1");	// extracted by scriptpo-update.sh
 _("testing smobs GC, step 2");	// extracted by scriptpo-update.sh
 _("testing async load");	// extracted by scriptpo-update.sh
+_("testing db");		// extracted by scriptpo-update.sh
 _("testing node");		// extracted by scriptpo-update.sh
 _("begin main game loop");	// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh

@@ -80,9 +80,10 @@ extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 
 /* p2p-node.c */
 extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
+					 _lw6p2p_db_t * db,
 					 char *client_backends,
 					 char *server_backends,
-					 _lw6p2p_db_t * db, char *bind_ip,
+					 char *bind_ip,
 					 int bind_port, u_int64_t server_id,
 					 char *public_url);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);

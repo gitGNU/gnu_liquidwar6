@@ -7130,11 +7130,37 @@ _scm_lw6srv_get_backends ()
  * In liquidwar6p2p
  */
 static SCM
-_scm_lw6p2p_node_new (SCM client_backends, SCM server_backends, SCM bind_ip,
-		      SCM bind_port, SCM server_id, SCM public_url)
+_scm_lw6p2p_db_new ()
+{
+  lw6p2p_db_t *c_db;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  if (lw6_global.net_initialized)
+    {
+      c_db =
+	lw6p2p_db_open (lw6_global.argc, lw6_global.argv,
+			LW6P2P_DEFAULT_NAME);
+      if (c_db)
+	{
+	  ret = lw6_make_scm_db (c_db);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
+		      SCM bind_ip, SCM bind_port, SCM server_id,
+		      SCM public_url)
 {
   lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6p2p_db_t *c_db;
   char *c_client_backends;
   char *c_server_backends;
   char *c_bind_ip;
@@ -7147,58 +7173,65 @@ _scm_lw6p2p_node_new (SCM client_backends, SCM server_backends, SCM bind_ip,
 
   if (lw6_global.net_initialized)
     {
-      SCM_ASSERT (scm_is_string (client_backends), client_backends, SCM_ARG1,
+      SCM_ASSERT (SCM_SMOB_PREDICATE
+		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
+      SCM_ASSERT (scm_is_string (client_backends), client_backends, SCM_ARG2,
 		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (server_backends), server_backends, SCM_ARG2,
+      SCM_ASSERT (scm_is_string (server_backends), server_backends, SCM_ARG3,
 		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (bind_ip), bind_ip, SCM_ARG3, __FUNCTION__);
-      SCM_ASSERT (scm_is_integer (bind_port), bind_port, SCM_ARG4,
+      SCM_ASSERT (scm_is_string (bind_ip), bind_ip, SCM_ARG4, __FUNCTION__);
+      SCM_ASSERT (scm_is_integer (bind_port), bind_port, SCM_ARG5,
 		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG5,
+      SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG6,
 		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (public_url), public_url, SCM_ARG6,
+      SCM_ASSERT (scm_is_string (public_url), public_url, SCM_ARG7,
 		  __FUNCTION__);
 
-      c_client_backends = to_0str (client_backends);
-      if (c_client_backends)
+      c_db = lw6_scm_to_db (db);
+      if (c_db)
 	{
-	  c_server_backends = to_0str (server_backends);
-	  if (c_server_backends)
+	  c_client_backends = to_0str (client_backends);
+	  if (c_client_backends)
 	    {
-	      c_bind_ip = to_0str (bind_ip);
-	      if (c_bind_ip)
+	      c_server_backends = to_0str (server_backends);
+	      if (c_server_backends)
 		{
-		  c_bind_port = scm_to_int (bind_port);
-		  c_server_id_str = to_0str (server_id);
-		  if (c_server_id_str)
+		  c_bind_ip = to_0str (bind_ip);
+		  if (c_bind_ip)
 		    {
-		      c_server_id_int = lw6sys_id_atol (c_server_id_str);
-		      LW6SYS_FREE (c_server_id_str);
-		    }
-
-		  if (lw6sys_check_id (c_server_id_int))
-		    {
-		      c_public_url = to_0str (public_url);
-		      if (c_public_url)
+		      c_bind_port = scm_to_int (bind_port);
+		      c_server_id_str = to_0str (server_id);
+		      if (c_server_id_str)
 			{
-			  c_node =
-			    lw6p2p_node_new (lw6_global.argc, lw6_global.argv,
-					     c_client_backends,
-					     c_server_backends, c_bind_ip,
-					     c_bind_port, c_server_id_int,
-					     c_public_url);
-			  if (c_node)
-			    {
-			      ret = lw6_make_scm_node (c_node);
-			    }
-			  LW6SYS_FREE (c_public_url);
+			  c_server_id_int = lw6sys_id_atol (c_server_id_str);
+			  LW6SYS_FREE (c_server_id_str);
 			}
+
+		      if (lw6sys_check_id (c_server_id_int))
+			{
+			  c_public_url = to_0str (public_url);
+			  if (c_public_url)
+			    {
+			      c_node =
+				lw6p2p_node_new (lw6_global.argc,
+						 lw6_global.argv, c_db,
+						 c_client_backends,
+						 c_server_backends, c_bind_ip,
+						 c_bind_port, c_server_id_int,
+						 c_public_url);
+			      if (c_node)
+				{
+				  ret = lw6_make_scm_node (c_node, db);
+				}
+			      LW6SYS_FREE (c_public_url);
+			    }
+			}
+		      LW6SYS_FREE (c_bind_ip);
 		    }
-		  LW6SYS_FREE (c_bind_ip);
+		  LW6SYS_FREE (c_server_backends);
 		}
-	      LW6SYS_FREE (c_server_backends);
+	      LW6SYS_FREE (c_client_backends);
 	    }
-	  LW6SYS_FREE (c_client_backends);
 	}
     }
 
@@ -8114,7 +8147,9 @@ lw6_register_funcs ()
   /*
    * In liquidwar6p2p
    */
-  scm_c_define_gsubr ("c-lw6p2p-node-new", 6, 0, 0,
+  scm_c_define_gsubr ("c-lw6p2p-db-new", 0, 0, 0,
+		      (SCM (*)())_scm_lw6p2p_db_new);
+  scm_c_define_gsubr ("c-lw6p2p-node-new", 7, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_node_new);
   scm_c_define_gsubr ("c-lw6p2p-node-poll", 1, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_node_poll);
