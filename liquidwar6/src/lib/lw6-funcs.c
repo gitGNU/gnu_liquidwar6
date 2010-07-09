@@ -7160,12 +7160,9 @@ _scm_lw6p2p_db_reset ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  if (lw6_global.net_initialized)
-    {
-      ret =
-	lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
-			 LW6P2P_DEFAULT_NAME) ? SCM_BOOL_T : SCM_BOOL_F;
-    }
+  ret =
+    lw6p2p_db_reset (lw6_global.argc, lw6_global.argv,
+		     LW6P2P_DEFAULT_NAME) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 

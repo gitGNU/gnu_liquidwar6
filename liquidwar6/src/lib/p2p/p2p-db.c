@@ -312,7 +312,7 @@ lw6p2p_db_reset (int argc, char *argv[], char *name)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
+		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _("can't delete database \"%s\""), filename);
 		}
 	    }
