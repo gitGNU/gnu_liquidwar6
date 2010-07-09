@@ -18,7 +18,14 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi liquidwar6.nsi.in Info.plist Info.plist.in
+EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi.in Info.plist.in liquidwar6.desktop.in
+
+install-data-local:
+	install -d ${datadir}/applications/
+	cp liquidwar6.desktop ${datadir}/applications/
+
+uninstall-local:
+	rm -f ${datadir}/applications/liquidwar6.desktop
 
 distclean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz

@@ -745,7 +745,8 @@ AC_CONFIG_FILES([Makefile
 	  pkg/Makefile
 	  pkg/liquidwar6.spec
 	  pkg/liquidwar6.nsi
-	  pkg/Info.plist])
+	  pkg/Info.plist
+	  pkg/liquidwar6.desktop])
 
 AC_OUTPUT
 

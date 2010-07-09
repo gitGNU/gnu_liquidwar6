@@ -148,11 +148,15 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %{_prefix}/share/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 %{_prefix}/share/locale/fr/LC_MESSAGES/*
 %{_prefix}/share/pixmaps/*
+%{_prefix}/share/applications/*
 %{_prefix}/info/*
 %{_prefix}/share/man/man6/*
 %{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 
 %changelog
+
+* Fri Jul 09 2010 Christian Mauduit <ufoot@ufoot.org>
+- Added applications directory (contains .desktop file).
 
 * Tue Oct 20 2009 Christian Mauduit <ufoot@ufoot.org>
 - Added proper GPG info.

@@ -1,5 +1,7 @@
 2010-07-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added .desktop file.
+
 	* SQL queries are now stored in a hash rather than a C struct.
 
 	* Database is cleared when binary is upgraded.

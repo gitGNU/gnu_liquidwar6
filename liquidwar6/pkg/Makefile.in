@@ -56,8 +56,8 @@ host_triplet = @host@
 target_triplet = @target@
 subdir = pkg
 DIST_COMMON = $(srcdir)/Info.plist.in $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/liquidwar6.nsi.in \
-	$(srcdir)/liquidwar6.spec.in
+	$(srcdir)/Makefile.in $(srcdir)/liquidwar6.desktop.in \
+	$(srcdir)/liquidwar6.nsi.in $(srcdir)/liquidwar6.spec.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
@@ -71,7 +71,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = liquidwar6.spec liquidwar6.nsi Info.plist
+CONFIG_CLEAN_FILES = liquidwar6.spec liquidwar6.nsi Info.plist \
+	liquidwar6.desktop
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -264,7 +265,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi liquidwar6.nsi.in Info.plist Info.plist.in
+EXTRA_DIST = liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi.in Info.plist.in liquidwar6.desktop.in
 
 # Rules below concern packaging, do not use them on untrusted
 # computers, as they use /tmp and assume they are the only scripts
@@ -310,6 +311,8 @@ liquidwar6.spec: $(top_builddir)/config.status $(srcdir)/liquidwar6.spec.in
 liquidwar6.nsi: $(top_builddir)/config.status $(srcdir)/liquidwar6.nsi.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 Info.plist: $(top_builddir)/config.status $(srcdir)/Info.plist.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+liquidwar6.desktop: $(top_builddir)/config.status $(srcdir)/liquidwar6.desktop.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
@@ -403,7 +406,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-data-local
 
 install-dvi: install-dvi-am
 
@@ -447,22 +450,30 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-local
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	clean-local distclean distclean-generic distclean-libtool \
 	distclean-local distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-am
+	install install-am install-data install-data-am \
+	install-data-local install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-local
 
+
+install-data-local:
+	install -d ${datadir}/applications/
+	cp liquidwar6.desktop ${datadir}/applications/
+
+uninstall-local:
+	rm -f ${datadir}/applications/liquidwar6.desktop
 
 distclean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz

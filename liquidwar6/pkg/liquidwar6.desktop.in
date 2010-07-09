@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=@PACKAGE_NAME@
+GenericName=Strategy game
+Comment=A unique multiplayer wargame.
+Icon=liquidwar6
+Exec=liquidwar6
+Terminal=false
+Categories=Game;
