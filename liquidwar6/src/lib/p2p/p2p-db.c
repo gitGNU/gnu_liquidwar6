@@ -55,6 +55,7 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
   _lw6p2p_db_t *db = NULL;
   int ret = 0;
   char *user_dir = NULL;
+  char *data_dir = NULL;
 
   db = (_lw6p2p_db_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_db_t));
   if (db)
@@ -64,47 +65,62 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 	{
 	  db->id = ++seq_id;
 	}
-      user_dir = lw6sys_get_user_dir (argc, argv);
-      if (user_dir)
+
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
 	{
-	  db->filename = lw6sys_path_concat (user_dir, name);
-	  if (db->filename)
+	  if (_lw6p2p_data_load (&(db->data), data_dir))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("opening db \"%s\""),
-			  db->filename);
-	      if (sqlite3_open (db->filename, &(db->handler)) == SQLITE_OK)
+	      user_dir = lw6sys_get_user_dir (argc, argv);
+	      if (user_dir)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO, _("opened db \"%s\""),
-			      db->filename);
-		  if (_lw6p2p_db_create_tables (db))
+		  db->filename = lw6sys_path_concat (user_dir, name);
+		  if (db->filename)
 		    {
-		      ret = 1;
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("can't create tables in \"%s\""),
+		      lw6sys_log (LW6SYS_LOG_INFO, _("opening db \"%s\""),
 				  db->filename);
+		      if (sqlite3_open (db->filename, &(db->handler)) ==
+			  SQLITE_OK)
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO, _("opened db \"%s\""),
+				      db->filename);
+			  if (_lw6p2p_db_create_tables (db))
+			    {
+			      ret = 1;
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _("can't create tables in \"%s\""),
+					  db->filename);
+			    }
+			}
+		      else
+			{
+			  if (db->handler)
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _
+					  ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
+					  db->filename,
+					  sqlite3_errcode (db->handler),
+					  sqlite3_errmsg (db->handler));
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _("can't open db \"%s\""));
+			    }
+			}
 		    }
-		}
-	      else
-		{
-		  if (db->handler)
-		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
-				  ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
-				  db->filename, sqlite3_errcode (db->handler),
-				  sqlite3_errmsg (db->handler));
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("can't open db \"%s\""));
-		    }
+		  LW6SYS_FREE (user_dir);
 		}
 	    }
-	  LW6SYS_FREE (user_dir);
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("can't load p2p data"));
+	    }
+	  LW6SYS_FREE (data_dir);
 	}
     }
 
@@ -160,6 +176,7 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 			  sqlite3_errmsg (db->handler));
 	    }
 	}
+      _lw6p2p_data_unload (&(db->data));
       if (db->filename)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("closed db \"%s\""), db->filename);
@@ -215,9 +232,7 @@ _lw6p2p_db_create_tables (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  ret =
-    _lw6p2p_db_exec_ignore_data (db,
-				 "CREATE TABLE IF NOT EXISTS t(x INTEGER PRIMARY KEY ASC, y, z);");
+  ret = _lw6p2p_db_exec_ignore_data (db, db->data.sql.create_database);
 
   return ret;
 }

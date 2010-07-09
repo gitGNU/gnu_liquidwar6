@@ -725,6 +725,8 @@ AC_CONFIG_FILES([Makefile
 	  data/net/Makefile
 	  data/net/htdocs/Makefile
 	  data/net/template/Makefile
+	  data/p2p/Makefile
+	  data/p2p/sql/Makefile
 	  music/Makefile
 	  map/Makefile
 	  map/acadia/Makefile

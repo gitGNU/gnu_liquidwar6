@@ -61,7 +61,9 @@ extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],
 				       char *client_backends,
-				       char *server_backends, char *bind_ip,
+				       char *server_backends,
+				       lw6p2p_db_t * db,
+				       char *bind_ip,
 				       int bind_port, u_int64_t server_id,
 				       char *public_url);
 extern void lw6p2p_node_free (lw6p2p_node_t * node);

@@ -1,3 +1,7 @@
+2010-07-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Resources for module p2p externalized in data directory.
+
 2010-07-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* p2p sqlite database initialized.

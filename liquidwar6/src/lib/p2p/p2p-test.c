@@ -57,7 +57,7 @@ _test_db ()
   {
     int argc = _TEST_ARGC;
     char *argv[] = { _TEST_ARGV0 };
-    void *db = NULL;
+    lw6p2p_db_t *db = NULL;
     char *repr = NULL;
 
     db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
@@ -94,29 +94,41 @@ _test_node_init ()
   {
     int argc = _TEST_ARGC;
     char *argv[] = { _TEST_ARGV0 };
-    void *node = NULL;
+    lw6p2p_db_t *db = NULL;
+    lw6p2p_node_t *node = NULL;
     char *repr = NULL;
 
-    node =
-      lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-		       lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-		       _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
-		       _TEST_NODE_PUBLIC_URL1);
-    if (node)
+    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    if (db)
       {
-	repr = lw6p2p_node_repr (node);
-	if (repr)
+	node =
+	  lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
+			   lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
+			   _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
+			   _TEST_NODE_PUBLIC_URL1);
+	if (node)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("created node \"%s\""), repr);
-	    LW6SYS_FREE (repr);
+	    repr = lw6p2p_node_repr (node);
+	    if (repr)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _("created node \"%s\""),
+			    repr);
+		LW6SYS_FREE (repr);
+	      }
+	    lw6p2p_node_close (node);
+	    lw6p2p_node_close (node);	// yes, do it twice just to check
+	    lw6p2p_node_free (node);
 	  }
-	lw6p2p_node_close (node);
-	lw6p2p_node_close (node);	// yes, do it twice just to check
-	lw6p2p_node_free (node);
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _("can't create node"));
+	    ret = 0;
+	  }
+	lw6p2p_db_close (db);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create node"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
 	ret = 0;
       }
   }
@@ -129,7 +141,7 @@ _test_node_init ()
  * Initializes up to 3 nodes
  */
 static int
-_init_nodes (void **node1, void **node2, void **node3)
+_init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 {
   int argc = _TEST_ARGC;
   char *argv[] = { _TEST_ARGV0 };
@@ -140,7 +152,7 @@ _init_nodes (void **node1, void **node2, void **node3)
     {
       (*node1) =
 	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
 			 _TEST_NODE_PUBLIC_URL1);
       if (*node1)
@@ -158,7 +170,7 @@ _init_nodes (void **node1, void **node2, void **node3)
     {
       (*node2) =
 	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT2, _TEST_NODE_SERVER_ID2,
 			 _TEST_NODE_PUBLIC_URL2);
       if (*node2)
@@ -176,7 +188,7 @@ _init_nodes (void **node1, void **node2, void **node3)
     {
       (*node3) =
 	lw6p2p_node_new (argc, argv, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			 lw6srv_default_backends (), db, _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT3, _TEST_NODE_SERVER_ID3,
 			 _TEST_NODE_PUBLIC_URL3);
       if (*node3)
@@ -224,29 +236,43 @@ _test_node_connect ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    int argc = _TEST_ARGC;
+    char *argv[] = { _TEST_ARGV0 };
+    lw6p2p_db_t *db = NULL;
     int i;
     void *node1 = NULL;
     void *node2 = NULL;
     void *node3 = NULL;
 
-    if (_init_nodes (&node1, &node2, &node3))
+    db = lw6p2p_db_open (argc, argv, LW6P2P_DEFAULT_NAME);
+    if (db)
       {
-	for (i = 0; i < TEST_POLL_LOOPS; ++i)
+	ret = 0;
+	if (_init_nodes (db, &node1, &node2, &node3))
 	  {
-	    lw6p2p_node_poll (node1);
-	    lw6p2p_node_poll (node2);
-	    lw6p2p_node_poll (node3);
-	    lw6sys_delay (TEST_POLL_DELAY);
+	    for (i = 0; i < TEST_POLL_LOOPS; ++i)
+	      {
+		lw6p2p_node_poll (node1);
+		lw6p2p_node_poll (node2);
+		lw6p2p_node_poll (node3);
+		lw6sys_delay (TEST_POLL_DELAY);
+	      }
+
+	    ret = 1;
+
+	    lw6p2p_node_close (node1);
+	    lw6p2p_node_free (node1);
+	    lw6p2p_node_close (node2);
+	    lw6p2p_node_free (node2);
+	    lw6p2p_node_close (node3);
+	    lw6p2p_node_free (node3);
 	  }
-
-	ret = 1;
-
-	lw6p2p_node_close (node1);
-	lw6p2p_node_free (node1);
-	lw6p2p_node_close (node2);
-	lw6p2p_node_free (node2);
-	lw6p2p_node_close (node3);
-	lw6p2p_node_free (node3);
+	lw6p2p_db_close (db);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
+	ret = 0;
       }
   }
 

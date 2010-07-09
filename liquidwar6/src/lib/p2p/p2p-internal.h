@@ -26,21 +26,36 @@
 #include "p2p.h"
 #include <sqlite3.h>
 
-/*
- * This should certainly be made smoe config entry
- */
-#define _LW6P2P_SLEEP_DELAY 0.01f
+typedef struct _lw6p2p_consts_s
+{
+  float sleep_delay;
+}
+_lw6p2p_consts_t;
+
+typedef struct _lw6p2p_sql_s
+{
+  char *create_database;
+}
+_lw6p2p_sql_t;
+
+typedef struct _lw6p2p_data_s
+{
+  _lw6p2p_consts_t consts;
+  _lw6p2p_sql_t sql;
+} _lw6p2p_data_t;
 
 typedef struct _lw6p2p_db_s
 {
   u_int32_t id;
   char *filename;
+  _lw6p2p_data_t data;
   sqlite3 *handler;
 } _lw6p2p_db_t;
 
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
+  _lw6p2p_db_t *db;
   char *bind_ip;
   int bind_port;
   u_int64_t server_id;
@@ -52,6 +67,10 @@ typedef struct _lw6p2p_node_s
   lw6srv_backend_t **srv_backends;
 } _lw6p2p_node_t;
 
+/* p2p-data.c */
+extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
+extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
+
 /* p2p-db.c */
 extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
@@ -62,7 +81,8 @@ extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 /* p2p-node.c */
 extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *client_backends,
-					 char *server_backends, char *bind_ip,
+					 char *server_backends,
+					 _lw6p2p_db_t * db, char *bind_ip,
 					 int bind_port, u_int64_t server_id,
 					 char *public_url);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);

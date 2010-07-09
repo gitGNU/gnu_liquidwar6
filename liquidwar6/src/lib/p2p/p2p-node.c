@@ -36,6 +36,7 @@ static u_int32_t seq_id = 0;
  * @argv: args array, as passed to @main
  * @client_backends: the list of client backends to use
  * @server_backends: the list of server backends to use
+ * @db: the database to use
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
  * @server_id: the server unique ID
@@ -49,19 +50,21 @@ static u_int32_t seq_id = 0;
  */
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], char *client_backends,
-		 char *server_backends, char *bind_ip,
+		 char *server_backends, lw6p2p_db_t * db,
+		 char *bind_ip,
 		 int bind_port, u_int64_t server_id, char *public_url)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, client_backends,
-					     server_backends, bind_ip,
+					     server_backends,
+					     (_lw6p2p_db_t *) db, bind_ip,
 					     bind_port, server_id,
 					     public_url);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], char *client_backends,
-		  char *server_backends, char *bind_ip, int bind_port,
-		  u_int64_t server_id, char *public_url)
+		  char *server_backends, _lw6p2p_db_t * db, char *bind_ip,
+		  int bind_port, u_int64_t server_id, char *public_url)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -76,6 +79,7 @@ _lw6p2p_node_new (int argc, char *argv[], char *client_backends,
 	{
 	  node->id = ++seq_id;
 	}
+      node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
       node->server_id = server_id;
@@ -326,7 +330,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 	{
 	  sock =
 	    lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
-			       _LW6P2P_SLEEP_DELAY);
+			       node->db->data.consts.sleep_delay);
 	  if (sock >= 0 && ip != NULL && port > 0)
 	    {
 	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
