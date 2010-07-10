@@ -40,8 +40,9 @@
 #define SHARE_PREFIX_MASK "%s/share/%s-%s"
 #ifdef LW6_MAC_OS_X
 #define RUN_REL "../Resources"
+#define APPLICATION_SUPPORT "Library/Application Support"
 #else
-#define RUN_REL ".."
+#define RUN_REL "."
 #endif
 #define DATA_DIR "data"
 #define MUSIC_DIR "music"
@@ -76,7 +77,13 @@ lw6sys_get_default_user_dir ()
 #ifdef LW6_MS_WINDOWS
       relative = lw6sys_str_copy (lw6sys_build_get_package_name ());
 #else
+#ifdef LW6_MAC_OS_X
+      relative =
+	lw6sys_path_concat (APPLICATION_SUPPORT,
+			    lw6sys_build_get_package_name ());
+#else
       relative = lw6sys_str_concat (".", lw6sys_build_get_package_tarname ());
+#endif
 #endif
       if (relative)
 	{

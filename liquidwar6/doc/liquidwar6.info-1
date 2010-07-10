@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+This is /Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -707,9 +707,10 @@ directory.
    Typically on an MS-Windows system, you would unpack the extra maps in
 `C:\Program Files\Liquid War 6\map\' (system directory) and on a Mac OS
 X system you would unpack the extra maps in `Liquid War
-6.app/Contents/Resources/map/'.  On a GNU/Linux or POSIX system (also
-works on Mac OS X) you would unpack them in `$HOME/.liquidwar6/map/'
-(user directory).
+6.app/Contents/Resources/map/' (system directory) or
+`$HOME/Library/Application Support/Liquid War 6/map' (user directory).
+On a GNU/Linux or POSIX system you would unpack them in
+`$HOME/.liquidwar6/map/' (user directory).
 
    Next time you run the game, the maps should be browsable.
 
@@ -782,7 +783,10 @@ Now, game looks correctly installed, but you have problems running it.
 
    * In the `$HOME/.liquidwar6/' directory, you'll find two files,
      `log.csv' and `dump.txt'. They might contain valuable information,
-     read them.
+     read them.  Note that byt default on Microsoft Windows this
+     directory is `C:\Documents and Settings\<username>\Liquid War 6'
+     and on Mac OS X it is in `/Users/<username>/Library/Application
+     Support/Liquid War 6/'.
 
    * Run `liquidwar6 --defaults'. This will reset all options to
      defaults.  You might need to run this when upgrading from a
@@ -2360,6 +2364,11 @@ only theory.  Needs to be widely tested.
      Guile distribution.
 
    * `./Contents/Resources/doc': documentation in HTML and PDF formats.
+
+   Additionnally, the Mac OS X port uses
+`/Users/<username>/Library/Application Support/Liquid War 6/' to store
+configuration file, logs, etc. It does not use `$HOME/.liquidwar6' like
+the default UNIX port.
 
 3.7.4 GP2X port
 ---------------

@@ -772,8 +772,9 @@ but simply put them on your hard drive in the right directory.
 Typically on an MS-Windows system, you would unpack the extra maps in
 @code{C:\Program Files\Liquid War 6\map\} (system directory)
 and on a Mac OS X system you would unpack the extra maps in
-@code{Liquid War 6.app/Contents/Resources/map/}.
-On a GNU/Linux or POSIX system (also works on Mac OS X)
+@code{Liquid War 6.app/Contents/Resources/map/} (system directory)
+or @code{$HOME/Library/Application Support/Liquid War 6/map} (user directory).
+On a GNU/Linux or POSIX system
 you would unpack them in @code{$HOME/.liquidwar6/map/} (user directory).
 
 Next time you run the game, the maps should be browsable.
@@ -853,6 +854,8 @@ Run the game from a terminal, not from a Gnome or KDE launcher, you
 need to see the console output.
 @item
 In the @code{$HOME/.liquidwar6/} directory, you'll find two files, @code{log.csv} and @code{dump.txt}. They might contain valuable information, read them.
+Note that byt default on Microsoft Windows this directory is @code{C:\Documents and Settings\<username>\Liquid War 6} and on Mac OS X it is
+in @code{/Users/<username>/Library/Application Support/Liquid War 6/}.
 @item
 Run @code{liquidwar6 --defaults}. This will reset all options to defaults.
 You might need to run this when upgrading from a version to another, since
@@ -2446,6 +2449,9 @@ The layout of the bundle follows:
 @item
 @code{./Contents/Resources/doc}: documentation in HTML and PDF formats.
 @end itemize
+
+Additionnally, the Mac OS X port uses @code{/Users/<username>/Library/Application Support/Liquid War 6/} to store
+configuration file, logs, etc. It does not use @code{$HOME/.liquidwar6} like the default UNIX port.
 
 @subsection GP2X port
 
