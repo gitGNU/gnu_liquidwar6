@@ -26,9 +26,12 @@
 #include "p2p.h"
 #include <sqlite3.h>
 
+#define _LW6P2P_DB_FALSE 0
+#define _LW6P2P_DB_TRUE 1
+
 #define _LW6P2P_DEFAULT_NAME "p2p.db"
 #define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
-#define _LW6P2P_DELETE_SERVER_SQL "delete-server.sql"
+#define _LW6P2P_DELETE_SERVER_BY_ID_SQL "delete-server-by-id.sql"
 #define _LW6P2P_INSERT_SERVER_SQL "insert-server.sql"
 
 typedef struct _lw6p2p_consts_s

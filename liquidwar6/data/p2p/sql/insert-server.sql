@@ -17,10 +17,16 @@
 -- Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 -- Contact author        : ufoot@ufoot.org
 
-INSERT OR REPLACE INTO lw6_server SET (
-       server_id='%s',
-       local_node=%d,
-       server_ip='%s',
-       server_port=%d,
-       public_url='%s',
-       last_ping=%d);
+INSERT OR REPLACE INTO lw6_server (
+       server_id,
+       is_local_node,
+       server_ip,
+       server_port,
+       public_url
+) VALUES (
+       '%s',
+       %d,
+       '%s',
+       %d,
+       '%s'
+);

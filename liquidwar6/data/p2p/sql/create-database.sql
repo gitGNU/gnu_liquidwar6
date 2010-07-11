@@ -19,9 +19,10 @@
 
 CREATE TABLE IF NOT EXISTS lw6_server(
 	server_id VARCHAR(16) PRIMARY KEY,
-	local_node INTEGER, 
-	server_ip VARCHAR(64),
-	server_port INTEGER,
-	public_url VARCHAR(256),
-	last_ping INTEGER);
-
+	is_local_node INTEGER NOT NULL, 
+	server_ip VARCHAR(64) NOT NULL,
+	server_port INTEGER NOT NULL,
+	public_url VARCHAR(1024) NOT NULL,
+	last_ping_timestamp INTEGER DEFAULT 0 NOT NULL,
+	ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
+);
