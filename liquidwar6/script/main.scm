@@ -75,7 +75,7 @@
       ; Show the binary pedigree
       (lw6-log-notice (format #f (_ "running \"~a\"") 
 			      (c-lw6sys-get-script-file)))
-      (if (or (c-lw6sys-build-is-mac-os-x) (c-lw6sys-is-ms-windows))
+      (if (or (c-lw6sys-build-is-mac-os-x) (c-lw6sys-build-is-ms-windows))
 	  (lw6-log-info (format #f 
 				(_ "environment \"~a\" is \"~a\"") 
 				"GUILE_LOAD_PATH" 
