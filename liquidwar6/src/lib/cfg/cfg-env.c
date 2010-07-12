@@ -58,9 +58,9 @@ merge_func (void *func_data, void *data)
   char *env = NULL;
 
   if (must_be_stored (keyword) && strlen (keyword) > 0
-      && lw6sys_env_exists (keyword))
+      && lw6sys_env_exists_prefixed (keyword))
     {
-      value = lw6sys_getenv (keyword);
+      value = lw6sys_getenv_prefixed (keyword);
       if (value)
 	{
 	  value_converted = lw6cfg_format_guess_type (keyword, value);

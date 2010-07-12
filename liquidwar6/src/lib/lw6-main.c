@@ -27,6 +27,8 @@
 
 #include "liquidwar6.h"
 
+#define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
+
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
 #define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
 #if LW6_MS_WINDOWS
@@ -61,6 +63,82 @@ _fix_guile_load_path (int argc, char *argv[])
 	  LW6SYS_FREE (guile_dir);
 	}
       LW6SYS_FREE (run_dir);
+    }
+}
+#endif
+
+#if LW6_MAC_OS_X
+static void
+_fix_dyld_library_path (int argc, char *argv[])
+{
+  /*
+   * Fixes bug http://savannah.gnu.org/bugs/?30409
+   * We need to force DYLD_LIBRARY_PATH to a value
+   * that includes the distributed ./MacOS binary,
+   * indeed install_name_tool can change hardcoded
+   * references to libs but can't handle dynamic
+   * loading (at run-time, "dlopening") which is
+   * something SDL_image does, for instance. So we
+   * tell the library loader to look into CWD and
+   * run directory.
+   */
+  char *old_dyld_library_path = NULL;
+  char *new_dyld_library_path = NULL;
+  char *run_dir = NULL;
+  char *cwd = NULL;
+
+  cwd = lw6sys_get_cwd (argc, argv);
+  if (cwd)
+    {
+      old_dyld_library_path = lw6sys_getenv (DYLD_LIBRARY_PATH);
+      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
+	{
+	  new_dyld_library_path =
+	    lw6sys_env_concat (cwd, old_dyld_library_path);
+	}
+      else
+	{
+	  new_dyld_library_path = lw6sys_str_copy (cwd);
+	}
+      LW6SYS_FREE (cwd);
+    }
+
+  if (old_dyld_library_path)
+    {
+      LW6SYS_FREE (old_dyld_library_path);
+      old_dyld_library_path = NULL;
+    }
+  if (new_dyld_library_path)
+    {
+      old_dyld_library_path = new_dyld_library_path;
+      new_dyld_library_path = NULL;
+    }
+
+  run_dir = lw6sys_get_run_dir (argc, argv);
+  if (run_dir)
+    {
+      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
+	{
+	  new_dyld_library_path =
+	    lw6sys_env_concat (run_dir, old_dyld_library_path);
+	}
+      else
+	{
+	  new_dyld_library_path = lw6sys_str_copy (run_dir);
+	}
+      LW6SYS_FREE (run_dir);
+    }
+
+  if (old_dyld_library_path)
+    {
+      LW6SYS_FREE (old_dyld_library_path);
+      old_dyld_library_path = NULL;
+    }
+  if (new_dyld_library_path)
+    {
+      lw6sys_setenv (DYLD_LIBRARY_PATH, new_dyld_library_path);
+      LW6SYS_FREE (new_dyld_library_path);
+      new_dyld_library_path = NULL;
     }
 }
 #endif
@@ -192,8 +270,8 @@ lw6_main (int argc, char *argv[])
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
 	  _fix_guile_load_path (argc, argv);
 #endif
-
 #ifdef LW6_MAC_OS_X
+	  _fix_dyld_library_path (argc, argv);
 	  if (!lw6sys_vthread_run (_run, _end, NULL))
 	    {
 	      ret = 0;

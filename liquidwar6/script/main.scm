@@ -75,6 +75,16 @@
       ; Show the binary pedigree
       (lw6-log-notice (format #f (_ "running \"~a\"") 
 			      (c-lw6sys-get-script-file)))
+      (if (or (c-lw6sys-build-is-mac-os-x) (c-lw6sys-is-ms-windows))
+	  (lw6-log-info (format #f 
+				(_ "environment \"~a\" is \"~a\"") 
+				"GUILE_LOAD_PATH" 
+				(c-lw6sys-getenv "GUILE_LOAD_PATH"))))
+      (if (c-lw6sys-build-is-mac-os-x)
+	  (lw6-log-info (format #f 
+				(_ "environment \"~a\" is \"~a\"") 
+				"DYLD_LIBRARY_PATH" 
+				(c-lw6sys-getenv "DYLD_LIBRARY_PATH"))))
       (c-lw6cfg-init)
       (lw6-load-config)
       (if (not (equal? 

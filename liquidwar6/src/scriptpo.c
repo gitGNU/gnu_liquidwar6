@@ -131,6 +131,8 @@ _("Back to main menu");		// extracted by scriptpo-update.sh
 _("Play");			// extracted by scriptpo-update.sh
 _("Play");			// extracted by scriptpo-update.sh
 _("running \"~a\"");		// extracted by scriptpo-update.sh
+_("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
+_("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("upgrading to version ~a");	// extracted by scriptpo-update.sh
 _("no graphical backend found, game can only run in pure server/console mode");	// extracted by scriptpo-update.sh
 _("server mode not implemented yet");	// extracted by scriptpo-update.sh

@@ -38,7 +38,7 @@ _cpu_profiler_check (int verbose)
   int ret = 0;
   char *cpuprofile = NULL;
 
-  cpuprofile = getenv (CPUPROFILE);
+  cpuprofile = lw6sys_getenv (CPUPROFILE);
   if (cpuprofile)
     {
 #ifdef LW6_PROFILER
@@ -58,6 +58,7 @@ _cpu_profiler_check (int verbose)
 		      cpuprofile);
 	}
 #endif
+      LW6SYS_FREE (cpuprofile);
     }
   else
     {
@@ -84,7 +85,7 @@ _heap_profiler_check (int verbose)
   int ret = 0;
   char *heapprofile = NULL;
 
-  heapprofile = getenv (HEAPPROFILE);
+  heapprofile = lw6sys_getenv (HEAPPROFILE);
   if (heapprofile)
     {
 #ifdef LW6_PROFILER
@@ -104,6 +105,7 @@ _heap_profiler_check (int verbose)
 		      heapprofile);
 	}
 #endif
+      LW6SYS_FREE (heapprofile);
     }
   else
     {

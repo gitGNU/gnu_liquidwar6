@@ -211,7 +211,7 @@ lw6sys_arg_get_value_with_env (int argc, char *argv[], char *keyword)
 
   if (ret == NULL)
     {
-      ret = lw6sys_getenv (keyword);
+      ret = lw6sys_getenv_prefixed (keyword);
     }
 
   return ret;

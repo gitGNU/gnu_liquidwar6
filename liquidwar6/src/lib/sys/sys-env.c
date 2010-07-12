@@ -117,7 +117,7 @@ lw6sys_env_concat (char *value1, char *value2)
 }
 
 /**
- * lw6sys_env_exists
+ * lw6sys_env_exists_prefixed
  *
  * @keyword: the keyword to be searched in the environment variables.
  *
@@ -132,12 +132,12 @@ lw6sys_env_concat (char *value1, char *value2)
  * Return value: 1 if the environment variable exists, 0 if not.
  */
 int
-lw6sys_env_exists (char *keyword)
+lw6sys_env_exists_prefixed (char *keyword)
 {
   int ret = 0;
   char *value = NULL;
 
-  value = lw6sys_getenv (keyword);
+  value = lw6sys_getenv_prefixed (keyword);
   if (value)
     {
       ret = 1;
@@ -149,6 +149,57 @@ lw6sys_env_exists (char *keyword)
 
 /**
  * lw6sys_getenv
+ *
+ * @key: the environment variable to get.
+ *
+ * Searches environment variables for the given value.
+ * This is a wrapper over the standard C getenv, the
+ * difference is it will return a dynamically allocated
+ * pointer, and on some platforms will query specific
+ * OS functions.
+ *
+ * Return value: the value for the given keyword. May be NULL. Must be freed.
+ */
+char *
+lw6sys_getenv (char *key)
+{
+#ifdef LW6_MS_WINDOWS
+  char value[GETENV_SIZE + 1];
+#else
+  char *value = NULL;
+#endif
+  char *ret = NULL;
+
+#ifdef LW6_MS_WINDOWS
+  memset (value, 0, GETENV_SIZE + 1);
+  if (!GetEnvironmentVariable (key, value, GETENV_SIZE))
+    {
+      if (GetLastError () == ERROR_ENVVAR_NOT_FOUND)
+	{
+	  // OK, not found, ret stays NULL
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("GetEnvironmentVariable failed"));
+	}
+    }
+  else
+    {
+      ret = lw6sys_str_copy (value);
+    }
+#else
+  value = getenv (key);
+  if (value)
+    {
+      ret = lw6sys_str_copy (value);
+    }
+#endif
+
+  return ret;
+}
+
+/**
+ * lw6sys_getenv_prefixed
  *
  * @keyword: the keyword to be searched in the environment variables.
  *
@@ -163,46 +214,16 @@ lw6sys_env_exists (char *keyword)
  * Return value: the value for the given keyword. May be NULL. Must be freed.
  */
 char *
-lw6sys_getenv (char *keyword)
+lw6sys_getenv_prefixed (char *keyword)
 {
-  char *env_keyword = NULL;
-#ifdef LW6_MS_WINDOWS
-  char env_value[GETENV_SIZE + 1];
-#else
-  char *env_value = NULL;
-#endif
+  char *keyword_prefixed = NULL;
   char *ret = NULL;
 
-  env_keyword = lw6sys_keyword_as_env (keyword);
-  if (env_keyword)
+  keyword_prefixed = lw6sys_keyword_as_env (keyword);
+  if (keyword_prefixed)
     {
-#ifdef LW6_MS_WINDOWS
-      memset (env_value, 0, GETENV_SIZE + 1);
-      if (!GetEnvironmentVariable (env_keyword, env_value, GETENV_SIZE))
-	{
-	  if (GetLastError () == ERROR_ENVVAR_NOT_FOUND)
-	    {
-	      // OK, not found, ret stays NULL
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("GetEnvironmentVariable failed"));
-	    }
-	}
-      else
-	{
-	  ret = lw6sys_str_copy (env_value);
-	}
-#else
-      env_value = getenv (env_keyword);
-      if (env_value)
-	{
-	  ret = lw6sys_str_copy (env_value);
-	}
-#endif
-
-      LW6SYS_FREE (env_keyword);
+      ret = lw6sys_getenv (keyword_prefixed);
+      LW6SYS_FREE (keyword_prefixed);
     }
 
   return ret;
@@ -215,7 +236,7 @@ lw6sys_getenv (char *keyword)
  * @value: the value of the environment variable to set
  *
  * Sets the environment variable to a given value. If value
- * is NULL, variable is unset. Note that unlike lw6sys_getenv,
+ * is NULL, variable is unset. Note that unlike lw6sys_getenv_prefixed,
  * this function does not transform the keyword into "LW6_..."
  * before setting the value, so it's your responsability to
  * call "lw6sys_keyword_as_env" if needed.

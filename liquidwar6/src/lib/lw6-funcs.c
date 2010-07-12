@@ -1328,6 +1328,62 @@ _scm_lw6sys_get_hostname ()
   return ret;
 }
 
+static SCM
+_scm_lw6sys_getenv (SCM key)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_key = NULL;
+  char *buf = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
+
+  c_key = to_0str (key);
+  if (c_key)
+    {
+      buf = lw6sys_getenv (c_key);
+      if (buf)
+	{
+	  ret = scm_makfrom0str (buf);
+	  LW6SYS_FREE (buf);
+	}
+      LW6SYS_FREE (c_key);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_getenv_prefixed (SCM keyword)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_keyword = NULL;
+  char *buf = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (keyword), keyword, SCM_ARG1, __FUNCTION__);
+
+  c_keyword = to_0str (keyword);
+  if (c_keyword)
+    {
+      buf = lw6sys_getenv_prefixed (c_keyword);
+      if (buf)
+	{
+	  ret = scm_makfrom0str (buf);
+	  LW6SYS_FREE (buf);
+	}
+      LW6SYS_FREE (c_keyword);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In id.c
  */
@@ -7655,6 +7711,10 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6sys_get_username);
   scm_c_define_gsubr ("c-lw6sys-get-hostname", 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_get_hostname);
+  scm_c_define_gsubr ("c-lw6sys-getenv", 1, 0, 0,
+		      (SCM (*)())_scm_lw6sys_getenv);
+  scm_c_define_gsubr ("c-lw6sys-getenv-prefixed", 1, 0, 0,
+		      (SCM (*)())_scm_lw6sys_getenv_prefixed);
 
   /*
    * In id.c

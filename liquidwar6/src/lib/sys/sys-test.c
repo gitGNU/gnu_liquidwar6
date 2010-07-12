@@ -617,13 +617,13 @@ test_env ()
 		    TEST_ENV_SETENV_KEYWORD);
 	ret = 0;
       }
-    if (!lw6sys_env_exists (TEST_ENV_KEYWORD))
+    if (!lw6sys_env_exists_prefixed (TEST_ENV_KEYWORD))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _("ENV \"%s\" doesn't exist"),
 		    TEST_ENV_KEYWORD);
 	ret = 0;
       }
-    value = lw6sys_getenv (TEST_ENV_KEYWORD);
+    value = lw6sys_getenv_prefixed (TEST_ENV_KEYWORD);
     if (value)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("ENV value for \"%s\" is \"%s\""),

@@ -1,3 +1,7 @@
+2010-07-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug 30409, forcing DYLD_LIBRARY_PATH on Mac OS X.
+
 2010-07-11 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Server now populate db when local nodes are created.

@@ -1207,7 +1207,7 @@ lw6sys_get_music_path (int argc, char *argv[])
 					    ("This is your Liquid War 6 user music directory. You can put your own musics here, they will be automatically loaded by the game, and played."));
 	  if (music_path)
 	    {
-	      music_path_env = lw6sys_getenv (LW6DEF_MUSIC_PATH);
+	      music_path_env = lw6sys_getenv_prefixed (LW6DEF_MUSIC_PATH);
 	      if (music_path && music_path_env)
 		{
 		  tmp = music_path;
@@ -1300,7 +1300,7 @@ lw6sys_get_map_path (int argc, char *argv[])
 					    ("This is your Liquid War 6 user map directory. You can put your own maps here, they will be automatically loaded by the game, and appear in the menus. To create maps, you need to 1) read the documentation 2) study existing map to see how things work in practice and 3) be creative. FYI the Liquid War 6 map format is rather simple and hopefully well documented, the general idea is that a map is a directory containing files, the most important of them being 'map.png'. Again, read the documentation. I repeat: 'Read the docs!'. http://www.gnu.org/software/liquidwar6/manual/"));
 	  if (map_path)
 	    {
-	      map_path_env = lw6sys_getenv (LW6DEF_MAP_PATH);
+	      map_path_env = lw6sys_getenv_prefixed (LW6DEF_MAP_PATH);
 	      if (map_path && map_path_env)
 		{
 		  tmp = map_path;
