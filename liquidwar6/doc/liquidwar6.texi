@@ -492,16 +492,19 @@ can rely on the (slower) http protocol:
 git clone http://git.sv.gnu.org/r/liquidwar6.git
 @end example
 
-The source can be browsed online on @uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git}
-and latest changes (commit log) can be followed on
-@uref{http://git.savannah.gnu.org/cgit/liquidwar6.git/log/}.
+You can browse the code online, consult log summary, and in a general manner ``follow'' the project on @uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git} and @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}.
 
 Alternatively, you can download daily snapshots on
 @uref{http://www.ufoot.org/liquidwar/v6/snapshots/}
 These files should be built every day, but a @code{make distcheck} is
 done before creating them. So if the source code is, for some reason, broken, then
-they won't be generated. So this is a good source if you want the
-most up-to-date source which is not completely unstable.
+they won't be generated. It is a good source if you want the
+most up-to-date code which is not completely unstable. This is typically
+the place to go if you want to know a reported bug is correctly fixed. Please
+do not rely on snapshots generated on the fly by the source content manager,
+daily snapshots mentionned above are better since
+a @code{make dist} has been run on them.
+Using a checkout is really for developpers.
 
 @c ---------------------------------------------------------------------------
 @c Installation
@@ -3648,7 +3651,7 @@ This section lists various Internet Liquid War related links.
 @item
 @uref{http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repository (deprecated)
 @item
-@uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository (replaces GNU Arch)
+@uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git}, @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository (replaces GNU Arch)
 @item
 @uref{http://savannah.gnu.org/projects/liquidwar6/}: Project on Savannah
 @item

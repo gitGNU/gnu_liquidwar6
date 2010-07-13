@@ -469,17 +469,21 @@ you can rely on the (slower) http protocol:
 
      git clone http://git.sv.gnu.org/r/liquidwar6.git
 
-   The source can be browsed online on
-`http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git' and latest
-changes (commit log) can be followed on
-`http://git.savannah.gnu.org/cgit/liquidwar6.git/log/'.
+   You can browse the code online, consult log summary, and in a
+general manner "follow" the project on
+`http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git' and
+`http://git.savannah.gnu.org/cgit/liquidwar6.git'.
 
    Alternatively, you can download daily snapshots on
 `http://www.ufoot.org/liquidwar/v6/snapshots/' These files should be
 built every day, but a `make distcheck' is done before creating them.
 So if the source code is, for some reason, broken, then they won't be
-generated. So this is a good source if you want the most up-to-date
-source which is not completely unstable.
+generated. It is a good source if you want the most up-to-date code
+which is not completely unstable. This is typically the place to go if
+you want to know a reported bug is correctly fixed. Please do not rely
+on snapshots generated on the fly by the source content manager, daily
+snapshots mentionned above are better since a `make dist' has been run
+on them.  Using a checkout is really for developpers.
 
 
 File: liquidwar6.info,  Node: Installation,  Next: Extra maps,  Prev: Getting the game,  Up: User's manual

@@ -7315,7 +7315,8 @@ This section lists various Internet Liquid War related links.
    * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
      (deprecated)
 
-   * `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
+   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git',
+     `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
      (replaces GNU Arch)
 
    * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
