@@ -1282,7 +1282,7 @@ by @code{lw6sys_env_separator_char} between them.
 @strong{Return value:}  the concatenated string, must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_env_exists} (char * @var{keyword})
+@deftypefun {int} {lw6sys_env_exists_prefixed} (char * @var{keyword})
 @var{keyword}:  the keyword to be searched in the environment variables.
 
 Searches environment variables for the given keyword. The keyword
@@ -1296,7 +1296,19 @@ the "LW6_MY_PARAM" environment variable.
 @strong{Return value:}  1 if the environment variable exists, 0 if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_getenv} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_getenv} (char * @var{key})
+@var{key}:  the environment variable to get.
+
+Searches environment variables for the given value.
+This is a wrapper over the standard C getenv, the
+difference is it will return a dynamically allocated
+pointer, and on some platforms will query specific
+OS functions.
+
+@strong{Return value:}  the value for the given keyword. May be NULL. Must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_getenv_prefixed} (char * @var{keyword})
 @var{keyword}:  the keyword to be searched in the environment variables.
 
 Searches environment variables for the given value. The keyword
@@ -1316,7 +1328,7 @@ the "LW6_MY_PARAM" environment variable.
 @var{value}:  the value of the environment variable to set
 
 Sets the environment variable to a given value. If value
-is NULL, variable is unset. Note that unlike lw6sys_getenv,
+is NULL, variable is unset. Note that unlike lw6sys_getenv_prefixed,
 this function does not transform the keyword into "LW6_..."
 before setting the value, so it's your responsability to
 call "lw6sys_keyword_as_env" if needed.

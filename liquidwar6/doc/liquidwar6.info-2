@@ -62,6 +62,20 @@ C interfaces:
 4.15.1 libbot
 -------------
 
+ -- Function: void lw6_resize_callback (lw6gui_video_mode_t *
+          VIDEO_MODE)
+     VIDEO_MODE:  the new video mode
+
+     This callback is here because gfx needs to update the config when
+     the screen is resized. But... we did not want to make gfx depend
+     on cfg "directly". It's cleaner to pass parameters with Scheme, in
+     the long run, it should make things easier.  So this callback is
+     the solution. Another side effect is that this way there's a
+     tangible obvious trace of this updating of config status by the
+     gfx module. Seeing it sticking out like a thumb isn't a bad thing.
+
+     *Return value:*  none
+
  -- Function: void lw6_release ()
      Functions which will call `quit'(), `free'(), `destroy'() on
      whatever smob object that has threads and/or requires hardware
@@ -81,6 +95,49 @@ C interfaces:
      will just call `exit'() directly.
 
      *Return value:*  none
+
+ -- Function: int lw6_fix_env (int ARGC, char * [] ARGV)
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Fixes environment variables (path related) so that program can
+     find its requirements. This must be called early in the program
+     flow (else other calls might fail).
+
+     *Return value:*  1 if success, 0 if failure
+
+ -- Function: int lw6_register_funcs ()
+     Register all the functions, make them callable from Guile.  This
+     is a very simple yet long and very usefull function, without it
+     Guile has no knowledge of what LW6 is.
+
+     *Return value:*  1 on success, 0 if failed.
+
+ -- Function: extern void lw6_cns_handler (char * C_LINE)
+     c_line: the line typed by the user
+
+     This function will be called every time a message is typed on the
+     console. It runs the given line in the current Guile environment.
+
+     *Return value:*  none
+
+ -- Function: int lw6_init_global (int ARGC, char * [] ARGV)
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Initializes global values to their defaults.
+
+     *Return value:*  1 on success, 0 if failed
+
+ -- Function: void lw6_quit_global ()
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Frees global values. Will also garbage collect objects in case
+     Guile failed to do it perfectly (or we failed to tell Guile how to
+     do it).
+
+     *Return value:*  none.
 
  -- Function: int lw6_main (int ARGC, char * [] ARGV)
      ARGC:  the argc parameter of the `main'() function, that is, the
@@ -115,6 +172,476 @@ C interfaces:
 
      *Return value:*  non-zero if success, 0 if error. The error can
      be, for instance, the test suite returning "no, tests were not OK".
+
+ -- Function: void lw6_print_help ()
+     Displays a short help message.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_version ()
+     Displays the version of the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_short_copyright ()
+     Displays the copyright of the game (short version).
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_long_copyright ()
+     Displays the copyright of the game (long version).
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_bench (float BENCH_RESULT)
+     Displays the program bench value.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_pedigree ()
+     Displays the program pedigree, think of this as version on
+     steroids.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_host ()
+     Displays the host on which the program was compiled.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_audit (int ARGC, char * [] ARGV)
+     Displays various paths used by the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_modules ()
+     Displays the list of modules compiled with the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_quick ()
+     Displays the list of 'quick' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_doc ()
+     Displays the list of 'doc' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_show ()
+     Displays the list of 'show' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_path ()
+     Displays the list of 'path' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_players ()
+     Displays the list of 'players' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_input ()
+     Displays the list of 'input' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_graphics ()
+     Displays the list of 'graphics' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_sound ()
+     Displays the list of 'sound' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_network ()
+     Displays the list of 'network' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map ()
+     Displays the list of 'map' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_rules ()
+     Displays the list of 'map rules' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_hints ()
+     Displays the list of 'map hints' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_style ()
+     Displays the list of 'amp style' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_funcs ()
+     Displays the list of 'funcs'.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_hooks ()
+     Displays the list of 'hooks'.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_tuning ()
+     Displays the list of 'tuning' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_aliases ()
+     Displays the list of options aliases.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list ()
+     Displays the list of all known options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_about (char * KEYWORD)
+     Displays the about message for a keyword.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_hello (int ARGC, char * [] ARGV)
+     Displays 'hello' at the beginning of the program.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_goodbye ()
+     Displays 'goodbye', typically use at end of program to know it's
+     over and everything went fine.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_dsp (lw6dsp_backend_t * C_DSP)
+     C_DSP:  the display object
+
+     Creates an SCM 'dsp' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6dsp_backend_t * lw6_scm_to_dsp (SCM DSP)
+     DSP:  the dsp to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'dsp'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_dsp_smob (lw6_dsp_smob_t * DSP_SMOB)
+     DSP_SMOB:  the smob to free
+
+     Frees a dsp smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_snd (lw6snd_backend_t * C_SND)
+     C_SND:  the sound object
+
+     Creates an SCM 'snd' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6snd_backend_t * lw6_scm_to_snd (SCM SND)
+     SND:  the snd to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'snd'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_snd_smob (lw6_snd_smob_t * SND_SMOB)
+     SND_SMOB:  the smob to free
+
+     Frees a snd smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_map (lw6map_level_t * C_MAP)
+     C_MAP:  the map object
+
+     Creates an SCM 'map' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6map_level_t * lw6_scm_to_map (SCM MAP)
+     MAP:  the map to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'map'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_map_smob (lw6_map_smob_t * MAP_SMOB)
+     MAP_SMOB:  the smob to free
+
+     Frees a map smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_menu (lw6gui_menu_t * C_MENU)
+     C_MENU:  the menu object
+
+     Creates an SCM 'menu' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6gui_menu_t * lw6_scm_to_menu (SCM MENU)
+     MENU:  the menu to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'menu'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_menu_smob (lw6_menu_smob_t * MENU_SMOB)
+     MENU_SMOB:  the smob to free
+
+     Frees a menu smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_game_struct (lw6ker_game_struct_t *
+          C_GAME_STRUCT, SCM MAP)
+     C_GAME_STRUCT:  the game struct object
+
+     MAP:  the map (SCM object) referenced
+
+     Creates an SCM 'game-struct' object from C data.  Passing the map
+     object enables the garbage collector not to free the map until the
+     game struct is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6ker_game_struct_t * lw6_scm_to_game_struct (SCM
+          GAME_STRUCT)
+     GAME_STRUCT:  the game_struct to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme
+     'game_struct' object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
+          GAME_STRUCT_SMOB)
+     GAME_STRUCT_SMOB:  the smob to free
+
+     Frees a game_struct smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_game_state (lw6ker_game_state_t *
+          C_GAME_STATE, SCM GAME_STRUCT)
+     C_GAME_STATE:  the game state object
+
+     GAME_STRUCT:  the game struct (SCM object) referenced
+
+     Creates an SCM 'game_state' object from C data.  Passing
+     game_struct enables the garbage collector not to free the
+     game_struct until the game_state is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6ker_game_state_t * lw6_scm_to_game_state (SCM
+          GAME_STATE)
+     GAME_STATE:  the game_state to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme
+     'game_state' object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_game_state_smob (lw6_game_state_smob_t *
+          GAME_STATE_SMOB)
+     GAME_STATE_SMOB:  the smob to free
+
+     Frees a game_state smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_pilot (lw6pil_pilot_t * C_PILOT)
+     C_PILOT:  the pilot object
+
+     Creates an SCM 'pilot' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6pil_pilot_t * lw6_scm_to_pilot (SCM PILOT)
+     PILOT:  the pilot to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'pilot'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_pilot_smob (lw6_pilot_smob_t * PILOT_SMOB)
+     PILOT_SMOB:  the smob to free
+
+     Frees a pilot smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_bot (lw6bot_backend_t * C_BOT, SCM
+          GAME_STATE, SCM PILOT)
+     C_BOT:  the bot object
+
+     GAME_STATE:  the game state
+
+     PILOT:  the pilot
+
+     Creates an SCM 'bot' object from C data.  Passing game_state and
+     pilot enables the garbage collector not the free them until bot is
+     freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6bot_backend_t * lw6_scm_to_bot (SCM BOT)
+     BOT:  the bot to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'bot'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_bot_smob (lw6_bot_smob_t * BOT_SMOB)
+     BOT_SMOB:  the smob to free
+
+     Frees a bot smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_look (lw6gui_look_t * C_LOOK)
+     C_LOOK:  the look object
+
+     Creates an SCM 'look' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6gui_look_t * lw6_scm_to_look (SCM LOOK)
+     LOOK:  the look to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'look'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_look_smob (lw6_look_smob_t * LOOK_SMOB)
+     LOOK_SMOB:  the smob to free
+
+     Frees a look smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_loader (lw6tsk_loader_t * C_LOADER)
+     C_LOADER:  the loader object
+
+     Creates an SCM 'loader' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6tsk_loader_t * lw6_scm_to_loader (SCM LOADER)
+     LOADER:  the loader to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'loader'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_loader_smob (lw6_loader_smob_t *
+          LOADER_SMOB)
+     LOADER_SMOB:  the smob to free
+
+     Frees a loader smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_db (lw6p2p_db_t * C_DB)
+     C_DB:  the database object
+
+     Creates an SCM 'db' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6p2p_db_t * lw6_scm_to_db (SCM DB)
+     DB:  the db to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'db'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_db_smob (lw6_db_smob_t * DB_SMOB)
+     DB_SMOB:  the smob to free
+
+     Frees a db smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_node (lw6p2p_node_t * C_NODE, SCM DB)
+     C_NODE:  the node object
+
+     DB:  the db (SCM object) referenced
+
+     Creates an SCM 'node' object from C data.  Passing db enables the
+     garbage collector not to free db until node is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6p2p_node_t * lw6_scm_to_node (SCM NODE)
+     NODE:  the node to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'node'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_node_smob (lw6_node_smob_t * NODE_SMOB)
+     NODE_SMOB:  the smob to free
+
+     Frees a node smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: int lw6_register_smobs ()
+     Register all smobs to Guile.
+
+     *Return value:*  1 on success, 0 if failed.
 
  -- Function: int lw6_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2920,19 +3447,39 @@ C interfaces:
 
      *Return value:*  a dynamically allocated string
 
+ -- Function: int lw6p2p_db_reset (int ARGC, char * [] ARGV, char *
+          NAME)
+     ARGC:  number of args, as passed to `main'
+
+     ARGV:  args array, as passed to `main'
+
+     NAME:  the database name
+
+     Clears the database. Simply removes the db file, in fact. Do not
+     call while database is used...
+
+     *Return value:*  1 on success, 0 if failed.
+
+ -- Function: char * lw6p2p_db_default_name ()
+     Returns the default database name, should be p2p.db (this is a
+     relative path, not an absolute path, will be appended to user dir).
+
+     *Return value:*  the default database name, need not (must not) be
+     freed.
+
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
-          ARGV, char * CLIENT_BACKENDS, char * SERVER_BACKENDS,
-          lw6p2p_db_t * DB, char * BIND_IP, int BIND_PORT, u_int64_t
+          ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
+          SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, u_int64_t
           SERVER_ID, char * PUBLIC_URL)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
 
+     DB:  the database to use
+
      CLIENT_BACKENDS:  the list of client backends to use
 
      SERVER_BACKENDS:  the list of server backends to use
-
-     DB:  the database to use
 
      BIND_IP:  the IP address to bind on
 
@@ -4590,7 +5137,7 @@ C interfaces:
 
      *Return value:*  the concatenated string, must be freed.
 
- -- Function: int lw6sys_env_exists (char * KEYWORD)
+ -- Function: int lw6sys_env_exists_prefixed (char * KEYWORD)
      KEYWORD:  the keyword to be searched in the environment variables.
 
      Searches environment variables for the given keyword. The keyword
@@ -4603,7 +5150,18 @@ C interfaces:
 
      *Return value:*  1 if the environment variable exists, 0 if not.
 
- -- Function: char * lw6sys_getenv (char * KEYWORD)
+ -- Function: char * lw6sys_getenv (char * KEY)
+     KEY:  the environment variable to get.
+
+     Searches environment variables for the given value.  This is a
+     wrapper over the standard C getenv, the difference is it will
+     return a dynamically allocated pointer, and on some platforms will
+     query specific OS functions.
+
+     *Return value:*  the value for the given keyword. May be NULL.
+     Must be freed.
+
+ -- Function: char * lw6sys_getenv_prefixed (char * KEYWORD)
      KEYWORD:  the keyword to be searched in the environment variables.
 
      Searches environment variables for the given value. The keyword
@@ -4623,10 +5181,10 @@ C interfaces:
      VALUE:  the value of the environment variable to set
 
      Sets the environment variable to a given value. If value is NULL,
-     variable is unset. Note that unlike lw6sys_getenv, this function
-     does not transform the keyword into "LW6_..."  before setting the
-     value, so it's your responsability to call "lw6sys_keyword_as_env"
-     if needed.
+     variable is unset. Note that unlike lw6sys_getenv_prefixed, this
+     function does not transform the keyword into "LW6_..."  before
+     setting the value, so it's your responsability to call
+     "lw6sys_keyword_as_env" if needed.
 
      *Return value:*  1 if success, 0 if failed
 

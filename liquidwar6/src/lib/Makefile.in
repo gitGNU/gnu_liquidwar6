@@ -110,9 +110,9 @@ am__DEPENDENCIES_2 = sys/libsys.la cns/libcns.la hlp/libhlp.la \
 	$(am__DEPENDENCIES_1)
 @ALLINONE_FALSE@libliquidwar6_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
 am__libliquidwar6_la_SOURCES_DIST = lw6-callback.c lw6-control.c \
-	lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c \
-	lw6-smobs.c lw6-test.c
-am__objects_1 = lw6-callback.lo lw6-control.lo lw6-funcs.lo \
+	lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c \
+	lw6-print.c lw6-smobs.c lw6-test.c
+am__objects_1 = lw6-callback.lo lw6-control.lo lw6-fix.lo lw6-funcs.lo \
 	lw6-global.lo lw6-main.lo lw6-options.lo lw6-print.lo \
 	lw6-smobs.lo lw6-test.lo
 @ALLINONE_FALSE@am_libliquidwar6_la_OBJECTS = $(am__objects_1)
@@ -391,7 +391,7 @@ top_srcdir = @top_srcdir@
 @ALLINONE_FALSE@LW6DYN_SUBDIR = dyn
 @ALLINONE_TRUE@LW6DYN_SUBDIR = 
 noinst_LTLIBRARIES = libliquidwar6_s.la
-LW6_FILES = lw6-callback.c lw6-control.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c lw6-test.c
+LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c lw6-test.c
 LW6_LIBS = sys/libsys.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la net/libnet.la cli/libcli.la srv/libsrv.la p2p/libp2p.la tsk/libtsk.la $(LW6DYN_LIB) 
 libliquidwar6_s_la_SOURCES = $(LW6_FILES)
 libliquidwar6_s_la_LIBADD = $(LW6_LIBS)
@@ -539,6 +539,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-callback.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-control.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-fix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-funcs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-global.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-main.Plo@am__quote@

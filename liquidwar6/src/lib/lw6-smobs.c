@@ -115,10 +115,19 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
   return 1;
 }
 
-// c_dsp is supposed to have been initialized with lw6dsp_init()
+/**
+ * lw6_make_scm_dsp
+ *
+ * @c_dsp: the display object
+ *
+ * Creates an SCM 'dsp' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
 {
+  // c_dsp is supposed to have been initialized with lw6dsp_init()
   char *repr = NULL;
   char *id = NULL;
   lw6_dsp_smob_t *dsp_smob = NULL;
@@ -158,6 +167,16 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.dsp, dsp_smob);
 }
 
+/**
+ * lw6_scm_to_dsp
+ *
+ * @dsp: the dsp to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'dsp' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6dsp_backend_t *
 lw6_scm_to_dsp (SCM dsp)
 {
@@ -168,6 +187,18 @@ lw6_scm_to_dsp (SCM dsp)
   return c_dsp;
 }
 
+/**
+ * lw6_free_dsp_smob
+ *
+ * @dsp_smob: the smob to free
+ *
+ * Frees a dsp smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob)
 {
@@ -244,10 +275,19 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
   return 1;
 }
 
-// c_snd is supposed to have been initialized with lw6snd_init()
+/**
+ * lw6_make_scm_snd
+ *
+ * @c_snd: the sound object
+ *
+ * Creates an SCM 'snd' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_snd (lw6snd_backend_t * c_snd)
 {
+// c_snd is supposed to have been initialized with lw6snd_init()
   char *repr = NULL;
   char *id = NULL;
   lw6_snd_smob_t *snd_smob = NULL;
@@ -283,6 +323,16 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.snd, snd_smob);
 }
 
+/**
+ * lw6_scm_to_snd
+ *
+ * @snd: the snd to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'snd' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6snd_backend_t *
 lw6_scm_to_snd (SCM snd)
 {
@@ -293,6 +343,18 @@ lw6_scm_to_snd (SCM snd)
   return c_snd;
 }
 
+/**
+ * lw6_free_snd_smob
+ *
+ * @snd_smob: the smob to free
+ *
+ * Frees a snd smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_snd_smob (lw6_snd_smob_t * snd_smob)
 {
@@ -369,6 +431,15 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_map
+ *
+ * @c_map: the map object
+ *
+ * Creates an SCM 'map' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_map (lw6map_level_t * c_map)
 {
@@ -416,6 +487,16 @@ lw6_make_scm_map (lw6map_level_t * c_map)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.map, map_smob);
 }
 
+/**
+ * lw6_scm_to_map
+ *
+ * @map: the map to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'map' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6map_level_t *
 lw6_scm_to_map (SCM map)
 {
@@ -426,6 +507,18 @@ lw6_scm_to_map (SCM map)
   return c_map;
 }
 
+/**
+ * lw6_free_map_smob
+ *
+ * @map_smob: the smob to free
+ *
+ * Frees a map smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_map_smob (lw6_map_smob_t * map_smob)
 {
@@ -502,6 +595,15 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_menu
+ *
+ * @c_menu: the menu object
+ *
+ * Creates an SCM 'menu' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_menu (lw6gui_menu_t * c_menu)
 {
@@ -541,6 +643,16 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.menu, menu_smob);
 }
 
+/**
+ * lw6_scm_to_menu
+ *
+ * @menu: the menu to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'menu' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6gui_menu_t *
 lw6_scm_to_menu (SCM menu)
 {
@@ -551,6 +663,18 @@ lw6_scm_to_menu (SCM menu)
   return c_menu;
 }
 
+/**
+ * lw6_free_menu_smob
+ *
+ * @menu_smob: the smob to free
+ *
+ * Frees a menu smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_menu_smob (lw6_menu_smob_t * menu_smob)
 {
@@ -634,6 +758,18 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_game_struct
+ *
+ * @c_game_struct: the game struct object
+ * @map: the map (SCM object) referenced
+ *
+ * Creates an SCM 'game-struct' object from C data.
+ * Passing the map object enables the garbage collector
+ * not to free the map until the game struct is freed.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
 {
@@ -676,6 +812,16 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.game_struct, game_struct_smob);
 }
 
+/**
+ * lw6_scm_to_game_struct
+ *
+ * @game_struct: the game_struct to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'game_struct' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6ker_game_struct_t *
 lw6_scm_to_game_struct (SCM game_struct)
 {
@@ -687,6 +833,18 @@ lw6_scm_to_game_struct (SCM game_struct)
   return c_game_struct;
 }
 
+/**
+ * lw6_free_game_struct_smob
+ *
+ * @game_struct_smob: the smob to free
+ *
+ * Frees a game_struct smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
 {
@@ -771,6 +929,18 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_game_state
+ *
+ * @c_game_state: the game state object
+ * @game_struct: the game struct (SCM object) referenced
+ *
+ * Creates an SCM 'game_state' object from C data.
+ * Passing game_struct enables the garbage collector not
+ * to free the game_struct until the game_state is freed.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
 {
@@ -812,6 +982,16 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.game_state, game_state_smob);
 }
 
+/**
+ * lw6_scm_to_game_state
+ *
+ * @game_state: the game_state to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'game_state' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6ker_game_state_t *
 lw6_scm_to_game_state (SCM game_state)
 {
@@ -823,6 +1003,18 @@ lw6_scm_to_game_state (SCM game_state)
   return c_game_state;
 }
 
+/**
+ * lw6_free_game_state_smob
+ *
+ * @game_state_smob: the smob to free
+ *
+ * Frees a game_state smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob)
 {
@@ -899,6 +1091,15 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_pilot
+ *
+ * @c_pilot: the pilot object
+ *
+ * Creates an SCM 'pilot' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
 {
@@ -938,6 +1139,16 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.pilot, pilot_smob);
 }
 
+/**
+ * lw6_scm_to_pilot
+ *
+ * @pilot: the pilot to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'pilot' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6pil_pilot_t *
 lw6_scm_to_pilot (SCM pilot)
 {
@@ -948,6 +1159,18 @@ lw6_scm_to_pilot (SCM pilot)
   return c_pilot;
 }
 
+/**
+ * lw6_free_pilot_smob
+ *
+ * @pilot_smob: the smob to free
+ *
+ * Frees a pilot smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob)
 {
@@ -1028,10 +1251,23 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
   return 1;
 }
 
-// c_bot is supposed to have been initialized with lw6bot_init()
+/**
+ * lw6_make_scm_bot
+ *
+ * @c_bot: the bot object
+ * @game_state: the game state
+ * @pilot: the pilot
+ *
+ * Creates an SCM 'bot' object from C data.
+ * Passing game_state and pilot enables the garbage collector
+ * not the free them until bot is freed.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
 {
+// c_bot is supposed to have been initialized with lw6bot_init()
   char *repr = NULL;
   char *id = NULL;
   lw6_bot_smob_t *bot_smob = NULL;
@@ -1069,6 +1305,16 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.bot, bot_smob);
 }
 
+/**
+ * lw6_scm_to_bot
+ *
+ * @bot: the bot to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'bot' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6bot_backend_t *
 lw6_scm_to_bot (SCM bot)
 {
@@ -1079,6 +1325,18 @@ lw6_scm_to_bot (SCM bot)
   return c_bot;
 }
 
+/**
+ * lw6_free_bot_smob
+ *
+ * @bot_smob: the smob to free
+ *
+ * Frees a bot smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_bot_smob (lw6_bot_smob_t * bot_smob)
 {
@@ -1156,6 +1414,15 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_look
+ *
+ * @c_look: the look object
+ *
+ * Creates an SCM 'look' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_look (lw6gui_look_t * c_look)
 {
@@ -1195,6 +1462,16 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.look, look_smob);
 }
 
+/**
+ * lw6_scm_to_look
+ *
+ * @look: the look to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'look' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6gui_look_t *
 lw6_scm_to_look (SCM look)
 {
@@ -1205,6 +1482,18 @@ lw6_scm_to_look (SCM look)
   return c_look;
 }
 
+/**
+ * lw6_free_look_smob
+ *
+ * @look_smob: the smob to free
+ *
+ * Frees a look smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_look_smob (lw6_look_smob_t * look_smob)
 {
@@ -1282,6 +1571,15 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_loader
+ *
+ * @c_loader: the loader object
+ *
+ * Creates an SCM 'loader' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
 {
@@ -1322,6 +1620,16 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.loader, loader_smob);
 }
 
+/**
+ * lw6_scm_to_loader
+ *
+ * @loader: the loader to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'loader' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6tsk_loader_t *
 lw6_scm_to_loader (SCM loader)
 {
@@ -1332,6 +1640,18 @@ lw6_scm_to_loader (SCM loader)
   return c_loader;
 }
 
+/**
+ * lw6_free_loader_smob
+ *
+ * @loader_smob: the smob to free
+ *
+ * Frees a loader smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_loader_smob (lw6_loader_smob_t * loader_smob)
 {
@@ -1406,6 +1726,15 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_db
+ *
+ * @c_db: the database object
+ *
+ * Creates an SCM 'db' object from C data.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_db (lw6p2p_db_t * c_db)
 {
@@ -1444,6 +1773,16 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.db, db_smob);
 }
 
+/**
+ * lw6_scm_to_db
+ *
+ * @db: the db to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'db' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6p2p_db_t *
 lw6_scm_to_db (SCM db)
 {
@@ -1454,6 +1793,18 @@ lw6_scm_to_db (SCM db)
   return c_db;
 }
 
+/**
+ * lw6_free_db_smob
+ *
+ * @db_smob: the smob to free
+ *
+ * Frees a db smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_db_smob (lw6_db_smob_t * db_smob)
 {
@@ -1534,6 +1885,18 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
   return 1;
 }
 
+/**
+ * lw6_make_scm_node
+ *
+ * @c_node: the node object
+ * @db: the db (SCM object) referenced
+ *
+ * Creates an SCM 'node' object from C data.
+ * Passing db enables the garbage collector not to
+ * free db until node is freed.
+ *
+ * Return value: the SCM object
+ */
 SCM
 lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
 {
@@ -1575,6 +1938,16 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
   SCM_RETURN_NEWSMOB (lw6_global.smob_types.node, node_smob);
 }
 
+/**
+ * lw6_scm_to_node
+ *
+ * @node: the node to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'node' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
 lw6p2p_node_t *
 lw6_scm_to_node (SCM node)
 {
@@ -1585,6 +1958,18 @@ lw6_scm_to_node (SCM node)
   return c_node;
 }
 
+/**
+ * lw6_free_node_smob
+ *
+ * @node_smob: the smob to free
+ *
+ * Frees a node smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
 void
 lw6_free_node_smob (lw6_node_smob_t * node_smob)
 {
@@ -1601,8 +1986,12 @@ lw6_free_node_smob (lw6_node_smob_t * node_smob)
   LW6SYS_FREE (node_smob);
 }
 
-/*
- * Register all the smobs, that is new types.
+/**
+ * lw6_register_smobs
+ *
+ * Register all smobs to Guile.
+ *
+ * Return value: 1 on success, 0 if failed.
  */
 int
 lw6_register_smobs ()

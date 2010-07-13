@@ -1,3 +1,18 @@
+@deftypefun {void} {lw6_resize_callback} (lw6gui_video_mode_t * @var{video_mode})
+@var{video_mode}:  the new video mode
+
+This callback is here because gfx needs to update the config
+when the screen is resized. But... we did not want to make
+gfx depend on cfg "directly". It's cleaner to pass parameters
+with Scheme, in the long run, it should make things easier.
+So this callback is the solution. Another side effect is that
+this way there's a tangible obvious trace of this updating
+of config status by the gfx module. Seeing it sticking out
+like a thumb isn't a bad thing.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {void} {lw6_release} ()
 
 Functions which will call @code{quit}(), @code{free}(), @code{destroy}() on whatever
@@ -19,6 +34,61 @@ send a quit event, giving a chance to the to exit cleanly.
 If not, it will just call @code{exit}() directly.
 
 @strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6_fix_env} (int @var{argc}, char * [] @var{argv})
+
+argc: number of args as passed to main
+argv: array of strings as passed to main
+
+Fixes environment variables (path related) so that
+program can find its requirements. This must be
+called early in the program flow (else other calls
+might fail).
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
+@deftypefun {int} {lw6_register_funcs} ()
+
+Register all the functions, make them callable from Guile.
+This is a very simple yet long and very usefull function,
+without it Guile has no knowledge of what LW6 is.
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {extern void} {lw6_cns_handler} (char * @var{c_line})
+
+c_line: the line typed by the user
+
+This function will be called every time a message
+is typed on the console. It runs the given line in
+the current Guile environment.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6_init_global} (int @var{argc}, char * [] @var{argv})
+
+argc: number of args as passed to main
+argv: array of strings as passed to main
+
+Initializes global values to their defaults.
+
+@strong{Return value:}  1 on success, 0 if failed
+@end deftypefun
+
+@deftypefun {void} {lw6_quit_global} ()
+
+argc: number of args as passed to main
+argv: array of strings as passed to main
+
+Frees global values. Will also garbage collect objects
+in case Guile failed to do it perfectly (or we failed to
+tell Guile how to do it).
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {int} {lw6_main} (int @var{argc}, char * [] @var{argv})
@@ -54,6 +124,579 @@ must be skipped. Example: --copyright, --help, ...
 
 @strong{Return value:}  non-zero if success, 0 if error. The error can be, for
 instance, the test suite returning "no, tests were not OK".
+@end deftypefun
+
+@deftypefun {void} {lw6_print_help} ()
+
+Displays a short help message.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_version} ()
+
+Displays the version of the game.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_short_copyright} ()
+
+Displays the copyright of the game (short version).
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_long_copyright} ()
+
+Displays the copyright of the game (long version).
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_bench} (float @var{bench_result})
+
+Displays the program bench value.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_pedigree} ()
+
+Displays the program pedigree, think of this as
+version on steroids.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_host} ()
+
+Displays the host on which the program was compiled.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_audit} (int @var{argc}, char * [] @var{argv})
+
+Displays various paths used by the game.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_modules} ()
+
+Displays the list of modules compiled with the game.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_quick} ()
+
+Displays the list of 'quick' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_doc} ()
+
+Displays the list of 'doc' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_show} ()
+
+Displays the list of 'show' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_path} ()
+
+Displays the list of 'path' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_players} ()
+
+Displays the list of 'players' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_input} ()
+
+Displays the list of 'input' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_graphics} ()
+
+Displays the list of 'graphics' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_sound} ()
+
+Displays the list of 'sound' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_network} ()
+
+Displays the list of 'network' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_map} ()
+
+Displays the list of 'map' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_map_rules} ()
+
+Displays the list of 'map rules' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_map_hints} ()
+
+Displays the list of 'map hints' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_map_style} ()
+
+Displays the list of 'amp style' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_funcs} ()
+
+Displays the list of 'funcs'.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_hooks} ()
+
+Displays the list of 'hooks'.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_tuning} ()
+
+Displays the list of 'tuning' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_aliases} ()
+
+Displays the list of options aliases.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list} ()
+
+Displays the list of all known options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_about} (char * @var{keyword})
+
+Displays the about message for a keyword.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_hello} (int @var{argc}, char * [] @var{argv})
+
+Displays 'hello' at the beginning of the program.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_goodbye} ()
+
+Displays 'goodbye', typically use at end of program to
+know it's over and everything went fine.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_dsp} (lw6dsp_backend_t * @var{c_dsp})
+@var{c_dsp}:  the display object
+
+Creates an SCM 'dsp' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6dsp_backend_t *} {lw6_scm_to_dsp} (SCM @var{dsp})
+@var{dsp}:  the dsp to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'dsp' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_dsp_smob} (lw6_dsp_smob_t * @var{dsp_smob})
+@var{dsp_smob}:  the smob to free
+
+Frees a dsp smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_snd} (lw6snd_backend_t * @var{c_snd})
+@var{c_snd}:  the sound object
+
+Creates an SCM 'snd' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6snd_backend_t *} {lw6_scm_to_snd} (SCM @var{snd})
+@var{snd}:  the snd to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'snd' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_snd_smob} (lw6_snd_smob_t * @var{snd_smob})
+@var{snd_smob}:  the smob to free
+
+Frees a snd smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_map} (lw6map_level_t * @var{c_map})
+@var{c_map}:  the map object
+
+Creates an SCM 'map' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6map_level_t *} {lw6_scm_to_map} (SCM @var{map})
+@var{map}:  the map to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'map' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_map_smob} (lw6_map_smob_t * @var{map_smob})
+@var{map_smob}:  the smob to free
+
+Frees a map smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_menu} (lw6gui_menu_t * @var{c_menu})
+@var{c_menu}:  the menu object
+
+Creates an SCM 'menu' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6gui_menu_t *} {lw6_scm_to_menu} (SCM @var{menu})
+@var{menu}:  the menu to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'menu' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_menu_smob} (lw6_menu_smob_t * @var{menu_smob})
+@var{menu_smob}:  the smob to free
+
+Frees a menu smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_game_struct} (lw6ker_game_struct_t * @var{c_game_struct}, SCM @var{map})
+@var{c_game_struct}:  the game struct object
+
+@var{map}:  the map (SCM object) referenced
+
+Creates an SCM 'game-struct' object from C data.
+Passing the map object enables the garbage collector
+not to free the map until the game struct is freed.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6ker_game_struct_t *} {lw6_scm_to_game_struct} (SCM @var{game_struct})
+@var{game_struct}:  the game_struct to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'game_struct' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_game_struct_smob} (lw6_game_struct_smob_t * @var{game_struct_smob})
+@var{game_struct_smob}:  the smob to free
+
+Frees a game_struct smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_game_state} (lw6ker_game_state_t * @var{c_game_state}, SCM @var{game_struct})
+@var{c_game_state}:  the game state object
+
+@var{game_struct}:  the game struct (SCM object) referenced
+
+Creates an SCM 'game_state' object from C data.
+Passing game_struct enables the garbage collector not
+to free the game_struct until the game_state is freed.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6ker_game_state_t *} {lw6_scm_to_game_state} (SCM @var{game_state})
+@var{game_state}:  the game_state to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'game_state' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_game_state_smob} (lw6_game_state_smob_t * @var{game_state_smob})
+@var{game_state_smob}:  the smob to free
+
+Frees a game_state smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_pilot} (lw6pil_pilot_t * @var{c_pilot})
+@var{c_pilot}:  the pilot object
+
+Creates an SCM 'pilot' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6pil_pilot_t *} {lw6_scm_to_pilot} (SCM @var{pilot})
+@var{pilot}:  the pilot to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'pilot' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_pilot_smob} (lw6_pilot_smob_t * @var{pilot_smob})
+@var{pilot_smob}:  the smob to free
+
+Frees a pilot smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_bot} (lw6bot_backend_t * @var{c_bot}, SCM @var{game_state}, SCM @var{pilot})
+@var{c_bot}:  the bot object
+
+@var{game_state}:  the game state
+
+@var{pilot}:  the pilot
+
+Creates an SCM 'bot' object from C data.
+Passing game_state and pilot enables the garbage collector
+not the free them until bot is freed.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6bot_backend_t *} {lw6_scm_to_bot} (SCM @var{bot})
+@var{bot}:  the bot to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'bot' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_bot_smob} (lw6_bot_smob_t * @var{bot_smob})
+@var{bot_smob}:  the smob to free
+
+Frees a bot smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_look} (lw6gui_look_t * @var{c_look})
+@var{c_look}:  the look object
+
+Creates an SCM 'look' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6gui_look_t *} {lw6_scm_to_look} (SCM @var{look})
+@var{look}:  the look to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'look' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_look_smob} (lw6_look_smob_t * @var{look_smob})
+@var{look_smob}:  the smob to free
+
+Frees a look smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_loader} (lw6tsk_loader_t * @var{c_loader})
+@var{c_loader}:  the loader object
+
+Creates an SCM 'loader' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6tsk_loader_t *} {lw6_scm_to_loader} (SCM @var{loader})
+@var{loader}:  the loader to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'loader' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_loader_smob} (lw6_loader_smob_t * @var{loader_smob})
+@var{loader_smob}:  the smob to free
+
+Frees a loader smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_db} (lw6p2p_db_t * @var{c_db})
+@var{c_db}:  the database object
+
+Creates an SCM 'db' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6p2p_db_t *} {lw6_scm_to_db} (SCM @var{db})
+@var{db}:  the db to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'db' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_db_smob} (lw6_db_smob_t * @var{db_smob})
+@var{db_smob}:  the smob to free
+
+Frees a db smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {SCM} {lw6_make_scm_node} (lw6p2p_node_t * @var{c_node}, SCM @var{db})
+@var{c_node}:  the node object
+
+@var{db}:  the db (SCM object) referenced
+
+Creates an SCM 'node' object from C data.
+Passing db enables the garbage collector not to
+free db until node is freed.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6p2p_node_t *} {lw6_scm_to_node} (SCM @var{node})
+@var{node}:  the node to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'node' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_node_smob} (lw6_node_smob_t * @var{node_smob})
+@var{node_smob}:  the smob to free
+
+Frees a node smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6_register_smobs} ()
+
+Register all smobs to Guile.
+
+@strong{Return value:}  1 on success, 0 if failed.
 @end deftypefun
 
 @deftypefun {int} {lw6_test} (int @var{mode})

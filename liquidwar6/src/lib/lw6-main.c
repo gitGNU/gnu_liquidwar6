@@ -151,7 +151,7 @@ lw6_main (int argc, char *argv[])
 
       if (lw6_init_global (argc, argv))
 	{
-	  lw6_fix_env(argc,argv);
+	  lw6_fix_env (argc, argv);
 #ifdef LW6_MAC_OS_X
 	  if (!lw6sys_vthread_run (_run, _end, NULL))
 	    {

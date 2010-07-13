@@ -29,16 +29,37 @@ Gives a readable representation of the db
 @strong{Return value:}  a dynamically allocated string
 @end deftypefun
 
-@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, char * @var{client_backends}, char * @var{server_backends}, lw6p2p_db_t * @var{db}, char * @var{bind_ip}, int @var{bind_port}, u_int64_t @var{server_id}, char * @var{public_url})
+@deftypefun {int} {lw6p2p_db_reset} (int @var{argc}, char * [] @var{argv}, char * @var{name})
 @var{argc}:  number of args, as passed to @code{main}
 
 @var{argv}:  args array, as passed to @code{main}
 
+@var{name}:  the database name
+
+Clears the database. Simply removes the db file, in fact. Do
+not call while database is used...
+
+@strong{Return value:}  1 on success, 0 if failed.
+@end deftypefun
+
+@deftypefun {char *} {lw6p2p_db_default_name} ()
+
+Returns the default database name, should be p2p.db (this is a relative path,
+not an absolute path, will be appended to user dir).
+
+@strong{Return value:}  the default database name, need not (must not) be freed.
+@end deftypefun
+
+@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, u_int64_t @var{server_id}, char * @var{public_url})
+@var{argc}:  number of args, as passed to @code{main}
+
+@var{argv}:  args array, as passed to @code{main}
+
+@var{db}:  the database to use
+
 @var{client_backends}:  the list of client backends to use
 
 @var{server_backends}:  the list of server backends to use
-
-@var{db}:  the database to use
 
 @var{bind_ip}:  the IP address to bind on
 

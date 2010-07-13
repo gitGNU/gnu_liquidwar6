@@ -239,9 +239,7 @@ extern void lw6_print_about (char *keyword);
 extern void lw6_print_hello (int argc, char *argv[]);
 extern void lw6_print_goodbye ();
 
-/*
- * Functions in smobs.c
- */
+/* lw6-smobs.c */
 extern SCM lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp);
 extern lw6dsp_backend_t *lw6_scm_to_dsp (SCM dsp);
 extern void lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob);

@@ -443,7 +443,7 @@ lw6_print_modules ()
 /**
  * lw6_print_list_quick
  *
- * Displays the list of all known LW6 keywords.
+ * Displays the list of 'quick' options.
  *
  * Return value: none
  */
@@ -463,8 +463,7 @@ lw6_print_list_quick ()
 /**
  * lw6_print_list_doc
  *
- * Displays the list list of all known LW6 keywords,
- * and also show the documentation associated.
+ * Displays the list of 'doc' options.
  *
  * Return value: none
  */
@@ -481,6 +480,13 @@ lw6_print_list_doc ()
     }
 }
 
+/**
+ * lw6_print_list_show
+ *
+ * Displays the list of 'show' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_show ()
 {
@@ -494,6 +500,13 @@ lw6_print_list_show ()
     }
 }
 
+/**
+ * lw6_print_list_path
+ *
+ * Displays the list of 'path' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_path ()
 {
@@ -507,6 +520,13 @@ lw6_print_list_path ()
     }
 }
 
+/**
+ * lw6_print_list_players
+ *
+ * Displays the list of 'players' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_players ()
 {
@@ -520,6 +540,13 @@ lw6_print_list_players ()
     }
 }
 
+/**
+ * lw6_print_list_input
+ *
+ * Displays the list of 'input' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_input ()
 {
@@ -533,6 +560,13 @@ lw6_print_list_input ()
     }
 }
 
+/**
+ * lw6_print_list_graphics
+ *
+ * Displays the list of 'graphics' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_graphics ()
 {
@@ -546,6 +580,13 @@ lw6_print_list_graphics ()
     }
 }
 
+/**
+ * lw6_print_list_sound
+ *
+ * Displays the list of 'sound' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_sound ()
 {
@@ -559,6 +600,13 @@ lw6_print_list_sound ()
     }
 }
 
+/**
+ * lw6_print_list_network
+ *
+ * Displays the list of 'network' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_network ()
 {
@@ -572,6 +620,13 @@ lw6_print_list_network ()
     }
 }
 
+/**
+ * lw6_print_list_map
+ *
+ * Displays the list of 'map' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_map ()
 {
@@ -585,6 +640,13 @@ lw6_print_list_map ()
     }
 }
 
+/**
+ * lw6_print_list_map_rules
+ *
+ * Displays the list of 'map rules' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_map_rules ()
 {
@@ -598,6 +660,13 @@ lw6_print_list_map_rules ()
     }
 }
 
+/**
+ * lw6_print_list_map_hints
+ *
+ * Displays the list of 'map hints' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_map_hints ()
 {
@@ -611,6 +680,13 @@ lw6_print_list_map_hints ()
     }
 }
 
+/**
+ * lw6_print_list_map_style
+ *
+ * Displays the list of 'amp style' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_map_style ()
 {
@@ -624,6 +700,13 @@ lw6_print_list_map_style ()
     }
 }
 
+/**
+ * lw6_print_list_funcs
+ *
+ * Displays the list of 'funcs'.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_funcs ()
 {
@@ -637,6 +720,13 @@ lw6_print_list_funcs ()
     }
 }
 
+/**
+ * lw6_print_list_hooks
+ *
+ * Displays the list of 'hooks'.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_hooks ()
 {
@@ -650,6 +740,13 @@ lw6_print_list_hooks ()
     }
 }
 
+/**
+ * lw6_print_list_tuning
+ *
+ * Displays the list of 'tuning' options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_tuning ()
 {
@@ -663,6 +760,13 @@ lw6_print_list_tuning ()
     }
 }
 
+/**
+ * lw6_print_list_aliases
+ *
+ * Displays the list of options aliases.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_aliases ()
 {
@@ -676,6 +780,13 @@ lw6_print_list_aliases ()
     }
 }
 
+/**
+ * lw6_print_list
+ *
+ * Displays the list of all known options.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list ()
 {
@@ -689,12 +800,26 @@ lw6_print_list ()
     }
 }
 
+/**
+ * lw6_print_about
+ *
+ * Displays the about message for a keyword.
+ *
+ * Return value: none
+ */
 void
 lw6_print_about (char *keyword)
 {
   lw6hlp_print_about (keyword, stdout);
 }
 
+/**
+ * lw6_print_hello
+ *
+ * Displays 'hello' at the beginning of the program.
+ *
+ * Return value: none
+ */
 void
 lw6_print_hello (int argc, char *argv[])
 {
@@ -709,6 +834,14 @@ lw6_print_hello (int argc, char *argv[])
 	      lw6sys_megabytes_available ());
 }
 
+/**
+ * lw6_print_goodbye
+ *
+ * Displays 'goodbye', typically use at end of program to
+ * know it's over and everything went fine.
+ *
+ * Return value: none
+ */
 void
 lw6_print_goodbye ()
 {
