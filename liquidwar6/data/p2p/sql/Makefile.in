@@ -286,7 +286,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = create-database.sql delete-server.sql insert-server.sql
+pkgdata_DATA = create-database.sql delete-server-by-id.sql insert-server.sql
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
