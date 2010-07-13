@@ -48,7 +48,7 @@ DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
 targz: ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 
 ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
-	echo "run make dist in parent directory to (re)build ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz" && false
+	make -C .. dist
 
 liquidwar6.exe:
 	echo "Copy src/.libs/liquidwar6.exe here" && false
