@@ -108,8 +108,7 @@ test_callback (_lw6_test_param_t * param)
 
     scm_gc ();
 
-    lw6_quit_global_1 ();
-    lw6_quit_global_2 ();
+    lw6_quit_global ();
   }
 
   LW6SYS_TEST_FUNCTION_END;

@@ -178,48 +178,36 @@ typedef struct lw6_global_s
 }
 lw6_global_t;
 
-/*
- * In global.c
- */
+/* lw6-callback.c */
+extern void lw6_resize_callback (lw6gui_video_mode_t * video_mode);
+
+/* lw6-control.c */
+extern void lw6_release ();
+extern void lw6_exit ();
+
+/* lw6-fix.c */
+extern int lw6_fix_env (int argc, char *argv[]);
+
+/* lw6-funcs.c */
+extern int lw6_register_funcs ();
+extern void lw6_cns_handler (char *line);
+
+/* lw6-global.c */
 #define LW6_MUTEX_LOCK pthread_mutex_lock( &lw6_global.mutex );
 #define LW6_MUTEX_UNLOCK pthread_mutex_unlock( &lw6_global.mutex );
 
 extern lw6_global_t lw6_global;
 extern int lw6_init_global (int argc, char *argv[]);
-extern void lw6_quit_global_1 ();
-extern void lw6_quit_global_2 ();
+extern void lw6_quit_global ();
 
-/*
- * Functions in callback.c
- */
-extern void lw6_resize_callback (lw6gui_video_mode_t * video_mode);
-
-/*
- * Functions in control.c
- */
-extern void lw6_release ();
-extern void lw6_exit ();
-
-/*
- * Functions in funcs.c
- */
-extern int lw6_register_funcs ();
-extern void lw6_cns_handler (char *line);
-
-/*
- * Functions in main.c
- */
+/* lw6-main.c */
 extern int lw6_main (int argc, char *argv[]);
 
-/*
- * Functions in options.c
- */
+/* lw6-options.c */
 extern int lw6_process_non_run_options (int argc, char *argv[],
 					int *run_game);
 
-/*
- * In print.c
- */
+/* lw6-print.c */
 extern void lw6_print_help ();
 extern void lw6_print_version ();
 extern void lw6_print_short_copyright ();

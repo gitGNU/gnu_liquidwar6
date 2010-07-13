@@ -41,8 +41,15 @@
  */
 lw6_global_t lw6_global;
 
-/*
- * Initializes global values to their defaults
+/**
+ * lw6_init_global
+ * 
+ * argc: number of args as passed to main
+ * argv: array of strings as passed to main
+ *
+ * Initializes global values to their defaults.
+ *
+ * Return value: 1 on success, 0 if failed
  */
 int
 lw6_init_global (int argc, char *argv[])
@@ -128,18 +135,20 @@ quit_net ()
   lw6_global.net_initialized = 0;
 }
 
+/**
+ * lw6_quit_global
+ * 
+ * argc: number of args as passed to main
+ * argv: array of strings as passed to main
+ *
+ * Frees global values. Will also garbage collect objects
+ * in case Guile failed to do it perfectly (or we failed to
+ * tell Guile how to do it).
+ *
+ * Return value: none.
+ */
 void
-lw6_quit_global_1 ()
-{
-  lw6sys_log (LW6SYS_LOG_INFO, _("free global ressources"));
-
-  quit_cns ();
-  quit_net ();
-  quit_cfg ();
-}
-
-void
-lw6_quit_global_2 ()
+lw6_quit_global ()
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("final garbage collection"));
 
@@ -175,6 +184,10 @@ lw6_quit_global_2 ()
   lw6_global.dsp_smobs = NULL;
 
   LW6_MUTEX_UNLOCK;
+
+  quit_cns ();
+  quit_net ();
+  quit_cfg ();
 
   pthread_mutex_destroy (&lw6_global.mutex);
 

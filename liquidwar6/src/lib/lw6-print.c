@@ -29,6 +29,13 @@
 
 #include "liquidwar6.h"
 
+/**
+ * lw6_print_help
+ *
+ * Displays a short help message.
+ *
+ * Return value: none
+ */
 void
 lw6_print_help ()
 {
@@ -56,6 +63,13 @@ lw6_print_help ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_version
+ *
+ * Displays the version of the game.
+ *
+ * Return value: none
+ */
 void
 lw6_print_version ()
 {
@@ -66,6 +80,13 @@ lw6_print_version ()
   lw6_print_short_copyright ();
 }
 
+/**
+ * lw6_print_short_copyright
+ *
+ * Displays the copyright of the game (short version).
+ *
+ * Return value: none
+ */
 void
 lw6_print_short_copyright ()
 {
@@ -77,6 +98,13 @@ lw6_print_short_copyright ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_long_copyright
+ *
+ * Displays the copyright of the game (long version).
+ *
+ * Return value: none
+ */
 void
 lw6_print_long_copyright ()
 {
@@ -101,6 +129,13 @@ lw6_print_long_copyright ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_bench
+ *
+ * Displays the program bench value.
+ *
+ * Return value: none
+ */
 void
 lw6_print_bench (float bench_result)
 {
@@ -108,6 +143,14 @@ lw6_print_bench (float bench_result)
   fflush (stdout);
 }
 
+/**
+ * lw6_print_pedigree
+ *
+ * Displays the program pedigree, think of this as
+ * version on steroids.
+ *
+ * Return value: none
+ */
 void
 lw6_print_pedigree ()
 {
@@ -132,6 +175,13 @@ lw6_print_pedigree ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_host
+ *
+ * Displays the host on which the program was compiled.
+ *
+ * Return value: none
+ */
 void
 lw6_print_host ()
 {
@@ -146,6 +196,13 @@ lw6_print_host ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_audit
+ *
+ * Displays various paths used by the game.
+ *
+ * Return value: none
+ */
 void
 lw6_print_audit (int argc, char *argv[])
 {
@@ -355,6 +412,13 @@ lw6_print_audit (int argc, char *argv[])
   fflush (stdout);
 }
 
+/**
+ * lw6_print_audit
+ *
+ * Displays the list of modules compiled with the game.
+ *
+ * Return value: none
+ */
 void
 lw6_print_modules ()
 {
@@ -376,6 +440,13 @@ lw6_print_modules ()
   fflush (stdout);
 }
 
+/**
+ * lw6_print_list_quick
+ *
+ * Displays the list of all known LW6 keywords.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_quick ()
 {
@@ -389,6 +460,14 @@ lw6_print_list_quick ()
     }
 }
 
+/**
+ * lw6_print_list_doc
+ *
+ * Displays the list list of all known LW6 keywords,
+ * and also show the documentation associated.
+ *
+ * Return value: none
+ */
 void
 lw6_print_list_doc ()
 {

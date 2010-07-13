@@ -7576,8 +7576,14 @@ _scm_lw6_exit ()
   return SCM_UNDEFINED;
 }
 
-/*
+/**
+ * lw6_register_funcs
+ *
  * Register all the functions, make them callable from Guile.
+ * This is a very simple yet long and very usefull function,
+ * without it Guile has no knowledge of what LW6 is.
+ *
+ * Return value: 1 on success, 0 if failed.
  */
 int
 lw6_register_funcs ()
@@ -8286,6 +8292,17 @@ lw6_register_funcs ()
   return ret;
 }
 
+/**
+ * lw6_cns_handler
+ *
+ * c_line: the line typed by the user
+ *
+ * This function will be called every time a message
+ * is typed on the console. It runs the given line in
+ * the current Guile environment.
+ *
+ * Return value: none
+ */
 extern void
 lw6_cns_handler (char *c_line)
 {

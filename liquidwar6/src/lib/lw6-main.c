@@ -27,122 +27,6 @@
 
 #include "liquidwar6.h"
 
-#define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
-
-#if LW6_MS_WINDOWS || LW6_MAC_OS_X
-#define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
-#if LW6_MS_WINDOWS
-#define GUILE_LOAD_PATH_SUFFIX "guile"
-#endif
-#if LW6_MAC_OS_X
-#define  GUILE_LOAD_PATH_SUFFIX "../Resources/guile"
-#endif
-
-static void
-_fix_guile_load_path (int argc, char *argv[])
-{
-  char *run_dir = NULL;
-  char *guile_dir = NULL;
-
-  run_dir = lw6sys_get_run_dir (argc, argv);
-  if (run_dir)
-    {
-      guile_dir = lw6sys_path_concat (run_dir, GUILE_LOAD_PATH_SUFFIX);
-      if (guile_dir)
-	{
-	  if (lw6sys_dir_exists (guile_dir))
-	    {
-	      lw6sys_setenv (GUILE_LOAD_PATH_KEY, guile_dir);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("Guile library directory \"%s\" does not exist"),
-			  guile_dir);
-	    }
-	  LW6SYS_FREE (guile_dir);
-	}
-      LW6SYS_FREE (run_dir);
-    }
-}
-#endif
-
-#if LW6_MAC_OS_X
-static void
-_fix_dyld_library_path (int argc, char *argv[])
-{
-  /*
-   * Fixes bug http://savannah.gnu.org/bugs/?30409
-   * We need to force DYLD_LIBRARY_PATH to a value
-   * that includes the distributed ./MacOS binary,
-   * indeed install_name_tool can change hardcoded
-   * references to libs but can't handle dynamic
-   * loading (at run-time, "dlopening") which is
-   * something SDL_image does, for instance. So we
-   * tell the library loader to look into CWD and
-   * run directory.
-   */
-  char *old_dyld_library_path = NULL;
-  char *new_dyld_library_path = NULL;
-  char *run_dir = NULL;
-  char *cwd = NULL;
-
-  cwd = lw6sys_get_cwd (argc, argv);
-  if (cwd)
-    {
-      old_dyld_library_path = lw6sys_getenv (DYLD_LIBRARY_PATH);
-      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
-	{
-	  new_dyld_library_path =
-	    lw6sys_env_concat (cwd, old_dyld_library_path);
-	}
-      else
-	{
-	  new_dyld_library_path = lw6sys_str_copy (cwd);
-	}
-      LW6SYS_FREE (cwd);
-    }
-
-  if (old_dyld_library_path)
-    {
-      LW6SYS_FREE (old_dyld_library_path);
-      old_dyld_library_path = NULL;
-    }
-  if (new_dyld_library_path)
-    {
-      old_dyld_library_path = new_dyld_library_path;
-      new_dyld_library_path = NULL;
-    }
-
-  run_dir = lw6sys_get_run_dir (argc, argv);
-  if (run_dir)
-    {
-      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
-	{
-	  new_dyld_library_path =
-	    lw6sys_env_concat (run_dir, old_dyld_library_path);
-	}
-      else
-	{
-	  new_dyld_library_path = lw6sys_str_copy (run_dir);
-	}
-      LW6SYS_FREE (run_dir);
-    }
-
-  if (old_dyld_library_path)
-    {
-      LW6SYS_FREE (old_dyld_library_path);
-      old_dyld_library_path = NULL;
-    }
-  if (new_dyld_library_path)
-    {
-      lw6sys_setenv (DYLD_LIBRARY_PATH, new_dyld_library_path);
-      LW6SYS_FREE (new_dyld_library_path);
-      new_dyld_library_path = NULL;
-    }
-}
-#endif
-
 static void *
 guile_main (void *data)
 {
@@ -176,11 +60,11 @@ guile_main (void *data)
 
   scm_gc ();
   /*
-   * It's important to call lw6_quit_global_1 only now, for in vthread
-   * mode we need the possible dsp/gfx module cleanup to be in the
-   * same thread than the caller (SDL limitation on Mac OS X).
+   * In older versions there was a lw6_quit_global_1 function to
+   * cleanup the dsp/gfx module in the same thread than the caller 
+   * (SDL limitation on Mac OS X). Now this is done before by the
+   * script using a call to lw6_release (c-lw6-release).
    */
-  lw6_quit_global_1 ();
 
   return NULL;
 }
@@ -267,11 +151,8 @@ lw6_main (int argc, char *argv[])
 
       if (lw6_init_global (argc, argv))
 	{
-#if LW6_MS_WINDOWS || LW6_MAC_OS_X
-	  _fix_guile_load_path (argc, argv);
-#endif
+	  lw6_fix_env(argc,argv);
 #ifdef LW6_MAC_OS_X
-	  _fix_dyld_library_path (argc, argv);
 	  if (!lw6sys_vthread_run (_run, _end, NULL))
 	    {
 	      ret = 0;
@@ -282,13 +163,13 @@ lw6_main (int argc, char *argv[])
 #endif
 
 	  /*
-	   * It's important to call lw6_quit_global_2 only now, when Guile
+	   * It's important to call lw6_quit_global only now, when Guile
 	   * is finished, otherwise Guile might call the destructors
 	   * afterwards, when globals are zeroed. This way it works, the
 	   * destructors (even for "chained" objects like game_struct)
 	   * do not need to access SCM objects.
 	   */
-	  lw6_quit_global_2 ();
+	  lw6_quit_global ();
 	}
 
       lw6_print_goodbye ();

@@ -26,7 +26,11 @@
 
 #include "liquidwar6.h"
 
-/*
+/**
+ * lw6_resize_callback
+ *
+ * @video_mode: the new video mode
+ *
  * This callback is here because gfx needs to update the config
  * when the screen is resized. But... we did not want to make
  * gfx depend on cfg "directly". It's cleaner to pass parameters
@@ -35,6 +39,8 @@
  * this way there's a tangible obvious trace of this updating
  * of config status by the gfx module. Seeing it sticking out
  * like a thumb isn't a bad thing.
+ *
+ * Return value: none
  */
 void
 lw6_resize_callback (lw6gui_video_mode_t * video_mode)
