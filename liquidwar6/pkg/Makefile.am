@@ -45,8 +45,10 @@ TMP=/tmp/@PACKAGE_TARNAME@
 PACKAGE_TMP=/tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
 
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
-	echo "run make dist to (re)build @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz or copy it here" && false
+targz: ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+
+../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz:
+	echo "run make dist in parent directory to (re)build ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz" && false
 
 liquidwar6.exe:
 	echo "Copy src/.libs/liquidwar6.exe here" && false
@@ -55,10 +57,10 @@ zip: ms-windows-zip
 
 ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	rm -rf ${TMP}
 	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	mv ${PACKAGE_TMP}/NEWS ${PACKAGE_TMP}/news.txt
 	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
@@ -104,22 +106,22 @@ ms-windows-installer: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.e
 	cp ${PACKAGE_TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe .
 	rm -rf ${TMP}
 
-deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
+deb: ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
 	rm -rf ${TMP}
 	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
 	cd ${PACKAGE_TMP} && dpkg-buildpackage -rfakeroot || true
 	cp ${TMP}/*.deb .
 	rm -rf ${TMP}
 
-rpm: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
+rpm: ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6.spec
 	rm -rf ${TMP}
 	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	echo "next command will prompt for root password"
-	cd ${TMP} && su -c "rpmbuild -ta --sign @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
+	cd ${TMP} && su -c "rpmbuild -ta --sign ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz"
 	rm -rf ${TMP}
 
 dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
@@ -128,10 +130,10 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 # http://qin.laya.com/tech_coding_help/dylib_linking.html
 # http://doc.qt.nokia.com/qq/qq09-mac-deployment.html
 
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
 	rm -rf ${TMP}
 	install -d ${TMP}
-	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources"
 	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"

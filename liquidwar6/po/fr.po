@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-07-10 22:53+0200\n"
+"POT-Creation-Date: 2010-07-13 21:37+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -140,7 +140,7 @@ msgstr "Jouer tout de suite"
 msgid "Play"
 msgstr "Jouer"
 
-#: src/scriptpo.c:34 src/scriptpo.c:157
+#: src/scriptpo.c:34 src/scriptpo.c:159
 msgid "Players"
 msgstr "Joueurs"
 
@@ -462,98 +462,102 @@ msgstr "Menu principal"
 msgid "running \"~a\""
 msgstr "exécution de \"~a\""
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:134 src/scriptpo.c:135
+msgid "environment \"~a\" is \"~a\""
+msgstr ""
+
+#: src/scriptpo.c:136
 msgid "upgrading to version ~a"
 msgstr "mise à jour vers la version ~a"
 
-#: src/scriptpo.c:135
+#: src/scriptpo.c:137
 msgid ""
 "no graphical backend found, game can only run in pure server/console mode"
 msgstr ""
 "aucun backend graphique trouvé, le jeu ne peut fonctionner qu'en mode "
 "serveur/console pur"
 
-#: src/scriptpo.c:136
+#: src/scriptpo.c:138
 msgid "server mode not implemented yet"
 msgstr "le mode serveur n'est pas encore implémenté"
 
-#: src/scriptpo.c:137
+#: src/scriptpo.c:139
 msgid "Display FPS"
 msgstr "Montrer les FPS"
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:140
 msgid "FPS hidden"
 msgstr "FPS cachés"
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:141
 msgid "Display MPS"
 msgstr "Montrer les MPS"
 
-#: src/scriptpo.c:140
+#: src/scriptpo.c:142
 msgid "MPS hidden"
 msgstr "MPS cachés"
 
-#: src/scriptpo.c:141
+#: src/scriptpo.c:143
 msgid "Console enabled"
 msgstr "Console activée"
 
-#: src/scriptpo.c:142
+#: src/scriptpo.c:144
 msgid "Console disabled"
 msgstr "Console éteinte"
 
-#: src/scriptpo.c:143
+#: src/scriptpo.c:145
 msgid "System options"
 msgstr "Options système"
 
-#: src/scriptpo.c:144
+#: src/scriptpo.c:146
 msgid "Playing"
 msgstr "Jen en cours"
 
-#: src/scriptpo.c:145
+#: src/scriptpo.c:147
 msgid "red"
 msgstr "rouge"
 
-#: src/scriptpo.c:146
+#: src/scriptpo.c:148
 msgid "green"
 msgstr "vert"
 
-#: src/scriptpo.c:147
+#: src/scriptpo.c:149
 msgid "blue"
 msgstr "bleu"
 
-#: src/scriptpo.c:148
+#: src/scriptpo.c:150
 msgid "yellow"
 msgstr "jaune"
 
-#: src/scriptpo.c:149
+#: src/scriptpo.c:151
 msgid "cyan"
 msgstr "cyan"
 
-#: src/scriptpo.c:150
+#: src/scriptpo.c:152
 msgid "magenta"
 msgstr "magenta"
 
-#: src/scriptpo.c:151
+#: src/scriptpo.c:153
 msgid "orange"
 msgstr "orange"
 
-#: src/scriptpo.c:152
+#: src/scriptpo.c:154
 msgid "light blue"
 msgstr "bleu ciel"
 
-#: src/scriptpo.c:153
+#: src/scriptpo.c:155
 msgid "purple"
 msgstr "violet"
 
-#: src/scriptpo.c:154
+#: src/scriptpo.c:156
 msgid "pink"
 msgstr "rose"
 
-#: src/scriptpo.c:155
+#: src/scriptpo.c:157
 msgid "Esc"
 msgstr "Esc"
 
-#: src/scriptpo.c:156
+#: src/scriptpo.c:158
 msgid "Free slot"
 msgstr "Libre"
 
@@ -682,23 +686,23 @@ msgstr "Contre les brevets logiciels %s"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/lw6-print.c:39
+#: src/lib/lw6-print.c:46
 #, c-format
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 
-#: src/lib/lw6-print.c:51
+#: src/lib/lw6-print.c:58
 #, c-format
 msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
 msgstr ""
 "Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
 
-#: src/lib/lw6-print.c:53
+#: src/lib/lw6-print.c:60
 #, c-format
 msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
 msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"
 
-#: src/lib/lw6-print.c:74
+#: src/lib/lw6-print.c:95
 #, c-format
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -712,15 +716,15 @@ msgstr ""
 "certaines conditions.\n"
 "Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
 
-#: src/lib/lw6-print.c:622
+#: src/lib/lw6-print.c:826
 msgid "hello"
 msgstr "bonjour"
 
-#: src/lib/lw6-print.c:629
+#: src/lib/lw6-print.c:833
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "environ %d méga-octets disponibles"
 
-#: src/lib/lw6-print.c:636
+#: src/lib/lw6-print.c:848
 msgid "goodbye"
 msgstr "au revoir"
