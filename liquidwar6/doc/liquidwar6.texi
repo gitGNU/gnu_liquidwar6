@@ -2456,6 +2456,27 @@ The layout of the bundle follows:
 Additionnally, the Mac OS X port uses @code{/Users/<username>/Library/Application Support/Liquid War 6/} to store
 configuration file, logs, etc. It does not use @code{$HOME/.liquidwar6} like the default UNIX port.
 
+The Mac OS X port also has a special behavior, in order to load some libraries with dlopen
+(SDL_image does this with libpng and libjpeg) it needs to set @code{DYLD_FALLBACK_LIBARY_PATH} to a
+value that contains these libraries. This is typically in the bundle distributed on the disk image.
+On a developper's computer this problem does not appear for those libs are often in places like:
+@itemize
+@item
+@code{/usr/local/lib}
+@item
+@code{/usr/X11/lib}
+@item
+@code{/opt/local/lib}
+@end itemize
+So the program sets @code{DYLD_FALLBACK_LIBARY_PATH} (but not @code{DYLD_LIBRARY_PATH} else
+it breaks internal OS X stuff which relies, for instance, on libjpeg library that has the
+same name but different contents) but it needs to do it before it is even run, else
+the various @code{dyld} functions do not acknowledge the change. That is, calling the C
+function @code{setenv()}, even before @code{dlopen()}, has no effect. So the program
+calls @code{exec()} to re-run itself with the right environment variable. This is why,
+on Mac OS X, there are two lines (exactly the same ones) displaying the program description 
+when it is started in a terminal.
+
 @subsection GP2X port
 
 This is not working yet, but there are good hopes that some day,

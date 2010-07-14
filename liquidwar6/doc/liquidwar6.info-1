@@ -1,8 +1,9 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+Ceci est le fichier Info
+/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produit par
+Makeinfo version 4.8 Ã  partir
+/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
-Liquid War 6, a unique multiplayer wargame.
+   Liquid War 6, a unique multiplayer wargame.
 
    Copyright (c)  2005, 2006, 2007, 2008, 2009  Christian Mauduit
 <ufoot@ufoot.org>
@@ -2278,8 +2279,9 @@ tarball, launch your MSYS shell, and:
 
    Now the binary is in `src/.libs/liquidwar6.exe' (beware,
 `src/liquidwar6.exe' is only a wrapper).  This binary is an MSYS/MinGW
-binary, so it read paths "Ã  la" Microsoft, that is, it has no knowledge
-of what `/usr' is, for instance. It requires paths starting by `C:\'.
+binary, so it read paths "Ã  la" Microsoft, that is, it has no
+knowledge of what `/usr' is, for instance. It requires paths starting
+by `C:\'.
 
 3.7.3 Mac OS X port
 -------------------
@@ -2294,6 +2296,7 @@ then compile the game and other SDL dependencies against this SDL.
 without dynamic ogg support.  By default it seems that it tries to load
 `libvorbisfile.dylib' at runtime, and it can fail.  To disable this
 dynamic loading, use for instance :
+
 
 /configure --prefix=/opt/extra --enable-music-ogg --disable-music-ogg-shared
 
@@ -2312,6 +2315,7 @@ libraries at runtime.
    It is very important to have the right SDL flags when linking the
 Liquid War 6 binaries.  For instance it could be:
 
+
 -I/opt/extra/include -I/opt/local/include -Wl,-framework -Wl,CoreFoundation -I/opt/local/include -D_THREAD_SAFE -Wl,-framework -Wl,Cocoa -Wl,-framework -Wl,OpenGL -Wl,-framework -Wl,Cocoa
 
    The point is to have Cocoa and OpenGL support. Depending on the way
@@ -2320,6 +2324,7 @@ support, this is mostly if you installed SDL from .dmg binary images,
 and not from source with the command line. A typical output of
 `sdl-config --libs' is:
 
+
 -L/opt/extra/lib -lSDLmain -lSDL -Wl,-framework,Cocoa
 
    Another important issue is to include `SDL.h', which in turn
@@ -2327,6 +2332,7 @@ includes `SDLmain.h', in all the .c source files defining the standard
 `main' function. This is done in liquidwar6 but should you try to link
 yourself on liquidwar6 libraries and/or hack code, you must do this or
 you'll get errors when running the game. Such errors look like:
+
 
 *** _NSAutoreleaseNoPool(): Object 0x420c90 of class NSCFNumber autoreleased with no pool in place - just leaking
 
@@ -2374,6 +2380,28 @@ only theory.  Needs to be widely tested.
 configuration file, logs, etc. It does not use `$HOME/.liquidwar6' like
 the default UNIX port.
 
+   The Mac OS X port also has a special behavior, in order to load some
+libraries with dlopen (SDL_image does this with libpng and libjpeg) it
+needs to set `DYLD_FALLBACK_LIBARY_PATH' to a value that contains these
+libraries. This is typically in the bundle distributed on the disk
+image.  On a developper's computer this problem does not appear for
+those libs are often in places like:
+   * `/usr/local/lib'
+
+   * `/usr/X11/lib'
+
+   * `/opt/local/lib'
+   So the program sets `DYLD_FALLBACK_LIBARY_PATH' (but not
+`DYLD_LIBRARY_PATH' else it breaks internal OS X stuff which relies,
+for instance, on libjpeg library that has the same name but different
+contents) but it needs to do it before it is even run, else the various
+`dyld' functions do not acknowledge the change. That is, calling the C
+function `setenv()', even before `dlopen()', has no effect. So the
+program calls `exec()' to re-run itself with the right environment
+variable. This is why, on Mac OS X, there are two lines (exactly the
+same ones) displaying the program description when it is started in a
+terminal.
+
 3.7.4 GP2X port
 ---------------
 
@@ -2392,6 +2420,7 @@ install Open2x
 
    Basically, the following should work:
 
+
 mkdir /opt/open2x # check that you can write here
 svn co https://open2x.svn.sourceforge.net/svnroot/open2x/trunk/toolchain-new open2x-toolchain
 ./open2x-gp2x-apps.sh
@@ -2399,6 +2428,7 @@ cd open2x-toolchain
 
    Then, for your environment to be complete, you need to set up some
 environment variables. For instance:
+
 
 export OPEN2X_SYSTEM_PREFIX=/opt/open2x/gcc-4.1.1-glibc-2.3.6/arm-open2x-linux
 export GP2X_USER_PREFIX=$HOME/gp2x
@@ -2424,6 +2454,7 @@ be cross-compiled. To make things clear and non-ambiguous, even if you
 have `CC' set up in your environment variables, pass `--build' and
 `--host' arguments to the `./configure' script of all these packages. A
 typical command is:
+
 
 ./configure --build=i686-pc-linux-gnu --host=arm-open2x-linux --prefix=${GP2X_USER_PREFIX}
 
@@ -2469,6 +2500,7 @@ limitations, which are related to the GP2X peculiar hardware.  There
 are installation instructions
 (http://wiki.gp2x.org/wiki/How_to_install_the_SDL_libraries) about how
 to do this. The following should work:
+
 
 cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/open2x login # blank password
 cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/open2x co libs-gp2x
@@ -2783,21 +2815,25 @@ might change before being implemented.
 
    TCP messages:
 
+
 LW6 <passwd> <client-id>
 MSG1
 MSG2
 
    UDP messages:
 
+
 LW6 <passwd> <client-id> MSG1
 LW6 <passwd> <client-id> MSG2
 
    HTTP messages:
 
+
 /lw6/<passwd>/<client-id>/MSG1
 /lw6/<passwd>/<client-id>/MSG2
 
    HTTP public URLs:
+
 
 error 404 -> /lw6/
 /lw6/ -> HTML human readbable page
@@ -2808,13 +2844,16 @@ error 404 -> /lw6/
 
    MSG syntax:
 
+
 <serial>-<i>-<n> COMMAND
 
    COMMAND format:
 
+
 <round> <server-id> <command> <arg1> ... <argN>
 
    COMMAND examples:
+
 2 1234abcd1234abcd REGISTER
 3 1234abcd1234abcd ADD 5678 YELLOW
 4 1234abcd1234abcd SET 5678 20 5
