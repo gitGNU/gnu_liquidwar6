@@ -44,7 +44,7 @@ _lw6sys_macosx_alert (char *title, char *msg)
     pool =[[NSAutoreleasePool alloc] init];
     @try
     {
-      [[NSApplication alloc] init];
+      app =[[NSApplication alloc] init];
     }
     @catch (NSException * exception)
     {
