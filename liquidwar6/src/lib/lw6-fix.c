@@ -144,13 +144,13 @@ _fix_library_path (int argc, char *argv[], char *library_path)
 static void
 _fix_dyld_library_path (int argc, char *argv[])
 {
-  _fix_library_path(argc,argv,_DYLD_LIBRARY_PATH);
+  _fix_library_path(argc,argv,DYLD_LIBRARY_PATH);
 }
 
 static void
 _fix_ld_library_path (int argc, char *argv[])
 {
-  _fix_library_path(argc,argv,_LD_LIBRARY_PATH);
+  _fix_library_path(argc,argv,LD_LIBRARY_PATH);
 }
 #endif
 
