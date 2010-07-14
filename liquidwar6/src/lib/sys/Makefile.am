@@ -19,6 +19,7 @@
 # Contact author        : ufoot@ufoot.org
 
 AM_CFLAGS = @LW6_CFLAGS@ @LW6_CONSOLE_ENABLE_CFLAGS@ @MOD_GL_ENABLE_CFLAGS@ @MOD_CSOUND_ENABLE_CFLAGS@ @MOD_OGG_ENABLE_CFLAGS@ @MOD_HTTP_ENABLE_CFLAGS@ -DLW6_TOP_SRCDIR=\"$(top_srcdir)\" -DLW6_PREFIX=\"$(prefix)\" -DLW6_DATADIR=\"$(datadir)\" -DLW6_LIBDIR=\"$(libdir)\" -DLW6_INCLUDEDIR=\"$(includedir)\" -DLW6_LOCALEDIR=\"$(localedir)\" -DLW6_DOCDIR=\"$(docdir)\"
+AM_OBJCFLAGS = $(AM_CFLAGS)
 AM_LDFLAGS = @LW6_LDFLAGS@ -lm
 
 if LW6_X86
