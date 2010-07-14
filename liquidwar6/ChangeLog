@@ -1,3 +1,7 @@
+2010-07-14 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug 30409 (again...) copied libpng12.0.dylib to libpng12.dylib
+
 2010-07-13 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Packaging script in ./pkg now rely on .tar.gz in parent dir.
