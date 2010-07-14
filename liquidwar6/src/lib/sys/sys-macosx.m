@@ -34,14 +34,36 @@
 void
 _lw6sys_macosx_alert (char *title, char *msg)
 {
-  NSString *NStitle = [NSString stringWithUTF8String:title];
-  NSString *NSmsg = [NSString stringWithUTF8String:msg];
-  NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-  NSApplication* q = [[NSApplication alloc] init]; 
+  @try {
+    NSString *ns_title = [NSString stringWithUTF8String:title];
+    NSString *ns_msg = [NSString stringWithUTF8String:msg];
+    NSAutoreleasePool* pool = NULL;
+    NSApplication* app = NULL; 
 
-  NSRunAlertPanel (NStitle, NSmsg, nil, nil, nil);
+    pool=[[NSAutoreleasePool alloc] init];
+    @try {
+      [[NSApplication alloc] init];
+    }
+    @catch(NSException *exception) {
+      /* 
+       * depends on wether we're in Cocoa app context or not,
+       * if already initialize (through SDL for instance) then
+       * do not try to do it again, would fail, we just ignore
+       * this error.
+       */
+    }
+    NSRunAlertPanel (ns_title, ns_msg, nil, nil, nil);
+    [ns_msg release];
+    [ns_title release]; // is this correct?
+    [pool release];
+  }
+  @catch (NSException *exception) {
+    NSLog(@"Caught %@: %@", [exception name], [exception reason]);
+  }
 
-  [pool release];
-  // this might memory leak NSString not released? but so rare a call...
+  /*
+   * Fires ugly "leaking" message on exit, any Mac OS X / Cocoa / Objc
+   * welcome to help fix this...
+   */
 }
 #endif
