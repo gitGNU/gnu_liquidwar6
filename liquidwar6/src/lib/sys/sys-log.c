@@ -732,19 +732,19 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
       int errno_int;
       va_list ap;
       va_list ap2;
-  char *file_only = NULL;
+      char *file_only = NULL;
 
       errno_int = errno;
 
-  file_only = strrchr (file, '/');
-  if (file_only && *file_only)
-    {
-      file_only++;
-    }
-  else
-    {
-      file_only = file;
-    }
+      file_only = strrchr (file, '/');
+      if (file_only && *file_only)
+	{
+	  file_only++;
+	}
+      else
+	{
+	  file_only = file;
+	}
 
       va_start (ap, fmt);
 

@@ -34,17 +34,20 @@
 void
 _lw6sys_macosx_alert (char *title, char *msg)
 {
-  @try {
-    NSString *ns_title = [NSString stringWithUTF8String:title];
-    NSString *ns_msg = [NSString stringWithUTF8String:msg];
-    NSAutoreleasePool* pool = NULL;
-    NSApplication* app = NULL; 
+  @try
+  {
+  NSString *ns_title =[NSString stringWithUTF8String:title];
+  NSString *ns_msg =[NSString stringWithUTF8String:msg];
+    NSAutoreleasePool *pool = NULL;
+    NSApplication *app = NULL;
 
-    pool=[[NSAutoreleasePool alloc] init];
-    @try {
+    pool =[[NSAutoreleasePool alloc] init];
+    @try
+    {
       [[NSApplication alloc] init];
     }
-    @catch(NSException *exception) {
+    @catch (NSException * exception)
+    {
       /* 
        * depends on wether we're in Cocoa app context or not,
        * if already initialize (through SDL for instance) then
@@ -54,11 +57,12 @@ _lw6sys_macosx_alert (char *title, char *msg)
     }
     NSRunAlertPanel (ns_title, ns_msg, nil, nil, nil);
     [ns_msg release];
-    [ns_title release]; // is this correct?
+    [ns_title release];		// is this correct?
     [pool release];
   }
-  @catch (NSException *exception) {
-    NSLog(@"Caught %@: %@", [exception name], [exception reason]);
+  @catch (NSException * exception)
+  {
+    NSLog (@"Caught %@: %@",[exception name],[exception reason]);
   }
 
   /*
