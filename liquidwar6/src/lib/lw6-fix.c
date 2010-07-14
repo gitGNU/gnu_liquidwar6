@@ -55,7 +55,7 @@ _fix_guile_load_path (int argc, char *argv[])
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _("Guile library directory \"%s\" does not exist"),
 			  guile_dir);
 	    }

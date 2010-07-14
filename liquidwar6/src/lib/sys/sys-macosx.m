@@ -34,6 +34,14 @@
 void
 _lw6sys_macosx_alert (char *title, char *msg)
 {
-  NSRunAlertPanel (title, msg, nil, nil, nil);
+  NSString *NStitle = [NSString stringWithUTF8String:title];
+  NSString *NSmsg = [NSString stringWithUTF8String:msg];
+  NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+  NSApplication* q = [[NSApplication alloc] init]; 
+
+  NSRunAlertPanel (NStitle, NSmsg, nil, nil, nil);
+
+  [pool release];
+  // this might memory leak NSString not released? but so rare a call...
 }
 #endif

@@ -36,8 +36,11 @@
 
 #define HISTORY_LENGTH 256
 
-#define MSGBOX_LENGTH 5000
-#define MSGBOX_WIDTH 100
+#define MSGBOX_LENGTH 4096
+#define MSGBOX_WIDTH 128
+
+#define CRITICAL_FILE "sys-log.c"
+#define CRITICAL_LINE __LINE__
 
 #define STATIC_LOG_FILENAME_SIZE 65536
 static char static_log_filename[STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
@@ -547,21 +550,10 @@ static void
 log_to_file (FILE * f, int level_id, char *level_str, char *file, int line,
 	     char *fmt, va_list ap)
 {
-  char *file_only = NULL;
   time_t t_now;
   struct tm tm_now;
   struct tm *tm_ret = NULL;
   struct timeval timeval_now;
-
-  file_only = strrchr (file, '/');
-  if (file_only && *file_only)
-    {
-      file_only++;
-    }
-  else
-    {
-      file_only = file;
-    }
 
   memset (&t_now, 0, sizeof (time_t));
   memset (&tm_now, 0, sizeof (struct tm));
@@ -577,7 +569,7 @@ log_to_file (FILE * f, int level_id, char *level_str, char *file, int line,
 	       (int) tm_now.tm_min, (int) tm_now.tm_sec,
 	       (int) timeval_now.tv_usec / (int) (1000000 /
 						  LW6SYS_TICKS_PER_SEC),
-	       file_only, line, level_id, level_str);
+	       file, line, level_id, level_str);
     }
   vfprintf (f, fmt, ap);
   fprintf (f, "\n");
@@ -740,8 +732,19 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
       int errno_int;
       va_list ap;
       va_list ap2;
+  char *file_only = NULL;
 
       errno_int = errno;
+
+  file_only = strrchr (file, '/');
+  if (file_only && *file_only)
+    {
+      file_only++;
+    }
+  else
+    {
+      file_only = file;
+    }
 
       va_start (ap, fmt);
 
@@ -833,14 +836,14 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	  if (f)
 	    {
 	      va_copy (ap2, ap);
-	      log_to_file (f, level_id, level_str, file, line, fmt, ap2);
+	      log_to_file (f, level_id, level_str, file_only, line, fmt, ap2);
 	      va_end (ap2);
 	      fclose (f);
 	    }
 	  if (level_id <= LW6SYS_LOG_ERROR_ID)
 	    {
 	      va_copy (ap2, ap);
-	      msgbox_alert (level_str, file, line, fmt, ap2);
+	      msgbox_alert (level_str, file_only, line, fmt, ap2);
 	      va_end (ap2);
 	    }
 	}
@@ -888,7 +891,7 @@ lw6sys_log_critical (char *fmt, ...)
   va_end (ap2);
 
   va_copy (ap2, ap);
-  msgbox_alert (_("CRITICAL!"), __FILE__, __LINE__, fmt, ap2);
+  msgbox_alert (_("CRITICAL!"), CRITICAL_FILE, CRITICAL_LINE, fmt, ap2);
   va_end (ap2);
 
   exit (_LW6SYS_EXIT_CRITICAL);

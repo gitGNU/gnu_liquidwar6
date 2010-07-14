@@ -617,7 +617,7 @@ if test "x${lw6_ms_windows}" = "xyes" ; then
 else
    if test "x${lw6_mac_os_x}" = "xyes" ; then
       LW6_OS_CFLAGS="-DLW6_UNIX=1 -DLW6_MAC_OS_X=1"
-      LW6_OS_LDFLAGS="-lpthread"
+      LW6_OS_LDFLAGS="-lpthread -Wl,-framework -Wl,CoreFoundation -Wl,-framework -Wl,Cocoa"
    else
       if test "x{lw6_gp2x}" = "xyes" ; then
          LW6_OS_CFLAGS="-DLW6_GP2X=1"

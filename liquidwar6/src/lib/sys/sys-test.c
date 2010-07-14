@@ -1453,7 +1453,7 @@ test_log (int mode)
     if (mode)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _("this is a /TEST/ warning"));
-	lw6sys_log (LW6SYS_LOG_ERROR, _("this is an /TEST/ error"));
+	lw6sys_log (LW6SYS_LOG_ERROR, _("this is a /TEST/ error"));
       }
     else
       {
