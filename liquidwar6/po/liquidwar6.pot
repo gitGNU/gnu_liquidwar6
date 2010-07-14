@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.9beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-07-13 21:37+0200\n"
+"POT-Creation-Date: 2010-07-14 23:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -558,47 +558,51 @@ msgstr ""
 msgid "Free slot"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:61
+#: src/lib/sys/sys-log.c:64
 msgid "log_file is NULL"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:520
+#: src/lib/sys/sys-log.c:523
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:625
-msgid "Error (message too long...)"
+#: src/lib/sys/sys-log.c:616
+msgid "See log file for details."
 msgstr ""
 
-#: src/lib/sys/sys-log.c:727
+#: src/lib/sys/sys-log.c:757
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:732
+#: src/lib/sys/sys-log.c:762
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:742
+#: src/lib/sys/sys-log.c:772
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:747
+#: src/lib/sys/sys-log.c:777
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:766
+#: src/lib/sys/sys-log.c:796
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:772
+#: src/lib/sys/sys-log.c:802
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:860
+#: src/lib/sys/sys-log.c:890
 msgid "CRITICAL! "
+msgstr ""
+
+#: src/lib/sys/sys-log.c:894
+msgid "CRITICAL!"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:77

@@ -25,6 +25,7 @@
 
 #include "liquidwar6.h"
 
+#define DYLD_FALLBACK_LIBRARY_PATH "DYLD_FALLBACK_LIBRARY_PATH"
 #define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
 #define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
 
@@ -140,6 +141,13 @@ _fix_library_path (int argc, char *argv[], char *library_path)
 }
 
 static void
+_fix_dyld_fallback_library_path (int argc, char *argv[])
+{
+  _fix_library_path (argc, argv, DYLD_FALLBACK_LIBRARY_PATH);
+}
+
+/*
+static void
 _fix_dyld_library_path (int argc, char *argv[])
 {
   _fix_library_path (argc, argv, DYLD_LIBRARY_PATH);
@@ -150,6 +158,7 @@ _fix_ld_library_path (int argc, char *argv[])
 {
   _fix_library_path (argc, argv, LD_LIBRARY_PATH);
 }
+*/
 #endif
 
 /**
@@ -176,8 +185,9 @@ lw6_fix_env (int argc, char *argv[])
 #ifdef LW6_MAC_OS_X
   if (!lw6sys_is_executed_again (argc, argv))
     {
-      _fix_dyld_library_path (argc, argv);
-      _fix_ld_library_path (argc, argv);
+      _fix_dyld_fallback_library_path (argc, argv);
+      //_fix_dyld_library_path (argc, argv);
+      //_fix_ld_library_path (argc, argv);
       lw6sys_exec_again (argc, argv);
       lw6sys_log (LW6SYS_LOG_ERROR,
 		  _

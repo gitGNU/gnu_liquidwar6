@@ -83,8 +83,8 @@
       (if (c-lw6sys-build-is-mac-os-x)
 	  (lw6-log-info (format #f 
 				(_ "environment \"~a\" is \"~a\"") 
-				"DYLD_LIBRARY_PATH" 
-				(c-lw6sys-getenv "DYLD_LIBRARY_PATH"))))
+				"DYLD_FALLBACK_LIBRARY_PATH" 
+				(c-lw6sys-getenv "DYLD_FALLBACK_LIBRARY_PATH"))))
       (c-lw6cfg-init)
       (lw6-load-config)
       (if (not (equal? 

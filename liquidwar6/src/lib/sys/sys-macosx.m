@@ -36,12 +36,9 @@ _lw6sys_macosx_alert (char *title, char *msg)
 {
   @try
   {
-  NSString *ns_title =[NSString stringWithUTF8String:title];
-  NSString *ns_msg =[NSString stringWithUTF8String:msg];
-    NSAutoreleasePool *pool = NULL;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSApplication *app = NULL;
 
-    pool =[[NSAutoreleasePool alloc] init];
     @try
     {
       app =[[NSApplication alloc] init];
@@ -55,9 +52,11 @@ _lw6sys_macosx_alert (char *title, char *msg)
        * this error.
        */
     }
-    NSRunAlertPanel (ns_title, ns_msg, nil, nil, nil);
-    [ns_msg release];
-    [ns_title release];		// is this correct?
+    {
+      NSString *ns_title =[NSString stringWithUTF8String:title];
+      NSString *ns_msg =[NSString stringWithUTF8String:msg];
+      NSRunAlertPanel (ns_title, ns_msg, nil, nil, nil);
+    }
     [pool release];
   }
   @catch (NSException * exception)
