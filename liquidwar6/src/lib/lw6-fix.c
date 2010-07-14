@@ -26,6 +26,7 @@
 #include "liquidwar6.h"
 
 #define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
+#define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
 
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
 #define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
@@ -67,7 +68,7 @@ _fix_guile_load_path (int argc, char *argv[])
 
 #if LW6_MAC_OS_X
 static void
-_fix_dyld_library_path (int argc, char *argv[])
+_fix_library_path (int argc, char *argv[], char *library_path)
 {
   /*
    * Fixes bug http://savannah.gnu.org/bugs/?30409
@@ -80,64 +81,76 @@ _fix_dyld_library_path (int argc, char *argv[])
    * tell the library loader to look into CWD and
    * run directory.
    */
-  char *old_dyld_library_path = NULL;
-  char *new_dyld_library_path = NULL;
+  char *old_library_path = NULL;
+  char *new_library_path = NULL;
   char *run_dir = NULL;
   char *cwd = NULL;
 
   cwd = lw6sys_get_cwd (argc, argv);
   if (cwd)
     {
-      old_dyld_library_path = lw6sys_getenv (DYLD_LIBRARY_PATH);
-      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
+      old_library_path = lw6sys_getenv (library_path);
+      if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_dyld_library_path =
-	    lw6sys_env_concat (cwd, old_dyld_library_path);
+	  new_library_path =
+	    lw6sys_env_concat (cwd, old_library_path);
 	}
       else
 	{
-	  new_dyld_library_path = lw6sys_str_copy (cwd);
+	  new_library_path = lw6sys_str_copy (cwd);
 	}
       LW6SYS_FREE (cwd);
     }
 
-  if (old_dyld_library_path)
+  if (old_library_path)
     {
-      LW6SYS_FREE (old_dyld_library_path);
-      old_dyld_library_path = NULL;
+      LW6SYS_FREE (old_library_path);
+      old_library_path = NULL;
     }
-  if (new_dyld_library_path)
+  if (new_library_path)
     {
-      old_dyld_library_path = new_dyld_library_path;
-      new_dyld_library_path = NULL;
+      old_library_path = new_library_path;
+      new_library_path = NULL;
     }
 
   run_dir = lw6sys_get_run_dir (argc, argv);
   if (run_dir)
     {
-      if (old_dyld_library_path && strlen (old_dyld_library_path) > 0)
+      if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_dyld_library_path =
-	    lw6sys_env_concat (run_dir, old_dyld_library_path);
+	  new_library_path =
+	    lw6sys_env_concat (run_dir, old_library_path);
 	}
       else
 	{
-	  new_dyld_library_path = lw6sys_str_copy (run_dir);
+	  new_library_path = lw6sys_str_copy (run_dir);
 	}
       LW6SYS_FREE (run_dir);
     }
 
-  if (old_dyld_library_path)
+  if (old_library_path)
     {
-      LW6SYS_FREE (old_dyld_library_path);
-      old_dyld_library_path = NULL;
+      LW6SYS_FREE (old_library_path);
+      old_library_path = NULL;
     }
-  if (new_dyld_library_path)
+  if (new_library_path)
     {
-      lw6sys_setenv (DYLD_LIBRARY_PATH, new_dyld_library_path);
-      LW6SYS_FREE (new_dyld_library_path);
-      new_dyld_library_path = NULL;
+      lw6sys_setenv (library_path, new_library_path);
+      LW6SYS_FREE (new_library_path);
+      new_library_path = NULL;
     }
+}
+
+static void
+_fix_dyld_library_path (int argc, char *argv[])
+{
+  _fix_library_path(argc,argv,_DYLD_LIBRARY_PATH);
+}
+
+static void
+_fix_ld_library_path (int argc, char *argv[])
+{
+  _fix_library_path(argc,argv,_LD_LIBRARY_PATH);
 }
 #endif
 
@@ -164,6 +177,7 @@ lw6_fix_env (int argc, char *argv[])
 #endif
 #ifdef LW6_MAC_OS_X
   _fix_dyld_library_path (argc, argv);
+  _fix_ld_library_path (argc, argv);
 #endif
 
   return ret;
