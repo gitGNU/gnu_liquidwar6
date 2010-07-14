@@ -36,7 +36,7 @@ _lw6sys_macosx_alert (char *title, char *msg)
 {
   @try
   {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool *pool =[[NSAutoreleasePool alloc] init];
     NSApplication *app = NULL;
 
     @try
@@ -53,8 +53,8 @@ _lw6sys_macosx_alert (char *title, char *msg)
        */
     }
     {
-      NSString *ns_title =[NSString stringWithUTF8String:title];
-      NSString *ns_msg =[NSString stringWithUTF8String:msg];
+    NSString *ns_title =[NSString stringWithUTF8String:title];
+    NSString *ns_msg =[NSString stringWithUTF8String:msg];
       NSRunAlertPanel (ns_title, ns_msg, nil, nil, nil);
     }
     [pool release];
