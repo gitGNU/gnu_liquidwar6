@@ -35,15 +35,15 @@ LW6DYN_LIB = ../dyn/libdyn.la
 endif
 
 if LW6_MAC_OS_X
-OBJC_SOURCES = dsp-macosx.m
-OBJC_EXTRA_DIST =
+OBJC_SRC_FILES = dsp-macosx.m
+OBJC_EXTRA_FILES =
 else
-OBJC_SOURCES =
-OBJC_EXTRA_DIST = dsp-macosx.m
+OBJC_SRC_FILES =
+OBJC_EXTRA_FILES = dsp-macosx.m
 endif
 
 noinst_LTLIBRARIES = libdsp.la
-libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SOURCES) dsp-param.c dsp-thread.c dsp-test.c
+libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c dsp-test.c
 libdspdir= $(includedir)/@PACKAGE_TARNAME@/dsp
 libdsp_HEADERS = dsp.h
 
@@ -54,4 +54,4 @@ liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../gui/libgu
 TESTS = liquidwar6dsp-test
 endif
 
-EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_DIST)
+EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)

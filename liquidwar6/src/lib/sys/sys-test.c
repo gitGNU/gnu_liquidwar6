@@ -749,8 +749,6 @@ test_exec (int argc, char *argv[], int mode)
 			("could not find myself, this is only check mode so no panic, but this is strange"));
 	  }
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("executed_again=%d"),
-		lw6sys_is_executed_again (argc, argv));
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1442,7 +1440,7 @@ test_list ()
  * Testing functions in log.c
  */
 static int
-test_log ()
+test_log (int mode)
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1452,9 +1450,17 @@ test_log ()
 
     log_level = lw6sys_log_get_level ();
     lw6sys_log_set_level (log_level);
-    /*
-     * We do not test WARNING & ERROR to avoid confusion...
-     */
+    if (mode)
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("this is a /TEST/ warning"));
+	lw6sys_log (LW6SYS_LOG_ERROR, _("this is an /TEST/ error"));
+      }
+    else
+      {
+	/*
+	 * We do not test WARNING & ERROR to avoid confusion...
+	 */
+      }
     lw6sys_log (LW6SYS_LOG_NOTICE, _("testing log_notice %s=%d"),
 		"log_level=%d", log_level);
     lw6sys_log (LW6SYS_LOG_INFO, _("testing log_info %s=%d"), "log_level=%d",
@@ -2768,7 +2774,7 @@ lw6sys_test (int mode)
     && test_color () && test_convert () && test_dump () && test_env ()
     && test_file () && test_profiler () && test_hash () && test_hexa ()
     && test_history () && test_i18n () && test_id () && test_keyword ()
-    && test_list () && test_log () && test_math () && test_mem ()
+    && test_list () && test_log (mode) && test_math () && test_mem ()
     && test_mutex () && test_options () && test_nop () && test_path ()
     && test_progress () && test_random () && test_sdl () && test_serial ()
     && test_shape () && test_sort () && test_spinlock () && test_str ()

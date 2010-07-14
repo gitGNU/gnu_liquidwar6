@@ -346,17 +346,17 @@ top_srcdir = @top_srcdir@
 @ALLINONE_TRUE@AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
 @ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
 @ALLINONE_TRUE@LW6DYN_LIB = 
-@LW6_MAC_OS_X_FALSE@OBJC_SOURCES = 
-@LW6_MAC_OS_X_TRUE@OBJC_SOURCES = dsp-macosx.m
-@LW6_MAC_OS_X_FALSE@OBJC_EXTRA_DIST = dsp-macosx.m
-@LW6_MAC_OS_X_TRUE@OBJC_EXTRA_DIST = 
+@LW6_MAC_OS_X_FALSE@OBJC_SRC_FILES = 
+@LW6_MAC_OS_X_TRUE@OBJC_SRC_FILES = dsp-macosx.m
+@LW6_MAC_OS_X_FALSE@OBJC_EXTRA_FILES = dsp-macosx.m
+@LW6_MAC_OS_X_TRUE@OBJC_EXTRA_FILES = 
 noinst_LTLIBRARIES = libdsp.la
-libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SOURCES) dsp-param.c dsp-thread.c dsp-test.c
+libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c dsp-test.c
 libdspdir = $(includedir)/@PACKAGE_TARNAME@/dsp
 libdsp_HEADERS = dsp.h
 @FULLSTATIC_FALSE@liquidwar6dsp_test_SOURCES = dsp-testmain.c
 @FULLSTATIC_FALSE@liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_DIST)
+EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)
 all: all-am
 
 .SUFFIXES:

@@ -88,8 +88,9 @@ am__libsys_la_SOURCES_DIST = sys-arg.c sys-assoc.c sys-bazooka.c \
 	sys-options.c sys-path.c sys-print.c sys-progress.c \
 	sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c \
 	sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c \
-	sys-vthread.c sys-testandsetx86.s
+	sys-vthread.c sys-testandsetx86.s sys-macosx.m
 @LW6_X86_TRUE@am__objects_1 = sys-testandsetx86.lo
+@LW6_MAC_OS_X_TRUE@am__objects_2 = sys-macosx.lo
 am_libsys_la_OBJECTS = sys-arg.lo sys-assoc.lo sys-bazooka.lo \
 	sys-build.lo sys-checksum.lo sys-color.lo sys-convert.lo \
 	sys-debug.lo sys-dump.lo sys-env.lo sys-exec.lo sys-file.lo \
@@ -100,7 +101,7 @@ am_libsys_la_OBJECTS = sys-arg.lo sys-assoc.lo sys-bazooka.lo \
 	sys-progress.lo sys-random.lo sys-sdl.lo sys-serial.lo \
 	sys-shape.lo sys-sort.lo sys-spinlock.lo sys-str.lo \
 	sys-test.lo sys-thread.lo sys-time.lo sys-vthread.lo \
-	$(am__objects_1)
+	$(am__objects_1) $(am__objects_2)
 libsys_la_OBJECTS = $(am_libsys_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsysdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -121,6 +122,15 @@ LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+OBJCCOMPILE = $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+LTOBJCCOMPILE = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(OBJC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_OBJCFLAGS) $(OBJCFLAGS)
+OBJCLD = $(OBJC)
+OBJCLINK = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(OBJCLD) $(AM_OBJCFLAGS) $(OBJCFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 CCASCOMPILE = $(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS)
 LTCCASCOMPILE = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -345,18 +355,25 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@ @LW6_CONSOLE_ENABLE_CFLAGS@ @MOD_GL_ENABLE_CFLAGS@ @MOD_CSOUND_ENABLE_CFLAGS@ @MOD_OGG_ENABLE_CFLAGS@ @MOD_HTTP_ENABLE_CFLAGS@ -DLW6_TOP_SRCDIR=\"$(top_srcdir)\" -DLW6_PREFIX=\"$(prefix)\" -DLW6_DATADIR=\"$(datadir)\" -DLW6_LIBDIR=\"$(libdir)\" -DLW6_INCLUDEDIR=\"$(includedir)\" -DLW6_LOCALEDIR=\"$(localedir)\" -DLW6_DOCDIR=\"$(docdir)\"
 AM_LDFLAGS = @LW6_LDFLAGS@ -lm
-@LW6_X86_TRUE@X86_FILES = sys-testandsetx86.s
+@LW6_X86_FALSE@X86_SRC_FILES = 
+@LW6_X86_TRUE@X86_SRC_FILES = sys-testandsetx86.s
+@LW6_X86_FALSE@X86_EXTRA_FILES = sys-testandsetx86.s
+@LW6_X86_TRUE@X86_EXTRA_FILES = 
+@LW6_MAC_OS_X_FALSE@OBJC_SRC_FILES = 
+@LW6_MAC_OS_X_TRUE@OBJC_SRC_FILES = sys-macosx.m
+@LW6_MAC_OS_X_FALSE@OBJC_EXTRA_FILES = sys-macosx.m
+@LW6_MAC_OS_X_TRUE@OBJC_EXTRA_FILES = 
 noinst_LTLIBRARIES = libsys.la
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-vthread.c $(X86_FILES)
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir = $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 @FULLSTATIC_FALSE@liquidwar6sys_test_SOURCES = sys-testmain.c
 @FULLSTATIC_FALSE@liquidwar6sys_test_LDADD = libsys.la @LW6_LIBINTL_LDADD@
-EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h
+EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h $(X86_EXTRA_FILES) $(OBJC_EXTRA_FILES)
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o .obj .s
+.SUFFIXES: .c .lo .m .o .obj .s
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -399,7 +416,7 @@ clean-noinstLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libsys.la: $(libsys_la_OBJECTS) $(libsys_la_DEPENDENCIES) 
-	$(LINK)  $(libsys_la_OBJECTS) $(libsys_la_LIBADD) $(LIBS)
+	$(OBJCLINK)  $(libsys_la_OBJECTS) $(libsys_la_LIBADD) $(LIBS)
 install-libexecPROGRAMS: $(libexec_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libexecdir)" || $(MKDIR_P) "$(DESTDIR)$(libexecdir)"
@@ -474,6 +491,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-keyword.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-list.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-log.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-macosx.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-math.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-mem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-mutex.Plo@am__quote@
@@ -516,6 +534,27 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+.m.o:
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(OBJCCOMPILE) -c -o $@ $<
+
+.m.obj:
+@am__fastdepOBJC_TRUE@	$(OBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(OBJCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.m.lo:
+@am__fastdepOBJC_TRUE@	$(LTOBJCCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepOBJC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepOBJC_FALSE@	DEPDIR=$(DEPDIR) $(OBJCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepOBJC_FALSE@	$(LTOBJCCOMPILE) -c -o $@ $<
 
 .s.o:
 	$(CCASCOMPILE) -c -o $@ $<

@@ -36,8 +36,8 @@
 
 #define HISTORY_LENGTH 256
 
-#define MSGBOX_LENGTH 4096
-#define MSGBOX_WIDTH 128
+#define MSGBOX_LENGTH 5000
+#define MSGBOX_WIDTH 100
 
 #define STATIC_LOG_FILENAME_SIZE 65536
 static char static_log_filename[STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
@@ -612,33 +612,45 @@ log_to_history (char *level_str, char *fmt, va_list ap)
 }
 
 static void
-msgbox_alert (char *fmt, va_list ap)
+msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
 {
-#ifdef LW6_MS_WINDOWS
-  {
-    char *message_raw = NULL;
-    char *message_formatted = NULL;
+  char *message_raw = NULL;
+  char *message_formatted = NULL;
+  char *message_full = NULL;
 
-    message_raw = _lw6sys_new_vsnprintf (MSGBOX_LENGTH, fmt, ap);
-    if (!message_raw)
-      {
-	message_raw = lw6sys_str_copy (_("Error (message too long...)"));
-      }
-    if (message_raw)
-      {
-	message_formatted =
-	  lw6sys_str_reformat (message_raw, "", MSGBOX_WIDTH);
-	if (message_formatted)
-	  {
-	    MessageBox (NULL,
-			message_formatted,
-			lw6sys_build_get_package_name (),
-			MB_OK | MB_ICONERROR | MB_APPLMODAL);
-	    LW6SYS_FREE (message_formatted);
-	  }
-	LW6SYS_FREE (message_raw);
-      }
-  }
+  message_raw = _lw6sys_new_vsnprintf (MSGBOX_LENGTH, fmt, ap);
+  if (!message_raw)
+    {
+      message_raw = lw6sys_str_copy (_("See log file for details."));
+    }
+  if (message_raw)
+    {
+      message_formatted = lw6sys_str_reformat (message_raw, "", MSGBOX_WIDTH);
+    }
+  if (message_formatted)
+    {
+      message_full =
+	lw6sys_new_sprintf ("%s (%s:%d)\n\n%s", level_str, file, line,
+			    message_formatted);
+    }
+  else
+    {
+      message_full = lw6sys_str_copy ("?");
+    }
+#ifdef LW6_MS_WINDOWS
+  if (message_full)
+    {
+      MessageBox (NULL,
+		  message_full,
+		  lw6sys_build_get_package_name (),
+		  MB_OK | MB_ICONERROR | MB_APPLMODAL);
+    }
+#else
+#ifdef LW6_MAC_OS_X
+  if (message_full)
+    {
+      _lw6sys_macosx_alert (lw6sys_build_get_package_name (), message_full);
+    }
 #else
 /*
  * Not implemented yet, below sample code, which would require to
@@ -652,7 +664,8 @@ msgbox_alert (char *fmt, va_list ap)
     gtk_init (&argc, &argv);
     dlg = gtk_message_dialog_new (NULL,
 				  GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
-				  GTK_BUTTONS_NONE, "Il y a un bleme");
+				  GTK_BUTTONS_NONE,
+				  lw6sys_build_get_package_name ());
     if (dlg)
       {
 	gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
@@ -663,6 +676,20 @@ msgbox_alert (char *fmt, va_list ap)
   }
 #endif
 #endif
+#endif
+
+  if (message_raw)
+    {
+      LW6SYS_FREE (message_raw);
+    }
+  if (message_formatted)
+    {
+      LW6SYS_FREE (message_formatted);
+    }
+  if (message_full)
+    {
+      LW6SYS_FREE (message_full);
+    }
 }
 
 /**
@@ -813,7 +840,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	  if (level_id <= LW6SYS_LOG_ERROR_ID)
 	    {
 	      va_copy (ap2, ap);
-	      msgbox_alert (fmt, ap2);
+	      msgbox_alert (level_str, file, line, fmt, ap2);
 	      va_end (ap2);
 	    }
 	}
@@ -861,7 +888,7 @@ lw6sys_log_critical (char *fmt, ...)
   va_end (ap2);
 
   va_copy (ap2, ap);
-  msgbox_alert (fmt, ap2);
+  msgbox_alert (_("CRITICAL!"), __FILE__, __LINE__, fmt, ap2);
   va_end (ap2);
 
   exit (_LW6SYS_EXIT_CRITICAL);

@@ -241,7 +241,7 @@ lw6sys_arg_test_mode (int argc, char *argv[])
     {
       syntax_ok = 1;
     }
-  if (argc == 2)
+  if (argc >= 2)
     {
       if (!strcmp (argv[1], _ARG_CHECK))
 	{
@@ -258,7 +258,6 @@ lw6sys_arg_test_mode (int argc, char *argv[])
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _
 		  ("wrong syntax (should be \"<program> {0|1}\"), test suite will be run anyways"));
-      ret = 1;
     }
 
   return ret;

@@ -22,10 +22,22 @@ AM_CFLAGS = @LW6_CFLAGS@ @LW6_CONSOLE_ENABLE_CFLAGS@ @MOD_GL_ENABLE_CFLAGS@ @MOD
 AM_LDFLAGS = @LW6_LDFLAGS@ -lm
 
 if LW6_X86
-X86_FILES = sys-testandsetx86.s
+X86_SRC_FILES = sys-testandsetx86.s
+X86_EXTRA_FILES =
+else
+X86_SRC_FILES =
+X86_EXTRA_FILES = sys-testandsetx86.s
 endif
+if LW6_MAC_OS_X
+OBJC_SRC_FILES = sys-macosx.m
+OBJC_EXTRA_FILES =
+else
+OBJC_SRC_FILES =
+OBJC_EXTRA_FILES = sys-macosx.m
+endif
+
 noinst_LTLIBRARIES = libsys.la
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-vthread.c $(X86_FILES)
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir= $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 
@@ -36,4 +48,4 @@ liquidwar6sys_test_LDADD = libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6sys-test
 endif
 
-EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h
+EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h $(X86_EXTRA_FILES) $(OBJC_EXTRA_FILES)

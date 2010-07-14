@@ -174,8 +174,15 @@ lw6_fix_env (int argc, char *argv[])
   _fix_guile_load_path (argc, argv);
 #endif
 #ifdef LW6_MAC_OS_X
-  _fix_dyld_library_path (argc, argv);
-  _fix_ld_library_path (argc, argv);
+  if (!lw6sys_is_executed_again (argc, argv))
+    {
+      _fix_dyld_library_path (argc, argv);
+      _fix_ld_library_path (argc, argv);
+      lw6sys_exec_again (argc, argv);
+      lw6sys_log (LW6SYS_LOG_ERROR,
+		  _
+		  ("couldn't fix environment variable by restarting program"));
+    }
 #endif
 
   return ret;

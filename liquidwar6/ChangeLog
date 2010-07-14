@@ -1,5 +1,7 @@
 2010-07-14 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added Mac OS X alert box on error.
+
 	* Added functions to execute the program again (re-run myself).
 
 	* Fixed bug 30409 (again...) copied libpng12.0.dylib to libpng12.dylib
