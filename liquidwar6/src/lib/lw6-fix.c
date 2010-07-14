@@ -92,8 +92,7 @@ _fix_library_path (int argc, char *argv[], char *library_path)
       old_library_path = lw6sys_getenv (library_path);
       if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_library_path =
-	    lw6sys_env_concat (cwd, old_library_path);
+	  new_library_path = lw6sys_env_concat (cwd, old_library_path);
 	}
       else
 	{
@@ -118,8 +117,7 @@ _fix_library_path (int argc, char *argv[], char *library_path)
     {
       if (old_library_path && strlen (old_library_path) > 0)
 	{
-	  new_library_path =
-	    lw6sys_env_concat (run_dir, old_library_path);
+	  new_library_path = lw6sys_env_concat (run_dir, old_library_path);
 	}
       else
 	{
@@ -144,13 +142,13 @@ _fix_library_path (int argc, char *argv[], char *library_path)
 static void
 _fix_dyld_library_path (int argc, char *argv[])
 {
-  _fix_library_path(argc,argv,DYLD_LIBRARY_PATH);
+  _fix_library_path (argc, argv, DYLD_LIBRARY_PATH);
 }
 
 static void
 _fix_ld_library_path (int argc, char *argv[])
 {
-  _fix_library_path(argc,argv,LD_LIBRARY_PATH);
+  _fix_library_path (argc, argv, LD_LIBRARY_PATH);
 }
 #endif
 

@@ -6871,7 +6871,23 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      is mostly used when doing screenshots, so that generated images
      contain a link to the homepage.
 
-4.12.31 gfx-cpu-usage
+4.12.31 executed-again
+----------------------
+
+ -- Command-line option: `--executed-again=<value>'
+ -- Environment variable: `LW6_EXECUTED_AGAIN'
+ -- XML key: `executed-again'
+     Type: boolean
+
+     Default value: false
+
+     This environment variable/keyword is used to detect wether the
+     program has been launched by itself with an internal execv call.
+     This is used as a workarround to set some environment variables
+     (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is
+     run, as sometimes using setenv() inside the program does not work.
+
+4.12.32 gfx-cpu-usage
 ---------------------
 
  -- Command-line option: `--gfx-cpu-usage=<value>'
@@ -6888,7 +6904,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      change this to a low value if you have lagging games but smooth
      display.
 
-4.12.32 gfx-debug
+4.12.33 gfx-debug
 -----------------
 
  -- Command-line option: `--gfx-debug=<value>'
@@ -6901,7 +6917,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Enables dedicated graphics debugging tools. This is different from
      'debug' mode which is global, this one is really graphics specific.
 
-4.12.33 host
+4.12.34 host
 ------------
 
  -- Command-line option: `--host'
@@ -6909,7 +6925,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Display all known system host properties, including os and cpu
      informations.
 
-4.12.34 io-per-sec
+4.12.35 io-per-sec
 ------------------
 
  -- Command-line option: `--io-per-sec=<value>'
@@ -6923,7 +6939,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      This can affect speed of menus but also cursors, but won't change
      the speed of the game itself. It's a cosmectic, comfort option.
 
-4.12.35 loader-sleep
+4.12.36 loader-sleep
 --------------------
 
  -- Command-line option: `--loader-sleep=<value>'
@@ -6936,7 +6952,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Defines how long the loader thread should wait between two polls.
      Default value should fit in most cases.
 
-4.12.36 log-level
+4.12.37 log-level
 -----------------
 
  -- Command-line option: `--log-level=<value>'
@@ -6953,7 +6969,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      default, the log file will contain all messages but debug stuff. 4
      (DEBUG) logs everything, including debug informations.
 
-4.12.37 log-timeout
+4.12.38 log-timeout
 -------------------
 
  -- Command-line option: `--log-timeout=<value>'
@@ -6966,7 +6982,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Delay, in msec, for which a log message will stay displayed on the
      screen.
 
-4.12.38 magic-number
+4.12.39 magic-number
 --------------------
 
  -- Command-line option: `--magic-number=<value>'
@@ -6990,7 +7006,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      pessimistic, or if for some reason bench returns bogus values, you
      can modify it.
 
-4.12.39 memory-bazooka-eraser
+4.12.40 memory-bazooka-eraser
 -----------------------------
 
  -- Command-line option: `--memory-bazooka-eraser=<value>'
@@ -7010,7 +7026,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      usable. The memory bazooka must be big enough if you want this
      feature to actually work.
 
-4.12.40 memory-bazooka-size
+4.12.41 memory-bazooka-size
 ---------------------------
 
  -- Command-line option: `--memory-bazooka-size=<value>'
@@ -7032,7 +7048,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      something like 100 might just be helpfull, but 1000000 is the
      right way to seriously debug code.
 
-4.12.41 modules
+4.12.42 modules
 ---------------
 
  -- Command-line option: `--modules'
@@ -7041,7 +7057,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      It's still possible to add or remove modules afterwards, but this
      option allows you to know how things were at first.
 
-4.12.42 pedigree
+4.12.43 pedigree
 ----------------
 
  -- Command-line option: `--pedigree'
@@ -7051,7 +7067,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      It's a good idea to take a look at the output of 'pedigree' if you
      have problems running the game.
 
-4.12.43 pilot-lag
+4.12.44 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -7065,7 +7081,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.12.44 quick-start
+4.12.45 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
@@ -7073,7 +7089,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.12.45 reset
+4.12.46 reset
 -------------
 
  -- Command-line option: `--reset'
@@ -7083,7 +7099,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.12.46 reset-config-on-upgrade
+4.12.47 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -7096,7 +7112,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.12.47 server
+4.12.48 server
 --------------
 
  -- Command-line option: `--server'
@@ -7104,7 +7120,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Start the game in server mode, without requiring any graphics
      backend.
 
-4.12.48 target-fps
+4.12.49 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'

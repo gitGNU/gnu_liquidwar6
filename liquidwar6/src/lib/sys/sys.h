@@ -497,10 +497,16 @@ extern int lw6sys_env_exists_prefixed (char *keyword);
 extern char *lw6sys_getenv (char *key);
 extern char *lw6sys_getenv_prefixed (char *keyword);
 extern int lw6sys_setenv (char *keyword, char *value);
+extern int lw6sys_setenv_prefixed (char *keyword, char *value);
 extern lw6sys_list_t *lw6sys_env_split (char *value);
 extern char *lw6sys_get_home ();
 extern char *lw6sys_get_username ();
 extern char *lw6sys_get_hostname ();
+
+/* sys-exec.c */
+extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
+extern int lw6sys_is_executed_again (int argc, char *argv[]);
+extern int lw6sys_exec_again (int argc, char *argv[]);
 
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);
@@ -833,6 +839,7 @@ extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 
 /* sys-test.c */
+extern int lw6sys_test_exec (int argc, char *argv[], int mode);
 extern int lw6sys_test (int mode);
 
 /* sys-testandset.s */

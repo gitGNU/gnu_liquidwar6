@@ -697,6 +697,7 @@ update_tuning (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_GFX_CPU_USAGE);
   lw6sys_list_push_back (list, LW6DEF_DIRTY_READ);
   lw6sys_list_push_back (list, LW6DEF_GFX_DEBUG);
+  lw6sys_list_push_back (list, LW6DEF_EXECUTED_AGAIN);
 
   return ((*list) != NULL);
 }

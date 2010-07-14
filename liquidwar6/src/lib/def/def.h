@@ -1,6 +1,6 @@
 /*
 Liquid War 6 is a unique multiplayer wargame.
-Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,18 +27,13 @@ Contact author        : ufoot@ufoot.org
 #ifndef LIQUIDWAR6DEF_DEF_H
 #define LIQUIDWAR6DEF_DEF_H
 
-#define LW6DEF_LOCAL "local"
-#define LW6DEF_BIND_IP "bind-ip"
-#define LW6DEF_BIND_PORT "bind-port"
-#define LW6DEF_CLI_BACKENDS "cli-backends"
-#define LW6DEF_SRV_BACKENDS "srv-backends"
-#define LW6DEF_PUBLIC_URL "public-url"
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
 #define LW6DEF_AMBIANCE_FILTER "ambiance-filter"
 #define LW6DEF_ANIMATION_DENSITY "animation-density"
 #define LW6DEF_ANIMATION_SPEED "animation-speed"
+#define LW6DEF_EXECUTED_AGAIN "executed-again"
 #define LW6DEF_AUDIT "audit"
 #define LW6DEF_BACKGROUND_COLOR_AUTO "background-color-auto"
 #define LW6DEF_BACKGROUND_COLOR_ROOT_BG "background-color-root-bg"
@@ -49,6 +44,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_BENCH "bench"
 #define LW6DEF_BENCH_VALUE "bench-value"
 #define LW6DEF_BIN_ID "bin-id"
+#define LW6DEF_BIND_IP "bind-ip"
+#define LW6DEF_BIND_PORT "bind-port"
 #define LW6DEF_BOOST_POWER "boost-power"
 #define LW6DEF_BOT_IQ "bot-iq"
 #define LW6DEF_BOT_SPEED "bot-speed"
@@ -56,6 +53,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_CFLAGS "cflags"
 #define LW6DEF_CHECK "check"
 #define LW6DEF_CHOSEN_MAP "chosen-map"
+#define LW6DEF_CLI_BACKENDS "cli-backends"
 #define LW6DEF_CLICK_TO_FOCUS "click-to-focus"
 #define LW6DEF_COLOR_ALTERNATE_BG "color-alternate-bg"
 #define LW6DEF_COLOR_ALTERNATE_FG "color-alternate-fg"
@@ -156,6 +154,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_LIST_SOUND "list-sound"
 #define LW6DEF_LIST_TUNING "list-tuning"
 #define LW6DEF_LOADER_SLEEP "loader-sleep"
+#define LW6DEF_LOCAL "local"
 #define LW6DEF_LOG_FILE "log-file"
 #define LW6DEF_LOG_LEVEL "log-level"
 #define LW6DEF_LOG_TIMEOUT "log-timeout"
@@ -224,6 +223,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_PLAYER4_NAME "player4-name"
 #define LW6DEF_PLAYER4_STATUS "player4-status"
 #define LW6DEF_PREFIX "prefix"
+#define LW6DEF_PUBLIC_URL "public-url"
 #define LW6DEF_QUICK_START "quick-start"
 #define LW6DEF_REPEAT_DELAY "repeat-delay"
 #define LW6DEF_REPEAT_INTERVAL "repeat-interval"
@@ -315,6 +315,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_SPEED "speed"
 #define LW6DEF_SPREAD_THREAD "spread-thread"
 #define LW6DEF_SPREADS_PER_ROUND "spreads-per-round"
+#define LW6DEF_SRV_BACKENDS "srv-backends"
 #define LW6DEF_START_BLUE_X "start-blue-x"
 #define LW6DEF_START_BLUE_Y "start-blue-y"
 #define LW6DEF_START_CYAN_X "start-cyan-x"

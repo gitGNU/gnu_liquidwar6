@@ -694,6 +694,70 @@ test_env ()
 }
 
 /*
+ * Testing functions in exec.c
+ */
+static int
+test_exec (int argc, char *argv[], int mode)
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *myself;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("executed_again=%d"),
+		lw6sys_is_executed_again (argc, argv));
+    myself = lw6sys_exec_find_myself (argc, argv);
+    if (myself)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("found myself in \"%s\""), myself);
+	if (mode)
+	  {
+	    if (lw6sys_exec_again (argc, argv))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("exec again of \"%s\" successfull, means we're already \"executed again\""),
+			    myself);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("exec again of \"%s\" failed"), myself);
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("check mode, so not trying to exec again \"%s\""),
+			myself);
+	  }
+	LW6SYS_FREE (myself);
+      }
+    else
+      {
+	if (mode)
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _("could not find myself"));
+	    ret = 0;
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("could not find myself, this is only check mode so no panic, but this is strange"));
+	  }
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("executed_again=%d"),
+		lw6sys_is_executed_again (argc, argv));
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in file.c
  */
 static int
@@ -2656,6 +2720,30 @@ test_vthread ()
   }
 
   LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/**
+ * lw6sys_test_exec
+ *
+ * @argc: number of args as passed to main
+ * @argv: array of args as passed to main
+ * @mode: 0 for check only, 1 for full test
+ *
+ * Runs the @sys module test suite which is specific to exec functions,
+ * these ones require @argc and @argv to be correctly set so the
+ * extra argument justifies putting it outside @lw6sys_test.
+ * Additionnally, it's not fool proof...
+ *
+ * Return value: 1 if test is successfull, 0 on error.
+ */
+int
+lw6sys_test_exec (int argc, char *argv[], int mode)
+{
+  int ret = 0;
+
+  ret = test_exec (argc, argv, mode);
+
   return ret;
 }
 

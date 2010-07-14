@@ -847,6 +847,10 @@ populate_references ()
 		 _
 		 ("Enables dedicated graphics debugging tools. This is different from 'debug' mode which is global, this one is really graphics specific."),
 		 0);
+  POPULATE_BOOL (LW6DEF_EXECUTED_AGAIN,
+		 _
+		 ("This environment variable/keyword is used to detect wether the program has been launched by itself with an internal execv call. This is used as a workarround to set some environment variables (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is run, as sometimes using setenv() inside the program does not work."),
+		 0);
   /*
    * Game settings
    */

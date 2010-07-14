@@ -360,6 +360,21 @@ used when doing screenshots, so that generated images contain a link to the
 homepage.
 @end deffn
 
+@subsection executed-again
+@deffn {Command-line option} @code{--executed-again=<value>}
+@deffnx {Environment variable} @code{LW6_EXECUTED_AGAIN}
+@deffnx {XML key} @code{executed-again}
+Type: boolean
+
+Default value: false
+
+This environment variable/keyword is used to detect wether the program has
+been launched by itself with an internal execv call. This is used as a
+workarround to set some environment variables (DYLD_LIBRARY_PATH on Mac OS X
+for instance) before the program is run, as sometimes using setenv() inside
+the program does not work.
+@end deffn
+
 @subsection gfx-cpu-usage
 @deffn {Command-line option} @code{--gfx-cpu-usage=<value>}
 @deffnx {Environment variable} @code{LW6_GFX_CPU_USAGE}

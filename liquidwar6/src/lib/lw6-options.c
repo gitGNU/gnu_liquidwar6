@@ -120,7 +120,7 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	      LW6SYS_FREE (log_file);
 	    }
 
-	  ret = lw6sys_test (1)
+	  ret = lw6sys_test_exec (argc, argv, 1) && lw6sys_test (1)
 	    && lw6map_test (1)
 	    && lw6ker_test (1) && DYN_TEST && lw6bot_test (1)
 	    && lw6cns_test (1)
@@ -140,7 +140,7 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	      LW6SYS_FREE (log_file);
 	    }
 
-	  ret = lw6sys_test (0)
+	  ret = lw6sys_test_exec (argc, argv, 0) && lw6sys_test (0)
 	    && lw6map_test (0)
 	    && lw6ker_test (0) && DYN_TEST && lw6bot_test (0)
 	    && lw6cns_test (0)

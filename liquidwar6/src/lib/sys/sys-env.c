@@ -287,6 +287,38 @@ lw6sys_setenv (char *keyword, char *value)
 }
 
 /**
+ * lw6sys_setenv_prefixed
+ *
+ * @keyword: the keyword to be searched in the environment variables.
+ * @value: the value of the environment variable to set
+ *
+ * Sets the environment variable to the given value. The keyword
+ * will be fixed so that all dashes "-" characters are replaced
+ * by underscores "_" characters. Characters will be changed to
+ * uppercase. Any non alphanumeric character will be replaced
+ * by "_". Finally, an "LW6_" prefix will be added. That is to say,
+ * calling this function with "my-param" will set 
+ * the "LW6_MY_PARAM" environment variable.
+ *
+ * Return value: 1 if success, 0 if failure
+ */
+int
+lw6sys_setenv_prefixed (char *keyword, char *value)
+{
+  char *keyword_prefixed = NULL;
+  int ret = 0;
+
+  keyword_prefixed = lw6sys_keyword_as_env (keyword);
+  if (keyword_prefixed)
+    {
+      ret = lw6sys_setenv (keyword_prefixed, value);
+      LW6SYS_FREE (keyword_prefixed);
+    }
+
+  return ret;
+}
+
+/**
  * lw6sys_env_split
  *
  * @value: the value, a list of item separated by... the separator
