@@ -387,22 +387,65 @@ lw6ker_map_state_remove_fighters (lw6ker_map_state_t * map_state,
   int32_t i, j;
   int ret = 0;
   int32_t nb_fighters_removed = 0;
+  int32_t fighters_to_remove_per_team[LW6MAP_MAX_NB_TEAMS];
+  int32_t fighters_to_remove_total = 0;
+  int64_t this_team_fighters = 0;
+  int64_t active_fighters = 0;
+  lw6ker_fighter_t *fighter = NULL;
+  int team_color;
+
+  memset (fighters_to_remove_per_team, 0,
+	  sizeof (fighters_to_remove_per_team));
+  if (map_state->armies.active_fighters > 0)
+    {
+      active_fighters = map_state->armies.active_fighters;
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  this_team_fighters = map_state->armies.fighters_per_team[i];
+	  fighters_to_remove_per_team[i] =
+	    (nb_fighters * this_team_fighters) / active_fighters;
+	  fighters_to_remove_total += fighters_to_remove_per_team[i];
+	}
+    }
+  if (fighters_to_remove_total <= nb_fighters)
+    {
+      for (i = nb_fighters; fighters_to_remove_total <= nb_fighters; ++i)
+	{
+	  /*
+	   * i is just used as a pseudo-random value to cycle
+	   * amoung teams
+	   */
+	  j = i % LW6MAP_MAX_NB_TEAMS;
+	  if (map_state->armies.fighters_per_team[j] >
+	      fighters_to_remove_per_team[j] + 1)
+	    {
+	      fighters_to_remove_per_team[j]++;
+	      fighters_to_remove_total++;
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("strange, fighters_to_remove_total=%d but nb_fighters=%d"),
+		  fighters_to_remove_total, nb_fighters);
+    }
 
   if (nb_fighters <= map_state->armies.active_fighters)
     {
       while (nb_fighters_removed < nb_fighters)
 	{
 	  /*
-	   * To remove fighters, we simply pseudo-randomly
+	   * To remove fighters, we used to simply pseudo-randomly
 	   * pass the current map, trying not to process
 	   * low-numbered fighters systematically to avoid
 	   * disadvantaging "first" teams, and whenever we
-	   * encounter a fighter, we delete it. We count on
-	   * statistics so that deletion is globally fair
-	   * and no team should especially be adavantaged
-	   * by this. But it's true there's some luck and
-	   * a slight probability that all of the fighters
-	   * of a given team are deleted at once...
+	   * encounter a fighter, we deleted it.
+	   * Now it has evolved a bit, we check the fighter belongs
+	   * to a team that still has some fighters to give, hence
+	   * giving all teams reasonnable chances to survive.
+	   * This should solve https://savannah.gnu.org/bugs/?28030
 	   */
 	  for (i = 0;
 	       i < LW6MAP_MAX_NB_TEAMS && nb_fighters_removed < nb_fighters;
@@ -413,10 +456,23 @@ lw6ker_map_state_remove_fighters (lw6ker_map_state_t * map_state,
 		   && nb_fighters_removed < nb_fighters;
 		   j += LW6MAP_MAX_NB_TEAMS)
 		{
-		  lw6ker_map_state_remove_fighter (map_state, j);
-		  nb_fighters_removed++;
+		  fighter = &(map_state->armies.fighters[j]);
+		  team_color = fighter->team_color;
+		  if (fighters_to_remove_per_team[team_color] > 0)
+		    {
+		      lw6ker_map_state_remove_fighter (map_state, j);
+		      fighters_to_remove_per_team[team_color]--;
+		      fighters_to_remove_total--;
+		      nb_fighters_removed++;
+		    }
 		}
 	    }
+	}
+      if (fighters_to_remove_total != 0)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("fighters_to_remove_total=%d and should be 0"),
+		      fighters_to_remove_total);
 	}
       ret = 1;
     }
