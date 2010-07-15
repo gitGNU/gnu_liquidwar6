@@ -32,8 +32,13 @@
 /*
  * This is a "Markov prime" 
  * http://en.wikipedia.org/wiki/List_of_prime_numbers
+ * 
+ * The higher the number is, the more optimistic we
+ * are about core algorithm performance. 43261 has
+ * been used for some time but proves too high 
+ * on too fast maps.
  */
-#define LW6LDR_DEFAULT_MAGIC_NUMBER 43261
+#define LW6LDR_DEFAULT_MAGIC_NUMBER 33461
 
 #define LW6LDR_HINTS_DEFAULT_RESAMPLE 1
 #define LW6LDR_HINTS_DEFAULT_MIN_MAP_WIDTH 20
