@@ -476,7 +476,7 @@ There is also a Microsoft Windows installer.
 However these binaries are not necessarly available for every
 single version of the game.
 
-@subsection Work in progress
+@subsection GIT repository
 
 Latest work in progress versions can be obtained with @uref{http://git-scm.com/,GIT}.
 Here's the typicall command which will fetch the latest version:
@@ -493,6 +493,8 @@ git clone http://git.sv.gnu.org/r/liquidwar6.git
 @end example
 
 You can browse the code online, consult log summary, and in a general manner ``follow'' the project on @uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git} and @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}.
+
+@subsection Daily snapshots
 
 Alternatively, you can download daily snapshots on
 @uref{http://www.ufoot.org/liquidwar/v6/snapshots/}

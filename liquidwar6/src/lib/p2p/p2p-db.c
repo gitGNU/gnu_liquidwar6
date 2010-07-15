@@ -299,7 +299,7 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 int
 lw6p2p_db_reset (int argc, char *argv[], char *name)
 {
-  int ret = 0;
+  int ret = 1;
   char *user_dir = NULL;
   char *filename = NULL;
 
@@ -320,6 +320,7 @@ lw6p2p_db_reset (int argc, char *argv[], char *name)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _("can't delete database \"%s\""), filename);
+		  ret = 0;
 		}
 	    }
 	  else

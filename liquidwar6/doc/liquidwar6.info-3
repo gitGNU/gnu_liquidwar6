@@ -1,9 +1,8 @@
-Ceci est le fichier Info
-/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produit par
-Makeinfo version 4.8 Ã  partir
-/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
-   Liquid War 6, a unique multiplayer wargame.
+Liquid War 6, a unique multiplayer wargame.
 
    Copyright (c)  2005, 2006, 2007, 2008, 2009  Christian Mauduit
 <ufoot@ufoot.org>
@@ -1240,10 +1239,10 @@ F.1 Concept index
  [index ]
 * Menu:
 
-* Apple:                                 Compilation tips.    (line 397)
+* Apple:                                 Compilation tips.    (line 396)
 * Arch:                                  Using GNU Arch.      (line   9)
-* Bug report <1>:                        Mailing lists.       (line  51)
-* Bug report:                            Report bugs.         (line   6)
+* Bug report <1>:                        Report bugs.         (line   6)
+* Bug report:                            Mailing lists.       (line  51)
 * Compilation <1>:                       Compilation tips.    (line  83)
 * Compilation:                           Troubleshooting.     (line   9)
 * CVS:                                   Using GIT.           (line   6)
@@ -1252,7 +1251,7 @@ F.1 Concept index
 * GPL, GNU General Public License:       Copying.             (line   6)
 * hints.xml:                             Designing levels.    (line 283)
 * Log file:                              Logs.                (line   6)
-* Mac OS X:                              Compilation tips.    (line 397)
+* Mac OS X:                              Compilation tips.    (line 396)
 * Microsoft Windows:                     Compilation tips.    (line  83)
 * rules.xml:                             Designing levels.    (line 236)
 * source code:                           Using GIT.           (line   6)
