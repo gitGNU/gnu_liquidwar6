@@ -409,7 +409,7 @@ lw6ker_map_state_remove_fighters (lw6ker_map_state_t * map_state,
     }
   if (fighters_to_remove_total <= nb_fighters)
     {
-      for (i = nb_fighters; fighters_to_remove_total <= nb_fighters; ++i)
+      for (i = nb_fighters; fighters_to_remove_total < nb_fighters; ++i)
 	{
 	  /*
 	   * i is just used as a pseudo-random value to cycle

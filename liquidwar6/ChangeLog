@@ -1,3 +1,7 @@
+2010-07-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug in new porportional removing of players on deatch.
+
 2010-07-14 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Lowered the default value of "magic-number" to avoid lag.
