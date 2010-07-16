@@ -241,6 +241,73 @@ lw6sys_list_map (lw6sys_list_t * list,
 }
 
 /**
+ * lw6sys_list_filter
+ *
+ * @list: the list where elements will be taken
+ * @func: the function which will be executed
+ * @func_data: additionnal data to be passed to @func
+ *
+ * Executes a function on all list items and keeps only those
+ * for which the function returned non zero (true).
+ * The @func_data parameter allows you to pass extra values to
+ * the function, such as a file handler or any variable which
+ * can not be inferred from list item values, and you of course
+ * do not want to make global... 
+ *
+ * Return value: none.
+ */
+void
+lw6sys_list_filter (lw6sys_list_t ** list,
+		    lw6sys_list_filter_func_t func, void *func_data)
+{
+  lw6sys_list_t *tmp_item = NULL;
+  lw6sys_list_t *cur_item = NULL;
+  lw6sys_list_t *prev_item = NULL;
+
+  cur_item = (*list);
+  if (cur_item)
+    {
+      while (cur_item)
+	{
+	  if (cur_item->next_item)
+	    {
+	      if (func (func_data, cur_item->data))
+		{
+		  prev_item = cur_item;
+		  cur_item = cur_item->next_item;
+		}
+	      else
+		{
+		  tmp_item = cur_item;
+		  if (cur_item->free_func && cur_item->data)
+		    {
+		      cur_item->free_func (cur_item->data);
+		    }
+		  cur_item = cur_item->next_item;
+		  if (prev_item)
+		    {
+		      prev_item->next_item = cur_item;
+		    }
+		  else
+		    {
+		      (*list) = cur_item;
+		    }
+		  LW6SYS_FREE (tmp_item);
+		}
+	    }
+	  else
+	    {
+	      cur_item = NULL;
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("calling filter on NULL list"));
+    }
+}
+
+/**
  * lw6sys_list_push_front
  *
  * @list: a pointer to the list (pointer on pointer, read/write value)

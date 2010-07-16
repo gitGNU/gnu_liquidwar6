@@ -231,6 +231,7 @@ typedef void (*lw6sys_free_func_t) (void *data);
 typedef void (*lw6sys_assoc_callback_func_t) (void *func_data, char *key,
 					      void *value);
 typedef void (*lw6sys_list_callback_func_t) (void *func_data, void *data);
+typedef int (*lw6sys_list_filter_func_t) (void *func_data, void *data);
 typedef void *(*lw6sys_dup_func_t) (void *data);
 typedef void (*lw6sys_thread_callback_func_t) (void *callback_data);
 typedef int (*lw6sys_dir_list_filter_func_t) (void *func_data, char *file);
@@ -625,6 +626,9 @@ extern int lw6sys_list_length (lw6sys_list_t * list);
 extern void lw6sys_list_map (lw6sys_list_t * list,
 			     lw6sys_list_callback_func_t func,
 			     void *func_data);
+extern void lw6sys_list_filter (lw6sys_list_t ** list,
+				lw6sys_list_filter_func_t func,
+				void *func_data);
 extern void lw6sys_list_push_front (lw6sys_list_t ** list, void *data);
 extern void *lw6sys_list_pop_front (lw6sys_list_t ** list);
 extern void lw6sys_list_push_back (lw6sys_list_t ** list, void *data);

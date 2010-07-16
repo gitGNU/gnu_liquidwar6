@@ -55,6 +55,8 @@
 #define PATH_RELATIVE "../../foo/bar"
 #define PATH_RELATIVE_UNPARENT "../foo/bar"
 #endif
+#define _TEST_LIST_FILTER_NB_ITEMS 25
+#define _TEST_LIST_FILTER_RANGE 100
 #define TEST_PATH_CWD "./"
 #define TEST_PATH_SPLIT "/foo/\\bar\\"
 #define _TEST_DIR_LIST_FUNC_DATA "foo,bar"
@@ -1307,7 +1309,24 @@ list_map_func (void *func_data, void *data)
   int *ret = (int *) func_data;
   int *i = (int *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, data=%d"), *ret, *i);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, i=%d"), *ret, *i);
+}
+
+/*
+ * Used to test lw6sys_list_map.
+ */
+static int
+list_filter_func (void *func_data, void *data)
+{
+  int *limit = (int *) func_data;
+  int *d = (int *) data;
+  int ret = 0;
+
+  ret = (*d < *limit);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _("list item limit=%d, d=%d, pass filter=%d"), *limit, *d, ret);
+
+  return ret;
 }
 
 /*
@@ -1429,6 +1448,36 @@ test_list ()
 	    lw6sys_list_free (list);
 	    ret = 0;
 	  }
+      }
+  }
+  {
+    int i = 0;
+    int *d = NULL;
+    int limit = 0;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing list filter"));
+    list = lw6sys_list_new (lw6sys_free_callback);
+    if (list)
+      {
+	for (i = 0; i < _TEST_LIST_FILTER_NB_ITEMS; ++i)
+	  {
+	    d = (int *) LW6SYS_MALLOC (sizeof (int));
+	    if (d)
+	      {
+		(*d) = lw6sys_random (_TEST_LIST_FILTER_RANGE);
+		lw6sys_list_push_front (&list, d);
+	      }
+	  }
+	limit = (2 * _TEST_LIST_FILTER_RANGE) / 3;
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("1st filter limit=%d"), limit);
+	lw6sys_list_filter (&list, list_filter_func, &limit);
+	limit = _TEST_LIST_FILTER_RANGE / 3;
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd filter limit=%d"), limit);
+	lw6sys_list_filter (&list, list_filter_func, &limit);
+	limit = -_TEST_LIST_FILTER_RANGE / 10;
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("3rd filter limit=%d"), limit);
+	lw6sys_list_filter (&list, list_filter_func, &limit);
+	lw6sys_list_free (list);
       }
   }
 

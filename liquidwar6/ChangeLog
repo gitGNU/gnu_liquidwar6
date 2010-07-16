@@ -1,5 +1,7 @@
 2010-07-15 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added low-level filter tool for list objects.
+
 	* Fixed bug in new porportional removing of players on deatch.
 
 2010-07-14 : Christian Mauduit <ufoot@ufoot.org>

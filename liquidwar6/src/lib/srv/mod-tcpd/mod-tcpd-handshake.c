@@ -33,7 +33,13 @@ _mod_tcpd_can_handle_tcp (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
 
-  // todo
+  if (strncmp
+      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_STRING,
+       _MOD_TCPD_PROTOCOL_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
+      ret = 1;
+    }
 
   return ret;
 }

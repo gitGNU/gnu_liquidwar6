@@ -25,6 +25,9 @@
 
 #include "../srv.h"
 
+#define _MOD_TCPD_PROTOCOL_STRING "LW6"
+#define _MOD_TCPD_PROTOCOL_SIZE 3
+
 typedef struct _tcpd_context_s
 {
   int dummy_tcpd;

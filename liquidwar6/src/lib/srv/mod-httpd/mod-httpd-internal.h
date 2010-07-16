@@ -25,6 +25,13 @@
 
 #include "../srv.h"
 
+#define _MOD_HTTPD_PROTOCOL_GET_STRING "GET"
+#define _MOD_HTTPD_PROTOCOL_GET_SIZE 4
+#define _MOD_HTTPD_PROTOCOL_POST_STRING "POST"
+#define _MOD_HTTPD_PROTOCOL_POST_SIZE 4
+#define _MOD_HTTPD_PROTOCOL_HEAD_STRING "HEAD"
+#define _MOD_HTTPD_PROTOCOL_HEAD_SIZE 4
+
 typedef struct _httpd_context_s
 {
   int dummy_httpd;

@@ -381,9 +381,38 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 }
 
 static int
+_tcp_accepter_reply (void *func_data, void *data)
+{
+  int ret = 1;
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
+  lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
+  int i = 0;
+
+  lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
+		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0.0f);
+
+  for (i = 0; i < node->nb_srv_backends; ++i)
+    {
+      if (lw6srv_can_handle_tcp (node->srv_backends[i], tcp_accepter))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("new TCP"));
+	  /*
+	   * TODO: create the connection
+	   */
+	  ret = 0;		//means will be filtered and object deleted
+	}
+    }
+
+  return ret;
+}
+
+static int
 _poll_step2_reply (_lw6p2p_node_t * node)
 {
   int ret = 1;
+
+  lw6sys_list_filter (&(node->listener->tcp_accepters), _tcp_accepter_reply,
+		      node);
 
   return ret;
 }

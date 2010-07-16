@@ -33,7 +33,17 @@ _mod_httpd_can_handle_tcp (_httpd_context_t * httpd_context,
 {
   int ret = 0;
 
-  // todo
+  if (!strncmp
+      (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
+       _MOD_HTTPD_PROTOCOL_GET_SIZE)
+      || !strncmp (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
+		   _MOD_HTTPD_PROTOCOL_POST_SIZE)
+      || !strncmp (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
+		   _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized httpd protocol"));
+      ret = 1;
+    }
 
   return ret;
 }
