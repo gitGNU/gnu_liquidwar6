@@ -8,6 +8,32 @@ on any platform.
 on the platform you're working on.
 @end deftypefun
 
+@deftypefun {char *} {lw6net_if_guess_local} ()
+
+Guess the local IP address. This is not fool-proof,
+and it probably cannot be as we can't handle all
+user-specific configs involving multiple IP addresses,
+virtual private networks, and so on. But this is just
+to provide a default public IP address when starting
+a network game, saavy users can always specify the right
+interface/address if needed. Will return NULL if interface
+can't be guessed.
+
+@strong{Return value:}  the IP as a string, dynamically allocated
+@end deftypefun
+
+@deftypefun {char *} {lw6net_if_guess_public_url} (int @var{port})
+@var{port}:  the IP port to use
+
+Guess the server public url, based 
+on @code{lw6net_if_guess_local} which tries to find a
+valid local IP address which is not loopback.
+Function isn't foolproof, that's why one can override
+its default with a user settings.
+
+@strong{Return value:}  the IP as a string, dynamically allocated
+@end deftypefun
+
 @deftypefun {char *} {lw6net_recv_line_tcp} (int @var{sock})
 @var{sock}:  the socket descriptor
 

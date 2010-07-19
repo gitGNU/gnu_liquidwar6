@@ -245,6 +245,12 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node = NULL;
     }
 
+  if (node)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("started node \"%s\""),
+		  node->public_url);
+    }
+
   return node;
 }
 

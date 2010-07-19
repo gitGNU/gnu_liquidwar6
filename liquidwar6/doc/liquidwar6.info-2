@@ -3335,6 +3335,27 @@ C interfaces:
      *Return value:*  the last error code, has no universal meaning,
      depends on the platform you're working on.
 
+ -- Function: char * lw6net_if_guess_local ()
+     Guess the local IP address. This is not fool-proof, and it
+     probably cannot be as we can't handle all user-specific configs
+     involving multiple IP addresses, virtual private networks, and so
+     on. But this is just to provide a default public IP address when
+     starting a network game, saavy users can always specify the right
+     interface/address if needed. Will return NULL if interface can't
+     be guessed.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
+ -- Function: char * lw6net_if_guess_public_url (int PORT)
+     PORT:  the IP port to use
+
+     Guess the server public url, based on `lw6net_if_guess_local'
+     which tries to find a valid local IP address which is not loopback.
+     Function isn't foolproof, that's why one can override its default
+     with a user settings.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
  -- Function: char * lw6net_recv_line_tcp (int SOCK)
      SOCK:  the socket descriptor
 
@@ -5188,6 +5209,21 @@ C interfaces:
 
      *Return value:*  1 if success, 0 if failed
 
+ -- Function: int lw6sys_setenv_prefixed (char * KEYWORD, char * VALUE)
+     KEYWORD:  the keyword to be searched in the environment variables.
+
+     VALUE:  the value of the environment variable to set
+
+     Sets the environment variable to the given value. The keyword will
+     be fixed so that all dashes "-" characters are replaced by
+     underscores "_" characters. Characters will be changed to
+     uppercase. Any non alphanumeric character will be replaced by "_".
+     Finally, an "LW6_" prefix will be added. That is to say, calling
+     this function with "my-param" will set the "LW6_MY_PARAM"
+     environment variable.
+
+     *Return value:*  1 if success, 0 if failure
+
  -- Function: lw6sys_list_t * lw6sys_env_split (char * VALUE)
      VALUE:  the value, a list of item separated by... the separator
 
@@ -5222,6 +5258,42 @@ C interfaces:
      default values for player names and such things.
 
      *Return value:*  a newly allocated pointer, must be freed.
+
+ -- Function: char * lw6sys_exec_find_myself (int ARGC, char * [] ARGV)
+     ARGC:  number of args as passed to main
+
+     ARGV:  array of args as passed to main
+
+     Finds the path of the program currently run, this is typically to
+     pass it to `lw6sys_exec_again' and run it again.
+
+     *Return value:*  the path (newly allocated string).
+
+ -- Function: int lw6sys_is_executed_again (int ARGC, char * [] ARGV)
+     ARGC:  number of args as passed to main
+
+     ARGV:  array of args as passed to main
+
+     Tells wether the program is already executed by itself by
+     `lw6sys_exec_again' function. Based on environment and command
+     switches.
+
+     *Return value:*  1 if executed again, 0 if not.
+
+ -- Function: int lw6sys_exec_again (int ARGC, char * [] ARGV)
+     ARGC:  number of args as passed to main
+
+     ARGV:  array of args as passed to main
+
+     Runs the program from itsef, that is fires a new program (the same
+     running) and ends up the current one. This is used to fix some
+     environment variable issues. If LW6_EXECUTED_AGAIN (environment
+     variable) is set, will not run the program so this is not really
+     like `exec' as in the C standard library, this function will
+     actually return and be successfull even if no other process was
+     started. It's just designed to bootstrap/launch the process once.
+
+     *Return value:*  1 on success, 0 on failure.
 
  -- Function: int lw6sys_clear_file (char * FILENAME)
      FILENAME:  absolute or relative filename
@@ -5838,6 +5910,22 @@ C interfaces:
      modern langage, but does the job. No return value, if you really
      want one, pass a structure in `func_data' and modify something in
      it on success, failure, whatever.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_list_filter (lw6sys_list_t ** LIST,
+          lw6sys_list_filter_func_t FUNC, void * FUNC_DATA)
+     LIST:  the list where elements will be taken
+
+     FUNC:  the function which will be executed
+
+     FUNC_DATA:  additionnal data to be passed to `func'
+
+     Executes a function on all list items and keeps only those for
+     which the function returned non zero (true).  The `func_data'
+     parameter allows you to pass extra values to the function, such as
+     a file handler or any variable which can not be inferred from list
+     item values, and you of course do not want to make global...
 
      *Return value:*  none.
 
@@ -7145,6 +7233,20 @@ C interfaces:
      modifiable data.
 
      *Return value:*  none, `str' pointed data modified in-place
+
+ -- Function: int lw6sys_test_exec (int ARGC, char * [] ARGV, int MODE)
+     ARGC:  number of args as passed to main
+
+     ARGV:  array of args as passed to main
+
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `sys' module test suite which is specific to exec
+     functions, these ones require `argc' and `argv' to be correctly
+     set so the extra argument justifies putting it outside
+     `lw6sys_test'.  Additionnally, it's not fool proof...
+
+     *Return value:*  1 if test is successfull, 0 on error.
 
  -- Function: int lw6sys_test (int MODE)
      MODE:  0 for check only, 1 for full test

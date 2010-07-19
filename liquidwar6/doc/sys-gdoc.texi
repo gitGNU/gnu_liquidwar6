@@ -1336,6 +1336,22 @@ call "lw6sys_keyword_as_env" if needed.
 @strong{Return value:}  1 if success, 0 if failed
 @end deftypefun
 
+@deftypefun {int} {lw6sys_setenv_prefixed} (char * @var{keyword}, char * @var{value})
+@var{keyword}:  the keyword to be searched in the environment variables.
+
+@var{value}:  the value of the environment variable to set
+
+Sets the environment variable to the given value. The keyword
+will be fixed so that all dashes "-" characters are replaced
+by underscores "_" characters. Characters will be changed to
+uppercase. Any non alphanumeric character will be replaced
+by "_". Finally, an "LW6_" prefix will be added. That is to say,
+calling this function with "my-param" will set 
+the "LW6_MY_PARAM" environment variable.
+
+@strong{Return value:}  1 if success, 0 if failure
+@end deftypefun
+
 @deftypefun {lw6sys_list_t *} {lw6sys_env_split} (char * @var{value})
 @var{value}:  the value, a list of item separated by... the separator
 
@@ -1375,6 +1391,44 @@ Might not work perfectly, this function is just used to
 provide default values for player names and such things.
 
 @strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_exec_find_myself} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of args as passed to main
+
+@var{argv}:  array of args as passed to main
+
+Finds the path of the program currently run, this is typically to
+pass it to @code{lw6sys_exec_again} and run it again.
+
+@strong{Return value:}  the path (newly allocated string).
+@end deftypefun
+
+@deftypefun {int} {lw6sys_is_executed_again} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of args as passed to main
+
+@var{argv}:  array of args as passed to main
+
+Tells wether the program is already executed by itself by 
+@code{lw6sys_exec_again} function. Based on environment and command switches.
+
+@strong{Return value:}  1 if executed again, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_exec_again} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of args as passed to main
+
+@var{argv}:  array of args as passed to main
+
+Runs the program from itsef, that is fires a new program (the same running)
+and ends up the current one. This is used to fix some environment variable
+issues. If LW6_EXECUTED_AGAIN (environment variable) is set, will not
+run the program so this is not really like @code{exec} as in the C standard
+library, this function will actually return and be successfull even
+if no other process was started. It's just designed to bootstrap/launch
+the process once.
+
+@strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
 @deftypefun {int} {lw6sys_clear_file} (char * @var{filename})
@@ -2022,6 +2076,23 @@ real "for each" construct as can be found in any modern
 langage, but does the job. No return value, if you really
 want one, pass a structure in @code{func_data} and modify something
 in it on success, failure, whatever.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_list_filter} (lw6sys_list_t ** @var{list}, lw6sys_list_filter_func_t @var{func}, void * @var{func_data})
+@var{list}:  the list where elements will be taken
+
+@var{func}:  the function which will be executed
+
+@var{func_data}:  additionnal data to be passed to @code{func}
+
+Executes a function on all list items and keeps only those
+for which the function returned non zero (true).
+The @code{func_data} parameter allows you to pass extra values to
+the function, such as a file handler or any variable which
+can not be inferred from list item values, and you of course
+do not want to make global... 
 
 @strong{Return value:}  none.
 @end deftypefun
@@ -3458,6 +3529,21 @@ Transforms a string to lower case, the pointer must point
 to modifiable data.
 
 @strong{Return value:}  none, @code{str} pointed data modified in-place
+@end deftypefun
+
+@deftypefun {int} {lw6sys_test_exec} (int @var{argc}, char * [] @var{argv}, int @var{mode})
+@var{argc}:  number of args as passed to main
+
+@var{argv}:  array of args as passed to main
+
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{sys} module test suite which is specific to exec functions,
+these ones require @code{argc} and @code{argv} to be correctly set so the
+extra argument justifies putting it outside @code{lw6sys_test}.
+Additionnally, it's not fool proof...
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
 @deftypefun {int} {lw6sys_test} (int @var{mode})

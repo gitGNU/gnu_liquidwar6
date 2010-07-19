@@ -1,5 +1,7 @@
 2010-07-19 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Node URL displayed at startup.
+
 	* Program can now discover local IP address.
 
 2010-07-15 : Christian Mauduit <ufoot@ufoot.org>
