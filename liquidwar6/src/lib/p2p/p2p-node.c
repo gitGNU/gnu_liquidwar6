@@ -82,8 +82,15 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
       node->server_id_int = server_id;
-      node->server_id_str = lw6sys_id_ltoa (node->server_id_int);
-      node->public_url = lw6sys_str_copy (public_url);
+      node->server_id_str = lw6sys_id_ltoa (server_id);
+      if (public_url && strlen (public_url) > 0)
+	{
+	  node->public_url = lw6sys_str_copy (public_url);
+	}
+      else
+	{
+	  node->public_url = lw6net_if_guess_public_url (bind_port);
+	}
       ret = (node->bind_ip && node->server_id_str && node->public_url);
       if (ret)
 	{
@@ -305,7 +312,7 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
   if (node && node->id && node->bind_ip)
     {
       repr =
-	lw6sys_new_sprintf (_("%u %s %s:%d \"%s\""), node->id,
+	lw6sys_new_sprintf (_("%u %s %s:%d %s"), node->id,
 			    node->server_id_str, node->bind_ip,
 			    node->bind_port, node->public_url);
     }
