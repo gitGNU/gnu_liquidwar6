@@ -33,7 +33,7 @@ _mod_tcpd_can_handle_tcp (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
 
-  if (strncmp
+  if (!strncmp
       (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_STRING,
        _MOD_TCPD_PROTOCOL_SIZE))
     {
