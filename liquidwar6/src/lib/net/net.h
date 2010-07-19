@@ -29,9 +29,14 @@
 #define LW6NET_ADDRESS_ANY "0.0.0.0"
 #define LW6NET_ADDRESS_LOOPBACK "127.0.0.1"
 #define LW6NET_DEFAULT_PORT 8056
+#define LW6NET_HTTP_PORT 80
 
 // net-error.c
 extern int lw6net_last_error ();
+
+/* net-if.c */
+extern char *lw6net_if_guess_local ();
+extern char *lw6net_if_guess_public_url (int port);
 
 /*
  * In line.c

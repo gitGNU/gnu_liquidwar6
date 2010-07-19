@@ -32,10 +32,12 @@ typedef u_int32_t in_addr_t;
 typedef int socklen_t;
 #else
 #include <sys/types.h>
+#include <sys/signal.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <sys/signal.h>
+#include <netdb.h>
+#include <ifaddrs.h>
 #endif
 
 #define _LW6NET_IP_SIZE 20	// only 15 required but...

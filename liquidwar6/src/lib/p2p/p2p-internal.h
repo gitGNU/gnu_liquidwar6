@@ -66,7 +66,8 @@ typedef struct _lw6p2p_node_s
   _lw6p2p_db_t *db;
   char *bind_ip;
   int bind_port;
-  u_int64_t server_id;
+  u_int64_t server_id_int;
+  char *server_id_str;
   char *public_url;
   int nb_cli_backends;
   lw6cli_backend_t **cli_backends;

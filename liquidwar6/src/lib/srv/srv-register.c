@@ -163,6 +163,12 @@ lw6srv_create_backend (int argc, char *argv[], char *name)
 	{
 	  backend->id = ++seq_id;
 	}
+
+      backend->name = lw6sys_str_copy (name);
+      if (!(backend->name))
+	{
+	  lw6srv_destroy_backend (backend);
+	}
     }
 
   return backend;
@@ -174,5 +180,10 @@ lw6srv_destroy_backend (lw6srv_backend_t * backend)
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (backend->dl_handle);
 #endif
+  if (backend->name)
+    {
+      LW6SYS_FREE (backend->name);
+      backend->name = NULL;
+    }
   LW6SYS_FREE (backend);
 }

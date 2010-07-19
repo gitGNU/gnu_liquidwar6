@@ -68,7 +68,6 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
   lw6sys_list_t *list_backends = NULL;
   char *backend = NULL;
   char *query = NULL;
-  char *server_id_str = NULL;
   int ret = 1;
 
   node = (_lw6p2p_node_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_node_t));
@@ -82,9 +81,10 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
-      node->server_id = server_id;
+      node->server_id_int = server_id;
+      node->server_id_str = lw6sys_id_ltoa (node->server_id_int);
       node->public_url = lw6sys_str_copy (public_url);
-      ret = (node->bind_ip && node->public_url);
+      ret = (node->bind_ip && node->server_id_str && node->public_url);
       if (ret)
 	{
 	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
@@ -219,21 +219,16 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
   if (node && ret && node->bind_ip && node->public_url)
     {
       ret = 0;
-      server_id_str = lw6sys_id_ltoa (node->server_id);
-      if (server_id_str)
+      query =
+	lw6sys_new_sprintf (lw6sys_hash_get
+			    (node->db->data.sql.queries,
+			     _LW6P2P_INSERT_SERVER_SQL), node->server_id_str,
+			    _LW6P2P_DB_TRUE, node->bind_ip,
+			    node->bind_port, node->public_url);
+      if (query)
 	{
-	  query =
-	    lw6sys_new_sprintf (lw6sys_hash_get
-				(node->db->data.sql.queries,
-				 _LW6P2P_INSERT_SERVER_SQL), server_id_str,
-				_LW6P2P_DB_TRUE, node->bind_ip,
-				node->bind_port, node->public_url);
-	  if (query)
-	    {
-	      ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	      LW6SYS_FREE (query);
-	    }
-	  LW6SYS_FREE (server_id_str);
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  LW6SYS_FREE (query);
 	}
     }
 
@@ -267,13 +262,17 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
-      if (node->bind_ip)
-	{
-	  LW6SYS_FREE (node->bind_ip);
-	}
       if (node->public_url)
 	{
 	  LW6SYS_FREE (node->public_url);
+	}
+      if (node->server_id_str)
+	{
+	  LW6SYS_FREE (node->server_id_str);
+	}
+      if (node->bind_ip)
+	{
+	  LW6SYS_FREE (node->bind_ip);
 	}
       LW6SYS_FREE (node);
     }
@@ -306,8 +305,9 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
   if (node && node->id && node->bind_ip)
     {
       repr =
-	lw6sys_new_sprintf (_("%u %s:%d"), node->id, node->bind_ip,
-			    node->bind_port);
+	lw6sys_new_sprintf (_("%u %s %s:%d \"%s\""), node->id,
+			    node->server_id_str, node->bind_ip,
+			    node->bind_port, node->public_url);
     }
   else
     {
@@ -450,24 +450,18 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 {
   int i = 0;
   char *query = NULL;
-  char *server_id_str = NULL;
 
   if (node)
     {
-      server_id_str = lw6sys_id_ltoa (node->server_id);
-      if (server_id_str)
+      query =
+	lw6sys_new_sprintf (lw6sys_hash_get
+			    (node->db->data.sql.queries,
+			     _LW6P2P_DELETE_SERVER_BY_ID_SQL),
+			    node->server_id_str);
+      if (query)
 	{
-	  query =
-	    lw6sys_new_sprintf (lw6sys_hash_get
-				(node->db->data.sql.queries,
-				 _LW6P2P_DELETE_SERVER_BY_ID_SQL),
-				server_id_str);
-	  if (query)
-	    {
-	      _lw6p2p_db_exec_ignore_data (node->db, query);
-	      LW6SYS_FREE (query);
-	    }
-	  LW6SYS_FREE (server_id_str);
+	  _lw6p2p_db_exec_ignore_data (node->db, query);
+	  LW6SYS_FREE (query);
 	}
 
       if (node->srv_backends)

@@ -44,6 +44,7 @@ typedef struct lw6cli_backend_s
   int argc;
   char **argv;
   u_int32_t id;
+  char *name;
 
   void *(*init) (int argc, char *argv[]);
   void (*quit) (void *cli_context);

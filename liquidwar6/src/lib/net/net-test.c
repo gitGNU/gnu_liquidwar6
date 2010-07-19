@@ -38,6 +38,63 @@
 #define TEST_LINE2 "a\tb\tc"
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
 
+/*
+ * Testing functions in if.c
+ */
+static int
+test_if ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *ip = NULL;
+    char *public_url = NULL;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to guess local interface IP"));
+    ip = lw6net_if_guess_local ();
+    if (ip)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("local interface IP is \"%s\""), ip);
+	LW6SYS_FREE (ip);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("unable to guess local interface, this is a problem only if machine *really* has no network available"));
+      }
+    public_url = lw6net_if_guess_public_url (LW6NET_DEFAULT_PORT);
+    if (public_url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("public URL on default port would be \"%s\""),
+		    public_url);
+	LW6SYS_FREE (public_url);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
+	ret = 0;
+      }
+    public_url = lw6net_if_guess_public_url (LW6NET_HTTP_PORT);
+    if (public_url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("public URL on http port would be \"%s\""), public_url);
+	LW6SYS_FREE (public_url);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 static int
 prepare_2_tcp_socks (int *sock1, int *sock2)
 {
@@ -492,7 +549,7 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv) && test_tcp () && test_udp ()
+  ret = lw6net_init (argc, argv) && test_if () && test_tcp () && test_udp ()
     && test_line ();
 
   if (ret)

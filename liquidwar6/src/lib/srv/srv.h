@@ -74,6 +74,7 @@ typedef struct lw6srv_backend_s
   int argc;
   char **argv;
   u_int32_t id;
+  char *name;
 
   void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);
   void (*quit) (void *srv_context);
