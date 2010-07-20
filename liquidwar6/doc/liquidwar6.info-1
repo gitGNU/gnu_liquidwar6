@@ -704,16 +704,16 @@ for its `map-path' and use this value automatically.
 2.4.3 Raw install of extra maps (all-platforms)
 -----------------------------------------------
 
-Another solution, which works on all platforms including MS-Windows and
-Mac OS X but also works on GNU/Linux, is to simply unpack the
-`extra-maps' package (unzip or untar) in your custom map directory, or
-in the system map directory. There's nothing else to do to install
+Another solution, which works on all platforms including Microsoft
+Windows and Mac OS X but also works on GNU/Linux, is to simply unpack
+the `extra-maps' package (unzip or untar) in your custom map directory,
+or in the system map directory. There's nothing else to do to install
 these maps but simply put them on your hard drive in the right
 directory.
 
-   Typically on an MS-Windows system, you would unpack the extra maps in
-`C:\Program Files\Liquid War 6\map\' (system directory) and on a Mac OS
-X system you would unpack the extra maps in `Liquid War
+   Typically on an Microsoft Windows system, you would unpack the extra
+maps in `C:\Program Files\Liquid War 6\map\' (system directory) and on
+a Mac OS X system you would unpack the extra maps in `Liquid War
 6.app/Contents/Resources/map/' (system directory) or
 `$HOME/Library/Application Support/Liquid War 6/map' (user directory).
 On a GNU/Linux or POSIX system you would unpack them in
@@ -1863,12 +1863,12 @@ provided this one is... developped.
 display the game using 3D acceleration, if available, through the SDL
 (http://www.libsdl.org/) library, using its GL bindings.
 
-   Additionnally, versions available for MS-Windows and Mac OS X will
-probably never any other backends available. For technical reasons,
-those platforms do not have the flexibility of GNU/Linux and do not
-allow graphical libraries to be loaded dynamically. In practice, both
-of them require hacks that override the standard `main' function.
-MS-Windows has its `WinMain' instead, and Mac OS X is even more
+   Additionnally, versions available for Microsoft Windows and Mac OS X
+will probably never any other backends available. For technical
+reasons, those platforms do not have the flexibility of GNU/Linux and
+do not allow graphical libraries to be loaded dynamically. In practice,
+both of them require hacks that override the standard `main' function.
+Microsoft Windows has its `WinMain' instead, and Mac OS X is even more
 pedantic, requiring graphical functions to be executed in the main
 thread.  So `mod-gl' is just linked statically in those versions, and
 the modularity of the game is purely theorical on these platforms.
