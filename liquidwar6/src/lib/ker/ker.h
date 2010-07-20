@@ -164,7 +164,7 @@ lw6ker_fighter_t;
 
 typedef struct lw6ker_cursor_s
 {
-  u_int64_t server_id;
+  u_int64_t node_id;
   u_int16_t cursor_id;
   char letter;
   int enabled;
@@ -206,20 +206,20 @@ typedef struct lw6ker_history_s
   int nb_fighters[LW6KER_HISTORY_SIZE][LW6MAP_MAX_NB_TEAMS];
 } lw6ker_history_t;
 
-typedef struct lw6ker_server_s
+typedef struct lw6ker_node_s
 {
-  u_int64_t server_id;
+  u_int64_t node_id;
   int enabled;
   u_int32_t last_command_round;
 }
-lw6ker_server_t;
+lw6ker_node_t;
 
-typedef struct lw6ker_server_array_s
+typedef struct lw6ker_node_array_s
 {
-  int32_t nb_servers;
-  lw6ker_server_t servers[LW6MAP_MAX_NB_SERVERS];
+  int32_t nb_nodes;
+  lw6ker_node_t nodes[LW6MAP_MAX_NB_NODES];
 }
-lw6ker_server_array_t;
+lw6ker_node_array_t;
 
 typedef struct lw6ker_team_s
 {
@@ -294,7 +294,7 @@ typedef struct lw6ker_game_state_s
   u_int32_t id;
   lw6ker_game_struct_t *game_struct;
   lw6ker_map_state_t map_state;
-  lw6ker_server_array_t server_array;
+  lw6ker_node_array_t node_array;
   lw6ker_history_t global_history;
   lw6ker_history_t latest_history;
   u_int32_t moves;
@@ -321,7 +321,7 @@ extern char *lw6ker_capture_str (lw6ker_game_state_t * game_state);
  * in cursor.c
  */
 extern int lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
-				 u_int64_t server_id,
+				 u_int64_t node_id,
 				 u_int16_t cursor_id,
 				 int team_color, int32_t x, int32_t y);
 extern int lw6ker_cursor_disable (lw6ker_cursor_t * cursor);
@@ -340,14 +340,14 @@ extern lw6ker_cursor_t *lw6ker_cursor_array_get (lw6ker_cursor_array_t *
 						 cursor_array,
 						 u_int16_t cursor_id);
 extern int lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
-				       u_int64_t server_id,
+				       u_int64_t node_id,
 				       u_int16_t cursor_id, int team_color,
 				       int32_t x, int32_t y);
 extern int lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
-					u_int64_t server_id,
+					u_int64_t node_id,
 					u_int16_t cursor_id);
 extern int lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
-				       u_int64_t server_id,
+				       u_int64_t node_id,
 				       u_int16_t cursor_id, int32_t x,
 				       int32_t y, int32_t pot_offset,
 				       lw6sys_whd_t * shape,
@@ -380,39 +380,36 @@ extern lw6ker_game_state_t *lw6ker_game_state_dup (lw6ker_game_state_t *
 						   progress);
 extern u_int32_t lw6ker_game_state_checksum (lw6ker_game_state_t *
 					     game_state);
-extern int lw6ker_game_state_register_server (lw6ker_game_state_t *
-					      game_state,
-					      u_int64_t server_id);
-extern int lw6ker_game_state_unregister_server (lw6ker_game_state_t *
-						game_state,
-						u_int64_t server_id);
-extern int lw6ker_game_state_server_exists (lw6ker_game_state_t * game_state,
-					    u_int64_t server_id);
-extern int lw6ker_game_state_get_server_info (lw6ker_game_state_t *
-					      game_state, u_int16_t server_id,
-					      u_int32_t * last_command_round);
+extern int lw6ker_game_state_register_node (lw6ker_game_state_t *
+					    game_state, u_int64_t node_id);
+extern int lw6ker_game_state_unregister_node (lw6ker_game_state_t *
+					      game_state, u_int64_t node_id);
+extern int lw6ker_game_state_node_exists (lw6ker_game_state_t * game_state,
+					  u_int64_t node_id);
+extern int lw6ker_game_state_get_node_info (lw6ker_game_state_t *
+					    game_state, u_int16_t node_id,
+					    u_int32_t * last_command_round);
 extern int lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
-					 u_int64_t server_id,
+					 u_int64_t node_id,
 					 u_int16_t cursor_id, int team_color);
 extern int lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
-					    u_int64_t server_id,
+					    u_int64_t node_id,
 					    u_int16_t cursor_id);
 extern int lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
 					    u_int16_t cursor_id);
 extern int lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
 					      game_state, u_int16_t cursor_id,
-					      u_int64_t * server_id,
+					      u_int64_t * node_id,
 					      char *letter, int *team_color,
 					      int32_t * x, int32_t * y);
 extern int lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
-					 u_int64_t server_id,
+					 u_int64_t node_id,
 					 u_int16_t cursor_id, int32_t x,
 					 int32_t y);
 extern int lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
-				       u_int64_t server_id, int team_color);
+				       u_int64_t node_id, int team_color);
 extern int lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
-					  u_int64_t server_id,
-					  int team_color);
+					  u_int64_t node_id, int team_color);
 extern int lw6ker_game_state_team_exists (lw6ker_game_state_t * game_state,
 					  int team_color);
 extern int lw6ker_game_state_get_team_info (lw6ker_game_state_t * game_state,
@@ -605,27 +602,25 @@ extern int lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 				      lw6ker_game_state_t * game_state);
 
 /*
- * in server.c
+ * in node.c
  */
-extern int lw6ker_server_enable (lw6ker_server_t * server,
-				 u_int64_t server_id);
-extern int lw6ker_server_disable (lw6ker_server_t * server);
-extern int lw6ker_server_sanity_check (lw6ker_server_t * server,
-				       lw6map_rules_t * rules);
+extern int lw6ker_node_enable (lw6ker_node_t * node, u_int64_t node_id);
+extern int lw6ker_node_disable (lw6ker_node_t * node);
+extern int lw6ker_node_sanity_check (lw6ker_node_t * node,
+				     lw6map_rules_t * rules);
 
 /*
- * in serverarray.c
+ * in nodearray.c
  */
-extern lw6ker_server_t *lw6ker_server_array_get (lw6ker_server_array_t *
-						 server_array,
-						 u_int64_t server_id);
-extern int lw6ker_server_array_enable (lw6ker_server_array_t * server_array,
-				       u_int64_t server_id);
-extern int lw6ker_server_array_disable (lw6ker_server_array_t * server_array,
-					u_int64_t server_id);
-extern int lw6ker_server_array_sanity_check (lw6ker_server_array_t *
-					     server_array,
-					     lw6map_rules_t * rules);
+extern lw6ker_node_t *lw6ker_node_array_get (lw6ker_node_array_t *
+					     node_array, u_int64_t node_id);
+extern int lw6ker_node_array_enable (lw6ker_node_array_t * node_array,
+				     u_int64_t node_id);
+extern int lw6ker_node_array_disable (lw6ker_node_array_t * node_array,
+				      u_int64_t node_id);
+extern int lw6ker_node_array_sanity_check (lw6ker_node_array_t *
+					   node_array,
+					   lw6map_rules_t * rules);
 
 /*
  * In team.c

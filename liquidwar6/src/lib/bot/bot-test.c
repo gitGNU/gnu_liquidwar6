@@ -37,7 +37,7 @@
 #define TEST_MAP_NOISE_PERCENT 10
 #define TEST_NB_ROUNDS 1000
 #define TEST_ROUNDS_STEP 10
-#define TEST_SERVER_ID 0x1234123412341234LL
+#define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR_ID1 0x1234
 #define TEST_CURSOR_ID2 0x2345
 #define TEST_CURSOR_ID3 0x3456
@@ -62,12 +62,12 @@ new_data (lw6map_level_t ** level,
 
   if (*game_state)
     {
-      lw6ker_game_state_register_server (*game_state, TEST_SERVER_ID);
-      lw6ker_game_state_add_cursor (*game_state, TEST_SERVER_ID,
+      lw6ker_game_state_register_node (*game_state, TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (*game_state, TEST_NODE_ID,
 				    TEST_CURSOR_ID1, TEST_CURSOR_COLOR1);
-      lw6ker_game_state_add_cursor (*game_state, TEST_SERVER_ID,
+      lw6ker_game_state_add_cursor (*game_state, TEST_NODE_ID,
 				    TEST_CURSOR_ID2, TEST_CURSOR_COLOR2);
-      lw6ker_game_state_add_cursor (*game_state, TEST_SERVER_ID,
+      lw6ker_game_state_add_cursor (*game_state, TEST_NODE_ID,
 				    TEST_CURSOR_ID3, TEST_CURSOR_COLOR3);
     }
 
@@ -118,7 +118,7 @@ test_backend (lw6bot_backend_t * backend)
 	      lw6bot_next_move (backend, &x, &y);
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _("round %d moved to %d,%d"),
 			  lw6ker_game_state_get_rounds (game_state), x, y);
-	      lw6ker_game_state_set_cursor (game_state, TEST_SERVER_ID,
+	      lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					    TEST_CURSOR_ID3, x, y);
 	      for (i = 0; i < TEST_ROUNDS_STEP; ++i)
 		{

@@ -28,81 +28,80 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_server_init (lw6ker_server_t * server)
+_lw6ker_node_init (lw6ker_node_t * node)
 {
-  memset (server, 0, sizeof (lw6ker_server_t));
+  memset (node, 0, sizeof (lw6ker_node_t));
 }
 
 void
-_lw6ker_server_update_checksum (lw6ker_server_t * server,
-				u_int32_t * checksum)
+_lw6ker_node_update_checksum (lw6ker_node_t * node, u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int64 (checksum, server->server_id);
-  lw6sys_checksum_update_int32 (checksum, server->enabled);
-  lw6sys_checksum_update_int32 (checksum, server->last_command_round);
+  lw6sys_checksum_update_int64 (checksum, node->node_id);
+  lw6sys_checksum_update_int32 (checksum, node->enabled);
+  lw6sys_checksum_update_int32 (checksum, node->last_command_round);
 }
 
 void
-_lw6ker_server_reset (lw6ker_server_t * server)
+_lw6ker_node_reset (lw6ker_node_t * node)
 {
-  server->enabled = 0;
-  server->last_command_round = 0;
+  node->enabled = 0;
+  node->last_command_round = 0;
 }
 
 int
-lw6ker_server_enable (lw6ker_server_t * server, u_int64_t server_id)
+lw6ker_node_enable (lw6ker_node_t * node, u_int64_t node_id)
 {
   int ret = 0;
 
-  if (!server->enabled)
+  if (!node->enabled)
     {
-      server->server_id = server_id;
-      _lw6ker_server_reset (server);
-      server->enabled = 1;
+      node->node_id = node_id;
+      _lw6ker_node_reset (node);
+      node->enabled = 1;
       ret = 1;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("trying to enable server which is already enabled"));
+		  _("trying to enable node which is already enabled"));
     }
 
   return ret;
 }
 
 int
-lw6ker_server_disable (lw6ker_server_t * server)
+lw6ker_node_disable (lw6ker_node_t * node)
 {
   int ret = 0;
 
-  if (server->enabled)
+  if (node->enabled)
     {
-      server->server_id = 0;
-      _lw6ker_server_reset (server);
+      node->node_id = 0;
+      _lw6ker_node_reset (node);
       ret = 1;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("trying to disable server which is already disabled"));
+		  _("trying to disable node which is already disabled"));
     }
 
   return ret;
 }
 
 int
-lw6ker_server_sanity_check (lw6ker_server_t * server, lw6map_rules_t * rules)
+lw6ker_node_sanity_check (lw6ker_node_t * node, lw6map_rules_t * rules)
 {
   int ret = 1;
 
-  if ((server->enabled
-       && (!lw6sys_check_id_64 (server->server_id)))
-      || ((!server->enabled) && (server->server_id != 0)))
+  if ((node->enabled
+       && (!lw6sys_check_id_64 (node->node_id)))
+      || ((!node->enabled) && (node->node_id != 0)))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _
-		  ("inconsistent enabled server values enabled=%d server_id=%"
-		   LW6SYS_PRINTF_LL "x"), server->enabled, server->server_id);
+		  ("inconsistent enabled node values enabled=%d node_id=%"
+		   LW6SYS_PRINTF_LL "x"), node->enabled, node->node_id);
       ret = 0;
     }
 

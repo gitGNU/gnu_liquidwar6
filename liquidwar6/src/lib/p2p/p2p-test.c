@@ -33,9 +33,9 @@
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
 #define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
-#define _TEST_NODE_SERVER_ID1 0x1234123412341234LL
-#define _TEST_NODE_SERVER_ID2 0x2345234523452345LL
-#define _TEST_NODE_SERVER_ID3 0x3456345634563456LL
+#define _TEST_NODE_NODE_ID1 0x1234123412341234LL
+#define _TEST_NODE_NODE_ID2 0x2345234523452345LL
+#define _TEST_NODE_NODE_ID3 0x3456345634563456LL
 /*
  * following depends on LW6NET_DEFAULT_PORT
  */
@@ -120,7 +120,7 @@ _test_node_init ()
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			   _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
+			   _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
 			   _TEST_NODE_PUBLIC_URL1);
 	if (node)
 	  {
@@ -169,7 +169,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
       (*node1) =
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT1, _TEST_NODE_SERVER_ID1,
+			 _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
 			 _TEST_NODE_PUBLIC_URL1);
       if (*node1)
 	{
@@ -187,7 +187,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
       (*node2) =
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT2, _TEST_NODE_SERVER_ID2,
+			 _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
 			 _TEST_NODE_PUBLIC_URL2);
       if (*node2)
 	{
@@ -205,7 +205,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
       (*node3) =
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT3, _TEST_NODE_SERVER_ID3,
+			 _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
 			 _TEST_NODE_PUBLIC_URL3);
       if (*node3)
 	{

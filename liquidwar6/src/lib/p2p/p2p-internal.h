@@ -31,8 +31,8 @@
 
 #define _LW6P2P_DEFAULT_NAME "p2p.db"
 #define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
-#define _LW6P2P_DELETE_SERVER_BY_ID_SQL "delete-server-by-id.sql"
-#define _LW6P2P_INSERT_SERVER_SQL "insert-server.sql"
+#define _LW6P2P_DELETE_NODE_BY_ID_SQL "delete-node-by-id.sql"
+#define _LW6P2P_INSERT_NODE_SQL "insert-node.sql"
 
 typedef struct _lw6p2p_consts_s
 {
@@ -66,8 +66,8 @@ typedef struct _lw6p2p_node_s
   _lw6p2p_db_t *db;
   char *bind_ip;
   int bind_port;
-  u_int64_t server_id_int;
-  char *server_id_str;
+  u_int64_t node_id_int;
+  char *node_id_str;
   char *public_url;
   int nb_cli_backends;
   lw6cli_backend_t **cli_backends;
@@ -93,7 +93,7 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *client_backends,
 					 char *server_backends,
 					 char *bind_ip,
-					 int bind_port, u_int64_t server_id,
+					 int bind_port, u_int64_t node_id,
 					 char *public_url);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);

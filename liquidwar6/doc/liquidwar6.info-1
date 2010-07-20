@@ -4649,12 +4649,12 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Really makes sense in network games. Default value is 26, the
      maximum.
 
-4.9.13 max-nb-servers
----------------------
+4.9.13 max-nb-nodes
+-------------------
 
- -- Command-line option: `--max-nb-servers=<value>'
- -- Environment variable: `LW6_MAX_NB_SERVERS'
- -- XML key: `max-nb-servers'
+ -- Command-line option: `--max-nb-nodes=<value>'
+ -- Environment variable: `LW6_MAX_NB_NODES'
+ -- XML key: `max-nb-nodes'
      Type: integer
 
      Default value: 10 Min value: 2 Max value: 26

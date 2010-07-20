@@ -78,7 +78,7 @@ _lw6ker_cursor_array_find_free (lw6ker_cursor_array_t * cursor_array)
 
 int
 _lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t * cursor_array,
-					u_int64_t server_id, int team_color)
+					u_int64_t node_id, int team_color)
 {
   int ret = 1;
   int i;
@@ -87,12 +87,12 @@ _lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t * cursor_array,
     {
       if (cursor_array->cursors[i].enabled
 	  && cursor_array->cursors[i].team_color == team_color
-	  && cursor_array->cursors[i].server_id != server_id)
+	  && cursor_array->cursors[i].node_id != node_id)
 	{
-	  // this team_color is owned at least one by another server
+	  // this team_color is owned at least one by another node
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _("color %d owned by %" LW6SYS_PRINTF_LL "x"),
-		      team_color, server_id);
+		      team_color, node_id);
 	  ret = 0;
 	}
     }
@@ -132,7 +132,7 @@ lw6ker_cursor_array_get (lw6ker_cursor_array_t *
 
 int
 lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
-			    u_int64_t server_id,
+			    u_int64_t node_id,
 			    u_int16_t cursor_id, int team_color,
 			    int32_t x, int32_t y)
 {
@@ -145,8 +145,7 @@ lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
       cursor = _lw6ker_cursor_array_find_free (cursor_array);
       if (cursor)
 	{
-	  lw6ker_cursor_enable (cursor, server_id, cursor_id, team_color, x,
-				y);
+	  lw6ker_cursor_enable (cursor, node_id, cursor_id, team_color, x, y);
 	  cursor_array->nb_cursors++;
 	  ret = 1;
 	}
@@ -163,7 +162,7 @@ lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
 
 int
 lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
-			     u_int64_t server_id, u_int16_t cursor_id)
+			     u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
@@ -171,7 +170,7 @@ lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
   cursor = lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (cursor)
     {
-      if (_lw6ker_cursor_check_server_id (cursor, server_id))
+      if (_lw6ker_cursor_check_node_id (cursor, node_id))
 	{
 	  lw6ker_cursor_disable (cursor);
 	  cursor_array->nb_cursors--;
@@ -190,7 +189,7 @@ lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
 
 int
 lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
-			    u_int64_t server_id,
+			    u_int64_t node_id,
 			    u_int16_t cursor_id, int32_t x,
 			    int32_t y, int32_t pot_offset,
 			    lw6sys_whd_t * shape, lw6map_rules_t * rules)
@@ -200,11 +199,11 @@ lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
 
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
-	      server_id, cursor_id, x, y, pot_offset);
+	      node_id, cursor_id, x, y, pot_offset);
   cursor = lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (cursor)
     {
-      if (_lw6ker_cursor_check_server_id (cursor, server_id))
+      if (_lw6ker_cursor_check_node_id (cursor, node_id))
 	{
 	  ret = lw6ker_cursor_update (cursor, x, y, pot_offset, shape, rules);
 	}

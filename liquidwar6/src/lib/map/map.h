@@ -28,7 +28,7 @@
 #define LW6MAP_MAX_FIGHTER_HEALTH 10000
 #define LW6MAP_MAX_NB_TEAMS 10
 #define LW6MAP_MAX_NB_CURSORS 26
-#define LW6MAP_MAX_NB_SERVERS 26
+#define LW6MAP_MAX_NB_NODES 26
 #define LW6MAP_MAX_NB_DIR_TRIES 7
 
 /*
@@ -126,9 +126,9 @@
 #define LW6MAP_RULES_MAX_MAX_NB_CURSORS LW6MAP_MAX_NB_CURSORS
 
 // 10, not 26
-#define LW6MAP_RULES_DEFAULT_MAX_NB_SERVERS LW6MAP_MAX_NB_TEAMS
-#define LW6MAP_RULES_MIN_MAX_NB_SERVERS 2
-#define LW6MAP_RULES_MAX_MAX_NB_SERVERS LW6MAP_MAX_NB_SERVERS
+#define LW6MAP_RULES_DEFAULT_MAX_NB_NODES LW6MAP_MAX_NB_TEAMS
+#define LW6MAP_RULES_MIN_MAX_NB_NODES 2
+#define LW6MAP_RULES_MAX_MAX_NB_NODES LW6MAP_MAX_NB_NODES
 
 #define LW6MAP_RULES_DEFAULT_X_POLARITY 0
 #define LW6MAP_RULES_MIN_X_POLARITY -1
@@ -305,7 +305,7 @@ typedef struct lw6map_rules_s
   int32_t total_armies_size;
   int32_t max_nb_teams;
   int32_t max_nb_cursors;
-  int32_t max_nb_servers;
+  int32_t max_nb_nodes;
   int32_t x_polarity;
   int32_t y_polarity;
   int32_t z_polarity;

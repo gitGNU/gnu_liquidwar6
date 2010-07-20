@@ -787,7 +787,7 @@ populate_references ()
 		 _
 		 ("Defines wether the interactive system console must be displayed. Note that console support must have been enabled at compilation time. It might not be available on your computer, for instance if you are running a system such as Microsoft Windows."),
 		 0);
-  POPULATE_VOID (LW6DEF_SERVER,
+  POPULATE_VOID (LW6DEF_NODE,
 		 _
 		 ("Start the game in server mode, without requiring any graphics backend."));
   POPULATE_VOID (LW6DEF_QUICK_START,
@@ -1002,12 +1002,11 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_MAX_NB_CURSORS,
 		LW6MAP_RULES_MIN_MAX_NB_CURSORS,
 		LW6MAP_RULES_MAX_MAX_NB_CURSORS);
-  POPULATE_INT (LW6DEF_MAX_NB_SERVERS,
+  POPULATE_INT (LW6DEF_MAX_NB_NODES,
 		_
 		("Defines the maximum number of servers who can enter the game. Really makes sense in network games. Default value is 10, and should fit in most cases. Can be raised up to 26."),
-		LW6MAP_RULES_DEFAULT_MAX_NB_SERVERS,
-		LW6MAP_RULES_MIN_MAX_NB_SERVERS,
-		LW6MAP_RULES_MAX_MAX_NB_SERVERS);
+		LW6MAP_RULES_DEFAULT_MAX_NB_NODES,
+		LW6MAP_RULES_MIN_MAX_NB_NODES, LW6MAP_RULES_MAX_MAX_NB_NODES);
   POPULATE_INT (LW6DEF_X_POLARITY,
 		_
 		("Defines how the map will be wrapped on the X (horizontal) axis. If set to 0, nothing is wrapped. If set to 1, the right and left borders are connected, any fighter can disappear on the right border and reappear on the left border, for instance. If set to -1, it will be wrapped but also inversed, that is on a 320x240 map, a fighter disappearing on the left border at position (0,60) will reapper on the right border at position (319,180). You can combine it with 'y-polarity'."),

@@ -35,7 +35,7 @@
 #define TEST_GAME_STATE_CHECKSUM 0xbe2b9495
 #define TEST_GAME_STATE_POPULATE_CHECKSUM 0xeaf7fea4
 #define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x51a30354
-#define TEST_SERVER_ID 0x1234123412341234LL
+#define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234
 #define TEST_CURSOR2_ID 0x2345
 #define TEST_CURSOR3_ID 0x3456
@@ -194,18 +194,17 @@ test_population ()
 	    if (game_state)
 	      {
 		print_game_state_repr (game_state);
-		lw6ker_game_state_register_server (game_state,
-						   TEST_SERVER_ID);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR1_ID, TEST_COLOR1);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR2_ID, TEST_COLOR2);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR3_ID, TEST_COLOR3);
 		print_game_state_repr (game_state);
-		lw6ker_game_state_remove_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_remove_cursor (game_state, TEST_NODE_ID,
 						 TEST_CURSOR2_ID);
 		print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
@@ -241,7 +240,7 @@ test_algorithm ()
     int checksum;
     int i;
     int cursor_x, cursor_y;
-    u_int64_t server_id = 0;
+    u_int64_t node_id = 0;
     char letter = ' ';
     int team_color = -1;
 
@@ -259,29 +258,28 @@ test_algorithm ()
 	    if (game_state)
 	      {
 		print_game_state_repr (game_state);
-		lw6ker_game_state_register_server (game_state,
-						   TEST_SERVER_ID);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR1_ID, TEST_COLOR1);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR2_ID, TEST_COLOR2);
-		lw6ker_game_state_add_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR3_ID, TEST_COLOR3);
 		print_game_state_repr (game_state);
 		cursor_x = game_state->map_state.shape.w / 2;
 		cursor_y = game_state->map_state.shape.h / 2;
-		lw6ker_game_state_set_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR1_ID, cursor_x,
 					      cursor_y);
-		lw6ker_game_state_set_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR2_ID, cursor_x,
 					      cursor_y);
-		lw6ker_game_state_set_cursor (game_state, TEST_SERVER_ID,
+		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR3_ID, cursor_x,
 					      cursor_y);
 		lw6ker_game_state_get_cursor_info (game_state,
 						   TEST_CURSOR1_ID,
-						   &server_id, &letter,
+						   &node_id, &letter,
 						   &team_color, &cursor_x,
 						   &cursor_y);
 		lw6sys_log (LW6SYS_LOG_NOTICE,

@@ -19,34 +19,34 @@
 ;Contact author        : ufoot@ufoot.org
 
 (define lw6-command-nop
-  (lambda (round server-id)
-    (format #f "~a ~a NOP" round server-id)))
+  (lambda (round node-id)
+    (format #f "~a ~a NOP" round node-id)))
 
 (define lw6-command-register
-  (lambda (round server-id)
-    (format #f "~a ~a REGISTER" round server-id)))
+  (lambda (round node-id)
+    (format #f "~a ~a REGISTER" round node-id)))
 
 (define lw6-command-unregister
-  (lambda (round server-id)
-    (format #f "~a ~a UNREGISTER" round server-id)))
+  (lambda (round node-id)
+    (format #f "~a ~a UNREGISTER" round node-id)))
 
 (define lw6-command-add
-  (lambda (round server-id cursor-id team-color)
-    (format #f "~a ~a ADD ~a ~a" round server-id cursor-id team-color)))
+  (lambda (round node-id cursor-id team-color)
+    (format #f "~a ~a ADD ~a ~a" round node-id cursor-id team-color)))
 
 (define lw6-command-remove
-  (lambda (round server-id cursor-id)
-    (format #f "~a ~a REMOVE ~a" round server-id cursor-id)))
+  (lambda (round node-id cursor-id)
+    (format #f "~a ~a REMOVE ~a" round node-id cursor-id)))
 
 (define lw6-command-set
-  (lambda (round server-id cursor-id x y)
-    (format #f "~a ~a SET ~a ~a ~a" round server-id cursor-id
+  (lambda (round node-id cursor-id x y)
+    (format #f "~a ~a SET ~a ~a ~a" round node-id cursor-id
 	    (inexact->exact (floor x))
 	    (inexact->exact (floor y))
 	    )))
 
 (define lw6-command-all-local
-  (lambda (round server-id)
+  (lambda (round node-id)
     (let (
 	  (commands (list))
 	  )
@@ -61,7 +61,7 @@
 			   (x (hash-ref cursor "x"))
 			   (y (hash-ref cursor "y"))
 			   )
-		       (set! commands (append commands (list (lw6-command-set round server-id cursor-id x y))))))))
+		       (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y))))))))
 	     (list "1" "2" "3" "4"))
 	commands
     ))))
@@ -74,10 +74,10 @@
   (lambda (for-real) 
     (let (
 	  (pilot (lw6-get-game-global "pilot"))
-	  (server-id (lw6-get-game-global "server-id"))
+	  (node-id (lw6-get-game-global "node-id"))
 	  (timestamp (c-lw6sys-get-timestamp))
 	  )
-      (if (and pilot server-id timestamp)
+      (if (and pilot node-id timestamp)
 	  (begin
 	    (lw6-speed-calibrate-local-pilot pilot)
 	    (if (c-lw6pil-is-over pilot)
@@ -91,8 +91,8 @@
 			  (and (>= delta-round 1) for-real))
 		      (let (
 			(commands (if for-real
-				      (lw6-command-all-local next-round server-id)
-				      (list (lw6-command-nop (- next-round 1) server-id))))
+				      (lw6-command-all-local next-round node-id)
+				      (list (lw6-command-nop (- next-round 1) node-id))))
 			)
 			(begin
 			  ;;(tmp commands)

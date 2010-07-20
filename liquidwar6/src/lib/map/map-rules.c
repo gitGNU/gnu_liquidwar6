@@ -49,7 +49,7 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_TOTAL_ARMIES_SIZE,
   LW6DEF_MAX_NB_TEAMS,
   LW6DEF_MAX_NB_CURSORS,
-  LW6DEF_MAX_NB_SERVERS,
+  LW6DEF_MAX_NB_NODES,
   LW6DEF_X_POLARITY,
   LW6DEF_Y_POLARITY,
   LW6DEF_Z_POLARITY,
@@ -110,7 +110,7 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_DEFAULT_MAX_NB_TEAMS,
   LW6MAP_RULES_DEFAULT_MAX_NB_CURSORS,
-  LW6MAP_RULES_DEFAULT_MAX_NB_SERVERS,
+  LW6MAP_RULES_DEFAULT_MAX_NB_NODES,
   LW6MAP_RULES_DEFAULT_X_POLARITY,
   LW6MAP_RULES_DEFAULT_Y_POLARITY,
   LW6MAP_RULES_DEFAULT_Z_POLARITY,
@@ -170,7 +170,7 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_MIN_MAX_NB_TEAMS,
   LW6MAP_RULES_MIN_MAX_NB_CURSORS,
-  LW6MAP_RULES_MIN_MAX_NB_SERVERS,
+  LW6MAP_RULES_MIN_MAX_NB_NODES,
   LW6MAP_RULES_MIN_X_POLARITY,
   LW6MAP_RULES_MIN_Y_POLARITY,
   LW6MAP_RULES_MIN_Z_POLARITY,
@@ -230,7 +230,7 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_MAX_MAX_NB_TEAMS,
   LW6MAP_RULES_MAX_MAX_NB_CURSORS,
-  LW6MAP_RULES_MAX_MAX_NB_SERVERS,
+  LW6MAP_RULES_MAX_MAX_NB_NODES,
   LW6MAP_RULES_MAX_X_POLARITY,
   LW6MAP_RULES_MAX_Y_POLARITY,
   LW6MAP_RULES_MAX_Z_POLARITY,
@@ -308,7 +308,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->total_armies_size);
   lw6sys_checksum_update_int32 (checksum, rules->max_nb_teams);
   lw6sys_checksum_update_int32 (checksum, rules->max_nb_cursors);
-  lw6sys_checksum_update_int32 (checksum, rules->max_nb_servers);
+  lw6sys_checksum_update_int32 (checksum, rules->max_nb_nodes);
   lw6sys_checksum_update_int32 (checksum, rules->x_polarity);
   lw6sys_checksum_update_int32 (checksum, rules->y_polarity);
   lw6sys_checksum_update_int32 (checksum, rules->z_polarity);
@@ -438,9 +438,9 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	    {
 	      ret = &(rules->max_nb_cursors);
 	    }
-	  else if (!strcmp (formatted_key, LW6DEF_MAX_NB_SERVERS))
+	  else if (!strcmp (formatted_key, LW6DEF_MAX_NB_NODES))
 	    {
-	      ret = &(rules->max_nb_servers);
+	      ret = &(rules->max_nb_nodes);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_X_POLARITY))
 	    {

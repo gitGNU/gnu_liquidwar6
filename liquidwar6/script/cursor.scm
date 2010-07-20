@@ -70,7 +70,7 @@
 	cursor))))
 
 (define lw6-cursor-set-configured-player!
-  (lambda (game-state cursor-key server-id)
+  (lambda (game-state cursor-key node-id)
     (let* (
 	   (player-status-key (string-concatenate (list "player" cursor-key "-status")))
 	   (player-color-key (string-concatenate (list "player" cursor-key "-color")))
@@ -83,16 +83,16 @@
 	  (let* (
 		 (cursor (lw6-enable-cursor cursor-key))
 		 (cursor-id (hash-ref cursor "id"))
-		 (server-id (lw6-get-game-global "server-id"))
+		 (node-id (lw6-get-game-global "node-id"))
 		 )
 	    (begin
-	      (c-lw6ker-add-cursor game-state server-id cursor-id player-color)
+	      (c-lw6ker-add-cursor game-state node-id cursor-id player-color)
 	      ))
 	  (lw6-disable-cursor cursor-key))
       )))
 
 (define lw6-cursor-prepare-configured-player-command
-  (lambda (game-state cursor-key server-id)
+  (lambda (game-state cursor-key node-id)
     (let* (
 	   (player-status-key (string-concatenate (list "player" cursor-key "-status")))
 	   (player-color-key (string-concatenate (list "player" cursor-key "-color")))
@@ -109,13 +109,13 @@
 		 )
 	    (begin
 	      (hash-set! cursor "id" cursor-id)
-	      (lw6-command-add rounds server-id cursor-id player-color)
+	      (lw6-command-add rounds node-id cursor-id player-color)
 	      ))
 	  #f)
       )))
 
 (define lw6-cursor-prepare-demo-player-command
-  (lambda (game-state cursor-key server-id color)
+  (lambda (game-state cursor-key node-id color)
     (let* (
 	   (cursor (lw6-enable-cursor cursor-key))
 	   (cursor-id (lw6-get-cursor-id-not-in-game-state game-state))
@@ -123,7 +123,7 @@
 	   )
       (begin
 	(hash-set! cursor "id" cursor-id)
-	(lw6-command-add rounds server-id cursor-id color)
+	(lw6-command-add rounds node-id cursor-id color)
 	))))
 
 (define lw6-cursor-prepare-quick-start-player-command

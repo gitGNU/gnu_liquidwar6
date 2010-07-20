@@ -78,7 +78,7 @@ typedef union lw6pil_command_args_u
 typedef struct lw6pil_command_s
 {
   int round;
-  u_int64_t server_id;
+  u_int64_t node_id;
   lw6pil_command_code_t code;
   lw6pil_command_args_t args;
   char *text;

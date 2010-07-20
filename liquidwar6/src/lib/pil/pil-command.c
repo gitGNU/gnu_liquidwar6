@@ -194,8 +194,8 @@ command_parse (lw6pil_command_t * command, char *command_text)
 		    {
 		      (*seek) = '\0';
 		      seek++;
-		      command->server_id = lw6sys_id_atol (pos);
-		      if (lw6sys_check_id_64 (command->server_id))
+		      command->node_id = lw6sys_id_atol (pos);
+		      if (lw6sys_check_id_64 (command->node_id))
 			{
 			  pos = seek;
 			  while (!is_spc (*seek))
@@ -338,11 +338,11 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
     {
       ret = 1;
     }
-  else if (command_a->server_id < command_b->server_id)
+  else if (command_a->node_id < command_b->node_id)
     {
       ret = -1;
     }
-  else if (command_a->server_id > command_b->server_id)
+  else if (command_a->node_id > command_b->node_id)
     {
       ret = 1;
     }
@@ -372,17 +372,17 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_NOP:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->server_id, LW6PIL_COMMAND_TEXT_NOP);
+			    command->node_id, LW6PIL_COMMAND_TEXT_NOP);
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->server_id, LW6PIL_COMMAND_TEXT_REGISTER);
+			    command->node_id, LW6PIL_COMMAND_TEXT_REGISTER);
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x %s",
-			    command->round, command->server_id,
+			    command->round, command->node_id,
 			    LW6PIL_COMMAND_TEXT_ADD,
 			    (int) command->args.add.cursor_id,
 			    lw6map_team_color_index_to_key (command->args.
@@ -391,7 +391,7 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_SET:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x %d %d",
-			    command->round, command->server_id,
+			    command->round, command->node_id,
 			    LW6PIL_COMMAND_TEXT_SET,
 			    (int) command->args.set.cursor_id,
 			    command->args.set.x, command->args.set.y);
@@ -399,14 +399,13 @@ lw6pil_command_repr (lw6pil_command_t * command)
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x", command->round,
-			    command->server_id, LW6PIL_COMMAND_TEXT_REMOVE,
+			    command->node_id, LW6PIL_COMMAND_TEXT_REMOVE,
 			    (int) command->args.remove.cursor_id);
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
       ret =
 	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->server_id,
-			    LW6PIL_COMMAND_TEXT_UNREGISTER);
+			    command->node_id, LW6PIL_COMMAND_TEXT_UNREGISTER);
       break;
     default:
       ret =
@@ -432,30 +431,28 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
       ret = 1;
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
-      ret =
-	lw6ker_game_state_register_server (game_state, command->server_id);
+      ret = lw6ker_game_state_register_node (game_state, command->node_id);
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       ret =
-	lw6ker_game_state_add_cursor (game_state, command->server_id,
+	lw6ker_game_state_add_cursor (game_state, command->node_id,
 				      command->args.add.cursor_id,
 				      command->args.add.team_color);
       break;
     case LW6PIL_COMMAND_CODE_SET:
       ret =
-	lw6ker_game_state_set_cursor (game_state, command->server_id,
+	lw6ker_game_state_set_cursor (game_state, command->node_id,
 				      command->args.set.cursor_id,
 				      command->args.set.x,
 				      command->args.set.y);
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =
-	lw6ker_game_state_remove_cursor (game_state, command->server_id,
+	lw6ker_game_state_remove_cursor (game_state, command->node_id,
 					 command->args.remove.cursor_id);
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
-      ret =
-	lw6ker_game_state_unregister_server (game_state, command->server_id);
+      ret = lw6ker_game_state_unregister_node (game_state, command->node_id);
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _("incorrect command \"%s\""),

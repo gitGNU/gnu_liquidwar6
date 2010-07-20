@@ -191,10 +191,10 @@ Defines the maximum number of cursors who can enter the game. Really makes
 sense in network games. Default value is 26, the maximum.
 @end deffn
 
-@subsection max-nb-servers
-@deffn {Command-line option} @code{--max-nb-servers=<value>}
-@deffnx {Environment variable} @code{LW6_MAX_NB_SERVERS}
-@deffnx {XML key} @code{max-nb-servers}
+@subsection max-nb-nodes
+@deffn {Command-line option} @code{--max-nb-nodes=<value>}
+@deffnx {Environment variable} @code{LW6_MAX_NB_NODES}
+@deffnx {XML key} @code{max-nb-nodes}
 Type: integer
 
 Default value: 10

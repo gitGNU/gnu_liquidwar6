@@ -142,7 +142,7 @@ max-map-height
 max-map-surface
 max-map-width
 max-nb-cursors
-max-nb-servers
+max-nb-nodes
 max-nb-teams
 max-round-delta
 max-zone-size

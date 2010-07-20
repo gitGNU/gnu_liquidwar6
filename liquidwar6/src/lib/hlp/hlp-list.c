@@ -434,7 +434,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TOTAL_ARMIES_SIZE);
   lw6sys_list_push_back (list, LW6DEF_MAX_NB_TEAMS);
   lw6sys_list_push_back (list, LW6DEF_MAX_NB_CURSORS);
-  lw6sys_list_push_back (list, LW6DEF_MAX_NB_SERVERS);
+  lw6sys_list_push_back (list, LW6DEF_MAX_NB_NODES);
   lw6sys_list_push_back (list, LW6DEF_X_POLARITY);
   lw6sys_list_push_back (list, LW6DEF_Y_POLARITY);
   lw6sys_list_push_back (list, LW6DEF_Z_POLARITY);
@@ -681,7 +681,7 @@ update_tuning (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_DEBUG_ZONES);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_DEBUG_GRADIENT);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_CONSOLE);
-  lw6sys_list_push_back (list, LW6DEF_SERVER);
+  lw6sys_list_push_back (list, LW6DEF_NODE);
   lw6sys_list_push_back (list, LW6DEF_QUICK_START);
   lw6sys_list_push_back (list, LW6DEF_DEMO);
   lw6sys_list_push_back (list, LW6DEF_BENCH);

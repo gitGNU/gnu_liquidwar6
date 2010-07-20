@@ -58,7 +58,7 @@ lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
       _lw6ker_map_state_init (&(ret->map_state),
 			      &(ret->game_struct->map_struct),
 			      &(ret->game_struct->rules), progress);
-      _lw6ker_server_array_init (&(ret->server_array));
+      _lw6ker_node_array_init (&(ret->node_array));
     }
 
   return ret;
@@ -201,8 +201,8 @@ lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
       else
 	{
 	  ret = _lw6ker_map_state_sync (&dst->map_state, &src->map_state);
-	  memcpy (&(dst->server_array), &(src->server_array),
-		  sizeof (lw6ker_server_array_t));
+	  memcpy (&(dst->node_array), &(src->node_array),
+		  sizeof (lw6ker_node_array_t));
 	  memcpy (&(dst->global_history), &(src->global_history),
 		  sizeof (lw6ker_history_t));
 	  memcpy (&(dst->latest_history), &(src->latest_history),
@@ -268,8 +268,7 @@ _lw6ker_game_state_update_checksum (lw6ker_game_state_t *
 {
   _lw6ker_game_struct_update_checksum (game_state->game_struct, checksum);
   _lw6ker_map_state_update_checksum (&(game_state->map_state), checksum);
-  _lw6ker_server_array_update_checksum (&(game_state->server_array),
-					checksum);
+  _lw6ker_node_array_update_checksum (&(game_state->node_array), checksum);
   _lw6ker_history_update_checksum (&(game_state->global_history), checksum);
   _lw6ker_history_update_checksum (&(game_state->latest_history), checksum);
   lw6sys_checksum_update_int32 (checksum, game_state->moves);
@@ -290,79 +289,74 @@ lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
 }
 
 int
-lw6ker_game_state_register_server (lw6ker_game_state_t * game_state,
-				   u_int64_t server_id)
+lw6ker_game_state_register_node (lw6ker_game_state_t * game_state,
+				 u_int64_t node_id)
 {
   int ret = 0;
 
-  if (!lw6ker_game_state_server_exists (game_state, server_id))
+  if (!lw6ker_game_state_node_exists (game_state, node_id))
     {
-      ret =
-	lw6ker_server_array_enable (&(game_state->server_array), server_id);
+      ret = lw6ker_node_array_enable (&(game_state->node_array), node_id);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("server %" LW6SYS_PRINTF_LL "x already exists"),
-		  server_id);
+		  _("node %" LW6SYS_PRINTF_LL "x already exists"), node_id);
     }
 
   return ret;
 }
 
 int
-lw6ker_game_state_unregister_server (lw6ker_game_state_t * game_state,
-				     u_int64_t server_id)
+lw6ker_game_state_unregister_node (lw6ker_game_state_t * game_state,
+				   u_int64_t node_id)
 {
   int ret = 0;
   int i;
   lw6ker_cursor_t *cursor;
 
-  if (lw6ker_game_state_server_exists (game_state, server_id))
+  if (lw6ker_game_state_node_exists (game_state, node_id))
     {
       for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 	{
 	  cursor = &(game_state->map_state.cursor_array.cursors[i]);
-	  if (cursor->enabled && cursor->server_id == server_id)
+	  if (cursor->enabled && cursor->node_id == node_id)
 	    {
-	      lw6ker_game_state_remove_cursor (game_state, server_id,
+	      lw6ker_game_state_remove_cursor (game_state, node_id,
 					       cursor->cursor_id);
 	    }
 	}
-      ret =
-	lw6ker_server_array_disable (&(game_state->server_array), server_id);
+      ret = lw6ker_node_array_disable (&(game_state->node_array), node_id);
     }
 
   return ret;
 }
 
 int
-lw6ker_game_state_server_exists (lw6ker_game_state_t * game_state,
-				 u_int64_t server_id)
+lw6ker_game_state_node_exists (lw6ker_game_state_t * game_state,
+			       u_int64_t node_id)
 {
   int ret = 0;
 
-  ret =
-    (lw6ker_server_array_get (&(game_state->server_array), server_id) !=
-     NULL);
+  ret = (lw6ker_node_array_get (&(game_state->node_array), node_id) != NULL);
 
   return ret;
 }
 
 int
-lw6ker_game_state_get_server_info (lw6ker_game_state_t *
-				   game_state, u_int16_t server_id,
-				   u_int32_t * last_command_round)
+lw6ker_game_state_get_node_info (lw6ker_game_state_t *
+				 game_state, u_int16_t node_id,
+				 u_int32_t * last_command_round)
 {
   int ret = 0;
-  lw6ker_server_t *server = NULL;
+  lw6ker_node_t *node = NULL;
 
-  server = lw6ker_server_array_get (&(game_state->server_array), server_id);
-  if (server)
+  node = lw6ker_node_array_get (&(game_state->node_array), node_id);
+  if (node)
     {
       if (last_command_round)
 	{
-	  (*last_command_round) = server->last_command_round;
+	  (*last_command_round) = node->last_command_round;
 	}
       ret = 1;
     }
@@ -372,19 +366,18 @@ lw6ker_game_state_get_server_info (lw6ker_game_state_t *
 }
 
 static int
-check_server_id (lw6ker_game_state_t * game_state, u_int64_t server_id)
+check_node_id (lw6ker_game_state_t * game_state, u_int64_t node_id)
 {
   int ret = 0;
 
-  if (lw6ker_game_state_server_exists (game_state, server_id))
+  if (lw6ker_game_state_node_exists (game_state, node_id))
     {
       ret = 1;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("server %" LW6SYS_PRINTF_LL "x does not exist"),
-		  server_id);
+		  _("node %" LW6SYS_PRINTF_LL "x does not exist"), node_id);
     }
 
   return ret;
@@ -392,7 +385,7 @@ check_server_id (lw6ker_game_state_t * game_state, u_int64_t server_id)
 
 int
 lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
-			      u_int64_t server_id,
+			      u_int64_t node_id,
 			      u_int16_t cursor_id, int team_color)
 {
   int ret = 0;
@@ -402,7 +395,7 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
   int32_t x = 0;
   int32_t y = 0;
 
-  if (check_server_id (game_state, server_id))
+  if (check_node_id (game_state, node_id))
     {
       rules = &(game_state->game_struct->rules);
       if (!lw6ker_game_state_cursor_exists (game_state, cursor_id))
@@ -418,7 +411,7 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 							    (game_state->
 							     map_state.
 							     cursor_array),
-							    server_id,
+							    node_id,
 							    team_color))
 		  || rules->color_conflict_mode == 2)
 		{
@@ -441,7 +434,7 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 	      if (!lw6ker_game_state_team_exists
 		  (game_state, real_team_color))
 		{
-		  lw6ker_game_state_add_team (game_state, server_id,
+		  lw6ker_game_state_add_team (game_state, node_id,
 					      real_team_color);
 		}
 	      if (lw6ker_game_state_team_exists (game_state, real_team_color))
@@ -453,7 +446,7 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 		      ret =
 			lw6ker_cursor_array_enable (&
 						    (game_state->map_state.
-						     cursor_array), server_id,
+						     cursor_array), node_id,
 						    cursor_id,
 						    real_team_color, x, y);
 		    }
@@ -478,13 +471,13 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 
 int
 lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
-				 u_int64_t server_id, u_int16_t cursor_id)
+				 u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
   int32_t nb_cursors = 0;
   int team_color = LW6MAP_TEAM_COLOR_INVALID;
 
-  if (check_server_id (game_state, server_id))
+  if (check_node_id (game_state, node_id))
     {
       if (lw6ker_game_state_cursor_exists (game_state, cursor_id))
 	{
@@ -493,13 +486,13 @@ lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
 	  ret =
 	    lw6ker_cursor_array_disable (&
 					 (game_state->map_state.cursor_array),
-					 server_id, cursor_id);
+					 node_id, cursor_id);
 	  if (lw6ker_game_state_get_team_info
 	      (game_state, team_color, &nb_cursors, NULL))
 	    {
 	      if (!nb_cursors)
 		{
-		  lw6ker_game_state_remove_team (game_state, server_id,
+		  lw6ker_game_state_remove_team (game_state, node_id,
 						 team_color);
 		}
 	    }
@@ -530,7 +523,7 @@ int
 lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
 				   game_state,
 				   u_int16_t cursor_id,
-				   u_int64_t * server_id,
+				   u_int64_t * node_id,
 				   char *letter,
 				   int *team_color, int32_t * x, int32_t * y)
 {
@@ -542,9 +535,9 @@ lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
 			     cursor_id);
   if (cursor)
     {
-      if (server_id)
+      if (node_id)
 	{
-	  (*server_id) = cursor->server_id;
+	  (*node_id) = cursor->node_id;
 	}
       if (letter)
 	{
@@ -570,18 +563,18 @@ lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
 
 int
 lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
-			      u_int64_t server_id,
+			      u_int64_t node_id,
 			      u_int16_t cursor_id, int32_t x, int32_t y)
 {
   int ret = 0;
 
-  if (check_server_id (game_state, server_id))
+  if (check_node_id (game_state, node_id))
     {
       lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
-				    server_id, cursor_id, x, y, 0,
+				    node_id, cursor_id, x, y, 0,
 				    &(game_state->map_state.shape),
 				    &(game_state->game_struct->rules));
     }
@@ -682,11 +675,11 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
 
 int
 lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
-			    u_int64_t server_id, int team_color)
+			    u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
-  if (check_server_id (game_state, server_id))
+  if (check_node_id (game_state, node_id))
     {
       ret = _lw6ker_game_state_add_team (game_state, team_color, 0);
       if (ret)
@@ -819,11 +812,11 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 
 int
 lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
-			       u_int64_t server_id, int team_color)
+			       u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
-  if (check_server_id (game_state, server_id))
+  if (check_node_id (game_state, node_id))
     {
       ret = _lw6ker_game_state_remove_team (game_state, team_color);
     }
@@ -999,7 +992,7 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 		{
 		  /*
 		   * OK this is hell we do it manually but high-level functions
-		   * all require a server-id...
+		   * all require a node-id...
 		   */
 		  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 		    {

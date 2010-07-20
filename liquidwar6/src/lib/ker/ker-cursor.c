@@ -39,7 +39,7 @@ void
 _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 				u_int32_t * checksum)
 {
-  lw6sys_checksum_update_int64 (checksum, cursor->server_id);
+  lw6sys_checksum_update_int64 (checksum, cursor->node_id);
   lw6sys_checksum_update_int32 (checksum, cursor->cursor_id);
   lw6sys_checksum_update_int32 (checksum, cursor->letter);
   lw6sys_checksum_update_int32 (checksum, cursor->enabled);
@@ -50,18 +50,18 @@ _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 }
 
 int
-_lw6ker_cursor_check_server_id (lw6ker_cursor_t * cursor, u_int64_t server_id)
+_lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor, u_int64_t node_id)
 {
   int ret = 0;
 
-  ret = (lw6sys_check_id_64 (server_id) && cursor->server_id == server_id);
+  ret = (lw6sys_check_id_64 (node_id) && cursor->node_id == node_id);
   if (!ret)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _
-		  ("server id mismatch server_id=%" LW6SYS_PRINTF_LL
-		   "x cursor->server_id=%" LW6SYS_PRINTF_LL "x"), server_id,
-		  cursor->server_id);
+		  ("node id mismatch node_id=%" LW6SYS_PRINTF_LL
+		   "x cursor->node_id=%" LW6SYS_PRINTF_LL "x"), node_id,
+		  cursor->node_id);
     }
 
   return ret;
@@ -163,7 +163,7 @@ _lw6ker_cursor_reset (lw6ker_cursor_t * cursor)
 
 int
 lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
-		      u_int64_t server_id,
+		      u_int64_t node_id,
 		      u_int16_t cursor_id,
 		      int team_color, int32_t x, int32_t y)
 {
@@ -171,7 +171,7 @@ lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
 
   if (!cursor->enabled)
     {
-      cursor->server_id = server_id;
+      cursor->node_id = node_id;
       cursor->cursor_id = cursor_id;
       _lw6ker_cursor_reset (cursor);
       cursor->enabled = 1;
@@ -196,7 +196,7 @@ lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
 
   if (cursor->enabled)
     {
-      cursor->server_id = 0;
+      cursor->node_id = 0;
       cursor->cursor_id = 0;
       _lw6ker_cursor_reset (cursor);
       ret = 1;
@@ -253,19 +253,19 @@ lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
 	}
     }
   if ((cursor->enabled
-       && ((!lw6sys_check_id_64 (cursor->server_id))
+       && ((!lw6sys_check_id_64 (cursor->node_id))
 	   || (!lw6sys_check_id_16 (cursor->cursor_id))
 	   || cursor->team_color < 0
 	   || cursor->team_color >= LW6MAP_MAX_NB_TEAMS))
       || ((!cursor->enabled)
-	  && (cursor->server_id != 0 || cursor->cursor_id != 0
+	  && (cursor->node_id != 0 || cursor->cursor_id != 0
 	      || cursor->team_color != LW6MAP_TEAM_COLOR_INVALID)))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _
-		  ("inconsistent enabled cursor values enabled=%d server_id=%"
+		  ("inconsistent enabled cursor values enabled=%d node_id=%"
 		   LW6SYS_PRINTF_LL "x cursor_id=%x team_color=%d"),
-		  cursor->enabled, cursor->server_id, (int) cursor->cursor_id,
+		  cursor->enabled, cursor->node_id, (int) cursor->cursor_id,
 		  cursor->team_color);
       ret = 0;
     }

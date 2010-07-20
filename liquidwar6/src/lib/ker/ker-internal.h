@@ -92,8 +92,8 @@ extern void _lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 extern void _lw6ker_cursor_init (lw6ker_cursor_t * cursor, char letter);
 extern void _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 					    u_int32_t * checksum);
-extern int _lw6ker_cursor_check_server_id (lw6ker_cursor_t * cursor,
-					   u_int64_t server_id);
+extern int _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor,
+					 u_int64_t node_id);
 extern int _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y,
 					int team_color, int random_place,
 					int random_seed, lw6sys_whd_t * shape,
@@ -114,7 +114,7 @@ extern lw6ker_cursor_t *_lw6ker_cursor_array_find_free (lw6ker_cursor_array_t
 							* cursor_array);
 extern int _lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t *
 						   cursor_array,
-						   u_int64_t server_id,
+						   u_int64_t node_id,
 						   int team_color);
 
 /*
@@ -261,23 +261,23 @@ extern int _lw6ker_score_sort_frags_callback_desc (lw6ker_score_t * score_a,
 						   lw6ker_score_t * score_b);
 
 /*
- * In server.c
+ * In node.c
  */
-extern void _lw6ker_server_reset (lw6ker_server_t * server);
-extern void _lw6ker_server_init (lw6ker_server_t * server);
-extern void _lw6ker_server_update_checksum (lw6ker_server_t * server,
-					    u_int32_t * checksum);
+extern void _lw6ker_node_reset (lw6ker_node_t * node);
+extern void _lw6ker_node_init (lw6ker_node_t * node);
+extern void _lw6ker_node_update_checksum (lw6ker_node_t * node,
+					  u_int32_t * checksum);
 
 /*
- * In serverarray.c
+ * In nodearray.c
  */
-extern void _lw6ker_server_array_reset (lw6ker_server_array_t * server_array);
-extern void _lw6ker_server_array_init (lw6ker_server_array_t * server_array);
-extern void _lw6ker_server_array_update_checksum (lw6ker_server_array_t *
-						  server_array,
-						  u_int32_t * checksum);
-extern lw6ker_server_t *_lw6ker_server_array_find_free (lw6ker_server_array_t
-							* server_array);
+extern void _lw6ker_node_array_reset (lw6ker_node_array_t * node_array);
+extern void _lw6ker_node_array_init (lw6ker_node_array_t * node_array);
+extern void _lw6ker_node_array_update_checksum (lw6ker_node_array_t *
+						node_array,
+						u_int32_t * checksum);
+extern lw6ker_node_t *_lw6ker_node_array_find_free (lw6ker_node_array_t
+						    * node_array);
 
 /*
  * In slotstruct.c

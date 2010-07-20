@@ -39,7 +39,7 @@ static u_int32_t seq_id = 0;
  * @server_backends: the list of server backends to use
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
- * @server_id: the server unique ID
+ * @node_id: the server unique ID
  * @public_url: the public URL we want to show
  *
  * Creates a new "pear to pear" node. This will fire the server
@@ -51,18 +51,18 @@ static u_int32_t seq_id = 0;
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
-		 int bind_port, u_int64_t server_id, char *public_url)
+		 int bind_port, u_int64_t node_id, char *public_url)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
-					     bind_ip, bind_port, server_id,
+					     bind_ip, bind_port, node_id,
 					     public_url);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
-		  int bind_port, u_int64_t server_id, char *public_url)
+		  int bind_port, u_int64_t node_id, char *public_url)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -81,8 +81,8 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
-      node->server_id_int = server_id;
-      node->server_id_str = lw6sys_id_ltoa (server_id);
+      node->node_id_int = node_id;
+      node->node_id_str = lw6sys_id_ltoa (node_id);
       if (public_url && strlen (public_url) > 0)
 	{
 	  node->public_url = lw6sys_str_copy (public_url);
@@ -91,7 +91,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->public_url = lw6net_if_guess_public_url (bind_port);
 	}
-      ret = (node->bind_ip && node->server_id_str && node->public_url);
+      ret = (node->bind_ip && node->node_id_str && node->public_url);
       if (ret)
 	{
 	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
@@ -229,7 +229,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       query =
 	lw6sys_new_sprintf (lw6sys_hash_get
 			    (node->db->data.sql.queries,
-			     _LW6P2P_INSERT_SERVER_SQL), node->server_id_str,
+			     _LW6P2P_INSERT_NODE_SQL), node->node_id_str,
 			    _LW6P2P_DB_TRUE, node->bind_ip,
 			    node->bind_port, node->public_url);
       if (query)
@@ -279,9 +279,9 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	{
 	  LW6SYS_FREE (node->public_url);
 	}
-      if (node->server_id_str)
+      if (node->node_id_str)
 	{
-	  LW6SYS_FREE (node->server_id_str);
+	  LW6SYS_FREE (node->node_id_str);
 	}
       if (node->bind_ip)
 	{
@@ -319,7 +319,7 @@ _lw6p2p_node_repr (_lw6p2p_node_t * node)
     {
       repr =
 	lw6sys_new_sprintf (_("%u %s %s:%d %s"), node->id,
-			    node->server_id_str, node->bind_ip,
+			    node->node_id_str, node->bind_ip,
 			    node->bind_port, node->public_url);
     }
   else
@@ -469,8 +469,8 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
       query =
 	lw6sys_new_sprintf (lw6sys_hash_get
 			    (node->db->data.sql.queries,
-			     _LW6P2P_DELETE_SERVER_BY_ID_SQL),
-			    node->server_id_str);
+			     _LW6P2P_DELETE_NODE_BY_ID_SQL),
+			    node->node_id_str);
       if (query)
 	{
 	  _lw6p2p_db_exec_ignore_data (node->db, query);

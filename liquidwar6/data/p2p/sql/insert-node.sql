@@ -17,4 +17,16 @@
 -- Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 -- Contact author        : ufoot@ufoot.org
 
-DELETE FROM lw6_server WHERE server_id='%s';
+INSERT OR REPLACE INTO lw6_node (
+       node_id,
+       is_local,
+       node_ip,
+       node_port,
+       public_url
+) VALUES (
+       '%s',
+       %d,
+       '%s',
+       %d,
+       '%s'
+);

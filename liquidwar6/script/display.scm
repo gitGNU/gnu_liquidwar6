@@ -74,7 +74,7 @@
 	   (dsp (lw6-get-game-global "dsp"))
 	   (game-state (lw6-get-game-global "game-state"))
 	   (pilot (lw6-get-game-global "pilot"))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	   (display-param (lw6-get-game-global "display-param"))
 	   (menu (lw6-current-menu))
 	   (menu-smob (assoc-ref menu "smob"))
@@ -86,10 +86,10 @@
 	(if look
 	    (c-lw6gui-look-set look lw6def-gfx-quality 
 			       (lw6-config-get-string lw6def-gfx-quality)))
-	(if (and game-state pilot server-id)
+	(if (and game-state pilot node-id)
 	    (let* (
 		   (round (c-lw6pil-get-max-round pilot))
-		   (commands (lw6-command-all-local round server-id))
+		   (commands (lw6-command-all-local round node-id))
 		   (main-cursor (lw6-get-cursor "1"))
 		   (main-cursor-id (if main-cursor (hash-ref main-cursor "id") "0"))
 		   ;(main-cursor-x (if main-cursor (hash-ref main-cursor "x") 0))

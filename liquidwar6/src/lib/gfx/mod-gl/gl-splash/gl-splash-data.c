@@ -186,23 +186,23 @@ _load_game (mod_gl_utils_context_t * utils_context,
 	    lw6ker_game_state_new (splash_context->game.game_struct, NULL);
 	  if (splash_context->game.game_state)
 	    {
-	      lw6ker_game_state_register_server (splash_context->game.
-						 game_state,
-						 _MOD_GL_SPLASH_GAME_SERVER_ID);
+	      lw6ker_game_state_register_node (splash_context->game.
+					       game_state,
+					       _MOD_GL_SPLASH_GAME_NODE_ID);
 	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL_SPLASH_GAME_SERVER_ID,
+					    _MOD_GL_SPLASH_GAME_NODE_ID,
 					    _MOD_GL_SPLASH_GAME_CURSOR1_ID,
 					    _GAME_COLOR1);
 	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL_SPLASH_GAME_SERVER_ID,
+					    _MOD_GL_SPLASH_GAME_NODE_ID,
 					    _MOD_GL_SPLASH_GAME_CURSOR2_ID,
 					    _GAME_COLOR2);
 	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL_SPLASH_GAME_SERVER_ID,
+					    _MOD_GL_SPLASH_GAME_NODE_ID,
 					    _MOD_GL_SPLASH_GAME_CURSOR3_ID,
 					    _GAME_COLOR3);
 	      lw6ker_game_state_add_cursor (splash_context->game.game_state,
-					    _MOD_GL_SPLASH_GAME_SERVER_ID,
+					    _MOD_GL_SPLASH_GAME_NODE_ID,
 					    _MOD_GL_SPLASH_GAME_CURSOR4_ID,
 					    _GAME_COLOR4);
 	      splash_context->game.bitmap =

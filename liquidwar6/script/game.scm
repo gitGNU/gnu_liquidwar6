@@ -71,7 +71,7 @@
 (define lw6-init-game-globals
   (lambda ()
     (begin
-      (lw6-set-game-global! "server-id" (c-lw6sys-generate-id-64))
+      (lw6-set-game-global! "node-id" (c-lw6sys-generate-id-64))
       (lw6-set-game-global! lw6def-map-path (c-lw6cfg-unified-get-map-path))
       (lw6-game-param-update)
       (lw6-set-game-global! "loader" (c-lw6tsk-loader-new (lw6-config-get-number lw6def-loader-sleep)))
@@ -136,16 +136,16 @@
 	   (game-struct (assoc-ref loaded "game-struct"))
 	   (game-state (assoc-ref loaded "game-state"))
 	   (game-state-preview (if (and game-struct game-state) (c-lw6ker-dup-game-state game-struct game-state) #f))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	  )
       (if (and level game-struct game-state-preview)
 	  (begin
 	    (lw6-set-game-global! "loaded" (assoc-set! loaded "game-state-preview" game-state-preview))
-	    (c-lw6ker-register-server game-state-preview server-id)
-	    (lw6-cursor-set-configured-player! game-state-preview "1" server-id)
-	    (lw6-cursor-set-configured-player! game-state-preview "2" server-id)
-	    (lw6-cursor-set-configured-player! game-state-preview "3" server-id)
-	    (lw6-cursor-set-configured-player! game-state-preview "4" server-id)
+	    (c-lw6ker-register-server game-state-preview node-id)
+	    (lw6-cursor-set-configured-player! game-state-preview "1" node-id)
+	    (lw6-cursor-set-configured-player! game-state-preview "2" node-id)
+	    (lw6-cursor-set-configured-player! game-state-preview "3" node-id)
+	    (lw6-cursor-set-configured-player! game-state-preview "4" node-id)
 	    (lw6-display-param-set! "level" level)
 	    (lw6-display-param-set! "game-struct" game-struct)
 	    (lw6-display-param-set! "game-state" game-state-preview)
@@ -159,7 +159,7 @@
 	   (game-struct (assoc-ref loaded "game-struct"))
 	   (game-state-loaded (assoc-ref loaded "game-state"))
 	   (game-state-display (if (and game-struct game-state-loaded) (c-lw6ker-dup-game-state game-struct game-state-loaded) #f))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	  )
       (if game-state-display
 	  (begin
@@ -183,15 +183,15 @@
   (lambda ()
     (let* (
 	   (game-state (lw6-get-game-global "game-state"))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds server-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
 	(map (lambda (player-key)
 	       (let (
 		     (command (lw6-cursor-prepare-configured-player-command
-			       game-state player-key server-id))
+			       game-state player-key node-id))
 		     )
 		 (if command (c-lw6pil-execute-command game-state command))))
 	     (list "1" "2" "3" "4"))
@@ -218,15 +218,15 @@
   (lambda ()
     (let* (
 	   (game-state (lw6-get-game-global "game-state"))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds server-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
 	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "1" server-id "red"))
+					      game-state "1" node-id "red"))
 	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "2" server-id "green"))
+					      game-state "2" node-id "green"))
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
 					   (c-lw6sys-get-timestamp)))
@@ -247,15 +247,15 @@
   (lambda ()
     (let* (
 	   (game-state (lw6-get-game-global "game-state"))
-	   (server-id (lw6-get-game-global "server-id"))
+	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds server-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
 	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "1" server-id "red"))
+					      game-state "1" node-id "red"))
 	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "2" server-id "green"))
+					      game-state "2" node-id "green"))
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
 					   (c-lw6sys-get-timestamp)))

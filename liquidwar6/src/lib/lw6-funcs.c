@@ -5259,11 +5259,11 @@ _scm_lw6ker_game_state_checksum (SCM game_state)
 }
 
 static SCM
-_scm_lw6ker_register_server (SCM game_state, SCM server_id)
+_scm_lw6ker_register_node (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
-  u_int64_t c_server_id_int = 0LL;
+  char *c_node_id_str;
+  u_int64_t c_node_id_int = 0LL;
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -5271,23 +5271,23 @@ _scm_lw6ker_register_server (SCM game_state, SCM server_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_server_id_int))
+      if (lw6sys_check_id (c_node_id_int))
 	{
 	  ret =
-	    lw6ker_game_state_register_server (c_game_state,
-					       c_server_id_int) ? SCM_BOOL_T :
+	    lw6ker_game_state_register_node (c_game_state,
+					     c_node_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
 	}
     }
@@ -5298,11 +5298,11 @@ _scm_lw6ker_register_server (SCM game_state, SCM server_id)
 }
 
 static SCM
-_scm_lw6ker_unregister_server (SCM game_state, SCM server_id)
+_scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
-  u_int64_t c_server_id_int = 0LL;
+  char *c_node_id_str;
+  u_int64_t c_node_id_int = 0LL;
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -5310,23 +5310,23 @@ _scm_lw6ker_unregister_server (SCM game_state, SCM server_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_server_id_int))
+      if (lw6sys_check_id (c_node_id_int))
 	{
 	  ret =
-	    lw6ker_game_state_unregister_server (c_game_state,
-						 c_server_id_int) ? SCM_BOOL_T
+	    lw6ker_game_state_unregister_node (c_game_state,
+					       c_node_id_int) ? SCM_BOOL_T
 	    : SCM_BOOL_F;
 	}
     }
@@ -5337,11 +5337,11 @@ _scm_lw6ker_unregister_server (SCM game_state, SCM server_id)
 }
 
 static SCM
-_scm_lw6ker_server_exists (SCM game_state, SCM server_id)
+_scm_lw6ker_node_exists (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
-  u_int64_t c_server_id_int = 0;
+  char *c_node_id_str;
+  u_int64_t c_node_id_int = 0;
   lw6ker_game_state_t *c_game_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -5349,23 +5349,23 @@ _scm_lw6ker_server_exists (SCM game_state, SCM server_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
 
-      if (lw6sys_check_id (c_server_id_int))
+      if (lw6sys_check_id (c_node_id_int))
 	{
 	  ret =
-	    lw6ker_game_state_server_exists (c_game_state,
-					     c_server_id_int) ? SCM_BOOL_T :
+	    lw6ker_game_state_node_exists (c_game_state,
+					   c_node_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
 	}
     }
@@ -5376,14 +5376,14 @@ _scm_lw6ker_server_exists (SCM game_state, SCM server_id)
 }
 
 static SCM
-_scm_lw6ker_add_cursor (SCM game_state, SCM server_id, SCM cursor_id,
+_scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id,
 			SCM team_color)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
+  char *c_node_id_str;
   char *c_cursor_id_str;
   char *c_team_color_str;
-  u_int64_t c_server_id_int = 0LL;
+  u_int64_t c_node_id_int = 0LL;
   u_int16_t c_cursor_id_int = 0;
   int c_team_color_int = LW6MAP_TEAM_COLOR_INVALID;
   lw6ker_game_state_t *c_game_state;
@@ -5393,18 +5393,18 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM server_id, SCM cursor_id,
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (team_color), team_color, SCM_ARG4, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
       c_cursor_id_str = to_0str (cursor_id);
       if (c_cursor_id_str)
@@ -5420,12 +5420,12 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM server_id, SCM cursor_id,
 	  LW6SYS_FREE (c_team_color_str);
 	}
 
-      if (lw6sys_check_id (c_server_id_int)
+      if (lw6sys_check_id (c_node_id_int)
 	  && lw6sys_check_id (c_cursor_id_int)
 	  && c_team_color_int != LW6MAP_TEAM_COLOR_INVALID)
 	{
 	  ret =
-	    lw6ker_game_state_add_cursor (c_game_state, c_server_id_int,
+	    lw6ker_game_state_add_cursor (c_game_state, c_node_id_int,
 					  c_cursor_id_int,
 					  c_team_color_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
@@ -5438,12 +5438,12 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM server_id, SCM cursor_id,
 }
 
 static SCM
-_scm_lw6ker_remove_cursor (SCM game_state, SCM server_id, SCM cursor_id)
+_scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
+  char *c_node_id_str;
   char *c_cursor_id_str;
-  u_int64_t c_server_id_int = 0LL;
+  u_int64_t c_node_id_int = 0LL;
   u_int16_t c_cursor_id_int = 0;
   lw6ker_game_state_t *c_game_state;
 
@@ -5452,17 +5452,17 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM server_id, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG3, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
       c_cursor_id_str = to_0str (cursor_id);
       if (c_cursor_id_str)
@@ -5471,11 +5471,11 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM server_id, SCM cursor_id)
 	  LW6SYS_FREE (c_cursor_id_str);
 	}
 
-      if (lw6sys_check_id (c_server_id_int)
+      if (lw6sys_check_id (c_node_id_int)
 	  && lw6sys_check_id (c_cursor_id_int))
 	{
 	  ret =
-	    lw6ker_game_state_remove_cursor (c_game_state, c_server_id_int,
+	    lw6ker_game_state_remove_cursor (c_game_state, c_node_id_int,
 					     c_cursor_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
 	}
@@ -5554,8 +5554,8 @@ _scm_lw6ker_get_cursor_info (SCM game_state, SCM cursor_id)
 	{
 	  int c_team_color_int = 0;
 	  char *c_team_color_str = NULL;
-	  u_int64_t c_server_id_int = 0LL;
-	  char *c_server_id_str = NULL;
+	  u_int64_t c_node_id_int = 0LL;
+	  char *c_node_id_str = NULL;
 	  char c_letter_char = '\0';
 	  char c_letter_str[2] = { 0, 0 };
 	  int32_t c_x = 0;
@@ -5563,7 +5563,7 @@ _scm_lw6ker_get_cursor_info (SCM game_state, SCM cursor_id)
 
 	  if (lw6ker_game_state_get_cursor_info (c_game_state,
 						 c_cursor_id_int,
-						 &c_server_id_int,
+						 &c_node_id_int,
 						 &c_letter_char,
 						 &c_team_color_int, &c_x,
 						 &c_y))
@@ -5572,13 +5572,13 @@ _scm_lw6ker_get_cursor_info (SCM game_state, SCM cursor_id)
 		lw6map_team_color_index_to_key (c_team_color_int);
 	      if (c_team_color_str)
 		{
-		  c_server_id_str = lw6sys_id_ltoa (c_server_id_int);
-		  if (c_server_id_str)
+		  c_node_id_str = lw6sys_id_ltoa (c_node_id_int);
+		  if (c_node_id_str)
 		    {
 		      c_letter_str[0] = c_letter_char;
 		      ret = scm_list_5 (scm_cons
-					(scm_makfrom0str ("server-id"),
-					 scm_makfrom0str (c_server_id_str)),
+					(scm_makfrom0str ("node-id"),
+					 scm_makfrom0str (c_node_id_str)),
 					scm_cons
 					(scm_makfrom0str ("letter"),
 					 scm_makfrom0str (c_letter_str)),
@@ -5589,7 +5589,7 @@ _scm_lw6ker_get_cursor_info (SCM game_state, SCM cursor_id)
 						  scm_int2num (c_x)),
 					scm_cons (scm_makfrom0str ("y"),
 						  scm_int2num (c_y)));
-		      LW6SYS_FREE (c_server_id_str);
+		      LW6SYS_FREE (c_node_id_str);
 		    }
 		}
 	    }
@@ -5602,13 +5602,13 @@ _scm_lw6ker_get_cursor_info (SCM game_state, SCM cursor_id)
 }
 
 static SCM
-_scm_lw6ker_set_cursor (SCM game_state, SCM server_id, SCM cursor_id, SCM x,
+_scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x,
 			SCM y)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_server_id_str;
+  char *c_node_id_str;
   char *c_cursor_id_str;
-  u_int64_t c_server_id_int = 0LL;
+  u_int64_t c_node_id_int = 0LL;
   u_int16_t c_cursor_id_int = 0;
   int32_t c_x = 0;
   int32_t c_y = 0;
@@ -5619,7 +5619,7 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM server_id, SCM cursor_id, SCM x,
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (x), x, SCM_ARG4, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (y), y, SCM_ARG5, __FUNCTION__);
@@ -5627,11 +5627,11 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM server_id, SCM cursor_id, SCM x,
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_server_id_str = to_0str (server_id);
-      if (c_server_id_str)
+      c_node_id_str = to_0str (node_id);
+      if (c_node_id_str)
 	{
-	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-	  LW6SYS_FREE (c_server_id_str);
+	  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+	  LW6SYS_FREE (c_node_id_str);
 	}
       c_cursor_id_str = to_0str (cursor_id);
       if (c_cursor_id_str)
@@ -5642,11 +5642,11 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM server_id, SCM cursor_id, SCM x,
       c_x = scm_to_int (x);
       c_y = scm_to_int (y);
 
-      if (lw6sys_check_id (c_server_id_int)
+      if (lw6sys_check_id (c_node_id_int)
 	  && lw6sys_check_id (c_cursor_id_int))
 	{
 	  ret =
-	    lw6ker_game_state_set_cursor (c_game_state, c_server_id_int,
+	    lw6ker_game_state_set_cursor (c_game_state, c_node_id_int,
 					  c_cursor_id_int, c_x,
 					  c_y) ? SCM_BOOL_T : SCM_BOOL_F;
 	}
@@ -7256,8 +7256,7 @@ _scm_lw6p2p_db_default_name ()
 
 static SCM
 _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
-		      SCM bind_ip, SCM bind_port, SCM server_id,
-		      SCM public_url)
+		      SCM bind_ip, SCM bind_port, SCM node_id, SCM public_url)
 {
   lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
@@ -7266,8 +7265,8 @@ _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
   char *c_server_backends;
   char *c_bind_ip;
   int c_bind_port;
-  char *c_server_id_str;
-  u_int64_t c_server_id_int = 0LL;
+  char *c_node_id_str;
+  u_int64_t c_node_id_int = 0LL;
   char *c_public_url;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -7283,8 +7282,7 @@ _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
       SCM_ASSERT (scm_is_string (bind_ip), bind_ip, SCM_ARG4, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bind_port), bind_port, SCM_ARG5,
 		  __FUNCTION__);
-      SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG6,
-		  __FUNCTION__);
+      SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG6, __FUNCTION__);
       SCM_ASSERT (scm_is_string (public_url), public_url, SCM_ARG7,
 		  __FUNCTION__);
 
@@ -7301,14 +7299,14 @@ _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
 		  if (c_bind_ip)
 		    {
 		      c_bind_port = scm_to_int (bind_port);
-		      c_server_id_str = to_0str (server_id);
-		      if (c_server_id_str)
+		      c_node_id_str = to_0str (node_id);
+		      if (c_node_id_str)
 			{
-			  c_server_id_int = lw6sys_id_atol (c_server_id_str);
-			  LW6SYS_FREE (c_server_id_str);
+			  c_node_id_int = lw6sys_id_atol (c_node_id_str);
+			  LW6SYS_FREE (c_node_id_str);
 			}
 
-		      if (lw6sys_check_id (c_server_id_int))
+		      if (lw6sys_check_id (c_node_id_int))
 			{
 			  c_public_url = to_0str (public_url);
 			  if (c_public_url)
@@ -7318,7 +7316,7 @@ _scm_lw6p2p_node_new (SCM db, SCM client_backends, SCM server_backends,
 						 lw6_global.argv, c_db,
 						 c_client_backends,
 						 c_server_backends, c_bind_ip,
-						 c_bind_port, c_server_id_int,
+						 c_bind_port, c_node_id_int,
 						 c_public_url);
 			      if (c_node)
 				{
@@ -8087,12 +8085,12 @@ lw6_register_funcs ()
      (SCM (*)())_scm_lw6ker_game_struct_checksum);
   scm_c_define_gsubr ("c-lw6ker-game-state-checksum",
 		      1, 0, 0, (SCM (*)())_scm_lw6ker_game_state_checksum);
-  scm_c_define_gsubr ("c-lw6ker-register-server",
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_register_server);
-  scm_c_define_gsubr ("c-lw6ker-unregister-server",
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_unregister_server);
-  scm_c_define_gsubr ("c-lw6ker-server-exists",
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_server_exists);
+  scm_c_define_gsubr ("c-lw6ker-register-node",
+		      2, 0, 0, (SCM (*)())_scm_lw6ker_register_node);
+  scm_c_define_gsubr ("c-lw6ker-unregister-node",
+		      2, 0, 0, (SCM (*)())_scm_lw6ker_unregister_node);
+  scm_c_define_gsubr ("c-lw6ker-node-exists",
+		      2, 0, 0, (SCM (*)())_scm_lw6ker_node_exists);
   scm_c_define_gsubr ("c-lw6ker-add-cursor",
 		      4, 0, 0, (SCM (*)())_scm_lw6ker_add_cursor);
   scm_c_define_gsubr ("c-lw6ker-remove-cursor",

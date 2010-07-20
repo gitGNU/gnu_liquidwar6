@@ -54,7 +54,7 @@
 #define TEST_MENUITEM_COLORED_INDEX 2
 #define TEST_MAP "subflower/"
 #define TEST_NB_ROUNDS 250
-#define TEST_SERVER_ID 0x1234123412341234LL
+#define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234
 #define TEST_CURSOR2_ID 0x2345
 #define TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
@@ -152,10 +152,10 @@ game_state_new (lw6ker_game_struct_t * game_struct,
   ret = lw6ker_game_state_new (game_struct, progress);
   if (ret)
     {
-      lw6ker_game_state_register_server (ret, TEST_SERVER_ID);
-      lw6ker_game_state_add_cursor (ret, TEST_SERVER_ID,
+      lw6ker_game_state_register_node (ret, TEST_NODE_ID);
+      lw6ker_game_state_add_cursor (ret, TEST_NODE_ID,
 				    TEST_CURSOR1_ID, TEST_COLOR1);
-      lw6ker_game_state_add_cursor (ret, TEST_SERVER_ID,
+      lw6ker_game_state_add_cursor (ret, TEST_NODE_ID,
 				    TEST_CURSOR2_ID, TEST_COLOR2);
     }
   lw6sys_progress_begin (progress);

@@ -1845,6 +1845,36 @@ Pops a color from the serializer object.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
+@deftypefun {void *} {lw6sys_hexa_str_to_ptr} (char * @var{str})
+@var{str}:  the string containing an hexa representation of pointer
+
+Transforms a string into a pointer, this is typically used
+to store pointers in temporary agnostic storage such as
+a database. Beware not to use that to exchange data with
+other computers and/or use it for persistent data. This
+is a high-risk function as it lets you do real dirty stuff
+but it really does save time compared to using a key returned
+by the database engine and then search this key in a user-space
+hash table. Direct pointer access is definitely faster.
+
+@strong{Return value:}  the pointer, or NULL is str is invalid.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_hexa_ptr_to_str} (void * @var{ptr})
+@var{ptr}:  pointer to convert into string representation
+
+Transforms a pointer into a string, this is typically used
+to store pointers in temporary agnostic storage such as
+a database. Beware not to use that to exchange data with
+other computers and/or use it for persistent data. This
+is a high-risk function as it lets you do real dirty stuff
+but it really does save time compared to using a key returned
+by the database engine and then search this key in a user-space
+hash table. Direct pointer access is definitely faster.
+
+@strong{Return value:}  the string, can be NULL on errror, must be freed.
+@end deftypefun
+
 @deftypefun {void} {lw6sys_history_init} ()
 
 Initializes the history system. Not initializing won't cause
