@@ -17,22 +17,11 @@
 -- Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 -- Contact author        : ufoot@ufoot.org
 
-CREATE TABLE IF NOT EXISTS lw6_node(
-	node_id VARCHAR(16) PRIMARY KEY,
-	is_local INTEGER NOT NULL, 
-	node_ip VARCHAR(64) NOT NULL,
-	node_port INTEGER NOT NULL,
-	public_url VARCHAR(1024) NOT NULL,
-	last_ping_timestamp INTEGER DEFAULT 0 NOT NULL,
-	ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS lw6_connection(
-	connection_ptr VARCHAR(16) NOT NULL PRIMARY KEY,
-	backend_ptr VARCHAR(16) NOT NULL,
-	local_node_id VARCHAR(16) NOT NULL, 
-	remote_node_id INTEGER(16) NOT NULL,
-	is_server INTEGER NOT NULL,
-	is_oob INTEGER NOT NULL DEFAULT 1,
-	is_established INTEGER NOT NULL DEFAULT 0
-);
+SELECT connection_ptr,
+       backend_ptr,
+       local_node_id,
+       remote_node_id,
+       is_server,
+       is_oob,
+       is_established
+FROM lw6_connection;

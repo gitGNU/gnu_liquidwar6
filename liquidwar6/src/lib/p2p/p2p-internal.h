@@ -30,9 +30,13 @@
 #define _LW6P2P_DB_TRUE 1
 
 #define _LW6P2P_DEFAULT_NAME "p2p.db"
+#define _LW6P2P_CLEAN_DATABASE_SQL "clean-database.sql"
 #define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
+#define _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL "delete-connection-by-ptr.sql"
 #define _LW6P2P_DELETE_NODE_BY_ID_SQL "delete-node-by-id.sql"
+#define _LW6P2P_INSERT_CONNECTION_SQL "insert-connection.sql"
 #define _LW6P2P_INSERT_NODE_SQL "insert-node.sql"
+#define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
 
 typedef struct _lw6p2p_consts_s
 {
@@ -85,6 +89,7 @@ extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 
 /* p2p-node.c */

@@ -88,13 +88,31 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 				      db->filename);
 			  if (_lw6p2p_db_create_database (db))
 			    {
-			      ret = 1;
+			      if (_lw6p2p_db_clean_database (db))
+				{
+				  /*
+				   * We clean just after we create, in
+				   * fact create won't clean, only
+				   * use CREATE IF NOT EXISTS so
+				   * in case program left database
+				   * in inconsistent state, we
+				   * need to force its cleanup.
+				   */
+				  ret = 1;
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _
+					      ("can't clean database \"%s\""),
+					      db->filename);
+				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
 					  _
-					  ("can't create database in \"%s\""),
+					  ("can't create database \"%s\""),
 					  db->filename);
 			    }
 			}
@@ -237,6 +255,21 @@ _lw6p2p_db_create_database (_lw6p2p_db_t * db)
   char *query = NULL;
 
   query = lw6sys_hash_get (db->data.sql.queries, _LW6P2P_CREATE_DATABASE_SQL);
+  if (query)
+    {
+      ret = _lw6p2p_db_exec_ignore_data (db, query);
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_db_clean_database (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+  char *query = NULL;
+
+  query = lw6sys_hash_get (db->data.sql.queries, _LW6P2P_CLEAN_DATABASE_SQL);
   if (query)
     {
       ret = _lw6p2p_db_exec_ignore_data (db, query);
