@@ -591,6 +591,9 @@ extern int lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
 extern int lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
 					     hexa_serializer,
 					     lw6sys_color_8_t * value);
+extern void *lw6sys_hexa_str_to_ptr (char *str);
+extern char *lw6sys_hexa_ptr_to_str (void *ptr);
+
 /* sys-history.c */
 extern void lw6sys_history_init ();
 extern void lw6sys_history_register (char *msg);

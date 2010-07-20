@@ -1,5 +1,7 @@
 2010-07-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Functions to (un)serialize pointers.
+
 	* Added codename and stamp do doc title page.
 
 2010-07-19 : Christian Mauduit <ufoot@ufoot.org>

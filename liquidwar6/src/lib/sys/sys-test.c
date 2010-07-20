@@ -935,6 +935,8 @@ test_hexa ()
     lw6sys_whd_t test_whd = TEST_HEXA_WHD;
     lw6sys_xyz_t test_xyz = TEST_HEXA_XYZ;
     lw6sys_color_8_t test_color = TEST_HEXA_COLOR;
+    void *ptr = NULL;
+    char *ptr_str = NULL;
 
     hexa_serializer = lw6sys_hexa_serializer_new ("");
     if (hexa_serializer)
@@ -1094,6 +1096,31 @@ test_hexa ()
 	      }
 	  }
 
+	ptr_str = lw6sys_hexa_ptr_to_str ((void *) hexa_serializer);
+	if (ptr_str)
+	  {
+	    ptr = lw6sys_hexa_str_to_ptr (ptr_str);
+	    if (ptr == (void *) hexa_serializer)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("pointer %p string is \"%s\""), ptr, ptr_str);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("error converting pointer %p from string \"%s\""),
+			    ptr, ptr_str);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (ptr_str);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _("error converting pointer %p"),
+			hexa_serializer);
+	    ret = 0;
+	  }
 	lw6sys_hexa_serializer_free (hexa_serializer);
       }
     else

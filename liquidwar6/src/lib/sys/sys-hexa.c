@@ -843,3 +843,84 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
 
   return ret;
 }
+
+/**
+ * lw6sys_hexa_str_to_ptr
+ *
+ * @str: the string containing an hexa representation of pointer
+ *
+ * Transforms a string into a pointer, this is typically used
+ * to store pointers in temporary agnostic storage such as
+ * a database. Beware not to use that to exchange data with
+ * other computers and/or use it for persistent data. This
+ * is a high-risk function as it lets you do real dirty stuff
+ * but it really does save time compared to using a key returned
+ * by the database engine and then search this key in a user-space
+ * hash table. Direct pointer access is definitely faster.
+ *
+ * Return value: the pointer, or NULL is str is invalid.
+ */
+void *
+lw6sys_hexa_str_to_ptr (char *str)
+{
+  void *ptr = NULL;
+  u_int8_t *buf = (u_int8_t *) & ptr;
+  int size = lw6sys_build_get_pointer_size ();
+  int i = 0, j = 0;
+  char hexa2[3] = { 0, 0, 0 };	// third 0 is *very* important
+
+  if (strlen (str) == 2 * size)
+    {
+      for (i = 0; i < size; ++i)
+	{
+	  memcpy (hexa2, str + 2 * i, 2);
+	  sscanf (hexa2, "%02x", &j);
+	  buf[i] = (u_int8_t) j;
+	}
+      str[2 * size] = '\0';
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("incorrect pointer string (bad size) \"%s\""), str);
+    }
+
+  return ptr;
+}
+
+/**
+ * lw6sys_hexa_ptr_to_str
+ *
+ * @ptr: pointer to convert into string representation
+ *
+ * Transforms a pointer into a string, this is typically used
+ * to store pointers in temporary agnostic storage such as
+ * a database. Beware not to use that to exchange data with
+ * other computers and/or use it for persistent data. This
+ * is a high-risk function as it lets you do real dirty stuff
+ * but it really does save time compared to using a key returned
+ * by the database engine and then search this key in a user-space
+ * hash table. Direct pointer access is definitely faster.
+ *
+ * Return value: the string, can be NULL on errror, must be freed.
+ */
+char *
+lw6sys_hexa_ptr_to_str (void *ptr)
+{
+  char *str = NULL;
+  u_int8_t *buf = (u_int8_t *) & ptr;
+  int size = lw6sys_build_get_pointer_size ();
+  int i = 0;
+
+  str = (char *) LW6SYS_MALLOC (2 * size + 1);
+  if (str)
+    {
+      for (i = 0; i < size; ++i)
+	{
+	  snprintf (str + 2 * i, 3, "%02x", (int) buf[i]);
+	}
+      str[2 * size] = '\0';
+    }
+
+  return str;
+}
