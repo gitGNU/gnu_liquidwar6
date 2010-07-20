@@ -641,6 +641,7 @@ AC_CONFIG_FILES([Makefile
           po/Makefile.in
           doc/Makefile
           doc/liquidwar6.man
+          doc/const.texi
           doc/coverage/Makefile
           doc/global/Makefile
           doc/cyclo/Makefile

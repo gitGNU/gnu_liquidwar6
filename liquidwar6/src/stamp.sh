@@ -24,6 +24,7 @@
 
 BUILD_STAMP_H=./lib/sys/sys-build-stamp.h
 BUILD_MD5SUM_H=./lib/sys/sys-build-md5sum.h
+BUILD_STAMP_TEXI=../doc/stamp.texi
 
 usage () {
     echo "./stamp.sh {next|auto|show}"
@@ -33,6 +34,7 @@ next_id () {
     i=`cat ${BUILD_STAMP_H} | cut -d "\"" -f 2`
     i=$(($i+1))
     echo "#define LW6_STAMP \"$i\"" > ${BUILD_STAMP_H}
+    echo "@set LW6_STAMP $i" > ${BUILD_STAMP_TEXI}
 }
 
 auto_id () {

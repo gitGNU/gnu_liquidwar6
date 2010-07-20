@@ -7,11 +7,13 @@
 @c %**end of header
 
 @include version.texi
+@include const.texi
+@include stamp.texi
 
 @copying
 Liquid War 6, a unique multiplayer wargame.
 
-Copyright (c)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@@ufoot.org>
+Copyright (c)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@@ufoot.org>
 
 @quotation
 Permission is granted to copy, distribute and/or modify this
@@ -35,7 +37,7 @@ section entitled ``GNU Free Documentation License''.
 @titlepage
 @title Liquid War 6
 @subtitle A unique multiplayer wargame
-@subtitle Edition @value{EDITION}, for Liquid War 6 Version @value{VERSION}
+@subtitle Documentation for version @value{VERSION} codename ``@value{LW6_CODENAME}'' stamp @value{LW6_STAMP} 
 @subtitle @value{UPDATED}
 @author by Christian Mauduit <ufoot@@ufoot.org>
 

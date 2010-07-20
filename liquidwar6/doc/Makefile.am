@@ -1,5 +1,5 @@
 # Liquid War 6 is a unique multiplayer wargame.
-# Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ info_TEXINFOS = liquidwar6.texi
 gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-ogg-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi net-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
 selfdoc_TEXINFOS = quick-selfdoc.texi doc-selfdoc.texi show-selfdoc.texi path-selfdoc.texi players-selfdoc.texi input-selfdoc.texi graphics-selfdoc.texi sound-selfdoc.texi network-selfdoc.texi map-selfdoc.texi map-rules-selfdoc.texi map-hints-selfdoc.texi map-style-selfdoc.texi funcs-selfdoc.texi hooks-selfdoc.texi tuning-selfdoc.texi aliases-selfdoc.texi
 
-liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi gdoc.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
+liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi gdoc.texi const.texi stamp.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
 
 man6_MANS = liquidwar6.man
 
