@@ -768,13 +768,13 @@ ask for its @code{map-path} and use this value automatically.
 
 @subsection Raw install of extra maps (all-platforms)
 
-Another solution, which works on all platforms including MS-Windows and Mac OS X
+Another solution, which works on all platforms including Microsoft Windows and Mac OS X
 but also works on GNU/Linux, is to simply unpack the @code{extra-maps}
 package (unzip or untar) in your custom map directory, or in the
 system map directory. There's nothing else to do to install these maps
 but simply put them on your hard drive in the right directory.
 
-Typically on an MS-Windows system, you would unpack the extra maps in
+Typically on an Microsoft Windows system, you would unpack the extra maps in
 @code{C:\Program Files\Liquid War 6\map\} (system directory)
 and on a Mac OS X system you would unpack the extra maps in
 @code{Liquid War 6.app/Contents/Resources/map/} (system directory)
@@ -1094,8 +1094,11 @@ standard parsing tools, but it's not a structured XML file, in the
 sense that the tree is so simple that all items are at the same level.
 It is just a simple key-value binding.
 
-This file is in @code{$HOME/.liquidwar6/config.xml}, you're free to
-edit it manually, but all parameters are changeable with command line
+This file is in @code{$HOME/.liquidwar6/config.xml} on GNU/Linux and POSIX
+systems, in @code{C:\Documents and Settings\<username>\Liquid War 6\config.xml}
+on Microsoft Windows and in @code{/Users/<username>/Library/Application Support/Liquid War 6/config.xml} on Mac OS X.
+
+You're free to edit it manually, but all parameters are changeable with command line
 options. The program will overwrite this file each time it exits, so
 if you put comments in it, they will disappear. The advantage of this
 is that if you mispell something, or if for some reason the game does
@@ -1120,7 +1123,12 @@ Liquid War 6 uses @code{stdout} to output important messages,
 and @code{stderr} to log warnings and errors.
 It will also use @uref{http://en.wikipedia.org/wiki/Syslog, syslog} if available.
 
-Additionnally, a verbose log is available in @code{$HOME/.liquidwar6/log.csv}.
+Additionnally, a verbose log is available in @code{$HOME/.liquidwar6/log.csv}
+ on GNU/Linux and POSIX
+systems, in @code{C:\Documents and Settings\<username>\Liquid War 6\log.csv}
+on Microsoft Windows and in @code{/Users/<username>/Library/Application Support/Liquid War 6/log.csv} on Mac OS X.
+
+
 You can read this using any spreadsheet software capable of reading
 csv file. It uses the tab (@code{\t}) character as a separator.
 It contains valuable informations including version and most default
@@ -1942,11 +1950,11 @@ As of 2009 the only available backend is still @code{mod-gl}, it will
 display the game using 3D acceleration, if available, through the
 @uref{http://www.libsdl.org/,SDL} library, using its GL bindings.
 
-Additionnally, versions available for MS-Windows and Mac OS X will
+Additionnally, versions available for Microsoft Windows and Mac OS X will
 probably never any other backends available. For technical reasons, those
 platforms do not have the flexibility of GNU/Linux and do not allow
 graphical libraries to be loaded dynamically. In practice, both of them
-require hacks that override the standard @code{main} function. MS-Windows
+require hacks that override the standard @code{main} function. Microsoft Windows
 has its @code{WinMain} instead, and Mac OS X is even more pedantic,
 requiring graphical functions to be executed in the main thread.
 So @code{mod-gl} is just linked statically in those versions, and

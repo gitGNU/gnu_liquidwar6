@@ -1034,13 +1034,18 @@ standard parsing tools, but it's not a structured XML file, in the
 sense that the tree is so simple that all items are at the same level.
 It is just a simple key-value binding.
 
-   This file is in `$HOME/.liquidwar6/config.xml', you're free to edit
-it manually, but all parameters are changeable with command line
-options. The program will overwrite this file each time it exits, so if
-you put comments in it, they will disappear. The advantage of this is
-that if you mispell something, or if for some reason the game does not
-understand a value, then when rewriting the file, it will show you it
-just did not get it.
+   This file is in `$HOME/.liquidwar6/config.xml' on GNU/Linux and POSIX
+systems, in `C:\Documents and Settings\<username>\Liquid War
+6\config.xml' on Microsoft Windows and in
+`/Users/<username>/Library/Application Support/Liquid War 6/config.xml'
+on Mac OS X.
+
+   You're free to edit it manually, but all parameters are changeable
+with command line options. The program will overwrite this file each
+time it exits, so if you put comments in it, they will disappear. The
+advantage of this is that if you mispell something, or if for some
+reason the game does not understand a value, then when rewriting the
+file, it will show you it just did not get it.
 
    The file embeds the documentation for all its entries, it is
 therefore rather verbose. The documentation is the same you will find
@@ -1058,12 +1063,16 @@ to log warnings and errors.  It will also use syslog
 (http://en.wikipedia.org/wiki/Syslog) if available.
 
    Additionnally, a verbose log is available in
-`$HOME/.liquidwar6/log.csv'.  You can read this using any spreadsheet
-software capable of reading csv file. It uses the tab (`\t') character
-as a separator.  It contains valuable informations including version
-and most default values for the game, and for each line logged, it says
-where in the code the log function was called. A must-have for
-debugging.
+`$HOME/.liquidwar6/log.csv'  on GNU/Linux and POSIX systems, in
+`C:\Documents and Settings\<username>\Liquid War 6\log.csv' on
+Microsoft Windows and in `/Users/<username>/Library/Application
+Support/Liquid War 6/log.csv' on Mac OS X.
+
+   You can read this using any spreadsheet software capable of reading
+csv file. It uses the tab (`\t') character as a separator.  It contains
+valuable informations including version and most default values for the
+game, and for each line logged, it says where in the code the log
+function was called. A must-have for debugging.
 
 
 File: liquidwar6.info,  Node: Report bugs,  Prev: Logs,  Up: User's manual

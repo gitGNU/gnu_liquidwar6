@@ -1,4 +1,4 @@
-@subsection libbot
+@subsection libliquidwar6
 
 @include liquidwar6-gdoc.texi
  

@@ -59,8 +59,8 @@ C interfaces:
      cyclomatic complexity of functions. It enables the programmer to
      spots the "ugly" and dangerous parts of the program.
 
-4.15.1 libbot
--------------
+4.15.1 libliquidwar6
+--------------------
 
  -- Function: void lw6_resize_callback (lw6gui_video_mode_t *
           VIDEO_MODE)
