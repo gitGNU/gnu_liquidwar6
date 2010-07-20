@@ -21,7 +21,7 @@
 (define lw6-net
   (lambda ()
     (begin
-      (lw6-server-poll)
+      (lw6-node-poll)
       )
     )
   )

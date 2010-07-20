@@ -1,5 +1,7 @@
 2010-07-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Program can now be started in server only mode.
+
 	* Changed terminology server -> node.
 
 	* Functions to (un)serialize pointers.

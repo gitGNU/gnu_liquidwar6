@@ -787,9 +787,9 @@ populate_references ()
 		 _
 		 ("Defines wether the interactive system console must be displayed. Note that console support must have been enabled at compilation time. It might not be available on your computer, for instance if you are running a system such as Microsoft Windows."),
 		 0);
-  POPULATE_VOID (LW6DEF_NODE,
+  POPULATE_VOID (LW6DEF_SERVER,
 		 _
-		 ("Start the game in server mode, without requiring any graphics backend."));
+		 ("Start the game in server mode, without requiring any graphics backend. Server mode is usefull if you just want to start a network node without hosting any real game on it. It can be used to list existing nodes and sessions or as a bounce server in case some clients can't contact each other because firewalled. If you only want to start a server game on your computer, don't use this option, just start the game normally and start a game server by clicking on the GUI buttons."));
   POPULATE_VOID (LW6DEF_QUICK_START,
 		 _
 		 ("Start the game just like if the player had requested a quick start, without showing any menu."));

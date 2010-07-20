@@ -235,7 +235,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_ROUND_DELTA "round-delta"
 #define LW6DEF_ROUNDS_PER_SEC "rounds-per-sec"
 #define LW6DEF_SCRIPT_FILE "script-file"
-#define LW6DEF_NODE "server"
+#define LW6DEF_SERVER "server"
 #define LW6DEF_SHOW_BUILD_BIN_ID "show-build-bin-id"
 #define LW6DEF_SHOW_BUILD_CFLAGS "show-build-cflags"
 #define LW6DEF_SHOW_BUILD_CODENAME "show-build-codename"

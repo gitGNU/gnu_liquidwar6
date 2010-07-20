@@ -18,44 +18,20 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-server-start
+(define lw6-server
   (lambda ()
-    (let* (
-	   (cli-backends (lw6-config-get-string lw6def-cli-backends))
-	   (srv-backends (lw6-config-get-string lw6def-srv-backends))
-	   (bind-ip (lw6-config-get-string lw6def-bind-ip))
-	   (bind-port (lw6-config-get-number lw6def-bind-port))
-	   (node-id (lw6-get-game-global "node-id"))
-	   (public-url (lw6-config-get-string lw6def-public-url))
-	   (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
-	   (node (c-lw6p2p-node-new db cli-backends srv-backends bind-ip bind-port node-id public-url))
-	   )
-      (if db
-	  (lw6-set-game-global! "db" db))
-      (if node
-	  (lw6-set-game-global! "node" node))
-      )))
-
-(define lw6-server-poll
-  (lambda ()
-    (let (
-	  (node (lw6-get-game-global "node"))
-	  )
-      (if node
-	  (begin
-	    (c-lw6p2p-node-poll node)
-	    ;;(lw6-log-notice node)
-	    ))
-      )))
-
-(define lw6-server-stop
-  (lambda ()
-    (let (
-	  (node (lw6-get-game-global "node"))
-	  )
-      (if node
-	  (begin
-	    (c-lw6p2p-node-close node)
-	    ;;(lw6-log-notice node)
-	    ))
-      )))
+    (begin
+      (lw6-config-set-number! lw6def-bin-id (c-lw6sys-build-get-bin-id))
+      (lw6-save-config)
+      (lw6-node-start)
+      (if (lw6-config-is-true? lw6def-display-console)
+	  (c-lw6cns-init))
+      ;; we can't use the dsp object to track quit message
+      (while (not  (lw6-get-game-global "quit"))
+	     (begin
+	       (c-lw6sys-idle)
+	       (lw6-node-poll)
+	       (lw6-console)
+		 ))
+      (lw6-node-stop))
+    ))

@@ -330,6 +330,7 @@ menu.scm \
 mover.scm \
 music.scm \
 net.scm \
+node.scm \
 preview.scm \
 quick-start.scm \
 server.scm \

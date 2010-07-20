@@ -7152,7 +7152,13 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
  -- Command-line option: `--server'
  -- Environment variable: `LW6_SERVER'
      Start the game in server mode, without requiring any graphics
-     backend.
+     backend. Server mode is usefull if you just want to start a
+     network node without hosting any real game on it. It can be used
+     to list existing nodes and sessions or as a bounce server in case
+     some clients can't contact each other because firewalled. If you
+     only want to start a server game on your computer, don't use this
+     option, just start the game normally and start a game server by
+     clicking on the GUI buttons.
 
 4.12.49 target-fps
 ------------------

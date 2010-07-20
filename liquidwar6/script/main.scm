@@ -62,6 +62,7 @@
       (load "mover.scm")
       (load "music.scm")
       (load "net.scm")
+      (load "node.scm")
       (load "preview.scm")
       (load "quick-start.scm")
       (load "server.scm")
@@ -104,55 +105,62 @@
       (c-lw6ldr-print-examples)
       (c-lw6net-init)
       (lw6-init-game-globals)
-      (let (
-	    (gfx-backend (lw6-check-gfx-backend (lw6-config-get-string lw6def-gfx-backend)))
-	    (snd-backend (lw6-check-snd-backend (lw6-config-get-string lw6def-snd-backend)))
-	    )
-	(if gfx-backend
-	    (let (
-		  (dsp (c-lw6dsp-new
-			gfx-backend
-			(lw6-get-game-global "display-param")))
-		  )
-	      (if dsp
-		  (begin
-		    (lw6-set-game-global! "dsp" dsp)
-		    (lw6-config-set-string! lw6def-gfx-backend gfx-backend)		    
-		    (lw6-config-update-video)
-		    (if snd-backend
-			(let (
-			      (snd (c-lw6snd-new 
-				    snd-backend
-				    (lw6-config-get-number lw6def-sound-volume) 
-				    (lw6-config-get-number lw6def-music-volume)))
-			      )
-			  (if snd
-			      (lw6-set-game-global! "snd" snd)
-			      (lw6-config-set-string! lw6def-snd-backend snd-backend)
-			    )))
-		    ;; (lw6-init-game-globals)
-		    (lw6-server-start)		
-		    (if (lw6-config-is-true? lw6def-display-console)
-			(begin
-			  (c-lw6cns-init)
-			  (lw6-console) ;; usefull when piping commands at startup
-			  ))
-		    (lw6-init-menu)
-		    (lw6-splash)
-		    (lw6-game-idle)
-		    (lw6-music-ambiance)
-		    (lw6-bench #f)
-		    (lw6-game-loop)
-		    (c-lw6cns-quit)
-		    (lw6-server-stop)
-		    (c-lw6-release)
-		    (lw6-clear)
-		    )
-		  (begin
-		    (lw6-log-info (_ "no graphical backend found, game can only run in pure server/console mode"))
-		    (lw6-log-warning (_ "server mode not implemented yet"))
-		    )
-		  ))))
+      (if (not (lw6-config-is-true? lw6def-server))
+	  (let (
+		(gfx-backend (lw6-check-gfx-backend (lw6-config-get-string lw6def-gfx-backend)))
+		(snd-backend (lw6-check-snd-backend (lw6-config-get-string lw6def-snd-backend)))
+		)
+	    (if gfx-backend
+		(let (
+		      (dsp (c-lw6dsp-new
+			    gfx-backend
+			    (lw6-get-game-global "display-param")))
+		      )
+		  (if dsp
+		      (begin
+			(lw6-set-game-global! "dsp" dsp)
+			(lw6-config-set-string! lw6def-gfx-backend gfx-backend)		    
+			(lw6-config-update-video)
+			(if snd-backend
+			    (let (
+				  (snd (c-lw6snd-new 
+					snd-backend
+					(lw6-config-get-number lw6def-sound-volume) 
+					(lw6-config-get-number lw6def-music-volume)))
+				  )
+			      (if snd
+				  (lw6-set-game-global! "snd" snd)
+				  (lw6-config-set-string! lw6def-snd-backend snd-backend)
+				  )))
+			;; (lw6-init-game-globals)
+			(lw6-node-start)		
+			(if (lw6-config-is-true? lw6def-display-console)
+			    (begin
+			      (c-lw6cns-init)
+			      (lw6-console) ;; usefull when piping commands at startup
+			      ))
+			(lw6-init-menu)
+			(lw6-splash)
+			(lw6-game-idle)
+			(lw6-music-ambiance)
+			(lw6-bench #f)
+			(lw6-game-loop)
+			(c-lw6cns-quit)
+			(lw6-node-stop)
+			(c-lw6-release)
+			(lw6-clear)
+			)
+		      (begin
+			(lw6-log-error (_ "no graphical backend found, game can only run in server mode"))
+			(lw6-bench #f)
+			(lw6-server)
+			)
+		      ))))
+	  (begin
+	    (lw6-log-info (_ "running in server mode"))
+	    (lw6-bench #f)
+	    (lw6-server)
+	    ))
       (c-lw6net-quit)
       (lw6-config-set-number! lw6def-bin-id (c-lw6sys-build-get-bin-id))
       (lw6-save-config)

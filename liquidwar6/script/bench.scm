@@ -27,10 +27,13 @@
 	(let (
 	      (dsp (lw6-get-game-global "dsp"))
 	      )
-	  (begin
-	    (lw6-push-menu (lw6-wait-menu))
-	    (lw6-display-update)
-	    (lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench))
-	    (lw6-pop-menu (lw6-current-menu))
-	    (c-lw6gui-input-reset dsp)
-	    )))))
+	  (if dsp
+	      (begin
+		(lw6-push-menu (lw6-wait-menu))
+		(lw6-display-update)
+		(lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench))
+		(lw6-pop-menu (lw6-current-menu))
+		(c-lw6gui-input-reset dsp))
+	      (begin
+		(lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench)))
+	      )))))

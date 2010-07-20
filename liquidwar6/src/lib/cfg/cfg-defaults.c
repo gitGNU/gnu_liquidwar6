@@ -175,7 +175,7 @@ lw6cfg_defaults (void *context)
        */
       lw6cfg_set_option_bool (context, LW6DEF_QUICK_START, 0);
       lw6cfg_set_option_bool (context, LW6DEF_DEMO, 0);
-      lw6cfg_set_option_bool (context, LW6DEF_NODE, 0);
+      lw6cfg_set_option_bool (context, LW6DEF_SERVER, 0);
     }
   else
     {

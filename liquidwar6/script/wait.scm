@@ -56,7 +56,7 @@
 		     (c-lw6gui-joystick2-pop-button-d dsp)))
 	       (begin 
 		 (lw6-display-update)
-		 (lw6-server-poll)
+		 (lw6-node-poll)
 		 (lw6-console)
 		 (lw6-net)
 		 ))

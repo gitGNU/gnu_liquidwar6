@@ -161,7 +161,7 @@
 (define lw6def-max-map-surface "max-map-surface")
 (define lw6def-max-map-width "max-map-width")
 (define lw6def-max-nb-cursors "max-nb-cursors")
-(define lw6def-max-nb-servers "max-nb-servers")
+(define lw6def-max-nb-nodes "max-nb-nodes")
 (define lw6def-max-nb-teams "max-nb-teams")
 (define lw6def-max-round-delta "max-round-delta")
 (define lw6def-max-zone-size "max-zone-size")

@@ -134,8 +134,8 @@ _("running \"~a\"");		// extracted by scriptpo-update.sh
 _("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("upgrading to version ~a");	// extracted by scriptpo-update.sh
-_("no graphical backend found, game can only run in pure server/console mode");	// extracted by scriptpo-update.sh
-_("server mode not implemented yet");	// extracted by scriptpo-update.sh
+_("no graphical backend found, game can only run in server mode");	// extracted by scriptpo-update.sh
+_("running in server mode");	// extracted by scriptpo-update.sh
 _("Display FPS");		// extracted by scriptpo-update.sh
 _("FPS hidden");		// extracted by scriptpo-update.sh
 _("Display MPS");		// extracted by scriptpo-update.sh
