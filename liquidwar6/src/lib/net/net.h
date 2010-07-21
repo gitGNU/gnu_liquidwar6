@@ -36,7 +36,7 @@ extern int lw6net_last_error ();
 
 /* net-if.c */
 extern char *lw6net_if_guess_local ();
-extern char *lw6net_if_guess_public_url (int port);
+extern char *lw6net_if_guess_public_url (char *bind_ip, int bind_port);
 
 /*
  * In line.c
@@ -46,6 +46,11 @@ extern int lw6net_send_line_tcp (int sock, char *line);
 extern char *lw6net_recv_line_udp (int sock,
 				   char **incoming_ip, int *incoming_port);
 extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
+
+/* net-password.c */
+extern char *lw6net_password_checksum (char *password);
+extern int lw6net_password_verify (char *password_here,
+				   char *password_received);
 
 /*
  * In setup.c

@@ -17,13 +17,12 @@
 -- Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 -- Contact author        : ufoot@ufoot.org
 
-INSERT OR REPLACE INTO lw6_connection (
-       id,
-       local_node_id,
-       remote_node_id,
-       mode
+INSERT INTO lw6_connection (
+       connection_ptr,
+       backend_ptr,
+       local_node_id
 ) VALUES (
        '%s',
        '%s',
-       %d
+       '%s'
 );

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-07-14 23:20+0200\n"
+"POT-Creation-Date: 2010-07-21 15:20+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -471,15 +471,15 @@ msgid "upgrading to version ~a"
 msgstr "mise à jour vers la version ~a"
 
 #: src/scriptpo.c:137
-msgid ""
-"no graphical backend found, game can only run in pure server/console mode"
+#, fuzzy
+msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
 "aucun backend graphique trouvé, le jeu ne peut fonctionner qu'en mode "
 "serveur/console pur"
 
 #: src/scriptpo.c:138
-msgid "server mode not implemented yet"
-msgstr "le mode serveur n'est pas encore implémenté"
+msgid "running in server mode"
+msgstr ""
 
 #: src/scriptpo.c:139
 msgid "Display FPS"
@@ -733,6 +733,9 @@ msgstr "environ %d méga-octets disponibles"
 #: src/lib/lw6-print.c:848
 msgid "goodbye"
 msgstr "au revoir"
+
+#~ msgid "server mode not implemented yet"
+#~ msgstr "le mode serveur n'est pas encore implémenté"
 
 #~ msgid "Error (message too long...)"
 #~ msgstr "Erreur (message trop long...)"

@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libnet.la
-libnet_la_SOURCES = net-address.c net-const.c net-error.c net-if.c net-line.c net-setup.c net-socket.c net-tcp.c net-test.c net-thread.c net-udp.c 
+libnet_la_SOURCES = net-address.c net-const.c net-error.c net-if.c net-line.c net-password.c net-setup.c net-socket.c net-tcp.c net-test.c net-thread.c net-udp.c 
 libnetdir= $(includedir)/@PACKAGE_TARNAME@/net
 libnet_HEADERS = net.h
 

@@ -637,10 +637,14 @@ populate_references ()
   /*
    * Network
    */
-  POPULATE_BOOL (LW6DEF_LOCAL,
+  POPULATE_BOOL (LW6DEF_SKIP_NETWORK,
 		 _
 		 ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."),
 		 0);
+  POPULATE_STR (LW6DEF_PASSWORD,
+		_
+		("The password to use for network games. Do not use a valuable password, as this is stored as clear text on your hard drive. Still, the game will only send a hash/checksum of the password on the network so eavesdropper won't be able to read it. They can see the hash/checksum and use it if clever, but they can't guess the real password. A blank password means anyone can join your games when you act like a server."),
+		"");
   POPULATE_STR (LW6DEF_BIND_IP,
 		_
 		("The IP address to bind on when listening to network messages. You can use this to specifically use a given network interface, the default will listen on any available interface."),

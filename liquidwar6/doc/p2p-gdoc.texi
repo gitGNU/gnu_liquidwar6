@@ -50,7 +50,7 @@ not an absolute path, will be appended to user dir).
 @strong{Return value:}  the default database name, need not (must not) be freed.
 @end deftypefun
 
-@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, u_int64_t @var{node_id}, char * @var{public_url})
+@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, u_int64_t @var{node_id}, char * @var{public_url}, char * @var{password})
 @var{argc}:  number of args, as passed to @code{main}
 
 @var{argv}:  args array, as passed to @code{main}
@@ -68,6 +68,8 @@ not an absolute path, will be appended to user dir).
 @var{node_id}:  the server unique ID
 
 @var{public_url}:  the public URL we want to show
+
+@var{password}:  the password to use
 
 Creates a new "pear to pear" node. This will fire the server
 and allow client access, on demand. A lot of stuff can be done

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.9beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-07-14 23:20+0200\n"
+"POT-Creation-Date: 2010-07-21 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -470,12 +470,11 @@ msgid "upgrading to version ~a"
 msgstr ""
 
 #: src/scriptpo.c:137
-msgid ""
-"no graphical backend found, game can only run in pure server/console mode"
+msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
 
 #: src/scriptpo.c:138
-msgid "server mode not implemented yet"
+msgid "running in server mode"
 msgstr ""
 
 #: src/scriptpo.c:139

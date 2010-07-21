@@ -359,7 +359,8 @@ lw6hlp_list_sound ()
 static int
 update_network (lw6sys_list_t ** list)
 {
-  lw6sys_list_push_back (list, LW6DEF_LOCAL);
+  lw6sys_list_push_back (list, LW6DEF_SKIP_NETWORK);
+  lw6sys_list_push_back (list, LW6DEF_PASSWORD);
   lw6sys_list_push_back (list, LW6DEF_BIND_IP);
   lw6sys_list_push_back (list, LW6DEF_BIND_PORT);
   lw6sys_list_push_back (list, LW6DEF_CLI_BACKENDS);

@@ -1,3 +1,7 @@
+2010-07-21 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added password option.
+
 2010-07-20 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Program can now be started in server only mode.

@@ -42,6 +42,7 @@
 #define _TEST_NODE_PUBLIC_URL1 "http://localhost:8067/"
 #define _TEST_NODE_PUBLIC_URL2 "http://localhost:8068/"
 #define _TEST_NODE_PUBLIC_URL3 "http://localhost:8069/"
+#define _TEST_NODE_PASSWORD "toto"
 
 #define TEST_POLL_LOOPS 1000
 #define TEST_POLL_DELAY 10
@@ -121,7 +122,7 @@ _test_node_init ()
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
-			   _TEST_NODE_PUBLIC_URL1);
+			   _TEST_NODE_PUBLIC_URL1, NULL);
 	if (node)
 	  {
 	    repr = lw6p2p_node_repr (node);
@@ -170,7 +171,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
-			 _TEST_NODE_PUBLIC_URL1);
+			 _TEST_NODE_PUBLIC_URL1, _TEST_NODE_PASSWORD);
       if (*node1)
 	{
 	  repr = lw6p2p_node_repr (*node1);
@@ -188,7 +189,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
-			 _TEST_NODE_PUBLIC_URL2);
+			 _TEST_NODE_PUBLIC_URL2, _TEST_NODE_PASSWORD);
       if (*node2)
 	{
 	  repr = lw6p2p_node_repr (*node2);
@@ -206,7 +207,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			 _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
-			 _TEST_NODE_PUBLIC_URL3);
+			 _TEST_NODE_PUBLIC_URL3, _TEST_NODE_PASSWORD);
       if (*node3)
 	{
 	  repr = lw6p2p_node_repr (*node3);

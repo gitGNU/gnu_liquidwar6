@@ -40,16 +40,20 @@ only if you specifically want to disactivate some protocol, or if you want to
 activate a custom-made client backend. It's a comma separated list.
 @end deffn
 
-@subsection local
-@deffn {Command-line option} @code{--local=<value>}
-@deffnx {Environment variable} @code{LW6_LOCAL}
-@deffnx {XML key} @code{local}
-Type: boolean
+@subsection password
+@deffn {Command-line option} @code{--password=<value>}
+@deffnx {Environment variable} @code{LW6_PASSWORD}
+@deffnx {XML key} @code{password}
+Type: string
 
-Default value: false
+Default value: 
 
-If set, then game won't do anything network related. No listen, no connect, no
-nothing. You are playing locally.
+The password to use for network games. Do not use a valuable password, as this
+is stored as clear text on your hard drive. Still, the game will only send a
+hash/checksum of the password on the network so eavesdropper won't be able to
+read it. They can see the hash/checksum and use it if clever, but they can't
+guess the real password. A blank password means anyone can join your games
+when you act like a server.
 @end deffn
 
 @subsection public-url
@@ -65,6 +69,18 @@ In fact, the clients discovering your server should guess the public URL,
 probably http://<your-ip>:<your-port>/ but you might need to use your own
 settings if you are using NAT or an Apache reverse-proxy to rewrite HTTP
 requests.
+@end deffn
+
+@subsection skip-network
+@deffn {Command-line option} @code{--skip-network=<value>}
+@deffnx {Environment variable} @code{LW6_SKIP_NETWORK}
+@deffnx {XML key} @code{skip-network}
+Type: boolean
+
+Default value: false
+
+If set, then game won't do anything network related. No listen, no connect, no
+nothing. You are playing locally.
 @end deffn
 
 @subsection srv-backends

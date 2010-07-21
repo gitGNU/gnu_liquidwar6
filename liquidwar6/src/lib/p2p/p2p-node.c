@@ -41,6 +41,7 @@ static u_int32_t seq_id = 0;
  * @bind_port: the IP port to listen on
  * @node_id: the server unique ID
  * @public_url: the public URL we want to show
+ * @password: the password to use
  *
  * Creates a new "pear to pear" node. This will fire the server
  * and allow client access, on demand. A lot of stuff can be done
@@ -51,18 +52,20 @@ static u_int32_t seq_id = 0;
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
-		 int bind_port, u_int64_t node_id, char *public_url)
+		 int bind_port, u_int64_t node_id, char *public_url,
+		 char *password)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, node_id,
-					     public_url);
+					     public_url, password);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
-		  int bind_port, u_int64_t node_id, char *public_url)
+		  int bind_port, u_int64_t node_id, char *public_url,
+		  char *password)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -89,9 +92,18 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	}
       else
 	{
-	  node->public_url = lw6net_if_guess_public_url (bind_port);
+	  node->public_url = lw6net_if_guess_public_url (bind_ip, bind_port);
 	}
-      ret = (node->bind_ip && node->node_id_str && node->public_url);
+      if (node->password)
+	{
+	  node->password = lw6sys_str_copy (password);
+	}
+      else
+	{
+	  node->password = lw6sys_str_copy ("");
+	}
+      ret = (node->bind_ip && node->node_id_str && node->public_url
+	     && node->password);
       if (ret)
 	{
 	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
@@ -223,12 +235,12 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	}
     }
 
-  if (node && ret && node->bind_ip && node->public_url)
+  if (node && ret && node->bind_ip && node->public_url && node->password)
     {
       ret = 0;
       query =
-	lw6sys_new_sprintf (lw6sys_hash_get
-			    (node->db->data.sql.queries,
+	lw6sys_new_sprintf (_lw6p2p_db_get_query
+			    (node->db,
 			     _LW6P2P_INSERT_NODE_SQL), node->node_id_str,
 			    _LW6P2P_DB_TRUE, node->bind_ip,
 			    node->bind_port, node->public_url);
@@ -275,6 +287,10 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
+      if (node->password)
+	{
+	  LW6SYS_FREE (node->password);
+	}
       if (node->public_url)
 	{
 	  LW6SYS_FREE (node->public_url);
@@ -399,6 +415,10 @@ _tcp_accepter_reply (void *func_data, void *data)
   int ret = 1;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
+  lw6srv_connection_t *connection = NULL;
+  char *query = NULL;
+  char *connection_ptr_str = NULL;
+  char *backend_ptr_str = NULL;
   int i = 0;
 
   lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
@@ -408,11 +428,39 @@ _tcp_accepter_reply (void *func_data, void *data)
     {
       if (lw6srv_can_handle_tcp (node->srv_backends[i], tcp_accepter))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("new TCP"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("new TCP"));
+	  connection =
+	    lw6srv_accept_tcp (node->srv_backends[i], tcp_accepter,
+			       node->password);
+	  if (connection)
+	    {
+	      connection_ptr_str = lw6sys_hexa_ptr_to_str (connection);
+	      if (connection_ptr_str)
+		{
+		  backend_ptr_str =
+		    lw6sys_hexa_ptr_to_str (node->srv_backends[i]);
+		  if (backend_ptr_str)
+		    {
+		      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+						  (node->db,
+						   _LW6P2P_INSERT_CONNECTION_SQL),
+						  connection_ptr_str,
+						  backend_ptr_str,
+						  node->node_id_str);
+		      if (query)
+			{
+			  _lw6p2p_db_exec_ignore_data (node->db, query);
+			  LW6SYS_FREE (query);
+			}
+		      LW6SYS_FREE (backend_ptr_str);
+		    }
+		  LW6SYS_FREE (connection_ptr_str);
+		}
+	      ret = 0;		//means will be filtered and object deleted
+	    }
 	  /*
 	   * TODO: create the connection
 	   */
-	  ret = 0;		//means will be filtered and object deleted
 	}
     }
 
@@ -467,8 +515,8 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
   if (node)
     {
       query =
-	lw6sys_new_sprintf (lw6sys_hash_get
-			    (node->db->data.sql.queries,
+	lw6sys_new_sprintf (_lw6p2p_db_get_query
+			    (node->db,
 			     _LW6P2P_DELETE_NODE_BY_ID_SQL),
 			    node->node_id_str);
       if (query)

@@ -27,8 +27,9 @@
 	   (bind-port (lw6-config-get-number lw6def-bind-port))
 	   (node-id (lw6-get-game-global "node-id"))
 	   (public-url (lw6-config-get-string lw6def-public-url))
+	   (password (lw6-config-get-string lw6def-password))
 	   (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
-	   (node (c-lw6p2p-node-new db cli-backends srv-backends bind-ip bind-port node-id public-url))
+	   (node (c-lw6p2p-node-new db cli-backends srv-backends bind-ip bind-port node-id public-url password))
 	   )
       (if db
 	  (lw6-set-game-global! "db" db))

@@ -5,7 +5,6 @@ ambiance-file
 ambiance-filter
 animation-density
 animation-speed
-executed-again
 audit
 background-color-auto
 background-color-root-bg
@@ -81,6 +80,7 @@ downsize-using-fighter-scale
 example-hints-xml
 example-rules-xml
 example-style-xml
+executed-again
 fighter-attack
 fighter-defense
 fighter-new-health
@@ -128,7 +128,6 @@ list-show
 list-sound
 list-tuning
 loader-sleep
-local
 log-file
 log-level
 log-timeout
@@ -173,6 +172,7 @@ music-volume
 nb-attack-tries
 nb-defense-tries
 nb-move-tries
+password
 pedigree
 pilot-lag
 pixelize
@@ -284,6 +284,7 @@ show-user-dir
 side-attack-factor
 side-defense-factor
 single-army-size
+skip-network
 snd-backend
 sound-volume
 speed

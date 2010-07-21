@@ -248,34 +248,19 @@ _lw6p2p_db_repr (_lw6p2p_db_t * db)
   return repr;
 }
 
-int
-_lw6p2p_db_create_database (_lw6p2p_db_t * db)
+char *
+_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
 {
-  int ret = 0;
   char *query = NULL;
 
-  query = lw6sys_hash_get (db->data.sql.queries, _LW6P2P_CREATE_DATABASE_SQL);
-  if (query)
+  query = lw6sys_hash_get (db->data.sql.queries, key);
+  if (!query)
     {
-      ret = _lw6p2p_db_exec_ignore_data (db, query);
+      lw6sys_log (LW6SYS_LOG_WARNING, _("can't get SQL query \"%s\""), key);
+      query = "";		// to avoid segfault in probable sprintf
     }
 
-  return ret;
-}
-
-int
-_lw6p2p_db_clean_database (_lw6p2p_db_t * db)
-{
-  int ret = 0;
-  char *query = NULL;
-
-  query = lw6sys_hash_get (db->data.sql.queries, _LW6P2P_CLEAN_DATABASE_SQL);
-  if (query)
-    {
-      ret = _lw6p2p_db_exec_ignore_data (db, query);
-    }
-
-  return ret;
+  return query;
 }
 
 int
@@ -291,6 +276,7 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
   int errcode = 0;
   char *errmsg = NULL;
 
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("executing SQL statement \"%s\""), sql);
   errcode = sqlite3_exec (db->handler, sql, NULL, NULL, &errmsg);
   if (errcode == SQLITE_OK)
     {
@@ -312,6 +298,36 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 		      _("error executing SQL statement \"%s\" errcode=%d"),
 		      sql, errcode);
 	}
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_db_create_database (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+  char *query = NULL;
+
+  query = _lw6p2p_db_get_query (db, _LW6P2P_CREATE_DATABASE_SQL);
+  if (query)
+    {
+      ret = _lw6p2p_db_exec_ignore_data (db, query);
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_db_clean_database (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+  char *query = NULL;
+
+  query = _lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL);
+  if (query)
+    {
+      ret = _lw6p2p_db_exec_ignore_data (db, query);
     }
 
   return ret;

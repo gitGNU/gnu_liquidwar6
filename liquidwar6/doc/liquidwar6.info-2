@@ -3346,11 +3346,16 @@ C interfaces:
 
      *Return value:*  the IP as a string, dynamically allocated
 
- -- Function: char * lw6net_if_guess_public_url (int PORT)
-     PORT:  the IP port to use
+ -- Function: char * lw6net_if_guess_public_url (char * BIND_IP, int
+          BIND_PORT)
+     BIND_IP:  the IP address used to bind on
+
+     BIND_PORT:  the IP port used to bind on
 
      Guess the server public url, based on `lw6net_if_guess_local'
-     which tries to find a valid local IP address which is not loopback.
+     which tries to find a valid local IP address which is not
+     loopback. This is only in case `bind_ip' is 0.0.0.0 (listen on all
+     addresses) else it will just use `bind_ip' as you would expect.
      Function isn't foolproof, that's why one can override its default
      with a user settings.
 
@@ -3413,6 +3418,31 @@ C interfaces:
      not bother sending it.
 
      *Return value:*  the number of bytes sent, 0 if failure
+
+ -- Function: char * lw6net_password_checksum (char * PASSWORD)
+     PASSWORD:  the password, can be NULL
+
+     Calculates the checksum of a password, and returns it as a string,
+     ready to be sent on the network.  If password is empty or NULL,
+     then an empty (but not NULL unless internal error) string will be
+     returned. All LW6 protocols should send these checksums instead of
+     real passwords, then on server side value can be checked against
+     both real password and its checksum.
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6net_password_verify (char * PASSWORD_HERE, char *
+          PASSWORD_RECEIVED)
+     PASSWORD_HERE:  the local password, can be NULL
+
+     PASSWORD_RECEIVED:  the password received from network
+
+     Tells wether a password received over the network is valid.  The
+     `password_here' argument (the local password) will be checksumed
+     so that `password_received' is checked against both clear and
+     checksumed values, so it can be in any form.
+
+     *Return value:*  1 if OK, passwords are the same, 0 if not.
 
  -- Function: int lw6net_init (int ARGC, char * [] ARGV)
      Initializes the low-level network API, you must call this before
@@ -3491,7 +3521,7 @@ C interfaces:
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, u_int64_t
-          NODE_ID, char * PUBLIC_URL)
+          NODE_ID, char * PUBLIC_URL, char * PASSWORD)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -3509,6 +3539,8 @@ C interfaces:
      NODE_ID:  the server unique ID
 
      PUBLIC_URL:  the public URL we want to show
+
+     PASSWORD:  the password to use
 
      Creates a new "pear to pear" node. This will fire the server and
      allow client access, on demand. A lot of stuff can be done in the

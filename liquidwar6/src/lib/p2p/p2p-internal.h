@@ -73,6 +73,7 @@ typedef struct _lw6p2p_node_s
   u_int64_t node_id_int;
   char *node_id_str;
   char *public_url;
+  char *password;
   int nb_cli_backends;
   lw6cli_backend_t **cli_backends;
   lw6srv_listener_t *listener;
@@ -88,9 +89,10 @@ extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
+extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
+extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
-extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 
 /* p2p-node.c */
 extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
@@ -99,7 +101,7 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *server_backends,
 					 char *bind_ip,
 					 int bind_port, u_int64_t node_id,
-					 char *public_url);
+					 char *public_url, char *password);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);

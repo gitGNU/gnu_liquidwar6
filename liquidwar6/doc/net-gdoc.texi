@@ -22,12 +22,16 @@ can't be guessed.
 @strong{Return value:}  the IP as a string, dynamically allocated
 @end deftypefun
 
-@deftypefun {char *} {lw6net_if_guess_public_url} (int @var{port})
-@var{port}:  the IP port to use
+@deftypefun {char *} {lw6net_if_guess_public_url} (char * @var{bind_ip}, int @var{bind_port})
+@var{bind_ip}:  the IP address used to bind on
+
+@var{bind_port}:  the IP port used to bind on
 
 Guess the server public url, based 
 on @code{lw6net_if_guess_local} which tries to find a
-valid local IP address which is not loopback.
+valid local IP address which is not loopback. This is only
+in case @code{bind_ip} is 0.0.0.0 (listen on all addresses) else
+it will just use @code{bind_ip} as you would expect.
 Function isn't foolproof, that's why one can override
 its default with a user settings.
 
@@ -94,6 +98,34 @@ socket, that is, datagram oriented. The "\n" is automatically
 added, do not bother sending it.
 
 @strong{Return value:}  the number of bytes sent, 0 if failure
+@end deftypefun
+
+@deftypefun {char *} {lw6net_password_checksum} (char * @var{password})
+@var{password}:  the password, can be NULL
+
+Calculates the checksum of a password, and returns
+it as a string, ready to be sent on the network.
+If password is empty or NULL, then an empty (but
+not NULL unless internal error) string will be
+returned. All LW6 protocols should send
+these checksums instead of real passwords, then
+on server side value can be checked against both
+real password and its checksum.
+
+@strong{Return value:}  a dynamically allocated string
+@end deftypefun
+
+@deftypefun {int} {lw6net_password_verify} (char * @var{password_here}, char * @var{password_received})
+@var{password_here}:  the local password, can be NULL
+
+@var{password_received}:  the password received from network
+
+Tells wether a password received over the network is valid.
+The @code{password_here} argument (the local password) will be
+checksumed so that @code{password_received} is checked against both
+clear and checksumed values, so it can be in any form.
+
+@strong{Return value:}  1 if OK, passwords are the same, 0 if not.
 @end deftypefun
 
 @deftypefun {int} {lw6net_init} (int @var{argc}, char * [] @var{argv})

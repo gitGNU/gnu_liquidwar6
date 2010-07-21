@@ -4297,18 +4297,23 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      protocol, or if you want to activate a custom-made client backend.
      It's a comma separated list.
 
-4.7.4 local
------------
+4.7.4 password
+--------------
 
- -- Command-line option: `--local=<value>'
- -- Environment variable: `LW6_LOCAL'
- -- XML key: `local'
-     Type: boolean
+ -- Command-line option: `--password=<value>'
+ -- Environment variable: `LW6_PASSWORD'
+ -- XML key: `password'
+     Type: string
 
-     Default value: false
+     Default value:
 
-     If set, then game won't do anything network related. No listen, no
-     connect, no nothing. You are playing locally.
+     The password to use for network games. Do not use a valuable
+     password, as this is stored as clear text on your hard drive.
+     Still, the game will only send a hash/checksum of the password on
+     the network so eavesdropper won't be able to read it. They can see
+     the hash/checksum and use it if clever, but they can't guess the
+     real password. A blank password means anyone can join your games
+     when you act like a server.
 
 4.7.5 public-url
 ----------------
@@ -4326,7 +4331,20 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      you might need to use your own settings if you are using NAT or an
      Apache reverse-proxy to rewrite HTTP requests.
 
-4.7.6 srv-backends
+4.7.6 skip-network
+------------------
+
+ -- Command-line option: `--skip-network=<value>'
+ -- Environment variable: `LW6_SKIP_NETWORK'
+ -- XML key: `skip-network'
+     Type: boolean
+
+     Default value: false
+
+     If set, then game won't do anything network related. No listen, no
+     connect, no nothing. You are playing locally.
+
+4.7.7 srv-backends
 ------------------
 
  -- Command-line option: `--srv-backends=<value>'

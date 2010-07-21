@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS lw6_connection(
 	connection_ptr VARCHAR(16) NOT NULL PRIMARY KEY,
 	backend_ptr VARCHAR(16) NOT NULL,
 	local_node_id VARCHAR(16) NOT NULL, 
-	remote_node_id INTEGER(16) NOT NULL,
-	is_server INTEGER NOT NULL,
-	is_oob INTEGER NOT NULL DEFAULT 1,
-	is_established INTEGER NOT NULL DEFAULT 0
+	remote_node_id INTEGER(16) DEFAULT NULL,
+	is_server INTEGER DEFAULT NULL,
+	is_oob INTEGER DEFAULT NULL
 );

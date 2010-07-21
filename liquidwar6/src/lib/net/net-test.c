@@ -37,6 +37,8 @@
 #define TEST_LINE1 "foo"
 #define TEST_LINE2 "a\tb\tc"
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
+#define TEST_PASSWORD1 "abc"
+#define TEST_PASSWORD2 "XY"
 
 /*
  * Testing functions in if.c
@@ -64,7 +66,8 @@ test_if ()
 		    _
 		    ("unable to guess local interface, this is a problem only if machine *really* has no network available"));
       }
-    public_url = lw6net_if_guess_public_url (LW6NET_DEFAULT_PORT);
+    public_url =
+      lw6net_if_guess_public_url (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
     if (public_url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -77,16 +80,105 @@ test_if ()
 	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
 	ret = 0;
       }
-    public_url = lw6net_if_guess_public_url (LW6NET_HTTP_PORT);
+    public_url =
+      lw6net_if_guess_public_url (TEST_UNREACHABLE_IP, LW6NET_HTTP_PORT);
     if (public_url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("public URL on http port would be \"%s\""), public_url);
+		    _("public URL on http port with IP %s would be \"%s\""),
+		    TEST_UNREACHABLE_IP, public_url);
 	LW6SYS_FREE (public_url);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in password.c
+ */
+static int
+test_password ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *checksum = NULL;
+
+    checksum = lw6net_password_checksum (NULL);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password NULL is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6net_password_checksum ("");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for empty password is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6net_password_checksum (TEST_PASSWORD1);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password \"%s\" is \"%s\""),
+		    TEST_PASSWORD1, checksum);
+	if (lw6net_password_verify (TEST_PASSWORD1, TEST_PASSWORD1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("same password test works"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6net_password_verify (TEST_PASSWORD1, checksum))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works using checksum"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6net_password_verify (NULL, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works when it's NULL here"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6net_password_verify (TEST_PASSWORD1, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong passwords"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
 	ret = 0;
       }
   }
@@ -549,8 +641,8 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv) && test_if () && test_tcp () && test_udp ()
-    && test_line ();
+  ret = lw6net_init (argc, argv) && test_if () && test_password ()
+    && test_tcp () && test_udp () && test_line ();
 
   if (ret)
     {

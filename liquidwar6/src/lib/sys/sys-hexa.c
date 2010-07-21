@@ -844,6 +844,56 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
   return ret;
 }
 
+static int
+_hexa_str_to_buf (void *buf, int size, char *str)
+{
+  char *buffer = (char *) buf;
+  int ret = 0;
+  int i = 0, j = 0;
+  char hexa2[3] = { 0, 0, 0 };	// third 0 is *very* important
+
+  if (strlen (str) == 2 * size)
+    {
+      for (i = 0; i < size; ++i)
+	{
+	  memcpy (hexa2, str + 2 * i, 2);
+	  sscanf (hexa2, "%02x", &j);
+	  buffer[i] = (u_int8_t) j;
+	}
+      str[2 * size] = '\0';
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("incorrect string (bad size) \"%s\" expected %d but got %d"),
+		  str, 2 * size, strlen (str));
+    }
+
+  return ret;
+}
+
+static char *
+_hexa_buf_to_str (void *buf, int size)
+{
+  char *buffer = (char *) buf;
+  char *str = NULL;
+  int i = 0;
+
+  str = (char *) LW6SYS_MALLOC (2 * size + 1);
+  if (str)
+    {
+      for (i = 0; i < size; ++i)
+	{
+	  snprintf (str + 2 * i, 3, "%02x", (int) buffer[i]);
+	}
+      str[2 * size] = '\0';
+    }
+
+  return str;
+}
+
 /**
  * lw6sys_hexa_str_to_ptr
  *
@@ -864,26 +914,8 @@ void *
 lw6sys_hexa_str_to_ptr (char *str)
 {
   void *ptr = NULL;
-  u_int8_t *buf = (u_int8_t *) & ptr;
-  int size = lw6sys_build_get_pointer_size ();
-  int i = 0, j = 0;
-  char hexa2[3] = { 0, 0, 0 };	// third 0 is *very* important
 
-  if (strlen (str) == 2 * size)
-    {
-      for (i = 0; i < size; ++i)
-	{
-	  memcpy (hexa2, str + 2 * i, 2);
-	  sscanf (hexa2, "%02x", &j);
-	  buf[i] = (u_int8_t) j;
-	}
-      str[2 * size] = '\0';
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("incorrect pointer string (bad size) \"%s\""), str);
-    }
+  _hexa_str_to_buf (&ptr, sizeof (void *), str);
 
   return ptr;
 }
@@ -908,19 +940,8 @@ char *
 lw6sys_hexa_ptr_to_str (void *ptr)
 {
   char *str = NULL;
-  u_int8_t *buf = (u_int8_t *) & ptr;
-  int size = lw6sys_build_get_pointer_size ();
-  int i = 0;
 
-  str = (char *) LW6SYS_MALLOC (2 * size + 1);
-  if (str)
-    {
-      for (i = 0; i < size; ++i)
-	{
-	  snprintf (str + 2 * i, 3, "%02x", (int) buf[i]);
-	}
-      str[2 * size] = '\0';
-    }
+  str = _hexa_buf_to_str (&ptr, sizeof (void *));
 
   return str;
 }

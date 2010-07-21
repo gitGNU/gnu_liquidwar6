@@ -24,11 +24,11 @@
 #include "config.h"
 #endif
 
-#define _PUBLIC_URL_MASK "http://%s:%d/"
-#define _PUBLIC_URL_MASK_HTTP_PORT "http://%s/"
-
 #include "net.h"
 #include "net-internal.h"
+
+#define _PUBLIC_URL_MASK "http://%s:%d/"
+#define _PUBLIC_URL_MASK_HTTP_PORT "http://%s/"
 
 /**
  * lw6net_if_guess_local
@@ -107,38 +107,49 @@ lw6net_if_guess_local ()
 /**
  * lw6net_if_guess_public_url
  *
- * @port: the IP port to use
+ * @bind_ip: the IP address used to bind on
+ * @bind_port: the IP port used to bind on
  *
  * Guess the server public url, based 
  * on @lw6net_if_guess_local which tries to find a
- * valid local IP address which is not loopback.
+ * valid local IP address which is not loopback. This is only
+ * in case @bind_ip is 0.0.0.0 (listen on all addresses) else
+ * it will just use @bind_ip as you would expect.
  * Function isn't foolproof, that's why one can override
  * its default with a user settings.
  *
  * Return value: the IP as a string, dynamically allocated
  */
 char *
-lw6net_if_guess_public_url (int port)
+lw6net_if_guess_public_url (char *bind_ip, int bind_port)
 {
   char *ret = NULL;
   char *ip = NULL;
 
-  ip = lw6net_if_guess_local ();
-  if (!ip)
+  if (!strcmp (bind_ip, LW6NET_ADDRESS_ANY))
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _("can't find local network interface, using loopback"));
-      ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
+      ip = lw6net_if_guess_local ();
+      if (!ip)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _
+		      ("can't find local network interface, using loopback"));
+	  ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
+	}
+    }
+  else
+    {
+      ip = lw6sys_str_copy (bind_ip);
     }
   if (ip)
     {
-      if (port == LW6NET_HTTP_PORT)
+      if (bind_port == LW6NET_HTTP_PORT)
 	{
 	  ret = lw6sys_new_sprintf (_PUBLIC_URL_MASK_HTTP_PORT, ip);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf (_PUBLIC_URL_MASK, ip, port);
+	  ret = lw6sys_new_sprintf (_PUBLIC_URL_MASK, ip, bind_port);
 	}
       LW6SYS_FREE (ip);
     }
