@@ -1,1 +1,1 @@
-@set LW6_STAMP 1706
+@set LW6_STAMP 1707

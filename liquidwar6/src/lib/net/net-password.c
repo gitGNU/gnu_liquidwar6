@@ -30,6 +30,7 @@
 /**
  * lw6net_password_checksum
  *
+ * @seed: a seed to blur the password, can be NULL
  * @password: the password, can be NULL
  *
  * Calculates the checksum of a password, and returns
@@ -39,18 +40,27 @@
  * returned. All LW6 protocols should send
  * these checksums instead of real passwords, then
  * on server side value can be checked against both
- * real password and its checksum.
+ * real password and its checksum. The seed is here
+ * so that eavesdropper can't reuse the checksum to
+ * connect on random sessions. Seed can typically
+ * be the node 'public_url' value.
  *
  * Return value: a dynamically allocated string
  */
 char *
-lw6net_password_checksum (char *password)
+lw6net_password_checksum (char *seed, char *password)
 {
   char *ret = NULL;
+  u_int32_t checksum = 0;
 
   if (password && strlen (password) > 0)
     {
-      ret = lw6sys_new_sprintf ("%08x", lw6sys_checksum_str (password));
+      if (seed)
+	{
+	  checksum = lw6sys_checksum_str (seed);
+	}
+      lw6sys_checksum_update_str (&checksum, password);
+      ret = lw6sys_new_sprintf ("%08x", checksum);
     }
   else
     {
@@ -63,6 +73,7 @@ lw6net_password_checksum (char *password)
 /**
  * lw6net_password_verify
  *
+ * @seed: a seed to blur the password, can be NULL
  * @password_here: the local password, can be NULL
  * @password_received: the password received from network
  *
@@ -74,7 +85,8 @@ lw6net_password_checksum (char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6net_password_verify (char *password_here, char *password_received)
+lw6net_password_verify (char *seed, char *password_here,
+			char *password_received)
 {
   int ret = 0;
   char *checksum = NULL;
@@ -95,7 +107,7 @@ lw6net_password_verify (char *password_here, char *password_received)
 	}
       else
 	{
-	  checksum = lw6net_password_checksum (password_here);
+	  checksum = lw6net_password_checksum (seed, password_here);
 	  if (checksum)
 	    {
 	      if (!(strcmp (checksum, password_received)))

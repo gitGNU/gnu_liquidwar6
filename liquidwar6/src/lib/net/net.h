@@ -48,8 +48,8 @@ extern char *lw6net_recv_line_udp (int sock,
 extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
 
 /* net-password.c */
-extern char *lw6net_password_checksum (char *password);
-extern int lw6net_password_verify (char *password_here,
+extern char *lw6net_password_checksum (char *seed, char *password);
+extern int lw6net_password_verify (char *seed, char *password_here,
 				   char *password_received);
 
 /*

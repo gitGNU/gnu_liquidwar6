@@ -37,6 +37,7 @@
 #define TEST_LINE1 "foo"
 #define TEST_LINE2 "a\tb\tc"
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
+#define TEST_PASSWORD_SEED "http://"
 #define TEST_PASSWORD1 "abc"
 #define TEST_PASSWORD2 "XY"
 
@@ -112,7 +113,7 @@ test_password ()
   {
     char *checksum = NULL;
 
-    checksum = lw6net_password_checksum (NULL);
+    checksum = lw6net_password_checksum (NULL, NULL);
     if (checksum)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -123,7 +124,7 @@ test_password ()
       {
 	ret = 0;
       }
-    checksum = lw6net_password_checksum ("");
+    checksum = lw6net_password_checksum (NULL, "");
     if (checksum)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -134,13 +135,27 @@ test_password ()
       {
 	ret = 0;
       }
-    checksum = lw6net_password_checksum (TEST_PASSWORD1);
+    checksum = lw6net_password_checksum (TEST_PASSWORD_SEED, "");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("checksum for empty password with seed \"%s\" is \"%s\""),
+		    TEST_PASSWORD_SEED, checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6net_password_checksum (TEST_PASSWORD_SEED, TEST_PASSWORD1);
     if (checksum)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("checksum for password \"%s\" is \"%s\""),
 		    TEST_PASSWORD1, checksum);
-	if (lw6net_password_verify (TEST_PASSWORD1, TEST_PASSWORD1))
+	if (lw6net_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, TEST_PASSWORD1))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _("same password test works"));
 	  }
@@ -148,7 +163,8 @@ test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (lw6net_password_verify (TEST_PASSWORD1, checksum))
+	if (lw6net_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, checksum))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_("same password test works using checksum"));
@@ -157,7 +173,7 @@ test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (lw6net_password_verify (NULL, TEST_PASSWORD2))
+	if (lw6net_password_verify (TEST_PASSWORD_SEED, NULL, TEST_PASSWORD2))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_("same password test works when it's NULL here"));
@@ -166,10 +182,20 @@ test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (!lw6net_password_verify (TEST_PASSWORD1, TEST_PASSWORD2))
+	if (!lw6net_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, TEST_PASSWORD2))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_("same password test detects wrong passwords"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6net_password_verify (NULL, TEST_PASSWORD1, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong seed"));
 	  }
 	else
 	  {
