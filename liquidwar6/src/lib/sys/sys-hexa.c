@@ -859,6 +859,7 @@ _hexa_str_to_buf (void *buf, int size, char *str)
 	  memcpy (hexa2, str + 2 * i, 2);
 	  sscanf (hexa2, "%02x", &j);
 	  buffer[i] = (u_int8_t) j;
+	  TMP3 ("s2b %s %d %d", hexa2, j, (int) buffer[i]);
 	}
       str[2 * size] = '\0';
       ret = 1;
@@ -880,13 +881,15 @@ _hexa_buf_to_str (void *buf, int size)
   char *buffer = (char *) buf;
   char *str = NULL;
   int i = 0;
+  u_int8_t c = 0;
 
   str = (char *) LW6SYS_MALLOC (2 * size + 1);
   if (str)
     {
       for (i = 0; i < size; ++i)
 	{
-	  snprintf (str + 2 * i, 3, "%02x", (int) buffer[i]);
+	  c = buffer[i];
+	  snprintf (str + 2 * i, 3, "%02x", (u_int32_t) c);
 	}
       str[2 * size] = '\0';
     }
@@ -915,7 +918,10 @@ lw6sys_hexa_str_to_ptr (char *str)
 {
   void *ptr = NULL;
 
-  _hexa_str_to_buf (&ptr, sizeof (void *), str);
+  if (!_hexa_str_to_buf (&ptr, sizeof (void *), str))
+    {
+      ptr = NULL;
+    }
 
   return ptr;
 }
@@ -941,6 +947,7 @@ lw6sys_hexa_ptr_to_str (void *ptr)
 {
   char *str = NULL;
 
+  TMP2 ("p2s ptr=%p &ptr=%p", ptr, &ptr);
   str = _hexa_buf_to_str (&ptr, sizeof (void *));
 
   return str;
