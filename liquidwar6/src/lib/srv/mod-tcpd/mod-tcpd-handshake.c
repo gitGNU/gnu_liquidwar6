@@ -28,25 +28,43 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_can_handle_tcp (_tcpd_context_t * tcpd_context,
-			  lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
+		       lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
+  if (lw6net_socket_is_alive (tcp_accepter->sock))
+    {
+      ret |= LW6SRV_ANALYSE_ALIVE;
+    }
+  else
+    {
+      lw6net_socket_close (tcp_accepter->sock);
+      tcp_accepter->sock = -1;
+    }
+
   if (!strncmp
-      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_STRING,
-       _MOD_TCPD_PROTOCOL_SIZE))
+      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
+       _MOD_TCPD_PROTOCOL_LW6_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
-      ret = 1;
+      ret |= LW6SRV_ANALYSE_SPEAKABLE;
+    }
+
+  if (!strncmp
+      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
+       _MOD_TCPD_PROTOCOL_LW6_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
+      ret |= LW6SRV_ANALYSE_SPEAKABLE;
     }
 
   return ret;
 }
 
 int
-_mod_tcpd_can_handle_udp (_tcpd_context_t * tcpd_context,
-			  lw6srv_udp_buffer_t * udp_buffer)
+_mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
+		       lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

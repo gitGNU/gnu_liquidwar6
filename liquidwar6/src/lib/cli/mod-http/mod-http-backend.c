@@ -48,14 +48,14 @@ _quit (void *cli_context)
 }
 
 static int
-_can_handle (void *cli_context, char *server_url)
+_analyse (void *cli_context, char *server_url)
 {
   _http_context_t *http_context = (_http_context_t *) cli_context;
   int ret = 0;
 
   if (http_context)
     {
-      ret = _mod_http_can_handle (http_context, server_url);
+      ret = _mod_http_analyse (http_context, server_url);
     }
 
   return ret;
@@ -197,7 +197,7 @@ mod_http_create_backend ()
 
       backend->init = _init;
       backend->quit = _quit;
-      backend->can_handle = _can_handle;
+      backend->analyse = _analyse;
       backend->connect = _connect;
       backend->close = _close;
       backend->send = _send;

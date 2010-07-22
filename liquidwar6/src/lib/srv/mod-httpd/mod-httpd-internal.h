@@ -47,10 +47,10 @@ extern void _mod_httpd_quit (_httpd_context_t * httpd_context);
 /*
  * In handshake.c
  */
-extern int _mod_httpd_can_handle_tcp (_httpd_context_t * httpd_context,
-				      lw6srv_tcp_accepter_t * tcp_accepter);
-extern int _mod_httpd_can_handle_udp (_httpd_context_t * httpd_context,
-				      lw6srv_udp_buffer_t * udp_buffer);
+extern int _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
+				   lw6srv_tcp_accepter_t * tcp_accepter);
+extern int _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
+				   lw6srv_udp_buffer_t * udp_buffer);
 extern lw6srv_connection_t *_mod_httpd_accept_tcp (_httpd_context_t *
 						   httpd_context,
 						   lw6srv_tcp_accepter_t *
@@ -95,5 +95,7 @@ extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 			       lw6srv_connection_t * connection);
 
 /* mod-httpd-oob.c */
+extern int _mod_httpd_process_oob (_httpd_context_t * httpd_context,
+				   lw6srv_oob_data_t * oob_data);
 
 #endif

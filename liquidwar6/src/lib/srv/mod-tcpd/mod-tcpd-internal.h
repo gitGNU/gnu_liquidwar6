@@ -25,8 +25,12 @@
 
 #include "../srv.h"
 
-#define _MOD_TCPD_PROTOCOL_STRING "LW6"
-#define _MOD_TCPD_PROTOCOL_SIZE 3
+#define _MOD_TCPD_PROTOCOL_LW6_STRING "LW6"
+#define _MOD_TCPD_PROTOCOL_LW6_SIZE 3
+#define _MOD_TCPD_PROTOCOL_N_STRING "\n"
+#define _MOD_TCPD_PROTOCOL_N_SIZE 1
+#define _MOD_TCPD_PROTOCOL_R_STRING "\r"
+#define _MOD_TCPD_PROTOCOL_R_SIZE 1
 
 typedef struct _tcpd_context_s
 {
@@ -43,10 +47,10 @@ extern void _mod_tcpd_quit (_tcpd_context_t * tcpd_context);
 /*
  * In handshake.c
  */
-extern int _mod_tcpd_can_handle_tcp (_tcpd_context_t * tcpd_context,
-				     lw6srv_tcp_accepter_t * tcp_accepter);
-extern int _mod_tcpd_can_handle_udp (_tcpd_context_t * tcpd_context,
-				     lw6srv_udp_buffer_t * udp_buffer);
+extern int _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
+				  lw6srv_tcp_accepter_t * tcp_accepter);
+extern int _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
+				  lw6srv_udp_buffer_t * udp_buffer);
 extern lw6srv_connection_t *_mod_tcpd_accept_tcp (_tcpd_context_t *
 						  tcpd_context,
 						  lw6srv_tcp_accepter_t *
@@ -86,5 +90,9 @@ extern char *_mod_tcpd_repr (_tcpd_context_t * tcpd_context,
 			     lw6srv_connection_t * connection);
 extern char *_mod_tcpd_error (_tcpd_context_t * tcpd_context,
 			      lw6srv_connection_t * connection);
+
+/* mod-tcpd-oob.c */
+extern int _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
+				  lw6srv_oob_data_t * oob_data);
 
 #endif

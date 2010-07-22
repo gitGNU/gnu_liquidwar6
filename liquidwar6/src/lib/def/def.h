@@ -198,6 +198,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_NB_ATTACK_TRIES "nb-attack-tries"
 #define LW6DEF_NB_DEFENSE_TRIES "nb-defense-tries"
 #define LW6DEF_NB_MOVE_TRIES "nb-move-tries"
+#define LW6DEF_NODE_TITLE "node-title"
 #define LW6DEF_PASSWORD "password"
 #define LW6DEF_PEDIGREE "pedigree"
 #define LW6DEF_PILOT_LAG "pilot-lag"

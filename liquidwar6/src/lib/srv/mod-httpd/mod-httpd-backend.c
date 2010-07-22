@@ -48,42 +48,42 @@ _quit (void *srv_context)
 }
 
 static int
-_can_handle_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter)
+_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
     {
-      ret = _mod_httpd_can_handle_tcp (httpd_context, tcp_accepter);
+      ret = _mod_httpd_analyse_tcp (httpd_context, tcp_accepter);
     }
 
   return ret;
 }
 
 static int
-_can_handle_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
 {
   _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
     {
-      ret = _mod_httpd_can_handle_udp (httpd_context, udp_buffer);
+      ret = _mod_httpd_analyse_udp (httpd_context, udp_buffer);
     }
 
   return ret;
 }
 
 static int
-_process_oob (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+_process_oob (void *srv_context, lw6srv_oob_data_t * oob_data)
 {
   _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
     {
-      ret = _mod_httpd_process_oob (httpd_context, udp_buffer);
+      ret = _mod_httpd_process_oob (httpd_context, oob_data);
     }
 
   return ret;
@@ -271,8 +271,8 @@ mod_httpd_create_backend ()
 
       backend->init = _init;
       backend->quit = _quit;
-      backend->can_handle_tcp = _can_handle_tcp;
-      backend->can_handle_udp = _can_handle_udp;
+      backend->analyse_tcp = _analyse_tcp;
+      backend->analyse_udp = _analyse_udp;
       backend->process_oob = _process_oob;
       backend->accept_tcp = _accept_tcp;
       backend->new_udp = _new_udp;

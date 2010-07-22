@@ -48,7 +48,7 @@ typedef struct lw6cli_backend_s
 
   void *(*init) (int argc, char *argv[]);
   void (*quit) (void *cli_context);
-  int (*can_handle) (void *cli_context, char *server_url);
+  int (*analyse) (void *cli_context, char *server_url);
   lw6cli_connection_t *(*connect) (void *cli_context, char *server_url,
 				   char *client_url, char *password);
   void (*close) (void *cli_context, lw6cli_connection_t * connection);
@@ -66,7 +66,7 @@ lw6cli_backend_t;
  */
 extern int lw6cli_init (lw6cli_backend_t * backend);
 extern void lw6cli_quit (lw6cli_backend_t * backend);
-extern int lw6cli_can_handle (lw6cli_backend_t * backend, char *server_url);
+extern int lw6cli_analyse (lw6cli_backend_t * backend, char *server_url);
 extern lw6cli_connection_t *lw6cli_connect (lw6cli_backend_t * backend,
 					    char *server_url,
 					    char *client_url, char *password);

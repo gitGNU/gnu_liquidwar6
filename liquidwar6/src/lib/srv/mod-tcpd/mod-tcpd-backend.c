@@ -48,42 +48,42 @@ _quit (void *srv_context)
 }
 
 static int
-_can_handle_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter)
+_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_can_handle_tcp (tcpd_context, tcp_accepter);
+      ret = _mod_tcpd_analyse_tcp (tcpd_context, tcp_accepter);
     }
 
   return ret;
 }
 
 static int
-_can_handle_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_can_handle_udp (tcpd_context, udp_buffer);
+      ret = _mod_tcpd_analyse_udp (tcpd_context, udp_buffer);
     }
 
   return ret;
 }
 
 static int
-_process_oob (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+_process_oob (void *srv_context, lw6srv_oob_data_t * oob_data)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_process_oob (tcpd_context, udp_buffer);
+      ret = _mod_tcpd_process_oob (tcpd_context, oob_data);
     }
 
   return ret;
@@ -268,8 +268,8 @@ mod_tcpd_create_backend ()
 
       backend->init = _init;
       backend->quit = _quit;
-      backend->can_handle_tcp = _can_handle_tcp;
-      backend->can_handle_udp = _can_handle_udp;
+      backend->analyse_tcp = _analyse_tcp;
+      backend->analyse_udp = _analyse_udp;
       backend->process_oob = _process_oob;
       backend->accept_tcp = _accept_tcp;
       backend->new_udp = _new_udp;

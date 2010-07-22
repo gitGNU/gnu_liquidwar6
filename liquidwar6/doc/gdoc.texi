@@ -58,6 +58,10 @@
 
 @include net-gdoc.texi
  
+@subsection libnod
+
+@include nod-gdoc.texi
+ 
 @subsection libp2p
 
 @include p2p-gdoc.texi

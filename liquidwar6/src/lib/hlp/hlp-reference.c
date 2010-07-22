@@ -665,6 +665,10 @@ populate_references ()
 		_
 		("The public URL of your server. By default the game will pick up one for you. In fact, the clients discovering your server should guess the public URL, probably http://<your-ip>:<your-port>/ but you might need to use your own settings if you are using NAT or an Apache reverse-proxy to rewrite HTTP requests."),
 		"");
+  POPULATE_STR (LW6DEF_NODE_TITLE,
+		_
+		("The title of your node, that is the name which will be displayed when listing servers. This is different from player name, for there can be several players on a single computer. By default this will be set to hostname."),
+		"");
 
   /*
    * Tuning

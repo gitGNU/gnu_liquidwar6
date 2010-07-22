@@ -40,8 +40,7 @@ extern void _mod_udp_quit (_udp_context_t * udp_context);
 /*
  * In handshake.c
  */
-extern int _mod_udp_can_handle (_udp_context_t * udp_context,
-				char *server_url);
+extern int _mod_udp_analyse (_udp_context_t * udp_context, char *server_url);
 extern lw6cli_connection_t *_mod_udp_connect (_udp_context_t * udp_context,
 					      char *server_url,
 					      char *client_url,

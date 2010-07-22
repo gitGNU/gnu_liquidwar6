@@ -3419,7 +3419,10 @@ C interfaces:
 
      *Return value:*  the number of bytes sent, 0 if failure
 
- -- Function: char * lw6net_password_checksum (char * PASSWORD)
+ -- Function: char * lw6net_password_checksum (char * SEED, char *
+          PASSWORD)
+     SEED:  a seed to blur the password, can be NULL
+
      PASSWORD:  the password, can be NULL
 
      Calculates the checksum of a password, and returns it as a string,
@@ -3427,12 +3430,16 @@ C interfaces:
      then an empty (but not NULL unless internal error) string will be
      returned. All LW6 protocols should send these checksums instead of
      real passwords, then on server side value can be checked against
-     both real password and its checksum.
+     both real password and its checksum. The seed is here so that
+     eavesdropper can't reuse the checksum to connect on random
+     sessions. Seed can typically be the node 'public_url' value.
 
      *Return value:*  a dynamically allocated string
 
- -- Function: int lw6net_password_verify (char * PASSWORD_HERE, char *
-          PASSWORD_RECEIVED)
+ -- Function: int lw6net_password_verify (char * SEED, char *
+          PASSWORD_HERE, char * PASSWORD_RECEIVED)
+     SEED:  a seed to blur the password, can be NULL
+
      PASSWORD_HERE:  the local password, can be NULL
 
      PASSWORD_RECEIVED:  the password received from network
@@ -3982,6 +3989,28 @@ C interfaces:
 
 4.15.19 libsrv
 --------------
+
+ -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
+          REMOTE_PORT, int SOCK)
+     REMOTE_IP:  remote IP address
+
+     REMOTE_PORT:  remote port
+
+     SOCK:  the socket handler (either TCP or UDP)
+
+     Create a new OOB structure, copying required objects.  We need to
+     make copies for this is for usage in a separate thread. The thread
+     member is not set here since the right way to do things is first to
+     set up data then to fire the thread.
+
+     *Return value:*  new object
+
+ -- Function: void lw6srv_oob_free (lw6srv_oob_t * OOB)
+     OOB:  the object to free
+
+     Frees an OOB structure.
+
+     *Return value:*  none
 
  -- Function: lw6srv_tcp_accepter_t * lw6srv_tcp_accepter_new (char *
           CLIENT_IP, int CLIENT_PORT, int SOCK)

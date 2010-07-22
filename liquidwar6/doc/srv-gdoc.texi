@@ -1,3 +1,27 @@
+@deftypefun {lw6srv_oob_t *} {lw6srv_oob_new} (char * @var{remote_ip}, int @var{remote_port}, int @var{sock})
+@var{remote_ip}:  remote IP address
+
+@var{remote_port}:  remote port
+
+@var{sock}:  the socket handler (either TCP or UDP)
+
+Create a new OOB structure, copying required objects.
+We need to make copies for this is for usage in a 
+separate thread. The thread member is not set
+here since the right way to do things is first to
+set up data then to fire the thread.
+
+@strong{Return value:}  new object
+@end deftypefun
+
+@deftypefun {void} {lw6srv_oob_free} (lw6srv_oob_t * @var{oob})
+@var{oob}:  the object to free
+
+Frees an OOB structure.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {lw6srv_tcp_accepter_t *} {lw6srv_tcp_accepter_new} (char * @var{client_ip}, int @var{client_port}, int @var{sock})
 @var{client_ip}:  the client ip, will be freed when accepter is freed, do not copy it
 

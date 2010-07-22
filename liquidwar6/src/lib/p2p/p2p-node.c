@@ -426,7 +426,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 
   for (i = 0; i < node->nb_srv_backends; ++i)
     {
-      if (lw6srv_can_handle_tcp (node->srv_backends[i], tcp_accepter))
+      if (lw6srv_analyse_tcp (node->srv_backends[i], tcp_accepter))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("new TCP"));
 	  connection =

@@ -172,6 +172,7 @@ music-volume
 nb-attack-tries
 nb-defense-tries
 nb-move-tries
+node-title
 password
 pedigree
 pilot-lag

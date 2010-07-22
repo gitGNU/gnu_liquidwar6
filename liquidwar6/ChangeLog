@@ -1,5 +1,7 @@
 2010-07-22 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added nod module (does not compile yet).
+
 	* Started to implement OOB messages.
 
 2010-07-21 : Christian Mauduit <ufoot@ufoot.org>

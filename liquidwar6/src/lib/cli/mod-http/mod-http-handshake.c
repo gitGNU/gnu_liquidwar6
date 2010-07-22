@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 int
-_mod_http_can_handle (_http_context_t * http_context, char *server_url)
+_mod_http_analyse (_http_context_t * http_context, char *server_url)
 {
   int ret = 0;
 

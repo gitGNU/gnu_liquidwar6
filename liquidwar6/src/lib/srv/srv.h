@@ -29,6 +29,10 @@
 
 #define LW6SRV_PROTOCOL_BUFFER_SIZE 32
 
+#define LW6SRV_ANALYSE_ALIVE 0x01
+#define LW6SRV_ANALYSE_UNDERSTANDABLE 0x02
+#define LW6SRV_ANALYSE_OOB 0x04
+
 typedef struct lw6srv_client_id_s
 {
   char *client_ip;
@@ -75,6 +79,7 @@ typedef struct lw6srv_oob_data_s
   char *remote_ip;
   int remote_port;
   int sock;			// either TCP or UDP
+  lw6net_info_t *info;
 }
 lw6srv_oob_data_t;
 
@@ -93,14 +98,15 @@ typedef struct lw6srv_backend_s
   char **argv;
   u_int32_t id;
   char *name;
-  lw6sys_list_t *oobs;
+  lw6net_info_t *info;
+  lw6sys_list_t *oob_queue;
 
   void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);
   void (*quit) (void *srv_context);
-  int (*can_handle_tcp) (void *srv_context,
-			 lw6srv_tcp_accepter_t * tcp_accepter);
-  int (*can_handle_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
-  int (*process_oob) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
+  int (*analyse_tcp) (void *srv_context,
+		      lw6srv_tcp_accepter_t * tcp_accepter);
+  int (*analyse_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
+  int (*process_oob) (void *srv_context, lw6srv_oob_data_t * oob_data);
   lw6srv_connection_t *(*accept_tcp) (void *srv_context,
 				      lw6srv_tcp_accepter_t * tcp_accepter,
 				      char *password);
@@ -110,8 +116,7 @@ typedef struct lw6srv_backend_s
   int (*is_associated_with_udp) (void *srv_context,
 				 lw6srv_connection_t * connection,
 				 lw6srv_udp_buffer_t * udp_buffer);
-  int (*update_with_udp) (void *srv_context,
-			  lw6srv_connection_t * connection,
+  int (*update_with_udp) (void *srv_context, lw6srv_connection_t * connection,
 			  lw6srv_udp_buffer_t * udp_buffer);
   void (*close) (void *srv_context, lw6srv_connection_t * connection);
   int (*send) (void *srv_context, lw6srv_connection_t * connection,
@@ -129,12 +134,12 @@ lw6srv_backend_t;
 extern int lw6srv_init (lw6srv_backend_t * backend,
 			lw6srv_listener_t * listener);
 extern void lw6srv_quit (lw6srv_backend_t * backend);
-extern int lw6srv_can_handle_tcp (lw6srv_backend_t * backend,
-				  lw6srv_tcp_accepter_t * tcp_accepter);
-extern int lw6srv_can_handle_udp (lw6srv_backend_t * backend,
-				  lw6srv_udp_buffer_t * udp_buffer);
-extern int lw6srv_process_oob (lw6srv_backend_t * backend,
+extern int lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 			       lw6srv_tcp_accepter_t * tcp_accepter);
+extern int lw6srv_analyse_udp (lw6srv_backend_t * backend,
+			       lw6srv_udp_buffer_t * udp_buffer);
+extern int lw6srv_process_oob (lw6srv_backend_t * backend,
+			       lw6srv_oob_data_t * oob_data);
 extern lw6srv_connection_t *lw6srv_accept_tcp (lw6srv_backend_t * backend,
 					       lw6srv_tcp_accepter_t *
 					       tcp_accepter, char *password);

@@ -48,14 +48,14 @@ _quit (void *cli_context)
 }
 
 static int
-_can_handle (void *cli_context, char *server_url)
+_analyse (void *cli_context, char *server_url)
 {
   _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
   int ret = 0;
 
   if (tcp_context)
     {
-      ret = _mod_tcp_can_handle (tcp_context, server_url);
+      ret = _mod_tcp_analyse (tcp_context, server_url);
     }
 
   return ret;
@@ -196,7 +196,7 @@ mod_tcp_create_backend ()
 
       backend->init = _init;
       backend->quit = _quit;
-      backend->can_handle = _can_handle;
+      backend->analyse = _analyse;
       backend->connect = _connect;
       backend->close = _close;
       backend->send = _send;

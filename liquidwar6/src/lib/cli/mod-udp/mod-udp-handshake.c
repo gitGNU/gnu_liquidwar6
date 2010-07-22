@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 int
-_mod_udp_can_handle (_udp_context_t * udp_context, char *server_url)
+_mod_udp_analyse (_udp_context_t * udp_context, char *server_url)
 {
   int ret = 0;
 

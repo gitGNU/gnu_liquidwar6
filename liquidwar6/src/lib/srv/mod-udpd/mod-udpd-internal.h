@@ -40,10 +40,10 @@ extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
 /*
  * In handshake.c
  */
-extern int _mod_udpd_can_handle_tcp (_udpd_context_t * udpd_context,
-				     lw6srv_tcp_accepter_t * tcp_accepter);
-extern int _mod_udpd_can_handle_udp (_udpd_context_t * udpd_context,
-				     lw6srv_udp_buffer_t * udp_buffer);
+extern int _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
+				  lw6srv_tcp_accepter_t * tcp_accepter);
+extern int _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
+				  lw6srv_udp_buffer_t * udp_buffer);
 extern lw6srv_connection_t *_mod_udpd_accept_tcp (_udpd_context_t *
 						  udpd_context,
 						  lw6srv_tcp_accepter_t *
@@ -83,5 +83,9 @@ extern char *_mod_udpd_repr (_udpd_context_t * udpd_context,
 			     lw6srv_connection_t * connection);
 extern char *_mod_udpd_error (_udpd_context_t * udpd_context,
 			      lw6srv_connection_t * connection);
+
+/* mod-udpd-oob.c */
+extern int _mod_udpd_process_oob (_udpd_context_t * udpd_context,
+				  lw6srv_oob_data_t * oob_data);
 
 #endif

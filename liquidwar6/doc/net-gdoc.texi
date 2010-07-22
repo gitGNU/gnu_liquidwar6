@@ -100,7 +100,9 @@ added, do not bother sending it.
 @strong{Return value:}  the number of bytes sent, 0 if failure
 @end deftypefun
 
-@deftypefun {char *} {lw6net_password_checksum} (char * @var{password})
+@deftypefun {char *} {lw6net_password_checksum} (char * @var{seed}, char * @var{password})
+@var{seed}:  a seed to blur the password, can be NULL
+
 @var{password}:  the password, can be NULL
 
 Calculates the checksum of a password, and returns
@@ -110,12 +112,17 @@ not NULL unless internal error) string will be
 returned. All LW6 protocols should send
 these checksums instead of real passwords, then
 on server side value can be checked against both
-real password and its checksum.
+real password and its checksum. The seed is here
+so that eavesdropper can't reuse the checksum to
+connect on random sessions. Seed can typically
+be the node 'public_url' value.
 
 @strong{Return value:}  a dynamically allocated string
 @end deftypefun
 
-@deftypefun {int} {lw6net_password_verify} (char * @var{password_here}, char * @var{password_received})
+@deftypefun {int} {lw6net_password_verify} (char * @var{seed}, char * @var{password_here}, char * @var{password_received})
+@var{seed}:  a seed to blur the password, can be NULL
+
 @var{password_here}:  the local password, can be NULL
 
 @var{password_received}:  the password received from network

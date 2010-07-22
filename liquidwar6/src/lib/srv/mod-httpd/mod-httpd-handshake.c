@@ -28,10 +28,20 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_can_handle_tcp (_httpd_context_t * httpd_context,
-			   lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
+			lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
+
+  if (lw6net_socket_is_alive (tcp_accepter->sock))
+    {
+      ret |= LW6SRV_ANALYSE_ALIVE;
+    }
+  else
+    {
+      lw6net_socket_close (tcp_accepter->sock);
+      tcp_accepter->sock = -1;
+    }
 
   if (!strncmp
       (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
@@ -42,15 +52,15 @@ _mod_httpd_can_handle_tcp (_httpd_context_t * httpd_context,
 		   _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized httpd protocol"));
-      ret = 1;
+      ret |= LW6SRV_ANALYSE_SPEAKABLE;
     }
 
   return ret;
 }
 
 int
-_mod_httpd_can_handle_udp (_httpd_context_t * httpd_context,
-			   lw6srv_udp_buffer_t * udp_buffer)
+_mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
+			lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

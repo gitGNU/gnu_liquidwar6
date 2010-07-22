@@ -40,8 +40,8 @@ extern void _mod_http_quit (_http_context_t * http_context);
 /*
  * In handshake.c
  */
-extern int _mod_http_can_handle (_http_context_t * http_context,
-				 char *server_url);
+extern int _mod_http_analyse (_http_context_t * http_context,
+			      char *server_url);
 extern lw6cli_connection_t *_mod_http_connect (_http_context_t * http_context,
 					       char *server_url,
 					       char *client_url,

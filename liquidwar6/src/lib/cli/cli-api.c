@@ -78,15 +78,15 @@ lw6cli_quit (lw6cli_backend_t * backend)
 }
 
 int
-lw6cli_can_handle (lw6cli_backend_t * backend, char *server_url)
+lw6cli_analyse (lw6cli_backend_t * backend, char *server_url)
 {
   int ret = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->can_handle)
+  if (backend->analyse)
     {
-      ret = backend->can_handle (backend->cli_context, server_url);
+      ret = backend->analyse (backend->cli_context, server_url);
     }
   else
     {

@@ -28,8 +28,8 @@
 #include "mod-udpd-internal.h"
 
 int
-_mod_udpd_can_handle_tcp (_udpd_context_t * udpd_context,
-			  lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
+		       lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
@@ -41,8 +41,8 @@ _mod_udpd_can_handle_tcp (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_can_handle_udp (_udpd_context_t * udpd_context,
-			  lw6srv_udp_buffer_t * udp_buffer)
+_mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
+		       lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
