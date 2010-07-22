@@ -75,6 +75,20 @@ _can_handle_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
   return ret;
 }
 
+static int
+_process_oob (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+{
+  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  int ret = 0;
+
+  if (httpd_context)
+    {
+      ret = _mod_httpd_process_oob (httpd_context, udp_buffer);
+    }
+
+  return ret;
+}
+
 static lw6srv_connection_t *
 _accept_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
 	     char *password)
@@ -259,6 +273,7 @@ mod_httpd_create_backend ()
       backend->quit = _quit;
       backend->can_handle_tcp = _can_handle_tcp;
       backend->can_handle_udp = _can_handle_udp;
+      backend->process_oob = _process_oob;
       backend->accept_tcp = _accept_tcp;
       backend->new_udp = _new_udp;
       backend->is_associated_with_udp = _is_associated_with_udp;

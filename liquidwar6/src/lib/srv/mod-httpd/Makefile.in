@@ -100,10 +100,10 @@ LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 libmod_httpd_la_LIBADD =
 am__libmod_httpd_la_SOURCES_DIST = mod-httpd-backend.c \
 	mod-httpd-handshake.c mod-httpd-info.c mod-httpd-message.c \
-	mod-httpd-setup.c mod-httpd-state.c
+	mod-httpd-oob.c mod-httpd-setup.c mod-httpd-state.c
 am__objects_1 = mod-httpd-backend.lo mod-httpd-handshake.lo \
-	mod-httpd-info.lo mod-httpd-message.lo mod-httpd-setup.lo \
-	mod-httpd-state.lo
+	mod-httpd-info.lo mod-httpd-message.lo mod-httpd-oob.lo \
+	mod-httpd-setup.lo mod-httpd-state.lo
 @ALLINONE_FALSE@am_libmod_httpd_la_OBJECTS = $(am__objects_1)
 libmod_httpd_la_OBJECTS = $(am_libmod_httpd_la_OBJECTS)
 libmod_httpd_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -325,7 +325,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmod_httpd_s.la
-MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-message.c mod-httpd-setup.c mod-httpd-state.c
+MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-message.c mod-httpd-oob.c mod-httpd-setup.c mod-httpd-state.c
 libmod_httpd_s_la_SOURCES = $(MOD_HTTPD_FILES) 
 @ALLINONE_FALSE@lib_LTLIBRARIES = libmod_httpd.la
 @ALLINONE_FALSE@libmod_httpd_la_SOURCES = $(MOD_HTTPD_FILES) 
@@ -422,6 +422,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-handshake.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-info.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-message.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-oob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-httpd-state.Plo@am__quote@
 

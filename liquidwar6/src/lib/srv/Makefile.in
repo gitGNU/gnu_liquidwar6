@@ -82,8 +82,9 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 @ALLINONE_TRUE@	mod-udpd/libmod_udpd_s.la \
 @ALLINONE_TRUE@	mod-httpd/libmod_httpd_s.la
 libsrv_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am_libsrv_la_OBJECTS = srv-api.lo srv-control.lo srv-register.lo \
-	srv-tcpaccepter.lo srv-test.lo srv-udpbuffer.lo
+am_libsrv_la_OBJECTS = srv-api.lo srv-control.lo srv-oob.lo \
+	srv-register.lo srv-tcpaccepter.lo srv-test.lo \
+	srv-udpbuffer.lo
 libsrv_la_OBJECTS = $(am_libsrv_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsrvdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -373,7 +374,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 @ALLINONE_TRUE@LW6SRV_LIB_S = mod-tcpd/libmod_tcpd_s.la mod-udpd/libmod_udpd_s.la mod-httpd/libmod_httpd_s.la
 noinst_LTLIBRARIES = libsrv.la
 libsrv_la_LIBADD = $(LW6SRV_LIB_S)
-libsrv_la_SOURCES = srv-api.c srv-control.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
+libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
 libsrvdir = $(includedir)/@PACKAGE_TARNAME@/srv
 libsrv_HEADERS = srv.h
 @FULLSTATIC_FALSE@liquidwar6srv_test_SOURCES = srv-testmain.c
@@ -479,6 +480,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-api.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-control.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-oob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-register.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-tcpaccepter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/srv-test.Plo@am__quote@

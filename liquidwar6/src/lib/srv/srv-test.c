@@ -34,6 +34,37 @@
 #define _TEST_FAKE_SOCK 7
 #define _TEST_LINE "foo bar BARfoo bar.bar"
 
+#define _TEST_OOB_REMOTE_IP "1.2.3.4"
+#define _TEST_OOB_REMOTE_PORT 5678
+#define _TEST_OOB_INVALID_SOCK -1
+
+static int
+_test_oob ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6srv_oob_t *oob;
+
+    oob =
+      lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT,
+		      _TEST_OOB_INVALID_SOCK);
+    if (oob)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("created oob object"));
+	lw6srv_oob_free (oob);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 static int
 _test_tcp_accepter ()
 {
@@ -182,7 +213,7 @@ lw6srv_test (int mode)
       lw6net_test (mode);
     }
 
-  ret = _test_tcp_accepter () && _test_udp_buffer ();
+  ret = _test_oob () && _test_tcp_accepter () && _test_udp_buffer ();
 
   if (ret)
     {

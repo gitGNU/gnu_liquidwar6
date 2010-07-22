@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
 
 noinst_LTLIBRARIES = libmod_tcpd_s.la
-MOD_TCPD_FILES = mod-tcpd-backend.c mod-tcpd-handshake.c mod-tcpd-info.c mod-tcpd-message.c mod-tcpd-setup.c mod-tcpd-state.c
+MOD_TCPD_FILES = mod-tcpd-backend.c mod-tcpd-handshake.c mod-tcpd-info.c mod-tcpd-message.c mod-tcpd-oob.c mod-tcpd-setup.c mod-tcpd-state.c
 libmod_tcpd_s_la_SOURCES = $(MOD_TCPD_FILES) 
 
 if !ALLINONE

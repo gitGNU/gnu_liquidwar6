@@ -122,6 +122,28 @@ lw6srv_can_handle_udp (lw6srv_backend_t * backend,
   return ret;
 }
 
+int
+lw6srv_process_oob (lw6srv_backend_t * backend,
+		    lw6srv_tcp_accepter_t * tcp_accepter)
+{
+  int ret = 0;
+
+  LW6SYS_BACKEND_FUNCTION_BEGIN;
+
+  if (backend->process_oob)
+    {
+      ret = backend->process_oob (backend->srv_context, tcp_accepter);
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+
+  LW6SYS_BACKEND_FUNCTION_END;
+
+  return ret;
+}
+
 lw6srv_connection_t *
 lw6srv_accept_tcp (lw6srv_backend_t * backend,
 		   lw6srv_tcp_accepter_t * tcp_accepter, char *password)

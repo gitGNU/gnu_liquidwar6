@@ -41,6 +41,7 @@ typedef struct lw6srv_tcp_accepter_s
   lw6srv_client_id_t client_id;
   int sock;
   char first_line[LW6SRV_PROTOCOL_BUFFER_SIZE + 1];
+  int64_t creation_timestamp;
 } lw6srv_tcp_accepter_t;
 
 typedef struct lw6srv_udp_buffer_s
@@ -67,6 +68,23 @@ typedef struct lw6srv_connection_s
 }
 lw6srv_connection_t;
 
+typedef struct lw6srv_oob_data_s
+{
+  int64_t creation_timestamp;
+  int do_not_finish;
+  char *remote_ip;
+  int remote_port;
+  int sock;			// either TCP or UDP
+}
+lw6srv_oob_data_t;
+
+typedef struct lw6srv_oob_s
+{
+  void *thread;
+  lw6srv_oob_data_t data;
+}
+lw6srv_oob_t;
+
 typedef struct lw6srv_backend_s
 {
   lw6dyn_dl_handle_t *dl_handle;
@@ -75,12 +93,14 @@ typedef struct lw6srv_backend_s
   char **argv;
   u_int32_t id;
   char *name;
+  lw6sys_list_t *oobs;
 
   void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);
   void (*quit) (void *srv_context);
   int (*can_handle_tcp) (void *srv_context,
 			 lw6srv_tcp_accepter_t * tcp_accepter);
   int (*can_handle_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
+  int (*process_oob) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
   lw6srv_connection_t *(*accept_tcp) (void *srv_context,
 				      lw6srv_tcp_accepter_t * tcp_accepter,
 				      char *password);
@@ -113,6 +133,8 @@ extern int lw6srv_can_handle_tcp (lw6srv_backend_t * backend,
 				  lw6srv_tcp_accepter_t * tcp_accepter);
 extern int lw6srv_can_handle_udp (lw6srv_backend_t * backend,
 				  lw6srv_udp_buffer_t * udp_buffer);
+extern int lw6srv_process_oob (lw6srv_backend_t * backend,
+			       lw6srv_tcp_accepter_t * tcp_accepter);
 extern lw6srv_connection_t *lw6srv_accept_tcp (lw6srv_backend_t * backend,
 					       lw6srv_tcp_accepter_t *
 					       tcp_accepter, char *password);
@@ -145,6 +167,11 @@ extern char *lw6srv_error (lw6srv_backend_t * backend,
 extern lw6srv_listener_t *lw6srv_start (char *ip, int port);
 extern int lw6srv_poll (lw6srv_listener_t * listener);
 extern void lw6srv_stop (lw6srv_listener_t * listener);
+
+/* srv-oob.c */
+extern lw6srv_oob_t *lw6srv_oob_new (char *remote_ip, int remote_port,
+				     int sock);
+extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
 /*
  * In register.c

@@ -31,7 +31,7 @@ endif
 
 noinst_LTLIBRARIES = libsrv.la
 libsrv_la_LIBADD = $(LW6SRV_LIB_S)
-libsrv_la_SOURCES = srv-api.c srv-control.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
+libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
 libsrvdir= $(includedir)/@PACKAGE_TARNAME@/srv
 libsrv_HEADERS = srv.h
 

@@ -26,7 +26,7 @@
 #include "../srv.h"
 
 #define _MOD_HTTPD_PROTOCOL_GET_STRING "GET"
-#define _MOD_HTTPD_PROTOCOL_GET_SIZE 4
+#define _MOD_HTTPD_PROTOCOL_GET_SIZE 3
 #define _MOD_HTTPD_PROTOCOL_POST_STRING "POST"
 #define _MOD_HTTPD_PROTOCOL_POST_SIZE 4
 #define _MOD_HTTPD_PROTOCOL_HEAD_STRING "HEAD"
@@ -93,5 +93,7 @@ extern char *_mod_httpd_repr (_httpd_context_t * httpd_context,
 			      lw6srv_connection_t * connection);
 extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 			       lw6srv_connection_t * connection);
+
+/* mod-httpd-oob.c */
 
 #endif

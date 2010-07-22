@@ -49,6 +49,7 @@ lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
       ret->client_id.client_ip = client_ip;	// we'll destroy this ourselves
       ret->client_id.client_port = client_port;
       ret->sock = sock;
+      ret->creation_timestamp = lw6sys_get_timestamp ();
     }
 
   return ret;
