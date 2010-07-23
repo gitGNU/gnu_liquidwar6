@@ -30,7 +30,7 @@ man6_MANS = liquidwar6.man
 EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh
 
 all-local:
-	if ! test -f ${srcdir}/const.texi ; then cp ${builddir}/const.texi ${srcdir}/const.texi ; fi
+	if ! diff ${builddir}/const.texi ${srcdir}/const.texi ; then cp ${builddir}/const.texi ${srcdir}/const.texi ; fi
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi

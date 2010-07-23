@@ -1013,7 +1013,7 @@ uninstall-man: uninstall-man6
 
 
 all-local:
-	if ! test -f ${srcdir}/const.texi ; then cp ${builddir}/const.texi ${srcdir}/const.texi ; fi
+	if ! diff ${builddir}/const.texi ${srcdir}/const.texi ; then cp ${builddir}/const.texi ${srcdir}/const.texi ; fi
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi
