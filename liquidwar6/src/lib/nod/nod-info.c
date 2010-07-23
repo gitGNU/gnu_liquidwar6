@@ -110,6 +110,26 @@ lw6nod_info_free (lw6nod_info_t * info)
     }
 }
 
+int
+lw6nod_info_lock (lw6nod_info_t * info)
+{
+  int ret = 0;
+
+  ret = lw6sys_mutex_lock (info->mutex);
+
+  return ret;
+}
+
+int
+lw6nod_info_unlock (lw6nod_info_t * info)
+{
+  int ret = 0;
+
+  ret = lw6sys_mutex_unlock (info->mutex);
+
+  return ret;
+}
+
 void
 lw6nod_info_not_playing (lw6nod_info_t * info)
 {
@@ -169,7 +189,20 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 {
   int ret = 0;
 
-  // todo
+  if (lw6nod_info_lock (info))
+    {
+      if (!info->discovered_nodes)
+	{
+	  // could be NULL if popping too hard
+	  info->discovered_nodes = lw6sys_list_new (lw6sys_free_callback);
+	}
+      if (info->discovered_nodes)
+	{
+	  lw6sys_fifo_push (&(info->discovered_nodes), (void *) public_url);
+	}
+      ret = ((info->discovered_nodes) != NULL);
+      lw6nod_info_unlock (info);
+    }
 
   return ret;
 }
@@ -179,17 +212,47 @@ lw6nod_info_pop_discovered_node (lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  // todo
+  if (lw6nod_info_lock (info))
+    {
+      if (info->discovered_nodes)
+	{
+	  ret = (char *) lw6sys_fifo_pop (&(info->discovered_nodes));
+	}
+      lw6nod_info_unlock (info);
+    }
 
   return ret;
 }
 
 int
-lw6nod_info_set_verified_nodes (lw6nod_info_t * info, char *public_url)
+lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
 {
   int ret = 0;
 
-  // todo
+  if (lw6nod_info_lock (info))
+    {
+      if (info->verified_nodes)
+	{
+	  lw6sys_list_free (info->verified_nodes);
+	}
+      info->verified_nodes = list;
+      lw6nod_info_unlock (info);
+    }
 
   return ret;
+}
+
+void
+lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
+				lw6sys_list_callback_func_t func,
+				void *func_data)
+{
+  if (lw6nod_info_lock (info))
+    {
+      if (info->verified_nodes)
+	{
+	  lw6sys_list_map (info->verified_nodes, func, func_data);
+	}
+      lw6nod_info_unlock (info);
+    }
 }

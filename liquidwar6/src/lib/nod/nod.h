@@ -75,6 +75,8 @@ extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
 				       int bench, int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);
+extern int lw6nod_info_lock (lw6nod_info_t * info);
+extern int lw6nod_info_unlock (lw6nod_info_t * info);
 extern void lw6nod_info_not_playing (lw6nod_info_t * info);
 extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
 			       int limit,
@@ -87,7 +89,10 @@ extern int lw6nod_info_add_discovered_node (lw6nod_info_t * info,
 					    char *public_url);
 extern char *lw6nod_info_pop_discovered_node (lw6nod_info_t * info);
 extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,
-					   char *public_url);
+					   lw6sys_list_t * list);
+extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
+					    lw6sys_list_callback_func_t func,
+					    void *func_data);
 
 /* nod-test.c */
 extern int lw6nod_test (int mode);

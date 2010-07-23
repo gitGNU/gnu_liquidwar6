@@ -239,7 +239,7 @@ dnl End console
 dnl Begin GTK
 AC_ARG_ENABLE([gtk], AS_HELP_STRING([--enable-gtk],[enable gtk default=yes]), [enable_gtk=$enableval], [enable_gtk=yes])
 
-if which pkg-config && pkg-config --exists gtk+-2.0; then
+if which pkg-config && pkg-config --exists gtk+-2.0 && test x$enable_gtk = xyes; then
    	LW6_GTK_ENABLE_CFLAGS="-DLW6_GTK=1 `pkg-config --cflags gtk+-2.0`"
    	LW6_GTK_ENABLE_LDFLAGS="`pkg-config --libs gtk+-2.0`"
 	LW6_HAVE_GTK=1
@@ -249,7 +249,7 @@ else
 	LW6_HAVE_GTK=
 fi
 
-AM_CONDITIONAL(LW6_GTK, test x$enable_gtk = xyes && test x$LW6_HAVE_GTK = x1)
+AM_CONDITIONAL(LW6_GTK, test x$LW6_HAVE_GTK = x1)
 
 AC_SUBST(LW6_GTK_ENABLE_CFLAGS)
 AC_SUBST(LW6_GTK_ENABLE_LDFLAGS)
