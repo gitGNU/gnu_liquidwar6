@@ -250,6 +250,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_SHOW_BUILD_ENABLE_FULLSTATIC "show-build-enable-fullstatic"
 #define LW6DEF_SHOW_BUILD_ENABLE_GCOV "show-build-enable-gcov"
 #define LW6DEF_SHOW_BUILD_ENABLE_GPROF "show-build-enable-gprof"
+#define LW6DEF_SHOW_BUILD_ENABLE_GTK "show-build-enable-gtk"
 #define LW6DEF_SHOW_BUILD_ENABLE_INSTRUMENT "show-build-enable-instrument"
 #define LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND "show-build-enable-mod-csound"
 #define LW6DEF_SHOW_BUILD_ENABLE_MOD_GL "show-build-enable-mod-gl"

@@ -243,6 +243,7 @@
 (define lw6def-show-build-enable-fullstatic "show-build-enable-fullstatic")
 (define lw6def-show-build-enable-gcov "show-build-enable-gcov")
 (define lw6def-show-build-enable-gprof "show-build-enable-gprof")
+(define lw6def-show-build-enable-gtk "show-build-enable-gtk")
 (define lw6def-show-build-enable-instrument "show-build-enable-instrument")
 (define lw6def-show-build-enable-mod-csound "show-build-enable-mod-csound")
 (define lw6def-show-build-enable-mod-gl "show-build-enable-mod-gl")

@@ -259,6 +259,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_CONSOLE,
 		 _
 		 ("Shows wether the console has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of ncurses and readline."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_GTK,
+		 _
+		 ("Shows wether GTK+ support has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of GTK+ headers and libs. It uses pkg-config to detect it."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_GL,
 		 _
 		 ("Shows wether the mod-gl graphical backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of SDL and related libraries."));

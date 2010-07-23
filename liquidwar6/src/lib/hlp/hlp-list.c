@@ -134,6 +134,7 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_LOCALEDIR);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_DOCDIR);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_CONSOLE);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_GTK);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_GL);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_OGG);
