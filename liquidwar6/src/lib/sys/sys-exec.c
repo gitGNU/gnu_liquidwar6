@@ -128,7 +128,7 @@ lw6sys_exec_again (int argc, char *argv[])
 					  _EXECUTED_AGAIN_TRUE);
 		  new_argv[argc] = "--" LW6DEF_EXECUTED_AGAIN;
 		  new_argv[argc + 1] = NULL;
-		  execvp (myself, new_argv);
+		  execvp (myself, (void *) new_argv);
 		  lw6sys_log (LW6SYS_LOG_WARNING, _("execvp(%s) failed"),
 			      myself);
 		  LW6SYS_FREE (new_argv);

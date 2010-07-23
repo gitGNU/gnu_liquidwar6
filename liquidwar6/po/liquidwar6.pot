@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.9beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-07-21 15:20+0200\n"
+"POT-Creation-Date: 2010-07-23 16:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -557,50 +557,50 @@ msgstr ""
 msgid "Free slot"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:64
+#: src/lib/sys/sys-log.c:68
 msgid "log_file is NULL"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:523
+#: src/lib/sys/sys-log.c:527
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:616
+#: src/lib/sys/sys-log.c:620
 msgid "See log file for details."
 msgstr ""
 
-#: src/lib/sys/sys-log.c:757
+#: src/lib/sys/sys-log.c:793
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:762
+#: src/lib/sys/sys-log.c:798
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:772
+#: src/lib/sys/sys-log.c:808
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:777
+#: src/lib/sys/sys-log.c:813
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:796
+#: src/lib/sys/sys-log.c:832
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:802
+#: src/lib/sys/sys-log.c:838
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:890
+#: src/lib/sys/sys-log.c:926
 msgid "CRITICAL! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:894
+#: src/lib/sys/sys-log.c:930
 msgid "CRITICAL!"
 msgstr ""
 
@@ -710,15 +710,15 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/lib/lw6-print.c:826
+#: src/lib/lw6-print.c:827
 msgid "hello"
 msgstr ""
 
-#: src/lib/lw6-print.c:833
+#: src/lib/lw6-print.c:834
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr ""
 
-#: src/lib/lw6-print.c:848
+#: src/lib/lw6-print.c:849
 msgid "goodbye"
 msgstr ""

@@ -34,10 +34,11 @@
 #endif
 
 #if LW6_MAC_OS_X
-#define  GUILE_LOAD_PATH_SUFFIX "../Resources/guile"
+#define GUILE_LOAD_PATH_SUFFIX "../Resources/guile"
 #define DYLD_FALLBACK_LIBRARY_PATH "DYLD_FALLBACK_LIBRARY_PATH"
 #define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
 #define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
+#define DEFAULT_MACPORTS_LIBDIR "/opt/local/lib"
 #endif
 
 static void
@@ -90,17 +91,41 @@ _fix_library_path (int argc, char *argv[], char *library_path)
   char *cwd = NULL;
 
   /*
-   * First, get old value and append it to libdir
+   * First, get old value and *append* program libdir to it
    */
   old_library_path = lw6sys_getenv (library_path);
   if (old_library_path && strlen (old_library_path) > 0)
     {
       new_library_path =
-	lw6sys_env_concat (lw6sys_build_get_libdir (), old_library_path);
+	lw6sys_env_concat (old_library_path, lw6sys_build_get_libdir ());
     }
   else
     {
       new_library_path = lw6sys_str_copy (lw6sys_build_get_libdir ());
+    }
+
+  if (old_library_path)
+    {
+      LW6SYS_FREE (old_library_path);
+      old_library_path = NULL;
+    }
+  if (new_library_path)
+    {
+      old_library_path = new_library_path;
+      new_library_path = NULL;
+    }
+
+  /*
+   * Next, add default macports libdir *after* it
+   */
+  if (old_library_path && strlen (old_library_path) > 0)
+    {
+      new_library_path =
+	lw6sys_env_concat (old_library_path, DEFAULT_MACPORTS_LIBDIR);
+    }
+  else
+    {
+      new_library_path = lw6sys_str_copy (DEFAULT_MACPORTS_LIBDIR);
     }
 
   if (old_library_path)

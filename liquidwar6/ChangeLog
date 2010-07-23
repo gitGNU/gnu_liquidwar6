@@ -1,5 +1,7 @@
 2010-07-23 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Implemented local IP address discovery for MS Windows.
+
 	* Fixed sqlite3 detection (can need -ldl).
 
 	* GTK alert box on ERROR/CRITICAL on GNU/Linux.
