@@ -836,6 +836,10 @@ LIBPNG_1X_H
 MOD_HTTP_ENABLE_CFLAGS
 MOD_HTTP_FALSE
 MOD_HTTP_TRUE
+LW6_GTK_ENABLE_LDFLAGS
+LW6_GTK_ENABLE_CFLAGS
+LW6_GTK_FALSE
+LW6_GTK_TRUE
 LW6_CONSOLE_ENABLE_LDFLAGS
 LW6_CONSOLE_ENABLE_CFLAGS
 LW6_CONSOLE_FALSE
@@ -1017,6 +1021,7 @@ enable_rpath
 with_libiconv_prefix
 with_libintl_prefix
 enable_console
+enable_gtk
 enable_mod_http
 enable_headless
 enable_mod_gl
@@ -1686,6 +1691,7 @@ Optional Features:
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
   --enable-console        enable console default=yes
+  --enable-gtk            enable gtk default=yes
   --enable-mod-http       compile mod-http default=yes
   --enable-headless       accept headless built default=no
   --enable-mod-gl         compile mod-gl default=yes
@@ -5920,13 +5926,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:5923: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:5929: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:5926: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:5932: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:5929: output\"" >&5)
+  (eval echo "\"\$as_me:5935: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -7131,7 +7137,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 7134 "configure"' > conftest.$ac_ext
+  echo '#line 7140 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -8498,11 +8504,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8501: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8507: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8505: \$? = $ac_status" >&5
+   echo "$as_me:8511: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8837,11 +8843,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8840: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8846: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8844: \$? = $ac_status" >&5
+   echo "$as_me:8850: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8942,11 +8948,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8945: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8951: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8949: \$? = $ac_status" >&5
+   echo "$as_me:8955: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8997,11 +9003,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9000: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9006: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9004: \$? = $ac_status" >&5
+   echo "$as_me:9010: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -11800,7 +11806,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11803 "configure"
+#line 11809 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11896,7 +11902,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11899 "configure"
+#line 11905 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -16960,6 +16966,36 @@ fi
 
 
 
+# Check whether --enable-gtk was given.
+if test "${enable_gtk+set}" = set; then
+  enableval=$enable_gtk; enable_gtk=$enableval
+else
+  enable_gtk=yes
+fi
+
+
+if which pkg-config && pkg-config --exists gtk+-2.0; then
+   	LW6_GTK_ENABLE_CFLAGS="-DLW6_GTK=1 `pkg-config --cflags gtk+-2.0`"
+   	LW6_GTK_ENABLE_LDFLAGS="`pkg-config --libs gtk+-2.0`"
+	LW6_HAVE_GTK=1
+else
+   	LW6_GTK_ENABLE_CFLAGS=
+   	LW6_GTK_ENABLE_LDFLAGS=
+	LW6_HAVE_GTK=
+fi
+
+ if test x$enable_gtk = xyes && test x$LW6_HAVE_GTK = x1; then
+  LW6_GTK_TRUE=
+  LW6_GTK_FALSE='#'
+else
+  LW6_GTK_TRUE='#'
+  LW6_GTK_FALSE=
+fi
+
+
+
+
+
 if test "${ac_cv_header_curl_curl_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for curl/curl.h" >&5
 $as_echo_n "checking for curl/curl.h... " >&6; }
@@ -19952,6 +19988,13 @@ $as_echo "$as_me: error: conditional \"LW6_CONSOLE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${LW6_GTK_TRUE}" && test -z "${LW6_GTK_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"LW6_GTK\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"LW6_GTK\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${MOD_HTTP_TRUE}" && test -z "${MOD_HTTP_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"MOD_HTTP\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -22505,6 +22548,13 @@ $as_echo "$as_me: enable console... yes" >&6;}
 else
 	{ $as_echo "$as_me:$LINENO: enable console... no" >&5
 $as_echo "$as_me: enable console... no" >&6;}
+fi
+if test -z "${LW6_GTK_TRUE}"; then
+	{ $as_echo "$as_me:$LINENO: enable gtk... yes" >&5
+$as_echo "$as_me: enable gtk... yes" >&6;}
+else
+	{ $as_echo "$as_me:$LINENO: enable gtk... no" >&5
+$as_echo "$as_me: enable gtk... no" >&6;}
 fi
 if test -z "${MOD_GL_TRUE}"; then
 	{ $as_echo "$as_me:$LINENO: build mod-gl... yes" >&5

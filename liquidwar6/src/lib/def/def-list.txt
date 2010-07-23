@@ -224,6 +224,7 @@ show-build-enable-console
 show-build-enable-fullstatic
 show-build-enable-gcov
 show-build-enable-gprof
+show-build-enable-gtk
 show-build-enable-instrument
 show-build-enable-mod-csound
 show-build-enable-mod-gl

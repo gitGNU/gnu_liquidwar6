@@ -1003,6 +1003,20 @@ _scm_lw6sys_build_get_enable_console ()
 }
 
 static SCM
+_scm_lw6sys_build_get_enable_gtk ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_makfrom0str (lw6sys_build_get_enable_gtk ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_enable_mod_gl ()
 {
   SCM ret = SCM_BOOL_F;
@@ -7677,6 +7691,8 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6sys_build_get_localedir);
   scm_c_define_gsubr ("c-lw6sys-build-get-enable-console", 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_build_get_enable_console);
+  scm_c_define_gsubr ("c-lw6sys-build-get-enable-gtk", 0, 0, 0,
+		      (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
   scm_c_define_gsubr ("c-lw6sys-build-get-enable-mod-gl", 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl);
   scm_c_define_gsubr ("c-lw6sys-build-get-enable-mod-csound", 0, 0, 0,

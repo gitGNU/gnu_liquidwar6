@@ -618,6 +618,12 @@ Console unavailable does not mean you won't get anything on stdout but,
 the interactive script shell just won't work.
 
 @item
+@uref{http://www.gtk.org/, GTK+}.
+Used to display error/critical messages, so that users who launch the game
+by clicking on a icon (that is, not from the console) are still visually
+informed of important messages.
+
+@item
 @uref{http://www.mesa3d.org/, Mesa}. This library
 provides an API similar to OpenGL and enables 2-D and 3-D
 drawing.
@@ -2003,6 +2009,16 @@ In addition to all the common
 such as @code{--prefix}, Liquid War 6 has some custom switches:
 
 @itemize
+@item
+@code{--enable-console}: allows you to turn on/off console support.
+Normally this is detected automatically but in case you really want
+to disable it on platforms which support it, you can. This will cause
+the program no to link against @code{libreadline}, among other things.
+@item
+@code{--enable-gtk}: allows you to turn on/off gtk support.
+Normally this is detected automatically but in case you really want
+to disable it on platforms which support it, you can. This will cause
+the program no to link against GTK libs.
 @item
 @code{--enable-optimize}: will turn on optimizations. This will
 turn on compiler options such as @code{-fomit-frame-pointer}

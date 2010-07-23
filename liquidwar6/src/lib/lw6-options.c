@@ -480,6 +480,11 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_enable_console ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_GTK, argv[i]))
+	{
+	  printf ("%s\n", lw6sys_build_get_enable_gtk ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_ENABLE_MOD_GL, argv[i]))
 	{
 	  printf ("%s\n", lw6sys_build_get_enable_mod_gl ());

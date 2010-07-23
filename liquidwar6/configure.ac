@@ -26,7 +26,7 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.11])
 AM_CONFIG_HEADER([config.h]) 
 AC_PROG_CC
 AC_PROG_OBJC
@@ -216,7 +216,7 @@ AC_CHECK_LIB(readline, rl_complete, HAVE_LIBREADLINE=1, AC_MSG_WARN([
 *** Liquid War 6 recommends GNU Readline (http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html)
 ]), -lncurses)
 
-AC_ARG_ENABLE([console], AC_HELP_STRING([--enable-console],[enable console default=yes]), [enable_console=$enableval], [enable_console=yes])
+AC_ARG_ENABLE([console], AS_HELP_STRING([--enable-console],[enable console default=yes]), [enable_console=$enableval], [enable_console=yes])
 
 AM_CONDITIONAL(LW6_CONSOLE, test x$enable_console = xyes && test x$HAVE_NCURSES_H = x1 && test x$HAVE_LIBNCURSES = x1 && test x$HAVE_READLINE_READLINE_H = x1 && test x$HAVE_LIBREADLINE = x1)
 
@@ -231,6 +231,25 @@ AC_SUBST(LW6_CONSOLE_ENABLE_CFLAGS)
 AC_SUBST(LW6_CONSOLE_ENABLE_LDFLAGS)
 dnl End console
 
+dnl Begin GTK
+AC_ARG_ENABLE([gtk], AS_HELP_STRING([--enable-gtk],[enable gtk default=yes]), [enable_gtk=$enableval], [enable_gtk=yes])
+
+if which pkg-config && pkg-config --exists gtk+-2.0; then
+   	LW6_GTK_ENABLE_CFLAGS="-DLW6_GTK=1 `pkg-config --cflags gtk+-2.0`"
+   	LW6_GTK_ENABLE_LDFLAGS="`pkg-config --libs gtk+-2.0`"
+	LW6_HAVE_GTK=1
+else
+   	LW6_GTK_ENABLE_CFLAGS=
+   	LW6_GTK_ENABLE_LDFLAGS=
+	LW6_HAVE_GTK=
+fi
+
+AM_CONDITIONAL(LW6_GTK, test x$enable_gtk = xyes && test x$LW6_HAVE_GTK = x1)
+
+AC_SUBST(LW6_GTK_ENABLE_CFLAGS)
+AC_SUBST(LW6_GTK_ENABLE_LDFLAGS)
+dnl End GTK
+
 dnl Begin mod-http
 AC_CHECK_HEADER(curl/curl.h, HAVE_CURL_H=1, AC_MSG_WARN([
 *** Liquid War 6 recommends libcURL (http://curl.haxx.se/libcurl/)
@@ -239,7 +258,7 @@ AC_CHECK_LIB(curl, curl_global_init, HAVE_LIBCURL=1, AC_MSG_WARN([
 *** Liquid War 6 recommends libcURL (http://curl.haxx.se/libcurl/)
 ]))
 
-AC_ARG_ENABLE([mod-http], AC_HELP_STRING([--enable-mod-http],[compile mod-http default=yes]), [enable_mod_http=$enableval], [enable_mod_http=yes])
+AC_ARG_ENABLE([mod-http], AS_HELP_STRING([--enable-mod-http],[compile mod-http default=yes]), [enable_mod_http=$enableval], [enable_mod_http=yes])
 
 AM_CONDITIONAL(MOD_HTTP, test x$enable_mod_http = xyes && test x$HAVE_CURL_H = x1 && test x$HAVE_LIBCURL = x1)
 
@@ -286,7 +305,7 @@ AC_CHECK_LIB(jpeg, jpeg_start_decompress, HAVE_LIBJPEG=1, AC_MSG_ERROR([
 *** Liquid War 6 needs libjpeg (http://www.ijg.org/)
 ]))
 
-AC_ARG_ENABLE([headless], AC_HELP_STRING([--enable-headless],[accept headless built default=no]), [enable_mod_gl=$enableval], [enable_headless=no])
+AC_ARG_ENABLE([headless], AS_HELP_STRING([--enable-headless],[accept headless built default=no]), [enable_mod_gl=$enableval], [enable_headless=no])
 
 dnl Begin mod-gl
 
@@ -340,7 +359,7 @@ AC_CHECK_LIB(SDL_ttf, TTF_Init, HAVE_LIBSDL_TTF=1, AC_MSG_WARN([
 *** Liquid War 6 needs SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/)
 ]),[${SDL_EXTRA}])
 
-AC_ARG_ENABLE([mod-gl], AC_HELP_STRING([--enable-mod-gl],[compile mod-gl default=yes]), [enable_mod_gl=$enableval], [enable_mod_gl=yes])
+AC_ARG_ENABLE([mod-gl], AS_HELP_STRING([--enable-mod-gl],[compile mod-gl default=yes]), [enable_mod_gl=$enableval], [enable_mod_gl=yes])
 
 SDL_CFLAGS=${SDL_EXTRA_CFLAGS}
 AC_SUBST(SDL_CFLAGS)
@@ -403,7 +422,7 @@ AC_SUBST(CSOUND_LIBS)
 AC_CHECK_HEADER(csound/csound.h, HAVE_CSOUND_CSOUND_H=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]))
 AC_CHECK_LIB(csound, csoundCreate, HAVE_LIBCSOUND=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]),${CSOUND_LIBS})
 
-AC_ARG_ENABLE([mod-csound], AC_HELP_STRING([--enable-mod-csound],[compile mod-csound default=yes]), [enable_mod_csound=$enableval], [enable_mod_csound=yes])
+AC_ARG_ENABLE([mod-csound], AS_HELP_STRING([--enable-mod-csound],[compile mod-csound default=yes]), [enable_mod_csound=$enableval], [enable_mod_csound=yes])
 
 AM_CONDITIONAL(MOD_CSOUND, test x$enable_mod_csound = xyes && test x$CSOUND_CONFIG = xyes && test x$HAVE_CSOUND_CSOUND_H = x1 && test x$HAVE_LIBCSOUND = x1)
 
@@ -424,7 +443,7 @@ AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, HAVE_LIBSDL_MIXER=1, AC_MSG_WARN([
 ]))
 # No need to check ogg.h/libogg, SDL_mixer embeds ogg stuff
 
-AC_ARG_ENABLE([mod-ogg], AC_HELP_STRING([--enable-mod-ogg],[compile mod-ogg default=yes]), [enable_mod_ogg=$enableval], [enable_mod_ogg=yes])
+AC_ARG_ENABLE([mod-ogg], AS_HELP_STRING([--enable-mod-ogg],[compile mod-ogg default=yes]), [enable_mod_ogg=$enableval], [enable_mod_ogg=yes])
 
 AM_CONDITIONAL(MOD_OGG, test x$enable_mod_ogg = xyes && test x$HAVE_SDL_H = x1 && test x$HAVE_LIBSDL = x1 && test x$HAVE_SDL_MIXER_H = x1 && test x$HAVE_LIBSDL_MIXER = x1)
 
@@ -454,7 +473,7 @@ AC_SUBST(LW6_HOST_OS)
 LW6_CODENAME="Chuck"
 AC_SUBST(LW6_CODENAME)
 
-AC_ARG_ENABLE([optimize], AC_HELP_STRING([--enable-optimize],[optimize for speed default=no]), [enable_optimize=$enableval], [enable_optimize=no])
+AC_ARG_ENABLE([optimize], AS_HELP_STRING([--enable-optimize],[optimize for speed default=no]), [enable_optimize=$enableval], [enable_optimize=no])
 if test x${enable_optimize} = xyes ; then
    CPU_FLAGS=""
    # For the x86 series of CPUs, we enable -march, because otherwise
@@ -472,9 +491,9 @@ else
 fi
 AC_SUBST(OPTIMIZE_CFLAGS)
 
-AC_ARG_ENABLE([allinone], AC_HELP_STRING([--enable-allinone],[stuff internal libraries into main binary default=no]), [enable_allinone=$enableval], [enable_allinone=no])
+AC_ARG_ENABLE([allinone], AS_HELP_STRING([--enable-allinone],[stuff internal libraries into main binary default=no]), [enable_allinone=$enableval], [enable_allinone=no])
 
-AC_ARG_ENABLE([fullstatic], AC_HELP_STRING([--enable-fullstatic],[build a completely static binary default=no]), [enable_fullstatic=$enableval], [enable_fullstatic=no])
+AC_ARG_ENABLE([fullstatic], AS_HELP_STRING([--enable-fullstatic],[build a completely static binary default=no]), [enable_fullstatic=$enableval], [enable_fullstatic=no])
 
 if test x${enable_fullstatic} = xyes; then
    enable_allinone=yes
@@ -527,7 +546,7 @@ else
 fi
 AC_SUBST(FULLSTATIC_CFLAGS)
 
-AC_ARG_ENABLE([paranoid], AC_HELP_STRING([--enable-paranoid],[activate paranoid memory debugging default=no]), [enable_paranoid=$enableval], [enable_paranoid=no])
+AC_ARG_ENABLE([paranoid], AS_HELP_STRING([--enable-paranoid],[activate paranoid memory debugging default=no]), [enable_paranoid=$enableval], [enable_paranoid=no])
 if test x${enable_optimize} = xyes ; then
    enable_paranoid=no
 fi
@@ -538,7 +557,7 @@ else
 fi
 AC_SUBST(PARANOID_CFLAGS)
 
-AC_ARG_ENABLE([gprof], AC_HELP_STRING([--enable-gprof],[add profiling informations into binary default=no]), [enable_gprof=$enableval], [enable_gprof=no])
+AC_ARG_ENABLE([gprof], AS_HELP_STRING([--enable-gprof],[add profiling informations into binary default=no]), [enable_gprof=$enableval], [enable_gprof=no])
 if test x${enable_gprof} = xyes ; then
    GPROF_CFLAGS="-pg -DLW6_GPROF=1"
    GPROF_LDFLAGS="-pg"
@@ -549,7 +568,7 @@ fi
 AC_SUBST(GPROF_CFLAGS)
 AC_SUBST(GPROF_LDFLAGS)
 
-AC_ARG_ENABLE([instrument], AC_HELP_STRING([--enable-instrument],[instrument functions for profiling default=no]), [enable_instrument=$enableval], [enable_instrument=no])
+AC_ARG_ENABLE([instrument], AS_HELP_STRING([--enable-instrument],[instrument functions for profiling default=no]), [enable_instrument=$enableval], [enable_instrument=no])
 if test x${enable_instrument} = xyes ; then
    INSTRUMENT_CFLAGS="-finstrument-functions -DLW6_INSTRUMENT=1"
    if test "x${INSTRUMENT_LDFLAGS}" = "x"; then
@@ -568,7 +587,7 @@ AC_CHECK_LIB(profiler, ProfilerStart, HAVE_LIBPROFILER=1, AC_MSG_NOTICE([
 AC_CHECK_LIB(tcmalloc, tc_malloc, HAVE_LIBTCMALLOC=1, AC_MSG_NOTICE([
 *** Liquid War 6 suggests Google PerfTools (http://code.google.com/p/google-perftools/)
 ]))
-AC_ARG_ENABLE([profiler], AC_HELP_STRING([--enable-profiler],[support for Google Profiler default=no]), [enable_profiler=$enableval], [enable_profiler=no])
+AC_ARG_ENABLE([profiler], AS_HELP_STRING([--enable-profiler],[support for Google Profiler default=no]), [enable_profiler=$enableval], [enable_profiler=no])
 if test x${enable_profiler} = xyes && test x$HAVE_LIBPROFILER = x1 && test x$HAVE_LIBTCMALLOC = x1 ; then
    PROFILER_CFLAGS="-DLW6_PROFILER=1"
    PROFILER_LDFLAGS="-lprofiler -ltcmalloc"
@@ -581,7 +600,7 @@ fi
 AC_SUBST(PROFILER_CFLAGS)
 AC_SUBST(PROFILER_LDFLAGS)
 
-AC_ARG_ENABLE([gcov], AC_HELP_STRING([--enable-gcov],[add coverage informations into binary default=no]), [enable_gcov=$enableval], [enable_gcov=no])
+AC_ARG_ENABLE([gcov], AS_HELP_STRING([--enable-gcov],[add coverage informations into binary default=no]), [enable_gcov=$enableval], [enable_gcov=no])
 if test x${enable_gcov} = xyes ; then
    GCOV_CFLAGS="-fprofile-arcs -ftest-coverage -DLW6_GCOV=1"
 else
@@ -589,7 +608,7 @@ else
 fi
 AC_SUBST(GCOV_CFLAGS)
 
-AC_ARG_ENABLE([valgrind], AC_HELP_STRING([--enable-valgrind],[prepare binary for valgrind default=no]), [enable_valgrind=$enableval], [enable_valgrind=no])
+AC_ARG_ENABLE([valgrind], AS_HELP_STRING([--enable-valgrind],[prepare binary for valgrind default=no]), [enable_valgrind=$enableval], [enable_valgrind=no])
 if test x${enable_valgrind} = xyes ; then
    enable_optimize=no
    VALGRIND_CFLAGS="-DLW6_VALGRIND=1"
@@ -782,6 +801,11 @@ if test -z "${LW6_CONSOLE_TRUE}"; then
 	AC_MSG_NOTICE([enable console... yes])
 else
 	AC_MSG_NOTICE([enable console... no])
+fi
+if test -z "${LW6_GTK_TRUE}"; then
+	AC_MSG_NOTICE([enable gtk... yes])
+else
+	AC_MSG_NOTICE([enable gtk... no])
 fi
 if test -z "${MOD_GL_TRUE}"; then
 	AC_MSG_NOTICE([build mod-gl... yes])

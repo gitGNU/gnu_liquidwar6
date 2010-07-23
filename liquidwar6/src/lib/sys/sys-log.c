@@ -34,6 +34,10 @@
 #include <sys/time.h>
 #include <errno.h>
 
+#ifdef LW6_GTK
+#include <gtk/gtk.h>
+#endif
+
 #define HISTORY_LENGTH 256
 
 #define MSGBOX_LENGTH 4096
@@ -650,22 +654,54 @@ msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
  * CFLAGS=`pkg-config --cflags gtk+-2.0`
  * LDFLAGS=`pkg-config --libs gtk+-2.0`
  */
-#if 0
-  {
-    GtkWidget *dlg = NULL;
-    gtk_init (&argc, &argv);
-    dlg = gtk_message_dialog_new (NULL,
-				  GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
-				  GTK_BUTTONS_NONE,
-				  lw6sys_build_get_package_name ());
-    if (dlg)
-      {
-	gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
-			       GTK_RESPONSE_OK);
-	gtk_dialog_run (GTK_DIALOG (dlg));
-	gtk_widget_destroy (dlg);
-      }
-  }
+#ifdef LW6_GTK
+  if (message_full)
+    {
+      static int gtk_init_done = 0;
+      int argc = 1;
+      char **argv;
+      GtkWidget *dlg = NULL;
+
+      /*
+       * We fake argc & argv, OK this way GTK won't
+       * be aware of *real* argc & argv values, but
+       * passing them everywhere just for this is a pain.
+       * calloc 2 pointers, last will be NULL, not
+       * sure this is mandatory, but just in case.
+       */
+      argv = (char **) LW6SYS_CALLOC (2 * sizeof (char *));
+      if (argv)
+	{
+	  argv[0] = lw6sys_str_copy ("");
+	  if (argv[0])
+	    {
+	      if (!gtk_init_done)
+		{
+		  gtk_init (&argc, &argv);
+		  gtk_init_done = 1;
+		}
+	      dlg = gtk_message_dialog_new (NULL,
+					    GTK_DIALOG_MODAL,
+					    GTK_MESSAGE_ERROR,
+					    GTK_BUTTONS_NONE, "%s",
+					    message_full);
+	      if (dlg)
+		{
+		  gtk_window_set_title (GTK_WINDOW (dlg),
+					lw6sys_build_get_package_name ());
+		  gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
+					 GTK_RESPONSE_OK);
+		  gtk_dialog_run (GTK_DIALOG (dlg));
+		  gtk_widget_hide_all (dlg);
+		  gtk_main_iteration ();
+		  gtk_widget_destroy (dlg);
+		  gtk_main_iteration ();
+		}
+	      LW6SYS_FREE (argv[0]);
+	    }
+	  LW6SYS_FREE (argv);
+	}
+    }
 #endif
 #endif
 #endif

@@ -408,6 +408,7 @@ extern char *lw6sys_build_get_includedir ();
 extern char *lw6sys_build_get_localedir ();
 extern char *lw6sys_build_get_docdir ();
 extern char *lw6sys_build_get_enable_console ();
+extern char *lw6sys_build_get_enable_gtk ();
 extern char *lw6sys_build_get_enable_mod_gl ();
 extern char *lw6sys_build_get_enable_mod_csound ();
 extern char *lw6sys_build_get_enable_mod_ogg ();
