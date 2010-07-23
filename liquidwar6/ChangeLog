@@ -1,5 +1,7 @@
 2010-07-23 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed sqlite3 detection (can need -ldl).
+
 	* GTK alert box on ERROR/CRITICAL on GNU/Linux.
 
 2010-07-22 : Christian Mauduit <ufoot@ufoot.org>

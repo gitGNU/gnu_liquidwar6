@@ -128,6 +128,11 @@ if test x${VALGRIND} != xyes; then
    AC_MSG_NOTICE([Liquid War 6 suggests Valgrind (http://valgrind.org/)])
 fi
 
+dnl Check for libdl
+AC_CHECK_LIB(dl, dlopen, HAVE_LIBDL=1, AC_MSG_NOTICE([
+no libdl
+]))
+
 dnl Required libraries
 AC_CHECK_HEADER(gmp.h, HAVE_GMP_H=1, AC_MSG_ERROR([
 *** Liquid War 6 needs GNU MP (http://gmplib.org/)
@@ -273,9 +278,15 @@ dnl End mod-http
 AC_CHECK_HEADER(sqlite3.h, HAVE_SQLITE3_H=1, AC_MSG_ERROR([
 *** Liquid War 6 needs SQLite 3 (http://www.sqlite.org/)
 ]))
-AC_CHECK_LIB(sqlite3, sqlite3_exec, HAVE_LIBSQLITE3=1, AC_MSG_ERROR([
+if test x${HAVE_LIBDL} = x1; then
+   AC_CHECK_LIB(sqlite3, sqlite3_exec, HAVE_LIBSQLITE3=1, AC_MSG_ERROR([
+*** Liquid War 6 needs SQLite 3 (http://www.sqlite.org/)
+]), -ldl)
+else
+   AC_CHECK_LIB(sqlite3, sqlite3_exec, HAVE_LIBSQLITE3=1, AC_MSG_ERROR([
 *** Liquid War 6 needs SQLite 3 (http://www.sqlite.org/)
 ]))
+fi
 
 AC_CHECK_HEADER(libpng12/png.h, HAVE_LIBPNG12_PNG_H=1)
 AC_CHECK_HEADER(libpng14/png.h, HAVE_LIBPNG14_PNG_H=1)
