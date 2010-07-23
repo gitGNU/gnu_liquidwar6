@@ -643,6 +643,7 @@ AC_SUBST(LW6_LIBINTL_LDADD)
 
 if test "x${lw6_ms_windows}" = "xyes" ; then
    LW6_OS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
+   # need to try libiphlpapi.a instead of -liphlpapi
    LW6_OS_LDFLAGS="-lpthreadGC2 -lws2_32 -liphlpapi"
 else
    if test "x${lw6_mac_os_x}" = "xyes" ; then
