@@ -34,6 +34,7 @@ Requires: libjpeg
 Requires: sqlite
 Requires: ncurses
 Requires: readline
+Requires: gtk2
 Requires: libGL
 Requires: libGLU
 Requires: SDL
@@ -58,6 +59,7 @@ BuildRequires: libjpeg-devel
 BuildRequires: sqlite-devel
 BuildRequires: ncurses-devel
 BuildRequires: readline-devel
+BuildRequires: gtk2-devel
 BuildRequires: libGL-devel
 BuildRequires: libGLU-devel
 BuildRequires: SDL-devel
@@ -154,6 +156,9 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 
 %changelog
+
+* Fri Jul 23 2010 Christian Mauduit <ufoot@ufoot.org>
+- Added GTK dependency.
 
 * Fri Jul 09 2010 Christian Mauduit <ufoot@ufoot.org>
 - Added applications directory (contains .desktop file).
