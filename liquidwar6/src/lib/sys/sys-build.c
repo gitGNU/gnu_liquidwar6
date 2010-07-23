@@ -546,7 +546,7 @@ lw6sys_build_get_datadir ()
  *
  * Returns the @libdir value defined by the GNU Autoconf ./configure script.
  * This is not the value which can be overriden by the Liquid War 6 specific.
- * "--mod-dir" option. @datadir is usually something like "/usr/local/lib"
+ * "--mod-dir" option. @libdir is usually something like "/usr/local/lib"
  * while the actual Liquid War 6 defined module dir is a more profound path
  * which includes the name of the package, its version, and so on.
  *

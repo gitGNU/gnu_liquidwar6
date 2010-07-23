@@ -1771,9 +1771,10 @@ module every other module depends on.
 read and save config files,  `cns' handles the console, and `dyn' can
 load `.so' shared files dynamically.
 
-   Finally the `img' module is just here to make screenshots of the
-game, it's been separated for this feature required to link against a
-dedicated library.
+   Finally there are small modules like `img' (to make screenshots of
+the game) or `nod' (utilities to store node state)  which have been
+separated because they required special libraries to link with and/or
+did not really fit in existing modules for dependencies reasons.
 
    So well, this is a lot of modules. The list might move a bit, but the
 big picture is here. Each module is testable separately.
@@ -4297,7 +4298,22 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      protocol, or if you want to activate a custom-made client backend.
      It's a comma separated list.
 
-4.7.4 password
+4.7.4 node-title
+----------------
+
+ -- Command-line option: `--node-title=<value>'
+ -- Environment variable: `LW6_NODE_TITLE'
+ -- XML key: `node-title'
+     Type: string
+
+     Default value:
+
+     The title of your node, that is the name which will be displayed
+     when listing servers. This is different from player name, for
+     there can be several players on a single computer. By default this
+     will be set to hostname.
+
+4.7.5 password
 --------------
 
  -- Command-line option: `--password=<value>'
@@ -4315,7 +4331,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      real password. A blank password means anyone can join your games
      when you act like a server.
 
-4.7.5 public-url
+4.7.6 public-url
 ----------------
 
  -- Command-line option: `--public-url=<value>'
@@ -4331,7 +4347,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      you might need to use your own settings if you are using NAT or an
      Apache reverse-proxy to rewrite HTTP requests.
 
-4.7.6 skip-network
+4.7.7 skip-network
 ------------------
 
  -- Command-line option: `--skip-network=<value>'
@@ -4344,7 +4360,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
 
-4.7.7 srv-backends
+4.7.8 srv-backends
 ------------------
 
  -- Command-line option: `--srv-backends=<value>'

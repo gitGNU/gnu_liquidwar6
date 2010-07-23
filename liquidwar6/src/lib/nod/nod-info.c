@@ -136,6 +136,8 @@ lw6nod_info_update (lw6nod_info_t * info, char *level,
 		    int cursors,
 		    int game_screenshot_size, void *game_screenshot_data)
 {
+  int ret = 1;
+
   if (info->level)
     {
       LW6SYS_FREE (info->level);
@@ -149,13 +151,17 @@ lw6nod_info_update (lw6nod_info_t * info, char *level,
   if (info->game_screenshot_data)
     {
       LW6SYS_FREE (info->game_screenshot_data);
-      info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
-      if (info->game_screenshot_data)
-	{
-	  memcpy (info->game_screenshot_data, game_screenshot_data,
-		  game_screenshot_size);
-	}
     }
+  info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
+  if (info->game_screenshot_data)
+    {
+      memcpy (info->game_screenshot_data, game_screenshot_data,
+	      game_screenshot_size);
+    }
+
+  ret = (info->level && info->game_screenshot_data);
+
+  return ret;
 }
 
 int

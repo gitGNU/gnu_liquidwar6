@@ -25,17 +25,19 @@
 
 #include "liquidwar6.h"
 
-#define DYLD_FALLBACK_LIBRARY_PATH "DYLD_FALLBACK_LIBRARY_PATH"
-#define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
-#define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
-
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
+
 #define GUILE_LOAD_PATH_KEY "GUILE_LOAD_PATH"
+
 #if LW6_MS_WINDOWS
 #define GUILE_LOAD_PATH_SUFFIX "guile"
 #endif
+
 #if LW6_MAC_OS_X
 #define  GUILE_LOAD_PATH_SUFFIX "../Resources/guile"
+#define DYLD_FALLBACK_LIBRARY_PATH "DYLD_FALLBACK_LIBRARY_PATH"
+#define DYLD_LIBRARY_PATH "DYLD_LIBRARY_PATH"
+#define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
 #endif
 
 static void
@@ -87,10 +89,37 @@ _fix_library_path (int argc, char *argv[], char *library_path)
   char *run_dir = NULL;
   char *cwd = NULL;
 
+  /*
+   * First, get old value and append it to libdir
+   */
+  old_library_path = lw6sys_getenv (library_path);
+  if (old_library_path && strlen (old_library_path) > 0)
+    {
+      new_library_path =
+	lw6sys_env_concat (lw6sys_build_get_libdir (), old_library_path);
+    }
+  else
+    {
+      new_library_path = lw6sys_str_copy (lw6sys_build_get_libdir ());
+    }
+
+  if (old_library_path)
+    {
+      LW6SYS_FREE (old_library_path);
+      old_library_path = NULL;
+    }
+  if (new_library_path)
+    {
+      old_library_path = new_library_path;
+      new_library_path = NULL;
+    }
+
+  /*
+   * Next, add CWD before it
+   */
   cwd = lw6sys_get_cwd (argc, argv);
   if (cwd)
     {
-      old_library_path = lw6sys_getenv (library_path);
       if (old_library_path && strlen (old_library_path) > 0)
 	{
 	  new_library_path = lw6sys_env_concat (cwd, old_library_path);
@@ -113,6 +142,9 @@ _fix_library_path (int argc, char *argv[], char *library_path)
       new_library_path = NULL;
     }
 
+  /*
+   * Finally, put run_dir in front
+   */
   run_dir = lw6sys_get_run_dir (argc, argv);
   if (run_dir)
     {

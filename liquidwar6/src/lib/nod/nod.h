@@ -89,4 +89,7 @@ extern char *lw6nod_info_pop_discovered_node (lw6nod_info_t * info);
 extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,
 					   char *public_url);
 
+/* nod-test.c */
+extern int lw6nod_test (int mode);
+
 #endif
