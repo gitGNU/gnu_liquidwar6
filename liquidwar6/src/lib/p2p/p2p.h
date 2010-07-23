@@ -26,6 +26,7 @@
 #include "../sys/sys.h"
 #include "../cfg/cfg.h"
 #include "../net/net.h"
+#include "../nod/nod.h"
 #include "../cli/cli.h"
 #include "../srv/srv.h"
 

@@ -49,6 +49,7 @@
 #include "img/img.h"
 #include "pil/pil.h"
 #include "net/net.h"
+#include "nod/nod.h"
 #include "cli/cli.h"
 #include "srv/srv.h"
 #include "p2p/p2p.h"

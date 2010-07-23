@@ -27,6 +27,7 @@
 #include "../dyn/dyn.h"
 #include "../cfg/cfg.h"
 #include "../net/net.h"
+#include "../nod/nod.h"
 
 typedef struct lw6cli_connection_s
 {

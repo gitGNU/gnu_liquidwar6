@@ -26,6 +26,7 @@
 #include "../sys/sys.h"
 #include "../dyn/dyn.h"
 #include "../net/net.h"
+#include "../nod/nod.h"
 
 #define LW6SRV_PROTOCOL_BUFFER_SIZE 32
 
@@ -79,7 +80,7 @@ typedef struct lw6srv_oob_data_s
   char *remote_ip;
   int remote_port;
   int sock;			// either TCP or UDP
-  lw6net_info_t *info;
+  lw6nod_info_t *info;
 }
 lw6srv_oob_data_t;
 
@@ -98,7 +99,7 @@ typedef struct lw6srv_backend_s
   char **argv;
   u_int32_t id;
   char *name;
-  lw6net_info_t *info;
+  lw6nod_info_t *info;
   lw6sys_list_t *oob_queue;
 
   void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);

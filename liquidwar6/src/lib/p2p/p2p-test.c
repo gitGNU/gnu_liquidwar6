@@ -324,6 +324,7 @@ lw6p2p_test (int mode)
       lw6sys_test (mode);
       lw6cfg_test (mode);
       lw6net_test (mode);
+      lw6nod_test (mode);
       lw6cli_test (mode);
       lw6srv_test (mode);
     }

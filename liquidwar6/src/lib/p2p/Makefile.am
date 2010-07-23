@@ -35,7 +35,7 @@ libp2p_HEADERS = p2p.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6p2p-test
 liquidwar6p2p_test_SOURCES = p2p-testmain.c
-liquidwar6p2p_test_LDADD = libp2p.la ../cli/libcli.la ../srv/libsrv.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6p2p_test_LDADD = libp2p.la ../cli/libcli.la ../srv/libsrv.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6p2p-test
 endif
 

@@ -92,9 +92,9 @@ am__liquidwar6cli_test_SOURCES_DIST = cli-testmain.c
 liquidwar6cli_test_OBJECTS = $(am_liquidwar6cli_test_OBJECTS)
 @ALLINONE_FALSE@am__DEPENDENCIES_3 = ../dyn/libdyn.la
 @FULLSTATIC_FALSE@liquidwar6cli_test_DEPENDENCIES = libcli.la \
-@FULLSTATIC_FALSE@	$(am__DEPENDENCIES_3) ../net/libnet.la \
-@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	$(am__DEPENDENCIES_3) ../nod/libnod.la \
+@FULLSTATIC_FALSE@	../net/libnet.la ../cfg/libcfg.la \
+@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -380,7 +380,7 @@ libcli_la_SOURCES = cli-api.c cli-register.c cli-test.c
 libclidir = $(includedir)/@PACKAGE_TARNAME@/cli
 libcli_HEADERS = cli.h
 @FULLSTATIC_FALSE@liquidwar6cli_test_SOURCES = cli-testmain.c
-@FULLSTATIC_FALSE@liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 SUBDIRS = mod-tcp mod-udp $(MOD_HTTP_SUBDIR)
 all: all-recursive
 

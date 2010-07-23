@@ -33,7 +33,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
 
-  if (lw6net_socket_is_alive (tcp_accepter->sock))
+  if (lw6net_tcp_is_alive (tcp_accepter->sock))
     {
       ret |= LW6SRV_ANALYSE_ALIVE;
     }
@@ -48,15 +48,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
        _MOD_TCPD_PROTOCOL_LW6_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
-      ret |= LW6SRV_ANALYSE_SPEAKABLE;
-    }
-
-  if (!strncmp
-      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
-       _MOD_TCPD_PROTOCOL_LW6_SIZE))
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
-      ret |= LW6SRV_ANALYSE_SPEAKABLE;
+      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
     }
 
   return ret;

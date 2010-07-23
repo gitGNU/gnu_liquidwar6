@@ -90,9 +90,9 @@ liquidwar6p2p_test_OBJECTS = $(am_liquidwar6p2p_test_OBJECTS)
 @ALLINONE_FALSE@am__DEPENDENCIES_1 = ../dyn/libdyn.la
 @FULLSTATIC_FALSE@liquidwar6p2p_test_DEPENDENCIES = libp2p.la \
 @FULLSTATIC_FALSE@	../cli/libcli.la ../srv/libsrv.la \
-@FULLSTATIC_FALSE@	../net/libnet.la $(am__DEPENDENCIES_1) \
-@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../nod/libnod.la ../net/libnet.la \
+@FULLSTATIC_FALSE@	$(am__DEPENDENCIES_1) ../cfg/libcfg.la \
+@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -333,7 +333,7 @@ libp2p_la_SOURCES = p2p-data.c p2p-db.c p2p-node.c p2p-test.c
 libp2pdir = $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
 @FULLSTATIC_FALSE@liquidwar6p2p_test_SOURCES = p2p-testmain.c
-@FULLSTATIC_FALSE@liquidwar6p2p_test_LDADD = libp2p.la ../cli/libcli.la ../srv/libsrv.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6p2p_test_LDADD = libp2p.la ../cli/libcli.la ../srv/libsrv.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 EXTRA_DIST = p2p-internal.h
 all: all-am
 
