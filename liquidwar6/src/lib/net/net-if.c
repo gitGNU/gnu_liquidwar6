@@ -27,9 +27,6 @@
 #include "net.h"
 #include "net-internal.h"
 
-#define _PUBLIC_URL_MASK "http://%s:%d/"
-#define _PUBLIC_URL_MASK_HTTP_PORT "http://%s/"
-
 #ifdef LW6_MS_WINDOWS
 #include <iphlpapi.h>
 #endif
@@ -197,14 +194,7 @@ lw6net_if_guess_public_url (char *bind_ip, int bind_port)
     }
   if (ip)
     {
-      if (bind_port == LW6NET_HTTP_PORT)
-	{
-	  ret = lw6sys_new_sprintf (_PUBLIC_URL_MASK_HTTP_PORT, ip);
-	}
-      else
-	{
-	  ret = lw6sys_new_sprintf (_PUBLIC_URL_MASK, ip, bind_port);
-	}
+      ret = lw6sys_url_http_from_ip_port (ip, bind_port);
       LW6SYS_FREE (ip);
     }
 

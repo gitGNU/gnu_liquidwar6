@@ -172,6 +172,10 @@
 #define TEST_MATH_HEARTBEAT_Y2 1.5f
 #define TEST_MATH_BLINK_N 10
 #define TEST_MATH_BLINK_PERIOD 3
+#define TEST_URL_IP_1 "127.0.0.1"
+#define TEST_URL_PORT_1 1234
+#define TEST_URL_IP_2 "5.6.7.8"
+#define TEST_URL_PORT_2 80
 
 /*
  * Testing functions in arg.c
@@ -2714,6 +2718,46 @@ test_time ()
   return ret;
 }
 
+/*
+ * Testing functions in url.c
+ */
+static int
+test_url ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *url;
+
+    url = lw6sys_url_from_ip_port (TEST_URL_IP_1, TEST_URL_PORT_1);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),
+		    TEST_URL_IP_1, TEST_URL_PORT_1, url);
+	LW6SYS_FREE (url);
+      }
+    else
+      {
+	ret = 0;
+      }
+    url = lw6sys_url_from_ip_port (TEST_URL_IP_2, TEST_URL_PORT_2);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),
+		    TEST_URL_IP_2, TEST_URL_PORT_2, url);
+	LW6SYS_FREE (url);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 static void
 vthread_func (void *callback_data)
 {
@@ -2854,7 +2898,7 @@ lw6sys_test (int mode)
     && test_mutex () && test_options () && test_nop () && test_path ()
     && test_progress () && test_random () && test_sdl () && test_serial ()
     && test_shape () && test_sort () && test_spinlock () && test_str ()
-    && test_thread () && test_time () && test_vthread ();
+    && test_thread () && test_time () && test_url () && test_vthread ();
 
   return ret;
 }

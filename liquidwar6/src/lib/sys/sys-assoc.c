@@ -143,7 +143,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, char *key)
 
   if (assoc)
     {
-      while (assoc)
+      while (assoc && !exists)
 	{
 	  if (assoc->key && strcmp (assoc->key, key) == 0)
 	    {

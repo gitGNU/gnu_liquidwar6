@@ -33,12 +33,13 @@
 
 #define LW6NOD_MSG_PROGRAM "PROGRAM"
 #define LW6NOD_MSG_VERSION "VERSION"
+#define LW6NOD_MSG_UPTIME "UPTIME"
 #define LW6NOD_MSG_NODE "ID"
 #define LW6NOD_MSG_URL "URL"
 #define LW6NOD_MSG_TITLE "TITLE"
-#define LW6NOD_MSG_UPTIME "UPTIME"
 #define LW6NOD_MSG_BENCH "BENCH"
 #define LW6NOD_MSG_LEVEL "LEVEL"
+#define LW6NOD_MSG_REQUIRED "REQUIRED"
 #define LW6NOD_MSG_LIMIT "LIMIT"
 #define LW6NOD_MSG_COLORS "COLORS"
 #define LW6NOD_MSG_NODES "NODES"
@@ -48,15 +49,16 @@ typedef struct lw6nod_info_s
 {
   // these never change
   void *mutex;
+  int64_t creation_timestamp;
   char *id;
   char *url;
   char *title;
-  int64_t creation_timestamp;
   int bench;
   int idle_screenshot_size;
   void *idle_screenshot_data;
   // these change during game
   char *level;
+  int required;
   int limit;
   int colors;
   int nodes;
@@ -77,8 +79,9 @@ extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
 extern void lw6nod_info_free (lw6nod_info_t * info);
 extern int lw6nod_info_lock (lw6nod_info_t * info);
 extern int lw6nod_info_unlock (lw6nod_info_t * info);
-extern void lw6nod_info_not_playing (lw6nod_info_t * info);
+extern void lw6nod_info_idle (lw6nod_info_t * info);
 extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
+			       int required,
 			       int limit,
 			       int colors,
 			       int nodes,

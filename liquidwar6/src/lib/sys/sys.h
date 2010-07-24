@@ -877,6 +877,9 @@ extern void lw6sys_delay (int msec);
 extern void lw6sys_idle ();
 extern void lw6sys_time_init ();
 
+/* sys-url.c */
+extern char *lw6sys_url_http_from_ip_port (char *ip, int port);
+
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 			       lw6sys_thread_callback_func_t callback_join,
