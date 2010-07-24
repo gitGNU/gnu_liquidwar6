@@ -134,6 +134,7 @@ lw6nod_info_free (lw6nod_info_t * info)
     {
       lw6sys_list_free (info->verified_nodes);
     }
+  LW6SYS_FREE (info);
 }
 
 /**
@@ -192,22 +193,35 @@ lw6nod_info_unlock (lw6nod_info_t * info)
 void
 lw6nod_info_idle (lw6nod_info_t * info)
 {
-  if (lw6nod_info_lock (info))
+  int locked = 0;
+
+  /*
+   * Here we test for mutex before locking for it could
+   * be called from the free function, or on creation
+   */
+  if (info->mutex)
     {
-      if (info->level)
-	{
-	  LW6SYS_FREE (info->level);
-	  info->level = lw6sys_str_copy ("");
-	}
-      info->required = 0;
-      info->limit = 0;
-      info->colors = 0;
-      info->nodes = 0;
-      info->cursors = 0;
-      if (info->game_screenshot_data)
-	{
-	  LW6SYS_FREE (info->game_screenshot_data);
-	}
+      locked = lw6nod_info_lock (info);
+    }
+
+  if (info->level)
+    {
+      LW6SYS_FREE (info->level);
+      info->level = lw6sys_str_copy ("");
+    }
+  info->required = 0;
+  info->limit = 0;
+  info->colors = 0;
+  info->nodes = 0;
+  info->cursors = 0;
+  if (info->game_screenshot_data)
+    {
+      LW6SYS_FREE (info->game_screenshot_data);
+      info->game_screenshot_data = NULL;
+    }
+
+  if (info->mutex && locked)
+    {
       lw6nod_info_unlock (info);
     }
 }
@@ -251,6 +265,7 @@ lw6nod_info_update (lw6nod_info_t * info, char *level,
       if (info->game_screenshot_data)
 	{
 	  LW6SYS_FREE (info->game_screenshot_data);
+	  info->game_screenshot_data = NULL;
 	}
       info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
       if (info->game_screenshot_data)
@@ -286,6 +301,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
   int ret = 0;
   lw6sys_list_t *list = NULL;
   int exists = 0;
+  char *copy_of_url;
 
   if (lw6nod_info_lock (info))
     {
@@ -309,8 +325,12 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _("discovered \"%s\""),
 			  public_url);
-	      lw6sys_fifo_push (&(info->discovered_nodes),
-				(void *) public_url);
+	      copy_of_url = lw6sys_str_copy (public_url);
+	      if (copy_of_url)
+		{
+		  lw6sys_lifo_push (&(info->discovered_nodes),
+				    (void *) copy_of_url);
+		}
 	    }
 	  else
 	    {
@@ -347,7 +367,7 @@ lw6nod_info_pop_discovered_node (lw6nod_info_t * info)
     {
       if (info->discovered_nodes)
 	{
-	  ret = (char *) lw6sys_fifo_pop (&(info->discovered_nodes));
+	  ret = (char *) lw6sys_lifo_pop (&(info->discovered_nodes));
 	}
       lw6nod_info_unlock (info);
     }
@@ -359,12 +379,15 @@ lw6nod_info_pop_discovered_node (lw6nod_info_t * info)
  * lw6nod_info_set_verified_nodes
  *
  * @info: the node info to modify
- * @list: the list of verified nodes
+ * @list: the list of verified nodes, will be freed by this function
  *
  * Sets the list of verified nodes, that is, the list of nodes
  * we are sure to exist, this is typically the list we will
  * display later on a web page. We can't directly display
  * any discovered node, one needs to filter them through main thread.
+ * Something very important about this function is that @list will
+ * be freed by function, that is, if you call this, then you can
+ * (you should) forget your object, it will disappear any time soon.
  *
  * Return value: 1 if OK, 0 on error.
  */

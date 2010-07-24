@@ -1,3 +1,7 @@
+2010-07-25 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Test suite for nod module.
+
 2010-07-24 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed MS-Windows & Mac OS X buils.

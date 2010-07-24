@@ -2730,7 +2730,7 @@ test_url ()
   {
     char *url;
 
-    url = lw6sys_url_from_ip_port (TEST_URL_IP_1, TEST_URL_PORT_1);
+    url = lw6sys_url_http_from_ip_port (TEST_URL_IP_1, TEST_URL_PORT_1);
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),
@@ -2741,7 +2741,7 @@ test_url ()
       {
 	ret = 0;
       }
-    url = lw6sys_url_from_ip_port (TEST_URL_IP_2, TEST_URL_PORT_2);
+    url = lw6sys_url_http_from_ip_port (TEST_URL_IP_2, TEST_URL_PORT_2);
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),

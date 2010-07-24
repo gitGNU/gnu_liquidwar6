@@ -26,8 +26,170 @@
 
 #include "nod.h"
 
-//#define TEST_ARGC 1
-//#define TEST_ARGV0 "prog"
+#define _TEST_NB_IP 3
+#define _TEST_IP_1 "123.123.123.123"
+#define _TEST_IP_2 "1.2.3.4"
+#define _TEST_IP_3 "10.10.10.10"
+#define _TEST_PORT 10000
+#define _TEST_DELAY_MS 10000
+#define _TEST_ID 0x1212323242425252LL
+#define _TEST_URL "http://192.168.20.20:8000/"
+#define _TEST_TITLE "This is not a sentence"
+#define _TEST_BENCH 10
+#define _TEST_IDLE_SCREENSHOT_SIZE 5
+#define _TEST_IDLE_SCREENSHOT_DATA "1234"
+#define _TEST_LEVEL "toto.map"
+#define _TEST_REQUIRED 7
+#define _TEST_LIMIT 6
+#define _TEST_COLORS 3
+#define _TEST_NODES 2
+#define _TEST_CURSORS 3
+#define _TEST_GAME_SCREENSHOT_SIZE 10
+#define _TEST_GAME_SCREENSHOT_DATA "123456789"
+
+
+
+static void
+_node_add_discovered_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  char *ip = NULL;
+  char *url = NULL;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      switch (lw6sys_random (_TEST_NB_IP))
+	{
+	case 0:
+	  ip = _TEST_IP_1;
+	  break;
+	case 1:
+	  ip = _TEST_IP_2;
+	  break;
+	default:
+	  ip = _TEST_IP_3;
+	  break;
+	}
+      url = lw6sys_url_http_from_ip_port (ip, _TEST_PORT);
+      if (url)
+	{
+	  if (first_time)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("add_discovered_node \"%s\""),
+			  url);
+	      first_time = 0;
+	    }
+	  lw6nod_info_add_discovered_node (info, url);
+	  LW6SYS_FREE (url);
+	}
+    }
+}
+
+static void
+_node_pop_discovered_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  char *url = NULL;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      url = lw6nod_info_pop_discovered_node (info);
+      if (url)
+	{
+	  if (first_time)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_discovered_node \"%s\""),
+			  url);
+	      first_time = 0;
+	    }
+	  LW6SYS_FREE (url);
+	}
+    }
+}
+
+static void
+_node_set_verified_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  lw6sys_list_t *list = NULL;
+  char *url = NULL;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      list = lw6sys_list_new (lw6sys_free_callback);
+      if (list)
+	{
+	  url = lw6sys_url_http_from_ip_port (_TEST_IP_1, _TEST_PORT);
+	  lw6sys_fifo_push (&list, url);
+	  url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
+	  lw6sys_fifo_push (&list, url);
+	  url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
+	  lw6sys_fifo_push (&list, url);
+
+	  if (list)
+	    {
+	      if (first_time)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("setting list of verified nodes"));
+		  first_time = 0;
+		}
+	      lw6nod_info_set_verified_nodes (info, list);
+	      // no need to free list
+	    }
+	}
+    }
+}
+
+static void
+_node_map_verified_callback_callback (void *func_data, void *data)
+{
+  int *first_time = (int *) func_data;
+  char *url = (char *) data;
+
+  if (*first_time)
+    {
+      if (url)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""), url);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("verified node is NULL"));
+	}
+      (*first_time) = 0;
+    }
+}
+
+static void
+_node_map_verified_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      lw6nod_info_map_verified_nodes (info,
+				      _node_map_verified_callback_callback,
+				      &first_time);
+      // no need to free list
+    }
+}
 
 /*
  * Testing functions in node.c
@@ -39,7 +201,78 @@ test_node ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    // todo...
+    lw6nod_info_t *info = NULL;
+    void *thread_add_discovered = NULL;
+    void *thread_pop_discovered = NULL;
+    void *thread_set_verified = NULL;
+    void *thread_map_verified = NULL;
+    char *url = NULL;
+
+    ret = 0;
+    info =
+      lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_BENCH,
+		       _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_IDLE_SCREENSHOT_DATA);
+    if (info)
+      {
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
+			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+			    _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_GAME_SCREENSHOT_DATA);
+	lw6nod_info_idle (info);
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
+			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+			    _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_GAME_SCREENSHOT_DATA);
+
+
+	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("add \"%s\""), _TEST_URL);
+	    url = lw6nod_info_pop_discovered_node (info);
+	    if (url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _("pop \"%s\""), url);
+		LW6SYS_FREE (url);
+	      }
+	  }
+	/*
+	 * Threads are (on purpose) started in what seems an illogical order,
+	 * the idea is to be sure to see how program behaves when querying the
+	 * object in various cases, including unprobable ones.
+	 */
+	thread_map_verified =
+	  lw6sys_thread_create (_node_map_verified_callback, NULL, info);
+	if (thread_map_verified)
+	  {
+	    thread_set_verified =
+	      lw6sys_thread_create (_node_set_verified_callback, NULL, info);
+	    if (thread_set_verified)
+	      {
+		thread_pop_discovered =
+		  lw6sys_thread_create (_node_pop_discovered_callback, NULL,
+					info);
+		if (thread_pop_discovered)
+		  {
+		    thread_add_discovered =
+		      lw6sys_thread_create (_node_add_discovered_callback,
+					    NULL, info);
+		    if (thread_add_discovered)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _
+				    ("4 threads started, each one querying the same node info object"));
+			ret = 1;
+			lw6sys_thread_join (thread_add_discovered);
+		      }
+		    lw6sys_thread_join (thread_pop_discovered);
+		  }
+		lw6sys_thread_join (thread_set_verified);
+	      }
+	    lw6sys_thread_join (thread_map_verified);
+	  }
+	lw6nod_info_free (info);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -61,8 +294,6 @@ int
 lw6nod_test (int mode)
 {
   int ret = 0;
-  //int argc = TEST_ARGC;
-  //char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {
