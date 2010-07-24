@@ -27,29 +27,11 @@
 #include "../srv.h"
 #include "mod-tcpd-internal.h"
 
-/*
 int
 _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
-		 lw6srv_connection_t * connection)
+		       lw6srv_oob_data_t * oob_data)
 {
-  char *ret = NULL;
-
-  ret =
-    lw6sys_new_sprintf (_("tcpd connexion with %s:%d"),
-			connection->client_id.client_ip,
-			connection->client_id.client_port);
+  int ret = 0;
 
   return ret;
 }
-
-char *
-_mod_tcpd_error (_tcpd_context_t * tcpd_context,
-		  lw6srv_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}
-*/

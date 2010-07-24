@@ -27,29 +27,11 @@
 #include "../srv.h"
 #include "mod-udpd-internal.h"
 
-/*
 int
 _mod_udpd_process_oob (_udpd_context_t * udpd_context,
-		 lw6srv_connection_t * connection)
+		       lw6srv_oob_data_t * oob_data)
 {
-  char *ret = NULL;
-
-  ret =
-    lw6sys_new_sprintf (_("udpd connexion with %s:%d"),
-			connection->client_id.client_ip,
-			connection->client_id.client_port);
+  int ret = 0;
 
   return ret;
 }
-
-char *
-_mod_udpd_error (_udpd_context_t * udpd_context,
-		  lw6srv_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}
-*/

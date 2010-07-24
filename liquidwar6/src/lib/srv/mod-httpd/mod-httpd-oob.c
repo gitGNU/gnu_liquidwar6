@@ -27,29 +27,11 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
-/*
 int
 _mod_httpd_process_oob (_httpd_context_t * httpd_context,
-		 lw6srv_connection_t * connection)
+			lw6srv_oob_data_t * oob_data)
 {
-  char *ret = NULL;
-
-  ret =
-    lw6sys_new_sprintf (_("httpd connexion with %s:%d"),
-			connection->client_id.client_ip,
-			connection->client_id.client_port);
+  int ret = 0;
 
   return ret;
 }
-
-char *
-_mod_httpd_error (_httpd_context_t * httpd_context,
-		  lw6srv_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}
-*/

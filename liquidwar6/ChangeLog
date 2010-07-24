@@ -1,3 +1,7 @@
+2010-07-24 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed MS-Windows & Mac OS X buils.
+
 2010-07-23 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implemented local IP address discovery for MS Windows.
