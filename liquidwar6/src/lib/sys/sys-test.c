@@ -55,6 +55,16 @@
 #define PATH_RELATIVE "../../foo/bar"
 #define PATH_RELATIVE_UNPARENT "../foo/bar"
 #endif
+#define _TEST_LIST_STR1 "str1"
+#define _TEST_LIST_STR2 "str2"
+#define _TEST_LIST_STR3 "str3"
+#define _TEST_LIST_STR4 "str4"
+#define _TEST_LIST_STR5 "str5"
+#define _TEST_ASSOC_KEY1 "1"
+#define _TEST_ASSOC_KEY2 "2"
+#define _TEST_ASSOC_KEY3 "3"
+#define _TEST_ASSOC_KEY4 "4"
+#define _TEST_ASSOC_KEY5 "5"
 #define _TEST_LIST_FILTER_NB_ITEMS 25
 #define _TEST_LIST_FILTER_RANGE 100
 #define TEST_PATH_CWD "./"
@@ -297,23 +307,24 @@ test_assoc ()
 		_("testing free_func callback and dup on string assoc"));
     assoc = lw6sys_assoc_new (&lw6sys_free_callback);
     str1 = LW6SYS_MALLOC (5);
-    strncpy (str1, "str1", 5);
-    lw6sys_assoc_set (&assoc, "1", (void *) str1);
+    strncpy (str1, _TEST_LIST_STR1, 5);
+    lw6sys_assoc_set (&assoc, _TEST_ASSOC_KEY1, (void *) str1);
     str2 = LW6SYS_MALLOC (5);
-    strncpy (str2, "str2", 5);
-    lw6sys_assoc_set (&assoc, "2", (void *) str2);
+    strncpy (str2, _TEST_LIST_STR2, 5);
+    lw6sys_assoc_set (&assoc, _TEST_ASSOC_KEY2, (void *) str2);
     str3 = LW6SYS_MALLOC (5);
-    strncpy (str3, "str3", 5);
-    lw6sys_assoc_set (&assoc, "3", (void *) str3);
-    lw6sys_assoc_unset (assoc, "1");
-    lw6sys_assoc_unset (assoc, "3");
+    strncpy (str3, _TEST_LIST_STR3, 5);
+    lw6sys_assoc_set (&assoc, _TEST_ASSOC_KEY3, (void *) str3);
+    lw6sys_assoc_unset (assoc, _TEST_ASSOC_KEY1);
+    lw6sys_assoc_unset (assoc, _TEST_ASSOC_KEY3);
     assoc_copy =
       lw6sys_assoc_dup (assoc, (lw6sys_dup_func_t) lw6sys_str_copy);
-    ret = ret && !lw6sys_assoc_has_key (assoc_copy, "1");
-    ret = ret && lw6sys_assoc_has_key (assoc_copy, "2");
-    ret = ret && !lw6sys_assoc_has_key (assoc_copy, "3");
+    ret = ret && !lw6sys_assoc_has_key (assoc_copy, _TEST_ASSOC_KEY1);
+    ret = ret && lw6sys_assoc_has_key (assoc_copy, _TEST_ASSOC_KEY2);
+    ret = ret && !lw6sys_assoc_has_key (assoc_copy, _TEST_ASSOC_KEY3);
     ret = ret
-      && strcmp ((char *) lw6sys_assoc_get (assoc_copy, "2"), "str2") == 0;
+      && strcmp ((char *) lw6sys_assoc_get (assoc_copy, _TEST_ASSOC_KEY2),
+		 _TEST_LIST_STR2) == 0;
     lw6sys_assoc_free (assoc_copy);
     lw6sys_assoc_free (assoc);
   }
@@ -882,22 +893,23 @@ test_hash ()
 		_("testing free_func callback and dup on string hash"));
     hash = lw6sys_hash_new (&lw6sys_free_callback, 7);
     str1 = LW6SYS_MALLOC (5);
-    strncpy (str1, "str1", 5);
-    lw6sys_hash_set (hash, "1", (void *) str1);
+    strncpy (str1, _TEST_LIST_STR1, 5);
+    lw6sys_hash_set (hash, _TEST_ASSOC_KEY1, (void *) str1);
     str2 = LW6SYS_MALLOC (5);
-    strncpy (str2, "str2", 5);
-    lw6sys_hash_set (hash, "2", (void *) str2);
+    strncpy (str2, _TEST_LIST_STR2, 5);
+    lw6sys_hash_set (hash, _TEST_ASSOC_KEY2, (void *) str2);
     str3 = LW6SYS_MALLOC (5);
-    strncpy (str3, "str3", 5);
-    lw6sys_hash_set (hash, "3", (void *) str3);
-    lw6sys_hash_unset (hash, "1");
-    lw6sys_hash_unset (hash, "3");
+    strncpy (str3, _TEST_LIST_STR3, 5);
+    lw6sys_hash_set (hash, _TEST_ASSOC_KEY3, (void *) str3);
+    lw6sys_hash_unset (hash, _TEST_ASSOC_KEY1);
+    lw6sys_hash_unset (hash, _TEST_ASSOC_KEY3);
     hash_copy = lw6sys_hash_dup (hash, (lw6sys_dup_func_t) lw6sys_str_copy);
-    ret = ret && !lw6sys_hash_has_key (hash_copy, "1");
-    ret = ret && lw6sys_hash_has_key (hash_copy, "2");
-    ret = ret && !lw6sys_hash_has_key (hash_copy, "3");
+    ret = ret && !lw6sys_hash_has_key (hash_copy, _TEST_ASSOC_KEY1);
+    ret = ret && lw6sys_hash_has_key (hash_copy, _TEST_ASSOC_KEY2);
+    ret = ret && !lw6sys_hash_has_key (hash_copy, _TEST_ASSOC_KEY3);
     ret = ret
-      && strcmp ((char *) lw6sys_hash_get (hash_copy, "2"), "str2") == 0;
+      && strcmp ((char *) lw6sys_hash_get (hash_copy, _TEST_ASSOC_KEY2),
+		 _TEST_LIST_STR2) == 0;
     lw6sys_hash_free (hash_copy);
     lw6sys_hash_free (hash);
   }
@@ -1335,12 +1347,25 @@ test_keyword ()
  * Used to test lw6sys_list_map.
  */
 static void
-list_map_func (void *func_data, void *data)
+list_map_int_func (void *func_data, void *data)
 {
   int *ret = (int *) func_data;
   int *i = (int *) data;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, i=%d"), *ret, *i);
+}
+
+/*
+ * Used to test lw6sys_list_map.
+ */
+static void
+list_map_str_func (void *func_data, void *data)
+{
+  int *ret = (int *) func_data;
+  char *str = (char *) data;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, str=\"%s\""), *ret,
+	      str);
 }
 
 /*
@@ -1380,35 +1405,262 @@ test_list ()
 
   {
     int a = 3, b = 5, c = 7;
+    int i;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push/pop on int list"));
     list = lw6sys_list_new (NULL);
     lw6sys_lifo_push (&list, (void *) &a);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), a);
     lw6sys_lifo_push (&list, (void *) &b);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), b);
     lw6sys_lifo_push (&list, (void *) &c);
-    lw6sys_list_map (list, &list_map_func, &ret);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), c);
+    lw6sys_list_map (list, &list_map_int_func, &ret);
     ret = ret && lw6sys_list_length (list) == 3;
-    ret = ret && (*((int *) lw6sys_lifo_pop (&list)) == c);
-    ret = ret && (*((int *) lw6sys_lifo_pop (&list)) == b);
-    ret = ret && (*((int *) lw6sys_lifo_pop (&list)) == a);
+    i = *((int *) lw6sys_lifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    ret = ret && (i == c);
+    i = *((int *) lw6sys_lifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    ret = ret && (i == b);
+    i = *((int *) lw6sys_lifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    ret = ret && (i == a);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
     lw6sys_list_free (list);
   }
 
   {
     int a = 2, b = 4, c = 6, d = 8;
+    int i;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push/pop on int list"));
     list = lw6sys_list_new (NULL);
     lw6sys_fifo_push (&list, (void *) &a);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), a);
     lw6sys_fifo_push (&list, (void *) &b);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), b);
     lw6sys_fifo_push (&list, (void *) &c);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), c);
     lw6sys_fifo_push (&list, (void *) &d);
-    lw6sys_list_map (list, &list_map_func, &ret);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), d);
+    lw6sys_list_map (list, &list_map_int_func, &ret);
     ret = ret && lw6sys_list_length (list) == 4;
-    ret = ret && (*((int *) lw6sys_fifo_pop (&list)) == a);
-    ret = ret && (*((int *) lw6sys_fifo_pop (&list)) == b);
-    ret = ret && (*((int *) lw6sys_fifo_pop (&list)) == c);
-    ret = ret && (*((int *) lw6sys_fifo_pop (&list)) == d);
+    i = *((int *) lw6sys_fifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    ret = ret && (i == a);
+    i = *((int *) lw6sys_fifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    ret = ret && (i == b);
+    i = *((int *) lw6sys_fifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    ret = ret && (i == c);
+    i = *((int *) lw6sys_fifo_pop (&list));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    ret = ret && (i == d);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_list_free (list);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front/pop_front on string list"));
+    list = lw6sys_list_new (lw6sys_free_callback);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR1));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR2));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR3));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_map (list, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_pop_front (&list);
+    if (str)
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_front (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_front (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_list_free (list);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back/pop_front on string list"));
+    list = lw6sys_list_new (lw6sys_free_callback);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR1));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR2));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR3));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_map (list, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_pop_front (&list);
+    if (str)
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_front (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_front (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_list_free (list);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front/pop_back on string list"));
+    list = lw6sys_list_new (lw6sys_free_callback);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR1));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR2));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_push_front (&list,
+			    (void *) lw6sys_str_copy (_TEST_LIST_STR3));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_map (list, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_pop_back (&list);
+    if (str)
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_back (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_back (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_list_free (list);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back/pop_back on string list"));
+    list = lw6sys_list_new (lw6sys_free_callback);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR1));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR2));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR3));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_map (list, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_pop_back (&list);
+    if (str)
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_back (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (str)
+      {
+	str = (char *) lw6sys_list_pop_back (&list);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
     lw6sys_list_free (list);
   }
 
@@ -1422,7 +1674,7 @@ test_list ()
     lw6sys_list_push_back (&list, (void *) &c);
     lw6sys_list_push_back (&list, (void *) &d);
     lw6sys_list_push_back (&list, (void *) &e);
-    lw6sys_list_map (list, &list_map_func, &ret);
+    lw6sys_list_map (list, &list_map_int_func, &ret);
     ret = ret && lw6sys_list_length (list) == 5;
     ret = ret && (*((int *) lw6sys_list_pop_back (&list)) == e);
     ret = ret && (*((int *) lw6sys_list_pop_back (&list)) == d);
@@ -1438,13 +1690,13 @@ test_list ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_("testing free_func callback and dup on string list"));
     list = lw6sys_list_new (&lw6sys_free_callback);
-    str1 = lw6sys_str_copy ("str1");
+    str1 = lw6sys_str_copy (_TEST_LIST_STR1);
     lw6sys_lifo_push (&list, (void *) str1);
-    str2 = lw6sys_str_copy ("str2");
+    str2 = lw6sys_str_copy (_TEST_LIST_STR2);
     lw6sys_fifo_push (&list, (void *) str2);
-    str3 = lw6sys_str_copy ("str3");
+    str3 = lw6sys_str_copy (_TEST_LIST_STR3);
     lw6sys_lifo_push (&list, (void *) str3);
-    str4 = lw6sys_str_copy ("str4");
+    str4 = lw6sys_str_copy (_TEST_LIST_STR4);
     lw6sys_fifo_push (&list, (void *) str4);
     list_copy = lw6sys_list_dup (list, (lw6sys_dup_func_t) lw6sys_str_copy);
     ret = ret && lw6sys_list_length (list_copy) == 4;

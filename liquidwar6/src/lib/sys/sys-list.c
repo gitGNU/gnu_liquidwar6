@@ -479,14 +479,17 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
 {
   void *data = NULL;
   lw6sys_list_t *end = NULL;
+  lw6sys_list_t *before_end = NULL;
   lw6sys_list_t *tmp = NULL;
 
   if (list && *list)
     {
       end = (*list);
+      before_end = end;
       while (end && end->next_item
 	     && ((lw6sys_list_t *) (end->next_item))->next_item)
 	{
+	  before_end = end;
 	  end = end->next_item;
 	}
       data = end->data;
@@ -497,14 +500,24 @@ lw6sys_list_pop_back (lw6sys_list_t ** list)
 	}
       else
 	{
-	  tmp = end->next_item;
-	  end->next_item = ((lw6sys_list_t *) (end->next_item))->next_item;
-	  /*
-	   * Here we do *NOT* call free_func, or else the
-	   * value returned would be freed before it is even
-	   * returned to the caller!!!
-	   */
-	  LW6SYS_FREE (tmp);
+	  if (((lw6sys_list_t *) ((*list)->next_item))->next_item == NULL)
+	    {
+	      tmp = (*list);
+	      (*list) = (*list)->next_item;
+	      LW6SYS_FREE (tmp);
+	    }
+	  else
+	    {
+	      tmp = end->next_item;
+	      //end->next_item = ((lw6sys_list_t *) (end->next_item))->next_item;
+	      before_end->next_item = tmp;
+	      /*
+	       * Here we do *NOT* call free_func, or else the
+	       * value returned would be freed before it is even
+	       * returned to the caller!!!
+	       */
+	      LW6SYS_FREE (end);
+	    }
 	}
     }
   else

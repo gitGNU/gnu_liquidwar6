@@ -328,7 +328,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 	      copy_of_url = lw6sys_str_copy (public_url);
 	      if (copy_of_url)
 		{
-		  lw6sys_lifo_push (&(info->discovered_nodes),
+		  lw6sys_fifo_push (&(info->discovered_nodes),
 				    (void *) copy_of_url);
 		}
 	    }
@@ -367,7 +367,7 @@ lw6nod_info_pop_discovered_node (lw6nod_info_t * info)
     {
       if (info->discovered_nodes)
 	{
-	  ret = (char *) lw6sys_lifo_pop (&(info->discovered_nodes));
+	  ret = (char *) lw6sys_fifo_pop (&(info->discovered_nodes));
 	}
       lw6nod_info_unlock (info);
     }
