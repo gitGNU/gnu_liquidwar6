@@ -1,8 +1,10 @@
 2010-07-26 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Fixed internal fifo bug.
+	* Using node info in p2p node module, fixed race condition.
 
 2010-07-25 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed internal fifo bug.
 
 	* Test suite for nod module.
 

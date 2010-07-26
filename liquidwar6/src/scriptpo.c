@@ -72,6 +72,7 @@ _("Music volume");		// extracted by scriptpo-update.sh
 _("Sound backend");		// extracted by scriptpo-update.sh
 _("Graphics backend");		// extracted by scriptpo-update.sh
 _("Sound backend");		// extracted by scriptpo-update.sh
+_("This is a test node.");	// extracted by scriptpo-update.sh
 _("testing map");		// extracted by scriptpo-update.sh
 _("testing game struct");	// extracted by scriptpo-update.sh
 _("testing game state");	// extracted by scriptpo-update.sh

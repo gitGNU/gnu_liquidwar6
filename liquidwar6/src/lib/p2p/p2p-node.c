@@ -42,7 +42,8 @@ static u_int32_t seq_id = 0;
  * @node_id: the server unique ID
  * @public_url: the public URL we want to show
  * @password: the password to use
- * @title: the title (readable description) of the node
+ * @title: the title of the node
+ * @description: the description of the node
  * @bench: the bench of the node (its power)
  *
  * Creates a new "pear to pear" node. This will fire the server
@@ -55,20 +56,20 @@ lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, u_int64_t node_id, char *public_url,
-		 char *password, char *title, int bench)
+		 char *password, char *title, char *description, int bench)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, node_id,
 					     public_url, password, title,
-					     bench);
+					     description, bench);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, u_int64_t node_id, char *public_url,
-		  char *password, char *title, int bench)
+		  char *password, char *title, char *description, int bench)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -84,6 +85,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->id = ++seq_id;
 	}
+      node->closed = 0;
       node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
@@ -105,8 +107,13 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->password = lw6sys_str_copy ("");
 	}
+      node->node_info =
+	lw6nod_info_new (node->node_id_int, node->public_url, title,
+			 description, bench,
+			 node->db->data.idle_screenshot.size,
+			 node->db->data.idle_screenshot.data);
       ret = (node->bind_ip && node->node_id_str && node->public_url
-	     && node->password);
+	     && node->password && node->node_info);
       if (ret)
 	{
 	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
@@ -290,6 +297,10 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
+      if (node->node_info)
+	{
+	  lw6nod_info_free (node->node_info);
+	}
       if (node->password)
 	{
 	  LW6SYS_FREE (node->password);
@@ -517,50 +528,64 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 
   if (node)
     {
-      query =
-	lw6sys_new_sprintf (_lw6p2p_db_get_query
-			    (node->db,
-			     _LW6P2P_DELETE_NODE_BY_ID_SQL),
-			    node->node_id_str);
-      if (query)
+      /*
+       * It's important to test it here, indeed, we can't assume
+       * db is still here when closing node *if* node is closed
+       * by garbage collector.
+       */
+      if (!node->closed)
 	{
-	  _lw6p2p_db_exec_ignore_data (node->db, query);
-	  LW6SYS_FREE (query);
-	}
+	  node->closed = 1;
 
-      if (node->srv_backends)
-	{
-	  for (i = 0; i < node->nb_srv_backends; ++i)
+	  query =
+	    lw6sys_new_sprintf (_lw6p2p_db_get_query
+				(node->db,
+				 _LW6P2P_DELETE_NODE_BY_ID_SQL),
+				node->node_id_str);
+	  if (query)
 	    {
-	      if (node->srv_backends[i])
-		{
-		  lw6srv_quit (node->srv_backends[i]);
-		  lw6srv_destroy_backend (node->srv_backends[i]);
-		  node->srv_backends[i] = NULL;
-		}
+	      _lw6p2p_db_exec_ignore_data (node->db, query);
+	      LW6SYS_FREE (query);
 	    }
-	  LW6SYS_FREE (node->srv_backends);
-	  node->srv_backends = NULL;
-	  node->nb_srv_backends = 0;
-	}
-      if (node->cli_backends)
-	{
-	  for (i = 0; i < node->nb_cli_backends; ++i)
+
+	  if (node->srv_backends)
 	    {
-	      if (node->cli_backends[i])
+	      for (i = 0; i < node->nb_srv_backends; ++i)
 		{
-		  lw6cli_destroy_backend (node->cli_backends[i]);
-		  node->cli_backends[i] = NULL;
+		  if (node->srv_backends[i])
+		    {
+		      lw6srv_quit (node->srv_backends[i]);
+		      lw6srv_destroy_backend (node->srv_backends[i]);
+		      node->srv_backends[i] = NULL;
+		    }
 		}
+	      LW6SYS_FREE (node->srv_backends);
+	      node->srv_backends = NULL;
+	      node->nb_srv_backends = 0;
 	    }
-	  LW6SYS_FREE (node->cli_backends);
-	  node->cli_backends = NULL;
-	  node->nb_cli_backends = 0;
+	  if (node->cli_backends)
+	    {
+	      for (i = 0; i < node->nb_cli_backends; ++i)
+		{
+		  if (node->cli_backends[i])
+		    {
+		      lw6cli_destroy_backend (node->cli_backends[i]);
+		      node->cli_backends[i] = NULL;
+		    }
+		}
+	      LW6SYS_FREE (node->cli_backends);
+	      node->cli_backends = NULL;
+	      node->nb_cli_backends = 0;
+	    }
+	  if (node->listener)
+	    {
+	      lw6srv_stop (node->listener);
+	      node->listener = NULL;
+	    }
 	}
-      if (node->listener)
+      else
 	{
-	  lw6srv_stop (node->listener);
-	  node->listener = NULL;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("closing closed node"));
 	}
     }
   else

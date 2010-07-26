@@ -672,6 +672,10 @@ populate_references ()
 		_
 		("The title of your node, that is the name which will be displayed when listing servers. This is different from player name, for there can be several players on a single computer. By default this will be set to hostname."),
 		"");
+  POPULATE_STR (LW6DEF_NODE_DESCRIPTION,
+		_
+		("The description of your node, that is a text that describes your server. This will typically appear when pointing a web client on the public server URL, it is for general information, so if there's something special about your server, say it here."),
+		_("No description."));
 
   /*
    * Tuning

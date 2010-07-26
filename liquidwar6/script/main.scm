@@ -133,7 +133,6 @@
 				  (lw6-config-set-string! lw6def-snd-backend snd-backend)
 				  )))
 			;; (lw6-init-game-globals)
-			(lw6-node-start)		
 			(if (lw6-config-is-true? lw6def-display-console)
 			    (begin
 			      (c-lw6cns-init)
@@ -144,6 +143,7 @@
 			(lw6-game-idle)
 			(lw6-music-ambiance)
 			(lw6-bench #f)
+			(lw6-node-start) ;; node  must be start *after* bench
 			(lw6-game-loop)
 			(c-lw6cns-quit)
 			(lw6-node-stop)

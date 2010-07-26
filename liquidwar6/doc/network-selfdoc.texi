@@ -40,6 +40,20 @@ only if you specifically want to disactivate some protocol, or if you want to
 activate a custom-made client backend. It's a comma separated list.
 @end deffn
 
+@subsection node-description
+@deffn {Command-line option} @code{--node-description=<value>}
+@deffnx {Environment variable} @code{LW6_NODE_DESCRIPTION}
+@deffnx {XML key} @code{node-description}
+Type: string
+
+Default value: No description.
+
+The description of your node, that is a text that describes your server. This
+will typically appear when pointing a web client on the public server URL, it
+is for general information, so if there's something special about your server,
+say it here.
+@end deffn
+
 @subsection node-title
 @deffn {Command-line option} @code{--node-title=<value>}
 @deffnx {Environment variable} @code{LW6_NODE_TITLE}

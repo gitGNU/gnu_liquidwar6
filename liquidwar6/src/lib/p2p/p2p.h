@@ -67,7 +67,8 @@ extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],
 				       char *bind_ip,
 				       int bind_port, u_int64_t node_id,
 				       char *public_url, char *password,
-				       char *title, int bench);
+				       char *title, char *description,
+				       int bench);
 extern void lw6p2p_node_free (lw6p2p_node_t * node);
 extern char *lw6p2p_node_repr (lw6p2p_node_t * node);
 extern int lw6p2p_node_poll (lw6p2p_node_t * node);

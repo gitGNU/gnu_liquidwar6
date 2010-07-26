@@ -172,6 +172,7 @@ music-volume
 nb-attack-tries
 nb-defense-tries
 nb-move-tries
+node-description
 node-title
 password
 pedigree

@@ -64,6 +64,25 @@ _release_snd_quit (void *func_data, char *key, void *value)
     }
 }
 
+void
+_release_node_close (void *func_data, char *key, void *value)
+{
+  lw6_node_smob_t *node_smob;
+  char *repr = NULL;
+
+  node_smob = (lw6_node_smob_t *) value;
+  if (node_smob && node_smob->c_node)
+    {
+      repr = lw6p2p_node_repr (node_smob->c_node);
+      if (repr)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _("release node \"%s\""), repr);
+	  LW6SYS_FREE (repr);
+	}
+      lw6p2p_node_close (node_smob->c_node);
+    }
+}
+
 
 /**
  * lw6_release
@@ -88,6 +107,10 @@ lw6_release ()
   if (lw6_global.snd_smobs)
     {
       lw6sys_assoc_map (lw6_global.snd_smobs, _release_snd_quit, NULL);
+    }
+  if (lw6_global.node_smobs)
+    {
+      lw6sys_assoc_map (lw6_global.node_smobs, _release_node_close, NULL);
     }
 }
 

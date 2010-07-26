@@ -4322,7 +4322,22 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      protocol, or if you want to activate a custom-made client backend.
      It's a comma separated list.
 
-4.7.4 node-title
+4.7.4 node-description
+----------------------
+
+ -- Command-line option: `--node-description=<value>'
+ -- Environment variable: `LW6_NODE_DESCRIPTION'
+ -- XML key: `node-description'
+     Type: string
+
+     Default value: No description.
+
+     The description of your node, that is a text that describes your
+     server. This will typically appear when pointing a web client on
+     the public server URL, it is for general information, so if
+     there's something special about your server, say it here.
+
+4.7.5 node-title
 ----------------
 
  -- Command-line option: `--node-title=<value>'
@@ -4337,7 +4352,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      there can be several players on a single computer. By default this
      will be set to hostname.
 
-4.7.5 password
+4.7.6 password
 --------------
 
  -- Command-line option: `--password=<value>'
@@ -4355,7 +4370,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      real password. A blank password means anyone can join your games
      when you act like a server.
 
-4.7.6 public-url
+4.7.7 public-url
 ----------------
 
  -- Command-line option: `--public-url=<value>'
@@ -4371,7 +4386,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      you might need to use your own settings if you are using NAT or an
      Apache reverse-proxy to rewrite HTTP requests.
 
-4.7.7 skip-network
+4.7.8 skip-network
 ------------------
 
  -- Command-line option: `--skip-network=<value>'
@@ -4384,7 +4399,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
 
-4.7.8 srv-backends
+4.7.9 srv-backends
 ------------------
 
  -- Command-line option: `--srv-backends=<value>'

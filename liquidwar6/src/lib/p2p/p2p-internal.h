@@ -75,6 +75,7 @@ typedef struct _lw6p2p_db_s
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
+  int closed;
   _lw6p2p_db_t *db;
   char *bind_ip;
   int bind_port;
@@ -111,7 +112,8 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *bind_ip,
 					 int bind_port, u_int64_t node_id,
 					 char *public_url, char *password,
-					 char *title, int bench);
+					 char *title, char *description,
+					 int bench);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);

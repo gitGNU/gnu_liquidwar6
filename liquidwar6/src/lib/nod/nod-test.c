@@ -35,6 +35,7 @@
 #define _TEST_ID 0x1212323242425252LL
 #define _TEST_URL "http://192.168.20.20:8000/"
 #define _TEST_TITLE "This is not a sentence"
+#define _TEST_DESCRIPTION "This is not an explanation about what this is."
 #define _TEST_BENCH 10
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
@@ -210,8 +211,8 @@ test_node ()
 
     ret = 0;
     info =
-      lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_BENCH,
-		       _TEST_IDLE_SCREENSHOT_SIZE,
+      lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_DESCRIPTION,
+		       _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {

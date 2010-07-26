@@ -37,6 +37,7 @@
 #define LW6NOD_MSG_NODE "ID"
 #define LW6NOD_MSG_URL "URL"
 #define LW6NOD_MSG_TITLE "TITLE"
+#define LW6NOD_MSG_DESCRIPTION "DESCRIPTION"
 #define LW6NOD_MSG_BENCH "BENCH"
 #define LW6NOD_MSG_LEVEL "LEVEL"
 #define LW6NOD_MSG_REQUIRED "REQUIRED"
@@ -53,6 +54,7 @@ typedef struct lw6nod_info_s
   char *id;
   char *url;
   char *title;
+  char *description;
   int bench;
   int idle_screenshot_size;
   void *idle_screenshot_data;
@@ -74,7 +76,8 @@ typedef struct lw6nod_info_s
   in info.c 
 */
 extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
-				       int bench, int idle_screenshot_size,
+				       char *descroption, int bench,
+				       int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);
 extern int lw6nod_info_lock (lw6nod_info_t * info);

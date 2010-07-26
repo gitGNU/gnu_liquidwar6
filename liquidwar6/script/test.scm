@@ -155,7 +155,16 @@
       (c-lw6net-init)
       (let* (
 	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
-	     (node (c-lw6p2p-node-new db "tcp,udp" "tcpd,udpd,httpd" "0.0.0.0" 8056 "1234123412341234" "http://localhost/" ""))
+	     (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")
+					       (cons "server-backends" "tcpd,udpd,httpd")
+					       (cons "bind-ip" "0.0.0.0")
+					       (cons "bind-port" 8056)
+					       (cons "node-id" "1234123412341234")
+					       (cons "public-url" "http://localhost/")
+					       (cons "password" "")
+					       (cons "title" "")
+					       (cons "description" (_ "This is a test node."))
+					       (cons "bench" 10))))
 	     )
 	(begin
 	  (display node)

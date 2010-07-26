@@ -31,7 +31,8 @@
  *
  * @id: the node id
  * @url: the node public url
- * @title: the node title (readable description)
+ * @title: the node title
+ * @description: the node description
  * @bench: the node bench
  * @idle_screenshot_size: the size (bytes) of the image to display when game is idle
  * @idle_screenshot_data: the data (jpeg) of the image to display when game is idle
@@ -43,8 +44,9 @@
  * Return value: newly allocated object, NULL on error.
  */
 lw6nod_info_t *
-lw6nod_info_new (u_int64_t id, char *url, char *title, int bench,
-		 int idle_screenshot_size, void *idle_screenshot_data)
+lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
+		 int bench, int idle_screenshot_size,
+		 void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
 
@@ -55,13 +57,21 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, int bench,
       info->creation_timestamp = lw6sys_get_timestamp ();
       info->id = lw6sys_id_ltoa (id);
       info->url = lw6sys_str_copy (url);
-      if (info->title && strlen (info->title) > 0)
+      if (title && strlen (title) > 0)
 	{
 	  info->title = lw6sys_str_copy (title);
 	}
       else
 	{
 	  info->title = lw6sys_get_hostname ();
+	}
+      if (description)
+	{
+	  info->description = lw6sys_str_copy (description);
+	}
+      else
+	{
+	  info->description = lw6sys_str_copy ("");
 	}
       info->bench = bench;
       lw6nod_info_idle (info);
@@ -76,8 +86,8 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, int bench,
       info->verified_nodes = lw6sys_list_new (lw6sys_free_callback);
 
       if (info->mutex && info->id && info->url && info->title
-	  && info->idle_screenshot_data && info->discovered_nodes
-	  && info->verified_nodes)
+	  && info->description && info->idle_screenshot_data
+	  && info->discovered_nodes && info->verified_nodes)
 	{
 	  // ok
 	}
@@ -121,6 +131,10 @@ lw6nod_info_free (lw6nod_info_t * info)
   if (info->title)
     {
       LW6SYS_FREE (info->title);
+    }
+  if (info->description)
+    {
+      LW6SYS_FREE (info->description);
     }
   if (info->idle_screenshot_data)
     {
