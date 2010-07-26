@@ -42,6 +42,8 @@ static u_int32_t seq_id = 0;
  * @node_id: the server unique ID
  * @public_url: the public URL we want to show
  * @password: the password to use
+ * @title: the title (readable description) of the node
+ * @bench: the bench of the node (its power)
  *
  * Creates a new "pear to pear" node. This will fire the server
  * and allow client access, on demand. A lot of stuff can be done
@@ -53,19 +55,20 @@ lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, u_int64_t node_id, char *public_url,
-		 char *password)
+		 char *password, char *title, int bench)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, node_id,
-					     public_url, password);
+					     public_url, password, title,
+					     bench);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, u_int64_t node_id, char *public_url,
-		  char *password)
+		  char *password, char *title, int bench)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;

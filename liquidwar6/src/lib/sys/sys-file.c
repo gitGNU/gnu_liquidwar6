@@ -69,21 +69,8 @@ lw6sys_clear_file (char *filename)
   return ret;
 }
 
-/**
- * lw6sys_read_file_content
- *
- * @filename: absolute or relative filename
- *
- * Reads the content of a file, and returns it as a string.
- * Note that content might or might not be ascii or binary,
- * the function will however put a tailing 0 character
- * at the end so that low-level standard C functions do not
- * segfault when used with the returned value.
- *
- * Return value: a newly allocated pointer, must be freed.
- */
-char *
-lw6sys_read_file_content (char *filename)
+static void *
+_read_bin (int *filesize, char *filename)
 {
   char *file_content = NULL;
   FILE *f;
@@ -138,7 +125,71 @@ lw6sys_read_file_content (char *filename)
 		  _("can't open file \"%s\" for reading"), filename);
     }
 
-  return file_content;
+  if (filesize)
+    {
+      if (file_content)
+	{
+	  (*filesize) = read;
+	}
+      else
+	{
+	  (*filesize) = 0;
+	}
+    }
+
+  return (void *) file_content;
+}
+
+/**
+ * lw6sys_read_file_content
+ *
+ * @filename: absolute or relative filename
+ *
+ * Reads the content of a file, and returns it as a string.
+ * Note that content might or might not be ascii or binary,
+ * the function will however put a tailing 0 character
+ * at the end so that low-level standard C functions do not
+ * segfault when used with the returned value.
+ *
+ * Return value: a newly allocated pointer, must be freed.
+ */
+char *
+lw6sys_read_file_content (char *filename)
+{
+  char *ret = NULL;
+
+  ret = (char *) _read_bin (NULL, filename);
+
+  return ret;
+}
+
+/**
+ * lw6sys_read_file_content_bin
+ *
+ * @filesize: will contain the file size, in bytes
+ * @filename: absolute or relative filename
+ *
+ * Reads the content of a file, and returns it as a binary
+ * buffer. Even if not ascii or binary,
+ * the function will however put a tailing 0 character
+ * at the end so that low-level standard C functions do not
+ * segfault when used with the returned value. This 0 character
+ * is not included in @filesize so if there are 4 bytes in the
+ * file the 5 bytes will be allocated, this is just for string
+ * functions not to explode if called by accident. The @filesize
+ * can be NULL, in that case function is just like 
+ * the @lw6sys_read_file_content function.
+ *
+ * Return value: a newly allocated pointer, must be freed.
+ */
+void *
+lw6sys_read_file_content_bin (int *filesize, char *filename)
+{
+  void *ret = NULL;
+
+  ret = _read_bin (filesize, filename);
+
+  return ret;
 }
 
 /**

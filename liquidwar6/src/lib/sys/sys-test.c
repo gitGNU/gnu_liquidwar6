@@ -785,6 +785,7 @@ test_file ()
     char *content = NULL;
     char *user_dir = NULL;
     char *filename = NULL;
+    int filesize = 0;
     int argc = TEST_ARGC;
     char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
@@ -802,12 +803,26 @@ test_file ()
 	    if (lw6sys_write_file_content (filename, TEST_CONTENT))
 	      {
 		content = lw6sys_read_file_content (filename);
-
 		if (content && !strcmp (TEST_CONTENT, content))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_("file \"%s\" contains \"%s\""),
 				filename, content);
+		    LW6SYS_FREE (content);
+		  }
+		else
+		  {
+		    ret = 0;
+		  }
+
+		content = lw6sys_read_file_content_bin (&filesize, filename);
+		if (content && !strcmp (TEST_CONTENT, content)
+		    && strlen (content) == filesize)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_
+				("bin file \"%s\" has size %d and contains \"%s\""),
+				filename, filesize, content);
 		    LW6SYS_FREE (content);
 		  }
 		else

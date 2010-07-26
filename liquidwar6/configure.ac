@@ -759,6 +759,7 @@ AC_CONFIG_FILES([Makefile
 	  data/net/template/Makefile
 	  data/p2p/Makefile
 	  data/p2p/sql/Makefile
+	  data/p2p/screenshot/Makefile
 	  music/Makefile
 	  map/Makefile
 	  map/acadia/Makefile

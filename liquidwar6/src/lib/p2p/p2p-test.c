@@ -43,6 +43,9 @@
 #define _TEST_NODE_PUBLIC_URL2 "http://localhost:8068/"
 #define _TEST_NODE_PUBLIC_URL3 "http://localhost:8069/"
 #define _TEST_NODE_PASSWORD "toto"
+#define _TEST_NODE_TITLE "this is a server"
+#define _TEST_NODE_BENCH 10
+#define _TEST_NODE_JPEG
 
 #define TEST_POLL_LOOPS 1000
 #define TEST_POLL_DELAY 10

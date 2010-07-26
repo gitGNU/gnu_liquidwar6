@@ -513,6 +513,7 @@ extern int lw6sys_exec_again (int argc, char *argv[]);
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);
 extern char *lw6sys_read_file_content (char *filename);
+extern void *lw6sys_read_file_content_bin (int *filesize, char *filename);
 extern int lw6sys_write_file_content (char *filename, char *content);
 
 /* sys-profiler.c */

@@ -50,10 +50,18 @@ typedef struct _lw6p2p_sql_s
 }
 _lw6p2p_sql_t;
 
+typedef struct _lw6p2p_screenshot_s
+{
+  int size;
+  void *data;
+}
+_lw6p2p_screenshot_t;
+
 typedef struct _lw6p2p_data_s
 {
   _lw6p2p_consts_t consts;
   _lw6p2p_sql_t sql;
+  _lw6p2p_screenshot_t idle_screenshot;
 } _lw6p2p_data_t;
 
 typedef struct _lw6p2p_db_s
@@ -74,6 +82,7 @@ typedef struct _lw6p2p_node_s
   char *node_id_str;
   char *public_url;
   char *password;
+  lw6nod_info_t *node_info;
   int nb_cli_backends;
   lw6cli_backend_t **cli_backends;
   lw6srv_listener_t *listener;
@@ -101,7 +110,8 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *server_backends,
 					 char *bind_ip,
 					 int bind_port, u_int64_t node_id,
-					 char *public_url, char *password);
+					 char *public_url, char *password,
+					 char *title, int bench);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);

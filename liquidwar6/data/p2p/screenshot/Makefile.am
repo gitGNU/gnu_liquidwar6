@@ -18,9 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = sql screenshot
-
-pkgdata_DATA = README p2p-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/p2p
-EXTRA_DIST = $(pkgdata_DATA)
+pkgdata_DATA = idle.jpg
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/p2p/screenshot
+EXTRA_DIST = $(pkgdata_DATA) idle.xcf
 

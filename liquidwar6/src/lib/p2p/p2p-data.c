@@ -31,6 +31,8 @@
 #define _CONSTS_FILE "p2p-const.xml"
 #define _SQL_DIR "sql"
 #define _QUERIES_HASH_SIZE 97
+#define _SCREENSHOT_DIR "screenshot"
+#define _SCREENSHOT_FILE "idle.jpg"
 
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
@@ -77,7 +79,7 @@ _read_query (lw6sys_hash_t * queries, char *sql_dir, char *query_file)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_ERROR,
 		      _("can't read query \"%s\" in \"%s\""), query_file,
 		      filename);
 	}
@@ -129,6 +131,38 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
   return ret;
 }
 
+static int
+_load_screenshot (_lw6p2p_screenshot_t * screenshot, char *screenshot_file)
+{
+  int ret = 0;
+
+  if (lw6sys_file_exists (screenshot_file))
+    {
+      screenshot->data =
+	lw6sys_read_file_content_bin (&(screenshot->size), screenshot_file);
+      if (screenshot->data && screenshot->size > 0)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("read screenshot \"%s\", %d bytes"),
+		      screenshot_file, screenshot->size);
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_ERROR,
+		      _("unable to read screenshot file \"%s\""),
+		      screenshot_file);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_ERROR,
+		  _("unable to find screenshot file \"%s\""),
+		  screenshot_file);
+    }
+
+  return ret;
+}
+
 int
 _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir)
 {
@@ -136,16 +170,25 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir)
   char *p2p_subdir = NULL;
   char *consts_file = NULL;
   char *sql_dir = NULL;
+  char *screenshot_dir = NULL;
+  char *screenshot_file = NULL;
 
   p2p_subdir = lw6sys_path_concat (data_dir, _P2P_SUBDIR);
   if (p2p_subdir)
     {
       consts_file = lw6sys_path_concat (p2p_subdir, _CONSTS_FILE);
       sql_dir = lw6sys_path_concat (p2p_subdir, _SQL_DIR);
-      if (consts_file && sql_dir)
+      screenshot_dir = lw6sys_path_concat (p2p_subdir, _SCREENSHOT_DIR);
+      if (screenshot_dir)
+	{
+	  screenshot_file =
+	    lw6sys_path_concat (screenshot_dir, _SCREENSHOT_FILE);
+	}
+      if (consts_file && sql_dir && screenshot_file)
 	{
 	  ret = _load_consts (&(data->consts), consts_file)
-	    && _load_sql (&(data->sql), sql_dir);
+	    && _load_sql (&(data->sql), sql_dir)
+	    && _load_screenshot (&(data->idle_screenshot), screenshot_file);
 	}
       if (consts_file)
 	{
@@ -154,6 +197,14 @@ _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir)
       if (sql_dir)
 	{
 	  LW6SYS_FREE (sql_dir);
+	}
+      if (screenshot_dir)
+	{
+	  LW6SYS_FREE (screenshot_dir);
+	}
+      if (screenshot_file)
+	{
+	  LW6SYS_FREE (screenshot_file);
 	}
       LW6SYS_FREE (p2p_subdir);
     }
@@ -185,12 +236,27 @@ _unload_sql (_lw6p2p_sql_t * sql)
   return ret;
 }
 
+static int
+_unload_screenshot (_lw6p2p_screenshot_t * screenshot)
+{
+  int ret = 1;
+
+  if (screenshot->data)
+    {
+      LW6SYS_FREE (screenshot->data);
+      screenshot->data = NULL;
+    }
+
+  return ret;
+}
+
 int
 _lw6p2p_data_unload (_lw6p2p_data_t * data)
 {
   int ret = 0;
 
-  ret = _unload_consts (&(data->consts)) && _unload_sql (&(data->sql));
+  ret = _unload_consts (&(data->consts)) && _unload_sql (&(data->sql))
+    && _unload_screenshot (&(data->idle_screenshot));
 
   return ret;
 }

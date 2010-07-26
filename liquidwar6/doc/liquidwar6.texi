@@ -7,7 +7,7 @@
 @c %**end of header
 
 @include version.texi
-@c @include const.texi
+@include const.texi
 @include stamp.texi
 
 @copying
