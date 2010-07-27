@@ -10,6 +10,14 @@ parameters or environment variables, and even some Guile script functions. The
 '--list' command line switch will give you the list of all available keywords.
 @end deffn
 
+@subsection audit
+@deffn {Command-line option} @code{--audit}
+Display all path values, defaults and current settings. This output is very
+usefull to track down problems such as missing directories, broken
+installations. If you get an error message that suggests some file is missing,
+then give this option a try.
+@end deffn
+
 @subsection copyright
 @deffn {Command-line option} @code{--copyright}
 Returns the copyright notice for the program.
@@ -34,12 +42,31 @@ the game to a new version.
 Returns a short help for the program.
 @end deffn
 
+@subsection host
+@deffn {Command-line option} @code{--host}
+Display all known system host properties, including os and cpu informations.
+@end deffn
+
 @subsection list
 @deffn {Command-line option} @code{--list}
 Returns the list of all keywords which can be queried for information. This
 includes command-line options, environment variables, and so on. This is the
 companion option of '--about'. Results obtained with '--list' can be passed to
 '--about'.
+@end deffn
+
+@subsection modules
+@deffn {Command-line option} @code{--modules}
+Tells which modules have been enabled when the game was compiled. It's still
+possible to add or remove modules afterwards, but this option allows you to
+know how things were at first.
+@end deffn
+
+@subsection pedigree
+@deffn {Command-line option} @code{--pedigree}
+Display all build values, these are general constants which can help
+debugging, tracing what binary you are running, and so on. It's a good idea to
+take a look at the output of 'pedigree' if you have problems running the game.
 @end deffn
 
 @subsection test

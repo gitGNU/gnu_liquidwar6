@@ -29,6 +29,10 @@ man6_MANS = liquidwar6.man
 
 EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh
 
+# To generate const.texi we need to first generate const.texi.in
+# in builddir then copy it to srcdir for using a texi file located
+# in builddir causes an error when running make distcheck
+# (complains about write permissions, can't create temp dir).
 all-local:
 	if ! diff ${builddir}/const.texi.in ${srcdir}/const.texi ; then cp ${builddir}/const.texi.in ${srcdir}/const.texi ; fi
 

@@ -3142,13 +3142,22 @@ File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
      command line switch will give you the list of all available
      keywords.
 
-4.1.2 copyright
+4.1.2 audit
+-----------
+
+ -- Command-line option: `--audit'
+     Display all path values, defaults and current settings. This
+     output is very usefull to track down problems such as missing
+     directories, broken installations. If you get an error message
+     that suggests some file is missing, then give this option a try.
+
+4.1.3 copyright
 ---------------
 
  -- Command-line option: `--copyright'
      Returns the copyright notice for the program.
 
-4.1.3 debug
+4.1.4 debug
 -----------
 
  -- Command-line option: `--debug'
@@ -3156,7 +3165,7 @@ File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
      display everything on stderr, even messages which are normally
      only stored in the log file.
 
-4.1.4 defaults
+4.1.5 defaults
 --------------
 
  -- Command-line option: `--defaults'
@@ -3164,13 +3173,20 @@ File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
      this if you suspect you have broken something by tweaking user
      settings, or when upgrading the game to a new version.
 
-4.1.5 help
+4.1.6 help
 ----------
 
  -- Command-line option: `--help'
      Returns a short help for the program.
 
-4.1.6 list
+4.1.7 host
+----------
+
+ -- Command-line option: `--host'
+     Display all known system host properties, including os and cpu
+     informations.
+
+4.1.8 list
 ----------
 
  -- Command-line option: `--list'
@@ -3179,8 +3195,25 @@ File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
      variables, and so on. This is the companion option of '-about'.
      Results obtained with '-list' can be passed to '-about'.
 
-4.1.7 test
-----------
+4.1.9 modules
+-------------
+
+ -- Command-line option: `--modules'
+     Tells which modules have been enabled when the game was compiled.
+     It's still possible to add or remove modules afterwards, but this
+     option allows you to know how things were at first.
+
+4.1.10 pedigree
+---------------
+
+ -- Command-line option: `--pedigree'
+     Display all build values, these are general constants which can
+     help debugging, tracing what binary you are running, and so on.
+     It's a good idea to take a look at the output of 'pedigree' if you
+     have problems running the game.
+
+4.1.11 test
+-----------
 
  -- Command-line option: `--test'
      Runs a (hopefully) complete test suite which will call most
@@ -3188,8 +3221,8 @@ File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
      a simple context, without any game interference. Usefull for
      troubleshooting.
 
-4.1.8 version
--------------
+4.1.12 version
+--------------
 
  -- Command-line option: `--version'
      Returns the version of the program, as defined by the GNU Coding
@@ -6585,17 +6618,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 4.12 Advanced settings
 ======================
 
-4.12.1 audit
-------------
-
- -- Command-line option: `--audit'
- -- Environment variable: `LW6_AUDIT'
-     Display all path values, defaults and current settings. This
-     output is very usefull to track down problems such as missing
-     directories, broken installations. If you get an error message
-     that suggests some file is missing, then give this option a try.
-
-4.12.2 bench
+4.12.1 bench
 ------------
 
  -- Command-line option: `--bench'
@@ -6603,7 +6626,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Runs a benchmarking test which will report an approximative
      performance estimation of the game on your computer.
 
-4.12.3 bench-value
+4.12.2 bench-value
 ------------------
 
  -- Command-line option: `--bench-value=<value>'
@@ -6619,7 +6642,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Pretending you have a faster computer than what you really have
      can lead to confusion.
 
-4.12.4 bin-id
+4.12.3 bin-id
 -------------
 
  -- Command-line option: `--bin-id=<value>'
@@ -6633,7 +6656,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      equal to the value returned by 'show-build-bin-id'. When they are
      different, it is assumed this is because of a software upgrade.
 
-4.12.5 bot-iq
+4.12.4 bot-iq
 -------------
 
  -- Command-line option: `--bot-iq=<value>'
@@ -6649,7 +6672,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      probably won't change anything compared to 100, but this truely
      depends on which bot backend you're running.
 
-4.12.6 bot-speed
+4.12.5 bot-speed
 ----------------
 
  -- Command-line option: `--bot-speed=<value>'
@@ -6663,7 +6686,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      it up, lower will slow it down. Note that this only has an impact
      on bot engines, not on the game speed itself.
 
-4.12.7 check
+4.12.6 check
 ------------
 
  -- Command-line option: `--check'
@@ -6674,7 +6697,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      This can be usefull for automated checks on a build farm, or if
      you want to check things in a headless (pure console) environment.
 
-4.12.8 commands-per-sec
+4.12.7 commands-per-sec
 -----------------------
 
  -- Command-line option: `--commands-per-sec=<value>'
@@ -6690,7 +6713,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      game responsiveness, setting this to a high value will make the
      game more responsive but consume bandwidth on network games.
 
-4.12.9 debug-layer-id
+4.12.8 debug-layer-id
 ---------------------
 
  -- Command-line option: `--debug-layer-id=<value>'
@@ -6703,8 +6726,8 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      A team id which will be used for debugging purposes, for instance
      when displaying gradient.
 
-4.12.10 debug-team-id
----------------------
+4.12.9 debug-team-id
+--------------------
 
  -- Command-line option: `--debug-team-id=<value>'
  -- Environment variable: `LW6_DEBUG_TEAM_ID'
@@ -6716,7 +6739,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      A team id which will be used for debugging purposes, for instance
      when displaying gradient.
 
-4.12.11 demo
+4.12.10 demo
 ------------
 
  -- Command-line option: `--demo'
@@ -6724,7 +6747,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Start the game in demo mode. 2 bots play against each other
      forever.
 
-4.12.12 dirty-read
+4.12.11 dirty-read
 ------------------
 
  -- Command-line option: `--dirty-read=<value>'
@@ -6741,7 +6764,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      displaying. If set to 2, displayed data can (and will) be modified
      while the rendering thread is running.
 
-4.12.13 display-background
+4.12.12 display-background
 --------------------------
 
  -- Command-line option: `--display-background=<value>'
@@ -6754,7 +6777,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Decides wether the background animation/image should be displayed
      at all.
 
-4.12.14 display-console
+4.12.13 display-console
 -----------------------
 
  -- Command-line option: `--display-console=<value>'
@@ -6769,7 +6792,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      time. It might not be available on your computer, for instance if
      you are running a system such as Microsoft Windows.
 
-4.12.15 display-cursors
+4.12.14 display-cursors
 -----------------------
 
  -- Command-line option: `--display-cursors=<value>'
@@ -6782,7 +6805,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Debugging option which can be set to 'false' to disable the
      display of cursors when playing.
 
-4.12.16 display-debug-gradient
+4.12.15 display-debug-gradient
 ------------------------------
 
  -- Command-line option: `--display-debug-gradient=<value>'
@@ -6795,7 +6818,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Set this to 'true' to display the gradient, this is usefull to
      debug the core algorithm or understand how it works.
 
-4.12.17 display-debug-zones
+4.12.16 display-debug-zones
 ---------------------------
 
  -- Command-line option: `--display-debug-zones=<value>'
@@ -6808,7 +6831,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Set this to 'true' to display the zones, this is usefull to debug
      the core algorithm or understand how it works.
 
-4.12.18 display-fighters
+4.12.17 display-fighters
 ------------------------
 
  -- Command-line option: `--display-fighters=<value>'
@@ -6821,7 +6844,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Debugging option which can be set to 'false' to disable the
      display of fighters when playing.
 
-4.12.19 display-fps
+4.12.18 display-fps
 -------------------
 
  -- Command-line option: `--display-fps=<value>'
@@ -6835,7 +6858,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      When this gets too low... play a smaller map, buy a new computer
      or contribute and hack Liquid War 6 so that it runs faster!
 
-4.12.20 display-hud
+4.12.19 display-hud
 -------------------
 
  -- Command-line option: `--display-hud=<value>'
@@ -6848,7 +6871,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Decides wether the hud (informations while playing) should be
      displayed.
 
-4.12.21 display-log
+4.12.20 display-log
 -------------------
 
  -- Command-line option: `--display-log=<value>'
@@ -6861,7 +6884,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Set this to 'false' to disable the display of error messages on
      the screen.  Mote that you can miss valuable informations.
 
-4.12.22 display-map
+4.12.21 display-map
 -------------------
 
  -- Command-line option: `--display-map=<value>'
@@ -6874,7 +6897,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Debugging option which can be set to 'false' to disable map
      (level) display when playing.
 
-4.12.23 display-menu
+4.12.22 display-menu
 --------------------
 
  -- Command-line option: `--display-menu=<value>'
@@ -6887,7 +6910,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Debugging option which can be set to 'false' to disable the
      display of menus.
 
-4.12.24 display-mouse
+4.12.23 display-mouse
 ---------------------
 
  -- Command-line option: `--display-mouse=<value>'
@@ -6899,7 +6922,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 
      Set this to 'false' to always hide the mouse pointer.
 
-4.12.25 display-mps
+4.12.24 display-mps
 -------------------
 
  -- Command-line option: `--display-mps=<value>'
@@ -6913,7 +6936,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      theory the game should maintain this constant but in practise it
      can get low if your computer is too slow or too busy.
 
-4.12.26 display-preview
+4.12.25 display-preview
 -----------------------
 
  -- Command-line option: `--display-preview=<value>'
@@ -6926,7 +6949,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Decides wether a map preview should be displayed when choosing a
      level.
 
-4.12.27 display-progress
+4.12.26 display-progress
 ------------------------
 
  -- Command-line option: `--display-progress=<value>'
@@ -6939,7 +6962,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Decides wether a progress bar should be displayed when a long
      operation is realized as a background task.
 
-4.12.28 display-score
+4.12.27 display-score
 ---------------------
 
  -- Command-line option: `--display-score=<value>'
@@ -6951,7 +6974,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 
      Decides wether the score screen should be displayed.
 
-4.12.29 display-splash
+4.12.28 display-splash
 ----------------------
 
  -- Command-line option: `--display-splash=<value>'
@@ -6964,7 +6987,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Set this to 'false' to disable the display of the splash screen at
      game startup.
 
-4.12.30 display-url
+4.12.29 display-url
 -------------------
 
  -- Command-line option: `--display-url=<value>'
@@ -6978,7 +7001,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      is mostly used when doing screenshots, so that generated images
      contain a link to the homepage.
 
-4.12.31 executed-again
+4.12.30 executed-again
 ----------------------
 
  -- Command-line option: `--executed-again=<value>'
@@ -6994,7 +7017,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is
      run, as sometimes using setenv() inside the program does not work.
 
-4.12.32 gfx-cpu-usage
+4.12.31 gfx-cpu-usage
 ---------------------
 
  -- Command-line option: `--gfx-cpu-usage=<value>'
@@ -7011,7 +7034,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      change this to a low value if you have lagging games but smooth
      display.
 
-4.12.33 gfx-debug
+4.12.32 gfx-debug
 -----------------
 
  -- Command-line option: `--gfx-debug=<value>'
@@ -7024,15 +7047,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Enables dedicated graphics debugging tools. This is different from
      'debug' mode which is global, this one is really graphics specific.
 
-4.12.34 host
-------------
-
- -- Command-line option: `--host'
- -- Environment variable: `LW6_HOST'
-     Display all known system host properties, including os and cpu
-     informations.
-
-4.12.35 io-per-sec
+4.12.33 io-per-sec
 ------------------
 
  -- Command-line option: `--io-per-sec=<value>'
@@ -7046,7 +7061,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      This can affect speed of menus but also cursors, but won't change
      the speed of the game itself. It's a cosmectic, comfort option.
 
-4.12.36 loader-sleep
+4.12.34 loader-sleep
 --------------------
 
  -- Command-line option: `--loader-sleep=<value>'
@@ -7059,7 +7074,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Defines how long the loader thread should wait between two polls.
      Default value should fit in most cases.
 
-4.12.37 log-level
+4.12.35 log-level
 -----------------
 
  -- Command-line option: `--log-level=<value>'
@@ -7076,7 +7091,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      default, the log file will contain all messages but debug stuff. 4
      (DEBUG) logs everything, including debug informations.
 
-4.12.38 log-timeout
+4.12.36 log-timeout
 -------------------
 
  -- Command-line option: `--log-timeout=<value>'
@@ -7089,7 +7104,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Delay, in msec, for which a log message will stay displayed on the
      screen.
 
-4.12.39 magic-number
+4.12.37 magic-number
 --------------------
 
  -- Command-line option: `--magic-number=<value>'
@@ -7113,7 +7128,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      pessimistic, or if for some reason bench returns bogus values, you
      can modify it.
 
-4.12.40 memory-bazooka-eraser
+4.12.38 memory-bazooka-eraser
 -----------------------------
 
  -- Command-line option: `--memory-bazooka-eraser=<value>'
@@ -7133,7 +7148,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      usable. The memory bazooka must be big enough if you want this
      feature to actually work.
 
-4.12.41 memory-bazooka-size
+4.12.39 memory-bazooka-size
 ---------------------------
 
  -- Command-line option: `--memory-bazooka-size=<value>'
@@ -7155,26 +7170,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      something like 100 might just be helpfull, but 1000000 is the
      right way to seriously debug code.
 
-4.12.42 modules
----------------
-
- -- Command-line option: `--modules'
- -- Environment variable: `LW6_MODULES'
-     Tells which modules have been enabled when the game was compiled.
-     It's still possible to add or remove modules afterwards, but this
-     option allows you to know how things were at first.
-
-4.12.43 pedigree
-----------------
-
- -- Command-line option: `--pedigree'
- -- Environment variable: `LW6_PEDIGREE'
-     Display all build values, these are general constants which can
-     help debugging, tracing what binary you are running, and so on.
-     It's a good idea to take a look at the output of 'pedigree' if you
-     have problems running the game.
-
-4.12.44 pilot-lag
+4.12.40 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -7188,7 +7184,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.12.45 quick-start
+4.12.41 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
@@ -7196,7 +7192,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.12.46 reset
+4.12.42 reset
 -------------
 
  -- Command-line option: `--reset'
@@ -7206,7 +7202,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.12.47 reset-config-on-upgrade
+4.12.43 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -7219,7 +7215,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.12.48 server
+4.12.44 server
 --------------
 
  -- Command-line option: `--server'
@@ -7233,7 +7229,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.12.49 target-fps
+4.12.45 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'

@@ -39,6 +39,10 @@ update_quick (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_LIST);
   lw6sys_list_push_back (list, LW6DEF_ABOUT);
   lw6sys_list_push_back (list, LW6DEF_DEBUG);
+  lw6sys_list_push_back (list, LW6DEF_PEDIGREE);
+  lw6sys_list_push_back (list, LW6DEF_HOST);
+  lw6sys_list_push_back (list, LW6DEF_AUDIT);
+  lw6sys_list_push_back (list, LW6DEF_MODULES);
 
   return ((*list) != NULL);
 }
@@ -653,10 +657,6 @@ lw6hlp_list_hooks ()
 static int
 update_tuning (lw6sys_list_t ** list)
 {
-  lw6sys_list_push_back (list, LW6DEF_PEDIGREE);
-  lw6sys_list_push_back (list, LW6DEF_HOST);
-  lw6sys_list_push_back (list, LW6DEF_AUDIT);
-  lw6sys_list_push_back (list, LW6DEF_MODULES);
   lw6sys_list_push_back (list, LW6DEF_RESET);
   lw6sys_list_push_back (list, LW6DEF_RESET_CONFIG_ON_UPGRADE);
   lw6sys_list_push_back (list, LW6DEF_LOG_LEVEL);

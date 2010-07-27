@@ -87,6 +87,9 @@ populate_references ()
 {
   int ret = 0;
 
+  /*
+   * Quick
+   */
   POPULATE_VOID (LW6DEF_HELP, _("Returns a short help for the program."));
   POPULATE_VOID (LW6DEF_COPYRIGHT,
 		 _("Returns the copyright notice for the program."));
@@ -109,6 +112,18 @@ populate_references ()
   POPULATE_VOID (LW6DEF_DEBUG,
 		 _
 		 ("Enables debug mode. This will turn on maximum log information, and display everything on stderr, even messages which are normally only stored in the log file."));
+  POPULATE_VOID (LW6DEF_PEDIGREE,
+		 _
+		 ("Display all build values, these are general constants which can help debugging, tracing what binary you are running, and so on. It's a good idea to take a look at the output of 'pedigree' if you have problems running the game."));
+  POPULATE_VOID (LW6DEF_HOST,
+		 _
+		 ("Display all known system host properties, including os and cpu informations."));
+  POPULATE_VOID (LW6DEF_AUDIT,
+		 _
+		 ("Display all path values, defaults and current settings. This output is very usefull to track down problems such as missing directories, broken installations. If you get an error message that suggests some file is missing, then give this option a try."));
+  POPULATE_VOID (LW6DEF_MODULES,
+		 _
+		 ("Tells which modules have been enabled when the game was compiled. It's still possible to add or remove modules afterwards, but this option allows you to know how things were at first."));
   /*
    * Advanced doc
    */
@@ -680,18 +695,6 @@ populate_references ()
   /*
    * Tuning
    */
-  POPULATE_VOID (LW6DEF_PEDIGREE,
-		 _
-		 ("Display all build values, these are general constants which can help debugging, tracing what binary you are running, and so on. It's a good idea to take a look at the output of 'pedigree' if you have problems running the game."));
-  POPULATE_VOID (LW6DEF_HOST,
-		 _
-		 ("Display all known system host properties, including os and cpu informations."));
-  POPULATE_VOID (LW6DEF_AUDIT,
-		 _
-		 ("Display all path values, defaults and current settings. This output is very usefull to track down problems such as missing directories, broken installations. If you get an error message that suggests some file is missing, then give this option a try."));
-  POPULATE_VOID (LW6DEF_MODULES,
-		 _
-		 ("Tells which modules have been enabled when the game was compiled. It's still possible to add or remove modules afterwards, but this option allows you to know how things were at first."));
   POPULATE_VOID (LW6DEF_RESET,
 		 _
 		 ("Clears the config file so that the game will run with defaults next time. The idea is to get rid of traces of previous executions. The difference with '--defaults' is that '--reset' does not run the game, while '--defaults' does."));
