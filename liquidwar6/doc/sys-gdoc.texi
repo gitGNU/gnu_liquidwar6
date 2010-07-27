@@ -651,7 +651,7 @@ Must not be freed.
 
 Returns the @code{libdir} value defined by the GNU Autoconf ./configure script.
 This is not the value which can be overriden by the Liquid War 6 specific.
-"--mod-dir" option. @code{datadir} is usually something like "/usr/local/lib"
+"--mod-dir" option. @code{libdir} is usually something like "/usr/local/lib"
 while the actual Liquid War 6 defined module dir is a more profound path
 which includes the name of the package, its version, and so on.
 
@@ -693,6 +693,13 @@ Must not be freed.
 @deftypefun {char *} {lw6sys_build_get_enable_console} ()
 
 Tells wether console is enabled or not.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_build_get_enable_gtk} ()
+
+Tells wether gtk is enabled or not.
 
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun
@@ -1450,6 +1457,25 @@ Note that content might or might not be ascii or binary,
 the function will however put a tailing 0 character
 at the end so that low-level standard C functions do not
 segfault when used with the returned value.
+
+@strong{Return value:}  a newly allocated pointer, must be freed.
+@end deftypefun
+
+@deftypefun {void *} {lw6sys_read_file_content_bin} (int * @var{filesize}, char * @var{filename})
+@var{filesize}:  will contain the file size, in bytes
+
+@var{filename}:  absolute or relative filename
+
+Reads the content of a file, and returns it as a binary
+buffer. Even if not ascii or binary,
+the function will however put a tailing 0 character
+at the end so that low-level standard C functions do not
+segfault when used with the returned value. This 0 character
+is not included in @code{filesize} so if there are 4 bytes in the
+file the 5 bytes will be allocated, this is just for string
+functions not to explode if called by accident. The @code{filesize}
+can be NULL, in that case function is just like 
+the @code{lw6sys_read_file_content} function.
 
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
@@ -3744,6 +3770,19 @@ of ticks.
 @deftypefun {void} {lw6sys_time_init} ()
 
 Global initializations required to handle time properly. 
+@end deftypefun
+
+@deftypefun {extern char *} {lw6sys_url_http_from_ip_port} (char * @var{ip}, int @var{port})
+@var{ip}:  IP address
+
+@var{port}:  IP port
+
+
+@strong{Returns an http URL pointing to ip:} port that is, adds a heading
+http:// and a trailing /, and treats port 80 as default. This
+is used to create public_url in net modules.
+
+@strong{Return value:}  a newly allocated string, NULL on error.
 @end deftypefun
 
 @deftypefun {int} {lw6sys_vthread_run} (lw6sys_thread_callback_func_t @var{callback_func}, lw6sys_thread_callback_func_t @var{callback_join}, void * @var{callback_data})

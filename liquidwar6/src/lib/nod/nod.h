@@ -46,10 +46,8 @@
 #define LW6NOD_MSG_NODES "NODES"
 #define LW6NOD_MSG_CURSORS "CURSORS"
 
-typedef struct lw6nod_info_s
+typedef struct lw6nod_const_info_s
 {
-  // these never change
-  void *mutex;
   int64_t creation_timestamp;
   char *id;
   char *url;
@@ -58,7 +56,10 @@ typedef struct lw6nod_info_s
   int bench;
   int idle_screenshot_size;
   void *idle_screenshot_data;
-  // these change during game
+} lw6nod_const_info_t;
+
+typedef struct lw6nod_dyn_info_s
+{
   char *level;
   int required;
   int limit;
@@ -67,14 +68,21 @@ typedef struct lw6nod_info_s
   int cursors;
   int game_screenshot_size;
   void *game_screenshot_data;
-  // these are updated by oob threads
+} lw6nod_dyn_info_t;
+
+typedef struct lw6nod_info_s
+{
+  void *mutex;
+  lw6nod_const_info_t const_info;
+  lw6nod_dyn_info_t dyn_info;
   lw6sys_list_t *discovered_nodes;
   lw6sys_list_t *verified_nodes;
 } lw6nod_info_t;
 
-/*
-  in info.c 
-*/
+/* nod-dyninfo.c */
+extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
+
+/* nod-info.c */
 extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
 				       char *descroption, int bench,
 				       int idle_screenshot_size,
@@ -91,6 +99,7 @@ extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
 			       int cursors,
 			       int game_screenshot_size,
 			       void *game_screenshot_data);
+extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
 extern int lw6nod_info_add_discovered_node (lw6nod_info_t * info,
 					    char *public_url);
 extern char *lw6nod_info_pop_discovered_node (lw6nod_info_t * info);

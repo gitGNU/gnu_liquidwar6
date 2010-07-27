@@ -3476,6 +3476,167 @@ C interfaces:
 4.15.16 libnod
 --------------
 
+ -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
+     DYN_INFO:  the dyn info struct to free
+
+     Frees a dyn info object, to be used after a call to
+     `lw6nod_info_dup_dyn' for instance.
+
+     *Return value:*  none
+
+ -- Function: lw6nod_info_t * lw6nod_info_new (u_int64_t ID, char *
+          URL, char * TITLE, char * DESCRIPTION, int BENCH, int
+          IDLE_SCREENSHOT_SIZE, void * IDLE_SCREENSHOT_DATA)
+     ID:  the node id
+
+     URL:  the node public url
+
+     TITLE:  the node title
+
+     DESCRIPTION:  the node description
+
+     BENCH:  the node bench
+
+     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
+     when game is idle
+
+     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
+     when game is idle
+
+     Creates a node info object. The arguments correspond to the
+     immutable node attributes, other properties such as how many
+     players are connected or set in other functions like
+     `lw6nod_info_update' which can be called later.
+
+     *Return value:*  newly allocated object, NULL on error.
+
+ -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
+     INFO:  the node info to free
+
+     Frees a node info object.
+
+     *Return value:*  none
+
+ -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
+     INFO:  the node info to lock
+
+     Locks a node info object, this is usefull for some members,
+     typically list of servers, can be accessed by separated threads,
+     one reading, many writing, and these objects (chained lists)
+     certainly do not want to be modified while being read.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
+     INFO:  the node info to unlock
+
+     Unlocks a node info object, this is the compation of the
+     `lw6nod_info_lock' function.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
+     INFO:  the node info to modify
+
+     Clears a node info object and sets all its variable attributes to
+     NULL/default values. This is what we want when the node is idle,
+     not playing.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, char *
+          LEVEL, int REQUIRED, int LIMIT, int COLORS, int NODES, int
+          CURSORS, int GAME_SCREENSHOT_SIZE, void *
+          GAME_SCREENSHOT_DATA)
+     INFO:  the node info to update
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED:  the bench required to connect
+
+     LIMIT:  the max number of colors
+
+     NODES:  the number of colors
+
+     CURSORS:  the number of cursors
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Set a node info object variable attributes. Call this whenever the
+     node has changed some parameter. Not too often for it's not needed
+     and some operations such as modying the screenshot, can be time
+     consuming.
+
+     *Return value:*  1 if OK, 0 if error.
+
+ -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
+          INFO)
+     INFO:  the node info containing the dyn info to duplicate
+
+     Extracts the dynamic part of an info struct and duplicates it,
+     this is to avoid protection fault error when concurrent threads
+     access this info.
+
+     *Return value:*  newly allocated object, must be freed.
+
+ -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
+          INFO, char * PUBLIC_URL)
+     INFO:  the node info to update
+
+     PUBLIC_URL:  the address of the discovered node
+
+     Registers a new server, and queues it as something that should be
+     checked later because it's interesting. We can't insert in the
+     database all the servers we suspect to exist so network threads
+     should use this, then main thread will process discovered servers
+     afterwards. This is also a good way to avoid trivial DOS attacks.
+
+     *Return value:*  1 if OK, O if error.
+
+ -- Function: char * lw6nod_info_pop_discovered_node (lw6nod_info_t *
+          INFO)
+     INFO:  the node info to query
+
+     Gets the next discovered node, one would typically call this until
+     it returns NULL to test all of the nodes. When it returns NULL,
+     the list is empty, will be populated (or not) later when new
+     servers connect.
+
+     *Return value:*  the public URL of a node, or NULL if empty list
+
+ -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
+          lw6sys_list_t * LIST)
+     INFO:  the node info to modify
+
+     LIST:  the list of verified nodes, will be freed by this function
+
+     Sets the list of verified nodes, that is, the list of nodes we are
+     sure to exist, this is typically the list we will display later on
+     a web page. We can't directly display any discovered node, one
+     needs to filter them through main thread.  Something very
+     important about this function is that `list' will be freed by
+     function, that is, if you call this, then you can (you should)
+     forget your object, it will disappear any time soon.
+
+     *Return value:*  1 if OK, 0 on error.
+
+ -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
+          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+     INFO:  the node info concerned
+
+     FUNC:  the function to apply
+
+     FUNC_DATA:  arbitrary pointer holding data to pass to function
+
+     Calls `lw6sys_list_map' on every member of the list of verified
+     ndoes. The reason there's a function for this is that it is very
+     important that list object is locked when doing this.  This
+     function does perform a lock/unlock so it is safe.
+
+     *Return value:*  none.
+
  -- Function: int lw6nod_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -3540,7 +3701,8 @@ C interfaces:
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, u_int64_t
-          NODE_ID, char * PUBLIC_URL, char * PASSWORD)
+          NODE_ID, char * PUBLIC_URL, char * PASSWORD, char * TITLE,
+          char * DESCRIPTION, int BENCH)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -3560,6 +3722,12 @@ C interfaces:
      PUBLIC_URL:  the public URL we want to show
 
      PASSWORD:  the password to use
+
+     TITLE:  the title of the node
+
+     DESCRIPTION:  the description of the node
+
+     BENCH:  the bench of the node (its power)
 
      Creates a new "pear to pear" node. This will fire the server and
      allow client access, on demand. A lot of stuff can be done in the
@@ -4665,7 +4833,7 @@ C interfaces:
  -- Function: char * lw6sys_build_get_libdir ()
      Returns the `libdir' value defined by the GNU Autoconf ./configure
      script.  This is not the value which can be overriden by the
-     Liquid War 6 specific.  "-mod-dir" option. `datadir' is usually
+     Liquid War 6 specific.  "-mod-dir" option. `libdir' is usually
      something like "/usr/local/lib" while the actual Liquid War 6
      defined module dir is a more profound path which includes the name
      of the package, its version, and so on.
@@ -4700,6 +4868,11 @@ C interfaces:
 
  -- Function: char * lw6sys_build_get_enable_console ()
      Tells wether console is enabled or not.
+
+     *Return value:*  "yes" or "no", must no be freed.
+
+ -- Function: char * lw6sys_build_get_enable_gtk ()
+     Tells wether gtk is enabled or not.
 
      *Return value:*  "yes" or "no", must no be freed.
 
@@ -5385,6 +5558,24 @@ C interfaces:
      will however put a tailing 0 character at the end so that
      low-level standard C functions do not segfault when used with the
      returned value.
+
+     *Return value:*  a newly allocated pointer, must be freed.
+
+ -- Function: void * lw6sys_read_file_content_bin (int * FILESIZE, char
+          * FILENAME)
+     FILESIZE:  will contain the file size, in bytes
+
+     FILENAME:  absolute or relative filename
+
+     Reads the content of a file, and returns it as a binary buffer.
+     Even if not ascii or binary, the function will however put a
+     tailing 0 character at the end so that low-level standard C
+     functions do not segfault when used with the returned value. This
+     0 character is not included in `filesize' so if there are 4 bytes
+     in the file the 5 bytes will be allocated, this is just for string
+     functions not to explode if called by accident. The `filesize' can
+     be NULL, in that case function is just like the
+     `lw6sys_read_file_content' function.
 
      *Return value:*  a newly allocated pointer, must be freed.
 
@@ -7505,6 +7696,18 @@ C interfaces:
  -- Function: void lw6sys_time_init ()
      Global initializations required to handle time properly.
 
+ -- Function: extern char * lw6sys_url_http_from_ip_port (char * IP,
+          int PORT)
+     IP:  IP address
+
+     PORT:  IP port
+
+     *Returns an http URL pointing to ip:* port that is, adds a heading
+     http:// and a trailing /, and treats port 80 as default. This is
+     used to create public_url in net modules.
+
+     *Return value:*  a newly allocated string, NULL on error.
+
  -- Function: int lw6sys_vthread_run (lw6sys_thread_callback_func_t
           CALLBACK_FUNC, lw6sys_thread_callback_func_t CALLBACK_JOIN,
           void * CALLBACK_DATA)
@@ -7910,195 +8113,4 @@ themselves are not clearly identified. But for the rest (starting in
      and wine, teach Liquid War strategies to my 5 and 6 year old
      daughters, remember the old times when Liquid War wasn't so cool
      8-)
-
-
-File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
-
-Annexe B Fanfic
-***************
-
-Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
-it after a friend claimed that there wasn't any liquid war fanfic
-because it wasn't possible."
-
-   So here it is, a Liquid War fanfic. It was initially written for
-Liquid War 5, but applies to Liquid War 6 as well. Enjoy!
-
-B.1 The Battle of Emberlificoted
-================================
-
-
-...
-
-   The General presided over his massing army in his seat, or rather
-hovering ring, of power. It dipped slightly as he flew low over his
-troops marching through the viscous marsh-like terrain. They were like
-children: obedient, loyal, and they ate a lot.
-
-   Glancing at the status panel mounted in front of him he grimaced;
-the other five armies: Yellow, Green, Orange, Turquoise, and, of
-course, Red, were also readying armies of a similar size to his own.
-His violet clones would have to fight hard and eat well to win this day.
-
-   Today would not be a battle of luck, the General mused, it would be
-a battle of tactics, of alliances, and of betrayal. Every clone was
-identical - that was the general idea behind clones - and the terrain
-seemed strangely symmetrical; it would not give advantage to any of the
-six armies amassed today. Glancing at the hologram of the battlefield
-projected in front of him the General noted that he would have to move
-quickly, Orange and Yellow were too close for comfort, though
-fortunately Baron Red's army of eponymous coloured clones was the
-furthest.
-
-   General Violet's fingertips were sweaty even before they touched the
-four main control keys in front of him. They were labeled 'W', 'A',
-'D', and, of course, the full retreat button - very useful for
-misleading foes and ambushing them as they pursued - 'S'. The keys were
-arrange in a roughly equilateral triangular pattern; with 'S' forming
-the base and being adjacent to both 'A' and 'D', 'W' formed the tip of
-the triangle.
-
-   A long breath left his parched lips as at last he made his move.
-
-
-   ...
-
-   "Dammit!" he screamed moments later. He had misjudged Captain Yellow
-and Commander Orange; he had expected one at least to attack
-immediately, one he could have handled. They were working together -
-foiling his attempt to shoot between them to near the center of the
-battlefield to gain a better vantage point. Yellow had shot down
-towards him, cutting off his advance, and now Orange had sealed his
-escape route. "It's not over yet" muttered the General. He opened a
-voice channel with Commander Orange:
-
-   "Very clever. Flawed, but still clever."
-
-   "Flawed?" came the reply.
-
-   "Yes flawed, when the good Captain is finished devouring my army who
-do you think he will turn to next?", bluffed the General - his hands
-worked quickly as he manoeuvred his hovering control ring, all that his
-troops ever saw of him, carefully towards the weakest section of his
-attackers. If he could just break out a few units he could soon turn
-the tide against both Yellow and Orange.
-
-   "We have an alliance..." Orange's voice was unsure now.
-
-   Time for some sarcasm to through her even more off balance, thought
-the General,
-
-   "I gathered", he spoke softly, slowly, and with too much meaning.
-Then closing the channel he turned his attention back to his escape.
-
-
-   ...
-
-   "Yes!" wooped the ecstatic figure of the General. Fifty or so of his
-troops had broken free undetected and were even now working their way
-cautiously towards the camps of the Yellow army, only the front lines
-were still actively fighting; this opening gambit of Yellow and Orange
-had turned into a stale siege and Yellow's army had pitched tent.
-
-   General Violet steered his hovering guidance ring to the center of
-the Yellow camp. His troops struck, both those who had got behind the
-lines and those who were still besieged. Yellow reacted too slowly and
-suddenly found that her army, was shrinking back from the onslaught.
-There was nowhere to run to, and bye now her only ally - Commander
-Orange - had abandoned her to her fate; he was too busy engaging Sir.
-Turquoise, who had managed to escape from the slaughter that the Baron
-had caused to the Turquoise ranks and was even now valiantly attacking
-the flanks of the Orange troops.
-
-   A glance at the status panel showed that Yellow's life force was
-fading quickly: 8%, 3%, 1%, Gone.
-
-   The General smiled, he always enjoyed getting the first kill, and by
-now his armies life force had grown and his clones had replicated. With
-his, now, formidable fighting force it was no problem to engulf both
-Sir. Turquoise and Commander Orange's brawling armies and annihilate
-them. Once again his army grew in size and power. Now if only the Baron
-didn't notice that..., thought the General.
-
-
-   ...
-
-   "Too late!" yelped the General, now thrown into panic, as he saw the
-approaching Baron. His army had also grown in size and power - having
-fatally injured the Turquoise army within the opening moments of the
-battle, and having finally managed to catch the elusive fleeing form
-of, or what remained of, Emperor Green.
-
-   Gripping the controls harder the General thought quickly, his army
-doesn't so completely outnumber me that this is already over, however
-unless I can cause him to make a mistake that allows me to take the
-upper hand then I will inevitably lose. Maybe I can...
-
-   This thought was terminated and replaced by another as the Baron's
-angry red troops broke through the undergrowth that had covered their
-movements and started to surround the General's army. The thought that
-now throbbed through the panic-stricken mind of General Violet was
-simply 'Run!'.
-
-   Even as he signaled the retreat and made for what seemed to be the
-only possible means of escape the Baron's blood red control ring
-appeared at the opening. The General knew it was over, even before the
-host of red beings appeared at the opening.
-
-   There was no escape. His life force was almost depleted and he was
-surrounded. Then it was that the Baron decided to communicate:
-
-   "Too bad. It was a good game"
-
-   The General blinked, gaped, and was generally gobsmacked. Just
-before his life force completely failed and his own weary eyes closed
-in defeat he snarled,
-
-   "What!? This is not a game!" were the General's dying words.
-
-
-File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
-
-Annexe C Links
-**************
-
-This section lists various Internet Liquid War related links.
-
-   * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
-
-   * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
-
-   * `http://download.savannah.gnu.org/releases/liquidwar6/': Savannah
-     downloads
-
-   * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
-
-   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
-     (deprecated)
-
-   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git',
-     `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
-     (replaces GNU Arch)
-
-   * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
-
-   * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
-     archives
-
-   * `http://kasperhviid.dk/liquid-stuff.html',
-     `http://kasperhviid.dk/lw6-eyecandy.html',
-     `http://kasperhviid.dk/lw6-gui.html': Kasper Hviid brainstorming
-     and resources concerning Liquid War 6.
-     `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
-     Wikipedia
-
-   * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
-     Wikipedia (French)
-
-   * `http://www.lgdb.org/game/liquid_war': Liquid War 6 entry on LGDB
-
-   * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
-     Libregamewiki
-
-   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
 

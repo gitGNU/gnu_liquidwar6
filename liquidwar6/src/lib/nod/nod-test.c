@@ -48,7 +48,59 @@
 #define _TEST_GAME_SCREENSHOT_SIZE 10
 #define _TEST_GAME_SCREENSHOT_DATA "123456789"
 
+static void
+_node_dup_dyn_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+  lw6nod_dyn_info_t *dyn_info = NULL;
+  int len = 0;
 
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      dyn_info = lw6nod_info_dup_dyn (info);
+      if (dyn_info)
+	{
+	  len = strlen (dyn_info->level);	// would segfault on bug
+	  if (first_time)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("dup dyn level=\"%s\""),
+			  dyn_info->level);
+	      first_time = 0;
+	    }
+	  lw6nod_dyn_info_free (dyn_info);
+	  dyn_info = NULL;
+	}
+    }
+}
+
+static void
+_node_update_callback (void *data)
+{
+  lw6nod_info_t *info = (lw6nod_info_t *) data;
+  int64_t stop_timestamp = 0;
+  int first_time = 1;
+  int ret = 0;
+
+  stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
+
+  while (lw6sys_get_timestamp () < stop_timestamp)
+    {
+      ret =
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
+			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+			    _TEST_GAME_SCREENSHOT_SIZE,
+			    _TEST_GAME_SCREENSHOT_DATA);
+      if (first_time)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("update dyn info ret=%d"), ret);
+	  first_time = 0;
+	}
+    }
+}
 
 static void
 _node_add_discovered_callback (void *data)
@@ -207,6 +259,8 @@ test_node ()
     void *thread_pop_discovered = NULL;
     void *thread_set_verified = NULL;
     void *thread_map_verified = NULL;
+    void *thread_update = NULL;
+    void *thread_dup_dyn = NULL;
     char *url = NULL;
 
     ret = 0;
@@ -260,10 +314,28 @@ test_node ()
 					    NULL, info);
 		    if (thread_add_discovered)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _
-				    ("4 threads started, each one querying the same node info object"));
-			ret = 1;
+
+			thread_update =
+			  lw6sys_thread_create (_node_update_callback,
+						NULL, info);
+			if (thread_update)
+			  {
+
+			    thread_dup_dyn =
+			      lw6sys_thread_create (_node_dup_dyn_callback,
+						    NULL, info);
+			    if (thread_dup_dyn)
+			      {
+
+
+				lw6sys_log (LW6SYS_LOG_NOTICE,
+					    _
+					    ("6 threads started, each one querying the same node info object"));
+				ret = 1;
+				lw6sys_thread_join (thread_dup_dyn);
+			      }
+			    lw6sys_thread_join (thread_update);
+			  }
 			lw6sys_thread_join (thread_add_discovered);
 		      }
 		    lw6sys_thread_join (thread_pop_discovered);

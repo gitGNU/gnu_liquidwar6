@@ -1,3 +1,163 @@
+@deftypefun {void} {lw6nod_dyn_info_free} (lw6nod_dyn_info_t * @var{dyn_info})
+@var{dyn_info}:  the dyn info struct to free
+
+Frees a dyn info object, to be used after a
+call to @code{lw6nod_info_dup_dyn} for instance.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{bench}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
+@var{id}:  the node id
+
+@var{url}:  the node public url
+
+@var{title}:  the node title
+
+@var{description}:  the node description
+
+@var{bench}:  the node bench
+
+@var{idle_screenshot_size}:  the size (bytes) of the image to display when game is idle
+
+@var{idle_screenshot_data}:  the data (jpeg) of the image to display when game is idle
+
+Creates a node info object. The arguments correspond to the immutable node
+attributes, other properties such as how many players are connected or
+set in other functions like @code{lw6nod_info_update} which can be called later.
+
+@strong{Return value:}  newly allocated object, NULL on error.
+@end deftypefun
+
+@deftypefun {void} {lw6nod_info_free} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to free
+
+Frees a node info object.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_lock} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to lock
+
+Locks a node info object, this is usefull for some members, typically
+list of servers, can be accessed by separated threads, one reading, 
+many writing, and these objects (chained lists) certainly do not
+want to be modified while being read.
+
+@strong{Return value:}  1 if ok, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_unlock} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to unlock
+
+Unlocks a node info object, this is the compation of
+the @code{lw6nod_info_lock} function.
+
+@strong{Return value:}  1 if ok, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6nod_info_idle} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to modify
+
+Clears a node info object and sets all its variable attributes
+to NULL/default values. This is what we want when the node is idle,
+not playing.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, char * @var{level}, int @var{required}, int @var{limit}, int @var{colors}, int @var{nodes}, int @var{cursors}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@var{info}:  the node info to update
+
+@var{level}:  the name of the current level (map)
+
+@var{required}:  the bench required to connect
+
+@var{limit}:  the max number of colors
+
+@var{nodes}:  the number of colors
+
+@var{cursors}:  the number of cursors
+
+@var{game_screenshot_size}:  size of screenshot (bytes)
+
+@var{game_screenshot_data}:  screenshot data (byte buffer, contains JPEG)
+
+Set a node info object variable attributes. Call this whenever
+the node has changed some parameter. Not too often for it's not
+needed and some operations such as modying the screenshot,
+can be time consuming.
+
+@strong{Return value:}  1 if OK, 0 if error.
+@end deftypefun
+
+@deftypefun {lw6nod_dyn_info_t *} {lw6nod_info_dup_dyn} (lw6nod_info_t * @var{info})
+@var{info}:  the node info containing the dyn info to duplicate
+
+Extracts the dynamic part of an info struct and duplicates
+it, this is to avoid protection fault error when concurrent
+threads access this info.
+
+@strong{Return value:}  newly allocated object, must be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_add_discovered_node} (lw6nod_info_t * @var{info}, char * @var{public_url})
+@var{info}:  the node info to update
+
+@var{public_url}:  the address of the discovered node
+
+Registers a new server, and queues it as something that should
+be checked later because it's interesting. We can't insert in the
+database all the servers we suspect to exist so network threads 
+should use this, then main thread will process discovered servers
+afterwards. This is also a good way to avoid trivial DOS attacks.
+
+@strong{Return value:}  1 if OK, O if error.
+@end deftypefun
+
+@deftypefun {char *} {lw6nod_info_pop_discovered_node} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to query
+
+Gets the next discovered node, one would typically call this
+until it returns NULL to test all of the nodes. When it
+returns NULL, the list is empty, will be populated (or not)
+later when new servers connect.
+
+@strong{Return value:}  the public URL of a node, or NULL if empty list
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_set_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_t * @var{list})
+@var{info}:  the node info to modify
+
+@var{list}:  the list of verified nodes, will be freed by this function
+
+Sets the list of verified nodes, that is, the list of nodes
+we are sure to exist, this is typically the list we will
+display later on a web page. We can't directly display
+any discovered node, one needs to filter them through main thread.
+Something very important about this function is that @code{list} will
+be freed by function, that is, if you call this, then you can
+(you should) forget your object, it will disappear any time soon.
+
+@strong{Return value:}  1 if OK, 0 on error.
+@end deftypefun
+
+@deftypefun {void} {lw6nod_info_map_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_callback_func_t @var{func}, void * @var{func_data})
+@var{info}:  the node info concerned
+
+@var{func}:  the function to apply
+
+@var{func_data}:  arbitrary pointer holding data to pass to function
+
+Calls @code{lw6sys_list_map} on every member of the list of verified
+ndoes. The reason there's a function for this is that it is
+very important that list object is locked when doing this.
+This function does perform a lock/unlock so it is safe.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6nod_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

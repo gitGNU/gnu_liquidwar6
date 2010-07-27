@@ -25,6 +25,7 @@
 #endif
 
 #include "nod.h"
+#include "nod-internal.h"
 
 /**
  * lw6nod_info_new
@@ -49,45 +50,23 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
 		 void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
+  int const_init_ret = 0;
 
   info = (lw6nod_info_t *) LW6SYS_CALLOC (sizeof (lw6nod_info_t));
   if (info)
     {
       info->mutex = lw6sys_mutex_create ();
-      info->creation_timestamp = lw6sys_get_timestamp ();
-      info->id = lw6sys_id_ltoa (id);
-      info->url = lw6sys_str_copy (url);
-      if (title && strlen (title) > 0)
-	{
-	  info->title = lw6sys_str_copy (title);
-	}
-      else
-	{
-	  info->title = lw6sys_get_hostname ();
-	}
-      if (description)
-	{
-	  info->description = lw6sys_str_copy (description);
-	}
-      else
-	{
-	  info->description = lw6sys_str_copy ("");
-	}
-      info->bench = bench;
+
+      const_init_ret =
+	_lw6nod_const_info_init (&(info->const_info), id, url, title,
+				 description, bench, idle_screenshot_size,
+				 idle_screenshot_data);
       lw6nod_info_idle (info);
-      info->idle_screenshot_size = idle_screenshot_size;
-      info->idle_screenshot_data = LW6SYS_MALLOC (idle_screenshot_size);
-      if (info->idle_screenshot_data)
-	{
-	  memcpy (info->idle_screenshot_data, idle_screenshot_data,
-		  idle_screenshot_size);
-	}
       info->discovered_nodes = lw6sys_list_new (lw6sys_free_callback);
       info->verified_nodes = lw6sys_list_new (lw6sys_free_callback);
 
-      if (info->mutex && info->id && info->url && info->title
-	  && info->description && info->idle_screenshot_data
-	  && info->discovered_nodes && info->verified_nodes)
+      if (info->mutex && const_init_ret && info->discovered_nodes
+	  && info->verified_nodes)
 	{
 	  // ok
 	}
@@ -116,30 +95,15 @@ void
 lw6nod_info_free (lw6nod_info_t * info)
 {
   lw6nod_info_idle (info);
+  if (info->dyn_info.level)
+    {
+      LW6SYS_FREE (info->dyn_info.level);
+    }
   if (info->mutex)
     {
       lw6sys_mutex_destroy (info->mutex);
     }
-  if (info->id)
-    {
-      LW6SYS_FREE (info->id);
-    }
-  if (info->url)
-    {
-      LW6SYS_FREE (info->url);
-    }
-  if (info->title)
-    {
-      LW6SYS_FREE (info->title);
-    }
-  if (info->description)
-    {
-      LW6SYS_FREE (info->description);
-    }
-  if (info->idle_screenshot_data)
-    {
-      LW6SYS_FREE (info->idle_screenshot_data);
-    }
+  _lw6nod_const_info_reset (&(info->const_info));
   if (info->discovered_nodes)
     {
       lw6sys_list_free (info->discovered_nodes);
@@ -218,21 +182,7 @@ lw6nod_info_idle (lw6nod_info_t * info)
       locked = lw6nod_info_lock (info);
     }
 
-  if (info->level)
-    {
-      LW6SYS_FREE (info->level);
-      info->level = lw6sys_str_copy ("");
-    }
-  info->required = 0;
-  info->limit = 0;
-  info->colors = 0;
-  info->nodes = 0;
-  info->cursors = 0;
-  if (info->game_screenshot_data)
-    {
-      LW6SYS_FREE (info->game_screenshot_data);
-      info->game_screenshot_data = NULL;
-    }
+  _lw6nod_dyn_info_reset (&(info->dyn_info));
 
   if (info->mutex && locked)
     {
@@ -244,6 +194,13 @@ lw6nod_info_idle (lw6nod_info_t * info)
  * lw6nod_info_update
  *
  * @info: the node info to update
+ * @level: the name of the current level (map)
+ * @required: the bench required to connect
+ * @limit: the max number of colors
+ * @nodes: the number of colors
+ * @cursors: the number of cursors
+ * @game_screenshot_size: size of screenshot (bytes)
+ * @game_screenshot_data: screenshot data (byte buffer, contains JPEG)
  *
  * Set a node info object variable attributes. Call this whenever
  * the node has changed some parameter. Not too often for it's not
@@ -265,34 +222,57 @@ lw6nod_info_update (lw6nod_info_t * info, char *level,
 
   if (lw6nod_info_lock (info))
     {
-      if (info->level)
-	{
-	  LW6SYS_FREE (info->level);
-	  info->level = lw6sys_str_copy (level);
-	}
-      info->required = 0;
-      info->limit = 0;
-      info->colors = 0;
-      info->nodes = 0;
-      info->cursors = 0;
-      info->game_screenshot_size = game_screenshot_size;
-      if (info->game_screenshot_data)
-	{
-	  LW6SYS_FREE (info->game_screenshot_data);
-	  info->game_screenshot_data = NULL;
-	}
-      info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
-      if (info->game_screenshot_data)
-	{
-	  memcpy (info->game_screenshot_data, game_screenshot_data,
-		  game_screenshot_size);
-	}
-
-      ret = (info->level && info->game_screenshot_data);
+      ret =
+	_lw6nod_dyn_info_update (&(info->dyn_info), level, required, limit,
+				 colors, nodes, cursors, game_screenshot_size,
+				 game_screenshot_data);
       lw6nod_info_unlock (info);
     }
 
   return ret;
+}
+
+/**
+ * lw6nod_info_dup_dyn
+ *
+ * @info: the node info containing the dyn info to duplicate
+ *
+ * Extracts the dynamic part of an info struct and duplicates
+ * it, this is to avoid protection fault error when concurrent
+ * threads access this info.
+ *
+ * Return value: newly allocated object, must be freed.
+ */
+lw6nod_dyn_info_t *
+lw6nod_info_dup_dyn (lw6nod_info_t * info)
+{
+  lw6nod_dyn_info_t *dyn_info = NULL;
+
+  dyn_info = (lw6nod_dyn_info_t *) LW6SYS_CALLOC (sizeof (lw6nod_dyn_info_t));
+
+  if (dyn_info)
+    {
+      if (lw6nod_info_lock (info))
+	{
+	  if (_lw6nod_dyn_info_update
+	      (dyn_info, info->dyn_info.level, info->dyn_info.required,
+	       info->dyn_info.limit, info->dyn_info.colors,
+	       info->dyn_info.nodes, info->dyn_info.cursors,
+	       info->dyn_info.game_screenshot_size,
+	       info->dyn_info.game_screenshot_data))
+	    {
+	      //OK
+	    }
+	  else
+	    {
+	      lw6nod_dyn_info_free (dyn_info);
+	      dyn_info = NULL;
+	    }
+	  lw6nod_info_unlock (info);
+	}
+    }
+
+  return dyn_info;
 }
 
 /**
