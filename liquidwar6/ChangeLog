@@ -1,3 +1,7 @@
+2010-07-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed make distcheck target (using const.texi.in.in).
+
 2010-07-26 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Using node info in p2p node module, fixed race condition.

@@ -60,7 +60,7 @@ host_triplet = @host@
 target_triplet = @target@
 DIST_COMMON = $(liquidwar6_TEXINFOS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.gdoc $(srcdir)/Makefile.in \
-	$(srcdir)/Makefile.selfdoc $(srcdir)/const.texi.in \
+	$(srcdir)/Makefile.selfdoc $(srcdir)/const.texi.in.in \
 	$(srcdir)/liquidwar6.man.in $(srcdir)/stamp-vti \
 	$(srcdir)/version.texi COPYING mdate-sh texinfo.tex
 subdir = doc
@@ -77,7 +77,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = liquidwar6.man const.texi
+CONFIG_CLEAN_FILES = liquidwar6.man const.texi.in
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -392,7 +392,7 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 liquidwar6.man: $(top_builddir)/config.status $(srcdir)/liquidwar6.man.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-const.texi: $(top_builddir)/config.status $(srcdir)/const.texi.in
+const.texi.in: $(top_builddir)/config.status $(srcdir)/const.texi.in.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
@@ -1015,7 +1015,7 @@ uninstall-man: uninstall-man6
 
 
 all-local:
-	if ! diff ${builddir}/const.texi ${srcdir}/const.texi ; then cp ${builddir}/const.texi ${srcdir}/const.texi ; fi
+	if ! diff ${builddir}/const.texi.in ${srcdir}/const.texi ; then cp ${builddir}/const.texi.in ${srcdir}/const.texi ; fi
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi
