@@ -1,3 +1,7 @@
+2010-08-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug in script (server -> node).
+
 2010-07-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added tools for safe node dyn info access.

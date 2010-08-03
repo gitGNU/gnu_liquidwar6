@@ -141,7 +141,7 @@
       (if (and level game-struct game-state-preview)
 	  (begin
 	    (lw6-set-game-global! "loaded" (assoc-set! loaded "game-state-preview" game-state-preview))
-	    (c-lw6ker-register-server game-state-preview node-id)
+	    (c-lw6ker-register-node game-state-preview node-id)
 	    (lw6-cursor-set-configured-player! game-state-preview "1" node-id)
 	    (lw6-cursor-set-configured-player! game-state-preview "2" node-id)
 	    (lw6-cursor-set-configured-player! game-state-preview "3" node-id)
