@@ -78,7 +78,8 @@ extern void _mod_httpd_unload_data (_httpd_data_t * httpd_data);
 /*
  * In setup.c
  */
-extern _httpd_context_t *_mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener);
+extern _httpd_context_t *_mod_httpd_init (int argc, char *argv[],
+					  lw6srv_listener_t * listener);
 extern void _mod_httpd_quit (_httpd_context_t * httpd_context);
 
 /*

@@ -41,7 +41,8 @@ _tcpd_context_t;
 /*
  * In setup.c
  */
-extern _tcpd_context_t *_mod_tcpd_init (int argc, char *argv[], lw6srv_listener_t * listener);
+extern _tcpd_context_t *_mod_tcpd_init (int argc, char *argv[],
+					lw6srv_listener_t * listener);
 extern void _mod_tcpd_quit (_tcpd_context_t * tcpd_context);
 
 /*

@@ -66,6 +66,8 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
   int ret = 1;
   char *filename = NULL;
 
+  lw6sys_log (LW6SYS_LOG_INFO, _("loading htdocs from \"%s\""), htdocs_dir);
+
   filename = lw6sys_path_concat (htdocs_dir, _INDEX_HTML_FILE);
   if (filename)
     {
@@ -78,11 +80,11 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
       htdocs->robots_txt = lw6sys_read_file_content (filename);
       LW6SYS_FREE (filename);
     }
+  filename = lw6sys_path_concat (htdocs_dir, _FAVICON_ICO_FILE);
   if (filename)
     {
       htdocs->favicon_ico_data =
-	lw6sys_read_file_content_bin (&(htdocs->favicon_ico_size),
-				      filename);
+	lw6sys_read_file_content_bin (&(htdocs->favicon_ico_size), filename);
       LW6SYS_FREE (filename);
     }
 

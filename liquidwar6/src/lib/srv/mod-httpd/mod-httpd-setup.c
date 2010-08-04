@@ -32,7 +32,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
   _httpd_context_t *httpd_context = NULL;
   char *data_dir;
-  int ok=0;
+  int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("httpd init"));
 
@@ -41,13 +41,14 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   if (httpd_context)
     {
       data_dir = lw6sys_get_data_dir (argc, argv);
-      if (data_dir) {
-	if (_mod_httpd_load_data (&(httpd_context->data),data_dir))
+      if (data_dir)
 	{
-	  ok=1;
+	  if (_mod_httpd_load_data (&(httpd_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
 	}
-      LW6SYS_FREE(data_dir);
-      }
 
       if (!ok)
 	{

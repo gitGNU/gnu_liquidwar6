@@ -7456,6 +7456,18 @@ C interfaces:
 
      *Return value:*  none.
 
+ -- Function: void lw6sys_str_cleanup_ascii7 (char * STR)
+     STR:  a pointer to the string, which will be modified in-place.
+
+     Used to clean up some strings, for instance if they come from the
+     network, we don't necessarly want system chars to be displayed on
+     the console. Basically it removes all characters with an ASCII
+     code inferior to 32, that is, all system characters. This way,
+     there won't be any tab, linefeed, or any of such characters left.
+     This function will even remove any character above ASCII 127.
+
+     *Return value:*  none.
+
  -- Function: char * lw6sys_str_reformat (char * STR, char * PREFIX,
           int NB_COLUMNS)
      STR:  a pointer to the string we want to modify
@@ -7707,6 +7719,33 @@ C interfaces:
      used to create public_url in net modules.
 
      *Return value:*  a newly allocated string, NULL on error.
+
+ -- Function: lw6sys_url_t * lw6sys_url_parse (char * URL)
+     URL:  the URL to parse
+
+     Parses a URL, this is not a complete RFC compliant parser, it's
+     only used to transform URLs into their 'canonical' form as well as
+     getting basic info such as on which port one should connect.
+
+     *Return value:*  a newly allocated struct, NULL on error
+
+ -- Function: void lw6sys_url_free (lw6sys_url_t * URL)
+     URL:  the url struct to free
+
+     Frees a URL struct and all its members.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6sys_url_canonize (char * URL)
+     URL:  the url to check & transform
+
+     Checks if a given URL is correct and, if it is, transforms it into
+     its canonical form. This is mostly to get rid of typesettings
+     error, add a tailing /, transform all domain into lowercase, among
+     other things. A canonized url passed into this function should
+     come out exactly the same.
+
+     *Return value:*  a newly allocated string.
 
  -- Function: int lw6sys_vthread_run (lw6sys_thread_callback_func_t
           CALLBACK_FUNC, lw6sys_thread_callback_func_t CALLBACK_JOIN,

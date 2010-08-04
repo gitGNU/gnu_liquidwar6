@@ -34,7 +34,8 @@ _udpd_context_t;
 /*
  * In setup.c
  */
-extern _udpd_context_t *_mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener);
+extern _udpd_context_t *_mod_udpd_init (int argc, char *argv[],
+					lw6srv_listener_t * listener);
 extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
 
 /*

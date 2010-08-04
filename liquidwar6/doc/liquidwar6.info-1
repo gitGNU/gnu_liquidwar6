@@ -2802,66 +2802,42 @@ might change before being implemented.
 
    Out of band messages:
 
-   * UPTIME -> uptime in seconds
+   * INFO -> various server info
 
-   * ROUND -> number of rounds (session related)
+   * LIST -> list of servers (public_url)
 
-   * BPS -> number of net messages send per second
-
-   * LIST -> list all known servers
-
-   * PEERS -> list servers with active connections
-
-   * VERSION -> version of the program
-
-   * ID -> the id of this server
-
-   * SESSION -> the id of the session
-
-   * PING -> expects PONG
-
-   * URL -> an alternate URL, possibly proxied
-
-   * MAX -> max number of teams on this server/session
-
-   * PLAYERS -> players playing
-
-   * COLORS -> colors playing
-
-   * LOCKED -> expects "YES" or "NO"
-
-   * MOTD -> message of the day
+   * PING -> expect PONG
 
    TCP messages:
 
 LW6 [<passwd>] <version> <client-id>
-<from-id> <to-id> <serial> <i> <n> MSG1
-<from-id> <to-id> <serial> <i> <n> MSG2
+<from-id> <to-id> <serial> <i> <n> <sig> MSG1
+<from-id> <to-id> <serial> <i> <n> <sig> MSG2
 
    TCP oobs:
 
 <return> # only works anonymous, same as INFO
-INFO [<passwd>] <public-url>
-LIST [<passwd>] <public-url>
-PING [<passwd>] <public-url>
+INFO [<passwd>] [<public-url>]
+LIST [<passwd>] [<public-url>]
+PING [<passwd>] [<public-url>]
 
    UDP messages:
 
-LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG1
-LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG2
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> <sig> MSG1
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> <sig> MSG2
 
    UDP oobs:
 
-INFO [<passwd>] <public-url>
-LIST [<passwd>] <public-url>
-PING [<passwd>] <public-url>
+INFO [<passwd>] [<public-url>]
+LIST [<passwd>] [<public-url>]
+PING [<passwd>] [<public-url>]
 
    HTTP messages:
 
-   Version, client id & password passed in HTTP headers
+   client id & password passed in HTTP headers
 
-/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG1
-/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG2
+/lw6/version/<from-id>/<to-id>/<serial>/<i>/<n>/sig/MSG1
+/lw6/version/<from-id>/<to-id>/<serial>/<i>/<n>/sig/MSG2
 
    HTTP public URLs:
 
@@ -2884,6 +2860,9 @@ PING [<passwd>] <public-url>
 10 1234abcd1234abcd NOP
 400 1234abcd1234abcd REMOVE 5678
 1000 1234abcd1234abcd UNREGISTER
+
+   Sig is a checksum on string:
+<from-id> <to-id> <serial> <i> <n> MSG
 
 
 File: liquidwar6.info,  Node: Using GNU Arch,  Next: Using GIT,  Prev: Network protocol,  Up: Hacker's guide

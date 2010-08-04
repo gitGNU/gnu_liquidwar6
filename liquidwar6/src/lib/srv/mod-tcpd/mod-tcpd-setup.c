@@ -37,7 +37,7 @@ _mod_tcpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   tcpd_context = (_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_tcpd_context_t));
   if (!tcpd_context)
     {
-      lw6sys_log(LW6SYS_LOG_ERROR,_("can't initialize mod_tcpd"));
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_tcpd"));
     }
 
   return tcpd_context;

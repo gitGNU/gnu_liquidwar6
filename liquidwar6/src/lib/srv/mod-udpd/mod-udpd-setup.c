@@ -37,7 +37,7 @@ _mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   udpd_context = (_udpd_context_t *) LW6SYS_CALLOC (sizeof (_udpd_context_t));
   if (!udpd_context)
     {
-      lw6sys_log(LW6SYS_LOG_ERROR,_("can't initialize mod_ucpd"));
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_ucpd"));
     }
 
   return udpd_context;

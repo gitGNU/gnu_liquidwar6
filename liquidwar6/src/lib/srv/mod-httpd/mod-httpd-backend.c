@@ -31,7 +31,7 @@
 static void *
 _init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _httpd_context_t *httpd_context = _mod_httpd_init (argc,argv,listener);
+  _httpd_context_t *httpd_context = _mod_httpd_init (argc, argv, listener);
 
   return (void *) httpd_context;
 }
