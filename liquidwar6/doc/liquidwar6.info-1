@@ -2834,34 +2834,46 @@ might change before being implemented.
 
    TCP messages:
 
-LW6 <passwd> <client-id>
-MSG1
-MSG2
+LW6 [<passwd>] <version> <client-id>
+<from-id> <to-id> <serial> <i> <n> MSG1
+<from-id> <to-id> <serial> <i> <n> MSG2
+
+   TCP oobs:
+
+<return> # only works anonymous, same as INFO
+INFO [<passwd>] <public-url>
+LIST [<passwd>] <public-url>
+PING [<passwd>] <public-url>
 
    UDP messages:
 
-LW6 <passwd> <client-id> MSG1
-LW6 <passwd> <client-id> MSG2
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG1
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG2
+
+   UDP oobs:
+
+INFO [<passwd>] <public-url>
+LIST [<passwd>] <public-url>
+PING [<passwd>] <public-url>
 
    HTTP messages:
 
-/lw6/<passwd>/<client-id>/MSG1
-/lw6/<passwd>/<client-id>/MSG2
+   Version, client id & password passed in HTTP headers
+
+/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG1
+/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG2
 
    HTTP public URLs:
 
-error 404 -> /lw6/
-/lw6/ -> HTML human readbable page
+/ -> index.html
 /favicon.ico
-/lw6/favicon.ico
-/lw6/screenshot.jpg
-/lw6/<oob>
+/screenshot.jpg
+/robots.txt
+/info.txt
+/list.txt
+/ping.txt
 
    MSG syntax:
-
-<serial>-<i>-<n> COMMAND
-
-   COMMAND format:
 
 <round> <server-id> <command> <arg1> ... <argN>
 
