@@ -27,43 +27,38 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
-_httpd_context_t *
-_mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
+_httpd_request_t *
+_mod_httpd_request_parse (_httpd_context_t * httpd_context,
+			  lw6srv_oob_data_t * oob_data)
 {
-  _httpd_context_t *httpd_context = NULL;
-  char *data_dir;
-  int ok=0;
+  _httpd_request_t *request = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("httpd init"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("process httpd oob"));
 
-  httpd_context =
-    (_httpd_context_t *) LW6SYS_CALLOC (sizeof (_httpd_context_t));
-  if (httpd_context)
+  request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
+  if (request)
     {
-      data_dir = lw6sys_get_data_dir (argc, argv);
-      if (data_dir) {
-	if (_mod_httpd_load_data (&(httpd_context->data),data_dir))
-	{
-	  ok=1;
-	}
-      LW6SYS_FREE(data_dir);
-      }
-
-      if (!ok)
-	{
-	  LW6SYS_FREE (httpd_context);
-	  httpd_context = NULL;
-	  lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_httpd"));
-	}
     }
 
-  return httpd_context;
+  return request;
 }
 
 void
-_mod_httpd_quit (_httpd_context_t * httpd_context)
+_mod_httpd_request_free (_httpd_request_t * request)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("httpd quit"));
-  _mod_httpd_unload_data (&(httpd_context->data));
-  LW6SYS_FREE (httpd_context);
+  if (request)
+    {
+      if (request->uri)
+	{
+	  LW6SYS_FREE (request->uri);
+	}
+      if (request->http_user)
+	{
+	  LW6SYS_FREE (request->http_user);
+	}
+      if (request->http_password)
+	{
+	  LW6SYS_FREE (request->http_password);
+	}
+    }
 }

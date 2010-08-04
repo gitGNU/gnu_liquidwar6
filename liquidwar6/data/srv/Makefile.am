@@ -18,21 +18,5 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@
+SUBDIRS = httpd
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
-
-noinst_LTLIBRARIES = libmod_httpd_s.la
-MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-data.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-message.c mod-httpd-oob.c mod-httpd-request.c mod-httpd-response.c mod-httpd-setup.c mod-httpd-state.c
-libmod_httpd_s_la_SOURCES = $(MOD_HTTPD_FILES) 
-
-if !ALLINONE
-lib_LTLIBRARIES = libmod_httpd.la
-libmod_httpd_la_SOURCES = $(MOD_HTTPD_FILES) 
-libmod_httpd_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
-libmod_httpddir = $(includedir)/@PACKAGE_TARNAME@/srv/mod-httpd
-libmod_httpd_HEADERS = mod-httpd.h
-endif
-
-EXTRA_DIST = mod-httpd-internal.h

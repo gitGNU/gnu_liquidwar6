@@ -16,7 +16,7 @@
 @SET_MAKE@
 
 # Liquid War 6 is a unique multiplayer wargame.
-# Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = data/net/template
+subdir = data/srv/httpd/htdocs
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
@@ -97,7 +97,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(pkgdatadir)"
 DATA = $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/net/template
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/srv/httpd/htdocs
 ACLOCAL = @ACLOCAL@
 ALLINONE_CFLAGS = @ALLINONE_CFLAGS@
 ALLINONE_LDFLAGS = @ALLINONE_LDFLAGS@
@@ -288,7 +288,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = index.html more.html
+pkgdata_DATA = index.html favicon.ico robots.txt
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
@@ -302,9 +302,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu data/net/template/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu data/srv/httpd/htdocs/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu data/net/template/Makefile
+	  $(AUTOMAKE) --gnu data/srv/httpd/htdocs/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

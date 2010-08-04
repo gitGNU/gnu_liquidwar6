@@ -28,27 +28,24 @@
 #include "mod-udpd-internal.h"
 
 _udpd_context_t *
-_mod_udpd_init ()
+_mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _udpd_context_t *srv_context = NULL;
-
-  srv_context = (_udpd_context_t *) LW6SYS_CALLOC (sizeof (_udpd_context_t));
-  if (!srv_context)
-    {
-      /*
-       * No use to continue if this basic malloc fails...
-       */
-      exit (1);
-    }
+  _udpd_context_t *udpd_context = NULL;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("udpd init"));
 
-  return srv_context;
+  udpd_context = (_udpd_context_t *) LW6SYS_CALLOC (sizeof (_udpd_context_t));
+  if (!udpd_context)
+    {
+      lw6sys_log(LW6SYS_LOG_ERROR,_("can't initialize mod_ucpd"));
+    }
+
+  return udpd_context;
 }
 
 void
-_mod_udpd_quit (_udpd_context_t * srv_context)
+_mod_udpd_quit (_udpd_context_t * udpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("udpd quit"));
-  LW6SYS_FREE (srv_context);
+  LW6SYS_FREE (udpd_context);
 }

@@ -2906,62 +2906,50 @@ Bare technical stuff.
 Out of band messages:
 
 @itemize
-@item UPTIME -> uptime in seconds
-@item ROUND -> number of rounds (session related)
-@item BPS -> number of net messages send per second 
-@item LIST -> list all known servers
-@item PEERS -> list servers with active connections
-@item VERSION -> version of the program
-@item ID -> the id of this server
-@item SESSION -> the id of the session
-@item PING -> expects PONG
-@item URL -> an alternate URL, possibly proxied
-@item MAX -> max number of teams on this server/session
-@item PLAYERS -> players playing 
-@item COLORS -> colors playing
-@item LOCKED -> expects "YES" or "NO"
-@item MOTD -> message of the day
+@item INFO -> various server info
+@item LIST -> list of servers (public_url)
+@item PING -> expect PONG
 @end itemize
 
 TCP messages:
 
 @verbatim
 LW6 [<passwd>] <version> <client-id>
-<from-id> <to-id> <serial> <i> <n> MSG1
-<from-id> <to-id> <serial> <i> <n> MSG2
+<from-id> <to-id> <serial> <i> <n> <sig> MSG1
+<from-id> <to-id> <serial> <i> <n> <sig> MSG2
 @end verbatim
 
 TCP oobs:
 
 @verbatim
 <return> # only works anonymous, same as INFO
-INFO [<passwd>] <public-url>
-LIST [<passwd>] <public-url>
-PING [<passwd>] <public-url>
+INFO [<passwd>] [<public-url>]
+LIST [<passwd>] [<public-url>]
+PING [<passwd>] [<public-url>]
 @end verbatim
 
 UDP messages:
 
 @verbatim
-LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG1
-LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG2
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> <sig> MSG1
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> <sig> MSG2
 @end verbatim
 
 UDP oobs:
 
 @verbatim
-INFO [<passwd>] <public-url>
-LIST [<passwd>] <public-url>
-PING [<passwd>] <public-url>
+INFO [<passwd>] [<public-url>]
+LIST [<passwd>] [<public-url>]
+PING [<passwd>] [<public-url>]
 @end verbatim
 
 HTTP messages:
 
-Version, client id & password passed in HTTP headers
+client id & password passed in HTTP headers
 
 @verbatim
-/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG1
-/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG2
+/lw6/version/<from-id>/<to-id>/<serial>/<i>/<n>/sig/MSG1
+/lw6/version/<from-id>/<to-id>/<serial>/<i>/<n>/sig/MSG2
 @end verbatim
 
 HTTP public URLs:
@@ -2990,6 +2978,11 @@ COMMAND examples:
 10 1234abcd1234abcd NOP
 400 1234abcd1234abcd REMOVE 5678
 1000 1234abcd1234abcd UNREGISTER
+@end verbatim
+
+Sig is a checksum on string:
+@verbatim
+<from-id> <to-id> <serial> <i> <n> MSG
 @end verbatim
 
 @c ---------------------------------------------------------------------------

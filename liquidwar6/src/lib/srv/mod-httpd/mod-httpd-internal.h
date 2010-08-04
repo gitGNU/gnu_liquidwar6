@@ -35,16 +35,50 @@
 #define _MOD_HTTPD_PROTOCOL_LW6_STRING "/lw6"
 #define _MOD_HTTPD_PROTOCOL_LW6_SIZE 4
 
+typedef struct _httpd_consts_s
+{
+  int timeout_msec;
+}
+_httpd_consts_t;
+
+typedef struct _httpd_htdocs_s
+{
+  char *index_html;
+  char *robots_txt;
+  int favicon_ico_size;
+  void *favicon_ico_data;
+}
+_httpd_htdocs_t;
+
+typedef struct _httpd_data_s
+{
+  _httpd_consts_t consts;
+  _httpd_htdocs_t htdocs;
+}
+_httpd_data_t;
+
 typedef struct _httpd_context_s
 {
-  int dummy_httpd;
+  _httpd_data_t data;
 }
 _httpd_context_t;
+
+typedef struct _httpd_request_s
+{
+  char *uri;
+  char *http_user;
+  char *http_password;
+} _httpd_request_t;
+
+
+/* mod-httpd-data;c */
+extern int _mod_httpd_load_data (_httpd_data_t * httpd_data, char *data_dir);
+extern void _mod_httpd_unload_data (_httpd_data_t * httpd_data);
 
 /*
  * In setup.c
  */
-extern _httpd_context_t *_mod_httpd_init ();
+extern _httpd_context_t *_mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener);
 extern void _mod_httpd_quit (_httpd_context_t * httpd_context);
 
 /*
@@ -101,5 +135,12 @@ extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 extern int _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 				   lw6nod_info_t * node_info,
 				   lw6srv_oob_data_t * oob_data);
+
+/* mod-httpd-request.c */
+extern _httpd_request_t *_mod_httpd_request_parse (_httpd_context_t *
+						   httpd_context,
+						   lw6srv_oob_data_t *
+						   oob_data);
+extern void _mod_httpd_request_free (_httpd_request_t * request);
 
 #endif

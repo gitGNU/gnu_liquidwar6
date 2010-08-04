@@ -18,8 +18,6 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = template htdocs
-
 pkgdata_DATA = README net-const.xml
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/net
 EXTRA_DIST = $(pkgdata_DATA)

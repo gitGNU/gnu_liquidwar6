@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <int key="timeout-msec" value="10000" />
+</liquidwar6>

@@ -1,6 +1,6 @@
 /*
   Liquid War 6 is a unique multiplayer wargame.
-  Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,27 +14,16 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-img {
-      border-width: 0;
-      }
-      
-#screenshot {
-              float: right; 
-              margin: 1em; 
-              padding: 1em; 
-              border: 1px; 
-              border-style: solid;
-         }
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-.key { 
-       }
+#include "../srv.h"
+#include "mod-httpd-internal.h"
 
-.value { 
-         font-weight: bold;
-         }

@@ -29,9 +29,9 @@
 #include "mod-udpd-internal.h"
 
 static void *
-_init ()
+_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _udpd_context_t *udpd_context = _mod_udpd_init ();
+  _udpd_context_t *udpd_context = _mod_udpd_init (argc,argv,listener);
 
   return (void *) udpd_context;
 }

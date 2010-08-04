@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="listen-backlog" value="10" />
-  <int key="chunk-size" value="1024" />
-  <int key="line-size" value="128" />
+  <int key="chunk-size" value="1000" />
+  <int key="line-size" value="500" />
   <float key="line-delay" value="1.0f" />
 </liquidwar6>

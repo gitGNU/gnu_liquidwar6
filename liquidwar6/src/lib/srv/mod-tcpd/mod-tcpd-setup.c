@@ -28,27 +28,24 @@
 #include "mod-tcpd-internal.h"
 
 _tcpd_context_t *
-_mod_tcpd_init ()
+_mod_tcpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _tcpd_context_t *srv_context = NULL;
-
-  srv_context = (_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_tcpd_context_t));
-  if (!srv_context)
-    {
-      /*
-       * No use to continue if this basic malloc fails...
-       */
-      exit (1);
-    }
+  _tcpd_context_t *tcpd_context = NULL;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("tcpd init"));
 
-  return srv_context;
+  tcpd_context = (_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_tcpd_context_t));
+  if (!tcpd_context)
+    {
+      lw6sys_log(LW6SYS_LOG_ERROR,_("can't initialize mod_tcpd"));
+    }
+
+  return tcpd_context;
 }
 
 void
-_mod_tcpd_quit (_tcpd_context_t * srv_context)
+_mod_tcpd_quit (_tcpd_context_t * tcpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("tcpd quit"));
-  LW6SYS_FREE (srv_context);
+  LW6SYS_FREE (tcpd_context);
 }

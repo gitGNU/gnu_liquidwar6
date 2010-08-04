@@ -755,8 +755,9 @@ AC_CONFIG_FILES([Makefile
  	  data/snd/ogg/Makefile
 	  data/snd/ogg/sound/Makefile
 	  data/net/Makefile
-	  data/net/htdocs/Makefile
-	  data/net/template/Makefile
+	  data/srv/Makefile
+	  data/srv/httpd/Makefile
+	  data/srv/httpd/htdocs/Makefile
 	  data/p2p/Makefile
 	  data/p2p/sql/Makefile
 	  data/p2p/screenshot/Makefile
