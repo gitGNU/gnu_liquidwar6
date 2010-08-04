@@ -1,5 +1,7 @@
 2010-08-04 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Httpd oob messages correctly detected.
+
 	* Public URL canonizing.
 
 	* Split URL in protocol/host/port/uri.

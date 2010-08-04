@@ -33,13 +33,11 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to recognize tcpd protocol"));
-  if (lw6net_tcp_is_alive (tcp_accepter->sock))
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("trying to recognize tcpd protocol"));
+
+  if (!lw6net_tcp_is_alive (tcp_accepter->sock))
     {
-      ret |= LW6SRV_ANALYSE_ALIVE;
-    }
-  else
-    {
+      ret |= LW6SRV_ANALYSE_DEAD;
       lw6net_socket_close (tcp_accepter->sock);
       tcp_accepter->sock = -1;
     }
@@ -48,7 +46,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
       (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
        _MOD_TCPD_PROTOCOL_LW6_SIZE))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("recognized tcpd protocol"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol"));
       ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
     }
 

@@ -132,7 +132,6 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
 
   if (backend->process_oob)
     {
-      TMP ("OOB2");
       ret = backend->process_oob (backend->srv_context, node_info, oob_data);
     }
   else

@@ -34,7 +34,7 @@ _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
   int ret = 0;
 
   /*
-   * TCP is never handled by mod_tcpd, return always false
+   * TCP is never handled by mod_udpd.
    */
 
   return ret;

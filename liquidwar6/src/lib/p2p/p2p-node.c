@@ -456,11 +456,17 @@ _tcp_accepter_reply (void *func_data, void *data)
     {
       analyse_tcp_ret =
 	lw6srv_analyse_tcp (node->srv_backends[i], tcp_accepter);
-      if (analyse_tcp_ret | LW6SRV_ANALYSE_ALIVE)
+      if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
-	  if (analyse_tcp_ret | LW6SRV_ANALYSE_UNDERSTANDABLE)
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("dead accepter, scheduling it for deletion"));
+	  ret = 0;
+	}
+      else
+	{
+	  if (analyse_tcp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
 	    {
-	      if (analyse_tcp_ret | LW6SRV_ANALYSE_OOB)
+	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  oob =
 		    _lw6p2p_oob_callback_data_new (node->srv_backends[i],
@@ -514,14 +520,11 @@ _tcp_accepter_reply (void *func_data, void *data)
 			}
 		    }
 		}
-	      lw6sys_log(LW6SYS_LOG_NOTICE,_("understood accepter, scheduling it for deletion"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _
+			  ("understood accepter, scheduling it for deletion"));
 	      ret = 0;		// will be filtered
 	    }
-	}
-      else
-	{
-	  lw6sys_log(LW6SYS_LOG_NOTICE,_("dead accepter, scheduling it for deletion"));
-	  ret = 0;
 	}
     }
 

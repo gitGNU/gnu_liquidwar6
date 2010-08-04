@@ -101,8 +101,6 @@ _lw6p2p_oob_callback (void *callback_data)
     (_lw6p2p_oob_callback_data_t *) callback_data;
   int ret = 0;
 
-
-  TMP ("OOB1");
   ret = lw6srv_process_oob (oob->backend, oob->node_info, &(oob->oob->data));
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("_oob_callback done ret=%d"), ret);

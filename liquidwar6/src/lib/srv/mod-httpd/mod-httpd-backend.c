@@ -82,10 +82,8 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info,
   _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
   int ret = 0;
 
-  TMP ("OOB3");
   if (httpd_context)
     {
-      TMP ("OOB4");
       ret = _mod_httpd_process_oob (httpd_context, node_info, oob_data);
     }
 
