@@ -87,7 +87,7 @@
 #define BLANK_STR "\t "
 #define CLEANUP_FORMAT "<foo %c bar %c>"
 #define CLEANUP_CONTROL '\n'
-#define CLEANUP_ACCENT 'é'
+#define CLEANUP_ACCENT 233
 #define ASCII_STR "foo,bar"
 #define TEST_ARGC 4
 #define TEST_ARGV0 "test.out"
@@ -193,7 +193,8 @@
 #define TEST_URL_CANONIZE_2 "http://www.ToTo.com:81"
 #define TEST_URL_CANONIZE_3 "https://www.ToTo.com:443/tItI"
 #define TEST_URL_CANONIZE_4 "www.toto.com"
-#define TEST_URL_CANONIZE_5 ""
+#define TEST_URL_CANONIZE_5 ":123"
+#define TEST_URL_CANONIZE_6 ""
 
 /*
  * Testing functions in arg.c
@@ -3080,6 +3081,14 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_5, url);
+	LW6SYS_FREE (url);
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_6);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_6, url);
 	LW6SYS_FREE (url);
       }
   }

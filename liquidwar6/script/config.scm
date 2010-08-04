@@ -72,6 +72,17 @@
     )
   )
 
+(define lw6-config-fix
+  (lambda ()
+    (begin 
+      ;;      (lw6-config-set-string! lw6def-public-url 
+      ;;			      (c-lw6sys-url-canonize 
+      ;;			       (lw6-config-get-string 
+      ;;				lw6def-public-url)))
+      )
+    )
+  )
+
 (define lw6-load-config 
   (lambda () 
     (begin
@@ -79,6 +90,7 @@
       (c-lw6cfg-load (c-lw6sys-get-config-file))
       (c-lw6cfg-save (c-lw6sys-get-config-file))
       (c-lw6cfg-load (c-lw6sys-get-config-file))      
+      (lw6-config-fix)
       )
     )
   )

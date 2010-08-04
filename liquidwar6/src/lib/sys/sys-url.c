@@ -260,43 +260,50 @@ lw6sys_url_canonize (char *url)
   char *protocol = NULL;
   char *tail = NULL;
 
-  tmp = lw6sys_url_parse (url);
-  if (tmp)
+  if (url && strlen (url) > 0)
     {
-      if (tmp->use_ssl)
+      tmp = lw6sys_url_parse (url);
+      if (tmp)
 	{
-	  protocol = _HTTPS;
-	}
-      else
-	{
-	  protocol = _HTTP;
-	}
+	  if (tmp->use_ssl)
+	    {
+	      protocol = _HTTPS;
+	    }
+	  else
+	    {
+	      protocol = _HTTP;
+	    }
 
-      len = strlen (tmp->uri);
-      if (len == 0 || (len > 0 && tmp->uri[len - 1] != _SLASH))
-	{
-	  tail = _SLASH_STR;
-	}
-      else
-	{
-	  tail = _EMPTY_STR;
-	}
+	  len = strlen (tmp->uri);
+	  if (len == 0 || (len > 0 && tmp->uri[len - 1] != _SLASH))
+	    {
+	      tail = _SLASH_STR;
+	    }
+	  else
+	    {
+	      tail = _EMPTY_STR;
+	    }
 
-      if ((tmp->port == _HTTP_PORT && !tmp->use_ssl)
-	  || (tmp->port == _HTTPS_PORT && tmp->use_ssl))
-	{
-	  ret =
-	    lw6sys_new_sprintf ("%s://%s%s%s", protocol, tmp->host, tmp->uri,
-				tail);
-	}
-      else
-	{
-	  ret =
-	    lw6sys_new_sprintf ("%s://%s:%d%s%s", protocol, tmp->host,
-				tmp->port, tmp->uri, tail);
-	}
+	  if ((tmp->port == _HTTP_PORT && !tmp->use_ssl)
+	      || (tmp->port == _HTTPS_PORT && tmp->use_ssl))
+	    {
+	      ret =
+		lw6sys_new_sprintf ("%s://%s%s%s", protocol, tmp->host,
+				    tmp->uri, tail);
+	    }
+	  else
+	    {
+	      ret =
+		lw6sys_new_sprintf ("%s://%s:%d%s%s", protocol, tmp->host,
+				    tmp->port, tmp->uri, tail);
+	    }
 
-      lw6sys_url_free (tmp);
+	  lw6sys_url_free (tmp);
+	}
+    }
+  else
+    {
+      ret = lw6sys_str_copy ("");
     }
 
   return ret;

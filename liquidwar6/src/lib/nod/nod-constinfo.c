@@ -36,7 +36,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
 
   const_info->creation_timestamp = lw6sys_get_timestamp ();
   const_info->id = lw6sys_id_ltoa (id);
-  const_info->url = lw6sys_str_copy (url);
+  const_info->url = lw6sys_url_canonize (url);
   if (title && strlen (title) > 0)
     {
       const_info->title = lw6sys_str_copy (title);

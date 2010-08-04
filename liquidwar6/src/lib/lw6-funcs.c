@@ -2188,6 +2188,37 @@ _scm_lw6sys_idle ()
 }
 
 /*
+ * In url.c
+ */
+static SCM
+_scm_lw6sys_url_canonize (SCM url)
+{
+  char *c_url = NULL;
+  char *c_ret = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (url), url, SCM_ARG1, __FUNCTION__);
+
+  c_url = to_0str (url);
+  if (c_url)
+    {
+      c_ret = lw6sys_url_canonize (c_url);
+      if (c_ret)
+	{
+	  ret = scm_makfrom0str (c_ret);
+	  LW6SYS_FREE (c_ret);
+	}
+      LW6SYS_FREE (c_url);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+/*
  * lw6hlp
  */
 static SCM
@@ -7884,6 +7915,11 @@ lw6_register_funcs ()
   scm_c_define_gsubr ("c-lw6sys-delay", 1, 0, 0,
 		      (SCM (*)())_scm_lw6sys_delay);
   scm_c_define_gsubr ("c-lw6sys-idle", 0, 0, 0, (SCM (*)())_scm_lw6sys_idle);
+  /*
+   * In url.c
+   */
+  scm_c_define_gsubr ("c-lw6sys-url-canonize",
+		      1, 0, 0, (SCM (*)())_scm_lw6sys_url_canonize);
 
   /*
    * In liquidwar6hlp

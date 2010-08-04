@@ -93,7 +93,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->node_id_str = lw6sys_id_ltoa (node_id);
       if (public_url && strlen (public_url) > 0)
 	{
-	  node->public_url = lw6sys_str_copy (public_url);
+	  node->public_url = lw6sys_url_canonize (public_url);
 	}
       else
 	{
