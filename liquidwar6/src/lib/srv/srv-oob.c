@@ -32,7 +32,6 @@
  * @remote_ip: remote IP address
  * @remote_port: remote port
  * @sock: the socket handler (either TCP or UDP)
- * @node_info: the shared node_info object
  *
  * Create a new OOB structure, copying required objects.
  * We need to make copies for this is for usage in a 
@@ -43,8 +42,7 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (char *remote_ip, int remote_port, int sock,
-		lw6nod_info_t * node_info)
+lw6srv_oob_new (char *remote_ip, int remote_port, int sock)
 {
   lw6srv_oob_t *oob = NULL;
 
@@ -56,7 +54,6 @@ lw6srv_oob_new (char *remote_ip, int remote_port, int sock,
       oob->data.remote_ip = lw6sys_str_copy (remote_ip);
       oob->data.remote_port = remote_port;
       oob->data.sock = sock;
-      oob->data.node_info = node_info;
     }
 
   if (oob)
@@ -102,6 +99,7 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	  LW6SYS_FREE (oob->data.remote_ip);
 	}
       LW6SYS_FREE (oob);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("oob freed"));
     }
   else
     {

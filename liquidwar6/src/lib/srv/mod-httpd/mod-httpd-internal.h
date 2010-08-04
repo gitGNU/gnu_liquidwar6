@@ -99,6 +99,7 @@ extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 
 /* mod-httpd-oob.c */
 extern int _mod_httpd_process_oob (_httpd_context_t * httpd_context,
+				   lw6nod_info_t * node_info,
 				   lw6srv_oob_data_t * oob_data);
 
 #endif

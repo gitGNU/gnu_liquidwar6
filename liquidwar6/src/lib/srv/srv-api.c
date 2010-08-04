@@ -123,7 +123,8 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
 }
 
 int
-lw6srv_process_oob (lw6srv_backend_t * backend, lw6srv_oob_data_t * oob_data)
+lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
+		    lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -131,7 +132,8 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6srv_oob_data_t * oob_data)
 
   if (backend->process_oob)
     {
-      ret = backend->process_oob (backend->srv_context, oob_data);
+      TMP ("OOB2");
+      ret = backend->process_oob (backend->srv_context, node_info, oob_data);
     }
   else
     {

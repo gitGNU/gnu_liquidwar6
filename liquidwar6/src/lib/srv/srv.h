@@ -80,7 +80,6 @@ typedef struct lw6srv_oob_data_s
   char *remote_ip;
   int remote_port;
   int sock;			// either TCP or UDP
-  lw6nod_info_t *node_info;
 }
 lw6srv_oob_data_t;
 
@@ -107,7 +106,8 @@ typedef struct lw6srv_backend_s
   int (*analyse_tcp) (void *srv_context,
 		      lw6srv_tcp_accepter_t * tcp_accepter);
   int (*analyse_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer);
-  int (*process_oob) (void *srv_context, lw6srv_oob_data_t * oob_data);
+  int (*process_oob) (void *srv_context, lw6nod_info_t * node_info,
+		      lw6srv_oob_data_t * oob_data);
   lw6srv_connection_t *(*accept_tcp) (void *srv_context,
 				      lw6srv_tcp_accepter_t * tcp_accepter,
 				      char *password);
@@ -140,6 +140,7 @@ extern int lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 extern int lw6srv_analyse_udp (lw6srv_backend_t * backend,
 			       lw6srv_udp_buffer_t * udp_buffer);
 extern int lw6srv_process_oob (lw6srv_backend_t * backend,
+			       lw6nod_info_t * node_info,
 			       lw6srv_oob_data_t * oob_data);
 extern lw6srv_connection_t *lw6srv_accept_tcp (lw6srv_backend_t * backend,
 					       lw6srv_tcp_accepter_t *
@@ -176,7 +177,7 @@ extern void lw6srv_stop (lw6srv_listener_t * listener);
 
 /* srv-oob.c */
 extern lw6srv_oob_t *lw6srv_oob_new (char *remote_ip, int remote_port,
-				     int sock, lw6nod_info_t * node_info);
+				     int sock);
 extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
 /*

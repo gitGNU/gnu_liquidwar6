@@ -54,28 +54,14 @@ _test_oob ()
 
   {
     lw6srv_oob_t *oob;
-    lw6nod_info_t *node_info;
 
-    node_info = lw6nod_info_new (_NODE_INFO_ID, _NODE_INFO_URL,
-				 _NODE_INFO_TITLE, _NODE_INFO_DESCRIPTION,
-				 _NODE_INFO_BENCH,
-				 _NODE_INFO_IDLE_SCREENSHOT_SIZE,
-				 _NODE_INFO_IDLE_SCREENSHOT_DATA);
-    if (node_info)
+    oob =
+      lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT,
+		      _TEST_OOB_INVALID_SOCK);
+    if (oob)
       {
-	oob =
-	  lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT,
-			  _TEST_OOB_INVALID_SOCK, node_info);
-	if (oob)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("created oob object"));
-	    lw6srv_oob_free (oob);
-	  }
-	else
-	  {
-	    ret = 0;
-	  }
-	lw6nod_info_free (node_info);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("created oob object"));
+	lw6srv_oob_free (oob);
       }
     else
       {

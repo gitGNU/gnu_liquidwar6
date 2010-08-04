@@ -29,9 +29,12 @@
 
 int
 _mod_udpd_process_oob (_udpd_context_t * udpd_context,
+		       lw6nod_info_t * node_info,
 		       lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("process udpd oob"));
 
   return ret;
 }

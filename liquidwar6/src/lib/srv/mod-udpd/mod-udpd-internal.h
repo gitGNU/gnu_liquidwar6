@@ -86,6 +86,7 @@ extern char *_mod_udpd_error (_udpd_context_t * udpd_context,
 
 /* mod-udpd-oob.c */
 extern int _mod_udpd_process_oob (_udpd_context_t * udpd_context,
+				  lw6nod_info_t * node_info,
 				  lw6srv_oob_data_t * oob_data);
 
 #endif

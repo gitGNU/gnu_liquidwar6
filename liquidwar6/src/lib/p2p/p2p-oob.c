@@ -28,9 +28,9 @@
 #include "p2p-internal.h"
 
 _lw6p2p_oob_callback_data_t *
-_lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend, char *remote_ip,
-			       int remote_port, int sock,
-			       lw6nod_info_t * node_info)
+_lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend,
+			       lw6nod_info_t * node_info, char *remote_ip,
+			       int remote_port, int sock)
 {
   _lw6p2p_oob_callback_data_t *ret = NULL;
 
@@ -40,7 +40,8 @@ _lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend, char *remote_ip,
   if (ret)
     {
       ret->backend = backend;
-      ret->oob = lw6srv_oob_new (remote_ip, remote_port, sock, node_info);
+      ret->node_info = node_info;
+      ret->oob = lw6srv_oob_new (remote_ip, remote_port, sock);
       if (!ret->oob)
 	{
 	  LW6SYS_FREE (ret);
@@ -68,6 +69,41 @@ int
 _lw6p2p_oob_filter (_lw6p2p_oob_callback_data_t * oob)
 {
   int ret = 1;
+  void *thread;
+
+  if (oob && oob->oob)
+    {
+      thread = oob->oob->thread;
+      if (thread)
+	{
+	  if (lw6sys_thread_is_callback_done (thread))
+	    {
+	      /*
+	       * We don't need to join the thread, it will
+	       * be done when deleting the oob object.
+	       */
+	      ret = 0;
+	    }
+	}
+      else
+	{
+	  ret = 0;		// no thread, we exit
+	}
+    }
 
   return ret;
+}
+
+void
+_lw6p2p_oob_callback (void *callback_data)
+{
+  _lw6p2p_oob_callback_data_t *oob =
+    (_lw6p2p_oob_callback_data_t *) callback_data;
+  int ret = 0;
+
+
+  TMP ("OOB1");
+  ret = lw6srv_process_oob (oob->backend, oob->node_info, &(oob->oob->data));
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("_oob_callback done ret=%d"), ret);
 }

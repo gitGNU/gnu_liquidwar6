@@ -93,6 +93,7 @@ extern char *_mod_tcpd_error (_tcpd_context_t * tcpd_context,
 
 /* mod-tcpd-oob.c */
 extern int _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
+				  lw6nod_info_t * node_info,
 				  lw6srv_oob_data_t * oob_data);
 
 #endif

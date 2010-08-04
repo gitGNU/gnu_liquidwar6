@@ -33,6 +33,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
 
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to recognize tcpd protocol"));
   if (lw6net_tcp_is_alive (tcp_accepter->sock))
     {
       ret |= LW6SRV_ANALYSE_ALIVE;

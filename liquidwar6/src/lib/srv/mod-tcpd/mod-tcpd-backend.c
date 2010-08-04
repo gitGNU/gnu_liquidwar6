@@ -76,14 +76,15 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
 }
 
 static int
-_process_oob (void *srv_context, lw6srv_oob_data_t * oob_data)
+_process_oob (void *srv_context, lw6nod_info_t * node_info,
+	      lw6srv_oob_data_t * oob_data)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_process_oob (tcpd_context, oob_data);
+      ret = _mod_tcpd_process_oob (tcpd_context, node_info, oob_data);
     }
 
   return ret;

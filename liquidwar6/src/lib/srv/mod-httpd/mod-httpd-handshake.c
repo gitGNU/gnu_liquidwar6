@@ -34,6 +34,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
   int ret = 0;
   char *pos = NULL;
 
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to recognize httpd protocol"));
   if (lw6net_tcp_is_alive (tcp_accepter->sock))
     {
       ret |= LW6SRV_ANALYSE_ALIVE;
@@ -44,6 +45,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
       tcp_accepter->sock = -1;
     }
 
+  TMP1 ("HTTPD %s", tcp_accepter->first_line);
   if (strlen (tcp_accepter->first_line) >=
       _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE)
     {
@@ -57,7 +59,8 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 		       _MOD_HTTPD_PROTOCOL_HEAD_STRING,
 		       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized httpd protocol \"%s\""),
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("recognized httpd protocol \"%s\""),
 		      tcp_accepter->first_line);
 	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 

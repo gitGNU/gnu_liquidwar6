@@ -413,7 +413,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 	      if (tcp_accepter)
 		{
 		  //lw6sys_log (LW6SYS_LOG_DEBUG, _("connection from %s:%d"),ip,port);
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("connection from %s:%d"),
+		  lw6sys_log (LW6SYS_LOG_INFO, _("connection from %s:%d"),
 			      ip, port);
 		  ip = NULL;	// tcp_accepter will free it
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
@@ -464,15 +464,18 @@ _tcp_accepter_reply (void *func_data, void *data)
 		{
 		  oob =
 		    _lw6p2p_oob_callback_data_new (node->srv_backends[i],
+						   node->node_info,
 						   tcp_accepter->
 						   client_id.client_ip,
 						   tcp_accepter->
 						   client_id.client_port,
-						   tcp_accepter->sock,
-						   node->node_info);
+						   tcp_accepter->sock);
 		  if (oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_NOTICE, _("process OOB"));
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process OOB"));
+		      oob->oob->thread =
+			lw6sys_thread_create (_lw6p2p_oob_callback, NULL,
+					      oob);
 		      lw6sys_lifo_push (&(node->oobs), oob);
 		      ret = 0;
 		    }
@@ -511,12 +514,13 @@ _tcp_accepter_reply (void *func_data, void *data)
 			}
 		    }
 		}
+	      lw6sys_log(LW6SYS_LOG_NOTICE,_("understood accepter, scheduling it for deletion"));
 	      ret = 0;		// will be filtered
 	    }
 	}
       else
 	{
-	  // will be filtered, so object deleted
+	  lw6sys_log(LW6SYS_LOG_NOTICE,_("dead accepter, scheduling it for deletion"));
 	  ret = 0;
 	}
     }
@@ -535,12 +539,34 @@ _poll_step2_reply (_lw6p2p_node_t * node)
   return ret;
 }
 
+static int
+_oob_filter (void *func_data, void *data)
+{
+  int ret = 0;
+  _lw6p2p_oob_callback_data_t *oob = (_lw6p2p_oob_callback_data_t *) data;
+
+  ret = _lw6p2p_oob_filter (oob);
+
+  return ret;
+}
+
+static int
+_poll_step3_oob (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+
+  lw6sys_list_filter (&(node->oobs), _oob_filter, NULL);
+
+  return ret;
+}
+
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  ret = _poll_step1_accept (node) && _poll_step2_reply (node);
+  ret = _poll_step1_accept (node) && _poll_step2_reply (node)
+    && _poll_step3_oob (node);
 
   return ret;
 }
