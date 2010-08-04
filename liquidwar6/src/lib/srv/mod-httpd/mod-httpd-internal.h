@@ -35,6 +35,10 @@
 #define _MOD_HTTPD_PROTOCOL_LW6_STRING "/lw6"
 #define _MOD_HTTPD_PROTOCOL_LW6_SIZE 4
 
+#define _MOD_HTTPD_GET 1
+#define _MOD_HTTPD_POST 2
+#define _MOD_HTTPD_HEAD 3
+
 typedef struct _httpd_consts_s
 {
   int timeout_msec;
@@ -65,6 +69,7 @@ _httpd_context_t;
 
 typedef struct _httpd_request_s
 {
+  int get_head_post;
   char *uri;
   char *http_user;
   char *http_password;

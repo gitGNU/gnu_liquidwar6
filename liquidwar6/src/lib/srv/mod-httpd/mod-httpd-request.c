@@ -27,17 +27,108 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
+static int
+_parse_first_line (_httpd_request_t * request, char *first_line)
+{
+  int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+  char seek_c = '\0';
+
+  if (!strncmp
+      (first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
+       _MOD_HTTPD_PROTOCOL_GET_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a GET"));
+      request->get_head_post = _MOD_HTTPD_GET;
+    }
+  if (!strncmp
+      (first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
+       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a HEAD"));
+      request->get_head_post = _MOD_HTTPD_HEAD;
+    }
+  if (!strncmp
+      (first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
+       _MOD_HTTPD_PROTOCOL_POST_SIZE))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a POST"));
+      request->get_head_post = _MOD_HTTPD_POST;
+    }
+
+  pos = first_line;
+  while ((*pos) && (*pos) != ' ')
+    {
+      pos++;
+    }
+  while ((*pos) == ' ')
+    {
+      pos++;
+    }
+  seek = pos;
+  while ((*seek) && (*seek) != ' ')
+    {
+      seek++;
+    }
+  seek_c = (*seek);
+  (*seek) = '\0';
+  request->uri = lw6sys_str_copy (pos);
+  (*seek) = seek_c;
+
+  if (request->uri)
+    {
+      if (strlen (request->uri) == 0)
+	{
+	  LW6SYS_FREE (request->uri);
+	  request->uri = lw6sys_str_copy ("/");
+	}
+    }
+
+  if (request->uri)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("REQUEST_URI=\"%s\""), request->uri);
+    }
+
+  return ret;
+}
+
 _httpd_request_t *
 _mod_httpd_request_parse (_httpd_context_t * httpd_context,
 			  lw6srv_oob_data_t * oob_data)
 {
   _httpd_request_t *request = NULL;
+  int eof = 0;
+  char *first_line = NULL;
+  char *line = NULL;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _("process httpd oob"));
 
   request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
   if (request)
     {
+      first_line = lw6net_recv_line_tcp (oob_data->sock);
+      if (first_line)
+	{
+	  _parse_first_line (request, first_line);
+	  LW6SYS_FREE (first_line);
+	  while (lw6sys_get_timestamp () +
+		 httpd_context->data.consts.timeout_msec >
+		 oob_data->creation_timestamp && (!eof)
+		 && lw6net_tcp_is_alive (oob_data->sock))
+	    {
+	      line = lw6net_recv_line_tcp (oob_data->sock);
+	      if (line)
+		{
+		  // here should check for Authentication
+		  if (strlen (line) == 0)
+		    {
+		      eof = 1;
+		    }
+		  LW6SYS_FREE (line);
+		}
+	    }
+	}
     }
 
   return request;
@@ -60,5 +151,6 @@ _mod_httpd_request_free (_httpd_request_t * request)
 	{
 	  LW6SYS_FREE (request->http_password);
 	}
+      LW6SYS_FREE (request);
     }
 }

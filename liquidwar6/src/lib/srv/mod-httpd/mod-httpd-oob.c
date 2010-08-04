@@ -33,8 +33,15 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 			lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
+  _httpd_request_t *request = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("process httpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
+
+  request = _mod_httpd_request_parse (httpd_context, oob_data);
+  if (request)
+    {
+      _mod_httpd_request_free (request);
+    }
 
   return ret;
 }
