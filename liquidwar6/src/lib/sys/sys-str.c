@@ -301,6 +301,37 @@ lw6sys_str_cleanup (char *str)
     }
 }
 
+/**
+ * lw6sys_str_cleanup_ascii7
+ *
+ * @str: a pointer to the string, which will be modified in-place.
+ *
+ * Used to clean up some strings, for instance if they
+ * come from the network, we don't necessarly want system
+ * chars to be displayed on the console. Basically it removes
+ * all characters with an ASCII code inferior to 32, that is,
+ * all system characters. This way, there won't be any tab,
+ * linefeed, or any of such characters left. This function
+ * will even remove any character above ASCII 127.
+ *
+ * Return value: none. 
+ */
+void
+lw6sys_str_cleanup_ascii7 (char *str)
+{
+  char *pos;
+
+  pos = str;
+  while (*pos)
+    {
+      if ((*pos) < 32 || (*pos) > 127)
+	{
+	  (*pos) = ' ';
+	}
+      pos++;
+    }
+}
+
 static void
 reformat_newline (char **formatted_str, char *append, char *prefix)
 {

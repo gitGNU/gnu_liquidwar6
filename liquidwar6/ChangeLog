@@ -1,5 +1,7 @@
 2010-08-04 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Split URL in protocol/host/port/uri.
+
 	* Removed version in AM_INIT_AUTOMAKE call.
 
 2010-08-03 : Christian Mauduit <ufoot@ufoot.org>

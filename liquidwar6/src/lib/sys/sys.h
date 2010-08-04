@@ -272,6 +272,15 @@ typedef struct lw6sys_hexa_serializer_s
 }
 lw6sys_hexa_serializer_t;
 
+typedef struct lw6sys_url_s
+{
+  int use_ssl;
+  char *host;
+  int port;
+  char *uri;
+}
+lw6sys_url_t;
+
 extern lw6sys_color_f_t LW6SYS_COLOR_F_WHITE;
 extern lw6sys_color_f_t LW6SYS_COLOR_F_BLACK;
 extern lw6sys_color_f_t LW6SYS_COLOR_F_RED;
@@ -839,6 +848,7 @@ extern int lw6sys_str_is_blank (char *str);
 extern int lw6sys_str_is_same (char *str_a, char *str_b);
 extern int lw6sys_skip_blanks (char **str_ptr);
 extern void lw6sys_str_cleanup (char *str);
+extern void lw6sys_str_cleanup_ascii7 (char *str);
 extern char *lw6sys_str_reformat (char *str, char *prefix, int nb_columns);
 extern char *lw6sys_eol ();
 extern lw6sys_list_t *lw6sys_str_split (char *str, char c);
@@ -880,6 +890,9 @@ extern void lw6sys_time_init ();
 
 /* sys-url.c */
 extern char *lw6sys_url_http_from_ip_port (char *ip, int port);
+extern lw6sys_url_t *lw6sys_url_parse (char *url);
+extern void lw6sys_url_free (lw6sys_url_t * url);
+extern char *lw6sys_url_canonize (char *url);
 
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,

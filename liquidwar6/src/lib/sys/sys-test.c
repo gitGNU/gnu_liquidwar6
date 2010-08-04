@@ -85,6 +85,9 @@
 #define TEST_DELAY_TIME 50
 #define TEST_SLEEP_TIME_SHORT_STEP 0.001f
 #define BLANK_STR "\t "
+#define CLEANUP_FORMAT "<foo %c bar %c>"
+#define CLEANUP_CONTROL '\n'
+#define CLEANUP_ACCENT 'é'
 #define ASCII_STR "foo,bar"
 #define TEST_ARGC 4
 #define TEST_ARGV0 "test.out"
@@ -186,6 +189,11 @@
 #define TEST_URL_PORT_1 1234
 #define TEST_URL_IP_2 "5.6.7.8"
 #define TEST_URL_PORT_2 80
+#define TEST_URL_CANONIZE_1 "http://www.toto.com/"
+#define TEST_URL_CANONIZE_2 "http://www.ToTo.com:81"
+#define TEST_URL_CANONIZE_3 "https://www.ToTo.com:443/tItI"
+#define TEST_URL_CANONIZE_4 "www.toto.com"
+#define TEST_URL_CANONIZE_5 ""
 
 /*
  * Testing functions in arg.c
@@ -2592,6 +2600,21 @@ test_str ()
     lw6sys_log (LW6SYS_LOG_NOTICE, _("testing is_blank on \"%s\""),
 		BLANK_STR);
     ret = ret && lw6sys_str_is_blank (BLANK_STR);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing cleanup"));
+    str =
+      lw6sys_new_sprintf (CLEANUP_FORMAT, CLEANUP_CONTROL, CLEANUP_ACCENT);
+    if (str)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("before cleanup, string is \%s\""),
+		    str);
+	lw6sys_str_cleanup (str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("after cleanup, string is \"%s\""),
+		    str);
+	lw6sys_str_cleanup_ascii7 (str);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("after cleanup (ascii-7), string is \"%s\""), str);
+	LW6SYS_FREE (str);
+      }
     lw6sys_log (LW6SYS_LOG_NOTICE, _("testing is_same"));
     ret = ret && lw6sys_str_is_same (BLANK_STR, BLANK_STR)
       && lw6sys_str_is_same (NULL, NULL)
@@ -3000,7 +3023,7 @@ test_url ()
     url = lw6sys_url_http_from_ip_port (TEST_URL_IP_1, TEST_URL_PORT_1);
     if (url)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\" is \"%s\""),
 		    TEST_URL_IP_1, TEST_URL_PORT_1, url);
 	LW6SYS_FREE (url);
       }
@@ -3018,6 +3041,46 @@ test_url ()
     else
       {
 	ret = 0;
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_1);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_1, url);
+	LW6SYS_FREE (url);
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_2);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_2, url);
+	LW6SYS_FREE (url);
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_3);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_3, url);
+	LW6SYS_FREE (url);
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_4);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_4, url);
+	LW6SYS_FREE (url);
+      }
+    url = lw6sys_url_canonize (TEST_URL_CANONIZE_5);
+    if (url)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("canonical url for \"%s\" is \"%s\""),
+		    TEST_URL_CANONIZE_5, url);
+	LW6SYS_FREE (url);
       }
   }
 
