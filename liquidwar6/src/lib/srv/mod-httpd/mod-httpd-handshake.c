@@ -32,7 +32,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 			lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
-  char *pos=NULL;
+  char *pos = NULL;
 
   if (lw6net_tcp_is_alive (tcp_accepter->sock))
     {
@@ -44,33 +44,47 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
       tcp_accepter->sock = -1;
     }
 
-  if (strlen(tcp_accepter->first_line)>=_MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE) {
-  if (!strncmp
-      (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
-       _MOD_HTTPD_PROTOCOL_GET_SIZE)
-      || !strncmp (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
-		   _MOD_HTTPD_PROTOCOL_POST_SIZE)
-      || !strncmp (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
-		   _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+  if (strlen (tcp_accepter->first_line) >=
+      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized httpd protocol \"%s\""),tcp_accepter->first_line);
-      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+      if (!strncmp
+	  (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
+	   _MOD_HTTPD_PROTOCOL_GET_SIZE)
+	  || !strncmp (tcp_accepter->first_line,
+		       _MOD_HTTPD_PROTOCOL_POST_STRING,
+		       _MOD_HTTPD_PROTOCOL_POST_SIZE)
+	  || !strncmp (tcp_accepter->first_line,
+		       _MOD_HTTPD_PROTOCOL_HEAD_STRING,
+		       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized httpd protocol \"%s\""),
+		      tcp_accepter->first_line);
+	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 
-      pos=tcp_accepter->first_line;
-      while ((*pos) && (*pos)!=' ') {
-	pos++;
-      }
-      while ((*pos)==' ') {
-	pos++;
-      }
-      if (!strncmp(pos,_MOD_HTTPD_PROTOCOL_LW6_STRING,_MOD_HTTPD_PROTOCOL_LW6_SIZE)) {
-	lw6sys_log (LW6SYS_LOG_DEBUG, _("httpd LW6 message \"%s\""),pos);
-      } else {
-	lw6sys_log (LW6SYS_LOG_DEBUG, _("out of band httpd \"%s\""),pos);
-	ret|=LW6SRV_ANALYSE_OOB;
-      }
+	  pos = tcp_accepter->first_line;
+	  while ((*pos) && (*pos) != ' ')
+	    {
+	      pos++;
+	    }
+	  while ((*pos) == ' ')
+	    {
+	      pos++;
+	    }
+	  if (!strncmp
+	      (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING,
+	       _MOD_HTTPD_PROTOCOL_LW6_SIZE))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("httpd LW6 message \"%s\""),
+			  pos);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("out of band httpd \"%s\""),
+			  pos);
+	      ret |= LW6SRV_ANALYSE_OOB;
+	    }
+	}
     }
-  }
 
   return ret;
 }

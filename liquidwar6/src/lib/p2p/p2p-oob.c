@@ -27,35 +27,47 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
-_lw6p2p_oob_callback_data_t *_lw6p2p_oob_callback_data_new(lw6srv_backend_t *backend, char *remote_ip, int remote_port,
-				     int sock, lw6nod_info_t *node_info)
+_lw6p2p_oob_callback_data_t *
+_lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend, char *remote_ip,
+			       int remote_port, int sock,
+			       lw6nod_info_t * node_info)
 {
-  _lw6p2p_oob_callback_data_t *ret=NULL;
+  _lw6p2p_oob_callback_data_t *ret = NULL;
 
-  ret=(_lw6p2p_oob_callback_data_t *) LW6SYS_CALLOC(sizeof(_lw6p2p_oob_callback_data_t));
-  if (ret) {
-    ret->backend=backend;
-    ret->oob=lw6srv_oob_new(remote_ip,remote_port,sock,node_info);
-    if (!ret->oob) {
-      LW6SYS_FREE(ret);
-      ret=NULL;
+  ret =
+    (_lw6p2p_oob_callback_data_t *)
+    LW6SYS_CALLOC (sizeof (_lw6p2p_oob_callback_data_t));
+  if (ret)
+    {
+      ret->backend = backend;
+      ret->oob = lw6srv_oob_new (remote_ip, remote_port, sock, node_info);
+      if (!ret->oob)
+	{
+	  LW6SYS_FREE (ret);
+	  ret = NULL;
+	}
     }
-  }
 
   return ret;
 }
 
-void _lw6p2p_oob_callback_data_free(_lw6p2p_oob_callback_data_t *oob) {
-  if (oob) {
-    if (oob->oob) {
-      lw6srv_oob_free(oob->oob);
+void
+_lw6p2p_oob_callback_data_free (_lw6p2p_oob_callback_data_t * oob)
+{
+  if (oob)
+    {
+      if (oob->oob)
+	{
+	  lw6srv_oob_free (oob->oob);
+	}
+      LW6SYS_FREE (oob);
     }
-    LW6SYS_FREE(oob);
-  }
 }
 
-int _lw6p2p_oob_filter(_lw6p2p_oob_callback_data_t *oob) {
-  int ret=1;
+int
+_lw6p2p_oob_filter (_lw6p2p_oob_callback_data_t * oob)
+{
+  int ret = 1;
 
   return ret;
 }
