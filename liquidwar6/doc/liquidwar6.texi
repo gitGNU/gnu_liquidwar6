@@ -2926,43 +2926,57 @@ Out of band messages:
 TCP messages:
 
 @verbatim
-LW6 <passwd> <client-id>
-MSG1
-MSG2
+LW6 [<passwd>] <version> <client-id>
+<from-id> <to-id> <serial> <i> <n> MSG1
+<from-id> <to-id> <serial> <i> <n> MSG2
+@end verbatim
+
+TCP oobs:
+
+@verbatim
+<return> # only works anonymous, same as INFO
+INFO [<passwd>] <public-url>
+LIST [<passwd>] <public-url>
+PING [<passwd>] <public-url>
 @end verbatim
 
 UDP messages:
 
 @verbatim
-LW6 <passwd> <client-id> MSG1
-LW6 <passwd> <client-id> MSG2
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG1
+LW6 [<passwd>] <version> <client-id> <from-id> <to-id> <serial> <i> <n> MSG2
+@end verbatim
+
+UDP oobs:
+
+@verbatim
+INFO [<passwd>] <public-url>
+LIST [<passwd>] <public-url>
+PING [<passwd>] <public-url>
 @end verbatim
 
 HTTP messages:
 
+Version, client id & password passed in HTTP headers
+
 @verbatim
-/lw6/<passwd>/<client-id>/MSG1
-/lw6/<passwd>/<client-id>/MSG2
+/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG1
+/lw6/<from-id>/<to-id>/<serial>/<i>/<n>/MSG2
 @end verbatim
 
 HTTP public URLs:
 
 @verbatim
-error 404 -> /lw6/
-/lw6/ -> HTML human readbable page
+/ -> index.html
 /favicon.ico
-/lw6/favicon.ico
-/lw6/screenshot.jpg
-/lw6/<oob>
+/screenshot.jpg
+/robots.txt
+/info.txt
+/list.txt
+/ping.txt
 @end verbatim
 
 MSG syntax:
-
-@verbatim
-<serial>-<i>-<n> COMMAND
-@end verbatim
-
-COMMAND format:
 
 @verbatim
 <round> <server-id> <command> <arg1> ... <argN>

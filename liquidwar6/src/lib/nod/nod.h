@@ -84,7 +84,7 @@ extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
 
 /* nod-info.c */
 extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
-				       char *descroption, int bench,
+				       char *description, int bench,
 				       int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);

@@ -28,7 +28,7 @@ LW6DYN_LIB = ../dyn/libdyn.la
 endif
 
 noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-data.c p2p-db.c p2p-node.c p2p-test.c
+libp2p_la_SOURCES = p2p-data.c p2p-db.c p2p-node.c p2p-oob.c p2p-test.c
 libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
 

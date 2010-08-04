@@ -79,6 +79,7 @@
       ;;			      (c-lw6sys-url-canonize 
       ;;			       (lw6-config-get-string 
       ;;				lw6def-public-url)))
+      #f
       )
     )
   )

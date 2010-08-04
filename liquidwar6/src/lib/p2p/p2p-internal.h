@@ -89,8 +89,15 @@ typedef struct _lw6p2p_node_s
   lw6srv_listener_t *listener;
   int nb_srv_backends;
   lw6srv_backend_t **srv_backends;
+  lw6sys_list_t *oobs;
 } _lw6p2p_node_t;
 
+typedef struct _lw6p2p_oob_callback_data_s
+{
+  lw6srv_backend_t *backend;
+  lw6srv_oob_t *oob;
+} _lw6p2p_oob_callback_data_t;
+  
 /* p2p-data.c */
 extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
 extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
@@ -118,5 +125,11 @@ extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
+
+/* p2p-oob.c */
+extern _lw6p2p_oob_callback_data_t *_lw6p2p_oob_callback_data_new(lw6srv_backend_t *backend, char *remote_ip, int remote_port,
+				     int sock, lw6nod_info_t *node_info);
+extern void _lw6p2p_oob_callback_data_free(_lw6p2p_oob_callback_data_t *oob);
+extern int _lw6p2p_oob_filter(_lw6p2p_oob_callback_data_t *oob);
 
 #endif
