@@ -357,7 +357,7 @@ lw6sys_date_clf ()
        */
       tm_ptr = localtime (&now);
 #else
-      localetime_r (&when, &tm);
+      localtime_r (&now, &tm);
       tm_ptr = &tm;
 #endif
       // http://www.gta.igs.net/~hwt/rfcdate.html
