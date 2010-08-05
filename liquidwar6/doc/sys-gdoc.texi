@@ -3786,6 +3786,23 @@ of ticks.
 Global initializations required to handle time properly. 
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_date_rfc1123} (int @var{seconds_from_now})
+@var{seconds_from_now}:  an offset to add to current time
+
+Gives the date according to RFC1123, this is typically
+usefull for HTTP protocol.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_date_clf} ()
+
+Gives the date in a format which is compatible with Apache CLF
+Common Log Format.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
 @deftypefun {extern char *} {lw6sys_url_http_from_ip_port} (char * @var{ip}, int @var{port})
 @var{ip}:  IP address
 
