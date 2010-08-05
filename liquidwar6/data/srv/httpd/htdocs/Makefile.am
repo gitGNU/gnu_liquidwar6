@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = index.html favicon.ico robots.txt
+pkgdata_DATA = index.html error.html favicon.ico robots.txt gpl.txt
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/srv/httpd/htdocs
 EXTRA_DIST = $(pkgdata_DATA)
 

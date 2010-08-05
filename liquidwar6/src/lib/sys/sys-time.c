@@ -34,6 +34,7 @@
 #include "sys-internal.h"
 
 #define _TIMER_CYCLE_MASK 0xFFFFFL
+#define _RFC1123_SIZE 33
 
 static int64_t timestamp_0 = 0;
 
@@ -237,4 +238,78 @@ lw6sys_time_init ()
   gettimeofday (&now, NULL);
   timestamp_0 =
     ((int64_t) (now.tv_sec)) * 1000L + ((int64_t) (now.tv_usec)) / 1000L;
+}
+
+/**
+ * lw6sys_date_rfc1123
+ *
+ * @seconds_from_now: an offset to add to current time
+ *
+ * Gives the date according to RFC1123, this is typically
+ * usefull for HTTP protocol.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_date_rfc1123 (int seconds_from_now)
+{
+  char *ret = NULL;
+  time_t now;
+  time_t when;
+  char *old_locale;
+  char *locale;
+  char *old_tz;
+  struct tm tm;
+  struct tm *tm_ptr;
+  int strflen;
+
+  ret = (char *) LW6SYS_CALLOC (_RFC1123_SIZE + 1);	// 32 should even be enough
+
+  locale = setlocale (LC_TIME, NULL);
+  if (locale)
+    {
+      /*
+       * We do need to make a copy in a separate buffer,
+       * otherwise the content pointed by *locale
+       * might change dynamically when calling setlocale
+       */
+      old_locale = lw6sys_str_copy (locale);
+
+      setlocale (LC_TIME, "POSIX");
+
+      old_tz = lw6sys_getenv ("TZ");
+      lw6sys_setenv ("TZ", "GMT");
+      tzset ();
+
+      time (&now);
+      when = now + seconds_from_now;
+      memset (&tm, 0, sizeof (struct tm));
+#ifdef LW6_MS_WINDOWS
+      /*
+       * Seems mingw might not have gmtime_r but ms
+       * gmtime function could be thread safe anyway
+       */
+      tm_ptr = gmtime (&when);
+#else
+      gmtime_r (&when, &tm);
+      tm_ptr = &tm;
+#endif
+      // http://www.gta.igs.net/~hwt/rfcdate.html
+      strflen =
+	strftime (ret, _RFC1123_SIZE, "%a, %d %b %Y %H:%M:%S +0000", tm_ptr);
+      if (strflen >= _RFC1123_SIZE)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("buffer exceeded %d>=%d"),
+		      strflen, _RFC1123_SIZE);
+	}
+      // called with old_tz=NULL, will unset
+      lw6sys_setenv ("TZ", old_tz);
+      if (old_locale)
+	{
+	  setlocale (LC_TIME, old_locale);
+	  LW6SYS_FREE (old_locale);
+	}
+    }
+
+  return ret;
 }

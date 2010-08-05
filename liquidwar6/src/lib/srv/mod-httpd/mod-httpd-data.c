@@ -31,7 +31,9 @@
 #define _CONSTS_FILE "httpd-const.xml"
 #define _HTDOCS_DIR "htdocs"
 #define _INDEX_HTML_FILE "index.html"
+#define _ERROR_HTML_FILE "error.html"
 #define _ROBOTS_TXT_FILE "robots.txt"
+#define _GPL_TXT_FILE "gpl.txt"
 #define _FAVICON_ICO_FILE "favicon.ico"
 
 static void
@@ -43,7 +45,29 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "timeout-msec", &consts->timeout_msec);
+      lw6cfg_read_xml_int (key, value, "timeout-msec",
+			   &(consts->timeout_msec));
+      lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
+      lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
+      lw6cfg_read_xml_int (key, value, "refresh", &(consts->refresh));
+    }
+  if (!strcmp (element, "string"))
+    {
+      lw6cfg_read_xml_string (key, value, "http-version",
+			      &(consts->http_version));
+      lw6cfg_read_xml_string (key, value, "content-type-html",
+			      &(consts->content_type_html));
+      lw6cfg_read_xml_string (key, value, "content-type-txt",
+			      &(consts->content_type_txt));
+      lw6cfg_read_xml_string (key, value, "content-type-jpeg",
+			      &(consts->content_type_jpeg));
+      lw6cfg_read_xml_string (key, value, "content-type-ico",
+			      &(consts->content_type_ico));
+      lw6cfg_read_xml_string (key, value, "error-401", &(consts->error_401));
+      lw6cfg_read_xml_string (key, value, "error-403", &(consts->error_403));
+      lw6cfg_read_xml_string (key, value, "error-404", &(consts->error_404));
+      lw6cfg_read_xml_string (key, value, "error-405", &(consts->error_405));
+      lw6cfg_read_xml_string (key, value, "error-500", &(consts->error_500));
     }
 }
 
@@ -53,9 +77,17 @@ _load_consts (_httpd_consts_t * consts, char *consts_file)
   int ret = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), consts_file);
+
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
 				    (void *) consts);
+  if (ret)
+    {
+      ret = consts->http_version && consts->content_type_html
+	&& consts->content_type_txt && consts->content_type_jpeg
+	&& consts->content_type_ico && consts->error_401 && consts->error_403
+	&& consts->error_404 && consts->error_405 && consts->error_500;
+    }
 
   return ret;
 }
@@ -74,10 +106,22 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
       htdocs->index_html = lw6sys_read_file_content (filename);
       LW6SYS_FREE (filename);
     }
+  filename = lw6sys_path_concat (htdocs_dir, _ERROR_HTML_FILE);
+  if (filename)
+    {
+      htdocs->error_html = lw6sys_read_file_content (filename);
+      LW6SYS_FREE (filename);
+    }
   filename = lw6sys_path_concat (htdocs_dir, _ROBOTS_TXT_FILE);
   if (filename)
     {
       htdocs->robots_txt = lw6sys_read_file_content (filename);
+      LW6SYS_FREE (filename);
+    }
+  filename = lw6sys_path_concat (htdocs_dir, _GPL_TXT_FILE);
+  if (filename)
+    {
+      htdocs->gpl_txt = lw6sys_read_file_content (filename);
       LW6SYS_FREE (filename);
     }
   filename = lw6sys_path_concat (htdocs_dir, _FAVICON_ICO_FILE);
@@ -88,7 +132,8 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
       LW6SYS_FREE (filename);
     }
 
-  ret = htdocs->index_html && htdocs->robots_txt && htdocs->favicon_ico_data;
+  ret = htdocs->index_html && htdocs->error_html && htdocs->robots_txt
+    && htdocs->gpl_txt && htdocs->favicon_ico_data;
 
   return ret;
 }
@@ -130,6 +175,46 @@ _unload_consts (_httpd_consts_t * consts)
 {
   int ret = 1;
 
+  if (consts->http_version)
+    {
+      LW6SYS_FREE (consts->http_version);
+    }
+  if (consts->content_type_html)
+    {
+      LW6SYS_FREE (consts->content_type_html);
+    }
+  if (consts->content_type_txt)
+    {
+      LW6SYS_FREE (consts->content_type_txt);
+    }
+  if (consts->content_type_jpeg)
+    {
+      LW6SYS_FREE (consts->content_type_jpeg);
+    }
+  if (consts->content_type_ico)
+    {
+      LW6SYS_FREE (consts->content_type_ico);
+    }
+  if (consts->error_401)
+    {
+      LW6SYS_FREE (consts->error_401);
+    }
+  if (consts->error_403)
+    {
+      LW6SYS_FREE (consts->error_403);
+    }
+  if (consts->error_404)
+    {
+      LW6SYS_FREE (consts->error_404);
+    }
+  if (consts->error_405)
+    {
+      LW6SYS_FREE (consts->error_405);
+    }
+  if (consts->error_500)
+    {
+      LW6SYS_FREE (consts->error_500);
+    }
   memset (consts, 0, sizeof (_httpd_consts_t));
 
   return ret;
@@ -144,9 +229,17 @@ _unload_htdocs (_httpd_htdocs_t * htdocs)
     {
       LW6SYS_FREE (htdocs->index_html);
     }
+  if (htdocs->error_html)
+    {
+      LW6SYS_FREE (htdocs->error_html);
+    }
   if (htdocs->robots_txt)
     {
       LW6SYS_FREE (htdocs->robots_txt);
+    }
+  if (htdocs->gpl_txt)
+    {
+      LW6SYS_FREE (htdocs->gpl_txt);
     }
   if (htdocs->favicon_ico_data)
     {

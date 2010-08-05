@@ -44,7 +44,8 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
     }
 
   if (strlen (tcp_accepter->first_line) >=
-      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE)
+      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE
+      || strchr (tcp_accepter->first_line, '\n'))
     {
       if (!strncmp
 	  (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,

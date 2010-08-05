@@ -288,7 +288,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = index.html favicon.ico robots.txt
+pkgdata_DATA = index.html error.html favicon.ico robots.txt gpl.txt
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 

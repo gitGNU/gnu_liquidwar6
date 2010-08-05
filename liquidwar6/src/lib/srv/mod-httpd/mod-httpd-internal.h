@@ -39,16 +39,38 @@
 #define _MOD_HTTPD_POST 2
 #define _MOD_HTTPD_HEAD 3
 
+#define _MOD_HTTPD_STATUS_200 200
+#define _MOD_HTTPD_STATUS_401 401
+#define _MOD_HTTPD_STATUS_403 403
+#define _MOD_HTTPD_STATUS_404 404
+#define _MOD_HTTPD_STATUS_405 405
+#define _MOD_HTTPD_STATUS_500 500
+
 typedef struct _httpd_consts_s
 {
   int timeout_msec;
+  int max_age;
+  int in_the_past;
+  int refresh;
+  char *http_version;
+  char *content_type_html;
+  char *content_type_txt;
+  char *content_type_jpeg;
+  char *content_type_ico;
+  char *error_401;
+  char *error_403;
+  char *error_404;
+  char *error_405;
+  char *error_500;
 }
 _httpd_consts_t;
 
 typedef struct _httpd_htdocs_s
 {
   char *index_html;
+  char *error_html;
   char *robots_txt;
+  char *gpl_txt;
   int favicon_ico_size;
   void *favicon_ico_data;
 }
@@ -64,6 +86,8 @@ _httpd_data_t;
 typedef struct _httpd_context_s
 {
   _httpd_data_t data;
+  char *access_log_file;
+  void *access_log_mutex;
 }
 _httpd_context_t;
 
@@ -75,10 +99,22 @@ typedef struct _httpd_request_s
   char *http_password;
 } _httpd_request_t;
 
+typedef struct _httpd_response_s
+{
+  int status;
+  int no_cache;
+  char *content_type;
+  int content_size;
+  void *content_data;
+} _httpd_response_t;
 
-/* mod-httpd-data;c */
+/* mod-httpd-data.c */
 extern int _mod_httpd_load_data (_httpd_data_t * httpd_data, char *data_dir);
 extern void _mod_httpd_unload_data (_httpd_data_t * httpd_data);
+
+/* mod-httpd-error.c */
+extern _httpd_response_t *_mod_httpd_http_error (_httpd_context_t *
+						 httpd_context, int status);
 
 /*
  * In setup.c
@@ -141,6 +177,8 @@ extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 extern int _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 				   lw6nod_info_t * node_info,
 				   lw6srv_oob_data_t * oob_data);
+extern int _mod_httpd_oob_timeout_ok (_httpd_context_t * httpd_context,
+				      lw6srv_oob_data_t * oob_data);
 
 /* mod-httpd-request.c */
 extern _httpd_request_t *_mod_httpd_request_parse (_httpd_context_t *
@@ -148,5 +186,24 @@ extern _httpd_request_t *_mod_httpd_request_parse (_httpd_context_t *
 						   lw6srv_oob_data_t *
 						   oob_data);
 extern void _mod_httpd_request_free (_httpd_request_t * request);
+
+/* mod-httpd-response.c */
+extern _httpd_response_t *_mod_httpd_response_from_bin (_httpd_context_t *
+							httpd_context,
+							int status,
+							int no_cache,
+							char *content_type,
+							int content_size,
+							void *content_data);
+extern _httpd_response_t *_mod_httpd_response_from_str (_httpd_context_t *
+							httpd_context,
+							int status,
+							int no_cache,
+							char *content_type,
+							char *content);
+extern void _mod_httpd_response_free (_httpd_response_t * response);
+extern int _mod_httpd_response_send (_httpd_context_t * httpd_context,
+				     _httpd_response_t * response, int sock,
+				     int headers_only);
 
 #endif

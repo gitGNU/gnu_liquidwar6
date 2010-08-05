@@ -61,8 +61,12 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
   if (dyn_info->level)
     {
       LW6SYS_FREE (dyn_info->level);
+      dyn_info->level = NULL;
     }
-  dyn_info->level = lw6sys_str_copy (level);
+  if (level)
+    {
+      dyn_info->level = lw6sys_str_copy (level);
+    }
   dyn_info->required = required;
   dyn_info->limit = limit;
   dyn_info->colors = colors;
@@ -74,11 +78,14 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
       LW6SYS_FREE (dyn_info->game_screenshot_data);
       dyn_info->game_screenshot_data = NULL;
     }
-  dyn_info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
-  if (dyn_info->game_screenshot_data)
+  if (game_screenshot_size > 0)
     {
-      memcpy (dyn_info->game_screenshot_data, game_screenshot_data,
-	      game_screenshot_size);
+      dyn_info->game_screenshot_data = LW6SYS_MALLOC (game_screenshot_size);
+      if (dyn_info->game_screenshot_data)
+	{
+	  memcpy (dyn_info->game_screenshot_data, game_screenshot_data,
+		  game_screenshot_size);
+	}
     }
 
   ret = (dyn_info->level && dyn_info->game_screenshot_data);

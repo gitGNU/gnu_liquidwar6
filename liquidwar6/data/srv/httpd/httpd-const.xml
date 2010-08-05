@@ -1,4 +1,17 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="timeout-msec" value="10000" />
+  <int key="max-age" value="86400" />
+  <int key="in-the-past" value="14400" />
+  <int key="refresh" value="60" />
+  <string key="http-version" value="1.0" />
+  <string key="content-type-html" value="text/html; charset=utf-8" />
+  <string key="content-type-txt" value="text/plain; charset=UTF-8" />
+  <string key="content-type-jpeg" value="image/jpeg" />
+  <string key="content-type-ico" value="image/x-icon" />
+  <string key="error-401" value="Unauthorized" />
+  <string key="error-403" value="Forbidden" />
+  <string key="error-404" value="Not Found" />
+  <string key="error-405" value="Method Not Allowed" />
+  <string key="error-500" value="Internal Server Error" />
 </liquidwar6>

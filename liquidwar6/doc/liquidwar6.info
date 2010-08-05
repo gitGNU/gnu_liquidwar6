@@ -21,8 +21,8 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 788
-liquidwar6.info-2: 261708
-liquidwar6.info-3: 557123
+liquidwar6.info-2: 261730
+liquidwar6.info-3: 557145
 
 Tag Table:
 (Indirect)
@@ -58,29 +58,29 @@ Node: Advanced tweaking114819
 Node: Writing modules116164
 Node: Use as a library116337
 Node: Network protocol116511
-Node: Using GNU Arch118241
-Node: Using GIT124011
-Node: Reference126179
-Node: Basic options127645
-Node: Doc options130893
-Node: Show options134583
-Node: Path options153398
-Node: Graphics options160245
-Node: Sound options163248
-Node: Network options165602
-Node: Map parameters169980
-Node: Map rules.xml173372
-Node: Map hints.xml203954
-Node: Map style.xml218195
-Node: Advanced settings241771
-Node: Script hooks261414
-Node: C to Guile API261562
-Node: C functions261708
-Node: 2005 .plan544855
-Node: Fanfic557123
-Node: Links563456
-Node: Copying564944
-Node: GNU Free Documentation License602522
-Node: Indexes627685
+Node: Using GNU Arch118263
+Node: Using GIT124033
+Node: Reference126201
+Node: Basic options127667
+Node: Doc options130915
+Node: Show options134605
+Node: Path options153420
+Node: Graphics options160267
+Node: Sound options163270
+Node: Network options165624
+Node: Map parameters170002
+Node: Map rules.xml173394
+Node: Map hints.xml203976
+Node: Map style.xml218217
+Node: Advanced settings241793
+Node: Script hooks261436
+Node: C to Guile API261584
+Node: C functions261730
+Node: 2005 .plan544877
+Node: Fanfic557145
+Node: Links563478
+Node: Copying564966
+Node: GNU Free Documentation License602544
+Node: Indexes627707
 
 End Tag Table

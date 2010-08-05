@@ -39,21 +39,21 @@ _parse_first_line (_httpd_request_t * request, char *first_line)
       (first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
        _MOD_HTTPD_PROTOCOL_GET_SIZE))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a GET"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
   if (!strncmp
       (first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
        _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a HEAD"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
   if (!strncmp
       (first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
        _MOD_HTTPD_PROTOCOL_POST_SIZE))
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("this is a POST"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
     }
 
@@ -87,7 +87,7 @@ _parse_first_line (_httpd_request_t * request, char *first_line)
 
   if (request->uri)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("REQUEST_URI=\"%s\""), request->uri);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("REQUEST_URI=\"%s\""), request->uri);
     }
 
   return ret;
@@ -102,7 +102,7 @@ _mod_httpd_request_parse (_httpd_context_t * httpd_context,
   char *first_line = NULL;
   char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("process httpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
 
   request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
   if (request)
@@ -112,10 +112,8 @@ _mod_httpd_request_parse (_httpd_context_t * httpd_context,
 	{
 	  _parse_first_line (request, first_line);
 	  LW6SYS_FREE (first_line);
-	  while (lw6sys_get_timestamp () +
-		 httpd_context->data.consts.timeout_msec >
-		 oob_data->creation_timestamp && (!eof)
-		 && lw6net_tcp_is_alive (oob_data->sock))
+	  while ((!eof) &&
+		 _mod_httpd_oob_timeout_ok (httpd_context, oob_data))
 	    {
 	      line = lw6net_recv_line_tcp (oob_data->sock);
 	      if (line)

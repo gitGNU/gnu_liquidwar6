@@ -83,6 +83,7 @@
 #define VTHREAD_N 3
 #define TEST_SLEEP_TIME 3
 #define TEST_DELAY_TIME 50
+#define TEST_RFC1123_SECONDS_FROM_NOW 100000
 #define TEST_SLEEP_TIME_SHORT_STEP 0.001f
 #define BLANK_STR "\t "
 #define CLEANUP_FORMAT "<foo %c bar %c>"
@@ -2975,6 +2976,7 @@ test_time ()
     int64_t uptime = 0;
     int64_t timestamp = 0;
     int32_t cycle = 0;
+    char *rfc1123 = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("timestamp %" LW6SYS_PRINTF_LL "d"),
 		lw6sys_get_timestamp ());
@@ -3003,6 +3005,22 @@ test_time ()
       }
     lw6sys_log (LW6SYS_LOG_NOTICE, _("lasted %" LW6SYS_PRINTF_LL "d ms"),
 		lw6sys_get_uptime () - last_uptime);
+
+    rfc1123 = lw6sys_date_rfc1123 (0);
+    if (rfc1123)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("rfc1123 date for now is \"%s\""),
+		    rfc1123);
+	LW6SYS_FREE (rfc1123);
+      }
+    rfc1123 = lw6sys_date_rfc1123 (TEST_RFC1123_SECONDS_FROM_NOW);
+    if (rfc1123)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("rfc1123 date in %d seconds is \"%s\""),
+		    TEST_RFC1123_SECONDS_FROM_NOW, rfc1123);
+	LW6SYS_FREE (rfc1123);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;

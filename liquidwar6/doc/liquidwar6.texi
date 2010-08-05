@@ -2956,9 +2956,11 @@ HTTP public URLs:
 
 @verbatim
 / -> index.html
+/index.html
 /favicon.ico
-/screenshot.jpg
+/screenshot.jpeg
 /robots.txt
+/gpl.txt
 /info.txt
 /list.txt
 /ping.txt
