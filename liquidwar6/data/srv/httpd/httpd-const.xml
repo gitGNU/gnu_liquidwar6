@@ -3,7 +3,8 @@
   <int key="timeout-msec" value="10000" />
   <int key="max-age" value="86400" />
   <int key="in-the-past" value="14400" />
-  <int key="refresh" value="60" />
+  <int key="refresh-index" value="97" />
+  <int key="refresh-screenshot" value="31" />
   <string key="http-version" value="1.0" />
   <string key="content-type-html" value="text/html; charset=utf-8" />
   <string key="content-type-txt" value="text/plain; charset=UTF-8" />

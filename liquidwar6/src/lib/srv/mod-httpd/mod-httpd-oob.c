@@ -37,6 +37,8 @@
 #define _LIST_TXT "/list.txt"
 #define _PING_TXT "/ping.txt"
 
+#define _SCREENSHOT_JPEG_REFRESH "screenshot.jpeg"
+
 #define _PONG "PONG"
 
 static _httpd_response_t *
@@ -61,6 +63,9 @@ _response_index_html (_httpd_context_t * httpd_context,
 	_mod_httpd_response_from_str (httpd_context,
 				      _MOD_HTTPD_STATUS_200, 1,
 				      httpd_context->data.
+				      consts.refresh_index,
+				      node_info->const_info.url,
+				      httpd_context->data.
 				      consts.content_type_html, content);
 
       LW6SYS_FREE (content);
@@ -78,6 +83,7 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   int screenshot_size = 0;
   void *screenshot_data = NULL;
+  char *refresh_url = NULL;
 
   if (dyn_info->game_screenshot_size > 0
       && dyn_info->game_screenshot_data != NULL)
@@ -90,16 +96,24 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
       screenshot_size = node_info->const_info.idle_screenshot_size;
       screenshot_data = node_info->const_info.idle_screenshot_data;
     }
-  if (screenshot_size > 0 && screenshot_data != NULL)
+  refresh_url =
+    lw6sys_str_concat (node_info->const_info.url, _SCREENSHOT_JPEG_REFRESH);
+  if (refresh_url)
     {
-      response =
-	_mod_httpd_response_from_bin (httpd_context,
-				      _MOD_HTTPD_STATUS_200, 1,
-				      httpd_context->data.
-				      consts.content_type_jpeg,
-				      screenshot_size, screenshot_data);
+      if (screenshot_size > 0 && screenshot_data != NULL)
+	{
+	  response =
+	    _mod_httpd_response_from_bin (httpd_context,
+					  _MOD_HTTPD_STATUS_200, 1,
+					  httpd_context->data.
+					  consts.refresh_screenshot,
+					  refresh_url,
+					  httpd_context->data.
+					  consts.content_type_jpeg,
+					  screenshot_size, screenshot_data);
+	}
+      LW6SYS_FREE (refresh_url);
     }
-
   return response;
 }
 
@@ -165,7 +179,8 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		{
 		  response =
 		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0,
+						  _MOD_HTTPD_STATUS_200, 0, 0,
+						  NULL,
 						  httpd_context->data.
 						  consts.content_type_txt,
 						  httpd_context->data.
@@ -175,7 +190,8 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		{
 		  response =
 		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0,
+						  _MOD_HTTPD_STATUS_200, 0, 0,
+						  NULL,
 						  httpd_context->data.
 						  consts.content_type_txt,
 						  httpd_context->data.
@@ -185,7 +201,8 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		{
 		  response =
 		    _mod_httpd_response_from_bin (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0,
+						  _MOD_HTTPD_STATUS_200, 0, 0,
+						  NULL,
 						  httpd_context->data.
 						  consts.content_type_txt,
 						  httpd_context->data.
@@ -197,7 +214,8 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		{
 		  response =
 		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0,
+						  _MOD_HTTPD_STATUS_200, 0, 0,
+						  NULL,
 						  httpd_context->data.
 						  consts.content_type_txt,
 						  _PONG);

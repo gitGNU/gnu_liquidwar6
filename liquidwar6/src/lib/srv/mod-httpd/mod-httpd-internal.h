@@ -51,7 +51,8 @@ typedef struct _httpd_consts_s
   int timeout_msec;
   int max_age;
   int in_the_past;
-  int refresh;
+  int refresh_index;
+  int refresh_screenshot;
   char *http_version;
   char *content_type_html;
   char *content_type_txt;
@@ -105,6 +106,8 @@ typedef struct _httpd_response_s
 {
   int status;
   int no_cache;
+  int refresh_sec;
+  char *refresh_url;
   char *content_type;
   int content_size;
   void *content_data;
@@ -198,6 +201,8 @@ extern _httpd_response_t *_mod_httpd_response_from_bin (_httpd_context_t *
 							httpd_context,
 							int status,
 							int no_cache,
+							int refresh_sec,
+							char *refresh_url,
 							char *content_type,
 							int content_size,
 							void *content_data);
@@ -205,6 +210,8 @@ extern _httpd_response_t *_mod_httpd_response_from_str (_httpd_context_t *
 							httpd_context,
 							int status,
 							int no_cache,
+							int refresh_sec,
+							char *refresh_url,
 							char *content_type,
 							char *content);
 extern void _mod_httpd_response_free (_httpd_response_t * response);

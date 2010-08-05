@@ -346,7 +346,7 @@ lw6sys_date_clf ()
        */
       old_locale = lw6sys_str_copy (locale);
 
-      setlocale (LC_TIME, "POSIX");
+      setlocale (LC_TIME, "C");
 
       time (&now);
       memset (&tm, 0, sizeof (struct tm));

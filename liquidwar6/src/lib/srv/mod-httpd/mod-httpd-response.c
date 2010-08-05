@@ -45,6 +45,8 @@ _mod_httpd_response_from_bin (_httpd_context_t *
 			      httpd_context,
 			      int status,
 			      int no_cache,
+			      int refresh_sec,
+			      char *refresh_url,
 			      char *content_type,
 			      int content_size, void *content_data)
 {
@@ -55,6 +57,11 @@ _mod_httpd_response_from_bin (_httpd_context_t *
     {
       response->status = status;
       response->no_cache = no_cache;
+      response->refresh_sec = refresh_sec;
+      if (refresh_url)
+	{
+	  response->refresh_url = lw6sys_str_copy (refresh_url);
+	}
       response->content_type = lw6sys_str_copy (content_type);
       response->content_size = content_size;
       response->content_data = LW6SYS_MALLOC (content_size + 1);
@@ -83,13 +90,16 @@ _httpd_response_t *
 _mod_httpd_response_from_str (_httpd_context_t *
 			      httpd_context,
 			      int status,
-			      int no_cache, char *content_type, char *content)
+			      int no_cache, int refresh_sec,
+			      char *refresh_url, char *content_type,
+			      char *content)
 {
   _httpd_response_t *response = NULL;
 
   response =
     _mod_httpd_response_from_bin (httpd_context, status, no_cache,
-				  content_type, strlen (content), content);
+				  refresh_sec, refresh_url, content_type,
+				  strlen (content), content);
 
   return response;
 }
@@ -99,6 +109,10 @@ _mod_httpd_response_free (_httpd_response_t * response)
 {
   if (response)
     {
+      if (response->refresh_url)
+	{
+	  LW6SYS_FREE (response->refresh_url);
+	}
       if (response->content_type)
 	{
 	  LW6SYS_FREE (response->content_type);
@@ -216,6 +230,19 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 		      line = NULL;
 		    }
 		  LW6SYS_FREE (expire_str);
+		}
+	      if (response->refresh_sec > 0 && response->refresh_url != NULL)
+		{
+		  line =
+		    lw6sys_new_sprintf ("Refresh: %d;url=%s",
+					response->refresh_sec,
+					response->refresh_url);
+		  if (line)
+		    {
+		      lw6net_send_line_tcp (sock, line);
+		      LW6SYS_FREE (line);
+		      line = NULL;
+		    }
 		}
 	      LW6SYS_FREE (now_str);
 	    }

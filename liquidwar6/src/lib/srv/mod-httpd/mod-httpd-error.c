@@ -70,7 +70,7 @@ _mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
       if (content)
 	{
 	  response =
-	    _mod_httpd_response_from_str (httpd_context, status, 1,
+	    _mod_httpd_response_from_str (httpd_context, status, 1, 0, NULL,
 					  httpd_context->data.
 					  consts.content_type_html, content);
 	  LW6SYS_FREE (content);
