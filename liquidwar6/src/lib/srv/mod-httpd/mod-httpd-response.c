@@ -234,7 +234,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 	      if (response->refresh_sec > 0 && response->refresh_url != NULL)
 		{
 		  line =
-		    lw6sys_new_sprintf ("Refresh: %d;url=%s",
+		    lw6sys_new_sprintf ("Refresh: %d; url=%s",
 					response->refresh_sec,
 					response->refresh_url);
 		  if (line)

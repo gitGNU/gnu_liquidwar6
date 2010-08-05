@@ -51,6 +51,8 @@ _response_index_html (_httpd_context_t * httpd_context,
   char *content = NULL;
 
   content = lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
+				httpd_context->data.consts.refresh_index,
+				node_info->const_info.url,
 				node_info->const_info.title,
 				lw6sys_build_get_package_name (),
 				lw6sys_build_get_copyright (),
