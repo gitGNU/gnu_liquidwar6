@@ -1,5 +1,7 @@
 2010-08-05 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added logging facility to web server.
+
 	* Basic httpd server works, serves static pages.
 
 2010-08-04 : Christian Mauduit <ufoot@ufoot.org>

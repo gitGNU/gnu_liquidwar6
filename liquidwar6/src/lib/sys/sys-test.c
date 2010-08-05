@@ -2977,6 +2977,7 @@ test_time ()
     int64_t timestamp = 0;
     int32_t cycle = 0;
     char *rfc1123 = NULL;
+    char *clf = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("timestamp %" LW6SYS_PRINTF_LL "d"),
 		lw6sys_get_timestamp ());
@@ -3020,6 +3021,12 @@ test_time ()
 		    _("rfc1123 date in %d seconds is \"%s\""),
 		    TEST_RFC1123_SECONDS_FROM_NOW, rfc1123);
 	LW6SYS_FREE (rfc1123);
+      }
+    clf = lw6sys_date_clf ();
+    if (clf)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("clf date is \"%s\""), clf);
+	LW6SYS_FREE (clf);
       }
   }
 

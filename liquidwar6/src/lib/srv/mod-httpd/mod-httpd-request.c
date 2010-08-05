@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 static int
-_parse_first_line (_httpd_request_t * request, char *first_line)
+_parse_first_line (_httpd_request_t * request)
 {
   int ret = 0;
   char *pos = NULL;
@@ -36,28 +36,28 @@ _parse_first_line (_httpd_request_t * request, char *first_line)
   char seek_c = '\0';
 
   if (!strncmp
-      (first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
+      (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
        _MOD_HTTPD_PROTOCOL_GET_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
   if (!strncmp
-      (first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
+      (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
        _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
   if (!strncmp
-      (first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
+      (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
        _MOD_HTTPD_PROTOCOL_POST_SIZE))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
     }
 
-  pos = first_line;
+  pos = request->first_line;
   while ((*pos) && (*pos) != ' ')
     {
       pos++;
@@ -94,12 +94,11 @@ _parse_first_line (_httpd_request_t * request, char *first_line)
 }
 
 _httpd_request_t *
-_mod_httpd_request_parse (_httpd_context_t * httpd_context,
-			  lw6srv_oob_data_t * oob_data)
+_mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
+			      lw6srv_oob_data_t * oob_data)
 {
   _httpd_request_t *request = NULL;
   int eof = 0;
-  char *first_line = NULL;
   char *line = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
@@ -107,11 +106,11 @@ _mod_httpd_request_parse (_httpd_context_t * httpd_context,
   request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
   if (request)
     {
-      first_line = lw6net_recv_line_tcp (oob_data->sock);
-      if (first_line)
+      request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
+      request->first_line = lw6net_recv_line_tcp (oob_data->sock);
+      if (request->first_line)
 	{
-	  _parse_first_line (request, first_line);
-	  LW6SYS_FREE (first_line);
+	  _parse_first_line (request);
 	  while ((!eof) &&
 		 _mod_httpd_oob_timeout_ok (httpd_context, oob_data))
 	    {
@@ -137,6 +136,14 @@ _mod_httpd_request_free (_httpd_request_t * request)
 {
   if (request)
     {
+      if (request->client_ip)
+	{
+	  LW6SYS_FREE (request->client_ip);
+	}
+      if (request->first_line)
+	{
+	  LW6SYS_FREE (request->first_line);
+	}
       if (request->uri)
 	{
 	  LW6SYS_FREE (request->uri);

@@ -888,6 +888,7 @@ extern void lw6sys_delay (int msec);
 extern void lw6sys_idle ();
 extern void lw6sys_time_init ();
 extern char *lw6sys_date_rfc1123 (int seconds_from_now);
+extern char *lw6sys_date_clf ();
 
 /* sys-url.c */
 extern char *lw6sys_url_http_from_ip_port (char *ip, int port);

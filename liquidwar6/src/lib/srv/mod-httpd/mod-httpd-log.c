@@ -29,9 +29,33 @@
 
 int
 _mod_httpd_log (_httpd_context_t * httpd_context,
-		_httpd_response_t * response)
+		_httpd_request_t * request, _httpd_response_t * response)
 {
   int ret = 0;
+  FILE *f = NULL;
+  char *date_str = NULL;
+
+  date_str = lw6sys_date_clf ();
+  if (date_str)
+    {
+      if (lw6sys_mutex_lock (httpd_context->access_log_mutex))
+	{
+	  f = fopen (httpd_context->access_log_file, "ab");
+	  if (f)
+	    {
+	      if (fprintf
+		  (f, "%s - - [%s] \"%s\" %d %d\n", request->client_ip,
+		   date_str, request->first_line, response->status,
+		   response->content_size) > 0)
+		{
+		  ret = 1;
+		}
+	      fclose (f);
+	    }
+	  lw6sys_mutex_unlock (httpd_context->access_log_mutex);
+	}
+      LW6SYS_FREE (date_str);
+    }
 
   return ret;
 }

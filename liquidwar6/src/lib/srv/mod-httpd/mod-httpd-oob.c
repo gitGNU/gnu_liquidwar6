@@ -115,7 +115,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
 
-  request = _mod_httpd_request_parse (httpd_context, oob_data);
+  request = _mod_httpd_request_parse_oob (httpd_context, oob_data);
   if (request)
     {
       if (request->get_head_post == _MOD_HTTPD_GET
@@ -224,6 +224,15 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 				      oob_data->sock,
 				      request->get_head_post ==
 				      _MOD_HTTPD_HEAD);
+	  if (ret)
+	    {
+	      _mod_httpd_log (httpd_context, request, response);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("request \"%s\" failed"),
+			  request->uri);
+	    }
 	  _mod_httpd_response_free (response);
 	}
       _mod_httpd_request_free (request);

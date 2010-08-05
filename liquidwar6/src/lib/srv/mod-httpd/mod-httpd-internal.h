@@ -93,6 +93,8 @@ _httpd_context_t;
 
 typedef struct _httpd_request_s
 {
+  char *client_ip;
+  char *first_line;
   int get_head_post;
   char *uri;
   char *http_user;
@@ -149,6 +151,10 @@ extern int _mod_httpd_update_with_udp (_httpd_context_t * httpd_context,
 				       lw6srv_connection_t * connection,
 				       lw6srv_udp_buffer_t * udp_buffer);
 
+/* mod-httpd-log.c */
+int _mod_httpd_log (_httpd_context_t * httpd_context,
+		    _httpd_request_t * request, _httpd_response_t * response);
+
 /*
  * In state.c
  */
@@ -181,10 +187,10 @@ extern int _mod_httpd_oob_timeout_ok (_httpd_context_t * httpd_context,
 				      lw6srv_oob_data_t * oob_data);
 
 /* mod-httpd-request.c */
-extern _httpd_request_t *_mod_httpd_request_parse (_httpd_context_t *
-						   httpd_context,
-						   lw6srv_oob_data_t *
-						   oob_data);
+extern _httpd_request_t *_mod_httpd_request_parse_oob (_httpd_context_t *
+						       httpd_context,
+						       lw6srv_oob_data_t *
+						       oob_data);
 extern void _mod_httpd_request_free (_httpd_request_t * request);
 
 /* mod-httpd-response.c */

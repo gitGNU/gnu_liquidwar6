@@ -35,6 +35,7 @@
 
 #define _TIMER_CYCLE_MASK 0xFFFFFL
 #define _RFC1123_SIZE 33
+#define _CLF_SIZE 40
 
 static int64_t timestamp_0 = 0;
 
@@ -304,6 +305,68 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 	}
       // called with old_tz=NULL, will unset
       lw6sys_setenv ("TZ", old_tz);
+      if (old_locale)
+	{
+	  setlocale (LC_TIME, old_locale);
+	  LW6SYS_FREE (old_locale);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_date_clf
+ *
+ * Gives the date in a format which is compatible with Apache CLF
+ * Common Log Format.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_date_clf ()
+{
+  char *ret = NULL;
+  time_t now;
+  char *old_locale;
+  char *locale;
+  struct tm tm;
+  struct tm *tm_ptr;
+  int strflen;
+
+  ret = (char *) LW6SYS_CALLOC (_CLF_SIZE + 1);
+
+  locale = setlocale (LC_TIME, NULL);
+  if (locale)
+    {
+      /*
+       * We do need to make a copy in a separate buffer,
+       * otherwise the content pointed by *locale
+       * might change dynamically when calling setlocale
+       */
+      old_locale = lw6sys_str_copy (locale);
+
+      setlocale (LC_TIME, "POSIX");
+
+      time (&now);
+      memset (&tm, 0, sizeof (struct tm));
+#ifdef LW6_MS_WINDOWS
+      /*
+       * Seems mingw might not have gmtime_r but ms
+       * gmtime function could be thread safe anyway
+       */
+      tm_ptr = localtime (&now);
+#else
+      localetime_r (&when, &tm);
+      tm_ptr = &tm;
+#endif
+      // http://www.gta.igs.net/~hwt/rfcdate.html
+      strflen = strftime (ret, _CLF_SIZE, "%d/%b/%Y:%H:%M:%S %z", tm_ptr);
+      if (strflen >= _CLF_SIZE)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("buffer exceeded %d>=%d"),
+		      strflen, _CLF_SIZE);
+	}
       if (old_locale)
 	{
 	  setlocale (LC_TIME, old_locale);
