@@ -88,7 +88,14 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
 	}
     }
 
-  ret = (dyn_info->level && dyn_info->game_screenshot_data);
+  if (level && game_screenshot_data)
+    {
+      ret = (dyn_info->level && dyn_info->game_screenshot_data);
+    }
+  else
+    {
+      ret = 1;
+    }
 
   return ret;
 }

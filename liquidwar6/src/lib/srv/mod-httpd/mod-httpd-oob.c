@@ -39,6 +39,70 @@
 
 #define _PONG "PONG"
 
+static _httpd_response_t *
+_response_index_html (_httpd_context_t * httpd_context,
+		      lw6nod_info_t * node_info,
+		      lw6nod_dyn_info_t * dyn_info,
+		      lw6srv_oob_data_t * oob_data)
+{
+  _httpd_response_t *response = NULL;
+  char *content = NULL;
+
+  content = lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
+				node_info->const_info.title,
+				lw6sys_build_get_package_name (),
+				lw6sys_build_get_copyright (),
+				lw6sys_build_get_package_string (),
+				node_info->const_info.title,
+				node_info->const_info.description);
+  if (content)
+    {
+      response =
+	_mod_httpd_response_from_str (httpd_context,
+				      _MOD_HTTPD_STATUS_200, 1,
+				      httpd_context->data.
+				      consts.content_type_html, content);
+
+      LW6SYS_FREE (content);
+    }
+
+  return response;
+}
+
+static _httpd_response_t *
+_response_screenshot_jpeg (_httpd_context_t * httpd_context,
+			   lw6nod_info_t * node_info,
+			   lw6nod_dyn_info_t * dyn_info,
+			   lw6srv_oob_data_t * oob_data)
+{
+  _httpd_response_t *response = NULL;
+  int screenshot_size = 0;
+  void *screenshot_data = NULL;
+
+  if (dyn_info->game_screenshot_size > 0
+      && dyn_info->game_screenshot_data != NULL)
+    {
+      screenshot_size = dyn_info->game_screenshot_size;
+      screenshot_data = dyn_info->game_screenshot_data;
+    }
+  else
+    {
+      screenshot_size = node_info->const_info.idle_screenshot_size;
+      screenshot_data = node_info->const_info.idle_screenshot_data;
+    }
+  if (screenshot_size > 0 && screenshot_data != NULL)
+    {
+      response =
+	_mod_httpd_response_from_bin (httpd_context,
+				      _MOD_HTTPD_STATUS_200, 1,
+				      httpd_context->data.
+				      consts.content_type_jpeg,
+				      screenshot_size, screenshot_data);
+    }
+
+  return response;
+}
+
 int
 _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 			lw6nod_info_t * node_info,
@@ -69,21 +133,30 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		  if (!strcmp (request->uri, _ROOT)
 		      || !strcmp (request->uri, _INDEX_HTML))
 		    {
-		      //response=_response_index_html(httpd_context,node_info,dyn_info,oob_data);
+		      response =
+			_response_index_html (httpd_context, node_info,
+					      dyn_info, oob_data);
 		    }
 		  if (!strcmp (request->uri, _SCREENSHOT_JPEG))
 		    {
-		      //response=_response_index_html(httpd_context,node_info,dyn_info,oob_data);
+		      response =
+			_response_screenshot_jpeg (httpd_context, node_info,
+						   dyn_info, oob_data);
 		    }
 		  if (!strcmp (request->uri, _INFO_TXT))
 		    {
-		      //response=_response_index_html(httpd_context,node_info,dyn_info,oob_data);
+		      //response=_response_info_txt(httpd_context,node_info,dyn_info,oob_data);
 		    }
 		  if (!strcmp (request->uri, _LIST_TXT))
 		    {
-		      //response=_response_index_html(httpd_context,node_info,dyn_info,oob_data);
+		      //response=_response_list_txt(httpd_context,node_info,dyn_info,oob_data);
 		    }
 		  lw6nod_dyn_info_free (dyn_info);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("unable to duplicate dyn_info"));
 		}
 	    }
 	  else
