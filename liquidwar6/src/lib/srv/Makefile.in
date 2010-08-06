@@ -96,7 +96,8 @@ liquidwar6srv_test_OBJECTS = $(am_liquidwar6srv_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6srv_test_DEPENDENCIES = libsrv.la \
 @FULLSTATIC_FALSE@	$(am__DEPENDENCIES_2) ../nod/libnod.la \
 @FULLSTATIC_FALSE@	../net/libnet.la ../cfg/libcfg.la \
-@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
+@FULLSTATIC_FALSE@	../hlp/libhlp.la ../glb/libglb.la \
+@FULLSTATIC_FALSE@	../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -380,7 +381,7 @@ libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpacce
 libsrvdir = $(includedir)/@PACKAGE_TARNAME@/srv
 libsrv_HEADERS = srv.h
 @FULLSTATIC_FALSE@liquidwar6srv_test_SOURCES = srv-testmain.c
-@FULLSTATIC_FALSE@liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 SUBDIRS = mod-tcpd mod-udpd mod-httpd
 all: all-recursive
 

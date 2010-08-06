@@ -351,7 +351,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = coverage global cyclo example dtd
 info_TEXINFOS = liquidwar6.texi
-gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-ogg-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
+gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-ogg-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
 selfdoc_TEXINFOS = quick-selfdoc.texi doc-selfdoc.texi show-selfdoc.texi path-selfdoc.texi players-selfdoc.texi input-selfdoc.texi graphics-selfdoc.texi sound-selfdoc.texi network-selfdoc.texi map-selfdoc.texi map-rules-selfdoc.texi map-hints-selfdoc.texi map-style-selfdoc.texi funcs-selfdoc.texi hooks-selfdoc.texi tuning-selfdoc.texi aliases-selfdoc.texi
 liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi gdoc.texi stamp.texi const.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
 man6_MANS = liquidwar6.man
@@ -1051,6 +1051,9 @@ uninstall-local:
 
 @LW6_GDOC_TRUE@$(srcdir)/gfx-gdoc.texi: ../src/lib/gfx/gfx-api.c ../src/lib/gfx/gfx.h ../src/lib/gfx/gfx-register.c ../src/lib/gfx/gfx-test.c ../src/lib/gfx/gfx-testmain.c
 @LW6_GDOC_TRUE@	echo gdoc gfx && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/gfx-gdoc.texi
+
+@LW6_GDOC_TRUE@$(srcdir)/glb-gdoc.texi: ../src/lib/glb/glb-base64.c ../src/lib/glb/glb.h ../src/lib/glb/glb-internal.h ../src/lib/glb/glb-test.c ../src/lib/glb/glb-testmain.c ../src/lib/glb/lib_base64.c ../src/lib/glb/lib_base64.h
+@LW6_GDOC_TRUE@	echo gdoc glb && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/glb-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/gui-gdoc.texi: ../src/lib/gui/gui-button.c ../src/lib/gui/gui-coord.c ../src/lib/gui/gui.h ../src/lib/gui/gui-input.c ../src/lib/gui/gui-joystick.c ../src/lib/gui/gui-keyboard.c ../src/lib/gui/gui-keypress.c ../src/lib/gui/gui-look.c ../src/lib/gui/gui-menu.c ../src/lib/gui/gui-menuitem.c ../src/lib/gui/gui-mouse.c ../src/lib/gui/gui-smoother.c ../src/lib/gui/gui-test.c ../src/lib/gui/gui-testmain.c ../src/lib/gui/gui-videomode.c ../src/lib/gui/gui-viewport.c ../src/lib/gui/gui-zone.c
 @LW6_GDOC_TRUE@	echo gdoc gui && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/gui-gdoc.texi

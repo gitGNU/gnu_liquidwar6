@@ -683,6 +683,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/def/Makefile
 	  src/lib/sys/Makefile
 	  src/lib/sys/sys-build.h
+	  src/lib/glb/Makefile
 	  src/lib/dyn/Makefile
 	  src/lib/cns/Makefile
 	  src/lib/hlp/Makefile

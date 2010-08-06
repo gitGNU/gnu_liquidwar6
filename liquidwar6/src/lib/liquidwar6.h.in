@@ -33,6 +33,7 @@
 #include <libguile.h>
 
 #include "sys/sys.h"
+#include "glb/glb.h"
 #include "dyn/dyn.h"
 #include "cns/cns.h"
 #include "hlp/hlp.h"

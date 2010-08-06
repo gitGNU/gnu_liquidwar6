@@ -357,9 +357,7 @@ test_node ()
  *
  * @mode: 0 for check only, 1 for full test
  *
- * Runs the @nod module test suite. This one could fail if some
- * sockets are already bound, for instance. It's still run even
- * in check-only (mode=0) mode.
+ * Runs the @nod module test suite.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */

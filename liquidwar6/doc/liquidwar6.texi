@@ -1859,11 +1859,13 @@ The @code{cli} and @code{srv} contain network client and server code,
 implementing the various protocols in dynamically loadable sub-modules.
 It's the role of @code{p2p} to glue this together, handle the list
 of available servers, the message queue, verifying nobody is cheating,
-and so on.
+and so on. All this modules share information about current game
+state using code & structures defined in @code{nod}.
 
-The @code{sys} contains most system and convenience functions, it handles
+The @code{sys} module contains most system and convenience functions, it handles
 logs, type conversions, timer, memory allocation, it's the fundamental
-module every other module depends on.
+module every other module depends on. It has a compation @code{glb}
+module with all the @uref{http://www.gnu.org/software/gnulib/,Gnulib} shared code.
 
 The @code{hlp} is used to handle keywords and internal self-documentation
 (this is what is used by @code{--list} and @code{--about}), @code{cfg}
@@ -1871,7 +1873,7 @@ knows how to read and save config files,  @code{cns} handles the console,
 and @code{dyn} can load @code{.so} shared files dynamically.
 
 Finally there are small modules like @code{img} (to make screenshots of the game)
-or @code{nod} (utilities to store node state)  which 
+which 
 have been separated because they required special libraries to link with
 and/or did not really fit in existing modules for dependencies reasons.
 

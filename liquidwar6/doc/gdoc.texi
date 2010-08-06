@@ -30,6 +30,10 @@
 
 @include gfx-gdoc.texi
  
+@subsection libglb
+
+@include glb-gdoc.texi
+
 @subsection libgui
 
 @include gui-gdoc.texi

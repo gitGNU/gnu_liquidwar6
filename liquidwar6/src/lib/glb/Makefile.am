@@ -19,25 +19,18 @@
 # Contact author        : ufoot@ufoot.org
 
 AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ -lsqlite3
+AM_LDFLAGS = @LW6_LDFLAGS@
 
-if ALLINONE
-LW6DYN_LIB = 
-else
-LW6DYN_LIB = ../dyn/libdyn.la 
-endif
-
-noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-data.c p2p-db.c p2p-node.c p2p-oob.c p2p-test.c
-libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
-libp2p_HEADERS = p2p.h
+noinst_LTLIBRARIES = libglb.la
+libglb_la_SOURCES = glb-base64.c glb-test.c gnulib-base64.c
+libglbdir= $(includedir)/@PACKAGE_TARNAME@/glb
+libglb_HEADERS = glb.h
 
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6p2p-test
-liquidwar6p2p_test_SOURCES = p2p-testmain.c
-liquidwar6p2p_test_LDADD = libp2p.la ../cli/libcli.la ../srv/libsrv.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6p2p-test
+libexec_PROGRAMS = liquidwar6glb-test
+liquidwar6glb_test_SOURCES = glb-testmain.c
+liquidwar6glb_test_LDADD = libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+TESTS = liquidwar6glb-test
 endif
 
-EXTRA_DIST = p2p-internal.h
-
+EXTRA_DIST = glb-internal.h gnulib-base64.h

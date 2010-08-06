@@ -24,6 +24,7 @@
 #define LIQUIDWAR6SRV_H
 
 #include "../sys/sys.h"
+#include "../glb/glb.h"
 #include "../dyn/dyn.h"
 #include "../net/net.h"
 #include "../nod/nod.h"

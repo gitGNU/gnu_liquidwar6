@@ -217,6 +217,7 @@ lw6srv_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
+      lw6glb_test (mode);
       lw6cfg_test (mode);
       lw6net_test (mode);
       lw6nod_test (mode);
