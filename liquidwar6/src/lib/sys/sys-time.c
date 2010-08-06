@@ -312,7 +312,7 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 	}
       if (old_tz)
 	{
-	  LW6SYS_FREE(old_tz);
+	  LW6SYS_FREE (old_tz);
 	}
     }
 
