@@ -138,6 +138,8 @@
 			      (c-lw6cns-init)
 			      (lw6-console) ;; usefull when piping commands at startup
 			      ))
+			(if (not (lw6-bench-need-update #f))
+			    (lw6-node-start)) ;; start it now if bench OK
 			(lw6-init-menu)
 			(lw6-splash)
 			(lw6-game-idle)

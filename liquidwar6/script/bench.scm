@@ -18,12 +18,17 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-bench
+(define lw6-bench-need-update
   (lambda (force-bench)
-    (if (or force-bench
+    (or force-bench
 	    (not (equal? 
 		  (lw6-config-get-number lw6def-bin-id)
 		  (c-lw6sys-build-get-bin-id))))
+    ))
+
+(define lw6-bench
+  (lambda (force-bench)
+    (if (lw6-bench-need-update force-bench)
 	(let (
 	      (dsp (lw6-get-game-global "dsp"))
 	      )
