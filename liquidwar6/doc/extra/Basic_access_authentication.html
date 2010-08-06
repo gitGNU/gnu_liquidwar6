@@ -1,0 +1,1458 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="mac firefox firefox3 gecko gecko1" dir="ltr" 
+xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+
+<title>Basic access authentication - Wikipedia, the free encyclopedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="generator" content="MediaWiki 1.16wmf4">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit">
+<link rel="edit" title="Edit this page" 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit">
+<link rel="apple-touch-icon" 
+href="http://en.wikipedia.org/apple-touch-icon.png">
+<link rel="shortcut icon" href="http://en.wikipedia.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" 
+href="http://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia 
+(en)">
+<link rel="copyright" 
+href="http://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom 
+feed" 
+href="http://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/main-ltr.css" type="text/css"
+ media="screen">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/shared.css" type="text/css" 
+media="screen">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/commonPrint.css" 
+type="text/css" media="print">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/combined.css" type="text/css"
+ media="all">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/jquery-ui-1.css" 
+type="text/css" media="all">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/index_004.css" 
+type="text/css" media="all">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/index_005.css" 
+type="text/css" media="print">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/index_002.css" 
+type="text/css" media="handheld">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/index_003.css" 
+type="text/css" media="all">
+<link rel="stylesheet" 
+href="Basic_access_authentication_fichiers/index.css" type="text/css" 
+media="all">
+<script type="text/javascript">
+var skin="vector",
+stylepath="http://bits.wikimedia.org/skins-1.5",
+wgUrlProtocols="http\\:\\/\\/|https\\:\\/\\/|ftp\\:\\/\\/|irc\\:\\/\\/|gopher\\:\\/\\/|telnet\\:\\/\\/|nntp\\:\\/\\/|worldwind\\:\\/\\/|mailto\\:|news\\:|svn\\:\\/\\/",
+wgArticlePath="/wiki/$1",
+wgScriptPath="/w",
+wgScriptExtension=".php",
+wgScript="/w/index.php",
+wgVariantArticlePath=false,
+wgActionPaths={},
+wgServer="http://en.wikipedia.org",
+wgCanonicalNamespace="",
+wgCanonicalSpecialPageName=false,
+wgNamespaceNumber=0,
+wgPageName="Basic_access_authentication",
+wgTitle="Basic access authentication",
+wgAction="view",
+wgArticleId=1214512,
+wgIsArticle=true,
+wgUserName=null,
+wgUserGroups=null,
+wgUserLanguage="en",
+wgContentLanguage="en",
+wgBreakFrames=false,
+wgCurRevisionId=373444424,
+wgVersion="1.16wmf4",
+wgEnableAPI=true,
+wgEnableWriteAPI=true,
+wgSeparatorTransformTable=["", ""],
+wgDigitTransformTable=["", ""],
+wgMainPageTitle="Main Page",
+wgFormattedNamespaces={"-2": "Media", "-1": "Special", "0": "", "1": "Talk", "2": "User", "3": "User talk", "4": "Wikipedia", "5": "Wikipedia talk", "6": "File", "7": "File talk", "8": "MediaWiki", "9": "MediaWiki talk", "10": "Template", "11": "Template talk", "12": "Help", "13": "Help talk", "14": "Category", "15": "Category talk", "100": "Portal", "101": "Portal talk", "108": "Book", "109": "Book talk"},
+wgNamespaceIds={"media": -2, "special": -1, "": 0, "talk": 1, "user": 2, "user_talk": 3, "wikipedia": 4, "wikipedia_talk": 5, "file": 6, "file_talk": 7, "mediawiki": 8, "mediawiki_talk": 9, "template": 10, "template_talk": 11, "help": 12, "help_talk": 13, "category": 14, "category_talk": 15, "portal": 100, "portal_talk": 101, "book": 108, "book_talk": 109, "wp": 4, "wt": 5, "image": 6, "image_talk": 7},
+wgSiteName="Wikipedia",
+wgCategories=["Articles lacking in-text citations from April 2009", "All articles lacking in-text citations", "HTTP", "Authentication methods"],
+wgMWSuggestTemplate="http://en.wikipedia.org/w/api.php?action=opensearch\x26search={searchTerms}\x26namespace={namespaces}\x26suggest",
+wgDBname="enwiki",
+wgSearchNamespaces=[0],
+wgMWSuggestMessages=["with suggestions", "no suggestions"],
+wgRestrictionEdit=[],
+wgRestrictionMove=[],
+wgFlaggedRevsParams={"tags": {"status": {"levels": 1, "quality": 2, "pristine": 3}}},
+wgStableRevisionId=0,
+wgWikimediaMobileUrl="http://en.m.wikipedia.org/wiki",
+wgCollapsibleNavBucketTest=false,
+wgCollapsibleNavForceNewVersion=false,
+wgVectorPreferences={"collapsiblenav": {"enable": 1}, "editwarning": {"enable": 1}, "simplesearch": {"enable": 1, "disablesuggest": 0}},
+wgVectorEnabledModules={"collapsiblenav": true, "collapsibletabs": true, "editwarning": true, "expandablesearch": false, "footercleanup": false, "simplesearch": true},
+wgNotice="",
+wgNoticeLocal="";
+</script><script src="Basic_access_authentication_fichiers/wikibits.js" type="text/javascript"></script>
+<script type="text/javascript" src="Basic_access_authentication_fichiers/jquery.js"></script>
+<script src="Basic_access_authentication_fichiers/ajax.js" type="text/javascript"></script>
+<script src="Basic_access_authentication_fichiers/mwsuggest.js" type="text/javascript"></script>
+<script src="Basic_access_authentication_fichiers/MobileRedirect.js" type="text/javascript"></script>
+<script src="Basic_access_authentication_fichiers/plugins.js" type="text/javascript"></script>
+<script src="Basic_access_authentication_fichiers/Vector.js" type="text/javascript"></script>
+<script type="text/javascript">mw.usability.addMessages({'vector-collapsiblenav-more':'More languages','vector-editwarning-warning':'Leaving this page may cause you to lose any changes you have made.\nIf you are logged in, you can disable this warning in the \"Editing\" section of your preferences.','vector-simplesearch-search':'Search','vector-simplesearch-containing':'containing...'});</script>
+<script type="text/javascript" src="Basic_access_authentication_fichiers/centralnotice.js"></script><style type="text/css">
+#centralNotice .siteNoticeSmall{display:none;}
+#centralNotice .siteNoticeSmallAnon{display:none;}
+#centralNotice .siteNoticeSmallUser{display:none;}
+#centralNotice.collapsed .siteNoticeBig{display:none;}
+#centralNotice.collapsed .siteNoticeSmall{display:block;}
+#centralNotice.collapsed .siteNoticeSmallUser{display:block;}
+#centralNotice.collapsed .siteNoticeSmallAnon{display:block;}
+#centralNotice.anonnotice .siteNoticeSmallUser{display:none !important;}
+#centralNotice.usernotice .siteNoticeSmallAnon{display:none !important;}
+</style>
+
+
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.5/vector/csshover.htc")}</style><![endif]-->
+<script src="Basic_access_authentication_fichiers/index.js" type="text/javascript"></script><script type="text/javascript" src="Basic_access_authentication_fichiers/index_002.js"></script>
+
+<style type="text/css">/*<![CDATA[*/
+.source-perl {line-height: normal;}
+.source-perl li, .source-perl pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for perl
+ * CSS class: source-perl, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.perl.source-perl .de1, .perl.source-perl .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.perl.source-perl  {font-family:monospace;}
+.perl.source-perl .imp {font-weight: bold; color: red;}
+.perl.source-perl li, .perl.source-perl .li1 {font-weight: normal; vertical-align:top;}
+.perl.source-perl .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.perl.source-perl .li2 {font-weight: bold; vertical-align:top;}
+.perl.source-perl .kw1 {color: #b1b100;}
+.perl.source-perl .kw2 {color: #000000; font-weight: bold;}
+.perl.source-perl .kw3 {color: #000066;}
+.perl.source-perl .co1 {color: #666666; font-style: italic;}
+.perl.source-perl .co2 {color: #009966; font-style: italic;}
+.perl.source-perl .co3 {color: #0000ff;}
+.perl.source-perl .co4 {color: #cc0000; font-style: italic;}
+.perl.source-perl .co5 {color: #0000ff;}
+.perl.source-perl .coMULTI {color: #666666; font-style: italic;}
+.perl.source-perl .es0 {color: #000099; font-weight: bold;}
+.perl.source-perl .es_h {color: #000099; font-weight: bold;}
+.perl.source-perl .br0 {color: #009900;}
+.perl.source-perl .sy0 {color: #339933;}
+.perl.source-perl .st0 {color: #ff0000;}
+.perl.source-perl .st_h {color: #ff0000;}
+.perl.source-perl .nu0 {color: #cc66cc;}
+.perl.source-perl .me1 {color: #006600;}
+.perl.source-perl .me2 {color: #006600;}
+.perl.source-perl .re0 {color: #0000ff;}
+.perl.source-perl .re4 {color: #009999;}
+.perl.source-perl .ln-xtra, .perl.source-perl li.ln-xtra, .perl.source-perl div.ln-xtra {background-color: #ffc;}
+.perl.source-perl span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-php {line-height: normal;}
+.source-php li, .source-php pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for php
+ * CSS class: source-php, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.php.source-php .de1, .php.source-php .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.php.source-php  {font-family:monospace;}
+.php.source-php .imp {font-weight: bold; color: red;}
+.php.source-php li, .php.source-php .li1 {font-weight: normal; vertical-align:top;}
+.php.source-php .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.php.source-php .li2 {font-weight: bold; vertical-align:top;}
+.php.source-php .kw1 {color: #b1b100;}
+.php.source-php .kw2 {color: #000000; font-weight: bold;}
+.php.source-php .kw3 {color: #990000;}
+.php.source-php .kw4 {color: #009900; font-weight: bold;}
+.php.source-php .co1 {color: #666666; font-style: italic;}
+.php.source-php .co2 {color: #666666; font-style: italic;}
+.php.source-php .co3 {color: #0000cc; font-style: italic;}
+.php.source-php .co4 {color: #009933; font-style: italic;}
+.php.source-php .coMULTI {color: #666666; font-style: italic;}
+.php.source-php .es0 {color: #000099; font-weight: bold;}
+.php.source-php .es1 {color: #000099; font-weight: bold;}
+.php.source-php .es2 {color: #660099; font-weight: bold;}
+.php.source-php .es3 {color: #660099; font-weight: bold;}
+.php.source-php .es4 {color: #006699; font-weight: bold;}
+.php.source-php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php.source-php .es6 {color: #009933; font-weight: bold;}
+.php.source-php .es_h {color: #000099; font-weight: bold;}
+.php.source-php .br0 {color: #009900;}
+.php.source-php .sy0 {color: #339933;}
+.php.source-php .sy1 {color: #000000; font-weight: bold;}
+.php.source-php .st0 {color: #0000ff;}
+.php.source-php .st_h {color: #0000ff;}
+.php.source-php .nu0 {color: #cc66cc;}
+.php.source-php .nu8 {color: #208080;}
+.php.source-php .nu12 {color: #208080;}
+.php.source-php .nu19 {color:#800080;}
+.php.source-php .me1 {color: #004000;}
+.php.source-php .me2 {color: #004000;}
+.php.source-php .re0 {color: #000088;}
+.php.source-php .ln-xtra, .php.source-php li.ln-xtra, .php.source-php div.ln-xtra {background-color: #ffc;}
+.php.source-php span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-ruby {line-height: normal;}
+.source-ruby li, .source-ruby pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for ruby
+ * CSS class: source-ruby, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.ruby.source-ruby .de1, .ruby.source-ruby .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.ruby.source-ruby  {font-family:monospace;}
+.ruby.source-ruby .imp {font-weight: bold; color: red;}
+.ruby.source-ruby li, .ruby.source-ruby .li1 {font-weight: normal; vertical-align:top;}
+.ruby.source-ruby .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.ruby.source-ruby .li2 {font-weight: bold; vertical-align:top;}
+.ruby.source-ruby .kw1 {color:#9966CC; font-weight:bold;}
+.ruby.source-ruby .kw2 {color:#0000FF; font-weight:bold;}
+.ruby.source-ruby .kw3 {color:#CC0066; font-weight:bold;}
+.ruby.source-ruby .kw4 {color:#CC00FF; font-weight:bold;}
+.ruby.source-ruby .co1 {color:#008000; font-style:italic;}
+.ruby.source-ruby .coMULTI {color:#000080; font-style:italic;}
+.ruby.source-ruby .es0 {color:#000099;}
+.ruby.source-ruby .br0 {color:#006600; font-weight:bold;}
+.ruby.source-ruby .sy0 {color:#006600; font-weight:bold;}
+.ruby.source-ruby .st0 {color:#996600;}
+.ruby.source-ruby .nu0 {color:#006666;}
+.ruby.source-ruby .me1 {color:#9900CC;}
+.ruby.source-ruby .re0 {color:#ff6633; font-weight:bold;}
+.ruby.source-ruby .re1 {color:#0066ff; font-weight:bold;}
+.ruby.source-ruby .re2 {color:#6666ff; font-weight:bold;}
+.ruby.source-ruby .re3 {color:#ff3333; font-weight:bold;}
+.ruby.source-ruby .ln-xtra, .ruby.source-ruby li.ln-xtra, .ruby.source-ruby div.ln-xtra {background-color: #ffc;}
+.ruby.source-ruby span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-bash {line-height: normal;}
+.source-bash li, .source-bash pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for bash
+ * CSS class: source-bash, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.bash.source-bash .de1, .bash.source-bash .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.bash.source-bash  {font-family:monospace;}
+.bash.source-bash .imp {font-weight: bold; color: red;}
+.bash.source-bash li, .bash.source-bash .li1 {font-weight: normal; vertical-align:top;}
+.bash.source-bash .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.bash.source-bash .li2 {font-weight: bold; vertical-align:top;}
+.bash.source-bash .kw1 {color: #000000; font-weight: bold;}
+.bash.source-bash .kw2 {color: #c20cb9; font-weight: bold;}
+.bash.source-bash .kw3 {color: #7a0874; font-weight: bold;}
+.bash.source-bash .co0 {color: #666666; font-style: italic;}
+.bash.source-bash .co1 {color: #800000;}
+.bash.source-bash .co2 {color: #cc0000; font-style: italic;}
+.bash.source-bash .co3 {color: #000000; font-weight: bold;}
+.bash.source-bash .es1 {color: #000099; font-weight: bold;}
+.bash.source-bash .es2 {color: #007800;}
+.bash.source-bash .es3 {color: #007800;}
+.bash.source-bash .es4 {color: #007800;}
+.bash.source-bash .es5 {color: #780078;}
+.bash.source-bash .es_h {color: #000099; font-weight: bold;}
+.bash.source-bash .br0 {color: #7a0874; font-weight: bold;}
+.bash.source-bash .sy0 {color: #000000; font-weight: bold;}
+.bash.source-bash .st0 {color: #ff0000;}
+.bash.source-bash .st_h {color: #ff0000;}
+.bash.source-bash .nu0 {color: #000000;}
+.bash.source-bash .re0 {color: #007800;}
+.bash.source-bash .re1 {color: #007800;}
+.bash.source-bash .re2 {color: #007800;}
+.bash.source-bash .re4 {color: #007800;}
+.bash.source-bash .re5 {color: #660033;}
+.bash.source-bash .ln-xtra, .bash.source-bash li.ln-xtra, .bash.source-bash div.ln-xtra {background-color: #ffc;}
+.bash.source-bash span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-xml {line-height: normal;}
+.source-xml li, .source-xml pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for xml
+ * CSS class: source-xml, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.xml.source-xml .de1, .xml.source-xml .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.xml.source-xml  {font-family:monospace;}
+.xml.source-xml .imp {font-weight: bold; color: red;}
+.xml.source-xml li, .xml.source-xml .li1 {font-weight: normal; vertical-align:top;}
+.xml.source-xml .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.xml.source-xml .li2 {font-weight: bold; vertical-align:top;}
+.xml.source-xml .es0 {color: #000099; font-weight: bold;}
+.xml.source-xml .br0 {color: #66cc66;}
+.xml.source-xml .sy0 {color: #66cc66;}
+.xml.source-xml .st0 {color: #ff0000;}
+.xml.source-xml .nu0 {color: #cc66cc;}
+.xml.source-xml .sc-1 {color: #808080; font-style: italic;}
+.xml.source-xml .sc0 {color: #00bbdd;}
+.xml.source-xml .sc1 {color: #ddbb00;}
+.xml.source-xml .sc2 {color: #339933;}
+.xml.source-xml .sc3 {color: #009900;}
+.xml.source-xml .re0 {color: #000066;}
+.xml.source-xml .re1 {color: #000000; font-weight: bold;}
+.xml.source-xml .re2 {color: #000000; font-weight: bold;}
+.xml.source-xml .ln-xtra, .xml.source-xml li.ln-xtra, .xml.source-xml div.ln-xtra {background-color: #ffc;}
+.xml.source-xml span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style></head><body class="mediawiki ltr ns-0 ns-subject 
+page-Basic_access_authentication skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content"><div style="visibility: hidden; display: none; 
+width: 602px; height: 402px; margin: 0px; padding: 0px; 
+background-color: white; position: absolute; right: 2em; top: 1em; 
+border: 1px solid gray; z-index: 13;"><iframe style="z-index: 14; 
+position: absolute; right: 1px; top: 1px; width: 600px; height: 400px; 
+margin: 0px; padding: 0px;" frameborder="0" scrolling="no"></iframe><img
+ style="z-index: 15; position: absolute; right: 11px; top: 9px; width: 
+18px; cursor: pointer;" 
+src="Basic_access_authentication_fichiers/Button_hide.png" title="close"></div>
+			<a id="top"></a>
+			<div id="mw-js-message" style="display: none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><script type="text/javascript">if (wgNotice != '') document.writeln(wgNotice);</script><div
+ id="centralNotice" class="expanded anonnotice"><style type="text/css">
+/* Styles for Notices */
+/*COPIED FROM VECTORCHANGED */
+
+.notice-wrapper-vector_transition, .notice-collapsed-wrapper-vector_transition {
+ margin: 2px auto 0;
+ width: 100%;
+ padding: 0;
+ font-family: 'Arial','Helvetica','Tahoma',sans-serif;
+ color: #333;
+ background-color: #ddd;
+ font-size: 1em;
+ font-weight: 200;
+ vertical-align:middle;
+}
+
+.notice-wrapper-vector_transition {
+ border: 1px solid #bbb;
+ background-color: #fcfcfc;
+ text-align: left;
+ font-size: 1em;
+}
+
+.notice-wrapper-vector_transition a {
+ color: #006699;
+}
+
+#vector_post_release_message .toggle-box {
+ text-align: right;
+ font-size: 0.8em;
+ padding: 0;
+}
+
+#vector_post_release_message .trans-box {
+ text-align: right;
+ font-size: 0.8em;
+ padding: 0;
+ white-space: nowrap;
+}
+
+td#table-cell-1 {
+ margin: 0 auto;
+ padding: 1px 0 3px 5px;
+ width: 30px;
+}
+
+td#table-cell-2 {
+ margin: 0 auto;
+ padding: 0 5px 0 0;
+ font-size: 1.3em;
+}
+
+td#table-cell-lht {
+ font-size: 0.8em;
+ padding: 0 5px 0 0;
+ text-align: center;
+}
+
+#vector_post_release_message .line-ht-fix {
+ line-height: 1em;
+ align: center;
+}
+
+
+#centralNotice.collapsed .siteNoticeUser {
+ display:none;
+}
+
+div.notice-links-vector_transition {
+ text-align:right;
+}
+
+
+/* FROM VECTORNEWLOOK */
+
+
+#centralNotice.collapsed .central-notice-banner {
+ display: none;
+}
+#vector_transition_message .central-notice-banner {
+ position: relative;
+ margin-bottom: 1em !important;
+}
+#vector_transition_message .toggle-box {
+ position: absolute;
+ right: 8em;
+ /* right: 0.25em; */
+ /* top: 1.3em; */
+ font-size: 0.8em;
+}
+.vector-banner-base {
+ height: 3em;
+ background-color: white;
+ background-image: url(http://upload.wikimedia.org/centralnotice/enwiki/vector/base.png);
+ background-repeat: repeat-x;
+ background-position: center bottom;
+}
+.vector-banner-base-left {
+ height: 3em;
+ background-image: url(http://upload.wikimedia.org/centralnotice/enwiki/vector/left.png);
+ background-repeat: no-repeat;
+ background-position: left bottom;
+}
+.vector-banner-base-right {
+ height: 3em;
+ background-image: url(http://upload.wikimedia.org/centralnotice/enwiki/vector/right.png);
+ background-repeat: no-repeat;
+ background-position: right bottom;
+}
+.vector-banner-message {
+ text-align: center;
+ height: 3em;
+}
+.vector-banner-message a {
+ display: inline-block;
+ height: 2em;
+ padding: 0 1em !important;
+ padding-top: 1em !important;
+ cursor: pointer;
+ text-decoration: none;
+}
+.vector-banner-message a.vector-banner-message-left {
+ background-image: url(http://upload.wikimedia.org/centralnotice/enwiki/vector/break.png) !important;
+ background-repeat: no-repeat !important;
+ background-position: right bottom !important;
+ color: #333333;
+}
+.vector-banner-message a.vector-banner-message-right {
+ color: #0645AD;
+}
+.vector-banner-message a.vector-banner-message-right:hover {
+ text-decoration: underline;
+}
+</style>
+<div style="display: none;" class="central-notice-banner" 
+id="vector_transition_message">
+ <div class="toggle-box"><a href="#" onclick="toggleNotice();return 
+false">Hide</a></div>
+ <div class="vector-banner-base">
+  <div class="vector-banner-base-left">
+   <div class="vector-banner-base-right">
+    <div class="vector-banner-message">
+     <a 
+href="http://meta.wikimedia.org/wiki/2010_Wikimedia_design_and_feature_change"
+ class="vector-banner-message-left">Wikipedia is getting a new look</a><a
+ 
+href="http://meta.wikimedia.org/wiki/2010_Wikimedia_design_and_feature_change"
+ class="vector-banner-message-right">Help us find bugs and complete user
+ interface translations</a>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<table style="display: none;" class="siteNoticeUser 
+notice-wrapper-vector_transition" id="vector_post_release_message">
+ <tbody><tr>
+  <td id="table-cell-2" align="center">
+   <span>
+    Notice something different?  We've made a few improvements to 
+Wikipedia. <a 
+href="http://en.wikipedia.org/wiki/Special:UsabilityInitiativePrefSwitch">Learn
+ more.</a>
+   </span>
+  </td>
+  <td id="table-cell-lht" class="line-ht-fix">
+      <span class="toggle-box">
+   [<a href="#" onclick="toggleNotice();return false">Hide</a>]
+ </span><br>
+  <span class="trans-box">
+  [<a 
+href="http://usability.wikimedia.org/wiki/Releases/Default_Switch#Phase_IV_Deployment">Help
+ us with translations!</a>]
+  </span>
+  </td>
+ </tr>
+</tbody></table>
+
+<script type="text/javascript">
+// Control which will be displayed
+// This is the lowest form of JS that will work in all supported browsers, is not pretty but it works
+if( 
+ (typeof(wgDBname) == "undefined") ||
+ wgDBname  == 'enwiki' || 
+ wgDBname == 'dewiki' || 
+ wgDBname == 'frwiki'|| 
+ wgDBname == 'plwiki'|| 
+ wgDBname == 'itwiki'|| 
+ wgDBname == 'jawiki'|| 
+ wgDBname == 'eswiki'|| 
+ wgDBname == 'nlwiki'|| 
+ wgDBname == 'ptwiki'|| 
+ wgDBname == 'ruwiki'|| 
+ wgDBname == 'enwikinews'|| 
+ wgDBname == 'nostalgiawiki'|| 
+ wgDBname == 'strategywiki'|| 
+ wgDBname =='strategyappswiki'|| 
+ wgDBname =='usabilitywiki'|| 
+ wgDBname == 'fiwikimedia'|| 
+ wgDBname == 'trwikimedia'|| 
+ wgDBname == 'outreachwiki'|| 
+ wgDBname == 'srwikinews'|| 
+ wgDBname == 'liquidthreads_labswikimedia'|| 
+ wgDBname == 'flaggedrevs_labswikimedia'|| 
+ wgDBname == 'foundationwiki'|| 
+ wgDBname == 'officewiki'|| 
+ wgDBname == 'ukwikimedia'|| 
+ wgDBname == 'commonswiki' ||
+ wgDBname == "wikimania2011wiki" || 
+ wgDBname == "wikimania2010wiki" || 
+wgDBname == "wikimania2009wiki" || 
+wgDBname == "wikimania2008wiki" || 
+wgDBname == "wikimania2007wiki" || 
+wgDBname == "wikimania2006wiki" || 
+wgDBname == "wikimania2005wiki" ||
+wgDBname == "brwikimedia" || 
+wgDBname == "dkwikimedia" || 
+wgDBname == "vewikimedia" || 
+wgDBname == "ptwikimedia" || 
+wgDBname == "nowikimedia" || 
+wgDBname == "ruwikimedia" || 
+wgDBname == "sewikimedia" || 
+wgDBname == "rswikimedia" || 
+wgDBname == "cowikimedia" || 
+wgDBname == "plwikimedia" || 
+wgDBname == "chwikimedia" || 
+wgDBname == "ilwikimedia" || 
+wgDBname == "nlwikimedia" || 
+wgDBname == "nzwikimedia" || 
+wgDBname == "uawikimedia" || 
+wgDBname == "metawiki" || 
+wgDBname == "en_labswikimedia" || 
+wgDBname == "de_labswikimedia" || 
+wgDBname == "readerfeedback_labswikimedia"
+) {
+/* already changed */
+    document.getElementById('vector_transition_message').style.display='none';
+    document.getElementById('vector_post_release_message').style.display='none';
+}
+else if(
+wgDBname == "afwiki" || 
+wgDBname == "alswiki" || 
+wgDBname == "arwiki" || 
+wgDBname == "be_x_oldwiki" || 
+wgDBname == "bgwiki" || 
+wgDBname == "bnwiki" || 
+wgDBname == "brwiki" || 
+wgDBname == "bswiki" || 
+wgDBname == "cawiki" || 
+wgDBname == "cswiki" || 
+wgDBname == "cywiki" || 
+wgDBname == "dawiki" || 
+wgDBname == "diqwiki" || 
+wgDBname == "dsbwiki" || 
+wgDBname == "elwiki" || 
+wgDBname == "eowiki" || 
+wgDBname == "etwiki" || 
+wgDBname == "euwiki" || 
+wgDBname == "fawiki" || 
+wgDBname == "fiwiki" || 
+wgDBname == "frpwiki" || 
+wgDBname == "glwiki" || 
+wgDBname == "hewiki" || 
+wgDBname == "hsbwiki" || 
+wgDBname == "huwiki" || 
+wgDBname == "iawiki" || 
+wgDBname == "idwiki" || 
+wgDBname == "kawiki" || 
+wgDBname == "kowiki" || 
+wgDBname == "kshwiki" || 
+wgDBname == "lbwiki" || 
+wgDBname == "mkwiki" || 
+wgDBname == "mlwiki" || 
+wgDBname == "mswiki" || 
+wgDBname == "mtwiki" || 
+wgDBname == "nnwiki" || 
+wgDBname == "nowiki" || 
+wgDBname == "ocwiki" || 
+wgDBname == "pmswiki" || 
+wgDBname == "rowiki" || 
+wgDBname == "roa_tarawiki" || 
+wgDBname == "sahwiki" || 
+wgDBname == "skwiki" || 
+wgDBname == "slwiki" || 
+wgDBname == "sqwiki" || 
+wgDBname == "svwiki" || 
+wgDBname == "tewiki" || 
+wgDBname == "thwiki" || 
+wgDBname == "tlwiki" || 
+wgDBname == "trwiki" || 
+wgDBname == "viwiki" || 
+wgDBname == "yiwiki" || 
+wgDBname == "yowiki" || 
+wgDBname == "zhwiki" || 
+wgDBname == "zh_yuewiki" ||
+wgDBname == "incubatorwiki" || 
+wgDBname == "mediawikiwiki" 
+) {
+/* Phase IV projects, show nothing as well for now */
+    document.getElementById('vector_transition_message').style.display='none';
+    document.getElementById('vector_post_release_message').style.display='none';
+}
+else{
+/* all others, just hide post-release */
+    document.getElementById('vector_post_release_message').style.display='none';
+   if(wgUserName == null){
+    document.getElementById('vector_transition_message').style.display='none';
+   }
+}
+
+
+</script></div>
+</div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Basic access 
+authentication</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+				<!-- tagline -->
+				<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+				<!-- /tagline -->
+				<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodytext -->
+				<table class="infobox" style="width: 17em;">
+<tbody><tr style="background: none repeat scroll 0% 0% rgb(170, 221, 
+187);" align="center">
+<td style="font-size: 100%;"><b><a 
+href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" 
+title="Hypertext Transfer Protocol">HTTP</a></b></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_persistent_connection" 
+title="HTTP persistent connection">Persistence</a> · <a 
+href="http://en.wikipedia.org/wiki/HTTP_compression" title="HTTP 
+compression">Compression</a> · <a 
+href="http://en.wikipedia.org/wiki/HTTP_Secure" title="HTTP Secure">HTTP
+ Secure</a></td>
+</tr>
+<tr style="background: none repeat scroll 0% 0% rgb(204, 255, 204);" 
+align="center">
+<td><a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields" 
+title="List of HTTP header fields">Header field</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_ETag" title="HTTP ETag">ETag</a>
+ · <a href="http://en.wikipedia.org/wiki/HTTP_cookie" title="HTTP 
+cookie">Cookie</a> · <a 
+href="http://en.wikipedia.org/wiki/HTTP_referrer" title="HTTP referrer">Referrer</a>
+ · <a href="http://en.wikipedia.org/wiki/HTTP_location" title="HTTP 
+location">Location</a></td>
+</tr>
+<tr style="background: none repeat scroll 0% 0% rgb(204, 255, 204);" 
+align="center">
+<td><a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes" 
+title="List of HTTP status codes">Status codes</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_301" title="HTTP 301">301
+ Moved permanently</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_302" title="HTTP 302">302
+ Found</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_303" title="HTTP 303">303
+ See Other</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_403" title="HTTP 403">403
+ Forbidden</a></td>
+</tr>
+<tr>
+<td><a href="http://en.wikipedia.org/wiki/HTTP_404" title="HTTP 404">404
+ Not Found</a></td>
+</tr>
+<tr>
+<td style="background: none repeat scroll 0% 0% rgb(204, 255, 204);" 
+align="center">
+<div class="noprint plainlinks navbar" style="background: none repeat 
+scroll 0% 0% transparent; padding: 0pt; font-weight: normal; font-size: 
+xx-small;">This box: <a 
+href="http://en.wikipedia.org/wiki/Template:HTTP" title="Template:HTTP"><span
+ title="View this template" style="">view</span></a>&nbsp;<span 
+style="font-size: 80%;">•</span>&nbsp;<a 
+href="http://en.wikipedia.org/wiki/Template_talk:HTTP" title="Template 
+talk:HTTP"><span title="Discuss this template" style="">talk</span></a>&nbsp;<span
+ style="font-size: 80%;">•</span>&nbsp;<a 
+href="http://en.wikipedia.org/w/index.php?title=Template:HTTP&amp;action=edit"
+ class="external text" rel="nofollow"><span title="Edit this template" 
+style="">edit</span></a></div>
+</td>
+</tr>
+</tbody></table>
+<p>In the context of an <a href="http://en.wikipedia.org/wiki/HTTP" 
+title="HTTP" class="mw-redirect">HTTP</a> transaction, the <b>basic 
+access authentication</b> is a method designed to allow a <a 
+href="http://en.wikipedia.org/wiki/Web_browser" title="Web browser">web 
+browser</a>, or other client program, to provide credentials – in the 
+form of a <a href="http://en.wikipedia.org/wiki/User_name" title="User 
+name" class="mw-redirect">user name</a> and <a 
+href="http://en.wikipedia.org/wiki/Password" title="Password">password</a>
+ – when making a request.</p>
+<p>Before transmission, the user name is <a 
+href="http://en.wikipedia.org/wiki/Append" title="Append">appended</a> 
+with a colon and <a href="http://en.wikipedia.org/wiki/Concatenation" 
+title="Concatenation">concatenated</a> with the password. The resulting <a
+ href="http://en.wikipedia.org/wiki/String_%28computer_science%29" 
+title="String (computer science)">string</a> is encoded with the <a 
+href="http://en.wikipedia.org/wiki/Base64" title="Base64">Base64</a> 
+algorithm. For example, given the user name <tt>Aladdin</tt> and 
+password <tt>open sesame</tt>, the string <tt>Aladdin:open sesame</tt> 
+is Base64 encoded, resulting in <tt>QWxhZGRpbjpvcGVuIHNlc2FtZQ==</tt>. 
+The Base64-encoded string is transmitted and decoded by the receiver, 
+resulting in the colon-separated user name and password string.</p>
+<p>While encoding the user name and password with the Base64 algorithm 
+typically makes them unreadable by the naked eye, they are as easily 
+decoded as they are encoded. Security is <i>not</i> the intent of the 
+encoding step. Rather, the intent of the encoding is to encode 
+non-HTTP-compatible characters that may be in the user name or password 
+into those that are HTTP-compatible.</p>
+<p>The basic access authentication was originally defined by <a 
+href="http://tools.ietf.org/html/rfc1945" class="external 
+mw-magiclink-rfc">RFC 1945</a> (<i>Hypertext Transfer Protocol – 
+HTTP/1.0</i>) although further information regarding security issues may
+ be found in <a href="http://tools.ietf.org/html/rfc2616" 
+class="external mw-magiclink-rfc">RFC 2616</a> (<i>Hypertext Transfer 
+Protocol – HTTP/1.1</i>) and <a 
+href="http://tools.ietf.org/html/rfc2617" class="external 
+mw-magiclink-rfc">RFC 2617</a> (<i>HTTP Authentication: Basic and Digest
+ Access Authentication</i>).</p>
+<table id="toc" class="toc">
+<tbody><tr>
+<td>
+<div id="toctitle">
+<h2>Contents</h2>
+ <span class="toctoggle">[<a href="#" class="internal" id="togglelink">hide</a>]</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Advantages"><span 
+class="tocnumber">1</span> <span class="toctext">Advantages</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Disadvantages"><span 
+class="tocnumber">2</span> <span class="toctext">Disadvantages</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Example"><span 
+class="tocnumber">3</span> <span class="toctext">Example</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#References_and_notes"><span
+ class="tocnumber">4</span> <span class="toctext">References and notes</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#See_also"><span 
+class="tocnumber">5</span> <span class="toctext">See also</span></a></li>
+</ul>
+</td>
+</tr>
+</tbody></table>
+<script type="text/javascript">
+//<![CDATA[
+if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } 
+//]]>
+</script>
+<h2><span class="editsection">[<a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit&amp;section=1"
+ title="Edit section: Advantages">edit</a>]</span> <span 
+class="mw-headline" id="Advantages">Advantages</span></h2>
+<p>One advantage of the basic access authentication is that it is 
+supported by all popular<sup id="cite_ref-0" class="reference"><a 
+href="#cite_note-0"><span>[</span>1<span>]</span></a></sup> web 
+browsers. It is rarely used on publicly accessible <a 
+href="http://en.wikipedia.org/wiki/Internet" title="Internet">Internet</a>
+ <a href="http://en.wikipedia.org/wiki/Website" title="Website">web 
+sites</a> but may sometimes be used by small, private systems. A later 
+mechanism, <a 
+href="http://en.wikipedia.org/wiki/Digest_access_authentication" 
+title="Digest access authentication">digest access authentication</a>, 
+was developed in order to replace the basic access authentication and 
+enable credentials to be passed in a relatively secure manner over an 
+otherwise insecure channel.</p>
+<p>Programmers and system administrators sometimes use basic access 
+authentication, in a trusted network environment, to manually test web 
+servers using <a href="http://en.wikipedia.org/wiki/Telnet" 
+title="Telnet">Telnet</a> or other plain-text network tools. This is a 
+cumbersome process, but the network traffic is human-readable for 
+diagnostic purposes.</p>
+<h2><span class="editsection">[<a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit&amp;section=2"
+ title="Edit section: Disadvantages">edit</a>]</span> <span 
+class="mw-headline" id="Disadvantages">Disadvantages</span></h2>
+<p>Although the scheme is easily implemented, it relies on the 
+assumption that the connection between the client and server computers 
+is secure and can be trusted. Specifically, if <a 
+href="http://en.wikipedia.org/wiki/Transport_Layer_Security" 
+title="Transport Layer Security">SSL/TLS</a> is not used, then the 
+credentials are passed as <a 
+href="http://en.wikipedia.org/wiki/Plaintext" title="Plaintext">plaintext</a>
+ and could be intercepted easily. The scheme also provides no protection
+ for the information passed back from the server.</p>
+<p>Existing browsers retain authentication information until the tab or 
+browser is closed or the user clears the history. <a 
+href="http://www.tolaris.com/2009/09/08/logging-out-of-http-auth-with-firefox/"
+ class="external autonumber" rel="nofollow">[1]</a> HTTP does not 
+provide a method for a server to direct clients to discard these cached 
+credentials. This means that there is no effective way for a server to 
+"log out" the user without closing the browser. This is a significant 
+defect that requires browser manufacturers to support a 'logout' user 
+interface element or API available to JavaScript, further extensions to 
+HTTP, or use of existing alternative techniques such as retrieving the 
+page over <a 
+href="http://en.wikipedia.org/wiki/Transport_Layer_Security" 
+title="Transport Layer Security">SSL/TLS</a> with an unguessable string 
+in the URL.</p>
+<h2><span class="editsection">[<a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit&amp;section=3"
+ title="Edit section: Example">edit</a>]</span> <span 
+class="mw-headline" id="Example">Example</span></h2>
+<p>Here is a typical transaction between an HTTP client and an HTTP 
+server running on the local machine (localhost). It comprises the 
+following steps.</p>
+<ul>
+<li>The client asks for a page that requires authentication but does not
+ provide a user name and password. Typically this is because the user 
+simply entered the address or followed a <a 
+href="http://en.wikipedia.org/wiki/Hyperlink" title="Hyperlink">link</a>
+ to the page.</li>
+<li>The server responds with the 401 response code and provides the 
+authentication realm.</li>
+<li>At this point, the client will present the authentication realm 
+(typically a description of the computer or system being accessed) to 
+the user and prompt for a user name and password. The user may decide to
+ cancel at this point.</li>
+<li>Once a user name and password have been supplied, the client adds an
+ authentication header (with value <tt>base64encode(username+":"+password)</tt>)
+ to the original request and re-sends it.</li>
+<li>In this example, the server accepts the authentication and the page 
+is returned. If the user name is invalid or the password incorrect, the 
+server might return the 401 response code and the client would prompt 
+the user again.</li>
+</ul>
+<p><b>Note:</b> A client may pre-emptively send the authentication 
+header in its first request, with no user interaction required.</p>
+<hr>
+<p><b>Client request (no authentication)</b>:</p>
+<pre>GET /private/index.html HTTP/1.0
+Host: localhost
+</pre>
+<p>(followed by a <a href="http://en.wikipedia.org/wiki/Newline" 
+title="Newline">new line</a>, in the form of a <a 
+href="http://en.wikipedia.org/wiki/Carriage_return" title="Carriage 
+return">carriage return</a> followed by a <a 
+href="http://en.wikipedia.org/wiki/Line_feed" title="Line feed" 
+class="mw-redirect">line feed</a>).</p>
+<p><b>Server response</b>:</p>
+<pre>HTTP/1.0 401 Authorization Required
+Server: HTTPd/1.0
+Date: Sat, 27 Nov 2004 10:18:15 GMT
+WWW-Authenticate: Basic realm="Secure Area"
+Content-Type: text/html
+Content-Length: 311
+
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd"&gt;
+&lt;HTML&gt;
+  &lt;HEAD&gt;
+    &lt;TITLE&gt;Error&lt;/TITLE&gt;
+    &lt;META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"&gt;
+  &lt;/HEAD&gt;
+  &lt;BODY&gt;&lt;H1&gt;401 Unauthorized.&lt;/H1&gt;&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+<p><b>Client request (user name "Aladdin", password "open sesame")</b>:</p>
+<pre>GET /private/index.html HTTP/1.0
+Host: localhost
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+</pre>
+<p>(followed by a blank line, as before).</p>
+<p>The username and password value for the Authorization header can be 
+easily encoded and decoded:</p>
+<p>in Perl:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="perl source-perl" style="font-family: monospace;">
+<pre class="de1"><span class="kw2">use</span> MIME<span class="sy0">::</span><span class="me2">Base64</span><span class="sy0">;</span>
+<span class="kw3">print</span> encode_base64<span class="br0">(</span><span class="st_h">'Aladdin:open sesame'</span><span class="br0">)</span><span class="sy0">,</span> <span class="st0">"<span class="es0">\n</span>"</span><span class="sy0">;</span>
+<span class="kw3">print</span> decode_base64<span class="br0">(</span><span class="st_h">'QWxhZGRpbjpvcGVuIHNlc2FtZQ=='</span><span class="br0">)</span><span class="sy0">,</span> <span class="st0">"<span class="es0">\n</span>"</span><span class="sy0">;</span>
+</pre></div>
+</div>
+<p>in PHP:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="php source-php" style="font-family: monospace;">
+<pre class="de1"><span class="kw1">echo</span> <span class="kw3">base64_encode</span><span class="br0">(</span><span class="st0">"Aladdin:open sesame"</span><span class="br0">)</span><span class="sy0">.</span><span class="st0">"<span class="es1">\n</span>"</span><span class="sy0">;</span>
+<span class="kw1">echo</span> <span class="kw3">base64_decode</span><span class="br0">(</span><span class="st0">"QWxhZGRpbjpvcGVuIHNlc2FtZQ=="</span><span class="br0">)</span><span class="sy0">.</span><span class="st0">"<span class="es1">\n</span>"</span><span class="sy0">;</span>
+</pre></div>
+</div>
+<p>in Python:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="python source-python" style="font-family: monospace;">
+<pre class="de1"><span class="kw1">print</span> <span class="st0">"Aladdin:open sesame"</span>.<span class="me1">encode</span><span class="br0">(</span><span class="st0">"base64"</span><span class="br0">)</span>
+<span class="kw1">print</span> <span class="st0">"QWxhZGRpbjpvcGVuIHNlc2FtZQ=="</span>.<span class="me1">decode</span><span class="br0">(</span><span class="st0">"base64"</span><span class="br0">)</span>
+</pre></div>
+</div>
+<p>in Ruby:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="ruby source-ruby" style="font-family: monospace;">
+<pre class="de1"><span class="kw3">require</span> <span class="st0">'base64'</span>
+<span class="kw3">puts</span> <span class="kw4">Base64</span>::encode64<span class="br0">(</span><span class="st0">"Aladdin:open sesame"</span><span class="br0">)</span>
+<span class="kw3">puts</span> <span class="kw4">Base64</span>::decode64<span class="br0">(</span><span class="st0">"QWxhZGRpbjpvcGVuIHNlc2FtZQ=="</span><span class="br0">)</span>
+</pre></div>
+</div>
+<p>in Bash</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="bash source-bash" style="font-family: monospace;">
+<pre class="de1">$ <span class="kw3">echo</span> <span class="re5">-n</span> Aladdin:open sesame <span class="sy0">|</span> base64
+<span class="re2">QWxhZGRpbjpvcGVuIHNlc2FtZQ</span>==
+$ <span class="kw3">echo</span> <span class="re5">-n</span> <span class="re2">QWxhZGRpbjpvcGVuIHNlc2FtZQ</span>== <span class="sy0">|</span> base64 <span class="re5">-d</span>
+Aladdin:open sesame
+</pre></div>
+</div>
+<p>in XQuery (eXist-db):</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="xml source-xml" style="font-family: monospace;">
+<pre class="de1">let $encode :=  util:base64-encode('Aladdin:open sesame')
+let $decode := util:base64-decode('QWxhZGRpbjpvcGVuIHNlc2FtZQ==')
+</pre></div>
+</div>
+<p>or with <a href="http://en.wikipedia.org/wiki/OpenSSL" 
+title="OpenSSL">OpenSSL</a>:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="bash source-bash" style="font-family: monospace;">
+<pre class="de1">$ <span class="kw3">printf</span> <span class="st0">"Aladdin:open sesame"</span> <span class="sy0">|</span> openssl enc <span class="re5">-base64</span>
+<span class="re2">QWxhZGRpbjpvcGVuIHNlc2FtZQ</span>==
+$ <span class="kw3">echo</span> <span class="st0">"QWxhZGRpbjpvcGVuIHNlc2FtZQ=="</span> <span class="sy0">|</span> openssl enc <span class="re5">-base64</span> <span class="re5">-d</span>
+Aladdin:open sesame
+$
+</pre></div>
+</div>
+<p><b>Server response</b>:</p>
+<pre>HTTP/1.0 200 OK
+Server: HTTPd/1.0
+Date: Sat, 27 Nov 2004 10:19:07 GMT
+Content-Type: text/html
+Content-Length: 10476
+</pre>
+<p>(followed by a blank line and HTML text of the restricted page).</p>
+<h2><span class="editsection">[<a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit&amp;section=4"
+ title="Edit section: References and notes">edit</a>]</span> <span 
+class="mw-headline" id="References_and_notes">References and notes</span></h2>
+<table class="metadata plainlinks ambox ambox-style" style="">
+<tbody><tr>
+<td class="mbox-image">
+<div style="width: 52px;"><a 
+href="http://en.wikipedia.org/wiki/File:Text_document_with_red_question_mark.svg"
+ class="image"><img alt="Text document with red question mark.svg" 
+src="Basic_access_authentication_fichiers/40px-Text_document_with_red_question_mark.png"
+ height="40" width="40"></a></div>
+</td>
+<td class="mbox-text" style="">This article includes a <a 
+href="http://en.wikipedia.org/wiki/Wikipedia:Citing_sources" 
+title="Wikipedia:Citing sources">list of references</a>, related reading
+ or <a href="http://en.wikipedia.org/wiki/Wikipedia:External_links" 
+title="Wikipedia:External links">external links</a>, but <b>its sources 
+remain unclear because it lacks <a 
+href="http://en.wikipedia.org/wiki/Wikipedia:Citing_sources#Inline_citations"
+ title="Wikipedia:Citing sources">inline citations</a>.</b> <small>Please
+ <a 
+href="http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check"
+ title="Wikipedia:WikiProject Fact and Reference Check">improve</a> this
+ article by introducing more precise citations <a 
+href="http://en.wikipedia.org/wiki/Wikipedia:When_to_cite" 
+title="Wikipedia:When to cite">where appropriate</a>. <i>(April 2009)</i></small></td>
+</tr>
+</tbody></table>
+<div class="references-small">
+<ol class="references">
+<li id="cite_note-0"><b><a href="#cite_ref-0">^</a></b> all popular web 
+browsers" in this context includes any browsers currently holding 0.2% 
+of the market share or more. See <a 
+href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers" 
+title="Comparison of web browsers">Comparison of Web Browsers</a> for 
+more information on HTTP support in web browsers.</li>
+</ol>
+</div>
+<h2><span class="editsection">[<a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit&amp;section=5"
+ title="Edit section: See also">edit</a>]</span> <span 
+class="mw-headline" id="See_also">See also</span></h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Digest_access_authentication" 
+title="Digest access authentication">Digest access authentication</a></li>
+</ul>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 446/1000000
+Post-expand include size: 6008/2048000 bytes
+Template argument size: 1564/2048000 bytes
+Expensive parser function count: 1/500
+-->
+
+<!-- Saved in parser cache with key enwiki:pcache:idhash:1214512-0!1!0!default!!en!4 and timestamp 20100730101656 -->
+<div class="printfooter">
+Retrieved from "<a 
+href="http://en.wikipedia.org/wiki/Basic_access_authentication">http://en.wikipedia.org/wiki/Basic_access_authentication</a>"</div>
+				<!-- /bodytext -->
+								<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a 
+href="http://en.wikipedia.org/wiki/Special:Categories" 
+title="Special:Categories">Categories</a>: <span dir="ltr"><a 
+href="http://en.wikipedia.org/wiki/Category:HTTP" title="Category:HTTP">HTTP</a></span>
+ | <span dir="ltr"><a 
+href="http://en.wikipedia.org/wiki/Category:Authentication_methods" 
+title="Category:Authentication methods">Authentication methods</a></span></div><div
+ id="mw-hidden-catlinks" class="mw-hidden-cats-hidden">Hidden 
+categories: <span dir="ltr"><a 
+href="http://en.wikipedia.org/wiki/Category:Articles_lacking_in-text_citations_from_April_2009"
+ title="Category:Articles lacking in-text citations from April 2009">Articles
+ lacking in-text citations from April 2009</a></span> | <span dir="ltr"><a
+ 
+href="http://en.wikipedia.org/wiki/Category:All_articles_lacking_in-text_citations"
+ title="Category:All articles lacking in-text citations">All articles 
+lacking in-text citations</a></span></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+					<li id="pt-prefswitch-link-anon"><a 
+href="http://en.wikipedia.org/w/index.php?title=Special:UsabilityInitiativePrefSwitch&amp;from=Basic_access_authentication"
+ title="Learn about new features" class="no-text-transform">New features</a></li>
+					<li id="pt-login"><a 
+href="http://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Basic_access_authentication"
+ title="You are encouraged to log in; however, it is not mandatory. 
+[ctrl-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><a 
+href="http://en.wikipedia.org/wiki/Basic_access_authentication" 
+title="View the content page [ctrl-c]" accesskey="c"><span>Article</span></a></li>
+					<li id="ca-talk"><a 
+href="http://en.wikipedia.org/wiki/Talk:Basic_access_authentication" 
+title="Discussion about the content page [ctrl-t]" accesskey="t"><span>Discussion</span></a></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><a 
+href="http://en.wikipedia.org/wiki/Basic_access_authentication"><span>Read</span></a></li>
+					<li id="ca-edit"><a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=edit"
+ title="You can edit this page. 
+Please use the preview button before saving. [ctrl-e]" accesskey="e"><span>Edit</span></a></li>
+					<li id="ca-history" class="collapsible "><a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;action=history"
+ title="Past versions of this page [ctrl-h]" accesskey="h"><span>View 
+history</span></a></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/w/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<div id="simpleSearch">
+			<input autocomplete="off" class="placeholder" tabindex="1" 
+id="searchInput" name="search" title="Search Wikipedia [ctrl-f]" 
+accesskey="f" value="Search" type="text">
+			<button id="searchButton" type="submit" name="button" title="Search 
+Wikipedia for this text"><img 
+src="Basic_access_authentication_fichiers/search-ltr.png" alt="Search"></button>
+		</div>
+			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint collapsible-nav">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: 
+url(&quot;http://upload.wikimedia.org/wikipedia/commons/d/d6/Wikipedia-logo-v2-en.png&quot;);"
+ href="http://en.wikipedia.org/wiki/Main_Page" title="Visit the main 
+page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal first persistent" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+				<ul>
+					<li id="n-mainpage-description"><a 
+href="http://en.wikipedia.org/wiki/Main_Page" title="Visit the main page
+ [ctrl-z]" accesskey="z">Main page</a></li>
+					<li id="n-contents"><a 
+href="http://en.wikipedia.org/wiki/Portal:Contents" title="Guides to 
+browsing Wikipedia">Contents</a></li>
+					<li id="n-featuredcontent"><a 
+href="http://en.wikipedia.org/wiki/Portal:Featured_content" 
+title="Featured content — the best of Wikipedia">Featured content</a></li>
+					<li id="n-currentevents"><a 
+href="http://en.wikipedia.org/wiki/Portal:Current_events" title="Find 
+background information on current events">Current events</a></li>
+					<li id="n-randompage"><a 
+href="http://en.wikipedia.org/wiki/Special:Random" title="Load a random 
+article [ctrl-x]" accesskey="x">Random article</a></li>
+				</ul>
+			</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- interaction -->
+<div class="portal expanded" id="p-interaction">
+	<h5 tabindex="2">Interaction</h5>
+	<div style="display: block;" class="body">
+				<ul>
+					<li id="n-aboutsite"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:About" title="Find out 
+about Wikipedia">About Wikipedia</a></li>
+					<li id="n-portal"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:Community_portal" 
+title="About the project, what you can do, where to find things">Community
+ portal</a></li>
+					<li id="n-recentchanges"><a 
+href="http://en.wikipedia.org/wiki/Special:RecentChanges" title="The 
+list of recent changes in the wiki [ctrl-r]" accesskey="r">Recent 
+changes</a></li>
+					<li id="n-contact"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to 
+contact Wikipedia">Contact Wikipedia</a></li>
+					<li id="n-sitesupport"><a 
+href="http://wikimediafoundation.org/wiki/Support_Wikipedia/en" 
+title="Support us">Donate to Wikipedia</a></li>
+					<li id="n-help"><a 
+href="http://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how
+ to use and edit Wikipedia">Help</a></li>
+				</ul>
+			</div>
+</div>
+
+<!-- /interaction -->
+
+<!-- TOOLBOX -->
+<div class="portal collapsed" id="p-tb">
+	<h5 tabindex="3">Toolbox</h5>
+	<div class="body">
+		<ul>
+					<li id="t-whatlinkshere"><a 
+href="http://en.wikipedia.org/wiki/Special:WhatLinksHere/Basic_access_authentication"
+ title="List of all English Wikipedia pages containing links to this 
+page [ctrl-j]" accesskey="j">What links here</a></li>
+						<li id="t-recentchangeslinked"><a 
+href="http://en.wikipedia.org/wiki/Special:RecentChangesLinked/Basic_access_authentication"
+ title="Recent changes in pages linked from this page [ctrl-k]" 
+accesskey="k">Related changes</a></li>
+																																					<li id="t-upload"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:Upload" title="Upload files
+ [ctrl-u]" accesskey="u">Upload file</a></li>
+											<li id="t-specialpages"><a 
+href="http://en.wikipedia.org/wiki/Special:SpecialPages" title="List of 
+all special pages [ctrl-q]" accesskey="q">Special pages</a></li>
+											<li id="t-permalink"><a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;oldid=373444424"
+ title="Permanent link to this revision of the page">Permanent link</a></li>
+				<li id="t-cite"><a 
+href="http://en.wikipedia.org/w/index.php?title=Special:Cite&amp;page=Basic_access_authentication&amp;id=373444424"
+ title="Information on how to cite this page">Cite this page</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- coll-print_export -->
+<div class="portal collapsed" id="p-coll-print_export">
+	<h5 tabindex="4">Print/export</h5>
+	<div class="body">
+				<ul id="collectionPortletList"><li id="coll-create_a_book"><a 
+href="http://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Basic+access+authentication"
+ title="Create a book or page collection" rel="nofollow">Create a book</a></li><li
+ id="coll-download-as-rl"><a 
+href="http://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=Basic+access+authentication&amp;oldid=373444424&amp;writer=rl"
+ title="Download a PDF version of this wiki page" rel="nofollow">Download
+ as PDF</a></li><li id="t-print"><a 
+href="http://en.wikipedia.org/w/index.php?title=Basic_access_authentication&amp;printable=yes"
+ title="Printable version of this page [ctrl-p]" accesskey="p">Printable
+ version</a></li></ul>			</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- LANGUAGES -->
+<div class="portal expanded" id="p-lang">
+	<h5 tabindex="5">Languages</h5>
+	<div style="display: block;" class="body">
+		<ul>
+					<li class="interwiki-cs"><a 
+href="http://cs.wikipedia.org/wiki/Z%C3%A1kladn%C3%AD_ov%C4%9B%C5%99en%C3%AD_p%C5%99%C3%ADstupu"
+ title="Základní ověření přístupu">Česky</a></li>
+					<li class="interwiki-de"><a 
+href="http://de.wikipedia.org/wiki/HTTP-Authentifizierung" 
+title="HTTP-Authentifizierung">Deutsch</a></li>
+					<li class="interwiki-es"><a 
+href="http://es.wikipedia.org/wiki/Autenticaci%C3%B3n_de_acceso_b%C3%A1sica"
+ title="Autenticación de acceso básica">Español</a></li>
+					<li class="interwiki-fr"><a 
+href="http://fr.wikipedia.org/wiki/HTTP_Authentification" title="HTTP 
+Authentification">Français</a></li>
+					<li class="interwiki-ja"><a 
+href="http://ja.wikipedia.org/wiki/Basic%E8%AA%8D%E8%A8%BC" 
+title="Basic認証">日本語</a></li>
+					<li class="interwiki-zh"><a 
+href="http://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81"
+ title="HTTP基本认证">中文</a></li>
+				</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+											<ul id="footer-info">
+																	<li id="footer-info-lastmod"> This page was last 
+modified on 14 July 2010 at 14:08.<br></li>
+																							<li id="footer-info-copyright">Text is available 
+under the <a rel="license" 
+href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative
+ Commons Attribution-ShareAlike License</a><a rel="license" 
+href="http://creativecommons.org/licenses/by-sa/3.0/" style="display: 
+none;"></a>;
+additional terms may apply.
+See <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Terms of 
+Use</a> for details.<br>
+Wikipedia® is a registered trademark of the <a 
+href="http://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>,
+ a non-profit organization.<br></li><li class="noprint"><a 
+class="internal" 
+href="http://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact us</a></li>
+															</ul>
+															<ul id="footer-places">
+																	<li id="footer-places-privacy"><a 
+href="http://wikimediafoundation.org/wiki/Privacy_policy" 
+title="wikimedia:Privacy policy">Privacy policy</a></li>
+																							<li id="footer-places-about"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:About" 
+title="Wikipedia:About">About Wikipedia</a></li>
+																							<li id="footer-places-disclaimer"><a 
+href="http://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" 
+title="Wikipedia:General disclaimer">Disclaimers</a></li>
+															</ul>
+										<ul id="footer-icons" class="noprint">
+								<li id="footer-icon-poweredby"><a 
+href="http://www.mediawiki.org/"><img 
+src="Basic_access_authentication_fichiers/poweredby_mediawiki_88x31.png"
+ alt="Powered by MediaWiki" height="31" width="88"></a></li>
+												<li id="footer-icon-copyright"><a 
+href="http://wikimediafoundation.org/"><img 
+src="Basic_access_authentication_fichiers/wikimedia-button.png" 
+alt="Wikimedia Foundation" height="31" width="88"></a></li>
+							</ul>
+			<div style="clear: both;"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		
+<script type="text/javascript">if (window.runOnloadHook) runOnloadHook();</script>
+		<!-- Served by srv114 in 0.068 secs. -->			<div class="suggestions" 
+style="top: 73px; width: 188px; display: none; left: auto; right: 
+41.45px;"><div class="suggestions-results"></div><div 
+class="suggestions-special"></div></div></body></html>

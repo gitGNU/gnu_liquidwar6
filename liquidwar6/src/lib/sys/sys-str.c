@@ -288,9 +288,13 @@ lw6sys_skip_blanks (char **str_ptr)
 void
 lw6sys_str_cleanup (char *str)
 {
-  char *pos;
+  /*
+   * It's important to have pos unsigned here else characters
+   * over 127 are handled differently.
+   */
+  unsigned char *pos;
 
-  pos = str;
+  pos = (unsigned char *) str;
   while (*pos)
     {
       if ((*pos) < 32)
@@ -319,9 +323,13 @@ lw6sys_str_cleanup (char *str)
 void
 lw6sys_str_cleanup_ascii7 (char *str)
 {
-  char *pos;
+  /*
+   * It's important to have pos unsigned here else characters
+   * over 127 are handled differently.
+   */
+  unsigned char *pos;
 
-  pos = str;
+  pos = (unsigned char *) str;
   while (*pos)
     {
       if ((*pos) < 32 || (*pos) > 127)

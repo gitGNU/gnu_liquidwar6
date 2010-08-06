@@ -310,6 +310,10 @@ lw6sys_date_rfc1123 (int seconds_from_now)
 	  setlocale (LC_TIME, old_locale);
 	  LW6SYS_FREE (old_locale);
 	}
+      if (old_tz)
+	{
+	  LW6SYS_FREE(old_tz);
+	}
     }
 
   return ret;
