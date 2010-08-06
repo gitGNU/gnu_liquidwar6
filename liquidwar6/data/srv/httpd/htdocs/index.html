@@ -11,8 +11,31 @@
     <meta name="Copyright" content="%s" />
     <meta name="Generator" content="%s" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script type="text/javascript">
+      function lw6RefreshIndex() {
+        window.location.href="%s";
+      }
+      function lw6RefreshScreenshot() {
+        var screenshot;
+        var dummy;
+        var src;
+
+        window.setTimeout("lw6RefreshScreenshot();",%d);
+        dummy=Math.floor(Math.random()*1000000); 
+        screenshot=document.getElementById("lw6_screenshot");
+        src="%s?dummy="+dummy;
+        screenshot.src=src;
+      }
+      function lw6SetRefresh() {
+        window.setTimeout("lw6RefreshIndex();",%d);
+        window.setTimeout("lw6RefreshScreenshot();",%d);
+      }
+    </script>
+    <noscript>
+      <!-- Refresh HTTP header should be set anyway, so no JS isn't that bad -->
+    </noscript>
   </head>
-  <body>
+  <body onload="lw6SetRefresh();">
     <h1>%s</h1>
     </p>
       %s
@@ -25,7 +48,7 @@
       <a href="http://www.gnu.org/software/liquidwar6/manual/html_node">Liquid War 6 manual</a>.
     <p>
     <hr />
-    <img src="screenshot.jpeg" alt="Screenshot" />
+    <img src="screenshot.jpeg?dummy=%d" alt="Screenshot" id="lw6_screenshot" />
     <hr />
     <p>
 <a href="http://www.gnu.org/software/liquidwar6/">Liquid War 6</a> is a unique multiplayer wargame.

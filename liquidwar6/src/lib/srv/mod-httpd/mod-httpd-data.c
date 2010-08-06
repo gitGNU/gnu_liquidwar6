@@ -49,10 +49,14 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &(consts->timeout_msec));
       lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
       lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
-      lw6cfg_read_xml_int (key, value, "refresh-index",
-			   &(consts->refresh_index));
-      lw6cfg_read_xml_int (key, value, "refresh-screenshot",
-			   &(consts->refresh_screenshot));
+      lw6cfg_read_xml_int (key, value, "refresh-index-header",
+			   &(consts->refresh_index_header));
+      lw6cfg_read_xml_int (key, value, "refresh-screenshot-header",
+			   &(consts->refresh_screenshot_header));
+      lw6cfg_read_xml_int (key, value, "refresh-index-js",
+			   &(consts->refresh_index_js));
+      lw6cfg_read_xml_int (key, value, "refresh-screenshot-js",
+			   &(consts->refresh_screenshot_js));
     }
   if (!strcmp (element, "string"))
     {

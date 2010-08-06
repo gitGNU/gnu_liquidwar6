@@ -51,8 +51,10 @@ typedef struct _httpd_consts_s
   int timeout_msec;
   int max_age;
   int in_the_past;
-  int refresh_index;
-  int refresh_screenshot;
+  int refresh_index_header;
+  int refresh_screenshot_header;
+  int refresh_index_js;
+  int refresh_screenshot_js;
   char *http_version;
   char *content_type_html;
   char *content_type_txt;

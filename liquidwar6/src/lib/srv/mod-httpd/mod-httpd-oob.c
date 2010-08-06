@@ -38,7 +38,7 @@
 #define _PING_TXT "/ping.txt"
 
 #define _SCREENSHOT_JPEG_REFRESH "screenshot.jpeg"
-
+#define _DUMMY_RANGE 1000000
 #define _PONG "PONG"
 
 static _httpd_response_t *
@@ -49,28 +49,55 @@ _response_index_html (_httpd_context_t * httpd_context,
 {
   _httpd_response_t *response = NULL;
   char *content = NULL;
+  char *screenshot_url = NULL;
+  int dummy = 0;
 
-  content = lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
-				httpd_context->data.consts.refresh_index,
-				node_info->const_info.url,
-				node_info->const_info.title,
-				lw6sys_build_get_package_name (),
-				lw6sys_build_get_copyright (),
-				lw6sys_build_get_package_string (),
-				node_info->const_info.title,
-				node_info->const_info.description);
-  if (content)
+  dummy = lw6sys_random (_DUMMY_RANGE);
+  screenshot_url =
+    lw6sys_str_concat (node_info->const_info.url, _SCREENSHOT_JPEG_REFRESH);
+  if (screenshot_url)
     {
-      response =
-	_mod_httpd_response_from_str (httpd_context,
-				      _MOD_HTTPD_STATUS_200, 1,
-				      httpd_context->data.
-				      consts.refresh_index,
-				      node_info->const_info.url,
-				      httpd_context->data.
-				      consts.content_type_html, content);
+      content = lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
+				    /*
+				     * Variables in the HEAD section
+				     */
+				    httpd_context->data.
+				    consts.refresh_index_header,
+				    node_info->const_info.url,
+				    node_info->const_info.title,
+				    lw6sys_build_get_package_name (),
+				    lw6sys_build_get_copyright (),
+				    lw6sys_build_get_package_string (),
+				    /*
+				     * Variables for JavaScript use
+				     */
+				    node_info->const_info.url,
+				    httpd_context->data.
+				    consts.refresh_screenshot_js * 1000,
+				    screenshot_url,
+				    httpd_context->data.
+				    consts.refresh_index_js * 1000,
+				    httpd_context->data.
+				    consts.refresh_screenshot_js * 1000,
+				    /*
+				     * Variables in the BODY section
+				     */
+				    node_info->const_info.title,
+				    node_info->const_info.description, dummy);
+      if (content)
+	{
+	  response =
+	    _mod_httpd_response_from_str (httpd_context,
+					  _MOD_HTTPD_STATUS_200, 1,
+					  httpd_context->data.
+					  consts.refresh_index_header,
+					  node_info->const_info.url,
+					  httpd_context->data.
+					  consts.content_type_html, content);
 
-      LW6SYS_FREE (content);
+	  LW6SYS_FREE (content);
+	}
+      LW6SYS_FREE (screenshot_url);
     }
 
   return response;
@@ -108,7 +135,7 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
 	    _mod_httpd_response_from_bin (httpd_context,
 					  _MOD_HTTPD_STATUS_200, 1,
 					  httpd_context->data.
-					  consts.refresh_screenshot,
+					  consts.refresh_screenshot_header,
 					  refresh_url,
 					  httpd_context->data.
 					  consts.content_type_jpeg,

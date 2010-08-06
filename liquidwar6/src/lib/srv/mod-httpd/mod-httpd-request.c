@@ -67,7 +67,11 @@ _parse_first_line (_httpd_request_t * request)
       pos++;
     }
   seek = pos;
-  while ((*seek) && (*seek) != ' ')
+  /*
+   * Here we ignore what's after ? or #, this is typically not
+   * standard compliant but LW6 does not interpret this.
+   */
+  while ((*seek) && (*seek) != ' ' && (*seek) != '?' && (*seek) != '#')
     {
       seek++;
     }
