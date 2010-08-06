@@ -50,14 +50,30 @@ _response_index_html (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   char *content = NULL;
   char *screenshot_url = NULL;
+  char *level = "";
+  char *list = NULL;
   int dummy = 0;
+  char *uptime = NULL;
 
   dummy = lw6sys_random (_DUMMY_RANGE);
   screenshot_url =
     lw6sys_str_concat (node_info->const_info.url, _SCREENSHOT_JPEG_REFRESH);
   if (screenshot_url)
     {
-      content = lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
+      uptime =
+	lw6sys_readable_uptime (lw6sys_get_timestamp () -
+				node_info->const_info.creation_timestamp);
+      if (uptime)
+	{
+	  if (dyn_info->level)
+	    {
+	      level = dyn_info->level;
+	    }
+	  list = lw6sys_new_sprintf ("");	// todo, fill it
+	  if (list)
+	    {
+	      content =
+		lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
 				    /*
 				     * Variables in the HEAD section
 				     */
@@ -74,7 +90,7 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    node_info->const_info.url,
 				    httpd_context->data.
 				    consts.refresh_screenshot_js * 1000,
-				    screenshot_url,
+				    _DUMMY_RANGE, screenshot_url,
 				    httpd_context->data.
 				    consts.refresh_index_js * 1000,
 				    httpd_context->data.
@@ -83,19 +99,43 @@ _response_index_html (_httpd_context_t * httpd_context,
 				     * Variables in the BODY section
 				     */
 				    node_info->const_info.title,
-				    node_info->const_info.description, dummy);
-      if (content)
-	{
-	  response =
-	    _mod_httpd_response_from_str (httpd_context,
-					  _MOD_HTTPD_STATUS_200, 1,
-					  httpd_context->data.
-					  consts.refresh_index_header,
-					  node_info->const_info.url,
-					  httpd_context->data.
-					  consts.content_type_html, content);
+				    node_info->const_info.description, dummy,
+				    /*
+				     * Version
+				     */
+				    lw6sys_build_get_version (),
+				    lw6sys_build_get_codename (),
+				    lw6sys_build_get_stamp (),
+				    /*
+				     * Info
+				     */
+				    node_info->const_info.bench,
+				    uptime,
+				    level,
+				    dyn_info->colors,
+				    dyn_info->limit,
+				    dyn_info->nodes, dyn_info->cursors,
+				    /*
+				     * List
+				     */
+				    list);
+	      if (content)
+		{
+		  response =
+		    _mod_httpd_response_from_str (httpd_context,
+						  _MOD_HTTPD_STATUS_200, 1,
+						  httpd_context->data.
+						  consts.refresh_index_header,
+						  node_info->const_info.url,
+						  httpd_context->data.
+						  consts.content_type_html,
+						  content);
 
-	  LW6SYS_FREE (content);
+		  LW6SYS_FREE (content);
+		}
+	      LW6SYS_FREE (list);
+	    }
+	  LW6SYS_FREE (uptime);
 	}
       LW6SYS_FREE (screenshot_url);
     }

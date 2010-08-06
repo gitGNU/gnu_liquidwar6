@@ -376,3 +376,43 @@ lw6sys_date_clf ()
 
   return ret;
 }
+
+/**
+ * lw6sys_readable_uptimew
+ *
+ * @timestamp_delta: the duration to show, in msec
+ *
+ * Returns a readable form of an uptime, typically 1d 12:34:06
+ * for one day, 12 hours, 34 min, 6 sec or 7:03:45 for 7 hours,
+ * 3 minutes 45 sec.
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6sys_readable_uptime (int64_t timestamp_delta)
+{
+  char *ret = NULL;
+  int delta;
+  int days;
+  int hours;
+  int minutes;
+  int seconds;
+
+  delta = timestamp_delta / 1000;
+  seconds = delta % 60;
+  minutes = (delta / 60) % 60;
+  hours = (delta / 3600) % 24;
+  days = (delta / (3600 * 24));
+  if (days > 0)
+    {
+      ret =
+	lw6sys_new_sprintf ("%dd %d:%02d:%02d", days, hours, minutes,
+			    seconds);
+    }
+  else
+    {
+      ret = lw6sys_new_sprintf ("%d:%02d:%02d", hours, minutes, seconds);
+    }
+
+  return ret;
+}

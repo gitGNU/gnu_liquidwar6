@@ -61,11 +61,11 @@ typedef struct lw6nod_const_info_s
 typedef struct lw6nod_dyn_info_s
 {
   char *level;
-  int required;
-  int limit;
-  int colors;
-  int nodes;
-  int cursors;
+  int required;			// bench required to connect
+  int limit;			// max number of colors
+  int colors;			// number of colors
+  int nodes;			// number of nodes
+  int cursors;			// number of nodes
   int game_screenshot_size;
   void *game_screenshot_data;
 } lw6nod_dyn_info_t;

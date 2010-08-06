@@ -1765,11 +1765,15 @@ handles Winsock and POSIX sockets in a uniform manner.  The `cli' and
 `srv' contain network client and server code, implementing the various
 protocols in dynamically loadable sub-modules.  It's the role of `p2p'
 to glue this together, handle the list of available servers, the
-message queue, verifying nobody is cheating, and so on.
+message queue, verifying nobody is cheating, and so on. All this
+modules share information about current game state using code &
+structures defined in `nod'.
 
-   The `sys' contains most system and convenience functions, it handles
-logs, type conversions, timer, memory allocation, it's the fundamental
-module every other module depends on.
+   The `sys' module contains most system and convenience functions, it
+handles logs, type conversions, timer, memory allocation, it's the
+fundamental module every other module depends on. It has a compation
+`glb' module with all the Gnulib (http://www.gnu.org/software/gnulib/)
+shared code.
 
    The `hlp' is used to handle keywords and internal self-documentation
 (this is what is used by `--list' and `--about'), `cfg' knows how to
@@ -1777,9 +1781,9 @@ read and save config files,  `cns' handles the console, and `dyn' can
 load `.so' shared files dynamically.
 
    Finally there are small modules like `img' (to make screenshots of
-the game) or `nod' (utilities to store node state)  which have been
-separated because they required special libraries to link with and/or
-did not really fit in existing modules for dependencies reasons.
+the game) which have been separated because they required special
+libraries to link with and/or did not really fit in existing modules
+for dependencies reasons.
 
    So well, this is a lot of modules. The list might move a bit, but the
 big picture is here. Each module is testable separately.

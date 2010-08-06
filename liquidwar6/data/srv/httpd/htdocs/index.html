@@ -21,7 +21,7 @@
         var src;
 
         window.setTimeout("lw6RefreshScreenshot();",%d);
-        dummy=Math.floor(Math.random()*1000000); 
+        dummy=Math.floor(Math.random()*%d); 
         screenshot=document.getElementById("lw6_screenshot");
         src="%s?dummy="+dummy;
         screenshot.src=src;
@@ -49,6 +49,18 @@
     <p>
     <hr />
     <img src="screenshot.jpeg?dummy=%d" alt="Screenshot" id="lw6_screenshot" />
+    <hr />
+    <h2><a href="info.txt">Node info</a></h2>
+    <ul>
+      <li>Version %s, codename "%s", stamp #%s</li>
+      <li>Bench=%d, uptime=%s</li>
+      <li>Level="%s", %d/%d colors, %d nodes, %d cursors</li>
+    </ul>	 
+    <hr />
+    <h2><a href="list.txt">Other nodes</a></h2>
+    <p>
+      %s
+    </p>
     <hr />
     <p>
 <a href="http://www.gnu.org/software/liquidwar6/">Liquid War 6</a> is a unique multiplayer wargame.

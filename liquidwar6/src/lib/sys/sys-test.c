@@ -84,6 +84,8 @@
 #define TEST_SLEEP_TIME 3
 #define TEST_DELAY_TIME 50
 #define TEST_RFC1123_SECONDS_FROM_NOW 100000
+#define TEST_READABLE_UPTIME_1 3689
+#define TEST_READABLE_UPTIME_2 1234567
 #define TEST_SLEEP_TIME_SHORT_STEP 0.001f
 #define BLANK_STR "\t "
 #define CLEANUP_FORMAT "<foo %c bar %c>"
@@ -2978,6 +2980,7 @@ test_time ()
     int32_t cycle = 0;
     char *rfc1123 = NULL;
     char *clf = NULL;
+    char *uptime_str = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("timestamp %" LW6SYS_PRINTF_LL "d"),
 		lw6sys_get_timestamp ());
@@ -3027,6 +3030,20 @@ test_time ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("clf date is \"%s\""), clf);
 	LW6SYS_FREE (clf);
+      }
+    uptime_str = lw6sys_readable_uptime (TEST_READABLE_UPTIME_1);
+    if (uptime_str)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("readable uptime for %d is \"%s\""),
+		    TEST_READABLE_UPTIME_1, uptime_str);
+	LW6SYS_FREE (uptime_str);
+      }
+    uptime_str = lw6sys_readable_uptime (TEST_READABLE_UPTIME_2);
+    if (uptime_str)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("readable uptime for %d is \"%s\""),
+		    TEST_READABLE_UPTIME_2, uptime_str);
+	LW6SYS_FREE (uptime_str);
       }
   }
 
