@@ -87,6 +87,21 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 	}
     }
 
+  /*
+   * Here, maybe we didn't recognize HTTPD protocol, but since we're
+   * in timeout, we decide so send an error 500 answer anyway.
+   */
+  if (lw6net_tcp_is_alive (tcp_accepter->sock)
+      && !_mod_httpd_timeout_ok (httpd_context,
+				 tcp_accepter->creation_timestamp))
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _
+		  ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
+		  tcp_accepter->first_line);
+      ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+    }
+
   return ret;
 }
 

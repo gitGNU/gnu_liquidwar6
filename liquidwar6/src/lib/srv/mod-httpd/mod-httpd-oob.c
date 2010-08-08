@@ -291,7 +291,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		}
 	    }
 	}
-      else
+      if (request->get_head_post == _MOD_HTTPD_POST)
 	{
 	  response =
 	    _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_405);
@@ -299,10 +299,33 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
       if (!response)
 	{
 	  /*
-	   * OK, not treated, we consider it's not found
+	   * OK, not treated, we return an error
 	   */
-	  response =
-	    _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_404);
+	  if (request->get_head_post == _MOD_HTTPD_GET)
+	    {
+	      /*
+	       * On "GET", 404 is probably the best bet, the request
+	       * might or might not be syntaxically correct, but most
+	       * of the time it's just that "what's after GET is wrong"
+	       * and this corresponds to 404.
+	       */
+	      response =
+		_mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_404);
+	    }
+	  else
+	    {
+	      /*
+	       * A typicall case in which we land here is when the
+	       * client goes timeout (not necessarly an http client)
+	       * and we do not want the program to wait for ages,
+	       * a client with 10 seconds lag is useless anyway, so
+	       * we just return http error 500 in all cases, and
+	       * client (if not http client) should figure this means
+	       * error.
+	       */
+	      response =
+		_mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_500);
+	    }
 	}
       if (response)
 	{
@@ -327,20 +350,6 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 
   lw6net_socket_close (oob_data->sock);
   oob_data->sock = -1;
-
-  return ret;
-}
-
-int
-_mod_httpd_oob_timeout_ok (_httpd_context_t * httpd_context,
-			   lw6srv_oob_data_t * oob_data)
-{
-  int ret = 0;
-
-  ret = (lw6sys_get_timestamp () +
-	 httpd_context->data.consts.timeout_msec >
-	 oob_data->creation_timestamp)
-    && lw6net_tcp_is_alive (oob_data->sock);
 
   return ret;
 }

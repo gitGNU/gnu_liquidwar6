@@ -45,8 +45,8 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 
   if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_int (key, value, "timeout-msec",
-			   &(consts->timeout_msec));
+      lw6cfg_read_xml_int (key, value, "error-timeout",
+			   &(consts->error_timeout));
       lw6cfg_read_xml_int (key, value, "max-age", &(consts->max_age));
       lw6cfg_read_xml_int (key, value, "in-the-past", &(consts->in_the_past));
       lw6cfg_read_xml_int (key, value, "refresh-index-header",

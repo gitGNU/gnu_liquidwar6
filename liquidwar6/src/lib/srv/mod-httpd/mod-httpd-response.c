@@ -273,8 +273,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 	  ret =
 	    lw6net_tcp_send (sock, response->content_data,
 			     response->content_size,
-			     httpd_context->data.consts.timeout_msec /
-			     1000.0f, 1);
+			     httpd_context->data.consts.error_timeout, 1);
 	}
     }
 

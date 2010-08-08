@@ -48,7 +48,7 @@
 
 typedef struct _httpd_consts_s
 {
-  int timeout_msec;
+  int error_timeout;
   int max_age;
   int in_the_past;
   int refresh_index_header;
@@ -167,6 +167,8 @@ extern void _mod_httpd_close (_httpd_context_t * httpd_context,
 			      lw6srv_connection_t * connection);
 extern int _mod_httpd_is_alive (_httpd_context_t * httpd_context,
 				lw6srv_connection_t * connection);
+extern int _mod_httpd_timeout_ok (_httpd_context_t * httpd_context,
+				  int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -188,8 +190,6 @@ extern char *_mod_httpd_error (_httpd_context_t * httpd_context,
 extern int _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 				   lw6nod_info_t * node_info,
 				   lw6srv_oob_data_t * oob_data);
-extern int _mod_httpd_oob_timeout_ok (_httpd_context_t * httpd_context,
-				      lw6srv_oob_data_t * oob_data);
 
 /* mod-httpd-request.c */
 extern _httpd_request_t *_mod_httpd_request_parse_oob (_httpd_context_t *

@@ -92,6 +92,7 @@ _parse_first_line (_httpd_request_t * request)
   if (request->uri)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("REQUEST_URI=\"%s\""), request->uri);
+      ret = 1;
     }
 
   return ret;
@@ -106,29 +107,48 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
   char *line = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
-
   request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
   if (request)
     {
       request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
-      request->first_line = lw6net_recv_line_tcp (oob_data->sock);
-      if (request->first_line)
+
+      if (_mod_httpd_timeout_ok (httpd_context, oob_data->creation_timestamp))
 	{
-	  _parse_first_line (request);
-	  while ((!eof) &&
-		 _mod_httpd_oob_timeout_ok (httpd_context, oob_data))
+	  request->first_line = lw6net_recv_line_tcp (oob_data->sock);
+	  if (request->first_line)
 	    {
-	      line = lw6net_recv_line_tcp (oob_data->sock);
-	      if (line)
+	      if (_parse_first_line (request))
 		{
-		  // here should check for Authentication
-		  if (strlen (line) == 0)
+		  while ((!eof) &&
+			 _mod_httpd_timeout_ok (httpd_context,
+						oob_data->creation_timestamp)
+			 && lw6net_tcp_is_alive (oob_data->sock))
 		    {
-		      eof = 1;
+		      line = lw6net_recv_line_tcp (oob_data->sock);
+		      if (line)
+			{
+			  // here should check for Authentication
+			  if (strlen (line) == 0)
+			    {
+			      eof = 1;
+			    }
+			  LW6SYS_FREE (line);
+			}
 		    }
-		  LW6SYS_FREE (line);
 		}
 	    }
+	}
+      if ((!request->first_line) || (request->get_head_post == 0)
+	  || (!request->uri))
+	{
+	  /*
+	   * OK, not parseable, we put dummy (empty) values in all fields to
+	   * avoid suspicious NULL-string bugs, and let the following code
+	   * return error 500.
+	   */
+	  request->first_line = lw6sys_str_copy ("");
+	  request->get_head_post = 0;
+	  request->uri = lw6sys_str_copy ("");
 	}
     }
 

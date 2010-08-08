@@ -44,3 +44,18 @@ _mod_httpd_is_alive (_httpd_context_t * httpd_context,
 
   return ret;
 }
+
+int
+_mod_httpd_timeout_ok (_httpd_context_t * httpd_context,
+		       int64_t origin_timestamp)
+{
+  int ret = 0;
+  int d = 0;
+
+  d = origin_timestamp +
+    (httpd_context->data.consts.error_timeout * 1000) -
+    lw6sys_get_timestamp ();
+  ret = (d > 0);
+
+  return ret;
+}
