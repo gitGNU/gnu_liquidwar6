@@ -27,6 +27,9 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
+#define _ERROR_FIRST_LINE "ERROR"
+#define _ERROR_URI "error"
+
 static int
 _parse_first_line (_httpd_request_t * request)
 {
@@ -146,9 +149,9 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
 	   * avoid suspicious NULL-string bugs, and let the following code
 	   * return error 500.
 	   */
-	  request->first_line = lw6sys_str_copy ("");
+	  request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
 	  request->get_head_post = 0;
-	  request->uri = lw6sys_str_copy ("");
+	  request->uri = lw6sys_str_copy (_ERROR_URI);
 	}
     }
 

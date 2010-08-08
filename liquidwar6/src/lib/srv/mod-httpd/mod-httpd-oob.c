@@ -186,6 +186,73 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
   return response;
 }
 
+static _httpd_response_t *
+_response_info_txt (_httpd_context_t * httpd_context,
+		    lw6nod_info_t * node_info,
+		    lw6nod_dyn_info_t * dyn_info,
+		    lw6srv_oob_data_t * oob_data)
+{
+  _httpd_response_t *response = NULL;
+  char *content = NULL;
+  char *level = "";
+  int uptime = 0;
+
+  uptime =
+    (lw6sys_get_timestamp () -
+     node_info->const_info.creation_timestamp) / 1000;
+  if (dyn_info->level)
+    {
+      level = dyn_info->level;
+    }
+  content =
+    lw6sys_new_sprintf
+    ("Program: %s\nVersion: %s\nCodename: %s\nStamp: %s\nId: %s\nUrl: %s\nTitle: %s\nDescription: %s\nBench: %d\nUptime: %d\nLevel: %s\nRequired: %d\nLimit: %d\nColors: %d\nNodes: %d\nCursors: %d\n",
+     lw6sys_build_get_package_tarname (), lw6sys_build_get_version (),
+     lw6sys_build_get_codename (), lw6sys_build_get_stamp (),
+     node_info->const_info.id, node_info->const_info.url,
+     node_info->const_info.title, node_info->const_info.description,
+     node_info->const_info.bench, uptime, level, dyn_info->required,
+     dyn_info->limit, dyn_info->colors, dyn_info->nodes, dyn_info->cursors);
+  if (content)
+    {
+      response =
+	_mod_httpd_response_from_str (httpd_context,
+				      _MOD_HTTPD_STATUS_200, 1,
+				      0,
+				      NULL,
+				      httpd_context->data.
+				      consts.content_type_txt, content);
+      LW6SYS_FREE (content);
+    }
+
+  return response;
+}
+
+static _httpd_response_t *
+_response_list_txt (_httpd_context_t * httpd_context,
+		    lw6nod_info_t * node_info,
+		    lw6nod_dyn_info_t * dyn_info,
+		    lw6srv_oob_data_t * oob_data)
+{
+  _httpd_response_t *response = NULL;
+  char *content = NULL;
+
+  content = lw6sys_new_sprintf ("todo");
+  if (content)
+    {
+      response =
+	_mod_httpd_response_from_str (httpd_context,
+				      _MOD_HTTPD_STATUS_200, 1,
+				      0,
+				      NULL,
+				      httpd_context->data.
+				      consts.content_type_txt, content);
+      LW6SYS_FREE (content);
+    }
+
+  return response;
+}
+
 int
 _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 			lw6nod_info_t * node_info,
@@ -228,11 +295,15 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    }
 		  if (!strcmp (request->uri, _INFO_TXT))
 		    {
-		      //response=_response_info_txt(httpd_context,node_info,dyn_info,oob_data);
+		      response =
+			_response_info_txt (httpd_context, node_info,
+					    dyn_info, oob_data);
 		    }
 		  if (!strcmp (request->uri, _LIST_TXT))
 		    {
-		      //response=_response_list_txt(httpd_context,node_info,dyn_info,oob_data);
+		      response =
+			_response_list_txt (httpd_context, node_info,
+					    dyn_info, oob_data);
 		    }
 		  lw6nod_dyn_info_free (dyn_info);
 		}

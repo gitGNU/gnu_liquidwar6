@@ -45,6 +45,10 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
     {
       const_info->title = lw6sys_get_hostname ();
     }
+  if (const_info->title)
+    {
+      lw6sys_str_cleanup (const_info->title);
+    }
   if (description)
     {
       const_info->description = lw6sys_str_copy (description);
@@ -52,6 +56,10 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
   else
     {
       const_info->description = lw6sys_str_copy ("");
+    }
+  if (const_info->description)
+    {
+      lw6sys_str_cleanup (const_info->description);
     }
   const_info->bench = bench;
   const_info->idle_screenshot_size = idle_screenshot_size;
