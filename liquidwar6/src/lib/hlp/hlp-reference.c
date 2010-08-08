@@ -691,6 +691,10 @@ populate_references ()
 		_
 		("The description of your node, that is a text that describes your server. This will typically appear when pointing a web client on the public server URL, it is for general information, so if there's something special about your server, say it here."),
 		_("No description."));
+  POPULATE_STR (LW6DEF_KNOWN_NODES,
+		_
+		("List of known nodes, nodes which the program will try to contact first to get the list of other nodes. This is mostly usefull when program is launched for the first time, after this it should keep an up-to-date list of known servers in its internal database and automatically reconnect to them next time it starts. You might want to change this if you really want to connect to a given server which is not publically listed. The list is comma separated."),
+		_("http://ufoot.org:8056/,http://ufoot.hd.free.fr:8056/"));
 
   /*
    * Tuning

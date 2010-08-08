@@ -84,6 +84,7 @@ typedef struct _lw6p2p_node_s
   char *public_url;
   char *password;
   lw6nod_info_t *node_info;
+  char *known_nodes;
   int nb_cli_backends;
   lw6cli_backend_t **cli_backends;
   lw6srv_listener_t *listener;
@@ -121,7 +122,7 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 int bind_port, u_int64_t node_id,
 					 char *public_url, char *password,
 					 char *title, char *description,
-					 int bench);
+					 int bench, char *known_nodes);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);

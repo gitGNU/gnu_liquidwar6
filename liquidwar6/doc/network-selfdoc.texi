@@ -40,6 +40,22 @@ only if you specifically want to disactivate some protocol, or if you want to
 activate a custom-made client backend. It's a comma separated list.
 @end deffn
 
+@subsection known-nodes
+@deffn {Command-line option} @code{--known-nodes=<value>}
+@deffnx {Environment variable} @code{LW6_KNOWN_NODES}
+@deffnx {XML key} @code{known-nodes}
+Type: string
+
+Default value: http://ufoot.org:8056/,http://ufoot.hd.free.fr:8056/
+
+List of known nodes, nodes which the program will try to contact first to get
+the list of other nodes. This is mostly usefull when program is launched for
+the first time, after this it should keep an up-to-date list of known servers
+in its internal database and automatically reconnect to them next time it
+starts. You might want to change this if you really want to connect to a given
+server which is not publically listed. The list is comma separated.
+@end deffn
+
 @subsection node-description
 @deffn {Command-line option} @code{--node-description=<value>}
 @deffnx {Environment variable} @code{LW6_NODE_DESCRIPTION}

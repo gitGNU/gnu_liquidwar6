@@ -1,5 +1,7 @@
 2010-08-08 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Display of info.txt & list.txt OK on httpd.
+
 	* Returns 500 error on idle client connections (httpd traps all).
 
 2010-08-06 : Christian Mauduit <ufoot@ufoot.org>

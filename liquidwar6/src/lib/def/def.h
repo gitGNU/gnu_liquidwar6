@@ -134,6 +134,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_HUD_STYLE "hud-style"
 #define LW6DEF_IO_PER_SEC "io-per-sec"
 #define LW6DEF_KEEP_RATIO "keep-ratio"
+#define LW6DEF_KNOWN_NODES "known-nodes"
 #define LW6DEF_LDFLAGS "ldflags"
 #define LW6DEF_LIST "list"
 #define LW6DEF_LIST_ALIASES "list-aliases"

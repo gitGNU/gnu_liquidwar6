@@ -46,6 +46,7 @@
 #define _TEST_NODE_TITLE "This is a node"
 #define _TEST_NODE_DESCRIPTION "This is the description of a node."
 #define _TEST_NODE_BENCH 10
+#define _TEST_NODE_KNOWN_NODES "http://ufoot.org:8056/"
 
 #define TEST_POLL_LOOPS 1000
 #define TEST_POLL_DELAY 10
@@ -126,7 +127,8 @@ _test_node_init ()
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
 			   _TEST_NODE_PUBLIC_URL1, NULL, _TEST_NODE_TITLE,
-			   _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH);
+			   _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
+			   _TEST_NODE_KNOWN_NODES);
 	if (node)
 	  {
 	    repr = lw6p2p_node_repr (node);
@@ -177,7 +179,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 			 _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
 			 _TEST_NODE_PUBLIC_URL1, _TEST_NODE_PASSWORD,
 			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH);
+			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
       if (*node1)
 	{
 	  repr = lw6p2p_node_repr (*node1);
@@ -197,7 +199,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 			 _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
 			 _TEST_NODE_PUBLIC_URL2, _TEST_NODE_PASSWORD,
 			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH);
+			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
       if (*node2)
 	{
 	  repr = lw6p2p_node_repr (*node2);
@@ -217,7 +219,7 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
 			 _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
 			 _TEST_NODE_PUBLIC_URL3, _TEST_NODE_PASSWORD,
 			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH);
+			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
       if (*node3)
 	{
 	  repr = lw6p2p_node_repr (*node3);

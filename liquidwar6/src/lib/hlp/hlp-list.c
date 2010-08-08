@@ -373,6 +373,7 @@ update_network (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_PUBLIC_URL);
   lw6sys_list_push_back (list, LW6DEF_NODE_TITLE);
   lw6sys_list_push_back (list, LW6DEF_NODE_DESCRIPTION);
+  lw6sys_list_push_back (list, LW6DEF_KNOWN_NODES);
 
   return ((*list) != NULL);
 }

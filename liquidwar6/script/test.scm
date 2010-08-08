@@ -164,7 +164,8 @@
 					       (cons "password" "")
 					       (cons "title" "")
 					       (cons "description" (_ "This is a test node."))
-					       (cons "bench" 10))))
+					       (cons "bench" 10)
+					       (cons "known-nodes" "http://ufoot.org:8056/"))))
 	     )
 	(begin
 	  (display node)

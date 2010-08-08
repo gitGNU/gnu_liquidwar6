@@ -41,6 +41,32 @@
 #define _DUMMY_RANGE 1000000
 #define _PONG "PONG"
 
+static void
+_add_node_html (void *func_data, void *data)
+{
+  char **list = (char **) func_data;
+  char *url = (char *) data;
+  char *tmp = NULL;
+
+  if (list && (*list) && url)
+    {
+      if (strlen (*list) > 0)
+	{
+	  tmp =
+	    lw6sys_new_sprintf ("%s, <a href=\"%s\">%s</a>", *list, url, url);
+	}
+      else
+	{
+	  tmp = lw6sys_new_sprintf ("<a href=\"%s\">%s</a>", url, url);
+	}
+      if (tmp)
+	{
+	  LW6SYS_FREE (*list);
+	  (*list) = tmp;
+	}
+    }
+}
+
 static _httpd_response_t *
 _response_index_html (_httpd_context_t * httpd_context,
 		      lw6nod_info_t * node_info,
@@ -69,9 +95,11 @@ _response_index_html (_httpd_context_t * httpd_context,
 	    {
 	      level = dyn_info->level;
 	    }
-	  list = lw6sys_new_sprintf ("");	// todo, fill it
+	  list = lw6sys_new_sprintf ("");
 	  if (list)
 	    {
+	      lw6nod_info_map_verified_nodes (node_info,
+					      _add_node_html, &list);
 	      content =
 		lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
 				    /*
@@ -81,7 +109,7 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    consts.refresh_index_header,
 				    node_info->const_info.url,
 				    node_info->const_info.title,
-				    lw6sys_build_get_package_name (),
+				    lw6sys_build_get_package_string (),
 				    lw6sys_build_get_copyright (),
 				    lw6sys_build_get_package_string (),
 				    /*
@@ -228,6 +256,36 @@ _response_info_txt (_httpd_context_t * httpd_context,
   return response;
 }
 
+static void
+_add_node_txt (void *func_data, void *data)
+{
+  char **list = (char **) func_data;
+  char *url = (char *) data;
+  char *tmp = NULL;
+
+  /*
+   * We use this instead of a simple "join with sep=space"
+   * on the list object? This is because we can only
+   * access it through the map function because of locking issues
+   */
+  if (list && (*list) && url)
+    {
+      if (strlen (*list) > 0)
+	{
+	  tmp = lw6sys_new_sprintf ("%s %s", *list, url);
+	}
+      else
+	{
+	  tmp = lw6sys_new_sprintf ("%s", url);
+	}
+      if (tmp)
+	{
+	  LW6SYS_FREE (*list);
+	  (*list) = tmp;
+	}
+    }
+}
+
 static _httpd_response_t *
 _response_list_txt (_httpd_context_t * httpd_context,
 		    lw6nod_info_t * node_info,
@@ -237,9 +295,10 @@ _response_list_txt (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   char *content = NULL;
 
-  content = lw6sys_new_sprintf ("todo");
+  content = lw6sys_new_sprintf ("");
   if (content)
     {
+      lw6nod_info_map_verified_nodes (node_info, _add_node_txt, &content);
       response =
 	_mod_httpd_response_from_str (httpd_context,
 				      _MOD_HTTPD_STATUS_200, 1,

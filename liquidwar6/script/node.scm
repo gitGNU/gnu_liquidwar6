@@ -33,6 +33,7 @@
 	       (title (lw6-config-get-string lw6def-node-title))
 	       (description (lw6-config-get-string lw6def-node-description))
 	       (bench (lw6-config-get-number lw6def-bench-value))
+	       (known-nodes (lw6-config-get-string lw6def-known-nodes))
 	       (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	       (node (c-lw6p2p-node-new db (list (cons "client-backends" cli-backends)
 						 (cons "server-backends" srv-backends)
@@ -43,7 +44,8 @@
 						 (cons "password" password)
 						 (cons "title" title)
 						 (cons "description" description)
-						 (cons "bench" bench))))
+						 (cons "bench" bench)
+						 (cons "known-nodes" known-nodes))))
 	       )
 	  (if db
 	      (lw6-set-game-global! "db" db))

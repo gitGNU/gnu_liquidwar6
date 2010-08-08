@@ -127,6 +127,7 @@
 (define lw6def-hud-style "hud-style")
 (define lw6def-io-per-sec "io-per-sec")
 (define lw6def-keep-ratio "keep-ratio")
+(define lw6def-known-nodes "known-nodes")
 (define lw6def-ldflags "ldflags")
 (define lw6def-list "list")
 (define lw6def-list-aliases "list-aliases")

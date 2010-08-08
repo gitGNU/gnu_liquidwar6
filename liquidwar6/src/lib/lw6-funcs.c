@@ -7314,6 +7314,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   SCM title = SCM_BOOL_F;
   SCM description = SCM_BOOL_F;
   SCM bench = SCM_BOOL_F;
+  SCM known_nodes = SCM_BOOL_F;
   lw6p2p_db_t *c_db;
   char *c_client_backends;
   char *c_server_backends;
@@ -7326,6 +7327,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   char *c_title;
   char *c_description;
   int c_bench;
+  char *c_known_nodes;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
@@ -7343,6 +7345,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       title = scm_assoc_ref (param, scm_makfrom0str ("title"));
       description = scm_assoc_ref (param, scm_makfrom0str ("description"));
       bench = scm_assoc_ref (param, scm_makfrom0str ("bench"));
+      known_nodes = scm_assoc_ref (param, scm_makfrom0str ("known-nodes"));
 
       SCM_ASSERT (SCM_SMOB_PREDICATE
 		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
@@ -7361,6 +7364,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       SCM_ASSERT (scm_is_string (title), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (description), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bench), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (scm_is_string (known_nodes), param, SCM_ARG2, __FUNCTION__);
 
       c_db = lw6_scm_to_db (db);
       if (c_db)
@@ -7381,7 +7385,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 			  c_node_id_int = lw6sys_id_atol (c_node_id_str);
 			  LW6SYS_FREE (c_node_id_str);
 			}
-
 		      if (lw6sys_check_id (c_node_id_int))
 			{
 			  c_public_url = to_0str (public_url);
@@ -7397,25 +7400,27 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 				      if (c_description)
 					{
 					  c_bench = scm_to_int (bench);
-					  c_node =
-					    lw6p2p_node_new (lw6_global.argc,
-							     lw6_global.argv,
-							     c_db,
-							     c_client_backends,
-							     c_server_backends,
-							     c_bind_ip,
-							     c_bind_port,
-							     c_node_id_int,
-							     c_public_url,
-							     c_password,
-							     c_title,
-							     c_description,
-							     c_bench);
-					  if (c_node)
+					  c_known_nodes =
+					    to_0str (known_nodes);
+					  if (c_known_nodes)
 					    {
-					      ret =
-						lw6_make_scm_node (c_node,
-								   db);
+					      c_node =
+						lw6p2p_node_new
+						(lw6_global.argc,
+						 lw6_global.argv, c_db,
+						 c_client_backends,
+						 c_server_backends, c_bind_ip,
+						 c_bind_port, c_node_id_int,
+						 c_public_url, c_password,
+						 c_title, c_description,
+						 c_bench, c_known_nodes);
+					      if (c_node)
+						{
+						  ret =
+						    lw6_make_scm_node (c_node,
+								       db);
+						}
+					      LW6SYS_FREE (c_known_nodes);
 					    }
 					  LW6SYS_FREE (c_description);
 					}

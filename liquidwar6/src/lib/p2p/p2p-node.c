@@ -45,6 +45,7 @@ static u_int32_t seq_id = 0;
  * @title: the title of the node
  * @description: the description of the node
  * @bench: the bench of the node (its power)
+ * @known_nodes: list of already known nodes
  *
  * Creates a new "pear to pear" node. This will fire the server
  * and allow client access, on demand. A lot of stuff can be done
@@ -56,20 +57,22 @@ lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, u_int64_t node_id, char *public_url,
-		 char *password, char *title, char *description, int bench)
+		 char *password, char *title, char *description, int bench,
+		 char *known_nodes)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, node_id,
 					     public_url, password, title,
-					     description, bench);
+					     description, bench, known_nodes);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, u_int64_t node_id, char *public_url,
-		  char *password, char *title, char *description, int bench)
+		  char *password, char *title, char *description, int bench,
+		  char *known_nodes)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -99,7 +102,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->public_url = lw6net_if_guess_public_url (bind_ip, bind_port);
 	}
-      if (node->password)
+      if (password)
 	{
 	  node->password = lw6sys_str_copy (password);
 	}
@@ -112,6 +115,14 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			 description, bench,
 			 node->db->data.idle_screenshot.size,
 			 node->db->data.idle_screenshot.data);
+      if (known_nodes)
+	{
+	  node->known_nodes = lw6sys_str_copy (known_nodes);
+	}
+      else
+	{
+	  node->known_nodes = lw6sys_str_copy ("");
+	}
       ret = (node->bind_ip && node->node_id_str && node->public_url
 	     && node->password && node->node_info);
       if (ret)
@@ -308,6 +319,10 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
       if (node->oobs)
 	{
 	  lw6sys_list_free (node->oobs);
+	}
+      if (node->known_nodes)
+	{
+	  LW6SYS_FREE (node->known_nodes);
 	}
       if (node->node_info)
 	{
@@ -563,13 +578,29 @@ _poll_step3_oob (_lw6p2p_node_t * node)
   return ret;
 }
 
+static int
+_poll_step4_known_nodes (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+  lw6sys_list_t *list;
+
+  /*
+   * TODO: make this transit through the database and servers
+   * be tested for good...
+   */
+  list = lw6sys_str_split_config_item (node->known_nodes);
+  ret = lw6nod_info_set_verified_nodes (node->node_info, list);
+
+  return ret;
+}
+
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
   ret = _poll_step1_accept (node) && _poll_step2_reply (node)
-    && _poll_step3_oob (node);
+    && _poll_step3_oob (node) && _poll_step4_known_nodes (node);
 
   return ret;
 }

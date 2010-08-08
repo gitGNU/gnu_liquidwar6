@@ -108,6 +108,7 @@ hud-color-text-fg
 hud-style
 io-per-sec
 keep-ratio
+known-nodes
 ldflags
 list
 list-aliases
