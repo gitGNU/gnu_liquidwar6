@@ -105,24 +105,24 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    /*
 				     * Variables in the HEAD section
 				     */
-				    httpd_context->data.
-				    consts.refresh_index_header,
+				    httpd_context->data.consts.
+				    refresh_index_header,
 				    node_info->const_info.url,
 				    node_info->const_info.title,
-				    lw6sys_build_get_package_string (),
+				    node_info->const_info.id,
 				    lw6sys_build_get_copyright (),
 				    lw6sys_build_get_package_string (),
 				    /*
 				     * Variables for JavaScript use
 				     */
 				    node_info->const_info.url,
-				    httpd_context->data.
-				    consts.refresh_screenshot_js * 1000,
+				    httpd_context->data.consts.
+				    refresh_screenshot_js * 1000,
 				    _DUMMY_RANGE, screenshot_url,
-				    httpd_context->data.
-				    consts.refresh_index_js * 1000,
-				    httpd_context->data.
-				    consts.refresh_screenshot_js * 1000,
+				    httpd_context->data.consts.
+				    refresh_index_js * 1000,
+				    httpd_context->data.consts.
+				    refresh_screenshot_js * 1000,
 				    /*
 				     * Variables in the BODY section
 				     */
@@ -152,12 +152,11 @@ _response_index_html (_httpd_context_t * httpd_context,
 		  response =
 		    _mod_httpd_response_from_str (httpd_context,
 						  _MOD_HTTPD_STATUS_200, 1,
-						  httpd_context->data.
-						  consts.refresh_index_header,
+						  httpd_context->data.consts.
+						  refresh_index_header,
 						  node_info->const_info.url,
-						  httpd_context->data.
-						  consts.content_type_html,
-						  content);
+						  httpd_context->data.consts.
+						  content_type_html, content);
 
 		  LW6SYS_FREE (content);
 		}
@@ -202,12 +201,12 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
 	  response =
 	    _mod_httpd_response_from_bin (httpd_context,
 					  _MOD_HTTPD_STATUS_200, 1,
-					  httpd_context->data.
-					  consts.refresh_screenshot_header,
+					  httpd_context->data.consts.
+					  refresh_screenshot_header,
 					  refresh_url,
-					  httpd_context->data.
-					  consts.content_type_jpeg,
-					  screenshot_size, screenshot_data);
+					  httpd_context->data.consts.
+					  content_type_jpeg, screenshot_size,
+					  screenshot_data);
 	}
       LW6SYS_FREE (refresh_url);
     }
@@ -248,8 +247,8 @@ _response_info_txt (_httpd_context_t * httpd_context,
 				      _MOD_HTTPD_STATUS_200, 1,
 				      0,
 				      NULL,
-				      httpd_context->data.
-				      consts.content_type_txt, content);
+				      httpd_context->data.consts.
+				      content_type_txt, content);
       LW6SYS_FREE (content);
     }
 
@@ -304,8 +303,8 @@ _response_list_txt (_httpd_context_t * httpd_context,
 				      _MOD_HTTPD_STATUS_200, 1,
 				      0,
 				      NULL,
-				      httpd_context->data.
-				      consts.content_type_txt, content);
+				      httpd_context->data.consts.
+				      content_type_txt, content);
       LW6SYS_FREE (content);
     }
 
@@ -380,10 +379,10 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    _mod_httpd_response_from_str (httpd_context,
 						  _MOD_HTTPD_STATUS_200, 0, 0,
 						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.robots_txt);
+						  httpd_context->data.consts.
+						  content_type_txt,
+						  httpd_context->data.htdocs.
+						  robots_txt);
 		}
 	      if (!strcmp (request->uri, _GPL_TXT))
 		{
@@ -391,10 +390,10 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    _mod_httpd_response_from_str (httpd_context,
 						  _MOD_HTTPD_STATUS_200, 0, 0,
 						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.gpl_txt);
+						  httpd_context->data.consts.
+						  content_type_txt,
+						  httpd_context->data.htdocs.
+						  gpl_txt);
 		}
 	      if (!strcmp (request->uri, _FAVICON_ICO))
 		{
@@ -402,12 +401,12 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    _mod_httpd_response_from_bin (httpd_context,
 						  _MOD_HTTPD_STATUS_200, 0, 0,
 						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.favicon_ico_size,
-						  httpd_context->data.
-						  htdocs.favicon_ico_data);
+						  httpd_context->data.consts.
+						  content_type_txt,
+						  httpd_context->data.htdocs.
+						  favicon_ico_size,
+						  httpd_context->data.htdocs.
+						  favicon_ico_data);
 		}
 	      if (!strcmp (request->uri, _PING_TXT))
 		{
@@ -415,9 +414,8 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    _mod_httpd_response_from_str (httpd_context,
 						  _MOD_HTTPD_STATUS_200, 0, 0,
 						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  _PONG);
+						  httpd_context->data.consts.
+						  content_type_txt, _PONG);
 		}
 	    }
 	}
