@@ -1,5 +1,11 @@
 2010-08-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* When a client connects on TCP, register it as a possible server.
+
+	* Implemented oob for mod_tcpd.
+
+	* Default max nodes is now 12 (2 more than max colors).
+
 	* Factorized INFO & LIST generation.
 
 	* Added max_nb_cursors and max_nb_nodes to node_info.

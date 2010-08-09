@@ -115,17 +115,16 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
     {
       request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
 
-      if (_mod_httpd_timeout_ok (httpd_context, oob_data->creation_timestamp))
+      if (_mod_httpd_oob_should_continue (httpd_context, oob_data))
 	{
 	  request->first_line = lw6net_recv_line_tcp (oob_data->sock);
 	  if (request->first_line)
 	    {
 	      if (_parse_first_line (request))
 		{
-		  while ((!eof) &&
-			 _mod_httpd_timeout_ok (httpd_context,
-						oob_data->creation_timestamp)
-			 && lw6net_tcp_is_alive (oob_data->sock))
+		  while ((!eof)
+			 && _mod_httpd_oob_should_continue (httpd_context,
+							    oob_data))
 		    {
 		      line = lw6net_recv_line_tcp (oob_data->sock);
 		      if (line)
@@ -149,6 +148,14 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
 	   * avoid suspicious NULL-string bugs, and let the following code
 	   * return error 500.
 	   */
+	  if (request->first_line)
+	    {
+	      LW6SYS_FREE (request->first_line);
+	    }
+	  if (request->uri)
+	    {
+	      LW6SYS_FREE (request->uri);
+	    }
 	  request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
 	  request->get_head_post = 0;
 	  request->uri = lw6sys_str_copy (_ERROR_URI);

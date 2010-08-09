@@ -31,6 +31,15 @@
 #define _MOD_TCPD_PROTOCOL_N_SIZE 1
 #define _MOD_TCPD_PROTOCOL_R_STRING "\r"
 #define _MOD_TCPD_PROTOCOL_R_SIZE 1
+#define _MOD_TCPD_PROTOCOL_INFO_STRING "INFO"
+#define _MOD_TCPD_PROTOCOL_INFO_SIZE 4
+#define _MOD_TCPD_PROTOCOL_LIST_STRING "LIST"
+#define _MOD_TCPD_PROTOCOL_LIST_SIZE 4
+#define _MOD_TCPD_PROTOCOL_PING_STRING "PING"
+#define _MOD_TCPD_PROTOCOL_PING_SIZE 4
+
+#define _MOD_TCPD_TIMEOUT 60
+#define _MOD_TCPD_LW6_ERROR "LW6 ERROR"
 
 typedef struct _tcpd_context_s
 {
@@ -75,6 +84,8 @@ extern void _mod_tcpd_close (_tcpd_context_t * tcpd_context,
 			     lw6srv_connection_t * connection);
 extern int _mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
 			       lw6srv_connection_t * connection);
+extern int _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
+				 int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -96,5 +107,7 @@ extern char *_mod_tcpd_error (_tcpd_context_t * tcpd_context,
 extern int _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 				  lw6nod_info_t * node_info,
 				  lw6srv_oob_data_t * oob_data);
+extern int _mod_tcpd_oob_should_continue (_tcpd_context_t * tcpd_context,
+					  lw6srv_oob_data_t * oob_data);
 
 #endif

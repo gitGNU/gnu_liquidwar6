@@ -324,11 +324,11 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 	    }
 	  if (!exists)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("discovered \"%s\""),
-			  public_url);
-	      copy_of_url = lw6sys_str_copy (public_url);
+	      copy_of_url = lw6sys_url_canonize (public_url);
 	      if (copy_of_url)
 		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("discovered \"%s\""),
+			      copy_of_url);
 		  lw6sys_fifo_push (&(info->discovered_nodes),
 				    (void *) copy_of_url);
 		}
@@ -550,6 +550,31 @@ lw6nod_info_generate_oob_list (lw6nod_info_t * info)
 	}
       lw6nod_dyn_info_free (dyn_info);
     }
+
+  return ret;
+}
+
+/**
+ * lw6nod_info_generate_oob_pong
+ *
+ * @info: the node to generate info about
+ *
+ * Generates a standard response to the PING question for OOB
+ * (out of band) messages. The same message is sent, be it
+ * on http or tcp or udp, so it's factorized here. Function
+ * will lock the info object when needed.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6nod_info_generate_oob_pong (lw6nod_info_t * info)
+{
+  char *ret = NULL;
+  int uptime = 0;
+
+  uptime =
+    (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
+  ret = lw6sys_new_sprintf ("PONG %d\n\n", uptime);
 
   return ret;
 }

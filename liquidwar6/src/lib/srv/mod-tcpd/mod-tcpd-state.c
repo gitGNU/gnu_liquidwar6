@@ -44,3 +44,16 @@ _mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
 
   return ret;
 }
+
+int
+_mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
+		      int64_t origin_timestamp)
+{
+  int ret = 0;
+  int d = 0;
+
+  d = origin_timestamp + (_MOD_TCPD_TIMEOUT * 1000) - lw6sys_get_timestamp ();
+  ret = (d > 0);
+
+  return ret;
+}

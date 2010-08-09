@@ -32,6 +32,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
+  char *upper = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("trying to recognize tcpd protocol"));
 
@@ -42,12 +43,31 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
       tcp_accepter->sock = -1;
     }
 
-  if (!strncmp
-      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
-       _MOD_TCPD_PROTOCOL_LW6_SIZE))
+  upper = lw6sys_str_copy (tcp_accepter->first_line);
+  if (upper)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol"));
-      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+      lw6sys_str_toupper (upper);
+      if (!strncmp
+	  (upper, _MOD_TCPD_PROTOCOL_LW6_STRING, _MOD_TCPD_PROTOCOL_LW6_SIZE))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol"));
+	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+	}
+      if ((upper[0] == '\n') || (upper[0] == '\r') ||
+	  !strncmp
+	  (upper, _MOD_TCPD_PROTOCOL_INFO_STRING,
+	   _MOD_TCPD_PROTOCOL_INFO_SIZE)
+	  || !strncmp
+	  (upper, _MOD_TCPD_PROTOCOL_LIST_STRING,
+	   _MOD_TCPD_PROTOCOL_LIST_SIZE)
+	  || !strncmp
+	  (upper, _MOD_TCPD_PROTOCOL_PING_STRING,
+	   _MOD_TCPD_PROTOCOL_PING_SIZE))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
+	  ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+	}
+      LW6SYS_FREE (upper);
     }
 
   return ret;

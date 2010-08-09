@@ -368,6 +368,14 @@ test_node ()
 	    LW6SYS_FREE (oob);
 	  }
 
+	oob = lw6nod_info_generate_oob_pong (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob PONG is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+
 	lw6nod_info_free (info);
       }
   }
