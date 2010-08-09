@@ -25,26 +25,10 @@
 
 #include "../sys/sys.h"
 
-#define LW6NOD_MSG_HELLO "HELLO"
-#define LW6NOD_MSG_GOODBYE "GOODBYE"
-
 #define LW6NOD_MSG_INFO "INFO"
 #define LW6NOD_MSG_LIST "LIST"
-
-#define LW6NOD_MSG_PROGRAM "PROGRAM"
-#define LW6NOD_MSG_VERSION "VERSION"
-#define LW6NOD_MSG_UPTIME "UPTIME"
-#define LW6NOD_MSG_NODE "ID"
-#define LW6NOD_MSG_URL "URL"
-#define LW6NOD_MSG_TITLE "TITLE"
-#define LW6NOD_MSG_DESCRIPTION "DESCRIPTION"
-#define LW6NOD_MSG_BENCH "BENCH"
-#define LW6NOD_MSG_LEVEL "LEVEL"
-#define LW6NOD_MSG_REQUIRED "REQUIRED"
-#define LW6NOD_MSG_LIMIT "LIMIT"
-#define LW6NOD_MSG_COLORS "COLORS"
-#define LW6NOD_MSG_NODES "NODES"
-#define LW6NOD_MSG_CURSORS "CURSORS"
+#define LW6NOD_MSG_PING "PING"
+#define LW6NOD_MSG_PONG "PONG"
 
 typedef struct lw6nod_const_info_s
 {
@@ -61,11 +45,13 @@ typedef struct lw6nod_const_info_s
 typedef struct lw6nod_dyn_info_s
 {
   char *level;
-  int required;			// bench required to connect
-  int limit;			// max number of colors
-  int colors;			// number of colors
-  int nodes;			// number of nodes
-  int cursors;			// number of nodes
+  int required_bench;
+  int nb_colors;
+  int max_nb_colors;
+  int nb_cursors;
+  int max_nb_cursors;
+  int nb_nodes;
+  int max_nb_nodes;
   int game_screenshot_size;
   void *game_screenshot_data;
 } lw6nod_dyn_info_t;
@@ -92,11 +78,13 @@ extern int lw6nod_info_lock (lw6nod_info_t * info);
 extern int lw6nod_info_unlock (lw6nod_info_t * info);
 extern void lw6nod_info_idle (lw6nod_info_t * info);
 extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
-			       int required,
-			       int limit,
-			       int colors,
-			       int nodes,
-			       int cursors,
+			       int required_bench,
+			       int nb_colors,
+			       int max_nb_colors,
+			       int nb_cursors,
+			       int max_nb_cursors,
+			       int nb_nodes,
+			       int max_nb_nodes,
 			       int game_screenshot_size,
 			       void *game_screenshot_data);
 extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
@@ -108,6 +96,8 @@ extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,
 extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
 					    lw6sys_list_callback_func_t func,
 					    void *func_data);
+extern char *lw6nod_info_generate_oob_info (lw6nod_info_t * info);
+extern char *lw6nod_info_generate_oob_list (lw6nod_info_t * info);
 
 /* nod-test.c */
 extern int lw6nod_test (int mode);

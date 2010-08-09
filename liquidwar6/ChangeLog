@@ -1,3 +1,9 @@
+2010-08-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Factorized INFO & LIST generation.
+
+	* Added max_nb_cursors and max_nb_nodes to node_info.
+
 2010-08-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Display of info.txt & list.txt OK on httpd.

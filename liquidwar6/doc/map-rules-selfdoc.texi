@@ -197,7 +197,7 @@ sense in network games. Default value is 26, the maximum.
 @deffnx {XML key} @code{max-nb-nodes}
 Type: integer
 
-Default value: 10
+Default value: 12
 Min value: 2
 Max value: 26
 

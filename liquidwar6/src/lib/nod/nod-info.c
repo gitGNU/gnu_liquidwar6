@@ -195,10 +195,13 @@ lw6nod_info_idle (lw6nod_info_t * info)
  *
  * @info: the node info to update
  * @level: the name of the current level (map)
- * @required: the bench required to connect
- * @limit: the max number of colors
- * @nodes: the number of colors
- * @cursors: the number of cursors
+ * @required_bench: the bench required to connect
+ * @nb_colors: number of colors playing
+ * @max_nb_colors: max number of colors allowed
+ * @nb_cursors: number of cursors playing
+ * @max_nb_cursors: max number of cursors allowed
+ * @nb_nodes: number of nodes playing
+ * @max_nb_nodes: max number of nodes allowed
  * @game_screenshot_size: size of screenshot (bytes)
  * @game_screenshot_data: screenshot data (byte buffer, contains JPEG)
  *
@@ -211,11 +214,13 @@ lw6nod_info_idle (lw6nod_info_t * info)
  */
 int
 lw6nod_info_update (lw6nod_info_t * info, char *level,
-		    int required,
-		    int limit,
-		    int colors,
-		    int nodes,
-		    int cursors,
+		    int required_bench,
+		    int nb_colors,
+		    int max_nb_colors,
+		    int nb_cursors,
+		    int max_nb_cursors,
+		    int nb_nodes,
+		    int max_nb_nodes,
 		    int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 0;
@@ -223,9 +228,10 @@ lw6nod_info_update (lw6nod_info_t * info, char *level,
   if (lw6nod_info_lock (info))
     {
       ret =
-	_lw6nod_dyn_info_update (&(info->dyn_info), level, required, limit,
-				 colors, nodes, cursors, game_screenshot_size,
-				 game_screenshot_data);
+	_lw6nod_dyn_info_update (&(info->dyn_info), level, required_bench,
+				 nb_colors, max_nb_colors, nb_cursors,
+				 max_nb_cursors, nb_nodes, max_nb_nodes,
+				 game_screenshot_size, game_screenshot_data);
       lw6nod_info_unlock (info);
     }
 
@@ -255,9 +261,10 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
       if (lw6nod_info_lock (info))
 	{
 	  if (_lw6nod_dyn_info_update
-	      (dyn_info, info->dyn_info.level, info->dyn_info.required,
-	       info->dyn_info.limit, info->dyn_info.colors,
-	       info->dyn_info.nodes, info->dyn_info.cursors,
+	      (dyn_info, info->dyn_info.level, info->dyn_info.required_bench,
+	       info->dyn_info.nb_colors, info->dyn_info.max_nb_colors,
+	       info->dyn_info.nb_cursors, info->dyn_info.max_nb_cursors,
+	       info->dyn_info.nb_nodes, info->dyn_info.max_nb_nodes,
 	       info->dyn_info.game_screenshot_size,
 	       info->dyn_info.game_screenshot_data))
 	    {
@@ -430,4 +437,119 @@ lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
 	}
       lw6nod_info_unlock (info);
     }
+}
+
+/**
+ * lw6nod_info_generate_oob_info
+ *
+ * @info: the node to generate info about
+ *
+ * Generates a standard response to the INFO question for OOB
+ * (out of band) messages. The same message is sent, be it
+ * on http or tcp or udp, so it's factorized here. Function
+ * will lock the info object when needed.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6nod_info_generate_oob_info (lw6nod_info_t * info)
+{
+  char *ret = NULL;
+  lw6nod_dyn_info_t *dyn_info = NULL;
+  char *level = "";
+  int uptime = 0;
+
+  dyn_info = lw6nod_info_dup_dyn (info);
+  if (dyn_info)
+    {
+      uptime =
+	(lw6sys_get_timestamp () -
+	 info->const_info.creation_timestamp) / 1000;
+      if (dyn_info->level)
+	{
+	  level = dyn_info->level;
+	}
+      ret =
+	lw6sys_new_sprintf
+	("Program: %s\nVersion: %s\nCodename: %s\nStamp: %s\nId: %s\nUrl: %s\nTitle: %s\nDescription: %s\nUptime: %d\nLevel: %s\nBench: %d\nRequired bench: %d\nNb-Colors: %d\nMax-Nb-Colors: %d\nNb-Cursors: %d\nMax-Nb-Cursors: %d\nNb-Nodes: %d\nMax-Nb-Nodes: %d\n\n",
+	 lw6sys_build_get_package_tarname (), lw6sys_build_get_version (),
+	 lw6sys_build_get_codename (), lw6sys_build_get_stamp (),
+	 info->const_info.id, info->const_info.url,
+	 info->const_info.title, info->const_info.description, uptime,
+	 level,
+	 info->const_info.bench, dyn_info->required_bench,
+	 dyn_info->nb_colors,
+	 dyn_info->max_nb_colors,
+	 dyn_info->nb_cursors,
+	 dyn_info->max_nb_cursors,
+	 dyn_info->nb_nodes, dyn_info->max_nb_nodes);
+      lw6nod_dyn_info_free (dyn_info);
+    }
+
+  return ret;
+}
+
+static void
+_add_node_txt (void *func_data, void *data)
+{
+  char **list = (char **) func_data;
+  char *url = (char *) data;
+  char *tmp = NULL;
+
+  /*
+   * We use this instead of a simple "join with sep=space"
+   * on the list object? This is because we can only
+   * access it through the map function because of locking issues
+   */
+  if (list && (*list) && url)
+    {
+      tmp = lw6sys_new_sprintf ("%s%s\n", *list, url);
+      if (tmp)
+	{
+	  LW6SYS_FREE (*list);
+	  (*list) = tmp;
+	}
+    }
+}
+
+/**
+ * lw6nod_info_generate_oob_list
+ *
+ * @info: the node to generate info about
+ *
+ * Generates a standard response to the LIST question for OOB
+ * (out of band) messages. The same message is sent, be it
+ * on http or tcp or udp, so it's factorized here. Function
+ * will lock the info object when needed.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6nod_info_generate_oob_list (lw6nod_info_t * info)
+{
+  char *ret = NULL;
+  lw6nod_dyn_info_t *dyn_info = NULL;
+  char *tmp;
+
+  dyn_info = lw6nod_info_dup_dyn (info);
+  if (dyn_info)
+    {
+      ret = lw6sys_new_sprintf ("");
+      if (ret)
+	{
+	  lw6nod_info_map_verified_nodes (info, _add_node_txt, &ret);
+	  if (ret)
+	    {
+	      tmp = lw6sys_str_concat (ret, "\n");
+	      if (tmp)
+		{
+		  LW6SYS_FREE (ret);
+		  ret = tmp;
+		}
+	    }
+	}
+      lw6nod_dyn_info_free (dyn_info);
+    }
+
+  return ret;
 }

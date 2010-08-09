@@ -35,11 +35,13 @@ _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
       LW6SYS_FREE (dyn_info->level);
       dyn_info->level = lw6sys_str_copy ("");
     }
-  dyn_info->required = 0;
-  dyn_info->limit = 0;
-  dyn_info->colors = 0;
-  dyn_info->nodes = 0;
-  dyn_info->cursors = 0;
+  dyn_info->required_bench = 0;
+  dyn_info->nb_colors = 0;
+  dyn_info->max_nb_colors = 0;
+  dyn_info->nb_cursors = 0;
+  dyn_info->max_nb_cursors = 0;
+  dyn_info->nb_nodes = 0;
+  dyn_info->max_nb_nodes = 0;
   if (dyn_info->game_screenshot_data)
     {
       LW6SYS_FREE (dyn_info->game_screenshot_data);
@@ -49,11 +51,13 @@ _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
 
 int
 _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
-			 int required,
-			 int limit,
-			 int colors,
-			 int nodes,
-			 int cursors,
+			 int required_bench,
+			 int nb_colors,
+			 int max_nb_colors,
+			 int nb_cursors,
+			 int max_nb_cursors,
+			 int nb_nodes,
+			 int max_nb_nodes,
 			 int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 0;
@@ -67,11 +71,13 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
     {
       dyn_info->level = lw6sys_str_copy (level);
     }
-  dyn_info->required = required;
-  dyn_info->limit = limit;
-  dyn_info->colors = colors;
-  dyn_info->nodes = nodes;
-  dyn_info->cursors = cursors;
+  dyn_info->required_bench = required_bench;
+  dyn_info->nb_colors = nb_colors;
+  dyn_info->max_nb_colors = max_nb_colors;
+  dyn_info->nb_cursors = nb_cursors;
+  dyn_info->max_nb_cursors = max_nb_cursors;
+  dyn_info->nb_nodes = nb_nodes;
+  dyn_info->max_nb_nodes = max_nb_nodes;
   dyn_info->game_screenshot_size = game_screenshot_size;
   if (dyn_info->game_screenshot_data)
     {

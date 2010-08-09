@@ -36,11 +36,13 @@ extern void _lw6nod_const_info_reset (lw6nod_const_info_t * const_info);
 /* nod-dyninfo.c */
 extern void _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info);
 extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, char *level,
-				    int required,
-				    int limit,
-				    int colors,
-				    int nodes,
-				    int cursors,
+				    int required_bench,
+				    int nb_colors,
+				    int max_nb_colors,
+				    int nb_cursors,
+				    int max_nb_cursors,
+				    int nb_nodes,
+				    int max_nb_nodes,
 				    int game_screenshot_size,
 				    void *game_screenshot_data);
 

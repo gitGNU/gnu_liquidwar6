@@ -40,11 +40,13 @@
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_LEVEL "toto.map"
-#define _TEST_REQUIRED 7
-#define _TEST_LIMIT 6
-#define _TEST_COLORS 3
-#define _TEST_NODES 2
-#define _TEST_CURSORS 3
+#define _TEST_REQUIRED_BENCH 7
+#define _TEST_NB_COLORS 3
+#define _TEST_MAX_NB_COLORS 10
+#define _TEST_NB_CURSORS 6
+#define _TEST_MAX_NB_CURSORS 26
+#define _TEST_NB_NODES 2
+#define _TEST_MAX_NB_NODES 12
 #define _TEST_GAME_SCREENSHOT_SIZE 10
 #define _TEST_GAME_SCREENSHOT_DATA "123456789"
 
@@ -90,8 +92,10 @@ _node_update_callback (void *data)
   while (lw6sys_get_timestamp () < stop_timestamp)
     {
       ret =
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
-			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
+			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
+			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
+			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
 			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
       if (first_time)
@@ -262,6 +266,7 @@ test_node ()
     void *thread_update = NULL;
     void *thread_dup_dyn = NULL;
     char *url = NULL;
+    char *oob = NULL;
 
     ret = 0;
     info =
@@ -270,16 +275,19 @@ test_node ()
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
-			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
+			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
+			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
+			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
 			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 	lw6nod_info_idle (info);
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED, _TEST_LIMIT,
-			    _TEST_COLORS, _TEST_NODES, _TEST_CURSORS,
+	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
+			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
+			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
+			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
 			    _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
-
 
 	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
 	  {
@@ -344,6 +352,22 @@ test_node ()
 	      }
 	    lw6sys_thread_join (thread_map_verified);
 	  }
+
+	oob = lw6nod_info_generate_oob_info (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob INFO is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+	oob = lw6nod_info_generate_oob_list (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob LIST is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+
 	lw6nod_info_free (info);
       }
   }

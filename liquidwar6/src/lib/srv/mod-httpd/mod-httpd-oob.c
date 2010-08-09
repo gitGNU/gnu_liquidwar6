@@ -69,9 +69,7 @@ _add_node_html (void *func_data, void *data)
 
 static _httpd_response_t *
 _response_index_html (_httpd_context_t * httpd_context,
-		      lw6nod_info_t * node_info,
-		      lw6nod_dyn_info_t * dyn_info,
-		      lw6srv_oob_data_t * oob_data)
+		      lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
 {
   _httpd_response_t *response = NULL;
   char *content = NULL;
@@ -137,12 +135,16 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    /*
 				     * Info
 				     */
-				    node_info->const_info.bench,
 				    uptime,
 				    level,
-				    dyn_info->colors,
-				    dyn_info->limit,
-				    dyn_info->nodes, dyn_info->cursors,
+				    node_info->const_info.bench,
+				    dyn_info->required_bench,
+				    dyn_info->nb_colors,
+				    dyn_info->max_nb_colors,
+				    dyn_info->nb_cursors,
+				    dyn_info->max_nb_cursors,
+				    dyn_info->nb_nodes,
+				    dyn_info->max_nb_nodes,
 				    /*
 				     * List
 				     */
@@ -173,8 +175,7 @@ _response_index_html (_httpd_context_t * httpd_context,
 static _httpd_response_t *
 _response_screenshot_jpeg (_httpd_context_t * httpd_context,
 			   lw6nod_info_t * node_info,
-			   lw6nod_dyn_info_t * dyn_info,
-			   lw6srv_oob_data_t * oob_data)
+			   lw6nod_dyn_info_t * dyn_info)
 {
   _httpd_response_t *response = NULL;
   int screenshot_size = 0;
@@ -215,31 +216,12 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
 
 static _httpd_response_t *
 _response_info_txt (_httpd_context_t * httpd_context,
-		    lw6nod_info_t * node_info,
-		    lw6nod_dyn_info_t * dyn_info,
-		    lw6srv_oob_data_t * oob_data)
+		    lw6nod_info_t * node_info)
 {
   _httpd_response_t *response = NULL;
   char *content = NULL;
-  char *level = "";
-  int uptime = 0;
 
-  uptime =
-    (lw6sys_get_timestamp () -
-     node_info->const_info.creation_timestamp) / 1000;
-  if (dyn_info->level)
-    {
-      level = dyn_info->level;
-    }
-  content =
-    lw6sys_new_sprintf
-    ("Program: %s\nVersion: %s\nCodename: %s\nStamp: %s\nId: %s\nUrl: %s\nTitle: %s\nDescription: %s\nBench: %d\nUptime: %d\nLevel: %s\nRequired: %d\nLimit: %d\nColors: %d\nNodes: %d\nCursors: %d\n",
-     lw6sys_build_get_package_tarname (), lw6sys_build_get_version (),
-     lw6sys_build_get_codename (), lw6sys_build_get_stamp (),
-     node_info->const_info.id, node_info->const_info.url,
-     node_info->const_info.title, node_info->const_info.description,
-     node_info->const_info.bench, uptime, level, dyn_info->required,
-     dyn_info->limit, dyn_info->colors, dyn_info->nodes, dyn_info->cursors);
+  content = lw6nod_info_generate_oob_info (node_info);
   if (content)
     {
       response =
@@ -255,49 +237,16 @@ _response_info_txt (_httpd_context_t * httpd_context,
   return response;
 }
 
-static void
-_add_node_txt (void *func_data, void *data)
-{
-  char **list = (char **) func_data;
-  char *url = (char *) data;
-  char *tmp = NULL;
-
-  /*
-   * We use this instead of a simple "join with sep=space"
-   * on the list object? This is because we can only
-   * access it through the map function because of locking issues
-   */
-  if (list && (*list) && url)
-    {
-      if (strlen (*list) > 0)
-	{
-	  tmp = lw6sys_new_sprintf ("%s %s", *list, url);
-	}
-      else
-	{
-	  tmp = lw6sys_new_sprintf ("%s", url);
-	}
-      if (tmp)
-	{
-	  LW6SYS_FREE (*list);
-	  (*list) = tmp;
-	}
-    }
-}
-
 static _httpd_response_t *
 _response_list_txt (_httpd_context_t * httpd_context,
-		    lw6nod_info_t * node_info,
-		    lw6nod_dyn_info_t * dyn_info,
-		    lw6srv_oob_data_t * oob_data)
+		    lw6nod_info_t * node_info)
 {
   _httpd_response_t *response = NULL;
   char *content = NULL;
 
-  content = lw6sys_new_sprintf ("");
+  content = lw6nod_info_generate_oob_list (node_info);
   if (content)
     {
-      lw6nod_info_map_verified_nodes (node_info, _add_node_txt, &content);
       response =
 	_mod_httpd_response_from_str (httpd_context,
 				      _MOD_HTTPD_STATUS_200, 1,
@@ -331,9 +280,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 	{
 	  if (!strcmp (request->uri, _ROOT)
 	      || !strcmp (request->uri, _INDEX_HTML)
-	      || !strcmp (request->uri, _SCREENSHOT_JPEG)
-	      || !strcmp (request->uri, _INFO_TXT)
-	      || !strcmp (request->uri, _LIST_TXT))
+	      || !strcmp (request->uri, _SCREENSHOT_JPEG))
 	    {
 	      dyn_info = lw6nod_info_dup_dyn (node_info);
 	      if (dyn_info)
@@ -343,25 +290,13 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		    {
 		      response =
 			_response_index_html (httpd_context, node_info,
-					      dyn_info, oob_data);
+					      dyn_info);
 		    }
 		  if (!strcmp (request->uri, _SCREENSHOT_JPEG))
 		    {
 		      response =
 			_response_screenshot_jpeg (httpd_context, node_info,
-						   dyn_info, oob_data);
-		    }
-		  if (!strcmp (request->uri, _INFO_TXT))
-		    {
-		      response =
-			_response_info_txt (httpd_context, node_info,
-					    dyn_info, oob_data);
-		    }
-		  if (!strcmp (request->uri, _LIST_TXT))
-		    {
-		      response =
-			_response_list_txt (httpd_context, node_info,
-					    dyn_info, oob_data);
+						   dyn_info);
 		    }
 		  lw6nod_dyn_info_free (dyn_info);
 		}
@@ -373,6 +308,14 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
+	      if (!strcmp (request->uri, _INFO_TXT))
+		{
+		  response = _response_info_txt (httpd_context, node_info);
+		}
+	      if (!strcmp (request->uri, _LIST_TXT))
+		{
+		  response = _response_list_txt (httpd_context, node_info);
+		}
 	      if (!strcmp (request->uri, _ROBOTS_TXT))
 		{
 		  response =
