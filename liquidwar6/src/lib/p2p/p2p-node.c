@@ -264,15 +264,22 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	}
     }
 
-  if (node && ret && node->bind_ip && node->public_url && node->password)
+  if (node && ret && node->node_id_str && node->public_url && node->node_info
+      && node->node_info->const_info.title
+      && node->node_info->const_info.description && node->bind_ip)
     {
       ret = 0;
       query =
 	lw6sys_new_sprintf (_lw6p2p_db_get_query
 			    (node->db,
-			     _LW6P2P_INSERT_NODE_SQL), node->node_id_str,
-			    _LW6P2P_DB_TRUE, node->bind_ip,
-			    node->bind_port, node->public_url);
+			     _LW6P2P_INSERT_LOCAL_NODE_SQL),
+			    (int) lw6sys_get_timestamp () / 1000,
+			    node->node_id_str,
+			    node->public_url,
+			    node->node_info->const_info.title,
+			    node->node_info->const_info.description,
+			    node->node_info->const_info.bench,
+			    node->bind_ip, node->bind_port, _LW6P2P_DB_TRUE);
       if (query)
 	{
 	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);

@@ -128,8 +128,48 @@ int
 _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
+  char *query = NULL;
+  char *insert = NULL;
+  char *tmp;
+  char *url = NULL;
+  lw6sys_list_t *list = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("flush discovered nodes"));
+
+  query = lw6sys_str_copy ("");
+  if (query)
+    {
+      list = lw6nod_info_pop_discovered_nodes (node->node_info);
+      if (list)
+	{
+	  while ((url = (char *) lw6sys_list_pop_front (&list)) != NULL)
+	    {
+	      insert =
+		lw6sys_new_sprintf (_lw6p2p_db_get_query
+				    (node->db,
+				     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
+				    url);
+	      if (insert)
+		{
+		  tmp = lw6sys_str_concat (query, insert);
+		  LW6SYS_FREE (insert);
+		  if (tmp)
+		    {
+		      LW6SYS_FREE (query);
+		      query = tmp;
+		    }
+		}
+	      LW6SYS_FREE (url);
+	    }
+	  if (list)
+	    {
+	      lw6sys_list_free (list);
+	    }
+	  TMP (query);
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	}
+      LW6SYS_FREE (query);
+    }
 
   return ret;
 }

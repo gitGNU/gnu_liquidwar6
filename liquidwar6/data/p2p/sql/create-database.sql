@@ -18,11 +18,25 @@
 -- Contact author        : ufoot@ufoot.org
 
 CREATE TABLE IF NOT EXISTS lw6_node(
-	node_id VARCHAR(16) PRIMARY KEY,
-	is_local INTEGER NOT NULL, 
-	node_ip VARCHAR(64) NOT NULL,
-	node_port INTEGER NOT NULL,
-	public_url VARCHAR(1024) NOT NULL,
+        -- Fields mapped on C object 
+	node_creation_timestamp INTEGER,
+	node_id VARCHAR(16),
+	node_url VARCHAR(1024) PRIMARY KEY,
+	node_title VARCHAR(256),
+	node_description VARCHAR(2048),
+        node_bench INTEGER,
+	node_level VARCHAR(1024),
+	node_required_bench INTEGER,
+	node_nb_colors INTEGER,
+	node_max_nb_colors INTEGER,
+	node_nb_cursors INTEGER,
+	node_max_nb_cursors INTEGER,
+	node_nb_nodes INTEGER,
+	node_max_nb_nodes INTEGER,
+	-- Additionnal data
+	ip VARCHAR(64),
+	port INTEGER,
+	is_local INTEGER DEFAULT 0 NOT NULL, 
 	last_ping_timestamp INTEGER DEFAULT 0 NOT NULL,
 	ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
 );

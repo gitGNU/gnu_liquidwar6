@@ -35,7 +35,8 @@
 #define _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL "delete-connection-by-ptr.sql"
 #define _LW6P2P_DELETE_NODE_BY_ID_SQL "delete-node-by-id.sql"
 #define _LW6P2P_INSERT_CONNECTION_SQL "insert-connection.sql"
-#define _LW6P2P_INSERT_NODE_SQL "insert-node.sql"
+#define _LW6P2P_INSERT_LOCAL_NODE_SQL "insert-local-node.sql"
+#define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
 #define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
 
 typedef struct _lw6p2p_consts_s
@@ -71,6 +72,7 @@ typedef struct _lw6p2p_db_s
   u_int32_t id;
   char *filename;
   _lw6p2p_data_t data;
+  void *mutex;
   sqlite3 *handler;
 } _lw6p2p_db_t;
 

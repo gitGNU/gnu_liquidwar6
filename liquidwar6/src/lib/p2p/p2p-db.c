@@ -68,80 +68,85 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 	  db->id = ++seq_id;
 	}
 
-      data_dir = lw6sys_get_data_dir (argc, argv);
-      if (data_dir)
+      db->mutex = lw6sys_mutex_create ();
+      if (db->mutex)
 	{
-	  if (_lw6p2p_data_load (&(db->data), data_dir))
+	  data_dir = lw6sys_get_data_dir (argc, argv);
+	  if (data_dir)
 	    {
-	      user_dir = lw6sys_get_user_dir (argc, argv);
-	      if (user_dir)
+	      if (_lw6p2p_data_load (&(db->data), data_dir))
 		{
-		  db->filename = lw6sys_path_concat (user_dir, name);
-		  if (db->filename)
+		  user_dir = lw6sys_get_user_dir (argc, argv);
+		  if (user_dir)
 		    {
-		      lw6sys_log (LW6SYS_LOG_INFO, _("opening db \"%s\""),
-				  db->filename);
-		      if (sqlite3_open (db->filename, &(db->handler)) ==
-			  SQLITE_OK)
+		      db->filename = lw6sys_path_concat (user_dir, name);
+		      if (db->filename)
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO, _("opened db \"%s\""),
+			  lw6sys_log (LW6SYS_LOG_INFO, _("opening db \"%s\""),
 				      db->filename);
-			  if (_lw6p2p_db_create_database (db))
+			  if (sqlite3_open (db->filename, &(db->handler)) ==
+			      SQLITE_OK)
 			    {
-			      if (_lw6p2p_db_clean_database (db))
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _("opened db \"%s\""),
+					  db->filename);
+			      if (_lw6p2p_db_create_database (db))
 				{
-				  /*
-				   * We clean just after we create, in
-				   * fact create won't clean, only
-				   * use CREATE IF NOT EXISTS so
-				   * in case program left database
-				   * in inconsistent state, we
-				   * need to force its cleanup.
-				   */
-				  ret = 1;
+				  if (_lw6p2p_db_clean_database (db))
+				    {
+				      /*
+				       * We clean just after we create, in
+				       * fact create won't clean, only
+				       * use CREATE IF NOT EXISTS so
+				       * in case program left database
+				       * in inconsistent state, we
+				       * need to force its cleanup.
+				       */
+				      ret = 1;
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_WARNING,
+						  _
+						  ("can't clean database \"%s\""),
+						  db->filename);
+				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_WARNING,
 					      _
-					      ("can't clean database \"%s\""),
+					      ("can't create database \"%s\""),
 					      db->filename);
 				}
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _
-					  ("can't create database \"%s\""),
-					  db->filename);
+			      if (db->handler)
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _
+					      ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
+					      db->filename,
+					      sqlite3_errcode (db->handler),
+					      sqlite3_errmsg (db->handler));
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _("can't open db \"%s\""));
+				}
 			    }
 			}
-		      else
-			{
-			  if (db->handler)
-			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _
-					  ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
-					  db->filename,
-					  sqlite3_errcode (db->handler),
-					  sqlite3_errmsg (db->handler));
-			    }
-			  else
-			    {
-			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _("can't open db \"%s\""));
-			    }
-			}
+		      LW6SYS_FREE (user_dir);
 		    }
-		  LW6SYS_FREE (user_dir);
 		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING, _("can't load p2p data"));
+		}
+	      LW6SYS_FREE (data_dir);
 	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("can't load p2p data"));
-	    }
-	  LW6SYS_FREE (data_dir);
 	}
     }
 
@@ -174,6 +179,10 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 {
   if (db)
     {
+      if (db->mutex)
+	{
+	  lw6sys_mutex_destroy (db->mutex);
+	}
       if (db->filename)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("closing db \"%s\""), db->filename);
@@ -266,40 +275,38 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
 int
 _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 {
-  int sqlite3_exec (sqlite3 *,	/* An open database */
-		    const char *sql,	/* SQL to be evaluated */
-		    int (*callback) (void *, int, char **, char **),	/* Callback function */
-		    void *,	/* 1st argument to callback */
-		    char **errmsg	/* Error msg written here */
-    );
   int ret = 0;
   int errcode = 0;
   char *errmsg = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("executing SQL statement \"%s\""), sql);
-  errcode = sqlite3_exec (db->handler, sql, NULL, NULL, &errmsg);
-  if (errcode == SQLITE_OK)
+  if (lw6sys_mutex_lock (db->mutex))
     {
-      ret = 1;
-    }
-  else
-    {
-      if (errmsg)
+      errcode = sqlite3_exec (db->handler, sql, NULL, NULL, &errmsg);
+      if (errcode == SQLITE_OK)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
-		      ("error executing SQL statement \"%s\" errcode=%d errmsg=\"%s\""),
-		      sql, errcode, errmsg);
-	  sqlite3_free (errmsg);
+	  ret = 1;
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("error executing SQL statement \"%s\" errcode=%d"),
-		      sql, errcode);
+	  if (errmsg)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _
+			  ("error executing SQL statement \"%s\" errcode=%d errmsg=\"%s\""),
+			  sql, errcode, errmsg);
+	      sqlite3_free (errmsg);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _
+			  ("error executing SQL statement \"%s\" errcode=%d"),
+			  sql, errcode);
+	    }
 	}
+      lw6sys_mutex_unlock (db->mutex);
     }
-
   return ret;
 }
 
