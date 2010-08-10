@@ -431,7 +431,6 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 		  //lw6sys_log (LW6SYS_LOG_DEBUG, _("connection from %s:%d"),ip,port);
 		  lw6sys_log (LW6SYS_LOG_INFO, _("connection from %s:%d"),
 			      ip, port);
-		  ip = NULL;	// tcp_accepter will free it
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
 					  tcp_accepter);
 
@@ -466,6 +465,8 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 			  LW6SYS_FREE (guessed_public_url);
 			}
 		    }
+
+		  ip = NULL;	// tcp_accepter will free it
 		}
 	      else
 		{
