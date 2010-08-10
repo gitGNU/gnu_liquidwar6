@@ -40,7 +40,9 @@
 
 typedef struct _lw6p2p_consts_s
 {
-  float sleep_delay;
+  int accept_delay;
+  int flush_verified_nodes_delay;
+  int flush_discovered_nodes_delay;
 }
 _lw6p2p_consts_t;
 
@@ -72,6 +74,13 @@ typedef struct _lw6p2p_db_s
   sqlite3 *handler;
 } _lw6p2p_db_t;
 
+typedef struct _lw6p2p_flush_s
+{
+  int64_t last_verified_nodes_timestamp;
+  int64_t last_discovered_nodes_timestamp;
+}
+_lw6p2p_flush_t;
+
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
@@ -91,6 +100,7 @@ typedef struct _lw6p2p_node_s
   int nb_srv_backends;
   lw6srv_backend_t **srv_backends;
   lw6sys_list_t *oobs;
+  _lw6p2p_flush_t flush;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_oob_callback_data_s
@@ -112,6 +122,12 @@ extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
 extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
+
+/* p2p-flush.c */
+extern int _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node);
+extern int _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node);
 
 /* p2p-node.c */
 extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],

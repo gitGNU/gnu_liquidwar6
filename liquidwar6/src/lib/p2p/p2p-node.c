@@ -422,7 +422,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 	{
 	  sock =
 	    lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
-			       node->db->data.consts.sleep_delay);
+			       node->db->data.consts.accept_delay / 1000.0f);
 	  if (sock >= 0 && ip != NULL && port > 0)
 	    {
 	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
@@ -613,51 +613,21 @@ _poll_step3_oob (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step4_known_nodes (_lw6p2p_node_t * node)
+_poll_step4_flush_discovered_nodes (_lw6p2p_node_t * node)
 {
-  int ret = 1;
-  lw6sys_list_t *list;
-  lw6sys_hash_t *hash;
-  char *url;
-  char *title;
-  int i;
-  lw6nod_info_t *verified_node = NULL;
+  int ret = 0;
 
-  /*
-   * TODO: make this transit through the database and servers
-   * be tested for good...
-   */
-  hash = lw6nod_info_new_verified_nodes ();
-  if (hash)
-    {
-      list = lw6sys_str_split_config_item (node->known_nodes);
-      if (list)
-	{
-	  i = 0;
-	  while ((url = lw6sys_list_pop_front (&list)) != NULL)
-	    {
-	      i++;
-	      title = lw6sys_itoa (i);
-	      if (title)
-		{
-		  verified_node =
-		    lw6nod_info_new (lw6sys_generate_id_64 (), url, title,
-				     "todo...", 10, 0, NULL);
-		  if (verified_node)
-		    {
-		      lw6sys_hash_set (hash, url, verified_node);
-		    }
-		  LW6SYS_FREE (title);
-		}
-	      LW6SYS_FREE (url);
-	    }
-	  if (list)
-	    {
-	      lw6sys_list_free (list);
-	    }
-	}
-      ret = lw6nod_info_set_verified_nodes (node->node_info, hash);
-    }
+  ret = _lw6p2p_flush_discovered_nodes_if_needed (node);
+
+  return ret;
+}
+
+static int
+_poll_step5_flush_verified_nodes (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  ret = _lw6p2p_flush_verified_nodes_if_needed (node);
 
   return ret;
 }
@@ -668,7 +638,8 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   int ret = 0;
 
   ret = _poll_step1_accept (node) && _poll_step2_reply (node)
-    && _poll_step3_oob (node) && _poll_step4_known_nodes (node);
+    && _poll_step3_oob (node) && _poll_step4_flush_discovered_nodes (node)
+    && _poll_step5_flush_verified_nodes (node);
 
   return ret;
 }

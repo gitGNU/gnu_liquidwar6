@@ -41,9 +41,13 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 
   consts = (_lw6p2p_consts_t *) callback_data;
 
-  if (!strcmp (element, "float"))
+  if (!strcmp (element, "int"))
     {
-      lw6cfg_read_xml_float (key, value, "sleep-delay", &consts->sleep_delay);
+      lw6cfg_read_xml_int (key, value, "accept-delay", &consts->accept_delay);
+      lw6cfg_read_xml_int (key, value, "flush-verified-nodes-delay",
+			   &consts->flush_verified_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "flush-discovered-nodes-delay",
+			   &consts->flush_discovered_nodes_delay);
     }
 }
 
