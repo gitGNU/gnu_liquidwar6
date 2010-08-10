@@ -39,7 +39,6 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
   char seek_c = '\0';
   char *command = NULL;
   char *given_public_url = NULL;
-  char *guessed_public_url = NULL;
   char *response = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process tcpd oob"));
@@ -89,18 +88,6 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	      if (!strcmp (command, _MOD_TCPD_PROTOCOL_PING_STRING))
 		{
 		  response = lw6nod_info_generate_oob_pong (node_info);
-		}
-	      guessed_public_url =
-		lw6sys_url_http_from_ip_port (oob_data->remote_ip,
-					      LW6NET_DEFAULT_PORT);
-	      if (guessed_public_url)
-		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("discovered node \"%s\" from guessed url"),
-			      guessed_public_url);
-		  lw6nod_info_add_discovered_node (node_info,
-						   guessed_public_url);
-		  LW6SYS_FREE (guessed_public_url);
 		}
 	      if (given_public_url)
 		{

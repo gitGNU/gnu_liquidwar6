@@ -291,7 +291,6 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
   _httpd_request_t *request = NULL;
   _httpd_response_t *response = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
-  char *guessed_public_url = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
 
@@ -431,18 +430,6 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO, _("request \"%s\" failed"),
 			  request->uri);
-	    }
-
-	  guessed_public_url =
-	    lw6sys_url_http_from_ip_port (oob_data->remote_ip,
-					  LW6NET_DEFAULT_PORT);
-	  if (guessed_public_url)
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("discovered node \"%s\" from guessed url"),
-			  guessed_public_url);
-	      lw6nod_info_add_discovered_node (node_info, guessed_public_url);
-	      LW6SYS_FREE (guessed_public_url);
 	    }
 
 	  _mod_httpd_response_free (response);

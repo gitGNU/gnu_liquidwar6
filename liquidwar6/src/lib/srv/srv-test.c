@@ -43,7 +43,7 @@
 #define _TEST_LINE "foo bar BARfoo bar.bar"
 
 #define _TEST_OOB_REMOTE_IP "1.2.3.4"
-#define _TEST_OOB_REMOTE_PORT 5678
+#define _TEST_OOB_REMOTE_PORT 6789
 #define _TEST_OOB_INVALID_SOCK -1
 
 static int

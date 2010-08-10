@@ -412,6 +412,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
   int port = 0;
   int sock;
   lw6srv_tcp_accepter_t *tcp_accepter = NULL;
+  char *guessed_public_url = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node"));
 
@@ -433,6 +434,38 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 		  ip = NULL;	// tcp_accepter will free it
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
 					  tcp_accepter);
+
+		  /*
+		   * Now we register this peer as a potential server,
+		   * it will be qualified as a real server (or not) later
+		   */
+		  guessed_public_url =
+		    lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
+		  if (guessed_public_url)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _
+				  ("discovered node \"%s\" from guessed url"),
+				  guessed_public_url);
+		      lw6nod_info_add_discovered_node (node->node_info,
+						       guessed_public_url);
+		      LW6SYS_FREE (guessed_public_url);
+		    }
+		  if (node->bind_port != LW6NET_DEFAULT_PORT)
+		    {
+		      guessed_public_url =
+			lw6sys_url_http_from_ip_port (ip, node->bind_port);
+		      if (guessed_public_url)
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _
+				      ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
+				      guessed_public_url, node->bind_port);
+			  lw6nod_info_add_discovered_node (node->node_info,
+							   guessed_public_url);
+			  LW6SYS_FREE (guessed_public_url);
+			}
+		    }
 		}
 	      else
 		{

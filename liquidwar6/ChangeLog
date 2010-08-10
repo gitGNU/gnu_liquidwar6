@@ -1,3 +1,7 @@
+2010-08-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed checksum, factorized client registeration.
+
 2010-08-09 : Christian Mauduit <ufoot@ufoot.org>
 
 	* When a client connects on TCP, register it as a possible server.
