@@ -165,7 +165,6 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
 	    {
 	      lw6sys_list_free (list);
 	    }
-	  TMP (query);
 	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
 	}
       LW6SYS_FREE (query);
