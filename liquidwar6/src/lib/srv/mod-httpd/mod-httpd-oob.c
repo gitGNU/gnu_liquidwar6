@@ -41,27 +41,42 @@
 #define _DUMMY_RANGE 1000000
 
 static void
-_add_node_html (void *func_data, void *data)
+_add_node_html (void *func_data, char *key, void *value)
 {
   char **list = (char **) func_data;
-  char *url = (char *) data;
   char *tmp = NULL;
-
-  if (list && (*list) && url)
+  lw6nod_info_t *verified_node = (lw6nod_info_t *) value;
+  char *title = NULL;
+  if (list && (*list) && key && verified_node)
     {
-      if (strlen (*list) > 0)
+      if (!strcmp (key, verified_node->const_info.url))
 	{
-	  tmp =
-	    lw6sys_new_sprintf ("%s, <a href=\"%s\">%s</a>", *list, url, url);
+	  title = verified_node->const_info.title;
+	  if ((!title) || (title && strlen (title) == 0))
+	    {
+	      title = key;
+	    }
+	  if (strlen (*list) > 0)
+	    {
+	      tmp =
+		lw6sys_new_sprintf ("%s, <a href=\"%s\">%s</a>", *list, key,
+				    title);
+	    }
+	  else
+	    {
+	      tmp = lw6sys_new_sprintf ("<a href=\"%s\">%s</a>", key, title);
+	    }
+	  if (tmp)
+	    {
+	      LW6SYS_FREE (*list);
+	      (*list) = tmp;
+	    }
 	}
       else
 	{
-	  tmp = lw6sys_new_sprintf ("<a href=\"%s\">%s</a>", url, url);
-	}
-      if (tmp)
-	{
-	  LW6SYS_FREE (*list);
-	  (*list) = tmp;
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("key is \"%s\" but const_info.url is \"%s\""), key,
+		      verified_node->const_info.url);
 	}
     }
 }

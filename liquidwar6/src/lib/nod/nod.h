@@ -61,8 +61,8 @@ typedef struct lw6nod_info_s
   void *mutex;
   lw6nod_const_info_t const_info;
   lw6nod_dyn_info_t dyn_info;
-  lw6sys_list_t *discovered_nodes;
-  lw6sys_list_t *verified_nodes;
+  lw6sys_hash_t *discovered_nodes;
+  lw6sys_hash_t *verified_nodes;
 } lw6nod_info_t;
 
 /* nod-dyninfo.c */
@@ -90,11 +90,12 @@ extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
 extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
 extern int lw6nod_info_add_discovered_node (lw6nod_info_t * info,
 					    char *public_url);
-extern char *lw6nod_info_pop_discovered_node (lw6nod_info_t * info);
+extern lw6sys_list_t *lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info);
+extern lw6sys_hash_t *lw6nod_info_new_verified_nodes ();
 extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,
-					   lw6sys_list_t * list);
+					   lw6sys_hash_t * hash);
 extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
-					    lw6sys_list_callback_func_t func,
+					    lw6sys_assoc_callback_func_t func,
 					    void *func_data);
 extern char *lw6nod_info_generate_oob_info (lw6nod_info_t * info);
 extern char *lw6nod_info_generate_oob_list (lw6nod_info_t * info);

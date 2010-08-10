@@ -25,6 +25,8 @@
 
 #include "nod.h"
 
+#define _LW6NOD_HASH_SIZE 31
+
 /* nod-constinfo.c */
 extern int _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 				    u_int64_t id, char *url, char *title,

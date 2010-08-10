@@ -33,6 +33,9 @@
 #define _TEST_PORT 10000
 #define _TEST_DELAY_MS 10000
 #define _TEST_ID 0x1212323242425252LL
+#define _TEST_ID_1 0x1234123412341234LL
+#define _TEST_ID_2 0x2345234523452345LL
+#define _TEST_ID_3 0x3456345634563456LL
 #define _TEST_URL "http://192.168.20.20:8000/"
 #define _TEST_TITLE "This is not a sentence"
 #define _TEST_DESCRIPTION "This is not an explanation about what this is."
@@ -150,6 +153,7 @@ static void
 _node_pop_discovered_callback (void *data)
 {
   lw6nod_info_t *info = (lw6nod_info_t *) data;
+  lw6sys_list_t *discovered_nodes = NULL;
   char *url = NULL;
   int64_t stop_timestamp = 0;
   int first_time = 1;
@@ -158,16 +162,25 @@ _node_pop_discovered_callback (void *data)
 
   while (lw6sys_get_timestamp () < stop_timestamp)
     {
-      url = lw6nod_info_pop_discovered_node (info);
-      if (url)
+      discovered_nodes = lw6nod_info_pop_discovered_nodes (info);
+      if (discovered_nodes)
 	{
 	  if (first_time)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_discovered_node \"%s\""),
-			  url);
+	      url = lw6sys_list_pop_front (&discovered_nodes);
+	      if (url)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("pop_discovered_node \"%s\""), url);
+		  LW6SYS_FREE (url);
+		}
 	      first_time = 0;
 	    }
-	  LW6SYS_FREE (url);
+	  // could be NULL because of pop
+	  if (discovered_nodes)
+	    {
+	      lw6sys_list_free (discovered_nodes);
+	    }
 	}
     }
 }
@@ -176,8 +189,9 @@ static void
 _node_set_verified_callback (void *data)
 {
   lw6nod_info_t *info = (lw6nod_info_t *) data;
-  lw6sys_list_t *list = NULL;
+  lw6sys_hash_t *hash = NULL;
   char *url = NULL;
+  lw6nod_info_t *verified_node = NULL;
   int64_t stop_timestamp = 0;
   int first_time = 1;
 
@@ -185,48 +199,94 @@ _node_set_verified_callback (void *data)
 
   while (lw6sys_get_timestamp () < stop_timestamp)
     {
-      list = lw6sys_list_new (lw6sys_free_callback);
-      if (list)
+      hash = lw6nod_info_new_verified_nodes ();
+      if (hash)
 	{
 	  url = lw6sys_url_http_from_ip_port (_TEST_IP_1, _TEST_PORT);
-	  lw6sys_fifo_push (&list, url);
-	  url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
-	  lw6sys_fifo_push (&list, url);
-	  url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
-	  lw6sys_fifo_push (&list, url);
-
-	  if (list)
+	  if (url)
 	    {
-	      if (first_time)
+	      verified_node =
+		lw6nod_info_new (_TEST_ID_1, url, _TEST_TITLE,
+				 _TEST_DESCRIPTION, _TEST_BENCH,
+				 _TEST_IDLE_SCREENSHOT_SIZE,
+				 _TEST_IDLE_SCREENSHOT_DATA);
+	      if (verified_node)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("setting list of verified nodes"));
-		  first_time = 0;
+		  lw6sys_hash_set (hash, url, verified_node);
 		}
-	      lw6nod_info_set_verified_nodes (info, list);
-	      // no need to free list
+	      LW6SYS_FREE (url);
 	    }
+	  url = lw6sys_url_http_from_ip_port (_TEST_IP_2, _TEST_PORT);
+	  if (url)
+	    {
+	      verified_node =
+		lw6nod_info_new (_TEST_ID_2, url, _TEST_TITLE,
+				 _TEST_DESCRIPTION, _TEST_BENCH,
+				 _TEST_IDLE_SCREENSHOT_SIZE,
+				 _TEST_IDLE_SCREENSHOT_DATA);
+	      if (verified_node)
+		{
+		  lw6sys_hash_set (hash, url, verified_node);
+		}
+	      LW6SYS_FREE (url);
+	    }
+	  url = lw6sys_url_http_from_ip_port (_TEST_IP_3, _TEST_PORT);
+	  if (url)
+	    {
+	      verified_node =
+		lw6nod_info_new (_TEST_ID_3, url, _TEST_TITLE,
+				 _TEST_DESCRIPTION, _TEST_BENCH,
+				 _TEST_IDLE_SCREENSHOT_SIZE,
+				 _TEST_IDLE_SCREENSHOT_DATA);
+	      if (verified_node)
+		{
+		  lw6sys_hash_set (hash, url, verified_node);
+		}
+	      LW6SYS_FREE (url);
+	    }
+
+	  if (first_time)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _("setting list of verified nodes"));
+	      first_time = 0;
+	    }
+	  lw6nod_info_set_verified_nodes (info, hash);
+	  // no need to free hash
 	}
     }
 }
 
 static void
-_node_map_verified_callback_callback (void *func_data, void *data)
+_node_map_verified_callback_callback (void *func_data, char *key, void *value)
 {
   int *first_time = (int *) func_data;
-  char *url = (char *) data;
+  lw6nod_info_t *verified_node = (lw6nod_info_t *) value;
 
-  if (*first_time)
+  if (key && verified_node)
     {
-      if (url)
+      if (!strcmp (key, verified_node->const_info.url))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""), url);
+	  if (*first_time)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""), key);
+	      (*first_time) = 0;
+	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("verified node is NULL"));
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("inconsistent data for verified nodes callback key=\"%s\" const_info.url=\"%s\""),
+		      key, verified_node->const_info.url);
 	}
-      (*first_time) = 0;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("inconsistent pointers for verified nodes callback (key=%p, value=%p)"),
+		  key, value);
     }
 }
 
@@ -267,6 +327,7 @@ test_node ()
     void *thread_dup_dyn = NULL;
     char *url = NULL;
     char *oob = NULL;
+    lw6sys_list_t *list = NULL;
 
     ret = 0;
     info =
@@ -292,11 +353,19 @@ test_node ()
 	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _("add \"%s\""), _TEST_URL);
-	    url = lw6nod_info_pop_discovered_node (info);
-	    if (url)
+	    list = lw6nod_info_pop_discovered_nodes (info);
+	    if (list && !lw6sys_list_is_empty (list))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("pop \"%s\""), url);
-		LW6SYS_FREE (url);
+		url = lw6sys_list_pop_front (&list);
+		if (url)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE, _("pop \"%s\""), url);
+		    LW6SYS_FREE (url);
+		  }
+	      }
+	    if (list)
+	      {
+		lw6sys_list_free (list);
 	      }
 	  }
 	/*

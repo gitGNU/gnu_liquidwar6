@@ -617,13 +617,47 @@ _poll_step4_known_nodes (_lw6p2p_node_t * node)
 {
   int ret = 1;
   lw6sys_list_t *list;
+  lw6sys_hash_t *hash;
+  char *url;
+  char *title;
+  int i;
+  lw6nod_info_t *verified_node = NULL;
 
   /*
    * TODO: make this transit through the database and servers
    * be tested for good...
    */
-  list = lw6sys_str_split_config_item (node->known_nodes);
-  ret = lw6nod_info_set_verified_nodes (node->node_info, list);
+  hash = lw6nod_info_new_verified_nodes ();
+  if (hash)
+    {
+      list = lw6sys_str_split_config_item (node->known_nodes);
+      if (list)
+	{
+	  i = 0;
+	  while ((url = lw6sys_list_pop_front (&list)) != NULL)
+	    {
+	      i++;
+	      title = lw6sys_itoa (i);
+	      if (title)
+		{
+		  verified_node =
+		    lw6nod_info_new (lw6sys_generate_id_64 (), url, title,
+				     "todo...", 10, 0, NULL);
+		  if (verified_node)
+		    {
+		      lw6sys_hash_set (hash, url, verified_node);
+		    }
+		  LW6SYS_FREE (title);
+		}
+	      LW6SYS_FREE (url);
+	    }
+	  if (list)
+	    {
+	      lw6sys_list_free (list);
+	    }
+	}
+      ret = lw6nod_info_set_verified_nodes (node->node_info, hash);
+    }
 
   return ret;
 }

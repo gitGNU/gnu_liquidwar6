@@ -39,7 +39,7 @@
 #define _MOD_TCPD_PROTOCOL_PING_SIZE 4
 
 #define _MOD_TCPD_TIMEOUT 60
-#define _MOD_TCPD_LW6_ERROR "LW6 ERROR"
+#define _MOD_TCPD_ERROR "ERROR"
 
 typedef struct _tcpd_context_s
 {

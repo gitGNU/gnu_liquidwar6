@@ -63,16 +63,24 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
     }
   const_info->bench = bench;
   const_info->idle_screenshot_size = idle_screenshot_size;
-  const_info->idle_screenshot_data = LW6SYS_MALLOC (idle_screenshot_size);
-  if (const_info->idle_screenshot_data)
+  if (idle_screenshot_size > 0)
     {
-      memcpy (const_info->idle_screenshot_data, idle_screenshot_data,
-	      idle_screenshot_size);
+      const_info->idle_screenshot_data = LW6SYS_MALLOC (idle_screenshot_size);
+      if (const_info->idle_screenshot_data)
+	{
+	  memcpy (const_info->idle_screenshot_data, idle_screenshot_data,
+		  idle_screenshot_size);
+	}
+    }
+  else
+    {
+      const_info->idle_screenshot_data = NULL;
     }
 
   ret = (const_info->id && const_info->url
 	 && const_info->title && const_info->description
-	 && const_info->idle_screenshot_data);
+	 && (const_info->idle_screenshot_data
+	     || (const_info->idle_screenshot_size == 0)));
 
   return ret;
 }

@@ -116,7 +116,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	}
       else
 	{
-	  lw6net_send_line_tcp (oob_data->sock, _MOD_TCPD_LW6_ERROR);
+	  lw6net_send_line_tcp (oob_data->sock, _MOD_TCPD_ERROR);
 	}
     }
 
