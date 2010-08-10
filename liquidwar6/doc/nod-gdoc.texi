@@ -67,18 +67,24 @@ not playing.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, char * @var{level}, int @var{required}, int @var{limit}, int @var{colors}, int @var{nodes}, int @var{cursors}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
 @var{info}:  the node info to update
 
 @var{level}:  the name of the current level (map)
 
-@var{required}:  the bench required to connect
+@var{required_bench}:  the bench required to connect
 
-@var{limit}:  the max number of colors
+@var{nb_colors}:  number of colors playing
 
-@var{nodes}:  the number of colors
+@var{max_nb_colors}:  max number of colors allowed
 
-@var{cursors}:  the number of cursors
+@var{nb_cursors}:  number of cursors playing
+
+@var{max_nb_cursors}:  max number of cursors allowed
+
+@var{nb_nodes}:  number of nodes playing
+
+@var{max_nb_nodes}:  max number of nodes allowed
 
 @var{game_screenshot_size}:  size of screenshot (bytes)
 
@@ -116,21 +122,28 @@ afterwards. This is also a good way to avoid trivial DOS attacks.
 @strong{Return value:}  1 if OK, O if error.
 @end deftypefun
 
-@deftypefun {char *} {lw6nod_info_pop_discovered_node} (lw6nod_info_t * @var{info})
+@deftypefun {lw6sys_list_t *} {lw6nod_info_pop_discovered_nodes} (lw6nod_info_t * @var{info})
 @var{info}:  the node info to query
 
-Gets the next discovered node, one would typically call this
-until it returns NULL to test all of the nodes. When it
-returns NULL, the list is empty, will be populated (or not)
-later when new servers connect.
+Returns a list of all discovered nodes (their public URL)
+and empties the current queue as well.
 
-@strong{Return value:}  the public URL of a node, or NULL if empty list
+@strong{Return value:}  a list of dynamically allocated strings.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_set_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_t * @var{list})
+@deftypefun {lw6sys_hash_t *} {lw6nod_info_new_verified_nodes} ()
+
+Creates a new hash, to be filled with nodes and typically passed
+to @code{lw6nod_info_set_verified_nodes}. Using this function has the
+advantage of setting the hash options to their defaults.
+
+@strong{Return value:}  an empty hash
+@end deftypefun
+
+@deftypefun {int} {lw6nod_info_set_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_hash_t * @var{hash})
 @var{info}:  the node info to modify
 
-@var{list}:  the list of verified nodes, will be freed by this function
+@var{hash}:  the list of verified nodes, will be freed by this function
 
 Sets the list of verified nodes, that is, the list of nodes
 we are sure to exist, this is typically the list we will
@@ -143,27 +156,58 @@ be freed by function, that is, if you call this, then you can
 @strong{Return value:}  1 if OK, 0 on error.
 @end deftypefun
 
-@deftypefun {void} {lw6nod_info_map_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_callback_func_t @var{func}, void * @var{func_data})
+@deftypefun {void} {lw6nod_info_map_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
 @var{info}:  the node info concerned
 
 @var{func}:  the function to apply
 
 @var{func_data}:  arbitrary pointer holding data to pass to function
 
-Calls @code{lw6sys_list_map} on every member of the list of verified
-ndoes. The reason there's a function for this is that it is
+Calls @code{lw6sys_hash_map} with @code{func} on every member of the list of verified
+nodes. The reason there's a function for this is that it is
 very important that list object is locked when doing this.
 This function does perform a lock/unlock so it is safe.
 
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {char *} {lw6nod_info_generate_oob_info} (lw6nod_info_t * @var{info})
+@var{info}:  the node to generate info about
+
+Generates a standard response to the INFO question for OOB
+(out of band) messages. The same message is sent, be it
+on http or tcp or udp, so it's factorized here. Function
+will lock the info object when needed.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6nod_info_generate_oob_list} (lw6nod_info_t * @var{info})
+@var{info}:  the node to generate info about
+
+Generates a standard response to the LIST question for OOB
+(out of band) messages. The same message is sent, be it
+on http or tcp or udp, so it's factorized here. Function
+will lock the info object when needed.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6nod_info_generate_oob_pong} (lw6nod_info_t * @var{info})
+@var{info}:  the node to generate info about
+
+Generates a standard response to the PING question for OOB
+(out of band) messages. The same message is sent, be it
+on http or tcp or udp, so it's factorized here. Function
+will lock the info object when needed.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
 @deftypefun {int} {lw6nod_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 
-Runs the @code{nod} module test suite. This one could fail if some
-sockets are already bound, for instance. It's still run even
-in check-only (mode=0) mode.
+Runs the @code{nod} module test suite.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun

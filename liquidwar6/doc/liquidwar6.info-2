@@ -1268,9 +1268,7 @@ C interfaces:
  -- Function: int lw6glb_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
-     Runs the `nod' module test suite. This one could fail if some
-     sockets are already bound, for instance. It's still run even in
-     check-only (mode=0) mode.
+     Runs the `glb' module test suite.
 
      *Return value:*  1 if test is successfull, 0 on error.
 
@@ -3557,20 +3555,27 @@ C interfaces:
      *Return value:*  none.
 
  -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, char *
-          LEVEL, int REQUIRED, int LIMIT, int COLORS, int NODES, int
-          CURSORS, int GAME_SCREENSHOT_SIZE, void *
+          LEVEL, int REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS,
+          int NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
+          MAX_NB_NODES, int GAME_SCREENSHOT_SIZE, void *
           GAME_SCREENSHOT_DATA)
      INFO:  the node info to update
 
      LEVEL:  the name of the current level (map)
 
-     REQUIRED:  the bench required to connect
+     REQUIRED_BENCH:  the bench required to connect
 
-     LIMIT:  the max number of colors
+     NB_COLORS:  number of colors playing
 
-     NODES:  the number of colors
+     MAX_NB_COLORS:  max number of colors allowed
 
-     CURSORS:  the number of cursors
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  max number of nodes allowed
 
      GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
 
@@ -3607,22 +3612,27 @@ C interfaces:
 
      *Return value:*  1 if OK, O if error.
 
- -- Function: char * lw6nod_info_pop_discovered_node (lw6nod_info_t *
-          INFO)
+ -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
+          (lw6nod_info_t * INFO)
      INFO:  the node info to query
 
-     Gets the next discovered node, one would typically call this until
-     it returns NULL to test all of the nodes. When it returns NULL,
-     the list is empty, will be populated (or not) later when new
-     servers connect.
+     Returns a list of all discovered nodes (their public URL) and
+     empties the current queue as well.
 
-     *Return value:*  the public URL of a node, or NULL if empty list
+     *Return value:*  a list of dynamically allocated strings.
+
+ -- Function: lw6sys_hash_t * lw6nod_info_new_verified_nodes ()
+     Creates a new hash, to be filled with nodes and typically passed
+     to `lw6nod_info_set_verified_nodes'. Using this function has the
+     advantage of setting the hash options to their defaults.
+
+     *Return value:*  an empty hash
 
  -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
-          lw6sys_list_t * LIST)
+          lw6sys_hash_t * HASH)
      INFO:  the node info to modify
 
-     LIST:  the list of verified nodes, will be freed by this function
+     HASH:  the list of verified nodes, will be freed by this function
 
      Sets the list of verified nodes, that is, the list of nodes we are
      sure to exist, this is typically the list we will display later on
@@ -3635,26 +3645,57 @@ C interfaces:
      *Return value:*  1 if OK, 0 on error.
 
  -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
-          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+          INFO, lw6sys_assoc_callback_func_t FUNC, void * FUNC_DATA)
      INFO:  the node info concerned
 
      FUNC:  the function to apply
 
      FUNC_DATA:  arbitrary pointer holding data to pass to function
 
-     Calls `lw6sys_list_map' on every member of the list of verified
-     ndoes. The reason there's a function for this is that it is very
-     important that list object is locked when doing this.  This
-     function does perform a lock/unlock so it is safe.
+     Calls `lw6sys_hash_map' with `func' on every member of the list of
+     verified nodes. The reason there's a function for this is that it
+     is very important that list object is locked when doing this.
+     This function does perform a lock/unlock so it is safe.
 
      *Return value:*  none.
+
+ -- Function: char * lw6nod_info_generate_oob_info (lw6nod_info_t *
+          INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the INFO question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6nod_info_generate_oob_list (lw6nod_info_t *
+          INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the LIST question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6nod_info_generate_oob_pong (lw6nod_info_t *
+          INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the PING question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
 
  -- Function: int lw6nod_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
-     Runs the `nod' module test suite. This one could fail if some
-     sockets are already bound, for instance. It's still run even in
-     check-only (mode=0) mode.
+     Runs the `nod' module test suite.
 
      *Return value:*  1 if test is successfull, 0 on error.
 
@@ -3714,7 +3755,7 @@ C interfaces:
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, u_int64_t
           NODE_ID, char * PUBLIC_URL, char * PASSWORD, char * TITLE,
-          char * DESCRIPTION, int BENCH)
+          char * DESCRIPTION, int BENCH, char * KNOWN_NODES)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -3740,6 +3781,8 @@ C interfaces:
      DESCRIPTION:  the description of the node
 
      BENCH:  the bench of the node (its power)
+
+     KNOWN_NODES:  list of already known nodes
 
      Creates a new "pear to pear" node. This will fire the server and
      allow client access, on demand. A lot of stuff can be done in the
@@ -7733,6 +7776,15 @@ C interfaces:
      Common Log Format.
 
      *Return value:*  newly allocated string.
+
+ -- Function: char * lw6sys_readable_uptime (int64_t TIMESTAMP_DELTA)
+     TIMESTAMP_DELTA:  the duration to show, in msec
+
+     Returns a readable form of an uptime, typically 1d 12:34:06 for
+     one day, 12 hours, 34 min, 6 sec or 7:03:45 for 7 hours, 3 minutes
+     45 sec.
+
+     *Return value:*  newly allocated string
 
  -- Function: extern char * lw6sys_url_http_from_ip_port (char * IP,
           int PORT)

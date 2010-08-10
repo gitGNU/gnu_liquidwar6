@@ -3803,6 +3803,16 @@ Common Log Format.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_readable_uptime} (int64_t @var{timestamp_delta})
+@var{timestamp_delta}:  the duration to show, in msec
+
+Returns a readable form of an uptime, typically 1d 12:34:06
+for one day, 12 hours, 34 min, 6 sec or 7:03:45 for 7 hours,
+3 minutes 45 sec.
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
 @deftypefun {extern char *} {lw6sys_url_http_from_ip_port} (char * @var{ip}, int @var{port})
 @var{ip}:  IP address
 
