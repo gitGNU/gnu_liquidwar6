@@ -82,7 +82,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 @ALLINONE_TRUE@am__DEPENDENCIES_2 = mod-tcp/libmod_tcp_s.la \
 @ALLINONE_TRUE@	mod-udp/libmod_udp_s.la $(am__DEPENDENCIES_1)
 libcli_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
-am_libcli_la_OBJECTS = cli-api.lo cli-register.lo cli-test.lo
+am_libcli_la_OBJECTS = cli-api.lo cli-oob.lo cli-register.lo \
+	cli-test.lo
 libcli_la_OBJECTS = $(am_libcli_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libclidir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -378,7 +379,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 @ALLINONE_TRUE@LW6CLI_LIB_S = mod-tcp/libmod_tcp_s.la mod-udp/libmod_udp_s.la $(MOD_HTTP_LIB_S)
 noinst_LTLIBRARIES = libcli.la
 libcli_la_LIBADD = $(LW6CLI_LIB_S)
-libcli_la_SOURCES = cli-api.c cli-register.c cli-test.c
+libcli_la_SOURCES = cli-api.c cli-oob.c cli-register.c cli-test.c
 libclidir = $(includedir)/@PACKAGE_TARNAME@/cli
 libcli_HEADERS = cli.h
 @FULLSTATIC_FALSE@liquidwar6cli_test_SOURCES = cli-testmain.c
@@ -483,6 +484,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cli-api.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cli-oob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cli-register.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cli-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cli-testmain.Po@am__quote@

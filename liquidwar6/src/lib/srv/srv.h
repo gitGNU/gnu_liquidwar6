@@ -100,7 +100,6 @@ typedef struct lw6srv_backend_s
   u_int32_t id;
   char *name;
   lw6nod_info_t *info;
-  lw6sys_list_t *oob_queue;
 
   void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);
   void (*quit) (void *srv_context);

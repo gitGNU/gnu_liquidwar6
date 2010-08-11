@@ -27,16 +27,6 @@
 #include "../cli.h"
 #include "mod-http-internal.h"
 
-int
-_mod_http_analyse (_http_context_t * http_context, char *server_url)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
 lw6cli_connection_t *
 _mod_http_connect (_http_context_t * http_context, char *server_url,
 		   char *client_url, char *password)

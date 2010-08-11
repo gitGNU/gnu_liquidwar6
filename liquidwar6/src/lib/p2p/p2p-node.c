@@ -257,10 +257,17 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 
       if (ret)
 	{
-	  node->oobs =
+	  node->srv_oobs =
 	    lw6sys_list_new ((lw6sys_free_func_t)
-			     _lw6p2p_oob_callback_data_free);
-	  ret = (node->oobs != NULL);
+			     _lw6p2p_srv_oob_callback_data_free);
+	  ret = (node->srv_oobs != NULL);
+	}
+      if (ret)
+	{
+	  node->cli_oobs =
+	    lw6sys_list_new ((lw6sys_free_func_t)
+			     _lw6p2p_cli_oob_callback_data_free);
+	  ret = (node->cli_oobs != NULL);
 	}
     }
 
@@ -327,9 +334,13 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
-      if (node->oobs)
+      if (node->cli_oobs)
 	{
-	  lw6sys_list_free (node->oobs);
+	  lw6sys_list_free (node->cli_oobs);
+	}
+      if (node->srv_oobs)
+	{
+	  lw6sys_list_free (node->srv_oobs);
 	}
       if (node->known_nodes)
 	{
@@ -502,7 +513,7 @@ _tcp_accepter_reply (void *func_data, void *data)
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
   lw6srv_connection_t *connection = NULL;
-  _lw6p2p_oob_callback_data_t *oob = NULL;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
   char *query = NULL;
   char *connection_ptr_str = NULL;
   char *backend_ptr_str = NULL;
@@ -528,21 +539,21 @@ _tcp_accepter_reply (void *func_data, void *data)
 	    {
 	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
-		  oob =
-		    _lw6p2p_oob_callback_data_new (node->srv_backends[i],
-						   node->node_info,
-						   tcp_accepter->
-						   client_id.client_ip,
-						   tcp_accepter->
-						   client_id.client_port,
-						   tcp_accepter->sock);
-		  if (oob)
+		  srv_oob =
+		    _lw6p2p_srv_oob_callback_data_new (node->srv_backends[i],
+						       node->node_info,
+						       tcp_accepter->
+						       client_id.client_ip,
+						       tcp_accepter->
+						       client_id.client_port,
+						       tcp_accepter->sock);
+		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process OOB"));
-		      oob->oob->thread =
-			lw6sys_thread_create (_lw6p2p_oob_callback, NULL,
-					      oob);
-		      lw6sys_lifo_push (&(node->oobs), oob);
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process SRV_OOB"));
+		      srv_oob->srv_oob->thread =
+			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
+					      srv_oob);
+		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
 		      ret = 0;
 		    }
 		}
@@ -607,28 +618,61 @@ _poll_step2_reply (_lw6p2p_node_t * node)
 }
 
 static int
-_oob_filter (void *func_data, void *data)
+_cli_oob_filter (void *func_data, void *data)
 {
   int ret = 0;
-  _lw6p2p_oob_callback_data_t *oob = (_lw6p2p_oob_callback_data_t *) data;
+  _lw6p2p_cli_oob_callback_data_t *cli_oob =
+    (_lw6p2p_cli_oob_callback_data_t *) data;
 
-  ret = _lw6p2p_oob_filter (oob);
+  ret = _lw6p2p_cli_oob_filter (cli_oob);
 
   return ret;
 }
 
 static int
-_poll_step3_oob (_lw6p2p_node_t * node)
+_poll_step3_cli_oob (_lw6p2p_node_t * node)
 {
   int ret = 1;
 
-  lw6sys_list_filter (&(node->oobs), _oob_filter, NULL);
+  lw6sys_list_filter (&(node->cli_oobs), _cli_oob_filter, NULL);
 
   return ret;
 }
 
 static int
-_poll_step4_flush_discovered_nodes (_lw6p2p_node_t * node)
+_srv_oob_filter (void *func_data, void *data)
+{
+  int ret = 0;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob =
+    (_lw6p2p_srv_oob_callback_data_t *) data;
+
+  ret = _lw6p2p_srv_oob_filter (srv_oob);
+
+  return ret;
+}
+
+static int
+_poll_step4_srv_oob (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+
+  lw6sys_list_filter (&(node->srv_oobs), _srv_oob_filter, NULL);
+
+  return ret;
+}
+
+static int
+_poll_step5_explore_discover_nodes (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  ret = _lw6p2p_explore_discover_nodes_if_needed (node);
+
+  return ret;
+}
+
+static int
+_poll_step6_flush_discovered_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -638,7 +682,17 @@ _poll_step4_flush_discovered_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step5_flush_verified_nodes (_lw6p2p_node_t * node)
+_poll_step7_explore_verify_nodes (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  ret = _lw6p2p_explore_verify_nodes_if_needed (node);
+
+  return ret;
+}
+
+static int
+_poll_step8_flush_verified_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -652,9 +706,14 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  ret = _poll_step1_accept (node) && _poll_step2_reply (node)
-    && _poll_step3_oob (node) && _poll_step4_flush_discovered_nodes (node)
-    && _poll_step5_flush_verified_nodes (node);
+  ret = _poll_step1_accept (node) && ret;
+  ret = _poll_step2_reply (node) && ret;
+  ret = _poll_step3_cli_oob (node) && ret;
+  ret = _poll_step4_srv_oob (node) && ret;
+  ret = _poll_step5_explore_discover_nodes (node) && ret;
+  ret = _poll_step6_flush_discovered_nodes (node) && ret;
+  ret = _poll_step7_explore_verify_nodes (node) && ret;
+  ret = _poll_step8_flush_verified_nodes (node) && ret;
 
   return ret;
 }
@@ -682,7 +741,8 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 {
   int i = 0;
   char *query = NULL;
-  _lw6p2p_oob_callback_data_t *oob = NULL;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
+  _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
 
   if (node)
     {
@@ -710,19 +770,34 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	      LW6SYS_FREE (query);
 	    }
 
-	  if (node->oobs)
+	  if (node->srv_oobs)
 	    {
-	      while (node->oobs && !lw6sys_list_is_empty (node->oobs))
+	      while (node->srv_oobs && !lw6sys_list_is_empty (node->srv_oobs))
 		{
-		  oob =
-		    (_lw6p2p_oob_callback_data_t *)
-		    lw6sys_list_pop_front (&(node->oobs));
-		  _lw6p2p_oob_callback_data_free (oob);
+		  srv_oob =
+		    (_lw6p2p_srv_oob_callback_data_t *)
+		    lw6sys_list_pop_front (&(node->srv_oobs));
+		  _lw6p2p_srv_oob_callback_data_free (srv_oob);
 		}
-	      if (!(node->oobs))
+	      if (!(node->srv_oobs))
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("NULL oobs after emptying"));
+			      _("NULL srv_oobs after emptying"));
+		}
+	    }
+	  if (node->cli_oobs)
+	    {
+	      while (node->cli_oobs && !lw6sys_list_is_empty (node->cli_oobs))
+		{
+		  cli_oob =
+		    (_lw6p2p_cli_oob_callback_data_t *)
+		    lw6sys_list_pop_front (&(node->cli_oobs));
+		  _lw6p2p_cli_oob_callback_data_free (cli_oob);
+		}
+	      if (!(node->cli_oobs))
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("NULL cli_oobs after emptying"));
 		}
 	    }
 

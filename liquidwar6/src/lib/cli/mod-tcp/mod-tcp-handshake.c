@@ -27,16 +27,6 @@
 #include "../cli.h"
 #include "mod-tcp-internal.h"
 
-int
-_mod_tcp_analyse (_tcp_context_t * tcp_context, char *server_url)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
 lw6cli_connection_t *
 _mod_tcp_connect (_tcp_context_t * tcp_context, char *server_url,
 		  char *client_url, char *password)

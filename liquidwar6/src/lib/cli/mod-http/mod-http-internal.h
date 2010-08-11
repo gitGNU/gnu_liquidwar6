@@ -40,8 +40,6 @@ extern void _mod_http_quit (_http_context_t * http_context);
 /*
  * In handshake.c
  */
-extern int _mod_http_analyse (_http_context_t * http_context,
-			      char *server_url);
 extern lw6cli_connection_t *_mod_http_connect (_http_context_t * http_context,
 					       char *server_url,
 					       char *client_url,
@@ -70,5 +68,12 @@ extern char *_mod_http_repr (_http_context_t * http_context,
 			     lw6cli_connection_t * connection);
 extern char *_mod_http_error (_http_context_t * http_context,
 			      lw6cli_connection_t * connection);
+
+/*
+ * In oob.c
+ */
+extern int _mod_http_process_oob (_http_context_t * http_context,
+				  lw6nod_info_t * node_info,
+				  lw6cli_oob_data_t * oob_data);
 
 #endif

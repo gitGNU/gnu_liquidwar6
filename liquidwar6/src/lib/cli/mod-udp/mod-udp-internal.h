@@ -40,7 +40,6 @@ extern void _mod_udp_quit (_udp_context_t * udp_context);
 /*
  * In handshake.c
  */
-extern int _mod_udp_analyse (_udp_context_t * udp_context, char *server_url);
 extern lw6cli_connection_t *_mod_udp_connect (_udp_context_t * udp_context,
 					      char *server_url,
 					      char *client_url,
@@ -69,5 +68,12 @@ extern char *_mod_udp_repr (_udp_context_t * udp_context,
 			    lw6cli_connection_t * connection);
 extern char *_mod_udp_error (_udp_context_t * udp_context,
 			     lw6cli_connection_t * connection);
+
+/*
+ * In oob.c
+ */
+extern int _mod_udp_process_oob (_udp_context_t * udp_context,
+				 lw6nod_info_t * node_info,
+				 lw6cli_oob_data_t * oob_data);
 
 #endif

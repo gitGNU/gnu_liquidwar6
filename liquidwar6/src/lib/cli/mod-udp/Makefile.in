@@ -99,11 +99,11 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libmod_udpdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 libmod_udp_la_LIBADD =
 am__libmod_udp_la_SOURCES_DIST = mod-udp-backend.c mod-udp-handshake.c \
-	mod-udp-info.c mod-udp-message.c mod-udp-setup.c \
+	mod-udp-info.c mod-udp-message.c mod-udp-oob.c mod-udp-setup.c \
 	mod-udp-state.c
 am__objects_1 = mod-udp-backend.lo mod-udp-handshake.lo \
-	mod-udp-info.lo mod-udp-message.lo mod-udp-setup.lo \
-	mod-udp-state.lo
+	mod-udp-info.lo mod-udp-message.lo mod-udp-oob.lo \
+	mod-udp-setup.lo mod-udp-state.lo
 @ALLINONE_FALSE@am_libmod_udp_la_OBJECTS = $(am__objects_1)
 libmod_udp_la_OBJECTS = $(am_libmod_udp_la_OBJECTS)
 libmod_udp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmod_udp_s.la
-MOD_UDP_FILES = mod-udp-backend.c mod-udp-handshake.c mod-udp-info.c mod-udp-message.c mod-udp-setup.c mod-udp-state.c
+MOD_UDP_FILES = mod-udp-backend.c mod-udp-handshake.c mod-udp-info.c mod-udp-message.c mod-udp-oob.c mod-udp-setup.c mod-udp-state.c
 libmod_udp_s_la_SOURCES = $(MOD_UDP_FILES) 
 @ALLINONE_FALSE@lib_LTLIBRARIES = libmod_udp.la
 @ALLINONE_FALSE@libmod_udp_la_SOURCES = $(MOD_UDP_FILES) 
@@ -424,6 +424,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-handshake.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-info.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-message.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-oob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-udp-state.Plo@am__quote@
 

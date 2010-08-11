@@ -25,13 +25,14 @@
 #endif
 
 #include "../cli.h"
-#include "mod-udp-internal.h"
+#include "mod-http-internal.h"
 
-lw6cli_connection_t *
-_mod_udp_connect (_udp_context_t * udp_context, char *server_url,
-		  char *client_url, char *password)
+int
+_mod_http_process_oob (_http_context_t * http_context,
+		       lw6nod_info_t * node_info,
+		       lw6cli_oob_data_t * oob_data)
 {
-  lw6cli_connection_t *ret = NULL;
+  int ret = 0;
 
   // todo
 

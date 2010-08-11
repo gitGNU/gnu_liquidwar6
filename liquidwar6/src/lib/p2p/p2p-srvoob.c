@@ -27,22 +27,22 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
-_lw6p2p_oob_callback_data_t *
-_lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend,
-			       lw6nod_info_t * node_info, char *remote_ip,
-			       int remote_port, int sock)
+_lw6p2p_srv_oob_callback_data_t *
+_lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
+				   lw6nod_info_t * node_info, char *remote_ip,
+				   int remote_port, int sock)
 {
-  _lw6p2p_oob_callback_data_t *ret = NULL;
+  _lw6p2p_srv_oob_callback_data_t *ret = NULL;
 
   ret =
-    (_lw6p2p_oob_callback_data_t *)
-    LW6SYS_CALLOC (sizeof (_lw6p2p_oob_callback_data_t));
+    (_lw6p2p_srv_oob_callback_data_t *)
+    LW6SYS_CALLOC (sizeof (_lw6p2p_srv_oob_callback_data_t));
   if (ret)
     {
       ret->backend = backend;
       ret->node_info = node_info;
-      ret->oob = lw6srv_oob_new (remote_ip, remote_port, sock);
-      if (!ret->oob)
+      ret->srv_oob = lw6srv_oob_new (remote_ip, remote_port, sock);
+      if (!ret->srv_oob)
 	{
 	  LW6SYS_FREE (ret);
 	  ret = NULL;
@@ -53,34 +53,34 @@ _lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend,
 }
 
 void
-_lw6p2p_oob_callback_data_free (_lw6p2p_oob_callback_data_t * oob)
+_lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
-  if (oob)
+  if (srv_oob)
     {
-      if (oob->oob)
+      if (srv_oob->srv_oob)
 	{
-	  lw6srv_oob_free (oob->oob);
+	  lw6srv_oob_free (srv_oob->srv_oob);
 	}
-      LW6SYS_FREE (oob);
+      LW6SYS_FREE (srv_oob);
     }
 }
 
 int
-_lw6p2p_oob_filter (_lw6p2p_oob_callback_data_t * oob)
+_lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   int ret = 1;
   void *thread;
 
-  if (oob && oob->oob)
+  if (srv_oob && srv_oob->srv_oob)
     {
-      thread = oob->oob->thread;
+      thread = srv_oob->srv_oob->thread;
       if (thread)
 	{
 	  if (lw6sys_thread_is_callback_done (thread))
 	    {
 	      /*
 	       * We don't need to join the thread, it will
-	       * be done when deleting the oob object.
+	       * be done when deleting the srv_oob object.
 	       */
 	      ret = 0;
 	    }
@@ -95,13 +95,15 @@ _lw6p2p_oob_filter (_lw6p2p_oob_callback_data_t * oob)
 }
 
 void
-_lw6p2p_oob_callback (void *callback_data)
+_lw6p2p_srv_oob_callback (void *callback_data)
 {
-  _lw6p2p_oob_callback_data_t *oob =
-    (_lw6p2p_oob_callback_data_t *) callback_data;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob =
+    (_lw6p2p_srv_oob_callback_data_t *) callback_data;
   int ret = 0;
 
-  ret = lw6srv_process_oob (oob->backend, oob->node_info, &(oob->oob->data));
+  ret =
+    lw6srv_process_oob (srv_oob->backend, srv_oob->node_info,
+			&(srv_oob->srv_oob->data));
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("_oob_callback done ret=%d"), ret);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("_srv_oob_callback done ret=%d"), ret);
 }

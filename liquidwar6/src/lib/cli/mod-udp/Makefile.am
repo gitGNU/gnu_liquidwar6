@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
 
 noinst_LTLIBRARIES = libmod_udp_s.la
-MOD_UDP_FILES = mod-udp-backend.c mod-udp-handshake.c mod-udp-info.c mod-udp-message.c mod-udp-setup.c mod-udp-state.c
+MOD_UDP_FILES = mod-udp-backend.c mod-udp-handshake.c mod-udp-info.c mod-udp-message.c mod-udp-oob.c mod-udp-setup.c mod-udp-state.c
 libmod_udp_s_la_SOURCES = $(MOD_UDP_FILES) 
 
 if !ALLINONE

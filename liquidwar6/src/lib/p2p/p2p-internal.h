@@ -49,6 +49,8 @@ typedef struct _lw6p2p_consts_s
   int accept_delay;
   int flush_verified_nodes_delay;
   int flush_discovered_nodes_delay;
+  int explore_discover_nodes_delay;
+  int explore_verify_nodes_delay;
 }
 _lw6p2p_consts_t;
 
@@ -88,6 +90,13 @@ typedef struct _lw6p2p_flush_s
 }
 _lw6p2p_flush_t;
 
+typedef struct _lw6p2p_explore_s
+{
+  int64_t last_discover_nodes_timestamp;
+  int64_t last_verify_nodes_timestamp;
+}
+_lw6p2p_explore_t;
+
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
@@ -106,16 +115,36 @@ typedef struct _lw6p2p_node_s
   lw6srv_listener_t *listener;
   int nb_srv_backends;
   lw6srv_backend_t **srv_backends;
-  lw6sys_list_t *oobs;
+  lw6sys_list_t *srv_oobs;
+  lw6sys_list_t *cli_oobs;
   _lw6p2p_flush_t flush;
+  _lw6p2p_explore_t explore;
 } _lw6p2p_node_t;
 
-typedef struct _lw6p2p_oob_callback_data_s
+typedef struct _lw6p2p_srv_oob_callback_data_s
 {
   lw6srv_backend_t *backend;
   lw6nod_info_t *node_info;
-  lw6srv_oob_t *oob;
-} _lw6p2p_oob_callback_data_t;
+  lw6srv_oob_t *srv_oob;
+} _lw6p2p_srv_oob_callback_data_t;
+
+typedef struct _lw6p2p_cli_oob_callback_data_s
+{
+  lw6cli_backend_t *backend;
+  lw6nod_info_t *node_info;
+  lw6cli_oob_t *cli_oob;
+} _lw6p2p_cli_oob_callback_data_t;
+
+/* p2p-clioob.c */
+extern _lw6p2p_cli_oob_callback_data_t
+  * _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend,
+				       lw6nod_info_t * node_info,
+				       char *public_url);
+extern void
+_lw6p2p_cli_oob_callback_data_free (_lw6p2p_cli_oob_callback_data_t *
+				    cli_oob);
+extern int _lw6p2p_cli_oob_filter (_lw6p2p_cli_oob_callback_data_t * cli_oob);
+extern void _lw6p2p_cli_oob_callback (void *callback_data);
 
 /* p2p-data.c */
 extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
@@ -134,6 +163,12 @@ extern int _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql,
 			    _lw6p2p_db_callback_t func, void *func_data);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
+
+/* p2p-explore.c */
+extern int _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node);
+extern int _lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node);
+extern int _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node);
 
 /* p2p-flush.c */
 extern int _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node);
@@ -156,14 +191,16 @@ extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
 
-/* p2p-oob.c */
-extern _lw6p2p_oob_callback_data_t
-  * _lw6p2p_oob_callback_data_new (lw6srv_backend_t * backend,
-				   lw6nod_info_t * node_info, char *remote_ip,
-				   int remote_port, int sock);
-extern void _lw6p2p_oob_callback_data_free (_lw6p2p_oob_callback_data_t *
-					    oob);
-extern int _lw6p2p_oob_filter (_lw6p2p_oob_callback_data_t * oob);
-extern void _lw6p2p_oob_callback (void *callback_data);
+/* p2p-srvoob.c */
+extern _lw6p2p_srv_oob_callback_data_t
+  * _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
+				       lw6nod_info_t * node_info,
+				       char *remote_ip, int remote_port,
+				       int sock);
+extern void
+_lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t *
+				    srv_oob);
+extern int _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob);
+extern void _lw6p2p_srv_oob_callback (void *callback_data);
 
 #endif

@@ -1,5 +1,7 @@
 2010-08-11 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Prepared Makefiles and headers for oob client implementation.
+
 	* Fixed insertion of discovered nodes in database.
 
 	* Reverted list of verified nodes to list instead of hash.

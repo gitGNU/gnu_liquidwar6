@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
 
 noinst_LTLIBRARIES = libmod_tcp_s.la
-MOD_TCP_FILES = mod-tcp-backend.c mod-tcp-handshake.c mod-tcp-info.c mod-tcp-message.c mod-tcp-setup.c mod-tcp-state.c
+MOD_TCP_FILES = mod-tcp-backend.c mod-tcp-handshake.c mod-tcp-info.c mod-tcp-message.c mod-tcp-oob.c mod-tcp-setup.c mod-tcp-state.c
 libmod_tcp_s_la_SOURCES = $(MOD_TCP_FILES) 
 
 pkglibdir = $(libdir)/@PACKAGE_TARNAME@/cli

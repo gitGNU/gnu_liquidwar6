@@ -48,14 +48,15 @@ _quit (void *cli_context)
 }
 
 static int
-_analyse (void *cli_context, char *server_url)
+_process_oob (void *cli_context, lw6nod_info_t * node_info,
+	      lw6cli_oob_data_t * oob_data)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   int ret = 0;
 
   if (udp_context)
     {
-      ret = _mod_udp_analyse (udp_context, server_url);
+      ret = _mod_udp_process_oob (udp_context, node_info, oob_data);
     }
 
   return ret;
@@ -196,7 +197,7 @@ mod_udp_create_backend ()
 
       backend->init = _init;
       backend->quit = _quit;
-      backend->analyse = _analyse;
+      backend->process_oob = _process_oob;
       backend->connect = _connect;
       backend->close = _close;
       backend->send = _send;

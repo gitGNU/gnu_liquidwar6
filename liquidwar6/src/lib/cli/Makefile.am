@@ -39,7 +39,7 @@ endif
 
 noinst_LTLIBRARIES = libcli.la
 libcli_la_LIBADD = $(LW6CLI_LIB_S)
-libcli_la_SOURCES = cli-api.c cli-register.c cli-test.c
+libcli_la_SOURCES = cli-api.c cli-oob.c cli-register.c cli-test.c
 libclidir= $(includedir)/@PACKAGE_TARNAME@/cli
 libcli_HEADERS = cli.h
 

@@ -78,15 +78,16 @@ lw6cli_quit (lw6cli_backend_t * backend)
 }
 
 int
-lw6cli_analyse (lw6cli_backend_t * backend, char *server_url)
+lw6cli_process_oob (lw6cli_backend_t * backend,
+		    lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->analyse)
+  if (backend->process_oob)
     {
-      ret = backend->analyse (backend->cli_context, server_url);
+      ret = backend->process_oob (backend->cli_context, node_info, oob_data);
     }
   else
     {

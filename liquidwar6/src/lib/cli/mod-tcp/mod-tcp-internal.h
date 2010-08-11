@@ -40,7 +40,6 @@ extern void _mod_tcp_quit (_tcp_context_t * tcp_context);
 /*
  * In handshake.c
  */
-extern int _mod_tcp_analyse (_tcp_context_t * tcp_context, char *server_url);
 extern lw6cli_connection_t *_mod_tcp_connect (_tcp_context_t * tcp_context,
 					      char *server_url,
 					      char *client_url,
@@ -69,5 +68,12 @@ extern char *_mod_tcp_repr (_tcp_context_t * tcp_context,
 			    lw6cli_connection_t * connection);
 extern char *_mod_tcp_error (_tcp_context_t * tcp_context,
 			     lw6cli_connection_t * connection);
+
+/*
+ * In oob.c
+ */
+extern int _mod_tcp_process_oob (_tcp_context_t * tcp_context,
+				 lw6nod_info_t * node_info,
+				 lw6cli_oob_data_t * oob_data);
 
 #endif

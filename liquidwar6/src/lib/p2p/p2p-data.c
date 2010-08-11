@@ -48,6 +48,10 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &consts->flush_verified_nodes_delay);
       lw6cfg_read_xml_int (key, value, "flush-discovered-nodes-delay",
 			   &consts->flush_discovered_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "explore-discover-nodes-delay",
+			   &consts->explore_discover_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay",
+			   &consts->explore_verify_nodes_delay);
     }
 }
 

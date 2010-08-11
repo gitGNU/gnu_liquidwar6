@@ -38,6 +38,21 @@ typedef struct lw6cli_connection_s
 }
 lw6cli_connection_t;
 
+typedef struct lw6cli_oob_data_s
+{
+  int64_t creation_timestamp;
+  int do_not_finish;
+  char *public_url;
+}
+lw6cli_oob_data_t;
+
+typedef struct lw6cli_oob_s
+{
+  void *thread;
+  lw6cli_oob_data_t data;
+}
+lw6cli_oob_t;
+
 typedef struct lw6cli_backend_s
 {
   lw6dyn_dl_handle_t *dl_handle;
@@ -49,7 +64,8 @@ typedef struct lw6cli_backend_s
 
   void *(*init) (int argc, char *argv[]);
   void (*quit) (void *cli_context);
-  int (*analyse) (void *cli_context, char *server_url);
+  int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
+		      lw6cli_oob_data_t * oob_data);
   lw6cli_connection_t *(*connect) (void *cli_context, char *server_url,
 				   char *client_url, char *password);
   void (*close) (void *cli_context, lw6cli_connection_t * connection);
@@ -67,7 +83,9 @@ lw6cli_backend_t;
  */
 extern int lw6cli_init (lw6cli_backend_t * backend);
 extern void lw6cli_quit (lw6cli_backend_t * backend);
-extern int lw6cli_analyse (lw6cli_backend_t * backend, char *server_url);
+extern int lw6cli_process_oob (lw6cli_backend_t * backend,
+			       lw6nod_info_t * node_info,
+			       lw6cli_oob_data_t * oob_data);
 extern lw6cli_connection_t *lw6cli_connect (lw6cli_backend_t * backend,
 					    char *server_url,
 					    char *client_url, char *password);
@@ -83,6 +101,10 @@ extern char *lw6cli_repr (lw6cli_backend_t * backend,
 			  lw6cli_connection_t * connection);
 extern char *lw6cli_error (lw6cli_backend_t * backend,
 			   lw6cli_connection_t * connection);
+
+/* cli-oob.c */
+extern lw6cli_oob_t *lw6cli_oob_new (char *public_url);
+extern void lw6cli_oob_free (lw6cli_oob_t * oob);
 
 /*
  * In register.c

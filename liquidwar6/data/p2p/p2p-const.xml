@@ -3,4 +3,6 @@
   <int key="accept-delay" value="10" />
   <int key="flush-verified-nodes-delay" value="2999" />
   <int key="flush-discovered-nodes-delay" value="10993" />
+  <int key="explore-discover-nodes-delay" value="4999" />
+  <int key="explore-verify-nodes-delay" value="6997" />
 </liquidwar6>
