@@ -33,7 +33,7 @@ _mod_udp_process_oob (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("process udp oob url=\"%s\""),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("process udp oob url=\"%s\""),
 	      oob_data->public_url);
   // todo
 
