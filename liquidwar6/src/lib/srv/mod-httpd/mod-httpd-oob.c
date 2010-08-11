@@ -41,50 +41,43 @@
 #define _DUMMY_RANGE 1000000
 
 static void
-_add_node_html (void *func_data, char *key, void *value)
+_add_node_html (void *func_data, void *data)
 {
   char **list = (char **) func_data;
   char *tmp = NULL;
-  lw6nod_info_t *verified_node = (lw6nod_info_t *) value;
+  lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
   char *title = NULL;
   char *description = NULL;
-  if (list && (*list) && key && verified_node)
+  if (list && (*list) && verified_node && verified_node->const_info.url)
     {
-      if (!strcmp (key, verified_node->const_info.url))
+      title = verified_node->const_info.title;
+      if ((!title) || (title && strlen (title) == 0))
 	{
-	  title = verified_node->const_info.title;
-	  if ((!title) || (title && strlen (title) == 0))
-	    {
-	      title = key;
-	    }
-	  description = verified_node->const_info.description;
-	  if ((!description) || (description && strlen (description) == 0))
-	    {
-	      description = key;
-	    }
-	  if (strlen (*list) > 0)
-	    {
-	      tmp =
-		lw6sys_new_sprintf ("%s, <a href=\"%s\" title=\"%s\">%s</a>",
-				    *list, key, description, title);
-	    }
-	  else
-	    {
-	      tmp =
-		lw6sys_new_sprintf ("<a href=\"%s\" title=\"%s\">%s</a>", key,
-				    description, title);
-	    }
-	  if (tmp)
-	    {
-	      LW6SYS_FREE (*list);
-	      (*list) = tmp;
-	    }
+	  title = verified_node->const_info.url;
+	}
+      description = verified_node->const_info.description;
+      if ((!description) || (description && strlen (description) == 0))
+	{
+	  description = verified_node->const_info.url;
+	}
+      if (strlen (*list) > 0)
+	{
+	  tmp =
+	    lw6sys_new_sprintf ("%s, <a href=\"%s\" title=\"%s\">%s</a>",
+				*list, verified_node->const_info.url,
+				description, title);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("key is \"%s\" but const_info.url is \"%s\""), key,
-		      verified_node->const_info.url);
+	  tmp =
+	    lw6sys_new_sprintf ("<a href=\"%s\" title=\"%s\">%s</a>",
+				verified_node->const_info.url, description,
+				title);
+	}
+      if (tmp)
+	{
+	  LW6SYS_FREE (*list);
+	  (*list) = tmp;
 	}
     }
 }

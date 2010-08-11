@@ -53,8 +53,8 @@ int
 _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  lw6sys_list_t *list;
-  lw6sys_hash_t *hash;
+  lw6sys_list_t *list_of_url;
+  lw6sys_list_t *list_of_node;
   char *url;
   char *title;
   int i;
@@ -66,15 +66,15 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
    * TODO: make this transit through the database and servers
    * be tested for good...
    */
-  hash = lw6nod_info_new_verified_nodes ();
-  if (hash)
+  list_of_node = lw6nod_info_new_verified_nodes ();
+  if (list_of_node)
     {
-      list = lw6sys_str_split_config_item (node->known_nodes);
-      if (list)
+      list_of_url = lw6sys_str_split_config_item (node->known_nodes);
+      if (list_of_url)
 	{
 	  ret = 1;
 	  i = 0;
-	  while ((url = lw6sys_list_pop_front (&list)) != NULL)
+	  while ((url = lw6sys_list_pop_front (&list_of_url)) != NULL)
 	    {
 	      i++;
 	      title = lw6sys_itoa (i);
@@ -83,20 +83,24 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 		  verified_node =
 		    lw6nod_info_new (lw6sys_generate_id_64 (), url, title,
 				     "todo...", 10, 0, NULL);
-		  if (verified_node)
+		  if (verified_node && list_of_node)
 		    {
-		      lw6sys_hash_set (hash, url, verified_node);
+		      lw6sys_list_push_front (&list_of_node, verified_node);
 		    }
 		  LW6SYS_FREE (title);
 		}
 	      LW6SYS_FREE (url);
 	    }
-	  if (list)
+	  if (list_of_url)
 	    {
-	      lw6sys_list_free (list);
+	      lw6sys_list_free (list_of_url);
 	    }
 	}
-      ret = lw6nod_info_set_verified_nodes (node->node_info, hash);
+      if (list_of_node)
+	{
+	  ret =
+	    lw6nod_info_set_verified_nodes (node->node_info, list_of_node);
+	}
     }
 
   return ret;

@@ -1,3 +1,7 @@
+2010-08-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Reverted list of verified nodes to list instead of hash.
+
 2010-08-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed checksum, factorized client registeration.

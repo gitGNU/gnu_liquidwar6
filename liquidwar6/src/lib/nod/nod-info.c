@@ -62,7 +62,7 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
 				 description, bench, idle_screenshot_size,
 				 idle_screenshot_data);
       lw6nod_info_idle (info);
-      info->discovered_nodes = lw6sys_hash_new (NULL, _LW6NOD_HASH_SIZE);
+      info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       info->verified_nodes = lw6nod_info_new_verified_nodes ();
 
       if (info->mutex && const_init_ret && info->discovered_nodes
@@ -110,7 +110,7 @@ lw6nod_info_free (lw6nod_info_t * info)
     }
   if (info->verified_nodes)
     {
-      lw6sys_hash_free (info->verified_nodes);
+      lw6sys_list_free (info->verified_nodes);
     }
   LW6SYS_FREE (info);
 }
@@ -283,6 +283,27 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
 }
 
 /**
+ * lw6nod_info_new_discovered_nodes
+ *
+ * Creates a new hash, to be used as a discovered nodes list.
+ * Using this function has the
+ * advantage of setting the hash options to their defaults.
+ * We use a hash to avoid having uselessly long lists containing
+ * always the same node due to multiple detections.
+ *
+ * Return value: an empty hash
+ */
+lw6sys_hash_t *
+lw6nod_info_new_discovered_nodes ()
+{
+  lw6sys_hash_t *ret;
+
+  ret = lw6sys_hash_new (NULL, _LW6NOD_HASH_SIZE);
+
+  return ret;
+}
+
+/**
  * lw6nod_info_add_discovered_node
  *
  * @info: the node info to update
@@ -307,7 +328,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
       if (!info->discovered_nodes)
 	{
 	  // could be NULL if popping too hard
-	  info->discovered_nodes = lw6sys_hash_new (NULL, _LW6NOD_HASH_SIZE);
+	  info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
 	}
       if (info->discovered_nodes)
 	{
@@ -353,7 +374,7 @@ lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info)
 	{
 	  ret = lw6sys_list_new (lw6sys_free_callback);
 	}
-      info->discovered_nodes = lw6sys_hash_new (NULL, _LW6NOD_HASH_SIZE);
+      info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       lw6nod_info_unlock (info);
     }
 
@@ -363,20 +384,18 @@ lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info)
 /**
  * lw6nod_info_new_verified_nodes
  *
- * Creates a new hash, to be filled with nodes and typically passed
+ * Creates a new list, to be filled with nodes and typically passed
  * to @lw6nod_info_set_verified_nodes. Using this function has the
- * advantage of setting the hash options to their defaults.
+ * advantage of setting the listh options to their defaults.
  *
- * Return value: an empty hash
+ * Return value: an empty list
  */
-lw6sys_hash_t *
+lw6sys_list_t *
 lw6nod_info_new_verified_nodes ()
 {
-  lw6sys_hash_t *ret;
+  lw6sys_list_t *ret;
 
-  ret =
-    lw6sys_hash_new ((lw6sys_free_func_t) lw6nod_info_free,
-		     _LW6NOD_HASH_SIZE);
+  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6nod_info_free);
 
   return ret;
 }
@@ -385,7 +404,7 @@ lw6nod_info_new_verified_nodes ()
  * lw6nod_info_set_verified_nodes
  *
  * @info: the node info to modify
- * @hash: the list of verified nodes, will be freed by this function
+ * @list: the list of verified nodes, will be freed by this function
  *
  * Sets the list of verified nodes, that is, the list of nodes
  * we are sure to exist, this is typically the list we will
@@ -398,7 +417,7 @@ lw6nod_info_new_verified_nodes ()
  * Return value: 1 if OK, 0 on error.
  */
 int
-lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_hash_t * hash)
+lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
 {
   int ret = 0;
 
@@ -406,9 +425,9 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_hash_t * hash)
     {
       if (info->verified_nodes)
 	{
-	  lw6sys_hash_free (info->verified_nodes);
+	  lw6sys_list_free (info->verified_nodes);
 	}
-      info->verified_nodes = hash;
+      info->verified_nodes = list;
       lw6nod_info_unlock (info);
     }
 
@@ -431,14 +450,14 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_hash_t * hash)
  */
 void
 lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
-				lw6sys_assoc_callback_func_t func,
+				lw6sys_list_callback_func_t func,
 				void *func_data)
 {
   if (lw6nod_info_lock (info))
     {
       if (info->verified_nodes)
 	{
-	  lw6sys_hash_map (info->verified_nodes, func, func_data);
+	  lw6sys_list_map (info->verified_nodes, func, func_data);
 	}
       lw6nod_info_unlock (info);
     }
@@ -495,10 +514,10 @@ lw6nod_info_generate_oob_info (lw6nod_info_t * info)
 }
 
 static void
-_add_node_txt (void *func_data, char *key, void *value)
+_add_node_txt (void *func_data, void *data)
 {
   char **list = (char **) func_data;
-  lw6nod_info_t *verified_node = (lw6nod_info_t *) value;
+  lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
   char *tmp = NULL;
 
   /*
@@ -506,23 +525,14 @@ _add_node_txt (void *func_data, char *key, void *value)
    * on the list object? This is because we can only
    * access it through the map function because of locking issues
    */
-  if (list && (*list) && key && verified_node)
+  if (list && (*list) && verified_node && verified_node->const_info.url)
     {
-      if (!strcmp (key, verified_node->const_info.url))
+      tmp =
+	lw6sys_new_sprintf ("%s%s\n", *list, verified_node->const_info.url);
+      if (tmp)
 	{
-	  tmp = lw6sys_new_sprintf ("%s%s\n", *list, key);
-	  if (tmp)
-	    {
-	      LW6SYS_FREE (*list);
-	      (*list) = tmp;
-	    }
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
-		      ("key of verified node is \"%s\"  but node_info reports \"%s\""),
-		      key, verified_node->const_info.url);
+	  LW6SYS_FREE (*list);
+	  (*list) = tmp;
 	}
     }
 }

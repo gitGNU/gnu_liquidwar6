@@ -189,7 +189,7 @@ static void
 _node_set_verified_callback (void *data)
 {
   lw6nod_info_t *info = (lw6nod_info_t *) data;
-  lw6sys_hash_t *hash = NULL;
+  lw6sys_list_t *list = NULL;
   char *url = NULL;
   lw6nod_info_t *verified_node = NULL;
   int64_t stop_timestamp = 0;
@@ -199,8 +199,8 @@ _node_set_verified_callback (void *data)
 
   while (lw6sys_get_timestamp () < stop_timestamp)
     {
-      hash = lw6nod_info_new_verified_nodes ();
-      if (hash)
+      list = lw6nod_info_new_verified_nodes ();
+      if (list)
 	{
 	  url = lw6sys_url_http_from_ip_port (_TEST_IP_1, _TEST_PORT);
 	  if (url)
@@ -210,9 +210,9 @@ _node_set_verified_callback (void *data)
 				 _TEST_DESCRIPTION, _TEST_BENCH,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
-	      if (verified_node)
+	      if (verified_node && list)
 		{
-		  lw6sys_hash_set (hash, url, verified_node);
+		  lw6sys_list_push_front (&list, verified_node);
 		}
 	      LW6SYS_FREE (url);
 	    }
@@ -224,9 +224,9 @@ _node_set_verified_callback (void *data)
 				 _TEST_DESCRIPTION, _TEST_BENCH,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
-	      if (verified_node)
+	      if (verified_node && list)
 		{
-		  lw6sys_hash_set (hash, url, verified_node);
+		  lw6sys_list_push_front (&list, verified_node);
 		}
 	      LW6SYS_FREE (url);
 	    }
@@ -238,9 +238,9 @@ _node_set_verified_callback (void *data)
 				 _TEST_DESCRIPTION, _TEST_BENCH,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
-	      if (verified_node)
+	      if (verified_node && list)
 		{
-		  lw6sys_hash_set (hash, url, verified_node);
+		  lw6sys_list_push_front (&list, verified_node);
 		}
 	      LW6SYS_FREE (url);
 	    }
@@ -251,42 +251,33 @@ _node_set_verified_callback (void *data)
 			  _("setting list of verified nodes"));
 	      first_time = 0;
 	    }
-	  lw6nod_info_set_verified_nodes (info, hash);
+	  if (list)
+	    {
+	      lw6nod_info_set_verified_nodes (info, list);
+	    }
 	  // no need to free hash
 	}
     }
 }
 
 static void
-_node_map_verified_callback_callback (void *func_data, char *key, void *value)
+_node_map_verified_callback_callback (void *func_data, void *data)
 {
   int *first_time = (int *) func_data;
-  lw6nod_info_t *verified_node = (lw6nod_info_t *) value;
+  lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
 
-  if (key && verified_node)
+  if (verified_node && verified_node->const_info.url)
     {
-      if (!strcmp (key, verified_node->const_info.url))
+      if (*first_time)
 	{
-	  if (*first_time)
-	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""), key);
-	      (*first_time) = 0;
-	    }
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
-		      ("inconsistent data for verified nodes callback key=\"%s\" const_info.url=\"%s\""),
-		      key, verified_node->const_info.url);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""),
+		      verified_node->const_info.url);
+	  (*first_time) = 0;
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
-		  ("inconsistent pointers for verified nodes callback (key=%p, value=%p)"),
-		  key, value);
+      lw6sys_log (LW6SYS_LOG_WARNING, _("inconsistent verified_node data"));
     }
 }
 
