@@ -849,6 +849,23 @@ C interfaces:
 4.15.4 libcli
 -------------
 
+ -- Function: lw6cli_oob_t * lw6cli_oob_new (char * PUBLIC_URL)
+     PUBLIC_URL:  the address of the distant server to test
+
+     Create a new OOB structure, copying required objects.  We need to
+     make copies for this is for usage in a separate thread. The thread
+     member is not set here since the right way to do things is first to
+     set up data then to fire the thread.
+
+     *Return value:*  new object
+
+ -- Function: void lw6cli_oob_free (lw6cli_oob_t * OOB)
+     OOB:  the object to free
+
+     Frees an OOB structure.
+
+     *Return value:*  none
+
  -- Function: int lw6cli_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

@@ -31,14 +31,17 @@ _tcp_context_t *
 _mod_tcp_init ()
 {
   _tcp_context_t *tcp_context = NULL;
+  int ok = 0;
 
   tcp_context = (_tcp_context_t *) LW6SYS_CALLOC (sizeof (_tcp_context_t));
-  if (!tcp_context)
+  if (tcp_context)
     {
-      /*
-       * No use to continue if this basic malloc fails...
-       */
-      exit (1);
+      ok = 1;
+    }
+  if (!ok)
+    {
+      _mod_tcp_quit (tcp_context);
+      tcp_context = NULL;
     }
 
   lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-tcp", _("tcp init"));

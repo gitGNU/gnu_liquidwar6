@@ -31,14 +31,17 @@ _http_context_t *
 _mod_http_init ()
 {
   _http_context_t *http_context = NULL;
+  int ok = 0;
 
   http_context = (_http_context_t *) LW6SYS_CALLOC (sizeof (_http_context_t));
   if (!http_context)
     {
-      /*
-       * No use to continue if this basic malloc fails...
-       */
-      exit (1);
+      ok = 1;
+    }
+  if (!ok)
+    {
+      _mod_http_quit (http_context);
+      http_context = NULL;
     }
 
   lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-http", _("http init"));

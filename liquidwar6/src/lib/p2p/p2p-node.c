@@ -171,7 +171,20 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			lw6cli_create_backend (argc, argv, backend);
 		      if (node->cli_backends[node->nb_cli_backends - 1])
 			{
-			  ret = 1;
+			  if (lw6cli_init
+			      (node->cli_backends[node->nb_cli_backends - 1]))
+			    {
+			      ret = 1;
+			    }
+			  else
+			    {
+			      lw6cli_destroy_backend (node->cli_backends
+						      [node->nb_cli_backends -
+						       1]);
+			      node->cli_backends[node->nb_cli_backends - 1] =
+				NULL;
+			      node->cli_backends--;
+			    }
 			}
 		      else
 			{
@@ -822,6 +835,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		{
 		  if (node->cli_backends[i])
 		    {
+		      lw6cli_quit (node->cli_backends[i]);
 		      lw6cli_destroy_backend (node->cli_backends[i]);
 		      node->cli_backends[i] = NULL;
 		    }

@@ -31,14 +31,18 @@ _udp_context_t *
 _mod_udp_init ()
 {
   _udp_context_t *udp_context = NULL;
+  int ok = 0;
 
   udp_context = (_udp_context_t *) LW6SYS_CALLOC (sizeof (_udp_context_t));
   if (!udp_context)
     {
-      /*
-       * No use to continue if this basic malloc fails...
-       */
-      exit (1);
+      ok = 1;
+    }
+
+  if (!ok)
+    {
+      _mod_udp_quit (udp_context);
+      udp_context = NULL;
     }
 
   lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-udp", _("udp init"));
