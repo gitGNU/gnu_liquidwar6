@@ -1,3 +1,23 @@
+@deftypefun {lw6cli_oob_t *} {lw6cli_oob_new} (char * @var{public_url})
+@var{public_url}:  the address of the distant server to test
+
+Create a new OOB structure, copying required objects.
+We need to make copies for this is for usage in a 
+separate thread. The thread member is not set
+here since the right way to do things is first to
+set up data then to fire the thread.
+
+@strong{Return value:}  new object
+@end deftypefun
+
+@deftypefun {void} {lw6cli_oob_free} (lw6cli_oob_t * @var{oob})
+@var{oob}:  the object to free
+
+Frees an OOB structure.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {int} {lw6cli_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 
