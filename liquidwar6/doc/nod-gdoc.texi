@@ -108,6 +108,17 @@ threads access this info.
 @strong{Return value:}  newly allocated object, must be freed.
 @end deftypefun
 
+@deftypefun {lw6sys_hash_t *} {lw6nod_info_new_discovered_nodes} ()
+
+Creates a new hash, to be used as a discovered nodes list.
+Using this function has the
+advantage of setting the hash options to their defaults.
+We use a hash to avoid having uselessly long lists containing
+always the same node due to multiple detections.
+
+@strong{Return value:}  an empty hash
+@end deftypefun
+
 @deftypefun {int} {lw6nod_info_add_discovered_node} (lw6nod_info_t * @var{info}, char * @var{public_url})
 @var{info}:  the node info to update
 
@@ -131,19 +142,19 @@ and empties the current queue as well.
 @strong{Return value:}  a list of dynamically allocated strings.
 @end deftypefun
 
-@deftypefun {lw6sys_hash_t *} {lw6nod_info_new_verified_nodes} ()
+@deftypefun {lw6sys_list_t *} {lw6nod_info_new_verified_nodes} ()
 
-Creates a new hash, to be filled with nodes and typically passed
+Creates a new list, to be filled with nodes and typically passed
 to @code{lw6nod_info_set_verified_nodes}. Using this function has the
-advantage of setting the hash options to their defaults.
+advantage of setting the listh options to their defaults.
 
-@strong{Return value:}  an empty hash
+@strong{Return value:}  an empty list
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_set_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_hash_t * @var{hash})
+@deftypefun {int} {lw6nod_info_set_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_t * @var{list})
 @var{info}:  the node info to modify
 
-@var{hash}:  the list of verified nodes, will be freed by this function
+@var{list}:  the list of verified nodes, will be freed by this function
 
 Sets the list of verified nodes, that is, the list of nodes
 we are sure to exist, this is typically the list we will
@@ -156,7 +167,7 @@ be freed by function, that is, if you call this, then you can
 @strong{Return value:}  1 if OK, 0 on error.
 @end deftypefun
 
-@deftypefun {void} {lw6nod_info_map_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_assoc_callback_func_t @var{func}, void * @var{func_data})
+@deftypefun {void} {lw6nod_info_map_verified_nodes} (lw6nod_info_t * @var{info}, lw6sys_list_callback_func_t @var{func}, void * @var{func_data})
 @var{info}:  the node info concerned
 
 @var{func}:  the function to apply
