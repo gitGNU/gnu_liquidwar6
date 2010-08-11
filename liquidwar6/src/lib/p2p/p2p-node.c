@@ -549,7 +549,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 						       tcp_accepter->sock);
 		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process SRV_OOB"));
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process srv_oob"));
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
@@ -559,7 +559,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new TCP"));
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new tcp"));
 		  connection =
 		    lw6srv_accept_tcp (node->srv_backends[i], tcp_accepter,
 				       node->password);
@@ -845,4 +845,74 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _("trying to close NULL node"));
     }
+}
+
+static int
+_select_node_by_url_callback (void *func_data, int nb_fields,
+			      char **fields_values, char **fields_names)
+{
+  int ret = 0;
+  int *count = (int *) func_data;
+
+  (*count)++;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _
+	      ("select_node_by_url_callback called with %d fields, count is %d"),
+	      nb_fields, (*count));
+
+  return ret;
+}
+
+int
+_lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
+{
+  int ret = 1;
+  char *query = NULL;
+  int count = 0;
+
+  if (_lw6p2p_db_lock (node->db))
+    {
+      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				  (node->db,
+				   _LW6P2P_SELECT_NODE_BY_URL_SQL),
+				  public_url);
+      if (query)
+	{
+	  ret =
+	    _lw6p2p_db_exec (node->db, query,
+			     _select_node_by_url_callback,
+			     (void *) &count) && ret;
+	  LW6SYS_FREE (query);
+	  if (count > 0)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("there's already a node with url \"%s\""),
+			  public_url);
+	    }
+	  else
+	    {
+	      query =
+		lw6sys_new_sprintf (_lw6p2p_db_get_query
+				    (node->db,
+				     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
+				    public_url);
+	      if (query)
+		{
+		  ret = _lw6p2p_db_exec_ignore_data (node->db, query) && ret;
+		  LW6SYS_FREE (query);
+		}
+	      else
+		{
+		  ret = 0;
+		}
+	    }
+	}
+      else
+	{
+	  ret = 0;
+	}
+      _lw6p2p_db_unlock (node->db);
+    }
+
+  return ret;
 }

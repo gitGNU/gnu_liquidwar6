@@ -49,12 +49,37 @@ _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node)
   return ret;
 }
 
+static void
+_known_nodes_callback (void *func_data, void *data)
+{
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
+  char *public_url = (char *) data;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _("_known_nodes_callback with public_url=\"%s\""), public_url);
+  if (node && public_url)
+    {
+      _lw6p2p_node_insert_discovered (node, public_url);
+    }
+}
+
 int
 _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
+  lw6sys_list_t *list = NULL;
 
-  // todo
+  if (node->known_nodes)
+    {
+      list = lw6sys_str_split_config_item (node->known_nodes);
+      if (list)
+	{
+	  lw6sys_list_map (list, _known_nodes_callback, node);
+	  lw6sys_list_free (list);
+	}
+    }
+
+  // todo: let all backends try & discover things
   ret = 1;
 
   return ret;
@@ -82,13 +107,79 @@ _lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node)
   return ret;
 }
 
+static void
+_start_verify_node (_lw6p2p_node_t * node, char *public_url)
+{
+  _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
+  int i;
+
+  for (i = 0; i < node->nb_cli_backends; ++i)
+    {
+      cli_oob =
+	_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+					   node->node_info, public_url);
+      if (cli_oob)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("process cli_oob url=\"%s\""),
+		      public_url);
+	  cli_oob->cli_oob->thread =
+	    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
+	  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+	}
+    }
+}
+
+int
+_select_node_with_null_id_callback (void *func_data, int nb_fields,
+				    char **fields_values, char **fields_names)
+{
+  int ret = 0;
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
+
+  if (nb_fields == 1)
+    {
+      if (fields_values[0])
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("node with NULL id found url=\"%s\""),
+		      fields_values[0]);
+	  _start_verify_node (node, fields_values[0]);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("node_url is NULL"));
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("request returned %d fields, one and only one should be present"),
+		  nb_fields);
+    }
+
+  return ret;
+}
+
 int
 _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
+  char *query = NULL;
 
-  // todo
-  ret = 1;
+  query = _lw6p2p_db_get_query
+    (node->db, _LW6P2P_SELECT_NODE_WITH_NULL_ID_SQL);
+  if (query)
+    {
+      if (_lw6p2p_db_lock (node->db))
+	{
+	  ret =
+	    _lw6p2p_db_exec (node->db, query,
+			     _select_node_with_null_id_callback, node);
+	  _lw6p2p_db_unlock (node->db);
+	}
+      // no need to free QUERY here
+    }
 
   return ret;
 }

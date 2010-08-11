@@ -39,10 +39,11 @@
 #define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
 #define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
 #define _LW6P2P_SELECT_NODE_BY_URL_SQL "select-node-by-url.sql"
+#define _LW6P2P_SELECT_NODE_WITH_NULL_ID_SQL "select-node-with-null-id.sql"
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
-				      char **fields_names,
-				      char **fields_values);
+				      char **fields_values,
+				      char **fields_names);
 
 typedef struct _lw6p2p_consts_s
 {
@@ -190,6 +191,8 @@ extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
+					   char *public_url);
 
 /* p2p-srvoob.c */
 extern _lw6p2p_srv_oob_callback_data_t

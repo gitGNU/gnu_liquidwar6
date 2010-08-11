@@ -34,6 +34,8 @@ _mod_http_process_oob (_http_context_t * http_context,
 {
   int ret = 0;
 
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("process http oob url=\"%s\""),
+	      oob_data->public_url);
   // todo
 
   return ret;

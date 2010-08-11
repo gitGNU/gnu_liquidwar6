@@ -288,7 +288,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = clean-database.sql create-database.sql delete-connection-by-ptr.sql delete-node-by-id.sql insert-connection.sql insert-local-node.sql insert-discovered-node.sql select-connection.sql select-node-by-url.sql
+pkgdata_DATA = clean-database.sql create-database.sql delete-connection-by-ptr.sql delete-node-by-id.sql insert-connection.sql insert-local-node.sql insert-discovered-node.sql select-connection.sql select-node-by-url.sql select-node-with-null-id.sql
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
