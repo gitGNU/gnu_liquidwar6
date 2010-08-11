@@ -273,16 +273,85 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
 }
 
 int
+_lw6p2p_db_lock (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("lock db"));
+  ret = lw6sys_mutex_lock (db->mutex);
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("lock db OK"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to lock db"));
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_db_unlock (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("unlock db"));
+  ret = lw6sys_mutex_unlock (db->mutex);
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("unlock db OK"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to unlock db"));
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_db_trylock (_lw6p2p_db_t * db)
+{
+  int ret = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("trylock db"));
+  ret = lw6sys_mutex_trylock (db->mutex);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("trylock db ret=%d"), ret);
+
+  return ret;
+}
+
+int
 _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
+{
+  int ret = 0;
+
+  ret = _lw6p2p_db_exec (db, sql, NULL, NULL);
+
+  return ret;
+}
+
+int
+_lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
+		 void *func_data)
 {
   int ret = 0;
   int errcode = 0;
   char *errmsg = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("executing SQL statement \"%s\""), sql);
-  if (lw6sys_mutex_lock (db->mutex))
+  if (_lw6p2p_db_trylock (db))
     {
-      errcode = sqlite3_exec (db->handler, sql, NULL, NULL, &errmsg);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("trying to execute SQL statement \"%s\" while DB is not locked"),
+		  sql);
+      _lw6p2p_db_unlock (db);
+    }
+  else
+    {
+      errcode = sqlite3_exec (db->handler, sql, func, func_data, &errmsg);
       if (errcode == SQLITE_OK)
 	{
 	  ret = 1;
@@ -305,8 +374,8 @@ _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql)
 			  sql, errcode);
 	    }
 	}
-      lw6sys_mutex_unlock (db->mutex);
     }
+
   return ret;
 }
 
@@ -319,7 +388,11 @@ _lw6p2p_db_create_database (_lw6p2p_db_t * db)
   query = _lw6p2p_db_get_query (db, _LW6P2P_CREATE_DATABASE_SQL);
   if (query)
     {
-      ret = _lw6p2p_db_exec_ignore_data (db, query);
+      if (_lw6p2p_db_lock (db))
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (db, query);
+	  _lw6p2p_db_unlock (db);
+	}
     }
 
   return ret;
@@ -334,7 +407,11 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
   query = _lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL);
   if (query)
     {
-      ret = _lw6p2p_db_exec_ignore_data (db, query);
+      if (_lw6p2p_db_lock (db))
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (db, query);
+	  _lw6p2p_db_unlock (db);
+	}
     }
 
   return ret;

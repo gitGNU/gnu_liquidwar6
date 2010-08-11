@@ -282,7 +282,11 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			    node->bind_ip, node->bind_port, _LW6P2P_DB_TRUE);
       if (query)
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  if (_lw6p2p_db_lock (node->db))
+	    {
+	      ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	      _lw6p2p_db_unlock (node->db);
+	    }
 	  LW6SYS_FREE (query);
 	}
     }
@@ -566,8 +570,12 @@ _tcp_accepter_reply (void *func_data, void *data)
 							  node->node_id_str);
 			      if (query)
 				{
-				  _lw6p2p_db_exec_ignore_data (node->db,
-							       query);
+				  if (_lw6p2p_db_lock (node->db))
+				    {
+				      _lw6p2p_db_exec_ignore_data (node->db,
+								   query);
+				      _lw6p2p_db_unlock (node->db);
+				    }
 				  LW6SYS_FREE (query);
 				}
 			      LW6SYS_FREE (backend_ptr_str);
@@ -694,7 +702,11 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 				node->node_id_str);
 	  if (query)
 	    {
-	      _lw6p2p_db_exec_ignore_data (node->db, query);
+	      if (_lw6p2p_db_lock (node->db))
+		{
+		  _lw6p2p_db_exec_ignore_data (node->db, query);
+		  _lw6p2p_db_unlock (node->db);
+		}
 	      LW6SYS_FREE (query);
 	    }
 

@@ -38,6 +38,11 @@
 #define _LW6P2P_INSERT_LOCAL_NODE_SQL "insert-local-node.sql"
 #define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
 #define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
+#define _LW6P2P_SELECT_NODE_BY_URL_SQL "select-node-by-url.sql"
+
+typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
+				      char **fields_names,
+				      char **fields_values);
 
 typedef struct _lw6p2p_consts_s
 {
@@ -121,7 +126,12 @@ extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
+extern int _lw6p2p_db_lock (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_unlock (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_trylock (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_exec_ignore_data (_lw6p2p_db_t * db, char *sql);
+extern int _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql,
+			    _lw6p2p_db_callback_t func, void *func_data);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
 

@@ -128,50 +128,89 @@ _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node)
   return ret;
 }
 
+static int
+_select_node_by_url_callback (void *func_data, int nb_fields,
+			      char **fields_names, char **fields_values)
+{
+  int ret = 0;
+  int *count = (int *) func_data;
+
+  (*count)++;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _
+	      ("select_node_by_url_callback called with %d fields, count is %d"),
+	      nb_fields, (*count));
+
+  return ret;
+}
+
 int
 _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
   char *query = NULL;
-  char *insert = NULL;
-  char *tmp;
   char *url = NULL;
   lw6sys_list_t *list = NULL;
+  int count = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("flush discovered nodes"));
+  ret = 1;
 
-  query = lw6sys_str_copy ("");
-  if (query)
+  list = lw6nod_info_pop_discovered_nodes (node->node_info);
+  if (list)
     {
-      list = lw6nod_info_pop_discovered_nodes (node->node_info);
-      if (list)
+      if (_lw6p2p_db_lock (node->db))
 	{
 	  while ((url = (char *) lw6sys_list_pop_front (&list)) != NULL)
 	    {
-	      insert =
+	      query =
 		lw6sys_new_sprintf (_lw6p2p_db_get_query
 				    (node->db,
-				     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
-				    url);
-	      if (insert)
+				     _LW6P2P_SELECT_NODE_BY_URL_SQL), url);
+	      if (query)
 		{
-		  tmp = lw6sys_str_concat (query, insert);
-		  LW6SYS_FREE (insert);
-		  if (tmp)
+		  ret =
+		    _lw6p2p_db_exec (node->db, query,
+				     _select_node_by_url_callback,
+				     (void *) &count) && ret;
+		  LW6SYS_FREE (query);
+		  if (count > 0)
 		    {
-		      LW6SYS_FREE (query);
-		      query = tmp;
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _("there's already a node with url \"%s\""),
+				  url);
 		    }
+		  else
+		    {
+		      query =
+			lw6sys_new_sprintf (_lw6p2p_db_get_query
+					    (node->db,
+					     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
+					    url);
+		      if (query)
+			{
+			  ret = _lw6p2p_db_exec_ignore_data (node->db, query)
+			    && ret;
+			  LW6SYS_FREE (query);
+			}
+		      else
+			{
+			  ret = 0;
+			}
+		    }
+		}
+	      else
+		{
+		  ret = 0;
 		}
 	      LW6SYS_FREE (url);
 	    }
-	  if (list)
-	    {
-	      lw6sys_list_free (list);
-	    }
-	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  _lw6p2p_db_unlock (node->db);
 	}
-      LW6SYS_FREE (query);
+      if (list)
+	{
+	  lw6sys_list_free (list);
+	}
     }
 
   return ret;
