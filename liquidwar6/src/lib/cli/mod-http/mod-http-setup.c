@@ -34,10 +34,11 @@ _mod_http_init ()
   int ok = 0;
 
   http_context = (_http_context_t *) LW6SYS_CALLOC (sizeof (_http_context_t));
-  if (!http_context)
+  if (http_context)
     {
       ok = 1;
     }
+
   if (!ok)
     {
       _mod_http_quit (http_context);

@@ -38,6 +38,7 @@ _mod_tcp_init ()
     {
       ok = 1;
     }
+
   if (!ok)
     {
       _mod_tcp_quit (tcp_context);

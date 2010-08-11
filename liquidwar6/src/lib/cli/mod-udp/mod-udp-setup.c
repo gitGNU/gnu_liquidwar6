@@ -34,7 +34,7 @@ _mod_udp_init ()
   int ok = 0;
 
   udp_context = (_udp_context_t *) LW6SYS_CALLOC (sizeof (_udp_context_t));
-  if (!udp_context)
+  if (udp_context)
     {
       ok = 1;
     }

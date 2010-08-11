@@ -33,7 +33,7 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("process tcp oob url=\"%s\""),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("process tcp oob url=\"%s\""),
 	      oob_data->public_url);
   // todo
 
