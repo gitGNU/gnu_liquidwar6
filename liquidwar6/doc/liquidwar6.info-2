@@ -3351,7 +3351,47 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.16 libnet
+4.15.16 libmsg
+--------------
+
+ -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the INFO question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_list (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the LIST question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_oob_generate_pong (lw6nod_info_t * INFO)
+     INFO:  the node to generate info about
+
+     Generates a standard response to the PING question for OOB (out of
+     band) messages. The same message is sent, be it on http or tcp or
+     udp, so it's factorized here. Function will lock the info object
+     when needed.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: int lw6msg_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `nod' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+4.15.17 libnet
 --------------
 
  -- Function: int lw6net_last_error ()
@@ -3500,7 +3540,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.17 libnod
+4.15.18 libnod
 --------------
 
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
@@ -3684,39 +3724,6 @@ C interfaces:
 
      *Return value:*  none.
 
- -- Function: char * lw6nod_info_generate_oob_info (lw6nod_info_t *
-          INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the INFO question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6nod_info_generate_oob_list (lw6nod_info_t *
-          INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the LIST question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6nod_info_generate_oob_pong (lw6nod_info_t *
-          INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the PING question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed.
-
-     *Return value:*  newly allocated string.
-
  -- Function: int lw6nod_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -3724,7 +3731,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.18 libp2p
+4.15.19 libp2p
 --------------
 
  -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
@@ -3857,7 +3864,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.19 libpil
+4.15.20 libpil
 --------------
 
  -- Function: int lw6pil_bench (float * BENCH_RESULT, lw6sys_progress_t
@@ -4235,7 +4242,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.20 libsnd
+4.15.21 libsnd
 --------------
 
  -- Function: int lw6snd_test (int MODE)
@@ -4247,7 +4254,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.21 libsrv
+4.15.22 libsrv
 --------------
 
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
@@ -4322,7 +4329,7 @@ C interfaces:
 
      *Return value:*  none
 
-4.15.22 libsys
+4.15.23 libsys
 --------------
 
  -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
@@ -5590,7 +5597,12 @@ C interfaces:
 
      Transforms a string so that it does not contain any non-valid URL
      chars, it will mostly convert chars over 128 into their XY form
-     where XY is the hexadecimal code.
+     where XY is the hexadecimal code. Note that this function is non
+     really standard compliant for it won't encode '%' but keep it the
+     same. This is to allow using it several times on the same string
+     and avoid double-triple encoding of '%'. In practice it's not
+     recommended to have public_url for nodes with '%' in them, and the
+     program will never generate such url when guessing urls.
 
      *Return value:*  newly allocated string.
 
@@ -7941,7 +7953,7 @@ C interfaces:
 
      *Return value:*  none.
 
-4.15.23 libtsk
+4.15.24 libtsk
 --------------
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *
@@ -7984,302 +7996,4 @@ C interfaces:
      Runs the `tsk' module test suite.
 
      *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
-
-Annexe A 2005 .plan
-*******************
-
-Here's my .plan file, which describes what I (Christian Mauduit
-(mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
-garantee that what's written here is a precise description of the real
-future, however it should give a good idea of what I have in mind.
-
-   Note that the information here was written in summer 2005, it might
-or not be accurate now, as the main reason for plans to exist is that
-people never follow them. I'm no exception.
-
-A.1 Complete rewrite
-====================
-
-Liquid War 6 will be an almost complete rewrite. I mean that common
-code between branches 5 and 6 might end up in representing 0% of the
-total code. I think this is a wise decision, for the current code is
-really hard to maintain, and would not survive any serious cleanup. LW5
-was first written in 1998, for DOS, when I had much less experience in
-programming. In 7 years I - and other people as well - hacked major
-enhancements in it such as cross-platform support, network games, and
-if you compare release 5.0 with the latest 5.x.x release, you'll see
-that a bunch of things have changed. I had never expected I would patch
-and fix this game for so long, and it's no surprise that it's bloated
-today.
-
-   FYI, here's a list of what makes LW5 unsuitable for major
-improvements without a complete rewrite:
-
-   * global variable hell. Lots of things are stored in globals.
-
-   * hard-coded C GUI. Read src/level.c to get an idea of how horrible
-     it is.
-
-   * hard-coded 256 colors paletted mode. A clever bet in 1998
-     (performance...). Not anymore.
-
-   * generally bloated code. Makes bug-finding very tricky.
-
-A.2 Technologies
-================
-
-Liquid War 6 will use a different technical framework than Liquid War 5
-(http://www.ufoot.org/liquidwar/v5).
-
-A.2.1 Script + standard C + assembly
-------------------------------------
-
-It happens that coding a large project in pure C is a waist of time, if
-possible at all.
-
-   If one applies the standard 80/20 rule to a computer game, one might
-state that 80% of the code eat up 20% of the CPU and the other 20% of
-the code eat up 80% of the CPU, the former being high-level glue code
-and the latter being low-level algorithmic code.
-
-   With Liquid War, one could speak of the 99/01 rule. I mean that 99%
-of the CPU time concerns only 1% of the code, and vice-versa.
-Basically, Liquid War has a very CPU-greedy core algorithm, still
-spends a fair amount of CPU displaying stuff (but this is delegated to
-the low-level game programming library) and the rest is totally
-unsignificant, in terms of CPU. Point is this "rest" represents the
-vast majority of the code, and also represents the very same buggy code
-I spend nights to patch on Liquid War 5
-(http://www.ufoot.org/liquidwar/v5). I'm talking about network code,
-GUI, and other high-level glue-code which are currently being written
-in C.
-
-   This idea is to write all this in a convenient scripting language.
-There won't be any impact on performances. I can't garantee Liquid War
-6 will be blazingly fast, but for sure it won't be the scripting
-language fault. And of course if, as in Liquid War 3 and 5, I feel the
-need to implement some stuff in assembly for performances issues, I
-will do it.
-
-   We end up with a multi-language architecture: script + C + assembly.
-
-   My guess is that I'll use Scheme
-(http://www.gnu.org/software/guile/) as an extension language. Python
-(http://www.python.org) would be a good choice too. Let's say I'll give
-Scheme a chance, and if it's really not adapted, I'll switch back to
-Python. The point is that today I know Python and don't really know
-Scheme, but, well, it's always a pleasure for me to learn new things.
-It's fun.
-
-   So what is planned today is that Liquid War 6 will be a Scheme
-program, which will call callbacks functions written in C and/or
-assembly. These functions will do all the low-level time consuming
-algorithmic and graphical stuff. The rest of the code being entirely
-scripted.
-
-A.2.2 OpenGL
-------------
-
-Liquid War is not a 3D game, so why use OpenGL?
-
-   * it's a very convenient way to access video hardware acceleration
-     with XFree86.
-
-   * low-end computers and/or computers without 3D acceleration can
-     still run Liquid War 5 (http://www.ufoot.org/liquidwar/v5).
-
-   * I'm interested in learning/using this API 8-)
-
-   This choice implies that I won't use Allegro
-(http://alleg.sourceforge.net/) anymore. Allegro stays a very
-convenient library and I would recommend it for it's excellent, easy to
-learn, powerfull, and stable. But for the needs of Liquid War 6 I'll
-use something else (because of OpenGL). I first thought of using GLUT
-(http://freeglut.sourceforge.net/) but I might end up simply using SDL
-(http://www.libsdl.org/). The idea is just fo have an OpenGL wrapper
-which sets up OpenGL in a similar manner on all platforms, and handles
-basic things such as mouse or keyboard.
-
-A.2.3 CSound
-------------
-
-I've got two excellent books on Csound (http://www.csounds.com/), and
-the will to learn how to use this tool.
-
-   I'll probably use Csound for a number of things, ranging from
-"bubbling sounds" to full blown music. Stay tuned 8-)
-
-A.3 Functionnalities
-====================
-
-A.3.1 Visual enhancements
--------------------------
-
-Of course Liquid War 6 will look nicer than Liquid War 5
-(http://www.ufoot.org/liquidwar/v5), blah blah blah. What do you think?
-
-   Maybe I'll try to use some OpenGL features to make it possible to
-play on a ball, on a Moebius ring, or other fancy things. I have
-zillion of ideas, future will decide which ones will be implemented
-first.
-
-   To make it clear, visual enhancements aren't my top-level priority.
-However I'll try and make room for these enhancements, and prepare the
-terrain correctly. So it's possible that the first releases of Liquid
-War 6 won't be that much better than Liquid War 5
-(http://www.ufoot.org/liquidwar/v5), but at least Liquid War 6 will
-have the possibility to evolve. Something Liquid War 5
-(http://www.ufoot.org/liquidwar/v5) doesn't have.
-
-A.3.2 Rules enhancements
-------------------------
-
-There are many things that could be done easily:
-
-   * several cursors for one team
-
-   * alliances between teams
-
-   * deep places on a map, where more liquid can reside
-
-   * circular maps which "connect" the left border to the right one
-
-   * ...
-
-   As for graphical improvements, this is not my top-level priority.
-Simply, I'll make the game ready-to-improve. Again, all these
-enhancements are very hard to code in Liquid War 5
-(http://www.ufoot.org/liquidwar/v5), else I would already have coded
-them.  Network enhancements
-
-   That's my top-level prioriry.
-
-   Why is that? Well, think of Liquid War in terms of "what makes it a
-good game?" and "what makes it a poor game?".
-
-   It's a good game because:
-
-   * the idea is original
-
-   * the gameplay is addictive
-
-   * you can play on a LAN
-
-   * all the family can play
-
-   * it's cross-platform
-
-   * it's Free Software
-
-   It's a poor game because:
-
-   * it's somewhat ugly and has a retro "back in the eighties" look
-
-   * network games are slow on Internet
-
-   * there are not enough active Internet servers
-
-   For the ugliness, well, OpenGL and some artwork should make it. But
-for the network, what's the real problem?
-
-   The real problem is that in the current situation, the server needs
-to have all "keystrokes" before doing anything, and all players must be
-connected before a game starts. Here's what I plan to do to fix this:
-
-   * players will be able to connect on a game "on the fly". This is
-     done by most online games, and it's IMHO a required features for a
-     network mode to work on Internet (not speaking of local networks,
-     but real wide online gaming). How this will fit with Liquid War's
-     rules is not totally decided, but I already know of several way to
-     achieve this.
-
-   * I'll implement an "anticipation" system "a la" U61
-     (http://www.ufoot.org). This means that no matter if a remote
-     player has a poor network connection, things will behave as if
-     everything was fine. Internally, the system keeps 2 images of the
-     game. One which is "anticipated" and displayed to the player, and
-     one which is validated but outdated, kept internally. It's a
-     little hard to explain, consumes twice as much CPU and memory, but
-     it works. It happens that today the lacking ressource for playing
-     Liquid War online is more on the network side than on the local
-     CPU and memory aspects.
-
-   * I'll take it to the next level and implement a "peer-to-peer-like"
-     network model, in which any client can become a server. The idea
-     behind is that if a server quits the game, then a client takes its
-     role, letting the game continue for hours. This way one could
-     virtually have a never ending Liquid War game which would last
-     weeks. I believe this could be really cool. I also believe no
-     proprietary game will ever implement that, for in this model
-     there's no way to force people to access a centralized server,
-     this server usually being the major key in the business model of a
-     company which sells proprietary software.
-
-   This third point will be the real enhancement of Liquid War with
-version 6. It's one of the very points which drives me to rewrite it
-completely. First because it's impossible to implement it without some
-heavy work. Then because I find it very motivating.
-
-A.3.3 Hey, you forgot my idea!!!
---------------------------------
-
-Many gamers submitted suggestions, either by mail or by posting
-messages on the mailing list.
-
-   Don't worry, I keep them. Not reading them here does not mean I
-won't implement them. It simply means I won't implement them first. I
-first need the game basically function before enhancing it with fancy
-stuff.
-
-A.4 Road map
-============
-
-As I stated on the mailing list, when thinking about Liquid War 6,
-think of years rather than months (unless I get fired, jobless, or
-spend several months in a hospital with a laptop).
-
-   Note that this road map takes it for granted that I'll be the lone
-coder on the project. It's unlikely that someone is going to help me
-for the first stages, until there's at least something real, something
-playable. Something that proves that the concept is valid. Besides,
-(real) team work implies a significant overhead, especially at project
-start. It's hard to figure out how to distribute tasks when the tasks
-themselves are not clearly identified. But for the rest (starting in
-2007 or 2008), it's possible that external help might greatly...
-...help!
-
-   * 2005 : Project framework should be done. This implies that the
-     scripting engine is up and running, graphical mode works, config
-     and data loading work, basic menus are available. Nothing playable.
-
-   * 2006 : Import the core algorithm from Liquid War 5
-     (http://www.ufoot.org/liquidwar/v5), make the game playable in
-     "demo mode" ("à la" Liquid War 2), implement the network
-     "peer-to-peer-like" mode. At this stage, it will be possible to
-     know wether Liquid War 6 is true vaporware or not.
-
-   * 2007 : glue all this together to make something usable by anyone,
-     heavy work on the GUI, on the options, on error checking, many bug
-     fixes. The goal is to have a game which is equivalent to Liquid
-     War 5 (http://www.ufoot.org/liquidwar/v5), with the network
-     aspects pushed to the next level.
-
-   * 2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform
-     Freshmeat 8-) - and enhance it with all the feedback from gamers
-     (bug reports and suggestions received since 1998). Work on artwork
-     (both graphics and musics). Write documentation.
-
-   * 2009 : stabilize the game, patch it for all those things which had
-     been forgotten back then in 2005, optimize for speed, bug-fix
-     bug-fix bug-fix.
-
-   * 2010 : stop maintaining Liquid War 5
-     (http://www.ufoot.org/liquidwar/v5), invite Liquid War fans and
-     coders to a hudge party in my garden, sing all night, drink beers
-     and wine, teach Liquid War strategies to my 5 and 6 year old
-     daughters, remember the old times when Liquid War wasn't so cool
-     8-)
 

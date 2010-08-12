@@ -31,7 +31,7 @@
 #define _TEST_IP_2 "1.2.3.4"
 #define _TEST_IP_3 "10.10.10.10"
 #define _TEST_PORT 10000
-#define _TEST_DELAY_MS 10000
+#define _TEST_DELAY_MS 5000
 #define _TEST_ID 0x1212323242425252LL
 #define _TEST_ID_1 0x1234123412341234LL
 #define _TEST_ID_2 0x2345234523452345LL
@@ -317,7 +317,6 @@ test_node ()
     void *thread_update = NULL;
     void *thread_dup_dyn = NULL;
     char *url = NULL;
-    char *oob = NULL;
     lw6sys_list_t *list = NULL;
 
     ret = 0;

@@ -91,21 +91,26 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
   if (const_info->id)
     {
       LW6SYS_FREE (const_info->id);
+      const_info->id = NULL;
     }
   if (const_info->url)
     {
       LW6SYS_FREE (const_info->url);
+      const_info->url = NULL;
     }
   if (const_info->title)
     {
       LW6SYS_FREE (const_info->title);
+      const_info->title = NULL;
     }
   if (const_info->description)
     {
       LW6SYS_FREE (const_info->description);
+      const_info->description = NULL;
     }
   if (const_info->idle_screenshot_data)
     {
       LW6SYS_FREE (const_info->idle_screenshot_data);
+      const_info->idle_screenshot_data = NULL;
     }
 }

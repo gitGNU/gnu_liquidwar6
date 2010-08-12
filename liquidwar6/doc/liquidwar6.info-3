@@ -19,6 +19,304 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
+
+Annexe A 2005 .plan
+*******************
+
+Here's my .plan file, which describes what I (Christian Mauduit
+(mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
+garantee that what's written here is a precise description of the real
+future, however it should give a good idea of what I have in mind.
+
+   Note that the information here was written in summer 2005, it might
+or not be accurate now, as the main reason for plans to exist is that
+people never follow them. I'm no exception.
+
+A.1 Complete rewrite
+====================
+
+Liquid War 6 will be an almost complete rewrite. I mean that common
+code between branches 5 and 6 might end up in representing 0% of the
+total code. I think this is a wise decision, for the current code is
+really hard to maintain, and would not survive any serious cleanup. LW5
+was first written in 1998, for DOS, when I had much less experience in
+programming. In 7 years I - and other people as well - hacked major
+enhancements in it such as cross-platform support, network games, and
+if you compare release 5.0 with the latest 5.x.x release, you'll see
+that a bunch of things have changed. I had never expected I would patch
+and fix this game for so long, and it's no surprise that it's bloated
+today.
+
+   FYI, here's a list of what makes LW5 unsuitable for major
+improvements without a complete rewrite:
+
+   * global variable hell. Lots of things are stored in globals.
+
+   * hard-coded C GUI. Read src/level.c to get an idea of how horrible
+     it is.
+
+   * hard-coded 256 colors paletted mode. A clever bet in 1998
+     (performance...). Not anymore.
+
+   * generally bloated code. Makes bug-finding very tricky.
+
+A.2 Technologies
+================
+
+Liquid War 6 will use a different technical framework than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5).
+
+A.2.1 Script + standard C + assembly
+------------------------------------
+
+It happens that coding a large project in pure C is a waist of time, if
+possible at all.
+
+   If one applies the standard 80/20 rule to a computer game, one might
+state that 80% of the code eat up 20% of the CPU and the other 20% of
+the code eat up 80% of the CPU, the former being high-level glue code
+and the latter being low-level algorithmic code.
+
+   With Liquid War, one could speak of the 99/01 rule. I mean that 99%
+of the CPU time concerns only 1% of the code, and vice-versa.
+Basically, Liquid War has a very CPU-greedy core algorithm, still
+spends a fair amount of CPU displaying stuff (but this is delegated to
+the low-level game programming library) and the rest is totally
+unsignificant, in terms of CPU. Point is this "rest" represents the
+vast majority of the code, and also represents the very same buggy code
+I spend nights to patch on Liquid War 5
+(http://www.ufoot.org/liquidwar/v5). I'm talking about network code,
+GUI, and other high-level glue-code which are currently being written
+in C.
+
+   This idea is to write all this in a convenient scripting language.
+There won't be any impact on performances. I can't garantee Liquid War
+6 will be blazingly fast, but for sure it won't be the scripting
+language fault. And of course if, as in Liquid War 3 and 5, I feel the
+need to implement some stuff in assembly for performances issues, I
+will do it.
+
+   We end up with a multi-language architecture: script + C + assembly.
+
+   My guess is that I'll use Scheme
+(http://www.gnu.org/software/guile/) as an extension language. Python
+(http://www.python.org) would be a good choice too. Let's say I'll give
+Scheme a chance, and if it's really not adapted, I'll switch back to
+Python. The point is that today I know Python and don't really know
+Scheme, but, well, it's always a pleasure for me to learn new things.
+It's fun.
+
+   So what is planned today is that Liquid War 6 will be a Scheme
+program, which will call callbacks functions written in C and/or
+assembly. These functions will do all the low-level time consuming
+algorithmic and graphical stuff. The rest of the code being entirely
+scripted.
+
+A.2.2 OpenGL
+------------
+
+Liquid War is not a 3D game, so why use OpenGL?
+
+   * it's a very convenient way to access video hardware acceleration
+     with XFree86.
+
+   * low-end computers and/or computers without 3D acceleration can
+     still run Liquid War 5 (http://www.ufoot.org/liquidwar/v5).
+
+   * I'm interested in learning/using this API 8-)
+
+   This choice implies that I won't use Allegro
+(http://alleg.sourceforge.net/) anymore. Allegro stays a very
+convenient library and I would recommend it for it's excellent, easy to
+learn, powerfull, and stable. But for the needs of Liquid War 6 I'll
+use something else (because of OpenGL). I first thought of using GLUT
+(http://freeglut.sourceforge.net/) but I might end up simply using SDL
+(http://www.libsdl.org/). The idea is just fo have an OpenGL wrapper
+which sets up OpenGL in a similar manner on all platforms, and handles
+basic things such as mouse or keyboard.
+
+A.2.3 CSound
+------------
+
+I've got two excellent books on Csound (http://www.csounds.com/), and
+the will to learn how to use this tool.
+
+   I'll probably use Csound for a number of things, ranging from
+"bubbling sounds" to full blown music. Stay tuned 8-)
+
+A.3 Functionnalities
+====================
+
+A.3.1 Visual enhancements
+-------------------------
+
+Of course Liquid War 6 will look nicer than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), blah blah blah. What do you think?
+
+   Maybe I'll try to use some OpenGL features to make it possible to
+play on a ball, on a Moebius ring, or other fancy things. I have
+zillion of ideas, future will decide which ones will be implemented
+first.
+
+   To make it clear, visual enhancements aren't my top-level priority.
+However I'll try and make room for these enhancements, and prepare the
+terrain correctly. So it's possible that the first releases of Liquid
+War 6 won't be that much better than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), but at least Liquid War 6 will
+have the possibility to evolve. Something Liquid War 5
+(http://www.ufoot.org/liquidwar/v5) doesn't have.
+
+A.3.2 Rules enhancements
+------------------------
+
+There are many things that could be done easily:
+
+   * several cursors for one team
+
+   * alliances between teams
+
+   * deep places on a map, where more liquid can reside
+
+   * circular maps which "connect" the left border to the right one
+
+   * ...
+
+   As for graphical improvements, this is not my top-level priority.
+Simply, I'll make the game ready-to-improve. Again, all these
+enhancements are very hard to code in Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), else I would already have coded
+them.  Network enhancements
+
+   That's my top-level prioriry.
+
+   Why is that? Well, think of Liquid War in terms of "what makes it a
+good game?" and "what makes it a poor game?".
+
+   It's a good game because:
+
+   * the idea is original
+
+   * the gameplay is addictive
+
+   * you can play on a LAN
+
+   * all the family can play
+
+   * it's cross-platform
+
+   * it's Free Software
+
+   It's a poor game because:
+
+   * it's somewhat ugly and has a retro "back in the eighties" look
+
+   * network games are slow on Internet
+
+   * there are not enough active Internet servers
+
+   For the ugliness, well, OpenGL and some artwork should make it. But
+for the network, what's the real problem?
+
+   The real problem is that in the current situation, the server needs
+to have all "keystrokes" before doing anything, and all players must be
+connected before a game starts. Here's what I plan to do to fix this:
+
+   * players will be able to connect on a game "on the fly". This is
+     done by most online games, and it's IMHO a required features for a
+     network mode to work on Internet (not speaking of local networks,
+     but real wide online gaming). How this will fit with Liquid War's
+     rules is not totally decided, but I already know of several way to
+     achieve this.
+
+   * I'll implement an "anticipation" system "a la" U61
+     (http://www.ufoot.org). This means that no matter if a remote
+     player has a poor network connection, things will behave as if
+     everything was fine. Internally, the system keeps 2 images of the
+     game. One which is "anticipated" and displayed to the player, and
+     one which is validated but outdated, kept internally. It's a
+     little hard to explain, consumes twice as much CPU and memory, but
+     it works. It happens that today the lacking ressource for playing
+     Liquid War online is more on the network side than on the local
+     CPU and memory aspects.
+
+   * I'll take it to the next level and implement a "peer-to-peer-like"
+     network model, in which any client can become a server. The idea
+     behind is that if a server quits the game, then a client takes its
+     role, letting the game continue for hours. This way one could
+     virtually have a never ending Liquid War game which would last
+     weeks. I believe this could be really cool. I also believe no
+     proprietary game will ever implement that, for in this model
+     there's no way to force people to access a centralized server,
+     this server usually being the major key in the business model of a
+     company which sells proprietary software.
+
+   This third point will be the real enhancement of Liquid War with
+version 6. It's one of the very points which drives me to rewrite it
+completely. First because it's impossible to implement it without some
+heavy work. Then because I find it very motivating.
+
+A.3.3 Hey, you forgot my idea!!!
+--------------------------------
+
+Many gamers submitted suggestions, either by mail or by posting
+messages on the mailing list.
+
+   Don't worry, I keep them. Not reading them here does not mean I
+won't implement them. It simply means I won't implement them first. I
+first need the game basically function before enhancing it with fancy
+stuff.
+
+A.4 Road map
+============
+
+As I stated on the mailing list, when thinking about Liquid War 6,
+think of years rather than months (unless I get fired, jobless, or
+spend several months in a hospital with a laptop).
+
+   Note that this road map takes it for granted that I'll be the lone
+coder on the project. It's unlikely that someone is going to help me
+for the first stages, until there's at least something real, something
+playable. Something that proves that the concept is valid. Besides,
+(real) team work implies a significant overhead, especially at project
+start. It's hard to figure out how to distribute tasks when the tasks
+themselves are not clearly identified. But for the rest (starting in
+2007 or 2008), it's possible that external help might greatly...
+...help!
+
+   * 2005 : Project framework should be done. This implies that the
+     scripting engine is up and running, graphical mode works, config
+     and data loading work, basic menus are available. Nothing playable.
+
+   * 2006 : Import the core algorithm from Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), make the game playable in
+     "demo mode" ("à la" Liquid War 2), implement the network
+     "peer-to-peer-like" mode. At this stage, it will be possible to
+     know wether Liquid War 6 is true vaporware or not.
+
+   * 2007 : glue all this together to make something usable by anyone,
+     heavy work on the GUI, on the options, on error checking, many bug
+     fixes. The goal is to have a game which is equivalent to Liquid
+     War 5 (http://www.ufoot.org/liquidwar/v5), with the network
+     aspects pushed to the next level.
+
+   * 2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform
+     Freshmeat 8-) - and enhance it with all the feedback from gamers
+     (bug reports and suggestions received since 1998). Work on artwork
+     (both graphics and musics). Write documentation.
+
+   * 2009 : stabilize the game, patch it for all those things which had
+     been forgotten back then in 2005, optimize for speed, bug-fix
+     bug-fix bug-fix.
+
+   * 2010 : stop maintaining Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), invite Liquid War fans and
+     coders to a hudge party in my garden, sing all night, drink beers
+     and wine, teach Liquid War strategies to my 5 and 6 year old
+     daughters, remember the old times when Liquid War wasn't so cool
+     8-)
+
+
 File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
 
 Annexe B Fanfic
@@ -2374,454 +2672,455 @@ F.2 Function and keyword index
 * lw6map_team_color_key_to_index:        C functions.        (line 3092)
 * lw6map_test:                           C functions.        (line 3327)
 * lw6map_to_hexa:                        C functions.        (line 3110)
-* lw6net_if_guess_local:                 C functions.        (line 3345)
-* lw6net_if_guess_public_url:            C functions.        (line 3357)
-* lw6net_init:                           C functions.        (line 3461)
-* lw6net_last_error:                     C functions.        (line 3337)
-* lw6net_password_checksum:              C functions.        (line 3430)
-* lw6net_password_verify:                C functions.        (line 3447)
-* lw6net_quit:                           C functions.        (line 3468)
-* lw6net_recv_line_tcp:                  C functions.        (line 3371)
-* lw6net_recv_line_udp:                  C functions.        (line 3395)
-* lw6net_send_line_tcp:                  C functions.        (line 3383)
-* lw6net_send_line_udp:                  C functions.        (line 3414)
-* lw6net_test:                           C functions.        (line 3474)
-* lw6nod_dyn_info_free:                  C functions.        (line 3486)
-* lw6nod_info_add_discovered_node:       C functions.        (line 3607)
-* lw6nod_info_dup_dyn:                   C functions.        (line 3589)
-* lw6nod_info_free:                      C functions.        (line 3520)
-* lw6nod_info_generate_oob_info:         C functions.        (line 3668)
-* lw6nod_info_generate_oob_list:         C functions.        (line 3679)
-* lw6nod_info_generate_oob_pong:         C functions.        (line 3690)
-* lw6nod_info_idle:                      C functions.        (line 3545)
-* lw6nod_info_lock:                      C functions.        (line 3527)
-* lw6nod_info_map_verified_nodes:        C functions.        (line 3653)
-* lw6nod_info_new:                       C functions.        (line 3496)
-* lw6nod_info_new_discovered_nodes:      C functions.        (line 3598)
-* lw6nod_info_new_verified_nodes:        C functions.        (line 3629)
-* lw6nod_info_pop_discovered_nodes:      C functions.        (line 3621)
-* lw6nod_info_set_verified_nodes:        C functions.        (line 3637)
-* lw6nod_info_unlock:                    C functions.        (line 3537)
-* lw6nod_info_update:                    C functions.        (line 3558)
-* lw6nod_test:                           C functions.        (line 3700)
-* lw6p2p_db_close:                       C functions.        (line 3725)
-* lw6p2p_db_default_name:                C functions.        (line 3752)
-* lw6p2p_db_open:                        C functions.        (line 3711)
-* lw6p2p_db_repr:                        C functions.        (line 3732)
-* lw6p2p_db_reset:                       C functions.        (line 3740)
-* lw6p2p_node_close:                     C functions.        (line 3820)
-* lw6p2p_node_free:                      C functions.        (line 3798)
-* lw6p2p_node_new:                       C functions.        (line 3763)
-* lw6p2p_node_poll:                      C functions.        (line 3812)
-* lw6p2p_node_repr:                      C functions.        (line 3805)
-* lw6p2p_test:                           C functions.        (line 3830)
-* lw6pil_bench:                          C functions.        (line 3844)
-* lw6pil_coords_fix:                     C functions.        (line 3855)
-* lw6pil_local_cursors_get_cursor:       C functions.        (line 3882)
-* lw6pil_local_cursors_get_info:         C functions.        (line 3892)
-* lw6pil_local_cursors_get_main_info:    C functions.        (line 3938)
-* lw6pil_local_cursors_reset:            C functions.        (line 3873)
-* lw6pil_local_cursors_set_main:         C functions.        (line 3955)
-* lw6pil_local_cursors_set_mouse_controlled: C functions.    (line 3924)
-* lw6pil_local_cursors_set_xy:           C functions.        (line 3909)
-* lw6pil_pilot_calibrate:                C functions.        (line 4117)
-* lw6pil_pilot_can_sync:                 C functions.        (line 4039)
-* lw6pil_pilot_commit:                   C functions.        (line 4020)
-* lw6pil_pilot_dirty_read:               C functions.        (line 4099)
-* lw6pil_pilot_free:                     C functions.        (line 3981)
-* lw6pil_pilot_get_last_commit_round:    C functions.        (line 4163)
-* lw6pil_pilot_get_max_round:            C functions.        (line 4195)
-* lw6pil_pilot_get_next_round:           C functions.        (line 4152)
-* lw6pil_pilot_get_reference_current_round: C functions.     (line 4185)
-* lw6pil_pilot_get_reference_target_round: C functions.      (line 4172)
-* lw6pil_pilot_is_over:                  C functions.        (line 4204)
-* lw6pil_pilot_local_command:            C functions.        (line 4002)
-* lw6pil_pilot_make_backup:              C functions.        (line 4030)
-* lw6pil_pilot_new:                      C functions.        (line 3966)
-* lw6pil_pilot_repr:                     C functions.        (line 4108)
-* lw6pil_pilot_send_command:             C functions.        (line 3990)
-* lw6pil_pilot_slow_down:                C functions.        (line 4141)
-* lw6pil_pilot_speed_up:                 C functions.        (line 4130)
-* lw6pil_pilot_sync_from_backup:         C functions.        (line 4051)
-* lw6pil_pilot_sync_from_draft:          C functions.        (line 4077)
-* lw6pil_pilot_sync_from_reference:      C functions.        (line 4063)
-* lw6pil_test:                           C functions.        (line 4211)
-* lw6snd_test:                           C functions.        (line 4221)
-* lw6srv_oob_free:                       C functions.        (line 4248)
-* lw6srv_oob_new:                        C functions.        (line 4234)
-* lw6srv_tcp_accepter_free:              C functions.        (line 4269)
-* lw6srv_tcp_accepter_new:               C functions.        (line 4256)
-* lw6srv_test:                           C functions.        (line 4276)
-* lw6srv_udp_buffer_free:                C functions.        (line 4298)
-* lw6srv_udp_buffer_new:                 C functions.        (line 4284)
-* lw6sys_arg_exists:                     C functions.        (line 4329)
-* lw6sys_arg_get_value:                  C functions.        (line 4342)
-* lw6sys_arg_get_value_with_env:         C functions.        (line 4356)
-* lw6sys_arg_match:                      C functions.        (line 4308)
-* lw6sys_arg_test_mode:                  C functions.        (line 4374)
-* lw6sys_assoc_dup:                      C functions.        (line 4511)
-* lw6sys_assoc_free:                     C functions.        (line 4405)
-* lw6sys_assoc_get:                      C functions.        (line 4426)
-* lw6sys_assoc_has_key:                  C functions.        (line 4414)
-* lw6sys_assoc_keys:                     C functions.        (line 4468)
-* lw6sys_assoc_map:                      C functions.        (line 4480)
-* lw6sys_assoc_new:                      C functions.        (line 4389)
-* lw6sys_assoc_set:                      C functions.        (line 4438)
-* lw6sys_assoc_sort_and_map:             C functions.        (line 4496)
-* lw6sys_assoc_unset:                    C functions.        (line 4457)
-* lw6sys_atob:                           C functions.        (line 5371)
-* lw6sys_atof:                           C functions.        (line 5379)
-* lw6sys_atoi:                           C functions.        (line 5364)
-* lw6sys_btoa:                           C functions.        (line 5397)
-* lw6sys_build_get_bin_id:               C functions.        (line 5008)
-* lw6sys_build_get_cflags:               C functions.        (line 4772)
-* lw6sys_build_get_codename:             C functions.        (line 4697)
-* lw6sys_build_get_configure_args:       C functions.        (line 4757)
-* lw6sys_build_get_copyright:            C functions.        (line 4739)
-* lw6sys_build_get_datadir:              C functions.        (line 4882)
-* lw6sys_build_get_date:                 C functions.        (line 4797)
-* lw6sys_build_get_docdir:               C functions.        (line 4922)
-* lw6sys_build_get_enable_allinone:      C functions.        (line 4964)
-* lw6sys_build_get_enable_console:       C functions.        (line 4929)
-* lw6sys_build_get_enable_fullstatic:    C functions.        (line 4969)
-* lw6sys_build_get_enable_gcov:          C functions.        (line 4997)
-* lw6sys_build_get_enable_gprof:         C functions.        (line 4979)
-* lw6sys_build_get_enable_gtk:           C functions.        (line 4934)
-* lw6sys_build_get_enable_instrument:    C functions.        (line 4985)
-* lw6sys_build_get_enable_mod_csound:    C functions.        (line 4944)
-* lw6sys_build_get_enable_mod_gl:        C functions.        (line 4939)
-* lw6sys_build_get_enable_mod_http:      C functions.        (line 4954)
-* lw6sys_build_get_enable_mod_ogg:       C functions.        (line 4949)
-* lw6sys_build_get_enable_optimize:      C functions.        (line 4959)
-* lw6sys_build_get_enable_paranoid:      C functions.        (line 4974)
-* lw6sys_build_get_enable_profiler:      C functions.        (line 4991)
-* lw6sys_build_get_enable_valgrind:      C functions.        (line 5003)
-* lw6sys_build_get_endianness:           C functions.        (line 4820)
-* lw6sys_build_get_gcc_version:          C functions.        (line 4766)
-* lw6sys_build_get_host_cpu:             C functions.        (line 4813)
-* lw6sys_build_get_host_os:              C functions.        (line 4836)
-* lw6sys_build_get_hostname:             C functions.        (line 4790)
-* lw6sys_build_get_includedir:           C functions.        (line 4904)
-* lw6sys_build_get_ldflags:              C functions.        (line 4780)
-* lw6sys_build_get_libdir:               C functions.        (line 4893)
-* lw6sys_build_get_license:              C functions.        (line 4745)
-* lw6sys_build_get_localedir:            C functions.        (line 4914)
-* lw6sys_build_get_md5sum:               C functions.        (line 4725)
-* lw6sys_build_get_package_name:         C functions.        (line 4661)
-* lw6sys_build_get_package_string:       C functions.        (line 4673)
-* lw6sys_build_get_package_tarname:      C functions.        (line 4651)
-* lw6sys_build_get_pointer_size:         C functions.        (line 4826)
-* lw6sys_build_get_prefix:               C functions.        (line 4874)
-* lw6sys_build_get_stamp:                C functions.        (line 4707)
-* lw6sys_build_get_time:                 C functions.        (line 4805)
-* lw6sys_build_get_top_srcdir:           C functions.        (line 4858)
-* lw6sys_build_get_url:                  C functions.        (line 4751)
-* lw6sys_build_get_version:              C functions.        (line 4685)
-* lw6sys_build_is_gp2x:                  C functions.        (line 4853)
-* lw6sys_build_is_mac_os_x:              C functions.        (line 4848)
-* lw6sys_build_is_ms_windows:            C functions.        (line 4842)
-* lw6sys_build_is_x86:                   C functions.        (line 4831)
-* lw6sys_build_log_all:                  C functions.        (line 5014)
-* lw6sys_calloc:                         C functions.        (line 6535)
-* lw6sys_check_id:                       C functions.        (line 6169)
-* lw6sys_check_id_16:                    C functions.        (line 6148)
-* lw6sys_check_id_32:                    C functions.        (line 6155)
-* lw6sys_check_id_64:                    C functions.        (line 6162)
-* lw6sys_check_mutex_count:              C functions.        (line 6677)
-* lw6sys_check_thread_count:             C functions.        (line 7721)
-* lw6sys_check_types_size:               C functions.        (line 6620)
-* lw6sys_checksum:                       C functions.        (line 5021)
-* lw6sys_checksum_int32:                 C functions.        (line 5048)
-* lw6sys_checksum_int64:                 C functions.        (line 5059)
-* lw6sys_checksum_str:                   C functions.        (line 5039)
-* lw6sys_checksum_update:                C functions.        (line 5090)
-* lw6sys_checksum_update_int32:          C functions.        (line 5118)
-* lw6sys_checksum_update_int64:          C functions.        (line 5131)
-* lw6sys_checksum_update_str:            C functions.        (line 5105)
-* lw6sys_checksum_update_whd:            C functions.        (line 5144)
-* lw6sys_checksum_update_xyz:            C functions.        (line 5157)
-* lw6sys_checksum_whd:                   C functions.        (line 5069)
-* lw6sys_checksum_xyz:                   C functions.        (line 5079)
-* lw6sys_clear_file:                     C functions.        (line 5631)
-* lw6sys_clear_memory_bazooka:           C functions.        (line 4532)
-* lw6sys_color_8_solid:                  C functions.        (line 5350)
-* lw6sys_color_8_to_a:                   C functions.        (line 5267)
-* lw6sys_color_8_to_f:                   C functions.        (line 5195)
-* lw6sys_color_8_to_i:                   C functions.        (line 5216)
-* lw6sys_color_a_to_8:                   C functions.        (line 5245)
-* lw6sys_color_a_to_f:                   C functions.        (line 5255)
-* lw6sys_color_average:                  C functions.        (line 5299)
-* lw6sys_color_char2float:               C functions.        (line 5177)
-* lw6sys_color_distance:                 C functions.        (line 5327)
-* lw6sys_color_f_solid:                  C functions.        (line 5357)
-* lw6sys_color_f_to_8:                   C functions.        (line 5186)
-* lw6sys_color_f_to_i:                   C functions.        (line 5206)
-* lw6sys_color_float2char:               C functions.        (line 5169)
-* lw6sys_color_hsv_to_rgb:               C functions.        (line 5289)
-* lw6sys_color_i_to_8:                   C functions.        (line 5237)
-* lw6sys_color_i_to_f:                   C functions.        (line 5227)
-* lw6sys_color_is_same:                  C functions.        (line 5341)
-* lw6sys_color_ponderate:                C functions.        (line 5311)
-* lw6sys_color_rgb_to_hsv:               C functions.        (line 5277)
-* lw6sys_create_dir:                     C functions.        (line 6923)
-* lw6sys_create_dir_silent:              C functions.        (line 6931)
-* lw6sys_date_clf:                       C functions.        (line 7806)
-* lw6sys_date_rfc1123:                   C functions.        (line 7798)
-* lw6sys_debug_get:                      C functions.        (line 5415)
-* lw6sys_debug_set:                      C functions.        (line 5418)
-* lw6sys_default_memory_bazooka:         C functions.        (line 4524)
-* lw6sys_delay:                          C functions.        (line 7778)
-* lw6sys_dir_exists:                     C functions.        (line 6916)
-* lw6sys_dir_list:                       C functions.        (line 7023)
-* lw6sys_dump:                           C functions.        (line 5430)
-* lw6sys_dump_clear:                     C functions.        (line 5423)
-* lw6sys_env_concat:                     C functions.        (line 5457)
-* lw6sys_env_exists_prefixed:            C functions.        (line 5467)
-* lw6sys_env_separator_char:             C functions.        (line 5442)
-* lw6sys_env_separator_str:              C functions.        (line 5449)
-* lw6sys_env_split:                      C functions.        (line 5533)
-* lw6sys_eol:                            C functions.        (line 7571)
-* lw6sys_escape_html_attribute:          C functions.        (line 5577)
-* lw6sys_escape_http_uri:                C functions.        (line 5568)
-* lw6sys_escape_sql_value:               C functions.        (line 5586)
-* lw6sys_exec_again:                     C functions.        (line 5616)
-* lw6sys_exec_find_myself:               C functions.        (line 5595)
-* lw6sys_false:                          C functions.        (line 6687)
-* lw6sys_file_exists:                    C functions.        (line 6908)
-* lw6sys_find_in_dir_and_path:           C functions.        (line 7058)
-* lw6sys_free:                           C functions.        (line 6569)
-* lw6sys_free_callback:                  C functions.        (line 6585)
-* lw6sys_ftoa:                           C functions.        (line 5406)
-* lw6sys_generate_id_16:                 C functions.        (line 6127)
-* lw6sys_generate_id_32:                 C functions.        (line 6134)
-* lw6sys_generate_id_64:                 C functions.        (line 6141)
-* lw6sys_get_config_file:                C functions.        (line 6789)
-* lw6sys_get_cwd:                        C functions.        (line 6762)
-* lw6sys_get_cycle:                      C functions.        (line 7743)
-* lw6sys_get_data_dir:                   C functions.        (line 6832)
-* lw6sys_get_default_config_file:        C functions.        (line 6702)
-* lw6sys_get_default_data_dir:           C functions.        (line 6726)
-* lw6sys_get_default_log_file:           C functions.        (line 6709)
-* lw6sys_get_default_map_dir:            C functions.        (line 6742)
-* lw6sys_get_default_map_path:           C functions.        (line 6747)
-* lw6sys_get_default_mod_dir:            C functions.        (line 6720)
-* lw6sys_get_default_music_dir:          C functions.        (line 6731)
-* lw6sys_get_default_music_path:         C functions.        (line 6736)
-* lw6sys_get_default_prefix:             C functions.        (line 6715)
-* lw6sys_get_default_script_file:        C functions.        (line 6753)
-* lw6sys_get_default_user_dir:           C functions.        (line 6695)
-* lw6sys_get_home:                       C functions.        (line 5542)
-* lw6sys_get_hostname:                   C functions.        (line 5561)
-* lw6sys_get_log_file:                   C functions.        (line 6800)
-* lw6sys_get_map_dir:                    C functions.        (line 6865)
-* lw6sys_get_map_path:                   C functions.        (line 6876)
-* lw6sys_get_memory_bazooka_free_count:  C functions.        (line 4577)
-* lw6sys_get_memory_bazooka_free_megabytes: C functions.     (line 4611)
-* lw6sys_get_memory_bazooka_malloc_count: C functions.       (line 4569)
+* lw6msg_oob_generate_info:              C functions.        (line 3337)
+* lw6msg_oob_generate_list:              C functions.        (line 3347)
+* lw6msg_oob_generate_pong:              C functions.        (line 3357)
+* lw6msg_test:                           C functions.        (line 3367)
+* lw6net_if_guess_local:                 C functions.        (line 3385)
+* lw6net_if_guess_public_url:            C functions.        (line 3397)
+* lw6net_init:                           C functions.        (line 3501)
+* lw6net_last_error:                     C functions.        (line 3377)
+* lw6net_password_checksum:              C functions.        (line 3470)
+* lw6net_password_verify:                C functions.        (line 3487)
+* lw6net_quit:                           C functions.        (line 3508)
+* lw6net_recv_line_tcp:                  C functions.        (line 3411)
+* lw6net_recv_line_udp:                  C functions.        (line 3435)
+* lw6net_send_line_tcp:                  C functions.        (line 3423)
+* lw6net_send_line_udp:                  C functions.        (line 3454)
+* lw6net_test:                           C functions.        (line 3514)
+* lw6nod_dyn_info_free:                  C functions.        (line 3526)
+* lw6nod_info_add_discovered_node:       C functions.        (line 3647)
+* lw6nod_info_dup_dyn:                   C functions.        (line 3629)
+* lw6nod_info_free:                      C functions.        (line 3560)
+* lw6nod_info_idle:                      C functions.        (line 3585)
+* lw6nod_info_lock:                      C functions.        (line 3567)
+* lw6nod_info_map_verified_nodes:        C functions.        (line 3693)
+* lw6nod_info_new:                       C functions.        (line 3536)
+* lw6nod_info_new_discovered_nodes:      C functions.        (line 3638)
+* lw6nod_info_new_verified_nodes:        C functions.        (line 3669)
+* lw6nod_info_pop_discovered_nodes:      C functions.        (line 3661)
+* lw6nod_info_set_verified_nodes:        C functions.        (line 3677)
+* lw6nod_info_unlock:                    C functions.        (line 3577)
+* lw6nod_info_update:                    C functions.        (line 3598)
+* lw6nod_test:                           C functions.        (line 3707)
+* lw6p2p_db_close:                       C functions.        (line 3732)
+* lw6p2p_db_default_name:                C functions.        (line 3759)
+* lw6p2p_db_open:                        C functions.        (line 3718)
+* lw6p2p_db_repr:                        C functions.        (line 3739)
+* lw6p2p_db_reset:                       C functions.        (line 3747)
+* lw6p2p_node_close:                     C functions.        (line 3827)
+* lw6p2p_node_free:                      C functions.        (line 3805)
+* lw6p2p_node_new:                       C functions.        (line 3770)
+* lw6p2p_node_poll:                      C functions.        (line 3819)
+* lw6p2p_node_repr:                      C functions.        (line 3812)
+* lw6p2p_test:                           C functions.        (line 3837)
+* lw6pil_bench:                          C functions.        (line 3851)
+* lw6pil_coords_fix:                     C functions.        (line 3862)
+* lw6pil_local_cursors_get_cursor:       C functions.        (line 3889)
+* lw6pil_local_cursors_get_info:         C functions.        (line 3899)
+* lw6pil_local_cursors_get_main_info:    C functions.        (line 3945)
+* lw6pil_local_cursors_reset:            C functions.        (line 3880)
+* lw6pil_local_cursors_set_main:         C functions.        (line 3962)
+* lw6pil_local_cursors_set_mouse_controlled: C functions.    (line 3931)
+* lw6pil_local_cursors_set_xy:           C functions.        (line 3916)
+* lw6pil_pilot_calibrate:                C functions.        (line 4124)
+* lw6pil_pilot_can_sync:                 C functions.        (line 4046)
+* lw6pil_pilot_commit:                   C functions.        (line 4027)
+* lw6pil_pilot_dirty_read:               C functions.        (line 4106)
+* lw6pil_pilot_free:                     C functions.        (line 3988)
+* lw6pil_pilot_get_last_commit_round:    C functions.        (line 4170)
+* lw6pil_pilot_get_max_round:            C functions.        (line 4202)
+* lw6pil_pilot_get_next_round:           C functions.        (line 4159)
+* lw6pil_pilot_get_reference_current_round: C functions.     (line 4192)
+* lw6pil_pilot_get_reference_target_round: C functions.      (line 4179)
+* lw6pil_pilot_is_over:                  C functions.        (line 4211)
+* lw6pil_pilot_local_command:            C functions.        (line 4009)
+* lw6pil_pilot_make_backup:              C functions.        (line 4037)
+* lw6pil_pilot_new:                      C functions.        (line 3973)
+* lw6pil_pilot_repr:                     C functions.        (line 4115)
+* lw6pil_pilot_send_command:             C functions.        (line 3997)
+* lw6pil_pilot_slow_down:                C functions.        (line 4148)
+* lw6pil_pilot_speed_up:                 C functions.        (line 4137)
+* lw6pil_pilot_sync_from_backup:         C functions.        (line 4058)
+* lw6pil_pilot_sync_from_draft:          C functions.        (line 4084)
+* lw6pil_pilot_sync_from_reference:      C functions.        (line 4070)
+* lw6pil_test:                           C functions.        (line 4218)
+* lw6snd_test:                           C functions.        (line 4228)
+* lw6srv_oob_free:                       C functions.        (line 4255)
+* lw6srv_oob_new:                        C functions.        (line 4241)
+* lw6srv_tcp_accepter_free:              C functions.        (line 4276)
+* lw6srv_tcp_accepter_new:               C functions.        (line 4263)
+* lw6srv_test:                           C functions.        (line 4283)
+* lw6srv_udp_buffer_free:                C functions.        (line 4305)
+* lw6srv_udp_buffer_new:                 C functions.        (line 4291)
+* lw6sys_arg_exists:                     C functions.        (line 4336)
+* lw6sys_arg_get_value:                  C functions.        (line 4349)
+* lw6sys_arg_get_value_with_env:         C functions.        (line 4363)
+* lw6sys_arg_match:                      C functions.        (line 4315)
+* lw6sys_arg_test_mode:                  C functions.        (line 4381)
+* lw6sys_assoc_dup:                      C functions.        (line 4518)
+* lw6sys_assoc_free:                     C functions.        (line 4412)
+* lw6sys_assoc_get:                      C functions.        (line 4433)
+* lw6sys_assoc_has_key:                  C functions.        (line 4421)
+* lw6sys_assoc_keys:                     C functions.        (line 4475)
+* lw6sys_assoc_map:                      C functions.        (line 4487)
+* lw6sys_assoc_new:                      C functions.        (line 4396)
+* lw6sys_assoc_set:                      C functions.        (line 4445)
+* lw6sys_assoc_sort_and_map:             C functions.        (line 4503)
+* lw6sys_assoc_unset:                    C functions.        (line 4464)
+* lw6sys_atob:                           C functions.        (line 5378)
+* lw6sys_atof:                           C functions.        (line 5386)
+* lw6sys_atoi:                           C functions.        (line 5371)
+* lw6sys_btoa:                           C functions.        (line 5404)
+* lw6sys_build_get_bin_id:               C functions.        (line 5015)
+* lw6sys_build_get_cflags:               C functions.        (line 4779)
+* lw6sys_build_get_codename:             C functions.        (line 4704)
+* lw6sys_build_get_configure_args:       C functions.        (line 4764)
+* lw6sys_build_get_copyright:            C functions.        (line 4746)
+* lw6sys_build_get_datadir:              C functions.        (line 4889)
+* lw6sys_build_get_date:                 C functions.        (line 4804)
+* lw6sys_build_get_docdir:               C functions.        (line 4929)
+* lw6sys_build_get_enable_allinone:      C functions.        (line 4971)
+* lw6sys_build_get_enable_console:       C functions.        (line 4936)
+* lw6sys_build_get_enable_fullstatic:    C functions.        (line 4976)
+* lw6sys_build_get_enable_gcov:          C functions.        (line 5004)
+* lw6sys_build_get_enable_gprof:         C functions.        (line 4986)
+* lw6sys_build_get_enable_gtk:           C functions.        (line 4941)
+* lw6sys_build_get_enable_instrument:    C functions.        (line 4992)
+* lw6sys_build_get_enable_mod_csound:    C functions.        (line 4951)
+* lw6sys_build_get_enable_mod_gl:        C functions.        (line 4946)
+* lw6sys_build_get_enable_mod_http:      C functions.        (line 4961)
+* lw6sys_build_get_enable_mod_ogg:       C functions.        (line 4956)
+* lw6sys_build_get_enable_optimize:      C functions.        (line 4966)
+* lw6sys_build_get_enable_paranoid:      C functions.        (line 4981)
+* lw6sys_build_get_enable_profiler:      C functions.        (line 4998)
+* lw6sys_build_get_enable_valgrind:      C functions.        (line 5010)
+* lw6sys_build_get_endianness:           C functions.        (line 4827)
+* lw6sys_build_get_gcc_version:          C functions.        (line 4773)
+* lw6sys_build_get_host_cpu:             C functions.        (line 4820)
+* lw6sys_build_get_host_os:              C functions.        (line 4843)
+* lw6sys_build_get_hostname:             C functions.        (line 4797)
+* lw6sys_build_get_includedir:           C functions.        (line 4911)
+* lw6sys_build_get_ldflags:              C functions.        (line 4787)
+* lw6sys_build_get_libdir:               C functions.        (line 4900)
+* lw6sys_build_get_license:              C functions.        (line 4752)
+* lw6sys_build_get_localedir:            C functions.        (line 4921)
+* lw6sys_build_get_md5sum:               C functions.        (line 4732)
+* lw6sys_build_get_package_name:         C functions.        (line 4668)
+* lw6sys_build_get_package_string:       C functions.        (line 4680)
+* lw6sys_build_get_package_tarname:      C functions.        (line 4658)
+* lw6sys_build_get_pointer_size:         C functions.        (line 4833)
+* lw6sys_build_get_prefix:               C functions.        (line 4881)
+* lw6sys_build_get_stamp:                C functions.        (line 4714)
+* lw6sys_build_get_time:                 C functions.        (line 4812)
+* lw6sys_build_get_top_srcdir:           C functions.        (line 4865)
+* lw6sys_build_get_url:                  C functions.        (line 4758)
+* lw6sys_build_get_version:              C functions.        (line 4692)
+* lw6sys_build_is_gp2x:                  C functions.        (line 4860)
+* lw6sys_build_is_mac_os_x:              C functions.        (line 4855)
+* lw6sys_build_is_ms_windows:            C functions.        (line 4849)
+* lw6sys_build_is_x86:                   C functions.        (line 4838)
+* lw6sys_build_log_all:                  C functions.        (line 5021)
+* lw6sys_calloc:                         C functions.        (line 6547)
+* lw6sys_check_id:                       C functions.        (line 6181)
+* lw6sys_check_id_16:                    C functions.        (line 6160)
+* lw6sys_check_id_32:                    C functions.        (line 6167)
+* lw6sys_check_id_64:                    C functions.        (line 6174)
+* lw6sys_check_mutex_count:              C functions.        (line 6689)
+* lw6sys_check_thread_count:             C functions.        (line 7733)
+* lw6sys_check_types_size:               C functions.        (line 6632)
+* lw6sys_checksum:                       C functions.        (line 5028)
+* lw6sys_checksum_int32:                 C functions.        (line 5055)
+* lw6sys_checksum_int64:                 C functions.        (line 5066)
+* lw6sys_checksum_str:                   C functions.        (line 5046)
+* lw6sys_checksum_update:                C functions.        (line 5097)
+* lw6sys_checksum_update_int32:          C functions.        (line 5125)
+* lw6sys_checksum_update_int64:          C functions.        (line 5138)
+* lw6sys_checksum_update_str:            C functions.        (line 5112)
+* lw6sys_checksum_update_whd:            C functions.        (line 5151)
+* lw6sys_checksum_update_xyz:            C functions.        (line 5164)
+* lw6sys_checksum_whd:                   C functions.        (line 5076)
+* lw6sys_checksum_xyz:                   C functions.        (line 5086)
+* lw6sys_clear_file:                     C functions.        (line 5643)
+* lw6sys_clear_memory_bazooka:           C functions.        (line 4539)
+* lw6sys_color_8_solid:                  C functions.        (line 5357)
+* lw6sys_color_8_to_a:                   C functions.        (line 5274)
+* lw6sys_color_8_to_f:                   C functions.        (line 5202)
+* lw6sys_color_8_to_i:                   C functions.        (line 5223)
+* lw6sys_color_a_to_8:                   C functions.        (line 5252)
+* lw6sys_color_a_to_f:                   C functions.        (line 5262)
+* lw6sys_color_average:                  C functions.        (line 5306)
+* lw6sys_color_char2float:               C functions.        (line 5184)
+* lw6sys_color_distance:                 C functions.        (line 5334)
+* lw6sys_color_f_solid:                  C functions.        (line 5364)
+* lw6sys_color_f_to_8:                   C functions.        (line 5193)
+* lw6sys_color_f_to_i:                   C functions.        (line 5213)
+* lw6sys_color_float2char:               C functions.        (line 5176)
+* lw6sys_color_hsv_to_rgb:               C functions.        (line 5296)
+* lw6sys_color_i_to_8:                   C functions.        (line 5244)
+* lw6sys_color_i_to_f:                   C functions.        (line 5234)
+* lw6sys_color_is_same:                  C functions.        (line 5348)
+* lw6sys_color_ponderate:                C functions.        (line 5318)
+* lw6sys_color_rgb_to_hsv:               C functions.        (line 5284)
+* lw6sys_create_dir:                     C functions.        (line 6935)
+* lw6sys_create_dir_silent:              C functions.        (line 6943)
+* lw6sys_date_clf:                       C functions.        (line 7818)
+* lw6sys_date_rfc1123:                   C functions.        (line 7810)
+* lw6sys_debug_get:                      C functions.        (line 5422)
+* lw6sys_debug_set:                      C functions.        (line 5425)
+* lw6sys_default_memory_bazooka:         C functions.        (line 4531)
+* lw6sys_delay:                          C functions.        (line 7790)
+* lw6sys_dir_exists:                     C functions.        (line 6928)
+* lw6sys_dir_list:                       C functions.        (line 7035)
+* lw6sys_dump:                           C functions.        (line 5437)
+* lw6sys_dump_clear:                     C functions.        (line 5430)
+* lw6sys_env_concat:                     C functions.        (line 5464)
+* lw6sys_env_exists_prefixed:            C functions.        (line 5474)
+* lw6sys_env_separator_char:             C functions.        (line 5449)
+* lw6sys_env_separator_str:              C functions.        (line 5456)
+* lw6sys_env_split:                      C functions.        (line 5540)
+* lw6sys_eol:                            C functions.        (line 7583)
+* lw6sys_escape_html_attribute:          C functions.        (line 5589)
+* lw6sys_escape_http_uri:                C functions.        (line 5575)
+* lw6sys_escape_sql_value:               C functions.        (line 5598)
+* lw6sys_exec_again:                     C functions.        (line 5628)
+* lw6sys_exec_find_myself:               C functions.        (line 5607)
+* lw6sys_false:                          C functions.        (line 6699)
+* lw6sys_file_exists:                    C functions.        (line 6920)
+* lw6sys_find_in_dir_and_path:           C functions.        (line 7070)
+* lw6sys_free:                           C functions.        (line 6581)
+* lw6sys_free_callback:                  C functions.        (line 6597)
+* lw6sys_ftoa:                           C functions.        (line 5413)
+* lw6sys_generate_id_16:                 C functions.        (line 6139)
+* lw6sys_generate_id_32:                 C functions.        (line 6146)
+* lw6sys_generate_id_64:                 C functions.        (line 6153)
+* lw6sys_get_config_file:                C functions.        (line 6801)
+* lw6sys_get_cwd:                        C functions.        (line 6774)
+* lw6sys_get_cycle:                      C functions.        (line 7755)
+* lw6sys_get_data_dir:                   C functions.        (line 6844)
+* lw6sys_get_default_config_file:        C functions.        (line 6714)
+* lw6sys_get_default_data_dir:           C functions.        (line 6738)
+* lw6sys_get_default_log_file:           C functions.        (line 6721)
+* lw6sys_get_default_map_dir:            C functions.        (line 6754)
+* lw6sys_get_default_map_path:           C functions.        (line 6759)
+* lw6sys_get_default_mod_dir:            C functions.        (line 6732)
+* lw6sys_get_default_music_dir:          C functions.        (line 6743)
+* lw6sys_get_default_music_path:         C functions.        (line 6748)
+* lw6sys_get_default_prefix:             C functions.        (line 6727)
+* lw6sys_get_default_script_file:        C functions.        (line 6765)
+* lw6sys_get_default_user_dir:           C functions.        (line 6707)
+* lw6sys_get_home:                       C functions.        (line 5549)
+* lw6sys_get_hostname:                   C functions.        (line 5568)
+* lw6sys_get_log_file:                   C functions.        (line 6812)
+* lw6sys_get_map_dir:                    C functions.        (line 6877)
+* lw6sys_get_map_path:                   C functions.        (line 6888)
+* lw6sys_get_memory_bazooka_free_count:  C functions.        (line 4584)
+* lw6sys_get_memory_bazooka_free_megabytes: C functions.     (line 4618)
+* lw6sys_get_memory_bazooka_malloc_count: C functions.       (line 4576)
 * lw6sys_get_memory_bazooka_malloc_current_bytes: C functions.
-                                                             (line 4619)
+                                                             (line 4626)
 * lw6sys_get_memory_bazooka_malloc_current_count: C functions.
-                                                             (line 4585)
-* lw6sys_get_memory_bazooka_malloc_max_bytes: C functions.   (line 4628)
-* lw6sys_get_memory_bazooka_malloc_max_count: C functions.   (line 4594)
-* lw6sys_get_memory_bazooka_malloc_megabytes: C functions.   (line 4603)
-* lw6sys_get_memory_bazooka_size:        C functions.        (line 4552)
-* lw6sys_get_mod_dir:                    C functions.        (line 6821)
-* lw6sys_get_music_dir:                  C functions.        (line 6843)
-* lw6sys_get_music_path:                 C functions.        (line 6854)
-* lw6sys_get_mutex_lock_count:           C functions.        (line 6665)
-* lw6sys_get_mutex_unlock_count:         C functions.        (line 6671)
-* lw6sys_get_prefix:                     C functions.        (line 6811)
-* lw6sys_get_run_dir:                    C functions.        (line 6767)
-* lw6sys_get_script_file:                C functions.        (line 6887)
-* lw6sys_get_thread_create_count:        C functions.        (line 7709)
-* lw6sys_get_thread_join_count:          C functions.        (line 7715)
-* lw6sys_get_timestamp:                  C functions.        (line 7729)
-* lw6sys_get_uptime:                     C functions.        (line 7737)
-* lw6sys_get_user_dir:                   C functions.        (line 6778)
-* lw6sys_get_username:                   C functions.        (line 5551)
-* lw6sys_getenv:                         C functions.        (line 5480)
-* lw6sys_getenv_prefixed:                C functions.        (line 5491)
-* lw6sys_hash_dup:                       C functions.        (line 5802)
-* lw6sys_hash_free:                      C functions.        (line 5701)
-* lw6sys_hash_get:                       C functions.        (line 5720)
-* lw6sys_hash_has_key:                   C functions.        (line 5709)
-* lw6sys_hash_keys:                      C functions.        (line 5759)
-* lw6sys_hash_map:                       C functions.        (line 5771)
-* lw6sys_hash_new:                       C functions.        (line 5683)
-* lw6sys_hash_set:                       C functions.        (line 5732)
-* lw6sys_hash_sort_and_map:              C functions.        (line 5787)
-* lw6sys_hash_unset:                     C functions.        (line 5749)
-* lw6sys_hexa_ptr_to_str:                C functions.        (line 6073)
-* lw6sys_hexa_serializer_as_string:      C functions.        (line 5855)
-* lw6sys_hexa_serializer_eof:            C functions.        (line 5845)
-* lw6sys_hexa_serializer_free:           C functions.        (line 5827)
-* lw6sys_hexa_serializer_new:            C functions.        (line 5816)
-* lw6sys_hexa_serializer_pop_color:      C functions.        (line 6050)
-* lw6sys_hexa_serializer_pop_float:      C functions.        (line 6003)
-* lw6sys_hexa_serializer_pop_int16:      C functions.        (line 5983)
-* lw6sys_hexa_serializer_pop_int32:      C functions.        (line 5973)
-* lw6sys_hexa_serializer_pop_int64:      C functions.        (line 5963)
-* lw6sys_hexa_serializer_pop_int8:       C functions.        (line 5993)
-* lw6sys_hexa_serializer_pop_str:        C functions.        (line 6013)
-* lw6sys_hexa_serializer_pop_whd:        C functions.        (line 6038)
-* lw6sys_hexa_serializer_pop_xyz:        C functions.        (line 6026)
-* lw6sys_hexa_serializer_push_color:     C functions.        (line 5953)
-* lw6sys_hexa_serializer_push_float:     C functions.        (line 5906)
-* lw6sys_hexa_serializer_push_int16:     C functions.        (line 5886)
-* lw6sys_hexa_serializer_push_int32:     C functions.        (line 5876)
-* lw6sys_hexa_serializer_push_int64:     C functions.        (line 5866)
-* lw6sys_hexa_serializer_push_int8:      C functions.        (line 5896)
-* lw6sys_hexa_serializer_push_str:       C functions.        (line 5916)
-* lw6sys_hexa_serializer_push_whd:       C functions.        (line 5941)
-* lw6sys_hexa_serializer_push_xyz:       C functions.        (line 5929)
-* lw6sys_hexa_serializer_rewind:         C functions.        (line 5835)
-* lw6sys_hexa_str_to_ptr:                C functions.        (line 6059)
-* lw6sys_history_free:                   C functions.        (line 6108)
-* lw6sys_history_get:                    C functions.        (line 6100)
-* lw6sys_history_init:                   C functions.        (line 6087)
-* lw6sys_history_register:               C functions.        (line 6093)
-* lw6sys_id_atol:                        C functions.        (line 6185)
-* lw6sys_id_ltoa:                        C functions.        (line 6176)
-* lw6sys_idle:                           C functions.        (line 7789)
-* lw6sys_is_big_endian:                  C functions.        (line 6608)
-* lw6sys_is_executed_again:              C functions.        (line 5605)
-* lw6sys_is_little_endian:               C functions.        (line 6614)
-* lw6sys_is_memory_bazooka_trustable:    C functions.        (line 4637)
-* lw6sys_itoa:                           C functions.        (line 5388)
-* lw6sys_keyword_as_arg:                 C functions.        (line 6205)
-* lw6sys_keyword_as_env:                 C functions.        (line 6213)
-* lw6sys_keyword_as_key:                 C functions.        (line 6195)
-* lw6sys_keyword_as_xml:                 C functions.        (line 6222)
-* lw6sys_list_dup:                       C functions.        (line 6386)
-* lw6sys_list_filter:                    C functions.        (line 6296)
-* lw6sys_list_free:                      C functions.        (line 6242)
-* lw6sys_list_is_empty:                  C functions.        (line 6258)
-* lw6sys_list_length:                    C functions.        (line 6268)
-* lw6sys_list_map:                       C functions.        (line 6277)
-* lw6sys_list_new:                       C functions.        (line 6231)
-* lw6sys_list_next:                      C functions.        (line 6250)
-* lw6sys_list_pop_back:                  C functions.        (line 6366)
-* lw6sys_list_pop_front:                 C functions.        (line 6329)
-* lw6sys_list_push_back:                 C functions.        (line 6349)
-* lw6sys_list_push_front:                C functions.        (line 6312)
-* lw6sys_locale_to_utf8:                 C functions.        (line 6115)
-* lw6sys_log:                            C functions.        (line 6419)
-* lw6sys_log_clear:                      C functions.        (line 6409)
-* lw6sys_log_critical:                   C functions.        (line 6443)
-* lw6sys_log_get_level:                  C functions.        (line 6455)
-* lw6sys_log_set_file:                   C functions.        (line 6400)
-* lw6sys_log_set_level:                  C functions.        (line 6457)
-* lw6sys_malloc:                         C functions.        (line 6518)
-* lw6sys_math_angle_360:                 C functions.        (line 6484)
-* lw6sys_math_blink:                     C functions.        (line 6508)
-* lw6sys_math_heartbeat:                 C functions.        (line 6496)
-* lw6sys_math_poly_wy1y2s1:              C functions.        (line 6463)
-* lw6sys_megabytes_available:            C functions.        (line 6601)
-* lw6sys_memory_bazooka_report:          C functions.        (line 4643)
-* lw6sys_mutex_create:                   C functions.        (line 6627)
-* lw6sys_mutex_destroy:                  C functions.        (line 6632)
-* lw6sys_mutex_lock:                     C functions.        (line 6639)
-* lw6sys_mutex_trylock:                  C functions.        (line 6648)
-* lw6sys_mutex_unlock:                   C functions.        (line 6658)
-* lw6sys_new_sprintf:                    C functions.        (line 7492)
-* lw6sys_options_log:                    C functions.        (line 6898)
-* lw6sys_options_log_defaults:           C functions.        (line 6758)
-* lw6sys_path_add_slash:                 C functions.        (line 6941)
-* lw6sys_path_concat:                    C functions.        (line 6959)
-* lw6sys_path_is_cwd:                    C functions.        (line 6987)
-* lw6sys_path_is_relative:               C functions.        (line 6980)
-* lw6sys_path_list:                      C functions.        (line 7040)
-* lw6sys_path_parent:                    C functions.        (line 6994)
-* lw6sys_path_split:                     C functions.        (line 6970)
-* lw6sys_path_strip_slash:               C functions.        (line 6950)
-* lw6sys_path_unparent:                  C functions.        (line 7002)
-* lw6sys_path_unparent_no_malloc:        C functions.        (line 7010)
-* lw6sys_print_xml_footer:               C functions.        (line 7081)
-* lw6sys_print_xml_header:               C functions.        (line 7073)
-* lw6sys_profiler_check:                 C functions.        (line 7089)
-* lw6sys_progress_begin:                 C functions.        (line 7198)
-* lw6sys_progress_default:               C functions.        (line 7100)
-* lw6sys_progress_end:                   C functions.        (line 7213)
-* lw6sys_progress_half:                  C functions.        (line 7205)
-* lw6sys_progress_split:                 C functions.        (line 7132)
-* lw6sys_progress_split3:                C functions.        (line 7159)
-* lw6sys_progress_split4:                C functions.        (line 7172)
-* lw6sys_progress_split5:                C functions.        (line 7186)
-* lw6sys_progress_split_here:            C functions.        (line 7145)
-* lw6sys_progress_update:                C functions.        (line 7111)
-* lw6sys_random:                         C functions.        (line 7220)
-* lw6sys_random_float:                   C functions.        (line 7231)
-* lw6sys_read_file_content:              C functions.        (line 5640)
-* lw6sys_read_file_content_bin:          C functions.        (line 5652)
-* lw6sys_readable_uptime:                C functions.        (line 7812)
-* lw6sys_realloc:                        C functions.        (line 6553)
-* lw6sys_sdl_register:                   C functions.        (line 7239)
-* lw6sys_sdl_unregister:                 C functions.        (line 7246)
-* lw6sys_serialize_int16:                C functions.        (line 7288)
-* lw6sys_serialize_int32:                C functions.        (line 7271)
-* lw6sys_serialize_int64:                C functions.        (line 7254)
-* lw6sys_set_memory_bazooka_eraser:      C functions.        (line 4559)
-* lw6sys_set_memory_bazooka_size:        C functions.        (line 4537)
-* lw6sys_setenv:                         C functions.        (line 5505)
-* lw6sys_setenv_prefixed:                C functions.        (line 5518)
-* lw6sys_shape_check_min_max_whd:        C functions.        (line 7305)
-* lw6sys_shape_check_pos:                C functions.        (line 7320)
-* lw6sys_shape_is_same:                  C functions.        (line 7330)
-* lw6sys_shape_is_same_xy:               C functions.        (line 7340)
-* lw6sys_skip_blanks:                    C functions.        (line 7527)
-* lw6sys_sleep:                          C functions.        (line 7771)
-* lw6sys_sort:                           C functions.        (line 7424)
-* lw6sys_sort_float_callback:            C functions.        (line 7374)
-* lw6sys_sort_float_desc_callback:       C functions.        (line 7386)
-* lw6sys_sort_int_callback:              C functions.        (line 7350)
-* lw6sys_sort_int_desc_callback:         C functions.        (line 7362)
-* lw6sys_sort_str_callback:              C functions.        (line 7399)
-* lw6sys_sort_str_desc_callback:         C functions.        (line 7411)
-* lw6sys_spinlock_create:                C functions.        (line 7435)
-* lw6sys_spinlock_destroy:               C functions.        (line 7440)
-* lw6sys_spinlock_lock:                  C functions.        (line 7447)
-* lw6sys_spinlock_trylock:               C functions.        (line 7456)
-* lw6sys_spinlock_unlock:                C functions.        (line 7466)
-* lw6sys_str_cleanup:                    C functions.        (line 7535)
-* lw6sys_str_cleanup_ascii7:             C functions.        (line 7546)
-* lw6sys_str_concat:                     C functions.        (line 7482)
-* lw6sys_str_copy:                       C functions.        (line 7473)
-* lw6sys_str_is_blank:                   C functions.        (line 7507)
-* lw6sys_str_is_same:                    C functions.        (line 7515)
-* lw6sys_str_reformat:                   C functions.        (line 7559)
-* lw6sys_str_split:                      C functions.        (line 7582)
-* lw6sys_str_split_config_item:          C functions.        (line 7602)
-* lw6sys_str_split_no_0:                 C functions.        (line 7592)
-* lw6sys_str_tolower:                    C functions.        (line 7620)
-* lw6sys_str_toupper:                    C functions.        (line 7612)
-* lw6sys_test:                           C functions.        (line 7642)
-* lw6sys_test_exec:                      C functions.        (line 7628)
-* lw6sys_thread_create:                  C functions.        (line 7655)
-* lw6sys_thread_get_data:                C functions.        (line 7691)
-* lw6sys_thread_get_id:                  C functions.        (line 7683)
-* lw6sys_thread_is_callback_done:        C functions.        (line 7675)
-* lw6sys_thread_join:                    C functions.        (line 7699)
-* lw6sys_time_init:                      C functions.        (line 7795)
-* lw6sys_timer_update:                   C functions.        (line 7760)
-* lw6sys_true:                           C functions.        (line 6683)
-* lw6sys_unserialize_int16:              C functions.        (line 7298)
-* lw6sys_unserialize_int32:              C functions.        (line 7281)
-* lw6sys_unserialize_int64:              C functions.        (line 7264)
-* lw6sys_url_canonize:                   C functions.        (line 7849)
-* lw6sys_url_free:                       C functions.        (line 7842)
-* lw6sys_url_http_from_ip_port:          C functions.        (line 7822)
-* lw6sys_url_parse:                      C functions.        (line 7833)
-* lw6sys_vthread_create:                 C functions.        (line 7898)
-* lw6sys_vthread_is_running:             C functions.        (line 7884)
-* lw6sys_vthread_join:                   C functions.        (line 7915)
-* lw6sys_vthread_run:                    C functions.        (line 7862)
-* lw6sys_write_file_content:             C functions.        (line 5670)
-* lw6tsk_loader_free:                    C functions.        (line 7938)
-* lw6tsk_loader_get_stage:               C functions.        (line 7953)
-* lw6tsk_loader_new:                     C functions.        (line 7928)
-* lw6tsk_loader_repr:                    C functions.        (line 7946)
-* lw6tsk_test:                           C functions.        (line 7961)
+                                                             (line 4592)
+* lw6sys_get_memory_bazooka_malloc_max_bytes: C functions.   (line 4635)
+* lw6sys_get_memory_bazooka_malloc_max_count: C functions.   (line 4601)
+* lw6sys_get_memory_bazooka_malloc_megabytes: C functions.   (line 4610)
+* lw6sys_get_memory_bazooka_size:        C functions.        (line 4559)
+* lw6sys_get_mod_dir:                    C functions.        (line 6833)
+* lw6sys_get_music_dir:                  C functions.        (line 6855)
+* lw6sys_get_music_path:                 C functions.        (line 6866)
+* lw6sys_get_mutex_lock_count:           C functions.        (line 6677)
+* lw6sys_get_mutex_unlock_count:         C functions.        (line 6683)
+* lw6sys_get_prefix:                     C functions.        (line 6823)
+* lw6sys_get_run_dir:                    C functions.        (line 6779)
+* lw6sys_get_script_file:                C functions.        (line 6899)
+* lw6sys_get_thread_create_count:        C functions.        (line 7721)
+* lw6sys_get_thread_join_count:          C functions.        (line 7727)
+* lw6sys_get_timestamp:                  C functions.        (line 7741)
+* lw6sys_get_uptime:                     C functions.        (line 7749)
+* lw6sys_get_user_dir:                   C functions.        (line 6790)
+* lw6sys_get_username:                   C functions.        (line 5558)
+* lw6sys_getenv:                         C functions.        (line 5487)
+* lw6sys_getenv_prefixed:                C functions.        (line 5498)
+* lw6sys_hash_dup:                       C functions.        (line 5814)
+* lw6sys_hash_free:                      C functions.        (line 5713)
+* lw6sys_hash_get:                       C functions.        (line 5732)
+* lw6sys_hash_has_key:                   C functions.        (line 5721)
+* lw6sys_hash_keys:                      C functions.        (line 5771)
+* lw6sys_hash_map:                       C functions.        (line 5783)
+* lw6sys_hash_new:                       C functions.        (line 5695)
+* lw6sys_hash_set:                       C functions.        (line 5744)
+* lw6sys_hash_sort_and_map:              C functions.        (line 5799)
+* lw6sys_hash_unset:                     C functions.        (line 5761)
+* lw6sys_hexa_ptr_to_str:                C functions.        (line 6085)
+* lw6sys_hexa_serializer_as_string:      C functions.        (line 5867)
+* lw6sys_hexa_serializer_eof:            C functions.        (line 5857)
+* lw6sys_hexa_serializer_free:           C functions.        (line 5839)
+* lw6sys_hexa_serializer_new:            C functions.        (line 5828)
+* lw6sys_hexa_serializer_pop_color:      C functions.        (line 6062)
+* lw6sys_hexa_serializer_pop_float:      C functions.        (line 6015)
+* lw6sys_hexa_serializer_pop_int16:      C functions.        (line 5995)
+* lw6sys_hexa_serializer_pop_int32:      C functions.        (line 5985)
+* lw6sys_hexa_serializer_pop_int64:      C functions.        (line 5975)
+* lw6sys_hexa_serializer_pop_int8:       C functions.        (line 6005)
+* lw6sys_hexa_serializer_pop_str:        C functions.        (line 6025)
+* lw6sys_hexa_serializer_pop_whd:        C functions.        (line 6050)
+* lw6sys_hexa_serializer_pop_xyz:        C functions.        (line 6038)
+* lw6sys_hexa_serializer_push_color:     C functions.        (line 5965)
+* lw6sys_hexa_serializer_push_float:     C functions.        (line 5918)
+* lw6sys_hexa_serializer_push_int16:     C functions.        (line 5898)
+* lw6sys_hexa_serializer_push_int32:     C functions.        (line 5888)
+* lw6sys_hexa_serializer_push_int64:     C functions.        (line 5878)
+* lw6sys_hexa_serializer_push_int8:      C functions.        (line 5908)
+* lw6sys_hexa_serializer_push_str:       C functions.        (line 5928)
+* lw6sys_hexa_serializer_push_whd:       C functions.        (line 5953)
+* lw6sys_hexa_serializer_push_xyz:       C functions.        (line 5941)
+* lw6sys_hexa_serializer_rewind:         C functions.        (line 5847)
+* lw6sys_hexa_str_to_ptr:                C functions.        (line 6071)
+* lw6sys_history_free:                   C functions.        (line 6120)
+* lw6sys_history_get:                    C functions.        (line 6112)
+* lw6sys_history_init:                   C functions.        (line 6099)
+* lw6sys_history_register:               C functions.        (line 6105)
+* lw6sys_id_atol:                        C functions.        (line 6197)
+* lw6sys_id_ltoa:                        C functions.        (line 6188)
+* lw6sys_idle:                           C functions.        (line 7801)
+* lw6sys_is_big_endian:                  C functions.        (line 6620)
+* lw6sys_is_executed_again:              C functions.        (line 5617)
+* lw6sys_is_little_endian:               C functions.        (line 6626)
+* lw6sys_is_memory_bazooka_trustable:    C functions.        (line 4644)
+* lw6sys_itoa:                           C functions.        (line 5395)
+* lw6sys_keyword_as_arg:                 C functions.        (line 6217)
+* lw6sys_keyword_as_env:                 C functions.        (line 6225)
+* lw6sys_keyword_as_key:                 C functions.        (line 6207)
+* lw6sys_keyword_as_xml:                 C functions.        (line 6234)
+* lw6sys_list_dup:                       C functions.        (line 6398)
+* lw6sys_list_filter:                    C functions.        (line 6308)
+* lw6sys_list_free:                      C functions.        (line 6254)
+* lw6sys_list_is_empty:                  C functions.        (line 6270)
+* lw6sys_list_length:                    C functions.        (line 6280)
+* lw6sys_list_map:                       C functions.        (line 6289)
+* lw6sys_list_new:                       C functions.        (line 6243)
+* lw6sys_list_next:                      C functions.        (line 6262)
+* lw6sys_list_pop_back:                  C functions.        (line 6378)
+* lw6sys_list_pop_front:                 C functions.        (line 6341)
+* lw6sys_list_push_back:                 C functions.        (line 6361)
+* lw6sys_list_push_front:                C functions.        (line 6324)
+* lw6sys_locale_to_utf8:                 C functions.        (line 6127)
+* lw6sys_log:                            C functions.        (line 6431)
+* lw6sys_log_clear:                      C functions.        (line 6421)
+* lw6sys_log_critical:                   C functions.        (line 6455)
+* lw6sys_log_get_level:                  C functions.        (line 6467)
+* lw6sys_log_set_file:                   C functions.        (line 6412)
+* lw6sys_log_set_level:                  C functions.        (line 6469)
+* lw6sys_malloc:                         C functions.        (line 6530)
+* lw6sys_math_angle_360:                 C functions.        (line 6496)
+* lw6sys_math_blink:                     C functions.        (line 6520)
+* lw6sys_math_heartbeat:                 C functions.        (line 6508)
+* lw6sys_math_poly_wy1y2s1:              C functions.        (line 6475)
+* lw6sys_megabytes_available:            C functions.        (line 6613)
+* lw6sys_memory_bazooka_report:          C functions.        (line 4650)
+* lw6sys_mutex_create:                   C functions.        (line 6639)
+* lw6sys_mutex_destroy:                  C functions.        (line 6644)
+* lw6sys_mutex_lock:                     C functions.        (line 6651)
+* lw6sys_mutex_trylock:                  C functions.        (line 6660)
+* lw6sys_mutex_unlock:                   C functions.        (line 6670)
+* lw6sys_new_sprintf:                    C functions.        (line 7504)
+* lw6sys_options_log:                    C functions.        (line 6910)
+* lw6sys_options_log_defaults:           C functions.        (line 6770)
+* lw6sys_path_add_slash:                 C functions.        (line 6953)
+* lw6sys_path_concat:                    C functions.        (line 6971)
+* lw6sys_path_is_cwd:                    C functions.        (line 6999)
+* lw6sys_path_is_relative:               C functions.        (line 6992)
+* lw6sys_path_list:                      C functions.        (line 7052)
+* lw6sys_path_parent:                    C functions.        (line 7006)
+* lw6sys_path_split:                     C functions.        (line 6982)
+* lw6sys_path_strip_slash:               C functions.        (line 6962)
+* lw6sys_path_unparent:                  C functions.        (line 7014)
+* lw6sys_path_unparent_no_malloc:        C functions.        (line 7022)
+* lw6sys_print_xml_footer:               C functions.        (line 7093)
+* lw6sys_print_xml_header:               C functions.        (line 7085)
+* lw6sys_profiler_check:                 C functions.        (line 7101)
+* lw6sys_progress_begin:                 C functions.        (line 7210)
+* lw6sys_progress_default:               C functions.        (line 7112)
+* lw6sys_progress_end:                   C functions.        (line 7225)
+* lw6sys_progress_half:                  C functions.        (line 7217)
+* lw6sys_progress_split:                 C functions.        (line 7144)
+* lw6sys_progress_split3:                C functions.        (line 7171)
+* lw6sys_progress_split4:                C functions.        (line 7184)
+* lw6sys_progress_split5:                C functions.        (line 7198)
+* lw6sys_progress_split_here:            C functions.        (line 7157)
+* lw6sys_progress_update:                C functions.        (line 7123)
+* lw6sys_random:                         C functions.        (line 7232)
+* lw6sys_random_float:                   C functions.        (line 7243)
+* lw6sys_read_file_content:              C functions.        (line 5652)
+* lw6sys_read_file_content_bin:          C functions.        (line 5664)
+* lw6sys_readable_uptime:                C functions.        (line 7824)
+* lw6sys_realloc:                        C functions.        (line 6565)
+* lw6sys_sdl_register:                   C functions.        (line 7251)
+* lw6sys_sdl_unregister:                 C functions.        (line 7258)
+* lw6sys_serialize_int16:                C functions.        (line 7300)
+* lw6sys_serialize_int32:                C functions.        (line 7283)
+* lw6sys_serialize_int64:                C functions.        (line 7266)
+* lw6sys_set_memory_bazooka_eraser:      C functions.        (line 4566)
+* lw6sys_set_memory_bazooka_size:        C functions.        (line 4544)
+* lw6sys_setenv:                         C functions.        (line 5512)
+* lw6sys_setenv_prefixed:                C functions.        (line 5525)
+* lw6sys_shape_check_min_max_whd:        C functions.        (line 7317)
+* lw6sys_shape_check_pos:                C functions.        (line 7332)
+* lw6sys_shape_is_same:                  C functions.        (line 7342)
+* lw6sys_shape_is_same_xy:               C functions.        (line 7352)
+* lw6sys_skip_blanks:                    C functions.        (line 7539)
+* lw6sys_sleep:                          C functions.        (line 7783)
+* lw6sys_sort:                           C functions.        (line 7436)
+* lw6sys_sort_float_callback:            C functions.        (line 7386)
+* lw6sys_sort_float_desc_callback:       C functions.        (line 7398)
+* lw6sys_sort_int_callback:              C functions.        (line 7362)
+* lw6sys_sort_int_desc_callback:         C functions.        (line 7374)
+* lw6sys_sort_str_callback:              C functions.        (line 7411)
+* lw6sys_sort_str_desc_callback:         C functions.        (line 7423)
+* lw6sys_spinlock_create:                C functions.        (line 7447)
+* lw6sys_spinlock_destroy:               C functions.        (line 7452)
+* lw6sys_spinlock_lock:                  C functions.        (line 7459)
+* lw6sys_spinlock_trylock:               C functions.        (line 7468)
+* lw6sys_spinlock_unlock:                C functions.        (line 7478)
+* lw6sys_str_cleanup:                    C functions.        (line 7547)
+* lw6sys_str_cleanup_ascii7:             C functions.        (line 7558)
+* lw6sys_str_concat:                     C functions.        (line 7494)
+* lw6sys_str_copy:                       C functions.        (line 7485)
+* lw6sys_str_is_blank:                   C functions.        (line 7519)
+* lw6sys_str_is_same:                    C functions.        (line 7527)
+* lw6sys_str_reformat:                   C functions.        (line 7571)
+* lw6sys_str_split:                      C functions.        (line 7594)
+* lw6sys_str_split_config_item:          C functions.        (line 7614)
+* lw6sys_str_split_no_0:                 C functions.        (line 7604)
+* lw6sys_str_tolower:                    C functions.        (line 7632)
+* lw6sys_str_toupper:                    C functions.        (line 7624)
+* lw6sys_test:                           C functions.        (line 7654)
+* lw6sys_test_exec:                      C functions.        (line 7640)
+* lw6sys_thread_create:                  C functions.        (line 7667)
+* lw6sys_thread_get_data:                C functions.        (line 7703)
+* lw6sys_thread_get_id:                  C functions.        (line 7695)
+* lw6sys_thread_is_callback_done:        C functions.        (line 7687)
+* lw6sys_thread_join:                    C functions.        (line 7711)
+* lw6sys_time_init:                      C functions.        (line 7807)
+* lw6sys_timer_update:                   C functions.        (line 7772)
+* lw6sys_true:                           C functions.        (line 6695)
+* lw6sys_unserialize_int16:              C functions.        (line 7310)
+* lw6sys_unserialize_int32:              C functions.        (line 7293)
+* lw6sys_unserialize_int64:              C functions.        (line 7276)
+* lw6sys_url_canonize:                   C functions.        (line 7861)
+* lw6sys_url_free:                       C functions.        (line 7854)
+* lw6sys_url_http_from_ip_port:          C functions.        (line 7834)
+* lw6sys_url_parse:                      C functions.        (line 7845)
+* lw6sys_vthread_create:                 C functions.        (line 7910)
+* lw6sys_vthread_is_running:             C functions.        (line 7896)
+* lw6sys_vthread_join:                   C functions.        (line 7927)
+* lw6sys_vthread_run:                    C functions.        (line 7874)
+* lw6sys_write_file_content:             C functions.        (line 5682)
+* lw6tsk_loader_free:                    C functions.        (line 7950)
+* lw6tsk_loader_get_stage:               C functions.        (line 7965)
+* lw6tsk_loader_new:                     C functions.        (line 7940)
+* lw6tsk_loader_repr:                    C functions.        (line 7958)
+* lw6tsk_test:                           C functions.        (line 7973)
 * magic-number:                          Advanced settings.  (line  498)
 * map-path:                              Path options.       (line   64)
 * max-cursor-pot:                        Map rules.xml.      (line  158)
