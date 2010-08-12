@@ -137,6 +137,7 @@ test_oob ()
 		lw6nod_info_set_verified_nodes (info, list);
 	      }
 
+	    oob = lw6msg_oob_generate_list (info);
 	    if (oob)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
