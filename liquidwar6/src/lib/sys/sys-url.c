@@ -190,7 +190,7 @@ lw6sys_url_parse (char *url)
 		  _("interpreting URI, remaining string is \"%s\""), pos);
       if (strlen (pos) > 0 && (*pos) == _SLASH)
 	{
-	  ret->uri = lw6sys_str_copy (pos);
+	  ret->uri = lw6sys_escape_http_uri (pos);
 	}
       else
 	{

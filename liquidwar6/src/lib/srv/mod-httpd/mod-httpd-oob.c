@@ -48,6 +48,9 @@ _add_node_html (void *func_data, void *data)
   lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
   char *title = NULL;
   char *description = NULL;
+  char *escaped_url = NULL;
+  char *escaped_description = NULL;
+
   if (list && (*list) && verified_node && verified_node->const_info.url)
     {
       title = verified_node->const_info.title;
@@ -60,19 +63,30 @@ _add_node_html (void *func_data, void *data)
 	{
 	  description = verified_node->const_info.url;
 	}
-      if (strlen (*list) > 0)
+      escaped_url =
+	lw6sys_escape_html_attribute (verified_node->const_info.url);
+      if (escaped_url)
 	{
-	  tmp =
-	    lw6sys_new_sprintf ("%s, <a href=\"%s\" title=\"%s\">%s</a>",
-				*list, verified_node->const_info.url,
-				description, title);
-	}
-      else
-	{
-	  tmp =
-	    lw6sys_new_sprintf ("<a href=\"%s\" title=\"%s\">%s</a>",
-				verified_node->const_info.url, description,
-				title);
+	  escaped_description = lw6sys_escape_html_attribute (description);
+	  if (escaped_description)
+	    {
+	      if (strlen (*list) > 0)
+		{
+		  tmp =
+		    lw6sys_new_sprintf
+		    ("%s, <a href=\"%s\" title=\"%s\">%s</a>", *list,
+		     escaped_url, escaped_description, title);
+		}
+	      else
+		{
+		  tmp =
+		    lw6sys_new_sprintf
+		    ("<a href=\"%s\" title=\"%s\">%s</a>", escaped_url,
+		     escaped_description, title);
+		}
+	      LW6SYS_FREE (escaped_description);
+	    }
+	  LW6SYS_FREE (escaped_url);
 	}
       if (tmp)
 	{

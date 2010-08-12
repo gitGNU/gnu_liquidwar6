@@ -1400,6 +1400,37 @@ provide default values for player names and such things.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_escape_http_uri} (char * @var{src})
+@var{src}:  the string to escape
+
+Transforms a string so that it does not contain any non-valid
+URL chars, it will mostly convert chars over 128 into their
+@var{XY} form where XY is the hexadecimal code.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_escape_html_attribute} (char * @var{src})
+@var{src}:  the string to escape
+
+Transforms a string so that it can fit in a html field, 
+this is typically for alt="" or title="" fields so it
+will convert " into @code{quot};.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_escape_sql_value} (char * @var{src})
+@var{src}:  the string to escape
+
+Transforms a string so that it can fit as an SQL parameter,
+it will get rid
+URL chars, it will mostly convert chars over 128 into their
+@var{XY} form where XY is the hexadecimal code.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_exec_find_myself} (int @var{argc}, char * [] @var{argv})
 @var{argc}:  number of args as passed to main
 

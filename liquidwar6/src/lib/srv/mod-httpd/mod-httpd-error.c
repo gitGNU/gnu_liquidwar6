@@ -33,6 +33,7 @@ _mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
   _httpd_response_t *response = NULL;
   char *content = NULL;
   char *status_text = NULL;
+  char *date_str = NULL;
 
   switch (status)
     {
@@ -61,20 +62,28 @@ _mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
 
   if (status_text)
     {
-      content =
-	lw6sys_new_sprintf (httpd_context->data.htdocs.error_html, status,
-			    status_text, lw6sys_build_get_package_name (),
-			    lw6sys_build_get_copyright (),
-			    lw6sys_build_get_package_name (), status,
-			    status_text);
-      if (content)
+      date_str = lw6sys_date_rfc1123 (0);
+      if (date_str)
 	{
-	  response =
-	    _mod_httpd_response_from_str (httpd_context, status, 1, 0, NULL,
-					  httpd_context->data.
-					  consts.content_type_html, content);
-	  LW6SYS_FREE (content);
-	  content = NULL;
+	  content =
+	    lw6sys_new_sprintf (httpd_context->data.htdocs.error_html, status,
+				status_text, lw6sys_build_get_package_name (),
+				lw6sys_build_get_copyright (),
+				lw6sys_build_get_package_name (), status,
+				status_text,
+				lw6sys_build_get_package_string (), date_str);
+	  if (content)
+	    {
+	      response =
+		_mod_httpd_response_from_str (httpd_context, status, 1, 0,
+					      NULL,
+					      httpd_context->data.
+					      consts.content_type_html,
+					      content);
+	      LW6SYS_FREE (content);
+	      content = NULL;
+	    }
+	  LW6SYS_FREE (date_str);
 	}
     }
 

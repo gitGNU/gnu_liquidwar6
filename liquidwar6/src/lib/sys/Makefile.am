@@ -38,7 +38,7 @@ OBJC_EXTRA_FILES = sys-macosx.m
 endif
 
 noinst_LTLIBRARIES = libsys.la
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-url.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-url.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir= $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 

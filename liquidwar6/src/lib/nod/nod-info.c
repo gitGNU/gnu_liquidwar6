@@ -321,7 +321,7 @@ int
 lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 {
   int ret = 0;
-  char *copy_of_url;
+  char *canonized_url;
 
   if (lw6nod_info_lock (info))
     {
@@ -332,13 +332,13 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 	}
       if (info->discovered_nodes)
 	{
-	  copy_of_url = lw6sys_url_canonize (public_url);
-	  if (copy_of_url)
+	  canonized_url = lw6sys_url_canonize (public_url);
+	  if (canonized_url)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _("discovered \"%s\""),
-			  copy_of_url);
-	      lw6sys_hash_set (info->discovered_nodes, copy_of_url, NULL);
-	      LW6SYS_FREE (copy_of_url);
+			  canonized_url);
+	      lw6sys_hash_set (info->discovered_nodes, canonized_url, NULL);
+	      LW6SYS_FREE (canonized_url);
 	    }
 	}
       ret = ((info->discovered_nodes) != NULL);

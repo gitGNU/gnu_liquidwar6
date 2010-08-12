@@ -78,6 +78,9 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
   lw6sys_list_t *list_backends = NULL;
   char *backend = NULL;
   char *query = NULL;
+  char *escaped_public_url = NULL;
+  char *escaped_title = NULL;
+  char *escaped_description = NULL;
   int ret = 1;
 
   node = (_lw6p2p_node_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_node_t));
@@ -289,25 +292,44 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       && node->node_info->const_info.description && node->bind_ip)
     {
       ret = 0;
-      query =
-	lw6sys_new_sprintf (_lw6p2p_db_get_query
-			    (node->db,
-			     _LW6P2P_INSERT_LOCAL_NODE_SQL),
-			    (int) lw6sys_get_timestamp () / 1000,
-			    node->node_id_str,
-			    node->public_url,
-			    node->node_info->const_info.title,
-			    node->node_info->const_info.description,
-			    node->node_info->const_info.bench,
-			    node->bind_ip, node->bind_port, _LW6P2P_DB_TRUE);
-      if (query)
+      escaped_public_url = lw6sys_escape_sql_value (node->public_url);
+      if (escaped_public_url)
 	{
-	  if (_lw6p2p_db_lock (node->db))
+	  escaped_title =
+	    lw6sys_escape_sql_value (node->node_info->const_info.title);
+	  if (escaped_title)
 	    {
-	      ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	      _lw6p2p_db_unlock (node->db);
+	      escaped_description =
+		lw6sys_escape_sql_value (node->node_info->
+					 const_info.description);
+	      if (escaped_description)
+		{
+		  query =
+		    lw6sys_new_sprintf (_lw6p2p_db_get_query
+					(node->db,
+					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
+					(int) lw6sys_get_timestamp () / 1000,
+					node->node_id_str,
+					escaped_public_url,
+					escaped_title,
+					escaped_description,
+					node->node_info->const_info.bench,
+					node->bind_ip, node->bind_port,
+					_LW6P2P_DB_TRUE);
+		  if (query)
+		    {
+		      if (_lw6p2p_db_lock (node->db))
+			{
+			  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+			  _lw6p2p_db_unlock (node->db);
+			}
+		      LW6SYS_FREE (query);
+		    }
+		  LW6SYS_FREE (escaped_description);
+		}
+	      LW6SYS_FREE (escaped_title);
 	    }
-	  LW6SYS_FREE (query);
+	  LW6SYS_FREE (escaped_public_url);
 	}
     }
 
@@ -883,49 +905,56 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
   int ret = 1;
   char *query = NULL;
   int count = 0;
+  char *escaped_public_url;
 
-  if (_lw6p2p_db_lock (node->db))
+  escaped_public_url = lw6sys_escape_sql_value (public_url);
+  if (escaped_public_url)
     {
-      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-				  (node->db,
-				   _LW6P2P_SELECT_NODE_BY_URL_SQL),
-				  public_url);
-      if (query)
+      if (_lw6p2p_db_lock (node->db))
 	{
-	  ret =
-	    _lw6p2p_db_exec (node->db, query,
-			     _select_node_by_url_callback,
-			     (void *) &count) && ret;
-	  LW6SYS_FREE (query);
-	  if (count > 0)
+	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				      (node->db,
+				       _LW6P2P_SELECT_NODE_BY_URL_SQL),
+				      escaped_public_url);
+	  if (query)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("there's already a node with url \"%s\""),
-			  public_url);
-	    }
-	  else
-	    {
-	      query =
-		lw6sys_new_sprintf (_lw6p2p_db_get_query
-				    (node->db,
-				     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
-				    public_url);
-	      if (query)
+	      ret =
+		_lw6p2p_db_exec (node->db, query,
+				 _select_node_by_url_callback,
+				 (void *) &count) && ret;
+	      LW6SYS_FREE (query);
+	      if (count > 0)
 		{
-		  ret = _lw6p2p_db_exec_ignore_data (node->db, query) && ret;
-		  LW6SYS_FREE (query);
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("there's already a node with url \"%s\""),
+			      public_url);
 		}
 	      else
 		{
-		  ret = 0;
+		  query =
+		    lw6sys_new_sprintf (_lw6p2p_db_get_query
+					(node->db,
+					 _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
+					escaped_public_url);
+		  if (query)
+		    {
+		      ret = _lw6p2p_db_exec_ignore_data (node->db, query)
+			&& ret;
+		      LW6SYS_FREE (query);
+		    }
+		  else
+		    {
+		      ret = 0;
+		    }
 		}
 	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	  _lw6p2p_db_unlock (node->db);
 	}
-      else
-	{
-	  ret = 0;
-	}
-      _lw6p2p_db_unlock (node->db);
+      LW6SYS_FREE (escaped_public_url);
     }
 
   return ret;

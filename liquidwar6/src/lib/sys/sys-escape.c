@@ -1,0 +1,262 @@
+/*
+  Liquid War 6 is a unique multiplayer wargame.
+  Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  
+
+  Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+  Contact author        : ufoot@ufoot.org
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "sys.h"
+
+#define _ESCAPE_HTTP_URI_LEN 3
+#define _ESCAPE_HTTP_URI_MASK "%02X"
+#define _ESCAPE_HTML_ATTRIBUTE_LEN 6
+#define _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR '"'
+#define _ESCAPE_HTML_ATTRIBUTE_QUOT_STR "&quot;"
+#define _ESCAPE_HTML_ATTRIBUTE_LT_CHAR '<'
+#define _ESCAPE_HTML_ATTRIBUTE_LT_STR "&lt;"
+#define _ESCAPE_HTML_ATTRIBUTE_GT_CHAR '>'
+#define _ESCAPE_HTML_ATTRIBUTE_GT_STR "&gt;"
+#define _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR '&'
+#define _ESCAPE_HTML_ATTRIBUTE_AMP_STR "&amp;"
+#define _ESCAPE_SQL_VALUE_LEN 2
+#define _ESCAPE_SQL_VALUE_QUOT_CHAR '\''
+#define _ESCAPE_SQL_VALUE_QUOT_STR "''"
+
+/**
+ * lw6sys_escape_http_uri
+ * 
+ * @src: the string to escape
+ *
+ * Transforms a string so that it does not contain any non-valid
+ * URL chars, it will mostly convert chars over 128 into their
+ * %XY form where XY is the hexadecimal code. Note that this function
+ * is non really standard compliant for it won't encode '%' but keep
+ * it the same. This is to allow using it several times on the same
+ * string and avoid double-triple encoding of '%'. In practice it's
+ * not recommended to have public_url for nodes with '%' in them,
+ * and the program will never generate such url when guessing urls.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_escape_http_uri (char *src)
+{
+  char *ret = NULL;
+  int len = 0;
+  int i = 0, j = 0;
+  unsigned char c;
+  char *hexa;
+
+  len = strlen (src);
+  ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTTP_URI_LEN * len + 1);
+  if (ret)
+    {
+      for (i = 0, j = 0; i < len; ++i)
+	{
+	  c = src[i];
+	  if (c >= ' ')
+	    {
+	      if (c == '_' || c == '-' || c == '/' || c == '.' || c == ','
+		  || c == '#' || c == ':' || c == ';' || c == '?' || c == '&'
+		  || c == '%'
+		  || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		  || (c >= '0' && c <= '9'))
+		{
+		  ret[j++] = c;
+		}
+	      else
+		{
+		  hexa = lw6sys_new_sprintf (_ESCAPE_HTTP_URI_MASK, (int) c);
+		  if (hexa)
+		    {
+		      ret[j++] = '%';
+		      if (strlen (hexa) == 2)
+			{
+			  ret[j++] = hexa[0];
+			  ret[j++] = hexa[1];
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _
+				      ("incorrect hexa conversion for %d \"%s\""),
+				      (int) c, hexa);
+			}
+		      LW6SYS_FREE (hexa);
+		    }
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("invalid character %d in uri"),
+			  (int) c);
+	    }
+	}
+      if (j <= _ESCAPE_HTTP_URI_LEN * len)
+	{
+	  ret[j++] = '\0';
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("http uri escape string too long %d for %d/%d"), j,
+		      _ESCAPE_HTTP_URI_LEN * len, len);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_escape_html_attribute
+ * 
+ * @src: the string to escape
+ *
+ * Transforms a string so that it can fit in a html field, 
+ * this is typically for alt="" or title="" fields so it
+ * will convert " into &quot;.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_escape_html_attribute (char *src)
+{
+  char *ret = NULL;
+  int len = 0;
+  int i = 0, j = 0, k = 0;
+  unsigned char c;
+  char *quot = NULL;
+
+  len = strlen (src);
+  ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
+  if (ret)
+    {
+      for (i = 0, j = 0; i < len; ++i)
+	{
+	  c = src[i];
+	  c = lw6sys_max (' ', c);
+	  if (c != _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR
+	      && c != _ESCAPE_HTML_ATTRIBUTE_LT_CHAR
+	      && c != _ESCAPE_HTML_ATTRIBUTE_GT_CHAR
+	      && c != _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR)
+	    {
+	      ret[j++] = c;
+	    }
+	  else
+	    {
+	      switch (c)
+		{
+		case _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR:
+		  quot = _ESCAPE_HTML_ATTRIBUTE_QUOT_STR;
+		  break;
+		case _ESCAPE_HTML_ATTRIBUTE_LT_CHAR:
+		  quot = _ESCAPE_HTML_ATTRIBUTE_LT_STR;
+		  break;
+		case _ESCAPE_HTML_ATTRIBUTE_GT_CHAR:
+		  quot = _ESCAPE_HTML_ATTRIBUTE_GT_STR;
+		  break;
+		case _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR:
+		  quot = _ESCAPE_HTML_ATTRIBUTE_AMP_STR;
+		  break;
+		default:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("unable to find a substitude for char %d"),
+			      (int) c);
+		  quot = "";
+		}
+	      for (k = 0; k < _ESCAPE_HTML_ATTRIBUTE_LEN && quot[k]; ++k)
+		{
+		  ret[j++] = quot[k];
+		}
+	    }
+	}
+      if (j <= _ESCAPE_HTML_ATTRIBUTE_LEN * len)
+	{
+	  ret[j++] = '\0';
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("html attribute escape string too long %d for %d/%d"),
+		      j, _ESCAPE_HTML_ATTRIBUTE_LEN * len, len);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_escape_sql_value
+ * 
+ * @src: the string to escape
+ *
+ * Transforms a string so that it can fit as an SQL parameter,
+ * it will get rid
+ * URL chars, it will mostly convert chars over 128 into their
+ * %XY form where XY is the hexadecimal code.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_escape_sql_value (char *src)
+{
+  char *ret = NULL;
+  int len = 0;
+  int i = 0, j = 0, k = 0;
+  unsigned char c;
+  char *quot = NULL;
+
+  len = strlen (src);
+  ret = (char *) LW6SYS_CALLOC (_ESCAPE_SQL_VALUE_LEN * len + 1);
+  if (ret)
+    {
+      for (i = 0, j = 0; i < len; ++i)
+	{
+	  c = src[i];
+	  c = lw6sys_max (' ', c);
+	  if (c != _ESCAPE_SQL_VALUE_QUOT_CHAR)
+	    {
+	      ret[j++] = c;
+	    }
+	  else
+	    {
+	      quot = _ESCAPE_SQL_VALUE_QUOT_STR;
+	      for (k = 0; k < _ESCAPE_SQL_VALUE_LEN && quot[k]; ++k)
+		{
+		  ret[j++] = quot[k];
+		}
+	    }
+	}
+      if (j <= _ESCAPE_SQL_VALUE_LEN * len)
+	{
+	  ret[j++] = '\0';
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("sql value escape string too long %d for %d/%d"), j,
+		      _ESCAPE_SQL_VALUE_LEN * len, len);
+	}
+    }
+
+  return ret;
+}

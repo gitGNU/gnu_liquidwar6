@@ -131,6 +131,10 @@
 #else
 #define TEST_ENV_SPLIT "foo1/foo2;foo3:bar1;bar2/bar3"
 #endif
+#define _ESCAPE_STR "this is a string with a simple quote ' a double quote \" a tab char \"\t\" and a backslash \"\\\" a lower and greater <> and a few allowed chars _-.,#:;?& OK"
+#define _ESCAPE_STR_HTTP_URI "this%20is%20a%20string%20with%20a%20simple%20quote%20%27%20a%20double%20quote%20%22%20a%20tab%20char%20%22%22%20and%20a%20backslash%20%22%5C%22%20a%20lower%20and%20greater%20%3C%3E%20and%20a%20few%20allowed%20chars%20_-.,#:;?&%20OK"
+#define _ESCAPE_STR_HTML_ATTRIBUTE "this is a string with a simple quote ' a double quote &quot; a tab char &quot; &quot; and a backslash &quot;\\&quot; a lower and greater &lt;&gt; and a few allowed chars _-.,#:;?&amp; OK"
+#define _ESCAPE_STR_SQL_VALUE "this is a string with a simple quote '' a double quote \" a tab char \" \" and a backslash \"\\\" a lower and greater <> and a few allowed chars _-.,#:;?& OK"
 #define TEST_REFORMAT_STR1 "this is a short string"
 #define TEST_REFORMAT_STR2 "this is a very long string it should be cut in some places but wherever there is a very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very long word it won't be cut.\n\nIt should even handle newlines in some places but well, this is not absolutely necessary"
 #define TEST_REFORMAT_PREFIX "# "
@@ -715,6 +719,81 @@ test_env ()
     else
       {
 	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in env.c
+ */
+static int
+test_escape ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *escaped = NULL;
+
+    escaped = lw6sys_escape_http_uri (_ESCAPE_STR);
+    if (escaped)
+      {
+	if (!strcmp (_ESCAPE_STR_HTTP_URI, escaped))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("http uri escape for \"%s\" is \"%s\""),
+			_ESCAPE_STR, escaped);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
+			_ESCAPE_STR, escaped, _ESCAPE_STR_HTTP_URI);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (escaped);
+      }
+    escaped = lw6sys_escape_html_attribute (_ESCAPE_STR);
+    if (escaped)
+      {
+	if (!strcmp (_ESCAPE_STR_HTML_ATTRIBUTE, escaped))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("http uri escape for \"%s\" is \"%s\""),
+			_ESCAPE_STR, escaped);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
+			_ESCAPE_STR, escaped, _ESCAPE_STR_HTML_ATTRIBUTE);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (escaped);
+      }
+    escaped = lw6sys_escape_sql_value (_ESCAPE_STR);
+    if (escaped)
+      {
+	if (!strcmp (_ESCAPE_STR_SQL_VALUE, escaped))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("http uri escape for \"%s\" is \"%s\""),
+			_ESCAPE_STR, escaped);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
+			_ESCAPE_STR, escaped, _ESCAPE_STR_SQL_VALUE);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (escaped);
       }
   }
 
@@ -3273,13 +3352,14 @@ lw6sys_test (int mode)
 
   ret = test_arg () && test_assoc () && test_build () && test_checksum ()
     && test_color () && test_convert () && test_dump () && test_env ()
-    && test_file () && test_profiler () && test_hash () && test_hexa ()
-    && test_history () && test_i18n () && test_id () && test_keyword ()
-    && test_list () && test_log (mode) && test_math () && test_mem ()
-    && test_mutex () && test_options () && test_nop () && test_path ()
-    && test_progress () && test_random () && test_sdl () && test_serial ()
-    && test_shape () && test_sort () && test_spinlock () && test_str ()
-    && test_thread () && test_time () && test_url () && test_vthread ();
+    && test_escape () && test_file () && test_profiler () && test_hash ()
+    && test_hexa () && test_history () && test_i18n () && test_id ()
+    && test_keyword () && test_list () && test_log (mode) && test_math ()
+    && test_mem () && test_mutex () && test_options () && test_nop ()
+    && test_path () && test_progress () && test_random () && test_sdl ()
+    && test_serial () && test_shape () && test_sort () && test_spinlock ()
+    && test_str () && test_thread () && test_time () && test_url ()
+    && test_vthread ();
 
   return ret;
 }

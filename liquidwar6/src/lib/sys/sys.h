@@ -514,6 +514,11 @@ extern char *lw6sys_get_home ();
 extern char *lw6sys_get_username ();
 extern char *lw6sys_get_hostname ();
 
+/* sys-escape.c */
+extern char *lw6sys_escape_http_uri (char *src);
+extern char *lw6sys_escape_html_attribute (char *src);
+extern char *lw6sys_escape_sql_value (char *src);
+
 /* sys-exec.c */
 extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
 extern int lw6sys_is_executed_again (int argc, char *argv[]);

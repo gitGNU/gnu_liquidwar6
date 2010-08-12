@@ -5585,6 +5585,33 @@ C interfaces:
 
      *Return value:*  a newly allocated pointer, must be freed.
 
+ -- Function: char * lw6sys_escape_http_uri (char * SRC)
+     SRC:  the string to escape
+
+     Transforms a string so that it does not contain any non-valid URL
+     chars, it will mostly convert chars over 128 into their XY form
+     where XY is the hexadecimal code.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6sys_escape_html_attribute (char * SRC)
+     SRC:  the string to escape
+
+     Transforms a string so that it can fit in a html field, this is
+     typically for alt="" or title="" fields so it will convert " into
+     `quot';.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6sys_escape_sql_value (char * SRC)
+     SRC:  the string to escape
+
+     Transforms a string so that it can fit as an SQL parameter, it
+     will get rid URL chars, it will mostly convert chars over 128 into
+     their XY form where XY is the hexadecimal code.
+
+     *Return value:*  newly allocated string.
+
  -- Function: char * lw6sys_exec_find_myself (int ARGC, char * [] ARGV)
      ARGC:  number of args as passed to main
 
