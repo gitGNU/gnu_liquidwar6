@@ -34,6 +34,10 @@
 // net-error.c
 extern int lw6net_last_error ();
 
+/* net-dns.c */
+extern int lw6net_dns_is_ip (char *ip);
+extern char *lw6net_dns_gethostbyname (char *name);
+
 /* net-if.c */
 extern char *lw6net_if_guess_local ();
 extern char *lw6net_if_guess_public_url (char *bind_ip, int bind_port);

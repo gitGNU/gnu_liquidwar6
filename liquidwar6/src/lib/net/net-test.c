@@ -29,6 +29,9 @@
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
+#define TEST_HOST_IP "127.0.0.1"
+#define TEST_HOST_OK "localhost"
+#define TEST_HOST_KO "now-if-this-is-a valid HOST there's a serious PROBLEM!!!!"
 #define TEST_UNREACHABLE_IP "209.85.135.99"
 #define TEST_UNREACHABLE_PORT 8000
 #define TEST_TCP_DELAY 0.1f
@@ -40,6 +43,80 @@
 #define TEST_PASSWORD_SEED "http://"
 #define TEST_PASSWORD1 "abc"
 #define TEST_PASSWORD2 "XY"
+
+static int
+test_dns ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *ip = NULL;
+
+    if (lw6net_dns_is_ip (TEST_HOST_IP) && !lw6net_dns_is_ip (TEST_HOST_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("trivial IP parsing reports \"%s\" is an IP but not \"%s\""),
+		    TEST_HOST_IP, TEST_HOST_OK);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _
+		    ("trivial IP parsing failed to report \"%s\" as an IP and \"%s\" as not"),
+		    TEST_HOST_IP, TEST_HOST_OK);
+	ret = 0;
+      }
+    ip = lw6net_dns_gethostbyname (TEST_HOST_IP);
+    if (ip)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("gethostbyname on \"%s\" returns \"%s\""), TEST_HOST_IP,
+		    ip);
+	LW6SYS_FREE (ip);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("gethostbyname on \"%s\" failed"),
+		    TEST_HOST_IP);
+	ret = 0;
+      }
+    ip = lw6net_dns_gethostbyname (TEST_HOST_OK);
+    if (ip)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("gethostbyname on \"%s\" returns \"%s\""), TEST_HOST_OK,
+		    ip);
+	LW6SYS_FREE (ip);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("gethostbyname on \"%s\" failed"),
+		    TEST_HOST_OK);
+	ret = 0;
+      }
+    ip = lw6net_dns_gethostbyname (TEST_HOST_KO);
+    if (ip)
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _
+		    ("gethostbyname on \"%s\" returns \"%s\", this is... surprising"),
+		    TEST_HOST_KO, ip);
+	LW6SYS_FREE (ip);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("gethostbyname on \"%s\" returns NULL, this is fine"),
+		    TEST_HOST_KO);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
 
 /*
  * Testing functions in if.c
@@ -667,8 +744,8 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv) && test_if () && test_password ()
-    && test_tcp () && test_udp () && test_line ();
+  ret = lw6net_init (argc, argv) && test_dns () && test_if ()
+    && test_password () && test_tcp () && test_udp () && test_line ();
 
   if (ret)
     {

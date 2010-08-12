@@ -56,6 +56,7 @@ test_oob ()
     lw6sys_list_t *list = NULL;
     char *url = NULL;
     lw6nod_info_t *verified_node = NULL;
+    char *pong_url = NULL;
 
     info =
       lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_DESCRIPTION,
@@ -83,6 +84,30 @@ test_oob ()
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob PONG is \"%s\""),
 			oob);
+	    pong_url = lw6msg_oob_analyse_pong (oob);
+	    if (pong_url)
+	      {
+		if (lw6sys_str_is_same (pong_url, _TEST_URL))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("got url \"%s\" from PONG"), pong_url);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("PONG message parsed but read \"%s\" instead of \"%s\""),
+				pong_url, _TEST_URL);
+		    ret = 0;
+		  }
+		LW6SYS_FREE (pong_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to parse PONG message \"%s\""), oob);
+		ret = 0;
+	      }
 	    LW6SYS_FREE (oob);
 	  }
 

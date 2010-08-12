@@ -248,6 +248,24 @@ lw6sys_str_is_same (char *str_a, char *str_b)
 }
 
 /**
+ * lw6sys_str_starts_with
+ *
+ * @str: the string to analyse
+ * @beginning: the pattern to search
+ *
+ * Return value: 1 if str starts with beginning, 0 if not
+ */
+int
+lw6sys_str_starts_with (char *str, char *beginning)
+{
+  int ret = 0;
+
+  ret = !strncmp (str, beginning, strlen (beginning));
+
+  return ret;
+}
+
+/**
  * lw6sys_skip_blanks
  *
  * @str_ptr: a pointer to a string pointer (read/write parameter).

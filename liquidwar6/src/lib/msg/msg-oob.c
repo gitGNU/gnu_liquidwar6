@@ -158,11 +158,74 @@ char *
 lw6msg_oob_generate_pong (lw6nod_info_t * info)
 {
   char *ret = NULL;
-  int uptime = 0;
 
-  uptime =
-    (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
-  ret = lw6sys_new_sprintf ("PONG %d\n\n", uptime);
+  ret = lw6sys_new_sprintf ("PONG %s\n\n", info->const_info.url);
+
+  return ret;
+}
+
+/**
+ * lw6msg_oob_analyse_info_line
+ * 
+ * @info: the info object to populate/update
+ * @line: the line to read
+ *
+ * Analyses a line of an INFO message (typically "Key: value") and
+ * modifies the info object according to the information received.
+ *
+ * Return value: 1 if OK, 0 if error or if EOF.
+ */
+int
+lw6msg_oob_analyse_info_line (lw6nod_info_t * info, char *line)
+{
+  int ret = 0;
+
+  // todo...
+
+  return ret;
+}
+
+/**
+ * lw6msg_oob_analyse_pong
+ *
+ * @text: the text of the message to parse
+ *
+ * Analyses a PONG message and gets the public_url from it, if
+ * it exists.
+ *
+ * Return value: newly allocated string containing public_url if OK, NULL on error.
+ */
+char *
+lw6msg_oob_analyse_pong (char *text)
+{
+  char *ret = NULL;
+  char *copy = NULL;
+  char *seek = NULL;
+  char *pos = NULL;
+
+  copy = lw6sys_str_copy (text);
+  if (copy)
+    {
+      if (lw6sys_str_starts_with (copy, LW6MSG_OOB_PONG))
+	{
+	  seek = strchr (copy, ' ');
+	  if (seek)
+	    {
+	      while ((*seek) && lw6msg_utils_is_space (*seek))
+		{
+		  seek++;
+		}
+	      pos = seek;
+	      while ((*seek) && !lw6msg_utils_is_space (*seek))
+		{
+		  seek++;
+		}
+	      (*seek) = '\0';
+	      ret = lw6sys_url_canonize (pos);
+	    }
+	}
+      LW6SYS_FREE (copy);
+    }
 
   return ret;
 }

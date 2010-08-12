@@ -79,7 +79,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmsg_la_LIBADD =
-am_libmsg_la_OBJECTS = msg-oob.lo msg-test.lo
+am_libmsg_la_OBJECTS = msg-oob.lo msg-test.lo msg-utils.lo
 libmsg_la_OBJECTS = $(am_libmsg_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libmsgdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -326,7 +326,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmsg.la
-libmsg_la_SOURCES = msg-oob.c msg-test.c
+libmsg_la_SOURCES = msg-oob.c msg-test.c msg-utils.c
 libmsgdir = $(includedir)/@PACKAGE_TARNAME@/msg
 libmsg_HEADERS = msg.h
 @FULLSTATIC_FALSE@liquidwar6msg_test_SOURCES = msg-testmain.c
@@ -432,6 +432,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg-oob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg-testmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg-utils.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

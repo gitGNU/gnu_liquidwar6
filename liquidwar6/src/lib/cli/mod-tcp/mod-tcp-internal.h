@@ -25,6 +25,8 @@
 
 #include "../cli.h"
 
+#define _MOD_TCP_TIMEOUT 30
+
 typedef struct _tcp_context_s
 {
   int dummy_tcp;
@@ -52,6 +54,8 @@ extern void _mod_tcp_close (_tcp_context_t * tcp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_tcp_is_alive (_tcp_context_t * tcp_context,
 			      lw6cli_connection_t * connection);
+extern int _mod_tcp_timeout_ok (_tcp_context_t * tcp_context,
+				int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -75,5 +79,7 @@ extern char *_mod_tcp_error (_tcp_context_t * tcp_context,
 extern int _mod_tcp_process_oob (_tcp_context_t * tcp_context,
 				 lw6nod_info_t * node_info,
 				 lw6cli_oob_data_t * oob_data);
+extern int _mod_tcp_oob_should_continue (_tcp_context_t * tcp_context,
+					 lw6cli_oob_data_t * oob_data);
 
 #endif

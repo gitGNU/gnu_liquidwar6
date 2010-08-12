@@ -14,35 +14,35 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6MSG_H
-#define LIQUIDWAR6MSG_H
-
-#include "../sys/sys.h"
-#include "../glb/glb.h"
-#include "../nod/nod.h"
-
-#define LW6MSG_OOB_INFO "INFO"
-#define LW6MSG_OOB_LIST "LIST"
-#define LW6MSG_OOB_PING "PING"
-#define LW6MSG_OOB_PONG "PONG"
-
-/* msg-oob.c */
-extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
-extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
-extern char *lw6msg_oob_generate_pong (lw6nod_info_t * info);
-extern int lw6msg_oob_analyse_info_line (lw6nod_info_t * info, char *line);
-extern char *lw6msg_oob_analyse_pong (char *text);
-
-/* nod-test.c */
-extern int lw6msg_test (int mode);
-
-/* msg-utils.c */
-extern int lw6msg_utils_is_space (char c);
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "msg.h"
+
+/**
+ * lw6msg_utils_is_space
+ *
+ * @c: char to tesst
+ * 
+ * Tests if a character is a space. Note that this is not a universal
+ * multi-purpose function in the sense it has its own understanding
+ * fo 'what a space is'. In practice it's used to find the limit between words,
+ * so it will interpret space (' ', char 32) as space but also tab, newline...
+ */
+int
+lw6msg_utils_is_space (char c)
+{
+  int ret = 0;
+  unsigned char uc = c;
+
+  ret = (uc <= 32);
+
+  return ret;
+}

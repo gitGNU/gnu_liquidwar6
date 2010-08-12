@@ -91,6 +91,9 @@
 #define CLEANUP_FORMAT "<foo %c bar %c>"
 #define CLEANUP_CONTROL '\n'
 #define CLEANUP_ACCENT 233
+#define STR_STARTS_WITH "abcdef"
+#define STR_STARTS_WITH_OK "abc"
+#define STR_STARTS_WITH_KO "def"
 #define ASCII_STR "foo,bar"
 #define TEST_ARGC 4
 #define TEST_ARGV0 "test.out"
@@ -2704,6 +2707,8 @@ test_str ()
       && (!lw6sys_str_is_same (NULL, BLANK_STR))
       && (!lw6sys_str_is_same (BLANK_STR, NULL))
       && (!lw6sys_str_is_same (BLANK_STR, TEST_REFORMAT_STR1));
+    ret = ret && lw6sys_str_starts_with (STR_STARTS_WITH, STR_STARTS_WITH_OK)
+      && !lw6sys_str_starts_with (STR_STARTS_WITH, STR_STARTS_WITH_KO);
     str =
       lw6sys_str_reformat (TEST_REFORMAT_STR1, TEST_REFORMAT_PREFIX,
 			   TEST_REFORMAT_COLUMNS);

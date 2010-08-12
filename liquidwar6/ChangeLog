@@ -1,5 +1,9 @@
 2010-08-12 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Mod-tcp can now ping & get URL from server.
+
+	* Added basic DNS facility.
+
 	* Created new msg module to factorize message generation/parsing.
 
 	* Character escape/protection for SQL & HTML.

@@ -851,6 +851,7 @@ extern char *lw6sys_str_concat (char *str1, char *str2);
 extern char *lw6sys_new_sprintf (char *fmt, ...);
 extern int lw6sys_str_is_blank (char *str);
 extern int lw6sys_str_is_same (char *str_a, char *str_b);
+extern int lw6sys_str_starts_with (char *str, char *beginning);
 extern int lw6sys_skip_blanks (char **str_ptr);
 extern void lw6sys_str_cleanup (char *str);
 extern void lw6sys_str_cleanup_ascii7 (char *str);

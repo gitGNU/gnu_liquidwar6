@@ -88,7 +88,8 @@ lw6net_init (int argc, char *argv[])
 #endif
 
       ok = _lw6net_const_init (argc, argv)
-	&& _lw6net_socket_init () && _lw6net_thread_init () && ok;
+	&& _lw6net_socket_init () && _lw6net_thread_init ()
+	&& _lw6net_dns_init () && ok;
     }
 
   if (!ok)
@@ -122,6 +123,7 @@ lw6net_quit ()
 
   if (_lw6net_global_context)
     {
+      _lw6net_dns_quit ();
       _lw6net_thread_quit ();
       _lw6net_socket_quit ();
       _lw6net_const_quit ();

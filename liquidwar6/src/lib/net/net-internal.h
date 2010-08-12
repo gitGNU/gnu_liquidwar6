@@ -107,6 +107,7 @@ typedef struct _lw6net_context_s
   _lw6net_socket_counters_t socket_counters;
   lw6sys_assoc_t *threads;
   int server_sock;
+  void *dns_mutex;
 }
 _lw6net_context_t;
 
@@ -131,6 +132,10 @@ extern char *_lw6net_inet_ntoa (struct in_addr in);
  */
 extern int _lw6net_const_init (int argc, char *argv[]);
 extern void _lw6net_const_quit ();
+
+/* net-dns.c */
+extern int _lw6net_dns_init ();
+extern void _lw6net_dns_quit ();
 
 // net-error.c
 #ifdef LW6_MS_WINDOWS

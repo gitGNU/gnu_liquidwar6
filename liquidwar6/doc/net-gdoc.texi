@@ -1,3 +1,23 @@
+@deftypefun {int} {lw6net_dns_is_ip} (char * @var{ip})
+@var{ip}:  the string to check
+
+Tests if a given string is a valid IP (IPV4). Test is only syntaxic,
+it's just to know if we're likely to need to query the DNS, it does not
+mean the IP is *really* valid.
+
+@strong{Return value:}  1 if it's an IP, O if not.
+@end deftypefun
+
+@deftypefun {char *} {lw6net_dns_gethostbyname} (char * @var{name})
+@var{name}:  name of the host
+
+A wrapper over the standard gethostbyname function, will even accept
+an IP as an input (in this case, will copy it...) and 
+allocate a new string for the result.
+
+@strong{Return value:}  an IP if success, 0 on error.
+@end deftypefun
+
 @deftypefun {int} {lw6net_last_error} ()
 
 Reports the last network error. This is basically a debug function,

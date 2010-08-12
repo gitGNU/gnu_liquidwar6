@@ -44,3 +44,15 @@ _mod_tcp_is_alive (_tcp_context_t * tcp_context,
 
   return ret;
 }
+
+int
+_mod_tcp_timeout_ok (_tcp_context_t * tcp_context, int64_t origin_timestamp)
+{
+  int ret = 0;
+  int d = 0;
+
+  d = origin_timestamp + (_MOD_TCP_TIMEOUT * 1000) - lw6sys_get_timestamp ();
+  ret = (d > 0);
+
+  return ret;
+}
