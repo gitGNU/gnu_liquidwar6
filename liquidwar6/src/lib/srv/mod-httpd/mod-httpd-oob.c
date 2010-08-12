@@ -251,7 +251,7 @@ _response_info_txt (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   char *content = NULL;
 
-  content = lw6nod_info_generate_oob_info (node_info);
+  content = lw6msg_oob_generate_info (node_info);
   if (content)
     {
       response =
@@ -274,7 +274,7 @@ _response_list_txt (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   char *content = NULL;
 
-  content = lw6nod_info_generate_oob_list (node_info);
+  content = lw6msg_oob_generate_list (node_info);
   if (content)
     {
       response =
@@ -297,7 +297,7 @@ _response_ping_txt (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   char *content = NULL;
 
-  content = lw6nod_info_generate_oob_pong (node_info);
+  content = lw6msg_oob_generate_pong (node_info);
   if (content)
     {
       response =

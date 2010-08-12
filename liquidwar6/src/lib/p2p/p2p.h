@@ -24,9 +24,11 @@
 #define LIQUIDWAR6P2P_H
 
 #include "../sys/sys.h"
+#include "../glb/glb.h"
 #include "../cfg/cfg.h"
 #include "../net/net.h"
 #include "../nod/nod.h"
+#include "../msg/msg.h"
 #include "../cli/cli.h"
 #include "../srv/srv.h"
 

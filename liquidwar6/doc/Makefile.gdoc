@@ -45,6 +45,9 @@ $(srcdir)/ldr-gdoc.texi: ../src/lib/ldr/ldr-body.c ../src/lib/ldr/ldr-bw.c ../sr
 $(srcdir)/map-gdoc.texi: ../src/lib/map/map-body.c ../src/lib/map/map-color.c ../src/lib/map/map-coords.c ../src/lib/map/map-dup.c ../src/lib/map/map.h ../src/lib/map/map-hexa.c ../src/lib/map/map-layer.c ../src/lib/map/map-level.c ../src/lib/map/map-localinfo.c ../src/lib/map/map-metadata.c ../src/lib/map/map-metalayer.c ../src/lib/map/map-param.c ../src/lib/map/map-rules.c ../src/lib/map/map-style.c ../src/lib/map/map-test.c ../src/lib/map/map-testmain.c ../src/lib/map/map-texture.c
 	echo gdoc map && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/map-gdoc.texi
 
+$(srcdir)/msg-gdoc.texi: ../src/lib/msg/msg.h ../src/lib/msg/msg-oob.c ../src/lib/msg/msg-test.c ../src/lib/msg/msg-testmain.c
+	echo gdoc msg && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/msg-gdoc.texi
+
 $(srcdir)/net-gdoc.texi: ../src/lib/net/net-address.c ../src/lib/net/net-const.c ../src/lib/net/net-error.c ../src/lib/net/net.h ../src/lib/net/net-if.c ../src/lib/net/net-internal.h ../src/lib/net/net-line.c ../src/lib/net/net-password.c ../src/lib/net/net-setup.c ../src/lib/net/net-socket.c ../src/lib/net/net-tcp.c ../src/lib/net/net-test.c ../src/lib/net/net-testmain.c ../src/lib/net/net-thread.c ../src/lib/net/net-udp.c
 	echo gdoc net && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/net-gdoc.texi
 

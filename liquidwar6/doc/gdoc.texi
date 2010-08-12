@@ -58,6 +58,10 @@
 
 @include map-gdoc.texi
  
+@subsection libmsg
+
+@include msg-gdoc.texi
+ 
 @subsection libnet
 
 @include net-gdoc.texi

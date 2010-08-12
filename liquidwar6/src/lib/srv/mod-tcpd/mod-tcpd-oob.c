@@ -79,15 +79,15 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	      if (strlen (command) == 0
 		  || !strcmp (command, _MOD_TCPD_PROTOCOL_INFO_STRING))
 		{
-		  response = lw6nod_info_generate_oob_info (node_info);
+		  response = lw6msg_oob_generate_info (node_info);
 		}
 	      if (!strcmp (command, _MOD_TCPD_PROTOCOL_LIST_STRING))
 		{
-		  response = lw6nod_info_generate_oob_list (node_info);
+		  response = lw6msg_oob_generate_list (node_info);
 		}
 	      if (!strcmp (command, _MOD_TCPD_PROTOCOL_PING_STRING))
 		{
-		  response = lw6nod_info_generate_oob_pong (node_info);
+		  response = lw6msg_oob_generate_pong (node_info);
 		}
 	      if (given_public_url)
 		{

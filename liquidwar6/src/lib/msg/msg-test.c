@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -24,53 +24,78 @@
 #include "config.h"
 #endif
 
-#include "cli.h"
+#include "msg.h"
 
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
+#define _TEST_ID 0x1212323242425252LL
+#define _TEST_URL "http://192.168.20.20:8000/"
+#define _TEST_TITLE "This is not a sentence"
+#define _TEST_DESCRIPTION "This is not an explanation about what this is."
+#define _TEST_BENCH 10
+#define _TEST_IDLE_SCREENSHOT_SIZE 5
+#define _TEST_IDLE_SCREENSHOT_DATA "1234"
 
+/*
+ * Testing functions in oob.c
+ */
 static int
-test_init (lw6cli_backend_t * backend)
+test_oob ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = ret && lw6cli_init (backend);
+    lw6nod_info_t *info = NULL;
+    char *oob = NULL;
+
+    info =
+      lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_DESCRIPTION,
+		       _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_IDLE_SCREENSHOT_DATA);
+    if (info)
+      {
+	oob = lw6msg_oob_generate_info (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob INFO is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+	oob = lw6msg_oob_generate_list (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob LIST is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+
+	oob = lw6msg_oob_generate_pong (info);
+	if (oob)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob PONG is \"%s\""),
+			oob);
+	    LW6SYS_FREE (oob);
+	  }
+	lw6nod_info_free (info);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
 
-static int
-test_quit (lw6cli_backend_t * backend)
-{
-  int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
-
-  lw6cli_quit (backend);
-
-  LW6SYS_TEST_FUNCTION_END;
-  return ret;
-}
-
 /**
- * lw6cli_test
+ * lw6msg_test
  *
  * @mode: 0 for check only, 1 for full test
  *
- * Runs the @cli module test suite.
+ * Runs the @nod module test suite.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cli_test (int mode)
+lw6msg_test (int mode)
 {
   int ret = 0;
-  lw6cli_backend_t *backend;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {
@@ -78,41 +103,10 @@ lw6cli_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6cfg_test (mode);
-      lw6net_test (mode);
       lw6nod_test (mode);
-      lw6msg_test (mode);
     }
 
-  if (lw6net_init (argc, argv))
-    {
-      ret = 1;
-
-      backend = lw6cli_create_backend (argc, argv, "tcp");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-
-      backend = lw6cli_create_backend (argc, argv, "udp");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-
-#ifdef MOD_HTTP
-      backend = lw6cli_create_backend (argc, argv, "http");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-#endif
-      lw6net_quit ();
-    }
+  ret = test_oob ();
 
   return ret;
 }

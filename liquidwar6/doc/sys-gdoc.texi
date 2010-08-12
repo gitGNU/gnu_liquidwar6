@@ -1405,7 +1405,12 @@ provide default values for player names and such things.
 
 Transforms a string so that it does not contain any non-valid
 URL chars, it will mostly convert chars over 128 into their
-@var{XY} form where XY is the hexadecimal code.
+@var{XY} form where XY is the hexadecimal code. Note that this function
+is non really standard compliant for it won't encode '%' but keep
+it the same. This is to allow using it several times on the same
+string and avoid double-triple encoding of '%'. In practice it's
+not recommended to have public_url for nodes with '%' in them,
+and the program will never generate such url when guessing urls.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun

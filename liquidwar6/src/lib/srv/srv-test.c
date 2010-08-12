@@ -221,6 +221,7 @@ lw6srv_test (int mode)
       lw6cfg_test (mode);
       lw6net_test (mode);
       lw6nod_test (mode);
+      lw6msg_test (mode);
     }
 
   ret = _test_oob () && _test_tcp_accepter () && _test_udp_buffer ();

@@ -89,7 +89,7 @@ am__liquidwar6nod_test_SOURCES_DIST = nod-testmain.c
 @FULLSTATIC_FALSE@	nod-testmain.$(OBJEXT)
 liquidwar6nod_test_OBJECTS = $(am_liquidwar6nod_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6nod_test_DEPENDENCIES = libnod.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -330,7 +330,7 @@ libnod_la_SOURCES = nod-constinfo.c nod-dyninfo.c nod-info.c nod-test.c
 libnoddir = $(includedir)/@PACKAGE_TARNAME@/nod
 libnod_HEADERS = nod.h
 @FULLSTATIC_FALSE@liquidwar6nod_test_SOURCES = nod-testmain.c
-@FULLSTATIC_FALSE@liquidwar6nod_test_LDADD = libnod.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6nod_test_LDADD = libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 EXTRA_DIST = nod-internal.h
 all: all-am
 

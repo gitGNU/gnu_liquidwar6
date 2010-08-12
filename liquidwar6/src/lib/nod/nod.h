@@ -25,11 +25,6 @@
 
 #include "../sys/sys.h"
 
-//#define LW6NOD_MSG_INFO "INFO"
-//#define LW6NOD_MSG_LIST "LIST"
-//#define LW6NOD_MSG_PING "PING"
-//#define LW6NOD_MSG_PONG "PONG"
-
 typedef struct lw6nod_const_info_s
 {
   int64_t creation_timestamp;
@@ -98,9 +93,6 @@ extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info,
 extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info,
 					    lw6sys_list_callback_func_t func,
 					    void *func_data);
-extern char *lw6nod_info_generate_oob_info (lw6nod_info_t * info);
-extern char *lw6nod_info_generate_oob_list (lw6nod_info_t * info);
-extern char *lw6nod_info_generate_oob_pong (lw6nod_info_t * info);
 
 /* nod-test.c */
 extern int lw6nod_test (int mode);

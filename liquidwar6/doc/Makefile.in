@@ -351,7 +351,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = coverage global cyclo example dtd
 info_TEXINFOS = liquidwar6.texi
-gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-ogg-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
+gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-ogg-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi msg-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
 selfdoc_TEXINFOS = quick-selfdoc.texi doc-selfdoc.texi show-selfdoc.texi path-selfdoc.texi players-selfdoc.texi input-selfdoc.texi graphics-selfdoc.texi sound-selfdoc.texi network-selfdoc.texi map-selfdoc.texi map-rules-selfdoc.texi map-hints-selfdoc.texi map-style-selfdoc.texi funcs-selfdoc.texi hooks-selfdoc.texi tuning-selfdoc.texi aliases-selfdoc.texi
 liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi gdoc.texi stamp.texi const.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
 man6_MANS = liquidwar6.man
@@ -1072,6 +1072,9 @@ uninstall-local:
 
 @LW6_GDOC_TRUE@$(srcdir)/map-gdoc.texi: ../src/lib/map/map-body.c ../src/lib/map/map-color.c ../src/lib/map/map-coords.c ../src/lib/map/map-dup.c ../src/lib/map/map.h ../src/lib/map/map-hexa.c ../src/lib/map/map-layer.c ../src/lib/map/map-level.c ../src/lib/map/map-localinfo.c ../src/lib/map/map-metadata.c ../src/lib/map/map-metalayer.c ../src/lib/map/map-param.c ../src/lib/map/map-rules.c ../src/lib/map/map-style.c ../src/lib/map/map-test.c ../src/lib/map/map-testmain.c ../src/lib/map/map-texture.c
 @LW6_GDOC_TRUE@	echo gdoc map && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/map-gdoc.texi
+
+@LW6_GDOC_TRUE@$(srcdir)/msg-gdoc.texi: ../src/lib/msg/msg.h ../src/lib/msg/msg-oob.c ../src/lib/msg/msg-test.c ../src/lib/msg/msg-testmain.c
+@LW6_GDOC_TRUE@	echo gdoc msg && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/msg-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/net-gdoc.texi: ../src/lib/net/net-address.c ../src/lib/net/net-const.c ../src/lib/net/net-error.c ../src/lib/net/net.h ../src/lib/net/net-if.c ../src/lib/net/net-internal.h ../src/lib/net/net-line.c ../src/lib/net/net-password.c ../src/lib/net/net-setup.c ../src/lib/net/net-socket.c ../src/lib/net/net-tcp.c ../src/lib/net/net-test.c ../src/lib/net/net-testmain.c ../src/lib/net/net-thread.c ../src/lib/net/net-udp.c
 @LW6_GDOC_TRUE@	echo gdoc net && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/net-gdoc.texi

@@ -1860,7 +1860,8 @@ implementing the various protocols in dynamically loadable sub-modules.
 It's the role of @code{p2p} to glue this together, handle the list
 of available servers, the message queue, verifying nobody is cheating,
 and so on. All this modules share information about current game
-state using code & structures defined in @code{nod}.
+state using code & structures defined in @code{nod}, and use message
+utilities (format, parse) defined in @code{msg}.
 
 The @code{sys} module contains most system and convenience functions, it handles
 logs, type conversions, timer, memory allocation, it's the fundamental

@@ -24,10 +24,12 @@
 #define LIQUIDWAR6CLI_H
 
 #include "../sys/sys.h"
+#include "../glb/glb.h"
 #include "../dyn/dyn.h"
 #include "../cfg/cfg.h"
 #include "../net/net.h"
 #include "../nod/nod.h"
+#include "../msg/msg.h"
 
 typedef struct lw6cli_connection_s
 {

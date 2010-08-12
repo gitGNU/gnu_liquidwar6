@@ -19,28 +19,16 @@
 # Contact author        : ufoot@ufoot.org
 
 AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ 
+AM_LDFLAGS = @LW6_LDFLAGS@
 
-if ALLINONE
-LW6DYN_LIB = 
-LW6SRV_LIB_S = mod-tcpd/libmod_tcpd_s.la mod-udpd/libmod_udpd_s.la mod-httpd/libmod_httpd_s.la
-else
-LW6DYN_LIB = ../dyn/libdyn.la 
-LW6SRV_LIB_S =
-endif
-
-noinst_LTLIBRARIES = libsrv.la
-libsrv_la_LIBADD = $(LW6SRV_LIB_S)
-libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c srv-test.c srv-udpbuffer.c
-libsrvdir= $(includedir)/@PACKAGE_TARNAME@/srv
-libsrv_HEADERS = srv.h
+noinst_LTLIBRARIES = libmsg.la
+libmsg_la_SOURCES = msg-oob.c msg-test.c
+libmsgdir= $(includedir)/@PACKAGE_TARNAME@/msg
+libmsg_HEADERS = msg.h
 
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6srv-test
-liquidwar6srv_test_SOURCES = srv-testmain.c
-liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../msg/libmsg.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6srv-test
+libexec_PROGRAMS = liquidwar6msg-test
+liquidwar6msg_test_SOURCES = msg-testmain.c
+liquidwar6msg_test_LDADD = libmsg.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+TESTS = liquidwar6msg-test
 endif
-
-SUBDIRS = mod-tcpd mod-udpd mod-httpd
-

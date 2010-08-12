@@ -1,5 +1,7 @@
 2010-08-12 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Created new msg module to factorize message generation/parsing.
+
 	* Character escape/protection for SQL & HTML.
 
 2010-08-11 : Christian Mauduit <ufoot@ufoot.org>

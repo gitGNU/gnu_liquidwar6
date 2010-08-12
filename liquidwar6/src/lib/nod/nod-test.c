@@ -413,29 +413,6 @@ test_node ()
 	    lw6sys_thread_join (thread_map_verified);
 	  }
 
-	oob = lw6nod_info_generate_oob_info (info);
-	if (oob)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob INFO is \"%s\""),
-			oob);
-	    LW6SYS_FREE (oob);
-	  }
-	oob = lw6nod_info_generate_oob_list (info);
-	if (oob)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob LIST is \"%s\""),
-			oob);
-	    LW6SYS_FREE (oob);
-	  }
-
-	oob = lw6nod_info_generate_oob_pong (info);
-	if (oob)
-	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob PONG is \"%s\""),
-			oob);
-	    LW6SYS_FREE (oob);
-	  }
-
 	lw6nod_info_free (info);
       }
   }
