@@ -3384,6 +3384,26 @@ C interfaces:
 
      *Return value:*  newly allocated string.
 
+ -- Function: int lw6msg_oob_analyse_info_line (lw6nod_info_t * INFO,
+          char * LINE)
+     INFO:  the info object to populate/update
+
+     LINE:  the line to read
+
+     Analyses a line of an INFO message (typically "Key: value") and
+     modifies the info object according to the information received.
+
+     *Return value:*  1 if OK, 0 if error or if EOF.
+
+ -- Function: char * lw6msg_oob_analyse_pong (char * TEXT)
+     TEXT:  the text of the message to parse
+
+     Analyses a PONG message and gets the public_url from it, if it
+     exists.
+
+     *Return value:*  newly allocated string containing public_url if
+     OK, NULL on error.
+
  -- Function: int lw6msg_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -3391,8 +3411,35 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
+ -- Function: int lw6msg_utils_is_space (char C)
+     C:  char to tesst
+
+     Tests if a character is a space. Note that this is not a universal
+     multi-purpose function in the sense it has its own understanding
+     fo 'what a space is'. In practice it's used to find the limit
+     between words, so it will interpret space (' ', char 32) as space
+     but also tab, newline...
+
 4.15.17 libnet
 --------------
+
+ -- Function: int lw6net_dns_is_ip (char * IP)
+     IP:  the string to check
+
+     Tests if a given string is a valid IP (IPV4). Test is only
+     syntaxic, it's just to know if we're likely to need to query the
+     DNS, it does not mean the IP is *really* valid.
+
+     *Return value:*  1 if it's an IP, O if not.
+
+ -- Function: char * lw6net_dns_gethostbyname (char * NAME)
+     NAME:  name of the host
+
+     A wrapper over the standard gethostbyname function, will even
+     accept an IP as an input (in this case, will copy it...) and
+     allocate a new string for the result.
+
+     *Return value:*  an IP if success, 0 on error.
 
  -- Function: int lw6net_last_error ()
      Reports the last network error. This is basically a debug function,
@@ -7555,6 +7602,13 @@ C interfaces:
      only.
 
      *Return value:*  1 if same, 0 if not.
+
+ -- Function: int lw6sys_str_starts_with (char * STR, char * BEGINNING)
+     STR:  the string to analyse
+
+     BEGINNING:  the pattern to search
+
+     *Return value:*  1 if str starts with beginning, 0 if not
 
  -- Function: int lw6sys_skip_blanks (char ** STR_PTR)
      STR_PTR:  a pointer to a string pointer (read/write parameter).
