@@ -36,14 +36,13 @@
 static int
 is_sep (char c)
 {
-  return (c == ' ' || c == '\t' || c == '-' || c == '_' || c == '/');
+  return (lw6sys_chr_is_space (c) || c == '-' || c == '_' || c == '/');
 }
 
 static int
 is_c (char c)
 {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-    || (c >= '0' && c <= '9') || (c == '?');
+  return (lw6sys_chr_is_alnum (c) || (c == '?'));
 }
 
 static int

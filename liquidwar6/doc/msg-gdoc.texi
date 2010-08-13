@@ -31,17 +31,6 @@ will lock the info object when needed.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_oob_analyse_info_line} (lw6nod_info_t * @var{info}, char * @var{line})
-@var{info}:  the info object to populate/update
-
-@var{line}:  the line to read
-
-Analyses a line of an INFO message (typically "Key: value") and
-modifies the info object according to the information received.
-
-@strong{Return value:}  1 if OK, 0 if error or if EOF.
-@end deftypefun
-
 @deftypefun {char *} {lw6msg_oob_analyse_pong} (char * @var{text})
 @var{text}:  the text of the message to parse
 
@@ -59,12 +48,28 @@ Runs the @code{nod} module test suite.
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_utils_is_space} (char @var{c})
-@var{c}:  char to tesst
+@deftypefun {int} {lw6msg_utils_parse_key_value_to_ptr} (char ** @var{key}, char ** @var{value}, char * @var{line})
+@var{key}:  will contain the key detected
 
-Tests if a character is a space. Note that this is not a universal
-multi-purpose function in the sense it has its own understanding
-fo 'what a space is'. In practice it's used to find the limit between words,
-so it will interpret space (' ', char 32) as space but also tab, newline...
+@var{value}:  will contain the value detected
+
+@var{line}:  the line to analyse
+
+Analyses a trivial "KEY value" line and returns the key and the value in
+the passed pointers.
+
+@strong{Return value:}  1 if line OK (and in this case @code{key} and @code{value} are set), 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6msg_utils_parse_key_value_to_assoc} (lw6sys_assoc_t ** @var{assoc}, char * @var{line})
+@var{assoc}:  an assoc object which will contain the result
+
+@var{line}:  the line to analyse
+
+Analyses a trivial "KEY value" line and sets the @code{assoc} parameter according
+to detected values. Note that @code{assoc} must be set to contain string, and
+free them automatically with @code{lw6sys_free_callback} for instance.
+
+@strong{Return value:}  1 if line OK (and in this case @code{assoc} is updated), 0 if not.
 @end deftypefun
 

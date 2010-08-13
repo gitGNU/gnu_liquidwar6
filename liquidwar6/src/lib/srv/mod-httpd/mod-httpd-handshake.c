@@ -63,11 +63,11 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 
 	  pos = tcp_accepter->first_line;
-	  while ((*pos) && (*pos) != ' ')
+	  while ((*pos) && !lw6sys_chr_is_space (*pos))
 	    {
 	      pos++;
 	    }
-	  while ((*pos) == ' ')
+	  while (lw6sys_chr_is_space (*pos))
 	    {
 	      pos++;
 	    }

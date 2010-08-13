@@ -27,22 +27,125 @@
 #include "msg.h"
 
 /**
- * lw6msg_utils_is_space
+ * lw6msg_utils_parse_key_value_to_ptr
  *
- * @c: char to tesst
- * 
- * Tests if a character is a space. Note that this is not a universal
- * multi-purpose function in the sense it has its own understanding
- * fo 'what a space is'. In practice it's used to find the limit between words,
- * so it will interpret space (' ', char 32) as space but also tab, newline...
+ * @key: will contain the key detected
+ * @value: will contain the value detected
+ * @line: the line to analyse
+ *
+ * Analyses a trivial "KEY value" line and returns the key and the value in
+ * the passed pointers.
+ *
+ * Return value: 1 if line OK (and in this case @key and @value are set), 0 if not.
  */
 int
-lw6msg_utils_is_space (char c)
+lw6msg_utils_parse_key_value_to_ptr (char **key, char **value, char *line)
 {
   int ret = 0;
-  unsigned char uc = c;
+  char *seek = NULL;
+  char *pos = NULL;
+  char *copy = NULL;
+  char seek_c = '\0';
+  int found_space = 0;
 
-  ret = (uc <= 32);
+  (*key) = NULL;
+  (*value) = NULL;
+
+  copy = lw6sys_str_copy (line);
+  if (copy)
+    {
+      seek = pos = copy;
+      while (lw6sys_chr_is_space (*seek))
+	{
+	  seek++;
+	}
+      pos = seek;
+      while (lw6sys_chr_is_alnum (*seek) || ((*seek) == '_')
+	     || ((*seek) == '-'))
+	{
+	  seek++;
+	}
+      seek_c = *seek;
+      (*seek) = '\0';
+      (*key) = lw6sys_str_copy (pos);
+      (*seek) = seek_c;
+      pos = seek;
+      while (lw6sys_chr_is_space (*seek) || ((*seek) == ':')
+	     || ((*seek) == '='))
+	{
+	  found_space = 1;
+	  seek++;
+	}
+      pos = seek;
+      while ((*seek) && !lw6sys_chr_is_eol (*seek))
+	{
+	  seek++;
+	}
+      seek_c = *seek;
+      (*seek) = '\0';
+      (*value) = lw6sys_str_copy (pos);
+
+      if (*key && *value && strlen (*key) > 0)
+	{
+	  if (found_space || strlen (*value) == 0)
+	    {
+	      ret = 1;
+	    }
+	}
+
+      if (!ret)
+	{
+	  if (*key)
+	    {
+	      LW6SYS_FREE (*key);
+	      (*key) = NULL;
+	    }
+	  if (*value)
+	    {
+	      LW6SYS_FREE (*value);
+	      (*value) = NULL;
+	    }
+	}
+
+      LW6SYS_FREE (copy);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_utils_parse_key_value_to_assoc
+ *
+ * @assoc: an assoc object which will contain the result
+ * @line: the line to analyse
+ *
+ * Analyses a trivial "KEY value" line and sets the @assoc parameter according
+ * to detected values. Note that @assoc must be set to contain string, and
+ * free them automatically with @lw6sys_free_callback for instance.
+ *
+ * Return value: 1 if line OK (and in this case @assoc is updated), 0 if not.
+ */
+int
+lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc, char *line)
+{
+  int ret = 0;
+  char *key = NULL;
+  char *value = NULL;
+
+  ret = lw6msg_utils_parse_key_value_to_ptr (&key, &value, line);
+  if (ret)
+    {
+      if (key && value)
+	{
+	  lw6sys_assoc_set (assoc, key, value);
+	  if ((*assoc) == NULL)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _("assoc_set failed, assoc is now NULL"));
+	    }
+	  LW6SYS_FREE (key);
+	}
+    }
 
   return ret;
 }

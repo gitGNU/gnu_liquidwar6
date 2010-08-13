@@ -280,7 +280,7 @@ lw6sys_skip_blanks (char **str_ptr)
 {
   int ret = 0;
 
-  while ((**str_ptr) == ' ' || (**str_ptr) == '\t')
+  while (lw6sys_chr_is_space (**str_ptr))
     {
       ret = 1;
       (*str_ptr)++;
@@ -409,9 +409,9 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
       pos = str_copy;
       while (pos[0] && ret)
 	{
-	  if (pos[0] == '\n')
+	  if (lw6sys_chr_is_eol (pos[0]))
 	    {
-	      while (pos[1] == '\n')
+	      while (lw6sys_chr_is_eol (pos[0]))
 		{
 		  pos++;
 		}
@@ -426,7 +426,7 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
 	      space_i = 0;
 	      while (i > 0)
 		{
-		  if (line_start[i] == ' ' || line_start[i] == '\t')
+		  if (lw6sys_chr_is_space (line_start[i]))
 		    {
 		      space_i = i;
 		      break;
@@ -438,8 +438,8 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
 		  i = 1;
 		  while (line_start[i] && !space_i)
 		    {
-		      if (line_start[i] == ' ' || line_start[i] == '\t'
-			  || line_start[i] == '\n')
+		      if (lw6sys_chr_is_eol (line_start[i])
+			  || lw6sys_chr_is_space (line_start[i]))
 			{
 			  space_i = i;
 			  break;

@@ -434,6 +434,32 @@ extern char *lw6sys_build_get_enable_valgrind ();
 extern int lw6sys_build_get_bin_id ();
 extern void lw6sys_build_log_all ();
 
+/* sys-chr.c */
+static inline int
+lw6sys_chr_is_digit (char c)
+{
+  return (c >= '0' && c <= '9');
+}
+
+static inline int
+lw6sys_chr_is_alnum (char c)
+{
+  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
+							      && c <= 'Z');
+}
+
+static inline int
+lw6sys_chr_is_space (char c)
+{
+  return (c == ' ' || c == '\t');
+}
+
+static inline int
+lw6sys_chr_is_eol (char c)
+{
+  return (c == '\n' || c == '\r');
+}
+
 /* sys-checksum.c */
 extern u_int32_t lw6sys_checksum (unsigned char *data, int len);
 extern u_int32_t lw6sys_checksum_str (char *value);

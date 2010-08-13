@@ -91,14 +91,13 @@ lw6sys_url_http_from_ip_port (char *ip, int port)
 static int
 _is_host (char c)
 {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-    || (c >= '0' && c <= '9') || (c == '.') || (c == '-');
+  return (lw6sys_chr_is_alnum (c) || (c == '.') || (c == '-'));
 }
 
 static int
 _is_port (char c)
 {
-  return (c >= '0' && c <= '9');
+  return (lw6sys_chr_is_digit (c));
 }
 
 /**

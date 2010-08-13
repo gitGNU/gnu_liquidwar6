@@ -1,3 +1,7 @@
+2010-08-13 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Improved message parsing.
+
 2010-08-12 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Mod-tcp can now ping & get URL from server.

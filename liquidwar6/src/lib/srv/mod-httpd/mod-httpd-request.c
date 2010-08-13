@@ -61,11 +61,11 @@ _parse_first_line (_httpd_request_t * request)
     }
 
   pos = request->first_line;
-  while ((*pos) && (*pos) != ' ')
+  while ((*pos) && !lw6sys_chr_is_sapce (*pos))
     {
       pos++;
     }
-  while ((*pos) == ' ')
+  while (lw6sys_chr_is_space (*pos))
     {
       pos++;
     }
@@ -74,7 +74,8 @@ _parse_first_line (_httpd_request_t * request)
    * Here we ignore what's after ? or #, this is typically not
    * standard compliant but LW6 does not interpret this.
    */
-  while ((*seek) && (*seek) != ' ' && (*seek) != '?' && (*seek) != '#')
+  while ((*seek) && (!lw6sys_chr_is_space (*seek)) && (*seek) != '?'
+	 && (*seek) != '#')
     {
       seek++;
     }

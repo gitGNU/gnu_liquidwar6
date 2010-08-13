@@ -165,27 +165,6 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 }
 
 /**
- * lw6msg_oob_analyse_info_line
- * 
- * @info: the info object to populate/update
- * @line: the line to read
- *
- * Analyses a line of an INFO message (typically "Key: value") and
- * modifies the info object according to the information received.
- *
- * Return value: 1 if OK, 0 if error or if EOF.
- */
-int
-lw6msg_oob_analyse_info_line (lw6nod_info_t * info, char *line)
-{
-  int ret = 0;
-
-  // todo...
-
-  return ret;
-}
-
-/**
  * lw6msg_oob_analyse_pong
  *
  * @text: the text of the message to parse
@@ -200,29 +179,23 @@ lw6msg_oob_analyse_pong (char *text)
 {
   char *ret = NULL;
   char *copy = NULL;
-  char *seek = NULL;
-  char *pos = NULL;
+  char *key = NULL;
+  char *value = NULL;
 
   copy = lw6sys_str_copy (text);
   if (copy)
     {
-      if (lw6sys_str_starts_with (copy, LW6MSG_OOB_PONG))
+      if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, text))
 	{
-	  seek = strchr (copy, ' ');
-	  if (seek)
+	  if (lw6sys_str_is_same (key, LW6MSG_OOB_PONG))
 	    {
-	      while ((*seek) && lw6msg_utils_is_space (*seek))
-		{
-		  seek++;
-		}
-	      pos = seek;
-	      while ((*seek) && !lw6msg_utils_is_space (*seek))
-		{
-		  seek++;
-		}
-	      (*seek) = '\0';
-	      ret = lw6sys_url_canonize (pos);
+	      ret = value;
 	    }
+	  else
+	    {
+	      LW6SYS_FREE (value);
+	    }
+	  LW6SYS_FREE (key);
 	}
       LW6SYS_FREE (copy);
     }

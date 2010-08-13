@@ -50,7 +50,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	  lw6sys_str_toupper (request_line);
 
 	  pos = seek = request_line;
-	  while ((*seek) && (*seek) != ' ' && (*seek) != '\t')
+	  while ((*seek) && !lw6sys_chr_is_space (*seek))
 	    {
 	      seek++;
 	    }
@@ -60,12 +60,12 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	  (*seek) = seek_c;
 
 	  pos = seek;
-	  while ((*pos) == ' ' || (*pos) == '\t')
+	  while (lw6sys_chr_is_space (*pos))
 	    {
 	      pos++;
 	    }
 	  seek = pos;
-	  while ((*seek) && (*seek) != ' ' && (*seek) != '\t')
+	  while ((*seek) && !lw6sys_chr_is_space (*seek))
 	    {
 	      seek++;
 	    }

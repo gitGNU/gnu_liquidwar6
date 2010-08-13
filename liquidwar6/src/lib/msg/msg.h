@@ -36,13 +36,15 @@
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_pong (lw6nod_info_t * info);
-extern int lw6msg_oob_analyse_info_line (lw6nod_info_t * info, char *line);
 extern char *lw6msg_oob_analyse_pong (char *text);
 
 /* nod-test.c */
 extern int lw6msg_test (int mode);
 
 /* msg-utils.c */
-extern int lw6msg_utils_is_space (char c);
+extern int lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,
+						char *line);
+extern int lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc,
+						  char *line);
 
 #endif

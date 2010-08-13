@@ -40,6 +40,10 @@
 #define _TEST_BENCH 10
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
+#define _TEST_KEY_VALUE_KO " \t"
+#define _TEST_KEY_VALUE_OK_1 "KEY value"
+#define _TEST_KEY_VALUE_OK_2 "  KEY2HASNOVALUE"
+#define _TEST_KEY_VALUE_OK_3 "KEY3looks-STRANGE\t= value 3 even\t stranger but it does work"
 
 /*
  * Testing functions in oob.c
@@ -180,6 +184,82 @@ test_oob ()
   return ret;
 }
 
+static void
+_key_value_assoc_callback (void *func_data, char *key, void *value)
+{
+  char *value_str = (char *) value;
+  int *count = (int *) func_data;
+
+  (*count)++;
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("count=%d found key=\"%s\" value=\"%s\""),
+	      *count, key, value_str);
+}
+
+/*
+ * Testing functions in oob.c
+ */
+static int
+test_utils ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *key = NULL;
+    char *value = NULL;
+    lw6sys_assoc_t *assoc = NULL;
+    int count = 0;
+
+    if (lw6msg_utils_parse_key_value_to_ptr
+	(&key, &value, _TEST_KEY_VALUE_OK_1))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("line \"%s\" parsed key=\"%s\" value=\"%s\""),
+		    _TEST_KEY_VALUE_OK_1, key, value);
+	LW6SYS_FREE (key);
+	LW6SYS_FREE (value);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+		    _TEST_KEY_VALUE_OK_1);
+	ret = 0;
+      }
+    if (lw6msg_utils_parse_key_value_to_ptr
+	(&key, &value, _TEST_KEY_VALUE_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _
+		    ("line \"%s\" parsed key=\"%s\" value=\"%s\" but this should have returned NULL"),
+		    _TEST_KEY_VALUE_KO, key, value);
+	LW6SYS_FREE (key);
+	LW6SYS_FREE (value);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse \"%s\", this is normal"),
+		    _TEST_KEY_VALUE_KO);
+      }
+    assoc = lw6sys_assoc_new (lw6sys_free_callback);
+    if (assoc)
+      {
+	lw6msg_utils_parse_key_value_to_assoc (&assoc, _TEST_KEY_VALUE_OK_1);
+	lw6msg_utils_parse_key_value_to_assoc (&assoc, _TEST_KEY_VALUE_OK_2);
+	lw6msg_utils_parse_key_value_to_assoc (&assoc, _TEST_KEY_VALUE_OK_3);
+	lw6msg_utils_parse_key_value_to_assoc (&assoc, _TEST_KEY_VALUE_KO);
+	count = 0;
+	lw6sys_assoc_map (assoc, _key_value_assoc_callback, &count);
+	ret = ret && (count == 3);
+	lw6sys_assoc_free (assoc);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6msg_test
  *
@@ -203,7 +283,7 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_oob ();
+  ret = test_oob () && test_utils ();
 
   return ret;
 }
