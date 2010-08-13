@@ -61,7 +61,7 @@ _parse_first_line (_httpd_request_t * request)
     }
 
   pos = request->first_line;
-  while ((*pos) && !lw6sys_chr_is_sapce (*pos))
+  while ((*pos) && !lw6sys_chr_is_space (*pos))
     {
       pos++;
     }

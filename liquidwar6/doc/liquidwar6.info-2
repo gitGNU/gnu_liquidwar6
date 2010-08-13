@@ -3384,17 +3384,6 @@ C interfaces:
 
      *Return value:*  newly allocated string.
 
- -- Function: int lw6msg_oob_analyse_info_line (lw6nod_info_t * INFO,
-          char * LINE)
-     INFO:  the info object to populate/update
-
-     LINE:  the line to read
-
-     Analyses a line of an INFO message (typically "Key: value") and
-     modifies the info object according to the information received.
-
-     *Return value:*  1 if OK, 0 if error or if EOF.
-
  -- Function: char * lw6msg_oob_analyse_pong (char * TEXT)
      TEXT:  the text of the message to parse
 
@@ -3411,14 +3400,33 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- Function: int lw6msg_utils_is_space (char C)
-     C:  char to tesst
+ -- Function: int lw6msg_utils_parse_key_value_to_ptr (char ** KEY,
+          char ** VALUE, char * LINE)
+     KEY:  will contain the key detected
 
-     Tests if a character is a space. Note that this is not a universal
-     multi-purpose function in the sense it has its own understanding
-     fo 'what a space is'. In practice it's used to find the limit
-     between words, so it will interpret space (' ', char 32) as space
-     but also tab, newline...
+     VALUE:  will contain the value detected
+
+     LINE:  the line to analyse
+
+     Analyses a trivial "KEY value" line and returns the key and the
+     value in the passed pointers.
+
+     *Return value:*  1 if line OK (and in this case `key' and `value'
+     are set), 0 if not.
+
+ -- Function: int lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t
+          ** ASSOC, char * LINE)
+     ASSOC:  an assoc object which will contain the result
+
+     LINE:  the line to analyse
+
+     Analyses a trivial "KEY value" line and sets the `assoc' parameter
+     according to detected values. Note that `assoc' must be set to
+     contain string, and free them automatically with
+     `lw6sys_free_callback' for instance.
+
+     *Return value:*  1 if line OK (and in this case `assoc' is
+     updated), 0 if not.
 
 4.15.17 libnet
 --------------

@@ -117,21 +117,32 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  if (log_file)
 	    {
 	      lw6sys_log_clear (log_file);
+
+	      ret = lw6sys_test_exec (argc, argv, 1) && lw6sys_test (1)
+		&& lw6glb_test (1)
+		&& lw6map_test (1)
+		&& lw6ker_test (1) && DYN_TEST && lw6bot_test (1)
+		&& lw6cns_test (1)
+		&& lw6hlp_test (1) && lw6cfg_test (1) && lw6ldr_test (1)
+		&& lw6tsk_test (1) && lw6gui_test (1) && lw6gfx_test (1)
+		&& lw6dsp_test (1) && lw6snd_test (1) && lw6img_test (1)
+		&& lw6pil_test (1) && lw6net_test (1) && lw6nod_test (1)
+		&& lw6msg_test (1)
+		&& lw6cli_test (1) && lw6srv_test (1) && lw6p2p_test (1)
+		&& lw6_test (1);
+	      if (ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_ERROR,
+			      _
+			      ("test FAILED, see log file \"%s\" for details"),
+			      log_file);
+		}
 	      LW6SYS_FREE (log_file);
 	    }
-
-	  ret = lw6sys_test_exec (argc, argv, 1) && lw6sys_test (1)
-	    && lw6glb_test (1)
-	    && lw6map_test (1)
-	    && lw6ker_test (1) && DYN_TEST && lw6bot_test (1)
-	    && lw6cns_test (1)
-	    && lw6hlp_test (1) && lw6cfg_test (1) && lw6ldr_test (1)
-	    && lw6tsk_test (1) && lw6gui_test (1) && lw6gfx_test (1)
-	    && lw6dsp_test (1) && lw6snd_test (1) && lw6img_test (1)
-	    && lw6pil_test (1) && lw6net_test (1) && lw6nod_test (1)
-	    && lw6msg_test (1)
-	    && lw6cli_test (1) && lw6srv_test (1) && lw6p2p_test (1)
-	    && lw6_test (1);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (LW6DEF_CHECK, argv[i]))
@@ -140,21 +151,33 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  if (log_file)
 	    {
 	      lw6sys_log_clear (log_file);
+
+	      ret = lw6sys_test_exec (argc, argv, 0) && lw6sys_test (0)
+		&& lw6glb_test (0)
+		&& lw6map_test (0)
+		&& lw6ker_test (0) && DYN_TEST && lw6bot_test (0)
+		&& lw6cns_test (0)
+		&& lw6hlp_test (0) && lw6cfg_test (0) && lw6ldr_test (0)
+		&& lw6tsk_test (0) && lw6gui_test (0) && lw6gfx_test (0)
+		&& lw6dsp_test (0) && lw6snd_test (0) && lw6img_test (0)
+		&& lw6pil_test (0) && lw6net_test (0) && lw6nod_test (0)
+		&& lw6msg_test (0)
+		&& lw6cli_test (0) && lw6srv_test (0) && lw6p2p_test (0)
+		&& lw6_test (0);
+	      if (ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("all tests SUCCESSFULL! (check-only mode)"));
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_ERROR,
+			      _
+			      ("check FAILED, see log file \"%s\" for details"),
+			      log_file);
+		}
 	      LW6SYS_FREE (log_file);
 	    }
-
-	  ret = lw6sys_test_exec (argc, argv, 0) && lw6sys_test (0)
-	    && lw6glb_test (0)
-	    && lw6map_test (0)
-	    && lw6ker_test (0) && DYN_TEST && lw6bot_test (0)
-	    && lw6cns_test (0)
-	    && lw6hlp_test (0) && lw6cfg_test (0) && lw6ldr_test (0)
-	    && lw6tsk_test (0) && lw6gui_test (0) && lw6gfx_test (0)
-	    && lw6dsp_test (0) && lw6snd_test (0) && lw6img_test (0)
-	    && lw6pil_test (0) && lw6net_test (0) && lw6nod_test (0)
-	    && lw6msg_test (0)
-	    && lw6cli_test (0) && lw6srv_test (0) && lw6p2p_test (0)
-	    && lw6_test (0);
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (LW6DEF_BENCH, argv[i]))

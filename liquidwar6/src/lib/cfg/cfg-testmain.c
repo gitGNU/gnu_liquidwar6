@@ -37,6 +37,8 @@ main (int argc, char *argv[])
   lw6sys_log_clear (NULL);
   ret = lw6cfg_test (lw6sys_arg_test_mode (argc, argv));
 
+  LW6SYS_TEST_OUTPUT;
+
   LW6HLP_MAIN_END;
   LW6SYS_MAIN_END;
 

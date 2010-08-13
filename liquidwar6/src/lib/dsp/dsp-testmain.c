@@ -56,6 +56,8 @@ main (int argc, char *argv[])
 #endif
   ret = _ret;
 
+  LW6SYS_TEST_OUTPUT;
+
   LW6HLP_MAIN_END;
   LW6SYS_MAIN_END;
 
