@@ -120,7 +120,7 @@ typedef char *char_ptr_t;
 #define LW6SYS_SCRIPT_FUNCTION_BEGIN { lw6sys_log(LW6SYS_LOG_DEBUG,_("begin script function \"%s\""),__FUNCTION__); }
 #define LW6SYS_SCRIPT_FUNCTION_END { lw6sys_log(LW6SYS_LOG_DEBUG,_("end script function \"%s\""),__FUNCTION__); }
 
-#define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test SUCCESSFULL!")); } else { lw6sys_log(LW6SYS_LOG_ERROR,_("test FAILED...")); } }
+#define LW6SYS_TEST_OUTPUT { if (ret) { lw6sys_log(LW6SYS_LOG_NOTICE,_("test SUCCESSFULL!")); } else { lw6sys_log(LW6SYS_LOG_WARNING,_("test FAILED...")); } }
 
 typedef struct lw6sys_xyz_s
 {

@@ -171,7 +171,11 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_ERROR,
+		  /*
+		   * Here only a warning, not an erro which can require
+		   * interactive operation to finish
+		   */
+		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _
 			      ("check FAILED, see log file \"%s\" for details"),
 			      log_file);
