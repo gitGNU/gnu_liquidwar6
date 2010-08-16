@@ -24,11 +24,10 @@
 #include "config.h"
 #endif
 
-#include "net.h"
-#include "net-internal.h"
+#include "sys.h"
 
 /**
- * lw6net_password_checksum
+ * lw6sys_password_checksum
  *
  * @seed: a seed to blur the password, can be NULL
  * @password: the password, can be NULL
@@ -48,7 +47,7 @@
  * Return value: a dynamically allocated string
  */
 char *
-lw6net_password_checksum (char *seed, char *password)
+lw6sys_password_checksum (char *seed, char *password)
 {
   char *ret = NULL;
   u_int32_t checksum = 0;
@@ -71,11 +70,11 @@ lw6net_password_checksum (char *seed, char *password)
 }
 
 /**
- * lw6net_password_verify
+ * lw6sys_password_verify
  *
  * @seed: a seed to blur the password, can be NULL
  * @password_here: the local password, can be NULL
- * @password_received: the password received from network
+ * @password_received: the password received from network, can be NULL
  *
  * Tells wether a password received over the network is valid.
  * The @password_here argument (the local password) will be
@@ -85,7 +84,7 @@ lw6net_password_checksum (char *seed, char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6net_password_verify (char *seed, char *password_here,
+lw6sys_password_verify (char *seed, char *password_here,
 			char *password_received)
 {
   int ret = 0;
@@ -107,7 +106,7 @@ lw6net_password_verify (char *seed, char *password_here,
 	}
       else
 	{
-	  checksum = lw6net_password_checksum (seed, password_here);
+	  checksum = lw6sys_password_checksum (seed, password_here);
 	  if (checksum)
 	    {
 	      if (!(strcmp (checksum, password_received)))

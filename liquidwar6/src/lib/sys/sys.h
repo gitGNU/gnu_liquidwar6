@@ -768,6 +768,11 @@ extern char *lw6sys_get_map_path (int argc, char *argv[]);
 extern char *lw6sys_get_script_file (int argc, char *argv[]);
 extern void lw6sys_options_log (int argc, char *argv[]);
 
+/* sys-password.c */
+extern char *lw6sys_password_checksum (char *seed, char *password);
+extern int lw6sys_password_verify (char *seed, char *password_here,
+				   char *password_received);
+
 /* sys-path.c */
 extern int lw6sys_file_exists (char *filename);
 extern int lw6sys_dir_exists (char *dirname);
@@ -930,6 +935,7 @@ extern char *lw6sys_url_http_from_ip_port (char *ip, int port);
 extern lw6sys_url_t *lw6sys_url_parse (char *url);
 extern void lw6sys_url_free (lw6sys_url_t * url);
 extern char *lw6sys_url_canonize (char *url);
+extern int lw6sys_url_is_canonized (char *url);
 
 /* sys-vthread.c */
 extern int lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,

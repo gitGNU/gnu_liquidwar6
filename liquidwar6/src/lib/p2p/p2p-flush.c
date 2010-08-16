@@ -82,7 +82,7 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 		{
 		  verified_node =
 		    lw6nod_info_new (lw6sys_generate_id_64 (), url, title,
-				     "todo...", 10, 0, NULL);
+				     "todo...", NULL, 10, 0, NULL);
 		  if (verified_node && list_of_node)
 		    {
 		      lw6sys_list_push_front (&list_of_node, verified_node);

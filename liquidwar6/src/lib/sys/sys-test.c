@@ -205,6 +205,10 @@
 #define TEST_URL_CANONIZE_4 "www.toto.com"
 #define TEST_URL_CANONIZE_5 ":123"
 #define TEST_URL_CANONIZE_6 ""
+#define TEST_URL_NOT_CANONIZED "ftp://truc"
+#define TEST_PASSWORD_SEED "http://"
+#define TEST_PASSWORD1 "abc"
+#define TEST_PASSWORD2 "XY"
 
 /*
  * Testing functions in arg.c
@@ -2197,6 +2201,118 @@ _dir_list_print (void *func_data, void *data)
 }
 
 /*
+ * Testing functions in password.c
+ */
+static int
+test_password ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *checksum = NULL;
+
+    checksum = lw6sys_password_checksum (NULL, NULL);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password NULL is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6sys_password_checksum (NULL, "");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for empty password is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6sys_password_checksum (TEST_PASSWORD_SEED, "");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("checksum for empty password with seed \"%s\" is \"%s\""),
+		    TEST_PASSWORD_SEED, checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6sys_password_checksum (TEST_PASSWORD_SEED, TEST_PASSWORD1);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password \"%s\" is \"%s\""),
+		    TEST_PASSWORD1, checksum);
+	if (lw6sys_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, TEST_PASSWORD1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("same password test works"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6sys_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, checksum))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works using checksum"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6sys_password_verify (TEST_PASSWORD_SEED, NULL, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works when it's NULL here"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6sys_password_verify
+	    (TEST_PASSWORD_SEED, TEST_PASSWORD1, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong passwords"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6sys_password_verify (NULL, TEST_PASSWORD1, TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong seed"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in path.c
  */
 static int
@@ -3169,12 +3285,25 @@ test_url ()
       {
 	ret = 0;
       }
+    if (lw6sys_url_is_canonized (TEST_URL_NOT_CANONIZED))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("url \"%s\" reported as canonized, but it isn't"),
+		    TEST_URL_NOT_CANONIZED);
+	ret = 0;
+      }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_1);
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_1, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_2);
@@ -3183,6 +3312,12 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_2, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_3);
@@ -3191,6 +3326,12 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_3, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_4);
@@ -3199,6 +3340,12 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_4, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_5);
@@ -3207,6 +3354,12 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_5, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
     url = lw6sys_url_canonize (TEST_URL_CANONIZE_6);
@@ -3215,6 +3368,12 @@ test_url ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_6, url);
+	if (!lw6sys_url_is_canonized (url))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("url \"%s\" not reported as canonized"), url);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (url);
       }
   }
@@ -3361,10 +3520,10 @@ lw6sys_test (int mode)
     && test_hexa () && test_history () && test_i18n () && test_id ()
     && test_keyword () && test_list () && test_log (mode) && test_math ()
     && test_mem () && test_mutex () && test_options () && test_nop ()
-    && test_path () && test_progress () && test_random () && test_sdl ()
-    && test_serial () && test_shape () && test_sort () && test_spinlock ()
-    && test_str () && test_thread () && test_time () && test_url ()
-    && test_vthread ();
+    && test_password () && test_path () && test_progress () && test_random ()
+    && test_sdl () && test_serial () && test_shape () && test_sort ()
+    && test_spinlock () && test_str () && test_thread () && test_time ()
+    && test_url () && test_vthread ();
 
   return ret;
 }

@@ -34,10 +34,9 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 {
   int ret = 0;
   char *request_line = NULL;
-  char *pos = NULL;
-  char *seek = NULL;
-  char seek_c = '\0';
+  int syntax_ok = 0;
   char *command = NULL;
+  int password_ok = 0;
   char *given_public_url = NULL;
   char *response = NULL;
 
@@ -47,47 +46,22 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
       request_line = lw6net_recv_line_tcp (oob_data->sock);
       if (request_line)
 	{
-	  lw6sys_str_toupper (request_line);
-
-	  pos = seek = request_line;
-	  while ((*seek) && !lw6sys_chr_is_space (*seek))
+	  if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok,
+					  &given_public_url, request_line,
+					  node_info->const_info.url,
+					  node_info->const_info.password))
 	    {
-	      seek++;
-	    }
-	  seek_c = (*seek);
-	  (*seek) = '\0';
-	  command = lw6sys_str_copy (pos);
-	  (*seek) = seek_c;
-
-	  pos = seek;
-	  while (lw6sys_chr_is_space (*pos))
-	    {
-	      pos++;
-	    }
-	  seek = pos;
-	  while ((*seek) && !lw6sys_chr_is_space (*seek))
-	    {
-	      seek++;
-	    }
-	  seek_c = (*seek);
-	  (*seek) = '\0';
-	  given_public_url = lw6sys_str_copy (pos);
-	  (*seek) = seek_c;
-
-	  if (command)
-	    {
-	      if (strlen (command) == 0
-		  || !strcmp (command, _MOD_TCPD_PROTOCOL_INFO_STRING))
+	      if (lw6sys_str_is_same (command, LW6MSG_OOB_PING))
+		{
+		  response = lw6msg_oob_generate_pong (node_info);
+		}
+	      if (lw6sys_str_is_same (command, LW6MSG_OOB_INFO))
 		{
 		  response = lw6msg_oob_generate_info (node_info);
 		}
-	      if (!strcmp (command, _MOD_TCPD_PROTOCOL_LIST_STRING))
+	      if (lw6sys_str_is_same (command, LW6MSG_OOB_LIST))
 		{
 		  response = lw6msg_oob_generate_list (node_info);
-		}
-	      if (!strcmp (command, _MOD_TCPD_PROTOCOL_PING_STRING))
-		{
-		  response = lw6msg_oob_generate_pong (node_info);
 		}
 	      if (given_public_url)
 		{
@@ -101,7 +75,17 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		    }
 		  LW6SYS_FREE (given_public_url);
 		}
-	      LW6SYS_FREE (command);
+	    }
+	  else
+	    {
+	      if (syntax_ok && !password_ok)
+		{
+		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		}
+	      else
+		{
+		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
+		}
 	    }
 	  LW6SYS_FREE (request_line);
 	}

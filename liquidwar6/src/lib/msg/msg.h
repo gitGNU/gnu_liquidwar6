@@ -32,10 +32,42 @@
 #define LW6MSG_OOB_PING "PING"
 #define LW6MSG_OOB_PONG "PONG"
 
+#define LW6MSG_OOB_PROGRAM "PROGRAM"
+#define LW6MSG_OOB_VERSION "VERSION"
+#define LW6MSG_OOB_CODENAME "CODENAME"
+#define LW6MSG_OOB_STAMP "STAMP"
+#define LW6MSG_OOB_ID "ID"
+#define LW6MSG_OOB_URL "URL"
+#define LW6MSG_OOB_TITLE "TITLE"
+#define LW6MSG_OOB_DESCRIPTION "DESCRIPTION"
+#define LW6MSG_OOB_PASSWORD "PASSWORD"
+#define LW6MSG_OOB_UPTIME "UPTIME"
+#define LW6MSG_OOB_LEVEL "LEVEL"
+#define LW6MSG_OOB_BENCH "BENCH"
+#define LW6MSG_OOB_REQUIRED_BENCH "REQUIRED_BENCH"
+#define LW6MSG_OOB_NB_COLORS "NB_COLORS"
+#define LW6MSG_OOB_MAX_NB_COLORS "MAX_NB_COLORS"
+#define LW6MSG_OOB_NB_CURSORS "NB_CURSORS"
+#define LW6MSG_OOB_MAX_NB_CURSORS "MAX_NB_CURSORS"
+#define LW6MSG_OOB_NB_NODES "NB_NODES"
+#define LW6MSG_OOB_MAX_NB_NODES "MAX_NB_NODES"
+
+#define LW6MSG_ERROR "ERROR"
+#define LW6MSG_FORBIDDEN "FORBIDDEN"
+
+#define LW6MSG_YES "YES"
+#define LW6MSG_NO "NO"
+
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_pong (lw6nod_info_t * info);
+extern char *lw6msg_oob_generate_request (char *command, char *remote_url,
+					  char *password, char *local_url);
+extern int lw6msg_oob_analyse_request (int *syntax_ok, char **command,
+				       int *password_ok, char **remote_url,
+				       char *request, char *local_url,
+				       char *password);
 extern char *lw6msg_oob_analyse_pong (char *text);
 
 /* nod-test.c */

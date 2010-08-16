@@ -45,6 +45,7 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
   lw6nod_dyn_info_t *dyn_info = NULL;
   char *level = "";
   int uptime = 0;
+  char *password = NULL;
 
   dyn_info = lw6nod_info_dup_dyn (info);
   if (dyn_info)
@@ -56,20 +57,53 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
 	{
 	  level = dyn_info->level;
 	}
+      if (info->const_info.password && strlen (info->const_info.password) > 0)
+	{
+	  password = LW6MSG_YES;
+	}
+      else
+	{
+	  password = LW6MSG_NO;
+	}
       ret =
 	lw6sys_new_sprintf
-	("Program: %s\nVersion: %s\nCodename: %s\nStamp: %s\nId: %s\nUrl: %s\nTitle: %s\nDescription: %s\nUptime: %d\nLevel: %s\nBench: %d\nRequired bench: %d\nNb-Colors: %d\nMax-Nb-Colors: %d\nNb-Cursors: %d\nMax-Nb-Cursors: %d\nNb-Nodes: %d\nMax-Nb-Nodes: %d\n\n",
-	 lw6sys_build_get_package_tarname (), lw6sys_build_get_version (),
-	 lw6sys_build_get_codename (), lw6sys_build_get_stamp (),
-	 info->const_info.id, info->const_info.url,
-	 info->const_info.title, info->const_info.description, uptime,
+	("%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
+	 LW6MSG_OOB_PROGRAM,
+	 lw6sys_build_get_package_tarname (),
+	 LW6MSG_OOB_VERSION,
+	 lw6sys_build_get_version (),
+	 LW6MSG_OOB_CODENAME,
+	 lw6sys_build_get_codename (),
+	 LW6MSG_OOB_STAMP,
+	 lw6sys_build_get_stamp (),
+	 LW6MSG_OOB_ID,
+	 info->const_info.id,
+	 LW6MSG_OOB_URL,
+	 info->const_info.url,
+	 LW6MSG_OOB_TITLE,
+	 info->const_info.title,
+	 LW6MSG_OOB_DESCRIPTION,
+	 info->const_info.description,
+	 LW6MSG_OOB_PASSWORD,
+	 password,
+	 LW6MSG_OOB_UPTIME,
+	 uptime,
+	 LW6MSG_OOB_LEVEL,
 	 level,
-	 info->const_info.bench, dyn_info->required_bench,
+	 LW6MSG_OOB_BENCH,
+	 info->const_info.bench,
+	 LW6MSG_OOB_REQUIRED_BENCH,
+	 dyn_info->required_bench,
+	 LW6MSG_OOB_NB_COLORS,
 	 dyn_info->nb_colors,
+	 LW6MSG_OOB_MAX_NB_COLORS,
 	 dyn_info->max_nb_colors,
+	 LW6MSG_OOB_NB_CURSORS,
 	 dyn_info->nb_cursors,
+	 LW6MSG_OOB_MAX_NB_CURSORS,
 	 dyn_info->max_nb_cursors,
-	 dyn_info->nb_nodes, dyn_info->max_nb_nodes);
+	 LW6MSG_OOB_NB_NODES,
+	 dyn_info->nb_nodes, LW6MSG_OOB_MAX_NB_NODES, dyn_info->max_nb_nodes);
       lw6nod_dyn_info_free (dyn_info);
     }
 
@@ -160,6 +194,232 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
   char *ret = NULL;
 
   ret = lw6sys_new_sprintf ("PONG %s\n\n", info->const_info.url);
+
+  return ret;
+}
+
+/**
+ * lw6msg_oob_generate_request
+ * 
+ * @command: the command to send (PING, INFO, LIST)
+ * @remote_url: the remote URL (used to seed password)
+ * @password: the password, can be NULL or ""
+ * @local_url: the public URL to send along with the message, can be NULL or ""
+ *
+ * Generates a simple clear text OOB request, with a password if needed.
+ *
+ * Return value: a newly allocated string
+ */
+char *
+lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
+			     char *local_url)
+{
+  char *ret = NULL;
+  char *password_checksum = NULL;
+
+  if (remote_url && strlen (remote_url) > 0 && password
+      && strlen (password) > 0)
+    {
+      password_checksum = lw6sys_password_checksum (remote_url, password);
+    }
+  if (password_checksum)
+    {
+      if (local_url && strlen (local_url) > 0)
+	{
+	  ret =
+	    lw6sys_new_sprintf ("%s %s %s\n", command, password_checksum,
+				local_url);
+	}
+      else
+	{
+	  ret = lw6sys_new_sprintf ("%s %s\n", command, password_checksum);
+	}
+      LW6SYS_FREE (password_checksum);
+    }
+  else
+    {
+      if (local_url && strlen (local_url) > 0)
+	{
+	  ret = lw6sys_new_sprintf ("%s %s\n", command, local_url);
+	}
+      else
+	{
+	  ret = lw6sys_new_sprintf ("%s\n", command);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_oob_analyse_request
+ *
+ * @syntax_ok: will contain 1 if syntax is OK, 0 if not
+ * @command: the command (out param, needs *not* to be freed) 
+ * @password_ok: will contain 1 if password is OK, 0 if not
+ * @remote_url: the URL detected, if provided (out param, does needs to be freed)
+ * @request: the request to analyse
+ * @local_url: the local url (used to seed password)
+ * @password: the password to check against
+ *
+ * Analyses a simple OOB message of the form COMMAND <passwd> <url>. 
+ *
+ * Return value: 1 if OK, 0 if not. If 0, check the value of password_ok. 
+ */
+int
+lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
+			    char **remote_url, char *request, char *local_url,
+			    char *password)
+{
+  int ret = 0;
+  char *copy = NULL;
+  char *seek = NULL;
+  char *pos = NULL;
+  char seek_c = '\0';
+  char *param1 = NULL;
+  char *param2 = NULL;
+  char *received_password = NULL;
+  char *received_url = NULL;
+
+  (*syntax_ok) = 0;
+  (*command) = NULL;
+  (*password_ok) = 0;
+  (*remote_url) = NULL;
+
+  copy = lw6sys_str_copy (request);
+  if (copy)
+    {
+      seek = copy;
+      while (lw6sys_chr_is_space (*seek))
+	{
+	  seek++;
+	}
+      pos = seek;
+
+      if (lw6sys_str_starts_with (pos, LW6MSG_OOB_PING))
+	{
+	  (*command) = LW6MSG_OOB_PING;
+	  seek += strlen (LW6MSG_OOB_PING);
+	}
+      else if (lw6sys_str_starts_with (pos, LW6MSG_OOB_INFO))
+	{
+	  (*command) = LW6MSG_OOB_INFO;
+	  seek += strlen (LW6MSG_OOB_INFO);
+	}
+      else if (lw6sys_str_starts_with (pos, LW6MSG_OOB_LIST))
+	{
+	  (*command) = LW6MSG_OOB_LIST;
+	  seek += strlen (LW6MSG_OOB_LIST);
+	}
+
+      if (*command)
+	{
+	  pos = seek;
+	  while (lw6sys_chr_is_space (*seek))
+	    {
+	      seek++;
+	    }
+	  if (seek != pos || lw6sys_chr_is_eol (*pos) || (*pos) == '\0')
+	    {
+	      (*syntax_ok) = 1;
+	      if (seek != pos)
+		{
+		  pos = seek;
+		  while ((*seek) && !lw6sys_chr_is_space (*seek)
+			 && !lw6sys_chr_is_eol (*seek))
+		    {
+		      seek++;
+		    }
+		  if (seek != pos)
+		    {
+		      seek_c = (*seek);
+		      (*seek) = '\0';
+		      param1 = lw6sys_str_copy (pos);
+		      (*seek) = seek_c;
+		      pos = seek;
+		      while (lw6sys_chr_is_space (*seek))
+			{
+			  seek++;
+			}
+		      if (seek != pos)
+			{
+			  pos = seek;
+			  while ((*seek) && !lw6sys_chr_is_space (*seek)
+				 && !lw6sys_chr_is_eol (*seek))
+			    {
+			      seek++;
+			    }
+			  if (seek != pos)
+			    {
+			      seek_c = (*seek);
+			      (*seek) = '\0';
+			      param2 = lw6sys_str_copy (pos);
+			    }
+			}
+		    }
+		}
+	      if (param1 && param2)
+		{
+		  received_password = param1;
+		  received_url = param2;
+		  param1 = NULL;
+		  param2 = NULL;
+		}
+	      if (param1)
+		{
+		  if (lw6sys_url_is_canonized (param1))
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _
+				  ("param1=\"%s\" is canonized URL, considering it an URL"),
+				  param1);
+		      received_url = param1;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _
+				  ("param1=\"%s\" is not a canonized URL, considering it a password"),
+				  param1);
+		      received_password = param1;
+		    }
+		  param1 = NULL;
+		}
+
+	      /*
+	       * We only check password now that we have chosen which
+	       * field is password, even if the value is NULL
+	       */
+	      if (lw6sys_password_verify
+		  (local_url, password, received_password))
+		{
+		  (*password_ok) = 1;
+		  (*remote_url) = received_url;
+		  ret = 1;
+		}
+	      else
+		{
+		  if (received_url)
+		    {
+		      LW6SYS_FREE (received_url);
+		    }
+		}
+	      if (received_password)
+		{
+		  LW6SYS_FREE (received_password);
+		}
+	      if (!ret)
+		{
+		  if (*remote_url)
+		    {
+		      LW6SYS_FREE (*remote_url);
+		      (*remote_url) = NULL;
+		    }
+		}
+	    }
+	}
+      LW6SYS_FREE (copy);
+    }
 
   return ret;
 }

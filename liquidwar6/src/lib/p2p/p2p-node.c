@@ -115,7 +115,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	}
       node->node_info =
 	lw6nod_info_new (node->node_id_int, node->public_url, title,
-			 description, bench,
+			 description, node->password, bench,
 			 node->db->data.idle_screenshot.size,
 			 node->db->data.idle_screenshot.data);
       if (known_nodes)

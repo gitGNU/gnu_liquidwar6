@@ -37,9 +37,14 @@
 #define _TEST_URL "http://192.168.20.20:8000/"
 #define _TEST_TITLE "This is not a sentence"
 #define _TEST_DESCRIPTION "This is not an explanation about what this is."
+#define _TEST_PASSWORD "toto"
 #define _TEST_BENCH 10
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
+#define _TEST_REQUEST_COMMAND "PING"
+#define _TEST_REQUEST_REMOTE_URL "http://ufoot.hd.free.fr/"
+#define _TEST_REQUEST_PASSWORD "toto"
+#define _TEST_REQUEST_LOCAL_URL "http://ufoot.org/"
 #define _TEST_KEY_VALUE_KO " \t"
 #define _TEST_KEY_VALUE_OK_1 "KEY value"
 #define _TEST_KEY_VALUE_OK_2 "  KEY2HASNOVALUE"
@@ -61,10 +66,16 @@ test_oob ()
     char *url = NULL;
     lw6nod_info_t *verified_node = NULL;
     char *pong_url = NULL;
+    char *request = NULL;
+    int syntax_ok = 0;
+    char *command = NULL;
+    int password_ok = 0;
+    char *remote_url = NULL;
 
     info =
       lw6nod_info_new (_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_DESCRIPTION,
-		       _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_PASSWORD, _TEST_BENCH,
+		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
@@ -123,8 +134,8 @@ test_oob ()
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_ID_1, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_BENCH,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
+				   _TEST_DESCRIPTION, _TEST_PASSWORD,
+				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
@@ -137,8 +148,8 @@ test_oob ()
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_ID_2, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_BENCH,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
+				   _TEST_DESCRIPTION, _TEST_PASSWORD,
+				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
@@ -151,8 +162,8 @@ test_oob ()
 	      {
 		verified_node =
 		  lw6nod_info_new (_TEST_ID_3, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_BENCH,
-				   _TEST_IDLE_SCREENSHOT_SIZE,
+				   _TEST_DESCRIPTION, _TEST_PASSWORD,
+				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
@@ -174,6 +185,201 @@ test_oob ()
 			    oob);
 		LW6SYS_FREE (oob);
 	      }
+	  }
+
+	request =
+	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND,
+				       _TEST_REQUEST_REMOTE_URL,
+				       _TEST_REQUEST_PASSWORD,
+				       _TEST_REQUEST_LOCAL_URL);
+	if (request)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("request with command=\"%s\" password=\"%s\" url=\"%s\" is \"%s\""),
+			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
+			_TEST_REQUEST_LOCAL_URL, request);
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	      {
+		if (remote_url)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_
+				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
+				request, syntax_ok, password_ok, remote_url);
+		    LW6SYS_FREE (remote_url);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (request);
+	  }
+	request =
+	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND,
+				       _TEST_REQUEST_REMOTE_URL,
+				       _TEST_REQUEST_PASSWORD, NULL);
+	if (request)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("request with command=\"%s\" password=\"%s\" url=NULL is \"%s\""),
+			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
+			request);
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		if (remote_url)
+		  {
+		    LW6SYS_FREE (remote_url);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (request);
+	  }
+	request =
+	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
+				       _TEST_REQUEST_LOCAL_URL);
+	if (request)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("request with command=\"%s\" password=NULL url=\"%s\" is \"%s\""),
+			_TEST_REQUEST_COMMAND, _TEST_REQUEST_LOCAL_URL,
+			request);
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 NULL, NULL))
+	      {
+		if (remote_url)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_
+				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
+				request, syntax_ok, password_ok, remote_url);
+		    LW6SYS_FREE (remote_url);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		ret = 0;
+	      }
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" is reported OK but password is wrong"),
+			    request);
+		if (remote_url)
+		  {
+		    LW6SYS_FREE (remote_url);
+		  }
+		ret = 0;
+	      }
+	    else
+	      {
+		if (password_ok)
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
+				request);
+		    ret = 0;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("password checking is OK"));
+		  }
+	      }
+	    LW6SYS_FREE (request);
+	  }
+	request =
+	  lw6msg_oob_generate_request (_TEST_REQUEST_COMMAND, NULL, NULL,
+				       NULL);
+	if (request)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("request with command=\"%s\" password=NULL url=NULL is \"%s\""),
+			_TEST_REQUEST_COMMAND, request);
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 NULL, NULL))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		if (remote_url)
+		  {
+		    LW6SYS_FREE (remote_url);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
+			    request, syntax_ok, password_ok);
+		ret = 0;
+	      }
+	    if (lw6msg_oob_analyse_request
+		(&syntax_ok, &command, &password_ok, &remote_url, request,
+		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("request \"%s\" is reported OK but password is wrong"),
+			    request);
+		if (remote_url)
+		  {
+		    LW6SYS_FREE (remote_url);
+		  }
+		ret = 0;
+	      }
+	    else
+	      {
+		if (password_ok)
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
+				request);
+		    ret = 0;
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("password checking is OK"));
+		  }
+	      }
+	    LW6SYS_FREE (request);
 	  }
 
 	lw6nod_info_free (info);
@@ -280,6 +486,7 @@ lw6msg_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
+      lw6glb_test (mode);
       lw6nod_test (mode);
     }
 

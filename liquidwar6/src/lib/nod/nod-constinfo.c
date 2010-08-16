@@ -29,8 +29,9 @@
 
 int
 _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
-			 char *url, char *title, char *description, int bench,
-			 int idle_screenshot_size, void *idle_screenshot_data)
+			 char *url, char *title, char *description,
+			 char *password, int bench, int idle_screenshot_size,
+			 void *idle_screenshot_data)
 {
   int ret = 0;
 
@@ -60,6 +61,14 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, u_int64_t id,
   if (const_info->description)
     {
       lw6sys_str_cleanup (const_info->description);
+    }
+  if (password && strlen (password) > 0)
+    {
+      const_info->password = lw6sys_str_copy (password);
+    }
+  else
+    {
+      const_info->password = lw6sys_str_copy ("");
     }
   const_info->bench = bench;
   const_info->idle_screenshot_size = idle_screenshot_size;
@@ -107,6 +116,11 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
     {
       LW6SYS_FREE (const_info->description);
       const_info->description = NULL;
+    }
+  if (const_info->password)
+    {
+      LW6SYS_FREE (const_info->password);
+      const_info->password = NULL;
     }
   if (const_info->idle_screenshot_data)
     {

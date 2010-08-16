@@ -58,7 +58,6 @@ extern char *
 lw6sys_url_http_from_ip_port (char *ip, int port)
 {
   char *ret = NULL;
-  char *check = NULL;
 
   if (port == _HTTP_PORT)
     {
@@ -71,17 +70,11 @@ lw6sys_url_http_from_ip_port (char *ip, int port)
 
   if (ret)
     {
-      check = lw6sys_url_canonize (ret);
-      if (check)
+      if (!lw6sys_url_is_canonized (ret))
 	{
-	  if (strcmp (ret, check))
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("url generated from ip \"%s:%d\" is \"%s\" which is different from canonical form \"%s\""),
-			  ip, port, ret, check);
-	    }
-	  LW6SYS_FREE (check);
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("generated url \"%s\" reported as not canonized"),
+		      ret);
 	}
     }
 
@@ -126,19 +119,15 @@ lw6sys_url_parse (char *url)
     {
       tmp = lw6sys_str_copy (url);
       lw6sys_str_cleanup_ascii7 (tmp);
+      if (lw6sys_str_starts_with (tmp, _HTTPS))
+	{
+	  ret->use_ssl = 1;
+	}
       pos = tmp;
       seek = strstr (pos, _DOT_DOT_SLASH_SLASH);
       if (seek)
 	{
 	  pos = seek + strlen (_DOT_DOT_SLASH_SLASH);
-	  seek_c = (*seek);
-	  (*seek) = '\0';
-	  lw6sys_str_tolower (tmp);
-	  if (!strcmp (tmp, _HTTPS))
-	    {
-	      ret->use_ssl = 1;
-	    }
-	  (*seek) = seek_c;
 	}
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _("interpreting host, remaining string is \"%s\""), pos);
@@ -180,6 +169,14 @@ lw6sys_url_parse (char *url)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _("no port detected, remaining string is \"%s\""), pos);
+	  if (ret->use_ssl)
+	    {
+	      ret->port = _HTTPS_PORT;
+	    }
+	  else
+	    {
+	      ret->port = _HTTP_PORT;
+	    }
 	}
       if (ret->port <= 0 || ret->port > _MAX_PORT)
 	{
@@ -303,6 +300,34 @@ lw6sys_url_canonize (char *url)
   else
     {
       ret = lw6sys_str_copy ("");
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_url_is_canonized
+ *
+ * @url: the URL to check
+ *
+ * Checks wether an URL is in its canonized form.
+ *
+ * Return value: 1 if OK (canonized form), 0 if not
+ */
+int
+lw6sys_url_is_canonized (char *url)
+{
+  int ret = 0;
+  char *canonized_url = NULL;
+
+  canonized_url = lw6sys_url_canonize (url);
+  if (canonized_url)
+    {
+      if (lw6sys_str_is_same (canonized_url, url))
+	{
+	  ret = 1;
+	}
+      LW6SYS_FREE (canonized_url);
     }
 
   return ret;

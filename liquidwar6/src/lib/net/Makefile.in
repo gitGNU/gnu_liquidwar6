@@ -80,9 +80,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libnet_la_LIBADD =
 am_libnet_la_OBJECTS = net-address.lo net-const.lo net-dns.lo \
-	net-error.lo net-if.lo net-line.lo net-password.lo \
-	net-setup.lo net-socket.lo net-tcp.lo net-test.lo \
-	net-thread.lo net-udp.lo
+	net-error.lo net-if.lo net-line.lo net-setup.lo net-socket.lo \
+	net-tcp.lo net-test.lo net-thread.lo net-udp.lo
 libnet_la_OBJECTS = $(am_libnet_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libnetdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -329,7 +328,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libnet.la
-libnet_la_SOURCES = net-address.c net-const.c net-dns.c net-error.c net-if.c net-line.c net-password.c net-setup.c net-socket.c net-tcp.c net-test.c net-thread.c net-udp.c 
+libnet_la_SOURCES = net-address.c net-const.c net-dns.c net-error.c net-if.c net-line.c net-setup.c net-socket.c net-tcp.c net-test.c net-thread.c net-udp.c 
 libnetdir = $(includedir)/@PACKAGE_TARNAME@/net
 libnet_HEADERS = net.h
 @FULLSTATIC_FALSE@liquidwar6net_test_SOURCES = net-testmain.c
@@ -439,7 +438,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-if.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-line.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-password.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-socket.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-tcp.Plo@am__quote@

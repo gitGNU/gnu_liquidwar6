@@ -34,6 +34,7 @@
  * @url: the node public url
  * @title: the node title
  * @description: the node description
+ * @password: the node password
  * @bench: the node bench
  * @idle_screenshot_size: the size (bytes) of the image to display when game is idle
  * @idle_screenshot_data: the data (jpeg) of the image to display when game is idle
@@ -46,7 +47,7 @@
  */
 lw6nod_info_t *
 lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
-		 int bench, int idle_screenshot_size,
+		 char *password, int bench, int idle_screenshot_size,
 		 void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
@@ -59,8 +60,8 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
 
       const_init_ret =
 	_lw6nod_const_info_init (&(info->const_info), id, url, title,
-				 description, bench, idle_screenshot_size,
-				 idle_screenshot_data);
+				 description, password, bench,
+				 idle_screenshot_size, idle_screenshot_data);
       lw6nod_info_idle (info);
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       info->verified_nodes = lw6nod_info_new_verified_nodes ();
