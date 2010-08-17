@@ -29,6 +29,9 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
+#define _DB_FILENAME "db.sqlite3"
+#define _LOG_FILENAME "query_log.txt"
+
 static u_int32_t seq_id = 0;
 
 /**
@@ -57,6 +60,7 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
   _lw6p2p_db_t *db = NULL;
   int ret = 0;
   char *user_dir = NULL;
+  char *p2p_dir = NULL;
   char *data_dir = NULL;
 
   db = (_lw6p2p_db_t *) LW6SYS_CALLOC (sizeof (_lw6p2p_db_t));
@@ -79,64 +83,92 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 		  user_dir = lw6sys_get_user_dir (argc, argv);
 		  if (user_dir)
 		    {
-		      db->filename = lw6sys_path_concat (user_dir, name);
-		      if (db->filename)
+		      if (!lw6sys_dir_exists (user_dir))
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO, _("opening db \"%s\""),
-				      db->filename);
-			  if (sqlite3_open (db->filename, &(db->handler)) ==
-			      SQLITE_OK)
+			  lw6sys_create_dir (user_dir);
+			}
+		      p2p_dir = lw6sys_path_concat (user_dir, name);
+		      if (p2p_dir)
+			{
+			  if (!lw6sys_dir_exists (p2p_dir))
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
-					  _("opened db \"%s\""),
-					  db->filename);
-			      if (_lw6p2p_db_create_database (db))
+			      lw6sys_create_dir (p2p_dir);
+			    }
+			  db->db_filename =
+			    lw6sys_path_concat (p2p_dir, _DB_FILENAME);
+			  if (db->db_filename)
+			    {
+			      db->log_filename =
+				lw6sys_path_concat (p2p_dir, _LOG_FILENAME);
+			      if (db->log_filename)
 				{
-				  if (_lw6p2p_db_clean_database (db))
+				  if (lw6sys_file_exists (db->log_filename))
 				    {
-				      /*
-				       * We clean just after we create, in
-				       * fact create won't clean, only
-				       * use CREATE IF NOT EXISTS so
-				       * in case program left database
-				       * in inconsistent state, we
-				       * need to force its cleanup.
-				       */
-				      ret = 1;
+				      unlink (db->log_filename);
+				    }
+				  lw6sys_log (LW6SYS_LOG_INFO,
+					      _("opening db \"%s\""),
+					      db->db_filename);
+				  if (sqlite3_open
+				      (db->db_filename,
+				       &(db->handler)) == SQLITE_OK)
+				    {
+				      lw6sys_log (LW6SYS_LOG_INFO,
+						  _("opened db \"%s\""),
+						  db->db_filename);
+				      if (_lw6p2p_db_create_database (db))
+					{
+					  if (_lw6p2p_db_clean_database (db))
+					    {
+					      /*
+					       * We clean just after we create, in
+					       * fact create won't clean, only
+					       * use CREATE IF NOT EXISTS so
+					       * in case program left database
+					       * in inconsistent state, we
+					       * need to force its cleanup.
+					       */
+					      ret = 1;
+					    }
+					  else
+					    {
+					      lw6sys_log (LW6SYS_LOG_WARNING,
+							  _
+							  ("can't clean database \"%s\""),
+							  db->db_filename);
+					    }
+					}
+				      else
+					{
+					  lw6sys_log (LW6SYS_LOG_WARNING,
+						      _
+						      ("can't create database \"%s\""),
+						      db->db_filename);
+					}
 				    }
 				  else
 				    {
-				      lw6sys_log (LW6SYS_LOG_WARNING,
-						  _
-						  ("can't clean database \"%s\""),
-						  db->filename);
+				      if (db->handler)
+					{
+					  lw6sys_log (LW6SYS_LOG_WARNING,
+						      _
+						      ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
+						      db->db_filename,
+						      sqlite3_errcode
+						      (db->handler),
+						      sqlite3_errmsg
+						      (db->handler));
+					}
+				      else
+					{
+					  lw6sys_log (LW6SYS_LOG_WARNING,
+						      _
+						      ("can't open db \"%s\""));
+					}
 				    }
 				}
-			      else
-				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
-					      _
-					      ("can't create database \"%s\""),
-					      db->filename);
-				}
 			    }
-			  else
-			    {
-			      if (db->handler)
-				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
-					      _
-					      ("can't open db \"%s\" errcode=%d errmsg=\"%s\""),
-					      db->filename,
-					      sqlite3_errcode (db->handler),
-					      sqlite3_errmsg (db->handler));
-				}
-			      else
-				{
-				  lw6sys_log (LW6SYS_LOG_WARNING,
-					      _("can't open db \"%s\""));
-				}
-			    }
+			  LW6SYS_FREE (p2p_dir);
 			}
 		      LW6SYS_FREE (user_dir);
 		    }
@@ -183,9 +215,10 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	{
 	  lw6sys_mutex_destroy (db->mutex);
 	}
-      if (db->filename)
+      if (db->db_filename)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("closing db \"%s\""), db->filename);
+	  lw6sys_log (LW6SYS_LOG_INFO, _("closing db \"%s\""),
+		      db->db_filename);
 	}
       else
 	{
@@ -207,15 +240,20 @@ _lw6p2p_db_close (_lw6p2p_db_t * db)
 	    }
 	}
       _lw6p2p_data_unload (&(db->data));
-      if (db->filename)
+      if (db->db_filename)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("closed db \"%s\""), db->filename);
-	  LW6SYS_FREE (db->filename);
-	  db->filename = NULL;
+	  lw6sys_log (LW6SYS_LOG_INFO, _("closed db \"%s\""),
+		      db->db_filename);
+	  LW6SYS_FREE (db->db_filename);
+	  db->db_filename = NULL;
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("closed unknown db"));
+	}
+      if (db->log_filename)
+	{
+	  LW6SYS_FREE (db->log_filename);
 	}
       LW6SYS_FREE (db);
     }
@@ -245,9 +283,9 @@ _lw6p2p_db_repr (_lw6p2p_db_t * db)
 {
   char *repr = NULL;
 
-  if (db && db->filename)
+  if (db && db->db_filename)
     {
-      repr = lw6sys_new_sprintf (_("%u %s"), db->id, db->filename);
+      repr = lw6sys_new_sprintf (_("%u %s"), db->id, db->db_filename);
     }
   else
     {
@@ -270,6 +308,22 @@ _lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key)
     }
 
   return query;
+}
+
+void
+_lw6p2p_db_log (_lw6p2p_db_t * db, char *message)
+{
+  FILE *f = NULL;
+
+  if (db->log_filename)
+    {
+      f = fopen (db->log_filename, "ab");
+      if (f)
+	{
+	  fprintf (f, "%s", message);
+	  fclose (f);
+	}
+    }
 }
 
 int
@@ -351,6 +405,7 @@ _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func,
     }
   else
     {
+      _lw6p2p_db_log (db, sql);
       errcode = sqlite3_exec (db->handler, sql, func, func_data, &errmsg);
       if (errcode == SQLITE_OK)
 	{
@@ -434,34 +489,67 @@ lw6p2p_db_reset (int argc, char *argv[], char *name)
 {
   int ret = 1;
   char *user_dir = NULL;
+  char *p2p_dir = NULL;
   char *filename = NULL;
 
   user_dir = lw6sys_get_user_dir (argc, argv);
   if (user_dir)
     {
-      filename = lw6sys_path_concat (user_dir, name);
-      if (filename)
+      p2p_dir = lw6sys_path_concat (user_dir, name);
+      if (p2p_dir)
 	{
-	  if (lw6sys_file_exists (filename))
+	  if (lw6sys_dir_exists (p2p_dir))
 	    {
-	      if (!unlink (filename))
+	      filename = lw6sys_path_concat (user_dir, _DB_FILENAME);
+	      if (filename)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO, _("database \"%s\" deleted"),
-			      filename);
+		  if (lw6sys_file_exists (filename))
+		    {
+		      if (!unlink (filename))
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _("database file \"%s\" deleted"),
+				      filename);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _("can't delete database file \"%s\""),
+				      filename);
+			  ret = 0;
+			}
+		    }
+		  LW6SYS_FREE (filename);
 		}
-	      else
+	      filename = lw6sys_path_concat (user_dir, _LOG_FILENAME);
+	      if (filename)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("can't delete database \"%s\""), filename);
-		  ret = 0;
+		  if (lw6sys_file_exists (filename))
+		    {
+		      if (!unlink (filename))
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _("log file \"%s\" deleted"), filename);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _("can't delete log file \"%s\""),
+				      filename);
+			  ret = 0;
+			}
+		    }
+		  LW6SYS_FREE (filename);
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _("no need to delete database \"%s\""), filename);
+			  _
+			  ("no need to delete database in \"%s\", directory does not exists"),
+			  p2p_dir);
 	    }
-	  LW6SYS_FREE (filename);
+	  LW6SYS_FREE (p2p_dir);
 	}
       LW6SYS_FREE (user_dir);
     }
@@ -481,4 +569,24 @@ char *
 lw6p2p_db_default_name ()
 {
   return _LW6P2P_DEFAULT_NAME;
+}
+
+/**
+ * lw6p2p_db_now
+ *
+ * Returns a timestamp suitable for db usage. The reason we don't use
+ * regular timestamps is that they are 1) too accurate (msec is useless
+ * for what's involved here) and 2) too big and likely to be negative
+ * in signed mode even if converted to seconds.
+ *
+ * Return value: a timestamp, 0 means "beginning of program" (think of it as uptime)
+ */
+int
+lw6p2p_db_now ()
+{
+  int ret = 0;
+
+  ret = lw6sys_get_uptime () / 1000;
+
+  return ret;
 }

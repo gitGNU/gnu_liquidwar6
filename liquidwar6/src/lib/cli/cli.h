@@ -40,11 +40,18 @@ typedef struct lw6cli_connection_s
 }
 lw6cli_connection_t;
 
+typedef int (*lw6cli_verify_callback_func_t) (void *func_data, char *url,
+					      char *ip, int port,
+					      int ping_delay_msec,
+					      lw6sys_assoc_t * assoc);
+
 typedef struct lw6cli_oob_data_s
 {
   int64_t creation_timestamp;
   int do_not_finish;
   char *public_url;
+  lw6cli_verify_callback_func_t verify_callback_func;
+  void *verify_callback_data;
 }
 lw6cli_oob_data_t;
 
@@ -105,7 +112,10 @@ extern char *lw6cli_error (lw6cli_backend_t * backend,
 			   lw6cli_connection_t * connection);
 
 /* cli-oob.c */
-extern lw6cli_oob_t *lw6cli_oob_new (char *public_url);
+extern lw6cli_oob_t *lw6cli_oob_new (char *public_url,
+				     lw6cli_verify_callback_func_t
+				     verify_callback_func,
+				     void *verify_callback_data);
 extern void lw6cli_oob_free (lw6cli_oob_t * oob);
 
 /*

@@ -60,6 +60,7 @@ extern void lw6p2p_db_close (lw6p2p_db_t * db);
 extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
 extern int lw6p2p_db_reset (int argc, char *argv[], char *name);
 extern char *lw6p2p_db_default_name ();
+extern int lw6p2p_db_now ();
 
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],

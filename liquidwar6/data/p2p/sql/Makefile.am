@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = clean-database.sql create-database.sql delete-connection-by-ptr.sql delete-node-by-id.sql insert-connection.sql insert-local-node.sql insert-discovered-node.sql select-connection.sql select-node-by-url.sql select-node-with-null-id.sql
+pkgdata_DATA = clean-database.sql create-database.sql delete-connection-by-ptr.sql delete-node-by-id.sql insert-connection.sql insert-local-node.sql insert-discovered-node.sql select-connection.sql select-node-by-url.sql select-other-node.sql select-unverified-node.sql update-node.sql
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/p2p/sql
 EXTRA_DIST = $(pkgdata_DATA)
 

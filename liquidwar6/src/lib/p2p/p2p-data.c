@@ -52,6 +52,10 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &consts->explore_discover_nodes_delay);
       lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay",
 			   &consts->explore_verify_nodes_delay);
+      lw6cfg_read_xml_int (key, value, "node-info-expire-delay",
+			   &consts->node_info_expire_delay);
+      lw6cfg_read_xml_int (key, value, "node-verify-max-at-once",
+			   &consts->node_verify_max_at_once);
     }
 }
 
@@ -134,8 +138,9 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
       _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_DISCOVERED_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_CONNECTION_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_URL_SQL);
-      _read_query (sql->queries, sql_dir,
-		   _LW6P2P_SELECT_NODE_WITH_NULL_ID_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_OTHER_NODE_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_SQL);
 
       lw6sys_hash_map (sql->queries, _check_query_not_null, &ret);
     }

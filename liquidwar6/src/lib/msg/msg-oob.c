@@ -299,6 +299,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
       if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_PING))
 	{
 	  (*command) = LW6MSG_OOB_PING;
+	  (*password_ok) = 1;
 	  seek += strlen (LW6MSG_OOB_PING);
 	}
       else if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_INFO))
@@ -390,10 +391,13 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	       * We only check password now that we have chosen which
 	       * field is password, even if the value is NULL
 	       */
-	      if (lw6sys_password_verify
-		  (local_url, password, received_password))
+	      if (lw6sys_password_verify (local_url, password,
+					  received_password))
 		{
 		  (*password_ok) = 1;
+		}
+	      if (*password_ok)
+		{
 		  (*remote_url) = received_url;
 		  ret = 1;
 		}

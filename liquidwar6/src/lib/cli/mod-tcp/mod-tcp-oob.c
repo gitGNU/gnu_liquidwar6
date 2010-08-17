@@ -68,7 +68,7 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			{
 			  if (lw6sys_str_is_same (url, given_url))
 			    {
-			      lw6sys_log (LW6SYS_LOG_INFO,
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
 					  _
 					  ("ping successfull on %s:%d \"%s\""),
 					  ip, parsed_url->port, url);
@@ -110,25 +110,18 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 {
   int ret = 0;
   int eom = 0;
-  int sock;
+  int sock = -1;
+  int64_t origin = 0;
   char *request = NULL;
   char *response = NULL;
   lw6sys_assoc_t *assoc = NULL;
-  char *remote_program = NULL;
-  char *remote_version = NULL;
-  char *remote_codename = NULL;
-  char *remote_stamp_str = NULL;
-  int remote_stamp_int = 0;
-  char *remote_id = NULL;
-  char *remote_url = NULL;
-  char *remote_title = NULL;
-  char *remote_description = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("connecting in TCP on %s:%d"), ip,
 	      parsed_url->port);
   assoc = lw6sys_assoc_new (lw6sys_free_callback);
   if (assoc)
     {
+      origin = lw6sys_get_timestamp ();
       sock = lw6net_tcp_connect (ip, parsed_url->port);
       if (sock >= 0)
 	{
@@ -195,91 +188,88 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	}
       if (assoc)
 	{
-	  remote_program = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
-	  remote_version = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
-	  remote_codename = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
-	  if (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP))
+	  if (oob_data->verify_callback_func)
 	    {
-	      remote_stamp_int =
-		lw6sys_atoi (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP));
+	      ret =
+		oob_data->
+		verify_callback_func (oob_data->verify_callback_data, url, ip,
+				      parsed_url->port,
+				      lw6sys_get_timestamp () - origin,
+				      assoc);
 	    }
-	  remote_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_ID);
-	  remote_url = lw6sys_assoc_get (assoc, LW6MSG_OOB_URL);
-	  remote_title = lw6sys_assoc_get (assoc, LW6MSG_OOB_TITLE);
-	  remote_description =
-	    lw6sys_assoc_get (assoc, LW6MSG_OOB_DESCRIPTION);
+	  lw6sys_assoc_free (assoc);
+	}
+    }
 
-	  if (remote_program && remote_version && remote_codename
-	      && remote_stamp_int > 0 && remote_id && remote_url
-	      && remote_title && remote_description)
+  return ret;
+}
+
+static int
+_do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
+	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
+	  char *ip)
+{
+  int ret = 0;
+  int eom = 0;
+  int sock = -1;
+  char *request = NULL;
+  char *response = NULL;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("connecting in TCP on %s:%d"), ip,
+	      parsed_url->port);
+
+  sock = lw6net_tcp_connect (ip, parsed_url->port);
+  if (sock >= 0)
+    {
+      request =
+	lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url,
+				     node_info->const_info.password,
+				     node_info->const_info.url);
+      if (request)
+	{
+	  if (lw6net_send_line_tcp (sock, request))
 	    {
-	      if (lw6sys_str_is_same
-		  (remote_program, lw6sys_build_get_package_tarname ()))
+	      while (_mod_tcp_oob_should_continue
+		     (tcp_context, oob_data, sock) && !eom)
 		{
-		  if (lw6sys_str_is_same (remote_url, url))
+		  while (_mod_tcp_oob_should_continue
+			 (tcp_context, oob_data, sock)
+			 && ((response = lw6net_recv_line_tcp (sock)) ==
+			     NULL) && !eom)
 		    {
-		      remote_version =
-			lw6sys_escape_sql_value (remote_version);
-		      remote_codename =
-			lw6sys_escape_sql_value (remote_codename);
-		      remote_stamp_str = lw6sys_itoa (remote_stamp_int);
-		      remote_id = lw6sys_escape_sql_value (remote_id);
-		      remote_title = lw6sys_escape_sql_value (remote_title);
-		      remote_description =
-			lw6sys_escape_sql_value (remote_description);
-		      if (remote_version && remote_codename
-			  && remote_stamp_str && remote_id && remote_title
-			  && remote_description)
+		      lw6sys_idle ();
+		    }
+		  if (response)
+		    {
+		      ret = 1;
+		      if (strlen (response) == 0)
 			{
-			  lw6sys_log (LW6SYS_LOG_NOTICE,
-				      _("confirmed node \"%s\""), remote_url);
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _("end of message detected"));
+			  eom = 1;
 			}
-		      if (remote_version)
+		      else
 			{
-			  LW6SYS_FREE (remote_version);
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _
+				      ("list from %s:%d \"%s\" contains \"%s\", registering it"),
+				      ip, parsed_url->port, url, response);
+			  lw6nod_info_add_discovered_node (node_info,
+							   response);
 			}
-		      if (remote_codename)
-			{
-			  LW6SYS_FREE (remote_codename);
-			}
-		      if (remote_stamp_str)
-			{
-			  LW6SYS_FREE (remote_stamp_str);
-			}
-		      if (remote_id)
-			{
-			  LW6SYS_FREE (remote_id);
-			}
-		      if (remote_title)
-			{
-			  LW6SYS_FREE (remote_title);
-			}
-		      if (remote_description)
-			{
-			  LW6SYS_FREE (remote_description);
-			}
+		      LW6SYS_FREE (response);
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("wrong url \"%s\" vs \"%s\""), remote_url,
-				  url);
+				  _("inconsistent response from %s:%d"),
+				  ip, parsed_url->port);
 		    }
 		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("wrong remote program \"%s\""),
-			      remote_program);
-		}
 	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("answer does not containn the required fields"));
-	    }
-	  lw6sys_assoc_free (assoc);
+	  LW6SYS_FREE (request);
 	}
+      lw6net_socket_close (sock);
     }
 
   return ret;
@@ -306,17 +296,47 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
 		  (tcp_context, node_info, oob_data,
 		   oob_data->public_url, parsed_url, ip))
 		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("mod_tcp client PING on node \"%s\" OK"),
+			      oob_data->public_url);
 		  if (_do_info
-		      (tcp_context, node_info, oob_data,
-		       oob_data->public_url, parsed_url, ip))
+		      (tcp_context, node_info, oob_data, oob_data->public_url,
+		       parsed_url, ip))
 		    {
-		      // OK
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("mod_tcp client INFO on node \"%s\" OK"),
+				  oob_data->public_url);
+		      if (_do_list
+			  (tcp_context, node_info, oob_data,
+			   oob_data->public_url, parsed_url, ip))
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _
+				      ("mod_tcp client LIST on node \"%s\" OK"),
+				      oob_data->public_url);
+			  ret = 1;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _
+				      ("mod_tcp client LIST on node \"%s\" failed"),
+				      oob_data->public_url);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _
+				  ("mod_tcp client INFO on node \"%s\" failed"),
+				  oob_data->public_url);
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("done with node \"%s\" after ping"));
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("mod_tcp client PING on node \"%s\" failed"),
+			      oob_data->public_url);
 		}
 	    }
 	  LW6SYS_FREE (ip);

@@ -1,6 +1,8 @@
 2010-08-17 : Christian Mauduit <ufoot@ufoot.org>
 
-	* mod-tcp interprets OOB INFO response. 
+	* Added SQL query log file.
+
+	* mod-tcp interprets OOB INFO and LIST responses. 
 
 	* OOB requests now case insensitive.
 

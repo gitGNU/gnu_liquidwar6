@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS lw6_node(
 	node_nb_nodes INTEGER,
 	node_max_nb_nodes INTEGER,
 	-- Additionnal data
-	ip VARCHAR(64),
-	port INTEGER,
-	last_ping_timestamp INTEGER DEFAULT 0 NOT NULL,
-	ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
+	node_ip VARCHAR(64),
+	node_port INTEGER,
+	node_last_ping_timestamp INTEGER DEFAULT -3600 NOT NULL,
+	node_ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS lw6_connection(

@@ -29,7 +29,7 @@
 #define _LW6P2P_DB_FALSE 0
 #define _LW6P2P_DB_TRUE 1
 
-#define _LW6P2P_DEFAULT_NAME "p2p.db"
+#define _LW6P2P_DEFAULT_NAME "p2p"
 #define _LW6P2P_CLEAN_DATABASE_SQL "clean-database.sql"
 #define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
 #define _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL "delete-connection-by-ptr.sql"
@@ -39,7 +39,9 @@
 #define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
 #define _LW6P2P_SELECT_CONNECTION_SQL "select-connection.sql"
 #define _LW6P2P_SELECT_NODE_BY_URL_SQL "select-node-by-url.sql"
-#define _LW6P2P_SELECT_NODE_WITH_NULL_ID_SQL "select-node-with-null-id.sql"
+#define _LW6P2P_SELECT_UNVERIFIED_NODE_SQL "select-unverified-node.sql"
+#define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
+#define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,
@@ -52,6 +54,8 @@ typedef struct _lw6p2p_consts_s
   int flush_discovered_nodes_delay;
   int explore_discover_nodes_delay;
   int explore_verify_nodes_delay;
+  int node_info_expire_delay;
+  int node_verify_max_at_once;
 }
 _lw6p2p_consts_t;
 
@@ -78,7 +82,8 @@ typedef struct _lw6p2p_data_s
 typedef struct _lw6p2p_db_s
 {
   u_int32_t id;
-  char *filename;
+  char *db_filename;
+  char *log_filename;
   _lw6p2p_data_t data;
   void *mutex;
   sqlite3 *handler;
@@ -86,15 +91,15 @@ typedef struct _lw6p2p_db_s
 
 typedef struct _lw6p2p_flush_s
 {
-  int64_t last_verified_nodes_timestamp;
-  int64_t last_discovered_nodes_timestamp;
+  int64_t next_verified_nodes_timestamp;
+  int64_t next_discovered_nodes_timestamp;
 }
 _lw6p2p_flush_t;
 
 typedef struct _lw6p2p_explore_s
 {
-  int64_t last_discover_nodes_timestamp;
-  int64_t last_verify_nodes_timestamp;
+  int64_t next_discover_nodes_timestamp;
+  int64_t next_verify_nodes_timestamp;
 }
 _lw6p2p_explore_t;
 
@@ -139,13 +144,17 @@ typedef struct _lw6p2p_cli_oob_callback_data_s
 /* p2p-clioob.c */
 extern _lw6p2p_cli_oob_callback_data_t
   * _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend,
-				       lw6nod_info_t * node_info,
+				       _lw6p2p_node_t * node,
 				       char *public_url);
 extern void
 _lw6p2p_cli_oob_callback_data_free (_lw6p2p_cli_oob_callback_data_t *
 				    cli_oob);
 extern int _lw6p2p_cli_oob_filter (_lw6p2p_cli_oob_callback_data_t * cli_oob);
 extern void _lw6p2p_cli_oob_callback (void *callback_data);
+extern int _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url,
+						 char *ip, int port,
+						 int ping_delay_msec,
+						 lw6sys_assoc_t * assoc);
 
 /* p2p-data.c */
 extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
@@ -156,6 +165,7 @@ extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
+extern void _lw6p2p_db_log (_lw6p2p_db_t * db, char *message);
 extern int _lw6p2p_db_lock (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_unlock (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_trylock (_lw6p2p_db_t * db);

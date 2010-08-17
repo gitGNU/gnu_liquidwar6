@@ -336,7 +336,8 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
 	  canonized_url = lw6sys_url_canonize (public_url);
 	  if (canonized_url)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("discovered \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("adding \"%s\" as a possible node"),
 			  canonized_url);
 	      lw6sys_hash_set (info->discovered_nodes, canonized_url, NULL);
 	      LW6SYS_FREE (canonized_url);

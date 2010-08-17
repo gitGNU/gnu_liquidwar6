@@ -30,6 +30,8 @@
  * lw6cli_oob_new
  *
  * @public_url: the address of the distant server to test
+ * @verify_callback_func: a function which will be called when a node has been verified
+ * @verify_callback_data: additionnal data passed to the callback func
  *
  * Create a new OOB structure, copying required objects.
  * We need to make copies for this is for usage in a 
@@ -40,7 +42,9 @@
  * Return value: new object
  */
 lw6cli_oob_t *
-lw6cli_oob_new (char *public_url)
+lw6cli_oob_new (char *public_url,
+		lw6cli_verify_callback_func_t verify_callback_func,
+		void *verify_callback_data)
 {
   lw6cli_oob_t *oob = NULL;
 
@@ -49,7 +53,9 @@ lw6cli_oob_new (char *public_url)
     {
       oob->data.creation_timestamp = lw6sys_get_timestamp ();
       oob->data.do_not_finish = 0;
-      oob->data.public_url = lw6sys_str_copy (public_url);
+      oob->data.public_url = lw6sys_url_canonize (public_url);
+      oob->data.verify_callback_func = verify_callback_func;
+      oob->data.verify_callback_data = verify_callback_data;
     }
 
   if (oob)

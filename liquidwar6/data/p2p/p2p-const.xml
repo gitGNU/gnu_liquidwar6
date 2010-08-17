@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <liquidwar6>
   <int key="accept-delay" value="10" />
-  <int key="flush-verified-nodes-delay" value="2999" />
-  <int key="flush-discovered-nodes-delay" value="10993" />
-  <int key="explore-discover-nodes-delay" value="4999" />
-  <int key="explore-verify-nodes-delay" value="6997" />
+  <int key="flush-verified-nodes-delay" value="3000" />
+  <int key="flush-discovered-nodes-delay" value="11000" />
+  <int key="explore-discover-nodes-delay" value="5000" />
+  <int key="explore-verify-nodes-delay" value="7000" />
+  <int key="node-info-expire-delay" value="60000" />
+  <int key="node-verify-max-at-once" value="100" />
 </liquidwar6>

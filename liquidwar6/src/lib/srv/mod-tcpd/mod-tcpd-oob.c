@@ -53,14 +53,26 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	    {
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_PING))
 		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("mod_tcpd %s response to %s:%d"),
+			      LW6MSG_OOB_PONG, oob_data->remote_ip,
+			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_pong (node_info);
 		}
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_INFO))
 		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("mod_tcpd %s response to %s:%d"),
+			      LW6MSG_OOB_INFO, oob_data->remote_ip,
+			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_info (node_info);
 		}
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_LIST))
 		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _("mod_tcpd %s response to %s:%d"),
+			      LW6MSG_OOB_LIST, oob_data->remote_ip,
+			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_list (node_info);
 		}
 	      if (given_public_url)
@@ -84,11 +96,19 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		  if (node_info->const_info.password
 		      && strlen (node_info->const_info.password) > 0)
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("mod_tcpd %s response to %s:%d"),
+				  LW6MSG_FORBIDDEN, oob_data->remote_ip,
+				  oob_data->remote_port);
 		      response =
 			lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
 		    }
 		  else
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("mod_tcpd %s response to %s:%d"),
+				  LW6MSG_OOB_INFO, oob_data->remote_ip,
+				  oob_data->remote_port);
 		      response = lw6msg_oob_generate_info (node_info);
 		    }
 		}
@@ -96,11 +116,19 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		{
 		  if (syntax_ok && !password_ok)
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("mod_tcpd %s response to %s:%d"),
+				  LW6MSG_FORBIDDEN, oob_data->remote_ip,
+				  oob_data->remote_port);
 		      response =
 			lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
 		    }
 		  else
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("mod_tcpd %s response to %s:%d"),
+				  LW6MSG_ERROR, oob_data->remote_ip,
+				  oob_data->remote_port);
 		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
 		    }
 		}

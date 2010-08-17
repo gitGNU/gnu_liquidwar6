@@ -31,13 +31,14 @@ int
 _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  int64_t now;
+  int64_t now = 0;
+  int delay = node->db->data.consts.explore_discover_nodes_delay;
 
   now = lw6sys_get_timestamp ();
-  if (node->explore.last_discover_nodes_timestamp +
-      node->db->data.consts.explore_discover_nodes_delay < now)
+  if (node->explore.next_discover_nodes_timestamp < now)
     {
-      node->explore.last_discover_nodes_timestamp = now;
+      node->explore.next_discover_nodes_timestamp =
+	now + delay / 2 + lw6sys_random (delay);
       ret = _lw6p2p_explore_discover_nodes (node);
     }
   else
@@ -89,13 +90,14 @@ int
 _lw6p2p_explore_verify_nodes_if_needed (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  int64_t now;
+  int64_t now = 0;
+  int delay = node->db->data.consts.explore_verify_nodes_delay;
 
   now = lw6sys_get_timestamp ();
-  if (node->explore.last_verify_nodes_timestamp +
-      node->db->data.consts.explore_verify_nodes_delay < now)
+  if (node->explore.next_verify_nodes_timestamp < now)
     {
-      node->explore.last_verify_nodes_timestamp = now;
+      node->explore.next_verify_nodes_timestamp =
+	now + delay / 2 + lw6sys_random (delay);
       ret = _lw6p2p_explore_verify_nodes (node);
     }
   else
@@ -117,7 +119,7 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
     {
       cli_oob =
 	_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
-					   node->node_info, public_url);
+					   node, public_url);
       if (cli_oob)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("process cli_oob url=\"%s\""),
@@ -130,8 +132,8 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
-_select_node_with_null_id_callback (void *func_data, int nb_fields,
-				    char **fields_values, char **fields_names)
+_select_unverified_node_callback (void *func_data, int nb_fields,
+				  char **fields_values, char **fields_names)
 {
   int ret = 0;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -166,19 +168,26 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
   char *query = NULL;
+  int time_limit = 0;
+  int max_at_once = 0;
 
-  query = _lw6p2p_db_get_query
-    (node->db, _LW6P2P_SELECT_NODE_WITH_NULL_ID_SQL);
+  time_limit =
+    lw6p2p_db_now () - node->db->data.consts.node_info_expire_delay / 1000;
+  max_at_once = node->db->data.consts.node_verify_max_at_once;
+
+  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+			      (node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL),
+			      time_limit, node->node_id_str, max_at_once);
   if (query)
     {
       if (_lw6p2p_db_lock (node->db))
 	{
 	  ret =
 	    _lw6p2p_db_exec (node->db, query,
-			     _select_node_with_null_id_callback, node);
+			     _select_unverified_node_callback, node);
 	  _lw6p2p_db_unlock (node->db);
 	}
-      // no need to free QUERY here
+      LW6SYS_FREE (query);
     }
 
   return ret;

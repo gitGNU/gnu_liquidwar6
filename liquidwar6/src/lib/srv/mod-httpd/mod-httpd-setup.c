@@ -27,6 +27,7 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
+#define _HTTPD_DIR "httpd"
 #define _ACCESS_LOG_FILE "access_log.txt"
 
 _httpd_context_t *
@@ -35,6 +36,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   _httpd_context_t *httpd_context = NULL;
   char *user_dir;
   char *data_dir;
+  char *httpd_dir;
   int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("httpd init"));
@@ -51,25 +53,39 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 	      user_dir = lw6sys_get_user_dir (argc, argv);
 	      if (user_dir)
 		{
-		  httpd_context->access_log_file =
-		    lw6sys_path_concat (user_dir, _ACCESS_LOG_FILE);
-		  if (httpd_context->access_log_file)
+		  if (!lw6sys_dir_exists (user_dir))
 		    {
-		      if (lw6sys_clear_file (httpd_context->access_log_file))
+		      lw6sys_create_dir (user_dir);
+		    }
+		  httpd_dir = lw6sys_path_concat (user_dir, _HTTPD_DIR);
+		  if (httpd_dir)
+		    {
+		      if (!lw6sys_dir_exists (httpd_dir))
 			{
-			  httpd_context->access_log_mutex =
-			    lw6sys_mutex_create ();
-			  if (httpd_context->access_log_mutex)
+			  lw6sys_create_dir (httpd_dir);
+			}
+		      httpd_context->access_log_file =
+			lw6sys_path_concat (httpd_dir, _ACCESS_LOG_FILE);
+		      if (httpd_context->access_log_file)
+			{
+			  if (lw6sys_clear_file
+			      (httpd_context->access_log_file))
 			    {
-			      ok = 1;
+			      httpd_context->access_log_mutex =
+				lw6sys_mutex_create ();
+			      if (httpd_context->access_log_mutex)
+				{
+				  ok = 1;
+				}
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _("can't init \"%s\""),
+					  httpd_context->access_log_file);
 			    }
 			}
-		      else
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _("can't init \"%s\""),
-				      httpd_context->access_log_file);
-			}
+		      LW6SYS_FREE (httpd_dir);
 		    }
 		  LW6SYS_FREE (user_dir);
 		}

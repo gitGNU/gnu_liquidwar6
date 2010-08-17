@@ -186,17 +186,17 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 						       1]);
 			      node->cli_backends[node->nb_cli_backends - 1] =
 				NULL;
-			      node->cli_backends--;
+			      node->nb_cli_backends--;
 			    }
 			}
 		      else
 			{
-			  node->cli_backends--;
+			  node->nb_cli_backends--;
 			}
 		    }
 		  else
 		    {
-		      node->cli_backends--;
+		      node->nb_cli_backends--;
 		    }
 		  LW6SYS_FREE (backend);
 		}
@@ -253,17 +253,17 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 						       1]);
 			      node->srv_backends[node->nb_srv_backends - 1] =
 				NULL;
-			      node->srv_backends--;
+			      node->nb_srv_backends--;
 			    }
 			}
 		      else
 			{
-			  node->srv_backends--;
+			  node->nb_srv_backends--;
 			}
 		    }
 		  else
 		    {
-		      node->srv_backends--;
+		      node->nb_srv_backends--;
 		    }
 		  LW6SYS_FREE (backend);
 		}
@@ -308,7 +308,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		    lw6sys_new_sprintf (_lw6p2p_db_get_query
 					(node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
-					(int) lw6sys_get_timestamp () / 1000,
+					lw6p2p_db_now (),
 					lw6sys_build_get_version (),
 					lw6sys_build_get_codename (),
 					lw6sys_atoi (lw6sys_build_get_stamp
@@ -486,8 +486,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	      if (tcp_accepter)
 		{
-		  //lw6sys_log (LW6SYS_LOG_DEBUG, _("connection from %s:%d"),ip,port);
-		  lw6sys_log (LW6SYS_LOG_INFO, _("connection from %s:%d"),
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("connection from %s:%d"),
 			      ip, port);
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
 					  tcp_accepter);
@@ -906,56 +905,62 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
   int ret = 1;
   char *query = NULL;
   int count = 0;
+  char *canonized_public_url;
   char *escaped_public_url;
 
-  escaped_public_url = lw6sys_escape_sql_value (public_url);
-  if (escaped_public_url)
+  canonized_public_url = lw6sys_url_canonize (public_url);
+  if (canonized_public_url)
     {
-      if (_lw6p2p_db_lock (node->db))
+      escaped_public_url = lw6sys_escape_sql_value (canonized_public_url);
+      if (escaped_public_url)
 	{
-	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-				      (node->db,
-				       _LW6P2P_SELECT_NODE_BY_URL_SQL),
-				      escaped_public_url);
-	  if (query)
+	  if (_lw6p2p_db_lock (node->db))
 	    {
-	      ret =
-		_lw6p2p_db_exec (node->db, query,
-				 _select_node_by_url_callback,
-				 (void *) &count) && ret;
-	      LW6SYS_FREE (query);
-	      if (count > 0)
+	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+					  (node->db,
+					   _LW6P2P_SELECT_NODE_BY_URL_SQL),
+					  escaped_public_url);
+	      if (query)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("there's already a node with url \"%s\""),
-			      public_url);
-		}
-	      else
-		{
-		  query =
-		    lw6sys_new_sprintf (_lw6p2p_db_get_query
-					(node->db,
-					 _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
-					escaped_public_url);
-		  if (query)
+		  ret =
+		    _lw6p2p_db_exec (node->db, query,
+				     _select_node_by_url_callback,
+				     (void *) &count) && ret;
+		  LW6SYS_FREE (query);
+		  if (count > 0)
 		    {
-		      ret = _lw6p2p_db_exec_ignore_data (node->db, query)
-			&& ret;
-		      LW6SYS_FREE (query);
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _("there's already a node with url \"%s\""),
+				  public_url);
 		    }
 		  else
 		    {
-		      ret = 0;
+		      query =
+			lw6sys_new_sprintf (_lw6p2p_db_get_query
+					    (node->db,
+					     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
+					    escaped_public_url);
+		      if (query)
+			{
+			  ret = _lw6p2p_db_exec_ignore_data (node->db, query)
+			    && ret;
+			  LW6SYS_FREE (query);
+			}
+		      else
+			{
+			  ret = 0;
+			}
 		    }
 		}
+	      else
+		{
+		  ret = 0;
+		}
+	      _lw6p2p_db_unlock (node->db);
 	    }
-	  else
-	    {
-	      ret = 0;
-	    }
-	  _lw6p2p_db_unlock (node->db);
+	  LW6SYS_FREE (escaped_public_url);
 	}
-      LW6SYS_FREE (escaped_public_url);
+      LW6SYS_FREE (canonized_public_url);
     }
 
   return ret;

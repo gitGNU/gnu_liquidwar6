@@ -31,13 +31,14 @@ int
 _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  int64_t now;
+  int64_t now = 0;
+  int delay = node->db->data.consts.flush_verified_nodes_delay;
 
   now = lw6sys_get_timestamp ();
-  if (node->flush.last_verified_nodes_timestamp +
-      node->db->data.consts.flush_verified_nodes_delay < now)
+  if (node->flush.next_verified_nodes_timestamp < now)
     {
-      node->flush.last_verified_nodes_timestamp = now;
+      node->flush.next_verified_nodes_timestamp =
+	now + delay / 2 + lw6sys_random (delay);
       ret = _lw6p2p_flush_verified_nodes (node);
     }
   else
@@ -106,13 +107,14 @@ int
 _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  int64_t now;
+  int64_t now = 0;
+  int delay = node->db->data.consts.flush_discovered_nodes_delay;
 
   now = lw6sys_get_timestamp ();
-  if (node->flush.last_discovered_nodes_timestamp +
-      node->db->data.consts.flush_discovered_nodes_delay < now)
+  if (node->flush.next_discovered_nodes_timestamp < now)
     {
-      node->flush.last_discovered_nodes_timestamp = now;
+      node->flush.next_discovered_nodes_timestamp =
+	now + delay / 2 + lw6sys_random (delay);
       ret = _lw6p2p_flush_discovered_nodes (node);
     }
   else
