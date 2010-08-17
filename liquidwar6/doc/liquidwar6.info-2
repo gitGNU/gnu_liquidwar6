@@ -3467,6 +3467,37 @@ C interfaces:
      *Return value:*  1 if line OK (and in this case `assoc' is
      updated), 0 if not.
 
+ -- Function: char * lw6msg_utils_get_assoc_str_with_default
+          (lw6sys_assoc_t * ASSOC, char * KEY, char * DEFAULT_VALUE)
+     ASSOC:  the string assoc to query
+
+     KEY:  the key to find in the assoc
+
+     DEFAULT_VALUE:  the default value to return
+
+     Queries a string assoc for a given value, and if not available,
+     returns default value. Not that default value (nor the assoc
+     value) is copied, so you must take care all remain valid until
+     usage of returned value is over.
+
+     *Return value:*  a string, must not be freed.
+
+ -- Function: int lw6msg_utils_get_assoc_int_with_default
+          (lw6sys_assoc_t * ASSOC, char * KEY, int DEFAULT_VALUE)
+     ASSOC:  the string assoc to query
+
+     KEY:  the key to find in the assoc
+
+     DEFAULT_VALUE:  the default value to return
+
+     Queries a string assoc for a given value, and if not available,
+     returns default value. Not that default value (nor the assoc
+     value) is copied, so you must take care all remain valid until
+     usage of returned value is over. This one will returned an int
+     converted with `lw6sys_atoi'.
+
+     *Return value:*  a string, must not be freed.
+
 4.15.17 libnet
 --------------
 
@@ -7783,6 +7814,16 @@ C interfaces:
 
      Transforms a string to lower case, the pointer must point to
      modifiable data.
+
+     *Return value:*  none, `str' pointed data modified in-place
+
+ -- Function: void lw6sys_str_truncate (char * STR, int LEN)
+     STR:  the string to truncate
+
+     LEN:  the new length
+
+     Truncates a string to the max given length. If truncated to 3,
+     "abcdef" becomes "abc".
 
      *Return value:*  none, `str' pointed data modified in-place
 

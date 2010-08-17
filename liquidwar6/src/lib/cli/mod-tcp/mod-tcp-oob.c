@@ -195,25 +195,25 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	}
       if (assoc)
 	{
-	  remote_program = lw6sys_assoc_get (LW6MSG_OOB_PROGRAM);
-	  remote_version = lw6sys_assoc_get (LW6MSG_OOB_PROGRAM);
-	  remote_codename = lw6sys_assoc_get (LW6MSG_OOB_PROGRAM);
-	  if (lw6sys_assoc_get (LW6MSG_OOB_STAMP))
+	  remote_program = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
+	  remote_version = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
+	  remote_codename = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
+	  if (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP))
 	    {
 	      remote_stamp_int =
-		lw6sys_atoi (lw6sys_assoc_get (LW6MSG_OOB_STAMP));
+		lw6sys_atoi (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP));
 	    }
-	  remote_id = lw6sys_assoc_get (LW6MSG_OOB_ID);
-	  remote_url = lw6sys_assoc_get (LW6MSG_OOB_URL);
-	  remote_title = lw6sys_assoc_get (LW6MSG_OOB_TITLE);
-	  remote_description = lw6sys_assoc_get (LW6MSG_OOB_DESCRIPTION);
+	  remote_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_ID);
+	  remote_url = lw6sys_assoc_get (assoc, LW6MSG_OOB_URL);
+	  remote_title = lw6sys_assoc_get (assoc, LW6MSG_OOB_TITLE);
+	  remote_description = lw6sys_assoc_get (assoc, LW6MSG_OOB_DESCRIPTION);
 
 	  if (remote_program && remote_version && remote_codename
 	      && remote_stamp_int > 0 && remote_id && remote_url
 	      && remote_title && remote_description)
 	    {
 	      if (lw6sys_str_is_same
-		  (remote_program, lw6sys_build_get_program_tarname ()))
+		  (remote_program, lw6sys_build_get_package_tarname ()))
 		{
 		  if (lw6sys_str_is_same (remote_url, url))
 		    {
