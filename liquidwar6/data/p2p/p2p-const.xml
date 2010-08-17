@@ -5,6 +5,7 @@
   <int key="flush-discovered-nodes-delay" value="11000" />
   <int key="explore-discover-nodes-delay" value="5000" />
   <int key="explore-verify-nodes-delay" value="7000" />
-  <int key="node-info-expire-delay" value="60000" />
+  <int key="node-expire-soft-delay" value="60000" />
+  <int key="node-expire-hard-delay" value="300000" />
   <int key="node-verify-max-at-once" value="100" />
 </liquidwar6>

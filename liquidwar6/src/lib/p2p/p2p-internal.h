@@ -34,6 +34,8 @@
 #define _LW6P2P_CREATE_DATABASE_SQL "create-database.sql"
 #define _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL "delete-connection-by-ptr.sql"
 #define _LW6P2P_DELETE_NODE_BY_ID_SQL "delete-node-by-id.sql"
+#define _LW6P2P_DELETE_NODE_BY_URL_SQL "delete-node-by-url.sql"
+#define _LW6P2P_DELETE_OLD_NODE_SQL "delete-old-node.sql"
 #define _LW6P2P_INSERT_CONNECTION_SQL "insert-connection.sql"
 #define _LW6P2P_INSERT_LOCAL_NODE_SQL "insert-local-node.sql"
 #define _LW6P2P_INSERT_DISCOVERED_NODE_SQL "insert-discovered-node.sql"
@@ -42,6 +44,29 @@
 #define _LW6P2P_SELECT_UNVERIFIED_NODE_SQL "select-unverified-node.sql"
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
 #define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
+
+#define _LW6P2P_DB_NODE_NB_FIELDS 21
+#define _LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP 0
+#define _LW6P2P_DB_NODE_ORDER_VERSION 1
+#define _LW6P2P_DB_NODE_ORDER_CODENAME 2
+#define _LW6P2P_DB_NODE_ORDER_STAMP 3
+#define _LW6P2P_DB_NODE_ORDER_ID 4
+#define _LW6P2P_DB_NODE_ORDER_URL 5
+#define _LW6P2P_DB_NODE_ORDER_TITLE 6
+#define _LW6P2P_DB_NODE_ORDER_DESCRIPTION 7
+#define _LW6P2P_DB_NODE_ORDER_BENCH 8
+#define _LW6P2P_DB_NODE_ORDER_LEVEL 9
+#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 10
+#define _LW6P2P_DB_NODE_ORDER_NB_COLORS 11
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 12
+#define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 13
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS 14
+#define _LW6P2P_DB_NODE_ORDER_NB_NODES 15
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_NODES 16
+#define _LW6P2P_DB_NODE_ORDER_IP 17
+#define _LW6P2P_DB_NODE_ORDER_PORT 18
+#define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 19
+#define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 20
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,
@@ -54,7 +79,8 @@ typedef struct _lw6p2p_consts_s
   int flush_discovered_nodes_delay;
   int explore_discover_nodes_delay;
   int explore_verify_nodes_delay;
-  int node_info_expire_delay;
+  int node_expire_soft_delay;
+  int node_expire_hard_delay;
   int node_verify_max_at_once;
 }
 _lw6p2p_consts_t;

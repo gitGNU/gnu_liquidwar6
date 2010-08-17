@@ -790,21 +790,34 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	{
 	  node->closed = 1;
 
-	  query =
-	    lw6sys_new_sprintf (_lw6p2p_db_get_query
-				(node->db,
-				 _LW6P2P_DELETE_NODE_BY_ID_SQL),
-				node->node_id_str);
-	  if (query)
+	  if (_lw6p2p_db_lock (node->db))
 	    {
-	      if (_lw6p2p_db_lock (node->db))
+	      query =
+		lw6sys_new_sprintf (_lw6p2p_db_get_query
+				    (node->db,
+				     _LW6P2P_DELETE_NODE_BY_ID_SQL),
+				    node->node_id_str);
+	      if (query)
 		{
 		  _lw6p2p_db_exec_ignore_data (node->db, query);
-		  _lw6p2p_db_unlock (node->db);
+		  LW6SYS_FREE (query);
 		}
-	      LW6SYS_FREE (query);
+	      /*
+	       * OK this is paranoid, we already deleted it by ID but...
+	       * who knows, well, never be too sure ;)
+	       */
+	      query =
+		lw6sys_new_sprintf (_lw6p2p_db_get_query
+				    (node->db,
+				     _LW6P2P_DELETE_NODE_BY_URL_SQL),
+				    node->public_url);
+	      if (query)
+		{
+		  _lw6p2p_db_exec_ignore_data (node->db, query);
+		  LW6SYS_FREE (query);
+		}
+	      _lw6p2p_db_unlock (node->db);
 	    }
-
 	  if (node->srv_oobs)
 	    {
 	      while (node->srv_oobs && !lw6sys_list_is_empty (node->srv_oobs))

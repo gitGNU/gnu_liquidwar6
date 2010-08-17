@@ -18,7 +18,7 @@
 -- Contact author        : ufoot@ufoot.org
 
 CREATE TABLE IF NOT EXISTS lw6_node(
-        -- Fields mapped on C object 
+        -- Constant data 
 	node_creation_timestamp INTEGER,
 	node_version VARCHAR(64),
 	node_codename VARCHAR(64),
@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS lw6_node(
 	node_title VARCHAR(256),
 	node_description VARCHAR(2048),
         node_bench INTEGER,
+	-- Variable data
 	node_level VARCHAR(1024),
 	node_required_bench INTEGER,
 	node_nb_colors INTEGER,

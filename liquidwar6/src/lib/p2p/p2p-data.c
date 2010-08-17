@@ -52,8 +52,10 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &consts->explore_discover_nodes_delay);
       lw6cfg_read_xml_int (key, value, "explore-verify-nodes-delay",
 			   &consts->explore_verify_nodes_delay);
-      lw6cfg_read_xml_int (key, value, "node-info-expire-delay",
-			   &consts->node_info_expire_delay);
+      lw6cfg_read_xml_int (key, value, "node-expire-soft-delay",
+			   &consts->node_expire_soft_delay);
+      lw6cfg_read_xml_int (key, value, "node-expire-hard-delay",
+			   &consts->node_expire_hard_delay);
       lw6cfg_read_xml_int (key, value, "node-verify-max-at-once",
 			   &consts->node_verify_max_at_once);
     }
@@ -133,6 +135,8 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
       _read_query (sql->queries, sql_dir,
 		   _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_ID_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_URL_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_OLD_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_CONNECTION_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_LOCAL_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_DISCOVERED_NODE_SQL);

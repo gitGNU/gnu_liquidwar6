@@ -168,26 +168,46 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
   char *query = NULL;
-  int time_limit = 0;
+  int now = 0;
+  int time_limit_soft = 0;
+  int time_limit_hard = 0;
   int max_at_once = 0;
 
-  time_limit =
-    lw6p2p_db_now () - node->db->data.consts.node_info_expire_delay / 1000;
-  max_at_once = node->db->data.consts.node_verify_max_at_once;
+  now = lw6p2p_db_now ();
+  time_limit_soft = now - node->db->data.consts.node_expire_soft_delay / 1000;
+  time_limit_hard = now - node->db->data.consts.node_expire_hard_delay / 1000;
+  /*
+   * Now to calculate how many nodes we'll check we randomize a little bit
+   * on the limit number, this is to avoid all nodes being checked at once,
+   * it artificially makes some servers be checked more often than others,
+   * and should induce, after some time, enough randomness in timeouts.
+   */
+  max_at_once =
+    1 + (2 * lw6sys_random (node->db->data.consts.node_verify_max_at_once));
 
-  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-			      (node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL),
-			      time_limit, node->node_id_str, max_at_once);
-  if (query)
+  if (_lw6p2p_db_lock (node->db))
     {
-      if (_lw6p2p_db_lock (node->db))
+      query =
+	lw6sys_new_sprintf (_lw6p2p_db_get_query
+			    (node->db, _LW6P2P_DELETE_OLD_NODE_SQL),
+			    time_limit_hard, node->public_url);
+      if (query)
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  LW6SYS_FREE (query);
+	}
+      query =
+	lw6sys_new_sprintf (_lw6p2p_db_get_query
+			    (node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL),
+			    time_limit_soft, node->node_id_str, max_at_once);
+      if (query)
 	{
 	  ret =
 	    _lw6p2p_db_exec (node->db, query,
 			     _select_unverified_node_callback, node);
-	  _lw6p2p_db_unlock (node->db);
+	  LW6SYS_FREE (query);
 	}
-      LW6SYS_FREE (query);
+      _lw6p2p_db_unlock (node->db);
     }
 
   return ret;

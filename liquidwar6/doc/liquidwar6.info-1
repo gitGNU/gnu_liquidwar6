@@ -2803,17 +2803,90 @@ This section describes how Liquid War 6 handles network messages.  Note
 that for now this is purely theorical, more of a draft, a plan, it
 might change before being implemented.
 
-   Bare technical stuff.
+3.13.1 No server, no client, only nodes
+---------------------------------------
 
-   Out of band messages:
+Liquid War 6 does not really have the notion of server or client, any
+instance of the program can act as both server and client, therefore we
+use the term node.
 
-   * INFO -> various server info
+   A node listens on a given port, in both TCP and UDP, and can connect
+to other nodes on the same port. The main identifier of a node is its
+public url, which is typically of the form
+`http://<ip-address>:<port>/'. This url is very important for it is (or
+at least should be) a unique identifier of the node over the network.
 
-   * LIST -> list of servers (public_url)
+   Liquid War has 3 ways to communicate:
+   * raw TCP, this is the LW6 protocol, the easiest to implement and
+     debug, probably the most reliable one, but not always the fastest.
+     This involves the two modules `mod-tcp' and `mod-tcpd'.
 
-   * PING -> expect PONG
+   * HTTP over TCP, this is a hack which allows the game to communicate
+     through HTTP proxies for instance. Additionnally, the fact any
+     node is a web server enables peering with a simple web browser.
+     Web server facility requires `mod-httpd' and client part requires
+     `mod-http' which might or not be available, depending on how the
+     game was compiled.
 
-   TCP messages:
+   * raw UDP, this is another version of the LW6 protocol, this is in
+     theory the fastest way to communicate, it requires `mod-udp' and
+     `mod-udpd' to work. Using UDP only was not an option when
+     conceiving Liquid War since it's interesting to have other
+     solutions if, for instance, a firewall does not allow you to use
+     UDP the way you want.
+
+   On each of these channels, messages can be exchanged in two modes,
+an "out of band" mode (AKA "oob"), and a regular message oriented, here
+we speak of "connection".
+
+3.13.2 Out of band messages
+---------------------------
+
+There are only 3 out of band messages:
+
+   * `PING': requests for a simple `PONG http://server:port/' answer,
+     this is just to check if a server is a valid server, and if the
+     URL we used to connect on it is the correct one.
+
+   * `INFO': requests for a list of key/attributes pairs, which
+     describe the node, telling for instance its version, its uptime,
+     and so on.
+
+   * `LIST': requests for a list of other nodess this node is aware of.
+
+   You can test out of band messages by simply connecting on your
+server with a command like:
+telnet localhost 8056
+
+   At the telnet prompt, simply type:
+INFO
+ and press return, and you should have a description of your node.
+
+   The complete syntax of OOB messages is:
+<COMMAND> [password] [url]
+
+   The `password' and `url' parameters are optionnal. `password' can
+contain either the plain text password or a checksum calculated from
+the password which is, for security reasons, seeded with the public url
+of the node we're connecting to, so that this password can't be re-used
+on another node. `url' is simply a clue we give to the other node to
+help find us, the other node will automatically try to detect our IP
+address and use standard LW6 port 8056, but if for some reason we use a
+different setting, this is a good way to pass the hint.
+
+   As far as OOB is concerned, TCP and UDP work almost the same, HTTP
+is a bit different, the OOB commands are accessed through the following
+URLs:
+   * `/ping.txt'
+
+   * `/info.txt'
+
+   * `/list.txt'
+
+3.13.3 Other raw technical stuff (WIP)
+--------------------------------------
+
+TCP messages:
 
 LW6 [<passwd>] <version> <client-id>
 <from-id> <to-id> <serial> <i> <n> <sig> MSG1

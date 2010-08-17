@@ -51,47 +51,82 @@ _lw6p2p_flush_verified_nodes_if_needed (_lw6p2p_node_t * node)
 }
 
 int
+_select_other_node_callback (void *func_data, int nb_fields,
+			     char **fields_values, char **fields_names)
+{
+  int ret = 0;
+  lw6sys_list_t **list_of_node = (lw6sys_list_t **) func_data;
+  lw6nod_info_t *verified_node = NULL;
+  u_int64_t id = 0;
+  char *url = NULL;
+  char *title = NULL;
+  char *description = NULL;
+  int bench = 0;
+
+  if (nb_fields == _LW6P2P_DB_NODE_NB_FIELDS)
+    {
+      if (fields_values[_LW6P2P_DB_NODE_ORDER_ID])
+	{
+	  id = lw6sys_id_atol (fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
+	}
+      url = fields_values[_LW6P2P_DB_NODE_ORDER_URL];
+      title = fields_values[_LW6P2P_DB_NODE_ORDER_TITLE];
+      description = fields_values[_LW6P2P_DB_NODE_ORDER_DESCRIPTION];
+      if (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH])
+	{
+	  bench = lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
+	}
+      if (id && url && title && description)
+	{
+	  verified_node =
+	    lw6nod_info_new (id, url, title, description,
+			     NULL, bench, 0, NULL);
+	  if (verified_node && list_of_node)
+	    {
+	      lw6sys_list_push_front (list_of_node, verified_node);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("database contains uncomplete entry for some node"));
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _
+		  ("request for other nodes should return %d fields but returned %d"),
+		  _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
+    }
+
+  return ret;
+}
+
+int
 _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
-  lw6sys_list_t *list_of_url;
+  char *query = NULL;
   lw6sys_list_t *list_of_node;
-  char *url;
-  char *title;
-  int i;
-  lw6nod_info_t *verified_node = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("flush verified nodes"));
 
-  /*
-   * TODO: make this transit through the database and servers
-   * be tested for good...
-   */
   list_of_node = lw6nod_info_new_verified_nodes ();
   if (list_of_node)
     {
-      list_of_url = lw6sys_str_split_config_item (node->known_nodes);
-      if (list_of_url)
+      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				  (node->db, _LW6P2P_SELECT_OTHER_NODE_SQL),
+				  node->public_url);
+      if (query)
 	{
-	  ret = 1;
-	  i = 0;
-	  while ((url = lw6sys_list_pop_front (&list_of_url)) != NULL)
+	  if (_lw6p2p_db_lock (node->db))
 	    {
-	      i++;
-	      title = lw6sys_itoa (i);
-	      if (title)
-		{
-		  verified_node =
-		    lw6nod_info_new (lw6sys_generate_id_64 (), url, title,
-				     "todo...", NULL, 10, 0, NULL);
-		  if (verified_node && list_of_node)
-		    {
-		      lw6sys_list_push_front (&list_of_node, verified_node);
-		    }
-		  LW6SYS_FREE (title);
-		}
-	      LW6SYS_FREE (url);
+	      _lw6p2p_db_exec (node->db, query,
+			       _select_other_node_callback, &list_of_node);
+	      _lw6p2p_db_unlock (node->db);
 	    }
+	  LW6SYS_FREE (query);
 	}
       if (list_of_node)
 	{
