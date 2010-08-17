@@ -31,6 +31,40 @@ will lock the info object when needed.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
+@deftypefun {char *} {lw6msg_oob_generate_request} (char * @var{command}, char * @var{remote_url}, char * @var{password}, char * @var{local_url})
+@var{command}:  the command to send (PING, INFO, LIST)
+
+@var{remote_url}:  the remote URL (used to seed password)
+
+@var{password}:  the password, can be NULL or ""
+
+@var{local_url}:  the public URL to send along with the message, can be NULL or ""
+
+Generates a simple clear text OOB request, with a password if needed.
+
+@strong{Return value:}  a newly allocated string
+@end deftypefun
+
+@deftypefun {int} {lw6msg_oob_analyse_request} (int * @var{syntax_ok}, char ** @var{command}, int * @var{password_ok}, char ** @var{remote_url}, char * @var{request}, char * @var{local_url}, char * @var{password})
+@var{syntax_ok}:  will contain 1 if syntax is OK, 0 if not
+
+@var{command}:  the command (out param, needs *not* to be freed) 
+
+@var{password_ok}:  will contain 1 if password is OK, 0 if not
+
+@var{remote_url}:  the URL detected, if provided (out param, does needs to be freed)
+
+@var{request}:  the request to analyse
+
+@var{local_url}:  the local url (used to seed password)
+
+@var{password}:  the password to check against
+
+Analyses a simple OOB message of the form COMMAND <passwd> <url>. 
+
+@strong{Return value:}  1 if OK, 0 if not. If 0, check the value of password_ok. 
+@end deftypefun
+
 @deftypefun {char *} {lw6msg_oob_analyse_pong} (char * @var{text})
 @var{text}:  the text of the message to parse
 

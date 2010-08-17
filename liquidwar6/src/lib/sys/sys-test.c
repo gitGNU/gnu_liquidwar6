@@ -2822,9 +2822,13 @@ test_str ()
       && lw6sys_str_is_same (NULL, NULL)
       && (!lw6sys_str_is_same (NULL, BLANK_STR))
       && (!lw6sys_str_is_same (BLANK_STR, NULL))
-      && (!lw6sys_str_is_same (BLANK_STR, TEST_REFORMAT_STR1));
+      && (!lw6sys_str_is_same (BLANK_STR, TEST_REFORMAT_STR1))
+      && (!lw6sys_str_is_same_no_case (BLANK_STR, TEST_REFORMAT_STR1));
     ret = ret && lw6sys_str_starts_with (STR_STARTS_WITH, STR_STARTS_WITH_OK)
-      && !lw6sys_str_starts_with (STR_STARTS_WITH, STR_STARTS_WITH_KO);
+      && !lw6sys_str_starts_with (STR_STARTS_WITH, STR_STARTS_WITH_KO)
+      && lw6sys_str_starts_with_no_case (STR_STARTS_WITH, STR_STARTS_WITH_OK)
+      && !lw6sys_str_starts_with_no_case (STR_STARTS_WITH,
+					  STR_STARTS_WITH_KO);
     str =
       lw6sys_str_reformat (TEST_REFORMAT_STR1, TEST_REFORMAT_PREFIX,
 			   TEST_REFORMAT_COLUMNS);

@@ -296,17 +296,17 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	}
       pos = seek;
 
-      if (lw6sys_str_starts_with (pos, LW6MSG_OOB_PING))
+      if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_PING))
 	{
 	  (*command) = LW6MSG_OOB_PING;
 	  seek += strlen (LW6MSG_OOB_PING);
 	}
-      else if (lw6sys_str_starts_with (pos, LW6MSG_OOB_INFO))
+      else if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_INFO))
 	{
 	  (*command) = LW6MSG_OOB_INFO;
 	  seek += strlen (LW6MSG_OOB_INFO);
 	}
-      else if (lw6sys_str_starts_with (pos, LW6MSG_OOB_LIST))
+      else if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_LIST))
 	{
 	  (*command) = LW6MSG_OOB_LIST;
 	  seek += strlen (LW6MSG_OOB_LIST);

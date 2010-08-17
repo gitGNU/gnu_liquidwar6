@@ -51,15 +51,15 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 					  node_info->const_info.url,
 					  node_info->const_info.password))
 	    {
-	      if (lw6sys_str_is_same (command, LW6MSG_OOB_PING))
+	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_PING))
 		{
 		  response = lw6msg_oob_generate_pong (node_info);
 		}
-	      if (lw6sys_str_is_same (command, LW6MSG_OOB_INFO))
+	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_INFO))
 		{
 		  response = lw6msg_oob_generate_info (node_info);
 		}
-	      if (lw6sys_str_is_same (command, LW6MSG_OOB_LIST))
+	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_LIST))
 		{
 		  response = lw6msg_oob_generate_list (node_info);
 		}
@@ -78,6 +78,13 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	    }
 	  else
 	    {
+	      if (strlen(request_line)==0 || lw6sys_chr_is_eol(request_line[0])) {
+		if (node_info->const_info.password && strlen(node_info->const_info.password)>0) {
+		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		} else {
+		  response = lw6msg_oob_generate_info (node_info);		
+		}
+	      } else {
 	      if (syntax_ok && !password_ok)
 		{
 		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
@@ -86,6 +93,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		{
 		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
 		}
+	      }
 	    }
 	  LW6SYS_FREE (request_line);
 	}

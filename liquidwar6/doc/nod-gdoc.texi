@@ -7,7 +7,7 @@ call to @code{lw6nod_info_dup_dyn} for instance.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{bench}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
+@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
 @var{id}:  the node id
 
 @var{url}:  the node public url
@@ -15,6 +15,8 @@ call to @code{lw6nod_info_dup_dyn} for instance.
 @var{title}:  the node title
 
 @var{description}:  the node description
+
+@var{password}:  the node password
 
 @var{bench}:  the node bench
 

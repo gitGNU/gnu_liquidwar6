@@ -1,3 +1,7 @@
+2010-08-17 : Christian Mauduit <ufoot@ufoot.org>
+
+	* OOB requests now case insensitive.
+
 2010-08-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implementing password checking in tcp/tcpd.

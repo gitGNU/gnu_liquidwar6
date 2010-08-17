@@ -3384,6 +3384,45 @@ C interfaces:
 
      *Return value:*  newly allocated string.
 
+ -- Function: char * lw6msg_oob_generate_request (char * COMMAND, char
+          * REMOTE_URL, char * PASSWORD, char * LOCAL_URL)
+     COMMAND:  the command to send (PING, INFO, LIST)
+
+     REMOTE_URL:  the remote URL (used to seed password)
+
+     PASSWORD:  the password, can be NULL or ""
+
+     LOCAL_URL:  the public URL to send along with the message, can be
+     NULL or ""
+
+     Generates a simple clear text OOB request, with a password if
+     needed.
+
+     *Return value:*  a newly allocated string
+
+ -- Function: int lw6msg_oob_analyse_request (int * SYNTAX_OK, char **
+          COMMAND, int * PASSWORD_OK, char ** REMOTE_URL, char *
+          REQUEST, char * LOCAL_URL, char * PASSWORD)
+     SYNTAX_OK:  will contain 1 if syntax is OK, 0 if not
+
+     COMMAND:  the command (out param, needs *not* to be freed)
+
+     PASSWORD_OK:  will contain 1 if password is OK, 0 if not
+
+     REMOTE_URL:  the URL detected, if provided (out param, does needs
+     to be freed)
+
+     REQUEST:  the request to analyse
+
+     LOCAL_URL:  the local url (used to seed password)
+
+     PASSWORD:  the password to check against
+
+     Analyses a simple OOB message of the form COMMAND <passwd> <url>.
+
+     *Return value:*  1 if OK, 0 if not. If 0, check the value of
+     password_ok.
+
  -- Function: char * lw6msg_oob_analyse_pong (char * TEXT)
      TEXT:  the text of the message to parse
 
@@ -3541,38 +3580,6 @@ C interfaces:
 
      *Return value:*  the number of bytes sent, 0 if failure
 
- -- Function: char * lw6net_password_checksum (char * SEED, char *
-          PASSWORD)
-     SEED:  a seed to blur the password, can be NULL
-
-     PASSWORD:  the password, can be NULL
-
-     Calculates the checksum of a password, and returns it as a string,
-     ready to be sent on the network.  If password is empty or NULL,
-     then an empty (but not NULL unless internal error) string will be
-     returned. All LW6 protocols should send these checksums instead of
-     real passwords, then on server side value can be checked against
-     both real password and its checksum. The seed is here so that
-     eavesdropper can't reuse the checksum to connect on random
-     sessions. Seed can typically be the node 'public_url' value.
-
-     *Return value:*  a dynamically allocated string
-
- -- Function: int lw6net_password_verify (char * SEED, char *
-          PASSWORD_HERE, char * PASSWORD_RECEIVED)
-     SEED:  a seed to blur the password, can be NULL
-
-     PASSWORD_HERE:  the local password, can be NULL
-
-     PASSWORD_RECEIVED:  the password received from network
-
-     Tells wether a password received over the network is valid.  The
-     `password_here' argument (the local password) will be checksumed
-     so that `password_received' is checked against both clear and
-     checksumed values, so it can be in any form.
-
-     *Return value:*  1 if OK, passwords are the same, 0 if not.
-
  -- Function: int lw6net_init (int ARGC, char * [] ARGV)
      Initializes the low-level network API, you must call this before
      calling any other network related function, for it allocates a
@@ -3607,8 +3614,8 @@ C interfaces:
      *Return value:*  none
 
  -- Function: lw6nod_info_t * lw6nod_info_new (u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, int BENCH, int
-          IDLE_SCREENSHOT_SIZE, void * IDLE_SCREENSHOT_DATA)
+          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
+          BENCH, int IDLE_SCREENSHOT_SIZE, void * IDLE_SCREENSHOT_DATA)
      ID:  the node id
 
      URL:  the node public url
@@ -3616,6 +3623,8 @@ C interfaces:
      TITLE:  the node title
 
      DESCRIPTION:  the node description
+
+     PASSWORD:  the node password
 
      BENCH:  the node bench
 
@@ -6992,6 +7001,38 @@ C interfaces:
      and environment variables. Usefull to debug and know where the
      program is searching for things.
 
+ -- Function: char * lw6sys_password_checksum (char * SEED, char *
+          PASSWORD)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD:  the password, can be NULL
+
+     Calculates the checksum of a password, and returns it as a string,
+     ready to be sent on the network.  If password is empty or NULL,
+     then an empty (but not NULL unless internal error) string will be
+     returned. All LW6 protocols should send these checksums instead of
+     real passwords, then on server side value can be checked against
+     both real password and its checksum. The seed is here so that
+     eavesdropper can't reuse the checksum to connect on random
+     sessions. Seed can typically be the node 'public_url' value.
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6sys_password_verify (char * SEED, char *
+          PASSWORD_HERE, char * PASSWORD_RECEIVED)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD_HERE:  the local password, can be NULL
+
+     PASSWORD_RECEIVED:  the password received from network, can be NULL
+
+     Tells wether a password received over the network is valid.  The
+     `password_here' argument (the local password) will be checksumed
+     so that `password_received' is checked against both clear and
+     checksumed values, so it can be in any form.
+
+     *Return value:*  1 if OK, passwords are the same, 0 if not.
+
  -- Function: int lw6sys_file_exists (char * FILENAME)
      FILENAME:  the file to test
 
@@ -7611,12 +7652,38 @@ C interfaces:
 
      *Return value:*  1 if same, 0 if not.
 
+ -- Function: int lw6sys_str_is_same_no_case (char * STR_A, char *
+          STR_B)
+     STR_A:  1st string to compare, can be NULL
+
+     STR_B:  2nd string to compare, can be NULL
+
+     Compares two strings for equality. Difference with strcmp is that
+     this one won't check for alphabetical order and return -1 or +1,
+     but will check for NULL args.  of space, tabs, or carriage returns
+     only. This function is not case sensitive.
+
+     *Return value:*  1 if same, 0 if not.
+
  -- Function: int lw6sys_str_starts_with (char * STR, char * BEGINNING)
      STR:  the string to analyse
 
      BEGINNING:  the pattern to search
 
-     *Return value:*  1 if str starts with beginning, 0 if not
+     Tells wether string starts with a given beginning.
+
+     *Return value:*  1 if `str' starts with `beginning', 0 if not
+
+ -- Function: int lw6sys_str_starts_with_no_case (char * STR, char *
+          BEGINNING)
+     STR:  the string to analyse
+
+     BEGINNING:  the pattern to search
+
+     Tells wether string starts with a given beginning. This function
+     is not case sensitive.
+
+     *Return value:*  1 if `str' starts with `beginning', 0 if not
 
  -- Function: int lw6sys_skip_blanks (char ** STR_PTR)
      STR_PTR:  a pointer to a string pointer (read/write parameter).
@@ -7950,6 +8017,13 @@ C interfaces:
      come out exactly the same.
 
      *Return value:*  a newly allocated string.
+
+ -- Function: int lw6sys_url_is_canonized (char * URL)
+     URL:  the URL to check
+
+     Checks wether an URL is in its canonized form.
+
+     *Return value:*  1 if OK (canonized form), 0 if not
 
  -- Function: int lw6sys_vthread_run (lw6sys_thread_callback_func_t
           CALLBACK_FUNC, lw6sys_thread_callback_func_t CALLBACK_JOIN,

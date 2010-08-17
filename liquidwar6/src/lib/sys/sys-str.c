@@ -248,12 +248,45 @@ lw6sys_str_is_same (char *str_a, char *str_b)
 }
 
 /**
+ * lw6sys_str_is_same_no_case
+ *
+ * @str_a: 1st string to compare, can be NULL
+ * @str_b: 2nd string to compare, can be NULL
+ *
+ * Compares two strings for equality. Difference with strcmp
+ * is that this one won't check for alphabetical order and
+ * return -1 or +1, but will check for NULL args.
+ * of space, tabs, or carriage returns only. This function
+ * is not case sensitive.
+ *
+ * Return value: 1 if same, 0 if not.
+ */
+int
+lw6sys_str_is_same_no_case (char *str_a, char *str_b)
+{
+  int ret = 1;
+
+  if (((!str_a) && str_b) || (str_a && (!str_b)))
+    {
+      ret = 0;
+    }
+  if (str_a && str_b)
+    {
+      ret = strcasecmp (str_a, str_b) ? 0 : 1;
+    }
+
+  return ret;
+}
+
+/**
  * lw6sys_str_starts_with
  *
  * @str: the string to analyse
  * @beginning: the pattern to search
  *
- * Return value: 1 if str starts with beginning, 0 if not
+ * Tells wether string starts with a given beginning.
+ *
+ * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
 lw6sys_str_starts_with (char *str, char *beginning)
@@ -261,6 +294,27 @@ lw6sys_str_starts_with (char *str, char *beginning)
   int ret = 0;
 
   ret = !strncmp (str, beginning, strlen (beginning));
+
+  return ret;
+}
+
+/**
+ * lw6sys_str_starts_with_no_case
+ *
+ * @str: the string to analyse
+ * @beginning: the pattern to search
+ *
+ * Tells wether string starts with a given beginning. This function
+ * is not case sensitive.
+ *
+ * Return value: 1 if @str starts with @beginning, 0 if not
+ */
+int
+lw6sys_str_starts_with_no_case (char *str, char *beginning)
+{
+  int ret = 0;
+
+  ret = !strncasecmp (str, beginning, strlen (beginning));
 
   return ret;
 }
