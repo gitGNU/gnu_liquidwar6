@@ -38,7 +38,7 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   char *response = NULL;
   char *given_url = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("connecting in TCP on %s:%d"), ip,
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("connecting in TCP on %s:%d"), ip,
 	      parsed_url->port);
   sock = lw6net_tcp_connect (ip, parsed_url->port);
   if (sock >= 0)
@@ -76,7 +76,7 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			    }
 			  else
 			    {
-			      lw6sys_log (LW6SYS_LOG_NOTICE,
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
 					  _
 					  ("connected on %s:%d using \"%s\" but server reports \"%s\""),
 					  ip, parsed_url->port, url,
@@ -165,7 +165,7 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 				  if (lw6msg_utils_parse_key_value_to_assoc
 				      (&assoc, response))
 				    {
-				      lw6sys_log (LW6SYS_LOG_NOTICE,
+				      lw6sys_log (LW6SYS_LOG_DEBUG,
 						  _("parsed line \"%s\""),
 						  response);
 				    }
@@ -206,7 +206,8 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	  remote_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_ID);
 	  remote_url = lw6sys_assoc_get (assoc, LW6MSG_OOB_URL);
 	  remote_title = lw6sys_assoc_get (assoc, LW6MSG_OOB_TITLE);
-	  remote_description = lw6sys_assoc_get (assoc, LW6MSG_OOB_DESCRIPTION);
+	  remote_description =
+	    lw6sys_assoc_get (assoc, LW6MSG_OOB_DESCRIPTION);
 
 	  if (remote_program && remote_version && remote_codename
 	      && remote_stamp_int > 0 && remote_id && remote_url
