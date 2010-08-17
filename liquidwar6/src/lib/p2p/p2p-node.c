@@ -309,13 +309,14 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 					(node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
 					(int) lw6sys_get_timestamp () / 1000,
-					node->node_id_str,
-					escaped_public_url,
-					escaped_title,
+					lw6sys_build_get_version (),
+					lw6sys_build_get_codename (),
+					lw6sys_atoi (lw6sys_build_get_stamp
+						     ()), node->node_id_str,
+					escaped_public_url, escaped_title,
 					escaped_description,
 					node->node_info->const_info.bench,
-					node->bind_ip, node->bind_port,
-					_LW6P2P_DB_TRUE);
+					node->bind_ip, node->bind_port);
 		  if (query)
 		    {
 		      if (_lw6p2p_db_lock (node->db))

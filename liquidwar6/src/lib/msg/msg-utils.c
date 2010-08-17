@@ -149,3 +149,66 @@ lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t ** assoc, char *line)
 
   return ret;
 }
+
+/**
+ * lw6msg_utils_get_assoc_str_with_default
+ *
+ * @assoc: the string assoc to query
+ * @key: the key to find in the assoc
+ * @default_value: the default value to return
+ *
+ * Queries a string assoc for a given value, and if not available, returns
+ * default value. Not that default value (nor the assoc value) is copied,
+ * so you must take care all remain valid until usage of returned value
+ * is over.
+ *
+ * Return value: a string, must not be freed.
+ */
+char *
+lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc, char *key,
+					 char *default_value)
+{
+  char *ret = NULL;
+
+  ret = lw6sys_assoc_get (assoc, key);
+  if (!ret)
+    {
+      ret = default_value;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_utils_get_assoc_int_with_default
+ *
+ * @assoc: the string assoc to query
+ * @key: the key to find in the assoc
+ * @default_value: the default value to return
+ *
+ * Queries a string assoc for a given value, and if not available, returns
+ * default value. Not that default value (nor the assoc value) is copied,
+ * so you must take care all remain valid until usage of returned value
+ * is over. This one will returned an int converted with @lw6sys_atoi.
+ *
+ * Return value: a string, must not be freed.
+ */
+int
+lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc, char *key,
+					 int default_value)
+{
+  int ret = 0;
+  char *tmp = NULL;
+
+  tmp = lw6sys_assoc_get (assoc, key);
+  if (tmp)
+    {
+      ret = lw6sys_atoi (tmp);
+    }
+  else
+    {
+      ret = default_value;
+    }
+
+  return ret;
+}

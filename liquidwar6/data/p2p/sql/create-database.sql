@@ -20,6 +20,9 @@
 CREATE TABLE IF NOT EXISTS lw6_node(
         -- Fields mapped on C object 
 	node_creation_timestamp INTEGER,
+	node_version VARCHAR(64),
+	node_codename VARCHAR(64),
+	node_stamp INTEGER,
 	node_id VARCHAR(16),
 	node_url VARCHAR(1024) PRIMARY KEY,
 	node_title VARCHAR(256),
@@ -36,7 +39,6 @@ CREATE TABLE IF NOT EXISTS lw6_node(
 	-- Additionnal data
 	ip VARCHAR(64),
 	port INTEGER,
-	is_local INTEGER DEFAULT 0 NOT NULL, 
 	last_ping_timestamp INTEGER DEFAULT 0 NOT NULL,
 	ping_delay_msec INTEGER DEFAULT 3600000 NOT NULL
 );

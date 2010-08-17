@@ -145,6 +145,7 @@
 #define TEST_SPLIT_STR "/foo/bar,/foo/bar"
 #define TEST_SPLIT_CHAR 'o'
 #define _TEST_STR_LOWER_UPPER "foObaR!"
+#define _TEST_STR_TRUNCATE 5
 #define TEST_SERIALIZE 12345
 #define TEST_SORT_LENGTH 10
 #define TEST_SORT_INT {9,3,4,5,6,8,7,2,0,1};
@@ -2886,6 +2887,8 @@ test_str ()
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("lowered string=\"%s\""), str);
 	lw6sys_str_toupper (str);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("uppered string=\"%s\""), str);
+	lw6sys_str_truncate (str, _TEST_STR_TRUNCATE);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("truncated string=\"%s\""), str);
 	LW6SYS_FREE (str);
       }
   }

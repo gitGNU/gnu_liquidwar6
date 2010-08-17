@@ -3707,6 +3707,17 @@ to modifiable data.
 @strong{Return value:}  none, @code{str} pointed data modified in-place
 @end deftypefun
 
+@deftypefun {void} {lw6sys_str_truncate} (char * @var{str}, int @var{len})
+@var{str}:  the string to truncate
+
+@var{len}:  the new length
+
+Truncates a string to the max given length. If truncated to 3,
+"abcdef" becomes "abc".
+
+@strong{Return value:}  none, @code{str} pointed data modified in-place
+@end deftypefun
+
 @deftypefun {int} {lw6sys_test_exec} (int @var{argc}, char * [] @var{argv}, int @var{mode})
 @var{argc}:  number of args as passed to main
 

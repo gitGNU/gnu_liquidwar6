@@ -28,6 +28,7 @@
 
 #define _ESCAPE_HTTP_URI_LEN 3
 #define _ESCAPE_HTTP_URI_MASK "%02X"
+#define _ESCAPE_HTTP_URI_MAX_LEN 1024
 #define _ESCAPE_HTML_ATTRIBUTE_LEN 6
 #define _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR '"'
 #define _ESCAPE_HTML_ATTRIBUTE_QUOT_STR "&quot;"
@@ -37,9 +38,11 @@
 #define _ESCAPE_HTML_ATTRIBUTE_GT_STR "&gt;"
 #define _ESCAPE_HTML_ATTRIBUTE_AMP_CHAR '&'
 #define _ESCAPE_HTML_ATTRIBUTE_AMP_STR "&amp;"
+#define _ESCAPE_HTML_ATTRIBUTE_MAX_LEN 4096
 #define _ESCAPE_SQL_VALUE_LEN 2
 #define _ESCAPE_SQL_VALUE_QUOT_CHAR '\''
 #define _ESCAPE_SQL_VALUE_QUOT_STR "''"
+#define _ESCAPE_SQL_VALUE_MAX_LEN 2048
 
 /**
  * lw6sys_escape_http_uri
@@ -66,11 +69,11 @@ lw6sys_escape_http_uri (char *src)
   unsigned char c;
   char *hexa;
 
-  len = strlen (src);
+  len = lw6sys_min (strlen (src), _ESCAPE_HTTP_URI_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTTP_URI_LEN * len + 1);
   if (ret)
     {
-      for (i = 0, j = 0; i < len; ++i)
+      for (i = 0, j = 0; i < len && j < _ESCAPE_HTTP_URI_MAX_LEN; ++i)
 	{
 	  c = src[i];
 	  if (c >= ' ')
@@ -144,11 +147,11 @@ lw6sys_escape_html_attribute (char *src)
   unsigned char c;
   char *quot = NULL;
 
-  len = strlen (src);
+  len = lw6sys_min (strlen (src), _ESCAPE_HTML_ATTRIBUTE_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
   if (ret)
     {
-      for (i = 0, j = 0; i < len; ++i)
+      for (i = 0, j = 0; i < len && j < _ESCAPE_HTML_ATTRIBUTE_MAX_LEN; ++i)
 	{
 	  c = src[i];
 	  c = lw6sys_max (' ', c);
@@ -223,11 +226,11 @@ lw6sys_escape_sql_value (char *src)
   unsigned char c;
   char *quot = NULL;
 
-  len = strlen (src);
+  len = lw6sys_min (strlen (src), _ESCAPE_SQL_VALUE_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_SQL_VALUE_LEN * len + 1);
   if (ret)
     {
-      for (i = 0, j = 0; i < len; ++i)
+      for (i = 0, j = 0; i < len && j < _ESCAPE_SQL_VALUE_MAX_LEN; ++i)
 	{
 	  c = src[i];
 	  c = lw6sys_max (' ', c);

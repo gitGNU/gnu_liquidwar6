@@ -49,6 +49,10 @@
 #define _TEST_KEY_VALUE_OK_1 "KEY value"
 #define _TEST_KEY_VALUE_OK_2 "  KEY2HASNOVALUE"
 #define _TEST_KEY_VALUE_OK_3 "KEY3looks-STRANGE\t= value 3 even\t stranger but it does work"
+#define _TEST_DEFAULT_KEY_OK "KEY"
+#define _TEST_DEFAULT_KEY_KO "???"
+#define _TEST_DEFAULT_VALUE_STR "abc"
+#define _TEST_DEFAULT_VALUE_INT 123
 
 /*
  * Testing functions in oob.c
@@ -415,6 +419,8 @@ test_utils ()
     char *value = NULL;
     lw6sys_assoc_t *assoc = NULL;
     int count = 0;
+    char *value_str = NULL;
+    int value_int = 0;
 
     if (lw6msg_utils_parse_key_value_to_ptr
 	(&key, &value, _TEST_KEY_VALUE_OK_1))
@@ -458,6 +464,32 @@ test_utils ()
 	count = 0;
 	lw6sys_assoc_map (assoc, _key_value_assoc_callback, &count);
 	ret = ret && (count == 3);
+
+	value_str =
+	  lw6msg_utils_get_assoc_str_with_default (assoc,
+						   _TEST_DEFAULT_KEY_OK,
+						   _TEST_DEFAULT_VALUE_STR);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+		    _TEST_DEFAULT_KEY_OK, value_str);
+	value_str =
+	  lw6msg_utils_get_assoc_str_with_default (assoc,
+						   _TEST_DEFAULT_KEY_KO,
+						   _TEST_DEFAULT_VALUE_STR);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+		    _TEST_DEFAULT_KEY_KO, value_str);
+	value_int =
+	  lw6msg_utils_get_assoc_int_with_default (assoc,
+						   _TEST_DEFAULT_KEY_OK,
+						   _TEST_DEFAULT_VALUE_INT);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is %d"),
+		    _TEST_DEFAULT_KEY_OK, value_int);
+	value_int =
+	  lw6msg_utils_get_assoc_int_with_default (assoc,
+						   _TEST_DEFAULT_KEY_KO,
+						   _TEST_DEFAULT_VALUE_INT);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is %d"),
+		    _TEST_DEFAULT_KEY_KO, value_int);
+
 	lw6sys_assoc_free (assoc);
       }
   }

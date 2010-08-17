@@ -1,5 +1,7 @@
 2010-08-17 : Christian Mauduit <ufoot@ufoot.org>
 
+	* mod-tcp interprets OOB INFO response. 
+
 	* OOB requests now case insensitive.
 
 2010-08-16 : Christian Mauduit <ufoot@ufoot.org>

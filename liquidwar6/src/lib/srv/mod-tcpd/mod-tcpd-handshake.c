@@ -49,10 +49,13 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
       lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol"));
       ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
     }
-  if (lw6sys_chr_is_eol(tcp_accepter->first_line[0])
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line, LW6MSG_OOB_PING)
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line, LW6MSG_OOB_INFO)
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line, LW6MSG_OOB_LIST))
+  if (lw6sys_chr_is_eol (tcp_accepter->first_line[0])
+      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
+					 LW6MSG_OOB_PING)
+      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
+					 LW6MSG_OOB_INFO)
+      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
+					 LW6MSG_OOB_LIST))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);

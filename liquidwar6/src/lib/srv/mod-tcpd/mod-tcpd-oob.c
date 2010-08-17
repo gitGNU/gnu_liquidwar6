@@ -78,22 +78,32 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	    }
 	  else
 	    {
-	      if (strlen(request_line)==0 || lw6sys_chr_is_eol(request_line[0])) {
-		if (node_info->const_info.password && strlen(node_info->const_info.password)>0) {
-		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
-		} else {
-		  response = lw6msg_oob_generate_info (node_info);		
-		}
-	      } else {
-	      if (syntax_ok && !password_ok)
+	      if (strlen (request_line) == 0
+		  || lw6sys_chr_is_eol (request_line[0]))
 		{
-		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		  if (node_info->const_info.password
+		      && strlen (node_info->const_info.password) > 0)
+		    {
+		      response =
+			lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		    }
+		  else
+		    {
+		      response = lw6msg_oob_generate_info (node_info);
+		    }
 		}
 	      else
 		{
-		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
+		  if (syntax_ok && !password_ok)
+		    {
+		      response =
+			lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		    }
+		  else
+		    {
+		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
+		    }
 		}
-	      }
 	    }
 	  LW6SYS_FREE (request_line);
 	}

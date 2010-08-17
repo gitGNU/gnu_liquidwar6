@@ -897,6 +897,7 @@ extern lw6sys_list_t *lw6sys_str_split_no_0 (char *str, char c);
 extern lw6sys_list_t *lw6sys_str_split_config_item (char *str);
 extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
+extern void lw6sys_str_truncate (char *str, int len);
 
 /* sys-test.c */
 extern int lw6sys_test_exec (int argc, char *argv[], int mode);

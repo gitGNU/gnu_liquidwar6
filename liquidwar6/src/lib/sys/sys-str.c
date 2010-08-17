@@ -728,3 +728,23 @@ lw6sys_str_tolower (char *str)
       pos++;
     }
 }
+
+/**
+ * lw6sys_str_truncate
+ *
+ * @str: the string to truncate
+ * @len: the new length
+ *
+ * Truncates a string to the max given length. If truncated to 3,
+ * "abcdef" becomes "abc".
+ *
+ * Return value: none, @str pointed data modified in-place
+ */
+void
+lw6sys_str_truncate (char *str, int len)
+{
+  if (strlen (str) > len)
+    {
+      str[len] = '\0';
+    }
+}
