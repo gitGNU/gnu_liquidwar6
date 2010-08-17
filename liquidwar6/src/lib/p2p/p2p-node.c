@@ -952,7 +952,8 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 			lw6sys_new_sprintf (_lw6p2p_db_get_query
 					    (node->db,
 					     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
-					    escaped_public_url);
+					    escaped_public_url,
+					    lw6p2p_db_now ());
 		      if (query)
 			{
 			  ret = _lw6p2p_db_exec_ignore_data (node->db, query)
