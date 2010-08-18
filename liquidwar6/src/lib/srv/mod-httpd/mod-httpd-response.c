@@ -179,7 +179,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 	    {
 	      line =
 		lw6sys_new_sprintf ("Server: %s",
-				    lw6sys_build_get_package_string ());
+				    lw6sys_build_get_package_name ());
 	      if (line)
 		{
 		  lw6net_send_line_tcp (sock, line);
@@ -198,7 +198,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 		  line =
 		    lw6sys_new_sprintf
 		    ("WWW-Authenticate: Basic realm=\"%s\"",
-		     lw6sys_build_get_package_string ());
+		     lw6sys_build_get_package_name ());
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);
