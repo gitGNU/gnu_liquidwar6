@@ -1,5 +1,9 @@
-@deftypefun {lw6cli_oob_t *} {lw6cli_oob_new} (char * @var{public_url})
+@deftypefun {lw6cli_oob_t *} {lw6cli_oob_new} (char * @var{public_url}, lw6cli_verify_callback_func_t @var{verify_callback_func}, void * @var{verify_callback_data})
 @var{public_url}:  the address of the distant server to test
+
+@var{verify_callback_func}:  a function which will be called when a node has been verified
+
+@var{verify_callback_data}:  additionnal data passed to the callback func
 
 Create a new OOB structure, copying required objects.
 We need to make copies for this is for usage in a 

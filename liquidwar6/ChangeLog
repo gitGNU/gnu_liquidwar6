@@ -1,3 +1,7 @@
+2010-08-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Db now knows wether remote node uses password or not.
+
 2010-08-17 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Old nodes are now purged from list.

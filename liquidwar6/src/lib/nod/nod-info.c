@@ -402,6 +402,28 @@ lw6nod_info_new_verified_nodes ()
   return ret;
 }
 
+static int
+_verified_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
+{
+  int ret = 0;
+  lw6nod_info_t *a;
+  lw6nod_info_t *b;
+
+  a = (lw6nod_info_t *) ((*list_a)->data);
+  b = (lw6nod_info_t *) ((*list_b)->data);
+
+  if (a->const_info.title && b->const_info.title)
+    {
+      ret = strcasecmp (a->const_info.title, b->const_info.title);
+    }
+  else if (a->const_info.url && b->const_info.url)
+    {
+      ret = strcmp (a->const_info.url, b->const_info.url);
+    }
+
+  return ret;
+}
+
 /**
  * lw6nod_info_set_verified_nodes
  *
@@ -423,14 +445,19 @@ lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list)
 {
   int ret = 0;
 
-  if (lw6nod_info_lock (info))
+  lw6sys_sort (&list, _verified_sort_callback);
+
+  if (list)
     {
-      if (info->verified_nodes)
+      if (lw6nod_info_lock (info))
 	{
-	  lw6sys_list_free (info->verified_nodes);
+	  if (info->verified_nodes)
+	    {
+	      lw6sys_list_free (info->verified_nodes);
+	    }
+	  info->verified_nodes = list;
+	  lw6nod_info_unlock (info);
 	}
-      info->verified_nodes = list;
-      lw6nod_info_unlock (info);
     }
 
   return ret;

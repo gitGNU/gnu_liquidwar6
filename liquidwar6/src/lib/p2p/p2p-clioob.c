@@ -126,6 +126,8 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
   char *remote_url = NULL;
   char *remote_title = NULL;
   char *remote_description = NULL;
+  char *password_str = NULL;
+  int password_int = _LW6P2P_DB_FALSE;
   int now = 0;
   int uptime = 0;
   int bench = 0;
@@ -143,10 +145,10 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
   remote_program = lw6sys_assoc_get (assoc, LW6MSG_OOB_PROGRAM);
   remote_version = lw6sys_assoc_get (assoc, LW6MSG_OOB_VERSION);
   remote_codename = lw6sys_assoc_get (assoc, LW6MSG_OOB_CODENAME);
-  if (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP))
+  remote_stamp_str = lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP);
+  if (remote_stamp_str)
     {
-      remote_stamp_int =
-	lw6sys_atoi (lw6sys_assoc_get (assoc, LW6MSG_OOB_STAMP));
+      remote_stamp_int = lw6sys_atoi (remote_stamp_str);
     }
   remote_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_ID);
   remote_url = lw6sys_assoc_get (assoc, LW6MSG_OOB_URL);
@@ -164,13 +166,12 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 	    {
 	      remote_version = lw6sys_escape_sql_value (remote_version);
 	      remote_codename = lw6sys_escape_sql_value (remote_codename);
-	      remote_stamp_str = lw6sys_itoa (remote_stamp_int);
 	      remote_id = lw6sys_escape_sql_value (remote_id);
 	      remote_title = lw6sys_escape_sql_value (remote_title);
 	      remote_description =
 		lw6sys_escape_sql_value (remote_description);
 	      if (remote_version && remote_codename
-		  && remote_stamp_str && remote_id && remote_title
+		  && remote_stamp_int && remote_id && remote_title
 		  && remote_description)
 		{
 		  if (!lw6sys_str_is_same (url, node->public_url)
@@ -178,6 +179,16 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("confirmed node \"%s\""), url);
+		      password_str =
+			lw6msg_utils_get_assoc_str_with_default (assoc,
+								 LW6MSG_OOB_PASSWORD,
+								 LW6MSG_NO);
+		      password_int = (password_str
+				      &&
+				      lw6sys_str_starts_with_no_case
+				      (password_str,
+				       LW6MSG_YES)) ? _LW6P2P_DB_TRUE :
+			_LW6P2P_DB_FALSE;
 		      now = lw6p2p_db_now ();
 		      uptime =
 			lw6msg_utils_get_assoc_int_with_default (assoc,
@@ -226,12 +237,12 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 					    now - uptime, remote_version,
 					    remote_codename, remote_stamp_int,
 					    remote_id, remote_title,
-					    remote_description, bench, level,
-					    required_bench, nb_colors,
-					    max_nb_colors, nb_cursors,
-					    max_nb_cursors, nb_nodes,
-					    max_nb_nodes, ip, port, now,
-					    ping_delay_msec, url);
+					    remote_description, password_int,
+					    bench, level, required_bench,
+					    nb_colors, max_nb_colors,
+					    nb_cursors, max_nb_cursors,
+					    nb_nodes, max_nb_nodes, ip, port,
+					    now, ping_delay_msec, url);
 		      if (query)
 			{
 			  if (_lw6p2p_db_lock (node->db))
@@ -257,10 +268,6 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		  if (remote_codename)
 		    {
 		      LW6SYS_FREE (remote_codename);
-		    }
-		  if (remote_stamp_str)
-		    {
-		      LW6SYS_FREE (remote_stamp_str);
 		    }
 		  if (remote_id)
 		    {

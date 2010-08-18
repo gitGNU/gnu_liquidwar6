@@ -50,6 +50,16 @@ not an absolute path, will be appended to user dir).
 @strong{Return value:}  the default database name, need not (must not) be freed.
 @end deftypefun
 
+@deftypefun {int} {lw6p2p_db_now} ()
+
+Returns a timestamp suitable for db usage. The reason we don't use
+regular timestamps is that they are 1) too accurate (msec is useless
+for what's involved here) and 2) too big and likely to be negative
+in signed mode even if converted to seconds.
+
+@strong{Return value:}  a timestamp, 0 means "beginning of program" (think of it as uptime)
+@end deftypefun
+
 @deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, u_int64_t @var{node_id}, char * @var{public_url}, char * @var{password}, char * @var{title}, char * @var{description}, int @var{bench}, char * @var{known_nodes})
 @var{argc}:  number of args, as passed to @code{main}
 
