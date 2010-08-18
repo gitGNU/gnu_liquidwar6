@@ -131,7 +131,6 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
 	      clear_authorization = lw6glb_base64_decode_str (seek);
 	      if (clear_authorization)
 		{
-		  TMP1 ("%s", clear_authorization);
 		  double_dot = strrchr (clear_authorization, ':');
 		  if (double_dot)
 		    {
