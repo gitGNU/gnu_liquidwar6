@@ -1,1 +1,1 @@
-@set LW6_STAMP 1977
+@set LW6_STAMP 1978

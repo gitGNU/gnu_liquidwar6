@@ -26,6 +26,8 @@
 
 #include "glb.h"
 
+#define _TEST_BASE64_STR "this is a string"
+
 /*
  * Testing functions in base64.c
  */
@@ -36,7 +38,66 @@ test_base64 ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    // todo...
+    char *base64_str = NULL;
+    char *str = NULL;
+
+    base64_str = lw6glb_base64_encode_str (_TEST_BASE64_STR);
+    if (base64_str)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("base64 encoded version of \"%s\" is \"%s\""),
+		    _TEST_BASE64_STR, base64_str);
+	str = lw6glb_base64_decode_str (base64_str);
+	if (str)
+	  {
+	    if (lw6sys_str_is_same (str, _TEST_BASE64_STR))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("base64 string \"%s\" correctly decoded to \"%s\""),
+			    base64_str, str);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("base64 string \"%s\" decoded to \"%s\" but shoudl be \"%s\""),
+			    base64_str, str, _TEST_BASE64_STR);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (str);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("unable to decode \"%s\" from base64"), base64_str);
+	    ret = 0;
+	  }
+	LW6SYS_FREE (base64_str);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("unable to encode \"%s\" in base64"), _TEST_BASE64_STR);
+	ret = 0;
+      }
+
+    str = lw6glb_base64_decode_str (_TEST_BASE64_STR);
+    if (str)
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _
+		    ("base64 routine was able to decode \"%s\" into \"%s\", this is wrong"),
+		    _TEST_BASE64_STR, str);
+	ret = 0;
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to decode \"%s\", this is normal"),
+		    _TEST_BASE64_STR);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;

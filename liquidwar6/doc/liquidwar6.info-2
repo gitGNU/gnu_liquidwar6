@@ -849,8 +849,15 @@ C interfaces:
 4.15.4 libcli
 -------------
 
- -- Function: lw6cli_oob_t * lw6cli_oob_new (char * PUBLIC_URL)
+ -- Function: lw6cli_oob_t * lw6cli_oob_new (char * PUBLIC_URL,
+          lw6cli_verify_callback_func_t VERIFY_CALLBACK_FUNC, void *
+          VERIFY_CALLBACK_DATA)
      PUBLIC_URL:  the address of the distant server to test
+
+     VERIFY_CALLBACK_FUNC:  a function which will be called when a node
+     has been verified
+
+     VERIFY_CALLBACK_DATA:  additionnal data passed to the callback func
 
      Create a new OOB structure, copying required objects.  We need to
      make copies for this is for usage in a separate thread. The thread
@@ -3877,6 +3884,15 @@ C interfaces:
 
      *Return value:*  the default database name, need not (must not) be
      freed.
+
+ -- Function: int lw6p2p_db_now ()
+     Returns a timestamp suitable for db usage. The reason we don't use
+     regular timestamps is that they are 1) too accurate (msec is
+     useless for what's involved here) and 2) too big and likely to be
+     negative in signed mode even if converted to seconds.
+
+     *Return value:*  a timestamp, 0 means "beginning of program"
+     (think of it as uptime)
 
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *

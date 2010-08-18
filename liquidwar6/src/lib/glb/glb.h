@@ -25,7 +25,16 @@
 
 #include "../sys/sys.h"
 
-/* nod-test.c */
+/* glb-base64.c */
+extern char *lw6glb_base64_encode_bin (char *buf, int size);
+extern char *lw6glb_base64_decode_bin (int *size, char *base64_str);
+extern char *lw6glb_base64_encode_str (char *str);
+extern char *lw6glb_base64_decode_str (char *str);
+
+extern char *lw6glb_base64_encode (char *str);
+extern char *lw6glb_base64_decode (char *str);
+
+/* glb-test.c */
 extern int lw6glb_test (int mode);
 
 #endif
