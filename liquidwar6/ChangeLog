@@ -1,5 +1,7 @@
 2010-08-18 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Implemented http basic authentication (server side).
+
 	* Added base64 encoding/decoding functions.
 
 	* Db now knows wether remote node uses password or not.

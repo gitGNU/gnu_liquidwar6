@@ -109,7 +109,7 @@ static int
 _parse_header (_httpd_request_t * request, char *line, char *public_url,
 	       char *password)
 {
-  int ret = 0;
+  int ret = 1;
   char *basic = NULL;
   char *seek = NULL;
   char *clear_authorization = NULL;
@@ -131,22 +131,23 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
 	      clear_authorization = lw6glb_base64_decode_str (seek);
 	      if (clear_authorization)
 		{
+		  TMP1 ("%s", clear_authorization);
 		  double_dot = strrchr (clear_authorization, ':');
 		  if (double_dot)
 		    {
 		      received_password = double_dot + 1;
-		      lw6sys_log (LW6SYS_LOG_NOTICE,
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("received HTTP password \"%s\""),
 				  received_password);
 		    }
+		  if (public_url && received_password)
+		    {
+		      request->password_ok =
+			lw6sys_password_verify (public_url, password,
+						received_password);
+		    }
 		  LW6SYS_FREE (clear_authorization);
 		}
-	    }
-	  if (public_url && received_password)
-	    {
-	      request->password_ok =
-		lw6sys_password_verify (public_url, password,
-					received_password);
 	    }
 	}
     }
