@@ -71,7 +71,7 @@ lw6glb_base64_decode_bin (int *size, char *base64_str)
 {
   char *ret = NULL;
   int in_len = 0;
-  int out_len = 0;
+  size_t out_len = 0;
   int decode_ret = 0;
 
   in_len = strlen (base64_str);
