@@ -46,6 +46,16 @@
 #define _MOD_HTTPD_STATUS_405 405
 #define _MOD_HTTPD_STATUS_500 500
 
+#define _MOD_HTTPD_OOB_ROOT "/"
+#define _MOD_HTTPD_OOB_INDEX_HTML "/index.html"
+#define _MOD_HTTPD_OOB_SCREENSHOT_JPEG "/screenshot.jpeg"
+#define _MOD_HTTPD_OOB_ROBOTS_TXT "/robots.txt"
+#define _MOD_HTTPD_OOB_GPL_TXT "/gpl.txt"
+#define _MOD_HTTPD_OOB_FAVICON_ICO "/favicon.ico"
+#define _MOD_HTTPD_OOB_INFO_TXT "/info.txt"
+#define _MOD_HTTPD_OOB_LIST_TXT "/list.txt"
+#define _MOD_HTTPD_OOB_PING_TXT "/ping.txt"
+
 typedef struct _httpd_consts_s
 {
   int error_timeout;
@@ -102,6 +112,7 @@ typedef struct _httpd_request_s
   char *uri;
   char *http_user;
   char *http_password;
+  int password_ok;
 } _httpd_request_t;
 
 typedef struct _httpd_response_s
@@ -196,6 +207,8 @@ extern int _mod_httpd_oob_should_continue (_httpd_context_t * httpd_context,
 /* mod-httpd-request.c */
 extern _httpd_request_t *_mod_httpd_request_parse_oob (_httpd_context_t *
 						       httpd_context,
+						       lw6nod_info_t *
+						       node_info,
 						       lw6srv_oob_data_t *
 						       oob_data);
 extern void _mod_httpd_request_free (_httpd_request_t * request);

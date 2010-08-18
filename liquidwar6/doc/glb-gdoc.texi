@@ -1,3 +1,42 @@
+@deftypefun {char *} {lw6glb_base64_encode_bin} (char * @var{buf}, int @var{size})
+@var{buf}:  the data to encode
+
+@var{size}:  the size of data to encode
+
+Encodes data into base64. Memory allocation is done
+automatically.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_decode_bin} (int * @var{size}, char * @var{base64_str})
+@var{size}:  the size of the decoded data
+
+@var{base64_str}:  the string to decode
+
+Decodes data from base64. Memory allocation is done
+automatically. Note that this function only works for
+strings, other data might not be handled correctly.
+
+@strong{Return value:}  newly allocated pointer, NULL on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_encode_str} (char * @var{str})
+@var{str}:  the string to encode
+
+Encodes a string into base64.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_decode_str} (char * @var{str})
+@var{str}:  the string to decode
+
+Deodes a string from base64.
+
+@strong{Return value:}  newly allocated string, NULL on error.
+@end deftypefun
+
 @deftypefun {int} {lw6glb_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

@@ -1289,6 +1289,41 @@ C interfaces:
 4.15.9 libglb
 -------------
 
+ -- Function: char * lw6glb_base64_encode_bin (char * BUF, int SIZE)
+     BUF:  the data to encode
+
+     SIZE:  the size of data to encode
+
+     Encodes data into base64. Memory allocation is done automatically.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6glb_base64_decode_bin (int * SIZE, char *
+          BASE64_STR)
+     SIZE:  the size of the decoded data
+
+     BASE64_STR:  the string to decode
+
+     Decodes data from base64. Memory allocation is done automatically.
+     Note that this function only works for strings, other data might
+     not be handled correctly.
+
+     *Return value:*  newly allocated pointer, NULL on error.
+
+ -- Function: char * lw6glb_base64_encode_str (char * STR)
+     STR:  the string to encode
+
+     Encodes a string into base64.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6glb_base64_decode_str (char * STR)
+     STR:  the string to decode
+
+     Deodes a string from base64.
+
+     *Return value:*  newly allocated string, NULL on error.
+
  -- Function: int lw6glb_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

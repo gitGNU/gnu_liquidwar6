@@ -27,16 +27,6 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
-#define _ROOT "/"
-#define _INDEX_HTML "/index.html"
-#define _SCREENSHOT_JPEG "/screenshot.jpeg"
-#define _ROBOTS_TXT "/robots.txt"
-#define _GPL_TXT "/gpl.txt"
-#define _FAVICON_ICO "/favicon.ico"
-#define _INFO_TXT "/info.txt"
-#define _LIST_TXT "/list.txt"
-#define _PING_TXT "/ping.txt"
-
 #define _SCREENSHOT_JPEG_REFRESH "screenshot.jpeg"
 #define _DUMMY_RANGE 1000000
 
@@ -325,89 +315,102 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
 
-  request = _mod_httpd_request_parse_oob (httpd_context, oob_data);
+  request = _mod_httpd_request_parse_oob (httpd_context, node_info, oob_data);
   if (request)
     {
       if (request->get_head_post == _MOD_HTTPD_GET
 	  || request->get_head_post == _MOD_HTTPD_HEAD)
 	{
-	  if (!strcmp (request->uri, _ROOT)
-	      || !strcmp (request->uri, _INDEX_HTML)
-	      || !strcmp (request->uri, _SCREENSHOT_JPEG))
+	  if (request->password_ok)
 	    {
-	      dyn_info = lw6nod_info_dup_dyn (node_info);
-	      if (dyn_info)
+	      if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROOT)
+		  || !strcmp (request->uri, _MOD_HTTPD_OOB_INDEX_HTML)
+		  || !strcmp (request->uri, _MOD_HTTPD_OOB_SCREENSHOT_JPEG))
 		{
-		  if (!strcmp (request->uri, _ROOT)
-		      || !strcmp (request->uri, _INDEX_HTML))
+		  dyn_info = lw6nod_info_dup_dyn (node_info);
+		  if (dyn_info)
 		    {
-		      response =
-			_response_index_html (httpd_context, node_info,
-					      dyn_info);
+		      if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROOT)
+			  || !strcmp (request->uri,
+				      _MOD_HTTPD_OOB_INDEX_HTML))
+			{
+			  response =
+			    _response_index_html (httpd_context, node_info,
+						  dyn_info);
+			}
+		      if (!strcmp
+			  (request->uri, _MOD_HTTPD_OOB_SCREENSHOT_JPEG))
+			{
+			  response =
+			    _response_screenshot_jpeg (httpd_context,
+						       node_info, dyn_info);
+			}
+		      lw6nod_dyn_info_free (dyn_info);
 		    }
-		  if (!strcmp (request->uri, _SCREENSHOT_JPEG))
+		  else
 		    {
-		      response =
-			_response_screenshot_jpeg (httpd_context, node_info,
-						   dyn_info);
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _("unable to duplicate dyn_info"));
 		    }
-		  lw6nod_dyn_info_free (dyn_info);
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("unable to duplicate dyn_info"));
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_INFO_TXT))
+		    {
+		      response =
+			_response_info_txt (httpd_context, node_info);
+		    }
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_LIST_TXT))
+		    {
+		      response =
+			_response_list_txt (httpd_context, node_info);
+		    }
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_PING_TXT))
+		    {
+		      response =
+			_response_ping_txt (httpd_context, node_info);
+		    }
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROBOTS_TXT))
+		    {
+		      response =
+			_mod_httpd_response_from_str (httpd_context,
+						      _MOD_HTTPD_STATUS_200,
+						      0, 0, NULL,
+						      httpd_context->data.
+						      consts.content_type_txt,
+						      httpd_context->data.
+						      htdocs.robots_txt);
+		    }
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_GPL_TXT))
+		    {
+		      response =
+			_mod_httpd_response_from_str (httpd_context,
+						      _MOD_HTTPD_STATUS_200,
+						      0, 0, NULL,
+						      httpd_context->data.
+						      consts.content_type_txt,
+						      httpd_context->data.
+						      htdocs.gpl_txt);
+		    }
+		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_FAVICON_ICO))
+		    {
+		      response =
+			_mod_httpd_response_from_bin (httpd_context,
+						      _MOD_HTTPD_STATUS_200,
+						      0, 0, NULL,
+						      httpd_context->data.
+						      consts.content_type_txt,
+						      httpd_context->data.
+						      htdocs.favicon_ico_size,
+						      httpd_context->data.
+						      htdocs.favicon_ico_data);
+		    }
 		}
 	    }
 	  else
 	    {
-	      if (!strcmp (request->uri, _INFO_TXT))
-		{
-		  response = _response_info_txt (httpd_context, node_info);
-		}
-	      if (!strcmp (request->uri, _LIST_TXT))
-		{
-		  response = _response_list_txt (httpd_context, node_info);
-		}
-	      if (!strcmp (request->uri, _PING_TXT))
-		{
-		  response = _response_ping_txt (httpd_context, node_info);
-		}
-	      if (!strcmp (request->uri, _ROBOTS_TXT))
-		{
-		  response =
-		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0, 0,
-						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.robots_txt);
-		}
-	      if (!strcmp (request->uri, _GPL_TXT))
-		{
-		  response =
-		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0, 0,
-						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.gpl_txt);
-		}
-	      if (!strcmp (request->uri, _FAVICON_ICO))
-		{
-		  response =
-		    _mod_httpd_response_from_bin (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 0, 0,
-						  NULL,
-						  httpd_context->data.
-						  consts.content_type_txt,
-						  httpd_context->data.
-						  htdocs.favicon_ico_size,
-						  httpd_context->data.
-						  htdocs.favicon_ico_data);
-		}
+	      response =
+		_mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_401);
 	    }
 	}
       if (request->get_head_post == _MOD_HTTPD_POST)

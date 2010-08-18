@@ -177,13 +177,6 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 	  now_str = lw6sys_date_rfc1123 (0);
 	  if (now_str)
 	    {
-	      line = lw6sys_new_sprintf ("Date: %s", now_str);
-	      if (line)
-		{
-		  lw6net_send_line_tcp (sock, line);
-		  LW6SYS_FREE (line);
-		  line = NULL;
-		}
 	      line =
 		lw6sys_new_sprintf ("Server: %s",
 				    lw6sys_build_get_package_string ());
@@ -192,6 +185,26 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 		  lw6net_send_line_tcp (sock, line);
 		  LW6SYS_FREE (line);
 		  line = NULL;
+		}
+	      line = lw6sys_new_sprintf ("Date: %s", now_str);
+	      if (line)
+		{
+		  lw6net_send_line_tcp (sock, line);
+		  LW6SYS_FREE (line);
+		  line = NULL;
+		}
+	      if (status == _MOD_HTTPD_STATUS_401)
+		{
+		  line =
+		    lw6sys_new_sprintf
+		    ("WWW-Authenticate: Basic realm=\"%s\"",
+		     lw6sys_build_get_package_string ());
+		  if (line)
+		    {
+		      lw6net_send_line_tcp (sock, line);
+		      LW6SYS_FREE (line);
+		      line = NULL;
+		    }
 		}
 	      line = lw6sys_new_sprintf ("Last-Modified: %s", now_str);
 	      if (line)

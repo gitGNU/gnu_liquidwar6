@@ -29,6 +29,8 @@
 
 #define _ERROR_FIRST_LINE "ERROR"
 #define _ERROR_URI "error"
+#define _HTTP_AUTHORIZATION "Authorization"
+#define _HTTP_BASIC "Basic"
 
 static int
 _parse_first_line (_httpd_request_t * request)
@@ -38,23 +40,20 @@ _parse_first_line (_httpd_request_t * request)
   char *seek = NULL;
   char seek_c = '\0';
 
-  if (!strncmp
-      (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
-       _MOD_HTTPD_PROTOCOL_GET_SIZE))
+  if (lw6sys_str_starts_with
+      (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
-  if (!strncmp
-      (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING,
-       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+  if (lw6sys_str_starts_with
+      (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
-  if (!strncmp
-      (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING,
-       _MOD_HTTPD_PROTOCOL_POST_SIZE))
+  if (lw6sys_str_starts_with
+      (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
@@ -96,7 +95,60 @@ _parse_first_line (_httpd_request_t * request)
   if (request->uri)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("REQUEST_URI=\"%s\""), request->uri);
+      if (!strcmp (request->uri, _MOD_HTTPD_OOB_PING_TXT))
+	{
+	  request->password_ok = 1;
+	}
       ret = 1;
+    }
+
+  return ret;
+}
+
+static int
+_parse_header (_httpd_request_t * request, char *line, char *public_url,
+	       char *password)
+{
+  int ret = 0;
+  char *basic = NULL;
+  char *seek = NULL;
+  char *clear_authorization = NULL;
+  char *double_dot = NULL;
+  char *received_password = NULL;
+
+  if (lw6sys_str_starts_with (line, _HTTP_AUTHORIZATION))
+    {
+      if (password && strlen (password))
+	{
+	  basic = strstr (line, _HTTP_BASIC);
+	  if (basic)
+	    {
+	      seek = basic + strlen (_HTTP_BASIC);
+	      while (lw6sys_chr_is_space (*seek))
+		{
+		  seek++;
+		}
+	      clear_authorization = lw6glb_base64_decode_str (seek);
+	      if (clear_authorization)
+		{
+		  double_dot = strrchr (clear_authorization, ':');
+		  if (double_dot)
+		    {
+		      received_password = double_dot + 1;
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("received HTTP password \"%s\""),
+				  received_password);
+		    }
+		  LW6SYS_FREE (clear_authorization);
+		}
+	    }
+	  if (public_url && received_password)
+	    {
+	      request->password_ok =
+		lw6sys_password_verify (public_url, password,
+					received_password);
+	    }
+	}
     }
 
   return ret;
@@ -104,6 +156,7 @@ _parse_first_line (_httpd_request_t * request)
 
 _httpd_request_t *
 _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
+			      lw6nod_info_t * node_info,
 			      lw6srv_oob_data_t * oob_data)
 {
   _httpd_request_t *request = NULL;
@@ -123,6 +176,12 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
 	    {
 	      if (_parse_first_line (request))
 		{
+		  if (!node_info->const_info.password
+		      || (node_info->const_info.password
+			  && strlen (node_info->const_info.password) == 0))
+		    {
+		      request->password_ok = 1;
+		    }
 		  while ((!eof)
 			 && _mod_httpd_oob_should_continue (httpd_context,
 							    oob_data))
@@ -130,10 +189,15 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
 		      line = lw6net_recv_line_tcp (oob_data->sock);
 		      if (line)
 			{
-			  // here should check for Authentication
 			  if (strlen (line) == 0)
 			    {
 			      eof = 1;
+			    }
+			  else
+			    {
+			      _parse_header (request, line,
+					     node_info->const_info.url,
+					     node_info->const_info.password);
 			    }
 			  LW6SYS_FREE (line);
 			}
