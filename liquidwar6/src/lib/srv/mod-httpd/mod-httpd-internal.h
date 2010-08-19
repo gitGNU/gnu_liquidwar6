@@ -75,6 +75,7 @@ typedef struct _httpd_consts_s
   char *error_404;
   char *error_405;
   char *error_500;
+  char *auth_realm;
 }
 _httpd_consts_t;
 

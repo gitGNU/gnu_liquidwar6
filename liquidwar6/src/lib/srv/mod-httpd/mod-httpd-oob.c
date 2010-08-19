@@ -128,7 +128,7 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    node_info->const_info.title,
 				    node_info->const_info.id,
 				    lw6sys_build_get_copyright (),
-				    lw6sys_build_get_package_string (),
+				    lw6sys_build_get_package_name (),
 				    /*
 				     * Variables for JavaScript use
 				     */

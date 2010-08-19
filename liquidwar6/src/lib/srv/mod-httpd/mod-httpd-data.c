@@ -75,6 +75,8 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
       lw6cfg_read_xml_string (key, value, "error-404", &(consts->error_404));
       lw6cfg_read_xml_string (key, value, "error-405", &(consts->error_405));
       lw6cfg_read_xml_string (key, value, "error-500", &(consts->error_500));
+      lw6cfg_read_xml_string (key, value, "auth-realm",
+			      &(consts->auth_realm));
     }
 }
 
@@ -93,7 +95,8 @@ _load_consts (_httpd_consts_t * consts, char *consts_file)
       ret = consts->http_version && consts->content_type_html
 	&& consts->content_type_txt && consts->content_type_jpeg
 	&& consts->content_type_ico && consts->error_401 && consts->error_403
-	&& consts->error_404 && consts->error_405 && consts->error_500;
+	&& consts->error_404 && consts->error_405 && consts->error_500
+	&& consts->auth_realm;
     }
 
   return ret;
@@ -221,6 +224,10 @@ _unload_consts (_httpd_consts_t * consts)
   if (consts->error_500)
     {
       LW6SYS_FREE (consts->error_500);
+    }
+  if (consts->auth_realm)
+    {
+      LW6SYS_FREE (consts->auth_realm);
     }
   memset (consts, 0, sizeof (_httpd_consts_t));
 

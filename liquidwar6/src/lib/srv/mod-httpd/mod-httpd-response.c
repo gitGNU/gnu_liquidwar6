@@ -198,7 +198,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 		  line =
 		    lw6sys_new_sprintf
 		    ("WWW-Authenticate: Basic realm=\"%s\"",
-		     lw6sys_build_get_package_name ());
+		     httpd_context->data.consts.auth_realm);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sock, line);

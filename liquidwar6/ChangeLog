@@ -1,3 +1,7 @@
+2010-08-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Auth realm now set from resources.
+
 2010-08-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implemented http basic authentication (server side).

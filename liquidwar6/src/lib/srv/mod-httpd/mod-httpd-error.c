@@ -71,7 +71,7 @@ _mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
 				lw6sys_build_get_copyright (),
 				lw6sys_build_get_package_name (), status,
 				status_text,
-				lw6sys_build_get_package_string (), date_str);
+				lw6sys_build_get_package_name (), date_str);
 	  if (content)
 	    {
 	      response =

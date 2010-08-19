@@ -12,9 +12,10 @@
   <string key="content-type-txt" value="text/plain; charset=UTF-8" />
   <string key="content-type-jpeg" value="image/jpeg" />
   <string key="content-type-ico" value="image/x-icon" />
-  <string key="error-401" value="Unauthorized" />
+  <string key="error-401" value="Authorization Required" />
   <string key="error-403" value="Forbidden" />
   <string key="error-404" value="Not Found" />
   <string key="error-405" value="Method Not Allowed" />
   <string key="error-500" value="Internal Server Error" />
+  <string key="auth-realm" value="Liquid War 6" />
 </liquidwar6>
