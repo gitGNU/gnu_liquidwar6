@@ -239,7 +239,6 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   char *pos_lf;
   char *line_buf = NULL;
   char *seek = NULL;
-  int one_lf_found = 0;
   int no_lf_at_very_end = 0;
 
   if (sock >= 0)

@@ -164,7 +164,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		      LW6SYS_FREE (response);
 		      LW6SYS_FREE (incoming_ip);
 		    }
-		  lw6sys_idle ();
+		  lw6sys_delay (_MOD_UDP_PING_DELAY);
 		}
 	    }
 	  LW6SYS_FREE (request);

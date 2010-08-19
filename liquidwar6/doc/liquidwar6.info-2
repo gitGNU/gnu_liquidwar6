@@ -3637,6 +3637,27 @@ C interfaces:
      *Return value:*  a dynamically allocated string with the content
      received. The tailing (CR)/LF is stripped.
 
+ -- Function: lw6sys_list_t * lw6net_recv_lines_udp (int SOCK, char **
+          INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  the socket descriptor
+
+     INCOMING_IP:  the IP address of the sender (returned)
+
+     INCOMING_PORT:  the IP port of the sender (returned)
+
+     Receives several lines terminated by LF ("\n", chr(10)) or CR/LF
+     ("\r\n", chr(10)chr(13)) on a UDP socket, that is, datagram
+     oriented. If there's no complete line available, function returns
+     immediately with NULL. Same if socket is closed, broken, whatever.
+     Only if there's something consistent will the function return
+     non-NULL.  By-value parameters allow the caller to know where the
+     data come from. This variant of `lw6net_recv_line_tcp' will return
+     a list of lines, this is mandatory since in UDP we can't call recv
+     several times.
+
+     *Return value:*  a list of dynamically allocated strings.  The
+     tailing (CR)/LF is stripped from strings.
+
  -- Function: int lw6net_send_line_udp (int SOCK, char * LINE, char *
           IP, int PORT)
      SOCK:  the socket descriptor
@@ -3920,7 +3941,9 @@ C interfaces:
      *Return value:*  the default database name, need not (must not) be
      freed.
 
- -- Function: int lw6p2p_db_now ()
+ -- Function: int _lw6p2p_db_now (_lw6p2p_db_t * DB)
+     DB:  the db object concerned (used to calculate time origin)
+
      Returns a timestamp suitable for db usage. The reason we don't use
      regular timestamps is that they are 1) too accurate (msec is
      useless for what's involved here) and 2) too big and likely to be
@@ -4404,12 +4427,14 @@ C interfaces:
 --------------
 
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
-          REMOTE_PORT, int SOCK)
+          REMOTE_PORT, int SOCK, char * FIRST_LINE)
      REMOTE_IP:  remote IP address
 
      REMOTE_PORT:  remote port
 
      SOCK:  the socket handler (either TCP or UDP)
+
+     FIRST_LINE:  the first line of data (can be NULL)
 
      Create a new OOB structure, copying required objects.  We need to
      make copies for this is for usage in a separate thread. The thread
@@ -4456,12 +4481,12 @@ C interfaces:
  -- Function: lw6srv_udp_buffer_t * lw6srv_udp_buffer_new (char *
           CLIENT_IP, int CLIENT_PORT, char * LINE)
      CLIENT_IP:  the client ip, will be freed when object is freed, do
-     not copy it
+     not free it
 
      CLIENT_PORT:  the client port
 
      LINE:  the line received, will be freed when object is freed, do
-     not copy it
+     not free it
 
      Creates an udp_buffer object.
 

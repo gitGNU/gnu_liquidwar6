@@ -28,6 +28,7 @@
 #define _MOD_UDP_TIMEOUT 20
 #define _MOD_UDP_BROADCAST_TIMEOUT 3
 #define _MOD_UDP_BROADCAST_DELAY 500
+#define _MOD_UDP_PING_DELAY 200
 
 typedef struct _udp_context_s
 {
