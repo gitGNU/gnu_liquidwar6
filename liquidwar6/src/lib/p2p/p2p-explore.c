@@ -69,6 +69,9 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
+  _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
+  int i;
+  char *broadcast_url = NULL;
 
   if (node->known_nodes)
     {
@@ -80,8 +83,54 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	}
     }
 
-  // todo: let all backends try & discover things
-  ret = 1;
+  broadcast_url =
+    lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_ANY, node->bind_port);
+  if (broadcast_url)
+    {
+      for (i = 0; i < node->nb_cli_backends; ++i)
+	{
+	  cli_oob =
+	    _lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+					       node, broadcast_url);
+	  if (cli_oob)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("process cli_oob (broadcast) url=\"%s\""),
+			  broadcast_url);
+	      cli_oob->cli_oob->thread =
+		lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
+				      cli_oob);
+	      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+	    }
+	}
+      LW6SYS_FREE (broadcast_url);
+    }
+  if (node->bind_port != LW6NET_DEFAULT_PORT)
+    {
+      broadcast_url =
+	lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_ANY,
+				      LW6NET_DEFAULT_PORT);
+      if (broadcast_url)
+	{
+	  for (i = 0; i < node->nb_cli_backends; ++i)
+	    {
+	      cli_oob =
+		_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+						   node, broadcast_url);
+	      if (cli_oob)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("process cli_oob (broadcast) url=\"%s\""),
+			      broadcast_url);
+		  cli_oob->cli_oob->thread =
+		    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
+					  cli_oob);
+		  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+		}
+	    }
+	  LW6SYS_FREE (broadcast_url);
+	}
+    }
 
   return ret;
 }

@@ -255,9 +255,9 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
+		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _
-				  ("node url=\"%s\" id=\"%s\" is local, not updating"),
+				  ("node url=\"%s\" id=\"%s\" is local, not updating, this should only happen when several nodes share the same db"),
 				  url, node->node_id_str);
 		    }
 		  if (remote_version)

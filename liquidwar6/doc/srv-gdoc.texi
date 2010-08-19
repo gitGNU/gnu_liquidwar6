@@ -1,9 +1,11 @@
-@deftypefun {lw6srv_oob_t *} {lw6srv_oob_new} (char * @var{remote_ip}, int @var{remote_port}, int @var{sock})
+@deftypefun {lw6srv_oob_t *} {lw6srv_oob_new} (char * @var{remote_ip}, int @var{remote_port}, int @var{sock}, char * @var{first_line})
 @var{remote_ip}:  remote IP address
 
 @var{remote_port}:  remote port
 
 @var{sock}:  the socket handler (either TCP or UDP)
+
+@var{first_line}:  the first line of data (can be NULL)
 
 Create a new OOB structure, copying required objects.
 We need to make copies for this is for usage in a 
@@ -51,11 +53,11 @@ Runs the @code{srv} module test suite.
 @end deftypefun
 
 @deftypefun {lw6srv_udp_buffer_t *} {lw6srv_udp_buffer_new} (char * @var{client_ip}, int @var{client_port}, char * @var{line})
-@var{client_ip}:  the client ip, will be freed when object is freed, do not copy it
+@var{client_ip}:  the client ip, will be freed when object is freed, do not free it
 
 @var{client_port}:  the client port
 
-@var{line}:  the line received, will be freed when object is freed, do not copy it
+@var{line}:  the line received, will be freed when object is freed, do not free it
 
 Creates an udp_buffer object.
 

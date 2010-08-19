@@ -46,12 +46,16 @@ _mod_udp_is_alive (_udp_context_t * udp_context,
 }
 
 int
-_mod_udp_timeout_ok (_udp_context_t * udp_context, int64_t origin_timestamp)
+_mod_udp_timeout_ok (_udp_context_t * udp_context, int64_t origin_timestamp,
+		     int broadcast)
 {
   int ret = 0;
   int d = 0;
 
-  d = origin_timestamp + (_MOD_UDP_TIMEOUT * 1000) - lw6sys_get_timestamp ();
+  d =
+    origin_timestamp +
+    ((broadcast ? _MOD_UDP_BROADCAST_TIMEOUT : _MOD_UDP_TIMEOUT) * 1000) -
+    lw6sys_get_timestamp ();
   ret = (d > 0);
 
   return ret;

@@ -288,40 +288,56 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      ip = lw6net_dns_gethostbyname (parsed_url->host);
-      if (ip)
+      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_ANY))
 	{
-	  if (_mod_tcp_oob_should_continue (tcp_context, oob_data, -1))
+	  // no broadcast in TCP
+	  ret = 1;
+	}
+      else
+	{
+	  ip = lw6net_dns_gethostbyname (parsed_url->host);
+	  if (ip)
 	    {
-	      if (_do_ping
-		  (tcp_context, node_info, oob_data,
-		   oob_data->public_url, parsed_url, ip))
+	      if (_mod_tcp_oob_should_continue (tcp_context, oob_data, -1))
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_tcp client PING on node \"%s\" OK"),
-			      oob_data->public_url);
-		  if (_do_info
-		      (tcp_context, node_info, oob_data, oob_data->public_url,
-		       parsed_url, ip))
+		  if (_do_ping
+		      (tcp_context, node_info, oob_data,
+		       oob_data->public_url, parsed_url, ip))
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_tcp client INFO on node \"%s\" OK"),
+				  _("mod_tcp client PING on node \"%s\" OK"),
 				  oob_data->public_url);
-		      if (_do_list
+		      if (_do_info
 			  (tcp_context, node_info, oob_data,
 			   oob_data->public_url, parsed_url, ip))
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
-				      ("mod_tcp client LIST on node \"%s\" OK"),
+				      ("mod_tcp client INFO on node \"%s\" OK"),
 				      oob_data->public_url);
-			  ret = 1;
+			  if (_do_list
+			      (tcp_context, node_info, oob_data,
+			       oob_data->public_url, parsed_url, ip))
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _
+					  ("mod_tcp client LIST on node \"%s\" OK"),
+					  oob_data->public_url);
+			      ret = 1;
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _
+					  ("mod_tcp client LIST on node \"%s\" failed"),
+					  oob_data->public_url);
+			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
-				      ("mod_tcp client LIST on node \"%s\" failed"),
+				      ("mod_tcp client INFO on node \"%s\" failed"),
 				      oob_data->public_url);
 			}
 		    }
@@ -329,23 +345,18 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _
-				  ("mod_tcp client INFO on node \"%s\" failed"),
+				  ("mod_tcp client PING on node \"%s\" failed"),
 				  oob_data->public_url);
 		    }
 		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_tcp client PING on node \"%s\" failed"),
-			      oob_data->public_url);
-		}
+	      LW6SYS_FREE (ip);
 	    }
-	  LW6SYS_FREE (ip);
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("unable to resolve host \"%s\""), parsed_url->host);
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _("unable to resolve host \"%s\""),
+			  parsed_url->host);
+	    }
 	}
       lw6sys_url_free (parsed_url);
     }

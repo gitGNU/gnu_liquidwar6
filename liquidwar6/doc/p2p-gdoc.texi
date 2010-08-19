@@ -50,7 +50,8 @@ not an absolute path, will be appended to user dir).
 @strong{Return value:}  the default database name, need not (must not) be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6p2p_db_now} ()
+@deftypefun {int} {_lw6p2p_db_now} (_lw6p2p_db_t * @var{db})
+@var{db}:  the db object concerned (used to calculate time origin)
 
 Returns a timestamp suitable for db usage. The reason we don't use
 regular timestamps is that they are 1) too accurate (msec is useless

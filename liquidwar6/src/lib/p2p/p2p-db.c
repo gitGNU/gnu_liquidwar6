@@ -592,7 +592,7 @@ _lw6p2p_db_now (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  ret = lw6sys_get_timestamp () - db->t0;
+  ret = (lw6sys_get_timestamp () - db->t0) / 1000;
 
   return ret;
 }

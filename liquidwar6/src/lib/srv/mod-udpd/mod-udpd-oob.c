@@ -114,7 +114,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
     {
       if (response)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _("sending OOB response \"%s\" on UDP to %s:%d"),
 		      response, oob_data->remote_ip, oob_data->remote_port);
 	  lw6net_udp_send (oob_data->sock, response, strlen (response),

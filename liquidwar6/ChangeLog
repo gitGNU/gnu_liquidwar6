@@ -1,5 +1,9 @@
 2010-08-19 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Implemented UDP INFO/LIST OOB.
+
+	* UDP node discovery via broadcast works.
+
 	* Started to implement UDP messages, PING/PONG works.
 
 	* Auth realm now set from resources.

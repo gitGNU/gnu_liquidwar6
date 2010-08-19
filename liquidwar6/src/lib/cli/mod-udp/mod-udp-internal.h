@@ -26,6 +26,8 @@
 #include "../cli.h"
 
 #define _MOD_UDP_TIMEOUT 20
+#define _MOD_UDP_BROADCAST_TIMEOUT 3
+#define _MOD_UDP_BROADCAST_DELAY 500
 
 typedef struct _udp_context_s
 {
@@ -55,7 +57,7 @@ extern void _mod_udp_close (_udp_context_t * udp_context,
 extern int _mod_udp_is_alive (_udp_context_t * udp_context,
 			      lw6cli_connection_t * connection);
 extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
-				int64_t origin_timestamp);
+				int64_t origin_timestamp, int broadcast);
 
 /*
  * In message.c
@@ -81,6 +83,7 @@ extern int _mod_udp_process_oob (_udp_context_t * udp_context,
 				 lw6cli_oob_data_t * oob_data);
 extern int
 _mod_udp_oob_should_continue (_udp_context_t *
-			      udp_context, lw6cli_oob_data_t * oob_data);
+			      udp_context, lw6cli_oob_data_t * oob_data,
+			      int broadcast);
 
 #endif

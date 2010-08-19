@@ -572,7 +572,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node)
 		lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
 	      if (line)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _("UDP connection from %s:%d"), ip2, port2);
 		  udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
 		  if (udp_buffer)

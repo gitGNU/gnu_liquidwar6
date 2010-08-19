@@ -40,6 +40,8 @@
 #define TEST_LINE1 "foo"
 #define TEST_LINE2 "a\tb\tc"
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
+#define TEST_LINES_OK "there\nare\n4\nlines\n"
+#define TEST_LINES_KO "this\nis\ntruncated"
 
 static int
 test_dns ()
@@ -475,6 +477,14 @@ test_udp ()
   return ret;
 }
 
+void
+_udp_lines_callback (void *func_data, void *data)
+{
+  char *line = (char *) data;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("line=\"%s\""), line);
+}
+
 /*
  * Testing functions in line.c
  */
@@ -542,6 +552,7 @@ test_line ()
     char *line;
     char *incoming_ip;
     int incoming_port;
+    lw6sys_list_t *list = NULL;
 
     if (prepare_2_udp_socks (&sock1, &sock2))
       {
@@ -556,6 +567,7 @@ test_line ()
 				     LW6NET_DEFAULT_PORT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_idle ();
 	    ret_tmp = 1;
 	    for (i = 0; i < 4; ++i)
 	      {
@@ -580,6 +592,44 @@ test_line ()
 			ret_tmp = 0;
 		      }
 		  }
+	      }
+	  }
+	if (lw6net_udp_send
+	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_OK),
+	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_idle ();
+	    list =
+	      lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
+	    if (list)
+	      {
+		lw6sys_list_map (list, _udp_lines_callback, NULL);
+		lw6sys_list_free (list);
+		LW6SYS_FREE (incoming_ip);
+	      }
+	  }
+	if (lw6net_udp_send
+	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_KO),
+	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_idle ();
+	    list =
+	      lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
+	    if (list)
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("received lines, when it should have returned an error"));
+		ret_tmp = 0;
+		lw6sys_list_free (list);
+		LW6SYS_FREE (incoming_ip);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("truncated lines handled correctly"));
 	      }
 	  }
       }

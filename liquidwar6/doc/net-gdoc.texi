@@ -104,6 +104,28 @@ data come from.
 content received. The tailing (CR)/LF is stripped.
 @end deftypefun
 
+@deftypefun {lw6sys_list_t *} {lw6net_recv_lines_udp} (int @var{sock}, char ** @var{incoming_ip}, int * @var{incoming_port})
+@var{sock}:  the socket descriptor
+
+@var{incoming_ip}:  the IP address of the sender (returned)
+
+@var{incoming_port}:  the IP port of the sender (returned)
+
+Receives several lines terminated by LF ("\n", chr(10)) or
+CR/LF ("\r\n", chr(10)chr(13)) on a UDP socket, that is,
+datagram oriented. If there's no complete line
+available, function returns immediately with NULL. Same
+if socket is closed, broken, whatever. Only if there's
+something consistent will the function return non-NULL.
+By-value parameters allow the caller to know where the
+data come from. This variant of @code{lw6net_recv_line_tcp} will
+return a list of lines, this is mandatory since in UDP
+we can't call recv several times. 
+
+@strong{Return value:}  a list of dynamically allocated strings.
+The tailing (CR)/LF is stripped from strings.
+@end deftypefun
+
 @deftypefun {int} {lw6net_send_line_udp} (int @var{sock}, char * @var{line}, char * @var{ip}, int @var{port})
 @var{sock}:  the socket descriptor
 

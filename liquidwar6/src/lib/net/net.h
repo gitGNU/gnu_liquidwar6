@@ -49,6 +49,9 @@ extern char *lw6net_recv_line_tcp (int sock);
 extern int lw6net_send_line_tcp (int sock, char *line);
 extern char *lw6net_recv_line_udp (int sock,
 				   char **incoming_ip, int *incoming_port);
+extern lw6sys_list_t *lw6net_recv_lines_udp (int sock,
+					     char **incoming_ip,
+					     int *incoming_port);
 extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
 
 /*

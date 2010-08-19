@@ -28,28 +28,34 @@
 
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
-#define _TEST_DB_NAME "test.db"
+#define _TEST_DB_NAME12 "p2p.test.12"
+#define _TEST_DB_NAME34 "p2p.test.34"
 #define _TEST_NODE_BIND_IP "0.0.0.0"
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
 #define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
+#define _TEST_NODE_BIND_PORT4 (LW6NET_DEFAULT_PORT + 14)
 #define _TEST_NODE_NODE_ID1 0x1234123412341234LL
 #define _TEST_NODE_NODE_ID2 0x2345234523452345LL
 #define _TEST_NODE_NODE_ID3 0x3456345634563456LL
+#define _TEST_NODE_NODE_ID4 0x4567456745674567LL
 /*
  * following depends on LW6NET_DEFAULT_PORT
  */
 #define _TEST_NODE_PUBLIC_URL1 "http://localhost:8067/"
 #define _TEST_NODE_PUBLIC_URL2 "http://localhost:8068/"
 #define _TEST_NODE_PUBLIC_URL3 "http://localhost:8069/"
+#define _TEST_NODE_PUBLIC_URL4 "http://localhost:8070/"
 #define _TEST_NODE_PASSWORD "toto"
 #define _TEST_NODE_TITLE "This is a node"
 #define _TEST_NODE_DESCRIPTION "This is the description of a node."
 #define _TEST_NODE_BENCH 10
-#define _TEST_NODE_KNOWN_NODES "http://ufoot.org:8056/"
+#define _TEST_NODE_KNOWN_NODES1 "http://localhost:8068/"
+#define _TEST_NODE_KNOWN_NODES2 "http://localhost:8069/"
+#define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
+#define _TEST_NODE_KNOWN_NODES4 "http://localhost:8067/"
 
-#define TEST_POLL_LOOPS 1000
-#define TEST_POLL_DELAY 10
+#define TEST_POLL_DURATION 15000
 
 /* 
  * Testing db
@@ -69,9 +75,9 @@ _test_db ()
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_
 		("default database name is \"%s\" but we use \"%s\" for some tests"),
-		lw6p2p_db_default_name (), _TEST_DB_NAME);
+		lw6p2p_db_default_name (), _TEST_DB_NAME12);
 
-    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME);
+    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
       {
 	repr = lw6p2p_db_repr (db);
@@ -88,7 +94,7 @@ _test_db ()
 	ret = 0;
       }
 
-    if (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME))
+    if (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("deleted db"));
       }
@@ -119,7 +125,7 @@ _test_node_init ()
     lw6p2p_node_t *node = NULL;
     char *repr = NULL;
 
-    db = lw6p2p_db_open (argc, argv, lw6p2p_db_default_name ());
+    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
     if (db)
       {
 	node =
@@ -128,7 +134,7 @@ _test_node_init ()
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
 			   _TEST_NODE_PUBLIC_URL1, NULL, _TEST_NODE_TITLE,
 			   _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
-			   _TEST_NODE_KNOWN_NODES);
+			   _TEST_NODE_KNOWN_NODES1);
 	if (node)
 	  {
 	    repr = lw6p2p_node_repr (node);
@@ -164,75 +170,135 @@ _test_node_init ()
  * Initializes up to 3 nodes
  */
 static int
-_init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
+_init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
+	     lw6p2p_node_t ** node2, lw6p2p_node_t ** node3,
+	     lw6p2p_node_t ** node4)
 {
   int argc = _TEST_ARGC;
   char *argv[] = { _TEST_ARGV0 };
   char *repr = NULL;
   int ret = 0;
 
-  if (node1)
+  if (db12)
     {
-      (*node1) =
-	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
-			 _TEST_NODE_PUBLIC_URL1, _TEST_NODE_PASSWORD,
-			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
-      if (*node1)
+      lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12);
+      (*db12) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+      if (*db12)
 	{
-	  repr = lw6p2p_node_repr (*node1);
+	  repr = lw6p2p_db_repr (*db12);
 	  if (repr)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created node1 \"%s\""), repr);
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
 	    }
 	}
     }
-
-  if (node2)
+  if (db34)
     {
-      (*node2) =
-	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
-			 _TEST_NODE_PUBLIC_URL2, _TEST_NODE_PASSWORD,
-			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
-      if (*node2)
+      lw6p2p_db_reset (argc, argv, _TEST_DB_NAME34);
+      (*db34) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME34);
+      if (*db34)
 	{
-	  repr = lw6p2p_node_repr (*node2);
+	  repr = lw6p2p_db_repr (*db34);
 	  if (repr)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created node2 \"%s\""), repr);
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
 	    }
 	}
     }
-
-  if (node3)
+  if (db12 && (*db12))
     {
-      (*node3) =
-	lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
-			 lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			 _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
-			 _TEST_NODE_PUBLIC_URL3, _TEST_NODE_PASSWORD,
-			 _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
-			 _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES);
-      if (*node3)
+      if (node1)
 	{
-	  repr = lw6p2p_node_repr (*node3);
-	  if (repr)
+	  (*node1) =
+	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
+			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			     _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
+			     _TEST_NODE_PUBLIC_URL1, _TEST_NODE_PASSWORD,
+			     _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES1);
+	  if (*node1)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created node3 \"%s\""), repr);
-	      LW6SYS_FREE (repr);
+	      repr = lw6p2p_node_repr (*node1);
+	      if (repr)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node1 \"%s\""),
+			      repr);
+		  LW6SYS_FREE (repr);
+		}
+	    }
+	}
+
+      if (node2)
+	{
+	  (*node2) =
+	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
+			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			     _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
+			     _TEST_NODE_PUBLIC_URL2, _TEST_NODE_PASSWORD,
+			     _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES2);
+	  if (*node2)
+	    {
+	      repr = lw6p2p_node_repr (*node2);
+	      if (repr)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node2 \"%s\""),
+			      repr);
+		  LW6SYS_FREE (repr);
+		}
+	    }
+	}
+    }
+  if (db34 && (*db34))
+    {
+      if (node3)
+	{
+	  (*node3) =
+	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
+			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			     _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
+			     _TEST_NODE_PUBLIC_URL3, _TEST_NODE_PASSWORD,
+			     _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES3);
+	  if (*node3)
+	    {
+	      repr = lw6p2p_node_repr (*node3);
+	      if (repr)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node3 \"%s\""),
+			      repr);
+		  LW6SYS_FREE (repr);
+		}
+	    }
+	}
+
+      if (node4)
+	{
+	  (*node4) =
+	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
+			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			     _TEST_NODE_BIND_PORT4, _TEST_NODE_NODE_ID4,
+			     _TEST_NODE_PUBLIC_URL4, _TEST_NODE_PASSWORD,
+			     _TEST_NODE_TITLE, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES4);
+	  if (*node4)
+	    {
+	      repr = lw6p2p_node_repr (*node4);
+	      if (repr)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node4 \"%s\""),
+			      repr);
+		  LW6SYS_FREE (repr);
+		}
 	    }
 	}
     }
 
   if (((!node1) || (node1 && *node1))
-      && ((!node2) || (node2 && *node2)) && ((!node3) || (node3 && *node3)))
+      && ((!node2) || (node2 && *node2)) && ((!node3) || (node3 && *node3))
+      && ((!node4) || (node4 && *node4)))
     {
       ret = 1;
     }
@@ -241,18 +307,71 @@ _init_nodes (lw6p2p_db_t * db, void **node1, void **node2, void **node3)
       if (node1 && *node1)
 	{
 	  lw6p2p_node_free (*node1);
+	  (*node1) = NULL;
 	}
-      if (*node2 && *node2)
+      if (node2 && *node2)
 	{
 	  lw6p2p_node_free (*node2);
+	  (*node2) = NULL;
 	}
-      if (*node3 && *node3)
+      if (node3 && *node3)
 	{
 	  lw6p2p_node_free (*node3);
+	  (*node3) = NULL;
+	}
+      if (node4 && *node4)
+	{
+	  lw6p2p_node_free (*node4);
+	  (*node4) = NULL;
+	}
+      if (db12 && *db12)
+	{
+	  lw6p2p_db_close (*db12);
+	  (*db12) = NULL;
+	}
+      if (db34 && *db34)
+	{
+	  lw6p2p_db_close (*db34);
+	  (*db34) = NULL;
 	}
     }
 
   return ret;
+}
+
+static void
+_quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_node_t * node1,
+	     lw6p2p_node_t * node2, lw6p2p_node_t * node3,
+	     lw6p2p_node_t * node4)
+{
+  if (node1)
+    {
+      lw6p2p_node_close (node1);
+      lw6p2p_node_free (node1);
+    }
+  if (node2)
+    {
+      lw6p2p_node_close (node2);
+      lw6p2p_node_free (node2);
+    }
+  if (node3)
+    {
+      lw6p2p_node_close (node3);
+      lw6p2p_node_free (node3);
+    }
+  if (node4)
+    {
+      lw6p2p_node_close (node4);
+      lw6p2p_node_free (node4);
+    }
+  if (db12)
+    {
+      lw6p2p_db_close (db12);
+    }
+  if (db34)
+    {
+      lw6p2p_db_close (db34);
+    }
 }
 
 /* 
@@ -265,43 +384,32 @@ _test_node_connect ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = _TEST_ARGC;
-    char *argv[] = { _TEST_ARGV0 };
-    lw6p2p_db_t *db = NULL;
-    int i;
-    void *node1 = NULL;
-    void *node2 = NULL;
-    void *node3 = NULL;
+    //int argc = _TEST_ARGC;
+    //char *argv[] = { _TEST_ARGV0 };
+    lw6p2p_db_t *db12 = NULL;
+    lw6p2p_db_t *db34 = NULL;
+    lw6p2p_node_t *node1 = NULL;
+    lw6p2p_node_t *node2 = NULL;
+    lw6p2p_node_t *node3 = NULL;
+    lw6p2p_node_t *node4 = NULL;
+    int64_t end_timestamp = 0;
 
-    db = lw6p2p_db_open (argc, argv, lw6p2p_db_default_name ());
-    if (db)
+    ret = 0;
+    end_timestamp = lw6sys_get_timestamp () + TEST_POLL_DURATION;
+    if (_init_nodes (&db12, &db34, &node1, &node2, &node3, &node4))
       {
-	ret = 0;
-	if (_init_nodes (db, &node1, &node2, &node3))
+	while (lw6sys_get_timestamp () < end_timestamp)
 	  {
-	    for (i = 0; i < TEST_POLL_LOOPS; ++i)
-	      {
-		lw6p2p_node_poll (node1);
-		lw6p2p_node_poll (node2);
-		lw6p2p_node_poll (node3);
-		lw6sys_delay (TEST_POLL_DELAY);
-	      }
-
-	    ret = 1;
-
-	    lw6p2p_node_close (node1);
-	    lw6p2p_node_free (node1);
-	    lw6p2p_node_close (node2);
-	    lw6p2p_node_free (node2);
-	    lw6p2p_node_close (node3);
-	    lw6p2p_node_free (node3);
+	    lw6p2p_node_poll (node1);
+	    lw6p2p_node_poll (node2);
+	    lw6p2p_node_poll (node3);
+	    lw6p2p_node_poll (node4);
+	    lw6sys_idle ();
 	  }
-	lw6p2p_db_close (db);
-      }
-    else
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
-	ret = 0;
+
+	ret = 1;
+
+	_quit_nodes (db12, db34, node1, node2, node3, node4);
       }
   }
 
