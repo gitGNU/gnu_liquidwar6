@@ -282,6 +282,7 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
   char *ip = NULL;
+
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _("process tcp oob url=\"%s\""), oob_data->public_url);
   parsed_url = lw6sys_url_parse (oob_data->public_url);

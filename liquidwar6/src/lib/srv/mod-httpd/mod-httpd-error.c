@@ -68,6 +68,8 @@ _mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
 	  content =
 	    lw6sys_new_sprintf (httpd_context->data.htdocs.error_html, status,
 				status_text, lw6sys_build_get_package_name (),
+				httpd_context->data.consts.header_description,
+				httpd_context->data.consts.header_keywords,
 				lw6sys_build_get_copyright (),
 				lw6sys_build_get_package_name (), status,
 				status_text,

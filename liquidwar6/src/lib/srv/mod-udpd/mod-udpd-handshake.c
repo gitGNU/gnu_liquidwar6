@@ -46,7 +46,15 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 {
   int ret = 0;
 
-  // todo
+  if (lw6sys_str_starts_with_no_case (udp_buffer->line,
+				      LW6MSG_OOB_PING)
+      || lw6sys_str_starts_with_no_case (udp_buffer->line,
+					 LW6MSG_OOB_INFO)
+      || lw6sys_str_starts_with_no_case (udp_buffer->line, LW6MSG_OOB_LIST))
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
+      ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+    }
 
   return ret;
 }

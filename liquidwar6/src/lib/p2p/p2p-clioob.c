@@ -115,7 +115,6 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 				      lw6sys_assoc_t * assoc)
 {
   int ret = 0;
-
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   char *remote_program = NULL;
   char *remote_version = NULL;
@@ -189,7 +188,7 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 				      (password_str,
 				       LW6MSG_YES)) ? _LW6P2P_DB_TRUE :
 			_LW6P2P_DB_FALSE;
-		      now = lw6p2p_db_now ();
+		      now = _lw6p2p_db_now (node->db);
 		      uptime =
 			lw6msg_utils_get_assoc_int_with_default (assoc,
 								 LW6MSG_OOB_UPTIME,

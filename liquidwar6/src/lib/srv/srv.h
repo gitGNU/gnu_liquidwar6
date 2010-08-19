@@ -82,6 +82,7 @@ typedef struct lw6srv_oob_data_s
   char *remote_ip;
   int remote_port;
   int sock;			// either TCP or UDP
+  char *first_line;
 }
 lw6srv_oob_data_t;
 
@@ -178,7 +179,7 @@ extern void lw6srv_stop (lw6srv_listener_t * listener);
 
 /* srv-oob.c */
 extern lw6srv_oob_t *lw6srv_oob_new (char *remote_ip, int remote_port,
-				     int sock);
+				     int sock, char *first_line);
 extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
 /*

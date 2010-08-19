@@ -126,7 +126,11 @@ _response_index_html (_httpd_context_t * httpd_context,
 				    consts.refresh_index_header,
 				    node_info->const_info.url,
 				    node_info->const_info.title,
-				    node_info->const_info.id,
+				    lw6sys_build_get_package_name (),
+				    httpd_context->data.
+				    consts.header_description,
+				    httpd_context->data.
+				    consts.header_keywords,
 				    lw6sys_build_get_copyright (),
 				    lw6sys_build_get_package_name (),
 				    /*

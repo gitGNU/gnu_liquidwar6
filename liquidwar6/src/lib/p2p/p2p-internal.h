@@ -114,6 +114,7 @@ typedef struct _lw6p2p_db_s
   _lw6p2p_data_t data;
   void *mutex;
   sqlite3 *handler;
+  int64_t t0;
 } _lw6p2p_db_t;
 
 typedef struct _lw6p2p_flush_s
@@ -201,6 +202,7 @@ extern int _lw6p2p_db_exec (_lw6p2p_db_t * db, char *sql,
 			    _lw6p2p_db_callback_t func, void *func_data);
 extern int _lw6p2p_db_create_database (_lw6p2p_db_t * db);
 extern int _lw6p2p_db_clean_database (_lw6p2p_db_t * db);
+extern int _lw6p2p_db_now (_lw6p2p_db_t * db);
 
 /* p2p-explore.c */
 extern int _lw6p2p_explore_discover_nodes_if_needed (_lw6p2p_node_t * node);
@@ -236,7 +238,7 @@ extern _lw6p2p_srv_oob_callback_data_t
   * _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
 				       lw6nod_info_t * node_info,
 				       char *remote_ip, int remote_port,
-				       int sock);
+				       int sock, char *first_line);
 extern void
 _lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t *
 				    srv_oob);

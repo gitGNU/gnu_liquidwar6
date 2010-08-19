@@ -30,7 +30,8 @@
 _lw6p2p_srv_oob_callback_data_t *
 _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
 				   lw6nod_info_t * node_info, char *remote_ip,
-				   int remote_port, int sock)
+				   int remote_port, int sock,
+				   char *first_line)
 {
   _lw6p2p_srv_oob_callback_data_t *ret = NULL;
 
@@ -41,7 +42,8 @@ _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
     {
       ret->backend = backend;
       ret->node_info = node_info;
-      ret->srv_oob = lw6srv_oob_new (remote_ip, remote_port, sock);
+      ret->srv_oob =
+	lw6srv_oob_new (remote_ip, remote_port, sock, first_line);
       if (!ret->srv_oob)
 	{
 	  LW6SYS_FREE (ret);

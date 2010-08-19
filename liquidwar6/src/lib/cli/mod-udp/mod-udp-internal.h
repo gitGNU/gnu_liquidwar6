@@ -25,6 +25,8 @@
 
 #include "../cli.h"
 
+#define _MOD_UDP_TIMEOUT 20
+
 typedef struct _udp_context_s
 {
   int dummy_udp;
@@ -52,6 +54,8 @@ extern void _mod_udp_close (_udp_context_t * udp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_udp_is_alive (_udp_context_t * udp_context,
 			      lw6cli_connection_t * connection);
+extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
+				int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -75,5 +79,8 @@ extern char *_mod_udp_error (_udp_context_t * udp_context,
 extern int _mod_udp_process_oob (_udp_context_t * udp_context,
 				 lw6nod_info_t * node_info,
 				 lw6cli_oob_data_t * oob_data);
+extern int
+_mod_udp_oob_should_continue (_udp_context_t *
+			      udp_context, lw6cli_oob_data_t * oob_data);
 
 #endif

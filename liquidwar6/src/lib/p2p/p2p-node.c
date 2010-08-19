@@ -27,6 +27,8 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
+#define _UDP_MINIMAL_BUF_SIZE 1
+
 static u_int32_t seq_id = 0;
 
 /**
@@ -308,7 +310,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		    lw6sys_new_sprintf (_lw6p2p_db_get_query
 					(node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
-					lw6p2p_db_now (),
+					_lw6p2p_db_now (node->db),
 					lw6sys_build_get_version (),
 					lw6sys_build_get_codename (),
 					lw6sys_atoi (lw6sys_build_get_stamp
@@ -463,7 +465,7 @@ lw6p2p_node_poll (lw6p2p_node_t * node)
 }
 
 static int
-_poll_step1_accept (_lw6p2p_node_t * node)
+_poll_step1_accept_tcp (_lw6p2p_node_t * node)
 {
   int ret = 1;
   char *ip = NULL;
@@ -472,7 +474,7 @@ _poll_step1_accept (_lw6p2p_node_t * node)
   lw6srv_tcp_accepter_t *tcp_accepter = NULL;
   char *guessed_public_url = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node TCP"));
 
   if (lw6srv_poll (node->listener))
     {
@@ -486,8 +488,8 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	      if (tcp_accepter)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("connection from %s:%d"),
-			      ip, port);
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("TCP connection from %s:%d"), ip, port);
 		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
 					  tcp_accepter);
 
@@ -542,6 +544,111 @@ _poll_step1_accept (_lw6p2p_node_t * node)
 }
 
 static int
+_poll_step2_recv_udp (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+  char buf[_UDP_MINIMAL_BUF_SIZE + 1];
+  char *ip1 = NULL;
+  char *ip2 = NULL;
+  int port1 = 0;
+  int port2 = 0;
+  char *line = NULL;
+  lw6srv_udp_buffer_t *udp_buffer = NULL;
+  char *guessed_public_url = NULL;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node UDP"));
+  memset (buf, 0, _UDP_MINIMAL_BUF_SIZE + 1);
+  if (lw6srv_poll (node->listener))
+    {
+      if (node->listener->udp_sock >= 0)
+	{
+	  if (lw6net_udp_peek
+	      (node->listener->udp_sock, buf, _UDP_MINIMAL_BUF_SIZE, &ip1,
+	       &port1))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("received data from %s:%d"),
+			  ip1, port1);
+	      line =
+		lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
+	      if (line)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("UDP connection from %s:%d"), ip2, port2);
+		  udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
+		  if (udp_buffer)
+		    {
+		      lw6sys_list_push_front (&(node->listener->udp_buffers),
+					      udp_buffer);
+		      /*
+		       * Now we register this peer as a potential server,
+		       * it will be qualified as a real server (or not) later
+		       */
+		      guessed_public_url =
+			lw6sys_url_http_from_ip_port (ip2,
+						      LW6NET_DEFAULT_PORT);
+		      if (guessed_public_url)
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _
+				      ("discovered node \"%s\" from guessed url"),
+				      guessed_public_url);
+			  lw6nod_info_add_discovered_node (node->node_info,
+							   guessed_public_url);
+			  LW6SYS_FREE (guessed_public_url);
+			}
+		      if (node->bind_port != LW6NET_DEFAULT_PORT)
+			{
+			  guessed_public_url =
+			    lw6sys_url_http_from_ip_port (ip2,
+							  node->bind_port);
+			  if (guessed_public_url)
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _
+					  ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
+					  guessed_public_url,
+					  node->bind_port);
+			      lw6nod_info_add_discovered_node
+				(node->node_info, guessed_public_url);
+			      LW6SYS_FREE (guessed_public_url);
+			    }
+			}
+		      line = NULL;	// udp_buffer will free it
+		      ip2 = NULL;	// udp_buffer will free it
+		    }
+		  else
+		    {
+		      ret = 0;
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _
+			      ("udp data received from %s:%d, but it's not correct"),
+			      ip1, port1);
+		}
+	    }
+	}
+    }
+
+  if (ip1)
+    {
+      LW6SYS_FREE (ip1);
+    }
+  if (ip2)
+    {
+      LW6SYS_FREE (ip2);
+    }
+  if (line)
+    {
+      LW6SYS_FREE (line);
+    }
+
+  return ret;
+}
+
+static int
 _tcp_accepter_reply (void *func_data, void *data)
 {
   int ret = 1;
@@ -581,7 +688,8 @@ _tcp_accepter_reply (void *func_data, void *data)
 						       client_id.client_ip,
 						       tcp_accepter->
 						       client_id.client_port,
-						       tcp_accepter->sock);
+						       tcp_accepter->sock,
+						       NULL);
 		  if (srv_oob)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process srv_oob"));
@@ -642,11 +750,112 @@ _tcp_accepter_reply (void *func_data, void *data)
 }
 
 static int
-_poll_step2_reply (_lw6p2p_node_t * node)
+_udp_buffer_reply (void *func_data, void *data)
+{
+  int ret = 1;
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
+  lw6srv_udp_buffer_t *udp_buffer = (lw6srv_udp_buffer_t *) data;
+  lw6srv_connection_t *connection = NULL;
+  _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
+  char *query = NULL;
+  char *connection_ptr_str = NULL;
+  char *backend_ptr_str = NULL;
+  int i = 0;
+  int analyse_udp_ret = 0;
+
+  for (i = 0; i < node->nb_srv_backends && ret; ++i)
+    {
+      analyse_udp_ret =
+	lw6srv_analyse_udp (node->srv_backends[i], udp_buffer);
+      if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("dead buffer, scheduling it for deletion"));
+	  ret = 0;
+	}
+      else
+	{
+	  if (analyse_udp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
+	    {
+	      if (analyse_udp_ret & LW6SRV_ANALYSE_OOB)
+		{
+		  srv_oob =
+		    _lw6p2p_srv_oob_callback_data_new (node->srv_backends[i],
+						       node->node_info,
+						       udp_buffer->
+						       client_id.client_ip,
+						       udp_buffer->
+						       client_id.client_port,
+						       node->
+						       listener->udp_sock,
+						       udp_buffer->line);
+		  if (srv_oob)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process srv_oob"));
+		      srv_oob->srv_oob->thread =
+			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
+					      srv_oob);
+		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
+		      ret = 0;
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new udp"));
+		  connection =
+		    lw6srv_new_udp (node->srv_backends[i], udp_buffer,
+				    node->password);
+		  if (connection)
+		    {
+		      connection_ptr_str =
+			lw6sys_hexa_ptr_to_str (connection);
+		      if (connection_ptr_str)
+			{
+			  backend_ptr_str =
+			    lw6sys_hexa_ptr_to_str (node->srv_backends[i]);
+			  if (backend_ptr_str)
+			    {
+			      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+							  (node->db,
+							   _LW6P2P_INSERT_CONNECTION_SQL),
+							  connection_ptr_str,
+							  backend_ptr_str,
+							  node->node_id_str);
+			      if (query)
+				{
+				  if (_lw6p2p_db_lock (node->db))
+				    {
+				      _lw6p2p_db_exec_ignore_data (node->db,
+								   query);
+				      _lw6p2p_db_unlock (node->db);
+				    }
+				  LW6SYS_FREE (query);
+				}
+			      LW6SYS_FREE (backend_ptr_str);
+			    }
+			  LW6SYS_FREE (connection_ptr_str);
+			}
+		    }
+		}
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _
+			  ("understood accepter, scheduling it for deletion"));
+	      ret = 0;		// will be filtered
+	    }
+	}
+    }
+
+  return ret;
+}
+
+static int
+_poll_step3_reply (_lw6p2p_node_t * node)
 {
   int ret = 1;
 
   lw6sys_list_filter (&(node->listener->tcp_accepters), _tcp_accepter_reply,
+		      node);
+  lw6sys_list_filter (&(node->listener->udp_buffers), _udp_buffer_reply,
 		      node);
 
   return ret;
@@ -665,7 +874,7 @@ _cli_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step3_cli_oob (_lw6p2p_node_t * node)
+_poll_step4_cli_oob (_lw6p2p_node_t * node)
 {
   int ret = 1;
 
@@ -687,7 +896,7 @@ _srv_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step4_srv_oob (_lw6p2p_node_t * node)
+_poll_step5_srv_oob (_lw6p2p_node_t * node)
 {
   int ret = 1;
 
@@ -697,7 +906,7 @@ _poll_step4_srv_oob (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step5_explore_discover_nodes (_lw6p2p_node_t * node)
+_poll_step6_explore_discover_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -707,7 +916,7 @@ _poll_step5_explore_discover_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step6_flush_discovered_nodes (_lw6p2p_node_t * node)
+_poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -717,7 +926,7 @@ _poll_step6_flush_discovered_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step7_explore_verify_nodes (_lw6p2p_node_t * node)
+_poll_step8_explore_verify_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -727,7 +936,7 @@ _poll_step7_explore_verify_nodes (_lw6p2p_node_t * node)
 }
 
 static int
-_poll_step8_flush_verified_nodes (_lw6p2p_node_t * node)
+_poll_step9_flush_verified_nodes (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -741,14 +950,15 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  ret = _poll_step1_accept (node) && ret;
-  ret = _poll_step2_reply (node) && ret;
-  ret = _poll_step3_cli_oob (node) && ret;
-  ret = _poll_step4_srv_oob (node) && ret;
-  ret = _poll_step5_explore_discover_nodes (node) && ret;
-  ret = _poll_step6_flush_discovered_nodes (node) && ret;
-  ret = _poll_step7_explore_verify_nodes (node) && ret;
-  ret = _poll_step8_flush_verified_nodes (node) && ret;
+  ret = _poll_step1_accept_tcp (node) && ret;
+  ret = _poll_step2_recv_udp (node) && ret;
+  ret = _poll_step3_reply (node) && ret;
+  ret = _poll_step4_cli_oob (node) && ret;
+  ret = _poll_step5_srv_oob (node) && ret;
+  ret = _poll_step6_explore_discover_nodes (node) && ret;
+  ret = _poll_step7_flush_discovered_nodes (node) && ret;
+  ret = _poll_step8_explore_verify_nodes (node) && ret;
+  ret = _poll_step9_flush_verified_nodes (node) && ret;
 
   return ret;
 }
@@ -953,7 +1163,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 					    (node->db,
 					     _LW6P2P_INSERT_DISCOVERED_NODE_SQL),
 					    escaped_public_url,
-					    lw6p2p_db_now ());
+					    _lw6p2p_db_now (node->db));
 		      if (query)
 			{
 			  ret = _lw6p2p_db_exec_ignore_data (node->db, query)

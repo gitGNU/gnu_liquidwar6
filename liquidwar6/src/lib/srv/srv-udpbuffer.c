@@ -29,9 +29,9 @@
 /**
  * lw6srv_udp_buffer_new
  *
- * @client_ip: the client ip, will be freed when object is freed, do not copy it
+ * @client_ip: the client ip, will be freed when object is freed, do not free it
  * @client_port: the client port
- * @line: the line received, will be freed when object is freed, do not copy it
+ * @line: the line received, will be freed when object is freed, do not free it
  *
  * Creates an udp_buffer object.
  *

@@ -33,7 +33,6 @@
 #define _MOD_TCPD_PROTOCOL_R_SIZE 1
 
 #define _MOD_TCPD_TIMEOUT 60
-#define _MOD_TCPD_ERROR "ERROR"
 
 typedef struct _tcpd_context_s
 {

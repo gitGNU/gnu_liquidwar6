@@ -72,6 +72,7 @@ _lw6p2p_db_open (int argc, char *argv[], char *name)
 	  db->id = ++seq_id;
 	}
 
+      db->t0 = lw6sys_get_timestamp ();
       db->mutex = lw6sys_mutex_create ();
       if (db->mutex)
 	{
@@ -459,7 +460,9 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
   int ret = 0;
   char *query = NULL;
 
-  query = _lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL);
+  query =
+    lw6sys_new_sprintf (_lw6p2p_db_get_query (db, _LW6P2P_CLEAN_DATABASE_SQL),
+			-db->data.consts.node_expire_soft_delay / 1000);
   if (query)
     {
       if (_lw6p2p_db_lock (db))
@@ -467,6 +470,7 @@ _lw6p2p_db_clean_database (_lw6p2p_db_t * db)
 	  ret = _lw6p2p_db_exec_ignore_data (db, query);
 	  _lw6p2p_db_unlock (db);
 	}
+      LW6SYS_FREE (query);
     }
 
   return ret;
@@ -572,7 +576,9 @@ lw6p2p_db_default_name ()
 }
 
 /**
- * lw6p2p_db_now
+ * _lw6p2p_db_now
+ *
+ * @db: the db object concerned (used to calculate time origin)
  *
  * Returns a timestamp suitable for db usage. The reason we don't use
  * regular timestamps is that they are 1) too accurate (msec is useless
@@ -582,11 +588,11 @@ lw6p2p_db_default_name ()
  * Return value: a timestamp, 0 means "beginning of program" (think of it as uptime)
  */
 int
-lw6p2p_db_now ()
+_lw6p2p_db_now (_lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  ret = lw6sys_get_uptime () / 1000;
+  ret = lw6sys_get_timestamp () - db->t0;
 
   return ret;
 }

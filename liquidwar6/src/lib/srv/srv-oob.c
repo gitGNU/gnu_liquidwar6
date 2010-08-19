@@ -32,6 +32,7 @@
  * @remote_ip: remote IP address
  * @remote_port: remote port
  * @sock: the socket handler (either TCP or UDP)
+ * @first_line: the first line of data (can be NULL)
  *
  * Create a new OOB structure, copying required objects.
  * We need to make copies for this is for usage in a 
@@ -42,7 +43,7 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (char *remote_ip, int remote_port, int sock)
+lw6srv_oob_new (char *remote_ip, int remote_port, int sock, char *first_line)
 {
   lw6srv_oob_t *oob = NULL;
 
@@ -54,6 +55,10 @@ lw6srv_oob_new (char *remote_ip, int remote_port, int sock)
       oob->data.remote_ip = lw6sys_str_copy (remote_ip);
       oob->data.remote_port = remote_port;
       oob->data.sock = sock;
+      if (first_line)
+	{
+	  oob->data.first_line = lw6sys_str_copy (first_line);
+	}
     }
 
   if (oob)
@@ -97,6 +102,10 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
       if (oob->data.remote_ip)
 	{
 	  LW6SYS_FREE (oob->data.remote_ip);
+	}
+      if (oob->data.first_line)
+	{
+	  LW6SYS_FREE (oob->data.first_line);
 	}
       LW6SYS_FREE (oob);
       lw6sys_log (LW6SYS_LOG_DEBUG, _("oob freed"));

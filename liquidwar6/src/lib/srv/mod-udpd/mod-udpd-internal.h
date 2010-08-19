@@ -25,6 +25,8 @@
 
 #include "../srv.h"
 
+#define _MOD_UDPD_TIMEOUT 40
+
 typedef struct _udpd_context_s
 {
   int dummy_udpd;
@@ -68,6 +70,8 @@ extern void _mod_udpd_close (_udpd_context_t * udpd_context,
 			     lw6srv_connection_t * connection);
 extern int _mod_udpd_is_alive (_udpd_context_t * udpd_context,
 			       lw6srv_connection_t * connection);
+extern int _mod_udpd_timeout_ok (_udpd_context_t * udpd_context,
+				 int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -89,5 +93,7 @@ extern char *_mod_udpd_error (_udpd_context_t * udpd_context,
 extern int _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 				  lw6nod_info_t * node_info,
 				  lw6srv_oob_data_t * oob_data);
+extern int _mod_udpd_oob_should_continue (_udpd_context_t * udpd_context,
+					  lw6srv_oob_data_t * oob_data);
 
 #endif

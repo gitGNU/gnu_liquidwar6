@@ -227,12 +227,12 @@ lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
       if (local_url && strlen (local_url) > 0)
 	{
 	  ret =
-	    lw6sys_new_sprintf ("%s %s %s\n", command, password_checksum,
+	    lw6sys_new_sprintf ("%s %s %s", command, password_checksum,
 				local_url);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf ("%s %s\n", command, password_checksum);
+	  ret = lw6sys_new_sprintf ("%s %s", command, password_checksum);
 	}
       LW6SYS_FREE (password_checksum);
     }
@@ -240,11 +240,11 @@ lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
     {
       if (local_url && strlen (local_url) > 0)
 	{
-	  ret = lw6sys_new_sprintf ("%s %s\n", command, local_url);
+	  ret = lw6sys_new_sprintf ("%s %s", command, local_url);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf ("%s\n", command);
+	  ret = lw6sys_new_sprintf ("%s", command);
 	}
     }
 

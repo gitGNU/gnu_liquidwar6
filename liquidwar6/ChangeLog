@@ -1,5 +1,7 @@
 2010-08-19 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Started to implement UDP messages, PING/PONG works.
+
 	* Auth realm now set from resources.
 
 2010-08-18 : Christian Mauduit <ufoot@ufoot.org>

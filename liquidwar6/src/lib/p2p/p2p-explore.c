@@ -173,7 +173,7 @@ _lw6p2p_explore_verify_nodes (_lw6p2p_node_t * node)
   int time_limit_hard = 0;
   int max_at_once = 0;
 
-  now = lw6p2p_db_now ();
+  now = _lw6p2p_db_now (node->db);
   time_limit_soft = now - node->db->data.consts.node_expire_soft_delay / 1000;
   time_limit_hard = now - node->db->data.consts.node_expire_hard_delay / 1000;
   /*

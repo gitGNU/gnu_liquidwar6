@@ -62,6 +62,10 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
     {
       lw6cfg_read_xml_string (key, value, "http-version",
 			      &(consts->http_version));
+      lw6cfg_read_xml_string (key, value, "header-description",
+			      &(consts->header_description));
+      lw6cfg_read_xml_string (key, value, "header-keywords",
+			      &(consts->header_keywords));
       lw6cfg_read_xml_string (key, value, "content-type-html",
 			      &(consts->content_type_html));
       lw6cfg_read_xml_string (key, value, "content-type-txt",
@@ -92,7 +96,8 @@ _load_consts (_httpd_consts_t * consts, char *consts_file)
 				    (void *) consts);
   if (ret)
     {
-      ret = consts->http_version && consts->content_type_html
+      ret = consts->http_version && consts->header_description
+	&& consts->header_keywords && consts->content_type_html
 	&& consts->content_type_txt && consts->content_type_jpeg
 	&& consts->content_type_ico && consts->error_401 && consts->error_403
 	&& consts->error_404 && consts->error_405 && consts->error_500
@@ -188,6 +193,14 @@ _unload_consts (_httpd_consts_t * consts)
   if (consts->http_version)
     {
       LW6SYS_FREE (consts->http_version);
+    }
+  if (consts->header_description)
+    {
+      LW6SYS_FREE (consts->header_description);
+    }
+  if (consts->header_keywords)
+    {
+      LW6SYS_FREE (consts->header_keywords);
     }
   if (consts->content_type_html)
     {

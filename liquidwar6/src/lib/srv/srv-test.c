@@ -57,7 +57,7 @@ _test_oob ()
 
     oob =
       lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT,
-		      _TEST_OOB_INVALID_SOCK);
+		      _TEST_OOB_INVALID_SOCK, _TEST_LINE);
     if (oob)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("created oob object"));

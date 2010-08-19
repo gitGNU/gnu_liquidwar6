@@ -66,6 +66,8 @@ typedef struct _httpd_consts_s
   int refresh_index_js;
   int refresh_screenshot_js;
   char *http_version;
+  char *header_description;
+  char *header_keywords;
   char *content_type_html;
   char *content_type_txt;
   char *content_type_jpeg;
