@@ -41,7 +41,7 @@
 #define _TEST_BENCH 10
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
-#define _TEST_REQUEST_COMMAND "PING"
+#define _TEST_REQUEST_COMMAND "INFO"
 #define _TEST_REQUEST_REMOTE_URL "http://ufoot.hd.free.fr/"
 #define _TEST_REQUEST_PASSWORD "toto"
 #define _TEST_REQUEST_LOCAL_URL "http://ufoot.org/"

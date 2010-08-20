@@ -161,9 +161,13 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
   int i;
 
-  i = node->explore.last_cli_oob_verify_backend;
-  i = (i + 1) % node->nb_cli_backends;
-  node->explore.last_cli_oob_verify_backend = i;
+  /*
+   * We choose a random backend, it's better than a round-robin
+   * since with a round-robin we could end up always using the
+   * same backend for the same node. This is not true for
+   * broadcast, in which a round-robin is better.
+   */
+  i = lw6sys_random (node->nb_cli_backends);
 
   cli_oob =
     _lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],

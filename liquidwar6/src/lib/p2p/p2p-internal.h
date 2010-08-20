@@ -126,7 +126,6 @@ _lw6p2p_flush_t;
 
 typedef struct _lw6p2p_explore_s
 {
-  int last_cli_oob_verify_backend;
   int last_cli_oob_broadcast_backend;
   int64_t next_discover_nodes_timestamp;
   int64_t next_verify_nodes_timestamp;
