@@ -39,6 +39,7 @@ _add_node_html (void *func_data, void *data)
   char *title = NULL;
   char *description = NULL;
   char *escaped_url = NULL;
+  char *escaped_title = NULL;
   char *escaped_description = NULL;
 
   if (list && (*list) && verified_node && verified_node->const_info.url)
@@ -57,24 +58,30 @@ _add_node_html (void *func_data, void *data)
 	lw6sys_escape_html_attribute (verified_node->const_info.url);
       if (escaped_url)
 	{
-	  escaped_description = lw6sys_escape_html_attribute (description);
-	  if (escaped_description)
+	  escaped_title = lw6sys_escape_html_attribute (title);
+	  if (escaped_title)
 	    {
-	      if (strlen (*list) > 0)
+	      escaped_description =
+		lw6sys_escape_html_attribute (description);
+	      if (escaped_description)
 		{
-		  tmp =
-		    lw6sys_new_sprintf
-		    ("%s, <a href=\"%s\" title=\"%s\">%s</a>", *list,
-		     escaped_url, escaped_description, title);
+		  if (strlen (*list) > 0)
+		    {
+		      tmp =
+			lw6sys_new_sprintf
+			("%s, <a href=\"%s\" title=\"%s\">%s</a>", *list,
+			 escaped_url, escaped_description, escaped_title);
+		    }
+		  else
+		    {
+		      tmp =
+			lw6sys_new_sprintf
+			("<a href=\"%s\" title=\"%s\">%s</a>", escaped_url,
+			 escaped_description, escaped_title);
+		    }
+		  LW6SYS_FREE (escaped_description);
 		}
-	      else
-		{
-		  tmp =
-		    lw6sys_new_sprintf
-		    ("<a href=\"%s\" title=\"%s\">%s</a>", escaped_url,
-		     escaped_description, title);
-		}
-	      LW6SYS_FREE (escaped_description);
+	      LW6SYS_FREE (escaped_title);
 	    }
 	  LW6SYS_FREE (escaped_url);
 	}
@@ -97,100 +104,131 @@ _response_index_html (_httpd_context_t * httpd_context,
   char *list = NULL;
   int dummy = 0;
   char *uptime = NULL;
+  char *escaped_title = NULL;
+  char *escaped_description = NULL;
+  char *escaped_level = NULL;
 
   dummy = lw6sys_random (_DUMMY_RANGE);
-  screenshot_url =
-    lw6sys_str_concat (node_info->const_info.url, _SCREENSHOT_JPEG_REFRESH);
-  if (screenshot_url)
+
+  escaped_title = lw6sys_escape_html_attribute (node_info->const_info.title);
+  if (escaped_title)
     {
-      uptime =
-	lw6sys_readable_uptime (lw6sys_get_timestamp () -
-				node_info->const_info.creation_timestamp);
-      if (uptime)
+      escaped_description =
+	lw6sys_escape_html_attribute (node_info->const_info.description);
+      if (escaped_description)
 	{
 	  if (dyn_info->level)
 	    {
 	      level = dyn_info->level;
 	    }
-	  list = lw6sys_new_sprintf ("");
-	  if (list)
+	  escaped_level = lw6sys_escape_html_attribute (level);
+	  if (escaped_level)
 	    {
-	      lw6nod_info_map_verified_nodes (node_info,
-					      _add_node_html, &list);
-	      content =
-		lw6sys_new_sprintf (httpd_context->data.htdocs.index_html,
-				    /*
-				     * Variables in the HEAD section
-				     */
-				    httpd_context->data.
-				    consts.refresh_index_header,
-				    node_info->const_info.url,
-				    node_info->const_info.title,
-				    lw6sys_build_get_package_name (),
-				    httpd_context->data.
-				    consts.header_description,
-				    httpd_context->data.
-				    consts.header_keywords,
-				    lw6sys_build_get_copyright (),
-				    lw6sys_build_get_package_name (),
-				    /*
-				     * Variables for JavaScript use
-				     */
-				    node_info->const_info.url,
-				    httpd_context->data.
-				    consts.refresh_screenshot_js * 1000,
-				    _DUMMY_RANGE, screenshot_url,
-				    httpd_context->data.
-				    consts.refresh_index_js * 1000,
-				    httpd_context->data.
-				    consts.refresh_screenshot_js * 1000,
-				    /*
-				     * Variables in the BODY section
-				     */
-				    node_info->const_info.title,
-				    node_info->const_info.description, dummy,
-				    /*
-				     * Version
-				     */
-				    lw6sys_build_get_version (),
-				    lw6sys_build_get_codename (),
-				    lw6sys_build_get_stamp (),
-				    /*
-				     * Info
-				     */
-				    uptime,
-				    level,
-				    node_info->const_info.bench,
-				    dyn_info->required_bench,
-				    dyn_info->nb_colors,
-				    dyn_info->max_nb_colors,
-				    dyn_info->nb_cursors,
-				    dyn_info->max_nb_cursors,
-				    dyn_info->nb_nodes,
-				    dyn_info->max_nb_nodes,
-				    /*
-				     * List
-				     */
-				    list);
-	      if (content)
+	      screenshot_url =
+		lw6sys_str_concat (node_info->const_info.url,
+				   _SCREENSHOT_JPEG_REFRESH);
+	      if (screenshot_url)
 		{
-		  response =
-		    _mod_httpd_response_from_str (httpd_context,
-						  _MOD_HTTPD_STATUS_200, 1,
-						  httpd_context->data.
-						  consts.refresh_index_header,
-						  node_info->const_info.url,
-						  httpd_context->data.
-						  consts.content_type_html,
-						  content);
+		  uptime =
+		    lw6sys_readable_uptime (lw6sys_get_timestamp () -
+					    node_info->
+					    const_info.creation_timestamp);
+		  if (uptime)
+		    {
+		      list = lw6sys_new_sprintf ("");
+		      if (list)
+			{
+			  lw6nod_info_map_verified_nodes (node_info,
+							  _add_node_html,
+							  &list);
+			  content =
+			    lw6sys_new_sprintf (httpd_context->data.
+						htdocs.index_html,
+						/*
+						 * Variables in the HEAD section
+						 */
+						httpd_context->data.
+						consts.refresh_index_header,
+						node_info->const_info.url,
+						escaped_title,
+						lw6sys_build_get_package_name
+						(),
+						httpd_context->data.
+						consts.header_description,
+						httpd_context->data.
+						consts.header_keywords,
+						lw6sys_build_get_copyright (),
+						lw6sys_build_get_package_tarname
+						(),
+						/*
+						 * Variables for JavaScript use
+						 */
+						node_info->const_info.url,
+						httpd_context->data.
+						consts.refresh_screenshot_js *
+						1000, _DUMMY_RANGE,
+						screenshot_url,
+						httpd_context->data.
+						consts.refresh_index_js *
+						1000,
+						httpd_context->data.
+						consts.refresh_screenshot_js *
+						1000,
+						/*
+						 * Variables in the BODY section
+						 */
+						escaped_title,
+						escaped_description, dummy,
+						/*
+						 * Version
+						 */
+						lw6sys_build_get_version (),
+						lw6sys_build_get_codename (),
+						lw6sys_build_get_stamp (),
+						/*
+						 * Info
+						 */
+						uptime,
+						escaped_level,
+						node_info->const_info.bench,
+						dyn_info->required_bench,
+						dyn_info->nb_colors,
+						dyn_info->max_nb_colors,
+						dyn_info->nb_cursors,
+						dyn_info->max_nb_cursors,
+						dyn_info->nb_nodes,
+						dyn_info->max_nb_nodes,
+						/*
+						 * List
+						 */
+						list);
+			  if (content)
+			    {
+			      response =
+				_mod_httpd_response_from_str (httpd_context,
+							      _MOD_HTTPD_STATUS_200,
+							      1,
+							      httpd_context->data.
+							      consts.refresh_index_header,
+							      node_info->const_info.
+							      url,
+							      httpd_context->data.
+							      consts.content_type_html,
+							      content);
 
-		  LW6SYS_FREE (content);
+			      LW6SYS_FREE (content);
+			    }
+			  LW6SYS_FREE (list);
+			}
+		      LW6SYS_FREE (uptime);
+		    }
+		  LW6SYS_FREE (screenshot_url);
 		}
-	      LW6SYS_FREE (list);
+	      LW6SYS_FREE (escaped_level);
 	    }
-	  LW6SYS_FREE (uptime);
+	  LW6SYS_FREE (escaped_description);
 	}
-      LW6SYS_FREE (screenshot_url);
+      LW6SYS_FREE (escaped_title);
     }
 
   return response;

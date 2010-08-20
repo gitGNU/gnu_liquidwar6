@@ -179,7 +179,7 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
 	    {
 	      line =
 		lw6sys_new_sprintf ("Server: %s",
-				    lw6sys_build_get_package_name ());
+				    lw6sys_build_get_package_tarname ());
 	      if (line)
 		{
 		  lw6net_send_line_tcp (sock, line);

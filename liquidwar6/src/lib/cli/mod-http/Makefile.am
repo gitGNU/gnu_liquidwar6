@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lcurl
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
 
 noinst_LTLIBRARIES = libmod_http_s.la
-MOD_HTTP_FILES = mod-http-backend.c mod-http-data.c mod-http-handshake.c mod-http-info.c mod-http-message.c mod-http-oob.c mod-http-setup.c mod-http-state.c
+MOD_HTTP_FILES = mod-http-backend.c mod-http-data.c mod-http-get.c mod-http-handshake.c mod-http-info.c mod-http-message.c mod-http-oob.c mod-http-setup.c mod-http-state.c
 libmod_http_s_la_SOURCES = $(MOD_HTTP_FILES) 
 
 if !ALLINONE

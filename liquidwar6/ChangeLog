@@ -1,5 +1,7 @@
 2010-08-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Implemented client OOB via http (mod_http).
+
 	* Option --skip-network does skip networking code.
 
 	* New frags calculation mode.

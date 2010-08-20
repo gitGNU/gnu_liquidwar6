@@ -27,6 +27,8 @@
 #include "../cli.h"
 #include "mod-http-internal.h"
 
+#define _CURL_FLAGS 0
+
 _http_context_t *
 _mod_http_init (int argc, char *argv[])
 {
@@ -39,12 +41,17 @@ _mod_http_init (int argc, char *argv[])
   http_context = (_http_context_t *) LW6SYS_CALLOC (sizeof (_http_context_t));
   if (http_context)
     {
+      http_context->curl_init_ret = -1;
       data_dir = lw6sys_get_data_dir (argc, argv);
       if (data_dir)
 	{
 	  if (_mod_http_load_data (&(http_context->data), data_dir))
 	    {
-	      ok = 1;
+	      http_context->curl_init_ret = curl_global_init (_CURL_FLAGS);
+	      if (http_context->curl_init_ret == CURLE_OK)
+		{
+		  ok = 1;
+		}
 	    }
 	  LW6SYS_FREE (data_dir);
 	}
@@ -67,6 +74,10 @@ void
 _mod_http_quit (_http_context_t * http_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("http quit"));
+  if (http_context->curl_init_ret == CURLE_OK)
+    {
+      curl_global_cleanup ();
+    }
   _mod_http_unload_data (&(http_context->data));
   LW6SYS_FREE (http_context);
 }

@@ -198,9 +198,9 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 								 LW6MSG_OOB_BENCH,
 								 0);
 		      level =
-			lw6msg_utils_get_assoc_str_with_default (assoc,
-								 LW6MSG_OOB_LEVEL,
-								 "");
+			lw6sys_escape_sql_value
+			(lw6msg_utils_get_assoc_str_with_default
+			 (assoc, LW6MSG_OOB_LEVEL, ""));
 		      required_bench =
 			lw6msg_utils_get_assoc_int_with_default (assoc,
 								 LW6MSG_OOB_REQUIRED_BENCH,
@@ -279,6 +279,10 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		  if (remote_description)
 		    {
 		      LW6SYS_FREE (remote_description);
+		    }
+		  if (level)
+		    {
+		      LW6SYS_FREE (level);
 		    }
 		}
 	    }

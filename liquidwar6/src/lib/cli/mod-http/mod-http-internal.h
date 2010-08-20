@@ -25,6 +25,15 @@
 
 #include "../cli.h"
 
+#define CURL_NO_OLDIES 1
+#include <curl/curl.h>
+#include <curl/types.h>
+#include <curl/easy.h>
+
+#define _MOD_HTTP_OOB_INFO_TXT "info.txt"
+#define _MOD_HTTP_OOB_LIST_TXT "list.txt"
+#define _MOD_HTTP_OOB_PING_TXT "ping.txt"
+
 typedef struct _http_consts_s
 {
   int global_timeout;
@@ -39,6 +48,7 @@ _http_data_t;
 
 typedef struct _http_context_s
 {
+  int curl_init_ret;
   _http_data_t data;
 }
 _http_context_t;
@@ -52,6 +62,10 @@ extern void _mod_http_unload_data (_http_data_t * http_data);
  */
 extern _http_context_t *_mod_http_init (int argc, char *argv[]);
 extern void _mod_http_quit (_http_context_t * http_context);
+
+/* http-get.c */
+extern char *_mod_http_get (_http_context_t * http_context, char *url,
+			    char *password);
 
 /*
  * In handshake.c
@@ -68,6 +82,8 @@ extern void _mod_http_close (_http_context_t * http_context,
 			     lw6cli_connection_t * connection);
 extern int _mod_http_is_alive (_http_context_t * http_context,
 			       lw6cli_connection_t * connection);
+extern int _mod_http_timeout_ok (_http_context_t * http_context,
+				 int64_t origin_timestamp);
 
 /*
  * In message.c
@@ -91,5 +107,8 @@ extern char *_mod_http_error (_http_context_t * http_context,
 extern int _mod_http_process_oob (_http_context_t * http_context,
 				  lw6nod_info_t * node_info,
 				  lw6cli_oob_data_t * oob_data);
+extern int _mod_http_oob_should_continue (_http_context_t *
+					  http_context,
+					  lw6cli_oob_data_t * oob_data);
 
 #endif

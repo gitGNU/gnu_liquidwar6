@@ -79,7 +79,7 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			    {
 			      lw6sys_log (LW6SYS_LOG_INFO,
 					  _
-					  ("connected on %s:%d using \"%s\" but server reports \"%s\""),
+					  ("mod_tcp connected on %s:%d using \"%s\" but server reports \"%s\""),
 					  ip, parsed_url->port, url,
 					  given_url);
 			      lw6nod_info_add_discovered_node (node_info,
