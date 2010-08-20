@@ -250,7 +250,7 @@ _mod_http_process_oob (_http_context_t * http_context,
     {
       if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_ANY))
 	{
-	  // no broadcast in TCP
+	  // no broadcast in HTTP
 	  ret = 1;
 	}
       else
@@ -265,7 +265,7 @@ _mod_http_process_oob (_http_context_t * http_context,
 	  ip = lw6net_dns_gethostbyname (parsed_url->host);
 	  if (ip)
 	    {
-	      if (_mod_http_oob_should_continue (tcp_context, oob_data))
+	      if (_mod_http_oob_should_continue (http_context, oob_data))
 		{
 		  if (_do_ping
 		      (http_context, node_info, oob_data,
