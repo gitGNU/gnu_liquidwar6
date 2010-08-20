@@ -36,6 +36,8 @@
 #define _TIMER_CYCLE_MASK 0xFFFFFL
 #define _RFC1123_SIZE 33
 #define _CLF_SIZE 40
+#define _SLEEP_DELAY 1
+#define _SNOOZE_DELAY 100
 
 static int64_t timestamp_0 = 0;
 
@@ -222,7 +224,21 @@ lw6sys_delay (int msec)
 void
 lw6sys_idle ()
 {
-  lw6sys_delay (1);
+  lw6sys_delay (_SLEEP_DELAY);
+}
+
+/**
+ * lw6sys_snooze
+ *
+ * Will sleep for some time, like @lw6sys_idle, except it's a "longer"
+ * time, use this when you don't really care about reactivity but are
+ * more concerned about saving CPU, not running uselessly the same
+ * polling code.
+ */
+void
+lw6sys_snooze ()
+{
+  lw6sys_delay (_SNOOZE_DELAY);
 }
 
 /**

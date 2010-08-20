@@ -3898,6 +3898,14 @@ and a process that has a very moderate load.
 of ticks.
 @end deftypefun
 
+@deftypefun {void} {lw6sys_snooze} ()
+
+Will sleep for some time, like @code{lw6sys_idle}, except it's a "longer"
+time, use this when you don't really care about reactivity but are
+more concerned about saving CPU, not running uselessly the same
+polling code.
+@end deftypefun
+
 @deftypefun {void} {lw6sys_time_init} ()
 
 Global initializations required to handle time properly. 

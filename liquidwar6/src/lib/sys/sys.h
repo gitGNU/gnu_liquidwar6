@@ -928,6 +928,7 @@ extern void lw6sys_timer_update (int64_t * timestamp, int64_t * uptime,
 extern void lw6sys_sleep (float seconds);
 extern void lw6sys_delay (int msec);
 extern void lw6sys_idle ();
+extern void lw6sys_snooze ();
 extern void lw6sys_time_init ();
 extern char *lw6sys_date_rfc1123 (int seconds_from_now);
 extern char *lw6sys_date_clf ();

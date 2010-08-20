@@ -53,8 +53,8 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _("sent UDP OOB request \"%s\" to %s:%d"), request,
 			  LW6NET_ADDRESS_ANY, port);
+	      lw6sys_snooze ();
 	      ret = 1;
-	      lw6sys_delay (_MOD_UDP_BROADCAST_DELAY);
 	      while (_mod_udp_oob_should_continue (udp_context, oob_data, 1))
 		{
 		  response =
@@ -77,7 +77,7 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		    }
 		  else
 		    {
-		      lw6sys_delay (_MOD_UDP_BROADCAST_DELAY);
+		      lw6sys_snooze ();
 		    }
 		}
 	    }
@@ -118,6 +118,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _("sent UDP OOB request \"%s\" to %s:%d"), request,
 			  ip, parsed_url->port);
+	      lw6sys_snooze ();
 	      while (!ret
 		     && _mod_udp_oob_should_continue (udp_context, oob_data,
 						      0))
@@ -164,7 +165,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		      LW6SYS_FREE (response);
 		      LW6SYS_FREE (incoming_ip);
 		    }
-		  lw6sys_delay (_MOD_UDP_PING_DELAY);
+		  lw6sys_snooze ();
 		}
 	    }
 	  LW6SYS_FREE (request);
@@ -225,6 +226,11 @@ _do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _("sent UDP OOB request \"%s\" to %s:%d"),
 			      request, ip, parsed_url->port);
+		  /*
+		   * Here we use idle and not snooze for we're concerned
+		   * with the exact time it takes to ping the server.
+		   */
+		  lw6sys_idle ();
 		  while (!eom
 			 && _mod_udp_oob_should_continue (udp_context,
 							  oob_data, 0))
@@ -240,6 +246,10 @@ _do_info (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			  lw6sys_list_free (response);
 			  LW6SYS_FREE (incoming_ip);
 			}
+		      /*
+		       * Here we use idle and not snooze for we're concerned
+		       * with the exact time it takes to ping the server.
+		       */
 		      lw6sys_idle ();
 		    }
 		}
@@ -310,6 +320,7 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _("sent UDP OOB request \"%s\" to %s:%d"), request,
 			  ip, parsed_url->port);
+	      lw6sys_snooze ();
 	      while (!ret
 		     && _mod_udp_oob_should_continue (udp_context, oob_data,
 						      0))
@@ -325,7 +336,7 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		      lw6sys_list_free (response);
 		      LW6SYS_FREE (incoming_ip);
 		    }
-		  lw6sys_idle ();
+		  lw6sys_snooze ();
 		}
 	    }
 	  LW6SYS_FREE (request);

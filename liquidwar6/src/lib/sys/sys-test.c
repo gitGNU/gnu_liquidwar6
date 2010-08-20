@@ -3197,8 +3197,13 @@ test_time ()
     lw6sys_idle ();
     lw6sys_timer_update (&timestamp, &uptime, &cycle);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("timestamp=%" LW6SYS_PRINTF_LL "d uptime=%" LW6SYS_PRINTF_LL
-		  "d cycle=%d"), timestamp, uptime, cycle);
+		_("after idle timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
+		  LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime, cycle);
+    lw6sys_snooze ();
+    lw6sys_timer_update (&timestamp, &uptime, &cycle);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_("after snooze timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
+		  LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime, cycle);
     last_uptime = lw6sys_get_uptime ();
     lw6sys_log (LW6SYS_LOG_NOTICE, _("sleep %d seconds"), TEST_SLEEP_TIME);
     lw6sys_sleep (TEST_SLEEP_TIME);

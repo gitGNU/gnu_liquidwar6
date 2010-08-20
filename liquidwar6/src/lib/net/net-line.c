@@ -61,38 +61,32 @@ lw6net_recv_line_tcp (int sock)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char *line_buf = NULL;
+  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
 
   if (sock >= 0)
     {
       line_size = _lw6net_global_context->const_data.line_size;
       line_delay = _lw6net_global_context->const_data.line_delay;
-      line_buf = LW6SYS_CALLOC (line_size + 3);
-      if (line_buf)
+      memset (line_buf, 0, line_size + 3);
+      available_size = lw6net_tcp_peek (sock, line_buf, line_size + 2, 0.0f);
+      if (available_size > 0)
 	{
-	  available_size =
-	    lw6net_tcp_peek (sock, line_buf, line_size + 2, 0.0f);
-	  if (available_size > 0)
+	  pos_lf = strchr (line_buf, CHAR_LF);
+	  if (pos_lf)
 	    {
-	      pos_lf = strchr (line_buf, CHAR_LF);
-	      if (pos_lf)
+	      trail_size = (pos_lf > line_buf
+			    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+	      wanted_size = (pos_lf + 1 - line_buf);
+	      pos_lf[1 - trail_size] = CHAR_0;
+	      ret = lw6sys_str_copy (line_buf);
+	      if (ret)
 		{
-		  trail_size = (pos_lf > line_buf
-				&& pos_lf[-1] == CHAR_CR) ? 2 : 1;
-		  wanted_size = (pos_lf + 1 - line_buf);
-		  pos_lf[1 - trail_size] = CHAR_0;
-		  ret = lw6sys_str_copy (line_buf);
-		  if (ret)
-		    {
-		      lw6sys_str_cleanup (ret);
-		    }
-
-		  // remove data from queue
-		  lw6net_tcp_recv (sock, line_buf, wanted_size,
-				   line_delay, 0);
+		  lw6sys_str_cleanup (ret);
 		}
+
+	      // remove data from queue
+	      lw6net_tcp_recv (sock, line_buf, wanted_size, line_delay, 0);
 	    }
-	  LW6SYS_FREE (line_buf);
 	}
     }
 
@@ -167,40 +161,42 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char *line_buf = NULL;
+  /*
+   * This is the very function that needs line_buf to be stack based
+   * and not malloced from the heap. The idea is that this function
+   * can be called by many threads in polling loops (think of broadcast)
+   * and allocating memory for this causes bottlenecks in bazooka functions.
+   */
+  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
 
   if (sock >= 0)
     {
       line_size = _lw6net_global_context->const_data.line_size;
-      line_buf = LW6SYS_CALLOC (line_size + 3);
-      if (line_buf)
+      memset (line_buf, 0, line_size + 3);
+      available_size =
+	lw6net_udp_peek (sock, line_buf, line_size + 2,
+			 incoming_ip, incoming_port);
+      if (incoming_ip && (*incoming_ip))
 	{
-	  available_size =
-	    lw6net_udp_peek (sock, line_buf, line_size + 2,
-			     incoming_ip, incoming_port);
-	  if (incoming_ip && (*incoming_ip))
+	  LW6SYS_FREE (*incoming_ip);
+	}
+      if (available_size > 0)
+	{
+	  pos_lf = strchr (line_buf, CHAR_LF);
+	  if (pos_lf)
 	    {
-	      LW6SYS_FREE (*incoming_ip);
-	    }
-	  if (available_size > 0)
-	    {
-	      pos_lf = strchr (line_buf, CHAR_LF);
-	      if (pos_lf)
+	      trail_size = (pos_lf > line_buf
+			    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+	      pos_lf[1 - trail_size] = CHAR_0;
+	      ret = lw6sys_str_copy (line_buf);
+	      if (ret)
 		{
-		  trail_size = (pos_lf > line_buf
-				&& pos_lf[-1] == CHAR_CR) ? 2 : 1;
-		  pos_lf[1 - trail_size] = CHAR_0;
-		  ret = lw6sys_str_copy (line_buf);
-		  if (ret)
-		    {
-		      lw6sys_str_cleanup (ret);
-		    }
+		  lw6sys_str_cleanup (ret);
 		}
-	      // remove data from queue
-	      lw6net_udp_recv (sock, line_buf, available_size,
-			       incoming_ip, incoming_port);
 	    }
-	  LW6SYS_FREE (line_buf);
+	  // remove data from queue
+	  lw6net_udp_recv (sock, line_buf, available_size,
+			   incoming_ip, incoming_port);
 	}
     }
 
@@ -237,7 +233,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char *line_buf = NULL;
+  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
   char *seek = NULL;
   int no_lf_at_very_end = 0;
 
@@ -247,49 +243,45 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
       if (ret)
 	{
 	  line_size = _lw6net_global_context->const_data.line_size;
-	  line_buf = LW6SYS_CALLOC (line_size + 3);
-	  if (line_buf)
+	  memset (line_buf, 0, line_size + 3);
+	  available_size =
+	    lw6net_udp_peek (sock, line_buf, line_size + 2,
+			     incoming_ip, incoming_port);
+	  if (incoming_ip && (*incoming_ip))
 	    {
-	      available_size =
-		lw6net_udp_peek (sock, line_buf, line_size + 2,
-				 incoming_ip, incoming_port);
-	      if (incoming_ip && (*incoming_ip))
+	      LW6SYS_FREE (*incoming_ip);
+	    }
+	  if (available_size > 0)
+	    {
+	      seek = line_buf;
+	      while (*seek)
 		{
-		  LW6SYS_FREE (*incoming_ip);
-		}
-	      if (available_size > 0)
-		{
-		  seek = line_buf;
-		  while (*seek)
+		  pos_lf = strchr (seek, CHAR_LF);
+		  if (pos_lf)
 		    {
-		      pos_lf = strchr (seek, CHAR_LF);
-		      if (pos_lf)
+		      trail_size = (pos_lf > seek
+				    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+		      pos_lf[1 - trail_size] = CHAR_0;
+		      line = lw6sys_str_copy (seek);
+		      if (line)
 			{
-			  trail_size = (pos_lf > seek
-					&& pos_lf[-1] == CHAR_CR) ? 2 : 1;
-			  pos_lf[1 - trail_size] = CHAR_0;
-			  line = lw6sys_str_copy (seek);
-			  if (line)
+			  lw6sys_str_cleanup (line);
+			  if (ret)
 			    {
-			      lw6sys_str_cleanup (line);
-			      if (ret)
-				{
-				  lw6sys_list_push_back (&ret, line);
-				}
+			      lw6sys_list_push_back (&ret, line);
 			    }
-			  seek = pos_lf + 1;
 			}
-		      else
-			{
-			  no_lf_at_very_end = 1;
-			  seek += strlen (seek);
-			}
+		      seek = pos_lf + 1;
 		    }
-		  // remove data from queue
-		  lw6net_udp_recv (sock, line_buf, available_size,
-				   incoming_ip, incoming_port);
+		  else
+		    {
+		      no_lf_at_very_end = 1;
+		      seek += strlen (seek);
+		    }
 		}
-	      LW6SYS_FREE (line_buf);
+	      // remove data from queue
+	      lw6net_udp_recv (sock, line_buf, available_size,
+			       incoming_ip, incoming_port);
 	    }
 	}
     }

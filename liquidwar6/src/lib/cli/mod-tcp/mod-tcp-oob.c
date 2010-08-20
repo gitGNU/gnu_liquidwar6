@@ -51,12 +51,13 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	{
 	  if (lw6net_send_line_tcp (sock, request))
 	    {
+	      lw6sys_snooze ();
 	      while (!ret
 		     && _mod_tcp_oob_should_continue (tcp_context, oob_data,
 						      sock)
 		     && ((response = lw6net_recv_line_tcp (sock)) == NULL))
 		{
-		  lw6sys_idle ();
+		  lw6sys_snooze ();
 		}
 	      if (response)
 		{
@@ -133,6 +134,11 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	    {
 	      if (lw6net_send_line_tcp (sock, request))
 		{
+		  /*
+		   * Here we use idle and not snooze for we're concerned
+		   * with the exact time it takes to ping the server.
+		   */
+		  lw6sys_idle ();
 		  while (_mod_tcp_oob_should_continue
 			 (tcp_context, oob_data, sock) && !eom)
 		    {
@@ -141,6 +147,10 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			     && ((response = lw6net_recv_line_tcp (sock)) ==
 				 NULL) && !eom)
 			{
+			  /*
+			   * Here we use idle and not snooze for we're concerned
+			   * with the exact time it takes to ping the server.
+			   */
 			  lw6sys_idle ();
 			}
 		      if (response)
@@ -229,6 +239,7 @@ _do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	{
 	  if (lw6net_send_line_tcp (sock, request))
 	    {
+	      lw6sys_snooze ();
 	      while (_mod_tcp_oob_should_continue
 		     (tcp_context, oob_data, sock) && !eom)
 		{
@@ -237,7 +248,7 @@ _do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			 && ((response = lw6net_recv_line_tcp (sock)) ==
 			     NULL) && !eom)
 		    {
-		      lw6sys_idle ();
+		      lw6sys_snooze ();
 		    }
 		  if (response)
 		    {

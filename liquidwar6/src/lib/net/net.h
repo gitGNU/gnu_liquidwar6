@@ -30,6 +30,7 @@
 #define LW6NET_ADDRESS_LOOPBACK "127.0.0.1"
 #define LW6NET_DEFAULT_PORT 8056
 #define LW6NET_HTTP_PORT 80
+#define LW6NET_MAX_PACKET_SIZE 2000
 
 // net-error.c
 extern int lw6net_last_error ();

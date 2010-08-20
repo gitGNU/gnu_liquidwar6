@@ -77,11 +77,22 @@ _lw6net_const_init (int argc, char *argv[])
 					    &
 					    (_lw6net_global_context->
 					     const_data));
-
 	  LW6SYS_FREE (const_file);
 	}
       LW6SYS_FREE (data_root_dir);
     }
+
+  /*
+   * Check for max value since some code relies on fixed length buffers.
+   * Anyway with MTUs being arround 1500, the limit is purely theorical,
+   * kernel network stack will stop us before that.
+   */
+  _lw6net_global_context->const_data.chunk_size =
+    lw6sys_min (LW6NET_MAX_PACKET_SIZE,
+		_lw6net_global_context->const_data.chunk_size);
+  _lw6net_global_context->const_data.line_size =
+    lw6sys_min (LW6NET_MAX_PACKET_SIZE,
+		_lw6net_global_context->const_data.line_size);
 
   return ret;
 }
