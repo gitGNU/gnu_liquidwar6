@@ -1,5 +1,7 @@
 2010-08-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Option --skip-network does skip networking code.
+
 	* New frags calculation mode.
 
 	* Using round robin to choose a cli oob backend.

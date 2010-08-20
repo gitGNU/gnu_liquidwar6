@@ -95,7 +95,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  char *ip)
 {
   int ret = 0;
-  int eom=0;
+  int eom = 0;
   int sock;
   char *request = NULL;
   char *response = NULL;
@@ -128,7 +128,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		    lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
 		  if (response)
 		    {
-		      eom=1;
+		      eom = 1;
 		      if (lw6sys_str_is_same (ip, incoming_ip)
 			  && parsed_url->port == incoming_port)
 			{
