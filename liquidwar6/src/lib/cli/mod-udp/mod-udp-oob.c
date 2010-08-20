@@ -95,6 +95,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 	  char *ip)
 {
   int ret = 0;
+  int eom=0;
   int sock;
   char *request = NULL;
   char *response = NULL;
@@ -119,7 +120,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			  _("sent UDP OOB request \"%s\" to %s:%d"), request,
 			  ip, parsed_url->port);
 	      lw6sys_snooze ();
-	      while (!ret
+	      while (!eom
 		     && _mod_udp_oob_should_continue (udp_context, oob_data,
 						      0))
 		{
@@ -127,6 +128,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 		    lw6net_recv_line_udp (sock, &incoming_ip, &incoming_port);
 		  if (response)
 		    {
+		      eom=1;
 		      if (lw6sys_str_is_same (ip, incoming_ip)
 			  && parsed_url->port == incoming_port)
 			{
