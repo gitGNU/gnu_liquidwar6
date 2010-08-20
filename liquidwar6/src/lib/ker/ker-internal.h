@@ -185,6 +185,10 @@ extern int _lw6ker_map_state_sync (lw6ker_map_state_t * dst,
 extern void _lw6ker_map_state_update_checksum (lw6ker_map_state_t * map_state,
 					       u_int32_t * checksum);
 extern int _lw6ker_map_state_get_nb_teams (lw6ker_map_state_t * map_state);
+extern void _lw6ker_map_state_frag (lw6ker_map_state_t * map_state,
+				    int team_color, int frags_mode,
+				    int frags_to_distribute,
+				    int frags_fade_out);
 
 /*
  * In mapstruct.c

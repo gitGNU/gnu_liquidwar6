@@ -87,6 +87,9 @@ fighter-new-health
 fighter-regenerate
 fighter-scale
 force
+frags-fade-out
+frags-mode
+frags-to-distribute
 fullscreen
 gfx-backend
 gfx-cpu-usage

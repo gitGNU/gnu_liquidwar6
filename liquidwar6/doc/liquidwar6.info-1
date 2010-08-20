@@ -4784,8 +4784,56 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      a bit by hiding somewhere in the map. This is typically a low
      value, might even be 0.
 
-4.9.9 glue-power
-----------------
+4.9.9 frags-fade-out
+--------------------
+
+ -- Command-line option: `--frags-fade-out=<value>'
+ -- Environment variable: `LW6_FRAGS_FADE_OUT'
+ -- XML key: `frags-fade-out'
+     Type: integer
+
+     Default value: 95 Min value: 10 Max value: 100
+
+     When a player looses (in deathmatch mode) all player points will be
+     multiplicated by this percentage, for instance if it's 90 and
+     player had 50 points, then player will only have 45 points, then
+     points corresponding to the new death will be added/substrated to
+     its total. This is to avoid players with thousands of points in
+     advance, and keep everyone in the race. A low value will minimize
+     the importance of game start.
+
+4.9.10 frags-mode
+-----------------
+
+ -- Command-line option: `--frags-mode=<value>'
+ -- Environment variable: `LW6_FRAGS_MODE'
+ -- XML key: `frags-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 1
+
+     Defines how points are calculated in deathmatch mode, 0 is old
+     school simple mode, 1 is new proportional mode, with a total of 0
+     kept constant.
+
+4.9.11 frags-to-distribute
+--------------------------
+
+ -- Command-line option: `--frags-to-distribute=<value>'
+ -- Environment variable: `LW6_FRAGS_TO_DISTRIBUTE'
+ -- XML key: `frags-to-distribute'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how many points will be distributed when in deathmatch
+     mode. When a player looses, this amont of points will be
+     substracted to its total, and the same amount of points will be
+     distributed to other live players, proportionnally to how many
+     fighters they have on the battlefield.
+
+4.9.12 glue-power
+-----------------
 
  -- Command-line option: `--glue-power=<value>'
  -- Environment variable: `LW6_GLUE_POWER'
@@ -4799,7 +4847,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will take 3 steps to do what would normally take only one
      step.
 
-4.9.10 max-cursor-pot
+4.9.13 max-cursor-pot
 ---------------------
 
  -- Command-line option: `--max-cursor-pot=<value>'
@@ -4813,7 +4861,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change it. Any high value should produce the same results. Low
      values might reveal algorithm bugs and inconsistencies.
 
-4.9.11 max-cursor-pot-offset
+4.9.14 max-cursor-pot-offset
 ----------------------------
 
  -- Command-line option: `--max-cursor-pot-offset=<value>'
@@ -4830,7 +4878,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      a multi-cursor controlled team). This parameter is here to limit
      this burst effect and avoid bugs.
 
-4.9.12 max-nb-cursors
+4.9.15 max-nb-cursors
 ---------------------
 
  -- Command-line option: `--max-nb-cursors=<value>'
@@ -4844,7 +4892,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Really makes sense in network games. Default value is 26, the
      maximum.
 
-4.9.13 max-nb-nodes
+4.9.16 max-nb-nodes
 -------------------
 
  -- Command-line option: `--max-nb-nodes=<value>'
@@ -4858,7 +4906,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Really makes sense in network games. Default value is 10, and
      should fit in most cases. Can be raised up to 26.
 
-4.9.14 max-nb-teams
+4.9.17 max-nb-teams
 -------------------
 
  -- Command-line option: `--max-nb-teams=<value>'
@@ -4871,7 +4919,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines the maximum number of teams who can enter the game. Really
      makes sense in network games. Default value is 10, the maximum.
 
-4.9.15 max-round-delta
+4.9.18 max-round-delta
 ----------------------
 
  -- Command-line option: `--max-round-delta=<value>'
@@ -4886,7 +4934,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      incremented in some cases by the core algorithm. If in doubt,
      don't touch.
 
-4.9.16 max-zone-size
+4.9.19 max-zone-size
 --------------------
 
  -- Command-line option: `--max-zone-size=<value>'
@@ -4909,7 +4957,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that anyways passed a certain value, this does not optimize
      anything anymore. In doubt, don't touch it.
 
-4.9.17 medicine-power
+4.9.20 medicine-power
 ---------------------
 
  -- Command-line option: `--medicine-power=<value>'
@@ -4925,7 +4973,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      something like 'fighter-defense'.  Being on a medicined zone is a
      bit like being defended by an invisible and unknown friend.
 
-4.9.18 moves-per-round
+4.9.21 moves-per-round
 ----------------------
 
  -- Command-line option: `--moves-per-round=<value>'
@@ -4943,7 +4991,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      moves per second, which is, in fact, how fast fighters move on the
      screen.
 
-4.9.19 nb-attack-tries
+4.9.22 nb-attack-tries
 ----------------------
 
  -- Command-line option: `--nb-attack-tries=<value>'
@@ -4961,7 +5009,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      switch to the next option, that is, defense/regeneration, if
      there's no opponent right in front of them.
 
-4.9.20 nb-defense-tries
+4.9.23 nb-defense-tries
 -----------------------
 
  -- Command-line option: `--nb-defense-tries=<value>'
@@ -4978,7 +5026,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      compact pack of fighters for regeneration to operate, else
      fighters will hang arround unhealthy.
 
-4.9.21 nb-move-tries
+4.9.24 nb-move-tries
 --------------------
 
  -- Command-line option: `--nb-move-tries=<value>'
@@ -4999,7 +5047,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will just pass each other without any fight. Matter of
      taste.
 
-4.9.22 respawn-random-place
+4.9.25 respawn-random-place
 ---------------------------
 
  -- Command-line option: `--respawn-random-place=<value>'
@@ -5012,7 +5060,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      If set, team will respawn in a random place, instead of
      re-appearing always at the same place.
 
-4.9.23 respawn-team
+4.9.26 respawn-team
 -------------------
 
  -- Command-line option: `--respawn-team=<value>'
@@ -5028,7 +5076,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      who stays alive the longest time, since it makes no real sens in
      this case, but the one who has died less often than others.
 
-4.9.24 round-delta
+4.9.27 round-delta
 ------------------
 
  -- Command-line option: `--round-delta=<value>'
@@ -5053,7 +5101,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Toy arround with this if you find fighters take wrong paths on some
      given map. If in doubt, don't touch.
 
-4.9.25 rounds-per-sec
+4.9.28 rounds-per-sec
 ---------------------
 
  -- Command-line option: `--rounds-per-sec=<value>'
@@ -5070,7 +5118,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      spend more CPU time. It will also increase network traffic. Values
      between 10 and 50 really make sense.
 
-4.9.26 side-attack-factor
+4.9.29 side-attack-factor
 -------------------------
 
  -- Command-line option: `--side-attack-factor=<value>'
@@ -5087,7 +5135,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      strong. This parameter enables you to tune this. This is a
      percentage.
 
-4.9.27 side-defense-factor
+4.9.30 side-defense-factor
 --------------------------
 
  -- Command-line option: `--side-defense-factor=<value>'
@@ -5100,7 +5148,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines how fast fighters will regenerate, when being side by side
      instead of being right in front of the other. This is a percentage.
 
-4.9.28 single-army-size
+4.9.31 single-army-size
 -----------------------
 
  -- Command-line option: `--single-army-size=<value>'
@@ -5118,7 +5166,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that is, a square of 1/2 the size of a square map, so it
      represents 25% (1/4) of the total surface.
 
-4.9.29 spread-thread
+4.9.32 spread-thread
 --------------------
 
  -- Command-line option: `--spread-thread=<value>'
@@ -5135,7 +5183,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      any significant performance gain, even on SMP systems. This might
      change in the future.
 
-4.9.30 spreads-per-round
+4.9.33 spreads-per-round
 ------------------------
 
  -- Command-line option: `--spreads-per-round=<value>'
@@ -5154,7 +5202,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      simple maps where the gradient is obvious, or increase it on
      complex maps where you want fighters to be real smart.
 
-4.9.31 start-blue-x
+4.9.34 start-blue-x
 -------------------
 
  -- Command-line option: `--start-blue-x=<value>'
@@ -5167,7 +5215,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the blue team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.32 start-blue-y
+4.9.35 start-blue-y
 -------------------
 
  -- Command-line option: `--start-blue-y=<value>'
@@ -5180,7 +5228,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the blue team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.33 start-cyan-x
+4.9.36 start-cyan-x
 -------------------
 
  -- Command-line option: `--start-cyan-x=<value>'
@@ -5193,7 +5241,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the cyan team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.34 start-cyan-y
+4.9.37 start-cyan-y
 -------------------
 
  -- Command-line option: `--start-cyan-y=<value>'
@@ -5206,7 +5254,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the cyan team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.35 start-green-x
+4.9.38 start-green-x
 --------------------
 
  -- Command-line option: `--start-green-x=<value>'
@@ -5219,7 +5267,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the green team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.36 start-green-y
+4.9.39 start-green-y
 --------------------
 
  -- Command-line option: `--start-green-y=<value>'
@@ -5232,7 +5280,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the green team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.37 start-lightblue-x
+4.9.40 start-lightblue-x
 ------------------------
 
  -- Command-line option: `--start-lightblue-x=<value>'
@@ -5245,7 +5293,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the lightblue team. This is a percentage of
      map width, value between 0 and 100.
 
-4.9.38 start-lightblue-y
+4.9.41 start-lightblue-y
 ------------------------
 
  -- Command-line option: `--start-lightblue-y=<value>'
@@ -5258,7 +5306,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the lightblue team. This is a percentage of
      map height, value between 0 and 100.
 
-4.9.39 start-magenta-x
+4.9.42 start-magenta-x
 ----------------------
 
  -- Command-line option: `--start-magenta-x=<value>'
@@ -5271,7 +5319,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the magenta team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.40 start-magenta-y
+4.9.43 start-magenta-y
 ----------------------
 
  -- Command-line option: `--start-magenta-y=<value>'
@@ -5284,7 +5332,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the magenta team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.41 start-orange-x
+4.9.44 start-orange-x
 ---------------------
 
  -- Command-line option: `--start-orange-x=<value>'
@@ -5297,7 +5345,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the orange team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.42 start-orange-y
+4.9.45 start-orange-y
 ---------------------
 
  -- Command-line option: `--start-orange-y=<value>'
@@ -5310,7 +5358,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the orange team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.43 start-pink-x
+4.9.46 start-pink-x
 -------------------
 
  -- Command-line option: `--start-pink-x=<value>'
@@ -5323,7 +5371,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the pink team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.44 start-pink-y
+4.9.47 start-pink-y
 -------------------
 
  -- Command-line option: `--start-pink-y=<value>'
@@ -5336,7 +5384,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the pink team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.45 start-position-mode
+4.9.48 start-position-mode
 --------------------------
 
  -- Command-line option: `--start-position-mode=<value>'
@@ -5352,7 +5400,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      positions. That is, red could take green's place. 2 means total
      randomness, teams can appear anywhere.
 
-4.9.46 start-purple-x
+4.9.49 start-purple-x
 ---------------------
 
  -- Command-line option: `--start-purple-x=<value>'
@@ -5365,7 +5413,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the purple team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.47 start-purple-y
+4.9.50 start-purple-y
 ---------------------
 
  -- Command-line option: `--start-purple-y=<value>'
@@ -5378,7 +5426,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the purple team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.48 start-red-x
+4.9.51 start-red-x
 ------------------
 
  -- Command-line option: `--start-red-x=<value>'
@@ -5391,7 +5439,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the red team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.49 start-red-y
+4.9.52 start-red-y
 ------------------
 
  -- Command-line option: `--start-red-y=<value>'
@@ -5404,7 +5452,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the red team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.50 start-yellow-x
+4.9.53 start-yellow-x
 ---------------------
 
  -- Command-line option: `--start-yellow-x=<value>'
@@ -5417,7 +5465,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the yellow team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.51 start-yellow-y
+4.9.54 start-yellow-y
 ---------------------
 
  -- Command-line option: `--start-yellow-y=<value>'
@@ -5430,7 +5478,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the yellow team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.52 total-armies-size
+4.9.55 total-armies-size
 ------------------------
 
  -- Command-line option: `--total-armies-size=<value>'
@@ -5451,7 +5499,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      square of 1/2 the size of a square map, so it represents 25% (1/4)
      of the total surface.
 
-4.9.53 total-time
+4.9.56 total-time
 -----------------
 
  -- Command-line option: `--total-time=<value>'
@@ -5469,7 +5517,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      So if the computer is too slow and the desired speed is not
      reached, then the game will last for a longer time.
 
-4.9.54 vertical-move
+4.9.57 vertical-move
 --------------------
 
  -- Command-line option: `--vertical-move=<value>'
@@ -5485,7 +5533,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      failed. If set to 2, it will be tried just after the second move
      failed. And so on.
 
-4.9.55 x-polarity
+4.9.58 x-polarity
 -----------------
 
  -- Command-line option: `--x-polarity=<value>'
@@ -5504,7 +5552,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.9.56 y-polarity
+4.9.59 y-polarity
 -----------------
 
  -- Command-line option: `--y-polarity=<value>'
@@ -5523,7 +5571,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.9.57 z-polarity
+4.9.60 z-polarity
 -----------------
 
  -- Command-line option: `--z-polarity=<value>'

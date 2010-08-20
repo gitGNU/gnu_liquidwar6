@@ -86,6 +86,9 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_BOOST_POWER,
   LW6DEF_DANGER_POWER,
   LW6DEF_MEDICINE_POWER,
+  LW6DEF_FRAGS_MODE,
+  LW6DEF_FRAGS_TO_DISTRIBUTE,
+  LW6DEF_FRAGS_FADE_OUT,
   NULL				// very important that this list is NULL-terminated
 };
 
@@ -146,7 +149,10 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_GLUE_POWER,
   LW6MAP_RULES_DEFAULT_BOOST_POWER,
   LW6MAP_RULES_DEFAULT_DANGER_POWER,
-  LW6MAP_RULES_DEFAULT_MEDICINE_POWER
+  LW6MAP_RULES_DEFAULT_MEDICINE_POWER,
+  LW6MAP_RULES_DEFAULT_FRAGS_MODE,
+  LW6MAP_RULES_DEFAULT_FRAGS_TO_DISTRIBUTE,
+  LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT
 };
 
 static lw6map_rules_t min_rules = {
@@ -206,7 +212,10 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_GLUE_POWER,
   LW6MAP_RULES_MIN_BOOST_POWER,
   LW6MAP_RULES_MIN_DANGER_POWER,
-  LW6MAP_RULES_MIN_MEDICINE_POWER
+  LW6MAP_RULES_MIN_MEDICINE_POWER,
+  LW6MAP_RULES_MIN_FRAGS_MODE,
+  LW6MAP_RULES_MIN_FRAGS_TO_DISTRIBUTE,
+  LW6MAP_RULES_MIN_FRAGS_FADE_OUT
 };
 
 static lw6map_rules_t max_rules = {
@@ -266,7 +275,10 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_GLUE_POWER,
   LW6MAP_RULES_MAX_BOOST_POWER,
   LW6MAP_RULES_MAX_DANGER_POWER,
-  LW6MAP_RULES_MAX_MEDICINE_POWER
+  LW6MAP_RULES_MAX_MEDICINE_POWER,
+  LW6MAP_RULES_MAX_FRAGS_MODE,
+  LW6MAP_RULES_MAX_FRAGS_TO_DISTRIBUTE,
+  LW6MAP_RULES_MAX_FRAGS_FADE_OUT
 };
 
 void
@@ -345,6 +357,9 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->boost_power);
   lw6sys_checksum_update_int32 (checksum, rules->danger_power);
   lw6sys_checksum_update_int32 (checksum, rules->medicine_power);
+  lw6sys_checksum_update_int32 (checksum, rules->frags_mode);
+  lw6sys_checksum_update_int32 (checksum, rules->frags_to_distribute);
+  lw6sys_checksum_update_int32 (checksum, rules->frags_fade_out);
 }
 
 int32_t *
@@ -585,6 +600,18 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	  else if (!strcmp (formatted_key, LW6DEF_MEDICINE_POWER))
 	    {
 	      ret = &(rules->medicine_power);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_FRAGS_MODE))
+	    {
+	      ret = &(rules->frags_mode);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_FRAGS_TO_DISTRIBUTE))
+	    {
+	      ret = &(rules->frags_to_distribute);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_FRAGS_FADE_OUT))
+	    {
+	      ret = &(rules->frags_fade_out);
 	    }
 	  else
 	    {

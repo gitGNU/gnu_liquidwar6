@@ -480,6 +480,9 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_BOOST_POWER);
   lw6sys_list_push_back (list, LW6DEF_DANGER_POWER);
   lw6sys_list_push_back (list, LW6DEF_MEDICINE_POWER);
+  lw6sys_list_push_back (list, LW6DEF_FRAGS_MODE);
+  lw6sys_list_push_back (list, LW6DEF_FRAGS_TO_DISTRIBUTE);
+  lw6sys_list_push_back (list, LW6DEF_FRAGS_FADE_OUT);
 
   return ((*list) != NULL);
 }

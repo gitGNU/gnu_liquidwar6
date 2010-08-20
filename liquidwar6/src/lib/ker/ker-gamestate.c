@@ -963,6 +963,17 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 	{
 	  if (nb_fighters == 0)
 	    {
+	      if (game_state->game_struct->rules.respawn_team)
+		{
+		  _lw6ker_map_state_frag (&(game_state->map_state),
+					  team_color,
+					  game_state->game_struct->rules.
+					  frags_mode,
+					  game_state->game_struct->rules.
+					  frags_to_distribute,
+					  game_state->game_struct->rules.
+					  frags_fade_out);
+		}
 	      _lw6ker_game_state_remove_team (game_state, team_color);
 	      if (game_state->game_struct->rules.respawn_team)
 		{
@@ -986,7 +997,6 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 		  _lw6ker_game_state_add_team (game_state, team_color,
 					       game_state->game_struct->
 					       rules.respawn_random_place);
-		  game_state->map_state.armies.frags[team_color]--;
 		}
 	      else
 		{

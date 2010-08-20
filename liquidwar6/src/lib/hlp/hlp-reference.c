@@ -1230,6 +1230,23 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_MEDICINE_POWER,
 		LW6MAP_RULES_MIN_MEDICINE_POWER,
 		LW6MAP_RULES_MAX_MEDICINE_POWER);
+  POPULATE_INT (LW6DEF_FRAGS_MODE,
+		_
+		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode, 1 is new proportional mode, with a total of 0 kept constant."),
+		LW6MAP_RULES_DEFAULT_FRAGS_MODE,
+		LW6MAP_RULES_MIN_FRAGS_MODE, LW6MAP_RULES_MAX_FRAGS_MODE);
+  POPULATE_INT (LW6DEF_FRAGS_TO_DISTRIBUTE,
+		_
+		("Defines how many points will be distributed when in deathmatch mode. When a player looses, this amont of points will be substracted to its total, and the same amount of points will be distributed to other live players, proportionnally to how many fighters they have on the battlefield."),
+		LW6MAP_RULES_DEFAULT_FRAGS_TO_DISTRIBUTE,
+		LW6MAP_RULES_MIN_FRAGS_TO_DISTRIBUTE,
+		LW6MAP_RULES_MAX_FRAGS_TO_DISTRIBUTE);
+  POPULATE_INT (LW6DEF_FRAGS_FADE_OUT,
+		_
+		("When a player looses (in deathmatch mode) all player points will be multiplicated by this percentage, for instance if it's 90 and player had 50 points, then player will only have 45 points, then points corresponding to the new death will be added/substrated to its total. This is to avoid players with thousands of points in advance, and keep everyone in the race. A low value will minimize the importance of game start."),
+		LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT,
+		LW6MAP_RULES_MIN_FRAGS_FADE_OUT,
+		LW6MAP_RULES_MAX_FRAGS_FADE_OUT);
   /*
    * map hints
    */

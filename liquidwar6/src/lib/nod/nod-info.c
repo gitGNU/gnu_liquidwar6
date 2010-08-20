@@ -324,30 +324,32 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
   int ret = 0;
   char *canonized_url;
 
-  if (strlen(public_url)>0) {
-  if (lw6nod_info_lock (info))
+  if (strlen (public_url) > 0)
     {
-      if (!info->discovered_nodes)
+      if (lw6nod_info_lock (info))
 	{
-	  // could be NULL if popping too hard
-	  info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
-	}
-      if (info->discovered_nodes)
-	{
-	  canonized_url = lw6sys_url_canonize (public_url);
-	  if (canonized_url)
+	  if (!info->discovered_nodes)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("adding \"%s\" as a possible node"),
-			  canonized_url);
-	      lw6sys_hash_set (info->discovered_nodes, canonized_url, NULL);
-	      LW6SYS_FREE (canonized_url);
+	      // could be NULL if popping too hard
+	      info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
 	    }
+	  if (info->discovered_nodes)
+	    {
+	      canonized_url = lw6sys_url_canonize (public_url);
+	      if (canonized_url)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("adding \"%s\" as a possible node"),
+			      canonized_url);
+		  lw6sys_hash_set (info->discovered_nodes, canonized_url,
+				   NULL);
+		  LW6SYS_FREE (canonized_url);
+		}
+	    }
+	  ret = ((info->discovered_nodes) != NULL);
+	  lw6nod_info_unlock (info);
 	}
-      ret = ((info->discovered_nodes) != NULL);
-      lw6nod_info_unlock (info);
     }
-  }
 
   return ret;
 }

@@ -274,6 +274,18 @@
 #define LW6MAP_RULES_MIN_MEDICINE_POWER 0
 #define LW6MAP_RULES_MAX_MEDICINE_POWER LW6MAP_MAX_FIGHTER_HEALTH
 
+#define LW6MAP_RULES_DEFAULT_FRAGS_MODE 1
+#define LW6MAP_RULES_MIN_FRAGS_MODE 0
+#define LW6MAP_RULES_MAX_FRAGS_MODE 1
+
+#define LW6MAP_RULES_DEFAULT_FRAGS_TO_DISTRIBUTE 100
+#define LW6MAP_RULES_MIN_FRAGS_TO_DISTRIBUTE 10
+#define LW6MAP_RULES_MAX_FRAGS_TO_DISTRIBUTE 1000
+
+#define LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT 95
+#define LW6MAP_RULES_MIN_FRAGS_FADE_OUT 10
+#define LW6MAP_RULES_MAX_FRAGS_FADE_OUT 100
+
 /*
  * Note: it's important that floats are never ever used in map rules.
  * In fact, we need maps to be 100,00 (lots of zeroes) predictable,
@@ -342,6 +354,9 @@ typedef struct lw6map_rules_s
   int32_t boost_power;
   int32_t danger_power;
   int32_t medicine_power;
+  int32_t frags_mode;
+  int32_t frags_to_distribute;
+  int32_t frags_fade_out;
 } lw6map_rules_t;
 extern char *LW6MAP_RULES_LIST[];
 

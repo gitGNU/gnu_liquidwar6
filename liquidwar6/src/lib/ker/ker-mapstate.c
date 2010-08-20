@@ -847,3 +847,120 @@ lw6ker_map_state_apply_cursors (lw6ker_map_state_t * map_state,
 	}
     }
 }
+
+void
+_lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
+			int frags_mode, int frags_to_distribute,
+			int frags_fade_out)
+{
+  int active_fighters = 0;
+  int nb_loosers = 0;
+  int nb_winners = 0;
+  int i = 0;
+  lw6ker_armies_t *armies = &(map_state->armies);
+  int frags_total = 0;
+
+  if (frags_mode == 0)
+    {
+      // old school simple moe
+      armies->frags[team_color]--;
+    }
+  else
+    {
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  armies->frags[i] =
+	    lw6ker_percent (armies->frags[i], frags_fade_out);
+	  if (map_state->teams[i].active)
+	    {
+	      if (armies->fighters_per_team[i] <= 0)
+		{
+		  nb_loosers++;
+		}
+	      else
+		{
+		  nb_winners++;
+		}
+	    }
+	}
+
+      active_fighters = armies->active_fighters;
+      if (active_fighters > 0)
+	{
+	  if (nb_loosers > 0)
+	    {
+	      if (nb_winners > 0)
+		{
+		  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+		    {
+		      if (map_state->teams[i].active)
+			{
+			  if (armies->fighters_per_team[i] <= 0)
+			    {
+			      armies->frags[i] -=
+				frags_to_distribute / nb_loosers;
+			    }
+			  else
+			    {
+			      armies->frags[i] +=
+				(frags_to_distribute *
+				 armies->fighters_per_team[i]) /
+				armies->active_fighters;
+			    }
+			}
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("can't calculate frags when there are no winners"));
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _
+			  ("can't calculate frags when there are no loosers"));
+	    }
+	}
+
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  if (map_state->teams[i].active)
+	    {
+	      frags_total += armies->frags[i];
+	    }
+	}
+
+      while (frags_total < 0)
+	{
+	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total < 0; ++i)
+	    {
+	      if (map_state->teams[i].active)
+		{
+		  if (armies->frags[i] >= 0)
+		    {
+		      armies->frags[i]++;
+		      frags_total++;
+		    }
+		}
+	    }
+	}
+
+      while (frags_total > 0)
+	{
+	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total > 0; ++i)
+	    {
+	      if (map_state->teams[i].active)
+		{
+		  if (armies->frags[i] <= 0)
+		    {
+		      armies->frags[i]--;
+		      frags_total--;
+		    }
+		}
+	    }
+	}
+    }
+}
