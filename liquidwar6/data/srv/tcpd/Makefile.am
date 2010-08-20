@@ -18,21 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@
+pkgdata_DATA = tcpd-const.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/srv/tcpd
+EXTRA_DIST = $(pkgdata_DATA)
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
-
-noinst_LTLIBRARIES = libmod_tcpd_s.la
-MOD_TCPD_FILES = mod-tcpd-backend.c mod-tcpd-data.c mod-tcpd-handshake.c mod-tcpd-info.c mod-tcpd-message.c mod-tcpd-oob.c mod-tcpd-setup.c mod-tcpd-state.c
-libmod_tcpd_s_la_SOURCES = $(MOD_TCPD_FILES) 
-
-if !ALLINONE
-lib_LTLIBRARIES = libmod_tcpd.la
-libmod_tcpd_la_SOURCES = $(MOD_TCPD_FILES) 
-libmod_tcpd_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
-libmod_tcpddir = $(includedir)/@PACKAGE_TARNAME@/srv/mod-tcpd
-libmod_tcpd_HEADERS = mod-tcpd.h
-endif
-
-EXTRA_DIST = mod-tcpd-internal.h

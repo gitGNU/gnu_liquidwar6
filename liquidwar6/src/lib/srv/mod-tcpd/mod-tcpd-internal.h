@@ -32,13 +32,27 @@
 #define _MOD_TCPD_PROTOCOL_R_STRING "\r"
 #define _MOD_TCPD_PROTOCOL_R_SIZE 1
 
-#define _MOD_TCPD_TIMEOUT 60
+typedef struct _tcpd_consts_s
+{
+  int error_timeout;
+}
+_tcpd_consts_t;
+
+typedef struct _tcpd_data_s
+{
+  _tcpd_consts_t consts;
+}
+_tcpd_data_t;
 
 typedef struct _tcpd_context_s
 {
-  int dummy_tcpd;
+  _tcpd_data_t data;
 }
 _tcpd_context_t;
+
+/* mod-tcpd-data.c */
+extern int _mod_tcpd_load_data (_tcpd_data_t * tcpd_data, char *data_dir);
+extern void _mod_tcpd_unload_data (_tcpd_data_t * tcpd_data);
 
 /*
  * In setup.c

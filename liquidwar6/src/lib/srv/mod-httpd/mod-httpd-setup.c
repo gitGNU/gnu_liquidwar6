@@ -103,8 +103,12 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 	{
 	  _mod_httpd_quit (httpd_context);
 	  httpd_context = NULL;
-	  lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_httpd"));
 	}
+    }
+
+  if (!httpd_context)
+    {
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_httpd"));
     }
 
   return httpd_context;

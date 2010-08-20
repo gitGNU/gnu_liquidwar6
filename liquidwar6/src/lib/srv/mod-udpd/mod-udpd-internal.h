@@ -25,13 +25,27 @@
 
 #include "../srv.h"
 
-#define _MOD_UDPD_TIMEOUT 40
+typedef struct _udpd_consts_s
+{
+  int error_timeout;
+}
+_udpd_consts_t;
+
+typedef struct _udpd_data_s
+{
+  _udpd_consts_t consts;
+}
+_udpd_data_t;
 
 typedef struct _udpd_context_s
 {
-  int dummy_udpd;
+  _udpd_data_t data;
 }
 _udpd_context_t;
+
+/* mod-udpd-data.c */
+extern int _mod_udpd_load_data (_udpd_data_t * udpd_data, char *data_dir);
+extern void _mod_udpd_unload_data (_udpd_data_t * udpd_data);
 
 /*
  * In setup.c

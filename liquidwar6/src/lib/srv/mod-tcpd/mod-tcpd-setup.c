@@ -31,10 +31,30 @@ _tcpd_context_t *
 _mod_tcpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
   _tcpd_context_t *tcpd_context = NULL;
+  char *data_dir = NULL;
+  int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("tcpd init"));
 
   tcpd_context = (_tcpd_context_t *) LW6SYS_CALLOC (sizeof (_tcpd_context_t));
+  if (tcpd_context)
+    {
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
+	{
+	  if (_mod_tcpd_load_data (&(tcpd_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
+	}
+      if (!ok)
+	{
+	  _mod_tcpd_quit (tcpd_context);
+	  tcpd_context = NULL;
+	}
+    }
+
   if (!tcpd_context)
     {
       lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_tcpd"));
@@ -47,5 +67,6 @@ void
 _mod_tcpd_quit (_tcpd_context_t * tcpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("tcpd quit"));
+  _mod_tcpd_unload_data (&(tcpd_context->data));
   LW6SYS_FREE (tcpd_context);
 }

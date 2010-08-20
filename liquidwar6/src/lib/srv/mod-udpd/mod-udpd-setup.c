@@ -31,13 +31,33 @@ _udpd_context_t *
 _mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
   _udpd_context_t *udpd_context = NULL;
+  char *data_dir = NULL;
+  int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("udpd init"));
 
   udpd_context = (_udpd_context_t *) LW6SYS_CALLOC (sizeof (_udpd_context_t));
+  if (udpd_context)
+    {
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
+	{
+	  if (_mod_udpd_load_data (&(udpd_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
+	}
+      if (!ok)
+	{
+	  _mod_udpd_quit (udpd_context);
+	  udpd_context = NULL;
+	}
+    }
+
   if (!udpd_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_ucpd"));
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_udpd"));
     }
 
   return udpd_context;
@@ -47,5 +67,6 @@ void
 _mod_udpd_quit (_udpd_context_t * udpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _("udpd quit"));
+  _mod_udpd_unload_data (&(udpd_context->data));
   LW6SYS_FREE (udpd_context);
 }

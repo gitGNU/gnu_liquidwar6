@@ -52,7 +52,9 @@ _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
   int ret = 0;
   int d = 0;
 
-  d = origin_timestamp + (_MOD_TCPD_TIMEOUT * 1000) - lw6sys_get_timestamp ();
+  d =
+    origin_timestamp + (tcpd_context->data.consts.error_timeout * 1000) -
+    lw6sys_get_timestamp ();
   ret = (d > 0);
 
   return ret;

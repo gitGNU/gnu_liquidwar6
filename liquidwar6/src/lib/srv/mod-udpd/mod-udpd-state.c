@@ -52,7 +52,9 @@ _mod_udpd_timeout_ok (_udpd_context_t * udpd_context,
   int ret = 0;
   int d = 0;
 
-  d = origin_timestamp + (_MOD_UDPD_TIMEOUT * 1000) - lw6sys_get_timestamp ();
+  d =
+    origin_timestamp + (udpd_context->data.consts.error_timeout * 1000) -
+    lw6sys_get_timestamp ();
   ret = (d > 0);
 
   return ret;

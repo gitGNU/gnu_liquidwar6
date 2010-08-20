@@ -8070,6 +8070,12 @@ C interfaces:
      make a big difference in polling loops between a process that eats
      100% CPU and a process that has a very moderate load.  of ticks.
 
+ -- Function: void lw6sys_snooze ()
+     Will sleep for some time, like `lw6sys_idle', except it's a
+     "longer" time, use this when you don't really care about
+     reactivity but are more concerned about saving CPU, not running
+     uselessly the same polling code.
+
  -- Function: void lw6sys_time_init ()
      Global initializations required to handle time properly.
 
