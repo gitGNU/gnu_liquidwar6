@@ -146,6 +146,7 @@ _mod_http_get (_http_context_t * http_context, char *url, char *password)
 				    ("curl_easy_setopt(CURLOPT_USERPWD)",
 				     res);
 				}
+			      LW6SYS_FREE(authorization);
 			    }
 			}
 		      /* get it! */
