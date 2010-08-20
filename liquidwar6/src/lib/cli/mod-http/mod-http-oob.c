@@ -265,37 +265,48 @@ _mod_http_process_oob (_http_context_t * http_context,
 	  ip = lw6net_dns_gethostbyname (parsed_url->host);
 	  if (ip)
 	    {
-	      if (_do_ping
-		  (http_context, node_info, oob_data,
-		   oob_data->public_url, parsed_url, ip))
+	      if (_mod_http_oob_should_continue (tcp_context, oob_data))
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_http client PING on node \"%s\" OK"),
-			      oob_data->public_url);
-		  if (_do_info
+		  if (_do_ping
 		      (http_context, node_info, oob_data,
-		       oob_data->public_url, parsed_url, ip,
-		       password_checksum))
+		       oob_data->public_url, parsed_url, ip))
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_http client INFO on node \"%s\" OK"),
+				  _("mod_http client PING on node \"%s\" OK"),
 				  oob_data->public_url);
-		      if (_do_list
+		      if (_do_info
 			  (http_context, node_info, oob_data,
 			   oob_data->public_url, parsed_url, ip,
 			   password_checksum))
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
-				      ("mod_http client LIST on node \"%s\" OK"),
+				      ("mod_http client INFO on node \"%s\" OK"),
 				      oob_data->public_url);
-			  ret = 1;
+			  if (_do_list
+			      (http_context, node_info, oob_data,
+			       oob_data->public_url, parsed_url, ip,
+			       password_checksum))
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _
+					  ("mod_http client LIST on node \"%s\" OK"),
+					  oob_data->public_url);
+			      ret = 1;
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _
+					  ("mod_http client LIST on node \"%s\" failed"),
+					  oob_data->public_url);
+			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
-				      ("mod_http client LIST on node \"%s\" failed"),
+				      ("mod_http client INFO on node \"%s\" failed"),
 				      oob_data->public_url);
 			}
 		    }
@@ -303,16 +314,9 @@ _mod_http_process_oob (_http_context_t * http_context,
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _
-				  ("mod_http client INFO on node \"%s\" failed"),
+				  ("mod_http client PING on node \"%s\" failed"),
 				  oob_data->public_url);
 		    }
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
-			      ("mod_http client PING on node \"%s\" failed"),
-			      oob_data->public_url);
 		}
 	      LW6SYS_FREE (ip);
 	    }
