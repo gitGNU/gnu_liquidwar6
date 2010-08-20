@@ -1,5 +1,7 @@
 2010-08-20 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Using round robin to choose a cli oob backend.
+
 	* All cli/srv modules have their own resource file.
 
 	* Optimized network functions by using some static buffers.

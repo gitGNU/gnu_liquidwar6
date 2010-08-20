@@ -55,7 +55,7 @@
 #define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8067/"
 
-#define TEST_POLL_DURATION 15000
+#define TEST_POLL_DURATION 90000
 
 /* 
  * Testing db

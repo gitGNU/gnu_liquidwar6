@@ -324,6 +324,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
   int ret = 0;
   char *canonized_url;
 
+  if (strlen(public_url)>0) {
   if (lw6nod_info_lock (info))
     {
       if (!info->discovered_nodes)
@@ -346,6 +347,7 @@ lw6nod_info_add_discovered_node (lw6nod_info_t * info, char *public_url)
       ret = ((info->discovered_nodes) != NULL);
       lw6nod_info_unlock (info);
     }
+  }
 
   return ret;
 }

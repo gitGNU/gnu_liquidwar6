@@ -83,12 +83,14 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	}
     }
 
+  i=node->explore.last_cli_oob_broadcast_backend;
+  i=(i+1)%node->nb_cli_backends;
+  node->explore.last_cli_oob_broadcast_backend=i;
+
   broadcast_url =
     lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_ANY, node->bind_port);
   if (broadcast_url)
     {
-      for (i = 0; i < node->nb_cli_backends; ++i)
-	{
 	  cli_oob =
 	    _lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
 					       node, broadcast_url);
@@ -102,7 +104,6 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 				      cli_oob);
 	      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
 	    }
-	}
       LW6SYS_FREE (broadcast_url);
     }
   if (node->bind_port != LW6NET_DEFAULT_PORT)
@@ -112,8 +113,6 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 				      LW6NET_DEFAULT_PORT);
       if (broadcast_url)
 	{
-	  for (i = 0; i < node->nb_cli_backends; ++i)
-	    {
 	      cli_oob =
 		_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
 						   node, broadcast_url);
@@ -127,7 +126,6 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 					  cli_oob);
 		  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
 		}
-	    }
 	  LW6SYS_FREE (broadcast_url);
 	}
     }
@@ -164,8 +162,10 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
   int i;
 
-  for (i = 0; i < node->nb_cli_backends; ++i)
-    {
+  i=node->explore.last_cli_oob_verify_backend;
+  i=(i+1)%node->nb_cli_backends;
+  node->explore.last_cli_oob_verify_backend=i;
+
       cli_oob =
 	_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
 					   node, public_url);
@@ -177,7 +177,6 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
 	    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
 	  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
 	}
-    }
 }
 
 int
