@@ -21,8 +21,8 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 788
-liquidwar6.info-2: 267585
-liquidwar6.info-3: 564818
+liquidwar6.info-2: 267811
+liquidwar6.info-3: 565044
 
 Tag Table:
 (Indirect)
@@ -70,17 +70,17 @@ Node: Sound options166710
 Node: Network options169064
 Node: Map parameters174184
 Node: Map rules.xml177576
-Node: Map hints.xml209831
-Node: Map style.xml224072
-Node: Advanced settings247648
-Node: Script hooks267291
-Node: C to Guile API267439
-Node: C functions267585
-Node: 2005 .plan564818
-Node: Fanfic577086
-Node: Links583419
-Node: Copying584907
-Node: GNU Free Documentation License622485
-Node: Indexes647648
+Node: Map hints.xml210057
+Node: Map style.xml224298
+Node: Advanced settings247874
+Node: Script hooks267517
+Node: C to Guile API267665
+Node: C functions267811
+Node: 2005 .plan565044
+Node: Fanfic577312
+Node: Links583645
+Node: Copying585133
+Node: GNU Free Documentation License622711
+Node: Indexes647874
 
 End Tag Table

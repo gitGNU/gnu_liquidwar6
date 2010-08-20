@@ -58,7 +58,7 @@
 #define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8067/"
 
-#define TEST_POLL_DURATION 90000
+#define TEST_NODE_OOB_DURATION 90000
 
 /* 
  * Testing db
@@ -381,7 +381,7 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_node_t * node1,
  * Testing node connection
  */
 static int
-_test_node_connect ()
+_test_node_oob ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -398,7 +398,7 @@ _test_node_connect ()
     int64_t end_timestamp = 0;
 
     ret = 0;
-    end_timestamp = lw6sys_get_timestamp () + TEST_POLL_DURATION;
+    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_OOB_DURATION;
     if (_init_nodes (&db12, &db34, &node1, &node2, &node3, &node4))
       {
 	while (lw6sys_get_timestamp () < end_timestamp)
@@ -456,7 +456,7 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv))
     {
-      ret = _test_db () && _test_node_init () && _test_node_connect ();
+      ret = _test_db () && _test_node_init () && _test_node_oob ();
       lw6net_quit (argc, argv);
     }
 

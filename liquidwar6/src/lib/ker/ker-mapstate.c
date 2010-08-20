@@ -897,8 +897,11 @@ _lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
 			{
 			  if (armies->fighters_per_team[i] <= 0)
 			    {
-			      armies->frags[i] -=
-				frags_to_distribute / nb_loosers;
+			      if (frags_mode == 1)
+				{
+				  armies->frags[i] -=
+				    frags_to_distribute / nb_loosers;
+				}
 			    }
 			  else
 			    {
@@ -925,39 +928,42 @@ _lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
 	    }
 	}
 
-      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+      if (frags_mode == 1)
 	{
-	  if (map_state->teams[i].active)
-	    {
-	      frags_total += armies->frags[i];
-	    }
-	}
-
-      while (frags_total < 0)
-	{
-	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total < 0; ++i)
+	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	    {
 	      if (map_state->teams[i].active)
 		{
-		  if (armies->frags[i] >= 0)
+		  frags_total += armies->frags[i];
+		}
+	    }
+
+	  while (frags_total < 0)
+	    {
+	      for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total < 0; ++i)
+		{
+		  if (map_state->teams[i].active)
 		    {
-		      armies->frags[i]++;
-		      frags_total++;
+		      if (armies->frags[i] >= 0)
+			{
+			  armies->frags[i]++;
+			  frags_total++;
+			}
 		    }
 		}
 	    }
-	}
 
-      while (frags_total > 0)
-	{
-	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total > 0; ++i)
+	  while (frags_total > 0)
 	    {
-	      if (map_state->teams[i].active)
+	      for (i = 0; i < LW6MAP_MAX_NB_TEAMS && frags_total > 0; ++i)
 		{
-		  if (armies->frags[i] <= 0)
+		  if (map_state->teams[i].active)
 		    {
-		      armies->frags[i]--;
-		      frags_total--;
+		      if (armies->frags[i] <= 0)
+			{
+			  armies->frags[i]--;
+			  frags_total--;
+			}
 		    }
 		}
 	    }

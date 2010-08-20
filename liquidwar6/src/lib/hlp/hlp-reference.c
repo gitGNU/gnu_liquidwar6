@@ -1232,7 +1232,7 @@ populate_references ()
 		LW6MAP_RULES_MAX_MEDICINE_POWER);
   POPULATE_INT (LW6DEF_FRAGS_MODE,
 		_
-		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode, 1 is new proportional mode, with a total of 0 kept constant."),
+		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode. 1 is new proportional mode, with a total of 0 kept constant, that is, loosers loose as many points as attributed to winners. 2 is a mode in which at each death, winners are attributed a number of points proportional to their fighters, and loosers scores remain untouched."),
 		LW6MAP_RULES_DEFAULT_FRAGS_MODE,
 		LW6MAP_RULES_MIN_FRAGS_MODE, LW6MAP_RULES_MAX_FRAGS_MODE);
   POPULATE_INT (LW6DEF_FRAGS_TO_DISTRIBUTE,
