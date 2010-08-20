@@ -29,9 +29,9 @@
 #include "mod-udp-internal.h"
 
 static void *
-_init ()
+_init (int argc, char *argv[])
 {
-  _udp_context_t *udp_context = _mod_udp_init ();
+  _udp_context_t *udp_context = _mod_udp_init (argc, argv);
 
   return (void *) udp_context;
 }

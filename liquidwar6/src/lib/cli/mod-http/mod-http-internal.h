@@ -25,16 +25,32 @@
 
 #include "../cli.h"
 
+typedef struct _http_consts_s
+{
+  int global_timeout;
+}
+_http_consts_t;
+
+typedef struct _http_data_s
+{
+  _http_consts_t consts;
+}
+_http_data_t;
+
 typedef struct _http_context_s
 {
-  int dummy_http;
+  _http_data_t data;
 }
 _http_context_t;
+
+/* mod-http-data.c */
+extern int _mod_http_load_data (_http_data_t * http_data, char *data_dir);
+extern void _mod_http_unload_data (_http_data_t * http_data);
 
 /*
  * In setup.c
  */
-extern _http_context_t *_mod_http_init ();
+extern _http_context_t *_mod_http_init (int argc, char *argv[]);
 extern void _mod_http_quit (_http_context_t * http_context);
 
 /*

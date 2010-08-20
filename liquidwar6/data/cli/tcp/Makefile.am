@@ -18,21 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@
+pkgdata_DATA = tcp-const.xml
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/cli/tcp
+EXTRA_DIST = $(pkgdata_DATA)
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/cli
-
-noinst_LTLIBRARIES = libmod_udp_s.la
-MOD_UDP_FILES = mod-udp-backend.c mod-udp-data.c mod-udp-handshake.c mod-udp-info.c mod-udp-message.c mod-udp-oob.c mod-udp-setup.c mod-udp-state.c
-libmod_udp_s_la_SOURCES = $(MOD_UDP_FILES) 
-
-if !ALLINONE
-lib_LTLIBRARIES = libmod_udp.la
-libmod_udp_la_SOURCES = $(MOD_UDP_FILES) 
-libmod_udp_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
-libmod_udpdir = $(includedir)/@PACKAGE_TARNAME@/cli/mod-udp
-libmod_udp_HEADERS = mod-udp.h
-endif
-
-EXTRA_DIST = mod-udp-internal.h

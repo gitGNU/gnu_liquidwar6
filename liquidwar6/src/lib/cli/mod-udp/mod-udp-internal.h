@@ -25,19 +25,33 @@
 
 #include "../cli.h"
 
-#define _MOD_UDP_TIMEOUT 20
-#define _MOD_UDP_BROADCAST_TIMEOUT 3
+typedef struct _udp_consts_s
+{
+  int global_timeout;
+  int broadcast_timeout;
+}
+_udp_consts_t;
+
+typedef struct _udp_data_s
+{
+  _udp_consts_t consts;
+}
+_udp_data_t;
 
 typedef struct _udp_context_s
 {
-  int dummy_udp;
+  _udp_data_t data;
 }
 _udp_context_t;
+
+/* mod-udp-data.c */
+extern int _mod_udp_load_data (_udp_data_t * udp_data, char *data_dir);
+extern void _mod_udp_unload_data (_udp_data_t * udp_data);
 
 /*
  * In setup.c
  */
-extern _udp_context_t *_mod_udp_init ();
+extern _udp_context_t *_mod_udp_init (int argc, char *argv[]);
 extern void _mod_udp_quit (_udp_context_t * udp_context);
 
 /*

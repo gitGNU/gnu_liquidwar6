@@ -25,18 +25,32 @@
 
 #include "../cli.h"
 
-#define _MOD_TCP_TIMEOUT 30
+typedef struct _tcp_consts_s
+{
+  int global_timeout;
+}
+_tcp_consts_t;
+
+typedef struct _tcp_data_s
+{
+  _tcp_consts_t consts;
+}
+_tcp_data_t;
 
 typedef struct _tcp_context_s
 {
-  int dummy_tcp;
+  _tcp_data_t data;
 }
 _tcp_context_t;
+
+/* mod-tcp-data.c */
+extern int _mod_tcp_load_data (_tcp_data_t * tcp_data, char *data_dir);
+extern void _mod_tcp_unload_data (_tcp_data_t * tcp_data);
 
 /*
  * In setup.c
  */
-extern _tcp_context_t *_mod_tcp_init ();
+extern _tcp_context_t *_mod_tcp_init (int argc, char *argv[]);
 extern void _mod_tcp_quit (_tcp_context_t * tcp_context);
 
 /*

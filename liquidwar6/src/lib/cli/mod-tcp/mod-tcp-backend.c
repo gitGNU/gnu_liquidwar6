@@ -29,9 +29,9 @@
 #include "mod-tcp-internal.h"
 
 static void *
-_init ()
+_init (int argc, char *argv[])
 {
-  _tcp_context_t *tcp_context = _mod_tcp_init ();
+  _tcp_context_t *tcp_context = _mod_tcp_init (argc, argv);
 
   return (void *) tcp_context;
 }

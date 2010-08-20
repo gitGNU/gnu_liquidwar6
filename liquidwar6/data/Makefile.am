@@ -18,5 +18,5 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = icon gfx snd net srv p2p
+SUBDIRS = icon gfx snd net srv cli p2p
 

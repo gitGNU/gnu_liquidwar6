@@ -28,24 +28,37 @@
 #include "mod-http-internal.h"
 
 _http_context_t *
-_mod_http_init ()
+_mod_http_init (int argc, char *argv[])
 {
   _http_context_t *http_context = NULL;
+  char *data_dir = NULL;
   int ok = 0;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _("http init"));
 
   http_context = (_http_context_t *) LW6SYS_CALLOC (sizeof (_http_context_t));
   if (http_context)
     {
-      ok = 1;
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
+	{
+	  if (_mod_http_load_data (&(http_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
+	}
+      if (!ok)
+	{
+	  _mod_http_quit (http_context);
+	  http_context = NULL;
+	}
     }
 
-  if (!ok)
+  if (!http_context)
     {
-      _mod_http_quit (http_context);
-      http_context = NULL;
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_http"));
     }
-
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-http", _("http init"));
 
   return http_context;
 }
@@ -53,6 +66,7 @@ _mod_http_init ()
 void
 _mod_http_quit (_http_context_t * http_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-http", _("http quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _("http quit"));
+  _mod_http_unload_data (&(http_context->data));
   LW6SYS_FREE (http_context);
 }

@@ -762,6 +762,10 @@ AC_CONFIG_FILES([Makefile
 	  data/srv/udpd/Makefile
 	  data/srv/httpd/Makefile
 	  data/srv/httpd/htdocs/Makefile
+	  data/cli/Makefile
+	  data/cli/tcp/Makefile
+	  data/cli/udp/Makefile
+	  data/cli/http/Makefile
 	  data/p2p/Makefile
 	  data/p2p/sql/Makefile
 	  data/p2p/screenshot/Makefile

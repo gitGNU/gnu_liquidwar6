@@ -29,9 +29,9 @@
 #include "mod-http-internal.h"
 
 static void *
-_init ()
+_init (int argc, char *argv[])
 {
-  _http_context_t *http_context = _mod_http_init ();
+  _http_context_t *http_context = _mod_http_init (argc, argv);
 
   return (void *) http_context;
 }

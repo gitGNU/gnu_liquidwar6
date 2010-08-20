@@ -28,24 +28,37 @@
 #include "mod-tcp-internal.h"
 
 _tcp_context_t *
-_mod_tcp_init ()
+_mod_tcp_init (int argc, char *argv[])
 {
   _tcp_context_t *tcp_context = NULL;
+  char *data_dir = NULL;
   int ok = 0;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _("tcp init"));
 
   tcp_context = (_tcp_context_t *) LW6SYS_CALLOC (sizeof (_tcp_context_t));
   if (tcp_context)
     {
-      ok = 1;
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
+	{
+	  if (_mod_tcp_load_data (&(tcp_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
+	}
+      if (!ok)
+	{
+	  _mod_tcp_quit (tcp_context);
+	  tcp_context = NULL;
+	}
     }
 
-  if (!ok)
+  if (!tcp_context)
     {
-      _mod_tcp_quit (tcp_context);
-      tcp_context = NULL;
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_tcp"));
     }
-
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-tcp", _("tcp init"));
 
   return tcp_context;
 }
@@ -53,6 +66,7 @@ _mod_tcp_init ()
 void
 _mod_tcp_quit (_tcp_context_t * tcp_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-tcp", _("tcp quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _("tcp quit"));
+  _mod_tcp_unload_data (&(tcp_context->data));
   LW6SYS_FREE (tcp_context);
 }

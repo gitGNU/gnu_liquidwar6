@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <int key="global-timeout" value="10" />
+  <int key="broadcast-timeout" value="2" />
+</liquidwar6>

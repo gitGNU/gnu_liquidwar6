@@ -28,24 +28,37 @@
 #include "mod-udp-internal.h"
 
 _udp_context_t *
-_mod_udp_init ()
+_mod_udp_init (int argc, char *argv[])
 {
   _udp_context_t *udp_context = NULL;
+  char *data_dir = NULL;
   int ok = 0;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _("udp init"));
 
   udp_context = (_udp_context_t *) LW6SYS_CALLOC (sizeof (_udp_context_t));
   if (udp_context)
     {
-      ok = 1;
+      data_dir = lw6sys_get_data_dir (argc, argv);
+      if (data_dir)
+	{
+	  if (_mod_udp_load_data (&(udp_context->data), data_dir))
+	    {
+	      ok = 1;
+	    }
+	  LW6SYS_FREE (data_dir);
+	}
+      if (!ok)
+	{
+	  _mod_udp_quit (udp_context);
+	  udp_context = NULL;
+	}
     }
 
-  if (!ok)
+  if (!udp_context)
     {
-      _mod_udp_quit (udp_context);
-      udp_context = NULL;
+      lw6sys_log (LW6SYS_LOG_ERROR, _("can't initialize mod_udp"));
     }
-
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-udp", _("udp init"));
 
   return udp_context;
 }
@@ -53,6 +66,7 @@ _mod_udp_init ()
 void
 _mod_udp_quit (_udp_context_t * udp_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, "cli-mod-udp", _("udp quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _("udp quit"));
+  _mod_udp_unload_data (&(udp_context->data));
   LW6SYS_FREE (udp_context);
 }

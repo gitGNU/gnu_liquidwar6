@@ -304,7 +304,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = icon gfx snd net srv p2p
+SUBDIRS = icon gfx snd net srv cli p2p
 all: all-recursive
 
 .SUFFIXES:
