@@ -861,15 +861,21 @@ _lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
   int frags_total = 0;
   int delta_frags[LW6MAP_MAX_NB_TEAMS];
 
-  memset (delta_frags, 0, sizeof (int) * LW6MAP_MAX_NB_TEAMS);
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      delta_frags[i] = 0;
+    }
 
   if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED
       || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
     {
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  armies->frags[i] *=
-	    lw6ker_percent (armies->frags[i], frags_fade_out);
+	  if (map_state->teams[i].active)
+	    {
+	      armies->frags[i] =
+		lw6ker_percent (armies->frags[i], frags_fade_out);
+	    }
 	}
     }
 
@@ -891,70 +897,81 @@ _lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
   if (frags_mode == LW6MAP_RULES_FRAGS_MODE_ONE_NEGATIVE_POINT)
     {
       // old school simple moe
-      delta_frags[team_color]--;
+      delta_frags[team_color] = -1;
     }
 
   if (frags_mode == LW6MAP_RULES_FRAGS_MODE_ONE_FOR_WINNERS_ALL_FOR_LOSER)
     {
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (armies->fighters_per_team[i] <= 0)
+	  if (map_state->teams[i].active)
 	    {
-	      delta_frags[i] = -lw6sys_max (1, nb_winners);
-	    }
-	  else
-	    {
-	      delta_frags[i] = 1;
+	      if (armies->fighters_per_team[i] <= 0)
+		{
+		  delta_frags[i] = -lw6sys_max (1, nb_winners);
+		}
+	      else
+		{
+		  delta_frags[i] = 1;
+		}
 	    }
 	}
 
     }
 
   active_fighters = armies->active_fighters;
-  if (active_fighters > 0)
+  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED
+      || frags_mode == LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
     {
-      if (nb_loosers > 0)
+      if (active_fighters > 0)
 	{
-	  if (nb_winners > 0)
+	  if (nb_loosers > 0)
 	    {
-	      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	      if (nb_winners > 0)
 		{
-		  if (map_state->teams[i].active)
+		  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 		    {
-		      if (armies->fighters_per_team[i] <= 0)
+		      if (map_state->teams[i].active)
 			{
-			  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED)
+			  if (armies->fighters_per_team[i] <= 0)
 			    {
-			      delta_frags[i] -=
-				lw6sys_max (1,
-					    frags_to_distribute / nb_loosers);
+			      if (frags_mode ==
+				  LW6MAP_RULES_FRAGS_MODE_BALANCED)
+				{
+				  delta_frags[i] -=
+				    lw6sys_max (1,
+						frags_to_distribute /
+						nb_loosers);
+				}
+			    }
+			  else
+			    {
+			      if (frags_mode ==
+				  LW6MAP_RULES_FRAGS_MODE_BALANCED
+				  || frags_mode ==
+				  LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
+				delta_frags[i] +=
+				  lw6sys_max (1,
+					      (frags_to_distribute *
+					       armies->fighters_per_team[i]) /
+					      armies->active_fighters);
 			    }
 			}
-		      else
-			{
-			  if (frags_mode == LW6MAP_RULES_FRAGS_MODE_BALANCED
-			      || frags_mode ==
-			      LW6MAP_RULES_FRAGS_MODE_PROPORTIONAL)
-			    delta_frags[i] +=
-			      lw6sys_max (1,
-					  (frags_to_distribute *
-					   armies->fighters_per_team[i]) /
-					  armies->active_fighters);
-			}
 		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("can't calculate frags when there are no winners"));
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _
-			  ("can't calculate frags when there are no winners"));
+			  ("can't calculate frags when there are no loosers"));
 	    }
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("can't calculate frags when there are no loosers"));
 	}
     }
 
@@ -1005,6 +1022,9 @@ _lw6ker_map_state_frag (lw6ker_map_state_t * map_state, int team_color,
 
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      armies->frags[i] += delta_frags[i];
+      if (map_state->teams[i].active)
+	{
+	  armies->frags[i] += delta_frags[i];
+	}
     }
 }
