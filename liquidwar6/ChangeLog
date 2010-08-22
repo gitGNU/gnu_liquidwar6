@@ -2,6 +2,8 @@
 
 	* Released 0.0.9beta.
 
+	* Fixed crash when audio driver was broken.
+
 	* Fixed broadcast.
 
 	* Fixed starting position algorithm (wasn't working like described in docs).
