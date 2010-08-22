@@ -261,12 +261,25 @@ _do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _
-				      ("list from %s:%d \"%s\" contains \"%s\", registering it"),
-				      ip, parsed_url->port, url, response);
-			  lw6nod_info_add_discovered_node (node_info,
-							   response);
+			  if (lw6sys_url_is_canonized (response))
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _
+					  ("list from %s:%d \"%s\" contains \"%s\", registering it"),
+					  ip, parsed_url->port, url,
+					  response);
+			      lw6nod_info_add_discovered_node (node_info,
+							       response);
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _
+					  ("list from %s:%d \"%s\" contains non-canonized url \"%s\""),
+					  ip, parsed_url->port, url,
+					  response);
+			      ret = 0;
+			    }
 			}
 		      LW6SYS_FREE (response);
 		    }
@@ -299,7 +312,7 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_ANY))
+      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_BROADCAST))
 	{
 	  // no broadcast in TCP
 	  ret = 1;

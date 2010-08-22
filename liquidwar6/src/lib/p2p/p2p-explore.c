@@ -88,7 +88,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
   node->explore.last_cli_oob_broadcast_backend = i;
 
   broadcast_url =
-    lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_ANY, node->bind_port);
+    lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST, node->bind_port);
   if (broadcast_url)
     {
       cli_oob =
@@ -108,7 +108,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
   if (node->bind_port != LW6NET_DEFAULT_PORT)
     {
       broadcast_url =
-	lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_ANY,
+	lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
 				      LW6NET_DEFAULT_PORT);
       if (broadcast_url)
 	{

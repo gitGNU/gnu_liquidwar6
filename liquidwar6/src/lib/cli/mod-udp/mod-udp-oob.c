@@ -48,11 +48,12 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 				     NULL, node_info->const_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_udp (sock, request, LW6NET_ADDRESS_ANY, port))
+	  if (lw6net_send_line_udp
+	      (sock, request, LW6NET_ADDRESS_BROADCAST, port))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _("sent UDP OOB request \"%s\" to %s:%d"), request,
-			  LW6NET_ADDRESS_ANY, port);
+			  LW6NET_ADDRESS_BROADCAST, port);
 	      lw6sys_snooze ();
 	      ret = 1;
 	      while (_mod_udp_oob_should_continue (udp_context, oob_data, 1))
@@ -285,9 +286,17 @@ _list_response_callback (void *func_data, void *data)
 
   if (strlen (line) > 0)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("list contains \"%s\", registering it"), line);
-      lw6nod_info_add_discovered_node (node_info, line);
+      if (lw6sys_url_is_canonized (line))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("list contains \"%s\", registering it"), line);
+	  lw6nod_info_add_discovered_node (node_info, line);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("list contains non-canonized url \"%s\""), line);
+	}
     }
 }
 
@@ -362,7 +371,7 @@ _mod_udp_process_oob (_udp_context_t * udp_context, lw6nod_info_t * node_info,
   parsed_url = lw6sys_url_parse (oob_data->public_url);
   if (parsed_url)
     {
-      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_ANY))
+      if (lw6sys_str_is_same (parsed_url->host, LW6NET_ADDRESS_BROADCAST))
 	{
 	  if (_do_broadcast
 	      (udp_context, node_info, oob_data, parsed_url->port))
