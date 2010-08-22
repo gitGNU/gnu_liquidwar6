@@ -425,7 +425,7 @@ update_map_rules (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_TOTAL_TIME);
   lw6sys_list_push_back (list, LW6DEF_RESPAWN_TEAM);
-  lw6sys_list_push_back (list, LW6DEF_RESPAWN_RANDOM_PLACE);
+  lw6sys_list_push_back (list, LW6DEF_RESPAWN_POSITION_MODE);
   lw6sys_list_push_back (list, LW6DEF_MOVES_PER_ROUND);
   lw6sys_list_push_back (list, LW6DEF_SPREADS_PER_ROUND);
   lw6sys_list_push_back (list, LW6DEF_ROUNDS_PER_SEC);

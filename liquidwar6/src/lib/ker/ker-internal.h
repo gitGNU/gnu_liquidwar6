@@ -95,7 +95,7 @@ extern void _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 extern int _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor,
 					 u_int64_t node_id);
 extern int _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y,
-					int team_color, int random_place,
+					int team_color, int position_mode,
 					int random_seed, lw6sys_whd_t * shape,
 					lw6map_rules_t * rules);
 extern void _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
@@ -148,7 +148,7 @@ extern void _lw6ker_game_state_update_checksum (lw6ker_game_state_t *
 						game_state,
 						u_int32_t * checksum);
 extern int _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
-					int team_color, int random_place);
+					int team_color, int position_mode);
 extern int _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 					   int team_color);
 

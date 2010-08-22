@@ -236,7 +236,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_RESAMPLE "resample"
 #define LW6DEF_RESET "reset"
 #define LW6DEF_RESET_CONFIG_ON_UPGRADE "reset-config-on-upgrade"
-#define LW6DEF_RESPAWN_RANDOM_PLACE "respawn-random-place"
+#define LW6DEF_RESPAWN_POSITION_MODE "respawn-position-mode"
 #define LW6DEF_RESPAWN_TEAM "respawn-team"
 #define LW6DEF_ROUND_DELTA "round-delta"
 #define LW6DEF_ROUNDS_PER_SEC "rounds-per-sec"

@@ -69,64 +69,81 @@ _lw6ker_cursor_check_node_id (lw6ker_cursor_t * cursor, u_int64_t node_id)
 
 int
 _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
-			     int random_place, int random_seed,
+			     int position_mode, int random_seed,
 			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 1;
   int32_t px = 50;
   int32_t py = 50;
+  u_int32_t checksum = 0;
 
-  if (random_place)
+  checksum = lw6sys_checksum_int32 (random_seed + team_color);
+  /*
+   * Update with something for when seed is 0 (game beginning)
+   * then checksum is 0...
+   */
+  lw6sys_checksum_update_int32 (&checksum, shape->w * shape->h);
+
+  if (position_mode == LW6MAP_RULES_POSITION_MODE_TOTAL_RANDOM)
     {
-      team_color =
-	((team_color + random_seed) & 0xFFFF) % LW6MAP_NB_TEAM_COLORS;
+      px = checksum % 100;
+      py = lw6sys_checksum_int32 (checksum + team_color) % 100;
     }
-
-  switch (team_color)
+  else
     {
-    case LW6MAP_TEAM_COLOR_RED:
-      px = rules->start_red_x;
-      py = rules->start_red_y;
-      break;
-    case LW6MAP_TEAM_COLOR_GREEN:
-      px = rules->start_green_x;
-      py = rules->start_green_y;
-      break;
-    case LW6MAP_TEAM_COLOR_BLUE:
-      px = rules->start_blue_x;
-      py = rules->start_blue_y;
-      break;
-    case LW6MAP_TEAM_COLOR_YELLOW:
-      px = rules->start_yellow_x;
-      py = rules->start_yellow_y;
-      break;
-    case LW6MAP_TEAM_COLOR_CYAN:
-      px = rules->start_cyan_x;
-      py = rules->start_cyan_y;
-      break;
-    case LW6MAP_TEAM_COLOR_MAGENTA:
-      px = rules->start_magenta_x;
-      py = rules->start_magenta_y;
-      break;
-    case LW6MAP_TEAM_COLOR_ORANGE:
-      px = rules->start_orange_x;
-      py = rules->start_orange_y;
-      break;
-    case LW6MAP_TEAM_COLOR_LIGHTBLUE:
-      px = rules->start_lightblue_x;
-      py = rules->start_lightblue_y;
-      break;
-    case LW6MAP_TEAM_COLOR_PURPLE:
-      px = rules->start_purple_x;
-      py = rules->start_purple_y;
-      break;
-    case LW6MAP_TEAM_COLOR_PINK:
-      px = rules->start_pink_x;
-      py = rules->start_pink_y;
-      break;
-    default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("invalid team_color=%d"), team_color);
-      ret = 0;
+      if (position_mode == LW6MAP_RULES_POSITION_MODE_PICK_EXISTING)
+	{
+	  team_color =
+	    ((team_color + checksum) & 0xFFFF) % LW6MAP_NB_TEAM_COLORS;
+	}
+
+      switch (team_color)
+	{
+	case LW6MAP_TEAM_COLOR_RED:
+	  px = rules->start_red_x;
+	  py = rules->start_red_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_GREEN:
+	  px = rules->start_green_x;
+	  py = rules->start_green_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_BLUE:
+	  px = rules->start_blue_x;
+	  py = rules->start_blue_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_YELLOW:
+	  px = rules->start_yellow_x;
+	  py = rules->start_yellow_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_CYAN:
+	  px = rules->start_cyan_x;
+	  py = rules->start_cyan_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_MAGENTA:
+	  px = rules->start_magenta_x;
+	  py = rules->start_magenta_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_ORANGE:
+	  px = rules->start_orange_x;
+	  py = rules->start_orange_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_LIGHTBLUE:
+	  px = rules->start_lightblue_x;
+	  py = rules->start_lightblue_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_PURPLE:
+	  px = rules->start_purple_x;
+	  py = rules->start_purple_y;
+	  break;
+	case LW6MAP_TEAM_COLOR_PINK:
+	  px = rules->start_pink_x;
+	  py = rules->start_pink_y;
+	  break;
+	default:
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("invalid team_color=%d"),
+		      team_color);
+	  ret = 0;
+	}
     }
 
   (*x) = lw6ker_percent (shape->w, px);

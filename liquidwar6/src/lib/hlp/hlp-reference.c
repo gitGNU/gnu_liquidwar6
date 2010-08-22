@@ -658,7 +658,7 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_SKIP_NETWORK,
 		 _
 		 ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."),
-		 0);
+		 1);
   POPULATE_STR (LW6DEF_PASSWORD,
 		_
 		("The password to use for network games. Do not use a valuable password, as this is stored as clear text on your hard drive. Still, the game will only send a hash/checksum of the password on the network so eavesdropper won't be able to read it. They can see the hash/checksum and use it if clever, but they can't guess the real password. A blank password means anyone can join your games when you act like a server."),
@@ -917,12 +917,12 @@ populate_references ()
 		("Defines what to do when a team dies. If set to 0, team disappears forever, if set to 1, team reappears automatically with fresh fighters. It's a deathmatch mode, where the winner is not the one who stays alive the longest time, since it makes no real sens in this case, but the one who has died less often than others."),
 		LW6MAP_RULES_DEFAULT_RESPAWN_TEAM,
 		LW6MAP_RULES_MIN_RESPAWN_TEAM, LW6MAP_RULES_MAX_RESPAWN_TEAM);
-  POPULATE_INT (LW6DEF_RESPAWN_RANDOM_PLACE,
+  POPULATE_INT (LW6DEF_RESPAWN_POSITION_MODE,
 		_
-		("If set, team will respawn in a random place, instead of re-appearing always at the same place."),
-		LW6MAP_RULES_DEFAULT_RESPAWN_RANDOM_PLACE,
-		LW6MAP_RULES_MIN_RESPAWN_RANDOM_PLACE,
-		LW6MAP_RULES_MAX_RESPAWN_RANDOM_PLACE);
+		("Defines how teams are set up on the map when respawning. 0 means teams respect the pre-defined start positions. 1 means that a random position will be picked, among the existing positions. That is, red could take green's place. 2 means total randomness, teams can appear anywhere."),
+		LW6MAP_RULES_DEFAULT_RESPAWN_POSITION_MODE,
+		LW6MAP_RULES_MIN_RESPAWN_POSITION_MODE,
+		LW6MAP_RULES_MAX_RESPAWN_POSITION_MODE);
   POPULATE_INT (LW6DEF_MOVES_PER_ROUND,
 		_
 		("Defines how many times fighters move per round. Increasing this will just make fighters move faster, but won't change anything for the rest, that is keyboard and mouse responsivity, and network traffic will stay the same. Multiplying the number of moves per round by the number of rounds per second will give the number of moves per second, which is, in fact, how fast fighters move on the screen."),
@@ -1193,7 +1193,7 @@ populate_references ()
 		LW6MAP_RULES_MIN_START_PINK_Y, LW6MAP_RULES_MAX_START_PINK_Y);
   POPULATE_INT (LW6DEF_START_POSITION_MODE,
 		_
-		("Defines how teams or set up on the map at game startup. 0, the default, means teams respect the pre-defined start positions. 1 means that a random position will be picked, among the existing positions. That is, red could take green's place. 2 means total randomness, teams can appear anywhere."),
+		("Defines how teams are set up on the map at game startup. 0 means teams respect the pre-defined start positions. 1 means that a random position will be picked, among the existing positions. That is, red could take green's place. 2 means total randomness, teams can appear anywhere."),
 		LW6MAP_RULES_DEFAULT_START_POSITION_MODE,
 		LW6MAP_RULES_MIN_START_POSITION_MODE,
 		LW6MAP_RULES_MAX_START_POSITION_MODE);
@@ -1232,7 +1232,7 @@ populate_references ()
 		LW6MAP_RULES_MAX_MEDICINE_POWER);
   POPULATE_INT (LW6DEF_FRAGS_MODE,
 		_
-		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode. 1 is new proportional mode, with a total of 0 kept constant, that is, loosers loose as many points as attributed to winners. 2 is a mode in which at each death, winners are attributed a number of points proportional to their fighters, and loosers scores remain untouched."),
+		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode. 1 is in a mode in which 1 point is attributed to every winner, and looser looses all the corresponding points (total is always 0). 2 isproportional mode, with a total of 0 kept constant, that is, loosers loose as many points as attributed to winners. 3 is a mode in which at each death, winners are attributed a number of points proportional to their fighters, and loosers scores remain untouched."),
 		LW6MAP_RULES_DEFAULT_FRAGS_MODE,
 		LW6MAP_RULES_MIN_FRAGS_MODE, LW6MAP_RULES_MAX_FRAGS_MODE);
   POPULATE_INT (LW6DEF_FRAGS_TO_DISTRIBUTE,
@@ -1243,7 +1243,7 @@ populate_references ()
 		LW6MAP_RULES_MAX_FRAGS_TO_DISTRIBUTE);
   POPULATE_INT (LW6DEF_FRAGS_FADE_OUT,
 		_
-		("When a player looses (in deathmatch mode) all player points will be multiplicated by this percentage, for instance if it's 90 and player had 50 points, then player will only have 45 points, then points corresponding to the new death will be added/substrated to its total. This is to avoid players with thousands of points in advance, and keep everyone in the race. A low value will minimize the importance of game start."),
+		("When a player looses (in deathmatch mode) all player points will be multiplicated by this percentage, for instance if it's 90 and player had 50 points, then player will only have 45 points, then points corresponding to the new death will be added/substrated to its total. This is to avoid players with thousands of points in advance, and keep everyone in the race. A low value will minimize the importance of game start. This is only used in modes where frags are distributed in a proportional way."),
 		LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT,
 		LW6MAP_RULES_MIN_FRAGS_FADE_OUT,
 		LW6MAP_RULES_MAX_FRAGS_FADE_OUT);

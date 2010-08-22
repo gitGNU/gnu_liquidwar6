@@ -229,7 +229,7 @@
 (define lw6def-resample "resample")
 (define lw6def-reset "reset")
 (define lw6def-reset-config-on-upgrade "reset-config-on-upgrade")
-(define lw6def-respawn-random-place "respawn-random-place")
+(define lw6def-respawn-position-mode "respawn-position-mode")
 (define lw6def-respawn-team "respawn-team")
 (define lw6def-round-delta "round-delta")
 (define lw6def-rounds-per-sec "rounds-per-sec")

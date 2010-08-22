@@ -440,7 +440,8 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 	      if (lw6ker_game_state_team_exists (game_state, real_team_color))
 		{
 		  if (_lw6ker_cursor_get_start_xy
-		      (&x, &y, real_team_color, 0, 0,
+		      (&x, &y, real_team_color, rules->start_position_mode,
+		       lw6ker_game_state_get_rounds (game_state),
 		       &(game_state->map_state.shape), rules))
 		    {
 		      ret =
@@ -584,7 +585,7 @@ lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
 
 int
 _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
-			     int random_place)
+			     int position_mode)
 {
   int ret = 0;
   int32_t i;
@@ -604,7 +605,7 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
       int32_t x;
       int32_t y;
 
-      _lw6ker_cursor_get_start_xy (&x, &y, team_color, random_place,
+      _lw6ker_cursor_get_start_xy (&x, &y, team_color, position_mode,
 				   lw6ker_game_state_get_rounds (game_state),
 				   &(game_state->map_state.shape), rules);
       desired_center.x = x;
@@ -681,7 +682,10 @@ lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
 
   if (check_node_id (game_state, node_id))
     {
-      ret = _lw6ker_game_state_add_team (game_state, team_color, 0);
+      ret =
+	_lw6ker_game_state_add_team (game_state, team_color,
+				     game_state->game_struct->
+				     rules.start_position_mode);
       if (ret)
 	{
 	  /*
@@ -996,7 +1000,7 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 		   */
 		  _lw6ker_game_state_add_team (game_state, team_color,
 					       game_state->game_struct->
-					       rules.respawn_random_place);
+					       rules.respawn_position_mode);
 		}
 	      else
 		{

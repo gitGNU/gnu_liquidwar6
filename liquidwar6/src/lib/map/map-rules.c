@@ -31,7 +31,7 @@
 char *LW6MAP_RULES_LIST[] = {
   LW6DEF_TOTAL_TIME,
   LW6DEF_RESPAWN_TEAM,
-  LW6DEF_RESPAWN_RANDOM_PLACE,
+  LW6DEF_RESPAWN_POSITION_MODE,
   LW6DEF_MOVES_PER_ROUND,
   LW6DEF_SPREADS_PER_ROUND,
   LW6DEF_ROUNDS_PER_SEC,
@@ -95,7 +95,7 @@ char *LW6MAP_RULES_LIST[] = {
 static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_TOTAL_TIME,
   LW6MAP_RULES_DEFAULT_RESPAWN_TEAM,
-  LW6MAP_RULES_DEFAULT_RESPAWN_RANDOM_PLACE,
+  LW6MAP_RULES_DEFAULT_RESPAWN_POSITION_MODE,
   LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND,
   LW6MAP_RULES_DEFAULT_SPREADS_PER_ROUND,
   LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC,
@@ -158,7 +158,7 @@ static lw6map_rules_t default_rules = {
 static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_TOTAL_TIME,
   LW6MAP_RULES_MIN_RESPAWN_TEAM,
-  LW6MAP_RULES_MIN_RESPAWN_RANDOM_PLACE,
+  LW6MAP_RULES_MIN_RESPAWN_POSITION_MODE,
   LW6MAP_RULES_MIN_MOVES_PER_ROUND,
   LW6MAP_RULES_MIN_SPREADS_PER_ROUND,
   LW6MAP_RULES_MIN_ROUNDS_PER_SEC,
@@ -221,7 +221,7 @@ static lw6map_rules_t min_rules = {
 static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_TOTAL_TIME,
   LW6MAP_RULES_MAX_RESPAWN_TEAM,
-  LW6MAP_RULES_MAX_RESPAWN_RANDOM_PLACE,
+  LW6MAP_RULES_MAX_RESPAWN_POSITION_MODE,
   LW6MAP_RULES_MAX_MOVES_PER_ROUND,
   LW6MAP_RULES_MAX_SPREADS_PER_ROUND,
   LW6MAP_RULES_MAX_ROUNDS_PER_SEC,
@@ -302,7 +302,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
 {
   lw6sys_checksum_update_int32 (checksum, rules->total_time);
   lw6sys_checksum_update_int32 (checksum, rules->respawn_team);
-  lw6sys_checksum_update_int32 (checksum, rules->respawn_random_place);
+  lw6sys_checksum_update_int32 (checksum, rules->respawn_position_mode);
   lw6sys_checksum_update_int32 (checksum, rules->moves_per_round);
   lw6sys_checksum_update_int32 (checksum, rules->spreads_per_round);
   lw6sys_checksum_update_int32 (checksum, rules->rounds_per_sec);
@@ -381,9 +381,9 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	    {
 	      ret = &(rules->respawn_team);
 	    }
-	  else if (!strcmp (formatted_key, LW6DEF_RESPAWN_RANDOM_PLACE))
+	  else if (!strcmp (formatted_key, LW6DEF_RESPAWN_POSITION_MODE))
 	    {
-	      ret = &(rules->respawn_random_place);
+	      ret = &(rules->respawn_position_mode);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_MOVES_PER_ROUND))
 	    {

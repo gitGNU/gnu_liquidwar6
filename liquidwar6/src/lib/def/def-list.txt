@@ -210,7 +210,7 @@ repeat-interval
 resample
 reset
 reset-config-on-upgrade
-respawn-random-place
+respawn-position-mode
 respawn-team
 round-delta
 rounds-per-sec
