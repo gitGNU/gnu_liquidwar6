@@ -159,7 +159,7 @@ _do_ping (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
 				      ("received UDP data from %s:%d when expecting it to come from %s:%d"),
 				      incoming_ip, incoming_port, ip,
