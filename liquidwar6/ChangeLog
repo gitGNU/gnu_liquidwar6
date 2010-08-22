@@ -1,5 +1,7 @@
 2010-08-22 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Released 0.0.9beta.
+
 	* Fixed broadcast.
 
 	* Fixed starting position algorithm (wasn't working like described in docs).

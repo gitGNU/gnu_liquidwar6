@@ -1,5 +1,12 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* August 2010: release of 0.0.9beta. This releases fixes bugs
+  28030 (killing spree with small teams), 30409 (OS/X packaging), 
+  and 30354 (libpng detection). Frags are now by default calculated
+  using a new method which gives bonuses to numerous teams when
+  another team is dead. Network node auto-detection and listing
+  works, however it's not activated by default.
+
 * July 2010: release of 0.0.8beta. Game is now packaged for
   GNU/Linux, Microsoft Windows and Mac OS/X. Has a  bunch of
   new features including multiple layers, auto speed-calibration,
