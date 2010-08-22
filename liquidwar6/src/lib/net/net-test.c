@@ -25,6 +25,7 @@
 #endif
 
 #include "net.h"
+#include "net-internal.h"
 
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
@@ -42,6 +43,43 @@
 #define TEST_LINE3 "azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty azerty"
 #define TEST_LINES_OK "there\nare\n4\nlines\n"
 #define TEST_LINES_KO "this\nis\ntruncated"
+
+static int
+test_address ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    struct in_addr in;
+    char *str = NULL;
+
+    ret = 0;
+    if (inet_aton (TEST_HOST_IP, &in))
+      {
+	str = _lw6net_inet_ntoa (in);
+	if (str)
+	  {
+	    if (lw6sys_str_is_same (TEST_HOST_IP, str))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("\"%s\" converted to/from in_addr OK"), str);
+		ret = 1;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("\"%s\" transformed in \"%s\" by aton + ntoa"),
+			    TEST_HOST_IP, str);
+	      }
+	    LW6SYS_FREE (str);
+	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
 
 static int
 test_dns ()
@@ -679,8 +717,8 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv) && test_dns () && test_if ()
-    && test_tcp () && test_udp () && test_line ();
+  ret = lw6net_init (argc, argv) && test_address () && test_dns ()
+    && test_if () && test_tcp () && test_udp () && test_line ();
 
   if (ret)
     {

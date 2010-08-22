@@ -37,6 +37,8 @@ lw6net_udp_client ()
 {
   int sock = -1;
   int err = 0;
+  int enable = 1;
+
 #ifdef LW6_MS_WINDOWS
   unsigned long enable_ul = 1;
 #endif
@@ -48,7 +50,16 @@ lw6net_udp_client ()
   if (sock >= 0)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("new UDP socket %d"), sock);
+
       _lw6net_global_context->socket_counters.open_counter++;
+
+      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
+		      (char *) &enable, sizeof (int)))
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("setsockopt(SO_BROADCAST) failed"));
+	  lw6net_last_error ();
+	}
 
 #ifdef LW6_MS_WINDOWS
       err = ioctlsocket (sock, FIONBIO, &enable_ul);
@@ -72,6 +83,8 @@ lw6net_udp_server (char *ip, int port)
 {
   int sock = -1;
   int err = 0;
+  int enable = 1;
+
 #ifdef LW6_MS_WINDOWS
   unsigned long enable_ul = 1;
 #endif
@@ -79,6 +92,14 @@ lw6net_udp_server (char *ip, int port)
   sock = _lw6net_socket_bind (ip, port, SOCK_DGRAM);
   if (sock >= 0)
     {
+      if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
+		      (char *) &enable, sizeof (int)))
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("setsockopt(SO_BROADCAST) failed"));
+	  lw6net_last_error ();
+	}
+
 #ifdef LW6_MS_WINDOWS
       err = ioctlsocket (sock, FIONBIO, &enable_ul);
 #else
@@ -118,6 +139,12 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
 	  send_size = res;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("%d bytes sent on UDP socket %d"),
 		      send_size, sock);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("unable to send %d bytes on UDP socket %d"), len,
+		      sock);
 	}
     }
   else

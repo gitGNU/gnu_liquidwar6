@@ -103,19 +103,22 @@ lw6net_tcp_accept (char **incoming_ip,
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_KEEPALIVE,
 			      (char *) &enable, sizeof (int)))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("setsockopt() failed"));
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("setsockopt(SO_KEEPALIVE) failed"));
 		  lw6net_last_error ();
 		}
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_OOBINLINE,
 			      (char *) &disable, sizeof (int)))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("setsockopt() failed"));
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("setsockopt(SO_OOBINLINE) failed"));
 		  lw6net_last_error ();
 		}
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_LINGER,
 			      (char *) &li, sizeof (struct linger)))
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("setsockopt() failed"));
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("setsockopt(SO_LINGER) failed"));
 		  lw6net_last_error ();
 		}
 
@@ -220,21 +223,21 @@ lw6net_tcp_connect (char *ip, int port)
 				  (char *) &enable, sizeof (int)))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt() failed"));
+				  _("setsockopt(SO_KEEPALIVE) failed"));
 		      lw6net_last_error ();
 		    }
 		  if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
 				  (char *) &disable, sizeof (int)))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt() failed"));
+				  _("setsockopt(SO_OOBINLINE) failed"));
 		      lw6net_last_error ();
 		    }
 		  if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
 				  (char *) &li, sizeof (struct linger)))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt() failed"));
+				  _("setsockopt(SO_LINGER) failed"));
 		      lw6net_last_error ();
 		    }
 

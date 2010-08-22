@@ -144,7 +144,8 @@
 			(lw6-splash)
 			(lw6-game-idle)
 			(lw6-music-ambiance)
-			(lw6-bench #f)
+			(if (not (c-lw6gui-input-poll-quit dsp))
+			    (lw6-bench #f))
 			(lw6-node-start) ;; node  must be start *after* bench
 			(lw6-game-loop)
 			(c-lw6cns-quit)

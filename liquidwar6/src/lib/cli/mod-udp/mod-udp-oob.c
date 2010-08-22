@@ -67,7 +67,7 @@ _do_broadcast (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
-				      ("mod_udpd client BROADCAST discovered %s:%d \"%s\""),
+				      ("mod_udp client BROADCAST discovered %s:%d \"%s\""),
 				      incoming_ip, port, given_url);
 			  lw6nod_info_add_discovered_node (node_info,
 							   given_url);
@@ -380,6 +380,12 @@ _mod_udp_process_oob (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 			  _("mod_udp client BROADCAST on \"%s\" OK"),
 			  oob_data->public_url);
 	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _("mod_udp client BROADCAST on \"%s\" failed"),
+			  oob_data->public_url);
 	    }
 	}
       else
