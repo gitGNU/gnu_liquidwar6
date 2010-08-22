@@ -1,5 +1,7 @@
 2010-08-22 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed the way liquidwar6.desktop is installed.
+
 	* Fixed crash when audio driver was broken.
 
 	* Fixed broadcast.
