@@ -1,3 +1,11 @@
+2010-08-23 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Released 0.0.9beta.
+
+	* Closing graphics backend before anything else on exit.
+
+	* Added portable wrapper on inet_aton/inet_addr.
+
 2010-08-22 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed the way liquidwar6.desktop is installed.

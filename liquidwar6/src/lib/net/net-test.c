@@ -55,7 +55,7 @@ test_address ()
     char *str = NULL;
 
     ret = 0;
-    if (inet_aton (TEST_HOST_IP, &in))
+    if (_lw6net_inet_aton (&in, TEST_HOST_IP))
       {
 	str = _lw6net_inet_ntoa (in);
 	if (str)

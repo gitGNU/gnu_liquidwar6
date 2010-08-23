@@ -126,6 +126,7 @@ extern _lw6net_context_t *_lw6net_global_context;
  * In address.c
  */
 extern char *_lw6net_inet_ntoa (struct in_addr in);
+extern int _lw6net_inet_aton (struct in_addr *in, char *ip);
 
 /*
  * In const.c

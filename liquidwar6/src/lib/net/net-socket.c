@@ -86,11 +86,7 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
 	{
 	  name.sin_family = AF_INET;
 	  name.sin_addr.s_addr = INADDR_ANY;
-#ifdef LW6_MS_WINDOWS
-	  name.sin_addr.s_addr = inet_addr (ip);
-#else
-	  if (inet_aton (ip, &name.sin_addr) != 0)
-#endif
+	  if (_lw6net_inet_aton (&name.sin_addr, ip))
 	    {
 	      name.sin_port = htons (port);
 	      if (bind (sock, (struct sockaddr *) &name, sizeof name) >= 0)
@@ -107,14 +103,6 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
 		  lw6net_last_error ();
 		}
 	    }
-#ifndef LW6_MS_WINDOWS
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("inetaton() failed, ip=\"%s\""), ip);
-	      lw6net_last_error ();
-	    }
-#endif
 	}
       else
 	{

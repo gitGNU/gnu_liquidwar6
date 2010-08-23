@@ -125,11 +125,7 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
   int res;
 
   name.sin_family = AF_INET;
-#ifdef LW6_MS_WINDOWS
-  if ((name.sin_addr.s_addr = inet_addr (ip)) != 0)
-#else
-  if (inet_aton (ip, &name.sin_addr) != 0)
-#endif
+  if (_lw6net_inet_aton (&name.sin_addr, ip))
     {
       name.sin_port = htons (port);
       res =
@@ -146,15 +142,6 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
 		      _("unable to send %d bytes on UDP socket %d"), len,
 		      sock);
 	}
-    }
-  else
-    {
-#ifdef LW6_MS_WINDOWS
-      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_addr() failed, ip=\"%s\""), ip);
-#else
-      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_aton() failed, ip=\"%s\""), ip);
-#endif
-      lw6net_last_error ();
     }
 
   return send_size;

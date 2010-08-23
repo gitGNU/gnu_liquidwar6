@@ -146,11 +146,12 @@
 			(lw6-music-ambiance)
 			(if (not (c-lw6gui-input-poll-quit dsp))
 			    (lw6-bench #f))
-			(lw6-node-start) ;; node  must be start *after* bench
+			(lw6-node-start) ;; node must be start *after* bench
 			(lw6-game-loop)
+			(c-lw6dsp-release dsp) ;; do it before node-stop
 			(c-lw6cns-quit)
 			(lw6-node-stop)
-			(c-lw6-release)
+			(c-lw6-release) ;; global safety release
 			(lw6-clear)
 			)
 		      (begin

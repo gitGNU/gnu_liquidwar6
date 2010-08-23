@@ -203,11 +203,7 @@ lw6net_tcp_connect (char *ip, int port)
       if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 	{
 	  name.sin_family = AF_INET;
-#ifdef LW6_MS_WINDOWS
-	  if ((name.sin_addr.s_addr = inet_addr (ip)) != 0)
-#else
-	  if (inet_aton (ip, &name.sin_addr) != 0)
-#endif
+	  if (_lw6net_inet_aton (&name.sin_addr, ip))
 	    {
 	      name.sin_port = htons (port);
 	      if (connect (sock, (struct sockaddr *) &name, sizeof (name)) >=
@@ -259,18 +255,6 @@ lw6net_tcp_connect (char *ip, int port)
 		   * log...
 		   */
 		}
-	    }
-	  else
-	    {
-#ifdef LW6_MS_WINDOWS
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("inet_addr() failed, ip=\"%s\""), ip);
-	      lw6net_last_error ();
-#else
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("inet_aton() failed, ip=\"%s\""), ip);
-	      lw6net_last_error ();
-#endif
 	    }
 	}
       else

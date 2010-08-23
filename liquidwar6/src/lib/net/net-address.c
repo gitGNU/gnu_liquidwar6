@@ -43,3 +43,35 @@ _lw6net_inet_ntoa (struct in_addr in)
 
   return ret;
 }
+
+/*
+ * inet_aton on UNIX and inet_addr on MS-Windows
+ */
+int
+_lw6net_inet_aton (struct in_addr *in, char *ip)
+{
+  int ret = 0;
+
+  memset (in, 0, sizeof (struct in_addr));
+
+#ifdef LW6_MS_WINDOWS
+  if ((in->s_addr = inet_addr (ip)) != 0)
+#else
+  if (inet_aton (ip, in) != 0)
+#endif
+    {
+      ret = 1;
+    }
+  else
+    {
+#ifdef LW6_MS_WINDOWS
+      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_addr() failed, ip=\"%s\""), ip);
+      lw6net_last_error ();
+#else
+      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_aton() failed, ip=\"%s\""), ip);
+      lw6net_last_error ();
+#endif
+    }
+
+  return ret;
+}

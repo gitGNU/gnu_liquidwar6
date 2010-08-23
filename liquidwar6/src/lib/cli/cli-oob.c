@@ -93,7 +93,31 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 	   * them later.
 	   */
 	  oob->data.do_not_finish = 1;
+	  if (oob->data.public_url)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _
+			  ("joining cli OOB thread connecting on \"%s\" this might take some time..."),
+			  oob->data.public_url);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _
+			  ("joining cli OOB thread, this might take some time..."));
+	    }
 	  lw6sys_thread_join (oob->thread);
+	  if (oob->data.public_url)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _
+			  ("joined cli OOB thread connecting on \"%s\""),
+			  oob->data.public_url);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("joined cli OOB thread"));
+	    }
 	}
 
       if (oob->data.public_url)

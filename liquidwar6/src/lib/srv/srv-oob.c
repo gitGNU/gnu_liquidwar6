@@ -96,7 +96,27 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	   * them later.
 	   */
 	  oob->data.do_not_finish = 1;
+	  if (oob->data.remote_ip)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _("joining srv OOB thread serving \"%s:%d\""),
+			  oob->data.remote_ip, oob->data.remote_port);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("joining srv OOB thread"));
+	    }
 	  lw6sys_thread_join (oob->thread);
+	  if (oob->data.remote_ip)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _("joined srv OOB thread serving \"%s:%d\""),
+			  oob->data.remote_ip, oob->data.remote_port);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("joined srv OOB thread"));
+	    }
 	}
 
       if (oob->data.remote_ip)
