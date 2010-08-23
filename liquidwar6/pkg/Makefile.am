@@ -38,7 +38,7 @@ clean-local:
 
 TMP=/tmp/@PACKAGE_TARNAME@
 PACKAGE_TMP=/tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
-DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
+DLL_ZIP=/storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20100823.zip
 
 targz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 

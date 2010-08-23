@@ -2,6 +2,8 @@
 
 	* Released 0.0.9beta.
 
+	* Repackaged MS-Windows dlls, libcurl-4.dll was missing.	
+
 	* Closing graphics backend before anything else on exit.
 
 	* Added portable wrapper on inet_aton/inet_addr.

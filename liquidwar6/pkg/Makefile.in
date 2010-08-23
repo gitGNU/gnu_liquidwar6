@@ -299,7 +299,7 @@ EXTRA_DIST = $(pkgdata_DATA) liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi.i
 # doing things in /tmp/liquidwar6. Use at your own risk.
 TMP = /tmp/@PACKAGE_TARNAME@
 PACKAGE_TMP = /tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
-DLL_ZIP = /storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20080915.zip
+DLL_ZIP = /storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20100823.zip
 all: all-am
 
 .SUFFIXES:
