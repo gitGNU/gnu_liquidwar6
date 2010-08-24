@@ -89,10 +89,7 @@ C interfaces:
      *Return value:*  none
 
  -- Function: void lw6_exit ()
-     Will exit the program. If there are some display objects alive,
-     that is if there's a display activated, it will find them and send
-     a quit event, giving a chance to the to exit cleanly.  If not, it
-     will just call `exit'() directly.
+     Sends a quit message and displays a newline.
 
      *Return value:*  none
 
@@ -1514,22 +1511,6 @@ C interfaces:
      the FIFO list.
 
      *Return value:*  1 if success, O if failure.
-
- -- Function: int lw6gui_input_poll_quit (lw6gui_input_t * INPUT)
-     INPUT:  the input to query
-
-     Asks the display manager wether a quit event (usually CTRL-C or
-     click on close button) has been detected.
-
-     *Return value:*  1 if quit was receivedm 0 if not
-
- -- Function: void lw6gui_input_send_quit (lw6gui_input_t * INPUT)
-     INPUT:  the input to send an event to
-
-     Artificially send a QUIT event (equivalent of CTRL-C or click on
-     close button). This allow a uniform treatment of game stopping.
-
-     *Return value:*  none
 
  -- Function: int lw6gui_joystick_check_index (int I)
      I:  index to check
