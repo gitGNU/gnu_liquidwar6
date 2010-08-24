@@ -85,6 +85,14 @@ So this option will affect game responsiveness, setting this to a high value
 will make the game more responsive but consume bandwidth on network games.
 @end deffn
 
+@subsection daemon
+@deffn {Command-line option} @code{--daemon}
+@deffnx {Environment variable} @code{LW6_DAEMON}
+Start the game in daemon mode, this is typically used with the server mode, if
+you want the process to be detached from the console and executed in the
+background.
+@end deffn
+
 @subsection debug-layer-id
 @deffn {Command-line option} @code{--debug-layer-id=<value>}
 @deffnx {Environment variable} @code{LW6_DEBUG_LAYER_ID}

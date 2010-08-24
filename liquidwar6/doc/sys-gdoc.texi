@@ -1227,6 +1227,40 @@ is it allocates memory, and does the dirty job.
 @strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_daemon_pid_file} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc as passed to @code{main}
+
+@var{argv}:  argv as passed to @code{main}
+
+Get the default pid file, used to lock daemon and avoid
+2 daemons running at the same time.
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
+@deftypefun {int} {lw6sys_daemon_start} (char * @var{pid_file})
+@var{pid_file}:  the pid file used for the daemon
+
+Calls @code{fork}() internally to put the process in the program, 
+make it a daemon. Note this won't work on all platforms,
+for instance it won't work on MS-Windows but this is rarely
+an issue as MS-Windows users are rarely concerned with
+detaching a program from a tty. Note that this isn't a
+wrapper on @code{fork}(), the return value is different,
+1 on success, 0 if failed.
+
+@strong{Return value:}  a process ID on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_daemon_stop} (char * @var{pid_file})
+@var{pid_file}:  the pid file used for the daemon
+
+Removes the daemon pid file. Can be called safely even
+if daemon wasn't started.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
 @deftypefun {int} {lw6sys_debug_get} ()
 
 Gets the debug mode.
@@ -3365,6 +3399,67 @@ Compares two shapes.
 Compares two shapes, but ignores the z (d) parameter.
 
 @strong{Return value:}  1 if same_xy, 0 if not.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_custom} ()
+
+Set up our signal handlers. This will probably be overrided
+later by other libs such as libSDL, but at least in pure server
+mode it gives a way to treat SIGTERM the right way.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_default} ()
+
+Restore default signal handlers for those modified by @code{lw6sys_signal_custom}.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_term_handler} (int @var{signum})
+@var{signum}:  SIGTERM
+
+The own TERM signal handler, will basically call 
+the @code{lw6sys_signal_send_quit} function, which will
+set a flag used later by @code{lw6sys_signal_poll_quit}.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_int_handler} (int @var{signum})
+@var{signum}:  SIGINT
+
+The own INT signal handler, will basically call 
+the @code{lw6sys_signal_send_quit} function, which will
+set a flag used later by @code{lw6sys_signal_poll_quit}.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_hup_handler} (int @var{signum})
+@var{signum}:  SIGTERM
+
+The own HUP signal handler, will basically do
+something that shows the program is alive, typically
+display a NOTICE message.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_signal_send_quit} ()
+
+Sets the quit flag to 1, so that @code{lw6sys_signal_poll_quit} returns
+true, that is, tells the polling loop to stop.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_signal_poll_quit} ()
+
+Tests wether we need to stop right now.
+
+@strong{Return value:}  1 if we need to stop now, 0 if program can continue.
 @end deftypefun
 
 @deftypefun {int} {lw6sys_sort_int_callback} (lw6sys_list_t ** @var{list_a}, lw6sys_list_t ** @var{list_b})

@@ -520,6 +520,11 @@ extern char *lw6sys_itoa (int value);
 extern char *lw6sys_btoa (int value);
 extern char *lw6sys_ftoa (float value);
 
+/* sys-daemon.c */
+extern char *lw6sys_daemon_pid_file (int argc, char *argv[]);
+extern int lw6sys_daemon_start (char *pid_file);
+extern int lw6sys_daemon_stop (char *pid_file);
+
 /* sys-debug.c */
 extern int lw6sys_debug_get ();
 extern void lw6sys_debug_set (int mode);
@@ -551,8 +556,6 @@ extern char *lw6sys_escape_sql_value (char *src);
 extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
 extern int lw6sys_is_executed_again (int argc, char *argv[]);
 extern int lw6sys_exec_again (int argc, char *argv[]);
-extern int lw6sys_exec_daemonize (int argc, char *argv[]);
-extern int lw6sys_exec_unlock_daemon (int argc, char *argv[]);
 
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);
@@ -856,6 +859,15 @@ extern int lw6sys_shape_is_same (lw6sys_whd_t * shape_a,
 				 lw6sys_whd_t * shape_b);
 extern int lw6sys_shape_is_same_xy (lw6sys_whd_t * shape_a,
 				    lw6sys_whd_t * shape_b);
+
+/* sys-signal.c */
+extern void lw6sys_signal_custom ();
+extern void lw6sys_signal_default ();
+extern void lw6sys_signal_term_handler (int signum);
+extern void lw6sys_signal_int_handler (int signum);
+extern void lw6sys_signal_hup_handler (int signum);
+extern void lw6sys_signal_send_quit ();
+extern int lw6sys_signal_poll_quit ();
 
 /* sys-sort.c */
 extern int lw6sys_sort_int_callback (lw6sys_list_t ** list_a,

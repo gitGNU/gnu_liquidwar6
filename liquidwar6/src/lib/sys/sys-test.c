@@ -157,6 +157,7 @@
 #define TEST_SORT_STR {"9","3","4","5","6","8","7","2","0","1"};
 #define TEST_SORT_STR_MIN "0"
 #define TEST_SORT_STR_MAX "9"
+#define _TEST_SIGNAL_LOOPS 25
 #define TEST_CONVERT_INT 421
 #define TEST_CONVERT_BOOL 1
 #define TEST_CONVERT_FLOAT 3.14f
@@ -586,6 +587,38 @@ test_convert ()
     else
       {
 	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Test functions in daemon.c
+ */
+static int
+test_daemon ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int argc = TEST_ARGC;
+    char *argv[TEST_ARGC] =
+      { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
+    char *pid_file = NULL;
+
+    pid_file = lw6sys_daemon_pid_file (argc, argv);
+    if (pid_file)
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("pid file=\"%s\""), pid_file);
+	/*
+	 * We don't test lw6sys_daemon_start for this would (obviously?)
+	 * cause some problems to follow the rest of the test.
+	 */
+	lw6sys_daemon_stop (pid_file);
+	LW6SYS_FREE (pid_file);
       }
   }
 
@@ -2544,6 +2577,47 @@ test_random ()
 }
 
 /*
+ * Testing functions in signal.c
+ */
+static int
+test_signal ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i;
+
+    if (lw6sys_signal_poll_quit ())
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("quit!=0, strange..."));
+      }
+    lw6sys_signal_custom ();
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_
+		("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));
+    for (i = 0; i < _TEST_SIGNAL_LOOPS; ++i)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("quit=%d"),
+		    lw6sys_signal_poll_quit ());
+	lw6sys_snooze ();
+      }
+    lw6sys_signal_send_quit ();
+    if (!lw6sys_signal_poll_quit ())
+      {
+	ret = 0;
+      }
+    lw6sys_signal_term_handler (0);
+    lw6sys_signal_int_handler (0);
+    lw6sys_signal_hup_handler (0);
+    lw6sys_signal_default ();
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in sort.c
  */
 static int
@@ -3527,15 +3601,15 @@ lw6sys_test (int mode)
   int ret = 0;
 
   ret = test_arg () && test_assoc () && test_build () && test_checksum ()
-    && test_color () && test_convert () && test_dump () && test_env ()
-    && test_escape () && test_file () && test_profiler () && test_hash ()
-    && test_hexa () && test_history () && test_i18n () && test_id ()
-    && test_keyword () && test_list () && test_log (mode) && test_math ()
-    && test_mem () && test_mutex () && test_options () && test_nop ()
-    && test_password () && test_path () && test_progress () && test_random ()
-    && test_sdl () && test_serial () && test_shape () && test_sort ()
-    && test_spinlock () && test_str () && test_thread () && test_time ()
-    && test_url () && test_vthread ();
+    && test_color () && test_convert () && test_daemon () && test_dump ()
+    && test_env () && test_escape () && test_file () && test_profiler ()
+    && test_hash () && test_hexa () && test_history () && test_i18n ()
+    && test_id () && test_keyword () && test_list () && test_log (mode)
+    && test_math () && test_mem () && test_mutex () && test_options ()
+    && test_nop () && test_password () && test_path () && test_progress ()
+    && test_random () && test_sdl () && test_serial () && test_shape ()
+    && test_signal () && test_sort () && test_spinlock () && test_str ()
+    && test_thread () && test_time () && test_url () && test_vthread ();
 
   return ret;
 }

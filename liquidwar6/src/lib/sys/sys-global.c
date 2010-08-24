@@ -28,4 +28,4 @@
 #include "sys-internal.h"
 
 _lw6sys_global_t _lw6sys_global =
-  { _LW6SYS_DEBUG_DEFAULT, LW6SYS_LOG_DEFAULT_ID };
+  { _LW6SYS_DEBUG_DEFAULT, LW6SYS_LOG_DEFAULT_ID, _LW6SYS_QUIT_DEFAULT };

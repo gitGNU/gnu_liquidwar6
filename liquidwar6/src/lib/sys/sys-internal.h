@@ -48,6 +48,7 @@
 #endif
 
 #define _LW6SYS_DEBUG_DEFAULT 0
+#define _LW6SYS_QUIT_DEFAULT 0
 
 // ticks limit set to 15 minutes
 #define _LW6SYS_TICKS_LIMIT 900000
@@ -109,6 +110,7 @@ typedef struct _lw6sys_global_s
 {
   int debug;
   int log_level;
+  int quit;
 } _lw6sys_global_t;
 
 extern _lw6sys_global_t _lw6sys_global;

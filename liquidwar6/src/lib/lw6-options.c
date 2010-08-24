@@ -74,6 +74,7 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
   char *path = NULL;
   char *value = NULL;
   char *log_file = NULL;
+  char *pid_file = NULL;
 
   (*run_game) = 1;
   for (i = 1; i < argc; ++i)
@@ -93,15 +94,19 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	   * DAEMON mode is one of the first check we make for we want to switch
 	   * into this mode as soon as possible.
 	   */
-	  if (lw6sys_exec_daemonize (argc, argv))
+	  pid_file = lw6sys_daemon_pid_file (argc, argv);
+	  if (pid_file)
 	    {
-	      // OK
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_ERROR,
-			  _("unable to start game in daemon mode"));
-	      (*run_game) = 0;
+	      if (lw6sys_daemon_start (pid_file))
+		{
+		  // OK
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_ERROR, _("unable to start daemon"));
+		  (*run_game) = 0;
+		}
+	      LW6SYS_FREE (pid_file);
 	    }
 	}
       else if (lw6sys_arg_match (LW6DEF_HELP, argv[i]) ||

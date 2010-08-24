@@ -113,6 +113,7 @@ lw6_main (int argc, char *argv[])
   int log_level = 0;
   char *log_file = NULL;
   int run_game = 1;
+  char *pid_file = NULL;
 
   ret = lw6_process_non_run_options (argc, argv, &run_game);
   if (run_game)
@@ -178,7 +179,13 @@ lw6_main (int argc, char *argv[])
     {
       lw6sys_clear_memory_bazooka ();
     }
-  lw6sys_exec_unlock_daemon (argc, argv);
+
+  pid_file = lw6sys_daemon_pid_file (argc, argv);
+  if (pid_file)
+    {
+      lw6sys_daemon_stop (pid_file);
+      LW6SYS_FREE (pid_file);
+    }
 
   return ret;
 }

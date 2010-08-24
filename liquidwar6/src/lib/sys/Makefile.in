@@ -81,29 +81,29 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libsys_la_LIBADD =
 am__libsys_la_SOURCES_DIST = sys-arg.c sys-assoc.c sys-bazooka.c \
 	sys-build.c sys-checksum.c sys-color.c sys-convert.c \
-	sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c \
-	sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c \
-	sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c \
-	sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c \
-	sys-options.c sys-password.c sys-path.c sys-print.c \
+	sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c \
+	sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c \
+	sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c \
+	sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c \
+	sys-nop.c sys-options.c sys-password.c sys-path.c sys-print.c \
 	sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c \
-	sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c \
-	sys-time.c sys-url.c sys-vthread.c sys-testandsetx86.s \
-	sys-macosx.m
+	sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c \
+	sys-thread.c sys-time.c sys-url.c sys-vthread.c \
+	sys-testandsetx86.s sys-macosx.m
 @LW6_X86_TRUE@am__objects_1 = sys-testandsetx86.lo
 @LW6_MAC_OS_X_TRUE@am__objects_2 = sys-macosx.lo
 am_libsys_la_OBJECTS = sys-arg.lo sys-assoc.lo sys-bazooka.lo \
 	sys-build.lo sys-checksum.lo sys-color.lo sys-convert.lo \
-	sys-debug.lo sys-dump.lo sys-env.lo sys-escape.lo sys-exec.lo \
-	sys-file.lo sys-global.lo sys-profiler.lo sys-hash.lo \
-	sys-hexa.lo sys-history.lo sys-i18n.lo sys-id.lo \
-	sys-keyword.lo sys-list.lo sys-log.lo sys-math.lo sys-mem.lo \
-	sys-mutex.lo sys-nop.lo sys-options.lo sys-password.lo \
-	sys-path.lo sys-print.lo sys-progress.lo sys-random.lo \
-	sys-sdl.lo sys-serial.lo sys-shape.lo sys-sort.lo \
-	sys-spinlock.lo sys-str.lo sys-test.lo sys-thread.lo \
-	sys-time.lo sys-url.lo sys-vthread.lo $(am__objects_1) \
-	$(am__objects_2)
+	sys-daemon.lo sys-debug.lo sys-dump.lo sys-env.lo \
+	sys-escape.lo sys-exec.lo sys-file.lo sys-global.lo \
+	sys-profiler.lo sys-hash.lo sys-hexa.lo sys-history.lo \
+	sys-i18n.lo sys-id.lo sys-keyword.lo sys-list.lo sys-log.lo \
+	sys-math.lo sys-mem.lo sys-mutex.lo sys-nop.lo sys-options.lo \
+	sys-password.lo sys-path.lo sys-print.lo sys-progress.lo \
+	sys-random.lo sys-sdl.lo sys-serial.lo sys-shape.lo \
+	sys-signal.lo sys-sort.lo sys-spinlock.lo sys-str.lo \
+	sys-test.lo sys-thread.lo sys-time.lo sys-url.lo \
+	sys-vthread.lo $(am__objects_1) $(am__objects_2)
 libsys_la_OBJECTS = $(am_libsys_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsysdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -369,7 +369,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @LW6_GTK_ENABLE_LDFLAGS@ -lm
 @LW6_MAC_OS_X_FALSE@OBJC_EXTRA_FILES = sys-macosx.m
 @LW6_MAC_OS_X_TRUE@OBJC_EXTRA_FILES = 
 noinst_LTLIBRARIES = libsys.la
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-password.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-url.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-bazooka.c sys-build.c sys-checksum.c sys-color.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-global.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-options.c sys-password.c sys-path.c sys-print.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-test.c sys-thread.c sys-time.c sys-url.c sys-vthread.c $(X86_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir = $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 @FULLSTATIC_FALSE@liquidwar6sys_test_SOURCES = sys-testmain.c
@@ -482,6 +482,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-checksum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-color.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-convert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-daemon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-debug.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-dump.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-env.Plo@am__quote@
@@ -512,6 +513,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-sdl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-serial.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-shape.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-signal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-sort.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-spinlock.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys-str.Plo@am__quote@

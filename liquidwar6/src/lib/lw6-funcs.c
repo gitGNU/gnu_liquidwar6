@@ -2095,6 +2095,59 @@ _scm_lw6sys_path_split (SCM path)
 }
 
 /*
+ * In signal.c
+ */
+static SCM
+_scm_lw6sys_signal_custom ()
+{
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  lw6sys_signal_custom ();
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6sys_signal_defaults ()
+{
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  lw6sys_signal_defaults ();
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6sys_signal_send_quit ()
+{
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  lw6sys_signal_send_quit ();
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6sys_signal_poll_quit ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = lw6sys_signal_poll_quit ();
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+/*
  * In time.c
  */
 static SCM
@@ -7906,6 +7959,17 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6sys_path_parent);
   scm_c_define_gsubr ("c-lw6sys-path-split", 1, 0, 0,
 		      (SCM (*)())_scm_lw6sys_path_split);
+  /*
+   * In signal.c
+   */
+  scm_c_define_gsubr ("c-lw6sys-signal-custom",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
+  scm_c_define_gsubr ("c-lw6sys-signal-defaults",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_defaults);
+  scm_c_define_gsubr ("c-lw6sys-signal-send-quit",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_send_quit);
+  scm_c_define_gsubr ("c-lw6sys-poll-quit",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_poll_quit);
   /*
    * In time.c
    */
