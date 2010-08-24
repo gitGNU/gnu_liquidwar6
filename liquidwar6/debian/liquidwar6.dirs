@@ -1,7 +1,7 @@
 usr/games
-usr/lib/liquidwar6-0.0.9beta/bot
-usr/lib/liquidwar6-0.0.9beta/cli
-usr/lib/liquidwar6-0.0.9beta/srv
+usr/lib/liquidwar6-0.0.10beta/bot
+usr/lib/liquidwar6-0.0.10beta/cli
+usr/lib/liquidwar6-0.0.10beta/srv
 usr/share/info
 usr/share/man/man6
 usr/share/doc/liquidwar6/html

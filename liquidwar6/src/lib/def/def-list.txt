@@ -1,4 +1,5 @@
 ?
+daemon
 about
 ambiance-exclude
 ambiance-file

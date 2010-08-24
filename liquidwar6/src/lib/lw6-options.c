@@ -87,6 +87,23 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  lw6sys_log (LW6SYS_LOG_ERROR, _("unknown option \"%s\""), argv[i]);
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_DAEMON, argv[i]))
+	{
+	  /*
+	   * DAEMON mode is one of the first check we make for we want to switch
+	   * into this mode as soon as possible.
+	   */
+	  if (lw6sys_exec_daemonize (argc, argv))
+	    {
+	      // OK
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_ERROR,
+			  _("unable to start game in daemon mode"));
+	      (*run_game) = 0;
+	    }
+	}
       else if (lw6sys_arg_match (LW6DEF_HELP, argv[i]) ||
 	       lw6sys_arg_match ("h", argv[i])
 	       || lw6sys_arg_match ("?", argv[i]))

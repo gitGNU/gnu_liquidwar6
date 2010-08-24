@@ -551,6 +551,8 @@ extern char *lw6sys_escape_sql_value (char *src);
 extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
 extern int lw6sys_is_executed_again (int argc, char *argv[]);
 extern int lw6sys_exec_again (int argc, char *argv[]);
+extern int lw6sys_exec_daemonize (int argc, char *argv[]);
+extern int lw6sys_exec_unlock_daemon (int argc, char *argv[]);
 
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);

@@ -690,6 +690,7 @@ update_tuning (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_DEBUG_GRADIENT);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_CONSOLE);
   lw6sys_list_push_back (list, LW6DEF_SERVER);
+  lw6sys_list_push_back (list, LW6DEF_DAEMON);
   lw6sys_list_push_back (list, LW6DEF_QUICK_START);
   lw6sys_list_push_back (list, LW6DEF_DEMO);
   lw6sys_list_push_back (list, LW6DEF_BENCH);

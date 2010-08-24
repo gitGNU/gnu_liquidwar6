@@ -178,6 +178,7 @@ lw6_main (int argc, char *argv[])
     {
       lw6sys_clear_memory_bazooka ();
     }
+  lw6sys_exec_unlock_daemon (argc, argv);
 
   return ret;
 }

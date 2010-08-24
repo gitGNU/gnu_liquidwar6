@@ -27,8 +27,14 @@
 #include "sys.h"
 
 #include <unistd.h>
+#ifndef LW6_MS_WINDOWS
+#include <fcntl.h>
+#endif
 
 #define _EXECUTED_AGAIN_TRUE "1"
+#define _DAEMON_FILE "daemon.lock"
+
+static int _daemon_file_descriptor = -1;
 
 /**
  * lw6sys_exec_find_myself
@@ -149,6 +155,170 @@ lw6sys_exec_again (int argc, char *argv[])
 		  _("executed again so no new process started"));
       ret = 1;
     }
+
+  return ret;
+}
+
+/**
+ * lw6sys_exec_daemonize
+ *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
+ *
+ * Calls @fork() internally to put the process in the program, 
+ * make it a daemon. Note this won't work on all platforms,
+ * for instance it won't work on MS-Windows but this is rarely
+ * an issue as MS-Windows users are rarely concerned with
+ * detaching a program from a tty. Note that this isn't a
+ * wrapper on @fork(), the return value is different,
+ * 1 on success, 0 if failed.
+ *
+ * Return value: a process ID on success, 0 on failure.
+ */
+int
+lw6sys_exec_daemonize (int argc, char *argv[])
+{
+  int ret = 0;
+
+#ifdef LW6_MS_WINDOWS
+  lw6sys_log (LW6SYS_LOG_WARNING,
+	      _("can't start daemon on Microsoft Windows, not supported"));
+#else
+  int fork_ret = 0;
+  char *user_dir = NULL;
+  char *daemon_file = NULL;
+  char *pid_str = NULL;
+  int pid_int = 0;
+
+  user_dir = lw6sys_get_user_dir (argc, argv);
+  if (user_dir)
+    {
+      daemon_file = lw6sys_path_concat (user_dir, _DAEMON_FILE);
+      if (daemon_file)
+	{
+	  fork_ret = fork ();
+	  if (fork_ret < 0)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("fork error code=%d"));
+	    }
+	  else
+	    {
+	      if (fork_ret > 0)
+		{
+		  /*
+		   * We're in parent, here we use a brute-force immediate exit,
+		   * this supposes the function isn't called when ressources
+		   * such as graphics/sounds backends have been started.
+		   */
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("parent dies"));
+		  exit (0);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("child lives"));
+		  pid_int = getpid ();
+		  _daemon_file_descriptor =
+		    open (daemon_file, O_RDWR | O_CREAT, 0640);
+		  if (_daemon_file_descriptor >= 0)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("lock file \"%s\""),
+				  daemon_file);
+		      if (lockf (_daemon_file_descriptor, F_TLOCK, 0) >= 0)
+			{
+			  pid_str = lw6sys_new_sprintf ("%d\n", pid_int);
+			  if (pid_str)
+			    {
+			      if (write
+				  (_daemon_file_descriptor, pid_str,
+				   strlen (pid_str)) > 0)
+				{
+				  lw6sys_log (LW6SYS_LOG_NOTICE,
+					      _
+					      ("daemon started pid=%d (\"%s\")"),
+					      pid_int, daemon_file);
+				  ret = 1;
+				}
+			      LW6SYS_FREE (pid_str);
+			    }
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _
+				      ("daemon pid=%d unable to lock \"%s\""),
+				      pid_int, daemon_file);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _("daemon pid=%d unable to open \"%s\""),
+				  pid_int, daemon_file);
+		    }
+		}
+	    }
+	  LW6SYS_FREE (daemon_file);
+	}
+      LW6SYS_FREE (user_dir);
+    }
+#endif
+
+  return ret;
+}
+
+/**
+ * lw6sys_exec_unlock_daemon
+ *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
+ *
+ * Removes the daemon lock file.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
+int
+lw6sys_exec_unlock_daemon (int argc, char *argv[])
+{
+  int ret = 0;
+
+#ifdef LW6SYS_MS_WINDOWS
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("no daemon on MS-Windows"));
+  ret = 1;
+#else
+  char *user_dir = NULL;
+  char *daemon_file = NULL;
+
+  if (_daemon_file_descriptor >= 0)
+    {
+      close (_daemon_file_descriptor);
+      _daemon_file_descriptor = -1;
+    }
+
+  user_dir = lw6sys_get_user_dir (argc, argv);
+  if (user_dir)
+    {
+      daemon_file = lw6sys_path_concat (user_dir, _DAEMON_FILE);
+      if (daemon_file)
+	{
+	  if (lw6sys_file_exists (daemon_file))
+	    {
+	      unlink (daemon_file);
+	      if (!lw6sys_file_exists (daemon_file))
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO, _("removed lock file \"%s\""),
+			      daemon_file);
+		  ret = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _("unable to remove lock file \"%s\""),
+			      daemon_file);
+		}
+	    }
+	}
+    }
+#endif
 
   return ret;
 }

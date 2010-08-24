@@ -20,6 +20,7 @@
 
 ;Generated automatically by trigo.py
 
+(define lw6def-daemon "daemon")
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")

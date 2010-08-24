@@ -812,6 +812,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SERVER,
 		 _
 		 ("Start the game in server mode, without requiring any graphics backend. Server mode is usefull if you just want to start a network node without hosting any real game on it. It can be used to list existing nodes and sessions or as a bounce server in case some clients can't contact each other because firewalled. If you only want to start a server game on your computer, don't use this option, just start the game normally and start a game server by clicking on the GUI buttons."));
+  POPULATE_VOID (LW6DEF_DAEMON,
+		 _
+		 ("Start the game in daemon mode, this is typically used with the server mode, if you want the process to be detached from the console and executed in the background."));
   POPULATE_VOID (LW6DEF_QUICK_START,
 		 _
 		 ("Start the game just like if the player had requested a quick start, without showing any menu."));
