@@ -5610,6 +5610,36 @@ C interfaces:
      *Return value:*  a newly allocated pointer, must be freed, may be
      NULL.
 
+ -- Function: char * lw6sys_daemon_pid_file (int ARGC, char * [] ARGV)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     Get the default pid file, used to lock daemon and avoid 2 daemons
+     running at the same time.
+
+     *Return value:*  newly allocated string
+
+ -- Function: int lw6sys_daemon_start (char * PID_FILE)
+     PID_FILE:  the pid file used for the daemon
+
+     Calls `fork'() internally to put the process in the program, make
+     it a daemon. Note this won't work on all platforms, for instance
+     it won't work on MS-Windows but this is rarely an issue as
+     MS-Windows users are rarely concerned with detaching a program
+     from a tty. Note that this isn't a wrapper on `fork'(), the return
+     value is different, 1 on success, 0 if failed.
+
+     *Return value:*  a process ID on success, 0 on failure.
+
+ -- Function: int lw6sys_daemon_stop (char * PID_FILE)
+     PID_FILE:  the pid file used for the daemon
+
+     Removes the daemon pid file. Can be called safely even if daemon
+     wasn't started.
+
+     *Return value:*  1 on success, 0 on failure
+
  -- Function: int lw6sys_debug_get ()
      Gets the debug mode.
 
@@ -7580,6 +7610,57 @@ C interfaces:
      Compares two shapes, but ignores the z (d) parameter.
 
      *Return value:*  1 if same_xy, 0 if not.
+
+ -- Function: void lw6sys_signal_custom ()
+     Set up our signal handlers. This will probably be overrided later
+     by other libs such as libSDL, but at least in pure server mode it
+     gives a way to treat SIGTERM the right way.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_default ()
+     Restore default signal handlers for those modified by
+     `lw6sys_signal_custom'.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_term_handler (int SIGNUM)
+     SIGNUM:  SIGTERM
+
+     The own TERM signal handler, will basically call the
+     `lw6sys_signal_send_quit' function, which will set a flag used
+     later by `lw6sys_signal_poll_quit'.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_int_handler (int SIGNUM)
+     SIGNUM:  SIGINT
+
+     The own INT signal handler, will basically call the
+     `lw6sys_signal_send_quit' function, which will set a flag used
+     later by `lw6sys_signal_poll_quit'.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_hup_handler (int SIGNUM)
+     SIGNUM:  SIGTERM
+
+     The own HUP signal handler, will basically do something that shows
+     the program is alive, typically display a NOTICE message.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_send_quit ()
+     Sets the quit flag to 1, so that `lw6sys_signal_poll_quit' returns
+     true, that is, tells the polling loop to stop.
+
+     *Return value:*  none.
+
+ -- Function: int lw6sys_signal_poll_quit ()
+     Tests wether we need to stop right now.
+
+     *Return value:*  1 if we need to stop now, 0 if program can
+     continue.
 
  -- Function: int lw6sys_sort_int_callback (lw6sys_list_t ** LIST_A,
           lw6sys_list_t ** LIST_B)

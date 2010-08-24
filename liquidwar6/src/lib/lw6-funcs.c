@@ -2110,11 +2110,11 @@ _scm_lw6sys_signal_custom ()
 }
 
 static SCM
-_scm_lw6sys_signal_defaults ()
+_scm_lw6sys_signal_default ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  lw6sys_signal_defaults ();
+  lw6sys_signal_default ();
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2140,7 +2140,7 @@ _scm_lw6sys_signal_poll_quit ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = lw6sys_signal_poll_quit ();
+  ret=scm_int2num(lw6sys_signal_poll_quit ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -7964,12 +7964,12 @@ lw6_register_funcs ()
    */
   scm_c_define_gsubr ("c-lw6sys-signal-custom",
 		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
-  scm_c_define_gsubr ("c-lw6sys-signal-defaults",
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_defaults);
+  scm_c_define_gsubr ("c-lw6sys-signal-default",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_default);
   scm_c_define_gsubr ("c-lw6sys-signal-send-quit",
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_send_quit);
-  scm_c_define_gsubr ("c-lw6sys-poll-quit",
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_poll_quit);
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_send_quit);
+  scm_c_define_gsubr ("c-lw6sys-signal-poll-quit",
+		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_poll_quit);
   /*
    * In time.c
    */
