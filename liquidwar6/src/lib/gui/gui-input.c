@@ -138,12 +138,9 @@ int
 lw6gui_input_reset (lw6gui_input_t * input)
 {
   int ret = 0;
-  int quit = 0;
 
-  quit = input->quit;
   lw6gui_input_quit (input);
   ret = lw6gui_input_init (input);
-  input->quit = quit;		// quit is never resetted
 
   return ret;
 }
@@ -235,7 +232,6 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
   int ret = 1;
   int i = 0;
 
-  dst->quit = src->quit || dst->quit;	// quit never becomes 0 again
   dst->need_sync = src->need_sync;
   src->need_sync = 0;		// we've been synced, need to reset the flag
   ret = lw6gui_keyboard_sync (&(dst->keyboard), &(src->keyboard)) && ret;
@@ -247,40 +243,4 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
     }
 
   return ret;
-}
-
-/**
- * lw6gui_input_poll_quit
- *
- * @input: the input to query
- *
- * Asks the display manager wether a quit event (usually CTRL-C or
- * click on close button) has been detected.
- *
- * Return value: 1 if quit was receivedm 0 if not
- */
-int
-lw6gui_input_poll_quit (lw6gui_input_t * input)
-{
-  int ret = 0;
-
-  ret = input->quit;
-
-  return ret;
-}
-
-/**
- * lw6gui_input_send_quit
- *
- * @input: the input to send an event to
- *
- * Artificially send a QUIT event (equivalent of CTRL-C or click on close
- * button). This allow a uniform treatment of game stopping.
- *
- * Return value: none
- */
-void
-lw6gui_input_send_quit (lw6gui_input_t * input)
-{
-  input->quit = 1;
 }

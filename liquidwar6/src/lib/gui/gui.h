@@ -178,7 +178,6 @@ lw6gui_joystick_t;
 
 typedef struct lw6gui_input_s
 {
-  int quit;
   int need_sync;
   lw6gui_keyboard_t keyboard;
   lw6gui_mouse_t mouse;
@@ -281,8 +280,6 @@ extern void lw6gui_input_update_repeat (lw6gui_input_t * input,
 extern void lw6gui_input_register_change (lw6gui_input_t * input);
 extern int lw6gui_input_need_sync (lw6gui_input_t * input);
 extern int lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src);
-extern int lw6gui_input_poll_quit (lw6gui_input_t * input);
-extern void lw6gui_input_send_quit (lw6gui_input_t * input);
 
 /* gui-joystick.c */
 extern int lw6gui_joystick_check_index (int i);

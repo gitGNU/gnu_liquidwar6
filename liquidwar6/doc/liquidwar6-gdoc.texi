@@ -28,10 +28,7 @@ you get a (rather unexplainabled if not warned) segfault.
 
 @deftypefun {void} {lw6_exit} ()
 
-Will exit the program. If there are some display objects alive,
-that is if there's a display activated, it will find them and
-send a quit event, giving a chance to the to exit cleanly.
-If not, it will just call @code{exit}() directly.
+Sends a quit message and displays a newline.
 
 @strong{Return value:}  none
 @end deftypefun

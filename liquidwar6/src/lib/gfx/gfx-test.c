@@ -262,7 +262,7 @@ test_events (lw6gfx_backend_t * backend)
 		    TEST_DURATION_EVENTS / 1000);
 	input = lw6gfx_pump_events (backend);
 	while (lw6sys_get_uptime () < ticks + TEST_DURATION_EVENTS
-	       && !input->quit)
+	       && !lw6sys_signal_poll_quit ())
 	  {
 	    if (!lw6gfx_display (backend,
 				 LW6GUI_DISPLAY_BACKGROUND, look, NULL,
@@ -305,7 +305,7 @@ test_events (lw6gfx_backend_t * backend)
 		  }
 		lw6gui_keypress_free (keypress);
 	      }
-	    if (input->quit)
+	    if (lw6sys_signal_poll_quit ())
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _("a QUIT event was detected"));

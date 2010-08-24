@@ -47,7 +47,6 @@ typedef struct _lw6dsp_data_s
   int run;
   int started;
   int failed;
-  int quit;
   lw6gui_resize_callback_func_t resize_callback;
   int64_t start_ticks;
   int64_t ticks;

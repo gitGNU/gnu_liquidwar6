@@ -41,6 +41,8 @@
 void
 lw6sys_signal_custom ()
 {
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
   if (signal (SIGTERM, lw6sys_signal_term_handler) == SIG_IGN)
     {
       signal (SIGTERM, SIG_IGN);
@@ -65,6 +67,8 @@ lw6sys_signal_custom ()
 void
 lw6sys_signal_default ()
 {
+  lw6sys_log (LW6SYS_LOG_INFO,
+	      _("setting default SIGTERM, SIGINT, SIGHUP handlers"));
   if (signal (SIGTERM, SIG_DFL) == SIG_IGN)
     {
       signal (SIGTERM, SIG_IGN);
@@ -155,6 +159,7 @@ lw6sys_signal_hup_handler (int signum)
 void
 lw6sys_signal_send_quit ()
 {
+  lw6sys_log (LW6SYS_LOG_INFO, _("send QUIT"));
   _lw6sys_global.quit = 1;
 }
 
@@ -168,5 +173,10 @@ lw6sys_signal_send_quit ()
 int
 lw6sys_signal_poll_quit ()
 {
-  return _lw6sys_global.quit != 0;
+  int ret = 0;
+
+  ret = (_lw6sys_global.quit != 0);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("poll quit ret=%d"), ret);
+
+  return ret;
 }

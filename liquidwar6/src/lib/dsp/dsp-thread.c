@@ -145,12 +145,6 @@ poll (_lw6dsp_data_t * data)
   lw6gui_input_update_repeat (data->input,
 			      &(data->param.misc.repeat_settings), timestamp);
 
-  /*
-   * We make a "local" copy of the quit flag for the other thread might not
-   * be sure that input is here, so querying data->quit is safer
-   */
-  data->quit = data->quit || data->input->quit;
-
   if (data->param.pilot)
     {
       if (!(data->param.game_state))

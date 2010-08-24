@@ -104,6 +104,7 @@
       (lw6-db-reset-if-needed)
       (c-lw6ldr-print-examples)
       (c-lw6net-init)
+      (c-lw6sys-signal-custom)
       (lw6-init-game-globals)
       (if (not (lw6-config-is-true? lw6def-server))
 	  (let (
@@ -144,7 +145,7 @@
 			(lw6-splash)
 			(lw6-game-idle)
 			(lw6-music-ambiance)
-			(if (not (c-lw6gui-input-poll-quit dsp))
+			(if (not (c-lw6sys-signal-poll-quit))
 			    (lw6-bench #f))
 			(lw6-node-start) ;; node must be start *after* bench
 			(lw6-game-loop)
@@ -165,6 +166,7 @@
 	    (lw6-bench #f)
 	    (lw6-server)
 	    ))
+      (c-lw6sys-signal-default)
       (c-lw6net-quit)
       (lw6-config-set-number! lw6def-bin-id (c-lw6sys-build-get-bin-id))
       (lw6-save-config)

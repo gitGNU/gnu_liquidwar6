@@ -30,7 +30,7 @@
 	     (command-count 0)
 	     (io-count 0)
 	    )
-	(while (not (c-lw6gui-input-poll-quit dsp))
+	(while (not (c-lw6sys-signal-poll-quit))
 	       (let* (
 		     (ticks (- (c-lw6sys-get-uptime) uptime-0))
 		     (command-incr (quotient 1000 (lw6-config-get-number lw6def-commands-per-sec)))

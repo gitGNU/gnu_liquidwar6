@@ -237,16 +237,6 @@ test_input ()
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _("keypress synchronisation is OK"));
 			lw6gui_keypress_free (keypress);
-			lw6gui_input_send_quit (dst);
-			if (lw6gui_input_poll_quit (dst))
-			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_("QUIT handling is OK"));
-			  }
-			else
-			  {
-			    ret = 0;
-			  }
 		      }
 		    else
 		      {
@@ -257,6 +247,7 @@ test_input ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_("synchronisation error"));
+		    ret = 0;
 		  }
 	      }
 	    else

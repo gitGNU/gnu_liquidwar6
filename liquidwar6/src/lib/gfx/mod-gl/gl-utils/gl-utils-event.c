@@ -524,7 +524,7 @@ mod_gl_utils_pump_events (mod_gl_utils_context_t * utils_context)
 	  key_down (&(input->keyboard), &event, const_data, timestamp);
 	  if (event.key.keysym.sym == const_data->keysym_quit)
 	    {
-	      input->quit = 1;
+	      lw6sys_signal_send_quit ();
 	    }
 	  break;
 	case SDL_KEYUP:
@@ -533,7 +533,7 @@ mod_gl_utils_pump_events (mod_gl_utils_context_t * utils_context)
 	  break;
 	case SDL_QUIT:
 	  lw6gui_input_register_change (input);
-	  input->quit = 1;
+	  lw6sys_signal_send_quit ();
 	  break;
 	case SDL_MOUSEMOTION:
 	  lw6gui_input_register_change (input);

@@ -25,7 +25,7 @@
 	  )
       (begin
 	(while (not (or
-		     (c-lw6gui-input-poll-quit dsp)
+		     (c-lw6sys-signal-poll-quit)
 		     (c-lw6gui-mouse-pop-button-left dsp)
 		     (c-lw6gui-mouse-pop-button-right dsp)
 		     (c-lw6gui-mouse-pop-wheel-up dsp)

@@ -27,11 +27,11 @@
       (if (lw6-config-is-true? lw6def-display-console)
 	  (c-lw6cns-init))
       ;; we can't use the dsp object to track quit message
-      (while (not  (lw6-get-game-global "quit"))
+      (while (not (c-lw6sys-signal-poll-quit))
 	     (begin
 	       (c-lw6sys-idle)
 	       (lw6-node-poll)
 	       (lw6-console)
-		 ))
+	       ))
       (lw6-node-stop))
     ))

@@ -2140,7 +2140,7 @@ _scm_lw6sys_signal_poll_quit ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret=scm_int2num(lw6sys_signal_poll_quit ());
+  ret = lw6sys_signal_poll_quit ()? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2234,6 +2234,18 @@ _scm_lw6sys_idle ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
   lw6sys_idle ();
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6sys_snooze ()
+{
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  lw6sys_snooze ();
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -3385,49 +3397,6 @@ _scm_lw6gui_look_zoom_out (SCM look, SCM zoom_step)
   LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
-}
-
-static SCM
-_scm_lw6gui_input_poll_quit (SCM dsp)
-{
-  SCM ret = SCM_BOOL_F;
-  lw6dsp_backend_t *c_dsp = NULL;
-
-  LW6SYS_SCRIPT_FUNCTION_BEGIN;
-
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
-
-  c_dsp = lw6_scm_to_dsp (dsp);
-  if (c_dsp)
-    {
-      ret = lw6gui_input_poll_quit (c_dsp->input) ? SCM_BOOL_T : SCM_BOOL_F;
-    }
-
-  LW6SYS_SCRIPT_FUNCTION_END;
-
-  return ret;
-}
-
-static SCM
-_scm_lw6gui_input_send_quit (SCM dsp)
-{
-  lw6dsp_backend_t *c_dsp = NULL;
-
-  LW6SYS_SCRIPT_FUNCTION_BEGIN;
-
-  SCM_ASSERT (SCM_SMOB_PREDICATE
-	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
-
-  c_dsp = lw6_scm_to_dsp (dsp);
-  if (c_dsp)
-    {
-      lw6gui_input_send_quit (c_dsp->input);
-    }
-
-  LW6SYS_SCRIPT_FUNCTION_END;
-
-  return SCM_UNDEFINED;
 }
 
 static SCM
@@ -7984,6 +7953,8 @@ lw6_register_funcs ()
   scm_c_define_gsubr ("c-lw6sys-delay", 1, 0, 0,
 		      (SCM (*)())_scm_lw6sys_delay);
   scm_c_define_gsubr ("c-lw6sys-idle", 0, 0, 0, (SCM (*)())_scm_lw6sys_idle);
+  scm_c_define_gsubr ("c-lw6sys-snooze", 0, 0, 0,
+		      (SCM (*)())_scm_lw6sys_snooze);
   /*
    * In url.c
    */
@@ -8100,10 +8071,6 @@ lw6_register_funcs ()
   scm_c_define_gsubr ("c-lw6gui-look-zoom-out",
 		      2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_out);
 
-  scm_c_define_gsubr ("c-lw6gui-input-poll-quit", 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_input_poll_quit);
-  scm_c_define_gsubr ("c-lw6gui-input-send-quit", 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_input_send_quit);
   scm_c_define_gsubr ("c-lw6gui-input-reset", 1, 0, 0,
 		      (SCM (*)())_scm_lw6gui_input_reset);
 

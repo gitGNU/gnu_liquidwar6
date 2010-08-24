@@ -114,55 +114,16 @@ lw6_release ()
     }
 }
 
-void
-_exit_send_quit (void *func_data, char *key, void *value)
-{
-  lw6_dsp_smob_t *dsp_smob;
-  int *sent;
-  char *repr = NULL;
-
-  dsp_smob = (lw6_dsp_smob_t *) value;
-  sent = (int *) func_data;
-  if (dsp_smob && dsp_smob->c_dsp)
-    {
-      repr = lw6dsp_repr (dsp_smob->c_dsp);
-      if (repr)
-	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("send quit to \"%s\""), repr);
-	  LW6SYS_FREE (repr);
-	}
-      lw6gui_input_send_quit (dsp_smob->c_dsp->input);
-      if (sent)
-	{
-	  (*sent) = 1;
-	}
-    }
-}
-
 /**
  * lw6_exit
  *
- * Will exit the program. If there are some display objects alive,
- * that is if there's a display activated, it will find them and
- * send a quit event, giving a chance to the to exit cleanly.
- * If not, it will just call @exit() directly.
+ * Sends a quit message and displays a newline.
  *
  * Return value: none
  */
 void
 lw6_exit ()
 {
-  int sent = 0;
-
   printf ("\n");
-
-  if (lw6_global.dsp_smobs)
-    {
-      lw6sys_assoc_map (lw6_global.dsp_smobs, _exit_send_quit, &sent);
-    }
-
-  if (!sent)
-    {
-      exit (0);
-    }
+  lw6sys_signal_send_quit ();
 }

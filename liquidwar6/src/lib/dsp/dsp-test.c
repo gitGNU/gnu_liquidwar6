@@ -405,7 +405,7 @@ test_display (char *gfx_backend_name)
 			    ("pumping events, try to press random keys while having the focus on the game window, you should get one log message per keypress, test will end after %d seconds"),
 			    (int) (TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
 		ticks = lw6sys_get_uptime ();
-		while ((!lw6gui_input_poll_quit (display->input))
+		while ((!lw6sys_signal_poll_quit ())
 		       && lw6sys_get_uptime () < ticks + TEST_INPUT_TICKS)
 		  {
 		    /*
