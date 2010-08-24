@@ -7330,6 +7330,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   SCM server_backends = SCM_BOOL_F;
   SCM bind_ip = SCM_BOOL_F;
   SCM bind_port = SCM_BOOL_F;
+  SCM broadcast = SCM_BOOL_F;
   SCM node_id = SCM_BOOL_F;
   SCM public_url = SCM_BOOL_F;
   SCM password = SCM_BOOL_F;
@@ -7342,6 +7343,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   char *c_server_backends;
   char *c_bind_ip;
   int c_bind_port;
+  int c_broadcast;
   char *c_node_id_str;
   u_int64_t c_node_id_int = 0LL;
   char *c_public_url;
@@ -7361,6 +7363,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 	scm_assoc_ref (param, scm_makfrom0str ("server-backends"));
       bind_ip = scm_assoc_ref (param, scm_makfrom0str ("bind-ip"));
       bind_port = scm_assoc_ref (param, scm_makfrom0str ("bind-port"));
+      broadcast = scm_assoc_ref (param, scm_makfrom0str ("broadcast"));
       node_id = scm_assoc_ref (param, scm_makfrom0str ("node-id"));
       public_url = scm_assoc_ref (param, scm_makfrom0str ("public-url"));
       password = scm_assoc_ref (param, scm_makfrom0str ("password"));
@@ -7380,6 +7383,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		  __FUNCTION__);
       SCM_ASSERT (scm_is_string (bind_ip), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bind_port), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (SCM_BOOLP (broadcast), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (node_id), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (public_url), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (password), param, SCM_ARG2, __FUNCTION__);
@@ -7401,6 +7405,7 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		  if (c_bind_ip)
 		    {
 		      c_bind_port = scm_to_int (bind_port);
+		      c_broadcast = SCM_NFALSEP (broadcast);
 		      c_node_id_str = to_0str (node_id);
 		      if (c_node_id_str)
 			{
@@ -7432,10 +7437,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 						 lw6_global.argv, c_db,
 						 c_client_backends,
 						 c_server_backends, c_bind_ip,
-						 c_bind_port, c_node_id_int,
-						 c_public_url, c_password,
-						 c_title, c_description,
-						 c_bench, c_known_nodes);
+						 c_bind_port, c_broadcast,
+						 c_node_id_int, c_public_url,
+						 c_password, c_title,
+						 c_description, c_bench,
+						 c_known_nodes);
 					      if (c_node)
 						{
 						  ret =

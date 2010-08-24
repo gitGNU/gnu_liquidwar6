@@ -49,6 +49,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_BOOST_POWER "boost-power"
 #define LW6DEF_BOT_IQ "bot-iq"
 #define LW6DEF_BOT_SPEED "bot-speed"
+#define LW6DEF_BROADCAST "broadcast"
 #define LW6DEF_CAPTURE "capture"
 #define LW6DEF_CFLAGS "cflags"
 #define LW6DEF_CHECK "check"

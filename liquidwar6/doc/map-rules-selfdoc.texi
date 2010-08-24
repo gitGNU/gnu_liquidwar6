@@ -150,9 +150,8 @@ frags are distributed in a proportional way.
 @end deffn
 
 @subsection frags-mode
-@deffn {Command-line option} @code{--frags-mode=<value>}
+@deffn {Command-line option} @code{--frags-mode}
 @deffnx {Environment variable} @code{LW6_FRAGS_MODE}
-@deffnx {XML key} @code{frags-mode}
 Type: integer
 
 Default value: 2
@@ -332,18 +331,6 @@ unknown friend.
 @deffn {Command-line option} @code{--moves-per-round=<value>}
 @deffnx {Environment variable} @code{LW6_MOVES_PER_ROUND}
 @deffnx {XML key} @code{moves-per-round}
-Type: integer
-
-Default value: 2
-Min value: 1
-Max value: 50
-
-Defines how many times fighters move per round. Increasing this will just make
-fighters move faster, but won't change anything for the rest, that is keyboard
-and mouse responsivity, and network traffic will stay the same. Multiplying
-the number of moves per round by the number of rounds per second will give the
-number of moves per second, which is, in fact, how fast fighters move on the
-screen.
 @end deffn
 
 @subsection nb-attack-tries
@@ -438,24 +425,6 @@ others.
 @deffn {Command-line option} @code{--round-delta=<value>}
 @deffnx {Environment variable} @code{LW6_ROUND_DELTA}
 @deffnx {XML key} @code{round-delta}
-Type: integer
-
-Default value: 1
-Min value: 0
-Max value: 100
-
-Conditions by how much the cursor potential will be incremented each time
-gradient is spreaded. Sounds cryptic? It is. The idea is that at each time you
-move your cursor of 1 pixel, theorically, you'll need in the worst case to
-move of 1 more pixel to reach any point on the map. Of course this is not true
-but this is the default asumption, and gradient spread will fix that. Only in
-Liquid War 6 this is not even the worst case, for you can control your cursor
-with the mouse and cross walls. Whenever you cross a wall, you might have done
-a great distance from the fighters' point of view, if the map is a maze. Thus
-this parameter, which corrects things, experience shows it does give
-acceptable results to increase the cursor potential by more than one at each
-turn. Toy arround with this if you find fighters take wrong paths on some
-given map. If in doubt, don't touch.
 @end deffn
 
 @subsection rounds-per-sec
@@ -846,14 +815,6 @@ between 0 and 100.
 @deffn {Command-line option} @code{--start-yellow-y=<value>}
 @deffnx {Environment variable} @code{LW6_START_YELLOW_Y}
 @deffnx {XML key} @code{start-yellow-y}
-Type: integer
-
-Default value: 90
-Min value: 0
-Max value: 100
-
-Y start position for the yellow team. This is a percentage of map height,
-value between 0 and 100.
 @end deffn
 
 @subsection total-armies-size

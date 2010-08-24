@@ -365,6 +365,7 @@ static int
 update_network (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_SKIP_NETWORK);
+  lw6sys_list_push_back (list, LW6DEF_BROADCAST);
   lw6sys_list_push_back (list, LW6DEF_PASSWORD);
   lw6sys_list_push_back (list, LW6DEF_BIND_IP);
   lw6sys_list_push_back (list, LW6DEF_BIND_PORT);

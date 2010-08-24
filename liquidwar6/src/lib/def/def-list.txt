@@ -21,6 +21,7 @@ bind-port
 boost-power
 bot-iq
 bot-speed
+broadcast
 c
 capture
 cflags

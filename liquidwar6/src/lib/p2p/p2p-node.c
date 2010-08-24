@@ -41,6 +41,7 @@ static u_int32_t seq_id = 0;
  * @server_backends: the list of server backends to use
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
+ * @broadcast: wether broadcast is allowed on this node
  * @node_id: the server unique ID
  * @public_url: the public URL we want to show
  * @password: the password to use
@@ -58,23 +59,24 @@ static u_int32_t seq_id = 0;
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
-		 int bind_port, u_int64_t node_id, char *public_url,
-		 char *password, char *title, char *description, int bench,
-		 char *known_nodes)
+		 int bind_port, int broadcast, u_int64_t node_id,
+		 char *public_url, char *password, char *title,
+		 char *description, int bench, char *known_nodes)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
-					     bind_ip, bind_port, node_id,
-					     public_url, password, title,
-					     description, bench, known_nodes);
+					     bind_ip, bind_port, broadcast,
+					     node_id, public_url, password,
+					     title, description, bench,
+					     known_nodes);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
-		  int bind_port, u_int64_t node_id, char *public_url,
-		  char *password, char *title, char *description, int bench,
-		  char *known_nodes)
+		  int bind_port, int broadcast, u_int64_t node_id,
+		  char *public_url, char *password, char *title,
+		  char *description, int bench, char *known_nodes)
 {
   _lw6p2p_node_t *node = NULL;
   lw6sys_list_t *list_backends = NULL;
@@ -97,6 +99,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->db = db;
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
+      node->broadcast = broadcast;
       node->node_id_int = node_id;
       node->node_id_str = lw6sys_id_ltoa (node_id);
       if (public_url && strlen (public_url) > 0)

@@ -127,9 +127,8 @@ fire Gimp to rescale the map.
 @end deffn
 
 @subsection max-map-surface
-@deffn {Command-line option} @code{--max-map-surface=<value>}
+@deffn {Command-line option} @code{--max-map-surface}
 @deffnx {Environment variable} @code{LW6_MAX_MAP_SURFACE}
-@deffnx {XML key} @code{max-map-surface}
 Type: integer
 
 Default value: 3000000

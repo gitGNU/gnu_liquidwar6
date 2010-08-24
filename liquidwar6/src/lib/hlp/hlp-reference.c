@@ -659,6 +659,10 @@ populate_references ()
 		 _
 		 ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."),
 		 1);
+  POPULATE_BOOL (LW6DEF_BROADCAST,
+		 _
+		 ("Allows the program to send broadcast messages on the network. It can be usefull to disable those if you don't use UDP node discovery and/or if there's a sysadmin arround who does not enjoy permanent broadcasts on his LAN."),
+		 1);
   POPULATE_STR (LW6DEF_PASSWORD,
 		_
 		("The password to use for network games. Do not use a valuable password, as this is stored as clear text on your hard drive. Still, the game will only send a hash/checksum of the password on the network so eavesdropper won't be able to read it. They can see the hash/checksum and use it if clever, but they can't guess the real password. A blank password means anyone can join your games when you act like a server."),

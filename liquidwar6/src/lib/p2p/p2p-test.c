@@ -35,6 +35,7 @@
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
 #define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
 #define _TEST_NODE_BIND_PORT4 (LW6NET_DEFAULT_PORT + 14)
+#define _TEST_NODE_BROADCAST 1
 #define _TEST_NODE_NODE_ID1 0x1234123412341234LL
 #define _TEST_NODE_NODE_ID2 0x2345234523452345LL
 #define _TEST_NODE_NODE_ID3 0x3456345634563456LL
@@ -134,10 +135,10 @@ _test_node_init ()
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			   _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
-			   _TEST_NODE_PUBLIC_URL1, NULL, _TEST_NODE_TITLE1,
-			   _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
-			   _TEST_NODE_KNOWN_NODES1);
+			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			   _TEST_NODE_NODE_ID1, _TEST_NODE_PUBLIC_URL1, NULL,
+			   _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION,
+			   _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES1);
 	if (node)
 	  {
 	    repr = lw6p2p_node_repr (node);
@@ -217,10 +218,11 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  (*node1) =
 	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			     _TEST_NODE_BIND_PORT1, _TEST_NODE_NODE_ID1,
-			     _TEST_NODE_PUBLIC_URL1, _TEST_NODE_PASSWORD,
-			     _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION,
-			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES1);
+			     _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
+			     _TEST_NODE_NODE_ID1, _TEST_NODE_PUBLIC_URL1,
+			     _TEST_NODE_PASSWORD, _TEST_NODE_TITLE1,
+			     _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
+			     _TEST_NODE_KNOWN_NODES1);
 	  if (*node1)
 	    {
 	      repr = lw6p2p_node_repr (*node1);
@@ -238,9 +240,9 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  (*node2) =
 	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			     _TEST_NODE_BIND_PORT2, _TEST_NODE_NODE_ID2,
-			     _TEST_NODE_PUBLIC_URL2, NULL,
-			     _TEST_NODE_TITLE2, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BIND_PORT2, _TEST_NODE_BROADCAST,
+			     _TEST_NODE_NODE_ID2, _TEST_NODE_PUBLIC_URL2,
+			     NULL, _TEST_NODE_TITLE2, _TEST_NODE_DESCRIPTION,
 			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES2);
 	  if (*node2)
 	    {
@@ -261,10 +263,11 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  (*node3) =
 	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			     _TEST_NODE_BIND_PORT3, _TEST_NODE_NODE_ID3,
-			     _TEST_NODE_PUBLIC_URL3, _TEST_NODE_PASSWORD,
-			     _TEST_NODE_TITLE3, _TEST_NODE_DESCRIPTION,
-			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES3);
+			     _TEST_NODE_BIND_PORT3, _TEST_NODE_BROADCAST,
+			     _TEST_NODE_NODE_ID3, _TEST_NODE_PUBLIC_URL3,
+			     _TEST_NODE_PASSWORD, _TEST_NODE_TITLE3,
+			     _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
+			     _TEST_NODE_KNOWN_NODES3);
 	  if (*node3)
 	    {
 	      repr = lw6p2p_node_repr (*node3);
@@ -282,9 +285,9 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  (*node4) =
 	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
-			     _TEST_NODE_BIND_PORT4, _TEST_NODE_NODE_ID4,
-			     _TEST_NODE_PUBLIC_URL4, NULL,
-			     _TEST_NODE_TITLE4, _TEST_NODE_DESCRIPTION,
+			     _TEST_NODE_BIND_PORT4, _TEST_NODE_BROADCAST,
+			     _TEST_NODE_NODE_ID4, _TEST_NODE_PUBLIC_URL4,
+			     NULL, _TEST_NODE_TITLE4, _TEST_NODE_DESCRIPTION,
 			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES4);
 	  if (*node4)
 	    {

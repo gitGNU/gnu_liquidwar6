@@ -27,6 +27,19 @@ use your own settings, automatic detection of your server by other servers
 might not work so well.
 @end deffn
 
+@subsection broadcast
+@deffn {Command-line option} @code{--broadcast=<value>}
+@deffnx {Environment variable} @code{LW6_BROADCAST}
+@deffnx {XML key} @code{broadcast}
+Type: boolean
+
+Default value: true
+
+Allows the program to send broadcast messages on the network. It can be
+usefull to disable those if you don't use UDP node discovery and/or if there's
+a sysadmin arround who does not enjoy permanent broadcasts on his LAN.
+@end deffn
+
 @subsection cli-backends
 @deffn {Command-line option} @code{--cli-backends=<value>}
 @deffnx {Environment variable} @code{LW6_CLI_BACKENDS}

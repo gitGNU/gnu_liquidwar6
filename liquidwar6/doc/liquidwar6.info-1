@@ -4415,7 +4415,22 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      process. That is, if you use your own settings, automatic
      detection of your server by other servers might not work so well.
 
-4.7.3 cli-backends
+4.7.3 broadcast
+---------------
+
+ -- Command-line option: `--broadcast=<value>'
+ -- Environment variable: `LW6_BROADCAST'
+ -- XML key: `broadcast'
+     Type: boolean
+
+     Default value: true
+
+     Allows the program to send broadcast messages on the network. It
+     can be usefull to disable those if you don't use UDP node
+     discovery and/or if there's a sysadmin arround who does not enjoy
+     permanent broadcasts on his LAN.
+
+4.7.4 cli-backends
 ------------------
 
  -- Command-line option: `--cli-backends=<value>'
@@ -4430,7 +4445,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      protocol, or if you want to activate a custom-made client backend.
      It's a comma separated list.
 
-4.7.4 known-nodes
+4.7.5 known-nodes
 -----------------
 
  -- Command-line option: `--known-nodes=<value>'
@@ -4448,7 +4463,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      want to change this if you really want to connect to a given
      server which is not publically listed. The list is comma separated.
 
-4.7.5 node-description
+4.7.6 node-description
 ----------------------
 
  -- Command-line option: `--node-description=<value>'
@@ -4463,7 +4478,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      the public server URL, it is for general information, so if
      there's something special about your server, say it here.
 
-4.7.6 node-title
+4.7.7 node-title
 ----------------
 
  -- Command-line option: `--node-title=<value>'
@@ -4478,7 +4493,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      there can be several players on a single computer. By default this
      will be set to hostname.
 
-4.7.7 password
+4.7.8 password
 --------------
 
  -- Command-line option: `--password=<value>'
@@ -4496,7 +4511,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      real password. A blank password means anyone can join your games
      when you act like a server.
 
-4.7.8 public-url
+4.7.9 public-url
 ----------------
 
  -- Command-line option: `--public-url=<value>'
@@ -4512,8 +4527,8 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      you might need to use your own settings if you are using NAT or an
      Apache reverse-proxy to rewrite HTTP requests.
 
-4.7.9 skip-network
-------------------
+4.7.10 skip-network
+-------------------
 
  -- Command-line option: `--skip-network=<value>'
  -- Environment variable: `LW6_SKIP_NETWORK'
@@ -4525,7 +4540,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
 
-4.7.10 srv-backends
+4.7.11 srv-backends
 -------------------
 
  -- Command-line option: `--srv-backends=<value>'
@@ -4810,9 +4825,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
 4.9.10 frags-mode
 -----------------
 
- -- Command-line option: `--frags-mode=<value>'
+ -- Command-line option: `--frags-mode'
  -- Environment variable: `LW6_FRAGS_MODE'
- -- XML key: `frags-mode'
      Type: integer
 
      Default value: 2 Min value: 0 Max value: 3
@@ -4989,17 +5003,6 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- Command-line option: `--moves-per-round=<value>'
  -- Environment variable: `LW6_MOVES_PER_ROUND'
  -- XML key: `moves-per-round'
-     Type: integer
-
-     Default value: 2 Min value: 1 Max value: 50
-
-     Defines how many times fighters move per round. Increasing this
-     will just make fighters move faster, but won't change anything for
-     the rest, that is keyboard and mouse responsivity, and network
-     traffic will stay the same. Multiplying the number of moves per
-     round by the number of rounds per second will give the number of
-     moves per second, which is, in fact, how fast fighters move on the
-     screen.
 
 4.9.22 nb-attack-tries
 ----------------------
@@ -5095,24 +5098,6 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- Command-line option: `--round-delta=<value>'
  -- Environment variable: `LW6_ROUND_DELTA'
  -- XML key: `round-delta'
-     Type: integer
-
-     Default value: 1 Min value: 0 Max value: 100
-
-     Conditions by how much the cursor potential will be incremented
-     each time gradient is spreaded. Sounds cryptic? It is. The idea is
-     that at each time you move your cursor of 1 pixel, theorically,
-     you'll need in the worst case to move of 1 more pixel to reach any
-     point on the map. Of course this is not true but this is the
-     default asumption, and gradient spread will fix that. Only in
-     Liquid War 6 this is not even the worst case, for you can control
-     your cursor with the mouse and cross walls. Whenever you cross a
-     wall, you might have done a great distance from the fighters'
-     point of view, if the map is a maze. Thus this parameter, which
-     corrects things, experience shows it does give acceptable results
-     to increase the cursor potential by more than one at each turn.
-     Toy arround with this if you find fighters take wrong paths on some
-     given map. If in doubt, don't touch.
 
 4.9.28 rounds-per-sec
 ---------------------
@@ -5484,12 +5469,6 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- Command-line option: `--start-yellow-y=<value>'
  -- Environment variable: `LW6_START_YELLOW_Y'
  -- XML key: `start-yellow-y'
-     Type: integer
-
-     Default value: 90 Min value: 0 Max value: 100
-
-     Y start position for the yellow team. This is a percentage of map
-     height, value between 0 and 100.
 
 4.9.55 total-armies-size
 ------------------------
@@ -5754,9 +5733,8 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
 4.10.9 max-map-surface
 ----------------------
 
- -- Command-line option: `--max-map-surface=<value>'
+ -- Command-line option: `--max-map-surface'
  -- Environment variable: `LW6_MAX_MAP_SURFACE'
- -- XML key: `max-map-surface'
      Type: integer
 
      Default value: 3000000
@@ -6053,9 +6031,8 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
 4.11.5 background-color-stuff-bg
 --------------------------------
 
- -- Command-line option: `--background-color-stuff-bg=<value>'
+ -- Command-line option: `--background-color-stuff-bg'
  -- Environment variable: `LW6_BACKGROUND_COLOR_STUFF_BG'
- -- XML key: `background-color-stuff-bg'
      Type: color
 
      Default value: #333
@@ -6446,9 +6423,8 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
 4.11.32 system-color-bg
 -----------------------
 
- -- Command-line option: `--system-color-bg=<value>'
+ -- Command-line option: `--system-color-bg'
  -- Environment variable: `LW6_SYSTEM_COLOR_BG'
- -- XML key: `system-color-bg'
      Type: color
 
      Default value: #333

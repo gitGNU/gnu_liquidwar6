@@ -1,12 +1,16 @@
 2010-08-24 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added signal functions to handle server closing properly.
+
+	* Added a --daemon option to run process in background.
+
 	* 0.0.9beta -> 0.0.10beta.
 
 2010-08-23 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Released 0.0.9beta.
 
-	* Repackaged MS-Windows dlls, libcurl-4.dll was missing.	
+	* Repackaged MS-Windows dlls, libcurl-4.dll was missing.
 
 	* Closing graphics backend before anything else on exit.
 

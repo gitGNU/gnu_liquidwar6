@@ -42,6 +42,7 @@
 (define lw6def-boost-power "boost-power")
 (define lw6def-bot-iq "bot-iq")
 (define lw6def-bot-speed "bot-speed")
+(define lw6def-broadcast "broadcast")
 (define lw6def-capture "capture")
 (define lw6def-cflags "cflags")
 (define lw6def-check "check")
