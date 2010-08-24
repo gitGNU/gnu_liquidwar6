@@ -58,8 +58,9 @@ color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 @end deffn
 
 @subsection background-color-stuff-bg
-@deffn {Command-line option} @code{--background-color-stuff-bg}
+@deffn {Command-line option} @code{--background-color-stuff-bg=<value>}
 @deffnx {Environment variable} @code{LW6_BACKGROUND_COLOR_STUFF_BG}
+@deffnx {XML key} @code{background-color-stuff-bg}
 Type: color
 
 Default value: #333
@@ -415,8 +416,9 @@ game. This can be used to emulate the old LW5 appearance.
 @end deffn
 
 @subsection system-color-bg
-@deffn {Command-line option} @code{--system-color-bg}
+@deffn {Command-line option} @code{--system-color-bg=<value>}
 @deffnx {Environment variable} @code{LW6_SYSTEM_COLOR_BG}
+@deffnx {XML key} @code{system-color-bg}
 Type: color
 
 Default value: #333
