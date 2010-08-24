@@ -83,9 +83,19 @@ lw6sys_daemon_start (char *pid_file)
 {
   int ret = 0;
 
-#ifdef LW6_MS_WINDOWS
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
+  /*
+   * fork() is definitely broken and hopeless on msys, but on Mac OS X
+   * one could think it's OK (the code compiles). However program goes
+   * dead when launching SDL, when forked that way. Rather than having
+   * complaints about game not running the right way, I think it wiser
+   * to disable the feature, however running a headless server on Mac OS X
+   * does not seem a very common case, any sane person should use GNU/Linux
+   * instead for that purpose.
+   */
   lw6sys_log (LW6SYS_LOG_WARNING,
-	      _("can't start daemon on Microsoft Windows, not supported"));
+	      _("daemon mode not available on platform \"%s\""),
+	      lw6sys_build_get_host_os ());
 #else
   int fork_ret = 0;
   char *pid_str = NULL;
@@ -184,8 +194,9 @@ lw6sys_daemon_stop (char *pid_file)
 {
   int ret = 0;
 
-#ifdef LW6SYS_MS_WINDOWS
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("no daemon on MS-Windows"));
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("no daemon on platform \"%s\""),
+	      lw6sys_build_get_host_os ());
   ret = 1;
 #else
   if (_pid_file_descriptor >= 0)
