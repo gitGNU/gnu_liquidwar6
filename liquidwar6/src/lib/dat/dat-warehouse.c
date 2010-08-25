@@ -24,7 +24,29 @@
 #include "config.h"
 #endif
 
-#include "dat.h"
+#include "dat-internal.h"
+
+_lw6dat_warehouse_t *
+_lw6dat_warehouse_new ()
+{
+  _lw6dat_warehouse_t *warehouse;
+  int i;
+  int ok = 0;
+
+  warehouse =
+    (_lw6dat_warehouse_t *) LW6SYS_CALLOC (sizeof (_lw6dat_warehouse_t));
+  if (warehouse)
+    {
+      ok = 1;
+    }
+  if (warehouse && !ok)
+    {
+      _lw6dat_warehouse_free (warehouse);
+      warehouse = NULL;
+    }
+
+  return warehouse;
+}
 
 /**
  * lw6dat_warehouse_new
@@ -37,22 +59,16 @@ lw6dat_warehouse_t *
 lw6dat_warehouse_new ()
 {
   lw6dat_warehouse_t *warehouse;
-  int ok = 0;
 
-  warehouse =
-    (lw6dat_warehouse_t *) LW6SYS_CALLOC (sizeof (lw6dat_warehouse_t));
-  if (warehouse)
-    {
-      warehouse->matrix_list = lw6sys_list_new (lw6dat_matrix_free);
-      ok = (warehouse->matrix_list != NULL);
-    }
-  if (warehouse && !ok)
-    {
-      lw6dat_warehouse_free (warehouse);
-      warehouse = NULL;
-    }
+  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new ();
 
   return warehouse;
+}
+
+void
+_lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
+{
+  LW6SYS_FREE (warehouse);
 }
 
 /**
@@ -67,9 +83,5 @@ lw6dat_warehouse_new ()
 void
 lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse)
 {
-  if (warehouse->matrix_list)
-    {
-      lw6sys_list_free (warehouse->matrix_list);
-    }
-  LW6SYS_FREE (warehouse);
+  _lw6dat_warehouse_free ((_lw6dat_warehouse_t *) warehouse);
 }

@@ -79,8 +79,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libdat_la_LIBADD =
-am_libdat_la_OBJECTS = dat-line.lo dat-matrix.lo dat-test.lo \
-	dat-warehouse.lo
+am_libdat_la_OBJECTS = dat-atom.lo dat-block.lo dat-stack.lo \
+	dat-test.lo dat-warehouse.lo
 libdat_la_OBJECTS = $(am_libdat_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libdatdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -89,7 +89,8 @@ am__liquidwar6dat_test_SOURCES_DIST = dat-testmain.c
 @FULLSTATIC_FALSE@	dat-testmain.$(OBJEXT)
 liquidwar6dat_test_OBJECTS = $(am_liquidwar6dat_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6dat_test_DEPENDENCIES = libdat.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../msg/libmsg.la ../nod/libnod.la \
+@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -326,11 +327,12 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libdat.la
-libdat_la_SOURCES = dat-line.c dat-matrix.c dat-test.c dat-warehouse.c
+libdat_la_SOURCES = dat-atom.c dat-block.c dat-stack.c dat-test.c dat-warehouse.c
 libdatdir = $(includedir)/@PACKAGE_TARNAME@/dat
 libdat_HEADERS = dat.h
 @FULLSTATIC_FALSE@liquidwar6dat_test_SOURCES = dat-testmain.c
-@FULLSTATIC_FALSE@liquidwar6dat_test_LDADD = libdat.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6dat_test_LDADD = libdat.la ../msg/libmsg.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+EXTRA_DIST = dat-internal.h
 all: all-am
 
 .SUFFIXES:
@@ -429,8 +431,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-matrix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-line.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-atom.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-block.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-stack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-testmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dat-warehouse.Plo@am__quote@

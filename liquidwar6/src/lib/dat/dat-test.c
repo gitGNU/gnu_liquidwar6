@@ -24,72 +24,72 @@
 #include "config.h"
 #endif
 
-#include "dat.h"
+#include "dat-internal.h"
 
-#define _TEST_LINE_TEXT_SHORT "this is a short text"
-#define _TEST_LINE_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
-#define _TEST_MATRIX_LINE_0_SERIAL 123
+#define _TEST_ATOM_TEXT_SHORT "this is a short text"
+#define _TEST_ATOM_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
+#define _TEST_MATRIX_ATOM_0_SERIAL 123
 /*
- * Testing functions in line.c
+ * Testing functions in atom.c
  */
 static int
-test_line ()
+test_atom ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6dat_line_t line;
+    _lw6dat_atom_t atom;
     char *text = NULL;
 
-    lw6dat_line_zero (&line);
-    if (lw6dat_line_get_text (&line))
+    _lw6dat_atom_zero (&atom);
+    if (_lw6dat_atom_get_text (&atom))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("get text returned something on a zeroed line"));
+		    _("get text returned something on a zeroed atom"));
 	ret = 0;
       }
-    lw6dat_line_set_text (&line, _TEST_LINE_TEXT_SHORT);
-    text = lw6dat_line_get_text (&line);
+    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
+    text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("line text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get line text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
       }
-    lw6dat_line_set_text (&line, _TEST_LINE_TEXT_LONG);
-    text = lw6dat_line_get_text (&line);
+    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
+    text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("line text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get line text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
       }
-    lw6dat_line_set_text (&line, _TEST_LINE_TEXT_SHORT);
-    text = lw6dat_line_get_text (&line);
+    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
+    text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("line text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get line text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
       }
-    lw6dat_line_set_text (&line, _TEST_LINE_TEXT_LONG);
-    text = lw6dat_line_get_text (&line);
+    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
+    text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("line text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get line text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
       }
-    lw6dat_line_clear (&line);
+    _lw6dat_atom_clear (&atom);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -97,27 +97,31 @@ test_line ()
 }
 
 /*
- * Testing functions in matrix.c
+ * Testing functions in block.c
  */
 static int
-test_matrix ()
+test_block ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6dat_matrix_t *matrix;
+  }
 
-    matrix = lw6dat_matrix_new (_TEST_MATRIX_LINE_0_SERIAL);
-    if (matrix)
-      {
-	lw6dat_matrix_free (matrix);
-      }
-    else
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create matrix"));
-	ret = 0;
-      }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in stack.c
+ */
+static int
+test_stack ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -134,18 +138,6 @@ test_warehouse ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6dat_warehouse_t *warehouse = NULL;
-
-    warehouse = lw6dat_warehouse_new ();
-    if (warehouse)
-      {
-	lw6dat_warehouse_free (warehouse);
-      }
-    else
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create warehouse"));
-	ret = 0;
-      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -172,9 +164,12 @@ lw6dat_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
+      lw6glb_test (mode);
+      lw6nod_test (mode);
+      lw6msg_test (mode);
     }
 
-  ret = test_line () && test_matrix () && test_warehouse ();
+  ret = test_atom () && test_block () && test_stack () && test_warehouse ();
 
   return ret;
 }

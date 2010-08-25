@@ -14,30 +14,14 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6DAT_H
-#define LIQUIDWAR6DAT_H
-
-#include "../sys/sys.h"
-#include "../glb/glb.h"
-#include "../nod/nod.h"
-#include "../msg/msg.h"
-
-typedef struct lw6dat_warehouse_s
-{
-  int dummy;
-} lw6dat_warehouse_t;
-
-/* dat-warehouse.c */
-extern lw6dat_warehouse_t *lw6dat_warehouse_new ();
-extern void lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse);
-
-/* dat-test.c */
-extern int lw6dat_test (int mode);
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "dat.h"

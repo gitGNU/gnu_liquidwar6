@@ -22,14 +22,16 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libdat.la
-libdat_la_SOURCES = dat-line.c dat-matrix.c dat-test.c dat-warehouse.c
+libdat_la_SOURCES = dat-atom.c dat-block.c dat-stack.c dat-test.c dat-warehouse.c
 libdatdir= $(includedir)/@PACKAGE_TARNAME@/dat
 libdat_HEADERS = dat.h
 
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6dat-test
 liquidwar6dat_test_SOURCES = dat-testmain.c
-liquidwar6dat_test_LDADD = libdat.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6dat_test_LDADD = libdat.la ../msg/libmsg.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dat-test
 endif
+
+EXTRA_DIST = dat-internal.h
 
