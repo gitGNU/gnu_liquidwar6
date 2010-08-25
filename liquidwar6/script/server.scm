@@ -21,17 +21,19 @@
 (define lw6-server
   (lambda ()
     (begin
-      (lw6-config-set-number! lw6def-bin-id (c-lw6sys-build-get-bin-id))
-      (lw6-save-config)
+      (lw6-bench #f)
+      (lw6-console-init)
       (lw6-node-start)
       (if (lw6-config-is-true? lw6def-display-console)
 	  (c-lw6cns-init))
-      ;; we can't use the dsp object to track quit message
       (while (not (c-lw6sys-signal-poll-quit))
 	     (begin
 	       (c-lw6sys-idle)
 	       (lw6-node-poll)
-	       (lw6-console)
+	       (lw6-console-poll)
 	       ))
-      (lw6-node-stop))
+      (lw6-node-stop)
+      (c-lw6-release)
+      (lw6-clear)
+      )
     ))

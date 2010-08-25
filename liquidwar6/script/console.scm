@@ -51,6 +51,15 @@
 	 )
   )
 
-(define (lw6-console)
+(define (lw6-console-poll)
   (c-lw6cns-poll)
+  )
+
+(define (lw6-console-init)
+  (if (and (lw6-config-is-true? lw6def-display-console)
+	   (not (lw6-config-is-true? lw6def-daemon)))
+      (begin
+	(c-lw6cns-init)
+	(lw6-console-poll) ;; usefull when piping commands at startup
+	))
   )

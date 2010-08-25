@@ -97,7 +97,7 @@ lw6sys_signal_default ()
 void
 lw6sys_signal_term_handler (int signum)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("received SIGTERM"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGTERM"));
   lw6sys_signal_send_quit ();
 }
 
@@ -115,7 +115,7 @@ lw6sys_signal_term_handler (int signum)
 void
 lw6sys_signal_int_handler (int signum)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("received SIGINT"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGINT"));
   lw6sys_signal_send_quit ();
 }
 
@@ -138,13 +138,13 @@ lw6sys_signal_hup_handler (int signum)
   uptime = lw6sys_readable_uptime (lw6sys_get_uptime ());
   if (uptime)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("received SIGHUP uptime=\"%s\""),
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP uptime=\"%s\""),
 		  uptime);
       LW6SYS_FREE (uptime);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("received SIGHUP"));
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP"));
     }
 }
 

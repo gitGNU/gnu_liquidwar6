@@ -134,19 +134,14 @@
 				  (lw6-config-set-string! lw6def-snd-backend snd-backend)
 				  )))
 			;; (lw6-init-game-globals)
-			(if (lw6-config-is-true? lw6def-display-console)
-			    (begin
-			      (c-lw6cns-init)
-			      (lw6-console) ;; usefull when piping commands at startup
-			      ))
+			(lw6-console-init)
 			(if (not (lw6-bench-need-update #f))
 			    (lw6-node-start)) ;; start it now if bench OK
 			(lw6-init-menu)
 			(lw6-splash)
 			(lw6-game-idle)
 			(lw6-music-ambiance)
-			(if (not (c-lw6sys-signal-poll-quit))
-			    (lw6-bench #f))
+			(lw6-bench #f)
 			(lw6-node-start) ;; node must be start *after* bench
 			(lw6-game-loop)
 			(c-lw6dsp-release dsp) ;; do it before node-stop
@@ -157,16 +152,13 @@
 			)
 		      (begin
 			(lw6-log-error (_ "no graphical backend found, game can only run in server mode"))
-			(lw6-bench #f)
 			(lw6-server)
 			)
 		      ))))
 	  (begin
 	    (lw6-log-info (_ "running in server mode"))
-	    (lw6-bench #f)
 	    (lw6-server)
 	    ))
-      (c-lw6sys-signal-default)
       (c-lw6net-quit)
       (lw6-config-set-number! lw6def-bin-id (c-lw6sys-build-get-bin-id))
       (lw6-save-config)

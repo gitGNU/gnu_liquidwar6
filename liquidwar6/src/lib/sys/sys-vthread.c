@@ -41,7 +41,7 @@ vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("begin vthread (fast mode, no join)"));
+      lw6sys_log (LW6SYS_LOG_INFO, _("begin vthread (fast mode, no join)"));
     }
   if (thread_handler->callback_func)
     {
@@ -67,9 +67,9 @@ vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
 	   * Now the caller is supposed to set "can_join"
 	   * to allow this thread to actually finish.
 	   */
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _("waiting for can_join to be 1 (vhtread)"));
-	  lw6sys_idle ();
+	  lw6sys_snooze ();
 	}
       thread_handler->callback_join (thread_handler->callback_data);
     }
@@ -79,7 +79,7 @@ vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("end vthread (fast mode, no join)"));
+      lw6sys_log (LW6SYS_LOG_INFO, _("end vthread (fast mode, no join)"));
     }
   /* 
    * callback is over, we signal it to the caller, if needed
@@ -123,20 +123,20 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 
 	  while (!_main_vhandler)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _
 			  ("waiting for main handler to be defined by spawned thread"));
-	      lw6sys_idle ();
+	      lw6sys_snooze ();
 	    }
 
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("vthread main handler"));
+	  lw6sys_log (LW6SYS_LOG_INFO, _("vthread main handler"));
 	  vthread_callback (_main_vhandler);
 
 	  while (!lw6sys_thread_is_callback_done (_run_handler))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
+	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _("waiting for callback to be done (vhtread)"));
-	      lw6sys_idle ();
+	      lw6sys_snooze ();
 	    }
 
 	  lw6sys_log (LW6SYS_LOG_INFO, _("run vthread end"));
@@ -151,7 +151,7 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 	   */
 	  if (_main_vhandler)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("freeing _main_vhandler"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _("freeing _main_vhandler"));
 	      LW6SYS_FREE (_main_vhandler);
 	      _main_vhandler = NULL;
 	    }
@@ -230,7 +230,7 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	  handler->callback_func = callback_func;
 	  handler->callback_join = callback_join;
 	  handler->callback_data = callback_data;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("vhtread create successfull"));
+	  lw6sys_log (LW6SYS_LOG_INFO, _("vhtread create successfull"));
 	  ret = 1;
 	  _main_vhandler = vhandler;
 	}
@@ -275,7 +275,7 @@ lw6sys_vthread_join ()
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _("joining vthread (fast mode, no join)"));
 	}
 
@@ -283,9 +283,9 @@ lw6sys_vthread_join ()
 
       while (!vhandler->join_done)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
+	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _("waiting for join to be done (vhtread)"));
-	  lw6sys_idle ();
+	  lw6sys_snooze ();
 	}
     }
   else

@@ -28,17 +28,18 @@
 
 (define lw6-bench
   (lambda (force-bench)
-    (if (lw6-bench-need-update force-bench)
-	(let (
-	      (dsp (lw6-get-game-global "dsp"))
-	      )
-	  (if dsp
-	      (begin
-		(lw6-push-menu (lw6-wait-menu))
-		(lw6-display-update)
-		(lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench))
-		(lw6-pop-menu (lw6-current-menu))
-		(c-lw6gui-input-reset dsp))
-	      (begin
-		(lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench)))
-	      )))))
+    (if (not (c-lw6sys-signal-poll-quit)) ;; check before, since this takes time
+	(if (lw6-bench-need-update force-bench)
+	    (let (
+		  (dsp (lw6-get-game-global "dsp"))
+		  )
+	      (if dsp
+		  (begin
+		    (lw6-push-menu (lw6-wait-menu))
+		    (lw6-display-update)
+		    (lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench))
+		    (lw6-pop-menu (lw6-current-menu))
+		    (c-lw6gui-input-reset dsp))
+		  (begin
+		    (lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench)))
+		  ))))))

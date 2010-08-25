@@ -57,7 +57,7 @@
 	       (begin 
 		 (lw6-display-update)
 		 (lw6-node-poll)
-		 (lw6-console)
+		 (lw6-console-poll)
 		 (lw6-net)
 		 ))
 	(c-lw6gui-input-reset dsp)))))

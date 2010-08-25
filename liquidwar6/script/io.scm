@@ -24,7 +24,7 @@
       (lw6-menu)
       (lw6-loader)
       (lw6-mover)
-      (lw6-console)
+      (lw6-console-poll)
       (lw6-net)
       )
     )
