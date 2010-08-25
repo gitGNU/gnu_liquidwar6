@@ -124,7 +124,6 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   assoc = lw6sys_assoc_new (lw6sys_free_callback);
   if (assoc)
     {
-      origin = lw6sys_get_timestamp ();
       sock =
 	lw6net_tcp_connect (ip, parsed_url->port,
 			    tcp_context->data.consts.connect_timeout * 1000);
@@ -136,6 +135,14 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 					 node_info->const_info.url);
 	  if (request)
 	    {
+	      /*
+	       * We calculate origin only now for connect() time isn't
+	       * relevant on mod-tcp when connected, since we do it
+	       * only once at the beginning. This might give mod-tcp
+	       * an advantage over mod-http but after all, this is
+	       * logical.
+	       */
+	      origin = lw6sys_get_timestamp ();
 	      if (lw6net_send_line_tcp (sock, request))
 		{
 		  /*
@@ -204,6 +211,11 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	{
 	  if (oob_data->verify_callback_func)
 	    {
+	      /*
+	       * It's safe to call this here even if, for instance,
+	       * origin is wrong for the verify callback should check
+	       * for right values in the assoc.
+	       */
 	      ret =
 		oob_data->
 		verify_callback_func (oob_data->verify_callback_data, url, ip,
