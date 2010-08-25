@@ -485,7 +485,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node)
 	{
 	  sock =
 	    lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
-			       node->db->data.consts.accept_delay / 1000.0f);
+			       node->db->data.consts.accept_delay);
 	  if (sock >= 0 && ip != NULL && port > 0)
 	    {
 	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);

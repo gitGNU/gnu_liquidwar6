@@ -32,6 +32,7 @@
 #define LW6NET_DEFAULT_PORT 8056
 #define LW6NET_HTTP_PORT 80
 #define LW6NET_MAX_PACKET_SIZE 2000
+#define LW6NET_SOCKET_INVALID -1
 
 // net-error.c
 extern int lw6net_last_error ();
@@ -62,9 +63,9 @@ extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
 extern int lw6net_init (int argc, char *argv[]);
 extern void lw6net_quit ();
 
-/*
- * In socket.c
- */
+/* net-socket.c */
+extern int lw6net_socket_set_blocking_mode (int sock, int mode);
+extern int lw6net_socket_is_valid (int sock);
 extern void lw6net_socket_close (int sock);
 
 /*
@@ -73,16 +74,13 @@ extern void lw6net_socket_close (int sock);
 extern int lw6net_tcp_listen (char *ip, int port);
 extern int lw6net_tcp_accept (char **incoming_ip,
 			      int *incoming_port, int listening_sock,
-			      float wait);
-extern int lw6net_tcp_connect (char *ip, int port);
-extern void *lw6net_tcp_async_connect_init (char *ip, int port);
-extern int lw6net_tcp_async_connect_get (int *sock, void *handler);
-extern void lw6net_tcp_async_connect_exit (void *handler);
+			      int delay_msec);
+extern int lw6net_tcp_connect (char *ip, int port, int delay_msec);
 extern int lw6net_tcp_send (int sock, char *buf,
-			    int len, float delay, int loop);
-extern int lw6net_tcp_peek (int sock, char *buf, int len, float delay);
+			    int len, int delay_msec, int loop);
+extern int lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec);
 extern int lw6net_tcp_recv (int sock, char *buf,
-			    int len, float delay, int loop);
+			    int len, int delay_msec, int loop);
 extern int lw6net_tcp_is_alive (int sock);
 
 /* net-test.c */

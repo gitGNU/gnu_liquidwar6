@@ -28,6 +28,7 @@
 typedef struct _tcp_consts_s
 {
   int global_timeout;
+  int connect_timeout;
 }
 _tcp_consts_t;
 

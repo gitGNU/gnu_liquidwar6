@@ -79,7 +79,7 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
   int enable = 1;
 
   sock = socket (AF_INET, protocol, 0);
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       if (!setsockopt (sock, SOL_SOCKET, SO_REUSEADDR,
 		       (char *) &enable, sizeof (int)))
@@ -116,7 +116,7 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
       lw6net_last_error ();
     }
 
-  if (sock >= 0 && !binded)
+  if (lw6net_socket_is_valid (sock) && !binded)
     {
 #ifdef LW6_MS_WINDOWS
       if (closesocket (sock))
@@ -133,10 +133,97 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
   return sock;
 }
 
+/**
+ * lw6net_socket_set_blocking_mode
+ *
+ * @sock: the socket to modify
+ * @mode: the mode to use (1 -> blocking mode, 0 -> non-blocking)
+ *
+ * Sets the blocking mode of a socket, the reason we use
+ * this is that @ioctl isn't portable (@ioctlsocket on MS-Windows).
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6net_socket_set_blocking_mode (int sock, int mode)
+{
+  int ret = 0;
+
+  if (lw6net_socket_is_valid (sock))
+    {
+#ifdef LW6_MS_WINDOWS
+      // todo
+#else
+      int flags = 0;
+
+      flags = fcntl (sock, F_GETFL, 0);
+      if (flags != -1)
+	{
+	  if (mode)
+	    {
+	      flags = flags & (~O_NONBLOCK);
+	    }
+	  else
+	    {
+	      flags = flags | O_NONBLOCK;
+	    }
+	  if (fcntl (sock, F_SETFL, flags) != -1)
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("fcntl failed on socket %d"),
+			  sock);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("fcntl failed on socket %d"),
+		      sock);
+	}
+#endif
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("can't set blocking mode on invalid socket %d"), sock);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6net_socket_is_valid
+ *
+ * @sock: the socket to test
+ *
+ * Tells if a socket is valid or not. This does not mean the
+ * socket is opened/connected and/or the peer is reachable,
+ * it just checks the socket is a valid descriptor. In practice
+ * it's just to avoid copy/pasting if (sock>=0)" everywhere.
+ *
+ * Return value: 1 if valid, 0 if not
+ */
+int
+lw6net_socket_is_valid (int sock)
+{
+  return (sock >= 0);
+}
+
+/**
+ * lw6net_socket_close
+ *
+ * @sock: the socket to close
+ *
+ * Closes a socket, that is, stop activity and free its descriptor.
+ *
+ * Return value: none.
+ */
 void
 lw6net_socket_close (int sock)
 {
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("close socket %d"), sock);
       _lw6net_global_context->socket_counters.close_counter++;

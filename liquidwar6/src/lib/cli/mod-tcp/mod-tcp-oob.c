@@ -40,7 +40,9 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("connecting in TCP on %s:%d"), ip,
 	      parsed_url->port);
-  sock = lw6net_tcp_connect (ip, parsed_url->port);
+  sock =
+    lw6net_tcp_connect (ip, parsed_url->port,
+			tcp_context->data.consts.connect_timeout * 1000);
   if (sock >= 0)
     {
       request =
@@ -123,7 +125,9 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   if (assoc)
     {
       origin = lw6sys_get_timestamp ();
-      sock = lw6net_tcp_connect (ip, parsed_url->port);
+      sock =
+	lw6net_tcp_connect (ip, parsed_url->port,
+			    tcp_context->data.consts.connect_timeout * 1000);
       if (sock >= 0)
 	{
 	  request =
@@ -228,7 +232,9 @@ _do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
   lw6sys_log (LW6SYS_LOG_DEBUG, _("connecting in TCP on %s:%d"), ip,
 	      parsed_url->port);
 
-  sock = lw6net_tcp_connect (ip, parsed_url->port);
+  sock =
+    lw6net_tcp_connect (ip, parsed_url->port,
+			tcp_context->data.consts.connect_timeout * 1000);
   if (sock >= 0)
     {
       request =

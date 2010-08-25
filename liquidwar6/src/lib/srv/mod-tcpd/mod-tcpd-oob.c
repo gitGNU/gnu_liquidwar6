@@ -143,7 +143,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	{
 	  lw6net_tcp_send (oob_data->sock, response,
 			   strlen (response),
-			   tcpd_context->data.consts.error_timeout, 1);
+			   tcpd_context->data.consts.error_timeout * 1000, 1);
 	}
       else
 	{

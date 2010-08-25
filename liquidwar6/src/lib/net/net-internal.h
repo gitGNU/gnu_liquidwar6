@@ -47,50 +47,7 @@ typedef struct _lw6net_const_data_s
   int listen_backlog;
   int chunk_size;
   int line_size;
-  float line_delay;
-  /*  char *httpd_log;
-     int listen_backlog;
-     int chunk_size;
-     int line_size;
-     float protocol_delay;
-     float line_delay;
-     float http_delay;
-     char *http_status;
-     char *http_status_200;
-     char *http_status_404;
-     char *http_status_500;
-     char *http_header_content_type;
-     char *http_header_content_length;
-     char *http_header_last_modified;
-     char *http_header_connection;
-     char *http_header_server;
-     char *http_header_x_powered_by;
-     char *content_type_txt;
-     char *content_type_html;
-     char *content_type_jpeg;
-     char *content_type_ico;
-     char *content_type_css;
-     char *http_request_pattern;
-     char *uri_root;
-     char *uri_index;
-     char *uri_robots;
-     char *uri_favicon;
-     char *uri_more;
-     char *uri_style;
-     char *uri_gnu;
-     char *uri_gpl;
-     char *uri_screenshot;
-     char *uri_status;
-     char *uri_list;
-     char *screenshot_filename;
-     int screenshot_refresh_delay;
-     int screenshot_width;
-     int screenshot_height;
-     int screenshot_quality;
-     char *template_pattern;
-     char *template_format_version;
-     char *template_format_compiled;
-   */
+  int line_delay_msec;
 }
 _lw6net_const_data_t;
 
@@ -149,6 +106,10 @@ extern char *_lw6net_wsa_str (int wsa_int);
 extern int _lw6net_socket_init ();
 extern void _lw6net_socket_quit ();
 extern int _lw6net_socket_bind (char *ip, int port, int protocol);
+
+/* net-tcp.c */
+extern void _lw6net_delay_msec_to_timeval (struct timeval *tv,
+					   int delay_msec);
 
 /*
  * In thread.c

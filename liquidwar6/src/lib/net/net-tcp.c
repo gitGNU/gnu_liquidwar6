@@ -32,6 +32,15 @@
 #include "net.h"
 #include "net-internal.h"
 
+void
+_lw6net_delay_msec_to_timeval (struct timeval *tv, int delay_msec)
+{
+  memset (tv, 0, sizeof (struct timeval));
+
+  tv->tv_sec = delay_msec / 1000;
+  tv->tv_usec = delay_msec % 1000;
+}
+
 int
 lw6net_tcp_listen (char *ip, int port)
 {
@@ -59,7 +68,7 @@ lw6net_tcp_listen (char *ip, int port)
 
 int
 lw6net_tcp_accept (char **incoming_ip,
-		   int *incoming_port, int listening_sock, float delay)
+		   int *incoming_port, int listening_sock, int delay_msec)
 {
   int new_sock = -1;
   int accepted = 0;
@@ -87,8 +96,7 @@ lw6net_tcp_accept (char **incoming_ip,
     {
       FD_ZERO (&read);
       FD_SET (listening_sock, &read);
-      tv.tv_sec = (int) delay;
-      tv.tv_usec = (int) (delay / 1000000.0f);
+      _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
       res = select (listening_sock + 1, &read, NULL, NULL, &tv);
       if (res >= 1)
@@ -185,86 +193,134 @@ lw6net_tcp_accept (char **incoming_ip,
 }
 
 int
-lw6net_tcp_connect (char *ip, int port)
+lw6net_tcp_connect (char *ip, int port, int delay_msec)
 {
   int sock = -1;
+  int connect_ret = 0;
+  int select_ret = 0;
   int connected = 0;
   struct sockaddr_in name;
   int enable = 1;
   int disable = 0;
   struct linger li;
+  fd_set write;
+  struct timeval tv;
+  int64_t origin = 0;
 
   sock = socket (AF_INET, SOCK_STREAM, 0);
   if (sock >= 0)
     {
-      name.sin_family = AF_INET;
-      name.sin_addr.s_addr = INADDR_ANY;
-      name.sin_port = 0;
-      if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
+      if (lw6net_socket_set_blocking_mode (sock, 0))
 	{
 	  name.sin_family = AF_INET;
-	  if (_lw6net_inet_aton (&name.sin_addr, ip))
+	  name.sin_addr.s_addr = INADDR_ANY;
+	  name.sin_port = 0;
+	  if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 	    {
-	      name.sin_port = htons (port);
-	      if (connect (sock, (struct sockaddr *) &name, sizeof (name)) >=
-		  0)
+	      name.sin_family = AF_INET;
+	      if (_lw6net_inet_aton (&name.sin_addr, ip))
 		{
-		  /*
-		   * Added this code copied/paste from accept.
-		   * don't know if it's usefull
-		   */
-		  li.l_onoff = 0;
-		  li.l_linger = 0;
-		  if (setsockopt (sock, SOL_SOCKET, SO_KEEPALIVE,
-				  (char *) &enable, sizeof (int)))
+		  name.sin_port = htons (port);
+		  connect_ret =
+		    connect (sock, (struct sockaddr *) &name, sizeof (name));
+		  if (connect_ret >= 0)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt(SO_KEEPALIVE) failed"));
-		      lw6net_last_error ();
+				  _
+				  ("connect on \"%s:%d\" returned with a successfull code %d, this is very strange since we should be in non-blocking mode"),
+				  ip, port, connect_ret);
 		    }
-		  if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
-				  (char *) &disable, sizeof (int)))
+		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt(SO_OOBINLINE) failed"));
-		      lw6net_last_error ();
+		      if (errno == EINPROGRESS)
+			{
+			  FD_ZERO (&write);
+			  FD_SET (sock, &write);
+			  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
+
+			  origin = lw6sys_get_timestamp ();
+			  while (!connected
+				 && (lw6sys_get_timestamp () <
+				     (origin + delay_msec)))
+			    {
+			      select_ret =
+				select (sock + 1, NULL, &write, NULL, &tv);
+
+			      if (select_ret > 0)
+				{
+				  if (FD_ISSET (sock, &write))
+				    {
+				      connected = 1;
+				    }
+				}
+			    }
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _
+				      ("connect on \"%s:%d\" failed with code %d"),
+				      ip, port, connect_ret);
+			  lw6net_last_error ();
+			}
 		    }
-		  if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
-				  (char *) &li, sizeof (struct linger)))
+
+		  if (connected)
 		    {
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("setsockopt(SO_LINGER) failed"));
-		      lw6net_last_error ();
+		      /*
+		       * Added this code copied/paste from accept.
+		       * don't know if it's usefull
+		       */
+		      li.l_onoff = 0;
+		      li.l_linger = 0;
+		      if (setsockopt (sock, SOL_SOCKET, SO_KEEPALIVE,
+				      (char *) &enable, sizeof (int)))
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _("setsockopt(SO_KEEPALIVE) failed"));
+			  lw6net_last_error ();
+			}
+		      if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
+				      (char *) &disable, sizeof (int)))
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _("setsockopt(SO_OOBINLINE) failed"));
+			  lw6net_last_error ();
+			}
+		      if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
+				      (char *) &li, sizeof (struct linger)))
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _("setsockopt(SO_LINGER) failed"));
+			  lw6net_last_error ();
+			}
+
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("socket %d connected on %s:%d"), sock, ip,
+				  port);
+
+		      _lw6net_global_context->socket_counters.open_counter++;
 		    }
-
-		  //fcntl (sock, F_SETFL, O_NONBLOCK, 0);
-
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("socket %d connected on %s:%d"), sock, ip,
-			      port);
-
-		  _lw6net_global_context->socket_counters.open_counter++;
-		  connected = 1;
-		}
-	      else
-		{
-		  /*
-		   * Here, no peculiar warning, connect() is definitely
-		   * the kind of function which *will* fail very
-		   * often, we certainly don't want this to fill our
-		   * log...
-		   */
+		  else
+		    {
+		      /*
+		       * Here, no peculiar warning, connect() is definitely
+		       * the kind of function which *will* fail very
+		       * often, we certainly don't want this to fill our
+		       * log...
+		       */
+		    }
 		}
 	    }
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("bind() failed"));
-	  lw6net_last_error ();
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("bind() failed"));
+	      lw6net_last_error ();
+	    }
 	}
     }
 
-  if (sock >= 0 && !connected)
+  if (lw6net_socket_is_valid (sock) && !connected)
     {
       if (close (sock))
 	{
@@ -277,118 +333,8 @@ lw6net_tcp_connect (char *ip, int port)
   return sock;
 }
 
-static void
-async_connect_callback_func (void *callback_data)
-{
-  char *state = NULL;
-  _lw6net_socket_async_connect_data_t *async_connect_data;
-
-  async_connect_data = (_lw6net_socket_async_connect_data_t *) callback_data;
-
-  async_connect_data->sock =
-    lw6net_tcp_connect (async_connect_data->ip, async_connect_data->port);
-
-  if (async_connect_data->sock >= 0)
-    {
-      state = _("connected");
-    }
-  else
-    {
-      state = _("connexion failed");
-    }
-
-  lw6sys_log (LW6SYS_LOG_INFO,
-	      _("async connect on %s:%d has terminated, %s"),
-	      async_connect_data->ip, async_connect_data->port, state);
-}
-
-static void
-async_connect_callback_join (void *callback_data)
-{
-  _lw6net_socket_async_connect_data_t *async_connect_data;
-
-  async_connect_data = (_lw6net_socket_async_connect_data_t *) callback_data;
-
-  /*
-   * It's important to have this here, nowhere else but at the very end
-   * of the connect thread can we close the socket, it ever "got connected"
-   * after we waited "long enough".
-   */
-  if (async_connect_data->close && async_connect_data->sock >= 0)
-    {
-      lw6net_socket_close (async_connect_data->sock);
-    }
-
-  LW6SYS_FREE (async_connect_data);
-}
-
-void *
-lw6net_tcp_async_connect_init (char *ip, int port)
-{
-  void *ret = NULL;
-  _lw6net_socket_async_connect_data_t *async_connect_data = NULL;
-
-  async_connect_data =
-    LW6SYS_CALLOC (sizeof (_lw6net_socket_async_connect_data_t));
-  if (async_connect_data)
-    {
-      strncpy (async_connect_data->ip, ip, _LW6NET_IP_SIZE - 1);
-      async_connect_data->ip[_LW6NET_IP_SIZE - 1] = '\0';
-      async_connect_data->port = port;
-      async_connect_data->sock = -1;
-      async_connect_data->close = 1;
-      // all other values set to 0 (calloc)
-      ret =
-	lw6sys_thread_create (&async_connect_callback_func,
-			      &async_connect_callback_join,
-			      (void *) async_connect_data);
-      if (ret)
-	{
-	  // ok
-	  _lw6net_thread_register (ret);
-	}
-      else
-	{
-	  LW6SYS_FREE (async_connect_data);
-	}
-    }
-
-  return ret;
-}
-
 int
-lw6net_tcp_async_connect_get (int *sock, void *handler)
-{
-  int ret = 0;
-  _lw6net_socket_async_connect_data_t *async_connect_data;
-
-  if (lw6sys_thread_is_callback_done (handler))
-    {
-      async_connect_data =
-	(_lw6net_socket_async_connect_data_t *)
-	lw6sys_thread_get_data (handler);
-      (*sock) = async_connect_data->sock;
-      async_connect_data->close = 0;
-      ret = 1;
-    }
-
-  return ret;
-}
-
-void
-lw6net_tcp_async_connect_exit (void *handler)
-{
-  /*
-   * Unregister should automatically call
-   * lw6sys_thread_join(handler); but the advantage is that
-   * this way, at the end of the program, we can join all threads
-   * together and garbage collect things "properly".
-   */
-  _lw6net_thread_unregister (handler);
-}
-
-int
-lw6net_tcp_send (int sock, char *buf, int len, float delay, int loop)
+lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 {
   int ret = 0;
   fd_set write;
@@ -411,8 +357,7 @@ lw6net_tcp_send (int sock, char *buf, int len, float delay, int loop)
 	{
 	  FD_ZERO (&write);
 	  FD_SET (sock, &write);
-	  tv.tv_sec = (int) delay;
-	  tv.tv_usec = (int) ((delay - tv.tv_sec) * 1000000.0f);
+	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
 	  select_ret = select (sock + 1, NULL, &write, NULL, &tv);
 
@@ -482,7 +427,7 @@ lw6net_tcp_send (int sock, char *buf, int len, float delay, int loop)
 }
 
 int
-lw6net_tcp_peek (int sock, char *buf, int len, float delay)
+lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
 {
   fd_set read;
   struct timeval tv;
@@ -504,8 +449,7 @@ lw6net_tcp_peek (int sock, char *buf, int len, float delay)
 	{
 	  FD_ZERO (&read);
 	  FD_SET (sock, &read);
-	  tv.tv_sec = (int) delay;
-	  tv.tv_usec = (int) ((delay - tv.tv_sec) * 1000000.0f);
+	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
 	  select_ret = select (sock + 1, &read, NULL, NULL, &tv);
 
@@ -536,7 +480,7 @@ lw6net_tcp_peek (int sock, char *buf, int len, float delay)
 }
 
 int
-lw6net_tcp_recv (int sock, char *buf, int len, float delay, int loop)
+lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 {
   int ret = 0;
   fd_set read;
@@ -556,8 +500,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, float delay, int loop)
 	{
 	  FD_ZERO (&read);
 	  FD_SET (sock, &read);
-	  tv.tv_sec = (int) delay;
-	  tv.tv_usec = (int) ((delay - tv.tv_sec) * 1000000.0f);
+	  _lw6net_delay_msec_to_timeval (&tv, delay_msec);
 
 	  select_ret = select (sock + 1, &read, NULL, NULL, &tv);
 

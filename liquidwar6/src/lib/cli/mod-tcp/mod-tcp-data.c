@@ -41,6 +41,8 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
     {
       lw6cfg_read_xml_int (key, value, "global-timeout",
 			   &(consts->global_timeout));
+      lw6cfg_read_xml_int (key, value, "connect-timeout",
+			   &(consts->connect_timeout));
     }
 }
 

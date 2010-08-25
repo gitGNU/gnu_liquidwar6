@@ -1,3 +1,7 @@
+2010-08-25 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Using non-blocking socket on tcp connect.
+
 2010-08-24 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added signal functions to handle server closing properly.

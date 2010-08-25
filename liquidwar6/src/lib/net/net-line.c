@@ -56,7 +56,7 @@ lw6net_recv_line_tcp (int sock)
 {
   char *ret = NULL;
   int line_size = 0;
-  float line_delay;
+  int line_delay;
   int wanted_size;
   int available_size;
   int trail_size;
@@ -66,7 +66,7 @@ lw6net_recv_line_tcp (int sock)
   if (sock >= 0)
     {
       line_size = _lw6net_global_context->const_data.line_size;
-      line_delay = _lw6net_global_context->const_data.line_delay;
+      line_delay = _lw6net_global_context->const_data.line_delay_msec;
       memset (line_buf, 0, line_size + 3);
       available_size = lw6net_tcp_peek (sock, line_buf, line_size + 2, 0.0f);
       if (available_size > 0)
@@ -110,13 +110,13 @@ lw6net_send_line_tcp (int sock, char *line)
 {
   int ret = 0;
   int line_size = 0;
-  float line_delay;
+  int line_delay;
   int wanted_size = 0;
 
   if (sock >= 0 && line)
     {
       line_size = _lw6net_global_context->const_data.line_size;
-      line_delay = _lw6net_global_context->const_data.line_delay;
+      line_delay = _lw6net_global_context->const_data.line_delay_msec;
       wanted_size = strlen (line);
       if (wanted_size > line_size)
 	{
@@ -335,7 +335,7 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
 {
   int ret = 0;
   int line_size = 0;
-  float line_delay;
+  int line_delay;
   int wanted_size = 0;
   char *copied_line;
   char *trailed_line;
@@ -343,7 +343,7 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
   if (sock >= 0 && line)
     {
       line_size = _lw6net_global_context->const_data.line_size;
-      line_delay = _lw6net_global_context->const_data.line_delay;
+      line_delay = _lw6net_global_context->const_data.line_delay_msec;
       copied_line = lw6sys_str_copy (line);
       if (copied_line)
 	{

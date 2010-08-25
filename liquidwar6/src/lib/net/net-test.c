@@ -35,8 +35,10 @@
 #define TEST_HOST_KO "now-if-this-is-a valid HOST there's a serious PROBLEM!!!!"
 #define TEST_UNREACHABLE_IP "209.85.135.99"
 #define TEST_UNREACHABLE_PORT 8000
-#define TEST_TCP_DELAY 0.1f
-#define TEST_UDP_DELAY 1.0f
+#define TEST_TCP_CONNECT_DELAY 1000
+#define TEST_TCP_ACCEPT_DELAY 1000
+#define TEST_TCP_STREAM_DELAY 100
+#define TEST_UDP_DELAY 100
 #define TEST_BUF1_STR "foo"
 #define TEST_LINE1 "foo"
 #define TEST_LINE2 "a\tb\tc"
@@ -222,7 +224,6 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
   int listening_sock = -1;
   int connect_sock = -1;
   int accept_sock = -1;
-  void *handler = NULL;
   char *accept_ip = NULL;
   int accept_port = 0;
 
@@ -239,42 +240,33 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
       lw6sys_log (LW6SYS_LOG_NOTICE,
 		  _("trying to connect on localhost %s:%d"),
 		  LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT);
-      handler =
-	lw6net_tcp_async_connect_init (LW6NET_ADDRESS_LOOPBACK,
-				       LW6NET_DEFAULT_PORT);
-
-      if (handler)
+      connect_sock =
+	lw6net_tcp_connect (LW6NET_ADDRESS_LOOPBACK,
+			    LW6NET_DEFAULT_PORT, TEST_TCP_CONNECT_DELAY);
+      if (lw6net_socket_is_valid (connect_sock))
 	{
-	  while (!(lw6net_tcp_async_connect_get (&connect_sock, handler)))
-	    {
-	      // loop until connect exits...
-	      lw6sys_sleep (TEST_TCP_DELAY);
-	    }
-	  lw6net_tcp_async_connect_exit (handler);
-	  if (connect_sock >= 0)
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("TCP socket %d connected on %s:%d"),
+		      connect_sock, LW6NET_ADDRESS_LOOPBACK,
+		      LW6NET_DEFAULT_PORT);
+	  accept_sock =
+	    lw6net_tcp_accept (&accept_ip,
+			       &accept_port, listening_sock,
+			       TEST_TCP_ACCEPT_DELAY);
+	  if (lw6net_socket_is_valid (accept_sock))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("TCP socket %d connected on %s:%d"),
-			  connect_sock, LW6NET_ADDRESS_LOOPBACK,
-			  LW6NET_DEFAULT_PORT);
-	      accept_sock =
-		lw6net_tcp_accept (&accept_ip,
-				   &accept_port, listening_sock,
-				   TEST_TCP_DELAY);
-	      if (accept_sock >= 0)
-		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("TCP socket %d accepted %s:%d"),
-			      accept_sock, accept_ip, accept_port);
-		}
-	      if (accept_ip)
-		{
-		  LW6SYS_FREE (accept_ip);
-		}
+			  _("TCP socket %d accepted %s:%d"),
+			  accept_sock, accept_ip, accept_port);
+	    }
+	  if (accept_ip)
+	    {
+	      LW6SYS_FREE (accept_ip);
 	    }
 	}
     }
-  if (accept_sock >= 0 && connect_sock >= 0)
+  if (lw6net_socket_is_valid (accept_sock)
+      && lw6net_socket_is_valid (connect_sock))
     {
       (*sock1) = accept_sock;
       (*sock2) = connect_sock;
@@ -335,20 +327,22 @@ test_tcp ()
 
 	if (buf1_send && buf1_recv)
 	  {
-	    if (lw6net_tcp_send (sock1, buf1_send, size, TEST_TCP_DELAY, 1))
+	    if (lw6net_tcp_send
+		(sock1, buf1_send, size, TEST_TCP_STREAM_DELAY, 1))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _("sent \"%s\" on TCP socket %d"),
 			    buf1_send, sock1);
 		received =
-		  lw6net_tcp_peek (sock2, NULL, size, TEST_TCP_DELAY);
+		  lw6net_tcp_peek (sock2, NULL, size, TEST_TCP_STREAM_DELAY);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _
 			    ("%d bytes available on TCP socket %d"),
 			    received, sock2);
 		if (received == size
 		    && lw6net_tcp_recv (sock2,
-					buf1_recv, size, TEST_TCP_DELAY, 1))
+					buf1_recv, size,
+					TEST_TCP_STREAM_DELAY, 1))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_
@@ -456,7 +450,7 @@ test_udp ()
 		(sock2, buf1_send, size,
 		 LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT) == size)
 	      {
-		lw6sys_sleep (TEST_UDP_DELAY);
+		lw6sys_delay (TEST_UDP_DELAY);
 		if (lw6net_udp_peek
 		    (sock1, buf1_recv, size,
 		     &incoming_ip, &incoming_port) == size)

@@ -37,6 +37,7 @@
 typedef struct _http_consts_s
 {
   int global_timeout;
+  int connect_timeout;
 }
 _http_consts_t;
 

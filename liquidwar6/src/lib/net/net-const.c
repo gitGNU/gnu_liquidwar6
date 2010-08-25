@@ -42,12 +42,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->listen_backlog);
       lw6cfg_read_xml_int (key, value, "chunk-size", &const_data->chunk_size);
       lw6cfg_read_xml_int (key, value, "line-size", &const_data->line_size);
-    }
-
-  if (!strcmp (element, "float"))
-    {
-      lw6cfg_read_xml_float (key, value, "line-delay",
-			     &const_data->line_delay);
+      lw6cfg_read_xml_int (key, value, "line-delay-msec",
+			   &const_data->line_delay_msec);
     }
 }
 
