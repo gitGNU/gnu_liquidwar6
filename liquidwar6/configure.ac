@@ -728,6 +728,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/srv/mod-tcpd/Makefile
 	  src/lib/srv/mod-udpd/Makefile
 	  src/lib/srv/mod-httpd/Makefile
+	  src/lib/dat/Makefile
 	  src/lib/p2p/Makefile
 	  src/mswindows.rc
 	  script/Makefile

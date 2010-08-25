@@ -159,6 +159,36 @@ set up by network code.
 @strong{Return value:}  void
 @end deftypefun
 
+@deftypefun {int} {lw6net_socket_set_blocking_mode} (int @var{sock}, int @var{mode})
+@var{sock}:  the socket to modify
+
+@var{mode}:  the mode to use (1 -> blocking mode, 0 -> non-blocking)
+
+Sets the blocking mode of a socket, the reason we use
+this is that @code{ioctl} isn't portable (@code{ioctlsocket} on MS-Windows).
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6net_socket_is_valid} (int @var{sock})
+@var{sock}:  the socket to test
+
+Tells if a socket is valid or not. This does not mean the
+socket is opened/connected and/or the peer is reachable,
+it just checks the socket is a valid descriptor. In practice
+it's just to avoid copy/pasting if (sock>=0)" everywhere.
+
+@strong{Return value:}  1 if valid, 0 if not
+@end deftypefun
+
+@deftypefun {void} {lw6net_socket_close} (int @var{sock})
+@var{sock}:  the socket to close
+
+Closes a socket, that is, stop activity and free its descriptor.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6net_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

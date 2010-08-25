@@ -31,6 +31,7 @@
 #include "../msg/msg.h"
 #include "../cli/cli.h"
 #include "../srv/srv.h"
+#include "../dat/dat.h"
 
 typedef struct lw6p2p_db_s
 {

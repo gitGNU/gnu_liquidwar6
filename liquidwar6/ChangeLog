@@ -1,5 +1,7 @@
 2010-08-25 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added dat module to handle mass net messages.
+
 	* Using non-blocking socket on tcp connect.
 
 2010-08-24 : Christian Mauduit <ufoot@ufoot.org>

@@ -53,6 +53,7 @@
 #include "nod/nod.h"
 #include "cli/cli.h"
 #include "srv/srv.h"
+#include "dat/dat.h"
 #include "p2p/p2p.h"
 
 typedef struct lw6_smob_types_s

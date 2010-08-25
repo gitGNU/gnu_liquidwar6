@@ -455,6 +455,7 @@ lw6p2p_test (int mode)
       lw6msg_test (mode);
       lw6cli_test (mode);
       lw6srv_test (mode);
+      lw6dat_test (mode);
     }
 
   if (lw6net_init (argc, argv))

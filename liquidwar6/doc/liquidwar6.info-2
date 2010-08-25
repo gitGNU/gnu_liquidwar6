@@ -2618,7 +2618,10 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.12 libimg
+4.15.12 libdat
+--------------
+
+4.15.13 libimg
 --------------
 
  -- Function: int lw6img_test (int MODE)
@@ -2628,7 +2631,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.13 libker
+4.15.14 libker
 --------------
 
  -- Function: int lw6ker_test (int MODE)
@@ -2641,7 +2644,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.14 libldr
+4.15.15 libldr
 --------------
 
  -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, char *
@@ -3027,7 +3030,7 @@ C interfaces:
 
      *Return value:*  1 if success, 0 if failed.
 
-4.15.15 libmap
+4.15.16 libmap
 --------------
 
  -- Function: void lw6map_body_builtin_custom (lw6map_body_t * BODY,
@@ -3374,7 +3377,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.16 libmsg
+4.15.17 libmsg
 --------------
 
  -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
@@ -3521,7 +3524,7 @@ C interfaces:
 
      *Return value:*  a string, must not be freed.
 
-4.15.17 libnet
+4.15.18 libnet
 --------------
 
  -- Function: int lw6net_dns_is_ip (char * IP)
@@ -3668,6 +3671,33 @@ C interfaces:
 
      *Return value:*  void
 
+ -- Function: int lw6net_socket_set_blocking_mode (int SOCK, int MODE)
+     SOCK:  the socket to modify
+
+     MODE:  the mode to use (1 -> blocking mode, 0 -> non-blocking)
+
+     Sets the blocking mode of a socket, the reason we use this is that
+     `ioctl' isn't portable (`ioctlsocket' on MS-Windows).
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6net_socket_is_valid (int SOCK)
+     SOCK:  the socket to test
+
+     Tells if a socket is valid or not. This does not mean the socket
+     is opened/connected and/or the peer is reachable, it just checks
+     the socket is a valid descriptor. In practice it's just to avoid
+     copy/pasting if (sock>=0)" everywhere.
+
+     *Return value:*  1 if valid, 0 if not
+
+ -- Function: void lw6net_socket_close (int SOCK)
+     SOCK:  the socket to close
+
+     Closes a socket, that is, stop activity and free its descriptor.
+
+     *Return value:*  none.
+
  -- Function: int lw6net_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -3677,7 +3707,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.18 libnod
+4.15.19 libnod
 --------------
 
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
@@ -3870,7 +3900,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.19 libp2p
+4.15.20 libp2p
 --------------
 
  -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
@@ -3935,9 +3965,10 @@ C interfaces:
 
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
-          SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, u_int64_t
-          NODE_ID, char * PUBLIC_URL, char * PASSWORD, char * TITLE,
-          char * DESCRIPTION, int BENCH, char * KNOWN_NODES)
+          SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
+          BROADCAST, u_int64_t NODE_ID, char * PUBLIC_URL, char *
+          PASSWORD, char * TITLE, char * DESCRIPTION, int BENCH, char *
+          KNOWN_NODES)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -3951,6 +3982,8 @@ C interfaces:
      BIND_IP:  the IP address to bind on
 
      BIND_PORT:  the IP port to listen on
+
+     BROADCAST:  wether broadcast is allowed on this node
 
      NODE_ID:  the server unique ID
 
@@ -4014,7 +4047,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.20 libpil
+4.15.21 libpil
 --------------
 
  -- Function: int lw6pil_bench (float * BENCH_RESULT, lw6sys_progress_t
@@ -4392,7 +4425,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.21 libsnd
+4.15.22 libsnd
 --------------
 
  -- Function: int lw6snd_test (int MODE)
@@ -4404,7 +4437,7 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.22 libsrv
+4.15.23 libsrv
 --------------
 
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
@@ -4481,7 +4514,7 @@ C interfaces:
 
      *Return value:*  none
 
-4.15.23 libsys
+4.15.24 libsys
 --------------
 
  -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
@@ -8274,7 +8307,7 @@ C interfaces:
 
      *Return value:*  none.
 
-4.15.24 libtsk
+4.15.25 libtsk
 --------------
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *

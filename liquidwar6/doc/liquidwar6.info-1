@@ -1692,28 +1692,28 @@ rewritten.
 The C code is splitted into several internal libraries. This allow
 independant testing of various game modules.
 
-   The main module, the most important one, is `ker' (stands for
+   The main module, the most important one, is `libker' (stands for
 "kernel").  This is were the core algorithm is. To some extent, the
 rest of the code is just about how to provide this module with the
 right data and environment.  Logically, if you profle the game, you
 should find out that a great part of the CPU time is spent here. Code
 here is about spreading gradients, moving fighters and cursors.
 
-   The `map' module is here to handle maps, it contains the code to
+   The `libmap' module is here to handle maps, it contains the code to
 manipulate maps in memory. But it does not know how to load them from
-disk. This is the responsability of another module, `ldr', which is
+disk. This is the responsability of another module, `libldr', which is
 linked against libraries such as libpng
 (http://www.libpng.org/pub/png/libpng.html) or libjpeg
 (http://www.ijg.org/) and does the job of transforming those standard
 formats into a usable in-memory structure. There's still a third
-moduled involved in map handling, it's `tsk', whose job is to load a
+moduled involved in map handling, it's `libtsk', whose job is to load a
 level in the background. It has a 2-steps asynchronous loading system
 which allows the game to load maps while the user interface is still
 responsive, and give a preview of the map as soon as possible, when
 loading continues in the background, building optimizing structures
 which are usefull when playing but not mandatory just to show the map.
 
-   At the other end of the algorithm-chain, the `pil' module will
+   At the other end of the algorithm-chain, the `libpil' module will
 "pilot" things. It's this module which will translate text readable
 orders (typically adapted for network usage) into function calls. It
 has event lists, keeps them in the right order, and will also
@@ -1730,13 +1730,13 @@ keeping reference and updating it when we finally receive valid
 informations. Backup would be used to send bootstrap information when
 people are joining a new game, or to check up if things are going right.
 
-   A special `bot' module is here to handle bot algorithms. A bot is
+   A special `libbot' module is here to handle bot algorithms. A bot is
 just a simple `move' function which takes a game state as an input, and
 returns an `x,y' position, just the way a mouse handler would. How
 complex a bot is "under the hood" depends on the type of bot. Current
 bots are really basic.
 
-   The `gfx' module handles all the graphics stuff. It is itself
+   The `libgfx' module handles all the graphics stuff. It is itself
 splitted in several sub-modules, that is, it does not do anything but
 load a module such as `mod-gl' which will actually contain the
 implementation. In an object-oriented language, it would be an abstract
@@ -1747,7 +1747,7 @@ same game instance, but this code has yet to be written, and it's a
 rare dual headed configuration which probably has no real-life usage.
 If only one graphics backend is activated at a time, the rest of the
 implementation garantees there will never be two concurrent calls to a
-function is this module. It is the `dsp' ("display") which handles
+function is this module. It is the `libdsp' ("display") which handles
 this. It fires a thread for rendering purposes, and sends information
 to this thread, detecting automatically if it's necessary to acquire a
 mutex and update rendering informations. For the caller, this is
@@ -1755,38 +1755,39 @@ transparent, one just has to call an update function from time to time.
 The module will even perform "dirty-reads" on a game state being
 calculated, to render things in real time, as soon as possible.
 
-   To ease up the implementation of different graphics backends, a `gui'
-module contains code which is meant to be used by any graphics backend.
-It's just a factorisation module, containing common code and interfaces,
-related to displaying things. This is where, for instance, one can find
-a high level menu object.
+   To ease up the implementation of different graphics backends, a
+`libgui' module contains code which is meant to be used by any graphics
+backend.  It's just a factorisation module, containing common code and
+interfaces, related to displaying things. This is where, for instance,
+one can find a high level menu object.
 
-   The `snd' module handles sound. It's also an abstract class, an
+   The `libsnd' module handles sound. It's also an abstract class, an
 interface, which uses dynamic backends as implementations.
 
-   The `net' module is a wrapper over different network APIs, it
-handles Winsock and POSIX sockets in a uniform manner.  The `cli' and
-`srv' contain network client and server code, implementing the various
-protocols in dynamically loadable sub-modules.  It's the role of `p2p'
-to glue this together, handle the list of available servers, the
-message queue, verifying nobody is cheating, and so on. All this
-modules share information about current game state using code &
-structures defined in `nod', and use message utilities (format, parse)
-defined in `msg'.
+   The `libnet' module is a wrapper over different network APIs, it
+handles Winsock and POSIX sockets in a uniform manner.  The `libcli'
+and `libsrv' contain network client and server code, implementing the
+various protocols in dynamically loadable sub-modules.  It's the role
+of `libp2p' to glue this together, handle the list of available
+servers, the message queue, verifying nobody is cheating, and so on.
+All this modules share information about current game state using code
+& structures defined in `libnod', and use message utilities (format,
+parse) defined in `libmsg'. Additionnally, `libdat' provides facilities
+to store old network messages and sort them.
 
-   The `sys' module contains most system and convenience functions, it
-handles logs, type conversions, timer, memory allocation, it's the
+   The `libsys' module contains most system and convenience functions,
+it handles logs, type conversions, timer, memory allocation, it's the
 fundamental module every other module depends on. It has a compation
-`glb' module with all the Gnulib (http://www.gnu.org/software/gnulib/)
-shared code.
+`libglb' module with all the Gnulib
+(http://www.gnu.org/software/gnulib/) shared code.
 
-   The `hlp' is used to handle keywords and internal self-documentation
-(this is what is used by `--list' and `--about'), `cfg' knows how to
-read and save config files,  `cns' handles the console, and `dyn' can
-load `.so' shared files dynamically.
+   The `libhlp' is used to handle keywords and internal
+self-documentation (this is what is used by `--list' and `--about'),
+`libcfg' knows how to read and save config files,  `libcns' handles the
+console, and `libdyn' can load `.so' shared files dynamically.
 
-   Finally there are small modules like `img' (to make screenshots of
-the game) which have been separated because they required special
+   Finally there are small modules like `libimg' (to make screenshots
+of the game) which have been separated because they required special
 libraries to link with and/or did not really fit in existing modules
 for dependencies reasons.
 

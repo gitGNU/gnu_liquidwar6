@@ -21,8 +21,8 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 788
-liquidwar6.info-2: 269083
-liquidwar6.info-3: 568272
+liquidwar6.info-2: 269242
+liquidwar6.info-3: 569469
 
 Tag Table:
 (Indirect)
@@ -50,37 +50,37 @@ Node: Hacker's guide42424
 Node: Designing levels43617
 Node: Translating60834
 Node: Architecture64122
-Node: About mod-gl77509
-Node: Compilation tips79791
-Node: Coding guidelines106027
-Node: Using the console113528
-Node: Advanced tweaking115184
-Node: Writing modules116529
-Node: Use as a library116702
-Node: Network protocol116876
-Node: Using GNU Arch121838
-Node: Using GIT127608
-Node: Reference129776
-Node: Basic options131242
-Node: Doc options134490
-Node: Show options138180
-Node: Path options156995
-Node: Graphics options163842
-Node: Sound options166845
-Node: Network options169199
-Node: Map parameters174757
-Node: Map rules.xml178149
-Node: Map hints.xml211043
-Node: Map style.xml225284
-Node: Advanced settings248860
-Node: Script hooks268789
-Node: C to Guile API268937
-Node: C functions269083
-Node: 2005 .plan568272
-Node: Fanfic580540
-Node: Links586873
-Node: Copying588361
-Node: GNU Free Documentation License625939
-Node: Indexes651102
+Node: About mod-gl77668
+Node: Compilation tips79950
+Node: Coding guidelines106186
+Node: Using the console113687
+Node: Advanced tweaking115343
+Node: Writing modules116688
+Node: Use as a library116861
+Node: Network protocol117035
+Node: Using GNU Arch121997
+Node: Using GIT127767
+Node: Reference129935
+Node: Basic options131401
+Node: Doc options134649
+Node: Show options138339
+Node: Path options157154
+Node: Graphics options164001
+Node: Sound options167004
+Node: Network options169358
+Node: Map parameters174916
+Node: Map rules.xml178308
+Node: Map hints.xml211202
+Node: Map style.xml225443
+Node: Advanced settings249019
+Node: Script hooks268948
+Node: C to Guile API269096
+Node: C functions269242
+Node: 2005 .plan569469
+Node: Fanfic581737
+Node: Links588070
+Node: Copying589558
+Node: GNU Free Documentation License627136
+Node: Indexes652299
 
 End Tag Table

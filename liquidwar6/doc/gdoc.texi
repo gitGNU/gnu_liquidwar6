@@ -17,7 +17,7 @@
 @subsection libcns
 
 @include cns-gdoc.texi
- 
+
 @subsection libdsp
 
 @include dsp-gdoc.texi
@@ -41,6 +41,10 @@
 @subsection libhlp
 
 @include hlp-gdoc.texi
+
+@subsection libdat
+
+@include dat-gdoc.texi
 
 @subsection libimg
 

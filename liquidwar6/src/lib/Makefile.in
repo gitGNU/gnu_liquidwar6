@@ -107,7 +107,7 @@ am__DEPENDENCIES_2 = sys/libsys.la glb/libglb.la cns/libcns.la \
 	pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la \
 	gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la \
 	msg/libmsg.la net/libnet.la nod/libnod.la cli/libcli.la \
-	srv/libsrv.la p2p/libp2p.la tsk/libtsk.la \
+	srv/libsrv.la dat/libdat.la p2p/libp2p.la tsk/libtsk.la \
 	$(am__DEPENDENCIES_1)
 @ALLINONE_FALSE@libliquidwar6_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
 am__libliquidwar6_la_SOURCES_DIST = lw6-callback.c lw6-control.c \
@@ -168,7 +168,7 @@ CTAGS = ctags
 am__tty_colors = \
 red=; grn=; lgn=; blu=; std=
 DIST_SUBDIRS = def sys glb map ker pil dyn bot cns hlp cfg ldr tsk gui \
-	gfx snd dsp img net nod msg cli srv p2p
+	gfx snd dsp img net nod msg cli srv dat p2p
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -395,7 +395,7 @@ top_srcdir = @top_srcdir@
 @ALLINONE_TRUE@LW6DYN_SUBDIR = 
 noinst_LTLIBRARIES = libliquidwar6_s.la
 LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c lw6-test.c
-LW6_LIBS = sys/libsys.la glb/libglb.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la msg/libmsg.la net/libnet.la nod/libnod.la cli/libcli.la srv/libsrv.la p2p/libp2p.la tsk/libtsk.la $(LW6DYN_LIB) 
+LW6_LIBS = sys/libsys.la glb/libglb.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la msg/libmsg.la net/libnet.la nod/libnod.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la tsk/libtsk.la $(LW6DYN_LIB) 
 libliquidwar6_s_la_SOURCES = $(LW6_FILES)
 libliquidwar6_s_la_LIBADD = $(LW6_LIBS)
 @ALLINONE_FALSE@lib_LTLIBRARIES = libliquidwar6.la
@@ -406,7 +406,7 @@ libliquidwar6_s_la_LIBADD = $(LW6_LIBS)
 @ALLINONE_FALSE@libliquidwar6_HEADERS = liquidwar6.h
 @FULLSTATIC_FALSE@liquidwar6_test_SOURCES = lw6-testmain.c
 @FULLSTATIC_FALSE@liquidwar6_test_LDADD = libliquidwar6_s.la $(LW6_LIBS) @LW6_LIBINTL_LDADD@
-SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot cns hlp cfg ldr tsk gui gfx snd dsp img net nod msg cli srv p2p
+SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot cns hlp cfg ldr tsk gui gfx snd dsp img net nod msg cli srv dat p2p
 all: all-recursive
 
 .SUFFIXES:

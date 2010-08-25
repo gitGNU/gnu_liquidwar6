@@ -29,7 +29,7 @@ libnod_HEADERS = nod.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6nod-test
 liquidwar6nod_test_SOURCES = nod-testmain.c
-liquidwar6nod_test_LDADD = libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6nod_test_LDADD = libnod.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6nod-test
 endif
 
