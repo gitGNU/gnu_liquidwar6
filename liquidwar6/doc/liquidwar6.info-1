@@ -1692,7 +1692,7 @@ rewritten.
 The C code is splitted into several internal libraries. This allow
 independant testing of various game modules.
 
-   The main module, the most important one, is `libker' (stands for
+   The main module, the most important one, is `libker', (stands for
 "kernel").  This is were the core algorithm is. To some extent, the
 rest of the code is just about how to provide this module with the
 right data and environment.  Logically, if you profle the game, you

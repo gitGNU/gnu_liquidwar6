@@ -1785,7 +1785,7 @@ At all. Or at least, not unless it's almost completely rewritten.
 The C code is splitted into several internal libraries. This allow
 independant testing of various game modules.
 
-The main module, the most important one, is @code{libker} (stands for ``kernel'').
+The main module, the most important one, is @code{libker}, (stands for ``kernel'').
 This is were the core algorithm is. To some extent, the rest of the code is
 just about how to provide this module with the right data and environment.
 Logically, if you profle the game, you should find out that a great part
@@ -3466,7 +3466,8 @@ engines to harvest the content.
 @node C functions, ,C to Guile API, Reference
 @section C functions
 
-This section lists all documented C functions in the program. It contains
+This section contains a description of all modules and a
+list of all documented C functions in the program. It contains
 many references and is self-generated from C comments using
 @uref{http://josefsson.org/gdoc/,gdoc} by @uref{http://josefsson.org/,Simon Josefsson}.
 
@@ -3497,17 +3498,255 @@ the @uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} output shows the cycl
 of functions. It enables the programmer to spots the ``ugly'' and dangerous parts of the program.
 @end itemize
 
+@subsection libliquidwar6
+
 @ifinfo
-@include gdoc.texi
+@include liquidwar6-gdoc.texi
 @end ifinfo
 
 @ifhtml
-@include gdoc.texi
+@include liquidwar6-gdoc.texi
+@end ifhtml
+ 
+@subsection libbot
+
+@ifinfo
+@include bot-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include bot-gdoc.texi
+@end ifhtml
+ 
+@subsection libcfg
+
+@ifinfo
+@include cfg-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include cfg-gdoc.texi
+@end ifhtml
+ 
+@subsection libcli
+
+@ifinfo
+@include cli-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include cli-gdoc.texi
+@end ifhtml
+ 
+@subsection libcns
+
+@ifinfo
+@include cns-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include cns-gdoc.texi
 @end ifhtml
 
-@ifplaintext
-@include gdoc.texi
-@end ifplaintext
+@subsection libdsp
+
+@ifinfo
+@include dsp-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dsp-gdoc.texi
+@end ifhtml
+ 
+@subsection libdyn
+
+@ifinfo
+@include dyn-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dyn-gdoc.texi
+@end ifhtml
+ 
+@subsection libgfx
+
+@ifinfo
+@include gfx-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include gfx-gdoc.texi
+@end ifhtml
+
+@subsection libglb
+
+@ifinfo
+@include glb-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include glb-gdoc.texi
+@end ifhtml
+
+@subsection libgui
+
+@ifinfo
+@include gui-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include gui-gdoc.texi
+@end ifhtml
+ 
+@subsection libhlp
+
+@ifinfo
+@include hlp-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include hlp-gdoc.texi
+@end ifhtml
+
+@subsection libdat
+
+@ifinfo
+@include dat-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dat-gdoc.texi
+@end ifhtml
+
+@subsection libimg
+
+@ifinfo
+@include img-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include img-gdoc.texi
+@end ifhtml
+ 
+@subsection libker
+
+@ifinfo
+@include ker-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include ker-gdoc.texi
+@end ifhtml
+
+@subsection libldr
+
+@ifinfo
+@include ldr-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include ldr-gdoc.texi
+@end ifhtml
+ 
+@subsection libmap
+
+@ifinfo
+@include map-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include map-gdoc.texi
+@end ifhtml
+ 
+@subsection libmsg
+
+@ifinfo
+@include msg-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include msg-gdoc.texi
+@end ifhtml
+
+@subsection libnet
+
+@ifinfo
+@include net-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include net-gdoc.texi
+@end ifhtml
+ 
+@subsection libnod
+
+@ifinfo
+@include nod-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include nod-gdoc.texi
+@end ifhtml
+ 
+@subsection libp2p
+
+@ifinfo
+@include p2p-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include p2p-gdoc.texi
+@end ifhtml
+
+@subsection libpil
+
+@ifinfo
+@include pil-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include pil-gdoc.texi
+@end ifhtml
+
+@subsection libsnd
+
+@ifinfo
+@include snd-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include snd-gdoc.texi
+@end ifhtml
+ 
+@subsection libsrv
+
+@ifinfo
+@include srv-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include srv-gdoc.texi
+@end ifhtml
+
+@subsection libsys
+
+@ifinfo
+@include sys-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include sys-gdoc.texi
+@end ifhtml
+
+@subsection libtsk
+
+@ifinfo
+@include tsk-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include tsk-gdoc.texi
+@end ifhtml
 
 @c ===========================================================================
 @c Appendices

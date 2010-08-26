@@ -24,10 +24,10 @@ File: liquidwar6.info,  Node: C functions,  Prev: C to Guile API,  Up: Reference
 4.15 C functions
 ================
 
-This section lists all documented C functions in the program. It
-contains many references and is self-generated from C comments using
-gdoc (http://josefsson.org/gdoc/) by Simon Josefsson
-(http://josefsson.org/).
+This section contains a description of all modules and a list of all
+documented C functions in the program. It contains many references and
+is self-generated from C comments using gdoc
+(http://josefsson.org/gdoc/) by Simon Josefsson (http://josefsson.org/).
 
    In order to reduce the number of pages of printed output, this
 complete reference is, by default, disabled in printable versions of
