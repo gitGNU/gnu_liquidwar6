@@ -862,7 +862,7 @@ extern int lw6sys_shape_is_same_xy (lw6sys_whd_t * shape_a,
 				    lw6sys_whd_t * shape_b);
 
 /* sys-signal.c */
-extern void lw6sys_signal_custom (int argc, char *argv[]);
+extern void lw6sys_signal_custom ();
 extern void lw6sys_signal_default ();
 extern void lw6sys_signal_term_handler (int signum);
 extern void lw6sys_signal_int_handler (int signum);

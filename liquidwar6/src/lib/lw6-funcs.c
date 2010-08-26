@@ -2102,7 +2102,7 @@ _scm_lw6sys_signal_custom ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  lw6sys_signal_custom (lw6_global.argc, lw6_global.argv);
+  lw6sys_signal_custom ();
 
   LW6SYS_SCRIPT_FUNCTION_END;
 

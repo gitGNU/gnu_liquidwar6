@@ -2587,15 +2587,12 @@ test_signal ()
 
   {
     int i;
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
-      { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
 
     if (lw6sys_signal_poll_quit ())
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _("quit!=0, strange..."));
       }
-    lw6sys_signal_custom (argc, argv);
+    lw6sys_signal_custom ();
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_
 		("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));
