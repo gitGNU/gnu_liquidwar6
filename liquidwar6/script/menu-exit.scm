@@ -26,7 +26,7 @@
       (begin
 	(assoc-set! menuitem "on-valid" 
 		    (lambda (mi) 
-		      (c-lw6gui-input-send-quit (lw6-get-game-global "dsp"))))
+		      (c-lw6sys-signal-send-quit)))
 	menuitem
 	))))
 

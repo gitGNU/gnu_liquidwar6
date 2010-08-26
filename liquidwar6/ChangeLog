@@ -1,5 +1,7 @@
 2010-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed QUIT handling in scripts.
+
 	* SIGHUP now restarts program.
 
 	* Fixed suspected vthread bug when run callback is too fast.

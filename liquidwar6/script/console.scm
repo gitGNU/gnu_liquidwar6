@@ -21,14 +21,7 @@
 
 (define (lw6-console-catch-handler key . args) 
   (if (eq? key 'quit)
-      (let
-	  (
-	   (dsp (lw6-get-game-global "dsp"))
-	   )
-	(if dsp
-	    (c-lw6gui-input-send-quit dsp)
-	    (lw6-set-game-global! "quit" #t)
-	    ))
+      (c-lw6sys-signal-send-quit)
       (begin
 	(display key)
 	(display "\n")

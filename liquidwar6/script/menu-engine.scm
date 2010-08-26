@@ -567,7 +567,7 @@
   (lambda () 
     (begin 
       (if (lw6-empty-menu-stack?)
-	  (c-lw6gui-input-send-quit (lw6-get-game-global "dsp"))
+	  (c-lw6sys-signal-send-quit)
 	  )
       (lw6-menu-pump-buttons)
       (lw6-menu-pump-mouse)
