@@ -99,7 +99,7 @@ lw6sys_is_executed_again (int argc, char *argv[])
  * if no other process was started. It's just designed to bootstrap/launch
  * the process once.
  *
- * Return value: 1 on success, 0 on failure.
+ * Return value: 1 on success, 0 on failure (always fail)
  */
 int
 lw6sys_exec_again (int argc, char *argv[])
@@ -135,12 +135,12 @@ lw6sys_exec_again (int argc, char *argv[])
 		}
 	      LW6SYS_FREE (myself);
 	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find myself"));
+	    }
 	  lw6sys_log (LW6SYS_LOG_WARNING, _("can't run \"%s\" again"),
 		      argv[0]);
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find myself"));
 	}
     }
   else
@@ -148,6 +148,54 @@ lw6sys_exec_again (int argc, char *argv[])
       lw6sys_log (LW6SYS_LOG_INFO,
 		  _("executed again so no new process started"));
       ret = 1;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6sys_exec_restart
+ *
+ * @argc: number of args as passed to main
+ * @argv: array of args as passed to main
+ *
+ * Restart the program with exactly the same arguments it was given
+ * the first time. 
+ *
+ * Return value: 1 on success, 0 on failure (always fail)
+ */
+int
+lw6sys_exec_restart (int argc, char *argv[])
+{
+  char *myself;
+  char **new_argv;
+  int i;
+  int ret = 0;
+
+  if (argc >= 1)
+    {
+      myself = lw6sys_exec_find_myself (argc, argv);
+      if (myself)
+	{
+	  new_argv = (char **) LW6SYS_CALLOC (sizeof (char *) * (argc + 1));
+	  if (new_argv)
+	    {
+	      for (i = 0; i < argc; ++i)
+		{
+		  new_argv[i] = argv[i];
+		}
+	      new_argv[argc] = NULL;
+	      execvp (myself, (void *) new_argv);
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("execvp(%s) failed"), myself);
+	      LW6SYS_FREE (new_argv);
+	    }
+	  LW6SYS_FREE (myself);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find myself"));
+	}
+      lw6sys_log (LW6SYS_LOG_WARNING, _("can't restart \"%s\""), argv[0]);
     }
 
   return ret;

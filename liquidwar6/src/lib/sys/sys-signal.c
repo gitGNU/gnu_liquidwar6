@@ -29,8 +29,19 @@
 
 #include <signal.h>
 
+/*
+ * Exceptionnally we keep those global/static,
+ * found no other way to do it since signal
+ * handler does not have a (void *) as a parameter.
+ */
+static int _argc = 0;
+static char **_argv = NULL;
+
 /**
  * lw6sys_signal_custom
+ *
+ * @argc: argc as passed to @main()
+ * @argv: argv as passed to @main()
  *
  * Set up our signal handlers. This will probably be overrided
  * later by other libs such as libSDL, but at least in pure server
@@ -39,7 +50,7 @@
  * Return value: none.
  */
 void
-lw6sys_signal_custom ()
+lw6sys_signal_custom (int argc, char *argv[])
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
@@ -133,18 +144,10 @@ lw6sys_signal_int_handler (int signum)
 void
 lw6sys_signal_hup_handler (int signum)
 {
-  char *uptime = NULL;
-
-  uptime = lw6sys_readable_uptime (lw6sys_get_uptime ());
-  if (uptime)
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP"));
+  if (_argc >= 1 && _argv != NULL)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP uptime=\"%s\""),
-		  uptime);
-      LW6SYS_FREE (uptime);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP"));
+      lw6sys_exec_restart (_argc, _argv);
     }
 }
 

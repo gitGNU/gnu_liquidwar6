@@ -30,7 +30,6 @@ _lw6dat_warehouse_t *
 _lw6dat_warehouse_new ()
 {
   _lw6dat_warehouse_t *warehouse;
-  int i;
   int ok = 0;
 
   warehouse =

@@ -556,6 +556,7 @@ extern char *lw6sys_escape_sql_value (char *src);
 extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
 extern int lw6sys_is_executed_again (int argc, char *argv[]);
 extern int lw6sys_exec_again (int argc, char *argv[]);
+extern int lw6sys_exec_restart (int argc, char *argv[]);
 
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);
@@ -861,7 +862,7 @@ extern int lw6sys_shape_is_same_xy (lw6sys_whd_t * shape_a,
 				    lw6sys_whd_t * shape_b);
 
 /* sys-signal.c */
-extern void lw6sys_signal_custom ();
+extern void lw6sys_signal_custom (int argc, char *argv[]);
 extern void lw6sys_signal_default ();
 extern void lw6sys_signal_term_handler (int signum);
 extern void lw6sys_signal_int_handler (int signum);
