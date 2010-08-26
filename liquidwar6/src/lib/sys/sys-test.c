@@ -3511,6 +3511,18 @@ vthread_join (void *callback_data)
   LW6SYS_FREE (callback_data);
 }
 
+static void
+vthread_func_no_spawn (void *callback_data)
+{
+  char *text = NULL;
+
+  text = (char *) callback_data;
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _
+	      ("vthread_callback text=\"%s\", this callback does *NOT* fire a thread"),
+	      text);
+}
+
 /*
  * Testing functions in vthread.c
  */
@@ -3539,6 +3551,25 @@ test_vthread ()
 	  {
 	    if (lw6sys_vthread_run
 		(&vthread_func, &vthread_join, (void *) text))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _("done with vthread"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _("can't run vthread"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+
+	text = lw6sys_str_copy (THREAD_TEXT);
+	if (text)
+	  {
+	    if (lw6sys_vthread_run
+		(&vthread_func_no_spawn, &vthread_join, (void *) text))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _("done with vthread"));
 	      }

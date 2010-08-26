@@ -29,7 +29,6 @@
 
 static void *_run_handler = NULL;
 static _lw6sys_vthread_handler_t *_main_vhandler = NULL;
-static int _main_vhandler_not_null_ack = 0;
 
 static void
 vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
@@ -122,18 +121,23 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("run vthread begin"));
 
-	  while (!_main_vhandler)
+	  while (_main_vhandler == NULL
+		 && !lw6sys_thread_is_callback_done (_run_handler))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _
 			  ("waiting for main handler to be defined by spawned thread"));
 	      lw6sys_snooze ();
 	    }
-	  _main_vhandler_not_null_ack = 1;
-
-	  lw6sys_log (LW6SYS_LOG_INFO, _("vthread main handler"));
-	  vthread_callback (_main_vhandler);
-
+	  /*
+	   * _main_vhandler could be NULL if we're here because
+	   * the callback is done
+	   */
+	  if (_main_vhandler)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _("vthread main handler"));
+	      vthread_callback (_main_vhandler);
+	    }
 	  while (!lw6sys_thread_is_callback_done (_run_handler))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
@@ -237,13 +241,6 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	  ret = 1;
 	  lw6sys_log (LW6SYS_LOG_INFO, _("defining _main_vhandler"));
 	  _main_vhandler = vhandler;
-	  while (!_main_vhandler_not_null_ack)
-	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
-			  ("waiting for spawned thread to acknowledge _main_vhandler is not NULL"));
-	      lw6sys_snooze ();
-	    }
 	}
       else
 	{
@@ -298,8 +295,6 @@ lw6sys_vthread_join ()
 		      _("waiting for join to be done (vhtread)"));
 	  lw6sys_snooze ();
 	}
-
-      _main_vhandler_not_null_ack = 0;
     }
   else
     {
