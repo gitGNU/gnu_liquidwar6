@@ -54,6 +54,8 @@ lw6sys_signal_custom (int argc, char *argv[])
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
+  _argc = argc;
+  _argv = argv;
   if (signal (SIGTERM, lw6sys_signal_term_handler) == SIG_IGN)
     {
       signal (SIGTERM, SIG_IGN);
