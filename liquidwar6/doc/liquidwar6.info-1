@@ -88,6 +88,32 @@ Reference
 * Script hooks::        Available script hooks.
 * C to Guile API::      C functions available to Guile scripts.
 * C functions::         C functions available in libliquidwar6.
+* libliquidwar6::       Top-level functions.
+* libbot::              Bot algorithms.
+* libcfg::              Loading and saving config files.
+* libcli::              Network clients.
+* libcns::              Console handling.
+* libdat::              Storing network data.
+* libdef::              Keywords definitions.
+* libdsp::              Threaded display.
+* libdyn::              Dynamic module loading.
+* libgfx::              Graphics.
+* libglb::              Gnulib embedded routines.
+* libgui::              GUI utilities.
+* libhlp::              Built-in help system.
+* libimg::              Generating screenshots.
+* libker::              Main kernel module (core algorithm).
+* libldr::              Loading maps.
+* libmap::              Map, AKA levels.
+* libmsg::              Network messages.
+* libnet::              Low-level network routines.
+* libnod::              Manipulating node data.
+* libp2p::              A la peer to peer network system.
+* libpil::              Dealing with game lag.
+* libsnd::              Sound.
+* libsrv::              Network servers.
+* libsys::              Low-level system utilities.
+* libtsk::              Asynchronous loading.
 
 Appendices
 
@@ -3196,6 +3222,32 @@ to harvest the content.
 * Script hooks::        Available script hooks.
 * C to Guile API::      C functions available to Guile scripts.
 * C functions::         C functions available in libliquidwar6.
+* libliquidwar6::       Top-level functions.
+* libbot::              Bot algorithms.
+* libcfg::              Loading and saving config files.
+* libcli::              Network clients.
+* libcns::              Console handling.
+* libdat::              Storing network data.
+* libdef::              Keywords definitions.
+* libdsp::              Threaded display.
+* libdyn::              Dynamic module loading.
+* libgfx::              Graphics.
+* libglb::              Gnulib embedded routines.
+* libgui::              GUI utilities.
+* libhlp::              Built-in help system.
+* libimg::              Generating screenshots.
+* libker::              Main kernel module (core algorithm).
+* libldr::              Loading maps.
+* libmap::              Map, AKA levels.
+* libmsg::              Network messages.
+* libnet::              Low-level network routines.
+* libnod::              Manipulating node data.
+* libp2p::              A la peer to peer network system.
+* libpil::              Dealing with game lag.
+* libsnd::              Sound.
+* libsrv::              Network servers.
+* libsys::              Low-level system utilities.
+* libtsk::              Asynchronous loading.
 
 
 File: liquidwar6.info,  Node: Basic options,  Next: Doc options,  Up: Reference
@@ -7434,4 +7486,856 @@ File: liquidwar6.info,  Node: C to Guile API,  Next: C functions,  Prev: Script 
 
 4.14 C to Guile API
 ===================
+
+
+File: liquidwar6.info,  Node: C functions,  Next: libliquidwar6,  Prev: C to Guile API,  Up: Reference
+
+4.15 C functions
+================
+
+This section contains a description of all modules and a list of all
+documented C functions in the program. It contains many references and
+is self-generated from C comments using gdoc
+(http://josefsson.org/gdoc/) by Simon Josefsson (http://josefsson.org/).
+
+   In order to reduce the number of pages of printed output, this
+complete reference is, by default, disabled in printable versions of
+the documentation (PostScript, PDF).  This is both to make the manual
+more readable and to avoid wasting paper.  Think about the environment.
+
+   It is however available in the HTML version of the documentation,
+which you can read online. The following adresses contain various view
+on the source code, giving informations on all the internal and public
+C interfaces:
+
+   *
+     `http://www.gnu.org/software/liquidwar6/manual/html_node/C-functions.html':
+     the gdoc (http://josefsson.org/gdoc/) reference, generated from
+     source code comments.
+
+   * `http://www.gnu.org/software/liquidwar6/coverage/': the lcov
+     (http://ltp.sourceforge.net/coverage/lcov.php) output when running
+     `./liquidwar6 --test'.  It shows what functions are actually
+     tested, and how many times they are called.
+
+   * `http://www.gnu.org/software/liquidwar6/global/': the GNU global
+     (http://www.gnu.org/software/global/) output gives complete
+     cross-references, macros, headers, contants declaration. It's a
+     very good place to start browsing the code.
+
+   * `http://www.gnu.org/software/liquidwar6/cyclo/': the pmccabe
+     (http://parisc-linux.org/~bame/pmccabe/) output shows the
+     cyclomatic complexity of functions. It enables the programmer to
+     spots the "ugly" and dangerous parts of the program.
+
+
+File: liquidwar6.info,  Node: libliquidwar6,  Next: libbot,  Prev: C functions,  Up: Reference
+
+4.16 libliquidwar6
+==================
+
+4.16.1 Overview
+---------------
+
+4.16.2 API
+----------
+
+ -- Function: void lw6_resize_callback (lw6gui_video_mode_t *
+          VIDEO_MODE)
+     VIDEO_MODE:  the new video mode
+
+     This callback is here because gfx needs to update the config when
+     the screen is resized. But... we did not want to make gfx depend
+     on cfg "directly". It's cleaner to pass parameters with Scheme, in
+     the long run, it should make things easier.  So this callback is
+     the solution. Another side effect is that this way there's a
+     tangible obvious trace of this updating of config status by the
+     gfx module. Seeing it sticking out like a thumb isn't a bad thing.
+
+     *Return value:*  none
+
+ -- Function: void lw6_release ()
+     Functions which will call `quit'(), `free'(), `destroy'() on
+     whatever smob object that has threads and/or requires hardware
+     ressources.  This is to be called before the Guile interpreter
+     ends. This is because when it garbage collects objects at the end
+     of the program, it has no idea of what order to use when freeing
+     objects. So if an object which uses another one in a thread is
+     freed after the other is freed, you get a (rather unexplainabled
+     if not warned) segfault.
+
+     *Return value:*  none
+
+ -- Function: void lw6_exit ()
+     Sends a quit message and displays a newline.
+
+     *Return value:*  none
+
+ -- Function: int lw6_fix_env (int ARGC, char * [] ARGV)
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Fixes environment variables (path related) so that program can
+     find its requirements. This must be called early in the program
+     flow (else other calls might fail).
+
+     *Return value:*  1 if success, 0 if failure
+
+ -- Function: int lw6_register_funcs ()
+     Register all the functions, make them callable from Guile.  This
+     is a very simple yet long and very usefull function, without it
+     Guile has no knowledge of what LW6 is.
+
+     *Return value:*  1 on success, 0 if failed.
+
+ -- Function: extern void lw6_cns_handler (char * C_LINE)
+     c_line: the line typed by the user
+
+     This function will be called every time a message is typed on the
+     console. It runs the given line in the current Guile environment.
+
+     *Return value:*  none
+
+ -- Function: int lw6_init_global (int ARGC, char * [] ARGV)
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Initializes global values to their defaults.
+
+     *Return value:*  1 on success, 0 if failed
+
+ -- Function: void lw6_quit_global ()
+     argc: number of args as passed to main argv: array of strings as
+     passed to main
+
+     Frees global values. Will also garbage collect objects in case
+     Guile failed to do it perfectly (or we failed to tell Guile how to
+     do it).
+
+     *Return value:*  none.
+
+ -- Function: int lw6_main (int ARGC, char * [] ARGV)
+     ARGC:  the argc parameter of the `main'() function, that is, the
+     number of command-line args.
+
+     ARGV:  the argv parameter of the `main'() function, that is, an
+     array containing pointers on command-line args.
+
+     This function is directly called by `main'(). This means by linking
+     against libliquidwar6 and calling it, you would have a program
+     that is almost exactly the "official" upstream liquidwar6 binary,
+     except you can tweak it and have all the power to call whatever
+     other functions you like, embed it. In short, everything the binary
+     does, you can do it in your own binarn, by linking against the
+     library and calling this function.
+
+     *Return value:*  1 if success, zero if failure. Note that this is
+     the "standard" C / liquidwar6 way to proceed, but your `main'()
+     function should return 0 if success, else an error code. Typical
+     use is "return !lw6_main(argc, argv);".
+
+ -- Function: int lw6_process_non_run_options (int ARGC, char * []
+          ARGV, int * RUN_GAME)
+     ARGC:  the number of command-line args, as passed to `main()'
+
+     ARGV:  an array of strings containing command-line args, as passed
+     to `main()'
+
+     RUN_GAME:  a pointer to a boolean which will contain true (1) if
+     the game must be launched, or false (0) if the option is such that
+     game must be skipped. Example: -copyright, -help, ...
+
+     *Return value:*  non-zero if success, 0 if error. The error can
+     be, for instance, the test suite returning "no, tests were not OK".
+
+ -- Function: void lw6_print_help ()
+     Displays a short help message.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_version ()
+     Displays the version of the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_short_copyright ()
+     Displays the copyright of the game (short version).
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_long_copyright ()
+     Displays the copyright of the game (long version).
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_bench (float BENCH_RESULT)
+     Displays the program bench value.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_pedigree ()
+     Displays the program pedigree, think of this as version on
+     steroids.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_host ()
+     Displays the host on which the program was compiled.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_audit (int ARGC, char * [] ARGV)
+     Displays various paths used by the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_modules ()
+     Displays the list of modules compiled with the game.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_quick ()
+     Displays the list of 'quick' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_doc ()
+     Displays the list of 'doc' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_show ()
+     Displays the list of 'show' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_path ()
+     Displays the list of 'path' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_players ()
+     Displays the list of 'players' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_input ()
+     Displays the list of 'input' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_graphics ()
+     Displays the list of 'graphics' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_sound ()
+     Displays the list of 'sound' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_network ()
+     Displays the list of 'network' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map ()
+     Displays the list of 'map' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_rules ()
+     Displays the list of 'map rules' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_hints ()
+     Displays the list of 'map hints' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_style ()
+     Displays the list of 'amp style' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_funcs ()
+     Displays the list of 'funcs'.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_hooks ()
+     Displays the list of 'hooks'.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_tuning ()
+     Displays the list of 'tuning' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_aliases ()
+     Displays the list of options aliases.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list ()
+     Displays the list of all known options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_about (char * KEYWORD)
+     Displays the about message for a keyword.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_hello (int ARGC, char * [] ARGV)
+     Displays 'hello' at the beginning of the program.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_goodbye ()
+     Displays 'goodbye', typically use at end of program to know it's
+     over and everything went fine.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_dsp (lw6dsp_backend_t * C_DSP)
+     C_DSP:  the display object
+
+     Creates an SCM 'dsp' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6dsp_backend_t * lw6_scm_to_dsp (SCM DSP)
+     DSP:  the dsp to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'dsp'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_dsp_smob (lw6_dsp_smob_t * DSP_SMOB)
+     DSP_SMOB:  the smob to free
+
+     Frees a dsp smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_snd (lw6snd_backend_t * C_SND)
+     C_SND:  the sound object
+
+     Creates an SCM 'snd' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6snd_backend_t * lw6_scm_to_snd (SCM SND)
+     SND:  the snd to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'snd'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_snd_smob (lw6_snd_smob_t * SND_SMOB)
+     SND_SMOB:  the smob to free
+
+     Frees a snd smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_map (lw6map_level_t * C_MAP)
+     C_MAP:  the map object
+
+     Creates an SCM 'map' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6map_level_t * lw6_scm_to_map (SCM MAP)
+     MAP:  the map to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'map'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_map_smob (lw6_map_smob_t * MAP_SMOB)
+     MAP_SMOB:  the smob to free
+
+     Frees a map smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_menu (lw6gui_menu_t * C_MENU)
+     C_MENU:  the menu object
+
+     Creates an SCM 'menu' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6gui_menu_t * lw6_scm_to_menu (SCM MENU)
+     MENU:  the menu to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'menu'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_menu_smob (lw6_menu_smob_t * MENU_SMOB)
+     MENU_SMOB:  the smob to free
+
+     Frees a menu smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_game_struct (lw6ker_game_struct_t *
+          C_GAME_STRUCT, SCM MAP)
+     C_GAME_STRUCT:  the game struct object
+
+     MAP:  the map (SCM object) referenced
+
+     Creates an SCM 'game-struct' object from C data.  Passing the map
+     object enables the garbage collector not to free the map until the
+     game struct is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6ker_game_struct_t * lw6_scm_to_game_struct (SCM
+          GAME_STRUCT)
+     GAME_STRUCT:  the game_struct to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme
+     'game_struct' object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
+          GAME_STRUCT_SMOB)
+     GAME_STRUCT_SMOB:  the smob to free
+
+     Frees a game_struct smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_game_state (lw6ker_game_state_t *
+          C_GAME_STATE, SCM GAME_STRUCT)
+     C_GAME_STATE:  the game state object
+
+     GAME_STRUCT:  the game struct (SCM object) referenced
+
+     Creates an SCM 'game_state' object from C data.  Passing
+     game_struct enables the garbage collector not to free the
+     game_struct until the game_state is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6ker_game_state_t * lw6_scm_to_game_state (SCM
+          GAME_STATE)
+     GAME_STATE:  the game_state to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme
+     'game_state' object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_game_state_smob (lw6_game_state_smob_t *
+          GAME_STATE_SMOB)
+     GAME_STATE_SMOB:  the smob to free
+
+     Frees a game_state smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_pilot (lw6pil_pilot_t * C_PILOT)
+     C_PILOT:  the pilot object
+
+     Creates an SCM 'pilot' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6pil_pilot_t * lw6_scm_to_pilot (SCM PILOT)
+     PILOT:  the pilot to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'pilot'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_pilot_smob (lw6_pilot_smob_t * PILOT_SMOB)
+     PILOT_SMOB:  the smob to free
+
+     Frees a pilot smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_bot (lw6bot_backend_t * C_BOT, SCM
+          GAME_STATE, SCM PILOT)
+     C_BOT:  the bot object
+
+     GAME_STATE:  the game state
+
+     PILOT:  the pilot
+
+     Creates an SCM 'bot' object from C data.  Passing game_state and
+     pilot enables the garbage collector not the free them until bot is
+     freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6bot_backend_t * lw6_scm_to_bot (SCM BOT)
+     BOT:  the bot to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'bot'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_bot_smob (lw6_bot_smob_t * BOT_SMOB)
+     BOT_SMOB:  the smob to free
+
+     Frees a bot smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_look (lw6gui_look_t * C_LOOK)
+     C_LOOK:  the look object
+
+     Creates an SCM 'look' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6gui_look_t * lw6_scm_to_look (SCM LOOK)
+     LOOK:  the look to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'look'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_look_smob (lw6_look_smob_t * LOOK_SMOB)
+     LOOK_SMOB:  the smob to free
+
+     Frees a look smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_loader (lw6tsk_loader_t * C_LOADER)
+     C_LOADER:  the loader object
+
+     Creates an SCM 'loader' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6tsk_loader_t * lw6_scm_to_loader (SCM LOADER)
+     LOADER:  the loader to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'loader'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_loader_smob (lw6_loader_smob_t *
+          LOADER_SMOB)
+     LOADER_SMOB:  the smob to free
+
+     Frees a loader smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_db (lw6p2p_db_t * C_DB)
+     C_DB:  the database object
+
+     Creates an SCM 'db' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6p2p_db_t * lw6_scm_to_db (SCM DB)
+     DB:  the db to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'db'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_db_smob (lw6_db_smob_t * DB_SMOB)
+     DB_SMOB:  the smob to free
+
+     Frees a db smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: SCM lw6_make_scm_node (lw6p2p_node_t * C_NODE, SCM DB)
+     C_NODE:  the node object
+
+     DB:  the db (SCM object) referenced
+
+     Creates an SCM 'node' object from C data.  Passing db enables the
+     garbage collector not to free db until node is freed.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6p2p_node_t * lw6_scm_to_node (SCM NODE)
+     NODE:  the node to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'node'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_node_smob (lw6_node_smob_t * NODE_SMOB)
+     NODE_SMOB:  the smob to free
+
+     Frees a node smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
+ -- Function: int lw6_register_smobs ()
+     Register all smobs to Guile.
+
+     *Return value:*  1 on success, 0 if failed.
+
+ -- Function: int lw6_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the liquidwar6 core module test suite, this will mostly test
+     how Guile script integration works, loading a sample script and
+     running it. It does not launch all the other sub modules tests.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: libbot,  Next: libcfg,  Prev: libliquidwar6,  Up: Reference
+
+4.17 libbot
+===========
+
+4.17.1 Overview
+---------------
+
+4.17.2 API
+----------
+
+ -- Function: int lw6bot_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `bot' module test suite. Will try several engines and
+     query basic moves.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: libcfg,  Next: libcli,  Prev: libbot,  Up: Reference
+
+4.18 libcfg
+===========
+
+4.18.1 Overview
+---------------
+
+4.18.2 API
+----------
+
+ -- Function: int lw6cfg_parse_command_line (void * CONTEXT)
+     CONTEXT:  opaque pointer on a context
+
+     Overwrites any existing option with command line args
+
+     *Return value:*  1 if success, 0 if error
+
+ -- Function: int lw6cfg_defaults (void * CONTEXT)
+     CONTEXT:  opaque pointer on a context
+
+     Sets all values to their defaults.
+
+     *Return value:*  1 if success, 0 if error
+
+ -- Function: int lw6cfg_merge_env (void * CFG_CONTEXT)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     Overwrites any existing vale in the config with environment
+     variables prefixed by LW6_.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: char * lw6cfg_format (char * KEY, char * VALUE,
+          lw6hlp_type_t TYPE)
+     KEY:  the key of the value to format
+
+     VALUE:  the value to format
+
+     TYPE:  the type of the value to format
+
+     Formats, converts, a given value to its cannonical representation.
+     Booleans will be converted to true/false, strings containing
+     integers will be stripped from junk, and so on. This is a
+     performance killer but will ensure everything is correct.
+
+     *Return value:*  a newly allocated string, containing the same as
+     the input, but reformatted the pedantic way.
+
+ -- Function: char * lw6cfg_format_guess_type (char * KEY, char * VALUE)
+     KEY:  the key of the value to format
+
+     VALUE:  the value to format
+
+     Formats, converts, a given value to its cannonical representation.
+     Booleans will be converted to true/false, strings containing
+     integers will be stripped from junk, and so on. This is a
+     performance killer but will ensure everything is correct. This
+     function will automatically guess the type of the value from its
+     description in the help system.
+
+     *Return value:*  a newly allocated string, containing the same as
+     the input, but reformatted the pedantic way.
+
+ -- Function: int lw6cfg_load (void * CFG_CONTEXT, char * FILENAME)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     FILENAME:  a file path, absolute or relative
+
+     Loads the given config file, and stores its values into the current
+     context. Parameters which are both in the config file and given as
+     command line parameters, will be taken from the command-line.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: int lw6cfg_save (void * CFG_CONTEXT, char * FILENAME)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     FILENAME:  a file path, absolute or relative
+
+     Save current options into the given config file. Before saving the
+     file, all command line arguments will be read and will override
+     current values. This means the saved file will contain values
+     given as command line arguments.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: void * lw6cfg_init (int ARGC, char * [] ARGV)
+     ARGC:  number of command line arguments, as given to `main'
+
+     ARGV:  a list of command line arguments, as given to `main'
+
+     Initializes a config context object. This object is hidden behind
+     an opaque void * pointer to avoid direct access to its elements.
+
+     *Return value:*  an opaque pointer, must be freed with
+     `lw6cfg_quit'.
+
+ -- Function: void lw6cfg_quit (void * CFG_CONTEXT)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     Frees a config cfg_context object. You must call this once you're
+     done with the context.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_reset (int ARGC, char * [] ARGV)
+     ARGC:  number of command line arguments, as given to `main'
+
+     ARGV:  a list of command line arguments, as given to `main'
+
+     Overwrites the config file with defaults.  Use this to get rid of
+     old configurations.
+
+ -- Function: int lw6cfg_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cfg' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: char * lw6cfg_unified_get_value (int ARGC, char * []
+          ARGV, char * KEY)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     KEY:  the key to query
+
+     Unified "value" getter, which gets informations from environment
+     variables, command line, and config file. The rules is that the
+     command-line argument always has the last word. It will override
+     any other value.  Follows environment variables, which will be
+     used if no command-line argument is supplied. Note that these are
+     "LW6_" prefixed and uppercased environment variables as opposed to
+     lowercased and "dash-separated" keys. Finally, if there's no
+     environment variable, nor any config-file corresponding entry, the
+     value will be searched in the config file.  If there's no
+     information in the config file, NULL is returned.
+
+     *Return value:*  a string with the value. Can be NULL. Must be
+     freed.
+
+ -- Function: char * lw6cfg_unified_get_user_dir (int ARGC, char * []
+          ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_USER_DIR" env value, the "-user-dir" command-line
+     paramater and the LW6DEF_USER_DIR config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_log_file (int ARGC, char * []
+          ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the log file, taking all parameters in account, that's to say
+     the "LW6_LOG_FILE" env value, the "-log-file" command-line
+     paramater and the LW6DEF_LOG_FILE config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_music_path (int ARGC, char * []
+          ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_MUSIC_PATH" env value, the "-music-path" command-line
+     paramater and the LW6DEF_MUSIC_PATH config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_map_path (int ARGC, char * []
+          ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_MAP_PATH" env value, the "-map-path" command-line
+     paramater and the LW6DEF_MAP_PATH config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
 

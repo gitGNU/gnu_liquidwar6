@@ -19,832 +19,16 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: liquidwar6.info,  Node: C functions,  Prev: C to Guile API,  Up: Reference
+File: liquidwar6.info,  Node: libcli,  Next: libcns,  Prev: libcfg,  Up: Reference
 
-4.15 C functions
-================
+4.19 libcli
+===========
 
-This section contains a description of all modules and a list of all
-documented C functions in the program. It contains many references and
-is self-generated from C comments using gdoc
-(http://josefsson.org/gdoc/) by Simon Josefsson (http://josefsson.org/).
+4.19.1 Overview
+---------------
 
-   In order to reduce the number of pages of printed output, this
-complete reference is, by default, disabled in printable versions of
-the documentation (PostScript, PDF).  This is both to make the manual
-more readable and to avoid wasting paper.  Think about the environment.
-
-   It is however available in the HTML version of the documentation,
-which you can read online. The following adresses contain various view
-on the source code, giving informations on all the internal and public
-C interfaces:
-
-   *
-     `http://www.gnu.org/software/liquidwar6/manual/html_node/C-functions.html':
-     the gdoc (http://josefsson.org/gdoc/) reference, generated from
-     source code comments.
-
-   * `http://www.gnu.org/software/liquidwar6/coverage/': the lcov
-     (http://ltp.sourceforge.net/coverage/lcov.php) output when running
-     `./liquidwar6 --test'.  It shows what functions are actually
-     tested, and how many times they are called.
-
-   * `http://www.gnu.org/software/liquidwar6/global/': the GNU global
-     (http://www.gnu.org/software/global/) output gives complete
-     cross-references, macros, headers, contants declaration. It's a
-     very good place to start browsing the code.
-
-   * `http://www.gnu.org/software/liquidwar6/cyclo/': the pmccabe
-     (http://parisc-linux.org/~bame/pmccabe/) output shows the
-     cyclomatic complexity of functions. It enables the programmer to
-     spots the "ugly" and dangerous parts of the program.
-
-4.15.1 libliquidwar6
---------------------
-
- -- Function: void lw6_resize_callback (lw6gui_video_mode_t *
-          VIDEO_MODE)
-     VIDEO_MODE:  the new video mode
-
-     This callback is here because gfx needs to update the config when
-     the screen is resized. But... we did not want to make gfx depend
-     on cfg "directly". It's cleaner to pass parameters with Scheme, in
-     the long run, it should make things easier.  So this callback is
-     the solution. Another side effect is that this way there's a
-     tangible obvious trace of this updating of config status by the
-     gfx module. Seeing it sticking out like a thumb isn't a bad thing.
-
-     *Return value:*  none
-
- -- Function: void lw6_release ()
-     Functions which will call `quit'(), `free'(), `destroy'() on
-     whatever smob object that has threads and/or requires hardware
-     ressources.  This is to be called before the Guile interpreter
-     ends. This is because when it garbage collects objects at the end
-     of the program, it has no idea of what order to use when freeing
-     objects. So if an object which uses another one in a thread is
-     freed after the other is freed, you get a (rather unexplainabled
-     if not warned) segfault.
-
-     *Return value:*  none
-
- -- Function: void lw6_exit ()
-     Sends a quit message and displays a newline.
-
-     *Return value:*  none
-
- -- Function: int lw6_fix_env (int ARGC, char * [] ARGV)
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Fixes environment variables (path related) so that program can
-     find its requirements. This must be called early in the program
-     flow (else other calls might fail).
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6_register_funcs ()
-     Register all the functions, make them callable from Guile.  This
-     is a very simple yet long and very usefull function, without it
-     Guile has no knowledge of what LW6 is.
-
-     *Return value:*  1 on success, 0 if failed.
-
- -- Function: extern void lw6_cns_handler (char * C_LINE)
-     c_line: the line typed by the user
-
-     This function will be called every time a message is typed on the
-     console. It runs the given line in the current Guile environment.
-
-     *Return value:*  none
-
- -- Function: int lw6_init_global (int ARGC, char * [] ARGV)
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Initializes global values to their defaults.
-
-     *Return value:*  1 on success, 0 if failed
-
- -- Function: void lw6_quit_global ()
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Frees global values. Will also garbage collect objects in case
-     Guile failed to do it perfectly (or we failed to tell Guile how to
-     do it).
-
-     *Return value:*  none.
-
- -- Function: int lw6_main (int ARGC, char * [] ARGV)
-     ARGC:  the argc parameter of the `main'() function, that is, the
-     number of command-line args.
-
-     ARGV:  the argv parameter of the `main'() function, that is, an
-     array containing pointers on command-line args.
-
-     This function is directly called by `main'(). This means by linking
-     against libliquidwar6 and calling it, you would have a program
-     that is almost exactly the "official" upstream liquidwar6 binary,
-     except you can tweak it and have all the power to call whatever
-     other functions you like, embed it. In short, everything the binary
-     does, you can do it in your own binarn, by linking against the
-     library and calling this function.
-
-     *Return value:*  1 if success, zero if failure. Note that this is
-     the "standard" C / liquidwar6 way to proceed, but your `main'()
-     function should return 0 if success, else an error code. Typical
-     use is "return !lw6_main(argc, argv);".
-
- -- Function: int lw6_process_non_run_options (int ARGC, char * []
-          ARGV, int * RUN_GAME)
-     ARGC:  the number of command-line args, as passed to `main()'
-
-     ARGV:  an array of strings containing command-line args, as passed
-     to `main()'
-
-     RUN_GAME:  a pointer to a boolean which will contain true (1) if
-     the game must be launched, or false (0) if the option is such that
-     game must be skipped. Example: -copyright, -help, ...
-
-     *Return value:*  non-zero if success, 0 if error. The error can
-     be, for instance, the test suite returning "no, tests were not OK".
-
- -- Function: void lw6_print_help ()
-     Displays a short help message.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_version ()
-     Displays the version of the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_short_copyright ()
-     Displays the copyright of the game (short version).
-
-     *Return value:*  none
-
- -- Function: void lw6_print_long_copyright ()
-     Displays the copyright of the game (long version).
-
-     *Return value:*  none
-
- -- Function: void lw6_print_bench (float BENCH_RESULT)
-     Displays the program bench value.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_pedigree ()
-     Displays the program pedigree, think of this as version on
-     steroids.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_host ()
-     Displays the host on which the program was compiled.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_audit (int ARGC, char * [] ARGV)
-     Displays various paths used by the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_modules ()
-     Displays the list of modules compiled with the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_quick ()
-     Displays the list of 'quick' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_doc ()
-     Displays the list of 'doc' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_show ()
-     Displays the list of 'show' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_path ()
-     Displays the list of 'path' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_players ()
-     Displays the list of 'players' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_input ()
-     Displays the list of 'input' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_graphics ()
-     Displays the list of 'graphics' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_sound ()
-     Displays the list of 'sound' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_network ()
-     Displays the list of 'network' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map ()
-     Displays the list of 'map' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_rules ()
-     Displays the list of 'map rules' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_hints ()
-     Displays the list of 'map hints' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_style ()
-     Displays the list of 'amp style' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_funcs ()
-     Displays the list of 'funcs'.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_hooks ()
-     Displays the list of 'hooks'.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_tuning ()
-     Displays the list of 'tuning' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_aliases ()
-     Displays the list of options aliases.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list ()
-     Displays the list of all known options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_about (char * KEYWORD)
-     Displays the about message for a keyword.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_hello (int ARGC, char * [] ARGV)
-     Displays 'hello' at the beginning of the program.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_goodbye ()
-     Displays 'goodbye', typically use at end of program to know it's
-     over and everything went fine.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_dsp (lw6dsp_backend_t * C_DSP)
-     C_DSP:  the display object
-
-     Creates an SCM 'dsp' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6dsp_backend_t * lw6_scm_to_dsp (SCM DSP)
-     DSP:  the dsp to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'dsp'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_dsp_smob (lw6_dsp_smob_t * DSP_SMOB)
-     DSP_SMOB:  the smob to free
-
-     Frees a dsp smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_snd (lw6snd_backend_t * C_SND)
-     C_SND:  the sound object
-
-     Creates an SCM 'snd' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6snd_backend_t * lw6_scm_to_snd (SCM SND)
-     SND:  the snd to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'snd'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_snd_smob (lw6_snd_smob_t * SND_SMOB)
-     SND_SMOB:  the smob to free
-
-     Frees a snd smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_map (lw6map_level_t * C_MAP)
-     C_MAP:  the map object
-
-     Creates an SCM 'map' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6map_level_t * lw6_scm_to_map (SCM MAP)
-     MAP:  the map to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'map'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_map_smob (lw6_map_smob_t * MAP_SMOB)
-     MAP_SMOB:  the smob to free
-
-     Frees a map smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_menu (lw6gui_menu_t * C_MENU)
-     C_MENU:  the menu object
-
-     Creates an SCM 'menu' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6gui_menu_t * lw6_scm_to_menu (SCM MENU)
-     MENU:  the menu to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'menu'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_menu_smob (lw6_menu_smob_t * MENU_SMOB)
-     MENU_SMOB:  the smob to free
-
-     Frees a menu smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_game_struct (lw6ker_game_struct_t *
-          C_GAME_STRUCT, SCM MAP)
-     C_GAME_STRUCT:  the game struct object
-
-     MAP:  the map (SCM object) referenced
-
-     Creates an SCM 'game-struct' object from C data.  Passing the map
-     object enables the garbage collector not to free the map until the
-     game struct is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6ker_game_struct_t * lw6_scm_to_game_struct (SCM
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme
-     'game_struct' object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
-          GAME_STRUCT_SMOB)
-     GAME_STRUCT_SMOB:  the smob to free
-
-     Frees a game_struct smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_game_state (lw6ker_game_state_t *
-          C_GAME_STATE, SCM GAME_STRUCT)
-     C_GAME_STATE:  the game state object
-
-     GAME_STRUCT:  the game struct (SCM object) referenced
-
-     Creates an SCM 'game_state' object from C data.  Passing
-     game_struct enables the garbage collector not to free the
-     game_struct until the game_state is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6ker_game_state_t * lw6_scm_to_game_state (SCM
-          GAME_STATE)
-     GAME_STATE:  the game_state to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme
-     'game_state' object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_game_state_smob (lw6_game_state_smob_t *
-          GAME_STATE_SMOB)
-     GAME_STATE_SMOB:  the smob to free
-
-     Frees a game_state smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_pilot (lw6pil_pilot_t * C_PILOT)
-     C_PILOT:  the pilot object
-
-     Creates an SCM 'pilot' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6pil_pilot_t * lw6_scm_to_pilot (SCM PILOT)
-     PILOT:  the pilot to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'pilot'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_pilot_smob (lw6_pilot_smob_t * PILOT_SMOB)
-     PILOT_SMOB:  the smob to free
-
-     Frees a pilot smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_bot (lw6bot_backend_t * C_BOT, SCM
-          GAME_STATE, SCM PILOT)
-     C_BOT:  the bot object
-
-     GAME_STATE:  the game state
-
-     PILOT:  the pilot
-
-     Creates an SCM 'bot' object from C data.  Passing game_state and
-     pilot enables the garbage collector not the free them until bot is
-     freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6bot_backend_t * lw6_scm_to_bot (SCM BOT)
-     BOT:  the bot to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'bot'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_bot_smob (lw6_bot_smob_t * BOT_SMOB)
-     BOT_SMOB:  the smob to free
-
-     Frees a bot smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_look (lw6gui_look_t * C_LOOK)
-     C_LOOK:  the look object
-
-     Creates an SCM 'look' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6gui_look_t * lw6_scm_to_look (SCM LOOK)
-     LOOK:  the look to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'look'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_look_smob (lw6_look_smob_t * LOOK_SMOB)
-     LOOK_SMOB:  the smob to free
-
-     Frees a look smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_loader (lw6tsk_loader_t * C_LOADER)
-     C_LOADER:  the loader object
-
-     Creates an SCM 'loader' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6tsk_loader_t * lw6_scm_to_loader (SCM LOADER)
-     LOADER:  the loader to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'loader'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_loader_smob (lw6_loader_smob_t *
-          LOADER_SMOB)
-     LOADER_SMOB:  the smob to free
-
-     Frees a loader smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_db (lw6p2p_db_t * C_DB)
-     C_DB:  the database object
-
-     Creates an SCM 'db' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6p2p_db_t * lw6_scm_to_db (SCM DB)
-     DB:  the db to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'db'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_db_smob (lw6_db_smob_t * DB_SMOB)
-     DB_SMOB:  the smob to free
-
-     Frees a db smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_node (lw6p2p_node_t * C_NODE, SCM DB)
-     C_NODE:  the node object
-
-     DB:  the db (SCM object) referenced
-
-     Creates an SCM 'node' object from C data.  Passing db enables the
-     garbage collector not to free db until node is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6p2p_node_t * lw6_scm_to_node (SCM NODE)
-     NODE:  the node to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'node'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_node_smob (lw6_node_smob_t * NODE_SMOB)
-     NODE_SMOB:  the smob to free
-
-     Frees a node smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: int lw6_register_smobs ()
-     Register all smobs to Guile.
-
-     *Return value:*  1 on success, 0 if failed.
-
- -- Function: int lw6_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the liquidwar6 core module test suite, this will mostly test
-     how Guile script integration works, loading a sample script and
-     running it. It does not launch all the other sub modules tests.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-4.15.2 libbot
--------------
-
- -- Function: int lw6bot_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `bot' module test suite. Will try several engines and
-     query basic moves.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-4.15.3 libcfg
--------------
-
- -- Function: int lw6cfg_parse_command_line (void * CONTEXT)
-     CONTEXT:  opaque pointer on a context
-
-     Overwrites any existing option with command line args
-
-     *Return value:*  1 if success, 0 if error
-
- -- Function: int lw6cfg_defaults (void * CONTEXT)
-     CONTEXT:  opaque pointer on a context
-
-     Sets all values to their defaults.
-
-     *Return value:*  1 if success, 0 if error
-
- -- Function: int lw6cfg_merge_env (void * CFG_CONTEXT)
-     CFG_CONTEXT:  a context returned by `lw6cfg_init'
-
-     Overwrites any existing vale in the config with environment
-     variables prefixed by LW6_.
-
-     *Return value:*  1 if successfull, 0 if error.
-
- -- Function: char * lw6cfg_format (char * KEY, char * VALUE,
-          lw6hlp_type_t TYPE)
-     KEY:  the key of the value to format
-
-     VALUE:  the value to format
-
-     TYPE:  the type of the value to format
-
-     Formats, converts, a given value to its cannonical representation.
-     Booleans will be converted to true/false, strings containing
-     integers will be stripped from junk, and so on. This is a
-     performance killer but will ensure everything is correct.
-
-     *Return value:*  a newly allocated string, containing the same as
-     the input, but reformatted the pedantic way.
-
- -- Function: char * lw6cfg_format_guess_type (char * KEY, char * VALUE)
-     KEY:  the key of the value to format
-
-     VALUE:  the value to format
-
-     Formats, converts, a given value to its cannonical representation.
-     Booleans will be converted to true/false, strings containing
-     integers will be stripped from junk, and so on. This is a
-     performance killer but will ensure everything is correct. This
-     function will automatically guess the type of the value from its
-     description in the help system.
-
-     *Return value:*  a newly allocated string, containing the same as
-     the input, but reformatted the pedantic way.
-
- -- Function: int lw6cfg_load (void * CFG_CONTEXT, char * FILENAME)
-     CFG_CONTEXT:  a context returned by `lw6cfg_init'
-
-     FILENAME:  a file path, absolute or relative
-
-     Loads the given config file, and stores its values into the current
-     context. Parameters which are both in the config file and given as
-     command line parameters, will be taken from the command-line.
-
-     *Return value:*  1 if successfull, 0 if error.
-
- -- Function: int lw6cfg_save (void * CFG_CONTEXT, char * FILENAME)
-     CFG_CONTEXT:  a context returned by `lw6cfg_init'
-
-     FILENAME:  a file path, absolute or relative
-
-     Save current options into the given config file. Before saving the
-     file, all command line arguments will be read and will override
-     current values. This means the saved file will contain values
-     given as command line arguments.
-
-     *Return value:*  1 if successfull, 0 if error.
-
- -- Function: void * lw6cfg_init (int ARGC, char * [] ARGV)
-     ARGC:  number of command line arguments, as given to `main'
-
-     ARGV:  a list of command line arguments, as given to `main'
-
-     Initializes a config context object. This object is hidden behind
-     an opaque void * pointer to avoid direct access to its elements.
-
-     *Return value:*  an opaque pointer, must be freed with
-     `lw6cfg_quit'.
-
- -- Function: void lw6cfg_quit (void * CFG_CONTEXT)
-     CFG_CONTEXT:  a context returned by `lw6cfg_init'
-
-     Frees a config cfg_context object. You must call this once you're
-     done with the context.
-
-     *Return value:*  none.
-
- -- Function: void lw6cfg_reset (int ARGC, char * [] ARGV)
-     ARGC:  number of command line arguments, as given to `main'
-
-     ARGV:  a list of command line arguments, as given to `main'
-
-     Overwrites the config file with defaults.  Use this to get rid of
-     old configurations.
-
- -- Function: int lw6cfg_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `cfg' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: char * lw6cfg_unified_get_value (int ARGC, char * []
-          ARGV, char * KEY)
-     ARGC:  number of command-line args, as passed to `main'
-
-     ARGV:  arry of command-line args, as passed to `main'
-
-     KEY:  the key to query
-
-     Unified "value" getter, which gets informations from environment
-     variables, command line, and config file. The rules is that the
-     command-line argument always has the last word. It will override
-     any other value.  Follows environment variables, which will be
-     used if no command-line argument is supplied. Note that these are
-     "LW6_" prefixed and uppercased environment variables as opposed to
-     lowercased and "dash-separated" keys. Finally, if there's no
-     environment variable, nor any config-file corresponding entry, the
-     value will be searched in the config file.  If there's no
-     information in the config file, NULL is returned.
-
-     *Return value:*  a string with the value. Can be NULL. Must be
-     freed.
-
- -- Function: char * lw6cfg_unified_get_user_dir (int ARGC, char * []
-          ARGV)
-     ARGC:  number of command-line args, as passed to `main'
-
-     ARGV:  arry of command-line args, as passed to `main'
-
-     Gets the user dir, taking all parameters in account, that's to say
-     the "LW6_USER_DIR" env value, the "-user-dir" command-line
-     paramater and the LW6DEF_USER_DIR config file entry.
-
-     *Return value:*  the directory path, might be NULL, must be freed.
-
- -- Function: char * lw6cfg_unified_get_log_file (int ARGC, char * []
-          ARGV)
-     ARGC:  number of command-line args, as passed to `main'
-
-     ARGV:  arry of command-line args, as passed to `main'
-
-     Gets the log file, taking all parameters in account, that's to say
-     the "LW6_LOG_FILE" env value, the "-log-file" command-line
-     paramater and the LW6DEF_LOG_FILE config file entry.
-
-     *Return value:*  the directory path, might be NULL, must be freed.
-
- -- Function: char * lw6cfg_unified_get_music_path (int ARGC, char * []
-          ARGV)
-     ARGC:  number of command-line args, as passed to `main'
-
-     ARGV:  arry of command-line args, as passed to `main'
-
-     Gets the user dir, taking all parameters in account, that's to say
-     the "LW6_MUSIC_PATH" env value, the "-music-path" command-line
-     paramater and the LW6DEF_MUSIC_PATH config file entry.
-
-     *Return value:*  the directory path, might be NULL, must be freed.
-
- -- Function: char * lw6cfg_unified_get_map_path (int ARGC, char * []
-          ARGV)
-     ARGC:  number of command-line args, as passed to `main'
-
-     ARGV:  arry of command-line args, as passed to `main'
-
-     Gets the user dir, taking all parameters in account, that's to say
-     the "LW6_MAP_PATH" env value, the "-map-path" command-line
-     paramater and the LW6DEF_MAP_PATH config file entry.
-
-     *Return value:*  the directory path, might be NULL, must be freed.
-
-4.15.4 libcli
--------------
+4.19.2 API
+----------
 
  -- Function: lw6cli_oob_t * lw6cli_oob_new (char * PUBLIC_URL,
           lw6cli_verify_callback_func_t VERIFY_CALLBACK_FUNC, void *
@@ -877,8 +61,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.5 libcns
--------------
+
+File: liquidwar6.info,  Node: libcns,  Next: libdat,  Prev: libcli,  Up: Reference
+
+4.20 libcns
+===========
+
+4.20.1 Overview
+---------------
+
+4.20.2 API
+----------
 
  -- Function: int lw6cns_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -887,8 +80,41 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.6 libdsp
--------------
+
+File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcns,  Up: Reference
+
+4.21 libdat
+===========
+
+4.21.1 Overview
+---------------
+
+4.21.2 API
+----------
+
+
+File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: Reference
+
+4.22 libdef
+===========
+
+4.22.1 Overview
+---------------
+
+4.22.2 API
+----------
+
+
+File: liquidwar6.info,  Node: libdsp,  Next: libdyn,  Prev: libdef,  Up: Reference
+
+4.23 libdsp
+===========
+
+4.23.1 Overview
+---------------
+
+4.23.2 API
+----------
 
  -- Function: lw6dsp_backend_t * lw6dsp_create_backend (int ARGC, char
           * [] ARGV, char * GFX_BACKEND_NAME)
@@ -1047,8 +273,17 @@ C interfaces:
 
      *Return value:*  1 if OK, 0 if error.
 
-4.15.7 libdyn
--------------
+
+File: liquidwar6.info,  Node: libdyn,  Next: libgfx,  Prev: libdsp,  Up: Reference
+
+4.24 libdyn
+===========
+
+4.24.1 Overview
+---------------
+
+4.24.2 API
+----------
 
  -- Function: lw6dyn_dl_handle_t * lw6dyn_dlopen_backend_so (char *
           SO_FILE)
@@ -1140,8 +375,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.8 libgfx
--------------
+
+File: liquidwar6.info,  Node: libgfx,  Next: libglb,  Prev: libdyn,  Up: Reference
+
+4.25 libgfx
+===========
+
+4.25.1 Overview
+---------------
+
+4.25.2 API
+----------
 
  -- Function: int lw6gfx_init (lw6gfx_backend_t * BACKEND,
           lw6gui_video_mode_t * VIDEO_MODE,
@@ -1283,8 +527,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.9 libglb
--------------
+
+File: liquidwar6.info,  Node: libglb,  Next: libgui,  Prev: libgfx,  Up: Reference
+
+4.26 libglb
+===========
+
+4.26.1 Overview
+---------------
+
+4.26.2 API
+----------
 
  -- Function: char * lw6glb_base64_encode_bin (char * BUF, int SIZE)
      BUF:  the data to encode
@@ -1328,8 +581,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.10 libgui
---------------
+
+File: liquidwar6.info,  Node: libgui,  Next: libhlp,  Prev: libglb,  Up: Reference
+
+4.27 libgui
+===========
+
+4.27.1 Overview
+---------------
+
+4.27.2 API
+----------
 
  -- Function: void lw6gui_button_register_down (lw6gui_button_t *
           BUTTON, int64_t TIMESTAMP)
@@ -2470,8 +1732,17 @@ C interfaces:
 
      *Return value:*  none.
 
-4.15.11 libhlp
---------------
+
+File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: Reference
+
+4.28 libhlp
+===========
+
+4.28.1 Overview
+---------------
+
+4.28.2 API
+----------
 
  -- Function: int lw6hlp_is_documented (char * KEYWORD)
      KEYWORD:  the keyword we want to check out
@@ -2618,11 +1889,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.12 libdat
---------------
+
+File: liquidwar6.info,  Node: libimg,  Next: libker,  Prev: libhlp,  Up: Reference
 
-4.15.13 libimg
---------------
+4.29 libimg
+===========
+
+4.29.1 Overview
+---------------
+
+4.29.2 API
+----------
 
  -- Function: int lw6img_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2631,8 +1908,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.14 libker
---------------
+
+File: liquidwar6.info,  Node: libker,  Next: libldr,  Prev: libimg,  Up: Reference
+
+4.30 libker
+===========
+
+4.30.1 Overview
+---------------
+
+4.30.2 API
+----------
 
  -- Function: int lw6ker_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2644,8 +1930,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.15 libldr
---------------
+
+File: liquidwar6.info,  Node: libldr,  Next: libmap,  Prev: libker,  Up: Reference
+
+4.31 libldr
+===========
+
+4.31.1 Overview
+---------------
+
+4.31.2 API
+----------
 
  -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, char *
           DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS, int
@@ -3030,8 +2325,17 @@ C interfaces:
 
      *Return value:*  1 if success, 0 if failed.
 
-4.15.16 libmap
---------------
+
+File: liquidwar6.info,  Node: libmap,  Next: libmsg,  Prev: libldr,  Up: Reference
+
+4.32 libmap
+===========
+
+4.32.1 Overview
+---------------
+
+4.32.2 API
+----------
 
  -- Function: void lw6map_body_builtin_custom (lw6map_body_t * BODY,
           int W, int H, int D, int NOISE_PERCENT, lw6map_rules_t *
@@ -3377,8 +2681,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.17 libmsg
---------------
+
+File: liquidwar6.info,  Node: libmsg,  Next: libnet,  Prev: libmap,  Up: Reference
+
+4.33 libmsg
+===========
+
+4.33.1 Overview
+---------------
+
+4.33.2 API
+----------
 
  -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
      INFO:  the node to generate info about
@@ -3524,8 +2837,17 @@ C interfaces:
 
      *Return value:*  a string, must not be freed.
 
-4.15.18 libnet
---------------
+
+File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: Reference
+
+4.34 libnet
+===========
+
+4.34.1 Overview
+---------------
+
+4.34.2 API
+----------
 
  -- Function: int lw6net_dns_is_ip (char * IP)
      IP:  the string to check
@@ -3707,8 +3029,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.19 libnod
---------------
+
+File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: Reference
+
+4.35 libnod
+===========
+
+4.35.1 Overview
+---------------
+
+4.35.2 API
+----------
 
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
      DYN_INFO:  the dyn info struct to free
@@ -3900,8 +3231,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.20 libp2p
---------------
+
+File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: Reference
+
+4.36 libp2p
+===========
+
+4.36.1 Overview
+---------------
+
+4.36.2 API
+----------
 
  -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
           char * NAME)
@@ -4047,8 +3387,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.21 libpil
---------------
+
+File: liquidwar6.info,  Node: libpil,  Next: libsnd,  Prev: libp2p,  Up: Reference
+
+4.37 libpil
+===========
+
+4.37.1 Overview
+---------------
+
+4.37.2 API
+----------
 
  -- Function: int lw6pil_bench (float * BENCH_RESULT, lw6sys_progress_t
           * PROGRESS)
@@ -4425,8 +3774,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.22 libsnd
---------------
+
+File: liquidwar6.info,  Node: libsnd,  Next: libsrv,  Prev: libpil,  Up: Reference
+
+4.38 libsnd
+===========
+
+4.38.1 Overview
+---------------
+
+4.38.2 API
+----------
 
  -- Function: int lw6snd_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -4437,8 +3795,17 @@ C interfaces:
 
      *Return value:*  1 if test is successfull, 0 on error.
 
-4.15.23 libsrv
---------------
+
+File: liquidwar6.info,  Node: libsrv,  Next: libsys,  Prev: libsnd,  Up: Reference
+
+4.39 libsrv
+===========
+
+4.39.1 Overview
+---------------
+
+4.39.2 API
+----------
 
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
           REMOTE_PORT, int SOCK, char * FIRST_LINE)
@@ -4514,8 +3881,17 @@ C interfaces:
 
      *Return value:*  none
 
-4.15.24 libsys
---------------
+
+File: liquidwar6.info,  Node: libsys,  Next: libtsk,  Prev: libsrv,  Up: Reference
+
+4.40 libsys
+===========
+
+4.40.1 Overview
+---------------
+
+4.40.2 API
+----------
 
  -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
      KEYWORD:  the option to match, without the prefix "-" or "-"
@@ -8307,8 +7683,17 @@ C interfaces:
 
      *Return value:*  none.
 
-4.15.25 libtsk
---------------
+
+File: liquidwar6.info,  Node: libtsk,  Prev: libsys,  Up: Reference
+
+4.41 libtsk
+===========
+
+4.41.1 Overview
+---------------
+
+4.41.2 API
+----------
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *
           PROGRESS)
@@ -8350,4 +7735,493 @@ C interfaces:
      Runs the `tsk' module test suite.
 
      *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
+
+Annexe A 2005 .plan
+*******************
+
+Here's my .plan file, which describes what I (Christian Mauduit
+(mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
+garantee that what's written here is a precise description of the real
+future, however it should give a good idea of what I have in mind.
+
+   Note that the information here was written in summer 2005, it might
+or not be accurate now, as the main reason for plans to exist is that
+people never follow them. I'm no exception.
+
+A.1 Complete rewrite
+====================
+
+Liquid War 6 will be an almost complete rewrite. I mean that common
+code between branches 5 and 6 might end up in representing 0% of the
+total code. I think this is a wise decision, for the current code is
+really hard to maintain, and would not survive any serious cleanup. LW5
+was first written in 1998, for DOS, when I had much less experience in
+programming. In 7 years I - and other people as well - hacked major
+enhancements in it such as cross-platform support, network games, and
+if you compare release 5.0 with the latest 5.x.x release, you'll see
+that a bunch of things have changed. I had never expected I would patch
+and fix this game for so long, and it's no surprise that it's bloated
+today.
+
+   FYI, here's a list of what makes LW5 unsuitable for major
+improvements without a complete rewrite:
+
+   * global variable hell. Lots of things are stored in globals.
+
+   * hard-coded C GUI. Read src/level.c to get an idea of how horrible
+     it is.
+
+   * hard-coded 256 colors paletted mode. A clever bet in 1998
+     (performance...). Not anymore.
+
+   * generally bloated code. Makes bug-finding very tricky.
+
+A.2 Technologies
+================
+
+Liquid War 6 will use a different technical framework than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5).
+
+A.2.1 Script + standard C + assembly
+------------------------------------
+
+It happens that coding a large project in pure C is a waist of time, if
+possible at all.
+
+   If one applies the standard 80/20 rule to a computer game, one might
+state that 80% of the code eat up 20% of the CPU and the other 20% of
+the code eat up 80% of the CPU, the former being high-level glue code
+and the latter being low-level algorithmic code.
+
+   With Liquid War, one could speak of the 99/01 rule. I mean that 99%
+of the CPU time concerns only 1% of the code, and vice-versa.
+Basically, Liquid War has a very CPU-greedy core algorithm, still
+spends a fair amount of CPU displaying stuff (but this is delegated to
+the low-level game programming library) and the rest is totally
+unsignificant, in terms of CPU. Point is this "rest" represents the
+vast majority of the code, and also represents the very same buggy code
+I spend nights to patch on Liquid War 5
+(http://www.ufoot.org/liquidwar/v5). I'm talking about network code,
+GUI, and other high-level glue-code which are currently being written
+in C.
+
+   This idea is to write all this in a convenient scripting language.
+There won't be any impact on performances. I can't garantee Liquid War
+6 will be blazingly fast, but for sure it won't be the scripting
+language fault. And of course if, as in Liquid War 3 and 5, I feel the
+need to implement some stuff in assembly for performances issues, I
+will do it.
+
+   We end up with a multi-language architecture: script + C + assembly.
+
+   My guess is that I'll use Scheme
+(http://www.gnu.org/software/guile/) as an extension language. Python
+(http://www.python.org) would be a good choice too. Let's say I'll give
+Scheme a chance, and if it's really not adapted, I'll switch back to
+Python. The point is that today I know Python and don't really know
+Scheme, but, well, it's always a pleasure for me to learn new things.
+It's fun.
+
+   So what is planned today is that Liquid War 6 will be a Scheme
+program, which will call callbacks functions written in C and/or
+assembly. These functions will do all the low-level time consuming
+algorithmic and graphical stuff. The rest of the code being entirely
+scripted.
+
+A.2.2 OpenGL
+------------
+
+Liquid War is not a 3D game, so why use OpenGL?
+
+   * it's a very convenient way to access video hardware acceleration
+     with XFree86.
+
+   * low-end computers and/or computers without 3D acceleration can
+     still run Liquid War 5 (http://www.ufoot.org/liquidwar/v5).
+
+   * I'm interested in learning/using this API 8-)
+
+   This choice implies that I won't use Allegro
+(http://alleg.sourceforge.net/) anymore. Allegro stays a very
+convenient library and I would recommend it for it's excellent, easy to
+learn, powerfull, and stable. But for the needs of Liquid War 6 I'll
+use something else (because of OpenGL). I first thought of using GLUT
+(http://freeglut.sourceforge.net/) but I might end up simply using SDL
+(http://www.libsdl.org/). The idea is just fo have an OpenGL wrapper
+which sets up OpenGL in a similar manner on all platforms, and handles
+basic things such as mouse or keyboard.
+
+A.2.3 CSound
+------------
+
+I've got two excellent books on Csound (http://www.csounds.com/), and
+the will to learn how to use this tool.
+
+   I'll probably use Csound for a number of things, ranging from
+"bubbling sounds" to full blown music. Stay tuned 8-)
+
+A.3 Functionnalities
+====================
+
+A.3.1 Visual enhancements
+-------------------------
+
+Of course Liquid War 6 will look nicer than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), blah blah blah. What do you think?
+
+   Maybe I'll try to use some OpenGL features to make it possible to
+play on a ball, on a Moebius ring, or other fancy things. I have
+zillion of ideas, future will decide which ones will be implemented
+first.
+
+   To make it clear, visual enhancements aren't my top-level priority.
+However I'll try and make room for these enhancements, and prepare the
+terrain correctly. So it's possible that the first releases of Liquid
+War 6 won't be that much better than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), but at least Liquid War 6 will
+have the possibility to evolve. Something Liquid War 5
+(http://www.ufoot.org/liquidwar/v5) doesn't have.
+
+A.3.2 Rules enhancements
+------------------------
+
+There are many things that could be done easily:
+
+   * several cursors for one team
+
+   * alliances between teams
+
+   * deep places on a map, where more liquid can reside
+
+   * circular maps which "connect" the left border to the right one
+
+   * ...
+
+   As for graphical improvements, this is not my top-level priority.
+Simply, I'll make the game ready-to-improve. Again, all these
+enhancements are very hard to code in Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), else I would already have coded
+them.  Network enhancements
+
+   That's my top-level prioriry.
+
+   Why is that? Well, think of Liquid War in terms of "what makes it a
+good game?" and "what makes it a poor game?".
+
+   It's a good game because:
+
+   * the idea is original
+
+   * the gameplay is addictive
+
+   * you can play on a LAN
+
+   * all the family can play
+
+   * it's cross-platform
+
+   * it's Free Software
+
+   It's a poor game because:
+
+   * it's somewhat ugly and has a retro "back in the eighties" look
+
+   * network games are slow on Internet
+
+   * there are not enough active Internet servers
+
+   For the ugliness, well, OpenGL and some artwork should make it. But
+for the network, what's the real problem?
+
+   The real problem is that in the current situation, the server needs
+to have all "keystrokes" before doing anything, and all players must be
+connected before a game starts. Here's what I plan to do to fix this:
+
+   * players will be able to connect on a game "on the fly". This is
+     done by most online games, and it's IMHO a required features for a
+     network mode to work on Internet (not speaking of local networks,
+     but real wide online gaming). How this will fit with Liquid War's
+     rules is not totally decided, but I already know of several way to
+     achieve this.
+
+   * I'll implement an "anticipation" system "a la" U61
+     (http://www.ufoot.org). This means that no matter if a remote
+     player has a poor network connection, things will behave as if
+     everything was fine. Internally, the system keeps 2 images of the
+     game. One which is "anticipated" and displayed to the player, and
+     one which is validated but outdated, kept internally. It's a
+     little hard to explain, consumes twice as much CPU and memory, but
+     it works. It happens that today the lacking ressource for playing
+     Liquid War online is more on the network side than on the local
+     CPU and memory aspects.
+
+   * I'll take it to the next level and implement a "peer-to-peer-like"
+     network model, in which any client can become a server. The idea
+     behind is that if a server quits the game, then a client takes its
+     role, letting the game continue for hours. This way one could
+     virtually have a never ending Liquid War game which would last
+     weeks. I believe this could be really cool. I also believe no
+     proprietary game will ever implement that, for in this model
+     there's no way to force people to access a centralized server,
+     this server usually being the major key in the business model of a
+     company which sells proprietary software.
+
+   This third point will be the real enhancement of Liquid War with
+version 6. It's one of the very points which drives me to rewrite it
+completely. First because it's impossible to implement it without some
+heavy work. Then because I find it very motivating.
+
+A.3.3 Hey, you forgot my idea!!!
+--------------------------------
+
+Many gamers submitted suggestions, either by mail or by posting
+messages on the mailing list.
+
+   Don't worry, I keep them. Not reading them here does not mean I
+won't implement them. It simply means I won't implement them first. I
+first need the game basically function before enhancing it with fancy
+stuff.
+
+A.4 Road map
+============
+
+As I stated on the mailing list, when thinking about Liquid War 6,
+think of years rather than months (unless I get fired, jobless, or
+spend several months in a hospital with a laptop).
+
+   Note that this road map takes it for granted that I'll be the lone
+coder on the project. It's unlikely that someone is going to help me
+for the first stages, until there's at least something real, something
+playable. Something that proves that the concept is valid. Besides,
+(real) team work implies a significant overhead, especially at project
+start. It's hard to figure out how to distribute tasks when the tasks
+themselves are not clearly identified. But for the rest (starting in
+2007 or 2008), it's possible that external help might greatly...
+...help!
+
+   * 2005 : Project framework should be done. This implies that the
+     scripting engine is up and running, graphical mode works, config
+     and data loading work, basic menus are available. Nothing playable.
+
+   * 2006 : Import the core algorithm from Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), make the game playable in
+     "demo mode" ("à la" Liquid War 2), implement the network
+     "peer-to-peer-like" mode. At this stage, it will be possible to
+     know wether Liquid War 6 is true vaporware or not.
+
+   * 2007 : glue all this together to make something usable by anyone,
+     heavy work on the GUI, on the options, on error checking, many bug
+     fixes. The goal is to have a game which is equivalent to Liquid
+     War 5 (http://www.ufoot.org/liquidwar/v5), with the network
+     aspects pushed to the next level.
+
+   * 2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform
+     Freshmeat 8-) - and enhance it with all the feedback from gamers
+     (bug reports and suggestions received since 1998). Work on artwork
+     (both graphics and musics). Write documentation.
+
+   * 2009 : stabilize the game, patch it for all those things which had
+     been forgotten back then in 2005, optimize for speed, bug-fix
+     bug-fix bug-fix.
+
+   * 2010 : stop maintaining Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), invite Liquid War fans and
+     coders to a hudge party in my garden, sing all night, drink beers
+     and wine, teach Liquid War strategies to my 5 and 6 year old
+     daughters, remember the old times when Liquid War wasn't so cool
+     8-)
+
+
+File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
+
+Annexe B Fanfic
+***************
+
+Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
+it after a friend claimed that there wasn't any liquid war fanfic
+because it wasn't possible."
+
+   So here it is, a Liquid War fanfic. It was initially written for
+Liquid War 5, but applies to Liquid War 6 as well. Enjoy!
+
+B.1 The Battle of Emberlificoted
+================================
+
+
+...
+
+   The General presided over his massing army in his seat, or rather
+hovering ring, of power. It dipped slightly as he flew low over his
+troops marching through the viscous marsh-like terrain. They were like
+children: obedient, loyal, and they ate a lot.
+
+   Glancing at the status panel mounted in front of him he grimaced;
+the other five armies: Yellow, Green, Orange, Turquoise, and, of
+course, Red, were also readying armies of a similar size to his own.
+His violet clones would have to fight hard and eat well to win this day.
+
+   Today would not be a battle of luck, the General mused, it would be
+a battle of tactics, of alliances, and of betrayal. Every clone was
+identical - that was the general idea behind clones - and the terrain
+seemed strangely symmetrical; it would not give advantage to any of the
+six armies amassed today. Glancing at the hologram of the battlefield
+projected in front of him the General noted that he would have to move
+quickly, Orange and Yellow were too close for comfort, though
+fortunately Baron Red's army of eponymous coloured clones was the
+furthest.
+
+   General Violet's fingertips were sweaty even before they touched the
+four main control keys in front of him. They were labeled 'W', 'A',
+'D', and, of course, the full retreat button - very useful for
+misleading foes and ambushing them as they pursued - 'S'. The keys were
+arrange in a roughly equilateral triangular pattern; with 'S' forming
+the base and being adjacent to both 'A' and 'D', 'W' formed the tip of
+the triangle.
+
+   A long breath left his parched lips as at last he made his move.
+
+
+   ...
+
+   "Dammit!" he screamed moments later. He had misjudged Captain Yellow
+and Commander Orange; he had expected one at least to attack
+immediately, one he could have handled. They were working together -
+foiling his attempt to shoot between them to near the center of the
+battlefield to gain a better vantage point. Yellow had shot down
+towards him, cutting off his advance, and now Orange had sealed his
+escape route. "It's not over yet" muttered the General. He opened a
+voice channel with Commander Orange:
+
+   "Very clever. Flawed, but still clever."
+
+   "Flawed?" came the reply.
+
+   "Yes flawed, when the good Captain is finished devouring my army who
+do you think he will turn to next?", bluffed the General - his hands
+worked quickly as he manoeuvred his hovering control ring, all that his
+troops ever saw of him, carefully towards the weakest section of his
+attackers. If he could just break out a few units he could soon turn
+the tide against both Yellow and Orange.
+
+   "We have an alliance..." Orange's voice was unsure now.
+
+   Time for some sarcasm to through her even more off balance, thought
+the General,
+
+   "I gathered", he spoke softly, slowly, and with too much meaning.
+Then closing the channel he turned his attention back to his escape.
+
+
+   ...
+
+   "Yes!" wooped the ecstatic figure of the General. Fifty or so of his
+troops had broken free undetected and were even now working their way
+cautiously towards the camps of the Yellow army, only the front lines
+were still actively fighting; this opening gambit of Yellow and Orange
+had turned into a stale siege and Yellow's army had pitched tent.
+
+   General Violet steered his hovering guidance ring to the center of
+the Yellow camp. His troops struck, both those who had got behind the
+lines and those who were still besieged. Yellow reacted too slowly and
+suddenly found that her army, was shrinking back from the onslaught.
+There was nowhere to run to, and bye now her only ally - Commander
+Orange - had abandoned her to her fate; he was too busy engaging Sir.
+Turquoise, who had managed to escape from the slaughter that the Baron
+had caused to the Turquoise ranks and was even now valiantly attacking
+the flanks of the Orange troops.
+
+   A glance at the status panel showed that Yellow's life force was
+fading quickly: 8%, 3%, 1%, Gone.
+
+   The General smiled, he always enjoyed getting the first kill, and by
+now his armies life force had grown and his clones had replicated. With
+his, now, formidable fighting force it was no problem to engulf both
+Sir. Turquoise and Commander Orange's brawling armies and annihilate
+them. Once again his army grew in size and power. Now if only the Baron
+didn't notice that..., thought the General.
+
+
+   ...
+
+   "Too late!" yelped the General, now thrown into panic, as he saw the
+approaching Baron. His army had also grown in size and power - having
+fatally injured the Turquoise army within the opening moments of the
+battle, and having finally managed to catch the elusive fleeing form
+of, or what remained of, Emperor Green.
+
+   Gripping the controls harder the General thought quickly, his army
+doesn't so completely outnumber me that this is already over, however
+unless I can cause him to make a mistake that allows me to take the
+upper hand then I will inevitably lose. Maybe I can...
+
+   This thought was terminated and replaced by another as the Baron's
+angry red troops broke through the undergrowth that had covered their
+movements and started to surround the General's army. The thought that
+now throbbed through the panic-stricken mind of General Violet was
+simply 'Run!'.
+
+   Even as he signaled the retreat and made for what seemed to be the
+only possible means of escape the Baron's blood red control ring
+appeared at the opening. The General knew it was over, even before the
+host of red beings appeared at the opening.
+
+   There was no escape. His life force was almost depleted and he was
+surrounded. Then it was that the Baron decided to communicate:
+
+   "Too bad. It was a good game"
+
+   The General blinked, gaped, and was generally gobsmacked. Just
+before his life force completely failed and his own weary eyes closed
+in defeat he snarled,
+
+   "What!? This is not a game!" were the General's dying words.
+
+
+File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
+
+Annexe C Links
+**************
+
+This section lists various Internet Liquid War related links.
+
+   * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
+
+   * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
+
+   * `http://download.savannah.gnu.org/releases/liquidwar6/': Savannah
+     downloads
+
+   * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
+
+   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
+     (deprecated)
+
+   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git',
+     `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
+     (replaces GNU Arch)
+
+   * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
+
+   * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
+     archives
+
+   * `http://kasperhviid.dk/liquid-stuff.html',
+     `http://kasperhviid.dk/lw6-eyecandy.html',
+     `http://kasperhviid.dk/lw6-gui.html': Kasper Hviid brainstorming
+     and resources concerning Liquid War 6.
+     `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
+     Wikipedia
+
+   * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
+     Wikipedia (French)
+
+   * `http://www.lgdb.org/game/liquid_war': Liquid War 6 entry on LGDB
+
+   * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
+     Libregamewiki
+
+   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
 

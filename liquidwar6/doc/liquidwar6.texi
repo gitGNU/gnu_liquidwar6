@@ -122,6 +122,32 @@ Reference
 * Script hooks::        Available script hooks.
 * C to Guile API::      C functions available to Guile scripts.
 * C functions::         C functions available in libliquidwar6.
+* libliquidwar6::       Top-level functions.
+* libbot::              Bot algorithms.
+* libcfg::              Loading and saving config files.
+* libcli::              Network clients.
+* libcns::              Console handling.
+* libdat::              Storing network data.
+* libdef::              Keywords definitions.
+* libdsp::              Threaded display.
+* libdyn::              Dynamic module loading.
+* libgfx::              Graphics.
+* libglb::              Gnulib embedded routines.
+* libgui::              GUI utilities.
+* libhlp::              Built-in help system.
+* libimg::              Generating screenshots.
+* libker::              Main kernel module (core algorithm).
+* libldr::              Loading maps.
+* libmap::              Map, AKA levels.
+* libmsg::              Network messages.
+* libnet::              Low-level network routines.
+* libnod::              Manipulating node data.
+* libp2p::              A la peer to peer network system.
+* libpil::              Dealing with game lag.
+* libsnd::              Sound.
+* libsrv::              Network servers.
+* libsys::              Low-level system utilities.
+* libtsk::              Asynchronous loading.
 
 Appendices
 
@@ -3333,6 +3359,32 @@ engines to harvest the content.
 * Script hooks::        Available script hooks.
 * C to Guile API::      C functions available to Guile scripts.
 * C functions::         C functions available in libliquidwar6.
+* libliquidwar6::       Top-level functions.
+* libbot::              Bot algorithms.
+* libcfg::              Loading and saving config files.
+* libcli::              Network clients.
+* libcns::              Console handling.
+* libdat::              Storing network data.
+* libdef::              Keywords definitions.
+* libdsp::              Threaded display.
+* libdyn::              Dynamic module loading.
+* libgfx::              Graphics.
+* libglb::              Gnulib embedded routines.
+* libgui::              GUI utilities.
+* libhlp::              Built-in help system.
+* libimg::              Generating screenshots.
+* libker::              Main kernel module (core algorithm).
+* libldr::              Loading maps.
+* libmap::              Map, AKA levels.
+* libmsg::              Network messages.
+* libnet::              Low-level network routines.
+* libnod::              Manipulating node data.
+* libp2p::              A la peer to peer network system.
+* libpil::              Dealing with game lag.
+* libsnd::              Sound.
+* libsrv::              Network servers.
+* libsys::              Low-level system utilities.
+* libtsk::              Asynchronous loading.
 @end menu
 
 @c ---------------------------------------------------------------------------
@@ -3463,7 +3515,7 @@ engines to harvest the content.
 @c C functions
 @c ---------------------------------------------------------------------------
 
-@node C functions, ,C to Guile API, Reference
+@node C functions, libliquidwar6, C to Guile API, Reference
 @section C functions
 
 This section contains a description of all modules and a
@@ -3498,7 +3550,16 @@ the @uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} output shows the cycl
 of functions. It enables the programmer to spots the ``ugly'' and dangerous parts of the program.
 @end itemize
 
-@subsection libliquidwar6
+@c ---------------------------------------------------------------------------
+@c libiquidwar6
+@c ---------------------------------------------------------------------------
+
+@node libliquidwar6, libbot, C functions, Reference
+@section libliquidwar6
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include liquidwar6-gdoc.texi
@@ -3508,7 +3569,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include liquidwar6-gdoc.texi
 @end ifhtml
  
-@subsection libbot
+@c ---------------------------------------------------------------------------
+@c libbot
+@c ---------------------------------------------------------------------------
+
+@node libbot, libcfg, libliquidwar6, Reference
+@section libbot
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include bot-gdoc.texi
@@ -3518,7 +3588,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include bot-gdoc.texi
 @end ifhtml
  
-@subsection libcfg
+@c ---------------------------------------------------------------------------
+@c libcfg
+@c ---------------------------------------------------------------------------
+
+@node libcfg, libcli, libbot, Reference
+@section libcfg
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include cfg-gdoc.texi
@@ -3528,7 +3607,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include cfg-gdoc.texi
 @end ifhtml
  
-@subsection libcli
+@c ---------------------------------------------------------------------------
+@c libcli
+@c ---------------------------------------------------------------------------
+
+@node libcli, libcns, libcfg, Reference
+@section libcli
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include cli-gdoc.texi
@@ -3538,7 +3626,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include cli-gdoc.texi
 @end ifhtml
  
-@subsection libcns
+@c ---------------------------------------------------------------------------
+@c libcns
+@c ---------------------------------------------------------------------------
+
+@node libcns, libdat, libcli, Reference
+@section libcns
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include cns-gdoc.texi
@@ -3548,67 +3645,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include cns-gdoc.texi
 @end ifhtml
 
-@subsection libdsp
+@c ---------------------------------------------------------------------------
+@c libdat
+@c ---------------------------------------------------------------------------
 
-@ifinfo
-@include dsp-gdoc.texi
-@end ifinfo
+@node libdat, libdef, libcns, Reference
+@section libdat
 
-@ifhtml
-@include dsp-gdoc.texi
-@end ifhtml
- 
-@subsection libdyn
+@subsection Overview
 
-@ifinfo
-@include dyn-gdoc.texi
-@end ifinfo
-
-@ifhtml
-@include dyn-gdoc.texi
-@end ifhtml
- 
-@subsection libgfx
-
-@ifinfo
-@include gfx-gdoc.texi
-@end ifinfo
-
-@ifhtml
-@include gfx-gdoc.texi
-@end ifhtml
-
-@subsection libglb
-
-@ifinfo
-@include glb-gdoc.texi
-@end ifinfo
-
-@ifhtml
-@include glb-gdoc.texi
-@end ifhtml
-
-@subsection libgui
-
-@ifinfo
-@include gui-gdoc.texi
-@end ifinfo
-
-@ifhtml
-@include gui-gdoc.texi
-@end ifhtml
- 
-@subsection libhlp
-
-@ifinfo
-@include hlp-gdoc.texi
-@end ifinfo
-
-@ifhtml
-@include hlp-gdoc.texi
-@end ifhtml
-
-@subsection libdat
+@subsection API
 
 @ifinfo
 @include dat-gdoc.texi
@@ -3618,7 +3664,149 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include dat-gdoc.texi
 @end ifhtml
 
-@subsection libimg
+@c ---------------------------------------------------------------------------
+@c libdef
+@c ---------------------------------------------------------------------------
+
+@node libdef, libdsp, libdat, Reference
+@section libdef
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include dat-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dat-gdoc.texi
+@end ifhtml
+
+@c ---------------------------------------------------------------------------
+@c libdsp
+@c ---------------------------------------------------------------------------
+
+@node libdsp, libdyn, libdef, Reference
+@section libdsp
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include dsp-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dsp-gdoc.texi
+@end ifhtml
+ 
+@c ---------------------------------------------------------------------------
+@c libdyn
+@c ---------------------------------------------------------------------------
+
+@node libdyn, libgfx, libdsp, Reference
+@section libdyn
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include dyn-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include dyn-gdoc.texi
+@end ifhtml
+ 
+@c ---------------------------------------------------------------------------
+@c libgfx
+@c ---------------------------------------------------------------------------
+
+@node libgfx, libglb, libdyn, Reference
+@section libgfx
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include gfx-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include gfx-gdoc.texi
+@end ifhtml
+
+@c ---------------------------------------------------------------------------
+@c libglb
+@c ---------------------------------------------------------------------------
+
+@node libglb, libgui, libgfx, Reference
+@section libglb
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include glb-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include glb-gdoc.texi
+@end ifhtml
+
+@c ---------------------------------------------------------------------------
+@c libgui
+@c ---------------------------------------------------------------------------
+
+@node libgui, libhlp, libglb, Reference
+@section libgui
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include gui-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include gui-gdoc.texi
+@end ifhtml
+ 
+@c ---------------------------------------------------------------------------
+@c libhlp
+@c ---------------------------------------------------------------------------
+
+@node libhlp, libimg, libgui, Reference
+@section libhlp
+
+@subsection Overview
+
+@subsection API
+
+@ifinfo
+@include hlp-gdoc.texi
+@end ifinfo
+
+@ifhtml
+@include hlp-gdoc.texi
+@end ifhtml
+
+@c ---------------------------------------------------------------------------
+@c libimg
+@c ---------------------------------------------------------------------------
+
+@node libimg, libker, libhlp, Reference
+@section libimg
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include img-gdoc.texi
@@ -3628,7 +3816,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include img-gdoc.texi
 @end ifhtml
  
-@subsection libker
+@c ---------------------------------------------------------------------------
+@c libker
+@c ---------------------------------------------------------------------------
+
+@node libker, libldr, libimg, Reference
+@section libker
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include ker-gdoc.texi
@@ -3638,7 +3835,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include ker-gdoc.texi
 @end ifhtml
 
-@subsection libldr
+@c ---------------------------------------------------------------------------
+@c libldr
+@c ---------------------------------------------------------------------------
+
+@node libldr, libmap, libker, Reference
+@section libldr
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include ldr-gdoc.texi
@@ -3648,7 +3854,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include ldr-gdoc.texi
 @end ifhtml
  
-@subsection libmap
+@c ---------------------------------------------------------------------------
+@c libmap
+@c ---------------------------------------------------------------------------
+
+@node libmap, libmsg, libldr, Reference
+@section libmap
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include map-gdoc.texi
@@ -3658,7 +3873,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include map-gdoc.texi
 @end ifhtml
  
-@subsection libmsg
+@c ---------------------------------------------------------------------------
+@c libmsg
+@c ---------------------------------------------------------------------------
+
+@node libmsg, libnet, libmap, Reference
+@section libmsg
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include msg-gdoc.texi
@@ -3668,7 +3892,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include msg-gdoc.texi
 @end ifhtml
 
-@subsection libnet
+@c ---------------------------------------------------------------------------
+@c libnet
+@c ---------------------------------------------------------------------------
+
+@node libnet, libnod, libmsg, Reference
+@section libnet
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include net-gdoc.texi
@@ -3678,7 +3911,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include net-gdoc.texi
 @end ifhtml
  
-@subsection libnod
+@c ---------------------------------------------------------------------------
+@c libnod
+@c ---------------------------------------------------------------------------
+
+@node libnod, libp2p, libnet, Reference
+@section libnod
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include nod-gdoc.texi
@@ -3688,7 +3930,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include nod-gdoc.texi
 @end ifhtml
  
-@subsection libp2p
+@c ---------------------------------------------------------------------------
+@c libp2p
+@c ---------------------------------------------------------------------------
+
+@node libp2p, libpil, libnod, Reference
+@section libp2p
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include p2p-gdoc.texi
@@ -3698,7 +3949,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include p2p-gdoc.texi
 @end ifhtml
 
-@subsection libpil
+@c ---------------------------------------------------------------------------
+@c libpil
+@c ---------------------------------------------------------------------------
+
+@node libpil, libsnd, libp2p, Reference
+@section libpil
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include pil-gdoc.texi
@@ -3708,7 +3968,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include pil-gdoc.texi
 @end ifhtml
 
-@subsection libsnd
+@c ---------------------------------------------------------------------------
+@c libsnd
+@c ---------------------------------------------------------------------------
+
+@node libsnd, libsrv, libpil, Reference
+@section libsnd
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include snd-gdoc.texi
@@ -3718,7 +3987,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include snd-gdoc.texi
 @end ifhtml
  
-@subsection libsrv
+@c ---------------------------------------------------------------------------
+@c libsrv
+@c ---------------------------------------------------------------------------
+
+@node libsrv, libsys, libsnd, Reference
+@section libsrv
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include srv-gdoc.texi
@@ -3728,7 +4006,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include srv-gdoc.texi
 @end ifhtml
 
-@subsection libsys
+@c ---------------------------------------------------------------------------
+@c libsys
+@c ---------------------------------------------------------------------------
+
+@node libsys, libtsk, libsrv, Reference
+@section libsys
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include sys-gdoc.texi
@@ -3738,7 +4025,16 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @include sys-gdoc.texi
 @end ifhtml
 
-@subsection libtsk
+@c ---------------------------------------------------------------------------
+@c libtsk
+@c ---------------------------------------------------------------------------
+
+@node libtsk, , libsys, Reference
+@section libtsk
+
+@subsection Overview
+
+@subsection API
 
 @ifinfo
 @include tsk-gdoc.texi

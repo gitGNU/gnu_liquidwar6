@@ -1,5 +1,7 @@
 2010-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Split libxyz doc in several nodes.
+
 	* Modules must not declare a symbol mod_xyz_is_GPL_compatible.
 
 	* Added DNS cache and a lock on gethostbyname/curl functions.
