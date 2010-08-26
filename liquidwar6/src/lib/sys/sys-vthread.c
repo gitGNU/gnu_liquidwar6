@@ -220,6 +220,7 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
   _lw6sys_vthread_handler_t *vhandler = NULL;
   _lw6sys_thread_handler_t *handler = NULL;
 
+  lw6sys_log (LW6SYS_LOG_INFO, _("vthread_create"));
   if (!_main_vhandler)
     {
       vhandler = (_lw6sys_vthread_handler_t *)
@@ -234,6 +235,7 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	  handler->callback_data = callback_data;
 	  lw6sys_log (LW6SYS_LOG_INFO, _("vhtread create successfull"));
 	  ret = 1;
+	  lw6sys_log (LW6SYS_LOG_INFO, _("defining _main_vhandler"));
 	  _main_vhandler = vhandler;
 	  while (!_main_vhandler_not_null_ack)
 	    {
