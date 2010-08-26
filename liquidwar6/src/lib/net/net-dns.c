@@ -27,14 +27,18 @@
 #include "net.h"
 #include "net-internal.h"
 
-
 int
-_lw6net_dns_init ()
+_lw6net_dns_init (int dns_cache_hash_size)
 {
   int ret = 0;
 
-  _lw6net_global_context->dns_mutex = lw6sys_mutex_create ();
-  ret = (_lw6net_global_context->dns_mutex != NULL);
+  _lw6net_global_context->dns_gethostbyname_mutex = lw6sys_mutex_create ();
+  _lw6net_global_context->dns_cache_mutex = lw6sys_mutex_create ();
+  _lw6net_global_context->dns_cache =
+    lw6sys_hash_new (lw6sys_free_callback, dns_cache_hash_size);
+  ret = (_lw6net_global_context->dns_gethostbyname_mutex != NULL
+	 && _lw6net_global_context->dns_cache_mutex != NULL
+	 && _lw6net_global_context->dns_cache != NULL);
 
   return ret;
 }
@@ -42,10 +46,20 @@ _lw6net_dns_init ()
 void
 _lw6net_dns_quit ()
 {
-  if (_lw6net_global_context->dns_mutex)
+  if (_lw6net_global_context->dns_cache)
     {
-      lw6sys_mutex_destroy (_lw6net_global_context->dns_mutex);
-      _lw6net_global_context->dns_mutex = NULL;
+      lw6sys_hash_free (_lw6net_global_context->dns_cache);
+      _lw6net_global_context->dns_cache = NULL;
+    }
+  if (_lw6net_global_context->dns_cache_mutex)
+    {
+      lw6sys_mutex_destroy (_lw6net_global_context->dns_cache_mutex);
+      _lw6net_global_context->dns_cache_mutex = NULL;
+    }
+  if (_lw6net_global_context->dns_gethostbyname_mutex)
+    {
+      lw6sys_mutex_destroy (_lw6net_global_context->dns_gethostbyname_mutex);
+      _lw6net_global_context->dns_gethostbyname_mutex = NULL;
     }
 }
 
@@ -117,6 +131,8 @@ lw6net_dns_gethostbyname (char *name)
   struct hostent *h;
   struct in_addr addr;
   char *ntoa_ret = NULL;
+  char *cached_ret = NULL;
+  char *to_put_in_cache = NULL;
 
   if (lw6net_dns_is_ip (name))
     {
@@ -133,26 +149,98 @@ lw6net_dns_gethostbyname (char *name)
     }
   else
     {
-      if (lw6sys_mutex_lock (_lw6net_global_context->dns_mutex))
+      if (lw6sys_mutex_lock (_lw6net_global_context->dns_cache_mutex))
 	{
-	  h = gethostbyname (name);
-	  if (h && h->h_addrtype == AF_INET && h->h_length >= 4
-	      && h->h_addr_list[0])
+	  cached_ret =
+	    lw6sys_hash_get (_lw6net_global_context->dns_cache, name);
+	  if (cached_ret)
 	    {
-#ifdef UNIX
-	      addr = *((struct in_addr *) (h->h_addr_list[0]));
-#else
-	      addr.s_addr = *((u_long *) (h->h_addr_list[0]));
-#endif
-	      ntoa_ret = inet_ntoa (addr);
-	      if (ntoa_ret)
-		{
-		  ret = lw6sys_str_copy (ntoa_ret);
-		}
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("cached DNS \"%s\" -> \"%s\""),
+			  name, cached_ret);
+	      ret = lw6sys_str_copy (cached_ret);
 	    }
-	  lw6sys_mutex_unlock (_lw6net_global_context->dns_mutex);
+	  lw6sys_mutex_unlock (_lw6net_global_context->dns_cache_mutex);
+	}
+      /*
+       * At this stage cached_ret is NOT NULL if something is in the cache
+       * but the pointer could be wrong since we unlocked. In pratice cache
+       * entries are never removed, but it's safer to rely on ret which has
+       * been copied locally.
+       */
+      if (!ret)
+	{
+	  if (lw6net_dns_lock ())
+	    {
+	      h = gethostbyname (name);
+	      if (h && h->h_addrtype == AF_INET && h->h_length >= 4
+		  && h->h_addr_list[0])
+		{
+#ifdef UNIX
+		  addr = *((struct in_addr *) (h->h_addr_list[0]));
+#else
+		  addr.s_addr = *((u_long *) (h->h_addr_list[0]));
+#endif
+		  ntoa_ret = inet_ntoa (addr);
+		  if (ntoa_ret)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _("DNS request \"%s\" -> \"%s\""), name,
+				  ntoa_ret);
+		      to_put_in_cache = lw6sys_str_copy (ntoa_ret);
+
+		      ret = lw6sys_str_copy (ntoa_ret);
+		    }
+		}
+	      lw6net_dns_unlock ();
+	    }
+	}
+    }
+
+  if (to_put_in_cache)
+    {
+      if (lw6sys_mutex_lock (_lw6net_global_context->dns_cache_mutex))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("put in DNS cache \"%s\" -> \"%s\""), name,
+		      to_put_in_cache);
+	  lw6sys_hash_set (_lw6net_global_context->dns_cache, name,
+			   to_put_in_cache);
+	  lw6sys_mutex_unlock (_lw6net_global_context->dns_cache_mutex);
 	}
     }
 
   return ret;
+}
+
+/**
+ * lw6net_dns_lock
+ *
+ * Locks access to dns function @lw6net_dns_gethostbyname.
+ * This is because @gethostbyname isn't reentrant plus, even
+ * if we didn't use it but its multithreadable equivalent
+ * (which is however not standard and always available)
+ * other libs (such as @libcurl not to name it) might use
+ * this function too so in a general manner it's a good 
+ * idea to use a mutex to protect multiple accesses to this.
+ *
+ * Return value: an IP if success, 0 on error.
+ */
+int
+lw6net_dns_lock ()
+{
+  return lw6sys_mutex_lock (_lw6net_global_context->dns_gethostbyname_mutex);
+}
+
+/**
+ * lw6net_dns_unlock
+ *
+ * Unlocks access to dns function @lw6net_dns_gethostbyname.
+ *
+ * Return value: an IP if success, 0 on error.
+ */
+int
+lw6net_dns_unlock ()
+{
+  return
+    lw6sys_mutex_unlock (_lw6net_global_context->dns_gethostbyname_mutex);
 }

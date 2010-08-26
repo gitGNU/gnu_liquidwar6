@@ -19561,7 +19561,7 @@ LW6_HOST_CPU="${host_cpu}"
 LW6_HOST_OS="${host_os}"
 
 
-LW6_CODENAME="Steven"
+LW6_CODENAME="Gengis Khan"
 
 
 # Check whether --enable-optimize was given.

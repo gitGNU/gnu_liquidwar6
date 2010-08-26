@@ -4,4 +4,5 @@
   <int key="chunk-size" value="1100" />
   <int key="line-size" value="500" />
   <int key="line-delay-msec" value="1000" />
+  <int key="dns-cache-hash-size" value="101" />
 </liquidwar6>

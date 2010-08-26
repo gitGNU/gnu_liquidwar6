@@ -44,6 +44,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
       lw6cfg_read_xml_int (key, value, "line-size", &const_data->line_size);
       lw6cfg_read_xml_int (key, value, "line-delay-msec",
 			   &const_data->line_delay_msec);
+      lw6cfg_read_xml_int (key, value, "dns-cache-hash-size",
+			   &const_data->dns_cache_hash_size);
     }
 }
 

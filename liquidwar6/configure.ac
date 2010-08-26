@@ -481,7 +481,7 @@ AC_SUBST(LW6_HOST_CPU)
 LW6_HOST_OS="${host_os}"
 AC_SUBST(LW6_HOST_OS)
 
-LW6_CODENAME="Steven"
+LW6_CODENAME="Gengis Khan"
 AC_SUBST(LW6_CODENAME)
 
 AC_ARG_ENABLE([optimize], AS_HELP_STRING([--enable-optimize],[optimize for speed default=no]), [enable_optimize=$enableval], [enable_optimize=no])

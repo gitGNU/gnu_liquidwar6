@@ -48,6 +48,7 @@ typedef struct _lw6net_const_data_s
   int chunk_size;
   int line_size;
   int line_delay_msec;
+  int dns_cache_hash_size;
 }
 _lw6net_const_data_t;
 
@@ -64,7 +65,9 @@ typedef struct _lw6net_context_s
   _lw6net_socket_counters_t socket_counters;
   lw6sys_assoc_t *threads;
   int server_sock;
-  void *dns_mutex;
+  void *dns_gethostbyname_mutex;
+  void *dns_cache_mutex;
+  lw6sys_hash_t *dns_cache;
 }
 _lw6net_context_t;
 
@@ -92,7 +95,7 @@ extern int _lw6net_const_init (int argc, char *argv[]);
 extern void _lw6net_const_quit ();
 
 /* net-dns.c */
-extern int _lw6net_dns_init ();
+extern int _lw6net_dns_init (int dns_cache_hash_size);
 extern void _lw6net_dns_quit ();
 
 // net-error.c

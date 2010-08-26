@@ -88,8 +88,14 @@ lw6net_init (int argc, char *argv[])
 #endif
 
       ok = _lw6net_const_init (argc, argv)
-	&& _lw6net_socket_init () && _lw6net_thread_init ()
-	&& _lw6net_dns_init () && ok;
+	&& _lw6net_socket_init () && _lw6net_thread_init () && ok;
+
+      if (ok)
+	{
+	  ok =
+	    _lw6net_dns_init (_lw6net_global_context->
+			      const_data.dns_cache_hash_size);
+	}
     }
 
   if (!ok)

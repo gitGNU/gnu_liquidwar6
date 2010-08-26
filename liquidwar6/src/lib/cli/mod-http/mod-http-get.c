@@ -80,135 +80,164 @@ _mod_http_get (_http_context_t * http_context, char *url, char *password)
   CURLcode res;
   _memory_struct_t chunk;
   char *authorization = NULL;
+  int64_t origin = lw6sys_get_timestamp ();
 
   chunk.memory = NULL;		/* we expect realloc(NULL, size) to work */
   chunk.size = 0;		/* no data at this point */
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("GET \"%s\""), url);
-  /* init the curl session */
-  curl_handle = curl_easy_init ();
-  if (curl_handle)
+  /*
+   * We use this lock because CURL might use gethostbyname internally.
+   * Not locking gives segfault error, typically:
+   * "0x0077502f in Curl_getaddrinfo_ex () from /usr/lib/libcurl.so.4"
+   * Note that we could lock *only* the curl_easy_perform function,
+   * but in practice we would barely gain any time, and the safety
+   * of being sure all CURL functions are serialized has some value.
+   */
+  if (lw6net_dns_lock ())
     {
-      /* specify URL to get */
-      res = curl_easy_setopt (curl_handle, CURLOPT_URL, url);
-      if (res == CURLE_OK)
+      /*
+       * Check if timeout is OK for if we had many locks, we can have
+       * a timeout between now and the end of the call
+       */
+      if (_mod_http_timeout_ok (http_context, origin))
 	{
-	  res =
-	    curl_easy_setopt (curl_handle, CURLOPT_WRITEFUNCTION,
-			      _write_memory_callback);
-	  if (res == CURLE_OK)
+	  /* init the curl session */
+	  curl_handle = curl_easy_init ();
+	  if (curl_handle)
 	    {
-	      /* we pass our 'chunk' struct to the callback function */
-	      res =
-		curl_easy_setopt (curl_handle, CURLOPT_WRITEDATA,
-				  (void *) &chunk);
+	      /* specify URL to get */
+	      res = curl_easy_setopt (curl_handle, CURLOPT_URL, url);
 	      if (res == CURLE_OK)
 		{
-		  /*
-		   * Don't waist a full minute when
-		   * firewall is in DROP mode
-		   */
 		  res =
-		    curl_easy_setopt (curl_handle, CURLOPT_CONNECTTIMEOUT,
-				      http_context->data.
-				      consts.connect_timeout);
+		    curl_easy_setopt (curl_handle, CURLOPT_WRITEFUNCTION,
+				      _write_memory_callback);
 		  if (res == CURLE_OK)
 		    {
-		      /* some servers don't like requests that are made without a user-agent
-		         field, so we provide one */
+		      /* we pass our 'chunk' struct to the callback function */
 		      res =
-			curl_easy_setopt (curl_handle, CURLOPT_USERAGENT,
-					  lw6sys_build_get_package_tarname
-					  ());
+			curl_easy_setopt (curl_handle, CURLOPT_WRITEDATA,
+					  (void *) &chunk);
 		      if (res == CURLE_OK)
 			{
-			  if (password)
-			    {
-			      authorization =
-				lw6sys_new_sprintf ("%s:%s",
-						    lw6sys_build_get_package_tarname
-						    (), password);
-			      if (authorization)
-				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _("using authorization \"%s\""),
-					      authorization);
-				  /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
-				     also costs one extra round-trip and possibly sending of all the PUT
-				     data twice!!! */
-				  res =
-				    curl_easy_setopt (curl_handle,
-						      CURLOPT_HTTPAUTH,
-						      (long) CURLAUTH_ANY);
-				  if (res != CURLE_OK)
-				    {
-				      _print_error
-					("curl_easy_setopt(CURLOPT_HTTPAUTH)",
-					 res);
-				    }
-				  /* set user name and password for the authentication */
-				  res =
-				    curl_easy_setopt (curl_handle,
-						      CURLOPT_USERPWD,
-						      authorization);
-				  if (res != CURLE_OK)
-				    {
-				      _print_error
-					("curl_easy_setopt(CURLOPT_USERPWD)",
-					 res);
-				    }
-				  LW6SYS_FREE (authorization);
-				}
-			    }
-			  /* get it! */
-			  res = curl_easy_perform (curl_handle);
+			  /*
+			   * Don't waist a full minute when
+			   * firewall is in DROP mode
+			   */
+			  res =
+			    curl_easy_setopt (curl_handle,
+					      CURLOPT_CONNECTTIMEOUT,
+					      http_context->data.
+					      consts.connect_timeout);
 			  if (res == CURLE_OK)
 			    {
-			      /* should be OK */
+			      /* some servers don't like requests that are made without a user-agent
+			         field, so we provide one */
+			      res =
+				curl_easy_setopt (curl_handle,
+						  CURLOPT_USERAGENT,
+						  lw6sys_build_get_package_tarname
+						  ());
+			      if (res == CURLE_OK)
+				{
+				  if (password)
+				    {
+				      authorization =
+					lw6sys_new_sprintf ("%s:%s",
+							    lw6sys_build_get_package_tarname
+							    (), password);
+				      if (authorization)
+					{
+					  lw6sys_log (LW6SYS_LOG_DEBUG,
+						      _
+						      ("using authorization \"%s\""),
+						      authorization);
+					  /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
+					     also costs one extra round-trip and possibly sending of all the PUT
+					     data twice!!! */
+					  res =
+					    curl_easy_setopt (curl_handle,
+							      CURLOPT_HTTPAUTH,
+							      (long)
+							      CURLAUTH_ANY);
+					  if (res != CURLE_OK)
+					    {
+					      _print_error
+						("curl_easy_setopt(CURLOPT_HTTPAUTH)",
+						 res);
+					    }
+					  /* set user name and password for the authentication */
+					  res =
+					    curl_easy_setopt (curl_handle,
+							      CURLOPT_USERPWD,
+							      authorization);
+					  if (res != CURLE_OK)
+					    {
+					      _print_error
+						("curl_easy_setopt(CURLOPT_USERPWD)",
+						 res);
+					    }
+					  LW6SYS_FREE (authorization);
+					}
+				    }
+				  /* get it! */
+				  res = curl_easy_perform (curl_handle);
+				  if (res == CURLE_OK)
+				    {
+				      /* should be OK */
+				    }
+				  else
+				    {
+				      _print_error ("curl_easy_perform", res);
+				    }
+				}
+			      else
+				{
+				  _print_error
+				    ("curl_easy_setopt(CURLOPT_USERAGENT)",
+				     res);
+				}
 			    }
 			  else
 			    {
-			      _print_error ("curl_easy_perform", res);
+			      _print_error
+				("curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)",
+				 res);
 			    }
 			}
 		      else
 			{
-			  _print_error ("curl_easy_setopt(CURLOPT_USERAGENT)",
+			  _print_error ("curl_easy_setopt(CURLOPT_WRITEDATA)",
 					res);
 			}
 		    }
 		  else
 		    {
-		      _print_error
-			("curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)", res);
+		      _print_error ("curl_easy_setopt(CURLOPT_WRITEFUNCTION)",
+				    res);
 		    }
 		}
 	      else
 		{
-		  _print_error ("curl_easy_setopt(CURLOPT_WRITEDATA)", res);
+		  _print_error ("curl_easy_setopt(CURLOPT_URL)", res);
 		}
+	      /* cleanup curl stuff */
+	      curl_easy_cleanup (curl_handle);
 	    }
 	  else
 	    {
-	      _print_error ("curl_easy_setopt(CURLOPT_WRITEFUNCTION)", res);
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _("unable to initialize CURL handle"));
+	    }
+
+	  if (chunk.memory)
+	    {
+	      ret = chunk.memory;
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("response=\"%s\""), ret);
 	    }
 	}
-      else
-	{
-	  _print_error ("curl_easy_setopt(CURLOPT_URL)", res);
-	}
-      /* cleanup curl stuff */
-      curl_easy_cleanup (curl_handle);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to initialize CURL handle"));
-    }
-
-  if (chunk.memory)
-    {
-      ret = chunk.memory;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("response=\"%s\""), ret);
+      lw6net_dns_unlock ();
     }
 
   return ret;
