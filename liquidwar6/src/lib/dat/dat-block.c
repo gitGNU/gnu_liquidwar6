@@ -24,4 +24,25 @@
 #include "config.h"
 #endif
 
-#include "dat.h"
+#include "dat-internal.h"
+
+_lw6dat_block_t *
+_lw6dat_block_new (int serial_0)
+{
+  _lw6dat_block_t *block = NULL;
+
+  block = (_lw6dat_block_t *) LW6SYS_CALLOC (sizeof (_lw6dat_block_t));
+  if (block)
+    {
+      block->serial_0 = serial_0;
+      block->serial_n_1 = serial_0 + _LW6DAT_NB_ATOMS_PER_BLOCK - 1;
+    }
+
+  return block;
+}
+
+void
+_lw6dat_block_free (_lw6dat_block_t * block)
+{
+  LW6SYS_FREE (block);
+}

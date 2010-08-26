@@ -33,15 +33,24 @@
  */
 #define _LW6DAT_ATOM_STATIC_SIZE 99
 /*
- * This makes blocks of approx. 200kb
+ * This makes blocks of approx. 250kb
  */
 #define _LW6DAT_NB_ATOMS_PER_BLOCK 2000
 /*
- * This is a fairly big limit, 2000 blocks of 5000 atoms
+ * This is a fairly big limit, 500 blocks of 2000 atoms
  * is about 1000000 blocks. Up to 100 megs of data even
  * without requiring to use the extra "if_longer" pointer.
+ * In extreme cases, could eat up to 4 gigs of RAM.
  */
 #define _LW6DAT_MAX_NB_BLOCKS 500
+/*
+ * Local node messages are in the first stack
+ */
+#define _LW6DAT_LOCAL_NODE_INDEX 0
+/*
+ * Start at 1
+ */
+#define _LW6DAT_SERIAL_START 1
 
 typedef struct _lw6dat_atom_s
 {
@@ -57,13 +66,12 @@ typedef struct _lw6dat_block_s
 {
   int serial_0;
   int serial_n_1;
-  int nb_atoms;
-  _lw6dat_atom_t *atoms;
+  _lw6dat_atom_t atoms[_LW6DAT_NB_ATOMS_PER_BLOCK];
 } _lw6dat_block_t;
 
 typedef struct _lw6dat_stack_s
 {
-  u_int64_t remote_node_id;
+  u_int64_t node_id;
   int serial_0;
   int serial_n_1;
   int nb_blocks;
@@ -85,8 +93,9 @@ extern int _lw6dat_atom_set_text (_lw6dat_atom_t * atom, char *text);
 extern char *_lw6dat_atom_get_text (_lw6dat_atom_t * atom);
 
 /* dat-block.c */
-extern void _lw6dat_block_zero (_lw6dat_block_t * block);
-extern void _lw6dat_block_clear (_lw6dat_block_t * block);
+extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
+extern void _lw6dat_block_free (_lw6dat_block_t * block);
+
 static inline _lw6dat_atom_t *
 _lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
 {
@@ -99,6 +108,9 @@ _lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
 /* dat-stack.c */
 extern void _lw6dat_stack_zero (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
+			       int serial_0);
+
 static inline _lw6dat_atom_t *
 _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 {
@@ -112,7 +124,7 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 }
 
 /* dat-warehouse.c */
-extern _lw6dat_warehouse_t *_lw6dat_warehouse_new ();
+extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
 
 #endif

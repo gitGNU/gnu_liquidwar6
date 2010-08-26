@@ -175,11 +175,7 @@ lw6net_dns_gethostbyname (char *name)
 	      if (h && h->h_addrtype == AF_INET && h->h_length >= 4
 		  && h->h_addr_list[0])
 		{
-#ifdef UNIX
-		  addr = *((struct in_addr *) (h->h_addr_list[0]));
-#else
 		  addr.s_addr = *((u_long *) (h->h_addr_list[0]));
-#endif
 		  ntoa_ret = inet_ntoa (addr);
 		  if (ntoa_ret)
 		    {

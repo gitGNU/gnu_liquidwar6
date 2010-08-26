@@ -34,7 +34,7 @@ typedef struct lw6dat_warehouse_s
 } lw6dat_warehouse_t;
 
 /* dat-warehouse.c */
-extern lw6dat_warehouse_t *lw6dat_warehouse_new ();
+extern lw6dat_warehouse_t *lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse);
 
 /* dat-test.c */

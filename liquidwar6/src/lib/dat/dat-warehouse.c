@@ -27,7 +27,7 @@
 #include "dat-internal.h"
 
 _lw6dat_warehouse_t *
-_lw6dat_warehouse_new ()
+_lw6dat_warehouse_new (u_int64_t local_node_id)
 {
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
@@ -36,7 +36,12 @@ _lw6dat_warehouse_new ()
     (_lw6dat_warehouse_t *) LW6SYS_CALLOC (sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
-      ok = 1;
+      if (_lw6dat_stack_init
+	  (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id,
+	   _LW6DAT_SERIAL_START))
+	{
+	  ok = 1;
+	}
     }
   if (warehouse && !ok)
     {
@@ -55,11 +60,11 @@ _lw6dat_warehouse_new ()
  * Return value: new object, allocated dynamically
  */
 lw6dat_warehouse_t *
-lw6dat_warehouse_new ()
+lw6dat_warehouse_new (u_int64_t local_node_id)
 {
   lw6dat_warehouse_t *warehouse;
 
-  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new ();
+  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new (local_node_id);
 
   return warehouse;
 }

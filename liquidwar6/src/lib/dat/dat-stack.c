@@ -24,4 +24,46 @@
 #include "config.h"
 #endif
 
-#include "dat.h"
+#include "dat-internal.h"
+
+void
+_lw6dat_stack_zero (_lw6dat_stack_t * stack)
+{
+  memset (stack, 0, sizeof (_lw6dat_stack_t));
+}
+
+void
+_lw6dat_stack_clear (_lw6dat_stack_t * stack)
+{
+  int i = 0;
+
+  stack->node_id = 0;
+  stack->serial_0 = 0;
+  stack->serial_n_1 = -1;
+  stack->nb_blocks = 0;
+  for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
+    {
+      if (stack->blocks[i])
+	{
+	  _lw6dat_block_free (stack->blocks[i]);
+	  stack->blocks[i] = NULL;
+	}
+    }
+}
+
+int
+_lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
+{
+  int ret = 0;
+
+  if (lw6sys_check_id (node_id) && serial_0 > 0)
+    {
+      _lw6dat_stack_clear (stack);
+      stack->node_id = node_id;
+      stack->serial_0 = serial_0;
+      stack->serial_n_1 = serial_0 - 1;
+      ret = 1;
+    }
+
+  return ret;
+}

@@ -28,7 +28,12 @@
 
 #define _TEST_ATOM_TEXT_SHORT "this is a short text"
 #define _TEST_ATOM_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
-#define _TEST_MATRIX_ATOM_0_SERIAL 123
+
+#define _TEST_STACK_NODE_ID 0x2345234523452345LL
+#define _TEST_STACK_SERIAL_0 123
+
+#define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
+
 /*
  * Testing functions in atom.c
  */
@@ -122,6 +127,11 @@ test_stack ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    _lw6dat_stack_t stack;
+
+    _lw6dat_stack_zero (&stack);
+    _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
+    _lw6dat_stack_clear (&stack);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -138,6 +148,18 @@ test_warehouse ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    _lw6dat_warehouse_t *warehouse;
+
+    warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    if (warehouse)
+      {
+	_lw6dat_warehouse_free (warehouse);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("couldn't create warehouse object"));
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
