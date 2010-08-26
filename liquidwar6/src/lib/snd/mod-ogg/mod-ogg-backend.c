@@ -28,6 +28,14 @@
 #include "mod-ogg.h"
 #include "mod-ogg-internal.h"
 
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
+void
+mod_ogg_is_GPL_compatible ()
+{
+}
+
 static int
 _play_sound (void *snd_context, int sound_id)
 {

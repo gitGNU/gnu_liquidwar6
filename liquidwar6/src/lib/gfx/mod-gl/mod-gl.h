@@ -27,5 +27,6 @@
 
 extern lw6sys_module_pedigree_t *mod_gl_get_pedigree ();
 extern lw6gfx_backend_t *mod_gl_create_backend ();
+extern void mod_gl_is_GPL_compatible ();
 
 #endif

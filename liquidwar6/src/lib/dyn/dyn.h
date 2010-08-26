@@ -29,6 +29,7 @@
 
 #define LW6DYN_GET_PEDIGREE_FUNC_FORMAT "mod_%s_get_pedigree"
 #define LW6DYN_CREATE_BACKEND_FUNC_FORMAT "mod_%s_create_backend"
+#define LW6DYN_IS_GPL_COMPATIBLE_SYM_FORMAT "mod_%s_is_GPL_compatible"
 
 typedef struct lw6dyn_dl_handle_s
 {

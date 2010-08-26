@@ -27,5 +27,6 @@
 
 extern lw6sys_module_pedigree_t *mod_tcpd_get_pedigree ();
 extern lw6srv_backend_t *mod_tcpd_create_backend ();
+extern void mod_tcpd_is_GPL_compatible ();
 
 #endif

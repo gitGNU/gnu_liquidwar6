@@ -28,6 +28,14 @@
 #include "mod-http.h"
 #include "mod-http-internal.h"
 
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
+void
+mod_http_is_GPL_compatible ()
+{
+}
+
 static void *
 _init (int argc, char *argv[])
 {

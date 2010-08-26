@@ -1,5 +1,7 @@
 2010-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Modules must not declare a symbol mod_xyz_is_GPL_compatible.
+
 	* Added DNS cache and a lock on gethostbyname/curl functions.
 
 	* Fixed network code for MS-Windows (non-blocking sockets).

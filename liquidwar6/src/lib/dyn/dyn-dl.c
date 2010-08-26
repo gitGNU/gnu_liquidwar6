@@ -144,6 +144,7 @@ lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
   lw6sys_module_pedigree_t *module_pedigree = NULL;
   char *create_backend_func_str = NULL;
   void *(*create_backend_func) () = NULL;
+  char *is_GPL_compatible_sym_str = NULL;
   int ok = 0;
   static int first_load = 1;
 
@@ -196,86 +197,119 @@ lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
 					      (lw6sys_build_get_version (),
 					       module_pedigree->version))
 					    {
-					      if (first_load)
-						{
-						  /*
-						   * the first time we
-						   * load a .so file,
-						   * log it to console
-						   * just to make sure
-						   * paths are right.
-						   */
-						  lw6sys_log
-						    (LW6SYS_LOG_NOTICE,
-						     _
-						     ("loaded module \"%s\""),
-						     so_file);
-						  first_load = 0;
-						}
 
-					      lw6sys_log
-						(LW6SYS_LOG_INFO,
-						 _
-						 ("module \"%s\" loaded, looks fine"),
-						 so_file);
-					      /*
-					       * Verbose dlopen did log the so name
-					       */
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("id for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  id);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("category for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  category);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("name for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  name);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("readme for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  readme);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("version for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  version);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("copyright for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  copyright);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("license for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  license);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("date for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  date);
-					      lw6sys_log (LW6SYS_LOG_INFO,
-							  _
-							  ("time for \"%s\" is \"%s\""),
-							  so_file,
-							  module_pedigree->
-							  time);
-					      ok = 1;
+					      is_GPL_compatible_sym_str =
+						lw6sys_new_sprintf
+						(LW6DYN_IS_GPL_COMPATIBLE_SYM_FORMAT,
+						 backend_name);
+					      if (is_GPL_compatible_sym_str)
+						{
+						  if (lw6dyn_dlsym
+						      (ret,
+						       is_GPL_compatible_sym_str))
+						    {
+						      if (first_load)
+							{
+							  /*
+							   * the first time we
+							   * load a .so file,
+							   * log it to console
+							   * just to make sure
+							   * paths are right.
+							   */
+							  lw6sys_log
+							    (LW6SYS_LOG_NOTICE,
+							     _
+							     ("loaded module \"%s\""),
+							     so_file);
+							  first_load = 0;
+							}
+
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("module \"%s\" loaded, looks fine"),
+							 so_file);
+						      /*
+						       * Verbose dlopen did log the so name
+						       */
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("id for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->id);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("category for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 category);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("name for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 name);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("readme for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 readme);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("version for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 version);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("copyright for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 copyright);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("license for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 license);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("date for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 date);
+						      lw6sys_log
+							(LW6SYS_LOG_INFO,
+							 _
+							 ("time for \"%s\" is \"%s\""),
+							 so_file,
+							 module_pedigree->
+							 time);
+						      ok = 1;
+						    }
+						  else
+						    {
+						      lw6sys_log
+							(LW6SYS_LOG_WARNING,
+							 _
+							 ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"),
+							 backend_name,
+							 module_pedigree->name,
+							 so_file);
+						    }
+						  LW6SYS_FREE
+						    (is_GPL_compatible_sym_str);
+						}
 					    }
 					  else
 					    {
@@ -432,14 +466,14 @@ lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, char *func_name)
   if (ret)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("found function \"%s\" in library \"%s\""),
+		  _("found symbol \"%s\" in library \"%s\""),
 		  func_name, handle->library_path);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _
-		  ("unable to find function \"%s\" in library \"%s\""),
+		  ("unable to find symbol \"%s\" in library \"%s\""),
 		  func_name, handle->library_path);
     }
 

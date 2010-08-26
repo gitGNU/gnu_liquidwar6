@@ -28,6 +28,14 @@
 #include "mod-csound.h"
 #include "mod-csound-internal.h"
 
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
+void
+mod_csound_is_GPL_compatible ()
+{
+}
+
 static int
 _play_sound (void *snd_context, int sound_id)
 {

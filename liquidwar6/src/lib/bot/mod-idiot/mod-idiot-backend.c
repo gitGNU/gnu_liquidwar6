@@ -28,6 +28,14 @@
 #include "mod-idiot.h"
 #include "mod-idiot-internal.h"
 
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
+void
+mod_idiot_is_GPL_compatible ()
+{
+}
+
 static void *
 _init (int argc, char *argv[], lw6bot_data_t * data)
 {
