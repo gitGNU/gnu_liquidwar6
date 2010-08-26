@@ -1,5 +1,7 @@
 2010-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed network code for MS-Windows (non-blocking sockets).
+
 	* Fixed QUIT handling in scripts.
 
 	* Fixed suspected vthread bug when run callback is too fast.

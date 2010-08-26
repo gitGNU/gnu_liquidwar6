@@ -36,16 +36,11 @@ int
 lw6net_udp_client ()
 {
   int sock = -1;
-  int err = 0;
   int enable = 1;
-
-#ifdef LW6_MS_WINDOWS
-  unsigned long enable_ul = 1;
-#endif
 
   sock = socket (AF_INET, SOCK_DGRAM, 0);
 
-  sock = (sock >= 0) ? sock : -1;
+  sock = (sock >= 0) ? sock : LW6NET_SOCKET_INVALID;
 
   if (sock >= 0)
     {
@@ -61,17 +56,14 @@ lw6net_udp_client ()
 	  lw6net_last_error ();
 	}
 
-#ifdef LW6_MS_WINDOWS
-      err = ioctlsocket (sock, FIONBIO, &enable_ul);
-#else
-      err = fcntl (sock, F_SETFL, O_NONBLOCK);
-#endif
-      if (err)
+      if (lw6net_socket_set_blocking_mode (sock, 0))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("ioctlsocket failed"));
-	  lw6net_last_error ();
+	  //ok
+	}
+      else
+	{
 	  lw6net_socket_close (sock);
-	  sock = -1;
+	  sock = LW6NET_SOCKET_INVALID;
 	}
     }
 
@@ -82,12 +74,7 @@ int
 lw6net_udp_server (char *ip, int port)
 {
   int sock = -1;
-  int err = 0;
   int enable = 1;
-
-#ifdef LW6_MS_WINDOWS
-  unsigned long enable_ul = 1;
-#endif
 
   sock = _lw6net_socket_bind (ip, port, SOCK_DGRAM);
   if (sock >= 0)
@@ -100,17 +87,14 @@ lw6net_udp_server (char *ip, int port)
 	  lw6net_last_error ();
 	}
 
-#ifdef LW6_MS_WINDOWS
-      err = ioctlsocket (sock, FIONBIO, &enable_ul);
-#else
-      err = fcntl (sock, F_SETFL, O_NONBLOCK);
-#endif
-      if (err)
+      if (lw6net_socket_set_blocking_mode (sock, 0))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("ioctlsocket failed"));
-	  lw6net_last_error ();
+	  //ok
+	}
+      else
+	{
 	  lw6net_socket_close (sock);
-	  sock = -1;
+	  sock = LW6NET_SOCKET_INVALID;
 	}
     }
 

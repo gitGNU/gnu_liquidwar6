@@ -38,7 +38,8 @@
  *
  * Return value: none.
  */
-void lw6sys_signal_custom ()
+void
+lw6sys_signal_custom ()
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
@@ -134,7 +135,7 @@ lw6sys_signal_hup_handler (int signum)
 {
   char *uptime = NULL;
 
-  uptime = lw6sys_readable_uptime (lw6sys_get_uptime());
+  uptime = lw6sys_readable_uptime (lw6sys_get_uptime ());
   if (uptime)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _("caught SIGHUP, uptime=\"%s\""),

@@ -152,7 +152,18 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
   if (lw6net_socket_is_valid (sock))
     {
 #ifdef LW6_MS_WINDOWS
-      // todo
+      u_long enable_ul = !mode;
+
+      if (!ioctlsocket (m_socket, FIONBIO, &enable_ul))
+	{
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("ioctlsocket failed on socket %d"), sock);
+	  lw6net_last_error ();
+	}
 #else
       int flags = 0;
 

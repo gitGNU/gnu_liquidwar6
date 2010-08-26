@@ -257,7 +257,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
+			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _
 				      ("connect on \"%s:%d\" failed with code %d"),
 				      ip, port, connect_ret);
