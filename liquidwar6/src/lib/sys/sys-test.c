@@ -3484,12 +3484,13 @@ vthread_func (void *callback_data)
 		  _("vthread marked as not running, when it is"));
     }
 
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread"));
   if (lw6sys_vthread_create
       (&thread_func, &thread_join_nofree, callback_data))
     {
       for (i = 0; i < THREAD_N; ++i)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("vthread_main step %d"), i + 1);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread_main step %d"), i + 1);
 	  lw6sys_sleep (THREAD_SLEEP_MAIN);
 	}
 
@@ -3497,7 +3498,24 @@ vthread_func (void *callback_data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create thread"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create 1st vthread"));
+    }
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread"));
+  if (lw6sys_vthread_create
+      (&thread_func, &thread_join_nofree, callback_data))
+    {
+      for (i = 0; i < THREAD_N; ++i)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread_main step %d"), i + 1);
+	  lw6sys_sleep (THREAD_SLEEP_MAIN);
+	}
+
+      lw6sys_vthread_join ();
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create 2nd vthread"));
     }
 }
 

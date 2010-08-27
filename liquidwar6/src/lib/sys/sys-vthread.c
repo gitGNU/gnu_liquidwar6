@@ -28,12 +28,13 @@
 #include "sys-internal.h"
 
 static void *_run_handler = NULL;
-static _lw6sys_vthread_handler_t *_main_vhandler = NULL;
+static _lw6sys_vthread_handler_t _main_vhandler={0,NULL};
 
 static void
 vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
 {
-  _lw6sys_thread_handler_t *thread_handler = &(vthread_handler->thread);
+  _lw6sys_thread_handler_t *thread_handler = vthread_handler->thread;
+  _lw6sys_thread_handler_t *tmp_handler =NULL;
 
   if (thread_handler->callback_join)
     {
@@ -84,7 +85,9 @@ vthread_callback (_lw6sys_vthread_handler_t * vthread_handler)
   /* 
    * callback is over, we signal it to the caller, if needed
    */
-  vthread_handler->join_done = 1;
+  tmp_handler=thread_handler;
+  _main_vhandler.thread=NULL;
+  LW6SYS_FREE(tmp_handler);
 }
 
 /**
@@ -113,7 +116,7 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 {
   int ret = 0;
 
-  if (!_main_vhandler)
+  if (!_run_handler &&!_main_vhandler.thread)
     {
       _run_handler =
 	lw6sys_thread_create (callback_func, callback_join, callback_data);
@@ -121,25 +124,29 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("run vthread begin"));
 
-	  while (_main_vhandler == NULL
-		 && !lw6sys_thread_is_callback_done (_run_handler))
-	    {
-	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
-			  ("waiting for main handler to be defined by spawned thread"));
-	      lw6sys_snooze ();
-	    }
 	  /*
-	   * _main_vhandler could be NULL if we're here because
-	   * the callback is done
+	   * More than one vthread could be started (not at once!)
+	   * successively so we loop until spawned is done.
 	   */
-	  if (_main_vhandler)
-	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("vthread main handler"));
-	      vthread_callback (_main_vhandler);
-	    }
 	  while (!lw6sys_thread_is_callback_done (_run_handler))
 	    {
+	      while (_main_vhandler.thread == NULL
+		     && !lw6sys_thread_is_callback_done (_run_handler))
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _
+			      ("waiting for main handler to be defined by spawned thread"));
+		  lw6sys_snooze ();
+		}
+	      /*
+	       * _main_vhandler could be NULL if we're here because
+	       * the callback is done
+	       */
+	      if (_main_vhandler.thread)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO, _("vthread main handler"));
+		  vthread_callback (&_main_vhandler);
+		}
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _("waiting for callback to be done (vhtread)"));
 	      lw6sys_snooze ();
@@ -149,19 +156,19 @@ lw6sys_vthread_run (lw6sys_thread_callback_func_t callback_func,
 
 	  lw6sys_thread_join (_run_handler);
 	  _run_handler = NULL;
-
+#if 0
 	  /*
 	   * Only free _main_handler now.
 	   * See https://savannah.gnu.org/bugs/?27819 for details.
 	   * The idea is that we need join_done to join properly.
 	   */
-	  if (_main_vhandler)
+	  if (_main_vhandler.thread)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO, _("freeing _main_vhandler"));
 	      LW6SYS_FREE (_main_vhandler);
 	      _main_vhandler = NULL;
 	    }
-
+#endif
 	  ret = 1;
 	}
       else
@@ -225,13 +232,12 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
   _lw6sys_thread_handler_t *handler = NULL;
 
   lw6sys_log (LW6SYS_LOG_INFO, _("vthread_create"));
-  if (!_main_vhandler)
+  if (!_main_vhandler.thread)
     {
-      vhandler = (_lw6sys_vthread_handler_t *)
-	LW6SYS_CALLOC (sizeof (_lw6sys_vthread_handler_t));
-      if (vhandler)
-	{
-	  handler = &(vhandler->thread);
+      vhandler=&_main_vhandler;
+      memset(vhandler,0,sizeof(_lw6sys_vthread_handler_t));
+      handler=(_lw6sys_thread_handler_t *) LW6SYS_CALLOC(sizeof(_lw6sys_thread_handler_t));
+      if (handler) {
 	  // handler->thread member should stay O/NULL
 	  handler->id = _LW6SYS_VTHREAD_ID;
 	  handler->callback_func = callback_func;
@@ -239,8 +245,12 @@ lw6sys_vthread_create (lw6sys_thread_callback_func_t callback_func,
 	  handler->callback_data = callback_data;
 	  lw6sys_log (LW6SYS_LOG_INFO, _("vhtread create successfull"));
 	  ret = 1;
-	  lw6sys_log (LW6SYS_LOG_INFO, _("defining _main_vhandler"));
-	  _main_vhandler = vhandler;
+	  lw6sys_log (LW6SYS_LOG_INFO, _("defining _main_vhandler.thread"));
+	  /*
+	   * It's important to only affect in now that 
+	   * all fields are correctly filled.
+	   */
+	  vhandler->thread=handler;
 	}
       else
 	{
@@ -273,10 +283,10 @@ lw6sys_vthread_join ()
   _lw6sys_vthread_handler_t *vhandler = NULL;
   _lw6sys_thread_handler_t *handler = NULL;
 
-  vhandler = _main_vhandler;
-  if (vhandler)
+  vhandler = &_main_vhandler;
+  if (vhandler->thread)
     {
-      handler = &(vhandler->thread);
+      handler = vhandler->thread;
       if (handler->callback_join)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _("joining vthread"));
@@ -289,10 +299,10 @@ lw6sys_vthread_join ()
 
       handler->can_join = 1;
 
-      while (!vhandler->join_done)
+      while (vhandler->thread)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("waiting for join to be done (vhtread)"));
+		      _("waiting for _main_vhandler.thread to be NULL"));
 	  lw6sys_snooze ();
 	}
     }
