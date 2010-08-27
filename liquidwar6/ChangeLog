@@ -1,5 +1,7 @@
 2010-08-27 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Mac OS X release pool for control thread.
+
 	* New sounds by	Philippe Michael Groarke.
 
 	* Fixed flaws in vthread code.

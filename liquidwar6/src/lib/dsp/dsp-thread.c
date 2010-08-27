@@ -341,7 +341,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
   lw6sys_mutex_lock (data->render_mutex);
 
 #ifdef LW6_MAC_OS_X
-  data->macosx_handler = _lw6dsp_macosx_thread_init ();
+  data->macosx_vthread_handler = _lw6dsp_macosx_thread_init ();
 #endif
 
   if (!data->gfx_backend)
@@ -500,6 +500,6 @@ _lw6dsp_thread_join (_lw6dsp_data_t * data)
     }
 
 #ifdef LW6_MAC_OS_X
-  _lw6dsp_macosx_thread_quit (data->macosx_handler);
+  _lw6dsp_macosx_thread_quit (data->macosx_vthread_handler);
 #endif
 }

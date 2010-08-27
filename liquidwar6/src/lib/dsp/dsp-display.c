@@ -239,6 +239,9 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param,
 	}
       if (thread_ok)
 	{
+#ifdef LW6_MAC_OS_X
+	  data->macosx_thread_handler=_lw6dsp_macosx_thread_init();
+#endif
 	  while (!data->started)
 	    {
 	      lw6sys_idle ();
@@ -302,6 +305,11 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
       data->run = 0;
       data->started = 0;
       data->failed = 0;
+#ifdef LW6_MAC_OS_X
+      if (data->macosx_thread_handler) {
+	_lw6dsp_macosx_thread_quit(data->macosx_thread_handler);
+      }
+#endif
       if (lw6sys_vthread_is_running ())
 	{
 	  lw6sys_vthread_join ();

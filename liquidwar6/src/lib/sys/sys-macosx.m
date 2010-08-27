@@ -69,4 +69,5 @@ _lw6sys_macosx_alert (char *title, char *msg)
    * welcome to help fix this...
    */
 }
+
 #endif

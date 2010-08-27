@@ -64,11 +64,16 @@ typedef struct _lw6dsp_data_s
   lw6dsp_param_t param;
   lw6gui_input_t *input;
   lw6pil_local_cursors_t local_cursors;
-  void *macosx_handler;
+#ifdef LW6_MAC_OS_X
+  void *macosx_vthread_handler;
+  void *macosx_thread_handler;
+#endif
 } _lw6dsp_data_t;
 
+/*
 typedef void *(*lw6dsp_macosx_init_func_t) (void);
 typedef void (*lw6dsp_macosx_quit_func_t) (void *ptr);
+*/
 
 /* dsp-data.c */
 extern _lw6dsp_data_t *_lw6dsp_data_new ();
