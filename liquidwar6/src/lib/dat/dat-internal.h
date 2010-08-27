@@ -52,6 +52,8 @@
  */
 #define _LW6DAT_SERIAL_START 1
 
+#define _LW6DAT_FLAG_ALL 0xffffffff
+
 typedef struct _lw6dat_atom_s
 {
   int not_null;
@@ -107,12 +109,20 @@ _lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
 					      block->serial_0]) : NULL;
 }
 
+/* dat-flag.c */
+inline static int
+_lw6dat_flag (int index)
+{
+  return (1 << index);
+};
+
 /* dat-stack.c */
 extern void _lw6dat_stack_zero (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
 			       int serial_0);
-extern int _lw6dat_stack_put_atom(_lw6dat_stack_t *stack, char *atom_str_serial_i_n_msg);
+extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
+				   char *atom_str_serial_i_n_msg);
 
 static inline _lw6dat_atom_t *
 _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
@@ -129,6 +139,7 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
 /* dat-warehouse.c */
 extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
-extern int _lw6dat_warehouse_put_atom(_lw6dat_stack_t *stack, char *atom_str_from_serial_i_n_msg);
+extern int _lw6dat_warehouse_put_atom (_lw6dat_stack_t * stack,
+				       char *atom_str_from_serial_i_n_msg);
 
 #endif

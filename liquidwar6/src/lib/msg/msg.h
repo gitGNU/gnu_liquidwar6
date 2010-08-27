@@ -84,5 +84,9 @@ extern char *lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc,
 extern int lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
 						    char *key,
 						    int default_value);
+extern u_int64_t lw6msg_utils_parse_first_id_16 (char **next, char *msg);
+extern u_int64_t lw6msg_utils_parse_first_id_32 (char **next, char *msg);
+extern u_int64_t lw6msg_utils_parse_first_id_64 (char **next, char *msg);
+extern u_int64_t lw6msg_utils_parse_first_int (char **next, char *msg);
 
 #endif

@@ -49,8 +49,7 @@
   )
 
 (define (lw6-console-init)
-  (if (and (lw6-config-is-true? lw6def-display-console)
-	   (not (lw6-config-is-true? lw6def-daemon)))
+  (if (lw6-config-is-true? lw6def-display-console)
       (begin
 	(c-lw6cns-init)
 	(lw6-console-poll) ;; usefull when piping commands at startup
