@@ -1,0 +1,23 @@
+@deftypefun {int} {lw6dat_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{dat} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {lw6dat_warehouse_t *} {lw6dat_warehouse_new} (u_int64_t @var{local_node_id})
+
+Creates a new warehouse object.
+
+@strong{Return value:}  new object, allocated dynamically
+@end deftypefun
+
+@deftypefun {void} {lw6dat_warehouse_free} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the object to free
+
+Frees a warehouse object.
+
+@strong{Return value:}  new object, allocated dynamically
+@end deftypefun
+

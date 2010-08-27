@@ -1505,7 +1505,18 @@ library, this function will actually return and be successfull even
 if no other process was started. It's just designed to bootstrap/launch
 the process once.
 
-@strong{Return value:}  1 on success, 0 on failure.
+@strong{Return value:}  1 on success, 0 on failure (always fail)
+@end deftypefun
+
+@deftypefun {int} {lw6sys_exec_restart} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  number of args as passed to main
+
+@var{argv}:  array of args as passed to main
+
+Restart the program with exactly the same arguments it was given
+the first time. 
+
+@strong{Return value:}  1 on success, 0 on failure (always fail)
 @end deftypefun
 
 @deftypefun {int} {lw6sys_clear_file} (char * @var{filename})

@@ -18,6 +18,26 @@ allocate a new string for the result.
 @strong{Return value:}  an IP if success, 0 on error.
 @end deftypefun
 
+@deftypefun {int} {lw6net_dns_lock} ()
+
+Locks access to dns function @code{lw6net_dns_gethostbyname}.
+This is because @code{gethostbyname} isn't reentrant plus, even
+if we didn't use it but its multithreadable equivalent
+(which is however not standard and always available)
+other libs (such as @code{libcurl} not to name it) might use
+this function too so in a general manner it's a good 
+idea to use a mutex to protect multiple accesses to this.
+
+@strong{Return value:}  an IP if success, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6net_dns_unlock} ()
+
+Unlocks access to dns function @code{lw6net_dns_gethostbyname}.
+
+@strong{Return value:}  an IP if success, 0 on error.
+@end deftypefun
+
 @deftypefun {int} {lw6net_last_error} ()
 
 Reports the last network error. This is basically a debug function,

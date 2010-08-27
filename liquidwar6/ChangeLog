@@ -1,3 +1,7 @@
+2010-08-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Changed documentation structure.
+
 2010-08-26 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Split libxyz doc in several nodes.
