@@ -100,11 +100,6 @@ typedef struct _lw6sys_thread_handler_s
 #endif
 } _lw6sys_thread_handler_t;
 
-typedef struct _lw6sys_vthread_handler_s
-{
-  _lw6sys_thread_handler_t *thread;
-} _lw6sys_vthread_handler_t;
-
 typedef struct _lw6sys_global_s
 {
   int debug;

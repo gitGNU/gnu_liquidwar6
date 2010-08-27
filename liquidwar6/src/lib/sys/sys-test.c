@@ -3490,7 +3490,8 @@ vthread_func (void *callback_data)
     {
       for (i = 0; i < THREAD_N; ++i)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread_main step %d"), i + 1);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread_main step %d"),
+		      i + 1);
 	  lw6sys_sleep (THREAD_SLEEP_MAIN);
 	}
 
@@ -3507,7 +3508,8 @@ vthread_func (void *callback_data)
     {
       for (i = 0; i < THREAD_N; ++i)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread_main step %d"), i + 1);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread_main step %d"),
+		      i + 1);
 	  lw6sys_sleep (THREAD_SLEEP_MAIN);
 	}
 
