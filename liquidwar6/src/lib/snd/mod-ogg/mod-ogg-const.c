@@ -44,8 +44,26 @@ read_callback (void *callback_data, char *element, char *key, char *value)
       lw6cfg_read_xml_int (key, value, "chunksize", &const_data->chunksize);
     }
 
-  if (!strcmp (element, "float"))
+  if (!strcmp (element, "string"))
     {
+      lw6cfg_read_xml_string (key, value, "file-splash",
+			      &const_data->file_splash);
+      lw6cfg_read_xml_string (key, value, "file-valid",
+			      &const_data->file_valid);
+      lw6cfg_read_xml_string (key, value, "file-select",
+			      &const_data->file_select);
+      lw6cfg_read_xml_string (key, value, "file-start",
+			      &const_data->file_start);
+      lw6cfg_read_xml_string (key, value, "file-death",
+			      &const_data->file_death);
+      lw6cfg_read_xml_string (key, value, "file-bell",
+			      &const_data->file_bell);
+      lw6cfg_read_xml_string (key, value, "file-score",
+			      &const_data->file_score);
+      lw6cfg_read_xml_string (key, value, "file-hello",
+			      &const_data->file_hello);
+      lw6cfg_read_xml_string (key, value, "file-goodbye",
+			      &const_data->file_goodbye);
     }
 }
 
@@ -80,5 +98,41 @@ _mod_ogg_load_consts (_mod_ogg_context_t * context)
 void
 _mod_ogg_unload_consts (_mod_ogg_context_t * context)
 {
+  if (context->const_data.file_splash)
+    {
+      LW6SYS_FREE (context->const_data.file_splash);
+    }
+  if (context->const_data.file_valid)
+    {
+      LW6SYS_FREE (context->const_data.file_valid);
+    }
+  if (context->const_data.file_select)
+    {
+      LW6SYS_FREE (context->const_data.file_select);
+    }
+  if (context->const_data.file_start)
+    {
+      LW6SYS_FREE (context->const_data.file_start);
+    }
+  if (context->const_data.file_death)
+    {
+      LW6SYS_FREE (context->const_data.file_death);
+    }
+  if (context->const_data.file_bell)
+    {
+      LW6SYS_FREE (context->const_data.file_bell);
+    }
+  if (context->const_data.file_score)
+    {
+      LW6SYS_FREE (context->const_data.file_score);
+    }
+  if (context->const_data.file_hello)
+    {
+      LW6SYS_FREE (context->const_data.file_hello);
+    }
+  if (context->const_data.file_goodbye)
+    {
+      LW6SYS_FREE (context->const_data.file_goodbye);
+    }
   memset (&context->const_data, 0, sizeof (_mod_ogg_const_data_t));
 }

@@ -122,6 +122,7 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   Mix_CloseAudio ();
 
   _mod_ogg_unload_sounds (snd_context);
+  _mod_ogg_unload_consts (snd_context);
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 

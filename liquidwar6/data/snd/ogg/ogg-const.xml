@@ -4,4 +4,13 @@
   <int key="bits" value="16" />
   <int key="channels" value="2" />
   <int key="chunksize" value="4096" />
+  <string key="file-splash" value="endbell-long.ogg" />
+  <string key="file-valid" value="menuvalid.ogg" />
+  <string key="file-select" value="menuselect.ogg" />
+  <string key="file-start" value="endbell-low.ogg" />
+  <string key="file-death" value="teamdie.ogg" />
+  <string key="file-bell"  value="endbell-low.ogg" />
+  <string key="file-score" value="endbell-low.ogg" />
+  <string key="file-hello" value="endbell-low.ogg" />
+  <string key="file-goodbye" value="endbell-low.ogg" />
 </liquidwar6>

@@ -47,6 +47,15 @@ typedef struct _mod_ogg_const_data_s
   int bits;
   int channels;
   int chunksize;
+  char *file_splash;
+  char *file_valid;
+  char *file_select;
+  char *file_start;
+  char *file_death;
+  char *file_bell;
+  char *file_score;
+  char *file_hello;
+  char *file_goodbye;
 }
 _mod_ogg_const_data_t;
 

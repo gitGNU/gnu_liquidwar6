@@ -27,16 +27,20 @@
 #include "../dyn/dyn.h"
 #include "../cfg/cfg.h"
 
-#define LW6SND_NB_SOUNDS 4
+#define LW6SND_NB_SOUNDS 9
 typedef enum lw6snd_sound_enum_e
 {
   LW6SND_SOUND_SPLASH = 0,
-  LW6SND_SOUND_BEEP_VALID = 1,
-  LW6SND_SOUND_BEEP_SELECT = 2,
-  LW6SND_SOUND_START = 3
+  LW6SND_SOUND_VALID = 1,
+  LW6SND_SOUND_SELECT = 2,
+  LW6SND_SOUND_START = 3,
+  LW6SND_SOUND_DEATH = 4,
+  LW6SND_SOUND_BELL = 5,
+  LW6SND_SOUND_SCORE = 6,
+  LW6SND_SOUND_HELLO = 7,
+  LW6SND_SOUND_GOODBYE = 8
 }
 lw6snd_sound_enum_t;
-
 
 typedef struct lw6snd_backend_s
 {

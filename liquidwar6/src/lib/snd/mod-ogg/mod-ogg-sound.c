@@ -27,12 +27,7 @@
 #include "../snd.h"
 #include "mod-ogg-internal.h"
 
-#define SOUND_FILE_MASK "sound/%s.ogg"
-
-#define SOUND_SPLASH_FILE      "fanfare"
-#define SOUND_BEEP_VALID_FILE  "expl2"
-#define SOUND_BEEP_SELECT_FILE "powerup"
-#define SOUND_START_FILE       "alienfrenzy"
+#define SOUND_DIR "sound"
 
 int
 _mod_ogg_play_sound (_mod_ogg_context_t * snd_context, int sound_id)
@@ -64,31 +59,33 @@ _mod_ogg_play_sound (_mod_ogg_context_t * snd_context, int sound_id)
 }
 
 static Mix_Chunk *
-load_sound (_mod_ogg_context_t * ogg_context, char *key)
+load_sound (_mod_ogg_context_t * ogg_context, char *file)
 {
   char *path1 = NULL;
   char *path2 = NULL;
   Mix_Chunk *ret = NULL;
 
-  path1 = lw6sys_new_sprintf (SOUND_FILE_MASK, key);
-
-  if (path1)
+  if (file)
     {
-      path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
-      if (path2)
+      path1 = lw6sys_path_concat (SOUND_DIR, file);
+      if (path1)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("loading sound \"%s\""), path2);
-	  ret = Mix_LoadWAV (path2);
-	  if (!ret)
+	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
+	  if (path2)
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("unable to load sound \"%s\" Mix_GetError returned \"%s\""),
-			  path2, Mix_GetError ());
+	      lw6sys_log (LW6SYS_LOG_INFO, _("loading sound \"%s\""), path2);
+	      ret = Mix_LoadWAV (path2);
+	      if (!ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("unable to load sound \"%s\" Mix_GetError returned \"%s\""),
+			      path2, Mix_GetError ());
+		}
+	      LW6SYS_FREE (path2);
 	    }
-	  LW6SYS_FREE (path2);
+	  LW6SYS_FREE (path1);
 	}
-      LW6SYS_FREE (path1);
     }
 
   return ret;
@@ -101,13 +98,23 @@ _mod_ogg_load_sounds (_mod_ogg_context_t * ogg_context)
   int i;
 
   ogg_context->sounds.sounds[LW6SND_SOUND_SPLASH] =
-    load_sound (ogg_context, SOUND_SPLASH_FILE);
-  ogg_context->sounds.sounds[LW6SND_SOUND_BEEP_VALID] =
-    load_sound (ogg_context, SOUND_BEEP_VALID_FILE);
-  ogg_context->sounds.sounds[LW6SND_SOUND_BEEP_SELECT] =
-    load_sound (ogg_context, SOUND_BEEP_SELECT_FILE);
+    load_sound (ogg_context, ogg_context->const_data.file_splash);
+  ogg_context->sounds.sounds[LW6SND_SOUND_VALID] =
+    load_sound (ogg_context, ogg_context->const_data.file_valid);
+  ogg_context->sounds.sounds[LW6SND_SOUND_SELECT] =
+    load_sound (ogg_context, ogg_context->const_data.file_select);
   ogg_context->sounds.sounds[LW6SND_SOUND_START] =
-    load_sound (ogg_context, SOUND_START_FILE);
+    load_sound (ogg_context, ogg_context->const_data.file_start);
+  ogg_context->sounds.sounds[LW6SND_SOUND_DEATH] =
+    load_sound (ogg_context, ogg_context->const_data.file_death);
+  ogg_context->sounds.sounds[LW6SND_SOUND_BELL] =
+    load_sound (ogg_context, ogg_context->const_data.file_bell);
+  ogg_context->sounds.sounds[LW6SND_SOUND_SCORE] =
+    load_sound (ogg_context, ogg_context->const_data.file_score);
+  ogg_context->sounds.sounds[LW6SND_SOUND_HELLO] =
+    load_sound (ogg_context, ogg_context->const_data.file_hello);
+  ogg_context->sounds.sounds[LW6SND_SOUND_GOODBYE] =
+    load_sound (ogg_context, ogg_context->const_data.file_goodbye);
 
   ret = 1;
   for (i = 0; i < LW6SND_NB_SOUNDS; ++i)

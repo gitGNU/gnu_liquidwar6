@@ -288,7 +288,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = README alienfrenzy.ogg expl2.ogg glassdoppler.ogg powerup.ogg fanfare.ogg
+pkgdata_DATA = README alienfrenzy.ogg expl2.ogg glassdoppler.ogg powerup.ogg fanfare.ogg endbell-high.ogg endbell-long.ogg endbell-low.ogg menuselect.ogg menuvalid.ogg teamdie.ogg
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 

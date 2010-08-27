@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = README alienfrenzy.ogg expl2.ogg glassdoppler.ogg powerup.ogg fanfare.ogg
+pkgdata_DATA = README alienfrenzy.ogg expl2.ogg glassdoppler.ogg powerup.ogg fanfare.ogg endbell-high.ogg endbell-long.ogg endbell-low.ogg menuselect.ogg menuvalid.ogg teamdie.ogg
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/sound/
 EXTRA_DIST = $(pkgdata_DATA)
 
