@@ -137,7 +137,7 @@ lw6sys_check_id_16 (u_int16_t id_16)
   int ret = 0;
 
   ret = (id_16 >= 0x1000 && id_16 <= 0x7fff)
-    || (id == LW6SYS_BROADCAST_ID_16);
+    || (id_16 == LW6SYS_BROADCAST_ID_16);
 
   return ret;
 }
@@ -157,7 +157,7 @@ lw6sys_check_id_32 (u_int32_t id_32)
   int ret = 0;
 
   ret = (id_32 >= 0x10001000 && id_32 <= 0x7fff7fff)
-    || (id == LW6SYS_BROADCAST_ID_32);
+    || (id_32 == LW6SYS_BROADCAST_ID_32);
 
   return ret;
 }
@@ -177,7 +177,7 @@ lw6sys_check_id_64 (u_int64_t id_64)
   int ret = 0;
 
   ret = (id_64 >= 0x1000100010001000LL && id_64 <= 0x7fff7fff7fff7fffLL)
-    || (id == LW6SYS_BROADCAST_ID_64);
+    || (id_64 == LW6SYS_BROADCAST_ID_64);
 
   return ret;
 }

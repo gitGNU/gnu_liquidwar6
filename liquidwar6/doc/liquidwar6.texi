@@ -3576,6 +3576,9 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3600,6 +3603,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libbot
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/index.html}.
 
 @subsection API
 
@@ -3626,6 +3632,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-idiot/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3651,6 +3660,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-random/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3675,6 +3687,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libcfg
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cfg/index.html}.
 
 @subsection API
 
@@ -3702,6 +3717,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3726,6 +3744,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-http
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-http/index.html}.
 
 @subsection API
 
@@ -3752,6 +3773,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-tcp/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3776,6 +3800,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-udp
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-udp/index.html}.
 
 @subsection API
 
@@ -3802,6 +3829,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cns/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3826,6 +3856,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libdat
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html}.
 
 @subsection API
 
@@ -3865,6 +3898,9 @@ There are no functions in @code{libdef}, only a header file with constants.
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dsp/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3889,6 +3925,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libdyn
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dyn/index.html}.
 
 @subsection API
 
@@ -3915,6 +3954,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3939,6 +3981,11 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-gl
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl/gl-utils/index.html} 
+(as there are many sub-directories in this module, please refer to the 
+@uref{http://www.gnu.org/software/liquidwar6/coverage/index.html, test coverage directory index} for complete information).
 
 @subsection API
 
@@ -3965,6 +4012,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/glb/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -3990,6 +4040,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gui/index.html}.
+
 @subsection API
 
 @ifnotinfo
@@ -4010,6 +4063,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libhlp
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/hlp/index.html}.
 
 @subsection API
 
@@ -4036,6 +4092,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/img/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4060,6 +4119,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libker
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/ker/index.html}.
 
 @subsection API
 
@@ -4086,6 +4148,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/ldr/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4110,6 +4175,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libmap
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/map/index.html}.
 
 @subsection API
 
@@ -4136,6 +4204,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/msg/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4160,6 +4231,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libnet
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html}.
 
 @subsection API
 
@@ -4186,6 +4260,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4210,6 +4287,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libp2p
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/p2p/index.html}.
 
 @subsection API
 
@@ -4236,6 +4316,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/pil/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4260,6 +4343,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libsnd
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/index.html}.
 
 @subsection API
 
@@ -4286,6 +4372,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-csound/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4310,6 +4399,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-ogg
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-ogg/index.html}.
 
 @subsection API
 
@@ -4336,6 +4428,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4360,6 +4455,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-httpd
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-httpd/index.html}.
 
 @subsection API
 
@@ -4386,6 +4484,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-tcpd/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4410,6 +4511,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section mod-udpd
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-udpd/index.html}.
 
 @subsection API
 
@@ -4436,6 +4540,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 
 @subsection Overview
 
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html}.
+
 @subsection API
 
 @ifinfo
@@ -4460,6 +4567,9 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @section libtsk
 
 @subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html}.
 
 @subsection API
 

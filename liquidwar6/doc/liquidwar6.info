@@ -21,8 +21,8 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 788
-liquidwar6.info-2: 300756
-liquidwar6.info-3: 599157
+liquidwar6.info-2: 294368
+liquidwar6.info-3: 570132
 
 Tag Table:
 (Indirect)
@@ -76,47 +76,47 @@ Node: Advanced settings250761
 Node: Script hooks270699
 Node: C API270833
 Node: libliquidwar6274291
-Node: libbot292972
-Node: mod-idiot293381
-Node: mod-random293551
-Node: libcfg293723
-Node: libcli300756
-Node: mod-http301938
-Node: mod-tcp302102
-Node: mod-udp302265
-Node: libcns302426
-Node: libdat302779
-Node: libdef303528
-Node: libdsp303763
-Node: libdyn309950
-Node: libgfx313829
-Node: mod-gl319037
-Node: libglb319200
-Node: libgui320583
-Node: libhlp320746
-Node: libimg326041
-Node: libker326393
-Node: libldr326962
-Node: libmap340883
-Node: libmsg351574
-Node: libnet356785
-Node: libnod364638
-Node: libp2p371566
-Node: libpil376452
-Node: libsnd390244
-Node: mod-csound390741
-Node: mod-ogg390917
-Node: libsrv391087
-Node: mod-httpd393291
-Node: mod-tcpd393465
-Node: mod-udpd393639
-Node: libsys393810
-Node: libtsk539966
-Node: 2005 .plan541490
-Node: Fanfic553758
-Node: Links560091
-Node: Copying561579
-Node: GNU Free Documentation License599157
-Node: Indexes624320
+Node: libbot293125
+Node: mod-idiot293691
+Node: mod-random294028
+Node: libcfg294368
+Node: libcli301558
+Node: mod-http302897
+Node: mod-tcp303227
+Node: mod-udp303555
+Node: libcns303881
+Node: libdat304391
+Node: libdef305297
+Node: libdsp305532
+Node: libdyn311876
+Node: libgfx315912
+Node: mod-gl321277
+Node: libglb321801
+Node: libgui323341
+Node: libhlp323661
+Node: libimg329113
+Node: libker329622
+Node: libldr330348
+Node: libmap344426
+Node: libmsg355274
+Node: libnet363250
+Node: libnod371260
+Node: libp2p378345
+Node: libpil383388
+Node: libsnd397337
+Node: mod-csound397991
+Node: mod-ogg398335
+Node: libsrv398670
+Node: mod-httpd401031
+Node: mod-tcpd401372
+Node: mod-udpd401712
+Node: libsys402049
+Node: libtsk548362
+Node: 2005 .plan550043
+Node: Fanfic562311
+Node: Links568644
+Node: Copying570132
+Node: GNU Free Documentation License607710
+Node: Indexes632873
 
 End Tag Table
