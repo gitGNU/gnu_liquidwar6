@@ -65,6 +65,7 @@
 #define _TEST_WORD_ID_32_KO "abcd1234 is not an id because abcd1234 is not a valid id (subtle, it's too big)"
 #define _TEST_WORD_ID_64_OK " \t1234123456785678 has spaces at the beginning but this ain't a problem"
 #define _TEST_WORD_ID_64_KO "!6789#'8678 did you ever hope that garbage could make it through?"
+#define _TEST_Z_MSG "this is the string to compress"
 
 /*
  * Testing functions in oob.c
@@ -688,6 +689,39 @@ test_word ()
   return ret;
 }
 
+/*
+ * Testing functions in z.c
+ */
+static int
+test_z ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *encoded_string = NULL;
+    char *decoded_string = NULL;
+
+    encoded_string = lw6msg_z_encode (_TEST_Z_MSG);
+    if (encoded_string)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
+		    _TEST_Z_MSG, encoded_string);
+	LW6SYS_FREE (encoded_string);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
+		    _TEST_Z_MSG);
+	ret = 0;
+      }
+
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6msg_test
  *
@@ -712,7 +746,7 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_oob () && test_utils () && test_word ();
+  ret = test_oob () && test_utils () && test_word () && test_z ();
 
   return ret;
 }
