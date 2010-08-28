@@ -53,6 +53,18 @@
 #define _TEST_DEFAULT_KEY_KO "???"
 #define _TEST_DEFAULT_VALUE_STR "abc"
 #define _TEST_DEFAULT_VALUE_INT 123
+#define _TEST_WORD_STR_OK "this is a phrase with words"
+#define _TEST_WORD_STR_KO " "
+#define _TEST_WORD_INT_OK "0 is a number"
+#define _TEST_WORD_INT_KO "\n"
+#define _TEST_WORD_INT_GT0_OK "1 is greater than 0"
+#define _TEST_WORD_INT_GT0_KO "zero can't be parsed as a number so will fail"
+#define _TEST_WORD_ID_16_OK "12ab foo bar"
+#define _TEST_WORD_ID_16_KO "12345 is too long"
+#define _TEST_WORD_ID_32_OK "12345678"
+#define _TEST_WORD_ID_32_KO "abcd1234 is not an id because abcd1234 is not a valid id (subtle, it's too big)"
+#define _TEST_WORD_ID_64_OK " \t1234123456785678 has spaces at the beginning but this ain't a problem"
+#define _TEST_WORD_ID_64_KO "!6789#'8678 did you ever hope that garbage could make it through?"
 
 /*
  * Testing functions in oob.c
@@ -406,7 +418,7 @@ _key_value_assoc_callback (void *func_data, char *key, void *value)
 }
 
 /*
- * Testing functions in oob.c
+ * Testing functions in utils.c
  */
 static int
 test_utils ()
@@ -498,6 +510,184 @@ test_utils ()
   return ret;
 }
 
+/*
+ * Testing functions in word.c
+ */
+static int
+test_word ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6msg_word_t word;
+    char *next = NULL;
+    int i = 0;
+    u_int16_t id_16 = 0;
+    u_int32_t id_32 = 0;
+    u_int64_t id_64 = 0;
+
+    if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed str=\"%s\", next=\"%s\""),
+		    word.buf, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+		    _TEST_WORD_STR_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+		    word.buf, _TEST_WORD_STR_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse \"%s\", that's right"),
+		    _TEST_WORD_STR_KO);
+      }
+
+    if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed int=%d, next=\"%s\""), i,
+		    next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+		    _TEST_WORD_INT_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed int=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse \"%s\", that's right"),
+		    _TEST_WORD_INT_KO);
+      }
+
+    if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed int=%d (>0), next=\"%s\""),
+		    i, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+		    _TEST_WORD_INT_GT0_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed int=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_GT0_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse \"%s\", that's right"),
+		    _TEST_WORD_INT_GT0_KO);
+      }
+
+    if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("parsed id_16 from \"%s\", next=\"%s\""),
+		    _TEST_WORD_ID_16_OK, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("unable to parse id_16 from \"%s\""),
+		    _TEST_WORD_ID_16_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed id_16 from \"%s\", this is wrong"),
+		    _TEST_WORD_ID_16_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse id_16 from \"%s\", that's right"),
+		    _TEST_WORD_ID_16_KO);
+      }
+
+    if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("parsed id_32 from \"%s\", next=\"%s\""),
+		    _TEST_WORD_ID_32_OK, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("unable to parse id_32 from \"%s\""),
+		    _TEST_WORD_ID_32_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed id_32 from \"%s\", this is wrong"),
+		    _TEST_WORD_ID_32_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse id_32 from \"%s\", that's right"),
+		    _TEST_WORD_ID_32_KO);
+      }
+
+    if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("parsed id_64 from \"%s\", next=\"%s\""),
+		    _TEST_WORD_ID_64_OK, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("unable to parse id_64 from \"%s\""),
+		    _TEST_WORD_ID_64_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed id_64 from \"%s\", this is wrong"),
+		    _TEST_WORD_ID_64_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse id_64 from \"%s\", that's right"),
+		    _TEST_WORD_ID_64_KO);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6msg_test
  *
@@ -522,7 +712,7 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_oob () && test_utils ();
+  ret = test_oob () && test_utils () && test_word ();
 
   return ret;
 }

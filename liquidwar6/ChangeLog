@@ -1,3 +1,7 @@
+2010-08-28 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added word str/int/id parsing utility.
+
 2010-08-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Mac OS X release pool for control thread.

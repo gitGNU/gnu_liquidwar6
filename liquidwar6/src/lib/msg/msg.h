@@ -58,6 +58,14 @@
 #define LW6MSG_YES "YES"
 #define LW6MSG_NO "NO"
 
+#define LW6MSG_MAX_WORD_SIZE 799
+
+typedef struct lw6msg_word_s
+{
+  int len;
+  char buf[LW6MSG_MAX_WORD_SIZE + 1];
+} lw6msg_word_t;
+
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
@@ -84,9 +92,17 @@ extern char *lw6msg_utils_get_assoc_str_with_default (lw6sys_assoc_t * assoc,
 extern int lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
 						    char *key,
 						    int default_value);
-extern u_int64_t lw6msg_utils_parse_first_id_16 (char **next, char *msg);
-extern u_int64_t lw6msg_utils_parse_first_id_32 (char **next, char *msg);
-extern u_int64_t lw6msg_utils_parse_first_id_64 (char **next, char *msg);
-extern u_int64_t lw6msg_utils_parse_first_int (char **next, char *msg);
+
+/* msg-word.c */
+extern int lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg);
+extern int lw6msg_word_first_int (int *parsed_value, char **next, char *msg);
+extern int lw6msg_word_first_int_gt0 (int *parsed_value, char **next,
+				      char *msg);
+extern int lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
+				    char *msg);
+extern int lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,
+				    char *msg);
+extern int lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
+				    char *msg);
 
 #endif

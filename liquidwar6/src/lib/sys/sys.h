@@ -229,6 +229,14 @@ typedef struct lw6sys_module_pedigree_s
 
 #define LW6SYS_SIZEOF_XYZ 4
 
+#define LW6SYS_LEN_ID_16 4
+#define LW6SYS_LEN_ID_32 8
+#define LW6SYS_LEN_ID_64 16
+
+#define LW6SYS_BROADCAST_ID_16 0xffff
+#define LW6SYS_BROADCAST_ID_32 0xffffffff
+#define LW6SYS_BROADCAST_ID_64 0xffffffffffffffffLL
+
 typedef void (*lw6sys_free_func_t) (void *data);
 typedef void (*lw6sys_assoc_callback_func_t) (void *func_data, char *key,
 					      void *value);
