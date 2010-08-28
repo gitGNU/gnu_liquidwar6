@@ -1,5 +1,7 @@
 2010-08-28 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added programstart.ogg by Philippe Michael Groarke.
+
 	* Implemented Z-encoding.
 
 	* Added word str/int/id parsing utility.
