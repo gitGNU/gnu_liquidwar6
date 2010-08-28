@@ -854,8 +854,11 @@ results on
 5.17.2 API
 ----------
 
- -- Function: char * lw6glb_base64_encode_bin (char * BUF, int SIZE)
+ -- Function: char * lw6glb_base64_encode_bin (char * BUF, int
+          URL_MODE, int SIZE)
      BUF:  the data to encode
+
+     URL_MODE:  if 1, use "-_", else use standard "+/"
 
      SIZE:  the size of data to encode
 
@@ -875,8 +878,10 @@ results on
 
      *Return value:*  newly allocated pointer, NULL on error.
 
- -- Function: char * lw6glb_base64_encode_str (char * STR)
+ -- Function: char * lw6glb_base64_encode_str (char * STR, int URL_MODE)
      STR:  the string to encode
+
+     URL_MODE:  if 1, use "-_", else use standard "+/"
 
      Encodes a string into base64.
 
@@ -885,7 +890,61 @@ results on
  -- Function: char * lw6glb_base64_decode_str (char * STR)
      STR:  the string to decode
 
-     Deodes a string from base64.
+     Decodes a string from base64.
+
+     *Return value:*  newly allocated string, NULL on error.
+
+ -- Function: char * lw6glb_base64_encode_bin_prefix (char * BUF, int
+          SIZE, int URL_MODE, char * PREFIX)
+     BUF:  the data to encode
+
+     SIZE:  the size of data to encode
+
+     URL_MODE:  if 1, use "-_", else use standard "+/"
+
+     PREFIX:  a prefix string
+
+     Encodes data into base64. Memory allocation is done automatically.
+     The encoded string will be prefixed with `prefix'.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6glb_base64_decode_bin_prefix (int * SIZE, char
+          * BASE64_STR, char * PREFIX)
+     SIZE:  the size of the decoded data
+
+     BASE64_STR:  the string to decode
+
+     PREFIX:  a prefix string
+
+     Decodes data from base64. Memory allocation is done automatically.
+     Note that this function only works for strings, other data might
+     not be handled correctly.  The encoded is expected to start with
+     prefix `prefix' and then contain base64 data.
+
+     *Return value:*  newly allocated pointer, NULL on error.
+
+ -- Function: char * lw6glb_base64_encode_str_prefix (char * STR, int
+          URL_MODE, char * PREFIX)
+     STR:  the string to encode
+
+     URL_MODE:  if 1, use "-_", else use standard "+/"
+
+     PREFIX:  a prefix string
+
+     Encodes a string into base64. The encoded string will be prefixed
+     with `prefix'.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6glb_base64_decode_str_prefix (char * STR, char
+          * PREFIX)
+     STR:  the string to decode
+
+     PREFIX:  a prefix string
+
+     Decodes a string from base64. The encoded is expected to start
+     with prefix `prefix' and then contain base64 data.
 
      *Return value:*  newly allocated string, NULL on error.
 
@@ -2124,6 +2183,28 @@ results on
      64-bit id.
 
      *Return value:*  1 on success, 0 on failure.
+
+ -- Function: char * lw6msg_z_encode (char * MSG)
+     MSG:  message to encode
+
+     Z-encode a message, by "Z-encoding" we mean pass the string through
+     1) zlib then 2) base64 encoding, this way we get a string without
+     any blank and/or special character, and of reasonnable length.
+
+     *Return value:*  newly allocated string, 0 terminated, NULL on
+     error.
+
+ -- Function: char * lw6msg_z_decode (char * MSG)
+     MSG:  message to decode
+
+     Z-decode a message, by "Z-encoding" we mean pass the string through
+     1) zlib then 2) base64 encoding, this way we get a string without
+     any blank and/or special character, and of reasonnable length.
+     This decode string does it the reverse way, un64-encode the string
+     then uncompress it back to a readable string.
+
+     *Return value:*  newly allocated string, 0 terminated, NULL on
+     error.
 
 
 File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: C API
@@ -6795,6 +6876,30 @@ results on
      "abcdef" becomes "abc".
 
      *Return value:*  none, `str' pointed data modified in-place
+
+ -- Function: char * lw6sys_stream_file_to_str (FILE * F)
+     F:  file to get input from, typically stdin
+
+     Will read file/stream and return it as a string. This is not for
+     serious stream operation since it will return only when stream is
+     closed, and read all file into memory before doing anything.  It's
+     also limited in size since it uses a fixed length buffer, so this
+     is just for quick testing, typically used by command line switches
+     which are used to test encoding/decoding functions. Do not use it
+     to read a filesystem file, `lw6sys_read_file_content' is much
+     better.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: void lw6sys_stream_str_to_file (FILE * F, char * STR)
+     F:  file to receive the string
+
+     STR:  the string to output
+
+     Here only for API consistency, will just put string to file (just
+     a simple fprint).
+
+     *Return value:*  none.
 
  -- Function: int lw6sys_test_exec (int ARGC, char * [] ARGV, int MODE)
      ARGC:  number of args as passed to main

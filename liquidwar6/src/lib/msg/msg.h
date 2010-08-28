@@ -59,6 +59,7 @@
 #define LW6MSG_NO "NO"
 
 #define LW6MSG_MAX_WORD_SIZE 799
+#define LW6MSG_Z_PREFIX "Z"
 
 typedef struct lw6msg_word_s
 {
@@ -106,7 +107,7 @@ extern int lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next,
 				    char *msg);
 
 /* msg-z.c */
-extern char *lw6msg_z_encode (char *msg);
+extern char *lw6msg_z_encode (char *msg, int limit);
 extern char *lw6msg_z_decode (char *msg);
 
 #endif

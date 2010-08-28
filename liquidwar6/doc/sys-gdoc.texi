@@ -3824,6 +3824,31 @@ Truncates a string to the max given length. If truncated to 3,
 @strong{Return value:}  none, @code{str} pointed data modified in-place
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_stream_file_to_str} (FILE * @var{f})
+@var{f}:  file to get input from, typically stdin
+
+Will read file/stream and return it as a string. This is not
+for serious stream operation since it will return only when
+stream is closed, and read all file into memory before doing anything.
+It's also limited in size since it uses a fixed length buffer, 
+so this is just for quick testing, typically used by command line switches 
+which are used to test encoding/decoding functions. Do not use it
+to read a filesystem file, @code{lw6sys_read_file_content} is much better.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {void} {lw6sys_stream_str_to_file} (FILE * @var{f}, char * @var{str})
+@var{f}:  file to receive the string
+
+@var{str}:  the string to output
+
+Here only for API consistency, will just put string to
+file (just a simple fprint).
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6sys_test_exec} (int @var{argc}, char * [] @var{argv}, int @var{mode})
 @var{argc}:  number of args as passed to main
 

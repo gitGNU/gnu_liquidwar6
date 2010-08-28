@@ -32,7 +32,59 @@ Encodes a string into base64.
 @deftypefun {char *} {lw6glb_base64_decode_str} (char * @var{str})
 @var{str}:  the string to decode
 
-Deodes a string from base64.
+Decodes a string from base64.
+
+@strong{Return value:}  newly allocated string, NULL on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_encode_bin_prefix} (char * @var{buf}, int @var{size}, char * @var{prefix})
+@var{buf}:  the data to encode
+
+@var{size}:  the size of data to encode
+
+@var{prefix}:  a prefix string
+
+Encodes data into base64. Memory allocation is done
+automatically.  The encoded string will
+be prefixed with @code{prefix}.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_decode_bin_prefix} (int * @var{size}, char * @var{base64_str}, char * @var{prefix})
+@var{size}:  the size of the decoded data
+
+@var{base64_str}:  the string to decode
+
+@var{prefix}:  a prefix string
+
+Decodes data from base64. Memory allocation is done
+automatically. Note that this function only works for
+strings, other data might not be handled correctly.
+The encoded is expected
+to start with prefix @code{prefix} and then contain base64 data.
+
+@strong{Return value:}  newly allocated pointer, NULL on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_encode_str_prefix} (char * @var{str}, char * @var{prefix})
+@var{str}:  the string to encode
+
+@var{prefix}:  a prefix string
+
+Encodes a string into base64. The encoded string will
+be prefixed with @code{prefix}.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_base64_decode_str_prefix} (char * @var{str}, char * @var{prefix})
+@var{str}:  the string to decode
+
+@var{prefix}:  a prefix string
+
+Decodes a string from base64. The encoded is expected
+to start with prefix @code{prefix} and then contain base64 data.
 
 @strong{Return value:}  newly allocated string, NULL on error.
 @end deftypefun

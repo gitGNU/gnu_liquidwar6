@@ -30,6 +30,12 @@ extern char *lw6glb_base64_encode_bin (char *buf, int size);
 extern char *lw6glb_base64_decode_bin (int *size, char *base64_str);
 extern char *lw6glb_base64_encode_str (char *str);
 extern char *lw6glb_base64_decode_str (char *str);
+extern char *lw6glb_base64_encode_bin_prefix (char *buf, int size,
+					      char *prefix);
+extern char *lw6glb_base64_decode_bin_prefix (int *size, char *base64_str,
+					      char *prefix);
+extern char *lw6glb_base64_encode_str_prefix (char *str, char *prefix);
+extern char *lw6glb_base64_decode_str_prefix (char *str, char *prefix);
 
 extern char *lw6glb_base64_encode (char *str);
 extern char *lw6glb_base64_decode (char *str);

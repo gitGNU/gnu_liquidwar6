@@ -58,19 +58,35 @@ _z_encode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
   return ret;
 }
 
+static int
+_z_decode (char *out_buf, int *out_buf_len, char *msg, int msg_len)
+{
+  int ret = 0;
+  uLongf _out_buf_len = (*out_buf_len);
+
+  ret = uncompress ((Bytef *) out_buf, &_out_buf_len, (Bytef *) msg, msg_len);
+  (*out_buf_len) = _out_buf_len;
+
+  return ret;
+}
+
 /**
  * lw6msg_z_encode
  *
  * @msg: message to encode
+ * @limit: if under this limit (length in bytes), do not encode, return as is
  *
  * Z-encode a message, by "Z-encoding" we mean pass the string through
  * 1) zlib then 2) base64 encoding, this way we get a string without any
- * blank and/or special character, and of reasonnable length.
+ * blank and/or special character, and of reasonnable length. There's
+ * an optional limit *not* to encode anything, just when we know there
+ * are no special characters to escape and string is small, it's useless
+ * to fire this big artillery.
  *
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_encode (char *msg)
+lw6msg_z_encode (char *msg, int limit)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -79,37 +95,52 @@ lw6msg_z_encode (char *msg)
   char *out_buf;
 
   in_len = strlen (msg);
-  out_len = _encode_buffer_len (in_len);
-  out_buf = (char *) LW6SYS_MALLOC (out_len);
-  if (out_buf)
+  if (in_len > limit)
     {
-      z_ret = _z_encode (out_buf, &out_len, msg, in_len);
-      if (z_ret == Z_OK)
+      out_len = _encode_buffer_len (in_len);
+      out_buf = (char *) LW6SYS_MALLOC (out_len);
+      if (out_buf)
 	{
-	  ret = lw6glb_base64_encode_bin (out_buf, out_len);
-	}
-      else
-	{
-	  switch (z_ret)
+	  z_ret = _z_encode (out_buf, &out_len, msg, in_len);
+	  if (z_ret == Z_OK)
 	    {
-	    case Z_BUF_ERROR:
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("zlib error, buffer is too small (in_len=%d out_len=%d)"),
-			  in_len, out_len);
-	      break;
-	    case Z_MEM_ERROR:
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("zlib error, not enough memory (in_len=%d out_len=%d)"),
-			  in_len, out_len);
-	      break;
-	    default:
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("zlib error, ret=%d"), z_ret);
-	      break;
+	      ret =
+		lw6glb_base64_encode_bin_prefix (out_buf, out_len,
+						 LW6MSG_Z_PREFIX);
 	    }
+	  else
+	    {
+	      switch (z_ret)
+		{
+		case Z_BUF_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, buffer is too small (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		case Z_MEM_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, not enough memory (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		default:
+		  lw6sys_log (LW6SYS_LOG_WARNING, _("zlib error, ret=%d"),
+			      z_ret);
+		  break;
+		}
+	    }
+	  LW6SYS_FREE (out_buf);
 	}
-      LW6SYS_FREE (out_buf);
+    }
+  else
+    {
+      ret = lw6sys_str_copy (msg);
+    }
+
+  if (ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("z-encode \"%s\" -> \"%s\""), msg, ret);
     }
 
   return ret;
@@ -132,7 +163,121 @@ char *
 lw6msg_z_decode (char *msg)
 {
   char *ret = NULL;
+  int in_len = 0;
+  int out_len = 0;
+  int z_ret = Z_BUF_ERROR;
+  char *in_buf = NULL;
+  int out_alloc_len = 0;
 
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_Z_PREFIX))
+    {
+      in_buf =
+	lw6glb_base64_decode_bin_prefix (&in_len, msg, LW6MSG_Z_PREFIX);
+      if (in_buf)
+	{
+	  out_alloc_len = 1;	// too small, on purpose, to check auto-extend works
+	  z_ret = Z_BUF_ERROR;
+	  while (z_ret == Z_BUF_ERROR && !ret)
+	    {
+	      out_len = out_alloc_len;
+	      ret = (char *) LW6SYS_MALLOC (out_alloc_len);
+	      if (ret)
+		{
+		  z_ret = _z_decode (ret, &out_len, in_buf, in_len);
+		  switch (z_ret)
+		    {
+		    case Z_OK:
+		      /*
+		       * Very important, we check we have the room for '\0'
+		       */
+		      if (out_len < out_alloc_len)
+			{
+			  // OK
+			  ret[out_len] = '\0';
+			}
+		      else
+			{
+			  out_alloc_len++;
+			  z_ret = Z_BUF_ERROR;
+			}
+		      break;
+		    case Z_DATA_ERROR:
+		      lw6sys_log (LW6SYS_LOG_INFO, _("corrupted zlib data"));
+		      break;
+		    case Z_BUF_ERROR:
+		      out_alloc_len += in_len + 1;
+		      break;
+		    }
+		}
+	      else
+		{
+		  z_ret = Z_MEM_ERROR;
+		}
+	      if (z_ret != Z_OK)
+		{
+		  if (ret)
+		    {
+		      LW6SYS_FREE (ret);
+		      ret = NULL;
+		    }
+		}
+	    }
+	  if (ret)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("z-decode \"%s\" -> \"%s\""),
+			  msg, ret);
+	    }
+	  else
+	    {
+	      switch (z_ret)
+		{
+		case Z_BUF_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, buffer is too small (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		case Z_MEM_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, not enough memory (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		case Z_DATA_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, data error (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		case Z_STREAM_ERROR:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("zlib error, stream error (in_len=%d out_len=%d)"),
+			      in_len, out_len);
+		  break;
+		default:
+		  lw6sys_log (LW6SYS_LOG_WARNING, _("zlib error, ret=%d"),
+			      z_ret);
+		  break;
+		}
+	    }
+	  LW6SYS_FREE (in_buf);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _
+		      ("unable to decode \"%s\" as base64 prefixed by \"%s\""),
+		      msg, LW6MSG_Z_PREFIX);
+	}
+    }
+  else
+    {
+      /*
+       * We consider it wasn't z-encoded, keep it the same
+       */
+      ret = lw6sys_str_copy (msg);
+    }
 
   return ret;
 }

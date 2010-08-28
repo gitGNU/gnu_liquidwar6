@@ -880,6 +880,18 @@ populate_references ()
 		 _
 		 ("This environment variable/keyword is used to detect wether the program has been launched by itself with an internal execv call. This is used as a workarround to set some environment variables (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is run, as sometimes using setenv() inside the program does not work."),
 		 0);
+  POPULATE_VOID (LW6DEF_BASE64_ENCODE,
+		 _
+		 ("If specified, program will take stdin and base64 encode it to stdout. This is for testing purpose (for network messages for instance). Will *not* use standard base64 encoding using characters + and / but - and _ instead to be url-compliant, see RFC 4648 for details."));
+  POPULATE_VOID (LW6DEF_BASE64_DECODE,
+		 _
+		 ("If specified, program will take stdin and base64 decode it to stdout. This is for testing purpose (for network messages for instance). Will decode in standard base64 encoding using characters + and / but also the url-compliant version using - and /, see RFC 4648 for details."));
+  POPULATE_VOID (LW6DEF_Z_ENCODE,
+		 _
+		 ("If specified, program will take stdin and z-encode it to stdout. This is for testing purpose (for network messages for instance). Z-encoding, here means passing the message through Zlib deflating then base64 encoding and prefix it with a Z."));
+  POPULATE_VOID (LW6DEF_Z_DECODE,
+		 _
+		 ("If specified, program will take stdin and z-decode it to stdout. This is for testing purpose (for network messages for instance). Z-decoding, here means verifying there a Z at the beginning, base64 decode and pass the content through Zlib inflating. I content is not Z-prefixed, will be returned as is."));
   /*
    * Game settings
    */

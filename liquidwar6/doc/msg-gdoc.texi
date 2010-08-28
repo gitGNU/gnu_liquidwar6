@@ -212,3 +212,30 @@ Analyses a message, gets the first word and interpret it as an 64-bit id.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
+@deftypefun {char *} {lw6msg_z_encode} (char * @var{msg}, int @var{limit})
+@var{msg}:  message to encode
+
+@var{limit}:  if under this limit (length in bytes), do not encode, return as is
+
+Z-encode a message, by "Z-encoding" we mean pass the string through
+1) zlib then 2) base64 encoding, this way we get a string without any
+blank and/or special character, and of reasonnable length. There's
+an optional limit *not* to encode anything, just when we know there
+are no special characters to escape and string is small, it's useless
+to fire this big artillery.
+
+@strong{Return value:}  newly allocated string, 0 terminated, NULL on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6msg_z_decode} (char * @var{msg})
+@var{msg}:  message to decode
+
+Z-decode a message, by "Z-encoding" we mean pass the string through
+1) zlib then 2) base64 encoding, this way we get a string without any
+blank and/or special character, and of reasonnable length. This decode
+string does it the reverse way, un64-encode the string then uncompress
+it back to a readable string.
+
+@strong{Return value:}  newly allocated string, 0 terminated, NULL on error.
+@end deftypefun
+

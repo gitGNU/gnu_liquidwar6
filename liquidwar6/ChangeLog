@@ -1,6 +1,6 @@
 2010-08-28 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Started to implement message compression.
+	* Implemented Z-encoding.
 
 	* Added word str/int/id parsing utility.
 

@@ -27,6 +27,10 @@ Contact author        : ufoot@ufoot.org
 #ifndef LIQUIDWAR6DEF_DEF_H
 #define LIQUIDWAR6DEF_DEF_H
 
+#define LW6DEF_Z_ENCODE "z-encode"
+#define LW6DEF_Z_DECODE "z-decode"
+#define LW6DEF_BASE64_ENCODE "base64-encode"
+#define LW6DEF_BASE64_DECODE "base64-decode"
 #define LW6DEF_DAEMON "daemon"
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"

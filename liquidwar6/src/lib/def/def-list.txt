@@ -1,4 +1,8 @@
 ?
+z-encode
+z-decode
+base64-encode
+base64-decode
 daemon
 about
 ambiance-exclude

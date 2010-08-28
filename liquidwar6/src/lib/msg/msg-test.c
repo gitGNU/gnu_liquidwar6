@@ -65,7 +65,11 @@
 #define _TEST_WORD_ID_32_KO "abcd1234 is not an id because abcd1234 is not a valid id (subtle, it's too big)"
 #define _TEST_WORD_ID_64_OK " \t1234123456785678 has spaces at the beginning but this ain't a problem"
 #define _TEST_WORD_ID_64_KO "!6789#'8678 did you ever hope that garbage could make it through?"
-#define _TEST_Z_MSG "this is the string to compress"
+#define _TEST_Z_MSG_1 "too short to be compressed"
+#define _TEST_Z_MSG_2 ""
+#define _TEST_Z_MSG_3 "this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed..."
+#define _TEST_Z_MSG_4 "éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,"
+#define _TEST_Z_LIMIT 30
 
 /*
  * Testing functions in oob.c
@@ -689,6 +693,79 @@ test_word ()
   return ret;
 }
 
+static int
+_test_z_ok (char *test_str)
+{
+  int ret = 1;
+  char *encoded_string = NULL;
+  char *decoded_string = NULL;
+
+  encoded_string = lw6msg_z_encode (test_str, _TEST_Z_LIMIT);
+  if (encoded_string)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
+		  test_str, encoded_string);
+      decoded_string = lw6msg_z_decode (encoded_string);
+      if (decoded_string)
+	{
+	  if (lw6sys_str_is_same (decoded_string, test_str))
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _("successuflly z-decoded \"%s\" to \"%s\""),
+			  encoded_string, decoded_string);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _
+			  ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
+			  encoded_string, decoded_string, test_str);
+	      ret = 0;
+	    }
+	  LW6SYS_FREE (decoded_string);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-decode \"%s\""),
+		      encoded_string);
+	  ret = 0;
+	}
+      LW6SYS_FREE (encoded_string);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
+		  test_str);
+      ret = 0;
+    }
+
+  return ret;
+}
+
+static int
+_test_z_ko (char *test_str)
+{
+  int ret = 1;
+  char *decoded_string = NULL;
+
+  decoded_string = lw6msg_z_decode (test_str);
+  if (decoded_string)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _("z-decoded \"%s\" -> \"%s\", this is wrong!"), test_str,
+		  decoded_string);
+      ret = 0;
+      LW6SYS_FREE (decoded_string);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _("unable to z-decode \"%s\", that's right"), test_str);
+    }
+
+  return ret;
+}
+
 /*
  * Testing functions in z.c
  */
@@ -699,23 +776,14 @@ test_z ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    char *encoded_string = NULL;
-    char *decoded_string = NULL;
-
-    encoded_string = lw6msg_z_encode (_TEST_Z_MSG);
-    if (encoded_string)
-      {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
-		    _TEST_Z_MSG, encoded_string);
-	LW6SYS_FREE (encoded_string);
-      }
-    else
-      {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
-		    _TEST_Z_MSG);
-	ret = 0;
-      }
-
+    ret = _test_z_ok (_TEST_Z_MSG_1) && ret;
+    ret = _test_z_ok (_TEST_Z_MSG_2) && ret;
+    ret = _test_z_ok (_TEST_Z_MSG_3) && ret;
+    ret = _test_z_ok (_TEST_Z_MSG_4) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_1) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_2) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_3) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_4) && ret;
   }
 
   LW6SYS_TEST_FUNCTION_END;

@@ -1,3 +1,21 @@
+@subsection base64-decode
+@deffn {Command-line option} @code{--base64-decode}
+@deffnx {Environment variable} @code{LW6_BASE64_DECODE}
+If specified, program will take stdin and base64 decode it to stdout. This is
+for testing purpose (for network messages for instance). Will decode in
+standard base64 encoding using characters + and / but also the url-compliant
+version using - and /, see RFC 4648 for details.
+@end deffn
+
+@subsection base64-encode
+@deffn {Command-line option} @code{--base64-encode}
+@deffnx {Environment variable} @code{LW6_BASE64_ENCODE}
+If specified, program will take stdin and base64 encode it to stdout. This is
+for testing purpose (for network messages for instance). Will *not* use
+standard base64 encoding using characters + and / but - and _ instead to be
+url-compliant, see RFC 4648 for details.
+@end deffn
+
 @subsection bench
 @deffn {Command-line option} @code{--bench}
 @deffnx {Environment variable} @code{LW6_BENCH}
@@ -580,5 +598,23 @@ wish to have something rather low here, to keep network and 'logic' function
 responsiveness. Passed 60 frames per second, speed is really only for visual
 comfort, as Liquid War 6 is now so fast-paced that it requires 200 frames/sec
 to outperform opponents.
+@end deffn
+
+@subsection z-decode
+@deffn {Command-line option} @code{--z-decode}
+@deffnx {Environment variable} @code{LW6_Z_DECODE}
+If specified, program will take stdin and z-decode it to stdout. This is for
+testing purpose (for network messages for instance). Z-decoding, here means
+verifying there a Z at the beginning, base64 decode and pass the content
+through Zlib inflating. I content is not Z-prefixed, will be returned as is.
+@end deffn
+
+@subsection z-encode
+@deffn {Command-line option} @code{--z-encode}
+@deffnx {Environment variable} @code{LW6_Z_ENCODE}
+If specified, program will take stdin and z-encode it to stdout. This is for
+testing purpose (for network messages for instance). Z-encoding, here means
+passing the message through Zlib deflating then base64 encoding and prefix it
+with a Z.
 @end deffn
 

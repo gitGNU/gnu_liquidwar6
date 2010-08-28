@@ -20,6 +20,10 @@
 
 ;Generated automatically by trigo.py
 
+(define lw6def-z-encode "z-encode")
+(define lw6def-z-decode "z-decode")
+(define lw6def-base64-encode "base64-encode")
+(define lw6def-base64-decode "base64-decode")
 (define lw6def-daemon "daemon")
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")

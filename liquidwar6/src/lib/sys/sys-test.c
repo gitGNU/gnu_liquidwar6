@@ -3170,6 +3170,90 @@ thread_stress_func (void *callback_data)
 }
 
 /*
+ * Testing functions in stream.c
+ */
+static int
+test_stream ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int argc = TEST_ARGC;
+    char *argv[TEST_ARGC] =
+      { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
+    FILE *f = NULL;
+    char *user_dir = NULL;
+    char *filename = NULL;
+    char *str = NULL;
+
+    user_dir = lw6sys_get_user_dir (argc, argv);
+    if (user_dir)
+      {
+	filename = lw6sys_path_concat (user_dir, TEST_FILENAME);
+	if (filename)
+	  {
+	    f = fopen (filename, "wb");
+	    if (f)
+	      {
+		lw6sys_stream_str_to_file (f, TEST_CONTENT);
+		fclose (f);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to open \"%s\" for writing"), filename);
+		ret = 0;
+	      }
+	    f = fopen (filename, "r");
+	    if (f)
+	      {
+		str = lw6sys_stream_file_to_str (f);
+		if (str)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE, _("read \"%s\", %d bytes"),
+				filename, strlen (str));
+		    if (lw6sys_str_is_same (str, TEST_CONTENT))
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _("content is fine \"%s\""),
+				    TEST_CONTENT);
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _
+				    ("content is wrong it's \"%s\" and should be \"%s\""),
+				    str, TEST_CONTENT);
+			ret = 0;
+		      }
+		    LW6SYS_FREE (str);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_("unable to read \"%s\""), filename);
+		    ret = 0;
+		  }
+		fclose (f);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to open \"%s\" for reading"), filename);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (filename);
+	  }
+	LW6SYS_FREE (user_dir);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing functions in thread.c
  */
 static int
@@ -3660,7 +3744,8 @@ lw6sys_test (int mode)
     && test_nop () && test_password () && test_path () && test_progress ()
     && test_random () && test_sdl () && test_serial () && test_shape ()
     && test_signal () && test_sort () && test_spinlock () && test_str ()
-    && test_thread () && test_time () && test_url () && test_vthread ();
+    && test_stream () && test_thread () && test_time () && test_url ()
+    && test_vthread ();
 
   return ret;
 }

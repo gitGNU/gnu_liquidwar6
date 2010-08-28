@@ -922,6 +922,10 @@ extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
 
+/* sys-stream.c */
+extern char *lw6sys_stream_file_to_str (FILE * f);
+extern void lw6sys_stream_str_to_file (FILE * f, char *str);
+
 /* sys-test.c */
 extern int lw6sys_test_exec (int argc, char *argv[], int mode);
 extern int lw6sys_test (int mode);

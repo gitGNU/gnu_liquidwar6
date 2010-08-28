@@ -75,6 +75,8 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
   char *value = NULL;
   char *log_file = NULL;
   char *pid_file = NULL;
+  char *input = NULL;
+  char *output = NULL;
 
   (*run_game) = 1;
   for (i = 1; i < argc; ++i)
@@ -878,6 +880,71 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	      printf ("%s\n", path);
 	      LW6SYS_FREE (path);
 	      path = NULL;
+	    }
+	  (*run_game) = 0;
+	}
+      /*
+       * Decode/encode debugging routines
+       */
+      else if (lw6sys_arg_match (LW6DEF_BASE64_ENCODE, argv[i]))
+	{
+	  input = lw6sys_stream_file_to_str (stdin);
+	  if (input)
+	    {
+	      output = lw6glb_base64_encode_str (input);
+	      if (output)
+		{
+		  lw6sys_stream_str_to_file (stdout, output);
+		  LW6SYS_FREE (output);
+		  printf ("\n");
+		}
+	      LW6SYS_FREE (input);
+	    }
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_BASE64_DECODE, argv[i]))
+	{
+	  input = lw6sys_stream_file_to_str (stdin);
+	  if (input)
+	    {
+	      output = lw6glb_base64_decode_str (input);
+	      if (output)
+		{
+		  lw6sys_stream_str_to_file (stdout, output);
+		  LW6SYS_FREE (output);
+		}
+	      LW6SYS_FREE (input);
+	    }
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_Z_ENCODE, argv[i]))
+	{
+	  input = lw6sys_stream_file_to_str (stdin);
+	  if (input)
+	    {
+	      output = lw6msg_z_encode (input, 0);
+	      if (output)
+		{
+		  lw6sys_stream_str_to_file (stdout, output);
+		  LW6SYS_FREE (output);
+		  printf ("\n");
+		}
+	      LW6SYS_FREE (input);
+	    }
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_Z_DECODE, argv[i]))
+	{
+	  input = lw6sys_stream_file_to_str (stdin);
+	  if (input)
+	    {
+	      output = lw6msg_z_decode (input);
+	      if (output)
+		{
+		  lw6sys_stream_str_to_file (stdout, output);
+		  LW6SYS_FREE (output);
+		}
+	      LW6SYS_FREE (input);
 	    }
 	  (*run_game) = 0;
 	}

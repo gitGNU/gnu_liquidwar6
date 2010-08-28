@@ -708,6 +708,10 @@ update_tuning (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DIRTY_READ);
   lw6sys_list_push_back (list, LW6DEF_GFX_DEBUG);
   lw6sys_list_push_back (list, LW6DEF_EXECUTED_AGAIN);
+  lw6sys_list_push_back (list, LW6DEF_BASE64_ENCODE);
+  lw6sys_list_push_back (list, LW6DEF_BASE64_DECODE);
+  lw6sys_list_push_back (list, LW6DEF_Z_ENCODE);
+  lw6sys_list_push_back (list, LW6DEF_Z_DECODE);
 
   return ((*list) != NULL);
 }
