@@ -26,7 +26,7 @@
 
 #include "sys.h"
 
-#define _MAX_FILE_SIZE 100000
+#define _MAX_FILE_SIZE 1000000
 
 /**
  * lw6sys_stream_file_to_str
