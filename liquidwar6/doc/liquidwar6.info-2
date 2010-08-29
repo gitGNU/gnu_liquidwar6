@@ -1947,6 +1947,86 @@ results on
 5.24.2 API
 ----------
 
+ -- Function: char * lw6msg_cmd_generate_hello (lw6nod_info_t * INFO,
+          lw6msg_cmd_mode_t MODE)
+     INFO:  the nod info to use
+
+     MODE:  the mode to use (standard or URL compatible)
+
+     Generate a HELLO command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_ticket (lw6nod_info_t * INFO,
+          lw6msg_cmd_mode_t MODE, u_int32_t TICKET)
+     INFO:  the nod info to use
+
+     MODE:  the mode to use (standard or URL compatible)
+
+     Generate a TICKET command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t MODE,
+          int KEY)
+     MODE:  the mode to use (standard or URL compatible)
+
+     Generate a FOO command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t MODE,
+          int KEY)
+     MODE:  the mode to use (standard or URL compatible)
+
+     Generate a BAR command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: char * lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t
+          MODE)
+     MODE:  the mode to use (standard or URL compatible)
+
+     Generate a GOODBYE command.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: int lw6cmd_analyse_hello (lw6nod_info_t ** INFO)
+     INFO:  if not NULL, will contain (remote) node info on success
+
+     Analyzes a HELLO message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cmd_analyse_ticket (lw6nod_info_t ** INFO,
+          u_int32_t * TICKET)
+     INFO:  if not NULL, will contain (remote) node info on success
+
+     TICKET:  if not NULL, will contain the ticket value on success
+
+     Analyzes a TICKET message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cmd_analyse_foo (int * KEY)
+     KEY:  if not NULL, will contain the foo/bar key on success
+
+     Analyzes a FOO message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cmd_analyse_bar (int * KEY)
+     KEY:  if not NULL, will contain the foo/bar key on success
+
+     Analyzes a BAR message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cmd_analyse_goodbye ()
+     Analyzes a GOODBYE message.
+
+     *Return value:*  1 on success, 0 on failure
+
  -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
      INFO:  the node to generate info about
 
@@ -2439,9 +2519,18 @@ results on
 
      *Return value:*  none
 
- -- Function: lw6nod_info_t * lw6nod_info_new (u_int64_t ID, char *
+ -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
+          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
           URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
           BENCH, int IDLE_SCREENSHOT_SIZE, void * IDLE_SCREENSHOT_DATA)
+     PROGRAM:  the program (normally it's liquidwar6)
+
+     VERSION:  the version
+
+     CODENAME:  the codename
+
+     STAMP:  the stamp
+
      ID:  the node id
 
      URL:  the node public url
