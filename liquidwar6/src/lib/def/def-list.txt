@@ -1,9 +1,4 @@
 ?
-z-encode
-z-decode
-base64-encode
-base64-decode
-daemon
 about
 ambiance-exclude
 ambiance-file
@@ -17,6 +12,8 @@ background-color-root-fg
 background-color-stuff-bg
 background-color-stuff-fg
 background-style
+base64-decode
+base64-encode
 bench
 bench-value
 bin-id
@@ -55,6 +52,7 @@ custom-pgdown
 custom-pgup
 custom-right
 custom-up
+daemon
 danger-power
 data-dir
 debug
@@ -120,6 +118,7 @@ keep-ratio
 known-nodes
 ldflags
 list
+list-advanced
 list-aliases
 list-doc
 list-funcs
@@ -136,7 +135,6 @@ list-players
 list-quick
 list-show
 list-sound
-list-tuning
 loader-sleep
 log-file
 log-level
@@ -368,6 +366,8 @@ x-polarity
 x-wrap
 y-polarity
 y-wrap
+z-decode
+z-encode
 z-polarity
 zoom
 zoom-max

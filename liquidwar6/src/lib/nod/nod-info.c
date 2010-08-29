@@ -51,11 +51,11 @@
  */
 lw6nod_info_t *
 lw6nod_info_new (char *program,
-				       char *version,
-				       char *codename,
-		 int stamp,u_int64_t id, char *url, char *title, char *description,
-		 char *password, int bench, int idle_screenshot_size,
-		 void *idle_screenshot_data)
+		 char *version,
+		 char *codename,
+		 int stamp, u_int64_t id, char *url, char *title,
+		 char *description, char *password, int bench,
+		 int idle_screenshot_size, void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
   int const_init_ret = 0;
@@ -66,9 +66,10 @@ lw6nod_info_new (char *program,
       info->mutex = lw6sys_mutex_create ();
 
       const_init_ret =
-	_lw6nod_const_info_init (&(info->const_info), program,version,codename,stamp,id, url, title,
-				 description, password, bench,
-				 idle_screenshot_size, idle_screenshot_data);
+	_lw6nod_const_info_init (&(info->const_info), program, version,
+				 codename, stamp, id, url, title, description,
+				 password, bench, idle_screenshot_size,
+				 idle_screenshot_data);
       lw6nod_info_idle (info);
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();
       info->verified_nodes = lw6nod_info_new_verified_nodes ();

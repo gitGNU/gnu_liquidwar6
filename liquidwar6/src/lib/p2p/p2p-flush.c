@@ -57,10 +57,10 @@ _select_other_node_callback (void *func_data, int nb_fields,
   int ret = 0;
   lw6sys_list_t **list_of_node = (lw6sys_list_t **) func_data;
   lw6nod_info_t *verified_node = NULL;
-  char *program=NULL;
-  char *version=NULL;
-  char *codename=NULL;
-  int stamp=0;
+  char *program = NULL;
+  char *version = NULL;
+  char *codename = NULL;
+  int stamp = 0;
   u_int64_t id = 0;
   char *url = NULL;
   char *title = NULL;
@@ -73,12 +73,12 @@ _select_other_node_callback (void *func_data, int nb_fields,
 	{
 	  id = lw6sys_id_atol (fields_values[_LW6P2P_DB_NODE_ORDER_ID]);
 	}
-      program=lw6sys_build_get_package_tarname();
-      version=fields_values[_LW6P2P_DB_NODE_ORDER_VERSION];
-      codename=fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME];
+      program = lw6sys_build_get_package_tarname ();
+      version = fields_values[_LW6P2P_DB_NODE_ORDER_VERSION];
+      codename = fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME];
       if (fields_values[_LW6P2P_DB_NODE_ORDER_STAMP])
 	{
-	  stamp=lw6sys_atoi(fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
+	  stamp = lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_STAMP]);
 	}
       url = fields_values[_LW6P2P_DB_NODE_ORDER_URL];
       title = fields_values[_LW6P2P_DB_NODE_ORDER_TITLE];
@@ -90,8 +90,8 @@ _select_other_node_callback (void *func_data, int nb_fields,
       if (id && url && title && description)
 	{
 	  verified_node =
-	    lw6nod_info_new (program,version,codename,stamp,id, url, title, description,
-			     NULL, bench, 0, NULL);
+	    lw6nod_info_new (program, version, codename, stamp, id, url,
+			     title, description, NULL, bench, 0, NULL);
 	  if (verified_node && list_of_node)
 	    {
 	      lw6sys_list_push_front (list_of_node, verified_node);

@@ -292,9 +292,9 @@ Displays the list of 'hooks'.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {void} {lw6_print_list_tuning} ()
+@deftypefun {void} {lw6_print_list_advanced} ()
 
-Displays the list of 'tuning' options.
+Displays the list of 'advanced' options.
 
 @strong{Return value:}  none
 @end deftypefun

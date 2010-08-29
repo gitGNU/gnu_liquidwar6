@@ -37,22 +37,25 @@
  *
  * Return value: newly allocated string.
  */
-char *lw6msg_cmd_generate_hello (lw6nod_info_t *info, int text_case, char text_sep)
+char *
+lw6msg_cmd_generate_hello (lw6nod_info_t * info, int text_case, char text_sep)
 {
-  char *ret=NULL;
-  char *cmd=NULL;
+  char *ret = NULL;
+  char *cmd = NULL;
   char *base64_codename;
   char *base64_url;
   char *base64_title;
   char *base64_descrition;
 
-  cmd=lw6sys_str_copy(LW6MSG_CMD_HELLO);
-  if (cmd) {
-  if (text_case==LW6MSG_LOWERCASE) {
-  }
-  //  ret=lw6sys_new_sprintf("%s%c%s%c");
-  LW6SYS_FREE(cmd);
-  }
+  cmd = lw6sys_str_copy (LW6MSG_CMD_HELLO);
+  if (cmd)
+    {
+      if (text_case == LW6MSG_LOWERCASE)
+	{
+	}
+      //  ret=lw6sys_new_sprintf("%s%c%s%c");
+      LW6SYS_FREE (cmd);
+    }
 
   return ret;
 }
@@ -68,9 +71,11 @@ char *lw6msg_cmd_generate_hello (lw6nod_info_t *info, int text_case, char text_s
  *
  * Return value: newly allocated string.
  */
-char *lw6msg_cmd_generate_ticket (lw6nod_info_t *info, int text_case, char text_sep, u_int32_t ticket)
+char *
+lw6msg_cmd_generate_ticket (lw6nod_info_t * info, int text_case,
+			    char text_sep, u_int32_t ticket)
 {
-  char *ret=NULL;
+  char *ret = NULL;
 
   return ret;
 }
@@ -85,9 +90,10 @@ char *lw6msg_cmd_generate_ticket (lw6nod_info_t *info, int text_case, char text_
  *
  * Return value: newly allocated string.
  */
-char *lw6msg_cmd_generate_foo (int text_case, char text_sep,int key)
+char *
+lw6msg_cmd_generate_foo (int text_case, char text_sep, int key)
 {
-  char *ret=NULL;
+  char *ret = NULL;
 
   return ret;
 }
@@ -102,9 +108,10 @@ char *lw6msg_cmd_generate_foo (int text_case, char text_sep,int key)
  *
  * Return value: newly allocated string.
  */
-char *lw6msg_cmd_generate_bar (                     int text_case, char text_sep, int key)
+char *
+lw6msg_cmd_generate_bar (int text_case, char text_sep, int key)
 {
-  char *ret=NULL;
+  char *ret = NULL;
 
   return ret;
 }
@@ -119,9 +126,10 @@ char *lw6msg_cmd_generate_bar (                     int text_case, char text_sep
  *
  * Return value: newly allocated string.
  */
-char *lw6msg_cmd_generate_goodbye (int text_case, char text_sep)
+char *
+lw6msg_cmd_generate_goodbye (int text_case, char text_sep)
 {
-  char *ret=NULL;
+  char *ret = NULL;
 
   return ret;
 }
@@ -135,11 +143,12 @@ char *lw6msg_cmd_generate_goodbye (int text_case, char text_sep)
  *
  * Return value: 1 on success, 0 on failure
  */
-int lw6cmd_analyse_hello(lw6nod_info_t **info)
+int
+lw6cmd_analyse_hello (lw6nod_info_t ** info)
 {
-int ret=0;
+  int ret = 0;
 
- return ret;
+  return ret;
 }
 
 /**
@@ -152,10 +161,12 @@ int ret=0;
  *
  * Return value: 1 on success, 0 on failure
  */
-int lw6cmd_analyse_ticket(lw6nod_info_t **info, u_int32_t *ticket){
-int ret=0;
+int
+lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket)
+{
+  int ret = 0;
 
- return ret;
+  return ret;
 }
 
 
@@ -168,10 +179,12 @@ int ret=0;
  *
  * Return value: 1 on success, 0 on failure
  */
-int lw6cmd_analyse_foo(int *key){
-int ret=0;
+int
+lw6cmd_analyse_foo (int *key)
+{
+  int ret = 0;
 
- return ret;
+  return ret;
 }
 
 /**
@@ -183,10 +196,12 @@ int ret=0;
  *
  * Return value: 1 on success, 0 on failure
  */
-int lw6cmd_analyse_bar(int *key){
-int ret=0;
+int
+lw6cmd_analyse_bar (int *key)
+{
+  int ret = 0;
 
- return ret;
+  return ret;
 }
 
 /**
@@ -196,9 +211,10 @@ int ret=0;
  *
  * Return value: 1 on success, 0 on failure
  */
-int lw6cmd_analyse_goodbye(){
-int ret=0;
+int
+lw6cmd_analyse_goodbye ()
+{
+  int ret = 0;
 
- return ret;
+  return ret;
 }
-

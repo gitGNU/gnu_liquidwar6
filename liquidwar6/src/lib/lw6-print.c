@@ -742,18 +742,18 @@ lw6_print_list_hooks ()
 }
 
 /**
- * lw6_print_list_tuning
+ * lw6_print_list_advanced
  *
- * Displays the list of 'tuning' options.
+ * Displays the list of 'advanced' options.
  *
  * Return value: none
  */
 void
-lw6_print_list_tuning ()
+lw6_print_list_advanced ()
 {
   lw6sys_list_t *list;
 
-  list = lw6hlp_list_tuning ();
+  list = lw6hlp_list_advanced ();
   if (list)
     {
       lw6hlp_print_keyword (&list, stdout);

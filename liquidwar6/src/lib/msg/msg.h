@@ -80,16 +80,18 @@ typedef struct lw6msg_word_s
 } lw6msg_word_t;
 
 /* msg-cmd.c */
-extern char *lw6msg_cmd_generate_hello (lw6nod_info_t *info, int text_case, char text_sep);
-extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t *info, int text_case, char text_sep, u_int32_t ticket);
+extern char *lw6msg_cmd_generate_hello (lw6nod_info_t * info, int text_case,
+					char text_sep);
+extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info, int text_case,
+					 char text_sep, u_int32_t ticket);
 extern char *lw6msg_cmd_generate_foo (int text_case, char text_sep, int key);
 extern char *lw6msg_cmd_generate_bar (int text_case, char text_sep, int key);
 extern char *lw6msg_cmd_generate_goodbye (int text_case, char text_sep);
-extern int lw6cmd_analyse_hello(lw6nod_info_t **info);
-extern int lw6cmd_analyse_ticket(lw6nod_info_t **info, u_int32_t *ticket);
-extern int lw6cmd_analyse_foo(int *key);
-extern int lw6cmd_analyse_bar(int *key);
-extern int lw6cmd_analyse_goodbye();
+extern int lw6cmd_analyse_hello (lw6nod_info_t ** info);
+extern int lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket);
+extern int lw6cmd_analyse_foo (int *key);
+extern int lw6cmd_analyse_bar (int *key);
+extern int lw6cmd_analyse_goodbye ();
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);

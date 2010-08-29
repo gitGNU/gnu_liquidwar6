@@ -165,7 +165,7 @@ populate_references ()
 		 _
 		 ("List the C-functions which are exported to Guile, thus usable in scripts."));
   POPULATE_VOID (LW6DEF_LIST_HOOKS, _("List user-modifiable hooks."));
-  POPULATE_VOID (LW6DEF_LIST_TUNING,
+  POPULATE_VOID (LW6DEF_LIST_ADVANCED,
 		 _
 		 ("List advanced options which can be used for fine-tuning the game."));
   POPULATE_VOID (LW6DEF_LIST_ALIASES,
@@ -701,7 +701,7 @@ populate_references ()
 		_("http://ufoot.org:8056/,http://ufoot.hd.free.fr:8056/"));
 
   /*
-   * Tuning
+   * Advanced
    */
   POPULATE_VOID (LW6DEF_RESET,
 		 _

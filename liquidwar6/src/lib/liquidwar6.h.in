@@ -235,7 +235,7 @@ extern void lw6_print_list_map_rules ();
 extern void lw6_print_list_map_style ();
 extern void lw6_print_list_funcs ();
 extern void lw6_print_list_hooks ();
-extern void lw6_print_list_tuning ();
+extern void lw6_print_list_advanced ();
 extern void lw6_print_list_aliases ();
 extern void lw6_print_list ();
 extern void lw6_print_about (char *keyword);

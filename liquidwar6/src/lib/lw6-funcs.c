@@ -2587,14 +2587,14 @@ _scm_lw6hlp_list_hooks ()
 }
 
 static SCM
-_scm_lw6hlp_list_tuning ()
+_scm_lw6hlp_list_advanced ()
 {
   lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  c_list = lw6hlp_list_tuning ();
+  c_list = lw6hlp_list_advanced ();
   if (c_list)
     {
       ret = to_scm_str_list (c_list);
@@ -8000,8 +8000,8 @@ lw6_register_funcs ()
 		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
   scm_c_define_gsubr ("c-lw6hlp-list-hooks",
 		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
-  scm_c_define_gsubr ("c-lw6hlp-list-tuning",
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_tuning);
+  scm_c_define_gsubr ("c-lw6hlp-list-advanced",
+		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
   scm_c_define_gsubr ("c-lw6hlp-list-aliases",
 		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
   scm_c_define_gsubr ("c-lw6hlp-list", 0, 0, 0, (SCM (*)())_scm_lw6hlp_list);

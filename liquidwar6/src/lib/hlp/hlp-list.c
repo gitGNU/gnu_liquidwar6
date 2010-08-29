@@ -79,7 +79,7 @@ update_doc (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_LIST_MAP_STYLE);
   lw6sys_list_push_back (list, LW6DEF_LIST_FUNCS);
   lw6sys_list_push_back (list, LW6DEF_LIST_HOOKS);
-  lw6sys_list_push_back (list, LW6DEF_LIST_TUNING);
+  lw6sys_list_push_back (list, LW6DEF_LIST_ADVANCED);
   lw6sys_list_push_back (list, LW6DEF_LIST_ALIASES);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_RULES_XML);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_HINTS_XML);
@@ -660,7 +660,7 @@ lw6hlp_list_hooks ()
 }
 
 static int
-update_tuning (lw6sys_list_t ** list)
+update_advanced (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_RESET);
   lw6sys_list_push_back (list, LW6DEF_RESET_CONFIG_ON_UPGRADE);
@@ -717,14 +717,14 @@ update_tuning (lw6sys_list_t ** list)
 }
 
 lw6sys_list_t *
-lw6hlp_list_tuning ()
+lw6hlp_list_advanced ()
 {
   lw6sys_list_t *list = NULL;
 
   list = lw6sys_list_new (NULL);
   if (list)
     {
-      update_tuning (&list);
+      update_advanced (&list);
     }
 
   return list;
@@ -783,7 +783,7 @@ lw6hlp_list ()
 	&& update_map (&list) && update_map_rules (&list)
 	&& update_map_hints (&list) && update_map_style (&list)
 	&& update_funcs (&list) && update_hooks (&list)
-	&& update_tuning (&list) && update_aliases (&list);
+	&& update_advanced (&list) && update_aliases (&list);
     }
 
   if (!ok)

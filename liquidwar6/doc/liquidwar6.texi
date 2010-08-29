@@ -3478,7 +3478,7 @@ engines to harvest the content.
 @node Advanced settings, Script hooks, Map style.xml, Options & settings
 @section Advanced settings
 
-@include tuning-selfdoc.texi
+@include advanced-selfdoc.texi
 
 @c ---------------------------------------------------------------------------
 @c Script hooks

@@ -98,8 +98,9 @@ test_oob ()
     char *remote_url = NULL;
 
     info =
-      lw6nod_info_new (_TEST_PROGRAM,_TEST_VERSION,_TEST_CODENAME,_TEST_STAMP,_TEST_ID, _TEST_URL, _TEST_TITLE, _TEST_DESCRIPTION,
-		       _TEST_PASSWORD, _TEST_BENCH,
+      lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
@@ -158,9 +159,11 @@ test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM,_TEST_VERSION,_TEST_CODENAME,_TEST_STAMP,_TEST_ID_1, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_PASSWORD,
-				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
+		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_1,
+				   url, _TEST_TITLE, _TEST_DESCRIPTION,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
@@ -172,9 +175,11 @@ test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM,_TEST_VERSION,_TEST_CODENAME,_TEST_STAMP,_TEST_ID_2, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_PASSWORD,
-				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
+		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_2,
+				   url, _TEST_TITLE, _TEST_DESCRIPTION,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {
@@ -186,9 +191,11 @@ test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM,_TEST_VERSION,_TEST_CODENAME,_TEST_STAMP,_TEST_ID_3, url, _TEST_TITLE,
-				   _TEST_DESCRIPTION, _TEST_PASSWORD,
-				   _TEST_BENCH, _TEST_IDLE_SCREENSHOT_SIZE,
+		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_3,
+				   url, _TEST_TITLE, _TEST_DESCRIPTION,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
 		  {

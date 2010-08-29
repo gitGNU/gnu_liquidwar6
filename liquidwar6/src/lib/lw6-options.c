@@ -340,9 +340,9 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  lw6_print_list_hooks ();
 	  (*run_game) = 0;
 	}
-      else if (lw6sys_arg_match (LW6DEF_LIST_TUNING, argv[i]))
+      else if (lw6sys_arg_match (LW6DEF_LIST_ADVANCED, argv[i]))
 	{
-	  lw6_print_list_tuning ();
+	  lw6_print_list_advanced ();
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (LW6DEF_LIST_ALIASES, argv[i]))

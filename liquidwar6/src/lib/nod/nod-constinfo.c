@@ -29,35 +29,48 @@
 
 int
 _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
-				       char *version,
-				       char *codename,
-				       int stamp,u_int64_t id,
+			 char *version,
+			 char *codename,
+			 int stamp, u_int64_t id,
 			 char *url, char *title, char *description,
 			 char *password, int bench, int idle_screenshot_size,
 			 void *idle_screenshot_data)
 {
   int ret = 0;
 
-  if (program && strlen(program)>0) {
-    const_info->program=lw6sys_str_copy(program);
-  } else {
-    const_info->program=lw6sys_str_copy(lw6sys_build_get_package_tarname());
-  }
-  if (version && strlen(version)>0) {
-    const_info->version=lw6sys_str_copy(version);
-  } else {
-    const_info->version=lw6sys_str_copy(lw6sys_build_get_version());
-  }
-  if (codename && strlen(codename)>0) {
-    const_info->codename=lw6sys_str_copy(codename);
-  } else {
-    const_info->codename=lw6sys_str_copy(lw6sys_build_get_codename());
-  }
-  if (stamp) {
-    const_info->stamp=stamp;
-  } else {
-    const_info->stamp=lw6sys_atoi(lw6sys_build_get_stamp());
-  }
+  if (program && strlen (program) > 0)
+    {
+      const_info->program = lw6sys_str_copy (program);
+    }
+  else
+    {
+      const_info->program =
+	lw6sys_str_copy (lw6sys_build_get_package_tarname ());
+    }
+  if (version && strlen (version) > 0)
+    {
+      const_info->version = lw6sys_str_copy (version);
+    }
+  else
+    {
+      const_info->version = lw6sys_str_copy (lw6sys_build_get_version ());
+    }
+  if (codename && strlen (codename) > 0)
+    {
+      const_info->codename = lw6sys_str_copy (codename);
+    }
+  else
+    {
+      const_info->codename = lw6sys_str_copy (lw6sys_build_get_codename ());
+    }
+  if (stamp)
+    {
+      const_info->stamp = stamp;
+    }
+  else
+    {
+      const_info->stamp = lw6sys_atoi (lw6sys_build_get_stamp ());
+    }
   const_info->creation_timestamp = lw6sys_get_timestamp ();
   const_info->id = lw6sys_id_ltoa (id);
   const_info->url = lw6sys_url_canonize (url);
@@ -156,5 +169,5 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
     {
       LW6SYS_FREE (const_info->idle_screenshot_data);
     }
-  memset(const_info,0,sizeof(lw6nod_const_info_t));
+  memset (const_info, 0, sizeof (lw6nod_const_info_t));
 }

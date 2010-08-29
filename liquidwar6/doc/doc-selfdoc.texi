@@ -16,6 +16,11 @@ Dumps on stdout an example style.xml file. Such a file is normally shipped
 with the game. It is indeed generated using this command.
 @end deffn
 
+@subsection list-advanced
+@deffn {Command-line option} @code{--list-advanced}
+List advanced options which can be used for fine-tuning the game.
+@end deffn
+
 @subsection list-aliases
 @deffn {Command-line option} @code{--list-aliases}
 List the keyword aliases. These are here for convenience.
@@ -103,10 +108,5 @@ the console many internal parameters. Usefull when debugging.
 @subsection list-sound
 @deffn {Command-line option} @code{--list-sound}
 List sound options (volume...).
-@end deffn
-
-@subsection list-tuning
-@deffn {Command-line option} @code{--list-tuning}
-List advanced options which can be used for fine-tuning the game.
 @end deffn
 
