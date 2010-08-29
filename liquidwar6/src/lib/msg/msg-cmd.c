@@ -180,15 +180,28 @@ lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode)
  * lw6msg_cmd_analyse_hello
  *
  * @info: if not NULL, will contain (remote) node info on success
+ * @msg: the message to anaylse
  *
  * Analyzes a HELLO message.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_hello (lw6nod_info_t ** info)
+lw6cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
 {
   int ret = 0;
+  lw6msg_word_t word;
+  char *seek=NULL;
+  char *pos=NULL;
+
+  if (lw6sys_str_starts_with_no_case(msg,LW6MSG_CMD_HELLO)) {
+    pos=msg+strlen(LW6MSG_CMD_HELLO);
+    if (lw6msg_word_first(&word,&seek,pos)) {
+      // todo...
+    }
+  } else {
+    lw6sys_log(LW6SYS_LOG_DEBUG,_("parsing HELLO but couldn't find it in \"%s\""),msg);
+  }
 
   return ret;
 }
@@ -198,13 +211,14 @@ lw6cmd_analyse_hello (lw6nod_info_t ** info)
  *
  * @info: if not NULL, will contain (remote) node info on success
  * @ticket: if not NULL, will contain the ticket value on success
+ * @msg: the message to anaylse
  *
  * Analyzes a TICKET message.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket)
+lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket, char *msg)
 {
   int ret = 0;
 
@@ -216,13 +230,14 @@ lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket)
  * lw6msg_cmd_analyse_foo
  *
  * @key: if not NULL, will contain the foo/bar key on success
+ * @msg: the message to anaylse
  *
  * Analyzes a FOO message.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_foo (int *key)
+lw6cmd_analyse_foo (int *key, char *msg)
 {
   int ret = 0;
 
@@ -233,13 +248,14 @@ lw6cmd_analyse_foo (int *key)
  * lw6msg_cmd_analyse_bar
  *
  * @key: if not NULL, will contain the foo/bar key on success
+ * @msg: the message to anaylse
  *
  * Analyzes a BAR message.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_bar (int *key)
+lw6cmd_analyse_bar (int *key, char *msg)
 {
   int ret = 0;
 
@@ -249,12 +265,14 @@ lw6cmd_analyse_bar (int *key)
 /**
  * lw6msg_cmd_analyse_goodbye
  *
+ * @msg: the message to anaylse
+ *
  * Analyzes a GOODBYE message.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_goodbye ()
+lw6cmd_analyse_goodbye (char *msg)
 {
   int ret = 0;
 

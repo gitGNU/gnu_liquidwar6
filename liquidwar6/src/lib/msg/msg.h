@@ -91,11 +91,11 @@ extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info,
 extern char *lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t mode, int key);
 extern char *lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t mode, int key);
 extern char *lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode);
-extern int lw6cmd_analyse_hello (lw6nod_info_t ** info);
-extern int lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket);
-extern int lw6cmd_analyse_foo (int *key);
-extern int lw6cmd_analyse_bar (int *key);
-extern int lw6cmd_analyse_goodbye ();
+extern int lw6cmd_analyse_hello (lw6nod_info_t ** info, char *msg);
+extern int lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket, char *msg);
+extern int lw6cmd_analyse_foo (int *key, char *msg);
+extern int lw6cmd_analyse_bar (int *key, char *msg);
+extern int lw6cmd_analyse_goodbye (char *msg);
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);

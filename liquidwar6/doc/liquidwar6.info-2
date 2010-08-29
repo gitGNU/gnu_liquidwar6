@@ -1991,38 +1991,49 @@ results on
 
      *Return value:*  newly allocated string.
 
- -- Function: int lw6cmd_analyse_hello (lw6nod_info_t ** INFO)
+ -- Function: int lw6cmd_analyse_hello (lw6nod_info_t ** INFO, char *
+          MSG)
      INFO:  if not NULL, will contain (remote) node info on success
+
+     MSG:  the message to anaylse
 
      Analyzes a HELLO message.
 
      *Return value:*  1 on success, 0 on failure
 
  -- Function: int lw6cmd_analyse_ticket (lw6nod_info_t ** INFO,
-          u_int32_t * TICKET)
+          u_int32_t * TICKET, char * MSG)
      INFO:  if not NULL, will contain (remote) node info on success
 
      TICKET:  if not NULL, will contain the ticket value on success
+
+     MSG:  the message to anaylse
 
      Analyzes a TICKET message.
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: int lw6cmd_analyse_foo (int * KEY)
+ -- Function: int lw6cmd_analyse_foo (int * KEY, char * MSG)
      KEY:  if not NULL, will contain the foo/bar key on success
+
+     MSG:  the message to anaylse
 
      Analyzes a FOO message.
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: int lw6cmd_analyse_bar (int * KEY)
+ -- Function: int lw6cmd_analyse_bar (int * KEY, char * MSG)
      KEY:  if not NULL, will contain the foo/bar key on success
+
+     MSG:  the message to anaylse
 
      Analyzes a BAR message.
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: int lw6cmd_analyse_goodbye ()
+ -- Function: int lw6cmd_analyse_goodbye (char * MSG)
+     MSG:  the message to anaylse
+
      Analyzes a GOODBYE message.
 
      *Return value:*  1 on success, 0 on failure
