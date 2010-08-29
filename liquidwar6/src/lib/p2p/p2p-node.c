@@ -119,7 +119,11 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	  node->password = lw6sys_str_copy ("");
 	}
       node->node_info =
-	lw6nod_info_new (node->node_id_int, node->public_url, title,
+	lw6nod_info_new (lw6sys_build_get_package_tarname(),
+			 lw6sys_build_get_version(),
+			 lw6sys_build_get_codename(),
+			 lw6sys_atoi(lw6sys_build_get_stamp()),
+			 node->node_id_int, node->public_url, title,
 			 description, node->password, bench,
 			 node->db->data.idle_screenshot.size,
 			 node->db->data.idle_screenshot.data);

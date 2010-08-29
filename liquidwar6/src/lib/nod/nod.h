@@ -28,6 +28,10 @@
 typedef struct lw6nod_const_info_s
 {
   int64_t creation_timestamp;
+  char *program;
+  char *version;
+  char *codename;
+  int stamp;
   char *id;
   char *url;
   char *title;
@@ -65,7 +69,11 @@ typedef struct lw6nod_info_s
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
 
 /* nod-info.c */
-extern lw6nod_info_t *lw6nod_info_new (u_int64_t id, char *url, char *title,
+extern lw6nod_info_t *lw6nod_info_new (char *program,
+				       char *version,
+				       char *codename,
+				       int stamp,
+				       u_int64_t id, char *url, char *title,
 				       char *description, char *password,
 				       int bench, int idle_screenshot_size,
 				       void *idle_screenshot_data);

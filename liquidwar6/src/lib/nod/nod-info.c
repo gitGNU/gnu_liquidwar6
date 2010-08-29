@@ -30,6 +30,10 @@
 /**
  * lw6nod_info_new
  *
+ * @program: the program (normally it's liquidwar6)
+ * @version: the version
+ * @codename: the codename
+ * @stamp: the stamp
  * @id: the node id
  * @url: the node public url
  * @title: the node title
@@ -46,7 +50,10 @@
  * Return value: newly allocated object, NULL on error.
  */
 lw6nod_info_t *
-lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
+lw6nod_info_new (char *program,
+				       char *version,
+				       char *codename,
+		 int stamp,u_int64_t id, char *url, char *title, char *description,
 		 char *password, int bench, int idle_screenshot_size,
 		 void *idle_screenshot_data)
 {
@@ -59,7 +66,7 @@ lw6nod_info_new (u_int64_t id, char *url, char *title, char *description,
       info->mutex = lw6sys_mutex_create ();
 
       const_init_ret =
-	_lw6nod_const_info_init (&(info->const_info), id, url, title,
+	_lw6nod_const_info_init (&(info->const_info), program,version,codename,stamp,id, url, title,
 				 description, password, bench,
 				 idle_screenshot_size, idle_screenshot_data);
       lw6nod_info_idle (info);
