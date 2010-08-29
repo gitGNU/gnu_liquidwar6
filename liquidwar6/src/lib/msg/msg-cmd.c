@@ -30,28 +30,74 @@
  * lw6msg_cmd_generate_hello
  *
  * @info: the nod info to use
- * @text_case: the text case (@LW6MSG_UPPERCASE or @LW6MSG_LOWERCASE) to use
- * @sep: the text separator to use
+ * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a HELLO command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_hello (lw6nod_info_t * info, int text_case, char text_sep)
+lw6msg_cmd_generate_hello (lw6nod_info_t * info, lw6msg_cmd_mode_t mode)
 {
   char *ret = NULL;
+  char sep = '\0';
   char *cmd = NULL;
   char *base64_codename;
   char *base64_url;
   char *base64_title;
-  char *base64_descrition;
+  char *base64_description;
+  int uptime = 0;
 
   cmd = lw6sys_str_copy (LW6MSG_CMD_HELLO);
   if (cmd)
     {
-      if (text_case == LW6MSG_LOWERCASE)
+      switch (mode)
 	{
+	case LW6MSG_CMD_MODE_URL:
+	  lw6sys_str_tolower (cmd);
+	  sep = LW6MSG_URL_SEP;
+	  break;
+	case LW6MSG_CMD_MODE_TELNET:
+	  lw6sys_str_toupper (cmd);
+	  sep = LW6MSG_TELNET_SEP;
+	  break;
+	default:
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unknown mode %d"), (int) mode);
+	  break;
+	}
+
+      base64_codename = lw6glb_base64_encode_str (info->const_info.codename);
+      if (base64_codename)
+	{
+	  base64_url = lw6glb_base64_encode_str (info->const_info.url);
+	  if (base64_url)
+	    {
+	      base64_title =
+		lw6glb_base64_encode_str (info->const_info.title);
+	      if (base64_title)
+		{
+		  base64_description =
+		    lw6glb_base64_encode_str (info->const_info.description);
+		  if (base64_description)
+		    {
+		      uptime =
+			(lw6sys_get_timestamp () -
+			 info->const_info.creation_timestamp) / 1000;
+		      ret =
+			lw6sys_new_sprintf
+			("%s%c%s%c%s%c%s%c%d%c%s%c%s%c%s%c%s%c%d", cmd, sep,
+			 info->const_info.program, sep,
+			 info->const_info.version, sep, base64_codename, sep,
+			 info->const_info.stamp, sep, info->const_info.id,
+			 sep, base64_url, sep, base64_title, sep,
+			 base64_description, sep, uptime);
+		      LW6SYS_FREE (base64_description);
+		    }
+		  LW6SYS_FREE (base64_title);
+		}
+	      LW6SYS_FREE (base64_url);
+	    }
+	  LW6SYS_FREE (base64_codename);
 	}
       //  ret=lw6sys_new_sprintf("%s%c%s%c");
       LW6SYS_FREE (cmd);
@@ -64,16 +110,15 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info, int text_case, char text_sep)
  * lw6msg_cmd_generate_ticket
  *
  * @info: the nod info to use
- * @text_case: the text case (@LW6MSG_UPPERCASE or @LW6MSG_LOWERCASE) to use
- * @sep: the text separator to use
+ * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a TICKET command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_ticket (lw6nod_info_t * info, int text_case,
-			    char text_sep, u_int32_t ticket)
+lw6msg_cmd_generate_ticket (lw6nod_info_t * info, lw6msg_cmd_mode_t mode,
+			    u_int32_t ticket)
 {
   char *ret = NULL;
 
@@ -83,15 +128,14 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, int text_case,
 /**
  * lw6msg_cmd_generate_foo
  *
- * @text_case: the text case (@LW6MSG_UPPERCASE or @LW6MSG_LOWERCASE) to use
- * @sep: the text separator to use
+ * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a FOO command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_foo (int text_case, char text_sep, int key)
+lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t mode, int key)
 {
   char *ret = NULL;
 
@@ -101,15 +145,14 @@ lw6msg_cmd_generate_foo (int text_case, char text_sep, int key)
 /**
  * lw6msg_cmd_generate_bar
  *
- * @text_case: the text case (@LW6MSG_UPPERCASE or @LW6MSG_LOWERCASE) to use
- * @sep: the text separator to use
+ * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a BAR command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_bar (int text_case, char text_sep, int key)
+lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t mode, int key)
 {
   char *ret = NULL;
 
@@ -119,15 +162,14 @@ lw6msg_cmd_generate_bar (int text_case, char text_sep, int key)
 /**
  * lw6msg_cmd_generate_goodbye
  *
- * @text_case: the text case (@LW6MSG_UPPERCASE or @LW6MSG_LOWERCASE) to use
- * @sep: the text separator to use
+ * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a GOODBYE command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_goodbye (int text_case, char text_sep)
+lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode)
 {
   char *ret = NULL;
 

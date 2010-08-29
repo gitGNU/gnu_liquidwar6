@@ -75,6 +75,53 @@
 #define _TEST_Z_MSG_4 "éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,"
 #define _TEST_Z_LIMIT 30
 
+static int
+_test_cmd_do (lw6nod_info_t * info, lw6msg_cmd_mode_t mode)
+{
+  int ret = 1;
+  char *msg = NULL;
+
+  msg = lw6msg_cmd_generate_hello (info, mode);
+  if (msg)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _("hello command (mode=%d) is \"%s\""),
+		  (int) mode, msg);
+      LW6SYS_FREE (msg);
+    }
+
+  return ret;
+}
+
+/*
+ * Testing functions in cmd.c
+ */
+static int
+test_cmd ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6nod_info_t *info = NULL;
+
+    info =
+      lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
+		       _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_IDLE_SCREENSHOT_DATA);
+    if (info)
+      {
+	ret = _test_cmd_do (info, LW6MSG_CMD_MODE_TELNET);
+	ret = _test_cmd_do (info, LW6MSG_CMD_MODE_URL);
+	lw6nod_info_free (info);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /*
  * Testing functions in oob.c
  */
@@ -825,7 +872,8 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_oob () && test_utils () && test_word () && test_z ();
+  ret = test_cmd () && test_oob () && test_utils () && test_word ()
+    && test_z ();
 
   return ret;
 }

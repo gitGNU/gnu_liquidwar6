@@ -67,11 +67,14 @@
 #define LW6MSG_MAX_WORD_SIZE 799
 #define LW6MSG_Z_PREFIX "Z"
 
-#define LW6MSG_UPPERCASE 0
-#define LW6MSG_LOWERCASE 1
-
-#define LW6MSG_STANDARD_SEP ' '
+#define LW6MSG_TELNET_SEP ' '
 #define LW6MSG_URL_SEP '/'
+
+typedef enum lw6msg_cmd_mode_e
+{
+  LW6MSG_CMD_MODE_TELNET = 0,
+  LW6MSG_CMD_MODE_URL = 1
+} lw6msg_cmd_mode_t;
 
 typedef struct lw6msg_word_s
 {
@@ -80,13 +83,14 @@ typedef struct lw6msg_word_s
 } lw6msg_word_t;
 
 /* msg-cmd.c */
-extern char *lw6msg_cmd_generate_hello (lw6nod_info_t * info, int text_case,
-					char text_sep);
-extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info, int text_case,
-					 char text_sep, u_int32_t ticket);
-extern char *lw6msg_cmd_generate_foo (int text_case, char text_sep, int key);
-extern char *lw6msg_cmd_generate_bar (int text_case, char text_sep, int key);
-extern char *lw6msg_cmd_generate_goodbye (int text_case, char text_sep);
+extern char *lw6msg_cmd_generate_hello (lw6nod_info_t * info,
+					lw6msg_cmd_mode_t mode);
+extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info,
+					 lw6msg_cmd_mode_t mode,
+					 u_int32_t ticket);
+extern char *lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t mode, int key);
+extern char *lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t mode, int key);
+extern char *lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode);
 extern int lw6cmd_analyse_hello (lw6nod_info_t ** info);
 extern int lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket);
 extern int lw6cmd_analyse_foo (int *key);

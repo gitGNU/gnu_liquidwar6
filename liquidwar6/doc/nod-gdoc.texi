@@ -7,7 +7,15 @@ call to @code{lw6nod_info_dup_dyn} for instance.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
+@deftypefun {lw6nod_info_t *} {lw6nod_info_new} (char * @var{program}, char * @var{version}, char * @var{codename}, int @var{stamp}, u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
+@var{program}:  the program (normally it's liquidwar6)
+
+@var{version}:  the version
+
+@var{codename}:  the codename
+
+@var{stamp}:  the stamp
+
 @var{id}:  the node id
 
 @var{url}:  the node public url
