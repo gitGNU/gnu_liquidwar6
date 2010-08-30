@@ -1,0 +1,184 @@
+#!/bin/bash
+#
+# liquidwar6d        Startup script for Liquid War 6
+#
+# chkconfig: - 90 10
+# description: Liquid War 6 is a unique multiplayer wargame.
+# processname: liquidwar6
+# config: /var/local/games/liquidwar6/config.xml
+# pidfile: /var/local/games/liquidwar6/dameon.pid
+#
+### BEGIN INIT INFO
+# Provides: liquidwar6d
+# Required-Start: $local_fs $remote_fs $network
+# Required-Stop: $local_fs $remote_fs $network
+# Short-Description: start and stop Liquid War 6 Server
+# Description: Liquid War 6 is a unique multiplayer wargame.
+### END INIT INFO
+
+
+# Liquid War 6 is a unique multiplayer wargame.
+# Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010  Christian Mauduit <ufoot@ufoot.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+# Contact author        : ufoot@ufoot.org
+
+
+# IMPORTANT!!!
+#
+# You *don't* need to run a server to play network game,
+# any client instance of the game (that is, you run the
+# game normally, playing with graphics output and all)
+# will act as both server and client. This server mode
+# is for very rare cases, for instance if you want to
+# run a distant server for the sole purpose of serving
+# out of band messages like INFO or LIST. If you don't
+# understand what this means, you probably don't want to
+# run the server. FYI, such a server is hosted on
+# http://ufoot.org:8056/, you might be interested in
+# running a permanent server too if you are not connected
+# to the world-wide-web and/or want to run a dedicated
+# common "OOB" server on your private LAN. As a side note,
+# if you run this server on a machine, on the default port,
+# then you won't be able to run the graphical client
+# on the same machine...
+
+
+# Also note this script does not use any distribution
+# specific "function" file, most distro use such functions
+# to display fancy green OK, red "failed" on startup.
+# These are distribution specific, so they're not included
+# here, on purpose.
+
+# Script is designed to run as root then su to an
+# unpriviledged user.
+
+# You might also want to change node-title and 
+# node-description as well in config file, which by default
+# should be in /var/local/games/liquidwar6d/config.xml 
+# and be writtenby program the first time you run it.
+
+# Udp broadcast are disabled by default for it's likely
+# no sysadmin wants relentless broadcast 24/24 7/7
+
+liquidwar6=/usr/local/bin/liquidwar6
+prog=liquidwar6
+userdir=/var/local/games/liquidwar6d
+pidfile=${userdir}/daemon.pid
+user=liquidwar6
+
+# Following parameters might need to be changed
+title="public server"
+description="you should certainly change this description"
+
+# on error by default
+RETVAL=1
+
+start() {
+    echo -n "Starting $prog: "
+    if test -d "$userdir"; then
+	if su - $user -c "touch -f /var/local/games/liquidwar6d/touch.txt"; then
+            if su - $user -c "/usr/local/bin/liquidwar6 --user-dir=/var/local/games/liquidwar6d --server --daemon --broadcast=no > /var/local/games/liquidwar6d/stdout.txt 2> /var/local/games/liquidwar6d/stderr.txt"; then
+		sleep 2
+		if test -f $pidfile; then
+		    RETVAL=0
+		fi
+	    else
+		echo "Unable to start daemon $prod"
+	    fi
+	else
+	    echo "Directory \"$userdir\" must be writeable by user \"$user\""
+	fi
+    else
+	echo "Directory \"$userdir\" does not exist, create it"
+    fi
+    if test x$RETVAL = x0; then
+	echo "OK"
+    else
+	echo "failed"
+    fi
+    return $RETVAL
+}
+
+stop() {
+    echo -n "Stopping $prog: "
+    if test -f $pidfile; then
+        if kill `cat $pidfile`; then
+	    sleep 10
+	    if test -f $pidfile; then
+		rm -f $pidfile
+	    else
+		RETVAL=0
+	    fi
+	fi
+    fi
+    if test x$RETVAL = x0; then
+	echo "OK"
+    else
+	echo "failed"
+    fi
+    return $RETVAL
+}
+
+stopall() {
+    echo "Killing $prog"
+    killall liquidwar6
+    sleep 5
+    killall -9 liquidwar6
+    rm -f $pidfile
+    return $RETVAL
+}
+
+status() {
+    echo -n "$prog: "
+    if test -f $pidfile; then
+	if killall -1 liquidwar6; then
+	    RETVAL=0
+	fi
+    fi
+    if test x$RETVAL = x0; then
+	echo "pid="`cat $pidfile`	    
+    else
+	echo "not running"
+    fi
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    restart)
+	stop
+	start
+	;;
+    stopall)
+	stopall
+	;;
+    status)
+	status
+	;;
+    *)
+	echo $"Usage: $0 {start|stop|restart|stopall|status}"
+	RETVAL=3
+esac
+
+exit $RETVAL
+

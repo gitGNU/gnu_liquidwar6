@@ -20,7 +20,7 @@
 
 pkgdata_DATA = liquidwar6.desktop
 pkgdatadir = $(datadir)/applications
-EXTRA_DIST =  $(pkgdata_DATA) liquidwar6.spec liquidwar6.spec.in liquidwar6.nsi.in Info.plist.in liquidwar6.desktop.in
+EXTRA_DIST =  $(pkgdata_DATA) liquidwar6.spec liquidwar6d
 
 distclean-local:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
