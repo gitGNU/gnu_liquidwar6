@@ -30,77 +30,58 @@
  * lw6msg_cmd_generate_hello
  *
  * @info: the nod info to use
- * @mode: the mode to use (standard or URL compatible)
  *
  * Generate a HELLO command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_hello (lw6nod_info_t * info, lw6msg_cmd_mode_t mode)
+lw6msg_cmd_generate_hello (lw6nod_info_t * info)
 {
   char *ret = NULL;
-  char sep = '\0';
   char *cmd = NULL;
+  char sep = '\0';
   char *base64_codename;
   char *base64_url;
   char *base64_title;
   char *base64_description;
   int uptime = 0;
 
-  cmd = lw6sys_str_copy (LW6MSG_CMD_HELLO);
-  if (cmd)
-    {
-      switch (mode)
-	{
-	case LW6MSG_CMD_MODE_URL:
-	  lw6sys_str_tolower (cmd);
-	  sep = LW6MSG_URL_SEP;
-	  break;
-	case LW6MSG_CMD_MODE_TELNET:
-	  lw6sys_str_toupper (cmd);
-	  sep = LW6MSG_TELNET_SEP;
-	  break;
-	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unknown mode %d"), (int) mode);
-	  break;
-	}
+  cmd = LW6MSG_CMD_HELLO;
+  sep = LW6MSG_TELNET_SEP;
 
-      base64_codename = lw6glb_base64_encode_str (info->const_info.codename);
-      if (base64_codename)
+  base64_codename = lw6glb_base64_encode_str (info->const_info.codename);
+  if (base64_codename)
+    {
+      base64_url = lw6glb_base64_encode_str (info->const_info.url);
+      if (base64_url)
 	{
-	  base64_url = lw6glb_base64_encode_str (info->const_info.url);
-	  if (base64_url)
+	  base64_title = lw6glb_base64_encode_str (info->const_info.title);
+	  if (base64_title)
 	    {
-	      base64_title =
-		lw6glb_base64_encode_str (info->const_info.title);
-	      if (base64_title)
+	      base64_description =
+		lw6glb_base64_encode_str (info->const_info.description);
+	      if (base64_description)
 		{
-		  base64_description =
-		    lw6glb_base64_encode_str (info->const_info.description);
-		  if (base64_description)
-		    {
-		      uptime =
-			(lw6sys_get_timestamp () -
-			 info->const_info.creation_timestamp) / 1000;
-		      ret =
-			lw6sys_new_sprintf
-			("%s%c%s%c%s%c%s%c%d%c%s%c%s%c%s%c%s%c%d", cmd, sep,
-			 info->const_info.program, sep,
-			 info->const_info.version, sep, base64_codename, sep,
-			 info->const_info.stamp, sep, info->const_info.id,
-			 sep, base64_url, sep, base64_title, sep,
-			 base64_description, sep, uptime);
-		      LW6SYS_FREE (base64_description);
-		    }
-		  LW6SYS_FREE (base64_title);
+		  uptime =
+		    (lw6sys_get_timestamp () -
+		     info->const_info.creation_timestamp) / 1000;
+		  ret =
+		    lw6sys_new_sprintf
+		    ("%s%c%s%c%s%c%s%c%d%c%s%c%s%c%s%c%s%c%d%c%d", cmd, sep,
+		     info->const_info.program, sep,
+		     info->const_info.version, sep, base64_codename, sep,
+		     info->const_info.stamp, sep, info->const_info.id,
+		     sep, base64_url, sep, base64_title, sep,
+		     base64_description, sep, info->const_info.bench, sep,
+		     uptime);
+		  LW6SYS_FREE (base64_description);
 		}
-	      LW6SYS_FREE (base64_url);
+	      LW6SYS_FREE (base64_title);
 	    }
-	  LW6SYS_FREE (base64_codename);
+	  LW6SYS_FREE (base64_url);
 	}
-      //  ret=lw6sys_new_sprintf("%s%c%s%c");
-      LW6SYS_FREE (cmd);
+      LW6SYS_FREE (base64_codename);
     }
 
   return ret;
@@ -109,16 +90,14 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info, lw6msg_cmd_mode_t mode)
 /**
  * lw6msg_cmd_generate_ticket
  *
- * @info: the nod info to use
- * @mode: the mode to use (standard or URL compatible)
+ * @ticket: the ticket to send
  *
  * Generate a TICKET command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_ticket (lw6nod_info_t * info, lw6msg_cmd_mode_t mode,
-			    u_int32_t ticket)
+lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
 {
   char *ret = NULL;
 
@@ -128,14 +107,14 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, lw6msg_cmd_mode_t mode,
 /**
  * lw6msg_cmd_generate_foo
  *
- * @mode: the mode to use (standard or URL compatible)
+ * @key: the key to identify the message
  *
  * Generate a FOO command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t mode, int key)
+lw6msg_cmd_generate_foo (u_int32_t key)
 {
   char *ret = NULL;
 
@@ -145,14 +124,14 @@ lw6msg_cmd_generate_foo (lw6msg_cmd_mode_t mode, int key)
 /**
  * lw6msg_cmd_generate_bar
  *
- * @mode: the mode to use (standard or URL compatible)
+ * @key: the key to identify the message
  *
  * Generate a BAR command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t mode, int key)
+lw6msg_cmd_generate_bar (u_int32_t key)
 {
   char *ret = NULL;
 
@@ -162,16 +141,177 @@ lw6msg_cmd_generate_bar (lw6msg_cmd_mode_t mode, int key)
 /**
  * lw6msg_cmd_generate_goodbye
  *
- * @mode: the mode to use (standard or URL compatible)
- *
  * Generate a GOODBYE command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode)
+lw6msg_cmd_generate_goodbye ()
 {
   char *ret = NULL;
+
+  return ret;
+}
+
+static int
+_analyse_info (lw6nod_info_t ** info, char **next, char *msg)
+{
+  int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+  lw6msg_word_t program;
+  lw6msg_word_t version;
+  lw6msg_word_t codename;
+  int stamp = 0;
+  u_int64_t id = 0;
+  lw6msg_word_t url;
+  lw6msg_word_t title;
+  lw6msg_word_t description;
+  int bench = 0;
+  int uptime = 0;
+
+  (*info) = NULL;
+  if (next)
+    {
+      (*next) = NULL;
+    }
+
+  pos = msg;
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing program \"%s\""), pos);
+  if (lw6msg_word_first (&program, &seek, pos))
+    {
+      pos = seek;
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing version \"%s\""), pos);
+      if (lw6msg_word_first (&version, &seek, pos))
+	{
+	  pos = seek;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing codename \"%s\""), pos);
+	  if (lw6msg_word_first_base64 (&codename, &seek, pos))
+	    {
+	      pos = seek;
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing stamp \"%s\""), pos);
+	      if (lw6msg_word_first_int_gt0 (&stamp, &seek, pos))
+		{
+		  pos = seek;
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing id \"%s\""),
+			      pos);
+		  if (lw6msg_word_first_id_64 (&id, &seek, pos))
+		    {
+		      pos = seek;
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing url \"%s\""),
+				  pos);
+		      if (lw6msg_word_first_base64 (&url, &seek, pos)
+			  && lw6sys_url_is_canonized (url.buf))
+			{
+			  pos = seek;
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _("analyzing title \"%s\""), pos);
+			  if (lw6msg_word_first_base64 (&title, &seek, pos))
+			    {
+			      pos = seek;
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _("analyzing description \"%s\""),
+					  pos);
+			      if (lw6msg_word_first_base64
+				  (&description, &seek, pos))
+				{
+				  pos = seek;
+				  lw6sys_log (LW6SYS_LOG_DEBUG,
+					      _("analyzing bench \"%s\""),
+					      pos);
+				  if (lw6msg_word_first_int
+				      (&bench, &seek, pos))
+				    {
+				      pos = seek;
+				      lw6sys_log (LW6SYS_LOG_DEBUG,
+						  _
+						  ("analyzing uptime \"%s\""),
+						  pos);
+				      if (lw6msg_word_first_int
+					  (&uptime, &seek, pos))
+					{
+					  pos = seek;
+					  (*info) =
+					    lw6nod_info_new (program.buf,
+							     version.buf,
+							     codename.buf,
+							     stamp, id,
+							     url.buf,
+							     title.buf,
+							     description.buf,
+							     NULL, bench,
+							     uptime, 0, NULL);
+					  if (*info)
+					    {
+					      if (next)
+						{
+						  (*next) = pos;
+						}
+					      ret = 1;
+					    }
+					  else
+					    {
+					      lw6sys_log (LW6SYS_LOG_WARNING,
+							  _
+							  ("unable to create nod info"));
+					    }
+					}
+				      else
+					{
+					  lw6sys_log (LW6SYS_LOG_DEBUG,
+						      _("bad uptime \"%s\""),
+						      pos);
+					}
+				    }
+				  else
+				    {
+				      lw6sys_log (LW6SYS_LOG_DEBUG,
+						  _("bad bench \"%s\""), pos);
+				    }
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_DEBUG,
+					      _("bad description \"%s\""),
+					      pos);
+				}
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _("bad title \"%s\""), pos);
+			    }
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad url \"%s\""),
+				      pos);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad id \"%s\""), pos);
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad stamp \"%s\""), pos);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad codename \"%s\""), pos);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad version \"%s\""), pos);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad program \"%s\""), pos);
+    }
 
   return ret;
 }
@@ -187,21 +327,22 @@ lw6msg_cmd_generate_goodbye (lw6msg_cmd_mode_t mode)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
+lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
 {
   int ret = 0;
-  lw6msg_word_t word;
-  char *seek=NULL;
-  char *pos=NULL;
 
-  if (lw6sys_str_starts_with_no_case(msg,LW6MSG_CMD_HELLO)) {
-    pos=msg+strlen(LW6MSG_CMD_HELLO);
-    if (lw6msg_word_first(&word,&seek,pos)) {
-      // todo...
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_HELLO))
+    {
+      if (_analyse_info (info, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
+	{
+	  ret = 1;
+	}
     }
-  } else {
-    lw6sys_log(LW6SYS_LOG_DEBUG,_("parsing HELLO but couldn't find it in \"%s\""),msg);
-  }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _("parsing HELLO but couldn't find it in \"%s\""), msg);
+    }
 
   return ret;
 }
@@ -218,7 +359,8 @@ lw6cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket, char *msg)
+lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
+			   char *msg)
 {
   int ret = 0;
 
@@ -237,7 +379,7 @@ lw6cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_foo (int *key, char *msg)
+lw6msg_cmd_analyse_foo (int *key, char *msg)
 {
   int ret = 0;
 
@@ -255,7 +397,7 @@ lw6cmd_analyse_foo (int *key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_bar (int *key, char *msg)
+lw6msg_cmd_analyse_bar (int *key, char *msg)
 {
   int ret = 0;
 
@@ -272,7 +414,7 @@ lw6cmd_analyse_bar (int *key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cmd_analyse_goodbye (char *msg)
+lw6msg_cmd_analyse_goodbye (char *msg)
 {
   int ret = 0;
 

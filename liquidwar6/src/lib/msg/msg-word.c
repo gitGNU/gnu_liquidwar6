@@ -93,6 +93,54 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
 }
 
 /**
+ * lw6msg_word_first_base64
+ *
+ * @word: will contain the parsed word
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message and gets the first word. This word is put in @buf member
+ * with its length. @next is usefull if you want to parse the rest of the message,
+ * it points at the beginning of it. The word is expected to
+ * be base64 encoded and is decoded on-the-fly.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, char *msg)
+{
+  int ret = 0;
+  lw6msg_word_t tmp_word;
+  char *tmp_next = NULL;
+  char *decoded = NULL;
+  int decoded_len = 0;
+
+  ret = lw6msg_word_first (&tmp_word, &tmp_next, msg);
+  if (ret)
+    {
+      ret = 0;
+      decoded = lw6glb_base64_decode_bin (&decoded_len, tmp_word.buf);
+      if (decoded)
+	{
+	  if (decoded_len <= LW6MSG_MAX_WORD_SIZE)
+	    {
+	      memcpy (word->buf, decoded, decoded_len);
+	      word->buf[decoded_len] = '\0';
+	      word->len = decoded_len;
+	      if (next)
+		{
+		  (*next) = tmp_next;
+		}
+	      ret = 1;
+	    }
+	  LW6SYS_FREE (decoded);
+	}
+    }
+
+  return ret;
+}
+
+/**
  * lw6msg_word_first_int
  *
  * @parsed_value: will contain the parsed value

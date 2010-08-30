@@ -43,6 +43,7 @@
 #define _TEST_DESCRIPTION "This is not an explanation about what this is."
 #define _TEST_PASSWORD "toto"
 #define _TEST_BENCH 10
+#define _TEST_UPTIME 60
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_REQUEST_COMMAND "INFO"
@@ -59,6 +60,9 @@
 #define _TEST_DEFAULT_VALUE_INT 123
 #define _TEST_WORD_STR_OK "this is a phrase with words"
 #define _TEST_WORD_STR_KO " "
+#define _TEST_WORD_BASE64_ITEM " spaces /slashes/"
+#define _TEST_WORD_BASE64_OK "%s just before this was base64"
+#define _TEST_WORD_BASE64_KO "jklmjk %s I said BASE64 first!"
 #define _TEST_WORD_INT_OK "0 is a number"
 #define _TEST_WORD_INT_KO "\n"
 #define _TEST_WORD_INT_GT0_OK "1 is greater than 0"
@@ -75,23 +79,6 @@
 #define _TEST_Z_MSG_4 "éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,"
 #define _TEST_Z_LIMIT 30
 
-static int
-_test_cmd_do (lw6nod_info_t * info, lw6msg_cmd_mode_t mode)
-{
-  int ret = 1;
-  char *msg = NULL;
-
-  msg = lw6msg_cmd_generate_hello (info, mode);
-  if (msg)
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("hello command (mode=%d) is \"%s\""),
-		  (int) mode, msg);
-      LW6SYS_FREE (msg);
-    }
-
-  return ret;
-}
-
 /*
  * Testing functions in cmd.c
  */
@@ -103,17 +90,36 @@ test_cmd ()
 
   {
     lw6nod_info_t *info = NULL;
+    lw6nod_info_t *analyzed_info = NULL;
+    char *msg = NULL;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
 		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
-		       _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
-	ret = _test_cmd_do (info, LW6MSG_CMD_MODE_TELNET);
-	ret = _test_cmd_do (info, LW6MSG_CMD_MODE_URL);
+	msg = lw6msg_cmd_generate_hello (info);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("hello command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_hello (&analyzed_info, msg))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("hello command analysed (node url=\"%s\")"),
+			    analyzed_info->const_info.url);
+		lw6nod_info_free (analyzed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
 	lw6nod_info_free (info);
       }
   }
@@ -148,7 +154,7 @@ test_oob ()
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
 		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
-		       _TEST_IDLE_SCREENSHOT_SIZE,
+		       _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
@@ -209,7 +215,7 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_1,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -225,7 +231,7 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_2,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -241,7 +247,7 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_3,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_PASSWORD, _TEST_BENCH, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -589,6 +595,8 @@ test_word ()
     u_int16_t id_16 = 0;
     u_int32_t id_32 = 0;
     u_int64_t id_64 = 0;
+    char *base64_item = NULL;
+    char *base64_str = NULL;
 
     if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_OK))
       {
@@ -615,6 +623,49 @@ test_word ()
 		    _TEST_WORD_STR_KO);
       }
 
+    base64_item = lw6glb_base64_encode_str (_TEST_WORD_BASE64_ITEM);
+    if (base64_item)
+      {
+	base64_str = lw6sys_new_sprintf (_TEST_WORD_BASE64_OK, base64_item);
+	if (base64_str)
+	  {
+	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("parsed base64 str=\"%s\", next=\"%s\""),
+			    word.buf, next);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to parse base 64 from \"%s\""),
+			    base64_str);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (base64_str);
+	  }
+	base64_str = lw6sys_new_sprintf (_TEST_WORD_BASE64_KO, base64_item);
+	if (base64_str)
+	  {
+	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+			    word.buf, base64_str);
+		ret = 0;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("unable to parse base64 from \"%s\", that's right"),
+			    base64_str);
+	      }
+	    LW6SYS_FREE (base64_str);
+	  }
+	LW6SYS_FREE (base64_item);
+      }
+
     if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed int=%d, next=\"%s\""), i,
@@ -622,7 +673,7 @@ test_word ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse int from \"%s\""),
 		    _TEST_WORD_INT_OK);
 	ret = 0;
       }
@@ -647,7 +698,8 @@ test_word ()
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("unable to parse int (>0) from \"%s\""),
 		    _TEST_WORD_INT_GT0_OK);
 	ret = 0;
       }
@@ -661,7 +713,7 @@ test_word ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse \"%s\", that's right"),
+		    _("unable to parse int from \"%s\", that's right"),
 		    _TEST_WORD_INT_GT0_KO);
       }
 

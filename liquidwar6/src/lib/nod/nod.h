@@ -27,7 +27,6 @@
 
 typedef struct lw6nod_const_info_s
 {
-  int64_t creation_timestamp;
   char *program;
   char *version;
   char *codename;
@@ -38,6 +37,7 @@ typedef struct lw6nod_const_info_s
   char *description;
   char *password;
   int bench;
+  int64_t creation_timestamp;
   int idle_screenshot_size;
   void *idle_screenshot_data;
 } lw6nod_const_info_t;
@@ -75,7 +75,8 @@ extern lw6nod_info_t *lw6nod_info_new (char *program,
 				       int stamp,
 				       u_int64_t id, char *url, char *title,
 				       char *description, char *password,
-				       int bench, int idle_screenshot_size,
+				       int bench, int uptime,
+				       int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);
 extern int lw6nod_info_lock (lw6nod_info_t * info);

@@ -32,7 +32,7 @@ extern int _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 				    char *program, char *version,
 				    char *codename, int stamp, u_int64_t id,
 				    char *url, char *title, char *description,
-				    char *password, int bench,
+				    char *password, int bench, int uptime,
 				    int idle_screenshot_size,
 				    void *idle_screenshot_data);
 extern void _lw6nod_const_info_reset (lw6nod_const_info_t * const_info);
