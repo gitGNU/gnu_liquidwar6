@@ -66,6 +66,7 @@ _select_other_node_callback (void *func_data, int nb_fields,
   char *title = NULL;
   char *description = NULL;
   int bench = 0;
+  int uptime = 0;
 
   if (nb_fields == _LW6P2P_DB_NODE_NB_FIELDS)
     {
@@ -87,11 +88,17 @@ _select_other_node_callback (void *func_data, int nb_fields,
 	{
 	  bench = lw6sys_atoi (fields_values[_LW6P2P_DB_NODE_ORDER_BENCH]);
 	}
+      /*
+       * uptime will be wrong (0), it could be possible to
+       * have it but would require a call to _lw6p2p_db_now
+       * which in turn requires a pointer on node object...
+       */
       if (id && url && title && description)
 	{
 	  verified_node =
 	    lw6nod_info_new (program, version, codename, stamp, id, url,
-			     title, description, NULL, bench, 0, NULL);
+			     title, description, bench, uptime, NULL, 0,
+			     NULL);
 	  if (verified_node && list_of_node)
 	    {
 	      lw6sys_list_push_front (list_of_node, verified_node);

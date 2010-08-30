@@ -103,6 +103,7 @@ Hacker's guide
 * Writing modules::     How to develop your own extensions.
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
+* Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
 
@@ -1234,6 +1235,7 @@ is welcome.
 * Writing modules::     How to develop your own extensions.
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
+* Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
 @end menu
@@ -2939,7 +2941,7 @@ Todo...
 @c Network protocol
 @c ---------------------------------------------------------------------------
 
-@node Network protocol, Using GNU Arch, Use as a library, Hacker's guide
+@node Network protocol, Technical HOWTOs, Use as a library, Hacker's guide
 @section Network protocol
 
 This section describes how Liquid War 6 handles network messages.
@@ -3107,10 +3109,89 @@ Sig is a checksum on string:
 @end verbatim
 
 @c ---------------------------------------------------------------------------
+@c Technical HOWTOs
+@c ---------------------------------------------------------------------------
+
+@node Technical HOWTOs, Using GNU Arch, Network protocol, Hacker's guide
+@section Technical HOWTOs
+
+@subsection Release check-list
+
+Summary off all operations required for a release:
+
+@itemize
+@item
+in @code{./src}, run @code{./indent.sh}.
+@item
+in @code{./doc}, run @code{./gdoc-update.sh}.
+@item
+edit @code{NEWS} file, in both @code{liquidwar6} and @code{liquidwar6-extra-maps}. Check @code{ChangeLog} is OK.
+@item
+update the version history in @code{doc/liquidwar6.texi}.
+@item
+run @code{make distcheck}... (at least!)
+@item
+build @code{RPM} package (@code{make -C pkg rpm}), check @code{yum install} produces a working installation, also check the @code{rpm -e} command to verify uninstalling is OK too.
+@item
+build @code{.exe} main binary on Microsoft Windows then go back to GNU/Linux and build @code{.exe} installer (@code{make -C pkg installer}), go back to Microsoft Windows and test the installer (there are often problems at this stage because of missing libraries or other files...).
+@item
+build @code{.dmd} Mac OS X disk image, check it works even when @code{/opt} and @code{/usr/local} or (re)moved, this is important, else execution might rely on binaries which are only on the development machine and do not ship with game.
+@item
+upload files (doc on @uref{http://savannah.gnu.org/maintenance/DownloadArea}), with a command like @code{rsync --rsh=ssh ./version/ login@@dl.sv.nongnu.org:/releases/liquidwar6/version/}. Each file must have its @code{.sig} corresponding file.
+@item
+update online docs with @code{gendocs.sh}, carefull, @code{liquidwar6.html} is suppressed by this, need to re-create it from previous version and/or @code{index.html} which is the same.
+@item
+update @code{index.html}, @code{liquidwar6.html} and @code{liquidwar6.fr.html} so that they reflect the latest release. Check download links are OK.
+@item
+run @code{./configure --enable-gcov ; make clean ; make}. Then run @code{src/liquidwar6 --test}, stay here and get ready to respond interactively to various questions. Then cd to @code{./doc/coverage} and run @code{make opt}. Copy files to web CVS, sync them.
+@item
+cd to @code{./doc/global} and run @code{make opt}. Copy files to web CVS, sync them.
+@item
+cd to @code{./doc/cyclo} and run @code{make opt}. Copy files to web CVS, sync them.
+@item
+post news on @uref{https://savannah.gnu.org/news/?group=liquidwar6}, @uref{http://lists.gnu.org/mailman/listinfo/help-liquidwar6} and @uref{http://lists.gnu.org/mailman/listinfo/info-liquidwar6}.
+@end itemize
+
+@subsection Add a new internal library
+
+This describes how to add a new @code{libxyz} internal library:
+
+@itemize
+@item
+create a new @code{src/lib/xyz} directory. The convention is to use 3 letters names and prefix every global identifier with @code{lw6xyz}.
+@item
+copy @code{Makefile.am}, @code{xyz.h}, @code{xyz-test.c} and @code{xyz-testmain.c} from an existing internal library.
+@item
+edit @code{Makefile.am} to fill requirements, make necessary adjustments to other files (many string replaces to make, both lowercase and uppercase).
+@item
+add the entry in the @code{SUBDIRS} of @code{src/lib/Makefile.am}
+@item
+add the entry in the @code{AC_CONFIG_FILES} of @code{./configure.ac}.
+@item
+run @code{automake} and @code{autoconf}.
+@item
+edit @code{src/lib/lw6-options.c} and add a call to @code{lw6xyz_test()} for both ``check'' and ``test'' cases.
+@item
+in every internal @code{abc} library that depends on @code{xyz}, edit the @code{lw6abc_test} function so that it contains a reference to @code{lw6xzy_test}.
+@item
+in every internal @code{abc} library that depends on @code{abc/abc.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}.
+@item
+edit @code{doc/Makefile.gdoc} and add the entry for @code{xyz}.
+@item
+edit @code{doc/Makefile.am} and add @code{xyz-gdoc.texi} in @code{gdoc_TEXINFOS}.
+@item
+run @code{doc/gdoc-update.sh}.
+@item
+edit @code{doc/liquidwar6.texi} to and a new node/section for this internal library.
+@item
+run @code{./configure && make}, fix code if needed.
+@end itemize
+
+@c ---------------------------------------------------------------------------
 @c Using GNU Arch
 @c ---------------------------------------------------------------------------
 
-@node Using GNU Arch, Using GIT, Network protocol, Hacker's guide
+@node Using GNU Arch, Using GIT, Technical HOWTOs, Hacker's guide
 @section Using GNU Arch
 
 @subsection About GNU Arch

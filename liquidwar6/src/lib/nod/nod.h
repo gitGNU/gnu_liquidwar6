@@ -74,8 +74,9 @@ extern lw6nod_info_t *lw6nod_info_new (char *program,
 				       char *codename,
 				       int stamp,
 				       u_int64_t id, char *url, char *title,
-				       char *description, char *password,
+				       char *description,
 				       int bench, int uptime,
+				       char *password,
 				       int idle_screenshot_size,
 				       void *idle_screenshot_data);
 extern void lw6nod_info_free (lw6nod_info_t * info);

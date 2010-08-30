@@ -69,6 +69,7 @@ Hacker's guide
 * Writing modules::     How to develop your own extensions.
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
+* Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
 
@@ -1166,6 +1167,7 @@ versions. Any feedback is welcome.
 * Writing modules::     How to develop your own extensions.
 * Use as a library::    Liquid War 6 can be embedded in your own programs.
 * Network protocol::    How the game communicates with others.
+* Technical HOWTOs::    Recipes for the maintainer(s).
 * Using GNU Arch::      A quick tla survival guide.
 * Using GIT::           GIT is used to handle source code.
 
@@ -2838,7 +2840,7 @@ File: liquidwar6.info,  Node: Use as a library,  Next: Network protocol,  Prev: 
 Todo...
 
 
-File: liquidwar6.info,  Node: Network protocol,  Next: Using GNU Arch,  Prev: Use as a library,  Up: Hacker's guide
+File: liquidwar6.info,  Node: Network protocol,  Next: Technical HOWTOs,  Prev: Use as a library,  Up: Hacker's guide
 
 3.13 Network protocol
 =====================
@@ -2989,12 +2991,116 @@ PING [<passwd>] [<public-url>]
 <from-id> <to-id> <serial> <i> <n> MSG
 
 
-File: liquidwar6.info,  Node: Using GNU Arch,  Next: Using GIT,  Prev: Network protocol,  Up: Hacker's guide
+File: liquidwar6.info,  Node: Technical HOWTOs,  Next: Using GNU Arch,  Prev: Network protocol,  Up: Hacker's guide
 
-3.14 Using GNU Arch
+3.14 Technical HOWTOs
+=====================
+
+3.14.1 Release check-list
+-------------------------
+
+Summary off all operations required for a release:
+
+   * run `cd doc && ./gdoc-update.sh'.
+
+   * edit `NEWS' file, in both `liquidwar6' and `liquidwar6-extra-maps'
+
+   * update the version history in `doc/liquidwar6.texi'.
+
+   * run `make distcheck'... (at least!)
+
+   * build `RPM' package (`make -C pkg rpm'), check `yum install'
+     produces a working installation, also check the `rpm -e' command
+     to verify uninstalling is OK too.
+
+   * build `.exe' main binary on Microsoft Windows then go back to
+     GNU/Linux and build `.exe' installer (`make -C pkg installer'), go
+     back to Microsoft Windows and test the installer (there are often
+     problems at this stage because of missing libraries or other
+     files...).
+
+   * build `.dmd' Mac OS X disk image, check it works even when `/opt'
+     and `/usr/local' or (re)moved, this is important, else execution
+     might rely on binaries which are only on the development machine
+     and do not ship with game.
+
+   * upload files (doc on
+     `http://savannah.gnu.org/maintenance/DownloadArea'), with a
+     command like `rsync --rsh=ssh ./version/
+     login@dl.sv.nongnu.org:/releases/liquidwar6/version/'. Each file
+     must have its `.sig' corresponding file.
+
+   * update online docs with `gendocs.sh', carefull, `liquidwar6.html'
+     is suppressed by this, need to re-create it from previous version
+     and/or `index.html' which is the same.
+
+   * update `index.html', `liquidwar6.html' and `liquidwar6.fr.html' so
+     that they reflect the latest release. Check download is OK.
+
+   * run `./configure --enable-gcov ; make clean ; make'. Then run
+     `src/liquidwar6 --test', stay here and get ready to respond
+     interactively to various questions. Then cd to `./doc/coverage'
+     and run `make opt'. Copy files to web CVS, sync them.
+
+   * cd to `./doc/global' and run `make opt'. Copy files to web CVS,
+     sync them.
+
+   * cd to `./doc/cyclo' and run `make opt'. Copy files to web CVS,
+     sync them.
+
+   * post news on `https://savannah.gnu.org/news/?group=liquidwar6',
+     `http://lists.gnu.org/mailman/listinfo/help-liquidwar6' and
+     `http://lists.gnu.org/mailman/listinfo/info-liquidwar6'.
+
+3.14.2 Add a new internal library
+---------------------------------
+
+This describes how to add a new `libxyz' internal library:
+
+   * create a new `src/lib/xyz' directory. The convention is to use 3
+     letters names and prefix every global identifier with `lw6xyz'.
+
+   * copy `Makefile.am', `xyz.h', `xyz-test.c' and `xyz-testmain.c'
+     from an existing internal library.
+
+   * edit `Makefile.am' to fill requirements, make necessary
+     adjustments to other files (many string replaces to make, both
+     lowercase and uppercase).
+
+   * add the entry in the `SUBDIRS' of `src/lib/Makefile.am'
+
+   * add the entry in the `AC_CONFIG_FILES' of `./configure.ac'.
+
+   * run `automake' and `autoconf'.
+
+   * edit `src/lib/lw6-options.c' and add a call to `lw6xyz_test()' for
+     both "check" and "test" cases.
+
+   * in every internal `abc' library that depends on `xyz', edit the
+     `lw6abc_test' function so that it contains a reference to
+     `lw6xzy_test'.
+
+   * in every internal `abc' library that depends on `abc/abc.h', edit
+     the `abc/abc.h' header so that it includes `xzy/xyz.h'.
+
+   * edit `doc/Makefile.gdoc' and add the entry for `xyz'.
+
+   * edit `doc/Makefile.am' and add `xyz-gdoc.texi' in `gdoc_TEXINFOS'.
+
+   * run `doc/gdoc-update.sh'.
+
+   * edit `doc/liquidwar6.texi' to and a new node/section for this
+     internal library.
+
+   * run `./configure && make', fix code if needed.
+
+
+File: liquidwar6.info,  Node: Using GNU Arch,  Next: Using GIT,  Prev: Technical HOWTOs,  Up: Hacker's guide
+
+3.15 Using GNU Arch
 ===================
 
-3.14.1 About GNU Arch
+3.15.1 About GNU Arch
 ---------------------
 
 Since March, 4th 2010, Liquid War 6 uses GIT (http://git-scm.com/) to
@@ -3027,7 +3133,7 @@ tla. GNU Arch has been chosen for Liquid War 6 because:
 
    * it was already available back in 2005.
 
-3.14.2 Getting the latest version from the repository
+3.15.2 Getting the latest version from the repository
 -----------------------------------------------------
 
 The repository for Liquid War 6 is accessible on
@@ -3052,7 +3158,7 @@ public key (http://www.ufoot.org/ufoot.pub).
 text in it:
      tla-gpg-check gpg_command="gpg --verify-files -"
 
-3.14.3 Setting up your own arch repository
+3.15.3 Setting up your own arch repository
 ------------------------------------------
 
 This section is for those who want to hack the game and set up their
@@ -3085,7 +3191,7 @@ indicate that they represent, today, the same thing.
    This will create a complete source tree, which you are free to
 modify, this is where you should hack.
 
-3.14.4 Synchronizing your repository with upstream releases
+3.15.4 Synchronizing your repository with upstream releases
 -----------------------------------------------------------
 
 To synchronize yourself with upstream developments, go into your copy
@@ -3102,7 +3208,7 @@ cherry pick patches and such stuff, but for most dayly uses, a good'ol
 not on your repository. The only way to actually commit the
 modifications on the repository is to use the `commit' command.
 
-3.14.5 Submitting patches
+3.15.5 Submitting patches
 -------------------------
 
 When using Arch, you can of course still send patches created with
@@ -3124,7 +3230,7 @@ snapshot and a not yet commited latest version:
    This will create a `my-patch' directory, which can be gzipped and
 sent by mail.
 
-3.14.6 Recover from broken lock
+3.15.6 Recover from broken lock
 -------------------------------
 
 Sometimes, when signing a patch, you might enter the wrong passphrase
@@ -3141,10 +3247,10 @@ re-commit.
 
 File: liquidwar6.info,  Node: Using GIT,  Prev: Using GNU Arch,  Up: Hacker's guide
 
-3.15 Using GIT
+3.16 Using GIT
 ==============
 
-3.15.1 About GIT
+3.16.1 About GIT
 ----------------
 
 There's no CVS or Subversion (AKA "SVN") source depot for Liquid War 6.
@@ -3159,7 +3265,7 @@ distributed, like GNU Arch (http://www.gnu.org/software/gnu-arch).
 
    * `http://savannah.gnu.org/git/?group=liquidwar6'
 
-3.15.2 Getting the latest source
+3.16.2 Getting the latest source
 --------------------------------
 
 Simply install git and run the following command:
@@ -3173,7 +3279,7 @@ Simply install git and run the following command:
    Additionnally, source can be browsed online here:
 `http://git.savannah.gnu.org/cgit/liquidwar6.git'
 
-3.15.3 Developper access
+3.16.3 Developper access
 ------------------------
 
 You need an ssh access on Savannah (http://savannah.gnu.org/) and
@@ -3181,7 +3287,7 @@ appropriate rights on the project, then you can type:
 
      git clone login@git.sv.gnu.org:/srv/git/liquidwar6.git
 
-3.15.4 Submitting patches
+3.16.4 Submitting patches
 -------------------------
 
 If you have developper access to the project, then a simply `git push'

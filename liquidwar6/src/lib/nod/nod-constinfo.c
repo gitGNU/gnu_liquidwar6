@@ -33,7 +33,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
 			 char *codename,
 			 int stamp, u_int64_t id,
 			 char *url, char *title, char *description,
-			 char *password, int bench, int uptime,
+			 int bench, int uptime, char *password,
 			 int idle_screenshot_size, void *idle_screenshot_data)
 {
   int ret = 0;
@@ -97,6 +97,9 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
     {
       lw6sys_str_cleanup (const_info->description);
     }
+  const_info->bench = bench;
+  const_info->creation_timestamp =
+    lw6sys_get_timestamp () - (u_int64_t) (uptime * 1000);
   if (password && strlen (password) > 0)
     {
       const_info->password = lw6sys_str_copy (password);
@@ -105,9 +108,6 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
     {
       const_info->password = lw6sys_str_copy ("");
     }
-  const_info->bench = bench;
-  const_info->creation_timestamp =
-    lw6sys_get_timestamp () - (u_int64_t) (uptime * 1000);
   const_info->idle_screenshot_size = idle_screenshot_size;
   if (idle_screenshot_size > 0)
     {

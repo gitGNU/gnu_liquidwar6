@@ -124,7 +124,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			 lw6sys_build_get_codename (),
 			 lw6sys_atoi (lw6sys_build_get_stamp ()),
 			 node->node_id_int, node->public_url, title,
-			 description, node->password, bench,
+			 description, bench, 0, node->password,
 			 node->db->data.idle_screenshot.size,
 			 node->db->data.idle_screenshot.data);
       if (known_nodes)
