@@ -3001,9 +3001,12 @@ File: liquidwar6.info,  Node: Technical HOWTOs,  Next: Using GNU Arch,  Prev: Ne
 
 Summary off all operations required for a release:
 
-   * run `cd doc && ./gdoc-update.sh'.
+   * in `./src', run `./indent.sh'.
 
-   * edit `NEWS' file, in both `liquidwar6' and `liquidwar6-extra-maps'
+   * in `./doc', run `./gdoc-update.sh'.
+
+   * edit `NEWS' file, in both `liquidwar6' and
+     `liquidwar6-extra-maps'. Check `ChangeLog' is OK.
 
    * update the version history in `doc/liquidwar6.texi'.
 
@@ -3035,7 +3038,7 @@ Summary off all operations required for a release:
      and/or `index.html' which is the same.
 
    * update `index.html', `liquidwar6.html' and `liquidwar6.fr.html' so
-     that they reflect the latest release. Check download is OK.
+     that they reflect the latest release. Check download links are OK.
 
    * run `./configure --enable-gcov ; make clean ; make'. Then run
      `src/liquidwar6 --test', stay here and get ready to respond

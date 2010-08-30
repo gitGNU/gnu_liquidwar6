@@ -239,8 +239,9 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 							     url.buf,
 							     title.buf,
 							     description.buf,
-							     NULL, bench,
-							     uptime, 0, NULL);
+							     bench,
+							     uptime, NULL, 0,
+							     NULL);
 					  if (*info)
 					    {
 					      if (next)
