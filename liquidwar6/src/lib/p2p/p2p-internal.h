@@ -24,6 +24,9 @@
 #define LIQUIDWAR6P2P_INTERNAL_H
 
 #include "p2p.h"
+
+#include "../map/map.h"		// only needed for #defines
+
 #include <sqlite3.h>
 
 #define _LW6P2P_DB_FALSE 0
@@ -132,6 +135,24 @@ typedef struct _lw6p2p_explore_s
 }
 _lw6p2p_explore_t;
 
+typedef struct _lw6p2p_backends_s
+{
+  int nb_cli_backends;
+  lw6cli_backend_t **cli_backends;
+  int nb_srv_backends;
+  lw6srv_backend_t **srv_backends;
+} _lw6p2p_backends_t;
+
+typedef struct _lw6p2p_tentacle_s
+{
+  u_int64_t remote_id;
+  char *remote_url;
+  int nb_cli_connections;
+  lw6cli_connection_t **cli_connections;
+  int nb_srv_connections;
+  lw6srv_connection_t **srv_connections;
+} _lw6p2p_tentacle_t;
+
 typedef struct _lw6p2p_node_s
 {
   u_int32_t id;
@@ -146,15 +167,13 @@ typedef struct _lw6p2p_node_s
   char *password;
   lw6nod_info_t *node_info;
   char *known_nodes;
-  int nb_cli_backends;
-  lw6cli_backend_t **cli_backends;
   lw6srv_listener_t *listener;
-  int nb_srv_backends;
-  lw6srv_backend_t **srv_backends;
+  _lw6p2p_backends_t backends;
   lw6sys_list_t *srv_oobs;
   lw6sys_list_t *cli_oobs;
   _lw6p2p_flush_t flush;
   _lw6p2p_explore_t explore;
+  _lw6p2p_tentacle_t tentacles[LW6MAP_MAX_NB_NODES];
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s
@@ -170,6 +189,17 @@ typedef struct _lw6p2p_cli_oob_callback_data_s
   lw6nod_info_t *node_info;
   lw6cli_oob_t *cli_oob;
 } _lw6p2p_cli_oob_callback_data_t;
+
+/* p2p-backends.c */
+extern int _lw6p2p_backends_init_cli (int argc, char *argv[],
+				      _lw6p2p_backends_t * backends,
+				      char *client_backends);
+extern int _lw6p2p_backends_init_srv (int argc, char *argv[],
+				      _lw6p2p_backends_t * backends,
+				      char *server_backends,
+				      lw6srv_listener_t * listener);
+extern void _lw6p2p_backends_clear_cli (_lw6p2p_backends_t * backends);
+extern void _lw6p2p_backends_clear_srv (_lw6p2p_backends_t * backends);
 
 /* p2p-clioob.c */
 extern _lw6p2p_cli_oob_callback_data_t
@@ -247,5 +277,7 @@ _lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t *
 				    srv_oob);
 extern int _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob);
 extern void _lw6p2p_srv_oob_callback (void *callback_data);
+
+/* p2p-tentacle.c */
 
 #endif

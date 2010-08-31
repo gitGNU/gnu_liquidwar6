@@ -26,29 +26,16 @@
 
 #include "msg.h"
 
-/**
- * lw6msg_cmd_generate_hello
- *
- * @info: the nod info to use
- *
- * Generate a HELLO command.
- *
- * Return value: newly allocated string.
- */
 char *
-lw6msg_cmd_generate_hello (lw6nod_info_t * info)
+_generate_info (char *cmd, lw6nod_info_t * info)
 {
   char *ret = NULL;
-  char *cmd = NULL;
-  char sep = '\0';
+  char sep = LW6MSG_TELNET_SEP;
   char *base64_codename;
   char *base64_url;
   char *base64_title;
   char *base64_description;
   int uptime = 0;
-
-  cmd = LW6MSG_CMD_HELLO;
-  sep = LW6MSG_TELNET_SEP;
 
   base64_codename = lw6glb_base64_encode_str (info->const_info.codename);
   if (base64_codename)
@@ -88,8 +75,28 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info)
 }
 
 /**
+ * lw6msg_cmd_generate_hello
+ *
+ * @info: the node info to use
+ *
+ * Generate a HELLO command.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6msg_cmd_generate_hello (lw6nod_info_t * info)
+{
+  char *ret = NULL;
+
+  ret = _generate_info (LW6MSG_CMD_HELLO, info);
+
+  return ret;
+}
+
+/**
  * lw6msg_cmd_generate_ticket
  *
+ * @info: the node info to use
  * @ticket: the ticket to send
  *
  * Generate a TICKET command.
@@ -100,6 +107,15 @@ char *
 lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
 {
   char *ret = NULL;
+  char sep = LW6MSG_TELNET_SEP;
+  char *info_str = NULL;
+
+  info_str = _generate_info (LW6MSG_CMD_TICKET, info);
+  if (info_str)
+    {
+      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, ticket);
+      LW6SYS_FREE (info_str);
+    }
 
   return ret;
 }
@@ -107,6 +123,7 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
 /**
  * lw6msg_cmd_generate_foo
  *
+ * @info: the node info to use
  * @key: the key to identify the message
  *
  * Generate a FOO command.
@@ -114,9 +131,18 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_foo (u_int32_t key)
+lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key)
 {
   char *ret = NULL;
+  char sep = LW6MSG_TELNET_SEP;
+  char *info_str = NULL;
+
+  info_str = _generate_info (LW6MSG_CMD_FOO, info);
+  if (info_str)
+    {
+      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, key);
+      LW6SYS_FREE (info_str);
+    }
 
   return ret;
 }
@@ -124,6 +150,7 @@ lw6msg_cmd_generate_foo (u_int32_t key)
 /**
  * lw6msg_cmd_generate_bar
  *
+ * @info: the node info to use
  * @key: the key to identify the message
  *
  * Generate a BAR command.
@@ -131,9 +158,18 @@ lw6msg_cmd_generate_foo (u_int32_t key)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_bar (u_int32_t key)
+lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key)
 {
   char *ret = NULL;
+  char sep = LW6MSG_TELNET_SEP;
+  char *info_str = NULL;
+
+  info_str = _generate_info (LW6MSG_CMD_BAR, info);
+  if (info_str)
+    {
+      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, key);
+      LW6SYS_FREE (info_str);
+    }
 
   return ret;
 }
@@ -141,14 +177,18 @@ lw6msg_cmd_generate_bar (u_int32_t key)
 /**
  * lw6msg_cmd_generate_goodbye
  *
+ * @info: the node info to use
+ *
  * Generate a GOODBYE command.
  *
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_goodbye ()
+lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
 {
   char *ret = NULL;
+
+  ret = _generate_info (LW6MSG_CMD_GOODBYE, info);
 
   return ret;
 }
@@ -364,6 +404,30 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
 			   char *msg)
 {
   int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_TICKET))
+    {
+      pos = msg + strlen (LW6MSG_CMD_TICKET);
+      if (_analyse_info (info, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_id_32 (ticket, &seek, pos))
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad ticket \"%s\""), pos);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _("parsing TICKET but couldn't find it in \"%s\""), msg);
+    }
 
   return ret;
 }
@@ -372,6 +436,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
 /**
  * lw6msg_cmd_analyse_foo
  *
+ * @info: if not NULL, will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @msg: the message to anaylse
  *
@@ -380,9 +445,33 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_foo (int *key, char *msg)
+lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 {
   int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_FOO))
+    {
+      pos = msg + strlen (LW6MSG_CMD_FOO);
+      if (_analyse_info (info, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_id_32 (key, &seek, pos))
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad key \"%s\""), pos);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _("parsing FOO but couldn't find it in \"%s\""), msg);
+    }
 
   return ret;
 }
@@ -390,6 +479,7 @@ lw6msg_cmd_analyse_foo (int *key, char *msg)
 /**
  * lw6msg_cmd_analyse_bar
  *
+ * @info: if not NULL, will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @msg: the message to anaylse
  *
@@ -398,9 +488,33 @@ lw6msg_cmd_analyse_foo (int *key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_bar (int *key, char *msg)
+lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 {
   int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_BAR))
+    {
+      pos = msg + strlen (LW6MSG_CMD_BAR);
+      if (_analyse_info (info, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_id_32 (key, &seek, pos))
+	    {
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad key \"%s\""), pos);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _("parsing BAR but couldn't find it in \"%s\""), msg);
+    }
 
   return ret;
 }
@@ -408,6 +522,7 @@ lw6msg_cmd_analyse_bar (int *key, char *msg)
 /**
  * lw6msg_cmd_analyse_goodbye
  *
+ * @info: if not NULL, will contain (remote) node info on success
  * @msg: the message to anaylse
  *
  * Analyzes a GOODBYE message.
@@ -415,9 +530,22 @@ lw6msg_cmd_analyse_bar (int *key, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_goodbye (char *msg)
+lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
 {
   int ret = 0;
+
+  if (lw6sys_str_starts_with_no_case (msg, LW6MSG_CMD_GOODBYE))
+    {
+      if (_analyse_info (info, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
+	{
+	  ret = 1;
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _("parsing GOODBYE but couldn't find it in \"%s\""), msg);
+    }
 
   return ret;
 }

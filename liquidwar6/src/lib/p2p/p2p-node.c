@@ -79,8 +79,6 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *description, int bench, char *known_nodes)
 {
   _lw6p2p_node_t *node = NULL;
-  lw6sys_list_t *list_backends = NULL;
-  char *backend = NULL;
   char *query = NULL;
   char *escaped_public_url = NULL;
   char *escaped_title = NULL;
@@ -151,134 +149,13 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	   */
 	  ret = (node->listener != NULL);
 	}
-      if (ret)
-	{
-	  ret = 0;
-	  list_backends = lw6sys_str_split_config_item (client_backends);
-	  if (list_backends)
-	    {
-	      while (list_backends
-		     && ((backend = lw6sys_list_pop_front (&list_backends)) !=
-			 NULL))
-		{
-		  node->nb_cli_backends++;
-		  if (node->cli_backends)
-		    {
-		      node->cli_backends =
-			(lw6cli_backend_t **)
-			LW6SYS_REALLOC (node->cli_backends,
-					node->nb_cli_backends *
-					sizeof (lw6cli_backend_t *));
-		    }
-		  else
-		    {
-		      node->cli_backends =
-			(lw6cli_backend_t **)
-			LW6SYS_MALLOC (node->nb_cli_backends *
-				       sizeof (lw6cli_backend_t *));
-		    }
-		  if (node->cli_backends)
-		    {
-		      node->cli_backends[node->nb_cli_backends - 1] =
-			lw6cli_create_backend (argc, argv, backend);
-		      if (node->cli_backends[node->nb_cli_backends - 1])
-			{
-			  if (lw6cli_init
-			      (node->cli_backends[node->nb_cli_backends - 1]))
-			    {
-			      ret = 1;
-			    }
-			  else
-			    {
-			      lw6cli_destroy_backend (node->cli_backends
-						      [node->nb_cli_backends -
-						       1]);
-			      node->cli_backends[node->nb_cli_backends - 1] =
-				NULL;
-			      node->nb_cli_backends--;
-			    }
-			}
-		      else
-			{
-			  node->nb_cli_backends--;
-			}
-		    }
-		  else
-		    {
-		      node->nb_cli_backends--;
-		    }
-		  LW6SYS_FREE (backend);
-		}
-	      list_backends = NULL;
-	    }
-	}
-      if (ret)
-	{
-	  ret = 0;
-	  list_backends = lw6sys_str_split_config_item (server_backends);
-	  if (list_backends)
-	    {
-	      while (list_backends
-		     && ((backend = lw6sys_list_pop_front (&list_backends)) !=
-			 NULL))
-		{
-		  node->nb_srv_backends++;
-		  if (node->srv_backends)
-		    {
-		      node->srv_backends =
-			(lw6srv_backend_t **)
-			LW6SYS_REALLOC (node->srv_backends,
-					node->nb_srv_backends *
-					sizeof (lw6srv_backend_t *));
-		    }
-		  else
-		    {
-		      node->srv_backends =
-			(lw6srv_backend_t **)
-			LW6SYS_MALLOC (node->nb_srv_backends *
-				       sizeof (lw6srv_backend_t *));
-		    }
-		  if (node->srv_backends)
-		    {
-		      node->srv_backends[node->nb_srv_backends - 1] =
-			lw6srv_create_backend (argc, argv, backend);
-		      if (node->srv_backends[node->nb_srv_backends - 1])
-			{
-			  if (lw6srv_init
-			      (node->srv_backends[node->nb_srv_backends - 1],
-			       node->listener))
-			    {
-			      /*
-			       * OK, at this state, we have at
-			       * least one server backend working,
-			       * we consider it's fine.
-			       */
-			      ret = 1;
-			    }
-			  else
-			    {
-			      lw6srv_destroy_backend (node->srv_backends
-						      [node->nb_srv_backends -
-						       1]);
-			      node->srv_backends[node->nb_srv_backends - 1] =
-				NULL;
-			      node->nb_srv_backends--;
-			    }
-			}
-		      else
-			{
-			  node->nb_srv_backends--;
-			}
-		    }
-		  else
-		    {
-		      node->nb_srv_backends--;
-		    }
-		  LW6SYS_FREE (backend);
-		}
-	      list_backends = NULL;
-	    }
-	}
+
+      ret = ret
+	&& _lw6p2p_backends_init_cli (argc, argv, &(node->backends),
+				      client_backends);
+      ret = ret
+	&& _lw6p2p_backends_init_srv (argc, argv, &(node->backends),
+				      server_backends, node->listener);
 
       if (ret)
 	{
@@ -672,10 +549,10 @@ _tcp_accepter_reply (void *func_data, void *data)
   lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
 		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0.0f);
 
-  for (i = 0; i < node->nb_srv_backends && ret; ++i)
+  for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
       analyse_tcp_ret =
-	lw6srv_analyse_tcp (node->srv_backends[i], tcp_accepter);
+	lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -689,8 +566,9 @@ _tcp_accepter_reply (void *func_data, void *data)
 	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->srv_backends[i],
-						       node->node_info,
+		    _lw6p2p_srv_oob_callback_data_new (node->
+						       backends.srv_backends
+						       [i], node->node_info,
 						       tcp_accepter->
 						       client_id.client_ip,
 						       tcp_accepter->
@@ -711,8 +589,8 @@ _tcp_accepter_reply (void *func_data, void *data)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new tcp"));
 		  connection =
-		    lw6srv_accept_tcp (node->srv_backends[i], tcp_accepter,
-				       node->password);
+		    lw6srv_accept_tcp (node->backends.srv_backends[i],
+				       tcp_accepter, node->password);
 		  if (connection)
 		    {
 		      connection_ptr_str =
@@ -720,7 +598,8 @@ _tcp_accepter_reply (void *func_data, void *data)
 		      if (connection_ptr_str)
 			{
 			  backend_ptr_str =
-			    lw6sys_hexa_ptr_to_str (node->srv_backends[i]);
+			    lw6sys_hexa_ptr_to_str (node->
+						    backends.srv_backends[i]);
 			  if (backend_ptr_str)
 			    {
 			      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
@@ -770,10 +649,10 @@ _udp_buffer_reply (void *func_data, void *data)
   int i = 0;
   int analyse_udp_ret = 0;
 
-  for (i = 0; i < node->nb_srv_backends && ret; ++i)
+  for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
       analyse_udp_ret =
-	lw6srv_analyse_udp (node->srv_backends[i], udp_buffer);
+	lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -787,8 +666,9 @@ _udp_buffer_reply (void *func_data, void *data)
 	      if (analyse_udp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->srv_backends[i],
-						       node->node_info,
+		    _lw6p2p_srv_oob_callback_data_new (node->
+						       backends.srv_backends
+						       [i], node->node_info,
 						       udp_buffer->
 						       client_id.client_ip,
 						       udp_buffer->
@@ -810,8 +690,8 @@ _udp_buffer_reply (void *func_data, void *data)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new udp"));
 		  connection =
-		    lw6srv_new_udp (node->srv_backends[i], udp_buffer,
-				    node->password);
+		    lw6srv_new_udp (node->backends.srv_backends[i],
+				    udp_buffer, node->password);
 		  if (connection)
 		    {
 		      connection_ptr_str =
@@ -819,7 +699,8 @@ _udp_buffer_reply (void *func_data, void *data)
 		      if (connection_ptr_str)
 			{
 			  backend_ptr_str =
-			    lw6sys_hexa_ptr_to_str (node->srv_backends[i]);
+			    lw6sys_hexa_ptr_to_str (node->
+						    backends.srv_backends[i]);
 			  if (backend_ptr_str)
 			    {
 			      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
@@ -991,7 +872,6 @@ lw6p2p_node_close (lw6p2p_node_t * node)
 void
 _lw6p2p_node_close (_lw6p2p_node_t * node)
 {
-  int i = 0;
   char *query = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
@@ -1066,36 +946,9 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		}
 	    }
 
-	  if (node->srv_backends)
-	    {
-	      for (i = 0; i < node->nb_srv_backends; ++i)
-		{
-		  if (node->srv_backends[i])
-		    {
-		      lw6srv_quit (node->srv_backends[i]);
-		      lw6srv_destroy_backend (node->srv_backends[i]);
-		      node->srv_backends[i] = NULL;
-		    }
-		}
-	      LW6SYS_FREE (node->srv_backends);
-	      node->srv_backends = NULL;
-	      node->nb_srv_backends = 0;
-	    }
-	  if (node->cli_backends)
-	    {
-	      for (i = 0; i < node->nb_cli_backends; ++i)
-		{
-		  if (node->cli_backends[i])
-		    {
-		      lw6cli_quit (node->cli_backends[i]);
-		      lw6cli_destroy_backend (node->cli_backends[i]);
-		      node->cli_backends[i] = NULL;
-		    }
-		}
-	      LW6SYS_FREE (node->cli_backends);
-	      node->cli_backends = NULL;
-	      node->nb_cli_backends = 0;
-	    }
+	  _lw6p2p_backends_clear_srv (&(node->backends));
+	  _lw6p2p_backends_clear_cli (&(node->backends));
+
 	  if (node->listener)
 	    {
 	      lw6srv_stop (node->listener);

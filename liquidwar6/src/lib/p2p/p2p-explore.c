@@ -84,7 +84,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
     }
 
   i = node->explore.last_cli_oob_broadcast_backend;
-  i = (i + 1) % node->nb_cli_backends;
+  i = (i + 1) % node->backends.nb_cli_backends;
   node->explore.last_cli_oob_broadcast_backend = i;
 
   if (node->broadcast)
@@ -95,7 +95,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
       if (broadcast_url)
 	{
 	  cli_oob =
-	    _lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+	    _lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
 					       node, broadcast_url);
 	  if (cli_oob)
 	    {
@@ -117,7 +117,8 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	  if (broadcast_url)
 	    {
 	      cli_oob =
-		_lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+		_lw6p2p_cli_oob_callback_data_new (node->
+						   backends.cli_backends[i],
 						   node, broadcast_url);
 	      if (cli_oob)
 		{
@@ -177,10 +178,10 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
    * same backend for the same node. This is not true for
    * broadcast, in which a round-robin is better.
    */
-  i = lw6sys_random (node->nb_cli_backends);
+  i = lw6sys_random (node->backends.nb_cli_backends);
 
   cli_oob =
-    _lw6p2p_cli_oob_callback_data_new (node->cli_backends[i],
+    _lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
 				       node, public_url);
   if (cli_oob)
     {

@@ -90,8 +90,12 @@ test_cmd ()
 
   {
     lw6nod_info_t *info = NULL;
-    lw6nod_info_t *analyzed_info = NULL;
+    lw6nod_info_t *analysed_info = NULL;
     char *msg = NULL;
+    u_int32_t ticket = 0;
+    u_int32_t key = 0;
+    u_int32_t analysed_ticket = 0;
+    u_int32_t analysed_key = 0;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -106,12 +110,12 @@ test_cmd ()
 	if (msg)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _("hello command is \"%s\""), msg);
-	    if (lw6msg_cmd_analyse_hello (&analyzed_info, msg))
+	    if (lw6msg_cmd_analyse_hello (&analysed_info, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _("hello command analysed (node url=\"%s\")"),
-			    analyzed_info->const_info.url);
-		lw6nod_info_free (analyzed_info);
+			    analysed_info->const_info.url);
+		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
@@ -121,6 +125,124 @@ test_cmd ()
 	      }
 	    LW6SYS_FREE (msg);
 	  }
+
+	ticket = lw6sys_generate_id_32 ();
+	msg = lw6msg_cmd_generate_ticket (info, ticket);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket command is \"%s\""),
+			msg);
+	    if (lw6msg_cmd_analyse_ticket
+		(&analysed_info, &analysed_ticket, msg))
+	      {
+		if (ticket == analysed_ticket)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("ticket command analysed (ticket=%x)"),
+				ticket);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("ticket command analysed but ticket is wrong (%x and should be %x)"),
+				analysed_ticket, ticket);
+		    ret = 0;
+		  }
+		lw6nod_info_free (analysed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	key = lw6sys_generate_id_32 ();
+	msg = lw6msg_cmd_generate_foo (info, key);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("foo command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_foo (&analysed_info, &analysed_key, msg))
+	      {
+		if (key == analysed_key)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("foo command analysed (key=%x)"), key);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("foo command analysed but key is wrong (%x and should be %x)"),
+				analysed_key, key);
+		    ret = 0;
+		  }
+		lw6nod_info_free (analysed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	key = lw6sys_generate_id_32 ();
+	msg = lw6msg_cmd_generate_bar (info, key);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("bar command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_bar (&analysed_info, &analysed_key, msg))
+	      {
+		if (key == analysed_key)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_("bar command analysed (key=%x)"), key);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_
+				("bar command analysed but key is wrong (%x and should be %x)"),
+				analysed_key, key);
+		    ret = 0;
+		  }
+		lw6nod_info_free (analysed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	msg = lw6msg_cmd_generate_goodbye (info);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("goodbye command is \"%s\""),
+			msg);
+	    if (lw6msg_cmd_analyse_goodbye (&analysed_info, msg))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("goodbye command analysed (node url=\"%s\")"),
+			    analysed_info->const_info.url);
+		lw6nod_info_free (analysed_info);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
 	lw6nod_info_free (info);
       }
   }

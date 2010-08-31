@@ -1,48 +1,50 @@
-@deftypefun {char *} {lw6msg_cmd_generate_hello} (lw6nod_info_t * @var{info}, lw6msg_cmd_mode_t @var{mode})
-@var{info}:  the nod info to use
-
-@var{mode}:  the mode to use (standard or URL compatible)
+@deftypefun {char *} {lw6msg_cmd_generate_hello} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to use
 
 Generate a HELLO command.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_generate_ticket} (lw6nod_info_t * @var{info}, lw6msg_cmd_mode_t @var{mode}, u_int32_t @var{ticket})
-@var{info}:  the nod info to use
+@deftypefun {char *} {lw6msg_cmd_generate_ticket} (lw6nod_info_t * @var{info}, u_int32_t @var{ticket})
+@var{info}:  the node info to use
 
-@var{mode}:  the mode to use (standard or URL compatible)
+@var{ticket}:  the ticket to send
 
 Generate a TICKET command.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_generate_foo} (lw6msg_cmd_mode_t @var{mode}, int @var{key})
-@var{mode}:  the mode to use (standard or URL compatible)
+@deftypefun {char *} {lw6msg_cmd_generate_foo} (lw6nod_info_t * @var{info}, u_int32_t @var{key})
+@var{info}:  the node info to use
+
+@var{key}:  the key to identify the message
 
 Generate a FOO command.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_generate_bar} (lw6msg_cmd_mode_t @var{mode}, int @var{key})
-@var{mode}:  the mode to use (standard or URL compatible)
+@deftypefun {char *} {lw6msg_cmd_generate_bar} (lw6nod_info_t * @var{info}, u_int32_t @var{key})
+@var{info}:  the node info to use
+
+@var{key}:  the key to identify the message
 
 Generate a BAR command.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_cmd_generate_goodbye} (lw6msg_cmd_mode_t @var{mode})
-@var{mode}:  the mode to use (standard or URL compatible)
+@deftypefun {char *} {lw6msg_cmd_generate_goodbye} (lw6nod_info_t * @var{info})
+@var{info}:  the node info to use
 
 Generate a GOODBYE command.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6cmd_analyse_hello} (lw6nod_info_t ** @var{info}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_hello} (lw6nod_info_t ** @var{info}, char * @var{msg})
 @var{info}:  if not NULL, will contain (remote) node info on success
 
 @var{msg}:  the message to anaylse
@@ -52,7 +54,7 @@ Analyzes a HELLO message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6cmd_analyse_ticket} (lw6nod_info_t ** @var{info}, u_int32_t * @var{ticket}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_ticket} (lw6nod_info_t ** @var{info}, u_int32_t * @var{ticket}, char * @var{msg})
 @var{info}:  if not NULL, will contain (remote) node info on success
 
 @var{ticket}:  if not NULL, will contain the ticket value on success
@@ -64,7 +66,9 @@ Analyzes a TICKET message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6cmd_analyse_foo} (int * @var{key}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_foo} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, char * @var{msg})
+@var{info}:  if not NULL, will contain (remote) node info on success
+
 @var{key}:  if not NULL, will contain the foo/bar key on success
 
 @var{msg}:  the message to anaylse
@@ -74,7 +78,9 @@ Analyzes a FOO message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6cmd_analyse_bar} (int * @var{key}, char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_bar} (lw6nod_info_t ** @var{info}, u_int32_t * @var{key}, char * @var{msg})
+@var{info}:  if not NULL, will contain (remote) node info on success
+
 @var{key}:  if not NULL, will contain the foo/bar key on success
 
 @var{msg}:  the message to anaylse
@@ -84,7 +90,9 @@ Analyzes a BAR message.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6cmd_analyse_goodbye} (char * @var{msg})
+@deftypefun {int} {lw6msg_cmd_analyse_goodbye} (lw6nod_info_t ** @var{info}, char * @var{msg})
+@var{info}:  if not NULL, will contain (remote) node info on success
+
 @var{msg}:  the message to anaylse
 
 Analyzes a GOODBYE message.
@@ -241,6 +249,21 @@ is over. This one will returned an int converted with @code{lw6sys_atoi}.
 Analyses a message and gets the first word. This word is put in @code{buf} member
 with its length. @code{next} is usefull if you want to parse the rest of the message,
 it points at the beginning of it.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6msg_word_first_base64} (lw6msg_word_t * @var{word}, char ** @var{next}, char * @var{msg})
+@var{word}:  will contain the parsed word
+
+@var{next}:  if NOT NULL, will contain a (non freeable) pointer on remaining message
+
+@var{msg}:  the message to parse
+
+Analyses a message and gets the first word. This word is put in @code{buf} member
+with its length. @code{next} is usefull if you want to parse the rest of the message,
+it points at the beginning of it. The word is expected to
+be base64 encoded and is decoded on-the-fly.
 
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
