@@ -33,10 +33,11 @@
 
 typedef struct lw6cli_connection_s
 {
-  void *cli_context;
-  char *server_url;
-  char *client_url;
-  void *connection_data;
+  char *remote_url;
+  char *password_checksum;
+  u_int64_t local_id;
+  u_int64_t remote_id;
+  void *backend_specific_data;
 }
 lw6cli_connection_t;
 
@@ -75,12 +76,13 @@ typedef struct lw6cli_backend_s
   void (*quit) (void *cli_context);
   int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
 		      lw6cli_oob_data_t * oob_data);
-  lw6cli_connection_t *(*connect) (void *cli_context, char *server_url,
-				   char *client_url, char *password);
+  lw6cli_connection_t *(*open) (void *cli_context, char *remote_url,
+				char *password_checksum, u_int64_t local_id,
+				u_int64_t remote_id);
   void (*close) (void *cli_context, lw6cli_connection_t * connection);
   int (*send) (void *cli_context, lw6cli_connection_t * connection,
 	       char *message);
-  char *(*recv) (void *cli_context, lw6cli_connection_t * connection);
+  void (*poll) (void *cli_context, lw6cli_connection_t * connection);
   int (*is_alive) (void *cli_context, lw6cli_connection_t * connection);
   char *(*repr) (void *cli_context, lw6cli_connection_t * connection);
   char *(*error) (void *cli_context, lw6cli_connection_t * connection);
@@ -95,15 +97,17 @@ extern void lw6cli_quit (lw6cli_backend_t * backend);
 extern int lw6cli_process_oob (lw6cli_backend_t * backend,
 			       lw6nod_info_t * node_info,
 			       lw6cli_oob_data_t * oob_data);
-extern lw6cli_connection_t *lw6cli_connect (lw6cli_backend_t * backend,
-					    char *server_url,
-					    char *client_url, char *password);
+extern lw6cli_connection_t *lw6cli_open (lw6cli_backend_t * backend,
+					 char *remote_url,
+					 char *password_checksum,
+					 u_int64_t local_id,
+					 u_int64_t remote_id);
 extern void lw6cli_close (lw6cli_backend_t * backend,
 			  lw6cli_connection_t * connection);
 extern int lw6cli_send (lw6cli_backend_t * backend,
 			lw6cli_connection_t * connection, char *message);
-extern char *lw6cli_recv (lw6cli_backend_t * backend,
-			  lw6cli_connection_t * connection);
+extern void lw6cli_poll (lw6cli_backend_t * backend,
+			 lw6cli_connection_t * connection);
 extern int lw6cli_is_alive (lw6cli_backend_t * backend,
 			    lw6cli_connection_t * connection);
 extern char *lw6cli_repr (lw6cli_backend_t * backend,

@@ -71,8 +71,8 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
 }
 
 static lw6cli_connection_t *
-_connect (void *cli_context, char *server_url, char *client_url,
-	  char *password)
+_open (void *cli_context, char *remote_url, char *password_checksum,
+       u_int64_t local_id, u_int64_t remote_id)
 {
   _http_context_t *http_context = (_http_context_t *) cli_context;
   lw6cli_connection_t *ret = NULL;
@@ -80,7 +80,8 @@ _connect (void *cli_context, char *server_url, char *client_url,
   if (http_context)
     {
       ret =
-	_mod_http_connect (http_context, server_url, client_url, password);
+	_mod_http_open (http_context, remote_url, password_checksum, local_id,
+			remote_id);
     }
 
   return ret;
@@ -111,18 +112,15 @@ _send (void *cli_context, lw6cli_connection_t * connection, char *message)
   return ret;
 }
 
-static char *
-_recv (void *cli_context, lw6cli_connection_t * connection)
+static void
+_poll (void *cli_context, lw6cli_connection_t * connection)
 {
   _http_context_t *http_context = (_http_context_t *) cli_context;
-  char *ret = NULL;
 
   if (http_context)
     {
-      ret = _mod_http_recv (http_context, connection);
+      _mod_http_poll (http_context, connection);
     }
-
-  return ret;
 }
 
 static int
@@ -207,10 +205,10 @@ mod_http_create_backend ()
       backend->init = _init;
       backend->quit = _quit;
       backend->process_oob = _process_oob;
-      backend->connect = _connect;
+      backend->open = _open;
       backend->close = _close;
       backend->send = _send;
-      backend->recv = _recv;
+      backend->poll = _poll;
       backend->is_alive = _is_alive;
       backend->repr = _repr;
       backend->error = _error;

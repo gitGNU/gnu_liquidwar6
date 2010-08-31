@@ -69,16 +69,13 @@ extern char *_mod_http_get (_http_context_t * http_context, char *url,
 			    char *password);
 
 /*
- * In handshake.c
- */
-extern lw6cli_connection_t *_mod_http_connect (_http_context_t * http_context,
-					       char *server_url,
-					       char *client_url,
-					       char *password);
-
-/*
  * In state.c
  */
+extern lw6cli_connection_t *_mod_http_open (_http_context_t * http_context,
+					    char *remote_url,
+					    char *password_checksum,
+					    u_int64_t local_id,
+					    u_int64_t remote_id);
 extern void _mod_http_close (_http_context_t * http_context,
 			     lw6cli_connection_t * connection);
 extern int _mod_http_is_alive (_http_context_t * http_context,
@@ -91,8 +88,8 @@ extern int _mod_http_timeout_ok (_http_context_t * http_context,
  */
 extern int _mod_http_send (_http_context_t * http_context,
 			   lw6cli_connection_t * connection, char *message);
-extern char *_mod_http_recv (_http_context_t * http_context,
-			     lw6cli_connection_t * connection);
+extern void _mod_http_poll (_http_context_t * http_context,
+			    lw6cli_connection_t * connection);
 
 /*
  * In info.c

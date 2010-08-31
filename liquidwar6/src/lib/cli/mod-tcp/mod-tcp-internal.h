@@ -55,16 +55,13 @@ extern _tcp_context_t *_mod_tcp_init (int argc, char *argv[]);
 extern void _mod_tcp_quit (_tcp_context_t * tcp_context);
 
 /*
- * In handshake.c
- */
-extern lw6cli_connection_t *_mod_tcp_connect (_tcp_context_t * tcp_context,
-					      char *server_url,
-					      char *client_url,
-					      char *password);
-
-/*
  * In state.c
  */
+extern lw6cli_connection_t *_mod_tcp_open (_tcp_context_t * tcp_context,
+					   char *remote_url,
+					   char *password_checksum,
+					   u_int64_t local_id,
+					   u_int64_t remote_id);
 extern void _mod_tcp_close (_tcp_context_t * tcp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_tcp_is_alive (_tcp_context_t * tcp_context,
@@ -77,8 +74,8 @@ extern int _mod_tcp_timeout_ok (_tcp_context_t * tcp_context,
  */
 extern int _mod_tcp_send (_tcp_context_t * tcp_context,
 			  lw6cli_connection_t * connection, char *message);
-extern char *_mod_tcp_recv (_tcp_context_t * tcp_context,
-			    lw6cli_connection_t * connection);
+extern void _mod_tcp_poll (_tcp_context_t * tcp_context,
+			   lw6cli_connection_t * connection);
 
 /*
  * In info.c

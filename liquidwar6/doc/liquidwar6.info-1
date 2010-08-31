@@ -3064,7 +3064,8 @@ This describes how to add a new `libxyz' internal library:
      letters names and prefix every global identifier with `lw6xyz'.
 
    * copy `Makefile.am', `xyz.h', `xyz-test.c' and `xyz-testmain.c'
-     from an existing internal library.
+     from an existing internal library (`libnod' is a good source, it
+     does not have complex dependencies).
 
    * edit `Makefile.am' to fill requirements, make necessary
      adjustments to other files (many string replaces to make, both

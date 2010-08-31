@@ -3160,7 +3160,7 @@ This describes how to add a new @code{libxyz} internal library:
 @item
 create a new @code{src/lib/xyz} directory. The convention is to use 3 letters names and prefix every global identifier with @code{lw6xyz}.
 @item
-copy @code{Makefile.am}, @code{xyz.h}, @code{xyz-test.c} and @code{xyz-testmain.c} from an existing internal library.
+copy @code{Makefile.am}, @code{xyz.h}, @code{xyz-test.c} and @code{xyz-testmain.c} from an existing internal library (@code{libnod} is a good source, it does not have complex dependencies).
 @item
 edit @code{Makefile.am} to fill requirements, make necessary adjustments to other files (many string replaces to make, both lowercase and uppercase).
 @item

@@ -1,3 +1,7 @@
+2010-08-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Introducing tentacle object.
+
 2010-08-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added /etc/init.d startup file for daemon.

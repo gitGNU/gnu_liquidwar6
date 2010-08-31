@@ -145,8 +145,11 @@ typedef struct _lw6p2p_backends_s
 
 typedef struct _lw6p2p_tentacle_s
 {
-  u_int64_t remote_id;
+  _lw6p2p_backends_t *backends;
   char *remote_url;
+  char *password_checksum;
+  u_int64_t local_id;
+  u_int64_t remote_id;
   int nb_cli_connections;
   lw6cli_connection_t **cli_connections;
   int nb_srv_connections;
@@ -279,5 +282,12 @@ extern int _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob);
 extern void _lw6p2p_srv_oob_callback (void *callback_data);
 
 /* p2p-tentacle.c */
+extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
+				  _lw6p2p_backends_t * backends,
+				  char *remote_url, char *password,
+				  u_int64_t local_id, u_int64_t remote_id);
+extern void _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle);
+extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
+extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle);
 
 #endif

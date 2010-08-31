@@ -38,12 +38,8 @@ _mod_tcp_send (_tcp_context_t * tcp_context, lw6cli_connection_t * connection,
   return ret;
 }
 
-char *
-_mod_tcp_recv (_tcp_context_t * tcp_context, lw6cli_connection_t * connection)
+void
+_mod_tcp_poll (_tcp_context_t * tcp_context, lw6cli_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }

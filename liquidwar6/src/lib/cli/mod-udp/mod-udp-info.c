@@ -33,7 +33,7 @@ _mod_udp_repr (_udp_context_t * udp_context, lw6cli_connection_t * connection)
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_("udp connexion on \"%s\""), connection->server_url);
+    lw6sys_new_sprintf (_("udp connexion on \"%s\""), connection->remote_url);
 
   return ret;
 }

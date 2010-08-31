@@ -26,3 +26,118 @@
 
 #include "p2p.h"
 #include "p2p-internal.h"
+
+#define _DEFAULT_PASSWORD_CHECKSUM "PUB"
+
+int
+_lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
+		       _lw6p2p_backends_t * backends, char *remote_url,
+		       char *password, u_int64_t local_id,
+		       u_int64_t remote_id)
+{
+  int ret = 1;
+  int i = 0;
+  //_lw6p2p_tentacle_clear(tentacle,backends);
+
+  tentacle->backends = backends;
+  tentacle->remote_url = lw6sys_str_copy (remote_url);
+  if (password && strlen (password) > 0)
+    {
+      tentacle->password_checksum =
+	lw6sys_password_checksum (remote_url, password);
+    }
+  else
+    {
+      tentacle->password_checksum =
+	lw6sys_str_copy (_DEFAULT_PASSWORD_CHECKSUM);
+    }
+  tentacle->local_id = local_id;
+  tentacle->remote_id = remote_id;
+  if (tentacle->remote_url && tentacle->password_checksum)
+    {
+      tentacle->nb_cli_connections = backends->nb_cli_backends;
+      if (tentacle->nb_cli_connections > 0)
+	{
+	  tentacle->cli_connections =
+	    (lw6cli_connection_t **)
+	    LW6SYS_CALLOC (tentacle->nb_cli_connections *
+			   sizeof (lw6cli_connection_t *));
+	  if (tentacle->cli_connections)
+	    {
+	      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+		{
+		  tentacle->cli_connections[i] =
+		    lw6cli_open (tentacle->backends->cli_backends[i],
+				 remote_url, tentacle->password_checksum,
+				 local_id, remote_id);
+		  if (tentacle->cli_connections[i])
+		    {
+		    }
+		  else
+		    {
+		      ret = 0;
+		    }
+		}
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	}
+    }
+  else
+    {
+      ret = 0;
+    }
+
+  return ret;
+}
+
+void
+_lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
+{
+  int i = 0;
+
+  if (tentacle->nb_cli_connections > 0 && tentacle->cli_connections)
+    {
+      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+	{
+	  if (tentacle->cli_connections[i])
+	    {
+	      lw6cli_close (tentacle->backends->cli_backends[i],
+			    tentacle->cli_connections[i]);
+	    }
+	}
+    }
+  if (tentacle->remote_url)
+    {
+      LW6SYS_FREE (tentacle->remote_url);
+    }
+  if (tentacle->password_checksum)
+    {
+      LW6SYS_FREE (tentacle->password_checksum);
+    }
+}
+
+int
+_lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle)
+{
+  int ret = 0;
+
+  ret = (tentacle->remote_id != 0);
+
+  return ret;
+}
+
+void
+_lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle)
+{
+  int i;
+
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+    {
+      lw6cli_poll (tentacle->backends->cli_backends[i],
+		   tentacle->cli_connections[i]);
+    }
+  // todo servers
+}

@@ -833,6 +833,23 @@ _poll_step9_flush_verified_nodes (_lw6p2p_node_t * node)
   return ret;
 }
 
+static int
+_poll_step10_poll_tentacles (_lw6p2p_node_t * node)
+{
+  int ret = 1;
+  int i = 0;
+
+  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+    {
+      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+	{
+	  _lw6p2p_tentacle_poll (&(node->tentacles[i]));
+	}
+    }
+
+  return ret;
+}
+
 int
 _lw6p2p_node_poll (_lw6p2p_node_t * node)
 {
@@ -847,6 +864,7 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node)
   ret = _poll_step7_flush_discovered_nodes (node) && ret;
   ret = _poll_step8_explore_verify_nodes (node) && ret;
   ret = _poll_step9_flush_verified_nodes (node) && ret;
+  ret = _poll_step10_poll_tentacles (node) && ret;
 
   return ret;
 }
@@ -875,6 +893,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
   char *query = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
+  int i = 0;
 
   if (node)
     {
@@ -915,6 +934,12 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		}
 	      _lw6p2p_db_unlock (node->db);
 	    }
+
+	  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+	    {
+	      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+	    }
+
 	  if (node->srv_oobs)
 	    {
 	      while (node->srv_oobs && !lw6sys_list_is_empty (node->srv_oobs))

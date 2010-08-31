@@ -38,12 +38,8 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
   return ret;
 }
 
-char *
-_mod_udp_recv (_udp_context_t * udp_context, lw6cli_connection_t * connection)
+void
+_mod_udp_poll (_udp_context_t * udp_context, lw6cli_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }

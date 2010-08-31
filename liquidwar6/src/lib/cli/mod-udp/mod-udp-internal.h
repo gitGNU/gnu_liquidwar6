@@ -55,16 +55,13 @@ extern _udp_context_t *_mod_udp_init (int argc, char *argv[]);
 extern void _mod_udp_quit (_udp_context_t * udp_context);
 
 /*
- * In handshake.c
- */
-extern lw6cli_connection_t *_mod_udp_connect (_udp_context_t * udp_context,
-					      char *server_url,
-					      char *client_url,
-					      char *password);
-
-/*
  * In state.c
  */
+extern lw6cli_connection_t *_mod_udp_open (_udp_context_t * udp_context,
+					   char *remote_url,
+					   char *password_checksum,
+					   u_int64_t local_id,
+					   u_int64_t remote_id);
 extern void _mod_udp_close (_udp_context_t * udp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_udp_is_alive (_udp_context_t * udp_context,
@@ -77,8 +74,8 @@ extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
  */
 extern int _mod_udp_send (_udp_context_t * udp_context,
 			  lw6cli_connection_t * connection, char *message);
-extern char *_mod_udp_recv (_udp_context_t * udp_context,
-			    lw6cli_connection_t * connection);
+extern void _mod_udp_poll (_udp_context_t * udp_context,
+			   lw6cli_connection_t * connection);
 
 /*
  * In info.c

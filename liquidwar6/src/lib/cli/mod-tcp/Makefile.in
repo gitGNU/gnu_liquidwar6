@@ -98,11 +98,11 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libmod_tcpdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 libmod_tcp_la_LIBADD =
 am__libmod_tcp_la_SOURCES_DIST = mod-tcp-backend.c mod-tcp-data.c \
-	mod-tcp-handshake.c mod-tcp-info.c mod-tcp-message.c \
-	mod-tcp-oob.c mod-tcp-setup.c mod-tcp-state.c
-am__objects_1 = mod-tcp-backend.lo mod-tcp-data.lo \
-	mod-tcp-handshake.lo mod-tcp-info.lo mod-tcp-message.lo \
-	mod-tcp-oob.lo mod-tcp-setup.lo mod-tcp-state.lo
+	mod-tcp-info.c mod-tcp-message.c mod-tcp-oob.c mod-tcp-setup.c \
+	mod-tcp-state.c
+am__objects_1 = mod-tcp-backend.lo mod-tcp-data.lo mod-tcp-info.lo \
+	mod-tcp-message.lo mod-tcp-oob.lo mod-tcp-setup.lo \
+	mod-tcp-state.lo
 @ALLINONE_FALSE@am_libmod_tcp_la_OBJECTS = $(am__objects_1)
 libmod_tcp_la_OBJECTS = $(am_libmod_tcp_la_OBJECTS)
 libmod_tcp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmod_tcp_s.la
-MOD_TCP_FILES = mod-tcp-backend.c mod-tcp-data.c mod-tcp-handshake.c mod-tcp-info.c mod-tcp-message.c mod-tcp-oob.c mod-tcp-setup.c mod-tcp-state.c
+MOD_TCP_FILES = mod-tcp-backend.c mod-tcp-data.c mod-tcp-info.c mod-tcp-message.c mod-tcp-oob.c mod-tcp-setup.c mod-tcp-state.c
 libmod_tcp_s_la_SOURCES = $(MOD_TCP_FILES) 
 @ALLINONE_FALSE@lib_LTLIBRARIES = libmod_tcp.la
 @ALLINONE_FALSE@libmod_tcp_la_SOURCES = $(MOD_TCP_FILES) 
@@ -422,7 +422,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-backend.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-data.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-handshake.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-info.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-tcp-oob.Plo@am__quote@

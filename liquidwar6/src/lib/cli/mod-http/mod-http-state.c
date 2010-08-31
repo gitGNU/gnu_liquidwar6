@@ -27,11 +27,56 @@
 #include "../cli.h"
 #include "mod-http-internal.h"
 
+lw6cli_connection_t *
+_mod_http_open (_http_context_t * http_context, char *remote_url,
+		char *password_checksum, u_int64_t local_id,
+		u_int64_t remote_id)
+{
+  lw6cli_connection_t *ret = NULL;
+
+  ret =
+    (lw6cli_connection_t *) LW6SYS_CALLOC (sizeof (lw6cli_connection_t *));
+  if (ret)
+    {
+      ret->remote_url = lw6sys_str_copy (remote_url);
+      ret->password_checksum = lw6sys_str_copy (password_checksum);
+      ret->local_id = local_id;
+      ret->remote_id = remote_id;
+      ret->backend_specific_data = NULL;	// todo
+
+      if (ret->remote_url && ret->password_checksum
+	  && ret->backend_specific_data)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open http connection with \"%s\""),
+		      remote_url);
+	}
+      else
+	{
+	  _mod_http_close (http_context, ret);
+	  ret = NULL;
+	}
+    }
+
+  return ret;
+}
+
 void
 _mod_http_close (_http_context_t * http_context,
 		 lw6cli_connection_t * connection)
 {
-  // todo
+  if (connection->remote_url)
+    {
+      LW6SYS_FREE (connection->remote_url);
+    }
+  if (connection->password_checksum)
+    {
+      LW6SYS_FREE (connection->password_checksum);
+    }
+  if (connection->backend_specific_data)
+    {
+      // todo
+    }
+  LW6SYS_FREE (connection);
 }
 
 int

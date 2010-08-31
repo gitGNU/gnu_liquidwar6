@@ -38,13 +38,9 @@ _mod_http_send (_http_context_t * http_context,
   return ret;
 }
 
-char *
+void
 _mod_http_recv (_http_context_t * http_context,
 		lw6cli_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }
