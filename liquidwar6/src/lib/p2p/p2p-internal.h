@@ -268,6 +268,14 @@ extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
 					   char *public_url);
+extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,
+				       u_int64_t remote_id);
+extern int _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node,
+					   char *remote_url,
+					   u_int64_t remote_id);
+extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
+					     u_int64_t remote_id);
 
 /* p2p-srvoob.c */
 extern _lw6p2p_srv_oob_callback_data_t

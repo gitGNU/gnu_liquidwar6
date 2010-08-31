@@ -148,9 +148,11 @@ extern void _mod_httpd_quit (_httpd_context_t * httpd_context);
  * In handshake.c
  */
 extern int _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
-				   lw6srv_tcp_accepter_t * tcp_accepter);
+				   lw6srv_tcp_accepter_t * tcp_accepter,
+				   u_int64_t * remote_id);
 extern int _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
-				   lw6srv_udp_buffer_t * udp_buffer);
+				   lw6srv_udp_buffer_t * udp_buffer,
+				   u_int64_t * remote_id);
 extern lw6srv_connection_t *_mod_httpd_accept_tcp (_httpd_context_t *
 						   httpd_context,
 						   lw6srv_tcp_accepter_t *

@@ -545,6 +545,7 @@ _tcp_accepter_reply (void *func_data, void *data)
   char *backend_ptr_str = NULL;
   int i = 0;
   int analyse_tcp_ret = 0;
+  u_int64_t remote_id = 0;
 
   lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
 		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0.0f);
@@ -552,7 +553,8 @@ _tcp_accepter_reply (void *func_data, void *data)
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
       analyse_tcp_ret =
-	lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter);
+	lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter,
+			    &remote_id);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -648,11 +650,13 @@ _udp_buffer_reply (void *func_data, void *data)
   char *backend_ptr_str = NULL;
   int i = 0;
   int analyse_udp_ret = 0;
+  u_int64_t remote_id = 0;
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
       analyse_udp_ret =
-	lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer);
+	lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer,
+			    &remote_id);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -1070,6 +1074,93 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 	  LW6SYS_FREE (escaped_public_url);
 	}
       LW6SYS_FREE (canonized_public_url);
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
+{
+  int ret = -1;
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
+    {
+      if (!_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+	{
+	  ret = i;
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("found free tentacle %d"), i);
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
+{
+  int ret = -1;
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
+    {
+      if (node->tentacles[i].remote_id == remote_id)
+	{
+	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
+				u_int64_t remote_id)
+{
+  int ret = 0;
+  int i = 0;
+
+  i = _lw6p2p_node_find_tentacle (node, remote_id);
+  if (i < 0)
+    {
+      i = _lw6p2p_node_find_free_tentacle (node);
+      if (i >= 0 && i < LW6MAP_MAX_NB_NODES)
+	{
+	  ret =
+	    _lw6p2p_tentacle_init (&(node->tentacles[i]), &(node->backends),
+				   remote_url, node->password,
+				   node->node_id_int, remote_id);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("unable to find a free tentacle"));
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("tentacle already exists (i=%d)"), i);
+    }
+
+  return ret;
+}
+
+int
+_lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
+{
+  int ret = 0;
+  int i = 0;
+
+  i = _lw6p2p_node_find_tentacle (node, remote_id);
+  if (i >= 0 && i < LW6MAP_MAX_NB_NODES)
+    {
+      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+      ret = 1;
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find tentacle"));
     }
 
   return ret;

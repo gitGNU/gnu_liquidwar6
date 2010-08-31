@@ -42,7 +42,7 @@ lw6net_udp_client ()
 
   sock = (sock >= 0) ? sock : LW6NET_SOCKET_INVALID;
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("new UDP socket %d"), sock);
 

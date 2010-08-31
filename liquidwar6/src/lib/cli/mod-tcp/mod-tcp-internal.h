@@ -44,6 +44,12 @@ typedef struct _tcp_context_s
 }
 _tcp_context_t;
 
+typedef struct _tcp_specific_data_s
+{
+  int sock;
+}
+_tcp_specific_data_t;
+
 /* mod-tcp-data.c */
 extern int _mod_tcp_load_data (_tcp_data_t * tcp_data, char *data_dir);
 extern void _mod_tcp_unload_data (_tcp_data_t * tcp_data);

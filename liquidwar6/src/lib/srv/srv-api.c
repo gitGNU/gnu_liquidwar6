@@ -80,7 +80,8 @@ lw6srv_quit (lw6srv_backend_t * backend)
 
 int
 lw6srv_analyse_tcp (lw6srv_backend_t * backend,
-		    lw6srv_tcp_accepter_t * tcp_accepter)
+		    lw6srv_tcp_accepter_t * tcp_accepter,
+		    u_int64_t * remote_id)
 {
   int ret = 0;
 
@@ -88,7 +89,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 
   if (backend->analyse_tcp)
     {
-      ret = backend->analyse_tcp (backend->srv_context, tcp_accepter);
+      ret =
+	backend->analyse_tcp (backend->srv_context, tcp_accepter, remote_id);
     }
   else
     {
@@ -102,7 +104,7 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 
 int
 lw6srv_analyse_udp (lw6srv_backend_t * backend,
-		    lw6srv_udp_buffer_t * udp_buffer)
+		    lw6srv_udp_buffer_t * udp_buffer, u_int64_t * remote_id)
 {
   int ret = 0;
 
@@ -110,7 +112,8 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
 
   if (backend->analyse_udp)
     {
-      ret = backend->analyse_udp (backend->srv_context, udp_buffer);
+      ret =
+	backend->analyse_udp (backend->srv_context, udp_buffer, remote_id);
     }
   else
     {

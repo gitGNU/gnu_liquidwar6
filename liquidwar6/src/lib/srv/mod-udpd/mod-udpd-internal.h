@@ -58,9 +58,11 @@ extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
  * In handshake.c
  */
 extern int _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
-				  lw6srv_tcp_accepter_t * tcp_accepter);
+				  lw6srv_tcp_accepter_t * tcp_accepter,
+				  u_int64_t * remote_id);
 extern int _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
-				  lw6srv_udp_buffer_t * udp_buffer);
+				  lw6srv_udp_buffer_t * udp_buffer,
+				  u_int64_t * remote_id);
 extern lw6srv_connection_t *_mod_udpd_accept_tcp (_udpd_context_t *
 						  udpd_context,
 						  lw6srv_tcp_accepter_t *

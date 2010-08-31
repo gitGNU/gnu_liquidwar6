@@ -33,16 +33,20 @@ _mod_http_open (_http_context_t * http_context, char *remote_url,
 		u_int64_t remote_id)
 {
   lw6cli_connection_t *ret = NULL;
+  _http_specific_data_t *specific_data = NULL;
 
-  ret =
-    (lw6cli_connection_t *) LW6SYS_CALLOC (sizeof (lw6cli_connection_t *));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("_mod_http_open \"%s\""), remote_url);
+  ret = (lw6cli_connection_t *) LW6SYS_CALLOC (sizeof (lw6cli_connection_t));
   if (ret)
     {
       ret->remote_url = lw6sys_str_copy (remote_url);
       ret->password_checksum = lw6sys_str_copy (password_checksum);
       ret->local_id = local_id;
       ret->remote_id = remote_id;
-      ret->backend_specific_data = NULL;	// todo
+
+      ret->backend_specific_data =
+	LW6SYS_CALLOC (sizeof (_http_specific_data_t));
+      specific_data = (_http_specific_data_t *) ret->backend_specific_data;
 
       if (ret->remote_url && ret->password_checksum
 	  && ret->backend_specific_data)
@@ -64,6 +68,10 @@ void
 _mod_http_close (_http_context_t * http_context,
 		 lw6cli_connection_t * connection)
 {
+  if (connection->backend_specific_data)
+    {
+      LW6SYS_FREE (connection->backend_specific_data);
+    }
   if (connection->remote_url)
     {
       LW6SYS_FREE (connection->remote_url);

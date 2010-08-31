@@ -38,6 +38,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
   int ret = 1;
   int i = 0;
   //_lw6p2p_tentacle_clear(tentacle,backends);
+  char *repr = NULL;
 
   tentacle->backends = backends;
   tentacle->remote_url = lw6sys_str_copy (remote_url);
@@ -72,9 +73,22 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 local_id, remote_id);
 		  if (tentacle->cli_connections[i])
 		    {
+		      repr =
+			lw6cli_repr (tentacle->backends->cli_backends[i],
+				     tentacle->cli_connections[i]);
+		      if (repr)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("connection \"%s\" opened"), repr);
+			  LW6SYS_FREE (repr);
+			}
 		    }
 		  else
 		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _
+				  ("unable to create connection %d to connect on \"%s\""),
+				  i, tentacle->remote_url);
 		      ret = 0;
 		    }
 		}
@@ -108,6 +122,7 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 			    tentacle->cli_connections[i]);
 	    }
 	}
+      LW6SYS_FREE (tentacle->cli_connections);
     }
   if (tentacle->remote_url)
     {

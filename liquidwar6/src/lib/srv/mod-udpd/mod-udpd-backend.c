@@ -56,28 +56,30 @@ _quit (void *srv_context)
 }
 
 static int
-_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter)
+_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
+	      u_int64_t * remote_id)
 {
   _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
   int ret = 0;
 
   if (udpd_context)
     {
-      ret = _mod_udpd_analyse_tcp (udpd_context, tcp_accepter);
+      ret = _mod_udpd_analyse_tcp (udpd_context, tcp_accepter, remote_id);
     }
 
   return ret;
 }
 
 static int
-_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer)
+_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
+	      u_int64_t * remote_id)
 {
   _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
   int ret = 0;
 
   if (udpd_context)
     {
-      ret = _mod_udpd_analyse_udp (udpd_context, udp_buffer);
+      ret = _mod_udpd_analyse_udp (udpd_context, udp_buffer, remote_id);
     }
 
   return ret;

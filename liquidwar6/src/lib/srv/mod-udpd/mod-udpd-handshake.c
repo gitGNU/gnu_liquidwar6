@@ -29,7 +29,8 @@
 
 int
 _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
-		       lw6srv_tcp_accepter_t * tcp_accepter)
+		       lw6srv_tcp_accepter_t * tcp_accepter,
+		       u_int64_t * remote_id)
 {
   int ret = 0;
 
@@ -42,7 +43,8 @@ _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 
 int
 _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
-		       lw6srv_udp_buffer_t * udp_buffer)
+		       lw6srv_udp_buffer_t * udp_buffer,
+		       u_int64_t * remote_id)
 {
   int ret = 0;
 

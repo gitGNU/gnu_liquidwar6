@@ -29,7 +29,8 @@
 
 int
 _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
-			lw6srv_tcp_accepter_t * tcp_accepter)
+			lw6srv_tcp_accepter_t * tcp_accepter,
+			u_int64_t * remote_id)
 {
   int ret = 0;
   char *pos = NULL;
@@ -71,9 +72,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 	    {
 	      pos++;
 	    }
-	  if (!strncmp
-	      (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING,
-	       _MOD_HTTPD_PROTOCOL_LW6_SIZE))
+	  if (lw6sys_str_starts_with (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _("httpd LW6 message \"%s\""),
 			  pos);
@@ -107,7 +106,8 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 
 int
 _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
-			lw6srv_udp_buffer_t * udp_buffer)
+			lw6srv_udp_buffer_t * udp_buffer,
+			u_int64_t * remote_id)
 {
   int ret = 0;
 

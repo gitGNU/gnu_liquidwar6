@@ -54,6 +54,13 @@ typedef struct _http_context_s
 }
 _http_context_t;
 
+typedef struct _http_specific_data_s
+{
+  int dummy;
+  // todo: list of messages waiting to be sent
+}
+_http_specific_data_t;
+
 /* mod-http-data.c */
 extern int _mod_http_load_data (_http_data_t * http_data, char *data_dir);
 extern void _mod_http_unload_data (_http_data_t * http_data);

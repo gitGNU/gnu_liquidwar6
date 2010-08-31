@@ -25,6 +25,7 @@
 #endif
 
 #include "p2p.h"
+#include "p2p-internal.h"
 
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
@@ -59,7 +60,8 @@
 #define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8067/"
 
-#define TEST_NODE_OOB_DURATION 90000
+#define TEST_NODE_OOB_DURATION 10000
+#define TEST_NODE_CMD_DURATION 10000
 
 /* 
  * Testing db
@@ -384,6 +386,68 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_node_t * node1,
  * Testing node connection
  */
 static int
+_test_node_cmd ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    //int argc = _TEST_ARGC;
+    //char *argv[] = { _TEST_ARGV0 };
+    lw6p2p_db_t *db12 = NULL;
+    lw6p2p_db_t *db34 = NULL;
+    lw6p2p_node_t *node1 = NULL;
+    lw6p2p_node_t *node2 = NULL;
+    lw6p2p_node_t *node3 = NULL;
+    lw6p2p_node_t *node4 = NULL;
+    int64_t end_timestamp = 0;
+
+    ret = 0;
+    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_OOB_DURATION;
+    if (_init_nodes (&db12, &db34, &node1, &node2, &node3, &node4))
+      {
+	if (_lw6p2p_node_register_tentacle
+	    ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2,
+	     _TEST_NODE_NODE_ID2)
+	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node2,
+					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_NODE_ID1)
+	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
+					       _TEST_NODE_PUBLIC_URL3,
+					       _TEST_NODE_NODE_ID3)
+	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node3,
+					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_NODE_ID1)
+	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
+					       _TEST_NODE_PUBLIC_URL4,
+					       _TEST_NODE_NODE_ID4)
+	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node4,
+					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_NODE_ID1))
+	  {
+	    while (lw6sys_get_timestamp () < end_timestamp)
+	      {
+		lw6p2p_node_poll (node1);
+		lw6p2p_node_poll (node2);
+		lw6p2p_node_poll (node3);
+		lw6p2p_node_poll (node4);
+		lw6sys_idle ();
+	      }
+
+	    ret = 1;
+	  }
+	_quit_nodes (db12, db34, node1, node2, node3, node4);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/* 
+ * Testing node connection
+ */
+static int
 _test_node_oob ()
 {
   int ret = 1;
@@ -460,7 +524,8 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv))
     {
-      ret = _test_db () && _test_node_init () && _test_node_oob ();
+      ret = _test_db () && _test_node_init () && _test_node_oob ()
+	&& _test_node_cmd ();
       lw6net_quit (argc, argv);
     }
 

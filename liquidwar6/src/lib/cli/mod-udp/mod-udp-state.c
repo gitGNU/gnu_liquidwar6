@@ -33,19 +33,25 @@ _mod_udp_open (_udp_context_t * udp_context, char *remote_url,
 	       u_int64_t remote_id)
 {
   lw6cli_connection_t *ret = NULL;
+  _udp_specific_data_t *specific_data = NULL;
 
-  ret =
-    (lw6cli_connection_t *) LW6SYS_CALLOC (sizeof (lw6cli_connection_t *));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("_mod_udp_open \"%s\""), remote_url);
+  ret = (lw6cli_connection_t *) LW6SYS_CALLOC (sizeof (lw6cli_connection_t));
   if (ret)
     {
       ret->remote_url = lw6sys_str_copy (remote_url);
       ret->password_checksum = lw6sys_str_copy (password_checksum);
       ret->local_id = local_id;
       ret->remote_id = remote_id;
-      ret->backend_specific_data = NULL;	// todo
+
+      ret->backend_specific_data =
+	LW6SYS_CALLOC (sizeof (_udp_specific_data_t));
+      specific_data = (_udp_specific_data_t *) ret->backend_specific_data;
+      specific_data->sock = lw6net_udp_client ();
 
       if (ret->remote_url && ret->password_checksum
-	  && ret->backend_specific_data)
+	  && ret->backend_specific_data
+	  && lw6net_socket_is_valid (specific_data->sock))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open udp connection with \"%s\""),
 		      remote_url);
@@ -64,6 +70,17 @@ void
 _mod_udp_close (_udp_context_t * udp_context,
 		lw6cli_connection_t * connection)
 {
+  _udp_specific_data_t *specific_data =
+    (_udp_specific_data_t *) connection->backend_specific_data;
+
+  if (connection->backend_specific_data)
+    {
+      if (lw6net_socket_is_valid (specific_data->sock))
+	{
+	  lw6net_socket_close (specific_data->sock);
+	}
+      LW6SYS_FREE (connection->backend_specific_data);
+    }
   if (connection->remote_url)
     {
       LW6SYS_FREE (connection->remote_url);

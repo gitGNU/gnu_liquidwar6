@@ -44,6 +44,12 @@ typedef struct _udp_context_s
 }
 _udp_context_t;
 
+typedef struct _udp_specific_data_s
+{
+  int sock;
+}
+_udp_specific_data_t;
+
 /* mod-udp-data.c */
 extern int _mod_udp_load_data (_udp_data_t * udp_data, char *data_dir);
 extern void _mod_udp_unload_data (_udp_data_t * udp_data);
