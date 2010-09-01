@@ -135,6 +135,7 @@ C API
 * mod-tcp::             Tcp client using native protocol.
 * mod-udp::             Udp client using native protocol.
 * libcns::              Console handling.
+* libcnx::              Connection common code.
 * libdat::              Storing network data.
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.
@@ -1903,8 +1904,8 @@ implementing the various protocols in dynamically loadable sub-modules.
 It's the role of @code{libp2p} to glue this together, handle the list
 of available servers, the message queue, verifying nobody is cheating,
 and so on. All this modules share information about current game
-state using code & structures defined in @code{libnod}, and use message
-utilities (format, parse) defined in @code{libmsg}. Additionnally, @code{libdat}
+state using code & structures defined in @code{libnod},use message
+utilities (format, parse) defined in @code{libmsg} and share code concerning connections in @code{libcnx}. Additionnally, @code{libdat}
 provides facilities to store old network messages and sort them.
 
 The @code{libsys} module contains most system and convenience functions, it handles
@@ -3164,7 +3165,7 @@ copy @code{Makefile.am}, @code{xyz.h}, @code{xyz-test.c} and @code{xyz-testmain.
 @item
 edit @code{Makefile.am} to fill requirements, make necessary adjustments to other files (many string replaces to make, both lowercase and uppercase).
 @item
-add the entry in the @code{SUBDIRS} of @code{src/lib/Makefile.am}
+add the entry in the @code{SUBDIRS} and @code{LW6_LIBS} sections of @code{src/lib/Makefile.am}
 @item
 add the entry in the @code{AC_CONFIG_FILES} of @code{./configure.ac}.
 @item
@@ -3174,13 +3175,15 @@ edit @code{src/lib/lw6-options.c} and add a call to @code{lw6xyz_test()} for bot
 @item
 in every internal @code{abc} library that depends on @code{xyz}, edit the @code{lw6abc_test} function so that it contains a reference to @code{lw6xzy_test}.
 @item
-in every internal @code{abc} library that depends on @code{abc/abc.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}.
+in every internal @code{abc} library that depends on @code{abc/abc.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}. Also edit @code{src/lib/liquidwar6.h.in}.
 @item
-edit @code{doc/Makefile.gdoc} and add the entry for @code{xyz}.
+in every internal @code{abc} library that depends on @code{abc/abc.h}, add a reference to @code{../xyz/libxyz.la} inf the @code{_LDADD} section.
+@item
+edit @code{doc/gdoc-update.sh} and add the entry for @code{xyz}.
 @item
 edit @code{doc/Makefile.am} and add @code{xyz-gdoc.texi} in @code{gdoc_TEXINFOS}.
 @item
-run @code{doc/gdoc-update.sh}.
+in @code{./doc}, run @code{./gdoc-update.sh}.
 @item
 edit @code{doc/liquidwar6.texi} to and a new node/section for this internal library.
 @item
@@ -3619,6 +3622,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 * mod-tcp::             Tcp client using native protocol.
 * mod-udp::             Udp client using native protocol.
 * libcns::              Console handling.
+* libcnx::              Connection common code.
 * libdat::              Storing network data.
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.
@@ -3905,7 +3909,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libcns
 @c ---------------------------------------------------------------------------
 
-@node libcns, libdat, mod-udp, C API
+@node libcns, libcnx, mod-udp, C API
 @section libcns
 
 @subsection Overview
@@ -3930,10 +3934,38 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
 
 @c ---------------------------------------------------------------------------
+@c libcnx
+@c ---------------------------------------------------------------------------
+
+@node libcnx, libdat, libcns, C API
+@section libcnx
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cnx/index.html}.
+
+@subsection API
+
+@ifinfo
+@include cnx-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include cnx-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libcnx.html}.
+@end ifnothtml
+@end ifnotinfo
+
+@c ---------------------------------------------------------------------------
 @c libdat
 @c ---------------------------------------------------------------------------
 
-@node libdat, libdef, libcns, C API
+@node libdat, libdef, libcnx, C API
 @section libdat
 
 @subsection Overview

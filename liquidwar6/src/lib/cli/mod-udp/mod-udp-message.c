@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 int
-_mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
+_mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
 	       char *message)
 {
   int ret = 0;
@@ -42,7 +42,7 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
 			     lw6sys_build_get_version (),
 			     connection->local_id,
 			     connection->remote_id,
-			     connection->password_checksum, message);
+			     connection->password_send_checksum, message);
   if (line)
     {
       if (lw6net_send_line_udp
@@ -59,7 +59,7 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
 }
 
 void
-_mod_udp_poll (_udp_context_t * udp_context, lw6cli_connection_t * connection)
+_mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp poll"));
   // todo

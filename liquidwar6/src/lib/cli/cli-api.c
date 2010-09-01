@@ -99,20 +99,23 @@ lw6cli_process_oob (lw6cli_backend_t * backend,
   return ret;
 }
 
-lw6cli_connection_t *
-lw6cli_open (lw6cli_backend_t * backend, char *remote_url,
+lw6cnx_connection_t *
+lw6cli_open (lw6cli_backend_t * backend, char *local_url, char *remote_url,
 	     char *remote_ip, int remote_port,
-	     char *password_checksum, char *local_id, char *remote_id)
+	     char *password, char *local_id, char *remote_id,
+	     lw6cnx_recv_callback_t recv_callback_func,
+	     void *recv_callback_data)
 {
-  lw6cli_connection_t *ret = NULL;
+  lw6cnx_connection_t *ret = NULL;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->open)
     {
       ret =
-	backend->open (backend->cli_context, remote_url, remote_ip,
-		       remote_port, password_checksum, local_id, remote_id);
+	backend->open (backend->cli_context, local_url, remote_url, remote_ip,
+		       remote_port, password, local_id, remote_id,
+		       recv_callback_func, recv_callback_data);
     }
   else
     {
@@ -125,7 +128,7 @@ lw6cli_open (lw6cli_backend_t * backend, char *remote_url,
 }
 
 void
-lw6cli_close (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
+lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -142,7 +145,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
 }
 
 int
-lw6cli_send (lw6cli_backend_t * backend, lw6cli_connection_t * connection,
+lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	     char *message)
 {
   int ret = 0;
@@ -164,7 +167,7 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cli_connection_t * connection,
 }
 
 void
-lw6cli_poll (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
+lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -181,7 +184,7 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
 }
 
 int
-lw6cli_is_alive (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
+lw6cli_is_alive (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
@@ -202,7 +205,7 @@ lw6cli_is_alive (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
 }
 
 char *
-lw6cli_repr (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
+lw6cli_repr (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -223,7 +226,7 @@ lw6cli_repr (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
 }
 
 char *
-lw6cli_error (lw6cli_backend_t * backend, lw6cli_connection_t * connection)
+lw6cli_error (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

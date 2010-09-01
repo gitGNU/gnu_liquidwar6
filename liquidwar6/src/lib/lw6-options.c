@@ -151,9 +151,9 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 		&& lw6tsk_test (1) && lw6gui_test (1) && lw6gfx_test (1)
 		&& lw6dsp_test (1) && lw6snd_test (1) && lw6img_test (1)
 		&& lw6pil_test (1) && lw6net_test (1) && lw6nod_test (1)
-		&& lw6msg_test (1)
-		&& lw6cli_test (1) && lw6srv_test (1) && lw6dat_test (1)
-		&& lw6p2p_test (1) && lw6_test (1);
+		&& lw6cnx_test (1) && lw6msg_test (1) && lw6cli_test (1)
+		&& lw6srv_test (1) && lw6dat_test (1) && lw6p2p_test (1)
+		&& lw6_test (1);
 	      if (ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE, _("all tests SUCCESSFULL!"));
@@ -185,9 +185,9 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 		&& lw6tsk_test (0) && lw6gui_test (0) && lw6gfx_test (0)
 		&& lw6dsp_test (0) && lw6snd_test (0) && lw6img_test (0)
 		&& lw6pil_test (0) && lw6net_test (0) && lw6nod_test (0)
-		&& lw6msg_test (0)
-		&& lw6cli_test (0) && lw6srv_test (0) && lw6dat_test (0)
-		&& lw6p2p_test (0) && lw6_test (0);
+		&& lw6cnx_test (0) && lw6msg_test (0) && lw6cli_test (0)
+		&& lw6srv_test (0) && lw6dat_test (0) && lw6p2p_test (0)
+		&& lw6_test (0);
 	      if (ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,

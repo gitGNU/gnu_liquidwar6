@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 char *
-_mod_udp_repr (_udp_context_t * udp_context, lw6cli_connection_t * connection)
+_mod_udp_repr (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -40,7 +40,7 @@ _mod_udp_repr (_udp_context_t * udp_context, lw6cli_connection_t * connection)
 
 char *
 _mod_udp_error (_udp_context_t * udp_context,
-		lw6cli_connection_t * connection)
+		lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

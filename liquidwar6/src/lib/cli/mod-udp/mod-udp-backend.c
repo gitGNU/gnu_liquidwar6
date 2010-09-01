@@ -70,25 +70,27 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
   return ret;
 }
 
-static lw6cli_connection_t *
-_open (void *cli_context, char *remote_url, char *remote_ip, int remote_port,
-       char *password_checksum, char *local_id, char *remote_id)
+static lw6cnx_connection_t *
+_open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
+       int remote_port, char *password, char *local_id, char *remote_id,
+       lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
-  lw6cli_connection_t *ret = NULL;
+  lw6cnx_connection_t *ret = NULL;
 
   if (udp_context)
     {
       ret =
-	_mod_udp_open (udp_context, remote_url, remote_ip, remote_port,
-		       password_checksum, local_id, remote_id);
+	_mod_udp_open (udp_context, local_url, remote_url, remote_ip,
+		       remote_port, password, local_id, remote_id,
+		       recv_callback_func, recv_callback_data);
     }
 
   return ret;
 }
 
 static void
-_close (void *cli_context, lw6cli_connection_t * connection)
+_close (void *cli_context, lw6cnx_connection_t * connection)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
 
@@ -99,7 +101,7 @@ _close (void *cli_context, lw6cli_connection_t * connection)
 }
 
 static int
-_send (void *cli_context, lw6cli_connection_t * connection, char *message)
+_send (void *cli_context, lw6cnx_connection_t * connection, char *message)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   int ret = 0;
@@ -113,7 +115,7 @@ _send (void *cli_context, lw6cli_connection_t * connection, char *message)
 }
 
 static void
-_poll (void *cli_context, lw6cli_connection_t * connection)
+_poll (void *cli_context, lw6cnx_connection_t * connection)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
 
@@ -124,7 +126,7 @@ _poll (void *cli_context, lw6cli_connection_t * connection)
 }
 
 static int
-_is_alive (void *cli_context, lw6cli_connection_t * connection)
+_is_alive (void *cli_context, lw6cnx_connection_t * connection)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   int ret = 0;
@@ -138,7 +140,7 @@ _is_alive (void *cli_context, lw6cli_connection_t * connection)
 }
 
 static char *
-_repr (void *cli_context, lw6cli_connection_t * connection)
+_repr (void *cli_context, lw6cnx_connection_t * connection)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   char *ret = NULL;
@@ -152,7 +154,7 @@ _repr (void *cli_context, lw6cli_connection_t * connection)
 }
 
 static char *
-_error (void *cli_context, lw6cli_connection_t * connection)
+_error (void *cli_context, lw6cnx_connection_t * connection)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   char *ret = NULL;

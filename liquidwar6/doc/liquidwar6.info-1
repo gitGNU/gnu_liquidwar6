@@ -101,6 +101,7 @@ C API
 * mod-tcp::             Tcp client using native protocol.
 * mod-udp::             Udp client using native protocol.
 * libcns::              Console handling.
+* libcnx::              Connection common code.
 * libdat::              Storing network data.
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.
@@ -1812,9 +1813,10 @@ various protocols in dynamically loadable sub-modules.  It's the role
 of `libp2p' to glue this together, handle the list of available
 servers, the message queue, verifying nobody is cheating, and so on.
 All this modules share information about current game state using code
-& structures defined in `libnod', and use message utilities (format,
-parse) defined in `libmsg'. Additionnally, `libdat' provides facilities
-to store old network messages and sort them.
+& structures defined in `libnod',use message utilities (format, parse)
+defined in `libmsg' and share code concerning connections in `libcnx'.
+Additionnally, `libdat' provides facilities to store old network
+messages and sort them.
 
    The `libsys' module contains most system and convenience functions,
 it handles logs, type conversions, timer, memory allocation, it's the
@@ -3071,7 +3073,8 @@ This describes how to add a new `libxyz' internal library:
      adjustments to other files (many string replaces to make, both
      lowercase and uppercase).
 
-   * add the entry in the `SUBDIRS' of `src/lib/Makefile.am'
+   * add the entry in the `SUBDIRS' and `LW6_LIBS' sections of
+     `src/lib/Makefile.am'
 
    * add the entry in the `AC_CONFIG_FILES' of `./configure.ac'.
 
@@ -3085,13 +3088,17 @@ This describes how to add a new `libxyz' internal library:
      `lw6xzy_test'.
 
    * in every internal `abc' library that depends on `abc/abc.h', edit
-     the `abc/abc.h' header so that it includes `xzy/xyz.h'.
+     the `abc/abc.h' header so that it includes `xzy/xyz.h'. Also edit
+     `src/lib/liquidwar6.h.in'.
 
-   * edit `doc/Makefile.gdoc' and add the entry for `xyz'.
+   * in every internal `abc' library that depends on `abc/abc.h', add a
+     reference to `../xyz/libxyz.la' inf the `_LDADD' section.
+
+   * edit `doc/gdoc-update.sh' and add the entry for `xyz'.
 
    * edit `doc/Makefile.am' and add `xyz-gdoc.texi' in `gdoc_TEXINFOS'.
 
-   * run `doc/gdoc-update.sh'.
+   * in `./doc', run `./gdoc-update.sh'.
 
    * edit `doc/liquidwar6.texi' to and a new node/section for this
      internal library.
@@ -7670,6 +7677,7 @@ interfaces:
 * mod-tcp::             Tcp client using native protocol.
 * mod-udp::             Udp client using native protocol.
 * libcns::              Console handling.
+* libcnx::              Connection common code.
 * libdat::              Storing network data.
 * libdef::              Keywords definitions.
 * libdsp::              Threaded display.

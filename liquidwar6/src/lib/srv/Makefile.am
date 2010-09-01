@@ -38,7 +38,7 @@ libsrv_HEADERS = srv.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6srv-test
 liquidwar6srv_test_SOURCES = srv-testmain.c
-liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../msg/libmsg.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6srv-test
 endif
 

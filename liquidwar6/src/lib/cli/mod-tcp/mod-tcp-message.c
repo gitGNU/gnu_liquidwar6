@@ -28,7 +28,7 @@
 #include "mod-tcp-internal.h"
 
 int
-_mod_tcp_send (_tcp_context_t * tcp_context, lw6cli_connection_t * connection,
+_mod_tcp_send (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection,
 	       char *message)
 {
   int ret = 0;
@@ -40,7 +40,7 @@ _mod_tcp_send (_tcp_context_t * tcp_context, lw6cli_connection_t * connection,
 }
 
 void
-_mod_tcp_poll (_tcp_context_t * tcp_context, lw6cli_connection_t * connection)
+_mod_tcp_poll (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_tcp poll"));
   // todo

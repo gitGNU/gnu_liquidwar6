@@ -19,25 +19,17 @@
 # Contact author        : ufoot@ufoot.org
 
 AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ -lsqlite3
+AM_LDFLAGS = @LW6_LDFLAGS@
 
-if ALLINONE
-LW6DYN_LIB = 
-else
-LW6DYN_LIB = ../dyn/libdyn.la 
-endif
-
-noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-explore.c p2p-flush.c p2p-node.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
-libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
-libp2p_HEADERS = p2p.h
+noinst_LTLIBRARIES = libcnx.la
+libcnx_la_SOURCES = cnx-connection.c cnx-test.c
+libcnxdir= $(includedir)/@PACKAGE_TARNAME@/cnx
+libcnx_HEADERS = cnx.h
 
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6p2p-test
-liquidwar6p2p_test_SOURCES = p2p-testmain.c
-liquidwar6p2p_test_LDADD = libp2p.la ../dat/libdat.la ../cli/libcli.la ../srv/libsrv.la ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6p2p-test
+libexec_PROGRAMS = liquidwar6cnx-test
+liquidwar6cnx_test_SOURCES = cnx-testmain.c
+liquidwar6cnx_test_LDADD = libcnx.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+TESTS = liquidwar6cnx-test
 endif
-
-EXTRA_DIST = p2p-internal.h
 

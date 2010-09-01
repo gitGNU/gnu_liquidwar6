@@ -46,7 +46,7 @@ libcli_HEADERS = cli.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6cli-test
 liquidwar6cli_test_SOURCES = cli-testmain.c
-liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../msg/libmsg.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cli-test
 endif
 

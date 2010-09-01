@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -24,27 +24,21 @@
 #include "config.h"
 #endif
 
-#include "../cli.h"
-#include "mod-tcp-internal.h"
+#include "cnx.h"
 
-char *
-_mod_tcp_repr (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+int
+main (int argc, char *argv[])
 {
-  char *ret = NULL;
+  int ret = 1;
 
-  ret =
-    lw6sys_new_sprintf (_("tcp connexion on \"%s\""), connection->remote_url);
+  LW6SYS_MAIN_BEGIN;
 
-  return ret;
-}
+  lw6sys_log_clear (NULL);
+  ret = lw6cnx_test (lw6sys_arg_test_mode (argc, argv));
 
-char *
-_mod_tcp_error (_tcp_context_t * tcp_context,
-		lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
+  LW6SYS_TEST_OUTPUT;
 
-  // todo
+  LW6SYS_MAIN_END;
 
-  return ret;
+  return (!ret);
 }

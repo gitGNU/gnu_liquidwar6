@@ -36,7 +36,7 @@ endif
 
 noinst_LTLIBRARIES = libliquidwar6_s.la
 LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c lw6-test.c
-LW6_LIBS = sys/libsys.la glb/libglb.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la msg/libmsg.la net/libnet.la nod/libnod.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la tsk/libtsk.la $(LW6DYN_LIB) 
+LW6_LIBS = sys/libsys.la glb/libglb.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la ldr/libldr.la gui/libgui.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la net/libnet.la nod/libnod.la cnx/libcnx.la msg/libmsg.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la tsk/libtsk.la $(LW6DYN_LIB) 
 libliquidwar6_s_la_SOURCES = $(LW6_FILES)
 libliquidwar6_s_la_LIBADD = $(LW6_LIBS)
 
@@ -56,4 +56,4 @@ liquidwar6_test_LDADD = libliquidwar6_s.la $(LW6_LIBS) @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6-test
 endif
 
-SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot cns hlp cfg ldr tsk gui gfx snd dsp img net nod msg cli srv dat p2p
+SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot cns hlp cfg ldr tsk gui gfx snd dsp img net nod cnx msg cli srv dat p2p

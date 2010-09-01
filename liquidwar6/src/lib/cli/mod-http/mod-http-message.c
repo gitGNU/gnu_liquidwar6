@@ -29,7 +29,7 @@
 
 int
 _mod_http_send (_http_context_t * http_context,
-		lw6cli_connection_t * connection, char *message)
+		lw6cnx_connection_t * connection, char *message)
 {
   int ret = 0;
 
@@ -41,7 +41,7 @@ _mod_http_send (_http_context_t * http_context,
 
 void
 _mod_http_poll (_http_context_t * http_context,
-		lw6cli_connection_t * connection)
+		lw6cnx_connection_t * connection)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_http poll"));
   // todo

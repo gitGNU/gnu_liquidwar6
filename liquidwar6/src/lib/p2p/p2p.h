@@ -28,6 +28,7 @@
 #include "../cfg/cfg.h"
 #include "../net/net.h"
 #include "../nod/nod.h"
+#include "../cnx/cnx.h"
 #include "../msg/msg.h"
 #include "../cli/cli.h"
 #include "../srv/srv.h"

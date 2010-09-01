@@ -27,13 +27,13 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
-#define _DEFAULT_PASSWORD_CHECKSUM "PUB"
-
 int
 _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
-		       _lw6p2p_backends_t * backends, char *remote_url,
-		       char *password, u_int64_t local_id,
-		       u_int64_t remote_id)
+		       _lw6p2p_backends_t * backends, char *local_url,
+		       char *remote_url, char *password, u_int64_t local_id,
+		       u_int64_t remote_id,
+		       lw6cnx_recv_callback_t recv_callback_func,
+		       void *recv_callback_data)
 {
   int ret = 1;
   int i = 0;
@@ -42,6 +42,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
   lw6sys_url_t *parsed_url = NULL;
 
   tentacle->backends = backends;
+  tentacle->local_url = lw6sys_str_copy (local_url);
   tentacle->remote_url = lw6sys_str_copy (remote_url);
   parsed_url = lw6sys_url_parse (remote_url);
   if (parsed_url)
@@ -58,46 +59,45 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
     }
   if (password && strlen (password) > 0)
     {
-      tentacle->password_checksum =
-	lw6sys_password_checksum (remote_url, password);
+      tentacle->password = lw6sys_str_copy (password);
     }
   else
     {
-      tentacle->password_checksum =
-	lw6sys_str_copy (_DEFAULT_PASSWORD_CHECKSUM);
+      tentacle->password = lw6sys_str_copy ("");
     }
   tentacle->local_id_int = local_id;
   tentacle->local_id_str = lw6sys_id_ltoa (local_id);
   tentacle->remote_id_int = remote_id;
   tentacle->remote_id_str = lw6sys_id_ltoa (remote_id);
 
-  if (tentacle->remote_url && tentacle->remote_ip
-      && tentacle->password_checksum && tentacle->local_id_str
+  if (tentacle->local_url && tentacle->remote_url && tentacle->remote_ip
+      && tentacle->password && tentacle->local_id_str
       && tentacle->remote_id_str)
     {
-      tentacle->nb_cli_connections = backends->nb_cli_backends;
-      if (tentacle->nb_cli_connections > 0)
+      tentacle->nb_cnx_connections = backends->nb_cli_backends;
+      if (tentacle->nb_cnx_connections > 0)
 	{
-	  tentacle->cli_connections =
-	    (lw6cli_connection_t **)
-	    LW6SYS_CALLOC (tentacle->nb_cli_connections *
-			   sizeof (lw6cli_connection_t *));
-	  if (tentacle->cli_connections)
+	  tentacle->cnx_connections =
+	    (lw6cnx_connection_t **)
+	    LW6SYS_CALLOC (tentacle->nb_cnx_connections *
+			   sizeof (lw6cnx_connection_t *));
+	  if (tentacle->cnx_connections)
 	    {
-	      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+	      for (i = 0; i < tentacle->nb_cnx_connections; ++i)
 		{
-		  tentacle->cli_connections[i] =
+		  tentacle->cnx_connections[i] =
 		    lw6cli_open (tentacle->backends->cli_backends[i],
-				 remote_url, tentacle->remote_ip,
+				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
-				 tentacle->password_checksum,
+				 tentacle->password,
 				 tentacle->local_id_str,
-				 tentacle->remote_id_str);
-		  if (tentacle->cli_connections[i])
+				 tentacle->remote_id_str, recv_callback_func,
+				 recv_callback_data);
+		  if (tentacle->cnx_connections[i])
 		    {
 		      repr =
 			lw6cli_repr (tentacle->backends->cli_backends[i],
-				     tentacle->cli_connections[i]);
+				     tentacle->cnx_connections[i]);
 		      if (repr)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -134,17 +134,21 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
-  if (tentacle->nb_cli_connections > 0 && tentacle->cli_connections)
+  if (tentacle->nb_cnx_connections > 0 && tentacle->cnx_connections)
     {
-      for (i = 0; i < tentacle->nb_cli_connections; ++i)
+      for (i = 0; i < tentacle->nb_cnx_connections; ++i)
 	{
-	  if (tentacle->cli_connections[i])
+	  if (tentacle->cnx_connections[i])
 	    {
 	      lw6cli_close (tentacle->backends->cli_backends[i],
-			    tentacle->cli_connections[i]);
+			    tentacle->cnx_connections[i]);
 	    }
 	}
-      LW6SYS_FREE (tentacle->cli_connections);
+      LW6SYS_FREE (tentacle->cnx_connections);
+    }
+  if (tentacle->local_url)
+    {
+      LW6SYS_FREE (tentacle->local_url);
     }
   if (tentacle->remote_url)
     {
@@ -154,9 +158,9 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
     {
       LW6SYS_FREE (tentacle->remote_ip);
     }
-  if (tentacle->password_checksum)
+  if (tentacle->password)
     {
-      LW6SYS_FREE (tentacle->password_checksum);
+      LW6SYS_FREE (tentacle->password);
     }
   if (tentacle->local_id_str)
     {
@@ -191,10 +195,10 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       msg = lw6msg_cmd_generate_hello (node_info);
       if (msg)
 	{
-	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+	  for (i = 0; i < tentacle->nb_cnx_connections; ++i)
 	    {
 	      if (lw6cli_send (tentacle->backends->cli_backends[i],
-			       tentacle->cli_connections[i], msg))
+			       tentacle->cnx_connections[i], msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -202,10 +206,10 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  LW6SYS_FREE (msg);
 	}
     }
-  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+  for (i = 0; i < tentacle->nb_cnx_connections; ++i)
     {
       lw6cli_poll (tentacle->backends->cli_backends[i],
-		   tentacle->cli_connections[i]);
+		   tentacle->cnx_connections[i]);
     }
 
   // todo servers

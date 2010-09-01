@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  
+
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -24,27 +24,17 @@
 #include "config.h"
 #endif
 
-#include "../cli.h"
-#include "mod-tcp-internal.h"
+#include "p2p.h"
+#include "p2p-internal.h"
 
-char *
-_mod_tcp_repr (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+void
+_lw6p2p_recv_callback (void *func_data, char *msg)
 {
-  char *ret = NULL;
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
 
-  ret =
-    lw6sys_new_sprintf (_("tcp connexion on \"%s\""), connection->remote_url);
-
-  return ret;
-}
-
-char *
-_mod_tcp_error (_tcp_context_t * tcp_context,
-		lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("recv_callback msg=\"%s\""), msg);
+  if (node)
+    {
+      // todo...
+    }
 }

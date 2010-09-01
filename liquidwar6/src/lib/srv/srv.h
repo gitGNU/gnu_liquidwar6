@@ -28,6 +28,7 @@
 #include "../dyn/dyn.h"
 #include "../net/net.h"
 #include "../nod/nod.h"
+#include "../cnx/cnx.h"
 #include "../msg/msg.h"
 
 #define LW6SRV_PROTOCOL_BUFFER_SIZE 32

@@ -78,15 +78,18 @@ extern char *_mod_http_get (_http_context_t * http_context, char *url,
 /*
  * In state.c
  */
-extern lw6cli_connection_t *_mod_http_open (_http_context_t * http_context,
-					    char *remote_url,
+extern lw6cnx_connection_t *_mod_http_open (_http_context_t * http_context,
+					    char *local_url, char *remote_url,
 					    char *remote_ip, int remote_port,
-					    char *password_checksum,
-					    char *local_id, char *remote_id);
+					    char *password, char *local_id,
+					    char *remote_id,
+					    lw6cnx_recv_callback_t
+					    recv_callback_func,
+					    void *recv_callback_data);
 extern void _mod_http_close (_http_context_t * http_context,
-			     lw6cli_connection_t * connection);
+			     lw6cnx_connection_t * connection);
 extern int _mod_http_is_alive (_http_context_t * http_context,
-			       lw6cli_connection_t * connection);
+			       lw6cnx_connection_t * connection);
 extern int _mod_http_timeout_ok (_http_context_t * http_context,
 				 int64_t origin_timestamp);
 
@@ -94,17 +97,17 @@ extern int _mod_http_timeout_ok (_http_context_t * http_context,
  * In message.c
  */
 extern int _mod_http_send (_http_context_t * http_context,
-			   lw6cli_connection_t * connection, char *message);
+			   lw6cnx_connection_t * connection, char *message);
 extern void _mod_http_poll (_http_context_t * http_context,
-			    lw6cli_connection_t * connection);
+			    lw6cnx_connection_t * connection);
 
 /*
  * In info.c
  */
 extern char *_mod_http_repr (_http_context_t * http_context,
-			     lw6cli_connection_t * connection);
+			     lw6cnx_connection_t * connection);
 extern char *_mod_http_error (_http_context_t * http_context,
-			      lw6cli_connection_t * connection);
+			      lw6cnx_connection_t * connection);
 
 /*
  * In oob.c

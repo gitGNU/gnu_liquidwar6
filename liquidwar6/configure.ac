@@ -717,6 +717,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/snd/mod-ogg/Makefile
 	  src/lib/net/Makefile
 	  src/lib/nod/Makefile
+	  src/lib/cnx/Makefile
 	  src/lib/msg/Makefile
 	  src/lib/img/Makefile
 	  src/lib/pil/Makefile

@@ -14,7 +14,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
@@ -24,53 +24,70 @@
 #include "config.h"
 #endif
 
-#include "cli.h"
+#include "cnx.h"
 
-#define TEST_ARGC 1
-#define TEST_ARGV0 "prog"
+#define _TEST_LOCAL_URL "http://ufoot.org:8056/"
+#define _TEST_REMOTE_URL "http://ufoot.hd.free.fr:8056/"
+#define _TEST_REMOTE_IP "127.0.0.1"
+#define _TEST_REMOTE_PORT 8888
+#define _TEST_PASSWORD "toto"
+#define _TEST_LOCAL_ID "1234123412341234"
+#define _TEST_REMOTE_ID "2345234523452345"
 
+static void
+_recv_callback_func (void *func_data, char *msg)
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("received \"%s\""), msg);
+}
+
+/*
+ * Testing functions in connection.c
+ */
 static int
-test_init (lw6cli_backend_t * backend)
+test_connection ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = ret && lw6cli_init (backend);
+    lw6cnx_connection_t *cnx = NULL;
+
+    cnx =
+      lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
+			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
+			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
+			     _recv_callback_func, NULL);
+    if (cnx)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("cnx_connection object creation works"));
+	lw6cnx_connection_free (cnx);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("cnx_connection object creation failed"));
+	ret = 0;
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
 
-static int
-test_quit (lw6cli_backend_t * backend)
-{
-  int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
-
-  lw6cli_quit (backend);
-
-  LW6SYS_TEST_FUNCTION_END;
-  return ret;
-}
-
 /**
- * lw6cli_test
+ * lw6cnx_test
  *
  * @mode: 0 for check only, 1 for full test
  *
- * Runs the @cli module test suite.
+ * Runs the @cnx module test suite.
  *
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cli_test (int mode)
+lw6cnx_test (int mode)
 {
   int ret = 0;
-  lw6cli_backend_t *backend;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {
@@ -78,42 +95,9 @@ lw6cli_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
-      lw6glb_test (mode);
-      lw6cfg_test (mode);
-      lw6net_test (mode);
-      lw6nod_test (mode);
-      lw6cnx_test (mode);
-      lw6msg_test (mode);
     }
 
-  if (lw6net_init (argc, argv))
-    {
-      ret = 1;
-
-      backend = lw6cli_create_backend (argc, argv, "tcp");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-
-      backend = lw6cli_create_backend (argc, argv, "udp");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-
-#ifdef MOD_HTTP
-      backend = lw6cli_create_backend (argc, argv, "http");
-      if (backend)
-	{
-	  ret = test_init (backend) && test_quit (backend) && ret;
-	  lw6cli_destroy_backend (backend);
-	}
-#endif
-      lw6net_quit ();
-    }
+  ret = test_connection ();
 
   return ret;
 }

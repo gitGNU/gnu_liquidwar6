@@ -221,6 +221,7 @@ lw6srv_test (int mode)
       lw6cfg_test (mode);
       lw6net_test (mode);
       lw6nod_test (mode);
+      lw6cnx_test (mode);
       lw6msg_test (mode);
     }
 

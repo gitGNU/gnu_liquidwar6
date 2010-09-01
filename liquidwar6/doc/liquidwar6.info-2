@@ -310,7 +310,7 @@ results on
 ---------
 
 
-File: liquidwar6.info,  Node: libcns,  Next: libdat,  Prev: mod-udp,  Up: C API
+File: liquidwar6.info,  Node: libcns,  Next: libcnx,  Prev: mod-udp,  Up: C API
 
 5.10 libcns
 ===========
@@ -333,9 +333,9 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
 
-File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcns,  Up: C API
+File: liquidwar6.info,  Node: libcnx,  Next: libdat,  Prev: libcns,  Up: C API
 
-5.11 libdat
+5.11 libcnx
 ===========
 
 5.11.1 Overview
@@ -343,9 +343,219 @@ File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcns,  Up: C API
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cnx/index.html'.
 
 5.11.2 API
+----------
+
+ -- Function: lw6cnx_info_t * lw6cnx_info_new (char * PROGRAM, char *
+          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
+          URL, char * TITLE, char * DESCRIPTION, int BENCH, int UPTIME,
+          char * PASSWORD, int IDLE_SCREENSHOT_SIZE, void *
+          IDLE_SCREENSHOT_DATA)
+     PROGRAM:  the program (normally it's liquidwar6)
+
+     VERSION:  the version
+
+     CODENAME:  the codename
+
+     STAMP:  the stamp
+
+     ID:  the cnxe id
+
+     URL:  the cnxe public url
+
+     TITLE:  the cnxe title
+
+     DESCRIPTION:  the cnxe description
+
+     BENCH:  the cnxe bench
+
+     UPTIME:  uptime in seconds
+
+     PASSWORD:  the cnxe password
+
+     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
+     when game is idle
+
+     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
+     when game is idle
+
+     Creates a cnxe info object. The arguments correspond to the
+     immutable cnxe attributes, other properties such as how many
+     players are connected or set in other functions like
+     `lw6cnx_info_update' which can be called later.
+
+     *Return value:*  newly allocated object, NULL on error.
+
+ -- Function: void lw6cnx_info_free (lw6cnx_info_t * INFO)
+     INFO:  the cnxe info to free
+
+     Frees a cnxe info object.
+
+     *Return value:*  none
+
+ -- Function: int lw6cnx_info_lock (lw6cnx_info_t * INFO)
+     INFO:  the cnxe info to lock
+
+     Locks a cnxe info object, this is usefull for some members,
+     typically list of servers, can be accessed by separated threads,
+     one reading, many writing, and these objects (chained lists)
+     certainly do not want to be modified while being read.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: int lw6cnx_info_unlock (lw6cnx_info_t * INFO)
+     INFO:  the cnxe info to unlock
+
+     Unlocks a cnxe info object, this is the compation of the
+     `lw6cnx_info_lock' function.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: void lw6cnx_info_idle (lw6cnx_info_t * INFO)
+     INFO:  the cnxe info to modify
+
+     Clears a cnxe info object and sets all its variable attributes to
+     NULL/default values. This is what we want when the cnxe is idle,
+     not playing.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_info_update (lw6cnx_info_t * INFO, char *
+          LEVEL, int REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS,
+          int NB_CURSORS, int MAX_NB_CURSORS, int NB_CNXES, int
+          MAX_NB_CNXES, int GAME_SCREENSHOT_SIZE, void *
+          GAME_SCREENSHOT_DATA)
+     INFO:  the cnxe info to update
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED_BENCH:  the bench required to connect
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  max number of colors allowed
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_CNXES:  number of cnxes playing
+
+     MAX_NB_CNXES:  max number of cnxes allowed
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Set a cnxe info object variable attributes. Call this whenever the
+     cnxe has changed some parameter. Not too often for it's not needed
+     and some operations such as modying the screenshot, can be time
+     consuming.
+
+     *Return value:*  1 if OK, 0 if error.
+
+ -- Function: lw6cnx_dyn_info_t * lw6cnx_info_dup_dyn (lw6cnx_info_t *
+          INFO)
+     INFO:  the cnxe info containing the dyn info to duplicate
+
+     Extracts the dynamic part of an info struct and duplicates it,
+     this is to avoid protection fault error when concurrent threads
+     access this info.
+
+     *Return value:*  newly allocated object, must be freed.
+
+ -- Function: lw6sys_hash_t * lw6cnx_info_new_discovered_cnxes ()
+     Creates a new hash, to be used as a discovered cnxes list.  Using
+     this function has the advantage of setting the hash options to
+     their defaults.  We use a hash to avoid having uselessly long
+     lists containing always the same cnxe due to multiple detections.
+
+     *Return value:*  an empty hash
+
+ -- Function: int lw6cnx_info_add_discovered_cnxe (lw6cnx_info_t *
+          INFO, char * PUBLIC_URL)
+     INFO:  the cnxe info to update
+
+     PUBLIC_URL:  the address of the discovered cnxe
+
+     Registers a new server, and queues it as something that should be
+     checked later because it's interesting. We can't insert in the
+     database all the servers we suspect to exist so network threads
+     should use this, then main thread will process discovered servers
+     afterwards. This is also a good way to avoid trivial DOS attacks.
+
+     *Return value:*  1 if OK, O if error.
+
+ -- Function: lw6sys_list_t * lw6cnx_info_pop_discovered_cnxes
+          (lw6cnx_info_t * INFO)
+     INFO:  the cnxe info to query
+
+     Returns a list of all discovered cnxes (their public URL) and
+     empties the current queue as well.
+
+     *Return value:*  a list of dynamically allocated strings.
+
+ -- Function: lw6sys_list_t * lw6cnx_info_new_verified_cnxes ()
+     Creates a new list, to be filled with cnxes and typically passed
+     to `lw6cnx_info_set_verified_cnxes'. Using this function has the
+     advantage of setting the listh options to their defaults.
+
+     *Return value:*  an empty list
+
+ -- Function: int lw6cnx_info_set_verified_cnxes (lw6cnx_info_t * INFO,
+          lw6sys_list_t * LIST)
+     INFO:  the cnxe info to modify
+
+     LIST:  the list of verified cnxes, will be freed by this function
+
+     Sets the list of verified cnxes, that is, the list of cnxes we are
+     sure to exist, this is typically the list we will display later on
+     a web page. We can't directly display any discovered cnxe, one
+     needs to filter them through main thread.  Something very
+     important about this function is that `list' will be freed by
+     function, that is, if you call this, then you can (you should)
+     forget your object, it will disappear any time soon.
+
+     *Return value:*  1 if OK, 0 on error.
+
+ -- Function: void lw6cnx_info_map_verified_cnxes (lw6cnx_info_t *
+          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+     INFO:  the cnxe info concerned
+
+     FUNC:  the function to apply
+
+     FUNC_DATA:  arbitrary pointer holding data to pass to function
+
+     Calls `lw6sys_hash_map' with `func' on every member of the list of
+     verified cnxes. The reason there's a function for this is that it
+     is very important that list object is locked when doing this.
+     This function does perform a lock/unlock so it is safe.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cnx' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcnx,  Up: C API
+
+5.12 libdat
+===========
+
+5.12.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html'.
+
+5.12.2 API
 ----------
 
  -- Function: int lw6dat_test (int MODE)
@@ -372,13 +582,13 @@ results on
 
 File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
 
-5.12 libdef
+5.13 libdef
 ===========
 
-5.12.1 Overview
+5.13.1 Overview
 ---------------
 
-5.12.2 API
+5.13.2 API
 ----------
 
 There are no functions in `libdef', only a header file with constants.
@@ -386,17 +596,17 @@ There are no functions in `libdef', only a header file with constants.
 
 File: liquidwar6.info,  Node: libdsp,  Next: libdyn,  Prev: libdef,  Up: C API
 
-5.13 libdsp
+5.14 libdsp
 ===========
 
-5.13.1 Overview
+5.14.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/dsp/index.html'.
 
-5.13.2 API
+5.14.2 API
 ----------
 
  -- Function: lw6dsp_backend_t * lw6dsp_create_backend (int ARGC, char
@@ -559,17 +769,17 @@ results on
 
 File: liquidwar6.info,  Node: libdyn,  Next: libgfx,  Prev: libdsp,  Up: C API
 
-5.14 libdyn
+5.15 libdyn
 ===========
 
-5.14.1 Overview
+5.15.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/dyn/index.html'.
 
-5.14.2 API
+5.15.2 API
 ----------
 
  -- Function: lw6dyn_dl_handle_t * lw6dyn_dlopen_backend_so (char *
@@ -665,17 +875,17 @@ results on
 
 File: liquidwar6.info,  Node: libgfx,  Next: mod-gl,  Prev: libdyn,  Up: C API
 
-5.15 libgfx
+5.16 libgfx
 ===========
 
-5.15.1 Overview
+5.16.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/index.html'.
 
-5.15.2 API
+5.16.2 API
 ----------
 
  -- Function: int lw6gfx_init (lw6gfx_backend_t * BACKEND,
@@ -821,10 +1031,10 @@ results on
 
 File: liquidwar6.info,  Node: mod-gl,  Next: libglb,  Prev: libgfx,  Up: C API
 
-5.16 mod-gl
+5.17 mod-gl
 ===========
 
-5.16.1 Overview
+5.17.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
@@ -835,23 +1045,23 @@ test coverage directory index
 (http://www.gnu.org/software/liquidwar6/coverage/index.html) for
 complete information).
 
-5.16.2 API
+5.17.2 API
 ----------
 
 
 File: liquidwar6.info,  Node: libglb,  Next: libgui,  Prev: mod-gl,  Up: C API
 
-5.17 libglb
+5.18 libglb
 ===========
 
-5.17.1 Overview
+5.18.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/glb/index.html'.
 
-5.17.2 API
+5.18.2 API
 ----------
 
  -- Function: char * lw6glb_base64_encode_bin (char * BUF, int SIZE)
@@ -949,23 +1159,7 @@ results on
 
 File: liquidwar6.info,  Node: libgui,  Next: libhlp,  Prev: libglb,  Up: C API
 
-5.18 libgui
-===========
-
-5.18.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gui/index.html'.
-
-5.18.2 API
-----------
-
-
-File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: C API
-
-5.19 libhlp
+5.19 libgui
 ===========
 
 5.19.1 Overview
@@ -973,9 +1167,25 @@ File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: C API
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/hlp/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gui/index.html'.
 
 5.19.2 API
+----------
+
+
+File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: C API
+
+5.20 libhlp
+===========
+
+5.20.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/hlp/index.html'.
+
+5.20.2 API
 ----------
 
  -- Function: int lw6hlp_is_documented (char * KEYWORD)
@@ -1126,17 +1336,17 @@ results on
 
 File: liquidwar6.info,  Node: libimg,  Next: libker,  Prev: libhlp,  Up: C API
 
-5.20 libimg
+5.21 libimg
 ===========
 
-5.20.1 Overview
+5.21.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/img/index.html'.
 
-5.20.2 API
+5.21.2 API
 ----------
 
  -- Function: int lw6img_test (int MODE)
@@ -1149,17 +1359,17 @@ results on
 
 File: liquidwar6.info,  Node: libker,  Next: libldr,  Prev: libimg,  Up: C API
 
-5.21 libker
+5.22 libker
 ===========
 
-5.21.1 Overview
+5.22.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/ker/index.html'.
 
-5.21.2 API
+5.22.2 API
 ----------
 
  -- Function: int lw6ker_test (int MODE)
@@ -1175,17 +1385,17 @@ results on
 
 File: liquidwar6.info,  Node: libldr,  Next: libmap,  Prev: libker,  Up: C API
 
-5.22 libldr
+5.23 libldr
 ===========
 
-5.22.1 Overview
+5.23.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/ldr/index.html'.
 
-5.22.2 API
+5.23.2 API
 ----------
 
  -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, char *
@@ -1574,17 +1784,17 @@ results on
 
 File: liquidwar6.info,  Node: libmap,  Next: libmsg,  Prev: libldr,  Up: C API
 
-5.23 libmap
+5.24 libmap
 ===========
 
-5.23.1 Overview
+5.24.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/map/index.html'.
 
-5.23.2 API
+5.24.2 API
 ----------
 
  -- Function: void lw6map_body_builtin_custom (lw6map_body_t * BODY,
@@ -1934,17 +2144,17 @@ results on
 
 File: liquidwar6.info,  Node: libmsg,  Next: libnet,  Prev: libmap,  Up: C API
 
-5.24 libmsg
+5.25 libmsg
 ===========
 
-5.24.1 Overview
+5.25.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/msg/index.html'.
 
-5.24.2 API
+5.25.2 API
 ----------
 
  -- Function: char * lw6msg_cmd_generate_hello (lw6nod_info_t * INFO)
@@ -2323,17 +2533,17 @@ results on
 
 File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: C API
 
-5.25 libnet
+5.26 libnet
 ===========
 
-5.25.1 Overview
+5.26.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html'.
 
-5.25.2 API
+5.26.2 API
 ----------
 
  -- Function: int lw6net_dns_is_ip (char * IP)
@@ -2535,17 +2745,17 @@ results on
 
 File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
 
-5.26 libnod
+5.27 libnod
 ===========
 
-5.26.1 Overview
+5.27.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
 
-5.26.2 API
+5.27.2 API
 ----------
 
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
@@ -2753,17 +2963,17 @@ results on
 
 File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: C API
 
-5.27 libp2p
+5.28 libp2p
 ===========
 
-5.27.1 Overview
+5.28.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/p2p/index.html'.
 
-5.27.2 API
+5.28.2 API
 ----------
 
  -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
@@ -2913,17 +3123,17 @@ results on
 
 File: liquidwar6.info,  Node: libpil,  Next: libsnd,  Prev: libp2p,  Up: C API
 
-5.28 libpil
+5.29 libpil
 ===========
 
-5.28.1 Overview
+5.29.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/pil/index.html'.
 
-5.28.2 API
+5.29.2 API
 ----------
 
  -- Function: int lw6pil_bench (float * BENCH_RESULT, lw6sys_progress_t
@@ -3304,17 +3514,17 @@ results on
 
 File: liquidwar6.info,  Node: libsnd,  Next: mod-csound,  Prev: libpil,  Up: C API
 
-5.29 libsnd
+5.30 libsnd
 ===========
 
-5.29.1 Overview
+5.30.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/index.html'.
 
-5.29.2 API
+5.30.2 API
 ----------
 
  -- Function: int lw6snd_test (int MODE)
@@ -3329,49 +3539,49 @@ results on
 
 File: liquidwar6.info,  Node: mod-csound,  Next: mod-ogg,  Prev: libsnd,  Up: C API
 
-5.30 mod-csound
+5.31 mod-csound
 ===============
-
-5.30.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-csound/index.html'.
-
-5.30.2 API
-----------
-
-
-File: liquidwar6.info,  Node: mod-ogg,  Next: libsrv,  Prev: mod-csound,  Up: C API
-
-5.31 mod-ogg
-============
 
 5.31.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-ogg/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-csound/index.html'.
 
 5.31.2 API
 ----------
 
 
-File: liquidwar6.info,  Node: libsrv,  Next: mod-httpd,  Prev: mod-ogg,  Up: C API
+File: liquidwar6.info,  Node: mod-ogg,  Next: libsrv,  Prev: mod-csound,  Up: C API
 
-5.32 libsrv
-===========
+5.32 mod-ogg
+============
 
 5.32.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-ogg/index.html'.
 
 5.32.2 API
+----------
+
+
+File: liquidwar6.info,  Node: libsrv,  Next: mod-httpd,  Prev: mod-ogg,  Up: C API
+
+5.33 libsrv
+===========
+
+5.33.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/index.html'.
+
+5.33.2 API
 ----------
 
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
@@ -3451,39 +3661,23 @@ results on
 
 File: liquidwar6.info,  Node: mod-httpd,  Next: mod-tcpd,  Prev: libsrv,  Up: C API
 
-5.33 mod-httpd
+5.34 mod-httpd
 ==============
-
-5.33.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-httpd/index.html'.
-
-5.33.2 API
-----------
-
-
-File: liquidwar6.info,  Node: mod-tcpd,  Next: mod-udpd,  Prev: mod-httpd,  Up: C API
-
-5.34 mod-tcpd
-=============
 
 5.34.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-tcpd/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-httpd/index.html'.
 
 5.34.2 API
 ----------
 
 
-File: liquidwar6.info,  Node: mod-udpd,  Next: libsys,  Prev: mod-tcpd,  Up: C API
+File: liquidwar6.info,  Node: mod-tcpd,  Next: mod-udpd,  Prev: mod-httpd,  Up: C API
 
-5.35 mod-udpd
+5.35 mod-tcpd
 =============
 
 5.35.1 Overview
@@ -3491,25 +3685,41 @@ File: liquidwar6.info,  Node: mod-udpd,  Next: libsys,  Prev: mod-tcpd,  Up: C A
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-udpd/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-tcpd/index.html'.
 
 5.35.2 API
 ----------
 
 
-File: liquidwar6.info,  Node: libsys,  Next: libtsk,  Prev: mod-udpd,  Up: C API
+File: liquidwar6.info,  Node: mod-udpd,  Next: libsys,  Prev: mod-tcpd,  Up: C API
 
-5.36 libsys
-===========
+5.36 mod-udpd
+=============
 
 5.36.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html'.
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-udpd/index.html'.
 
 5.36.2 API
+----------
+
+
+File: liquidwar6.info,  Node: libsys,  Next: libtsk,  Prev: mod-udpd,  Up: C API
+
+5.37 libsys
+===========
+
+5.37.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html'.
+
+5.37.2 API
 ----------
 
  -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
@@ -7339,17 +7549,17 @@ results on
 
 File: liquidwar6.info,  Node: libtsk,  Prev: libsys,  Up: C API
 
-5.37 libtsk
+5.38 libtsk
 ===========
 
-5.37.1 Overview
+5.38.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html'.
 
-5.37.2 API
+5.38.2 API
 ----------
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *

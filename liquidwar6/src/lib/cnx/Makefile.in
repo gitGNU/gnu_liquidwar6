@@ -57,10 +57,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@FULLSTATIC_FALSE@libexec_PROGRAMS = liquidwar6p2p-test$(EXEEXT)
-@FULLSTATIC_FALSE@TESTS = liquidwar6p2p-test$(EXEEXT)
-subdir = src/lib/p2p
-DIST_COMMON = $(libp2p_HEADERS) $(srcdir)/Makefile.am \
+@FULLSTATIC_FALSE@libexec_PROGRAMS = liquidwar6cnx-test$(EXEEXT)
+@FULLSTATIC_FALSE@TESTS = liquidwar6cnx-test$(EXEEXT)
+subdir = src/lib/cnx
+DIST_COMMON = $(libcnx_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
@@ -78,25 +78,17 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-libp2p_la_LIBADD =
-am_libp2p_la_OBJECTS = p2p-backends.lo p2p-clioob.lo p2p-data.lo \
-	p2p-db.lo p2p-explore.lo p2p-flush.lo p2p-node.lo p2p-recv.lo \
-	p2p-srvoob.lo p2p-tentacle.lo p2p-test.lo
-libp2p_la_OBJECTS = $(am_libp2p_la_OBJECTS)
-am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libp2pdir)"
+libcnx_la_LIBADD =
+am_libcnx_la_OBJECTS = cnx-connection.lo cnx-test.lo
+libcnx_la_OBJECTS = $(am_libcnx_la_OBJECTS)
+am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libcnxdir)"
 PROGRAMS = $(libexec_PROGRAMS)
-am__liquidwar6p2p_test_SOURCES_DIST = p2p-testmain.c
-@FULLSTATIC_FALSE@am_liquidwar6p2p_test_OBJECTS =  \
-@FULLSTATIC_FALSE@	p2p-testmain.$(OBJEXT)
-liquidwar6p2p_test_OBJECTS = $(am_liquidwar6p2p_test_OBJECTS)
-@ALLINONE_FALSE@am__DEPENDENCIES_1 = ../dyn/libdyn.la
-@FULLSTATIC_FALSE@liquidwar6p2p_test_DEPENDENCIES = libp2p.la \
-@FULLSTATIC_FALSE@	../dat/libdat.la ../cli/libcli.la \
-@FULLSTATIC_FALSE@	../srv/libsrv.la ../msg/libmsg.la \
-@FULLSTATIC_FALSE@	../cnx/libcnx.la ../nod/libnod.la \
-@FULLSTATIC_FALSE@	../net/libnet.la $(am__DEPENDENCIES_1) \
-@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
+am__liquidwar6cnx_test_SOURCES_DIST = cnx-testmain.c
+@FULLSTATIC_FALSE@am_liquidwar6cnx_test_OBJECTS =  \
+@FULLSTATIC_FALSE@	cnx-testmain.$(OBJEXT)
+liquidwar6cnx_test_OBJECTS = $(am_liquidwar6cnx_test_OBJECTS)
+@FULLSTATIC_FALSE@liquidwar6cnx_test_DEPENDENCIES = libcnx.la \
+@FULLSTATIC_FALSE@	../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -110,9 +102,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libp2p_la_SOURCES) $(liquidwar6p2p_test_SOURCES)
-DIST_SOURCES = $(libp2p_la_SOURCES) \
-	$(am__liquidwar6p2p_test_SOURCES_DIST)
+SOURCES = $(libcnx_la_SOURCES) $(liquidwar6cnx_test_SOURCES)
+DIST_SOURCES = $(libcnx_la_SOURCES) \
+	$(am__liquidwar6cnx_test_SOURCES_DIST)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -134,7 +126,7 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-HEADERS = $(libp2p_HEADERS)
+HEADERS = $(libcnx_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -331,16 +323,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ -lsqlite3
-@ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
-@ALLINONE_TRUE@LW6DYN_LIB = 
-noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-explore.c p2p-flush.c p2p-node.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
-libp2pdir = $(includedir)/@PACKAGE_TARNAME@/p2p
-libp2p_HEADERS = p2p.h
-@FULLSTATIC_FALSE@liquidwar6p2p_test_SOURCES = p2p-testmain.c
-@FULLSTATIC_FALSE@liquidwar6p2p_test_LDADD = libp2p.la ../dat/libdat.la ../cli/libcli.la ../srv/libsrv.la ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-EXTRA_DIST = p2p-internal.h
+AM_LDFLAGS = @LW6_LDFLAGS@
+noinst_LTLIBRARIES = libcnx.la
+libcnx_la_SOURCES = cnx-connection.c cnx-test.c
+libcnxdir = $(includedir)/@PACKAGE_TARNAME@/cnx
+libcnx_HEADERS = cnx.h
+@FULLSTATIC_FALSE@liquidwar6cnx_test_SOURCES = cnx-testmain.c
+@FULLSTATIC_FALSE@liquidwar6cnx_test_LDADD = libcnx.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 all: all-am
 
 .SUFFIXES:
@@ -354,9 +343,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/p2p/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/cnx/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/lib/p2p/Makefile
+	  $(AUTOMAKE) --gnu src/lib/cnx/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -384,8 +373,8 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libp2p.la: $(libp2p_la_OBJECTS) $(libp2p_la_DEPENDENCIES) 
-	$(LINK)  $(libp2p_la_OBJECTS) $(libp2p_la_LIBADD) $(LIBS)
+libcnx.la: $(libcnx_la_OBJECTS) $(libcnx_la_DEPENDENCIES) 
+	$(LINK)  $(libcnx_la_OBJECTS) $(libcnx_la_LIBADD) $(LIBS)
 install-libexecPROGRAMS: $(libexec_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libexecdir)" || $(MKDIR_P) "$(DESTDIR)$(libexecdir)"
@@ -429,9 +418,9 @@ clean-libexecPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-liquidwar6p2p-test$(EXEEXT): $(liquidwar6p2p_test_OBJECTS) $(liquidwar6p2p_test_DEPENDENCIES) 
-	@rm -f liquidwar6p2p-test$(EXEEXT)
-	$(LINK) $(liquidwar6p2p_test_OBJECTS) $(liquidwar6p2p_test_LDADD) $(LIBS)
+liquidwar6cnx-test$(EXEEXT): $(liquidwar6cnx_test_OBJECTS) $(liquidwar6cnx_test_DEPENDENCIES) 
+	@rm -f liquidwar6cnx-test$(EXEEXT)
+	$(LINK) $(liquidwar6cnx_test_OBJECTS) $(liquidwar6cnx_test_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -439,18 +428,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-backends.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-clioob.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-data.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-db.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-explore.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-flush.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-node.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-recv.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-srvoob.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-tentacle.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-test.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-testmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-connection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-test.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-testmain.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -478,26 +458,26 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-libp2pHEADERS: $(libp2p_HEADERS)
+install-libcnxHEADERS: $(libcnx_HEADERS)
 	@$(NORMAL_INSTALL)
-	test -z "$(libp2pdir)" || $(MKDIR_P) "$(DESTDIR)$(libp2pdir)"
-	@list='$(libp2p_HEADERS)'; test -n "$(libp2pdir)" || list=; \
+	test -z "$(libcnxdir)" || $(MKDIR_P) "$(DESTDIR)$(libcnxdir)"
+	@list='$(libcnx_HEADERS)'; test -n "$(libcnxdir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libp2pdir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libp2pdir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libcnxdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libcnxdir)" || exit $$?; \
 	done
 
-uninstall-libp2pHEADERS:
+uninstall-libcnxHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libp2p_HEADERS)'; test -n "$(libp2pdir)" || list=; \
+	@list='$(libcnx_HEADERS)'; test -n "$(libcnxdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(libp2pdir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(libp2pdir)" && rm -f $$files
+	echo " ( cd '$(DESTDIR)$(libcnxdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libcnxdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -678,7 +658,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libp2pdir)"; do \
+	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libcnxdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -729,7 +709,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libp2pHEADERS
+install-data-am: install-libcnxHEADERS
 
 install-dvi: install-dvi-am
 
@@ -775,7 +755,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libexecPROGRAMS uninstall-libp2pHEADERS
+uninstall-am: uninstall-libcnxHEADERS uninstall-libexecPROGRAMS
 
 .MAKE: check-am install-am install-strip
 
@@ -786,14 +766,14 @@ uninstall-am: uninstall-libexecPROGRAMS uninstall-libp2pHEADERS
 	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libexecPROGRAMS \
-	install-libp2pHEADERS install-man install-pdf install-pdf-am \
+	install-info install-info-am install-libcnxHEADERS \
+	install-libexecPROGRAMS install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libexecPROGRAMS \
-	uninstall-libp2pHEADERS
+	tags uninstall uninstall-am uninstall-libcnxHEADERS \
+	uninstall-libexecPROGRAMS
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
