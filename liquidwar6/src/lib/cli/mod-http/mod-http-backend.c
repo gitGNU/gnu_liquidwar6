@@ -71,8 +71,8 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
 }
 
 static lw6cli_connection_t *
-_open (void *cli_context, char *remote_url, char *password_checksum,
-       u_int64_t local_id, u_int64_t remote_id)
+_open (void *cli_context, char *remote_url, char *remote_ip, int remote_port,
+       char *password_checksum, char *local_id, char *remote_id)
 {
   _http_context_t *http_context = (_http_context_t *) cli_context;
   lw6cli_connection_t *ret = NULL;
@@ -80,8 +80,8 @@ _open (void *cli_context, char *remote_url, char *password_checksum,
   if (http_context)
     {
       ret =
-	_mod_http_open (http_context, remote_url, password_checksum, local_id,
-			remote_id);
+	_mod_http_open (http_context, remote_url, remote_ip, remote_port,
+			password_checksum, local_id, remote_id);
     }
 
   return ret;

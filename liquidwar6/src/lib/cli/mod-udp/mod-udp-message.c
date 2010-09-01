@@ -32,8 +32,28 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
 	       char *message)
 {
   int ret = 0;
+  _udp_specific_data_t *specific_data =
+    (_udp_specific_data_t *) connection->backend_specific_data;
+  char *line;
 
-  // todo
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udp send \"%s\""), message);
+  line = lw6sys_new_sprintf ("%s %s %s %s %s %s",
+			     LW6MSG_LW6,
+			     lw6sys_build_get_version (),
+			     connection->local_id,
+			     connection->remote_id,
+			     connection->password_checksum, message);
+  if (line)
+    {
+      if (lw6net_send_line_udp
+	  (specific_data->sock, line, connection->remote_ip,
+	   connection->remote_port))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udp sent \"%s\""), line);
+	  ret = 1;
+	}
+      LW6SYS_FREE (line);
+    }
 
   return ret;
 }
@@ -41,5 +61,6 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cli_connection_t * connection,
 void
 _mod_udp_poll (_udp_context_t * udp_context, lw6cli_connection_t * connection)
 {
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp poll"));
   // todo
 }

@@ -101,7 +101,8 @@ lw6cli_process_oob (lw6cli_backend_t * backend,
 
 lw6cli_connection_t *
 lw6cli_open (lw6cli_backend_t * backend, char *remote_url,
-	     char *password_checksum, u_int64_t local_id, u_int64_t remote_id)
+	     char *remote_ip, int remote_port,
+	     char *password_checksum, char *local_id, char *remote_id)
 {
   lw6cli_connection_t *ret = NULL;
 
@@ -110,8 +111,8 @@ lw6cli_open (lw6cli_backend_t * backend, char *remote_url,
   if (backend->open)
     {
       ret =
-	backend->open (backend->cli_context, remote_url, password_checksum,
-		       local_id, remote_id);
+	backend->open (backend->cli_context, remote_url, remote_ip,
+		       remote_port, password_checksum, local_id, remote_id);
     }
   else
     {

@@ -65,9 +65,9 @@ extern void _mod_tcp_quit (_tcp_context_t * tcp_context);
  */
 extern lw6cli_connection_t *_mod_tcp_open (_tcp_context_t * tcp_context,
 					   char *remote_url,
+					   char *remote_ip, int remote_port,
 					   char *password_checksum,
-					   u_int64_t local_id,
-					   u_int64_t remote_id);
+					   char *local_id, char *remote_id);
 extern void _mod_tcp_close (_tcp_context_t * tcp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_tcp_is_alive (_tcp_context_t * tcp_context,

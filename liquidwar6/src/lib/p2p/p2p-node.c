@@ -847,7 +847,7 @@ _poll_step10_poll_tentacles (_lw6p2p_node_t * node)
     {
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
-	  _lw6p2p_tentacle_poll (&(node->tentacles[i]));
+	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info);
 	}
     }
 
@@ -1105,7 +1105,7 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 
   for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
     {
-      if (node->tentacles[i].remote_id == remote_id)
+      if (node->tentacles[i].remote_id_int == remote_id)
 	{
 	  ret = i;
 	}

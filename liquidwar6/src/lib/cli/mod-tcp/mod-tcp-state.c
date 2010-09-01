@@ -29,8 +29,8 @@
 
 lw6cli_connection_t *
 _mod_tcp_open (_tcp_context_t * tcp_context, char *remote_url,
-	       char *password_checksum, u_int64_t local_id,
-	       u_int64_t remote_id)
+	       char *remote_ip, int remote_port,
+	       char *password_checksum, char *local_id, char *remote_id)
 {
   lw6cli_connection_t *ret = NULL;
   _tcp_specific_data_t *specific_data = NULL;
@@ -40,17 +40,19 @@ _mod_tcp_open (_tcp_context_t * tcp_context, char *remote_url,
   if (ret)
     {
       ret->remote_url = lw6sys_str_copy (remote_url);
+      ret->remote_ip = lw6sys_str_copy (remote_ip);
+      ret->remote_port = remote_port;
       ret->password_checksum = lw6sys_str_copy (password_checksum);
-      ret->local_id = local_id;
-      ret->remote_id = remote_id;
+      ret->local_id = lw6sys_str_copy (local_id);
+      ret->remote_id = lw6sys_str_copy (remote_id);
 
       ret->backend_specific_data =
 	LW6SYS_CALLOC (sizeof (_tcp_specific_data_t));
       specific_data = (_tcp_specific_data_t *) ret->backend_specific_data;
       specific_data->sock = LW6NET_SOCKET_INVALID;
 
-      if (ret->remote_url && ret->password_checksum
-	  && ret->backend_specific_data)
+      if (ret->remote_url && ret->password_checksum && ret->local_id
+	  && ret->remote_id && ret->backend_specific_data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open tcp connection with \"%s\""),
 		      remote_url);
@@ -84,13 +86,21 @@ _mod_tcp_close (_tcp_context_t * tcp_context,
     {
       LW6SYS_FREE (connection->remote_url);
     }
+  if (connection->remote_ip)
+    {
+      LW6SYS_FREE (connection->remote_ip);
+    }
   if (connection->password_checksum)
     {
       LW6SYS_FREE (connection->password_checksum);
     }
-  if (connection->backend_specific_data)
+  if (connection->local_id)
     {
-      // todo
+      LW6SYS_FREE (connection->local_id);
+    }
+  if (connection->remote_id)
+    {
+      LW6SYS_FREE (connection->remote_id);
     }
   LW6SYS_FREE (connection);
 }

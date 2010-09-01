@@ -27,6 +27,8 @@
 #include "../glb/glb.h"
 #include "../nod/nod.h"
 
+#define LW6MSG_LW6 "LW6"
+
 #define LW6MSG_ERROR "ERROR"
 #define LW6MSG_FORBIDDEN "FORBIDDEN"
 

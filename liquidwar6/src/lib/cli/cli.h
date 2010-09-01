@@ -34,9 +34,11 @@
 typedef struct lw6cli_connection_s
 {
   char *remote_url;
+  char *remote_ip;
+  int remote_port;
   char *password_checksum;
-  u_int64_t local_id;
-  u_int64_t remote_id;
+  char *local_id;
+  char *remote_id;
   void *backend_specific_data;
 }
 lw6cli_connection_t;
@@ -77,8 +79,9 @@ typedef struct lw6cli_backend_s
   int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
 		      lw6cli_oob_data_t * oob_data);
   lw6cli_connection_t *(*open) (void *cli_context, char *remote_url,
-				char *password_checksum, u_int64_t local_id,
-				u_int64_t remote_id);
+				char *remote_ip, int remote_port,
+				char *password_checksum, char *local_id,
+				char *remote_id);
   void (*close) (void *cli_context, lw6cli_connection_t * connection);
   int (*send) (void *cli_context, lw6cli_connection_t * connection,
 	       char *message);
@@ -99,9 +102,10 @@ extern int lw6cli_process_oob (lw6cli_backend_t * backend,
 			       lw6cli_oob_data_t * oob_data);
 extern lw6cli_connection_t *lw6cli_open (lw6cli_backend_t * backend,
 					 char *remote_url,
+					 char *remote_ip,
+					 int remote_port,
 					 char *password_checksum,
-					 u_int64_t local_id,
-					 u_int64_t remote_id);
+					 char *local_id, char *remote_id);
 extern void lw6cli_close (lw6cli_backend_t * backend,
 			  lw6cli_connection_t * connection);
 extern int lw6cli_send (lw6cli_backend_t * backend,

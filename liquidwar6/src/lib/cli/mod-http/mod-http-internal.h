@@ -80,9 +80,9 @@ extern char *_mod_http_get (_http_context_t * http_context, char *url,
  */
 extern lw6cli_connection_t *_mod_http_open (_http_context_t * http_context,
 					    char *remote_url,
+					    char *remote_ip, int remote_port,
 					    char *password_checksum,
-					    u_int64_t local_id,
-					    u_int64_t remote_id);
+					    char *local_id, char *remote_id);
 extern void _mod_http_close (_http_context_t * http_context,
 			     lw6cli_connection_t * connection);
 extern int _mod_http_is_alive (_http_context_t * http_context,

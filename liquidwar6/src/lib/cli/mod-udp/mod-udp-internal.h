@@ -65,9 +65,9 @@ extern void _mod_udp_quit (_udp_context_t * udp_context);
  */
 extern lw6cli_connection_t *_mod_udp_open (_udp_context_t * udp_context,
 					   char *remote_url,
+					   char *remote_ip, int remote_port,
 					   char *password_checksum,
-					   u_int64_t local_id,
-					   u_int64_t remote_id);
+					   char *local_id, char *remote_id);
 extern void _mod_udp_close (_udp_context_t * udp_context,
 			    lw6cli_connection_t * connection);
 extern int _mod_udp_is_alive (_udp_context_t * udp_context,

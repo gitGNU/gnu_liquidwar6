@@ -29,8 +29,8 @@
 
 lw6cli_connection_t *
 _mod_udp_open (_udp_context_t * udp_context, char *remote_url,
-	       char *password_checksum, u_int64_t local_id,
-	       u_int64_t remote_id)
+	       char *remote_ip, int remote_port,
+	       char *password_checksum, char *local_id, char *remote_id)
 {
   lw6cli_connection_t *ret = NULL;
   _udp_specific_data_t *specific_data = NULL;
@@ -40,9 +40,11 @@ _mod_udp_open (_udp_context_t * udp_context, char *remote_url,
   if (ret)
     {
       ret->remote_url = lw6sys_str_copy (remote_url);
+      ret->remote_ip = lw6sys_str_copy (remote_ip);
+      ret->remote_port = remote_port;
       ret->password_checksum = lw6sys_str_copy (password_checksum);
-      ret->local_id = local_id;
-      ret->remote_id = remote_id;
+      ret->local_id = lw6sys_str_copy (local_id);
+      ret->remote_id = lw6sys_str_copy (remote_id);
 
       ret->backend_specific_data =
 	LW6SYS_CALLOC (sizeof (_udp_specific_data_t));
@@ -85,13 +87,21 @@ _mod_udp_close (_udp_context_t * udp_context,
     {
       LW6SYS_FREE (connection->remote_url);
     }
+  if (connection->remote_ip)
+    {
+      LW6SYS_FREE (connection->remote_ip);
+    }
   if (connection->password_checksum)
     {
       LW6SYS_FREE (connection->password_checksum);
     }
-  if (connection->backend_specific_data)
+  if (connection->local_id)
     {
-      // todo
+      LW6SYS_FREE (connection->local_id);
+    }
+  if (connection->remote_id)
+    {
+      LW6SYS_FREE (connection->remote_id);
     }
   LW6SYS_FREE (connection);
 }
