@@ -50,6 +50,12 @@ typedef struct _tcpd_context_s
 }
 _tcpd_context_t;
 
+typedef struct _tcpd_specific_data_s
+{
+  int dummy;
+}
+_tcpd_specific_data_t;
+
 /* mod-tcpd-data.c */
 extern int _mod_tcpd_load_data (_tcpd_data_t * tcpd_data, char *data_dir);
 extern void _mod_tcpd_unload_data (_tcpd_data_t * tcpd_data);
@@ -66,33 +72,32 @@ extern void _mod_tcpd_quit (_tcpd_context_t * tcpd_context);
  */
 extern int _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 				  lw6srv_tcp_accepter_t * tcp_accepter,
-				  u_int64_t * remote_id);
+				  u_int64_t * remote_id, char **remote_url);
 extern int _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
 				  lw6srv_udp_buffer_t * udp_buffer,
-				  u_int64_t * remote_id);
-extern lw6srv_connection_t *_mod_tcpd_accept_tcp (_tcpd_context_t *
-						  tcpd_context,
-						  lw6srv_tcp_accepter_t *
-						  tcp_accepter,
-						  char *password);
-extern lw6srv_connection_t *_mod_tcpd_new_udp (_tcpd_context_t * tcpd_context,
-					       lw6srv_udp_buffer_t *
-					       udp_buffer, char *password);
-extern int _mod_tcpd_is_associated_with_udp (_tcpd_context_t * tcpd_context,
-					     lw6srv_connection_t * connection,
-					     lw6srv_udp_buffer_t *
-					     udp_buffer);
-extern int _mod_tcpd_update_with_udp (_tcpd_context_t * tcpd_context,
-				      lw6srv_connection_t * connection,
-				      lw6srv_udp_buffer_t * udp_buffer);
+				  u_int64_t * remote_id, char **remote_url);
+extern int _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
+				    lw6cnx_connection_t * connection,
+				    lw6srv_tcp_accepter_t * tcp_accepter);
+extern int _mod_tcpd_feed_with_udp (_tcpd_context_t * tcpd_context,
+				    lw6cnx_connection_t * connection,
+				    lw6srv_udp_buffer_t * udp_buffer);
 
 /*
  * In state.c
  */
+extern lw6cnx_connection_t *_mod_tcpd_open (_tcpd_context_t * tcpd_context,
+					    char *local_url, char *remote_url,
+					    char *remote_ip, int remote_port,
+					    char *password, char *local_id,
+					    char *remote_id,
+					    lw6cnx_recv_callback_t
+					    recv_callback_func,
+					    void *recv_callback_data);
 extern void _mod_tcpd_close (_tcpd_context_t * tcpd_context,
-			     lw6srv_connection_t * connection);
+			     lw6cnx_connection_t * connection);
 extern int _mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
-			       lw6srv_connection_t * connection);
+			       lw6cnx_connection_t * connection);
 extern int _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
 				 int64_t origin_timestamp);
 
@@ -100,17 +105,17 @@ extern int _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
  * In message.c
  */
 extern int _mod_tcpd_send (_tcpd_context_t * tcpd_context,
-			   lw6srv_connection_t * connection, char *message);
-extern char *_mod_tcpd_recv (_tcpd_context_t * tcpd_context,
-			     lw6srv_connection_t * connection);
+			   lw6cnx_connection_t * connection, char *message);
+extern void _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
+			    lw6cnx_connection_t * connection);
 
 /*
  * In info.c
  */
 extern char *_mod_tcpd_repr (_tcpd_context_t * tcpd_context,
-			     lw6srv_connection_t * connection);
+			     lw6cnx_connection_t * connection);
 extern char *_mod_tcpd_error (_tcpd_context_t * tcpd_context,
-			      lw6srv_connection_t * connection);
+			      lw6cnx_connection_t * connection);
 
 /* mod-tcpd-oob.c */
 extern int _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,

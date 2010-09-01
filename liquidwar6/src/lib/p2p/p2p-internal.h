@@ -156,10 +156,10 @@ typedef struct _lw6p2p_tentacle_s
   u_int64_t remote_id_int;
   char *remote_id_str;
   int hello_sent;
-  int nb_cnx_connections;
-  lw6cnx_connection_t **cnx_connections;
+  int nb_cli_connections;
+  lw6cnx_connection_t **cli_connections;
   int nb_srv_connections;
-  lw6srv_connection_t **srv_connections;
+  lw6cnx_connection_t **srv_connections;
 } _lw6p2p_tentacle_t;
 
 typedef struct _lw6p2p_node_s

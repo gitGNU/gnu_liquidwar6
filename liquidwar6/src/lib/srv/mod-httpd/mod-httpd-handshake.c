@@ -30,12 +30,21 @@
 int
 _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 			lw6srv_tcp_accepter_t * tcp_accepter,
-			u_int64_t * remote_id)
+			u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
   char *pos = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("trying to recognize httpd protocol"));
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   if (!lw6net_tcp_is_alive (tcp_accepter->sock))
     {
@@ -107,9 +116,18 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 int
 _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
 			lw6srv_udp_buffer_t * udp_buffer,
-			u_int64_t * remote_id)
+			u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   /*
    * UDP is never handled by mod_httpd, return always false
@@ -118,54 +136,26 @@ _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
   return ret;
 }
 
-lw6srv_connection_t *
-_mod_httpd_accept_tcp (_httpd_context_t * httpd_context,
-		       lw6srv_tcp_accepter_t * tcp_accepter, char *password)
+int
+_mod_httpd_feed_with_tcp (_httpd_context_t * httpd_context,
+			  lw6cnx_connection_t * connection,
+			  lw6srv_tcp_accepter_t * tcp_accepter)
 {
-  lw6srv_connection_t *ret = NULL;
+  int ret = 0;
 
   // todo
 
   return ret;
 }
 
-lw6srv_connection_t *
-_mod_httpd_new_udp (_httpd_context_t * httpd_context,
-		    lw6srv_udp_buffer_t * udp_buffer, char *password)
-{
-  lw6srv_connection_t *ret = NULL;
-
-  /*
-   * UDP is never handled by mod_httpd, return always NULL
-   */
-
-  return ret;
-}
-
 int
-_mod_httpd_is_associated_with_udp (_httpd_context_t * httpd_context,
-				   lw6srv_connection_t * connection,
-				   lw6srv_udp_buffer_t * udp_buffer)
+_mod_httpd_feed_with_udp (_httpd_context_t * httpd_context,
+			  lw6cnx_connection_t * connection,
+			  lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
-  /*
-   * UDP is never handled by mod_httpd, return always false
-   */
-
-  return ret;
-}
-
-int
-_mod_httpd_update_with_udp (_httpd_context_t * httpd_context,
-			    lw6srv_connection_t * connection,
-			    lw6srv_udp_buffer_t * udp_buffer)
-{
-  int ret = 0;
-
-  /*
-   * UDP is never handled by mod_httpd, return always false
-   */
+  // todo
 
   return ret;
 }

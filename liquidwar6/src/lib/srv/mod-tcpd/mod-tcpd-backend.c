@@ -57,14 +57,16 @@ _quit (void *srv_context)
 
 static int
 _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
-	      u_int64_t * remote_id)
+	      u_int64_t * remote_id, char **remote_url)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_analyse_tcp (tcpd_context, tcp_accepter, remote_id);
+      ret =
+	_mod_tcpd_analyse_tcp (tcpd_context, tcp_accepter, remote_id,
+			       remote_url);
     }
 
   return ret;
@@ -72,14 +74,16 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
 
 static int
 _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
-	      u_int64_t * remote_id)
+	      u_int64_t * remote_id, char **remote_url)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_analyse_udp (tcpd_context, udp_buffer, remote_id);
+      ret =
+	_mod_tcpd_analyse_udp (tcpd_context, udp_buffer, remote_id,
+			       remote_url);
     }
 
   return ret;
@@ -100,69 +104,59 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info,
   return ret;
 }
 
-static lw6srv_connection_t *
-_accept_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
-	     char *password)
+static lw6cnx_connection_t *
+_open (void *srv_context, char *local_url,
+       char *remote_url, char *remote_ip,
+       int remote_port, char *password,
+       char *local_id, char *remote_id,
+       lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  lw6srv_connection_t *ret = NULL;
-
-  if (tcpd_context)
-    {
-      ret = _mod_tcpd_accept_tcp (tcpd_context, tcp_accepter, password);
-    }
-
-  return ret;
-}
-
-static lw6srv_connection_t *
-_new_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, char *password)
-{
-  _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  lw6srv_connection_t *ret = NULL;
-
-  if (tcpd_context)
-    {
-      ret = _mod_tcpd_new_udp (tcpd_context, udp_buffer, password);
-    }
-
-  return ret;
-}
-
-static int
-_is_associated_with_udp (void *srv_context, lw6srv_connection_t * connection,
-			 lw6srv_udp_buffer_t * udp_buffer)
-{
-  _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  int ret = 0;
+  lw6cnx_connection_t *ret = NULL;
 
   if (tcpd_context)
     {
       ret =
-	_mod_tcpd_is_associated_with_udp (tcpd_context, connection,
-					  udp_buffer);
+	_mod_tcpd_open (tcpd_context, local_url, remote_url, remote_ip,
+			remote_port, password, local_id, remote_id,
+			recv_callback_func, recv_callback_data);
     }
 
   return ret;
 }
 
 static int
-_update_with_udp (void *srv_context, lw6srv_connection_t * connection,
-		  lw6srv_udp_buffer_t * udp_buffer)
+_feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection,
+		lw6srv_tcp_accepter_t * tcp_accepter)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
 
-  if (tcpd_context)
+  if (connection)
     {
-      ret = _mod_tcpd_update_with_udp (tcpd_context, connection, udp_buffer);
+      ret = _mod_tcpd_feed_with_tcp (tcpd_context, connection, tcp_accepter);
+    }
+
+  return ret;
+}
+
+static int
+_feed_with_udp (void *srv_context, lw6cnx_connection_t * connection,
+		lw6srv_udp_buffer_t * udp_buffer)
+{
+  _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
+  int ret = 0;
+
+  if (connection)
+    {
+      ret = _mod_tcpd_feed_with_udp (tcpd_context, connection, udp_buffer);
     }
 
   return ret;
 }
 
 static void
-_close (void *srv_context, lw6srv_connection_t * connection)
+_close (void *srv_context, lw6cnx_connection_t * connection)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   if (tcpd_context)
@@ -172,7 +166,7 @@ _close (void *srv_context, lw6srv_connection_t * connection)
 }
 
 static int
-_send (void *srv_context, lw6srv_connection_t * connection, char *message)
+_send (void *srv_context, lw6cnx_connection_t * connection, char *message)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
@@ -185,22 +179,19 @@ _send (void *srv_context, lw6srv_connection_t * connection, char *message)
   return ret;
 }
 
-static char *
-_recv (void *srv_context, lw6srv_connection_t * connection)
+static void
+_poll (void *srv_context, lw6cnx_connection_t * connection)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  char *ret = NULL;
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_recv (tcpd_context, connection);
+      _mod_tcpd_poll (tcpd_context, connection);
     }
-
-  return ret;
 }
 
 static int
-_is_alive (void *srv_context, lw6srv_connection_t * connection)
+_is_alive (void *srv_context, lw6cnx_connection_t * connection)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   int ret = 0;
@@ -214,7 +205,7 @@ _is_alive (void *srv_context, lw6srv_connection_t * connection)
 }
 
 static char *
-_repr (void *srv_context, lw6srv_connection_t * connection)
+_repr (void *srv_context, lw6cnx_connection_t * connection)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   char *ret = NULL;
@@ -228,7 +219,7 @@ _repr (void *srv_context, lw6srv_connection_t * connection)
 }
 
 static char *
-_error (void *srv_context, lw6srv_connection_t * connection)
+_error (void *srv_context, lw6cnx_connection_t * connection)
 {
   _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
   char *ret = NULL;
@@ -282,13 +273,12 @@ mod_tcpd_create_backend ()
       backend->analyse_tcp = _analyse_tcp;
       backend->analyse_udp = _analyse_udp;
       backend->process_oob = _process_oob;
-      backend->accept_tcp = _accept_tcp;
-      backend->new_udp = _new_udp;
-      backend->is_associated_with_udp = _is_associated_with_udp;
-      backend->update_with_udp = _update_with_udp;
+      backend->open = _open;
+      backend->feed_with_tcp = _feed_with_tcp;
+      backend->feed_with_udp = _feed_with_udp;
       backend->close = _close;
       backend->send = _send;
-      backend->recv = _recv;
+      backend->poll = _poll;
       backend->is_alive = _is_alive;
       backend->repr = _repr;
       backend->error = _error;

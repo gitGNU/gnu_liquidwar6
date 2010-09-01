@@ -58,16 +58,6 @@ lw6srv_start (char *ip, int port)
   return listener;
 }
 
-int
-lw6srv_poll (lw6srv_listener_t * listener)
-{
-  int ret = 0;
-
-  ret = 1;			// todo
-
-  return ret;
-}
-
 void
 lw6srv_stop (lw6srv_listener_t * listener)
 {

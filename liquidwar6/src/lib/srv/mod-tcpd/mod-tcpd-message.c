@@ -29,7 +29,7 @@
 
 int
 _mod_tcpd_send (_tcpd_context_t * tcpd_context,
-		lw6srv_connection_t * connection, char *message)
+		lw6cnx_connection_t * connection, char *message)
 {
   int ret = 0;
 
@@ -38,13 +38,9 @@ _mod_tcpd_send (_tcpd_context_t * tcpd_context,
   return ret;
 }
 
-char *
-_mod_tcpd_recv (_tcpd_context_t * tcpd_context,
-		lw6srv_connection_t * connection)
+void
+_mod_tcpd_poll (_tcpd_context_t * tcpd_context,
+		lw6cnx_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }

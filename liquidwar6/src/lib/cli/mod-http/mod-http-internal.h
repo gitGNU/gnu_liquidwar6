@@ -57,7 +57,6 @@ _http_context_t;
 typedef struct _http_specific_data_s
 {
   int dummy;
-  // todo: list of messages waiting to be sent
 }
 _http_specific_data_t;
 

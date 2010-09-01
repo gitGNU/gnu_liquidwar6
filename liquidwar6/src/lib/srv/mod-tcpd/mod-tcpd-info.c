@@ -29,21 +29,20 @@
 
 char *
 _mod_tcpd_repr (_tcpd_context_t * tcpd_context,
-		lw6srv_connection_t * connection)
+		lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
   ret =
     lw6sys_new_sprintf (_("tcpd connexion with %s:%d"),
-			connection->client_id.client_ip,
-			connection->client_id.client_port);
+			connection->remote_ip, connection->remote_port);
 
   return ret;
 }
 
 char *
 _mod_tcpd_error (_tcpd_context_t * tcpd_context,
-		 lw6srv_connection_t * connection)
+		 lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

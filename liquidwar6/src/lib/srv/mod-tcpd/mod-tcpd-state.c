@@ -27,16 +27,59 @@
 #include "../srv.h"
 #include "mod-tcpd-internal.h"
 
+lw6cnx_connection_t *
+_mod_tcpd_open (_tcpd_context_t * tcpd_context, char *local_url,
+		char *remote_url, char *remote_ip,
+		int remote_port, char *password,
+		char *local_id, char *remote_id,
+		lw6cnx_recv_callback_t recv_callback_func,
+		void *recv_callback_data)
+{
+  lw6cnx_connection_t *ret = NULL;
+  _tcpd_specific_data_t *specific_data = NULL;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("_mod_tcpd_open \"%s\""), remote_url);
+  ret =
+    lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
+			   password, local_id, remote_id, recv_callback_func,
+			   recv_callback_data);
+  if (ret)
+    {
+      ret->backend_specific_data =
+	LW6SYS_CALLOC (sizeof (_tcpd_specific_data_t));
+      specific_data = (_tcpd_specific_data_t *) ret->backend_specific_data;
+      if (ret->backend_specific_data)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open tcpd connection with \"%s\""),
+		      remote_url);
+	}
+      else
+	{
+	  _mod_tcpd_close (tcpd_context, ret);
+	  ret = NULL;
+	}
+    }
+
+  return ret;
+}
+
 void
 _mod_tcpd_close (_tcpd_context_t * tcpd_context,
-		 lw6srv_connection_t * connection)
+		 lw6cnx_connection_t * connection)
 {
-  // todo
+  _tcpd_specific_data_t *specific_data =
+    (_tcpd_specific_data_t *) connection->backend_specific_data;;
+
+  if (connection->backend_specific_data)
+    {
+      LW6SYS_FREE (connection->backend_specific_data);
+    }
+  lw6cnx_connection_free (connection);
 }
 
 int
 _mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
-		    lw6srv_connection_t * connection)
+		    lw6cnx_connection_t * connection)
 {
   int ret = 0;
 

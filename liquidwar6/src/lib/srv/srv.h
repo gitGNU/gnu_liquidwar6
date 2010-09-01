@@ -68,14 +68,6 @@ typedef struct lw6srv_listener_s
   lw6sys_list_t *udp_buffers;	// lw6srv_udp_buffer_t
 } lw6srv_listener_t;
 
-typedef struct lw6srv_connection_s
-{
-  lw6srv_client_id_t client_id;
-  char *server_url;
-  void *connection_data;
-}
-lw6srv_connection_t;
-
 typedef struct lw6srv_oob_data_s
 {
   int64_t creation_timestamp;
@@ -108,29 +100,29 @@ typedef struct lw6srv_backend_s
   void (*quit) (void *srv_context);
   int (*analyse_tcp) (void *srv_context,
 		      lw6srv_tcp_accepter_t * tcp_accepter,
-		      u_int64_t * remote_id);
+		      u_int64_t * remote_id, char **remote_url);
   int (*analyse_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
-		      u_int64_t * remote_id);
+		      u_int64_t * remote_id, char **remote_url);
   int (*process_oob) (void *srv_context, lw6nod_info_t * node_info,
 		      lw6srv_oob_data_t * oob_data);
-  lw6srv_connection_t *(*accept_tcp) (void *srv_context,
-				      lw6srv_tcp_accepter_t * tcp_accepter,
-				      char *password);
-  lw6srv_connection_t *(*new_udp) (void *srv_context,
-				   lw6srv_udp_buffer_t * udp_buffer,
-				   char *password);
-  int (*is_associated_with_udp) (void *srv_context,
-				 lw6srv_connection_t * connection,
-				 lw6srv_udp_buffer_t * udp_buffer);
-  int (*update_with_udp) (void *srv_context, lw6srv_connection_t * connection,
-			  lw6srv_udp_buffer_t * udp_buffer);
-  void (*close) (void *srv_context, lw6srv_connection_t * connection);
-  int (*send) (void *srv_context, lw6srv_connection_t * connection,
+  lw6cnx_connection_t *(*open) (void *srv_context, char *local_url,
+				char *remote_url, char *remote_ip,
+				int remote_port, char *password,
+				char *local_id, char *remote_id,
+				lw6cnx_recv_callback_t recv_callback_func,
+				void *recv_callback_data);
+  int (*feed_with_tcp) (void *srv_context,
+			lw6cnx_connection_t * connection,
+			lw6srv_tcp_accepter_t * tcp_accepter);
+  int (*feed_with_udp) (void *srv_context, lw6cnx_connection_t * connection,
+			lw6srv_udp_buffer_t * udp_buffer);
+  void (*close) (void *srv_context, lw6cnx_connection_t * connection);
+  int (*send) (void *srv_context, lw6cnx_connection_t * connection,
 	       char *message);
-  char *(*recv) (void *srv_context, lw6srv_connection_t * connection);
-  int (*is_alive) (void *srv_context, lw6srv_connection_t * connection);
-  char *(*repr) (void *srv_context, lw6srv_connection_t * connection);
-  char *(*error) (void *srv_context, lw6srv_connection_t * connection);
+  void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
+  int (*is_alive) (void *srv_context, lw6cnx_connection_t * connection);
+  char *(*repr) (void *srv_context, lw6cnx_connection_t * connection);
+  char *(*error) (void *srv_context, lw6cnx_connection_t * connection);
 }
 lw6srv_backend_t;
 
@@ -142,43 +134,44 @@ extern int lw6srv_init (lw6srv_backend_t * backend,
 extern void lw6srv_quit (lw6srv_backend_t * backend);
 extern int lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 			       lw6srv_tcp_accepter_t * tcp_accepter,
-			       u_int64_t * remote_id);
+			       u_int64_t * remote_id, char **remote_url);
 extern int lw6srv_analyse_udp (lw6srv_backend_t * backend,
 			       lw6srv_udp_buffer_t * udp_buffer,
-			       u_int64_t * remote_id);
+			       u_int64_t * remote_id, char **remote_url);
 extern int lw6srv_process_oob (lw6srv_backend_t * backend,
 			       lw6nod_info_t * node_info,
 			       lw6srv_oob_data_t * oob_data);
-extern lw6srv_connection_t *lw6srv_accept_tcp (lw6srv_backend_t * backend,
-					       lw6srv_tcp_accepter_t *
-					       tcp_accepter, char *password);
-extern lw6srv_connection_t *lw6srv_new_udp (lw6srv_backend_t * backend,
-					    lw6srv_udp_buffer_t * udp_buffer,
-					    char *password);
-extern int lw6srv_is_associated_with_udp (lw6srv_backend_t * backend,
-					  lw6srv_connection_t * connection,
-					  lw6srv_udp_buffer_t * udp_buffer);
-extern int lw6srv_update_with_udp (lw6srv_backend_t * backend,
-				   lw6srv_connection_t * connection,
-				   lw6srv_udp_buffer_t * udp_buffer);
+extern lw6cnx_connection_t *lw6srv_open (lw6srv_backend_t * backend,
+					 char *local_url, char *remote_url,
+					 char *remote_ip, int remote_port,
+					 char *password, char *local_id,
+					 char *remote_id,
+					 lw6cnx_recv_callback_t
+					 recv_callback_func,
+					 void *recv_callback_data);
+extern int lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
+				 lw6cnx_connection_t * connection,
+				 lw6srv_tcp_accepter_t * tcp_accepter);
+extern int lw6srv_feed_with_udp (lw6srv_backend_t * backend,
+				 lw6cnx_connection_t * connection,
+				 lw6srv_udp_buffer_t * udp_buffer);
 extern void lw6srv_close (lw6srv_backend_t * backend,
-			  lw6srv_connection_t * connection);
+			  lw6cnx_connection_t * connection);
 extern int lw6srv_send (lw6srv_backend_t * backend,
-			lw6srv_connection_t * connection, char *message);
-extern char *lw6srv_recv (lw6srv_backend_t * backend,
-			  lw6srv_connection_t * connection);
+			lw6cnx_connection_t * connection, char *message);
+extern void lw6srv_poll (lw6srv_backend_t * backend,
+			 lw6cnx_connection_t * connection);
 extern int lw6srv_is_alive (lw6srv_backend_t * backend,
-			    lw6srv_connection_t * connection);
+			    lw6cnx_connection_t * connection);
 extern char *lw6srv_repr (lw6srv_backend_t * backend,
-			  lw6srv_connection_t * connection);
+			  lw6cnx_connection_t * connection);
 extern char *lw6srv_error (lw6srv_backend_t * backend,
-			   lw6srv_connection_t * connection);
+			   lw6cnx_connection_t * connection);
 
 /*
  * In control.c
  */
 extern lw6srv_listener_t *lw6srv_start (char *ip, int port);
-extern int lw6srv_poll (lw6srv_listener_t * listener);
 extern void lw6srv_stop (lw6srv_listener_t * listener);
 
 /* srv-oob.c */

@@ -81,7 +81,7 @@ lw6srv_quit (lw6srv_backend_t * backend)
 int
 lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 		    lw6srv_tcp_accepter_t * tcp_accepter,
-		    u_int64_t * remote_id)
+		    u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -90,7 +90,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
   if (backend->analyse_tcp)
     {
       ret =
-	backend->analyse_tcp (backend->srv_context, tcp_accepter, remote_id);
+	backend->analyse_tcp (backend->srv_context, tcp_accepter, remote_id,
+			      remote_url);
     }
   else
     {
@@ -104,7 +105,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 
 int
 lw6srv_analyse_udp (lw6srv_backend_t * backend,
-		    lw6srv_udp_buffer_t * udp_buffer, u_int64_t * remote_id)
+		    lw6srv_udp_buffer_t * udp_buffer, u_int64_t * remote_id,
+		    char **remote_url)
 {
   int ret = 0;
 
@@ -113,7 +115,8 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
   if (backend->analyse_udp)
     {
       ret =
-	backend->analyse_udp (backend->srv_context, udp_buffer, remote_id);
+	backend->analyse_udp (backend->srv_context, udp_buffer, remote_id,
+			      remote_url);
     }
   else
     {
@@ -147,40 +150,24 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
   return ret;
 }
 
-lw6srv_connection_t *
-lw6srv_accept_tcp (lw6srv_backend_t * backend,
-		   lw6srv_tcp_accepter_t * tcp_accepter, char *password)
+lw6cnx_connection_t *
+lw6srv_open (lw6srv_backend_t * backend, char *local_url,
+	     char *remote_url, char *remote_ip,
+	     int remote_port, char *password,
+	     char *local_id, char *remote_id,
+	     lw6cnx_recv_callback_t recv_callback_func,
+	     void *recv_callback_data)
 {
-  lw6srv_connection_t *ret = NULL;
+  lw6cnx_connection_t *ret = NULL;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->accept_tcp)
+  if (backend->open)
     {
       ret =
-	backend->accept_tcp (backend->srv_context, tcp_accepter, password);
-    }
-  else
-    {
-      _warning (__FUNCTION__);
-    }
-
-  LW6SYS_BACKEND_FUNCTION_END;
-
-  return ret;
-}
-
-lw6srv_connection_t *
-lw6srv_new_udp (lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer,
-		char *password)
-{
-  lw6srv_connection_t *ret = NULL;
-
-  LW6SYS_BACKEND_FUNCTION_BEGIN;
-
-  if (backend->new_udp)
-    {
-      ret = backend->new_udp (backend->srv_context, udp_buffer, password);
+	backend->open (backend->srv_context, local_url, remote_url, remote_ip,
+		       remote_port, password, local_id, remote_id,
+		       recv_callback_func, recv_callback_data);
     }
   else
     {
@@ -193,19 +180,19 @@ lw6srv_new_udp (lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer,
 }
 
 int
-lw6srv_is_associated_with_udp (lw6srv_backend_t * backend,
-			       lw6srv_connection_t * connection,
-			       lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
+		      lw6cnx_connection_t * connection,
+		      lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->is_associated_with_udp)
+  if (backend->feed_with_tcp)
     {
       ret =
-	backend->is_associated_with_udp (backend->srv_context, connection,
-					 udp_buffer);
+	backend->feed_with_tcp (backend->srv_context, connection,
+				tcp_accepter);
     }
   else
     {
@@ -218,19 +205,18 @@ lw6srv_is_associated_with_udp (lw6srv_backend_t * backend,
 }
 
 int
-lw6srv_update_with_udp (lw6srv_backend_t * backend,
-			lw6srv_connection_t * connection,
-			lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_feed_with_udp (lw6srv_backend_t * backend,
+		      lw6cnx_connection_t * connection,
+		      lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->update_with_udp)
+  if (backend->feed_with_udp)
     {
       ret =
-	backend->update_with_udp (backend->srv_context, connection,
-				  udp_buffer);
+	backend->feed_with_udp (backend->srv_context, connection, udp_buffer);
     }
   else
     {
@@ -243,7 +229,7 @@ lw6srv_update_with_udp (lw6srv_backend_t * backend,
 }
 
 void
-lw6srv_close (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
+lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -260,7 +246,7 @@ lw6srv_close (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
 }
 
 int
-lw6srv_send (lw6srv_backend_t * backend, lw6srv_connection_t * connection,
+lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 	     char *message)
 {
   int ret = 0;
@@ -281,16 +267,14 @@ lw6srv_send (lw6srv_backend_t * backend, lw6srv_connection_t * connection,
   return ret;
 }
 
-char *
-lw6srv_recv (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
+void
+lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
-  char *ret = NULL;
-
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->recv)
+  if (backend->poll)
     {
-      ret = backend->recv (backend->srv_context, connection);
+      backend->poll (backend->srv_context, connection);
     }
   else
     {
@@ -298,12 +282,10 @@ lw6srv_recv (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
-
-  return ret;
 }
 
 int
-lw6srv_is_alive (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
+lw6srv_is_alive (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
@@ -324,7 +306,7 @@ lw6srv_is_alive (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
 }
 
 char *
-lw6srv_repr (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
+lw6srv_repr (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -345,7 +327,7 @@ lw6srv_repr (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
 }
 
 char *
-lw6srv_error (lw6srv_backend_t * backend, lw6srv_connection_t * connection)
+lw6srv_error (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

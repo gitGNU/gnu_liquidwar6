@@ -29,7 +29,7 @@
 
 int
 _mod_httpd_send (_httpd_context_t * httpd_context,
-		 lw6srv_connection_t * connection, char *message)
+		 lw6cnx_connection_t * connection, char *message)
 {
   int ret = 0;
 
@@ -38,13 +38,9 @@ _mod_httpd_send (_httpd_context_t * httpd_context,
   return ret;
 }
 
-char *
-_mod_httpd_recv (_httpd_context_t * httpd_context,
-		 lw6srv_connection_t * connection)
+void
+_mod_httpd_poll (_httpd_context_t * httpd_context,
+		 lw6cnx_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }

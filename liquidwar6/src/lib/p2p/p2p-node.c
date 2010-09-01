@@ -360,61 +360,58 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node)
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node TCP"));
 
-  if (lw6srv_poll (node->listener))
+  if (lw6net_socket_is_valid (node->listener->tcp_sock))
     {
-      if (node->listener->tcp_sock >= 0)
+      sock =
+	lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
+			   node->db->data.consts.accept_delay);
+      if (sock >= 0 && ip != NULL && port > 0)
 	{
-	  sock =
-	    lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock,
-			       node->db->data.consts.accept_delay);
-	  if (sock >= 0 && ip != NULL && port > 0)
+	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
+	  if (tcp_accepter)
 	    {
-	      tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
-	      if (tcp_accepter)
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("TCP connection from %s:%d"), ip, port);
+	      lw6sys_list_push_front (&(node->listener->tcp_accepters),
+				      tcp_accepter);
+
+	      /*
+	       * Now we register this peer as a potential server,
+	       * it will be qualified as a real server (or not) later
+	       */
+	      guessed_public_url =
+		lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
+	      if (guessed_public_url)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("TCP connection from %s:%d"), ip, port);
-		  lw6sys_list_push_front (&(node->listener->tcp_accepters),
-					  tcp_accepter);
-
-		  /*
-		   * Now we register this peer as a potential server,
-		   * it will be qualified as a real server (or not) later
-		   */
+			      _
+			      ("discovered node \"%s\" from guessed url"),
+			      guessed_public_url);
+		  lw6nod_info_add_discovered_node (node->node_info,
+						   guessed_public_url);
+		  LW6SYS_FREE (guessed_public_url);
+		}
+	      if (node->bind_port != LW6NET_DEFAULT_PORT)
+		{
 		  guessed_public_url =
-		    lw6sys_url_http_from_ip_port (ip, LW6NET_DEFAULT_PORT);
+		    lw6sys_url_http_from_ip_port (ip, node->bind_port);
 		  if (guessed_public_url)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _
-				  ("discovered node \"%s\" from guessed url"),
-				  guessed_public_url);
+				  ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
+				  guessed_public_url, node->bind_port);
 		      lw6nod_info_add_discovered_node (node->node_info,
 						       guessed_public_url);
 		      LW6SYS_FREE (guessed_public_url);
 		    }
-		  if (node->bind_port != LW6NET_DEFAULT_PORT)
-		    {
-		      guessed_public_url =
-			lw6sys_url_http_from_ip_port (ip, node->bind_port);
-		      if (guessed_public_url)
-			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _
-				      ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
-				      guessed_public_url, node->bind_port);
-			  lw6nod_info_add_discovered_node (node->node_info,
-							   guessed_public_url);
-			  LW6SYS_FREE (guessed_public_url);
-			}
-		    }
+		}
 
-		  ip = NULL;	// tcp_accepter will free it
-		}
-	      else
-		{
-		  ret = 0;
-		}
+	      ip = NULL;	// tcp_accepter will free it
+	    }
+	  else
+	    {
+	      ret = 0;
 	    }
 	}
     }

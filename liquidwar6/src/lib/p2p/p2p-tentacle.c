@@ -74,16 +74,16 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
       && tentacle->password && tentacle->local_id_str
       && tentacle->remote_id_str)
     {
-      tentacle->nb_cnx_connections = backends->nb_cli_backends;
-      if (tentacle->nb_cnx_connections > 0)
+      tentacle->nb_cli_connections = backends->nb_cli_backends;
+      if (tentacle->nb_cli_connections > 0)
 	{
 	  tentacle->cnx_connections =
 	    (lw6cnx_connection_t **)
-	    LW6SYS_CALLOC (tentacle->nb_cnx_connections *
+	    LW6SYS_CALLOC (tentacle->nb_cli_connections *
 			   sizeof (lw6cnx_connection_t *));
 	  if (tentacle->cnx_connections)
 	    {
-	      for (i = 0; i < tentacle->nb_cnx_connections; ++i)
+	      for (i = 0; i < tentacle->nb_cli_connections; ++i)
 		{
 		  tentacle->cnx_connections[i] =
 		    lw6cli_open (tentacle->backends->cli_backends[i],
@@ -134,9 +134,9 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
-  if (tentacle->nb_cnx_connections > 0 && tentacle->cnx_connections)
+  if (tentacle->nb_cli_connections > 0 && tentacle->cnx_connections)
     {
-      for (i = 0; i < tentacle->nb_cnx_connections; ++i)
+      for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	{
 	  if (tentacle->cnx_connections[i])
 	    {
@@ -195,7 +195,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       msg = lw6msg_cmd_generate_hello (node_info);
       if (msg)
 	{
-	  for (i = 0; i < tentacle->nb_cnx_connections; ++i)
+	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
 	      if (lw6cli_send (tentacle->backends->cli_backends[i],
 			       tentacle->cnx_connections[i], msg))
@@ -206,9 +206,14 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  LW6SYS_FREE (msg);
 	}
     }
-  for (i = 0; i < tentacle->nb_cnx_connections; ++i)
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       lw6cli_poll (tentacle->backends->cli_backends[i],
+		   tentacle->cnx_connections[i]);
+    }
+  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+    {
+      lw6srv_poll (tentacle->backends->srv_backends[i],
 		   tentacle->cnx_connections[i]);
     }
 

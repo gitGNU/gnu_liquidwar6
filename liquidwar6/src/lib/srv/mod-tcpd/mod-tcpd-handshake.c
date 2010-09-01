@@ -30,11 +30,20 @@
 int
 _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
-		       u_int64_t * remote_id)
+		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("trying to recognize tcpd protocol"));
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   if (!lw6net_tcp_is_alive (tcp_accepter->sock))
     {
@@ -68,9 +77,18 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 int
 _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
-		       u_int64_t * remote_id)
+		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   /*
    * UDP is never handled by mod_tcpd, return always false
@@ -79,54 +97,26 @@ _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
   return ret;
 }
 
-lw6srv_connection_t *
-_mod_tcpd_accept_tcp (_tcpd_context_t * tcpd_context,
-		      lw6srv_tcp_accepter_t * tcp_accepter, char *password)
+int
+_mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
+			 lw6cnx_connection_t * connection,
+			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
-  lw6srv_connection_t *ret = NULL;
+  int ret = 0;
 
   // todo
 
   return ret;
 }
 
-lw6srv_connection_t *
-_mod_tcpd_new_udp (_tcpd_context_t * tcpd_context,
-		   lw6srv_udp_buffer_t * udp_buffer, char *password)
-{
-  lw6srv_connection_t *ret = NULL;
-
-  /*
-   * UDP is never handled by mod_tcpd, return always NULL
-   */
-
-  return ret;
-}
-
 int
-_mod_tcpd_is_associated_with_udp (_tcpd_context_t * tcpd_context,
-				  lw6srv_connection_t * connection,
-				  lw6srv_udp_buffer_t * udp_buffer)
+_mod_tcpd_feed_with_udp (_tcpd_context_t * tcpd_context,
+			 lw6cnx_connection_t * connection,
+			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
-  /*
-   * UDP is never handled by mod_tcpd, return always false
-   */
-
-  return ret;
-}
-
-int
-_mod_tcpd_update_with_udp (_tcpd_context_t * tcpd_context,
-			   lw6srv_connection_t * connection,
-			   lw6srv_udp_buffer_t * udp_buffer)
-{
-  int ret = 0;
-
-  /*
-   * UDP is never handled by mod_tcpd, return always false
-   */
+  // todo
 
   return ret;
 }

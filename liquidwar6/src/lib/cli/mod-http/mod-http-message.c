@@ -33,7 +33,7 @@ _mod_http_send (_http_context_t * http_context,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_http send \"%s\""), message);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_http send \"%s\""), message);
   // todo
 
   return ret;

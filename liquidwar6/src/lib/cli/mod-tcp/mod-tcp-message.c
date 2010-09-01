@@ -33,7 +33,7 @@ _mod_tcp_send (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_tcp send \"%s\""), message);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_tcp send \"%s\""), message);
   // todo
 
   return ret;

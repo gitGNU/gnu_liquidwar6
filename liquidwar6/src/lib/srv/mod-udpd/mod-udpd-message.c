@@ -29,7 +29,7 @@
 
 int
 _mod_udpd_send (_udpd_context_t * udpd_context,
-		lw6srv_connection_t * connection, char *message)
+		lw6cnx_connection_t * connection, char *message)
 {
   int ret = 0;
 
@@ -38,13 +38,9 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
   return ret;
 }
 
-char *
+void
 _mod_udpd_recv (_udpd_context_t * udpd_context,
-		lw6srv_connection_t * connection)
+		lw6cnx_connection_t * connection)
 {
-  char *ret = NULL;
-
   // todo
-
-  return ret;
 }

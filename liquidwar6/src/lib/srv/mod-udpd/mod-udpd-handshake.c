@@ -30,9 +30,18 @@
 int
 _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
-		       u_int64_t * remote_id)
+		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   /*
    * TCP is never handled by mod_udpd.
@@ -44,9 +53,18 @@ _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 int
 _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
-		       u_int64_t * remote_id)
+		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+
+  if (remote_id)
+    {
+      (*remote_id) = 0;
+    }
+  if (remote_url)
+    {
+      (*remote_url) = NULL;
+    }
 
   if (lw6sys_str_starts_with_no_case (udp_buffer->line,
 				      LW6MSG_OOB_PING)
@@ -61,34 +79,10 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
   return ret;
 }
 
-lw6srv_connection_t *
-_mod_udpd_accept_tcp (_udpd_context_t * udpd_context,
-		      lw6srv_tcp_accepter_t * tcp_accepter, char *password)
-{
-  lw6srv_connection_t *ret = NULL;
-
-  /*
-   * TCP is never handled by mod_tcpd, return always NULL
-   */
-
-  return ret;
-}
-
-lw6srv_connection_t *
-_mod_udpd_new_udp (_udpd_context_t * udpd_context,
-		   lw6srv_udp_buffer_t * udp_buffer, char *password)
-{
-  lw6srv_connection_t *ret = NULL;
-
-  // todo
-
-  return ret;
-}
-
 int
-_mod_udpd_is_associated_with_udp (_udpd_context_t * udpd_context,
-				  lw6srv_connection_t * connection,
-				  lw6srv_udp_buffer_t * udp_buffer)
+_mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
+			 lw6cnx_connection_t * connection,
+			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
@@ -98,9 +92,9 @@ _mod_udpd_is_associated_with_udp (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_update_with_udp (_udpd_context_t * udpd_context,
-			   lw6srv_connection_t * connection,
-			   lw6srv_udp_buffer_t * udp_buffer)
+_mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
+			 lw6cnx_connection_t * connection,
+			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
