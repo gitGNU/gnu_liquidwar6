@@ -31,44 +31,31 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
-  char *base64_codename;
-  char *base64_url;
   char *base64_title;
   char *base64_description;
   int uptime = 0;
 
-  base64_codename = lw6glb_base64_encode_str (info->const_info.codename);
-  if (base64_codename)
+  base64_title = lw6glb_base64_encode_str (info->const_info.title);
+  if (base64_title)
     {
-      base64_url = lw6glb_base64_encode_str (info->const_info.url);
-      if (base64_url)
+      base64_description =
+	lw6glb_base64_encode_str (info->const_info.description);
+      if (base64_description)
 	{
-	  base64_title = lw6glb_base64_encode_str (info->const_info.title);
-	  if (base64_title)
-	    {
-	      base64_description =
-		lw6glb_base64_encode_str (info->const_info.description);
-	      if (base64_description)
-		{
-		  uptime =
-		    (lw6sys_get_timestamp () -
-		     info->const_info.creation_timestamp) / 1000;
-		  ret =
-		    lw6sys_new_sprintf
-		    ("%s%c%s%c%s%c%s%c%d%c%s%c%s%c%s%c%s%c%d%c%d", cmd, sep,
-		     info->const_info.program, sep,
-		     info->const_info.version, sep, base64_codename, sep,
-		     info->const_info.stamp, sep, info->const_info.id,
-		     sep, base64_url, sep, base64_title, sep,
-		     base64_description, sep, info->const_info.bench, sep,
-		     uptime);
-		  LW6SYS_FREE (base64_description);
-		}
-	      LW6SYS_FREE (base64_title);
-	    }
-	  LW6SYS_FREE (base64_url);
+	  uptime =
+	    (lw6sys_get_timestamp () -
+	     info->const_info.creation_timestamp) / 1000;
+	  ret =
+	    lw6sys_new_sprintf
+	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d", cmd, sep,
+	     info->const_info.program, sep,
+	     info->const_info.version, sep, info->const_info.codename, sep,
+	     info->const_info.stamp, sep, info->const_info.id,
+	     sep, info->const_info.url, sep, base64_title, sep,
+	     base64_description, sep, info->const_info.bench, sep, uptime);
+	  LW6SYS_FREE (base64_description);
 	}
-      LW6SYS_FREE (base64_codename);
+      LW6SYS_FREE (base64_title);
     }
 
   return ret;
@@ -226,7 +213,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 	{
 	  pos = seek;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing codename \"%s\""), pos);
-	  if (lw6msg_word_first_base64 (&codename, &seek, pos))
+	  if (lw6msg_word_first (&codename, &seek, pos))
 	    {
 	      pos = seek;
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing stamp \"%s\""), pos);
@@ -240,7 +227,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 		      pos = seek;
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing url \"%s\""),
 				  pos);
-		      if (lw6msg_word_first_base64 (&url, &seek, pos)
+		      if (lw6msg_word_first (&url, &seek, pos)
 			  && lw6sys_url_is_canonized (url.buf))
 			{
 			  pos = seek;
@@ -361,7 +348,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
  * lw6msg_cmd_analyse_hello
  *
  * @info: if not NULL, will contain (remote) node info on success
- * @msg: the message to anaylse
+ * @msg: the message to analyse
  *
  * Analyzes a HELLO message.
  *
@@ -393,7 +380,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
  *
  * @info: if not NULL, will contain (remote) node info on success
  * @ticket: if not NULL, will contain the ticket value on success
- * @msg: the message to anaylse
+ * @msg: the message to analyse
  *
  * Analyzes a TICKET message.
  *
@@ -438,7 +425,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
  *
  * @info: if not NULL, will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
- * @msg: the message to anaylse
+ * @msg: the message to analyse
  *
  * Analyzes a FOO message.
  *
@@ -481,7 +468,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
  *
  * @info: if not NULL, will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
- * @msg: the message to anaylse
+ * @msg: the message to analyse
  *
  * Analyzes a BAR message.
  *
@@ -523,7 +510,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
  * lw6msg_cmd_analyse_goodbye
  *
  * @info: if not NULL, will contain (remote) node info on success
- * @msg: the message to anaylse
+ * @msg: the message to analyse
  *
  * Analyzes a GOODBYE message.
  *
@@ -545,6 +532,45 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _("parsing GOODBYE but couldn't find it in \"%s\""), msg);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_cmd_guess_from_url
+ *
+ * @msg: the message to analyse
+ *
+ * Analyzes a GOODBYE message.
+ *
+ * Return value: the from url, if found (dynamically allocated)
+ */
+char *
+lw6msg_cmd_guess_from_url (char *msg)
+{
+  char *ret = NULL;
+  lw6nod_info_t *node_info = NULL;
+  char *msg_table[] =
+    { LW6MSG_CMD_HELLO, LW6MSG_CMD_TICKET, LW6MSG_CMD_FOO, LW6MSG_CMD_BAR,
+    LW6MSG_CMD_GOODBYE, NULL
+  };
+  char *seek = NULL;
+  char *pos = NULL;
+  char **command = NULL;
+
+  for (command = msg_table; (*command) != NULL && !ret; ++command)
+    {
+      if (lw6sys_str_starts_with_no_case (msg, *command))
+	{
+	  pos = msg + strlen (*command);
+	  if (_analyse_info (&node_info, &seek, pos))
+	    {
+	      ret = lw6sys_str_copy (node_info->const_info.url);
+	      lw6nod_info_free (node_info);
+	      node_info = NULL;
+	    }
+	}
     }
 
   return ret;

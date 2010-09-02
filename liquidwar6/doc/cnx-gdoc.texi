@@ -1,186 +1,37 @@
-@deftypefun {lw6cnx_info_t *} {lw6cnx_info_new} (char * @var{program}, char * @var{version}, char * @var{codename}, int @var{stamp}, u_int64_t @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{bench}, int @var{uptime}, char * @var{password}, int @var{idle_screenshot_size}, void * @var{idle_screenshot_data})
-@var{program}:  the program (normally it's liquidwar6)
+@deftypefun {lw6cnx_connection_t *} {lw6cnx_connection_new} (char * @var{local_url}, char * @var{remote_url}, char * @var{remote_ip}, int @var{remote_port}, char * @var{password}, char * @var{local_id}, char * @var{remote_id}, lw6cnx_recv_callback_t @var{recv_callback_func}, void * @var{recv_callback_data})
+@var{local_url}:  the local public URL
 
-@var{version}:  the version
+@var{remote_url}:  the remote public URL
 
-@var{codename}:  the codename
+@var{remote_ip}:  the remote IP address
 
-@var{stamp}:  the stamp
+@var{remote_port}:  the remote port
 
-@var{id}:  the cnxe id
+@var{password}:  the password to use
 
-@var{url}:  the cnxe public url
+@var{local_id}:  the local ID
 
-@var{title}:  the cnxe title
+@var{remote_id}:  the remote ID
 
-@var{description}:  the cnxe description
+@var{recv_callback_func}:  a callback to call when data is received
 
-@var{bench}:  the cnxe bench
+@var{recv_callback_data}:  additionnal data to pass to the callback
 
-@var{uptime}:  uptime in seconds
+Create a connection object. This object in itself does
+nothing, it's just to share common structures among
+modules, more precisely, between cli and srv code.
+It's the responsability off the caller/backend to handle
+the @code{backend_specific_data} field which is NULL after this
+call.
 
-@var{password}:  the cnxe password
-
-@var{idle_screenshot_size}:  the size (bytes) of the image to display when game is idle
-
-@var{idle_screenshot_data}:  the data (jpeg) of the image to display when game is idle
-
-Creates a cnxe info object. The arguments correspond to the immutable cnxe
-attributes, other properties such as how many players are connected or
-set in other functions like @code{lw6cnx_info_update} which can be called later.
-
-@strong{Return value:}  newly allocated object, NULL on error.
+@strong{Return value:}  newly allocated object.
 @end deftypefun
 
-@deftypefun {void} {lw6cnx_info_free} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info to free
+@deftypefun {void} {lw6cnx_connection_free} (lw6cnx_connection_t * @var{connection})
+@var{connection}:  object to free
 
-Frees a cnxe info object.
-
-@strong{Return value:}  none
-@end deftypefun
-
-@deftypefun {int} {lw6cnx_info_lock} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info to lock
-
-Locks a cnxe info object, this is usefull for some members, typically
-list of servers, can be accessed by separated threads, one reading, 
-many writing, and these objects (chained lists) certainly do not
-want to be modified while being read.
-
-@strong{Return value:}  1 if ok, 0 if not.
-@end deftypefun
-
-@deftypefun {int} {lw6cnx_info_unlock} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info to unlock
-
-Unlocks a cnxe info object, this is the compation of
-the @code{lw6cnx_info_lock} function.
-
-@strong{Return value:}  1 if ok, 0 if not.
-@end deftypefun
-
-@deftypefun {void} {lw6cnx_info_idle} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info to modify
-
-Clears a cnxe info object and sets all its variable attributes
-to NULL/default values. This is what we want when the cnxe is idle,
-not playing.
-
-@strong{Return value:}  none.
-@end deftypefun
-
-@deftypefun {int} {lw6cnx_info_update} (lw6cnx_info_t * @var{info}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_cnxes}, int @var{max_nb_cnxes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
-@var{info}:  the cnxe info to update
-
-@var{level}:  the name of the current level (map)
-
-@var{required_bench}:  the bench required to connect
-
-@var{nb_colors}:  number of colors playing
-
-@var{max_nb_colors}:  max number of colors allowed
-
-@var{nb_cursors}:  number of cursors playing
-
-@var{max_nb_cursors}:  max number of cursors allowed
-
-@var{nb_cnxes}:  number of cnxes playing
-
-@var{max_nb_cnxes}:  max number of cnxes allowed
-
-@var{game_screenshot_size}:  size of screenshot (bytes)
-
-@var{game_screenshot_data}:  screenshot data (byte buffer, contains JPEG)
-
-Set a cnxe info object variable attributes. Call this whenever
-the cnxe has changed some parameter. Not too often for it's not
-needed and some operations such as modying the screenshot,
-can be time consuming.
-
-@strong{Return value:}  1 if OK, 0 if error.
-@end deftypefun
-
-@deftypefun {lw6cnx_dyn_info_t *} {lw6cnx_info_dup_dyn} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info containing the dyn info to duplicate
-
-Extracts the dynamic part of an info struct and duplicates
-it, this is to avoid protection fault error when concurrent
-threads access this info.
-
-@strong{Return value:}  newly allocated object, must be freed.
-@end deftypefun
-
-@deftypefun {lw6sys_hash_t *} {lw6cnx_info_new_discovered_cnxes} ()
-
-Creates a new hash, to be used as a discovered cnxes list.
-Using this function has the
-advantage of setting the hash options to their defaults.
-We use a hash to avoid having uselessly long lists containing
-always the same cnxe due to multiple detections.
-
-@strong{Return value:}  an empty hash
-@end deftypefun
-
-@deftypefun {int} {lw6cnx_info_add_discovered_cnxe} (lw6cnx_info_t * @var{info}, char * @var{public_url})
-@var{info}:  the cnxe info to update
-
-@var{public_url}:  the address of the discovered cnxe
-
-Registers a new server, and queues it as something that should
-be checked later because it's interesting. We can't insert in the
-database all the servers we suspect to exist so network threads 
-should use this, then main thread will process discovered servers
-afterwards. This is also a good way to avoid trivial DOS attacks.
-
-@strong{Return value:}  1 if OK, O if error.
-@end deftypefun
-
-@deftypefun {lw6sys_list_t *} {lw6cnx_info_pop_discovered_cnxes} (lw6cnx_info_t * @var{info})
-@var{info}:  the cnxe info to query
-
-Returns a list of all discovered cnxes (their public URL)
-and empties the current queue as well.
-
-@strong{Return value:}  a list of dynamically allocated strings.
-@end deftypefun
-
-@deftypefun {lw6sys_list_t *} {lw6cnx_info_new_verified_cnxes} ()
-
-Creates a new list, to be filled with cnxes and typically passed
-to @code{lw6cnx_info_set_verified_cnxes}. Using this function has the
-advantage of setting the listh options to their defaults.
-
-@strong{Return value:}  an empty list
-@end deftypefun
-
-@deftypefun {int} {lw6cnx_info_set_verified_cnxes} (lw6cnx_info_t * @var{info}, lw6sys_list_t * @var{list})
-@var{info}:  the cnxe info to modify
-
-@var{list}:  the list of verified cnxes, will be freed by this function
-
-Sets the list of verified cnxes, that is, the list of cnxes
-we are sure to exist, this is typically the list we will
-display later on a web page. We can't directly display
-any discovered cnxe, one needs to filter them through main thread.
-Something very important about this function is that @code{list} will
-be freed by function, that is, if you call this, then you can
-(you should) forget your object, it will disappear any time soon.
-
-@strong{Return value:}  1 if OK, 0 on error.
-@end deftypefun
-
-@deftypefun {void} {lw6cnx_info_map_verified_cnxes} (lw6cnx_info_t * @var{info}, lw6sys_list_callback_func_t @var{func}, void * @var{func_data})
-@var{info}:  the cnxe info concerned
-
-@var{func}:  the function to apply
-
-@var{func_data}:  arbitrary pointer holding data to pass to function
-
-Calls @code{lw6sys_hash_map} with @code{func} on every member of the list of verified
-cnxes. The reason there's a function for this is that it is
-very important that list object is locked when doing this.
-This function does perform a lock/unlock so it is safe.
+Frees a connection object. It's the responsibility of
+the caller/backend to handle the @code{backend_specific_data} field.
 
 @strong{Return value:}  none.
 @end deftypefun

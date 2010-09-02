@@ -348,190 +348,43 @@ results on
 5.11.2 API
 ----------
 
- -- Function: lw6cnx_info_t * lw6cnx_info_new (char * PROGRAM, char *
-          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, int BENCH, int UPTIME,
-          char * PASSWORD, int IDLE_SCREENSHOT_SIZE, void *
-          IDLE_SCREENSHOT_DATA)
-     PROGRAM:  the program (normally it's liquidwar6)
+ -- Function: lw6cnx_connection_t * lw6cnx_connection_new (char *
+          LOCAL_URL, char * REMOTE_URL, char * REMOTE_IP, int
+          REMOTE_PORT, char * PASSWORD, char * LOCAL_ID, char *
+          REMOTE_ID, lw6cnx_recv_callback_t RECV_CALLBACK_FUNC, void *
+          RECV_CALLBACK_DATA)
+     LOCAL_URL:  the local public URL
 
-     VERSION:  the version
+     REMOTE_URL:  the remote public URL
 
-     CODENAME:  the codename
+     REMOTE_IP:  the remote IP address
 
-     STAMP:  the stamp
+     REMOTE_PORT:  the remote port
 
-     ID:  the cnxe id
+     PASSWORD:  the password to use
 
-     URL:  the cnxe public url
+     LOCAL_ID:  the local ID
 
-     TITLE:  the cnxe title
+     REMOTE_ID:  the remote ID
 
-     DESCRIPTION:  the cnxe description
+     RECV_CALLBACK_FUNC:  a callback to call when data is received
 
-     BENCH:  the cnxe bench
+     RECV_CALLBACK_DATA:  additionnal data to pass to the callback
 
-     UPTIME:  uptime in seconds
+     Create a connection object. This object in itself does nothing,
+     it's just to share common structures among modules, more
+     precisely, between cli and srv code.  It's the responsability off
+     the caller/backend to handle the `backend_specific_data' field
+     which is NULL after this call.
 
-     PASSWORD:  the cnxe password
+     *Return value:*  newly allocated object.
 
-     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
-     when game is idle
+ -- Function: void lw6cnx_connection_free (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  object to free
 
-     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
-     when game is idle
-
-     Creates a cnxe info object. The arguments correspond to the
-     immutable cnxe attributes, other properties such as how many
-     players are connected or set in other functions like
-     `lw6cnx_info_update' which can be called later.
-
-     *Return value:*  newly allocated object, NULL on error.
-
- -- Function: void lw6cnx_info_free (lw6cnx_info_t * INFO)
-     INFO:  the cnxe info to free
-
-     Frees a cnxe info object.
-
-     *Return value:*  none
-
- -- Function: int lw6cnx_info_lock (lw6cnx_info_t * INFO)
-     INFO:  the cnxe info to lock
-
-     Locks a cnxe info object, this is usefull for some members,
-     typically list of servers, can be accessed by separated threads,
-     one reading, many writing, and these objects (chained lists)
-     certainly do not want to be modified while being read.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: int lw6cnx_info_unlock (lw6cnx_info_t * INFO)
-     INFO:  the cnxe info to unlock
-
-     Unlocks a cnxe info object, this is the compation of the
-     `lw6cnx_info_lock' function.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: void lw6cnx_info_idle (lw6cnx_info_t * INFO)
-     INFO:  the cnxe info to modify
-
-     Clears a cnxe info object and sets all its variable attributes to
-     NULL/default values. This is what we want when the cnxe is idle,
-     not playing.
-
-     *Return value:*  none.
-
- -- Function: int lw6cnx_info_update (lw6cnx_info_t * INFO, char *
-          LEVEL, int REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS,
-          int NB_CURSORS, int MAX_NB_CURSORS, int NB_CNXES, int
-          MAX_NB_CNXES, int GAME_SCREENSHOT_SIZE, void *
-          GAME_SCREENSHOT_DATA)
-     INFO:  the cnxe info to update
-
-     LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  max number of colors allowed
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  max number of cursors allowed
-
-     NB_CNXES:  number of cnxes playing
-
-     MAX_NB_CNXES:  max number of cnxes allowed
-
-     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
-
-     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
-
-     Set a cnxe info object variable attributes. Call this whenever the
-     cnxe has changed some parameter. Not too often for it's not needed
-     and some operations such as modying the screenshot, can be time
-     consuming.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: lw6cnx_dyn_info_t * lw6cnx_info_dup_dyn (lw6cnx_info_t *
-          INFO)
-     INFO:  the cnxe info containing the dyn info to duplicate
-
-     Extracts the dynamic part of an info struct and duplicates it,
-     this is to avoid protection fault error when concurrent threads
-     access this info.
-
-     *Return value:*  newly allocated object, must be freed.
-
- -- Function: lw6sys_hash_t * lw6cnx_info_new_discovered_cnxes ()
-     Creates a new hash, to be used as a discovered cnxes list.  Using
-     this function has the advantage of setting the hash options to
-     their defaults.  We use a hash to avoid having uselessly long
-     lists containing always the same cnxe due to multiple detections.
-
-     *Return value:*  an empty hash
-
- -- Function: int lw6cnx_info_add_discovered_cnxe (lw6cnx_info_t *
-          INFO, char * PUBLIC_URL)
-     INFO:  the cnxe info to update
-
-     PUBLIC_URL:  the address of the discovered cnxe
-
-     Registers a new server, and queues it as something that should be
-     checked later because it's interesting. We can't insert in the
-     database all the servers we suspect to exist so network threads
-     should use this, then main thread will process discovered servers
-     afterwards. This is also a good way to avoid trivial DOS attacks.
-
-     *Return value:*  1 if OK, O if error.
-
- -- Function: lw6sys_list_t * lw6cnx_info_pop_discovered_cnxes
-          (lw6cnx_info_t * INFO)
-     INFO:  the cnxe info to query
-
-     Returns a list of all discovered cnxes (their public URL) and
-     empties the current queue as well.
-
-     *Return value:*  a list of dynamically allocated strings.
-
- -- Function: lw6sys_list_t * lw6cnx_info_new_verified_cnxes ()
-     Creates a new list, to be filled with cnxes and typically passed
-     to `lw6cnx_info_set_verified_cnxes'. Using this function has the
-     advantage of setting the listh options to their defaults.
-
-     *Return value:*  an empty list
-
- -- Function: int lw6cnx_info_set_verified_cnxes (lw6cnx_info_t * INFO,
-          lw6sys_list_t * LIST)
-     INFO:  the cnxe info to modify
-
-     LIST:  the list of verified cnxes, will be freed by this function
-
-     Sets the list of verified cnxes, that is, the list of cnxes we are
-     sure to exist, this is typically the list we will display later on
-     a web page. We can't directly display any discovered cnxe, one
-     needs to filter them through main thread.  Something very
-     important about this function is that `list' will be freed by
-     function, that is, if you call this, then you can (you should)
-     forget your object, it will disappear any time soon.
-
-     *Return value:*  1 if OK, 0 on error.
-
- -- Function: void lw6cnx_info_map_verified_cnxes (lw6cnx_info_t *
-          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
-     INFO:  the cnxe info concerned
-
-     FUNC:  the function to apply
-
-     FUNC_DATA:  arbitrary pointer holding data to pass to function
-
-     Calls `lw6sys_hash_map' with `func' on every member of the list of
-     verified cnxes. The reason there's a function for this is that it
-     is very important that list object is locked when doing this.
-     This function does perform a lock/unlock so it is safe.
+     Frees a connection object. It's the responsibility of the
+     caller/backend to handle the `backend_specific_data' field.
 
      *Return value:*  none.
 
@@ -2205,7 +2058,7 @@ results on
           * MSG)
      INFO:  if not NULL, will contain (remote) node info on success
 
-     MSG:  the message to anaylse
+     MSG:  the message to analyse
 
      Analyzes a HELLO message.
 
@@ -2217,7 +2070,7 @@ results on
 
      TICKET:  if not NULL, will contain the ticket value on success
 
-     MSG:  the message to anaylse
+     MSG:  the message to analyse
 
      Analyzes a TICKET message.
 
@@ -2229,7 +2082,7 @@ results on
 
      KEY:  if not NULL, will contain the foo/bar key on success
 
-     MSG:  the message to anaylse
+     MSG:  the message to analyse
 
      Analyzes a FOO message.
 
@@ -2241,7 +2094,7 @@ results on
 
      KEY:  if not NULL, will contain the foo/bar key on success
 
-     MSG:  the message to anaylse
+     MSG:  the message to analyse
 
      Analyzes a BAR message.
 
@@ -2251,11 +2104,18 @@ results on
           char * MSG)
      INFO:  if not NULL, will contain (remote) node info on success
 
-     MSG:  the message to anaylse
+     MSG:  the message to analyse
 
      Analyzes a GOODBYE message.
 
      *Return value:*  1 on success, 0 on failure
+
+ -- Function: char * lw6msg_cmd_guess_from_url (char * MSG)
+     MSG:  the message to analyse
+
+     Analyzes a GOODBYE message.
+
+     *Return value:*  the from url, if found (dynamically allocated)
 
  -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
      INFO:  the node to generate info about

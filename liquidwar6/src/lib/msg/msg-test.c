@@ -58,7 +58,7 @@
 #define _TEST_DEFAULT_KEY_KO "???"
 #define _TEST_DEFAULT_VALUE_STR "abc"
 #define _TEST_DEFAULT_VALUE_INT 123
-#define _TEST_WORD_STR_OK "this is a phrase with words"
+#define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
 #define _TEST_WORD_BASE64_ITEM " spaces /slashes/"
 #define _TEST_WORD_BASE64_OK "%s just before this was base64"
@@ -96,6 +96,7 @@ test_cmd ()
     u_int32_t key = 0;
     u_int32_t analysed_ticket = 0;
     u_int32_t analysed_key = 0;
+    char *remote_url = NULL;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -121,6 +122,20 @@ test_cmd ()
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
 			    msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -157,6 +172,20 @@ test_cmd ()
 			    msg);
 		ret = 0;
 	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to guess url from \"%s\""), msg);
+		ret = 0;
+	      }
 	    LW6SYS_FREE (msg);
 	  }
 
@@ -186,6 +215,20 @@ test_cmd ()
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
 			    msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -219,6 +262,20 @@ test_cmd ()
 			    msg);
 		ret = 0;
 	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to guess url from \"%s\""), msg);
+		ret = 0;
+	      }
 	    LW6SYS_FREE (msg);
 	  }
 
@@ -238,6 +295,20 @@ test_cmd ()
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
 			    msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("could guess url \"%s\" from \"%s\""),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);

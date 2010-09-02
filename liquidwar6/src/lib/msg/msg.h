@@ -105,6 +105,7 @@ extern int lw6msg_cmd_analyse_data (lw6nod_info_t ** info, u_int64_t * author,
 				    int *serial, int *i, int *n,
 				    char **ker_msg, char *msg);
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg);
+extern char *lw6msg_cmd_guess_from_url (char *msg);
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);

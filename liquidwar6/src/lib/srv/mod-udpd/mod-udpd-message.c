@@ -39,7 +39,7 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
 }
 
 void
-_mod_udpd_recv (_udpd_context_t * udpd_context,
+_mod_udpd_poll (_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection)
 {
   // todo

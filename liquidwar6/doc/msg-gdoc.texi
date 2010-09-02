@@ -47,7 +47,7 @@ Generate a GOODBYE command.
 @deftypefun {int} {lw6msg_cmd_analyse_hello} (lw6nod_info_t ** @var{info}, char * @var{msg})
 @var{info}:  if not NULL, will contain (remote) node info on success
 
-@var{msg}:  the message to anaylse
+@var{msg}:  the message to analyse
 
 Analyzes a HELLO message.
 
@@ -59,7 +59,7 @@ Analyzes a HELLO message.
 
 @var{ticket}:  if not NULL, will contain the ticket value on success
 
-@var{msg}:  the message to anaylse
+@var{msg}:  the message to analyse
 
 Analyzes a TICKET message.
 
@@ -71,7 +71,7 @@ Analyzes a TICKET message.
 
 @var{key}:  if not NULL, will contain the foo/bar key on success
 
-@var{msg}:  the message to anaylse
+@var{msg}:  the message to analyse
 
 Analyzes a FOO message.
 
@@ -83,7 +83,7 @@ Analyzes a FOO message.
 
 @var{key}:  if not NULL, will contain the foo/bar key on success
 
-@var{msg}:  the message to anaylse
+@var{msg}:  the message to analyse
 
 Analyzes a BAR message.
 
@@ -93,11 +93,19 @@ Analyzes a BAR message.
 @deftypefun {int} {lw6msg_cmd_analyse_goodbye} (lw6nod_info_t ** @var{info}, char * @var{msg})
 @var{info}:  if not NULL, will contain (remote) node info on success
 
-@var{msg}:  the message to anaylse
+@var{msg}:  the message to analyse
 
 Analyzes a GOODBYE message.
 
 @strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {char *} {lw6msg_cmd_guess_from_url} (char * @var{msg})
+@var{msg}:  the message to analyse
+
+Analyzes a GOODBYE message.
+
+@strong{Return value:}  the from url, if found (dynamically allocated)
 @end deftypefun
 
 @deftypefun {char *} {lw6msg_oob_generate_info} (lw6nod_info_t * @var{info})

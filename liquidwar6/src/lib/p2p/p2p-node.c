@@ -439,76 +439,70 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node)
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node UDP"));
   memset (buf, 0, _UDP_MINIMAL_BUF_SIZE + 1);
-  if (lw6srv_poll (node->listener))
+  if (node->listener->udp_sock >= 0)
     {
-      if (node->listener->udp_sock >= 0)
+      if (lw6net_udp_peek
+	  (node->listener->udp_sock, buf, _UDP_MINIMAL_BUF_SIZE, &ip1,
+	   &port1))
 	{
-	  if (lw6net_udp_peek
-	      (node->listener->udp_sock, buf, _UDP_MINIMAL_BUF_SIZE, &ip1,
-	       &port1))
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("received data from %s:%d"),
+		      ip1, port1);
+	  line =
+	    lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
+	  if (line)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("received data from %s:%d"),
-			  ip1, port1);
-	      line =
-		lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
-	      if (line)
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("UDP connection from %s:%d"), ip2, port2);
+	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
+	      if (udp_buffer)
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("UDP connection from %s:%d"), ip2, port2);
-		  udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
-		  if (udp_buffer)
+		  lw6sys_list_push_front (&(node->listener->udp_buffers),
+					  udp_buffer);
+		  /*
+		   * Now we register this peer as a potential server,
+		   * it will be qualified as a real server (or not) later
+		   */
+		  guessed_public_url =
+		    lw6sys_url_http_from_ip_port (ip2, LW6NET_DEFAULT_PORT);
+		  if (guessed_public_url)
 		    {
-		      lw6sys_list_push_front (&(node->listener->udp_buffers),
-					      udp_buffer);
-		      /*
-		       * Now we register this peer as a potential server,
-		       * it will be qualified as a real server (or not) later
-		       */
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _
+				  ("discovered node \"%s\" from guessed url"),
+				  guessed_public_url);
+		      lw6nod_info_add_discovered_node (node->node_info,
+						       guessed_public_url);
+		      LW6SYS_FREE (guessed_public_url);
+		    }
+		  if (node->bind_port != LW6NET_DEFAULT_PORT)
+		    {
 		      guessed_public_url =
-			lw6sys_url_http_from_ip_port (ip2,
-						      LW6NET_DEFAULT_PORT);
+			lw6sys_url_http_from_ip_port (ip2, node->bind_port);
 		      if (guessed_public_url)
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _
-				      ("discovered node \"%s\" from guessed url"),
-				      guessed_public_url);
-			  lw6nod_info_add_discovered_node (node->node_info,
-							   guessed_public_url);
+				      ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
+				      guessed_public_url, node->bind_port);
+			  lw6nod_info_add_discovered_node
+			    (node->node_info, guessed_public_url);
 			  LW6SYS_FREE (guessed_public_url);
 			}
-		      if (node->bind_port != LW6NET_DEFAULT_PORT)
-			{
-			  guessed_public_url =
-			    lw6sys_url_http_from_ip_port (ip2,
-							  node->bind_port);
-			  if (guessed_public_url)
-			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _
-					  ("discovered node \"%s\" from guessed url (using non-standard port %d)"),
-					  guessed_public_url,
-					  node->bind_port);
-			      lw6nod_info_add_discovered_node
-				(node->node_info, guessed_public_url);
-			      LW6SYS_FREE (guessed_public_url);
-			    }
-			}
-		      line = NULL;	// udp_buffer will free it
-		      ip2 = NULL;	// udp_buffer will free it
 		    }
-		  else
-		    {
-		      ret = 0;
-		    }
+		  line = NULL;	// udp_buffer will free it
+		  ip2 = NULL;	// udp_buffer will free it
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
-			      ("udp data received from %s:%d, but it's not correct"),
-			      ip1, port1);
+		  ret = 0;
 		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _
+			  ("udp data received from %s:%d, but it's not correct"),
+			  ip1, port1);
 	    }
 	}
     }
@@ -535,14 +529,12 @@ _tcp_accepter_reply (void *func_data, void *data)
   int ret = 1;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
-  lw6srv_connection_t *connection = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
-  char *query = NULL;
-  char *connection_ptr_str = NULL;
-  char *backend_ptr_str = NULL;
   int i = 0;
   int analyse_tcp_ret = 0;
   u_int64_t remote_id = 0;
+  char *remote_url = NULL;
+  int tentacle_index = -1;
 
   lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
 		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0.0f);
@@ -551,7 +543,7 @@ _tcp_accepter_reply (void *func_data, void *data)
     {
       analyse_tcp_ret =
 	lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter,
-			    &remote_id);
+			    &remote_id, NULL);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -562,6 +554,10 @@ _tcp_accepter_reply (void *func_data, void *data)
 	{
 	  if (analyse_tcp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
 	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _
+			  ("understood accepter, scheduling it for deletion"));
+	      ret = 0;		// will be filtered
 	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
@@ -576,57 +572,66 @@ _tcp_accepter_reply (void *func_data, void *data)
 						       NULL);
 		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process srv_oob"));
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _("process srv_oob (tcp)"));
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
 		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
-		      ret = 0;
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new tcp"));
-		  connection =
-		    lw6srv_accept_tcp (node->backends.srv_backends[i],
-				       tcp_accepter, node->password);
-		  if (connection)
+		  tentacle_index =
+		    _lw6p2p_node_find_tentacle (node, remote_id);
+		  if (tentacle_index < 0)
 		    {
-		      connection_ptr_str =
-			lw6sys_hexa_ptr_to_str (connection);
-		      if (connection_ptr_str)
+		      /*
+		       * We analyse again, but this time querying for
+		       * remote_url. The first call does not do this
+		       * to save time, since protocol analysis must
+		       * really remain simple. Besides this "double"
+		       * anlysis is rare since it only concerns one
+		       * message at the beginning of each incoming 
+		       * connection.
+		       */
+		      analyse_tcp_ret =
+			lw6srv_analyse_tcp (node->backends.srv_backends[i],
+					    tcp_accepter, &remote_id,
+					    &remote_url);
+		      if (remote_id != 0 && remote_url != NULL)
 			{
-			  backend_ptr_str =
-			    lw6sys_hexa_ptr_to_str (node->
-						    backends.srv_backends[i]);
-			  if (backend_ptr_str)
+			  if (_lw6p2p_node_register_tentacle
+			      (node, remote_url, remote_id))
 			    {
-			      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-							  (node->db,
-							   _LW6P2P_INSERT_CONNECTION_SQL),
-							  connection_ptr_str,
-							  backend_ptr_str,
-							  node->node_id_str);
-			      if (query)
-				{
-				  if (_lw6p2p_db_lock (node->db))
-				    {
-				      _lw6p2p_db_exec_ignore_data (node->db,
-								   query);
-				      _lw6p2p_db_unlock (node->db);
-				    }
-				  LW6SYS_FREE (query);
-				}
-			      LW6SYS_FREE (backend_ptr_str);
+			      tentacle_index =
+				_lw6p2p_node_find_tentacle (node, remote_id);
 			    }
-			  LW6SYS_FREE (connection_ptr_str);
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _
+					  ("can't create tentacle with \"%s\""),
+					  remote_url);
+			    }
+			  LW6SYS_FREE (remote_url);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG, _("wrong id/url"));
 			}
 		    }
+		  if (tentacle_index >= 0
+		      && tentacle_index < LW6MAP_MAX_NB_NODES)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("feed srv (tcp)"));
+		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
+					    node->
+					    tentacles
+					    [tentacle_index].srv_connections
+					    [i], tcp_accepter);
+		    }
 		}
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _
-			  ("understood accepter, scheduling it for deletion"));
-	      ret = 0;		// will be filtered
 	    }
 	}
     }
@@ -640,20 +645,18 @@ _udp_buffer_reply (void *func_data, void *data)
   int ret = 1;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   lw6srv_udp_buffer_t *udp_buffer = (lw6srv_udp_buffer_t *) data;
-  lw6srv_connection_t *connection = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
-  char *query = NULL;
-  char *connection_ptr_str = NULL;
-  char *backend_ptr_str = NULL;
   int i = 0;
   int analyse_udp_ret = 0;
   u_int64_t remote_id = 0;
+  char *remote_url = NULL;
+  int tentacle_index = -1;
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
       analyse_udp_ret =
 	lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer,
-			    &remote_id);
+			    &remote_id, NULL);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -664,6 +667,9 @@ _udp_buffer_reply (void *func_data, void *data)
 	{
 	  if (analyse_udp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
 	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("understood buffer, scheduling it for deletion"));
+	      ret = 0;		// will be filtered
 	      if (analyse_udp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
@@ -679,7 +685,8 @@ _udp_buffer_reply (void *func_data, void *data)
 						       udp_buffer->line);
 		  if (srv_oob)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("process srv_oob"));
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _("process srv_oob (udp)"));
 		      srv_oob->srv_oob->thread =
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
@@ -689,47 +696,56 @@ _udp_buffer_reply (void *func_data, void *data)
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("new udp"));
-		  connection =
-		    lw6srv_new_udp (node->backends.srv_backends[i],
-				    udp_buffer, node->password);
-		  if (connection)
+		  tentacle_index =
+		    _lw6p2p_node_find_tentacle (node, remote_id);
+		  if (tentacle_index < 0)
 		    {
-		      connection_ptr_str =
-			lw6sys_hexa_ptr_to_str (connection);
-		      if (connection_ptr_str)
+		      /*
+		       * We analyse again, but this time querying for
+		       * remote_url. The first call does not do this
+		       * to save time, since protocol analysis must
+		       * really remain simple. Besides this "double"
+		       * anlysis is rare since it only concerns one
+		       * message at the beginning of each incoming 
+		       * connection.
+		       */
+		      analyse_udp_ret =
+			lw6srv_analyse_udp (node->backends.srv_backends[i],
+					    udp_buffer, &remote_id,
+					    &remote_url);
+		      if (remote_id != 0 && remote_url != NULL)
 			{
-			  backend_ptr_str =
-			    lw6sys_hexa_ptr_to_str (node->
-						    backends.srv_backends[i]);
-			  if (backend_ptr_str)
+			  if (_lw6p2p_node_register_tentacle
+			      (node, remote_url, remote_id))
 			    {
-			      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-							  (node->db,
-							   _LW6P2P_INSERT_CONNECTION_SQL),
-							  connection_ptr_str,
-							  backend_ptr_str,
-							  node->node_id_str);
-			      if (query)
-				{
-				  if (_lw6p2p_db_lock (node->db))
-				    {
-				      _lw6p2p_db_exec_ignore_data (node->db,
-								   query);
-				      _lw6p2p_db_unlock (node->db);
-				    }
-				  LW6SYS_FREE (query);
-				}
-			      LW6SYS_FREE (backend_ptr_str);
+			      tentacle_index =
+				_lw6p2p_node_find_tentacle (node, remote_id);
 			    }
-			  LW6SYS_FREE (connection_ptr_str);
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
+					  _
+					  ("can't create tentacle with \"%s\""),
+					  remote_url);
+			    }
+			  LW6SYS_FREE (remote_url);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_DEBUG, _("wrong id/url"));
 			}
 		    }
+		  if (tentacle_index >= 0
+		      && tentacle_index < LW6MAP_MAX_NB_NODES)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _("feed srv (udp)"));
+		      lw6srv_feed_with_udp (node->backends.srv_backends[i],
+					    node->
+					    tentacles
+					    [tentacle_index].srv_connections
+					    [i], udp_buffer);
+		    }
 		}
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _
-			  ("understood accepter, scheduling it for deletion"));
-	      ret = 0;		// will be filtered
 	    }
 	}
     }

@@ -56,7 +56,11 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+  char *pos = NULL;
+  char *seek = NULL;
+  char *line = NULL;
 
+  line = udp_buffer->line;
   if (remote_id)
     {
       (*remote_id) = 0;
@@ -66,14 +70,49 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
       (*remote_url) = NULL;
     }
 
-  if (lw6sys_str_starts_with_no_case (udp_buffer->line,
+  if (lw6sys_str_starts_with_no_case (line,
 				      LW6MSG_OOB_PING)
-      || lw6sys_str_starts_with_no_case (udp_buffer->line,
+      || lw6sys_str_starts_with_no_case (line,
 					 LW6MSG_OOB_INFO)
-      || lw6sys_str_starts_with_no_case (udp_buffer->line, LW6MSG_OOB_LIST))
+      || lw6sys_str_starts_with_no_case (line, LW6MSG_OOB_LIST))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+    }
+
+  if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
+    {
+      pos = line + strlen (LW6MSG_LW6);
+      if (lw6msg_word_first_id_64 (remote_id, &seek, pos))
+	{
+	  pos = seek;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
+	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+
+	  if (remote_url)
+	    {
+	      /*
+	       * OK, here we need to analyse the *content* of the message
+	       * for good to find out the remote_url, if available...
+	       * In practise it's a rare case but we need it to bootstrap
+	       * connections. We do not verify the actual content of the
+	       * fields, feed will do it later.
+	       */
+	      lw6msg_word_t word_tmp;
+
+	      // local_id
+	      if (lw6msg_word_first (&word_tmp, &seek, pos))
+		{
+		  pos = seek;
+		  // password_checksum
+		  if (lw6msg_word_first (&word_tmp, &seek, pos))
+		    {
+		      pos = seek;
+		      (*remote_url) = lw6msg_cmd_guess_from_url (pos);
+		    }
+		}
+	    }
+	}
     }
 
   return ret;
@@ -86,7 +125,7 @@ _mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
 {
   int ret = 0;
 
-  // todo
+  lw6sys_log (LW6SYS_LOG_WARNING, _("trying to feed mod_udpd with tcp data"));
 
   return ret;
 }
@@ -97,8 +136,10 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
+  char *msg_line = NULL;
 
-  // todo
+  msg_line = udp_buffer->line;
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd received \"%s\""), msg_line);
 
   return ret;
 }

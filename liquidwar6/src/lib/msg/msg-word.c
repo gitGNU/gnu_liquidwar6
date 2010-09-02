@@ -26,6 +26,8 @@
 
 #include "msg.h"
 
+#define _QUOTE '"'
+
 /**
  * lw6msg_word_first
  *
@@ -57,15 +59,33 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
     {
       i++;
     }
+
   j = i;
-  /*
-   * Note: (len=(j-i)<=...) must really be the first test else len is false
-   */
-  while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
-	 && !lw6sys_chr_is_space (msg[j]) && !lw6sys_chr_is_eol (msg[j]))
+  if (msg[i] == _QUOTE)
     {
+      i++;
       j++;
+      /*
+       * Note: (len=(j-i)<=...) must really be the first test else len is false
+       */
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
+	     && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
+	{
+	  j++;
+	}
     }
+  else
+    {
+      /*
+       * Note: (len=(j-i)<=...) must really be the first test else len is false
+       */
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
+	     && !lw6sys_chr_is_space (msg[j]) && !lw6sys_chr_is_eol (msg[j]))
+	{
+	  j++;
+	}
+    }
+
   if (i < j)
     {
       if (len <= LW6MSG_MAX_WORD_SIZE)
@@ -75,6 +95,10 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
 	  word->buf[len] = '\0';
 	  if (next)
 	    {
+	      if (msg[j] == _QUOTE)
+		{
+		  j++;
+		}
 	      while (lw6sys_chr_is_space (msg[j]))
 		{
 		  j++;

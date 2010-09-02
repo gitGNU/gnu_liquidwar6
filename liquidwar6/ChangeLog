@@ -1,3 +1,7 @@
+2010-09-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Messages make in through mod_udpd (in-band).
+
 2010-08-31 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Introducing tentacle object.

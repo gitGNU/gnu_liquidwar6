@@ -60,7 +60,7 @@ $(srcdir)/net-gdoc.texi: ../src/lib/net/net-address.c ../src/lib/net/net-const.c
 $(srcdir)/nod-gdoc.texi: ../src/lib/nod/nod-constinfo.c ../src/lib/nod/nod-dyninfo.c ../src/lib/nod/nod.h ../src/lib/nod/nod-info.c ../src/lib/nod/nod-internal.h ../src/lib/nod/nod-test.c ../src/lib/nod/nod-testmain.c
 	echo gdoc nod && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/nod-gdoc.texi
 
-$(srcdir)/p2p-gdoc.texi: ../src/lib/p2p/p2p-backends.c ../src/lib/p2p/p2p-clioob.c ../src/lib/p2p/p2p-data.c ../src/lib/p2p/p2p-db.c ../src/lib/p2p/p2p-explore.c ../src/lib/p2p/p2p-flush.c ../src/lib/p2p/p2p.h ../src/lib/p2p/p2p-internal.h ../src/lib/p2p/p2p-node.c ../src/lib/p2p/p2p-srvoob.c ../src/lib/p2p/p2p-tentacle.c ../src/lib/p2p/p2p-test.c ../src/lib/p2p/p2p-testmain.c
+$(srcdir)/p2p-gdoc.texi: ../src/lib/p2p/p2p-backends.c ../src/lib/p2p/p2p-clioob.c ../src/lib/p2p/p2p-data.c ../src/lib/p2p/p2p-db.c ../src/lib/p2p/p2p-explore.c ../src/lib/p2p/p2p-flush.c ../src/lib/p2p/p2p.h ../src/lib/p2p/p2p-internal.h ../src/lib/p2p/p2p-node.c ../src/lib/p2p/p2p-recv.c ../src/lib/p2p/p2p-srvoob.c ../src/lib/p2p/p2p-tentacle.c ../src/lib/p2p/p2p-test.c ../src/lib/p2p/p2p-testmain.c
 	echo gdoc p2p && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/p2p-gdoc.texi
 
 $(srcdir)/pil-gdoc.texi: ../src/lib/pil/pil-bench.c ../src/lib/pil/pil-command.c ../src/lib/pil/pil-compute.c ../src/lib/pil/pil-coords.c ../src/lib/pil/pil.h ../src/lib/pil/pil-internal.h ../src/lib/pil/pil-localcursors.c ../src/lib/pil/pil-pilot.c ../src/lib/pil/pil-spread.c ../src/lib/pil/pil-test.c ../src/lib/pil/pil-testmain.c ../src/lib/pil/pil-worker.c

@@ -77,15 +77,15 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
       tentacle->nb_cli_connections = backends->nb_cli_backends;
       if (tentacle->nb_cli_connections > 0)
 	{
-	  tentacle->cnx_connections =
+	  tentacle->cli_connections =
 	    (lw6cnx_connection_t **)
 	    LW6SYS_CALLOC (tentacle->nb_cli_connections *
 			   sizeof (lw6cnx_connection_t *));
-	  if (tentacle->cnx_connections)
+	  if (tentacle->cli_connections)
 	    {
 	      for (i = 0; i < tentacle->nb_cli_connections; ++i)
 		{
-		  tentacle->cnx_connections[i] =
+		  tentacle->cli_connections[i] =
 		    lw6cli_open (tentacle->backends->cli_backends[i],
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
@@ -93,11 +93,57 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 tentacle->local_id_str,
 				 tentacle->remote_id_str, recv_callback_func,
 				 recv_callback_data);
-		  if (tentacle->cnx_connections[i])
+		  if (tentacle->cli_connections[i])
 		    {
 		      repr =
 			lw6cli_repr (tentacle->backends->cli_backends[i],
-				     tentacle->cnx_connections[i]);
+				     tentacle->cli_connections[i]);
+		      if (repr)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("connection \"%s\" opened"), repr);
+			  LW6SYS_FREE (repr);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _
+				  ("unable to create connection %d to connect on \"%s\""),
+				  i, tentacle->remote_url);
+		      ret = 0;
+		    }
+		}
+	    }
+	  else
+	    {
+	      ret = 0;
+	    }
+	}
+      tentacle->nb_srv_connections = backends->nb_srv_backends;
+      if (tentacle->nb_srv_connections > 0)
+	{
+	  tentacle->srv_connections =
+	    (lw6cnx_connection_t **)
+	    LW6SYS_CALLOC (tentacle->nb_srv_connections *
+			   sizeof (lw6cnx_connection_t *));
+	  if (tentacle->srv_connections)
+	    {
+	      for (i = 0; i < tentacle->nb_srv_connections; ++i)
+		{
+		  tentacle->srv_connections[i] =
+		    lw6srv_open (tentacle->backends->srv_backends[i],
+				 local_url, remote_url, tentacle->remote_ip,
+				 tentacle->remote_port,
+				 tentacle->password,
+				 tentacle->local_id_str,
+				 tentacle->remote_id_str, recv_callback_func,
+				 recv_callback_data);
+		  if (tentacle->srv_connections[i])
+		    {
+		      repr =
+			lw6srv_repr (tentacle->backends->srv_backends[i],
+				     tentacle->srv_connections[i]);
 		      if (repr)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -134,17 +180,29 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
-  if (tentacle->nb_cli_connections > 0 && tentacle->cnx_connections)
+  if (tentacle->nb_srv_connections > 0 && tentacle->srv_connections)
+    {
+      for (i = 0; i < tentacle->nb_srv_connections; ++i)
+	{
+	  if (tentacle->srv_connections[i])
+	    {
+	      lw6srv_close (tentacle->backends->srv_backends[i],
+			    tentacle->srv_connections[i]);
+	    }
+	}
+      LW6SYS_FREE (tentacle->srv_connections);
+    }
+  if (tentacle->nb_cli_connections > 0 && tentacle->cli_connections)
     {
       for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	{
-	  if (tentacle->cnx_connections[i])
+	  if (tentacle->cli_connections[i])
 	    {
 	      lw6cli_close (tentacle->backends->cli_backends[i],
-			    tentacle->cnx_connections[i]);
+			    tentacle->cli_connections[i]);
 	    }
 	}
-      LW6SYS_FREE (tentacle->cnx_connections);
+      LW6SYS_FREE (tentacle->cli_connections);
     }
   if (tentacle->local_url)
     {
@@ -198,7 +256,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
 	      if (lw6cli_send (tentacle->backends->cli_backends[i],
-			       tentacle->cnx_connections[i], msg))
+			       tentacle->cli_connections[i], msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -209,12 +267,12 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       lw6cli_poll (tentacle->backends->cli_backends[i],
-		   tentacle->cnx_connections[i]);
+		   tentacle->cli_connections[i]);
     }
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       lw6srv_poll (tentacle->backends->srv_backends[i],
-		   tentacle->cnx_connections[i]);
+		   tentacle->srv_connections[i]);
     }
 
   // todo servers
