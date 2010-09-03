@@ -35,6 +35,9 @@
 #define STR_EOL "\n"
 #endif
 
+#define _STR_BIN_TEXT_OTHER ".,:;!?()'\"-+*/=_ \t\r\n"
+#define _STR_BIN_TEXT_MIN_PERCENT 75
+
 /**
  * lw6sys_str_copy
  *
@@ -747,4 +750,73 @@ lw6sys_str_truncate (char *str, int len)
     {
       str[len] = '\0';
     }
+}
+
+/**
+ * lw6sys_str_random
+ *
+ * @len: the length of the random string to generate.
+ *
+ * Generates a random string, this is usefull for testing.
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6sys_str_random (int len)
+{
+  unsigned char *ret = NULL;
+  int i = 0;
+
+  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  for (i = 0; i < len; ++i)
+    {
+      ret[i] = lw6sys_random (254) + 1;
+    }
+  ret[len] = 0;
+
+  return (char *) ret;
+}
+
+static int
+_chr_is_text (char c)
+{
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
+							      && c <= '9')
+    || (strchr (_STR_BIN_TEXT_OTHER, c) != NULL);
+}
+
+/**
+ * lw6sys_str_is_bin
+ *
+ * @buf: the buffer to test
+ * @len: the length of the buffer
+ *
+ * Tests wether a buffer is likely to contain a string. This is not
+ * a bulletproof function, just a simple heuristic based estimator.
+ *
+ * Return value: 1 if probably binary, 0 if probably text
+ */
+int
+lw6sys_str_is_bin (char *buf, int len)
+{
+  int ret = 0;
+  int text_chars = 0;
+  int i = 0;
+
+  if (len > 0)
+    {
+      for (i = 0; i < len; ++i)
+	{
+	  if (_chr_is_text (buf[i]))
+	    {
+	      text_chars++;
+	    }
+	}
+      if (((text_chars * 100) / len) < _STR_BIN_TEXT_MIN_PERCENT)
+	{
+	  ret = 1;
+	}
+    }
+
+  return ret;
 }

@@ -342,14 +342,14 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
   fd_set write;
   struct timeval tv;
   int select_ret;
-  int total_sent;
+  int total_sent = 0;
   int sent = 0;
   int chunk_size;
 #ifdef LW6_MS_WINDOWS
   int winerr = 0;
 #endif
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       ret = 1;
 
@@ -395,11 +395,6 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("%d bytes sent on TCP socket %d"), sent,
 				  sock);
-		      _lw6net_counters_register_send (&
-						      (_lw6net_global_context->counters),
-						      sent);
-		      _lw6net_log_tcp_send (&(_lw6net_global_context->log),
-					    buf + total_sent, sent);
 		      total_sent += sent;
 		    }
 		  else
@@ -427,6 +422,15 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 			  total_sent, len);
 	      ret = 0;
 	    }
+	}
+
+      if (total_sent > 0)
+	{
+	  _lw6net_counters_register_send (&
+					  (_lw6net_global_context->counters),
+					  total_sent);
+	  _lw6net_log_tcp_send (&(_lw6net_global_context->log),
+				buf, total_sent);
 	}
     }
 
@@ -493,11 +497,11 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
   fd_set read;
   struct timeval tv;
   int select_ret;
-  int total_received;
+  int total_received = 0;
   int received;
   int chunk_size;
 
-  if (sock >= 0)
+  if (lw6net_socket_is_valid (sock))
     {
       ret = 1;
       chunk_size = _lw6net_global_context->const_data.chunk_size;
@@ -536,11 +540,6 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("%d bytes received on TCP socket %d"),
 				  received, sock);
-		      _lw6net_counters_register_recv (&
-						      (_lw6net_global_context->counters),
-						      received);
-		      _lw6net_log_tcp_recv (&(_lw6net_global_context->log),
-					    buf + total_received, received);
 		      total_received += received;
 		    }
 		  else
@@ -571,6 +570,15 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 	      lw6net_last_error ();
 	      ret = 0;
 	    }
+	}
+
+      if (total_received > 0)
+	{
+	  _lw6net_counters_register_recv (&
+					  (_lw6net_global_context->counters),
+					  total_received);
+	  _lw6net_log_tcp_recv (&(_lw6net_global_context->log),
+				buf, total_received);
 	}
     }
 

@@ -141,6 +141,7 @@ static int
 _log (char *filename, char *buf, int len)
 {
   int ret = 0;
+  char *buf_base64 = NULL;
 
   if (filename)
     {
@@ -149,9 +150,22 @@ _log (char *filename, char *buf, int len)
       f = fopen (filename, "ab");
       if (f)
 	{
-	  if (fwrite (buf, sizeof (char), len, f) == len)
+	  if (lw6sys_str_is_bin (buf, len))
 	    {
-	      ret = 1;
+	      buf_base64 = lw6glb_base64_encode_bin (buf, len);
+	    }
+
+	  if (buf_base64)
+	    {
+	      fprintf (f, "%s\n", buf_base64);
+	      LW6SYS_FREE (buf_base64);
+	    }
+	  else
+	    {
+	      if (fwrite (buf, sizeof (char), len, f) == len)
+		{
+		  ret = 1;
+		}
 	    }
 	  fclose (f);
 	}

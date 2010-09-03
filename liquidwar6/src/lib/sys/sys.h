@@ -921,6 +921,8 @@ extern lw6sys_list_t *lw6sys_str_split_config_item (char *str);
 extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
+extern char *lw6sys_str_random (int len);
+extern int lw6sys_str_is_bin (char *buf, int len);
 
 /* sys-stream.c */
 extern char *lw6sys_stream_file_to_str (FILE * f);

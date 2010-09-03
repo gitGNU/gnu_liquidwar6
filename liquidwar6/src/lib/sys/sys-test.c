@@ -146,6 +146,7 @@
 #define TEST_SPLIT_CHAR 'o'
 #define _TEST_STR_LOWER_UPPER "foObaR!"
 #define _TEST_STR_TRUNCATE 5
+#define _TEST_STR_RANDOM_LEN 1000
 #define TEST_SERIALIZE 12345
 #define TEST_SORT_LENGTH 10
 #define TEST_SORT_INT {9,3,4,5,6,8,7,2,0,1};
@@ -2873,6 +2874,7 @@ test_str ()
   {
     char *str;
     lw6sys_list_t *list;
+    int is_bin = 0;
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _("testing is_blank on \"%s\""),
 		BLANK_STR);
@@ -2963,6 +2965,50 @@ test_str ()
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("uppered string=\"%s\""), str);
 	lw6sys_str_truncate (str, _TEST_STR_TRUNCATE);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _("truncated string=\"%s\""), str);
+	LW6SYS_FREE (str);
+      }
+
+    str = lw6sys_str_random (_TEST_STR_RANDOM_LEN);
+    if (str)
+      {
+	is_bin = lw6sys_str_is_bin (str, strlen (str));
+	if (is_bin)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("random string considered binary -> good!"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("random string *not* considered binary, this is strange, test isn't reported as failed since an error can always happen and a monkey could random-type a shakespeare masterpice, but still..."));
+	  }
+	lw6sys_str_cleanup_ascii7 (str);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("random string of %d chars (after ascii7 cleanup) \"%s\""),
+		    strlen (str), str);
+	LW6SYS_FREE (str);
+      }
+    str = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
+    if (str)
+      {
+	is_bin = lw6sys_str_is_bin (str, strlen (str));
+	if (!is_bin)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("string \"%s\" (64-bit ID) considered *not* binary -> good!"),
+			str);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("string \"%s\" (64-bit ID) considered binary, this is wrong"),
+			str);
+	    ret = 0;
+	  }
 	LW6SYS_FREE (str);
       }
   }

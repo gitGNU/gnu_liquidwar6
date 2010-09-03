@@ -91,7 +91,7 @@ am__liquidwar6net_test_SOURCES_DIST = net-testmain.c
 liquidwar6net_test_OBJECTS = $(am_liquidwar6net_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6net_test_DEPENDENCIES = libnet.la \
 @FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -332,7 +332,7 @@ libnet_la_SOURCES = net-address.c net-const.c net-counters.c net-dns.c net-error
 libnetdir = $(includedir)/@PACKAGE_TARNAME@/net
 libnet_HEADERS = net.h
 @FULLSTATIC_FALSE@liquidwar6net_test_SOURCES = net-testmain.c
-@FULLSTATIC_FALSE@liquidwar6net_test_LDADD = libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6net_test_LDADD = libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 EXTRA_DIST = net-internal.h
 all: all-am
 

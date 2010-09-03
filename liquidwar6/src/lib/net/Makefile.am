@@ -29,7 +29,7 @@ libnet_HEADERS = net.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6net-test
 liquidwar6net_test_SOURCES = net-testmain.c
-liquidwar6net_test_LDADD = libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6net_test_LDADD = libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6net-test
 endif
 

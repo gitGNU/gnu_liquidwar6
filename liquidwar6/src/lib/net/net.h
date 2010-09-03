@@ -24,6 +24,8 @@
 #define LIQUIDWAR6NET_H
 
 #include "../sys/sys.h"
+#include "../glb/glb.h"
+#include "../hlp/hlp.h"
 #include "../cfg/cfg.h"
 
 #define LW6NET_ADDRESS_ANY "0.0.0.0"
