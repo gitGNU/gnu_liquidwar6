@@ -2553,7 +2553,13 @@ results on
 
      *Return value:*  the number of bytes sent, 0 if failure
 
- -- Function: int lw6net_init (int ARGC, char * [] ARGV)
+ -- Function: int lw6net_init (int ARGC, char * [] ARGV, int NET_LOG)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     NET_LOG:  1 if you want to enable net log, 0 if not
+
      Initializes the low-level network API, you must call this before
      calling any other network related function, for it allocates a
      dynamic context which is in turn used by every function.

@@ -1,6 +1,5 @@
 @subsection base64-decode
 @deffn {Command-line option} @code{--base64-decode}
-@deffnx {Environment variable} @code{LW6_BASE64_DECODE}
 If specified, program will take stdin and base64 decode it to stdout. This is
 for testing purpose (for network messages for instance). Will decode in
 standard base64 encoding using characters + and / but also the url-compliant
@@ -9,7 +8,6 @@ version using - and /, see RFC 4648 for details.
 
 @subsection base64-encode
 @deffn {Command-line option} @code{--base64-encode}
-@deffnx {Environment variable} @code{LW6_BASE64_ENCODE}
 If specified, program will take stdin and base64 encode it to stdout. This is
 for testing purpose (for network messages for instance). Will *not* use
 standard base64 encoding using characters + and / but - and _ instead to be
@@ -18,7 +16,6 @@ url-compliant, see RFC 4648 for details.
 
 @subsection bench
 @deffn {Command-line option} @code{--bench}
-@deffnx {Environment variable} @code{LW6_BENCH}
 Runs a benchmarking test which will report an approximative performance
 estimation of the game on your computer.
 @end deffn
@@ -81,7 +78,6 @@ the game speed itself.
 
 @subsection check
 @deffn {Command-line option} @code{--check}
-@deffnx {Environment variable} @code{LW6_CHECK}
 Running the game with '--check' is almost like running '--test', the
 difference is that '--check' will not run tests which involve graphics or
 sound backends, so it's adapted to pure console mode. This can be usefull for
@@ -105,7 +101,6 @@ will make the game more responsive but consume bandwidth on network games.
 
 @subsection daemon
 @deffn {Command-line option} @code{--daemon}
-@deffnx {Environment variable} @code{LW6_DAEMON}
 Start the game in daemon mode, this is typically used with the server mode, if
 you want the process to be detached from the console and executed in the
 background.
@@ -141,7 +136,6 @@ displaying gradient.
 
 @subsection demo
 @deffn {Command-line option} @code{--demo}
-@deffnx {Environment variable} @code{LW6_DEMO}
 Start the game in demo mode. 2 bots play against each other forever.
 @end deffn
 
@@ -531,6 +525,20 @@ it to 0 for best performance, something like 100 might just be helpfull, but
 1000000 is the right way to seriously debug code.
 @end deffn
 
+@subsection net-log
+@deffn {Command-line option} @code{--net-log=<value>}
+@deffnx {Environment variable} @code{LW6_NET_LOG}
+@deffnx {XML key} @code{net-log}
+Type: boolean
+
+Default value: false
+
+Activates network log, that is, logs everything sent/received over the
+network, except data which is sent through a third party library such as
+libCurl. This is mostly for debugging purpose, it can lead to rather big log
+files.
+@end deffn
+
 @subsection pilot-lag
 @deffn {Command-line option} @code{--pilot-lag=<value>}
 @deffnx {Environment variable} @code{LW6_PILOT_LAG}
@@ -546,14 +554,12 @@ the game speed you set up.
 
 @subsection quick-start
 @deffn {Command-line option} @code{--quick-start}
-@deffnx {Environment variable} @code{LW6_QUICK_START}
 Start the game just like if the player had requested a quick start, without
 showing any menu.
 @end deffn
 
 @subsection reset
 @deffn {Command-line option} @code{--reset}
-@deffnx {Environment variable} @code{LW6_RESET}
 Clears the config file so that the game will run with defaults next time. The
 idea is to get rid of traces of previous executions. The difference with
 '--defaults' is that '--reset' does not run the game, while '--defaults' does.
@@ -573,7 +579,6 @@ upgrade the game.
 
 @subsection server
 @deffn {Command-line option} @code{--server}
-@deffnx {Environment variable} @code{LW6_SERVER}
 Start the game in server mode, without requiring any graphics backend. Server
 mode is usefull if you just want to start a network node without hosting any
 real game on it. It can be used to list existing nodes and sessions or as a
@@ -602,7 +607,6 @@ to outperform opponents.
 
 @subsection z-decode
 @deffn {Command-line option} @code{--z-decode}
-@deffnx {Environment variable} @code{LW6_Z_DECODE}
 If specified, program will take stdin and z-decode it to stdout. This is for
 testing purpose (for network messages for instance). Z-decoding, here means
 verifying there a Z at the beginning, base64 decode and pass the content
@@ -611,7 +615,6 @@ through Zlib inflating. I content is not Z-prefixed, will be returned as is.
 
 @subsection z-encode
 @deffn {Command-line option} @code{--z-encode}
-@deffnx {Environment variable} @code{LW6_Z_ENCODE}
 If specified, program will take stdin and z-encode it to stdout. This is for
 testing purpose (for network messages for instance). Z-encoding, here means
 passing the message through Zlib deflating then base64 encoding and prefix it

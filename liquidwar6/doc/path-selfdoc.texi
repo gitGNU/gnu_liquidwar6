@@ -1,6 +1,5 @@
 @subsection config-file
 @deffn {Command-line option} @code{--config-file}
-@deffnx {Environment variable} @code{LW6_CONFIG_FILE}
 Type: string
 
 Default value: $HOME/.liquidwar6/config.xml
@@ -11,7 +10,6 @@ like, keeping all other informations in the same place.
 
 @subsection data-dir
 @deffn {Command-line option} @code{--data-dir}
-@deffnx {Environment variable} @code{LW6_DATA_DIR}
 Type: string
 
 Default value: /usr/local/share/liquidwar6-<version>/data
@@ -34,7 +32,6 @@ keeping all other informations in the same place.
 
 @subsection map-dir
 @deffn {Command-line option} @code{--map-dir}
-@deffnx {Environment variable} @code{LW6_MAP_DIR}
 Type: string
 
 Default value: /usr/local/share/liquidwar6-<version>/map
@@ -71,7 +68,6 @@ you could use the command-line argument
 
 @subsection mod-dir
 @deffn {Command-line option} @code{--mod-dir}
-@deffnx {Environment variable} @code{LW6_MOD_DIR}
 Type: string
 
 Default value: /usr/local/lib/liquidwar6-<version>
@@ -124,7 +120,6 @@ a GNU/Linux box, you could use the command-line argument
 
 @subsection prefix
 @deffn {Command-line option} @code{--prefix}
-@deffnx {Environment variable} @code{LW6_PREFIX}
 Type: string
 
 Default value: /usr/local
@@ -138,7 +133,6 @@ given parameter.
 
 @subsection script-file
 @deffn {Command-line option} @code{--script-file}
-@deffnx {Environment variable} @code{LW6_SCRIPT_FILE}
 Type: string
 
 Default value: /usr/local/share/liquidwar6-<version>/script/liquidwar6.scm

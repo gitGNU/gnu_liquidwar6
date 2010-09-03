@@ -37,6 +37,10 @@
 // net-error.c
 extern int lw6net_last_error ();
 
+/* net-counters.c */
+extern int lw6net_counters_get_sent_kbytes ();
+extern int lw6net_counters_get_received_kbytes ();
+
 /* net-dns.c */
 extern int lw6net_dns_is_ip (char *ip);
 extern char *lw6net_dns_gethostbyname (char *name);
@@ -59,10 +63,8 @@ extern lw6sys_list_t *lw6net_recv_lines_udp (int sock,
 					     int *incoming_port);
 extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
 
-/*
- * In setup.c
- */
-extern int lw6net_init (int argc, char *argv[]);
+/* net-setup.c */
+extern int lw6net_init (int argc, char *argv[], int net_log);
 extern void lw6net_quit ();
 
 /* net-socket.c */

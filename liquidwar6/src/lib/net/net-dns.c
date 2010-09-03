@@ -28,39 +28,36 @@
 #include "net-internal.h"
 
 int
-_lw6net_dns_init (int dns_cache_hash_size)
+_lw6net_dns_init (_lw6net_dns_t * dns, int dns_cache_hash_size)
 {
   int ret = 0;
 
-  _lw6net_global_context->dns_gethostbyname_mutex = lw6sys_mutex_create ();
-  _lw6net_global_context->dns_cache_mutex = lw6sys_mutex_create ();
-  _lw6net_global_context->dns_cache =
+  dns->dns_gethostbyname_mutex = lw6sys_mutex_create ();
+  dns->dns_cache_mutex = lw6sys_mutex_create ();
+  dns->dns_cache =
     lw6sys_hash_new (lw6sys_free_callback, dns_cache_hash_size);
-  ret = (_lw6net_global_context->dns_gethostbyname_mutex != NULL
-	 && _lw6net_global_context->dns_cache_mutex != NULL
-	 && _lw6net_global_context->dns_cache != NULL);
+  ret = (dns->dns_gethostbyname_mutex != NULL
+	 && dns->dns_cache_mutex != NULL && dns->dns_cache != NULL);
 
   return ret;
 }
 
 void
-_lw6net_dns_quit ()
+_lw6net_dns_quit (_lw6net_dns_t * dns)
 {
-  if (_lw6net_global_context->dns_cache)
+  if (dns->dns_cache)
     {
-      lw6sys_hash_free (_lw6net_global_context->dns_cache);
-      _lw6net_global_context->dns_cache = NULL;
+      lw6sys_hash_free (dns->dns_cache);
     }
-  if (_lw6net_global_context->dns_cache_mutex)
+  if (dns->dns_cache_mutex)
     {
-      lw6sys_mutex_destroy (_lw6net_global_context->dns_cache_mutex);
-      _lw6net_global_context->dns_cache_mutex = NULL;
+      lw6sys_mutex_destroy (dns->dns_cache_mutex);
     }
-  if (_lw6net_global_context->dns_gethostbyname_mutex)
+  if (dns->dns_gethostbyname_mutex)
     {
-      lw6sys_mutex_destroy (_lw6net_global_context->dns_gethostbyname_mutex);
-      _lw6net_global_context->dns_gethostbyname_mutex = NULL;
+      lw6sys_mutex_destroy (dns->dns_gethostbyname_mutex);
     }
+  memset (dns, 0, sizeof (_lw6net_dns_t));
 }
 
 static int
@@ -133,6 +130,7 @@ lw6net_dns_gethostbyname (char *name)
   char *ntoa_ret = NULL;
   char *cached_ret = NULL;
   char *to_put_in_cache = NULL;
+  _lw6net_dns_t *dns = &(_lw6net_global_context->dns);
 
   if (lw6net_dns_is_ip (name))
     {
@@ -149,17 +147,16 @@ lw6net_dns_gethostbyname (char *name)
     }
   else
     {
-      if (lw6sys_mutex_lock (_lw6net_global_context->dns_cache_mutex))
+      if (lw6sys_mutex_lock (dns->dns_cache_mutex))
 	{
-	  cached_ret =
-	    lw6sys_hash_get (_lw6net_global_context->dns_cache, name);
+	  cached_ret = lw6sys_hash_get (dns->dns_cache, name);
 	  if (cached_ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _("cached DNS \"%s\" -> \"%s\""),
 			  name, cached_ret);
 	      ret = lw6sys_str_copy (cached_ret);
 	    }
-	  lw6sys_mutex_unlock (_lw6net_global_context->dns_cache_mutex);
+	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
 	}
       /*
        * At this stage cached_ret is NOT NULL if something is in the cache
@@ -194,14 +191,13 @@ lw6net_dns_gethostbyname (char *name)
 
   if (to_put_in_cache)
     {
-      if (lw6sys_mutex_lock (_lw6net_global_context->dns_cache_mutex))
+      if (lw6sys_mutex_lock (dns->dns_cache_mutex))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _("put in DNS cache \"%s\" -> \"%s\""), name,
 		      to_put_in_cache);
-	  lw6sys_hash_set (_lw6net_global_context->dns_cache, name,
-			   to_put_in_cache);
-	  lw6sys_mutex_unlock (_lw6net_global_context->dns_cache_mutex);
+	  lw6sys_hash_set (dns->dns_cache, name, to_put_in_cache);
+	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
 	}
     }
 
@@ -224,7 +220,9 @@ lw6net_dns_gethostbyname (char *name)
 int
 lw6net_dns_lock ()
 {
-  return lw6sys_mutex_lock (_lw6net_global_context->dns_gethostbyname_mutex);
+  _lw6net_dns_t *dns = &(_lw6net_global_context->dns);
+
+  return lw6sys_mutex_lock (dns->dns_gethostbyname_mutex);
 }
 
 /**
@@ -237,6 +235,7 @@ lw6net_dns_lock ()
 int
 lw6net_dns_unlock ()
 {
-  return
-    lw6sys_mutex_unlock (_lw6net_global_context->dns_gethostbyname_mutex);
+  _lw6net_dns_t *dns = &(_lw6net_global_context->dns);
+
+  return lw6sys_mutex_unlock (dns->dns_gethostbyname_mutex);
 }

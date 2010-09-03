@@ -1,3 +1,7 @@
+2010-09-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added net logging facility.
+
 2010-09-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Messages make in through mod_udpd (in-band).

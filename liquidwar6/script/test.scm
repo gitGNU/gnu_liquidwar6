@@ -137,7 +137,6 @@
 (define lw6-test-db
   (lambda ()
     (begin
-      (c-lw6net-init)
       (let* (
 	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	     )
@@ -145,14 +144,13 @@
 	  (display db)
 	  (display "\n")
 	  ))
-      (c-lw6net-quit)
       (gc)
       )))
 
 (define lw6-test-node
   (lambda ()
     (begin
-      (c-lw6net-init)
+      (c-lw6net-init #f)
       (let* (
 	     (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
 	     (node (c-lw6p2p-node-new db (list (cons "client-backends" "tcp,udp")

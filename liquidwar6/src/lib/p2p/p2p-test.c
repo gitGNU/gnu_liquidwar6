@@ -29,6 +29,7 @@
 
 #define _TEST_ARGC 1
 #define _TEST_ARGV0 "prog"
+#define _TEST_NET_LOG 1
 #define _TEST_DB_NAME12 "p2p.test.12"
 #define _TEST_DB_NAME34 "p2p.test.34"
 #define _TEST_NODE_BIND_IP "0.0.0.0"
@@ -523,7 +524,7 @@ lw6p2p_test (int mode)
       lw6dat_test (mode);
     }
 
-  if (lw6net_init (argc, argv))
+  if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
       ret = _test_db () && _test_node_init () && _test_node_oob ()
 	&& _test_node_cmd ();

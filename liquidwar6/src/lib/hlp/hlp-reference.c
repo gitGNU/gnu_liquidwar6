@@ -892,6 +892,10 @@ populate_references ()
   POPULATE_VOID (LW6DEF_Z_DECODE,
 		 _
 		 ("If specified, program will take stdin and z-decode it to stdout. This is for testing purpose (for network messages for instance). Z-decoding, here means verifying there a Z at the beginning, base64 decode and pass the content through Zlib inflating. I content is not Z-prefixed, will be returned as is."));
+  POPULATE_BOOL (LW6DEF_NET_LOG,
+		 _
+		 ("Activates network log, that is, logs everything sent/received over the network, except data which is sent through a third party library such as libCurl. This is mostly for debugging purpose, it can lead to rather big log files."),
+		 0);
   /*
    * Game settings
    */

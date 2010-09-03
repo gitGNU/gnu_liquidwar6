@@ -4161,7 +4161,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 -----------------
 
  -- Command-line option: `--config-file'
- -- Environment variable: `LW6_CONFIG_FILE'
      Type: string
 
      Default value: $HOME/.liquidwar6/config.xml
@@ -4173,7 +4172,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 --------------
 
  -- Command-line option: `--data-dir'
- -- Environment variable: `LW6_DATA_DIR'
      Type: string
 
      Default value: /usr/local/share/liquidwar6-<version>/data
@@ -4198,7 +4196,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 -------------
 
  -- Command-line option: `--map-dir'
- -- Environment variable: `LW6_MAP_DIR'
      Type: string
 
      Default value: /usr/local/share/liquidwar6-<version>/map
@@ -4241,7 +4238,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 -------------
 
  -- Command-line option: `--mod-dir'
- -- Environment variable: `LW6_MOD_DIR'
      Type: string
 
      Default value: /usr/local/lib/liquidwar6-<version>
@@ -4303,7 +4299,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 ------------
 
  -- Command-line option: `--prefix'
- -- Environment variable: `LW6_PREFIX'
      Type: string
 
      Default value: /usr/local
@@ -4318,7 +4313,6 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
 ------------------
 
  -- Command-line option: `--script-file'
- -- Environment variable: `LW6_SCRIPT_FILE'
      Type: string
 
      Default value:
@@ -6942,7 +6936,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 --------------------
 
  -- Command-line option: `--base64-decode'
- -- Environment variable: `LW6_BASE64_DECODE'
      If specified, program will take stdin and base64 decode it to
      stdout. This is for testing purpose (for network messages for
      instance). Will decode in standard base64 encoding using
@@ -6953,7 +6946,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 --------------------
 
  -- Command-line option: `--base64-encode'
- -- Environment variable: `LW6_BASE64_ENCODE'
      If specified, program will take stdin and base64 encode it to
      stdout. This is for testing purpose (for network messages for
      instance). Will *not* use standard base64 encoding using
@@ -6964,7 +6956,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 ------------
 
  -- Command-line option: `--bench'
- -- Environment variable: `LW6_BENCH'
      Runs a benchmarking test which will report an approximative
      performance estimation of the game on your computer.
 
@@ -7032,7 +7023,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 ------------
 
  -- Command-line option: `--check'
- -- Environment variable: `LW6_CHECK'
      Running the game with '-check' is almost like running '-test', the
      difference is that '-check' will not run tests which involve
      graphics or sound backends, so it's adapted to pure console mode.
@@ -7059,7 +7049,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 --------------
 
  -- Command-line option: `--daemon'
- -- Environment variable: `LW6_DAEMON'
      Start the game in daemon mode, this is typically used with the
      server mode, if you want the process to be detached from the
      console and executed in the background.
@@ -7094,7 +7083,6 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
 ------------
 
  -- Command-line option: `--demo'
- -- Environment variable: `LW6_DEMO'
      Start the game in demo mode. 2 bots play against each other
      forever.
 
@@ -7521,7 +7509,22 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      something like 100 might just be helpfull, but 1000000 is the
      right way to seriously debug code.
 
-4.12.43 pilot-lag
+4.12.43 net-log
+---------------
+
+ -- Command-line option: `--net-log=<value>'
+ -- Environment variable: `LW6_NET_LOG'
+ -- XML key: `net-log'
+     Type: boolean
+
+     Default value: false
+
+     Activates network log, that is, logs everything sent/received over
+     the network, except data which is sent through a third party
+     library such as libCurl. This is mostly for debugging purpose, it
+     can lead to rather big log files.
+
+4.12.44 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -7535,25 +7538,23 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.12.44 quick-start
+4.12.45 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
- -- Environment variable: `LW6_QUICK_START'
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.12.45 reset
+4.12.46 reset
 -------------
 
  -- Command-line option: `--reset'
- -- Environment variable: `LW6_RESET'
      Clears the config file so that the game will run with defaults
      next time. The idea is to get rid of traces of previous
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.12.46 reset-config-on-upgrade
+4.12.47 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -7566,11 +7567,10 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.12.47 server
+4.12.48 server
 --------------
 
  -- Command-line option: `--server'
- -- Environment variable: `LW6_SERVER'
      Start the game in server mode, without requiring any graphics
      backend. Server mode is usefull if you just want to start a
      network node without hosting any real game on it. It can be used
@@ -7580,7 +7580,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.12.48 target-fps
+4.12.49 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'
@@ -7599,22 +7599,20 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Liquid War 6 is now so fast-paced that it requires 200 frames/sec
      to outperform opponents.
 
-4.12.49 z-decode
+4.12.50 z-decode
 ----------------
 
  -- Command-line option: `--z-decode'
- -- Environment variable: `LW6_Z_DECODE'
      If specified, program will take stdin and z-decode it to stdout.
      This is for testing purpose (for network messages for instance).
      Z-decoding, here means verifying there a Z at the beginning,
      base64 decode and pass the content through Zlib inflating. I
      content is not Z-prefixed, will be returned as is.
 
-4.12.50 z-encode
+4.12.51 z-encode
 ----------------
 
  -- Command-line option: `--z-encode'
- -- Environment variable: `LW6_Z_ENCODE'
      If specified, program will take stdin and z-encode it to stdout.
      This is for testing purpose (for network messages for instance).
      Z-encoding, here means passing the message through Zlib deflating

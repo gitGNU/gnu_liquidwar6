@@ -28,6 +28,7 @@
 
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
+#define _TEST_NET_LOG 0
 
 #define TEST_NB_BACKENDS 3
 
@@ -229,7 +230,7 @@ lw6srv_test (int mode)
 
   if (ret)
     {
-      if (lw6net_init (argc, argv))
+      if (lw6net_init (argc, argv, _TEST_NET_LOG))
 	{
 	  backend[0] = lw6srv_create_backend (argc, argv, "tcpd");
 	  backend[1] = lw6srv_create_backend (argc, argv, "udpd");

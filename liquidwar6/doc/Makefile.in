@@ -1082,7 +1082,7 @@ uninstall-local:
 @LW6_GDOC_TRUE@$(srcdir)/msg-gdoc.texi: ../src/lib/msg/msg-cmd.c ../src/lib/msg/msg.h ../src/lib/msg/msg-oob.c ../src/lib/msg/msg-test.c ../src/lib/msg/msg-testmain.c ../src/lib/msg/msg-utils.c ../src/lib/msg/msg-word.c ../src/lib/msg/msg-z.c
 @LW6_GDOC_TRUE@	echo gdoc msg && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/msg-gdoc.texi
 
-@LW6_GDOC_TRUE@$(srcdir)/net-gdoc.texi: ../src/lib/net/net-address.c ../src/lib/net/net-const.c ../src/lib/net/net-dns.c ../src/lib/net/net-error.c ../src/lib/net/net.h ../src/lib/net/net-if.c ../src/lib/net/net-internal.h ../src/lib/net/net-line.c ../src/lib/net/net-setup.c ../src/lib/net/net-socket.c ../src/lib/net/net-tcp.c ../src/lib/net/net-test.c ../src/lib/net/net-testmain.c ../src/lib/net/net-thread.c ../src/lib/net/net-udp.c
+@LW6_GDOC_TRUE@$(srcdir)/net-gdoc.texi: ../src/lib/net/net-address.c ../src/lib/net/net-const.c ../src/lib/net/net-counters.c ../src/lib/net/net-dns.c ../src/lib/net/net-error.c ../src/lib/net/net.h ../src/lib/net/net-if.c ../src/lib/net/net-internal.h ../src/lib/net/net-line.c ../src/lib/net/net-log.c ../src/lib/net/net-setup.c ../src/lib/net/net-socket.c ../src/lib/net/net-tcp.c ../src/lib/net/net-test.c ../src/lib/net/net-testmain.c ../src/lib/net/net-udp.c
 @LW6_GDOC_TRUE@	echo gdoc net && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/net-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/nod-gdoc.texi: ../src/lib/nod/nod-constinfo.c ../src/lib/nod/nod-dyninfo.c ../src/lib/nod/nod.h ../src/lib/nod/nod-info.c ../src/lib/nod/nod-internal.h ../src/lib/nod/nod-test.c ../src/lib/nod/nod-testmain.c

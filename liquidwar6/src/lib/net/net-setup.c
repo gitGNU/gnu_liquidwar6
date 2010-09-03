@@ -32,7 +32,11 @@
 _lw6net_context_t *_lw6net_global_context = NULL;
 
 /**
- * lw6net_init:
+ * lw6net_init
+ *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
+ * @net_log: 1 if you want to enable net log, 0 if not
  * 
  * Initializes the low-level network API, you must call this before
  * calling any other network related function, for it allocates a dynamic
@@ -41,7 +45,7 @@ _lw6net_context_t *_lw6net_global_context = NULL;
  * Return value: non-zero if success
  */
 int
-lw6net_init (int argc, char *argv[])
+lw6net_init (int argc, char *argv[], int net_log)
 {
   int ok = 0;
 
@@ -87,15 +91,19 @@ lw6net_init (int argc, char *argv[])
 	}
 #endif
 
-      ok = _lw6net_const_init (argc, argv)
-	&& _lw6net_socket_init () && _lw6net_thread_init () && ok;
-
-      if (ok)
-	{
-	  ok =
-	    _lw6net_dns_init (_lw6net_global_context->
-			      const_data.dns_cache_hash_size);
-	}
+      ok = ok
+	&& _lw6net_const_init (argc, argv,
+			       &(_lw6net_global_context->const_data));
+      ok = ok
+	&& _lw6net_counters_init (argc, argv,
+				  &(_lw6net_global_context->counters));
+      ok = ok
+	&& _lw6net_log_init (argc, argv, &(_lw6net_global_context->log),
+			     net_log);
+      ok = ok
+	&& _lw6net_dns_init (&(_lw6net_global_context->dns),
+			     _lw6net_global_context->
+			     const_data.dns_cache_hash_size);
     }
 
   if (!ok)
@@ -129,10 +137,10 @@ lw6net_quit ()
 
   if (_lw6net_global_context)
     {
-      _lw6net_dns_quit ();
-      _lw6net_thread_quit ();
-      _lw6net_socket_quit ();
-      _lw6net_const_quit ();
+      _lw6net_dns_quit (&(_lw6net_global_context->dns));
+      _lw6net_log_quit (&(_lw6net_global_context->log));
+      _lw6net_counters_quit (&(_lw6net_global_context->counters));
+      _lw6net_const_quit (&(_lw6net_global_context->const_data));
       LW6SYS_FREE (_lw6net_global_context);
     }
 

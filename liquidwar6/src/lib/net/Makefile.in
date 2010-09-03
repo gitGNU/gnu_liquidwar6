@@ -79,9 +79,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libnet_la_LIBADD =
-am_libnet_la_OBJECTS = net-address.lo net-const.lo net-dns.lo \
-	net-error.lo net-if.lo net-line.lo net-setup.lo net-socket.lo \
-	net-tcp.lo net-test.lo net-thread.lo net-udp.lo
+am_libnet_la_OBJECTS = net-address.lo net-const.lo net-counters.lo \
+	net-dns.lo net-error.lo net-if.lo net-line.lo net-log.lo \
+	net-setup.lo net-socket.lo net-tcp.lo net-test.lo net-udp.lo
 libnet_la_OBJECTS = $(am_libnet_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libnetdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -328,7 +328,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libnet.la
-libnet_la_SOURCES = net-address.c net-const.c net-dns.c net-error.c net-if.c net-line.c net-setup.c net-socket.c net-tcp.c net-test.c net-thread.c net-udp.c 
+libnet_la_SOURCES = net-address.c net-const.c net-counters.c net-dns.c net-error.c net-if.c net-line.c net-log.c net-setup.c net-socket.c net-tcp.c net-test.c net-udp.c 
 libnetdir = $(includedir)/@PACKAGE_TARNAME@/net
 libnet_HEADERS = net.h
 @FULLSTATIC_FALSE@liquidwar6net_test_SOURCES = net-testmain.c
@@ -434,16 +434,17 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-address.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-const.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-counters.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-dns.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-if.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-line.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-log.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-socket.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-tcp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-testmain.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-thread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/net-udp.Plo@am__quote@
 
 .c.o:

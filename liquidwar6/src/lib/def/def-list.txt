@@ -180,6 +180,7 @@ music-volume
 nb-attack-tries
 nb-defense-tries
 nb-move-tries
+net-log
 node-description
 node-title
 password

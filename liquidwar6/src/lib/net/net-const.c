@@ -53,7 +53,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Loads constants.
  */
 int
-_lw6net_const_init (int argc, char *argv[])
+_lw6net_const_init (int argc, char *argv[], _lw6net_const_data_t * const_data)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -71,10 +71,7 @@ _lw6net_const_init (int argc, char *argv[])
 
 	  ret =
 	    lw6cfg_read_key_value_xml_file (const_file, read_callback,
-					    (void *)
-					    &
-					    (_lw6net_global_context->
-					     const_data));
+					    (void *) const_data);
 	  LW6SYS_FREE (const_file);
 	}
       LW6SYS_FREE (data_root_dir);
@@ -85,12 +82,10 @@ _lw6net_const_init (int argc, char *argv[])
    * Anyway with MTUs being arround 1500, the limit is purely theorical,
    * kernel network stack will stop us before that.
    */
-  _lw6net_global_context->const_data.chunk_size =
-    lw6sys_min (LW6NET_MAX_PACKET_SIZE,
-		_lw6net_global_context->const_data.chunk_size);
-  _lw6net_global_context->const_data.line_size =
-    lw6sys_min (LW6NET_MAX_PACKET_SIZE,
-		_lw6net_global_context->const_data.line_size);
+  const_data->chunk_size =
+    lw6sys_min (LW6NET_MAX_PACKET_SIZE, const_data->chunk_size);
+  const_data->line_size =
+    lw6sys_min (LW6NET_MAX_PACKET_SIZE, const_data->line_size);
 
   return ret;
 }
@@ -99,8 +94,7 @@ _lw6net_const_init (int argc, char *argv[])
  * Unload constants, free memory
  */
 void
-_lw6net_const_quit ()
+_lw6net_const_quit (_lw6net_const_data_t * const_data)
 {
-  memset (&(_lw6net_global_context->const_data), 0,
-	  sizeof (_lw6net_const_data_t));
+  memset (const_data, 0, sizeof (_lw6net_const_data_t));
 }

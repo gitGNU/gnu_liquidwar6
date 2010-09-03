@@ -30,6 +30,7 @@
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
+#define TEST_NET_LOG 1
 #define TEST_HOST_IP "127.0.0.1"
 #define TEST_HOST_OK "localhost"
 #define TEST_HOST_KO "now-if-this-is-a valid HOST there's a serious PROBLEM!!!!"
@@ -711,8 +712,9 @@ lw6net_test (int mode)
       lw6cfg_test (mode);
     }
 
-  ret = lw6net_init (argc, argv) && test_address () && test_dns ()
-    && test_if () && test_tcp () && test_udp () && test_line ();
+  ret = lw6net_init (argc, argv, TEST_NET_LOG) && test_address ()
+    && test_dns () && test_if () && test_tcp () && test_udp ()
+    && test_line ();
 
   if (ret)
     {

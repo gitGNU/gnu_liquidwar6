@@ -33,44 +33,6 @@
 #include "net-internal.h"
 
 int
-_lw6net_socket_init ()
-{
-  int ret = 1;
-
-  return ret;
-}
-
-void
-_lw6net_socket_quit ()
-{
-  if (_lw6net_global_context->socket_counters.open_counter <
-      _lw6net_global_context->socket_counters.close_counter)
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
-		  ("%d sockets opened, but %d closed, there's probably a bug"),
-		  _lw6net_global_context->socket_counters.open_counter,
-		  _lw6net_global_context->socket_counters.close_counter);
-    }
-  if (_lw6net_global_context->socket_counters.open_counter >
-      _lw6net_global_context->socket_counters.close_counter)
-    {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _
-		  ("%d sockets opened, but %d closed, the only acceptable explanation is that there's a detached thread or something, which was idle when program ended"),
-		  _lw6net_global_context->socket_counters.open_counter,
-		  _lw6net_global_context->socket_counters.close_counter);
-    }
-  if (_lw6net_global_context->socket_counters.close_counter ==
-      _lw6net_global_context->socket_counters.open_counter)
-    {
-      lw6sys_log (LW6SYS_LOG_INFO,
-		  _("%d sockets opened and closed"),
-		  _lw6net_global_context->socket_counters.open_counter);
-    }
-}
-
-int
 _lw6net_socket_bind (char *ip, int port, int protocol)
 {
   int sock = -1;
@@ -93,7 +55,8 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _("bind socket %d on %s:%d"), sock, ip, port);
-		  _lw6net_global_context->socket_counters.open_counter++;
+		  _lw6net_counters_register_socket (&
+						    (_lw6net_global_context->counters));
 		  binded = 1;
 		}
 	      else
@@ -237,7 +200,8 @@ lw6net_socket_close (int sock)
   if (lw6net_socket_is_valid (sock))
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("close socket %d"), sock);
-      _lw6net_global_context->socket_counters.close_counter++;
+      _lw6net_counters_unregister_socket (&
+					  (_lw6net_global_context->counters));
 #ifdef LW6_MS_WINDOWS
       if (closesocket (sock))
 #else

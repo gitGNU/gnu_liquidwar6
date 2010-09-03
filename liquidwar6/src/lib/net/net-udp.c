@@ -46,7 +46,7 @@ lw6net_udp_client ()
     {
       lw6sys_log (LW6SYS_LOG_INFO, _("new UDP socket %d"), sock);
 
-      _lw6net_global_context->socket_counters.open_counter++;
+      _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
 
       if (setsockopt (sock, SOL_SOCKET, SO_BROADCAST,
 		      (char *) &enable, sizeof (int)))
@@ -119,6 +119,10 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
 	  send_size = res;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("%d bytes sent on UDP socket %d"),
 		      send_size, sock);
+	  _lw6net_counters_register_send (&(_lw6net_global_context->counters),
+					  send_size);
+	  _lw6net_log_udp_send (&(_lw6net_global_context->log), buf,
+				send_size);
 	}
       else
 	{
@@ -148,6 +152,13 @@ udp_recv (int sock, char *buf,
       recv_size = res;
       lw6sys_log (LW6SYS_LOG_DEBUG, _("%d bytes received on UDP socket %d"),
 		  recv_size, sock);
+      if (flag != MSG_PEEK)
+	{
+	  _lw6net_counters_register_recv (&(_lw6net_global_context->counters),
+					  recv_size);
+	  _lw6net_log_udp_recv (&(_lw6net_global_context->log), buf,
+				recv_size);
+	}
       if (incoming_ip)
 	{
 	  (*incoming_ip) = _lw6net_inet_ntoa (name.sin_addr);

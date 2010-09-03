@@ -69,8 +69,8 @@ sub go {
 	    printf("\@deffn {$CMD_HEADER} \@code{--$keyword=<value>}\n");
 	}
 	last SWITCH if $mode eq "cmd";
-	printf("\@deffnx {$ENV_HEADER} \@code{$keyword_env}\n");
 	last SWITCH if $type_void;
+	printf("\@deffnx {$ENV_HEADER} \@code{$keyword_env}\n");
 	printf("\@deffnx {$XML_HEADER} \@code{$keyword}\n");
     }
 

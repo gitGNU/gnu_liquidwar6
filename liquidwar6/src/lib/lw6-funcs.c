@@ -7112,13 +7112,17 @@ _scm_lw6tsk_loader_get_stage (SCM loader)
  * In setup.c
  */
 static SCM
-_scm_lw6net_init ()
+_scm_lw6net_init (SCM net_log)
 {
   SCM ret = SCM_BOOL_F;
+  int c_net_log = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  if (lw6net_init (lw6_global.argc, lw6_global.argv))
+  SCM_ASSERT (SCM_BOOLP (net_log), net_log, SCM_ARG1, __FUNCTION__);
+
+  c_net_log = SCM_NFALSEP (net_log);
+  if (lw6net_init (lw6_global.argc, lw6_global.argv, c_net_log))
     {
       lw6_global.net_initialized = 1;
       ret = SCM_BOOL_F;
@@ -8382,7 +8386,7 @@ lw6_register_funcs ()
   /*
    * In setup.c
    */
-  scm_c_define_gsubr ("c-lw6net-init", 0, 0, 0, (SCM (*)())_scm_lw6net_init);
+  scm_c_define_gsubr ("c-lw6net-init", 1, 0, 0, (SCM (*)())_scm_lw6net_init);
   scm_c_define_gsubr ("c-lw6net-quit", 0, 0, 0, (SCM (*)())_scm_lw6net_quit);
 
   /*

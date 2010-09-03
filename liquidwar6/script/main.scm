@@ -105,7 +105,7 @@
       (c-lw6sys-dump-clear)
       (lw6-db-reset-if-needed)
       (c-lw6ldr-print-examples)
-      (c-lw6net-init)
+      (c-lw6net-init (lw6-config-is-true? lw6def-net-log))
       (c-lw6sys-signal-custom)
       (lw6-init-game-globals)
       (if (not (lw6-config-is-true? lw6def-server))

@@ -28,6 +28,7 @@
 
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
+#define _TEST_NET_LOG 0
 
 static int
 test_init (lw6cli_backend_t * backend)
@@ -86,7 +87,7 @@ lw6cli_test (int mode)
       lw6msg_test (mode);
     }
 
-  if (lw6net_init (argc, argv))
+  if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
       ret = 1;
 

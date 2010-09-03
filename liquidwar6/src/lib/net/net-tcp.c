@@ -137,7 +137,8 @@ lw6net_tcp_accept (char **incoming_ip,
 		  (*incoming_ip) = _lw6net_inet_ntoa (name.sin_addr);
 		  if (*incoming_ip)
 		    {
-		      _lw6net_global_context->socket_counters.open_counter++;
+		      _lw6net_counters_register_socket (&
+							(_lw6net_global_context->counters));
 		      accepted = 1;
 		    }
 		}
@@ -299,7 +300,8 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 				  _("socket %d connected on %s:%d"), sock, ip,
 				  port);
 
-		      _lw6net_global_context->socket_counters.open_counter++;
+		      _lw6net_counters_register_socket (&
+							(_lw6net_global_context->counters));
 		    }
 		  else
 		    {
@@ -393,6 +395,11 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("%d bytes sent on TCP socket %d"), sent,
 				  sock);
+		      _lw6net_counters_register_send (&
+						      (_lw6net_global_context->counters),
+						      sent);
+		      _lw6net_log_tcp_send (&(_lw6net_global_context->log),
+					    buf + total_sent, sent);
 		      total_sent += sent;
 		    }
 		  else
@@ -529,6 +536,11 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
 				  _("%d bytes received on TCP socket %d"),
 				  received, sock);
+		      _lw6net_counters_register_recv (&
+						      (_lw6net_global_context->counters),
+						      received);
+		      _lw6net_log_tcp_recv (&(_lw6net_global_context->log),
+					    buf + total_received, received);
 		      total_received += received;
 		    }
 		  else

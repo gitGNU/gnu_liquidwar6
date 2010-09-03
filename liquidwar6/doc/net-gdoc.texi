@@ -162,7 +162,12 @@ added, do not bother sending it.
 @strong{Return value:}  the number of bytes sent, 0 if failure
 @end deftypefun
 
-@deftypefun {int} {lw6net_init} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6net_init} (int @var{argc}, char * [] @var{argv}, int @var{net_log})
+@var{argc}:  argc as passed to @code{main}
+
+@var{argv}:  argv as passed to @code{main}
+
+@var{net_log}:  1 if you want to enable net log, 0 if not
 
 Initializes the low-level network API, you must call this before
 calling any other network related function, for it allocates a dynamic

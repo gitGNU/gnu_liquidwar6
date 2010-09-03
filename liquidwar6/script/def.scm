@@ -199,6 +199,7 @@
 (define lw6def-nb-attack-tries "nb-attack-tries")
 (define lw6def-nb-defense-tries "nb-defense-tries")
 (define lw6def-nb-move-tries "nb-move-tries")
+(define lw6def-net-log "net-log")
 (define lw6def-node-description "node-description")
 (define lw6def-node-title "node-title")
 (define lw6def-password "password")

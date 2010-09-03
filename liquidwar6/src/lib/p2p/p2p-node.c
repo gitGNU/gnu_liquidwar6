@@ -626,8 +626,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _("feed srv (tcp)"));
 		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
-					    node->
-					    tentacles
+					    node->tentacles
 					    [tentacle_index].srv_connections
 					    [i], tcp_accepter);
 		    }
@@ -740,8 +739,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _("feed srv (udp)"));
 		      lw6srv_feed_with_udp (node->backends.srv_backends[i],
-					    node->
-					    tentacles
+					    node->tentacles
 					    [tentacle_index].srv_connections
 					    [i], udp_buffer);
 		    }
