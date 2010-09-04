@@ -117,6 +117,98 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
 }
 
 /**
+ * lw6msg_word_first_x
+ *
+ * @word: will contain the parsed word
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message and gets the first word. This word is put in @buf member
+ * with its length. @next is usefull if you want to parse the rest of the message,
+ * it points at the beginning of it. This special @x function will consider slash
+ * ("/") as valid separator. It can't be used all the time but for almost every
+ * field but URLs, it's fine. Internally, this one is used to parse integers,
+ * IDs, etc.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg)
+{
+  int ret = 0;
+  int i = 0, j = 0;
+  int len = 0;
+
+  word->len = 0;
+  word->buf[0] = '\0';
+  if (next)
+    {
+      (*next) = NULL;
+    }
+
+  while (lw6sys_chr_is_space (msg[i]) || msg[i] == LW6_URL_SEP)
+    {
+      i++;
+    }
+
+  j = i;
+  if (msg[i] == _QUOTE)
+    {
+      i++;
+      j++;
+      /*
+       * Note: (len=(j-i)<=...) must really be the first test else len is false
+       */
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
+	     && msg[j] != _QUOTE && !lw6sys_chr_is_eol (msg[j]))
+	{
+	  j++;
+	}
+    }
+  else
+    {
+      /*
+       * Note: (len=(j-i)<=...) must really be the first test else len is false
+       */
+      while ((len = (j - i)) <= LW6MSG_MAX_WORD_SIZE && msg[j]
+	     && !lw6sys_chr_is_space (msg[j]) && msg[j] != LW6MSG_URL_SEP
+	     && !lw6sys_chr_is_eol (msg[j]))
+	{
+	  j++;
+	}
+    }
+
+  if (i < j)
+    {
+      if (len <= LW6MSG_MAX_WORD_SIZE)
+	{
+	  word->len = len;
+	  memcpy (word->buf, msg + i, len);
+	  word->buf[len] = '\0';
+	  if (next)
+	    {
+	      if (msg[j] == _QUOTE)
+		{
+		  j++;
+		}
+	      while (lw6sys_chr_is_space (msg[j]) || msg[j] == LW6_URL_SEP)
+		{
+		  j++;
+		}
+	      (*next) = msg + j;
+	    }
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("word too long"));
+	}
+    }
+
+  return ret;
+}
+
+/**
  * lw6msg_word_first_base64
  *
  * @word: will contain the parsed word
@@ -139,7 +231,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, char *msg)
   char *decoded = NULL;
   int decoded_len = 0;
 
-  ret = lw6msg_word_first (&tmp_word, &tmp_next, msg);
+  ret = lw6msg_word_first_x (&tmp_word, &tmp_next, msg);
   if (ret)
     {
       ret = 0;
@@ -182,7 +274,7 @@ lw6msg_word_first_int (int *parsed_value, char **next, char *msg)
   lw6msg_word_t word;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first (&word, next, msg))
+  if (lw6msg_word_first_x (&word, next, msg))
     {
       (*parsed_value) = lw6sys_atoi (word.buf);
       ret = 1;
@@ -247,7 +339,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, char *msg)
   u_int16_t tmp_value;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first (&word, next, msg))
+  if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_16 (tmp_value))
@@ -283,7 +375,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, char *msg)
   u_int32_t tmp_value;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first (&word, next, msg))
+  if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_32 (tmp_value))
@@ -319,7 +411,7 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next, char *msg)
   u_int64_t tmp_value;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first (&word, next, msg))
+  if (lw6msg_word_first_x (&word, next, msg))
     {
       tmp_value = lw6sys_id_atol (word.buf);
       if (tmp_value && lw6sys_check_id_64 (tmp_value))

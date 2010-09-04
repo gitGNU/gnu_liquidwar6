@@ -28,6 +28,7 @@
 #include "../nod/nod.h"
 
 #define LW6MSG_LW6 "LW6"
+#define LW6MSG_LW6_LC "lw6"
 
 #define LW6MSG_ERROR "ERROR"
 #define LW6MSG_FORBIDDEN "FORBIDDEN"
@@ -72,11 +73,11 @@
 #define LW6MSG_TELNET_SEP ' '
 #define LW6MSG_URL_SEP '/'
 
-typedef enum lw6msg_cmd_mode_e
+typedef enum lw6msg_envelope_mode_e
 {
-  LW6MSG_CMD_MODE_TELNET = 0,
-  LW6MSG_CMD_MODE_URL = 1
-} lw6msg_cmd_mode_t;
+  LW6MSG_ENVELOPE_MODE_TELNET = 0,
+  LW6MSG_ENVELOPE_MODE_URL = 1
+} lw6msg_envelope_mode_t;
 
 typedef struct lw6msg_word_s
 {
@@ -107,6 +108,14 @@ extern int lw6msg_cmd_analyse_data (lw6nod_info_t ** info, u_int64_t * author,
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg);
 extern char *lw6msg_cmd_guess_from_url (char *msg);
 
+/* msg-enveloppe.c */
+extern char *lw6msg_envelope_generate (lw6msg_envelope_mode_t mode,
+				       char *password_checksum, char *from_id,
+				       char *to_id, char *msg);
+extern int lw6msg_envelope_analyse (char *envelope, char *local_url,
+				    char *password, char *expected_from_id,
+				    char *expected_to_id, char **msg);
+
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);
 extern char *lw6msg_oob_generate_list (lw6nod_info_t * info);
@@ -136,6 +145,7 @@ extern int lw6msg_utils_get_assoc_int_with_default (lw6sys_assoc_t * assoc,
 
 /* msg-word.c */
 extern int lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg);
+extern int lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg);
 extern int lw6msg_word_first_base64 (lw6msg_word_t * word, char **next,
 				     char *msg);
 extern int lw6msg_word_first_int (int *parsed_value, char **next, char *msg);

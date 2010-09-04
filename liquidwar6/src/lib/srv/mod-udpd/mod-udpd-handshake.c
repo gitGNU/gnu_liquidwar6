@@ -137,9 +137,27 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 {
   int ret = 0;
   char *msg_line = NULL;
+  char *pos = NULL;
+  char *seek = NULL;
+  int64_t remote_id = 0;
+  int64_t local_id = 0;
+  lw6msg_word_t password;
 
   msg_line = udp_buffer->line;
   lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd received \"%s\""), msg_line);
+
+  if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
+    {
+      pos = line + strlen (LW6MSG_LW6);
+      if (lw6msg_word_first_id_64 (remote_id, &seek, pos))
+	{
+	  pos = seek;
+	  if (lw6msg_word_first_id_64 (local_id, &seek, pos))
+	    {
+	      pos = seek;
+	    }
+	}
+    }
 
   return ret;
 }

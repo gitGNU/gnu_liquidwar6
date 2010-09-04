@@ -37,11 +37,12 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
   char *line;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp send \"%s\""), message);
-  line = lw6sys_new_sprintf ("%s %s %s %s %s",
+  line = lw6sys_new_sprintf ("%s %s %s %s %s %s",
 			     LW6MSG_LW6,
+			     lw6sys_build_get_version (),
+			     connection->password_send_checksum,
 			     connection->local_id,
-			     connection->remote_id,
-			     connection->password_send_checksum, message);
+			     connection->remote_id, message);
   if (line)
     {
       if (lw6net_send_line_udp
