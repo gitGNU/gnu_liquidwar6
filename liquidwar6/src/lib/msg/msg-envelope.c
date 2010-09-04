@@ -32,8 +32,8 @@
  * @mode: mode to use (a la TELNET or URL compatible)
  * @version: the program version to use (note: can be changed when testing)
  * @password_checksum: the password string to send
- * @from_id: the sender id
- * @to_id: the receiver id
+ * @physical_from_id: the sender id
+ * @physical_to_id: the receiver id
  * @msg: the body of the message
  *
  * Generate an envelope, that is, the complete message sendable on the
@@ -43,8 +43,8 @@
  */
 char *
 lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
-			  char *password_checksum, char *from_id, char *to_id,
-			  char *msg)
+			  char *password_checksum, char *physical_from_id,
+			  char *physical_to_id, char *msg)
 {
   char *ret = NULL;
   char sep = '\0';
@@ -75,10 +75,10 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
   body = msg;
   if (need_base64)
     {
-      base64 = lw6glb_base64_encode_str (msg);
-      if (base64)
+      base64_str = lw6glb_base64_encode_str (msg);
+      if (base64_str)
 	{
-	  body = base64;
+	  body = base64_str;
 	}
       else
 	{
@@ -93,14 +93,13 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 			    sep,
 			    version,
 			    sep,
-			    connection->password_send_checksum,
+			    password_checksum,
 			    sep,
-			    connection->local_id,
-			    sep, connection->remote_id, sep, body);
+			    physical_from_id, sep, physical_to_id, sep, body);
 
-  if (base64)
+  if (base64_str)
     {
-      LW6SYS_FREE (base64);
+      LW6SYS_FREE (base64_str);
     }
 
   return ret;
@@ -113,11 +112,11 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
  * @mode: mode to use (a la TELNET or URL compatible)
  * @local_url: the url of local server (usefull for password)
  * @password: the password to check against
- * @expected_from_id: the sender id, if NULL, no check performed
- * @expected_to_id: the receiver id, if NULL, no check performed
+ * @expected_physical_from_id: the sender id, if NULL, no check performed
+ * @expected_physical_to_id: the receiver id, if NULL, no check performed
  * @msg: if not NULL, will contain body of the message
- * @from_id: if not NULL, will contain sender id
- * @from_url: if not NULL and if message allows, will contain sender public URL
+ * @physical_from_id: if not NULL, will contain sender id
+ * @physical_from_url: if not NULL and if message allows, will contain sender public URL
  *
  * Generate an envelope, that is, the complete message sendable on the
  * network.
@@ -127,8 +126,10 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 int
 lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			 char *local_url, char *password,
-			 char *expected_from_id, char *expected_to_id,
-			 char **msg, u_int64_t * from_id, char **from_url)
+			 char *expected_physical_from_id,
+			 char *expected_physical_to_id, char **msg,
+			 u_int64_t * physical_from_id,
+			 char **physical_from_url)
 {
   int ret = 0;
   char sep = '\0';
@@ -140,8 +141,8 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
   lw6msg_word_t received_lw6;
   lw6msg_word_t received_version;
   lw6msg_word_t received_password;
-  u_int64_t received_from_id = 0;
-  u_int64_t received_to_id = 0;
+  u_int64_t received_physical_from_id = 0;
+  u_int64_t received_physical_to_id = 0;
 
   switch (mode)
     {
@@ -180,30 +181,47 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			{
 			  pos = seek;
 			  if (lw6msg_word_first_id_64
-			      (&received_from_id, &seek, pos))
+			      (&received_physical_from_id, &seek, pos))
 			    {
-			      if (expected_from_id == NULL
-				  || lw6sys_str_is_same (expected_from_id,
-							 received_from_id))
+			      if (expected_physical_from_id == NULL
+				  ||
+				  (lw6sys_id_atol (expected_physical_from_id)
+				   == received_physical_from_id))
 				{
 				  pos = seek;
 				  if (lw6msg_word_first_id_64
-				      (&received_to_id, &seek, pos))
+				      (&received_physical_to_id, &seek, pos))
 				    {
-				      if (expected_from_id == NULL
+				      if (expected_physical_from_id == NULL
 					  ||
-					  lw6sys_str_is_same (expected_to_id,
-							      received_to_id))
+					  (lw6sys_id_atol
+					   (expected_physical_to_id) ==
+					   received_physical_to_id))
 					{
 					  pos = seek;
 					  ret = 1;
-					  if (from_id)
+					  if (msg)
 					    {
-					      (*from_id) = received_from_id;
+					      if (need_base64)
+						{
+						  (*msg) =
+						    lw6glb_base64_decode_str
+						    (pos);
+						}
+					      else
+						{
+						  (*msg) =
+						    lw6sys_str_copy (pos);
+						}
 					    }
-					  if (from_url)
+					  if (physical_from_id)
 					    {
-					      (*from_url) =
+					      (*physical_from_id) =
+						received_physical_from_id;
+					    }
+					  if (physical_from_url)
+					    {
+					      (*physical_from_url) =
 						lw6msg_cmd_guess_from_url
 						(pos);
 					    }
@@ -212,9 +230,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
 						      _
-						      ("wrong to id %s, expected %s"),
-						      expected_to_id,
-						      received_to_id.buf);
+						      ("wrong \"physical_to\" (receiver) id"));
 					}
 				    }
 				  else
@@ -228,9 +244,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 				{
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
 					      _
-					      ("wrong from id %s, expected %s"),
-					      expected_from_id,
-					      received_from_id.buf);
+					      ("wrong \"physical_from\" (sender) id"));
 				}
 			    }
 			  else

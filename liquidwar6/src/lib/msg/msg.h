@@ -110,11 +110,16 @@ extern char *lw6msg_cmd_guess_from_url (char *msg);
 
 /* msg-enveloppe.c */
 extern char *lw6msg_envelope_generate (lw6msg_envelope_mode_t mode,
-				       char *password_checksum, char *from_id,
-				       char *to_id, char *msg);
-extern int lw6msg_envelope_analyse (char *envelope, char *local_url,
-				    char *password, char *expected_from_id,
-				    char *expected_to_id, char **msg);
+				       char *version, char *password_checksum,
+				       char *physical_from_id,
+				       char *physical_to_id, char *msg);
+extern int lw6msg_envelope_analyse (char *envelope,
+				    lw6msg_envelope_mode_t mode,
+				    char *local_url, char *password,
+				    char *expected_physical_from_id,
+				    char *expected_physical_to_id, char **msg,
+				    u_int64_t * physical_from_id,
+				    char **physical_from_url);
 
 /* msg-oob.c */
 extern char *lw6msg_oob_generate_info (lw6nod_info_t * info);

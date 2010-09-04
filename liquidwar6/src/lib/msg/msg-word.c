@@ -146,7 +146,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg)
       (*next) = NULL;
     }
 
-  while (lw6sys_chr_is_space (msg[i]) || msg[i] == LW6_URL_SEP)
+  while (lw6sys_chr_is_space (msg[i]) || msg[i] == LW6MSG_URL_SEP)
     {
       i++;
     }
@@ -191,7 +191,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg)
 		{
 		  j++;
 		}
-	      while (lw6sys_chr_is_space (msg[j]) || msg[j] == LW6_URL_SEP)
+	      while (lw6sys_chr_is_space (msg[j]) || msg[j] == LW6MSG_URL_SEP)
 		{
 		  j++;
 		}

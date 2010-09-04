@@ -58,8 +58,12 @@
 #define _TEST_DEFAULT_KEY_KO "???"
 #define _TEST_DEFAULT_VALUE_STR "abc"
 #define _TEST_DEFAULT_VALUE_INT 123
+#define _TEST_ENVELOPE_FROM_ID "1234123412341234"
+#define _TEST_ENVELOPE_TO_ID "2345234523452345"
 #define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
+#define _TEST_WORD_X_STR_OK "/parent/child/"
+#define _TEST_WORD_X_STR_KO "/ / /"
 #define _TEST_WORD_BASE64_ITEM " spaces /slashes/"
 #define _TEST_WORD_BASE64_OK "%s just before this was base64"
 #define _TEST_WORD_BASE64_KO "jklmjk %s I said BASE64 first!"
@@ -76,7 +80,7 @@
 #define _TEST_Z_MSG_1 "too short to be compressed"
 #define _TEST_Z_MSG_2 ""
 #define _TEST_Z_MSG_3 "this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed..."
-#define _TEST_Z_MSG_4 "éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,éàè{}!:;\x7f\x7f\x7fklm,"
+#define _TEST_Z_MSG_4_LEN 200
 #define _TEST_Z_LIMIT 30
 
 /*
@@ -316,6 +320,74 @@ test_cmd ()
 
 	lw6nod_info_free (info);
       }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+_do_test_envelope (lw6msg_envelope_mode_t mode)
+{
+  int ret = 1;
+  lw6nod_info_t *info = NULL;
+  char *msg = NULL;
+  char *envelope = NULL;
+  char *password_checksum = NULL;
+
+  info =
+    lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+		     _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
+		     _TEST_DESCRIPTION, _TEST_BENCH,
+		     _TEST_UPTIME, _TEST_PASSWORD,
+		     _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
+  if (info)
+    {
+      password_checksum =
+	lw6sys_password_checksum (_TEST_URL, _TEST_PASSWORD);
+      if (password_checksum)
+	{
+	  msg = lw6msg_cmd_generate_hello (info);
+	  if (msg)
+	    {
+	      envelope =
+		lw6msg_envelope_generate (mode, lw6sys_build_get_version (),
+					  password_checksum,
+					  _TEST_ENVELOPE_FROM_ID,
+					  _TEST_ENVELOPE_TO_ID, msg);
+	      if (envelope)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("envelope generated \"%s\""), envelope);
+		  LW6SYS_FREE (envelope);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("unable to generate envelope"));
+		}
+	      LW6SYS_FREE (msg);
+	    }
+	  LW6SYS_FREE (password_checksum);
+	}
+      lw6nod_info_free (info);
+    }
+
+  return ret;
+}
+
+/*
+ * Testing functions in envelope.c
+ */
+static int
+test_envelope ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_TELNET);
+    ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_URL);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -818,6 +890,31 @@ test_word ()
 		    _TEST_WORD_STR_KO);
       }
 
+    if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed str=\"%s\", next=\"%s\""),
+		    word.buf, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+		    _TEST_WORD_X_STR_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+		    word.buf, _TEST_WORD_X_STR_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("unable to parse \"%s\", that's right"),
+		    _TEST_WORD_X_STR_KO);
+      }
+
     base64_item = lw6glb_base64_encode_str (_TEST_WORD_BASE64_ITEM);
     if (base64_item)
       {
@@ -999,7 +1096,7 @@ test_word ()
 }
 
 static int
-_test_z_ok (char *test_str)
+_test_z_ok (char *test_str, int log_all)
 {
   int ret = 1;
   char *encoded_string = NULL;
@@ -1008,23 +1105,50 @@ _test_z_ok (char *test_str)
   encoded_string = lw6msg_z_encode (test_str, _TEST_Z_LIMIT);
   if (encoded_string)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
-		  test_str, encoded_string);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
+		      test_str, encoded_string);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode gives \"%s\""),
+		      encoded_string);
+	}
       decoded_string = lw6msg_z_decode (encoded_string);
       if (decoded_string)
 	{
 	  if (lw6sys_str_is_same (decoded_string, test_str))
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("successuflly z-decoded \"%s\" to \"%s\""),
-			  encoded_string, decoded_string);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("successuflly z-decoded \"%s\" to \"%s\""),
+			      encoded_string, decoded_string);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("successuflly z-decoded \"%s\""),
+			      encoded_string);
+		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
-			  encoded_string, decoded_string, test_str);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
+			      encoded_string, decoded_string, test_str);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("z-decoded \"%s\" but strings are different"),
+			      encoded_string);
+		}
 	      ret = 0;
 	    }
 	  LW6SYS_FREE (decoded_string);
@@ -1039,8 +1163,15 @@ _test_z_ok (char *test_str)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
-		  test_str);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
+		      test_str);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode"));
+	}
       ret = 0;
     }
 
@@ -1048,7 +1179,7 @@ _test_z_ok (char *test_str)
 }
 
 static int
-_test_z_ko (char *test_str)
+_test_z_ko (char *test_str, int log_all)
 {
   int ret = 1;
   char *decoded_string = NULL;
@@ -1056,16 +1187,33 @@ _test_z_ko (char *test_str)
   decoded_string = lw6msg_z_decode (test_str);
   if (decoded_string)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("z-decoded \"%s\" -> \"%s\", this is wrong!"), test_str,
-		  decoded_string);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("z-decoded \"%s\" -> \"%s\", this is wrong!"),
+		      test_str, decoded_string);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("z-decoded a non z-encoded string, this is wrong!"));
+	}
       ret = 0;
       LW6SYS_FREE (decoded_string);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("unable to z-decode \"%s\", that's right"), test_str);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("unable to z-decode \"%s\", that's right"), test_str);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _
+		      ("unable to z-decode a non z-encode string, that's right"));
+	}
     }
 
   return ret;
@@ -1081,14 +1229,33 @@ test_z ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = _test_z_ok (_TEST_Z_MSG_1) && ret;
-    ret = _test_z_ok (_TEST_Z_MSG_2) && ret;
-    ret = _test_z_ok (_TEST_Z_MSG_3) && ret;
-    ret = _test_z_ok (_TEST_Z_MSG_4) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_1) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_2) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_3) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_4) && ret;
+    char *random_str = NULL;
+    char *z_random_str = NULL;
+
+    random_str = lw6sys_str_random (_TEST_Z_MSG_4_LEN);
+    ret = _test_z_ok (_TEST_Z_MSG_1, 1) && ret;
+    ret = _test_z_ok (_TEST_Z_MSG_2, 1) && ret;
+    ret = _test_z_ok (_TEST_Z_MSG_3, 1) && ret;
+
+    if (random_str)
+      {
+	ret = _test_z_ok (random_str, 0) && ret;
+      }
+
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_1, 1) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_2, 1) && ret;
+    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_3, 1) && ret;
+
+    if (random_str)
+      {
+	z_random_str = lw6sys_str_concat (LW6MSG_Z_PREFIX, random_str);
+	if (z_random_str)
+	  {
+	    ret = _test_z_ko (z_random_str, 0) && ret;
+	    LW6SYS_FREE (z_random_str);
+	  }
+	LW6SYS_FREE (random_str);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -1119,8 +1286,8 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_cmd () && test_oob () && test_utils () && test_word ()
-    && test_z ();
+  ret = test_cmd () && test_envelope () && test_oob () && test_utils ()
+    && test_word () && test_z ();
 
   return ret;
 }
