@@ -39,6 +39,8 @@ typedef struct lw6cnx_connection_s
   char *remote_id;
   lw6cnx_recv_callback_t recv_callback_func;
   void *recv_callback_data;
+  u_int32_t foo_bar_key;
+  int64_t next_send_foo_timestamp;
   void *backend_specific_data;
 }
 lw6cnx_connection_t;
@@ -55,6 +57,11 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   recv_callback_func,
 						   void *recv_callback_data);
 extern void lw6cnx_connection_free (lw6cnx_connection_t * connection);
+extern int lw6cnx_connection_should_send_foo (lw6cnx_connection_t *
+					      connection, int64_t now);
+extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
+						connection, int64_t now,
+						int next_foo_delay);
 
 /* cnx-test.c */
 extern int lw6cnx_test (int mode);

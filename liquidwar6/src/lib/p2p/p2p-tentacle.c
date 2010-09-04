@@ -243,11 +243,14 @@ _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle)
 
 void
 _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
-		       lw6nod_info_t * node_info)
+		       lw6nod_info_t * node_info, int next_foo_delay)
 {
   int i;
   char *msg;
+  int64_t now;
+  lw6cnx_connection_t *cnx = NULL;
 
+  now = lw6sys_get_timestamp ();
   if (!tentacle->hello_sent)
     {
       msg = lw6msg_cmd_generate_hello (node_info);
@@ -266,14 +269,32 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
     }
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
-      lw6cli_poll (tentacle->backends->cli_backends[i],
-		   tentacle->cli_connections[i]);
+      cnx = tentacle->cli_connections[i];
+      if (lw6cnx_connection_should_send_foo (cnx, now))
+	{
+	  lw6cnx_connection_init_foo_bar_key (cnx, now, next_foo_delay);
+	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
+	  if (msg)
+	    {
+	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, msg);
+	      LW6SYS_FREE (msg);
+	    }
+	}
+      lw6cli_poll (tentacle->backends->cli_backends[i], cnx);
     }
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
-      lw6srv_poll (tentacle->backends->srv_backends[i],
-		   tentacle->srv_connections[i]);
+      cnx = tentacle->srv_connections[i];
+      if (lw6cnx_connection_should_send_foo (cnx, now))
+	{
+	  lw6cnx_connection_init_foo_bar_key (cnx, now, next_foo_delay);
+	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
+	  if (msg)
+	    {
+	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, msg);
+	      LW6SYS_FREE (msg);
+	    }
+	}
+      lw6srv_poll (tentacle->backends->srv_backends[i], cnx);
     }
-
-  // todo servers
 }

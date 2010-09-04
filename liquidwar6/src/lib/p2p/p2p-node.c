@@ -858,7 +858,8 @@ _poll_step10_poll_tentacles (_lw6p2p_node_t * node)
     {
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
-	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info);
+	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+				 node->db->data.consts.foo_delay);
 	}
     }
 

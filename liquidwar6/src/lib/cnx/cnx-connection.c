@@ -141,3 +141,40 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
     }
   LW6SYS_FREE (connection);
 }
+
+/**
+ * lw6cnx_connection_should_send_foo
+ *
+ * @connection: the connection concerned
+ * @now: the current timestamp
+ *
+ * Tells wether a new foo message must be issued.
+ *
+ * Return value: 1 if true, 0 if false.
+ */
+int
+lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection,
+				   int64_t now)
+{
+  return (now > connection->next_send_foo_timestamp);
+}
+
+/**
+ * lw6cnx_connection_init_foo_bar_key
+ *
+ * @connection: the connection concerned
+ * @now: the current timestamp
+ * @next_foo_delay: the delay (msec) before next foo message is sent
+ *
+ * Generates a new foo_bar_key, and schedules the next foo message send timestamp.
+ *
+ * Return value: none.
+ */
+void
+lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
+				    int64_t now, int next_foo_delay)
+{
+  connection->next_send_foo_timestamp =
+    now + next_foo_delay / 2 + lw6sys_random (next_foo_delay);
+  connection->foo_bar_key = lw6sys_generate_id_32 ();
+}

@@ -388,6 +388,30 @@ results on
 
      *Return value:*  none.
 
+ -- Function: int lw6cnx_connection_should_send_foo
+          (lw6cnx_connection_t * CONNECTION, int64_t NOW)
+     CONNECTION:  the connection concerned
+
+     NOW:  the current timestamp
+
+     Tells wether a new foo message must be issued.
+
+     *Return value:*  1 if true, 0 if false.
+
+ -- Function: void lw6cnx_connection_init_foo_bar_key
+          (lw6cnx_connection_t * CONNECTION, int64_t NOW, int
+          NEXT_FOO_DELAY)
+     CONNECTION:  the connection concerned
+
+     NOW:  the current timestamp
+
+     NEXT_FOO_DELAY:  the delay (msec) before next foo message is sent
+
+     Generates a new foo_bar_key, and schedules the next foo message
+     send timestamp.
+
+     *Return value:*  none.
+
  -- Function: int lw6cnx_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

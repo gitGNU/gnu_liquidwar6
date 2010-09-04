@@ -86,6 +86,7 @@ typedef struct _lw6p2p_consts_s
   int node_expire_soft_delay;
   int node_expire_hard_delay;
   int node_verify_max_at_once;
+  int foo_delay;
 }
 _lw6p2p_consts_t;
 
@@ -309,6 +310,6 @@ extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 extern void _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle);
 extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
-				   lw6nod_info_t * node_info);
+				   lw6nod_info_t * node_info, int foo_delay);
 
 #endif

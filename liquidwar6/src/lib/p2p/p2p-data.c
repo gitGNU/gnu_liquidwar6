@@ -58,6 +58,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &consts->node_expire_hard_delay);
       lw6cfg_read_xml_int (key, value, "node-verify-max-at-once",
 			   &consts->node_verify_max_at_once);
+      lw6cfg_read_xml_int (key, value, "foo-delay", &consts->foo_delay);
     }
 }
 

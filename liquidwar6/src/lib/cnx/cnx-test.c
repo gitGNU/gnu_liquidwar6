@@ -33,6 +33,7 @@
 #define _TEST_PASSWORD "toto"
 #define _TEST_LOCAL_ID "1234123412341234"
 #define _TEST_REMOTE_ID "2345234523452345"
+#define _TEST_NEXT_FOO_DELAY 5000
 
 static void
 _recv_callback_func (void *func_data, char *msg)
@@ -51,7 +52,9 @@ test_connection ()
 
   {
     lw6cnx_connection_t *cnx = NULL;
+    int64_t now = 0;
 
+    now = lw6sys_get_timestamp ();
     cnx =
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
@@ -61,6 +64,28 @@ test_connection ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("cnx_connection object creation works"));
+	if (lw6cnx_connection_should_send_foo (cnx, now))
+	  {
+	    lw6cnx_connection_init_foo_bar_key (cnx, now,
+						_TEST_NEXT_FOO_DELAY);
+	    if (!lw6cnx_connection_should_send_foo (cnx, now))
+	      {
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("cnx_connection object returns true when queried if foo message should be sent, when key has just been initialized"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("new cnx_connection object returns false when queried if foo message should be sent"));
+	    ret = 0;
+	  }
 	lw6cnx_connection_free (cnx);
       }
     else
