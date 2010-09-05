@@ -2141,6 +2141,77 @@ results on
 
      *Return value:*  the from url, if found (dynamically allocated)
 
+ -- Function: char * lw6msg_envelope_generate (lw6msg_envelope_mode_t
+          MODE, char * VERSION, char * PASSWORD_CHECKSUM, u_int32_t
+          TICKET_SIG, char * PHYSICAL_FROM_ID, char * PHYSICAL_TO_ID,
+          char * LOGICAL_FROM_ID, char * LOGICAL_TO_ID, char * MSG)
+     MODE:  mode to use (a la TELNET or URL compatible)
+
+     VERSION:  the program version to use (note: can be changed when
+     testing)
+
+     PASSWORD_CHECKSUM:  the password string to send
+
+     TICKET_SIG:  the signature of the message, calculated with ticket
+
+     PHYSICAL_FROM_ID:  the sender id
+
+     PHYSICAL_TO_ID:  the receiver id
+
+     LOGICAL_FROM_ID:  the message creator id
+
+     LOGICAL_TO_ID:  the message final destination id
+
+     MSG:  the body of the message
+
+     Generate an envelope, that is, the complete message sendable on the
+     network.
+
+     *Return value:*  newly allocated string.
+
+ -- Function: int lw6msg_envelope_analyse (char * ENVELOPE,
+          lw6msg_envelope_mode_t MODE, char * LOCAL_URL, char *
+          PASSWORD, char * EXPECTED_PHYSICAL_FROM_ID, char *
+          EXPECTED_PHYSICAL_TO_ID, char ** MSG, u_int32_t * TICKET_SIG,
+          u_int64_t * PHYSICAL_FROM_ID, u_int64_t * PHYSICAL_TO_ID,
+          u_int64_t * LOGICAL_FROM_ID, u_int64_t * LOGICAL_TO_ID, char
+          ** PHYSICAL_FROM_URL)
+     ENVELOPE:  the envelope to analyse
+
+     MODE:  mode to use (a la TELNET or URL compatible)
+
+     LOCAL_URL:  the url of local server (usefull for password)
+
+     PASSWORD:  the password to check against
+
+     EXPECTED_PHYSICAL_FROM_ID:  the sender id, if NULL, no check
+     performed
+
+     EXPECTED_PHYSICAL_TO_ID:  the receiver id, if NULL, no check
+     performed
+
+     MSG:  if not NULL, will contain body of the message
+
+     TICKET_SIG:  if not NULL, will contain signature of message,
+     calculated with ticket
+
+     PHYSICAL_FROM_ID:  if not NULL, will contain sender id
+
+     PHYSICAL_TO_ID:  if not NULL, will contain receiver id
+
+     LOGICAL_FROM_ID:  if not NULL, will contain message creator id
+
+     LOGICAL_TO_ID:  if not NULL, will contain message final
+     destination id
+
+     PHYSICAL_FROM_URL:  if not NULL and if message allows, will
+     contain sender public URL
+
+     Generate an envelope, that is, the complete message sendable on the
+     network.
+
+     *Return value:*  newly allocated string.
+
  -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
      INFO:  the node to generate info about
 
@@ -2297,6 +2368,25 @@ results on
      Analyses a message and gets the first word. This word is put in
      `buf' member with its length. `next' is usefull if you want to
      parse the rest of the message, it points at the beginning of it.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_x (lw6msg_word_t * WORD, char **
+          NEXT, char * MSG)
+     WORD:  will contain the parsed word
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message and gets the first word. This word is put in
+     `buf' member with its length. `next' is usefull if you want to
+     parse the rest of the message, it points at the beginning of it.
+     This special `x' function will consider slash ("/") as valid
+     separator. It can't be used all the time but for almost every
+     field but URLs, it's fine. Internally, this one is used to parse
+     integers, IDs, etc.
 
      *Return value:*  1 on success, 0 on failure.
 

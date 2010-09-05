@@ -22,7 +22,7 @@ END-INFO-DIR-ENTRY
 Indirect:
 liquidwar6.info-1: 788
 liquidwar6.info-2: 300234
-liquidwar6.info-3: 586668
+liquidwar6.info-3: 589771
 
 Tag Table:
 (Indirect)
@@ -101,24 +101,24 @@ Node: libker339579
 Node: libldr340305
 Node: libmap354383
 Node: libmsg365231
-Node: libnet377907
-Node: libnod386064
-Node: libp2p393411
-Node: libpil398454
-Node: libsnd412403
-Node: mod-csound413057
-Node: mod-ogg413401
-Node: libsrv413736
-Node: mod-httpd416097
-Node: mod-tcpd416438
-Node: mod-udpd416778
-Node: libsys417115
-Node: libtsk564898
-Node: 2005 .plan566579
-Node: Fanfic578847
-Node: Links585180
-Node: Copying586668
-Node: GNU Free Documentation License624246
-Node: Indexes649409
+Node: libnet381010
+Node: libnod389167
+Node: libp2p396514
+Node: libpil401557
+Node: libsnd415506
+Node: mod-csound416160
+Node: mod-ogg416504
+Node: libsrv416839
+Node: mod-httpd419200
+Node: mod-tcpd419541
+Node: mod-udpd419881
+Node: libsys420218
+Node: libtsk568001
+Node: 2005 .plan569682
+Node: Fanfic581950
+Node: Links588283
+Node: Copying589771
+Node: GNU Free Documentation License627349
+Node: Indexes652512
 
 End Tag Table
