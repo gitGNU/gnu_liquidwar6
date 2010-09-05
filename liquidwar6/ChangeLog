@@ -1,6 +1,10 @@
+2010-09-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Envelope parsing works, revamped net API.
+
 2010-09-04 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Added envelope parsing.
+	* Introduced envelope parsing.
 
 	* Foo message sent on a regular basis.
 

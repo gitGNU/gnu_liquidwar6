@@ -1,4 +1,4 @@
-@deftypefun {lw6cnx_connection_t *} {lw6cnx_connection_new} (char * @var{local_url}, char * @var{remote_url}, char * @var{remote_ip}, int @var{remote_port}, char * @var{password}, char * @var{local_id}, char * @var{remote_id}, lw6cnx_recv_callback_t @var{recv_callback_func}, void * @var{recv_callback_data})
+@deftypefun {lw6cnx_connection_t *} {lw6cnx_connection_new} (char * @var{local_url}, char * @var{remote_url}, char * @var{remote_ip}, int @var{remote_port}, char * @var{password}, u_int64_t @var{local_id}, u_int64_t @var{remote_id}, lw6cnx_recv_callback_t @var{recv_callback_func}, void * @var{recv_callback_data})
 @var{local_url}:  the local public URL
 
 @var{remote_url}:  the remote public URL

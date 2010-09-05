@@ -29,7 +29,8 @@
 
 int
 _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
-		       _lw6p2p_backends_t * backends, char *local_url,
+		       _lw6p2p_backends_t * backends,
+		       lw6srv_listener_t * listener, char *local_url,
 		       char *remote_url, char *password, u_int64_t local_id,
 		       u_int64_t remote_id,
 		       lw6cnx_recv_callback_t recv_callback_func,
@@ -90,8 +91,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
 				 tentacle->password,
-				 tentacle->local_id_str,
-				 tentacle->remote_id_str, recv_callback_func,
+				 tentacle->local_id_int,
+				 tentacle->remote_id_int, recv_callback_func,
 				 recv_callback_data);
 		  if (tentacle->cli_connections[i])
 		    {
@@ -133,11 +134,12 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		{
 		  tentacle->srv_connections[i] =
 		    lw6srv_open (tentacle->backends->srv_backends[i],
+				 listener,
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
 				 tentacle->password,
-				 tentacle->local_id_str,
-				 tentacle->remote_id_str, recv_callback_func,
+				 tentacle->local_id_int,
+				 tentacle->remote_id_int, recv_callback_func,
 				 recv_callback_data);
 		  if (tentacle->srv_connections[i])
 		    {
@@ -258,8 +260,10 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	{
 	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
+	      cnx = tentacle->cli_connections[i];
 	      if (lw6cli_send (tentacle->backends->cli_backends[i],
-			       tentacle->cli_connections[i], msg))
+			       cnx, 0, cnx->local_id_int, cnx->remote_id_int,
+			       msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -276,7 +280,8 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
-	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, msg);
+	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, 0,
+			   cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
 	    }
 	}
@@ -291,7 +296,8 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
-	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, msg);
+	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, 0,
+			   cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
 	    }
 	}

@@ -31,8 +31,8 @@
 #define _TEST_REMOTE_IP "127.0.0.1"
 #define _TEST_REMOTE_PORT 8888
 #define _TEST_PASSWORD "toto"
-#define _TEST_LOCAL_ID "1234123412341234"
-#define _TEST_REMOTE_ID "2345234523452345"
+#define _TEST_LOCAL_ID 0x1234123412341234LL
+#define _TEST_REMOTE_ID 0x2345234523452345LL
 #define _TEST_NEXT_FOO_DELAY 5000
 
 static void
@@ -70,6 +70,8 @@ test_connection ()
 						_TEST_NEXT_FOO_DELAY);
 	    if (!lw6cnx_connection_should_send_foo (cnx, now))
 	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("cnx_connection foo scheduling works"));
 	      }
 	    else
 	      {
@@ -86,6 +88,28 @@ test_connection ()
 			("new cnx_connection object returns false when queried if foo message should be sent"));
 	    ret = 0;
 	  }
+	lw6cnx_connection_free (cnx);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("cnx_connection object creation failed"));
+	ret = 0;
+      }
+
+    /*
+     * Trying with some NULL fields
+     */
+    cnx =
+      lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
+			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
+			     NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
+			     NULL, NULL);
+    if (cnx)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("cnx_connection object creation works, even with \"some\" NULLs"));
 	lw6cnx_connection_free (cnx);
       }
     else

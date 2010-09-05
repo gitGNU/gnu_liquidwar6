@@ -80,8 +80,9 @@ extern char *_mod_http_get (_http_context_t * http_context, char *url,
 extern lw6cnx_connection_t *_mod_http_open (_http_context_t * http_context,
 					    char *local_url, char *remote_url,
 					    char *remote_ip, int remote_port,
-					    char *password, char *local_id,
-					    char *remote_id,
+					    char *password,
+					    u_int64_t local_id,
+					    u_int64_t remote_id,
 					    lw6cnx_recv_callback_t
 					    recv_callback_func,
 					    void *recv_callback_data);
@@ -96,7 +97,9 @@ extern int _mod_http_timeout_ok (_http_context_t * http_context,
  * In message.c
  */
 extern int _mod_http_send (_http_context_t * http_context,
-			   lw6cnx_connection_t * connection, char *message);
+			   lw6cnx_connection_t * connection,
+			   u_int32_t ticket_sig, u_int64_t logical_from_id,
+			   u_int64_t logical_to_id, char *message);
 extern void _mod_http_poll (_http_context_t * http_context,
 			    lw6cnx_connection_t * connection);
 

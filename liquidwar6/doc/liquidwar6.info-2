@@ -350,7 +350,7 @@ results on
 
  -- Function: lw6cnx_connection_t * lw6cnx_connection_new (char *
           LOCAL_URL, char * REMOTE_URL, char * REMOTE_IP, int
-          REMOTE_PORT, char * PASSWORD, char * LOCAL_ID, char *
+          REMOTE_PORT, char * PASSWORD, u_int64_t LOCAL_ID, u_int64_t
           REMOTE_ID, lw6cnx_recv_callback_t RECV_CALLBACK_FUNC, void *
           RECV_CALLBACK_DATA)
      LOCAL_URL:  the local public URL
@@ -2143,8 +2143,9 @@ results on
 
  -- Function: char * lw6msg_envelope_generate (lw6msg_envelope_mode_t
           MODE, char * VERSION, char * PASSWORD_CHECKSUM, u_int32_t
-          TICKET_SIG, char * PHYSICAL_FROM_ID, char * PHYSICAL_TO_ID,
-          char * LOGICAL_FROM_ID, char * LOGICAL_TO_ID, char * MSG)
+          TICKET_SIG, u_int64_t PHYSICAL_FROM_ID, u_int64_t
+          PHYSICAL_TO_ID, u_int64_t LOGICAL_FROM_ID, u_int64_t
+          LOGICAL_TO_ID, char * MSG)
      MODE:  mode to use (a la TELNET or URL compatible)
 
      VERSION:  the program version to use (note: can be changed when
@@ -2171,7 +2172,7 @@ results on
 
  -- Function: int lw6msg_envelope_analyse (char * ENVELOPE,
           lw6msg_envelope_mode_t MODE, char * LOCAL_URL, char *
-          PASSWORD, char * EXPECTED_PHYSICAL_FROM_ID, char *
+          PASSWORD, u_int64_t EXPECTED_PHYSICAL_FROM_ID, u_int64_t
           EXPECTED_PHYSICAL_TO_ID, char ** MSG, u_int32_t * TICKET_SIG,
           u_int64_t * PHYSICAL_FROM_ID, u_int64_t * PHYSICAL_TO_ID,
           u_int64_t * LOGICAL_FROM_ID, u_int64_t * LOGICAL_TO_ID, char

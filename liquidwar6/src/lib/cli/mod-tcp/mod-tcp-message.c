@@ -29,7 +29,9 @@
 
 int
 _mod_tcp_send (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection,
-	       char *message)
+	       u_int32_t ticket_sig,
+	       u_int64_t logical_from_id,
+	       u_int64_t logical_to_id, char *message)
 {
   int ret = 0;
 

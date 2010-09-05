@@ -108,7 +108,7 @@ Analyzes a GOODBYE message.
 @strong{Return value:}  the from url, if found (dynamically allocated)
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, char * @var{version}, char * @var{password_checksum}, u_int32_t @var{ticket_sig}, char * @var{physical_from_id}, char * @var{physical_to_id}, char * @var{logical_from_id}, char * @var{logical_to_id}, char * @var{msg})
+@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, char * @var{version}, char * @var{password_checksum}, u_int32_t @var{ticket_sig}, u_int64_t @var{physical_from_id}, u_int64_t @var{physical_to_id}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, char * @var{msg})
 @var{mode}:  mode to use (a la TELNET or URL compatible)
 
 @var{version}:  the program version to use (note: can be changed when testing)
@@ -133,7 +133,7 @@ network.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_envelope_analyse} (char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, char * @var{local_url}, char * @var{password}, char * @var{expected_physical_from_id}, char * @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
+@deftypefun {int} {lw6msg_envelope_analyse} (char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, char * @var{local_url}, char * @var{password}, u_int64_t @var{expected_physical_from_id}, u_int64_t @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
 @var{envelope}:  the envelope to analyse
 
 @var{mode}:  mode to use (a la TELNET or URL compatible)

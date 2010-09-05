@@ -72,8 +72,9 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
 
 static lw6cnx_connection_t *
 _open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
-       int remote_port, char *password, char *local_id, char *remote_id,
-       lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+       int remote_port, char *password, u_int64_t local_id,
+       u_int64_t remote_id, lw6cnx_recv_callback_t recv_callback_func,
+       void *recv_callback_data)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
@@ -101,14 +102,18 @@ _close (void *cli_context, lw6cnx_connection_t * connection)
 }
 
 static int
-_send (void *cli_context, lw6cnx_connection_t * connection, char *message)
+_send (void *cli_context, lw6cnx_connection_t * connection,
+       u_int32_t ticket_sig, u_int64_t logical_from_id,
+       u_int64_t logical_to_id, char *message)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   int ret = 0;
 
   if (udp_context)
     {
-      ret = _mod_udp_send (udp_context, connection, message);
+      ret =
+	_mod_udp_send (udp_context, connection, ticket_sig, logical_from_id,
+		       logical_to_id, message);
     }
 
   return ret;

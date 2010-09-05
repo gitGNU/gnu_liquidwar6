@@ -29,7 +29,9 @@
 
 int
 _mod_udpd_send (_udpd_context_t * udpd_context,
-		lw6cnx_connection_t * connection, char *message)
+		lw6cnx_connection_t * connection, u_int32_t ticket_sig,
+		u_int64_t logical_from_id,
+		u_int64_t logical_to_id, char *message)
 {
   int ret = 0;
   _udpd_specific_data_t *specific_data =
@@ -37,22 +39,22 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
   char *line;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd send \"%s\""), message);
-  line = lw6sys_new_sprintf ("%s %s %s %s %s",
-			     LW6MSG_LW6,
-			     connection->local_id,
-			     connection->remote_id,
-			     connection->password_send_checksum, message);
+  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+				   lw6sys_build_get_version (),
+				   connection->password_send_checksum,
+				   ticket_sig,
+				   connection->local_id_int,
+				   connection->remote_id_int,
+				   logical_from_id, logical_to_id, message);
   if (line)
     {
-      /*
-         if (lw6net_send_line_udp
-         (specific_data->sock, line, connection->remote_ip,
-         connection->remote_port))
-         {
-         lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd sent \"%s\""), line);
-         ret = 1;
-         }
-       */
+      if (lw6net_send_line_udp
+	  (specific_data->sock, line, connection->remote_ip,
+	   connection->remote_port))
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udp sent \"%s\""), line);
+	  ret = 1;
+	}
       LW6SYS_FREE (line);
     }
 

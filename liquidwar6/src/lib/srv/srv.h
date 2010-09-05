@@ -105,20 +105,22 @@ typedef struct lw6srv_backend_s
 		      u_int64_t * remote_id, char **remote_url);
   int (*process_oob) (void *srv_context, lw6nod_info_t * node_info,
 		      lw6srv_oob_data_t * oob_data);
-  lw6cnx_connection_t *(*open) (void *srv_context, char *local_url,
+  lw6cnx_connection_t *(*open) (void *srv_context,
+				lw6srv_listener_t * listener, char *local_url,
 				char *remote_url, char *remote_ip,
 				int remote_port, char *password,
-				char *local_id, char *remote_id,
+				u_int64_t local_id, u_int64_t remote_id,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
-  int (*feed_with_tcp) (void *srv_context,
-			lw6cnx_connection_t * connection,
+  int (*feed_with_tcp) (void *srv_context, lw6cnx_connection_t * connection,
 			lw6srv_tcp_accepter_t * tcp_accepter);
   int (*feed_with_udp) (void *srv_context, lw6cnx_connection_t * connection,
 			lw6srv_udp_buffer_t * udp_buffer);
   void (*close) (void *srv_context, lw6cnx_connection_t * connection);
   int (*send) (void *srv_context, lw6cnx_connection_t * connection,
-	       char *message);
+	       u_int32_t ticket_sig,
+	       u_int64_t logical_from_id,
+	       u_int64_t logical_to_id, char *message);
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
   int (*is_alive) (void *srv_context, lw6cnx_connection_t * connection);
   char *(*repr) (void *srv_context, lw6cnx_connection_t * connection);
@@ -142,10 +144,11 @@ extern int lw6srv_process_oob (lw6srv_backend_t * backend,
 			       lw6nod_info_t * node_info,
 			       lw6srv_oob_data_t * oob_data);
 extern lw6cnx_connection_t *lw6srv_open (lw6srv_backend_t * backend,
+					 lw6srv_listener_t * listener,
 					 char *local_url, char *remote_url,
 					 char *remote_ip, int remote_port,
-					 char *password, char *local_id,
-					 char *remote_id,
+					 char *password, u_int64_t local_id,
+					 u_int64_t remote_id,
 					 lw6cnx_recv_callback_t
 					 recv_callback_func,
 					 void *recv_callback_data);
@@ -158,7 +161,9 @@ extern int lw6srv_feed_with_udp (lw6srv_backend_t * backend,
 extern void lw6srv_close (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 extern int lw6srv_send (lw6srv_backend_t * backend,
-			lw6cnx_connection_t * connection, char *message);
+			lw6cnx_connection_t * connection,
+			u_int32_t ticket_sig, u_int64_t logical_from_id,
+			u_int64_t logical_to_id, char *message);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern int lw6srv_is_alive (lw6srv_backend_t * backend,

@@ -70,12 +70,14 @@ typedef struct lw6cli_backend_s
   lw6cnx_connection_t *(*open) (void *cli_context, char *local_url,
 				char *remote_url, char *remote_ip,
 				int remote_port, char *password,
-				char *local_id, char *remote_id,
+				u_int64_t local_id, u_int64_t remote_id,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
   void (*close) (void *cli_context, lw6cnx_connection_t * connection);
   int (*send) (void *cli_context, lw6cnx_connection_t * connection,
-	       char *message);
+	       u_int32_t ticket_sig,
+	       u_int64_t logical_from_id,
+	       u_int64_t logical_to_id, char *message);
   void (*poll) (void *cli_context, lw6cnx_connection_t * connection);
   int (*is_alive) (void *cli_context, lw6cnx_connection_t * connection);
   char *(*repr) (void *cli_context, lw6cnx_connection_t * connection);
@@ -97,14 +99,17 @@ extern lw6cnx_connection_t *lw6cli_open (lw6cli_backend_t * backend,
 					 char *remote_ip,
 					 int remote_port,
 					 char *password,
-					 char *local_id, char *remote_id,
+					 u_int64_t local_id,
+					 u_int64_t remote_id,
 					 lw6cnx_recv_callback_t
 					 recv_callback_func,
 					 void *recv_callback_data);
 extern void lw6cli_close (lw6cli_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 extern int lw6cli_send (lw6cli_backend_t * backend,
-			lw6cnx_connection_t * connection, char *message);
+			lw6cnx_connection_t * connection,
+			u_int32_t ticket_sig, u_int64_t logical_from_id,
+			u_int64_t logical_to_id, char *message);
 extern void lw6cli_poll (lw6cli_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern int lw6cli_is_alive (lw6cli_backend_t * backend,

@@ -26,7 +26,9 @@
 
 #include "cnx.h"
 
-#define _DEFAULT_SEND_PASSWORD_CHECKSUM "00000000"
+#include "../msg/msg.h"		// just for header, no link
+
+#define _DEFAULT_SEND_PASSWORD_CHECKSUM LW6MSG_UNDEF
 
 /**
  * lw6cnx_connection_new
@@ -53,8 +55,8 @@
 lw6cnx_connection_t *
 lw6cnx_connection_new (char *local_url, char *remote_url,
 		       char *remote_ip, int remote_port,
-		       char *password, char *local_id,
-		       char *remote_id,
+		       char *password, u_int64_t local_id,
+		       u_int64_t remote_id,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -79,11 +81,14 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 	  ret->password_send_checksum =
 	    lw6sys_str_copy (_DEFAULT_SEND_PASSWORD_CHECKSUM);
 	}
-      ret->local_id = lw6sys_str_copy (local_id);
-      ret->remote_id = lw6sys_str_copy (remote_id);
+      ret->local_id_int = local_id;
+      ret->local_id_str = lw6sys_id_ltoa (local_id);
+      ret->remote_id_int = remote_id;
+      ret->remote_id_str = lw6sys_id_ltoa (remote_id);
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
-	  && ret->password_send_checksum && ret->local_id && ret->remote_id)
+	  && ret->password_send_checksum && ret->local_id_str
+	  && ret->remote_id_str)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("created connection with \"%s\""),
 		      remote_url);
@@ -131,13 +136,13 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
     {
       LW6SYS_FREE (connection->password_send_checksum);
     }
-  if (connection->local_id)
+  if (connection->local_id_str)
     {
-      LW6SYS_FREE (connection->local_id);
+      LW6SYS_FREE (connection->local_id_str);
     }
-  if (connection->remote_id)
+  if (connection->remote_id_str)
     {
-      LW6SYS_FREE (connection->remote_id);
+      LW6SYS_FREE (connection->remote_id_str);
     }
   LW6SYS_FREE (connection);
 }

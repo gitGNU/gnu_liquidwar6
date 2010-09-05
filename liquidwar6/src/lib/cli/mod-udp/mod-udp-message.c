@@ -29,7 +29,9 @@
 
 int
 _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
-	       char *message)
+	       u_int32_t ticket_sig,
+	       u_int64_t logical_from_id,
+	       u_int64_t logical_to_id, char *message)
 {
   int ret = 0;
   _udp_specific_data_t *specific_data =
@@ -37,12 +39,13 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
   char *line;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp send \"%s\""), message);
-  line = lw6sys_new_sprintf ("%s %s %s %s %s %s",
-			     LW6MSG_LW6,
-			     lw6sys_build_get_version (),
-			     connection->password_send_checksum,
-			     connection->local_id,
-			     connection->remote_id, message);
+  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+				   lw6sys_build_get_version (),
+				   connection->password_send_checksum,
+				   ticket_sig,
+				   connection->local_id_int,
+				   connection->remote_id_int,
+				   logical_from_id, logical_to_id, message);
   if (line)
     {
       if (lw6net_send_line_udp

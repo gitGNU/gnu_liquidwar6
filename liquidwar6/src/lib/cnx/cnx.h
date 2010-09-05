@@ -35,8 +35,10 @@ typedef struct lw6cnx_connection_s
   int remote_port;
   char *password;
   char *password_send_checksum;
-  char *local_id;
-  char *remote_id;
+  int64_t local_id_int;
+  char *local_id_str;
+  int64_t remote_id_int;
+  char *remote_id_str;
   lw6cnx_recv_callback_t recv_callback_func;
   void *recv_callback_data;
   u_int32_t foo_bar_key;
@@ -51,8 +53,8 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   char *remote_ip,
 						   int remote_port,
 						   char *password,
-						   char *local_id,
-						   char *remote_id,
+						   u_int64_t local_id,
+						   u_int64_t remote_id,
 						   lw6cnx_recv_callback_t
 						   recv_callback_func,
 						   void *recv_callback_data);

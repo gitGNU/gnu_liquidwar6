@@ -102,7 +102,7 @@ lw6cli_process_oob (lw6cli_backend_t * backend,
 lw6cnx_connection_t *
 lw6cli_open (lw6cli_backend_t * backend, char *local_url, char *remote_url,
 	     char *remote_ip, int remote_port,
-	     char *password, char *local_id, char *remote_id,
+	     char *password, u_int64_t local_id, u_int64_t remote_id,
 	     lw6cnx_recv_callback_t recv_callback_func,
 	     void *recv_callback_data)
 {
@@ -146,7 +146,9 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 
 int
 lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
-	     char *message)
+	     u_int32_t ticket_sig,
+	     u_int64_t logical_from_id,
+	     u_int64_t logical_to_id, char *message)
 {
   int ret = 0;
 
@@ -154,7 +156,9 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 
   if (backend->send)
     {
-      ret = backend->send (backend->cli_context, connection, message);
+      ret =
+	backend->send (backend->cli_context, connection, ticket_sig,
+		       logical_from_id, logical_to_id, message);
     }
   else
     {

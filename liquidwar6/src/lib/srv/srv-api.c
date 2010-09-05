@@ -151,11 +151,10 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
 }
 
 lw6cnx_connection_t *
-lw6srv_open (lw6srv_backend_t * backend, char *local_url,
-	     char *remote_url, char *remote_ip,
-	     int remote_port, char *password,
-	     char *local_id, char *remote_id,
-	     lw6cnx_recv_callback_t recv_callback_func,
+lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
+	     char *local_url, char *remote_url, char *remote_ip,
+	     int remote_port, char *password, u_int64_t local_id,
+	     u_int64_t remote_id, lw6cnx_recv_callback_t recv_callback_func,
 	     void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
@@ -165,8 +164,8 @@ lw6srv_open (lw6srv_backend_t * backend, char *local_url,
   if (backend->open)
     {
       ret =
-	backend->open (backend->srv_context, local_url, remote_url, remote_ip,
-		       remote_port, password, local_id, remote_id,
+	backend->open (backend->srv_context, listener, local_url, remote_url,
+		       remote_ip, remote_port, password, local_id, remote_id,
 		       recv_callback_func, recv_callback_data);
     }
   else
@@ -247,7 +246,9 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 
 int
 lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
-	     char *message)
+	     u_int32_t ticket_sig,
+	     u_int64_t logical_from_id,
+	     u_int64_t logical_to_id, char *message)
 {
   int ret = 0;
 
@@ -255,7 +256,9 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 
   if (backend->send)
     {
-      ret = backend->send (backend->srv_context, connection, message);
+      ret =
+	backend->send (backend->srv_context, connection, ticket_sig,
+		       logical_from_id, logical_to_id, message);
     }
   else
     {

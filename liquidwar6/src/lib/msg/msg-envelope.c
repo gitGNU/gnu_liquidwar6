@@ -47,9 +47,9 @@
 char *
 lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 			  char *password_checksum, u_int32_t ticket_sig,
-			  char *physical_from_id, char *physical_to_id,
-			  char *logical_from_id, char *logical_to_id,
-			  char *msg)
+			  u_int64_t physical_from_id,
+			  u_int64_t physical_to_id, u_int64_t logical_from_id,
+			  u_int64_t logical_to_id, char *msg)
 {
   char *ret = NULL;
   char sep = '\0';
@@ -57,6 +57,9 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
   int need_base64 = 0;
   char *body = NULL;
   char *base64_str = NULL;
+  char *ticket_sig_str = NULL;
+  char *logical_from_id_str = NULL;
+  char *logical_to_id_str = NULL;
 
   switch (mode)
     {
@@ -92,29 +95,62 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 	}
     }
 
-  if (lw6sys_str_is_same (physical_from_id, logical_from_id))
+  if (ticket_sig == 0)
     {
-      logical_from_id = LW6MSG_LOGICAL_IS_PHYSICAL;
+      ticket_sig_str = LW6MSG_UNDEF;
     }
-  if (lw6sys_str_is_same (physical_to_id, logical_to_id))
+  else
     {
-      logical_to_id = LW6MSG_LOGICAL_IS_PHYSICAL;
+      ticket_sig_str = lw6sys_new_sprintf ("%08x", ticket_sig);
     }
-  ret = lw6sys_new_sprintf ("%s%c%s%c%s%c%08x%c%s%c%s%c%s%c%s%c%s",
-			    lw6,
-			    sep,
-			    version,
-			    sep,
-			    password_checksum,
-			    sep,
-			    ticket_sig,
-			    sep,
-			    physical_from_id, sep, physical_to_id, sep,
-			    logical_from_id, sep, logical_to_id, sep, body);
+
+  if (physical_from_id == logical_from_id)
+    {
+      logical_from_id_str = LW6MSG_UNDEF;
+    }
+  else
+    {
+      logical_from_id_str = lw6sys_id_ltoa (logical_from_id);
+    }
+
+  if (physical_to_id == logical_to_id)
+    {
+      logical_to_id_str = LW6MSG_UNDEF;
+    }
+  else
+    {
+      logical_to_id_str = lw6sys_id_ltoa (logical_to_id);
+    }
+
+  if (logical_from_id_str && logical_to_id_str)
+    {
+      ret =
+	lw6sys_new_sprintf ("%s%c%s%c%s%c%s%c%" LW6SYS_PRINTF_LL "x%c%"
+			    LW6SYS_PRINTF_LL "x%c%s%c%s%c%s", lw6, sep,
+			    version, sep, password_checksum, sep,
+			    ticket_sig_str, sep, physical_from_id, sep,
+			    physical_to_id, sep, logical_from_id_str, sep,
+			    logical_to_id_str, sep, body);
+    }
 
   if (base64_str)
     {
       LW6SYS_FREE (base64_str);
+    }
+
+  if (ticket_sig != 0)
+    {
+      LW6SYS_FREE (ticket_sig_str);
+    }
+
+  if (physical_from_id != logical_from_id && logical_from_id_str)
+    {
+      LW6SYS_FREE (logical_from_id_str);
+    }
+
+  if (physical_to_id != logical_to_id && logical_to_id_str)
+    {
+      LW6SYS_FREE (logical_to_id_str);
     }
 
   return ret;
@@ -145,8 +181,8 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 int
 lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			 char *local_url, char *password,
-			 char *expected_physical_from_id,
-			 char *expected_physical_to_id, char **msg,
+			 u_int64_t expected_physical_from_id,
+			 u_int64_t expected_physical_to_id, char **msg,
 			 u_int32_t * ticket_sig,
 			 u_int64_t * physical_from_id,
 			 u_int64_t * physical_to_id,
@@ -213,124 +249,127 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			      (&received_ticket_sig_word, &seek, pos))
 			    {
 			      pos = seek;
-			      if (sscanf
-				  (received_ticket_sig_word.buf, "%x",
-				   &received_ticket_sig_int))
+			      /*
+			       * Bad and/or 0 ticket accepted at this stage
+			       */
+			      sscanf
+				(received_ticket_sig_word.buf, "%x",
+				 &received_ticket_sig_int);
+			      if (lw6msg_word_first_id_64
+				  (&received_physical_from_id, &seek, pos))
 				{
-				  if (lw6msg_word_first_id_64
-				      (&received_physical_from_id, &seek,
-				       pos))
+				  if (expected_physical_from_id == 0LL
+				      ||
+				      (expected_physical_from_id ==
+				       received_physical_from_id))
 				    {
-				      if (expected_physical_from_id == NULL
-					  ||
-					  (lw6sys_id_atol
-					   (expected_physical_from_id) ==
-					   received_physical_from_id))
+				      pos = seek;
+				      if (lw6msg_word_first_id_64
+					  (&received_physical_to_id,
+					   &seek, pos))
 					{
-					  pos = seek;
-					  if (lw6msg_word_first_id_64
-					      (&received_physical_to_id,
-					       &seek, pos))
+					  if (expected_physical_from_id ==
+					      0LL
+					      ||
+					      (expected_physical_to_id
+					       == received_physical_to_id))
 					    {
-					      if (expected_physical_from_id ==
-						  NULL
+					      pos = seek;
+					      if (lw6msg_word_first_id_64
+						  (&received_logical_from_id,
+						   &seek, pos)
 						  ||
-						  (lw6sys_id_atol
-						   (expected_physical_to_id)
-						   ==
-						   received_physical_to_id))
+						  lw6msg_word_first_x
+						  (&tmp_word, &seek, pos))
 						{
 						  pos = seek;
+						  if (!received_logical_from_id)
+						    {
+						      received_logical_from_id
+							=
+							received_physical_from_id;
+						    }
 						  if (lw6msg_word_first_id_64
-						      (&received_logical_from_id,
+						      (&received_logical_to_id,
 						       &seek, pos)
 						      ||
 						      lw6msg_word_first_x
 						      (&tmp_word, &seek, pos))
 						    {
 						      pos = seek;
-						      if (!received_logical_from_id)
+						      if (!received_logical_to_id)
 							{
-							  received_logical_from_id
+							  received_logical_to_id
 							    =
-							    received_physical_from_id;
+							    received_physical_to_id;
 							}
-						      if (lw6msg_word_first_id_64 (&received_logical_to_id, &seek, pos) || lw6msg_word_first_x (&tmp_word, &seek, pos))
+						      ret = 1;
+						      if (msg)
 							{
-							  pos = seek;
-							  if (!received_logical_to_id)
+							  if (need_base64)
 							    {
-							      received_logical_to_id
-								=
-								received_physical_to_id;
-							    }
-							  ret = 1;
-							  if (msg)
-							    {
-							      if (need_base64)
+							      (*msg) =
+								lw6glb_base64_decode_str
+								(pos);
+							      if (!(*msg))
 								{
-								  (*msg) =
-								    lw6glb_base64_decode_str
-								    (pos);
-								  if (!(*msg))
-								    {
-								      /*
-								       * message isn't base64 but 
-								       * we still return it as is, probably 
-								       * it's truncated, but we must return 
-								       * it anyway in case this function would
-								       *  be called just to check the protocol
-								       */
-								      lw6sys_log
-									(LW6SYS_LOG_DEBUG,
-									 _
-									 ("forcing clear text instead of base64"));
-								      (*msg) =
-									lw6sys_str_copy
-									(pos);
-								    }
-								}
-							      else
-								{
+								  /*
+								   * message isn't base64 but 
+								   * we still return it as is, probably 
+								   * it's truncated, but we must return 
+								   * it anyway in case this function would
+								   *  be called just to check the protocol
+								   */
+								  lw6sys_log
+								    (LW6SYS_LOG_DEBUG,
+								     _
+								     ("forcing clear text instead of base64"));
 								  (*msg) =
 								    lw6sys_str_copy
 								    (pos);
 								}
 							    }
-							  if (physical_from_id)
+							  else
 							    {
-							      (*physical_from_id) = received_physical_from_id;
-							    }
-							  if (physical_to_id)
-							    {
-							      (*physical_to_id) = received_physical_to_id;
-							    }
-							  if (logical_from_id)
-							    {
-							      (*logical_from_id) = received_logical_from_id;
-							    }
-							  if (logical_to_id)
-							    {
-							      (*logical_to_id)
-								=
-								received_logical_to_id;
-							    }
-							  if (ticket_sig)
-							    {
-							      (*ticket_sig) =
-								received_ticket_sig_int;
-							    }
-							  if (physical_from_url && msg && (*msg))
-							    {
-							      (*physical_from_url) = lw6msg_cmd_guess_from_url (*msg);
+							      (*msg) =
+								lw6sys_str_copy
+								(pos);
 							    }
 							}
-						      else
+						      if (physical_from_id)
 							{
-							  lw6sys_log
-							    (LW6SYS_LOG_DEBUG,
-							     _
-							     ("can't parse \"logical_to\" (final destination) id"));
+							  (*physical_from_id)
+							    =
+							    received_physical_from_id;
+							}
+						      if (physical_to_id)
+							{
+							  (*physical_to_id) =
+							    received_physical_to_id;
+							}
+						      if (logical_from_id)
+							{
+							  (*logical_from_id) =
+							    received_logical_from_id;
+							}
+						      if (logical_to_id)
+							{
+							  (*logical_to_id)
+							    =
+							    received_logical_to_id;
+							}
+						      if (ticket_sig)
+							{
+							  (*ticket_sig) =
+							    received_ticket_sig_int;
+							}
+						      if (physical_from_url
+							  && msg && (*msg))
+							{
+							  (*physical_from_url)
+							    =
+							    lw6msg_cmd_guess_from_url
+							    (*msg);
 							}
 						    }
 						  else
@@ -338,7 +377,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 						      lw6sys_log
 							(LW6SYS_LOG_DEBUG,
 							 _
-							 ("can't parse \"logical_from\" (creator) id"));
+							 ("can't parse \"logical_to\" (final destination) id"));
 						    }
 						}
 					      else
@@ -346,34 +385,36 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 						  lw6sys_log
 						    (LW6SYS_LOG_DEBUG,
 						     _
-						     ("wrong \"physical_to\" (receiver) id"));
+						     ("can't parse \"logical_from\" (creator) id"));
 						}
 					    }
 					  else
 					    {
-					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _
-							  ("can't parse \"physical_to\" (receiver) id"));
+					      lw6sys_log
+						(LW6SYS_LOG_DEBUG,
+						 _
+						 ("wrong \"physical_to\" (receiver) id"));
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
 						      _
-						      ("wrong \"physical_from\" (sender) id"));
+						      ("can't parse \"physical_to\" (receiver) id"));
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
 						  _
-						  ("can't parse \"physical_from\" (sender) id"));
+						  ("wrong \"physical_from\" (sender) id"));
 				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _("invalid ticket sig"));
+					      _
+					      ("can't parse \"physical_from\" (sender) id"));
 				}
 			    }
 			  else

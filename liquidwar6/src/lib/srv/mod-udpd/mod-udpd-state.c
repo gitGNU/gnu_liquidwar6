@@ -28,10 +28,10 @@
 #include "mod-udpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_udpd_open (_udpd_context_t * udpd_context, char *local_url,
-		char *remote_url, char *remote_ip,
-		int remote_port, char *password,
-		char *local_id, char *remote_id,
+_mod_udpd_open (_udpd_context_t * udpd_context, lw6srv_listener_t * listener,
+		char *local_url, char *remote_url, char *remote_ip,
+		int remote_port, char *password, u_int64_t local_id,
+		u_int64_t remote_id,
 		lw6cnx_recv_callback_t recv_callback_func,
 		void *recv_callback_data)
 {
@@ -50,6 +50,7 @@ _mod_udpd_open (_udpd_context_t * udpd_context, char *local_url,
       specific_data = (_udpd_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
+	  specific_data->sock = listener->udp_sock;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open udpd connection with \"%s\""),
 		      remote_url);
 	}

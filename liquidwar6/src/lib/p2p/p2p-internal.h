@@ -302,6 +302,7 @@ extern void _lw6p2p_srv_oob_callback (void *callback_data);
 /* p2p-tentacle.c */
 extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				  _lw6p2p_backends_t * backends,
+				  lw6srv_listener_t * listener,
 				  char *local_url,
 				  char *remote_url, char *password,
 				  u_int64_t local_id, u_int64_t remote_id,

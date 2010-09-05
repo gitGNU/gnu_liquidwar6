@@ -28,10 +28,10 @@
 #include "mod-httpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_httpd_open (_httpd_context_t * httpd_context, char *local_url,
-		 char *remote_url, char *remote_ip,
-		 int remote_port, char *password,
-		 char *local_id, char *remote_id,
+_mod_httpd_open (_httpd_context_t * httpd_context,
+		 lw6srv_listener_t * listener, char *local_url,
+		 char *remote_url, char *remote_ip, int remote_port,
+		 char *password, u_int64_t local_id, u_int64_t remote_id,
 		 lw6cnx_recv_callback_t recv_callback_func,
 		 void *recv_callback_data)
 {

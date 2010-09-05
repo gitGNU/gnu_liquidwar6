@@ -1141,6 +1141,7 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
 	{
 	  ret =
 	    _lw6p2p_tentacle_init (&(node->tentacles[i]), &(node->backends),
+				   node->listener,
 				   node->public_url, remote_url,
 				   node->password, node->node_id_int,
 				   remote_id, _lw6p2p_recv_callback,
