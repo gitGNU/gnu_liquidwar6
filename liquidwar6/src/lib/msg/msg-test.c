@@ -44,6 +44,7 @@
 #define _TEST_BENCH 10
 #define _TEST_UPTIME 60
 #define _TEST_PASSWORD "toto"
+#define _TEST_PASSWORD_KO "titi"
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_REQUEST_COMMAND "INFO"
@@ -58,8 +59,14 @@
 #define _TEST_DEFAULT_KEY_KO "???"
 #define _TEST_DEFAULT_VALUE_STR "abc"
 #define _TEST_DEFAULT_VALUE_INT 123
-#define _TEST_ENVELOPE_FROM_ID "1234123412341234"
-#define _TEST_ENVELOPE_TO_ID "2345234523452345"
+#define _TEST_ENVELOPE_PHYSICAL_FROM_ID "1234123412341234"
+#define _TEST_ENVELOPE_PHYSICAL_FROM_ID_KO "1234123412341235"
+#define _TEST_ENVELOPE_PHYSICAL_TO_ID "2345234523452345"
+#define _TEST_ENVELOPE_PHYSICAL_TO_ID_KO "2345234523452346"
+#define _TEST_ENVELOPE_LOGICAL_FROM_ID "3456345634563456"
+#define _TEST_ENVELOPE_LOGICAL_TO_ID "4567456745674567"
+#define _TEST_ENVELOPE_TICKET_SIG 0xabcd0123
+#define _TEST_ENVELOPE_TRUNCATE_LEN 100
 #define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
 #define _TEST_WORD_X_STR_OK "/parent/child/"
@@ -334,6 +341,13 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   char *msg = NULL;
   char *envelope = NULL;
   char *password_checksum = NULL;
+  char *received_msg = NULL;
+  u_int32_t received_ticket_sig = 0;
+  u_int64_t received_physical_from_id = 0;
+  u_int64_t received_physical_to_id = 0;
+  u_int64_t received_logical_from_id = 0;
+  u_int64_t received_logical_to_id = 0;
+  char *received_physical_from_url = NULL;
 
   info =
     lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -353,12 +367,188 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      envelope =
 		lw6msg_envelope_generate (mode, lw6sys_build_get_version (),
 					  password_checksum,
-					  _TEST_ENVELOPE_FROM_ID,
-					  _TEST_ENVELOPE_TO_ID, msg);
+					  _TEST_ENVELOPE_TICKET_SIG,
+					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
+					  _TEST_ENVELOPE_LOGICAL_FROM_ID,
+					  _TEST_ENVELOPE_LOGICAL_TO_ID, msg);
 	      if (envelope)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _("envelope generated \"%s\""), envelope);
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("envelope \"%s\" parsed"), envelope);
+		      if (received_msg)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("message is \"%s\""), received_msg);
+			  LW6SYS_FREE (received_msg);
+			}
+		      if (received_physical_from_url)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("guessed \"from url\" \"%s\""),
+				      received_physical_from_url);
+			  LW6SYS_FREE (received_physical_from_url);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _("unable to analyse envelope \"%s\""),
+				  envelope);
+		      ret = 0;
+		    }
+		  lw6sys_str_truncate (envelope, _TEST_ENVELOPE_TRUNCATE_LEN);
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("truncated envelope \"%s\" parsed"),
+				  envelope);
+		      if (received_msg)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("message is \"%s\""), received_msg);
+			  LW6SYS_FREE (received_msg);
+			}
+		      if (received_physical_from_url)
+			{
+			  LW6SYS_FREE (received_physical_from_url);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _("unable to analyse envelope \"%s\""),
+				  envelope);
+		      ret = 0;
+		    }
+
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD_KO,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _
+				  ("message parsed even with wrong password"));
+		      ret = 0;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("password checking works"));
+		    }
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID_KO,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _
+				  ("message parsed even with wrong \"from id\""));
+		      ret = 0;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("\"from id\" checking works"));
+		    }
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID_KO, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _
+				  ("message parsed even with wrong \"to id\""));
+		      ret = 0;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("\"to id\" checking works"));
+		    }
+
+		  LW6SYS_FREE (envelope);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("unable to generate envelope"));
+		}
+	      LW6SYS_FREE (msg);
+	    }
+
+	  /*
+	   * Testing with physical == logical, ticket=0
+	   */
+	  msg = lw6msg_cmd_generate_hello (info);
+	  if (msg)
+	    {
+	      envelope =
+		lw6msg_envelope_generate (mode, lw6sys_build_get_version (),
+					  password_checksum,
+					  0,
+					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
+					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+					  _TEST_ENVELOPE_PHYSICAL_TO_ID, msg);
+	      if (envelope)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _("envelope generated \"%s\""), envelope);
+		  if (lw6msg_envelope_analyse
+		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
+		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
+		       &received_ticket_sig, &received_physical_from_id,
+		       &received_physical_to_id, &received_logical_from_id,
+		       &received_logical_to_id, &received_physical_from_url))
+		    {
+		      lw6sys_log (LW6SYS_LOG_NOTICE,
+				  _("envelope \"%s\" parsed"), envelope);
+		      if (received_msg)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _("message is \"%s\""), received_msg);
+			  LW6SYS_FREE (received_msg);
+			}
+		      if (received_physical_from_url)
+			{
+			  LW6SYS_FREE (received_physical_from_url);
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _("unable to analyse envelope \"%s\""),
+				  envelope);
+		      ret = 0;
+		    }
 		  LW6SYS_FREE (envelope);
 		}
 	      else

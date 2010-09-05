@@ -32,8 +32,11 @@
  * @mode: mode to use (a la TELNET or URL compatible)
  * @version: the program version to use (note: can be changed when testing)
  * @password_checksum: the password string to send
+ * @ticket_sig: the signature of the message, calculated with ticket
  * @physical_from_id: the sender id
  * @physical_to_id: the receiver id
+ * @logical_from_id: the message creator id
+ * @logical_to_id: the message final destination id
  * @msg: the body of the message
  *
  * Generate an envelope, that is, the complete message sendable on the
@@ -43,8 +46,10 @@
  */
 char *
 lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
-			  char *password_checksum, char *physical_from_id,
-			  char *physical_to_id, char *msg)
+			  char *password_checksum, u_int32_t ticket_sig,
+			  char *physical_from_id, char *physical_to_id,
+			  char *logical_from_id, char *logical_to_id,
+			  char *msg)
 {
   char *ret = NULL;
   char sep = '\0';
@@ -87,15 +92,25 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
 	}
     }
 
-
-  ret = lw6sys_new_sprintf ("%s%c%s%c%s%c%s%c%s%c%s",
+  if (lw6sys_str_is_same (physical_from_id, logical_from_id))
+    {
+      logical_from_id = LW6MSG_LOGICAL_IS_PHYSICAL;
+    }
+  if (lw6sys_str_is_same (physical_to_id, logical_to_id))
+    {
+      logical_to_id = LW6MSG_LOGICAL_IS_PHYSICAL;
+    }
+  ret = lw6sys_new_sprintf ("%s%c%s%c%s%c%08x%c%s%c%s%c%s%c%s%c%s",
 			    lw6,
 			    sep,
 			    version,
 			    sep,
 			    password_checksum,
 			    sep,
-			    physical_from_id, sep, physical_to_id, sep, body);
+			    ticket_sig,
+			    sep,
+			    physical_from_id, sep, physical_to_id, sep,
+			    logical_from_id, sep, logical_to_id, sep, body);
 
   if (base64_str)
     {
@@ -115,7 +130,11 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
  * @expected_physical_from_id: the sender id, if NULL, no check performed
  * @expected_physical_to_id: the receiver id, if NULL, no check performed
  * @msg: if not NULL, will contain body of the message
+ * @ticket_sig: if not NULL, will contain signature of message, calculated with ticket
  * @physical_from_id: if not NULL, will contain sender id
+ * @physical_to_id: if not NULL, will contain receiver id
+ * @logical_from_id: if not NULL, will contain message creator id
+ * @logical_to_id: if not NULL, will contain message final destination id
  * @physical_from_url: if not NULL and if message allows, will contain sender public URL
  *
  * Generate an envelope, that is, the complete message sendable on the
@@ -128,8 +147,11 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			 char *local_url, char *password,
 			 char *expected_physical_from_id,
 			 char *expected_physical_to_id, char **msg,
+			 u_int32_t * ticket_sig,
 			 u_int64_t * physical_from_id,
-			 char **physical_from_url)
+			 u_int64_t * physical_to_id,
+			 u_int64_t * logical_from_id,
+			 u_int64_t * logical_to_id, char **physical_from_url)
 {
   int ret = 0;
   char sep = '\0';
@@ -143,6 +165,11 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
   lw6msg_word_t received_password;
   u_int64_t received_physical_from_id = 0;
   u_int64_t received_physical_to_id = 0;
+  u_int64_t received_logical_from_id = 0;
+  u_int64_t received_logical_to_id = 0;
+  lw6msg_word_t tmp_word;
+  lw6msg_word_t received_ticket_sig_word;
+  u_int32_t received_ticket_sig_int = 0;
 
   switch (mode)
     {
@@ -163,6 +190,8 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
       need_base64 = 0;
     }
 
+  version = lw6sys_build_get_version ();
+
   pos = seek = envelope;
   if (lw6msg_word_first_x (&received_lw6, &seek, pos))
     {
@@ -180,77 +209,177 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			  (local_url, password, received_password.buf))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first_id_64
-			      (&received_physical_from_id, &seek, pos))
+			  if (lw6msg_word_first_x
+			      (&received_ticket_sig_word, &seek, pos))
 			    {
-			      if (expected_physical_from_id == NULL
-				  ||
-				  (lw6sys_id_atol (expected_physical_from_id)
-				   == received_physical_from_id))
+			      pos = seek;
+			      if (sscanf
+				  (received_ticket_sig_word.buf, "%x",
+				   &received_ticket_sig_int))
 				{
-				  pos = seek;
 				  if (lw6msg_word_first_id_64
-				      (&received_physical_to_id, &seek, pos))
+				      (&received_physical_from_id, &seek,
+				       pos))
 				    {
 				      if (expected_physical_from_id == NULL
 					  ||
 					  (lw6sys_id_atol
-					   (expected_physical_to_id) ==
-					   received_physical_to_id))
+					   (expected_physical_from_id) ==
+					   received_physical_from_id))
 					{
 					  pos = seek;
-					  ret = 1;
-					  if (msg)
+					  if (lw6msg_word_first_id_64
+					      (&received_physical_to_id,
+					       &seek, pos))
 					    {
-					      if (need_base64)
+					      if (expected_physical_from_id ==
+						  NULL
+						  ||
+						  (lw6sys_id_atol
+						   (expected_physical_to_id)
+						   ==
+						   received_physical_to_id))
 						{
-						  (*msg) =
-						    lw6glb_base64_decode_str
-						    (pos);
+						  pos = seek;
+						  if (lw6msg_word_first_id_64
+						      (&received_logical_from_id,
+						       &seek, pos)
+						      ||
+						      lw6msg_word_first_x
+						      (&tmp_word, &seek, pos))
+						    {
+						      pos = seek;
+						      if (!received_logical_from_id)
+							{
+							  received_logical_from_id
+							    =
+							    received_physical_from_id;
+							}
+						      if (lw6msg_word_first_id_64 (&received_logical_to_id, &seek, pos) || lw6msg_word_first_x (&tmp_word, &seek, pos))
+							{
+							  pos = seek;
+							  if (!received_logical_to_id)
+							    {
+							      received_logical_to_id
+								=
+								received_physical_to_id;
+							    }
+							  ret = 1;
+							  if (msg)
+							    {
+							      if (need_base64)
+								{
+								  (*msg) =
+								    lw6glb_base64_decode_str
+								    (pos);
+								  if (!(*msg))
+								    {
+								      /*
+								       * message isn't base64 but 
+								       * we still return it as is, probably 
+								       * it's truncated, but we must return 
+								       * it anyway in case this function would
+								       *  be called just to check the protocol
+								       */
+								      lw6sys_log
+									(LW6SYS_LOG_DEBUG,
+									 _
+									 ("forcing clear text instead of base64"));
+								      (*msg) =
+									lw6sys_str_copy
+									(pos);
+								    }
+								}
+							      else
+								{
+								  (*msg) =
+								    lw6sys_str_copy
+								    (pos);
+								}
+							    }
+							  if (physical_from_id)
+							    {
+							      (*physical_from_id) = received_physical_from_id;
+							    }
+							  if (physical_to_id)
+							    {
+							      (*physical_to_id) = received_physical_to_id;
+							    }
+							  if (logical_from_id)
+							    {
+							      (*logical_from_id) = received_logical_from_id;
+							    }
+							  if (logical_to_id)
+							    {
+							      (*logical_to_id)
+								=
+								received_logical_to_id;
+							    }
+							  if (ticket_sig)
+							    {
+							      (*ticket_sig) =
+								received_ticket_sig_int;
+							    }
+							  if (physical_from_url && msg && (*msg))
+							    {
+							      (*physical_from_url) = lw6msg_cmd_guess_from_url (*msg);
+							    }
+							}
+						      else
+							{
+							  lw6sys_log
+							    (LW6SYS_LOG_DEBUG,
+							     _
+							     ("can't parse \"logical_to\" (final destination) id"));
+							}
+						    }
+						  else
+						    {
+						      lw6sys_log
+							(LW6SYS_LOG_DEBUG,
+							 _
+							 ("can't parse \"logical_from\" (creator) id"));
+						    }
 						}
 					      else
 						{
-						  (*msg) =
-						    lw6sys_str_copy (pos);
+						  lw6sys_log
+						    (LW6SYS_LOG_DEBUG,
+						     _
+						     ("wrong \"physical_to\" (receiver) id"));
 						}
 					    }
-					  if (physical_from_id)
+					  else
 					    {
-					      (*physical_from_id) =
-						received_physical_from_id;
-					    }
-					  if (physical_from_url)
-					    {
-					      (*physical_from_url) =
-						lw6msg_cmd_guess_from_url
-						(pos);
+					      lw6sys_log (LW6SYS_LOG_DEBUG,
+							  _
+							  ("can't parse \"physical_to\" (receiver) id"));
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
 						      _
-						      ("wrong \"physical_to\" (receiver) id"));
+						      ("wrong \"physical_from\" (sender) id"));
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
 						  _
-						  ("can't parse receiver id"));
+						  ("can't parse \"physical_from\" (sender) id"));
 				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _
-					      ("wrong \"physical_from\" (sender) id"));
+					      _("invalid ticket sig"));
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _("can't parse sender id"));
+					  _("can't parse ticket sig"));
 			    }
 			}
 		      else

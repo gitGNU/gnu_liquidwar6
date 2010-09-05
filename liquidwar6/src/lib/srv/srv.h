@@ -31,7 +31,7 @@
 #include "../cnx/cnx.h"
 #include "../msg/msg.h"
 
-#define LW6SRV_PROTOCOL_BUFFER_SIZE 80
+#define LW6SRV_PROTOCOL_BUFFER_SIZE 200
 
 #define LW6SRV_ANALYSE_DEAD 0x01
 #define LW6SRV_ANALYSE_UNDERSTANDABLE 0x02

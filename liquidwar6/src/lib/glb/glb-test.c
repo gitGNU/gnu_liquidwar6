@@ -26,14 +26,14 @@
 
 #include "glb.h"
 
-#define _TEST_BASE64_STR_1 "this is a string"
+#define _TEST_BASE64_STR_1 "this is a string!"
 #define _TEST_BASE64_STR_2 ""
 #define _TEST_BASE64_STR_3 "this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string"
-#define _TEST_BASE64_STR_4 "~#{[|`^@éàâô\xff\xfe\xff\xef ---"
+#define _TEST_BASE64_STR_4_LEN 100
 #define _TEST_BASE64_PREFIX "TOTO=0"
 
 static int
-_test_base64_ok (char *test_str)
+_test_base64_ok (char *test_str, int log_all)
 {
   int ret = 1;
   char *base64_str = NULL;
@@ -42,25 +42,46 @@ _test_base64_ok (char *test_str)
   base64_str = lw6glb_base64_encode_str (test_str);
   if (base64_str)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("base64 encoded version of \"%s\" is \"%s\""),
-		  test_str, base64_str);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("base64 encoded version of \"%s\" is \"%s\""),
+		      test_str, base64_str);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("base64 encoding, result \"%s\""), base64_str);
+	}
       str = lw6glb_base64_decode_str (base64_str);
       if (str)
 	{
 	  if (lw6sys_str_is_same (str, test_str))
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _
-			  ("base64 string \"%s\" correctly decoded to \"%s\""),
-			  base64_str, str);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _
+			      ("base64 string \"%s\" correctly decoded to \"%s\""),
+			      base64_str, str);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _
+			      ("base64 string \"%s\" correctly decoded"),
+			      base64_str);
+		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\""),
-			  base64_str, str, test_str);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\""),
+			      base64_str, str, test_str);
+		}
 	      ret = 0;
 	    }
 	  LW6SYS_FREE (str);
@@ -75,8 +96,15 @@ _test_base64_ok (char *test_str)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to encode \"%s\" in base64"), test_str);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("unable to encode \"%s\" in base64"), test_str);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to encode in base64"));
+	}
       ret = 0;
     }
 
@@ -84,26 +112,49 @@ _test_base64_ok (char *test_str)
     lw6glb_base64_encode_str_prefix (test_str, _TEST_BASE64_PREFIX);
   if (base64_str)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _
-		  ("base64 encoded version of \"%s\" is \"%s\" (prefix=\"%s\")"),
-		  test_str, base64_str, _TEST_BASE64_PREFIX);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _
+		      ("base64 encoded version of \"%s\" is \"%s\" (prefix=\"%s\")"),
+		      test_str, base64_str, _TEST_BASE64_PREFIX);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _
+		      ("base64 encoding result is \"%s\" (prefix=\"%s\")"),
+		      base64_str, _TEST_BASE64_PREFIX);
+	}
       str = lw6glb_base64_decode_str_prefix (base64_str, _TEST_BASE64_PREFIX);
       if (str)
 	{
 	  if (lw6sys_str_is_same (str, test_str))
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _
-			  ("base64 string \"%s\" correctly decoded to \"%s\" (prefix=\"%s\")"),
-			  base64_str, str, _TEST_BASE64_PREFIX);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _
+			      ("base64 string \"%s\" correctly decoded to \"%s\" (prefix=\"%s\")"),
+			      base64_str, str, _TEST_BASE64_PREFIX);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _
+			      ("base64 string \"%s\" correctly decoded (prefix=\"%s\")"),
+			      base64_str, _TEST_BASE64_PREFIX);
+		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
-			  ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\" (prefix=\"%s\")"),
-			  base64_str, str, test_str, _TEST_BASE64_PREFIX);
+	      if (log_all)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\" (prefix=\"%s\")"),
+			      base64_str, str, test_str, _TEST_BASE64_PREFIX);
+		}
 	      ret = 0;
 	    }
 	  LW6SYS_FREE (str);
@@ -120,35 +171,26 @@ _test_base64_ok (char *test_str)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to encode \"%s\" in base64 (prefix=\"%s\")"),
-		  test_str, _TEST_BASE64_PREFIX);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("unable to encode \"%s\" in base64 (prefix=\"%s\")"),
+		      test_str, _TEST_BASE64_PREFIX);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _("unable to encode in base64 (prefix=\"%s\")"),
+		      _TEST_BASE64_PREFIX);
+	}
       ret = 0;
-    }
-
-  str = lw6glb_base64_decode_str_prefix (test_str, _TEST_BASE64_PREFIX);
-  if (str)
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
-		  ("base64 routine was able to decode \"%s\" into \"%s\", this is wrong (prefix=\"%s\")"),
-		  test_str, str, _TEST_BASE64_PREFIX);
-      ret = 0;
-      LW6SYS_FREE (str);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _
-		  ("unable to decode \"%s\", this is normal (prefix=\"%s\")"),
-		  test_str, _TEST_BASE64_PREFIX);
     }
 
   return ret;
 }
 
 static int
-_test_base64_ko (char *test_str)
+_test_base64_ko (char *test_str, int log_all)
 {
   int ret = 1;
   char *str = NULL;
@@ -158,11 +200,10 @@ _test_base64_ko (char *test_str)
     {
       if (strlen (str) > 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
 		      _
-		      ("base64 routine was able to decode \"%s\" into \"%s\", this is wrong"),
-		      test_str, str);
-	  ret = 0;
+		      ("base64 routine was able to decode \"%s\", this is in theory wrong, but we just keep going to check if nothing real bad happen (buffer overflow, core dump...)"),
+		      test_str);
 	}
       else
 	{
@@ -173,8 +214,17 @@ _test_base64_ko (char *test_str)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("unable to decode \"%s\", this is normal"), test_str);
+      if (log_all)
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _("unable to decode \"%s\", this is normal"), test_str);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _
+		      ("unable to decode arbitrary non base64-like string, this is normal"));
+	}
     }
   return ret;
 }
@@ -189,14 +239,24 @@ test_base64 ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = _test_base64_ok (_TEST_BASE64_STR_1) && ret;
-    ret = _test_base64_ok (_TEST_BASE64_STR_2) && ret;
-    ret = _test_base64_ok (_TEST_BASE64_STR_3) && ret;
-    ret = _test_base64_ok (_TEST_BASE64_STR_4) && ret;
-    ret = _test_base64_ko (_TEST_BASE64_STR_1) && ret;
-    ret = _test_base64_ko (_TEST_BASE64_STR_2) && ret;
-    ret = _test_base64_ko (_TEST_BASE64_STR_3) && ret;
-    ret = _test_base64_ko (_TEST_BASE64_STR_4) && ret;
+    char *random_str = NULL;
+
+    random_str = lw6sys_str_random (_TEST_BASE64_STR_4_LEN);
+    ret = _test_base64_ok (_TEST_BASE64_STR_1, 1) && ret;
+    ret = _test_base64_ok (_TEST_BASE64_STR_2, 1) && ret;
+    ret = _test_base64_ok (_TEST_BASE64_STR_3, 1) && ret;
+    if (random_str)
+      {
+	ret = _test_base64_ok (random_str, 0) && ret;
+      }
+    ret = _test_base64_ko (_TEST_BASE64_STR_1, 1) && ret;
+    ret = _test_base64_ko (_TEST_BASE64_STR_2, 1) && ret;
+    ret = _test_base64_ko (_TEST_BASE64_STR_3, 1) && ret;
+    if (random_str)
+      {
+	ret = _test_base64_ko (random_str, 0) && ret;
+	LW6SYS_FREE (random_str);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;

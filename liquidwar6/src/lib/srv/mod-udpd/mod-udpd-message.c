@@ -44,13 +44,15 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
 			     connection->password_send_checksum, message);
   if (line)
     {
-      if (lw6net_send_line_udp
-	  (specific_data->sock, line, connection->remote_ip,
-	   connection->remote_port))
-	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd sent \"%s\""), line);
-	  ret = 1;
-	}
+      /*
+         if (lw6net_send_line_udp
+         (specific_data->sock, line, connection->remote_ip,
+         connection->remote_port))
+         {
+         lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd sent \"%s\""), line);
+         ret = 1;
+         }
+       */
       LW6SYS_FREE (line);
     }
 

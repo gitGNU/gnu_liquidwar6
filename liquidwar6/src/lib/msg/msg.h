@@ -73,6 +73,8 @@
 #define LW6MSG_TELNET_SEP ' '
 #define LW6MSG_URL_SEP '/'
 
+#define LW6MSG_LOGICAL_IS_PHYSICAL "-"
+
 typedef enum lw6msg_envelope_mode_e
 {
   LW6MSG_ENVELOPE_MODE_TELNET = 0,
@@ -111,14 +113,21 @@ extern char *lw6msg_cmd_guess_from_url (char *msg);
 /* msg-enveloppe.c */
 extern char *lw6msg_envelope_generate (lw6msg_envelope_mode_t mode,
 				       char *version, char *password_checksum,
+				       u_int32_t ticket_sig,
 				       char *physical_from_id,
-				       char *physical_to_id, char *msg);
+				       char *physical_to_id,
+				       char *logical_from_id,
+				       char *logical_to_id, char *msg);
 extern int lw6msg_envelope_analyse (char *envelope,
 				    lw6msg_envelope_mode_t mode,
 				    char *local_url, char *password,
 				    char *expected_physical_from_id,
 				    char *expected_physical_to_id, char **msg,
+				    u_int32_t * ticket_sig,
 				    u_int64_t * physical_from_id,
+				    u_int64_t * physical_to_id,
+				    u_int64_t * logical_from_id,
+				    u_int64_t * logical_to_id,
 				    char **physical_from_url);
 
 /* msg-oob.c */
