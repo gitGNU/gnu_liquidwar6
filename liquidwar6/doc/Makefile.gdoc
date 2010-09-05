@@ -15,7 +15,7 @@ $(srcdir)/cli-gdoc.texi: ../src/lib/cli/cli-api.c ../src/lib/cli/cli.h ../src/li
 $(srcdir)/cns-gdoc.texi: ../src/lib/cns/cns.h ../src/lib/cns/cns-handler.c ../src/lib/cns/cns-history.c ../src/lib/cns/cns-support.c ../src/lib/cns/cns-test.c ../src/lib/cns/cns-testmain.c
 	echo gdoc cns && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/cns-gdoc.texi
 
-$(srcdir)/cnx-gdoc.texi: ../src/lib/cnx/cnx-connection.c ../src/lib/cnx/cnx.h ../src/lib/cnx/cnx-test.c ../src/lib/cnx/cnx-testmain.c
+$(srcdir)/cnx-gdoc.texi: ../src/lib/cnx/cnx-connection.c ../src/lib/cnx/cnx.h ../src/lib/cnx/cnx-test.c ../src/lib/cnx/cnx-testmain.c ../src/lib/cnx/cnx-tickettable.c
 	echo gdoc cnx && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/cnx-gdoc.texi
 
 $(srcdir)/dat-gdoc.texi: ../src/lib/dat/dat-atom.c ../src/lib/dat/dat-block.c ../src/lib/dat/dat-global.c ../src/lib/dat/dat.h ../src/lib/dat/dat-internal.h ../src/lib/dat/dat-stack.c ../src/lib/dat/dat-test.c ../src/lib/dat/dat-testmain.c ../src/lib/dat/dat-warehouse.c

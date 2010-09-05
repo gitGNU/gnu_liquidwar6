@@ -1,5 +1,7 @@
 2010-09-05 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added ticket table object (to stamp messages).
+
 	* Envelope parsing works, revamped net API.
 
 2010-09-04 : Christian Mauduit <ufoot@ufoot.org>

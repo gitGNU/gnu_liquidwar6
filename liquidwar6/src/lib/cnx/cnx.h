@@ -47,6 +47,17 @@ typedef struct lw6cnx_connection_s
 }
 lw6cnx_connection_t;
 
+typedef struct lw6cnx_ticket_table_s
+{
+  void *recv_spinlock;
+  void *recv_ack_spinlock;
+  void *send_spinlock;
+  lw6sys_hash_t *recv_table;
+  lw6sys_hash_t *recv_ack_table;
+  lw6sys_hash_t *send_table;
+}
+lw6cnx_ticket_table_t;
+
 /* cnx-connection.c */
 extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   char *remote_url,
@@ -67,5 +78,23 @@ extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
 
 /* cnx-test.c */
 extern int lw6cnx_test (int mode);
+
+/* cnx-tickettable.c */
+extern void lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table);
+extern int lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table,
+				     int hash_size);
+extern void lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table);
+extern u_int32_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t *
+					       ticket_table, char *peer_id);
+extern void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t *
+					  ticket_table, char *peer_id);
+extern int lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t *
+						   ticket_table,
+						   char *peer_id);
+extern u_int32_t lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t *
+					       ticket_table, char *peer_id);
+extern void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t *
+					  ticket_table, char *peer_id,
+					  u_int32_t send_ticket);
 
 #endif

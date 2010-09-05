@@ -61,7 +61,7 @@ in signed mode even if converted to seconds.
 @strong{Return value:}  a timestamp, 0 means "beginning of program" (think of it as uptime)
 @end deftypefun
 
-@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, u_int64_t @var{node_id}, char * @var{public_url}, char * @var{password}, char * @var{title}, char * @var{description}, int @var{bench}, char * @var{known_nodes})
+@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{password}, char * @var{title}, char * @var{description}, int @var{bench}, char * @var{known_nodes})
 @var{argc}:  number of args, as passed to @code{main}
 
 @var{argv}:  args array, as passed to @code{main}
@@ -77,8 +77,6 @@ in signed mode even if converted to seconds.
 @var{bind_port}:  the IP port to listen on
 
 @var{broadcast}:  wether broadcast is allowed on this node
-
-@var{node_id}:  the server unique ID
 
 @var{public_url}:  the public URL we want to show
 
@@ -133,6 +131,15 @@ scheme/smob instanciation when you want to release the object ressources
 a garbage collector.
 
 @strong{Return value:}  1 on success, 0 on error.
+@end deftypefun
+
+@deftypefun {u_int64_t} {lw6p2p_node_get_id} (lw6p2p_node_t * @var{node})
+@var{node}:  the node to query
+
+Returns the node id, an id which is supposed to uniquely identify
+the node at run-time.
+
+@strong{Return value:}  numerical id.
 @end deftypefun
 
 @deftypefun {int} {lw6p2p_test} (int @var{mode})

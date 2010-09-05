@@ -34,6 +34,9 @@
 #define _TEST_LOCAL_ID 0x1234123412341234LL
 #define _TEST_REMOTE_ID 0x2345234523452345LL
 #define _TEST_NEXT_FOO_DELAY 5000
+#define _TEST_TICKET_TABLE_HASH_SIZE 11
+#define _TEST_TICKET_TABLE_ID1 "1234123412341234"
+#define _TEST_TICKET_TABLE_ID2 "2345234523452345"
 
 static void
 _recv_callback_func (void *func_data, char *msg)
@@ -124,6 +127,97 @@ test_connection ()
   return ret;
 }
 
+/*
+ * Testing functions in connection.c
+ */
+static int
+test_ticket_table ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6cnx_ticket_table_t ticket_table;
+    u_int32_t ticket = 0;
+
+    lw6cnx_ticket_table_zero (&ticket_table);
+    if (lw6cnx_ticket_table_init
+	(&ticket_table, _TEST_TICKET_TABLE_HASH_SIZE))
+      {
+	ticket =
+	  lw6cnx_ticket_table_get_recv (&ticket_table,
+					_TEST_TICKET_TABLE_ID1);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket generated %08x"), ticket);
+	ticket =
+	  lw6cnx_ticket_table_get_recv (&ticket_table,
+					_TEST_TICKET_TABLE_ID2);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket generated %08x"), ticket);
+	if (!lw6cnx_ticket_table_was_recv_exchanged
+	    (&ticket_table, _TEST_TICKET_TABLE_ID1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_
+			("recv ticket reported as *not* exchanged, this is right"));
+	    lw6cnx_ticket_table_ack_recv (&ticket_table,
+					  _TEST_TICKET_TABLE_ID1);
+	    if (lw6cnx_ticket_table_was_recv_exchanged
+		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("recv ticket now reported as exchanged, this is right"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("recv ticket now reported as *not* exchanged, this is wrong"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("recv ticket reported as exchanged, this is wrong"));
+	    ret = 0;
+	  }
+
+	if (!lw6cnx_ticket_table_get_send
+	    (&ticket_table, _TEST_TICKET_TABLE_ID1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("send ticket does not exist yet, this is right"));
+	    lw6cnx_ticket_table_set_send (&ticket_table,
+					  _TEST_TICKET_TABLE_ID1,
+					  lw6sys_generate_id_32 ());
+	    if (lw6cnx_ticket_table_get_send
+		(&ticket_table, _TEST_TICKET_TABLE_ID1))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("send ticket now exists, this is right"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("send ticket still does not exist, this is wrong"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_("send ticket does exist, this is wrong"));
+	    ret = 0;
+	  }
+	lw6cnx_ticket_table_clear (&ticket_table);
+      }
+  }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6cnx_test
  *
@@ -146,7 +240,7 @@ lw6cnx_test (int mode)
       lw6sys_test (mode);
     }
 
-  ret = test_connection ();
+  ret = test_connection () && test_ticket_table ();
 
   return ret;
 }

@@ -66,3 +66,97 @@ Runs the @code{cnx} module test suite.
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
+@deftypefun {void} {lw6cnx_ticket_table_zero} (lw6cnx_ticket_table_t * @var{ticket_table})
+@var{ticket_table}:  the ticket table to fill with zero
+
+Fills the ticket table struct with 0s.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6cnx_ticket_table_init} (lw6cnx_ticket_table_t * @var{ticket_table}, int @var{hash_size})
+@var{ticket_table}:  the ticket table to init
+
+@var{hash_size}:  the hash size for both recv/send hashs
+
+Initialize a ticket table, that is, set it up with two
+empty hashs. Recv hash is filled automatically as it's queried
+for tickets, send hash must be filled explicitely with info 
+from the network.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6cnx_ticket_table_clear} (lw6cnx_ticket_table_t * @var{ticket_table})
+@var{ticket_table}:  the ticket table to clear
+
+Clears the object (frees memory).
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6cnx_ticket_table_get_recv} (lw6cnx_ticket_table_t * @var{ticket_table}, char * @var{peer_id})
+@var{ticket_table}:  the ticket table to query
+
+@var{peer_id}:  the id of remote node
+
+Gets the ticket used to communicate with peer, to check its incoming
+(recv) messages. If ticket does not exist yet, it's automatically
+generated so tunction will always return a non-zero value.
+
+@strong{Return value:}  the ticket used to check incoming messages.
+@end deftypefun
+
+@deftypefun {void} {lw6cnx_ticket_table_ack_recv} (lw6cnx_ticket_table_t * @var{ticket_table}, char * @var{peer_id})
+@var{ticket_table}:  the ticket table to query
+
+@var{peer_id}:  the id of remote node
+
+Acknowledges the ticket used to communicate with peer, to check its incoming
+(recv) messages has been received. This is to avoid sending it again when
+it has been received, as it's kept "forever" by peer, we never need to
+send it again.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6cnx_ticket_table_was_recv_exchanged} (lw6cnx_ticket_table_t * @var{ticket_table}, char * @var{peer_id})
+@var{ticket_table}:  the ticket table to query
+
+@var{peer_id}:  the id of remote node
+
+Acknowledges the ticket used to communicate with peer, to check its incoming
+(recv) messages has been received. This is to avoid sending it again when
+it has been received, as it's kept "forever" by peer, we never need to
+send it again.
+
+@strong{Return value:}  the ticket used to check incoming messages.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6cnx_ticket_table_get_send} (lw6cnx_ticket_table_t * @var{ticket_table}, char * @var{peer_id})
+@var{ticket_table}:  the ticket table to query
+
+@var{peer_id}:  the id of remote node
+
+Gets the ticket used to communicate with peer, to stamp the outgoing
+messages. If ticket does not exist yet, 0 is returned, indeed this value
+must be initialized with the value the peer gives us.
+
+@strong{Return value:}  the ticket used to stamp outgoing messages.
+@end deftypefun
+
+@deftypefun {void} {lw6cnx_ticket_table_set_send} (lw6cnx_ticket_table_t * @var{ticket_table}, char * @var{peer_id}, u_int32_t @var{send_ticket})
+@var{ticket_table}:  the ticket table to query
+
+@var{peer_id}:  the id of remote node
+
+@var{send_ticket}:  the ticket to use to stamp outgoing messages
+
+Sets the ticket used to communicate with peer, to stamp the outgoing (send)
+messages. This value should be received from the network. Note that
+once it's set, it's impossible to change it, it will remain the same
+for the whole duration of the node existence.
+
+@strong{Return value:}  NULL
+@end deftypefun
+
