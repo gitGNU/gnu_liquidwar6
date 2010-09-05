@@ -7335,7 +7335,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   SCM bind_ip = SCM_BOOL_F;
   SCM bind_port = SCM_BOOL_F;
   SCM broadcast = SCM_BOOL_F;
-  SCM node_id = SCM_BOOL_F;
   SCM public_url = SCM_BOOL_F;
   SCM password = SCM_BOOL_F;
   SCM title = SCM_BOOL_F;
@@ -7348,8 +7347,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   char *c_bind_ip;
   int c_bind_port;
   int c_broadcast;
-  char *c_node_id_str;
-  u_int64_t c_node_id_int = 0LL;
   char *c_public_url;
   char *c_password;
   char *c_title;
@@ -7368,7 +7365,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       bind_ip = scm_assoc_ref (param, scm_makfrom0str ("bind-ip"));
       bind_port = scm_assoc_ref (param, scm_makfrom0str ("bind-port"));
       broadcast = scm_assoc_ref (param, scm_makfrom0str ("broadcast"));
-      node_id = scm_assoc_ref (param, scm_makfrom0str ("node-id"));
       public_url = scm_assoc_ref (param, scm_makfrom0str ("public-url"));
       password = scm_assoc_ref (param, scm_makfrom0str ("password"));
       title = scm_assoc_ref (param, scm_makfrom0str ("title"));
@@ -7388,7 +7384,6 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       SCM_ASSERT (scm_is_string (bind_ip), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bind_port), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (SCM_BOOLP (broadcast), param, SCM_ARG2, __FUNCTION__);
-      SCM_ASSERT (scm_is_string (node_id), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (public_url), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (password), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (title), param, SCM_ARG2, __FUNCTION__);
@@ -7410,58 +7405,48 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		    {
 		      c_bind_port = scm_to_int (bind_port);
 		      c_broadcast = SCM_NFALSEP (broadcast);
-		      c_node_id_str = to_0str (node_id);
-		      if (c_node_id_str)
+		      c_public_url = to_0str (public_url);
+		      if (c_public_url)
 			{
-			  c_node_id_int = lw6sys_id_atol (c_node_id_str);
-			  LW6SYS_FREE (c_node_id_str);
-			}
-		      if (lw6sys_check_id (c_node_id_int))
-			{
-			  c_public_url = to_0str (public_url);
-			  if (c_public_url)
+			  c_password = to_0str (password);
+			  if (c_password)
 			    {
-			      c_password = to_0str (password);
-			      if (c_password)
+			      c_title = to_0str (title);
+			      if (c_title)
 				{
-				  c_title = to_0str (title);
-				  if (c_title)
+				  c_description = to_0str (description);
+				  if (c_description)
 				    {
-				      c_description = to_0str (description);
-				      if (c_description)
+				      c_bench = scm_to_int (bench);
+				      c_known_nodes = to_0str (known_nodes);
+				      if (c_known_nodes)
 					{
-					  c_bench = scm_to_int (bench);
-					  c_known_nodes =
-					    to_0str (known_nodes);
-					  if (c_known_nodes)
+					  c_node =
+					    lw6p2p_node_new
+					    (lw6_global.argc,
+					     lw6_global.argv, c_db,
+					     c_client_backends,
+					     c_server_backends, c_bind_ip,
+					     c_bind_port, c_broadcast,
+					     c_public_url,
+					     c_password, c_title,
+					     c_description, c_bench,
+					     c_known_nodes);
+					  if (c_node)
 					    {
-					      c_node =
-						lw6p2p_node_new
-						(lw6_global.argc,
-						 lw6_global.argv, c_db,
-						 c_client_backends,
-						 c_server_backends, c_bind_ip,
-						 c_bind_port, c_broadcast,
-						 c_node_id_int, c_public_url,
-						 c_password, c_title,
-						 c_description, c_bench,
-						 c_known_nodes);
-					      if (c_node)
-						{
-						  ret =
-						    lw6_make_scm_node (c_node,
-								       db);
-						}
-					      LW6SYS_FREE (c_known_nodes);
+					      ret =
+						lw6_make_scm_node (c_node,
+								   db);
 					    }
-					  LW6SYS_FREE (c_description);
+					  LW6SYS_FREE (c_known_nodes);
 					}
-				      LW6SYS_FREE (c_title);
+				      LW6SYS_FREE (c_description);
 				    }
-				  LW6SYS_FREE (c_password);
+				  LW6SYS_FREE (c_title);
 				}
-			      LW6SYS_FREE (c_public_url);
+			      LW6SYS_FREE (c_password);
 			    }
+			  LW6SYS_FREE (c_public_url);
 			}
 		      LW6SYS_FREE (c_bind_ip);
 		    }
@@ -7517,6 +7502,37 @@ _scm_lw6p2p_node_close (SCM node)
   if (c_node)
     {
       lw6p2p_node_close (c_node);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
+_scm_lw6p2p_node_get_id (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  u_int64_t c_ret_int = 0;
+  char *c_ret_str = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret_int = lw6p2p_node_get_id (c_node);
+      c_ret_str = lw6sys_id_ltoa (c_ret_int);
+      if (c_ret_str)
+	{
+	  ret = scm_makfrom0str (c_ret_str);
+	  LW6SYS_FREE (c_ret_str);
+	}
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -8422,6 +8438,8 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6p2p_node_poll);
   scm_c_define_gsubr ("c-lw6p2p-node-close", 1, 0, 0,
 		      (SCM (*)())_scm_lw6p2p_node_close);
+  scm_c_define_gsubr ("c-lw6p2p-node-get-id", 1, 0, 0,
+		      (SCM (*)())_scm_lw6p2p_node_get_id);
 
   /*
    * In liquidwar6bot

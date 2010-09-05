@@ -265,7 +265,7 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *server_backends,
 					 char *bind_ip,
 					 int bind_port, int broadcast,
-					 u_int64_t node_id, char *public_url,
+					 char *public_url,
 					 char *password, char *title,
 					 char *description, int bench,
 					 char *known_nodes);
@@ -273,6 +273,7 @@ extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
 extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
+extern u_int64_t _lw6p2p_node_get_id (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
 					   char *public_url);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);

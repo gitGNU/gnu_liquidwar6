@@ -157,7 +157,6 @@
 					       (cons "server-backends" "tcpd,udpd,httpd")
 					       (cons "bind-ip" "0.0.0.0")
 					       (cons "bind-port" 8056)
-					       (cons "node-id" "1234123412341234")
 					       (cons "public-url" "http://localhost/")
 					       (cons "password" "")
 					       (cons "title" "")
@@ -167,6 +166,8 @@
 	     )
 	(begin
 	  (display node)
+	  (display "\n")
+	  (display (c-lw6p2p-node-get-id node))
 	  (display "\n")
 	  (c-lw6p2p-node-poll node)
 	  (c-lw6sys-sleep 0.1)

@@ -38,10 +38,6 @@
 #define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
 #define _TEST_NODE_BIND_PORT4 (LW6NET_DEFAULT_PORT + 14)
 #define _TEST_NODE_BROADCAST 1
-#define _TEST_NODE_NODE_ID1 0x1234123412341234LL
-#define _TEST_NODE_NODE_ID2 0x2345234523452345LL
-#define _TEST_NODE_NODE_ID3 0x3456345634563456LL
-#define _TEST_NODE_NODE_ID4 0x4567456745674567LL
 /*
  * following depends on LW6NET_DEFAULT_PORT
  */
@@ -130,6 +126,7 @@ _test_node_init ()
     char *argv[] = { _TEST_ARGV0 };
     lw6p2p_db_t *db = NULL;
     lw6p2p_node_t *node = NULL;
+    char *id_str;
     char *repr = NULL;
 
     db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
@@ -139,7 +136,7 @@ _test_node_init ()
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
-			   _TEST_NODE_NODE_ID1, _TEST_NODE_PUBLIC_URL1, NULL,
+			   _TEST_NODE_PUBLIC_URL1, NULL,
 			   _TEST_NODE_TITLE1, _TEST_NODE_DESCRIPTION,
 			   _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES1);
 	if (node)
@@ -150,6 +147,13 @@ _test_node_init ()
 		lw6sys_log (LW6SYS_LOG_NOTICE, _("created node \"%s\""),
 			    repr);
 		LW6SYS_FREE (repr);
+	      }
+	    id_str = lw6sys_id_ltoa (lw6p2p_node_get_id (node));
+	    if (id_str)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _("get_id returns %s"),
+			    id_str);
+		LW6SYS_FREE (id_str);
 	      }
 	    lw6p2p_node_close (node);
 	    lw6p2p_node_close (node);	// yes, do it twice just to check
@@ -222,7 +226,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
-			     _TEST_NODE_NODE_ID1, _TEST_NODE_PUBLIC_URL1,
+			     _TEST_NODE_PUBLIC_URL1,
 			     _TEST_NODE_PASSWORD, _TEST_NODE_TITLE1,
 			     _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
 			     _TEST_NODE_KNOWN_NODES1);
@@ -244,7 +248,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT2, _TEST_NODE_BROADCAST,
-			     _TEST_NODE_NODE_ID2, _TEST_NODE_PUBLIC_URL2,
+			     _TEST_NODE_PUBLIC_URL2,
 			     NULL, _TEST_NODE_TITLE2, _TEST_NODE_DESCRIPTION,
 			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES2);
 	  if (*node2)
@@ -267,7 +271,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT3, _TEST_NODE_BROADCAST,
-			     _TEST_NODE_NODE_ID3, _TEST_NODE_PUBLIC_URL3,
+			     _TEST_NODE_PUBLIC_URL3,
 			     _TEST_NODE_PASSWORD, _TEST_NODE_TITLE3,
 			     _TEST_NODE_DESCRIPTION, _TEST_NODE_BENCH,
 			     _TEST_NODE_KNOWN_NODES3);
@@ -289,7 +293,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
 			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT4, _TEST_NODE_BROADCAST,
-			     _TEST_NODE_NODE_ID4, _TEST_NODE_PUBLIC_URL4,
+			     _TEST_NODE_PUBLIC_URL4,
 			     NULL, _TEST_NODE_TITLE4, _TEST_NODE_DESCRIPTION,
 			     _TEST_NODE_BENCH, _TEST_NODE_KNOWN_NODES4);
 	  if (*node4)
@@ -409,22 +413,22 @@ _test_node_cmd ()
       {
 	if (_lw6p2p_node_register_tentacle
 	    ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2,
-	     _TEST_NODE_NODE_ID2)
+	     lw6p2p_node_get_id (node2))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node2,
 					       _TEST_NODE_PUBLIC_URL1,
-					       _TEST_NODE_NODE_ID1)
+					       lw6p2p_node_get_id (node1))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
 					       _TEST_NODE_PUBLIC_URL3,
-					       _TEST_NODE_NODE_ID3)
+					       lw6p2p_node_get_id (node3))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node3,
 					       _TEST_NODE_PUBLIC_URL1,
-					       _TEST_NODE_NODE_ID1)
+					       lw6p2p_node_get_id (node1))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
 					       _TEST_NODE_PUBLIC_URL4,
-					       _TEST_NODE_NODE_ID4)
+					       lw6p2p_node_get_id (node4))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node4,
 					       _TEST_NODE_PUBLIC_URL1,
-					       _TEST_NODE_NODE_ID1))
+					       lw6p2p_node_get_id (node1)))
 	  {
 	    while (lw6sys_get_timestamp () < end_timestamp)
 	      {

@@ -29,7 +29,6 @@
 		   (srv-backends (lw6-config-get-string lw6def-srv-backends))
 		   (bind-ip (lw6-config-get-string lw6def-bind-ip))
 		   (bind-port (lw6-config-get-number lw6def-bind-port))
-		   (node-id (lw6-get-game-global "node-id"))
 		   (public-url (lw6-config-get-string lw6def-public-url))
 		   (password (lw6-config-get-string lw6def-password))
 		   (title (lw6-config-get-string lw6def-node-title))
@@ -41,7 +40,6 @@
 						     (cons "server-backends" srv-backends)
 						     (cons "bind-ip" bind-ip)
 						     (cons "bind-port" bind-port)
-						     (cons "node-id" node-id)
 						     (cons "public-url" public-url)
 						     (cons "password" password)
 						     (cons "title" title)
@@ -52,7 +50,8 @@
 	      (if db
 		  (lw6-set-game-global! "db" db))
 	      (if node
-		  (lw6-set-game-global! "node" node))
+		  (lw6-set-game-global! "node" node)
+		  (lw6-set-game-global! "node-id" (c-lw6p2p-node-get-id node)))
 	      )))))
 
 (define lw6-node-poll

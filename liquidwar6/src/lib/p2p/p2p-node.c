@@ -42,7 +42,6 @@ static u_int32_t seq_id = 0;
  * @bind_ip: the IP address to bind on
  * @bind_port: the IP port to listen on
  * @broadcast: wether broadcast is allowed on this node
- * @node_id: the server unique ID
  * @public_url: the public URL we want to show
  * @password: the password to use
  * @title: the title of the node
@@ -59,14 +58,14 @@ static u_int32_t seq_id = 0;
 lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
-		 int bind_port, int broadcast, u_int64_t node_id,
+		 int bind_port, int broadcast,
 		 char *public_url, char *password, char *title,
 		 char *description, int bench, char *known_nodes)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, broadcast,
-					     node_id, public_url, password,
+					     public_url, password,
 					     title, description, bench,
 					     known_nodes);
 }
@@ -74,7 +73,7 @@ lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
-		  int bind_port, int broadcast, u_int64_t node_id,
+		  int bind_port, int broadcast,
 		  char *public_url, char *password, char *title,
 		  char *description, int bench, char *known_nodes)
 {
@@ -98,8 +97,8 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
       node->bind_ip = lw6sys_str_copy (bind_ip);
       node->bind_port = bind_port;
       node->broadcast = broadcast;
-      node->node_id_int = node_id;
-      node->node_id_str = lw6sys_id_ltoa (node_id);
+      node->node_id_int = lw6sys_generate_id_64 ();
+      node->node_id_str = lw6sys_id_ltoa (node->node_id_int);
       if (public_url && strlen (public_url) > 0)
 	{
 	  node->public_url = lw6sys_url_canonize (public_url);
@@ -1005,6 +1004,36 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _("trying to close NULL node"));
     }
+}
+
+/**
+ * lw6p2p_node_get_id
+ *
+ * @node: the node to query
+ *
+ * Returns the node id, an id which is supposed to uniquely identify
+ * the node at run-time.
+ *
+ * Return value: numerical id.
+ */
+u_int64_t
+lw6p2p_node_get_id (lw6p2p_node_t * node)
+{
+  u_int64_t id = 0;
+
+  id = _lw6p2p_node_get_id ((_lw6p2p_node_t *) node);
+
+  return id;
+}
+
+u_int64_t
+_lw6p2p_node_get_id (_lw6p2p_node_t * node)
+{
+  u_int64_t id = 0;
+
+  id = node->node_id_int;
+
+  return id;
 }
 
 static int
