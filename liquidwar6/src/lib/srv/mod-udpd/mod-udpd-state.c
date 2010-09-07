@@ -38,7 +38,7 @@ _mod_udpd_open (_udpd_context_t * udpd_context, lw6srv_listener_t * listener,
   lw6cnx_connection_t *ret = NULL;
   _udpd_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("_mod_udpd_open \"%s\""), remote_url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_udpd_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, recv_callback_func,
@@ -51,6 +51,7 @@ _mod_udpd_open (_udpd_context_t * udpd_context, lw6srv_listener_t * listener,
       if (ret->backend_specific_data)
 	{
 	  specific_data->sock = listener->udp_sock;
+	  specific_data->remote_port = remote_port;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open udpd connection with \"%s\""),
 		      remote_url);
 	}
@@ -71,9 +72,9 @@ _mod_udpd_close (_udpd_context_t * udpd_context,
   _udpd_specific_data_t *specific_data =
     (_udpd_specific_data_t *) connection->backend_specific_data;;
 
-  if (connection->backend_specific_data)
+  if (specific_data)
     {
-      LW6SYS_FREE (connection->backend_specific_data);
+      LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);
 }

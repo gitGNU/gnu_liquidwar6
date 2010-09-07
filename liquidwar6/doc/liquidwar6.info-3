@@ -19,6 +19,495 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
+
+Annexe A 2005 .plan
+*******************
+
+Here's my .plan file, which describes what I (Christian Mauduit
+(mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
+garantee that what's written here is a precise description of the real
+future, however it should give a good idea of what I have in mind.
+
+   Note that the information here was written in summer 2005, it might
+or not be accurate now, as the main reason for plans to exist is that
+people never follow them. I'm no exception.
+
+A.1 Complete rewrite
+====================
+
+Liquid War 6 will be an almost complete rewrite. I mean that common
+code between branches 5 and 6 might end up in representing 0% of the
+total code. I think this is a wise decision, for the current code is
+really hard to maintain, and would not survive any serious cleanup. LW5
+was first written in 1998, for DOS, when I had much less experience in
+programming. In 7 years I - and other people as well - hacked major
+enhancements in it such as cross-platform support, network games, and
+if you compare release 5.0 with the latest 5.x.x release, you'll see
+that a bunch of things have changed. I had never expected I would patch
+and fix this game for so long, and it's no surprise that it's bloated
+today.
+
+   FYI, here's a list of what makes LW5 unsuitable for major
+improvements without a complete rewrite:
+
+   * global variable hell. Lots of things are stored in globals.
+
+   * hard-coded C GUI. Read src/level.c to get an idea of how horrible
+     it is.
+
+   * hard-coded 256 colors paletted mode. A clever bet in 1998
+     (performance...). Not anymore.
+
+   * generally bloated code. Makes bug-finding very tricky.
+
+A.2 Technologies
+================
+
+Liquid War 6 will use a different technical framework than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5).
+
+A.2.1 Script + standard C + assembly
+------------------------------------
+
+It happens that coding a large project in pure C is a waist of time, if
+possible at all.
+
+   If one applies the standard 80/20 rule to a computer game, one might
+state that 80% of the code eat up 20% of the CPU and the other 20% of
+the code eat up 80% of the CPU, the former being high-level glue code
+and the latter being low-level algorithmic code.
+
+   With Liquid War, one could speak of the 99/01 rule. I mean that 99%
+of the CPU time concerns only 1% of the code, and vice-versa.
+Basically, Liquid War has a very CPU-greedy core algorithm, still
+spends a fair amount of CPU displaying stuff (but this is delegated to
+the low-level game programming library) and the rest is totally
+unsignificant, in terms of CPU. Point is this "rest" represents the
+vast majority of the code, and also represents the very same buggy code
+I spend nights to patch on Liquid War 5
+(http://www.ufoot.org/liquidwar/v5). I'm talking about network code,
+GUI, and other high-level glue-code which are currently being written
+in C.
+
+   This idea is to write all this in a convenient scripting language.
+There won't be any impact on performances. I can't garantee Liquid War
+6 will be blazingly fast, but for sure it won't be the scripting
+language fault. And of course if, as in Liquid War 3 and 5, I feel the
+need to implement some stuff in assembly for performances issues, I
+will do it.
+
+   We end up with a multi-language architecture: script + C + assembly.
+
+   My guess is that I'll use Scheme
+(http://www.gnu.org/software/guile/) as an extension language. Python
+(http://www.python.org) would be a good choice too. Let's say I'll give
+Scheme a chance, and if it's really not adapted, I'll switch back to
+Python. The point is that today I know Python and don't really know
+Scheme, but, well, it's always a pleasure for me to learn new things.
+It's fun.
+
+   So what is planned today is that Liquid War 6 will be a Scheme
+program, which will call callbacks functions written in C and/or
+assembly. These functions will do all the low-level time consuming
+algorithmic and graphical stuff. The rest of the code being entirely
+scripted.
+
+A.2.2 OpenGL
+------------
+
+Liquid War is not a 3D game, so why use OpenGL?
+
+   * it's a very convenient way to access video hardware acceleration
+     with XFree86.
+
+   * low-end computers and/or computers without 3D acceleration can
+     still run Liquid War 5 (http://www.ufoot.org/liquidwar/v5).
+
+   * I'm interested in learning/using this API 8-)
+
+   This choice implies that I won't use Allegro
+(http://alleg.sourceforge.net/) anymore. Allegro stays a very
+convenient library and I would recommend it for it's excellent, easy to
+learn, powerfull, and stable. But for the needs of Liquid War 6 I'll
+use something else (because of OpenGL). I first thought of using GLUT
+(http://freeglut.sourceforge.net/) but I might end up simply using SDL
+(http://www.libsdl.org/). The idea is just fo have an OpenGL wrapper
+which sets up OpenGL in a similar manner on all platforms, and handles
+basic things such as mouse or keyboard.
+
+A.2.3 CSound
+------------
+
+I've got two excellent books on Csound (http://www.csounds.com/), and
+the will to learn how to use this tool.
+
+   I'll probably use Csound for a number of things, ranging from
+"bubbling sounds" to full blown music. Stay tuned 8-)
+
+A.3 Functionnalities
+====================
+
+A.3.1 Visual enhancements
+-------------------------
+
+Of course Liquid War 6 will look nicer than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), blah blah blah. What do you think?
+
+   Maybe I'll try to use some OpenGL features to make it possible to
+play on a ball, on a Moebius ring, or other fancy things. I have
+zillion of ideas, future will decide which ones will be implemented
+first.
+
+   To make it clear, visual enhancements aren't my top-level priority.
+However I'll try and make room for these enhancements, and prepare the
+terrain correctly. So it's possible that the first releases of Liquid
+War 6 won't be that much better than Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), but at least Liquid War 6 will
+have the possibility to evolve. Something Liquid War 5
+(http://www.ufoot.org/liquidwar/v5) doesn't have.
+
+A.3.2 Rules enhancements
+------------------------
+
+There are many things that could be done easily:
+
+   * several cursors for one team
+
+   * alliances between teams
+
+   * deep places on a map, where more liquid can reside
+
+   * circular maps which "connect" the left border to the right one
+
+   * ...
+
+   As for graphical improvements, this is not my top-level priority.
+Simply, I'll make the game ready-to-improve. Again, all these
+enhancements are very hard to code in Liquid War 5
+(http://www.ufoot.org/liquidwar/v5), else I would already have coded
+them.  Network enhancements
+
+   That's my top-level prioriry.
+
+   Why is that? Well, think of Liquid War in terms of "what makes it a
+good game?" and "what makes it a poor game?".
+
+   It's a good game because:
+
+   * the idea is original
+
+   * the gameplay is addictive
+
+   * you can play on a LAN
+
+   * all the family can play
+
+   * it's cross-platform
+
+   * it's Free Software
+
+   It's a poor game because:
+
+   * it's somewhat ugly and has a retro "back in the eighties" look
+
+   * network games are slow on Internet
+
+   * there are not enough active Internet servers
+
+   For the ugliness, well, OpenGL and some artwork should make it. But
+for the network, what's the real problem?
+
+   The real problem is that in the current situation, the server needs
+to have all "keystrokes" before doing anything, and all players must be
+connected before a game starts. Here's what I plan to do to fix this:
+
+   * players will be able to connect on a game "on the fly". This is
+     done by most online games, and it's IMHO a required features for a
+     network mode to work on Internet (not speaking of local networks,
+     but real wide online gaming). How this will fit with Liquid War's
+     rules is not totally decided, but I already know of several way to
+     achieve this.
+
+   * I'll implement an "anticipation" system "a la" U61
+     (http://www.ufoot.org). This means that no matter if a remote
+     player has a poor network connection, things will behave as if
+     everything was fine. Internally, the system keeps 2 images of the
+     game. One which is "anticipated" and displayed to the player, and
+     one which is validated but outdated, kept internally. It's a
+     little hard to explain, consumes twice as much CPU and memory, but
+     it works. It happens that today the lacking ressource for playing
+     Liquid War online is more on the network side than on the local
+     CPU and memory aspects.
+
+   * I'll take it to the next level and implement a "peer-to-peer-like"
+     network model, in which any client can become a server. The idea
+     behind is that if a server quits the game, then a client takes its
+     role, letting the game continue for hours. This way one could
+     virtually have a never ending Liquid War game which would last
+     weeks. I believe this could be really cool. I also believe no
+     proprietary game will ever implement that, for in this model
+     there's no way to force people to access a centralized server,
+     this server usually being the major key in the business model of a
+     company which sells proprietary software.
+
+   This third point will be the real enhancement of Liquid War with
+version 6. It's one of the very points which drives me to rewrite it
+completely. First because it's impossible to implement it without some
+heavy work. Then because I find it very motivating.
+
+A.3.3 Hey, you forgot my idea!!!
+--------------------------------
+
+Many gamers submitted suggestions, either by mail or by posting
+messages on the mailing list.
+
+   Don't worry, I keep them. Not reading them here does not mean I
+won't implement them. It simply means I won't implement them first. I
+first need the game basically function before enhancing it with fancy
+stuff.
+
+A.4 Road map
+============
+
+As I stated on the mailing list, when thinking about Liquid War 6,
+think of years rather than months (unless I get fired, jobless, or
+spend several months in a hospital with a laptop).
+
+   Note that this road map takes it for granted that I'll be the lone
+coder on the project. It's unlikely that someone is going to help me
+for the first stages, until there's at least something real, something
+playable. Something that proves that the concept is valid. Besides,
+(real) team work implies a significant overhead, especially at project
+start. It's hard to figure out how to distribute tasks when the tasks
+themselves are not clearly identified. But for the rest (starting in
+2007 or 2008), it's possible that external help might greatly...
+...help!
+
+   * 2005 : Project framework should be done. This implies that the
+     scripting engine is up and running, graphical mode works, config
+     and data loading work, basic menus are available. Nothing playable.
+
+   * 2006 : Import the core algorithm from Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), make the game playable in
+     "demo mode" ("à la" Liquid War 2), implement the network
+     "peer-to-peer-like" mode. At this stage, it will be possible to
+     know wether Liquid War 6 is true vaporware or not.
+
+   * 2007 : glue all this together to make something usable by anyone,
+     heavy work on the GUI, on the options, on error checking, many bug
+     fixes. The goal is to have a game which is equivalent to Liquid
+     War 5 (http://www.ufoot.org/liquidwar/v5), with the network
+     aspects pushed to the next level.
+
+   * 2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform
+     Freshmeat 8-) - and enhance it with all the feedback from gamers
+     (bug reports and suggestions received since 1998). Work on artwork
+     (both graphics and musics). Write documentation.
+
+   * 2009 : stabilize the game, patch it for all those things which had
+     been forgotten back then in 2005, optimize for speed, bug-fix
+     bug-fix bug-fix.
+
+   * 2010 : stop maintaining Liquid War 5
+     (http://www.ufoot.org/liquidwar/v5), invite Liquid War fans and
+     coders to a hudge party in my garden, sing all night, drink beers
+     and wine, teach Liquid War strategies to my 5 and 6 year old
+     daughters, remember the old times when Liquid War wasn't so cool
+     8-)
+
+
+File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
+
+Annexe B Fanfic
+***************
+
+Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
+it after a friend claimed that there wasn't any liquid war fanfic
+because it wasn't possible."
+
+   So here it is, a Liquid War fanfic. It was initially written for
+Liquid War 5, but applies to Liquid War 6 as well. Enjoy!
+
+B.1 The Battle of Emberlificoted
+================================
+
+
+...
+
+   The General presided over his massing army in his seat, or rather
+hovering ring, of power. It dipped slightly as he flew low over his
+troops marching through the viscous marsh-like terrain. They were like
+children: obedient, loyal, and they ate a lot.
+
+   Glancing at the status panel mounted in front of him he grimaced;
+the other five armies: Yellow, Green, Orange, Turquoise, and, of
+course, Red, were also readying armies of a similar size to his own.
+His violet clones would have to fight hard and eat well to win this day.
+
+   Today would not be a battle of luck, the General mused, it would be
+a battle of tactics, of alliances, and of betrayal. Every clone was
+identical - that was the general idea behind clones - and the terrain
+seemed strangely symmetrical; it would not give advantage to any of the
+six armies amassed today. Glancing at the hologram of the battlefield
+projected in front of him the General noted that he would have to move
+quickly, Orange and Yellow were too close for comfort, though
+fortunately Baron Red's army of eponymous coloured clones was the
+furthest.
+
+   General Violet's fingertips were sweaty even before they touched the
+four main control keys in front of him. They were labeled 'W', 'A',
+'D', and, of course, the full retreat button - very useful for
+misleading foes and ambushing them as they pursued - 'S'. The keys were
+arrange in a roughly equilateral triangular pattern; with 'S' forming
+the base and being adjacent to both 'A' and 'D', 'W' formed the tip of
+the triangle.
+
+   A long breath left his parched lips as at last he made his move.
+
+
+   ...
+
+   "Dammit!" he screamed moments later. He had misjudged Captain Yellow
+and Commander Orange; he had expected one at least to attack
+immediately, one he could have handled. They were working together -
+foiling his attempt to shoot between them to near the center of the
+battlefield to gain a better vantage point. Yellow had shot down
+towards him, cutting off his advance, and now Orange had sealed his
+escape route. "It's not over yet" muttered the General. He opened a
+voice channel with Commander Orange:
+
+   "Very clever. Flawed, but still clever."
+
+   "Flawed?" came the reply.
+
+   "Yes flawed, when the good Captain is finished devouring my army who
+do you think he will turn to next?", bluffed the General - his hands
+worked quickly as he manoeuvred his hovering control ring, all that his
+troops ever saw of him, carefully towards the weakest section of his
+attackers. If he could just break out a few units he could soon turn
+the tide against both Yellow and Orange.
+
+   "We have an alliance..." Orange's voice was unsure now.
+
+   Time for some sarcasm to through her even more off balance, thought
+the General,
+
+   "I gathered", he spoke softly, slowly, and with too much meaning.
+Then closing the channel he turned his attention back to his escape.
+
+
+   ...
+
+   "Yes!" wooped the ecstatic figure of the General. Fifty or so of his
+troops had broken free undetected and were even now working their way
+cautiously towards the camps of the Yellow army, only the front lines
+were still actively fighting; this opening gambit of Yellow and Orange
+had turned into a stale siege and Yellow's army had pitched tent.
+
+   General Violet steered his hovering guidance ring to the center of
+the Yellow camp. His troops struck, both those who had got behind the
+lines and those who were still besieged. Yellow reacted too slowly and
+suddenly found that her army, was shrinking back from the onslaught.
+There was nowhere to run to, and bye now her only ally - Commander
+Orange - had abandoned her to her fate; he was too busy engaging Sir.
+Turquoise, who had managed to escape from the slaughter that the Baron
+had caused to the Turquoise ranks and was even now valiantly attacking
+the flanks of the Orange troops.
+
+   A glance at the status panel showed that Yellow's life force was
+fading quickly: 8%, 3%, 1%, Gone.
+
+   The General smiled, he always enjoyed getting the first kill, and by
+now his armies life force had grown and his clones had replicated. With
+his, now, formidable fighting force it was no problem to engulf both
+Sir. Turquoise and Commander Orange's brawling armies and annihilate
+them. Once again his army grew in size and power. Now if only the Baron
+didn't notice that..., thought the General.
+
+
+   ...
+
+   "Too late!" yelped the General, now thrown into panic, as he saw the
+approaching Baron. His army had also grown in size and power - having
+fatally injured the Turquoise army within the opening moments of the
+battle, and having finally managed to catch the elusive fleeing form
+of, or what remained of, Emperor Green.
+
+   Gripping the controls harder the General thought quickly, his army
+doesn't so completely outnumber me that this is already over, however
+unless I can cause him to make a mistake that allows me to take the
+upper hand then I will inevitably lose. Maybe I can...
+
+   This thought was terminated and replaced by another as the Baron's
+angry red troops broke through the undergrowth that had covered their
+movements and started to surround the General's army. The thought that
+now throbbed through the panic-stricken mind of General Violet was
+simply 'Run!'.
+
+   Even as he signaled the retreat and made for what seemed to be the
+only possible means of escape the Baron's blood red control ring
+appeared at the opening. The General knew it was over, even before the
+host of red beings appeared at the opening.
+
+   There was no escape. His life force was almost depleted and he was
+surrounded. Then it was that the Baron decided to communicate:
+
+   "Too bad. It was a good game"
+
+   The General blinked, gaped, and was generally gobsmacked. Just
+before his life force completely failed and his own weary eyes closed
+in defeat he snarled,
+
+   "What!? This is not a game!" were the General's dying words.
+
+
+File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
+
+Annexe C Links
+**************
+
+This section lists various Internet Liquid War related links.
+
+   * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
+
+   * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
+
+   * `http://download.savannah.gnu.org/releases/liquidwar6/': Savannah
+     downloads
+
+   * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
+
+   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
+     (deprecated)
+
+   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git',
+     `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
+     (replaces GNU Arch)
+
+   * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
+
+   * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
+     archives
+
+   * `http://kasperhviid.dk/liquid-stuff.html',
+     `http://kasperhviid.dk/lw6-eyecandy.html',
+     `http://kasperhviid.dk/lw6-gui.html': Kasper Hviid brainstorming
+     and resources concerning Liquid War 6.
+     `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
+     Wikipedia
+
+   * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
+     Wikipedia (French)
+
+   * `http://www.lgdb.org/game/liquid_war': Liquid War 6 entry on LGDB
+
+   * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
+     Libregamewiki
+
+   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
+
+
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top
 
 Annexe D GNU GENERAL PUBLIC LICENSE
@@ -2138,29 +2627,31 @@ F.2 Function and keyword index
 * lw6msg_cmd_generate_hello:             libmsg.             (line   17)
 * lw6msg_cmd_generate_ticket:            libmsg.             (line   25)
 * lw6msg_cmd_guess_from_url:             libmsg.             (line  117)
-* lw6msg_envelope_analyse:               libmsg.             (line  159)
+* lw6msg_envelope_analyse:               libmsg.             (line  164)
 * lw6msg_envelope_generate:              libmsg.             (line  128)
-* lw6msg_oob_analyse_pong:               libmsg.             (line  265)
-* lw6msg_oob_analyse_request:            libmsg.             (line  244)
-* lw6msg_oob_generate_info:              libmsg.             (line  196)
-* lw6msg_oob_generate_list:              libmsg.             (line  206)
-* lw6msg_oob_generate_pong:              libmsg.             (line  216)
-* lw6msg_oob_generate_request:           libmsg.             (line  227)
-* lw6msg_test:                           libmsg.             (line  274)
-* lw6msg_utils_get_assoc_int_with_default: libmsg.           (line  325)
-* lw6msg_utils_get_assoc_str_with_default: libmsg.           (line  310)
-* lw6msg_utils_parse_key_value_to_assoc: libmsg.             (line  296)
-* lw6msg_utils_parse_key_value_to_ptr:   libmsg.             (line  282)
-* lw6msg_word_first:                     libmsg.             (line  341)
-* lw6msg_word_first_base64:              libmsg.             (line  375)
-* lw6msg_word_first_id_16:               libmsg.             (line  419)
-* lw6msg_word_first_id_32:               libmsg.             (line  433)
-* lw6msg_word_first_id_64:               libmsg.             (line  447)
-* lw6msg_word_first_int:                 libmsg.             (line  392)
-* lw6msg_word_first_int_gt0:             libmsg.             (line  405)
-* lw6msg_word_first_x:                   libmsg.             (line  356)
-* lw6msg_z_decode:                       libmsg.             (line  476)
-* lw6msg_z_encode:                       libmsg.             (line  460)
+* lw6msg_oob_analyse_pong:               libmsg.             (line  273)
+* lw6msg_oob_analyse_request:            libmsg.             (line  252)
+* lw6msg_oob_generate_info:              libmsg.             (line  204)
+* lw6msg_oob_generate_list:              libmsg.             (line  214)
+* lw6msg_oob_generate_pong:              libmsg.             (line  224)
+* lw6msg_oob_generate_request:           libmsg.             (line  235)
+* lw6msg_test:                           libmsg.             (line  282)
+* lw6msg_ticket_calc_sig:                libmsg.             (line  290)
+* lw6msg_ticket_check_sig:               libmsg.             (line  307)
+* lw6msg_utils_get_assoc_int_with_default: libmsg.           (line  366)
+* lw6msg_utils_get_assoc_str_with_default: libmsg.           (line  351)
+* lw6msg_utils_parse_key_value_to_assoc: libmsg.             (line  337)
+* lw6msg_utils_parse_key_value_to_ptr:   libmsg.             (line  323)
+* lw6msg_word_first:                     libmsg.             (line  382)
+* lw6msg_word_first_base64:              libmsg.             (line  416)
+* lw6msg_word_first_id_16:               libmsg.             (line  460)
+* lw6msg_word_first_id_32:               libmsg.             (line  474)
+* lw6msg_word_first_id_64:               libmsg.             (line  488)
+* lw6msg_word_first_int:                 libmsg.             (line  433)
+* lw6msg_word_first_int_gt0:             libmsg.             (line  446)
+* lw6msg_word_first_x:                   libmsg.             (line  397)
+* lw6msg_z_decode:                       libmsg.             (line  517)
+* lw6msg_z_encode:                       libmsg.             (line  501)
 * lw6net_dns_gethostbyname:              libnet.             (line   26)
 * lw6net_dns_is_ip:                      libnet.             (line   17)
 * lw6net_dns_lock:                       libnet.             (line   35)

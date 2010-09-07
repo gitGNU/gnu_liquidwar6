@@ -32,7 +32,7 @@
 #define _TEST_NET_LOG 1
 #define _TEST_DB_NAME12 "p2p.test.12"
 #define _TEST_DB_NAME34 "p2p.test.34"
-#define _TEST_NODE_BIND_IP "0.0.0.0"
+#define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
 #define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
@@ -45,6 +45,10 @@
 #define _TEST_NODE_PUBLIC_URL2 "http://localhost:8068/"
 #define _TEST_NODE_PUBLIC_URL3 "http://localhost:8069/"
 #define _TEST_NODE_PUBLIC_URL4 "http://localhost:8070/"
+#define _TEST_NODE_IP1 NULL
+#define _TEST_NODE_IP2 NULL
+#define _TEST_NODE_IP3 LW6NET_ADDRESS_LOOPBACK
+#define _TEST_NODE_IP4 "127.1.2.3"
 #define _TEST_NODE_PASSWORD "toto"
 #define _TEST_NODE_TITLE1 "Node 1"
 #define _TEST_NODE_TITLE2 "Node 2"
@@ -57,8 +61,8 @@
 #define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
 #define _TEST_NODE_KNOWN_NODES4 "http://localhost:8067/"
 
-#define TEST_NODE_OOB_DURATION 10000
-#define TEST_NODE_CMD_DURATION 10000
+#define TEST_NODE_OOB_DURATION 3000
+#define TEST_NODE_CMD_DURATION 30000
 
 /* 
  * Testing db
@@ -408,26 +412,31 @@ _test_node_cmd ()
     int64_t end_timestamp = 0;
 
     ret = 0;
-    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_OOB_DURATION;
+    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_CMD_DURATION;
     if (_init_nodes (&db12, &db34, &node1, &node2, &node3, &node4))
       {
 	if (_lw6p2p_node_register_tentacle
-	    ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2,
+	    ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2, _TEST_NODE_IP2,
 	     lw6p2p_node_get_id (node2))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node2,
 					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_IP1,
 					       lw6p2p_node_get_id (node1))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
 					       _TEST_NODE_PUBLIC_URL3,
+					       _TEST_NODE_IP3,
 					       lw6p2p_node_get_id (node3))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node3,
 					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_IP1,
 					       lw6p2p_node_get_id (node1))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node1,
 					       _TEST_NODE_PUBLIC_URL4,
+					       _TEST_NODE_IP4,
 					       lw6p2p_node_get_id (node4))
 	    && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node4,
 					       _TEST_NODE_PUBLIC_URL1,
+					       _TEST_NODE_IP1,
 					       lw6p2p_node_get_id (node1)))
 	  {
 	    while (lw6sys_get_timestamp () < end_timestamp)

@@ -59,13 +59,14 @@
 #define _TEST_DEFAULT_KEY_KO "???"
 #define _TEST_DEFAULT_VALUE_STR "abc"
 #define _TEST_DEFAULT_VALUE_INT 123
+#define _TEST_ENVELOPE_PHYSICAL_TICKET_SIG 0xabcd0123
+#define _TEST_ENVELOPE_LOGICAL_TICKET_SIG 0xabcd0123
 #define _TEST_ENVELOPE_PHYSICAL_FROM_ID 0x1234123412341234LL
 #define _TEST_ENVELOPE_PHYSICAL_FROM_ID_KO 0x1234123412341235LL
 #define _TEST_ENVELOPE_PHYSICAL_TO_ID 0x2345234523452345LL
 #define _TEST_ENVELOPE_PHYSICAL_TO_ID_KO 0x2345234523452346LL
 #define _TEST_ENVELOPE_LOGICAL_FROM_ID 0x3456345634563456LL
 #define _TEST_ENVELOPE_LOGICAL_TO_ID 0x4567456745674567LL
-#define _TEST_ENVELOPE_TICKET_SIG 0xabcd0123
 #define _TEST_ENVELOPE_TRUNCATE_LEN 100
 #define _TEST_WORD_STR_OK "\"this was quoted\" in a phrase with words"
 #define _TEST_WORD_STR_KO " "
@@ -89,6 +90,11 @@
 #define _TEST_Z_MSG_3 "this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed..."
 #define _TEST_Z_MSG_4_LEN 200
 #define _TEST_Z_LIMIT 30
+#define _TEST_TICKET1 0x12345678
+#define _TEST_TICKET2 0x23456789
+#define _TEST_TICKET_FROM_ID 0x1234123412341234LL
+#define _TEST_TICKET_TO_ID 0X2345234523452345LL
+#define _TEST_TICKET_MSG "hello world"
 
 /*
  * Testing functions in cmd.c
@@ -342,7 +348,8 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   char *envelope = NULL;
   char *password_checksum = NULL;
   char *received_msg = NULL;
-  u_int32_t received_ticket_sig = 0;
+  u_int32_t received_physical_ticket_sig = 0;
+  u_int32_t received_logical_ticket_sig = 0;
   u_int64_t received_physical_from_id = 0;
   u_int64_t received_physical_to_id = 0;
   u_int64_t received_logical_from_id = 0;
@@ -367,7 +374,8 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      envelope =
 		lw6msg_envelope_generate (mode, lw6sys_build_get_version (),
 					  password_checksum,
-					  _TEST_ENVELOPE_TICKET_SIG,
+					  _TEST_ENVELOPE_PHYSICAL_TICKET_SIG,
+					  _TEST_ENVELOPE_LOGICAL_TICKET_SIG,
 					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
 					  _TEST_ENVELOPE_LOGICAL_FROM_ID,
@@ -380,9 +388,11 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _("envelope \"%s\" parsed"), envelope);
@@ -412,9 +422,11 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _("truncated envelope \"%s\" parsed"),
@@ -442,9 +454,11 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD_KO,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _
@@ -460,9 +474,11 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID_KO,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _
@@ -478,9 +494,11 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID_KO, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _
@@ -504,14 +522,15 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	    }
 
 	  /*
-	   * Testing with physical == logical, ticket=0
+	   * Testing with physical == logical, password=NULL,ticket=0
 	   */
 	  msg = lw6msg_cmd_generate_hello (info);
 	  if (msg)
 	    {
 	      envelope =
 		lw6msg_envelope_generate (mode, lw6sys_build_get_version (),
-					  password_checksum,
+					  LW6MSG_UNDEF,
+					  0,
 					  0,
 					  _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 					  _TEST_ENVELOPE_PHYSICAL_TO_ID,
@@ -522,12 +541,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
 			      _("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		      (envelope, mode, _TEST_URL, NULL,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
-		       &received_ticket_sig, &received_physical_from_id,
-		       &received_physical_to_id, &received_logical_from_id,
-		       &received_logical_to_id, &received_physical_from_url))
+		       &received_physical_ticket_sig,
+		       &received_logical_ticket_sig,
+		       &received_physical_from_id, &received_physical_to_id,
+		       &received_logical_from_id, &received_logical_to_id,
+		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
 				  _("envelope \"%s\" parsed"), envelope);
@@ -941,6 +962,62 @@ _key_value_assoc_callback (void *func_data, char *key, void *value)
   (*count)++;
   lw6sys_log (LW6SYS_LOG_NOTICE, _("count=%d found key=\"%s\" value=\"%s\""),
 	      *count, key, value_str);
+}
+
+/*
+ * Testing functions in ticket.c
+ */
+static int
+test_ticket ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    u_int32_t ticket1_sig = 0;
+    u_int32_t ticket2_sig = 0;
+
+#define _TEST_TICKET1 0x12345678
+#define _TEST_TICKET2 0x23456789
+#define _TEST_TICKET_FROM_ID 0x1234123412341234LL
+#define _TEST_TICKET_TO_ID 0X2345234523452345LL
+#define _TEST_TICKET_MSG "hello world"
+
+    ticket1_sig =
+      lw6msg_ticket_calc_sig (_TEST_TICKET1, _TEST_TICKET_FROM_ID,
+			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+		_TEST_TICKET1, ticket1_sig);
+    ticket2_sig =
+      lw6msg_ticket_calc_sig (_TEST_TICKET2, _TEST_TICKET_FROM_ID,
+			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+		_TEST_TICKET2, ticket2_sig);
+    if (lw6msg_ticket_check_sig
+	(_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
+	 _TEST_TICKET_MSG, ticket1_sig))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig check works when same"));
+	if (!lw6msg_ticket_check_sig
+	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
+	     _TEST_TICKET_MSG, ticket2_sig))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("ticket_sig check works when different"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
 }
 
 /*
@@ -1476,8 +1553,8 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_oob () && test_utils ()
-    && test_word () && test_z ();
+  ret = test_cmd () && test_envelope () && test_oob () && test_ticket ()
+    && test_utils () && test_word () && test_z ();
 
   return ret;
 }

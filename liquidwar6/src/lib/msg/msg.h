@@ -113,7 +113,8 @@ extern char *lw6msg_cmd_guess_from_url (char *msg);
 /* msg-enveloppe.c */
 extern char *lw6msg_envelope_generate (lw6msg_envelope_mode_t mode,
 				       char *version, char *password_checksum,
-				       u_int32_t ticket_sig,
+				       u_int32_t physical_ticket_sig,
+				       u_int32_t logical_ticket_sig,
 				       u_int64_t physical_from_id,
 				       u_int64_t physical_to_id,
 				       u_int64_t logical_from_id,
@@ -123,7 +124,9 @@ extern int lw6msg_envelope_analyse (char *envelope,
 				    char *local_url, char *password,
 				    u_int64_t expected_physical_from_id,
 				    u_int64_t expected_physical_to_id,
-				    char **msg, u_int32_t * ticket_sig,
+				    char **msg,
+				    u_int32_t * physical_ticket_sig,
+				    u_int32_t * logical_ticket_sig,
 				    u_int64_t * physical_from_id,
 				    u_int64_t * physical_to_id,
 				    u_int64_t * logical_from_id,
@@ -144,6 +147,13 @@ extern char *lw6msg_oob_analyse_pong (char *text);
 
 /* nod-test.c */
 extern int lw6msg_test (int mode);
+
+/* msg-ticket.c */
+extern u_int32_t lw6msg_ticket_calc_sig (u_int32_t ticket, u_int64_t from_id,
+					 u_int64_t to_id, char *msg);
+extern int lw6msg_ticket_check_sig (u_int32_t ticket, u_int64_t from_id,
+				    u_int64_t to_id, char *msg,
+				    u_int32_t ticket_sig);
 
 /* msg-utils.c */
 extern int lw6msg_utils_parse_key_value_to_ptr (char **key, char **value,

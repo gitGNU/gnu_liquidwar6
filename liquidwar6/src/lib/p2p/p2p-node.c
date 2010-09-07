@@ -27,8 +27,6 @@
 #include "p2p.h"
 #include "p2p-internal.h"
 
-#define _UDP_MINIMAL_BUF_SIZE 1
-
 static u_int32_t seq_id = 0;
 
 /**
@@ -170,6 +168,13 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			     _lw6p2p_cli_oob_callback_data_free);
 	  ret = (node->cli_oobs != NULL);
 	}
+      if (ret)
+	{
+	  ret =
+	    lw6cnx_ticket_table_init (&(node->ticket_table),
+				      node->db->data.
+				      consts.ticket_table_hash_size);
+	}
     }
 
   if (node && ret && node->node_id_str && node->public_url && node->node_info
@@ -255,6 +260,7 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
+      lw6cnx_ticket_table_clear (&(node->ticket_table));
       if (node->cli_oobs)
 	{
 	  lw6sys_list_free (node->cli_oobs);
@@ -427,7 +433,7 @@ static int
 _poll_step2_recv_udp (_lw6p2p_node_t * node)
 {
   int ret = 1;
-  char buf[_UDP_MINIMAL_BUF_SIZE + 1];
+  char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
   char *ip1 = NULL;
   char *ip2 = NULL;
   int port1 = 0;
@@ -437,11 +443,11 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node)
   char *guessed_public_url = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _("polling node UDP"));
-  memset (buf, 0, _UDP_MINIMAL_BUF_SIZE + 1);
+  memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (node->listener->udp_sock >= 0)
     {
       if (lw6net_udp_peek
-	  (node->listener->udp_sock, buf, _UDP_MINIMAL_BUF_SIZE, &ip1,
+	  (node->listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1,
 	   &port1))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("received data from %s:%d"),
@@ -542,7 +548,7 @@ _tcp_accepter_reply (void *func_data, void *data)
     {
       analyse_tcp_ret =
 	lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter,
-			    &remote_id, NULL);
+			    node->node_info, &remote_id, NULL);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -596,12 +602,13 @@ _tcp_accepter_reply (void *func_data, void *data)
 		       */
 		      analyse_tcp_ret =
 			lw6srv_analyse_tcp (node->backends.srv_backends[i],
-					    tcp_accepter, &remote_id,
-					    &remote_url);
+					    tcp_accepter, node->node_info,
+					    &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
 			  if (_lw6p2p_node_register_tentacle
-			      (node, remote_url, remote_id))
+			      (node, remote_url,
+			       tcp_accepter->client_id.client_ip, remote_id))
 			    {
 			      tentacle_index =
 				_lw6p2p_node_find_tentacle (node, remote_id);
@@ -654,7 +661,7 @@ _udp_buffer_reply (void *func_data, void *data)
     {
       analyse_udp_ret =
 	lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer,
-			    &remote_id, NULL);
+			    node->node_info, &remote_id, NULL);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -709,12 +716,13 @@ _udp_buffer_reply (void *func_data, void *data)
 		       */
 		      analyse_udp_ret =
 			lw6srv_analyse_udp (node->backends.srv_backends[i],
-					    udp_buffer, &remote_id,
-					    &remote_url);
+					    udp_buffer, node->node_info,
+					    &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
 			  if (_lw6p2p_node_register_tentacle
-			      (node, remote_url, remote_id))
+			      (node, remote_url,
+			       udp_buffer->client_id.client_ip, remote_id))
 			    {
 			      tentacle_index =
 				_lw6p2p_node_find_tentacle (node, remote_id);
@@ -858,6 +866,7 @@ _poll_step10_poll_tentacles (_lw6p2p_node_t * node)
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
 	  _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+				 &(node->ticket_table),
 				 node->db->data.consts.foo_delay);
 	}
     }
@@ -1157,7 +1166,7 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 
 int
 _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
-				u_int64_t remote_id)
+				char *real_remote_ip, u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
@@ -1172,9 +1181,9 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
 	    _lw6p2p_tentacle_init (&(node->tentacles[i]), &(node->backends),
 				   node->listener,
 				   node->public_url, remote_url,
-				   node->password, node->node_id_int,
-				   remote_id, _lw6p2p_recv_callback,
-				   (void *) node);
+				   real_remote_ip, node->password,
+				   node->node_id_int, remote_id,
+				   _lw6p2p_recv_callback, (void *) node);
 	}
       else
 	{

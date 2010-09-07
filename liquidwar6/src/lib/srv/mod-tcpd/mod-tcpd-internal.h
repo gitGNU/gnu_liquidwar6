@@ -72,9 +72,11 @@ extern void _mod_tcpd_quit (_tcpd_context_t * tcpd_context);
  */
 extern int _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 				  lw6srv_tcp_accepter_t * tcp_accepter,
+				  lw6nod_info_t * node_info,
 				  u_int64_t * remote_id, char **remote_url);
 extern int _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
 				  lw6srv_udp_buffer_t * udp_buffer,
+				  lw6nod_info_t * node_info,
 				  u_int64_t * remote_id, char **remote_url);
 extern int _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 				    lw6cnx_connection_t * connection,
@@ -108,8 +110,10 @@ extern int _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
  */
 extern int _mod_tcpd_send (_tcpd_context_t * tcpd_context,
 			   lw6cnx_connection_t * connection,
-			   u_int32_t ticket_sig, u_int64_t logical_from_id,
-			   u_int64_t logical_to_id, char *message);
+			   u_int32_t physical_ticket_sig,
+			   u_int32_t logical_ticket_sig,
+			   u_int64_t logical_from_id, u_int64_t logical_to_id,
+			   char *message);
 extern void _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
 			    lw6cnx_connection_t * connection);
 

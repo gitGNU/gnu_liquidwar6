@@ -1055,7 +1055,162 @@ emergency function.
 @node Network games, Graphics, User interface, User's manual
 @section Network games
 
-Not implemented yet.
+@subsection Set up your ``public url''
+
+Liquid War 6 needs to name your ``node'' (you can think as your
+server instance of the game) and have a unique URL (address) to
+publish and give to other nodes.
+
+If only one network adapter is attached to your computer and
+your address IP is @code{A.B.C.D} then by default the game will
+pick automatically the address @code{http://A.B.C.D:8056/} and
+it should work flawlessly.
+
+Problems can arise if you have a peculiar network configuration,
+if you have multiple non-loopback network interfaces, if you use
+NAT to protect yourself and/or if your context forces you to do so.
+In that case, Liquid War won't be able to guess a correct URL
+automatically. In that case you need to set it up manually either
+by editing the @code{public-url} entry in the config file, 
+changing environment variable @code{LW6_PUBLIC_URL} or
+passing the @code{--public-url=http://<host>:<port>/} argument
+when running the game. Typically, if you are behind a firewall
+which does NAT, use the firewall address.
+
+@subsection Starting a node
+
+A node is started automatically when you run the game.
+
+So even without starting a network game, you should be able
+to point a web browser on your node and see a web page
+describing it. Your node address is displayed on @code{stdout}
+(console) when starting the game. If in doubt, try @uref{http://localhost:8056/}
+which should work unless you modified defaults settings.
+
+When you start a network game, the program simply changes
+your node state from ``idle'' to ``accepting connections''.
+
+@subsection Connecting to a node
+
+The interface should show you the list of available nodes,
+just pick one and try and connect to it.
+
+Note that once you're connected on a remote node, you're
+still acting as an independant node, and other nodes might
+connect to your node as well as to the other nodes. In
+short, there's no real server or client, everyone is a
+client for someone, and can act as a server.
+
+Nodes connected together form a ``community'', which can
+disband, accept new nodes, and in a general manner has
+its own immaterial life, the first node which created
+the game might disappear, game can continue without it.
+
+This is why the main network module is called @code{libp2p},
+this is a reference to the term ``peer to peer''.
+
+@subsection Firewall settings
+
+By default, Liquid War 6 will communicate on port 8056, in both TCP
+and UDP, and in both ways too (in/out). It's possible to play with
+partial connectivity, in extreme case, you can even play without
+direct internet access, using only a mere web proxy.
+
+However, things will go faster and be much easier if the program
+can use its default native protocol.
+
+Here's an example of a typicall @uref{http://www.netfilter.org/, iptables}
+configuration which allows you to play the game full-featured. It's assumed
+that by default all packets are dropped, this configuration will just open
+the necessary ports.
+
+@example
+# outgoing TCP on port 8056 (liquidwar6)
+iptables -A OUTPUT -p tcp --dport 8056 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 8056 -m state --state ESTABLISHED -j ACCEPT
+# incoming TCP on port 8056 (liquidwar6)
+iptables -A INPUT -p tcp --dport 8056 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 8056 -m state --state ESTABLISHED -j ACCEPT
+# outgoing UDP on port 8056 (liquidwar6)
+iptables -A OUTPUT -p udp --dport 8056 --sport 1024:65535 -j ACCEPT
+iptables -A INPUT -p udp --sport 8056 --dport 1024:65535 -j ACCEPT
+# incoming UDP on port 8056 (liquidwar6)
+iptables -A INPUT -p udp --dport 8056 --sport 1024:65535 -j ACCEPT
+iptables -A OUTPUT -p udp --sport 8056 --dport 1024:65535 -j ACCEPT
+@end example
+
+If you can't change firewall settings and only have access to the web
+through a web proxy, it can still be possible to play (with some restrictions
+such as your node not being seen by others) if @code{mod-http} is available.
+This in turn depends on wether @uref{http://curl.haxx.se/,libcurl} support was
+activated when compiling the game. To use the proxy, you can set
+the @code{http_proxy} environment variable. For detailed informations,
+please refer to @uref{http://curl.haxx.se/docs/,libcurl doccumentation}.
+
+@subsection Is the game secure?
+
+As stated in the license, the program comes with NO WARRANTY. Period.
+
+However, an important effort has been made so that it
+can reasonnably be used online, exposed to various ``common'' attacks.
+
+As far as security is concerned, there are two different issues:
+@itemize
+@item
+vulnerability to general security attacks, people typically trying
+to gain prililedged access on your computer, relying on a security
+flaw in the program. A good firewall is a must-have, as you can
+never know for sure a program has no bugs. Running Liquid War 6 as
+an unpriviledged user (certainly not ``root'') is also a good practice.
+@item
+vulnerability to players ``cheating'' and sending malicious
+informations to fake their moves, scores, and/or modify
+informations concerning other players. This is a very important
+point in Liquid War 6 since it has a multi-channel way of
+exchanging data (think of the web interface, you have no
+garantee of who the client is).
+@end itemize
+
+Here's a list of various steps which have been taken
+to make the program more secure:
+
+@itemize
+@item
+a @code{--skip-network} option is here if you really do
+not want to be bothered by networking risks;
+@item
+program has basic password support so that you can deny access 
+to unknown players;
+@item
+passwords are never sent in clear text over the network,
+only a hash (checksum) is sent;
+@item
+no use of well-known buffer overflow friendly functions like @code{strcpy}, 
+equivalents such as @code{strncpy} are used;
+@item
+program never trusts what comes from network peers, when
+it wants to know something, it checks it out by itself, for
+instance, the node list is systematically verified by the
+local node before being used and/or published;
+@item
+the built-in web server is not a general purpose web server
+which will end up revealing some of your private files, it
+can only serve game-related pages;
+@item
+the very fact that the game has no central server makes it
+hard to attack it, because if someone wants to play ``Oscar'' 
+annoying ``Alice'' and ``Bob'' he well need to fool
+all the nodes participating in a game, sending wrong
+informations to a single node won't have much effect.
+@end itemize
+
+This being said, Liquid War 6 does not use any strong encryption
+library to protect the data it sends. All the checksum machinery
+is definitely vulnerable to a brute-force attack, so in theory
+it's possible to fool the program.
+
+In practise, if you want really privacy, play over a VPN
+(Virtual Private Network).
 
 @c ---------------------------------------------------------------------------
 @c Graphics

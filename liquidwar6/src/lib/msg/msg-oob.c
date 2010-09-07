@@ -77,7 +77,7 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
 	 LW6MSG_OOB_STAMP,
 	 lw6sys_build_get_stamp (),
 	 LW6MSG_OOB_ID,
-	 info->const_info.id,
+	 info->const_info.id_str,
 	 LW6MSG_OOB_URL,
 	 info->const_info.url,
 	 LW6MSG_OOB_TITLE,

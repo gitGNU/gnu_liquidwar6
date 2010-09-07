@@ -13,6 +13,11 @@ An alias for '--copyright'.
 An alias for '--show-build-cflags'.
 @end deffn
 
+@subsection configure-args
+@deffn {Command-line option} @code{--configure-args}
+An alias for '--show-build-configure-args'.
+@end deffn
+
 @subsection copy
 @deffn {Command-line option} @code{--copy}
 An alias for '--copyright'.

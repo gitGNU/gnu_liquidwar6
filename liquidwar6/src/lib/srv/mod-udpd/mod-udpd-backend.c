@@ -57,6 +57,7 @@ _quit (void *srv_context)
 
 static int
 _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
+	      lw6nod_info_t * node_info,
 	      u_int64_t * remote_id, char **remote_url)
 {
   _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
@@ -65,8 +66,8 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
   if (udpd_context)
     {
       ret =
-	_mod_udpd_analyse_tcp (udpd_context, tcp_accepter, remote_id,
-			       remote_url);
+	_mod_udpd_analyse_tcp (udpd_context, tcp_accepter, node_info,
+			       remote_id, remote_url);
     }
 
   return ret;
@@ -74,6 +75,7 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
 
 static int
 _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
+	      lw6nod_info_t * node_info,
 	      u_int64_t * remote_id, char **remote_url)
 {
   _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
@@ -82,7 +84,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
   if (udpd_context)
     {
       ret =
-	_mod_udpd_analyse_udp (udpd_context, udp_buffer, remote_id,
+	_mod_udpd_analyse_udp (udpd_context, udp_buffer, node_info, remote_id,
 			       remote_url);
     }
 
@@ -168,8 +170,8 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 
 static int
 _send (void *srv_context, lw6cnx_connection_t * connection,
-       u_int32_t ticket_sig, u_int64_t logical_from_id,
-       u_int64_t logical_to_id, char *message)
+       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
+       u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 {
   _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
   int ret = 0;
@@ -177,8 +179,9 @@ _send (void *srv_context, lw6cnx_connection_t * connection,
   if (udpd_context)
     {
       ret =
-	_mod_udpd_send (udpd_context, connection, ticket_sig, logical_from_id,
-			logical_to_id, message);
+	_mod_udpd_send (udpd_context, connection, physical_ticket_sig,
+			logical_ticket_sig, logical_from_id, logical_to_id,
+			message);
     }
 
   return ret;

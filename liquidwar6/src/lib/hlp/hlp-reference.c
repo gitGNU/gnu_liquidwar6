@@ -1588,6 +1588,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_COPYLEFT, _("An alias for '--copyright'."));
   POPULATE_VOID (LW6DEF_CFLAGS, _("An alias for '--show-build-cflags'."));
   POPULATE_VOID (LW6DEF_LDFLAGS, _("An alias for '--show-build-ldflags'."));
+  POPULATE_VOID (LW6DEF_CONFIGURE_ARGS,
+		 _("An alias for '--show-build-configure-args'."));
   ret = 1;
   return ret;
 }

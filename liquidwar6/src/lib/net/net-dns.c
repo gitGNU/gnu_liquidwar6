@@ -119,7 +119,7 @@ lw6net_dns_is_ip (char *ip)
  * an IP as an input (in this case, will copy it...) and 
  * allocate a new string for the result.
  *
- * Return value: an IP if success, 0 on error.
+ * Return value: an IP if success, NULL on error.
  */
 char *
 lw6net_dns_gethostbyname (char *name)

@@ -35,6 +35,7 @@
 #define LW6NET_HTTP_PORT 80
 #define LW6NET_MAX_PACKET_SIZE 2000
 #define LW6NET_SOCKET_INVALID -1
+#define LW6NET_UDP_MINIMAL_BUF_SIZE 1
 
 // net-error.c
 extern int lw6net_last_error ();

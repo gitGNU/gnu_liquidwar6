@@ -81,6 +81,7 @@ lw6srv_quit (lw6srv_backend_t * backend)
 int
 lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 		    lw6srv_tcp_accepter_t * tcp_accepter,
+		    lw6nod_info_t * node_info,
 		    u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -90,8 +91,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
   if (backend->analyse_tcp)
     {
       ret =
-	backend->analyse_tcp (backend->srv_context, tcp_accepter, remote_id,
-			      remote_url);
+	backend->analyse_tcp (backend->srv_context, tcp_accepter, node_info,
+			      remote_id, remote_url);
     }
   else
     {
@@ -105,7 +106,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 
 int
 lw6srv_analyse_udp (lw6srv_backend_t * backend,
-		    lw6srv_udp_buffer_t * udp_buffer, u_int64_t * remote_id,
+		    lw6srv_udp_buffer_t * udp_buffer,
+		    lw6nod_info_t * node_info, u_int64_t * remote_id,
 		    char **remote_url)
 {
   int ret = 0;
@@ -115,8 +117,8 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
   if (backend->analyse_udp)
     {
       ret =
-	backend->analyse_udp (backend->srv_context, udp_buffer, remote_id,
-			      remote_url);
+	backend->analyse_udp (backend->srv_context, udp_buffer, node_info,
+			      remote_id, remote_url);
     }
   else
     {
@@ -246,7 +248,7 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 
 int
 lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
-	     u_int32_t ticket_sig,
+	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	     u_int64_t logical_from_id,
 	     u_int64_t logical_to_id, char *message)
 {
@@ -257,8 +259,9 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
   if (backend->send)
     {
       ret =
-	backend->send (backend->srv_context, connection, ticket_sig,
-		       logical_from_id, logical_to_id, message);
+	backend->send (backend->srv_context, connection, physical_ticket_sig,
+		       logical_ticket_sig, logical_from_id, logical_to_id,
+		       message);
     }
   else
     {

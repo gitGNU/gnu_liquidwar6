@@ -29,9 +29,10 @@
 
 int
 _mod_http_send (_http_context_t * http_context,
-		lw6cnx_connection_t * connection, u_int32_t ticket_sig,
-		u_int64_t logical_from_id,
-		u_int64_t logical_to_id, char *message)
+		lw6cnx_connection_t * connection,
+		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
+		u_int64_t logical_from_id, u_int64_t logical_to_id,
+		char *message)
 {
   int ret = 0;
 

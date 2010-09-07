@@ -108,14 +108,16 @@ Analyzes a GOODBYE message.
 @strong{Return value:}  the from url, if found (dynamically allocated)
 @end deftypefun
 
-@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, char * @var{version}, char * @var{password_checksum}, u_int32_t @var{ticket_sig}, u_int64_t @var{physical_from_id}, u_int64_t @var{physical_to_id}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, char * @var{msg})
+@deftypefun {char *} {lw6msg_envelope_generate} (lw6msg_envelope_mode_t @var{mode}, char * @var{version}, char * @var{password_checksum}, u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{physical_from_id}, u_int64_t @var{physical_to_id}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, char * @var{msg})
 @var{mode}:  mode to use (a la TELNET or URL compatible)
 
 @var{version}:  the program version to use (note: can be changed when testing)
 
 @var{password_checksum}:  the password string to send
 
-@var{ticket_sig}:  the signature of the message, calculated with ticket
+@var{physical_ticket_sig}:  the signature of the message, calculated with ticket + physical from/to
+
+@var{logical_ticket_sig}:  the signature of the message, calculated with ticket + logical from/to
 
 @var{physical_from_id}:  the sender id
 
@@ -133,7 +135,7 @@ network.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6msg_envelope_analyse} (char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, char * @var{local_url}, char * @var{password}, u_int64_t @var{expected_physical_from_id}, u_int64_t @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
+@deftypefun {int} {lw6msg_envelope_analyse} (char * @var{envelope}, lw6msg_envelope_mode_t @var{mode}, char * @var{local_url}, char * @var{password}, u_int64_t @var{expected_physical_from_id}, u_int64_t @var{expected_physical_to_id}, char ** @var{msg}, u_int32_t * @var{physical_ticket_sig}, u_int32_t * @var{logical_ticket_sig}, u_int64_t * @var{physical_from_id}, u_int64_t * @var{physical_to_id}, u_int64_t * @var{logical_from_id}, u_int64_t * @var{logical_to_id}, char ** @var{physical_from_url})
 @var{envelope}:  the envelope to analyse
 
 @var{mode}:  mode to use (a la TELNET or URL compatible)
@@ -148,7 +150,9 @@ network.
 
 @var{msg}:  if not NULL, will contain body of the message
 
-@var{ticket_sig}:  if not NULL, will contain signature of message, calculated with ticket
+@var{physical_ticket_sig}:  if not NULL, will contain signature of message, calculated with ticket
+
+@var{logical_ticket_sig}:  if not NULL, will contain signature of message, calculated with ticket
 
 @var{physical_from_id}:  if not NULL, will contain sender id
 
@@ -248,6 +252,40 @@ it exists.
 Runs the @code{nod} module test suite.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6msg_ticket_calc_sig} (u_int32_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, char * @var{msg})
+@var{ticket}:  the (private) ticket to use
+
+@var{from_id}:  the sender/creator
+
+@var{to_id}:  the receiver/target
+
+@var{msg}:  the message to sign
+
+Produces a little signature, which is clearly
+vulnerable to brute-force attacks but makes it
+possible to be 100% sure if it's wrong, someone
+is trying to do something nasty (or there's a 
+serious bug!).
+
+@strong{Return value:}  the sig, always non-zero
+@end deftypefun
+
+@deftypefun {int} {lw6msg_ticket_check_sig} (u_int32_t @var{ticket}, u_int64_t @var{from_id}, u_int64_t @var{to_id}, char * @var{msg}, u_int32_t @var{ticket_sig})
+@var{ticket}:  the (private) ticket to use
+
+@var{from_id}:  the sender/creator
+
+@var{to_id}:  the receiver/target
+
+@var{msg}:  the message to sign
+
+@var{ticket_sig}:  the signature to check against
+
+Checks a sig is OK.
+
+@strong{Return value:}  1 if they are the same, 0 if not.
 @end deftypefun
 
 @deftypefun {int} {lw6msg_utils_parse_key_value_to_ptr} (char ** @var{key}, char ** @var{value}, char * @var{line})

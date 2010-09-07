@@ -50,7 +50,7 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d", cmd, sep,
 	     info->const_info.program, sep,
 	     info->const_info.version, sep, info->const_info.codename, sep,
-	     info->const_info.stamp, sep, info->const_info.id,
+	     info->const_info.stamp, sep, info->const_info.id_str,
 	     sep, info->const_info.url, sep, base64_title, sep,
 	     base64_description, sep, info->const_info.bench, sep, uptime);
 	  LW6SYS_FREE (base64_description);

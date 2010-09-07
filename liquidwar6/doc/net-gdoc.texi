@@ -15,7 +15,7 @@ A wrapper over the standard gethostbyname function, will even accept
 an IP as an input (in this case, will copy it...) and 
 allocate a new string for the result.
 
-@strong{Return value:}  an IP if success, 0 on error.
+@strong{Return value:}  an IP if success, NULL on error.
 @end deftypefun
 
 @deftypefun {int} {lw6net_dns_lock} ()

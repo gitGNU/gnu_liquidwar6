@@ -31,7 +31,8 @@ typedef struct lw6nod_const_info_s
   char *version;
   char *codename;
   int stamp;
-  char *id;
+  u_int64_t id_int;
+  char *id_str;
   char *url;
   char *title;
   char *description;

@@ -58,6 +58,7 @@
 (define lw6def-colorize "colorize")
 (define lw6def-commands-per-sec "commands-per-sec")
 (define lw6def-config-file "config-file")
+(define lw6def-configure-args "configure-args")
 (define lw6def-copy "copy")
 (define lw6def-copyleft "copyleft")
 (define lw6def-copyright "copyright")

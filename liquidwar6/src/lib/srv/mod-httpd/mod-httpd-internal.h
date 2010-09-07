@@ -156,9 +156,11 @@ extern void _mod_httpd_quit (_httpd_context_t * httpd_context);
  */
 extern int _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 				   lw6srv_tcp_accepter_t * tcp_accepter,
+				   lw6nod_info_t * node_info,
 				   u_int64_t * remote_id, char **remote_url);
 extern int _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
 				   lw6srv_udp_buffer_t * udp_buffer,
+				   lw6nod_info_t * node_info,
 				   u_int64_t * remote_id, char **remote_url);
 extern int _mod_httpd_feed_with_tcp (_httpd_context_t * httpd_context,
 				     lw6cnx_connection_t * connection,
@@ -197,7 +199,9 @@ extern int _mod_httpd_timeout_ok (_httpd_context_t * httpd_context,
  */
 extern int _mod_httpd_send (_httpd_context_t * httpd_context,
 			    lw6cnx_connection_t * connection,
-			    u_int32_t ticket_sig, u_int64_t logical_from_id,
+			    u_int32_t physical_ticket_sig,
+			    u_int32_t logical_ticket_sig,
+			    u_int64_t logical_from_id,
 			    u_int64_t logical_to_id, char *message);
 extern void _mod_httpd_poll (_httpd_context_t * httpd_context,
 			     lw6cnx_connection_t * connection);

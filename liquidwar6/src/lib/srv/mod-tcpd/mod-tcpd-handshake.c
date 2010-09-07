@@ -30,6 +30,7 @@
 int
 _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
+		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -77,6 +78,7 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 int
 _mod_tcpd_analyse_udp (_tcpd_context_t * tcpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
+		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;

@@ -87,6 +87,7 @@ typedef struct _lw6p2p_consts_s
   int node_expire_hard_delay;
   int node_verify_max_at_once;
   int foo_delay;
+  int ticket_table_hash_size;
 }
 _lw6p2p_consts_t;
 
@@ -157,6 +158,7 @@ typedef struct _lw6p2p_tentacle_s
   u_int64_t remote_id_int;
   char *remote_id_str;
   int hello_sent;
+  int dns_ok;
   int nb_cli_connections;
   lw6cnx_connection_t **cli_connections;
   int nb_srv_connections;
@@ -183,6 +185,7 @@ typedef struct _lw6p2p_node_s
   lw6sys_list_t *cli_oobs;
   _lw6p2p_flush_t flush;
   _lw6p2p_explore_t explore;
+  lw6cnx_ticket_table_t ticket_table;
   _lw6p2p_tentacle_t tentacles[LW6MAP_MAX_NB_NODES];
 } _lw6p2p_node_t;
 
@@ -281,6 +284,7 @@ extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,
 				       u_int64_t remote_id);
 extern int _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node,
 					   char *remote_url,
+					   char *real_remote_ip,
 					   u_int64_t remote_id);
 extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
 					     u_int64_t remote_id);
@@ -305,13 +309,17 @@ extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				  _lw6p2p_backends_t * backends,
 				  lw6srv_listener_t * listener,
 				  char *local_url,
-				  char *remote_url, char *password,
+				  char *remote_url,
+				  char *real_remote_ip,
+				  char *password,
 				  u_int64_t local_id, u_int64_t remote_id,
 				  lw6cnx_recv_callback_t recv_callback_func,
 				  void *recv_callback_data);
 extern void _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle);
 extern int _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
-				   lw6nod_info_t * node_info, int foo_delay);
+				   lw6nod_info_t * node_info,
+				   lw6cnx_ticket_table_t * ticket_table,
+				   int foo_delay);
 
 #endif

@@ -742,6 +742,7 @@ update_aliases (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, "c");
   lw6sys_list_push_back (list, LW6DEF_CFLAGS);
   lw6sys_list_push_back (list, LW6DEF_LDFLAGS);
+  lw6sys_list_push_back (list, LW6DEF_CONFIGURE_ARGS);
 
   return ((*list) != NULL);
 }

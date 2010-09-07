@@ -103,8 +103,8 @@ _close (void *cli_context, lw6cnx_connection_t * connection)
 
 static int
 _send (void *cli_context, lw6cnx_connection_t * connection,
-       u_int32_t ticket_sig, u_int64_t logical_from_id,
-       u_int64_t logical_to_id, char *message)
+       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
+       u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 {
   _http_context_t *http_context = (_http_context_t *) cli_context;
   int ret = 0;
@@ -112,8 +112,9 @@ _send (void *cli_context, lw6cnx_connection_t * connection,
   if (http_context)
     {
       ret =
-	_mod_http_send (http_context, connection, ticket_sig, logical_from_id,
-			logical_to_id, message);
+	_mod_http_send (http_context, connection, physical_ticket_sig,
+			logical_ticket_sig, logical_from_id, logical_to_id,
+			message);
     }
 
   return ret;

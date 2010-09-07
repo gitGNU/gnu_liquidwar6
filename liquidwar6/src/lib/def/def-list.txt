@@ -38,6 +38,7 @@ color-conflict-mode
 colorize
 commands-per-sec
 config-file
+configure-args
 copy
 copyleft
 copyright

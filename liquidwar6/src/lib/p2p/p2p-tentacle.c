@@ -31,8 +31,8 @@ int
 _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		       _lw6p2p_backends_t * backends,
 		       lw6srv_listener_t * listener, char *local_url,
-		       char *remote_url, char *password, u_int64_t local_id,
-		       u_int64_t remote_id,
+		       char *remote_url, char *real_remote_ip, char *password,
+		       u_int64_t local_id, u_int64_t remote_id,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -56,6 +56,56 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
        */
       tentacle->remote_ip = lw6net_dns_gethostbyname (parsed_url->host);
       tentacle->remote_port = parsed_url->port;
+      if (real_remote_ip)
+	{
+	  if (tentacle->remote_ip)
+	    {
+	      if (lw6sys_str_is_same (tentacle->remote_ip, real_remote_ip))
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _
+			      ("OK, public URL \"%s\" for \"%s:%d\" is fine"),
+			      remote_url, tentacle->remote_ip,
+			      tentacle->remote_port);
+		  tentacle->dns_ok = 1;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _
+			      ("URL \"%s\" appears to be associated to \"%s:%d\" but DNS reports it to be associated to \"%s:%d\", using \"%s:%d\""),
+			      remote_url, real_remote_ip,
+			      tentacle->remote_port, tentacle->remote_ip,
+			      tentacle->remote_port, real_remote_ip,
+			      tentacle->remote_port);
+		  LW6SYS_FREE (tentacle->remote_ip);
+		  tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _
+			  ("unable to get IP from DNS for \"%s\", using \"%s:%d\" instead"),
+			  remote_url, real_remote_ip, tentacle->remote_port);
+	      tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
+	    }
+	}
+      else
+	{
+	  if (tentacle->remote_ip)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("no \"real\" IP passed, using default \"%s:%d\""),
+			  tentacle->remote_ip, tentacle->remote_port);
+	      tentacle->dns_ok = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find host \"%s\""),
+			  parsed_url->host);
+	    }
+	}
       lw6sys_url_free (parsed_url);
     }
   if (password && strlen (password) > 0)
@@ -245,7 +295,9 @@ _lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle)
 
 void
 _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
-		       lw6nod_info_t * node_info, int next_foo_delay)
+		       lw6nod_info_t * node_info,
+		       lw6cnx_ticket_table_t * ticket_table,
+		       int next_foo_delay)
 {
   int i;
   char *msg;
@@ -262,8 +314,12 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	    {
 	      cnx = tentacle->cli_connections[i];
 	      if (lw6cli_send (tentacle->backends->cli_backends[i],
-			       cnx, 0, cnx->local_id_int, cnx->remote_id_int,
-			       msg))
+			       cnx,
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       cnx->local_id_int, cnx->remote_id_int, msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -280,9 +336,32 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
-	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, 0,
+	      lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+			   lw6cnx_ticket_table_get_send (ticket_table,
+							 cnx->remote_id_str),
+			   lw6cnx_ticket_table_get_send (ticket_table,
+							 cnx->remote_id_str),
 			   cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
+	    }
+	  if (!lw6cnx_ticket_table_was_recv_exchanged
+	      (ticket_table, cnx->remote_id_str))
+	    {
+	      msg =
+		lw6msg_cmd_generate_ticket (node_info,
+					    lw6cnx_ticket_table_get_recv
+					    (ticket_table,
+					     cnx->remote_id_str));
+	      if (msg)
+		{
+		  lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       cnx->local_id_int, cnx->remote_id_int, msg);
+		  LW6SYS_FREE (msg);
+		}
 	    }
 	}
       lw6cli_poll (tentacle->backends->cli_backends[i], cnx);
@@ -296,9 +375,32 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
-	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, 0,
+	      lw6srv_send (tentacle->backends->srv_backends[i], cnx,
+			   lw6cnx_ticket_table_get_send (ticket_table,
+							 cnx->remote_id_str),
+			   lw6cnx_ticket_table_get_send (ticket_table,
+							 cnx->remote_id_str),
 			   cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
+	    }
+	  if (!lw6cnx_ticket_table_was_recv_exchanged
+	      (ticket_table, cnx->remote_id_str))
+	    {
+	      msg =
+		lw6msg_cmd_generate_ticket (node_info,
+					    lw6cnx_ticket_table_get_recv
+					    (ticket_table,
+					     cnx->remote_id_str));
+	      if (msg)
+		{
+		  lw6srv_send (tentacle->backends->srv_backends[i], cnx,
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       lw6cnx_ticket_table_get_send (ticket_table,
+							     cnx->remote_id_str),
+			       cnx->local_id_int, cnx->remote_id_int, msg);
+		  LW6SYS_FREE (msg);
+		}
 	    }
 	}
       lw6srv_poll (tentacle->backends->srv_backends[i], cnx);

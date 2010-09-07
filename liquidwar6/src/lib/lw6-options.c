@@ -418,7 +418,8 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_url ());
 	  (*run_game) = 0;
 	}
-      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_CONFIGURE_ARGS, argv[i]))
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_CONFIGURE_ARGS, argv[i])
+	       || lw6sys_arg_match (LW6DEF_CONFIGURE_ARGS, argv[i]))
 	{
 	  printf ("%s\n", lw6sys_build_get_configure_args ());
 	  (*run_game) = 0;

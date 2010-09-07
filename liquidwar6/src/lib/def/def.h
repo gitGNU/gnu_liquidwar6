@@ -65,6 +65,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_COLORIZE "colorize"
 #define LW6DEF_COMMANDS_PER_SEC "commands-per-sec"
 #define LW6DEF_CONFIG_FILE "config-file"
+#define LW6DEF_CONFIGURE_ARGS "configure-args"
 #define LW6DEF_COPY "copy"
 #define LW6DEF_COPYLEFT "copyleft"
 #define LW6DEF_COPYRIGHT "copyright"

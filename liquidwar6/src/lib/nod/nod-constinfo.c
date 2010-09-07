@@ -71,7 +71,8 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
     {
       const_info->stamp = lw6sys_atoi (lw6sys_build_get_stamp ());
     }
-  const_info->id = lw6sys_id_ltoa (id);
+  const_info->id_int = id;
+  const_info->id_str = lw6sys_id_ltoa (id);
   const_info->url = lw6sys_url_canonize (url);
   if (title && strlen (title) > 0)
     {
@@ -123,7 +124,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info, char *program,
       const_info->idle_screenshot_data = NULL;
     }
 
-  ret = (const_info->id && const_info->url
+  ret = (const_info->id_int && const_info->id_str && const_info->url
 	 && const_info->title && const_info->description
 	 && (const_info->idle_screenshot_data
 	     || (const_info->idle_screenshot_size == 0)));
@@ -146,9 +147,9 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
     {
       LW6SYS_FREE (const_info->codename);
     }
-  if (const_info->id)
+  if (const_info->id_str)
     {
-      LW6SYS_FREE (const_info->id);
+      LW6SYS_FREE (const_info->id_str);
     }
   if (const_info->url)
     {

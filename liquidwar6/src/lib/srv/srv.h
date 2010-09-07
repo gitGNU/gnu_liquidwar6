@@ -100,8 +100,10 @@ typedef struct lw6srv_backend_s
   void (*quit) (void *srv_context);
   int (*analyse_tcp) (void *srv_context,
 		      lw6srv_tcp_accepter_t * tcp_accepter,
+		      lw6nod_info_t * node_info,
 		      u_int64_t * remote_id, char **remote_url);
   int (*analyse_udp) (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
+		      lw6nod_info_t * node_info,
 		      u_int64_t * remote_id, char **remote_url);
   int (*process_oob) (void *srv_context, lw6nod_info_t * node_info,
 		      lw6srv_oob_data_t * oob_data);
@@ -118,7 +120,7 @@ typedef struct lw6srv_backend_s
 			lw6srv_udp_buffer_t * udp_buffer);
   void (*close) (void *srv_context, lw6cnx_connection_t * connection);
   int (*send) (void *srv_context, lw6cnx_connection_t * connection,
-	       u_int32_t ticket_sig,
+	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, char *message);
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
@@ -136,9 +138,11 @@ extern int lw6srv_init (lw6srv_backend_t * backend,
 extern void lw6srv_quit (lw6srv_backend_t * backend);
 extern int lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 			       lw6srv_tcp_accepter_t * tcp_accepter,
+			       lw6nod_info_t * node_info,
 			       u_int64_t * remote_id, char **remote_url);
 extern int lw6srv_analyse_udp (lw6srv_backend_t * backend,
 			       lw6srv_udp_buffer_t * udp_buffer,
+			       lw6nod_info_t * node_info,
 			       u_int64_t * remote_id, char **remote_url);
 extern int lw6srv_process_oob (lw6srv_backend_t * backend,
 			       lw6nod_info_t * node_info,
@@ -162,8 +166,10 @@ extern void lw6srv_close (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 extern int lw6srv_send (lw6srv_backend_t * backend,
 			lw6cnx_connection_t * connection,
-			u_int32_t ticket_sig, u_int64_t logical_from_id,
-			u_int64_t logical_to_id, char *message);
+			u_int32_t physical_ticket_sig,
+			u_int32_t logical_ticket_sig,
+			u_int64_t logical_from_id, u_int64_t logical_to_id,
+			char *message);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
 extern int lw6srv_is_alive (lw6srv_backend_t * backend,

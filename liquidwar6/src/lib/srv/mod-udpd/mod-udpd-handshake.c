@@ -30,6 +30,7 @@
 int
 _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter,
+		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -53,11 +54,10 @@ _mod_udpd_analyse_tcp (_udpd_context_t * udpd_context,
 int
 _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer,
+		       lw6nod_info_t * node_info,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
-  char *pos = NULL;
-  char *seek = NULL;
   char *line = NULL;
 
   line = udp_buffer->line;
@@ -80,39 +80,12 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
-  if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
+  if (lw6msg_envelope_analyse
+      (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
+       node_info->const_info.password, 0, node_info->const_info.id_int, NULL,
+       NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
     {
-      pos = line + strlen (LW6MSG_LW6);
-      if (lw6msg_word_first_id_64 (remote_id, &seek, pos))
-	{
-	  pos = seek;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized tcpd protocol (OOB)"));
-	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-
-	  if (remote_url)
-	    {
-	      /*
-	       * OK, here we need to analyse the *content* of the message
-	       * for good to find out the remote_url, if available...
-	       * In practise it's a rare case but we need it to bootstrap
-	       * connections. We do not verify the actual content of the
-	       * fields, feed will do it later.
-	       */
-	      lw6msg_word_t word_tmp;
-
-	      // local_id
-	      if (lw6msg_word_first (&word_tmp, &seek, pos))
-		{
-		  pos = seek;
-		  // password_checksum
-		  if (lw6msg_word_first (&word_tmp, &seek, pos))
-		    {
-		      pos = seek;
-		      (*remote_url) = lw6msg_cmd_guess_from_url (pos);
-		    }
-		}
-	    }
-	}
+      ret = LW6SRV_ANALYSE_UNDERSTANDABLE;
     }
 
   return ret;
@@ -136,31 +109,43 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
+  char *envelope_line = NULL;
+  char *msg = NULL;
+  u_int32_t physical_ticket_sig = 0;
+  u_int32_t logical_ticket_sig = 0;
+  u_int64_t physical_from_id = 0;
+  u_int64_t physical_to_id = 0;
+  u_int64_t logical_from_id = 0;
+  u_int64_t logical_to_id = 0;
+  _udpd_specific_data_t *specific_data =
+    (_udpd_specific_data_t *) connection->backend_specific_data;
 
-  /*
-     char *msg_line = NULL;
-     char *pos = NULL;
-     char *seek = NULL;
-     int64_t remote_id = 0;
-     int64_t local_id = 0;
-     lw6msg_word_t password;
-
-     msg_line = udp_buffer->line;
-     lw6sys_log (LW6SYS_LOG_NOTICE, _("mod_udpd received \"%s\""), msg_line);
-
-     if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
-     {
-     pos = line + strlen (LW6MSG_LW6);
-     if (lw6msg_word_first_id_64 (remote_id, &seek, pos))
-     {
-     pos = seek;
-     if (lw6msg_word_first_id_64 (local_id, &seek, pos))
-     {
-     pos = seek;
-     }
-     }
-     }
-   */
+  envelope_line = udp_buffer->line;
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd received envelope \"%s\""),
+	      envelope_line);
+  if (lw6msg_envelope_analyse
+      (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET, connection->local_url,
+       connection->password, connection->remote_id_int,
+       connection->local_id_int, &msg, &physical_ticket_sig,
+       &logical_ticket_sig, &physical_from_id, &physical_to_id,
+       &logical_from_id, &logical_to_id, NULL))
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd analysed msg \"%s\""), msg);
+      /*
+       * Now that we've received a packet we set the
+       * connection remote port to the port it came
+       * from, this way we'll send back data to the
+       * right socket. This enables mod_udp to work
+       * even if mod_udpd isn't activated.
+       */
+      specific_data->remote_port = udp_buffer->client_id.client_port;
+      if (connection->recv_callback_func)
+	{
+	  connection->recv_callback_func (connection->recv_callback_data,
+					  msg);
+	}
+      LW6SYS_FREE (msg);
+    }
 
   return ret;
 }

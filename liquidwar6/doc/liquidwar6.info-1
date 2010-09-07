@@ -986,7 +986,159 @@ File: liquidwar6.info,  Node: Network games,  Next: Graphics,  Prev: User interf
 2.9 Network games
 =================
 
-Not implemented yet.
+2.9.1 Set up your "public url"
+------------------------------
+
+Liquid War 6 needs to name your "node" (you can think as your server
+instance of the game) and have a unique URL (address) to publish and
+give to other nodes.
+
+   If only one network adapter is attached to your computer and your
+address IP is `A.B.C.D' then by default the game will pick
+automatically the address `http://A.B.C.D:8056/' and it should work
+flawlessly.
+
+   Problems can arise if you have a peculiar network configuration, if
+you have multiple non-loopback network interfaces, if you use NAT to
+protect yourself and/or if your context forces you to do so.  In that
+case, Liquid War won't be able to guess a correct URL automatically. In
+that case you need to set it up manually either by editing the
+`public-url' entry in the config file, changing environment variable
+`LW6_PUBLIC_URL' or passing the `--public-url=http://<host>:<port>/'
+argument when running the game. Typically, if you are behind a firewall
+which does NAT, use the firewall address.
+
+2.9.2 Starting a node
+---------------------
+
+A node is started automatically when you run the game.
+
+   So even without starting a network game, you should be able to point
+a web browser on your node and see a web page describing it. Your node
+address is displayed on `stdout' (console) when starting the game. If
+in doubt, try `http://localhost:8056/' which should work unless you
+modified defaults settings.
+
+   When you start a network game, the program simply changes your node
+state from "idle" to "accepting connections".
+
+2.9.3 Connecting to a node
+--------------------------
+
+The interface should show you the list of available nodes, just pick
+one and try and connect to it.
+
+   Note that once you're connected on a remote node, you're still
+acting as an independant node, and other nodes might connect to your
+node as well as to the other nodes. In short, there's no real server or
+client, everyone is a client for someone, and can act as a server.
+
+   Nodes connected together form a "community", which can disband,
+accept new nodes, and in a general manner has its own immaterial life,
+the first node which created the game might disappear, game can
+continue without it.
+
+   This is why the main network module is called `libp2p', this is a
+reference to the term "peer to peer".
+
+2.9.4 Firewall settings
+-----------------------
+
+By default, Liquid War 6 will communicate on port 8056, in both TCP and
+UDP, and in both ways too (in/out). It's possible to play with partial
+connectivity, in extreme case, you can even play without direct
+internet access, using only a mere web proxy.
+
+   However, things will go faster and be much easier if the program can
+use its default native protocol.
+
+   Here's an example of a typicall iptables (http://www.netfilter.org/)
+configuration which allows you to play the game full-featured. It's
+assumed that by default all packets are dropped, this configuration
+will just open the necessary ports.
+
+     # outgoing TCP on port 8056 (liquidwar6)
+     iptables -A OUTPUT -p tcp --dport 8056 -m state --state NEW,ESTABLISHED -j ACCEPT
+     iptables -A INPUT -p tcp --sport 8056 -m state --state ESTABLISHED -j ACCEPT
+     # incoming TCP on port 8056 (liquidwar6)
+     iptables -A INPUT -p tcp --dport 8056 -m state --state NEW,ESTABLISHED -j ACCEPT
+     iptables -A OUTPUT -p tcp --sport 8056 -m state --state ESTABLISHED -j ACCEPT
+     # outgoing UDP on port 8056 (liquidwar6)
+     iptables -A OUTPUT -p udp --dport 8056 --sport 1024:65535 -j ACCEPT
+     iptables -A INPUT -p udp --sport 8056 --dport 1024:65535 -j ACCEPT
+     # incoming UDP on port 8056 (liquidwar6)
+     iptables -A INPUT -p udp --dport 8056 --sport 1024:65535 -j ACCEPT
+     iptables -A OUTPUT -p udp --sport 8056 --dport 1024:65535 -j ACCEPT
+
+   If you can't change firewall settings and only have access to the web
+through a web proxy, it can still be possible to play (with some
+restrictions such as your node not being seen by others) if `mod-http'
+is available.  This in turn depends on wether libcurl
+(http://curl.haxx.se/) support was activated when compiling the game.
+To use the proxy, you can set the `http_proxy' environment variable.
+For detailed informations, please refer to libcurl doccumentation
+(http://curl.haxx.se/docs/).
+
+2.9.5 Is the game secure?
+-------------------------
+
+As stated in the license, the program comes with NO WARRANTY. Period.
+
+   However, an important effort has been made so that it can
+reasonnably be used online, exposed to various "common" attacks.
+
+   As far as security is concerned, there are two different issues:
+   * vulnerability to general security attacks, people typically trying
+     to gain prililedged access on your computer, relying on a security
+     flaw in the program. A good firewall is a must-have, as you can
+     never know for sure a program has no bugs. Running Liquid War 6 as
+     an unpriviledged user (certainly not "root") is also a good
+     practice.
+
+   * vulnerability to players "cheating" and sending malicious
+     informations to fake their moves, scores, and/or modify
+     informations concerning other players. This is a very important
+     point in Liquid War 6 since it has a multi-channel way of
+     exchanging data (think of the web interface, you have no garantee
+     of who the client is).
+
+   Here's a list of various steps which have been taken to make the
+program more secure:
+
+   * a `--skip-network' option is here if you really do not want to be
+     bothered by networking risks;
+
+   * program has basic password support so that you can deny access to
+     unknown players;
+
+   * passwords are never sent in clear text over the network, only a
+     hash (checksum) is sent;
+
+   * no use of well-known buffer overflow friendly functions like
+     `strcpy', equivalents such as `strncpy' are used;
+
+   * program never trusts what comes from network peers, when it wants
+     to know something, it checks it out by itself, for instance, the
+     node list is systematically verified by the local node before
+     being used and/or published;
+
+   * the built-in web server is not a general purpose web server which
+     will end up revealing some of your private files, it can only
+     serve game-related pages;
+
+   * the very fact that the game has no central server makes it hard to
+     attack it, because if someone wants to play "Oscar" annoying
+     "Alice" and "Bob" he well need to fool all the nodes participating
+     in a game, sending wrong informations to a single node won't have
+     much effect.
+
+   This being said, Liquid War 6 does not use any strong encryption
+library to protect the data it sends. All the checksum machinery is
+definitely vulnerable to a brute-force attack, so in theory it's
+possible to fool the program.
+
+   In practise, if you want really privacy, play over a VPN (Virtual
+Private Network).
 
 
 File: liquidwar6.info,  Node: Graphics,  Next: Sound & music,  Prev: Network games,  Up: User's manual
@@ -7703,663 +7855,4 @@ interfaces:
 * mod-udpd::            Udp server using native protocol.
 * libsys::              Low-level system utilities.
 * libtsk::              Asynchronous loading.
-
-
-File: liquidwar6.info,  Node: libliquidwar6,  Next: libbot,  Up: C API
-
-5.1 libliquidwar6
-=================
-
-5.1.1 Overview
---------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/index.html'.
-
-5.1.2 API
----------
-
- -- Function: void lw6_resize_callback (lw6gui_video_mode_t *
-          VIDEO_MODE)
-     VIDEO_MODE:  the new video mode
-
-     This callback is here because gfx needs to update the config when
-     the screen is resized. But... we did not want to make gfx depend
-     on cfg "directly". It's cleaner to pass parameters with Scheme, in
-     the long run, it should make things easier.  So this callback is
-     the solution. Another side effect is that this way there's a
-     tangible obvious trace of this updating of config status by the
-     gfx module. Seeing it sticking out like a thumb isn't a bad thing.
-
-     *Return value:*  none
-
- -- Function: void lw6_release ()
-     Functions which will call `quit'(), `free'(), `destroy'() on
-     whatever smob object that has threads and/or requires hardware
-     ressources.  This is to be called before the Guile interpreter
-     ends. This is because when it garbage collects objects at the end
-     of the program, it has no idea of what order to use when freeing
-     objects. So if an object which uses another one in a thread is
-     freed after the other is freed, you get a (rather unexplainabled
-     if not warned) segfault.
-
-     *Return value:*  none
-
- -- Function: void lw6_exit ()
-     Sends a quit message and displays a newline.
-
-     *Return value:*  none
-
- -- Function: int lw6_fix_env (int ARGC, char * [] ARGV)
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Fixes environment variables (path related) so that program can
-     find its requirements. This must be called early in the program
-     flow (else other calls might fail).
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6_register_funcs ()
-     Register all the functions, make them callable from Guile.  This
-     is a very simple yet long and very usefull function, without it
-     Guile has no knowledge of what LW6 is.
-
-     *Return value:*  1 on success, 0 if failed.
-
- -- Function: extern void lw6_cns_handler (char * C_LINE)
-     c_line: the line typed by the user
-
-     This function will be called every time a message is typed on the
-     console. It runs the given line in the current Guile environment.
-
-     *Return value:*  none
-
- -- Function: int lw6_init_global (int ARGC, char * [] ARGV)
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Initializes global values to their defaults.
-
-     *Return value:*  1 on success, 0 if failed
-
- -- Function: void lw6_quit_global ()
-     argc: number of args as passed to main argv: array of strings as
-     passed to main
-
-     Frees global values. Will also garbage collect objects in case
-     Guile failed to do it perfectly (or we failed to tell Guile how to
-     do it).
-
-     *Return value:*  none.
-
- -- Function: int lw6_main (int ARGC, char * [] ARGV)
-     ARGC:  the argc parameter of the `main'() function, that is, the
-     number of command-line args.
-
-     ARGV:  the argv parameter of the `main'() function, that is, an
-     array containing pointers on command-line args.
-
-     This function is directly called by `main'(). This means by linking
-     against libliquidwar6 and calling it, you would have a program
-     that is almost exactly the "official" upstream liquidwar6 binary,
-     except you can tweak it and have all the power to call whatever
-     other functions you like, embed it. In short, everything the binary
-     does, you can do it in your own binarn, by linking against the
-     library and calling this function.
-
-     *Return value:*  1 if success, zero if failure. Note that this is
-     the "standard" C / liquidwar6 way to proceed, but your `main'()
-     function should return 0 if success, else an error code. Typical
-     use is "return !lw6_main(argc, argv);".
-
- -- Function: int lw6_process_non_run_options (int ARGC, char * []
-          ARGV, int * RUN_GAME)
-     ARGC:  the number of command-line args, as passed to `main()'
-
-     ARGV:  an array of strings containing command-line args, as passed
-     to `main()'
-
-     RUN_GAME:  a pointer to a boolean which will contain true (1) if
-     the game must be launched, or false (0) if the option is such that
-     game must be skipped. Example: -copyright, -help, ...
-
-     *Return value:*  non-zero if success, 0 if error. The error can
-     be, for instance, the test suite returning "no, tests were not OK".
-
- -- Function: void lw6_print_help ()
-     Displays a short help message.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_version ()
-     Displays the version of the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_short_copyright ()
-     Displays the copyright of the game (short version).
-
-     *Return value:*  none
-
- -- Function: void lw6_print_long_copyright ()
-     Displays the copyright of the game (long version).
-
-     *Return value:*  none
-
- -- Function: void lw6_print_bench (float BENCH_RESULT)
-     Displays the program bench value.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_pedigree ()
-     Displays the program pedigree, think of this as version on
-     steroids.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_host ()
-     Displays the host on which the program was compiled.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_audit (int ARGC, char * [] ARGV)
-     Displays various paths used by the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_modules ()
-     Displays the list of modules compiled with the game.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_quick ()
-     Displays the list of 'quick' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_doc ()
-     Displays the list of 'doc' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_show ()
-     Displays the list of 'show' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_path ()
-     Displays the list of 'path' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_players ()
-     Displays the list of 'players' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_input ()
-     Displays the list of 'input' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_graphics ()
-     Displays the list of 'graphics' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_sound ()
-     Displays the list of 'sound' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_network ()
-     Displays the list of 'network' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map ()
-     Displays the list of 'map' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_rules ()
-     Displays the list of 'map rules' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_hints ()
-     Displays the list of 'map hints' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_map_style ()
-     Displays the list of 'amp style' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_funcs ()
-     Displays the list of 'funcs'.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_hooks ()
-     Displays the list of 'hooks'.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_advanced ()
-     Displays the list of 'advanced' options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list_aliases ()
-     Displays the list of options aliases.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_list ()
-     Displays the list of all known options.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_about (char * KEYWORD)
-     Displays the about message for a keyword.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_hello (int ARGC, char * [] ARGV)
-     Displays 'hello' at the beginning of the program.
-
-     *Return value:*  none
-
- -- Function: void lw6_print_goodbye ()
-     Displays 'goodbye', typically use at end of program to know it's
-     over and everything went fine.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_dsp (lw6dsp_backend_t * C_DSP)
-     C_DSP:  the display object
-
-     Creates an SCM 'dsp' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6dsp_backend_t * lw6_scm_to_dsp (SCM DSP)
-     DSP:  the dsp to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'dsp'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_dsp_smob (lw6_dsp_smob_t * DSP_SMOB)
-     DSP_SMOB:  the smob to free
-
-     Frees a dsp smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_snd (lw6snd_backend_t * C_SND)
-     C_SND:  the sound object
-
-     Creates an SCM 'snd' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6snd_backend_t * lw6_scm_to_snd (SCM SND)
-     SND:  the snd to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'snd'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_snd_smob (lw6_snd_smob_t * SND_SMOB)
-     SND_SMOB:  the smob to free
-
-     Frees a snd smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_map (lw6map_level_t * C_MAP)
-     C_MAP:  the map object
-
-     Creates an SCM 'map' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6map_level_t * lw6_scm_to_map (SCM MAP)
-     MAP:  the map to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'map'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_map_smob (lw6_map_smob_t * MAP_SMOB)
-     MAP_SMOB:  the smob to free
-
-     Frees a map smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_menu (lw6gui_menu_t * C_MENU)
-     C_MENU:  the menu object
-
-     Creates an SCM 'menu' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6gui_menu_t * lw6_scm_to_menu (SCM MENU)
-     MENU:  the menu to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'menu'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_menu_smob (lw6_menu_smob_t * MENU_SMOB)
-     MENU_SMOB:  the smob to free
-
-     Frees a menu smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_game_struct (lw6ker_game_struct_t *
-          C_GAME_STRUCT, SCM MAP)
-     C_GAME_STRUCT:  the game struct object
-
-     MAP:  the map (SCM object) referenced
-
-     Creates an SCM 'game-struct' object from C data.  Passing the map
-     object enables the garbage collector not to free the map until the
-     game struct is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6ker_game_struct_t * lw6_scm_to_game_struct (SCM
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme
-     'game_struct' object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_game_struct_smob (lw6_game_struct_smob_t *
-          GAME_STRUCT_SMOB)
-     GAME_STRUCT_SMOB:  the smob to free
-
-     Frees a game_struct smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_game_state (lw6ker_game_state_t *
-          C_GAME_STATE, SCM GAME_STRUCT)
-     C_GAME_STATE:  the game state object
-
-     GAME_STRUCT:  the game struct (SCM object) referenced
-
-     Creates an SCM 'game_state' object from C data.  Passing
-     game_struct enables the garbage collector not to free the
-     game_struct until the game_state is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6ker_game_state_t * lw6_scm_to_game_state (SCM
-          GAME_STATE)
-     GAME_STATE:  the game_state to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme
-     'game_state' object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_game_state_smob (lw6_game_state_smob_t *
-          GAME_STATE_SMOB)
-     GAME_STATE_SMOB:  the smob to free
-
-     Frees a game_state smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_pilot (lw6pil_pilot_t * C_PILOT)
-     C_PILOT:  the pilot object
-
-     Creates an SCM 'pilot' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6pil_pilot_t * lw6_scm_to_pilot (SCM PILOT)
-     PILOT:  the pilot to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'pilot'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_pilot_smob (lw6_pilot_smob_t * PILOT_SMOB)
-     PILOT_SMOB:  the smob to free
-
-     Frees a pilot smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_bot (lw6bot_backend_t * C_BOT, SCM
-          GAME_STATE, SCM PILOT)
-     C_BOT:  the bot object
-
-     GAME_STATE:  the game state
-
-     PILOT:  the pilot
-
-     Creates an SCM 'bot' object from C data.  Passing game_state and
-     pilot enables the garbage collector not the free them until bot is
-     freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6bot_backend_t * lw6_scm_to_bot (SCM BOT)
-     BOT:  the bot to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'bot'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_bot_smob (lw6_bot_smob_t * BOT_SMOB)
-     BOT_SMOB:  the smob to free
-
-     Frees a bot smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_look (lw6gui_look_t * C_LOOK)
-     C_LOOK:  the look object
-
-     Creates an SCM 'look' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6gui_look_t * lw6_scm_to_look (SCM LOOK)
-     LOOK:  the look to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'look'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_look_smob (lw6_look_smob_t * LOOK_SMOB)
-     LOOK_SMOB:  the smob to free
-
-     Frees a look smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_loader (lw6tsk_loader_t * C_LOADER)
-     C_LOADER:  the loader object
-
-     Creates an SCM 'loader' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6tsk_loader_t * lw6_scm_to_loader (SCM LOADER)
-     LOADER:  the loader to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'loader'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_loader_smob (lw6_loader_smob_t *
-          LOADER_SMOB)
-     LOADER_SMOB:  the smob to free
-
-     Frees a loader smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_db (lw6p2p_db_t * C_DB)
-     C_DB:  the database object
-
-     Creates an SCM 'db' object from C data.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6p2p_db_t * lw6_scm_to_db (SCM DB)
-     DB:  the db to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'db'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_db_smob (lw6_db_smob_t * DB_SMOB)
-     DB_SMOB:  the smob to free
-
-     Frees a db smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: SCM lw6_make_scm_node (lw6p2p_node_t * C_NODE, SCM DB)
-     C_NODE:  the node object
-
-     DB:  the db (SCM object) referenced
-
-     Creates an SCM 'node' object from C data.  Passing db enables the
-     garbage collector not to free db until node is freed.
-
-     *Return value:*  the SCM object
-
- -- Function: lw6p2p_node_t * lw6_scm_to_node (SCM NODE)
-     NODE:  the node to convert (SCM object)
-
-     Gets the internal C pointer corresponding to the scheme 'node'
-     object.
-
-     *Return value:*  a pointer, *not* a copy, must not be freed
-
- -- Function: void lw6_free_node_smob (lw6_node_smob_t * NODE_SMOB)
-     NODE_SMOB:  the smob to free
-
-     Frees a node smob, we need a special function to do that as
-     structures like assoc hold pointers to these objects and therefore
-     need a proper callback when being destroyed.
-
-     *Return value:*  none
-
- -- Function: int lw6_register_smobs ()
-     Register all smobs to Guile.
-
-     *Return value:*  1 on success, 0 if failed.
-
- -- Function: int lw6_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the liquidwar6 core module test suite, this will mostly test
-     how Guile script integration works, loading a sample script and
-     running it. It does not launch all the other sub modules tests.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libbot,  Next: mod-idiot,  Prev: libliquidwar6,  Up: C API
-
-5.2 libbot
-==========
-
-5.2.1 Overview
---------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/index.html'.
-
-5.2.2 API
----------
-
- -- Function: int lw6bot_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `bot' module test suite. Will try several engines and
-     query basic moves.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: mod-idiot,  Next: mod-random,  Prev: libbot,  Up: C API
-
-5.3 mod-idiot
-=============
-
-5.3.1 Overview
---------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-idiot/index.html'.
-
-5.3.2 API
----------
-
-
-File: liquidwar6.info,  Node: mod-random,  Next: libcfg,  Prev: mod-idiot,  Up: C API
-
-5.4 mod-random
-==============
-
-5.4.1 Overview
---------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-random/index.html'.
-
-5.4.2 API
----------
 

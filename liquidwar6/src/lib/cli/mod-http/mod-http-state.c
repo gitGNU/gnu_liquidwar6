@@ -37,7 +37,7 @@ _mod_http_open (_http_context_t * http_context, char *local_url,
   lw6cnx_connection_t *ret = NULL;
   _http_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("_mod_http_open \"%s\""), remote_url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_http_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, recv_callback_func,
@@ -66,10 +66,12 @@ void
 _mod_http_close (_http_context_t * http_context,
 		 lw6cnx_connection_t * connection)
 {
-  if (connection->backend_specific_data)
+  _http_specific_data_t *specific_data =
+    (_http_specific_data_t *) connection->backend_specific_data;
+
+  if (specific_data)
     {
-      LW6SYS_FREE (connection->backend_specific_data);
-      // todo
+      LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);
 }
