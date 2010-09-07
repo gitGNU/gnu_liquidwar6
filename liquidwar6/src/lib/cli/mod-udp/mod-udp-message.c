@@ -50,16 +50,17 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
 				   logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (lw6cnx_connection_lock_send(connection)) {
-	if (lw6net_send_line_udp
-	    (specific_data->sock, line, connection->remote_ip,
-	     connection->remote_port))
-	  {
-	    lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp sent \"%s\""), line);
-	    ret = 1;
-	  }
-	lw6cnx_connection_unlock_send(connection);
-      }
+      if (lw6cnx_connection_lock_send (connection))
+	{
+	  if (lw6net_send_line_udp
+	      (specific_data->sock, line, connection->remote_ip,
+	       connection->remote_port))
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp sent \"%s\""), line);
+	      ret = 1;
+	    }
+	  lw6cnx_connection_unlock_send (connection);
+	}
       LW6SYS_FREE (line);
     }
 
@@ -103,10 +104,17 @@ _mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 	      if (connection->recv_callback_func)
 		{
 		  connection->
-		    recv_callback_func (connection->recv_callback_data,(void *) connection,physical_ticket_sig,logical_ticket_sig,logical_from_id,logical_to_id,msg);
-		} else {
-	lw6sys_log(LW6SYS_LOG_DEBUG,_("no recv callback defined"));
-      }
+		    recv_callback_func (connection->recv_callback_data,
+					(void *) connection,
+					physical_ticket_sig,
+					logical_ticket_sig, logical_from_id,
+					logical_to_id, msg);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("no recv callback defined"));
+		}
 	      LW6SYS_FREE (msg);
 	    }
 	  LW6SYS_FREE (envelope_line);

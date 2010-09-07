@@ -73,7 +73,8 @@ _process_oob (void *cli_context, lw6nod_info_t * node_info,
 static lw6cnx_connection_t *
 _open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
        int remote_port, char *password, u_int64_t local_id,
-       u_int64_t remote_id, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+       u_int64_t remote_id, lw6cnx_recv_callback_t recv_callback_func,
+       void *recv_callback_data)
 {
   _udp_context_t *udp_context = (_udp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
@@ -83,7 +84,7 @@ _open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
       ret =
 	_mod_udp_open (udp_context, local_url, remote_url, remote_ip,
 		       remote_port, password, local_id, remote_id,
-		       recv_callback_func,recv_callback_data);
+		       recv_callback_func, recv_callback_data);
     }
 
   return ret;

@@ -26,10 +26,12 @@
 #include "../sys/sys.h"
 #include "../glb/glb.h"
 
-typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,					void * connection,
+typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,
+					void *connection,
 					u_int32_t physical_ticket_sig,
 					u_int32_t logical_ticket_sig,
-					u_int64_t logical_from_id, u_int64_t logical_to_id,
+					u_int64_t logical_from_id,
+					u_int64_t logical_to_id,
 					char *message);
 
 typedef struct lw6cnx_connection_s
@@ -73,15 +75,16 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   u_int64_t local_id,
 						   u_int64_t remote_id,
 						   lw6cnx_recv_callback_t
-						   recv_callback_func, void *recv_callback_data);
+						   recv_callback_func,
+						   void *recv_callback_data);
 extern void lw6cnx_connection_free (lw6cnx_connection_t * connection);
 extern int lw6cnx_connection_should_send_foo (lw6cnx_connection_t *
 					      connection, int64_t now);
 extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
 						connection, int64_t now,
 						int next_foo_delay);
-extern int lw6cnx_connection_lock_send(lw6cnx_connection_t *connection);
-extern void lw6cnx_connection_unlock_send(lw6cnx_connection_t *connection);
+extern int lw6cnx_connection_lock_send (lw6cnx_connection_t * connection);
+extern void lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection);
 
 /* cnx-password.c */
 extern char *lw6cnx_password_checksum (char *seed, char *password);

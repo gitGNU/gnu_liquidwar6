@@ -32,7 +32,8 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
 		 lw6srv_listener_t * listener, char *local_url,
 		 char *remote_url, char *remote_ip, int remote_port,
 		 char *password, u_int64_t local_id, u_int64_t remote_id,
-		 lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+		 lw6cnx_recv_callback_t recv_callback_func,
+		 void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
   _httpd_specific_data_t *specific_data = NULL;
@@ -40,7 +41,8 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
   lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_httpd_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
-			   password, local_id, remote_id, recv_callback_func,recv_callback_data);
+			   password, local_id, remote_id, recv_callback_func,
+			   recv_callback_data);
   if (ret)
     {
       ret->backend_specific_data =

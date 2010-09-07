@@ -71,7 +71,8 @@ typedef struct lw6cli_backend_s
 				char *remote_url, char *remote_ip,
 				int remote_port, char *password,
 				u_int64_t local_id, u_int64_t remote_id,
-				lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+				lw6cnx_recv_callback_t recv_callback_func,
+				void *recv_callback_data);
   void (*close) (void *cli_context, lw6cnx_connection_t * connection);
   int (*send) (void *cli_context, lw6cnx_connection_t * connection,
 	       u_int32_t physical_ticket_sig,
@@ -102,7 +103,8 @@ extern lw6cnx_connection_t *lw6cli_open (lw6cli_backend_t * backend,
 					 u_int64_t local_id,
 					 u_int64_t remote_id,
 					 lw6cnx_recv_callback_t
-					 recv_callback_func, void *recv_callback_data);
+					 recv_callback_func,
+					 void *recv_callback_data);
 extern void lw6cli_close (lw6cli_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 extern int lw6cli_send (lw6cli_backend_t * backend,

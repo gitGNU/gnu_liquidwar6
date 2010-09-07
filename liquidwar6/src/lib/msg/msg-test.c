@@ -1554,7 +1554,7 @@ lw6msg_test (int mode)
       lw6cnx_test (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_oob () 
+  ret = test_cmd () && test_envelope () && test_oob ()
     && test_ticket () && test_utils () && test_word () && test_z ();
 
   return ret;

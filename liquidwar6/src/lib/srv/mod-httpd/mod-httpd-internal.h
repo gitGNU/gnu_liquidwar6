@@ -185,7 +185,8 @@ extern lw6cnx_connection_t *_mod_httpd_open (_httpd_context_t * httpd_context,
 					     u_int64_t local_id,
 					     u_int64_t remote_id,
 					     lw6cnx_recv_callback_t
-					     recv_callback_func, void *recv_callback_data);
+					     recv_callback_func,
+					     void *recv_callback_data);
 extern void _mod_httpd_close (_httpd_context_t * httpd_context,
 			      lw6cnx_connection_t * connection);
 extern int _mod_httpd_is_alive (_httpd_context_t * httpd_context,

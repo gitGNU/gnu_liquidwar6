@@ -80,21 +80,24 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
       ret = (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
-  if (lw6sys_str_starts_with_no_case (line,
-				      LW6MSG_LW6)) {
-    if (lw6msg_envelope_analyse
-	(line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
-	 node_info->const_info.password, 0, node_info->const_info.id_int, NULL,
-	 NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
-      {
-	lw6sys_log(LW6SYS_LOG_DEBUG,_("message \"%s\" OK"),line);
-	ret = LW6SRV_ANALYSE_UNDERSTANDABLE;
-      } else {
-      lw6sys_log(LW6SYS_LOG_DEBUG,_("unable to analyse message \"%s\""),line);
-      ret=LW6SRV_ANALYSE_UNDERSTANDABLE|LW6SRV_ANALYSE_DEAD;
+  if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
+    {
+      if (lw6msg_envelope_analyse
+	  (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
+	   node_info->const_info.password, 0, node_info->const_info.id_int,
+	   NULL, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("message \"%s\" OK"), line);
+	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to analyse message \"%s\""),
+		      line);
+	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_DEAD;
+	}
     }
-  }
-  
+
   return ret;
 }
 
@@ -148,11 +151,16 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
       specific_data->remote_port = udp_buffer->client_id.client_port;
       if (connection->recv_callback_func)
 	{
-	  connection->
-	    recv_callback_func (connection->recv_callback_data,(void *) connection,physical_ticket_sig,logical_ticket_sig,logical_from_id,logical_to_id,msg);
-	} else {
-	lw6sys_log(LW6SYS_LOG_DEBUG,_("no recv callback defined"));
-      }
+	  connection->recv_callback_func (connection->recv_callback_data,
+					  (void *) connection,
+					  physical_ticket_sig,
+					  logical_ticket_sig, logical_from_id,
+					  logical_to_id, msg);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("no recv callback defined"));
+	}
       LW6SYS_FREE (msg);
     }
 
