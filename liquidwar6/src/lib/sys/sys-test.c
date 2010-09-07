@@ -75,6 +75,7 @@
 #define _FIND_IN_DIR_AND_PATH_PATH "/bar:/etc"
 #define _FIND_IN_DIR_AND_PATH_FILE "hosts"
 #define MALLOC_SIZE 1048576
+#define _TEST_MUTEX_DELAY 100
 #define THREAD_N 5
 #define THREAD_SLEEP_MAIN 0.66f
 #define THREAD_SLEEP_CALLBACK 0.2f
@@ -2078,6 +2079,9 @@ test_mutex ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
+    int i=0;
+    u_int64_t end_timestamp=0;
+
     lw6sys_log (LW6SYS_LOG_NOTICE, _("testing mutex functions"));
     mutex = lw6sys_mutex_create ();
     if (mutex)
@@ -2098,6 +2102,15 @@ test_mutex ()
 		  }
 	      }
 	  }
+
+	end_timestamp=lw6sys_get_timestamp()+_TEST_MUTEX_DELAY;
+	while (lw6sys_get_timestamp()<end_timestamp) {
+	  if (lw6sys_mutex_lock(mutex)) {
+	    lw6sys_mutex_unlock(mutex);
+	    i++;
+	  }
+	}
+	lw6sys_log(LW6SYS_LOG_NOTICE,_("%d locks per second"),(i*1000)/_TEST_MUTEX_DELAY);
 	lw6sys_mutex_destroy (mutex);
       }
   }

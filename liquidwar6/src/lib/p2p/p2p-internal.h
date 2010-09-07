@@ -290,7 +290,19 @@ extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
 					     u_int64_t remote_id);
 
 /* p2p-recv.c */
-extern void _lw6p2p_recv_callback (void *func_data, char *msg);
+extern void _lw6p2p_recv_process (_lw6p2p_node_t *node,
+		      lw6cnx_connection_t *cnx,
+		      u_int64_t logical_from_id, char *message);
+extern void _lw6p2p_recv_forward (_lw6p2p_node_t *node,
+		      lw6cnx_connection_t *cnx,
+		      u_int32_t logical_ticket_sig,
+		      u_int64_t logical_from_id, u_int64_t logical_to_id,char *message);
+extern void _lw6p2p_recv_callback (void *recv_callback_data,
+					void * connection,
+					u_int32_t physical_ticket_sig,
+					u_int32_t logical_ticket_sig,
+					u_int64_t logical_from_id, u_int64_t logical_to_id,
+		       char *message);
 
 /* p2p-srvoob.c */
 extern _lw6p2p_srv_oob_callback_data_t

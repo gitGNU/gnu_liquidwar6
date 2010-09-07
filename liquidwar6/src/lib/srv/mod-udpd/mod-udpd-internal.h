@@ -90,8 +90,7 @@ extern lw6cnx_connection_t *_mod_udpd_open (_udpd_context_t * udpd_context,
 					    u_int64_t local_id,
 					    u_int64_t remote_id,
 					    lw6cnx_recv_callback_t
-					    recv_callback_func,
-					    void *recv_callback_data);
+					    recv_callback_func, void *recv_callback_data);
 extern void _mod_udpd_close (_udpd_context_t * udpd_context,
 			     lw6cnx_connection_t * connection);
 extern int _mod_udpd_is_alive (_udpd_context_t * udpd_context,

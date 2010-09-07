@@ -57,8 +57,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 		       char *remote_ip, int remote_port,
 		       char *password, u_int64_t local_id,
 		       u_int64_t remote_id,
-		       lw6cnx_recv_callback_t recv_callback_func,
-		       void *recv_callback_data)
+		       lw6cnx_recv_callback_t recv_callback_func,void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -85,10 +84,13 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
       ret->local_id_str = lw6sys_id_ltoa (local_id);
       ret->remote_id_int = remote_id;
       ret->remote_id_str = lw6sys_id_ltoa (remote_id);
+      ret->recv_callback_func=recv_callback_func;
+      ret->recv_callback_data=recv_callback_data;
+      ret->send_mutex=lw6sys_mutex_create();
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
 	  && ret->password_send_checksum && ret->local_id_str
-	  && ret->remote_id_str)
+	  && ret->remote_id_str && ret->send_mutex)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _("created connection with \"%s\""),
 		      remote_url);
@@ -144,6 +146,10 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
     {
       LW6SYS_FREE (connection->remote_id_str);
     }
+  if (connection->send_mutex)
+    {
+      lw6sys_mutex_destroy(connection->send_mutex);
+    }
   LW6SYS_FREE (connection);
 }
 
@@ -182,4 +188,38 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
   connection->next_send_foo_timestamp =
     now + next_foo_delay / 2 + lw6sys_random (next_foo_delay);
   connection->foo_bar_key = lw6sys_generate_id_32 ();
+}
+
+/**
+ * lw6cnx_connection_lock_send
+ *
+ * @connection: the connexion to lock
+ * 
+ * Acquires a "send" lock on the connexion, the idea is to avoid
+ * too threads sending data using the same socket at the same time.
+ * Note that each backend must call this when accessing the socket,
+ * there's no top-level lock for the sake of performance.
+ *
+ * Return value: 1 on success, 0 if not.
+ */
+int lw6cnx_connection_lock_send(lw6cnx_connection_t *connection)
+{
+  return lw6sys_mutex_lock(connection->send_mutex);
+}
+
+/**
+ * lw6cnx_connection_unlock_send
+ *
+ * @connection: the connexion to lock
+ * 
+ * Releases a "send" lock on the connexion, the idea is to avoid
+ * too threads sending data using the same socket at the same time.
+ * Note that each backend must call this when accessing the socket,
+ * there's no top-level lock for the sake of performance.
+ *
+ * Return value: 1 on success, 0 if not.
+ */
+void lw6cnx_connection_unlock_send(lw6cnx_connection_t *connection)
+{
+  lw6sys_mutex_unlock(connection->send_mutex);
 }

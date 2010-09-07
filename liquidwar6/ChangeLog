@@ -1,5 +1,7 @@
 2010-09-07 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Receive callback is in place.
+
 	* Password checksum now uses SHA-1.
 
 	* Fixed mod_udpd/mod_udp.

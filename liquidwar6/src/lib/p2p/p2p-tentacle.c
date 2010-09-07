@@ -151,7 +151,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				     tentacle->cli_connections[i]);
 		      if (repr)
 			{
-			  lw6sys_log (LW6SYS_LOG_NOTICE,
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
 			}
@@ -198,7 +198,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				     tentacle->srv_connections[i]);
 		      if (repr)
 			{
-			  lw6sys_log (LW6SYS_LOG_NOTICE,
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
 			}

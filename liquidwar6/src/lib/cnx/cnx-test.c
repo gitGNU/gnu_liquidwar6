@@ -42,9 +42,13 @@
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
 
 static void
-_recv_callback_func (void *func_data, char *msg)
+_recv_callback_func (void *recv_callback_data,					void * connection,
+					u_int32_t physical_ticket_sig,
+					u_int32_t logical_ticket_sig,
+					u_int64_t logical_from_id, u_int64_t logical_to_id,
+					char *message)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("received \"%s\""), msg);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("received \"%s\""), message);
 }
 
 /*
@@ -65,7 +69,7 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     _recv_callback_func, NULL);
+			     _recv_callback_func,NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -94,6 +98,17 @@ test_connection ()
 			("new cnx_connection object returns false when queried if foo message should be sent"));
 	    ret = 0;
 	  }
+
+	if (lw6cnx_connection_lock_send(cnx)) {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("acquired send mutex"));
+	  lw6cnx_connection_unlock_send(cnx);
+	} else {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _("unable to acquire send mutex"));
+	  ret=0;
+	}	
+
 	lw6cnx_connection_free (cnx);
       }
     else
@@ -110,7 +125,7 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     NULL, NULL);
+			     NULL,NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,

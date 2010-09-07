@@ -495,7 +495,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad password"));
+			  lw6sys_log (LW6SYS_LOG_INFO, _("bad password"));
 			}
 		    }
 		  else
@@ -506,7 +506,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _("bad version, received \"%s\", need \"%s\""),
 			      received_version.buf, version);
 		}

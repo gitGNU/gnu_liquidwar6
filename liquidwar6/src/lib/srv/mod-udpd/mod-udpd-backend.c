@@ -121,7 +121,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, char *local_url,
       ret =
 	_mod_udpd_open (udpd_context, listener, local_url, remote_url,
 			remote_ip, remote_port, password, local_id, remote_id,
-			recv_callback_func, recv_callback_data);
+			recv_callback_func,recv_callback_data);
     }
 
   return ret;
