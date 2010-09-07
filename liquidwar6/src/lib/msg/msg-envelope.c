@@ -298,7 +298,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 		  pos = seek;
 		  if (lw6msg_word_first_x (&received_password, &seek, pos))
 		    {
-		      if (lw6sys_password_verify
+		      if (lw6cnx_password_verify
 			  (local_url, password, received_password.buf))
 			{
 			  pos = seek;

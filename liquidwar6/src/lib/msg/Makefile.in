@@ -89,8 +89,8 @@ am__liquidwar6msg_test_SOURCES_DIST = msg-testmain.c
 @FULLSTATIC_FALSE@	msg-testmain.$(OBJEXT)
 liquidwar6msg_test_OBJECTS = $(am_liquidwar6msg_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6msg_test_DEPENDENCIES = libmsg.la \
-@FULLSTATIC_FALSE@	../nod/libnod.la ../glb/libglb.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../cnx/libcnx.la ../nod/libnod.la \
+@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -331,7 +331,7 @@ libmsg_la_SOURCES = msg-cmd.c msg-envelope.c msg-oob.c msg-test.c msg-ticket.c m
 libmsgdir = $(includedir)/@PACKAGE_TARNAME@/msg
 libmsg_HEADERS = msg.h
 @FULLSTATIC_FALSE@liquidwar6msg_test_SOURCES = msg-testmain.c
-@FULLSTATIC_FALSE@liquidwar6msg_test_LDADD = libmsg.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6msg_test_LDADD = libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 all: all-am
 
 .SUFFIXES:

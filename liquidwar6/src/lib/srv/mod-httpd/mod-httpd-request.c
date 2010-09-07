@@ -142,7 +142,7 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
 		  if (public_url && received_password)
 		    {
 		      request->password_ok =
-			lw6sys_password_verify (public_url, password,
+			lw6cnx_password_verify (public_url, password,
 						received_password);
 		    }
 		  LW6SYS_FREE (clear_authorization);

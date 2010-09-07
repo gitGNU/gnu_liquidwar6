@@ -391,7 +391,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	       * We only check password now that we have chosen which
 	       * field is password, even if the value is NULL
 	       */
-	      if (lw6sys_password_verify (local_url, password,
+	      if (lw6cnx_password_verify (local_url, password,
 					  received_password))
 		{
 		  (*password_ok) = 1;
