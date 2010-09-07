@@ -73,7 +73,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 	{
 	  ret->password = lw6sys_str_copy (password);
 	  ret->password_send_checksum =
-	    lw6sys_password_checksum (remote_url, password);
+	    lw6cnx_password_checksum (remote_url, password);
 	}
       else
 	{

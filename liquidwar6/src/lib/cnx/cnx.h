@@ -24,6 +24,7 @@
 #define LIQUIDWAR6CNX_H
 
 #include "../sys/sys.h"
+#include "../glb/glb.h"
 
 typedef void (*lw6cnx_recv_callback_t) (void *func_data, char *msg);
 
@@ -75,6 +76,11 @@ extern int lw6cnx_connection_should_send_foo (lw6cnx_connection_t *
 extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
 						connection, int64_t now,
 						int next_foo_delay);
+
+/* cnx-password.c */
+extern char *lw6cnx_password_checksum (char *seed, char *password);
+extern int lw6cnx_password_verify (char *seed, char *password_here,
+				   char *password_received);
 
 /* cnx-test.c */
 extern int lw6cnx_test (int mode);

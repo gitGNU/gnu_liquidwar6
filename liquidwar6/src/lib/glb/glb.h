@@ -40,6 +40,10 @@ extern char *lw6glb_base64_decode_str_prefix (char *str, char *prefix);
 extern char *lw6glb_base64_encode (char *str);
 extern char *lw6glb_base64_decode (char *str);
 
+/* glb-sha1.c */
+char *lw6glb_sha1_hmac_80_bin (char *key, char *buf, int size);
+char *lw6glb_sha1_hmac_80_str (char *key, char *str);
+
 /* glb-test.c */
 extern int lw6glb_test (int mode);
 

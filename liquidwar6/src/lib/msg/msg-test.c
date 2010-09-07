@@ -365,7 +365,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   if (info)
     {
       password_checksum =
-	lw6sys_password_checksum (_TEST_URL, _TEST_PASSWORD);
+	lw6cnx_password_checksum (_TEST_URL, _TEST_PASSWORD);
       if (password_checksum)
 	{
 	  msg = lw6msg_cmd_generate_hello (info);
@@ -953,17 +953,6 @@ test_oob ()
   return ret;
 }
 
-static void
-_key_value_assoc_callback (void *func_data, char *key, void *value)
-{
-  char *value_str = (char *) value;
-  int *count = (int *) func_data;
-
-  (*count)++;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("count=%d found key=\"%s\" value=\"%s\""),
-	      *count, key, value_str);
-}
-
 /*
  * Testing functions in ticket.c
  */
@@ -1018,6 +1007,17 @@ test_ticket ()
 
   LW6SYS_TEST_FUNCTION_END;
   return ret;
+}
+
+static void
+_key_value_assoc_callback (void *func_data, char *key, void *value)
+{
+  char *value_str = (char *) value;
+  int *count = (int *) func_data;
+
+  (*count)++;
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("count=%d found key=\"%s\" value=\"%s\""),
+	      *count, key, value_str);
 }
 
 /*
@@ -1553,8 +1553,8 @@ lw6msg_test (int mode)
       lw6nod_test (mode);
     }
 
-  ret = test_cmd () && test_envelope () && test_oob () && test_ticket ()
-    && test_utils () && test_word () && test_z ();
+  ret = test_cmd () && test_envelope () && test_oob () 
+    && test_ticket () && test_utils () && test_word () && test_z ();
 
   return ret;
 }

@@ -79,7 +79,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libcnx_la_LIBADD =
-am_libcnx_la_OBJECTS = cnx-connection.lo cnx-test.lo \
+am_libcnx_la_OBJECTS = cnx-connection.lo cnx-password.lo cnx-test.lo \
 	cnx-tickettable.lo
 libcnx_la_OBJECTS = $(am_libcnx_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libcnxdir)"
@@ -89,7 +89,7 @@ am__liquidwar6cnx_test_SOURCES_DIST = cnx-testmain.c
 @FULLSTATIC_FALSE@	cnx-testmain.$(OBJEXT)
 liquidwar6cnx_test_OBJECTS = $(am_liquidwar6cnx_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6cnx_test_DEPENDENCIES = libcnx.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../glb/libglb.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -326,11 +326,11 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libcnx.la
-libcnx_la_SOURCES = cnx-connection.c cnx-test.c cnx-tickettable.c
+libcnx_la_SOURCES = cnx-connection.c cnx-password.c cnx-test.c cnx-tickettable.c
 libcnxdir = $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
 @FULLSTATIC_FALSE@liquidwar6cnx_test_SOURCES = cnx-testmain.c
-@FULLSTATIC_FALSE@liquidwar6cnx_test_LDADD = libcnx.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6cnx_test_LDADD = libcnx.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 all: all-am
 
 .SUFFIXES:
@@ -430,6 +430,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-connection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-password.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-testmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-tickettable.Plo@am__quote@

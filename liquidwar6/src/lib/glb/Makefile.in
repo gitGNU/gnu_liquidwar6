@@ -79,7 +79,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libglb_la_LIBADD =
-am_libglb_la_OBJECTS = glb-base64.lo glb-test.lo gnulib-base64.lo
+am_libglb_la_OBJECTS = glb-base64.lo glb-sha1.lo glb-test.lo \
+	gnulib-base64.lo gnulib-hmacsha1.lo gnulib-memxor.lo \
+	gnulib-sha1.lo
 libglb_la_OBJECTS = $(am_libglb_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libglbdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -325,12 +327,12 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libglb.la
-libglb_la_SOURCES = glb-base64.c glb-test.c gnulib-base64.c
+libglb_la_SOURCES = glb-base64.c glb-sha1.c glb-test.c gnulib-base64.c gnulib-hmacsha1.c gnulib-memxor.c gnulib-sha1.c
 libglbdir = $(includedir)/@PACKAGE_TARNAME@/glb
 libglb_HEADERS = glb.h
 @FULLSTATIC_FALSE@liquidwar6glb_test_SOURCES = glb-testmain.c
 @FULLSTATIC_FALSE@liquidwar6glb_test_LDADD = libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-EXTRA_DIST = glb-internal.h gnulib-base64.h
+EXTRA_DIST = glb-internal.h gnulib-base64.h gnulib-hmac.h gnulib-memxor.h gnulib-sha1.h
 all: all-am
 
 .SUFFIXES:
@@ -430,9 +432,13 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glb-base64.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glb-sha1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glb-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glb-testmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnulib-base64.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnulib-hmacsha1.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnulib-memxor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnulib-sha1.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

@@ -649,6 +649,8 @@ extern int lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
 extern int lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
 					     hexa_serializer,
 					     lw6sys_color_8_t * value);
+extern int lw6sys_hexa_str_to_buf (void *buf, int size, char *str);
+extern char *lw6sys_hexa_buf_to_str (void *buf, int size);
 extern void *lw6sys_hexa_str_to_ptr (char *str);
 extern char *lw6sys_hexa_ptr_to_str (void *ptr);
 
@@ -781,11 +783,6 @@ extern char *lw6sys_get_map_dir (int argc, char *argv[]);
 extern char *lw6sys_get_map_path (int argc, char *argv[]);
 extern char *lw6sys_get_script_file (int argc, char *argv[]);
 extern void lw6sys_options_log (int argc, char *argv[]);
-
-/* sys-password.c */
-extern char *lw6sys_password_checksum (char *seed, char *password);
-extern int lw6sys_password_verify (char *seed, char *password_here,
-				   char *password_received);
 
 /* sys-path.c */
 extern int lw6sys_file_exists (char *filename);

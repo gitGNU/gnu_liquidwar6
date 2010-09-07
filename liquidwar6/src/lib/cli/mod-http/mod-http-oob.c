@@ -271,7 +271,7 @@ _mod_http_process_oob (_http_context_t * http_context,
 	      && strlen (node_info->const_info.password) > 0)
 	    {
 	      password_checksum =
-		lw6sys_password_checksum (oob_data->public_url,
+		lw6cnx_password_checksum (oob_data->public_url,
 					  node_info->const_info.password);
 	    }
 	  ip = lw6net_dns_gethostbyname (parsed_url->host);

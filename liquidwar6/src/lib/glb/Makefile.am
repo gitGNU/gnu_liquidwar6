@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libglb.la
-libglb_la_SOURCES = glb-base64.c glb-test.c gnulib-base64.c
+libglb_la_SOURCES = glb-base64.c glb-sha1.c glb-test.c gnulib-base64.c gnulib-hmacsha1.c gnulib-memxor.c gnulib-sha1.c
 libglbdir= $(includedir)/@PACKAGE_TARNAME@/glb
 libglb_HEADERS = glb.h
 
@@ -33,4 +33,4 @@ liquidwar6glb_test_LDADD = libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6glb-test
 endif
 
-EXTRA_DIST = glb-internal.h gnulib-base64.h
+EXTRA_DIST = glb-internal.h gnulib-base64.h gnulib-hmac.h gnulib-memxor.h gnulib-sha1.h

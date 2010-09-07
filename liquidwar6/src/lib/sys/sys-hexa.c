@@ -844,8 +844,20 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
   return ret;
 }
 
-static int
-_hexa_str_to_buf (void *buf, int size, char *str)
+/**
+ * lw6sys_hexa_str_to_buf
+ *
+ * @buf: binary buffer to convert
+ * @size: binary buffer length
+ * @str: the source string
+ *
+ * Converts the stringified hexa representation of a string to
+ * its source binary buffer. Buffer must be exactly @strlen(str)/2
+ *
+ * Return value: 1 on success
+ */
+int
+lw6sys_hexa_str_to_buf (void *buf, int size, char *str)
 {
   char *buffer = (char *) buf;
   int ret = 0;
@@ -859,7 +871,6 @@ _hexa_str_to_buf (void *buf, int size, char *str)
 	  memcpy (hexa2, str + 2 * i, 2);
 	  sscanf (hexa2, "%02x", &j);
 	  buffer[i] = (u_int8_t) j;
-	  TMP3 ("s2b %s %d %d", hexa2, j, (int) buffer[i]);
 	}
       str[2 * size] = '\0';
       ret = 1;
@@ -875,8 +886,18 @@ _hexa_str_to_buf (void *buf, int size, char *str)
   return ret;
 }
 
-static char *
-_hexa_buf_to_str (void *buf, int size)
+/**
+ * lw6sys_hexa_buf_to_str
+ *
+ * @buf: the buffer to stringify
+ * @size: the length of the buffer
+ *
+ * Transforms a binary buffer into its hexa representation.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6sys_hexa_buf_to_str (void *buf, int size)
 {
   char *buffer = (char *) buf;
   char *str = NULL;
@@ -918,7 +939,7 @@ lw6sys_hexa_str_to_ptr (char *str)
 {
   void *ptr = NULL;
 
-  if (!_hexa_str_to_buf (&ptr, sizeof (void *), str))
+  if (!lw6sys_hexa_str_to_buf (&ptr, sizeof (void *), str))
     {
       ptr = NULL;
     }
@@ -947,8 +968,7 @@ lw6sys_hexa_ptr_to_str (void *ptr)
 {
   char *str = NULL;
 
-  TMP2 ("p2s ptr=%p &ptr=%p", ptr, &ptr);
-  str = _hexa_buf_to_str (&ptr, sizeof (void *));
+  str = lw6sys_hexa_buf_to_str (&ptr, sizeof (void *));
 
   return str;
 }

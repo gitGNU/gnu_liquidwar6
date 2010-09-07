@@ -31,6 +31,8 @@
 #define _TEST_BASE64_STR_3 "this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string, this is a LONG... string"
 #define _TEST_BASE64_STR_4_LEN 100
 #define _TEST_BASE64_PREFIX "TOTO=0"
+#define _TEST_SHA1_LEN 1000
+#define _TEST_SHA1_KEY "toto"
 
 static int
 _test_base64_ok (char *test_str, int log_all)
@@ -263,6 +265,60 @@ test_base64 ()
   return ret;
 }
 
+/*
+ * Testing functions in sha1.c
+ */
+static int
+test_sha1 ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *random_str = NULL;
+    char *sha1 = NULL;
+
+    random_str = lw6sys_str_random (_TEST_SHA1_LEN);
+    if (random_str)
+      {
+	sha1 = lw6glb_sha1_hmac_80_str (NULL, random_str);
+	if (sha1)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
+	    LW6SYS_FREE (sha1);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	sha1 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, random_str);
+	if (sha1)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
+	    LW6SYS_FREE (sha1);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	sha1 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, _TEST_SHA1_KEY);
+	if (sha1)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
+	    LW6SYS_FREE (sha1);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (random_str);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6glb_test
  *
@@ -285,7 +341,7 @@ lw6glb_test (int mode)
       lw6sys_test (mode);
     }
 
-  ret = test_base64 ();
+  ret = test_base64 () && test_sha1 ();
 
   return ret;
 }

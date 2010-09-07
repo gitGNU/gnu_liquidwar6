@@ -34,6 +34,9 @@
 #define _TEST_LOCAL_ID 0x1234123412341234LL
 #define _TEST_REMOTE_ID 0x2345234523452345LL
 #define _TEST_NEXT_FOO_DELAY 5000
+#define _TEST_PASSWORD_SEED "http://"
+#define _TEST_PASSWORD1 "abc"
+#define _TEST_PASSWORD2 "XY"
 #define _TEST_TICKET_TABLE_HASH_SIZE 11
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
@@ -128,7 +131,119 @@ test_connection ()
 }
 
 /*
- * Testing functions in connection.c
+ * Testing functions in password.c
+ */
+static int
+test_password ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *checksum = NULL;
+
+    checksum = lw6cnx_password_checksum (NULL, NULL);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password NULL is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6cnx_password_checksum (NULL, "");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for empty password is \"%s\""), checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6cnx_password_checksum (_TEST_PASSWORD_SEED, "");
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _
+		    ("checksum for empty password with seed \"%s\" is \"%s\""),
+		    _TEST_PASSWORD_SEED, checksum);
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+    checksum = lw6cnx_password_checksum (_TEST_PASSWORD_SEED, _TEST_PASSWORD1);
+    if (checksum)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("checksum for password \"%s\" is \"%s\""),
+		    _TEST_PASSWORD1, checksum);
+	if (lw6cnx_password_verify
+	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD1))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("same password test works"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6cnx_password_verify
+	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, checksum))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works using checksum"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (lw6cnx_password_verify (_TEST_PASSWORD_SEED, NULL, _TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test works when it's NULL here"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6cnx_password_verify
+	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong passwords"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	if (!lw6cnx_password_verify (NULL, _TEST_PASSWORD1, _TEST_PASSWORD2))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("same password test detects wrong seed"));
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (checksum);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in ticketable.c
  */
 static int
 test_ticket_table ()
@@ -238,9 +353,10 @@ lw6cnx_test (int mode)
        * Just to make sure most functions are stuffed in the binary
        */
       lw6sys_test (mode);
+      lw6glb_test (mode);
     }
 
-  ret = test_connection () && test_ticket_table ();
+  ret = test_connection () && test_password() && test_ticket_table ();
 
   return ret;
 }

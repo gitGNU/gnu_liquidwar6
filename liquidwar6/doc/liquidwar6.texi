@@ -1209,7 +1209,7 @@ library to protect the data it sends. All the checksum machinery
 is definitely vulnerable to a brute-force attack, so in theory
 it's possible to fool the program.
 
-In practise, if you want really privacy, play over a VPN
+In practise, if you want real privacy, play over a VPN
 (Virtual Private Network).
 
 @c ---------------------------------------------------------------------------

@@ -24,10 +24,10 @@
 #include "config.h"
 #endif
 
-#include "sys.h"
+#include "cnx.h"
 
 /**
- * lw6sys_password_checksum
+ * lw6cnx_password_checksum
  *
  * @seed: a seed to blur the password, can be NULL
  * @password: the password, can be NULL
@@ -47,19 +47,13 @@
  * Return value: a dynamically allocated string
  */
 char *
-lw6sys_password_checksum (char *seed, char *password)
+lw6cnx_password_checksum (char *seed, char *password)
 {
   char *ret = NULL;
-  u_int32_t checksum = 0;
 
   if (password && strlen (password) > 0)
     {
-      if (seed)
-	{
-	  checksum = lw6sys_checksum_str (seed);
-	}
-      lw6sys_checksum_update_str (&checksum, password);
-      ret = lw6sys_new_sprintf ("%08x", checksum);
+      ret = lw6glb_sha1_hmac_80_str (seed, password);
     }
   else
     {
@@ -70,7 +64,7 @@ lw6sys_password_checksum (char *seed, char *password)
 }
 
 /**
- * lw6sys_password_verify
+ * lw6cnx_password_verify
  *
  * @seed: a seed to blur the password, can be NULL
  * @password_here: the local password, can be NULL
@@ -84,7 +78,7 @@ lw6sys_password_checksum (char *seed, char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6sys_password_verify (char *seed, char *password_here,
+lw6cnx_password_verify (char *seed, char *password_here,
 			char *password_received)
 {
   int ret = 0;
@@ -106,7 +100,7 @@ lw6sys_password_verify (char *seed, char *password_here,
 	}
       else
 	{
-	  checksum = lw6sys_password_checksum (seed, password_here);
+	  checksum = lw6cnx_password_checksum (seed, password_here);
 	  if (checksum)
 	    {
 	      if (!(strcmp (checksum, password_received)))

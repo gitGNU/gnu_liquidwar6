@@ -220,7 +220,7 @@ lw6msg_oob_generate_request (char *command, char *remote_url, char *password,
   if (remote_url && strlen (remote_url) > 0 && password
       && strlen (password) > 0)
     {
-      password_checksum = lw6sys_password_checksum (remote_url, password);
+      password_checksum = lw6cnx_password_checksum (remote_url, password);
     }
   if (password_checksum)
     {
