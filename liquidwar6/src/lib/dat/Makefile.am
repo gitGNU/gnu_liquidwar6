@@ -29,7 +29,7 @@ libdat_HEADERS = dat.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6dat-test
 liquidwar6dat_test_SOURCES = dat-testmain.c
-liquidwar6dat_test_LDADD = libdat.la ../msg/libmsg.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6dat_test_LDADD = libdat.la ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libglb.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dat-test
 endif
 

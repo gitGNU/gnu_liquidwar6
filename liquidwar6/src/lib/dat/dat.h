@@ -26,6 +26,7 @@
 #include "../sys/sys.h"
 #include "../glb/glb.h"
 #include "../nod/nod.h"
+#include "../cnx/cnx.h"
 #include "../msg/msg.h"
 
 typedef struct lw6dat_warehouse_s
