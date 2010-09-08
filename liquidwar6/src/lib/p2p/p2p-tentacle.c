@@ -337,6 +337,9 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       if (lw6cnx_connection_should_send_foo (cnx, now))
 	{
 	  lw6cnx_connection_init_foo_bar_key (cnx, now, next_foo_delay);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("preparing foo with foo_bar_key=%08x"),
+		      cnx->foo_bar_key);
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
@@ -381,6 +384,9 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
       if (lw6cnx_connection_should_send_foo (cnx, now))
 	{
 	  lw6cnx_connection_init_foo_bar_key (cnx, now, next_foo_delay);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("preparing foo with foo_bar_key=%08x"),
+		      cnx->foo_bar_key);
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
@@ -472,6 +478,36 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
       ret |= lw6srv_send (tentacle->backends->srv_backends[i], cnx,
 			  physical_ticket_sig, logical_ticket_sig,
 			  cnx->local_id_int, cnx->remote_id_int, msg);
+    }
+
+  return ret;
+}
+
+lw6cnx_connection_t *
+_lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
+						   tentacle,
+						   u_int32_t foo_bar_key)
+{
+  lw6cnx_connection_t *ret = NULL;
+  lw6cnx_connection_t *cnx = NULL;
+  int i = 0;
+
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+    {
+      cnx = tentacle->cli_connections[i];
+      if (cnx->foo_bar_key == foo_bar_key)
+	{
+	  ret = cnx;
+	}
+    }
+
+  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+    {
+      cnx = tentacle->srv_connections[i];
+      if (cnx->foo_bar_key == foo_bar_key)
+	{
+	  ret = cnx;
+	}
     }
 
   return ret;

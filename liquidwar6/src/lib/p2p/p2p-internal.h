@@ -345,4 +345,9 @@ extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 					    u_int64_t logical_from_id,
 					    u_int64_t logical_to_id,
 					    char *msg);
+extern lw6cnx_connection_t
+  * _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
+						       tentacle,
+						       u_int32_t foo_bar_key);
+
 #endif

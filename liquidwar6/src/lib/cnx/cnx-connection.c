@@ -189,6 +189,7 @@ void
 lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
 				    int64_t now, int next_foo_delay)
 {
+  connection->last_send_foo_timestamp = now;
   connection->next_send_foo_timestamp =
     now + next_foo_delay / 2 + lw6sys_random (next_foo_delay);
   connection->foo_bar_key = lw6sys_generate_id_32 ();

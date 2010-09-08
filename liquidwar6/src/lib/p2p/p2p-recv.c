@@ -34,7 +34,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 {
   lw6nod_info_t *remote_node_info = NULL;
   u_int32_t ticket = 0;
-  u_int32_t key = 0;
+  u_int32_t foo_bar_key = 0;
   u_int32_t logical_ticket_sig = 0;
   int serial = 0;
   int i = 0;
@@ -42,6 +42,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   char *ker_message = NULL;
   char *reply_msg = NULL;
   int tentacle_i = 0;
+  lw6cnx_connection_t *other_cnx = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
@@ -80,11 +81,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_FOO))
     {
-      if (lw6msg_cmd_analyse_foo (&remote_node_info, &key, message))
+      if (lw6msg_cmd_analyse_foo (&remote_node_info, &foo_bar_key, message))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""),
 		      cnx->remote_url);
-	  reply_msg = lw6msg_cmd_generate_bar (node->node_info, key);
+	  reply_msg = lw6msg_cmd_generate_bar (node->node_info, foo_bar_key);
 	  if (reply_msg)
 	    {
 	      logical_ticket_sig =
@@ -125,11 +126,42 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_BAR))
     {
-      if (lw6msg_cmd_analyse_bar (&remote_node_info, &key, message))
+      if (lw6msg_cmd_analyse_bar (&remote_node_info, &foo_bar_key, message))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("received bar from \"%s\""),
-		      cnx->remote_url);
-	  // todo : update ping delay
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("received bar from \"%s\" foo_bar_key=%08x"),
+		      cnx->remote_url, foo_bar_key);
+	  tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
+	  if (tentacle_i >= 0)
+	    {
+	      other_cnx =
+		_lw6p2p_tentacle_find_connection_with_foo_bar_key (&
+								   (node->tentacles
+								    [tentacle_i]),
+								   foo_bar_key);
+	      if (other_cnx)
+		{
+		  other_cnx->ping_msec =
+		    lw6sys_get_timestamp () -
+		    other_cnx->last_send_foo_timestamp;
+		  other_cnx->foo_bar_key = 0;
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
+			      other_cnx->ping_msec);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("unable to find connection with foo_bar_key %08x"),
+			      foo_bar_key);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to find the tentacle for a node which has an active connection"));
+	    }
 	}
       else
 	{
