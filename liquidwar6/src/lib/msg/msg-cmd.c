@@ -180,6 +180,30 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
   return ret;
 }
 
+/**
+ * lw6msg_cmd_generate_data
+ *
+ * @serial: the message serial number
+ * @i: the message index in the group
+ * @n: the number of messages in the group
+ * @ker_msg: the actual content of the message (passed to core algo)
+ *
+ * Generate a DATA command. Serial is an ever increasing number,
+ * i and n are most of the time 1 and 1, they are usefull
+ * only in long multipart messages.
+ *
+ * Return value: newly allocated string.
+ */
+char *
+lw6msg_cmd_generate_data (int serial, int i, int n, char *ker_msg)
+{
+  char *ret = NULL;
+
+  ret = lw6sys_new_sprintf ("%d %d %d %s", serial, i, n, ker_msg);
+
+  return ret;
+}
+
 static int
 _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 {
@@ -347,7 +371,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 /**
  * lw6msg_cmd_analyse_hello
  *
- * @info: if not NULL, will contain (remote) node info on success
+ * @info: will contain (remote) node info on success
  * @msg: the message to analyse
  *
  * Analyzes a HELLO message.
@@ -378,7 +402,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
 /**
  * lw6msg_cmd_analyse_ticket
  *
- * @info: if not NULL, will contain (remote) node info on success
+ * @info: will contain (remote) node info on success
  * @ticket: if not NULL, will contain the ticket value on success
  * @msg: the message to analyse
  *
@@ -423,7 +447,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
 /**
  * lw6msg_cmd_analyse_foo
  *
- * @info: if not NULL, will contain (remote) node info on success
+ * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @msg: the message to analyse
  *
@@ -466,7 +490,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 /**
  * lw6msg_cmd_analyse_bar
  *
- * @info: if not NULL, will contain (remote) node info on success
+ * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @msg: the message to analyse
  *
@@ -509,7 +533,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 /**
  * lw6msg_cmd_analyse_goodbye
  *
- * @info: if not NULL, will contain (remote) node info on success
+ * @info: will contain (remote) node info on success
  * @msg: the message to analyse
  *
  * Analyzes a GOODBYE message.
@@ -532,6 +556,81 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _("parsing GOODBYE but couldn't find it in \"%s\""), msg);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_cmd_analyse_data
+ *
+ * @serial: will contain serial number on success
+ * @i: will contain group index on success
+ * @n: will contain group size on success
+ * @ker_msg: will contain actual message on success
+ *
+ * Analyzes a DATA message.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
+int
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
+			 char **ker_msg, char *msg)
+{
+  int ret = 0;
+  char *seek = NULL;
+  char *pos = NULL;
+  int read_serial = 0;
+  int read_i = 0;
+  int read_n = 0;
+  char *read_ker_msg = NULL;
+  lw6msg_word_t ker_msg_word;
+
+  (*serial) = 0;
+  (*i) = 0;
+  (*n) = 0;
+  (*ker_msg) = NULL;
+
+  seek = pos = msg;
+
+  if (lw6msg_word_first_int_gt0 (&read_serial, &seek, pos))
+    {
+      if (lw6msg_word_first_int_gt0 (&read_i, &seek, pos))
+	{
+	  if (lw6msg_word_first_int_gt0 (&read_n, &seek, pos))
+	    {
+	      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+		{
+		  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
+		  if (read_ker_msg)
+		    {
+		      ret = 1;
+		      (*serial) = read_serial;
+		      (*i) = read_i;
+		      (*n) = read_n;
+		      (*ker_msg) = read_ker_msg;
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _("unable to parse ker message"));
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _("unable to parse group size n"));
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to parse group index i"));
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to parse serial"));
     }
 
   return ret;

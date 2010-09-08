@@ -36,16 +36,17 @@
 /**
  * lw6glb_sha1_hmac_80_bin
  *
- * @key: a key (string)
+ * @key: the key buffer
+ * @key_size
  * @buf: the data to analyse
- * @size: the size of data to analyse
+ * @buf_size: the size of data to analyse
  * 
  * Calculates an SHA-1 sum of buffer, using key to seed calc.
  *
  * Return value: newly allocated string, containing 20 chars checksum.
  */
 char *
-lw6glb_sha1_hmac_80_bin (char *key, char *buf, int size)
+lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf, int buf_size)
 {
   char *ret = NULL;
   char sha1_bin[_SHA1_SIZE];
@@ -55,7 +56,7 @@ lw6glb_sha1_hmac_80_bin (char *key, char *buf, int size)
     {
       key = _SHA1_KEY;
     }
-  if (!hmac_sha1 (key, strlen (key), (void *) buf, size, sha1_bin))
+  if (!hmac_sha1 ((void *) key, key_size, (void *) buf, buf_size, sha1_bin))
     {
       /*
        * We only convert the 10 first bytes, this way we reveal
@@ -66,7 +67,7 @@ lw6glb_sha1_hmac_80_bin (char *key, char *buf, int size)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("error calculating SHA-1 sum for %d bytes"), size);
+		  _("error calculating SHA-1 sum for %d bytes"), buf_size);
     }
 
   return ret;
@@ -87,7 +88,75 @@ lw6glb_sha1_hmac_80_str (char *key, char *str)
 {
   char *ret = NULL;
 
-  ret = lw6glb_sha1_hmac_80_bin (key, str, strlen (str));
+  if (!key)
+    {
+      key = _SHA1_KEY;
+    }
+  ret = lw6glb_sha1_hmac_80_bin (key, strlen (key), str, strlen (str));
+
+  return ret;
+}
+
+/**
+ * lw6glb_sha1_hmac_32_bin
+ *
+ * @key: the key buffer
+ * @key_size
+ * @buf: the data to analyse
+ * @buf_size: the size of data to analyse
+ * 
+ * Calculates an SHA-1 sum of buffer, using key to seed calc.
+ *
+ * Return value: a 32-bit unsigned integer
+ */
+u_int32_t
+lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf, int buf_size)
+{
+  u_int32_t ret = 0;
+  char sha1_bin[_SHA1_SIZE];
+
+  memset (sha1_bin, 0, _SHA1_SIZE);
+  if (!key)
+    {
+      key = _SHA1_KEY;
+    }
+  if (!hmac_sha1 ((void *) key, key_size, (void *) buf, buf_size, sha1_bin))
+    {
+      /*
+       * We only convert the 10 first bytes, this way we reveal
+       * less information when sending password hashes on the net.
+       */
+      ret = (u_int32_t) lw6sys_unserialize_int32 ((unsigned char *) sha1_bin);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _("error calculating SHA-1 sum for %d bytes"), buf_size);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6glb_sha1_hmac_32_str
+ *
+ * @key: a key (string)
+ * @str: the string to calculate the checksum for 
+ * 
+ * Calculates an SHA-1 sum of a string, using key to seed calc.
+ *
+ * Return value: a 32-bit unsigned integer
+ */
+u_int32_t
+lw6glb_sha1_hmac_32_str (char *key, char *str)
+{
+  u_int32_t ret = 0;
+
+  if (!key)
+    {
+      key = _SHA1_KEY;
+    }
+  ret = lw6glb_sha1_hmac_32_bin (key, strlen (key), str, strlen (str));
 
   return ret;
 }

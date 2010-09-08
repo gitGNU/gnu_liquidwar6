@@ -1140,7 +1140,7 @@ _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
       if (!_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
 	  ret = i;
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("found free tentacle %d"), i);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("found free tentacle %d"), i);
 	}
     }
 

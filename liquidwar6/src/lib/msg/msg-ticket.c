@@ -47,12 +47,17 @@ lw6msg_ticket_calc_sig (u_int32_t ticket, u_int64_t from_id, u_int64_t to_id,
 			char *msg)
 {
   u_int32_t calc_sig = 0;
+  unsigned char key_buf[sizeof (u_int32_t) + 2 * sizeof (u_int64_t)];
 
-  calc_sig = lw6sys_checksum_int32 (ticket);
-  lw6sys_checksum_update_int64 (&calc_sig, from_id);
-  lw6sys_checksum_update_int64 (&calc_sig, to_id);
-  lw6sys_checksum_update_str (&calc_sig, msg);
-
+  memset (key_buf, 0, sizeof (u_int32_t) + 2 * sizeof (u_int64_t));
+  lw6sys_serialize_int32 (key_buf, ticket);
+  lw6sys_serialize_int64 (key_buf + sizeof (u_int32_t), from_id);
+  lw6sys_serialize_int64 (key_buf + sizeof (u_int32_t) + sizeof (u_int64_t),
+			  to_id);
+  calc_sig =
+    lw6glb_sha1_hmac_32_bin ((char *) key_buf,
+			     sizeof (u_int32_t) + 2 * sizeof (u_int64_t), msg,
+			     strlen (msg));
   if (!calc_sig)
     {
       /*

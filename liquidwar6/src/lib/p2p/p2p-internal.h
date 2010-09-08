@@ -333,5 +333,16 @@ extern void _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 				   lw6nod_info_t * node_info,
 				   lw6cnx_ticket_table_t * ticket_table,
 				   int foo_delay);
-
+extern int _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
+				       lw6cnx_ticket_table_t * ticket_table,
+				       u_int32_t logical_ticket_sig,
+				       u_int64_t logical_from_id,
+				       u_int64_t logical_to_id, char *msg);
+extern int _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
+					    lw6cnx_ticket_table_t *
+					    ticket_table,
+					    u_int32_t logical_ticket_sig,
+					    u_int64_t logical_from_id,
+					    u_int64_t logical_to_id,
+					    char *msg);
 #endif

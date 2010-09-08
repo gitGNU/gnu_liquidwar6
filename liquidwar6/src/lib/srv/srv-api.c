@@ -156,7 +156,8 @@ lw6cnx_connection_t *
 lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     char *local_url, char *remote_url, char *remote_ip,
 	     int remote_port, char *password, u_int64_t local_id,
-	     u_int64_t remote_id, lw6cnx_recv_callback_t recv_callback_func,
+	     u_int64_t remote_id, int dns_ok,
+	     lw6cnx_recv_callback_t recv_callback_func,
 	     void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
@@ -168,7 +169,7 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
       ret =
 	backend->open (backend->srv_context, listener, local_url, remote_url,
 		       remote_ip, remote_port, password, local_id, remote_id,
-		       recv_callback_func, recv_callback_data);
+		       dns_ok, recv_callback_func, recv_callback_data);
     }
   else
     {

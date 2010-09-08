@@ -1,3 +1,7 @@
+2010-09-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Bar response sent when receiving foo.
+
 2010-09-07 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Receive callback is in place.

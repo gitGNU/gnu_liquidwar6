@@ -33,6 +33,7 @@
 #define _TEST_PASSWORD "toto"
 #define _TEST_LOCAL_ID 0x1234123412341234LL
 #define _TEST_REMOTE_ID 0x2345234523452345LL
+#define _TEST_DNS_OK 1
 #define _TEST_NEXT_FOO_DELAY 5000
 #define _TEST_PASSWORD_SEED "http://"
 #define _TEST_PASSWORD1 "abc"
@@ -69,7 +70,7 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     _recv_callback_func, NULL);
+			     _TEST_DNS_OK, _recv_callback_func, NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -127,7 +128,7 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     NULL, NULL);
+			     _TEST_DNS_OK, NULL, NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,

@@ -40,6 +40,7 @@
  * @password: the password to use
  * @local_id: the local ID
  * @remote_id: the remote ID
+ * @dns_ok: 1 if no DNS mismatch, 0 if IP does not match public URL
  * @recv_callback_func: a callback to call when data is received
  * @recv_callback_data: additionnal data to pass to the callback
  *
@@ -57,6 +58,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 		       char *remote_ip, int remote_port,
 		       char *password, u_int64_t local_id,
 		       u_int64_t remote_id,
+		       int dns_ok,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -85,6 +87,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
       ret->local_id_str = lw6sys_id_ltoa (local_id);
       ret->remote_id_int = remote_id;
       ret->remote_id_str = lw6sys_id_ltoa (remote_id);
+      ret->dns_ok = dns_ok ? 1 : 0;
       ret->recv_callback_func = recv_callback_func;
       ret->recv_callback_data = recv_callback_data;
       ret->send_mutex = lw6sys_mutex_create ();

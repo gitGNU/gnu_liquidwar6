@@ -142,8 +142,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 tentacle->remote_port,
 				 tentacle->password,
 				 tentacle->local_id_int,
-				 tentacle->remote_id_int, recv_callback_func,
-				 recv_callback_data);
+				 tentacle->remote_id_int, tentacle->dns_ok,
+				 recv_callback_func, recv_callback_data);
 		  if (tentacle->cli_connections[i])
 		    {
 		      repr =
@@ -189,8 +189,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 tentacle->remote_port,
 				 tentacle->password,
 				 tentacle->local_id_int,
-				 tentacle->remote_id_int, recv_callback_func,
-				 recv_callback_data);
+				 tentacle->remote_id_int, tentacle->dns_ok,
+				 recv_callback_func, recv_callback_data);
 		  if (tentacle->srv_connections[i])
 		    {
 		      repr =
@@ -303,6 +303,7 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
   char *msg;
   int64_t now;
   lw6cnx_connection_t *cnx = NULL;
+  u_int32_t ticket_sig = 0;
 
   now = lw6sys_get_timestamp ();
   if (!tentacle->hello_sent)
@@ -313,13 +314,14 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
 	      cnx = tentacle->cli_connections[i];
-	      if (lw6cli_send (tentacle->backends->cli_backends[i],
-			       cnx,
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       cnx->local_id_int, cnx->remote_id_int, msg))
+	      ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(ticket_table, cnx->remote_id_str),
+					cnx->local_id_int, cnx->remote_id_int,
+					msg);
+	      if (lw6cli_send
+		  (tentacle->backends->cli_backends[i], cnx, ticket_sig,
+		   ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -336,12 +338,14 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
+	      ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(ticket_table, cnx->remote_id_str),
+					cnx->local_id_int, cnx->remote_id_int,
+					msg);
 	      lw6cli_send (tentacle->backends->cli_backends[i], cnx,
-			   lw6cnx_ticket_table_get_send (ticket_table,
-							 cnx->remote_id_str),
-			   lw6cnx_ticket_table_get_send (ticket_table,
-							 cnx->remote_id_str),
-			   cnx->local_id_int, cnx->remote_id_int, msg);
+			   ticket_sig, ticket_sig, cnx->local_id_int,
+			   cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged
@@ -354,12 +358,15 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 					     cnx->remote_id_str));
 	      if (msg)
 		{
+		  ticket_sig =
+		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					    (ticket_table,
+					     cnx->remote_id_str),
+					    cnx->local_id_int,
+					    cnx->remote_id_int, msg);
 		  lw6cli_send (tentacle->backends->cli_backends[i], cnx,
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       cnx->local_id_int, cnx->remote_id_int, msg);
+			       ticket_sig, ticket_sig, cnx->local_id_int,
+			       cnx->remote_id_int, msg);
 		  LW6SYS_FREE (msg);
 		}
 	    }
@@ -375,12 +382,14 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key);
 	  if (msg)
 	    {
+	      ticket_sig =
+		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					(ticket_table, cnx->remote_id_str),
+					cnx->local_id_int, cnx->remote_id_int,
+					msg);
 	      lw6srv_send (tentacle->backends->srv_backends[i], cnx,
-			   lw6cnx_ticket_table_get_send (ticket_table,
-							 cnx->remote_id_str),
-			   lw6cnx_ticket_table_get_send (ticket_table,
-							 cnx->remote_id_str),
-			   cnx->local_id_int, cnx->remote_id_int, msg);
+			   ticket_sig, ticket_sig, cnx->local_id_int,
+			   cnx->remote_id_int, msg);
 	      LW6SYS_FREE (msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged
@@ -393,16 +402,75 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
 					     cnx->remote_id_str));
 	      if (msg)
 		{
+		  ticket_sig =
+		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+					    (ticket_table,
+					     cnx->remote_id_str),
+					    cnx->local_id_int,
+					    cnx->remote_id_int, msg);
 		  lw6srv_send (tentacle->backends->srv_backends[i], cnx,
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       lw6cnx_ticket_table_get_send (ticket_table,
-							     cnx->remote_id_str),
-			       cnx->local_id_int, cnx->remote_id_int, msg);
+			       ticket_sig, ticket_sig, cnx->local_id_int,
+			       cnx->remote_id_int, msg);
 		  LW6SYS_FREE (msg);
 		}
 	    }
 	}
       lw6srv_poll (tentacle->backends->srv_backends[i], cnx);
     }
+}
+
+int
+_lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
+			    lw6cnx_ticket_table_t * ticket_table,
+			    u_int32_t logical_ticket_sig,
+			    u_int64_t logical_from_id,
+			    u_int64_t logical_to_id, char *msg)
+{
+  int ret = 0;
+
+  // todo: find a way to pick up best cnx
+  ret =
+    _lw6p2p_tentacle_send_redundant (tentacle, ticket_table,
+				     logical_ticket_sig, logical_from_id,
+				     logical_to_id, msg);
+
+  return ret;
+}
+
+int
+_lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
+				 lw6cnx_ticket_table_t * ticket_table,
+				 u_int32_t logical_ticket_sig,
+				 u_int64_t logical_from_id,
+				 u_int64_t logical_to_id, char *msg)
+{
+  int ret = 0;
+  lw6cnx_connection_t *cnx = NULL;
+  int i = 0;
+  u_int32_t physical_ticket_sig = 0;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _("redundant send of \"%s\""), msg);
+  physical_ticket_sig =
+    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+			    (ticket_table, tentacle->remote_id_str),
+			    tentacle->local_id_int, tentacle->remote_id_int,
+			    msg);
+
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+    {
+      cnx = tentacle->cli_connections[i];
+      ret |= lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+			  physical_ticket_sig, logical_ticket_sig,
+			  cnx->local_id_int, cnx->remote_id_int, msg);
+    }
+
+  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+    {
+      cnx = tentacle->srv_connections[i];
+      ret |= lw6srv_send (tentacle->backends->srv_backends[i], cnx,
+			  physical_ticket_sig, logical_ticket_sig,
+			  cnx->local_id_int, cnx->remote_id_int, msg);
+    }
+
+  return ret;
 }

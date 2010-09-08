@@ -92,9 +92,15 @@
 #define _TEST_Z_LIMIT 30
 #define _TEST_TICKET1 0x12345678
 #define _TEST_TICKET2 0x23456789
+#define _TEST_TICKET1_SIG 0xbfa56619
+#define _TEST_TICKET2_SIG 0xaa0b839a
 #define _TEST_TICKET_FROM_ID 0x1234123412341234LL
 #define _TEST_TICKET_TO_ID 0X2345234523452345LL
 #define _TEST_TICKET_MSG "hello world"
+#define _TEST_DATA_SERIAL 421
+#define _TEST_DATA_I 3
+#define _TEST_DATA_N 1000
+#define _TEST_DATA_KER_MSG "HELLO WORLD"
 
 /*
  * Testing functions in cmd.c
@@ -114,6 +120,10 @@ test_cmd ()
     u_int32_t analysed_ticket = 0;
     u_int32_t analysed_key = 0;
     char *remote_url = NULL;
+    int data_serial = 0;
+    int data_i = 0;
+    int data_n = 0;
+    char *data_ker_msg = NULL;
 
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
@@ -327,6 +337,46 @@ test_cmd ()
 		lw6sys_log (LW6SYS_LOG_WARNING,
 			    _("unable to guess url from \"%s\""), msg);
 		ret = 0;
+	      }
+	    LW6SYS_FREE (msg);
+	  }
+
+	msg =
+	  lw6msg_cmd_generate_data (_TEST_DATA_SERIAL, _TEST_DATA_I,
+				    _TEST_DATA_N, _TEST_DATA_KER_MSG);
+	if (msg)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("data command is \"%s\""), msg);
+	    if (lw6msg_cmd_analyse_data
+		(&data_serial, &data_i, &data_n, &data_ker_msg, msg))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _("data command analysed (node ker_msg=\"%s\")"),
+			    data_ker_msg);
+		LW6SYS_FREE (data_ker_msg);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
+			    msg);
+		ret = 0;
+	      }
+	    remote_url = lw6msg_cmd_guess_from_url (msg);
+	    if (remote_url)
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _
+			    ("could guess url \"%s\" from \"%s\", this is wrong"),
+			    remote_url, msg);
+		LW6SYS_FREE (remote_url);
+		ret = 0;
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _
+			    ("unable to guess url from \"%s\", this is right"),
+			    msg);
 	      }
 	    LW6SYS_FREE (msg);
 	  }
@@ -966,22 +1016,38 @@ test_ticket ()
     u_int32_t ticket1_sig = 0;
     u_int32_t ticket2_sig = 0;
 
-#define _TEST_TICKET1 0x12345678
-#define _TEST_TICKET2 0x23456789
-#define _TEST_TICKET_FROM_ID 0x1234123412341234LL
-#define _TEST_TICKET_TO_ID 0X2345234523452345LL
-#define _TEST_TICKET_MSG "hello world"
-
     ticket1_sig =
       lw6msg_ticket_calc_sig (_TEST_TICKET1, _TEST_TICKET_FROM_ID,
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
-		_TEST_TICKET1, ticket1_sig);
+    if (ticket1_sig == _TEST_TICKET1_SIG)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+		    _TEST_TICKET1, ticket1_sig);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("ticket_sig for %08x is %08x and should be %08x"),
+		    _TEST_TICKET1, ticket1_sig, _TEST_TICKET1_SIG);
+	ret = 0;
+      }
+
     ticket2_sig =
       lw6msg_ticket_calc_sig (_TEST_TICKET2, _TEST_TICKET_FROM_ID,
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
-		_TEST_TICKET2, ticket2_sig);
+    if (ticket2_sig == _TEST_TICKET2_SIG)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+		    _TEST_TICKET2, ticket2_sig);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _("ticket_sig for %08x is %08x and should be %08x"),
+		    _TEST_TICKET2, ticket2_sig, _TEST_TICKET2_SIG);
+	ret = 0;
+      }
+
     if (lw6msg_ticket_check_sig
 	(_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
 	 _TEST_TICKET_MSG, ticket1_sig))

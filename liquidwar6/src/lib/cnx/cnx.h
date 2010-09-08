@@ -46,6 +46,7 @@ typedef struct lw6cnx_connection_s
   char *local_id_str;
   int64_t remote_id_int;
   char *remote_id_str;
+  int dns_ok;
   lw6cnx_recv_callback_t recv_callback_func;
   void *recv_callback_data;
   void *send_mutex;
@@ -74,6 +75,7 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   char *password,
 						   u_int64_t local_id,
 						   u_int64_t remote_id,
+						   int dns_ok,
 						   lw6cnx_recv_callback_t
 						   recv_callback_func,
 						   void *recv_callback_data);

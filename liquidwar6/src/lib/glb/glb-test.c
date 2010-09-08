@@ -33,6 +33,7 @@
 #define _TEST_BASE64_PREFIX "TOTO=0"
 #define _TEST_SHA1_LEN 1000
 #define _TEST_SHA1_KEY "toto"
+#define _TEST_SHA1_CHECK 0xd4a35ebb
 
 static int
 _test_base64_ok (char *test_str, int log_all)
@@ -276,39 +277,59 @@ test_sha1 ()
 
   {
     char *random_str = NULL;
-    char *sha1 = NULL;
+    char *sha1_80 = NULL;
+    u_int32_t sha1_32 = 0;
 
     random_str = lw6sys_str_random (_TEST_SHA1_LEN);
     if (random_str)
       {
-	sha1 = lw6glb_sha1_hmac_80_str (NULL, random_str);
-	if (sha1)
+	sha1_80 = lw6glb_sha1_hmac_80_str (NULL, random_str);
+	sha1_32 = lw6glb_sha1_hmac_32_str (NULL, random_str);
+	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
-	    LW6SYS_FREE (sha1);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+			sha1_80, sha1_32);
+	    LW6SYS_FREE (sha1_80);
 	  }
 	else
 	  {
 	    ret = 0;
 	  }
-	sha1 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, random_str);
-	if (sha1)
+	sha1_80 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, random_str);
+	sha1_32 = lw6glb_sha1_hmac_32_str (_TEST_SHA1_KEY, random_str);
+	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
-	    LW6SYS_FREE (sha1);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+			sha1_80, sha1_32);
+	    LW6SYS_FREE (sha1_80);
 	  }
 	else
 	  {
 	    ret = 0;
 	  }
-	sha1 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, _TEST_SHA1_KEY);
-	if (sha1)
+	sha1_80 = lw6glb_sha1_hmac_80_str (_TEST_SHA1_KEY, _TEST_SHA1_KEY);
+	sha1_32 = lw6glb_sha1_hmac_32_str (_TEST_SHA1_KEY, _TEST_SHA1_KEY);
+	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1=%s"), sha1);
-	    LW6SYS_FREE (sha1);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+			sha1_80, sha1_32);
+	    LW6SYS_FREE (sha1_80);
 	  }
 	else
 	  {
+	    ret = 0;
+	  }
+	if (sha1_32 == _TEST_SHA1_CHECK)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_("sha1 returned the right value on latest test"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_
+			("sha1 for \"%s\" returned %08x, should have been %08x"),
+			_TEST_SHA1_KEY, sha1_32, _TEST_SHA1_CHECK);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (random_str);
