@@ -80,7 +80,7 @@ _test_db ()
     char *repr = NULL;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("default database name is \"%s\" but we use \"%s\" for some tests"),
 		lw6p2p_db_default_name (), _TEST_DB_NAME12);
 
@@ -90,24 +90,24 @@ _test_db ()
 	repr = lw6p2p_db_repr (db);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	    LW6SYS_FREE (repr);
 	  }
 	lw6p2p_db_close (db);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create db"));
 	ret = 0;
       }
 
     if (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("deleted db"));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("deleted db"));
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("can't delete db"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't delete db"));
 	ret = 0;
       }
   }
@@ -148,14 +148,14 @@ _test_node_init ()
 	    repr = lw6p2p_node_repr (node);
 	    if (repr)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("created node \"%s\""),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node \"%s\""),
 			    repr);
 		LW6SYS_FREE (repr);
 	      }
 	    id_str = lw6sys_id_ltoa (lw6p2p_node_get_id (node));
 	    if (id_str)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("get_id returns %s"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("get_id returns %s"),
 			    id_str);
 		LW6SYS_FREE (id_str);
 	      }
@@ -165,14 +165,14 @@ _test_node_init ()
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("can't create node"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create node"));
 	    ret = 0;
 	  }
 	lw6p2p_db_close (db);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("can't create db"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create db"));
 	ret = 0;
       }
   }
@@ -203,7 +203,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  repr = lw6p2p_db_repr (*db12);
 	  if (repr)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
 	    }
 	}
@@ -217,7 +217,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	  repr = lw6p2p_db_repr (*db34);
 	  if (repr)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("created db \"%s\""), repr);
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
 	      LW6SYS_FREE (repr);
 	    }
 	}
@@ -239,7 +239,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	      repr = lw6p2p_node_repr (*node1);
 	      if (repr)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node1 \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node1 \"%s\""),
 			      repr);
 		  LW6SYS_FREE (repr);
 		}
@@ -260,7 +260,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	      repr = lw6p2p_node_repr (*node2);
 	      if (repr)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node2 \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node2 \"%s\""),
 			      repr);
 		  LW6SYS_FREE (repr);
 		}
@@ -284,7 +284,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	      repr = lw6p2p_node_repr (*node3);
 	      if (repr)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node3 \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node3 \"%s\""),
 			      repr);
 		  LW6SYS_FREE (repr);
 		}
@@ -305,7 +305,7 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_node_t ** node1,
 	      repr = lw6p2p_node_repr (*node4);
 	      if (repr)
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("created node4 \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created node4 \"%s\""),
 			      repr);
 		  LW6SYS_FREE (repr);
 		}

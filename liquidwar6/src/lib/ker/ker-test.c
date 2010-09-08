@@ -53,7 +53,8 @@ print_game_struct_repr (lw6ker_game_struct_t * game_struct)
   repr = lw6ker_game_struct_repr (game_struct);
   if (repr)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("game_struct repr is \"%s\""), repr);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_struct repr is \"%s\""),
+		  repr);
       LW6SYS_FREE (repr);
     }
 }
@@ -67,7 +68,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("game_state repr is \"%s\""), repr);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_state repr is \"%s\""), repr);
       LW6SYS_FREE (repr);
     }
   lw6ker_map_state_print_debug (&(game_state->map_state));
@@ -78,7 +79,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
       fflush (stdout);
       LW6SYS_FREE (capture);
     }
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("time_elapsed=%d time_left=%d"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("time_elapsed=%d time_left=%d"),
 	      lw6ker_game_state_get_time_elapsed (game_state),
 	      lw6ker_game_state_get_time_left (game_state));
 }
@@ -106,7 +107,7 @@ test_struct ()
 	    print_game_struct_repr (game_struct);
 	    checksum = lw6ker_game_struct_checksum (game_struct);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("game struct checksum is %08x and should be %08x"),
 			checksum, TEST_GAME_STRUCT_CHECKSUM);
 	    lw6ker_game_struct_free (game_struct);
@@ -145,12 +146,12 @@ test_state ()
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("is_over returns %d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("is_over returns %d"),
 			    lw6ker_game_state_is_over (game_state));
 		print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_CHECKSUM);
 		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
@@ -209,7 +210,7 @@ test_population ()
 		print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_POPULATE_CHECKSUM);
 		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
@@ -283,14 +284,14 @@ test_algorithm ()
 						   &team_color, &cursor_x,
 						   &cursor_y);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("cursor %x letter='%c' color=%d x=%d y=%d"),
+			    _x_ ("cursor %x letter='%c' color=%d x=%d y=%d"),
 			    TEST_CURSOR1_ID, letter, team_color, cursor_x,
 			    cursor_y);
 		for (i = 0; i < TEST_NB_ROUNDS; ++i)
 		  {
 		    lw6ker_game_state_do_round (game_state);
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("round %d, game_state checksum=%08x"),
+				_x_ ("round %d, game_state checksum=%08x"),
 				game_state->rounds,
 				lw6ker_game_state_checksum (game_state));
 		  }
@@ -300,7 +301,7 @@ test_algorithm ()
 		    if (score_array.scores[i].fighters_absolute > 0)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _
+				    _x_
 				    ("order=%d team_color=%d score=%d%%"),
 				    i, score_array.scores[i].team_color,
 				    score_array.scores[i].fighters_percent);
@@ -312,7 +313,7 @@ test_algorithm ()
 				     (game_state)); ++i)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("history entry %d for team %d is global=%d latest=%d"),
 				i, TEST_HISTORY_TEAM,
 				lw6ker_game_state_get_global_history
@@ -321,7 +322,7 @@ test_algorithm ()
 				(game_state, i, TEST_HISTORY_TEAM));
 		  }
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("max history entry global=%d latest=%d"),
+			    _x_ ("max history entry global=%d latest=%d"),
 			    lw6ker_game_state_get_global_history_max
 			    (game_state),
 			    lw6ker_game_state_get_latest_history_max
@@ -329,7 +330,7 @@ test_algorithm ()
 		print_game_state_repr (game_state);
 		checksum = lw6ker_game_state_checksum (game_state);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_ALGORITHM_CHECKSUM);
 		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
@@ -409,22 +410,22 @@ test_team_mask ()
     int i;
 
     lw6ker_team_mask_get (&even, &odd, TEST_TEAM_MASK_SEED);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("even team mask %x"), even);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("odd team mask %x"), odd);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("even team mask %x"), even);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("odd team mask %x"), odd);
     for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
       {
 	if (lw6ker_team_mask_is_concerned (i, even))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("team %d is even"), i);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("team %d is even"), i);
 	  }
 	else if (lw6ker_team_mask_is_concerned (i, odd))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("team %d is odd"), i);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("team %d is odd"), i);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("team mask inconsistency for %d"), i);
+			_x_ ("team mask inconsistency for %d"), i);
 	    ret = 0;
 	  }
       }

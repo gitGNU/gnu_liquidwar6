@@ -44,7 +44,7 @@ lw6net_udp_client ()
 
   if (lw6net_socket_is_valid (sock))
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("new UDP socket %d"), sock);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("new UDP socket %d"), sock);
 
       _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
 
@@ -52,7 +52,7 @@ lw6net_udp_client ()
 		      (char *) &enable, sizeof (int)))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("setsockopt(SO_BROADCAST) failed"));
+		      _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
 
@@ -83,7 +83,7 @@ lw6net_udp_server (char *ip, int port)
 		      (char *) &enable, sizeof (int)))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("setsockopt(SO_BROADCAST) failed"));
+		      _x_ ("setsockopt(SO_BROADCAST) failed"));
 	  lw6net_last_error ();
 	}
 
@@ -117,8 +117,9 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
       if (res >= 0)
 	{
 	  send_size = res;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("%d bytes sent on UDP socket %d"),
-		      send_size, sock);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("%d bytes sent on UDP socket %d"), send_size,
+		      sock);
 	  _lw6net_counters_register_send (&(_lw6net_global_context->counters),
 					  send_size);
 	  _lw6net_log_udp_send (&(_lw6net_global_context->log), buf,
@@ -127,7 +128,7 @@ lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("unable to send %d bytes on UDP socket %d"), len,
+		      _x_ ("unable to send %d bytes on UDP socket %d"), len,
 		      sock);
 	}
     }
@@ -150,8 +151,9 @@ udp_recv (int sock, char *buf,
   if (res >= 0)
     {
       recv_size = res;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("%d bytes received on UDP socket %d"),
-		  recv_size, sock);
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("%d bytes received on UDP socket %d"), recv_size,
+		  sock);
       if (flag != MSG_PEEK)
 	{
 	  _lw6net_counters_register_recv (&(_lw6net_global_context->counters),

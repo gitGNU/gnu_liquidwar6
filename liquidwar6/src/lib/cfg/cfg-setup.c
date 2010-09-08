@@ -63,7 +63,7 @@ _lw6cfg_init (int argc, char *argv[])
 
   if (!cfg_context)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to initialize config"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to initialize config"));
     }
 
   return cfg_context;

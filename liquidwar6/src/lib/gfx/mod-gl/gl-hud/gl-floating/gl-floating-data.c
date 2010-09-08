@@ -104,7 +104,7 @@ load_consts (mod_gl_utils_context_t * utils_context,
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), const_file);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,
@@ -131,7 +131,7 @@ load_images (mod_gl_utils_context_t * utils_context,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading images"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading images"));
 
   ret =
     ((floating_context->gauges.gauge_frame =

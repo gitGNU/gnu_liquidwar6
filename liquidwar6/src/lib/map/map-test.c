@@ -73,8 +73,8 @@ test_new ()
 	repr = lw6map_repr (level);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("empty map \"%s\" constructed"),
-			repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("empty map \"%s\" constructed"), repr);
 	    LW6SYS_FREE (repr);
 	  }
 	else
@@ -109,7 +109,7 @@ test_color ()
     if (!lw6map_color_is_same (&color_couple, &color_couple))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _
+		    _x_
 		    ("color_is_same pretending colors are different, while they should be equal"));
 	ret = 0;
       }
@@ -149,17 +149,17 @@ test_coords ()
 	  {
 	    rules.x_polarity = px;
 	    rules.y_polarity = py;
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("polarity set to %d,%d"), px,
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px,
 			py);
 	    for (i = 0; i < TEST_COORDS_NB; ++i)
 	      {
 		x = test_x[i];
 		y = test_y[i];
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("coords before fix %d,%d"),
-			    x, y);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("coords before fix %d,%d"), x, y);
 		lw6map_coords_fix_xy (&rules, &shape, &x, &y);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("coords after fix %d,%d"), x,
-			    y);
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("coords after fix %d,%d"),
+			    x, y);
 	      }
 	  }
       }
@@ -180,7 +180,7 @@ _print_meta_layer (lw6map_meta_layer_t * meta_layer, char *label)
   w = meta_layer->shape.w;
   h = meta_layer->shape.h;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("meta-layer \"%s\""), label);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("meta-layer \"%s\""), label);
   for (y = 0; y < h; ++y)
     {
       for (x = 0; x < w; ++x)
@@ -204,7 +204,7 @@ _print_body (lw6map_body_t * body)
 
   for (z = 0; z < d; ++z)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("layer%d (z=%d)"), z + 1, z);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("layer%d (z=%d)"), z + 1, z);
       for (y = 0; y < h; ++y)
 	{
 	  for (x = 0; x < w; ++x)
@@ -245,9 +245,9 @@ test_defaults ()
 	if (repr)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("default map \"%s\" constructed"), repr);
+			_x_ ("default map \"%s\" constructed"), repr);
 	    has_alpha = lw6map_texture_has_alpha (&(level->texture));
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("has_alpha=%d"), has_alpha);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (&level->body);
 	    LW6SYS_FREE (repr);
 	  }
@@ -297,12 +297,13 @@ test_dup ()
 		if (repr2)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("map \"%s\" copied to \"%s\""), repr1,
+				_x_ ("map \"%s\" copied to \"%s\""), repr1,
 				repr2);
 		    if (lw6map_is_same (level1, level2))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("map \"%s\" and \"%s\" are the same"),
+				    _x_
+				    ("map \"%s\" and \"%s\" are the same"),
 				    repr1, repr2);
 		      }
 		    else
@@ -362,7 +363,8 @@ test_hexa ()
 	repr = lw6map_repr (level);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("map \"%s\" constructed"), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map \"%s\" constructed"),
+			repr);
 	    LW6SYS_FREE (repr);
 	  }
 	else
@@ -373,7 +375,7 @@ test_hexa ()
 	lw6map_free (level);
 	if (hexa)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("hexa is \"%s\""), hexa);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hexa is \"%s\""), hexa);
 	    level = lw6map_from_hexa (hexa);
 	    if (level)
 	      {
@@ -381,7 +383,7 @@ test_hexa ()
 		if (repr)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("map \"%s\" re-constructed from hexa"),
+				_x_ ("map \"%s\" re-constructed from hexa"),
 				repr);
 		    LW6SYS_FREE (repr);
 		  }
@@ -396,12 +398,12 @@ test_hexa ()
 		    if (!strcmp (hexa, hexa_check))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("copy and original look the same"));
+				    _x_ ("copy and original look the same"));
 		      }
 		    else
 		      {
 			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _("copy and original are different"));
+				    _x_ ("copy and original are different"));
 			ret = 0;
 		      }
 		    LW6SYS_FREE (hexa_check);
@@ -449,7 +451,7 @@ test_rules ()
       {
 	lw6map_rules_set_int (rules, TEST_RULES_KEY, TEST_RULES_VALUE);
 	value = lw6map_rules_get_int (rules, TEST_RULES_KEY);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("map rules for key \"%s\" is %d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("map rules for key \"%s\" is %d"),
 		    TEST_RULES_KEY, value);
 	lw6map_rules_clear (rules);
 
@@ -458,7 +460,7 @@ test_rules ()
 	lw6map_rules_update_checksum (rules, &checksum);
 
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("rules checksum is %08x and should be %08x"),
 		    checksum, TEST_RULES_CHECKSUM);
 	ret = ret && (checksum == TEST_RULES_CHECKSUM);
@@ -492,19 +494,20 @@ test_style ()
 	if (value)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("map style for key \"%s\" is \"%s\""),
+			_x_ ("map style for key \"%s\" is \"%s\""),
 			TEST_STYLE_KEY, value);
 	    LW6SYS_FREE (value);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("can't find style key \"%s\""), TEST_STYLE_KEY);
+			_x_ ("can't find style key \"%s\""), TEST_STYLE_KEY);
 	    ret = 0;
 	  }
 	if (!lw6map_style_is_same (style, style))
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("map style comparison failed"));
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("map style comparison failed"));
 	    ret = 0;
 	  }
 	lw6map_style_clear (style);
@@ -531,10 +534,10 @@ test_local_info ()
 
     memset (&local_info, 0, sizeof (lw6map_local_info_t));
     lw6map_local_info_set_music_dir (&local_info, _TEST_MUSIC_DIR1);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("local info music dir is \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("local info music dir is \"%s\""),
 		local_info.music_dir);
     lw6map_local_info_set_music_dir (&local_info, _TEST_MUSIC_DIR2);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("local info music dir is \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("local info music dir is \"%s\""),
 		local_info.music_dir);
     lw6map_local_info_clear (&local_info);
   }
@@ -559,7 +562,7 @@ test_meta_layer ()
 	 TEST_MAP_NOISE_PERCENT, 0))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("custom boolean meta-layer initialized"));
+		    _x_ ("custom boolean meta-layer initialized"));
 	_print_meta_layer (&meta_layer, "boolean");
       }
     else
@@ -571,7 +574,7 @@ test_meta_layer ()
 	 TEST_MAP_NOISE_PERCENT, 0))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("custom boolean meta-layer initialized"));
+		    _x_ ("custom boolean meta-layer initialized"));
 	_print_meta_layer (&meta_layer, "analog");
       }
     else

@@ -43,19 +43,19 @@ _parse_first_line (_httpd_request_t * request)
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a GET"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a HEAD"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
   if (lw6sys_str_starts_with
       (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("this is a POST"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
     }
 
@@ -94,7 +94,7 @@ _parse_first_line (_httpd_request_t * request)
 
   if (request->uri)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("REQUEST_URI=\"%s\""), request->uri);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("REQUEST_URI=\"%s\""), request->uri);
       if (!strcmp (request->uri, _MOD_HTTPD_OOB_PING_TXT))
 	{
 	  request->password_ok = 1;
@@ -136,7 +136,7 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
 		    {
 		      received_password = double_dot + 1;
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("received HTTP password \"%s\""),
+				  _x_ ("received HTTP password \"%s\""),
 				  received_password);
 		    }
 		  if (public_url && received_password)
@@ -163,7 +163,7 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
   int eof = 0;
   char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
   request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
   if (request)
     {

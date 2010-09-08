@@ -38,7 +38,7 @@ _mod_gl_background_bubbles_init (mod_gl_utils_context_t * utils_context)
 {
   _mod_gl_background_bubbles_context_t *bubbles_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("init background/bubbles"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init background/bubbles"));
 
   bubbles_context =
     (_mod_gl_background_bubbles_context_t *)
@@ -74,7 +74,7 @@ _mod_gl_background_bubbles_quit (mod_gl_utils_context_t * utils_context,
 				 _mod_gl_background_bubbles_context_t *
 				 bubbles_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("quit background/bubbles"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit background/bubbles"));
 
   _mod_gl_background_bubbles_unload_data (utils_context, bubbles_context);
   LW6SYS_FREE (bubbles_context);

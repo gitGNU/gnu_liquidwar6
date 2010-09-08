@@ -70,7 +70,7 @@ lw6ldr_style_read (lw6map_style_t * style, char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("reading style \"%s\""), buf);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading style \"%s\""), buf);
 	  ret =
 	    lw6cfg_read_key_value_xml_file (buf, read_callback,
 					    (void *) style);
@@ -86,7 +86,7 @@ lw6ldr_style_read (lw6map_style_t * style, char *dirname)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to read map style"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read map style"));
     }
 
   return ret;

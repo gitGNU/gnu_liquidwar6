@@ -40,7 +40,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
   char *given_public_url = NULL;
   char *response = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("process udpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process udpd oob"));
   if (_mod_udpd_oob_should_continue (udpd_context, oob_data))
     {
       request_line = oob_data->first_line;
@@ -54,7 +54,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_PING))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_udpd %s response to %s:%d"),
+			      _x_ ("mod_udpd %s response to %s:%d"),
 			      LW6MSG_OOB_PONG, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_pong (node_info);
@@ -62,7 +62,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_INFO))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_udpd %s response to %s:%d"),
+			      _x_ ("mod_udpd %s response to %s:%d"),
 			      LW6MSG_OOB_INFO, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_info (node_info);
@@ -70,7 +70,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_LIST))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_udpd %s response to %s:%d"),
+			      _x_ ("mod_udpd %s response to %s:%d"),
 			      LW6MSG_OOB_LIST, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_list (node_info);
@@ -80,7 +80,8 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 		  if (strlen (given_public_url) > 0)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("discovered node \"%s\" from given url"),
+				  _x_
+				  ("discovered node \"%s\" from given url"),
 				  given_public_url);
 		      lw6nod_info_add_discovered_node (node_info,
 						       given_public_url);
@@ -93,7 +94,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 	      if (syntax_ok && !password_ok)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_udpd %s response to %s:%d"),
+			      _x_ ("mod_udpd %s response to %s:%d"),
 			      LW6MSG_FORBIDDEN, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
@@ -101,7 +102,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_udpd %s response to %s:%d"),
+			      _x_ ("mod_udpd %s response to %s:%d"),
 			      LW6MSG_ERROR, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
@@ -113,7 +114,7 @@ _mod_udpd_process_oob (_udpd_context_t * udpd_context,
   if (response)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("sending OOB response \"%s\" on UDP to %s:%d"),
+		  _x_ ("sending OOB response \"%s\" on UDP to %s:%d"),
 		  response, oob_data->remote_ip, oob_data->remote_port);
       lw6net_udp_send (oob_data->sock, response, strlen (response),
 		       oob_data->remote_ip, oob_data->remote_port);

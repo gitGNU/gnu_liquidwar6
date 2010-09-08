@@ -159,7 +159,7 @@ _lw6ker_spread_update_gradient (lw6ker_team_t * team, int skip_vertical)
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to spread gradient, incorrect dir=%d"), dir);
+		  _x_ ("unable to spread gradient, incorrect dir=%d"), dir);
       break;
     }
 }

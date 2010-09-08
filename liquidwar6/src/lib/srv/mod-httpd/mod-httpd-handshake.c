@@ -36,7 +36,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
   int ret = 0;
   char *pos = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("trying to recognize httpd protocol"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trying to recognize httpd protocol"));
 
   if (remote_id)
     {
@@ -69,7 +69,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 		       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("recognized httpd protocol \"%s\""),
+		      _x_ ("recognized httpd protocol \"%s\""),
 		      tcp_accepter->first_line);
 	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
 
@@ -84,12 +84,12 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 	    }
 	  if (lw6sys_str_starts_with (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("httpd LW6 message \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""),
 			  pos);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("out of band httpd \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("out of band httpd \"%s\""),
 			  pos);
 	      ret |= LW6SRV_ANALYSE_OOB;
 	    }
@@ -105,7 +105,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 				 tcp_accepter->creation_timestamp))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _
+		  _x_
 		  ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
 		  tcp_accepter->first_line);
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);

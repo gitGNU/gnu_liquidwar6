@@ -38,7 +38,7 @@ _mod_gl_view_flat_init (mod_gl_utils_context_t * utils_context)
 {
   _mod_gl_view_flat_context_t *flat_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("init view/flat"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init view/flat"));
 
   flat_context =
     (_mod_gl_view_flat_context_t *)
@@ -55,7 +55,7 @@ _mod_gl_view_flat_init (mod_gl_utils_context_t * utils_context)
 
   if (!flat_context)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR, _("unable to init flat_context"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init flat_context"));
     }
 
   return flat_context;
@@ -74,7 +74,7 @@ void
 _mod_gl_view_flat_quit (mod_gl_utils_context_t * utils_context,
 			_mod_gl_view_flat_context_t * flat_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("quit view/flat"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit view/flat"));
 
   _mod_gl_view_flat_game_context_clear (utils_context, flat_context,
 					&(flat_context->game_context));

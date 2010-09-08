@@ -61,7 +61,7 @@ check_map_with_absolute_path (char *absolute_path)
   int ret = 0;
   char *repr = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("deep check \"%s\""), absolute_path);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("deep check \"%s\""), absolute_path);
   level1 =
     lw6ldr_read (absolute_path, NULL, NULL, TEST_DISPLAY_WIDTH,
 		 TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
@@ -86,7 +86,7 @@ check_map_with_absolute_path (char *absolute_path)
 			  if (repr)
 			    {
 			      lw6sys_log (LW6SYS_LOG_NOTICE,
-					  _("map repr=\"%s\""), repr);
+					  _x_ ("map repr=\"%s\""), repr);
 			      LW6SYS_FREE (repr);
 			      ret = 1;
 			    }
@@ -95,14 +95,14 @@ check_map_with_absolute_path (char *absolute_path)
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _("unable to copy \"%s\""),
+				      _x_ ("unable to copy \"%s\""),
 				      absolute_path);
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("second serialization of \"%s\" returned inconsistent result"),
 				  absolute_path);
 		    }
@@ -111,7 +111,7 @@ check_map_with_absolute_path (char *absolute_path)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("unable to serialize \"%s\" (2)"),
+			      _x_ ("unable to serialize \"%s\" (2)"),
 			      absolute_path);
 		}
 	      lw6map_free (level2);
@@ -119,20 +119,21 @@ check_map_with_absolute_path (char *absolute_path)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("unable to unserialize \"%s\""), absolute_path);
+			  _x_ ("unable to unserialize \"%s\""),
+			  absolute_path);
 	    }
 	  LW6SYS_FREE (hexa_level1);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to serialize \"%s\" (1)"),
-		      absolute_path);
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to serialize \"%s\" (1)"), absolute_path);
 	}
       lw6map_free (level1);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to read \"%s\""),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read \"%s\""),
 		  absolute_path);
     }
 
@@ -148,7 +149,7 @@ test_data_callback_quick (void *func_data, void *data)
 
   if (entry)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("quick check \"%s\""),
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quick check \"%s\""),
 		  entry->absolute_path);
       ok = lw6sys_dir_exists (entry->absolute_path);
       if (ret)
@@ -234,7 +235,7 @@ test_dir ()
 	    while (entries && (entry = lw6sys_lifo_pop (&entries)) != NULL)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("found map \"%s\" in \"%s\""), entry->title,
+			    _x_ ("found map \"%s\" in \"%s\""), entry->title,
 			    entry->absolute_path);
 		entry_found = 1;
 		lw6ldr_free_entry (entry);
@@ -381,7 +382,7 @@ test_read ()
 	    if (repr)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("after reading, map repr is \"%s\""), repr);
+			    _x_ ("after reading, map repr is \"%s\""), repr);
 		LW6SYS_FREE (repr);
 	      }
 	    else

@@ -51,11 +51,12 @@ lw6sys_exec_find_myself (int argc, char *argv[])
       myself = lw6sys_str_copy (argv[0]);
       if (lw6sys_file_exists (myself))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("found myself in \"%s\""), myself);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("found myself in \"%s\""),
+		      myself);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("file \"%s\" does not exist"),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("file \"%s\" does not exist"),
 		      myself);
 	}
     }
@@ -129,7 +130,7 @@ lw6sys_exec_again (int argc, char *argv[])
 		  new_argv[argc] = "--" LW6DEF_EXECUTED_AGAIN;
 		  new_argv[argc + 1] = NULL;
 		  execvp (myself, (void *) new_argv);
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("execvp(%s) failed"),
+		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("execvp(%s) failed"),
 			      myself);
 		  LW6SYS_FREE (new_argv);
 		}
@@ -137,16 +138,16 @@ lw6sys_exec_again (int argc, char *argv[])
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find myself"));
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to find myself"));
 	    }
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("can't run \"%s\" again"),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't run \"%s\" again"),
 		      argv[0]);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _("executed again so no new process started"));
+		  _x_ ("executed again so no new process started"));
       ret = 1;
     }
 
@@ -186,16 +187,17 @@ lw6sys_exec_restart (int argc, char *argv[])
 		}
 	      new_argv[argc] = NULL;
 	      execvp (myself, (void *) new_argv);
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("execvp(%s) failed"), myself);
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("execvp(%s) failed"),
+			  myself);
 	      LW6SYS_FREE (new_argv);
 	    }
 	  LW6SYS_FREE (myself);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find myself"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to find myself"));
 	}
-      lw6sys_log (LW6SYS_LOG_WARNING, _("can't restart \"%s\""), argv[0]);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't restart \"%s\""), argv[0]);
     }
 
   return ret;

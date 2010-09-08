@@ -61,7 +61,7 @@ lw6map_texture_from_body (lw6map_texture_t * texture, lw6map_body_t * body,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to construct texture from body"));
+		  _x_ ("unable to construct texture from body"));
       texture->w = 0;
       texture->h = 0;
     }

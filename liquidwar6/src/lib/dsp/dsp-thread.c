@@ -45,7 +45,7 @@ init (_lw6dsp_data_t * data)
       lw6gfx_get_fullscreen_modes (data->gfx_backend,
 				   &data->fullscreen_modes);
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("dsp init requested %dx%d fullscreen=%d mode"),
+		  _x_ ("dsp init requested %dx%d fullscreen=%d mode"),
 		  data->video_mode_requested.width,
 		  data->video_mode_requested.height,
 		  data->video_mode_requested.fullscreen);
@@ -63,7 +63,7 @@ init (_lw6dsp_data_t * data)
 	      (data->gfx_backend, &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("dsp init obtained %dx%d fullscreen=%d mode"),
+			  _x_ ("dsp init obtained %dx%d fullscreen=%d mode"),
 			  data->video_mode_obtained.width,
 			  data->video_mode_obtained.height,
 			  data->video_mode_obtained.fullscreen);
@@ -90,7 +90,7 @@ init (_lw6dsp_data_t * data)
 	    }
 
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("couldn't set up mode, trying fallback %dx%d fullscreen=%d, trying fallback %dx%d fullscreen=%d"),
 		      data->video_mode_requested.width,
 		      data->video_mode_requested.height,
@@ -104,7 +104,7 @@ init (_lw6dsp_data_t * data)
 		{
 		  ok = 1;
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _
+			      _x_
 			      ("dsp init obtained %dx%d fullscreen=%d mode"),
 			      data->video_mode_obtained.width,
 			      data->video_mode_obtained.height,
@@ -150,13 +150,13 @@ poll (_lw6dsp_data_t * data)
       if (!(data->param.game_state))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("pilot defined but not game_state"));
+		      _x_ ("pilot defined but not game_state"));
 	  ret = 0;
 	}
       if (!lw6pil_pilot_can_sync (data->param.game_state, data->param.pilot))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("game_state state can't be synced from pilot"));
+		      _x_ ("game_state state can't be synced from pilot"));
 	  ret = 0;
 	}
     }
@@ -166,13 +166,13 @@ poll (_lw6dsp_data_t * data)
       if (!(data->param.game_struct))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("game_state defined but not game_struct"));
+		      _x_ ("game_state defined but not game_struct"));
 	  ret = 0;
 	}
       if (data->param.game_state->game_struct != data->param.game_struct)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("game_state->game_struct=%p but game_struct=%p, they should be the same"),
 		      data->param.game_state->game_struct,
 		      data->param.game_struct);
@@ -185,13 +185,13 @@ poll (_lw6dsp_data_t * data)
       if (!(data->param.level))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("game_struct defined but not level"));
+		      _x_ ("game_struct defined but not level"));
 	  ret = 0;
 	}
       if (data->param.game_struct->level != data->param.level)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("game_struct->level=%p but level=%p, they should be the same"),
 		      data->param.game_struct->level, data->param.level);
 	  ret = 0;
@@ -224,7 +224,7 @@ poll (_lw6dsp_data_t * data)
 	  local_cursors = &(data->param.pilot->local_cursors);
 	  break;
 	default:
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("bad value %d for dirty_read"),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad value %d for dirty_read"),
 		      data->param.misc.dirty_read);
 	  break;
 	}
@@ -237,7 +237,7 @@ poll (_lw6dsp_data_t * data)
 
   if (!(data->param.look))
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("look is NULL"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("look is NULL"));
       ret = 0;
     }
   if (data->param.misc.progress)
@@ -268,14 +268,14 @@ poll (_lw6dsp_data_t * data)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("display thread problem"));
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display thread problem"));
 	      ret = 0;
 	    }
 	  lw6sys_history_free (history);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("couldn't get log history"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("couldn't get log history"));
 	  ret = 0;
 	}
     }
@@ -293,7 +293,7 @@ loop (_lw6dsp_data_t * data)
     {
       data->video_mode_requested = data->param.video_mode;
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("dsp update request %dx%d fullscreen=%d mode"),
+		  _x_ ("dsp update request %dx%d fullscreen=%d mode"),
 		  data->video_mode_requested.width,
 		  data->video_mode_requested.height,
 		  data->video_mode_requested.fullscreen);
@@ -304,7 +304,7 @@ loop (_lw6dsp_data_t * data)
 				     &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _
+			  _x_
 			  ("dsp update obtained %dx%d fullscreen=%d mode"),
 			  data->video_mode_obtained.width,
 			  data->video_mode_obtained.height,
@@ -336,7 +336,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
   int delay_cpu = 0;
   int delay_real = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("display thread"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display thread"));
 
   lw6sys_mutex_lock (data->render_mutex);
 
@@ -353,7 +353,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
   if (data->gfx_backend)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("display loop"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display loop"));
       while (data->run)
 	{
 	  lw6sys_mutex_lock (data->render_mutex);
@@ -370,7 +370,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("can't handle target_fps of %d"),
+			  _x_ ("can't handle target_fps of %d"),
 			  data->param.misc.target_fps);
 	    }
 	  frames_increment = lw6sys_max (frames_increment, 1);
@@ -424,7 +424,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		}
 
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("frame %d at ticks %" LW6SYS_PRINTF_LL "d"),
+			  _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"),
 			  data->nb_frames, data->ticks);
 	      loop (data);
 	      do_skip = 0;
@@ -457,7 +457,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  if (!do_skip)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("frame %d rendering took %d ms"),
+			  _x_ ("frame %d rendering took %d ms"),
 			  (int) data->nb_frames, (int) cpu_ticks);
 	    }
 	  if (do_skip || (delay_cpu > 0))
@@ -468,7 +468,8 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 					lw6sys_max (do_skip ? delay_skip : 0,
 						    delay_cpu)));
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"),
+			  _x_
+			  ("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"),
 			  delay_real, delay_skip, delay_cpu);
 	      lw6sys_delay (delay_real);
 	    }
@@ -477,14 +478,14 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("display thread can't initialise graphics"));
+		  _x_ ("display thread can't initialise graphics"));
     }
 }
 
 void
 _lw6dsp_thread_join (_lw6dsp_data_t * data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("display join"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display join"));
 
   /*
    * We unset the gfx_backend now, it's very important to do it here

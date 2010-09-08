@@ -96,7 +96,7 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   if (!lw6pil_local_cursors_get_main_info
       (local_cursors, NULL, &main_cursor_x, &main_cursor_y, NULL))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("no main cursor"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;

@@ -46,12 +46,13 @@ mod_gl_utils_load_image (mod_gl_utils_context_t * utils_context,
 
   if (image_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("loading image \"%s\""), image_file);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading image \"%s\""), image_file);
       ret = IMG_Load (image_file);
       if (!ret)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("SDL_image error \"%s\" while loading image \"%s\""),
+		      _x_
+		      ("SDL_image error \"%s\" while loading image \"%s\""),
 		      IMG_GetError (), image_file);
 	}
       LW6SYS_FREE (image_file);
@@ -95,7 +96,7 @@ load_font (mod_gl_utils_context_t * utils_context, char *filename, int size)
   font_file = lw6sys_path_concat (utils_context->path.data_dir, filename);
   if (font_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("loading font \"%s\", size %d"),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading font \"%s\", size %d"),
 		  font_file, size);
       ret = TTF_OpenFont (font_file, size);
       LW6SYS_FREE (font_file);
@@ -130,7 +131,7 @@ mod_gl_utils_load_fonts (mod_gl_utils_context_t * utils_context)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading fonts"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading fonts"));
 
   ret =
     ((utils_context->font_data.menu =

@@ -63,8 +63,8 @@ read_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
-		  _("unable to allocate memory for texture"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to allocate memory for texture"));
     }
 
   _lw6ldr_rgba_clear (image);
@@ -109,8 +109,8 @@ read_alpha_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
-		  _
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
 		  ("texture size (%dx%d) and alpha layer size (%dx%d) do not match"),
 		  texture->w, texture->h, image->w, image->h);
     }
@@ -127,7 +127,7 @@ read_png (lw6map_texture_t * texture, char *texture_dot_png,
   int ret = 0;
   _lw6ldr_image_rgba_t image;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("reading PNG texture \"%s\""),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading PNG texture \"%s\""),
 	      texture_dot_png);
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
@@ -147,7 +147,7 @@ read_jpeg (lw6map_texture_t * texture, char *texture_dot_jpeg,
   int ret = 0;
   _lw6ldr_image_rgba_t image;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("reading JPEG texture \"%s\""),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading JPEG texture \"%s\""),
 	      texture_dot_jpeg);
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));
@@ -167,7 +167,7 @@ read_alpha_jpeg (lw6map_texture_t * texture, char *texture_alpha_dot_jpeg,
   int ret = 0;
   _lw6ldr_image_rgba_t image;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("reading JPEG alpha layer \"%s\""),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading JPEG alpha layer \"%s\""),
 	      texture_alpha_dot_jpeg);
 
   memset (&image, 0, sizeof (_lw6ldr_image_rgba_t));

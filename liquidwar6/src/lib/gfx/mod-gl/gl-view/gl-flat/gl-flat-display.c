@@ -266,7 +266,7 @@ _display_map (mod_gl_utils_context_t * utils_context,
 	      lw6ker_game_state_t * game_state,
 	      lw6pil_local_cursors_t * local_cursors)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("display map"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display map"));
   _display_map_preview (utils_context, flat_context, look,
 			game_state->game_struct->level);
 }
@@ -337,7 +337,7 @@ _display_fighters (mod_gl_utils_context_t * utils_context,
 		   lw6ker_game_state_t * game_state,
 		   lw6pil_local_cursors_t * local_cursors)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("display fighters"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display fighters"));
   _display_armies (utils_context, flat_context, look);
 }
 
@@ -421,7 +421,7 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 
   if (local_cursor)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("cursor %x is local"),
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor %x is local"),
 		  local_cursor->cursor_id);
       if (local_cursor->mouse_controlled)
 	{
@@ -442,7 +442,7 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("displaying non-local cursor"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("displaying non-local cursor"));
     }
 
   if (cursor_x >= flat_context->viewport.map_visible.x1 &&
@@ -460,7 +460,7 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 			       flat_context->const_data.cursor_size_max) *
 	look->style.cursor_size;
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i,
+		  _x_ ("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i,
 		  cursor_x, cursor_y, cursor_w, cursor_h);
       _display_cursor_bitmap (utils_context, flat_context, cursor_x, cursor_y,
 			      cursor_w, cursor_h,
@@ -482,7 +482,7 @@ _display_cursors (mod_gl_utils_context_t * utils_context,
   lw6pil_local_cursor_t *local_cursor;
   int blink_state;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("display cursors"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display cursors"));
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       cursor = &(game_state->map_state.cursor_array.cursors[i]);

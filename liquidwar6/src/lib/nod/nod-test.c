@@ -78,7 +78,7 @@ _node_dup_dyn_callback (void *data)
 	  len = strlen (dyn_info->level);	// would segfault on bug
 	  if (first_time)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("dup dyn level=\"%s\""),
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dup dyn level=\"%s\""),
 			  dyn_info->level);
 	      first_time = 0;
 	    }
@@ -109,7 +109,7 @@ _node_update_callback (void *data)
 			    _TEST_GAME_SCREENSHOT_DATA);
       if (first_time)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("update dyn info ret=%d"), ret);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("update dyn info ret=%d"), ret);
 	  first_time = 0;
 	}
     }
@@ -145,8 +145,8 @@ _node_add_discovered_callback (void *data)
 	{
 	  if (first_time)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("add_discovered_node \"%s\""),
-			  url);
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_ ("add_discovered_node \"%s\""), url);
 	      first_time = 0;
 	    }
 	  lw6nod_info_add_discovered_node (info, url);
@@ -177,7 +177,7 @@ _node_pop_discovered_callback (void *data)
 	      if (url)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("pop_discovered_node \"%s\""), url);
+			      _x_ ("pop_discovered_node \"%s\""), url);
 		  LW6SYS_FREE (url);
 		}
 	      first_time = 0;
@@ -260,7 +260,7 @@ _node_set_verified_callback (void *data)
 	  if (first_time)
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("setting list of verified nodes"));
+			  _x_ ("setting list of verified nodes"));
 	      first_time = 0;
 	    }
 	  if (list)
@@ -282,14 +282,15 @@ _node_map_verified_callback_callback (void *func_data, void *data)
     {
       if (*first_time)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("verified node \"%s\""),
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("verified node \"%s\""),
 		      verified_node->const_info.url);
 	  (*first_time) = 0;
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("inconsistent verified_node data"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("inconsistent verified_node data"));
     }
 }
 
@@ -357,14 +358,14 @@ test_node ()
 
 	if (lw6nod_info_add_discovered_node (info, _TEST_URL))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("add \"%s\""), _TEST_URL);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("add \"%s\""), _TEST_URL);
 	    list = lw6nod_info_pop_discovered_nodes (info);
 	    if (list && !lw6sys_list_is_empty (list))
 	      {
 		url = lw6sys_list_pop_front (&list);
 		if (url)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE, _("pop \"%s\""), url);
+		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop \"%s\""), url);
 		    LW6SYS_FREE (url);
 		  }
 	      }
@@ -411,7 +412,7 @@ test_node ()
 
 
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _
+					    _x_
 					    ("6 threads started, each one querying the same node info object"));
 				ret = 1;
 				lw6sys_thread_join (thread_dup_dyn);

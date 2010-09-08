@@ -63,16 +63,17 @@ test_resolution (lw6gfx_backend_t * backend)
 
     if (lw6gfx_get_fullscreen_modes (backend, &modes))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("low resolution is %dx%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("low resolution is %dx%d"),
 		    modes.low.width, modes.low.height);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("standard resolution is %dx%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("standard resolution is %dx%d"),
 		    modes.standard.width, modes.standard.height);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("high resolution is %dx%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("high resolution is %dx%d"),
 		    modes.high.width, modes.high.height);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get fullscreen modes"));
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to get fullscreen modes"));
       }
   }
 
@@ -84,7 +85,7 @@ static void
 resize_callback (lw6gui_video_mode_t * video_mode)
 {
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _("resize callback called %dx%d fullscreen=%d"),
+	      _x_ ("resize callback called %dx%d fullscreen=%d"),
 	      video_mode->width, video_mode->height, video_mode->fullscreen);
 }
 
@@ -109,7 +110,8 @@ test_init (lw6gfx_backend_t * backend)
 	repr = lw6gfx_repr (backend);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("display repr is \"%s\""), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
+			repr);
 	    LW6SYS_FREE (repr);
 	  }
 	ticks = lw6sys_get_uptime ();
@@ -153,7 +155,7 @@ test_background (lw6gfx_backend_t * backend)
 				     NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0,
 				     0, 0, 0))
 		  {
-		    lw6sys_log (LW6SYS_LOG_WARNING, _("display error"));
+		    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
 		    ret = 0;
 		  }
 		lw6sys_sleep (TEST_SLEEP);
@@ -194,7 +196,7 @@ test_menu (lw6gfx_backend_t * backend)
 	    for (i = 0; i < TEST_MENU_NB_MENUITEMS; ++i)
 	      {
 		menuitem_label =
-		  lw6sys_new_sprintf (_("Test menuitem %d"), i);
+		  lw6sys_new_sprintf (_x_ ("Test menuitem %d"), i);
 		if (menuitem_label)
 		  {
 		    menuitem =
@@ -224,7 +226,7 @@ test_menu (lw6gfx_backend_t * backend)
 				     NULL, NULL, 0, menu, progress, 0, 0,
 				     NULL, 0, 0, 0, 0))
 		  {
-		    lw6sys_log (LW6SYS_LOG_WARNING, _("display error"));
+		    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
 		    ret = 0;
 		  }
 		lw6sys_sleep (TEST_SLEEP);
@@ -257,7 +259,7 @@ test_events (lw6gfx_backend_t * backend)
       {
 	ticks = lw6sys_get_uptime ();
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("now for %d seconds you can move mouse, touch keyboard, punch joystick"),
 		    TEST_DURATION_EVENTS / 1000);
 	input = lw6gfx_pump_events (backend);
@@ -269,7 +271,7 @@ test_events (lw6gfx_backend_t * backend)
 				 NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0,
 				 0, 0))
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("display error"));
+		lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
 		ret = 0;
 	      }
 	    lw6sys_sleep (TEST_SLEEP);
@@ -277,22 +279,22 @@ test_events (lw6gfx_backend_t * backend)
 	    if (lw6gui_button_pop_press (&(input->mouse.button_left)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("left mouse button pressed at %dx%d"),
+			    _x_ ("left mouse button pressed at %dx%d"),
 			    input->mouse.x, input->mouse.y);
 	      }
 	    if (lw6gui_button_pop_press (&(input->mouse.button_right)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("right mouse button pressed at %d,%d"),
+			    _x_ ("right mouse button pressed at %d,%d"),
 			    input->mouse.x, input->mouse.y);
 	      }
 	    if (lw6gui_button_pop_press (&(input->mouse.wheel_up)))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("mouse wheel up"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mouse wheel up"));
 	      }
 	    if (lw6gui_button_pop_press (&(input->mouse.wheel_down)))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("mouse wheel down"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mouse wheel down"));
 	      }
 	    keypress = lw6gui_keyboard_pop_keypress (&(input->keyboard));
 	    if (keypress)
@@ -300,7 +302,7 @@ test_events (lw6gfx_backend_t * backend)
 		repr = lw6gui_keypress_repr (keypress);
 		if (repr)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE, _("%s"), repr);
+		    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
 		    LW6SYS_FREE (repr);
 		  }
 		lw6gui_keypress_free (keypress);
@@ -308,7 +310,7 @@ test_events (lw6gfx_backend_t * backend)
 	    if (lw6sys_signal_poll_quit ())
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("a QUIT event was detected"));
+			    _x_ ("a QUIT event was detected"));
 	      }
 	  }
 	lw6gui_look_free (look);

@@ -38,7 +38,7 @@
 #define LIST_DEVEL_MOD_PREFIX_SIZE 4
 
 #define LIST_SYSTEM_DIR_FORMAT "%s/%s"
-#define LIST_SYSTEM_FILE_MATCH "libmod_(.*)-.*." _LW6DYN_SUFFIX
+#define LIST_SYSTEM_FILE_MATCH "libmod_x_(.*)-.*." _LW6DYN_SUFFIX
 
 #define LIST_LIBMOD_PREFIX_STR "libmod_"
 #define LIST_LIBMOD_PREFIX_SIZE 7
@@ -85,7 +85,7 @@ add_backend (lw6sys_assoc_t ** list, char *libdir, char *filename, char *id)
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("can't get pedigree for mod_%s in \"%s\""),
 				  id, so_file);
 		    }

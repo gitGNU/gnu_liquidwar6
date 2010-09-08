@@ -80,7 +80,7 @@ _mod_ogg_load_consts (_mod_ogg_context_t * context)
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), const_file);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,

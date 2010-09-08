@@ -57,7 +57,8 @@ _known_nodes_callback (void *func_data, void *data)
   char *public_url = (char *) data;
 
   lw6sys_log (LW6SYS_LOG_DEBUG,
-	      _("_known_nodes_callback with public_url=\"%s\""), public_url);
+	      _x_ ("_known_nodes_callback with public_url=\"%s\""),
+	      public_url);
   if (node && public_url)
     {
       _lw6p2p_node_insert_discovered (node, public_url);
@@ -100,7 +101,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	  if (cli_oob)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("process cli_oob (broadcast) url=\"%s\""),
+			  _x_ ("process cli_oob (broadcast) url=\"%s\""),
 			  broadcast_url);
 	      cli_oob->cli_oob->thread =
 		lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
@@ -123,7 +124,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	      if (cli_oob)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("process cli_oob (broadcast) url=\"%s\""),
+			      _x_ ("process cli_oob (broadcast) url=\"%s\""),
 			      broadcast_url);
 		  cli_oob->cli_oob->thread =
 		    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
@@ -137,7 +138,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("BROADCAST disabled by user configuration"));
+		  _x_ ("BROADCAST disabled by user configuration"));
     }
 
   return ret;
@@ -185,7 +186,7 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
 				       node, public_url);
   if (cli_oob)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("process cli_oob url=\"%s\""),
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process cli_oob url=\"%s\""),
 		  public_url);
       cli_oob->cli_oob->thread =
 	lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
@@ -205,19 +206,19 @@ _select_unverified_node_callback (void *func_data, int nb_fields,
       if (fields_values[0])
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("node with NULL id found url=\"%s\""),
+		      _x_ ("node with NULL id found url=\"%s\""),
 		      fields_values[0]);
 	  _start_verify_node (node, fields_values[0]);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("node_url is NULL"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("node_url is NULL"));
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("request returned %d fields, one and only one should be present"),
 		  nb_fields);
     }

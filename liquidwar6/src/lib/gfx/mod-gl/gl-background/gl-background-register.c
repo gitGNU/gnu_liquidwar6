@@ -50,7 +50,7 @@ mod_gl_background_create_backend (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("background backend \"%s\" does not exists"), name);
+		  _x_ ("background backend \"%s\" does not exists"), name);
     }
 
   if (init_func)

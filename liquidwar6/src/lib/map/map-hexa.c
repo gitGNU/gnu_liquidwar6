@@ -410,8 +410,9 @@ pop_layer (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_layer_t * layer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("bad layer shape (%dx%d != %dx%d)"),
-		  layer->shape.w, layer->shape.h, shape->w, shape->h);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad layer shape (%dx%d != %dx%d)"), layer->shape.w,
+		  layer->shape.h, shape->w, shape->h);
       ret = 0;
     }
 
@@ -459,7 +460,7 @@ pop_meta_layer (lw6sys_hexa_serializer_t * hexa_serializer,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("bad meta_layer shape (%dx%d != %dx%d)"),
+		      _x_ ("bad meta_layer shape (%dx%d != %dx%d)"),
 		      meta_layer->shape.w, meta_layer->shape.h, shape->w,
 		      shape->h);
 	  ret = 0;
@@ -491,8 +492,9 @@ pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("map shape out of range (%dx%dx%d)"),
-		  body->shape.w, body->shape.h, body->shape.d);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("map shape out of range (%dx%dx%d)"), body->shape.w,
+		  body->shape.h, body->shape.d);
       ret = 0;
     }
   ret = ret
@@ -563,8 +565,9 @@ pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("texture shape out of range (%dx%d)"),
-		  texture->w, texture->h);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("texture shape out of range (%dx%d)"), texture->w,
+		  texture->h);
       ret = 0;
     }
   ret = ret
@@ -795,7 +798,7 @@ lw6map_from_hexa (char *hexa)
 	  if (!lw6sys_hexa_serializer_eof (hexa_serializer))
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("expected EOF in serialized level"));
+			  _x_ ("expected EOF in serialized level"));
 	      ok = 0;
 	    }
 	  if (!ok)

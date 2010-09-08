@@ -91,7 +91,7 @@ test_manager ()
 		    if (repr)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("waiting for manager \"%s\""), repr);
+				    _x_ ("waiting for manager \"%s\""), repr);
 			LW6SYS_FREE (repr);
 		      }
 		    if (lw6tsk_loader_pop
@@ -104,7 +104,7 @@ test_manager ()
 			    if (repr)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("loaded game_struct \"%s\""),
+					    _x_ ("loaded game_struct \"%s\""),
 					    repr);
 				LW6SYS_FREE (repr);
 			      }
@@ -112,7 +112,7 @@ test_manager ()
 			    if (repr)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("loaded game_state \"%s\""),
+					    _x_ ("loaded game_state \"%s\""),
 					    repr);
 				LW6SYS_FREE (repr);
 			      }
@@ -129,7 +129,7 @@ test_manager ()
 			    if (repr)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("loaded map \"%s\""), repr);
+					    _x_ ("loaded map \"%s\""), repr);
 				LW6SYS_FREE (repr);
 			      }
 			    lw6map_free (level);

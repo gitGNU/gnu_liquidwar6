@@ -38,7 +38,7 @@ _mod_gl_menu_cylinder_init (mod_gl_utils_context_t * utils_context)
 {
   _mod_gl_menu_cylinder_context_t *cylinder_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("init menu/cylinder"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init menu/cylinder"));
 
   cylinder_context =
     (_mod_gl_menu_cylinder_context_t *)
@@ -88,7 +88,7 @@ void
 mod_gl_menu_cylinder_quit (mod_gl_utils_context_t * utils_context,
 			   void *cylinder_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("quit menu/cylinder"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit menu/cylinder"));
 
   _mod_gl_menu_cylinder_quit (utils_context,
 			      (_mod_gl_menu_cylinder_context_t *)

@@ -47,7 +47,8 @@ lw6gui_joystick_check_index (int i)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("joystick index %d out of range"), i);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("joystick index %d out of range"),
+		  i);
     }
 
   return ret;

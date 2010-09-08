@@ -38,7 +38,7 @@ guile_main (void *data)
   SCM_RESET_DEBUG_MODE;
 
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _("registering C types and functions for Guile"));
+	      _x_ ("registering C types and functions for Guile"));
   lw6_register_smobs ();
   lw6_register_funcs ();
 
@@ -47,7 +47,7 @@ guile_main (void *data)
     {
       if (lw6sys_file_exists (script))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("loading \"%s\""), script);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading \"%s\""), script);
 	  scm_c_primitive_load (script);
 	}
       else
@@ -72,14 +72,14 @@ guile_main (void *data)
 static void
 _run (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("main run data=%p"), data);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
   scm_with_guile (guile_main, NULL);
 }
 
 static void
 _end (void *data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("main end data=%p"), data);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("main end data=%p"), data);
 }
 
 /**
@@ -140,7 +140,7 @@ lw6_main (int argc, char *argv[])
 	}
       else
 	{
-	  lw6sys_log_critical (_("can't determine log file"));
+	  lw6sys_log_critical (_x_ ("can't determine log file"));
 	}
       lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" #%s (%s) %s/%s",
 		  lw6sys_build_get_version (),

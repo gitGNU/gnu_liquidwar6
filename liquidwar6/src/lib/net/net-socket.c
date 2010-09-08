@@ -54,28 +54,29 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
 	      if (bind (sock, (struct sockaddr *) &name, sizeof name) >= 0)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("bind socket %d on %s:%d"), sock, ip, port);
+			      _x_ ("bind socket %d on %s:%d"), sock, ip,
+			      port);
 		  _lw6net_counters_register_socket (&
 						    (_lw6net_global_context->counters));
 		  binded = 1;
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("bind() on %s:%d failed"),
-			      ip, port);
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("bind() on %s:%d failed"), ip, port);
 		  lw6net_last_error ();
 		}
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("setsockopt() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("setsockopt() failed"));
 	  lw6net_last_error ();
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("socket() failed"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("socket() failed"));
       lw6net_last_error ();
     }
 
@@ -87,7 +88,7 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
       if (close (sock))
 #endif
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("close() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	  lw6net_last_error ();
 	}
       sock = -1;
@@ -124,7 +125,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("ioctlsocket failed on socket %d"), sock);
+		      _x_ ("ioctlsocket failed on socket %d"), sock);
 	  lw6net_last_error ();
 	}
 #else
@@ -147,13 +148,13 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("fcntl failed on socket %d"),
-			  sock);
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("fcntl failed on socket %d"), sock);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("fcntl failed on socket %d"),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("fcntl failed on socket %d"),
 		      sock);
 	}
 #endif
@@ -161,7 +162,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't set blocking mode on invalid socket %d"), sock);
+		  _x_ ("can't set blocking mode on invalid socket %d"), sock);
     }
 
   return ret;
@@ -199,7 +200,7 @@ lw6net_socket_close (int sock)
 {
   if (lw6net_socket_is_valid (sock))
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("close socket %d"), sock);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("close socket %d"), sock);
       _lw6net_counters_unregister_socket (&
 					  (_lw6net_global_context->counters));
 #ifdef LW6_MS_WINDOWS
@@ -208,13 +209,13 @@ lw6net_socket_close (int sock)
       if (close (sock))
 #endif
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("close() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	  lw6net_last_error ();
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't close negative socket %d"), sock);
+		  _x_ ("can't close negative socket %d"), sock);
     }
 }

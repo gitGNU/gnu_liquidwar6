@@ -318,7 +318,7 @@ lw6pil_command_free (lw6pil_command_t * command)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL command"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL command"));
     }
 }
 
@@ -423,7 +423,8 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("execute command \"%s\""), command->text);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
+	      command->text);
   switch (command->code)
     {
     case LW6PIL_COMMAND_CODE_NOP:
@@ -455,7 +456,7 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
       ret = lw6ker_game_state_unregister_node (game_state, command->node_id);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("incorrect command \"%s\""),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),
 		  command->text);
       break;
     }
@@ -486,7 +487,8 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("execute command \"%s\""), command->text);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
+	      command->text);
   switch (command->code)
     {
     case LW6PIL_COMMAND_CODE_NOP:
@@ -505,7 +507,7 @@ lw6pil_command_execute_local (lw6pil_local_cursors_t * local_cursors,
 				     command->args.set.y);
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("incorrect command \"%s\""),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("incorrect command \"%s\""),
 		  command->text);
       break;
     }

@@ -101,7 +101,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 		  if (color_type & PNG_COLOR_MASK_PALETTE)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("can't load RGBA PNG file \"%s\", it is still paletted after filtering"),
 				  png_file);
 		      format_ok = 0;
@@ -112,7 +112,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 		      bit_depth > 8)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("can't load RGBA PNG file \"%s\", memory footprint is inconsistent, color_type=%d, rowbytes=%d, width=%d, step=%d, bit_depth=%d"),
 				  png_file, color_type,
 				  info_ptr->rowbytes, width, 4, bit_depth);
@@ -158,8 +158,8 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_ERROR,
-				      _
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
 				      ("unable to allocate memory for RGBA PNG file"));
 			}
 		    }
@@ -171,18 +171,19 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("couldn't create png end info struct"));
+			  _x_ ("couldn't create png end info struct"));
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("couldn't create png info struct"));
+		      _x_ ("couldn't create png info struct"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("couldn't create png read struct"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("couldn't create png read struct"));
     }
 
   png_destroy_read_struct (&png_ptr, &info_ptr, &end_info);
@@ -311,15 +312,15 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
 
 	    default:
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("unable to handle jpeg file output_components must be 3 (RGB) but is %d"),
 			  cinfo.output_components);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_ERROR,
-		      _("unable to allocate memory for RGBA JPEG file"));
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("unable to allocate memory for RGBA JPEG file"));
 	}
 
       jpeg_finish_decompress (&cinfo);
@@ -330,7 +331,7 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to read jpeg file \"%s\""), jpeg_file);
+		  _x_ ("unable to read jpeg file \"%s\""), jpeg_file);
     }
 
   if (!ret)

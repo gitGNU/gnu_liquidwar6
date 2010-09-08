@@ -44,9 +44,10 @@ find $SCRIPT_DIR -type f -a -name "*.scm" \
 cd ..
 rm po/POTFILES.in
 #for i in src/scriptpo.c src/lib/sys/sys-log.c src/lib/hlp/hlp-reference.c src/lib/hlp/hlp-credits.c src/lib/sys/sys-mem.c src/lib/lw6-print.c src/lib/ldr/ldr-print.c src/lib/*/mod-*/mod-*-backend.c ; do
-for i in src/scriptpo.c src/lib/sys/sys-log.c src/lib/hlp/hlp-credits.c src/lib/lw6-print.c ; do
-    echo "$i" >> po/POTFILES.in
-done
+find src -type f -a -name "*.c" >> po/POTFILES.in
+#for i in src/scriptpo.c src/lib/sys/sys-log.c src/lib/hlp/hlp-credits.c src/lib/lw6-print.c ; do
+#    echo "$i" >> po/POTFILES.in
+#done
 cd src
 
 indent $C_FILE

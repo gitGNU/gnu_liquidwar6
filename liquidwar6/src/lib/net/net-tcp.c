@@ -56,7 +56,7 @@ lw6net_tcp_listen (char *ip, int port)
       if (listen (sock, backlog) < 0)
 	{
 	  lw6net_last_error ();
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("listen() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("listen() failed"));
 
 	  lw6net_socket_close (sock);
 	  sock = -1;
@@ -112,21 +112,21 @@ lw6net_tcp_accept (char **incoming_ip,
 			      (char *) &enable, sizeof (int)))
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("setsockopt(SO_KEEPALIVE) failed"));
+			      _x_ ("setsockopt(SO_KEEPALIVE) failed"));
 		  lw6net_last_error ();
 		}
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_OOBINLINE,
 			      (char *) &disable, sizeof (int)))
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("setsockopt(SO_OOBINLINE) failed"));
+			      _x_ ("setsockopt(SO_OOBINLINE) failed"));
 		  lw6net_last_error ();
 		}
 	      if (setsockopt (new_sock, SOL_SOCKET, SO_LINGER,
 			      (char *) &li, sizeof (struct linger)))
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("setsockopt(SO_LINGER) failed"));
+			      _x_ ("setsockopt(SO_LINGER) failed"));
 		  lw6net_last_error ();
 		}
 
@@ -151,13 +151,13 @@ lw6net_tcp_accept (char **incoming_ip,
 		  && (*incoming_port) >= 0)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("socket %d accepted from %s:%d"), new_sock,
+			      _x_ ("socket %d accepted from %s:%d"), new_sock,
 			      *incoming_ip, *incoming_port);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("accept() failed"));
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("accept() failed"));
 	      lw6net_last_error ();
 	    }
 
@@ -184,7 +184,7 @@ lw6net_tcp_accept (char **incoming_ip,
       if (close (new_sock))
 #endif
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("close() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	  lw6net_last_error ();
 	}
       new_sock = -1;
@@ -227,7 +227,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 		  if (connect_ret >= 0)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("connect on \"%s:%d\" returned with a successfull code %d, this is very strange since we should be in non-blocking mode"),
 				  ip, port, connect_ret);
 		    }
@@ -259,7 +259,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _
+				      _x_
 				      ("connect on \"%s:%d\" failed with code %d"),
 				      ip, port, connect_ret);
 			  lw6net_last_error ();
@@ -278,27 +278,29 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 				      (char *) &enable, sizeof (int)))
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _("setsockopt(SO_KEEPALIVE) failed"));
+				      _x_
+				      ("setsockopt(SO_KEEPALIVE) failed"));
 			  lw6net_last_error ();
 			}
 		      if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
 				      (char *) &disable, sizeof (int)))
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _("setsockopt(SO_OOBINLINE) failed"));
+				      _x_
+				      ("setsockopt(SO_OOBINLINE) failed"));
 			  lw6net_last_error ();
 			}
 		      if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
 				      (char *) &li, sizeof (struct linger)))
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _("setsockopt(SO_LINGER) failed"));
+				      _x_ ("setsockopt(SO_LINGER) failed"));
 			  lw6net_last_error ();
 			}
 
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("socket %d connected on %s:%d"), sock, ip,
-				  port);
+				  _x_ ("socket %d connected on %s:%d"), sock,
+				  ip, port);
 
 		      _lw6net_counters_register_socket (&
 							(_lw6net_global_context->counters));
@@ -316,7 +318,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("bind() failed"));
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bind() failed"));
 	      lw6net_last_error ();
 	    }
 	}
@@ -326,7 +328,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
     {
       if (close (sock))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("close() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	  lw6net_last_error ();
 	}
       sock = -1;
@@ -371,14 +373,14 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 	      if (winerr != WSAEINTR && winerr != WSAENOBUFS)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("select() failed, code=%d"), winerr);
+			      _x_ ("select() failed, code=%d"), winerr);
 		  lw6net_last_error ();
 		  ret = 0;
 		}
 #else
 	      if (errno != EINTR && errno != ENOBUFS)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("select() failed"));
+		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("select() failed"));
 		  lw6net_last_error ();
 		  ret = 0;
 		}
@@ -393,14 +395,14 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 		  if (sent > 0 && sent <= len - total_sent)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("%d bytes sent on TCP socket %d"), sent,
-				  sock);
+				  _x_ ("%d bytes sent on TCP socket %d"),
+				  sent, sock);
 		      total_sent += sent;
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _
+				  _x_
 				  ("can't send data on TCP socket %d (%d bytes put)"),
 				  sock, sent);
 		      ret = 0;
@@ -409,7 +411,7 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 	      break;
 	    default:
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("can't send data on socket %d (select returned %d)"),
 			  sock, select_ret);
 	      ret = 0;
@@ -418,7 +420,7 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 	  if ((!loop) && (total_sent != len))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _("can't send data on socket %d (%d/%d)"), sock,
+			  _x_ ("can't send data on socket %d (%d/%d)"), sock,
 			  total_sent, len);
 	      ret = 0;
 	    }
@@ -470,7 +472,7 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
 		{
 		  available = recv (sock, buf2, len, MSG_PEEK);
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("%d bytes available on TCP socket %d"),
+			      _x_ ("%d bytes available on TCP socket %d"),
 			      available, sock);
 		}
 	    }
@@ -521,7 +523,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 	      if (errno != EINTR)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("error receiving data on socket %d (select error %d)"),
 			      sock, errno);
 		  lw6net_last_error ();
@@ -538,14 +540,14 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		  if (received > 0 && received <= len - total_received)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("%d bytes received on TCP socket %d"),
+				  _x_ ("%d bytes received on TCP socket %d"),
 				  received, sock);
 		      total_received += received;
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("can't recv data on socket %d (got %d bytes)"),
 				  sock, received);
 		      lw6net_last_error ();
@@ -555,7 +557,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 	      break;
 	    default:
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("can't recv data on socket %d (select returned %d)"),
 			  sock, select_ret);
 	      lw6net_last_error ();
@@ -565,7 +567,7 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 	  if ((!loop) && (total_received != len))
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("can't recv data on socket %d (%d/%d)"), sock,
+			  _x_ ("can't recv data on socket %d (%d/%d)"), sock,
 			  total_received, len);
 	      lw6net_last_error ();
 	      ret = 0;

@@ -49,7 +49,7 @@ _load_consts (_udpd_consts_t * consts, char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), consts_file);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,

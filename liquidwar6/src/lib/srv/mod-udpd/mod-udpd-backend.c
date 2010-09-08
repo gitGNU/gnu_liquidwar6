@@ -252,9 +252,9 @@ mod_udpd_get_pedigree ()
     {
       module_pedigree->id = "udpd";
       module_pedigree->category = "srv";
-      module_pedigree->name = _("UDPD");
+      module_pedigree->name = _x_ ("UDPD");
       module_pedigree->readme =
-	_("Basic UDP/IP server, the fastest way to communicate.");
+	_x_ ("Basic UDP/IP server, the fastest way to communicate.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
 	"Copyright (C)  2009  Christian Mauduit <ufoot@ufoot.org>";

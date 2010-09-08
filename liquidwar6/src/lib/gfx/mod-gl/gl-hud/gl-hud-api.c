@@ -30,7 +30,7 @@ static void
 _warning (const char *func_name)
 {
   lw6sys_log (LW6SYS_LOG_WARNING,
-	      _("hud backend function \"%s\" is not defined"));
+	      _x_ ("hud backend function \"%s\" is not defined"));
 }
 
 int

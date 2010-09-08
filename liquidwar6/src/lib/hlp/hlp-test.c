@@ -51,23 +51,23 @@ test_about ()
       }
 
     help_string = lw6hlp_about (NULL, NULL, NULL, NULL, TEST_KEYWORD);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("help for \"%s\" is \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("help for \"%s\" is \"%s\""),
 		TEST_KEYWORD, help_string);
     type = lw6hlp_get_type (TEST_KEYWORD);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("type for \"%s\" is \"%d\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("type for \"%s\" is \"%d\""),
 		TEST_KEYWORD, (int) type);
     default_value = lw6hlp_get_default_value (TEST_KEYWORD);
     if (default_value)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("default value for \"%s\" is \"%s\""), TEST_KEYWORD,
+		    _x_ ("default value for \"%s\" is \"%s\""), TEST_KEYWORD,
 		    default_value);
       }
     min_value = lw6hlp_get_min_value (TEST_KEYWORD);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("min value for \"%s\" is \"%d\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("min value for \"%s\" is \"%d\""),
 		TEST_KEYWORD, min_value);
     max_value = lw6hlp_get_max_value (TEST_KEYWORD);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("max value for \"%s\" is \"%d\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max value for \"%s\" is \"%d\""),
 		TEST_KEYWORD, max_value);
   }
 
@@ -93,7 +93,7 @@ test_credits ()
 	credits = lw6hlp_get_credits (i);
 	if (credits)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("credit line %d: \"%s\""), i,
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("credit line %d: \"%s\""), i,
 			credits);
 	    LW6SYS_FREE (credits);
 	  }
@@ -127,7 +127,7 @@ test_print ()
 	lw6sys_list_free (list);
       }
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("now showing what \"--about=%s\" would look like"),
+		_x_ ("now showing what \"--about=%s\" would look like"),
 		TEST_KEYWORD);
     lw6hlp_print_about (TEST_KEYWORD, stdout);
   }

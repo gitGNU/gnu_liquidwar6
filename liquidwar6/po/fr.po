@@ -1,13 +1,13 @@
 # French translations for liquidwar6 package.
 # Copyright (C) 2005 Christian Mauduit
 # This file is distributed under the same license as the liquidwar6 package.
-# Christian Mauduit <ufoot@ufoot.org>, 2005.
+# Christian Mauduit <ufoot@ufoot.org>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-08-26 17:09+0200\n"
+"POT-Creation-Date: 2010-09-08 21:17+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -267,7 +267,7 @@ msgstr "Moteur de son"
 
 #: src/scriptpo.c:75
 msgid "This is a test node."
-msgstr ""
+msgstr "Ceci est un node de test"
 
 #: src/scriptpo.c:76
 msgid "testing map"
@@ -302,9 +302,8 @@ msgid "testing async load"
 msgstr "test chargement asynchrone"
 
 #: src/scriptpo.c:84
-#, fuzzy
 msgid "testing db"
-msgstr "test des bots"
+msgstr "test de la base de données"
 
 #: src/scriptpo.c:85
 msgid "testing node"
@@ -467,19 +466,18 @@ msgid "running \"~a\""
 msgstr "exécution de \"~a\""
 
 #: src/scriptpo.c:135
-msgid "log is \"~a\""
-msgstr ""
+msgid "log file \"~a\""
+msgstr "fichier de log \"~a\""
 
 #: src/scriptpo.c:136 src/scriptpo.c:137
 msgid "environment \"~a\" is \"~a\""
-msgstr ""
+msgstr "la variable d'environnement \"~a\" vaut \"~a\""
 
 #: src/scriptpo.c:138
 msgid "upgrading to version ~a"
 msgstr "mise à jour vers la version ~a"
 
 #: src/scriptpo.c:139
-#, fuzzy
 msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
 "aucun backend graphique trouvé, le jeu ne peut fonctionner qu'en mode "
@@ -487,7 +485,7 @@ msgstr ""
 
 #: src/scriptpo.c:140
 msgid "running in server mode"
-msgstr ""
+msgstr "lancé en mode serveur"
 
 #: src/scriptpo.c:141
 msgid "Display FPS"
@@ -569,6 +567,74 @@ msgstr "Esc"
 msgid "Free slot"
 msgstr "Libre"
 
+#: src/lib/lw6-print.c:46
+#, c-format
+msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+
+#: src/lib/lw6-print.c:58
+#, c-format
+msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
+msgstr ""
+"Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
+
+#: src/lib/lw6-print.c:60
+#, c-format
+msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
+msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"
+
+#: src/lib/lw6-print.c:95
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"License GPLv3+: Licence Générale Publique GNU version 3 ou supérieure "
+"<http://gnu.org/licenses/gpl.html>\n"
+"Ceci est un logiciel libre et vous êtes invité à le redistribuer suivant "
+"certaines conditions.\n"
+"Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
+
+#: src/lib/lw6-print.c:827
+msgid "hello"
+msgstr "bonjour"
+
+#: src/lib/lw6-print.c:834
+#, c-format
+msgid "approx. %d megabytes available"
+msgstr "environ %d méga-octets disponibles"
+
+#: src/lib/lw6-print.c:849
+msgid "goodbye"
+msgstr "au revoir"
+
+#: src/lib/lw6-fix.c:252
+msgid "couldn't fix environment variable by restarting program"
+msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
+
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
+msgid "can't initialize mod_httpd"
+msgstr "impossible d'initialiser mod_httpd"
+
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:60
+msgid "can't initialize mod_tcpd"
+msgstr "impossible d'initialiser mod_tcpd"
+
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:60
+msgid "can't initialize mod_udpd"
+msgstr "impossible d'initialiser mod_udpd"
+
+#: src/lib/p2p/p2p-data.c:100
+#, c-format
+msgid "can't read query \"%s\" in \"%s\""
+msgstr "impossible de lire la requête \"%s\" dans \"%s\""
+
+#: src/lib/sys/sys-test.c:1950
+msgid "this is a /TEST/ error"
+msgstr "ceci est une erreur de /TEST/"
+
 #: src/lib/sys/sys-log.c:68
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
@@ -580,12 +646,12 @@ msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
 #: src/lib/sys/sys-log.c:620
 msgid "See log file for details."
-msgstr ""
+msgstr "Voir le fichier de log pour plus d'informations"
 
 #: src/lib/sys/sys-log.c:793
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
-msgstr "ERREUR! (erro=%d:%s)"
+msgstr "ERREUR! (errno=%d:%s)"
 
 #: src/lib/sys/sys-log.c:798
 msgid "ERROR! "
@@ -613,9 +679,94 @@ msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
 #: src/lib/sys/sys-log.c:930
-#, fuzzy
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
+
+#: src/lib/sys/sys-mem.c:75
+#, c-format
+msgid "out of memory malloc (%d) failed in %s:%d"
+msgstr "pas assez de mémoire, échec de malloc (%d) dans %s:%d"
+
+#: src/lib/sys/sys-mem.c:118
+#, c-format
+msgid "out of memory calloc(%d) failed in %s:%d"
+msgstr "pas assez de mémoire, échec de calloc (%d) dans %s:%d"
+
+#: src/lib/sys/sys-mem.c:175
+#, c-format
+msgid "out of memory realloc (%d) failed in %s:%d"
+msgstr "pas assez de mémoire, échec de realloc (%d) dans %s:%d"
+
+#: src/lib/sys/sys-mem.c:219
+#, c-format
+msgid "trying to free NULL pointer in %s:%d"
+msgstr "tentative de libérer un pointeur nul dans %s:%d"
+
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:78
+#, c-format
+msgid "SDL GetVideoInfo failed: \"%s\""
+msgstr "SDL GetVideoInfo a échoué: \"%s\""
+
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:181
+#, c-format
+msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
+msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
+
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
+#, c-format
+msgid "unable to load image \"%s\""
+msgstr "impossible de charger l'image \"%s\""
+
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:108
+#, c-format
+msgid "unable to load font \"%s\""
+msgstr "impossible de charger la police \"%s\""
+
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:280
+#, c-format
+msgid "SDL init error: \"%s\""
+msgstr "SDL erreur d'initialisation: \"%s\""
+
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:305
+#, c-format
+msgid "SDL_ttf init error: \"%s\""
+msgstr "SDL_ttf erreur d'initialisation: \"%s\""
+
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:360
+msgid "unable to load data"
+msgstr "impossible de charger les données"
+
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:368
+msgid "unable to set video mode"
+msgstr "impossible de régler le mode vidéo"
+
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:375
+msgid "unable to load consts"
+msgstr "impossible de lire les constantes"
+
+#: src/lib/lw6-options.c:90
+#, c-format
+msgid "unknown option \"%s\""
+msgstr "option inconnue \"%s\""
+
+#: src/lib/lw6-options.c:108
+msgid "unable to start daemon"
+msgstr "impossible de démarrer le démon"
+
+#: src/lib/lw6-options.c:159
+msgid "all tests SUCCESSFULL!"
+msgstr "tous les tests passés avec SUCCÈS!"
+
+#: src/lib/lw6-options.c:165
+#, c-format
+msgid "test FAILED, see log file \"%s\" for details"
+msgstr ""
+"le test a ÉCHOUÉ, voir le fichier de log \"%s\" pour plus d'informations"
+
+#: src/lib/lw6-main.c:56
+#, c-format
+msgid "unable to read main script file \"%s\""
+msgstr "impossible de lire le fichier de script principal \"%s\""
 
 #: src/lib/hlp/hlp-credits.c:77
 #, c-format
@@ -699,51 +850,21 @@ msgstr "Contre les brevets logiciels %s"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/lw6-print.c:46
-#, c-format
-msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
-msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+#: src/lib/dsp/dsp-test.c:304
+msgid "this error too"
+msgstr "cette erreur aussi"
 
-#: src/lib/lw6-print.c:58
-#, c-format
-msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
-msgstr ""
-"Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
+#: src/lib/cli/mod-http/mod-http-setup.c:67
+msgid "can't initialize mod_http"
+msgstr "impossible d'initialiser mod_http"
 
-#: src/lib/lw6-print.c:60
-#, c-format
-msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
-msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:60
+msgid "can't initialize mod_tcp"
+msgstr "impossible d'initialiser mod_tcp"
 
-#: src/lib/lw6-print.c:95
-#, c-format
-msgid ""
-"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
-"html>\n"
-"This is free software: you are free to change and redistribute it.\n"
-"There is NO WARRANTY, to the extent permitted by law.\n"
-msgstr ""
-"License GPLv3+: Licence Générale Publique GNU version 3 ou supérieure "
-"<http://gnu.org/licenses/gpl.html>\n"
-"Ceci est un logiciel libre et vous êtes invité à le redistribuer suivant "
-"certaines conditions.\n"
-"Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
+#: src/lib/cli/mod-udp/mod-udp-setup.c:60
+msgid "can't initialize mod_udp"
+msgstr "iimpossible d'initialiser mod_udp"
 
-#: src/lib/lw6-print.c:827
-msgid "hello"
-msgstr "bonjour"
-
-#: src/lib/lw6-print.c:834
-#, c-format
-msgid "approx. %d megabytes available"
-msgstr "environ %d méga-octets disponibles"
-
-#: src/lib/lw6-print.c:849
-msgid "goodbye"
-msgstr "au revoir"
-
-#~ msgid "server mode not implemented yet"
-#~ msgstr "le mode serveur n'est pas encore implémenté"
-
-#~ msgid "Error (message too long...)"
-#~ msgstr "Erreur (message trop long...)"
+#~ msgid "unable to init flat_context"
+#~ msgstr "impossible d'initialiser flat_context"

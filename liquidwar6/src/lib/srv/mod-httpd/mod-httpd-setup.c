@@ -39,7 +39,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   char *httpd_dir;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("httpd init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd init"));
 
   httpd_context =
     (_httpd_context_t *) LW6SYS_CALLOC (sizeof (_httpd_context_t));
@@ -81,7 +81,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _("can't init \"%s\""),
+					  _x_ ("can't init \"%s\""),
 					  httpd_context->access_log_file);
 			    }
 			}
@@ -93,7 +93,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("couldn't read mod-httpd data from \"%s\""),
+			  _x_ ("couldn't read mod-httpd data from \"%s\""),
 			  data_dir);
 	    }
 	  LW6SYS_FREE (data_dir);
@@ -117,7 +117,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 void
 _mod_httpd_quit (_httpd_context_t * httpd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("httpd quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd quit"));
 
   if (httpd_context->access_log_mutex)
     {

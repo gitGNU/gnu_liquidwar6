@@ -40,7 +40,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
   char *given_public_url = NULL;
   char *response = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("process tcpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process tcpd oob"));
   if (_mod_tcpd_oob_should_continue (tcpd_context, oob_data))
     {
       request_line = lw6net_recv_line_tcp (oob_data->sock);
@@ -54,7 +54,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_PING))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_tcpd %s response to %s:%d"),
+			      _x_ ("mod_tcpd %s response to %s:%d"),
 			      LW6MSG_OOB_PONG, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_pong (node_info);
@@ -62,7 +62,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_INFO))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_tcpd %s response to %s:%d"),
+			      _x_ ("mod_tcpd %s response to %s:%d"),
 			      LW6MSG_OOB_INFO, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_info (node_info);
@@ -70,7 +70,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 	      if (lw6sys_str_is_same_no_case (command, LW6MSG_OOB_LIST))
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("mod_tcpd %s response to %s:%d"),
+			      _x_ ("mod_tcpd %s response to %s:%d"),
 			      LW6MSG_OOB_LIST, oob_data->remote_ip,
 			      oob_data->remote_port);
 		  response = lw6msg_oob_generate_list (node_info);
@@ -80,7 +80,8 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		  if (strlen (given_public_url) > 0)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("discovered node \"%s\" from given url"),
+				  _x_
+				  ("discovered node \"%s\" from given url"),
 				  given_public_url);
 		      lw6nod_info_add_discovered_node (node_info,
 						       given_public_url);
@@ -97,7 +98,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		      && strlen (node_info->const_info.password) > 0)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_tcpd %s response to %s:%d"),
+				  _x_ ("mod_tcpd %s response to %s:%d"),
 				  LW6MSG_FORBIDDEN, oob_data->remote_ip,
 				  oob_data->remote_port);
 		      response =
@@ -106,7 +107,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_tcpd %s response to %s:%d"),
+				  _x_ ("mod_tcpd %s response to %s:%d"),
 				  LW6MSG_OOB_INFO, oob_data->remote_ip,
 				  oob_data->remote_port);
 		      response = lw6msg_oob_generate_info (node_info);
@@ -117,7 +118,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		  if (syntax_ok && !password_ok)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_tcpd %s response to %s:%d"),
+				  _x_ ("mod_tcpd %s response to %s:%d"),
 				  LW6MSG_FORBIDDEN, oob_data->remote_ip,
 				  oob_data->remote_port);
 		      response =
@@ -126,7 +127,7 @@ _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("mod_tcpd %s response to %s:%d"),
+				  _x_ ("mod_tcpd %s response to %s:%d"),
 				  LW6MSG_ERROR, oob_data->remote_ip,
 				  oob_data->remote_port);
 		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);

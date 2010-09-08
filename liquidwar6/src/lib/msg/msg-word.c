@@ -109,7 +109,7 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("word too long"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("word too long"));
 	}
     }
 
@@ -201,7 +201,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("word too long"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("word too long"));
 	}
     }
 
@@ -312,7 +312,7 @@ lw6msg_word_first_int_gt0 (int *parsed_value, char **next, char *msg)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("bad int value %d, not strictly greater than 0"),
+		      _x_ ("bad int value %d, not strictly greater than 0"),
 		      tmp_value);
 	}
     }
@@ -349,7 +349,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad id 16 \"%s\""), word.buf);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id 16 \"%s\""), word.buf);
 	}
     }
 
@@ -385,7 +385,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad id 32 \"%s\""), word.buf);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id 32 \"%s\""), word.buf);
 	}
     }
 
@@ -421,7 +421,7 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next, char *msg)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad id 64 \"%s\""), word.buf);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id 64 \"%s\""), word.buf);
 	}
     }
 

@@ -79,7 +79,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unknown mode %d"), (int) mode);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
       sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
@@ -96,7 +96,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, char *version,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to base64 encode, sending as is"));
+		      _x_ ("unable to base64 encode, sending as is"));
 	}
     }
 
@@ -244,7 +244,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
       need_base64 = 1;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unknown mode %d"), (int) mode);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
       sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
@@ -389,7 +389,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 								       */
 								      lw6sys_log
 									(LW6SYS_LOG_DEBUG,
-									 _
+									 _x_
 									 ("forcing clear text instead of base64"));
 								      (*msg) =
 									lw6sys_str_copy
@@ -438,7 +438,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 							{
 							  lw6sys_log
 							    (LW6SYS_LOG_DEBUG,
-							     _
+							     _x_
 							     ("can't parse \"logical_to\" (final destination) id"));
 							}
 						    }
@@ -446,7 +446,7 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 						    {
 						      lw6sys_log
 							(LW6SYS_LOG_DEBUG,
-							 _
+							 _x_
 							 ("can't parse \"logical_from\" (creator) id"));
 						    }
 						}
@@ -454,79 +454,80 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 						{
 						  lw6sys_log
 						    (LW6SYS_LOG_DEBUG,
-						     _
+						     _x_
 						     ("wrong \"physical_to\" (receiver) id"));
 						}
 					    }
 					  else
 					    {
 					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _
+							  _x_
 							  ("can't parse \"physical_to\" (receiver) id"));
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
-						      _
+						      _x_
 						      ("wrong \"physical_from\" (sender) id"));
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _
+						  _x_
 						  ("can't parse \"physical_from\" (sender) id"));
 				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _
+					      _x_
 					      ("can't parse logical ticket sig"));
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _
+					  _x_
 					  ("can't parse physical ticket sig"));
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_INFO, _("bad password"));
+			  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad password"));
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("can't parse password"));
+				  _x_ ("can't parse password"));
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _("bad version, received \"%s\", need \"%s\""),
+			      _x_
+			      ("bad version, received \"%s\", need \"%s\""),
 			      received_version.buf, version);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("can't parse version"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("can't parse version"));
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("bad lw6 key, received \"%s\", need \"%s\""),
+		      _x_ ("bad lw6 key, received \"%s\", need \"%s\""),
 		      received_lw6.buf, lw6);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("message does not start with \"%s\""),
-		  lw6);
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("message does not start with \"%s\""), lw6);
     }
 
   return ret;

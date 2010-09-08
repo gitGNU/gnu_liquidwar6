@@ -107,13 +107,14 @@ _select_other_node_callback (void *func_data, int nb_fields,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("database contains uncomplete entry for some node"));
+		      _x_
+		      ("database contains uncomplete entry for some node"));
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("request for other nodes should return %d fields but returned %d"),
 		  _LW6P2P_DB_NODE_NB_FIELDS, nb_fields);
     }
@@ -128,7 +129,7 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
   char *query = NULL;
   lw6sys_list_t *list_of_node;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("flush verified nodes"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("flush verified nodes"));
 
   list_of_node = lw6nod_info_new_verified_nodes ();
   if (list_of_node)
@@ -186,7 +187,7 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
   char *url = NULL;
   lw6sys_list_t *list = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("flush discovered nodes"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("flush discovered nodes"));
   ret = 1;
 
   list = lw6nod_info_pop_discovered_nodes (node->node_info);

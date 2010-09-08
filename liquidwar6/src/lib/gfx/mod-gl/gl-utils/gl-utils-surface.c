@@ -52,7 +52,7 @@ mod_gl_utils_create_surface (mod_gl_utils_context_t * context, int w, int h)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create image"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create image"));
     }
 
   return image;
@@ -72,7 +72,7 @@ mod_gl_utils_delete_surface (mod_gl_utils_context_t * context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL surface"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL surface"));
     }
 }
 

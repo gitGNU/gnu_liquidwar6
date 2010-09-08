@@ -116,7 +116,7 @@ test_backend (lw6bot_backend_t * backend)
 	  while (lw6ker_game_state_get_rounds (game_state) < TEST_NB_ROUNDS)
 	    {
 	      lw6bot_next_move (backend, &x, &y);
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("round %d moved to %d,%d"),
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("round %d moved to %d,%d"),
 			  lw6ker_game_state_get_rounds (game_state), x, y);
 	      lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					    TEST_CURSOR_ID3, x, y);
@@ -128,7 +128,8 @@ test_backend (lw6bot_backend_t * backend)
 	  repr = lw6bot_repr (backend);
 	  if (repr)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE, _("bot repr is \"%s\""), repr);
+	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bot repr is \"%s\""),
+			  repr);
 	      LW6SYS_FREE (repr);
 	    }
 	  capture_str = lw6ker_capture_str (game_state);

@@ -43,14 +43,16 @@ _mod_ogg_play_sound (_mod_ogg_context_t * snd_context, int sound_id)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to play sound %d, was not correctly loaded"),
+		      _x_
+		      ("unable to play sound %d, was not correctly loaded"),
 		      sound_id);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to play sound %d, index out of range"), sound_id);
+		  _x_ ("unable to play sound %d, index out of range"),
+		  sound_id);
     }
 
   ret = 1;
@@ -73,12 +75,13 @@ load_sound (_mod_ogg_context_t * ogg_context, char *file)
 	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("loading sound \"%s\""), path2);
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading sound \"%s\""),
+			  path2);
 	      ret = Mix_LoadWAV (path2);
 	      if (!ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("unable to load sound \"%s\" Mix_GetError returned \"%s\""),
 			      path2, Mix_GetError ());
 		}

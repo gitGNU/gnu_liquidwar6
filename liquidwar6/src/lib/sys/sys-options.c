@@ -793,67 +793,70 @@ lw6sys_options_log_defaults ()
   path = lw6sys_get_default_user_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default user dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default user dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_config_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default config file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default config file is \"%s\""),
+		  path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_log_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default log file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default log file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_prefix ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default prefix is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default prefix is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_mod_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default mod dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default mod dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_data_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default data dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default data dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_music_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default music dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default music dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_music_path ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default music path is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default music path is \"%s\""),
+		  path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_map_dir ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default map dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default map dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_map_path ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default map path is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default map path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_default_script_file ();
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("default script file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("default script file is \"%s\""),
+		  path);
       LW6SYS_FREE (path);
     }
 }
@@ -974,7 +977,8 @@ lw6sys_get_user_dir (int argc, char *argv[])
 	  lw6sys_create_dir_silent (user_dir);
 	  if (!lw6sys_dir_exists (user_dir))
 	    {
-	      lw6sys_log_critical (_("can't open user dir \"%s\""), user_dir);
+	      lw6sys_log_critical (_x_ ("can't open user dir \"%s\""),
+				   user_dir);
 	    }
 	}
     }
@@ -1203,7 +1207,7 @@ lw6sys_get_music_path (int argc, char *argv[])
 	{
 	  music_path =
 	    get_path_with_dir_and_user_dir (music_dir, user_dir, MUSIC_DIR, 1,
-					    _
+					    _x_
 					    ("This is your Liquid War 6 user music directory. You can put your own musics here, they will be automatically loaded by the game, and played."));
 	  if (music_path)
 	    {
@@ -1296,7 +1300,7 @@ lw6sys_get_map_path (int argc, char *argv[])
 	{
 	  map_path =
 	    get_path_with_dir_and_user_dir (map_dir, user_dir, MAP_DIR, 1,
-					    _
+					    _x_
 					    ("This is your Liquid War 6 user map directory. You can put your own maps here, they will be automatically loaded by the game, and appear in the menus. To create maps, you need to 1) read the documentation 2) study existing map to see how things work in practice and 3) be creative. FYI the Liquid War 6 map format is rather simple and hopefully well documented, the general idea is that a map is a directory containing files, the most important of them being 'map.png'. Again, read the documentation. I repeat: 'Read the docs!'. http://www.gnu.org/software/liquidwar6/manual/"));
 	  if (map_path)
 	    {
@@ -1379,79 +1383,79 @@ lw6sys_options_log (int argc, char *argv[])
   path = lw6sys_get_cwd (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("cwd is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("cwd is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_run_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("run dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("run dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_user_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("user dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("user dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_config_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("config file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("config file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_log_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("log file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("log file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_prefix (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("prefix is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("prefix is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_mod_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("mod dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("mod dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_data_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("data dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("data dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_music_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("music dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("music dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_music_path (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("music path is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("music path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_map_dir (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("map dir is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map dir is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_map_path (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("map path is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("map path is \"%s\""), path);
       LW6SYS_FREE (path);
     }
   path = lw6sys_get_script_file (argc, argv);
   if (path)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("script file is \"%s\""), path);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("script file is \"%s\""), path);
       LW6SYS_FREE (path);
     }
 }

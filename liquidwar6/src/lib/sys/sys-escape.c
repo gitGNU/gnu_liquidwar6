@@ -98,7 +98,7 @@ lw6sys_escape_http_uri (char *src)
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _
+				      _x_
 				      ("incorrect hexa conversion for %d \"%s\""),
 				      (int) c, hexa);
 			}
@@ -108,8 +108,8 @@ lw6sys_escape_http_uri (char *src)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("invalid character %d in uri"),
-			  (int) c);
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("invalid character %d in uri"), (int) c);
 	    }
 	}
       if (j <= _ESCAPE_HTTP_URI_LEN * len)
@@ -119,7 +119,7 @@ lw6sys_escape_http_uri (char *src)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("http uri escape string too long %d for %d/%d"), j,
+		      _x_ ("http uri escape string too long %d for %d/%d"), j,
 		      _ESCAPE_HTTP_URI_LEN * len, len);
 	}
     }
@@ -180,7 +180,7 @@ lw6sys_escape_html_attribute (char *src)
 		  break;
 		default:
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("unable to find a substitude for char %d"),
+			      _x_ ("unable to find a substitude for char %d"),
 			      (int) c);
 		  quot = "";
 		}
@@ -197,7 +197,8 @@ lw6sys_escape_html_attribute (char *src)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("html attribute escape string too long %d for %d/%d"),
+		      _x_
+		      ("html attribute escape string too long %d for %d/%d"),
 		      j, _ESCAPE_HTML_ATTRIBUTE_LEN * len, len);
 	}
     }
@@ -254,8 +255,8 @@ lw6sys_escape_sql_value (char *src)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("sql value escape string too long %d for %d/%d"), j,
-		      _ESCAPE_SQL_VALUE_LEN * len, len);
+		      _x_ ("sql value escape string too long %d for %d/%d"),
+		      j, _ESCAPE_SQL_VALUE_LEN * len, len);
 	}
     }
 

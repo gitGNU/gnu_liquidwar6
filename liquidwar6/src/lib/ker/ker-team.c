@@ -64,7 +64,7 @@ _lw6ker_team_init (lw6ker_team_t * team, lw6ker_map_struct_t * map_struct,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to allocate gradient"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to allocate gradient"));
     }
 
   return ret;
@@ -99,7 +99,7 @@ _lw6ker_team_sync (lw6ker_team_t * dst, lw6ker_team_t * src)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("team_copy only works if dst and src point to the same map_struct"));
     }
 
@@ -174,7 +174,8 @@ lw6ker_team_normalize_pot (lw6ker_team_t * team, lw6map_rules_t * rules)
   if (team->cursor_ref_pot <= 0 || team->cursor_ref_pot > max_pot)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("inconsistent cursor_ref_pot=%d (max_pot=%d, delta=%d)"),
+		  _x_
+		  ("inconsistent cursor_ref_pot=%d (max_pot=%d, delta=%d)"),
 		  team->cursor_ref_pot, max_pot, delta);
       team->cursor_ref_pot = rules->cursor_pot_init;
     }

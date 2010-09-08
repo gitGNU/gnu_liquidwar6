@@ -43,7 +43,7 @@ load_callback (void *callback_data, char *element, char *key, char *value)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("option \"%s\" not loaded"), key);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("option \"%s\" not loaded"), key);
     }
 }
 
@@ -52,7 +52,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, char *filename)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading config from \"%s\""), filename);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading config from \"%s\""), filename);
 
   if (lw6sys_file_exists (filename))
     {
@@ -63,7 +63,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, char *filename)
   else
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _("config file \"%s\" doesn't exist, using defaults"),
+		  _x_ ("config file \"%s\" doesn't exist, using defaults"),
 		  filename);
     }
 

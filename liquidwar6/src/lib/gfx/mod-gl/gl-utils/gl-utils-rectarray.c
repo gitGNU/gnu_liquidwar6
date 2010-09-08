@@ -81,7 +81,7 @@ mod_gl_utils_rect_array_init (mod_gl_utils_context_t *
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("rect_array dimensions are incorrect, w=%d, h=%d, tile_size=%d, last_w=%d, last_h=%d"),
 		      w, h, tile_size, rect_array->w[n_w - 1],
 		      rect_array->h[n_h - 1]);

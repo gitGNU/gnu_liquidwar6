@@ -77,7 +77,7 @@ lw6gfx_create_backend (int argc, char *argv[], char *name)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("graphical backend \"%s\" does not exist"), name);
+		  _x_ ("graphical backend \"%s\" does not exist"), name);
     }
 #else
   lw6dyn_dl_handle_t *backend_handle = NULL;
@@ -101,7 +101,7 @@ lw6gfx_create_backend (int argc, char *argv[], char *name)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("unable to find function \"%s\" in gfx backend \"%s\""),
 			  init_func_name, name);
 	    }
@@ -120,7 +120,7 @@ lw6gfx_create_backend (int argc, char *argv[], char *name)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to open gfx backend \"%s\""), name);
+		  _x_ ("unable to open gfx backend \"%s\""), name);
     }
 #endif
 

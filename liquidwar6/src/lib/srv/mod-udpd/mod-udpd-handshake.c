@@ -76,7 +76,7 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 					 LW6MSG_OOB_INFO)
       || lw6sys_str_starts_with_no_case (line, LW6MSG_OOB_LIST))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("recognized udpd protocol (OOB)"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol (OOB)"));
       ret = (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
@@ -87,13 +87,13 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 	   node_info->const_info.password, 0, node_info->const_info.id_int,
 	   NULL, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("message \"%s\" OK"), line);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" OK"), line);
 	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE;
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to analyse message \"%s\""),
-		      line);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("unable to analyse message \"%s\""), line);
 	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_DEAD;
 	}
     }
@@ -108,7 +108,8 @@ _mod_udpd_feed_with_tcp (_udpd_context_t * udpd_context,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_WARNING, _("trying to feed mod_udpd with tcp data"));
+  lw6sys_log (LW6SYS_LOG_WARNING,
+	      _x_ ("trying to feed mod_udpd with tcp data"));
 
   return ret;
 }
@@ -131,7 +132,7 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
     (_udpd_specific_data_t *) connection->backend_specific_data;
 
   envelope_line = udp_buffer->line;
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd received envelope \"%s\""),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd received envelope \"%s\""),
 	      envelope_line);
   if (lw6msg_envelope_analyse
       (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET, connection->local_url,
@@ -140,7 +141,8 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
        &logical_ticket_sig, &physical_from_id, &physical_to_id,
        &logical_from_id, &logical_to_id, NULL))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd analysed msg \"%s\""), msg);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd analysed msg \"%s\""),
+		  msg);
       /*
        * Now that we've received a packet we set the
        * connection remote port to the port it came
@@ -159,7 +161,7 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("no recv callback defined"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
 	}
       LW6SYS_FREE (msg);
     }

@@ -37,7 +37,7 @@ _mod_tcp_open (_tcp_context_t * tcp_context, char *local_url,
   lw6cnx_connection_t *ret = NULL;
   _tcp_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_tcp_open \"%s\""), remote_url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_tcp_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -50,8 +50,8 @@ _mod_tcp_open (_tcp_context_t * tcp_context, char *local_url,
       if (ret->backend_specific_data)
 	{
 	  specific_data->sock = LW6NET_SOCKET_INVALID;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open tcp connection with \"%s\""),
-		      remote_url);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("open tcp connection with \"%s\""), remote_url);
 	}
       else
 	{

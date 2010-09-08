@@ -38,7 +38,7 @@ _mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
   lw6cnx_connection_t *ret = NULL;
   _tcpd_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_tcpd_open \"%s\""), remote_url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_tcpd_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -50,8 +50,8 @@ _mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
       specific_data = (_tcpd_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("open tcpd connection with \"%s\""),
-		      remote_url);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("open tcpd connection with \"%s\""), remote_url);
 	}
       else
 	{

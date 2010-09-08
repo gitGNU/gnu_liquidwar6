@@ -371,7 +371,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		  if (lw6sys_url_is_canonized (param1))
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _
+				  _x_
 				  ("param1=\"%s\" is canonized URL, considering it an URL"),
 				  param1);
 		      received_url = param1;
@@ -379,7 +379,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _
+				  _x_
 				  ("param1=\"%s\" is not a canonized URL, considering it a password"),
 				  param1);
 		      received_password = param1;

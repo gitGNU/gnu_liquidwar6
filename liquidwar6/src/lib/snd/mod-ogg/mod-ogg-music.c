@@ -76,7 +76,7 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 	    {
 	      ret = 0;
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("file \"%s\" is not a music file, it can't be opened"),
 			  music_file);
 	    }
@@ -84,7 +84,7 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _
+		      _x_
 		      ("file \"%s\" is not a music file, extension is unknown"),
 		      music_file);
 	}
@@ -107,28 +107,28 @@ _mod_ogg_play_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 	{
 	  if (Mix_PlayMusic (ogg_context->music.music, -1) == 0)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("playing music file \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("playing music file \"%s\""),
 			  music_file);
 	      ret = 1;
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("can't play \%s\", SDL_mixer says \"%s\""),
+			  _x_ ("can't play \%s\", SDL_mixer says \"%s\""),
 			  music_file, Mix_GetError ());
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("can't load \%s\", SDL_mixer says \"%s\""),
+		      _x_ ("can't load \%s\", SDL_mixer says \"%s\""),
 		      music_file, Mix_GetError ());
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't play music \"%s\", one seems already active"),
+		  _x_ ("can't play music \"%s\", one seems already active"),
 		  music_file);
     }
 
@@ -142,8 +142,8 @@ _is_music_callback_func (void *func_data, char *file)
   _mod_ogg_context_t *ogg_context = (_mod_ogg_context_t *) func_data;
 
   ret = _mod_ogg_is_music_file (ogg_context, file);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("found file \"%s\" is_music_file=%d"), file,
-	      ret);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("found file \"%s\" is_music_file=%d"),
+	      file, ret);
 
   return ret;
 }

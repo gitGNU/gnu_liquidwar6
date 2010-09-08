@@ -73,7 +73,7 @@ _mod_httpd_response_from_bin (_httpd_context_t *
       if (response->content_type && response->content_data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("create response content_type=\"%s\" size=%d"),
+		      _x_ ("create response content_type=\"%s\" size=%d"),
 		      content_type, content_size);
 	}
       else
@@ -160,7 +160,8 @@ _mod_httpd_response_send (_httpd_context_t * httpd_context,
       tmp = _HTTP_500;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unknown response code %d"), status);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown response code %d"),
+		  status);
       status = _MOD_HTTPD_STATUS_500;
       tmp = _HTTP_500;
     }

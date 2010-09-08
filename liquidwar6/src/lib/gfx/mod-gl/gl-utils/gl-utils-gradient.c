@@ -44,7 +44,8 @@ mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
 
   if (layer_id < 0 || layer_id >= map_state->shape.d)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("layer %d out of range"), layer_id);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("layer %d out of range"),
+		  layer_id);
     }
 
   gradient_surface =

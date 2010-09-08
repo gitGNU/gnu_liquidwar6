@@ -67,7 +67,7 @@ lw6ldr_print_example_rules_xml (FILE * f)
   lw6map_rules_defaults (&rules);
 
   lw6sys_print_xml_header (f,
-			   _
+			   _x_
 			   ("This is an example Liquid War 6 'rules.xml' file. This file can be put along with a 'map.png' file to set up some parameters to your own preferred values. However, it's not required, a map can live without any 'rules.xml' file, defaults will be used, that's all. Note that this example only defines a few parameters, there are many more of them. The idea is to modify just the settings which are important for your map, and let the user choose the best values for other items. Happy hacking!"));
   lw6cfg_write_xml_int (f, LW6DEF_ROUNDS_PER_SEC, EXAMPLE_ROUNDS_PER_SEC);
   lw6cfg_write_xml_int (f, LW6DEF_MOVES_PER_ROUND, EXAMPLE_MOVES_PER_ROUND);
@@ -97,7 +97,7 @@ lw6ldr_print_example_hints_xml (FILE * f)
   memset (&hints, 0, sizeof (lw6ldr_hints_t));
   lw6ldr_hints_defaults (&hints);
   lw6sys_print_xml_header (f,
-			   _
+			   _x_
 			   ("This is an example Liquid War 6 'hints.xml' file. This file can be put along with a 'map.png' file to change the behavior of the map. It is used by the map loader to decide wether it should, for instance, adapt the map to the screen size, guess colors automatically, and such things. It does not really define any real map parameter, it just give clues to the map loader. Note that this example only defines a few parameters, there are many more of them. The idea is to modify just the settings which are important for your map, and let the user choose the best values for other items. Happy hacking!"));
 
   lw6cfg_write_xml_float (f, LW6DEF_FIGHTER_SCALE, EXAMPLE_FIGHTER_SCALE);
@@ -124,7 +124,7 @@ lw6ldr_print_example_style_xml (FILE * f)
   memset (&style, 0, sizeof (lw6map_style_t));
   lw6map_style_defaults (&style);
   lw6sys_print_xml_header (f,
-			   _
+			   _x_
 			   ("This is an example Liquid War 6 'style.xml' file. This file can be put along with a 'map.png' file to change the look of the map. It will not change the gameplay at all, all gameplay related parameters are in 'rules.xml', and, to some extent, 'hints.xml'. This file is not required, a map can live without any 'style.xml' file, defaults will be used, that's all. Note that this example only defines a few parameters, there are many more of them. The idea is to modify just the settings which are important for your map, and let the user choose the best values for other items. Happy hacking!"));
 
   lw6cfg_write_xml_bool (f, LW6DEF_GUESS_COLORS, EXAMPLE_GUESS_COLOR);
@@ -176,7 +176,7 @@ lw6ldr_print_examples (char *user_dir)
 	      if (f)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("writing example map rules file in \"%s\""),
 			      filename);
 		  lw6ldr_print_example_rules_xml (f);
@@ -192,7 +192,7 @@ lw6ldr_print_examples (char *user_dir)
 	      if (f)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("writing example map hints file in \"%s\""),
 			      filename);
 		  lw6ldr_print_example_hints_xml (f);
@@ -208,7 +208,7 @@ lw6ldr_print_examples (char *user_dir)
 	      if (f)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("writing example map style file in \"%s\""),
 			      filename);
 		  lw6ldr_print_example_style_xml (f);

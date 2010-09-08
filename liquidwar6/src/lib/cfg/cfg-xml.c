@@ -171,7 +171,7 @@ element_start (void *data, const char *element, const char **attr)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("XML callback function is NULL"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("XML callback function is NULL"));
     }
 }
 
@@ -225,14 +225,14 @@ lw6cfg_read_key_value_xml_file (char *filename,
 		   * stupid warning at startup.
 		   */
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
 			      filename,
 			      XML_GetCurrentLineNumber (parser),
 			      XML_ErrorString (XML_GetErrorCode (parser)));
 #else
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("parse error reading XML file \"%s\" at line %d: \"%s\""),
 			      filename,
 			      XML_GetCurrentLineNumber (parser),

@@ -115,7 +115,7 @@ _update_game_surface_raw (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
 		  x0, x1, surface->w, y0, y1, surface->h);
     }
@@ -268,7 +268,7 @@ _update_game_surface (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("wrong surface dimension x0=%d x1=%d surface->w=%d y0=%d y1=%d surface->h=%d"),
 		  x0, x1, surface->w, y0, y1, surface->h);
     }

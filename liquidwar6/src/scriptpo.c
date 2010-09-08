@@ -132,7 +132,7 @@ _("Back to main menu");		// extracted by scriptpo-update.sh
 _("Play");			// extracted by scriptpo-update.sh
 _("Play");			// extracted by scriptpo-update.sh
 _("running \"~a\"");		// extracted by scriptpo-update.sh
-_("log is \"~a\"");		// extracted by scriptpo-update.sh
+_("log file \"~a\"");		// extracted by scriptpo-update.sh
 _("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("environment \"~a\" is \"~a\"");	// extracted by scriptpo-update.sh
 _("upgrading to version ~a");	// extracted by scriptpo-update.sh

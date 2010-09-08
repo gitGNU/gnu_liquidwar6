@@ -174,7 +174,7 @@ test_coord ()
 	 TEST_SRC_Y, TEST_SRC_X0, TEST_SRC_Y0, TEST_SRC_W, TEST_SRC_H))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("calc_xy returned %f,%f (%f,%f/%fx%f) with source %f,%f (%f,%f/%fx%f)"),
 		    x, y, TEST_DST_X0, TEST_DST_Y0, TEST_DST_W, TEST_DST_H,
 		    TEST_SRC_X, TEST_SRC_Y, TEST_SRC_X0, TEST_SRC_Y0,
@@ -221,13 +221,13 @@ test_input ()
 		repeat_settings.interval = TEST_REPEAT_INTERVAL;
 		lw6gui_input_update_repeat (src, &repeat_settings, 0);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("need_sync (before sync) dst=%d src=%d"),
+			    _x_ ("need_sync (before sync) dst=%d src=%d"),
 			    lw6gui_input_need_sync (dst),
 			    lw6gui_input_need_sync (src));
 		if (lw6gui_input_sync (dst, src))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("need_sync (after sync) dst=%d src=%d"),
+				_x_ ("need_sync (after sync) dst=%d src=%d"),
 				lw6gui_input_need_sync (dst),
 				lw6gui_input_need_sync (src));
 		    keypress =
@@ -235,7 +235,7 @@ test_input ()
 		    if (keypress)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("keypress synchronisation is OK"));
+				    _x_ ("keypress synchronisation is OK"));
 			lw6gui_keypress_free (keypress);
 		      }
 		    else
@@ -246,7 +246,7 @@ test_input ()
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_("synchronisation error"));
+				_x_ ("synchronisation error"));
 		    ret = 0;
 		  }
 	      }
@@ -300,7 +300,7 @@ test_joystick ()
 				   TEST_JOYSTICK_LIMIT, 0);
     lw6gui_joystick_get_move_pad (&joystick, &move_pad);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("joystick up=%d, down=%d, left=%d, right=%d"),
+		_x_ ("joystick up=%d, down=%d, left=%d, right=%d"),
 		move_pad.up, move_pad.down, move_pad.left, move_pad.right);
   }
 
@@ -338,7 +338,7 @@ test_keyboard ()
 	if (lw6gui_keyboard_register_key_down
 	    (&(input->keyboard), TEST_KEYSYM, TEST_UNICODE, TEST_LABEL, 0))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("key %d pressed=%d"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("key %d pressed=%d"),
 			TEST_KEYSYM,
 			lw6gui_keyboard_is_pressed (&(input->keyboard),
 						    TEST_KEYSYM));
@@ -351,14 +351,15 @@ test_keyboard ()
 		    lw6gui_keyboard_get_move_pad (&(input->keyboard),
 						  &move_pad);
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("keyboard up=%d, down=%d, left=%d, right=%d"),
 				move_pad.up, move_pad.down, move_pad.left,
 				move_pad.right);
 		    repr = lw6gui_keypress_repr (keypress);
 		    if (repr)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE, _("keysym %d popped"),
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("keysym %d popped"),
 				    keypress->keysym);
 			LW6SYS_FREE (repr);
 		      }
@@ -418,7 +419,7 @@ test_keypress ()
 	repr = lw6gui_keypress_repr (keypress);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("keypress repr is \"%s\""),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keypress repr is \"%s\""),
 			repr);
 	    LW6SYS_FREE (repr);
 	  }
@@ -459,12 +460,12 @@ test_look ()
 	repr = lw6gui_look_repr (look);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("look repr is %s"), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("look repr is %s"), repr);
 	    LW6SYS_FREE (repr);
 	  }
 	if (!lw6gui_look_is_same (look, look))
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("look comparison failed"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("look comparison failed"));
 	    ret = 0;
 	  }
 	if (lw6gui_look_set (look, TEST_LOOK_KEY1, TEST_LOOK_VALUE1))
@@ -473,14 +474,14 @@ test_look ()
 	    if (value)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("look value for key \"%s\" is \"%s\""),
+			    _x_ ("look value for key \"%s\" is \"%s\""),
 			    TEST_LOOK_KEY1, value);
 		LW6SYS_FREE (value);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to get look key \"%s\""),
+			    _x_ ("unable to get look key \"%s\""),
 			    TEST_LOOK_KEY1);
 		ret = 0;
 	      }
@@ -488,7 +489,7 @@ test_look ()
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("unable to set look key \"%s\" to \"%s\""),
+			_x_ ("unable to set look key \"%s\" to \"%s\""),
 			TEST_LOOK_KEY1, TEST_LOOK_VALUE1);
 	    ret = 0;
 	  }
@@ -498,14 +499,14 @@ test_look ()
 	    if (value)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("look value for key \"%s\" is \"%s\""),
+			    _x_ ("look value for key \"%s\" is \"%s\""),
 			    TEST_LOOK_KEY2, value);
 		LW6SYS_FREE (value);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to get look key \"%s\""),
+			    _x_ ("unable to get look key \"%s\""),
 			    TEST_LOOK_KEY2);
 		ret = 0;
 	      }
@@ -513,16 +514,17 @@ test_look ()
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("unable to set look key \"%s\" to \"%s\""),
+			_x_ ("unable to set look key \"%s\" to \"%s\""),
 			TEST_LOOK_KEY2, TEST_LOOK_VALUE2);
 	    ret = 0;
 	  }
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("zoom is %f"), look->dynamic_zoom);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("zoom is %f"),
+		    look->dynamic_zoom);
 	lw6gui_look_zoom_in (look, TEST_LOOK_ZOOM_STEP);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("after zoom in zoom is %f"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("after zoom in zoom is %f"),
 		    look->dynamic_zoom);
 	lw6gui_look_zoom_out (look, TEST_LOOK_ZOOM_STEP);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("after zoom out zoom is %f"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("after zoom out zoom is %f"),
 		    look->dynamic_zoom);
 	look2 = lw6gui_look_dup (look);
 	if (look2)
@@ -531,21 +533,21 @@ test_look ()
 	    if (repr)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("duplicated, look2 repr is %s"), repr);
+			    _x_ ("duplicated, look2 repr is %s"), repr);
 		LW6SYS_FREE (repr);
 	      }
 	    lw6gui_look_free (look2);
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("unable to duplicate look"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to duplicate look"));
 	    ret = 0;
 	  }
 	lw6gui_look_free (look);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create look"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create look"));
 	ret = 0;
       }
     lw6map_style_clear (&style);
@@ -583,7 +585,7 @@ test_menuitem ()
 	repr = lw6gui_menuitem_repr (menuitem);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("menuitem repr is %s"), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("menuitem repr is %s"), repr);
 	    LW6SYS_FREE (repr);
 	  }
 	else
@@ -592,7 +594,8 @@ test_menuitem ()
 	  }
 	if (!lw6gui_menuitem_is_same (menuitem, menuitem))
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("menuitem comparison failed"));
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("menuitem comparison failed"));
 	  }
 	menuitem2 = lw6gui_menuitem_dup (menuitem);
 	if (menuitem2)
@@ -604,7 +607,7 @@ test_menuitem ()
 		if (repr)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("menuitem duplicate repr is %s"), repr);
+				_x_ ("menuitem duplicate repr is %s"), repr);
 		    LW6SYS_FREE (repr);
 		  }
 		else
@@ -655,7 +658,7 @@ test_menu ()
 	repr = lw6gui_menu_repr (menu);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("menu repr is %s"), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("menu repr is %s"), repr);
 	    LW6SYS_FREE (repr);
 	  }
 	else
@@ -664,7 +667,7 @@ test_menu ()
 	  }
 	if (!lw6gui_menu_is_same (menu, menu))
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("menu comparison failed"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu comparison failed"));
 	  }
 	lw6gui_menu_free (menu);
       }
@@ -729,8 +732,8 @@ test_menu ()
 		    repr = lw6gui_menu_repr (menu);
 		    if (repr)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE, _("menu repr is %s"),
-				    repr);
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("menu repr is %s"), repr);
 			LW6SYS_FREE (repr);
 		      }
 		    else
@@ -747,7 +750,7 @@ test_menu ()
 			    if (repr)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("menu duplicate repr is %s"),
+					    _x_ ("menu duplicate repr is %s"),
 					    repr);
 				LW6SYS_FREE (repr);
 			      }
@@ -847,25 +850,25 @@ test_smoother ()
     lw6gui_smoother_init (&smoother, TEST_SMOOTHER_VALUE1,
 			  TEST_SMOOTHER_DURATION);
     lw6sys_delay (TEST_SMOOTHER_DELAY);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("smoother init %f"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("smoother init %f"),
 		lw6gui_smoother_get_value (&smoother,
 					   lw6sys_get_timestamp ()));
     lw6gui_smoother_immediate_force (&smoother, TEST_SMOOTHER_VALUE2);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("smoother force %f"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("smoother force %f"),
 		lw6gui_smoother_get_value (&smoother,
 					   lw6sys_get_timestamp ()));
     lw6gui_smoother_set_target (&smoother, TEST_SMOOTHER_VALUE3,
 				lw6sys_get_timestamp ());
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("smoother set target %f"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("smoother set target %f"),
 		TEST_SMOOTHER_VALUE3);
     lw6sys_delay (TEST_SMOOTHER_DELAY);
     lw6gui_smoother_set_target (&smoother, TEST_SMOOTHER_VALUE4,
 				lw6sys_get_timestamp ());
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("smoother set target %f"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("smoother set target %f"),
 		TEST_SMOOTHER_VALUE4);
     for (i = 0; i < TEST_SMOOTHER_N; i++)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("smoother value is %f"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("smoother value is %f"),
 		    lw6gui_smoother_get_value (&smoother,
 					       lw6sys_get_timestamp ()));
 	lw6sys_delay (TEST_SMOOTHER_DELAY);
@@ -919,20 +922,21 @@ test_video_mode ()
 
 	lw6gui_video_mode_find_closest (&closest, &wished, available);
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("closest video_mode to %dx%d is %dx%d"), wished.width,
-		    wished.height, closest.width, closest.height);
+		    _x_ ("closest video_mode to %dx%d is %dx%d"),
+		    wished.width, wished.height, closest.width,
+		    closest.height);
 
 	if (lw6gui_video_mode_is_same (&available_1, &available_1))
 	  {
 	    if (!lw6gui_video_mode_is_same (&available_2, &available_3))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("video mode comparison works"));
+			    _x_ ("video mode comparison works"));
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("can't compare %dx%d with %dx%d"),
+			    _x_ ("can't compare %dx%d with %dx%d"),
 			    available_2.width, available_2.height,
 			    available_3.width, available_3.height);
 		ret = 0;
@@ -941,7 +945,7 @@ test_video_mode ()
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("error comparing %dx%d with itself"),
+			_x_ ("error comparing %dx%d with itself"),
 			available_1.width, available_1.height);
 	    ret = 0;
 	  }
@@ -956,7 +960,7 @@ test_video_mode ()
     if (lw6gui_video_mode_sync_ratio (&ratio_dst, &ratio_src))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("applying ratio %dx%d to %dx%d gives %dx%d"),
+		    _x_ ("applying ratio %dx%d to %dx%d gives %dx%d"),
 		    TEST_VIDEO_MODE_RATIO_SRC_WIDTH,
 		    TEST_VIDEO_MODE_RATIO_SRC_HEIGHT,
 		    TEST_VIDEO_MODE_RATIO_DST_WIDTH,
@@ -976,7 +980,7 @@ test_video_mode ()
 static void
 log_zone (lw6gui_zone_t * zone, char *comment)
 {
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%s x1=%f y1=%f x2=%f y2=%f w=%f h=%f"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s x1=%f y1=%f x2=%f y2=%f w=%f h=%f"),
 	      comment, zone->x1, zone->y1, zone->x2, zone->y2, zone->w,
 	      zone->h);
 }
@@ -1003,7 +1007,7 @@ test_viewport ()
 	 global_zoom < TEST_VIEWPORT_GLOBAL_ZOOM_MAX;
 	 global_zoom *= TEST_VIEWPORT_GLOBAL_ZOOM_STEP)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("testing viewport with zoom=%f"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing viewport with zoom=%f"),
 		    global_zoom);
 	lw6gui_viewport_init (&viewport, TEST_VIEWPORT_SCREEN_W,
 			      TEST_VIEWPORT_SCREEN_H,
@@ -1018,10 +1022,10 @@ test_viewport ()
 			      TEST_VIEWPORT_X_WRAP,
 			      TEST_VIEWPORT_Y_WRAP,
 			      TEST_VIEWPORT_KEEP_RATIO, global_zoom);
-	log_zone (&viewport.drawable, _("drawable"));
-	log_zone (&viewport.map_main, _("map_main"));
-	log_zone (&viewport.map_main_clipped, _("map_main_clipped"));
-	log_zone (&viewport.map_visible, _("visible"));
+	log_zone (&viewport.drawable, _x_ ("drawable"));
+	log_zone (&viewport.map_main, _x_ ("map_main"));
+	log_zone (&viewport.map_main_clipped, _x_ ("map_main_clipped"));
+	log_zone (&viewport.map_visible, _x_ ("visible"));
 	for (i = 0; i < TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
 	  {
 	    map_x = lw6sys_random_float (0.0f, TEST_VIEWPORT_MAP_W);
@@ -1029,7 +1033,7 @@ test_viewport ()
 	    lw6gui_viewport_map_to_screen (&viewport, &screen_x, &screen_y,
 					   map_x, map_y, TEST_VIEWPORT_CLIP);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("map ( %f , %f ) -> screen ( %f , %f )"), map_x,
+			_x_ ("map ( %f , %f ) -> screen ( %f , %f )"), map_x,
 			map_y, screen_x, screen_y);
 	  }
 	for (i = 0; i < TEST_VIEWPORT_NB_RANDOM_TRIES; ++i)
@@ -1040,8 +1044,8 @@ test_viewport ()
 					   screen_x, screen_y,
 					   TEST_VIEWPORT_WRAP);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("screen ( %f , %f ) -> map ( %f , %f )"), screen_x,
-			screen_y, map_x, map_y);
+			_x_ ("screen ( %f , %f ) -> map ( %f , %f )"),
+			screen_x, screen_y, map_x, map_y);
 	  }
       }
   }
@@ -1065,12 +1069,12 @@ test_zone ()
 
     lw6gui_zone_init_x1y1x2y2 (&zone1, TEST_ZONE1_X1, TEST_ZONE1_Y1,
 			       TEST_ZONE1_X2, TEST_ZONE1_Y2);
-    log_zone (&zone1, _("zone1"));
+    log_zone (&zone1, _x_ ("zone1"));
     lw6gui_zone_init_x1y1x2y2 (&zone1, TEST_ZONE2_X, TEST_ZONE2_Y,
 			       TEST_ZONE2_W, TEST_ZONE2_H);
-    log_zone (&zone2, _("zone2"));
+    log_zone (&zone2, _x_ ("zone2"));
     lw6gui_zone_clip (&zone3, &zone1, &zone2);
-    log_zone (&zone3, _("zone3"));
+    log_zone (&zone3, _x_ ("zone3"));
   }
   LW6SYS_TEST_FUNCTION_END;
   return ret;

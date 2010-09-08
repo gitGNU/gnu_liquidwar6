@@ -51,48 +51,48 @@ test_atom ()
     if (_lw6dat_atom_get_text (&atom))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("get text returned something on a zeroed atom"));
+		    _x_ ("get text returned something on a zeroed atom"));
 	ret = 0;
       }
     _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
     text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
     text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
     text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
     text = _lw6dat_atom_get_text (&atom);
     if (text)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("atom text is \"%s\""), text);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to get atom text"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
     _lw6dat_atom_clear (&atom);
   }
@@ -158,7 +158,7 @@ test_warehouse ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("couldn't create warehouse object"));
+		    _x_ ("couldn't create warehouse object"));
       }
   }
 

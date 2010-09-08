@@ -55,7 +55,7 @@ mod_gl_utils_prepare_buffer (mod_gl_utils_context_t * utils_context,
 				      &(look->style));
   if (utils_context->render_param.gfx_quality != look->gfx_quality)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("set rendering gfx_quality to %d"),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("set rendering gfx_quality to %d"),
 		  look->gfx_quality);
       utils_context->render_param.gfx_quality = look->gfx_quality;
       mod_gl_utils_timer_set_bitmap_refresh (utils_context);

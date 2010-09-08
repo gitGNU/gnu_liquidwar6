@@ -34,7 +34,7 @@ _mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("udpd init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udpd init"));
 
   udpd_context = (_udpd_context_t *) LW6SYS_CALLOC (sizeof (_udpd_context_t));
   if (udpd_context)
@@ -66,7 +66,7 @@ _mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 void
 _mod_udpd_quit (_udpd_context_t * udpd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("udpd quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udpd quit"));
   _mod_udpd_unload_data (&(udpd_context->data));
   LW6SYS_FREE (udpd_context);
 }

@@ -1,5 +1,7 @@
 2010-09-08 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Massive gettext strategy changed, using dummy _x_ alternative.
+
 	* Bar response sent when receiving foo.
 
 2010-09-07 : Christian Mauduit <ufoot@ufoot.org>

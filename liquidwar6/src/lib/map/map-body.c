@@ -54,7 +54,7 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
       (&body->shape, LW6MAP_MIN_SIDE, LW6MAP_MAX_SIDE, LW6MAP_MAX_DEPTH))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("incorrect default map size %dx%dx%d"), body->shape.w,
+		  _x_ ("incorrect default map size %dx%dx%d"), body->shape.w,
 		  body->shape.h, body->shape.d);
     }
   for (layer = 0; layer < body->shape.d; ++layer)

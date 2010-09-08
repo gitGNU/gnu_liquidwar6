@@ -66,7 +66,7 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
   if (!lw6map_color_set_is_same
       (&(utils_context->textures_1x1.color_set), &(look->style.color_set)))
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("updating textures_1x1"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("updating textures_1x1"));
       mod_gl_utils_texture_1x1_clear (utils_context);
       utils_context->textures_1x1.color_set = look->style.color_set;
 

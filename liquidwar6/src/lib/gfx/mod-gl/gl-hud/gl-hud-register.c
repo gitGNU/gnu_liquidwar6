@@ -49,7 +49,7 @@ mod_gl_hud_create_backend (mod_gl_utils_context_t * utils_context, char *name)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("hud backend \"%s\" does not exists"), name);
+		  _x_ ("hud backend \"%s\" does not exists"), name);
     }
 
   if (init_func)

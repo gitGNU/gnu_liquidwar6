@@ -57,7 +57,7 @@ to_0str (SCM string)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("unable to convert a guile SCM string to a standard C \"'\\0' terminated\" string"));
     }
 
@@ -8482,7 +8482,7 @@ lw6_cns_handler (char *c_line)
 
   if (c_line)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("interpreting console input \"%s\""),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""),
 		  c_line);
 
       lw6cns_history_add_if_needed (c_line);
@@ -8495,7 +8495,7 @@ lw6_cns_handler (char *c_line)
     }
   else
     {
-      printf (_("(quit) or CTRL-C to quit"));
+      printf (_x_ ("(quit) or CTRL-C to quit"));
       printf ("\n");
     }
 }

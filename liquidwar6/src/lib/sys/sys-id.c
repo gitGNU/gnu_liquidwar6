@@ -252,13 +252,13 @@ lw6sys_id_atol (char *id)
       if (!sscanf (id, scan_format_u_int64, &ret))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("id \"%s\" is not valid (sscanf error)"), id);
+		      _x_ ("id \"%s\" is not valid (sscanf error)"), id);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("id \"%s\" is not valid (bad length)"), id);
+		  _x_ ("id \"%s\" is not valid (bad length)"), id);
     }
 
   if (!lw6sys_check_id (ret))

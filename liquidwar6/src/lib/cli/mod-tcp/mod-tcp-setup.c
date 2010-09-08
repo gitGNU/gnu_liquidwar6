@@ -34,7 +34,7 @@ _mod_tcp_init (int argc, char *argv[])
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("tcp init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcp init"));
 
   tcp_context = (_tcp_context_t *) LW6SYS_CALLOC (sizeof (_tcp_context_t));
   if (tcp_context)
@@ -66,7 +66,7 @@ _mod_tcp_init (int argc, char *argv[])
 void
 _mod_tcp_quit (_tcp_context_t * tcp_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("tcp quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcp quit"));
   _mod_tcp_unload_data (&(tcp_context->data));
   LW6SYS_FREE (tcp_context);
 }

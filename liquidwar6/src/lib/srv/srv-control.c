@@ -87,6 +87,6 @@ lw6srv_stop (lw6srv_listener_t * listener)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL listener"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL listener"));
     }
 }

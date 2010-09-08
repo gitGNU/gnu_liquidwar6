@@ -48,13 +48,13 @@ _test_base64_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("base64 encoded version of \"%s\" is \"%s\""),
+		      _x_ ("base64 encoded version of \"%s\" is \"%s\""),
 		      test_str, base64_str);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("base64 encoding, result \"%s\""), base64_str);
+		      _x_ ("base64 encoding, result \"%s\""), base64_str);
 	}
       str = lw6glb_base64_decode_str (base64_str);
       if (str)
@@ -64,14 +64,14 @@ _test_base64_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _
+			      _x_
 			      ("base64 string \"%s\" correctly decoded to \"%s\""),
 			      base64_str, str);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _
+			      _x_
 			      ("base64 string \"%s\" correctly decoded"),
 			      base64_str);
 		}
@@ -81,7 +81,7 @@ _test_base64_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\""),
 			      base64_str, str, test_str);
 		}
@@ -92,7 +92,8 @@ _test_base64_ok (char *test_str, int log_all)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to decode \"%s\" from base64"), base64_str);
+		      _x_ ("unable to decode \"%s\" from base64"),
+		      base64_str);
 	  ret = 0;
 	}
       LW6SYS_FREE (base64_str);
@@ -102,11 +103,11 @@ _test_base64_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to encode \"%s\" in base64"), test_str);
+		      _x_ ("unable to encode \"%s\" in base64"), test_str);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to encode in base64"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to encode in base64"));
 	}
       ret = 0;
     }
@@ -118,14 +119,14 @@ _test_base64_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _
+		      _x_
 		      ("base64 encoded version of \"%s\" is \"%s\" (prefix=\"%s\")"),
 		      test_str, base64_str, _TEST_BASE64_PREFIX);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _
+		      _x_
 		      ("base64 encoding result is \"%s\" (prefix=\"%s\")"),
 		      base64_str, _TEST_BASE64_PREFIX);
 	}
@@ -137,14 +138,14 @@ _test_base64_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _
+			      _x_
 			      ("base64 string \"%s\" correctly decoded to \"%s\" (prefix=\"%s\")"),
 			      base64_str, str, _TEST_BASE64_PREFIX);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _
+			      _x_
 			      ("base64 string \"%s\" correctly decoded (prefix=\"%s\")"),
 			      base64_str, _TEST_BASE64_PREFIX);
 		}
@@ -154,7 +155,7 @@ _test_base64_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\" (prefix=\"%s\")"),
 			      base64_str, str, test_str, _TEST_BASE64_PREFIX);
 		}
@@ -165,7 +166,7 @@ _test_base64_ok (char *test_str, int log_all)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("unable to decode \"%s\" from base64 (prefix=\"%s\")"),
 		      base64_str, _TEST_BASE64_PREFIX);
 	  ret = 0;
@@ -177,13 +178,14 @@ _test_base64_ok (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to encode \"%s\" in base64 (prefix=\"%s\")"),
+		      _x_
+		      ("unable to encode \"%s\" in base64 (prefix=\"%s\")"),
 		      test_str, _TEST_BASE64_PREFIX);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to encode in base64 (prefix=\"%s\")"),
+		      _x_ ("unable to encode in base64 (prefix=\"%s\")"),
 		      _TEST_BASE64_PREFIX);
 	}
       ret = 0;
@@ -204,14 +206,14 @@ _test_base64_ko (char *test_str, int log_all)
       if (strlen (str) > 0)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _
+		      _x_
 		      ("base64 routine was able to decode \"%s\", this is in theory wrong, but we just keep going to check if nothing real bad happen (buffer overflow, core dump...)"),
 		      test_str);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("base64 routine decoded \"\" to itself"));
+		      _x_ ("base64 routine decoded \"\" to itself"));
 	}
       LW6SYS_FREE (str);
     }
@@ -220,12 +222,13 @@ _test_base64_ko (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("unable to decode \"%s\", this is normal"), test_str);
+		      _x_ ("unable to decode \"%s\", this is normal"),
+		      test_str);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _
+		      _x_
 		      ("unable to decode arbitrary non base64-like string, this is normal"));
 	}
     }
@@ -287,7 +290,7 @@ test_sha1 ()
 	sha1_32 = lw6glb_sha1_hmac_32_str (NULL, random_str);
 	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sha1_80=%s sha1_32=%08x"),
 			sha1_80, sha1_32);
 	    LW6SYS_FREE (sha1_80);
 	  }
@@ -299,7 +302,7 @@ test_sha1 ()
 	sha1_32 = lw6glb_sha1_hmac_32_str (_TEST_SHA1_KEY, random_str);
 	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sha1_80=%s sha1_32=%08x"),
 			sha1_80, sha1_32);
 	    LW6SYS_FREE (sha1_80);
 	  }
@@ -311,7 +314,7 @@ test_sha1 ()
 	sha1_32 = lw6glb_sha1_hmac_32_str (_TEST_SHA1_KEY, _TEST_SHA1_KEY);
 	if (sha1_80)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("sha1_80=%s sha1_32=%08x"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sha1_80=%s sha1_32=%08x"),
 			sha1_80, sha1_32);
 	    LW6SYS_FREE (sha1_80);
 	  }
@@ -322,12 +325,12 @@ test_sha1 ()
 	if (sha1_32 == _TEST_SHA1_CHECK)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("sha1 returned the right value on latest test"));
+			_x_ ("sha1 returned the right value on latest test"));
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("sha1 for \"%s\" returned %08x, should have been %08x"),
 			_TEST_SHA1_KEY, sha1_32, _TEST_SHA1_CHECK);
 	    ret = 0;

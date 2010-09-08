@@ -89,7 +89,7 @@ _load_consts (_httpd_consts_t * consts, char *consts_file)
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), consts_file);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), consts_file);
 
   ret =
     lw6cfg_read_key_value_xml_file (consts_file, _read_callback,
@@ -113,7 +113,8 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
   int ret = 1;
   char *filename = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading htdocs from \"%s\""), htdocs_dir);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading htdocs from \"%s\""),
+	      htdocs_dir);
 
   filename = lw6sys_path_concat (htdocs_dir, _INDEX_HTML_FILE);
   if (filename)

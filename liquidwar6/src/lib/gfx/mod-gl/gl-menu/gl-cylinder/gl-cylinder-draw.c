@@ -112,7 +112,7 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create quadric"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
     }
 }
 
@@ -163,7 +163,7 @@ _mod_gl_menu_cylinder_draw_sphere (mod_gl_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create quadric"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
     }
 }
 
@@ -215,6 +215,6 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create quadric"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
     }
 }

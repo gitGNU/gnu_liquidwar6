@@ -96,27 +96,27 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 	  if (oob->data.public_url)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("joining cli OOB thread connecting on \"%s\" this might take some time..."),
 			  oob->data.public_url);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("joining cli OOB thread, this might take some time..."));
 	    }
 	  lw6sys_thread_join (oob->thread);
 	  if (oob->data.public_url)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("joined cli OOB thread connecting on \"%s\""),
 			  oob->data.public_url);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("joined cli OOB thread"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joined cli OOB thread"));
 	    }
 	}
 
@@ -125,10 +125,10 @@ lw6cli_oob_free (lw6cli_oob_t * oob)
 	  LW6SYS_FREE (oob->data.public_url);
 	}
       LW6SYS_FREE (oob);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("oob freed"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("oob freed"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL oob"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL oob"));
     }
 }

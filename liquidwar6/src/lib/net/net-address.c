@@ -65,10 +65,12 @@ _lw6net_inet_aton (struct in_addr *in, char *ip)
   else
     {
 #ifdef LW6_MS_WINDOWS
-      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_addr() failed, ip=\"%s\""), ip);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("inet_addr() failed, ip=\"%s\""),
+		  ip);
       lw6net_last_error ();
 #else
-      lw6sys_log (LW6SYS_LOG_WARNING, _("inet_aton() failed, ip=\"%s\""), ip);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("inet_aton() failed, ip=\"%s\""),
+		  ip);
       lw6net_last_error ();
 #endif
     }

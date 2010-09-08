@@ -35,7 +35,7 @@ _get_text_wh (TTF_Font * font, char *text, int *width, int *height)
   if (TTF_SizeUTF8 (font, text, width, height) == -1)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("unable to calculate font width and height for text \"%s\""),
 		  text);
       width = 0;
@@ -100,7 +100,8 @@ mod_gl_utils_blended_text_surface (mod_gl_utils_context_t * utils_context,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("TTF_RenderUTF8_Blended failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("TTF_RenderUTF8_Blended failed"));
 	}
       LW6SYS_FREE (utf8);
     }
@@ -132,7 +133,8 @@ _draw_text (mod_gl_utils_context_t * utils_context,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to draw text \"%s\""), text);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to draw text \"%s\""),
+		  text);
     }
 }
 

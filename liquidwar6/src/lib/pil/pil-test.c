@@ -99,12 +99,12 @@ test_bench ()
 
     if (lw6pil_bench (&bench_result, NULL))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("bench=%0.1f"), bench_result);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bench=%0.1f"), bench_result);
 	ret = 1;
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("bench failed"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bench failed"));
       }
   }
 
@@ -123,7 +123,7 @@ command_map_func (void *func_data, void *data)
   if (repr)
     {
       (*ret) = 1;
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("command=\"%s\""), repr);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("command=\"%s\""), repr);
       LW6SYS_FREE (repr);
     }
 }
@@ -155,7 +155,7 @@ test_command ()
 		if (repr)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("command \"%s\" interpreted as \"%s\""),
+				_x_ ("command \"%s\" interpreted as \"%s\""),
 				test_commands[i], repr);
 		    LW6SYS_FREE (repr);
 		    ret = 1;
@@ -214,7 +214,7 @@ test_coords ()
 	  {
 	    rules.x_polarity = px;
 	    rules.y_polarity = py;
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("polarity set to %d,%d"), px,
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("polarity set to %d,%d"), px,
 			py);
 	    for (i = 0; i < TEST_COORDS_NB; ++i)
 	      {
@@ -222,11 +222,12 @@ test_coords ()
 		y = test_y[i];
 		z = TEST_COORDS_Z;
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
+			    _x_ ("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
 		lw6pil_coords_fix (&rules, &shape, &x, &y, &z);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("coords after fix %0.2f,%0.2f,0.2f"), x, y, z);
+			    _x_ ("coords after fix %0.2f,%0.2f,0.2f"), x, y,
+			    z);
 	      }
 	  }
       }
@@ -246,7 +247,7 @@ print_game_state (lw6ker_game_state_t * game_state, char *text)
   capture_str = lw6ker_capture_str (game_state);
   if (capture_str)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("%s round=%d"), text,
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s round=%d"), text,
 		  lw6ker_game_state_get_rounds (game_state));
       printf ("%s", capture_str);
       fflush (stdout);
@@ -292,7 +293,7 @@ test_local_cursors ()
 			(&local_cursors, &x, &y, &mouse_controlled,
 			 _TEST_LOCAL_CURSORS_ID1))
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _
+				  _x_
 				  ("cursor %x is at %d,%d mouse_controlled=%d"),
 				  _TEST_LOCAL_CURSORS_ID1, x, y,
 				  mouse_controlled);
@@ -304,7 +305,7 @@ test_local_cursors ()
 			     &mouse_controlled))
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_
+					_x_
 					("main cursor %x is at %d,%d mouse_controlled=%d"),
 					cursor_id, x, y, mouse_controlled);
 			    if (lw6pil_local_cursors_get_cursor
@@ -366,7 +367,7 @@ test_pilot ()
 		    if (repr)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("pilot \"%s\" start"), repr);
+				    _x_ ("pilot \"%s\" start"), repr);
 
 			for (i = 0; test_commands[i]; i += 2)
 			  {
@@ -403,16 +404,18 @@ test_pilot ()
 			    if (i == TEST_SYNC_COMMAND_I)
 			      {
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("can_sync: %d"),
+					    _x_ ("can_sync: %d"),
 					    lw6pil_pilot_can_sync (game_state,
 								   pilot));
 				lw6pil_pilot_sync_from_reference (game_state,
 								  pilot);
-				print_game_state (game_state, _("reference"));
+				print_game_state (game_state,
+						  _x_ ("reference"));
 
 				lw6pil_pilot_sync_from_backup (game_state,
 							       pilot);
-				print_game_state (game_state, _("backup 1"));
+				print_game_state (game_state,
+						  _x_ ("backup 1"));
 
 				lw6pil_pilot_make_backup (pilot);
 
@@ -422,14 +425,15 @@ test_pilot ()
 				       (game_state) < TEST_BACKUP_ROUND)
 				  {
 				    lw6sys_log (LW6SYS_LOG_WARNING,
-						_
+						_x_
 						("waiting for backup at round %d, is your computer slow or what?"),
 						TEST_BACKUP_ROUND);
 				    lw6sys_sleep (TEST_CYCLE);
 				    lw6pil_pilot_sync_from_backup (game_state,
 								   pilot);
 				  }
-				print_game_state (game_state, _("backup 2"));
+				print_game_state (game_state,
+						  _x_ ("backup 2"));
 				if (lw6ker_game_state_get_rounds (game_state)
 				    == TEST_BACKUP_ROUND)
 				  {
@@ -437,13 +441,14 @@ test_pilot ()
 				      lw6ker_game_state_checksum (game_state);
 				  }
 				print_game_state (lw6pil_pilot_dirty_read
-						  (pilot), _("dirty read"));
+						  (pilot),
+						  _x_ ("dirty read"));
 			      }
 			    else
 			      {
 				lw6pil_pilot_sync_from_draft (game_state,
 							      pilot, i % 2);
-				print_game_state (game_state, _("draft"));
+				print_game_state (game_state, _x_ ("draft"));
 			      }
 			  }
 
@@ -462,38 +467,38 @@ test_pilot ()
 			lw6sys_sleep (TEST_CYCLE);
 
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("next_round for ticks %"
-				      LW6SYS_PRINTF_LL "d is %d"),
+				    _x_ ("next_round for ticks %"
+					 LW6SYS_PRINTF_LL "d is %d"),
 				    (int64_t) TEST_CALIBRATE_TICKS1,
 				    (int64_t)
 				    lw6pil_pilot_get_next_round (pilot,
 								 TEST_CALIBRATE_TICKS1));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("next_round for ticks %"
-				      LW6SYS_PRINTF_LL "d is %d"),
+				    _x_ ("next_round for ticks %"
+					 LW6SYS_PRINTF_LL "d is %d"),
 				    (int64_t) TEST_CALIBRATE_TICKS2,
 				    (int64_t)
 				    lw6pil_pilot_get_next_round (pilot,
 								 TEST_CALIBRATE_TICKS2));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("last_commit_round=%d"),
+				    _x_ ("last_commit_round=%d"),
 				    lw6pil_pilot_get_last_commit_round
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("reference_current_round=%d"),
+				    _x_ ("reference_current_round=%d"),
 				    lw6pil_pilot_get_reference_current_round
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("reference_target_round=%d"),
+				    _x_ ("reference_target_round=%d"),
 				    lw6pil_pilot_get_reference_target_round
 				    (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE, _("max_round=%d"),
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max_round=%d"),
 				    lw6pil_pilot_get_max_round (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE, _("pilot \"%s\" stop"),
-				    repr);
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("pilot \"%s\" stop"), repr);
 
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _
+				    _x_
 				    ("checksum at round %d is %x and should be %x"),
 				    TEST_BACKUP_ROUND, checksum,
 				    TEST_BACKUP_CHECKSUM);

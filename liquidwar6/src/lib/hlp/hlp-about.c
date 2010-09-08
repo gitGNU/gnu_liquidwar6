@@ -109,7 +109,7 @@ lw6hlp_about (lw6hlp_type_t * type, char **default_value, int *min_value,
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("keyword '%s' is not documented"),
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("keyword '%s' is not documented"),
 		  keyword);
       if (type)
 	{
@@ -127,7 +127,7 @@ lw6hlp_about (lw6hlp_type_t * type, char **default_value, int *min_value,
 	{
 	  *max_value = 0;
 	}
-      ret = _("Not documented.");
+      ret = _x_ ("Not documented.");
     }
 
   return ret;

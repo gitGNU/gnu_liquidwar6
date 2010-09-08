@@ -120,7 +120,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL assoc"));
     }
 }
 
@@ -154,7 +154,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling has_key on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL assoc"));
     }
 
   return exists;
@@ -190,7 +190,7 @@ lw6sys_assoc_get (lw6sys_assoc_t * assoc, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling get on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling get on NULL assoc"));
     }
 
   return value;
@@ -252,7 +252,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, char *key, void *value)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling set on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling set on NULL assoc"));
     }
 }
 
@@ -303,7 +303,7 @@ lw6sys_assoc_unset (lw6sys_assoc_t * assoc, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling unset on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL assoc"));
     }
 }
 
@@ -343,7 +343,7 @@ lw6sys_assoc_keys (lw6sys_assoc_t * assoc)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling keys on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL assoc"));
     }
 
   return keys;
@@ -386,7 +386,8 @@ lw6sys_assoc_map (lw6sys_assoc_t * assoc,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("assoc has a NULL key"));
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("assoc has a NULL key"));
 		}
 	    }
 	  assoc = assoc->next_item;
@@ -394,7 +395,7 @@ lw6sys_assoc_map (lw6sys_assoc_t * assoc,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling map on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling map on NULL assoc"));
     }
 }
 
@@ -450,7 +451,7 @@ lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("calling sort and map on NULL assoc"));
+		  _x_ ("calling sort and map on NULL assoc"));
     }
 }
 
@@ -504,7 +505,7 @@ lw6sys_assoc_dup (lw6sys_assoc_t * assoc, lw6sys_dup_func_t dup_func)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling dup on NULL assoc"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL assoc"));
     }
 
   return ret;

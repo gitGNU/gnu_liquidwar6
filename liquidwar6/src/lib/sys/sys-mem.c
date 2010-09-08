@@ -40,8 +40,8 @@
  * lw6sys_malloc
  *
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__
- * @line: line in the file calling the function, use @__LINE__
+ * @file: name of the file calling the function, use @__FILE__x_
+ * @line: line in the file calling the function, use @__LINE__x_
  *
  * This is a wrapper over the standard @malloc function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -83,8 +83,8 @@ lw6sys_malloc (int size, char *file, int line)
  * lw6sys_calloc
  *
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__
- * @line: line in the file calling the function, use @__LINE__
+ * @file: name of the file calling the function, use @__FILE__x_
+ * @line: line in the file calling the function, use @__LINE__x_
  *
  * This is a wrapper over the standard @calloc function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -127,8 +127,8 @@ lw6sys_calloc (int size, char *file, int line)
  *
  * @ptr: the pointer to reallocate.
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__
- * @line: line in the file calling the function, use @__LINE__
+ * @file: name of the file calling the function, use @__FILE__x_
+ * @line: line in the file calling the function, use @__LINE__x_
  *
  * This is a wrapper over the standard @realloc function.
  * You should not use this function
@@ -151,7 +151,7 @@ lw6sys_realloc (void *ptr, int size, char *file, int line)
   if (!_lw6sys_bazooka_register_realloc_1 (ptr, size, file, line))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("suspicious realloc (stage 1) at %s:%d"), file, line);
+		  _x_ ("suspicious realloc (stage 1) at %s:%d"), file, line);
     }
 
 #endif
@@ -164,7 +164,8 @@ lw6sys_realloc (void *ptr, int size, char *file, int line)
       if (!_lw6sys_bazooka_register_realloc_2 (ptr, ptr2, size, file, line))
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("suspicious realloc (stage 2) at %s:%d"), file, line);
+		      _x_ ("suspicious realloc (stage 2) at %s:%d"), file,
+		      line);
 	}
 #endif
     }
@@ -182,8 +183,8 @@ lw6sys_realloc (void *ptr, int size, char *file, int line)
  * lw6sys_free
  *
  * @ptr: the pointer to free.
- * @file: name of the file calling the function, use @__FILE__
- * @line: line in the file calling the function, use @__LINE__
+ * @file: name of the file calling the function, use @__FILE__x_
+ * @line: line in the file calling the function, use @__LINE__x_
  *
  * This is a wrapper over the standard @free function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -202,8 +203,8 @@ lw6sys_free (void *ptr, char *file, int line)
 #ifndef LW6_OPTIMIZE
       if (!_lw6sys_bazooka_register_free (ptr))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("double free suspected at %s:%d"),
-		      file, line);
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("double free suspected at %s:%d"), file, line);
 	}
 #endif
       /*
@@ -215,7 +216,7 @@ lw6sys_free (void *ptr, char *file, int line)
   else
     {
       lw6sys_log (LW6SYS_LOG_ERROR,
-		  _("trying to free NULL pointer in %s:%d)"), file, line);
+		  _("trying to free NULL pointer in %s:%d"), file, line);
     }
 }
 
@@ -322,32 +323,36 @@ lw6sys_check_types_size ()
 
   if (sizeof (int8_t) != LW6SYS_SIZEOF_INT8)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("int8_t is %d bytes, should be %d"),
-		  sizeof (int8_t), LW6SYS_SIZEOF_INT8);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("int8_t is %d bytes, should be %d"), sizeof (int8_t),
+		  LW6SYS_SIZEOF_INT8);
       ret = 0;
     }
   if (sizeof (int16_t) != LW6SYS_SIZEOF_INT16)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("int16_t is %d bytes, should be %d"),
-		  sizeof (int16_t), LW6SYS_SIZEOF_INT16);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("int16_t is %d bytes, should be %d"), sizeof (int16_t),
+		  LW6SYS_SIZEOF_INT16);
       ret = 0;
     }
   if (sizeof (int32_t) != LW6SYS_SIZEOF_INT32)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("int32_t is %d bytes, should be %d"),
-		  sizeof (int32_t), LW6SYS_SIZEOF_INT32);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("int32_t is %d bytes, should be %d"), sizeof (int32_t),
+		  LW6SYS_SIZEOF_INT32);
       ret = 0;
     }
   if (sizeof (int64_t) != LW6SYS_SIZEOF_INT64)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("int64_t is %d bytes, should be %d"),
-		  sizeof (int64_t), LW6SYS_SIZEOF_INT64);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("int64_t is %d bytes, should be %d"), sizeof (int64_t),
+		  LW6SYS_SIZEOF_INT64);
       ret = 0;
     }
   if (sizeof (lw6sys_xyz_t) != LW6SYS_SIZEOF_XYZ)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("lw6sys_xyz_t is %d bytes, should be %d"),
+		  _x_ ("lw6sys_xyz_t is %d bytes, should be %d"),
 		  sizeof (lw6sys_xyz_t), LW6SYS_SIZEOF_XYZ);
       ret = 0;
     }

@@ -30,7 +30,7 @@ static void
 _warning (const char *func_name)
 {
   lw6sys_log (LW6SYS_LOG_WARNING,
-	      _("gfx backend function \"%s\" is not defined"), func_name);
+	      _x_ ("gfx backend function \"%s\" is not defined"), func_name);
 }
 
 /**

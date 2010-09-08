@@ -49,19 +49,20 @@ thread_callback (void *thread_handler)
        */
       if (setitimer (ITIMER_PROF, &th->itimer, NULL))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("setitimer failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("setitimer failed"));
 	}
 #endif
 #endif
 
       if (th->callback_join)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("begin thread id=%u"), th->id);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("begin thread id=%u"), th->id);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("begin thread id=%u (fast mode, no join)"), th->id);
+		      _x_ ("begin thread id=%u (fast mode, no join)"),
+		      th->id);
 	}
       if (th->callback_func)
 	{
@@ -88,7 +89,7 @@ thread_callback (void *thread_handler)
 	       * to allow this thread to actually finish.
 	       */
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("waiting for can_join to be 1, thread id=%u"),
+			  _x_ ("waiting for can_join to be 1, thread id=%u"),
 			  th->id);
 	      lw6sys_idle ();
 	    }
@@ -96,19 +97,19 @@ thread_callback (void *thread_handler)
 	}
       if (th->callback_join)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("end thread id=%u"), th->id);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("end thread id=%u"), th->id);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("end thread id=%u (fast mode, no join)"), th->id);
+		      _x_ ("end thread id=%u (fast mode, no join)"), th->id);
 	}
       pthread_exit (NULL);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't call thread_callback on NULL thread_handler"));
+		  _x_ ("can't call thread_callback on NULL thread_handler"));
     }
 }
 
@@ -154,13 +155,13 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 
       if (thread_handler->callback_join)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("creating thread id=%u"),
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("creating thread id=%u"),
 		      thread_handler->id);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("creating thread id=%u (fast mode, no join)"),
+		      _x_ ("creating thread id=%u (fast mode, no join)"),
 		      thread_handler->id);
 	}
 
@@ -174,7 +175,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
        */
       if (getitimer (ITIMER_PROF, &thread_handler->itimer))
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("getitimer failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("getitimer failed"));
 	}
 #endif
 #endif
@@ -186,7 +187,7 @@ lw6sys_thread_create (lw6sys_thread_callback_func_t callback_func,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("can't start thread"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't start thread"));
 	  /*
 	   * Better do a thread_create_counter-- here, this way we
 	   * can use a "very probably" atomic operation to increase
@@ -228,7 +229,7 @@ lw6sys_thread_is_callback_done (void *thread_handler)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't call is_callback_done on NULL thread_handler"));
+		  _x_ ("can't call is_callback_done on NULL thread_handler"));
     }
 
   return ret;
@@ -259,7 +260,7 @@ lw6sys_thread_get_id (void *thread_handler)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't call get_id on NULL thread_handler"));
+		  _x_ ("can't call get_id on NULL thread_handler"));
     }
 
   return ret;
@@ -290,7 +291,7 @@ lw6sys_thread_get_data (void *thread_handler)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't call get_data on NULL thread_handler"));
+		  _x_ ("can't call get_data on NULL thread_handler"));
     }
 
   return ret;
@@ -318,12 +319,13 @@ lw6sys_thread_join (void *thread_handler)
 
       if (th->callback_join)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("joining thread id=%u"), th->id);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joining thread id=%u"), th->id);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("joining thread id=%u (fast mode, no join)"), th->id);
+		      _x_ ("joining thread id=%u (fast mode, no join)"),
+		      th->id);
 	}
 
       th->can_join = 1;
@@ -335,14 +337,14 @@ lw6sys_thread_join (void *thread_handler)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("can't join thread id=%u"),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't join thread id=%u"),
 		      th->id);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't call join on NULL thread_handler"));
+		  _x_ ("can't call join on NULL thread_handler"));
     }
 }
 
@@ -390,7 +392,7 @@ lw6sys_check_thread_count ()
     {
       ret = 0;
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("possible thread problem, %d threads have been started, but only %d threads have been joined"),
 		  thread_create_counter, thread_join_counter);
     }

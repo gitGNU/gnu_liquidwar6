@@ -73,7 +73,7 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 		    {
 		      ret = 0;
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("bitmap %d,%d of bitmap array couldn't be created, array is broken"),
 				  n_x, n_y);
 		    }
@@ -183,7 +183,7 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
 			  || area.y + area.h > surface->h + 1)
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _
+				      _x_
 				      ("unsupported ayout area.x=%d area.y=%d area.w=%d area.h=%d surface->w=%d surface->h=%d"),
 				      area.x, area.y, area.w, area.h,
 				      surface->w, surface->h);
@@ -192,13 +192,13 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("sub_surface is NULL"));
+				  _x_ ("sub_surface is NULL"));
 		      ret = 0;
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _("bitmap is NULL"));
+		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bitmap is NULL"));
 		  ret = 0;
 		}
 	    }
@@ -259,8 +259,8 @@ mod_gl_utils_bitmap_array_update (mod_gl_utils_context_t *
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("NULL bitmap in bitmap_array at pos %d,%d"), n_x,
-			  n_y);
+			  _x_ ("NULL bitmap in bitmap_array at pos %d,%d"),
+			  n_x, n_y);
 	      ret = 0;
 	    }
 	}
@@ -330,7 +330,7 @@ mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("bitmap_array_set parameters out of range n_x=%d n_y=%d n_w=%d n_h=%d"),
 		  n_x, n_y, bitmap_array->layout.n_w,
 		  bitmap_array->layout.n_h);
@@ -353,7 +353,7 @@ mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t *
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("bitmap_array_get parameters out of range n_x=%d n_y=%d n_w=%d n_h=%d"),
 		  n_x, n_y, bitmap_array->layout.n_w,
 		  bitmap_array->layout.n_h);

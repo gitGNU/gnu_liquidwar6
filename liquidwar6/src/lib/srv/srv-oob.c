@@ -99,23 +99,23 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	  if (oob->data.remote_ip)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _("joining srv OOB thread serving \"%s:%d\""),
+			  _x_ ("joining srv OOB thread serving \"%s:%d\""),
 			  oob->data.remote_ip, oob->data.remote_port);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("joining srv OOB thread"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joining srv OOB thread"));
 	    }
 	  lw6sys_thread_join (oob->thread);
 	  if (oob->data.remote_ip)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _("joined srv OOB thread serving \"%s:%d\""),
+			  _x_ ("joined srv OOB thread serving \"%s:%d\""),
 			  oob->data.remote_ip, oob->data.remote_port);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("joined srv OOB thread"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("joined srv OOB thread"));
 	    }
 	}
 
@@ -128,10 +128,10 @@ lw6srv_oob_free (lw6srv_oob_t * oob)
 	  LW6SYS_FREE (oob->data.first_line);
 	}
       LW6SYS_FREE (oob);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("oob freed"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("oob freed"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL oob"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL oob"));
     }
 }

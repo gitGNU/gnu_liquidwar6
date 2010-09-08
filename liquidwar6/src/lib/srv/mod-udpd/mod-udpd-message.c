@@ -39,7 +39,7 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
     (_udpd_specific_data_t *) connection->backend_specific_data;
   char *line;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd send \"%s\""), message);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd send \"%s\""), message);
   line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
 				   lw6sys_build_get_version (),
 				   connection->password_send_checksum,
@@ -56,7 +56,8 @@ _mod_udpd_send (_udpd_context_t * udpd_context,
 	      (specific_data->sock, line, connection->remote_ip,
 	       specific_data->remote_port))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd sent \"%s\""), line);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd sent \"%s\""),
+			  line);
 	      ret = 1;
 	    }
 	  lw6cnx_connection_unlock_send (connection);
@@ -71,7 +72,7 @@ void
 _mod_udpd_poll (_udpd_context_t * udpd_context,
 		lw6cnx_connection_t * connection)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udpd poll"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd poll"));
   /*
    * No real polling here, polling is done in the main loop, 
    * at the listener level.

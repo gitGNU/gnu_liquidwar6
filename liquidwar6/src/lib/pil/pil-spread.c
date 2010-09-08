@@ -31,10 +31,10 @@
 void
 _lw6pil_spread_thread_func (_lw6pil_spread_data_t * spread_data)
 {
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("spread with team_mask %x begin"),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("spread with team_mask %x begin"),
 	      spread_data->team_mask);
   lw6ker_game_state_do_spread (spread_data->game_state,
 			       spread_data->team_mask);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("spread with team_mask %x end"),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("spread with team_mask %x end"),
 	      spread_data->team_mask);
 }

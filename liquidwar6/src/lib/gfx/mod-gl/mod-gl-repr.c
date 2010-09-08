@@ -37,13 +37,11 @@ _mod_gl_repr (_mod_gl_context_t * gl_context, u_int32_t id)
 
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
-  ret = lw6sys_new_sprintf (_("%u gl SDL version %u.%u.%u resolution %dx%d"),
-			    id,
-			    version.major,
-			    version.minor,
-			    version.patch,
-			    gl_context->utils_context.video_mode.width,
-			    gl_context->utils_context.video_mode.height);
+  ret =
+    lw6sys_new_sprintf (_x_ ("%u gl SDL version %u.%u.%u resolution %dx%d"),
+			id, version.major, version.minor, version.patch,
+			gl_context->utils_context.video_mode.width,
+			gl_context->utils_context.video_mode.height);
 
   return ret;
 }

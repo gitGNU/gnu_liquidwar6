@@ -37,7 +37,7 @@ _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
   int d_move;
 
   rounds = lw6ker_game_state_get_rounds (data->game_state);
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("random bot move rounds=%d"), rounds);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random bot move rounds=%d"), rounds);
 
   d_move =
     lw6sys_max (1,
@@ -52,7 +52,7 @@ _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
 	lw6sys_random (data->game_state->map_state.shape.w);
       random_context->pos_y =
 	lw6sys_random (data->game_state->map_state.shape.h);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("random bot moved %d,%d"),
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random bot moved %d,%d"),
 		  random_context->pos_x, random_context->pos_y);
     }
 

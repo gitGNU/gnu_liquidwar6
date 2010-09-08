@@ -245,11 +245,11 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("SDL header version when compiled %u.%u.%u"),
+		      _x_ ("SDL header version when compiled %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("SDL linked version now at runtime %u.%u.%u"),
+		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 
 	  if (lw6sys_sdl_register ())
@@ -260,7 +260,7 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("unable to start SDL event thread, events treated in main thread with poll() functions"));
 	    }
 
@@ -273,7 +273,7 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 
 	  if (sdl_ok)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("SDL Init"));
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Init"));
 	    }
 	  else
 	    {
@@ -297,7 +297,7 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 	      ttf_ok = (TTF_Init () != -1);
 	      if (ttf_ok)
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO, _("SDL_ttf Init"));
+		  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Init"));
 		}
 	      else
 		{
@@ -391,7 +391,7 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _("no joystick support"));
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no joystick support"));
 		}
 	    }
 
@@ -452,7 +452,7 @@ _mod_gl_quit (_mod_gl_context_t * gl_context)
   mod_gl_utils_path_quit (&(gl_context->utils_context));
 
   glFinish ();
-  lw6sys_log (LW6SYS_LOG_INFO, _("SDL_ttf Quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL_ttf Quit"));
   TTF_Quit ();
 
   SDL_QuitSubSystem (SDL_INIT_JOYSTICK);
@@ -463,7 +463,7 @@ _mod_gl_quit (_mod_gl_context_t * gl_context)
 
   if (lw6sys_sdl_unregister ())
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("SDL Quit"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();
     }
 
@@ -480,7 +480,7 @@ _mod_gl_quit (_mod_gl_context_t * gl_context)
       gl_context->utils_context.surface_counter.delete_counter)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("possible memory leak, %d calls to SDL_CreateSurface, IMG_Load or TTF_RenderUTF8, and %d calls to SDL_FreeSurface"),
 		  gl_context->utils_context.surface_counter.new_counter,
 		  gl_context->utils_context.surface_counter.delete_counter);
@@ -490,7 +490,7 @@ _mod_gl_quit (_mod_gl_context_t * gl_context)
       gl_context->utils_context.texture_counter.delete_counter)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("possible memory leak, %d calls to glGenTexture and %d calls to glDeleteTextures"),
 		  gl_context->utils_context.texture_counter.new_counter,
 		  gl_context->utils_context.texture_counter.delete_counter);

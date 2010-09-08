@@ -226,7 +226,7 @@ test_arg ()
     char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to match \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("trying to match \"%s\""),
 		TEST_ARG_ARGV_STRING);
     if (lw6sys_arg_match (TEST_ARG_KEYWORD, TEST_ARG_ARGV_STRING))
       {
@@ -235,7 +235,7 @@ test_arg ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _
+		    _x_
 		    ("command line arg \"%s\" does not match keyword \"%s\""),
 		    TEST_ARG_ARGV_STRING, TEST_ARG_KEYWORD);
 	ret = 0;
@@ -243,12 +243,12 @@ test_arg ()
 
     if (lw6sys_arg_exists (argc, argv, TEST_KEYWORD))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("keyword \"%s\" is present"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keyword \"%s\" is present"),
 		    TEST_KEYWORD);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("keyword \"%s\" not present"),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("keyword \"%s\" not present"),
 		    TEST_KEYWORD);
 	ret = 0;
       }
@@ -256,13 +256,13 @@ test_arg ()
     value = lw6sys_arg_get_value (argc, argv, TEST_KEYWORD);
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
 		    TEST_KEYWORD, value);
 	LW6SYS_FREE (value);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("no value for keyword \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no value for keyword \"%s\""),
 		    TEST_KEYWORD);
 	ret = 0;
       }
@@ -282,7 +282,7 @@ assoc_map_func (void *func_data, char *key, void *value)
   int *i = (int *) value;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _("assoc item ret=%d, key=\"%s\", value=%d"), *ret, key, *i);
+	      _x_ ("assoc item ret=%d, key=\"%s\", value=%d"), *ret, key, *i);
 }
 
 /*
@@ -297,7 +297,7 @@ test_assoc ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("new/delete on assoc"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("new/delete on assoc"));
     assoc = lw6sys_assoc_new (NULL);
     lw6sys_assoc_free (assoc);
   }
@@ -306,7 +306,7 @@ test_assoc ()
     int a = 3, b = 5, c = 7;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("set/unset/has_key/get/map on int assoc"));
+		_x_ ("set/unset/has_key/get/map on int assoc"));
     assoc = lw6sys_assoc_new (NULL);
     lw6sys_assoc_set (&assoc, "a", (void *) &a);
     lw6sys_assoc_set (&assoc, "b", (void *) &b);
@@ -328,7 +328,7 @@ test_assoc ()
     char *str1, *str2, *str3;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("testing free_func callback and dup on string assoc"));
+		_x_ ("testing free_func callback and dup on string assoc"));
     assoc = lw6sys_assoc_new (&lw6sys_free_callback);
     str1 = LW6SYS_MALLOC (5);
     strncpy (str1, _TEST_LIST_STR1, 5);
@@ -357,7 +357,7 @@ test_assoc ()
     int a = 3, b = 5;
     lw6sys_list_t *keys;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing keys on int assoc"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing keys on int assoc"));
     assoc = lw6sys_assoc_new (NULL);
     lw6sys_assoc_set (&assoc, "a", (void *) &a);
     lw6sys_assoc_set (&assoc, "b", (void *) &b);
@@ -382,7 +382,7 @@ test_build ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("build version is \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("build version is \"%s\""),
 		lw6sys_build_get_version ());
 
     lw6sys_build_log_all ();
@@ -406,7 +406,7 @@ test_checksum ()
 
     checksum = lw6sys_checksum_str (TEST_CHECKSUM_STR_DATA);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("checksum for \"%s\" is %08x (should be %08x)"),
+		_x_ ("checksum for \"%s\" is %08x (should be %08x)"),
 		TEST_CHECKSUM_STR_DATA, checksum, TEST_CHECKSUM_STR_RESULT);
     if (checksum != TEST_CHECKSUM_STR_RESULT)
       {
@@ -415,7 +415,7 @@ test_checksum ()
 
     checksum = lw6sys_checksum_int32 (TEST_CHECKSUM_INT32_DATA);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("checksum for %d is %08x (should be %08x)"),
+		_x_ ("checksum for %d is %08x (should be %08x)"),
 		TEST_CHECKSUM_INT32_DATA, checksum,
 		TEST_CHECKSUM_INT32_RESULT);
     if (checksum != TEST_CHECKSUM_INT32_RESULT)
@@ -425,7 +425,7 @@ test_checksum ()
 
     checksum = lw6sys_checksum_int64 (TEST_CHECKSUM_INT64_DATA);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("checksum for %lld is %08x (should be %08x)"),
+		_x_ ("checksum for %lld is %08x (should be %08x)"),
 		TEST_CHECKSUM_INT64_DATA, checksum,
 		TEST_CHECKSUM_INT64_RESULT);
     if (checksum != TEST_CHECKSUM_INT64_RESULT)
@@ -444,13 +444,13 @@ rgb_to_hsv_to_rgb (char *label, lw6sys_color_8_t color_8)
   lw6sys_color_hsv_t color_hsv;
   lw6sys_color_8_t color_8_back;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%s init r=%d,g=%d,b=%d"), label,
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s init r=%d,g=%d,b=%d"), label,
 	      color_8.r, color_8.g, color_8.b);
   lw6sys_color_rgb_to_hsv (&color_hsv, color_8);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%s HSV convert h=%.2f,s=%.2f,v=%.2f"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s HSV convert h=%.2f,s=%.2f,v=%.2f"),
 	      label, color_hsv.h, color_hsv.s, color_hsv.v);
   color_8_back = lw6sys_color_hsv_to_rgb (&color_hsv);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%s RGB convert r=%d,g=%d,b=%d"), label,
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s RGB convert r=%d,g=%d,b=%d"), label,
 	      color_8_back.r, color_8_back.g, color_8_back.b);
 }
 
@@ -470,7 +470,7 @@ test_color ()
     float distance;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("interpreting color \"%s\""), COLOR_ASCII);
+		_x_ ("interpreting color \"%s\""), COLOR_ASCII);
     color_8 = lw6sys_color_a_to_8 (COLOR_ASCII);
     if (color_8.r != COLOR_8_R || color_8.g != COLOR_8_G
 	|| color_8.b != COLOR_8_B || color_8.a != COLOR_8_A)
@@ -491,7 +491,7 @@ test_color ()
     color_8 =
       lw6sys_color_ponderate (LW6SYS_COLOR_8_RED, LW6SYS_COLOR_8_BLUE, 0.5f);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("color between red & blue is r=%d,g=%d,b=%d"), color_8.r,
+		_x_ ("color between red & blue is r=%d,g=%d,b=%d"), color_8.r,
 		color_8.g, color_8.b);
 
     color_8_average[0] = LW6SYS_COLOR_8_RED;
@@ -499,16 +499,16 @@ test_color ()
     color_8_average[2] = LW6SYS_COLOR_8_GREEN;
     color_8 = lw6sys_color_average (3, color_8_average);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("color average of red+red+green is r=%d,g=%d,b=%d"),
+		_x_ ("color average of red+red+green is r=%d,g=%d,b=%d"),
 		color_8.r, color_8.g, color_8.b);
     distance =
       lw6sys_color_distance (LW6SYS_COLOR_8_GREEN, LW6SYS_COLOR_8_BLUE);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("distance between green and blue is %.2f"), distance);
+		_x_ ("distance between green and blue is %.2f"), distance);
 
     if (!lw6sys_color_is_same (color_8, color_8))
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("color comparison failed"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("color comparison failed"));
       }
 
     lw6sys_color_8_solid (&color_8);
@@ -537,7 +537,7 @@ test_convert ()
     if (str)
       {
 	i = lw6sys_atoi (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("int=%d -> str=\"%s\" -> int=%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int=%d -> str=\"%s\" -> int=%d"),
 		    TEST_CONVERT_INT, str, i);
 	if (i != TEST_CONVERT_INT)
 	  {
@@ -554,7 +554,8 @@ test_convert ()
     if (str)
       {
 	i = lw6sys_atob (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("bool=%d -> str=\"%s\" -> bool=%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("bool=%d -> str=\"%s\" -> bool=%d"),
 		    TEST_CONVERT_BOOL, str, i);
 	if (i != TEST_CONVERT_BOOL)
 	  {
@@ -572,12 +573,12 @@ test_convert ()
       {
 	f = lw6sys_atof (str);
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("float=%f -> str=\"%s\" -> float=%f"),
+		    _x_ ("float=%f -> str=\"%s\" -> float=%f"),
 		    TEST_CONVERT_FLOAT, str, f);
 	if (f != TEST_CONVERT_FLOAT)
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("%f!=%f: while this is not 100% blocking, floating point conversion on this computer is suspicious"),
 			TEST_CONVERT_FLOAT, f);
 	  }
@@ -611,7 +612,7 @@ test_daemon ()
     pid_file = lw6sys_daemon_pid_file (argc, argv);
     if (pid_file)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("pid file=\"%s\""), pid_file);
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("pid file=\"%s\""), pid_file);
 	/*
 	 * We don't test lw6sys_daemon_start for this would (obviously?)
 	 * cause some problems to follow the rest of the test.
@@ -677,7 +678,7 @@ test_env ()
     concat = lw6sys_env_concat (TEST_ENV_CONCAT1, TEST_ENV_CONCAT2);
     if (concat)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("ENV concat is \"%s\""), concat);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ENV concat is \"%s\""), concat);
 	LW6SYS_FREE (concat);
       }
     else
@@ -686,20 +687,20 @@ test_env ()
       }
     if (!lw6sys_setenv (TEST_ENV_SETENV_KEYWORD, TEST_ENV_SETENV_VALUE))
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to set ENV \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to set ENV \"%s\""),
 		    TEST_ENV_SETENV_KEYWORD);
 	ret = 0;
       }
     if (!lw6sys_env_exists_prefixed (TEST_ENV_KEYWORD))
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("ENV \"%s\" doesn't exist"),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("ENV \"%s\" doesn't exist"),
 		    TEST_ENV_KEYWORD);
 	ret = 0;
       }
     value = lw6sys_getenv_prefixed (TEST_ENV_KEYWORD);
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("ENV value for \"%s\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ENV value for \"%s\" is \"%s\""),
 		    TEST_ENV_KEYWORD, value);
 	LW6SYS_FREE (value);
       }
@@ -710,7 +711,7 @@ test_env ()
     value = lw6sys_get_username ();
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("username=\"%s\""), value);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("username=\"%s\""), value);
 	LW6SYS_FREE (value);
       }
     else
@@ -720,7 +721,7 @@ test_env ()
     value = lw6sys_get_hostname ();
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("hostname=\"%s\""), value);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hostname=\"%s\""), value);
 	LW6SYS_FREE (value);
       }
     else
@@ -750,7 +751,7 @@ test_env ()
 	       && (data = (char *) lw6sys_lifo_pop (&splitted)) != NULL)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("splitted env \"%s\" contains \"%s\""),
+			_x_ ("splitted env \"%s\" contains \"%s\""),
 			TEST_ENV_SPLIT, data);
 	    LW6SYS_FREE (data);
 	  }
@@ -784,13 +785,13 @@ test_escape ()
 	if (!strcmp (_ESCAPE_STR_HTTP_URI, escaped))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("http uri escape for \"%s\" is \"%s\""),
+			_x_ ("http uri escape for \"%s\" is \"%s\""),
 			_ESCAPE_STR, escaped);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
 			_ESCAPE_STR, escaped, _ESCAPE_STR_HTTP_URI);
 	    ret = 0;
@@ -803,13 +804,13 @@ test_escape ()
 	if (!strcmp (_ESCAPE_STR_HTML_ATTRIBUTE, escaped))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("http uri escape for \"%s\" is \"%s\""),
+			_x_ ("http uri escape for \"%s\" is \"%s\""),
 			_ESCAPE_STR, escaped);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
 			_ESCAPE_STR, escaped, _ESCAPE_STR_HTML_ATTRIBUTE);
 	    ret = 0;
@@ -822,13 +823,13 @@ test_escape ()
 	if (!strcmp (_ESCAPE_STR_SQL_VALUE, escaped))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("http uri escape for \"%s\" is \"%s\""),
+			_x_ ("http uri escape for \"%s\" is \"%s\""),
 			_ESCAPE_STR, escaped);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("http uri escape for \"%s\" is \"%s\" but should be \"%s\""),
 			_ESCAPE_STR, escaped, _ESCAPE_STR_SQL_VALUE);
 	    ret = 0;
@@ -853,32 +854,34 @@ test_exec (int argc, char *argv[], int mode)
   {
     char *myself;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("executed_again=%d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("executed_again=%d"),
 		lw6sys_is_executed_again (argc, argv));
     myself = lw6sys_exec_find_myself (argc, argv);
     if (myself)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("found myself in \"%s\""), myself);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("found myself in \"%s\""),
+		    myself);
 	if (mode)
 	  {
 	    if (lw6sys_exec_again (argc, argv))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("exec again of \"%s\" successfull, means we're already \"executed again\""),
 			    myself);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("exec again of \"%s\" failed"), myself);
+			    _x_ ("exec again of \"%s\" failed"), myself);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("check mode, so not trying to exec again \"%s\""),
+			_x_
+			("check mode, so not trying to exec again \"%s\""),
 			myself);
 	  }
 	LW6SYS_FREE (myself);
@@ -887,13 +890,13 @@ test_exec (int argc, char *argv[], int mode)
       {
 	if (mode)
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("could not find myself"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("could not find myself"));
 	    ret = 0;
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("could not find myself, this is only check mode so no panic, but this is strange"));
 	  }
       }
@@ -937,7 +940,7 @@ test_file ()
 		if (content && !strcmp (TEST_CONTENT, content))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("file \"%s\" contains \"%s\""),
+				_x_ ("file \"%s\" contains \"%s\""),
 				filename, content);
 		    LW6SYS_FREE (content);
 		  }
@@ -951,7 +954,7 @@ test_file ()
 		    && strlen (content) == filesize)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("bin file \"%s\" has size %d and contains \"%s\""),
 				filename, filesize, content);
 		    LW6SYS_FREE (content);
@@ -985,7 +988,7 @@ test_profiler ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("Google Profiler support=%d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("Google Profiler support=%d"),
 		lw6sys_profiler_check (0));
   }
 
@@ -1005,7 +1008,7 @@ test_hash ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("new/delete on hash"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("new/delete on hash"));
     hash = lw6sys_hash_new (NULL, 7);
     lw6sys_hash_free (hash);
   }
@@ -1014,7 +1017,7 @@ test_hash ()
     int a = 3, b = 5, c = 7;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("set/unset/has_key/get/map on int hash"));
+		_x_ ("set/unset/has_key/get/map on int hash"));
     hash = lw6sys_hash_new (NULL, 7);
     lw6sys_hash_set (hash, "a", (void *) &a);
     lw6sys_hash_set (hash, "b", (void *) &b);
@@ -1036,7 +1039,7 @@ test_hash ()
     char *str1, *str2, *str3;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("testing free_func callback and dup on string hash"));
+		_x_ ("testing free_func callback and dup on string hash"));
     hash = lw6sys_hash_new (&lw6sys_free_callback, 7);
     str1 = LW6SYS_MALLOC (5);
     strncpy (str1, _TEST_LIST_STR1, 5);
@@ -1064,7 +1067,7 @@ test_hash ()
     int a = 3, b = 5;
     lw6sys_list_t *keys;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing keys on int hash"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing keys on int hash"));
     hash = lw6sys_hash_new (NULL, 7);
     lw6sys_hash_set (hash, "a", (void *) &a);
     lw6sys_hash_set (hash, "b", (void *) &b);
@@ -1136,7 +1139,7 @@ test_hexa ()
 	    hexa_string = lw6sys_hexa_serializer_as_string (hexa_serializer);
 	    if (hexa_string)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("hexa string is \"%s\""),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hexa string is \"%s\""),
 			    hexa_string);
 		LW6SYS_FREE (hexa_string);
 	      }
@@ -1146,13 +1149,13 @@ test_hexa ()
 	    if (lw6sys_hexa_serializer_eof (hexa_serializer))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unexpected serializer EOF"));
+			    _x_ ("unexpected serializer EOF"));
 		ret = 0;
 	      }
 
 	    if (lw6sys_hexa_serializer_pop_int64 (hexa_serializer, &test_64))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("int64 loaded, value=%d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int64 loaded, value=%d"),
 			    (int) test_64);
 	      }
 	    else
@@ -1161,7 +1164,7 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &test_32))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("int32 loaded, value=%d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int32 loaded, value=%d"),
 			    (int) test_32);
 	      }
 	    else
@@ -1170,7 +1173,7 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_pop_int16 (hexa_serializer, &test_16))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("int16 loaded, value=%d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int16 loaded, value=%d"),
 			    (int) test_16);
 	      }
 	    else
@@ -1179,7 +1182,7 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_pop_int8 (hexa_serializer, &test_8))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("int8 loaded, value=%d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int8 loaded, value=%d"),
 			    (int) test_8);
 	      }
 	    else
@@ -1189,7 +1192,7 @@ test_hexa ()
 	    if (lw6sys_hexa_serializer_pop_float
 		(hexa_serializer, &test_float))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("float loaded, value=%f"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("float loaded, value=%f"),
 			    test_float);
 	      }
 	    else
@@ -1198,8 +1201,8 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &test_str))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("str loaded, value=\"%s\""),
-			    test_str);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("str loaded, value=\"%s\""), test_str);
 		LW6SYS_FREE (test_str);
 	      }
 	    else
@@ -1208,8 +1211,8 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_pop_str (hexa_serializer, &test_str))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("str loaded, value=\"%s\""),
-			    test_str);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("str loaded, value=\"%s\""), test_str);
 		LW6SYS_FREE (test_str);
 	      }
 	    else
@@ -1219,8 +1222,9 @@ test_hexa ()
 	    if (lw6sys_hexa_serializer_pop_whd (hexa_serializer, &test_whd))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("whd loaded, value=%dx%dx%d"), (int) test_whd.w,
-			    (int) test_whd.h, (int) test_whd.d);
+			    _x_ ("whd loaded, value=%dx%dx%d"),
+			    (int) test_whd.w, (int) test_whd.h,
+			    (int) test_whd.d);
 	      }
 	    else
 	      {
@@ -1229,8 +1233,9 @@ test_hexa ()
 	    if (lw6sys_hexa_serializer_pop_xyz (hexa_serializer, &test_xyz))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("xyz loaded, value=%d,%d,%d"), (int) test_xyz.x,
-			    (int) test_xyz.y, (int) test_xyz.z);
+			    _x_ ("xyz loaded, value=%d,%d,%d"),
+			    (int) test_xyz.x, (int) test_xyz.y,
+			    (int) test_xyz.z);
 	      }
 	    else
 	      {
@@ -1240,7 +1245,7 @@ test_hexa ()
 		(hexa_serializer, &test_color))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("color loaded, value=#%02x%02x%02x%02x"),
+			    _x_ ("color loaded, value=#%02x%02x%02x%02x"),
 			    (int) test_color.r, (int) test_color.g,
 			    (int) test_color.b, (int) test_color.a);
 	      }
@@ -1250,7 +1255,7 @@ test_hexa ()
 	      }
 	    if (lw6sys_hexa_serializer_eof (hexa_serializer))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("serializer EOF"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("serializer EOF"));
 	      }
 	    else
 	      {
@@ -1265,12 +1270,13 @@ test_hexa ()
 	    if (ptr == (void *) hexa_serializer)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("pointer %p string is \"%s\""), ptr, ptr_str);
+			    _x_ ("pointer %p string is \"%s\""), ptr,
+			    ptr_str);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("error converting pointer %p from string \"%s\""),
 			    ptr, ptr_str);
 		ret = 0;
@@ -1279,8 +1285,8 @@ test_hexa ()
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("error converting pointer %p"),
-			hexa_serializer);
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("error converting pointer %p"), hexa_serializer);
 	    ret = 0;
 	  }
 	lw6sys_hexa_serializer_free (hexa_serializer);
@@ -1320,7 +1326,7 @@ test_history ()
       {
 	for (i = history; i[0]; ++i)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("history msg \"%s\""), i[0]);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("history msg \"%s\""), i[0]);
 	    ret = 1;
 	  }
 	lw6sys_history_free (history);
@@ -1386,14 +1392,14 @@ test_id ()
 	if (id_long == id_16)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("here's a random 16-bit id \"%s\""), id_str);
+			_x_ ("here's a random 16-bit id \"%s\""), id_str);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("erreur converting id, src=%" LW6SYS_PRINTF_LL
-			  "x, dst=%" LW6SYS_PRINTF_LL "x"), (u_int64_t) id_16,
-			id_long);
+			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
+			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
+			(u_int64_t) id_16, id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -1407,14 +1413,14 @@ test_id ()
 	if (id_long == id_32)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("here's a random 32-bit id \"%s\""), id_str);
+			_x_ ("here's a random 32-bit id \"%s\""), id_str);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("erreur converting id, src=%" LW6SYS_PRINTF_LL
-			  "x, dst=%" LW6SYS_PRINTF_LL "x"), (u_int64_t) id_32,
-			id_long);
+			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
+			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
+			(u_int64_t) id_32, id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -1428,14 +1434,14 @@ test_id ()
 	if (id_long == id_64)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("here's a random 64-bit id \"%s\""), id_str);
+			_x_ ("here's a random 64-bit id \"%s\""), id_str);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("erreur converting id, src=%" LW6SYS_PRINTF_LL
-			  "x, dst=%" LW6SYS_PRINTF_LL "x"), (u_int64_t) id_64,
-			id_long);
+			_x_ ("erreur converting id, src=%" LW6SYS_PRINTF_LL
+			     "x, dst=%" LW6SYS_PRINTF_LL "x"),
+			(u_int64_t) id_64, id_long);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (id_str);
@@ -1462,25 +1468,25 @@ test_keyword ()
     str = lw6sys_keyword_as_key (TEST_KEYWORD_AS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("keyword as key is \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keyword as key is \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_keyword_as_arg (TEST_KEYWORD_AS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("keyword as arg is \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keyword as arg is \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_keyword_as_env (TEST_KEYWORD_AS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("keyword as env is \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keyword as env is \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     str = lw6sys_keyword_as_xml (TEST_KEYWORD_AS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("keyword as xml is \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keyword as xml is \"%s\""), str);
 	LW6SYS_FREE (str);
       }
   }
@@ -1498,7 +1504,7 @@ list_map_int_func (void *func_data, void *data)
   int *ret = (int *) func_data;
   int *i = (int *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, i=%d"), *ret, *i);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("list item ret=%d, i=%d"), *ret, *i);
 }
 
 /*
@@ -1510,7 +1516,7 @@ list_map_str_func (void *func_data, void *data)
   int *ret = (int *) func_data;
   char *str = (char *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("list item ret=%d, str=\"%s\""), *ret,
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("list item ret=%d, str=\"%s\""), *ret,
 	      str);
 }
 
@@ -1526,7 +1532,8 @@ list_filter_func (void *func_data, void *data)
 
   ret = (*d < *limit);
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _("list item limit=%d, d=%d, pass filter=%d"), *limit, *d, ret);
+	      _x_ ("list item limit=%d, d=%d, pass filter=%d"), *limit, *d,
+	      ret);
 
   return ret;
 }
@@ -1543,7 +1550,7 @@ test_list ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("new/delete/is_empty on list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("new/delete/is_empty on list"));
     list = lw6sys_list_new (NULL);
     ret = ret && lw6sys_list_is_empty (list);
     lw6sys_list_free (list);
@@ -1553,26 +1560,26 @@ test_list ()
     int a = 3, b = 5, c = 7;
     int i;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push/pop on int list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo push/pop on int list"));
     list = lw6sys_list_new (NULL);
     lw6sys_lifo_push (&list, (void *) &a);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), a);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), a);
     lw6sys_lifo_push (&list, (void *) &b);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), b);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), b);
     lw6sys_lifo_push (&list, (void *) &c);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo push %d"), c);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), c);
     lw6sys_list_map (list, &list_map_int_func, &ret);
     ret = ret && lw6sys_list_length (list) == 3;
     i = *((int *) lw6sys_lifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
     ret = ret && (i == c);
     i = *((int *) lw6sys_lifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
     ret = ret && (i == b);
     i = *((int *) lw6sys_lifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
     ret = ret && (i == a);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
@@ -1580,54 +1587,58 @@ test_list ()
     int a = 2, b = 4, c = 6, d = 8;
     int i;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push/pop on int list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo push/pop on int list"));
     list = lw6sys_list_new (NULL);
     lw6sys_fifo_push (&list, (void *) &a);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), a);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), a);
     lw6sys_fifo_push (&list, (void *) &b);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), b);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), b);
     lw6sys_fifo_push (&list, (void *) &c);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), c);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), c);
     lw6sys_fifo_push (&list, (void *) &d);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo push %d"), d);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), d);
     lw6sys_list_map (list, &list_map_int_func, &ret);
     ret = ret && lw6sys_list_length (list) == 4;
     i = *((int *) lw6sys_fifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
     ret = ret && (i == a);
     i = *((int *) lw6sys_fifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
     ret = ret && (i == b);
     i = *((int *) lw6sys_fifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
     ret = ret && (i == c);
     i = *((int *) lw6sys_fifo_pop (&list));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("fifo pop %d"), i);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
     ret = ret && (i == d);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
   {
     char *str;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front/pop_front on string list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("push_front/pop_front on string list"));
     list = lw6sys_list_new (lw6sys_free_callback);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR1));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR1);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR2));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR2);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR3));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR3);
     lw6sys_list_map (list, &list_map_str_func, &ret);
     str = (char *) lw6sys_list_pop_front (&list);
     if (str)
       {
 	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     else
@@ -1637,7 +1648,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_front (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
 	LW6SYS_FREE (str);
       }
@@ -1648,7 +1659,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_front (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
 	LW6SYS_FREE (str);
       }
@@ -1656,27 +1667,28 @@ test_list ()
       {
 	ret = 0;
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
   {
     char *str;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back/pop_front on string list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("push_back/pop_front on string list"));
     list = lw6sys_list_new (lw6sys_free_callback);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR1));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR1);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR2));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR2);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR3));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR3);
     lw6sys_list_map (list, &list_map_str_func, &ret);
     str = (char *) lw6sys_list_pop_front (&list);
     if (str)
       {
 	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     else
@@ -1686,7 +1698,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_front (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
 	LW6SYS_FREE (str);
       }
@@ -1697,7 +1709,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_front (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_front \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
 	LW6SYS_FREE (str);
       }
@@ -1705,30 +1717,34 @@ test_list ()
       {
 	ret = 0;
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
   {
     char *str;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front/pop_back on string list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("push_front/pop_back on string list"));
     list = lw6sys_list_new (lw6sys_free_callback);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR1));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR1);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR2));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR2);
     lw6sys_list_push_front (&list,
 			    (void *) lw6sys_str_copy (_TEST_LIST_STR3));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""),
+		_TEST_LIST_STR3);
     lw6sys_list_map (list, &list_map_str_func, &ret);
     str = (char *) lw6sys_list_pop_back (&list);
     if (str)
       {
 	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     else
@@ -1738,7 +1754,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_back (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
 	LW6SYS_FREE (str);
       }
@@ -1749,7 +1765,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_back (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
 	LW6SYS_FREE (str);
       }
@@ -1757,27 +1773,27 @@ test_list ()
       {
 	ret = 0;
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
   {
     char *str;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back/pop_back on string list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back/pop_back on string list"));
     list = lw6sys_list_new (lw6sys_free_callback);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR1));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR1);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR2));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR2);
     lw6sys_list_push_back (&list, (void *) lw6sys_str_copy (_TEST_LIST_STR3));
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR3);
     lw6sys_list_map (list, &list_map_str_func, &ret);
     str = (char *) lw6sys_list_pop_back (&list);
     if (str)
       {
 	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	LW6SYS_FREE (str);
       }
     else
@@ -1787,7 +1803,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_back (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
 	LW6SYS_FREE (str);
       }
@@ -1798,7 +1814,7 @@ test_list ()
     if (str)
       {
 	str = (char *) lw6sys_list_pop_back (&list);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("pop_back \"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
 	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
 	LW6SYS_FREE (str);
       }
@@ -1806,14 +1822,14 @@ test_list ()
       {
 	ret = 0;
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("free list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("free list"));
     lw6sys_list_free (list);
   }
 
   {
     int a = 32, b = 64, c = 128, d = 256, e = 512;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("front/back push/pop on int list"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("front/back push/pop on int list"));
     list = lw6sys_list_new (NULL);
     lw6sys_list_push_front (&list, (void *) &a);
     lw6sys_list_push_front (&list, (void *) &b);
@@ -1834,7 +1850,7 @@ test_list ()
     char *str1, *str2, *str3, *str4;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("testing free_func callback and dup on string list"));
+		_x_ ("testing free_func callback and dup on string list"));
     list = lw6sys_list_new (&lw6sys_free_callback);
     str1 = lw6sys_str_copy (_TEST_LIST_STR1);
     lw6sys_lifo_push (&list, (void *) str1);
@@ -1851,7 +1867,7 @@ test_list ()
   }
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing final pop behavior"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing final pop behavior"));
 
     list = lw6sys_list_new (NULL);
     if (list)
@@ -1860,7 +1876,7 @@ test_list ()
 	if (list)
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("final pop front didn't free list"));
+			_x_ ("final pop front didn't free list"));
 	    lw6sys_list_free (list);
 	    ret = 0;
 	  }
@@ -1873,7 +1889,7 @@ test_list ()
 	if (list)
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("final pop back didn't free list"));
+			_x_ ("final pop back didn't free list"));
 	    lw6sys_list_free (list);
 	    ret = 0;
 	  }
@@ -1884,7 +1900,7 @@ test_list ()
     int *d = NULL;
     int limit = 0;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing list filter"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing list filter"));
     list = lw6sys_list_new (lw6sys_free_callback);
     if (list)
       {
@@ -1898,13 +1914,13 @@ test_list ()
 	      }
 	  }
 	limit = (2 * _TEST_LIST_FILTER_RANGE) / 3;
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("1st filter limit=%d"), limit);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("1st filter limit=%d"), limit);
 	lw6sys_list_filter (&list, list_filter_func, &limit);
 	limit = _TEST_LIST_FILTER_RANGE / 3;
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd filter limit=%d"), limit);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("2nd filter limit=%d"), limit);
 	lw6sys_list_filter (&list, list_filter_func, &limit);
 	limit = -_TEST_LIST_FILTER_RANGE / 10;
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("3rd filter limit=%d"), limit);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("3rd filter limit=%d"), limit);
 	lw6sys_list_filter (&list, list_filter_func, &limit);
 	lw6sys_list_free (list);
       }
@@ -1930,7 +1946,7 @@ test_log (int mode)
     lw6sys_log_set_level (log_level);
     if (mode)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("this is a /TEST/ warning"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("this is a /TEST/ warning"));
 	lw6sys_log (LW6SYS_LOG_ERROR, _("this is a /TEST/ error"));
       }
     else
@@ -1939,12 +1955,12 @@ test_log (int mode)
 	 * We do not test WARNING & ERROR to avoid confusion...
 	 */
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing log_notice %s=%d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing log_notice %s=%d"),
 		"log_level=%d", log_level);
-    lw6sys_log (LW6SYS_LOG_INFO, _("testing log_info %s=%d"), "log_level=%d",
-		log_level);
+    lw6sys_log (LW6SYS_LOG_INFO, _x_ ("testing log_info %s=%d"),
+		"log_level=%d", log_level);
     // normally, this one does now show with defaults settings...
-    lw6sys_log (LW6SYS_LOG_DEBUG, _("testing log_debug %s=%d"),
+    lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("testing log_debug %s=%d"),
 		"log_level=%d", log_level);
   }
 
@@ -1976,15 +1992,15 @@ test_math ()
 	 (TEST_MATH_POLY_WY1Y2S1_V1_MAX -
 	  TEST_MATH_POLY_WY1Y2S1_V1_MIN) / TEST_MATH_POLY_WY1Y2S1_NB_V1S)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("wy1y2s1 v1=%f"), v1);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("wy1y2s1 v1=%f"), v1);
 	for (x = 0.0f; x <= TEST_MATH_POLY_WY1Y2S1_W;
 	     x += TEST_MATH_POLY_WY1Y2S1_W / TEST_MATH_POLY_WY1Y2S1_NB_STEPS)
 	  {
 	    lw6sys_math_poly_wy1y2s1 (&y, &s, x, TEST_MATH_POLY_WY1Y2S1_W,
 				      TEST_MATH_POLY_WY1Y2S1_Y1,
 				      TEST_MATH_POLY_WY1Y2S1_Y2, v1);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("wy1y2s1 x=%f y=%f s=%f"), x, y,
-			s);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("wy1y2s1 x=%f y=%f s=%f"), x,
+			y, s);
 	  }
       }
     for (iy = TEST_MATH_ANGLE_XY_MIN; iy <= TEST_MATH_ANGLE_XY_MAX; ++iy)
@@ -1992,12 +2008,12 @@ test_math ()
 	for (ix = TEST_MATH_ANGLE_XY_MIN; ix <= TEST_MATH_ANGLE_XY_MAX; ++ix)
 	  {
 	    angle = lw6sys_math_angle_360 (ix, iy);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("x=%d y=%d angle=%f"), ix, iy,
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("x=%d y=%d angle=%f"), ix, iy,
 			angle);
 	  }
       }
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("heartbeat period=%d y1=%f y2=%f"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("heartbeat period=%d y1=%f y2=%f"),
 		TEST_MATH_HEARTBEAT_PERIOD, TEST_MATH_HEARTBEAT_Y1,
 		TEST_MATH_HEARTBEAT_Y2);
     for (t = 0; t < TEST_MATH_HEARTBEAT_N; t++)
@@ -2006,15 +2022,15 @@ test_math ()
 	  lw6sys_math_heartbeat (t, TEST_MATH_HEARTBEAT_PERIOD,
 				 TEST_MATH_HEARTBEAT_Y1,
 				 TEST_MATH_HEARTBEAT_Y2);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("heartbeat t=%d y=%f"), t, y);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("heartbeat t=%d y=%f"), t, y);
       }
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("blink period=%d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("blink period=%d"),
 		TEST_MATH_BLINK_PERIOD);
     for (t = 0; t < TEST_MATH_BLINK_N; t++)
       {
 	b = lw6sys_math_blink (t, TEST_MATH_BLINK_PERIOD);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("blink t=%d b=%d"), t, b);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("blink t=%d b=%d"), t, b);
       }
   }
 
@@ -2033,7 +2049,7 @@ test_mem ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _("testing MALLOC/FREE (%d bytes)"), MALLOC_SIZE);
+	      _x_ ("testing MALLOC/FREE (%d bytes)"), MALLOC_SIZE);
   ptr = (char *) LW6SYS_MALLOC (MALLOC_SIZE * sizeof (char));
   ret = ret && (ptr != NULL);
   LW6SYS_FREE (ptr);
@@ -2052,14 +2068,15 @@ test_mem ()
 	  lw6sys_free (ptr, __FILE__, __LINE__);
 	}
     }
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%d megs"), lw6sys_megabytes_available ());
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d megs"),
+	      lw6sys_megabytes_available ());
   if (lw6sys_is_big_endian ())
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("big endian"));
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("big endian"));
     }
   if (lw6sys_is_little_endian ())
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("little endian"));
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("little endian"));
     }
 
   ret = ret && lw6sys_check_types_size ();
@@ -2082,7 +2099,7 @@ test_mutex ()
     int i = 0;
     u_int64_t end_timestamp = 0;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing mutex functions"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing mutex functions"));
     mutex = lw6sys_mutex_create ();
     if (mutex)
       {
@@ -2091,7 +2108,7 @@ test_mutex ()
 	    if (lw6sys_mutex_trylock (mutex))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("strange, trylock on locked mutex should return 0"));
 	      }
 	    else
@@ -2112,7 +2129,7 @@ test_mutex ()
 		i++;
 	      }
 	  }
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("%d locks per second"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d locks per second"),
 		    (i * 1000) / _TEST_MUTEX_DELAY);
 	lw6sys_mutex_destroy (mutex);
       }
@@ -2137,7 +2154,8 @@ test_options ()
     path = lw6sys_get_default_user_dir ();
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("default user dir is \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("default user dir is \"%s\""),
+		    path);
 	LW6SYS_FREE (path);
       }
     else
@@ -2148,7 +2166,8 @@ test_options ()
     path = lw6sys_get_default_prefix ();
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("default prefix is \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("default prefix is \"%s\""),
+		    path);
 	LW6SYS_FREE (path);
       }
     else
@@ -2168,7 +2187,7 @@ test_options ()
     path = lw6sys_get_user_dir (argc, argv);
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("user dir is \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("user dir is \"%s\""), path);
 	LW6SYS_FREE (path);
       }
     else
@@ -2179,7 +2198,7 @@ test_options ()
     path = lw6sys_get_prefix (argc, argv);
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("prefix is \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("prefix is \"%s\""), path);
 	LW6SYS_FREE (path);
       }
     else
@@ -2218,7 +2237,7 @@ path_split_func (void *func_data, void *data)
 {
   char *str = (char *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("path part \"%s\""), str);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("path part \"%s\""), str);
 }
 
 static int
@@ -2228,13 +2247,13 @@ _dir_list_filter (void *func_data, char *file)
 
   if (lw6sys_checksum_str (file) % 2)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("keep \"%s\" (func_data=\"%s\")"),
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("keep \"%s\" (func_data=\"%s\")"),
 		  file, func_data);
       ret = 1;
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("discard \"%s\""), file);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("discard \"%s\""), file);
     }
 
   return ret;
@@ -2245,7 +2264,7 @@ _dir_list_print (void *func_data, void *data)
 {
   char *file = (char *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("entry \"%s\""), file);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entry \"%s\""), file);
 }
 
 /*
@@ -2265,7 +2284,7 @@ test_path ()
     int cwd = 0;
     lw6sys_list_t *list = NULL;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("add/strip slash"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("add/strip slash"));
     path = lw6sys_path_add_slash (PATH_WITHOUT_SLASH);
     if (path)
       {
@@ -2278,11 +2297,12 @@ test_path ()
 	ret = ret && (strcmp (path, PATH_WITHOUT_SLASH) == 0);
 	LW6SYS_FREE (path);
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("concat path"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("concat path"));
     path = lw6sys_path_concat (PATH_WITH_SLASH, PATH_WITH_SLASH);
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("concatenated path = \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("concatenated path = \"%s\""),
+		    path);
 	ret = ret && (strcmp (path, PATH_CONCAT) == 0);
 	LW6SYS_FREE (path);
       }
@@ -2290,46 +2310,48 @@ test_path ()
     if (relative)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("path \"%s\" is relative"), PATH_RELATIVE);
+		    _x_ ("path \"%s\" is relative"), PATH_RELATIVE);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("path \"%s\" not considered relative"), PATH_RELATIVE);
+		    _x_ ("path \"%s\" not considered relative"),
+		    PATH_RELATIVE);
 	ret = 0;
       }
     cwd = lw6sys_path_is_cwd (TEST_PATH_CWD);
     if (cwd)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("path \"%s\" is cwd"), TEST_PATH_CWD);
+		    _x_ ("path \"%s\" is cwd"), TEST_PATH_CWD);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("path \"%s\" not considered being cwd"), TEST_PATH_CWD);
+		    _x_ ("path \"%s\" not considered being cwd"),
+		    TEST_PATH_CWD);
 	ret = 0;
       }
     path = lw6sys_path_parent (PATH_CONCAT);
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("parent path = \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parent path = \"%s\""), path);
 	ret = ret && (strcmp (path, PATH_CONCAT_PARENT) == 0);
 	LW6SYS_FREE (path);
       }
     path = lw6sys_path_unparent (PATH_RELATIVE);
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("unparent path = \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("unparent path = \"%s\""), path);
 	ret = ret && (strcmp (path, PATH_RELATIVE_UNPARENT) == 0);
 	LW6SYS_FREE (path);
       }
     path = lw6sys_path_unparent_no_malloc (PATH_RELATIVE);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("unparent path = \"%s\""), path);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("unparent path = \"%s\""), path);
     ret = ret && (strcmp (path, PATH_RELATIVE_UNPARENT) == 0);
 
     list = lw6sys_path_split (TEST_PATH_SPLIT);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("splitting \"%s\""), TEST_PATH_SPLIT);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("splitting \"%s\""), TEST_PATH_SPLIT);
     if (list)
       {
 	lw6sys_list_map (list, path_split_func, NULL);
@@ -2339,29 +2361,30 @@ test_path ()
     path = lw6sys_get_home ();
     if (path)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("listing dir \"%s\""), path);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listing dir \"%s\""), path);
 	list =
 	  lw6sys_dir_list (path, _dir_list_filter, _TEST_DIR_LIST_FUNC_DATA,
 			   &n);
 	if (list)
 	  {
 	    lw6sys_list_map (list, _dir_list_print, NULL);
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("%d items found in \"%s\""), n,
-			path);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d items found in \"%s\""),
+			n, path);
 	    lw6sys_list_free (list);
 	  }
 	path2 = lw6sys_env_concat (path, _TEST_PATH_LIST_OTHER);
 	if (path2)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("listing path \"%s\""), path2);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listing path \"%s\""),
+			path2);
 	    list =
 	      lw6sys_path_list (path2, _dir_list_filter,
 				_TEST_DIR_LIST_FUNC_DATA, &n);
 	    if (list)
 	      {
 		lw6sys_list_map (list, _dir_list_print, NULL);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("%d items found in \"%s\""),
-			    n, path2);
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("%d items found in \"%s\""), n, path2);
 		lw6sys_list_free (list);
 	      }
 	    LW6SYS_FREE (path2);
@@ -2375,7 +2398,8 @@ test_path ()
     if (path)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("found \"%s\" with dir=\"%s\" path=\"%s\" file=\"%s\""),
+		    _x_
+		    ("found \"%s\" with dir=\"%s\" path=\"%s\" file=\"%s\""),
 		    path, _FIND_IN_DIR_AND_PATH_DIR,
 		    _FIND_IN_DIR_AND_PATH_PATH, _FIND_IN_DIR_AND_PATH_FILE);
 	LW6SYS_FREE (path);
@@ -2409,7 +2433,7 @@ test_progress ()
     for (i = 0; i < TEST_PROGRESS_N; ++i)
       {
 	lw6sys_progress_update (&progress, 0, TEST_PROGRESS_N, i);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("progress=%0.2f"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("progress=%0.2f"),
 		    *(progress.value));
       }
     lw6sys_progress_begin (&progress);
@@ -2417,30 +2441,30 @@ test_progress ()
     lw6sys_progress_end (&progress);
     lw6sys_progress_split (&progress1, &progress2, &progress);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f"),
+		_x_ ("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f"),
 		progress1.min, progress1.max, progress2.min, progress2.max);
     lw6sys_progress_split_here (&progress1, &progress2, &progress,
 				TEST_PROGRESS_HERE);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f"),
+		_x_ ("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f"),
 		progress1.min, progress1.max, progress2.min, progress2.max);
     lw6sys_progress_split3 (&progress1, &progress2, &progress3, &progress);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f progress3 %0.2f/%0.2f"),
 		progress1.min, progress1.max, progress2.min, progress2.max,
 		progress3.min, progress3.max);
     lw6sys_progress_split4 (&progress1, &progress2, &progress3, &progress4,
 			    &progress);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f progress3 %0.2f/%0.2f progress4 %0.2f/%0.2f"),
 		progress1.min, progress1.max, progress2.min, progress2.max,
 		progress3.min, progress3.max, progress4.min, progress4.max);
     lw6sys_progress_split5 (&progress1, &progress2, &progress3, &progress4,
 			    &progress5, &progress);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("progress1 %0.2f/%0.2f progress2 %0.2f/%0.2f progress3 %0.2f/%0.2f progress4 %0.2f/%0.2f progress5 %0.2f/%0.2f"),
 		progress1.min, progress1.max, progress2.min, progress2.max,
 		progress3.min, progress3.max, progress4.min, progress4.max,
@@ -2466,11 +2490,11 @@ test_random ()
 
     i = lw6sys_random (TEST_RANDOM_RANGE);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("here's a random number between 0 and %d: %d"),
+		_x_ ("here's a random number between 0 and %d: %d"),
 		TEST_RANDOM_RANGE, i);
     f = lw6sys_random_float (TEST_RANDOM_FLOAT_MIN, TEST_RANDOM_FLOAT_MAX);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("here's a random float number between %f and %f: %f"),
+		_x_ ("here's a random float number between %f and %f: %f"),
 		TEST_RANDOM_FLOAT_MIN, TEST_RANDOM_FLOAT_MAX, f);
   }
 
@@ -2492,15 +2516,15 @@ test_signal ()
 
     if (lw6sys_signal_poll_quit ())
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("quit!=0, strange..."));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("quit!=0, strange..."));
       }
     lw6sys_signal_custom ();
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));
     for (i = 0; i < _TEST_SIGNAL_LOOPS; ++i)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("quit=%d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("quit=%d"),
 		    lw6sys_signal_poll_quit ());
 	lw6sys_snooze ();
       }
@@ -2545,13 +2569,13 @@ test_sort ()
 	  {
 	    if ((*((int *) (list->data))) == TEST_SORT_INT_MIN)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("min sorted value is %d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("min sorted value is %d"),
 			    TEST_SORT_INT_MIN);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("min sorted value is %d and should be %d"),
+			    _x_ ("min sorted value is %d and should be %d"),
 			    *((int *) (list->data)), TEST_SORT_INT_MIN);
 		ret = 0;
 	      }
@@ -2561,13 +2585,13 @@ test_sort ()
 	  {
 	    if ((*((int *) (list->data))) == TEST_SORT_INT_MAX)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("max sorted value is %d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max sorted value is %d"),
 			    TEST_SORT_INT_MAX);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("max sorted value is %d and should be %d"),
+			    _x_ ("max sorted value is %d and should be %d"),
 			    *((int *) (list->data)), TEST_SORT_INT_MAX);
 		ret = 0;
 	      }
@@ -2604,13 +2628,13 @@ test_sort ()
 	  {
 	    if ((*((float *) (list->data))) == TEST_SORT_FLOAT_MIN)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("min sorted value is %f"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("min sorted value is %f"),
 			    TEST_SORT_FLOAT_MIN);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("min sorted value is %f and should be %f"),
+			    _x_ ("min sorted value is %f and should be %f"),
 			    *((float *) (list->data)), TEST_SORT_FLOAT_MIN);
 		ret = 0;
 	      }
@@ -2620,13 +2644,13 @@ test_sort ()
 	  {
 	    if ((*((float *) (list->data))) == TEST_SORT_FLOAT_MAX)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("max sorted value is %f"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max sorted value is %f"),
 			    TEST_SORT_FLOAT_MAX);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("max sorted value is %f and should be %f"),
+			    _x_ ("max sorted value is %f and should be %f"),
 			    *((float *) (list->data)), TEST_SORT_FLOAT_MAX);
 		ret = 0;
 	      }
@@ -2664,13 +2688,13 @@ test_sort ()
 	    if (!strcmp ((char *) (list->data), TEST_SORT_STR_MIN))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("min sorted value is \"%s\""),
+			    _x_ ("min sorted value is \"%s\""),
 			    TEST_SORT_STR_MIN);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("min sorted value is \"%s\" and should be \"%s\""),
 			    (char *) (list->data), TEST_SORT_STR_MIN);
 		ret = 0;
@@ -2682,13 +2706,13 @@ test_sort ()
 	    if (!strcmp ((char *) (list->data), TEST_SORT_STR_MAX))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("max sorted value is \"%s\""),
+			    _x_ ("max sorted value is \"%s\""),
 			    TEST_SORT_STR_MAX);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("max sorted value is \"%s\" and should be \"%s\""),
 			    (char *) (list->data), TEST_SORT_STR_MAX);
 		ret = 0;
@@ -2724,7 +2748,7 @@ test_spinlock ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing spinlock functions"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing spinlock functions"));
     spinlock = lw6sys_spinlock_create ();
     if (spinlock)
       {
@@ -2733,7 +2757,7 @@ test_spinlock ()
 	    if (lw6sys_spinlock_trylock (spinlock))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("strange, trylock on locked spinlock should return 0"));
 	      }
 	    else
@@ -2760,7 +2784,7 @@ str_split_func (void *func_data, void *data)
 {
   char *str = (char *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("split part \"%s\""), str);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("split part \"%s\""), str);
 }
 
 /*
@@ -2777,25 +2801,25 @@ test_str ()
     lw6sys_list_t *list;
     int is_bin = 0;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing is_blank on \"%s\""),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing is_blank on \"%s\""),
 		BLANK_STR);
     ret = ret && lw6sys_str_is_blank (BLANK_STR);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing cleanup"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing cleanup"));
     str =
       lw6sys_new_sprintf (CLEANUP_FORMAT, CLEANUP_CONTROL, CLEANUP_ACCENT);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("before cleanup, string is \%s\""),
-		    str);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("before cleanup, string is \%s\""), str);
 	lw6sys_str_cleanup (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("after cleanup, string is \"%s\""),
-		    str);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("after cleanup, string is \"%s\""), str);
 	lw6sys_str_cleanup_ascii7 (str);
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("after cleanup (ascii-7), string is \"%s\""), str);
+		    _x_ ("after cleanup (ascii-7), string is \"%s\""), str);
 	LW6SYS_FREE (str);
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("testing is_same"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing is_same"));
     ret = ret && lw6sys_str_is_same (BLANK_STR, BLANK_STR)
       && lw6sys_str_is_same (NULL, NULL)
       && (!lw6sys_str_is_same (NULL, BLANK_STR))
@@ -2812,7 +2836,7 @@ test_str ()
 			   TEST_REFORMAT_COLUMNS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("reformatted string is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
 		    str);
 	LW6SYS_FREE (str);
       }
@@ -2826,7 +2850,7 @@ test_str ()
 			   TEST_REFORMAT_COLUMNS);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("reformatted string is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
 		    str);
 	LW6SYS_FREE (str);
       }
@@ -2859,13 +2883,13 @@ test_str ()
     str = lw6sys_str_copy (_TEST_STR_LOWER_UPPER);
     if (str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("original string=\"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("original string=\"%s\""), str);
 	lw6sys_str_tolower (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("lowered string=\"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lowered string=\"%s\""), str);
 	lw6sys_str_toupper (str);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("uppered string=\"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("uppered string=\"%s\""), str);
 	lw6sys_str_truncate (str, _TEST_STR_TRUNCATE);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("truncated string=\"%s\""), str);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("truncated string=\"%s\""), str);
 	LW6SYS_FREE (str);
       }
 
@@ -2876,17 +2900,17 @@ test_str ()
 	if (is_bin)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("random string considered binary -> good!"));
+			_x_ ("random string considered binary -> good!"));
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("random string *not* considered binary, this is strange, test isn't reported as failed since an error can always happen and a monkey could random-type a shakespeare masterpice, but still..."));
 	  }
 	lw6sys_str_cleanup_ascii7 (str);
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("random string of %d chars (after ascii7 cleanup) \"%s\""),
 		    strlen (str), str);
 	LW6SYS_FREE (str);
@@ -2898,14 +2922,14 @@ test_str ()
 	if (!is_bin)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("string \"%s\" (64-bit ID) considered *not* binary -> good!"),
 			str);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_
+			_x_
 			("string \"%s\" (64-bit ID) considered binary, this is wrong"),
 			str);
 	    ret = 0;
@@ -2928,7 +2952,7 @@ test_sdl ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("register/unregister SDL"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("register/unregister SDL"));
     ret = ret && lw6sys_sdl_register () && lw6sys_sdl_unregister ();
   }
 
@@ -2956,7 +2980,7 @@ test_serial ()
     if (test64 != TEST_SERIALIZE)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("serialize failed on 64-bit integer (%d/%d)"),
+		    _x_ ("serialize failed on 64-bit integer (%d/%d)"),
 		    (int) test64, TEST_SERIALIZE);
 	ret = 0;
       }
@@ -2966,7 +2990,7 @@ test_serial ()
     if (test32 != TEST_SERIALIZE)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("serialize failed on 32-bit integer (%d/%d)"),
+		    _x_ ("serialize failed on 32-bit integer (%d/%d)"),
 		    (int) test32, TEST_SERIALIZE);
 	ret = 0;
       }
@@ -2976,7 +3000,7 @@ test_serial ()
     if (test16 != TEST_SERIALIZE)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("serialize failed on 16-bit integer (%d/%d)"),
+		    _x_ ("serialize failed on 16-bit integer (%d/%d)"),
 		    (int) test16, TEST_SERIALIZE);
 	ret = 0;
       }
@@ -3005,7 +3029,7 @@ test_shape ()
 	(&shape, TEST_SHAPE_MIN_WH, TEST_SHAPE_MAX_WH, TEST_SHAPE_MAX_D))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("shape %dx%dx%d respects [%d-%d-%d] constraints"),
+		    _x_ ("shape %dx%dx%d respects [%d-%d-%d] constraints"),
 		    (int) shape.w, (int) shape.h, (int) shape.d,
 		    TEST_SHAPE_MIN_WH, TEST_SHAPE_MAX_WH, TEST_SHAPE_MAX_D);
       }
@@ -3016,9 +3040,9 @@ test_shape ()
     if (lw6sys_shape_check_pos (&shape, &pos))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("pos %d,%d,%d is inside shape %dx%dx%d"), (int) pos.x,
-		    (int) pos.y, (int) pos.z, (int) shape.w, (int) shape.h,
-		    (int) shape.d);
+		    _x_ ("pos %d,%d,%d is inside shape %dx%dx%d"),
+		    (int) pos.x, (int) pos.y, (int) pos.z, (int) shape.w,
+		    (int) shape.h, (int) shape.d);
       }
     else
       {
@@ -3028,7 +3052,7 @@ test_shape ()
 	&& !lw6sys_shape_is_same (&shape, &shape2))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("shape %dx%dx%d reported different as %dx%dx%d"),
+		    _x_ ("shape %dx%dx%d reported different as %dx%dx%d"),
 		    (int) shape.w, (int) shape.h, (int) shape.d,
 		    (int) shape2.w, (int) shape2.h, (int) shape2.d);
       }
@@ -3040,7 +3064,7 @@ test_shape ()
 	&& !lw6sys_shape_is_same_xy (&shape, &shape2))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("shape %dx%d reported different as %dx%d"),
+		    _x_ ("shape %dx%d reported different as %dx%d"),
 		    (int) shape.w, (int) shape.h,
 		    (int) shape2.w, (int) shape2.h);
       }
@@ -3061,10 +3085,10 @@ thread_func (void *callback_data)
   char *text = NULL;
 
   text = (char *) callback_data;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("thread_callback text=\"%s\""), text);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("thread_callback text=\"%s\""), text);
   for (i = 0; i < THREAD_N; ++i)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("thread_callback step %d"), i + 1);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("thread_callback step %d"), i + 1);
       lw6sys_sleep (THREAD_SLEEP_CALLBACK);
     }
 }
@@ -3075,7 +3099,7 @@ thread_join_nofree (void *callback_data)
   char *text = NULL;
 
   text = (char *) callback_data;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("thread_join text=\"%s\""), text);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("thread_join text=\"%s\""), text);
 }
 
 static void
@@ -3109,7 +3133,7 @@ thread_stress_func (void *callback_data)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create child"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create child"));
 	  thread_stress_data->ret = 0;
 	}
       thread_stress_data->count++;
@@ -3149,7 +3173,8 @@ test_stream ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to open \"%s\" for writing"), filename);
+			    _x_ ("unable to open \"%s\" for writing"),
+			    filename);
 		ret = 0;
 	      }
 	    f = fopen (filename, "r");
@@ -3158,18 +3183,19 @@ test_stream ()
 		str = lw6sys_stream_file_to_str (f);
 		if (str)
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE, _("read \"%s\", %d bytes"),
-				filename, strlen (str));
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("read \"%s\", %d bytes"), filename,
+				strlen (str));
 		    if (lw6sys_str_is_same (str, TEST_CONTENT))
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("content is fine \"%s\""),
+				    _x_ ("content is fine \"%s\""),
 				    TEST_CONTENT);
 		      }
 		    else
 		      {
 			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _
+				    _x_
 				    ("content is wrong it's \"%s\" and should be \"%s\""),
 				    str, TEST_CONTENT);
 			ret = 0;
@@ -3179,7 +3205,7 @@ test_stream ()
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_("unable to read \"%s\""), filename);
+				_x_ ("unable to read \"%s\""), filename);
 		    ret = 0;
 		  }
 		fclose (f);
@@ -3187,7 +3213,8 @@ test_stream ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to open \"%s\" for reading"), filename);
+			    _x_ ("unable to open \"%s\" for reading"),
+			    filename);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (filename);
@@ -3225,7 +3252,8 @@ test_thread ()
 	    for (i = 0; i < THREAD_N; ++i)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("thread_main step %d, callback_done=%d"), i + 1,
+			    _x_ ("thread_main step %d, callback_done=%d"),
+			    i + 1,
 			    lw6sys_thread_is_callback_done (thread_handler));
 		lw6sys_sleep (THREAD_SLEEP_MAIN);
 	      }
@@ -3257,7 +3285,7 @@ test_thread ()
 	    ret = ret && thread_stress_data.ret;
 	    if (ret)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("%d threads (%0.1f/sec)"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d threads (%0.1f/sec)"),
 			    thread_stress_data.count,
 			    (float) (((float) thread_stress_data.count) /
 				     THREAD_STRESS_DURATION));
@@ -3294,43 +3322,46 @@ test_time ()
     char *clf = NULL;
     char *uptime_str = NULL;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("timestamp %" LW6SYS_PRINTF_LL "d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("timestamp %" LW6SYS_PRINTF_LL "d"),
 		lw6sys_get_timestamp ());
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("uptime %" LW6SYS_PRINTF_LL "d"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("uptime %" LW6SYS_PRINTF_LL "d"),
 		lw6sys_get_uptime ());
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("cycle %d"), lw6sys_get_cycle ());
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cycle %d"), lw6sys_get_cycle ());
     lw6sys_idle ();
     lw6sys_timer_update (&timestamp, &uptime, &cycle);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("after idle timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
-		  LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime, cycle);
+		_x_ ("after idle timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
+		     LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime,
+		cycle);
     lw6sys_snooze ();
     lw6sys_timer_update (&timestamp, &uptime, &cycle);
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("after snooze timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
-		  LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime, cycle);
+		_x_ ("after snooze timestamp=%" LW6SYS_PRINTF_LL "d uptime=%"
+		     LW6SYS_PRINTF_LL "d cycle=%d"), timestamp, uptime,
+		cycle);
     last_uptime = lw6sys_get_uptime ();
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("sleep %d seconds"), TEST_SLEEP_TIME);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("sleep %d seconds"), TEST_SLEEP_TIME);
     lw6sys_sleep (TEST_SLEEP_TIME);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("delay %d msec"), TEST_DELAY_TIME);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("delay %d msec"), TEST_DELAY_TIME);
     lw6sys_delay (TEST_DELAY_TIME);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lasted %" LW6SYS_PRINTF_LL "d ms"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lasted %" LW6SYS_PRINTF_LL "d ms"),
 		lw6sys_get_uptime () - last_uptime);
     last_uptime = lw6sys_get_uptime ();
     nb_steps = TEST_SLEEP_TIME / TEST_SLEEP_TIME_SHORT_STEP;
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("sleep %d seconds using %d %0.6f steps"),
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("sleep %d seconds using %d %0.6f steps"),
 		TEST_SLEEP_TIME, nb_steps, TEST_SLEEP_TIME_SHORT_STEP);
     for (i = 0; i < nb_steps; ++i)
       {
 	lw6sys_sleep (TEST_SLEEP_TIME_SHORT_STEP);
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("lasted %" LW6SYS_PRINTF_LL "d ms"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lasted %" LW6SYS_PRINTF_LL "d ms"),
 		lw6sys_get_uptime () - last_uptime);
 
     rfc1123 = lw6sys_date_rfc1123 (0);
     if (rfc1123)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("rfc1123 date for now is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("rfc1123 date for now is \"%s\""),
 		    rfc1123);
 	LW6SYS_FREE (rfc1123);
       }
@@ -3338,27 +3369,29 @@ test_time ()
     if (rfc1123)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("rfc1123 date in %d seconds is \"%s\""),
+		    _x_ ("rfc1123 date in %d seconds is \"%s\""),
 		    TEST_RFC1123_SECONDS_FROM_NOW, rfc1123);
 	LW6SYS_FREE (rfc1123);
       }
     clf = lw6sys_date_clf ();
     if (clf)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("clf date is \"%s\""), clf);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("clf date is \"%s\""), clf);
 	LW6SYS_FREE (clf);
       }
     uptime_str = lw6sys_readable_uptime (TEST_READABLE_UPTIME_1);
     if (uptime_str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("readable uptime for %d is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("readable uptime for %d is \"%s\""),
 		    TEST_READABLE_UPTIME_1, uptime_str);
 	LW6SYS_FREE (uptime_str);
       }
     uptime_str = lw6sys_readable_uptime (TEST_READABLE_UPTIME_2);
     if (uptime_str)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("readable uptime for %d is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("readable uptime for %d is \"%s\""),
 		    TEST_READABLE_UPTIME_2, uptime_str);
 	LW6SYS_FREE (uptime_str);
       }
@@ -3383,7 +3416,7 @@ test_url ()
     url = lw6sys_url_http_from_ip_port (TEST_URL_IP_1, TEST_URL_PORT_1);
     if (url)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("url from \"%s:%d\" is \"%s\""),
 		    TEST_URL_IP_1, TEST_URL_PORT_1, url);
 	LW6SYS_FREE (url);
       }
@@ -3394,7 +3427,7 @@ test_url ()
     url = lw6sys_url_http_from_ip_port (TEST_URL_IP_2, TEST_URL_PORT_2);
     if (url)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("url from \"%s:%d\"is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("url from \"%s:%d\"is \"%s\""),
 		    TEST_URL_IP_2, TEST_URL_PORT_2, url);
 	LW6SYS_FREE (url);
       }
@@ -3405,7 +3438,7 @@ test_url ()
     if (lw6sys_url_is_canonized (TEST_URL_NOT_CANONIZED))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("url \"%s\" reported as canonized, but it isn't"),
+		    _x_ ("url \"%s\" reported as canonized, but it isn't"),
 		    TEST_URL_NOT_CANONIZED);
 	ret = 0;
       }
@@ -3413,12 +3446,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_1, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3427,12 +3460,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_2, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3441,12 +3474,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_3, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3455,12 +3488,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_4, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3469,12 +3502,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_5, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3483,12 +3516,12 @@ test_url ()
     if (url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("canonical url for \"%s\" is \"%s\""),
+		    _x_ ("canonical url for \"%s\" is \"%s\""),
 		    TEST_URL_CANONIZE_6, url);
 	if (!lw6sys_url_is_canonized (url))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("url \"%s\" not reported as canonized"), url);
+			_x_ ("url \"%s\" not reported as canonized"), url);
 	    ret = 0;
 	  }
 	LW6SYS_FREE (url);
@@ -3506,22 +3539,22 @@ vthread_func (void *callback_data)
   char *text = NULL;
 
   text = (char *) callback_data;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("vthread_callback text=\"%s\""), text);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("vthread_callback text=\"%s\""), text);
 
   lw6sys_idle ();
   if (!lw6sys_vthread_is_running ())
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("vthread marked as not running, when it is"));
+		  _x_ ("vthread marked as not running, when it is"));
     }
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("1st vthread"));
   if (lw6sys_vthread_create
       (&thread_func, &thread_join_nofree, callback_data))
     {
       for (i = 0; i < THREAD_N; ++i)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("1st vthread_main step %d"),
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("1st vthread_main step %d"),
 		      i + 1);
 	  lw6sys_sleep (THREAD_SLEEP_MAIN);
 	}
@@ -3530,16 +3563,16 @@ vthread_func (void *callback_data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create 1st vthread"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create 1st vthread"));
     }
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("2nd vthread"));
   if (lw6sys_vthread_create
       (&thread_func, &thread_join_nofree, callback_data))
     {
       for (i = 0; i < THREAD_N; ++i)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("2nd vthread_main step %d"),
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("2nd vthread_main step %d"),
 		      i + 1);
 	  lw6sys_sleep (THREAD_SLEEP_MAIN);
 	}
@@ -3548,7 +3581,7 @@ vthread_func (void *callback_data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create 2nd vthread"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create 2nd vthread"));
     }
 }
 
@@ -3558,7 +3591,7 @@ vthread_join (void *callback_data)
   char *text = NULL;
 
   text = (char *) callback_data;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("vthread_join text=\"%s\""), text);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("vthread_join text=\"%s\""), text);
   LW6SYS_FREE (callback_data);
 }
 
@@ -3569,7 +3602,7 @@ vthread_func_no_spawn (void *callback_data)
 
   text = (char *) callback_data;
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _
+	      _x_
 	      ("vthread_callback text=\"%s\", this callback does *NOT* fire a thread"),
 	      text);
 }
@@ -3592,7 +3625,7 @@ test_vthread ()
     if (lw6sys_vthread_is_running ())
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("vthread marked as running, when it's not"));
+		    _x_ ("vthread marked as running, when it's not"));
 	ret = 0;
       }
     for (i = 0; i < VTHREAD_N; ++i)
@@ -3603,11 +3636,11 @@ test_vthread ()
 	    if (lw6sys_vthread_run
 		(&vthread_func, &vthread_join, (void *) text))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("done with vthread"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with vthread"));
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("can't run vthread"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("can't run vthread"));
 		ret = 0;
 	      }
 	  }
@@ -3622,11 +3655,11 @@ test_vthread ()
 	    if (lw6sys_vthread_run
 		(&vthread_func_no_spawn, &vthread_join, (void *) text))
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("done with vthread"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with vthread"));
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("can't run vthread"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("can't run vthread"));
 		ret = 0;
 	      }
 	  }

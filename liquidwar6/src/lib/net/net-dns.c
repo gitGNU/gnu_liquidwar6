@@ -152,8 +152,9 @@ lw6net_dns_gethostbyname (char *name)
 	  cached_ret = lw6sys_hash_get (dns->dns_cache, name);
 	  if (cached_ret)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("cached DNS \"%s\" -> \"%s\""),
-			  name, cached_ret);
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("cached DNS \"%s\" -> \"%s\""), name,
+			  cached_ret);
 	      ret = lw6sys_str_copy (cached_ret);
 	    }
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);
@@ -177,7 +178,7 @@ lw6net_dns_gethostbyname (char *name)
 		  if (ntoa_ret)
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _("DNS request \"%s\" -> \"%s\""), name,
+				  _x_ ("DNS request \"%s\" -> \"%s\""), name,
 				  ntoa_ret);
 		      to_put_in_cache = lw6sys_str_copy (ntoa_ret);
 
@@ -194,7 +195,7 @@ lw6net_dns_gethostbyname (char *name)
       if (lw6sys_mutex_lock (dns->dns_cache_mutex))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("put in DNS cache \"%s\" -> \"%s\""), name,
+		      _x_ ("put in DNS cache \"%s\" -> \"%s\""), name,
 		      to_put_in_cache);
 	  lw6sys_hash_set (dns->dns_cache, name, to_put_in_cache);
 	  lw6sys_mutex_unlock (dns->dns_cache_mutex);

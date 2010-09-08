@@ -191,7 +191,8 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	      if (ret)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("all tests SUCCESSFULL! (check-only mode)"));
+			      _x_
+			      ("all tests SUCCESSFULL! (check-only mode)"));
 		}
 	      else
 		{
@@ -200,7 +201,7 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 		   * interactive operation to finish
 		   */
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("check FAILED, see log file \"%s\" for details"),
 			      log_file);
 		}

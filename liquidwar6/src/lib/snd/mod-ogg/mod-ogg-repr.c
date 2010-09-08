@@ -36,7 +36,8 @@ _mod_ogg_repr (_mod_ogg_context_t * ogg_context, u_int32_t id)
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
   ret =
-    lw6sys_new_sprintf (_("%u ogg SDL version %u.%u.%u volume %0.1f-%0.1f"),
+    lw6sys_new_sprintf (_x_
+			("%u ogg SDL version %u.%u.%u volume %0.1f-%0.1f"),
 			id, version.major, version.minor, version.patch,
 			ogg_context->volume.sound, ogg_context->volume.music);
 

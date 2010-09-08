@@ -34,7 +34,7 @@ _mod_tcpd_repr (_tcpd_context_t * tcpd_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_("tcpd connexion with %s:%d"),
+    lw6sys_new_sprintf (_x_ ("tcpd connexion with %s:%d"),
 			connection->remote_ip, connection->remote_port);
 
   return ret;

@@ -47,11 +47,11 @@ lw6gui_input_init (lw6gui_input_t * input)
   if (input->keyboard.queue)
     {
       ret = 1;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("new input queue created"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("new input queue created"));
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to initialize input"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to initialize input"));
     }
 
   return ret;
@@ -120,7 +120,7 @@ lw6gui_input_free (lw6gui_input_t * input)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL input"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL input"));
     }
 }
 

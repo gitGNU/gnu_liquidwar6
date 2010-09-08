@@ -36,7 +36,8 @@ _mod_ogg_init (int argc, char *argv[], float sound_volume, float music_volume)
   SDL_version version;
 
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _("ogg init volume=%01.2f/%01.2f"), sound_volume, music_volume);
+	      _x_ ("ogg init volume=%01.2f/%01.2f"), sound_volume,
+	      music_volume);
 
   snd_context =
     (_mod_ogg_context_t *) LW6SYS_CALLOC (sizeof (_mod_ogg_context_t));
@@ -47,11 +48,11 @@ _mod_ogg_init (int argc, char *argv[], float sound_volume, float music_volume)
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("SDL header version when compiled %u.%u.%u"),
+		      _x_ ("SDL header version when compiled %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 	  version = *SDL_Linked_Version ();
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("SDL linked version now at runtime %u.%u.%u"),
+		      _x_ ("SDL linked version now at runtime %u.%u.%u"),
 		      version.major, version.minor, version.patch);
 
 	  _mod_ogg_load_consts (snd_context);
@@ -64,7 +65,7 @@ _mod_ogg_init (int argc, char *argv[], float sound_volume, float music_volume)
 	  if (!SDL_WasInit (SDL_INIT_EVENTTHREAD))
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("unable to start SDL event thread, using poll() function"));
 	    }
 
@@ -90,21 +91,21 @@ _mod_ogg_init (int argc, char *argv[], float sound_volume, float music_volume)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("SDL_mixer init error: \"%s\""),
+			      _x_ ("SDL_mixer init error: \"%s\""),
 			      Mix_GetError ());
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("SDL init error: \"%s\""), SDL_GetError ());
+			  _x_ ("SDL init error: \"%s\""), SDL_GetError ());
 	    }
 	}
     }
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to init mod_ogg"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init mod_ogg"));
       _mod_ogg_quit (snd_context);
       snd_context = NULL;
     }
@@ -115,7 +116,7 @@ _mod_ogg_init (int argc, char *argv[], float sound_volume, float music_volume)
 void
 _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("ogg quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("ogg quit"));
 
   _mod_ogg_stop_music (snd_context);
 
@@ -128,7 +129,7 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
 
   if (lw6sys_sdl_unregister ())
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("SDL Quit"));
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();
     }
 

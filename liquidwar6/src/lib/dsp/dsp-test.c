@@ -67,7 +67,7 @@ sleep_and_report (lw6dsp_backend_t * display, float delay)
 {
   lw6sys_sleep (delay);
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _
+	      _x_
 	      ("last_frame_rendering_time=%d, instant_fps=%d, average_fps=%d"),
 	      lw6dsp_get_last_frame_rendering_time (display),
 	      lw6dsp_get_instant_fps (display),
@@ -212,7 +212,8 @@ test_display (char *gfx_backend_name)
 	repr = lw6dsp_repr (display);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("display repr is \"%s\""), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""),
+			repr);
 	    LW6SYS_FREE (repr);
 	  }
 	lw6dsp_param_zero (&param);
@@ -234,17 +235,17 @@ test_display (char *gfx_backend_name)
 		if (repr)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("display repr is \"%s\""), repr);
+				_x_ ("display repr is \"%s\""), repr);
 		    LW6SYS_FREE (repr);
 		  }
 		lw6dsp_get_video_mode (display, &video_mode);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("video mode is %dx%d fullscreen=%d"),
+			    _x_ ("video mode is %dx%d fullscreen=%d"),
 			    video_mode.width, video_mode.height,
 			    video_mode.fullscreen);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("displaying background"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying background"));
 		sleep_and_report (display, TEST_SLEEP_LONG);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("changing resolution"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("changing resolution"));
 		param.video_mode.width = TEST_WIDTH2;
 		param.video_mode.height = TEST_HEIGHT2;
 		param.video_mode.fullscreen = TEST_FULLSCREEN2;
@@ -253,7 +254,7 @@ test_display (char *gfx_backend_name)
 		param.misc.log_timeout = TEST_LOG_TIMEOUT;
 		lw6dsp_update (display, &param);
 		sleep_and_report (display, TEST_SLEEP_LONG);
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("displaying menu"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("displaying menu"));
 		param.menu = menu_new (TEST_NB_MENUITEMS1);
 		if (param.menu)
 		  {
@@ -263,7 +264,7 @@ test_display (char *gfx_backend_name)
 		      {
 			lw6gui_menu_remove (param.menu, 0, 0);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("displaying menu with %d items"),
+				    _x_ ("displaying menu with %d items"),
 				    param.menu->nb_items);
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, TEST_SLEEP_SHORT);
@@ -273,15 +274,15 @@ test_display (char *gfx_backend_name)
 		    if (param.menu)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("displaying big menu (%d items)"),
+				    _x_ ("displaying big menu (%d items)"),
 				    param.menu->nb_items);
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, TEST_SLEEP_SHORT);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("nb items displayed is %d"),
+				    _x_ ("nb items displayed is %d"),
 				    param.menu->nb_items_displayed);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _
+				    _x_
 				    ("scrolling to middle of big menu (%d)"),
 				    param.menu->nb_items / 2);
 			lw6gui_menu_select (param.menu,
@@ -290,25 +291,25 @@ test_display (char *gfx_backend_name)
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, TEST_SLEEP_SHORT);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("nb items displayed is %d"),
+				    _x_ ("nb items displayed is %d"),
 				    param.menu->nb_items_displayed);
 			menu = param.menu;
 			param.menu = NULL;
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("big menu disappears"));
+				    _x_ ("big menu disappears"));
 			lw6sys_log (LW6SYS_LOG_WARNING,
-				    _
+				    _x_
 				    ("this warning should appear for &d seconds on the screen"),
 				    TEST_LOG_TIMEOUT);
 			lw6sys_log (LW6SYS_LOG_ERROR, _("this error too"));
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, TEST_SLEEP_SHORT);
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("big menu is back again"));
+				    _x_ ("big menu is back again"));
 			param.menu = menu;
 			lw6dsp_update (display, &param);
 			sleep_and_report (display, TEST_SLEEP_SHORT);
-			lw6sys_log (LW6SYS_LOG_NOTICE, _("loading a map"));
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading a map"));
 			param.misc.progress = &progress_value;
 			lw6dsp_update (display, &param);
 			level =
@@ -318,11 +319,12 @@ test_display (char *gfx_backend_name)
 			  {
 			    param.level = level;
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_("displaying a map"));
+					_x_ ("displaying a map"));
 			    lw6dsp_update (display, &param);
 			    sleep_and_report (display, TEST_SLEEP_LONG);
 
-			    lw6sys_log (LW6SYS_LOG_NOTICE, _("build struct"));
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("build struct"));
 			    game_struct =
 			      game_struct_new (param.level, &progress);
 			    if (game_struct)
@@ -330,7 +332,7 @@ test_display (char *gfx_backend_name)
 				param.game_struct = game_struct;
 				lw6dsp_update (display, &param);
 				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _("build state"));
+					    _x_ ("build state"));
 				game_state =
 				  game_state_new (param.game_struct,
 						  &progress);
@@ -339,11 +341,11 @@ test_display (char *gfx_backend_name)
 				    param.game_state = game_state;
 				    lw6dsp_update (display, &param);
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_("displaying a game"));
+						_x_ ("displaying a game"));
 				    sleep_and_report (display,
 						      TEST_SLEEP_LONG);
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_
+						_x_
 						("start play with game state"));
 				    for (i = 0; i < TEST_NB_ROUNDS; ++i)
 				      {
@@ -352,18 +354,18 @@ test_display (char *gfx_backend_name)
 					lw6dsp_update (display, &param);
 				      }
 				    lw6sys_log (LW6SYS_LOG_NOTICE,
-						_
+						_x_
 						("stop play with game state"));
 				    pilot = pilot_new (game_state, &progress);
 				    if (pilot)
 				      {
 					lw6sys_log (LW6SYS_LOG_NOTICE,
-						    _
+						    _x_
 						    ("start play with pilot"));
 					sleep_and_report (display,
 							  TEST_SLEEP_LONG);
 					lw6sys_log (LW6SYS_LOG_NOTICE,
-						    _
+						    _x_
 						    ("stop play with pilot"));
 					param.pilot = NULL;
 					lw6dsp_update (display, &param);
@@ -391,17 +393,17 @@ test_display (char *gfx_backend_name)
 		      }
 		  }
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("checking what happens when replicated objects are freed in the param (menu, for instance)"));
 		sleep_and_report (display, TEST_SLEEP_SHORT);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("now applying the params, nothing should be displayed but the background"));
 		lw6dsp_update (display, &param);
 		sleep_and_report (display, TEST_SLEEP_LONG);
 
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("pumping events, try to press random keys while having the focus on the game window, you should get one log message per keypress, test will end after %d seconds"),
 			    (int) (TEST_INPUT_TICKS / LW6SYS_TICKS_PER_SEC));
 		ticks = lw6sys_get_uptime ();
@@ -422,13 +424,13 @@ test_display (char *gfx_backend_name)
 			repr = lw6gui_keypress_repr (keypress);
 			if (repr)
 			  {
-			    lw6sys_log (LW6SYS_LOG_NOTICE, _("%s"), repr);
+			    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
 			    LW6SYS_FREE (repr);
 			  }
 			lw6gui_keypress_free (keypress);
 		      }
 		  }
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("done with events"));
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("done with events"));
 
 		nb_frames = lw6dsp_get_nb_frames (display);
 
@@ -436,7 +438,8 @@ test_display (char *gfx_backend_name)
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to start display"));
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to start display"));
 	      }
 	    lw6gui_look_free (param.look);
 	  }
@@ -444,7 +447,7 @@ test_display (char *gfx_backend_name)
 	  {
 	    ret = 0;
 	  }
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("frames=%d"), nb_frames);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("frames=%d"), nb_frames);
 	lw6dsp_destroy_backend (display);
       }
   }

@@ -96,8 +96,8 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 	  && ret->password_send_checksum && ret->local_id_str
 	  && ret->remote_id_str && ret->send_mutex)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("created connection with \"%s\""),
-		      remote_url);
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("created connection with \"%s\""), remote_url);
 	}
       else
 	{

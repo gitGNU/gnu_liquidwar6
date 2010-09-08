@@ -38,7 +38,7 @@ _mod_gl_hud_floating_init (mod_gl_utils_context_t * utils_context)
 {
   _mod_gl_hud_floating_context_t *floating_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("init hud/floating"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init hud/floating"));
 
   floating_context =
     (_mod_gl_hud_floating_context_t *)
@@ -83,7 +83,7 @@ void
 _mod_gl_hud_floating_quit (mod_gl_utils_context_t * utils_context,
 			   _mod_gl_hud_floating_context_t * floating_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("quit hud/floating"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit hud/floating"));
 
   _mod_gl_hud_floating_unload_data (utils_context, floating_context);
   _mod_gl_hud_floating_context_clear (utils_context, floating_context);

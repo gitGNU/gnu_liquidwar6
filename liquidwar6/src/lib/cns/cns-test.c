@@ -36,7 +36,7 @@ handler (char *line)
   if (line)
     {
       lw6cns_history_add_if_needed (line);
-      lw6sys_log (LW6SYS_LOG_NOTICE, _("read \"%s\""), line);
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("read \"%s\""), line);
       free (line);		// exceptionnally, don't use LW6SYS_FREE
     }
   else
@@ -58,7 +58,7 @@ test_handler ()
     int i;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_
+		_x_
 		("you can enter random lines, test will end after %d seconds"),
 		(int) (TEST_CON_NB_LOOPS * TEST_CON_SLEEP));
     lw6cns_handler_install (handler);
@@ -85,7 +85,7 @@ test_support ()
 
   {
     lw6sys_log (LW6SYS_LOG_NOTICE,
-		_("console support -> %d"), lw6cns_support ());
+		_x_ ("console support -> %d"), lw6cns_support ());
   }
 
   LW6SYS_TEST_FUNCTION_END;

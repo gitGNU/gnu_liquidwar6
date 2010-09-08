@@ -185,9 +185,9 @@ mod_http_get_pedigree ()
     {
       module_pedigree->id = "http";
       module_pedigree->category = "cli";
-      module_pedigree->name = _("HTTP (Curl)");
+      module_pedigree->name = _x_ ("HTTP (Curl)");
       module_pedigree->readme =
-	_
+	_x_
 	("A network client which uses Curl to encapsulate the LW6 protocol into HTTP requests.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =

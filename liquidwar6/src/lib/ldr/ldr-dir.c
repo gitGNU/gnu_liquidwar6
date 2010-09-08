@@ -100,14 +100,14 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path)
   if (entry)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("name \"%s\" in \"%s\" is a valid entry"), entry_path,
+		  _x_ ("name \"%s\" in \"%s\" is a valid entry"), entry_path,
 		  absolute_path);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("name \"%s\" in \"%s\" is not a valid entry"), entry_path,
-		  absolute_path);
+		  _x_ ("name \"%s\" in \"%s\" is not a valid entry"),
+		  entry_path, absolute_path);
     }
 
   return entry;
@@ -170,7 +170,7 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _
+		      _x_
 		      ("duplicate map \"%s\", it is present in at least two places, last found (and ignored) in \"%s\""),
 		      entry->relative_path, entry->absolute_path);
 	  lw6ldr_free_entry (entry);
@@ -224,7 +224,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_INFO, "", _("no files in dir \"%s\""),
+      lw6sys_log (LW6SYS_LOG_INFO, "", _x_ ("no files in dir \"%s\""),
 		  absolute_path);
     }
 #else
@@ -253,14 +253,14 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
       if (n == 0)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _("no maps in dir \"%s\""), absolute_path);
+		      _x_ ("no maps in dir \"%s\""), absolute_path);
 	}
       closedir (dir_handle);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "", _("couldn't read map dir \"%s\""),
-		  absolute_path);
+      lw6sys_log (LW6SYS_LOG_WARNING, "",
+		  _x_ ("couldn't read map dir \"%s\""), absolute_path);
     }
 #endif
 }

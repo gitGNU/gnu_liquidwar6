@@ -106,7 +106,7 @@ _lw6p2p_cli_oob_callback (void *callback_data)
     lw6cli_process_oob (cli_oob->backend, cli_oob->node_info,
 			&(cli_oob->cli_oob->data));
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("_cli_oob_callback done ret=%d"), ret);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_cli_oob_callback done ret=%d"), ret);
 }
 
 int
@@ -177,7 +177,7 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		      && !lw6sys_str_is_same (remote_id, node->node_id_str))
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _("confirmed node \"%s\""), url);
+				  _x_ ("confirmed node \"%s\""), url);
 		      password_str =
 			lw6msg_utils_get_assoc_str_with_default (assoc,
 								 LW6MSG_OOB_PASSWORD,
@@ -256,7 +256,7 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_INFO,
-				  _
+				  _x_
 				  ("node url=\"%s\" id=\"%s\" is local, not updating, this should only happen when several nodes share the same db"),
 				  url, node->node_id_str);
 		    }
@@ -289,19 +289,20 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("wrong url \"%s\" vs \"%s\""), remote_url, url);
+			  _x_ ("wrong url \"%s\" vs \"%s\""), remote_url,
+			  url);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("wrong remote program \"%s\""), remote_program);
+		      _x_ ("wrong remote program \"%s\""), remote_program);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("answer does not containn the required fields"));
+		  _x_ ("answer does not containn the required fields"));
     }
 
   return ret;

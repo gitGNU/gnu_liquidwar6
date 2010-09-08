@@ -102,7 +102,7 @@ lw6sys_hash_new (lw6sys_free_func_t free_func, int size)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("can't create hash with size=%d"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't create hash with size=%d"),
 		  size);
     }
 
@@ -138,7 +138,7 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL hash"));
     }
 }
 
@@ -167,7 +167,7 @@ lw6sys_hash_has_key (lw6sys_hash_t * hash, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling has_key on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling has_key on NULL hash"));
     }
 
   return exists;
@@ -198,7 +198,7 @@ lw6sys_hash_get (lw6sys_hash_t * hash, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling get on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling get on NULL hash"));
     }
 
   return value;
@@ -234,7 +234,7 @@ lw6sys_hash_set (lw6sys_hash_t * hash, char *key, void *value)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling set on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling set on NULL hash"));
     }
 }
 
@@ -262,7 +262,7 @@ lw6sys_hash_unset (lw6sys_hash_t * hash, char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling unset on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling unset on NULL hash"));
     }
 }
 
@@ -308,7 +308,7 @@ lw6sys_hash_keys (lw6sys_hash_t * hash)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling keys on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling keys on NULL hash"));
     }
 
   return keys;
@@ -344,7 +344,7 @@ lw6sys_hash_map (lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling map on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling map on NULL hash"));
     }
 }
 
@@ -399,7 +399,8 @@ lw6sys_hash_sort_and_map (lw6sys_hash_t * hash,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling sort and map on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("calling sort and map on NULL hash"));
     }
 }
 
@@ -467,7 +468,7 @@ lw6sys_hash_dup (lw6sys_hash_t * hash, lw6sys_dup_func_t dup_func)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("calling dup on NULL hash"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("calling dup on NULL hash"));
     }
 
   return ret;

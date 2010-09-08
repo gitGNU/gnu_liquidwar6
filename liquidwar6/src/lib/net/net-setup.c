@@ -49,7 +49,7 @@ lw6net_init (int argc, char *argv[], int net_log)
 {
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("net init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("net init"));
 
   _lw6net_global_context =
     (_lw6net_context_t *) LW6SYS_CALLOC (sizeof (_lw6net_context_t));
@@ -65,13 +65,13 @@ lw6net_init (int argc, char *argv[], int net_log)
       err = WSAStartup (version_requested, &wsa_data);
       if (err == 0)
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("WSAStartup() OK, returned 0"));
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("WSAStartup() OK, returned 0"));
 	  ok = 1;
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("WSAStartup() failed with code %d \"%s\""), err,
+		      _x_ ("WSAStartup() failed with code %d \"%s\""), err,
 		      _lw6net_wsa_str (err));
 	}
 #else
@@ -87,7 +87,7 @@ lw6net_init (int argc, char *argv[], int net_log)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("signal() failed"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("signal() failed"));
 	}
 #endif
 
@@ -129,7 +129,7 @@ lw6net_init (int argc, char *argv[], int net_log)
 void
 lw6net_quit ()
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("net quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("net quit"));
 
 #ifdef LW6_MS_WINDOWS
   WSACleanup ();

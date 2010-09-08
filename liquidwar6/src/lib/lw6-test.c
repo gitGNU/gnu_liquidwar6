@@ -78,17 +78,17 @@ test_callback (_lw6_test_param_t * param)
   {
     char *test_file = NULL;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("registering Guile smobs"));
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
     if (lw6_register_smobs ())
       {
 
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("registering Guile functions"));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
 	if (lw6_register_funcs ())
 	  {
 	    test_file = get_test_file ();
 	    if (test_file)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("loading \"%s\""),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""),
 			    test_file);
 		scm_c_primitive_load (test_file);
 		LW6SYS_FREE (test_file);
@@ -96,13 +96,13 @@ test_callback (_lw6_test_param_t * param)
 	  }
 	else
 	  {
-	    lw6sys_log (LW6SYS_LOG_WARNING, _("unable to register funcs"));
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to register funcs"));
 	    ret = 0;
 	  }
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to register smobs"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to register smobs"));
 	ret = 0;
       }
 

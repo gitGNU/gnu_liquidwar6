@@ -45,7 +45,7 @@ mod_gl_menu_create_backend (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("menu backend \"%s\" does not exists"), name);
+		  _x_ ("menu backend \"%s\" does not exists"), name);
     }
 
   if (init_func)

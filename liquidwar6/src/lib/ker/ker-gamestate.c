@@ -134,7 +134,7 @@ lw6ker_game_state_repr (lw6ker_game_state_t * game_state)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, "game_state",
-		  _("can't generate string id for NULL game_state"));
+		  _x_ ("can't generate string id for NULL game_state"));
     }
 
   return ret;
@@ -217,7 +217,7 @@ lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("game_state_copy only works if dst and src point to the same game_struct"));
     }
 
@@ -249,13 +249,13 @@ lw6ker_game_state_dup (lw6ker_game_state_t * game_state,
       if (lw6ker_game_state_checksum (ret) ==
 	  lw6ker_game_state_checksum (game_state))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("game_state dup %d->%d"),
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("game_state dup %d->%d"),
 		      game_state->id, ret->id);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("game_state checkum mismatch after dup"));
+		      _x_ ("game_state checkum mismatch after dup"));
 	}
     }
 
@@ -301,7 +301,8 @@ lw6ker_game_state_register_node (lw6ker_game_state_t * game_state,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("node %" LW6SYS_PRINTF_LL "x already exists"), node_id);
+		  _x_ ("node %" LW6SYS_PRINTF_LL "x already exists"),
+		  node_id);
     }
 
   return ret;
@@ -377,7 +378,8 @@ check_node_id (lw6ker_game_state_t * game_state, u_int64_t node_id)
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("node %" LW6SYS_PRINTF_LL "x does not exist"), node_id);
+		  _x_ ("node %" LW6SYS_PRINTF_LL "x does not exist"),
+		  node_id);
     }
 
   return ret;
@@ -427,7 +429,7 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 	      if (real_team_color != team_color)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _
+			      _x_
 			      ("color shift: real_team_color=%d team_color=%d"),
 			      real_team_color, team_color);
 		}
@@ -456,13 +458,13 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("unable to add team %d, game is full"),
+			  _x_ ("unable to add team %d, game is full"),
 			  (int) team_color);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("cursor %x already exists"),
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor %x already exists"),
 		      (int) cursor_id);
 	}
     }
@@ -668,7 +670,7 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("can't add team %d, it's already active"), team_color);
+		  _x_ ("can't add team %d, it's already active"), team_color);
     }
 
   return ret;
@@ -960,7 +962,8 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 	   * Still, with an alliance system, it could theorically happen.
 	   */
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("no cursors for team %d, removing it"), team_color);
+		      _x_ ("no cursors for team %d, removing it"),
+		      team_color);
 	  _lw6ker_game_state_remove_team (game_state, team_color);
 	}
       else

@@ -83,7 +83,7 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL keypress"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL keypress"));
     }
 }
 
@@ -106,7 +106,7 @@ lw6gui_keypress_repr (lw6gui_keypress_t * keypress)
       if (keypress->unicode >= 32 && keypress->unicode <= 127)
 	{
 	  ret =
-	    lw6sys_new_sprintf (_
+	    lw6sys_new_sprintf (_x_
 				("keypress keysym=%d ascii=%d ('%c') label=\"%s\""),
 				keypress->keysym, keypress->unicode,
 				keypress->unicode, keypress->label);
@@ -114,7 +114,7 @@ lw6gui_keypress_repr (lw6gui_keypress_t * keypress)
       else
 	{
 	  ret =
-	    lw6sys_new_sprintf (_
+	    lw6sys_new_sprintf (_x_
 				("keypress keysym=%d unicode=%d label=\"%s\""),
 				keypress->keysym, keypress->unicode,
 				keypress->label);
@@ -123,7 +123,7 @@ lw6gui_keypress_repr (lw6gui_keypress_t * keypress)
   else
     {
       ret =
-	lw6sys_new_sprintf (_("keypress keysym=%d unicode=%d label=NULL"),
+	lw6sys_new_sprintf (_x_ ("keypress keysym=%d unicode=%d label=NULL"),
 			    keypress->keysym, keypress->unicode);
     }
 

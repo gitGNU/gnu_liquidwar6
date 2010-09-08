@@ -102,7 +102,7 @@ parse_option (_lw6cfg_context_t * context, char *option)
 	      if (value_converted)
 		{
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("key \"%s\" set to \"%s\" by command-line option \"%s\""),
 			      key, value_converted, option);
 		  lw6sys_hash_set (context->options, key, value_converted);

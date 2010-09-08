@@ -109,7 +109,7 @@ lw6sys_arg_match (char *keyword, char *argv_string)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("trying to match empty command-line argument"));
+		  _x_ ("trying to match empty command-line argument"));
     }
 
   return ret;
@@ -256,7 +256,7 @@ lw6sys_arg_test_mode (int argc, char *argv[])
   if (!syntax_ok)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("wrong syntax (should be \"<program> {0|1}\"), test suite will be run anyways"));
     }
 

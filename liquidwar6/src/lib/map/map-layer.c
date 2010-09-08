@@ -214,7 +214,7 @@ _default_source (lw6map_layer_t * layer, int width, int height)
 		  break;
 		default:
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("inconsistent default source layer data '%c' at %d,%d for %d,%d"),
 			      c, source_x, source_y, x, y);
 		  ret = 0;
@@ -255,7 +255,7 @@ lw6map_layer_builtin_custom (lw6map_layer_t * layer, int w, int h)
   if (!_default_source (layer, w, h))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to construct default map layer"));
+		  _x_ ("unable to construct default map layer"));
       layer->shape.w = 0;
       layer->shape.h = 0;
       layer->shape.d = 0;

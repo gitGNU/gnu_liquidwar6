@@ -61,7 +61,7 @@ mod_gl_utils_display_texture_full (mod_gl_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("invalid texture size %dx%d"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid texture size %dx%d"),
 		  texture_w, texture_h);
     }
 }

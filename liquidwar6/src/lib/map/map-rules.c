@@ -616,7 +616,7 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("static rules key \"%s\" does not exist, can't get a pointer on its value"),
 			  key);
 	    }
@@ -688,7 +688,7 @@ lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
       if ((*ptr) < min_value)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("can't get static option \"%s\" (%d), it's too small, returning min value %d instead"),
 		      key, (*ptr), min_value);
 	  ret = min_value;
@@ -696,7 +696,7 @@ lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
       else if ((*ptr) > max_value)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("can't get static option \"%s\" (%d), it's too big, returning max value %d instead"),
 		      key, (*ptr), max_value);
 	  ret = max_value;
@@ -726,7 +726,7 @@ lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
       if (value < min_value)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("can't set static option \"%s\" to value %d, it's too small, using min value %d"),
 		      key, value, min_value);
 	  (*ptr) = min_value;
@@ -734,7 +734,7 @@ lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
       else if (value > max_value)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _
+		      _x_
 		      ("can't set static option \"%s\" to value %d, it's too big, using max value %d"),
 		      key, value, max_value);
 	  (*ptr) = max_value;

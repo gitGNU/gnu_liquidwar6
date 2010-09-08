@@ -228,54 +228,57 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     }
 
   pos = msg;
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing program \"%s\""), pos);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing program \"%s\""), pos);
   if (lw6msg_word_first (&program, &seek, pos))
     {
       pos = seek;
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing version \"%s\""), pos);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing version \"%s\""), pos);
       if (lw6msg_word_first (&version, &seek, pos))
 	{
 	  pos = seek;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing codename \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing codename \"%s\""),
+		      pos);
 	  if (lw6msg_word_first (&codename, &seek, pos))
 	    {
 	      pos = seek;
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing stamp \"%s\""), pos);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""),
+			  pos);
 	      if (lw6msg_word_first_int_gt0 (&stamp, &seek, pos))
 		{
 		  pos = seek;
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing id \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""),
 			      pos);
 		  if (lw6msg_word_first_id_64 (&id, &seek, pos))
 		    {
 		      pos = seek;
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("analyzing url \"%s\""),
-				  pos);
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("analyzing url \"%s\""), pos);
 		      if (lw6msg_word_first (&url, &seek, pos)
 			  && lw6sys_url_is_canonized (url.buf))
 			{
 			  pos = seek;
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _("analyzing title \"%s\""), pos);
+				      _x_ ("analyzing title \"%s\""), pos);
 			  if (lw6msg_word_first_base64 (&title, &seek, pos))
 			    {
 			      pos = seek;
 			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _("analyzing description \"%s\""),
+					  _x_
+					  ("analyzing description \"%s\""),
 					  pos);
 			      if (lw6msg_word_first_base64
 				  (&description, &seek, pos))
 				{
 				  pos = seek;
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _("analyzing bench \"%s\""),
+					      _x_ ("analyzing bench \"%s\""),
 					      pos);
 				  if (lw6msg_word_first_int
 				      (&bench, &seek, pos))
 				    {
 				      pos = seek;
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _
+						  _x_
 						  ("analyzing uptime \"%s\""),
 						  pos);
 				      if (lw6msg_word_first_int
@@ -304,65 +307,69 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 					  else
 					    {
 					      lw6sys_log (LW6SYS_LOG_WARNING,
-							  _
+							  _x_
 							  ("unable to create nod info"));
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
-						      _("bad uptime \"%s\""),
+						      _x_
+						      ("bad uptime \"%s\""),
 						      pos);
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _("bad bench \"%s\""), pos);
+						  _x_ ("bad bench \"%s\""),
+						  pos);
 				    }
 				}
 			      else
 				{
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _("bad description \"%s\""),
+					      _x_ ("bad description \"%s\""),
 					      pos);
 				}
 			    }
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _("bad title \"%s\""), pos);
+					  _x_ ("bad title \"%s\""), pos);
 			    }
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad url \"%s\""),
-				      pos);
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
+				      _x_ ("bad url \"%s\""), pos);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad id \"%s\""), pos);
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id \"%s\""),
+				  pos);
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad stamp \"%s\""), pos);
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad stamp \"%s\""),
+			      pos);
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad codename \"%s\""), pos);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad codename \"%s\""), pos);
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("bad version \"%s\""), pos);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad version \"%s\""), pos);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad program \"%s\""), pos);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad program \"%s\""), pos);
     }
 
   return ret;
@@ -393,7 +400,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("parsing HELLO but couldn't find it in \"%s\""), msg);
+		  _x_ ("parsing HELLO but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -430,14 +437,14 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad ticket \"%s\""), pos);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad ticket \"%s\""), pos);
 	    }
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("parsing TICKET but couldn't find it in \"%s\""), msg);
+		  _x_ ("parsing TICKET but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -474,14 +481,14 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad key \"%s\""), pos);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad key \"%s\""), pos);
 	    }
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("parsing FOO but couldn't find it in \"%s\""), msg);
+		  _x_ ("parsing FOO but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -517,14 +524,14 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, char *msg)
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("bad key \"%s\""), pos);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad key \"%s\""), pos);
 	    }
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("parsing BAR but couldn't find it in \"%s\""), msg);
+		  _x_ ("parsing BAR but couldn't find it in \"%s\""), msg);
     }
 
   return ret;
@@ -555,7 +562,8 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("parsing GOODBYE but couldn't find it in \"%s\""), msg);
+		  _x_ ("parsing GOODBYE but couldn't find it in \"%s\""),
+		  msg);
     }
 
   return ret;
@@ -614,23 +622,24 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("unable to parse ker message"));
+			      _x_ ("unable to parse ker message"));
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("unable to parse group size n"));
+			  _x_ ("unable to parse group size n"));
 	    }
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to parse group index i"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("unable to parse group index i"));
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to parse serial"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to parse serial"));
     }
 
   return ret;

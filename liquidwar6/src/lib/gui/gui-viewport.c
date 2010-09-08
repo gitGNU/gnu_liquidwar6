@@ -155,7 +155,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		  if (map_main_x + map_main_w <
 		      viewport->drawable.x1 + viewport->drawable.w)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("x correct 1 %0.0f"),
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("x correct 1 %0.0f"),
 				  map_main_x);
 		      map_main_x =
 			viewport->drawable.x1 + viewport->drawable.w -
@@ -163,7 +163,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		    }
 		  if (map_main_x > viewport->drawable.x1)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("x correct 2 %0.0f"),
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("x correct 2 %0.0f"),
 				  map_main_x);
 		      map_main_x = viewport->drawable.x1;
 		    }
@@ -189,7 +189,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		  if (map_main_y + map_main_h <
 		      viewport->drawable.y1 + viewport->drawable.h)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("y correct 1 %0.0f"),
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("y correct 1 %0.0f"),
 				  map_main_y);
 		      map_main_y =
 			viewport->drawable.y1 + viewport->drawable.h -
@@ -197,7 +197,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		    }
 		  if (map_main_y > viewport->drawable.y1)
 		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _("y correct 2 %0.0f"),
+		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("y correct 2 %0.0f"),
 				  map_main_y);
 		      map_main_y = viewport->drawable.y1;
 		    }
@@ -236,7 +236,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _
+		      _x_
 		      ("nothing is likely to be drawn, map_w=%d, map_h=%d, screen_w=%d, screen_h=%d, drawable_w=%f, drawable_h=%f"),
 		      viewport->map_shape.w, viewport->map_shape.h,
 		      viewport->screen_shape.w, viewport->screen_shape.h,

@@ -66,13 +66,14 @@ test_address ()
 	    if (lw6sys_str_is_same (TEST_HOST_IP, str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("\"%s\" converted to/from in_addr OK"), str);
+			    _x_ ("\"%s\" converted to/from in_addr OK"), str);
 		ret = 1;
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("\"%s\" transformed in \"%s\" by aton + ntoa"),
+			    _x_
+			    ("\"%s\" transformed in \"%s\" by aton + ntoa"),
 			    TEST_HOST_IP, str);
 	      }
 	    LW6SYS_FREE (str);
@@ -96,14 +97,14 @@ test_dns ()
     if (lw6net_dns_is_ip (TEST_HOST_IP) && !lw6net_dns_is_ip (TEST_HOST_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("trivial IP parsing reports \"%s\" is an IP but not \"%s\""),
 		    TEST_HOST_IP, TEST_HOST_OK);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _
+		    _x_
 		    ("trivial IP parsing failed to report \"%s\" as an IP and \"%s\" as not"),
 		    TEST_HOST_IP, TEST_HOST_OK);
 	ret = 0;
@@ -112,35 +113,35 @@ test_dns ()
     if (ip)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("gethostbyname on \"%s\" returns \"%s\""), TEST_HOST_IP,
-		    ip);
+		    _x_ ("gethostbyname on \"%s\" returns \"%s\""),
+		    TEST_HOST_IP, ip);
 	LW6SYS_FREE (ip);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("gethostbyname on \"%s\" failed"),
-		    TEST_HOST_IP);
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("gethostbyname on \"%s\" failed"), TEST_HOST_IP);
 	ret = 0;
       }
     ip = lw6net_dns_gethostbyname (TEST_HOST_OK);
     if (ip)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("gethostbyname on \"%s\" returns \"%s\""), TEST_HOST_OK,
-		    ip);
+		    _x_ ("gethostbyname on \"%s\" returns \"%s\""),
+		    TEST_HOST_OK, ip);
 	LW6SYS_FREE (ip);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("gethostbyname on \"%s\" failed"),
-		    TEST_HOST_OK);
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("gethostbyname on \"%s\" failed"), TEST_HOST_OK);
 	ret = 0;
       }
     ip = lw6net_dns_gethostbyname (TEST_HOST_KO);
     if (ip)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _
+		    _x_
 		    ("gethostbyname on \"%s\" returns \"%s\", this is... surprising"),
 		    TEST_HOST_KO, ip);
 	LW6SYS_FREE (ip);
@@ -149,7 +150,8 @@ test_dns ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("gethostbyname on \"%s\" returns NULL, this is fine"),
+		    _x_
+		    ("gethostbyname on \"%s\" returns NULL, this is fine"),
 		    TEST_HOST_KO);
       }
   }
@@ -171,17 +173,19 @@ test_if ()
     char *ip = NULL;
     char *public_url = NULL;
 
-    lw6sys_log (LW6SYS_LOG_NOTICE, _("trying to guess local interface IP"));
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("trying to guess local interface IP"));
     ip = lw6net_if_guess_local ();
     if (ip)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("local interface IP is \"%s\""), ip);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("local interface IP is \"%s\""),
+		    ip);
 	LW6SYS_FREE (ip);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _
+		    _x_
 		    ("unable to guess local interface, this is a problem only if machine *really* has no network available"));
       }
     public_url =
@@ -189,13 +193,13 @@ test_if ()
     if (public_url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("public URL on default port would be \"%s\""),
+		    _x_ ("public URL on default port would be \"%s\""),
 		    public_url);
 	LW6SYS_FREE (public_url);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to guess public URL"));
 	ret = 0;
       }
     public_url =
@@ -203,13 +207,14 @@ test_if ()
     if (public_url)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("public URL on http port with IP %s would be \"%s\""),
+		    _x_
+		    ("public URL on http port with IP %s would be \"%s\""),
 		    TEST_UNREACHABLE_IP, public_url);
 	LW6SYS_FREE (public_url);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to guess public URL"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to guess public URL"));
 	ret = 0;
       }
   }
@@ -228,18 +233,18 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
   char *accept_ip = NULL;
   int accept_port = 0;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("listening on port %d (TCP)"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (TCP)"),
 	      LW6NET_DEFAULT_PORT);
   listening_sock =
     lw6net_tcp_listen (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
   if (listening_sock >= 0)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("TCP socket %d listening on port %d"), listening_sock,
+		  _x_ ("TCP socket %d listening on port %d"), listening_sock,
 		  LW6NET_DEFAULT_PORT);
 
       lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("trying to connect on localhost %s:%d"),
+		  _x_ ("trying to connect on localhost %s:%d"),
 		  LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT);
       connect_sock =
 	lw6net_tcp_connect (LW6NET_ADDRESS_LOOPBACK,
@@ -247,7 +252,7 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
       if (lw6net_socket_is_valid (connect_sock))
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("TCP socket %d connected on %s:%d"),
+		      _x_ ("TCP socket %d connected on %s:%d"),
 		      connect_sock, LW6NET_ADDRESS_LOOPBACK,
 		      LW6NET_DEFAULT_PORT);
 	  accept_sock =
@@ -257,7 +262,7 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
 	  if (lw6net_socket_is_valid (accept_sock))
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("TCP socket %d accepted %s:%d"),
+			  _x_ ("TCP socket %d accepted %s:%d"),
 			  accept_sock, accept_ip, accept_port);
 	    }
 	  if (accept_ip)
@@ -313,7 +318,7 @@ test_tcp ()
 
     /*
        lw6sys_log (LW6SYS_LOG_NOTICE,
-       _("trying to connect on unreachable point %s:%d"),
+       _x_("trying to connect on unreachable point %s:%d"),
        TEST_UNREACHABLE_IP, TEST_UNREACHABLE_PORT);
        handler =
        lw6net_tcp_async_connect_init (TEST_UNREACHABLE_IP,
@@ -332,12 +337,12 @@ test_tcp ()
 		(sock1, buf1_send, size, TEST_TCP_STREAM_DELAY, 1))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("sent \"%s\" on TCP socket %d"),
+			    _x_ ("sent \"%s\" on TCP socket %d"),
 			    buf1_send, sock1);
 		received =
 		  lw6net_tcp_peek (sock2, NULL, size, TEST_TCP_STREAM_DELAY);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("%d bytes available on TCP socket %d"),
 			    received, sock2);
 		if (received == size
@@ -346,7 +351,7 @@ test_tcp ()
 					TEST_TCP_STREAM_DELAY, 1))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("received \"%s\" on TCP socket %d"),
 				buf1_recv, sock2);
 		    ret_tmp = 1;
@@ -388,13 +393,13 @@ prepare_2_udp_socks (int *sock1, int *sock2)
   int server_sock = -1;
   int client_sock = -1;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("listening on port %d (UDP)"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (UDP)"),
 	      LW6NET_DEFAULT_PORT);
   server_sock = lw6net_udp_server (LW6NET_ADDRESS_ANY, LW6NET_DEFAULT_PORT);
   if (server_sock >= 0)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _("UDP socket %d listening on port %d"), server_sock,
+		  _x_ ("UDP socket %d listening on port %d"), server_sock,
 		  LW6NET_DEFAULT_PORT);
       client_sock = lw6net_udp_client ();
     }
@@ -459,7 +464,7 @@ test_udp ()
 		    if (incoming_ip)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _
+				    _x_
 				    ("%d bytes available on socket %d (%s:%d)"),
 				    size, sock1, incoming_ip, incoming_port);
 			LW6SYS_FREE (incoming_ip);
@@ -471,7 +476,7 @@ test_udp ()
 			if (incoming_ip)
 			  {
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
-					_
+					_x_
 					("received \"%s\" on socket %d (%s:%d)"),
 					buf1_recv, sock1, incoming_ip,
 					incoming_port);
@@ -515,7 +520,7 @@ _udp_lines_callback (void *func_data, void *data)
 {
   char *line = (char *) data;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("line=\"%s\""), line);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("line=\"%s\""), line);
 }
 
 /*
@@ -540,16 +545,17 @@ test_line ()
 	    lw6net_send_line_tcp (sock1, TEST_LINE2) &&
 	    lw6net_send_line_tcp (sock1, TEST_LINE3))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    ret_tmp = 1;
 	    for (i = 0; i < 4; ++i)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("receiving line %d"), i + 1);
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("receiving line %d"),
+			    i + 1);
 		line = lw6net_recv_line_tcp (sock2);
 		if (line)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("received line \"%s\""), line);
+				_x_ ("received line \"%s\""), line);
 		    LW6SYS_FREE (line);
 		  }
 		else
@@ -599,12 +605,13 @@ test_line ()
 				     LW6NET_ADDRESS_LOOPBACK,
 				     LW6NET_DEFAULT_PORT))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();
 	    ret_tmp = 1;
 	    for (i = 0; i < 4; ++i)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("receiving line %d"), i + 1);
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("receiving line %d"),
+			    i + 1);
 		line =
 		  lw6net_recv_line_udp (sock1, &incoming_ip, &incoming_port);
 		if (line)
@@ -612,7 +619,7 @@ test_line ()
 		    if (incoming_ip)
 		      {
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _("received line \"%s\" from %s:%d"),
+				    _x_ ("received line \"%s\" from %s:%d"),
 				    line, incoming_ip, incoming_port);
 			LW6SYS_FREE (incoming_ip);
 		      }
@@ -631,7 +638,7 @@ test_line ()
 	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_OK),
 	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();
 	    list =
 	      lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
@@ -646,14 +653,14 @@ test_line ()
 	    (sock2, TEST_LINES_OK, strlen (TEST_LINES_KO),
 	     LW6NET_ADDRESS_LOOPBACK, LW6NET_DEFAULT_PORT))
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("lines sent"));
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    lw6sys_idle ();
 	    list =
 	      lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
 	    if (list)
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("received lines, when it should have returned an error"));
 		ret_tmp = 0;
 		lw6sys_list_free (list);
@@ -662,7 +669,7 @@ test_line ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("truncated lines handled correctly"));
+			    _x_ ("truncated lines handled correctly"));
 	      }
 	  }
       }

@@ -33,7 +33,7 @@ _mod_idiot_repr (_mod_idiot_context_t * idiot_context, u_int32_t id)
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_("%u idiot target=%d,%d"), id,
+    lw6sys_new_sprintf (_x_ ("%u idiot target=%d,%d"), id,
 			(int) idiot_context->target_pos_x,
 			(int) idiot_context->target_pos_y);
 

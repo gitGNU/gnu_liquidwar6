@@ -68,7 +68,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
   lw6ldr_hints_t hints;
   lw6ldr_use_t use;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading map \"%s\""), dirname);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading map \"%s\""), dirname);
 
   lw6sys_progress_split3 (&progress_texture, &progress_body, &progress_color,
 			  progress);
@@ -144,7 +144,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 
   if (!ok)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to load map \"%s\""),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to load map \"%s\""),
 		  dirname);
       lw6map_free (level);
       level = NULL;

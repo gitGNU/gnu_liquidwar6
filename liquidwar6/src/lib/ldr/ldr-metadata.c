@@ -54,13 +54,13 @@ extract_title_from_dirname (char *dirname)
 
   if (!title)
     {
-      title = lw6sys_str_copy (_("no title for this map"));
+      title = lw6sys_str_copy (_x_ ("no title for this map"));
     }
 
   if (!title)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
-		  _("unable to handle map title, running out of memory?"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to handle map title, running out of memory?"));
     }
 
   return title;
@@ -77,7 +77,7 @@ read_readme (char *dirname)
     {
       if (lw6sys_file_exists (buf))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _("reading README \"%s\""), buf);
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""), buf);
 	  readme = lw6sys_read_file_content (buf);
 	}
       LW6SYS_FREE (buf);
@@ -90,7 +90,8 @@ read_readme (char *dirname)
 	{
 	  if (lw6sys_file_exists (buf))
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("reading README \"%s\""), buf);
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading README \"%s\""),
+			  buf);
 	      readme = lw6sys_read_file_content (buf);
 	    }
 	  LW6SYS_FREE (buf);
@@ -99,13 +100,13 @@ read_readme (char *dirname)
 
   if (!readme)
     {
-      readme = lw6sys_str_copy (_("no README for this map"));
+      readme = lw6sys_str_copy (_x_ ("no README for this map"));
     }
 
   if (!readme)
     {
-      lw6sys_log (LW6SYS_LOG_ERROR,
-		  _
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
 		  ("unable to handle map README file, running out of memory?"));
     }
 

@@ -53,26 +53,27 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
   if (counters->open_counter < counters->close_counter)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("%d sockets opened, but %d closed, there's probably a bug"),
 		  counters->open_counter, counters->close_counter);
     }
   if (counters->open_counter > counters->close_counter)
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _
+		  _x_
 		  ("%d sockets opened, but %d closed, the only acceptable explanation is that there's a detached thread or something, which was idle when program ended"),
 		  counters->open_counter, counters->close_counter);
     }
   if (counters->close_counter == counters->open_counter)
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _("%d sockets opened and closed"), counters->open_counter);
+		  _x_ ("%d sockets opened and closed"),
+		  counters->open_counter);
     }
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _("%d kb sent"), lw6net_counters_get_sent_kbytes ());
+	      _x_ ("%d kb sent"), lw6net_counters_get_sent_kbytes ());
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _("%d kb received"), lw6net_counters_get_received_kbytes ());
+	      _x_ ("%d kb received"), lw6net_counters_get_received_kbytes ());
 
   /*
    * Only free spinlock now as functions above might need it

@@ -32,7 +32,7 @@ _mod_idiot_init (int argc, char *argv[], lw6bot_data_t * data)
 {
   _mod_idiot_context_t *idiot_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("idiot init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("idiot init"));
 
   idiot_context =
     (_mod_idiot_context_t *) LW6SYS_CALLOC (sizeof (_mod_idiot_context_t));
@@ -51,6 +51,6 @@ _mod_idiot_init (int argc, char *argv[], lw6bot_data_t * data)
 void
 _mod_idiot_quit (_mod_idiot_context_t * idiot_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("idiot quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("idiot quit"));
   LW6SYS_FREE (idiot_context);
 }

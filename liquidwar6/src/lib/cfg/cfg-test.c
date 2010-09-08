@@ -102,7 +102,7 @@ test_unified ()
     value = lw6cfg_unified_get_value (argc, argv, TEST_UNIFIED_KEY_YES);
     if (value)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
 		    TEST_UNIFIED_KEY_YES, value);
 	LW6SYS_FREE (value);
       }
@@ -115,7 +115,7 @@ test_unified ()
     if (value)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("key \"%s\" has value \"%s\", should be NULL"),
+		    _x_ ("key \"%s\" has value \"%s\", should be NULL"),
 		    TEST_UNIFIED_KEY_NO, value);
 	LW6SYS_FREE (value);
 	ret = 0;

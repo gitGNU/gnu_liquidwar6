@@ -44,7 +44,7 @@ display_module (void *func_data, char *key, void *value)
   id = key;
   name = (char *) value;
   (*found) = 1;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("module \"%s/%s\" \"%s\" found"),
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("module \"%s/%s\" \"%s\" found"),
 	      TEST_DYN_TOP_LEVEL_LIB, id, name);
 }
 
@@ -68,7 +68,7 @@ test_list ()
       }
     if (!found)
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("no module found for \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("no module found for \"%s\""),
 		    TEST_DYN_TOP_LEVEL_LIB);
       }
   }
@@ -98,7 +98,7 @@ test_path ()
     if (library_path && lw6sys_file_exists (library_path))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("found library \"%s/mod-%s\" in \"%s\""),
+		    _x_ ("found library \"%s/mod-%s\" in \"%s\""),
 		    TEST_DYN_TOP_LEVEL_LIB, TEST_DYN_BACKEND_NAME,
 		    library_path);
 	LW6SYS_FREE (library_path);

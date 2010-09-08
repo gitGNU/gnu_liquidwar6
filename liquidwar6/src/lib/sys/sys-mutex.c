@@ -63,7 +63,7 @@ lw6sys_mutex_create ()
 
   if (!mutex)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to create mutex"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create mutex"));
     }
 
   return (void *) mutex;
@@ -111,7 +111,7 @@ lw6sys_mutex_lock (void *mutex)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("pthread_mutex_lock failed with error code %d"),
+		  _x_ ("pthread_mutex_lock failed with error code %d"),
 		  pthread_ret);
     }
 
@@ -152,7 +152,7 @@ lw6sys_mutex_trylock (void *mutex)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("pthread_mutex_trylock failed with error code %d"),
+		      _x_ ("pthread_mutex_trylock failed with error code %d"),
 		      pthread_ret);
 	}
     }
@@ -184,7 +184,7 @@ lw6sys_mutex_unlock (void *mutex)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("pthread_mutex_unlock failed with error code %d"),
+		  _x_ ("pthread_mutex_unlock failed with error code %d"),
 		  pthread_ret);
     }
 
@@ -236,7 +236,7 @@ lw6sys_check_mutex_count ()
     {
       ret = 0;
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("possible mutex problem, %d mutexes have been locked, but only %d mutexes have been unlocked"),
 		  mutex_lock_counter, mutex_unlock_counter);
     }

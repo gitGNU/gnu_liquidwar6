@@ -34,7 +34,7 @@ _mod_udp_init (int argc, char *argv[])
   char *data_dir = NULL;
   int ok = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("udp init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udp init"));
 
   udp_context = (_udp_context_t *) LW6SYS_CALLOC (sizeof (_udp_context_t));
   if (udp_context)
@@ -66,7 +66,7 @@ _mod_udp_init (int argc, char *argv[])
 void
 _mod_udp_quit (_udp_context_t * udp_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("udp quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("udp quit"));
   _mod_udp_unload_data (&(udp_context->data));
   LW6SYS_FREE (udp_context);
 }

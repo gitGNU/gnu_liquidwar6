@@ -95,7 +95,7 @@ lw6net_if_guess_local ()
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("GetAdaptersInfo failed with error %d"),
+			  _x_ ("GetAdaptersInfo failed with error %d"),
 			  dwRetVal);
 	    }
 	}
@@ -138,7 +138,7 @@ lw6net_if_guess_local ()
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("getnameinfo() failed \"%s\""),
+			      _x_ ("getnameinfo() failed \"%s\""),
 			      gai_strerror (s));
 		}
 	    }
@@ -147,7 +147,7 @@ lw6net_if_guess_local ()
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("getifaddrs failed"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("getifaddrs failed"));
     }
 
 #endif
@@ -183,7 +183,7 @@ lw6net_if_guess_public_url (char *bind_ip, int bind_port)
       if (!ip)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _
+		      _x_
 		      ("can't find local network interface, using loopback"));
 	  ip = lw6sys_str_copy (LW6NET_ADDRESS_LOOPBACK);
 	}

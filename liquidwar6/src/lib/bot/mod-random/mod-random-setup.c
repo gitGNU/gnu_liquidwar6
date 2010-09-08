@@ -32,7 +32,7 @@ _mod_random_init (int argc, char *argv[], lw6bot_data_t * data)
 {
   _mod_random_context_t *random_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("random init"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("random init"));
 
   random_context =
     (_mod_random_context_t *) LW6SYS_CALLOC (sizeof (_mod_random_context_t));
@@ -49,6 +49,6 @@ _mod_random_init (int argc, char *argv[], lw6bot_data_t * data)
 void
 _mod_random_quit (_mod_random_context_t * random_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("random quit"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("random quit"));
   LW6SYS_FREE (random_context);
 }

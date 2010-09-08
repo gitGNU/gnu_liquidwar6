@@ -150,7 +150,7 @@ lw6map_free (lw6map_level_t * level)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL map"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL map"));
     }
 }
 
@@ -183,7 +183,7 @@ lw6map_memory_footprint (lw6map_level_t * level)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("calling memory_footprint on NULL map"));
+		  _x_ ("calling memory_footprint on NULL map"));
     }
 
   return memory_footprint;
@@ -212,7 +212,7 @@ lw6map_repr (lw6map_level_t * level)
       title = level->metadata.title;
       if (!title)
 	{
-	  title = _("No title");
+	  title = _x_ ("No title");
 	}
 
       ret =
@@ -223,7 +223,7 @@ lw6map_repr (lw6map_level_t * level)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't generate string id for NULL level"));
+		  _x_ ("can't generate string id for NULL level"));
     }
 
   return ret;

@@ -50,7 +50,7 @@ _lw6ker_history_set (lw6ker_history_t * history,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("bad history index %i"), i);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad history index %i"), i);
     }
 }
 
@@ -88,7 +88,7 @@ _lw6ker_history_get (lw6ker_history_t * history, int i, int team_id)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("bad history index %i"), i);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad history index %i"), i);
     }
 
   return ret;

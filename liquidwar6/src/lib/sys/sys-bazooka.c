@@ -235,7 +235,7 @@ report_line (_lw6sys_bazooka_t * bazooka)
   if (tm_ret == &tm_when)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE,
-		  _
+		  _x_
 		  ("memory bazooka found unfreed data ptr=%p size=%d file:line=\"%s:%d\" time=\"%04d-%02d-%02d %02d:%02d:%02d,%03d\" sample_int=%d sample_str=\"%s\""),
 		  local_bazooka.ptr, local_bazooka.size, local_bazooka.file,
 		  local_bazooka.line, (int) tm_when.tm_year + 1900,
@@ -359,7 +359,7 @@ lw6sys_set_memory_bazooka_size (int size)
 	    }
 	  if (!bazooka_data)
 	    {
-	      lw6sys_log_critical (_
+	      lw6sys_log_critical (_x_
 				   ("can't allocate bazooka memory (%d bytes)"),
 				   size * sizeof (_lw6sys_bazooka_t));
 	    }
@@ -606,7 +606,7 @@ _lw6sys_bazooka_register_free (char *ptr)
   bazooka_malloc_current_count--;
   if (bazooka_free_count > bazooka_malloc_count)
     {
-      lw6sys_log_critical (_("problem, more free (%d) than malloc (%d)"),
+      lw6sys_log_critical (_x_ ("problem, more free (%d) than malloc (%d)"),
 			   bazooka_free_count, bazooka_malloc_count);
     }
 
@@ -640,7 +640,7 @@ _lw6sys_bazooka_register_free (char *ptr)
 	      bazooka_malloc_current_bytes -= bazooka_data[i].size;
 	      if (bazooka_free_bytes > bazooka_malloc_bytes)
 		{
-		  lw6sys_log_critical (_
+		  lw6sys_log_critical (_x_
 				       ("problem, more bytes freed (%d) than malloced (%d)"),
 				       bazooka_free_bytes,
 				       bazooka_malloc_bytes);
@@ -882,7 +882,7 @@ lw6sys_memory_bazooka_report ()
    * could interfere with standard output when processing
    * commands like --version or such things.
    */
-  lw6sys_log (LW6SYS_LOG_INFO, _("no memory check"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("no memory check"));
 #else
   int recreate_spinlock = 0;
   int i;
@@ -912,16 +912,16 @@ lw6sys_memory_bazooka_report ()
   malloc_max_bytes = lw6sys_get_memory_bazooka_malloc_max_bytes ();
   malloc_max_megabytes = (malloc_max_bytes >> 20) + 1;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_count=%d"), malloc_count);
-  lw6sys_log (LW6SYS_LOG_INFO, _("free_count=%d"), free_count);
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_current_count=%d"),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_count=%d"), malloc_count);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("free_count=%d"), free_count);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_current_count=%d"),
 	      malloc_current_count);
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_max_count=%d"), malloc_max_count);
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_megabytes=%d"), malloc_megabytes);
-  lw6sys_log (LW6SYS_LOG_INFO, _("free_megabytest=%d"), free_megabytes);
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_current_bytes=%d"),
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_max_count=%d"), malloc_max_count);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_megabytes=%d"), malloc_megabytes);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("free_megabytest=%d"), free_megabytes);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_current_bytes=%d"),
 	      malloc_current_bytes);
-  lw6sys_log (LW6SYS_LOG_INFO, _("malloc_max_bytes=%d"), malloc_max_bytes);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("malloc_max_bytes=%d"), malloc_max_bytes);
 
   if (malloc_count == free_count)
     {
@@ -930,14 +930,14 @@ lw6sys_memory_bazooka_report ()
 	  if (bazooka_trustable)
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _
+			  _x_
 			  ("%d malloc calls, %d megabytes system heap"),
 			  malloc_count, malloc_max_megabytes);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("%d malloc calls, %d megabytes system heap (untrusted)"),
 			  malloc_count, malloc_max_megabytes);
 	    }
@@ -947,7 +947,7 @@ lw6sys_memory_bazooka_report ()
     {
       ret = 0;
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("possible memory leak, %d calls to malloc and %d calls to free, note that if the program exited abnormally because of an unexpected error, this difference might be \"normal\""),
 		  malloc_count, free_count);
     }

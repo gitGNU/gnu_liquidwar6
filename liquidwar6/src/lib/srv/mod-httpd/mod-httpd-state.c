@@ -38,7 +38,7 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
   lw6cnx_connection_t *ret = NULL;
   _httpd_specific_data_t *specific_data = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("_mod_httpd_open \"%s\""), remote_url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_httpd_open \"%s\""), remote_url);
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
@@ -51,7 +51,7 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
       if (ret->backend_specific_data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("open httpd connection with \"%s\""), remote_url);
+		      _x_ ("open httpd connection with \"%s\""), remote_url);
 	}
       else
 	{

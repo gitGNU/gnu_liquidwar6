@@ -148,7 +148,7 @@ mod_gl_utils_shaded_text_display (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't display, shaded_text->bg=NULL"));
+		  _x_ ("can't display, shaded_text->bg=NULL"));
       ret = 0;
     }
   if (shaded_text->fg)
@@ -160,7 +160,7 @@ mod_gl_utils_shaded_text_display (mod_gl_utils_context_t * utils_context,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't display, shaded_text->fg=NULL"));
+		  _x_ ("can't display, shaded_text->fg=NULL"));
       ret = 0;
     }
 
@@ -189,6 +189,7 @@ mod_gl_utils_shaded_text_free (mod_gl_utils_context_t * utils_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL shaded text"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to free NULL shaded text"));
     }
 }

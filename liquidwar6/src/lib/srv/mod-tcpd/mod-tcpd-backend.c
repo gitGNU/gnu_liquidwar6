@@ -251,9 +251,9 @@ mod_tcpd_get_pedigree ()
     {
       module_pedigree->id = "tcpd";
       module_pedigree->category = "srv";
-      module_pedigree->name = _("TCPD");
+      module_pedigree->name = _x_ ("TCPD");
       module_pedigree->readme =
-	_("Basic TCP/IP server, the most reliable way to communicate.");
+	_x_ ("Basic TCP/IP server, the most reliable way to communicate.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
 	"Copyright (C)  2009  Christian Mauduit <ufoot@ufoot.org>";

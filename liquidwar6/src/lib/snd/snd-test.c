@@ -50,7 +50,7 @@ test_init (lw6snd_backend_t * backend)
 	repr = lw6snd_repr (backend);
 	if (repr)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("snd repr is \"%s\""), repr);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
 	    LW6SYS_FREE (repr);
 	  }
       }

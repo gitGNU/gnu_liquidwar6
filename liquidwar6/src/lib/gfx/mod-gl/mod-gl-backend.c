@@ -163,10 +163,10 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 
       mod_gl_utils_prepare_buffer (&(mod_gl_context->utils_context), look);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("display mask=%d"), mask);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display mask=%d"), mask);
       if (mask & LW6GUI_DISPLAY_SPLASH)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=splash"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=splash"));
 	  mod_gl_splash_display (&(mod_gl_context->utils_context),
 				 mod_gl_context->splash_context);
 	  mod_gl_splash_patch_system_color (&(mod_gl_context->utils_context),
@@ -182,7 +182,7 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	   */
 	  if (mask & LW6GUI_DISPLAY_BACKGROUND)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=background"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=background"));
 	      mod_gl_background_display_background (&
 						    (mod_gl_context->
 						     utils_context),
@@ -191,69 +191,69 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	    }
 	  if ((mask & LW6GUI_DISPLAY_PREVIEW) && level && !game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=preview"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=preview"));
 	      mod_gl_view_display_preview (&(mod_gl_context->utils_context),
 					   mod_gl_context->view_backend, look,
 					   level);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=map"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=map"));
 	      mod_gl_view_display_map (&(mod_gl_context->utils_context),
 				       mod_gl_context->view_backend, look,
 				       game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=fighters"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=fighters"));
 	      mod_gl_view_display_fighters (&(mod_gl_context->utils_context),
 					    mod_gl_context->view_backend,
 					    look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_DEBUG_ZONES) && game_struct)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=zones"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=zones"));
 	      mod_gl_utils_display_zones (&(mod_gl_context->utils_context),
 					  look, game_struct);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_DEBUG_GRADIENT) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=gradient"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=gradient"));
 	      mod_gl_utils_display_gradient (&(mod_gl_context->utils_context),
 					     look, game_state, debug_team_id,
 					     debug_layer_id);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_CURSORS) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=cursors"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=cursors"));
 	      mod_gl_view_display_cursors (&(mod_gl_context->utils_context),
 					   mod_gl_context->view_backend, look,
 					   game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=hud"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=hud"));
 	      mod_gl_hud_display_hud (&(mod_gl_context->utils_context),
 				      mod_gl_context->hud_backend, look,
 				      game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=score"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=score"));
 	      mod_gl_hud_display_score (&(mod_gl_context->utils_context),
 					mod_gl_context->hud_backend, look,
 					game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_MENU) && menu)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=menu"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=menu"));
 	      mod_gl_menu_display_menu (&(mod_gl_context->utils_context),
 					mod_gl_context->menu_backend, look,
 					menu);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=progress"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=progress"));
 	      mod_gl_menu_display_progress (&(mod_gl_context->utils_context),
 					    mod_gl_context->menu_backend,
 					    look, progress);
@@ -261,19 +261,19 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	}
       if ((mask & LW6GUI_DISPLAY_LOG) && log_list)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=log"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=log"));
 	  mod_gl_utils_display_log (&(mod_gl_context->utils_context), look,
 				    log_list);
 	}
       if (mask & LW6GUI_DISPLAY_FPS)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=fps"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=fps"));
 	  mod_gl_utils_display_fps (&(mod_gl_context->utils_context), look,
 				    fps);
 	}
       if ((mask & LW6GUI_DISPLAY_MPS) && game_struct)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=mps"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=mps"));
 	  mod_gl_utils_display_mps (&(mod_gl_context->utils_context), look,
 				    mps,
 				    game_struct->rules.rounds_per_sec *
@@ -281,14 +281,14 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	}
       if (mask & LW6GUI_DISPLAY_URL)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("display step=url"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=url"));
 	  mod_gl_utils_display_url (&(mod_gl_context->utils_context),
 				    look, lw6sys_build_get_url ());
 	}
       mod_gl_utils_show_mouse (&(mod_gl_context->utils_context),
 			       mask & LW6GUI_DISPLAY_MOUSE, 0);
 
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("display swap"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display swap"));
 
       if (capture)
 	{
@@ -314,9 +314,9 @@ mod_gl_get_pedigree ()
     {
       module_pedigree->id = "gl";
       module_pedigree->category = "gfx";
-      module_pedigree->name = _("OpenGL/SDL");
+      module_pedigree->name = _x_ ("OpenGL/SDL");
       module_pedigree->readme =
-	_
+	_x_
 	("This is the most accomplished graphics backend for Liquid War 6. It uses OpenGL hardware acceleration if available, and uses SDL as a technical wrapper.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =

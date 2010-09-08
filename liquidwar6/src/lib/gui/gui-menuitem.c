@@ -107,13 +107,13 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("menuitem with NULL label"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL label"));
 	}
       LW6SYS_FREE (menuitem);
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL menuitem"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL menuitem"));
     }
 }
 
@@ -140,7 +140,7 @@ lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("calling memory_footprint on NULL menuitem"));
+		  _x_ ("calling memory_footprint on NULL menuitem"));
     }
 
   return memory_footprint;
@@ -164,7 +164,7 @@ lw6gui_menuitem_repr (lw6gui_menuitem_t * menuitem)
   char *repr;
 
   repr =
-    lw6sys_new_sprintf (_("%u \"%s\" (value=%d)"), menuitem->id,
+    lw6sys_new_sprintf (_x_ ("%u \"%s\" (value=%d)"), menuitem->id,
 			menuitem->label, menuitem->value);
 
   return repr;
@@ -199,7 +199,7 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
   if (!(menuitem->label))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("couldn't set menu item label \"%s\""), label);
+		  _x_ ("couldn't set menu item label \"%s\""), label);
     }
 }
 
@@ -425,7 +425,7 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("menuitems are not syncable"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitems are not syncable"));
     }
 
   return ret;

@@ -67,7 +67,7 @@ lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf, int buf_size)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("error calculating SHA-1 sum for %d bytes"), buf_size);
+		  _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
     }
 
   return ret;
@@ -131,7 +131,7 @@ lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf, int buf_size)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("error calculating SHA-1 sum for %d bytes"), buf_size);
+		  _x_ ("error calculating SHA-1 sum for %d bytes"), buf_size);
     }
 
   return ret;

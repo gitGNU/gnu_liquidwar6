@@ -73,7 +73,7 @@ _load_consts (mod_gl_utils_context_t * utils_context,
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), const_file);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, _read_callback,
@@ -103,7 +103,7 @@ _load_bitmaps (mod_gl_utils_context_t * utils_context,
 {
   int ret = 0;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("loading bitmaps"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading bitmaps"));
 
   ret =
     ((bubbles_context->bitmap_data.background =
@@ -124,7 +124,7 @@ _load_bitmaps (mod_gl_utils_context_t * utils_context,
   if (!ret)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't load bitmaps, expect serious problems"));
+		  _x_ ("can't load bitmaps, expect serious problems"));
     }
 
   return ret;

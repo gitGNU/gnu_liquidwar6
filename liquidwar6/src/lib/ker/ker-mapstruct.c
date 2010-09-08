@@ -118,7 +118,7 @@ _lw6ker_map_struct_lazy_compare (lw6ker_map_struct_t *
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("map_structs do not look the same"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("map_structs do not look the same"));
     }
 
   return ret;
@@ -276,13 +276,14 @@ draft_zones_new (lw6map_level_t * level, lw6sys_progress_t * progress)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("unable to allocate %d draft zones"), size);
+			  _x_ ("unable to allocate %d draft zones"), size);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("map is too small, size=%d, LW6MAP_MIN_SURFACE=%d"),
+		      _x_
+		      ("map is too small, size=%d, LW6MAP_MIN_SURFACE=%d"),
 		      size, LW6MAP_MIN_SURFACE);
 	}
 
@@ -815,7 +816,7 @@ draft_zones_to_map_struct (lw6ker_map_struct_t * map_struct,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to create zones for map struct"));
+		  _x_ ("unable to create zones for map struct"));
     }
 
   lw6sys_progress_end (progress);
@@ -979,7 +980,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to create places for map struct"));
+		  _x_ ("unable to create places for map struct"));
     }
 
   lw6sys_progress_end (progress);
@@ -1053,7 +1054,7 @@ init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to create slots for map struct"));
+		  _x_ ("unable to create slots for map struct"));
     }
 
   lw6sys_progress_end (progress);
@@ -1145,7 +1146,7 @@ _lw6ker_map_struct_init (lw6ker_map_struct_t * map_struct,
       if (ret)
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _
+		      _x_
 		      ("map struct created %dx%dx%d, %d zones, %1.1f%% compression"),
 		      map_struct->shape.w, map_struct->shape.h,
 		      map_struct->shape.d, map_struct->nb_zones,
@@ -1239,7 +1240,8 @@ lw6ker_map_struct_find_free_slot_near (lw6ker_map_struct_t * map_struct,
   if (!found)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to find a free zone near %dx%d"), here.x, here.y);
+		  _x_ ("unable to find a free zone near %dx%d"), here.x,
+		  here.y);
     }
 }
 
@@ -1263,7 +1265,7 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
   if (nb_places != w * h)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("inconsistent nb_places=%d shape=%dx%d"),
+		  _x_ ("inconsistent nb_places=%d shape=%dx%d"),
 		  nb_places, w, h);
       ret = 0;
     }
@@ -1271,8 +1273,8 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
   if (nb_slots != w * h * d)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("inconsistent nb_slots=%d shape=%dx%dx%d"), nb_slots, w,
-		  h, d);
+		  _x_ ("inconsistent nb_slots=%d shape=%dx%dx%d"), nb_slots,
+		  w, h, d);
       ret = 0;
     }
 
@@ -1302,7 +1304,7 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
 				      if (!(z2 == z1 - 1 || z2 == d - 1))
 					{
 					  lw6sys_log (LW6SYS_LOG_WARNING,
-						      _
+						      _x_
 						      ("bad UP link in %d,%d,%d z1=%d z2=%d"),
 						      x, y, z, z1, z2);
 					  ret = 0;
@@ -1312,7 +1314,7 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
 				      if (!(z2 == z1 + 1 || z2 == 0))
 					{
 					  lw6sys_log (LW6SYS_LOG_WARNING,
-						      _
+						      _x_
 						      ("bad DOWN link in %d,%d,%d z1=%d z2=%d"),
 						      x, y, z, z1, z2);
 					  ret = 0;
@@ -1327,8 +1329,8 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
 			  else
 			    {
 			      lw6sys_log (LW6SYS_LOG_WARNING,
-					  _("bad link %d->%d in %d,%d,%d"), i,
-					  j, x, y, z);
+					  _x_ ("bad link %d->%d in %d,%d,%d"),
+					  i, j, x, y, z);
 			      ret = 0;
 			    }
 			}
@@ -1337,8 +1339,8 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _("bad zone id %d in %d,%d,%d"), zone_id, x, y,
-			      z);
+			      _x_ ("bad zone id %d in %d,%d,%d"), zone_id, x,
+			      y, z);
 		  ret = 0;
 		}
 	    }

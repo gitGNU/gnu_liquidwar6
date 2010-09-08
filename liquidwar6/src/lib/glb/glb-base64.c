@@ -213,7 +213,7 @@ lw6glb_base64_decode_bin_prefix (int *size, char *base64_str, char *prefix)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("base64 decode failed, decode_ret=%d"),
+			  _x_ ("base64 decode failed, decode_ret=%d"),
 			  decode_ret);
 	      LW6SYS_FREE (ret);
 	      ret = NULL;

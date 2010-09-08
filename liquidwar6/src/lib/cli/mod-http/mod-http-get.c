@@ -68,7 +68,7 @@ static void
 _print_error (char *function, CURLcode res)
 {
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _("call to curl function \"%s\" failed with code %d \"%s\""),
+	      _x_ ("call to curl function \"%s\" failed with code %d \"%s\""),
 	      function, res, curl_easy_strerror (res));
 }
 
@@ -85,7 +85,7 @@ _mod_http_get (_http_context_t * http_context, char *url, char *password)
   chunk.memory = NULL;		/* we expect realloc(NULL, size) to work */
   chunk.size = 0;		/* no data at this point */
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("GET \"%s\""), url);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("GET \"%s\""), url);
   /*
    * We use this lock because CURL might use gethostbyname internally.
    * Not locking gives segfault error, typically:
@@ -158,7 +158,7 @@ _mod_http_get (_http_context_t * http_context, char *url, char *password)
 					  if (authorization)
 					    {
 					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _
+							  _x_
 							  ("using authorization \"%s\""),
 							  authorization);
 					      /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
@@ -242,13 +242,13 @@ _mod_http_get (_http_context_t * http_context, char *url, char *password)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("unable to initialize CURL handle"));
+			  _x_ ("unable to initialize CURL handle"));
 	    }
 
 	  if (chunk.memory)
 	    {
 	      ret = chunk.memory;
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("response=\"%s\""), ret);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("response=\"%s\""), ret);
 	    }
 	}
       lw6net_dns_unlock ();

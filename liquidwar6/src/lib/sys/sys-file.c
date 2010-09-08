@@ -103,7 +103,7 @@ _read_bin (int *filesize, char *filename)
 		   */
 #ifndef LW6_MS_WINDOWS
 		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _
+			      _x_
 			      ("couldn't read all of file \"%s\", size was supposed to be %d but only read %d"),
 			      filename, size, read);
 #endif
@@ -111,7 +111,7 @@ _read_bin (int *filesize, char *filename)
 	      else if (read > size)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("inconsistency in file \"%s\", size is %d but read %d"),
 			      filename, size, read);
 		}
@@ -122,7 +122,7 @@ _read_bin (int *filesize, char *filename)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't open file \"%s\" for reading"), filename);
+		  _x_ ("can't open file \"%s\" for reading"), filename);
     }
 
   if (filesize)
@@ -221,7 +221,7 @@ lw6sys_write_file_content (char *filename, char *content)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to write %d bytes in file \"%s\""),
+		      _x_ ("unable to write %d bytes in file \"%s\""),
 		      strlen (content), filename);
 	}
       fclose (f);
@@ -229,7 +229,7 @@ lw6sys_write_file_content (char *filename, char *content)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable open file \"%s\" for reading"), filename);
+		  _x_ ("unable open file \"%s\" for reading"), filename);
     }
 
   return ret;

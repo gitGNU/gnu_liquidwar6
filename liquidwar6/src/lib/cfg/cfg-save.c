@@ -58,7 +58,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename)
   int ret = 0;
   FILE *f;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("saving config to \"%s\""), filename);
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("saving config to \"%s\""), filename);
 
   _lw6cfg_parse_command_line (cfg_context);
 
@@ -66,7 +66,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename)
   if (f)
     {
       lw6sys_print_xml_header (f,
-			       _
+			       _x_
 			       ("This is the main Liquid War 6 config file. Here you'll be able to tweak many, if not all, parameters in the game. Some of these values simply reflect changes you can make through the interface, some are not even present in the menus. What is sure is that if you can modify it by clicking somewhere in the game interface, it can surely be done here too. Note that this file is overwritten every time you run the game, your own comments and personnal touch in it will simply be squashed and disappear. But of course the values you set will be kept. All entries should be documented in the file. If in doubt, documentation is online on http://www.gnu.org/software/liquidwar6/manual/"));
       lw6sys_hash_sort_and_map (cfg_context->options,
 				(lw6sys_assoc_callback_func_t)
@@ -78,7 +78,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("could not open file \"%s\" in write mode"), filename);
+		  _x_ ("could not open file \"%s\" in write mode"), filename);
     }
 
   return ret;

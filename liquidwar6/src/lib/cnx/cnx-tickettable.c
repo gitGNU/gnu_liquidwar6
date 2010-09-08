@@ -298,7 +298,7 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("send_ticket for %s already exists, ignoring set"),
+		  _x_ ("send_ticket for %s already exists, ignoring set"),
 		  peer_id);
     }
 }

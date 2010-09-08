@@ -95,7 +95,7 @@ lw6snd_create_backend (int argc, char *argv[], char *name)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("sound backend \"%s\" does not exist"), name);
+		  _x_ ("sound backend \"%s\" does not exist"), name);
     }
 #else
   lw6dyn_dl_handle_t *backend_handle = NULL;
@@ -119,7 +119,7 @@ lw6snd_create_backend (int argc, char *argv[], char *name)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("unable to find function \"%s\" in sound backend \"%s\""),
 			  init_func_name, name);
 	    }
@@ -138,7 +138,7 @@ lw6snd_create_backend (int argc, char *argv[], char *name)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to open sound backend \"%s\""), name);
+		  _x_ ("unable to open sound backend \"%s\""), name);
     }
 #endif
 

@@ -355,7 +355,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
   _httpd_response_t *response = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("process httpd oob"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
 
   request = _mod_httpd_request_parse_oob (httpd_context, node_info, oob_data);
   if (request)
@@ -392,7 +392,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("unable to duplicate dyn_info"));
+				  _x_ ("unable to duplicate dyn_info"));
 		    }
 		}
 	      else
@@ -504,7 +504,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _("request \"%s\" failed"),
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("request \"%s\" failed"),
 			  request->uri);
 	    }
 

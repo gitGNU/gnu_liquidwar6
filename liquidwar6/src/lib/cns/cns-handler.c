@@ -47,12 +47,12 @@ lw6cns_handler_install (void (*callback) (char *line))
   fflush (stdout);
   fflush (stderr);
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("opening console"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("opening console"));
 
   rl_set_keyboard_input_timeout (1);
   rl_callback_handler_install (PROMPT, callback);
 #else
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("no console support"));
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no console support"));
 #endif
 }
 
@@ -98,6 +98,6 @@ lw6cns_handler_remove ()
   fprintf (stdout, "\n");
   fflush (stdout);
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("console closed"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("console closed"));
 #endif
 }

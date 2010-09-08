@@ -34,7 +34,7 @@ _mod_http_repr (_http_context_t * http_context,
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_("http connexion on \"%s\""),
+    lw6sys_new_sprintf (_x_ ("http connexion on \"%s\""),
 			connection->remote_url);
 
   return ret;

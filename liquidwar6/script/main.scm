@@ -76,7 +76,7 @@
       ; Show the binary pedigree
       (lw6-log-notice (format #f (_ "running \"~a\"") 
 			      (c-lw6sys-get-script-file)))
-      (lw6-log-notice (format #f (_ "log is \"~a\"") 
+      (lw6-log-notice (format #f (_ "log file \"~a\"") 
 			      (c-lw6sys-get-log-file)))
       (if (or (c-lw6sys-build-is-mac-os-x) (c-lw6sys-build-is-ms-windows))
 	  (lw6-log-info (format #f 

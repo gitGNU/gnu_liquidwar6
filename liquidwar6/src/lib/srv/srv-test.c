@@ -61,7 +61,7 @@ _test_oob ()
 		      _TEST_OOB_INVALID_SOCK, _TEST_LINE);
     if (oob)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("created oob object"));
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created oob object"));
 	lw6srv_oob_free (oob);
       }
     else
@@ -91,7 +91,7 @@ _test_tcp_accepter ()
 	  lw6srv_tcp_accepter_new (ip, LW6NET_DEFAULT_PORT, _TEST_FAKE_SOCK);
 	if (tcp_accepter)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("tcp_accepter %s:%d"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("tcp_accepter %s:%d"),
 			tcp_accepter->client_id.client_ip,
 			tcp_accepter->client_id.client_port);
 	    lw6srv_tcp_accepter_free (tcp_accepter);
@@ -99,7 +99,7 @@ _test_tcp_accepter ()
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_("unable to create tcp_accepter object"));
+			_x_ ("unable to create tcp_accepter object"));
 	    LW6SYS_FREE (ip);
 	    ret = 0;
 	  }
@@ -131,7 +131,7 @@ _test_udp_buffer ()
 	      lw6srv_udp_buffer_new (ip, LW6NET_DEFAULT_PORT, line);
 	    if (udp_buffer)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE, _("udp_buffer %s:%d"),
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("udp_buffer %s:%d"),
 			    udp_buffer->client_id.client_ip,
 			    udp_buffer->client_id.client_port);
 		lw6srv_udp_buffer_free (udp_buffer);
@@ -139,7 +139,7 @@ _test_udp_buffer ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to create udp_buffer object"));
+			    _x_ ("unable to create udp_buffer object"));
 		LW6SYS_FREE (line);
 		LW6SYS_FREE (ip);
 		ret = 0;

@@ -132,7 +132,7 @@ lw6cfg_defaults (void *context)
       hostname = lw6sys_get_hostname ();
       if (hostname)
 	{
-	  player_name = lw6sys_new_sprintf (_("player2@%s"), hostname);
+	  player_name = lw6sys_new_sprintf (_x_ ("player2@%s"), hostname);
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER2_NAME, player_name);
@@ -142,7 +142,7 @@ lw6cfg_defaults (void *context)
 	    {
 	      ret = 0;
 	    }
-	  player_name = lw6sys_new_sprintf (_("player3@%s"), hostname);
+	  player_name = lw6sys_new_sprintf (_x_ ("player3@%s"), hostname);
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER3_NAME, player_name);
@@ -152,7 +152,7 @@ lw6cfg_defaults (void *context)
 	    {
 	      ret = 0;
 	    }
-	  player_name = lw6sys_new_sprintf (_("player4@%s"), hostname);
+	  player_name = lw6sys_new_sprintf (_x_ ("player4@%s"), hostname);
 	  if (player_name)
 	    {
 	      lw6cfg_set_option (context, LW6DEF_PLAYER4_NAME, player_name);

@@ -175,7 +175,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
   if (loader_data->stage1.map_path && loader_data->stage1.relative_path)
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _
+		  _x_
 		  ("async load stage1, request_number %d, level \"%s\""),
 		  request_number, loader_data->stage1.relative_path);
 
@@ -251,7 +251,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	      stage1_clear_response (&(loader_data->stage1));
 	      loader_data->stage1.level = level;
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("async load stage1 done, request_number %d, level \"%s\""),
 			  request_number, repr);
 	      stage2_clear_request (&(loader_data->stage2));
@@ -261,7 +261,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	  else if (request_number < loader_data->request_number)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("async load stage1 abort, request number %d < %d, level \"%s\""),
 			  request_number, loader_data->request_number, repr);
 	      if (src2)
@@ -275,7 +275,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("async load stage1, inconsistent request number %d > %d, level \"%s\""),
 			  request_number, loader_data->request_number, repr);
 	    }
@@ -313,7 +313,8 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
   if (loader_data->stage2.src)
     {
       lw6sys_log (LW6SYS_LOG_INFO,
-		  _("async load stage2, request_number %d"), request_number);
+		  _x_ ("async load stage2, request_number %d"),
+		  request_number);
       (*(progress.value)) = _LW6TSK_LOADER_PROGRESS_STAGE2_BEGIN;
 
       progress.min = _LW6TSK_LOADER_PROGRESS_STAGE2_BEGIN_MAP;
@@ -377,7 +378,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	      loader_data->stage2.game_struct = game_struct;
 	      loader_data->stage2.game_state = game_state;
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("async load stage2 done, request_number %d, game_state \"%s\""),
 			  request_number, repr);
 	      ok = 1;
@@ -385,7 +386,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	  else if (request_number < loader_data->request_number)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("async load stage2 abort, request number %d < %d, game_state \"%s\""),
 			  request_number, loader_data->request_number, repr);
 	      lw6ker_game_state_free (game_state);
@@ -398,7 +399,7 @@ stage2 (_lw6tsk_loader_data_t * loader_data)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _
+			  _x_
 			  ("async load stage2, inconsistent request number %d > %d, game_state \"%s\""),
 			  request_number, loader_data->request_number, repr);
 	    }
@@ -601,19 +602,19 @@ lw6tsk_loader_new (float sleep, float *progress)
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _("unable to create mutex for loader"));
+			  _x_ ("unable to create mutex for loader"));
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("unable to allocate memory for loader data"));
+		      _x_ ("unable to allocate memory for loader data"));
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to allocate memory for loader"));
+		  _x_ ("unable to allocate memory for loader"));
     }
 
   if (loader && !loader->thread)
@@ -679,14 +680,15 @@ lw6tsk_loader_repr (lw6tsk_loader_t * loader)
 	  progress = *(loader_data->progress);
 	}
       ret =
-	lw6sys_new_sprintf (_("%u request_number=%d stage=%d progress=%0.2f"),
+	lw6sys_new_sprintf (_x_
+			    ("%u request_number=%d stage=%d progress=%0.2f"),
 			    loader->id, loader_data->request_number,
 			    loader_data->stage, progress);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("can't generate string id for NULL loader"));
+		  _x_ ("can't generate string id for NULL loader"));
     }
 
   return ret;

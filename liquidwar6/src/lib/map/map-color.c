@@ -113,7 +113,7 @@ lw6map_team_color_index_to_key (int index)
       ret = LW6MAP_TEAM_COLOR_KEY_PINK;
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("team color index %d isn't valid"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("team color index %d isn't valid"),
 		  index);
     }
 
@@ -176,7 +176,7 @@ lw6map_team_color_key_to_index (char *key)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("team color key %s isn't valid"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("team color key %s isn't valid"),
 		  key);
     }
 

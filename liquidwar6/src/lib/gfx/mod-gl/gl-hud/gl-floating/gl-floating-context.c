@@ -57,7 +57,7 @@ _update_clock (mod_gl_utils_context_t *
   hours = time_left / 3600;
   minutes = (time_left / 60) % 60;
   seconds = time_left % 60;
-  text = lw6sys_new_sprintf (_("%0d:%02d:%02d"), hours, minutes, seconds);
+  text = lw6sys_new_sprintf (_x_ ("%0d:%02d:%02d"), hours, minutes, seconds);
   if (text)
     {
       if (floating_context->clock.clock_text)
@@ -131,7 +131,7 @@ _update_gauges (mod_gl_utils_context_t *
 
       if (floating_context->game_state)
 	{
-	  percent_text = lw6sys_new_sprintf (_("%d%%"), percent);
+	  percent_text = lw6sys_new_sprintf (_x_ ("%d%%"), percent);
 	  if (percent_text)
 	    {
 	      if (floating_context->gauges.percent_texts[i])
@@ -154,7 +154,7 @@ _update_gauges (mod_gl_utils_context_t *
 
 	  if (floating_context->game_state->game_struct->rules.respawn_team)
 	    {
-	      frags_text = lw6sys_new_sprintf (_("%d"), frags);
+	      frags_text = lw6sys_new_sprintf (_x_ ("%d"), frags);
 	      if (frags_text)
 		{
 		  if (floating_context->gauges.frags_texts[i])

@@ -32,6 +32,18 @@
 #define _(string) string
 #endif
 
+/*
+ * Because program has so many strings, it's not reasonnable to
+ * translate them all (at least for now) as most of them are
+ * debugging messages. However it's important not to loose a
+ * trace of "potentially translatable" candidates, so we mark
+ * them with _x_ instead of _ this way they don't appear in
+ * .po files but at the same time a trivial sed command can make
+ * them appear back again. Additionnally, not using gettext
+ * on never-translated debugging messages does save time.
+ */
+#define _x_(string) string
+
 #ifndef bindtextdomain
 #include <libintl.h>
 #endif

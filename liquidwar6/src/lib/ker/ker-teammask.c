@@ -78,7 +78,7 @@ lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
   if (l >= LW6MAP_MAX_NB_TEAMS)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("team_max_best with l=%d, consider optimizing"), l);
+		  _x_ ("team_max_best with l=%d, consider optimizing"), l);
     }
 }
 

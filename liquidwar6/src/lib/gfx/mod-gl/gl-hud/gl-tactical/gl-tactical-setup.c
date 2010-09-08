@@ -38,7 +38,7 @@ _mod_gl_hud_tactical_init (mod_gl_utils_context_t * utils_context)
 {
   _mod_gl_hud_tactical_context_t *tactical_context = NULL;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("init hud/tactical"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("init hud/tactical"));
 
   tactical_context =
     (_mod_gl_hud_tactical_context_t *)
@@ -76,7 +76,7 @@ void
 _mod_gl_hud_tactical_quit (mod_gl_utils_context_t * utils_context,
 			   _mod_gl_hud_tactical_context_t * tactical_context)
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("quit hud/tactical"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("quit hud/tactical"));
 
   _mod_gl_hud_tactical_unload_data (utils_context, tactical_context);
   LW6SYS_FREE (tactical_context);

@@ -185,7 +185,7 @@ mod_gl_utils_load_consts (mod_gl_utils_context_t * context)
 
   if (const_file)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _("reading \"%s\""), const_file);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
       ret =
 	lw6cfg_read_key_value_xml_file (const_file, read_callback,

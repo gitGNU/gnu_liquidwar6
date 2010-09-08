@@ -136,7 +136,7 @@ lw6dyn_path_find_backend (int argc, char *argv[], char *top_level_lib,
 	    {
 	      // module not found at all
 	      lw6sys_log (LW6SYS_LOG_NOTICE,
-			  _("couldn't find backend %s/%s in %s"),
+			  _x_ ("couldn't find backend %s/%s in %s"),
 			  top_level_lib, backend_name, system_backend_path);
 	    }
 	  LW6SYS_FREE (system_backend_path);

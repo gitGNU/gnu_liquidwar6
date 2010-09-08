@@ -70,7 +70,7 @@ _lw6ker_node_array_find_free (lw6ker_node_array_t * node_array)
 
   if (!ret)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _("unable to find free node"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to find free node"));
     }
 
   return ret;
@@ -125,7 +125,7 @@ lw6ker_node_array_enable (lw6ker_node_array_t * node_array, u_int64_t node_id)
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("node %x already exists, can't enable it twice"),
+		  _x_ ("node %x already exists, can't enable it twice"),
 		  node_id);
     }
 
@@ -149,7 +149,7 @@ lw6ker_node_array_disable (lw6ker_node_array_t * node_array,
   else
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _("node %x already does not exist, can't disable it"),
+		  _x_ ("node %x already does not exist, can't disable it"),
 		  node_id);
     }
 
@@ -175,7 +175,7 @@ lw6ker_node_array_sanity_check (lw6ker_node_array_t * node_array,
   if (found != node_array->nb_nodes)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _
+		  _x_
 		  ("inconsistency in node_array, found %d nodes but array reports %d"),
 		  found, node_array->nb_nodes);
       ret = 0;

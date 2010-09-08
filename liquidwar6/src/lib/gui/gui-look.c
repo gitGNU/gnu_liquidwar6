@@ -114,7 +114,7 @@ lw6gui_look_free (lw6gui_look_t * look)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to free NULL look"));
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL look"));
     }
 }
 
@@ -138,7 +138,7 @@ lw6gui_look_repr (lw6gui_look_t * look)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, "look",
-		  _("can't generate string id for NULL look"));
+		  _x_ ("can't generate string id for NULL look"));
     }
 
   return ret;
@@ -255,7 +255,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("zoom_step=%f, should be >1.0"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"),
 		  zoom_step);
     }
   _fix_zoom (look);
@@ -284,7 +284,7 @@ lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("zoom_step=%f, should be >1.0"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"),
 		  zoom_step);
     }
   _fix_zoom (look);

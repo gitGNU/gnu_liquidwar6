@@ -33,7 +33,8 @@ _mod_tcp_repr (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf (_("tcp connexion on \"%s\""), connection->remote_url);
+    lw6sys_new_sprintf (_x_ ("tcp connexion on \"%s\""),
+			connection->remote_url);
 
   return ret;
 }

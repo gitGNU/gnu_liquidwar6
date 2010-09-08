@@ -137,32 +137,33 @@ test_cmd ()
 	msg = lw6msg_cmd_generate_hello (info);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("hello command is \"%s\""), msg);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("hello command is \"%s\""),
+			msg);
 	    if (lw6msg_cmd_analyse_hello (&analysed_info, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("hello command analysed (node url=\"%s\")"),
+			    _x_ ("hello command analysed (node url=\"%s\")"),
 			    analysed_info->const_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("could guess url \"%s\" from \"%s\""),
+			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to guess url from \"%s\""), msg);
+			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -172,7 +173,7 @@ test_cmd ()
 	msg = lw6msg_cmd_generate_ticket (info, ticket);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket command is \"%s\""),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_ticket
 		(&analysed_info, &analysed_ticket, msg))
@@ -180,13 +181,13 @@ test_cmd ()
 		if (ticket == analysed_ticket)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("ticket command analysed (ticket=%x)"),
+				_x_ ("ticket command analysed (ticket=%x)"),
 				ticket);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("ticket command analysed but ticket is wrong (%x and should be %x)"),
 				analysed_ticket, ticket);
 		    ret = 0;
@@ -195,22 +196,22 @@ test_cmd ()
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("could guess url \"%s\" from \"%s\""),
+			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to guess url from \"%s\""), msg);
+			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -220,18 +221,19 @@ test_cmd ()
 	msg = lw6msg_cmd_generate_foo (info, key);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("foo command is \"%s\""), msg);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("foo command is \"%s\""),
+			msg);
 	    if (lw6msg_cmd_analyse_foo (&analysed_info, &analysed_key, msg))
 	      {
 		if (key == analysed_key)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("foo command analysed (key=%x)"), key);
+				_x_ ("foo command analysed (key=%x)"), key);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("foo command analysed but key is wrong (%x and should be %x)"),
 				analysed_key, key);
 		    ret = 0;
@@ -240,22 +242,22 @@ test_cmd ()
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("could guess url \"%s\" from \"%s\""),
+			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to guess url from \"%s\""), msg);
+			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -265,18 +267,19 @@ test_cmd ()
 	msg = lw6msg_cmd_generate_bar (info, key);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("bar command is \"%s\""), msg);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("bar command is \"%s\""),
+			msg);
 	    if (lw6msg_cmd_analyse_bar (&analysed_info, &analysed_key, msg))
 	      {
 		if (key == analysed_key)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("bar command analysed (key=%x)"), key);
+				_x_ ("bar command analysed (key=%x)"), key);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("bar command analysed but key is wrong (%x and should be %x)"),
 				analysed_key, key);
 		    ret = 0;
@@ -285,22 +288,22 @@ test_cmd ()
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("could guess url \"%s\" from \"%s\""),
+			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to guess url from \"%s\""), msg);
+			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -309,33 +312,34 @@ test_cmd ()
 	msg = lw6msg_cmd_generate_goodbye (info);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("goodbye command is \"%s\""),
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("goodbye command is \"%s\""),
 			msg);
 	    if (lw6msg_cmd_analyse_goodbye (&analysed_info, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("goodbye command analysed (node url=\"%s\")"),
+			    _x_
+			    ("goodbye command analysed (node url=\"%s\")"),
 			    analysed_info->const_info.url);
 		lw6nod_info_free (analysed_info);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("could guess url \"%s\" from \"%s\""),
+			    _x_ ("could guess url \"%s\" from \"%s\""),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to guess url from \"%s\""), msg);
+			    _x_ ("unable to guess url from \"%s\""), msg);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (msg);
@@ -346,26 +350,28 @@ test_cmd ()
 				    _TEST_DATA_N, _TEST_DATA_KER_MSG);
 	if (msg)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("data command is \"%s\""), msg);
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("data command is \"%s\""),
+			msg);
 	    if (lw6msg_cmd_analyse_data
 		(&data_serial, &data_i, &data_n, &data_ker_msg, msg))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("data command analysed (node ker_msg=\"%s\")"),
+			    _x_
+			    ("data command analysed (node ker_msg=\"%s\")"),
 			    data_ker_msg);
 		LW6SYS_FREE (data_ker_msg);
 	      }
 	    else
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _("unable to analyze \"%s\""),
-			    msg);
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to analyze \"%s\""), msg);
 		ret = 0;
 	      }
 	    remote_url = lw6msg_cmd_guess_from_url (msg);
 	    if (remote_url)
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("could guess url \"%s\" from \"%s\", this is wrong"),
 			    remote_url, msg);
 		LW6SYS_FREE (remote_url);
@@ -374,7 +380,7 @@ test_cmd ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("unable to guess url from \"%s\", this is right"),
 			    msg);
 	      }
@@ -433,7 +439,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      if (envelope)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("envelope generated \"%s\""), envelope);
+			      _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
@@ -445,17 +451,18 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("envelope \"%s\" parsed"), envelope);
+				  _x_ ("envelope \"%s\" parsed"), envelope);
 		      if (received_msg)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
-				      _("message is \"%s\""), received_msg);
+				      _x_ ("message is \"%s\""),
+				      received_msg);
 			  LW6SYS_FREE (received_msg);
 			}
 		      if (received_physical_from_url)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
-				      _("guessed \"from url\" \"%s\""),
+				      _x_ ("guessed \"from url\" \"%s\""),
 				      received_physical_from_url);
 			  LW6SYS_FREE (received_physical_from_url);
 			}
@@ -463,7 +470,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("unable to analyse envelope \"%s\""),
+				  _x_ ("unable to analyse envelope \"%s\""),
 				  envelope);
 		      ret = 0;
 		    }
@@ -479,12 +486,13 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("truncated envelope \"%s\" parsed"),
+				  _x_ ("truncated envelope \"%s\" parsed"),
 				  envelope);
 		      if (received_msg)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
-				      _("message is \"%s\""), received_msg);
+				      _x_ ("message is \"%s\""),
+				      received_msg);
 			  LW6SYS_FREE (received_msg);
 			}
 		      if (received_physical_from_url)
@@ -495,7 +503,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("unable to analyse envelope \"%s\""),
+				  _x_ ("unable to analyse envelope \"%s\""),
 				  envelope);
 		      ret = 0;
 		    }
@@ -511,14 +519,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("message parsed even with wrong password"));
 		      ret = 0;
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("password checking works"));
+				  _x_ ("password checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
@@ -531,14 +539,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("message parsed even with wrong \"from id\""));
 		      ret = 0;
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("\"from id\" checking works"));
+				  _x_ ("\"from id\" checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
@@ -551,14 +559,14 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("message parsed even with wrong \"to id\""));
 		      ret = 0;
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("\"to id\" checking works"));
+				  _x_ ("\"to id\" checking works"));
 		    }
 
 		  LW6SYS_FREE (envelope);
@@ -566,7 +574,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("unable to generate envelope"));
+			      _x_ ("unable to generate envelope"));
 		}
 	      LW6SYS_FREE (msg);
 	    }
@@ -589,7 +597,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      if (envelope)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("envelope generated \"%s\""), envelope);
+			      _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
 		      (envelope, mode, _TEST_URL, NULL,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
@@ -601,11 +609,12 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		       &received_physical_from_url))
 		    {
 		      lw6sys_log (LW6SYS_LOG_NOTICE,
-				  _("envelope \"%s\" parsed"), envelope);
+				  _x_ ("envelope \"%s\" parsed"), envelope);
 		      if (received_msg)
 			{
 			  lw6sys_log (LW6SYS_LOG_NOTICE,
-				      _("message is \"%s\""), received_msg);
+				      _x_ ("message is \"%s\""),
+				      received_msg);
 			  LW6SYS_FREE (received_msg);
 			}
 		      if (received_physical_from_url)
@@ -616,7 +625,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("unable to analyse envelope \"%s\""),
+				  _x_ ("unable to analyse envelope \"%s\""),
 				  envelope);
 		      ret = 0;
 		    }
@@ -625,7 +634,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("unable to generate envelope"));
+			      _x_ ("unable to generate envelope"));
 		}
 	      LW6SYS_FREE (msg);
 	    }
@@ -689,35 +698,35 @@ test_oob ()
 	oob = lw6msg_oob_generate_info (info);
 	if (oob)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob INFO is \"%s\""),
-			oob);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("standard oob INFO is \"%s\""), oob);
 	    LW6SYS_FREE (oob);
 	  }
 	oob = lw6msg_oob_generate_list (info);
 	if (oob)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("standard (empty) oob LIST is \"%s\""), oob);
+			_x_ ("standard (empty) oob LIST is \"%s\""), oob);
 	    LW6SYS_FREE (oob);
 	  }
 
 	oob = lw6msg_oob_generate_pong (info);
 	if (oob)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _("standard oob PONG is \"%s\""),
-			oob);
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("standard oob PONG is \"%s\""), oob);
 	    pong_url = lw6msg_oob_analyse_pong (oob);
 	    if (pong_url)
 	      {
 		if (lw6sys_str_is_same (pong_url, _TEST_URL))
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("got url \"%s\" from PONG"), pong_url);
+				_x_ ("got url \"%s\" from PONG"), pong_url);
 		  }
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("PONG message parsed but read \"%s\" instead of \"%s\""),
 				pong_url, _TEST_URL);
 		    ret = 0;
@@ -727,7 +736,7 @@ test_oob ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to parse PONG message \"%s\""), oob);
+			    _x_ ("unable to parse PONG message \"%s\""), oob);
 		ret = 0;
 	      }
 	    LW6SYS_FREE (oob);
@@ -794,7 +803,7 @@ test_oob ()
 	    if (oob)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("standard (populated) oob LIST is \"%s\""),
+			    _x_ ("standard (populated) oob LIST is \"%s\""),
 			    oob);
 		LW6SYS_FREE (oob);
 	      }
@@ -808,7 +817,7 @@ test_oob ()
 	if (request)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("request with command=\"%s\" password=\"%s\" url=\"%s\" is \"%s\""),
 			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
 			_TEST_REQUEST_LOCAL_URL, request);
@@ -819,7 +828,7 @@ test_oob ()
 		if (remote_url)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
 				request, syntax_ok, password_ok, remote_url);
 		    LW6SYS_FREE (remote_url);
@@ -828,7 +837,7 @@ test_oob ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		ret = 0;
@@ -842,7 +851,7 @@ test_oob ()
 	if (request)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("request with command=\"%s\" password=\"%s\" url=NULL is \"%s\""),
 			_TEST_REQUEST_COMMAND, _TEST_REQUEST_PASSWORD,
 			request);
@@ -851,7 +860,7 @@ test_oob ()
 		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		if (remote_url)
@@ -862,7 +871,7 @@ test_oob ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		ret = 0;
@@ -875,7 +884,7 @@ test_oob ()
 	if (request)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("request with command=\"%s\" password=NULL url=\"%s\" is \"%s\""),
 			_TEST_REQUEST_COMMAND, _TEST_REQUEST_LOCAL_URL,
 			request);
@@ -886,7 +895,7 @@ test_oob ()
 		if (remote_url)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_
+				_x_
 				("request \"%s\" analysed syntax_ok=%d password_ok=%d remote_url=\"%s\""),
 				request, syntax_ok, password_ok, remote_url);
 		    LW6SYS_FREE (remote_url);
@@ -895,7 +904,7 @@ test_oob ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		ret = 0;
@@ -905,7 +914,7 @@ test_oob ()
 		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" is reported OK but password is wrong"),
 			    request);
 		if (remote_url)
@@ -919,7 +928,7 @@ test_oob ()
 		if (password_ok)
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
 				request);
 		    ret = 0;
@@ -927,7 +936,7 @@ test_oob ()
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("password checking is OK"));
+				_x_ ("password checking is OK"));
 		  }
 	      }
 	    LW6SYS_FREE (request);
@@ -938,7 +947,7 @@ test_oob ()
 	if (request)
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_
+			_x_
 			("request with command=\"%s\" password=NULL url=NULL is \"%s\""),
 			_TEST_REQUEST_COMMAND, request);
 	    if (lw6msg_oob_analyse_request
@@ -946,7 +955,7 @@ test_oob ()
 		 NULL, NULL))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("request \"%s\" analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		if (remote_url)
@@ -957,7 +966,7 @@ test_oob ()
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" could not be analysed syntax_ok=%d password_ok=%d"),
 			    request, syntax_ok, password_ok);
 		ret = 0;
@@ -967,7 +976,7 @@ test_oob ()
 		 _TEST_REQUEST_REMOTE_URL, _TEST_REQUEST_PASSWORD))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _
+			    _x_
 			    ("request \"%s\" is reported OK but password is wrong"),
 			    request);
 		if (remote_url)
@@ -981,7 +990,7 @@ test_oob ()
 		if (password_ok)
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_
+				_x_
 				("request \"%s\" is reported KO with password OK, this is not logic, password *is* wrong"),
 				request);
 		    ret = 0;
@@ -989,7 +998,7 @@ test_oob ()
 		else
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_("password checking is OK"));
+				_x_ ("password checking is OK"));
 		  }
 	      }
 	    LW6SYS_FREE (request);
@@ -1021,13 +1030,13 @@ test_ticket ()
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket1_sig == _TEST_TICKET1_SIG)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %08x is %08x"),
 		    _TEST_TICKET1, ticket1_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("ticket_sig for %08x is %08x and should be %08x"),
+		    _x_ ("ticket_sig for %08x is %08x and should be %08x"),
 		    _TEST_TICKET1, ticket1_sig, _TEST_TICKET1_SIG);
 	ret = 0;
       }
@@ -1037,13 +1046,13 @@ test_ticket ()
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket2_sig == _TEST_TICKET2_SIG)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig for %08x is %08x"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %08x is %08x"),
 		    _TEST_TICKET2, ticket2_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("ticket_sig for %08x is %08x and should be %08x"),
+		    _x_ ("ticket_sig for %08x is %08x and should be %08x"),
 		    _TEST_TICKET2, ticket2_sig, _TEST_TICKET2_SIG);
 	ret = 0;
       }
@@ -1052,13 +1061,14 @@ test_ticket ()
 	(_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
 	 _TEST_TICKET_MSG, ticket1_sig))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("ticket_sig check works when same"));
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("ticket_sig check works when same"));
 	if (!lw6msg_ticket_check_sig
 	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
 	     _TEST_TICKET_MSG, ticket2_sig))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
-			_("ticket_sig check works when different"));
+			_x_ ("ticket_sig check works when different"));
 	  }
 	else
 	  {
@@ -1082,8 +1092,9 @@ _key_value_assoc_callback (void *func_data, char *key, void *value)
   int *count = (int *) func_data;
 
   (*count)++;
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("count=%d found key=\"%s\" value=\"%s\""),
-	      *count, key, value_str);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_ ("count=%d found key=\"%s\" value=\"%s\""), *count, key,
+	      value_str);
 }
 
 /*
@@ -1107,14 +1118,14 @@ test_utils ()
 	(&key, &value, _TEST_KEY_VALUE_OK_1))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("line \"%s\" parsed key=\"%s\" value=\"%s\""),
+		    _x_ ("line \"%s\" parsed key=\"%s\" value=\"%s\""),
 		    _TEST_KEY_VALUE_OK_1, key, value);
 	LW6SYS_FREE (key);
 	LW6SYS_FREE (value);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""),
 		    _TEST_KEY_VALUE_OK_1);
 	ret = 0;
       }
@@ -1122,7 +1133,7 @@ test_utils ()
 	(&key, &value, _TEST_KEY_VALUE_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _
+		    _x_
 		    ("line \"%s\" parsed key=\"%s\" value=\"%s\" but this should have returned NULL"),
 		    _TEST_KEY_VALUE_KO, key, value);
 	LW6SYS_FREE (key);
@@ -1132,7 +1143,7 @@ test_utils ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse \"%s\", this is normal"),
+		    _x_ ("unable to parse \"%s\", this is normal"),
 		    _TEST_KEY_VALUE_KO);
       }
     assoc = lw6sys_assoc_new (lw6sys_free_callback);
@@ -1150,25 +1161,25 @@ test_utils ()
 	  lw6msg_utils_get_assoc_str_with_default (assoc,
 						   _TEST_DEFAULT_KEY_OK,
 						   _TEST_DEFAULT_VALUE_STR);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
 		    _TEST_DEFAULT_KEY_OK, value_str);
 	value_str =
 	  lw6msg_utils_get_assoc_str_with_default (assoc,
 						   _TEST_DEFAULT_KEY_KO,
 						   _TEST_DEFAULT_VALUE_STR);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is \"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is \"%s\""),
 		    _TEST_DEFAULT_KEY_KO, value_str);
 	value_int =
 	  lw6msg_utils_get_assoc_int_with_default (assoc,
 						   _TEST_DEFAULT_KEY_OK,
 						   _TEST_DEFAULT_VALUE_INT);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is %d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is %d"),
 		    _TEST_DEFAULT_KEY_OK, value_int);
 	value_int =
 	  lw6msg_utils_get_assoc_int_with_default (assoc,
 						   _TEST_DEFAULT_KEY_KO,
 						   _TEST_DEFAULT_VALUE_INT);
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("value for \"%s\" is %d"),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is %d"),
 		    _TEST_DEFAULT_KEY_KO, value_int);
 
 	lw6sys_assoc_free (assoc);
@@ -1200,51 +1211,51 @@ test_word ()
 
     if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_OK))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed str=\"%s\", next=\"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parsed str=\"%s\", next=\"%s\""),
 		    word.buf, next);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""),
 		    _TEST_WORD_STR_OK);
 	ret = 0;
       }
     if (lw6msg_word_first (&word, &next, _TEST_WORD_STR_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+		    _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"),
 		    word.buf, _TEST_WORD_STR_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse \"%s\", that's right"),
+		    _x_ ("unable to parse \"%s\", that's right"),
 		    _TEST_WORD_STR_KO);
       }
 
     if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_OK))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed str=\"%s\", next=\"%s\""),
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parsed str=\"%s\", next=\"%s\""),
 		    word.buf, next);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to parse \"%s\""),
 		    _TEST_WORD_X_STR_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_x (&word, &next, _TEST_WORD_X_STR_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+		    _x_ ("parsed str=\"%s\" from \"%s\", this is wrong"),
 		    word.buf, _TEST_WORD_X_STR_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse \"%s\", that's right"),
+		    _x_ ("unable to parse \"%s\", that's right"),
 		    _TEST_WORD_X_STR_KO);
       }
 
@@ -1257,13 +1268,13 @@ test_word ()
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _("parsed base64 str=\"%s\", next=\"%s\""),
+			    _x_ ("parsed base64 str=\"%s\", next=\"%s\""),
 			    word.buf, next);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("unable to parse base 64 from \"%s\""),
+			    _x_ ("unable to parse base 64 from \"%s\""),
 			    base64_str);
 		ret = 0;
 	      }
@@ -1275,14 +1286,15 @@ test_word ()
 	    if (lw6msg_word_first_base64 (&word, &next, base64_str))
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _("parsed str=\"%s\" from \"%s\", this is wrong"),
+			    _x_
+			    ("parsed str=\"%s\" from \"%s\", this is wrong"),
 			    word.buf, base64_str);
 		ret = 0;
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _
+			    _x_
 			    ("unable to parse base64 from \"%s\", that's right"),
 			    base64_str);
 	      }
@@ -1293,133 +1305,134 @@ test_word ()
 
     if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_OK))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed int=%d, next=\"%s\""), i,
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parsed int=%d, next=\"%s\""), i,
 		    next);
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _("unable to parse int from \"%s\""),
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to parse int from \"%s\""),
 		    _TEST_WORD_INT_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed int=%d from \"%s\", this is wrong"), i,
+		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
 		    _TEST_WORD_INT_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse \"%s\", that's right"),
+		    _x_ ("unable to parse \"%s\", that's right"),
 		    _TEST_WORD_INT_KO);
       }
 
     if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_OK))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _("parsed int=%d (>0), next=\"%s\""),
-		    i, next);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("parsed int=%d (>0), next=\"%s\""), i, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("unable to parse int (>0) from \"%s\""),
+		    _x_ ("unable to parse int (>0) from \"%s\""),
 		    _TEST_WORD_INT_GT0_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed int=%d from \"%s\", this is wrong"), i,
+		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
 		    _TEST_WORD_INT_GT0_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse int from \"%s\", that's right"),
+		    _x_ ("unable to parse int from \"%s\", that's right"),
 		    _TEST_WORD_INT_GT0_KO);
       }
 
     if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("parsed id_16 from \"%s\", next=\"%s\""),
+		    _x_ ("parsed id_16 from \"%s\", next=\"%s\""),
 		    _TEST_WORD_ID_16_OK, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("unable to parse id_16 from \"%s\""),
+		    _x_ ("unable to parse id_16 from \"%s\""),
 		    _TEST_WORD_ID_16_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed id_16 from \"%s\", this is wrong"),
+		    _x_ ("parsed id_16 from \"%s\", this is wrong"),
 		    _TEST_WORD_ID_16_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse id_16 from \"%s\", that's right"),
+		    _x_ ("unable to parse id_16 from \"%s\", that's right"),
 		    _TEST_WORD_ID_16_KO);
       }
 
     if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("parsed id_32 from \"%s\", next=\"%s\""),
+		    _x_ ("parsed id_32 from \"%s\", next=\"%s\""),
 		    _TEST_WORD_ID_32_OK, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("unable to parse id_32 from \"%s\""),
+		    _x_ ("unable to parse id_32 from \"%s\""),
 		    _TEST_WORD_ID_32_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_32 (&id_32, &next, _TEST_WORD_ID_32_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed id_32 from \"%s\", this is wrong"),
+		    _x_ ("parsed id_32 from \"%s\", this is wrong"),
 		    _TEST_WORD_ID_32_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse id_32 from \"%s\", that's right"),
+		    _x_ ("unable to parse id_32 from \"%s\", that's right"),
 		    _TEST_WORD_ID_32_KO);
       }
 
     if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("parsed id_64 from \"%s\", next=\"%s\""),
+		    _x_ ("parsed id_64 from \"%s\", next=\"%s\""),
 		    _TEST_WORD_ID_64_OK, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("unable to parse id_64 from \"%s\""),
+		    _x_ ("unable to parse id_64 from \"%s\""),
 		    _TEST_WORD_ID_64_OK);
 	ret = 0;
       }
     if (lw6msg_word_first_id_64 (&id_64, &next, _TEST_WORD_ID_64_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _("parsed id_64 from \"%s\", this is wrong"),
+		    _x_ ("parsed id_64 from \"%s\", this is wrong"),
 		    _TEST_WORD_ID_64_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _("unable to parse id_64 from \"%s\", that's right"),
+		    _x_ ("unable to parse id_64 from \"%s\", that's right"),
 		    _TEST_WORD_ID_64_KO);
       }
   }
@@ -1440,12 +1453,13 @@ _test_z_ok (char *test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode of \"%s\" gives \"%s\""),
-		      test_str, encoded_string);
+	  lw6sys_log (LW6SYS_LOG_NOTICE,
+		      _x_ ("z-encode of \"%s\" gives \"%s\""), test_str,
+		      encoded_string);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("z-encode gives \"%s\""),
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("z-encode gives \"%s\""),
 		      encoded_string);
 	}
       decoded_string = lw6msg_z_decode (encoded_string);
@@ -1456,13 +1470,13 @@ _test_z_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("successuflly z-decoded \"%s\" to \"%s\""),
+			      _x_ ("successuflly z-decoded \"%s\" to \"%s\""),
 			      encoded_string, decoded_string);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_NOTICE,
-			      _("successuflly z-decoded \"%s\""),
+			      _x_ ("successuflly z-decoded \"%s\""),
 			      encoded_string);
 		}
 	    }
@@ -1471,14 +1485,14 @@ _test_z_ok (char *test_str, int log_all)
 	      if (log_all)
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("z-decoded \"%s\" but it's \"%s\", different from \"%s\""),
 			      encoded_string, decoded_string, test_str);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("z-decoded \"%s\" but strings are different"),
 			      encoded_string);
 		}
@@ -1488,7 +1502,7 @@ _test_z_ok (char *test_str, int log_all)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-decode \"%s\""),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to z-decode \"%s\""),
 		      encoded_string);
 	  ret = 0;
 	}
@@ -1498,12 +1512,12 @@ _test_z_ok (char *test_str, int log_all)
     {
       if (log_all)
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode \"%s\""),
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to z-encode \"%s\""),
 		      test_str);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _("unable to z-encode"));
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to z-encode"));
 	}
       ret = 0;
     }
@@ -1523,13 +1537,14 @@ _test_z_ko (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("z-decoded \"%s\" -> \"%s\", this is wrong!"),
+		      _x_ ("z-decoded \"%s\" -> \"%s\", this is wrong!"),
 		      test_str, decoded_string);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("z-decoded a non z-encoded string, this is wrong!"));
+		      _x_
+		      ("z-decoded a non z-encoded string, this is wrong!"));
 	}
       ret = 0;
       LW6SYS_FREE (decoded_string);
@@ -1539,12 +1554,13 @@ _test_z_ko (char *test_str, int log_all)
       if (log_all)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _("unable to z-decode \"%s\", that's right"), test_str);
+		      _x_ ("unable to z-decode \"%s\", that's right"),
+		      test_str);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
-		      _
+		      _x_
 		      ("unable to z-decode a non z-encode string, that's right"));
 	}
     }

@@ -103,7 +103,8 @@ mod_gl_utils_capture2disk (mod_gl_utils_context_t * utils_context)
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _("unable to write capture \"%s\" to disk"),
+				  _x_
+				  ("unable to write capture \"%s\" to disk"),
 				  file);
 		    }
 		  LW6SYS_FREE (full_path);

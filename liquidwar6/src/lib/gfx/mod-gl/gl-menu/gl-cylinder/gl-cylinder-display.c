@@ -110,7 +110,7 @@ get_bg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _("invalid value %d for colored menu item"),
+		      _x_ ("invalid value %d for colored menu item"),
 		      menuitem->value);
 	  color = mod_gl_utils_color_8_to_sdl (LW6SYS_COLOR_8_WHITE);
 	}
@@ -277,7 +277,7 @@ draw_button (mod_gl_utils_context_t * utils_context,
   if (!ret)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _("unable to draw button \"%s\""), menuitem->label);
+		  _x_ ("unable to draw button \"%s\""), menuitem->label);
     }
 }
 

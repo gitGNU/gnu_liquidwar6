@@ -40,7 +40,8 @@ print_keyword_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to print NULL help keyword"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to print NULL help keyword"));
     }
 }
 
@@ -86,7 +87,8 @@ print_content_callback (void *func_data, void *data)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("trying to print NULL help keyword"));
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("trying to print NULL help keyword"));
     }
 }
 
@@ -159,19 +161,19 @@ lw6hlp_print_about (char *keyword, FILE * f)
       switch (type)
 	{
 	case LW6HLP_TYPE_STR:
-	  type_str = _("string");
+	  type_str = _x_ ("string");
 	  break;
 	case LW6HLP_TYPE_INT:
-	  type_str = _("integer");
+	  type_str = _x_ ("integer");
 	  break;
 	case LW6HLP_TYPE_FLOAT:
-	  type_str = _("float");
+	  type_str = _x_ ("float");
 	  break;
 	case LW6HLP_TYPE_BOOL:
-	  type_str = _("boolean");
+	  type_str = _x_ ("boolean");
 	  break;
 	case LW6HLP_TYPE_COLOR:
-	  type_str = _("color");
+	  type_str = _x_ ("color");
 	  break;
 	default:
 	  // stay NULL
@@ -179,7 +181,7 @@ lw6hlp_print_about (char *keyword, FILE * f)
 	}
       if (type_str && type != LW6HLP_TYPE_VOID)
 	{
-	  tmp = lw6sys_new_sprintf (_("Type: %s"), type_str);
+	  tmp = lw6sys_new_sprintf (_x_ ("Type: %s"), type_str);
 	  if (tmp)
 	    {
 	      fprintf (f, "%s\n\n", tmp);
@@ -193,7 +195,7 @@ lw6hlp_print_about (char *keyword, FILE * f)
 	   * after the default value but this is confusing when
 	   * the default is "." or "" ...
 	   */
-	  tmp = lw6sys_new_sprintf (_("Default value: %s"), default_value);
+	  tmp = lw6sys_new_sprintf (_x_ ("Default value: %s"), default_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
@@ -203,14 +205,14 @@ lw6hlp_print_about (char *keyword, FILE * f)
 	}
       if (min_value != 0 || max_value != 0)
 	{
-	  tmp = lw6sys_new_sprintf (_("Min value: %d"), min_value);
+	  tmp = lw6sys_new_sprintf (_x_ ("Min value: %d"), min_value);
 	  if (tmp)
 	    {
 	      values_set = 1;
 	      fprintf (f, "%s\n", tmp);
 	      LW6SYS_FREE (tmp);
 	    }
-	  tmp = lw6sys_new_sprintf (_("Max value: %d"), max_value);
+	  tmp = lw6sys_new_sprintf (_x_ ("Max value: %d"), max_value);
 	  if (tmp)
 	    {
 	      values_set = 1;

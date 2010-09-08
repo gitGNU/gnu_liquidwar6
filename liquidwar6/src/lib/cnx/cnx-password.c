@@ -95,7 +95,7 @@ lw6cnx_password_verify (char *seed, char *password_here,
       if (!(strcmp (password_here, password_received)))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("password OK, received as clear text"));
+		      _x_ ("password OK, received as clear text"));
 	  ret = 1;
 	}
       else
@@ -106,7 +106,7 @@ lw6cnx_password_verify (char *seed, char *password_here,
 	      if (!(strcmp (checksum, password_received)))
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("password OK, received as checksum"));
+			      _x_ ("password OK, received as checksum"));
 		  ret = 1;
 		}
 	      LW6SYS_FREE (checksum);

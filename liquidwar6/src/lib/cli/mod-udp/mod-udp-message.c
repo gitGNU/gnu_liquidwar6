@@ -39,7 +39,7 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
     (_udp_specific_data_t *) connection->backend_specific_data;
   char *line;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp send \"%s\""), message);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udp send \"%s\""), message);
   line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
 				   lw6sys_build_get_version (),
 				   connection->password_send_checksum,
@@ -56,7 +56,8 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
 	      (specific_data->sock, line, connection->remote_ip,
 	       connection->remote_port))
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp sent \"%s\""), line);
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udp sent \"%s\""),
+			  line);
 	      ret = 1;
 	    }
 	  lw6cnx_connection_unlock_send (connection);
@@ -82,7 +83,7 @@ _mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("mod_udp poll"));
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udp poll"));
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (lw6net_udp_peek
       (specific_data->sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, NULL, NULL))
@@ -91,7 +92,8 @@ _mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
       if (envelope_line)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("mod_udp received envelope \"%s\""), envelope_line);
+		      _x_ ("mod_udp received envelope \"%s\""),
+		      envelope_line);
 	  if (lw6msg_envelope_analyse
 	      (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
 	       connection->local_url, connection->password,
@@ -100,7 +102,7 @@ _mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 	       &physical_to_id, &logical_from_id, &logical_to_id, NULL))
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("mod_udp analysed msg \"%s\""), msg);
+			  _x_ ("mod_udp analysed msg \"%s\""), msg);
 	      if (connection->recv_callback_func)
 		{
 		  connection->
@@ -113,7 +115,7 @@ _mod_udp_poll (_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _("no recv callback defined"));
+			      _x_ ("no recv callback defined"));
 		}
 	      LW6SYS_FREE (msg);
 	    }

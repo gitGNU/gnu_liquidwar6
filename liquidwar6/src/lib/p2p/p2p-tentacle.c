@@ -63,7 +63,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	      if (lw6sys_str_is_same (tentacle->remote_ip, real_remote_ip))
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _
+			      _x_
 			      ("OK, public URL \"%s\" for \"%s:%d\" is fine"),
 			      remote_url, tentacle->remote_ip,
 			      tentacle->remote_port);
@@ -72,7 +72,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _
+			      _x_
 			      ("URL \"%s\" appears to be associated to \"%s:%d\" but DNS reports it to be associated to \"%s:%d\", using \"%s:%d\""),
 			      remote_url, real_remote_ip,
 			      tentacle->remote_port, tentacle->remote_ip,
@@ -85,7 +85,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO,
-			  _
+			  _x_
 			  ("unable to get IP from DNS for \"%s\", using \"%s:%d\" instead"),
 			  remote_url, real_remote_ip, tentacle->remote_port);
 	      tentacle->remote_ip = lw6sys_str_copy (real_remote_ip);
@@ -96,13 +96,15 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 	  if (tentacle->remote_ip)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _("no \"real\" IP passed, using default \"%s:%d\""),
+			  _x_
+			  ("no \"real\" IP passed, using default \"%s:%d\""),
 			  tentacle->remote_ip, tentacle->remote_port);
 	      tentacle->dns_ok = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _("unable to find host \"%s\""),
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("unable to find host \"%s\""),
 			  parsed_url->host);
 	    }
 	}
@@ -152,14 +154,14 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		      if (repr)
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _("connection \"%s\" opened"), repr);
+				      _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("unable to create connection %d to connect on \"%s\""),
 				  i, tentacle->remote_url);
 		      ret = 0;
@@ -199,14 +201,14 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		      if (repr)
 			{
 			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _("connection \"%s\" opened"), repr);
+				      _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (repr);
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _
+				  _x_
 				  ("unable to create connection %d to connect on \"%s\""),
 				  i, tentacle->remote_url);
 		      ret = 0;
@@ -449,7 +451,7 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
   int i = 0;
   u_int32_t physical_ticket_sig = 0;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _("redundant send of \"%s\""), msg);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("redundant send of \"%s\""), msg);
   physical_ticket_sig =
     lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
 			    (ticket_table, tentacle->remote_id_str),

@@ -150,7 +150,7 @@ quit_net ()
 void
 lw6_quit_global ()
 {
-  lw6sys_log (LW6SYS_LOG_INFO, _("final garbage collection"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("final garbage collection"));
 
   LW6_MUTEX_LOCK;
 
@@ -158,40 +158,40 @@ lw6_quit_global ()
    * Should the Guile GC be perfect, not one single object
    * would be freed here.
    */
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining node smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining node smobs"));
   lw6sys_assoc_free (lw6_global.node_smobs);
   lw6_global.node_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining db smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining db smobs"));
   lw6sys_assoc_free (lw6_global.db_smobs);
   lw6_global.db_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining loader smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining loader smobs"));
   lw6sys_assoc_free (lw6_global.loader_smobs);
   lw6_global.loader_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining look smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining look smobs"));
   lw6sys_assoc_free (lw6_global.look_smobs);
   lw6_global.look_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining bot smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining bot smobs"));
   lw6sys_assoc_free (lw6_global.bot_smobs);
   lw6_global.bot_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining pilot smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining pilot smobs"));
   lw6sys_assoc_free (lw6_global.pilot_smobs);
   lw6_global.pilot_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining game_state smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining game_state smobs"));
   lw6sys_assoc_free (lw6_global.game_state_smobs);
   lw6_global.game_state_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining game_struct smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining game_struct smobs"));
   lw6sys_assoc_free (lw6_global.game_struct_smobs);
   lw6_global.game_struct_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining menu smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining menu smobs"));
   lw6sys_assoc_free (lw6_global.menu_smobs);
   lw6_global.menu_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining map smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining map smobs"));
   lw6sys_assoc_free (lw6_global.map_smobs);
   lw6_global.map_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining snd smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining snd smobs"));
   lw6sys_assoc_free (lw6_global.snd_smobs);
   lw6_global.snd_smobs = NULL;
-  lw6sys_log (LW6SYS_LOG_INFO, _("freeing remaining dsp smobs"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining dsp smobs"));
   lw6sys_assoc_free (lw6_global.dsp_smobs);
   lw6_global.dsp_smobs = NULL;
 
@@ -204,5 +204,5 @@ lw6_quit_global ()
   pthread_mutex_destroy (&lw6_global.mutex);
   memset (&lw6_global, 0, sizeof (lw6_global_t));
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("all global stuff freed"));
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("all global stuff freed"));
 }
