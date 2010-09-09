@@ -1133,9 +1133,9 @@ program more secure:
      much effect.
 
    This being said, Liquid War 6 does not use any strong encryption
-library to protect the data it sends. All the checksum machinery is
-definitely vulnerable to a brute-force attack, so in theory it's
-possible to fool the program.
+library to protect the data it sends. All the checksum machinery might
+be vulnerable to a brute-force and/or strong cryptographic attack, so
+in theory it's possible to fool the program.
 
    In practise, if you want real privacy, play over a VPN (Virtual
 Private Network).
@@ -3209,7 +3209,31 @@ Summary off all operations required for a release:
      `http://lists.gnu.org/mailman/listinfo/help-liquidwar6' and
      `http://lists.gnu.org/mailman/listinfo/info-liquidwar6'.
 
-3.14.2 Add a new internal library
+3.14.2 Add a new option
+-----------------------
+
+This describes how to add a new option to the game.
+
+   * edit `src/lib/def/def-list.txt'
+
+   * in `src/lib/def/def-update.py' run `./def-update.py'. This will
+     automatically fill `src/lib/def/def.h' and `script/def.scm'. In
+     the code, you should always use `LW6DEF_<OPTION>' in C and
+     `lw6def-<option>' in scheme to refer to the option. This does help
+     avoiding typesetting errors.
+
+   * add the entry to `src/lib/hlp/hlp-list.c', choose a category for it
+
+   * add the entry to `src/lib/hlp/hlp-reference.c', give it a type,
+     documentation string and default values if needed
+
+   * to sort `src/lib/def/def-list.txt' a common practice is to fill it
+     with the output of `liquidwar6 --list' once the program has been
+     compiled and is aware of the new option.
+
+   Unless this is done, program won't accept the option.
+
+3.14.3 Add a new internal library
 ---------------------------------
 
 This describes how to add a new `libxyz' internal library:
@@ -7676,7 +7700,48 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      library such as libCurl. This is mostly for debugging purpose, it
      can lead to rather big log files.
 
-4.12.44 pilot-lag
+4.12.44 network-reliability
+---------------------------
+
+ -- Command-line option: `--network-reliability=<value>'
+ -- Environment variable: `LW6_NETWORK_RELIABILITY'
+ -- XML key: `network-reliability'
+     Type: integer
+
+     Default value: 1000 Min value: 1 Max value: 1000000000
+
+     The program assumes network is non-reliable, however the problem
+     with those assumptions is that when you test, network is always
+     reliable, even with non-garanteed protocols like UDP. This option
+     will force the program to actually ignore some calls to send or
+     recv functions, simulating a network disfunction. This is to
+     ensure the internal mecanisms correcting network problems do work
+     for good, on daily regular use. It's not possible to set it to a
+     perfect behavior, never dropping any packet, however using the
+     default settings you probably won't even notice the performance
+     drop induced by having to fix problems. The highest the number is,
+     the most reliable network will look, the algorithm is simply to
+     drop one message out of X.
+
+4.12.45 open-relay
+------------------
+
+ -- Command-line option: `--open-relay=<value>'
+ -- Environment variable: `LW6_OPEN_RELAY'
+ -- XML key: `open-relay'
+     Type: boolean
+
+     Default value: false
+
+     Enables forwarding of abritrary network messages. If open relay is
+     forbidden, the game will only forward messages when physical
+     sender and logical sender are the same. This is to say if messages
+     come from A for C and is sent by A to B, B will forward it to C.
+     But if message comes from X to C and is sent by A to B, then B
+     won't forward it. In practice, it means without open relay,
+     messages can only be forwarded once.
+
+4.12.46 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -7690,14 +7755,14 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.12.45 quick-start
+4.12.47 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.12.46 reset
+4.12.48 reset
 -------------
 
  -- Command-line option: `--reset'
@@ -7706,7 +7771,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.12.47 reset-config-on-upgrade
+4.12.49 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -7719,7 +7784,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.12.48 server
+4.12.50 server
 --------------
 
  -- Command-line option: `--server'
@@ -7732,7 +7797,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.12.49 target-fps
+4.12.51 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'
@@ -7751,7 +7816,23 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      Liquid War 6 is now so fast-paced that it requires 200 frames/sec
      to outperform opponents.
 
-4.12.50 z-decode
+4.12.52 trojan
+--------------
+
+ -- Command-line option: `--trojan=<value>'
+ -- Environment variable: `LW6_TROJAN'
+ -- XML key: `trojan'
+     Type: boolean
+
+     Default value: false
+
+     Make the program act like a (stupid) trojan horse, trying to fake
+     messages, sending various inconsistent informations. This is to
+     check the normal version of the program is able to detect such a
+     fake and kick it out of the game. It's of no use for regular
+     players, be sure to unset this if you want to play for good.
+
+4.12.53 z-decode
 ----------------
 
  -- Command-line option: `--z-decode'
@@ -7761,7 +7842,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: Script hooks,  Prev: Map
      base64 decode and pass the content through Zlib inflating. I
      content is not Z-prefixed, will be returned as is.
 
-4.12.51 z-encode
+4.12.54 z-encode
 ----------------
 
  -- Command-line option: `--z-encode'

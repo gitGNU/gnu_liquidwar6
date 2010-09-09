@@ -45,29 +45,24 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
   lw6nod_dyn_info_t *dyn_info = NULL;
   char *level = "";
   int uptime = 0;
-  char *password = NULL;
+  char *open_relay = NULL;
+  char *has_password = NULL;
 
   dyn_info = lw6nod_info_dup_dyn (info);
   if (dyn_info)
     {
-      uptime =
-	(lw6sys_get_timestamp () -
-	 info->const_info.creation_timestamp) / 1000;
+      has_password = info->const_info.has_password ? LW6MSG_YES : LW6MSG_NO;
       if (dyn_info->level)
 	{
 	  level = dyn_info->level;
 	}
-      if (info->const_info.password && strlen (info->const_info.password) > 0)
-	{
-	  password = LW6MSG_YES;
-	}
-      else
-	{
-	  password = LW6MSG_NO;
-	}
+      open_relay = info->const_info.open_relay ? LW6MSG_YES : LW6MSG_NO;
+      uptime =
+	(lw6sys_get_timestamp () -
+	 info->const_info.creation_timestamp) / 1000;
       ret =
 	lw6sys_new_sprintf
-	("%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
+	("%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
 	 LW6MSG_OOB_PROGRAM,
 	 lw6sys_build_get_package_tarname (),
 	 LW6MSG_OOB_VERSION,
@@ -84,14 +79,16 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
 	 info->const_info.title,
 	 LW6MSG_OOB_DESCRIPTION,
 	 info->const_info.description,
-	 LW6MSG_OOB_PASSWORD,
-	 password,
+	 LW6MSG_OOB_HAS_PASSWORD,
+	 has_password,
+	 LW6MSG_OOB_BENCH,
+	 info->const_info.bench,
+	 LW6MSG_OOB_OPEN_RELAY,
+	 open_relay,
 	 LW6MSG_OOB_UPTIME,
 	 uptime,
 	 LW6MSG_OOB_LEVEL,
 	 level,
-	 LW6MSG_OOB_BENCH,
-	 info->const_info.bench,
 	 LW6MSG_OOB_REQUIRED_BENCH,
 	 dyn_info->required_bench,
 	 LW6MSG_OOB_NB_COLORS,

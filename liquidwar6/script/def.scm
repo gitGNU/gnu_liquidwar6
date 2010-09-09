@@ -18,7 +18,7 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-;Generated automatically by trigo.py
+;Generated automatically by def-update.py
 
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")
@@ -35,6 +35,9 @@
 (define lw6def-background-style "background-style")
 (define lw6def-base64-decode "base64-decode")
 (define lw6def-base64-encode "base64-encode")
+(define lw6def-open-relay "open-relay")
+(define lw6def-network-reliability "network-reliability")
+(define lw6def-trojan "trojan")
 (define lw6def-bench "bench")
 (define lw6def-bench-value "bench-value")
 (define lw6def-bin-id "bin-id")

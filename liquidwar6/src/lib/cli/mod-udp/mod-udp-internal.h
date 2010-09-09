@@ -69,6 +69,7 @@ extern lw6cnx_connection_t *_mod_udp_open (_udp_context_t * udp_context,
 					   char *password, u_int64_t local_id,
 					   u_int64_t remote_id,
 					   int dns_ok,
+					   int network_reliability,
 					   lw6cnx_recv_callback_t
 					   recv_callback_func,
 					   void *recv_callback_data);

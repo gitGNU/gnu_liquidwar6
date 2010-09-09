@@ -353,7 +353,6 @@ src/lib/dsp/dsp-testmain.c
 src/lib/dat/dat-warehouse.c
 src/lib/dat/dat-stack.c
 src/lib/dat/dat-test.c
-src/lib/dat/dat-global.c
 src/lib/dat/dat-block.c
 src/lib/dat/dat-testmain.c
 src/lib/dat/dat-atom.c

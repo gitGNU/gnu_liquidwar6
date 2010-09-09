@@ -47,6 +47,7 @@ typedef struct lw6cnx_connection_s
   int64_t remote_id_int;
   char *remote_id_str;
   int dns_ok;
+  int network_reliability;
   lw6cnx_recv_callback_t recv_callback_func;
   void *recv_callback_data;
   void *send_mutex;
@@ -78,6 +79,7 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (char *local_url,
 						   u_int64_t local_id,
 						   u_int64_t remote_id,
 						   int dns_ok,
+						   int network_reliability,
 						   lw6cnx_recv_callback_t
 						   recv_callback_func,
 						   void *recv_callback_data);
@@ -89,6 +91,8 @@ extern void lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t *
 						int next_foo_delay);
 extern int lw6cnx_connection_lock_send (lw6cnx_connection_t * connection);
 extern void lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection);
+extern int lw6cnx_connection_reliability_filter (lw6cnx_connection_t *
+						 connection);
 
 /* cnx-password.c */
 extern char *lw6cnx_password_checksum (char *seed, char *password);
@@ -103,17 +107,17 @@ extern void lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table);
 extern int lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table,
 				     int hash_size);
 extern void lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table);
-extern u_int32_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t *
+extern u_int64_t lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t *
 					       ticket_table, char *peer_id);
 extern void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t *
 					  ticket_table, char *peer_id);
 extern int lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t *
 						   ticket_table,
 						   char *peer_id);
-extern u_int32_t lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t *
+extern u_int64_t lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t *
 					       ticket_table, char *peer_id);
 extern void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t *
 					  ticket_table, char *peer_id,
-					  u_int32_t send_ticket);
+					  u_int64_t send_ticket);
 
 #endif

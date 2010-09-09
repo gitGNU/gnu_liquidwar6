@@ -1,3 +1,10 @@
+2010-09-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Bar messages now updated db (last_ping etc.)
+
+	* Added new network-reliability option to simulate packet loss.
+	* Using 64-bit tickets (but keep 32-bit sigs)
+
 2010-09-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Connection ping delay calc works.

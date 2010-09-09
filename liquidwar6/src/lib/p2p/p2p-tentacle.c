@@ -33,6 +33,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 		       lw6srv_listener_t * listener, char *local_url,
 		       char *remote_url, char *real_remote_ip, char *password,
 		       u_int64_t local_id, u_int64_t remote_id,
+		       int network_reliability,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -145,7 +146,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 tentacle->password,
 				 tentacle->local_id_int,
 				 tentacle->remote_id_int, tentacle->dns_ok,
-				 recv_callback_func, recv_callback_data);
+				 network_reliability, recv_callback_func,
+				 recv_callback_data);
 		  if (tentacle->cli_connections[i])
 		    {
 		      repr =
@@ -192,7 +194,8 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				 tentacle->password,
 				 tentacle->local_id_int,
 				 tentacle->remote_id_int, tentacle->dns_ok,
-				 recv_callback_func, recv_callback_data);
+				 network_reliability, recv_callback_func,
+				 recv_callback_data);
 		  if (tentacle->srv_connections[i])
 		    {
 		      repr =

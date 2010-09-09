@@ -72,6 +72,7 @@ typedef struct lw6cli_backend_s
 				int remote_port, char *password,
 				u_int64_t local_id, u_int64_t remote_id,
 				int dns_ok,
+				int network_reliability,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
   void (*close) (void *cli_context, lw6cnx_connection_t * connection);
@@ -104,6 +105,7 @@ extern lw6cnx_connection_t *lw6cli_open (lw6cli_backend_t * backend,
 					 u_int64_t local_id,
 					 u_int64_t remote_id,
 					 int dns_ok,
+					 int network_reliability,
 					 lw6cnx_recv_callback_t
 					 recv_callback_func,
 					 void *recv_callback_data);

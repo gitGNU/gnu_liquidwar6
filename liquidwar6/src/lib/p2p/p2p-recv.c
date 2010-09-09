@@ -33,7 +33,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		      u_int64_t logical_from_id, char *message)
 {
   lw6nod_info_t *remote_node_info = NULL;
-  u_int32_t ticket = 0;
+  u_int64_t ticket = 0;
   u_int32_t foo_bar_key = 0;
   u_int32_t logical_ticket_sig = 0;
   int serial = 0;
@@ -43,6 +43,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   char *reply_msg = NULL;
   int tentacle_i = 0;
   lw6cnx_connection_t *other_cnx = NULL;
+  int now = 0;
+  int uptime = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
@@ -147,6 +149,62 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		  other_cnx->foo_bar_key = 0;
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
 			      other_cnx->ping_msec);
+		  if (cnx->dns_ok)
+		    {
+		      now = _lw6p2p_db_now (node->db);
+		      uptime =
+			(lw6sys_get_timestamp () -
+			 remote_node_info->const_info.creation_timestamp) /
+			1000;
+		      _lw6p2p_node_update_peer (node,
+						remote_node_info->
+						const_info.version,
+						remote_node_info->
+						const_info.codename,
+						remote_node_info->
+						const_info.stamp,
+						remote_node_info->
+						const_info.id_str,
+						remote_node_info->
+						const_info.url,
+						remote_node_info->
+						const_info.title,
+						remote_node_info->
+						const_info.description,
+						remote_node_info->
+						const_info.has_password,
+						remote_node_info->
+						const_info.bench,
+						remote_node_info->
+						const_info.open_relay,
+						now - uptime,
+						remote_node_info->
+						dyn_info.level,
+						remote_node_info->
+						dyn_info.required_bench,
+						remote_node_info->
+						dyn_info.nb_colors,
+						remote_node_info->
+						dyn_info.max_nb_colors,
+						remote_node_info->
+						dyn_info.nb_cursors,
+						remote_node_info->
+						dyn_info.max_nb_cursors,
+						remote_node_info->
+						dyn_info.nb_nodes,
+						remote_node_info->
+						dyn_info.max_nb_nodes,
+						cnx->remote_ip,
+						cnx->remote_port, now,
+						other_cnx->ping_msec);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("node \"%s\" can't be trusted (DNS mismatch), not updating list"),
+				  cnx->remote_url);
+		    }
 		}
 	      else
 		{
@@ -208,17 +266,6 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 
   if (remote_node_info)
     {
-      if (cnx->dns_ok)
-	{
-	  // todo -> populate database
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("node \"%s\" can't be trusted (DNS mismatch), not updating list"),
-		      cnx->remote_url);
-	}
       lw6nod_info_free (remote_node_info);
     }
 }
@@ -240,7 +287,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 	    u_int32_t ticket_sig)
 {
   int ret = 0;
-  u_int32_t recv_ticket = 0;
+  u_int64_t recv_ticket = 0;
   int was_recv_exchanged = 0;
 
   recv_ticket = lw6cnx_ticket_table_get_recv (ticket_table, remote_id_str);
@@ -308,64 +355,74 @@ _lw6p2p_recv_callback (void *recv_callback_data,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""), message);
   if (node && cnx)
     {
-      physical_sig_ok =
-	_check_sig (&(node->ticket_table), cnx->remote_id_int,
-		    cnx->local_id_int, cnx->remote_id_str, message,
-		    physical_ticket_sig);
-      if (physical_sig_ok)
+      /*
+       * We filter here, for it's node the backend responsibility
+       * to do it, and there's no way to trap it in generic cli/srv
+       * code.
+       */
+      if (lw6cnx_connection_reliability_filter (cnx))
 	{
-	  if (cnx->local_id_int == logical_to_id)
+	  physical_sig_ok =
+	    _check_sig (&(node->ticket_table), cnx->remote_id_int,
+			cnx->local_id_int, cnx->remote_id_str, message,
+			physical_ticket_sig);
+	  if (physical_sig_ok)
 	    {
-	      if (logical_from_id == cnx->remote_id_int)
+	      if (cnx->local_id_int == logical_to_id)
 		{
-		  /*
-		   * In this case, test was performed just before...
-		   */
-		  logical_sig_ok = 1;
-		}
-	      else
-		{
-		  logical_from_id_str = lw6sys_id_ltoa (logical_from_id);
-		  if (logical_from_id_str)
+		  if (logical_from_id == cnx->remote_id_int)
 		    {
-		      logical_sig_ok =
-			_check_sig (&(node->ticket_table), logical_from_id,
-				    logical_to_id, logical_from_id_str,
-				    message, logical_ticket_sig);
-		      LW6SYS_FREE (logical_from_id_str);
+		      /*
+		       * In this case, test was performed just before...
+		       */
+		      logical_sig_ok = 1;
+		    }
+		  else
+		    {
+		      logical_from_id_str = lw6sys_id_ltoa (logical_from_id);
+		      if (logical_from_id_str)
+			{
+			  logical_sig_ok =
+			    _check_sig (&(node->ticket_table),
+					logical_from_id, logical_to_id,
+					logical_from_id_str, message,
+					logical_ticket_sig);
+			  LW6SYS_FREE (logical_from_id_str);
+			}
+		    }
+		  if (logical_sig_ok)
+		    {
+		      _lw6p2p_recv_process (node, cnx, logical_from_id,
+					    message);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("bad logical ticket_sig from \"%s\""),
+				  cnx->remote_url);
 		    }
 		}
-	      if (logical_sig_ok)
-		{
-		  _lw6p2p_recv_process (node, cnx, logical_from_id, message);
-		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_INFO,
-			      _x_ ("bad logical ticket_sig from \"%s\""),
-			      cnx->remote_url);
+		  if (cnx->remote_id_int == logical_from_id)
+		    {
+		      _lw6p2p_recv_forward (node, cnx, logical_ticket_sig,
+					    logical_from_id, logical_to_id,
+					    message);
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_ ("open relay not allowed (yet)"));
+		    }
 		}
 	    }
 	  else
 	    {
-	      if (cnx->remote_id_int == logical_from_id)
-		{
-		  _lw6p2p_recv_forward (node, cnx, logical_ticket_sig,
-					logical_from_id, logical_to_id,
-					message);
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("open relay not allowed (yet)"));
-		}
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("bad physical ticket_sig from \"%s\""),
+			  cnx->remote_url);
 	    }
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_ ("bad physical ticket_sig from \"%s\""),
-		      cnx->remote_url);
 	}
     }
 }

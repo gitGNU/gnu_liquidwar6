@@ -14,6 +14,9 @@ background-color-stuff-fg
 background-style
 base64-decode
 base64-encode
+open-relay
+network-reliability
+trojan
 bench
 bench-value
 bin-id

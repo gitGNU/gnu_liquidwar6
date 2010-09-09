@@ -2804,6 +2804,12 @@ test_str ()
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing is_blank on \"%s\""),
 		BLANK_STR);
     ret = ret && lw6sys_str_is_blank (BLANK_STR);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing is_null_or_empty"));
+    ret = ret && lw6sys_str_is_null_or_empty (NULL)
+      && lw6sys_str_is_null_or_empty (LW6SYS_STR_EMPTY)
+      && !lw6sys_str_is_null_or_empty (BLANK_STR);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing NULL shield %p"),
+		lw6sys_str_empty_if_null (NULL));
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("testing cleanup"));
     str =
       lw6sys_new_sprintf (CLEANUP_FORMAT, CLEANUP_CONTROL, CLEANUP_ACCENT);

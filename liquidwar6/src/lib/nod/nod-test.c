@@ -43,9 +43,10 @@
 #define _TEST_URL "http://192.168.20.20:8000/"
 #define _TEST_TITLE "This is not a sentence"
 #define _TEST_DESCRIPTION "This is not an explanation about what this is."
-#define _TEST_BENCH 10
-#define _TEST_UPTIME 60
 #define _TEST_PASSWORD "toto"
+#define _TEST_BENCH 10
+#define _TEST_OPEN_RELAY 0
+#define _TEST_UPTIME 60
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_LEVEL "toto.map"
@@ -214,8 +215,8 @@ _node_set_verified_callback (void *data)
 	      verified_node =
 		lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 				 _TEST_STAMP, _TEST_ID_1, url, _TEST_TITLE,
-				 _TEST_DESCRIPTION, _TEST_BENCH,
-				 _TEST_UPTIME, NULL,
+				 _TEST_DESCRIPTION, NULL, _TEST_BENCH,
+				 _TEST_OPEN_RELAY, _TEST_UPTIME,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
@@ -230,8 +231,8 @@ _node_set_verified_callback (void *data)
 	      verified_node =
 		lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 				 _TEST_STAMP, _TEST_ID_2, url, _TEST_TITLE,
-				 _TEST_DESCRIPTION, _TEST_BENCH,
-				 _TEST_UPTIME, NULL,
+				 _TEST_DESCRIPTION, NULL, _TEST_BENCH,
+				 _TEST_OPEN_RELAY, _TEST_UPTIME,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
@@ -246,8 +247,8 @@ _node_set_verified_callback (void *data)
 	      verified_node =
 		lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 				 _TEST_STAMP, _TEST_ID_3, url, _TEST_TITLE,
-				 _TEST_DESCRIPTION, _TEST_BENCH,
-				 _TEST_UPTIME, NULL,
+				 _TEST_DESCRIPTION, NULL, _TEST_BENCH,
+				 _TEST_OPEN_RELAY, _TEST_UPTIME,
 				 _TEST_IDLE_SCREENSHOT_SIZE,
 				 _TEST_IDLE_SCREENSHOT_DATA);
 	      if (verified_node && list)
@@ -336,8 +337,8 @@ test_node ()
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		       _TEST_DESCRIPTION, _TEST_BENCH,
-		       _TEST_UPTIME, _TEST_PASSWORD,
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
+		       _TEST_OPEN_RELAY, _TEST_UPTIME,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)

@@ -38,9 +38,10 @@
  * @url: the node public url
  * @title: the node title
  * @description: the node description
- * @bench: the node bench
- * @uptime: uptime in seconds
  * @password: the node password
+ * @bench: the node bench
+ * @open_relay: open relay or not
+ * @uptime: uptime in seconds
  * @idle_screenshot_size: the size (bytes) of the image to display when game is idle
  * @idle_screenshot_data: the data (jpeg) of the image to display when game is idle
  *
@@ -55,8 +56,9 @@ lw6nod_info_new (char *program,
 		 char *version,
 		 char *codename,
 		 int stamp, u_int64_t id, char *url, char *title,
-		 char *description, int bench, int uptime, char *password,
-		 int idle_screenshot_size, void *idle_screenshot_data)
+		 char *description, char *password, int bench, int open_relay,
+		 int uptime, int idle_screenshot_size,
+		 void *idle_screenshot_data)
 {
   lw6nod_info_t *info = NULL;
   int const_init_ret = 0;
@@ -69,7 +71,7 @@ lw6nod_info_new (char *program,
       const_init_ret =
 	_lw6nod_const_info_init (&(info->const_info), program, version,
 				 codename, stamp, id, url, title, description,
-				 bench, uptime, password,
+				 password, bench, open_relay, uptime,
 				 idle_screenshot_size, idle_screenshot_data);
       lw6nod_info_idle (info);
       info->discovered_nodes = lw6nod_info_new_discovered_nodes ();

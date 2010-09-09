@@ -7340,7 +7340,10 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   SCM title = SCM_BOOL_F;
   SCM description = SCM_BOOL_F;
   SCM bench = SCM_BOOL_F;
+  SCM open_relay = SCM_BOOL_F;
   SCM known_nodes = SCM_BOOL_F;
+  SCM network_reliability = SCM_BOOL_F;
+  SCM trojan = SCM_BOOL_F;
   lw6p2p_db_t *c_db;
   char *c_client_backends;
   char *c_server_backends;
@@ -7351,8 +7354,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   char *c_password;
   char *c_title;
   char *c_description;
+  int c_open_relay;
   int c_bench;
   char *c_known_nodes;
+  int c_network_reliability;
+  int c_trojan;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
@@ -7370,7 +7376,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       title = scm_assoc_ref (param, scm_makfrom0str ("title"));
       description = scm_assoc_ref (param, scm_makfrom0str ("description"));
       bench = scm_assoc_ref (param, scm_makfrom0str ("bench"));
+      open_relay = scm_assoc_ref (param, scm_makfrom0str ("open-relay"));
       known_nodes = scm_assoc_ref (param, scm_makfrom0str ("known-nodes"));
+      network_reliability =
+	scm_assoc_ref (param, scm_makfrom0str ("network-reliability"));
+      trojan = scm_assoc_ref (param, scm_makfrom0str ("trojan"));
 
       SCM_ASSERT (SCM_SMOB_PREDICATE
 		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
@@ -7389,7 +7399,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
       SCM_ASSERT (scm_is_string (title), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (description), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_integer (bench), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (SCM_BOOLP (open_relay), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (scm_is_string (known_nodes), param, SCM_ARG2, __FUNCTION__);
+      SCM_ASSERT (scm_is_integer (network_reliability), param, SCM_ARG2,
+		  __FUNCTION__);
+      SCM_ASSERT (SCM_BOOLP (trojan), param, SCM_ARG2, __FUNCTION__);
 
       c_db = lw6_scm_to_db (db);
       if (c_db)
@@ -7408,19 +7422,24 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 		      c_public_url = to_0str (public_url);
 		      if (c_public_url)
 			{
-			  c_password = to_0str (password);
-			  if (c_password)
+			  c_title = to_0str (title);
+			  if (c_title)
 			    {
-			      c_title = to_0str (title);
-			      if (c_title)
+			      c_description = to_0str (description);
+			      if (c_description)
 				{
-				  c_description = to_0str (description);
-				  if (c_description)
+				  c_password = to_0str (password);
+				  if (c_password)
 				    {
 				      c_bench = scm_to_int (bench);
+				      c_open_relay = SCM_NFALSEP (open_relay);
 				      c_known_nodes = to_0str (known_nodes);
 				      if (c_known_nodes)
 					{
+					  c_network_reliability =
+					    scm_to_int (network_reliability);
+					  c_trojan = SCM_NFALSEP (trojan);
+
 					  c_node =
 					    lw6p2p_node_new
 					    (lw6_global.argc,
@@ -7429,9 +7448,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 					     c_server_backends, c_bind_ip,
 					     c_bind_port, c_broadcast,
 					     c_public_url,
-					     c_password, c_title,
-					     c_description, c_bench,
-					     c_known_nodes);
+					     c_title,
+					     c_description, c_password,
+					     c_bench, c_open_relay,
+					     c_known_nodes,
+					     c_network_reliability, c_trojan);
 					  if (c_node)
 					    {
 					      ret =
@@ -7440,11 +7461,11 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
 					    }
 					  LW6SYS_FREE (c_known_nodes);
 					}
-				      LW6SYS_FREE (c_description);
+				      LW6SYS_FREE (c_password);
 				    }
-				  LW6SYS_FREE (c_title);
+				  LW6SYS_FREE (c_description);
 				}
-			      LW6SYS_FREE (c_password);
+			      LW6SYS_FREE (c_title);
 			    }
 			  LW6SYS_FREE (c_public_url);
 			}

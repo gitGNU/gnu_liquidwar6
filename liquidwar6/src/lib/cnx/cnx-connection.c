@@ -41,6 +41,7 @@
  * @local_id: the local ID
  * @remote_id: the remote ID
  * @dns_ok: 1 if no DNS mismatch, 0 if IP does not match public URL
+ * @network_reliability: drop 1 out of X packets
  * @recv_callback_func: a callback to call when data is received
  * @recv_callback_data: additionnal data to pass to the callback
  *
@@ -58,7 +59,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
 		       char *remote_ip, int remote_port,
 		       char *password, u_int64_t local_id,
 		       u_int64_t remote_id,
-		       int dns_ok,
+		       int dns_ok, int network_reliability,
 		       lw6cnx_recv_callback_t recv_callback_func,
 		       void *recv_callback_data)
 {
@@ -88,6 +89,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
       ret->remote_id_int = remote_id;
       ret->remote_id_str = lw6sys_id_ltoa (remote_id);
       ret->dns_ok = dns_ok ? 1 : 0;
+      ret->network_reliability = network_reliability;
       ret->recv_callback_func = recv_callback_func;
       ret->recv_callback_data = recv_callback_data;
       ret->send_mutex = lw6sys_mutex_create ();
@@ -223,10 +225,38 @@ lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
  * Note that each backend must call this when accessing the socket,
  * there's no top-level lock for the sake of performance.
  *
- * Return value: 1 on success, 0 if not.
+ * Return value: none.
  */
 void
 lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
 {
   lw6sys_mutex_unlock (connection->send_mutex);
+}
+
+/**
+ * lw6cnx_connection_reliability_filter
+ *
+ * @connection: the connexion concerned
+ * 
+ * Will filter and return true only in "rare" cases when packets
+ * must be artificially dropped for testing purpose.
+ *
+ * Return value: 1 if message must be sent/received, 0 if not
+ */
+int
+lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection)
+{
+  int ret = 0;
+
+  ret =
+    (lw6sys_random (connection->network_reliability) !=
+     (connection->network_reliability >> 1));
+  if (!ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("filtering message due to reliability %d"),
+		  connection->network_reliability);
+    }
+
+  return ret;
 }

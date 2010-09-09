@@ -47,12 +47,13 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 	     info->const_info.creation_timestamp) / 1000;
 	  ret =
 	    lw6sys_new_sprintf
-	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d", cmd, sep,
-	     info->const_info.program, sep,
-	     info->const_info.version, sep, info->const_info.codename, sep,
-	     info->const_info.stamp, sep, info->const_info.id_str,
-	     sep, info->const_info.url, sep, base64_title, sep,
-	     base64_description, sep, info->const_info.bench, sep, uptime);
+	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d", cmd,
+	     sep, info->const_info.program, sep, info->const_info.version,
+	     sep, info->const_info.codename, sep, info->const_info.stamp, sep,
+	     info->const_info.id_str, sep, info->const_info.url, sep,
+	     base64_title, sep, base64_description, sep,
+	     info->const_info.has_password, sep, info->const_info.bench, sep,
+	     info->const_info.open_relay, sep, uptime);
 	  LW6SYS_FREE (base64_description);
 	}
       LW6SYS_FREE (base64_title);
@@ -91,7 +92,7 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
+lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -100,7 +101,9 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int32_t ticket)
   info_str = _generate_info (LW6MSG_CMD_TICKET, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%08x", info_str, sep, ticket);
+      ret =
+	lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep,
+			    ticket);
       LW6SYS_FREE (info_str);
     }
 
@@ -218,7 +221,9 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   lw6msg_word_t url;
   lw6msg_word_t title;
   lw6msg_word_t description;
+  int has_password = 0;
   int bench = 0;
+  int open_relay = 0;
   int uptime = 0;
 
   (*info) = NULL;
@@ -271,58 +276,94 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 				{
 				  pos = seek;
 				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _x_ ("analyzing bench \"%s\""),
+					      _x_
+					      ("analyzing has_password \"%s\""),
 					      pos);
 				  if (lw6msg_word_first_int
-				      (&bench, &seek, pos))
+				      (&has_password, &seek, pos))
 				    {
 				      pos = seek;
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
 						  _x_
-						  ("analyzing uptime \"%s\""),
+						  ("analyzing bench \"%s\""),
 						  pos);
 				      if (lw6msg_word_first_int
-					  (&uptime, &seek, pos))
+					  (&bench, &seek, pos))
 					{
 					  pos = seek;
-					  (*info) =
-					    lw6nod_info_new (program.buf,
-							     version.buf,
-							     codename.buf,
-							     stamp, id,
-							     url.buf,
-							     title.buf,
-							     description.buf,
-							     bench,
-							     uptime, NULL, 0,
-							     NULL);
-					  if (*info)
+					  lw6sys_log (LW6SYS_LOG_DEBUG,
+						      _x_
+						      ("analyzing open_relay \"%s\""),
+						      pos);
+					  if (lw6msg_word_first_int
+					      (&open_relay, &seek, pos))
 					    {
-					      if (next)
+					      pos = seek;
+					      lw6sys_log (LW6SYS_LOG_DEBUG,
+							  _x_
+							  ("analyzing uptime \"%s\""),
+							  pos);
+					      if (lw6msg_word_first_int
+						  (&uptime, &seek, pos))
 						{
-						  (*next) = pos;
+						  pos = seek;
+						  (*info) =
+						    lw6nod_info_new
+						    (program.buf, version.buf,
+						     codename.buf, stamp, id,
+						     url.buf, title.buf,
+						     description.buf, NULL,
+						     bench, open_relay,
+						     uptime, 0, NULL);
+						  if (*info)
+						    {
+						      (*info)->
+							const_info.has_password
+							= has_password;
+						      if (next)
+							{
+							  (*next) = pos;
+							}
+						      ret = 1;
+						    }
+						  else
+						    {
+						      lw6sys_log
+							(LW6SYS_LOG_WARNING,
+							 _x_
+							 ("unable to create nod info"));
+						    }
 						}
-					      ret = 1;
+					      else
+						{
+						  lw6sys_log
+						    (LW6SYS_LOG_DEBUG,
+						     _x_
+						     ("bad uptime \"%s\""),
+						     pos);
+						}
 					    }
 					  else
 					    {
-					      lw6sys_log (LW6SYS_LOG_WARNING,
+					      lw6sys_log (LW6SYS_LOG_DEBUG,
 							  _x_
-							  ("unable to create nod info"));
+							  ("bad open_relay \"%s\""),
+							  pos);
 					    }
 					}
 				      else
 					{
 					  lw6sys_log (LW6SYS_LOG_DEBUG,
 						      _x_
-						      ("bad uptime \"%s\""),
+						      ("bad bench \"%s\""),
 						      pos);
 					}
 				    }
 				  else
 				    {
 				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _x_ ("bad bench \"%s\""),
+						  _x_
+						  ("bad has_password \"%s\""),
 						  pos);
 				    }
 				}
@@ -418,7 +459,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
+lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket,
 			   char *msg)
 {
   int ret = 0;
@@ -431,7 +472,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int32_t * ticket,
       if (_analyse_info (info, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_id_32 (ticket, &seek, pos))
+	  if (lw6msg_word_first_id_64 (ticket, &seek, pos))
 	    {
 	      ret = 1;
 	    }

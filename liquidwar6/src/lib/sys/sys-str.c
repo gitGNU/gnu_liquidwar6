@@ -221,6 +221,36 @@ lw6sys_str_is_blank (char *str)
 }
 
 /**
+ * lw6sys_str_is_null_or_empty
+ *
+ * @str: the string to test
+ *
+ * Tests wether a string is NULL or empty (string with 0 chars "").
+ *
+ * Return value: 1 if NULL or empty, 0 if contains something.
+ */
+int
+lw6sys_str_is_null_or_empty (char *str)
+{
+  return (str == NULL || str[0] == '\0');
+}
+
+/**
+ * lw6sys_str_empty_if_null
+ *
+ * @str: the string to test
+ *
+ * Returns always a non-NULL string, if string is NULL, returns ""
+ *
+ * Return value: source string or "" if it was NULL
+ */
+char *
+lw6sys_str_empty_if_null (char *str)
+{
+  return str ? str : LW6SYS_STR_EMPTY;
+}
+
+/**
  * lw6sys_str_is_same
  *
  * @str_a: 1st string to compare, can be NULL

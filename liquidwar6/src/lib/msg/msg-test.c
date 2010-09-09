@@ -41,10 +41,11 @@
 #define _TEST_URL "http://192.168.20.20:8000/"
 #define _TEST_TITLE "This is not a sentence"
 #define _TEST_DESCRIPTION "This is not an explanation about what this is."
-#define _TEST_BENCH 10
-#define _TEST_UPTIME 60
 #define _TEST_PASSWORD "toto"
 #define _TEST_PASSWORD_KO "titi"
+#define _TEST_BENCH 10
+#define _TEST_OPEN_RELAY 1
+#define _TEST_UPTIME 60
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
 #define _TEST_REQUEST_COMMAND "INFO"
@@ -90,10 +91,10 @@
 #define _TEST_Z_MSG_3 "this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed, this should be compressed..."
 #define _TEST_Z_MSG_4_LEN 200
 #define _TEST_Z_LIMIT 30
-#define _TEST_TICKET1 0x12345678
-#define _TEST_TICKET2 0x23456789
-#define _TEST_TICKET1_SIG 0xbfa56619
-#define _TEST_TICKET2_SIG 0xaa0b839a
+#define _TEST_TICKET1 0x1234567812345678LL
+#define _TEST_TICKET2 0x2345678912345678LL
+#define _TEST_TICKET1_SIG 0xd46d60b7
+#define _TEST_TICKET2_SIG 0xf8e16b04
 #define _TEST_TICKET_FROM_ID 0x1234123412341234LL
 #define _TEST_TICKET_TO_ID 0X2345234523452345LL
 #define _TEST_TICKET_MSG "hello world"
@@ -115,9 +116,9 @@ test_cmd ()
     lw6nod_info_t *info = NULL;
     lw6nod_info_t *analysed_info = NULL;
     char *msg = NULL;
-    u_int32_t ticket = 0;
+    u_int64_t ticket = 0;
     u_int32_t key = 0;
-    u_int32_t analysed_ticket = 0;
+    u_int64_t analysed_ticket = 0;
     u_int32_t analysed_key = 0;
     char *remote_url = NULL;
     int data_serial = 0;
@@ -128,8 +129,8 @@ test_cmd ()
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		       _TEST_DESCRIPTION, _TEST_BENCH,
-		       _TEST_UPTIME, _TEST_PASSWORD,
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
+		       _TEST_OPEN_RELAY, _TEST_UPTIME,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
@@ -169,7 +170,7 @@ test_cmd ()
 	    LW6SYS_FREE (msg);
 	  }
 
-	ticket = lw6sys_generate_id_32 ();
+	ticket = lw6sys_generate_id_64 ();
 	msg = lw6msg_cmd_generate_ticket (info, ticket);
 	if (msg)
 	  {
@@ -181,8 +182,8 @@ test_cmd ()
 		if (ticket == analysed_ticket)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("ticket command analysed (ticket=%x)"),
-				ticket);
+				_x_ ("ticket command analysed (ticket=%"
+				     LW6SYS_PRINTF_LL "x)"), ticket);
 		  }
 		else
 		  {
@@ -415,8 +416,8 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   info =
     lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		     _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		     _TEST_DESCRIPTION, _TEST_BENCH,
-		     _TEST_UPTIME, _TEST_PASSWORD,
+		     _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
+		     _TEST_OPEN_RELAY, _TEST_UPTIME,
 		     _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
   if (info)
     {
@@ -689,8 +690,8 @@ test_oob ()
     info =
       lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
-		       _TEST_DESCRIPTION, _TEST_BENCH,
-		       _TEST_UPTIME, _TEST_PASSWORD,
+		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH,
+		       _TEST_OPEN_RELAY, _TEST_UPTIME,
 		       _TEST_IDLE_SCREENSHOT_SIZE,
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
@@ -752,7 +753,8 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_1,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_BENCH, _TEST_UPTIME, _TEST_PASSWORD,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_OPEN_RELAY, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -768,7 +770,8 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_2,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_BENCH, _TEST_UPTIME, _TEST_PASSWORD,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_OPEN_RELAY, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -784,7 +787,8 @@ test_oob ()
 		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_3,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
-				   _TEST_BENCH, _TEST_UPTIME, _TEST_PASSWORD,
+				   _TEST_PASSWORD, _TEST_BENCH,
+				   _TEST_OPEN_RELAY, _TEST_UPTIME,
 				   _TEST_IDLE_SCREENSHOT_SIZE,
 				   _TEST_IDLE_SCREENSHOT_DATA);
 		if (verified_node && list)
@@ -1030,14 +1034,16 @@ test_ticket ()
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket1_sig == _TEST_TICKET1_SIG)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %08x is %08x"),
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
 		    _TEST_TICKET1, ticket1_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("ticket_sig for %08x is %08x and should be %08x"),
-		    _TEST_TICKET1, ticket1_sig, _TEST_TICKET1_SIG);
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
+			 "x is %08x and should be %08x"), _TEST_TICKET1,
+		    ticket1_sig, _TEST_TICKET1_SIG);
 	ret = 0;
       }
 
@@ -1046,14 +1052,16 @@ test_ticket ()
 			      _TEST_TICKET_TO_ID, _TEST_TICKET_MSG);
     if (ticket2_sig == _TEST_TICKET2_SIG)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("ticket_sig for %08x is %08x"),
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL "x is %08x"),
 		    _TEST_TICKET2, ticket2_sig);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("ticket_sig for %08x is %08x and should be %08x"),
-		    _TEST_TICKET2, ticket2_sig, _TEST_TICKET2_SIG);
+		    _x_ ("ticket_sig for %" LW6SYS_PRINTF_LL
+			 "x is %08x and should be %08x"), _TEST_TICKET2,
+		    ticket2_sig, _TEST_TICKET2_SIG);
 	ret = 0;
       }
 
@@ -1064,8 +1072,13 @@ test_ticket ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("ticket_sig check works when same"));
 	if (!lw6msg_ticket_check_sig
-	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
-	     _TEST_TICKET_MSG, ticket2_sig))
+	    (_TEST_TICKET1 + 1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
+	     _TEST_TICKET_MSG, ticket1_sig) &&
+	    !lw6msg_ticket_check_sig
+	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID + 1, _TEST_TICKET_TO_ID,
+	     _TEST_TICKET_MSG, ticket1_sig) && !lw6msg_ticket_check_sig
+	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID + 1,
+	     _TEST_TICKET_MSG, ticket1_sig))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("ticket_sig check works when different"));

@@ -162,7 +162,11 @@
 					       (cons "title" "")
 					       (cons "description" (_ "This is a test node."))
 					       (cons "bench" 10)
-					       (cons "known-nodes" "http://ufoot.org:8056/"))))
+					       (cons "open-relay" #f)
+					       (cons "known-nodes" "http://ufoot.org:8056/")
+					       (cons "network-reliability" 100)
+					       (cons "trojan" #f)
+					       )))
 	     )
 	(begin
 	  (display node)

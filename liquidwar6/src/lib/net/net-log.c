@@ -46,7 +46,13 @@ _lw6net_log_init (int argc, char *argv[], _lw6net_log_t * log, int net_log)
       net_dir = lw6sys_path_concat (user_dir, _NET_DIR);
       if (net_dir)
 	{
-	  if (!lw6sys_dir_exists (net_dir))
+	  /*
+	   * We create dir only if log is activated,
+	   * if log isn't will still check if exists
+	   * afterwards and clean files if needed, just
+	   * to avoid old traces to fill your HD.
+	   */
+	  if (net_log && !lw6sys_dir_exists (net_dir))
 	    {
 	      lw6sys_create_dir (net_dir);
 	    }

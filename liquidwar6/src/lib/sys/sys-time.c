@@ -36,8 +36,6 @@
 #define _TIMER_CYCLE_MASK 0xFFFFFL
 #define _RFC1123_SIZE 33
 #define _CLF_SIZE 40
-#define _SLEEP_DELAY 1
-#define _SNOOZE_DELAY 100
 
 static int64_t timestamp_0 = 0;
 
@@ -224,7 +222,7 @@ lw6sys_delay (int msec)
 void
 lw6sys_idle ()
 {
-  lw6sys_delay (_SLEEP_DELAY);
+  lw6sys_delay (LW6SYS_SLEEP_DELAY);
 }
 
 /**
@@ -238,7 +236,7 @@ lw6sys_idle ()
 void
 lw6sys_snooze ()
 {
-  lw6sys_delay (_SNOOZE_DELAY);
+  lw6sys_delay (LW6SYS_SNOOZE_DELAY);
 }
 
 /**

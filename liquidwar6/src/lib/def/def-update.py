@@ -97,7 +97,7 @@ def_scm=""";Liquid War 6 is a unique multiplayer wargame.
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-;Generated automatically by trigo.py
+;Generated automatically by def-update.py
 
 %s
 

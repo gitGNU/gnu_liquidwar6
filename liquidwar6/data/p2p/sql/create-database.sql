@@ -27,8 +27,9 @@ CREATE TABLE IF NOT EXISTS lw6_node(
 	node_url VARCHAR(1024) PRIMARY KEY,
 	node_title VARCHAR(256),
 	node_description VARCHAR(2048),
-	password INTEGER,
+	node_password INTEGER,
         node_bench INTEGER,
+        node_open_relay INTEGER,
 	-- Variable data
 	node_level VARCHAR(1024),
 	node_required_bench INTEGER,

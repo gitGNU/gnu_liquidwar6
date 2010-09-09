@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.10beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-08 21:17+0200\n"
+"POT-Creation-Date: 2010-09-09 17:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -621,6 +621,16 @@ msgstr ""
 #: src/lib/p2p/p2p-data.c:100
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
+msgstr ""
+
+#: src/lib/p2p/p2p-node.c:250
+#, c-format
+msgid "started node \"%s\" in trojan mode, expect problems"
+msgstr ""
+
+#: src/lib/p2p/p2p-node.c:255
+#, c-format
+msgid "started node \"%s\""
 msgstr ""
 
 #: src/lib/sys/sys-test.c:1950

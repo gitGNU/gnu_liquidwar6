@@ -48,7 +48,7 @@
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
 #define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
 
-#define _LW6P2P_DB_NODE_NB_FIELDS 22
+#define _LW6P2P_DB_NODE_NB_FIELDS 23
 #define _LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP 0
 #define _LW6P2P_DB_NODE_ORDER_VERSION 1
 #define _LW6P2P_DB_NODE_ORDER_CODENAME 2
@@ -59,18 +59,19 @@
 #define _LW6P2P_DB_NODE_ORDER_DESCRIPTION 7
 #define _LW6P2P_DB_NODE_ORDER_PASSWORD 8
 #define _LW6P2P_DB_NODE_ORDER_BENCH 9
-#define _LW6P2P_DB_NODE_ORDER_LEVEL 10
-#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 11
-#define _LW6P2P_DB_NODE_ORDER_NB_COLORS 12
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 13
-#define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 14
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS 15
-#define _LW6P2P_DB_NODE_ORDER_NB_NODES 16
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_NODES 17
-#define _LW6P2P_DB_NODE_ORDER_IP 18
-#define _LW6P2P_DB_NODE_ORDER_PORT 19
-#define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 20
-#define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 21
+#define _LW6P2P_DB_NODE_ORDER_OPEN_RELAY 10
+#define _LW6P2P_DB_NODE_ORDER_LEVEL 11
+#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 12
+#define _LW6P2P_DB_NODE_ORDER_NB_COLORS 13
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 14
+#define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 15
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS 16
+#define _LW6P2P_DB_NODE_ORDER_NB_NODES 17
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_NODES 18
+#define _LW6P2P_DB_NODE_ORDER_IP 19
+#define _LW6P2P_DB_NODE_ORDER_PORT 20
+#define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 21
+#define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 22
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,
@@ -179,6 +180,8 @@ typedef struct _lw6p2p_node_s
   char *password;
   lw6nod_info_t *node_info;
   char *known_nodes;
+  int network_reliability;
+  int trojan;
   lw6srv_listener_t *listener;
   _lw6p2p_backends_t backends;
   lw6sys_list_t *srv_oobs;
@@ -269,9 +272,11 @@ extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
 					 char *bind_ip,
 					 int bind_port, int broadcast,
 					 char *public_url,
-					 char *password, char *title,
-					 char *description, int bench,
-					 char *known_nodes);
+					 char *title,
+					 char *description, char *password,
+					 int bench, int open_relay,
+					 char *known_nodes,
+					 int network_reliability, int trojan);
 extern void _lw6p2p_node_free (_lw6p2p_node_t * node);
 extern char *_lw6p2p_node_repr (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_poll (_lw6p2p_node_t * node);
@@ -279,6 +284,18 @@ extern void _lw6p2p_node_close (_lw6p2p_node_t * node);
 extern u_int64_t _lw6p2p_node_get_id (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node,
 					   char *public_url);
+extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
+				     char *codename, int stamp, char *id,
+				     char *url, char *title,
+				     char *description, int password,
+				     int bench, int open_relay,
+				     int creation_timestamp, char *level,
+				     int required_bench, int nb_colors,
+				     int max_nb_colors, int nb_cursors,
+				     int max_nb_cursors, int nb_nodes,
+				     int max_nb_nodes, char *ip, int port,
+				     int last_ping_timestamp,
+				     int ping_delay_msec);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,
 				       u_int64_t remote_id);
@@ -325,6 +342,7 @@ extern int _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 				  char *real_remote_ip,
 				  char *password,
 				  u_int64_t local_id, u_int64_t remote_id,
+				  int network_reliability,
 				  lw6cnx_recv_callback_t recv_callback_func,
 				  void *recv_callback_data);
 extern void _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle);

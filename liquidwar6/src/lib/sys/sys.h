@@ -101,7 +101,10 @@ typedef char *char_ptr_t;
 #endif
 
 #define LW6SYS_QUOTE(STR) #STR
+#define LW6SYS_STR_EMPTY ""
 #define LW6SYS_TICKS_PER_SEC 1000L
+#define LW6SYS_SLEEP_DELAY 1
+#define LW6SYS_SNOOZE_DELAY 100
 
 /*
  * Yet another MS-windows hack, printf %ll doesn't work
@@ -915,6 +918,8 @@ extern char *lw6sys_str_copy (char *src);
 extern char *lw6sys_str_concat (char *str1, char *str2);
 extern char *lw6sys_new_sprintf (char *fmt, ...);
 extern int lw6sys_str_is_blank (char *str);
+extern int lw6sys_str_is_null_or_empty (char *str);
+extern char *lw6sys_str_empty_if_null (char *str);
 extern int lw6sys_str_is_same (char *str_a, char *str_b);
 extern int lw6sys_str_is_same_no_case (char *str_a, char *str_b);
 extern int lw6sys_str_starts_with (char *str, char *beginning);

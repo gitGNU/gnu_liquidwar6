@@ -41,11 +41,14 @@ static u_int32_t seq_id = 0;
  * @bind_port: the IP port to listen on
  * @broadcast: wether broadcast is allowed on this node
  * @public_url: the public URL we want to show
- * @password: the password to use
  * @title: the title of the node
  * @description: the description of the node
+ * @password: the password to use
  * @bench: the bench of the node (its power)
+ * @open_relay: act as an open relay or not
  * @known_nodes: list of already known nodes
+ * @network_reliability: drop 1 packet out of X
+ * @trojan: act as a stupid trojan to test out automatic kick-off 
  *
  * Creates a new "pear to pear" node. This will fire the server
  * and allow client access, on demand. A lot of stuff can be done
@@ -57,23 +60,27 @@ lw6p2p_node_t *
 lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, int broadcast,
-		 char *public_url, char *password, char *title,
-		 char *description, int bench, char *known_nodes)
+		 char *public_url, char *title,
+		 char *description, char *password, int bench, int open_relay,
+		 char *known_nodes, int network_reliability, int trojan)
 {
   return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, broadcast,
-					     public_url, password,
-					     title, description, bench,
-					     known_nodes);
+					     public_url,
+					     title, description, password,
+					     bench, open_relay, known_nodes,
+					     network_reliability, trojan);
 }
 
 _lw6p2p_node_t *
 _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, int broadcast,
-		  char *public_url, char *password, char *title,
-		  char *description, int bench, char *known_nodes)
+		  char *public_url, char *title,
+		  char *description, char *password, int bench,
+		  int open_relay, char *known_nodes, int network_reliability,
+		  int trojan)
 {
   _lw6p2p_node_t *node = NULL;
   char *query = NULL;
@@ -119,7 +126,7 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 			 lw6sys_build_get_codename (),
 			 lw6sys_atoi (lw6sys_build_get_stamp ()),
 			 node->node_id_int, node->public_url, title,
-			 description, bench, 0, node->password,
+			 description, node->password, bench, open_relay, 0,
 			 node->db->data.idle_screenshot.size,
 			 node->db->data.idle_screenshot.data);
       if (known_nodes)
@@ -130,6 +137,8 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->known_nodes = lw6sys_str_copy ("");
 	}
+      node->network_reliability = network_reliability;
+      node->trojan = trojan;
       ret = (node->bind_ip && node->node_id_str && node->public_url
 	     && node->password && node->node_info);
       if (ret)
@@ -172,8 +181,8 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	{
 	  ret =
 	    lw6cnx_ticket_table_init (&(node->ticket_table),
-				      node->db->data.
-				      consts.ticket_table_hash_size);
+				      node->db->data.consts.
+				      ticket_table_hash_size);
 	}
     }
 
@@ -190,8 +199,8 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 	  if (escaped_title)
 	    {
 	      escaped_description =
-		lw6sys_escape_sql_value (node->node_info->
-					 const_info.description);
+		lw6sys_escape_sql_value (node->node_info->const_info.
+					 description);
 	      if (escaped_description)
 		{
 		  query =
@@ -206,7 +215,9 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 					escaped_public_url, escaped_title,
 					escaped_description,
 					node->node_info->const_info.bench,
-					node->bind_ip, node->bind_port);
+					node->node_info->const_info.
+					open_relay, node->bind_ip,
+					node->bind_port);
 		  if (query)
 		    {
 		      if (_lw6p2p_db_lock (node->db))
@@ -232,8 +243,18 @@ _lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
 
   if (node)
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("started node \"%s\""),
-		  node->public_url);
+      if (node->trojan)
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _
+		      ("started node \"%s\" in trojan mode, expect problems"),
+		      node->public_url);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("started node \"%s\""),
+		      node->public_url);
+	}
     }
 
   return node;
@@ -566,13 +587,13 @@ _tcp_accepter_reply (void *func_data, void *data)
 	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->
-						       backends.srv_backends
-						       [i], node->node_info,
-						       tcp_accepter->
-						       client_id.client_ip,
-						       tcp_accepter->
-						       client_id.client_port,
+		    _lw6p2p_srv_oob_callback_data_new (node->backends.
+						       srv_backends[i],
+						       node->node_info,
+						       tcp_accepter->client_id.
+						       client_ip,
+						       tcp_accepter->client_id.
+						       client_port,
 						       tcp_accepter->sock,
 						       NULL);
 		  if (srv_oob)
@@ -679,15 +700,15 @@ _udp_buffer_reply (void *func_data, void *data)
 	      if (analyse_udp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->
-						       backends.srv_backends
-						       [i], node->node_info,
-						       udp_buffer->
-						       client_id.client_ip,
-						       udp_buffer->
-						       client_id.client_port,
-						       node->
-						       listener->udp_sock,
+		    _lw6p2p_srv_oob_callback_data_new (node->backends.
+						       srv_backends[i],
+						       node->node_info,
+						       udp_buffer->client_id.
+						       client_ip,
+						       udp_buffer->client_id.
+						       client_port,
+						       node->listener->
+						       udp_sock,
 						       udp_buffer->line);
 		  if (srv_oob)
 		    {
@@ -1132,6 +1153,90 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
+_lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
+			  char *codename, int stamp, char *id, char *url,
+			  char *title, char *description, int has_password,
+			  int bench, int open_relay, int creation_timestamp,
+			  char *level, int required_bench, int nb_colors,
+			  int max_nb_colors, int nb_cursors,
+			  int max_nb_cursors, int nb_nodes, int max_nb_nodes,
+			  char *ip, int port, int last_ping_timestamp,
+			  int ping_delay_msec)
+{
+  int ret = 1;
+  char *query = NULL;
+  char *escaped_version = NULL;
+  char *escaped_codename = NULL;
+  char *escaped_id = NULL;
+  char *escaped_url = NULL;
+  char *escaped_title = NULL;
+  char *escaped_description = NULL;
+  char *escaped_level = NULL;
+
+  escaped_version = lw6sys_escape_sql_value (version);
+  escaped_codename = lw6sys_escape_sql_value (codename);
+  escaped_id = lw6sys_escape_sql_value (id);
+  escaped_url = lw6sys_escape_sql_value (url);
+  escaped_title = lw6sys_escape_sql_value (title);
+  escaped_description = lw6sys_escape_sql_value (description);
+  escaped_level = lw6sys_escape_sql_value (level);
+
+  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+			      (node->db,
+			       _LW6P2P_UPDATE_NODE_SQL),
+			      creation_timestamp, escaped_version,
+			      escaped_codename, stamp,
+			      escaped_id, escaped_title,
+			      escaped_description, has_password,
+			      bench, open_relay, escaped_level,
+			      required_bench, nb_colors,
+			      max_nb_colors, nb_cursors,
+			      max_nb_cursors, nb_nodes,
+			      max_nb_nodes, ip, port, last_ping_timestamp,
+			      ping_delay_msec, escaped_url);
+  if (query)
+    {
+      if (_lw6p2p_db_lock (node->db))
+	{
+	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
+	  _lw6p2p_db_unlock (node->db);
+	}
+      LW6SYS_FREE (query);
+    }
+
+  if (escaped_version)
+    {
+      LW6SYS_FREE (escaped_version);
+    }
+  if (escaped_codename)
+    {
+      LW6SYS_FREE (escaped_codename);
+    }
+  if (escaped_id)
+    {
+      LW6SYS_FREE (escaped_id);
+    }
+  if (escaped_url)
+    {
+      LW6SYS_FREE (escaped_url);
+    }
+  if (escaped_title)
+    {
+      LW6SYS_FREE (escaped_title);
+    }
+  if (escaped_description)
+    {
+      LW6SYS_FREE (escaped_description);
+    }
+  if (escaped_level)
+    {
+      LW6SYS_FREE (escaped_level);
+    }
+
+  return ret;
+}
+
+int
 _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
 {
   int ret = -1;
@@ -1185,6 +1290,7 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
 				   node->public_url, remote_url,
 				   real_remote_ip, node->password,
 				   node->node_id_int, remote_id,
+				   node->network_reliability,
 				   _lw6p2p_recv_callback, (void *) node);
 	}
       else

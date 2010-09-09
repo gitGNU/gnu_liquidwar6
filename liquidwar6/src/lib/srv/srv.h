@@ -112,7 +112,7 @@ typedef struct lw6srv_backend_s
 				char *remote_url, char *remote_ip,
 				int remote_port, char *password,
 				u_int64_t local_id, u_int64_t remote_id,
-				int dns_ok,
+				int dns_ok, int network_reliability,
 				lw6cnx_recv_callback_t recv_callback_func,
 				void *recv_callback_data);
   int (*feed_with_tcp) (void *srv_context, lw6cnx_connection_t * connection,
@@ -154,7 +154,7 @@ extern lw6cnx_connection_t *lw6srv_open (lw6srv_backend_t * backend,
 					 char *remote_ip, int remote_port,
 					 char *password, u_int64_t local_id,
 					 u_int64_t remote_id,
-					 int dns_ok,
+					 int dns_ok, int network_reliability,
 					 lw6cnx_recv_callback_t
 					 recv_callback_func,
 					 void *recv_callback_data);

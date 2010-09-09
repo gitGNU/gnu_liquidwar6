@@ -31,7 +31,8 @@ lw6cnx_connection_t *
 _mod_http_open (_http_context_t * http_context, char *local_url,
 		char *remote_url, char *remote_ip, int remote_port,
 		char *password, u_int64_t local_id, u_int64_t remote_id,
-		int dns_ok, lw6cnx_recv_callback_t recv_callback_func,
+		int dns_ok, int network_reliability,
+		lw6cnx_recv_callback_t recv_callback_func,
 		void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
@@ -41,7 +42,8 @@ _mod_http_open (_http_context_t * http_context, char *local_url,
   ret =
     lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok,
-			   recv_callback_func, recv_callback_data);
+			   network_reliability, recv_callback_func,
+			   recv_callback_data);
   if (ret)
     {
       ret->backend_specific_data =

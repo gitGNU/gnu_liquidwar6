@@ -34,10 +34,12 @@
 #define _TEST_LOCAL_ID 0x1234123412341234LL
 #define _TEST_REMOTE_ID 0x2345234523452345LL
 #define _TEST_DNS_OK 1
+#define _TEST_NETWORK_RELIABILITY 100
 #define _TEST_NEXT_FOO_DELAY 5000
 #define _TEST_PASSWORD_SEED "http://"
 #define _TEST_PASSWORD1 "abc"
 #define _TEST_PASSWORD2 "XY"
+#define _TEST_PASSWORD_CHECKSUM "a838475e316f4b3e3fed"
 #define _TEST_TICKET_TABLE_HASH_SIZE 11
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
@@ -70,7 +72,8 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     _TEST_DNS_OK, _recv_callback_func, NULL);
+			     _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY,
+			     _recv_callback_func, NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -112,6 +115,9 @@ test_connection ()
 	    ret = 0;
 	  }
 
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("connection filter returns %d"),
+		    lw6cnx_connection_reliability_filter (cnx));
+
 	lw6cnx_connection_free (cnx);
       }
     else
@@ -128,7 +134,8 @@ test_connection ()
       lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID,
-			     _TEST_DNS_OK, NULL, NULL);
+			     _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, NULL,
+			     NULL);
     if (cnx)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -199,9 +206,20 @@ test_password ()
       lw6cnx_password_checksum (_TEST_PASSWORD_SEED, _TEST_PASSWORD1);
     if (checksum)
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("checksum for password \"%s\" is \"%s\""),
-		    _TEST_PASSWORD1, checksum);
+	if (lw6sys_str_is_same (checksum, _TEST_PASSWORD_CHECKSUM))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("checksum for password \"%s\" is \"%s\""),
+			_TEST_PASSWORD1, checksum);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("checksum for password \"%s\" is \"%s\", should be \"%s\""),
+			_TEST_PASSWORD1, checksum, _TEST_PASSWORD_CHECKSUM);
+	    ret = 0;
+	  }
 	if (lw6cnx_password_verify
 	    (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD1))
 	  {

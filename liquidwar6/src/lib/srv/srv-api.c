@@ -156,7 +156,7 @@ lw6cnx_connection_t *
 lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     char *local_url, char *remote_url, char *remote_ip,
 	     int remote_port, char *password, u_int64_t local_id,
-	     u_int64_t remote_id, int dns_ok,
+	     u_int64_t remote_id, int dns_ok, int network_reliability,
 	     lw6cnx_recv_callback_t recv_callback_func,
 	     void *recv_callback_data)
 {
@@ -169,7 +169,8 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
       ret =
 	backend->open (backend->srv_context, listener, local_url, remote_url,
 		       remote_ip, remote_port, password, local_id, remote_id,
-		       dns_ok, recv_callback_func, recv_callback_data);
+		       dns_ok, network_reliability, recv_callback_func,
+		       recv_callback_data);
     }
   else
     {
@@ -259,10 +260,21 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 
   if (backend->send)
     {
-      ret =
-	backend->send (backend->srv_context, connection, physical_ticket_sig,
-		       logical_ticket_sig, logical_from_id, logical_to_id,
-		       message);
+      if (lw6cnx_connection_reliability_filter (connection))
+	{
+	  ret =
+	    backend->send (backend->srv_context, connection,
+			   physical_ticket_sig, logical_ticket_sig,
+			   logical_from_id, logical_to_id, message);
+	}
+      else
+	{
+	  /*
+	   * Yes, we return true, the idea is to pretend success
+	   * but in fact real send failed.
+	   */
+	  ret = 1;
+	}
     }
   else
     {

@@ -50,10 +50,11 @@
 #define LW6MSG_OOB_URL "URL"
 #define LW6MSG_OOB_TITLE "TITLE"
 #define LW6MSG_OOB_DESCRIPTION "DESCRIPTION"
-#define LW6MSG_OOB_PASSWORD "PASSWORD"
+#define LW6MSG_OOB_HAS_PASSWORD "HAS_PASSWORD"
+#define LW6MSG_OOB_BENCH "BENCH"
+#define LW6MSG_OOB_OPEN_RELAY "OPEN_RELAY"
 #define LW6MSG_OOB_UPTIME "UPTIME"
 #define LW6MSG_OOB_LEVEL "LEVEL"
-#define LW6MSG_OOB_BENCH "BENCH"
 #define LW6MSG_OOB_REQUIRED_BENCH "REQUIRED_BENCH"
 #define LW6MSG_OOB_NB_COLORS "NB_COLORS"
 #define LW6MSG_OOB_MAX_NB_COLORS "MAX_NB_COLORS"
@@ -92,7 +93,7 @@ typedef struct lw6msg_word_s
 /* msg-cmd.c */
 extern char *lw6msg_cmd_generate_hello (lw6nod_info_t * info);
 extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info,
-					 u_int32_t ticket);
+					 u_int64_t ticket);
 extern char *lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key);
 extern char *lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
@@ -100,7 +101,7 @@ extern char *lw6msg_cmd_generate_data (int serial, int i, int n,
 				       char *ker_msg);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg);
 extern int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info,
-				      u_int32_t * ticket, char *msg);
+				      u_int64_t * ticket, char *msg);
 extern int lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
 				   char *msg);
 extern int lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
@@ -149,9 +150,9 @@ extern char *lw6msg_oob_analyse_pong (char *text);
 extern int lw6msg_test (int mode);
 
 /* msg-ticket.c */
-extern u_int32_t lw6msg_ticket_calc_sig (u_int32_t ticket, u_int64_t from_id,
+extern u_int32_t lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id,
 					 u_int64_t to_id, char *msg);
-extern int lw6msg_ticket_check_sig (u_int32_t ticket, u_int64_t from_id,
+extern int lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id,
 				    u_int64_t to_id, char *msg,
 				    u_int32_t ticket_sig);
 

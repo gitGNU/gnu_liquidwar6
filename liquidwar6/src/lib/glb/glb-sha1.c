@@ -29,7 +29,7 @@
 
 #include "gnulib-hmac.h"
 
-#define _SHA1_KEY ""
+#define _SHA1_EMPTY ""
 #define _SHA1_SIZE 20
 #define _SHA1_80_SIZE 10
 
@@ -52,10 +52,6 @@ lw6glb_sha1_hmac_80_bin (char *key, int key_size, char *buf, int buf_size)
   char sha1_bin[_SHA1_SIZE];
 
   memset (sha1_bin, 0, _SHA1_SIZE);
-  if (!key)
-    {
-      key = _SHA1_KEY;
-    }
   if (!hmac_sha1 ((void *) key, key_size, (void *) buf, buf_size, sha1_bin))
     {
       /*
@@ -90,7 +86,11 @@ lw6glb_sha1_hmac_80_str (char *key, char *str)
 
   if (!key)
     {
-      key = _SHA1_KEY;
+      key = _SHA1_EMPTY;
+    }
+  if (!str)
+    {
+      str = _SHA1_EMPTY;
     }
   ret = lw6glb_sha1_hmac_80_bin (key, strlen (key), str, strlen (str));
 
@@ -116,10 +116,6 @@ lw6glb_sha1_hmac_32_bin (char *key, int key_size, char *buf, int buf_size)
   char sha1_bin[_SHA1_SIZE];
 
   memset (sha1_bin, 0, _SHA1_SIZE);
-  if (!key)
-    {
-      key = _SHA1_KEY;
-    }
   if (!hmac_sha1 ((void *) key, key_size, (void *) buf, buf_size, sha1_bin))
     {
       /*
@@ -154,7 +150,11 @@ lw6glb_sha1_hmac_32_str (char *key, char *str)
 
   if (!key)
     {
-      key = _SHA1_KEY;
+      key = _SHA1_EMPTY;
+    }
+  if (!str)
+    {
+      str = _SHA1_EMPTY;
     }
   ret = lw6glb_sha1_hmac_32_bin (key, strlen (key), str, strlen (str));
 

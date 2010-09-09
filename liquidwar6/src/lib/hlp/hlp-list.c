@@ -713,6 +713,9 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_Z_ENCODE);
   lw6sys_list_push_back (list, LW6DEF_Z_DECODE);
   lw6sys_list_push_back (list, LW6DEF_NET_LOG);
+  lw6sys_list_push_back (list, LW6DEF_OPEN_RELAY);
+  lw6sys_list_push_back (list, LW6DEF_NETWORK_RELIABILITY);
+  lw6sys_list_push_back (list, LW6DEF_TROJAN);
 
   return ((*list) != NULL);
 }

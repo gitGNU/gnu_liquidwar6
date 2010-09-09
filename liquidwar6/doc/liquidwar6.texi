@@ -1206,8 +1206,8 @@ informations to a single node won't have much effect.
 
 This being said, Liquid War 6 does not use any strong encryption
 library to protect the data it sends. All the checksum machinery
-is definitely vulnerable to a brute-force attack, so in theory
-it's possible to fool the program.
+might be vulnerable to a brute-force and/or strong cryptographic
+attack, so in theory it's possible to fool the program.
 
 In practise, if you want real privacy, play over a VPN
 (Virtual Private Network).
@@ -3307,6 +3307,25 @@ cd to @code{./doc/cyclo} and run @code{make opt}. Copy files to web CVS, sync th
 @item
 post news on @uref{https://savannah.gnu.org/news/?group=liquidwar6}, @uref{http://lists.gnu.org/mailman/listinfo/help-liquidwar6} and @uref{http://lists.gnu.org/mailman/listinfo/info-liquidwar6}.
 @end itemize
+
+@subsection Add a new option
+
+This describes how to add a new option to the game.
+
+@itemize
+@item
+edit @code{src/lib/def/def-list.txt}
+@item
+in @code{src/lib/def/def-update.py} run @code{./def-update.py}. This will automatically fill @code{src/lib/def/def.h} and @code{script/def.scm}. In the code, you should always use @code{LW6DEF_<OPTION>} in C and @code{lw6def-<option>} in scheme to refer to the option. This does help avoiding typesetting errors.
+@item
+add the entry to @code{src/lib/hlp/hlp-list.c}, choose a category for it
+@item
+add the entry to @code{src/lib/hlp/hlp-reference.c}, give it a type, documentation string and default values if needed
+@item
+to sort @code{src/lib/def/def-list.txt} a common practice is to fill it with the output of @code{liquidwar6 --list} once the program has been compiled and is aware of the new option.
+@end itemize
+
+Unless this is done, program won't accept the option.
 
 @subsection Add a new internal library
 

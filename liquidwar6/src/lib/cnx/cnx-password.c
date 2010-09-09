@@ -53,7 +53,16 @@ lw6cnx_password_checksum (char *seed, char *password)
 
   if (password && strlen (password) > 0)
     {
-      ret = lw6glb_sha1_hmac_80_str (seed, password);
+      /*
+       * Note: here we *inverse* seed and password,
+       * that is, the HMAC key is the password and
+       * the checksumed string is the seed. This is
+       * because the seed is really, definitely known
+       * to be public (in practice it's the public)
+       * URL whereas the password is supposed to
+       * be secret...
+       */
+      ret = lw6glb_sha1_hmac_80_str (password, seed);
     }
   else
     {

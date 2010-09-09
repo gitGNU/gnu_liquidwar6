@@ -130,12 +130,12 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
  *
  * Return value: the ticket used to check incoming messages.
  */
-u_int32_t
+u_int64_t
 lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
 			      char *peer_id)
 {
-  u_int32_t recv_ticket = 0;
-  u_int32_t *recv_ticket_ptr = NULL;
+  u_int64_t recv_ticket = 0;
+  u_int64_t *recv_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (ticket_table->recv_spinlock))
     {
@@ -149,8 +149,8 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table,
     }
   else
     {
-      recv_ticket = lw6sys_generate_id_32 ();
-      recv_ticket_ptr = (u_int32_t *) LW6SYS_MALLOC (sizeof (u_int32_t));
+      recv_ticket = lw6sys_generate_id_64 ();
+      recv_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sizeof (u_int64_t));
       if (recv_ticket_ptr)
 	{
 	  (*recv_ticket_ptr) = recv_ticket;
@@ -230,12 +230,12 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table,
  *
  * Return value: the ticket used to stamp outgoing messages.
  */
-u_int32_t
+u_int64_t
 lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
 			      char *peer_id)
 {
-  u_int32_t send_ticket = 0;
-  u_int32_t *send_ticket_ptr = NULL;
+  u_int64_t send_ticket = 0;
+  u_int64_t *send_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (ticket_table->send_spinlock))
     {
@@ -271,9 +271,9 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table,
  */
 void
 lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
-			      char *peer_id, u_int32_t send_ticket)
+			      char *peer_id, u_int64_t send_ticket)
 {
-  u_int32_t *send_ticket_ptr = NULL;
+  u_int64_t *send_ticket_ptr = NULL;
 
   if (lw6sys_spinlock_lock (ticket_table->send_spinlock))
     {
@@ -283,7 +283,7 @@ lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table,
 
   if (!send_ticket_ptr)
     {
-      send_ticket_ptr = (u_int32_t *) LW6SYS_MALLOC (sizeof (u_int32_t));
+      send_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sizeof (u_int64_t));
       if (send_ticket_ptr)
 	{
 	  (*send_ticket_ptr) = send_ticket;

@@ -902,6 +902,19 @@ populate_references ()
 		 _x_
 		 ("Activates network log, that is, logs everything sent/received over the network, except data which is sent through a third party library such as libCurl. This is mostly for debugging purpose, it can lead to rather big log files."),
 		 0);
+  POPULATE_BOOL (LW6DEF_OPEN_RELAY,
+		 _x_
+		 ("Enables forwarding of abritrary network messages. If open relay is forbidden, the game will only forward messages when physical sender and logical sender are the same. This is to say if messages come from A for C and is sent by A to B, B will forward it to C. But if message comes from X to C and is sent by A to B, then B won't forward it. In practice, it means without open relay, messages can only be forwarded once."),
+		 0);
+  POPULATE_INT (LW6DEF_NETWORK_RELIABILITY,
+		_x_
+		("The program assumes network is non-reliable, however the problem with those assumptions is that when you test, network is always reliable, even with non-garanteed protocols like UDP. This option will force the program to actually ignore some calls to send or recv functions, simulating a network disfunction. This is to ensure the internal mecanisms correcting network problems do work for good, on daily regular use. It's not possible to set it to a perfect behavior, never dropping any packet, however using the default settings you probably won't even notice the performance drop induced by having to fix problems. The highest the number is, the most reliable network will look, the algorithm is simply to drop one message out of X."),
+		1000, 1, 1000000000);
+  POPULATE_BOOL (LW6DEF_TROJAN,
+		 _x_
+		 ("Make the program act like a (stupid) trojan horse, trying to fake messages, sending various inconsistent informations. This is to check the normal version of the program is able to detect such a fake and kick it out of the game. It's of no use for regular players, be sure to unset this if you want to play for good."),
+		 0);
+
   /*
    * Game settings
    */
