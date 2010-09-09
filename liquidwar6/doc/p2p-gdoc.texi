@@ -61,7 +61,7 @@ in signed mode even if converted to seconds.
 @strong{Return value:}  a timestamp, 0 means "beginning of program" (think of it as uptime)
 @end deftypefun
 
-@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{password}, char * @var{title}, char * @var{description}, int @var{bench}, char * @var{known_nodes})
+@deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, char * @var{known_nodes}, int @var{network_reliability}, int @var{trojan})
 @var{argc}:  number of args, as passed to @code{main}
 
 @var{argv}:  args array, as passed to @code{main}
@@ -80,15 +80,21 @@ in signed mode even if converted to seconds.
 
 @var{public_url}:  the public URL we want to show
 
-@var{password}:  the password to use
-
 @var{title}:  the title of the node
 
 @var{description}:  the description of the node
 
+@var{password}:  the password to use
+
 @var{bench}:  the bench of the node (its power)
 
+@var{open_relay}:  act as an open relay or not
+
 @var{known_nodes}:  list of already known nodes
+
+@var{network_reliability}:  drop 1 packet out of X
+
+@var{trojan}:  act as a stupid trojan to test out automatic kick-off 
 
 Creates a new "pear to pear" node. This will fire the server
 and allow client access, on demand. A lot of stuff can be done

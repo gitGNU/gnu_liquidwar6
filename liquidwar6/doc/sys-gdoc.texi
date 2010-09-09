@@ -1952,6 +1952,29 @@ Pops a color from the serializer object.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
+@deftypefun {int} {lw6sys_hexa_str_to_buf} (void * @var{buf}, int @var{size}, char * @var{str})
+@var{buf}:  binary buffer to convert
+
+@var{size}:  binary buffer length
+
+@var{str}:  the source string
+
+Converts the stringified hexa representation of a string to
+its source binary buffer. Buffer must be exactly @code{strlen}(str)/2
+
+@strong{Return value:}  1 on success
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_hexa_buf_to_str} (void * @var{buf}, int @var{size})
+@var{buf}:  the buffer to stringify
+
+@var{size}:  the length of the buffer
+
+Transforms a binary buffer into its hexa representation.
+
+@strong{Return value:}  newly allocated string.
+@end deftypefun
+
 @deftypefun {void *} {lw6sys_hexa_str_to_ptr} (char * @var{str})
 @var{str}:  the string containing an hexa representation of pointer
 
@@ -2459,9 +2482,9 @@ to handle blinking for instance.
 @deftypefun {void *} {lw6sys_malloc} (int @var{size}, char * @var{file}, int @var{line})
 @var{size}:  number of bytes to allocate.
 
-@var{file}:  name of the file calling the function, use @code{__FILE__}
+@var{file}:  name of the file calling the function, use @code{__FILE__x_}
 
-@var{line}:  line in the file calling the function, use @code{__LINE__}
+@var{line}:  line in the file calling the function, use @code{__LINE__x_}
 
 This is a wrapper over the standard @code{malloc} function. Additionnally
 it will keep track of the call with an internal program-wide counter,
@@ -2476,9 +2499,9 @@ by macro expansion.
 @deftypefun {void *} {lw6sys_calloc} (int @var{size}, char * @var{file}, int @var{line})
 @var{size}:  number of bytes to allocate.
 
-@var{file}:  name of the file calling the function, use @code{__FILE__}
+@var{file}:  name of the file calling the function, use @code{__FILE__x_}
 
-@var{line}:  line in the file calling the function, use @code{__LINE__}
+@var{line}:  line in the file calling the function, use @code{__LINE__x_}
 
 This is a wrapper over the standard @code{calloc} function. Additionnally
 it will keep track of the call with an internal program-wide counter,
@@ -2495,9 +2518,9 @@ by macro expansion.
 
 @var{size}:  number of bytes to allocate.
 
-@var{file}:  name of the file calling the function, use @code{__FILE__}
+@var{file}:  name of the file calling the function, use @code{__FILE__x_}
 
-@var{line}:  line in the file calling the function, use @code{__LINE__}
+@var{line}:  line in the file calling the function, use @code{__LINE__x_}
 
 This is a wrapper over the standard @code{realloc} function.
 You should not use this function
@@ -2511,9 +2534,9 @@ by macro expansion.
 @deftypefun {void} {lw6sys_free} (void * @var{ptr}, char * @var{file}, int @var{line})
 @var{ptr}:  the pointer to free.
 
-@var{file}:  name of the file calling the function, use @code{__FILE__}
+@var{file}:  name of the file calling the function, use @code{__FILE__x_}
 
-@var{line}:  line in the file calling the function, use @code{__LINE__}
+@var{line}:  line in the file calling the function, use @code{__LINE__x_}
 
 This is a wrapper over the standard @code{free} function. Additionnally
 it will keep track of the call with an internal program-wide counter,
@@ -2909,41 +2932,6 @@ Logs all the main options values which are not config-file
 dependant but depend on built-in defaults, command-line arguments
 and environment variables. Usefull to debug and know where the
 program is searching for things.
-@end deftypefun
-
-@deftypefun {char *} {lw6sys_password_checksum} (char * @var{seed}, char * @var{password})
-@var{seed}:  a seed to blur the password, can be NULL
-
-@var{password}:  the password, can be NULL
-
-Calculates the checksum of a password, and returns
-it as a string, ready to be sent on the network.
-If password is empty or NULL, then an empty (but
-not NULL unless internal error) string will be
-returned. All LW6 protocols should send
-these checksums instead of real passwords, then
-on server side value can be checked against both
-real password and its checksum. The seed is here
-so that eavesdropper can't reuse the checksum to
-connect on random sessions. Seed can typically
-be the node 'public_url' value.
-
-@strong{Return value:}  a dynamically allocated string
-@end deftypefun
-
-@deftypefun {int} {lw6sys_password_verify} (char * @var{seed}, char * @var{password_here}, char * @var{password_received})
-@var{seed}:  a seed to blur the password, can be NULL
-
-@var{password_here}:  the local password, can be NULL
-
-@var{password_received}:  the password received from network, can be NULL
-
-Tells wether a password received over the network is valid.
-The @code{password_here} argument (the local password) will be
-checksumed so that @code{password_received} is checked against both
-clear and checksumed values, so it can be in any form.
-
-@strong{Return value:}  1 if OK, passwords are the same, 0 if not.
 @end deftypefun
 
 @deftypefun {int} {lw6sys_file_exists} (char * @var{filename})
@@ -3650,6 +3638,22 @@ Tests wether a string is blank, that is, if it's composed
 of space, tabs, or carriage returns only.
 
 @strong{Return value:}  1 if blank, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6sys_str_is_null_or_empty} (char * @var{str})
+@var{str}:  the string to test
+
+Tests wether a string is NULL or empty (string with 0 chars "").
+
+@strong{Return value:}  1 if NULL or empty, 0 if contains something.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_empty_if_null} (char * @var{str})
+@var{str}:  the string to test
+
+Returns always a non-NULL string, if string is NULL, returns ""
+
+@strong{Return value:}  source string or "" if it was NULL
 @end deftypefun
 
 @deftypefun {int} {lw6sys_str_is_same} (char * @var{str_a}, char * @var{str_b})

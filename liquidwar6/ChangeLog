@@ -1,5 +1,7 @@
 2010-09-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Bar message now also carries dynamic host info.
+
 	* Norwegian translation by Karl Ove Hufthammer.
 
 	* Bar messages now updated db (last_ping etc.)

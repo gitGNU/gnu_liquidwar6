@@ -89,6 +89,52 @@ to start with prefix @code{prefix} and then contain base64 data.
 @strong{Return value:}  newly allocated string, NULL on error.
 @end deftypefun
 
+@deftypefun {char *} {lw6glb_sha1_hmac_80_bin} (char * @var{key}, int @var{key_size}, char * @var{buf}, int @var{buf_size})
+@var{key}:  the key buffer
+@code{key_size}
+
+@var{buf}:  the data to analyse
+
+@var{buf_size}:  the size of data to analyse
+
+Calculates an SHA-1 sum of buffer, using key to seed calc.
+
+@strong{Return value:}  newly allocated string, containing 20 chars checksum.
+@end deftypefun
+
+@deftypefun {char *} {lw6glb_sha1_hmac_80_str} (char * @var{key}, char * @var{str})
+@var{key}:  a key (string)
+
+@var{str}:  the string to calculate the checksum for 
+
+Calculates an SHA-1 sum of a string, using key to seed calc.
+
+@strong{Return value:}  newly allocated string, containing 20 chars checksum.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_bin} (char * @var{key}, int @var{key_size}, char * @var{buf}, int @var{buf_size})
+@var{key}:  the key buffer
+@code{key_size}
+
+@var{buf}:  the data to analyse
+
+@var{buf_size}:  the size of data to analyse
+
+Calculates an SHA-1 sum of buffer, using key to seed calc.
+
+@strong{Return value:}  a 32-bit unsigned integer
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6glb_sha1_hmac_32_str} (char * @var{key}, char * @var{str})
+@var{key}:  a key (string)
+
+@var{str}:  the string to calculate the checksum for 
+
+Calculates an SHA-1 sum of a string, using key to seed calc.
+
+@strong{Return value:}  a 32-bit unsigned integer
+@end deftypefun
+
 @deftypefun {int} {lw6glb_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

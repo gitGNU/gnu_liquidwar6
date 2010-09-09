@@ -47,13 +47,18 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 	     info->const_info.creation_timestamp) / 1000;
 	  ret =
 	    lw6sys_new_sprintf
-	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d", cmd,
-	     sep, info->const_info.program, sep, info->const_info.version,
-	     sep, info->const_info.codename, sep, info->const_info.stamp, sep,
-	     info->const_info.id_str, sep, info->const_info.url, sep,
-	     base64_title, sep, base64_description, sep,
-	     info->const_info.has_password, sep, info->const_info.bench, sep,
-	     info->const_info.open_relay, sep, uptime);
+	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d",
+	     cmd, sep, info->const_info.program, sep,
+	     info->const_info.version, sep, info->const_info.codename, sep,
+	     info->const_info.stamp, sep, info->const_info.id_str, sep,
+	     info->const_info.url, sep, base64_title, sep, base64_description,
+	     sep, info->const_info.has_password, sep, info->const_info.bench,
+	     sep, info->const_info.open_relay, sep, uptime, sep,
+	     lw6sys_str_empty_if_null (info->dyn_info.level), sep,
+	     info->dyn_info.required_bench, sep, info->dyn_info.nb_colors,
+	     sep, info->dyn_info.max_nb_colors, sep,
+	     info->dyn_info.nb_cursors, sep, info->dyn_info.max_nb_cursors,
+	     sep, info->dyn_info.nb_nodes, sep, info->dyn_info.max_nb_nodes);
 	  LW6SYS_FREE (base64_description);
 	}
       LW6SYS_FREE (base64_title);
@@ -211,6 +216,7 @@ static int
 _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 {
   int ret = 0;
+  int still_ok = 1;
   char *pos = NULL;
   char *seek = NULL;
   lw6msg_word_t program;
@@ -225,6 +231,14 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   int bench = 0;
   int open_relay = 0;
   int uptime = 0;
+  lw6msg_word_t level;
+  int required_bench = 0;
+  int nb_colors = 0;
+  int max_nb_colors = 0;
+  int nb_cursors = 0;
+  int max_nb_cursors = 0;
+  int nb_nodes = 0;
+  int max_nb_nodes = 0;
 
   (*info) = NULL;
   if (next)
@@ -233,184 +247,324 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     }
 
   pos = msg;
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing program \"%s\""), pos);
-  if (lw6msg_word_first (&program, &seek, pos))
+
+  if (still_ok)
     {
-      pos = seek;
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing program \"%s\""), pos);
+      if (lw6msg_word_first (&program, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad program \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing version \"%s\""), pos);
       if (lw6msg_word_first (&version, &seek, pos))
 	{
 	  pos = seek;
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing codename \"%s\""),
-		      pos);
-	  if (lw6msg_word_first (&codename, &seek, pos))
-	    {
-	      pos = seek;
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""),
-			  pos);
-	      if (lw6msg_word_first_int_gt0 (&stamp, &seek, pos))
-		{
-		  pos = seek;
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""),
-			      pos);
-		  if (lw6msg_word_first_id_64 (&id, &seek, pos))
-		    {
-		      pos = seek;
-		      lw6sys_log (LW6SYS_LOG_DEBUG,
-				  _x_ ("analyzing url \"%s\""), pos);
-		      if (lw6msg_word_first (&url, &seek, pos)
-			  && lw6sys_url_is_canonized (url.buf))
-			{
-			  pos = seek;
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _x_ ("analyzing title \"%s\""), pos);
-			  if (lw6msg_word_first_base64 (&title, &seek, pos))
-			    {
-			      pos = seek;
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _x_
-					  ("analyzing description \"%s\""),
-					  pos);
-			      if (lw6msg_word_first_base64
-				  (&description, &seek, pos))
-				{
-				  pos = seek;
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _x_
-					      ("analyzing has_password \"%s\""),
-					      pos);
-				  if (lw6msg_word_first_int
-				      (&has_password, &seek, pos))
-				    {
-				      pos = seek;
-				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _x_
-						  ("analyzing bench \"%s\""),
-						  pos);
-				      if (lw6msg_word_first_int
-					  (&bench, &seek, pos))
-					{
-					  pos = seek;
-					  lw6sys_log (LW6SYS_LOG_DEBUG,
-						      _x_
-						      ("analyzing open_relay \"%s\""),
-						      pos);
-					  if (lw6msg_word_first_int
-					      (&open_relay, &seek, pos))
-					    {
-					      pos = seek;
-					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _x_
-							  ("analyzing uptime \"%s\""),
-							  pos);
-					      if (lw6msg_word_first_int
-						  (&uptime, &seek, pos))
-						{
-						  pos = seek;
-						  (*info) =
-						    lw6nod_info_new
-						    (program.buf, version.buf,
-						     codename.buf, stamp, id,
-						     url.buf, title.buf,
-						     description.buf, NULL,
-						     bench, open_relay,
-						     uptime, 0, NULL);
-						  if (*info)
-						    {
-						      (*info)->
-							const_info.has_password
-							= has_password;
-						      if (next)
-							{
-							  (*next) = pos;
-							}
-						      ret = 1;
-						    }
-						  else
-						    {
-						      lw6sys_log
-							(LW6SYS_LOG_WARNING,
-							 _x_
-							 ("unable to create nod info"));
-						    }
-						}
-					      else
-						{
-						  lw6sys_log
-						    (LW6SYS_LOG_DEBUG,
-						     _x_
-						     ("bad uptime \"%s\""),
-						     pos);
-						}
-					    }
-					  else
-					    {
-					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _x_
-							  ("bad open_relay \"%s\""),
-							  pos);
-					    }
-					}
-				      else
-					{
-					  lw6sys_log (LW6SYS_LOG_DEBUG,
-						      _x_
-						      ("bad bench \"%s\""),
-						      pos);
-					}
-				    }
-				  else
-				    {
-				      lw6sys_log (LW6SYS_LOG_DEBUG,
-						  _x_
-						  ("bad has_password \"%s\""),
-						  pos);
-				    }
-				}
-			      else
-				{
-				  lw6sys_log (LW6SYS_LOG_DEBUG,
-					      _x_ ("bad description \"%s\""),
-					      pos);
-				}
-			    }
-			  else
-			    {
-			      lw6sys_log (LW6SYS_LOG_DEBUG,
-					  _x_ ("bad title \"%s\""), pos);
-			    }
-			}
-		      else
-			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG,
-				      _x_ ("bad url \"%s\""), pos);
-			}
-		    }
-		  else
-		    {
-		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id \"%s\""),
-				  pos);
-		    }
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad stamp \"%s\""),
-			      pos);
-		}
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad codename \"%s\""), pos);
-	    }
 	}
       else
 	{
+	  still_ok = 0;
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad version \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing codename \"%s\""), pos);
+      if (lw6msg_word_first (&codename, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad codename \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""), pos);
+      if (lw6msg_word_first_int_gt0 (&stamp, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad stamp \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""), pos);
+      if (lw6msg_word_first_id_64 (&id, &seek, pos))
+	{
+	  pos = seek;
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad program \"%s\""), pos);
+      still_ok = 0;
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad id \"%s\""), pos);
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing url \"%s\""), pos);
+      if (lw6msg_word_first (&url, &seek, pos)
+	  && lw6sys_url_is_canonized (url.buf))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad url \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing title \"%s\""), pos);
+      if (lw6msg_word_first_base64 (&title, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad title \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing description \"%s\""), pos);
+      if (lw6msg_word_first_base64 (&description, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad description \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing has_password \"%s\""), pos);
+      if (lw6msg_word_first_int (&has_password, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad has_password \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing bench \"%s\""), pos);
+      if (lw6msg_word_first_int (&bench, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad bench \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing open_relay \"%s\""), pos);
+      if (lw6msg_word_first_int (&open_relay, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad open_relay \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing uptime \"%s\""), pos);
+      if (lw6msg_word_first_int (&uptime, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad uptime \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing level \"%s\""), pos);
+      if (lw6msg_word_first_base64 (&level, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad level \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing required_bench \"%s\""), pos);
+      if (lw6msg_word_first_int (&required_bench, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad required_bench \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_colors \"%s\""), pos);
+      if (lw6msg_word_first_int (&nb_colors, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad nb_colors \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing max_nb_colors \"%s\""), pos);
+      if (lw6msg_word_first_int (&max_nb_colors, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad max_nb_colors \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_cursors \"%s\""), pos);
+      if (lw6msg_word_first_int (&nb_cursors, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad nb_cursors \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing max_nb_cursors \"%s\""), pos);
+      if (lw6msg_word_first_int (&max_nb_cursors, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad max_nb_cursors \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_nodes \"%s\""), pos);
+      if (lw6msg_word_first_int (&nb_nodes, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad nb_nodes \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("analyzing max_nb_nodes \"%s\""), pos);
+      if (lw6msg_word_first_int (&max_nb_nodes, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad max_nb_nodes \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      (*info) =
+	lw6nod_info_new
+	(program.buf, version.buf,
+	 codename.buf, stamp, id,
+	 url.buf, title.buf,
+	 description.buf, NULL, bench, open_relay, uptime, 0, NULL);
+      if (*info)
+	{
+	  if (lw6nod_info_update ((*info), level.buf,
+				  required_bench, nb_colors, max_nb_colors,
+				  nb_cursors, max_nb_cursors, nb_nodes,
+				  max_nb_nodes, 0, NULL))
+	    {
+	      (*info)->const_info.has_password = has_password;
+	      if (next)
+		{
+		  (*next) = pos;
+		}
+	      ret = 1;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create nod info"));
+	}
     }
 
   return ret;

@@ -86,7 +86,7 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg)
 	}
     }
 
-  if (i < j)
+  if (i < j || msg[j] == _QUOTE)
     {
       if (len <= LW6MSG_MAX_WORD_SIZE)
 	{
@@ -178,7 +178,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg)
 	}
     }
 
-  if (i < j)
+  if (i < j || msg[j] == _QUOTE)
     {
       if (len <= LW6MSG_MAX_WORD_SIZE)
 	{
