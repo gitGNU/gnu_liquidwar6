@@ -93,6 +93,7 @@ lw6cnx_connection_new (char *local_url, char *remote_url,
       ret->recv_callback_func = recv_callback_func;
       ret->recv_callback_data = recv_callback_data;
       ret->send_mutex = lw6sys_mutex_create ();
+      ret->ping_msec = LW6CNX_WORST_PING_MSEC;
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
 	  && ret->password_send_checksum && ret->local_id_str

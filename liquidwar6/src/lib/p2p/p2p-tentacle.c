@@ -438,12 +438,25 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 			    u_int64_t logical_to_id, char *msg)
 {
   int ret = 0;
+  lw6cnx_connection_t *cnx = NULL;
+  u_int32_t physical_ticket_sig = 0;
+  int i = 0;
 
-  // todo: find a way to pick up best cnx
-  ret =
-    _lw6p2p_tentacle_send_redundant (tentacle, ticket_table,
-				     logical_ticket_sig, logical_from_id,
-				     logical_to_id, msg);
+  cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle);
+  if (cnx)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("send of \"%s\" on fastest connection"), msg);
+      physical_ticket_sig =
+	lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+				(ticket_table, tentacle->remote_id_str),
+				tentacle->local_id_int,
+				tentacle->remote_id_int, msg);
+      ret |=
+	lw6cli_send (tentacle->backends->cli_backends[i], cnx,
+		     physical_ticket_sig, logical_ticket_sig,
+		     cnx->local_id_int, cnx->remote_id_int, msg);
+    }
 
   return ret;
 }
@@ -511,6 +524,52 @@ _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t *
 	{
 	  ret = cnx;
 	}
+    }
+
+  return ret;
+}
+
+lw6cnx_connection_t *
+_lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t *
+						   tentacle)
+{
+  lw6cnx_connection_t *ret = NULL;
+  lw6cnx_connection_t *any = NULL;
+  lw6cnx_connection_t *cnx = NULL;
+  int i = 0;
+  int best_ping_msec = LW6CNX_WORST_PING_MSEC;
+
+  for (i = 0; i < tentacle->nb_cli_connections; ++i)
+    {
+      cnx = tentacle->cli_connections[i];
+      if (!any)
+	{
+	  any = cnx;
+	}
+      if (cnx->ping_msec < best_ping_msec)
+	{
+	  best_ping_msec = cnx->ping_msec;
+	  ret = cnx;
+	}
+    }
+
+  for (i = 0; i < tentacle->nb_srv_connections; ++i)
+    {
+      cnx = tentacle->srv_connections[i];
+      if (!any)
+	{
+	  any = cnx;
+	}
+      if (cnx->ping_msec < best_ping_msec)
+	{
+	  best_ping_msec = cnx->ping_msec;
+	  ret = cnx;
+	}
+    }
+
+  if (!ret)
+    {
+      ret = any;
     }
 
   return ret;

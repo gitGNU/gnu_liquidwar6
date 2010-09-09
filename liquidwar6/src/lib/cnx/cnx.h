@@ -26,6 +26,8 @@
 #include "../sys/sys.h"
 #include "../glb/glb.h"
 
+#define LW6CNX_WORST_PING_MSEC 3600000
+
 typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,
 					void *connection,
 					u_int32_t physical_ticket_sig,

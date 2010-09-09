@@ -42,7 +42,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   char *ker_message = NULL;
   char *reply_msg = NULL;
   int tentacle_i = 0;
-  lw6cnx_connection_t *other_cnx = NULL;
+  lw6cnx_connection_t *foo_cnx = NULL;
+  lw6cnx_connection_t *fastest_cnx = NULL;
   int now = 0;
   int uptime = 0;
 
@@ -136,67 +137,89 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	  tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
 	  if (tentacle_i >= 0)
 	    {
-	      other_cnx =
+	      foo_cnx =
 		_lw6p2p_tentacle_find_connection_with_foo_bar_key (&
 								   (node->tentacles
 								    [tentacle_i]),
 								   foo_bar_key);
-	      if (other_cnx)
+	      /*
+	       * It's important to check that remote_id_int is the same
+	       * on both the receiver and the guessed sender, for we
+	       * can't garantee *other* wouldn't disappear in a multithreaded
+	       * context. If we garantee it's the same tentacle for
+	       * both, then we garantee connection won't vanish. In practice
+	       * having both a race condition *and* a key collision should
+	       * be rare, but it's no use to take the risk.
+	       */
+	      if (foo_cnx && foo_cnx->remote_id_int == cnx->remote_id_int)
 		{
-		  other_cnx->ping_msec =
+		  foo_cnx->ping_msec =
 		    lw6sys_get_timestamp () -
-		    other_cnx->last_send_foo_timestamp;
-		  other_cnx->foo_bar_key = 0;
+		    foo_cnx->last_send_foo_timestamp;
+		  foo_cnx->foo_bar_key = 0;
 		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ping=%d"),
-			      other_cnx->ping_msec);
+			      foo_cnx->ping_msec);
 		  if (cnx->dns_ok)
 		    {
-		      now = _lw6p2p_db_now (node->db);
-		      uptime =
-			(lw6sys_get_timestamp () -
-			 remote_node_info->const_info.creation_timestamp) /
-			1000;
-		      _lw6p2p_node_update_peer (node,
-						remote_node_info->
-						const_info.version,
-						remote_node_info->
-						const_info.codename,
-						remote_node_info->
-						const_info.stamp,
-						remote_node_info->
-						const_info.id_str,
-						remote_node_info->
-						const_info.url,
-						remote_node_info->
-						const_info.title,
-						remote_node_info->
-						const_info.description,
-						remote_node_info->
-						const_info.has_password,
-						remote_node_info->
-						const_info.bench,
-						remote_node_info->
-						const_info.open_relay,
-						now - uptime,
-						remote_node_info->
-						dyn_info.level,
-						remote_node_info->
-						dyn_info.required_bench,
-						remote_node_info->
-						dyn_info.nb_colors,
-						remote_node_info->
-						dyn_info.max_nb_colors,
-						remote_node_info->
-						dyn_info.nb_cursors,
-						remote_node_info->
-						dyn_info.max_nb_cursors,
-						remote_node_info->
-						dyn_info.nb_nodes,
-						remote_node_info->
-						dyn_info.max_nb_nodes,
-						cnx->remote_ip,
-						cnx->remote_port, now,
-						other_cnx->ping_msec);
+		      fastest_cnx =
+			_lw6p2p_tentacle_find_connection_with_lowest_ping (&
+									   (node->tentacles
+									    [tentacle_i]));
+		      if (fastest_cnx)
+			{
+			  now = _lw6p2p_db_now (node->db);
+			  uptime =
+			    (lw6sys_get_timestamp () -
+			     remote_node_info->
+			     const_info.creation_timestamp) / 1000;
+			  _lw6p2p_node_update_peer (node,
+						    remote_node_info->
+						    const_info.version,
+						    remote_node_info->
+						    const_info.codename,
+						    remote_node_info->
+						    const_info.stamp,
+						    remote_node_info->
+						    const_info.id_str,
+						    remote_node_info->
+						    const_info.url,
+						    remote_node_info->
+						    const_info.title,
+						    remote_node_info->
+						    const_info.description,
+						    remote_node_info->
+						    const_info.has_password,
+						    remote_node_info->
+						    const_info.bench,
+						    remote_node_info->
+						    const_info.open_relay,
+						    now - uptime,
+						    remote_node_info->
+						    dyn_info.level,
+						    remote_node_info->
+						    dyn_info.required_bench,
+						    remote_node_info->
+						    dyn_info.nb_colors,
+						    remote_node_info->
+						    dyn_info.max_nb_colors,
+						    remote_node_info->
+						    dyn_info.nb_cursors,
+						    remote_node_info->
+						    dyn_info.max_nb_cursors,
+						    remote_node_info->
+						    dyn_info.nb_nodes,
+						    remote_node_info->
+						    dyn_info.max_nb_nodes,
+						    cnx->remote_ip,
+						    cnx->remote_port, now,
+						    fastest_cnx->ping_msec);
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("serious problem, not finding a \"fastest\" connection, when we were just working on one?"));
+			}
 		    }
 		  else
 		    {
