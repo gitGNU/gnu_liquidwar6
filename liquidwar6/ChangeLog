@@ -1,5 +1,7 @@
 2010-09-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Started to implement mod-tcp in-band connections.
+
 	* Bar message now also carries dynamic host info.
 
 	* Norwegian translation by Karl Ove Hufthammer.

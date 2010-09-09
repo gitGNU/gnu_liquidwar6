@@ -2,4 +2,5 @@
 <liquidwar6>
   <int key="global-timeout" value="10" />
   <int key="connect-timeout" value="3" />
+  <int key="reconnect-delay" value="1" />
 </liquidwar6>

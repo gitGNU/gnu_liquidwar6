@@ -28,7 +28,7 @@
 #include "mod-tcp-internal.h"
 
 static int
-_do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
+_do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -108,7 +108,7 @@ _do_ping (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
+_do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -233,7 +233,7 @@ _do_info (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
+_do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -320,7 +320,7 @@ _do_list (_tcp_context_t * tcp_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_tcp_process_oob (_tcp_context_t * tcp_context,
+_mod_tcp_process_oob (_mod_tcp_context_t * tcp_context,
 		      lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
@@ -410,7 +410,7 @@ _mod_tcp_process_oob (_tcp_context_t * tcp_context,
 }
 
 int
-_mod_tcp_oob_should_continue (_tcp_context_t *
+_mod_tcp_oob_should_continue (_mod_tcp_context_t *
 			      tcp_context,
 			      lw6cli_oob_data_t * oob_data, int sock)
 {

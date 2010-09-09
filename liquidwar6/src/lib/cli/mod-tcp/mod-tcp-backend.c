@@ -39,7 +39,7 @@ mod_tcp_is_GPL_compatible ()
 static void *
 _init (int argc, char *argv[])
 {
-  _tcp_context_t *tcp_context = _mod_tcp_init (argc, argv);
+  _mod_tcp_context_t *tcp_context = _mod_tcp_init (argc, argv);
 
   return (void *) tcp_context;
 }
@@ -47,7 +47,7 @@ _init (int argc, char *argv[])
 static void
 _quit (void *cli_context)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
 
   if (tcp_context)
     {
@@ -59,7 +59,7 @@ static int
 _process_oob (void *cli_context, lw6nod_info_t * node_info,
 	      lw6cli_oob_data_t * oob_data)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   int ret = 0;
 
   if (tcp_context)
@@ -76,7 +76,7 @@ _open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
        u_int64_t remote_id, int dns_ok, int network_reliability,
        lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
 
   if (tcp_context)
@@ -94,7 +94,7 @@ _open (void *cli_context, char *local_url, char *remote_url, char *remote_ip,
 static void
 _close (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
 
   if (tcp_context)
     {
@@ -107,7 +107,7 @@ _send (void *cli_context, lw6cnx_connection_t * connection,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
        u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   int ret = 0;
 
   if (tcp_context)
@@ -124,7 +124,7 @@ _send (void *cli_context, lw6cnx_connection_t * connection,
 static void
 _poll (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
 
   if (tcp_context)
     {
@@ -135,7 +135,7 @@ _poll (void *cli_context, lw6cnx_connection_t * connection)
 static int
 _is_alive (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   int ret = 0;
 
   if (tcp_context)
@@ -149,7 +149,7 @@ _is_alive (void *cli_context, lw6cnx_connection_t * connection)
 static char *
 _repr (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   char *ret = NULL;
 
   if (tcp_context)
@@ -163,7 +163,7 @@ _repr (void *cli_context, lw6cnx_connection_t * connection)
 static char *
 _error (void *cli_context, lw6cnx_connection_t * connection)
 {
-  _tcp_context_t *tcp_context = (_tcp_context_t *) cli_context;
+  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   char *ret = NULL;
 
   if (tcp_context)
@@ -192,7 +192,7 @@ mod_tcp_get_pedigree ()
 	("A simple network client which uses raw TCP/IP sockets. The most reliable way to communicate.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
-	"Copyright (C)  2009  Christian Mauduit <ufoot@ufoot.org>";
+	"Copyright (C)  2010  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

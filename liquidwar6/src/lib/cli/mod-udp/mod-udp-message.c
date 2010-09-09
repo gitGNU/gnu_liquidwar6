@@ -37,7 +37,7 @@ _mod_udp_send (_udp_context_t * udp_context, lw6cnx_connection_t * connection,
   int ret = 0;
   _udp_specific_data_t *specific_data =
     (_udp_specific_data_t *) connection->backend_specific_data;
-  char *line;
+  char *line = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udp send \"%s\""), message);
   line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,

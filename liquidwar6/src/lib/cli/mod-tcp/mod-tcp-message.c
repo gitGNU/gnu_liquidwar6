@@ -28,23 +28,120 @@
 #include "mod-tcp-internal.h"
 
 int
-_mod_tcp_send (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection,
-	       u_int32_t physical_ticket_sig,
-	       u_int32_t logical_ticket_sig,
-	       u_int64_t logical_from_id,
-	       u_int64_t logical_to_id, char *message)
+_mod_tcp_send (_mod_tcp_context_t * tcp_context,
+	       lw6cnx_connection_t * connection,
+	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
+	       u_int64_t logical_from_id, u_int64_t logical_to_id,
+	       char *message)
 {
   int ret = 0;
+  _mod_tcp_specific_data_t *specific_data =
+    (_mod_tcp_specific_data_t *) connection->backend_specific_data;
+  char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp send \"%s\""), message);
-  // todo
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp send \"%s\""), message);
+  if (specific_data->state == _MOD_TCP_STATE_CONNECTED
+      && lw6net_socket_is_valid (specific_data->sock))
+    {
+      line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+				       lw6sys_build_get_version (),
+				       connection->password_send_checksum,
+				       physical_ticket_sig,
+				       logical_ticket_sig,
+				       connection->local_id_int,
+				       connection->remote_id_int,
+				       logical_from_id, logical_to_id,
+				       message);
+      if (line)
+	{
+	  if (lw6cnx_connection_lock_send (connection))
+	    {
+	      if (lw6net_send_line_tcp (specific_data->sock, line))
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp sent \"%s\""),
+			      line);
+		  ret = 1;
+		}
+	      lw6cnx_connection_unlock_send (connection);
+	    }
+	  LW6SYS_FREE (line);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE,
+		  _x_ ("mod_tcp can't send, not connected"));
+    }
 
   return ret;
 }
 
 void
-_mod_tcp_poll (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+_mod_tcp_poll (_mod_tcp_context_t * tcp_context,
+	       lw6cnx_connection_t * connection)
 {
+  _mod_tcp_specific_data_t *specific_data =
+    (_mod_tcp_specific_data_t *) connection->backend_specific_data;
+  _mod_tcp_connect_data_t *connect_data = NULL;
+
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll"));
-  // todo
+  switch (specific_data->state)
+    {
+    case _MOD_TCP_STATE_CLOSED:
+      connect_data =
+	(_mod_tcp_connect_data_t *)
+	LW6SYS_CALLOC (sizeof (_mod_tcp_connect_data_t));
+      if (connect_data)
+	{
+	  connect_data->tcp_context = tcp_context;
+	  connect_data->connection = connection;
+	  specific_data->state = _MOD_TCP_STATE_CONNECTING;
+	  specific_data->connect_thread =
+	    lw6sys_thread_create (_mod_tcp_connect_func, NULL, connect_data);
+	  if (specific_data->connect_thread)
+	    {
+	      // OK
+	    }
+	  else
+	    {
+	      specific_data->state = _MOD_TCP_STATE_CLOSED;
+	      LW6SYS_FREE (connect_data);
+	    }
+	}
+      break;
+    case _MOD_TCP_STATE_CONNECTING:
+      // nothing to do, just wait until it's connected or not
+      break;
+    case _MOD_TCP_STATE_CONNECT_DONE:
+      if (specific_data->connect_thread)
+	{
+	  lw6sys_thread_join (specific_data->connect_thread);
+	  specific_data->connect_thread = NULL;
+	}
+      if (lw6net_socket_is_valid (specific_data->sock))
+	{
+	  specific_data->state = _MOD_TCP_STATE_CONNECTED;
+	}
+      else
+	{
+	  specific_data->state = _MOD_TCP_STATE_CLOSED;
+	}
+      break;
+    case _MOD_TCP_STATE_CONNECTED:
+      if (!lw6net_socket_is_valid (specific_data->sock))
+	{
+	  specific_data->sock = LW6NET_SOCKET_INVALID;
+	  specific_data->state = _MOD_TCP_STATE_CLOSED;
+	}
+      if (!lw6net_tcp_is_alive (specific_data->sock))
+	{
+	  lw6net_socket_close (specific_data->sock);
+	  specific_data->sock = LW6NET_SOCKET_INVALID;
+	  specific_data->state = _MOD_TCP_STATE_CLOSED;
+	}
+      break;
+    default:
+      lw6sys_log (LW6SYS_LOG_WARNING, _("unvalid state %d"),
+		  specific_data->state);
+    }
 }

@@ -28,7 +28,8 @@
 #include "mod-tcp-internal.h"
 
 char *
-_mod_tcp_repr (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+_mod_tcp_repr (_mod_tcp_context_t * tcp_context,
+	       lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -40,7 +41,7 @@ _mod_tcp_repr (_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
 }
 
 char *
-_mod_tcp_error (_tcp_context_t * tcp_context,
+_mod_tcp_error (_mod_tcp_context_t * tcp_context,
 		lw6cnx_connection_t * connection)
 {
   char *ret = NULL;

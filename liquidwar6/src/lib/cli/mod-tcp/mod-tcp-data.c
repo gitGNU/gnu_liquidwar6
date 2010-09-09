@@ -33,9 +33,9 @@
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
 {
-  _tcp_consts_t *consts;
+  _mod_tcp_consts_t *consts;
 
-  consts = (_tcp_consts_t *) callback_data;
+  consts = (_mod_tcp_consts_t *) callback_data;
 
   if (!strcmp (element, "int"))
     {
@@ -43,11 +43,13 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 			   &(consts->global_timeout));
       lw6cfg_read_xml_int (key, value, "connect-timeout",
 			   &(consts->connect_timeout));
+      lw6cfg_read_xml_int (key, value, "reconnect-delay",
+			   &(consts->reconnect_delay));
     }
 }
 
 static int
-_load_consts (_tcp_consts_t * consts, char *consts_file)
+_load_consts (_mod_tcp_consts_t * consts, char *consts_file)
 {
   int ret = 0;
 
@@ -61,7 +63,7 @@ _load_consts (_tcp_consts_t * consts, char *consts_file)
 }
 
 int
-_mod_tcp_load_data (_tcp_data_t * tcp_data, char *data_dir)
+_mod_tcp_load_data (_mod_tcp_data_t * tcp_data, char *data_dir)
 {
   int ret = 0;
   char *tcp_subdir = NULL;
@@ -83,17 +85,17 @@ _mod_tcp_load_data (_tcp_data_t * tcp_data, char *data_dir)
 }
 
 static int
-_unload_consts (_tcp_consts_t * consts)
+_unload_consts (_mod_tcp_consts_t * consts)
 {
   int ret = 1;
 
-  memset (consts, 0, sizeof (_tcp_consts_t));
+  memset (consts, 0, sizeof (_mod_tcp_consts_t));
 
   return ret;
 }
 
 void
-_mod_tcp_unload_data (_tcp_data_t * tcp_data)
+_mod_tcp_unload_data (_mod_tcp_data_t * tcp_data)
 {
   _unload_consts (&(tcp_data->consts));
 }

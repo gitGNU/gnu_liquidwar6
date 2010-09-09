@@ -261,7 +261,7 @@ mod_httpd_get_pedigree ()
 	("Custom HTTP server, allows HTTP clients to connect, and also exposes game status to standard web browsers.");
       module_pedigree->version = VERSION;
       module_pedigree->copyright =
-	"Copyright (C)  2009  Christian Mauduit <ufoot@ufoot.org>";
+	"Copyright (C)  2010  Christian Mauduit <ufoot@ufoot.org>";
       module_pedigree->license = "GPLv3+ (GNU GPL version 3 or later)";
       module_pedigree->date = __DATE__;
       module_pedigree->time = __TIME__;

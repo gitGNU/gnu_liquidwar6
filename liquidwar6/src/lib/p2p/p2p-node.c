@@ -652,6 +652,16 @@ _tcp_accepter_reply (void *func_data, void *data)
 		      && tentacle_index < LW6MAP_MAX_NB_NODES)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("feed srv (tcp)"));
+		      TMP3 ("%d %d %p", tentacle_index, i,
+			    node->backends.srv_backends);
+		      TMP2 ("%p %p",
+			    node->tentacles[tentacle_index].cli_connections,
+			    node->tentacles[tentacle_index].srv_connections);
+		      TMP1 ("%" LW6SYS_PRINTF_LL "x", remote_id);
+		      TMP3 ("%p %p %p", node->backends.srv_backends[i],
+			    node->tentacles
+			    [tentacle_index].srv_connections
+			    [i], tcp_accepter);
 		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
 					    node->tentacles
 					    [tentacle_index].srv_connections
@@ -1260,11 +1270,14 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
   int ret = -1;
   int i;
 
-  for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
+  if (remote_id != 0)
     {
-      if (node->tentacles[i].remote_id_int == remote_id)
+      for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
 	{
-	  ret = i;
+	  if (node->tentacles[i].remote_id_int == remote_id)
+	    {
+	      ret = i;
+	    }
 	}
     }
 

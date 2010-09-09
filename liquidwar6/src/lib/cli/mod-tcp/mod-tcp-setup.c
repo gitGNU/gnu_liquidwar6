@@ -27,16 +27,17 @@
 #include "../cli.h"
 #include "mod-tcp-internal.h"
 
-_tcp_context_t *
+_mod_tcp_context_t *
 _mod_tcp_init (int argc, char *argv[])
 {
-  _tcp_context_t *tcp_context = NULL;
+  _mod_tcp_context_t *tcp_context = NULL;
   char *data_dir = NULL;
   int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcp init"));
 
-  tcp_context = (_tcp_context_t *) LW6SYS_CALLOC (sizeof (_tcp_context_t));
+  tcp_context =
+    (_mod_tcp_context_t *) LW6SYS_CALLOC (sizeof (_mod_tcp_context_t));
   if (tcp_context)
     {
       data_dir = lw6sys_get_data_dir (argc, argv);
@@ -64,7 +65,7 @@ _mod_tcp_init (int argc, char *argv[])
 }
 
 void
-_mod_tcp_quit (_tcp_context_t * tcp_context)
+_mod_tcp_quit (_mod_tcp_context_t * tcp_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("tcp quit"));
   _mod_tcp_unload_data (&(tcp_context->data));
