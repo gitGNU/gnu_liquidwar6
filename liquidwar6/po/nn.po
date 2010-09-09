@@ -1,181 +1,183 @@
-# French translations for liquidwar6 package.
-# Copyright (C) 2005 Christian Mauduit
-# This file is distributed under the same license as the liquidwar6 package.
-# Christian Mauduit <ufoot@ufoot.org>, 2005, 2006, 2007, 2008, 2009, 2010.
-#
+# Translation of Liquid War to Norwegian Nynorsk
+# Copyright Â© 2009, 2010 Karl Ove Hufthammer <karl@huftis.org>
+# This file is distributed under the same license as the Liquid War package.
+# Karl Ove Hufthammer <karl@huftis.org>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: liquidwar6 dev\n"
+"Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
 "POT-Creation-Date: 2010-09-09 17:00+0200\n"
-"PO-Revision-Date: 2008-12-30 21:46+0100\n"
-"Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
-"Language-Team: French <traduc@traduc.org>\n"
+"PO-Revision-Date: 2010-09-09 19:27+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: nn\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: ~\n"
 
 #: src/scriptpo.c:1
 msgid "scheme error"
-msgstr "erreur scheme"
+msgstr "Scheme-feil"
 
 #: src/scriptpo.c:2
 msgid "running scheme code with Guile"
-msgstr "éxécution de code scheme depuis Guile"
+msgstr "kÃ¸yrer Scheme-kode med Guile"
 
 #: src/scriptpo.c:3
 msgid "leaving Guile"
-msgstr "fin de la session Guile"
+msgstr "forlÃ¨t Guile"
 
 #: src/scriptpo.c:4
 msgid "catched Guile error"
-msgstr "erreur Guile \"catchée\""
+msgstr "fanga Guile-feil"
 
 #: src/scriptpo.c:5 src/scriptpo.c:33
 msgid "Choose map"
-msgstr "Choisir le tableau"
+msgstr "Vel kart"
 
 #: src/scriptpo.c:6
 msgid "Time ~a:~a~a:~a~a"
-msgstr "Temps ~a:~a~a:~a~a"
+msgstr "Tid ~a.~a~a.~a~a"
 
 #: src/scriptpo.c:7
 msgid "Default speed"
-msgstr "Vitesse par défaut"
+msgstr "Standardfart"
 
 #: src/scriptpo.c:8
 msgid "Speed x~a"
-msgstr "Vitesse x~a"
+msgstr "Fart x~a"
 
 #: src/scriptpo.c:9
 msgid "Speed ~a%"
-msgstr "Vitesse ~a%"
+msgstr "Fart ~a %"
 
 #: src/scriptpo.c:10
 msgid "Unknown speed"
-msgstr "Vitesse inconnue"
+msgstr "Ukjend fart"
 
 #: src/scriptpo.c:11
 msgid "Bench ~a"
-msgstr "Marque ~a"
+msgstr ""
 
 #: src/scriptpo.c:12 src/scriptpo.c:102
 msgid "Time & speed"
-msgstr "Temps et vitesse"
+msgstr "Tid og fart"
 
 #: src/scriptpo.c:13
 msgid "No sound FX"
-msgstr "Pas de bruitages"
+msgstr "Ingen lydeffektar"
 
 #: src/scriptpo.c:14
 msgid "Sound FX ~a%"
-msgstr "Bruitages ~a%"
+msgstr "Lydeffekt ~a%"
 
 #: src/scriptpo.c:15
 msgid "No music"
-msgstr "Pas de musique"
+msgstr "Ingen musikk"
 
 #: src/scriptpo.c:16
 msgid "Music ~a%"
-msgstr "Musique ~a%"
+msgstr "Musikk ~a%"
 
 #: src/scriptpo.c:17 src/scriptpo.c:25
 msgid "Backend ~a"
-msgstr "Moteur ~a"
+msgstr "Motor ~a"
 
 #: src/scriptpo.c:18 src/scriptpo.c:69
 msgid "Sound options"
-msgstr "Options son"
+msgstr "Lydoppsett"
 
 #: src/scriptpo.c:19 src/scriptpo.c:67
 msgid "Fullscreen"
-msgstr "Plein écran"
+msgstr "Fullskjerm"
 
 #: src/scriptpo.c:20
 msgid "Windowed"
-msgstr "Fenêtré"
+msgstr "Vindauge"
 
 #: src/scriptpo.c:21
 msgid "Low res"
-msgstr "Basse rés."
+msgstr "LÃ¥g opplÃ¸ysing"
 
 #: src/scriptpo.c:22
 msgid "Standard res"
-msgstr "Rés. standard"
+msgstr "Standard opplÃ¸ysing"
 
 #: src/scriptpo.c:23
 msgid "High res"
-msgstr "Haute rés."
+msgstr "HÃ¸g opplÃ¸ysing"
 
 #: src/scriptpo.c:24
 msgid "User res"
-msgstr "Rés. util."
+msgstr "BrukaropplÃ¸ysing"
 
 #: src/scriptpo.c:26
 msgid "Video options"
-msgstr "Options vidéos"
+msgstr "Videooppsett"
 
 #: src/scriptpo.c:27
 msgid "no gfx backend found"
-msgstr "aucun moteur graphique (gfx) trouvé"
+msgstr "fann ikkje nokon grafikkmotor"
 
 #: src/scriptpo.c:28
 msgid "no snd backend found"
-msgstr "aucun moteur de son (snd) trouvé"
+msgstr "fann ikkje nokon lydmotor"
 
 #: src/scriptpo.c:29
 msgid "gfx backend ~a not available"
-msgstr "moteur graphique (gfx)  ~a non disponible"
+msgstr "grafikkmotoren ~a er ikkje tilgjengeleg"
 
 #: src/scriptpo.c:30
 msgid "snd backend ~a not available"
-msgstr "moteur de son (snd) ~a non disponible"
+msgstr "lydmotoren ~a er ikkje tilgjengeleg"
 
 #: src/scriptpo.c:31 src/scriptpo.c:44 src/scriptpo.c:51
 msgid "Quick start"
-msgstr "Jouer tout de suite"
+msgstr "SnÃ¸ggstart"
 
 #: src/scriptpo.c:32 src/scriptpo.c:132 src/scriptpo.c:133
 msgid "Play"
-msgstr "Jouer"
+msgstr "Spel"
 
 #: src/scriptpo.c:34 src/scriptpo.c:161
 msgid "Players"
-msgstr "Joueurs"
+msgstr "Spelarar"
 
 #: src/scriptpo.c:35 src/scriptpo.c:49 src/scriptpo.c:63 src/scriptpo.c:109
 #: src/scriptpo.c:110
 msgid "Options"
-msgstr "Options"
+msgstr "Oppsett"
 
 #: src/scriptpo.c:36
 msgid "Welcome to Liquid War 6"
-msgstr "Bienvenue dans Liquid War 6"
+msgstr "Velkommen til Liquid War 6"
 
 #: src/scriptpo.c:37
 msgid "Quit"
-msgstr "Quit"
+msgstr "Avslutt"
 
 #: src/scriptpo.c:38
 msgid "Resume"
-msgstr "Continuer"
+msgstr "Hald fram"
 
 #: src/scriptpo.c:39
 msgid "Quit Liquid War 6?"
-msgstr "Quitter Liquid War 6?"
+msgstr "Vil du avslutta Liquid War 6?"
 
 #: src/scriptpo.c:40
 msgid "Exit?"
-msgstr "Fin?"
+msgstr "Vil du avslutta?"
 
 #: src/scriptpo.c:41
 msgid "Exit"
-msgstr "Fin"
+msgstr "Avslutt"
 
 #: src/scriptpo.c:42
 msgid "Resume LW6"
-msgstr "Retourner à LW6"
+msgstr "Hald fram LW 6"
 
 #: src/scriptpo.c:43
 msgid "Liquid War 6"
@@ -183,381 +185,381 @@ msgstr "Liquid War 6"
 
 #: src/scriptpo.c:45 src/scriptpo.c:127
 msgid "Local game"
-msgstr "Jeu local"
+msgstr "Lokalt spel"
 
 #: src/scriptpo.c:46
 msgid "Network game"
-msgstr "Jeu réseau"
+msgstr "Nettverksspel"
 
 #: src/scriptpo.c:47 src/scriptpo.c:62
 msgid "Level"
-msgstr "Tableau"
+msgstr "Brett"
 
 #: src/scriptpo.c:48
 msgid "Teams"
-msgstr "Equipe"
+msgstr "Lag"
 
 #: src/scriptpo.c:50 src/scriptpo.c:52
 msgid "About"
-msgstr "A propos"
+msgstr "Om"
 
 #: src/scriptpo.c:53
 msgid "Authors"
-msgstr "Auteurs"
+msgstr "Utviklarar"
 
 #: src/scriptpo.c:54
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Opphavsrett"
 
 #: src/scriptpo.c:55
 msgid "License"
-msgstr "Licence"
+msgstr "Lisens"
 
 #: src/scriptpo.c:56
 msgid "Version"
-msgstr "Version"
+msgstr "Versjon"
 
 #: src/scriptpo.c:57
 msgid "View level"
-msgstr "Voir le tableau"
+msgstr "Vis brett"
 
 #: src/scriptpo.c:58
 msgid "Confirm level choice"
-msgstr "Confirmer le choix du tableau"
+msgstr "Stadfest brettval"
 
 #: src/scriptpo.c:59
 msgid "Choose it"
-msgstr "Le choisir"
+msgstr "Vel det"
 
 #: src/scriptpo.c:60
 msgid "View"
-msgstr "Voir"
+msgstr "Vis"
 
 #: src/scriptpo.c:61
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Avbryt"
 
 #: src/scriptpo.c:64
 msgid "Graphics"
-msgstr "Vidéo"
+msgstr "Bilete"
 
 #: src/scriptpo.c:65 src/scriptpo.c:106
 msgid "Sound"
-msgstr "Son"
+msgstr "Lyd"
 
 #: src/scriptpo.c:66
 msgid "Graphics options"
-msgstr "Options vidéo"
+msgstr "Biletoppsett"
 
 #: src/scriptpo.c:68 src/scriptpo.c:73
 msgid "Graphics backend"
-msgstr "Moteur graphique"
+msgstr "Grafikkmotor"
 
 #: src/scriptpo.c:70
 msgid "Sound fx volume"
-msgstr "Volume bruitages"
+msgstr "Lydstyrke: lydeffektar"
 
 #: src/scriptpo.c:71
 msgid "Music volume"
-msgstr "Volume musique"
+msgstr "Lydstyrke: musikk"
 
 #: src/scriptpo.c:72 src/scriptpo.c:74
 msgid "Sound backend"
-msgstr "Moteur de son"
+msgstr "Lydmotor"
 
 #: src/scriptpo.c:75
 msgid "This is a test node."
-msgstr "Ceci est un node de test"
+msgstr "Dette er ein testnode."
 
 #: src/scriptpo.c:76
 msgid "testing map"
-msgstr "test du niveau"
+msgstr "testar kart"
 
 #: src/scriptpo.c:77
 msgid "testing game struct"
-msgstr "test game struct"
+msgstr "testar spelstruct"
 
 #: src/scriptpo.c:78
 msgid "testing game state"
-msgstr "test de \"game state\""
+msgstr "testar speltilstand"
 
 #: src/scriptpo.c:79
 msgid "testing pilot"
-msgstr "test de \"pilot\""
+msgstr "testar pilot"
 
 #: src/scriptpo.c:80
 msgid "testing bot"
-msgstr "test des bots"
+msgstr "testar bot"
 
 #: src/scriptpo.c:81
 msgid "testing smobs GC, step 1"
-msgstr "test smobs GC, étape 1"
+msgstr "testar smobs GC â€“ steg 1"
 
 #: src/scriptpo.c:82
 msgid "testing smobs GC, step 2"
-msgstr "test smobs GC, étape 2"
+msgstr "testar smobs GC â€“ steg 2"
 
 #: src/scriptpo.c:83
 msgid "testing async load"
-msgstr "test chargement asynchrone"
+msgstr "testar async-last"
 
 #: src/scriptpo.c:84
 msgid "testing db"
-msgstr "test de la base de données"
+msgstr "testar database"
 
 #: src/scriptpo.c:85
 msgid "testing node"
-msgstr "test du noeud"
+msgstr "testar node"
 
 #: src/scriptpo.c:86
 msgid "begin main game loop"
-msgstr "début de la boucle de contrôle générale"
+msgstr "start pÃ¥ hovudlykkje"
 
 #: src/scriptpo.c:87 src/scriptpo.c:88
 msgid "Please wait..."
-msgstr "Patience..."
+msgstr "Vent littÂ â€¦"
 
 #: src/scriptpo.c:89
 msgid "Unknown bot"
-msgstr "Bot inconnu"
+msgstr "Ukjend bot"
 
 #: src/scriptpo.c:90
 msgid "Not playing"
-msgstr "Ne joue pas"
+msgstr "Spelar ikkje"
 
 #: src/scriptpo.c:91
 msgid "Mouse"
-msgstr "Souris"
+msgstr "Mus"
 
 #: src/scriptpo.c:92
 msgid "Keyboard"
-msgstr "Clavier"
+msgstr "Tastatur"
 
 #: src/scriptpo.c:93
 msgid "Joystick 1"
-msgstr "Joystick 1"
+msgstr "Styrespak 1"
 
 #: src/scriptpo.c:94
 msgid "Joystick 2"
-msgstr "Joystick 2"
+msgstr "Styrespak 2"
 
 #: src/scriptpo.c:95
 msgid "Custom"
-msgstr "Sur mesure"
+msgstr "Tilpassa"
 
 #: src/scriptpo.c:96 src/scriptpo.c:101
 msgid "~a (mouse)"
-msgstr "~a (souris)"
+msgstr "~a (mus)"
 
 #: src/scriptpo.c:97
 msgid "~a (keyb)"
-msgstr "~a (clavier)"
+msgstr "~a (tastar)"
 
 #: src/scriptpo.c:98
 msgid "~a (joy1)"
-msgstr "~a (joy1)"
+msgstr "~a (spak1)"
 
 #: src/scriptpo.c:99
 msgid "~a (joy2)"
-msgstr "~a (joy2)"
+msgstr "~a (spak2)"
 
 #: src/scriptpo.c:100
 msgid "~a (custom)"
-msgstr "~a (util.)"
+msgstr "~a (tilpassa)"
 
 #: src/scriptpo.c:103 src/scriptpo.c:126
 msgid "Rules"
-msgstr "Règles"
+msgstr "Reglar"
 
 #: src/scriptpo.c:104
 msgid "Map"
-msgstr "Tableau"
+msgstr "Kart"
 
 #: src/scriptpo.c:105
 msgid "Video"
-msgstr "Vidéo"
+msgstr "Video"
 
 #: src/scriptpo.c:107
 msgid "System"
-msgstr "Système"
+msgstr "System"
 
 #: src/scriptpo.c:108
 msgid "Stop current game"
-msgstr "Arrêter le jeu en cours"
+msgstr "Stopp spelet"
 
 #: src/scriptpo.c:111
 msgid "Armies ~a% - ~a%"
-msgstr "Armées ~a% - ~a%"
+msgstr "Styrker ~a% â€“ ~a%"
 
 #: src/scriptpo.c:112
 msgid "Keep map ratio"
-msgstr "Conserver les proportions"
+msgstr "Behald hÃ¸gd/breidd-forhold"
 
 #: src/scriptpo.c:113
 msgid "Fit map to screen"
-msgstr "Etaler sur tout l'écran"
+msgstr "Tilpass kartet til skjermen"
 
 #: src/scriptpo.c:114
 msgid "Use texture"
-msgstr "Texture utilisée"
+msgstr "Brk teksturar"
 
 #: src/scriptpo.c:115
 msgid "Ignore texture"
-msgstr "Texture ignorée"
+msgstr "Ignorer teksturar"
 
 #: src/scriptpo.c:116
 msgid "Use XML files"
-msgstr "Utiliser les fichiers XML"
+msgstr "Bruk XML-filer"
 
 #: src/scriptpo.c:117
 msgid "Ignore XML files"
-msgstr "Ignorer rules.xml"
+msgstr "Ignorer XML-filer"
 
 #: src/scriptpo.c:118
 msgid "Use ~a"
-msgstr "Utiliser ~a"
+msgstr "Bruk ~a"
 
 #: src/scriptpo.c:119
 msgid " and "
-msgstr " et "
+msgstr " og "
 
 #: src/scriptpo.c:120
 msgid "Map options"
-msgstr "Options du tableau"
+msgstr "Kartoppsett"
 
 #: src/scriptpo.c:121
 msgid "One life (last wins)"
-msgstr "Une seule vie (dernier gagne)"
+msgstr "Eitt liv (den siste vinn)"
 
 #: src/scriptpo.c:122
 msgid "Respawn (deatchmatch)"
-msgstr "Les équipes revivent (DM)"
+msgstr "AttfÃ¸dingsmodus (daudskamp)"
 
 #: src/scriptpo.c:123
 msgid "Cursors can have any color"
-msgstr "Couleur des curseurs libre"
+msgstr "Peikarane kan ha vilkÃ¥rleg farge"
 
 #: src/scriptpo.c:124
 msgid "Can collaborate locally"
-msgstr "Collaboration locale possible"
+msgstr "Kan samarbeida lokalt"
 
 #: src/scriptpo.c:125
 msgid "One cursor per team"
-msgstr "Un curseur par équipe"
+msgstr "Ã‰in peikar per lag"
 
 #: src/scriptpo.c:128
 msgid "Join network game"
-msgstr "Se connecter"
+msgstr "Vert med i nettverksspel"
 
 #: src/scriptpo.c:129
 msgid "Start server"
-msgstr "Démarrer un serveur"
+msgstr "Start tenar"
 
 #: src/scriptpo.c:130
 msgid "Demo"
-msgstr "Démo"
+msgstr "Demo"
 
 #: src/scriptpo.c:131
 msgid "Back to main menu"
-msgstr "Menu principal"
+msgstr "Tilbake til hovudmenyen"
 
 #: src/scriptpo.c:134
 msgid "running \"~a\""
-msgstr "exécution de \"~a\""
+msgstr "kÃ¸yrer Â«~aÂ»"
 
 #: src/scriptpo.c:135
 msgid "log file \"~a\""
-msgstr "fichier de log \"~a\""
+msgstr "loggfila Â«~aÂ»"
 
 #: src/scriptpo.c:136 src/scriptpo.c:137
 msgid "environment \"~a\" is \"~a\""
-msgstr "la variable d'environnement \"~a\" vaut \"~a\""
+msgstr "omgjevnaden Â«~aÂ» er Â«~aÂ»"
 
 #: src/scriptpo.c:138
 msgid "upgrading to version ~a"
-msgstr "mise à jour vers la version ~a"
+msgstr "oppgraderer til versjon ~a"
 
 #: src/scriptpo.c:139
 msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
-"aucun backend graphique trouvé, le jeu ne peut fonctionner qu'en mode "
-"serveur/console pur"
+"Fann ikkje nokon grafikkmotor. Spelet kan berre kÃ¸yrast i rein tenar/konsoll-"
+"modus."
 
 #: src/scriptpo.c:140
 msgid "running in server mode"
-msgstr "lancé en mode serveur"
+msgstr "kÃ¸yrer i tenarmodus"
 
 #: src/scriptpo.c:141
 msgid "Display FPS"
-msgstr "Montrer les FPS"
+msgstr "Vis biletrate"
 
 #: src/scriptpo.c:142
 msgid "FPS hidden"
-msgstr "FPS cachés"
+msgstr "Biletrate gÃ¸ymd"
 
 #: src/scriptpo.c:143
 msgid "Display MPS"
-msgstr "Montrer les MPS"
+msgstr "Vis biletrate"
 
 #: src/scriptpo.c:144
 msgid "MPS hidden"
-msgstr "MPS cachés"
+msgstr "Biletrate gÃ¸ymd"
 
 #: src/scriptpo.c:145
 msgid "Console enabled"
-msgstr "Console activée"
+msgstr "Konsoll pÃ¥"
 
 #: src/scriptpo.c:146
 msgid "Console disabled"
-msgstr "Console éteinte"
+msgstr "Konsoll av"
 
 #: src/scriptpo.c:147
 msgid "System options"
-msgstr "Options système"
+msgstr "Systemval"
 
 #: src/scriptpo.c:148
 msgid "Playing"
-msgstr "Jen en cours"
+msgstr "Spelar"
 
 #: src/scriptpo.c:149
 msgid "red"
-msgstr "rouge"
+msgstr "raud"
 
 #: src/scriptpo.c:150
 msgid "green"
-msgstr "vert"
+msgstr "grÃ¸n"
 
 #: src/scriptpo.c:151
 msgid "blue"
-msgstr "bleu"
+msgstr "blÃ¥"
 
 #: src/scriptpo.c:152
 msgid "yellow"
-msgstr "jaune"
+msgstr "gul"
 
 #: src/scriptpo.c:153
 msgid "cyan"
-msgstr "cyan"
+msgstr "cyanblÃ¥"
 
 #: src/scriptpo.c:154
 msgid "magenta"
-msgstr "magenta"
+msgstr "magentaraud"
 
 #: src/scriptpo.c:155
 msgid "orange"
-msgstr "orange"
+msgstr "oransje"
 
 #: src/scriptpo.c:156
 msgid "light blue"
-msgstr "bleu ciel"
+msgstr "lyseblÃ¥"
 
 #: src/scriptpo.c:157
 msgid "purple"
-msgstr "violet"
+msgstr "lilla"
 
 #: src/scriptpo.c:158
 msgid "pink"
-msgstr "rose"
+msgstr "rosa"
 
 #: src/scriptpo.c:159
 msgid "Esc"
@@ -565,23 +567,22 @@ msgstr "Esc"
 
 #: src/scriptpo.c:160
 msgid "Free slot"
-msgstr "Libre"
+msgstr "Ledig plass"
 
 #: src/lib/lw6-print.c:46
 #, c-format
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
-msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
+msgstr "Bruk: %s [--val1[=verdu1]] â€¦ [--valN[=verdiN]]\n"
 
 #: src/lib/lw6-print.c:58
 #, c-format
 msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
-msgstr ""
-"Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
+msgstr "Brukarhandbok: http://www.gnu.org/software/liquidwar6/manual/\n"
 
 #: src/lib/lw6-print.c:60
 #, c-format
 msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
-msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"
+msgstr "Meld frÃ¥ om feil til <bug-liquidwar6@gnu.org>\n"
 
 #: src/lib/lw6-print.c:95
 #, c-format
@@ -591,292 +592,286 @@ msgid ""
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"License GPLv3+: Licence Générale Publique GNU version 3 ou supérieure "
-"<http://gnu.org/licenses/gpl.html>\n"
-"Ceci est un logiciel libre et vous êtes invité à le redistribuer suivant "
-"certaines conditions.\n"
-"Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
+"Lisens GPLv3+: GNU GPL versjon 3 eller seinare <http://gnu.org/licenses/gpl."
+"html>\n"
+"Dette er fri programvare: du har rett til Ã¥ endra og vidareformidla "
+"programvara.\n"
+"Programvare kjem UTAN NOKON GARANTIAR, sÃ¥ langt dette er mogleg.\n"
 
 #: src/lib/lw6-print.c:827
 msgid "hello"
-msgstr "bonjour"
+msgstr "hallo"
 
 #: src/lib/lw6-print.c:834
 #, c-format
 msgid "approx. %d megabytes available"
-msgstr "environ %d méga-octets disponibles"
+msgstr "om lag %d megabyte tilgjengeleg"
 
 #: src/lib/lw6-print.c:849
 msgid "goodbye"
-msgstr "au revoir"
+msgstr "ha det"
 
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
-msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
+msgstr "klarte ikkje fiksa miljÃ¸variabelen ved Ã¥ starta programmet pÃ¥ nytt"
 
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
-msgstr "impossible d'initialiser mod_httpd"
+msgstr "klarte ikkje starta mod_httpd"
 
 #: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:60
 msgid "can't initialize mod_tcpd"
-msgstr "impossible d'initialiser mod_tcpd"
+msgstr "klarte ikkje starta mod_tcpd"
 
 #: src/lib/srv/mod-udpd/mod-udpd-setup.c:60
 msgid "can't initialize mod_udpd"
-msgstr "impossible d'initialiser mod_udpd"
+msgstr "klarte ikkje starta mod_udpd"
 
 #: src/lib/p2p/p2p-data.c:100
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
-msgstr "impossible de lire la requête \"%s\" dans \"%s\""
+msgstr "klarte ikkje lesa spÃ¸rjinga Â«%sÂ» i Â«%sÂ»"
 
 #: src/lib/p2p/p2p-node.c:250
 #, c-format
 msgid "started node \"%s\" in trojan mode, expect problems"
 msgstr ""
-"démarrage du noeud \"%s\" en mode cheval de troie, attendez-vous à "
-"rencontrer des problèmes"
 
 #: src/lib/p2p/p2p-node.c:255
 #, c-format
 msgid "started node \"%s\""
-msgstr "démarrage du noeud \"%s\""
+msgstr ""
 
 #: src/lib/sys/sys-test.c:1950
 msgid "this is a /TEST/ error"
-msgstr "ceci est une erreur de /TEST/"
+msgstr "dette er ein /TEST/-feil"
 
 #: src/lib/sys/sys-log.c:68
 msgid "log_file is NULL"
-msgstr "Le fichier de log est NULL"
+msgstr "log_file er NULL"
 
 #: src/lib/sys/sys-log.c:527
 #, c-format
 msgid "can't open log file \"%s\""
-msgstr "impossible d'ouvrir le fichier de log \"%s\""
+msgstr "klarte ikkje opna loggfila Â«%sÂ»"
 
 #: src/lib/sys/sys-log.c:620
 msgid "See log file for details."
-msgstr "Voir le fichier de log pour plus d'informations"
+msgstr "SjÃ¥ loggfila for meir informasjon."
 
 #: src/lib/sys/sys-log.c:793
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
-msgstr "ERREUR! (errno=%d:%s)"
+msgstr "Feil (feilnummer: %d:%s) "
 
 #: src/lib/sys/sys-log.c:798
 msgid "ERROR! "
-msgstr "ERREUR! "
+msgstr "Feil"
 
 #: src/lib/sys/sys-log.c:808
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
-msgstr "ATTENTION! (errno=%d:%s) "
+msgstr "Ã…tvaring (feilnummer: %d:%s)"
 
 #: src/lib/sys/sys-log.c:813
 msgid "WARNING! "
-msgstr "ATTENTION! "
+msgstr "Ã…tvaring"
 
 #: src/lib/sys/sys-log.c:832
 msgid "[tmp] "
-msgstr "[temp] "
+msgstr "[tmp] "
 
 #: src/lib/sys/sys-log.c:838
 msgid "[debug] "
-msgstr "[déboggage] "
+msgstr "[feilsÃ¸k] "
 
 #: src/lib/sys/sys-log.c:926
 msgid "CRITICAL! "
-msgstr "CRITIQUE! "
+msgstr "Kritisk"
 
 #: src/lib/sys/sys-log.c:930
 msgid "CRITICAL!"
-msgstr "CRITIQUE! "
+msgstr "Kritisk"
 
 #: src/lib/sys/sys-mem.c:75
 #, c-format
 msgid "out of memory malloc (%d) failed in %s:%d"
-msgstr "pas assez de mémoire, échec de malloc (%d) dans %s:%d"
+msgstr "slapp opp for minne ved malloc (%d) i %s:%d"
 
 #: src/lib/sys/sys-mem.c:118
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
-msgstr "pas assez de mémoire, échec de calloc (%d) dans %s:%d"
+msgstr "slapp opp for minne ved calloc (%d) i %s:%d"
 
 #: src/lib/sys/sys-mem.c:175
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
-msgstr "pas assez de mémoire, échec de realloc (%d) dans %s:%d"
+msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 
 #: src/lib/sys/sys-mem.c:219
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
-msgstr "tentative de libérer un pointeur nul dans %s:%d"
+msgstr "prÃ¸ver Ã¥ frigjera NULL-peikar i %s:%d"
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:78
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
-msgstr "SDL GetVideoInfo a échoué: \"%s\""
+msgstr "Feil ved SDL GetVideoInfo: Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:181
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
-msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
+msgstr "Feil ved SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
 #, c-format
 msgid "unable to load image \"%s\""
-msgstr "impossible de charger l'image \"%s\""
+msgstr "klarte ikkje lasta biletet Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:108
 #, c-format
 msgid "unable to load font \"%s\""
-msgstr "impossible de charger la police \"%s\""
+msgstr "klarte ikkje lasta skrifta Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:280
 #, c-format
 msgid "SDL init error: \"%s\""
-msgstr "SDL erreur d'initialisation: \"%s\""
+msgstr "feil ved SDL-start: Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:305
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
-msgstr "SDL_ttf erreur d'initialisation: \"%s\""
+msgstr "Feil ved start av SDL_ttf: Â«%sÂ»"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:360
 msgid "unable to load data"
-msgstr "impossible de charger les données"
+msgstr "klarte ikkje lasta data"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:368
 msgid "unable to set video mode"
-msgstr "impossible de régler le mode vidéo"
+msgstr "klarte ikkje byta videomodus"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:375
 msgid "unable to load consts"
-msgstr "impossible de lire les constantes"
+msgstr "klarte ikkje lasta konstantar"
 
 #: src/lib/lw6-options.c:90
 #, c-format
 msgid "unknown option \"%s\""
-msgstr "option inconnue \"%s\""
+msgstr "ukjend val: Â«%sÂ»"
 
 #: src/lib/lw6-options.c:108
 msgid "unable to start daemon"
-msgstr "impossible de démarrer le démon"
+msgstr "klarte ikkje starta tenesta"
 
 #: src/lib/lw6-options.c:159
 msgid "all tests SUCCESSFULL!"
-msgstr "tous les tests passés avec SUCCÈS!"
+msgstr "alle testane vart utfÃ¸rte utan feil"
 
 #: src/lib/lw6-options.c:165
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
-msgstr ""
-"le test a ÉCHOUÉ, voir le fichier de log \"%s\" pour plus d'informations"
+msgstr "test feila (sjÃ¥ loggfila Â«%sÂ» for meir informasjon)"
 
 #: src/lib/lw6-main.c:56
 #, c-format
 msgid "unable to read main script file \"%s\""
-msgstr "impossible de lire le fichier de script principal \"%s\""
+msgstr "klarte ikkje lesa hovudskriptfila Â«%sÂ»"
 
 #: src/lib/hlp/hlp-credits.c:77
 #, c-format
 msgid "Codename \"%s\""
-msgstr "Nom de code \"%s\""
+msgstr "Kodenamn Â«%sÂ»"
 
 #: src/lib/hlp/hlp-credits.c:84
 #, c-format
 msgid "Idea: %s"
-msgstr "Idée : %s"
+msgstr "IdÃ©: %s"
 
 #: src/lib/hlp/hlp-credits.c:87
 #, c-format
 msgid "Programming: %s"
-msgstr "Programmation : %s"
+msgstr "Programmering: %s"
 
 #: src/lib/hlp/hlp-credits.c:90
 #, c-format
 msgid "Maps: %s"
-msgstr "Tableaux : %s"
+msgstr "Kart: %s"
 
 #: src/lib/hlp/hlp-credits.c:93
 #, c-format
 msgid "Menu music: %s"
-msgstr "Musique des menus : %s"
+msgstr "Menymusikk: %s"
 
 #: src/lib/hlp/hlp-credits.c:97 src/lib/hlp/hlp-credits.c:102
 #: src/lib/hlp/hlp-credits.c:107
 #, c-format
 msgid "Song \"%s\" by %s"
-msgstr "Chanson \"%s\" par %s"
+msgstr "Song Â«%sÂ» av %s"
 
 #: src/lib/hlp/hlp-credits.c:111
 msgid "Thanks to all other contributors"
-msgstr "Merci à tous les autres contributeurs"
+msgstr "Takk til alle bidragsytarane"
 
 #: src/lib/hlp/hlp-credits.c:114
 msgid "Help is always appreciated"
-msgstr "L'aide est toujours appréciée"
+msgstr "Me set alltid pris pÃ¥ hjelp"
 
 #: src/lib/hlp/hlp-credits.c:117
 msgid "Join us now!"
-msgstr "Rejoignez-nous!"
+msgstr "Vert med!"
 
 #: src/lib/hlp/hlp-credits.c:120
 #, c-format
 msgid "Mailing list: <%s>"
-msgstr "Liste de diffusion : <%s>"
+msgstr "E-postliste: <%s>"
 
 #: src/lib/hlp/hlp-credits.c:123
 msgid "Free as in \"free speech\" (not beer)"
-msgstr "Ceci est un Logiciel Libre"
+msgstr "Fullstendig fri programvare"
 
 #: src/lib/hlp/hlp-credits.c:127
 #, c-format
 msgid "License: %s"
-msgstr "Licence : %s"
+msgstr "Lisens: %s"
 
 #: src/lib/hlp/hlp-credits.c:134
 #, c-format
 msgid "Built on %s at %s"
-msgstr "Compilé le %s à %s"
+msgstr "Bygd pÃ¥ %s %s"
 
 #: src/lib/hlp/hlp-credits.c:139
 #, c-format
 msgid "Stamp %s, Id %d"
-msgstr "Stamp %s, Id %d"
+msgstr "Stempel %s, ID %d"
 
 #: src/lib/hlp/hlp-credits.c:143
 #, c-format
 msgid "Help GNU %s"
-msgstr "Aidez GNU %s"
+msgstr "Hjelp GNU %s"
 
 #: src/lib/hlp/hlp-credits.c:146
 #, c-format
 msgid "Fight software patents %s"
-msgstr "Contre les brevets logiciels %s"
+msgstr "Kjemp mot programvarepatentar %s"
 
 #: src/lib/hlp/hlp-credits.c:149
 #, c-format
 msgid "unable to handle credits id %d"
-msgstr "impossible de lire la ligne de 'credits' %d"
+msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
 #: src/lib/dsp/dsp-test.c:304
 msgid "this error too"
-msgstr "cette erreur aussi"
+msgstr "denne feilen Ã²g"
 
 #: src/lib/cli/mod-http/mod-http-setup.c:67
 msgid "can't initialize mod_http"
-msgstr "impossible d'initialiser mod_http"
+msgstr "klarte ikkje starta mod_http"
 
 #: src/lib/cli/mod-tcp/mod-tcp-setup.c:60
 msgid "can't initialize mod_tcp"
-msgstr "impossible d'initialiser mod_tcp"
+msgstr "klarte ikkje starta mod_tcp"
 
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
 msgid "can't initialize mod_udp"
-msgstr "iimpossible d'initialiser mod_udp"
-
-#~ msgid "unable to init flat_context"
-#~ msgstr "impossible d'initialiser flat_context"
+msgstr "klarte ikkje starta mod_udp"
