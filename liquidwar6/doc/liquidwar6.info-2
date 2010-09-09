@@ -1010,7 +1010,8 @@ results on
  -- Function: lw6cnx_connection_t * lw6cnx_connection_new (char *
           LOCAL_URL, char * REMOTE_URL, char * REMOTE_IP, int
           REMOTE_PORT, char * PASSWORD, u_int64_t LOCAL_ID, u_int64_t
-          REMOTE_ID, lw6cnx_recv_callback_t RECV_CALLBACK_FUNC, void *
+          REMOTE_ID, int DNS_OK, int NETWORK_RELIABILITY,
+          lw6cnx_recv_callback_t RECV_CALLBACK_FUNC, void *
           RECV_CALLBACK_DATA)
      LOCAL_URL:  the local public URL
 
@@ -1025,6 +1026,10 @@ results on
      LOCAL_ID:  the local ID
 
      REMOTE_ID:  the remote ID
+
+     DNS_OK:  1 if no DNS mismatch, 0 if IP does not match public URL
+
+     NETWORK_RELIABILITY:  drop 1 out of X packets
 
      RECV_CALLBACK_FUNC:  a callback to call when data is received
 
@@ -1071,6 +1076,69 @@ results on
 
      *Return value:*  none.
 
+ -- Function: int lw6cnx_connection_lock_send (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  the connexion to lock
+
+     Acquires a "send" lock on the connexion, the idea is to avoid too
+     threads sending data using the same socket at the same time.  Note
+     that each backend must call this when accessing the socket,
+     there's no top-level lock for the sake of performance.
+
+     *Return value:*  1 on success, 0 if not.
+
+ -- Function: void lw6cnx_connection_unlock_send (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  the connexion to lock
+
+     Releases a "send" lock on the connexion, the idea is to avoid too
+     threads sending data using the same socket at the same time.  Note
+     that each backend must call this when accessing the socket,
+     there's no top-level lock for the sake of performance.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_connection_reliability_filter
+          (lw6cnx_connection_t * CONNECTION)
+     CONNECTION:  the connexion concerned
+
+     Will filter and return true only in "rare" cases when packets must
+     be artificially dropped for testing purpose.
+
+     *Return value:*  1 if message must be sent/received, 0 if not
+
+ -- Function: char * lw6cnx_password_checksum (char * SEED, char *
+          PASSWORD)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD:  the password, can be NULL
+
+     Calculates the checksum of a password, and returns it as a string,
+     ready to be sent on the network.  If password is empty or NULL,
+     then an empty (but not NULL unless internal error) string will be
+     returned. All LW6 protocols should send these checksums instead of
+     real passwords, then on server side value can be checked against
+     both real password and its checksum. The seed is here so that
+     eavesdropper can't reuse the checksum to connect on random
+     sessions. Seed can typically be the node 'public_url' value.
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6cnx_password_verify (char * SEED, char *
+          PASSWORD_HERE, char * PASSWORD_RECEIVED)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD_HERE:  the local password, can be NULL
+
+     PASSWORD_RECEIVED:  the password received from network, can be NULL
+
+     Tells wether a password received over the network is valid.  The
+     `password_here' argument (the local password) will be checksumed
+     so that `password_received' is checked against both clear and
+     checksumed values, so it can be in any form.
+
+     *Return value:*  1 if OK, passwords are the same, 0 if not.
+
  -- Function: int lw6cnx_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -1107,7 +1175,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: u_int32_t lw6cnx_ticket_table_get_recv
+ -- Function: u_int64_t lw6cnx_ticket_table_get_recv
           (lw6cnx_ticket_table_t * TICKET_TABLE, char * PEER_ID)
      TICKET_TABLE:  the ticket table to query
 
@@ -1146,7 +1214,7 @@ results on
 
      *Return value:*  the ticket used to check incoming messages.
 
- -- Function: u_int32_t lw6cnx_ticket_table_get_send
+ -- Function: u_int64_t lw6cnx_ticket_table_get_send
           (lw6cnx_ticket_table_t * TICKET_TABLE, char * PEER_ID)
      TICKET_TABLE:  the ticket table to query
 
@@ -1160,7 +1228,7 @@ results on
      *Return value:*  the ticket used to stamp outgoing messages.
 
  -- Function: void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t
-          * TICKET_TABLE, char * PEER_ID, u_int32_t SEND_TICKET)
+          * TICKET_TABLE, char * PEER_ID, u_int64_t SEND_TICKET)
      TICKET_TABLE:  the ticket table to query
 
      PEER_ID:  the id of remote node
@@ -1780,6 +1848,50 @@ results on
      with prefix `prefix' and then contain base64 data.
 
      *Return value:*  newly allocated string, NULL on error.
+
+ -- Function: char * lw6glb_sha1_hmac_80_bin (char * KEY, int KEY_SIZE,
+          char * BUF, int BUF_SIZE)
+     KEY:  the key buffer `key_size'
+
+     BUF:  the data to analyse
+
+     BUF_SIZE:  the size of data to analyse
+
+     Calculates an SHA-1 sum of buffer, using key to seed calc.
+
+     *Return value:*  newly allocated string, containing 20 chars
+     checksum.
+
+ -- Function: char * lw6glb_sha1_hmac_80_str (char * KEY, char * STR)
+     KEY:  a key (string)
+
+     STR:  the string to calculate the checksum for
+
+     Calculates an SHA-1 sum of a string, using key to seed calc.
+
+     *Return value:*  newly allocated string, containing 20 chars
+     checksum.
+
+ -- Function: u_int32_t lw6glb_sha1_hmac_32_bin (char * KEY, int
+          KEY_SIZE, char * BUF, int BUF_SIZE)
+     KEY:  the key buffer `key_size'
+
+     BUF:  the data to analyse
+
+     BUF_SIZE:  the size of data to analyse
+
+     Calculates an SHA-1 sum of buffer, using key to seed calc.
+
+     *Return value:*  a 32-bit unsigned integer
+
+ -- Function: u_int32_t lw6glb_sha1_hmac_32_str (char * KEY, char * STR)
+     KEY:  a key (string)
+
+     STR:  the string to calculate the checksum for
+
+     Calculates an SHA-1 sum of a string, using key to seed calc.
+
+     *Return value:*  a 32-bit unsigned integer
 
  -- Function: int lw6glb_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2797,7 +2909,7 @@ results on
      *Return value:*  newly allocated string.
 
  -- Function: char * lw6msg_cmd_generate_ticket (lw6nod_info_t * INFO,
-          u_int32_t TICKET)
+          u_int64_t TICKET)
      INFO:  the node info to use
 
      TICKET:  the ticket to send
@@ -2833,9 +2945,25 @@ results on
 
      *Return value:*  newly allocated string.
 
+ -- Function: char * lw6msg_cmd_generate_data (int SERIAL, int I, int
+          N, char * KER_MSG)
+     SERIAL:  the message serial number
+
+     I:  the message index in the group
+
+     N:  the number of messages in the group
+
+     KER_MSG:  the actual content of the message (passed to core algo)
+
+     Generate a DATA command. Serial is an ever increasing number, i
+     and n are most of the time 1 and 1, they are usefull only in long
+     multipart messages.
+
+     *Return value:*  newly allocated string.
+
  -- Function: int lw6msg_cmd_analyse_hello (lw6nod_info_t ** INFO, char
           * MSG)
-     INFO:  if not NULL, will contain (remote) node info on success
+     INFO:  will contain (remote) node info on success
 
      MSG:  the message to analyse
 
@@ -2844,8 +2972,8 @@ results on
      *Return value:*  1 on success, 0 on failure
 
  -- Function: int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** INFO,
-          u_int32_t * TICKET, char * MSG)
-     INFO:  if not NULL, will contain (remote) node info on success
+          u_int64_t * TICKET, char * MSG)
+     INFO:  will contain (remote) node info on success
 
      TICKET:  if not NULL, will contain the ticket value on success
 
@@ -2857,7 +2985,7 @@ results on
 
  -- Function: int lw6msg_cmd_analyse_foo (lw6nod_info_t ** INFO,
           u_int32_t * KEY, char * MSG)
-     INFO:  if not NULL, will contain (remote) node info on success
+     INFO:  will contain (remote) node info on success
 
      KEY:  if not NULL, will contain the foo/bar key on success
 
@@ -2869,7 +2997,7 @@ results on
 
  -- Function: int lw6msg_cmd_analyse_bar (lw6nod_info_t ** INFO,
           u_int32_t * KEY, char * MSG)
-     INFO:  if not NULL, will contain (remote) node info on success
+     INFO:  will contain (remote) node info on success
 
      KEY:  if not NULL, will contain the foo/bar key on success
 
@@ -2881,11 +3009,25 @@ results on
 
  -- Function: int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** INFO,
           char * MSG)
-     INFO:  if not NULL, will contain (remote) node info on success
+     INFO:  will contain (remote) node info on success
 
      MSG:  the message to analyse
 
      Analyzes a GOODBYE message.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6msg_cmd_analyse_data (int * SERIAL, int * I, int *
+          N, char ** KER_MSG, char * MSG)
+     SERIAL:  will contain serial number on success
+
+     I:  will contain group index on success
+
+     N:  will contain group size on success
+
+     KER_MSG:  will contain actual message on success
+
+     Analyzes a DATA message.
 
      *Return value:*  1 on success, 0 on failure
 
@@ -3061,7 +3203,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- Function: u_int32_t lw6msg_ticket_calc_sig (u_int32_t TICKET,
+ -- Function: u_int32_t lw6msg_ticket_calc_sig (u_int64_t TICKET,
           u_int64_t FROM_ID, u_int64_t TO_ID, char * MSG)
      TICKET:  the (private) ticket to use
 
@@ -3078,7 +3220,7 @@ results on
 
      *Return value:*  the sig, always non-zero
 
- -- Function: int lw6msg_ticket_check_sig (u_int32_t TICKET, u_int64_t
+ -- Function: int lw6msg_ticket_check_sig (u_int64_t TICKET, u_int64_t
           FROM_ID, u_int64_t TO_ID, char * MSG, u_int32_t TICKET_SIG)
      TICKET:  the (private) ticket to use
 
@@ -3545,9 +3687,9 @@ results on
 
  -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
           VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, int BENCH, int UPTIME,
-          char * PASSWORD, int IDLE_SCREENSHOT_SIZE, void *
-          IDLE_SCREENSHOT_DATA)
+          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
+          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
+          void * IDLE_SCREENSHOT_DATA)
      PROGRAM:  the program (normally it's liquidwar6)
 
      VERSION:  the version
@@ -3564,11 +3706,13 @@ results on
 
      DESCRIPTION:  the node description
 
+     PASSWORD:  the node password
+
      BENCH:  the node bench
 
-     UPTIME:  uptime in seconds
+     OPEN_RELAY:  open relay or not
 
-     PASSWORD:  the node password
+     UPTIME:  uptime in seconds
 
      IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
      when game is idle
@@ -3816,8 +3960,9 @@ results on
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
-          BROADCAST, char * PUBLIC_URL, char * PASSWORD, char * TITLE,
-          char * DESCRIPTION, int BENCH, char * KNOWN_NODES)
+          BROADCAST, char * PUBLIC_URL, char * TITLE, char *
+          DESCRIPTION, char * PASSWORD, int BENCH, int OPEN_RELAY, char
+          * KNOWN_NODES, int NETWORK_RELIABILITY, int TROJAN)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -3836,15 +3981,21 @@ results on
 
      PUBLIC_URL:  the public URL we want to show
 
-     PASSWORD:  the password to use
-
      TITLE:  the title of the node
 
      DESCRIPTION:  the description of the node
 
+     PASSWORD:  the password to use
+
      BENCH:  the bench of the node (its power)
 
+     OPEN_RELAY:  act as an open relay or not
+
      KNOWN_NODES:  list of already known nodes
+
+     NETWORK_RELIABILITY:  drop 1 packet out of X
+
+     TROJAN:  act as a stupid trojan to test out automatic kick-off
 
      Creates a new "pear to pear" node. This will fire the server and
      allow client access, on demand. A lot of stuff can be done in the
@@ -6300,6 +6451,28 @@ results on
 
      *Return value:*  1 if success, 0 if failure
 
+ -- Function: int lw6sys_hexa_str_to_buf (void * BUF, int SIZE, char *
+          STR)
+     BUF:  binary buffer to convert
+
+     SIZE:  binary buffer length
+
+     STR:  the source string
+
+     Converts the stringified hexa representation of a string to its
+     source binary buffer. Buffer must be exactly `strlen'(str)/2
+
+     *Return value:*  1 on success
+
+ -- Function: char * lw6sys_hexa_buf_to_str (void * BUF, int SIZE)
+     BUF:  the buffer to stringify
+
+     SIZE:  the length of the buffer
+
+     Transforms a binary buffer into its hexa representation.
+
+     *Return value:*  newly allocated string.
+
  -- Function: void * lw6sys_hexa_str_to_ptr (char * STR)
      STR:  the string containing an hexa representation of pointer
 
@@ -6762,9 +6935,9 @@ results on
  -- Function: void * lw6sys_malloc (int SIZE, char * FILE, int LINE)
      SIZE:  number of bytes to allocate.
 
-     FILE:  name of the file calling the function, use `__FILE__'
+     FILE:  name of the file calling the function, use `__FILE__x_'
 
-     LINE:  line in the file calling the function, use `__LINE__'
+     LINE:  line in the file calling the function, use `__LINE__x_'
 
      This is a wrapper over the standard `malloc' function.
      Additionnally it will keep track of the call with an internal
@@ -6779,9 +6952,9 @@ results on
  -- Function: void * lw6sys_calloc (int SIZE, char * FILE, int LINE)
      SIZE:  number of bytes to allocate.
 
-     FILE:  name of the file calling the function, use `__FILE__'
+     FILE:  name of the file calling the function, use `__FILE__x_'
 
-     LINE:  line in the file calling the function, use `__LINE__'
+     LINE:  line in the file calling the function, use `__LINE__x_'
 
      This is a wrapper over the standard `calloc' function.
      Additionnally it will keep track of the call with an internal
@@ -6799,9 +6972,9 @@ results on
 
      SIZE:  number of bytes to allocate.
 
-     FILE:  name of the file calling the function, use `__FILE__'
+     FILE:  name of the file calling the function, use `__FILE__x_'
 
-     LINE:  line in the file calling the function, use `__LINE__'
+     LINE:  line in the file calling the function, use `__LINE__x_'
 
      This is a wrapper over the standard `realloc' function.  You
      should not use this function directly but use the macro
@@ -6813,9 +6986,9 @@ results on
  -- Function: void lw6sys_free (void * PTR, char * FILE, int LINE)
      PTR:  the pointer to free.
 
-     FILE:  name of the file calling the function, use `__FILE__'
+     FILE:  name of the file calling the function, use `__FILE__x_'
 
-     LINE:  line in the file calling the function, use `__LINE__'
+     LINE:  line in the file calling the function, use `__LINE__x_'
 
      This is a wrapper over the standard `free' function. Additionnally
      it will keep track of the call with an internal program-wide
@@ -7148,38 +7321,6 @@ results on
      dependant but depend on built-in defaults, command-line arguments
      and environment variables. Usefull to debug and know where the
      program is searching for things.
-
- -- Function: char * lw6sys_password_checksum (char * SEED, char *
-          PASSWORD)
-     SEED:  a seed to blur the password, can be NULL
-
-     PASSWORD:  the password, can be NULL
-
-     Calculates the checksum of a password, and returns it as a string,
-     ready to be sent on the network.  If password is empty or NULL,
-     then an empty (but not NULL unless internal error) string will be
-     returned. All LW6 protocols should send these checksums instead of
-     real passwords, then on server side value can be checked against
-     both real password and its checksum. The seed is here so that
-     eavesdropper can't reuse the checksum to connect on random
-     sessions. Seed can typically be the node 'public_url' value.
-
-     *Return value:*  a dynamically allocated string
-
- -- Function: int lw6sys_password_verify (char * SEED, char *
-          PASSWORD_HERE, char * PASSWORD_RECEIVED)
-     SEED:  a seed to blur the password, can be NULL
-
-     PASSWORD_HERE:  the local password, can be NULL
-
-     PASSWORD_RECEIVED:  the password received from network, can be NULL
-
-     Tells wether a password received over the network is valid.  The
-     `password_here' argument (the local password) will be checksumed
-     so that `password_received' is checked against both clear and
-     checksumed values, so it can be in any form.
-
-     *Return value:*  1 if OK, passwords are the same, 0 if not.
 
  -- Function: int lw6sys_file_exists (char * FILENAME)
      FILENAME:  the file to test
@@ -7838,6 +7979,20 @@ results on
      space, tabs, or carriage returns only.
 
      *Return value:*  1 if blank, 0 if not.
+
+ -- Function: int lw6sys_str_is_null_or_empty (char * STR)
+     STR:  the string to test
+
+     Tests wether a string is NULL or empty (string with 0 chars "").
+
+     *Return value:*  1 if NULL or empty, 0 if contains something.
+
+ -- Function: char * lw6sys_str_empty_if_null (char * STR)
+     STR:  the string to test
+
+     Returns always a non-NULL string, if string is NULL, returns ""
+
+     *Return value:*  source string or "" if it was NULL
 
  -- Function: int lw6sys_str_is_same (char * STR_A, char * STR_B)
      STR_A:  1st string to compare, can be NULL
