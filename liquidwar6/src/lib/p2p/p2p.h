@@ -34,6 +34,11 @@
 #include "../srv/srv.h"
 #include "../dat/dat.h"
 
+/*
+ * Must be greater than LW6DAT_MAX_NB_STACKS
+ */
+#define LW6P2P_MAX_NB_TENTACLES 100
+
 typedef struct lw6p2p_db_s
 {
   /*

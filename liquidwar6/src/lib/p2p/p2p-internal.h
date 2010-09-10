@@ -25,8 +25,6 @@
 
 #include "p2p.h"
 
-#include "../map/map.h"		// only needed for #defines
-
 #include <sqlite3.h>
 
 #define _LW6P2P_DB_FALSE 0
@@ -159,6 +157,7 @@ typedef struct _lw6p2p_tentacle_s
   u_int64_t remote_id_int;
   char *remote_id_str;
   int hello_sent;
+  int data_exchanged;
   int dns_ok;
   int nb_cli_connections;
   lw6cnx_connection_t **cli_connections;
@@ -189,7 +188,7 @@ typedef struct _lw6p2p_node_s
   _lw6p2p_flush_t flush;
   _lw6p2p_explore_t explore;
   lw6cnx_ticket_table_t ticket_table;
-  _lw6p2p_tentacle_t tentacles[LW6MAP_MAX_NB_NODES];
+  _lw6p2p_tentacle_t tentacles[LW6P2P_MAX_NB_TENTACLES];
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s

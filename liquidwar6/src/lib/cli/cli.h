@@ -32,6 +32,8 @@
 #include "../cnx/cnx.h"
 #include "../msg/msg.h"
 
+#define LW6CLI_CONTENT_BUFFER_SIZE LW6NET_PPPOE_MTU
+
 typedef int (*lw6cli_verify_callback_func_t) (void *func_data, char *url,
 					      char *ip, int port,
 					      int ping_delay_msec,

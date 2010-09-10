@@ -49,10 +49,11 @@ _mod_tcpd_open (_tcpd_context_t * tcpd_context, lw6srv_listener_t * listener,
       ret->backend_specific_data =
 	LW6SYS_CALLOC (sizeof (_tcpd_specific_data_t));
       specific_data = (_tcpd_specific_data_t *) ret->backend_specific_data;
-      if (ret->backend_specific_data)
+      if (specific_data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("open tcpd connection with \"%s\""), remote_url);
+	  specific_data->sock = LW6NET_SOCKET_INVALID;
 	}
       else
 	{
@@ -73,6 +74,10 @@ _mod_tcpd_close (_tcpd_context_t * tcpd_context,
 
   if (specific_data)
     {
+      if (lw6net_socket_is_valid (specific_data->sock))
+	{
+	  lw6net_socket_close (specific_data->sock);
+	}
       LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);

@@ -59,8 +59,12 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
 {
   int ret = 0;
   char *line = NULL;
+  char *msg = NULL;
 
   line = udp_buffer->line;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("trying to recognize udpd protocol in \"%s\""), line);
+
   if (remote_id)
     {
       (*remote_id) = 0;
@@ -77,24 +81,32 @@ _mod_udpd_analyse_udp (_udpd_context_t * udpd_context,
       || lw6sys_str_starts_with_no_case (line, LW6MSG_OOB_LIST))
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol (OOB)"));
-      ret = (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+      ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
   if (lw6sys_str_starts_with_no_case (line, LW6MSG_LW6))
     {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized udpd protocol"));
+      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
       if (lw6msg_envelope_analyse
 	  (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
 	   node_info->const_info.password, 0, node_info->const_info.id_int,
-	   NULL, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
+	   &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" OK"), line);
-	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("udpd message \"%s\" OK"), line);
+	  if (msg)
+	    {
+	      /*
+	       * We need to pass msg else remote_url isn't processed
+	       */
+	      LW6SYS_FREE (msg);
+	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("unable to analyse message \"%s\""), line);
-	  ret = LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_DEAD;
+	  ret |= LW6SRV_ANALYSE_DEAD;
 	}
     }
 
@@ -120,6 +132,8 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
 			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
+  _udpd_specific_data_t *specific_data =
+    (_udpd_specific_data_t *) connection->backend_specific_data;
   char *envelope_line = NULL;
   char *msg = NULL;
   u_int32_t physical_ticket_sig = 0;
@@ -128,8 +142,6 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
-  _udpd_specific_data_t *specific_data =
-    (_udpd_specific_data_t *) connection->backend_specific_data;
 
   envelope_line = udp_buffer->line;
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd received envelope \"%s\""),

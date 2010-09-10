@@ -67,6 +67,10 @@ lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
 void
 lw6srv_tcp_accepter_free (lw6srv_tcp_accepter_t * tcp_accepter)
 {
+  /*
+   * We don't close the socket for it might be used by
+   * a spawned thread, among other possibilities.
+   */
   if (tcp_accepter->client_id.client_ip)
     {
       LW6SYS_FREE (tcp_accepter->client_id.client_ip);

@@ -563,7 +563,7 @@ _tcp_accepter_reply (void *func_data, void *data)
   int tentacle_index = -1;
 
   lw6net_tcp_peek (tcp_accepter->sock, tcp_accepter->first_line,
-		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0.0f);
+		   LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
@@ -574,6 +574,11 @@ _tcp_accepter_reply (void *func_data, void *data)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("dead accepter, scheduling it for deletion"));
+	  if (lw6net_socket_is_valid (tcp_accepter->sock))
+	    {
+	      lw6net_socket_close (tcp_accepter->sock);
+	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	    }
 	  ret = 0;
 	}
       else
@@ -645,23 +650,14 @@ _tcp_accepter_reply (void *func_data, void *data)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("wrong id/url"));
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_ ("wrong id/url"));
 			}
 		    }
 		  if (tentacle_index >= 0
-		      && tentacle_index < LW6MAP_MAX_NB_NODES)
+		      && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("feed srv (tcp)"));
-		      TMP3 ("%d %d %p", tentacle_index, i,
-			    node->backends.srv_backends);
-		      TMP2 ("%p %p",
-			    node->tentacles[tentacle_index].cli_connections,
-			    node->tentacles[tentacle_index].srv_connections);
-		      TMP1 ("%" LW6SYS_PRINTF_LL "x", remote_id);
-		      TMP3 ("%p %p %p", node->backends.srv_backends[i],
-			    node->tentacles
-			    [tentacle_index].srv_connections
-			    [i], tcp_accepter);
 		      lw6srv_feed_with_tcp (node->backends.srv_backends[i],
 					    node->tentacles
 					    [tentacle_index].srv_connections
@@ -728,7 +724,6 @@ _udp_buffer_reply (void *func_data, void *data)
 			lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL,
 					      srv_oob);
 		      lw6sys_lifo_push (&(node->srv_oobs), srv_oob);
-		      ret = 0;
 		    }
 		}
 	      else
@@ -774,7 +769,7 @@ _udp_buffer_reply (void *func_data, void *data)
 			}
 		    }
 		  if (tentacle_index >= 0
-		      && tentacle_index < LW6MAP_MAX_NB_NODES)
+		      && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("feed srv (udp)"));
 		      lw6srv_feed_with_udp (node->backends.srv_backends[i],
@@ -893,7 +888,7 @@ _poll_step10_poll_tentacles (_lw6p2p_node_t * node)
   int ret = 1;
   int i = 0;
 
-  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
       if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
@@ -991,7 +986,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	      _lw6p2p_db_unlock (node->db);
 	    }
 
-	  for (i = 0; i < LW6MAP_MAX_NB_NODES; ++i)
+	  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 	    {
 	      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
 	    }
@@ -1252,7 +1247,7 @@ _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
   int ret = -1;
   int i;
 
-  for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
+  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES && ret < 0; ++i)
     {
       if (!_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	{
@@ -1272,7 +1267,7 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 
   if (remote_id != 0)
     {
-      for (i = 0; i < LW6MAP_MAX_NB_NODES && ret < 0; ++i)
+      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES && ret < 0; ++i)
 	{
 	  if (node->tentacles[i].remote_id_int == remote_id)
 	    {
@@ -1295,7 +1290,7 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, char *remote_url,
   if (i < 0)
     {
       i = _lw6p2p_node_find_free_tentacle (node);
-      if (i >= 0 && i < LW6MAP_MAX_NB_NODES)
+      if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 	{
 	  ret =
 	    _lw6p2p_tentacle_init (&(node->tentacles[i]), &(node->backends),
@@ -1328,7 +1323,7 @@ _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
   int i = 0;
 
   i = _lw6p2p_node_find_tentacle (node, remote_id);
-  if (i >= 0 && i < LW6MAP_MAX_NB_NODES)
+  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
     {
       _lw6p2p_tentacle_clear (&(node->tentacles[i]));
       ret = 1;

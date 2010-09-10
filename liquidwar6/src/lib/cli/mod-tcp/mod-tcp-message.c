@@ -39,7 +39,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   char *line = NULL;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp send \"%s\""), message);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp send \"%s\""), message);
   if (specific_data->state == _MOD_TCP_STATE_CONNECTED
       && lw6net_socket_is_valid (specific_data->sock))
     {
@@ -58,7 +58,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	    {
 	      if (lw6net_send_line_tcp (specific_data->sock, line))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp sent \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp sent \"%s\""),
 			      line);
 		  ret = 1;
 		}
@@ -69,7 +69,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_NOTICE,
+      lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("mod_tcp can't send, not connected"));
     }
 
@@ -83,6 +83,15 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
   _mod_tcp_specific_data_t *specific_data =
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   _mod_tcp_connect_data_t *connect_data = NULL;
+  char buffer[LW6CLI_CONTENT_BUFFER_SIZE + 1];
+  char *envelope_line = NULL;
+  char *msg = NULL;
+  u_int32_t physical_ticket_sig = 0;
+  u_int32_t logical_ticket_sig = 0;
+  u_int64_t physical_from_id = 0;
+  u_int64_t physical_to_id = 0;
+  u_int64_t logical_from_id = 0;
+  u_int64_t logical_to_id = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll"));
   switch (specific_data->state)
@@ -128,14 +137,68 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	}
       break;
     case _MOD_TCP_STATE_CONNECTED:
-      if (!lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  specific_data->sock = LW6NET_SOCKET_INVALID;
-	  specific_data->state = _MOD_TCP_STATE_CLOSED;
+	  if (lw6net_tcp_is_alive (specific_data->sock))
+	    {
+	      memset (buffer, 0, LW6CLI_CONTENT_BUFFER_SIZE + 1);
+	      if (lw6net_tcp_peek
+		  (specific_data->sock, buffer, LW6CLI_CONTENT_BUFFER_SIZE,
+		   0))
+		{
+		  if (strchr (buffer, '\n'))
+		    {
+		      envelope_line =
+			lw6net_recv_line_tcp (specific_data->sock);
+		      if (envelope_line)
+			{
+			  lw6sys_log (LW6SYS_LOG_NOTICE,
+				      _x_
+				      ("mod_tcp received envelope \"%s\""),
+				      envelope_line);
+			  if (lw6msg_envelope_analyse
+			      (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
+			       connection->local_url, connection->password,
+			       connection->remote_id_int,
+			       connection->local_id_int, &msg,
+			       &physical_ticket_sig, &logical_ticket_sig,
+			       &physical_from_id, &physical_to_id,
+			       &logical_from_id, &logical_to_id, NULL))
+			    {
+			      lw6sys_log (LW6SYS_LOG_NOTICE,
+					  _x_ ("mod_tcp analysed msg \"%s\""),
+					  msg);
+			      if (connection->recv_callback_func)
+				{
+				  connection->
+				    recv_callback_func
+				    (connection->recv_callback_data,
+				     (void *) connection, physical_ticket_sig,
+				     logical_ticket_sig, logical_from_id,
+				     logical_to_id, msg);
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_DEBUG,
+					      _x_
+					      ("no recv callback defined"));
+				}
+			      LW6SYS_FREE (msg);
+			    }
+			  LW6SYS_FREE (envelope_line);
+			}
+		    }
+		}
+	    }
+	  else
+	    {
+	      lw6net_socket_close (specific_data->sock);
+	      specific_data->sock = LW6NET_SOCKET_INVALID;
+	      specific_data->state = _MOD_TCP_STATE_CLOSED;
+	    }
 	}
-      if (!lw6net_tcp_is_alive (specific_data->sock))
+      else
 	{
-	  lw6net_socket_close (specific_data->sock);
 	  specific_data->sock = LW6NET_SOCKET_INVALID;
 	  specific_data->state = _MOD_TCP_STATE_CLOSED;
 	}

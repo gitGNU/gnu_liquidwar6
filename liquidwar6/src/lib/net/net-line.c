@@ -61,7 +61,7 @@ lw6net_recv_line_tcp (int sock)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
 
   if (sock >= 0)
     {
@@ -167,11 +167,13 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
    * can be called by many threads in polling loops (think of broadcast)
    * and allocating memory for this causes bottlenecks in bazooka functions.
    */
-  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
 
   if (sock >= 0)
     {
-      line_size = _lw6net_global_context->const_data.line_size;
+      line_size =
+	lw6sys_min (_lw6net_global_context->const_data.line_size,
+		    LW6NET_PPPOE_MTU - 2);
       memset (line_buf, 0, line_size + 3);
       available_size =
 	lw6net_udp_peek (sock, line_buf, line_size + 2,
@@ -233,7 +235,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char line_buf[LW6NET_MAX_PACKET_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
   char *seek = NULL;
   int no_lf_at_very_end = 0;
 
@@ -242,7 +244,9 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
       ret = lw6sys_list_new (lw6sys_free_callback);
       if (ret)
 	{
-	  line_size = _lw6net_global_context->const_data.line_size;
+	  line_size =
+	    lw6sys_min (_lw6net_global_context->const_data.line_size,
+			LW6NET_PPPOE_MTU - 2);
 	  memset (line_buf, 0, line_size + 3);
 	  available_size =
 	    lw6net_udp_peek (sock, line_buf, line_size + 2,
@@ -342,7 +346,9 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
 
   if (sock >= 0 && line)
     {
-      line_size = _lw6net_global_context->const_data.line_size;
+      line_size =
+	lw6sys_min (_lw6net_global_context->const_data.line_size,
+		    LW6NET_PPPOE_MTU - 2);
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
       copied_line = lw6sys_str_copy (line);
       if (copied_line)

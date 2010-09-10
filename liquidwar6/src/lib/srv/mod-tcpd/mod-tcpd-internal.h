@@ -52,7 +52,7 @@ _tcpd_context_t;
 
 typedef struct _tcpd_specific_data_s
 {
-  int dummy;
+  int sock;
 }
 _tcpd_specific_data_t;
 

@@ -29,6 +29,11 @@
 #include "../cnx/cnx.h"
 #include "../msg/msg.h"
 
+/*
+ * Must be greater than LW6MAP_MAX_NB_NODES
+ */
+#define LW6DAT_MAX_NB_STACKS 33
+
 typedef struct lw6dat_warehouse_s
 {
   int dummy;

@@ -167,6 +167,15 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 									    [tentacle_i]));
 		      if (fastest_cnx)
 			{
+			  if (!node->tentacles[tentacle_i].data_exchanged)
+			    {
+			      node->tentacles[tentacle_i].data_exchanged = 1;
+			      lw6sys_log (LW6SYS_LOG_NOTICE,
+					  _
+					  ("communication established \"%s\" <-> \"%s\" on %s:%d"),
+					  cnx->local_url, cnx->remote_url,
+					  cnx->remote_ip, cnx->remote_port);
+			    }
 			  now = _lw6p2p_db_now (node->db);
 			  uptime =
 			    (lw6sys_get_timestamp () -

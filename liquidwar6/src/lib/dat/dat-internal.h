@@ -25,8 +25,6 @@
 
 #include "dat.h"
 
-#include "../map/map.h"		// only needed for #defines
-
 /*
  * This limit does not mean we can't store longer lines,
  * only if longer they'll be allocated dynamically.
@@ -87,7 +85,7 @@ typedef struct _lw6dat_warehouse_s
   int dummy;			// same as in lw6dat_warehouse_t
   int serial_0;
   int serial_n_1;
-  _lw6dat_stack_t stacks[LW6MAP_MAX_NB_NODES];
+  _lw6dat_stack_t stacks[LW6DAT_MAX_NB_STACKS];
 } _lw6dat_warehouse_t;
 
 /* dat-atom.c */

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-09 17:00+0200\n"
+"POT-Creation-Date: 2010-09-10 18:11+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -610,6 +610,12 @@ msgstr "environ %d méga-octets disponibles"
 msgid "goodbye"
 msgstr "au revoir"
 
+#: src/lib/msg/msg-oob.c:141
+msgid ""
+"truncating list, very long lists do not make any sense anyway, and it could "
+"cause problems on UDP"
+msgstr ""
+
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
 msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
@@ -642,6 +648,11 @@ msgstr ""
 #, c-format
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
+
+#: src/lib/p2p/p2p-recv.c:175
+#, c-format
+msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
+msgstr ""
 
 #: src/lib/sys/sys-test.c:1950
 msgid "this is a /TEST/ error"
@@ -780,84 +791,89 @@ msgstr ""
 msgid "unable to read main script file \"%s\""
 msgstr "impossible de lire le fichier de script principal \"%s\""
 
-#: src/lib/hlp/hlp-credits.c:77
+#: src/lib/hlp/hlp-credits.c:78
 #, c-format
 msgid "Codename \"%s\""
 msgstr "Nom de code \"%s\""
 
-#: src/lib/hlp/hlp-credits.c:84
+#: src/lib/hlp/hlp-credits.c:85
 #, c-format
 msgid "Idea: %s"
 msgstr "Idée : %s"
 
-#: src/lib/hlp/hlp-credits.c:87
+#: src/lib/hlp/hlp-credits.c:88
 #, c-format
 msgid "Programming: %s"
 msgstr "Programmation : %s"
 
-#: src/lib/hlp/hlp-credits.c:90
+#: src/lib/hlp/hlp-credits.c:91
 #, c-format
 msgid "Maps: %s"
 msgstr "Tableaux : %s"
 
-#: src/lib/hlp/hlp-credits.c:93
+#: src/lib/hlp/hlp-credits.c:94
 #, c-format
 msgid "Menu music: %s"
 msgstr "Musique des menus : %s"
 
-#: src/lib/hlp/hlp-credits.c:97 src/lib/hlp/hlp-credits.c:102
-#: src/lib/hlp/hlp-credits.c:107
+#: src/lib/hlp/hlp-credits.c:98 src/lib/hlp/hlp-credits.c:103
+#: src/lib/hlp/hlp-credits.c:108
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Chanson \"%s\" par %s"
 
-#: src/lib/hlp/hlp-credits.c:111
+#: src/lib/hlp/hlp-credits.c:113
+#, c-format
+msgid "Norwegian translation by %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:117
 msgid "Thanks to all other contributors"
 msgstr "Merci à tous les autres contributeurs"
 
-#: src/lib/hlp/hlp-credits.c:114
+#: src/lib/hlp/hlp-credits.c:120
 msgid "Help is always appreciated"
 msgstr "L'aide est toujours appréciée"
 
-#: src/lib/hlp/hlp-credits.c:117
+#: src/lib/hlp/hlp-credits.c:123
 msgid "Join us now!"
 msgstr "Rejoignez-nous!"
 
-#: src/lib/hlp/hlp-credits.c:120
+#: src/lib/hlp/hlp-credits.c:126
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "Liste de diffusion : <%s>"
 
-#: src/lib/hlp/hlp-credits.c:123
+#: src/lib/hlp/hlp-credits.c:129
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Ceci est un Logiciel Libre"
 
-#: src/lib/hlp/hlp-credits.c:127
+#: src/lib/hlp/hlp-credits.c:133
 #, c-format
 msgid "License: %s"
 msgstr "Licence : %s"
 
-#: src/lib/hlp/hlp-credits.c:134
+#: src/lib/hlp/hlp-credits.c:140
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Compilé le %s à %s"
 
-#: src/lib/hlp/hlp-credits.c:139
+#: src/lib/hlp/hlp-credits.c:145
 #, c-format
 msgid "Stamp %s, Id %d"
 msgstr "Stamp %s, Id %d"
 
-#: src/lib/hlp/hlp-credits.c:143
+#: src/lib/hlp/hlp-credits.c:149
 #, c-format
 msgid "Help GNU %s"
 msgstr "Aidez GNU %s"
 
-#: src/lib/hlp/hlp-credits.c:146
+#: src/lib/hlp/hlp-credits.c:152
 #, c-format
 msgid "Fight software patents %s"
 msgstr "Contre les brevets logiciels %s"
 
-#: src/lib/hlp/hlp-credits.c:149
+#: src/lib/hlp/hlp-credits.c:155
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
@@ -870,9 +886,19 @@ msgstr "cette erreur aussi"
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:60
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:61
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
+
+#: src/lib/cli/mod-tcp/mod-tcp-state.c:155
+#, c-format
+msgid "waiting for %d seconds before continuing"
+msgstr ""
+
+#: src/lib/cli/mod-tcp/mod-tcp-message.c:144
+#, c-format
+msgid "unvalid state %d"
+msgstr ""
 
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
 msgid "can't initialize mod_udp"

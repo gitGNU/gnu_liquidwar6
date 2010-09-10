@@ -59,9 +59,9 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
     }
   if (counters->open_counter > counters->close_counter)
     {
-      lw6sys_log (LW6SYS_LOG_INFO,
+      lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
-		  ("%d sockets opened, but %d closed, the only acceptable explanation is that there's a detached thread or something, which was idle when program ended"),
+		  ("%d sockets opened, but only %d closed"),
 		  counters->open_counter, counters->close_counter);
     }
   if (counters->close_counter == counters->open_counter)

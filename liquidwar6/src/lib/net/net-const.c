@@ -83,9 +83,9 @@ _lw6net_const_init (int argc, char *argv[], _lw6net_const_data_t * const_data)
    * kernel network stack will stop us before that.
    */
   const_data->chunk_size =
-    lw6sys_min (LW6NET_MAX_PACKET_SIZE, const_data->chunk_size);
+    lw6sys_min (LW6NET_MAX_CHUNK_SIZE, const_data->chunk_size);
   const_data->line_size =
-    lw6sys_min (LW6NET_MAX_PACKET_SIZE, const_data->line_size);
+    lw6sys_min (LW6NET_MAX_LINE_SIZE, const_data->line_size);
 
   return ret;
 }

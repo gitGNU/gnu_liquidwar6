@@ -129,7 +129,7 @@ _mod_tcp_connect_func (void *func_data)
     (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   int sock = LW6NET_SOCKET_INVALID;
 
-  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("connecting on %s:%d"),
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting on %s:%d"),
 	      connection->remote_ip, connection->remote_port);
 
   sock = specific_data->sock;
@@ -140,9 +140,15 @@ _mod_tcp_connect_func (void *func_data)
 			    tcp_context->data.consts.connect_timeout * 1000);
       if (lw6net_socket_is_valid (sock))
 	{
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("connected on %s:%d"),
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connected on %s:%d"),
 		      connection->remote_ip, connection->remote_port);
 	  specific_data->sock = sock;
+	  /*
+	   * We schedule a foo/bar so that connection does not stay
+	   * "idle" and fires a server error because of a timeout.
+	   */
+	  lw6cnx_connection_init_foo_bar_key (connection,
+					      lw6sys_get_timestamp (), 0);
 	}
       else
 	{
@@ -151,7 +157,7 @@ _mod_tcp_connect_func (void *func_data)
 	   * is blocked because of a firewall or something, we don't want
 	   * to try and connect 1000 times/sec.
 	   */
-	  lw6sys_log (LW6SYS_LOG_NOTICE,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _("waiting for %d seconds before continuing"),
 		      tcp_context->data.consts.reconnect_delay);
 	  lw6sys_delay (tcp_context->data.consts.reconnect_delay * 1000);

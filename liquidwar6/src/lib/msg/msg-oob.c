@@ -25,6 +25,7 @@
 #endif
 
 #include "msg.h"
+#include "../net/net.h"		// only for the #defines, no bin dep
 
 /**
  * lw6msg_oob_generate_info
@@ -121,12 +122,23 @@ _add_node_txt (void *func_data, void *data)
    */
   if (list && (*list) && verified_node && verified_node->const_info.url)
     {
-      tmp =
-	lw6sys_new_sprintf ("%s%s\n", *list, verified_node->const_info.url);
-      if (tmp)
+      if (strlen (*list) + strlen (verified_node->const_info.url) <=
+	  LW6NET_PPPOE_MTU - 1)
 	{
-	  LW6SYS_FREE (*list);
-	  (*list) = tmp;
+	  tmp =
+	    lw6sys_new_sprintf ("%s%s\n", *list,
+				verified_node->const_info.url);
+	  if (tmp)
+	    {
+	      LW6SYS_FREE (*list);
+	      (*list) = tmp;
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _
+		      ("truncating list, very long lists do not make any sense anyway, and it could cause problems on UDP"));
 	}
     }
 }
@@ -139,7 +151,9 @@ _add_node_txt (void *func_data, void *data)
  * Generates a standard response to the LIST question for OOB
  * (out of band) messages. The same message is sent, be it
  * on http or tcp or udp, so it's factorized here. Function
- * will lock the info object when needed.
+ * will lock the info object when needed. There's a max length
+ * because we don't want the udp buffer to be saturated + too
+ * long lists do not really mean anything anyway.
  *
  * Return value: newly allocated string.
  */

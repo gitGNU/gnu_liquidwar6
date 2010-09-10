@@ -1,3 +1,9 @@
+2010-09-10 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Finished mod-tcp/mod-tcpd implementation (still needs debug)
+
+	* Fixed auto-creation of tentacles in server mode.
+
 2010-09-09 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Started to implement mod-tcp in-band connections.

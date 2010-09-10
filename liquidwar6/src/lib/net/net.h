@@ -33,7 +33,24 @@
 #define LW6NET_ADDRESS_LOOPBACK "127.0.0.1"
 #define LW6NET_DEFAULT_PORT 8056
 #define LW6NET_HTTP_PORT 80
-#define LW6NET_MAX_PACKET_SIZE 2000
+
+/*
+ * http://www.faqs.org/rfcs/rfc1191.html
+ * http://www.dslreports.com/faq/695
+ * 1460 TCP Data size (MSS) when MTU is 1500 and not using PPPoE.
+ * 1452 TCP Data size (MSS) when MTU is 1492 and using PPPoE.
+ * 576 Typically recommended as the MTU for dial-up type applications, leaving 536 bytes of TCP data.
+ *
+ * Here we don't define the real MTU but the real data
+ * one can send in a row with a given MTU.
+ */
+#define LW6NET_DIALUP_MTU 536
+#define LW6NET_PPPOE_MTU 1452
+#define LW6NET_ETHERNET_MTU 1460
+
+#define LW6NET_MAX_CHUNK_SIZE 4095
+#define LW6NET_MAX_LINE_SIZE 4093
+
 #define LW6NET_SOCKET_INVALID -1
 #define LW6NET_UDP_MINIMAL_BUF_SIZE 1
 

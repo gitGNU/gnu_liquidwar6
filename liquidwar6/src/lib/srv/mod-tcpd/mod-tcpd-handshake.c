@@ -34,8 +34,12 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
 		       u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
+  char *line = NULL;
+  char *msg = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trying to recognize tcpd protocol"));
+  line = tcp_accepter->first_line;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("trying to recognize tcpd protocol in \"%s\""), line);
 
   if (remote_id)
     {
@@ -46,30 +50,62 @@ _mod_tcpd_analyse_tcp (_tcpd_context_t * tcpd_context,
       (*remote_url) = NULL;
     }
 
-  if (!lw6net_tcp_is_alive (tcp_accepter->sock))
+  if (lw6net_tcp_is_alive (tcp_accepter->sock))
+    {
+      if (lw6sys_chr_is_eol (line[0])
+	  || lw6sys_str_starts_with_no_case (line,
+					     LW6MSG_OOB_PING)
+	  || lw6sys_str_starts_with_no_case (line,
+					     LW6MSG_OOB_INFO)
+	  || lw6sys_str_starts_with_no_case (line, LW6MSG_OOB_LIST))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("recognized tcpd protocol (OOB)"));
+	  ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
+	}
+
+      if (lw6sys_str_starts_with_no_case
+	  (line, _MOD_TCPD_PROTOCOL_LW6_STRING))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
+	  if (lw6msg_envelope_analyse
+	      (line, LW6MSG_ENVELOPE_MODE_TELNET, node_info->const_info.url,
+	       node_info->const_info.password, 0,
+	       node_info->const_info.id_int, &msg, NULL, NULL, remote_id,
+	       NULL, NULL, NULL, remote_url))
+	    {
+	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("tcpd message \"%s\" OK"),
+			  line);
+	      if (msg)
+		{
+		  /*
+		   * We need to pass msg else remote_url isn't processed
+		   */
+		  LW6SYS_FREE (msg);
+		}
+	    }
+	  else
+	    {
+	      if (strchr (line, '\n'))
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("unable to analyse message \"%s\""), line);
+		  ret |= LW6SRV_ANALYSE_DEAD;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("unable to analyse message \"%s\" but line does not seem complete, assuming some data is still missing, giving it another chance"),
+			      line);
+		}
+	    }
+	}
+    }
+  else
     {
       ret |= LW6SRV_ANALYSE_DEAD;
-      lw6net_socket_close (tcp_accepter->sock);
-      tcp_accepter->sock = -1;
-    }
-
-  if (!strncmp
-      (tcp_accepter->first_line, _MOD_TCPD_PROTOCOL_LW6_STRING,
-       _MOD_TCPD_PROTOCOL_LW6_SIZE))
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
-      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-    }
-  if (lw6sys_chr_is_eol (tcp_accepter->first_line[0])
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
-					 LW6MSG_OOB_PING)
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
-					 LW6MSG_OOB_INFO)
-      || lw6sys_str_starts_with_no_case (tcp_accepter->first_line,
-					 LW6MSG_OOB_LIST))
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol (OOB)"));
-      ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
   return ret;
@@ -105,8 +141,46 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
 			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
+  _tcpd_specific_data_t *specific_data =
+    (_tcpd_specific_data_t *) connection->backend_specific_data;;
 
-  // todo
+  if (specific_data)
+    {
+      if (lw6net_socket_is_valid (specific_data->sock))
+	{
+	  if (!lw6net_socket_is_alive (specific_data->sock))
+	    {
+	      /*
+	       * Close our old socket, use the new one
+	       */
+	      lw6net_socket_close (specific_data->sock);
+	      specific_data->sock = LW6NET_SOCKET_INVALID;
+	      specific_data->sock = tcp_accepter->sock;
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("double connection from \"%s\" (%s:%d), ignoring"),
+			  connection->remote_url, connection->remote_ip,
+			  connection->remote_port);
+	      lw6net_socket_close (tcp_accepter->sock);
+	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	    }
+	}
+      else
+	{
+	  specific_data->sock = tcp_accepter->sock;
+	  ret = 1;
+	}
+    }
+
+  /*
+   * Note, we don't even bother to fetch data here, in fact, the
+   * poll loop will just do it next time it's called, no hurry,
+   * this is just first connection, speed battle is held elsewhere.
+   */
 
   return ret;
 }
