@@ -58,7 +58,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	    {
 	      if (lw6net_send_line_tcp (specific_data->sock, line))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp sent \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp sent \"%s\""),
 			      line);
 		  ret = 1;
 		}
@@ -165,7 +165,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			       &physical_from_id, &physical_to_id,
 			       &logical_from_id, &logical_to_id, NULL))
 			    {
-			      lw6sys_log (LW6SYS_LOG_NOTICE,
+			      lw6sys_log (LW6SYS_LOG_DEBUG,
 					  _x_ ("mod_tcp analysed msg \"%s\""),
 					  msg);
 			      if (connection->recv_callback_func)
