@@ -112,8 +112,7 @@ _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
 				      msg);
 			  if (connection->recv_callback_func)
 			    {
-			      connection->
-				recv_callback_func
+			      connection->recv_callback_func
 				(connection->recv_callback_data,
 				 (void *) connection, physical_ticket_sig,
 				 logical_ticket_sig, logical_from_id,

@@ -143,12 +143,6 @@ _mod_tcp_connect_func (void *func_data)
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connected on %s:%d"),
 		      connection->remote_ip, connection->remote_port);
 	  specific_data->sock = sock;
-	  /*
-	   * We schedule a foo/bar so that connection does not stay
-	   * "idle" and fires a server error because of a timeout.
-	   */
-	  lw6cnx_connection_init_foo_bar_key (connection,
-					      lw6sys_get_timestamp (), 0);
 	}
       else
 	{

@@ -58,7 +58,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 	    {
 	      if (lw6net_send_line_tcp (specific_data->sock, line))
 		{
-		  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mod_tcp sent \"%s\""),
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_tcp sent \"%s\""),
 			      line);
 		  ret = 1;
 		}
@@ -130,6 +130,13 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
       if (lw6net_socket_is_valid (specific_data->sock))
 	{
 	  specific_data->state = _MOD_TCP_STATE_CONNECTED;
+	  /*
+	   * We schedule a foo/bar soon so that connection does not stay
+	   * "idle" and fires a server error because of a timeout.
+	   */
+	  lw6cnx_connection_init_foo_bar_key (connection,
+					      lw6sys_get_timestamp (),
+					      LW6SYS_SLEEP_DELAY);
 	}
       else
 	{
@@ -152,7 +159,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 			lw6net_recv_line_tcp (specific_data->sock);
 		      if (envelope_line)
 			{
-			  lw6sys_log (LW6SYS_LOG_NOTICE,
+			  lw6sys_log (LW6SYS_LOG_DEBUG,
 				      _x_
 				      ("mod_tcp received envelope \"%s\""),
 				      envelope_line);
@@ -170,8 +177,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 					  msg);
 			      if (connection->recv_callback_func)
 				{
-				  connection->
-				    recv_callback_func
+				  connection->recv_callback_func
 				    (connection->recv_callback_data,
 				     (void *) connection, physical_ticket_sig,
 				     logical_ticket_sig, logical_from_id,
