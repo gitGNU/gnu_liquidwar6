@@ -18,9 +18,6 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-db-reset-if-needed
+(define lw6-db-reset
   (lambda ()
-    (if (not (equal? 
-	      (lw6-config-get-number lw6def-bin-id)
-	      (c-lw6sys-build-get-bin-id)))
-	(c-lw6p2p-db-reset (c-lw6p2p-db-default-name)))))
+    (c-lw6p2p-db-reset (c-lw6p2p-db-default-name))))
