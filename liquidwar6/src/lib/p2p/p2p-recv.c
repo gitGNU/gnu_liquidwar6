@@ -48,6 +48,14 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
   int uptime = 0;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
+
+  /*
+   * We consider data is received even if we don't have the proof
+   * it's correct. At least some bytes came and looked globally
+   * ok, since the envelope is syntaxically right
+   */
+  cnx->last_recv_timestamp = lw6sys_get_timestamp ();
+
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
     {
       if (lw6msg_cmd_analyse_hello (&remote_node_info, message))

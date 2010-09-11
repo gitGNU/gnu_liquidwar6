@@ -192,6 +192,16 @@ void
 lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection,
 				    int64_t now, int next_foo_delay)
 {
+  if (connection->foo_bar_key)
+    {
+      /*
+       * If foo_bar_key is still set it means that since last call,
+       * message still has not been received. This is *bad* so we consider
+       * that connection is just dead, next bar response should hopefully
+       * prove the contrary.
+       */
+      connection->ping_msec = LW6CNX_WORST_PING_MSEC;
+    }
   connection->last_send_foo_timestamp = now;
   connection->next_send_foo_timestamp =
     now + next_foo_delay / 2 + lw6sys_random (next_foo_delay);

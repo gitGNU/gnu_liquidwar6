@@ -57,6 +57,7 @@ typedef struct lw6cnx_connection_s
   int64_t last_send_foo_timestamp;
   int64_t next_send_foo_timestamp;
   int ping_msec;
+  int64_t last_recv_timestamp;
   void *backend_specific_data;
 }
 lw6cnx_connection_t;

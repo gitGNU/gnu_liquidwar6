@@ -1,3 +1,7 @@
+2010-09-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Ping_msec value now expires if not updated regularly.
+
 2010-09-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Finished mod-tcp/mod-tcpd implementation (still needs debug)
