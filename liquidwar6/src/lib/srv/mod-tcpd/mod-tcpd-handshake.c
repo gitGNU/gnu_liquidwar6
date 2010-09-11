@@ -148,7 +148,7 @@ _mod_tcpd_feed_with_tcp (_tcpd_context_t * tcpd_context,
     {
       if (lw6net_socket_is_valid (specific_data->sock))
 	{
-	  if (!lw6net_socket_is_alive (specific_data->sock))
+	  if (!lw6net_tcp_is_alive (specific_data->sock))
 	    {
 	      /*
 	       * Close our old socket, use the new one
