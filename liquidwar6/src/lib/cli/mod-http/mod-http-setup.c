@@ -29,16 +29,17 @@
 
 #define _CURL_FLAGS 0
 
-_http_context_t *
+_mod_http_context_t *
 _mod_http_init (int argc, char *argv[])
 {
-  _http_context_t *http_context = NULL;
+  _mod_http_context_t *http_context = NULL;
   char *data_dir = NULL;
   int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("http init"));
 
-  http_context = (_http_context_t *) LW6SYS_CALLOC (sizeof (_http_context_t));
+  http_context =
+    (_mod_http_context_t *) LW6SYS_CALLOC (sizeof (_mod_http_context_t));
   if (http_context)
     {
       http_context->curl_init_ret = -1;
@@ -71,7 +72,7 @@ _mod_http_init (int argc, char *argv[])
 }
 
 void
-_mod_http_quit (_http_context_t * http_context)
+_mod_http_quit (_mod_http_context_t * http_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("http quit"));
   if (http_context->curl_init_ret == CURLE_OK)

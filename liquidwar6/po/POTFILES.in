@@ -407,6 +407,7 @@ src/lib/cli/mod-http/mod-http-setup.c
 src/lib/cli/mod-http/mod-http-backend.c
 src/lib/cli/mod-http/mod-http-oob.c
 src/lib/cli/mod-http/mod-http-message.c
+src/lib/cli/mod-http/mod-http-getthread.c
 src/lib/cli/mod-http/mod-http-state.c
 src/lib/cli/cli-test.c
 src/lib/cli/cli-testmain.c

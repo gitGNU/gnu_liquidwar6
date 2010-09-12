@@ -34,94 +34,105 @@
 #define _MOD_HTTP_OOB_LIST_TXT "list.txt"
 #define _MOD_HTTP_OOB_PING_TXT "ping.txt"
 
-typedef struct _http_consts_s
+typedef struct _mod_http_consts_s
 {
   int global_timeout;
   int connect_timeout;
 }
-_http_consts_t;
+_mod_http_consts_t;
 
-typedef struct _http_data_s
+typedef struct _mod_http_data_s
 {
-  _http_consts_t consts;
+  _mod_http_consts_t consts;
 }
-_http_data_t;
+_mod_http_data_t;
 
-typedef struct _http_context_s
+typedef struct _mod_http_context_s
 {
   int curl_init_ret;
-  _http_data_t data;
+  _mod_http_data_t data;
 }
-_http_context_t;
+_mod_http_context_t;
 
-typedef struct _http_specific_data_s
+typedef struct _mod_http_get_thread_data_s
 {
-  int dummy;
+  lw6cnx_connection_t *cnx;
+  char *url;
+} _mod_http_get_thread_data_t;
+
+typedef struct _mod_http_specific_data_s
+{
+  lw6sys_list_t *get_threads;
 }
-_http_specific_data_t;
+_mod_http_specific_data_t;
 
 /* mod-http-data.c */
-extern int _mod_http_load_data (_http_data_t * http_data, char *data_dir);
-extern void _mod_http_unload_data (_http_data_t * http_data);
+extern int _mod_http_load_data (_mod_http_data_t * http_data, char *data_dir);
+extern void _mod_http_unload_data (_mod_http_data_t * http_data);
 
 /*
  * In setup.c
  */
-extern _http_context_t *_mod_http_init (int argc, char *argv[]);
-extern void _mod_http_quit (_http_context_t * http_context);
+extern _mod_http_context_t *_mod_http_init (int argc, char *argv[]);
+extern void _mod_http_quit (_mod_http_context_t * http_context);
 
 /* http-get.c */
-extern char *_mod_http_get (_http_context_t * http_context, char *url,
+extern char *_mod_http_get (_mod_http_context_t * http_context, char *url,
 			    char *password);
+
+/* http-getthread.c */
+extern void _mod_http_get_thread_func (void *callback_data);
+extern void _mod_http_get_thread_join (void *callback_data);
+extern void _mod_http_get_thread_free_list_item (void *data);
+extern int _mod_http_get_thread_filter (void *func_data, void *data);
 
 /*
  * In state.c
  */
-extern lw6cnx_connection_t *_mod_http_open (_http_context_t * http_context,
-					    char *local_url, char *remote_url,
-					    char *remote_ip, int remote_port,
-					    char *password,
+extern lw6cnx_connection_t *_mod_http_open (_mod_http_context_t *
+					    http_context, char *local_url,
+					    char *remote_url, char *remote_ip,
+					    int remote_port, char *password,
 					    u_int64_t local_id,
-					    u_int64_t remote_id,
-					    int dns_ok,
+					    u_int64_t remote_id, int dns_ok,
 					    int network_reliability,
 					    lw6cnx_recv_callback_t
 					    recv_callback_func,
 					    void *recv_callback_data);
-extern void _mod_http_close (_http_context_t * http_context,
+extern void _mod_http_close (_mod_http_context_t * http_context,
 			     lw6cnx_connection_t * connection);
-extern int _mod_http_is_alive (_http_context_t * http_context,
+extern int _mod_http_is_alive (_mod_http_context_t * http_context,
 			       lw6cnx_connection_t * connection);
-extern int _mod_http_timeout_ok (_http_context_t * http_context,
+extern int _mod_http_timeout_ok (_mod_http_context_t * http_context,
 				 int64_t origin_timestamp);
 
 /*
  * In message.c
  */
-extern int _mod_http_send (_http_context_t * http_context,
+extern int _mod_http_send (_mod_http_context_t * http_context,
 			   lw6cnx_connection_t * connection,
 			   u_int32_t physical_ticket_sig,
 			   u_int32_t logical_ticket_sig,
 			   u_int64_t logical_from_id, u_int64_t logical_to_id,
 			   char *message);
-extern void _mod_http_poll (_http_context_t * http_context,
+extern void _mod_http_poll (_mod_http_context_t * http_context,
 			    lw6cnx_connection_t * connection);
 
 /*
  * In info.c
  */
-extern char *_mod_http_repr (_http_context_t * http_context,
+extern char *_mod_http_repr (_mod_http_context_t * http_context,
 			     lw6cnx_connection_t * connection);
-extern char *_mod_http_error (_http_context_t * http_context,
+extern char *_mod_http_error (_mod_http_context_t * http_context,
 			      lw6cnx_connection_t * connection);
 
 /*
  * In oob.c
  */
-extern int _mod_http_process_oob (_http_context_t * http_context,
+extern int _mod_http_process_oob (_mod_http_context_t * http_context,
 				  lw6nod_info_t * node_info,
 				  lw6cli_oob_data_t * oob_data);
-extern int _mod_http_oob_should_continue (_http_context_t *
+extern int _mod_http_oob_should_continue (_mod_http_context_t *
 					  http_context,
 					  lw6cli_oob_data_t * oob_data);
 

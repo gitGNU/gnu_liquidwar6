@@ -33,9 +33,9 @@
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
 {
-  _http_consts_t *consts;
+  _mod_http_consts_t *consts;
 
-  consts = (_http_consts_t *) callback_data;
+  consts = (_mod_http_consts_t *) callback_data;
 
   if (!strcmp (element, "int"))
     {
@@ -47,7 +47,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_http_consts_t * consts, char *consts_file)
+_load_consts (_mod_http_consts_t * consts, char *consts_file)
 {
   int ret = 0;
 
@@ -61,7 +61,7 @@ _load_consts (_http_consts_t * consts, char *consts_file)
 }
 
 int
-_mod_http_load_data (_http_data_t * http_data, char *data_dir)
+_mod_http_load_data (_mod_http_data_t * http_data, char *data_dir)
 {
   int ret = 0;
   char *http_subdir = NULL;
@@ -83,17 +83,17 @@ _mod_http_load_data (_http_data_t * http_data, char *data_dir)
 }
 
 static int
-_unload_consts (_http_consts_t * consts)
+_unload_consts (_mod_http_consts_t * consts)
 {
   int ret = 1;
 
-  memset (consts, 0, sizeof (_http_consts_t));
+  memset (consts, 0, sizeof (_mod_http_consts_t));
 
   return ret;
 }
 
 void
-_mod_http_unload_data (_http_data_t * http_data)
+_mod_http_unload_data (_mod_http_data_t * http_data)
 {
   _unload_consts (&(http_data->consts));
 }

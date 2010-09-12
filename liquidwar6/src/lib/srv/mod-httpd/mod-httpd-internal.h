@@ -131,8 +131,7 @@ typedef struct _httpd_response_s
 
 typedef struct _httpd_specific_data_s
 {
-  int dummy;
-  // todo: list of messages waiting to be sent
+  lw6sys_list_t *send_buffer;
 }
 _httpd_specific_data_t;
 

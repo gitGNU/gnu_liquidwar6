@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 static int
-_do_ping (_http_context_t * http_context, lw6nod_info_t * node_info,
+_do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip)
 {
@@ -83,7 +83,7 @@ _do_ping (_http_context_t * http_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_info (_http_context_t * http_context, lw6nod_info_t * node_info,
+_do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip, char *password_checksum)
 {
@@ -173,7 +173,7 @@ _do_info (_http_context_t * http_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_list (_http_context_t * http_context, lw6nod_info_t * node_info,
+_do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url,
 	  char *ip, char *password_checksum)
 {
@@ -246,7 +246,7 @@ _do_list (_http_context_t * http_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_http_process_oob (_http_context_t * http_context,
+_mod_http_process_oob (_mod_http_context_t * http_context,
 		       lw6nod_info_t * node_info,
 		       lw6cli_oob_data_t * oob_data)
 {
@@ -346,7 +346,7 @@ _mod_http_process_oob (_http_context_t * http_context,
 }
 
 int
-_mod_http_oob_should_continue (_http_context_t *
+_mod_http_oob_should_continue (_mod_http_context_t *
 			       http_context, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;

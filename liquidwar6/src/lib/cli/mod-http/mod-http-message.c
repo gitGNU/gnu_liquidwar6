@@ -28,22 +28,94 @@
 #include "mod-http-internal.h"
 
 int
-_mod_http_send (_http_context_t * http_context,
+_mod_http_send (_mod_http_context_t * http_context,
 		lw6cnx_connection_t * connection,
 		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 		u_int64_t logical_from_id, u_int64_t logical_to_id,
 		char *message)
 {
   int ret = 0;
+  _mod_http_specific_data_t *specific_data =
+    (_mod_http_specific_data_t *) connection->backend_specific_data;
+  char *line = NULL;
+  char *url = NULL;
+  _mod_http_get_thread_data_t *get_thread_data = NULL;
+  void *thread_handler = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http send \"%s\""), message);
-  // todo
+  /*
+   * We don't even try to use http protocol if there's a DNS problem,
+   * no use to query a 192.168.X.X address (case of peer behind a 
+   * NAT firewall). URL needs to be *correct* for http to work.
+   */
+  if (connection->dns_ok)
+    {
+      line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_URL,
+				       lw6sys_build_get_version (),
+				       connection->password_send_checksum,
+				       physical_ticket_sig,
+				       logical_ticket_sig,
+				       connection->local_id_int,
+				       connection->remote_id_int,
+				       logical_from_id, logical_to_id,
+				       message);
+      if (line)
+	{
+	  url = lw6sys_str_concat (connection->remote_url, line);
+	  if (url)
+	    {
+	      /*
+	       * Note: here, we don't bother to acquire a connection
+	       * lock, multiple URLs can be fetched in any order after
+	       * all, it's not like we would be using a socket. Still
+	       * there will be another lock later (over libcurl calls)
+	       * because of non-reentrant gethostbyname, but this is 
+	       * another question. So another lock. And, even, given that,
+	       * all we do here is fire another thread!
+	       */
+	      get_thread_data =
+		(_mod_http_get_thread_data_t *)
+		LW6SYS_MALLOC (sizeof (_mod_http_get_thread_data_t));
+	      if (get_thread_data)
+		{
+		  get_thread_data->cnx = connection;
+		  get_thread_data->url = url;
+		  thread_handler =
+		    lw6sys_thread_create (_mod_http_get_thread_func,
+					  _mod_http_get_thread_join,
+					  (void *) get_thread_data);
+		  if (thread_handler)
+		    {
+		      lw6sys_list_push_back (&(specific_data->get_threads),
+					     thread_handler);
+		    }
+		}
+	    }
+	  LW6SYS_FREE (line);
+	}
+      if (!ret)
+	{
+	  if (url)
+	    {
+	      LW6SYS_FREE (url);
+	    }
+	  if (get_thread_data)
+	    {
+	      LW6SYS_FREE (get_thread_data);
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("mod_http can't send, DNS mismatch"));
+    }
 
   return ret;
 }
 
 void
-_mod_http_poll (_http_context_t * http_context,
+_mod_http_poll (_mod_http_context_t * http_context,
 		lw6cnx_connection_t * connection)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http poll"));

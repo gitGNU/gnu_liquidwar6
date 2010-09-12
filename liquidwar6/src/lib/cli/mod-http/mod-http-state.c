@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 lw6cnx_connection_t *
-_mod_http_open (_http_context_t * http_context, char *local_url,
+_mod_http_open (_mod_http_context_t * http_context, char *local_url,
 		char *remote_url, char *remote_ip, int remote_port,
 		char *password, u_int64_t local_id, u_int64_t remote_id,
 		int dns_ok, int network_reliability,
@@ -36,7 +36,7 @@ _mod_http_open (_http_context_t * http_context, char *local_url,
 		void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
-  _http_specific_data_t *specific_data = NULL;
+  _mod_http_specific_data_t *specific_data = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_http_open \"%s\""), remote_url);
   ret =
@@ -47,12 +47,24 @@ _mod_http_open (_http_context_t * http_context, char *local_url,
   if (ret)
     {
       ret->backend_specific_data =
-	LW6SYS_CALLOC (sizeof (_http_specific_data_t));
-      specific_data = (_http_specific_data_t *) ret->backend_specific_data;
-      if (ret->backend_specific_data)
+	LW6SYS_CALLOC (sizeof (_mod_http_specific_data_t));
+      specific_data =
+	(_mod_http_specific_data_t *) ret->backend_specific_data;
+      if (specific_data)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("open http connection with \"%s\""), remote_url);
+	  specific_data->get_threads =
+	    lw6sys_list_new (_mod_http_get_thread_free_list_item);
+	  if (specific_data->get_threads)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("open http connection with \"%s\""),
+			  remote_url);
+	    }
+	  else
+	    {
+	      _mod_http_close (http_context, ret);
+	      ret = NULL;
+	    }
 	}
       else
 	{
@@ -65,21 +77,25 @@ _mod_http_open (_http_context_t * http_context, char *local_url,
 }
 
 void
-_mod_http_close (_http_context_t * http_context,
+_mod_http_close (_mod_http_context_t * http_context,
 		 lw6cnx_connection_t * connection)
 {
-  _http_specific_data_t *specific_data =
-    (_http_specific_data_t *) connection->backend_specific_data;
+  _mod_http_specific_data_t *specific_data =
+    (_mod_http_specific_data_t *) connection->backend_specific_data;
 
   if (specific_data)
     {
+      if (specific_data->get_threads)
+	{
+	  lw6sys_list_free (specific_data->get_threads);
+	}
       LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);
 }
 
 int
-_mod_http_is_alive (_http_context_t * http_context,
+_mod_http_is_alive (_mod_http_context_t * http_context,
 		    lw6cnx_connection_t * connection)
 {
   int ret = 0;
@@ -90,7 +106,7 @@ _mod_http_is_alive (_http_context_t * http_context,
 }
 
 int
-_mod_http_timeout_ok (_http_context_t * http_context,
+_mod_http_timeout_ok (_mod_http_context_t * http_context,
 		      int64_t origin_timestamp)
 {
   int ret = 0;
