@@ -128,6 +128,34 @@ clear and checksumed values, so it can be in any form.
 @strong{Return value:}  1 if OK, passwords are the same, 0 if not.
 @end deftypefun
 
+@deftypefun {lw6cnx_send_param_t *} {lw6cnx_send_param_new} (u_int32_t @var{physical_ticket_sig}, u_int32_t @var{logical_ticket_sig}, u_int64_t @var{logical_from_id}, u_int64_t @var{logical_to_id}, char * @var{message})
+@var{physical_ticket_sig}:  the signature associated to physical sender/receiver
+
+@var{logical_ticket_sig}:  the signature associated to logical sender/receiver
+
+@var{logical_from_id}:  the id of the message creator
+
+@var{logical_to_id}:  the id of the message final target
+
+@var{message}:  the message
+
+Creates a send_param object, this object can typically be used by
+connections which need to keep messages in a buffer before sending
+them for good. Message is copied internally so source can be deleted.
+
+@strong{Return value:}  newly allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6cnx_send_param_free} (lw6cnx_send_param_t * @var{send_param})
+@var{send_param}:  the object to free
+
+Frees a send_param object, this object can typically be used by
+connections which need to keep messages in a buffer before sending
+them for good.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6cnx_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

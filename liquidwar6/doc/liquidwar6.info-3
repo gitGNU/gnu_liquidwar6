@@ -19,6 +19,63 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libtsk,  Prev: libsys,  Up: C API
+
+5.38 libtsk
+===========
+
+5.38.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html'.
+
+5.38.2 API
+----------
+
+ -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *
+          PROGRESS)
+     SLEEP:  how many seconds to wait between every poll
+
+     Creates a new loader. This object is used to do some reputed slow
+     calculus in the background, in a separated thread. Typical example
+     is map loading. This is a high-level objects which encapsulates
+     threads and other wizardry.
+
+     *Return value:*  a pointer to the loader, NULL if failed.
+
+ -- Function: void lw6tsk_loader_free (lw6tsk_loader_t * LOADER)
+     LOADER:  the loader to free.
+
+     Deletes a loader. Will automatically stop the child thread, free
+     data, and so on.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6tsk_loader_repr (lw6tsk_loader_t * LOADER)
+     LOADER:  the loader to represent.
+
+     Creates a string which briefly describes the loader.
+
+     *Return value:*  a dynamically allocated pointer, must be freed.
+
+ -- Function: int lw6tsk_loader_get_stage (lw6tsk_loader_t * LOADER)
+     LOADER:  the loader to query.
+
+     Returns the current stage of the loader.
+
+     *Return value:*  0 if idle, 1 if loading the map from disk, 2 if
+     build dynamic stuff such as game_state.
+
+ -- Function: int lw6tsk_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `tsk' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
 File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
 
 Annexe A 2005 .plan
@@ -2500,15 +2557,17 @@ F.2 Function and keyword index
 * lw6cnx_connection_unlock_send:         libcnx.             (line   98)
 * lw6cnx_password_checksum:              libcnx.             (line  118)
 * lw6cnx_password_verify:                libcnx.             (line  135)
-* lw6cnx_test:                           libcnx.             (line  149)
-* lw6cnx_ticket_table_ack_recv:          libcnx.             (line  199)
-* lw6cnx_ticket_table_clear:             libcnx.             (line  178)
-* lw6cnx_ticket_table_get_recv:          libcnx.             (line  186)
-* lw6cnx_ticket_table_get_send:          libcnx.             (line  225)
-* lw6cnx_ticket_table_init:              libcnx.             (line  165)
-* lw6cnx_ticket_table_set_send:          libcnx.             (line  238)
-* lw6cnx_ticket_table_was_recv_exchanged: libcnx.            (line  212)
-* lw6cnx_ticket_table_zero:              libcnx.             (line  157)
+* lw6cnx_send_param_free:                libcnx.             (line  172)
+* lw6cnx_send_param_new:                 libcnx.             (line  151)
+* lw6cnx_test:                           libcnx.             (line  181)
+* lw6cnx_ticket_table_ack_recv:          libcnx.             (line  231)
+* lw6cnx_ticket_table_clear:             libcnx.             (line  210)
+* lw6cnx_ticket_table_get_recv:          libcnx.             (line  218)
+* lw6cnx_ticket_table_get_send:          libcnx.             (line  257)
+* lw6cnx_ticket_table_init:              libcnx.             (line  197)
+* lw6cnx_ticket_table_set_send:          libcnx.             (line  270)
+* lw6cnx_ticket_table_was_recv_exchanged: libcnx.            (line  244)
+* lw6cnx_ticket_table_zero:              libcnx.             (line  189)
 * lw6dat_test:                           libdat.             (line   17)
 * lw6dat_warehouse_free:                 libdat.             (line   31)
 * lw6dat_warehouse_new:                  libdat.             (line   25)
@@ -2646,29 +2705,29 @@ F.2 Function and keyword index
 * lw6msg_cmd_guess_from_url:             libmsg.             (line  147)
 * lw6msg_envelope_analyse:               libmsg.             (line  194)
 * lw6msg_envelope_generate:              libmsg.             (line  158)
-* lw6msg_oob_analyse_pong:               libmsg.             (line  303)
-* lw6msg_oob_analyse_request:            libmsg.             (line  282)
+* lw6msg_oob_analyse_pong:               libmsg.             (line  305)
+* lw6msg_oob_analyse_request:            libmsg.             (line  284)
 * lw6msg_oob_generate_info:              libmsg.             (line  234)
 * lw6msg_oob_generate_list:              libmsg.             (line  244)
-* lw6msg_oob_generate_pong:              libmsg.             (line  254)
-* lw6msg_oob_generate_request:           libmsg.             (line  265)
-* lw6msg_test:                           libmsg.             (line  312)
-* lw6msg_ticket_calc_sig:                libmsg.             (line  320)
-* lw6msg_ticket_check_sig:               libmsg.             (line  337)
-* lw6msg_utils_get_assoc_int_with_default: libmsg.           (line  396)
-* lw6msg_utils_get_assoc_str_with_default: libmsg.           (line  381)
-* lw6msg_utils_parse_key_value_to_assoc: libmsg.             (line  367)
-* lw6msg_utils_parse_key_value_to_ptr:   libmsg.             (line  353)
-* lw6msg_word_first:                     libmsg.             (line  412)
-* lw6msg_word_first_base64:              libmsg.             (line  446)
-* lw6msg_word_first_id_16:               libmsg.             (line  490)
-* lw6msg_word_first_id_32:               libmsg.             (line  504)
-* lw6msg_word_first_id_64:               libmsg.             (line  518)
-* lw6msg_word_first_int:                 libmsg.             (line  463)
-* lw6msg_word_first_int_gt0:             libmsg.             (line  476)
-* lw6msg_word_first_x:                   libmsg.             (line  427)
-* lw6msg_z_decode:                       libmsg.             (line  547)
-* lw6msg_z_encode:                       libmsg.             (line  531)
+* lw6msg_oob_generate_pong:              libmsg.             (line  256)
+* lw6msg_oob_generate_request:           libmsg.             (line  267)
+* lw6msg_test:                           libmsg.             (line  314)
+* lw6msg_ticket_calc_sig:                libmsg.             (line  322)
+* lw6msg_ticket_check_sig:               libmsg.             (line  339)
+* lw6msg_utils_get_assoc_int_with_default: libmsg.           (line  398)
+* lw6msg_utils_get_assoc_str_with_default: libmsg.           (line  383)
+* lw6msg_utils_parse_key_value_to_assoc: libmsg.             (line  369)
+* lw6msg_utils_parse_key_value_to_ptr:   libmsg.             (line  355)
+* lw6msg_word_first:                     libmsg.             (line  414)
+* lw6msg_word_first_base64:              libmsg.             (line  448)
+* lw6msg_word_first_id_16:               libmsg.             (line  492)
+* lw6msg_word_first_id_32:               libmsg.             (line  506)
+* lw6msg_word_first_id_64:               libmsg.             (line  520)
+* lw6msg_word_first_int:                 libmsg.             (line  465)
+* lw6msg_word_first_int_gt0:             libmsg.             (line  478)
+* lw6msg_word_first_x:                   libmsg.             (line  429)
+* lw6msg_z_decode:                       libmsg.             (line  549)
+* lw6msg_z_encode:                       libmsg.             (line  533)
 * lw6net_dns_gethostbyname:              libnet.             (line   26)
 * lw6net_dns_is_ip:                      libnet.             (line   17)
 * lw6net_dns_lock:                       libnet.             (line   35)

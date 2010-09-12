@@ -217,7 +217,9 @@ will lock the info object when needed.
 Generates a standard response to the LIST question for OOB
 (out of band) messages. The same message is sent, be it
 on http or tcp or udp, so it's factorized here. Function
-will lock the info object when needed.
+will lock the info object when needed. There's a max length
+because we don't want the udp buffer to be saturated + too
+long lists do not really mean anything anyway.
 
 @strong{Return value:}  newly allocated string.
 @end deftypefun

@@ -1139,6 +1139,38 @@ results on
 
      *Return value:*  1 if OK, passwords are the same, 0 if not.
 
+ -- Function: lw6cnx_send_param_t * lw6cnx_send_param_new (u_int32_t
+          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
+          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MESSAGE)
+     PHYSICAL_TICKET_SIG:  the signature associated to physical
+     sender/receiver
+
+     LOGICAL_TICKET_SIG:  the signature associated to logical
+     sender/receiver
+
+     LOGICAL_FROM_ID:  the id of the message creator
+
+     LOGICAL_TO_ID:  the id of the message final target
+
+     MESSAGE:  the message
+
+     Creates a send_param object, this object can typically be used by
+     connections which need to keep messages in a buffer before sending
+     them for good. Message is copied internally so source can be
+     deleted.
+
+     *Return value:*  newly allocated object.
+
+ -- Function: void lw6cnx_send_param_free (lw6cnx_send_param_t *
+          SEND_PARAM)
+     SEND_PARAM:  the object to free
+
+     Frees a send_param object, this object can typically be used by
+     connections which need to keep messages in a buffer before sending
+     them for good.
+
+     *Return value:*  none.
+
  -- Function: int lw6cnx_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -3134,7 +3166,9 @@ results on
      Generates a standard response to the LIST question for OOB (out of
      band) messages. The same message is sent, be it on http or tcp or
      udp, so it's factorized here. Function will lock the info object
-     when needed.
+     when needed. There's a max length because we don't want the udp
+     buffer to be saturated + too long lists do not really mean
+     anything anyway.
 
      *Return value:*  newly allocated string.
 
@@ -8499,61 +8533,4 @@ results on
      function, else it will fail or be buggy.
 
      *Return value:*  none.
-
-
-File: liquidwar6.info,  Node: libtsk,  Prev: libsys,  Up: C API
-
-5.38 libtsk
-===========
-
-5.38.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html'.
-
-5.38.2 API
-----------
-
- -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *
-          PROGRESS)
-     SLEEP:  how many seconds to wait between every poll
-
-     Creates a new loader. This object is used to do some reputed slow
-     calculus in the background, in a separated thread. Typical example
-     is map loading. This is a high-level objects which encapsulates
-     threads and other wizardry.
-
-     *Return value:*  a pointer to the loader, NULL if failed.
-
- -- Function: void lw6tsk_loader_free (lw6tsk_loader_t * LOADER)
-     LOADER:  the loader to free.
-
-     Deletes a loader. Will automatically stop the child thread, free
-     data, and so on.
-
-     *Return value:*  none.
-
- -- Function: char * lw6tsk_loader_repr (lw6tsk_loader_t * LOADER)
-     LOADER:  the loader to represent.
-
-     Creates a string which briefly describes the loader.
-
-     *Return value:*  a dynamically allocated pointer, must be freed.
-
- -- Function: int lw6tsk_loader_get_stage (lw6tsk_loader_t * LOADER)
-     LOADER:  the loader to query.
-
-     Returns the current stage of the loader.
-
-     *Return value:*  0 if idle, 1 if loading the map from disk, 2 if
-     build dynamic stuff such as game_state.
-
- -- Function: int lw6tsk_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `tsk' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
 
