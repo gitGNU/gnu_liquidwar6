@@ -88,38 +88,17 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
    * Important to check for the 0 backend case, since it can
    * happen in real-life cases
    */
-  if (node->backends.nb_cli_backends>0) {
-  i = node->explore.last_cli_oob_broadcast_backend;
-  i = (i + 1) % node->backends.nb_cli_backends;
-  node->explore.last_cli_oob_broadcast_backend = i;
-
-  if (node->broadcast)
+  if (node->backends.nb_cli_backends > 0)
     {
-      broadcast_url =
-	lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
-				      node->bind_port);
-      if (broadcast_url)
-	{
-	  cli_oob =
-	    _lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
-					       node, broadcast_url);
-	  if (cli_oob)
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("process cli_oob (broadcast) url=\"%s\""),
-			  broadcast_url);
-	      cli_oob->cli_oob->thread =
-		lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
-				      cli_oob);
-	      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
-	    }
-	  LW6SYS_FREE (broadcast_url);
-	}
-      if (node->bind_port != LW6NET_DEFAULT_PORT)
+      i = node->explore.last_cli_oob_broadcast_backend;
+      i = (i + 1) % node->backends.nb_cli_backends;
+      node->explore.last_cli_oob_broadcast_backend = i;
+
+      if (node->broadcast)
 	{
 	  broadcast_url =
 	    lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
-					  LW6NET_DEFAULT_PORT);
+					  node->bind_port);
 	  if (broadcast_url)
 	    {
 	      cli_oob =
@@ -138,14 +117,39 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 		}
 	      LW6SYS_FREE (broadcast_url);
 	    }
+	  if (node->bind_port != LW6NET_DEFAULT_PORT)
+	    {
+	      broadcast_url =
+		lw6sys_url_http_from_ip_port (LW6NET_ADDRESS_BROADCAST,
+					      LW6NET_DEFAULT_PORT);
+	      if (broadcast_url)
+		{
+		  cli_oob =
+		    _lw6p2p_cli_oob_callback_data_new (node->
+						       backends.cli_backends
+						       [i], node,
+						       broadcast_url);
+		  if (cli_oob)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("process cli_oob (broadcast) url=\"%s\""),
+				  broadcast_url);
+		      cli_oob->cli_oob->thread =
+			lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL,
+					      cli_oob);
+		      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+		    }
+		  LW6SYS_FREE (broadcast_url);
+		}
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("BROADCAST disabled by user configuration"));
 	}
     }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("BROADCAST disabled by user configuration"));
-    }
-  }
 
   return ret;
 }
@@ -183,27 +187,28 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
    * Important to check for the 0 backend case, since it can
    * happen in real-life cases
    */
-  if (node->backends.nb_cli_backends>0) {
-  /*
-   * We choose a random backend, it's better than a round-robin
-   * since with a round-robin we could end up always using the
-   * same backend for the same node. This is not true for
-   * broadcast, in which a round-robin is better.
-   */
-  i = lw6sys_random (node->backends.nb_cli_backends);
-
-  cli_oob =
-    _lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
-				       node, public_url);
-  if (cli_oob)
+  if (node->backends.nb_cli_backends > 0)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process cli_oob url=\"%s\""),
-		  public_url);
-      cli_oob->cli_oob->thread =
-	lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
-      lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+      /*
+       * We choose a random backend, it's better than a round-robin
+       * since with a round-robin we could end up always using the
+       * same backend for the same node. This is not true for
+       * broadcast, in which a round-robin is better.
+       */
+      i = lw6sys_random (node->backends.nb_cli_backends);
+
+      cli_oob =
+	_lw6p2p_cli_oob_callback_data_new (node->backends.cli_backends[i],
+					   node, public_url);
+      if (cli_oob)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process cli_oob url=\"%s\""),
+		      public_url);
+	  cli_oob->cli_oob->thread =
+	    lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
+	  lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
+	}
     }
-  }
 }
 
 int

@@ -39,13 +39,14 @@ _lw6p2p_backends_init_cli (int argc, char *argv[],
   list_backends = lw6sys_str_split_config_item (client_backends);
   if (list_backends)
     {
-      if (lw6sys_list_is_empty(list_backends)) {
-	/*
-	 * No backend required, we return OK, still we keep going
-	 * since the pop_front will make the list NULL and free it.
-	 */
-	ret=1;
-      }      
+      if (lw6sys_list_is_empty (list_backends))
+	{
+	  /*
+	   * No backend required, we return OK, still we keep going
+	   * since the pop_front will make the list NULL and free it.
+	   */
+	  ret = 1;
+	}
       while (list_backends
 	     && ((backend = lw6sys_list_pop_front (&list_backends)) != NULL))
 	{
@@ -115,13 +116,14 @@ _lw6p2p_backends_init_srv (int argc, char *argv[],
   list_backends = lw6sys_str_split_config_item (server_backends);
   if (list_backends)
     {
-      if (lw6sys_list_is_empty(list_backends)) {
-	/*
-	 * No backend required, we return OK, still we keep going
-	 * since the pop_front will make the list NULL and free it.
-	 */
-	ret=1;
-      }      
+      if (lw6sys_list_is_empty (list_backends))
+	{
+	  /*
+	   * No backend required, we return OK, still we keep going
+	   * since the pop_front will make the list NULL and free it.
+	   */
+	  ret = 1;
+	}
       while (list_backends
 	     && ((backend = lw6sys_list_pop_front (&list_backends)) != NULL))
 	{

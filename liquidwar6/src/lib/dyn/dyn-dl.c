@@ -377,8 +377,11 @@ lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
 
   if (!ok)
     {
-      lw6dyn_dlclose_backend (ret);
-      ret = NULL;
+      if (ret)
+	{
+	  lw6dyn_dlclose_backend (ret);
+	  ret = NULL;
+	}
     }
 
   return ret;
@@ -435,13 +438,14 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
 
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("lt_dlexit done for \"%s\""),
 		  handle->library_path);
+
+      LW6SYS_FREE (handle->library_path);
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("trying to free NULL dl_handle"));
     }
 
-  LW6SYS_FREE (handle->library_path);
   LW6SYS_FREE (handle);
 
   return ret;
