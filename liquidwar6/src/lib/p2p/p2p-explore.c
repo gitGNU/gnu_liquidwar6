@@ -84,6 +84,11 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
 	}
     }
 
+  /*
+   * Important to check for the 0 backend case, since it can
+   * happen in real-life cases
+   */
+  if (node->backends.nb_cli_backends>0) {
   i = node->explore.last_cli_oob_broadcast_backend;
   i = (i + 1) % node->backends.nb_cli_backends;
   node->explore.last_cli_oob_broadcast_backend = i;
@@ -140,6 +145,7 @@ _lw6p2p_explore_discover_nodes (_lw6p2p_node_t * node)
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("BROADCAST disabled by user configuration"));
     }
+  }
 
   return ret;
 }
@@ -174,6 +180,11 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
   int i;
 
   /*
+   * Important to check for the 0 backend case, since it can
+   * happen in real-life cases
+   */
+  if (node->backends.nb_cli_backends>0) {
+  /*
    * We choose a random backend, it's better than a round-robin
    * since with a round-robin we could end up always using the
    * same backend for the same node. This is not true for
@@ -192,6 +203,7 @@ _start_verify_node (_lw6p2p_node_t * node, char *public_url)
 	lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
       lw6sys_lifo_push (&(node->cli_oobs), cli_oob);
     }
+  }
 }
 
 int

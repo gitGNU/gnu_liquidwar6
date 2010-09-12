@@ -72,6 +72,7 @@
 #define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
 #define _TEST_NODE_NETWORK_RELIABILITY 100
 #define _TEST_NODE_TROJAN 0
+#define _TEST_BOGUS_BACKEND "bogus"
 
 #define TEST_NODE_OOB_DURATION 3000
 #define TEST_NODE_CMD_DURATION 30000
@@ -199,7 +200,7 @@ _test_node_init ()
  * Initializes up to 6 nodes
  */
 static int
-_init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
+_init_nodes (char *cli_backends, char *srv_backends,lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
 	     lw6p2p_node_t ** node1, lw6p2p_node_t ** node2,
 	     lw6p2p_node_t ** node3, lw6p2p_node_t ** node4,
 	     lw6p2p_node_t ** node5, lw6p2p_node_t ** node6)
@@ -256,8 +257,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node1)
 	{
 	  (*node1) =
-	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL1,
 			     _TEST_NODE_TITLE1,
@@ -281,8 +282,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node2)
 	{
 	  (*node2) =
-	    lw6p2p_node_new (argc, argv, *db12, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT2, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL2,
 			     _TEST_NODE_TITLE2, _TEST_NODE_DESCRIPTION, NULL,
@@ -307,8 +308,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node3)
 	{
 	  (*node3) =
-	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT3, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL3,
 			     _TEST_NODE_TITLE3,
@@ -332,8 +333,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node4)
 	{
 	  (*node4) =
-	    lw6p2p_node_new (argc, argv, *db34, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT4, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL4,
 			     _TEST_NODE_TITLE4, _TEST_NODE_DESCRIPTION, NULL,
@@ -359,8 +360,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node5)
 	{
 	  (*node5) =
-	    lw6p2p_node_new (argc, argv, *db56, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT5, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL5,
 			     _TEST_NODE_TITLE5,
@@ -384,8 +385,8 @@ _init_nodes (lw6p2p_db_t ** db12, lw6p2p_db_t ** db34, lw6p2p_db_t ** db56,
       if (node6)
 	{
 	  (*node6) =
-	    lw6p2p_node_new (argc, argv, *db56, lw6cli_default_backends (),
-			     lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
+			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT6, _TEST_NODE_BROADCAST,
 			     _TEST_NODE_PUBLIC_URL6,
 			     _TEST_NODE_TITLE6, _TEST_NODE_DESCRIPTION, NULL,
@@ -519,14 +520,9 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_db_t * db56,
  * Testing node connection
  */
 static int
-_test_node_cmd ()
+_cmd_with_backends (char *cli_backends, char *srv_backends)
 {
   int ret = 1;
-  LW6SYS_TEST_FUNCTION_BEGIN;
-
-  {
-    //int argc = _TEST_ARGC;
-    //char *argv[] = { _TEST_ARGV0 };
     lw6p2p_db_t *db12 = NULL;
     lw6p2p_db_t *db34 = NULL;
     lw6p2p_db_t *db56 = NULL;
@@ -541,7 +537,7 @@ _test_node_cmd ()
     ret = 0;
     end_timestamp = lw6sys_get_timestamp () + TEST_NODE_CMD_DURATION;
     if (_init_nodes
-	(&db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6))
+	(cli_backends,srv_backends,&db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6))
       {
 	if (_lw6p2p_node_register_tentacle
 	    ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2, _TEST_NODE_IP2,
@@ -595,9 +591,7 @@ _test_node_cmd ()
 	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
 		     node6);
       }
-  }
 
-  LW6SYS_TEST_FUNCTION_END;
   return ret;
 }
 
@@ -605,14 +599,28 @@ _test_node_cmd ()
  * Testing node connection
  */
 static int
-_test_node_oob ()
+_test_node_cmd ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    //int argc = _TEST_ARGC;
-    //char *argv[] = { _TEST_ARGV0 };
+    ret=ret && _cmd_with_backends(lw6cli_default_backends (),lw6srv_default_backends ());
+    ret=ret && _cmd_with_backends("udp","udpd");
+    ret=ret && _cmd_with_backends("tcp","tcpd");
+    _cmd_with_backends("http","httpd"); // even if fails, keep going since http is optional
+    _cmd_with_backends("",_TEST_BOGUS_BACKEND);
+    _cmd_with_backends(_TEST_BOGUS_BACKEND,"");
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+_oob_with_backends (char *cli_backends,char *srv_backends)
+{
+  int ret = 1;
     lw6p2p_db_t *db12 = NULL;
     lw6p2p_db_t *db34 = NULL;
     lw6p2p_db_t *db56 = NULL;
@@ -627,7 +635,7 @@ _test_node_oob ()
     ret = 0;
     end_timestamp = lw6sys_get_timestamp () + TEST_NODE_OOB_DURATION;
     if (_init_nodes
-	(&db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6))
+	(cli_backends,srv_backends,&db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6))
       {
 	while (lw6sys_get_timestamp () < end_timestamp)
 	  {
@@ -645,6 +653,25 @@ _test_node_oob ()
 	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
 		     node6);
       }
+
+  return ret;
+}
+
+/* 
+ * Testing node connection
+ */
+static int
+_test_node_oob ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    ret=ret && _oob_with_backends(lw6cli_default_backends (),lw6srv_default_backends ());
+    ret=ret && _oob_with_backends("",lw6srv_default_backends ());
+    ret=ret && _oob_with_backends(lw6cli_default_backends (),"");
+    _oob_with_backends("",_TEST_BOGUS_BACKEND);
+    _oob_with_backends(_TEST_BOGUS_BACKEND,"");
   }
 
   LW6SYS_TEST_FUNCTION_END;
