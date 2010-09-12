@@ -57,8 +57,10 @@
 	      (if db
 		  (lw6-set-game-global! "db" db))
 	      (if node
-		  (lw6-set-game-global! "node" node)
-		  (lw6-set-game-global! "node-id" (c-lw6p2p-node-get-id node)))
+                  (begin
+		    (lw6-set-game-global! "node" node)
+		    (lw6-set-game-global! "node-id" (c-lw6p2p-node-get-id node)))
+		  )
 	      )))))
 
 (define lw6-node-poll
