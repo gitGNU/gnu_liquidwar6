@@ -36,6 +36,15 @@ typedef void (*lw6cnx_recv_callback_t) (void *recv_callback_data,
 					u_int64_t logical_to_id,
 					char *message);
 
+typedef struct lw6cnx_send_param_s
+{
+  u_int32_t physical_ticket_sig;
+  u_int32_t logical_ticket_sig;
+  u_int64_t logical_from_id;
+  u_int64_t logical_to_id;
+  char *message;
+} lw6cnx_send_param_t;
+
 typedef struct lw6cnx_connection_s
 {
   char *local_url;
@@ -101,6 +110,17 @@ extern int lw6cnx_connection_reliability_filter (lw6cnx_connection_t *
 extern char *lw6cnx_password_checksum (char *seed, char *password);
 extern int lw6cnx_password_verify (char *seed, char *password_here,
 				   char *password_received);
+
+/* cnx-sendparam.c */
+extern lw6cnx_send_param_t *lw6cnx_send_param_new (u_int32_t
+						   physical_ticket_sig,
+						   u_int32_t
+						   logical_ticket_sig,
+						   u_int64_t logical_from_id,
+						   u_int64_t logical_to_id,
+						   char *message);
+extern void lw6cnx_send_param_free (lw6cnx_send_param_t * send_param);
+
 
 /* cnx-test.c */
 extern int lw6cnx_test (int mode);

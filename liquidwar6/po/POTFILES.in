@@ -164,6 +164,7 @@ src/lib/dyn/dyn-testmain.c
 src/lib/cnx/cnx-tickettable.c
 src/lib/cnx/cnx-password.c
 src/lib/cnx/cnx-testmain.c
+src/lib/cnx/cnx-sendparam.c
 src/lib/cnx/cnx-test.c
 src/lib/cnx/cnx-connection.c
 src/lib/cns/cns-handler.c

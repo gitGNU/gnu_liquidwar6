@@ -152,7 +152,7 @@ _mod_tcp_connect_func (void *func_data)
 	   * to try and connect 1000 times/sec.
 	   */
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("waiting for %d seconds before continuing"),
+		      _x_ ("waiting for %d seconds before continuing"),
 		      tcp_context->data.consts.reconnect_delay);
 	  lw6sys_delay (tcp_context->data.consts.reconnect_delay * 1000);
 	}

@@ -137,7 +137,7 @@ _add_node_txt (void *func_data, void *data)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _
+		      _x_
 		      ("truncating list, very long lists do not make any sense anyway, and it could cause problems on UDP"));
 	}
     }

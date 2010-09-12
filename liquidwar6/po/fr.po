@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-10 18:11+0200\n"
+"POT-Creation-Date: 2010-09-12 14:55+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -610,12 +610,6 @@ msgstr "environ %d méga-octets disponibles"
 msgid "goodbye"
 msgstr "au revoir"
 
-#: src/lib/msg/msg-oob.c:141
-msgid ""
-"truncating list, very long lists do not make any sense anyway, and it could "
-"cause problems on UDP"
-msgstr ""
-
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
 msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
@@ -649,10 +643,10 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:175
+#: src/lib/p2p/p2p-recv.c:183
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
-msgstr ""
+msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 
 #: src/lib/sys/sys-test.c:1950
 msgid "this is a /TEST/ error"
@@ -825,7 +819,7 @@ msgstr "Chanson \"%s\" par %s"
 #: src/lib/hlp/hlp-credits.c:113
 #, c-format
 msgid "Norwegian translation by %s"
-msgstr ""
+msgstr "Traduction en norvégien par %s"
 
 #: src/lib/hlp/hlp-credits.c:117
 msgid "Thanks to all other contributors"
@@ -890,19 +884,9 @@ msgstr "impossible d'initialiser mod_http"
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
 
-#: src/lib/cli/mod-tcp/mod-tcp-state.c:155
-#, c-format
-msgid "waiting for %d seconds before continuing"
-msgstr ""
-
-#: src/lib/cli/mod-tcp/mod-tcp-message.c:144
-#, c-format
-msgid "unvalid state %d"
-msgstr ""
-
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
 msgid "can't initialize mod_udp"
-msgstr "iimpossible d'initialiser mod_udp"
+msgstr "impossible d'initialiser mod_udp"
 
 #~ msgid "unable to init flat_context"
 #~ msgstr "impossible d'initialiser flat_context"

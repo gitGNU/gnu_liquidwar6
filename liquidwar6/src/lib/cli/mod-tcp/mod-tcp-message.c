@@ -210,7 +210,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
 	}
       break;
     default:
-      lw6sys_log (LW6SYS_LOG_WARNING, _("unvalid state %d"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unvalid state %d"),
 		  specific_data->state);
     }
 }

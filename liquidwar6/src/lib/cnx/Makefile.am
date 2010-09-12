@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libcnx.la
-libcnx_la_SOURCES = cnx-connection.c cnx-password.c cnx-test.c cnx-tickettable.c
+libcnx_la_SOURCES = cnx-connection.c cnx-password.c cnx-sendparam.c cnx-test.c cnx-tickettable.c
 libcnxdir= $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
 

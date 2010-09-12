@@ -43,6 +43,8 @@
 #define _TEST_TICKET_TABLE_HASH_SIZE 11
 #define _TEST_TICKET_TABLE_ID1 "1234123412341234"
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
+#define _TEST_SEND_PARAM_TICKET_SIG 0x12341234
+#define _TEST_SEND_PARAM_MESSAGE "hell0 w0rld!"
 
 static void
 _recv_callback_func (void *recv_callback_data, void *connection,
@@ -281,7 +283,34 @@ test_password ()
 }
 
 /*
- * Testing functions in ticketable.c
+ * Testing functions in send_param.c
+ */
+static int
+test_send_param ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6cnx_send_param_t *send_param = NULL;
+
+    send_param =
+      lw6cnx_send_param_new (_TEST_SEND_PARAM_TICKET_SIG,
+			     _TEST_SEND_PARAM_TICKET_SIG, _TEST_LOCAL_ID,
+			     _TEST_REMOTE_ID, _TEST_SEND_PARAM_MESSAGE);
+    if (send_param)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("created send_param object"));
+	lw6cnx_send_param_free (send_param);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing functions in tickettable.c
  */
 static int
 test_ticket_table ()
@@ -395,7 +424,8 @@ lw6cnx_test (int mode)
       lw6glb_test (mode);
     }
 
-  ret = test_connection () && test_password () && test_ticket_table ();
+  ret = test_connection () && test_password () && test_send_param ()
+    && test_ticket_table ();
 
   return ret;
 }
