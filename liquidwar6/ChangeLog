@@ -1,5 +1,7 @@
 2010-09-12 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed database reset bug.
+
 	* Fixed bug in dynamic loading, would segfault if not found.
 
 2010-09-11 : Christian Mauduit <ufoot@ufoot.org>

@@ -509,7 +509,7 @@ lw6p2p_db_reset (int argc, char *argv[], char *name)
 	{
 	  if (lw6sys_dir_exists (p2p_dir))
 	    {
-	      filename = lw6sys_path_concat (user_dir, _DB_FILENAME);
+	      filename = lw6sys_path_concat (p2p_dir, _DB_FILENAME);
 	      if (filename)
 		{
 		  if (lw6sys_file_exists (filename))

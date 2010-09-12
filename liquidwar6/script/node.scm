@@ -39,29 +39,32 @@
 		   (network-reliability (lw6-config-get-number lw6def-network-reliability))
 		   (trojan (lw6-config-is-true? lw6def-trojan))
 		   (db (c-lw6p2p-db-new (c-lw6p2p-db-default-name)))
-		   (node (c-lw6p2p-node-new db (list (cons "client-backends" cli-backends)
-						     (cons "server-backends" srv-backends)
-						     (cons "bind-ip" bind-ip)
-						     (cons "bind-port" bind-port)
-						     (cons "public-url" public-url)
-						     (cons "title" title)
-						     (cons "description" description)
-						     (cons "password" password)
-						     (cons "bench" bench)
-						     (cons "open-relay" open-relay)
-						     (cons "known-nodes" known-nodes)
-						     (cons "network-reliability" network-reliability)
-						     (cons "trojan" trojan)
-						     )))
 		   )
 	      (if db
-		  (lw6-set-game-global! "db" db))
-	      (if node
-                  (begin
-		    (lw6-set-game-global! "node" node)
-		    (lw6-set-game-global! "node-id" (c-lw6p2p-node-get-id node)))
-		  )
-	      )))))
+		  (begin
+		    (lw6-set-game-global! "db" db)			 
+		    (let (
+			  (node (c-lw6p2p-node-new db (list (cons "client-backends" cli-backends)
+							    (cons "server-backends" srv-backends)
+							    (cons "bind-ip" bind-ip)
+							    (cons "bind-port" bind-port)
+							    (cons "public-url" public-url)
+							    (cons "title" title)
+							    (cons "description" description)
+							    (cons "password" password)
+							    (cons "bench" bench)
+							    (cons "open-relay" open-relay)
+							    (cons "known-nodes" known-nodes)
+							    (cons "network-reliability" network-reliability)
+							    (cons "trojan" trojan)
+							    )))
+			  )
+		      (if node
+			  (begin
+			    (lw6-set-game-global! "node" node)
+			    (lw6-set-game-global! "node-id" (c-lw6p2p-node-get-id node)))
+			  )
+		      ))))))))
 
 (define lw6-node-poll
   (lambda ()
