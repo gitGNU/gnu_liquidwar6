@@ -1139,38 +1139,6 @@ results on
 
      *Return value:*  1 if OK, passwords are the same, 0 if not.
 
- -- Function: lw6cnx_send_param_t * lw6cnx_send_param_new (u_int32_t
-          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
-          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MESSAGE)
-     PHYSICAL_TICKET_SIG:  the signature associated to physical
-     sender/receiver
-
-     LOGICAL_TICKET_SIG:  the signature associated to logical
-     sender/receiver
-
-     LOGICAL_FROM_ID:  the id of the message creator
-
-     LOGICAL_TO_ID:  the id of the message final target
-
-     MESSAGE:  the message
-
-     Creates a send_param object, this object can typically be used by
-     connections which need to keep messages in a buffer before sending
-     them for good. Message is copied internally so source can be
-     deleted.
-
-     *Return value:*  newly allocated object.
-
- -- Function: void lw6cnx_send_param_free (lw6cnx_send_param_t *
-          SEND_PARAM)
-     SEND_PARAM:  the object to free
-
-     Frees a send_param object, this object can typically be used by
-     connections which need to keep messages in a buffer before sending
-     them for good.
-
-     *Return value:*  none.
-
  -- Function: int lw6cnx_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -8006,6 +7974,21 @@ results on
 
      *Return value:*  a new allocated string, must be freed.
 
+ -- Function: int lw6sys_buf_sprintf (char * BUF, int LEN, char * FMT,
+          ...)
+     BUF:  a buffer of len+1 chars
+
+     LEN:  the max length of string
+
+     FMT:  a format string, like the one you would pass to `printf'
+     ...: optional arguments, like the ones you would pass to `printf'
+
+     Almost like snprintf except that it will *always* append a char 0
+     ('\0') at the end of the string. Therefore buf must be of size
+     len+1.
+
+     *Return value:*  1 if success, 0 if failed.
+
  -- Function: int lw6sys_str_is_blank (char * STR)
      STR:  the string to test
 
@@ -8116,6 +8099,17 @@ results on
      strings which already contain newline characters perfectly.
 
      *Return value:*  a newly allocated string, must be freed.
+
+ -- Function: void lw6sys_str_reformat_this (char * STR, int NB_COLUMNS)
+     STR:  a pointer to the string we want to modify
+
+     Reformats a string, that is, insert newline characters in the
+     right places to that it fits in a given number of columns.  This
+     function will modify the buffer so `str' must be writeable.  Will
+     not handle strings which already contain newline characters
+     perfectly.
+
+     *Return value:*  none
 
  -- Function: char * lw6sys_eol ()
      Returns the value of EOL, that is, the "end of line" sequence.
