@@ -140,71 +140,94 @@ _mod_http_get (_mod_http_context_t * http_context, char *url, char *password)
 						  consts.connect_timeout);
 			      if (res == CURLE_OK)
 				{
-				  /* some servers don't like requests that are made without a user-agent
-				     field, so we provide one */
+				  /*
+				   * Don't wait forever is server doesn't answer,
+				   * this only happens if server is buggy, but
+				   * it *can* be buggy. Or malicious.
+				   */
 				  res =
 				    curl_easy_setopt (curl_handle,
-						      CURLOPT_USERAGENT,
-						      lw6sys_build_get_package_tarname
-						      ());
+						      CURLOPT_TIMEOUT,
+						      http_context->data.
+						      consts.global_timeout);
 				  if (res == CURLE_OK)
 				    {
-				      if (password)
-					{
-					  authorization =
-					    lw6sys_new_sprintf ("%s:%s",
-								lw6sys_build_get_package_tarname
-								(), password);
-					  if (authorization)
-					    {
-					      lw6sys_log (LW6SYS_LOG_DEBUG,
-							  _x_
-							  ("using authorization \"%s\""),
-							  authorization);
-					      /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
-					         also costs one extra round-trip and possibly sending of all the PUT
-					         data twice!!! */
-					      res =
-						curl_easy_setopt (curl_handle,
-								  CURLOPT_HTTPAUTH,
-								  (long)
-								  CURLAUTH_ANY);
-					      if (res != CURLE_OK)
-						{
-						  _print_error
-						    ("curl_easy_setopt(CURLOPT_HTTPAUTH)",
-						     res);
-						}
-					      /* set user name and password for the authentication */
-					      res =
-						curl_easy_setopt (curl_handle,
-								  CURLOPT_USERPWD,
-								  authorization);
-					      if (res != CURLE_OK)
-						{
-						  _print_error
-						    ("curl_easy_setopt(CURLOPT_USERPWD)",
-						     res);
-						}
-					      LW6SYS_FREE (authorization);
-					    }
-					}
-				      /* get it! */
-				      res = curl_easy_perform (curl_handle);
+				      /* some servers don't like requests that are made without a user-agent
+				         field, so we provide one */
+				      res =
+					curl_easy_setopt (curl_handle,
+							  CURLOPT_USERAGENT,
+							  lw6sys_build_get_package_tarname
+							  ());
 				      if (res == CURLE_OK)
 					{
-					  /* should be OK */
+					  if (password)
+					    {
+					      authorization =
+						lw6sys_new_sprintf ("%s:%s",
+								    lw6sys_build_get_package_tarname
+								    (),
+								    password);
+					      if (authorization)
+						{
+						  lw6sys_log
+						    (LW6SYS_LOG_DEBUG,
+						     _x_
+						     ("using authorization \"%s\""),
+						     authorization);
+						  /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
+						     also costs one extra round-trip and possibly sending of all the PUT
+						     data twice!!! */
+						  res =
+						    curl_easy_setopt
+						    (curl_handle,
+						     CURLOPT_HTTPAUTH,
+						     (long) CURLAUTH_ANY);
+						  if (res != CURLE_OK)
+						    {
+						      _print_error
+							("curl_easy_setopt(CURLOPT_HTTPAUTH)",
+							 res);
+						    }
+						  /* set user name and password for the authentication */
+						  res =
+						    curl_easy_setopt
+						    (curl_handle,
+						     CURLOPT_USERPWD,
+						     authorization);
+						  if (res != CURLE_OK)
+						    {
+						      _print_error
+							("curl_easy_setopt(CURLOPT_USERPWD)",
+							 res);
+						    }
+						  LW6SYS_FREE (authorization);
+						}
+					    }
+					  /* get it! */
+					  res =
+					    curl_easy_perform (curl_handle);
+					  if (res == CURLE_OK)
+					    {
+					      /* should be OK */
+					    }
+					  else
+					    {
+					      _print_error
+						("curl_easy_perform", res);
+					    }
 					}
 				      else
 					{
-					  _print_error ("curl_easy_perform",
-							res);
+					  _print_error
+					    ("curl_easy_setopt(CURLOPT_USERAGENT)",
+					     res);
 					}
 				    }
 				  else
 				    {
 				      _print_error
-					("curl_easy_setopt(CURLOPT_USERAGENT)",
+					("curl_easy_setopt(CURLOPT_TIMEOUT)",
 					 res);
 				    }
 				}

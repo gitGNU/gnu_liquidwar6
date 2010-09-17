@@ -79,8 +79,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libcnx_la_LIBADD =
-am_libcnx_la_OBJECTS = cnx-connection.lo cnx-password.lo \
-	cnx-sendparam.lo cnx-test.lo cnx-tickettable.lo
+am_libcnx_la_OBJECTS = cnx-connection.lo cnx-password.lo cnx-test.lo \
+	cnx-tickettable.lo
 libcnx_la_OBJECTS = $(am_libcnx_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libcnxdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -326,7 +326,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libcnx.la
-libcnx_la_SOURCES = cnx-connection.c cnx-password.c cnx-sendparam.c cnx-test.c cnx-tickettable.c
+libcnx_la_SOURCES = cnx-connection.c cnx-password.c cnx-test.c cnx-tickettable.c
 libcnxdir = $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
 @FULLSTATIC_FALSE@liquidwar6cnx_test_SOURCES = cnx-testmain.c
@@ -431,7 +431,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-password.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-sendparam.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-testmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cnx-tickettable.Plo@am__quote@

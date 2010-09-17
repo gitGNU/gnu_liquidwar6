@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/srv
 
 noinst_LTLIBRARIES = libmod_httpd_s.la
-MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-data.c mod-httpd-error.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-log.c mod-httpd-message.c mod-httpd-oob.c mod-httpd-request.c mod-httpd-response.c mod-httpd-setup.c mod-httpd-state.c
+MOD_HTTPD_FILES = mod-httpd-backend.c mod-httpd-data.c mod-httpd-error.c mod-httpd-handshake.c mod-httpd-info.c mod-httpd-log.c mod-httpd-message.c mod-httpd-oob.c mod-httpd-replythread.c mod-httpd-request.c mod-httpd-response.c mod-httpd-setup.c mod-httpd-state.c
 libmod_httpd_s_la_SOURCES = $(MOD_HTTPD_FILES) 
 
 if !ALLINONE

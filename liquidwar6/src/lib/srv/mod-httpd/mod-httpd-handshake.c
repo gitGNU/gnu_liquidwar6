@@ -28,15 +28,19 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
+_mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 			lw6srv_tcp_accepter_t * tcp_accepter,
 			lw6nod_info_t * node_info,
 			u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
   char *pos = NULL;
+  char *line = NULL;
+  char *msg = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("trying to recognize httpd protocol"));
+  line = tcp_accepter->first_line;
+  lw6sys_log (LW6SYS_LOG_DEBUG,
+	      _x_ ("trying to recognize httpd protocol in \"%s\""), line);
 
   if (remote_id)
     {
@@ -54,26 +58,18 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
       tcp_accepter->sock = -1;
     }
 
-  if (strlen (tcp_accepter->first_line) >=
-      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE
-      || strchr (tcp_accepter->first_line, '\n'))
+  if (strlen (line) >=
+      _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE || strchr (line, '\n'))
     {
-      if (!strncmp
-	  (tcp_accepter->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING,
-	   _MOD_HTTPD_PROTOCOL_GET_SIZE)
-	  || !strncmp (tcp_accepter->first_line,
-		       _MOD_HTTPD_PROTOCOL_POST_STRING,
-		       _MOD_HTTPD_PROTOCOL_POST_SIZE)
-	  || !strncmp (tcp_accepter->first_line,
-		       _MOD_HTTPD_PROTOCOL_HEAD_STRING,
-		       _MOD_HTTPD_PROTOCOL_HEAD_SIZE))
+      if (lw6sys_str_starts_with
+	  (line, _MOD_HTTPD_PROTOCOL_GET_STRING)
+	  || lw6sys_str_starts_with (line,
+				     _MOD_HTTPD_PROTOCOL_POST_STRING)
+	  || lw6sys_str_starts_with (line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("recognized httpd protocol \"%s\""),
-		      tcp_accepter->first_line);
-	  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
-
-	  pos = tcp_accepter->first_line;
+		      _x_ ("recognized httpd protocol \"%s\""), line);
+	  pos = line;
 	  while ((*pos) && !lw6sys_chr_is_space (*pos))
 	    {
 	      pos++;
@@ -86,12 +82,46 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""),
 			  pos);
+	      if (lw6msg_envelope_analyse
+		  (pos, LW6MSG_ENVELOPE_MODE_URL, node_info->const_info.url,
+		   node_info->const_info.password, 0,
+		   node_info->const_info.id_int, &msg, NULL, NULL, remote_id,
+		   NULL, NULL, NULL, remote_url))
+		{
+		  ret |= LW6SRV_ANALYSE_UNDERSTANDABLE;
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("httpd message \"%s\" OK"), line);
+		  if (msg)
+		    {
+		      /*
+		       * We need to pass msg else remote_url isn't processed
+		       */
+		      LW6SYS_FREE (msg);
+		    }
+		}
+	      else
+		{
+		  if (strchr (line, '\n'))
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("unable to analyse message \"%s\""),
+				  line);
+		      ret |= LW6SRV_ANALYSE_DEAD;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("unable to analyse message \"%s\" but line does not seem complete, assuming some data is still missing, giving it another chance"),
+				  line);
+		    }
+		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("out of band httpd \"%s\""),
 			  pos);
-	      ret |= LW6SRV_ANALYSE_OOB;
+	      ret |= LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB;
 	    }
 	}
     }
@@ -107,7 +137,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_
 		  ("timeout on receive (first_line=\"%s\") so sending request to http handler, which will probably return error 500"),
-		  tcp_accepter->first_line);
+		  line);
       ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
     }
 
@@ -115,7 +145,7 @@ _mod_httpd_analyse_tcp (_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
+_mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
 			lw6srv_udp_buffer_t * udp_buffer,
 			lw6nod_info_t * node_info,
 			u_int64_t * remote_id, char **remote_url)
@@ -139,19 +169,62 @@ _mod_httpd_analyse_udp (_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_feed_with_tcp (_httpd_context_t * httpd_context,
+_mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context,
 			  lw6cnx_connection_t * connection,
 			  lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
+  _mod_httpd_specific_data_t *specific_data =
+    (_mod_httpd_specific_data_t *) connection->backend_specific_data;
+  _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
+  void *thread_handler = NULL;
 
-  // todo
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_httpd feed with tcp \"%s\""),
+	      tcp_accepter->first_line);
+
+  if (lw6net_socket_is_valid (tcp_accepter->sock))
+    {
+      reply_thread_data =
+	(_mod_httpd_reply_thread_data_t *)
+	LW6SYS_MALLOC (sizeof (_mod_httpd_reply_thread_data_t));
+      if (reply_thread_data)
+	{
+	  reply_thread_data->httpd_context = httpd_context;
+	  reply_thread_data->cnx = connection;
+	  reply_thread_data->sock = tcp_accepter->sock;
+	  reply_thread_data->creation_timestamp = lw6sys_get_timestamp ();
+	  reply_thread_data->do_not_finish = 0;
+	  thread_handler =
+	    lw6sys_thread_create (_mod_httpd_reply_thread_func,
+				  _mod_httpd_reply_thread_join,
+				  (void *) reply_thread_data);
+	  if (thread_handler)
+	    {
+	      lw6sys_list_push_back (&(specific_data->reply_threads),
+				     thread_handler);
+	      ret = 1;
+	    }
+	}
+    }
+
+  if (!ret)
+    {
+      if (lw6net_socket_is_valid (tcp_accepter->sock))
+	{
+	  lw6net_socket_close (tcp_accepter->sock);
+	  tcp_accepter->sock = LW6NET_SOCKET_INVALID;
+	}
+      if (reply_thread_data)
+	{
+	  LW6SYS_FREE (reply_thread_data);
+	}
+    }
 
   return ret;
 }
 
 int
-_mod_httpd_feed_with_udp (_httpd_context_t * httpd_context,
+_mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context,
 			  lw6cnx_connection_t * connection,
 			  lw6srv_udp_buffer_t * udp_buffer)
 {

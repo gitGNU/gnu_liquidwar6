@@ -28,8 +28,9 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_log (_httpd_context_t * httpd_context,
-		_httpd_request_t * request, _httpd_response_t * response)
+_mod_httpd_log (_mod_httpd_context_t * httpd_context,
+		_mod_httpd_request_t * request,
+		_mod_httpd_response_t * response)
 {
   int ret = 0;
   FILE *f = NULL;

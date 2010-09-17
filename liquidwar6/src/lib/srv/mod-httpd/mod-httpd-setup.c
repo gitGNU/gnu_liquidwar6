@@ -30,10 +30,10 @@
 #define _HTTPD_DIR "httpd"
 #define _ACCESS_LOG_FILE "access_log.txt"
 
-_httpd_context_t *
+_mod_httpd_context_t *
 _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _httpd_context_t *httpd_context = NULL;
+  _mod_httpd_context_t *httpd_context = NULL;
   char *user_dir;
   char *data_dir;
   char *httpd_dir;
@@ -42,7 +42,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd init"));
 
   httpd_context =
-    (_httpd_context_t *) LW6SYS_CALLOC (sizeof (_httpd_context_t));
+    (_mod_httpd_context_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_context_t));
   if (httpd_context)
     {
       data_dir = lw6sys_get_data_dir (argc, argv);
@@ -115,7 +115,7 @@ _mod_httpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
 }
 
 void
-_mod_httpd_quit (_httpd_context_t * httpd_context)
+_mod_httpd_quit (_mod_httpd_context_t * httpd_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("httpd quit"));
 

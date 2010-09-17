@@ -39,7 +39,8 @@ mod_httpd_is_GPL_compatible ()
 static void *
 _init (int argc, char *argv[], lw6srv_listener_t * listener)
 {
-  _httpd_context_t *httpd_context = _mod_httpd_init (argc, argv, listener);
+  _mod_httpd_context_t *httpd_context =
+    _mod_httpd_init (argc, argv, listener);
 
   return (void *) httpd_context;
 }
@@ -47,7 +48,7 @@ _init (int argc, char *argv[], lw6srv_listener_t * listener)
 static void
 _quit (void *srv_context)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
   if (httpd_context)
     {
@@ -60,7 +61,7 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter,
 	      lw6nod_info_t * node_info,
 	      u_int64_t * remote_id, char **remote_url)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
@@ -78,7 +79,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer,
 	      lw6nod_info_t * node_info,
 	      u_int64_t * remote_id, char **remote_url)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
@@ -95,7 +96,7 @@ static int
 _process_oob (void *srv_context, lw6nod_info_t * node_info,
 	      lw6srv_oob_data_t * oob_data)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (httpd_context)
@@ -114,7 +115,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, char *local_url,
        int network_reliability, lw6cnx_recv_callback_t recv_callback_func,
        void *recv_callback_data)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   lw6cnx_connection_t *ret = NULL;
 
   if (httpd_context)
@@ -133,7 +134,7 @@ static int
 _feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection,
 		lw6srv_tcp_accepter_t * tcp_accepter)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
@@ -149,7 +150,7 @@ static int
 _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection,
 		lw6srv_udp_buffer_t * udp_buffer)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
@@ -163,7 +164,7 @@ _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection,
 static void
 _close (void *srv_context, lw6cnx_connection_t * connection)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
   if (connection)
     {
@@ -176,7 +177,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
        u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
@@ -193,7 +194,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection,
 static void
 _poll (void *srv_context, lw6cnx_connection_t * connection)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
   if (connection)
     {
@@ -204,7 +205,7 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
 static int
 _is_alive (void *srv_context, lw6cnx_connection_t * connection)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
 
   if (connection)
@@ -218,7 +219,7 @@ _is_alive (void *srv_context, lw6cnx_connection_t * connection)
 static char *
 _repr (void *srv_context, lw6cnx_connection_t * connection)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   char *ret = NULL;
 
   if (connection)
@@ -232,7 +233,7 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
 static char *
 _error (void *srv_context, lw6cnx_connection_t * connection)
 {
-  _httpd_context_t *httpd_context = (_httpd_context_t *) srv_context;
+  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   char *ret = NULL;
 
   if (connection)

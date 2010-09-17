@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_httpd_open (_httpd_context_t * httpd_context,
+_mod_httpd_open (_mod_httpd_context_t * httpd_context,
 		 lw6srv_listener_t * listener, char *local_url,
 		 char *remote_url, char *remote_ip, int remote_port,
 		 char *password, u_int64_t local_id, u_int64_t remote_id,
@@ -37,7 +37,7 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
 		 void *recv_callback_data)
 {
   lw6cnx_connection_t *ret = NULL;
-  _httpd_specific_data_t *specific_data = NULL;
+  _mod_httpd_specific_data_t *specific_data = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("_mod_httpd_open \"%s\""), remote_url);
   ret =
@@ -48,12 +48,25 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
   if (ret)
     {
       ret->backend_specific_data =
-	LW6SYS_CALLOC (sizeof (_httpd_specific_data_t));
-      specific_data = (_httpd_specific_data_t *) ret->backend_specific_data;
+	LW6SYS_CALLOC (sizeof (_mod_httpd_specific_data_t));
+      specific_data =
+	(_mod_httpd_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("open httpd connection with \"%s\""), remote_url);
+	  specific_data->send_buffer = NULL;
+	  specific_data->reply_threads =
+	    lw6sys_list_new (_mod_httpd_reply_thread_free_list_item);
+	  if (specific_data->reply_threads)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("open httpd connection with \"%s\""),
+			  remote_url);
+	    }
+	  else
+	    {
+	      _mod_httpd_close (httpd_context, ret);
+	      ret = NULL;
+	    }
 	}
       else
 	{
@@ -66,21 +79,33 @@ _mod_httpd_open (_httpd_context_t * httpd_context,
 }
 
 void
-_mod_httpd_close (_httpd_context_t * httpd_context,
+_mod_httpd_close (_mod_httpd_context_t * httpd_context,
 		  lw6cnx_connection_t * connection)
 {
-  _httpd_specific_data_t *specific_data =
-    (_httpd_specific_data_t *) connection->backend_specific_data;;
+  _mod_httpd_specific_data_t *specific_data =
+    (_mod_httpd_specific_data_t *) connection->backend_specific_data;;
 
   if (specific_data)
     {
+      /*
+       * Note: send_buffer is usually NULL unless
+       * it hasn't been flushed lately
+       */
+      if (specific_data->send_buffer)
+	{
+	  LW6SYS_FREE (specific_data->send_buffer);
+	}
+      if (specific_data->reply_threads)
+	{
+	  lw6sys_list_free (specific_data->reply_threads);
+	}
       LW6SYS_FREE (specific_data);
     }
   lw6cnx_connection_free (connection);
 }
 
 int
-_mod_httpd_is_alive (_httpd_context_t * httpd_context,
+_mod_httpd_is_alive (_mod_httpd_context_t * httpd_context,
 		     lw6cnx_connection_t * connection)
 {
   int ret = 0;
@@ -91,7 +116,7 @@ _mod_httpd_is_alive (_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_timeout_ok (_httpd_context_t * httpd_context,
+_mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context,
 		       int64_t origin_timestamp)
 {
   int ret = 0;

@@ -85,6 +85,12 @@ _test_base64_ok (char *test_str, int log_all)
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\""),
 			      base64_str, str, test_str);
 		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("base64 string decoded but result is different"));
+		}
 	      ret = 0;
 	    }
 	  LW6SYS_FREE (str);
@@ -158,6 +164,13 @@ _test_base64_ok (char *test_str, int log_all)
 			      _x_
 			      ("base64 string \"%s\" decoded to \"%s\" but should be \"%s\" (prefix=\"%s\")"),
 			      base64_str, str, test_str, _TEST_BASE64_PREFIX);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("base64 string decoded but result is different (prefix=\"%s\")"),
+			      _TEST_BASE64_PREFIX);
 		}
 	      ret = 0;
 	    }

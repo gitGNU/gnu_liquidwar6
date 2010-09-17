@@ -40,8 +40,8 @@
 #define _HTTP_405 "Method Not Allowed"
 #define _HTTP_500 "Internal Server Error"
 
-_httpd_response_t *
-_mod_httpd_response_from_bin (_httpd_context_t *
+_mod_httpd_response_t *
+_mod_httpd_response_from_bin (_mod_httpd_context_t *
 			      httpd_context,
 			      int status,
 			      int no_cache,
@@ -50,9 +50,10 @@ _mod_httpd_response_from_bin (_httpd_context_t *
 			      char *content_type,
 			      int content_size, void *content_data)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
 
-  response = (_httpd_response_t *) LW6SYS_CALLOC (sizeof (_httpd_response_t));
+  response =
+    (_mod_httpd_response_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_response_t));
   if (response)
     {
       response->status = status;
@@ -86,15 +87,15 @@ _mod_httpd_response_from_bin (_httpd_context_t *
   return response;
 }
 
-_httpd_response_t *
-_mod_httpd_response_from_str (_httpd_context_t *
+_mod_httpd_response_t *
+_mod_httpd_response_from_str (_mod_httpd_context_t *
 			      httpd_context,
 			      int status,
 			      int no_cache, int refresh_sec,
 			      char *refresh_url, char *content_type,
 			      char *content)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
 
   response =
     _mod_httpd_response_from_bin (httpd_context, status, no_cache,
@@ -105,7 +106,7 @@ _mod_httpd_response_from_str (_httpd_context_t *
 }
 
 void
-_mod_httpd_response_free (_httpd_response_t * response)
+_mod_httpd_response_free (_mod_httpd_response_t * response)
 {
   if (response)
     {
@@ -126,8 +127,8 @@ _mod_httpd_response_free (_httpd_response_t * response)
 }
 
 int
-_mod_httpd_response_send (_httpd_context_t * httpd_context,
-			  _httpd_response_t * response, int sock,
+_mod_httpd_response_send (_mod_httpd_context_t * httpd_context,
+			  _mod_httpd_response_t * response, int sock,
 			  int headers_only)
 {
   int ret = 0;

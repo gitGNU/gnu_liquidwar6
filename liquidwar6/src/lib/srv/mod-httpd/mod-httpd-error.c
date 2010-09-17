@@ -27,10 +27,10 @@
 #include "../srv.h"
 #include "mod-httpd-internal.h"
 
-_httpd_response_t *
-_mod_httpd_http_error (_httpd_context_t * httpd_context, int status)
+_mod_httpd_response_t *
+_mod_httpd_http_error (_mod_httpd_context_t * httpd_context, int status)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   char *content = NULL;
   char *status_text = NULL;
   char *date_str = NULL;

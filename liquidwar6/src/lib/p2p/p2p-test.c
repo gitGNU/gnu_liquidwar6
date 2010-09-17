@@ -74,8 +74,8 @@
 #define _TEST_NODE_TROJAN 0
 #define _TEST_BOGUS_BACKEND "bogus"
 
-#define TEST_NODE_OOB_DURATION 3000
-#define TEST_NODE_CMD_DURATION 30000
+#define TEST_NODE_OOB_DURATION 9000
+#define TEST_NODE_CMD_DURATION 6000
 
 /* 
  * Testing db
@@ -611,18 +611,14 @@ _test_node_cmd ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    /*
-       ret = ret
-       && _cmd_with_backends (lw6cli_default_backends (),
-       lw6srv_default_backends ());
-       ret = ret && _cmd_with_backends ("udp", "udpd");
-       ret = ret && _cmd_with_backends ("tcp", "tcpd");
-     */
+    ret = ret
+      && _cmd_with_backends (lw6cli_default_backends (),
+			     lw6srv_default_backends ());
+    ret = ret && _cmd_with_backends ("udp", "udpd");
+    ret = ret && _cmd_with_backends ("tcp", "tcpd");
     _cmd_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
-    /*
-       _cmd_with_backends ("", _TEST_BOGUS_BACKEND);
-       _cmd_with_backends (_TEST_BOGUS_BACKEND, "");
-     */
+    _cmd_with_backends ("", _TEST_BOGUS_BACKEND);
+    _cmd_with_backends (_TEST_BOGUS_BACKEND, "");
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -684,15 +680,13 @@ _test_node_oob ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    /*
-       ret = ret
-       && _oob_with_backends (lw6cli_default_backends (),
-       lw6srv_default_backends ());
-       ret = ret && _oob_with_backends ("", lw6srv_default_backends ());
-       ret = ret && _oob_with_backends (lw6cli_default_backends (), "");
-       _oob_with_backends ("", _TEST_BOGUS_BACKEND);
-       _oob_with_backends (_TEST_BOGUS_BACKEND, "");
-     */
+    ret = ret
+      && _oob_with_backends (lw6cli_default_backends (),
+			     lw6srv_default_backends ());
+    ret = ret && _oob_with_backends ("", lw6srv_default_backends ());
+    ret = ret && _oob_with_backends (lw6cli_default_backends (), "");
+    _oob_with_backends ("", _TEST_BOGUS_BACKEND);
+    _oob_with_backends (_TEST_BOGUS_BACKEND, "");
   }
 
   LW6SYS_TEST_FUNCTION_END;

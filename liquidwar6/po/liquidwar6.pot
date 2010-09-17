@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.10beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-12 14:55+0200\n"
+"POT-Creation-Date: 2010-09-16 16:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -642,50 +642,46 @@ msgstr ""
 msgid "this is a /TEST/ error"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:68
+#: src/lib/sys/sys-log.c:73
 msgid "log_file is NULL"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:527
+#: src/lib/sys/sys-log.c:533
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:620
-msgid "See log file for details."
-msgstr ""
-
-#: src/lib/sys/sys-log.c:793
+#: src/lib/sys/sys-log.c:752
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:798
+#: src/lib/sys/sys-log.c:757
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:808
+#: src/lib/sys/sys-log.c:767
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:813
+#: src/lib/sys/sys-log.c:772
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:832
+#: src/lib/sys/sys-log.c:791
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:838
+#: src/lib/sys/sys-log.c:797
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:926
+#: src/lib/sys/sys-log.c:880
 msgid "CRITICAL! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:930
+#: src/lib/sys/sys-log.c:884
 msgid "CRITICAL!"
 msgstr ""
 
@@ -865,7 +861,7 @@ msgstr ""
 msgid "this error too"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-setup.c:67
+#: src/lib/cli/mod-http/mod-http-setup.c:68
 msgid "can't initialize mod_http"
 msgstr ""
 

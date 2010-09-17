@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-12 14:55+0200\n"
+"POT-Creation-Date: 2010-09-16 16:22+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -651,50 +651,46 @@ msgstr ""
 msgid "this is a /TEST/ error"
 msgstr "dette er ein /TEST/-feil"
 
-#: src/lib/sys/sys-log.c:68
+#: src/lib/sys/sys-log.c:73
 msgid "log_file is NULL"
 msgstr "log_file er NULL"
 
-#: src/lib/sys/sys-log.c:527
+#: src/lib/sys/sys-log.c:533
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:620
-msgid "See log file for details."
-msgstr "Sjå loggfila for meir informasjon."
-
-#: src/lib/sys/sys-log.c:793
+#: src/lib/sys/sys-log.c:752
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:798
+#: src/lib/sys/sys-log.c:757
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:808
+#: src/lib/sys/sys-log.c:767
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:813
+#: src/lib/sys/sys-log.c:772
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:832
+#: src/lib/sys/sys-log.c:791
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:838
+#: src/lib/sys/sys-log.c:797
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:926
+#: src/lib/sys/sys-log.c:880
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:930
+#: src/lib/sys/sys-log.c:884
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -874,7 +870,7 @@ msgstr "klarte ikkje handtera bidragsytar-ID %d"
 msgid "this error too"
 msgstr "denne feilen òg"
 
-#: src/lib/cli/mod-http/mod-http-setup.c:67
+#: src/lib/cli/mod-http/mod-http-setup.c:68
 msgid "can't initialize mod_http"
 msgstr "klarte ikkje starta mod_http"
 
@@ -885,3 +881,6 @@ msgstr "klarte ikkje starta mod_tcp"
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
 msgid "can't initialize mod_udp"
 msgstr "klarte ikkje starta mod_udp"
+
+#~ msgid "See log file for details."
+#~ msgstr "Sjå loggfila for meir informasjon."

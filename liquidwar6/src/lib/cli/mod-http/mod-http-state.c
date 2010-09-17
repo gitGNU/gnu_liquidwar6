@@ -52,9 +52,9 @@ _mod_http_open (_mod_http_context_t * http_context, char *local_url,
 	(_mod_http_specific_data_t *) ret->backend_specific_data;
       if (specific_data)
 	{
-	  specific_data->get_threads =
-	    lw6sys_list_new (_mod_http_get_thread_free_list_item);
-	  if (specific_data->get_threads)
+	  specific_data->query_threads =
+	    lw6sys_list_new (_mod_http_query_thread_free_list_item);
+	  if (specific_data->query_threads)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("open http connection with \"%s\""),
@@ -85,9 +85,9 @@ _mod_http_close (_mod_http_context_t * http_context,
 
   if (specific_data)
     {
-      if (specific_data->get_threads)
+      if (specific_data->query_threads)
 	{
-	  lw6sys_list_free (specific_data->get_threads);
+	  lw6sys_list_free (specific_data->query_threads);
 	}
       LW6SYS_FREE (specific_data);
     }

@@ -33,7 +33,7 @@
 #define _HTTP_BASIC "Basic"
 
 static int
-_parse_first_line (_httpd_request_t * request)
+_parse_first_line (_mod_httpd_request_t * request)
 {
   int ret = 0;
   char *pos = NULL;
@@ -106,7 +106,7 @@ _parse_first_line (_httpd_request_t * request)
 }
 
 static int
-_parse_header (_httpd_request_t * request, char *line, char *public_url,
+_parse_header (_mod_httpd_request_t * request, char *line, char *public_url,
 	       char *password)
 {
   int ret = 1;
@@ -118,7 +118,7 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
 
   if (lw6sys_str_starts_with (line, _HTTP_AUTHORIZATION))
     {
-      if (password && strlen (password))
+      if (!lw6sys_str_is_null_or_empty (password))
 	{
 	  basic = strstr (line, _HTTP_BASIC);
 	  if (basic)
@@ -154,17 +154,18 @@ _parse_header (_httpd_request_t * request, char *line, char *public_url,
   return ret;
 }
 
-_httpd_request_t *
-_mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
+_mod_httpd_request_t *
+_mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context,
 			      lw6nod_info_t * node_info,
 			      lw6srv_oob_data_t * oob_data)
 {
-  _httpd_request_t *request = NULL;
+  _mod_httpd_request_t *request = NULL;
   int eof = 0;
   char *line = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
-  request = (_httpd_request_t *) LW6SYS_CALLOC (sizeof (_httpd_request_t));
+  request =
+    (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
   if (request)
     {
       request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
@@ -176,9 +177,8 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
 	    {
 	      if (_parse_first_line (request))
 		{
-		  if (!node_info->const_info.password
-		      || (node_info->const_info.password
-			  && strlen (node_info->const_info.password) == 0))
+		  if (lw6sys_str_is_null_or_empty
+		      (node_info->const_info.password))
 		    {
 		      request->password_ok = 1;
 		    }
@@ -230,8 +230,84 @@ _mod_httpd_request_parse_oob (_httpd_context_t * httpd_context,
   return request;
 }
 
+_mod_httpd_request_t *
+_mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t *
+			      reply_thread_data)
+{
+  _mod_httpd_request_t *request = NULL;
+  lw6cnx_connection_t *cnx = reply_thread_data->cnx;
+  int eof = 0;
+  char *line = NULL;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd cmd"));
+  request =
+    (_mod_httpd_request_t *) LW6SYS_CALLOC (sizeof (_mod_httpd_request_t));
+  if (request)
+    {
+      request->client_ip = lw6sys_str_copy (cnx->remote_ip);
+
+      if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
+	{
+	  request->first_line =
+	    lw6net_recv_line_tcp (reply_thread_data->sock);
+	  if (request->first_line)
+	    {
+	      if (_parse_first_line (request))
+		{
+		  if (lw6sys_str_is_null_or_empty (cnx->password))
+		    {
+		      request->password_ok = 1;
+		    }
+		  while ((!eof)
+			 &&
+			 _mod_httpd_reply_thread_should_continue
+			 (reply_thread_data))
+		    {
+		      line = lw6net_recv_line_tcp (reply_thread_data->sock);
+		      if (line)
+			{
+			  if (strlen (line) == 0)
+			    {
+			      eof = 1;
+			    }
+			  else
+			    {
+			      _parse_header (request, line,
+					     cnx->local_url, cnx->password);
+			    }
+			  LW6SYS_FREE (line);
+			}
+		    }
+		}
+	    }
+	}
+      if ((!request->first_line) || (request->get_head_post == 0)
+	  || (!request->uri))
+	{
+	  /*
+	   * OK, not parseable, we put dummy (empty) values in all fields to
+	   * avoid suspicious NULL-string bugs, and let the following code
+	   * return error 500.
+	   */
+	  if (request->first_line)
+	    {
+	      LW6SYS_FREE (request->first_line);
+	    }
+	  if (request->uri)
+	    {
+	      LW6SYS_FREE (request->uri);
+	    }
+	  request->first_line = lw6sys_str_copy (_ERROR_FIRST_LINE);
+	  request->get_head_post = 0;
+	  request->uri = lw6sys_str_copy (_ERROR_URI);
+	}
+    }
+
+  return request;
+}
+
 void
-_mod_httpd_request_free (_httpd_request_t * request)
+_mod_httpd_request_free (_mod_httpd_request_t * request)
 {
   if (request)
     {

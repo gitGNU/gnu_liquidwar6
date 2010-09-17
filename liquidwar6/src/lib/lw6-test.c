@@ -147,6 +147,37 @@ lw6_test (int mode)
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
 
+  if (lw6sys_false ())
+    {
+      /*
+       * Just to make sure most functions are stuffed in the binary
+       */
+      lw6sys_test (mode);
+      lw6glb_test (mode);
+      lw6map_test (mode);
+      lw6ker_test (mode);
+      lw6bot_test (mode);
+      lw6cns_test (mode);
+      lw6hlp_test (mode);
+      lw6cfg_test (mode);
+      lw6ldr_test (mode);
+      lw6tsk_test (mode);
+      lw6gui_test (mode);
+      lw6gfx_test (mode);
+      lw6dsp_test (mode);
+      lw6snd_test (mode);
+      lw6img_test (mode);
+      lw6pil_test (mode);
+      lw6net_test (mode);
+      lw6nod_test (mode);
+      lw6cnx_test (mode);
+      lw6msg_test (mode);
+      lw6cli_test (mode);
+      lw6srv_test (mode);
+      lw6dat_test (mode);
+      lw6p2p_test (mode);
+    }
+
   if (lw6_init_global (argc, argv))
     {
       scm_with_guile (guile_test, &param);

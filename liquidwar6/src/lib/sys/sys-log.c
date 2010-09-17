@@ -39,7 +39,7 @@
 #endif
 
 #define HISTORY_LENGTH 256
-
+#define LEVEL_LENGTH 80
 #define MSGBOX_LENGTH 4096
 #define MSGBOX_WIDTH 128
 
@@ -56,16 +56,22 @@ get_log_file ()
 
   if (static_log_filename[0] != 0)
     {
-      log_file = lw6sys_str_copy (static_log_filename);
+      log_file = static_log_filename;
     }
   else
     {
       log_file = lw6sys_get_default_log_file ();
-    }
-
-  if (!log_file)
-    {
-      lw6sys_log_critical (_("log_file is NULL"));
+      if (log_file)
+	{
+	  lw6sys_buf_sprintf (static_log_filename, STATIC_LOG_FILENAME_SIZE,
+			      "%s", log_file);
+	  LW6SYS_FREE (log_file);
+	  log_file = static_log_filename;
+	}
+      else
+	{
+	  lw6sys_log_critical (_("log_file is NULL"));
+	}
     }
 
   return log_file;
@@ -541,11 +547,7 @@ open_log_file ()
   char *name;
 
   name = get_log_file ();
-  if (name)
-    {
-      ret = fopen (name, "ab");
-      LW6SYS_FREE (name);
-    }
+  ret = fopen (name, "ab");
 
   return ret;
 }
@@ -592,47 +594,24 @@ log_to_console (FILE * f, char *level_str, char *fmt, va_list ap)
 static void
 log_to_history (char *level_str, char *fmt, va_list ap)
 {
-  char *msg, *full_msg;
+  char msg[HISTORY_LENGTH + 1];
+  char full_msg[HISTORY_LENGTH + 1];
 
-  msg = _lw6sys_new_vsnprintf (HISTORY_LENGTH, fmt, ap);
-  if (msg)
-    {
-      full_msg = lw6sys_str_concat (level_str, msg);
-      if (full_msg)
-	{
-	  lw6sys_history_register (full_msg);
-	  LW6SYS_FREE (full_msg);
-	}
-      LW6SYS_FREE (msg);
-    }
+  _lw6sys_buf_vsnprintf (msg, HISTORY_LENGTH, fmt, ap);
+  lw6sys_buf_sprintf (full_msg, HISTORY_LENGTH, "%s%s", level_str, msg);
+  lw6sys_history_register (full_msg);
 }
 
 static void
 msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
 {
-  char *message_raw = NULL;
-  char *message_formatted = NULL;
-  char *message_full = NULL;
+  char message_raw[MSGBOX_LENGTH + 1];
+  char message_full[MSGBOX_LENGTH + 1];
 
-  message_raw = _lw6sys_new_vsnprintf (MSGBOX_LENGTH, fmt, ap);
-  if (!message_raw)
-    {
-      message_raw = lw6sys_str_copy (_("See log file for details."));
-    }
-  if (message_raw)
-    {
-      message_formatted = lw6sys_str_reformat (message_raw, "", MSGBOX_WIDTH);
-    }
-  if (message_formatted)
-    {
-      message_full =
-	lw6sys_new_sprintf ("%s (%s:%d)\n\n%s", level_str, file, line,
-			    message_formatted);
-    }
-  else
-    {
-      message_full = lw6sys_str_copy ("?");
-    }
+  lw6sys_buf_sprintf (message_raw, MSGBOX_LENGTH, fmt, ap);
+  lw6sys_str_reformat_this (message_raw, MSGBOX_WIDTH);
+  lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH, "%s (%s:%d)\n\n%s",
+		      level_str, file, line, message_raw);
 #ifdef LW6_MS_WINDOWS
   if (message_full)
     {
@@ -643,10 +622,7 @@ msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
     }
 #else
 #ifdef LW6_MAC_OS_X
-  if (message_full)
-    {
-      _lw6sys_macosx_alert (lw6sys_build_get_package_name (), message_full);
-    }
+  _lw6sys_macosx_alert (lw6sys_build_get_package_name (), message_full);
 #else
 /*
  * Not implemented yet, below sample code, which would require to
@@ -655,69 +631,52 @@ msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
  * LDFLAGS=`pkg-config --libs gtk+-2.0`
  */
 #ifdef LW6_GTK
-  if (message_full)
-    {
-      static int gtk_init_done = 0;
-      int argc = 1;
-      char **argv;
-      GtkWidget *dlg = NULL;
+  static int gtk_init_done = 0;
+  /*
+   * We fake argc & argv, OK this way GTK won't
+   * be aware of *real* argc & argv values, but
+   * passing them everywhere just for this is a pain.
+   * calloc 2 pointers, last will be NULL, not
+   * sure this is mandatory, but just in case.
+   * Additionnally, argv must be mutable, this
+   * justifies the argv_data hack. And... content is
+   * static, never know if gtk needs them to stay
+   * here, it might do as argc & argv usually
+   * do not disappear within a program.
+   */
+  static char empty_str[1];
+  static char *argv_data[2];
+  int argc = 1;
+  char **argv = NULL;
+  GtkWidget *dlg = NULL;
 
-      /*
-       * We fake argc & argv, OK this way GTK won't
-       * be aware of *real* argc & argv values, but
-       * passing them everywhere just for this is a pain.
-       * calloc 2 pointers, last will be NULL, not
-       * sure this is mandatory, but just in case.
-       */
-      argv = (char **) LW6SYS_CALLOC (2 * sizeof (char *));
-      if (argv)
-	{
-	  argv[0] = lw6sys_str_copy ("");
-	  if (argv[0])
-	    {
-	      if (!gtk_init_done)
-		{
-		  gtk_init (&argc, &argv);
-		  gtk_init_done = 1;
-		}
-	      dlg = gtk_message_dialog_new (NULL,
-					    GTK_DIALOG_MODAL,
-					    GTK_MESSAGE_ERROR,
-					    GTK_BUTTONS_NONE, "%s",
-					    message_full);
-	      if (dlg)
-		{
-		  gtk_window_set_title (GTK_WINDOW (dlg),
-					lw6sys_build_get_package_name ());
-		  gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
-					 GTK_RESPONSE_OK);
-		  gtk_dialog_run (GTK_DIALOG (dlg));
-		  gtk_widget_hide_all (dlg);
-		  gtk_main_iteration ();
-		  gtk_widget_destroy (dlg);
-		  gtk_main_iteration ();
-		}
-	      LW6SYS_FREE (argv[0]);
-	    }
-	  LW6SYS_FREE (argv);
-	}
+  empty_str[0] = '\0';
+  argv_data[0] = empty_str;
+  argv_data[1] = NULL;
+  argv = argv_data;
+  if (!gtk_init_done)
+    {
+      gtk_init (&argc, &argv);
+      gtk_init_done = 1;
+    }
+  dlg = gtk_message_dialog_new (NULL,
+				GTK_DIALOG_MODAL,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_NONE, "%s", message_full);
+  if (dlg)
+    {
+      gtk_window_set_title (GTK_WINDOW (dlg),
+			    lw6sys_build_get_package_name ());
+      gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK, GTK_RESPONSE_OK);
+      gtk_dialog_run (GTK_DIALOG (dlg));
+      gtk_widget_hide_all (dlg);
+      gtk_main_iteration ();
+      gtk_widget_destroy (dlg);
+      gtk_main_iteration ();
     }
 #endif
 #endif
 #endif
-
-  if (message_raw)
-    {
-      LW6SYS_FREE (message_raw);
-    }
-  if (message_formatted)
-    {
-      LW6SYS_FREE (message_formatted);
-    }
-  if (message_full)
-    {
-      LW6SYS_FREE (message_full);
-    }
 }
 
 /**
@@ -760,7 +719,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
       || lw6sys_debug_get ())
 #endif
     {
-      char *level_str = NULL;
+      char level_str[LEVEL_LENGTH + 1];
 #ifdef HAVE_SYSLOG_H
       int syslog_priority = 0;
 #endif
@@ -789,13 +748,13 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	case LW6SYS_LOG_ERROR_ID:
 	  if (errno_int)
 	    {
-	      level_str =
-		lw6sys_new_sprintf (_("ERROR! (errno=%d:%s) "), errno_int,
-				    errno_str (errno_int));
+	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
+				  _("ERROR! (errno=%d:%s) "), errno_int,
+				  errno_str (errno_int));
 	    }
 	  else
 	    {
-	      level_str = lw6sys_str_copy (_("ERROR! "));
+	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("ERROR! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_ERR;
@@ -804,38 +763,38 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	case LW6SYS_LOG_WARNING_ID:
 	  if (errno_int)
 	    {
-	      level_str =
-		lw6sys_new_sprintf (_("WARNING! (errno=%d:%s) "), errno_int,
-				    errno_str (errno_int));
+	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH,
+				  _("WARNING! (errno=%d:%s) "), errno_int,
+				  errno_str (errno_int));
 	    }
 	  else
 	    {
-	      level_str = lw6sys_str_copy (_("WARNING! "));
+	      lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("WARNING! "));
 	    }
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_WARNING;
 #endif
 	  break;
 	case LW6SYS_LOG_NOTICE_ID:
-	  level_str = lw6sys_str_copy ("");
+	  level_str[0] = '\0';
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_NOTICE;
 #endif
 	  break;
 	case LW6SYS_LOG_INFO_ID:
-	  level_str = lw6sys_str_copy ("");
+	  level_str[0] = '\0';
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_INFO;
 #endif
 	  break;
 	case LW6SYS_LOG_TMP_ID:
-	  level_str = lw6sys_str_copy (_("[tmp] "));
+	  lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("[tmp] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
 	  break;
 	default:		// LW6SYS_LOG_DEBUG_ID
-	  level_str = lw6sys_str_copy (_("[debug] "));
+	  lw6sys_buf_sprintf (level_str, LEVEL_LENGTH, _("[debug] "));
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_DEBUG;
 #endif
@@ -885,11 +844,6 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	}
 
       va_end (ap);
-
-      if (level_str)
-	{
-	  LW6SYS_FREE (level_str);
-	}
     }
 
   /*

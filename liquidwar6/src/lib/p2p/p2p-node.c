@@ -650,8 +650,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 			}
 		      else
 			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_ ("wrong id/url"));
+			  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("wrong id/url"));
 			}
 		    }
 		  if (tentacle_index >= 0
@@ -662,6 +661,11 @@ _tcp_accepter_reply (void *func_data, void *data)
 					    node->tentacles
 					    [tentacle_index].srv_connections
 					    [i], tcp_accepter);
+		    }
+		  else
+		    {
+		      lw6net_socket_close (tcp_accepter->sock);
+		      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
 		    }
 		}
 	    }

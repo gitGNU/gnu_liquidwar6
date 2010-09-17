@@ -54,15 +54,16 @@ typedef struct _mod_http_context_s
 }
 _mod_http_context_t;
 
-typedef struct _mod_http_get_thread_data_s
+typedef struct _mod_http_query_thread_data_s
 {
+  _mod_http_context_t *http_context;
   lw6cnx_connection_t *cnx;
   char *url;
-} _mod_http_get_thread_data_t;
+} _mod_http_query_thread_data_t;
 
 typedef struct _mod_http_specific_data_s
 {
-  lw6sys_list_t *get_threads;
+  lw6sys_list_t *query_threads;
 }
 _mod_http_specific_data_t;
 
@@ -80,11 +81,15 @@ extern void _mod_http_quit (_mod_http_context_t * http_context);
 extern char *_mod_http_get (_mod_http_context_t * http_context, char *url,
 			    char *password);
 
-/* http-getthread.c */
-extern void _mod_http_get_thread_func (void *callback_data);
-extern void _mod_http_get_thread_join (void *callback_data);
-extern void _mod_http_get_thread_free_list_item (void *data);
-extern int _mod_http_get_thread_filter (void *func_data, void *data);
+/* http-querythread.c */
+extern void _mod_http_query_thread_func (void *callback_data);
+extern void _mod_http_query_thread_join (void *callback_data);
+extern void _mod_http_query_thread_free_list_item (void *data);
+extern int _mod_http_query_thread_filter (void *func_data, void *data);
+extern int
+_mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t *
+					      query_thread_data,
+					      char *response_line);
 
 /*
  * In state.c

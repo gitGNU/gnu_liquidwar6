@@ -3259,6 +3259,9 @@ This describes how to add a new `libxyz' internal library:
    * edit `src/lib/lw6-options.c' and add a call to `lw6xyz_test()' for
      both "check" and "test" cases.
 
+   * edit `src/lib/lw6-test.c' and add a reference to the
+     `lw6xzy_test()' function.
+
    * in every internal `abc' library that depends on `xyz', edit the
      `lw6abc_test' function so that it contains a reference to
      `lw6xzy_test'.

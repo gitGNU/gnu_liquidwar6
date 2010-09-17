@@ -3347,6 +3347,8 @@ run @code{automake} and @code{autoconf}.
 @item
 edit @code{src/lib/lw6-options.c} and add a call to @code{lw6xyz_test()} for both ``check'' and ``test'' cases.
 @item
+edit @code{src/lib/lw6-test.c} and add a reference to the @code{lw6xzy_test()} function.
+@item
 in every internal @code{abc} library that depends on @code{xyz}, edit the @code{lw6abc_test} function so that it contains a reference to @code{lw6xzy_test}.
 @item
 in every internal @code{abc} library that depends on @code{abc/abc.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}. Also edit @code{src/lib/liquidwar6.h.in}.

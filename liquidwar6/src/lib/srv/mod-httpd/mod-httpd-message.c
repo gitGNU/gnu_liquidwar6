@@ -28,22 +28,75 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_send (_httpd_context_t * httpd_context,
+_mod_httpd_send (_mod_httpd_context_t * httpd_context,
 		 lw6cnx_connection_t * connection,
 		 u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
 		 u_int64_t logical_from_id, u_int64_t logical_to_id,
 		 char *message)
 {
   int ret = 0;
+  _mod_httpd_specific_data_t *specific_data =
+    (_mod_httpd_specific_data_t *) connection->backend_specific_data;
+  char *line;
+  char *tmp = NULL;
 
-  // todo
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_httpd send \"%s\""), message);
+  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+				   lw6sys_build_get_version (),
+				   connection->password_send_checksum,
+				   physical_ticket_sig,
+				   logical_ticket_sig,
+				   connection->local_id_int,
+				   connection->remote_id_int,
+				   logical_from_id, logical_to_id, message);
+  if (line)
+    {
+      if (lw6cnx_connection_lock_send (connection))
+	{
+	  if (specific_data->send_buffer)
+	    {
+	      tmp =
+		lw6sys_new_sprintf ("%s%s\n", specific_data->send_buffer,
+				    line);
+	      if (tmp)
+		{
+		  LW6SYS_FREE (specific_data->send_buffer);
+		  specific_data->send_buffer = tmp;
+		  tmp = NULL;
+		  ret = 1;
+		}
+	    }
+	  else
+	    {
+	      specific_data->send_buffer = lw6sys_new_sprintf ("%s\n", line);
+	      if (specific_data->send_buffer)
+		{
+		  ret = 1;
+		}
+	    }
+
+	  if (ret)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("mod_httpd scheduled send \"%s\""), line);
+	    }
+	  lw6cnx_connection_unlock_send (connection);
+	}
+      LW6SYS_FREE (line);
+    }
 
   return ret;
 }
 
 void
-_mod_httpd_poll (_httpd_context_t * httpd_context,
+_mod_httpd_poll (_mod_httpd_context_t * httpd_context,
 		 lw6cnx_connection_t * connection)
 {
-  // todo
+  _mod_httpd_specific_data_t *specific_data =
+    (_mod_httpd_specific_data_t *) connection->backend_specific_data;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_httpd poll"));
+
+  lw6sys_list_filter (&(specific_data->reply_threads),
+		      _mod_httpd_reply_thread_filter, NULL);
 }

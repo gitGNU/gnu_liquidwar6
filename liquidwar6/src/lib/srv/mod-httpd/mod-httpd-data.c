@@ -39,9 +39,9 @@
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
 {
-  _httpd_consts_t *consts;
+  _mod_httpd_consts_t *consts;
 
-  consts = (_httpd_consts_t *) callback_data;
+  consts = (_mod_httpd_consts_t *) callback_data;
 
   if (!strcmp (element, "int"))
     {
@@ -85,7 +85,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_httpd_consts_t * consts, char *consts_file)
+_load_consts (_mod_httpd_consts_t * consts, char *consts_file)
 {
   int ret = 0;
 
@@ -108,7 +108,7 @@ _load_consts (_httpd_consts_t * consts, char *consts_file)
 }
 
 static int
-_load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
+_load_htdocs (_mod_httpd_htdocs_t * htdocs, char *htdocs_dir)
 {
   int ret = 1;
   char *filename = NULL;
@@ -155,7 +155,7 @@ _load_htdocs (_httpd_htdocs_t * htdocs, char *htdocs_dir)
 }
 
 int
-_mod_httpd_load_data (_httpd_data_t * httpd_data, char *data_dir)
+_mod_httpd_load_data (_mod_httpd_data_t * httpd_data, char *data_dir)
 {
   int ret = 0;
   char *httpd_subdir = NULL;
@@ -187,7 +187,7 @@ _mod_httpd_load_data (_httpd_data_t * httpd_data, char *data_dir)
 }
 
 static int
-_unload_consts (_httpd_consts_t * consts)
+_unload_consts (_mod_httpd_consts_t * consts)
 {
   int ret = 1;
 
@@ -243,13 +243,13 @@ _unload_consts (_httpd_consts_t * consts)
     {
       LW6SYS_FREE (consts->auth_realm);
     }
-  memset (consts, 0, sizeof (_httpd_consts_t));
+  memset (consts, 0, sizeof (_mod_httpd_consts_t));
 
   return ret;
 }
 
 static int
-_unload_htdocs (_httpd_htdocs_t * htdocs)
+_unload_htdocs (_mod_httpd_htdocs_t * htdocs)
 {
   int ret = 1;
 
@@ -273,13 +273,13 @@ _unload_htdocs (_httpd_htdocs_t * htdocs)
     {
       LW6SYS_FREE (htdocs->favicon_ico_data);
     }
-  memset (htdocs, 0, sizeof (_httpd_htdocs_t));
+  memset (htdocs, 0, sizeof (_mod_httpd_htdocs_t));
 
   return ret;
 }
 
 void
-_mod_httpd_unload_data (_httpd_data_t * httpd_data)
+_mod_httpd_unload_data (_mod_httpd_data_t * httpd_data)
 {
   _unload_htdocs (&(httpd_data->htdocs));
   _unload_consts (&(httpd_data->consts));

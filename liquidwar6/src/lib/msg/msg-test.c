@@ -75,7 +75,7 @@
 #define _TEST_WORD_X_STR_KO "/ / /"
 #define _TEST_WORD_BASE64_ITEM " spaces /slashes/"
 #define _TEST_WORD_BASE64_OK "%s just before this was base64"
-#define _TEST_WORD_BASE64_KO "jklmjk %s I said BASE64 first!"
+#define _TEST_WORD_BASE64_KO "j*k$lmjk %s I said BASE64 first!"
 #define _TEST_WORD_INT_OK "0 is a number"
 #define _TEST_WORD_INT_KO "\n"
 #define _TEST_WORD_INT_GT0_OK "1 is greater than 0"

@@ -37,6 +37,7 @@ src/lib/srv/mod-httpd/mod-httpd-backend.c
 src/lib/srv/mod-httpd/mod-httpd-info.c
 src/lib/srv/mod-httpd/mod-httpd-log.c
 src/lib/srv/mod-httpd/mod-httpd-message.c
+src/lib/srv/mod-httpd/mod-httpd-replythread.c
 src/lib/srv/mod-httpd/mod-httpd-state.c
 src/lib/srv/mod-httpd/mod-httpd-handshake.c
 src/lib/srv/mod-httpd/mod-httpd-setup.c
@@ -164,7 +165,6 @@ src/lib/dyn/dyn-testmain.c
 src/lib/cnx/cnx-tickettable.c
 src/lib/cnx/cnx-password.c
 src/lib/cnx/cnx-testmain.c
-src/lib/cnx/cnx-sendparam.c
 src/lib/cnx/cnx-test.c
 src/lib/cnx/cnx-connection.c
 src/lib/cns/cns-handler.c
@@ -404,10 +404,10 @@ src/lib/cli/mod-http/mod-http-get.c
 src/lib/cli/mod-http/mod-http-info.c
 src/lib/cli/mod-http/mod-http-data.c
 src/lib/cli/mod-http/mod-http-setup.c
+src/lib/cli/mod-http/mod-http-querythread.c
 src/lib/cli/mod-http/mod-http-backend.c
 src/lib/cli/mod-http/mod-http-oob.c
 src/lib/cli/mod-http/mod-http-message.c
-src/lib/cli/mod-http/mod-http-getthread.c
 src/lib/cli/mod-http/mod-http-state.c
 src/lib/cli/cli-test.c
 src/lib/cli/cli-testmain.c

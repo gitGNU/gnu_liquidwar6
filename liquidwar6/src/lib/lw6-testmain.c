@@ -23,9 +23,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
 #include "liquidwar6.h"
-
 #ifdef LW6_MAC_OS_X
 #include <SDL/SDL.h>
 #endif

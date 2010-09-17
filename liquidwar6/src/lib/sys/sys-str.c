@@ -186,6 +186,77 @@ lw6sys_new_sprintf (char *fmt, ...)
   return ret;
 }
 
+int
+_lw6sys_buf_vsnprintf (char *buf, int len, char *fmt, va_list ap)
+{
+  int ret = 0;
+
+  /*
+   * buf has at least one char for it's len+1 so even
+   * with len=0 buf[0] is fine.
+   */
+  buf[0] = '\0';
+
+  /*
+   * Always call this first to call a segfault if buf is badly
+   * sized, better have this error right now than later
+   * "we don't know when".
+   */
+  buf[len] = '\0';
+
+  /*
+   * Note: it's important here *not* to log anything,
+   * this function is typically called by internal
+   * low-level function which do not want to lock
+   * anything calling malloc or something.
+   */
+  ret = (vsnprintf (buf, len, fmt, ap) >= 0);
+
+  return ret;
+}
+
+/**
+ * lw6sys_buf_sprintf
+ *
+ * @buf: a buffer of len+1 chars
+ * @len: the max length of string
+ * @fmt: a format string, like the one you would pass to @printf
+ * @...: optional arguments, like the ones you would pass to @printf
+ *
+ * Almost like snprintf except that it will *always* append a
+ * char 0 ('\0') at the end of the string. Therefore buf
+ * must be of size len+1.
+ *
+ * Return value: 1 if success, 0 if failed.
+ */
+int
+lw6sys_buf_sprintf (char *buf, int len, char *fmt, ...)
+{
+  int ret = 0;
+  va_list ap;
+
+  /*
+   * buf has at least one char for it's len+1 so even
+   * with len=0 buf[0] is fine.
+   */
+  buf[0] = '\0';
+
+  if (fmt != NULL)
+    {
+      va_start (ap, fmt);
+      /*
+       * Note: it's important here *not* to log anything,
+       * this function is typically called by internal
+       * low-level function which do not want to lock
+       * anything calling malloc or something.
+       */
+      ret = _lw6sys_buf_vsnprintf (buf, len, fmt, ap);
+      va_end (ap);
+    }
+
+  return ret;
+}
+
 /**
  * lw6sys_str_is_blank
  *
@@ -568,6 +639,45 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
     }
 
   return ret;
+}
+
+/**
+ * lw6sys_str_reformat_this
+ *
+ * @str: a pointer to the string we want to modify
+ * @nb_colummns: number of columns to use, without prefix.
+ *
+ * Reformats a string, that is, insert newline characters in the
+ * right places to that it fits in a given number of columns.
+ * This function will modify the buffer so @str must be writeable.
+ * Will not handle strings which already contain newline
+ * characters perfectly.
+ *
+ * Return value: none
+ */
+void
+lw6sys_str_reformat_this (char *str, int nb_columns)
+{
+  int i = 0;
+  char *pos = NULL;
+  char *last_space = NULL;
+
+  pos = str;
+  while (*pos)
+    {
+      if (i > nb_columns && last_space)
+	{
+	  (*last_space) = '\n';
+	  i = (pos - last_space);
+	  last_space = NULL;
+	}
+      if (lw6sys_chr_is_space (*pos))
+	{
+	  last_space = pos;
+	}
+      pos++;
+      i++;
+    }
 }
 
 /**

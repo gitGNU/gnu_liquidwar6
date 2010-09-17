@@ -2865,6 +2865,24 @@ test_str ()
 	ret = 0;
       }
 
+    str = lw6sys_str_copy (TEST_REFORMAT_STR1);
+    if (str)
+      {
+	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
+		    str);
+	LW6SYS_FREE (str);
+      }
+
+    str = lw6sys_str_copy (TEST_REFORMAT_STR2);
+    if (str)
+      {
+	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
+		    str);
+	LW6SYS_FREE (str);
+      }
+
     list = lw6sys_str_split (TEST_SPLIT_STR, TEST_SPLIT_CHAR);
     if (list)
       {

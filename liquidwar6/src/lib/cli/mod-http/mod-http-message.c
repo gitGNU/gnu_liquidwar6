@@ -39,7 +39,7 @@ _mod_http_send (_mod_http_context_t * http_context,
     (_mod_http_specific_data_t *) connection->backend_specific_data;
   char *line = NULL;
   char *url = NULL;
-  _mod_http_get_thread_data_t *get_thread_data = NULL;
+  _mod_http_query_thread_data_t *query_thread_data = NULL;
   void *thread_handler = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http send \"%s\""), message);
@@ -73,21 +73,23 @@ _mod_http_send (_mod_http_context_t * http_context,
 	       * another question. So another lock. And, even, given that,
 	       * all we do here is fire another thread!
 	       */
-	      get_thread_data =
-		(_mod_http_get_thread_data_t *)
-		LW6SYS_MALLOC (sizeof (_mod_http_get_thread_data_t));
-	      if (get_thread_data)
+	      query_thread_data =
+		(_mod_http_query_thread_data_t *)
+		LW6SYS_MALLOC (sizeof (_mod_http_query_thread_data_t));
+	      if (query_thread_data)
 		{
-		  get_thread_data->cnx = connection;
-		  get_thread_data->url = url;
+		  query_thread_data->http_context = http_context;
+		  query_thread_data->cnx = connection;
+		  query_thread_data->url = url;
 		  thread_handler =
-		    lw6sys_thread_create (_mod_http_get_thread_func,
-					  _mod_http_get_thread_join,
-					  (void *) get_thread_data);
+		    lw6sys_thread_create (_mod_http_query_thread_func,
+					  _mod_http_query_thread_join,
+					  (void *) query_thread_data);
 		  if (thread_handler)
 		    {
-		      lw6sys_list_push_back (&(specific_data->get_threads),
+		      lw6sys_list_push_back (&(specific_data->query_threads),
 					     thread_handler);
+		      ret = 1;
 		    }
 		}
 	    }
@@ -99,9 +101,9 @@ _mod_http_send (_mod_http_context_t * http_context,
 	    {
 	      LW6SYS_FREE (url);
 	    }
-	  if (get_thread_data)
+	  if (query_thread_data)
 	    {
-	      LW6SYS_FREE (get_thread_data);
+	      LW6SYS_FREE (query_thread_data);
 	    }
 	}
     }
@@ -118,6 +120,11 @@ void
 _mod_http_poll (_mod_http_context_t * http_context,
 		lw6cnx_connection_t * connection)
 {
+  _mod_http_specific_data_t *specific_data =
+    (_mod_http_specific_data_t *) connection->backend_specific_data;
+
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_http poll"));
-  // todo
+
+  lw6sys_list_filter (&(specific_data->query_threads),
+		      _mod_http_query_thread_filter, NULL);
 }

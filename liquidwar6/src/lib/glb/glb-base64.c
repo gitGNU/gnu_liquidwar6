@@ -27,6 +27,8 @@
 #include "glb.h"
 #include "glb-internal.h"
 
+#define _CUT_MAX 4
+
 /**
  * lw6glb_base64_encode_bin
  *
@@ -172,6 +174,7 @@ lw6glb_base64_decode_bin_prefix (int *size, char *base64_str, char *prefix)
   int decode_ret = 0;
   int prefix_len = 0;
   int c = '\0';
+  int cut = 0;
 
   if (prefix)
     {
@@ -205,18 +208,32 @@ lw6glb_base64_decode_bin_prefix (int *size, char *base64_str, char *prefix)
       ret = (char *) LW6SYS_CALLOC (out_len + 1);
       if (ret)
 	{
-	  decode_ret = base64_decode (base64_str, in_len, ret, &out_len);
-	  if (decode_ret == 1)
+	  if (in_len > 0)
 	    {
-	      (*size) = out_len;
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("base64 decode failed, decode_ret=%d"),
-			  decode_ret);
-	      LW6SYS_FREE (ret);
-	      ret = NULL;
+	      /*
+	       * We try several decoding sessions truncating the string
+	       * by 0,1,2 & 3 characters to allow decoding of truncated
+	       * base64 string, this is usefull when trying to get
+	       * informations from long encoded URLs for instance.
+	       */
+	      while (decode_ret != 1 && (cut < _CUT_MAX && cut < in_len))
+		{
+		  decode_ret =
+		    base64_decode (base64_str, in_len - cut, ret, &out_len);
+		  cut++;
+		}
+	      if (decode_ret == 1)
+		{
+		  (*size) = out_len;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("base64 decode failed, decode_ret=%d"),
+			      decode_ret);
+		  LW6SYS_FREE (ret);
+		  ret = NULL;
+		}
 	    }
 	}
     }

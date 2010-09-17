@@ -93,11 +93,11 @@ _add_node_html (void *func_data, void *data)
     }
 }
 
-static _httpd_response_t *
-_response_index_html (_httpd_context_t * httpd_context,
+static _mod_httpd_response_t *
+_response_index_html (_mod_httpd_context_t * httpd_context,
 		      lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   char *content = NULL;
   char *screenshot_url = NULL;
   char *level = "";
@@ -234,12 +234,12 @@ _response_index_html (_httpd_context_t * httpd_context,
   return response;
 }
 
-static _httpd_response_t *
-_response_screenshot_jpeg (_httpd_context_t * httpd_context,
+static _mod_httpd_response_t *
+_response_screenshot_jpeg (_mod_httpd_context_t * httpd_context,
 			   lw6nod_info_t * node_info,
 			   lw6nod_dyn_info_t * dyn_info)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   int screenshot_size = 0;
   void *screenshot_data = NULL;
   char *refresh_url = NULL;
@@ -276,11 +276,11 @@ _response_screenshot_jpeg (_httpd_context_t * httpd_context,
   return response;
 }
 
-static _httpd_response_t *
-_response_info_txt (_httpd_context_t * httpd_context,
+static _mod_httpd_response_t *
+_response_info_txt (_mod_httpd_context_t * httpd_context,
 		    lw6nod_info_t * node_info)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   char *content = NULL;
 
   content = lw6msg_oob_generate_info (node_info);
@@ -299,11 +299,11 @@ _response_info_txt (_httpd_context_t * httpd_context,
   return response;
 }
 
-static _httpd_response_t *
-_response_list_txt (_httpd_context_t * httpd_context,
+static _mod_httpd_response_t *
+_response_list_txt (_mod_httpd_context_t * httpd_context,
 		    lw6nod_info_t * node_info)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   char *content = NULL;
 
   content = lw6msg_oob_generate_list (node_info);
@@ -322,11 +322,11 @@ _response_list_txt (_httpd_context_t * httpd_context,
   return response;
 }
 
-static _httpd_response_t *
-_response_ping_txt (_httpd_context_t * httpd_context,
+static _mod_httpd_response_t *
+_response_ping_txt (_mod_httpd_context_t * httpd_context,
 		    lw6nod_info_t * node_info)
 {
-  _httpd_response_t *response = NULL;
+  _mod_httpd_response_t *response = NULL;
   char *content = NULL;
 
   content = lw6msg_oob_generate_pong (node_info);
@@ -346,13 +346,13 @@ _response_ping_txt (_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_process_oob (_httpd_context_t * httpd_context,
+_mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
 			lw6nod_info_t * node_info,
 			lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
-  _httpd_request_t *request = NULL;
-  _httpd_response_t *response = NULL;
+  _mod_httpd_request_t *request = NULL;
+  _mod_httpd_response_t *response = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
@@ -520,7 +520,7 @@ _mod_httpd_process_oob (_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_oob_should_continue (_httpd_context_t * httpd_context,
+_mod_httpd_oob_should_continue (_mod_httpd_context_t * httpd_context,
 				lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
