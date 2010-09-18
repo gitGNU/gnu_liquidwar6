@@ -54,6 +54,7 @@ lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
 	  ret->id = ++seq_id;
 	}
       ret->game_struct = game_struct;
+      ret->rounds=0;
 
       _lw6ker_map_state_init (&(ret->map_state),
 			      &(ret->game_struct->map_struct),
