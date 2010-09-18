@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.10beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-16 16:22+0200\n"
+"POT-Creation-Date: 2010-09-18 10:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -651,37 +651,37 @@ msgstr ""
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:752
+#: src/lib/sys/sys-log.c:753
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:757
+#: src/lib/sys/sys-log.c:758
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:767
+#: src/lib/sys/sys-log.c:768
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:772
+#: src/lib/sys/sys-log.c:773
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:791
+#: src/lib/sys/sys-log.c:790
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:797
+#: src/lib/sys/sys-log.c:796
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:880
+#: src/lib/sys/sys-log.c:879
 msgid "CRITICAL! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:884
+#: src/lib/sys/sys-log.c:883
 msgid "CRITICAL!"
 msgstr ""
 
