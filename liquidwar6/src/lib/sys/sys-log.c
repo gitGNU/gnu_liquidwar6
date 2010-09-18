@@ -608,7 +608,7 @@ msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
   char message_raw[MSGBOX_LENGTH + 1];
   char message_full[MSGBOX_LENGTH + 1];
 
-  lw6sys_buf_sprintf (message_raw, MSGBOX_LENGTH, fmt, ap);
+  _lw6sys_buf_vsnprintf (message_raw, MSGBOX_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, MSGBOX_WIDTH);
   lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH, "%s (%s:%d)\n\n%s",
 		      level_str, file, line, message_raw);
@@ -730,6 +730,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
       char *file_only = NULL;
 
       errno_int = errno;
+      level_str[0] = '\0';
 
       file_only = strrchr (file, '/');
       if (file_only && *file_only)
@@ -776,13 +777,11 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 #endif
 	  break;
 	case LW6SYS_LOG_NOTICE_ID:
-	  level_str[0] = '\0';
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_NOTICE;
 #endif
 	  break;
 	case LW6SYS_LOG_INFO_ID:
-	  level_str[0] = '\0';
 #ifdef HAVE_SYSLOG_H
 	  syslog_priority = LOG_INFO;
 #endif

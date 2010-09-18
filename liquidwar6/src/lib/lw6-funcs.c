@@ -7558,7 +7558,7 @@ _scm_lw6p2p_node_get_id (SCM node)
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
-  return SCM_UNDEFINED;
+  return ret;
 }
 
 /*

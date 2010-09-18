@@ -1,3 +1,7 @@
+2010-09-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed log & script bugs.
+
 2010-09-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Full http/httpd connectivity, even in non-OOB.
