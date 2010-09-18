@@ -34,7 +34,11 @@
 #define _EXECUTED_AGAIN_TRUE "1"
 #define _PID_FILE "daemon.pid"
 
+#if LW6_MS_WINDOWS || LW6_MAC_OS_X
+// no fork support on those platforms
+#else
 static int _pid_file_descriptor = -1;
+#endif
 
 /**
  * lw6sys_daemon_pid_file
