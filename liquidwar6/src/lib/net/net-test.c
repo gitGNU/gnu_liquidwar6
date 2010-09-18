@@ -562,6 +562,8 @@ test_line ()
 		  {
 		    if (i < 3)
 		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_ ("problem receiving line %d"), i + 1);
 			ret_tmp = 0;
 		      }
 		  }
@@ -629,6 +631,8 @@ test_line ()
 		  {
 		    if (i < 3)
 		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_ ("problem receiving line %d"), i + 1);
 			ret_tmp = 0;
 		      }
 		  }
