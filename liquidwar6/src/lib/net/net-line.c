@@ -34,7 +34,17 @@
 #define CHAR_0 '\0'
 #define TRAIL_SIZE 2
 
+#ifdef LW6_MS_WINDOWS
+/*
+ * Using CR/LF instead of LF only under MS-Windows is clearly
+ * *not* mandatory but... it has a "je-ne-sais-quoi" to keep
+ * using despite everyone else does use LF only with success,
+ * so it's kept here for nothing but style ;)
+ */
 static char trail[TRAIL_SIZE + 1] = { CHAR_CR, CHAR_LF, CHAR_0 };
+#else
+static char trail[TRAIL_SIZE + 1] = { CHAR_LF, CHAR_0, CHAR_0};
+#endif
 
 /**
  * lw6net_recv_line_tcp:
@@ -61,21 +71,21 @@ lw6net_recv_line_tcp (int sock)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE+1];
 
   if (sock >= 0)
     {
       line_size = _lw6net_global_context->const_data.line_size;
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
-      memset (line_buf, 0, line_size + 3);
-      available_size = lw6net_tcp_peek (sock, line_buf, line_size + 2, 0.0f);
+      memset (line_buf, 0, line_size + TRAIL_SIZE +1);
+      available_size = lw6net_tcp_peek (sock, line_buf, line_size + TRAIL_SIZE, 0.0f);
       if (available_size > 0)
 	{
 	  pos_lf = strchr (line_buf, CHAR_LF);
 	  if (pos_lf)
 	    {
 	      trail_size = (pos_lf > line_buf
-			    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+			    && pos_lf[-1] == CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE-1;
 	      wanted_size = (pos_lf + 1 - line_buf);
 	      pos_lf[1 - trail_size] = CHAR_0;
 	      ret = lw6sys_str_copy (line_buf);
@@ -167,16 +177,16 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
    * can be called by many threads in polling loops (think of broadcast)
    * and allocating memory for this causes bottlenecks in bazooka functions.
    */
-  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE+1];
 
   if (sock >= 0)
     {
       line_size =
 	lw6sys_min (_lw6net_global_context->const_data.line_size,
-		    LW6NET_PPPOE_MTU - 2);
-      memset (line_buf, 0, line_size + 3);
+		    LW6NET_PPPOE_MTU - TRAIL_SIZE);
+      memset (line_buf, 0, line_size + TRAIL_SIZE+1);
       available_size =
-	lw6net_udp_peek (sock, line_buf, line_size + 2,
+	lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE,
 			 incoming_ip, incoming_port);
       if (incoming_ip && (*incoming_ip))
 	{
@@ -188,7 +198,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 	  if (pos_lf)
 	    {
 	      trail_size = (pos_lf > line_buf
-			    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+			    && pos_lf[-1] == CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE-1;
 	      pos_lf[1 - trail_size] = CHAR_0;
 	      ret = lw6sys_str_copy (line_buf);
 	      if (ret)
@@ -235,7 +245,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   int available_size;
   int trail_size;
   char *pos_lf;
-  char line_buf[LW6NET_MAX_LINE_SIZE + 3];
+  char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE+1];
   char *seek = NULL;
   int no_lf_at_very_end = 0;
 
@@ -246,10 +256,10 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 	{
 	  line_size =
 	    lw6sys_min (_lw6net_global_context->const_data.line_size,
-			LW6NET_PPPOE_MTU - 2);
-	  memset (line_buf, 0, line_size + 3);
+			LW6NET_PPPOE_MTU - TRAIL_SIZE);
+	  memset (line_buf, 0, line_size + TRAIL_SIZE+1);
 	  available_size =
-	    lw6net_udp_peek (sock, line_buf, line_size + 2,
+	    lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE,
 			     incoming_ip, incoming_port);
 	  if (incoming_ip && (*incoming_ip))
 	    {
@@ -264,7 +274,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 		  if (pos_lf)
 		    {
 		      trail_size = (pos_lf > seek
-				    && pos_lf[-1] == CHAR_CR) ? 2 : 1;
+				    && pos_lf[-1] == CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE-1;
 		      pos_lf[1 - trail_size] = CHAR_0;
 		      line = lw6sys_str_copy (seek);
 		      if (line)
@@ -348,7 +358,7 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
     {
       line_size =
 	lw6sys_min (_lw6net_global_context->const_data.line_size,
-		    LW6NET_PPPOE_MTU - 2);
+		    LW6NET_PPPOE_MTU - TRAIL_SIZE);
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
       copied_line = lw6sys_str_copy (line);
       if (copied_line)

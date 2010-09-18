@@ -1,5 +1,7 @@
 2010-09-18 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Use LF instead of CRLF on non-MS platforms.
+
 	* Code removal, got rid of error and is_alive in all net modules.
 
 	* Fixed log & script bugs.
