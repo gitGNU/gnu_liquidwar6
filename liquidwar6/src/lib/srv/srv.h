@@ -126,9 +126,7 @@ typedef struct lw6srv_backend_s
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, char *message);
   void (*poll) (void *srv_context, lw6cnx_connection_t * connection);
-  int (*is_alive) (void *srv_context, lw6cnx_connection_t * connection);
   char *(*repr) (void *srv_context, lw6cnx_connection_t * connection);
-  char *(*error) (void *srv_context, lw6cnx_connection_t * connection);
 }
 lw6srv_backend_t;
 
@@ -175,12 +173,8 @@ extern int lw6srv_send (lw6srv_backend_t * backend,
 			char *message);
 extern void lw6srv_poll (lw6srv_backend_t * backend,
 			 lw6cnx_connection_t * connection);
-extern int lw6srv_is_alive (lw6srv_backend_t * backend,
-			    lw6cnx_connection_t * connection);
 extern char *lw6srv_repr (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
-extern char *lw6srv_error (lw6srv_backend_t * backend,
-			   lw6cnx_connection_t * connection);
 
 /*
  * In control.c

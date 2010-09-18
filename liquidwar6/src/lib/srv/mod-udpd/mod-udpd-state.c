@@ -81,17 +81,6 @@ _mod_udpd_close (_udpd_context_t * udpd_context,
 }
 
 int
-_mod_udpd_is_alive (_udpd_context_t * udpd_context,
-		    lw6cnx_connection_t * connection)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
-int
 _mod_udpd_timeout_ok (_udpd_context_t * udpd_context,
 		      int64_t origin_timestamp)
 {

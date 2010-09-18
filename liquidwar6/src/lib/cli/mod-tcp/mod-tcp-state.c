@@ -93,17 +93,6 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 }
 
 int
-_mod_tcp_is_alive (_mod_tcp_context_t * tcp_context,
-		   lw6cnx_connection_t * connection)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
-int
 _mod_tcp_timeout_ok (_mod_tcp_context_t * tcp_context,
 		     int64_t origin_timestamp)
 {

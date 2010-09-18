@@ -105,17 +105,6 @@ _mod_httpd_close (_mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_is_alive (_mod_httpd_context_t * httpd_context,
-		     lw6cnx_connection_t * connection)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
-int
 _mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context,
 		       int64_t origin_timestamp)
 {

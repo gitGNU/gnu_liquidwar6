@@ -84,17 +84,6 @@ _mod_tcpd_close (_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
-		    lw6cnx_connection_t * connection)
-{
-  int ret = 0;
-
-  // todo
-
-  return ret;
-}
-
-int
 _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
 		      int64_t origin_timestamp)
 {

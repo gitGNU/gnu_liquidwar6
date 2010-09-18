@@ -39,14 +39,3 @@ _mod_tcpd_repr (_tcpd_context_t * tcpd_context,
 
   return ret;
 }
-
-char *
-_mod_tcpd_error (_tcpd_context_t * tcpd_context,
-		 lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}

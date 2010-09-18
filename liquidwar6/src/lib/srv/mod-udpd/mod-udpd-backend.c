@@ -200,20 +200,6 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
     }
 }
 
-static int
-_is_alive (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
-  int ret = 0;
-
-  if (udpd_context)
-    {
-      ret = _mod_udpd_is_alive (udpd_context, connection);
-    }
-
-  return ret;
-}
-
 static char *
 _repr (void *srv_context, lw6cnx_connection_t * connection)
 {
@@ -223,20 +209,6 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
   if (udpd_context)
     {
       ret = _mod_udpd_repr (udpd_context, connection);
-    }
-
-  return ret;
-}
-
-static char *
-_error (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _udpd_context_t *udpd_context = (_udpd_context_t *) srv_context;
-  char *ret = NULL;
-
-  if (udpd_context)
-    {
-      ret = _mod_udpd_error (udpd_context, connection);
     }
 
   return ret;
@@ -289,9 +261,7 @@ mod_udpd_create_backend ()
       backend->close = _close;
       backend->send = _send;
       backend->poll = _poll;
-      backend->is_alive = _is_alive;
       backend->repr = _repr;
-      backend->error = _error;
     }
 
   return backend;

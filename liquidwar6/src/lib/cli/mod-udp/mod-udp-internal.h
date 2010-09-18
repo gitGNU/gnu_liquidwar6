@@ -75,8 +75,6 @@ extern lw6cnx_connection_t *_mod_udp_open (_udp_context_t * udp_context,
 					   void *recv_callback_data);
 extern void _mod_udp_close (_udp_context_t * udp_context,
 			    lw6cnx_connection_t * connection);
-extern int _mod_udp_is_alive (_udp_context_t * udp_context,
-			      lw6cnx_connection_t * connection);
 extern int _mod_udp_timeout_ok (_udp_context_t * udp_context,
 				int64_t origin_timestamp, int broadcast);
 
@@ -97,8 +95,6 @@ extern void _mod_udp_poll (_udp_context_t * udp_context,
  */
 extern char *_mod_udp_repr (_udp_context_t * udp_context,
 			    lw6cnx_connection_t * connection);
-extern char *_mod_udp_error (_udp_context_t * udp_context,
-			     lw6cnx_connection_t * connection);
 
 /*
  * In oob.c

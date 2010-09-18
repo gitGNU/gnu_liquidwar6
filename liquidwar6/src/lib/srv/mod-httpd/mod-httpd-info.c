@@ -39,14 +39,3 @@ _mod_httpd_repr (_mod_httpd_context_t * httpd_context,
 
   return ret;
 }
-
-char *
-_mod_httpd_error (_mod_httpd_context_t * httpd_context,
-		  lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}

@@ -199,20 +199,6 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
     }
 }
 
-static int
-_is_alive (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  int ret = 0;
-
-  if (tcpd_context)
-    {
-      ret = _mod_tcpd_is_alive (tcpd_context, connection);
-    }
-
-  return ret;
-}
-
 static char *
 _repr (void *srv_context, lw6cnx_connection_t * connection)
 {
@@ -222,20 +208,6 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
   if (tcpd_context)
     {
       ret = _mod_tcpd_repr (tcpd_context, connection);
-    }
-
-  return ret;
-}
-
-static char *
-_error (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _tcpd_context_t *tcpd_context = (_tcpd_context_t *) srv_context;
-  char *ret = NULL;
-
-  if (tcpd_context)
-    {
-      ret = _mod_tcpd_error (tcpd_context, connection);
     }
 
   return ret;
@@ -288,9 +260,7 @@ mod_tcpd_create_backend ()
       backend->close = _close;
       backend->send = _send;
       backend->poll = _poll;
-      backend->is_alive = _is_alive;
       backend->repr = _repr;
-      backend->error = _error;
     }
 
   return backend;

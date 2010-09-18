@@ -303,27 +303,6 @@ lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
-int
-lw6srv_is_alive (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
-{
-  int ret = 0;
-
-  LW6SYS_BACKEND_FUNCTION_BEGIN;
-
-  if (backend->is_alive)
-    {
-      ret = backend->is_alive (backend->srv_context, connection);
-    }
-  else
-    {
-      _warning (__FUNCTION__);
-    }
-
-  LW6SYS_BACKEND_FUNCTION_END;
-
-  return ret;
-}
-
 char *
 lw6srv_repr (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
@@ -334,27 +313,6 @@ lw6srv_repr (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
   if (backend->repr)
     {
       ret = backend->repr (backend->srv_context, connection);
-    }
-  else
-    {
-      _warning (__FUNCTION__);
-    }
-
-  LW6SYS_BACKEND_FUNCTION_END;
-
-  return ret;
-}
-
-char *
-lw6srv_error (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  LW6SYS_BACKEND_FUNCTION_BEGIN;
-
-  if (backend->error)
-    {
-      ret = backend->error (backend->srv_context, connection);
     }
   else
     {

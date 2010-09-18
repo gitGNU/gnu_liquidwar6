@@ -102,8 +102,6 @@ extern lw6cnx_connection_t *_mod_tcpd_open (_tcpd_context_t * tcpd_context,
 					    void *recv_callback_data);
 extern void _mod_tcpd_close (_tcpd_context_t * tcpd_context,
 			     lw6cnx_connection_t * connection);
-extern int _mod_tcpd_is_alive (_tcpd_context_t * tcpd_context,
-			       lw6cnx_connection_t * connection);
 extern int _mod_tcpd_timeout_ok (_tcpd_context_t * tcpd_context,
 				 int64_t origin_timestamp);
 
@@ -124,8 +122,6 @@ extern void _mod_tcpd_poll (_tcpd_context_t * tcpd_context,
  */
 extern char *_mod_tcpd_repr (_tcpd_context_t * tcpd_context,
 			     lw6cnx_connection_t * connection);
-extern char *_mod_tcpd_error (_tcpd_context_t * tcpd_context,
-			      lw6cnx_connection_t * connection);
 
 /* mod-tcpd-oob.c */
 extern int _mod_tcpd_process_oob (_tcpd_context_t * tcpd_context,

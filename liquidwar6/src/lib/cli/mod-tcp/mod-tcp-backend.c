@@ -132,20 +132,6 @@ _poll (void *cli_context, lw6cnx_connection_t * connection)
     }
 }
 
-static int
-_is_alive (void *cli_context, lw6cnx_connection_t * connection)
-{
-  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
-  int ret = 0;
-
-  if (tcp_context)
-    {
-      ret = _mod_tcp_is_alive (tcp_context, connection);
-    }
-
-  return ret;
-}
-
 static char *
 _repr (void *cli_context, lw6cnx_connection_t * connection)
 {
@@ -155,20 +141,6 @@ _repr (void *cli_context, lw6cnx_connection_t * connection)
   if (tcp_context)
     {
       ret = _mod_tcp_repr (tcp_context, connection);
-    }
-
-  return ret;
-}
-
-static char *
-_error (void *cli_context, lw6cnx_connection_t * connection)
-{
-  _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
-  char *ret = NULL;
-
-  if (tcp_context)
-    {
-      ret = _mod_tcp_error (tcp_context, connection);
     }
 
   return ret;
@@ -218,9 +190,7 @@ mod_tcp_create_backend ()
       backend->close = _close;
       backend->send = _send;
       backend->poll = _poll;
-      backend->is_alive = _is_alive;
       backend->repr = _repr;
-      backend->error = _error;
     }
 
   return backend;

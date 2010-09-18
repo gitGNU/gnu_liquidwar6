@@ -96,8 +96,6 @@ extern lw6cnx_connection_t *_mod_tcp_open (_mod_tcp_context_t * tcp_context,
 					   void *recv_callback_data);
 extern void _mod_tcp_close (_mod_tcp_context_t * tcp_context,
 			    lw6cnx_connection_t * connection);
-extern int _mod_tcp_is_alive (_mod_tcp_context_t * tcp_context,
-			      lw6cnx_connection_t * connection);
 extern int _mod_tcp_timeout_ok (_mod_tcp_context_t * tcp_context,
 				int64_t origin_timestamp);
 extern void _mod_tcp_connect_func (void *func_data);
@@ -119,8 +117,6 @@ extern void _mod_tcp_poll (_mod_tcp_context_t * tcp_context,
  */
 extern char *_mod_tcp_repr (_mod_tcp_context_t * tcp_context,
 			    lw6cnx_connection_t * connection);
-extern char *_mod_tcp_error (_mod_tcp_context_t * tcp_context,
-			     lw6cnx_connection_t * connection);
 
 /*
  * In oob.c

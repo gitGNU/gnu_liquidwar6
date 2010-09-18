@@ -84,9 +84,7 @@ typedef struct lw6cli_backend_s
 	       u_int64_t logical_from_id,
 	       u_int64_t logical_to_id, char *message);
   void (*poll) (void *cli_context, lw6cnx_connection_t * connection);
-  int (*is_alive) (void *cli_context, lw6cnx_connection_t * connection);
   char *(*repr) (void *cli_context, lw6cnx_connection_t * connection);
-  char *(*error) (void *cli_context, lw6cnx_connection_t * connection);
 }
 lw6cli_backend_t;
 
@@ -121,12 +119,8 @@ extern int lw6cli_send (lw6cli_backend_t * backend,
 			char *message);
 extern void lw6cli_poll (lw6cli_backend_t * backend,
 			 lw6cnx_connection_t * connection);
-extern int lw6cli_is_alive (lw6cli_backend_t * backend,
-			    lw6cnx_connection_t * connection);
 extern char *lw6cli_repr (lw6cli_backend_t * backend,
 			  lw6cnx_connection_t * connection);
-extern char *lw6cli_error (lw6cli_backend_t * backend,
-			   lw6cnx_connection_t * connection);
 
 /* cli-oob.c */
 extern lw6cli_oob_t *lw6cli_oob_new (char *public_url,

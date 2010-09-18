@@ -1,5 +1,7 @@
 2010-09-18 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Code removal, got rid of error and is_alive in all net modules.
+
 	* Fixed log & script bugs.
 
 2010-09-16 : Christian Mauduit <ufoot@ufoot.org>

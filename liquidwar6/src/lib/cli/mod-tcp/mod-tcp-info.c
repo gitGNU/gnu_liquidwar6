@@ -39,14 +39,3 @@ _mod_tcp_repr (_mod_tcp_context_t * tcp_context,
 
   return ret;
 }
-
-char *
-_mod_tcp_error (_mod_tcp_context_t * tcp_context,
-		lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}

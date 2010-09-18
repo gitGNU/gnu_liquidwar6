@@ -106,8 +106,6 @@ extern lw6cnx_connection_t *_mod_http_open (_mod_http_context_t *
 					    void *recv_callback_data);
 extern void _mod_http_close (_mod_http_context_t * http_context,
 			     lw6cnx_connection_t * connection);
-extern int _mod_http_is_alive (_mod_http_context_t * http_context,
-			       lw6cnx_connection_t * connection);
 extern int _mod_http_timeout_ok (_mod_http_context_t * http_context,
 				 int64_t origin_timestamp);
 
@@ -128,8 +126,6 @@ extern void _mod_http_poll (_mod_http_context_t * http_context,
  */
 extern char *_mod_http_repr (_mod_http_context_t * http_context,
 			     lw6cnx_connection_t * connection);
-extern char *_mod_http_error (_mod_http_context_t * http_context,
-			      lw6cnx_connection_t * connection);
 
 /*
  * In oob.c

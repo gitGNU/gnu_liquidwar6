@@ -202,20 +202,6 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
     }
 }
 
-static int
-_is_alive (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
-  int ret = 0;
-
-  if (connection)
-    {
-      ret = _mod_httpd_is_alive (httpd_context, connection);
-    }
-
-  return ret;
-}
-
 static char *
 _repr (void *srv_context, lw6cnx_connection_t * connection)
 {
@@ -225,20 +211,6 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
   if (connection)
     {
       ret = _mod_httpd_repr (httpd_context, connection);
-    }
-
-  return ret;
-}
-
-static char *
-_error (void *srv_context, lw6cnx_connection_t * connection)
-{
-  _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
-  char *ret = NULL;
-
-  if (connection)
-    {
-      ret = _mod_httpd_error (httpd_context, connection);
     }
 
   return ret;
@@ -292,9 +264,7 @@ mod_httpd_create_backend ()
       backend->close = _close;
       backend->send = _send;
       backend->poll = _poll;
-      backend->is_alive = _is_alive;
       backend->repr = _repr;
-      backend->error = _error;
     }
 
   return backend;

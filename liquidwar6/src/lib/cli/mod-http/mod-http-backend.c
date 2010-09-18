@@ -132,20 +132,6 @@ _poll (void *cli_context, lw6cnx_connection_t * connection)
     }
 }
 
-static int
-_is_alive (void *cli_context, lw6cnx_connection_t * connection)
-{
-  _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
-  int ret = 0;
-
-  if (http_context)
-    {
-      ret = _mod_http_is_alive (http_context, connection);
-    }
-
-  return ret;
-}
-
 static char *
 _repr (void *cli_context, lw6cnx_connection_t * connection)
 {
@@ -155,20 +141,6 @@ _repr (void *cli_context, lw6cnx_connection_t * connection)
   if (http_context)
     {
       ret = _mod_http_repr (http_context, connection);
-    }
-
-  return ret;
-}
-
-static char *
-_error (void *cli_context, lw6cnx_connection_t * connection)
-{
-  _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
-  char *ret = NULL;
-
-  if (http_context)
-    {
-      ret = _mod_http_error (http_context, connection);
     }
 
   return ret;
@@ -218,9 +190,7 @@ mod_http_create_backend ()
       backend->close = _close;
       backend->send = _send;
       backend->poll = _poll;
-      backend->is_alive = _is_alive;
       backend->repr = _repr;
-      backend->error = _error;
     }
 
   return backend;

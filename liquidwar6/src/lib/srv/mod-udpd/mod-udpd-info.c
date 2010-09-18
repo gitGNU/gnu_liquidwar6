@@ -39,14 +39,3 @@ _mod_udpd_repr (_udpd_context_t * udpd_context,
 
   return ret;
 }
-
-char *
-_mod_udpd_error (_udpd_context_t * udpd_context,
-		 lw6cnx_connection_t * connection)
-{
-  char *ret = NULL;
-
-  // todo
-
-  return ret;
-}
