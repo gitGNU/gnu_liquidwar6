@@ -1166,7 +1166,8 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
 			  char *codename, int stamp, char *id, char *url,
 			  char *title, char *description, int has_password,
 			  int bench, int open_relay, int creation_timestamp,
-			  char *level, int required_bench, int nb_colors,
+			  char *community_id, int round, char *level,
+			  int required_bench, int nb_colors,
 			  int max_nb_colors, int nb_cursors,
 			  int max_nb_cursors, int nb_nodes, int max_nb_nodes,
 			  char *ip, int port, int last_ping_timestamp,
@@ -1180,6 +1181,7 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   char *escaped_url = NULL;
   char *escaped_title = NULL;
   char *escaped_description = NULL;
+  char *escaped_community_id = NULL;
   char *escaped_level = NULL;
 
   escaped_version = lw6sys_escape_sql_value (version);
@@ -1188,6 +1190,7 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   escaped_url = lw6sys_escape_sql_value (url);
   escaped_title = lw6sys_escape_sql_value (title);
   escaped_description = lw6sys_escape_sql_value (description);
+  escaped_community_id = lw6sys_escape_sql_value (community_id);
   escaped_level = lw6sys_escape_sql_value (level);
 
   query = lw6sys_new_sprintf (_lw6p2p_db_get_query
@@ -1197,12 +1200,12 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
 			      escaped_codename, stamp,
 			      escaped_id, escaped_title,
 			      escaped_description, has_password,
-			      bench, open_relay, escaped_level,
-			      required_bench, nb_colors,
-			      max_nb_colors, nb_cursors,
-			      max_nb_cursors, nb_nodes,
-			      max_nb_nodes, ip, port, last_ping_timestamp,
-			      ping_delay_msec, escaped_url);
+			      bench, open_relay, escaped_community_id, round,
+			      escaped_level, required_bench, nb_colors,
+			      max_nb_colors, nb_cursors, max_nb_cursors,
+			      nb_nodes, max_nb_nodes, ip, port,
+			      last_ping_timestamp, ping_delay_msec,
+			      escaped_url);
   if (query)
     {
       if (_lw6p2p_db_lock (node->db))
@@ -1236,6 +1239,10 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   if (escaped_description)
     {
       LW6SYS_FREE (escaped_description);
+    }
+  if (escaped_community_id)
+    {
+      LW6SYS_FREE (escaped_community_id);
     }
   if (escaped_level)
     {

@@ -132,8 +132,10 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
   int has_password_int = _LW6P2P_DB_FALSE;
   int now = 0;
   int uptime = 0;
+  char *community_id = NULL;
+  int round = 0;
   char *level = NULL;
-  int required_bench;
+  int required_bench = 0;
   int nb_colors = 0;
   int max_nb_colors = 0;
   int nb_cursors = 0;
@@ -200,9 +202,16 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 			lw6msg_utils_get_assoc_int_with_default (assoc,
 								 LW6MSG_OOB_UPTIME,
 								 0);
+		      community_id =
+			lw6sys_assoc_get (assoc, LW6MSG_OOB_COMMUNITY);
+		      round =
+			lw6msg_utils_get_assoc_int_with_default (assoc,
+								 LW6MSG_OOB_ROUND,
+								 0);
 		      level =
-			lw6msg_utils_get_assoc_str_with_default
-			(assoc, LW6MSG_OOB_LEVEL, LW6SYS_STR_EMPTY);
+			lw6msg_utils_get_assoc_str_with_default (assoc,
+								 LW6MSG_OOB_LEVEL,
+								 LW6SYS_STR_EMPTY);
 		      required_bench =
 			lw6msg_utils_get_assoc_int_with_default (assoc,
 								 LW6MSG_OOB_REQUIRED_BENCH,
@@ -241,7 +250,8 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url, char *ip,
 						  remote_description,
 						  has_password_int, bench,
 						  open_relay_int,
-						  now - uptime, level,
+						  now - uptime, community_id,
+						  round, level,
 						  required_bench, nb_colors,
 						  max_nb_colors, nb_cursors,
 						  max_nb_cursors, nb_nodes,

@@ -54,6 +54,8 @@
 #define LW6MSG_OOB_BENCH "BENCH"
 #define LW6MSG_OOB_OPEN_RELAY "OPEN_RELAY"
 #define LW6MSG_OOB_UPTIME "UPTIME"
+#define LW6MSG_OOB_COMMUNITY "COMMUNITY"
+#define LW6MSG_OOB_ROUND "ROUND"
 #define LW6MSG_OOB_LEVEL "LEVEL"
 #define LW6MSG_OOB_REQUIRED_BENCH "REQUIRED_BENCH"
 #define LW6MSG_OOB_NB_COLORS "NB_COLORS"
@@ -69,6 +71,19 @@
 #define LW6MSG_CMD_BAR "BAR"
 #define LW6MSG_CMD_GOODBYE "GOODBYE"
 #define LW6MSG_CMD_DATA "DATA"
+
+#define LW6MSG_DATA_KER "KER"
+#define LW6MSG_DATA_JOIN "JOIN"
+#define LW6MSG_DATA_INVITE "INVITE"
+#define LW6MSG_DATA_QUIT "QUIT"
+#define LW6MSG_DATA_TIMEOUT "TIMEOUT"
+#define LW6MSG_DATA_KICK "KICK"
+#define LW6MSG_DATA_CHECKSUM "CHECKSUM"
+#define LW6MSG_DATA_SYNC "SYNC"
+#define LW6MSG_DATA_META "META"
+#define LW6MSG_DATA_LEVEL "LEVEL"
+#define LW6MSG_DATA_STRUCT "STRUCT"
+#define LW6MSG_DATA_STATE "STATE"
 
 #define LW6MSG_MAX_WORD_SIZE 799
 #define LW6MSG_Z_PREFIX "Z"
@@ -97,7 +112,7 @@ extern char *lw6msg_cmd_generate_ticket (lw6nod_info_t * info,
 extern char *lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key);
 extern char *lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key);
 extern char *lw6msg_cmd_generate_goodbye (lw6nod_info_t * info);
-extern char *lw6msg_cmd_generate_data (int serial, int i, int n,
+extern char *lw6msg_cmd_generate_data (int serial, int i, int n, int round,
 				       char *ker_msg);
 extern int lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, char *msg);
 extern int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info,
@@ -107,7 +122,7 @@ extern int lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key,
 extern int lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key,
 				   char *msg);
 extern int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg);
-extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
+extern int lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 				    char **ker_msg, char *msg);
 extern char *lw6msg_cmd_guess_from_url (char *msg);
 

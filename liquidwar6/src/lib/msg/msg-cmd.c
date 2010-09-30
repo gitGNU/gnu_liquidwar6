@@ -47,13 +47,15 @@ _generate_info (char *cmd, lw6nod_info_t * info)
 	     info->const_info.creation_timestamp) / 1000;
 	  ret =
 	    lw6sys_new_sprintf
-	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d",
+	    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d",
 	     cmd, sep, info->const_info.program, sep,
 	     info->const_info.version, sep, info->const_info.codename, sep,
 	     info->const_info.stamp, sep, info->const_info.id_str, sep,
 	     info->const_info.url, sep, base64_title, sep, base64_description,
 	     sep, info->const_info.has_password, sep, info->const_info.bench,
 	     sep, info->const_info.open_relay, sep, uptime, sep,
+	     lw6sys_str_empty_if_null (info->dyn_info.community_id_str), sep,
+	     info->dyn_info.round, sep,
 	     lw6sys_str_empty_if_null (info->dyn_info.level), sep,
 	     info->dyn_info.required_bench, sep, info->dyn_info.nb_colors,
 	     sep, info->dyn_info.max_nb_colors, sep,
@@ -194,6 +196,7 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
+ * @round: the message round (can have an offset with real round)
  * @ker_msg: the actual content of the message (passed to core algo)
  *
  * Generate a DATA command. Serial is an ever increasing number,
@@ -203,11 +206,11 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, char *ker_msg)
+lw6msg_cmd_generate_data (int serial, int i, int n, int round, char *ker_msg)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("%d %d %d %s", serial, i, n, ker_msg);
+  ret = lw6sys_new_sprintf ("%d %d %d %d %s", serial, i, n, round, ker_msg);
 
   return ret;
 }
@@ -219,6 +222,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   int still_ok = 1;
   char *pos = NULL;
   char *seek = NULL;
+  int tmp_int = 0;
   lw6msg_word_t program;
   lw6msg_word_t version;
   lw6msg_word_t codename;
@@ -231,6 +235,8 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   int bench = 0;
   int open_relay = 0;
   int uptime = 0;
+  u_int64_t community_id = 0;
+  int round = 0;
   lw6msg_word_t level;
   int required_bench = 0;
   int nb_colors = 0;
@@ -421,6 +427,52 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 
   if (still_ok)
     {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing community id \"%s\""),
+		  pos);
+      if (lw6msg_word_first_id_64 (&community_id, &seek, pos))
+	{
+	  pos = seek;
+	}
+    }
+  else
+    {
+      if (lw6msg_word_first_int (&tmp_int, &seek, pos))
+	{
+	  if (!tmp_int)
+	    {
+	      community_id = 0;
+	      pos = seek;
+	    }
+	  else
+	    {
+	      still_ok = 0;
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad community id \"%s\""),
+			  pos);
+	    }
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad community id \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing round \"%s\""), pos);
+      if (lw6msg_word_first_int (&round, &seek, pos))
+	{
+	  pos = seek;
+	}
+      else
+	{
+	  still_ok = 0;
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("bad round \"%s\""), pos);
+	}
+    }
+
+  if (still_ok)
+    {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing level \"%s\""), pos);
       if (lw6msg_word_first_base64 (&level, &seek, pos))
 	{
@@ -548,7 +600,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
 	 description.buf, NULL, bench, open_relay, uptime, 0, NULL);
       if (*info)
 	{
-	  if (lw6nod_info_update ((*info), level.buf,
+	  if (lw6nod_info_update ((*info), community_id, round, level.buf,
 				  required_bench, nb_colors, max_nb_colors,
 				  nb_cursors, max_nb_cursors, nb_nodes,
 				  max_nb_nodes, 0, NULL))
@@ -770,6 +822,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
+ * @round: will contain round on success (can have an offset with real round)
  * @ker_msg: will contain actual message on success
  *
  * Analyzes a DATA message.
@@ -777,7 +830,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
+lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 			 char **ker_msg, char *msg)
 {
   int ret = 0;
@@ -786,6 +839,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
   int read_serial = 0;
   int read_i = 0;
   int read_n = 0;
+  int read_round = 0;
   char *read_ker_msg = NULL;
   lw6msg_word_t ker_msg_word;
 
@@ -802,22 +856,31 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n,
 	{
 	  if (lw6msg_word_first_int_gt0 (&read_n, &seek, pos))
 	    {
-	      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+	      if (lw6msg_word_first_int_gt0 (&read_round, &seek, pos))
 		{
-		  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
-		  if (read_ker_msg)
+		  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
 		    {
-		      ret = 1;
-		      (*serial) = read_serial;
-		      (*i) = read_i;
-		      (*n) = read_n;
-		      (*ker_msg) = read_ker_msg;
+		      read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
+		      if (read_ker_msg)
+			{
+			  ret = 1;
+			  (*serial) = read_serial;
+			  (*i) = read_i;
+			  (*n) = read_n;
+			  (*round) = read_round;
+			  (*ker_msg) = read_ker_msg;
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("unable to parse ker message"));
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_ ("unable to parse ker message"));
+			      _x_ ("unable to parse round"));
 		}
 	    }
 	  else

@@ -46,7 +46,7 @@
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
 #define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
 
-#define _LW6P2P_DB_NODE_NB_FIELDS 23
+#define _LW6P2P_DB_NODE_NB_FIELDS 25
 #define _LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP 0
 #define _LW6P2P_DB_NODE_ORDER_VERSION 1
 #define _LW6P2P_DB_NODE_ORDER_CODENAME 2
@@ -55,21 +55,23 @@
 #define _LW6P2P_DB_NODE_ORDER_URL 5
 #define _LW6P2P_DB_NODE_ORDER_TITLE 6
 #define _LW6P2P_DB_NODE_ORDER_DESCRIPTION 7
-#define _LW6P2P_DB_NODE_ORDER_PASSWORD 8
+#define _LW6P2P_DB_NODE_ORDER_HAS_PASSWORD 8
 #define _LW6P2P_DB_NODE_ORDER_BENCH 9
 #define _LW6P2P_DB_NODE_ORDER_OPEN_RELAY 10
-#define _LW6P2P_DB_NODE_ORDER_LEVEL 11
-#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 12
-#define _LW6P2P_DB_NODE_ORDER_NB_COLORS 13
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 14
-#define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 15
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS 16
-#define _LW6P2P_DB_NODE_ORDER_NB_NODES 17
-#define _LW6P2P_DB_NODE_ORDER_MAX_NB_NODES 18
-#define _LW6P2P_DB_NODE_ORDER_IP 19
-#define _LW6P2P_DB_NODE_ORDER_PORT 20
-#define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 21
-#define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 22
+#define _LW6P2P_DB_NODE_ORDER_COMMUNITY_ID 11
+#define _LW6P2P_DB_NODE_ORDER_ROUND 12
+#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 13
+#define _LW6P2P_DB_NODE_ORDER_LEVEL 14
+#define _LW6P2P_DB_NODE_ORDER_NB_COLORS 15
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 16
+#define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 17
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS 18
+#define _LW6P2P_DB_NODE_ORDER_NB_NODES 19
+#define _LW6P2P_DB_NODE_ORDER_MAX_NB_NODES 20
+#define _LW6P2P_DB_NODE_ORDER_IP 21
+#define _LW6P2P_DB_NODE_ORDER_PORT 22
+#define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 23
+#define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 24
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,
@@ -288,12 +290,13 @@ extern int _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
 				     char *url, char *title,
 				     char *description, int password,
 				     int bench, int open_relay,
-				     int creation_timestamp, char *level,
-				     int required_bench, int nb_colors,
-				     int max_nb_colors, int nb_cursors,
-				     int max_nb_cursors, int nb_nodes,
-				     int max_nb_nodes, char *ip, int port,
-				     int last_ping_timestamp,
+				     int creation_timestamp,
+				     char *community_id, int round,
+				     char *level, int required_bench,
+				     int nb_colors, int max_nb_colors,
+				     int nb_cursors, int max_nb_cursors,
+				     int nb_nodes, int max_nb_nodes, char *ip,
+				     int port, int last_ping_timestamp,
 				     int ping_delay_msec);
 extern int _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node);
 extern int _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node,

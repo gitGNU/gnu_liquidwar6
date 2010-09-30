@@ -1,3 +1,7 @@
+2010-09-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added community_id and round fields to node object.
+
 2010-09-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Use LF instead of CRLF on non-MS platforms.

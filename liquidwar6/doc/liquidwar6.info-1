@@ -986,7 +986,7 @@ File: liquidwar6.info,  Node: Network games,  Next: Graphics,  Prev: User interf
 2.9 Network games
 =================
 
-2.9.1 Set up your "public url"
+2.9.1 Choose your "public url"
 ------------------------------
 
 Liquid War 6 needs to name your "node" (you can think as your server
@@ -1000,18 +1000,23 @@ flawlessly.
 
    Problems can arise if you have a peculiar network configuration, if
 you have multiple non-loopback network interfaces, if you use NAT to
-protect yourself and/or if your context forces you to do so.  In that
-case, Liquid War won't be able to guess a correct URL automatically. In
-that case you need to set it up manually either by editing the
+protect yourself from intruders and/or if your context forces you to do
+so.  In that case, Liquid War won't be able to guess a correct URL
+automatically. So you need to set it up manually either by editing the
 `public-url' entry in the config file, changing environment variable
 `LW6_PUBLIC_URL' or passing the `--public-url=http://<host>:<port>/'
 argument when running the game. Typically, if you are behind a firewall
-which does NAT, use the firewall address.
+which does NAT, use the firewall address. The right address is the
+address which, given to remote hosts, will allow them to connect on
+your game instance.
 
 2.9.2 Starting a node
 ---------------------
 
-A node is started automatically when you run the game.
+A node is started automatically when you run the game. Even if you
+don't start to play, node starts in the background and exchanges data
+with other nodes, mostly to discover them and maintain its internal map
+of existing nodes and games.
 
    So even without starting a network game, you should be able to point
 a web browser on your node and see a web page describing it. Your node
@@ -1041,7 +1046,27 @@ continue without it.
    This is why the main network module is called `libp2p', this is a
 reference to the term "peer to peer".
 
-2.9.4 Firewall settings
+2.9.4 Communities
+-----------------
+
+Once a node is connected to another one, they've started a "community".
+Formally, a stand-alone node accepting for connection is already a
+community, even if it has only one member, but the only really
+interesting communities are those formed with several nodes.
+
+   A community can't be reached through a given server, to connect to
+one you just need to connect on one of its member nodes. All nodes are
+equivalent, there's no master, no root node, nodes collaborate to share
+the same real-time information and maintaine an up-to-date game state.
+
+   Of course, conflicts can arise, and in that case nodes need to agree
+on an acceptable solution. Normally, the program takes decisions
+automatically (for instance, it could decide to "kick" a node out of
+the community) so the player does not have to care about this, but this
+is expected to be one of the most tricky (and passionating) part of
+Liquid War 6 hacking.
+
+2.9.5 Firewall settings
 -----------------------
 
 By default, Liquid War 6 will communicate on port 8056, in both TCP and
@@ -1079,7 +1104,7 @@ To use the proxy, you can set the `http_proxy' environment variable.
 For detailed informations, please refer to libcurl doccumentation
 (http://curl.haxx.se/docs/).
 
-2.9.5 Is the game secure?
+2.9.6 Is the game secure?
 -------------------------
 
 As stated in the license, the program comes with NO WARRANTY. Period.

@@ -206,6 +206,8 @@ lw6nod_info_idle (lw6nod_info_t * info)
  * lw6nod_info_update
  *
  * @info: the node info to update
+ * @community_id: the id of the community the node belongs to
+ * @round: the current round (can have an offset with real round number)
  * @level: the name of the current level (map)
  * @required_bench: the bench required to connect
  * @nb_colors: number of colors playing
@@ -225,25 +227,22 @@ lw6nod_info_idle (lw6nod_info_t * info)
  * Return value: 1 if OK, 0 if error.
  */
 int
-lw6nod_info_update (lw6nod_info_t * info, char *level,
-		    int required_bench,
-		    int nb_colors,
-		    int max_nb_colors,
-		    int nb_cursors,
-		    int max_nb_cursors,
-		    int nb_nodes,
-		    int max_nb_nodes,
-		    int game_screenshot_size, void *game_screenshot_data)
+lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id, int round,
+		    char *level, int required_bench, int nb_colors,
+		    int max_nb_colors, int nb_cursors, int max_nb_cursors,
+		    int nb_nodes, int max_nb_nodes, int game_screenshot_size,
+		    void *game_screenshot_data)
 {
   int ret = 0;
 
   if (lw6nod_info_lock (info))
     {
       ret =
-	_lw6nod_dyn_info_update (&(info->dyn_info), level, required_bench,
-				 nb_colors, max_nb_colors, nb_cursors,
-				 max_nb_cursors, nb_nodes, max_nb_nodes,
-				 game_screenshot_size, game_screenshot_data);
+	_lw6nod_dyn_info_update (&(info->dyn_info), community_id, round,
+				 level, required_bench, nb_colors,
+				 max_nb_colors, nb_cursors, max_nb_cursors,
+				 nb_nodes, max_nb_nodes, game_screenshot_size,
+				 game_screenshot_data);
       lw6nod_info_unlock (info);
     }
 
@@ -273,10 +272,12 @@ lw6nod_info_dup_dyn (lw6nod_info_t * info)
       if (lw6nod_info_lock (info))
 	{
 	  if (_lw6nod_dyn_info_update
-	      (dyn_info, info->dyn_info.level, info->dyn_info.required_bench,
-	       info->dyn_info.nb_colors, info->dyn_info.max_nb_colors,
-	       info->dyn_info.nb_cursors, info->dyn_info.max_nb_cursors,
-	       info->dyn_info.nb_nodes, info->dyn_info.max_nb_nodes,
+	      (dyn_info, info->dyn_info.community_id_int,
+	       info->dyn_info.round, info->dyn_info.level,
+	       info->dyn_info.required_bench, info->dyn_info.nb_colors,
+	       info->dyn_info.max_nb_colors, info->dyn_info.nb_cursors,
+	       info->dyn_info.max_nb_cursors, info->dyn_info.nb_nodes,
+	       info->dyn_info.max_nb_nodes,
 	       info->dyn_info.game_screenshot_size,
 	       info->dyn_info.game_screenshot_data))
 	    {

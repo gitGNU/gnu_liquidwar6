@@ -47,6 +47,9 @@ typedef struct lw6nod_const_info_s
 
 typedef struct lw6nod_dyn_info_s
 {
+  u_int64_t community_id_int;
+  char *community_id_str;
+  int round;
   char *level;
   int required_bench;
   int nb_colors;
@@ -85,14 +88,11 @@ extern void lw6nod_info_free (lw6nod_info_t * info);
 extern int lw6nod_info_lock (lw6nod_info_t * info);
 extern int lw6nod_info_unlock (lw6nod_info_t * info);
 extern void lw6nod_info_idle (lw6nod_info_t * info);
-extern int lw6nod_info_update (lw6nod_info_t * info, char *level,
-			       int required_bench,
-			       int nb_colors,
-			       int max_nb_colors,
-			       int nb_cursors,
-			       int max_nb_cursors,
-			       int nb_nodes,
-			       int max_nb_nodes,
+extern int lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id,
+			       int round, char *level, int required_bench,
+			       int nb_colors, int max_nb_colors,
+			       int nb_cursors, int max_nb_cursors,
+			       int nb_nodes, int max_nb_nodes,
 			       int game_screenshot_size,
 			       void *game_screenshot_data);
 extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);

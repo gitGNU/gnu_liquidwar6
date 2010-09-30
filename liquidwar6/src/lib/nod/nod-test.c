@@ -49,6 +49,8 @@
 #define _TEST_UPTIME 60
 #define _TEST_IDLE_SCREENSHOT_SIZE 5
 #define _TEST_IDLE_SCREENSHOT_DATA "1234"
+#define _TEST_COMMUNITY 0x4321432143214321LL
+#define _TEST_ROUND 5432
 #define _TEST_LEVEL "toto.map"
 #define _TEST_REQUIRED_BENCH 7
 #define _TEST_NB_COLORS 3
@@ -102,11 +104,11 @@ _node_update_callback (void *data)
   while (lw6sys_get_timestamp () < stop_timestamp)
     {
       ret =
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
-			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
-			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
-			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
-			    _TEST_GAME_SCREENSHOT_SIZE,
+	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
+			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
+			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
+			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
+			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
       if (first_time)
 	{
@@ -343,18 +345,18 @@ test_node ()
 		       _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
       {
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
-			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
-			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
-			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
-			    _TEST_GAME_SCREENSHOT_SIZE,
+	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
+			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
+			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
+			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
+			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 	lw6nod_info_idle (info);
-	lw6nod_info_update (info, _TEST_LEVEL, _TEST_REQUIRED_BENCH,
-			    _TEST_NB_COLORS, _TEST_MAX_NB_COLORS,
-			    _TEST_NB_CURSORS, _TEST_MAX_NB_CURSORS,
-			    _TEST_NB_NODES, _TEST_MAX_NB_NODES,
-			    _TEST_GAME_SCREENSHOT_SIZE,
+	lw6nod_info_update (info, _TEST_COMMUNITY, _TEST_ROUND, _TEST_LEVEL,
+			    _TEST_REQUIRED_BENCH, _TEST_NB_COLORS,
+			    _TEST_MAX_NB_COLORS, _TEST_NB_CURSORS,
+			    _TEST_MAX_NB_CURSORS, _TEST_NB_NODES,
+			    _TEST_MAX_NB_NODES, _TEST_GAME_SCREENSHOT_SIZE,
 			    _TEST_GAME_SCREENSHOT_DATA);
 
 	if (lw6nod_info_add_discovered_node (info, _TEST_URL))

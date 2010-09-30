@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2010-09-18 10:53+0200\n"
+"POT-Creation-Date: 2010-09-20 17:05+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -643,7 +643,7 @@ msgstr ""
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:183
+#: src/lib/p2p/p2p-recv.c:184
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
