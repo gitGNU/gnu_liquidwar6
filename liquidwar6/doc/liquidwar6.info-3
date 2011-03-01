@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+This is /Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
 makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+/Users/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -1787,8 +1787,8 @@ F.1 Concept index
 
 * Apple:                                 Compilation tips.    (line 407)
 * Arch:                                  Using GNU Arch.      (line   9)
-* Bug report <1>:                        Report bugs.         (line   6)
-* Bug report:                            Mailing lists.       (line  51)
+* Bug report <1>:                        Mailing lists.       (line  51)
+* Bug report:                            Report bugs.         (line   6)
 * Compilation <1>:                       Compilation tips.    (line  94)
 * Compilation:                           Troubleshooting.     (line   9)
 * CVS:                                   Using GIT.           (line   6)

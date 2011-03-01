@@ -148,7 +148,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 	    {
 	      foo_cnx =
 		_lw6p2p_tentacle_find_connection_with_foo_bar_key (&
-								   (node->tentacles
+								   (node->
+								    tentacles
 								    [tentacle_i]),
 								   foo_bar_key);
 	      /*
@@ -172,7 +173,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 		    {
 		      fastest_cnx =
 			_lw6p2p_tentacle_find_connection_with_lowest_ping (&
-									   (node->tentacles
+									   (node->
+									    tentacles
 									    [tentacle_i]));
 		      if (fastest_cnx)
 			{
@@ -212,10 +214,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node,
 						    remote_node_info->
 						    const_info.open_relay,
 						    now - uptime,
-						    remote_node_info->dyn_info.
-						    community_id_str,
-						    remote_node_info->dyn_info.
-						    round,
+						    remote_node_info->
+						    dyn_info.community_id_str,
+						    remote_node_info->
+						    dyn_info.round,
 						    remote_node_info->
 						    dyn_info.level,
 						    remote_node_info->

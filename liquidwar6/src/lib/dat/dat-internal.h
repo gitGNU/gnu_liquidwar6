@@ -130,8 +130,9 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
   return (serial >= stack->serial_0
 	  && serial <=
 	  stack->serial_n_1) ? &(stack->blocks[i /
-					       _LW6DAT_NB_ATOMS_PER_BLOCK]->atoms
-				 [i % _LW6DAT_NB_ATOMS_PER_BLOCK]) : NULL;
+					       _LW6DAT_NB_ATOMS_PER_BLOCK]->
+				 atoms[i %
+				       _LW6DAT_NB_ATOMS_PER_BLOCK]) : NULL;
 }
 
 /* dat-warehouse.c */

@@ -304,8 +304,8 @@ lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
 							 _x_
 							 ("module mod_%s \"%s\" in \"%s\" is not GPL compatible"),
 							 backend_name,
-							 module_pedigree->name,
-							 so_file);
+							 module_pedigree->
+							 name, so_file);
 						    }
 						  LW6SYS_FREE
 						    (is_GPL_compatible_sym_str);

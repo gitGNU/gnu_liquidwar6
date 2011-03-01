@@ -138,7 +138,8 @@ lw6net_tcp_accept (char **incoming_ip,
 		  if (*incoming_ip)
 		    {
 		      _lw6net_counters_register_socket (&
-							(_lw6net_global_context->counters));
+							(_lw6net_global_context->
+							 counters));
 		      accepted = 1;
 		    }
 		}
@@ -303,7 +304,8 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 				  ip, port);
 
 		      _lw6net_counters_register_socket (&
-							(_lw6net_global_context->counters));
+							(_lw6net_global_context->
+							 counters));
 		    }
 		  else
 		    {

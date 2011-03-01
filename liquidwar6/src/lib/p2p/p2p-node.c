@@ -595,10 +595,10 @@ _tcp_accepter_reply (void *func_data, void *data)
 		    _lw6p2p_srv_oob_callback_data_new (node->backends.
 						       srv_backends[i],
 						       node->node_info,
-						       tcp_accepter->client_id.
-						       client_ip,
-						       tcp_accepter->client_id.
-						       client_port,
+						       tcp_accepter->
+						       client_id.client_ip,
+						       tcp_accepter->
+						       client_id.client_port,
 						       tcp_accepter->sock,
 						       NULL);
 		  if (srv_oob)

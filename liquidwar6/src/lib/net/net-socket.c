@@ -57,7 +57,8 @@ _lw6net_socket_bind (char *ip, int port, int protocol)
 			      _x_ ("bind socket %d on %s:%d"), sock, ip,
 			      port);
 		  _lw6net_counters_register_socket (&
-						    (_lw6net_global_context->counters));
+						    (_lw6net_global_context->
+						     counters));
 		  binded = 1;
 		}
 	      else

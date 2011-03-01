@@ -208,12 +208,14 @@ _response_index_html (_mod_httpd_context_t * httpd_context,
 				_mod_httpd_response_from_str (httpd_context,
 							      _MOD_HTTPD_STATUS_200,
 							      1,
-							      httpd_context->data.
-							      consts.refresh_index_header,
-							      node_info->const_info.
-							      url,
-							      httpd_context->data.
-							      consts.content_type_html,
+							      httpd_context->
+							      data.consts.
+							      refresh_index_header,
+							      node_info->
+							      const_info.url,
+							      httpd_context->
+							      data.consts.
+							      content_type_html,
 							      content);
 
 			      LW6SYS_FREE (content);
@@ -445,7 +447,8 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context,
 						      httpd_context->data.
 						      htdocs.favicon_ico_size,
 						      httpd_context->data.
-						      htdocs.favicon_ico_data);
+						      htdocs.
+						      favicon_ico_data);
 		    }
 		}
 	    }
