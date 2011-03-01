@@ -43,18 +43,24 @@ lw6sys_signal_custom ()
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _x_ ("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
+#ifdef SIGTERM
   if (signal (SIGTERM, lw6sys_signal_term_handler) == SIG_IGN)
     {
       signal (SIGTERM, SIG_IGN);
     }
+#endif
+#ifdef SIGINT
   if (signal (SIGINT, lw6sys_signal_int_handler) == SIG_IGN)
     {
       signal (SIGINT, SIG_IGN);
     }
+#endif
+#ifdef SIGHUP
   if (signal (SIGHUP, lw6sys_signal_hup_handler) == SIG_IGN)
     {
       signal (SIGHUP, SIG_IGN);
     }
+#endif
 }
 
 /**
@@ -69,18 +75,24 @@ lw6sys_signal_default ()
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _x_ ("setting default SIGTERM, SIGINT, SIGHUP handlers"));
+#ifdef SIGTERM
   if (signal (SIGTERM, SIG_DFL) == SIG_IGN)
     {
       signal (SIGTERM, SIG_IGN);
     }
+#endif
+#ifdef SIGINT
   if (signal (SIGINT, SIG_DFL) == SIG_IGN)
     {
       signal (SIGINT, SIG_IGN);
     }
+#endif
+#ifdef SIGHUP
   if (signal (SIGHUP, SIG_DFL) == SIG_IGN)
     {
       signal (SIGHUP, SIG_IGN);
     }
+#endif
 }
 
 /**
