@@ -32,19 +32,19 @@
 #include <string.h>
 
 #if USE_UNLOCKED_IO
-# include "unlocked-io.h"
+#include "unlocked-io.h"
 #endif
 
 #ifdef WORDS_BIGENDIAN
-# define SWAP(n) (n)
+#define SWAP(n) (n)
 #else
-# define SWAP(n) \
+#define SWAP(n) \
     (((n) << 24) | (((n) & 0xff00) << 8) | (((n) >> 8) & 0xff00) | ((n) >> 24))
 #endif
 
 #define BLOCKSIZE 32768
 #if BLOCKSIZE % 64 != 0
-# error "invalid BLOCKSIZE"
+#error "invalid BLOCKSIZE"
 #endif
 
 /* This array contains the bytes used to pad the buffer to the next
@@ -242,8 +242,8 @@ sha1_process_bytes (const void *buffer, size_t len, struct sha1_ctx *ctx)
   if (len >= 64)
     {
 #if !_STRING_ARCH_unaligned
-# define alignof(type) offsetof (struct { char c; type x; }, x)
-# define UNALIGNED_P(p) (((size_t) p) % alignof (uint32_t) != 0)
+#define alignof(type) offsetof (struct { char c; type x; }, x)
+#define UNALIGNED_P(p) (((size_t) p) % alignof (uint32_t) != 0)
       if (UNALIGNED_P (buffer))
 	while (len > 64)
 	  {

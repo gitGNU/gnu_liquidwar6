@@ -19,7 +19,7 @@
    in Niels Möller's Nettle. */
 
 #ifndef MEMXOR_H
-# define MEMXOR_H
+#define MEMXOR_H
 
 #include <stddef.h>
 

@@ -18,7 +18,7 @@
 /* Written by Simon Josefsson.  */
 
 #ifndef HMAC_H
-# define HMAC_H 1
+#define HMAC_H 1
 
 #include <stddef.h>
 

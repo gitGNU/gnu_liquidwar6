@@ -18,15 +18,15 @@
    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifndef SHA1_H
-# define SHA1_H 1
+#define SHA1_H 1
 
-# include <stdio.h>
-# include <stdint.h>
+#include <stdio.h>
+#include <stdint.h>
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 extern "C"
 {
-# endif
+#endif
 
 #define SHA1_DIGEST_SIZE 20
 
@@ -86,8 +86,8 @@ extern "C"
    digest.  */
   extern void *sha1_buffer (const char *buffer, size_t len, void *resblock);
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 }
-# endif
+#endif
 
 #endif

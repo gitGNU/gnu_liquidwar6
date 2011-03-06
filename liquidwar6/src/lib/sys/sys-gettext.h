@@ -24,7 +24,7 @@
 #if ENABLE_NLS
 
 /* Get declarations of GNU message catalog functions.  */
-# include <libintl.h>
+#include <libintl.h>
 
 #else
 
@@ -35,17 +35,17 @@
    and also including <libintl.h> would fail on SunOS 4, whereas <locale.h>
    is OK.  */
 #if defined(__sun)
-# include <locale.h>
+#include <locale.h>
 #endif
 
 /* Many header files from the libstdc++ coming with g++ 3.3 or newer include
    <libintl.h>, which chokes if dcgettext is defined as a macro.  So include
    it now, to make later inclusions of <libintl.h> a NOP.  */
 #if defined(__cplusplus) && defined(__GNUG__) && (__GNUC__ >= 3)
-# include <cstdlib>
-# if (__GLIBC__ >= 2) || _GLIBCXX_HAVE_LIBINTL_H
-#  include <libintl.h>
-# endif
+#include <cstdlib>
+#if (__GLIBC__ >= 2) || _GLIBCXX_HAVE_LIBINTL_H
+#include <libintl.h>
+#endif
 #endif
 
 /* Disabled NLS.
@@ -53,18 +53,18 @@
    for invalid uses of the value returned from these functions.
    On pre-ANSI systems without 'const', the config.h file is supposed to
    contain "#define const".  */
-# define gettext(Msgid) ((const char *) (Msgid))
-# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
-# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
-# define ngettext(Msgid1, Msgid2, N) \
+#define gettext(Msgid) ((const char *) (Msgid))
+#define dgettext(Domainname, Msgid) ((const char *) (Msgid))
+#define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+#define ngettext(Msgid1, Msgid2, N) \
     ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define dngettext(Domainname, Msgid1, Msgid2, N) \
+#define dngettext(Domainname, Msgid1, Msgid2, N) \
     ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
+#define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
     ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define textdomain(Domainname) ((const char *) (Domainname))
-# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
-# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+#define textdomain(Domainname) ((const char *) (Domainname))
+#define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
+#define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
 
 #endif
 

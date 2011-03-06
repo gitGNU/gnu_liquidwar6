@@ -293,9 +293,9 @@ static const signed char b64[0x100] = {
 };
 
 #if UCHAR_MAX == 255
-# define uchar_in_range(c) true
+#define uchar_in_range(c) true
 #else
-# define uchar_in_range(c) ((c) <= 255)
+#define uchar_in_range(c) ((c) <= 255)
 #endif
 
 /* Return true if CH is a character from the Base64 alphabet, and

@@ -17,17 +17,17 @@
    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifndef BASE64_H
-# define BASE64_H
+#define BASE64_H
 
 /* Get size_t. */
-# include <stddef.h>
+#include <stddef.h>
 
 /* Get bool. */
-# include <stdbool.h>
+#include <stdbool.h>
 
 /* This uses that the expression (n+(k-1))/k means the smallest
    integer >= n/k, i.e., the ceiling of n/k.  */
-# define BASE64_LENGTH(inlen) ((((inlen) + 2) / 3) * 4)
+#define BASE64_LENGTH(inlen) ((((inlen) + 2) / 3) * 4)
 
 struct base64_decode_context
 {

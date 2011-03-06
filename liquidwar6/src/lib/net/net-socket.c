@@ -119,7 +119,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
 #ifdef LW6_MS_WINDOWS
       u_long enable_ul = !mode;
 
-      if (!ioctlsocket (m_socket, FIONBIO, &enable_ul))
+      if (!ioctlsocket (sock, FIONBIO, &enable_ul))
 	{
 	  ret = 1;
 	}
