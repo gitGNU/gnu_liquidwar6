@@ -1,5 +1,7 @@
 2011-03-06 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Copyright 2010 -> 2011.
+
 	* Fixed typo in mingw32 socket code.
 
 2011-03-01 : Christian Mauduit <ufoot@ufoot.org>
