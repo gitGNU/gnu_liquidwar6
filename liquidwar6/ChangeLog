@@ -1,5 +1,7 @@
 2011-05-01 : Christian Mauduit <ufoot@ufoot.org>
 
+	* aclocal.m4 update
+
 	* Fixed bug 33188 typo in configure.ac (detection of libpng 1.4)
 
 2011-03-06 : Christian Mauduit <ufoot@ufoot.org>
