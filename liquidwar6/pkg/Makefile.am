@@ -101,7 +101,7 @@ ms-windows-installer: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.e
 	cp ${PACKAGE_TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows-installer.exe .
 	rm -rf ${TMP}
 
-deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${srcdir}/debian/changelog
+deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	rm -rf ${TMP}
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
