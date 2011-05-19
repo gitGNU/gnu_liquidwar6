@@ -22,5 +22,5 @@ all-local:
 	echo "Updating Debian control files for version @PACKAGE_VERSION@"
 	if grep -q @PACKAGE_VERSION@ $(srcdir)/liquidwar6.dirs ; then echo "Debian control files already set up for version @PACKAGE_VERSION@" ; else sed -i -e "s/@PACKAGE_TARNAME@-[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/g" $(srcdir)/*.dirs $(srcdir)/*.install ; fi
 
-EXTRA_DIST = changelog compat control copyright liquidwar6-data.dirs liquidwar6-data.docs liquidwar6-data.install liquidwar6-devel.dirs liquidwar6-devel.docs liquidwar6-devel.install liquidwar6.dirs liquidwar6.doc-base liquidwar6.docs liquidwar6.info liquidwar6.install liquidwar6-mod-gl-data.dirs liquidwar6-mod-gl-data.docs liquidwar6-mod-gl-data.install liquidwar6-mod-gl.dirs liquidwar6-mod-gl.docs liquidwar6-mod-gl.install liquidwar6-mod-http-data.dirs liquidwar6-mod-http-data.docs liquidwar6-mod-http-data.install liquidwar6-mod-http.dirs liquidwar6-mod-http.docs liquidwar6-mod-http.install liquidwar6-mod-ogg-data.dirs liquidwar6-mod-ogg-data.docs liquidwar6-mod-ogg-data.install liquidwar6-mod-ogg.dirs liquidwar6-mod-ogg.docs liquidwar6-mod-ogg.install rules
+EXTRA_DIST = changelog compat control copyright rules liquidwar6.dirs liquidwar6.doc-base liquidwar6.docs liquidwar6.info liquidwar6.install
 

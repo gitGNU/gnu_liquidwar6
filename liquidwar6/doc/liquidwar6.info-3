@@ -1785,11 +1785,11 @@ F.1 Concept index
  [index ]
 * Menu:
 
-* Apple:                                 Compilation tips.    (line 407)
+* Apple:                                 Compilation tips.    (line 408)
 * Arch:                                  Using GNU Arch.      (line   9)
 * Bug report <1>:                        Report bugs.         (line   6)
 * Bug report:                            Mailing lists.       (line  51)
-* Compilation <1>:                       Compilation tips.    (line  94)
+* Compilation <1>:                       Compilation tips.    (line  95)
 * Compilation:                           Troubleshooting.     (line   9)
 * CVS:                                   Using GIT.           (line   6)
 * Download:                              Getting the game.    (line   9)
@@ -1797,8 +1797,8 @@ F.1 Concept index
 * GPL, GNU General Public License:       Copying.             (line   6)
 * hints.xml:                             Designing levels.    (line 283)
 * Log file:                              Logs.                (line   6)
-* Mac OS X:                              Compilation tips.    (line 407)
-* Microsoft Windows:                     Compilation tips.    (line  94)
+* Mac OS X:                              Compilation tips.    (line 408)
+* Microsoft Windows:                     Compilation tips.    (line  95)
 * rules.xml:                             Designing levels.    (line 236)
 * source code:                           Using GIT.           (line   6)
 * style.xml:                             Designing levels.    (line 305)

@@ -760,7 +760,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-local
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) ctags-recursive \
 	install-am install-strip tags-recursive
@@ -780,7 +780,7 @@ uninstall-am: uninstall-binPROGRAMS
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	uninstall-binPROGRAMS uninstall-local
 
 
 # Automake isn't necessarly aware of windres and its use.
@@ -789,6 +789,10 @@ uninstall-am: uninstall-binPROGRAMS
 
 install-exec-local:
 	if which id && which ldconfig && test `id -u` -eq 0 && test "$(prefix)" != "/usr"; then ldconfig; fi # Run ldconfig automatically if we're root
+	if test -x $(DESTDIR)$(bindir)/liquidwar6; then mv $(DESTDIR)$(bindir)/liquidwar6 $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@; ln -s @PACKAGE_TARNAME@-@PACKAGE_VERSION@ $(DESTDIR)$(bindir)/liquidwar6; fi
+
+uninstall-local:
+	rm -f $(DESTDIR)$(bindir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 
 clean-local:
 	rm -f liquidwar6.exe

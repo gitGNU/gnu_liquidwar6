@@ -266,7 +266,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = changelog compat control copyright liquidwar6-data.dirs liquidwar6-data.docs liquidwar6-data.install liquidwar6-devel.dirs liquidwar6-devel.docs liquidwar6-devel.install liquidwar6.dirs liquidwar6.doc-base liquidwar6.docs liquidwar6.info liquidwar6.install liquidwar6-mod-gl-data.dirs liquidwar6-mod-gl-data.docs liquidwar6-mod-gl-data.install liquidwar6-mod-gl.dirs liquidwar6-mod-gl.docs liquidwar6-mod-gl.install liquidwar6-mod-http-data.dirs liquidwar6-mod-http-data.docs liquidwar6-mod-http-data.install liquidwar6-mod-http.dirs liquidwar6-mod-http.docs liquidwar6-mod-http.install liquidwar6-mod-ogg-data.dirs liquidwar6-mod-ogg-data.docs liquidwar6-mod-ogg-data.install liquidwar6-mod-ogg.dirs liquidwar6-mod-ogg.docs liquidwar6-mod-ogg.install rules
+EXTRA_DIST = changelog compat control copyright rules liquidwar6.dirs liquidwar6.doc-base liquidwar6.docs liquidwar6.info liquidwar6.install
 all: all-am
 
 .SUFFIXES:

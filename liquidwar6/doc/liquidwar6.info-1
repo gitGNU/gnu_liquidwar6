@@ -2211,7 +2211,8 @@ Liquid War 6 has some custom switches:
      could activate those by using `LD_PRELOAD' or by using your own
      `LDFLAGS' but using this option will also make the game tell you if
      `CPUPROFILE' or `HEAPPROFILE' are set when it starts. The `pprof
-     -gv' output is very handy.
+     -gv' output is very handy.  Note that on some systems `pprof' is
+     renamed `google-pprof'.
 
    * `--enable-gcov': will enable coverage informations, to use with
      gcov (http://gcc.gnu.org/onlinedocs/gcc/Gcov.html) and lcov

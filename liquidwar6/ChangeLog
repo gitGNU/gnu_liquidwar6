@@ -1,5 +1,7 @@
 2011-05-19 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed debian package generation + version number in binary.
+
 	* Removed cprof detection, better pprof handling.
 
 	* Ran autoreconf -i (fixes build)
