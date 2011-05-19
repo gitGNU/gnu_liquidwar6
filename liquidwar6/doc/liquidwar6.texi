@@ -2309,6 +2309,7 @@ and @code{libprofiler}. You could activate those by using
 using this option will also make the game tell you if
 @code{CPUPROFILE} or @code{HEAPPROFILE} are set
 when it starts. The @code{pprof -gv} output is very handy.
+Note that on some systems @code{pprof} is renamed @code{google-pprof}.
 @item
 @code{--enable-gcov}: will enable coverage informations,
 to use with @uref{http://gcc.gnu.org/onlinedocs/gcc/Gcov.html,gcov}

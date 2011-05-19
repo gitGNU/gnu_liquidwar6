@@ -1,5 +1,7 @@
 2011-05-19 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Removed cprof detection, better pprof handling.
+
 	* Ran autoreconf -i (fixes build)
 
 2011-05-01 : Christian Mauduit <ufoot@ufoot.org>

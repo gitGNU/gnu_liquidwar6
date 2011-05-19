@@ -107,13 +107,12 @@ AC_CHECK_PROG(GPROF, gprof, yes, no)
 if test x${GPROF} != xyes; then
    AC_MSG_NOTICE([Liquid War 6 suggests gprof (http://www.gnu.org/software/binutils/)])
 fi
-AC_CHECK_PROG(CPROF, cprof, yes, no)
-if test x${CPROF} != xyes; then
-   AC_MSG_NOTICE([Liquid War 6 suggests cprof (http://cprof.sourceforge.net/)])
-fi
-AC_CHECK_PROG(PPROF, pprof, yes, no)
-if test x${PPROF} != xyes; then
-   AC_MSG_NOTICE([Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)])
+AC_CHECK_PROG(PPROF, google-pprof, yes, no)
+   if test x${PPROF} == no; then
+   AC_CHECK_PROG(PPROF, pprof, yes, no)
+   if test x${PPROF} == no; then
+      AC_MSG_NOTICE([Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)])
+   fi
 fi
 AC_CHECK_PROG(GCOV, gcov, yes, no)
 if test x${GCOV} != xyes; then
@@ -415,7 +414,7 @@ if test x$enable_headless != xyes ; then
    if test x$lw6_head = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
    else
-      AC_MSG_NOTICE([At least one gfx backend should work])
+      AC_MSG_NOTICE([Good, at least one gfx backend should work])
    fi
 fi
 

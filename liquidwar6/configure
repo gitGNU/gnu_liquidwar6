@@ -678,7 +678,6 @@ VALGRIND
 LCOV
 GCOV
 PPROF
-CPROF
 GPROF
 LW6_X86_FALSE
 LW6_X86_TRUE
@@ -14385,15 +14384,15 @@ if test x${GPROF} != xyes; then
    { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 suggests gprof (http://www.gnu.org/software/binutils/)" >&5
 $as_echo "$as_me: Liquid War 6 suggests gprof (http://www.gnu.org/software/binutils/)" >&6;}
 fi
-# Extract the first word of "cprof", so it can be a program name with args.
-set dummy cprof; ac_word=$2
+# Extract the first word of "google-pprof", so it can be a program name with args.
+set dummy google-pprof; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_CPROF+:} false; then :
+if ${ac_cv_prog_PPROF+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  if test -n "$CPROF"; then
-  ac_cv_prog_CPROF="$CPROF" # Let the user override the test.
+  if test -n "$PPROF"; then
+  ac_cv_prog_PPROF="$PPROF" # Let the user override the test.
 else
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
@@ -14402,7 +14401,7 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_CPROF="yes"
+    ac_cv_prog_PPROF="yes"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -14410,24 +14409,21 @@ done
   done
 IFS=$as_save_IFS
 
-  test -z "$ac_cv_prog_CPROF" && ac_cv_prog_CPROF="no"
+  test -z "$ac_cv_prog_PPROF" && ac_cv_prog_PPROF="no"
 fi
 fi
-CPROF=$ac_cv_prog_CPROF
-if test -n "$CPROF"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $CPROF" >&5
-$as_echo "$CPROF" >&6; }
+PPROF=$ac_cv_prog_PPROF
+if test -n "$PPROF"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PPROF" >&5
+$as_echo "$PPROF" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
-if test x${CPROF} != xyes; then
-   { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 suggests cprof (http://cprof.sourceforge.net/)" >&5
-$as_echo "$as_me: Liquid War 6 suggests cprof (http://cprof.sourceforge.net/)" >&6;}
-fi
-# Extract the first word of "pprof", so it can be a program name with args.
+   if test x${PPROF} == no; then
+   # Extract the first word of "pprof", so it can be a program name with args.
 set dummy pprof; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
@@ -14465,9 +14461,10 @@ $as_echo "no" >&6; }
 fi
 
 
-if test x${PPROF} != xyes; then
-   { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)" >&5
+   if test x${PPROF} == no; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)" >&5
 $as_echo "$as_me: Liquid War 6 suggests pprof (http://code.google.com/p/google-perftools/)" >&6;}
+   fi
 fi
 # Extract the first word of "gcov", so it can be a program name with args.
 set dummy gcov; ac_word=$2
@@ -15956,8 +15953,8 @@ if test x$enable_headless != xyes ; then
    if test x$lw6_head = xno; then
       as_fn_error $? "No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries)." "$LINENO" 5
    else
-      { $as_echo "$as_me:${as_lineno-$LINENO}: At least one gfx backend should work" >&5
-$as_echo "$as_me: At least one gfx backend should work" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: Good, at least one gfx backend should work" >&5
+$as_echo "$as_me: Good, at least one gfx backend should work" >&6;}
    fi
 fi
 
