@@ -785,6 +785,8 @@ AC_CONFIG_FILES([Makefile
 	  map/strange-new-world/Makefile
 	  map/subflower/Makefile
 	  debian/Makefile
+	  debian/liquidwar6.dirs
+	  debian/liquidwar6.install
 	  pkg/Makefile
 	  pkg/liquidwar6.spec
 	  pkg/liquidwar6.nsi

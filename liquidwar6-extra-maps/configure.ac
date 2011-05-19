@@ -41,6 +41,8 @@ AC_SUBST(LW6_MAP_DIR)
 AC_CONFIG_FILES([Makefile
 	liquidwar6-extra-maps.spec
 	debian/Makefile
+	debian/liquidwar6-extra-maps.dirs
+	debian/liquidwar6-extra-maps.install
 ])
 
 AC_OUTPUT

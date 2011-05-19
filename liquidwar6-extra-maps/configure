@@ -1720,7 +1720,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile liquidwar6-extra-maps.spec debian/Makefile"
+ac_config_files="$ac_config_files Makefile liquidwar6-extra-maps.spec debian/Makefile debian/liquidwar6-extra-maps.dirs debian/liquidwar6-extra-maps.install"
 
 
 cat >confcache <<\_ACEOF
@@ -2443,6 +2443,8 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "liquidwar6-extra-maps.spec") CONFIG_FILES="$CONFIG_FILES liquidwar6-extra-maps.spec" ;;
     "debian/Makefile") CONFIG_FILES="$CONFIG_FILES debian/Makefile" ;;
+    "debian/liquidwar6-extra-maps.dirs") CONFIG_FILES="$CONFIG_FILES debian/liquidwar6-extra-maps.dirs" ;;
+    "debian/liquidwar6-extra-maps.install") CONFIG_FILES="$CONFIG_FILES debian/liquidwar6-extra-maps.install" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

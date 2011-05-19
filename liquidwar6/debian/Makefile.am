@@ -18,9 +18,5 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-all-local:
-	echo "Updating Debian control files for version @PACKAGE_VERSION@"
-	if grep -q @PACKAGE_VERSION@ $(srcdir)/liquidwar6.dirs ; then echo "Debian control files already set up for version @PACKAGE_VERSION@" ; else sed -i -e "s/@PACKAGE_TARNAME@-[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/g" $(srcdir)/*.dirs $(srcdir)/*.install ; fi
-
 EXTRA_DIST = changelog compat control copyright rules liquidwar6.dirs liquidwar6.doc-base liquidwar6.docs liquidwar6.info liquidwar6.install
 

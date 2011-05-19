@@ -1,3 +1,9 @@
+liquidwar6-extra-maps (0.0.10beta-1vendor) unstable; urgency=low
+
+  * Simplified version handling.
+
+ -- Christian Mauduit <ufoot@ufoot.org>  Thu, 19 May 2011 20:25:00 +0100
+
 liquidwar6-extra-maps (0.0.6beta-2vendor) unstable; urgency=low
 
   * Fixed path /data/map -> /map
