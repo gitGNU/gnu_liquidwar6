@@ -1,3 +1,7 @@
+2011-05-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Ran autoreconf -i (fixes build)
+
 2011-05-01 : Christian Mauduit <ufoot@ufoot.org>
 
 	* aclocal.m4 update
