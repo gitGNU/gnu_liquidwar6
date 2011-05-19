@@ -1,7 +1,7 @@
 Source: liquidwar6
 Section: games
 Priority: extra
-Maintainer: Christian Mauduit <ufoot@ufoot.org>
+Maintainer: Christian Mauduit (U-Foot) <ufoot@ufoot.org>
 Build-Depends: debhelper (>= 5), autotools-dev
 Standards-Version: 3.7.2
 
@@ -9,7 +9,6 @@ Package: liquidwar6
 Architecture: any
 Depends: ${shlibs:Depends}
 Recommends: liquidwar6-extra-maps (= ${source:Version})
-Suggests: liquidwar6-dev (= ${source:Version})
 Description: A unique multiplayer wargame 
  Liquid War 6 is a unique multiplayer wargame. Your army is a blob of
  liquid and you have to try and eat your opponents. Rules are very
@@ -17,12 +16,4 @@ Description: A unique multiplayer wargame
  is possible to play alone against the computer but the game is really
  designed to be played with friends, on a single computer, on a LAN, or
  on Internet.
-
-Package: liquidwar6-dev
-Architecture: any
-Depends: liquidwar6 (= ${source:Version}), ${shlibs:Depends}
-Recommends: liquidwar6-extra-maps (= ${source:Version})
-Description: Development files for liquidwar6
- Headers and static libraries for liquidwar6. Also contains a test
- suite which allows testing of individual libraries.
 

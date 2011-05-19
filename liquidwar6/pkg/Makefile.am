@@ -107,7 +107,7 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
-	cd ${PACKAGE_TMP} && dpkg-buildpackage -rfakeroot || true
+	cd ${PACKAGE_TMP} && dpkg-buildpackage -kFD409E94 -rfakeroot || true
 	cp ${TMP}/*.deb .
 	rm -rf ${TMP}
 
