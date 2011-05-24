@@ -757,6 +757,7 @@ AC_CONFIG_FILES([Makefile
  	  data/snd/csound/Makefile
  	  data/snd/ogg/Makefile
 	  data/snd/ogg/sound/Makefile
+	  data/snd/ogg/water/Makefile
 	  data/net/Makefile
 	  data/srv/Makefile
 	  data/srv/tcpd/Makefile

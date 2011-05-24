@@ -18,8 +18,8 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = sound water
+pkgdata_DATA = README boiling-water-teabag-mug.ogg faucet-water-into-sink.ogg rivulet.ogg storm.ogg toilet-flush.ogg waterinmuginsink.ogg
 
-pkgdata_DATA = README ogg-const.xml
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/water/
 EXTRA_DIST = $(pkgdata_DATA)
+

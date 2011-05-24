@@ -13,4 +13,10 @@
   <string key="file-score" value="endbell-low.ogg" />
   <string key="file-hello" value="endbell-low.ogg" />
   <string key="file-goodbye" value="endbell-low.ogg" />
+  <string key="file-water1" value="boiling-water-teabag-mug.ogg" />
+  <string key="file-water2" value="faucet-water-into-sink.ogg" />
+  <string key="file-water3" value="rivulet.ogg" />
+  <string key="file-water4" value="storm.ogg" />
+  <string key="file-water5" value="toilet-flush.ogg" />
+  <string key="file-water6" value="waterinmuginsink.ogg" />
 </liquidwar6>
