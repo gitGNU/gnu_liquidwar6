@@ -108,7 +108,7 @@ libmod_csound_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 libmod_csound_s_la_LIBADD =
 am__objects_1 = mod-csound-backend.lo mod-csound-fx.lo \
 	mod-csound-music.lo mod-csound-path.lo mod-csound-repr.lo \
-	mod-csound-setup.lo mod-csound-volume.lo
+	mod-csound-setup.lo mod-csound-volume.lo mod-csound-water.lo
 am_libmod_csound_s_la_OBJECTS = $(am__objects_1)
 libmod_csound_s_la_OBJECTS = $(am_libmod_csound_s_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@ @CSOUND_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @CSOUND_LIBS@
 noinst_LTLIBRARIES = libmod_csound_s.la
-MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-fx.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-volume.c
+MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-fx.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-volume.c mod-csound-water.c 
 libmod_csound_s_la_SOURCES = $(MOD_CSOUND_FILES) 
 @ALLINONE_FALSE@lib_LTLIBRARIES = libmod_csound.la
 @ALLINONE_FALSE@libmod_csound_la_SOURCES = 
@@ -428,6 +428,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-repr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-volume.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-water.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

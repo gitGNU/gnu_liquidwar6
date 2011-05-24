@@ -14,9 +14,6 @@ background-color-stuff-fg
 background-style
 base64-decode
 base64-encode
-open-relay
-network-reliability
-trojan
 bench
 bench-value
 bin-id
@@ -99,6 +96,7 @@ frags-fade-out
 frags-mode
 frags-to-distribute
 fullscreen
+fx-volume
 gfx-backend
 gfx-cpu-usage
 gfx-debug
@@ -185,8 +183,10 @@ nb-attack-tries
 nb-defense-tries
 nb-move-tries
 net-log
+network-reliability
 node-description
 node-title
+open-relay
 password
 pedigree
 pilot-lag
@@ -302,7 +302,6 @@ side-defense-factor
 single-army-size
 skip-network
 snd-backend
-sound-volume
 speed
 spread-thread
 spreads-per-round
@@ -346,6 +345,7 @@ team-color-yellow
 test
 total-armies-size
 total-time
+trojan
 upsize-using-bench-value
 upsize-using-fighter-scale
 use-esc-button
@@ -365,6 +365,7 @@ view-color-map-bg
 view-color-map-fg
 view-style
 wall-grease
+water-volume
 width
 windowed-mode-limit
 x-polarity

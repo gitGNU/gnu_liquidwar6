@@ -4695,7 +4695,20 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      regex-enabled filter, just a plain string search. Even the '*'
      wildcard won't work.
 
-4.6.4 music-volume
+4.6.4 fx-volume
+---------------
+
+ -- Command-line option: `--fx-volume=<value>'
+ -- Environment variable: `LW6_FX_VOLUME'
+ -- XML key: `fx-volume'
+     Type: float
+
+     Default value: 0.3 Min value: 0 Max value: 1
+
+     Set the sound effects volume. This is a floating point value. 0 is
+     mute.  Maximum value is 1.
+
+4.6.5 music-volume
 ------------------
 
  -- Command-line option: `--music-volume=<value>'
@@ -4708,7 +4721,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      Set the music volume.This is a floating point value. 0 is mute.
      Maximum value is 1.
 
-4.6.5 snd-backend
+4.6.6 snd-backend
 -----------------
 
  -- Command-line option: `--snd-backend=<value>'
@@ -4721,18 +4734,18 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      Sets the sound backend AKA 'snd' to use. Can be 'ogg' or 'csound'
      but only 'ogg' will produce sound in the current release.
 
-4.6.6 sound-volume
+4.6.7 water-volume
 ------------------
 
- -- Command-line option: `--sound-volume=<value>'
- -- Environment variable: `LW6_SOUND_VOLUME'
- -- XML key: `sound-volume'
+ -- Command-line option: `--water-volume=<value>'
+ -- Environment variable: `LW6_WATER_VOLUME'
+ -- XML key: `water-volume'
      Type: float
 
-     Default value: 0.3 Min value: 0 Max value: 1
+     Default value: 0.2 Min value: 0 Max value: 1
 
-     Set the sound volume.This is a floating point value. 0 is mute.
-     Maximum value is 1.
+     Set the volume for water sounds. This is a floating point value. 0
+     is mute.  Maximum value is 1.
 
 
 File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sound options,  Up: Options & settings

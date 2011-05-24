@@ -28,7 +28,7 @@ endif
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/snd
 
 noinst_LTLIBRARIES = libmod_ogg_s.la
-MOD_OGG_FILES = mod-ogg-backend.c mod-ogg-const.c mod-ogg-fx.c mod-ogg-music.c mod-ogg-path.c mod-ogg-repr.c mod-ogg-setup.c mod-ogg-volume.c
+MOD_OGG_FILES = mod-ogg-backend.c mod-ogg-const.c mod-ogg-fx.c mod-ogg-music.c mod-ogg-path.c mod-ogg-repr.c mod-ogg-setup.c mod-ogg-volume.c mod-ogg-water.c
 libmod_ogg_s_la_SOURCES = $(MOD_OGG_FILES) 
 
 if !ALLINONE

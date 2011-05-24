@@ -29,7 +29,7 @@
 
 extern void
 _mod_csound_set_fx_volume (_mod_csound_context_t * csound_context,
-			      float volume)
+			   float volume)
 {
   csound_context->volume.fx = volume;
 

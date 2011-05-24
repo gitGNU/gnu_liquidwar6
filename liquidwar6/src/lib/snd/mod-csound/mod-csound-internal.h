@@ -34,6 +34,7 @@ _mod_csound_path_t;
 typedef struct _mod_csound_volume_s
 {
   float fx;
+  float water;
   float music;
 }
 _mod_csound_volume_t;
@@ -49,7 +50,7 @@ _mod_csound_context_t;
  * In fx.c
  */
 extern int _mod_csound_play_fx (_mod_csound_context_t * csound_context,
-				   int fx_id);
+				int fx_id);
 
 /*
  * In music.c
@@ -82,6 +83,7 @@ extern char *_mod_csound_repr (_mod_csound_context_t * csound_context,
  */
 extern _mod_csound_context_t *_mod_csound_init (int argc, char *argv[],
 						float fx_volume,
+						float water_volume,
 						float music_volume);
 extern void _mod_csound_quit (_mod_csound_context_t * csound_context);
 
@@ -89,8 +91,16 @@ extern void _mod_csound_quit (_mod_csound_context_t * csound_context);
  * In volume.c
  */
 extern void _mod_csound_set_fx_volume (_mod_csound_context_t *
+				       csound_context, float volume);
+extern void _mod_csound_set_water_volume (_mod_csound_context_t *
 					  csound_context, float volume);
 extern void _mod_csound_set_music_volume (_mod_csound_context_t *
 					  csound_context, float volume);
+
+/*
+ * In water.c
+ */
+extern int _mod_csound_poll_water (_mod_csound_context_t * csound_context);
+
 
 #endif

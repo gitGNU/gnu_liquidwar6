@@ -30,15 +30,32 @@
 #define FX_DIR "fx"
 
 int
-_mod_ogg_play_fx (_mod_ogg_context_t * snd_context, int fx_id)
+_mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
 {
   int ret = 0;
+  static int channel = 0;
 
   if (fx_id >= 0 && fx_id < LW6SND_NB_FX)
     {
-      if (snd_context->fx.fx[fx_id])
+      if (ogg_context->fx.fx[fx_id])
 	{
-	  Mix_PlayChannel (-1, snd_context->fx.fx[fx_id], 0);
+	  ogg_context->mixer.last_channel++;
+	  if (channel < _MOD_OGG_CHANNEL_FX0
+	      || channel >= ogg_context->mixer.nb_channels)
+	    {
+	      channel = _MOD_OGG_CHANNEL_FX0;
+	    }
+	  if (channel >= _MOD_OGG_CHANNEL_FX0
+	      && channel < ogg_context->mixer.nb_channels)
+	    {
+	      Mix_PlayChannel (channel, ogg_context->fx.fx[fx_id], 0);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("not enough channels (%d) to play fx"),
+			  ogg_context->mixer.nb_channels);
+	    }
 	}
       else
 	{
@@ -51,8 +68,7 @@ _mod_ogg_play_fx (_mod_ogg_context_t * snd_context, int fx_id)
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to play fx %d, index out of range"),
-		  fx_id);
+		  _x_ ("unable to play fx %d, index out of range"), fx_id);
     }
 
   ret = 1;
@@ -75,8 +91,7 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
 	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading fx \"%s\""),
-			  path2);
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading fx \"%s\""), path2);
 	      ret = Mix_LoadWAV (path2);
 	      if (!ret)
 		{
@@ -124,7 +139,7 @@ _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
     {
       if (!ogg_context->fx.fx[i])
 	{
-	  lw6sys_log(LW6SYS_LOG_DEBUG, _x_ ("unable to load fx %d"),i);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to load fx %d"), i);
 	  ret = 0;
 	}
     }

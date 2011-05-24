@@ -28,15 +28,27 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 
+#define _MOD_OGG_CHANNEL_WATER1 0
+#define _MOD_OGG_CHANNEL_WATER2 1
+#define _MOD_OGG_CHANNEL_FX0 2
+
 typedef struct _mod_ogg_path_s
 {
   char *data_dir;
 }
 _mod_ogg_path_t;
 
+typedef struct _mod_ogg_mixer_s
+{
+  int nb_channels;
+  int last_channel;
+}
+_mod_ogg_mixer_t;
+
 typedef struct _mod_ogg_volume_s
 {
   float fx;
+  float water;
   float music;
 }
 _mod_ogg_volume_t;
@@ -71,6 +83,12 @@ typedef struct _mod_ogg_fx_s
 }
 _mod_ogg_fx_t;
 
+typedef struct _mod_ogg_water_s
+{
+  Mix_Chunk *water[LW6SND_NB_WATER];
+}
+_mod_ogg_water_t;
+
 typedef struct _mod_ogg_music_s
 {
   Mix_Music *music;
@@ -82,9 +100,11 @@ _mod_ogg_music_t;
 typedef struct _mod_ogg_context_s
 {
   _mod_ogg_path_t path;
+  _mod_ogg_mixer_t mixer;
   _mod_ogg_volume_t volume;
   _mod_ogg_const_data_t const_data;
   _mod_ogg_fx_t fx;
+  _mod_ogg_water_t water;
   _mod_ogg_music_t music;
 }
 _mod_ogg_context_t;
@@ -98,8 +118,7 @@ extern void _mod_ogg_unload_consts (_mod_ogg_context_t * ogg_context);
 /*
  * In fx.c
  */
-extern int _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context,
-				int fx_id);
+extern int _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id);
 extern int _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context);
 extern void _mod_ogg_unload_fx (_mod_ogg_context_t * ogg_context);
 
@@ -131,7 +150,7 @@ extern char *_mod_ogg_repr (_mod_ogg_context_t * gfx_context, u_int32_t id);
  * In setup.c
  */
 extern _mod_ogg_context_t *_mod_ogg_init (int argc, char *argv[],
-					  float fx_volume,
+					  float fx_volume, float water_volume,
 					  float music_volume);
 extern void _mod_ogg_quit (_mod_ogg_context_t * ogg_context);
 
@@ -139,8 +158,17 @@ extern void _mod_ogg_quit (_mod_ogg_context_t * ogg_context);
  * In volume.c
  */
 extern void _mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context,
+				    float volume);
+extern void _mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context,
 				       float volume);
 extern void _mod_ogg_set_music_volume (_mod_ogg_context_t * ogg_context,
 				       float volume);
+
+/*
+ * In water.c
+ */
+extern void _mod_ogg_poll_water (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_load_water (_mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_unload_water (_mod_ogg_context_t * ogg_context);
 
 #endif

@@ -632,10 +632,14 @@ populate_references ()
   /*
    * Sound
    */
-  POPULATE_FLOAT (LW6DEF_SOUND_VOLUME,
+  POPULATE_FLOAT (LW6DEF_FX_VOLUME,
 		  _x_
-		  ("Set the sound volume.This is a floating point value. 0 is mute. Maximum value is 1."),
+		  ("Set the sound effects volume. This is a floating point value. 0 is mute. Maximum value is 1."),
 		  0.3, 0, 1);
+  POPULATE_FLOAT (LW6DEF_WATER_VOLUME,
+		  _x_
+		  ("Set the volume for water sounds. This is a floating point value. 0 is mute. Maximum value is 1."),
+		  0.2, 0, 1);
   POPULATE_FLOAT (LW6DEF_MUSIC_VOLUME,
 		  _x_
 		  (" Set the music volume.This is a floating point value. 0 is mute. Maximum value is 1."),

@@ -337,7 +337,8 @@ lw6hlp_list_graphics ()
 static int
 update_sound (lw6sys_list_t ** list)
 {
-  lw6sys_list_push_back (list, LW6DEF_SOUND_VOLUME);
+  lw6sys_list_push_back (list, LW6DEF_FX_VOLUME);
+  lw6sys_list_push_back (list, LW6DEF_WATER_VOLUME);
   lw6sys_list_push_back (list, LW6DEF_MUSIC_VOLUME);
   lw6sys_list_push_back (list, LW6DEF_SND_BACKEND);
   lw6sys_list_push_back (list, LW6DEF_AMBIANCE_FILE);

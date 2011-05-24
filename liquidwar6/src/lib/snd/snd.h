@@ -43,6 +43,16 @@ typedef enum lw6snd_fx_enum_e
 lw6snd_fx_enum_t;
 
 #define LW6SND_NB_WATER 6
+typedef enum lw6snd_water_enum_e
+{
+  LW6SND_WATER1 = 0,
+  LW6SND_WATER2 = 1,
+  LW6SND_WATER3 = 2,
+  LW6SND_WATER4 = 3,
+  LW6SND_WATER5 = 4,
+  LW6SND_WATER6 = 5
+}
+lw6snd_water_enum_t;
 
 typedef struct lw6snd_backend_s
 {
@@ -58,9 +68,10 @@ typedef struct lw6snd_backend_s
   int (*play_music_random) (void *snd_context, char *music_path,
 			    char *music_filter, char *music_exclude);
   void (*stop_music) (void *snd_context);
-  void *(*init) (int argc, char *argv[], float fx_volume,
+  void *(*init) (int argc, char *argv[], float fx_volume, float water_volume,
 		 float music_volume);
   void (*set_fx_volume) (void *snd_context, float volume);
+  void (*set_water_volume) (void *snd_context, float volume);
   void (*set_music_volume) (void *snd_context, float volume);
   void (*quit) (void *snd_context);
   char *(*repr) (void *snd_context, u_int32_t id);
@@ -83,8 +94,9 @@ extern int lw6snd_play_music_random (lw6snd_backend_t * backend,
 extern void lw6snd_stop_music (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (lw6snd_backend_t * snd_backend);
 extern int lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
-			float music_volume);
-extern void lw6snd_set_fx_volume (lw6snd_backend_t * backend,
+			float water_volume, float music_volume);
+extern void lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume);
+extern void lw6snd_set_water_volume (lw6snd_backend_t * backend,
 				     float volume);
 extern void lw6snd_set_music_volume (lw6snd_backend_t * backend,
 				     float volume);

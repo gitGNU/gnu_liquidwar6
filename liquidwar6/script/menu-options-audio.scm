@@ -63,18 +63,18 @@
 
 (define lw6-audio-options-menu-sound-volume-item-label
   (lw6-audio-options-menu-volume-item-label
-   lw6def-sound-volume
+   lw6def-fx-volume
    (_ "No sound FX")
    (_ "Sound FX ~a%")))
 
 (define lw6-audio-options-menu-sound-volume-item-minus
   (lw6-audio-options-menu-volume-item-minus 
-   lw6def-sound-volume
+   lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-sound-volume-item-plus
   (lw6-audio-options-menu-volume-item-plus 
-   lw6def-sound-volume
+   lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-sound-volume-item
@@ -145,8 +145,9 @@
 	    (c-lw6snd-release snd))
 	    (set! snd
 		  (c-lw6snd-new snd-backend
-				(lw6-config-get-number lw6def-sound-volume) 
-			    (lw6-config-get-number lw6def-music-volume)))
+				(lw6-config-get-number lw6def-fx-volume) 
+				(lw6-config-get-number lw6def-water-volume) 
+				(lw6-config-get-number lw6def-music-volume)))
 	    (lw6-set-game-global! "snd" snd)
 	)))))
 

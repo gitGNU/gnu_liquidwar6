@@ -129,7 +129,8 @@
 			    (let (
 				  (snd (c-lw6snd-new 
 					snd-backend
-					(lw6-config-get-number lw6def-sound-volume) 
+					(lw6-config-get-number lw6def-fx-volume) 
+					(lw6-config-get-number lw6def-water-volume) 
 					(lw6-config-get-number lw6def-music-volume)))
 				  )
 			      (if snd

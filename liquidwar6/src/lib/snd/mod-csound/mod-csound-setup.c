@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 _mod_csound_context_t *
-_mod_csound_init (int argc, char *argv[], float fx_volume,
+_mod_csound_init (int argc, char *argv[], float fx_volume, float water_volume,
 		  float music_volume)
 {
   _mod_csound_context_t *csound_context = NULL;
@@ -45,6 +45,7 @@ _mod_csound_init (int argc, char *argv[], float fx_volume,
       if (_mod_csound_path_init (csound_context, argc, argv))
 	{
 	  _mod_csound_set_fx_volume (csound_context, fx_volume);
+	  _mod_csound_set_water_volume (csound_context, water_volume);
 	  _mod_csound_set_music_volume (csound_context, music_volume);
 
 	  ok = 1;

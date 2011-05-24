@@ -166,7 +166,7 @@ lw6snd_stop_music (lw6snd_backend_t * backend)
 }
 
 int
-lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
+lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume,
 	     float music_volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
@@ -174,7 +174,7 @@ lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
   if (backend->init)
     {
       backend->snd_context =
-	backend->init (backend->argc, backend->argv, fx_volume,
+	backend->init (backend->argc, backend->argv, fx_volume, water_volume,
 		       music_volume);
     }
   else
@@ -195,6 +195,23 @@ lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
   if (backend->set_fx_volume)
     {
       backend->set_fx_volume (backend->snd_context, volume);
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+
+  LW6SYS_BACKEND_FUNCTION_END;
+}
+
+void
+lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
+{
+  LW6SYS_BACKEND_FUNCTION_BEGIN;
+
+  if (backend->set_water_volume)
+    {
+      backend->set_water_volume (backend->snd_context, volume);
     }
   else
     {

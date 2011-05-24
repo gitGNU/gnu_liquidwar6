@@ -28,7 +28,8 @@
 #include "mod-ogg-internal.h"
 
 _mod_ogg_context_t *
-_mod_ogg_init (int argc, char *argv[], float fx_volume, float music_volume)
+_mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
+	       float music_volume)
 {
   _mod_ogg_context_t *snd_context = NULL;
   int sdl_ok = 1;
@@ -36,8 +37,8 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float music_volume)
   SDL_version version;
 
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _x_ ("ogg init volume=%01.2f/%01.2f"), fx_volume,
-	      music_volume);
+	      _x_ ("ogg init volume=%01.2f/%01.2f/%01.2f"), fx_volume,
+	      water_volume, music_volume);
 
   snd_context =
     (_mod_ogg_context_t *) LW6SYS_CALLOC (sizeof (_mod_ogg_context_t));
@@ -81,9 +82,13 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float music_volume)
 		   snd_context->const_data.channels,
 		   snd_context->const_data.chunksize))
 		{
+		  snd_context->mixer.nb_channels = Mix_AllocateChannels (-1);
+
 		  _mod_ogg_set_fx_volume (snd_context, fx_volume);
+		  _mod_ogg_set_water_volume (snd_context, water_volume);
 		  _mod_ogg_set_music_volume (snd_context, music_volume);
-		  if (_mod_ogg_load_fx (snd_context))
+		  if (_mod_ogg_load_fx (snd_context)
+		      && _mod_ogg_load_water (snd_context))
 		    {
 		      ok = 1;
 		    }
@@ -123,6 +128,7 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   Mix_CloseAudio ();
 
   _mod_ogg_unload_fx (snd_context);
+  _mod_ogg_unload_water (snd_context);
   _mod_ogg_unload_consts (snd_context);
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);

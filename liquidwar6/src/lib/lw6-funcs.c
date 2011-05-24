@@ -6549,11 +6549,13 @@ _scm_lw6snd_get_backends ()
 }
 
 static SCM
-_scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM music_volume)
+_scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume,
+		 SCM music_volume)
 {
   SCM ret = SCM_BOOL_F;
   char *c_backend_name;
   float c_fx_volume;
+  float c_water_volume;
   float c_music_volume;
   lw6snd_backend_t *c_ret;
 
@@ -6563,18 +6565,21 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM music_volume)
 	      backend_name, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (fx_volume), fx_volume, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (music_volume), music_volume, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (SCM_REALP (water_volume), water_volume, SCM_ARG4, __FUNCTION__);
 
   c_backend_name = to_0str (backend_name);
   if (backend_name)
     {
       c_fx_volume = scm_num2float (fx_volume, 0, NULL);
+      c_water_volume = scm_num2float (water_volume, 0, NULL);
       c_music_volume = scm_num2float (music_volume, 0, NULL);
 
       c_ret = lw6snd_create_backend (lw6_global.argc, lw6_global.argv,
 				     c_backend_name);
       if (c_ret)
 	{
-	  if (lw6snd_init (c_ret, c_fx_volume, c_music_volume))
+	  if (lw6snd_init
+	      (c_ret, c_fx_volume, c_water_volume, c_music_volume))
 	    {
 	      ret = lw6_make_scm_snd (c_ret);
 	    }
@@ -8364,7 +8369,7 @@ lw6_register_funcs ()
   /*
    * In setup.c
    */
-  scm_c_define_gsubr ("c-lw6snd-new", 3, 0, 0, (SCM (*)())_scm_lw6snd_new);
+  scm_c_define_gsubr ("c-lw6snd-new", 4, 0, 0, (SCM (*)())_scm_lw6snd_new);
   scm_c_define_gsubr ("c-lw6snd-release", 1, 0, 0,
 		      (SCM (*)())_scm_lw6snd_release);
 

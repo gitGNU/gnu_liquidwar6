@@ -27,6 +27,7 @@
 #include "snd.h"
 
 #define TEST_FX_VOLUME 0.6f
+#define TEST_WATER_VOLUME 0.5f
 #define TEST_MUSIC_VOLUME 0.4f
 #define TEST_FX_SLEEP 1.0f
 #define TEST_MUSIC_SLEEP 10.0f
@@ -44,7 +45,9 @@ test_init (lw6snd_backend_t * backend)
   {
     char *repr = NULL;
 
-    ret = ret && lw6snd_init (backend, TEST_FX_VOLUME, TEST_MUSIC_VOLUME);
+    ret = ret
+      && lw6snd_init (backend, TEST_FX_VOLUME, TEST_WATER_VOLUME,
+		      TEST_MUSIC_VOLUME);
     if (ret)
       {
 	repr = lw6snd_repr (backend);

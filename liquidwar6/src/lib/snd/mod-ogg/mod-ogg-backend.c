@@ -111,10 +111,11 @@ _stop_music (void *snd_context)
 }
 
 static void *
-_init (int argc, char *argv[], float fx_volume, float music_volume)
+_init (int argc, char *argv[], float fx_volume, float water_volume,
+       float music_volume)
 {
   _mod_ogg_context_t *mod_ogg_context =
-    _mod_ogg_init (argc, argv, fx_volume, music_volume);
+    _mod_ogg_init (argc, argv, fx_volume, water_volume, music_volume);
 
   return (void *) mod_ogg_context;
 }
@@ -127,6 +128,17 @@ _set_fx_volume (void *snd_context, float volume)
   if (mod_ogg_context)
     {
       _mod_ogg_set_fx_volume (mod_ogg_context, volume);
+    }
+}
+
+static void
+_set_water_volume (void *snd_context, float volume)
+{
+  _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
+
+  if (mod_ogg_context)
+    {
+      _mod_ogg_set_water_volume (mod_ogg_context, volume);
     }
 }
 
@@ -210,6 +222,7 @@ mod_ogg_create_backend ()
       backend->stop_music = _stop_music;
       backend->init = _init;
       backend->set_fx_volume = _set_fx_volume;
+      backend->set_water_volume = _set_water_volume;
       backend->set_music_volume = _set_music_volume;
       backend->quit = _quit;
       backend->repr = _repr;

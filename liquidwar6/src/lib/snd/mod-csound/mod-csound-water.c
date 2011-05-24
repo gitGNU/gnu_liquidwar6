@@ -25,43 +25,15 @@
 #endif
 
 #include "../snd.h"
-#include "mod-ogg-internal.h"
+#include "mod-csound-internal.h"
 
-extern void
-_mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context, float volume)
+extern int
+_mod_csound_poll_water (_mod_csound_context_t * csound_context)
 {
-  int i = 0;
+  int ret = 0;
 
-  ogg_context->volume.fx = volume;
+  // todo...
+  ret = 1;
 
-  for (i = _MOD_OGG_CHANNEL_FX0; i < ogg_context->mixer.nb_channels; ++i)
-    {
-      Mix_Volume (i, volume * MIX_MAX_VOLUME);
-    }
-}
-
-extern void
-_mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context, float volume)
-{
-  ogg_context->volume.water = volume;
-
-  if (ogg_context->mixer.nb_channels > _MOD_OGG_CHANNEL_WATER2)
-    {
-      Mix_Volume (_MOD_OGG_CHANNEL_WATER1, volume * MIX_MAX_VOLUME);
-      Mix_Volume (_MOD_OGG_CHANNEL_WATER2, volume * MIX_MAX_VOLUME);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("not even channels (%d) to handle water"),
-		  ogg_context->mixer.nb_channels);
-    }
-}
-
-extern void
-_mod_ogg_set_music_volume (_mod_ogg_context_t * ogg_context, float volume)
-{
-  ogg_context->volume.music = volume;
-
-  Mix_VolumeMusic (volume * MIX_MAX_VOLUME);
+  return ret;
 }

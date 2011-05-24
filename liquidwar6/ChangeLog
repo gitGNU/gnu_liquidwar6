@@ -1,5 +1,7 @@
 2011-05-25 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added water-volume option, renamed sound-volume to fx-volume.
+
 	* Added water sounds.
 
 2011-05-19 : Christian Mauduit <ufoot@ufoot.org>
