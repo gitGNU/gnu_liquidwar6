@@ -27,20 +27,22 @@
 #include "../dyn/dyn.h"
 #include "../cfg/cfg.h"
 
-#define LW6SND_NB_SOUNDS 9
-typedef enum lw6snd_sound_enum_e
+#define LW6SND_NB_FX 9
+typedef enum lw6snd_fx_enum_e
 {
-  LW6SND_SOUND_SPLASH = 0,
-  LW6SND_SOUND_VALID = 1,
-  LW6SND_SOUND_SELECT = 2,
-  LW6SND_SOUND_START = 3,
-  LW6SND_SOUND_DEATH = 4,
-  LW6SND_SOUND_BELL = 5,
-  LW6SND_SOUND_SCORE = 6,
-  LW6SND_SOUND_HELLO = 7,
-  LW6SND_SOUND_GOODBYE = 8
+  LW6SND_FX_SPLASH = 0,
+  LW6SND_FX_VALID = 1,
+  LW6SND_FX_SELECT = 2,
+  LW6SND_FX_START = 3,
+  LW6SND_FX_DEATH = 4,
+  LW6SND_FX_BELL = 5,
+  LW6SND_FX_SCORE = 6,
+  LW6SND_FX_HELLO = 7,
+  LW6SND_FX_GOODBYE = 8
 }
-lw6snd_sound_enum_t;
+lw6snd_fx_enum_t;
+
+#define LW6SND_NB_WATER 6
 
 typedef struct lw6snd_backend_s
 {
@@ -50,15 +52,15 @@ typedef struct lw6snd_backend_s
   char **argv;
   u_int32_t id;
 
-  int (*play_sound) (void *snd_context, int sound_id);
+  int (*play_fx) (void *snd_context, int fx_id);
   int (*is_music_file) (void *snd_context, char *music_file);
   int (*play_music_file) (void *snd_context, char *music_file);
   int (*play_music_random) (void *snd_context, char *music_path,
 			    char *music_filter, char *music_exclude);
   void (*stop_music) (void *snd_context);
-  void *(*init) (int argc, char *argv[], float sound_volume,
+  void *(*init) (int argc, char *argv[], float fx_volume,
 		 float music_volume);
-  void (*set_sound_volume) (void *snd_context, float volume);
+  void (*set_fx_volume) (void *snd_context, float volume);
   void (*set_music_volume) (void *snd_context, float volume);
   void (*quit) (void *snd_context);
   char *(*repr) (void *snd_context, u_int32_t id);
@@ -68,7 +70,7 @@ lw6snd_backend_t;
 /*
  * In api.c
  */
-extern int lw6snd_play_sound (lw6snd_backend_t * backend, int sound_id);
+extern int lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id);
 extern int lw6snd_is_music_file (lw6snd_backend_t * backend,
 				 char *map_dir,
 				 char *music_path, char *music_file);
@@ -80,9 +82,9 @@ extern int lw6snd_play_music_random (lw6snd_backend_t * backend,
 				     char *music_exclude);
 extern void lw6snd_stop_music (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (lw6snd_backend_t * snd_backend);
-extern int lw6snd_init (lw6snd_backend_t * backend, float sound_volume,
+extern int lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
 			float music_volume);
-extern void lw6snd_set_sound_volume (lw6snd_backend_t * backend,
+extern void lw6snd_set_fx_volume (lw6snd_backend_t * backend,
 				     float volume);
 extern void lw6snd_set_music_volume (lw6snd_backend_t * backend,
 				     float volume);

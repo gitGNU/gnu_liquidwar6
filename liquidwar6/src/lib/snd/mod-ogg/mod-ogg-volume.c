@@ -28,9 +28,9 @@
 #include "mod-ogg-internal.h"
 
 extern void
-_mod_ogg_set_sound_volume (_mod_ogg_context_t * ogg_context, float volume)
+_mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context, float volume)
 {
-  ogg_context->volume.sound = volume;
+  ogg_context->volume.fx = volume;
 
   Mix_Volume (-1, volume * MIX_MAX_VOLUME);
 }

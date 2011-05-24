@@ -36,7 +36,7 @@ _mod_ogg_path_t;
 
 typedef struct _mod_ogg_volume_s
 {
-  float sound;
+  float fx;
   float music;
 }
 _mod_ogg_volume_t;
@@ -56,14 +56,20 @@ typedef struct _mod_ogg_const_data_s
   char *file_score;
   char *file_hello;
   char *file_goodbye;
+  char *file_water1;
+  char *file_water2;
+  char *file_water3;
+  char *file_water4;
+  char *file_water5;
+  char *file_water6;
 }
 _mod_ogg_const_data_t;
 
-typedef struct _mod_ogg_sounds_s
+typedef struct _mod_ogg_fx_s
 {
-  Mix_Chunk *sounds[LW6SND_NB_SOUNDS];
+  Mix_Chunk *fx[LW6SND_NB_FX];
 }
-_mod_ogg_sounds_t;
+_mod_ogg_fx_t;
 
 typedef struct _mod_ogg_music_s
 {
@@ -78,7 +84,7 @@ typedef struct _mod_ogg_context_s
   _mod_ogg_path_t path;
   _mod_ogg_volume_t volume;
   _mod_ogg_const_data_t const_data;
-  _mod_ogg_sounds_t sounds;
+  _mod_ogg_fx_t fx;
   _mod_ogg_music_t music;
 }
 _mod_ogg_context_t;
@@ -90,12 +96,12 @@ extern int _mod_ogg_load_consts (_mod_ogg_context_t * ogg_context);
 extern void _mod_ogg_unload_consts (_mod_ogg_context_t * ogg_context);
 
 /*
- * In sound.c
+ * In fx.c
  */
-extern int _mod_ogg_play_sound (_mod_ogg_context_t * ogg_context,
-				int sound_id);
-extern int _mod_ogg_load_sounds (_mod_ogg_context_t * ogg_context);
-extern void _mod_ogg_unload_sounds (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context,
+				int fx_id);
+extern int _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_unload_fx (_mod_ogg_context_t * ogg_context);
 
 /*
  * In music.c
@@ -125,14 +131,14 @@ extern char *_mod_ogg_repr (_mod_ogg_context_t * gfx_context, u_int32_t id);
  * In setup.c
  */
 extern _mod_ogg_context_t *_mod_ogg_init (int argc, char *argv[],
-					  float sound_volume,
+					  float fx_volume,
 					  float music_volume);
 extern void _mod_ogg_quit (_mod_ogg_context_t * ogg_context);
 
 /*
  * In volume.c
  */
-extern void _mod_ogg_set_sound_volume (_mod_ogg_context_t * ogg_context,
+extern void _mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context,
 				       float volume);
 extern void _mod_ogg_set_music_volume (_mod_ogg_context_t * ogg_context,
 				       float volume);

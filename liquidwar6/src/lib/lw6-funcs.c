@@ -6549,11 +6549,11 @@ _scm_lw6snd_get_backends ()
 }
 
 static SCM
-_scm_lw6snd_new (SCM backend_name, SCM sound_volume, SCM music_volume)
+_scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM music_volume)
 {
   SCM ret = SCM_BOOL_F;
   char *c_backend_name;
-  float c_sound_volume;
+  float c_fx_volume;
   float c_music_volume;
   lw6snd_backend_t *c_ret;
 
@@ -6561,20 +6561,20 @@ _scm_lw6snd_new (SCM backend_name, SCM sound_volume, SCM music_volume)
 
   SCM_ASSERT (scm_is_string (backend_name),
 	      backend_name, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (SCM_REALP (sound_volume), sound_volume, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_REALP (fx_volume), fx_volume, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (music_volume), music_volume, SCM_ARG3, __FUNCTION__);
 
   c_backend_name = to_0str (backend_name);
   if (backend_name)
     {
-      c_sound_volume = scm_num2float (sound_volume, 0, NULL);
+      c_fx_volume = scm_num2float (fx_volume, 0, NULL);
       c_music_volume = scm_num2float (music_volume, 0, NULL);
 
       c_ret = lw6snd_create_backend (lw6_global.argc, lw6_global.argv,
 				     c_backend_name);
       if (c_ret)
 	{
-	  if (lw6snd_init (c_ret, c_sound_volume, c_music_volume))
+	  if (lw6snd_init (c_ret, c_fx_volume, c_music_volume))
 	    {
 	      ret = lw6_make_scm_snd (c_ret);
 	    }
@@ -6614,24 +6614,24 @@ _scm_lw6snd_release (SCM snd)
 }
 
 static SCM
-_scm_lw6snd_play_sound (SCM snd, SCM sound_id)
+_scm_lw6snd_play_fx (SCM snd, SCM fx_id)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
-  int c_sound_id;
+  int c_fx_id;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (sound_id), sound_id, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (fx_id), fx_id, SCM_ARG2, __FUNCTION__);
 
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_sound_id = scm_to_int (sound_id);
+      c_fx_id = scm_to_int (fx_id);
 
-      ret = scm_int2num (lw6snd_play_sound (c_snd, c_sound_id));
+      ret = scm_int2num (lw6snd_play_fx (c_snd, c_fx_id));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -6640,22 +6640,22 @@ _scm_lw6snd_play_sound (SCM snd, SCM sound_id)
 }
 
 static SCM
-_scm_lw6snd_set_sound_volume (SCM snd, SCM sound_volume)
+_scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
 {
   lw6snd_backend_t *c_snd;
-  float c_sound_volume;
+  float c_fx_volume;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (SCM_REALP (sound_volume), sound_volume, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (SCM_REALP (fx_volume), fx_volume, SCM_ARG2, __FUNCTION__);
 
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_sound_volume = scm_num2float (sound_volume, 0, NULL);
-      lw6snd_set_sound_volume (c_snd, c_sound_volume);
+      c_fx_volume = scm_num2float (fx_volume, 0, NULL);
+      lw6snd_set_fx_volume (c_snd, c_fx_volume);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -8369,12 +8369,12 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6snd_release);
 
   /*
-   * In sound.c
+   * In fx.c
    */
-  scm_c_define_gsubr ("c-lw6snd-play-sound", 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_play_sound);
-  scm_c_define_gsubr ("c-lw6snd-set-sound-volume", 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_set_sound_volume);
+  scm_c_define_gsubr ("c-lw6snd-play-fx", 2,
+		      0, 0, (SCM (*)())_scm_lw6snd_play_fx);
+  scm_c_define_gsubr ("c-lw6snd-set-fx-volume", 2,
+		      0, 0, (SCM (*)())_scm_lw6snd_set_fx_volume);
 
   /*
    * In music.c

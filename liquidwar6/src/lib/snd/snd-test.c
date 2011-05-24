@@ -26,9 +26,9 @@
 
 #include "snd.h"
 
-#define TEST_SOUND_VOLUME 0.6f
+#define TEST_FX_VOLUME 0.6f
 #define TEST_MUSIC_VOLUME 0.4f
-#define TEST_SOUND_SLEEP 1.0f
+#define TEST_FX_SLEEP 1.0f
 #define TEST_MUSIC_SLEEP 10.0f
 #define TEST_MUSIC_FILTER ""
 #define TEST_MUSIC_EXCLUDE ""
@@ -44,7 +44,7 @@ test_init (lw6snd_backend_t * backend)
   {
     char *repr = NULL;
 
-    ret = ret && lw6snd_init (backend, TEST_SOUND_VOLUME, TEST_MUSIC_VOLUME);
+    ret = ret && lw6snd_init (backend, TEST_FX_VOLUME, TEST_MUSIC_VOLUME);
     if (ret)
       {
 	repr = lw6snd_repr (backend);
@@ -61,7 +61,7 @@ test_init (lw6snd_backend_t * backend)
 }
 
 static int
-test_play_sound (lw6snd_backend_t * backend)
+test_play_fx (lw6snd_backend_t * backend)
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -69,11 +69,11 @@ test_play_sound (lw6snd_backend_t * backend)
   {
     int i;
 
-    for (i = 0; i < LW6SND_NB_SOUNDS; ++i)
+    for (i = 0; i < LW6SND_NB_FX; ++i)
       {
-	if (lw6snd_play_sound (backend, i))
+	if (lw6snd_play_fx (backend, i))
 	  {
-	    lw6sys_sleep (TEST_SOUND_SLEEP);
+	    lw6sys_sleep (TEST_FX_SLEEP);
 	  }
 	else
 	  {
@@ -173,7 +173,7 @@ lw6snd_test (int mode)
       backend = lw6snd_create_backend (argc, argv, "ogg");
       if (backend)
 	{
-	  ret = test_init (backend) && test_play_sound (backend)
+	  ret = test_init (backend) && test_play_fx (backend)
 	    && test_play_music (backend) && test_quit (backend) && ret;
 	  lw6snd_destroy_backend (backend);
 	}
@@ -183,7 +183,7 @@ lw6snd_test (int mode)
       backend = lw6snd_create_backend (argc, argv, "csound");
       if (backend)
 	{
-	  ret = test_init (backend) && test_play_sound (backend)
+	  ret = test_init (backend) && test_play_fx (backend)
 	    && test_quit (backend) && ret;
 	  lw6snd_destroy_backend (backend);
 	}

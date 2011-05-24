@@ -54,7 +54,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = data/snd/ogg/sound
+subdir = data/snd/ogg/fx
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
@@ -97,7 +97,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(pkgdatadir)"
 DATA = $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/sound/
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/fx/
 ACLOCAL = @ACLOCAL@
 ALLINONE_CFLAGS = @ALLINONE_CFLAGS@
 ALLINONE_LDFLAGS = @ALLINONE_LDFLAGS@
@@ -304,9 +304,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu data/snd/ogg/sound/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu data/snd/ogg/fx/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu data/snd/ogg/sound/Makefile
+	  $(AUTOMAKE) --gnu data/snd/ogg/fx/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

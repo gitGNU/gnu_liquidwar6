@@ -70,12 +70,12 @@
 (define lw6-audio-options-menu-sound-volume-item-minus
   (lw6-audio-options-menu-volume-item-minus 
    lw6def-sound-volume
-   c-lw6snd-set-sound-volume))
+   c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-sound-volume-item-plus
   (lw6-audio-options-menu-volume-item-plus 
    lw6def-sound-volume
-   c-lw6snd-set-sound-volume))
+   c-lw6snd-set-fx-volume))
 
 (define lw6-audio-options-menu-sound-volume-item
   (lambda ()

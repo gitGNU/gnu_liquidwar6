@@ -19,6 +19,6 @@
 # Contact author        : ufoot@ufoot.org
 
 pkgdata_DATA = README alienfrenzy.ogg expl2.ogg glassdoppler.ogg powerup.ogg fanfare.ogg endbell-high.ogg endbell-long.ogg endbell-low.ogg menuselect.ogg menuvalid.ogg teamdie.ogg programstart.ogg
-pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/sound/
+pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/snd/ogg/fx/
 EXTRA_DIST = $(pkgdata_DATA)
 

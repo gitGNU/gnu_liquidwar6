@@ -34,15 +34,15 @@ _warning (const char *func_name)
 }
 
 int
-lw6snd_play_sound (lw6snd_backend_t * backend, int sound_id)
+lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
 {
   int ret = 0;
 
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->play_sound)
+  if (backend->play_fx)
     {
-      ret = backend->play_sound (backend->snd_context, sound_id);
+      ret = backend->play_fx (backend->snd_context, fx_id);
     }
   else
     {
@@ -166,7 +166,7 @@ lw6snd_stop_music (lw6snd_backend_t * backend)
 }
 
 int
-lw6snd_init (lw6snd_backend_t * backend, float sound_volume,
+lw6snd_init (lw6snd_backend_t * backend, float fx_volume,
 	     float music_volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
@@ -174,7 +174,7 @@ lw6snd_init (lw6snd_backend_t * backend, float sound_volume,
   if (backend->init)
     {
       backend->snd_context =
-	backend->init (backend->argc, backend->argv, sound_volume,
+	backend->init (backend->argc, backend->argv, fx_volume,
 		       music_volume);
     }
   else
@@ -188,13 +188,13 @@ lw6snd_init (lw6snd_backend_t * backend, float sound_volume,
 }
 
 void
-lw6snd_set_sound_volume (lw6snd_backend_t * backend, float volume)
+lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
-  if (backend->set_sound_volume)
+  if (backend->set_fx_volume)
     {
-      backend->set_sound_volume (backend->snd_context, volume);
+      backend->set_fx_volume (backend->snd_context, volume);
     }
   else
     {

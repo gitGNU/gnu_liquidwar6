@@ -28,10 +28,10 @@
 #include "mod-csound-internal.h"
 
 extern void
-_mod_csound_set_sound_volume (_mod_csound_context_t * csound_context,
+_mod_csound_set_fx_volume (_mod_csound_context_t * csound_context,
 			      float volume)
 {
-  csound_context->volume.sound = volume;
+  csound_context->volume.fx = volume;
 
   // todo...
 }

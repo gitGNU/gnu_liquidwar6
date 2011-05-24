@@ -152,7 +152,7 @@
 	    (if (= selected-item new-selected-item)
 		#f
 		(begin
-		  (lw6-play-sound-beep-select)
+		  (lw6-play-fx-beep-select)
 		  (lw6-menuitem-action menuitem "on-unselect")
 		  (assoc-set! menu "selected-item" new-selected-item)
 		  (assoc-set! menu "allow-scroll" allow-scroll)
@@ -416,13 +416,13 @@
 	      (c-lw6gui-joystick2-pop-button-up dsp))
 	     (if
 	      (lw6-prev-menuitem #f)
-	      (lw6-play-sound-beep-select)
+	      (lw6-play-fx-beep-select)
 	      )
 	     )
 	    ((c-lw6gui-mouse-pop-wheel-up dsp)
 	     (if
 	      (lw6-prev-menuitem #t)
-	      (lw6-play-sound-beep-select)
+	      (lw6-play-fx-beep-select)
 	      )
 	     )
 	    ((or
@@ -431,13 +431,13 @@
 	      (c-lw6gui-joystick2-pop-button-down dsp))
 	     (if
 	      (lw6-next-menuitem #f)
-	      (lw6-play-sound-beep-select)
+	      (lw6-play-fx-beep-select)
 	      )
 	     )
 	    ((c-lw6gui-mouse-pop-wheel-down dsp)
 	     (if
 	      (lw6-next-menuitem #t)
-	      (lw6-play-sound-beep-select)
+	      (lw6-play-fx-beep-select)
 	      )
 	     )
 	    ((or
@@ -446,7 +446,7 @@
 	      (c-lw6gui-joystick2-pop-button-left dsp))
 	     (if
 	      (lw6-menuitem-action menuitem "on-minus")
-	      (lw6-play-sound-beep-valid)
+	      (lw6-play-fx-beep-valid)
 	      ) 
 	     )
 	    ((or
@@ -455,7 +455,7 @@
 	      (c-lw6gui-joystick2-pop-button-right dsp))
 	     (if
 	      (lw6-menuitem-action menuitem "on-plus")
-	      (lw6-play-sound-beep-valid)
+	      (lw6-play-fx-beep-valid)
 	      ) 
 	     )
 	    ((or
@@ -464,7 +464,7 @@
 	      (c-lw6gui-joystick2-pop-button-a dsp))
 	     (if
 	      (lw6-menuitem-action menuitem "on-valid")
-	      (lw6-play-sound-beep-valid)
+	      (lw6-play-fx-beep-valid)
 	      )
 	     )
 	    ))
@@ -476,7 +476,7 @@
 	  (c-lw6gui-joystick2-pop-button-b dsp))
 	 (if
 	  (lw6-menu-action menu "on-cancel")
-	  (lw6-play-sound-beep-valid)
+	  (lw6-play-fx-beep-valid)
 	  )
 	 )
 	((c-lw6gui-mouse-pop-button-left dsp)
@@ -494,7 +494,7 @@
 		    (set! menuitem (lw6-current-menuitem))
 		    (if
 		     (lw6-menuitem-action menuitem "on-valid")
-		     (lw6-play-sound-beep-valid)
+		     (lw6-play-fx-beep-valid)
 		     )
 		    )
 		  )
@@ -510,7 +510,7 @@
 		  menu-esc
 		  (if
 		   (lw6-menu-action menu "on-cancel")
-		   (lw6-play-sound-beep-valid)
+		   (lw6-play-fx-beep-valid)
 		   )
 		  )
 		 )

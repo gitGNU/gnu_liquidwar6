@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 extern int
-_mod_csound_play_sound (_mod_csound_context_t * csound_context, int sound_id)
+_mod_csound_play_fx (_mod_csound_context_t * csound_context, int fx_id)
 {
   int ret = 0;
 

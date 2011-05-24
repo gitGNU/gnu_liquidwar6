@@ -21,7 +21,7 @@
 (define lw6-quick-start
   (lambda ()
     (begin
-      (lw6-play-sound-start)
+      (lw6-play-fx-start)
       (lw6-push-menu (lw6-quick-start-menu))
       (lw6-local-game-prepare)
       (lw6-set-game-global! "logic-func" lw6-logic-game)

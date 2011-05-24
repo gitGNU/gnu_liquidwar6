@@ -28,14 +28,14 @@
 #include "mod-csound-internal.h"
 
 _mod_csound_context_t *
-_mod_csound_init (int argc, char *argv[], float sound_volume,
+_mod_csound_init (int argc, char *argv[], float fx_volume,
 		  float music_volume)
 {
   _mod_csound_context_t *csound_context = NULL;
   int ok = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _x_ ("csound init volume=%01.2f/%01.2f"), sound_volume,
+	      _x_ ("csound init volume=%01.2f/%01.2f"), fx_volume,
 	      music_volume);
 
   csound_context =
@@ -44,7 +44,7 @@ _mod_csound_init (int argc, char *argv[], float sound_volume,
     {
       if (_mod_csound_path_init (csound_context, argc, argv))
 	{
-	  _mod_csound_set_sound_volume (csound_context, sound_volume);
+	  _mod_csound_set_fx_volume (csound_context, fx_volume);
 	  _mod_csound_set_music_volume (csound_context, music_volume);
 
 	  ok = 1;

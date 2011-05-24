@@ -123,7 +123,7 @@
     (lw6-set-game-global! "loaded-func" lw6-loaded-func-idle)
     ; we garbage collect before the "realtime" part
     (gc)
-    (lw6-play-sound-start)
+    (lw6-play-fx-start)
     (lw6-music-game (lw6-get-game-global "level"))
     )
   )

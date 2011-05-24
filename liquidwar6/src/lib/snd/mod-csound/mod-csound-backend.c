@@ -37,7 +37,7 @@ mod_csound_is_GPL_compatible ()
 }
 
 static int
-_play_sound (void *snd_context, int sound_id)
+_play_fx (void *snd_context, int fx_id)
 {
   int ret = 0;
 
@@ -46,7 +46,7 @@ _play_sound (void *snd_context, int sound_id)
 
   if (csound_context)
     {
-      ret = _mod_csound_play_sound (csound_context, sound_id);
+      ret = _mod_csound_play_fx (csound_context, fx_id);
     }
 
   return ret;
@@ -116,23 +116,23 @@ _stop_music (void *snd_context)
 }
 
 static void *
-_init (int argc, char *argv[], float sound_volume, float music_volume)
+_init (int argc, char *argv[], float fx_volume, float music_volume)
 {
   _mod_csound_context_t *csound_context =
-    _mod_csound_init (argc, argv, sound_volume, music_volume);
+    _mod_csound_init (argc, argv, fx_volume, music_volume);
 
   return (void *) csound_context;
 }
 
 static void
-_set_sound_volume (void *snd_context, float volume)
+_set_fx_volume (void *snd_context, float volume)
 {
   _mod_csound_context_t *csound_context =
     (_mod_csound_context_t *) snd_context;
 
   if (csound_context)
     {
-      _mod_csound_set_sound_volume (csound_context, volume);
+      _mod_csound_set_fx_volume (csound_context, volume);
     }
 }
 
@@ -212,13 +212,13 @@ mod_csound_create_backend ()
     {
       memset (backend, 0, sizeof (lw6snd_backend_t));
 
-      backend->play_sound = _play_sound;
+      backend->play_fx = _play_fx;
       backend->is_music_file = _is_music_file;
       backend->play_music_file = _play_music_file;
       backend->play_music_random = _play_music_random;
       backend->stop_music = _stop_music;
       backend->init = _init;
-      backend->set_sound_volume = _set_sound_volume;
+      backend->set_fx_volume = _set_fx_volume;
       backend->set_music_volume = _set_music_volume;
       backend->quit = _quit;
       backend->repr = _repr;

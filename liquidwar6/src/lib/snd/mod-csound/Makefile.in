@@ -106,9 +106,9 @@ libmod_csound_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(libmod_csound_la_LDFLAGS) $(LDFLAGS) -o $@
 @ALLINONE_FALSE@am_libmod_csound_la_rpath = -rpath $(libdir)
 libmod_csound_s_la_LIBADD =
-am__objects_1 = mod-csound-backend.lo mod-csound-music.lo \
-	mod-csound-path.lo mod-csound-repr.lo mod-csound-setup.lo \
-	mod-csound-sound.lo mod-csound-volume.lo
+am__objects_1 = mod-csound-backend.lo mod-csound-fx.lo \
+	mod-csound-music.lo mod-csound-path.lo mod-csound-repr.lo \
+	mod-csound-setup.lo mod-csound-volume.lo
 am_libmod_csound_s_la_OBJECTS = $(am__objects_1)
 libmod_csound_s_la_OBJECTS = $(am_libmod_csound_s_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@ @CSOUND_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @CSOUND_LIBS@
 noinst_LTLIBRARIES = libmod_csound_s.la
-MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-sound.c mod-csound-volume.c
+MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-fx.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-volume.c
 libmod_csound_s_la_SOURCES = $(MOD_CSOUND_FILES) 
 @ALLINONE_FALSE@lib_LTLIBRARIES = libmod_csound.la
 @ALLINONE_FALSE@libmod_csound_la_SOURCES = 
@@ -422,11 +422,11 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-backend.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-fx.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-music.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-path.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-repr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-setup.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-sound.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mod-csound-volume.Plo@am__quote@
 
 .c.o:

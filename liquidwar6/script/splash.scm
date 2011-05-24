@@ -29,6 +29,6 @@
 	   (lw6-config-is-true? lw6def-display-splash)
 	   (not (lw6-config-is-true? lw6def-quick-start)))
 	  (begin
-	    (lw6-play-sound-splash)
+	    (lw6-play-fx-splash)
 	    (lw6-wait-any-key)
-	    (lw6-play-sound-beep-valid))))))
+	    (lw6-play-fx-beep-valid))))))

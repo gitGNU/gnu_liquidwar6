@@ -64,6 +64,18 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			      &const_data->file_hello);
       lw6cfg_read_xml_string (key, value, "file-goodbye",
 			      &const_data->file_goodbye);
+      lw6cfg_read_xml_string (key, value, "file-water1",
+			      &const_data->file_water1);
+      lw6cfg_read_xml_string (key, value, "file-water2",
+			      &const_data->file_water2);
+      lw6cfg_read_xml_string (key, value, "file-water3",
+			      &const_data->file_water3);
+      lw6cfg_read_xml_string (key, value, "file-water4",
+			      &const_data->file_water4);
+      lw6cfg_read_xml_string (key, value, "file-water5",
+			      &const_data->file_water5);
+      lw6cfg_read_xml_string (key, value, "file-water6",
+			      &const_data->file_water6);
     }
 }
 
@@ -133,6 +145,30 @@ _mod_ogg_unload_consts (_mod_ogg_context_t * context)
   if (context->const_data.file_goodbye)
     {
       LW6SYS_FREE (context->const_data.file_goodbye);
+    }
+  if (context->const_data.file_water1)
+    {
+      LW6SYS_FREE (context->const_data.file_water1);
+    }
+  if (context->const_data.file_water2)
+    {
+      LW6SYS_FREE (context->const_data.file_water2);
+    }
+  if (context->const_data.file_water3)
+    {
+      LW6SYS_FREE (context->const_data.file_water3);
+    }
+  if (context->const_data.file_water4)
+    {
+      LW6SYS_FREE (context->const_data.file_water4);
+    }
+  if (context->const_data.file_water5)
+    {
+      LW6SYS_FREE (context->const_data.file_water5);
+    }
+  if (context->const_data.file_water6)
+    {
+      LW6SYS_FREE (context->const_data.file_water6);
     }
   memset (&context->const_data, 0, sizeof (_mod_ogg_const_data_t));
 }

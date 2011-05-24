@@ -24,7 +24,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @CSOUND_LIBS@
 libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/snd
 
 noinst_LTLIBRARIES = libmod_csound_s.la
-MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-sound.c mod-csound-volume.c
+MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-fx.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-volume.c
 libmod_csound_s_la_SOURCES = $(MOD_CSOUND_FILES) 
 
 if !ALLINONE

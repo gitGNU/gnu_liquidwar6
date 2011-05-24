@@ -18,27 +18,27 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-play-sound-by-id
+(define lw6-play-fx-by-id
   (lambda (id)
     (let (
 	  (snd (lw6-get-game-global "snd"))
 	  )
       (if snd
-	  (c-lw6snd-play-sound snd id)))))
+	  (c-lw6snd-play-fx snd id)))))
 
-(define lw6-play-sound-splash
+(define lw6-play-fx-splash
   (lambda ()
-    (lw6-play-sound-by-id 0)))
+    (lw6-play-fx-by-id 0)))
 
-(define lw6-play-sound-beep-valid
+(define lw6-play-fx-beep-valid
   (lambda ()
-    (lw6-play-sound-by-id 1)))
+    (lw6-play-fx-by-id 1)))
 
-(define lw6-play-sound-beep-select
+(define lw6-play-fx-beep-select
   (lambda ()
-    (lw6-play-sound-by-id 2)))
+    (lw6-play-fx-by-id 2)))
 
-(define lw6-play-sound-start
+(define lw6-play-fx-start
   (lambda ()
-    (lw6-play-sound-by-id 3)))
+    (lw6-play-fx-by-id 3)))
 
