@@ -42,18 +42,6 @@ typedef enum lw6snd_fx_enum_e
 }
 lw6snd_fx_enum_t;
 
-#define LW6SND_NB_WATER 6
-typedef enum lw6snd_water_enum_e
-{
-  LW6SND_WATER1 = 0,
-  LW6SND_WATER2 = 1,
-  LW6SND_WATER3 = 2,
-  LW6SND_WATER4 = 3,
-  LW6SND_WATER5 = 4,
-  LW6SND_WATER6 = 5
-}
-lw6snd_water_enum_t;
-
 typedef struct lw6snd_backend_s
 {
   lw6dyn_dl_handle_t *dl_handle;
@@ -73,6 +61,7 @@ typedef struct lw6snd_backend_s
   void (*set_fx_volume) (void *snd_context, float volume);
   void (*set_water_volume) (void *snd_context, float volume);
   void (*set_music_volume) (void *snd_context, float volume);
+  void (*poll) (void *snd_context);
   void (*quit) (void *snd_context);
   char *(*repr) (void *snd_context, u_int32_t id);
 }
@@ -100,6 +89,7 @@ extern void lw6snd_set_water_volume (lw6snd_backend_t * backend,
 				     float volume);
 extern void lw6snd_set_music_volume (lw6snd_backend_t * backend,
 				     float volume);
+extern void lw6snd_poll (lw6snd_backend_t * backend);
 extern void lw6snd_quit (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (lw6snd_backend_t * backend);
 

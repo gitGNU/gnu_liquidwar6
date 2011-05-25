@@ -62,6 +62,12 @@ _mod_csound_init (int argc, char *argv[], float fx_volume, float water_volume,
 }
 
 void
+_mod_csound_poll (_mod_csound_context_t * csound_context)
+{
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("csound poll"));
+}
+
+void
 _mod_csound_quit (_mod_csound_context_t * csound_context)
 {
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("csound quit"));

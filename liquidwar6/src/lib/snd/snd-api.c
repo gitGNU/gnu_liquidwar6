@@ -239,6 +239,26 @@ lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
 }
 
 void
+lw6snd_poll (lw6snd_backend_t * backend)
+{
+  LW6SYS_BACKEND_FUNCTION_BEGIN;
+
+  if (backend->poll)
+    {
+      if (backend->snd_context)
+	{
+	  backend->poll (backend->snd_context);
+	}
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+
+  LW6SYS_BACKEND_FUNCTION_END;
+}
+
+void
 lw6snd_quit (lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;

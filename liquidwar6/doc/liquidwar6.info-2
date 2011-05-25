@@ -19,6 +19,1794 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: C to Guile,  Next: Script hooks,  Prev: Advanced settings,  Up: Reference
+
+4.13 C to Guile
+===============
+
+4.13.1 c-gettext
+----------------
+
+ -- C function exported to Guile: `c-gettext'
+     Calls GNU gettext to convert string in current locale. Note that
+     '_' (plain underscode) is exported as well, so that code can be
+     written using '_' as a function.
+
+4.13.2 c-lw6-exit
+-----------------
+
+ -- C function exported to Guile: `c-lw6-exit'
+     ...
+
+4.13.3 c-lw6-release
+--------------------
+
+ -- C function exported to Guile: `c-lw6-release'
+     ...
+
+4.13.4 c-lw6bot-get-backends
+----------------------------
+
+ -- C function exported to Guile: `c-lw6bot-get-backends'
+     ...
+
+4.13.5 c-lw6bot-new
+-------------------
+
+ -- C function exported to Guile: `c-lw6bot-new'
+     ...
+
+4.13.6 c-lw6bot-next-move
+-------------------------
+
+ -- C function exported to Guile: `c-lw6bot-next-move'
+     ...
+
+4.13.7 c-lw6cfg-defaults
+------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-defaults'
+     ...
+
+4.13.8 c-lw6cfg-get-option
+--------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-get-option'
+     ...
+
+4.13.9 c-lw6cfg-init
+--------------------
+
+ -- C function exported to Guile: `c-lw6cfg-init'
+     ...
+
+4.13.10 c-lw6cfg-load
+---------------------
+
+ -- C function exported to Guile: `c-lw6cfg-load'
+     ...
+
+4.13.11 c-lw6cfg-option-exists
+------------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-option-exists'
+     ...
+
+4.13.12 c-lw6cfg-quit
+---------------------
+
+ -- C function exported to Guile: `c-lw6cfg-quit'
+     ...
+
+4.13.13 c-lw6cfg-save
+---------------------
+
+ -- C function exported to Guile: `c-lw6cfg-save'
+     ...
+
+4.13.14 c-lw6cfg-set-option
+---------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-set-option'
+     ...
+
+4.13.15 c-lw6cfg-unified-get-log-file
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-unified-get-log-file'
+     ...
+
+4.13.16 c-lw6cfg-unified-get-map-path
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-unified-get-map-path'
+     ...
+
+4.13.17 c-lw6cfg-unified-get-music-path
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-unified-get-music-path'
+     ...
+
+4.13.18 c-lw6cfg-unified-get-user-dir
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6cfg-unified-get-user-dir'
+     ...
+
+4.13.19 c-lw6cli-get-backends
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6cli-get-backends'
+     ...
+
+4.13.20 c-lw6cns-init
+---------------------
+
+ -- C function exported to Guile: `c-lw6cns-init'
+     ...
+
+4.13.21 c-lw6cns-poll
+---------------------
+
+ -- C function exported to Guile: `c-lw6cns-poll'
+     ...
+
+4.13.22 c-lw6cns-quit
+---------------------
+
+ -- C function exported to Guile: `c-lw6cns-quit'
+     ...
+
+4.13.23 c-lw6cns-support
+------------------------
+
+ -- C function exported to Guile: `c-lw6cns-support'
+     ...
+
+4.13.24 c-lw6dsp-get-average-fps
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-get-average-fps'
+     ...
+
+4.13.25 c-lw6dsp-get-fullscreen-modes
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-get-fullscreen-modes'
+     ...
+
+4.13.26 c-lw6dsp-get-instant-fps
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-get-instant-fps'
+     ...
+
+4.13.27 c-lw6dsp-get-last-frame-rendering-time
+----------------------------------------------
+
+ -- C function exported to Guile:
+`c-lw6dsp-get-last-frame-rendering-time'
+     ...
+
+4.13.28 c-lw6dsp-get-nb-frames
+------------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-get-nb-frames'
+     ...
+
+4.13.29 c-lw6dsp-get-video-mode
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-get-video-mode'
+     ...
+
+4.13.30 c-lw6dsp-new
+--------------------
+
+ -- C function exported to Guile: `c-lw6dsp-new'
+     ...
+
+4.13.31 c-lw6dsp-release
+------------------------
+
+ -- C function exported to Guile: `c-lw6dsp-release'
+     ...
+
+4.13.32 c-lw6dsp-update
+-----------------------
+
+ -- C function exported to Guile: `c-lw6dsp-update'
+     ...
+
+4.13.33 c-lw6gfx-get-backends
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6gfx-get-backends'
+     ...
+
+4.13.34 c-lw6gui-default-look
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6gui-default-look'
+     ...
+
+4.13.35 c-lw6gui-input-reset
+----------------------------
+
+ -- C function exported to Guile: `c-lw6gui-input-reset'
+     ...
+
+4.13.36 c-lw6gui-joystick1-get-move-pad
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-get-move-pad'
+     ...
+
+4.13.37 c-lw6gui-joystick1-pop-button-a
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-a'
+     ...
+
+4.13.38 c-lw6gui-joystick1-pop-button-b
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-b'
+     ...
+
+4.13.39 c-lw6gui-joystick1-pop-button-c
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-c'
+     ...
+
+4.13.40 c-lw6gui-joystick1-pop-button-d
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-d'
+     ...
+
+4.13.41 c-lw6gui-joystick1-pop-button-down
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-down'
+     ...
+
+4.13.42 c-lw6gui-joystick1-pop-button-left
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-left'
+     ...
+
+4.13.43 c-lw6gui-joystick1-pop-button-right
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-right'
+     ...
+
+4.13.44 c-lw6gui-joystick1-pop-button-up
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-up'
+     ...
+
+4.13.45 c-lw6gui-joystick2-get-move-pad
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-get-move-pad'
+     ...
+
+4.13.46 c-lw6gui-joystick2-pop-button-a
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-a'
+     ...
+
+4.13.47 c-lw6gui-joystick2-pop-button-b
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-b'
+     ...
+
+4.13.48 c-lw6gui-joystick2-pop-button-c
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-c'
+     ...
+
+4.13.49 c-lw6gui-joystick2-pop-button-d
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-d'
+     ...
+
+4.13.50 c-lw6gui-joystick2-pop-button-down
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-down'
+     ...
+
+4.13.51 c-lw6gui-joystick2-pop-button-left
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-left'
+     ...
+
+4.13.52 c-lw6gui-joystick2-pop-button-right
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-right'
+     ...
+
+4.13.53 c-lw6gui-joystick2-pop-button-up
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-up'
+     ...
+
+4.13.54 c-lw6gui-keyboard-get-move-pad
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-get-move-pad'
+     ...
+
+4.13.55 c-lw6gui-keyboard-is-pressed
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-is-pressed'
+     ...
+
+4.13.56 c-lw6gui-keyboard-pop-key-down
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-down'
+     ...
+
+4.13.57 c-lw6gui-keyboard-pop-key-enter
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-enter'
+     ...
+
+4.13.58 c-lw6gui-keyboard-pop-key-esc
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-esc'
+     ...
+
+4.13.59 c-lw6gui-keyboard-pop-key-left
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-left'
+     ...
+
+4.13.60 c-lw6gui-keyboard-pop-key-pgdown
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-pgdown'
+     ...
+
+4.13.61 c-lw6gui-keyboard-pop-key-pgup
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-pgup'
+     ...
+
+4.13.62 c-lw6gui-keyboard-pop-key-right
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-right'
+     ...
+
+4.13.63 c-lw6gui-keyboard-pop-key-up
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-up'
+     ...
+
+4.13.64 c-lw6gui-look-get
+-------------------------
+
+ -- C function exported to Guile: `c-lw6gui-look-get'
+     ...
+
+4.13.65 c-lw6gui-look-set
+-------------------------
+
+ -- C function exported to Guile: `c-lw6gui-look-set'
+     ...
+
+4.13.66 c-lw6gui-look-zoom-in
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6gui-look-zoom-in'
+     ...
+
+4.13.67 c-lw6gui-look-zoom-out
+------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-look-zoom-out'
+     ...
+
+4.13.68 c-lw6gui-menu-append
+----------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-append'
+     ...
+
+4.13.69 c-lw6gui-menu-enable-esc
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-enable-esc'
+     ...
+
+4.13.70 c-lw6gui-menu-new
+-------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-new'
+     ...
+
+4.13.71 c-lw6gui-menu-scroll-down
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-scroll-down'
+     ...
+
+4.13.72 c-lw6gui-menu-scroll-up
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-scroll-up'
+     ...
+
+4.13.73 c-lw6gui-menu-select
+----------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-select'
+     ...
+
+4.13.74 c-lw6gui-menu-select-esc
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-select-esc'
+     ...
+
+4.13.75 c-lw6gui-menu-sync
+--------------------------
+
+ -- C function exported to Guile: `c-lw6gui-menu-sync'
+     ...
+
+4.13.76 c-lw6gui-mouse-get-state
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-get-state'
+     ...
+
+4.13.77 c-lw6gui-mouse-poll-move
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-poll-move'
+     ...
+
+4.13.78 c-lw6gui-mouse-pop-button-left
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-pop-button-left'
+     ...
+
+4.13.79 c-lw6gui-mouse-pop-button-right
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-pop-button-right'
+     ...
+
+4.13.80 c-lw6gui-mouse-pop-wheel-down
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-pop-wheel-down'
+     ...
+
+4.13.81 c-lw6gui-mouse-pop-wheel-up
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-mouse-pop-wheel-up'
+     ...
+
+4.13.82 c-lw6hlp-get-default-value
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-get-default-value'
+     ...
+
+4.13.83 c-lw6hlp-list
+---------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list'
+     ...
+
+4.13.84 c-lw6hlp-list-advanced
+------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-advanced'
+     ...
+
+4.13.85 c-lw6hlp-list-aliases
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-aliases'
+     ...
+
+4.13.86 c-lw6hlp-list-doc
+-------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-doc'
+     ...
+
+4.13.87 c-lw6hlp-list-funcs
+---------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-funcs'
+     ...
+
+4.13.88 c-lw6hlp-list-graphics
+------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-graphics'
+     ...
+
+4.13.89 c-lw6hlp-list-hooks
+---------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-hooks'
+     ...
+
+4.13.90 c-lw6hlp-list-input
+---------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-input'
+     ...
+
+4.13.91 c-lw6hlp-list-map
+-------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-map'
+     ...
+
+4.13.92 c-lw6hlp-list-map-hints
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-map-hints'
+     ...
+
+4.13.93 c-lw6hlp-list-map-rules
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-map-rules'
+     ...
+
+4.13.94 c-lw6hlp-list-map-style
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-map-style'
+     ...
+
+4.13.95 c-lw6hlp-list-network
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-network'
+     ...
+
+4.13.96 c-lw6hlp-list-path
+--------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-path'
+     ...
+
+4.13.97 c-lw6hlp-list-players
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-players'
+     ...
+
+4.13.98 c-lw6hlp-list-quick
+---------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-quick'
+     ...
+
+4.13.99 c-lw6hlp-list-show
+--------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-show'
+     ...
+
+4.13.100 c-lw6hlp-list-sound
+----------------------------
+
+ -- C function exported to Guile: `c-lw6hlp-list-sound'
+     ...
+
+4.13.101 c-lw6ker-add-cursor
+----------------------------
+
+ -- C function exported to Guile: `c-lw6ker-add-cursor'
+     ...
+
+4.13.102 c-lw6ker-build-game-state
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-build-game-state'
+     ...
+
+4.13.103 c-lw6ker-build-game-struct
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-build-game-struct'
+     ...
+
+4.13.104 c-lw6ker-cursor-exists
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-cursor-exists'
+     ...
+
+4.13.105 c-lw6ker-do-round
+--------------------------
+
+ -- C function exported to Guile: `c-lw6ker-do-round'
+     ...
+
+4.13.106 c-lw6ker-dup-game-state
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-dup-game-state'
+     ...
+
+4.13.107 c-lw6ker-game-state-checksum
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-game-state-checksum'
+     ...
+
+4.13.108 c-lw6ker-game-struct-checksum
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-game-struct-checksum'
+     ...
+
+4.13.109 c-lw6ker-get-cursor-info
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-get-cursor-info'
+     ...
+
+4.13.110 c-lw6ker-get-moves
+---------------------------
+
+ -- C function exported to Guile: `c-lw6ker-get-moves'
+     ...
+
+4.13.111 c-lw6ker-get-rounds
+----------------------------
+
+ -- C function exported to Guile: `c-lw6ker-get-rounds'
+     ...
+
+4.13.112 c-lw6ker-get-spreads
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6ker-get-spreads'
+     ...
+
+4.13.113 c-lw6ker-is-over
+-------------------------
+
+ -- C function exported to Guile: `c-lw6ker-is-over'
+     ...
+
+4.13.114 c-lw6ker-node-exists
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6ker-node-exists'
+     ...
+
+4.13.115 c-lw6ker-register-node
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-register-node'
+     ...
+
+4.13.116 c-lw6ker-remove-cursor
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-remove-cursor'
+     ...
+
+4.13.117 c-lw6ker-set-cursor
+----------------------------
+
+ -- C function exported to Guile: `c-lw6ker-set-cursor'
+     ...
+
+4.13.118 c-lw6ker-sync-game-state
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-sync-game-state'
+     ...
+
+4.13.119 c-lw6ker-unregister-node
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6ker-unregister-node'
+     ...
+
+4.13.120 c-lw6ldr-get-entries
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6ldr-get-entries'
+     ...
+
+4.13.121 c-lw6ldr-hints-get-default
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6ldr-hints-get-default'
+     ...
+
+4.13.122 c-lw6ldr-print-examples
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6ldr-print-examples'
+     ...
+
+4.13.123 c-lw6ldr-read
+----------------------
+
+ -- C function exported to Guile: `c-lw6ldr-read'
+     ...
+
+4.13.124 c-lw6ldr-read-relative
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6ldr-read-relative'
+     ...
+
+4.13.125 c-lw6map-get-look
+--------------------------
+
+ -- C function exported to Guile: `c-lw6map-get-look'
+     ...
+
+4.13.126 c-lw6map-get-music-dir
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6map-get-music-dir'
+     ...
+
+4.13.127 c-lw6map-rules-get-default
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6map-rules-get-default'
+     ...
+
+4.13.128 c-lw6map-rules-get-int
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6map-rules-get-int'
+     ...
+
+4.13.129 c-lw6map-rules-get-max
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6map-rules-get-max'
+     ...
+
+4.13.130 c-lw6map-rules-get-min
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6map-rules-get-min'
+     ...
+
+4.13.131 c-lw6map-style-get-default
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6map-style-get-default'
+     ...
+
+4.13.132 c-lw6map-team-color-index-to-key
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6map-team-color-index-to-key'
+     ...
+
+4.13.133 c-lw6map-team-color-key-to-index
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6map-team-color-key-to-index'
+     ...
+
+4.13.134 c-lw6net-init
+----------------------
+
+ -- C function exported to Guile: `c-lw6net-init'
+     ...
+
+4.13.135 c-lw6net-quit
+----------------------
+
+ -- C function exported to Guile: `c-lw6net-quit'
+     ...
+
+4.13.136 c-lw6p2p-db-default-name
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-db-default-name'
+     ...
+
+4.13.137 c-lw6p2p-db-new
+------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-db-new'
+     ...
+
+4.13.138 c-lw6p2p-db-reset
+--------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-db-reset'
+     ...
+
+4.13.139 c-lw6p2p-node-close
+----------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-node-close'
+     ...
+
+4.13.140 c-lw6p2p-node-get-id
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-node-get-id'
+     ...
+
+4.13.141 c-lw6p2p-node-new
+--------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-node-new'
+     ...
+
+4.13.142 c-lw6p2p-node-poll
+---------------------------
+
+ -- C function exported to Guile: `c-lw6p2p-node-poll'
+     ...
+
+4.13.143 c-lw6pil-bench
+-----------------------
+
+ -- C function exported to Guile: `c-lw6pil-bench'
+     ...
+
+4.13.144 c-lw6pil-build-pilot
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6pil-build-pilot'
+     ...
+
+4.13.145 c-lw6pil-calibrate
+---------------------------
+
+ -- C function exported to Guile: `c-lw6pil-calibrate'
+     ...
+
+4.13.146 c-lw6pil-commit
+------------------------
+
+ -- C function exported to Guile: `c-lw6pil-commit'
+     ...
+
+4.13.147 c-lw6pil-execute-command
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-execute-command'
+     ...
+
+4.13.148 c-lw6pil-fix-coords
+----------------------------
+
+ -- C function exported to Guile: `c-lw6pil-fix-coords'
+     ...
+
+4.13.149 c-lw6pil-get-last-commit-round
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-get-last-commit-round'
+     ...
+
+4.13.150 c-lw6pil-get-max-round
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-get-max-round'
+     ...
+
+4.13.151 c-lw6pil-get-next-round
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-get-next-round'
+     ...
+
+4.13.152 c-lw6pil-get-reference-current-round
+---------------------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-get-reference-current-round'
+     ...
+
+4.13.153 c-lw6pil-get-reference-target-round
+--------------------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-get-reference-target-round'
+     ...
+
+4.13.154 c-lw6pil-is-over
+-------------------------
+
+ -- C function exported to Guile: `c-lw6pil-is-over'
+     ...
+
+4.13.155 c-lw6pil-local-command
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-local-command'
+     ...
+
+4.13.156 c-lw6pil-local-cursors-set-main
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-local-cursors-set-main'
+     ...
+
+4.13.157 c-lw6pil-local-cursors-set-mouse-controlled
+----------------------------------------------------
+
+ -- C function exported to Guile:
+`c-lw6pil-local-cursors-set-mouse-controlled'
+     ...
+
+4.13.158 c-lw6pil-make-backup
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6pil-make-backup'
+     ...
+
+4.13.159 c-lw6pil-send-command
+------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-send-command'
+     ...
+
+4.13.160 c-lw6pil-slow-down
+---------------------------
+
+ -- C function exported to Guile: `c-lw6pil-slow-down'
+     ...
+
+4.13.161 c-lw6pil-speed-up
+--------------------------
+
+ -- C function exported to Guile: `c-lw6pil-speed-up'
+     ...
+
+4.13.162 c-lw6pil-sync-from-backup
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-sync-from-backup'
+     ...
+
+4.13.163 c-lw6pil-sync-from-draft
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-sync-from-draft'
+     ...
+
+4.13.164 c-lw6pil-sync-from-reference
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6pil-sync-from-reference'
+     ...
+
+4.13.165 c-lw6snd-get-backends
+------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-get-backends'
+     ...
+
+4.13.166 c-lw6snd-is-music-file
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-is-music-file'
+     ...
+
+4.13.167 c-lw6snd-new
+---------------------
+
+ -- C function exported to Guile: `c-lw6snd-new'
+     ...
+
+4.13.168 c-lw6snd-play-fx
+-------------------------
+
+ -- C function exported to Guile: `c-lw6snd-play-fx'
+     ...
+
+4.13.169 c-lw6snd-play-music-file
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-play-music-file'
+     ...
+
+4.13.170 c-lw6snd-play-music-random
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-play-music-random'
+     ...
+
+4.13.171 c-lw6snd-poll
+----------------------
+
+ -- C function exported to Guile: `c-lw6snd-poll'
+     ...
+
+4.13.172 c-lw6snd-release
+-------------------------
+
+ -- C function exported to Guile: `c-lw6snd-release'
+     ...
+
+4.13.173 c-lw6snd-set-fx-volume
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-set-fx-volume'
+     ...
+
+4.13.174 c-lw6snd-set-music-volume
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-set-music-volume'
+     ...
+
+4.13.175 c-lw6snd-stop-music
+----------------------------
+
+ -- C function exported to Guile: `c-lw6snd-stop-music'
+     ...
+
+4.13.176 c-lw6srv-get-backends
+------------------------------
+
+ -- C function exported to Guile: `c-lw6srv-get-backends'
+     ...
+
+4.13.177 c-lw6sys-build-get-bin-id
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-bin-id'
+     ...
+
+4.13.178 c-lw6sys-build-get-cflags
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-cflags'
+     ...
+
+4.13.179 c-lw6sys-build-get-codename
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-codename'
+     ...
+
+4.13.180 c-lw6sys-build-get-configure-args
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-configure-args'
+     ...
+
+4.13.181 c-lw6sys-build-get-copyright
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-copyright'
+     ...
+
+4.13.182 c-lw6sys-build-get-datadir
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-datadir'
+     ...
+
+4.13.183 c-lw6sys-build-get-date
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-date'
+     ...
+
+4.13.184 c-lw6sys-build-get-enable-allinone
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-allinone'
+     ...
+
+4.13.185 c-lw6sys-build-get-enable-console
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-console'
+     ...
+
+4.13.186 c-lw6sys-build-get-enable-fullstatic
+---------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-fullstatic'
+     ...
+
+4.13.187 c-lw6sys-build-get-enable-gcov
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-gcov'
+     ...
+
+4.13.188 c-lw6sys-build-get-enable-gprof
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-gprof'
+     ...
+
+4.13.189 c-lw6sys-build-get-enable-gtk
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-gtk'
+     ...
+
+4.13.190 c-lw6sys-build-get-enable-instrument
+---------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-instrument'
+     ...
+
+4.13.191 c-lw6sys-build-get-enable-mod-csound
+---------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-csound'
+     ...
+
+4.13.192 c-lw6sys-build-get-enable-mod-gl
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-gl'
+     ...
+
+4.13.193 c-lw6sys-build-get-enable-mod-http
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-http'
+     ...
+
+4.13.194 c-lw6sys-build-get-enable-mod-ogg
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-ogg'
+     ...
+
+4.13.195 c-lw6sys-build-get-enable-optimize
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-optimize'
+     ...
+
+4.13.196 c-lw6sys-build-get-enable-paranoid
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-paranoid'
+     ...
+
+4.13.197 c-lw6sys-build-get-enable-profiler
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-profiler'
+     ...
+
+4.13.198 c-lw6sys-build-get-enable-valgrind
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-enable-valgrind'
+     ...
+
+4.13.199 c-lw6sys-build-get-endianness
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-endianness'
+     ...
+
+4.13.200 c-lw6sys-build-get-gcc-version
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-gcc-version'
+     ...
+
+4.13.201 c-lw6sys-build-get-host-cpu
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-host-cpu'
+     ...
+
+4.13.202 c-lw6sys-build-get-host-os
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-host-os'
+     ...
+
+4.13.203 c-lw6sys-build-get-hostname
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-hostname'
+     ...
+
+4.13.204 c-lw6sys-build-get-includedir
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-includedir'
+     ...
+
+4.13.205 c-lw6sys-build-get-ldflags
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-ldflags'
+     ...
+
+4.13.206 c-lw6sys-build-get-libdir
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-libdir'
+     ...
+
+4.13.207 c-lw6sys-build-get-license
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-license'
+     ...
+
+4.13.208 c-lw6sys-build-get-localedir
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-localedir'
+     ...
+
+4.13.209 c-lw6sys-build-get-md5sum
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-md5sum'
+     ...
+
+4.13.210 c-lw6sys-build-get-package-name
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-package-name'
+     ...
+
+4.13.211 c-lw6sys-build-get-package-string
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-package-string'
+     ...
+
+4.13.212 c-lw6sys-build-get-package-tarname
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-package-tarname'
+     ...
+
+4.13.213 c-lw6sys-build-get-pointer-size
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-pointer-size'
+     ...
+
+4.13.214 c-lw6sys-build-get-prefix
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-prefix'
+     ...
+
+4.13.215 c-lw6sys-build-get-stamp
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-stamp'
+     ...
+
+4.13.216 c-lw6sys-build-get-time
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-time'
+     ...
+
+4.13.217 c-lw6sys-build-get-top-srcdir
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-top-srcdir'
+     ...
+
+4.13.218 c-lw6sys-build-get-url
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-url'
+     ...
+
+4.13.219 c-lw6sys-build-get-version
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-get-version'
+     ...
+
+4.13.220 c-lw6sys-build-is-gp2x
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-is-gp2x'
+     ...
+
+4.13.221 c-lw6sys-build-is-mac-os-x
+-----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-is-mac-os-x'
+     ...
+
+4.13.222 c-lw6sys-build-is-ms-windows
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-is-ms-windows'
+     ...
+
+4.13.223 c-lw6sys-build-is-x86
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-build-is-x86'
+     ...
+
+4.13.224 c-lw6sys-debug-get
+---------------------------
+
+ -- C function exported to Guile: `c-lw6sys-debug-get'
+     ...
+
+4.13.225 c-lw6sys-debug-set
+---------------------------
+
+ -- C function exported to Guile: `c-lw6sys-debug-set'
+     ...
+
+4.13.226 c-lw6sys-delay
+-----------------------
+
+ -- C function exported to Guile: `c-lw6sys-delay'
+     ...
+
+4.13.227 c-lw6sys-dump
+----------------------
+
+ -- C function exported to Guile: `c-lw6sys-dump'
+     ...
+
+4.13.228 c-lw6sys-dump-clear
+----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-dump-clear'
+     ...
+
+4.13.229 c-lw6sys-generate-id-16
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-generate-id-16'
+     ...
+
+4.13.230 c-lw6sys-generate-id-32
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-generate-id-32'
+     ...
+
+4.13.231 c-lw6sys-generate-id-64
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-generate-id-64'
+     ...
+
+4.13.232 c-lw6sys-get-config-file
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-config-file'
+     ...
+
+4.13.233 c-lw6sys-get-cwd
+-------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-cwd'
+     ...
+
+4.13.234 c-lw6sys-get-cycle
+---------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-cycle'
+     ...
+
+4.13.235 c-lw6sys-get-data-dir
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-data-dir'
+     ...
+
+4.13.236 c-lw6sys-get-default-config-file
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-config-file'
+     ...
+
+4.13.237 c-lw6sys-get-default-data-dir
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-data-dir'
+     ...
+
+4.13.238 c-lw6sys-get-default-log-file
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-log-file'
+     ...
+
+4.13.239 c-lw6sys-get-default-map-dir
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-map-dir'
+     ...
+
+4.13.240 c-lw6sys-get-default-map-path
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-map-path'
+     ...
+
+4.13.241 c-lw6sys-get-default-mod-dir
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-mod-dir'
+     ...
+
+4.13.242 c-lw6sys-get-default-music-dir
+---------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-music-dir'
+     ...
+
+4.13.243 c-lw6sys-get-default-music-path
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-music-path'
+     ...
+
+4.13.244 c-lw6sys-get-default-prefix
+------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-prefix'
+     ...
+
+4.13.245 c-lw6sys-get-default-script-file
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-script-file'
+     ...
+
+4.13.246 c-lw6sys-get-default-user-dir
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-default-user-dir'
+     ...
+
+4.13.247 c-lw6sys-get-hostname
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-hostname'
+     ...
+
+4.13.248 c-lw6sys-get-log-file
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-log-file'
+     ...
+
+4.13.249 c-lw6sys-get-map-dir
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-map-dir'
+     ...
+
+4.13.250 c-lw6sys-get-map-path
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-map-path'
+     ...
+
+4.13.251 c-lw6sys-get-mod-dir
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-mod-dir'
+     ...
+
+4.13.252 c-lw6sys-get-music-dir
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-music-dir'
+     ...
+
+4.13.253 c-lw6sys-get-music-path
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-music-path'
+     ...
+
+4.13.254 c-lw6sys-get-prefix
+----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-prefix'
+     ...
+
+4.13.255 c-lw6sys-get-run-dir
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-run-dir'
+     ...
+
+4.13.256 c-lw6sys-get-script-file
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-script-file'
+     ...
+
+4.13.257 c-lw6sys-get-timestamp
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-timestamp'
+     ...
+
+4.13.258 c-lw6sys-get-uptime
+----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-uptime'
+     ...
+
+4.13.259 c-lw6sys-get-user-dir
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-user-dir'
+     ...
+
+4.13.260 c-lw6sys-get-username
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-get-username'
+     ...
+
+4.13.261 c-lw6sys-getenv
+------------------------
+
+ -- C function exported to Guile: `c-lw6sys-getenv'
+     ...
+
+4.13.262 c-lw6sys-getenv-prefixed
+---------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-getenv-prefixed'
+     ...
+
+4.13.263 c-lw6sys-idle
+----------------------
+
+ -- C function exported to Guile: `c-lw6sys-idle'
+     ...
+
+4.13.264 c-lw6sys-log
+---------------------
+
+ -- C function exported to Guile: `c-lw6sys-log'
+     ...
+
+4.13.265 c-lw6sys-log-get-level
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-log-get-level'
+     ...
+
+4.13.266 c-lw6sys-log-set-level
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-log-set-level'
+     ...
+
+4.13.267 c-lw6sys-path-concat
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-path-concat'
+     ...
+
+4.13.268 c-lw6sys-path-parent
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-path-parent'
+     ...
+
+4.13.269 c-lw6sys-path-split
+----------------------------
+
+ -- C function exported to Guile: `c-lw6sys-path-split'
+     ...
+
+4.13.270 c-lw6sys-set-memory-bazooka-eraser
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-eraser'
+     ...
+
+4.13.271 c-lw6sys-set-memory-bazooka-size
+-----------------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-size'
+     ...
+
+4.13.272 c-lw6sys-signal-custom
+-------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-signal-custom'
+     ...
+
+4.13.273 c-lw6sys-signal-default
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-signal-default'
+     ...
+
+4.13.274 c-lw6sys-signal-poll-quit
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-signal-poll-quit'
+     ...
+
+4.13.275 c-lw6sys-signal-send-quit
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-signal-send-quit'
+     ...
+
+4.13.276 c-lw6sys-sleep
+-----------------------
+
+ -- C function exported to Guile: `c-lw6sys-sleep'
+     ...
+
+4.13.277 c-lw6sys-snooze
+------------------------
+
+ -- C function exported to Guile: `c-lw6sys-snooze'
+     ...
+
+4.13.278 c-lw6sys-url-canonize
+------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-url-canonize'
+     ...
+
+4.13.279 c-lw6tsk-loader-get-stage
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6tsk-loader-get-stage'
+     ...
+
+4.13.280 c-lw6tsk-loader-new
+----------------------------
+
+ -- C function exported to Guile: `c-lw6tsk-loader-new'
+     ...
+
+4.13.281 c-lw6tsk-loader-pop
+----------------------------
+
+ -- C function exported to Guile: `c-lw6tsk-loader-pop'
+     ...
+
+4.13.282 c-lw6tsk-loader-push
+-----------------------------
+
+ -- C function exported to Guile: `c-lw6tsk-loader-push'
+     ...
+
+
+File: liquidwar6.info,  Node: Script hooks,  Prev: C to Guile,  Up: Reference
+
+4.14 Script hooks
+=================
+
+
+File: liquidwar6.info,  Node: C API,  Prev: Reference,  Up: Top
+
+5 C API
+*******
+
+This chapter contains a description of all modules and a list of all
+documented C functions in the program. It contains many references and
+is self-generated from C comments using gdoc
+(http://josefsson.org/gdoc/) by Simon Josefsson (http://josefsson.org/).
+
+   In order to reduce the number of pages of printed output, this
+complete reference is, by default, disabled in printable versions of
+the documentation (PostScript, PDF).  This is both to make the manual
+more readable and to avoid wasting paper.  Think about the environment.
+
+   It is however available in the HTML version of the documentation,
+which you can read online on
+`http://www.gnu.org/software/liquidwar6/manual/html_node/'.
+
+   Additionnally, the following adresses contain various view on the
+source code, giving informations on all the internal and public C
+interfaces:
+
+   * `http://www.gnu.org/software/liquidwar6/coverage/': the lcov
+     (http://ltp.sourceforge.net/coverage/lcov.php) output when running
+     `./liquidwar6 --test'.  It shows what functions are actually
+     tested, and how many times they are called.
+
+   * `http://www.gnu.org/software/liquidwar6/global/': the GNU global
+     (http://www.gnu.org/software/global/) output gives complete
+     cross-references, macros, headers, contants declaration. It's a
+     very good place to start browsing the code.
+
+   * `http://www.gnu.org/software/liquidwar6/cyclo/': the pmccabe
+     (http://parisc-linux.org/~bame/pmccabe/) output shows the
+     cyclomatic complexity of functions. It enables the programmer to
+     spots the "ugly" and dangerous parts of the program.
+
+* Menu:
+
+* libliquidwar6::       Top-level functions.
+* libbot::              Bot algorithms.
+* mod-idiot::           Basic idiot bot.
+* mod-random::          Totally random bot.
+* libcfg::              Loading and saving config files.
+* libcli::              Network clients.
+* mod-http::            Web client.
+* mod-tcp::             Tcp client using native protocol.
+* mod-udp::             Udp client using native protocol.
+* libcns::              Console handling.
+* libcnx::              Connection common code.
+* libdat::              Storing network data.
+* libdef::              Keywords definitions.
+* libdsp::              Threaded display.
+* libdyn::              Dynamic module loading.
+* libgfx::              Graphics.
+* mod-gl::              Main 3D graphics backend.
+* libglb::              Gnulib embedded routines.
+* libgui::              GUI utilities.
+* libhlp::              Built-in help system.
+* libimg::              Generating screenshots.
+* libker::              Main kernel module (core algorithm).
+* libldr::              Loading maps.
+* libmap::              Map, AKA levels.
+* libmsg::              Network messages.
+* libnet::              Low-level network routines.
+* libnod::              Manipulating node data.
+* libp2p::              A la peer to peer network system.
+* libpil::              Dealing with game lag.
+* libsnd::              Sound.
+* mod-csound::          Csound sound backend (vaporware).
+* mod-ogg::             Ogg/libSDL default sound backend.
+* libsrv::              Network servers.
+* mod-httpd::           Embedded web server.
+* mod-tcpd::            Tcp server using native protocol.
+* mod-udpd::            Udp server using native protocol.
+* libsys::              Low-level system utilities.
+* libtsk::              Asynchronous loading.
+
+
 File: liquidwar6.info,  Node: libliquidwar6,  Next: libbot,  Up: C API
 
 5.1 libliquidwar6
@@ -4640,3891 +6428,4 @@ results on
 
 5.36.2 API
 ----------
-
-
-File: liquidwar6.info,  Node: libsys,  Next: libtsk,  Prev: mod-udpd,  Up: C API
-
-5.37 libsys
-===========
-
-5.37.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html'.
-
-5.37.2 API
-----------
-
- -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
-     KEYWORD:  the option to match, without the prefix "-" or "-"
-
-     ARGV_STRING:  the argv value, for instance argv[1]
-
-     This is an utility function which allow the program to handle
-     options in a uniform manner. Key comparison is insensitive, that
-     is, -option and -OPTION are equivalent. Besides, -option and
-     -OPTION are equivalent too. Liquid War 6 documentation mentions
-     options in lowercase with a double dash (-option) by default, but
-     it's a fact, the program supports variants. This is just for
-     convenience, the philosophy behind this behavior is "be as
-     permissive as possible when interpreting input, and as strict as
-     possible when generating output". In fact, it's even said that
-     Liquid War 6 will accept the argument without any prefix dash as
-     being valid... This is to say running "liquidwar6 -option" is the
-     same as running "liquidwar6 option". But, this is a secret 8-)
-
-     *Return value:*  non zero if it matches, 0 if it doesn't.
-
- -- Function: int lw6sys_arg_exists (int ARGC, char * [] ARGV, char *
-          KEYWORD)
-     ARGC:  the number of arguments, as passed to `main'
-
-     ARGV:  an array of arguments, as passed to `main'
-
-     KEYWORD:  the keyword to match
-
-     Parses all command-line arguments, searching for one precise
-     "-key[=...]" entry.
-
-     *Return value:*  1 if key is present, 0 if not.
-
- -- Function: char * lw6sys_arg_get_value (int ARGC, char * [] ARGV,
-          char * KEYWORD)
-     ARGC:  the number of arguments, as passed to `main'
-
-     ARGV:  an array of arguments, as passed to `main'
-
-     KEYWORD:  the keyword to match
-
-     Parses all command-line arguments, searching for one precise
-     "-key=value" pair, and returns the value.
-
-     *Return value:*  a pointer to the value. May be NULL. Must be
-     freed.
-
- -- Function: char * lw6sys_arg_get_value_with_env (int ARGC, char * []
-          ARGV, char * KEYWORD)
-     ARGC:  the number of arguments, as passed to `main'
-
-     ARGV:  an array of arguments, as passed to `main'
-
-     KEYWORD:  the keyword to match
-
-     Parses all command-line arguments, searching for one precise
-     "-key=value" pair, and returns the value.  If a corresponding
-     environment variable is available, but no command-line parameter
-     was passed, the environment variable is intepreted. Such
-     environment variables are uppercased, prefixed by "LW6_" and "_"
-     replaces "-". The environment variable will be overriden if the
-     command-line parameter is present.
-
-     *Return value:*  a pointer to the value. May be NULL. Must be
-     freed.
-
- -- Function: int lw6sys_arg_test_mode (int ARGC, char * [] ARGV)
-     ARGC:  argc as passed to main
-
-     ARGV:  argv as passed to main
-
-     Chooses between the two test modes "check" or "test". Check (value
-     0) is a lighter test which should never fail even if some special
-     hardware or environment is missing. Test (value 1) is a more
-     complete test which does things which *can* require some special
-     conditions.  Function will log and be verbose is syntax is not
-     correct.
-
-     *Return value:*  1 if complete test must be run, 0 is only check
-
- -- Function: lw6sys_assoc_t * lw6sys_assoc_new (lw6sys_free_func_t
-          FREE_FUNC)
-     FREE_FUNC:  optional callback used to free memory when stored date
-     is a pointer. Can be NULL when one stores non dynamically
-     allocated data, such as an integer or a static array.
-
-     Creates an empty assoc. There's a difference between NULL and an
-     empty assoc. The empty assoc would (in Scheme) be '() whereas NULL
-     corresponds to undefined "is not a assoc and will generate errors
-     if you ever call assoc functions on it". Such created assoc are
-     not performant hash tables but slowish "strcmp me for each key"
-     associative arrays, the key being a "char *" string and the value
-     a "void *" pointer.
-
-     *Return value:*  a pointer to the newly allocated associative
-     array. Must be freed with `lw6sys_assoc_free'.
-
- -- Function: void lw6sys_assoc_free (lw6sys_assoc_t * ASSOC)
-     ASSOC:  the assoc to be freed.
-
-     The function will cascade  delete all elements, using (if not
-     NULL...)  the callback passed when first creating the assoc.
-
-     *Return value:*  void
-
- -- Function: int lw6sys_assoc_has_key (lw6sys_assoc_t * ASSOC, char *
-          KEY)
-     ASSOC:  the assoc to test
-
-     KEY:  the key to search
-
-     Not a very fast function, since on a "big" assoc, strcmp will be
-     called internally until the key is found.
-
-     *Return value:*  non-zero if there's an entry with the
-     corresponding key.
-
- -- Function: void * lw6sys_assoc_get (lw6sys_assoc_t * ASSOC, char *
-          KEY)
-     ASSOC:  the assoc to query
-
-     KEY:  the key of which we want the value
-
-     *Return value:*  a void pointer to the data contained in the
-     assoc. Note that the pointer on the actual data is returned, that
-     is, if it's static data, you must not try to free it... As long as
-     memory management is concerned, destroying the assoc will actually
-     free the data if needed.
-
- -- Function: void lw6sys_assoc_set (lw6sys_assoc_t ** ASSOC, char *
-          KEY, void * VALUE)
-     ASSOC:  the assoc to modify
-
-     KEY:  the key we want to updated
-
-     VALUE:  the new value
-
-     Sets a value in an associative array. The key pointer need not be
-     persistent, it can be freed after affectation. In fact a new
-     string will be created internally. This is not true for the value,
-     it's hard to find way to copy "any object".  So if you want an
-     associative array of strings, key can disappear after calling this
-     function, but not value. The function passed as free_func when
-     creating the assoc will be used to free stuff whenever needed
-     (unset or free).
-
-     *Return value:*  void
-
- -- Function: void lw6sys_assoc_unset (lw6sys_assoc_t * ASSOC, char *
-          KEY)
-     ASSOC:  the assoc concerned
-
-     KEY:  the key to unset
-
-     Clears an entry in an associative array. The callback passed when
-     creating the assoc will be called if needed, to free the data
-     automatically.
-
-     *Return value:*  void
-
- -- Function: lw6sys_list_t * lw6sys_assoc_keys (lw6sys_assoc_t * ASSOC)
-     ASSOC:  the assoc to work on
-
-     Returns a list containing all the keys of the assoc. The list must
-     be free with lw6sys_list_free by the caller.  This list copies all
-     the keys of the assoc, so it is safe to use it once the assoc is
-     deleted. However the keys will of course be of little interest in
-     this case.  But the program won't segfault.
-
-     *Return value:*  the list of keys.
-
- -- Function: void lw6sys_assoc_map (lw6sys_assoc_t * ASSOC,
-          lw6sys_assoc_callback_func_t FUNC, void * FUNC_DATA)
-     ASSOC:  the assoc to work on
-
-     FUNC:  a callback to call on each entry
-
-     FUNC_DATA:  a pointer on some data which will be passed to the
-     callback
-
-     Executes a function on all assoc items.  The func_data parameter
-     allows you to pass extra values to the function, such as a file
-     handler or any variable which can not be inferred from list item
-     values, and you of course do not want to make global...
-
-     *Return value:*  void
-
- -- Function: void lw6sys_assoc_sort_and_map (lw6sys_assoc_t * ASSOC,
-          lw6sys_assoc_callback_func_t FUNC, void * FUNC_DATA)
-     ASSOC:  the assoc to work on
-
-     FUNC:  a callback to call on each entry, may be NULL
-
-     FUNC_DATA:  a pointer on some data which will be passed to the
-     callback
-
-     Executes a function on all assoc items, like
-     `lw6sys_assoc_sort_and_map' but befor doing so, sorts all entries
-     in alphabetical order.
-
-     *Return value:*  void
-
- -- Function: lw6sys_assoc_t * lw6sys_assoc_dup (lw6sys_assoc_t *
-          ASSOC, lw6sys_dup_func_t DUP_FUNC)
-     ASSOC:  the assoc to duplicate, can be NULL
-
-     DUP_FUNC:  the function which will be called to duplicate data
-
-     Duplicates an assoc. All keys will be copied so that if the first
-     assoc is deleted, the duplicated one is fine. Additionnaly,
-     dup_func will be called with all data fields. If dup_func is NULL,
-     then data values will simply be copied. This is likely to be
-     usefull when data is not dynamically allocated.
-
-     *Returned value:*  a newly allocated assoc.
-
- -- Function: int lw6sys_default_memory_bazooka ()
-     Will set up a default memory bazooka, a slow yet convenient tool
-     to track down and hopefully kill memory leaks.  Named bazooka
-     after a night wasted to track down an unfoundable leak...
-     BAZOOOOOOKA!!!
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: void lw6sys_clear_memory_bazooka ()
-     Clears the memory bazooka.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_set_memory_bazooka_size (int SIZE)
-     SIZE:  number of items (calls to malloc) to keep
-
-     Resizes, the memory bazooka. What's this? It's an inelegant yet
-     efficient tool to track down memory leak. Memory bazooka will keep
-     track of every call to malloc, keeping a trace of what has been
-     malloced, where it has been called (from which file, which line),
-     how much memory was allocated, it will even show you what's at the
-     address in a 0-terminated string-friendly fashion. Of course this
-     slows down the program, so in production, you might set this to 0,
-     but for debugging, a million bazooka is worth the megabytes and
-     CPU cycles it wastes.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: int lw6sys_get_memory_bazooka_size ()
-     The companion of `lw6sys_set_memory_bazooka_size'. This function
-     will return how many calls to malloc can be traced. A return value
-     of 0 indicates that feature is disabled.
-
-     *Return value:*  size of the bazooka array.
-
- -- Function: int lw6sys_set_memory_bazooka_eraser (int STATE)
-     STATE:  the state of the eraser
-
-     Sets the memory bazooka eraser state. Note that to really work, it
-     requires the memory bazooka to be "big enough".
-
-     *Return value:*  1 if activated, 0 if not. Note that the main
-     reason for it not to be activated is if the memory bazooka has
-     zero size.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_count ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     how many times `malloc' has been called.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_free_count ()
-     Provided you have always called the `LW6SYS_FREE' macro to free
-     memory, this function will tell you how many times `free' has been
-     called.
-
-     *Return value:*  the number of calls to `lw6sys_free' since
-     program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_current_count ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     the current number of pointer returned by `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC', currently alive on the heap.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_max_count ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     the maximum of pointers returned by `malloc' that were present at
-     the same time on the heap.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_megabytes ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     how many bytes `malloc' has reserved.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_free_megabytes ()
-     Provided you have always called the `LW6SYS_FREE' macro to free
-     memory, this function will tell you how many bytes `free' has
-     freed.
-
-     *Return value:*  the number of calls to `lw6sys_free' since
-     program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_current_bytes ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     the current number of bytes returned by `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC', currently alive on the heap.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_get_memory_bazooka_malloc_max_bytes ()
-     Provided you have always called the `LW6SYS_MALLOC' an
-     `LW6SYS_CALLOC' to allocate memory, this function will tell you
-     the maximum bytes returned by `malloc' that were present at the
-     same time on the heap.
-
-     *Return value:*  the number of calls to `lw6sys_malloc' or
-     `lw6sys_calloc' since program was started.
-
- -- Function: int lw6sys_is_memory_bazooka_trustable ()
-     Returns true if memory bazooka data are perfectly trustable, that
-     is, it has never been resetted or resized.
-
-     *Return value:*  1 if trustable, 0 if not.
-
- -- Function: int lw6sys_memory_bazooka_report ()
-     Reports memory bazooka diagnostics on the console. Carefull, this
-     one is not reentrant, call at the end of your program when all
-     threads are joined.
-
-     *Return value:*  1 if no allocated stuff left, 0 if there are
-     still malloc'ed stuff
-
- -- Function: char * lw6sys_build_get_package_tarname ()
-     Returns the name of the package. This is the `PACKAGE_TARNAME'
-     constant defined by the GNU Autoconf ./configure script. While
-     it's always possible to use the defined constant directly, using
-     this function will return the value defined when compiling the
-     binary, not the one you're using when compiling another program
-     relying on Liquid War as a library.
-
-     *Return value:*  a non-NULL string "liquidwar6", must not be freed.
-
- -- Function: char * lw6sys_build_get_package_name ()
-     Returns the name of the package, in a user friendly form, which can
-     include spaces, for instance. This is the `PACKAGE_NAME' constant
-     defined by the GNU Autoconf ./configure script. While it's always
-     possible to use the defined constant directly, using this function
-     will return the value defined when compiling the binary, not the
-     one you're using when compiling another program relying on Liquid
-     War as a library.
-
-     *Return value:*  a non-NULL string "Liquid War 6", must not be
-     freed.
-
- -- Function: char * lw6sys_build_get_package_string ()
-     Returns the description of the package. This is the
-     `PACKAGE_STRING' constant defined by the GNU Autoconf ./configure
-     script. It's the concatenation of `PACKAGE_NAME' and `VERSION'.
-     While it's always possible to use the defined constant directly,
-     using this function will return the value defined when compiling
-     the binary, not the one you're using when compiling another
-     program relying on Liquid War as a library.
-
-     *Return value:*  a non-NULL string "Liquid War 6 <version>", must
-     not be freed.
-
- -- Function: char * lw6sys_build_get_version ()
-     Returns the version of the program. This is the `VERSION' constant
-     defined by the GNU Autoconf ./configure script. Same as
-     `PACKAGE_VERSION'.  Note that while using a function to get
-     `PACKAGE_TARNAME' might seem useless, having both ways to get the
-     version, that is, a function and a constant, is very usefull.
-     Think, for instance, that a dynamically loaded shared library
-     might need to check its own version against the version of the
-     core program.
-
-     *Return value:*  a non-NULL string, which must not be freed.
-
- -- Function: char * lw6sys_build_get_codename ()
-     Returns the the program codename. This is the little name of the
-     version. It's been decided that all LW6 releases would take the
-     name of a famous general, warrior, whatever. For instance, it could
-     be "Napoleon".
-
-     *Return value:*  a non-NULL string, traditionnally the name of a
-     famous general, someone which has been involved in war. Must not
-     be freed (I mean, the string, not the general).
-
- -- Function: char * lw6sys_build_get_stamp ()
-     Returns the program stamp. This is like a serial number. It's is
-     not the same as the version. The version is meant to be set to
-     something readable. This is just a cryptic thing, incremented at
-     each ./configure or each developper's "I feel like it needs to be
-     incremented". The idea is just to keep (one more...) track of
-     which source code is build.  Ideally, this would be plugged to the
-     source revision control system but this has some drawbacks,
-     including that it would require it to modify files before
-     commiting them, which is not safe, and almost impossible if you
-     sign archives. One more point: this is a string. It's true the
-     return value is actually a string containing the representation of
-     an integer, but because all other build parameters are strings, and
-     because we don't know what the future reserves, it's a string.
-
-     *Return value:*  a non-NULL string like "42", which must not be
-     freed.
-
- -- Function: char * lw6sys_build_get_md5sum ()
-     Returns an md5 checkum which is caculated from C (.c and .h) source
-     files. This is complementary with the build stamp. By default the
-     stamp will be enough to check what has been compiled, but one can
-     always imagine a case where Bob compiles something a little
-     different than Alice, with the same stamp, incremented by 1 from a
-     common source tree. They apply their own patches, for instance.
-     This md5sum double-checks that two binaries have been built from
-     the same sources. Note that this is not the md5 checksum of the
-     generated binary. Nor does it include any information about scheme
-     scripts and data.
-
-     *Return value:*  a non-NULL string, which must not be freed.
-
- -- Function: char * lw6sys_build_get_copyright ()
-     Returns a (very) short copyright information about the program.
-
-     *Return value:*  a non-NULL string, single line whithout '\n' at
-     the end.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_license ()
-     Returns the license for the program (GNU GPL v3 or later).
-
-     *Return value:*  a non-NULL string, single line whithout '\n' at
-     the end.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_url ()
-     Returns the URL of the game, its homepage.
-
-     *Return value:*  a non-NULL string, single line whithout '\n' at
-     the end.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_configure_args ()
-     Returns the arguments passed to the GNU Autoconf ./configure
-     script when buildling the game. Very usefull to know how the
-     binary was generated, that is, what kind of optimizations are
-     peculiar settings it uses.
-
-     *Return value:*  a non-NULL string, which, passed to ./configure
-     again, would hopefully generate the same binary. Must not be freed.
-
- -- Function: char * lw6sys_build_get_gcc_version ()
-     Returns __VERSION__ GCC preprocessor value, that is, the human
-     readable version of the compiler.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_cflags ()
-     Returns the arguments which would allow another program to use
-     liquidwar6 as a library. Typically, pass this to gcc when
-     compiling your sources. Basically contains "-I" switches which
-     tell where the headers are.
-
-     *Return value:*  a non-NULL string, which must not be freed.
-
- -- Function: char * lw6sys_build_get_ldflags ()
-     Returns the arguments which would allow another program to link
-     against liquidwar6. Pass this to gcc or libtool when compiling
-     your program. Basically contains a "-L" option which says where
-     the library is. Note that this will only allow you to link against
-     the main libliquidwar6 library, but not the dynamically loaded
-     modules.
-
-     *Return value:*  a non-NULL string, which must not be freed.
-
- -- Function: char * lw6sys_build_get_hostname ()
-     Returns the value return by the standard shell `hostname' command
-     on the machine where the game has been built. Usefull to track
-     binaries and know where do they come from.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_date ()
-     Returns the compilation date. While this information can easily be
-     obtained with the C `__DATE__' macro, having this function is
-     convenient for it returns a value which is the same for the whole
-     program, and does not possibly change in every file.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_time ()
-     Returns the compilation date. While this information can easily be
-     obtained with the C `__TIME__' macro, having this function is
-     convenient for it returns a value which is the same for the whole
-     program, and does not possibly change in every file.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_host_cpu ()
-     Returns the CPU this program is designed for. Convenient on i386
-     compatible CPUs to know which flavor (i386, i586...) the binary is
-     made for.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_endianness ()
-     Returns the endianness of the computer.
-
-     *Return value:*  'little' (x86-like) or 'big' (ppc-like), as a
-     string.  Must not be freed.
-
- -- Function: int lw6sys_build_get_pointer_size ()
-     Returns the system pointer size, in bytes.
-
-     *Return value:*  4 for 32-bit, 8 for 64-bit.
-
- -- Function: int lw6sys_build_is_x86 ()
-     Tells wether CPU belongs to x86 family or not.
-
-     *Return value:*  1 if x86, 0 if not
-
- -- Function: char * lw6sys_build_get_host_os ()
-     Returns the OS this program is designed for. Usefull for bug
-     reports.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: int lw6sys_build_is_ms_windows ()
-     Tells wether the program was compiled for Microsoft Windows, or
-     not.
-
-     *Return value:*  1 if compiled on windows, 0 if not
-
- -- Function: int lw6sys_build_is_mac_os_x ()
-     Tells wether the program was compiled for Mac OS X, or not.
-
-     *Return value:*  1 if compiled on OS X, 0 if not
-
- -- Function: int lw6sys_build_is_gp2x ()
-     Tells wether the program was compiled for GP2X, or not.
-
-     *Return value:*  1 if compiled on OS X, 0 if not
-
- -- Function: char * lw6sys_build_get_top_srcdir ()
-     Returns the top source directory, when the game was built. This can
-     seem useless and non relevant on the end-user's machine, but...
-     it's a must-have for developpers and packagers. Without this,
-     binaries would never find their associated data, especially when
-     building outside the source tree. Or, testing the game would be
-     impossible without installing it, given the fact that most of the
-     code is in scripts that are stored in /usr/local by default, this
-     would be painfull. So this function is here to help finding data
-     within the source tree when the game is not installed yet. Note
-     that the function is rather clever, since it will automatically
-     try to remove useless '../' sequences at the beginning of a
-     possibly relative path.
-
-     *Return value:*  a non-NULL string, must not be freed.
-
- -- Function: char * lw6sys_build_get_prefix ()
-     Returns the `prefix' value as given to the GNU Autoconf
-     ./configure script.  Used to deduce the path to other directories
-     and files.
-
-     *Return value:*  a non-NULL string, "/usr/local" by default.  Must
-     not be freed.
-
- -- Function: char * lw6sys_build_get_datadir ()
-     Returns the `datadir' value defined by the GNU Autoconf
-     ./configure script.  This is not the value which can be overriden
-     by the Liquid War 6 specific.  "-data-dir" option. `datadir' is
-     usually something like "/usr/local/share" while the actual Liquid
-     War 6 defined data dir is a more profound path which includes the
-     name of the package, its version, and so on.
-
-     *Return value:*  a non-NULL string, "/usr/local/share" by default.
-     Must not be freed.
-
- -- Function: char * lw6sys_build_get_libdir ()
-     Returns the `libdir' value defined by the GNU Autoconf ./configure
-     script.  This is not the value which can be overriden by the
-     Liquid War 6 specific.  "-mod-dir" option. `libdir' is usually
-     something like "/usr/local/lib" while the actual Liquid War 6
-     defined module dir is a more profound path which includes the name
-     of the package, its version, and so on.
-
-     *Return value:*  a non-NULL string, "/usr/local/lib" by default.
-     Must not be freed.
-
- -- Function: char * lw6sys_build_get_includedir ()
-     Returns the `includedir' value defined by the GNU Autoconf
-     ./configure script.  As for other options, it's interesting to
-     have this value, this enables the program to inform people who
-     want to hack the game of the place headers are supposed to be
-     installed.
-
-     *Return value:*  a non-NULL string, "/usr/local/include" by
-     default.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_localedir ()
-     Returns the `localedir' value defined by the GNU Autoconf
-     ./configure script.  Used as an argument for gettext / libintl
-     functions.
-
-     *Return value:*  a non-NULL string, "/usr/local/share/locale" by
-     default.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_docdir ()
-     Returns the `docdir' value defined by the GNU Autoconf ./configure
-     script.  Used to write consistent XML file headers.
-
-     *Return value:*  a non-NULL string,
-     "/usr/local/share/doc/liquidwar6" by default.  Must not be freed.
-
- -- Function: char * lw6sys_build_get_enable_console ()
-     Tells wether console is enabled or not.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_gtk ()
-     Tells wether gtk is enabled or not.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_mod_gl ()
-     Tells wether the graphical mod-gl backend was compiled.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_mod_csound ()
-     Tells wether the audio mod-csound backend was compiled.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_mod_ogg ()
-     Tells wether the audio mod-ogg backend was compiled.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_mod_http ()
-     Tells wether the network mod-http backend was compiled.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_optimize ()
-     Tells wether the game was compiled in optimize mode.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_allinone ()
-     Tells wether the game was compiled in allinone mode.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_fullstatic ()
-     Tells wether the game was compiled in fullstatic mode.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_paranoid ()
-     Tells wether the game was compiled with paranoid memory management.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_gprof ()
-     Tells wether the game was compiled with suitable informations for
-     gprof.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_instrument ()
-     Tells wether the game was compiled with the
-     '-finstrument-fonctions' GCC flag.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_profiler ()
-     Tells wether the game was compiled for later use with Google
-     Profiler support.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_gcov ()
-     Tells wether the game was compiled with suitable informations for
-     gcov.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: char * lw6sys_build_get_enable_valgrind ()
-     Tells wether the game was compiled for later use with valgrind.
-
-     *Return value:*  "yes" or "no", must no be freed.
-
- -- Function: int lw6sys_build_get_bin_id ()
-     Returns the internal bin-id value, which does not mean anything
-     but changes at each build.
-
-     *Return value:*  an integer
-
- -- Function: void lw6sys_build_log_all ()
-     Dumps in the log file the whole program pedigree, host, modules,
-     that is, what are the values of all the build options.  Usefull
-     for bug reports.
-
-     *Return value:*  none.
-
- -- Function: u_int32_t lw6sys_checksum (unsigned char * DATA, int LEN)
-     DATA:  the data to process
-
-     LEN:  the length, in bytes, of the data to process
-
-     Creates a checksum from a byte array. This could be mapped on any
-     standard CRC-32 and/or MD5 algorithm, but licence issues for those
-     are such a headache that for the sake of simplicity, it's wrapped
-     here. In LW6 context, we do not really really fear any attack for
-     these checksums are used internally to track bugs and check, for
-     instance, that two game states are actually the same on two
-     distant computers in a network game.  Data encryption and security
-     of network links is another debate.  Additionnally, this function
-     returns an integer, easier to handle in standard C than any
-     malloc'ed stuff.
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: u_int32_t lw6sys_checksum_str (char * VALUE)
-     VALUE:  the string to process
-
-     Creates a checksum from a string. This is a convenience function
-     to save the programmer the hassle of calling strlen before any
-     checksum calculation.
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: u_int32_t lw6sys_checksum_int32 (u_int32_t VALUE)
-     VALUE:  the integer to process
-
-     Creates a checksum from an integer. This is a convenience function
-     to save the programmer the hassle of passing a pointer to the
-     integer with the size of it each time there's a checksum to do.
-     Additionnally, with this one you can pass an int8 or an int16, and
-     function will work just the same indenpendantly of endianness.
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: u_int32_t lw6sys_checksum_int64 (u_int64_t VALUE)
-     VALUE:  the integer to process
-
-     Creates a checksum from an integer. This is a convenience function
-     to save the programmer the hassle of passing a pointer to the
-     integer with the size of it each time there's a checksum to do.
-     This function handles 64-bit long long integers..
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: u_int32_t lw6sys_checksum_whd (lw6sys_whd_t * WHD)
-     WHD:  a pointer to the wh struct to be processed
-
-     Creates a checksum from the given structure. Convenience function
-     to save the hassle of passing a pointer to and the size of the
-     `lw6sys_wh_t' struct each time, knowing that there are very often
-     checksums calculated on it. Also avoids endianess issues.
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: u_int32_t lw6sys_checksum_xyz (lw6sys_xyz_t * XYZ)
-     XYZ:  a pointer to the xy struct to be processed
-
-     Creates a checksum from the given structure. Convenience function
-     to save the hassle of passing a pointer to and the size of the
-     `lw6sys_xy_t' struct each time, knowing that there are very often
-     checksums calculated on it. Also avoids endianess issues.
-
-     *Return value:*  the checksum, as an integer.
-
- -- Function: void lw6sys_checksum_update (u_int32_t * CHECKSUM,
-          unsigned char * DATA, int LEN)
-     CHECKSUM:  a pointer to the previous checksum
-
-     DATA:  the data to process
-
-     LEN:  the length, in bytes, of the data to process
-
-     Creates a checksum from the given data. The difference with
-     `lw6sys_checksum' is that this one updates an existing checksum,
-     thus enabling the programmer to call it sequentially and get a
-     global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_checksum_update_str (u_int32_t * CHECKSUM,
-          char * VALUE)
-     CHECKSUM:  a pointer to the previous checksum
-
-     VALUE:  the string to process
-
-     Creates a checksum from the given string. The difference with
-     `lw6sys_checksum_str' is that this one updates an existing
-     checksum, thus enabling the programmer to call it sequentially and
-     get a global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_checksum_update_int32 (u_int32_t * CHECKSUM,
-          int32_t VALUE)
-     CHECKSUM:  a pointer to the previous checksum
-
-     VALUE:  the integer to process
-
-     Creates a checksum from the given integer. The difference with
-     `lw6sys_checksum_int32' is that this one updates an existing
-     checksum, thus enabling the programmer to call it sequentially and
-     get a global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_checksum_update_int64 (u_int32_t * CHECKSUM,
-          int64_t VALUE)
-     CHECKSUM:  a pointer to the previous checksum
-
-     VALUE:  the integer to process
-
-     Creates a checksum from the given integer. The difference with
-     `lw6sys_checksum_int64' is that this one updates an existing
-     checksum, thus enabling the programmer to call it sequentially and
-     get a global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_checksum_update_whd (u_int32_t * CHECKSUM,
-          lw6sys_whd_t * WHD)
-     CHECKSUM:  a pointer to the previous checksum
-
-     WHD:  a pointer to the wh struct to be processed
-
-     Creates a checksum from the given structure. The difference with
-     `lw6sys_checksum_whd' is that this one updates an existing
-     checksum, thus enabling the programmer to call it sequentially and
-     get a global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_checksum_update_xyz (u_int32_t * CHECKSUM,
-          lw6sys_xyz_t * XYZ)
-     CHECKSUM:  a pointer to the previous checksum
-
-     XYZ:  a pointer to the xy struct to be processed
-
-     Creates a checksum from the given structure. The difference with
-     `lw6sys_checksum_xyz' is that this one updates an existing
-     checksum, thus enabling the programmer to call it sequentially and
-     get a global checksum on different sources.
-
-     *Return value:*  none.
-
- -- Function: u_int8_t lw6sys_color_float2char (float F)
-     F:  the value to convert, from 0.0f to 1.0f
-
-     Converts a floating point value between 0.0f and 1.0f to its 8-bit
-     equivalent between 0 and 255. Usefull in color conversion.
-
-     *Return value:*  an integer between 0 and 255.
-
- -- Function: float lw6sys_color_char2float (u_int8_t I)
-     I:  the value to convert, from 0 to 255
-
-     Converts an 8-bit value between 0 and 255 to its floating-point
-     equivalent between 0.0f and 1.0f. Usefull in color conversion.
-
-     *Return value:*  a float between 0.0f and 1.0f.
-
- -- Function: lw6sys_color_8_t lw6sys_color_f_to_8 (lw6sys_color_f_t *
-          COLOR_F)
-     COLOR_F:  the color to convert
-
-     Converts a color from floating point format to the integer "0 to
-     255" common format.  All fields (RGBA) are converted.
-
-     *Return value:*  the color in 8-bit format.
-
- -- Function: void lw6sys_color_8_to_f (lw6sys_color_f_t * COLOR_F,
-          lw6sys_color_8_t COLOR_8)
-     COLOR_F:  the converted color (pointer must point to writable
-     memory)
-
-     COLOR_8:  the color to convert
-
-     Converts a color from the integer "0 to 255" common format to
-     floating point format.  All fields (RGBA) are converted.
-
-     *Return value:*  none.
-
- -- Function: u_int32_t lw6sys_color_f_to_i (lw6sys_color_f_t * COLOR_F)
-     COLOR_F:  the color to convert
-
-     Converts a color from floating point format to a single integer,
-     where all fields (RGBA) are serialized. This serialization is
-     endianess independant. Could be used directly by low-level
-     libraries such as SDL.
-
-     *Return value:*  the color serialized in an integer.
-
- -- Function: u_int32_t lw6sys_color_8_to_i (lw6sys_color_8_t COLOR_8)
-     COLOR_8:  the color to convert
-
-     Converts a color from common "0 to 255" structured format to a
-     single integer, where all fields (RGBA) are serialized. This
-     serialization is endianess independant. Could be used directly by
-     low-level libraries such as SDL.
-
-     *Return value:*  the color serialized in an integer.
-
- -- Function: void lw6sys_color_i_to_f (lw6sys_color_f_t * COLOR_F,
-          u_int32_t COLOR_I)
-     COLOR_F:  the converted color (point must point to writable memory)
-
-     COLOR_I:  the color to convert
-
-     Converts a color from a serialized integer format to a floating
-     point structure.
-
-     *Return value:*  none.
-
- -- Function: lw6sys_color_8_t lw6sys_color_i_to_8 (u_int32_t COLOR_I)
-     COLOR_I:  the color to convert
-
-     Converts a color from a serialized integer format to a "0 to 255"
-     based structure.
-
-     *Return value:*  the converted color (structure).
-
- -- Function: lw6sys_color_8_t lw6sys_color_a_to_8 (char * ASCII)
-     ASCII:  the color to convert
-
-     Converts a color from a human readable string to a "0 to 255"
-     based structure. The string must be of the form "#RRGGBBAA" or
-     "#RGB", in a general manner any HTML-valid value should work.
-
-     *Return value:*  the converted color (structure).
-
- -- Function: void lw6sys_color_a_to_f (lw6sys_color_f_t * COLOR_F,
-          char * ASCII)
-     COLOR_F:  the converted color (pointer must point to writable
-     memory)
-
-     ASCII:  the color to convert
-
-     Converts a color from a human readable string to a float based
-     structure. The string must be of the form "#RRGGBBAA" or "#RGB",
-     in a general manner any HTML-valid value should work.
-
-     *Return value:*  none.
-
- -- Function: char * lw6sys_color_8_to_a (lw6sys_color_8_t COLOR_8)
-     COLOR_8:  the color to convert
-
-     Converts a color from a "0 - 255" integer based structure to its
-     readable form "#RRGGBBAA". If alpha is 255 (0xFF), that is, if
-     it's opaque, then the "AA" part is ommitted.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: void lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t *
-          COLOR_HSV, lw6sys_color_8_t COLOR_8)
-     COLOR_HSV:  the target color, in HSV format
-
-     COLOR_8:  the source color, in RGB 256 format
-
-     Converts from HSV to RGB. Usefull for color manipulation, since
-     most colors are stored in RGB but HSV is convenient for
-     transformation. Alpha layer is kept as is.
-
-     *Return value:*  none.
-
- -- Function: lw6sys_color_8_t lw6sys_color_hsv_to_rgb
-          (lw6sys_color_hsv_t * COLOR_HSV)
-     COLOR_HSV:  the source color, in HSV format
-
-     Converts from RGB to HSV. Usefull to make colors transformed in HSV
-     format usable again by all display routines, which consume RGB.
-     Alpha layer is kept as is.
-
-     *Return value:*  the RGB color.
-
- -- Function: lw6sys_color_8_t lw6sys_color_average (int SIZE,
-          lw6sys_color_8_t * COLORS)
-     SIZE:  number of the color array (number of items)
-
-     COLORS:  the colors to compute
-
-     Tries to find out the "average" color from an array of colors.
-     The algorithm is far from perfect, but should output a color which
-     reflects the colors passed in.
-
-     *Return value:*  the (inexact) average color.
-
- -- Function: lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_color_8_t
-          COLOR1, lw6sys_color_8_t COLOR2, float COEFF)
-     COLOR1:  first color
-
-     COLOR2:  second color
-
-     COEFF:  the ponderation coefficient
-
-     Tries to find a color between the two colors passed as an argument.
-     The coefficient can be used, to set the relative weight of each
-     color.  Using 0 will return color1, 1 will return color2 and 0.5
-     will make an average between the two colors. Any value between 0
-     and 1 can be used.
-
-     *Return value:*  the (inexact) ponderated color.
-
- -- Function: float lw6sys_color_distance (lw6sys_color_8_t COLOR1,
-          lw6sys_color_8_t COLOR2)
-     COLOR1:  first color
-
-     COLOR2:  second color
-
-     Calculates the distance between two colors. The unit is arbitrary,
-     a big value means "colors are different", 0 means they are the
-     same. A distance of 1 corresponds to colors which have barely
-     anything in common, but the result can still be greater than 1.
-     Alpha layer is not taken in account.
-
-     *Return value:*  the distance.
-
- -- Function: int lw6sys_color_is_same (lw6sys_color_8_t COLOR1,
-          lw6sys_color_8_t COLOR2)
-     COLOR1:  the first color to compare
-
-     COLOR2:  the second color to compare
-
-     Compares two colors.
-
-     *Return value:*  1 if they are the same, 0 if not.
-
- -- Function: void lw6sys_color_8_solid (lw6sys_color_8_t * COLOR)
-     color: the color to modify
-
-     Make a color "solid" that is make it not transparent at all.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_color_f_solid (lw6sys_color_f_t * COLOR)
-     color: the color to modify
-
-     Make a color "solid" that is make it not transparent at all.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_atoi (char * STR)
-     STR:  string to convert
-
-     Just a plain wrapper on `atoi', it's here for API consistency.
-
-     *Return value:*  an integer.
-
- -- Function: int lw6sys_atob (char * STR)
-     STR:  string to convert
-
-     Transform a string into a boolean value. Accepts "0"/"1" in input,
-     but also y/n, yes/no, true/false, on/off.
-
-     *Return value:*  an integer, 0 or 1.
-
- -- Function: float lw6sys_atof (char * STR)
-     STR:  string to convert
-
-     A wrapper on `atof', makes sure the locale used is C (default) and
-     won't change the decimal separator whatsoever. Usefull for
-     serialization for instance.
-
-     *Return value:*  a float.
-
- -- Function: char * lw6sys_itoa (int VALUE)
-     VALUE:  the integer to convert
-
-     Converts an integer to a string, the advantage of this function is
-     it allocates memory, and does the dirty job.
-
-     *Return value:*  a newly allocated pointer, must be freed, may be
-     NULL.
-
- -- Function: char * lw6sys_btoa (int VALUE)
-     VALUE:  the boolean to convert
-
-     Converts a boolean to a string, the advantage of this function is
-     it allocates memory, and does the dirty job.
-
-     *Return value:*  a newly allocated pointer, must be freed, may be
-     NULL.
-
- -- Function: char * lw6sys_ftoa (float VALUE)
-     VALUE:  the float to convert
-
-     Converts a float to a string, the advantage of this function is it
-     allocates memory, and does the dirty job.
-
-     *Return value:*  a newly allocated pointer, must be freed, may be
-     NULL.
-
- -- Function: char * lw6sys_daemon_pid_file (int ARGC, char * [] ARGV)
-     ARGC:  argc as passed to `main'
-
-     ARGV:  argv as passed to `main'
-
-     Get the default pid file, used to lock daemon and avoid 2 daemons
-     running at the same time.
-
-     *Return value:*  newly allocated string
-
- -- Function: int lw6sys_daemon_start (char * PID_FILE)
-     PID_FILE:  the pid file used for the daemon
-
-     Calls `fork'() internally to put the process in the program, make
-     it a daemon. Note this won't work on all platforms, for instance
-     it won't work on MS-Windows but this is rarely an issue as
-     MS-Windows users are rarely concerned with detaching a program
-     from a tty. Note that this isn't a wrapper on `fork'(), the return
-     value is different, 1 on success, 0 if failed.
-
-     *Return value:*  a process ID on success, 0 on failure.
-
- -- Function: int lw6sys_daemon_stop (char * PID_FILE)
-     PID_FILE:  the pid file used for the daemon
-
-     Removes the daemon pid file. Can be called safely even if daemon
-     wasn't started.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6sys_debug_get ()
-     Gets the debug mode.
-
- -- Function: void lw6sys_debug_set (int MODE)
-     MODE:  the debug mode, 1 if set, 0 if not.
-
-     Sets the debug mode.
-
- -- Function: void lw6sys_dump_clear (char * USER_DIR)
-     USER_DIR:  the user directory, where user can write data.
-
-     Clears the dump file. That is, resets it to a "0 byte" file.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_dump (char * USER_DIR, char * CONTENT)
-     USER_DIR:  the user directory, where user can write data.
-
-     CONTENT:  the content to be written in the dump file.
-
-     Writes the dump file onto the disk. The dump is used for special
-     error messages which do not really fit in the standard log, and
-     require a special treatment. In pratice, it's used to log fatal
-     script (Guile) errors.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: char lw6sys_env_separator_char ()
-     Gets the ENV separator, that is, for instance, the character used
-     to separate paths in environment variables. Typically, this would
-     be ":" on GNU and ";" on Microsft platforms.
-
-     *Return value:*  the ascii character code.
-
- -- Function: char * lw6sys_env_separator_str ()
-     Gets the ENV separator, that is, for instance, the character used
-     to separate paths in environment variables. Typically, this would
-     be ":" on GNU and ";" on Microsft platforms.
-
-     *Return value:*  a pointer to a single 0-terminated character
-     string which contains the character. Must not be freed.
-
- -- Function: char * lw6sys_env_concat (char * VALUE1, char * VALUE2)
-     VALUE1:  the left part to be concatenated
-
-     VALUE2:  the right part to be concatenated
-
-     Concatenates two values and puts the ENV separator, as returned by
-     `lw6sys_env_separator_char' between them.
-
-     *Return value:*  the concatenated string, must be freed.
-
- -- Function: int lw6sys_env_exists_prefixed (char * KEYWORD)
-     KEYWORD:  the keyword to be searched in the environment variables.
-
-     Searches environment variables for the given keyword. The keyword
-     will be fixed so that all dashes "-" characters are replaced by
-     underscores "_" characters. Characters will be changed to
-     uppercase. Any non alphanumeric character will be replaced by "_".
-     Finally, an "LW6_" prefix will be added. That is to say, calling
-     this function with "my-param" will search for the "LW6_MY_PARAM"
-     environment variable.
-
-     *Return value:*  1 if the environment variable exists, 0 if not.
-
- -- Function: char * lw6sys_getenv (char * KEY)
-     KEY:  the environment variable to get.
-
-     Searches environment variables for the given value.  This is a
-     wrapper over the standard C getenv, the difference is it will
-     return a dynamically allocated pointer, and on some platforms will
-     query specific OS functions.
-
-     *Return value:*  the value for the given keyword. May be NULL.
-     Must be freed.
-
- -- Function: char * lw6sys_getenv_prefixed (char * KEYWORD)
-     KEYWORD:  the keyword to be searched in the environment variables.
-
-     Searches environment variables for the given value. The keyword
-     will be fixed so that all dashes "-" characters are replaced by
-     underscores "_" characters. Characters will be changed to
-     uppercase. Any non alphanumeric character will be replaced by "_".
-     Finally, an "LW6_" prefix will be added. That is to say, calling
-     this function with "my-param" will search for the "LW6_MY_PARAM"
-     environment variable.
-
-     *Return value:*  the value for the given keyword. May be NULL.
-     Must be freed.
-
- -- Function: int lw6sys_setenv (char * KEYWORD, char * VALUE)
-     KEYWORD:  the environment variable to set
-
-     VALUE:  the value of the environment variable to set
-
-     Sets the environment variable to a given value. If value is NULL,
-     variable is unset. Note that unlike lw6sys_getenv_prefixed, this
-     function does not transform the keyword into "LW6_..."  before
-     setting the value, so it's your responsability to call
-     "lw6sys_keyword_as_env" if needed.
-
-     *Return value:*  1 if success, 0 if failed
-
- -- Function: int lw6sys_setenv_prefixed (char * KEYWORD, char * VALUE)
-     KEYWORD:  the keyword to be searched in the environment variables.
-
-     VALUE:  the value of the environment variable to set
-
-     Sets the environment variable to the given value. The keyword will
-     be fixed so that all dashes "-" characters are replaced by
-     underscores "_" characters. Characters will be changed to
-     uppercase. Any non alphanumeric character will be replaced by "_".
-     Finally, an "LW6_" prefix will be added. That is to say, calling
-     this function with "my-param" will set the "LW6_MY_PARAM"
-     environment variable.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: lw6sys_list_t * lw6sys_env_split (char * VALUE)
-     VALUE:  the value, a list of item separated by... the separator
-
-     Splits the environment value into a list of strings containing
-     each element. All strings are dynamically allocated, but they will
-     be freed automatically when the list is freed.
-
-     *Return value:*  a list of strings.
-
- -- Function: char * lw6sys_get_home ()
-     Gets the home directory of the user. Used internally to calculate
-     the `user'-dir value. Note that Liquid War 6, by default, never
-     stores files under '$HOME', instead it put things in
-     '$HOME/.liquidwar6', that is 'user-dir'. If the environment
-     variable 'HOME' is not set, will return '.'.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_get_username ()
-     Gets the name of the current user. Difference with the standard
-     function `getlogin' is that this function will returned a
-     dynamically allocated pointer, and provide a default value if it's
-     undefined.  Also, if will look at the content of the 'LOGNAME'
-     environment variable if needed, and will even provide a default
-     value.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_get_hostname ()
-     Gets the name of the current host. The name of the computer.
-     Might not work perfectly, this function is just used to provide
-     default values for player names and such things.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_escape_http_uri (char * SRC)
-     SRC:  the string to escape
-
-     Transforms a string so that it does not contain any non-valid URL
-     chars, it will mostly convert chars over 128 into their XY form
-     where XY is the hexadecimal code. Note that this function is non
-     really standard compliant for it won't encode '%' but keep it the
-     same. This is to allow using it several times on the same string
-     and avoid double-triple encoding of '%'. In practice it's not
-     recommended to have public_url for nodes with '%' in them, and the
-     program will never generate such url when guessing urls.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6sys_escape_html_attribute (char * SRC)
-     SRC:  the string to escape
-
-     Transforms a string so that it can fit in a html field, this is
-     typically for alt="" or title="" fields so it will convert " into
-     `quot';.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6sys_escape_sql_value (char * SRC)
-     SRC:  the string to escape
-
-     Transforms a string so that it can fit as an SQL parameter, it
-     will get rid URL chars, it will mostly convert chars over 128 into
-     their XY form where XY is the hexadecimal code.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6sys_exec_find_myself (int ARGC, char * [] ARGV)
-     ARGC:  number of args as passed to main
-
-     ARGV:  array of args as passed to main
-
-     Finds the path of the program currently run, this is typically to
-     pass it to `lw6sys_exec_again' and run it again.
-
-     *Return value:*  the path (newly allocated string).
-
- -- Function: int lw6sys_is_executed_again (int ARGC, char * [] ARGV)
-     ARGC:  number of args as passed to main
-
-     ARGV:  array of args as passed to main
-
-     Tells wether the program is already executed by itself by
-     `lw6sys_exec_again' function. Based on environment and command
-     switches.
-
-     *Return value:*  1 if executed again, 0 if not.
-
- -- Function: int lw6sys_exec_again (int ARGC, char * [] ARGV)
-     ARGC:  number of args as passed to main
-
-     ARGV:  array of args as passed to main
-
-     Runs the program from itsef, that is fires a new program (the same
-     running) and ends up the current one. This is used to fix some
-     environment variable issues. If LW6_EXECUTED_AGAIN (environment
-     variable) is set, will not run the program so this is not really
-     like `exec' as in the C standard library, this function will
-     actually return and be successfull even if no other process was
-     started. It's just designed to bootstrap/launch the process once.
-
-     *Return value:*  1 on success, 0 on failure (always fail)
-
- -- Function: int lw6sys_exec_restart (int ARGC, char * [] ARGV)
-     ARGC:  number of args as passed to main
-
-     ARGV:  array of args as passed to main
-
-     Restart the program with exactly the same arguments it was given
-     the first time.
-
-     *Return value:*  1 on success, 0 on failure (always fail)
-
- -- Function: int lw6sys_clear_file (char * FILENAME)
-     FILENAME:  absolute or relative filename
-
-     Clears a file, that is, make it a 0 byte file, empty, ready to be
-     filled if needed. If this function is called successfully, program
-     can reasonnably assume file will be writable during its execution.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: char * lw6sys_read_file_content (char * FILENAME)
-     FILENAME:  absolute or relative filename
-
-     Reads the content of a file, and returns it as a string.  Note
-     that content might or might not be ascii or binary, the function
-     will however put a tailing 0 character at the end so that
-     low-level standard C functions do not segfault when used with the
-     returned value.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: void * lw6sys_read_file_content_bin (int * FILESIZE, char
-          * FILENAME)
-     FILESIZE:  will contain the file size, in bytes
-
-     FILENAME:  absolute or relative filename
-
-     Reads the content of a file, and returns it as a binary buffer.
-     Even if not ascii or binary, the function will however put a
-     tailing 0 character at the end so that low-level standard C
-     functions do not segfault when used with the returned value. This
-     0 character is not included in `filesize' so if there are 4 bytes
-     in the file the 5 bytes will be allocated, this is just for string
-     functions not to explode if called by accident. The `filesize' can
-     be NULL, in that case function is just like the
-     `lw6sys_read_file_content' function.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: int lw6sys_write_file_content (char * FILENAME, char *
-          CONTENT)
-     FILENAME:  absolute or relative filename
-
-     CONTENT:  the content to be written.
-
-     Writes the content into the file. Content is assumed to be a
-     string, function will segfault if it's not correctly 0 terminated
-     as in C string convention. So this function will not allow you to
-     write down arbitrary binary data, however LW6 uses mostly text
-     files to store information, and opaque binary data usage is not
-     recommended.
-
- -- Function: lw6sys_hash_t * lw6sys_hash_new (lw6sys_free_func_t
-          FREE_FUNC, int SIZE)
-     FREE_FUNC:  optional callback used to free memory when stored date
-     is a pointer. Can be NULL when one stores non dynamically
-     allocated data, such as an integer or a static array.
-
-     SIZE:  the estimated size of the hash table. Note that this is an
-     estimation only. You could theorically fit 1000000 objects in a
-     3-sized hash. Problem -> this is inefficient, you'd better use an
-     assoc or a bigger hash. If you store 3 elements in a 1000000-sized
-     hash, you'll waste memory. It might be wise to use a prime number
-     as the estimated size. 421 is prime ;)
-
-     Creates an empty hash. There's a difference between NULL and an
-     empty hash.
-
-     *Return value:*  a pointer to the newly allocated hash table.
-     Must be freed with `lw6sys_hash_free'.
-
- -- Function: void lw6sys_hash_free (lw6sys_hash_t * HASH)
-     HASH:  the hash to be freed.
-
-     The function will cascade  delete all elements, using (if not
-     NULL...)  the callback passed when first creating the hash.
-
-     *Return value:*  void
-
- -- Function: int lw6sys_hash_has_key (lw6sys_hash_t * HASH, char * KEY)
-     HASH:  the hash to test
-
-     KEY:  the key to search
-
-     Not a very fast function, since on a "big" hash, strcmp will be
-     called internally until the key is found.
-
-     *Return value:*  non-zero if there's an entry with the
-     corresponding key.
-
- -- Function: void * lw6sys_hash_get (lw6sys_hash_t * HASH, char * KEY)
-     HASH:  the hash to query
-
-     KEY:  the key of which we want the value
-
-     *Return value:*  a void pointer to the data contained in the hash.
-     Note that the pointer on the actual data is returned, that is, if
-     it's static data, you must not try to free it... As long as memory
-     management is concerned, destroying the hash will actually free
-     the data if needed.
-
- -- Function: void lw6sys_hash_set (lw6sys_hash_t * HASH, char * KEY,
-          void * VALUE)
-     HASH:  the hash to modify
-
-     KEY:  the key we want to updated
-
-     VALUE:  the new value
-
-     Sets a value in a hash table. The key pointer need not be
-     persistent, it can be freed after affectation. In fact a new
-     string will be created internally. This is not true for the value,
-     it's hard to find way to copy "any object".  So if you want a hash
-     table of strings, key can disappear after calling this function,
-     but not value. The function passed as free_func when creating the
-     hash will be used to free stuff whenever needed (unset or free).
-
-     *Return value:*  void
-
- -- Function: void lw6sys_hash_unset (lw6sys_hash_t * HASH, char * KEY)
-     HASH:  the hash concerned
-
-     KEY:  the key to unset
-
-     Clears an entry in a hash table. The callback passed when creating
-     the hash will be called if needed, to free the data automatically.
-
-     *Return value:*  void
-
- -- Function: lw6sys_list_t * lw6sys_hash_keys (lw6sys_hash_t * HASH)
-     HASH:  the hash to work on
-
-     Returns a list containing all the keys of the hash. The list must
-     be free with lw6sys_list_free by the caller.  This list copies all
-     the keys of the hash, so it is safe to use it once the hash is
-     deleted. However the keys will of course be of little interest in
-     this case.  But the program won't segfault.
-
-     *Return value:*  the list of keys.
-
- -- Function: void lw6sys_hash_map (lw6sys_hash_t * HASH,
-          lw6sys_assoc_callback_func_t FUNC, void * FUNC_DATA)
-     HASH:  the hash to work on
-
-     FUNC:  a callback to call on each entry
-
-     FUNC_DATA:  a pointer on some data which will be passed to the
-     callback
-
-     Executes a function on all hash items.  The func_data parameter
-     allows you to pass extra values to the function, such as a file
-     handler or any variable which can not be inferred from list item
-     values, and you of course do not want to make global...
-
-     *Return value:*  void
-
- -- Function: void lw6sys_hash_sort_and_map (lw6sys_hash_t * HASH,
-          lw6sys_assoc_callback_func_t FUNC, void * FUNC_DATA)
-     HASH:  the hash to work on
-
-     FUNC:  a callback to call on each entry, may be NULL
-
-     FUNC_DATA:  a pointer on some data which will be passed to the
-     callback
-
-     Executes a function on all hash items, like
-     `lw6sys_hash_sort_and_map' but befor doing so, sorts all entries
-     in alphabetical order.
-
-     *Return value:*  void
-
- -- Function: lw6sys_hash_t * lw6sys_hash_dup (lw6sys_hash_t * HASH,
-          lw6sys_dup_func_t DUP_FUNC)
-     HASH:  the hash to duplicate, can be NULL
-
-     DUP_FUNC:  the function which will be called to duplicate data
-
-     Duplicates an hash. All keys will be copied so that if the first
-     hash is deleted, the duplicated one is fine. Additionnaly, dup_func
-     will be called with all data fields. If dup_func is NULL, then data
-     values will simply be copied. This is likely to be usefull when
-     data is not dynamically allocated.
-
-     *Returned value:*  a newly allocated hash.
-
- -- Function: lw6sys_hexa_serializer_t * lw6sys_hexa_serializer_new
-          (char * HEXA_STRING)
-     HEXA_STRING:  an initialization string, can be NULL.
-
-     Creates an hexa serializer object. It can be initialized or not,
-     if an initialization string is provided it must of course be valid
-     hexadecimal ascii code, and all serialized content will simply be
-     appended to it.
-
-     *Return value:*  a newly allocated object.
-
- -- Function: void lw6sys_hexa_serializer_free
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     Frees an hexa serializer object.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_hexa_serializer_rewind
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     Rewinds the serializer pointer, that is, make it point to start.
-     Usefull before calling pop functions, when one wants to be sure to
-     get the first object.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_hexa_serializer_eof (lw6sys_hexa_serializer_t
-          * HEXA_SERIALIZER)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     Tests wether we're at EOF. Usefull when one wants to know if
-     there's still some data or if all objects have been correctly
-     popped.
-
-     *Return value:*  1 if at end of file, 0 if not.
-
- -- Function: char * lw6sys_hexa_serializer_as_string
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     Exports the current content of the serializer as a string.  String
-     can then safely be sent on the network, for instance.  String is
-     copied from internal value, so it's safe to use it after
-     serializer has been freed or modified.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: int lw6sys_hexa_serializer_push_int64
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int64_t VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a 64 bit integer in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_int32
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int32_t VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a 32 bit integer in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_int16
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int16_t VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a 16 bit integer in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_int8
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int8_t VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes an 8 bit integer in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_float
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, float VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a floating point value in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_str
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, char * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a string in the serializer object. Note that the string is
-     not directly copied in the serializer, instead all its characters
-     are converted to their ASCII equivalent, then appended.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_xyz
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_xyz_t
-          VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a lw6sys_xyz_t structure in the serializer object.  Calling
-     this avoids calling push for 2 integers separately.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_whd
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_whd_t
-          VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a lw6sys_whd_t structure in the serializer object.  Calling
-     this avoids calling push for 2 integers separately.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_push_color
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_color_8_t
-          VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to push
-
-     Pushes a color structure in the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_int64
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int64_t * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a 64 bit integer from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_int32
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int32_t * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a 32 bit integer from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_int16
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int16_t * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a 16 bit integer from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_int8
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, int8_t * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops an 8 bit integer from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_float
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, float * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a floating point value from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_str
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, char ** VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a string from the serializer object. The returned value is a
-     newly allocated pointer, which must be freed, you don't need to
-     provide a buffer, just a valid pointer on a NULL pointer.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_xyz
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_xyz_t *
-          VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a lw6sys_xyz_t structure from the serializer object.  Avoids
-     calling two integer pops.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_whd
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_whd_t *
-          VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a lw6sys_whd_t structure from the serializer object.  Avoids
-     calling two integer pops.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_serializer_pop_color
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, lw6sys_color_8_t
-          * VALUE)
-     HEXA_SERIALIZER:  an hexa serializer object
-
-     VALUE:  value to pop (returned value)
-
-     Pops a color from the serializer object.
-
-     *Return value:*  1 if success, 0 if failure
-
- -- Function: int lw6sys_hexa_str_to_buf (void * BUF, int SIZE, char *
-          STR)
-     BUF:  binary buffer to convert
-
-     SIZE:  binary buffer length
-
-     STR:  the source string
-
-     Converts the stringified hexa representation of a string to its
-     source binary buffer. Buffer must be exactly `strlen'(str)/2
-
-     *Return value:*  1 on success
-
- -- Function: char * lw6sys_hexa_buf_to_str (void * BUF, int SIZE)
-     BUF:  the buffer to stringify
-
-     SIZE:  the length of the buffer
-
-     Transforms a binary buffer into its hexa representation.
-
-     *Return value:*  newly allocated string.
-
- -- Function: void * lw6sys_hexa_str_to_ptr (char * STR)
-     STR:  the string containing an hexa representation of pointer
-
-     Transforms a string into a pointer, this is typically used to
-     store pointers in temporary agnostic storage such as a database.
-     Beware not to use that to exchange data with other computers
-     and/or use it for persistent data. This is a high-risk function as
-     it lets you do real dirty stuff but it really does save time
-     compared to using a key returned by the database engine and then
-     search this key in a user-space hash table. Direct pointer access
-     is definitely faster.
-
-     *Return value:*  the pointer, or NULL is str is invalid.
-
- -- Function: char * lw6sys_hexa_ptr_to_str (void * PTR)
-     PTR:  pointer to convert into string representation
-
-     Transforms a pointer into a string, this is typically used to
-     store pointers in temporary agnostic storage such as a database.
-     Beware not to use that to exchange data with other computers
-     and/or use it for persistent data. This is a high-risk function as
-     it lets you do real dirty stuff but it really does save time
-     compared to using a key returned by the database engine and then
-     search this key in a user-space hash table. Direct pointer access
-     is definitely faster.
-
-     *Return value:*  the string, can be NULL on errror, must be freed.
-
- -- Function: void lw6sys_history_init ()
-     Initializes the history system. Not initializing won't cause any
-     segfault, but data will be inconsistent.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_history_register (char * MSG)
-     MSG:  the message to register.
-
-     Registers a message in the history log, that is, adds it.
-
-     *Return value:*  none.
-
- -- Function: char_ptr_t * lw6sys_history_get (int64_t TIMEOUT)
-     TIMEOUT:  the message age limit.
-
-     Get all the messages that are younger than timeout (in seconds).
-
-     *Return value:*  a pointer on string pointers. May be NULL. Last
-     pointer is NULL too, that's how you know the array is over.
-
- -- Function: void lw6sys_history_free (char ** HISTORY)
-     HISTORY:  the data to free
-
-     Frees a pointer returned by `lw6sys_history_get'.
-
-     *Return value:*  none.
-
- -- Function: char * lw6sys_locale_to_utf8 (char * STRING)
-     STRING:  the string to convert
-
-     Used to force strings into UTF-8 mode, this is basically to match
-     the TTF font settings used when displaying stuff on OpenGL.
-     Indeed, in this case, the standard _ gettext function won't work,
-     we need to force UTF-8 mode. If the locale is UTF-8, then function
-     does nothing, but at least it's transparent usage won't hurt.
-
-     *Returned value:*  a newly allocated string, always in UTF-8 no
-     matter what the locale is.
-
- -- Function: u_int16_t lw6sys_generate_id_16 ()
-     Long 16-bit ID generator, calls the random function internally.
-     As usual, those are not perfect random numbers, however the
-     function implementation emphasizes more on 'real randomness'
-     rather than relying on performance. Generating twice the same
-     number should be fairly rare.
-
- -- Function: u_int32_t lw6sys_generate_id_32 ()
-     Long 32-bit ID generator, calls the random function internally.
-     As usual, those are not perfect random numbers, however the
-     function implementation emphasizes more on 'real randomness'
-     rather than relying on performance. Generating twice the same
-     number should be fairly rare.
-
- -- Function: u_int64_t lw6sys_generate_id_64 ()
-     Long 64-bit ID generator, calls the random function internally.
-     As usual, those are not perfect random numbers, however the
-     function implementation emphasizes more on 'real randomness'
-     rather than relying on performance. Generating twice the same
-     number should be fairly rare.
-
- -- Function: int lw6sys_check_id_16 (u_int16_t ID_16)
-     ID_16:  the id to check
-
-     Checks wether the given id is a valid 16-bit id.
-
-     *Return value:*  1 if OK, 0 if not a valid id.
-
- -- Function: int lw6sys_check_id_32 (u_int32_t ID_32)
-     ID_32:  the id to check
-
-     Checks wether the given id is a valid 32-bit id.
-
-     *Return value:*  1 if OK, 0 if not a valid id.
-
- -- Function: int lw6sys_check_id_64 (u_int64_t ID_64)
-     ID_64:  the id to check
-
-     Checks wether the given id is a valid 64-bit id.
-
-     *Return value:*  1 if OK, 0 if not a valid id.
-
- -- Function: int lw6sys_check_id (u_int64_t ID)
-     ID:  the id to check
-
-     Checks wether the given id is a valid id (16, 32 or 64-bit).
-
-     *Return value:*  1 if OK, 0 if not a valid id.
-
- -- Function: char * lw6sys_id_ltoa (u_int64_t ID)
-     id: the id to convert
-
-     Transform an id into its string representation. Error checking is
-     done, if the id is invalid, returned value is NULL.  All ids (16,
-     32 and 64-bit) are handled.
-
-     *Return value:*  a newly allocated string, might be NULL.
-
- -- Function: u_int64_t lw6sys_id_atol (char * ID)
-     id: the id to convert
-
-     Transform an id into a long integer. Error checking is done, if
-     the id is invalid, returned value is 0.  All ids (16, 32 and
-     64-bit) are handled.
-
-     *Return value:*  the id as a long integer, 0 if incorrect source
-     id.
-
- -- Function: char * lw6sys_keyword_as_key (char * KEYWORD)
-     KEYWORD:  the keyword to transform
-
-     Transforms a keyword into a "key", that is, removes all heading
-     dashes, switches to lowercase, and other stuff. This is used
-     internally to match options and config file parameters, for
-     instance.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_keyword_as_arg (char * KEYWORD)
-     KEYWORD:  the keyword to transform
-
-     Transforms a keyword into a command-line parameter to be matched.
-     Does the same as `lw6sys_keyword_as_key', and adds a "-" prefix.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_keyword_as_env (char * KEYWORD)
-     KEYWORD:  the keyword to transform
-
-     Transforms a keyword into the corresponding environment variable
-     name.  It will uppercase the name, replace "-" by "_", and add a
-     "LW6_" prefix. "my-param" will become "LW6_MY_PARAM".
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_keyword_as_xml (char * KEYWORD)
-     KEYWORD:  the keyword to transform
-
-     Transforms a keyword into the corresponding config file entry.  In
-     practice, just the same as `lw6sys_keyword_as_key'.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: lw6sys_list_t * lw6sys_list_new (lw6sys_free_func_t
-          FREE_FUNC)
-     FREE_FUNC:  a callback which will be called on data when freeing
-     the list
-
-     Creates an empty list. There's a difference between NULL and an
-     empty list. The empty list would (in Scheme) be '() whereas NULL
-     corresponds to undefined "is not a list and will generate errors
-     if you ever call list functions on it".
-
-     *Return value:*  a pointer to the created object, may be NULL.
-
- -- Function: void lw6sys_list_free (lw6sys_list_t * LIST)
-     LIST:  the list to delete.
-
-     Delete a list, this will cascade delete all the following items in
-     the list.
-
-     *Return value:*  none.
-
- -- Function: lw6sys_list_t * lw6sys_list_next (lw6sys_list_t * LIST)
-     LIST:  the current position in the list
-
-     It's safer to call this rather than dig right into the internals
-     of the list.
-
-     *Return value:*  a new position in the list, may be NULL.
-
- -- Function: int lw6sys_list_is_empty (lw6sys_list_t * LIST)
-     LIST:  the list we want informations about
-
-     Checks wether the list is empty or not. Note that being empty and
-     being NULL is not the same. An empty list is a valid pointer on a
-     list where there's no item, a NULL pointer is not a list at all.
-     Do *NOT* call this function on NULL.
-
-     *Return value:*  1 if empty, 0 if there is at list one item.
-
- -- Function: int lw6sys_list_length (lw6sys_list_t * LIST)
-     LIST:  the list we want informations about
-
-     Calculates the length of the list. This is a performance killer
-     for lists are inadapted to this. But it can still be usefull.
-
-     *Return value:*  the number of elements, 0 is none (empty list).
-
- -- Function: void lw6sys_list_map (lw6sys_list_t * LIST,
-          lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
-     LIST:  the list where elements will be taken
-
-     FUNC:  the function which will be executed
-
-     FUNC_DATA:  additionnal data to be passed to `func'
-
-     Executes a function on all list items.  The `func_data' parameter
-     allows you to pass extra values to the function, such as a file
-     handler or any variable which can not be inferred from list item
-     values, and you of course do not want to make global... Not as
-     convenient as a real "for each" construct as can be found in any
-     modern langage, but does the job. No return value, if you really
-     want one, pass a structure in `func_data' and modify something in
-     it on success, failure, whatever.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_list_filter (lw6sys_list_t ** LIST,
-          lw6sys_list_filter_func_t FUNC, void * FUNC_DATA)
-     LIST:  the list where elements will be taken
-
-     FUNC:  the function which will be executed
-
-     FUNC_DATA:  additionnal data to be passed to `func'
-
-     Executes a function on all list items and keeps only those for
-     which the function returned non zero (true).  The `func_data'
-     parameter allows you to pass extra values to the function, such as
-     a file handler or any variable which can not be inferred from list
-     item values, and you of course do not want to make global...
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_list_push_front (lw6sys_list_t ** LIST, void
-          * DATA)
-     LIST:  a pointer to the list (pointer on pointer, read/write value)
-
-     DATA:  the data to be pushed
-
-     Pushes data on the list. The `free_func' function is copied from
-     the previous element. The pointer on the list is changed "in
-     place" (in/out). Note that if there's a `malloc' problem it might
-     end-up being NULL... This should be rare but it *can* happen. You
-     cannot push something else than a pointer, pushing an int is a
-     very bad idea. Push a pointer on the integer, and ensure it's
-     always there, or `malloc' it and pass `lw6sys_free_callback' when
-     creating the list.  If you think you can cast an integer into a
-     pointer, think 64-bit machines...
-
-     *Return value:*  none.
-
- -- Function: void * lw6sys_list_pop_front (lw6sys_list_t ** LIST)
-     LIST:  a pointer to the list (pointer on pointer, read/write value)
-
-     Pops data from the list, the returned value is what was passed to
-     list_push. The pointer on the list is changed "in place" (in/out).
-     When data is popped, that needs some freeing (i.e. free_func was
-     not NULL when creating the list) then it's the responsibility of
-     the caller to free it when popping it. One popped it's not freed,
-     but it's out of the list scope. Of course the lw6sys_list_t is
-     freed, but not the data.  If you happen to store non-NULL data in
-     your list, you can call this function without bothering calling
-     `lw6sys_list_is_empty' and assume that when you get NULL, there's
-     no data left.  At this stage, the list won't exist anymore BTW,
-     you won't even need to free it. The idea is: popping a list which
-     has no elements left (empty list) destroys the list and returns
-     NULL.
-
-     *Return value:*  a pointer on the popped data, whatever you pushed.
-
- -- Function: void lw6sys_list_push_back (lw6sys_list_t ** LIST, void *
-          DATA)
-     LIST:  a pointer to the list (pointer on pointer, read/write value)
-
-     DATA:  the data to be pushed
-
-     Pushes data on the list. The `free_func' function is copied from
-     the previous element. The pointer on the list is changed "in
-     place" (in/out). Note that if there's a `malloc' problem it might
-     end-up being NULL... This should be rare but it *can* happen. You
-     cannot push something else than a pointer, pushing an int is a
-     very bad idea. Push a pointer on the integer, and ensure it's
-     always there, or `malloc' it and pass `lw6sys_free_callback' when
-     creating the list.  If you think you can cast an integer into a
-     pointer, think 64-bit machines...
-
-     *Return value:*  none.
-
- -- Function: void * lw6sys_list_pop_back (lw6sys_list_t ** LIST)
-     LIST:  a pointer to the list (pointer on pointer, read/write value)
-
-     Pops data from the list, the returned value is what was passed to
-     list_push. The pointer on the list is changed "in place" (in/out).
-     When data is popped, that needs some freeing (i.e. free_func was
-     not NULL when creating the list) then it's the responsibility of
-     the caller to free it when popping it. One popped it's not freed,
-     but it's out of the list scope. Of course the lw6sys_list_t is
-     freed, but not the data.  If you happen to store non-NULL data in
-     your list, you can call this function without bothering calling
-     `lw6sys_list_is_empty' and assume that when you get NULL, there's
-     no data left.  At this stage, the list won't exist anymore BTW,
-     you won't even need to free it. The idea is: popping a list which
-     has no elements left (empty list) destroys the list and returns
-     NULL.
-
-     *Return value:*  a pointer on the popped data, whatever you pushed.
-
- -- Function: lw6sys_list_t * lw6sys_list_dup (lw6sys_list_t * LIST,
-          lw6sys_dup_func_t DUP_FUNC)
-     LIST:  the list to duplicate, can be NULL
-
-     DUP_FUNC:  the function which will be called to duplicate data
-
-     Duplicates a list. All data will be copied so that if the first
-     list is deleted, the duplicated one is fine. Addtionnally, dup_func
-     will be called to filter all data, and possibly allocated new
-     pointers if needed, for instance. If dup_func is NULL, then data
-     values will simply be copied. This is likely to be usefull when
-     data is not dynamically allocated.
-
-     *Returned value:*  a newly allocated list.
-
- -- Function: void lw6sys_log_set_file (char * FILENAME)
-     FILENAME:  the name of the log file.
-
-     Sets up the log file. Until you call this function, messages all
-     logged to the default log file, as returned by the
-     `lw6sys_get_default_log_file' function.
-
-     *Return value:*  void
-
- -- Function: void lw6sys_log_clear (char * FILENAME)
-     FILENAME:  the name of the log file.
-
-     Clears the log file, this function would typically be called at
-     the beginning of the program. If filename is NULL, then the
-     default log file is cleared.
-
-     *Return value:*  void
-
- -- Function: void lw6sys_log (int LEVEL_ID, char * FILE, int LINE,
-          char * FMT, ...)
-     LEVEL_ID:  the log level to use. Possible values are, by order,
-     LW6SYS_LOG_ERROR_ID (0), LW6SYS_LOG_WARNING_ID (1),
-     LW6SYS_LOG_NOTICE_ID (2), LW6SYS_LOG_INFO_ID (3),
-     LW6SYS_LOG_DEBUG_ID (4) and LW6SYS_LOG_TMP_ID (5).
-
-     FILE:  the name of the source file where the function is called,
-     one can use __FILE__
-
-     LINE:  the line in the source file where the function is called,
-     one can use __LINE__
-
-     FMT:  a printf-like format string ...: printf-like arguments,
-     corresponding to `fmt'.
-
-     This function is usually called with the first three arguments
-     packed into a single macro. For instance the `LW6SYS_LOG_WARNING'
-     macro expands and fills the first 3 args, so there's no need to
-     type __FILE__ and __LINE__ again and again. Note that this
-     function will reset errno. The idea is to call it whenever there's
-     something to do with errno (if you deal with errno, it's a good
-     habit to log it) then errno is cleared so that it won't interfere
-     with next log messages.
-
- -- Function: void lw6sys_log_critical (char * FMT, ...)
-     FMT:  a printf-like format string ...: printf-like arguments,
-     corresponding to `fmt'.
-
-     This function is a special log function which will dump
-     informations on the console only, without opening any log file
-     whatsoever. The idea is that it's a "never fail" function.
-     Additionnally, it will never return but quit the program. This can
-     be used as an ultimate emergency function, use it when the program
-     won't run for sure, and displaying an immediate error message is
-     the only issue.
-
- -- Function: int lw6sys_log_get_level ()
-
- -- Function: void lw6sys_log_set_level (int LEVEL)
-     LEVEL:  the log level, integer between 0 & 4. 4 is very verbose
-     (debug), 0 displays errors only.
-
-
- -- Function: void lw6sys_math_poly_wy1y2s1 (float * Y, float * S,
-          float X, float W, float Y1, float Y2, float S1)
-     Y:  the return value (position, may be NULL)
-
-     S:  the return value (speed, may be NULL)
-
-     X:  the x parameter, the value to iterate on
-
-     W:  the width, that is, the x value after which output is constant
-
-     Y1:  the initial value, when v is s1 and x=0
-
-     Y2:  the target value, when v=0 and x>=w
-
-     S1:  the initial speed, that is dy/dx at x=0
-
-     A function which can be used to implement smooth moving. It will
-     extrapolate, for values of x>=0, an y position with a continuous
-     derivate (dy/dx is continuous, function is 2nd order polynom) and
-     which ends up at x=w with a constant value, that is dy/dx=v=0.
-     Typically an item set with an initial speed of v with this function
-
- -- Function: float lw6sys_math_angle_360 (int X, int Y)
-     X:  x coordinate
-
-     Y:  y coordinate
-
-     This is a wrapper over the standard `atan' function which will
-     handle internally the special x == 0 case and the various
-     positive/negative values of `x' and `y'.
-
-     *Return value:*  the angle, in degrees
-
- -- Function: float lw6sys_math_heartbeat (int64_t X, int PERIOD, float
-          Y1, float Y2)
-     X:  the parameter (typically a timestamp)
-
-     PERIOD:  the period (typically something like 1000 milliseconds)
-
-     Y1:  the low value (heart at rest)
-
-     Y2:  the high value (when bumping)
-
-     A heartbeat function, typically usefull to power up eye-candy, but
-     it could do something else.
-
- -- Function: int lw6sys_math_blink (int64_t X, int PERIOD)
-     X:  the parameter (typically a timestamp)
-
-     PERIOD:  the period (typically something like 1000 milliseconds)
-
-     This function will alternatively return 1 or 0, usefull to handle
-     blinking for instance.
-
-     *Return value:*  0 or 1
-
- -- Function: void * lw6sys_malloc (int SIZE, char * FILE, int LINE)
-     SIZE:  number of bytes to allocate.
-
-     FILE:  name of the file calling the function, use `__FILE__x_'
-
-     LINE:  line in the file calling the function, use `__LINE__x_'
-
-     This is a wrapper over the standard `malloc' function.
-     Additionnally it will keep track of the call with an internal
-     program-wide counter, thus enabling memory leak checks. You should
-     not use this function directly but use the macro `LW6SYS_MALLOC'
-     which has the same syntax, without the last two parameters, which
-     are automatically provided by macro expansion.
-
-     *Return value:*  the newly allocated pointer. Data is not
-     initialized.
-
- -- Function: void * lw6sys_calloc (int SIZE, char * FILE, int LINE)
-     SIZE:  number of bytes to allocate.
-
-     FILE:  name of the file calling the function, use `__FILE__x_'
-
-     LINE:  line in the file calling the function, use `__LINE__x_'
-
-     This is a wrapper over the standard `calloc' function.
-     Additionnally it will keep track of the call with an internal
-     program-wide counter, thus enabling memory leak checks. You should
-     not use this function directly but use the macro `LW6SYS_CALLOC'
-     which has the same syntax, without the last two parameters, which
-     are automatically provided by macro expansion.
-
-     *Return value:*  the newly allocated pointer. Data is filled with
-     zeros.
-
- -- Function: void * lw6sys_realloc (void * PTR, int SIZE, char * FILE,
-          int LINE)
-     PTR:  the pointer to reallocate.
-
-     SIZE:  number of bytes to allocate.
-
-     FILE:  name of the file calling the function, use `__FILE__x_'
-
-     LINE:  line in the file calling the function, use `__LINE__x_'
-
-     This is a wrapper over the standard `realloc' function.  You
-     should not use this function directly but use the macro
-     `LW6SYS_REALLOC' which has the same syntax, without the last two
-     parameters, which are automatically provided by macro expansion.
-
-     *Return value:*  the newly allocated pointer.
-
- -- Function: void lw6sys_free (void * PTR, char * FILE, int LINE)
-     PTR:  the pointer to free.
-
-     FILE:  name of the file calling the function, use `__FILE__x_'
-
-     LINE:  line in the file calling the function, use `__LINE__x_'
-
-     This is a wrapper over the standard `free' function. Additionnally
-     it will keep track of the call with an internal program-wide
-     counter, thus enabling memory leak checks. You should not use this
-     function directly but use the macro `LW6SYS_FREE' which has the
-     same syntax, without the last two parameters, which are
-     automatically provided by macro expansion.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_free_callback (void * PTR)
-     PTR:  the pointer to free.
-
-     This is a callback to be used when the `lw6sys_free' does not fit.
-     A good example is a list, which, to free its elements, requires
-     you to provide a callback that only takes 1 arg, the pointer to
-     free. Problem, `lw6sys_free' takes 3 args. And the `LW6SYS_FREE'
-     macro is not usable in such a context. And you can't use standard
-     `free' either for it would mess up the `malloc' / `free'
-     automatical count which is so convenient to track memory leaks. So
-     this callback is here, it's only drawback is that in case of an
-     error, the error will not be reported with the real file and line
-     parameters. It's still better than nothing.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_megabytes_available ()
-     Gives a raw approximation of available memory, in megabytes.
-     Value is to be taken with distance, but it can give good hints
-     when system is running short of ressources.
-
-     *Return value:*  number of megabytes (physical memory) available.
-
- -- Function: int lw6sys_is_big_endian ()
-     Checks the endianess of the machine. PPC is big endian, for
-     instance.
-
-     *Return value:*  1 if system is big endian, 0 if little endian.
-
- -- Function: int lw6sys_is_little_endian ()
-     Checks the endianess of the machine. x86 is little endian, for
-     instance.
-
-     *Return value:*  1 if system is little endian, 0 if big endian.
-
- -- Function: int lw6sys_check_types_size ()
-     Checks of common types and usefull structures, this is a debugging
-     function which helps finding compiler strange behaviors and
-     programmer's bad intuitions.
-
-     *Return value:*  1 if everything is OK, 0 if error.
-
- -- Function: void * lw6sys_mutex_create ()
-     Creates a mutex object.
-
-     *Return value:*  newly allocated pointer.
-
- -- Function: void lw6sys_mutex_destroy (void * MUTEX)
-     MUTEX:  the mutex to destroy.
-
-     Destroys a mutex object.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_mutex_lock (void * MUTEX)
-     MUTEX:  the mutex to use
-
-     Locks the mutex. Note that this should never fail unless there's a
-     serious initialization problem, instead, function will wait
-     forever until mutex is released.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: int lw6sys_mutex_trylock (void * MUTEX)
-     MUTEX:  the mutex to use
-
-     Tries to locks the mutex. That is, tells wether mutex can be
-     locked immediately or not. Note that this does not mean there's
-     100% chance next call to lock will terminated immediately, since
-     lock can still be acquired by another thread.
-
-     *Return value:*  1 if mutex unlocked, 0 if locked or error.
-
- -- Function: int lw6sys_mutex_unlock (void * MUTEX)
-     MUTEX:  the mutex to use
-
-     Unlocks a mutex.
-
-     *Return value:*  1 if sucess, 0 if error.
-
- -- Function: int lw6sys_get_mutex_lock_count ()
-     Returns how many mutexes have been locked since program start.
-     Usefull for sanity checking when debugging.
-
-     *Return value:*  number of calls to lock
-
- -- Function: int lw6sys_get_mutex_unlock_count ()
-     Returns how many mutexes have been unlocked since program start.
-     Usefull for sanity checking when debugging.
-
-     *Return value:*  number of calls to unlock
-
- -- Function: int lw6sys_check_mutex_count ()
-     Checks wether unlock has been called as many times as lock.
-     Usefull for sanity checking when debugging.
-
-     *Return value:*  1 if OK, 0 if inconsistency.
-
- -- Function: int lw6sys_true ()
-     Function which returns always true, that is, something different
-     than 0.
-
- -- Function: int lw6sys_false ()
-     Function which returns always false, that is, 0. This can seem
-     totally useless but it does have some utility. It's used for
-     instance to "fool" the compiler and force it to compile and link
-     functions in binaries, so that, afterwards, dynamically loaded .so
-     files can find in the main binary some functions which would
-     otherwise be stripped during the final link.
-
- -- Function: char * lw6sys_get_default_user_dir ()
-     Returns the default user directory. Note that this value is not
-     static, it can depend, for instance, of the environment variable
-     `HOME'.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_config_file ()
-     Returns the default config file. Note that this value is not
-     static, it can depend, for instance, of the environment variable
-     `HOME'.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_log_file ()
-     Returns the default log file. Note that this value is not static,
-     it can depend, for instance, of the environment variable `HOME'.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_prefix ()
-     Returns the default prefix, could be /usr/local for instance.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_mod_dir ()
-     Returns the default module directory (dynamically loaded
-     libraries).
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_data_dir ()
-     Returns the default data directory.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_music_dir ()
-     Returns the default music directory.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_music_path ()
-     Returns the default music path, which can be composed of several
-     directories.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_map_dir ()
-     Returns the default map directory.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_map_path ()
-     Returns the default map path, which can be composed of several
-     directories.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_default_script_file ()
-     Returns the default script file.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: void lw6sys_options_log_defaults ()
-     Logs all default values to log file. Usefull for debugging, to
-     know where the program is searching for its informations.
-
- -- Function: char * lw6sys_get_cwd ()
-     Returns the current working directory (absolute path).
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_run_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the binary directory, that is, the directory the binary is
-     stored in. This is calculated dynamically, by interpreting
-     command-line arguments.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_user_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the user dir, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_config_file (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the config file, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_log_file (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the log file, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_prefix (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the prefix, taking in account command-line and environment
-     variables. However config file content has no impact on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_mod_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the mod dir (modules, shared .so), taking in account
-     command-line and environment variables. However config file
-     content has no impact on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_data_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the data dir, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_music_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the music dir, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_music_path (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the music path, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result. Music path can contain several directories.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_map_dir (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the map dir, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_map_path (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the map path, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result. Map path can contain several directories.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: char * lw6sys_get_script_file (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Returns the script file, taking in account command-line and
-     environment variables. However config file content has no impact
-     on the result.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: void lw6sys_options_log (int ARGC, char * [] ARGV)
-     ARGC:  argc, number of arguments, as given to `main'
-
-     ARGV:  argv, pointer to arguments, as given to `main'
-
-     Logs all the main options values which are not config-file
-     dependant but depend on built-in defaults, command-line arguments
-     and environment variables. Usefull to debug and know where the
-     program is searching for things.
-
- -- Function: int lw6sys_file_exists (char * FILENAME)
-     FILENAME:  the file to test
-
-     Tests the existence of a file on the filesystem. File is considered
-     to exists if it's at least readable.
-
-     *Return value:*  1 if OK, 0 if file doesn't exist or can't be read.
-
- -- Function: int lw6sys_dir_exists (char * DIRNAME)
-     DIRNAME:  the directory to test
-
-     Tests the existence of a directory on the filesystem.
-
-     *Return value:*  1 if OK, 0 if directory doesn't exist.
-
- -- Function: int lw6sys_create_dir (char * DIRNAME)
-     DIRNAME:  the directory to create
-
-     Creates a directory, performing sanity checks such as verifying
-     the directory really exists after being created.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: int lw6sys_create_dir_silent (char * DIRNAME)
-     DIRNAME:  the directory to create
-
-     Creates a directory like `lw6sys_create_dir' but this function is
-     silent in the sense that it won't log any error. Usefull to create
-     the log directory itself, for instance, and avoid infinite loops
-     on error.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: char * lw6sys_path_add_slash (char * PATH)
-     PATH:  a path
-
-     Adds a slash, or in a general manner, a directory separator, at
-     the end of a path, if needed. So /foo/bar will become /foo/bar/
-     but /bar/foo/ will remain /bar/foo/.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: char * lw6sys_path_strip_slash (char * PATH)
-     PATH:  a path
-
-     Strips the slash, or in a general manner, the directory separator,
-     at the end of a path, if needed. So /foo/bar/ will become /foo/bar
-     but /bar/foo will remain /bar/foo.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: char * lw6sys_path_concat (char * PATH1, char * PATH2)
-     PATH1:  left part of the path
-
-     PATH2:  right part of the path
-
-     Concatenates 2 parts of a path. Function will try to avoid stupid
-     "double-slash" when concatenating /foo/ with /bar/ and conversely
-     insert a directory separator when concatenating /foo with bar/.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: lw6sys_list_t * lw6sys_path_split (char * PATH)
-     PATH:  a path
-
-     Splits a path into all its parts. For instance /boo/bar/foo2/bar2
-     returns a 4 elements list. This is more than a plain split, for
-     heading and tailing slashes will be ignored, and various path
-     separators will be interpreted (depends on platform).
-
-     *Return value:*  a list containing 0-terminated strings.
-
- -- Function: int lw6sys_path_is_relative (char * PATH)
-     PATH:  a path
-
-     Checks wether a path is relative or absolute.
-
-     *Return value:*  1 if relative, 0 if absolute.
-
- -- Function: int lw6sys_path_is_cwd (char * PATH)
-     PATH:  a path
-
-     Checks wether a path is "." or not. Will also trap "" and "./".
-
-     *Return value:*  1 if relative, 0 if absolute.
-
- -- Function: char * lw6sys_path_parent (char * PATH)
-     PATH:  a path
-
-     Returns the parent path. That will return /foo when given /foo/bar
-     in input.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: char * lw6sys_path_unparent (char * PATH)
-     PATH:  a path
-
-     Given the ../foo/bar path, will return foo/bar. Usefull to get rid
-     of heading ../ when a path is known to start with it.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: char * lw6sys_path_unparent_no_malloc (char * PATH)
-     PATH:  a path
-
-     Given the ../foo/bar path, will return foo/bar. Usefull to get rid
-     of heading ../ when a path is known to start with it.  This is
-     different from `lw6sys_path_unparent' just because the result is
-     not dynamically allocated and copied from source.
-
-     *Return value:*  a pointer which points somewhere within the
-     string passed as an argument.
-
- -- Function: lw6sys_list_t * lw6sys_dir_list (char * DIR,
-          lw6sys_dir_list_filter_func_t FILTER_FUNC, void * FUNC_DATA,
-          int * N)
-     DIR:  the path of the directory to list
-
-     FILTER_FUNC:  a function which will filter entries, can be NULL
-
-     FUNC_DATA:  additionnal data passed to filter_func
-
-     N:  will contain the number of items found
-
-     This list a directory. The filter will be passed the file path as
-     an argument. If it returns 1, the file is kept, if it returns 0
-     it's suppressed from the list.
-
-     *Return value:*  a list containing strings (file paths).
-
- -- Function: lw6sys_list_t * lw6sys_path_list (char * PATH,
-          lw6sys_dir_list_filter_func_t FILTER_FUNC, void * FUNC_DATA,
-          int * N)
-     PATH:  the path of the path to list
-
-     FILTER_FUNC:  a function which will filter entries, can be NULL
-
-     FUNC_DATA:  additionnal data passed to filter_func
-
-     N:  will contain the number of items found
-
-     This list a directory. By path we mean here a list of separated
-     directories, separated by : for instance.  The filter will be
-     passed the file path as an argument. If it returns 1, the file is
-     kept, if it returns 0 it's suppressed from the list. It's like
-     performing a call to `lw6sys_dir_list' on each of the path members.
-
-     *Return value:*  a list containing strings (file paths).
-
- -- Function: char * lw6sys_find_in_dir_and_path (char * DIR, char *
-          PATH, char * FILE)
-     DIR:  a directory, when to search the file first
-
-     PATH:  the path to search too, a separated list of dirs
-
-     FILE:  the filename to search for
-
-     Tries to find a file in the given paths. The function is typically
-     used to find music files. First it tries to find the file in dir,
-     then it tries to find it in each dir of path. `file' must be only
-     a file name and not contain any directory. The function will use
-     the filename only anyway.
-
-     *Return value:*  the full path of the found file.
-
- -- Function: void lw6sys_print_xml_header (FILE * F, char * COMMENT)
-     F:  file to output content to
-
-     Prints a standard Liquid War compliant XML header in the given
-     file.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_print_xml_footer (FILE * F)
-     F:  file to output content to
-
-     Prints a standard Liquid War 6 compliant XML footer in the given
-     file.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_profiler_check (int VERBOSE)
-     VERBOSE:  wether to display informations on the console
-
-     Checks wether Google Profiler support has been built, and if it's
-     set, outputs the log file. If CPUPROFILE is defined but binary has
-     no support for it, will display a warning message.
-
-     *Return value:*  1 if google profile enabled and activated, 0 if
-     not
-
- -- Function: void lw6sys_progress_default (lw6sys_progress_t *
-          PROGRESS, float * VALUE)
-     PROGRESS:  the progress struct to initialize
-
-     VALUE:  the value to point to
-
-     Sets a progress struct to default values, that is, ranging from
-     0.0f to 1.0f.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_progress_update (lw6sys_progress_t *
-          PROGRESS, int MIN, int MAX, int VALUE)
-     PROGRESS:  the progress struct to update
-
-     MIN:  the min value
-
-     MAX:  the max value
-
-     VALUE:  the current value
-
-     Updates a progress struct. This is typically the function used by a
-     callback to show the progress of a process. Note that this is note
-     an initializer. Rather, the progress struct was initialized
-     before, and this call is done in a loop with min being 0, max
-     being the last value in the loop, and value the current index in
-     the loop. NULL pointers correctly handled internally, so call this
-     with any parameters, it's safe.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_progress_split (lw6sys_progress_t *
-          PROGRESS1, lw6sys_progress_t * PROGRESS2, lw6sys_progress_t *
-          PROGRESS_SRC)
-     progress1: the first part of the splitted progress progress2: the
-     second part of the splitted progress progress_src: the progress to
-     split
-
-     Utility function to split a progress struct, that is, if a
-     progress was ranging from a to b, make 2 progress structs, ranging
-     from a to c and from c to b, c being between a and b.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_split_here (lw6sys_progress_t *
-          PROGRESS1, lw6sys_progress_t * PROGRESS2, lw6sys_progress_t *
-          PROGRESS_SRC, float HERE)
-     progress1: the first part of the splitted progress progress2: the
-     second part of the splitted progress progress_src: the progress to
-     split here: where to split
-
-     Utility function to split a progress struct, that is, if a
-     progress was ranging from a to b, make 2 progress structs, ranging
-     from a to c and from c to b, c being between a and b. The here
-     value controls what c is. If here=0, then c=a. If here=1, then c=b.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_split3 (lw6sys_progress_t *
-          PROGRESS1, lw6sys_progress_t * PROGRESS2, lw6sys_progress_t *
-          PROGRESS3, lw6sys_progress_t * PROGRESS_SRC)
-     progress1: the first part of the splitted progress progress2: the
-     second part of the splitted progress progress3: the third part of
-     the splitted progress progress_src: the progress to split
-
-     Utility function to split a progress struct, this one will split it
-     into 3 equal parts.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_split4 (lw6sys_progress_t *
-          PROGRESS1, lw6sys_progress_t * PROGRESS2, lw6sys_progress_t *
-          PROGRESS3, lw6sys_progress_t * PROGRESS4, lw6sys_progress_t *
-          PROGRESS_SRC)
-     progress1: the first part of the splitted progress progress2: the
-     second part of the splitted progress progress3: the third part of
-     the splitted progress progress4: the fourth part of the splitted
-     progress progress_src: the progress to split
-
-     Utility function to split a progress struct, this one will split it
-     into 4 equal parts.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_split5 (lw6sys_progress_t *
-          PROGRESS1, lw6sys_progress_t * PROGRESS2, lw6sys_progress_t *
-          PROGRESS3, lw6sys_progress_t * PROGRESS4, lw6sys_progress_t *
-          PROGRESS5, lw6sys_progress_t * PROGRESS_SRC)
-     progress1: the first part of the splitted progress progress2: the
-     second part of the splitted progress progress3: the third part of
-     the splitted progress progress4: the fourth part of the splitted
-     progress progress5: the fourth part of the splitted progress
-     progress_src: the progress to split
-
-     Utility function to split a progress struct, this one will split it
-     into 5 equal parts.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_begin (lw6sys_progress_t * PROGRESS)
-     progress: the progress to update
-
-     Sets the progress to its min value, NULL values correctly handled.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_half (lw6sys_progress_t * PROGRESS)
-     progress: the progress to update
-
-     Sets the progress to the average between min and max, NULL values
-     correctly handled.
-
-     *Return value:*  none
-
- -- Function: void lw6sys_progress_end (lw6sys_progress_t * PROGRESS)
-     progress: the progress to update
-
-     Sets the progress to its max value, NULL values correctly handled.
-
-     *Return value:*  none
-
- -- Function: u_int32_t lw6sys_random (u_int32_t RANGE)
-     RANGE:  the high limit for random generated numbers. If you want
-     random numbers between 0 and 5, set this to 6.
-
-     Wrapper over standard random function. This one is thread safe.
-     This idea is not to provide cryptographic-proof random numbers,
-     rather generate sequences which are random enough to generate
-     unique server ids and such things. The function is initialized on
-     its first call, and results depend on timestamp, host name, user
-     name, and memory available.
-
- -- Function: float lw6sys_random_float (float MIN, float MAX)
-     MIN:  the min value, as a float
-
-     MAX:  the max value, as a float
-
-     Returns a random float number between min & max. Can be equal to
-     min or max.
-
- -- Function: int lw6sys_sdl_register ()
-     Function used to avoid initializing SDL several times in a program.
-     AFAIK Allegro has a `was_init' function, but SDL doesn't. With this
-     function - which every LW6 sub-module should use - one can know
-     globally, for the whole program, wether SDL has been initialized
-     or not.
-
- -- Function: int lw6sys_sdl_unregister ()
-     Call this whenever you are done with SDL and exit it, so that the
-     `lw6sys_sdl_register' function works correctly.
-
-     *Return value:*  1 if SDL needs to be unregistered, that is, if it
-     has already been initialized, else 0.
-
- -- Function: void lw6sys_serialize_int64 (unsigned char * DATA,
-          int64_t VALUE)
-     DATA:  pointer to the data, must contain at least 8 bytes of
-     writable space
-
-     VALUE:  the integer to serialize
-
-     Serializes a 64-bit integer in a byte buffer. Result is not
-     dependant on machine endianess. Typically used for checksums or
-     high-level serializations.
-
- -- Function: int64_t lw6sys_unserialize_int64 (unsigned char * DATA)
-     DATA:  pointer to the data, must contain at least 8 bytes
-
-     Recovers a 64-bit integer from a byte buffer created, for
-     instance, with `lw6sys_serialize_int64'.
-
- -- Function: void lw6sys_serialize_int32 (unsigned char * DATA,
-          int32_t VALUE)
-     DATA:  pointer to the data, must contain at least 4 bytes of
-     writable space
-
-     VALUE:  the integer to serialize
-
-     Serializes a 32-bit integer in a byte buffer. Result is not
-     dependant on machine endianess. Typically used for checksums or
-     high-level serializations.
-
- -- Function: int32_t lw6sys_unserialize_int32 (unsigned char * DATA)
-     DATA:  pointer to the data, must contain at least 4 bytes
-
-     Recovers a 32-bit integer from a byte buffer created, for
-     instance, with `lw6sys_serialize_int32'.
-
- -- Function: void lw6sys_serialize_int16 (unsigned char * DATA,
-          int16_t VALUE)
-     DATA:  pointer to the data, must contain at least 2 bytes of
-     writable space
-
-     VALUE:  the integer to serialize
-
-     Serializes a 16-bit integer in a byte buffer. Result is not
-     dependant on machine endianess. Typically used for checksums or
-     high-level serializations.
-
- -- Function: int16_t lw6sys_unserialize_int16 (unsigned char * DATA)
-     DATA:  pointer to the data, must contain at least 2 bytes
-
-     Recovers a 16-bit integer from a byte buffer created, for
-     instance, with `lw6sys_serialize_int16'.
-
- -- Function: int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * SHAPE,
-          int MIN_WH, int MAX_WH, int MAX_D)
-     SHAPE:  the dimensions to control
-
-     MIN_WH:  the min value for w and h
-
-     MAX_WH:  the max value for w and h
-
-     MAX_D:  the max value for d
-
-     Will check wether the given shape respects some basic constraints,
-     being not to small and not too big.
-
-     *Return value:*  1 if OK, 0 if not.
-
- -- Function: int lw6sys_shape_check_pos (lw6sys_whd_t * SHAPE,
-          lw6sys_xyz_t * POS)
-     SHAPE:  the boundary box
-
-     POS:  the position
-
-     Checks wether position is within the given boundary box.
-
-     *Return value:*  1 if OK, 0 if not.
-
- -- Function: int lw6sys_shape_is_same (lw6sys_whd_t * SHAPE_A,
-          lw6sys_whd_t * SHAPE_B)
-     SHAPE_A:  the first shape to compare
-
-     SHAPE_B:  the other shape to compare
-
-     Compares two shapes.
-
-     *Return value:*  1 if same, 0 if not.
-
- -- Function: int lw6sys_shape_is_same_xy (lw6sys_whd_t * SHAPE_A,
-          lw6sys_whd_t * SHAPE_B)
-     SHAPE_A:  the first shape to compare
-
-     SHAPE_B:  the other shape to compare
-
-     Compares two shapes, but ignores the z (d) parameter.
-
-     *Return value:*  1 if same_xy, 0 if not.
-
- -- Function: void lw6sys_signal_custom ()
-     Set up our signal handlers. This will probably be overrided later
-     by other libs such as libSDL, but at least in pure server mode it
-     gives a way to treat SIGTERM the right way.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_signal_default ()
-     Restore default signal handlers for those modified by
-     `lw6sys_signal_custom'.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_signal_term_handler (int SIGNUM)
-     SIGNUM:  SIGTERM
-
-     The own TERM signal handler, will basically call the
-     `lw6sys_signal_send_quit' function, which will set a flag used
-     later by `lw6sys_signal_poll_quit'.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_signal_int_handler (int SIGNUM)
-     SIGNUM:  SIGINT
-
-     The own INT signal handler, will basically call the
-     `lw6sys_signal_send_quit' function, which will set a flag used
-     later by `lw6sys_signal_poll_quit'.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_signal_hup_handler (int SIGNUM)
-     SIGNUM:  SIGTERM
-
-     The own HUP signal handler, will basically do something that shows
-     the program is alive, typically display a NOTICE message.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_signal_send_quit ()
-     Sets the quit flag to 1, so that `lw6sys_signal_poll_quit' returns
-     true, that is, tells the polling loop to stop.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_signal_poll_quit ()
-     Tests wether we need to stop right now.
-
-     *Return value:*  1 if we need to stop now, 0 if program can
-     continue.
-
- -- Function: int lw6sys_sort_int_callback (lw6sys_list_t ** LIST_A,
-          lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of int item
-
-     LIST_B:  pointer to a list of int item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of integers.
-
-     *Return value:*  -1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', 1 if `list_a' > `list_b'
-
- -- Function: int lw6sys_sort_int_desc_callback (lw6sys_list_t **
-          LIST_A, lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of int item
-
-     LIST_B:  pointer to a list of int item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of integers. This one will sort in reverse mode.
-
-     *Return value:*  1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', -1 if `list_a' > `list_b'
-
- -- Function: int lw6sys_sort_float_callback (lw6sys_list_t ** LIST_A,
-          lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of float item
-
-     LIST_B:  pointer to a list of float item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of floating point numbers.
-
-     *Return value:*  -1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', 1 if `list_a' > `list_b'
-
- -- Function: int lw6sys_sort_float_desc_callback (lw6sys_list_t **
-          LIST_A, lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of float item
-
-     LIST_B:  pointer to a list of float item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of floating point numbers. This one will sort in
-     reverse mode.
-
-     *Return value:*  1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', -1 if `list_a' > `list_b'
-
- -- Function: int lw6sys_sort_str_callback (lw6sys_list_t ** LIST_A,
-          lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of string item
-
-     LIST_B:  pointer to a list of string item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of 0-terminated strings.
-
-     *Return value:*  -1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', 1 if `list_a' > `list_b'
-
- -- Function: int lw6sys_sort_str_desc_callback (lw6sys_list_t **
-          LIST_A, lw6sys_list_t ** LIST_B)
-     LIST_A:  pointer to a list of string item
-
-     LIST_B:  pointer to a list of string item
-
-     A typicall sort callback function, can be passed to `lw6sys_sort'
-     to sort a list of 0-terminated strings. This one will sort in
-     reverse mode.
-
-     *Return value:*  1 if `list_a' < `list_b' , 0 if `list_a' ==
-     `list_b', -1 if `list_a' > `list_b'
-
- -- Function: void lw6sys_sort (lw6sys_list_t ** LIST,
-          lw6sys_sort_callback_func_t SORT_FUNC)
-     LIST:  the list to sort, might be modified by the function
-
-     SORT_FUNC:  the callback function used to sort
-
-     A general sorting function. Internally, will use the glibc `qsort'
-     function, but this one is adapted to the LW6 specific data
-     structures, more exactly, the `lw6sys_list' structure. Several
-     default sort callbacks are defined, but one is free to use any
-     callback, provided it has the right prototype.
-
- -- Function: void * lw6sys_spinlock_create ()
-     Creates a spinlock object.
-
-     *Return value:*  newly allocated pointer.
-
- -- Function: void lw6sys_spinlock_destroy (void * SPINLOCK)
-     SPINLOCK:  the spinlock to destroy.
-
-     Destroys a spinlock object.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_spinlock_lock (void * SPINLOCK)
-     SPINLOCK:  the spinlock to use
-
-     Locks the spinlock. Note that this should never fail unless
-     there's a serious initialization problem, instead, function will
-     wait forever until spinlock is released.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: int lw6sys_spinlock_trylock (void * SPINLOCK)
-     SPINLOCK:  the spinlock to use
-
-     Tries to locks the spinlock. That is, tells wether spinlock can be
-     locked immediately or not. Note that this does not mean there's
-     100% chance next call to lock will terminated immediately, since
-     lock can still be acquired by another thread.
-
-     *Return value:*  1 if spinlock unlocked, 0 if locked or error.
-
- -- Function: int lw6sys_spinlock_unlock (void * SPINLOCK)
-     SPINLOCK:  the spinlock to use
-
-     Unlocks a spinlock.
-
-     *Return value:*  1 if sucess, 0 if error.
-
- -- Function: char * lw6sys_str_copy (char * SRC)
-     SRC:  the string to copy
-
-     Duplicate a string, creating a new pointer on it, which must be
-     freed afterwards. The main difference with `strdup' is that here
-     we use the LW6SYS_MALLOC macro to track down possible memory leaks.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_str_concat (char * STR1, char * STR2)
-     STR1:  the left part to be concatenated
-
-     STR2:  the right part to be concatenated
-
-     Concatenate 2 strings, and put the result in a newly allocated
-     string. Unlike `strcat' which uses the same pointer.
-
-     *Return value:*  a newly allocated pointer, must be freed.
-
- -- Function: char * lw6sys_new_sprintf (char * FMT, ...)
-     FMT:  a format string, like the one you would pass to `printf'
-     ...: optional arguments, like the ones you would pass to `printf'
-
-     An sprintf like function, except it allocates a new string
-     automatically, with "enough space". This is not a highly optimized
-     function, it will allocate plenty of memory, possibly several
-     times, and thus consume time and resources. But it has the great
-     advantage of freeing the programmer of the dirty work of guessing
-     "how log will the sprintf'ed string be?" before even generating
-     it. So it's a time saver for the programmer.  Additionnally, helps
-     avoiding memory leaks and buffer overflows.
-
-     *Return value:*  a new allocated string, must be freed.
-
- -- Function: int lw6sys_buf_sprintf (char * BUF, int LEN, char * FMT,
-          ...)
-     BUF:  a buffer of len+1 chars
-
-     LEN:  the max length of string
-
-     FMT:  a format string, like the one you would pass to `printf'
-     ...: optional arguments, like the ones you would pass to `printf'
-
-     Almost like snprintf except that it will *always* append a char 0
-     ('\0') at the end of the string. Therefore buf must be of size
-     len+1.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6sys_str_is_blank (char * STR)
-     STR:  the string to test
-
-     Tests wether a string is blank, that is, if it's composed of
-     space, tabs, or carriage returns only.
-
-     *Return value:*  1 if blank, 0 if not.
-
- -- Function: int lw6sys_str_is_null_or_empty (char * STR)
-     STR:  the string to test
-
-     Tests wether a string is NULL or empty (string with 0 chars "").
-
-     *Return value:*  1 if NULL or empty, 0 if contains something.
-
- -- Function: char * lw6sys_str_empty_if_null (char * STR)
-     STR:  the string to test
-
-     Returns always a non-NULL string, if string is NULL, returns ""
-
-     *Return value:*  source string or "" if it was NULL
-
- -- Function: int lw6sys_str_is_same (char * STR_A, char * STR_B)
-     STR_A:  1st string to compare, can be NULL
-
-     STR_B:  2nd string to compare, can be NULL
-
-     Compares two strings for equality. Difference with strcmp is that
-     this one won't check for alphabetical order and return -1 or +1,
-     but will check for NULL args.  of space, tabs, or carriage returns
-     only.
-
-     *Return value:*  1 if same, 0 if not.
-
- -- Function: int lw6sys_str_is_same_no_case (char * STR_A, char *
-          STR_B)
-     STR_A:  1st string to compare, can be NULL
-
-     STR_B:  2nd string to compare, can be NULL
-
-     Compares two strings for equality. Difference with strcmp is that
-     this one won't check for alphabetical order and return -1 or +1,
-     but will check for NULL args.  of space, tabs, or carriage returns
-     only. This function is not case sensitive.
-
-     *Return value:*  1 if same, 0 if not.
-
- -- Function: int lw6sys_str_starts_with (char * STR, char * BEGINNING)
-     STR:  the string to analyse
-
-     BEGINNING:  the pattern to search
-
-     Tells wether string starts with a given beginning.
-
-     *Return value:*  1 if `str' starts with `beginning', 0 if not
-
- -- Function: int lw6sys_str_starts_with_no_case (char * STR, char *
-          BEGINNING)
-     STR:  the string to analyse
-
-     BEGINNING:  the pattern to search
-
-     Tells wether string starts with a given beginning. This function
-     is not case sensitive.
-
-     *Return value:*  1 if `str' starts with `beginning', 0 if not
-
- -- Function: int lw6sys_skip_blanks (char ** STR_PTR)
-     STR_PTR:  a pointer to a string pointer (read/write parameter).
-
-     Skips blanks at the beginning of a string. The passed parameter is
-     modifed in place. Usefull for parsing.
-
-     *Return value:*  1 if blanks were found, else 0.
-
- -- Function: void lw6sys_str_cleanup (char * STR)
-     STR:  a pointer to the string, which will be modified in-place.
-
-     Used to clean up some strings, for instance if they come from the
-     network, we don't necessarly want system chars to be displayed on
-     the console. Basically it removes all characters with an ASCII
-     code inferior to 32, that is, all system characters. This way,
-     there won't be any tab, linefeed, or any of such characters left.
-
-     *Return value:*  none.
-
- -- Function: void lw6sys_str_cleanup_ascii7 (char * STR)
-     STR:  a pointer to the string, which will be modified in-place.
-
-     Used to clean up some strings, for instance if they come from the
-     network, we don't necessarly want system chars to be displayed on
-     the console. Basically it removes all characters with an ASCII
-     code inferior to 32, that is, all system characters. This way,
-     there won't be any tab, linefeed, or any of such characters left.
-     This function will even remove any character above ASCII 127.
-
-     *Return value:*  none.
-
- -- Function: char * lw6sys_str_reformat (char * STR, char * PREFIX,
-          int NB_COLUMNS)
-     STR:  a pointer to the string we want to modify
-
-     PREFIX:  a prefix to put before each line
-
-     Reformats a string, that is, insert newline characters in the
-     right places to that it fits in a given number of columns.  A
-     prefix is appended at the beginning of each line.  Will not handle
-     strings which already contain newline characters perfectly.
-
-     *Return value:*  a newly allocated string, must be freed.
-
- -- Function: void lw6sys_str_reformat_this (char * STR, int NB_COLUMNS)
-     STR:  a pointer to the string we want to modify
-
-     Reformats a string, that is, insert newline characters in the
-     right places to that it fits in a given number of columns.  This
-     function will modify the buffer so `str' must be writeable.  Will
-     not handle strings which already contain newline characters
-     perfectly.
-
-     *Return value:*  none
-
- -- Function: char * lw6sys_eol ()
-     Returns the value of EOL, that is, the "end of line" sequence.
-     Will simply return "\n" on UNIX and "\r\n" on Microsoft platforms.
-     Note that while this is convenient to write config and example
-     files, for instance, it's a bad idea to use this to generate
-     network messages, because this kind of message needs to be
-     platform independant. Thus any network protocol oriented string
-     would use chr(10) and char(13) directly.
-
-     *Return value:*  the EOL string, must not be freed.
-
- -- Function: lw6sys_list_t * lw6sys_str_split (char * STR, char C)
-     STR:  a string
-
-     C:  the delimiter to split with
-
-     Splits a string, for instance 'foo,bar' splited with 'o' will
-     return 'f', " and ',bar'.
-
-     *Return value:*  a list containing 0-terminated strings.
-
- -- Function: lw6sys_list_t * lw6sys_str_split_no_0 (char * STR, char C)
-     STR:  a string
-
-     C:  the delimiter to split with
-
-     Splits a string, ignoring empty '0-length' members. For instance
-     'foo,bar' splited with 'o' will return 'f' and ',bar'.
-
-     *Return value:*  a list containing 0-terminated strings.
-
- -- Function: lw6sys_list_t * lw6sys_str_split_config_item (char * STR)
-     STR:  a string
-
-     Splits a string, ignoring empty '0-length' members, and using the
-     comma ',' as a separator. This is typically usefull for config
-     elements such as backend lists. Only paths need another separator
-     (platform-dependant).
-
-     *Return value:*  a list containing 0-terminated strings.
-
- -- Function: void lw6sys_str_toupper (char * STR)
-     STR:  the string to modify
-
-     Transforms a string to upper case, the pointer must point to
-     modifiable data.
-
-     *Return value:*  none, `str' pointed data modified in-place
-
- -- Function: void lw6sys_str_tolower (char * STR)
-     STR:  the string to modify
-
-     Transforms a string to lower case, the pointer must point to
-     modifiable data.
-
-     *Return value:*  none, `str' pointed data modified in-place
-
- -- Function: void lw6sys_str_truncate (char * STR, int LEN)
-     STR:  the string to truncate
-
-     LEN:  the new length
-
-     Truncates a string to the max given length. If truncated to 3,
-     "abcdef" becomes "abc".
-
-     *Return value:*  none, `str' pointed data modified in-place
-
- -- Function: char * lw6sys_str_random (int LEN)
-     LEN:  the length of the random string to generate.
-
-     Generates a random string, this is usefull for testing.
-
-     *Return value:*  newly allocated string
-
- -- Function: int lw6sys_str_is_bin (char * BUF, int LEN)
-     BUF:  the buffer to test
-
-     LEN:  the length of the buffer
-
-     Tests wether a buffer is likely to contain a string. This is not a
-     bulletproof function, just a simple heuristic based estimator.
-
-     *Return value:*  1 if probably binary, 0 if probably text
-
- -- Function: char * lw6sys_stream_file_to_str (FILE * F)
-     F:  file to get input from, typically stdin
-
-     Will read file/stream and return it as a string. This is not for
-     serious stream operation since it will return only when stream is
-     closed, and read all file into memory before doing anything.  It's
-     also limited in size since it uses a fixed length buffer, so this
-     is just for quick testing, typically used by command line switches
-     which are used to test encoding/decoding functions. Do not use it
-     to read a filesystem file, `lw6sys_read_file_content' is much
-     better.
-
-     *Return value:*  newly allocated string.
-
- -- Function: void lw6sys_stream_str_to_file (FILE * F, char * STR)
-     F:  file to receive the string
-
-     STR:  the string to output
-
-     Here only for API consistency, will just put string to file (just
-     a simple fprint).
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_test_exec (int ARGC, char * [] ARGV, int MODE)
-     ARGC:  number of args as passed to main
-
-     ARGV:  array of args as passed to main
-
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `sys' module test suite which is specific to exec
-     functions, these ones require `argc' and `argv' to be correctly
-     set so the extra argument justifies putting it outside
-     `lw6sys_test'.  Additionnally, it's not fool proof...
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: int lw6sys_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `sys' module test suite, testing most (if not all...)
-     functions. Note that some tests perform file system operations and
-     might therefore fail on a read-only filesystem, or if user
-     permissions are not sufficient.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: void * lw6sys_thread_create
-          (lw6sys_thread_callback_func_t CALLBACK_FUNC,
-          lw6sys_thread_callback_func_t CALLBACK_JOIN, void *
-          CALLBACK_DATA)
-     CALLBACK_FUNC:  the main callback, the function that will run the
-     thread
-
-     CALLBACK_JOIN:  function which will be called when joining, at the
-     end
-
-     CALLBACK_DATA:  data which will be passed to the callback
-
-     Creates a thread. All threads must be joined. This is because we
-     really do not want the game to leak, and detached threads are
-     typically the kind of thing that leaves stuff in the heap. Note
-     that callback_func is just something which will be called when
-     joining it can be NULL.  The idea is to put in it free & delete
-     functions, which you can't call before joining when you want the
-     main thread to get the results of the callback_func.
-
-     *Return value:*  an opaque pointer on the thread. Can be NULL if
-     failed.
-
- -- Function: int lw6sys_thread_is_callback_done (void * THREAD_HANDLER)
-     THREAD_HANDLER:  thread to work on
-
-     Tells wether the callback is done, that is to say, wether the
-     results are available, and we can join.
-
-     *Return value:*  1 if done, else 0.
-
- -- Function: int lw6sys_thread_get_id (void * THREAD_HANDLER)
-     THREAD_HANDLER:  thread to query
-
-     Returns the id of the thread, this is an internal value, unique
-     for each process, which can help identifying the thread.
-
-     *Return value:*  the id, should be >0.
-
- -- Function: void * lw6sys_thread_get_data (void * THREAD_HANDLER)
-     THREAD_HANDLER:  thread to query
-
-     Returns the data associated to the thread, that is, the pointer
-     which was passed to the callback function.
-
-     *Return value:*  a pointer.
-
- -- Function: void lw6sys_thread_join (void * THREAD_HANDLER)
-     THREAD_HANDLER:  thread to end
-
-     Joins the thread, that's to say wait until the thread is over, and
-     destroys the ressources associated to it. Note that if the thread
-     is looping forever, this function will just wait forever.  This is
-     the only way to end a thread.
-
-     *Return value:*  none.
-
- -- Function: int lw6sys_get_thread_create_count ()
-     Utility function used to check how many threads where created and
-     joined.
-
-     *Return value:*  how many threads were created.
-
- -- Function: int lw6sys_get_thread_join_count ()
-     Utility function used to check how many threads where created and
-     joined.
-
-     *Return value:*  how many threads were joined.
-
- -- Function: int lw6sys_check_thread_count ()
-     Utility function used to check how many threads where created and
-     joined.  This one will compare the results of
-     `lw6sys_get_thread_create_count' and
-     `lw6sys_get_thread_join_count'.
-
-     *Return value:*  1 if both are equals, 0 if not (error...).
-
- -- Function: int64_t lw6sys_get_timestamp ()
-     Returns a 64-bit timestamp, for general purpose. The unit is
-     milliseconds, should return the number of milliseconds since
-     EPOCH. Don't use this for accurate date handling, but rather to
-     technical stamp events.
-
-     *Return value:*  the timestamp.
-
- -- Function: int64_t lw6sys_get_uptime ()
-     Returns the number of milliseconds since program was started.
-     Milliseconds are often referred to as 'ticks'.
-
-     *Return value:*  the number of milliseconds (64-bit)
-
- -- Function: int32_t lw6sys_get_cycle ()
-     Returns a 32-bit timestamp, which is likely to "loop" and have
-     twice the same value during a single program execution. The idea
-     here is just to provide a 32-bit value, not too big, for animation
-     purposes.  The idea is that with 64-bit values, numbers are too
-     big and if the goal is just to animate a cursor or spin a sphere,
-     one does not care if every ten hours there's a display glitch
-     because value became zero again. Besides, those values are often
-     used for their "rest" in a module operation, to translate textures
-     for instance, and having too big numbers causes floating point
-     imprecisions. In fact those values or even only 20-bit. The
-     function is based on `lw6sys_get_uptime'() so it will return 0 at
-     game startup.
-
-     *Return value:*  the cycle value, a 20-bit integer.
-
- -- Function: void lw6sys_timer_update (int64_t * TIMESTAMP, int64_t *
-          UPTIME, int32_t * CYCLE)
-     TIMESTAMP:  the timestamp in msec since EPOCH (output), can be NULL
-
-     UPTIME:  the uptime in msec since startup (output), can be NULL
-
-     CYCLE:  a 20-bit value for animation purpose.
-
-     Returns timestamp & uptime with only one system call.
-
-     *Return value:*  none (parameters modified).
-
- -- Function: void lw6sys_sleep (float SECONDS)
-     SECONDS:  the number of seconds to wait, fractions allowed
-
-     Will sleep for the given amount of seconds. Same as `lw6sys_delay'
-     only input is provided as a floating number of seconds instead of
-     ticks.
-
- -- Function: void lw6sys_delay (int MSEC)
-     MSEC:  the number of milliseconds (ticks) to wait
-
-     Will sleep for the given amount of seconds. Provides accurate
-     timing and has "about-millisecond" precision, since it uses
-     `select' internally.  Might however be interrupted in some cases,
-     so consider function can always return quicker than specified. A
-     common usage of this function is polling loops, where you don't
-     care if 2 polls are very close, but simply want to avoid polling
-     continuously, therefore consumming 100% of the CPU for nothing.
-
- -- Function: void lw6sys_idle ()
-     Will sleep for a minimal amount of time, just giving the OS a
-     chance to let other threads/processes execute themselves. This can
-     make a big difference in polling loops between a process that eats
-     100% CPU and a process that has a very moderate load.  of ticks.
-
- -- Function: void lw6sys_snooze ()
-     Will sleep for some time, like `lw6sys_idle', except it's a
-     "longer" time, use this when you don't really care about
-     reactivity but are more concerned about saving CPU, not running
-     uselessly the same polling code.
-
- -- Function: void lw6sys_time_init ()
-     Global initializations required to handle time properly.
-
- -- Function: char * lw6sys_date_rfc1123 (int SECONDS_FROM_NOW)
-     SECONDS_FROM_NOW:  an offset to add to current time
-
-     Gives the date according to RFC1123, this is typically usefull for
-     HTTP protocol.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6sys_date_clf ()
-     Gives the date in a format which is compatible with Apache CLF
-     Common Log Format.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6sys_readable_uptime (int64_t TIMESTAMP_DELTA)
-     TIMESTAMP_DELTA:  the duration to show, in msec
-
-     Returns a readable form of an uptime, typically 1d 12:34:06 for
-     one day, 12 hours, 34 min, 6 sec or 7:03:45 for 7 hours, 3 minutes
-     45 sec.
-
-     *Return value:*  newly allocated string
-
- -- Function: extern char * lw6sys_url_http_from_ip_port (char * IP,
-          int PORT)
-     IP:  IP address
-
-     PORT:  IP port
-
-     *Returns an http URL pointing to ip:* port that is, adds a heading
-     http:// and a trailing /, and treats port 80 as default. This is
-     used to create public_url in net modules.
-
-     *Return value:*  a newly allocated string, NULL on error.
-
- -- Function: lw6sys_url_t * lw6sys_url_parse (char * URL)
-     URL:  the URL to parse
-
-     Parses a URL, this is not a complete RFC compliant parser, it's
-     only used to transform URLs into their 'canonical' form as well as
-     getting basic info such as on which port one should connect.
-
-     *Return value:*  a newly allocated struct, NULL on error
-
- -- Function: void lw6sys_url_free (lw6sys_url_t * URL)
-     URL:  the url struct to free
-
-     Frees a URL struct and all its members.
-
-     *Return value:*  none.
-
- -- Function: char * lw6sys_url_canonize (char * URL)
-     URL:  the url to check & transform
-
-     Checks if a given URL is correct and, if it is, transforms it into
-     its canonical form. This is mostly to get rid of typesettings
-     error, add a tailing /, transform all domain into lowercase, among
-     other things. A canonized url passed into this function should
-     come out exactly the same.
-
-     *Return value:*  a newly allocated string.
-
- -- Function: int lw6sys_url_is_canonized (char * URL)
-     URL:  the URL to check
-
-     Checks wether an URL is in its canonized form.
-
-     *Return value:*  1 if OK (canonized form), 0 if not
-
- -- Function: int lw6sys_vthread_run (lw6sys_thread_callback_func_t
-          CALLBACK_FUNC, lw6sys_thread_callback_func_t CALLBACK_JOIN,
-          void * CALLBACK_DATA)
-     CALLBACK_FUNC:  the main callback, the function that will run the
-     thread
-
-     CALLBACK_JOIN:  function which will be called when joining, at the
-     end
-
-     CALLBACK_DATA:  data which will be passed to the callback
-
-     This function is similar to `lw6sys_thread_create', but it's
-     dedicated to creating a unique (one per process only) thread,
-     which, in turn, will be able to run commands in the main thread
-     itself. This is a hack to allow apparently spawned child threads
-     to be actually handled by main.  This is because some libraries,
-     which LW6 uses in threads, need to be actually called in the main
-     thread. SDL, for instance. Note that after running this you loose
-     control on the main thread, this one will only wait for possible
-     commands from the spawned thread, typically sent with the
-     `lw6sys_vthread_create' function.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6sys_vthread_is_running ()
-     Returns true if `lw6sys_vthread_run' has been called. Note that
-     this is not bullet proof, it will return true in a correct manner
-     only if you call it from the vthread itself. In practise this
-     shouldn't be a problem, the idea is just to write portable code
-     for the main control thread and be able to decide on the fly
-     wether to create a thread we should prefer the
-     `lw6sys_thread_create' or its equivalent the
-     `lw6sys_vthread_create' function.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6sys_vthread_create (lw6sys_thread_callback_func_t
-          CALLBACK_FUNC, lw6sys_thread_callback_func_t CALLBACK_JOIN,
-          void * CALLBACK_DATA)
-     CALLBACK_FUNC:  the main callback, the function that will run the
-     thread
-
-     CALLBACK_JOIN:  function which will be called when joining, at the
-     end
-
-     CALLBACK_DATA:  data which will be passed to the callback
-
-     The equivalent of `lw6sys_thread_create' but for the vthread
-     infrastructure.  The idea is to pretend firing a spawned thread,
-     but in fact it's the main thread that runs the code. This function
-     must imperatively be called within the `lw6sys_vthread_run'
-     function, else it will fail or be buggy.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6sys_vthread_join ()
-     The equivalent of `lw6sys_thread_join' but for the vthread
-     infrastructure.  The idea is to pretend firing a spawned thread,
-     but in fact it's the main thread that runs the code. This function
-     must imperatively be called within the `lw6sys_vthread_run'
-     function, else it will fail or be buggy.
-
-     *Return value:*  none.
 

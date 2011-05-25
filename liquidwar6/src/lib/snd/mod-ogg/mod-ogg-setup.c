@@ -35,6 +35,8 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
   int sdl_ok = 1;
   int ok = 0;
   SDL_version version;
+  int pan1 = 0;
+  int pan2 = 0;
 
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _x_ ("ogg init volume=%01.2f/%01.2f/%01.2f"), fx_volume,
@@ -83,6 +85,48 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
 		   snd_context->const_data.chunksize))
 		{
 		  snd_context->mixer.nb_channels = Mix_AllocateChannels (-1);
+		  if (snd_context->mixer.nb_channels > _MOD_OGG_CHANNEL_FX0)
+		    {
+		      Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER1,
+					_MOD_OGG_CHANNEL_GROUP_WATER);
+		      Mix_GroupChannel (_MOD_OGG_CHANNEL_WATER2,
+					_MOD_OGG_CHANNEL_GROUP_WATER);
+		      Mix_GroupChannels (_MOD_OGG_CHANNEL_FX0,
+					 snd_context->mixer.nb_channels - 1,
+					 _MOD_OGG_CHANNEL_GROUP_FX);
+		      /*
+		       * For some reason panning does not use MIX_MAX_VOLUME
+		       */
+		      pan1 = snd_context->const_data.water_pan1 * 255.0f;
+		      pan2 = snd_context->const_data.water_pan2 * 255.0f;
+
+		      TMP2 ("%d %d", pan1, pan2);
+		      if (!Mix_SetPanning
+			  (_MOD_OGG_CHANNEL_WATER1, pan1, pan2))
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("unable to set panning on channel %d (%s)"),
+				      _MOD_OGG_CHANNEL_WATER1,
+				      Mix_GetError ());
+			}
+		      if (!Mix_SetPanning
+			  (_MOD_OGG_CHANNEL_WATER2, pan2, pan1))
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("unable to set panning on channel %d (%s)"),
+				      _MOD_OGG_CHANNEL_WATER2,
+				      Mix_GetError ());
+			}
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("not enough channels (%d) to handle both water and sound fx"),
+				  snd_context->mixer.nb_channels);
+		    }
 
 		  _mod_ogg_set_fx_volume (snd_context, fx_volume);
 		  _mod_ogg_set_water_volume (snd_context, water_volume);
@@ -116,6 +160,14 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
     }
 
   return snd_context;
+}
+
+void
+_mod_ogg_poll (_mod_ogg_context_t * snd_context)
+{
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("ogg poll"));
+
+  _mod_ogg_poll_water (snd_context);
 }
 
 void

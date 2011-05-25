@@ -85,6 +85,7 @@ extern _mod_csound_context_t *_mod_csound_init (int argc, char *argv[],
 						float fx_volume,
 						float water_volume,
 						float music_volume);
+extern void _mod_csound_poll (_mod_csound_context_t * csound_context);
 extern void _mod_csound_quit (_mod_csound_context_t * csound_context);
 
 /*

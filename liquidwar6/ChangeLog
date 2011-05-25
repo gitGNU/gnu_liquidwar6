@@ -1,5 +1,11 @@
 2011-05-25 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Water sounds do work.
+
+	* Added C to Guile funcs list, no desc yet, but entries are here.
+
+2011-05-24 : Christian Mauduit <ufoot@ufoot.org>
+
 	* Added water-volume option, renamed sound-volume to fx-volume.
 
 	* Added water sounds.

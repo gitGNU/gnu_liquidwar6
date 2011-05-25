@@ -154,6 +154,17 @@ _set_music_volume (void *snd_context, float volume)
 }
 
 static void
+_poll (void *snd_context)
+{
+  _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
+
+  if (mod_ogg_context)
+    {
+      _mod_ogg_poll (mod_ogg_context);
+    }
+}
+
+static void
 _quit (void *snd_context)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
@@ -224,6 +235,7 @@ mod_ogg_create_backend ()
       backend->set_fx_volume = _set_fx_volume;
       backend->set_water_volume = _set_water_volume;
       backend->set_music_volume = _set_music_volume;
+      backend->poll = _poll;
       backend->quit = _quit;
       backend->repr = _repr;
     }

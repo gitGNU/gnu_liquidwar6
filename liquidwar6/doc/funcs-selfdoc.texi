@@ -1,0 +1,1412 @@
+@subsection c-gettext
+@deffn {C function exported to Guile} @code{c-gettext}
+Calls GNU gettext to convert string in current locale. Note that '_' (plain
+underscode) is exported as well, so that code can be written using '_' as a
+function.
+@end deffn
+
+@subsection c-lw6-exit
+@deffn {C function exported to Guile} @code{c-lw6-exit}
+...
+@end deffn
+
+@subsection c-lw6-release
+@deffn {C function exported to Guile} @code{c-lw6-release}
+...
+@end deffn
+
+@subsection c-lw6bot-get-backends
+@deffn {C function exported to Guile} @code{c-lw6bot-get-backends}
+...
+@end deffn
+
+@subsection c-lw6bot-new
+@deffn {C function exported to Guile} @code{c-lw6bot-new}
+...
+@end deffn
+
+@subsection c-lw6bot-next-move
+@deffn {C function exported to Guile} @code{c-lw6bot-next-move}
+...
+@end deffn
+
+@subsection c-lw6cfg-defaults
+@deffn {C function exported to Guile} @code{c-lw6cfg-defaults}
+...
+@end deffn
+
+@subsection c-lw6cfg-get-option
+@deffn {C function exported to Guile} @code{c-lw6cfg-get-option}
+...
+@end deffn
+
+@subsection c-lw6cfg-init
+@deffn {C function exported to Guile} @code{c-lw6cfg-init}
+...
+@end deffn
+
+@subsection c-lw6cfg-load
+@deffn {C function exported to Guile} @code{c-lw6cfg-load}
+...
+@end deffn
+
+@subsection c-lw6cfg-option-exists
+@deffn {C function exported to Guile} @code{c-lw6cfg-option-exists}
+...
+@end deffn
+
+@subsection c-lw6cfg-quit
+@deffn {C function exported to Guile} @code{c-lw6cfg-quit}
+...
+@end deffn
+
+@subsection c-lw6cfg-save
+@deffn {C function exported to Guile} @code{c-lw6cfg-save}
+...
+@end deffn
+
+@subsection c-lw6cfg-set-option
+@deffn {C function exported to Guile} @code{c-lw6cfg-set-option}
+...
+@end deffn
+
+@subsection c-lw6cfg-unified-get-log-file
+@deffn {C function exported to Guile} @code{c-lw6cfg-unified-get-log-file}
+...
+@end deffn
+
+@subsection c-lw6cfg-unified-get-map-path
+@deffn {C function exported to Guile} @code{c-lw6cfg-unified-get-map-path}
+...
+@end deffn
+
+@subsection c-lw6cfg-unified-get-music-path
+@deffn {C function exported to Guile} @code{c-lw6cfg-unified-get-music-path}
+...
+@end deffn
+
+@subsection c-lw6cfg-unified-get-user-dir
+@deffn {C function exported to Guile} @code{c-lw6cfg-unified-get-user-dir}
+...
+@end deffn
+
+@subsection c-lw6cli-get-backends
+@deffn {C function exported to Guile} @code{c-lw6cli-get-backends}
+...
+@end deffn
+
+@subsection c-lw6cns-init
+@deffn {C function exported to Guile} @code{c-lw6cns-init}
+...
+@end deffn
+
+@subsection c-lw6cns-poll
+@deffn {C function exported to Guile} @code{c-lw6cns-poll}
+...
+@end deffn
+
+@subsection c-lw6cns-quit
+@deffn {C function exported to Guile} @code{c-lw6cns-quit}
+...
+@end deffn
+
+@subsection c-lw6cns-support
+@deffn {C function exported to Guile} @code{c-lw6cns-support}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-average-fps
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-average-fps}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-fullscreen-modes
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-fullscreen-modes}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-instant-fps
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-instant-fps}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-last-frame-rendering-time
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-last-frame-rendering-time}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-nb-frames
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-nb-frames}
+...
+@end deffn
+
+@subsection c-lw6dsp-get-video-mode
+@deffn {C function exported to Guile} @code{c-lw6dsp-get-video-mode}
+...
+@end deffn
+
+@subsection c-lw6dsp-new
+@deffn {C function exported to Guile} @code{c-lw6dsp-new}
+...
+@end deffn
+
+@subsection c-lw6dsp-release
+@deffn {C function exported to Guile} @code{c-lw6dsp-release}
+...
+@end deffn
+
+@subsection c-lw6dsp-update
+@deffn {C function exported to Guile} @code{c-lw6dsp-update}
+...
+@end deffn
+
+@subsection c-lw6gfx-get-backends
+@deffn {C function exported to Guile} @code{c-lw6gfx-get-backends}
+...
+@end deffn
+
+@subsection c-lw6gui-default-look
+@deffn {C function exported to Guile} @code{c-lw6gui-default-look}
+...
+@end deffn
+
+@subsection c-lw6gui-input-reset
+@deffn {C function exported to Guile} @code{c-lw6gui-input-reset}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-get-move-pad
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-get-move-pad}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-a
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-a}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-b
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-b}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-c
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-c}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-d
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-d}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-down
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-down}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-left
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-left}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-right
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-right}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick1-pop-button-up
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-up}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-get-move-pad
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-get-move-pad}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-a
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-a}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-b
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-b}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-c
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-c}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-d
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-d}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-down
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-down}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-left
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-left}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-right
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-right}
+...
+@end deffn
+
+@subsection c-lw6gui-joystick2-pop-button-up
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-up}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-get-move-pad
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-get-move-pad}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-is-pressed
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-is-pressed}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-down
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-down}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-enter
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-enter}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-esc
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-esc}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-left
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-left}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-pgdown
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-pgdown}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-pgup
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-pgup}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-right
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-right}
+...
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-key-up
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-up}
+...
+@end deffn
+
+@subsection c-lw6gui-look-get
+@deffn {C function exported to Guile} @code{c-lw6gui-look-get}
+...
+@end deffn
+
+@subsection c-lw6gui-look-set
+@deffn {C function exported to Guile} @code{c-lw6gui-look-set}
+...
+@end deffn
+
+@subsection c-lw6gui-look-zoom-in
+@deffn {C function exported to Guile} @code{c-lw6gui-look-zoom-in}
+...
+@end deffn
+
+@subsection c-lw6gui-look-zoom-out
+@deffn {C function exported to Guile} @code{c-lw6gui-look-zoom-out}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-append
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-append}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-enable-esc
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-enable-esc}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-new
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-new}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-scroll-down
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-scroll-down}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-scroll-up
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-scroll-up}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-select
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-select}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-select-esc
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-select-esc}
+...
+@end deffn
+
+@subsection c-lw6gui-menu-sync
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-sync}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-get-state
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-get-state}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-poll-move
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-poll-move}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-pop-button-left
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-button-left}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-pop-button-right
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-button-right}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-pop-wheel-down
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-wheel-down}
+...
+@end deffn
+
+@subsection c-lw6gui-mouse-pop-wheel-up
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-wheel-up}
+...
+@end deffn
+
+@subsection c-lw6hlp-get-default-value
+@deffn {C function exported to Guile} @code{c-lw6hlp-get-default-value}
+...
+@end deffn
+
+@subsection c-lw6hlp-list
+@deffn {C function exported to Guile} @code{c-lw6hlp-list}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-advanced
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-advanced}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-aliases
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-aliases}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-doc
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-doc}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-funcs
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-funcs}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-graphics
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-graphics}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-hooks
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-hooks}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-input
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-input}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-map
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-map}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-map-hints
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-map-hints}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-map-rules
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-map-rules}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-map-style
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-map-style}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-network
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-network}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-path
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-path}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-players
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-players}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-quick
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-quick}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-show
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-show}
+...
+@end deffn
+
+@subsection c-lw6hlp-list-sound
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-sound}
+...
+@end deffn
+
+@subsection c-lw6ker-add-cursor
+@deffn {C function exported to Guile} @code{c-lw6ker-add-cursor}
+...
+@end deffn
+
+@subsection c-lw6ker-build-game-state
+@deffn {C function exported to Guile} @code{c-lw6ker-build-game-state}
+...
+@end deffn
+
+@subsection c-lw6ker-build-game-struct
+@deffn {C function exported to Guile} @code{c-lw6ker-build-game-struct}
+...
+@end deffn
+
+@subsection c-lw6ker-cursor-exists
+@deffn {C function exported to Guile} @code{c-lw6ker-cursor-exists}
+...
+@end deffn
+
+@subsection c-lw6ker-do-round
+@deffn {C function exported to Guile} @code{c-lw6ker-do-round}
+...
+@end deffn
+
+@subsection c-lw6ker-dup-game-state
+@deffn {C function exported to Guile} @code{c-lw6ker-dup-game-state}
+...
+@end deffn
+
+@subsection c-lw6ker-game-state-checksum
+@deffn {C function exported to Guile} @code{c-lw6ker-game-state-checksum}
+...
+@end deffn
+
+@subsection c-lw6ker-game-struct-checksum
+@deffn {C function exported to Guile} @code{c-lw6ker-game-struct-checksum}
+...
+@end deffn
+
+@subsection c-lw6ker-get-cursor-info
+@deffn {C function exported to Guile} @code{c-lw6ker-get-cursor-info}
+...
+@end deffn
+
+@subsection c-lw6ker-get-moves
+@deffn {C function exported to Guile} @code{c-lw6ker-get-moves}
+...
+@end deffn
+
+@subsection c-lw6ker-get-rounds
+@deffn {C function exported to Guile} @code{c-lw6ker-get-rounds}
+...
+@end deffn
+
+@subsection c-lw6ker-get-spreads
+@deffn {C function exported to Guile} @code{c-lw6ker-get-spreads}
+...
+@end deffn
+
+@subsection c-lw6ker-is-over
+@deffn {C function exported to Guile} @code{c-lw6ker-is-over}
+...
+@end deffn
+
+@subsection c-lw6ker-node-exists
+@deffn {C function exported to Guile} @code{c-lw6ker-node-exists}
+...
+@end deffn
+
+@subsection c-lw6ker-register-node
+@deffn {C function exported to Guile} @code{c-lw6ker-register-node}
+...
+@end deffn
+
+@subsection c-lw6ker-remove-cursor
+@deffn {C function exported to Guile} @code{c-lw6ker-remove-cursor}
+...
+@end deffn
+
+@subsection c-lw6ker-set-cursor
+@deffn {C function exported to Guile} @code{c-lw6ker-set-cursor}
+...
+@end deffn
+
+@subsection c-lw6ker-sync-game-state
+@deffn {C function exported to Guile} @code{c-lw6ker-sync-game-state}
+...
+@end deffn
+
+@subsection c-lw6ker-unregister-node
+@deffn {C function exported to Guile} @code{c-lw6ker-unregister-node}
+...
+@end deffn
+
+@subsection c-lw6ldr-get-entries
+@deffn {C function exported to Guile} @code{c-lw6ldr-get-entries}
+...
+@end deffn
+
+@subsection c-lw6ldr-hints-get-default
+@deffn {C function exported to Guile} @code{c-lw6ldr-hints-get-default}
+...
+@end deffn
+
+@subsection c-lw6ldr-print-examples
+@deffn {C function exported to Guile} @code{c-lw6ldr-print-examples}
+...
+@end deffn
+
+@subsection c-lw6ldr-read
+@deffn {C function exported to Guile} @code{c-lw6ldr-read}
+...
+@end deffn
+
+@subsection c-lw6ldr-read-relative
+@deffn {C function exported to Guile} @code{c-lw6ldr-read-relative}
+...
+@end deffn
+
+@subsection c-lw6map-get-look
+@deffn {C function exported to Guile} @code{c-lw6map-get-look}
+...
+@end deffn
+
+@subsection c-lw6map-get-music-dir
+@deffn {C function exported to Guile} @code{c-lw6map-get-music-dir}
+...
+@end deffn
+
+@subsection c-lw6map-rules-get-default
+@deffn {C function exported to Guile} @code{c-lw6map-rules-get-default}
+...
+@end deffn
+
+@subsection c-lw6map-rules-get-int
+@deffn {C function exported to Guile} @code{c-lw6map-rules-get-int}
+...
+@end deffn
+
+@subsection c-lw6map-rules-get-max
+@deffn {C function exported to Guile} @code{c-lw6map-rules-get-max}
+...
+@end deffn
+
+@subsection c-lw6map-rules-get-min
+@deffn {C function exported to Guile} @code{c-lw6map-rules-get-min}
+...
+@end deffn
+
+@subsection c-lw6map-style-get-default
+@deffn {C function exported to Guile} @code{c-lw6map-style-get-default}
+...
+@end deffn
+
+@subsection c-lw6map-team-color-index-to-key
+@deffn {C function exported to Guile} @code{c-lw6map-team-color-index-to-key}
+...
+@end deffn
+
+@subsection c-lw6map-team-color-key-to-index
+@deffn {C function exported to Guile} @code{c-lw6map-team-color-key-to-index}
+...
+@end deffn
+
+@subsection c-lw6net-init
+@deffn {C function exported to Guile} @code{c-lw6net-init}
+...
+@end deffn
+
+@subsection c-lw6net-quit
+@deffn {C function exported to Guile} @code{c-lw6net-quit}
+...
+@end deffn
+
+@subsection c-lw6p2p-db-default-name
+@deffn {C function exported to Guile} @code{c-lw6p2p-db-default-name}
+...
+@end deffn
+
+@subsection c-lw6p2p-db-new
+@deffn {C function exported to Guile} @code{c-lw6p2p-db-new}
+...
+@end deffn
+
+@subsection c-lw6p2p-db-reset
+@deffn {C function exported to Guile} @code{c-lw6p2p-db-reset}
+...
+@end deffn
+
+@subsection c-lw6p2p-node-close
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-close}
+...
+@end deffn
+
+@subsection c-lw6p2p-node-get-id
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-id}
+...
+@end deffn
+
+@subsection c-lw6p2p-node-new
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-new}
+...
+@end deffn
+
+@subsection c-lw6p2p-node-poll
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-poll}
+...
+@end deffn
+
+@subsection c-lw6pil-bench
+@deffn {C function exported to Guile} @code{c-lw6pil-bench}
+...
+@end deffn
+
+@subsection c-lw6pil-build-pilot
+@deffn {C function exported to Guile} @code{c-lw6pil-build-pilot}
+...
+@end deffn
+
+@subsection c-lw6pil-calibrate
+@deffn {C function exported to Guile} @code{c-lw6pil-calibrate}
+...
+@end deffn
+
+@subsection c-lw6pil-commit
+@deffn {C function exported to Guile} @code{c-lw6pil-commit}
+...
+@end deffn
+
+@subsection c-lw6pil-execute-command
+@deffn {C function exported to Guile} @code{c-lw6pil-execute-command}
+...
+@end deffn
+
+@subsection c-lw6pil-fix-coords
+@deffn {C function exported to Guile} @code{c-lw6pil-fix-coords}
+...
+@end deffn
+
+@subsection c-lw6pil-get-last-commit-round
+@deffn {C function exported to Guile} @code{c-lw6pil-get-last-commit-round}
+...
+@end deffn
+
+@subsection c-lw6pil-get-max-round
+@deffn {C function exported to Guile} @code{c-lw6pil-get-max-round}
+...
+@end deffn
+
+@subsection c-lw6pil-get-next-round
+@deffn {C function exported to Guile} @code{c-lw6pil-get-next-round}
+...
+@end deffn
+
+@subsection c-lw6pil-get-reference-current-round
+@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-current-round}
+...
+@end deffn
+
+@subsection c-lw6pil-get-reference-target-round
+@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-target-round}
+...
+@end deffn
+
+@subsection c-lw6pil-is-over
+@deffn {C function exported to Guile} @code{c-lw6pil-is-over}
+...
+@end deffn
+
+@subsection c-lw6pil-local-command
+@deffn {C function exported to Guile} @code{c-lw6pil-local-command}
+...
+@end deffn
+
+@subsection c-lw6pil-local-cursors-set-main
+@deffn {C function exported to Guile} @code{c-lw6pil-local-cursors-set-main}
+...
+@end deffn
+
+@subsection c-lw6pil-local-cursors-set-mouse-controlled
+@deffn {C function exported to Guile} @code{c-lw6pil-local-cursors-set-mouse-controlled}
+...
+@end deffn
+
+@subsection c-lw6pil-make-backup
+@deffn {C function exported to Guile} @code{c-lw6pil-make-backup}
+...
+@end deffn
+
+@subsection c-lw6pil-send-command
+@deffn {C function exported to Guile} @code{c-lw6pil-send-command}
+...
+@end deffn
+
+@subsection c-lw6pil-slow-down
+@deffn {C function exported to Guile} @code{c-lw6pil-slow-down}
+...
+@end deffn
+
+@subsection c-lw6pil-speed-up
+@deffn {C function exported to Guile} @code{c-lw6pil-speed-up}
+...
+@end deffn
+
+@subsection c-lw6pil-sync-from-backup
+@deffn {C function exported to Guile} @code{c-lw6pil-sync-from-backup}
+...
+@end deffn
+
+@subsection c-lw6pil-sync-from-draft
+@deffn {C function exported to Guile} @code{c-lw6pil-sync-from-draft}
+...
+@end deffn
+
+@subsection c-lw6pil-sync-from-reference
+@deffn {C function exported to Guile} @code{c-lw6pil-sync-from-reference}
+...
+@end deffn
+
+@subsection c-lw6snd-get-backends
+@deffn {C function exported to Guile} @code{c-lw6snd-get-backends}
+...
+@end deffn
+
+@subsection c-lw6snd-is-music-file
+@deffn {C function exported to Guile} @code{c-lw6snd-is-music-file}
+...
+@end deffn
+
+@subsection c-lw6snd-new
+@deffn {C function exported to Guile} @code{c-lw6snd-new}
+...
+@end deffn
+
+@subsection c-lw6snd-play-fx
+@deffn {C function exported to Guile} @code{c-lw6snd-play-fx}
+...
+@end deffn
+
+@subsection c-lw6snd-play-music-file
+@deffn {C function exported to Guile} @code{c-lw6snd-play-music-file}
+...
+@end deffn
+
+@subsection c-lw6snd-play-music-random
+@deffn {C function exported to Guile} @code{c-lw6snd-play-music-random}
+...
+@end deffn
+
+@subsection c-lw6snd-poll
+@deffn {C function exported to Guile} @code{c-lw6snd-poll}
+...
+@end deffn
+
+@subsection c-lw6snd-release
+@deffn {C function exported to Guile} @code{c-lw6snd-release}
+...
+@end deffn
+
+@subsection c-lw6snd-set-fx-volume
+@deffn {C function exported to Guile} @code{c-lw6snd-set-fx-volume}
+...
+@end deffn
+
+@subsection c-lw6snd-set-music-volume
+@deffn {C function exported to Guile} @code{c-lw6snd-set-music-volume}
+...
+@end deffn
+
+@subsection c-lw6snd-stop-music
+@deffn {C function exported to Guile} @code{c-lw6snd-stop-music}
+...
+@end deffn
+
+@subsection c-lw6srv-get-backends
+@deffn {C function exported to Guile} @code{c-lw6srv-get-backends}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-bin-id
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-bin-id}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-cflags
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-cflags}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-codename
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-codename}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-configure-args
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-configure-args}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-copyright
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-copyright}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-datadir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-datadir}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-date
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-date}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-allinone
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-allinone}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-console
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-console}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-fullstatic
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-fullstatic}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-gcov
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-gcov}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-gprof
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-gprof}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-gtk
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-gtk}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-instrument
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-instrument}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-mod-csound
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-csound}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-mod-gl
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-gl}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-mod-http
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-http}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-mod-ogg
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-mod-ogg}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-optimize
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-optimize}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-paranoid
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-paranoid}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-profiler
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-profiler}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-enable-valgrind
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-enable-valgrind}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-endianness
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-endianness}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-gcc-version
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-gcc-version}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-host-cpu
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-host-cpu}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-host-os
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-host-os}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-hostname
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-hostname}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-includedir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-includedir}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-ldflags
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-ldflags}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-libdir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-libdir}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-license
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-license}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-localedir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-localedir}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-md5sum
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-md5sum}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-package-name
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-package-name}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-package-string
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-package-string}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-package-tarname
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-package-tarname}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-pointer-size
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-pointer-size}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-prefix
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-prefix}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-stamp
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-stamp}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-time
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-time}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-top-srcdir
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-top-srcdir}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-url
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-url}
+...
+@end deffn
+
+@subsection c-lw6sys-build-get-version
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-version}
+...
+@end deffn
+
+@subsection c-lw6sys-build-is-gp2x
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-gp2x}
+...
+@end deffn
+
+@subsection c-lw6sys-build-is-mac-os-x
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-mac-os-x}
+...
+@end deffn
+
+@subsection c-lw6sys-build-is-ms-windows
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-ms-windows}
+...
+@end deffn
+
+@subsection c-lw6sys-build-is-x86
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-x86}
+...
+@end deffn
+
+@subsection c-lw6sys-debug-get
+@deffn {C function exported to Guile} @code{c-lw6sys-debug-get}
+...
+@end deffn
+
+@subsection c-lw6sys-debug-set
+@deffn {C function exported to Guile} @code{c-lw6sys-debug-set}
+...
+@end deffn
+
+@subsection c-lw6sys-delay
+@deffn {C function exported to Guile} @code{c-lw6sys-delay}
+...
+@end deffn
+
+@subsection c-lw6sys-dump
+@deffn {C function exported to Guile} @code{c-lw6sys-dump}
+...
+@end deffn
+
+@subsection c-lw6sys-dump-clear
+@deffn {C function exported to Guile} @code{c-lw6sys-dump-clear}
+...
+@end deffn
+
+@subsection c-lw6sys-generate-id-16
+@deffn {C function exported to Guile} @code{c-lw6sys-generate-id-16}
+...
+@end deffn
+
+@subsection c-lw6sys-generate-id-32
+@deffn {C function exported to Guile} @code{c-lw6sys-generate-id-32}
+...
+@end deffn
+
+@subsection c-lw6sys-generate-id-64
+@deffn {C function exported to Guile} @code{c-lw6sys-generate-id-64}
+...
+@end deffn
+
+@subsection c-lw6sys-get-config-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-config-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-cwd
+@deffn {C function exported to Guile} @code{c-lw6sys-get-cwd}
+...
+@end deffn
+
+@subsection c-lw6sys-get-cycle
+@deffn {C function exported to Guile} @code{c-lw6sys-get-cycle}
+...
+@end deffn
+
+@subsection c-lw6sys-get-data-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-data-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-config-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-config-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-data-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-data-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-log-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-log-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-map-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-map-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-map-path
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-map-path}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-mod-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-mod-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-music-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-music-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-music-path
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-music-path}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-prefix
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-prefix}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-script-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-script-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-default-user-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-default-user-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-hostname
+@deffn {C function exported to Guile} @code{c-lw6sys-get-hostname}
+...
+@end deffn
+
+@subsection c-lw6sys-get-log-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-log-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-map-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-map-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-map-path
+@deffn {C function exported to Guile} @code{c-lw6sys-get-map-path}
+...
+@end deffn
+
+@subsection c-lw6sys-get-mod-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-mod-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-music-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-music-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-music-path
+@deffn {C function exported to Guile} @code{c-lw6sys-get-music-path}
+...
+@end deffn
+
+@subsection c-lw6sys-get-prefix
+@deffn {C function exported to Guile} @code{c-lw6sys-get-prefix}
+...
+@end deffn
+
+@subsection c-lw6sys-get-run-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-run-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-script-file
+@deffn {C function exported to Guile} @code{c-lw6sys-get-script-file}
+...
+@end deffn
+
+@subsection c-lw6sys-get-timestamp
+@deffn {C function exported to Guile} @code{c-lw6sys-get-timestamp}
+...
+@end deffn
+
+@subsection c-lw6sys-get-uptime
+@deffn {C function exported to Guile} @code{c-lw6sys-get-uptime}
+...
+@end deffn
+
+@subsection c-lw6sys-get-user-dir
+@deffn {C function exported to Guile} @code{c-lw6sys-get-user-dir}
+...
+@end deffn
+
+@subsection c-lw6sys-get-username
+@deffn {C function exported to Guile} @code{c-lw6sys-get-username}
+...
+@end deffn
+
+@subsection c-lw6sys-getenv
+@deffn {C function exported to Guile} @code{c-lw6sys-getenv}
+...
+@end deffn
+
+@subsection c-lw6sys-getenv-prefixed
+@deffn {C function exported to Guile} @code{c-lw6sys-getenv-prefixed}
+...
+@end deffn
+
+@subsection c-lw6sys-idle
+@deffn {C function exported to Guile} @code{c-lw6sys-idle}
+...
+@end deffn
+
+@subsection c-lw6sys-log
+@deffn {C function exported to Guile} @code{c-lw6sys-log}
+...
+@end deffn
+
+@subsection c-lw6sys-log-get-level
+@deffn {C function exported to Guile} @code{c-lw6sys-log-get-level}
+...
+@end deffn
+
+@subsection c-lw6sys-log-set-level
+@deffn {C function exported to Guile} @code{c-lw6sys-log-set-level}
+...
+@end deffn
+
+@subsection c-lw6sys-path-concat
+@deffn {C function exported to Guile} @code{c-lw6sys-path-concat}
+...
+@end deffn
+
+@subsection c-lw6sys-path-parent
+@deffn {C function exported to Guile} @code{c-lw6sys-path-parent}
+...
+@end deffn
+
+@subsection c-lw6sys-path-split
+@deffn {C function exported to Guile} @code{c-lw6sys-path-split}
+...
+@end deffn
+
+@subsection c-lw6sys-set-memory-bazooka-eraser
+@deffn {C function exported to Guile} @code{c-lw6sys-set-memory-bazooka-eraser}
+...
+@end deffn
+
+@subsection c-lw6sys-set-memory-bazooka-size
+@deffn {C function exported to Guile} @code{c-lw6sys-set-memory-bazooka-size}
+...
+@end deffn
+
+@subsection c-lw6sys-signal-custom
+@deffn {C function exported to Guile} @code{c-lw6sys-signal-custom}
+...
+@end deffn
+
+@subsection c-lw6sys-signal-default
+@deffn {C function exported to Guile} @code{c-lw6sys-signal-default}
+...
+@end deffn
+
+@subsection c-lw6sys-signal-poll-quit
+@deffn {C function exported to Guile} @code{c-lw6sys-signal-poll-quit}
+...
+@end deffn
+
+@subsection c-lw6sys-signal-send-quit
+@deffn {C function exported to Guile} @code{c-lw6sys-signal-send-quit}
+...
+@end deffn
+
+@subsection c-lw6sys-sleep
+@deffn {C function exported to Guile} @code{c-lw6sys-sleep}
+...
+@end deffn
+
+@subsection c-lw6sys-snooze
+@deffn {C function exported to Guile} @code{c-lw6sys-snooze}
+...
+@end deffn
+
+@subsection c-lw6sys-url-canonize
+@deffn {C function exported to Guile} @code{c-lw6sys-url-canonize}
+...
+@end deffn
+
+@subsection c-lw6tsk-loader-get-stage
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-get-stage}
+...
+@end deffn
+
+@subsection c-lw6tsk-loader-new
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-new}
+...
+@end deffn
+
+@subsection c-lw6tsk-loader-pop
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-pop}
+...
+@end deffn
+
+@subsection c-lw6tsk-loader-push
+@deffn {C function exported to Guile} @code{c-lw6tsk-loader-push}
+...
+@end deffn
+

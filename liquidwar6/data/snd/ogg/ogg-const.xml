@@ -4,6 +4,8 @@
   <int key="bits" value="16" />
   <int key="channels" value="2" />
   <int key="chunksize" value="4096" />
+  <float key="water-pan1" value="0.1" />
+  <float key="water-pan2" value="0.9" />
   <string key="file-splash" value="fanfare.ogg" />
   <string key="file-valid" value="menuvalid.ogg" />
   <string key="file-select" value="menuselect.ogg" />

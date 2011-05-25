@@ -162,6 +162,18 @@ _set_music_volume (void *snd_context, float volume)
 }
 
 static void
+_poll (void *snd_context)
+{
+  _mod_csound_context_t *csound_context =
+    (_mod_csound_context_t *) snd_context;
+
+  if (csound_context)
+    {
+      _mod_csound_poll (csound_context);
+    }
+}
+
+static void
 _quit (void *snd_context)
 {
   _mod_csound_context_t *csound_context =
@@ -234,6 +246,7 @@ mod_csound_create_backend ()
       backend->set_fx_volume = _set_fx_volume;
       backend->set_water_volume = _set_water_volume;
       backend->set_music_volume = _set_music_volume;
+      backend->poll = _poll;
       backend->quit = _quit;
       backend->repr = _repr;
     }

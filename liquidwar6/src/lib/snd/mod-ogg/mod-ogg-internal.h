@@ -31,6 +31,20 @@
 #define _MOD_OGG_CHANNEL_WATER1 0
 #define _MOD_OGG_CHANNEL_WATER2 1
 #define _MOD_OGG_CHANNEL_FX0 2
+#define _MOD_OGG_CHANNEL_GROUP_FX 1
+#define _MOD_OGG_CHANNEL_GROUP_WATER 2
+
+#define _MOD_OGG_NB_WATER 6
+typedef enum _mod_ogg_water_enum_e
+{
+  _MOD_OGG_WATER1 = 0,
+  _MOD_OGG_WATER2 = 1,
+  _MOD_OGG_WATER3 = 2,
+  _MOD_OGG_WATER4 = 3,
+  _MOD_OGG_WATER5 = 4,
+  _MOD_OGG_WATER6 = 5
+}
+_mod_ogg_water_enum_t;
 
 typedef struct _mod_ogg_path_s
 {
@@ -59,6 +73,8 @@ typedef struct _mod_ogg_const_data_s
   int bits;
   int channels;
   int chunksize;
+  float water_pan1;
+  float water_pan2;
   char *file_splash;
   char *file_valid;
   char *file_select;
@@ -85,7 +101,7 @@ _mod_ogg_fx_t;
 
 typedef struct _mod_ogg_water_s
 {
-  Mix_Chunk *water[LW6SND_NB_WATER];
+  Mix_Chunk *water[_MOD_OGG_NB_WATER];
 }
 _mod_ogg_water_t;
 
@@ -152,6 +168,7 @@ extern char *_mod_ogg_repr (_mod_ogg_context_t * gfx_context, u_int32_t id);
 extern _mod_ogg_context_t *_mod_ogg_init (int argc, char *argv[],
 					  float fx_volume, float water_volume,
 					  float music_volume);
+extern void _mod_ogg_poll (_mod_ogg_context_t * ogg_context);
 extern void _mod_ogg_quit (_mod_ogg_context_t * ogg_context);
 
 /*

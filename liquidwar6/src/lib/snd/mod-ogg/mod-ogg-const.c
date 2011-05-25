@@ -44,6 +44,14 @@ read_callback (void *callback_data, char *element, char *key, char *value)
       lw6cfg_read_xml_int (key, value, "chunksize", &const_data->chunksize);
     }
 
+  if (!strcmp (element, "float"))
+    {
+      lw6cfg_read_xml_float (key, value, "water-pan1",
+			     &const_data->water_pan1);
+      lw6cfg_read_xml_float (key, value, "water-pan2",
+			     &const_data->water_pan2);
+    }
+
   if (!strcmp (element, "string"))
     {
       lw6cfg_read_xml_string (key, value, "file-splash",

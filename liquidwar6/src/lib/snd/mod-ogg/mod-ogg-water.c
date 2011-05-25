@@ -30,9 +30,32 @@
 #define WATER_DIR "water"
 
 void
-_mod_ogg_poll_water (_mod_ogg_context_t * snd_context)
+_mod_ogg_poll_water (_mod_ogg_context_t * ogg_context)
 {
-  // todo
+  int channel = 0;
+  int water_id = 0;
+
+  for (channel = _MOD_OGG_CHANNEL_WATER1; channel <= _MOD_OGG_CHANNEL_WATER2;
+       ++channel)
+    {
+      if (Mix_Playing (channel))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("OK, channel %d playing"),
+		      channel);
+	}
+      else
+	{
+	  water_id = lw6sys_random (_MOD_OGG_NB_WATER);
+	  if (ogg_context->water.water[water_id])
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("play water %d on channel %d"), water_id,
+			  channel);
+	      Mix_PlayChannel (channel, ogg_context->water.water[water_id],
+			       0);
+	    }
+	}
+    }
 }
 
 static Mix_Chunk *
@@ -75,21 +98,21 @@ _mod_ogg_load_water (_mod_ogg_context_t * ogg_context)
   int ret = 0;
   int i;
 
-  ogg_context->water.water[LW6SND_WATER1] =
+  ogg_context->water.water[_MOD_OGG_WATER1] =
     load_water (ogg_context, ogg_context->const_data.file_water1);
-  ogg_context->water.water[LW6SND_WATER2] =
+  ogg_context->water.water[_MOD_OGG_WATER2] =
     load_water (ogg_context, ogg_context->const_data.file_water2);
-  ogg_context->water.water[LW6SND_WATER3] =
+  ogg_context->water.water[_MOD_OGG_WATER3] =
     load_water (ogg_context, ogg_context->const_data.file_water3);
-  ogg_context->water.water[LW6SND_WATER4] =
+  ogg_context->water.water[_MOD_OGG_WATER4] =
     load_water (ogg_context, ogg_context->const_data.file_water4);
-  ogg_context->water.water[LW6SND_WATER5] =
+  ogg_context->water.water[_MOD_OGG_WATER5] =
     load_water (ogg_context, ogg_context->const_data.file_water5);
-  ogg_context->water.water[LW6SND_WATER6] =
+  ogg_context->water.water[_MOD_OGG_WATER6] =
     load_water (ogg_context, ogg_context->const_data.file_water6);
 
   ret = 1;
-  for (i = 0; i < LW6SND_NB_WATER; ++i)
+  for (i = 0; i < _MOD_OGG_NB_WATER; ++i)
     {
       if (!ogg_context->water.water[i])
 	{
@@ -106,7 +129,7 @@ _mod_ogg_unload_water (_mod_ogg_context_t * ogg_context)
 {
   int i;
 
-  for (i = 0; i < LW6SND_NB_WATER; ++i)
+  for (i = 0; i < _MOD_OGG_NB_WATER; ++i)
     {
       if (ogg_context->water.water[i])
 	{
