@@ -42,3 +42,11 @@
   (lambda ()
     (lw6-play-fx-by-id 3)))
 
+(define lw6-sound-poll
+  (lambda ()
+    (let (
+	  (snd (lw6-get-game-global "snd"))
+	  )
+      (if snd
+	  (c-lw6snd-poll snd)))))
+
