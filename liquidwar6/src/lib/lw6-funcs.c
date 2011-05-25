@@ -6691,6 +6691,30 @@ _scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
 }
 
 static SCM
+_scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
+{
+  lw6snd_backend_t *c_snd;
+  float c_water_volume;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_REALP (water_volume), water_volume, SCM_ARG2, __FUNCTION__);
+
+  c_snd = lw6_scm_to_snd (snd);
+  if (c_snd)
+    {
+      c_water_volume = scm_num2float (water_volume, 0, NULL);
+      lw6snd_set_water_volume (c_snd, c_water_volume);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_UNDEFINED;
+}
+
+static SCM
 _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path,
 			   SCM music_file)
 {
@@ -8415,6 +8439,12 @@ lw6_register_funcs ()
 		      0, 0, (SCM (*)())_scm_lw6snd_play_fx);
   scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_FX_VOLUME, 2,
 		      0, 0, (SCM (*)())_scm_lw6snd_set_fx_volume);
+
+  /*
+   * In water.c
+   */
+  scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_WATER_VOLUME, 2,
+		      0, 0, (SCM (*)())_scm_lw6snd_set_water_volume);
 
   /*
    * In music.c

@@ -877,6 +877,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_RELEASE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_PLAY_FX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_SET_FX_VOLUME);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SND_SET_WATER_VOLUME);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_IS_MUSIC_FILE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_PLAY_MUSIC_FILE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM);

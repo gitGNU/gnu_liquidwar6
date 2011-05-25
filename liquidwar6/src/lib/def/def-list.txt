@@ -198,6 +198,7 @@ c-lw6snd-poll
 c-lw6snd-release
 c-lw6snd-set-fx-volume
 c-lw6snd-set-music-volume
+c-lw6snd-set-water-volume
 c-lw6snd-stop-music
 c-lw6srv-get-backends
 c-lw6sys-build-get-bin-id

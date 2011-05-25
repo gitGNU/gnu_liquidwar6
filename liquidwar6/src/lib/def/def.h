@@ -225,6 +225,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6SND_RELEASE "c-lw6snd-release"
 #define LW6DEF_C_LW6SND_SET_FX_VOLUME "c-lw6snd-set-fx-volume"
 #define LW6DEF_C_LW6SND_SET_MUSIC_VOLUME "c-lw6snd-set-music-volume"
+#define LW6DEF_C_LW6SND_SET_WATER_VOLUME "c-lw6snd-set-water-volume"
 #define LW6DEF_C_LW6SND_STOP_MUSIC "c-lw6snd-stop-music"
 #define LW6DEF_C_LW6SRV_GET_BACKENDS "c-lw6srv-get-backends"
 #define LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID "c-lw6sys-build-get-bin-id"
