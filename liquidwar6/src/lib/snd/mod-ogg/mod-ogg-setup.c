@@ -100,7 +100,6 @@ _mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
 		      pan1 = snd_context->const_data.water_pan1 * 255.0f;
 		      pan2 = snd_context->const_data.water_pan2 * 255.0f;
 
-		      TMP2 ("%d %d", pan1, pan2);
 		      if (!Mix_SetPanning
 			  (_MOD_OGG_CHANNEL_WATER1, pan1, pan2))
 			{
