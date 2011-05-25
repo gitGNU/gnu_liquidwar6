@@ -856,7 +856,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_FIX_COORDS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_EXECUTE_COMMAND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED);
+  lw6sys_list_push_back (list,
+			 LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_MAKE_BACKUP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE);

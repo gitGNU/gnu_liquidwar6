@@ -7909,7 +7909,8 @@ lw6_register_funcs ()
   /*
    * In dump.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0, (SCM (*)())_scm_lw6sys_dump);
+  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0,
+		      (SCM (*)())_scm_lw6sys_dump);
   scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP_CLEAR, 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_dump_clear);
   /*
@@ -7937,7 +7938,8 @@ lw6_register_funcs ()
   /*
    * In log.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0, (SCM (*)())_scm_lw6sys_log);
+  scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0,
+		      (SCM (*)())_scm_lw6sys_log);
   scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_log_get_level);
   scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
@@ -8026,7 +8028,8 @@ lw6_register_funcs ()
 		      (SCM (*)())_scm_lw6sys_sleep);
   scm_c_define_gsubr (LW6DEF_C_LW6SYS_DELAY, 1, 0, 0,
 		      (SCM (*)())_scm_lw6sys_delay);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0, (SCM (*)())_scm_lw6sys_idle);
+  scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0,
+		      (SCM (*)())_scm_lw6sys_idle);
   scm_c_define_gsubr (LW6DEF_C_LW6SYS_SNOOZE, 0, 0, 0,
 		      (SCM (*)())_scm_lw6sys_snooze);
   /*
@@ -8072,7 +8075,8 @@ lw6_register_funcs ()
 		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
   scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES,
 		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list);
+  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
+		      (SCM (*)())_scm_lw6hlp_list);
   scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
 		      (SCM (*)())_scm_lw6hlp_get_default_value);
 
@@ -8084,7 +8088,8 @@ lw6_register_funcs ()
   /*
    * In load.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_LOAD, 1, 0, 0, (SCM (*)())_scm_lw6cfg_load);
+  scm_c_define_gsubr (LW6DEF_C_LW6CFG_LOAD, 1, 0, 0,
+		      (SCM (*)())_scm_lw6cfg_load);
   /*
    * In option.c
    */
@@ -8097,12 +8102,15 @@ lw6_register_funcs ()
   /*
    * In save.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_SAVE, 1, 0, 0, (SCM (*)())_scm_lw6cfg_save);
+  scm_c_define_gsubr (LW6DEF_C_LW6CFG_SAVE, 1, 0, 0,
+		      (SCM (*)())_scm_lw6cfg_save);
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_quit);
+  scm_c_define_gsubr (LW6DEF_C_LW6CFG_INIT, 0, 0, 0,
+		      (SCM (*)())_scm_lw6cfg_init);
+  scm_c_define_gsubr (LW6DEF_C_LW6CFG_QUIT, 0, 0, 0,
+		      (SCM (*)())_scm_lw6cfg_quit);
   /*
    * In unified.c
    */
@@ -8232,11 +8240,12 @@ lw6_register_funcs ()
   /*
    * In display.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0, (SCM (*)())_scm_lw6dsp_new);
+  scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0,
+		      (SCM (*)())_scm_lw6dsp_new);
   scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0,
 		      (SCM (*)())_scm_lw6dsp_release);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2,
-		      0, 0, (SCM (*)())_scm_lw6dsp_update);
+  scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0,
+		      (SCM (*)())_scm_lw6dsp_update);
   scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0,
 		      (SCM (*)())_scm_lw6dsp_get_nb_frames);
   scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0, 0,
@@ -8255,7 +8264,8 @@ lw6_register_funcs ()
    */
   scm_c_define_gsubr (LW6DEF_C_LW6LDR_GET_ENTRIES, 2, 0, 0,
 		      (SCM (*)())_scm_lw6ldr_get_entries);
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0, (SCM (*)())_scm_lw6ldr_read);
+  scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0,
+		      (SCM (*)())_scm_lw6ldr_read);
   scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ_RELATIVE, 8, 0, 0,
 		      (SCM (*)())_scm_lw6ldr_read_relative);
   scm_c_define_gsubr (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, 0, 0, 0,
@@ -8269,10 +8279,10 @@ lw6_register_funcs ()
   scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_LOOK, 1, 0, 0, (SCM (*)())_scm_lw6map_get_look);
   scm_c_define_gsubr
-    (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, 1, 0, 0, (SCM (*)())_scm_lw6map_get_music_dir);
-  scm_c_define_gsubr
-    (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY, 1, 0, 0,
-     (SCM (*)())_scm_lw6map_team_color_index_to_key);
+    (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, 1, 0, 0,
+     (SCM (*)())_scm_lw6map_get_music_dir);
+  scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY, 1, 0, 0,
+		      (SCM (*)())_scm_lw6map_team_color_index_to_key);
   scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, 1, 0, 0,
 		      (SCM (*)())_scm_lw6map_team_color_key_to_index);
   scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, 1, 0, 0,
@@ -8391,8 +8401,10 @@ lw6_register_funcs ()
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_NEW, 4, 0, 0, (SCM (*)())_scm_lw6snd_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_POLL, 1, 0, 0, (SCM (*)())_scm_lw6snd_poll);
+  scm_c_define_gsubr (LW6DEF_C_LW6SND_NEW, 4, 0, 0,
+		      (SCM (*)())_scm_lw6snd_new);
+  scm_c_define_gsubr (LW6DEF_C_LW6SND_POLL, 1, 0, 0,
+		      (SCM (*)())_scm_lw6snd_poll);
   scm_c_define_gsubr (LW6DEF_C_LW6SND_RELEASE, 1, 0, 0,
 		      (SCM (*)())_scm_lw6snd_release);
 
@@ -8429,9 +8441,12 @@ lw6_register_funcs ()
   /*
    * In handler.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_quit);
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0, (SCM (*)())_scm_lw6cns_poll);
+  scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0,
+		      (SCM (*)())_scm_lw6cns_init);
+  scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0,
+		      (SCM (*)())_scm_lw6cns_quit);
+  scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0,
+		      (SCM (*)())_scm_lw6cns_poll);
 
   /*
    * In liquidwar6tsk
@@ -8451,8 +8466,10 @@ lw6_register_funcs ()
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0, (SCM (*)())_scm_lw6net_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6net_quit);
+  scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0,
+		      (SCM (*)())_scm_lw6net_init);
+  scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0,
+		      (SCM (*)())_scm_lw6net_quit);
 
   /*
    * In liquidwar6cli
@@ -8498,14 +8515,16 @@ lw6_register_funcs ()
    */
   scm_c_define_gsubr (LW6DEF_C_LW6BOT_GET_BACKENDS, 0, 0, 0,
 		      (SCM (*)())_scm_lw6bot_get_backends);
-  scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0, (SCM (*)())_scm_lw6bot_new);
+  scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0,
+		      (SCM (*)())_scm_lw6bot_new);
   scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEXT_MOVE, 1, 0, 0,
 		      (SCM (*)())_scm_lw6bot_next_move);
 
   /*
    * Global control funcs
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
+  scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0,
+		      (SCM (*)())_scm_lw6_release);
   scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
 
   return ret;

@@ -1,5 +1,7 @@
 2011-05-25 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added water sounds settings to GUI.
+
 	* Water sounds do work.
 
 	* Added C to Guile funcs list, no desc yet, but entries are here.

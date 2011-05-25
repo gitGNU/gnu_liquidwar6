@@ -61,29 +61,57 @@
 	  (if snd (setter snd value))
 	  )))))
 
-(define lw6-audio-options-menu-sound-volume-item-label
+(define lw6-audio-options-menu-fx-volume-item-label
   (lw6-audio-options-menu-volume-item-label
    lw6def-fx-volume
    (_ "No sound FX")
    (_ "Sound FX ~a%")))
 
-(define lw6-audio-options-menu-sound-volume-item-minus
+(define lw6-audio-options-menu-fx-volume-item-minus
   (lw6-audio-options-menu-volume-item-minus 
    lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
-(define lw6-audio-options-menu-sound-volume-item-plus
+(define lw6-audio-options-menu-fx-volume-item-plus
   (lw6-audio-options-menu-volume-item-plus 
    lw6def-fx-volume
    c-lw6snd-set-fx-volume))
 
-(define lw6-audio-options-menu-sound-volume-item
+(define lw6-audio-options-menu-fx-volume-item
   (lambda ()
     (let (
 	  (item (lw6-menu-item-template-switch 
-		 lw6-audio-options-menu-sound-volume-item-label 
-		 lw6-audio-options-menu-sound-volume-item-plus 
-		 lw6-audio-options-menu-sound-volume-item-minus ))
+		 lw6-audio-options-menu-fx-volume-item-label 
+		 lw6-audio-options-menu-fx-volume-item-plus 
+		 lw6-audio-options-menu-fx-volume-item-minus ))
+	  )
+      (begin
+  	(set! item (assoc-set! item "selected" #t))
+	item))))
+
+(define lw6-audio-options-menu-water-volume-item-label
+  (lw6-audio-options-menu-volume-item-label
+   lw6def-water-volume
+   (_ "No water sounds")
+   (_ "Water sounds ~a%")))
+
+(define lw6-audio-options-menu-water-volume-item-minus
+  (lw6-audio-options-menu-volume-item-minus 
+   lw6def-water-volume
+   c-lw6snd-set-water-volume))
+
+(define lw6-audio-options-menu-water-volume-item-plus
+  (lw6-audio-options-menu-volume-item-plus 
+   lw6def-water-volume
+   c-lw6snd-set-water-volume))
+
+(define lw6-audio-options-menu-water-volume-item
+  (lambda ()
+    (let (
+	  (item (lw6-menu-item-template-switch 
+		 lw6-audio-options-menu-water-volume-item-label 
+		 lw6-audio-options-menu-water-volume-item-plus 
+		 lw6-audio-options-menu-water-volume-item-minus ))
 	  )
       (begin
   	(set! item (assoc-set! item "selected" #t))
@@ -185,7 +213,8 @@
 	  (menu (lw6-menu-template (_ "Sound options")))
 	  )
       (begin
-	(lw6-append-menuitem! menu (lw6-audio-options-menu-sound-volume-item))
+	(lw6-append-menuitem! menu (lw6-audio-options-menu-fx-volume-item))
+	(lw6-append-menuitem! menu (lw6-audio-options-menu-water-volume-item))
 	(lw6-append-menuitem! menu (lw6-audio-options-menu-music-volume-item))
 	(lw6-append-menuitem! menu (lw6-audio-options-menu-backend-item))
 	menu
