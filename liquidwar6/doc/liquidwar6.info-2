@@ -1072,649 +1072,655 @@ File: liquidwar6.info,  Node: C to Guile,  Next: Script hooks,  Prev: Advanced s
  -- C function exported to Guile: `c-lw6snd-set-music-volume'
      ...
 
-4.13.175 c-lw6snd-stop-music
+4.13.175 c-lw6snd-set-water-volume
+----------------------------------
+
+ -- C function exported to Guile: `c-lw6snd-set-water-volume'
+     ...
+
+4.13.176 c-lw6snd-stop-music
 ----------------------------
 
  -- C function exported to Guile: `c-lw6snd-stop-music'
      ...
 
-4.13.176 c-lw6srv-get-backends
+4.13.177 c-lw6srv-get-backends
 ------------------------------
 
  -- C function exported to Guile: `c-lw6srv-get-backends'
      ...
 
-4.13.177 c-lw6sys-build-get-bin-id
+4.13.178 c-lw6sys-build-get-bin-id
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-bin-id'
      ...
 
-4.13.178 c-lw6sys-build-get-cflags
+4.13.179 c-lw6sys-build-get-cflags
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-cflags'
      ...
 
-4.13.179 c-lw6sys-build-get-codename
+4.13.180 c-lw6sys-build-get-codename
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-codename'
      ...
 
-4.13.180 c-lw6sys-build-get-configure-args
+4.13.181 c-lw6sys-build-get-configure-args
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-configure-args'
      ...
 
-4.13.181 c-lw6sys-build-get-copyright
+4.13.182 c-lw6sys-build-get-copyright
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-copyright'
      ...
 
-4.13.182 c-lw6sys-build-get-datadir
+4.13.183 c-lw6sys-build-get-datadir
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-datadir'
      ...
 
-4.13.183 c-lw6sys-build-get-date
+4.13.184 c-lw6sys-build-get-date
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-date'
      ...
 
-4.13.184 c-lw6sys-build-get-enable-allinone
+4.13.185 c-lw6sys-build-get-enable-allinone
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-allinone'
      ...
 
-4.13.185 c-lw6sys-build-get-enable-console
+4.13.186 c-lw6sys-build-get-enable-console
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-console'
      ...
 
-4.13.186 c-lw6sys-build-get-enable-fullstatic
+4.13.187 c-lw6sys-build-get-enable-fullstatic
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-fullstatic'
      ...
 
-4.13.187 c-lw6sys-build-get-enable-gcov
+4.13.188 c-lw6sys-build-get-enable-gcov
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gcov'
      ...
 
-4.13.188 c-lw6sys-build-get-enable-gprof
+4.13.189 c-lw6sys-build-get-enable-gprof
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gprof'
      ...
 
-4.13.189 c-lw6sys-build-get-enable-gtk
+4.13.190 c-lw6sys-build-get-enable-gtk
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gtk'
      ...
 
-4.13.190 c-lw6sys-build-get-enable-instrument
+4.13.191 c-lw6sys-build-get-enable-instrument
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-instrument'
      ...
 
-4.13.191 c-lw6sys-build-get-enable-mod-csound
+4.13.192 c-lw6sys-build-get-enable-mod-csound
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-csound'
      ...
 
-4.13.192 c-lw6sys-build-get-enable-mod-gl
+4.13.193 c-lw6sys-build-get-enable-mod-gl
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-gl'
      ...
 
-4.13.193 c-lw6sys-build-get-enable-mod-http
+4.13.194 c-lw6sys-build-get-enable-mod-http
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-http'
      ...
 
-4.13.194 c-lw6sys-build-get-enable-mod-ogg
+4.13.195 c-lw6sys-build-get-enable-mod-ogg
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-ogg'
      ...
 
-4.13.195 c-lw6sys-build-get-enable-optimize
+4.13.196 c-lw6sys-build-get-enable-optimize
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-optimize'
      ...
 
-4.13.196 c-lw6sys-build-get-enable-paranoid
+4.13.197 c-lw6sys-build-get-enable-paranoid
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-paranoid'
      ...
 
-4.13.197 c-lw6sys-build-get-enable-profiler
+4.13.198 c-lw6sys-build-get-enable-profiler
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-profiler'
      ...
 
-4.13.198 c-lw6sys-build-get-enable-valgrind
+4.13.199 c-lw6sys-build-get-enable-valgrind
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-valgrind'
      ...
 
-4.13.199 c-lw6sys-build-get-endianness
+4.13.200 c-lw6sys-build-get-endianness
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-endianness'
      ...
 
-4.13.200 c-lw6sys-build-get-gcc-version
+4.13.201 c-lw6sys-build-get-gcc-version
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-gcc-version'
      ...
 
-4.13.201 c-lw6sys-build-get-host-cpu
+4.13.202 c-lw6sys-build-get-host-cpu
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-host-cpu'
      ...
 
-4.13.202 c-lw6sys-build-get-host-os
+4.13.203 c-lw6sys-build-get-host-os
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-host-os'
      ...
 
-4.13.203 c-lw6sys-build-get-hostname
+4.13.204 c-lw6sys-build-get-hostname
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-hostname'
      ...
 
-4.13.204 c-lw6sys-build-get-includedir
+4.13.205 c-lw6sys-build-get-includedir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-includedir'
      ...
 
-4.13.205 c-lw6sys-build-get-ldflags
+4.13.206 c-lw6sys-build-get-ldflags
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-ldflags'
      ...
 
-4.13.206 c-lw6sys-build-get-libdir
+4.13.207 c-lw6sys-build-get-libdir
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-libdir'
      ...
 
-4.13.207 c-lw6sys-build-get-license
+4.13.208 c-lw6sys-build-get-license
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-license'
      ...
 
-4.13.208 c-lw6sys-build-get-localedir
+4.13.209 c-lw6sys-build-get-localedir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-localedir'
      ...
 
-4.13.209 c-lw6sys-build-get-md5sum
+4.13.210 c-lw6sys-build-get-md5sum
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-md5sum'
      ...
 
-4.13.210 c-lw6sys-build-get-package-name
+4.13.211 c-lw6sys-build-get-package-name
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-name'
      ...
 
-4.13.211 c-lw6sys-build-get-package-string
+4.13.212 c-lw6sys-build-get-package-string
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-string'
      ...
 
-4.13.212 c-lw6sys-build-get-package-tarname
+4.13.213 c-lw6sys-build-get-package-tarname
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-tarname'
      ...
 
-4.13.213 c-lw6sys-build-get-pointer-size
+4.13.214 c-lw6sys-build-get-pointer-size
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-pointer-size'
      ...
 
-4.13.214 c-lw6sys-build-get-prefix
+4.13.215 c-lw6sys-build-get-prefix
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-prefix'
      ...
 
-4.13.215 c-lw6sys-build-get-stamp
+4.13.216 c-lw6sys-build-get-stamp
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-stamp'
      ...
 
-4.13.216 c-lw6sys-build-get-time
+4.13.217 c-lw6sys-build-get-time
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-time'
      ...
 
-4.13.217 c-lw6sys-build-get-top-srcdir
+4.13.218 c-lw6sys-build-get-top-srcdir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-top-srcdir'
      ...
 
-4.13.218 c-lw6sys-build-get-url
+4.13.219 c-lw6sys-build-get-url
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-url'
      ...
 
-4.13.219 c-lw6sys-build-get-version
+4.13.220 c-lw6sys-build-get-version
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-version'
      ...
 
-4.13.220 c-lw6sys-build-is-gp2x
+4.13.221 c-lw6sys-build-is-gp2x
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-gp2x'
      ...
 
-4.13.221 c-lw6sys-build-is-mac-os-x
+4.13.222 c-lw6sys-build-is-mac-os-x
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-mac-os-x'
      ...
 
-4.13.222 c-lw6sys-build-is-ms-windows
+4.13.223 c-lw6sys-build-is-ms-windows
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-ms-windows'
      ...
 
-4.13.223 c-lw6sys-build-is-x86
+4.13.224 c-lw6sys-build-is-x86
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-x86'
      ...
 
-4.13.224 c-lw6sys-debug-get
+4.13.225 c-lw6sys-debug-get
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-debug-get'
      ...
 
-4.13.225 c-lw6sys-debug-set
+4.13.226 c-lw6sys-debug-set
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-debug-set'
      ...
 
-4.13.226 c-lw6sys-delay
+4.13.227 c-lw6sys-delay
 -----------------------
 
  -- C function exported to Guile: `c-lw6sys-delay'
      ...
 
-4.13.227 c-lw6sys-dump
+4.13.228 c-lw6sys-dump
 ----------------------
 
  -- C function exported to Guile: `c-lw6sys-dump'
      ...
 
-4.13.228 c-lw6sys-dump-clear
+4.13.229 c-lw6sys-dump-clear
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-dump-clear'
      ...
 
-4.13.229 c-lw6sys-generate-id-16
+4.13.230 c-lw6sys-generate-id-16
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-16'
      ...
 
-4.13.230 c-lw6sys-generate-id-32
+4.13.231 c-lw6sys-generate-id-32
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-32'
      ...
 
-4.13.231 c-lw6sys-generate-id-64
+4.13.232 c-lw6sys-generate-id-64
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-64'
      ...
 
-4.13.232 c-lw6sys-get-config-file
+4.13.233 c-lw6sys-get-config-file
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-config-file'
      ...
 
-4.13.233 c-lw6sys-get-cwd
+4.13.234 c-lw6sys-get-cwd
 -------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-cwd'
      ...
 
-4.13.234 c-lw6sys-get-cycle
+4.13.235 c-lw6sys-get-cycle
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-cycle'
      ...
 
-4.13.235 c-lw6sys-get-data-dir
+4.13.236 c-lw6sys-get-data-dir
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-data-dir'
      ...
 
-4.13.236 c-lw6sys-get-default-config-file
+4.13.237 c-lw6sys-get-default-config-file
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-config-file'
      ...
 
-4.13.237 c-lw6sys-get-default-data-dir
+4.13.238 c-lw6sys-get-default-data-dir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-data-dir'
      ...
 
-4.13.238 c-lw6sys-get-default-log-file
+4.13.239 c-lw6sys-get-default-log-file
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-log-file'
      ...
 
-4.13.239 c-lw6sys-get-default-map-dir
+4.13.240 c-lw6sys-get-default-map-dir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-map-dir'
      ...
 
-4.13.240 c-lw6sys-get-default-map-path
+4.13.241 c-lw6sys-get-default-map-path
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-map-path'
      ...
 
-4.13.241 c-lw6sys-get-default-mod-dir
+4.13.242 c-lw6sys-get-default-mod-dir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-mod-dir'
      ...
 
-4.13.242 c-lw6sys-get-default-music-dir
+4.13.243 c-lw6sys-get-default-music-dir
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-music-dir'
      ...
 
-4.13.243 c-lw6sys-get-default-music-path
+4.13.244 c-lw6sys-get-default-music-path
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-music-path'
      ...
 
-4.13.244 c-lw6sys-get-default-prefix
+4.13.245 c-lw6sys-get-default-prefix
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-prefix'
      ...
 
-4.13.245 c-lw6sys-get-default-script-file
+4.13.246 c-lw6sys-get-default-script-file
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-script-file'
      ...
 
-4.13.246 c-lw6sys-get-default-user-dir
+4.13.247 c-lw6sys-get-default-user-dir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-user-dir'
      ...
 
-4.13.247 c-lw6sys-get-hostname
+4.13.248 c-lw6sys-get-hostname
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-hostname'
      ...
 
-4.13.248 c-lw6sys-get-log-file
+4.13.249 c-lw6sys-get-log-file
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-log-file'
      ...
 
-4.13.249 c-lw6sys-get-map-dir
+4.13.250 c-lw6sys-get-map-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-map-dir'
      ...
 
-4.13.250 c-lw6sys-get-map-path
+4.13.251 c-lw6sys-get-map-path
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-map-path'
      ...
 
-4.13.251 c-lw6sys-get-mod-dir
+4.13.252 c-lw6sys-get-mod-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-mod-dir'
      ...
 
-4.13.252 c-lw6sys-get-music-dir
+4.13.253 c-lw6sys-get-music-dir
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-music-dir'
      ...
 
-4.13.253 c-lw6sys-get-music-path
+4.13.254 c-lw6sys-get-music-path
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-music-path'
      ...
 
-4.13.254 c-lw6sys-get-prefix
+4.13.255 c-lw6sys-get-prefix
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-prefix'
      ...
 
-4.13.255 c-lw6sys-get-run-dir
+4.13.256 c-lw6sys-get-run-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-run-dir'
      ...
 
-4.13.256 c-lw6sys-get-script-file
+4.13.257 c-lw6sys-get-script-file
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-script-file'
      ...
 
-4.13.257 c-lw6sys-get-timestamp
+4.13.258 c-lw6sys-get-timestamp
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-timestamp'
      ...
 
-4.13.258 c-lw6sys-get-uptime
+4.13.259 c-lw6sys-get-uptime
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-uptime'
      ...
 
-4.13.259 c-lw6sys-get-user-dir
+4.13.260 c-lw6sys-get-user-dir
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-user-dir'
      ...
 
-4.13.260 c-lw6sys-get-username
+4.13.261 c-lw6sys-get-username
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-username'
      ...
 
-4.13.261 c-lw6sys-getenv
+4.13.262 c-lw6sys-getenv
 ------------------------
 
  -- C function exported to Guile: `c-lw6sys-getenv'
      ...
 
-4.13.262 c-lw6sys-getenv-prefixed
+4.13.263 c-lw6sys-getenv-prefixed
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-getenv-prefixed'
      ...
 
-4.13.263 c-lw6sys-idle
+4.13.264 c-lw6sys-idle
 ----------------------
 
  -- C function exported to Guile: `c-lw6sys-idle'
      ...
 
-4.13.264 c-lw6sys-log
+4.13.265 c-lw6sys-log
 ---------------------
 
  -- C function exported to Guile: `c-lw6sys-log'
      ...
 
-4.13.265 c-lw6sys-log-get-level
+4.13.266 c-lw6sys-log-get-level
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-log-get-level'
      ...
 
-4.13.266 c-lw6sys-log-set-level
+4.13.267 c-lw6sys-log-set-level
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-log-set-level'
      ...
 
-4.13.267 c-lw6sys-path-concat
+4.13.268 c-lw6sys-path-concat
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-concat'
      ...
 
-4.13.268 c-lw6sys-path-parent
+4.13.269 c-lw6sys-path-parent
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-parent'
      ...
 
-4.13.269 c-lw6sys-path-split
+4.13.270 c-lw6sys-path-split
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-split'
      ...
 
-4.13.270 c-lw6sys-set-memory-bazooka-eraser
+4.13.271 c-lw6sys-set-memory-bazooka-eraser
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-eraser'
      ...
 
-4.13.271 c-lw6sys-set-memory-bazooka-size
+4.13.272 c-lw6sys-set-memory-bazooka-size
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-size'
      ...
 
-4.13.272 c-lw6sys-signal-custom
+4.13.273 c-lw6sys-signal-custom
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-custom'
      ...
 
-4.13.273 c-lw6sys-signal-default
+4.13.274 c-lw6sys-signal-default
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-default'
      ...
 
-4.13.274 c-lw6sys-signal-poll-quit
+4.13.275 c-lw6sys-signal-poll-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-poll-quit'
      ...
 
-4.13.275 c-lw6sys-signal-send-quit
+4.13.276 c-lw6sys-signal-send-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-send-quit'
      ...
 
-4.13.276 c-lw6sys-sleep
+4.13.277 c-lw6sys-sleep
 -----------------------
 
  -- C function exported to Guile: `c-lw6sys-sleep'
      ...
 
-4.13.277 c-lw6sys-snooze
+4.13.278 c-lw6sys-snooze
 ------------------------
 
  -- C function exported to Guile: `c-lw6sys-snooze'
      ...
 
-4.13.278 c-lw6sys-url-canonize
+4.13.279 c-lw6sys-url-canonize
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-url-canonize'
      ...
 
-4.13.279 c-lw6tsk-loader-get-stage
+4.13.280 c-lw6tsk-loader-get-stage
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-get-stage'
      ...
 
-4.13.280 c-lw6tsk-loader-new
+4.13.281 c-lw6tsk-loader-new
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-new'
      ...
 
-4.13.281 c-lw6tsk-loader-pop
+4.13.282 c-lw6tsk-loader-pop
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-pop'
      ...
 
-4.13.282 c-lw6tsk-loader-push
+4.13.283 c-lw6tsk-loader-push
 -----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-push'

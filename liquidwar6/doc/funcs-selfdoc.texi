@@ -870,6 +870,11 @@ function.
 ...
 @end deffn
 
+@subsection c-lw6snd-set-water-volume
+@deffn {C function exported to Guile} @code{c-lw6snd-set-water-volume}
+...
+@end deffn
+
 @subsection c-lw6snd-stop-music
 @deffn {C function exported to Guile} @code{c-lw6snd-stop-music}
 ...
