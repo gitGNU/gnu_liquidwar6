@@ -30,6 +30,8 @@
 #define TEST_WATER_VOLUME 0.5f
 #define TEST_MUSIC_VOLUME 0.4f
 #define TEST_FX_SLEEP 1.0f
+#define TEST_WATER_NB 10
+#define TEST_WATER_SLEEP 1.0f
 #define TEST_MUSIC_SLEEP 10.0f
 #define TEST_MUSIC_FILTER ""
 #define TEST_MUSIC_EXCLUDE ""
@@ -82,6 +84,26 @@ test_play_fx (lw6snd_backend_t * backend)
 	  {
 	    ret = 0;
 	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+test_play_water (lw6snd_backend_t * backend)
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i;
+
+    for (i = 0; i < TEST_WATER_NB; ++i)
+      {
+	lw6snd_poll (backend);
+	lw6sys_sleep (TEST_WATER_SLEEP);
       }
   }
 
@@ -177,7 +199,8 @@ lw6snd_test (int mode)
       if (backend)
 	{
 	  ret = test_init (backend) && test_play_fx (backend)
-	    && test_play_music (backend) && test_quit (backend) && ret;
+	    && test_play_water (backend) && test_play_music (backend)
+	    && test_quit (backend) && ret;
 	  lw6snd_destroy_backend (backend);
 	}
 #endif
