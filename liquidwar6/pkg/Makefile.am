@@ -138,6 +138,7 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/License.txt"
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
 	install -d ${TMP}/dll
@@ -153,9 +154,9 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/"
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc"
 	make -C ../doc liquidwar6.html liquidwar6.pdf
-	cp -r ../doc/liquidwar6.html "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/html"
-	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/"
+	cp -r ../doc/liquidwar6.html "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc/html"
+	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc"
+	cp ../doc/liquidwar6.pdf "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.pdf"
 	find ${TMP} -name "Makefile*" | xargs rm -f
 	rm -f $@ && hdiutil create -srcfolder "${TMP}/@PACKAGE_STRING@" $@
 	rm -rf ${TMP}
