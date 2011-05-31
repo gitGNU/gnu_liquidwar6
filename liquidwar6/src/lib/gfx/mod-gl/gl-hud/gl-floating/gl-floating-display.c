@@ -320,7 +320,7 @@ static void
 display_score (mod_gl_utils_context_t * utils_context,
 	       _mod_gl_hud_floating_context_t * floating_context)
 {
-  // todo
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("todo score..."));
 }
 
 void
