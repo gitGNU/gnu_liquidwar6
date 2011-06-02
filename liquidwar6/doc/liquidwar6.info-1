@@ -4904,7 +4904,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
  -- XML key: `skip-network'
      Type: boolean
 
-     Default value: false
+     Default value: true
 
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
