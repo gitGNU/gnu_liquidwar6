@@ -667,7 +667,7 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_SKIP_NETWORK,
 		 _x_
 		 ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."),
-		 0);
+		 1);
   POPULATE_BOOL (LW6DEF_BROADCAST,
 		 _x_
 		 ("Allows the program to send broadcast messages on the network. It can be usefull to disable those if you don't use UDP node discovery and/or if there's a sysadmin arround who does not enjoy permanent broadcasts on his LAN."),
@@ -1607,289 +1607,536 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_GETTEXT,
 		 _x_
 		 ("Calls GNU gettext to convert string in current locale. Note that '_' (plain underscode) is exported as well, so that code can be written using '_' as a function."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_URL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_TIME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_X86, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_GP2X, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_DEBUG_GET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_DEBUG_SET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_DUMP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_DUMP_CLEAR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_USERNAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_HOSTNAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GETENV, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GETENV_PREFIXED, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_16, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_32, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_64, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CWD, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_RUN_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_USER_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CONFIG_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_LOG_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_PREFIX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MOD_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DATA_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MUSIC_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MUSIC_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MAP_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MAP_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_CONCAT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_PARENT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_SPLIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_TIMESTAMP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_UPTIME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CYCLE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SLEEP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_DELAY, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_IDLE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_SNOOZE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_URL_CANONIZE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_QUICK, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_DOC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_SHOW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_PLAYERS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_INPUT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_GRAPHICS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_SOUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_NETWORK, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_RULES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_HINTS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_STYLE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_FUNCS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_HOOKS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_ADVANCED, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_ALIASES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_DEFAULTS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_LOAD, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_OPTION_EXISTS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_GET_OPTION, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_SET_OPTION, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_SAVE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_INIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_QUIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_APPEND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SYNC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SELECT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SELECT_ESC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_ENABLE_ESC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SCROLL_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_DEFAULT_LOOK, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_SET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_GET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_ZOOM_IN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_INPUT_RESET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_GET_STATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6GFX_GET_BACKENDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_RELEASE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_UPDATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_NB_FRAMES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6LDR_GET_ENTRIES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6LDR_READ, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6LDR_READ_RELATIVE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_LOOK, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_MIN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_MAX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_INT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_SYNC_GAME_STATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_DUP_GAME_STATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GAME_STRUCT_CHECKSUM, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GAME_STATE_CHECKSUM, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_REGISTER_NODE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_UNREGISTER_NODE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_NODE_EXISTS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_ADD_CURSOR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_REMOVE_CURSOR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_CURSOR_EXISTS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GET_CURSOR_INFO, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_SET_CURSOR, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_DO_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GET_MOVES, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GET_SPREADS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GET_ROUNDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_IS_OVER, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_BENCH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_BUILD_PILOT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SEND_COMMAND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_COMMAND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_COMMIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_FIX_COORDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_EXECUTE_COMMAND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN, _x_ ("..."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE,
+		 _x_ ("Wrapper on lw6sys_set_memory_bazooka_size."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER,
+		 _x_ ("Wrapper on lw6sys_set_memory_bazooka_eraser."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME,
+		 _x_ ("Wrapper on lw6sys_build_get_package_tarname."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME,
+		 _x_ ("Wrapper on lw6sys_build_get_package_name."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING,
+		 _x_ ("Wrapper on lw6sys_build_get_package_string."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_VERSION,
+		 _x_ ("Wrapper on lw6sys_build_get_version."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME,
+		 _x_ ("Wrapper on lw6sys_build_get_codename."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_STAMP,
+		 _x_ ("Wrapper on lw6sys_build_get_stamp."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM,
+		 _x_ ("Wrapper on lw6sys_build_get_md5sum."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT,
+		 _x_ ("Wrapper on lw6sys_build_get_copyright."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE,
+		 _x_ ("Wrapper on lw6sys_build_get_license."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_URL,
+		 _x_ ("Wrapper on lw6sys_build_get_url."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS,
+		 _x_ ("Wrapper on lw6sys_build_get_configure_args."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION,
+		 _x_ ("Wrapper on lw6sys_build_get_gcc_version."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS,
+		 _x_ ("Wrapper on lw6sys_build_get_cflags."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS,
+		 _x_ ("Wrapper on lw6sys_build_get_ldflags."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME,
+		 _x_ ("Wrapper on lw6sys_build_get_hostname."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DATE,
+		 _x_ ("Wrapper on lw6sys_build_get_date."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_TIME,
+		 _x_ ("Wrapper on lw6sys_build_get_time."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU,
+		 _x_ ("Wrapper on lw6sys_build_get_host_cpu."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS,
+		 _x_ ("Wrapper on lw6sys_build_get_endianness."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE,
+		 _x_ ("Wrapper on lw6sys_build_get_pointer_size."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_X86,
+		 _x_ ("Wrapper on lw6sys_build_is_x86."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS,
+		 _x_ ("Wrapper on lw6sys_build_get_host_os."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS,
+		 _x_ ("Wrapper on lw6sys_build_is_ms_windows."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X,
+		 _x_ ("Wrapper on lw6sys_build_is_mac_os_x."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_GP2X,
+		 _x_ ("Wrapper on lw6sys_build_is_gp2x."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_top_srcdir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX,
+		 _x_ ("Wrapper on lw6sys_build_get_prefix."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR,
+		 _x_ ("Wrapper on lw6sys_build_get_datadir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_libdir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_includedir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR,
+		 _x_ ("Wrapper on lw6sys_build_get_localedir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_console."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_gtk."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_gl."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_csound."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_ogg."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_http."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_optimize."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_allinone."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_fullstatic."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_paranoid."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_gprof."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_instrument."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_profiler."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_gcov."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_valgrind."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID,
+		 _x_ ("Wrapper on lw6sys_build_get_bin_id."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_DEBUG_GET,
+		 _x_ ("Wrapper on lw6sys_debug_get."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_DEBUG_SET,
+		 _x_ ("Wrapper on lw6sys_debug_set."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_DUMP, _x_ ("Wrapper on lw6sys_dump."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_DUMP_CLEAR,
+		 _x_ ("Wrapper on lw6sys_dump_clear."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_USERNAME,
+		 _x_ ("Wrapper on lw6sys_get_username."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_HOSTNAME,
+		 _x_ ("Wrapper on lw6sys_get_hostname."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GETENV, _x_ ("Wrapper on lw6sys_getenv."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GETENV_PREFIXED,
+		 _x_ ("Wrapper on lw6sys_getenv_prefixed."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_16,
+		 _x_ ("Wrapper on lw6sys_generate_id_16."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_32,
+		 _x_ ("Wrapper on lw6sys_generate_id_32."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GENERATE_ID_64,
+		 _x_ ("Wrapper on lw6sys_generate_id_64."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG, _x_ ("Wrapper on lw6sys_log."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_GET_LEVEL,
+		 _x_ ("Wrapper on lw6sys_log_get_level."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_LEVEL,
+		 _x_ ("Wrapper on lw6sys_log_set_level."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR,
+		 _x_ ("Wrapper on lw6sys_get_default_user_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE,
+		 _x_ ("Wrapper on lw6sys_get_default_config_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE,
+		 _x_ ("Wrapper on lw6sys_get_default_log_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX,
+		 _x_ ("Wrapper on lw6sys_get_default_prefix."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR,
+		 _x_ ("Wrapper on lw6sys_get_default_mod_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR,
+		 _x_ ("Wrapper on lw6sys_get_default_data_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR,
+		 _x_ ("Wrapper on lw6sys_get_default_music_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH,
+		 _x_ ("Wrapper on lw6sys_get_default_music_path."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR,
+		 _x_ ("Wrapper on lw6sys_get_default_map_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH,
+		 _x_ ("Wrapper on lw6sys_get_default_map_path."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE,
+		 _x_ ("Wrapper on lw6sys_get_default_script_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CWD, _x_ ("Wrapper on lw6sys_get_cwd."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_RUN_DIR,
+		 _x_ ("Wrapper on lw6sys_get_run_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_USER_DIR,
+		 _x_ ("Wrapper on lw6sys_get_user_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CONFIG_FILE,
+		 _x_ ("Wrapper on lw6sys_get_config_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_LOG_FILE,
+		 _x_ ("Wrapper on lw6sys_get_log_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_PREFIX,
+		 _x_ ("Wrapper on lw6sys_get_prefix."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MOD_DIR,
+		 _x_ ("Wrapper on lw6sys_get_mod_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DATA_DIR,
+		 _x_ ("Wrapper on lw6sys_get_data_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MUSIC_DIR,
+		 _x_ ("Wrapper on lw6sys_get_music_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MUSIC_PATH,
+		 _x_ ("Wrapper on lw6sys_get_music_path."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MAP_DIR,
+		 _x_ ("Wrapper on lw6sys_get_map_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_MAP_PATH,
+		 _x_ ("Wrapper on lw6sys_get_map_path."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE,
+		 _x_ ("Wrapper on lw6sys_get_script_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_CONCAT,
+		 _x_ ("Wrapper on lw6sys_path_concat."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_PARENT,
+		 _x_ ("Wrapper on lw6sys_path_parent."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_SPLIT,
+		 _x_ ("Wrapper on lw6sys_path_split."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM,
+		 _x_ ("Wrapper on lw6sys_signal_custom."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT,
+		 _x_ ("Wrapper on lw6sys_signal_default."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT,
+		 _x_ ("Wrapper on lw6sys_signal_send_quit."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT,
+		 _x_ ("Wrapper on lw6sys_signal_poll_quit."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_TIMESTAMP,
+		 _x_ ("Wrapper on lw6sys_get_timestamp."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_UPTIME,
+		 _x_ ("Wrapper on lw6sys_get_uptime."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_GET_CYCLE,
+		 _x_ ("Wrapper on lw6sys_get_cycle."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SLEEP, _x_ ("Wrapper on lw6sys_sleep."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_DELAY, _x_ ("Wrapper on lw6sys_delay."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_IDLE, _x_ ("Wrapper on lw6sys_idle."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_SNOOZE, _x_ ("Wrapper on lw6sys_snooze."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_URL_CANONIZE,
+		 _x_ ("Wrapper on lw6sys_url_canonize."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_QUICK,
+		 _x_ ("Wrapper on lw6hlp_list_quick."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_DOC,
+		 _x_ ("Wrapper on lw6hlp_list_doc."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_SHOW,
+		 _x_ ("Wrapper on lw6hlp_list_show."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_PATH,
+		 _x_ ("Wrapper on lw6hlp_list_path."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_PLAYERS,
+		 _x_ ("Wrapper on lw6hlp_list_players."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_INPUT,
+		 _x_ ("Wrapper on lw6hlp_list_input."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_GRAPHICS,
+		 _x_ ("Wrapper on lw6hlp_list_graphics."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_SOUND,
+		 _x_ ("Wrapper on lw6hlp_list_sound."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_NETWORK,
+		 _x_ ("Wrapper on lw6hlp_list_network."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP,
+		 _x_ ("Wrapper on lw6hlp_list_map."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_RULES,
+		 _x_ ("Wrapper on lw6hlp_list_map_rules."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_HINTS,
+		 _x_ ("Wrapper on lw6hlp_list_map_hints."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_MAP_STYLE,
+		 _x_ ("Wrapper on lw6hlp_list_map_style."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_FUNCS,
+		 _x_ ("Wrapper on lw6hlp_list_funcs."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_HOOKS,
+		 _x_ ("Wrapper on lw6hlp_list_hooks."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_ADVANCED,
+		 _x_ ("Wrapper on lw6hlp_list_advanced."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_ALIASES,
+		 _x_ ("Wrapper on lw6hlp_list_aliases."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST, _x_ ("Wrapper on lw6hlp_list."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE,
+		 _x_ ("Wrapper on lw6hlp_get_default_value."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_DEFAULTS,
+		 _x_ ("Wrapper on lw6cfg_defaults."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_LOAD, _x_ ("Wrapper on lw6cfg_load."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_OPTION_EXISTS,
+		 _x_ ("Wrapper on lw6cfg_option_exists."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_GET_OPTION,
+		 _x_ ("Wrapper on lw6cfg_get_option."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_SET_OPTION,
+		 _x_ ("Wrapper on lw6cfg_set_option."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_SAVE, _x_ ("Wrapper on lw6cfg_save."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_INIT, _x_ ("Wrapper on lw6cfg_init."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_QUIT, _x_ ("Wrapper on lw6cfg_quit."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR,
+		 _x_ ("Wrapper on lw6cfg_unified_get_user_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE,
+		 _x_ ("Wrapper on lw6cfg_unified_get_log_file."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH,
+		 _x_ ("Wrapper on lw6cfg_unified_get_music_path."));
+  POPULATE_VOID (LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH,
+		 _x_ ("Wrapper on lw6cfg_unified_get_map_path."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_NEW,
+		 _x_ ("Wrapper on lw6gui_menu_new."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_APPEND,
+		 _x_ ("Wrapper on lw6gui_menu_append."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SYNC,
+		 _x_ ("Wrapper on lw6gui_menu_sync."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SELECT,
+		 _x_ ("Wrapper on lw6gui_menu_select."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SELECT_ESC,
+		 _x_ ("Wrapper on lw6gui_menu_select_esc."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_ENABLE_ESC,
+		 _x_ ("Wrapper on lw6gui_menu_enable_esc."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SCROLL_UP,
+		 _x_ ("Wrapper on lw6gui_menu_scroll_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN,
+		 _x_ ("Wrapper on lw6gui_menu_scroll_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
+		 _x_ ("Wrapper on lw6gui_default_look."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_SET,
+		 _x_ ("Wrapper on lw6gui_look_set."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_GET,
+		 _x_ ("Wrapper on lw6gui_look_get."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_ZOOM_IN,
+		 _x_ ("Wrapper on lw6gui_look_zoom_in."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT,
+		 _x_ ("Wrapper on lw6gui_look_zoom_out."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_INPUT_RESET,
+		 _x_ ("Wrapper on lw6gui_input_reset."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE,
+		 _x_ ("Wrapper on lw6gui_mouse_poll_move."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_GET_STATE,
+		 _x_ ("Wrapper on lw6gui_mouse_get_state."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED,
+		 _x_ ("Wrapper on lw6gui_keyboard_is_pressed."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD,
+		 _x_ ("Wrapper on lw6gui_keyboard_get_move_pad."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD,
+		 _x_ ("Wrapper on lw6gui_joystick1_get_move_pad."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD,
+		 _x_ ("Wrapper on lw6gui_joystick2_get_move_pad."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_button_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_button_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_enter."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_esc."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_pgup."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_pgdown."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_a."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_b."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_c."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_a."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_b."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_c."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GFX_GET_BACKENDS,
+		 _x_ ("Wrapper on lw6gfx_get_backends."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_NEW, _x_ ("Wrapper on lw6dsp_new."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_RELEASE, _x_ ("Wrapper on lw6dsp_release."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_UPDATE, _x_ ("Wrapper on lw6dsp_update."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_NB_FRAMES,
+		 _x_ ("Wrapper on lw6dsp_get_nb_frames."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME,
+		 _x_ ("Wrapper on lw6dsp_get_last_frame_rendering_time."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_INSTANT_FPS,
+		 _x_ ("Wrapper on lw6dsp_get_instant_fps."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS,
+		 _x_ ("Wrapper on lw6dsp_get_average_fps."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_VIDEO_MODE,
+		 _x_ ("Wrapper on lw6dsp_get_video_mode."));
+  POPULATE_VOID (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES,
+		 _x_ ("Wrapper on lw6dsp_get_fullscreen_modes."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_GET_ENTRIES,
+		 _x_ ("Wrapper on lw6ldr_get_entries."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_READ, _x_ ("Wrapper on lw6ldr_read."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_READ_RELATIVE,
+		 _x_ ("Wrapper on lw6ldr_read_relative."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_PRINT_EXAMPLES,
+		 _x_ ("Wrapper on lw6ldr_print_examples."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT,
+		 _x_ ("Wrapper on lw6ldr_hints_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_LOOK,
+		 _x_ ("Wrapper on lw6map_get_look."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MUSIC_DIR,
+		 _x_ ("Wrapper on lw6map_get_music_dir."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY,
+		 _x_ ("Wrapper on lw6map_team_color_index_to_key."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX,
+		 _x_ ("Wrapper on lw6map_team_color_key_to_index."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT,
+		 _x_ ("Wrapper on lw6map_rules_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_MIN,
+		 _x_ ("Wrapper on lw6map_rules_get_min."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_MAX,
+		 _x_ ("Wrapper on lw6map_rules_get_max."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_INT,
+		 _x_ ("Wrapper on lw6map_rules_get_int."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT,
+		 _x_ ("Wrapper on lw6map_style_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
+		 _x_ ("Wrapper on lw6ker_build_game_struct."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STATE,
+		 _x_ ("Wrapper on lw6ker_build_game_state."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_SYNC_GAME_STATE,
+		 _x_ ("Wrapper on lw6ker_sync_game_state."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_DUP_GAME_STATE,
+		 _x_ ("Wrapper on lw6ker_dup_game_state."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GAME_STRUCT_CHECKSUM,
+		 _x_ ("Wrapper on lw6ker_game_struct_checksum."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GAME_STATE_CHECKSUM,
+		 _x_ ("Wrapper on lw6ker_game_state_checksum."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_REGISTER_NODE,
+		 _x_ ("Wrapper on lw6ker_register_node."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_UNREGISTER_NODE,
+		 _x_ ("Wrapper on lw6ker_unregister_node."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_NODE_EXISTS,
+		 _x_ ("Wrapper on lw6ker_node_exists."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_ADD_CURSOR,
+		 _x_ ("Wrapper on lw6ker_add_cursor."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_REMOVE_CURSOR,
+		 _x_ ("Wrapper on lw6ker_remove_cursor."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_CURSOR_EXISTS,
+		 _x_ ("Wrapper on lw6ker_cursor_exists."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_CURSOR_INFO,
+		 _x_ ("Wrapper on lw6ker_get_cursor_info."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_SET_CURSOR,
+		 _x_ ("Wrapper on lw6ker_set_cursor."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_DO_ROUND,
+		 _x_ ("Wrapper on lw6ker_do_round."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_MOVES,
+		 _x_ ("Wrapper on lw6ker_get_moves."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_SPREADS,
+		 _x_ ("Wrapper on lw6ker_get_spreads."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_ROUNDS,
+		 _x_ ("Wrapper on lw6ker_get_rounds."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_IS_OVER, _x_ ("Wrapper on lw6ker_is_over."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_BENCH, _x_ ("Wrapper on lw6pil_bench."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_BUILD_PILOT,
+		 _x_ ("Wrapper on lw6pil_build_pilot."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SEND_COMMAND,
+		 _x_ ("Wrapper on lw6pil_send_command."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_COMMAND,
+		 _x_ ("Wrapper on lw6pil_local_command."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_COMMIT, _x_ ("Wrapper on lw6pil_commit."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_FIX_COORDS,
+		 _x_ ("Wrapper on lw6pil_fix_coords."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
+		 _x_ ("Wrapper on lw6pil_execute_command."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,
+		 _x_ ("Wrapper on lw6pil_local_cursors_set_main."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED,
-		 _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_MAKE_BACKUP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_CALIBRATE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SPEED_UP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_SLOW_DOWN, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_NEXT_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_MAX_ROUND, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_IS_OVER, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_POLL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_RELEASE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_FX, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_SET_FX_VOLUME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_SET_WATER_VOLUME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_IS_MUSIC_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_MUSIC_FILE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_STOP_MUSIC, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SND_SET_MUSIC_VOLUME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CNS_SUPPORT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CNS_INIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CNS_QUIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CNS_POLL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_PUSH, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_POP, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_GET_STAGE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6NET_INIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6NET_QUIT, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6CLI_GET_BACKENDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6SRV_GET_BACKENDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_RESET, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_POLL, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CLOSE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_ID, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6BOT_GET_BACKENDS, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6BOT_NEW, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6BOT_NEXT_MOVE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6_RELEASE, _x_ ("..."));
-  POPULATE_VOID (LW6DEF_C_LW6_EXIT, _x_ ("..."));
+		 _x_
+		 ("Wrapper on lw6pil_local_cursors_set_mouse_controlled."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_MAKE_BACKUP,
+		 _x_ ("Wrapper on lw6pil_make_backup."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP,
+		 _x_ ("Wrapper on lw6pil_sync_from_backup."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE,
+		 _x_ ("Wrapper on lw6pil_sync_from_reference."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT,
+		 _x_ ("Wrapper on lw6pil_sync_from_draft."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_CALIBRATE,
+		 _x_ ("Wrapper on lw6pil_calibrate."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SPEED_UP,
+		 _x_ ("Wrapper on lw6pil_speed_up."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SLOW_DOWN,
+		 _x_ ("Wrapper on lw6pil_slow_down."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_NEXT_ROUND,
+		 _x_ ("Wrapper on lw6pil_get_next_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND,
+		 _x_ ("Wrapper on lw6pil_get_last_commit_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND,
+		 _x_ ("Wrapper on lw6pil_get_reference_current_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND,
+		 _x_ ("Wrapper on lw6pil_get_reference_target_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_MAX_ROUND,
+		 _x_ ("Wrapper on lw6pil_get_max_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_IS_OVER, _x_ ("Wrapper on lw6pil_is_over."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS,
+		 _x_ ("Wrapper on lw6snd_get_backends."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_NEW, _x_ ("Wrapper on lw6snd_new."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_POLL, _x_ ("Wrapper on lw6snd_poll."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_RELEASE, _x_ ("Wrapper on lw6snd_release."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_FX, _x_ ("Wrapper on lw6snd_play_fx."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_SET_FX_VOLUME,
+		 _x_ ("Wrapper on lw6snd_set_fx_volume."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_SET_WATER_VOLUME,
+		 _x_ ("Wrapper on lw6snd_set_water_volume."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_IS_MUSIC_FILE,
+		 _x_ ("Wrapper on lw6snd_is_music_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_MUSIC_FILE,
+		 _x_ ("Wrapper on lw6snd_play_music_file."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM,
+		 _x_ ("Wrapper on lw6snd_play_music_random."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_STOP_MUSIC,
+		 _x_ ("Wrapper on lw6snd_stop_music."));
+  POPULATE_VOID (LW6DEF_C_LW6SND_SET_MUSIC_VOLUME,
+		 _x_ ("Wrapper on lw6snd_set_music_volume."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_SUPPORT, _x_ ("Wrapper on lw6cns_support."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_INIT, _x_ ("Wrapper on lw6cns_init."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_QUIT, _x_ ("Wrapper on lw6cns_quit."));
+  POPULATE_VOID (LW6DEF_C_LW6CNS_POLL, _x_ ("Wrapper on lw6cns_poll."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_NEW,
+		 _x_ ("Wrapper on lw6tsk_loader_new."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_PUSH,
+		 _x_ ("Wrapper on lw6tsk_loader_push."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_POP,
+		 _x_ ("Wrapper on lw6tsk_loader_pop."));
+  POPULATE_VOID (LW6DEF_C_LW6TSK_LOADER_GET_STAGE,
+		 _x_ ("Wrapper on lw6tsk_loader_get_stage."));
+  POPULATE_VOID (LW6DEF_C_LW6NET_INIT, _x_ ("Wrapper on lw6net_init."));
+  POPULATE_VOID (LW6DEF_C_LW6NET_QUIT, _x_ ("Wrapper on lw6net_quit."));
+  POPULATE_VOID (LW6DEF_C_LW6CLI_GET_BACKENDS,
+		 _x_ ("Wrapper on lw6cli_get_backends."));
+  POPULATE_VOID (LW6DEF_C_LW6SRV_GET_BACKENDS,
+		 _x_ ("Wrapper on lw6srv_get_backends."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_NEW, _x_ ("Wrapper on lw6p2p_db_new."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_RESET,
+		 _x_ ("Wrapper on lw6p2p_db_reset."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME,
+		 _x_ ("Wrapper on lw6p2p_db_default_name."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_NEW,
+		 _x_ ("Wrapper on lw6p2p_node_new."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_POLL,
+		 _x_ ("Wrapper on lw6p2p_node_poll."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_CLOSE,
+		 _x_ ("Wrapper on lw6p2p_node_close."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_ID,
+		 _x_ ("Wrapper on lw6p2p_node_get_id."));
+  POPULATE_VOID (LW6DEF_C_LW6BOT_GET_BACKENDS,
+		 _x_ ("Wrapper on lw6bot_get_backends."));
+  POPULATE_VOID (LW6DEF_C_LW6BOT_NEW, _x_ ("Wrapper on lw6bot_new."));
+  POPULATE_VOID (LW6DEF_C_LW6BOT_NEXT_MOVE,
+		 _x_ ("Wrapper on lw6bot_next_move."));
+  POPULATE_VOID (LW6DEF_C_LW6_RELEASE, _x_ ("Wrapper on lw6_release."));
+  POPULATE_VOID (LW6DEF_C_LW6_EXIT, _x_ ("Wrapper on lw6_exit."));
 
   /*
    * Aliases
@@ -1942,7 +2189,7 @@ lw6hlp_reference_init ()
 /**
  * lw6hlp_reference_quit
  *
- * Un-initializes the help reference, this must be called at the
+ * un-initializes the help reference, this must be called at the
  * end of the program.
  *
  * Return value: 1 on success, 0 if failed

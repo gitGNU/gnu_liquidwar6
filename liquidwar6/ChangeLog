@@ -1,3 +1,7 @@
+2011-06-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Network disabled by default for next release.
+
 2011-05-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Minor fix in OS X dmg
