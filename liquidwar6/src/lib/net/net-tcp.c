@@ -199,6 +199,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 {
   int sock = -1;
   int connect_ret = 0;
+  int connect_async = 0;
   int select_ret = 0;
   int connected = 0;
   struct sockaddr_in name;
