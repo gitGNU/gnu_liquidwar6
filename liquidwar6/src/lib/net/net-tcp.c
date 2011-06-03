@@ -208,6 +208,9 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
   fd_set write;
   struct timeval tv;
   int64_t origin = 0;
+#ifdef LW6_MS_WINDOWS
+  int winerr = 0;
+#endif
 
   sock = socket (AF_INET, SOCK_STREAM, 0);
   if (sock >= 0)
@@ -234,7 +237,35 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 		    }
 		  else
 		    {
+#ifdef LW6_MS_WINDOWS
+		      winerr = WSAGetLastError ();
+		      if (winerr == WSAEINPROGRESS)
+			{
+			  connect_async = 1;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS (code=%d)"),
+				      ip, port, winerr);
+			  lw6net_last_error ();
+			}
+#else
 		      if (errno == EINPROGRESS)
+			{
+			  connect_async = 1;
+			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS (code=%d)"),
+				      ip, port);
+			  lw6net_last_error ();
+			}
+#endif
+		      if (connect_async)
 			{
 			  FD_ZERO (&write);
 			  FD_SET (sock, &write);
@@ -256,14 +287,6 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 				    }
 				}
 			    }
-			}
-		      else
-			{
-			  lw6sys_log (LW6SYS_LOG_INFO,
-				      _x_
-				      ("connect on \"%s:%d\" failed with code %d"),
-				      ip, port, connect_ret);
-			  lw6net_last_error ();
 			}
 		    }
 
