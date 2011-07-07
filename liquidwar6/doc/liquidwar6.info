@@ -21,9 +21,9 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 794
-liquidwar6.info-2: 288243
-liquidwar6.info-3: 490300
-liquidwar6.info-4: 723204
+liquidwar6.info-2: 288475
+liquidwar6.info-3: 490532
+liquidwar6.info-4: 723436
 
 Tag Table:
 (Indirect)
@@ -53,74 +53,74 @@ Node: Translating70884
 Node: Architecture74172
 Node: About mod-gl87764
 Node: Compilation tips90046
-Node: Coding guidelines116349
-Node: Using the console123850
-Node: Advanced tweaking125506
-Node: Writing modules126851
-Node: Use as a library127024
-Node: Network protocol127198
-Node: Technical HOWTOs132162
-Node: Using GNU Arch137326
-Node: Using GIT143096
-Node: Reference145264
-Node: Basic options146671
-Node: Doc options149919
-Node: Show options153615
-Node: Path options172430
-Node: Graphics options179029
-Node: Sound options182032
-Node: Network options184720
-Node: Map parameters190277
-Node: Map rules.xml193669
-Node: Map hints.xml226563
-Node: Map style.xml240804
-Node: Advanced settings264380
-Node: C to Guile288243
-Node: Script hooks336316
-Node: C API336434
-Node: libliquidwar6339931
-Node: libbot358769
-Node: mod-idiot359335
-Node: mod-random359672
-Node: libcfg360012
-Node: libcli367202
-Node: mod-http368541
-Node: mod-tcp368871
-Node: mod-udp369199
-Node: libcns369525
-Node: libcnx370035
-Node: libdat378832
-Node: libdef379738
-Node: libdsp379973
-Node: libdyn386317
-Node: libgfx390353
-Node: mod-gl395718
-Node: libglb396242
-Node: libgui400626
-Node: libhlp400946
-Node: libimg406398
-Node: libker406907
-Node: libldr407633
-Node: libmap421711
-Node: libmsg432559
-Node: libnet450639
-Node: libnod458799
-Node: libp2p466199
-Node: libpil471639
-Node: libsnd485588
-Node: mod-csound486242
-Node: mod-ogg486586
-Node: libsrv486921
-Node: mod-httpd489282
-Node: mod-tcpd489623
-Node: mod-udpd489963
-Node: libsys490300
-Node: libtsk638693
-Node: 2005 .plan640374
-Node: Fanfic652642
-Node: Links658975
-Node: Copying660463
-Node: GNU Free Documentation License698041
-Node: Indexes723204
+Node: Coding guidelines116581
+Node: Using the console124082
+Node: Advanced tweaking125738
+Node: Writing modules127083
+Node: Use as a library127256
+Node: Network protocol127430
+Node: Technical HOWTOs132394
+Node: Using GNU Arch137558
+Node: Using GIT143328
+Node: Reference145496
+Node: Basic options146903
+Node: Doc options150151
+Node: Show options153847
+Node: Path options172662
+Node: Graphics options179261
+Node: Sound options182264
+Node: Network options184952
+Node: Map parameters190509
+Node: Map rules.xml193901
+Node: Map hints.xml226795
+Node: Map style.xml241036
+Node: Advanced settings264612
+Node: C to Guile288475
+Node: Script hooks336548
+Node: C API336666
+Node: libliquidwar6340163
+Node: libbot359001
+Node: mod-idiot359567
+Node: mod-random359904
+Node: libcfg360244
+Node: libcli367434
+Node: mod-http368773
+Node: mod-tcp369103
+Node: mod-udp369431
+Node: libcns369757
+Node: libcnx370267
+Node: libdat379064
+Node: libdef379970
+Node: libdsp380205
+Node: libdyn386549
+Node: libgfx390585
+Node: mod-gl395950
+Node: libglb396474
+Node: libgui400858
+Node: libhlp401178
+Node: libimg406630
+Node: libker407139
+Node: libldr407865
+Node: libmap421943
+Node: libmsg432791
+Node: libnet450871
+Node: libnod459031
+Node: libp2p466431
+Node: libpil471871
+Node: libsnd485820
+Node: mod-csound486474
+Node: mod-ogg486818
+Node: libsrv487153
+Node: mod-httpd489514
+Node: mod-tcpd489855
+Node: mod-udpd490195
+Node: libsys490532
+Node: libtsk638925
+Node: 2005 .plan640606
+Node: Fanfic652874
+Node: Links659207
+Node: Copying660695
+Node: GNU Free Documentation License698273
+Node: Indexes723436
 
 End Tag Table
