@@ -51,7 +51,8 @@ typedef struct _mod_gl_hud_floating_const_data_s
   float gauge_max_health_angle;
   int score_pie_rotation_period;
   int score_pie_heartbeat_period;
-  float score_pie_heartbeat_factor;
+  float score_pie_heartbeat_factor1;
+  float score_pie_heartbeat_factor2;
   int score_pie_slices;
   int score_pie_loops;
   float score_pie_inner;
@@ -81,6 +82,7 @@ _mod_gl_hud_floating_gauges_t;
 
 typedef struct _mod_gl_hud_floating_score_pie_s
 {
+  mod_gl_utils_shaded_text_t *score_texts[LW6MAP_NB_TEAM_COLORS];
   GLUquadricObj *disk;
 }
 _mod_gl_hud_floating_score_pie_t;

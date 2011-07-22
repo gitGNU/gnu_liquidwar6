@@ -597,7 +597,7 @@ lw6ker_map_struct_place_index (lw6ker_map_struct_t * map_struct, int32_t x,
 }
 
 /*
- * in scorearrqy.c
+ * in scorearray.c
  */
 extern int lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 				      lw6ker_game_state_t * game_state);

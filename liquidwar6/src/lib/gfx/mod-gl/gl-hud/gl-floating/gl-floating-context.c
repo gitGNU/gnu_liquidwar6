@@ -111,22 +111,6 @@ _update_gauges (mod_gl_utils_context_t *
 	}
     }
 
-  if (!floating_context->score_pie.disk)
-    {
-      floating_context->score_pie.disk = gluNewQuadric ();
-      if (floating_context->score_pie.disk)
-	{
-	  gluQuadricOrientation (floating_context->score_pie.disk,
-				 GLU_OUTSIDE);
-	  gluQuadricDrawStyle (floating_context->score_pie.disk, GLU_FILL);
-	  gluQuadricNormals (floating_context->score_pie.disk, GLU_FLAT);
-	}
-      else
-	{
-	  ret = 0;
-	}
-    }
-
   for (i = 0; i < floating_context->score_array.nb_scores; ++i)
     {
       percent = floating_context->score_array.scores[i].fighters_percent;
@@ -224,6 +208,85 @@ _mod_gl_hud_floating_context_update_hud (mod_gl_utils_context_t *
   return ret;
 }
 
+static int
+_update_pie (mod_gl_utils_context_t *
+	     utils_context, _mod_gl_hud_floating_context_t * floating_context)
+{
+  int ret = 1;
+  int percent, frags, team_color;
+  lw6map_color_couple_t color_text;
+  char *score_text = NULL;
+  int i;
+
+  if (!floating_context->score_pie.disk)
+    {
+      floating_context->score_pie.disk = gluNewQuadric ();
+      if (floating_context->score_pie.disk)
+	{
+	  gluQuadricOrientation (floating_context->score_pie.disk,
+				 GLU_OUTSIDE);
+	  gluQuadricDrawStyle (floating_context->score_pie.disk, GLU_FILL);
+	  gluQuadricNormals (floating_context->score_pie.disk, GLU_FLAT);
+	}
+      else
+	{
+	  ret = 0;
+	}
+    }
+
+  for (i = 0; i < floating_context->score_array.nb_scores; ++i)
+    {
+      percent = floating_context->score_array.scores[i].fighters_percent;
+      frags = floating_context->score_array.scores[i].frags;
+      team_color = floating_context->score_array.scores[i].team_color;
+
+      color_text = floating_context->look->style.color_set.hud_color_text;
+
+      if (floating_context->game_state)
+	{
+	  if (floating_context->game_state->game_struct->rules.respawn_team)
+	    {
+	      score_text =
+		lw6sys_new_sprintf (_x_ ("%d: %s, %d frags"), i + 1,
+				    _(lw6map_team_color_index_to_key
+				      (team_color)),
+				    floating_context->score_array.
+				    scores[i].frags);
+	    }
+	  else
+	    {
+	      score_text =
+		lw6sys_new_sprintf (_x_ ("%d: %s, %d%%"), i + 1,
+				    _(lw6map_team_color_index_to_key
+				      (team_color)),
+				    floating_context->score_array.
+				    scores[i].fighters_percent);
+	    }
+	  if (score_text)
+	    {
+	      if (floating_context->score_pie.score_texts[i])
+		{
+		  mod_gl_utils_shaded_text_update (utils_context,
+						   floating_context->gauges.
+						   percent_texts[i],
+						   score_text, &color_text);
+		}
+	      else
+		{
+		  floating_context->score_pie.score_texts[i] =
+		    mod_gl_utils_shaded_text_new (utils_context,
+						  utils_context->font_data.
+						  hud, score_text,
+						  &color_text);
+		}
+	      LW6SYS_FREE (score_text);
+	    }
+	}
+    }
+
+  return ret;
+}
+
 int
 _mod_gl_hud_floating_context_update_score (mod_gl_utils_context_t *
 					   utils_context,
@@ -236,14 +299,13 @@ _mod_gl_hud_floating_context_update_score (mod_gl_utils_context_t *
 {
   int ret = 0;
 
+  ret = _update_pie (utils_context, floating_context);
 
   floating_context->look = look;
   floating_context->game_state = game_state;
   floating_context->local_cursors = local_cursors;
   lw6ker_score_array_update (&floating_context->score_array,
 			     floating_context->game_state);
-
-  ret = 1;
 
   return ret;
 }
@@ -299,10 +361,6 @@ _mod_gl_hud_floating_context_clear_hud_gauges (mod_gl_utils_context_t *
 					 frags_texts[i]);
 	}
     }
-  if (floating_context->score_pie.disk)
-    {
-      gluDeleteQuadric (floating_context->score_pie.disk);
-    }
   if (floating_context->gauges.disk)
     {
       gluDeleteQuadric (floating_context->gauges.disk);
@@ -339,8 +397,21 @@ _mod_gl_hud_floating_context_clear_score (mod_gl_utils_context_t *
 					  * floating_context)
 {
   int ret = 0;
+  int i = 0;
 
-  ret = 1;
+  for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
+    {
+      if (floating_context->score_pie.score_texts[i])
+	{
+	  mod_gl_utils_shaded_text_free (utils_context,
+					 floating_context->score_pie.
+					 score_texts[i]);
+	}
+    }
+  if (floating_context->score_pie.disk)
+    {
+      gluDeleteQuadric (floating_context->score_pie.disk);
+    }
 
   return ret;
 }

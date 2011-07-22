@@ -320,9 +320,12 @@ display_pie (mod_gl_utils_context_t * utils_context,
 {
   int i = 0;
   float x0, y0, dx, dy, angle1, angle2, angle_offset;
+  float text_w, text_h, text_dw, text_dh;
+  float text_x1, text_y1, text_x2, text_y2;
   int percent = 0;
   float size_factor_screen =
     sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
+  float radius_scale;
   float inner, outer;
   float heartbeat_factor = 1.0f;
   int slices, loops;
@@ -334,9 +337,6 @@ display_pie (mod_gl_utils_context_t * utils_context,
       x0 = utils_context->video_mode.width / 2;
       y0 = utils_context->video_mode.height / 2;
       cycle = lw6sys_get_cycle ();
-      angle1 = angle2 =
-	-(cycle * 360.0f) /
-	floating_context->const_data.score_pie_rotation_period;
 
       inner =
 	floating_context->const_data.score_pie_inner *
@@ -347,6 +347,9 @@ display_pie (mod_gl_utils_context_t * utils_context,
       slices = floating_context->const_data.score_pie_slices;
       loops = floating_context->const_data.score_pie_loops;
 
+      angle1 = angle2 =
+	-(cycle * 360.0f) /
+	floating_context->const_data.score_pie_rotation_period;
       for (i = 0; i < floating_context->score_array.nb_scores;
 	   ++i, angle1 = angle2)
 	{
@@ -370,9 +373,10 @@ display_pie (mod_gl_utils_context_t * utils_context,
 		lw6sys_math_heartbeat (cycle,
 				       floating_context->
 				       const_data.score_pie_heartbeat_period,
-				       1.0f,
 				       floating_context->
-				       const_data.score_pie_heartbeat_factor);
+				       const_data.score_pie_heartbeat_factor1,
+				       floating_context->
+				       const_data.score_pie_heartbeat_factor2);
 	    }
 	  else
 	    {
@@ -392,13 +396,69 @@ display_pie (mod_gl_utils_context_t * utils_context,
 					utils_context->
 					textures_1x1.team_colors[team_color]);
 	      gluQuadricTexture (floating_context->score_pie.disk, GL_TRUE);
-	      gluPartialDisk (floating_context->gauges.disk,
+	      gluPartialDisk (floating_context->score_pie.disk,
 			      inner * heartbeat_factor,
 			      outer * heartbeat_factor, slices, loops, angle1,
 			      angle2 - angle1);
 	      glPopMatrix ();
 	    }
 	}
+
+      glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glEnable (GL_BLEND);
+
+      glMatrixMode (GL_MODELVIEW);
+      glPushMatrix ();
+      glLoadIdentity ();
+
+      angle1 = angle2 =
+	-(cycle * 360.0f) /
+	floating_context->const_data.score_pie_rotation_period;
+      for (i = 0; i < floating_context->score_array.nb_scores;
+	   ++i, angle1 = angle2)
+	{
+	  percent =
+	    floating_context->score_array.scores[i].consolidated_percent;
+	  angle2 = angle1 + percent * 3.6f;
+	  angle_offset =
+	    M_PI / 2.0f - ((angle1 + angle2) / 2.0f) * M_PI / 180.0f;
+	  radius_scale =
+	    (floating_context->const_data.score_pie_text_radius_min *
+	     (floating_context->score_array.nb_scores - i) +
+	     floating_context->const_data.score_pie_text_radius_max * i) /
+	    floating_context->score_array.nb_scores;
+	  dx = cos (angle_offset) * size_factor_screen * radius_scale / 2.0f;
+	  dy = sin (angle_offset) * size_factor_screen * radius_scale / 2.0f;
+
+	  text_h =
+	    size_factor_screen *
+	    floating_context->const_data.score_pie_text_size;
+	  text_dw = size_factor_screen *
+	    floating_context->const_data.score_pie_text_dw;
+	  text_dh = size_factor_screen *
+	    floating_context->const_data.score_pie_text_dh;
+
+	  if (floating_context->score_pie.score_texts[i]
+	      && floating_context->score_pie.score_texts[i]->texture_h > 0)
+	    {
+	      text_w =
+		text_h *
+		((float) floating_context->score_pie.score_texts[i]->
+		 texture_w) /
+		((float) floating_context->score_pie.
+		 score_texts[i]->texture_h);
+	      text_x1 = x0 - text_w / 2 + dx;
+	      text_y1 = y0 - text_h / 2 + dy;
+	      text_x2 = text_x1 + text_w;
+	      text_y2 = text_y1 + text_h;
+	      mod_gl_utils_shaded_text_display (utils_context,
+						floating_context->score_pie.
+						score_texts[i], text_x1,
+						text_y1, text_x2, text_y2,
+						text_dw, text_dh);
+	    }
+	}
+      glPopMatrix ();
     }
 }
 
