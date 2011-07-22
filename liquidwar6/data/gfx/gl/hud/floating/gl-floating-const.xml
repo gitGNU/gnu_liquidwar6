@@ -52,4 +52,13 @@
   <float key="gauge-max-health-angle" value="240" /><!-- Looks like it
 						       is the gradient of the health. Set it to 1 if you don't want any
 						       gradient effect   default: 240 -->
+  <float key="score-pie-inner" value="0.01" />
+  <float key="score-pie-outer" value="0.7" />
+  <float key="score-pie-offset" value="0.01" />
+  <float key="score-pie-text-radius-min" value="0.3" />
+  <float key="score-pie-text-radius-max" value="0.5" />
+  <float key="score-pie-text-size" value="0.35" />
+  <float key="score-pie-text-dw" value="0.015" />
+  <float key="score-pie-text-dh" value="0.015" />
+
 </liquidwar6>

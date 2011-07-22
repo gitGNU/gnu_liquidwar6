@@ -189,6 +189,7 @@ typedef struct lw6ker_score_s
   int fighters_absolute;
   float fighters_ratio;		// one of the rare float in lw6ker, only for eye candy 
   int frags;
+  int consolidated_percent;
 }
 lw6ker_score_t;
 

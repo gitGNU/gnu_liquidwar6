@@ -90,6 +90,22 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->gauge_max_size);
       lw6cfg_read_xml_float (key, value, "gauge-max-health-angle",
 			     &const_data->gauge_max_health_angle);
+      lw6cfg_read_xml_float (key, value, "score-pie-inner",
+			     &const_data->score_pie_inner);
+      lw6cfg_read_xml_float (key, value, "score-pie-outer",
+			     &const_data->score_pie_outer);
+      lw6cfg_read_xml_float (key, value, "score-pie-offset",
+			     &const_data->score_pie_offset);
+      lw6cfg_read_xml_float (key, value, "score-pie-text-radius-min",
+			     &const_data->score_pie_text_radius_min);
+      lw6cfg_read_xml_float (key, value, "score-pie-text-radius-max",
+			     &const_data->score_pie_text_radius_max);
+      lw6cfg_read_xml_float (key, value, "score-pie-text-size",
+			     &const_data->score_pie_text_size);
+      lw6cfg_read_xml_float (key, value, "score-pie-text-dw",
+			     &const_data->score_pie_text_dw);
+      lw6cfg_read_xml_float (key, value, "score-pie-text-dh",
+			     &const_data->score_pie_text_dh);
     }
 }
 

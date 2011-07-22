@@ -162,9 +162,7 @@ lw6sys_arg_get_value (int argc, char *argv[], char *keyword)
   int i;
   char *equal = NULL;
   char *ret = NULL;
-  int len = 0;
 
-  len = strlen (keyword);
   for (i = 1; i < argc && !ret; ++i)
     {
       if (!ret && lw6sys_arg_match (keyword, argv[i]))

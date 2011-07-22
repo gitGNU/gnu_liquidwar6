@@ -38,6 +38,8 @@ lw6ker_score_array_update (lw6ker_score_array_t * score_array,
   int active_fighters = 0;
   int fighters_per_team = 0;
   int frags = 0;
+  int frags_min = 0;
+  int consolidated_total = 0;
   int absolute_other = 0;
   int percent_other = 0;
   int diff;
@@ -82,6 +84,9 @@ lw6ker_score_array_update (lw6ker_score_array_t * score_array,
       qsort (score_array->scores, LW6MAP_NB_TEAM_COLORS,
 	     sizeof (lw6ker_score_t),
 	     (void *) _lw6ker_score_sort_quantity_callback_desc);
+
+      absolute_other = 0;
+      percent_other = 0;
       for (i = LW6MAP_NB_TEAM_COLORS - 1; i >= 1; --i)
 	{
 	  absolute_other += score_array->scores[i].fighters_absolute;
@@ -124,6 +129,83 @@ lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	  qsort (score_array->scores, score_array->nb_scores,
 		 sizeof (lw6ker_score_t),
 		 (void *) _lw6ker_score_sort_frags_callback_desc);
+	  /*
+	   * Now we calculate consolidated_percent which is used
+	   * for final score display
+	   */
+	  frags_min = 0;
+	  for (i = 0; i < score_array->nb_scores; ++i)
+	    {
+	      if (score_array->scores[i].frags < frags_min)
+		{
+		  frags_min = score_array->scores[i].frags;
+		}
+	    }
+	  for (i = 0; i < score_array->nb_scores; ++i)
+	    {
+	      score_array->scores[i].consolidated_percent =
+		((score_array->scores[i].frags - frags_min) * 100) +
+		score_array->scores[i].fighters_percent;
+	    }
+	  for (i = 0; i < score_array->nb_scores; ++i)
+	    {
+	      consolidated_total +=
+		score_array->scores[i].consolidated_percent;
+	    }
+	  if (consolidated_total > 0)
+	    {
+	      for (i = 0; i < score_array->nb_scores; ++i)
+		{
+		  score_array->scores[i].consolidated_percent =
+		    100 * score_array->scores[i].consolidated_percent /
+		    consolidated_total;
+		}
+
+	      percent_other = 0;
+	      for (i = 1; i < score_array->nb_scores; ++i)
+		{
+		  percent_other +=
+		    score_array->scores[i].consolidated_percent;
+		}
+
+	      score_array->scores[0].consolidated_percent =
+		100 - percent_other;
+
+	      if (score_array->scores[1].consolidated_percent >
+		  score_array->scores[0].consolidated_percent)
+		{
+		  /*
+		   * 2nd is higher than 1st because of rounding errors
+		   */
+		  diff =
+		    score_array->scores[1].consolidated_percent -
+		    score_array->scores[0].consolidated_percent;
+		  for (i = score_array->nb_scores - 1; i >= 1 && diff > 0;
+		       --i)
+		    {
+		      if (score_array->scores[i].consolidated_percent > 0)
+			{
+			  score_array->scores[0].consolidated_percent++;
+			  score_array->scores[i].consolidated_percent--;
+			  diff--;
+			}
+		    }
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("invalid consolidated_total %d"),
+			  consolidated_total);
+	    }
+	}
+      else
+	{
+	  for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
+	    {
+	      score_array->scores[i].consolidated_percent =
+		score_array->scores[i].fighters_percent;
+	    }
 	}
     }
 

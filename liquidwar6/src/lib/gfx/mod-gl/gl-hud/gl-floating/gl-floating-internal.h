@@ -49,6 +49,14 @@ typedef struct _mod_gl_hud_floating_const_data_s
   float gauge_min_size;
   float gauge_max_size;
   float gauge_max_health_angle;
+  float score_pie_inner;
+  float score_pie_outer;
+  float score_pie_offset;
+  float score_pie_text_radius_min;
+  float score_pie_text_radius_max;
+  float score_pie_text_size;
+  float score_pie_text_dw;
+  float score_pie_text_dh;
 }
 _mod_gl_hud_floating_const_data_t;
 
