@@ -29,8 +29,8 @@
 
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
-#define TEST_SLEEP_LONG 1.0
-#define TEST_SLEEP_SHORT 0.2
+#define TEST_SLEEP_LONG 1.0f
+#define TEST_SLEEP_SHORT 0.2f
 #define TEST_WIDTH1 640
 #define TEST_HEIGHT1 480
 #define TEST_FULLSCREEN1 0
@@ -299,7 +299,7 @@ test_display (char *gfx_backend_name)
 				    _x_ ("big menu disappears"));
 			lw6sys_log (LW6SYS_LOG_WARNING,
 				    _x_
-				    ("this warning should appear for &d seconds on the screen"),
+				    ("this warning should appear for %d seconds on the screen"),
 				    TEST_LOG_TIMEOUT);
 			lw6sys_log (LW6SYS_LOG_ERROR, _("this error too"));
 			lw6dsp_update (display, &param);
