@@ -40,7 +40,6 @@ _cursor_bitmap (mod_gl_utils_context_t * utils_context, int w, int h,
   mod_gl_utils_bitmap_t *ret = NULL;
   SDL_Color color_font;
   SDL_Color color_background;
-  SDL_Color color_outline;
   SDL_Surface *text_surface;
   SDL_Surface *cursor_surface;
   SDL_Rect text_rect;
@@ -54,7 +53,6 @@ _cursor_bitmap (mod_gl_utils_context_t * utils_context, int w, int h,
   color_font = mod_gl_utils_color_8_to_sdl (color->fg);
   color_background =
     mod_gl_utils_color_8_to_sdl (even_odd ? color->bg : team_color);
-  color_outline = mod_gl_utils_color_8_to_sdl (color->fg);
   text_buffer[0] = letter;
 
   text_surface =

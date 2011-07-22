@@ -32,11 +32,9 @@
 static void
 defaults_callback (void *func_data, void *data)
 {
-  _lw6cfg_context_t *context;
   char *entry = NULL;
   char *default_value = NULL;
 
-  context = (_lw6cfg_context_t *) func_data;
   entry = (char *) data;
   if (entry)
     {

@@ -307,7 +307,6 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
 {
   int ret = 0;
   int sock = -1;
-  int64_t origin = 0;
   char *request = NULL;
   lw6sys_list_t *response = NULL;
   char *incoming_ip = NULL;
@@ -316,7 +315,6 @@ _do_list (_udp_context_t * udp_context, lw6nod_info_t * node_info,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("connecting in UDP on %s:%d"), ip,
 	      parsed_url->port);
 
-  origin = lw6sys_get_timestamp ();
   sock = lw6net_udp_client ();
   if (sock >= 0)
     {

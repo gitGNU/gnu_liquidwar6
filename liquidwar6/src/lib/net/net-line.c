@@ -353,7 +353,6 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
 {
   int ret = 0;
   int line_size = 0;
-  int line_delay;
   int wanted_size = 0;
   char *copied_line;
   char *trailed_line;
@@ -363,7 +362,6 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
       line_size =
 	lw6sys_min (_lw6net_global_context->const_data.line_size,
 		    LW6NET_PPPOE_MTU - TRAIL_SIZE);
-      line_delay = _lw6net_global_context->const_data.line_delay_msec;
       copied_line = lw6sys_str_copy (line);
       if (copied_line)
 	{

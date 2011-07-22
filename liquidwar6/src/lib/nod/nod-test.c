@@ -69,7 +69,6 @@ _node_dup_dyn_callback (void *data)
   int64_t stop_timestamp = 0;
   int first_time = 1;
   lw6nod_dyn_info_t *dyn_info = NULL;
-  int len = 0;
 
   stop_timestamp = lw6sys_get_timestamp () + _TEST_DELAY_MS;
 
@@ -78,7 +77,6 @@ _node_dup_dyn_callback (void *data)
       dyn_info = lw6nod_info_dup_dyn (info);
       if (dyn_info)
 	{
-	  len = strlen (dyn_info->level);	// would segfault on bug
 	  if (first_time)
 	    {
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("dup dyn level=\"%s\""),

@@ -38,7 +38,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   int i = 0;
   int found = 0;
   int fighter_id = -1;
-  lw6ker_fighter_t *fighter;
+  lw6ker_fighter_t *fighter = NULL;
 
   if (lw6ker_game_state_get_cursor_info
       (data->game_state, data->param.cursor_id, NULL,
@@ -59,8 +59,7 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 	      // here, we don't search anymore, just choose random
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
-			  ("idiot bot acting randomly, choosed %d,%d"),
-			  fighter->team_color, x, y);
+			  ("idiot bot acting randomly, choosed %d,%d"), x, y);
 	      found = 1;
 	    }
 	  else
@@ -134,7 +133,6 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   int dt = 0;
   int start_of_move;
   int end_of_move;
-  int end_of_wait;
   float average_size = 0.0f;
 
   rounds = lw6ker_game_state_get_rounds (data->game_state);
@@ -167,7 +165,6 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
 
   start_of_move = idiot_context->last_move_round;
   end_of_move = start_of_move + d_move;
-  end_of_wait = end_of_move + d_wait;
 
   if (rounds > start_of_move && rounds < end_of_move)
     {

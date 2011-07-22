@@ -70,7 +70,6 @@ display_gauges (mod_gl_utils_context_t * utils_context,
   float size_factor_score;
   float size_factor;
   float ratio;
-  int percent;
   float inner, outer;
   int slices, loops;
   int i;
@@ -87,7 +86,6 @@ display_gauges (mod_gl_utils_context_t * utils_context,
       start = floating_context->const_data.gauge_start;
       for (i = floating_context->score_array.nb_scores - 1; i >= 0; --i)
 	{
-	  percent = floating_context->score_array.scores[i].fighters_percent;
 	  ratio = floating_context->score_array.scores[i].fighters_ratio;
 	  /*
 	   * sqrt because what's important is what happens near zero

@@ -214,7 +214,6 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
 			 u_int64_t * logical_to_id, char **physical_from_url)
 {
   int ret = 0;
-  char sep = '\0';
   char *lw6 = NULL;
   int need_base64 = 0;
   char *pos = NULL;
@@ -234,18 +233,15 @@ lw6msg_envelope_analyse (char *envelope, lw6msg_envelope_mode_t mode,
   switch (mode)
     {
     case LW6MSG_ENVELOPE_MODE_TELNET:
-      sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
       break;
     case LW6MSG_ENVELOPE_MODE_URL:
-      sep = LW6MSG_URL_SEP;
       lw6 = LW6MSG_LW6_LC;
       need_base64 = 1;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unknown mode %d"), (int) mode);
-      sep = LW6MSG_TELNET_SEP;
       lw6 = LW6MSG_LW6;
       need_base64 = 0;
     }

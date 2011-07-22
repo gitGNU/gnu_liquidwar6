@@ -135,7 +135,6 @@ rules_update_callback (void *func_data, void *data)
   rules_update_data_t *update_data;
   char *key;
   char *value;
-  char *about;
   char *element;
   lw6hlp_type_t type = LW6HLP_TYPE_VOID;
 
@@ -144,7 +143,7 @@ rules_update_callback (void *func_data, void *data)
 
   if (lw6sys_assoc_has_key (update_data->values, key))
     {
-      about = lw6hlp_about (&type, NULL, NULL, NULL, key);
+      lw6hlp_about (&type, NULL, NULL, NULL, key);
       value = lw6sys_assoc_get (update_data->values, key);
       element = lw6cfg_xml_element (type);
       read_callback (update_data->rules, element, key, value);

@@ -50,7 +50,6 @@ draw_cylinder_with_color (mod_gl_utils_context_t * utils_context,
 {
   lw6sys_color_8_t done;
   lw6sys_color_8_t todo;
-  SDL_Color sdl_done;
   SDL_Color sdl_todo;
   u_int32_t i_done;
   u_int32_t i_todo;
@@ -63,7 +62,6 @@ draw_cylinder_with_color (mod_gl_utils_context_t * utils_context,
 
   done = look->style.color_set.menu_color_default.fg;
   todo = look->style.color_set.menu_color_default.bg;
-  sdl_done = mod_gl_utils_color_8_to_sdl (done);
   sdl_todo = mod_gl_utils_color_8_to_sdl (todo);
   i_done = lw6sys_color_8_to_i (done);
   i_todo = lw6sys_color_8_to_i (todo);
