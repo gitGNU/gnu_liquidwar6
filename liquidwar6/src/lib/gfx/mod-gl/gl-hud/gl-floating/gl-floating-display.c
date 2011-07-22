@@ -319,22 +319,54 @@ display_pie (mod_gl_utils_context_t * utils_context,
 	     _mod_gl_hud_floating_context_t * floating_context)
 {
   int i = 0;
-  float x0, y0, alpha1, alpha2;
+  float x0, y0, angle1, angle2;
   int percent = 0;
+  float size_factor_screen =
+    sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
+  float inner, outer;
+  int slices, loops;
+  int team_color;
 
   if (floating_context->game_state)
     {
       x0 = utils_context->video_mode.width / 2;
       y0 = utils_context->video_mode.height / 2;
-      alpha1 = alpha2 = 0.0f;
+      angle1 = angle2 = 0.0f;
 
       for (i = 0; i < floating_context->score_array.nb_scores;
-	   ++i, alpha1 = alpha2)
+	   ++i, angle1 = angle2)
 	{
 	  percent =
 	    floating_context->score_array.scores[i].consolidated_percent;
-	  alpha2 = alpha1 + percent * 3.6f;
-	  TMP4 ("i=%d v=%d alpha1=%f alpha2=%f", i, percent, alpha1, alpha2);
+	  angle2 = angle1 + percent * 3.6f;
+
+	  inner =
+	    floating_context->const_data.score_pie_inner *
+	    size_factor_screen / 2.0f;
+	  outer =
+	    floating_context->const_data.score_pie_outer *
+	    size_factor_screen / 2.0f;
+	  slices = floating_context->const_data.score_pie_slices;
+	  loops = floating_context->const_data.score_pie_loops;
+	  team_color = floating_context->score_array.scores[i].team_color;
+
+	  if (team_color >= 0)
+	    {
+	      glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	      glEnable (GL_BLEND);
+
+	      glMatrixMode (GL_MODELVIEW);
+	      glPushMatrix ();
+	      glLoadIdentity ();
+	      glTranslatef (x0, y0, 0.0f);
+	      mod_gl_utils_bitmap_bind (utils_context,
+					utils_context->
+					textures_1x1.team_colors[team_color]);
+	      gluQuadricTexture (floating_context->score_pie.disk, GL_TRUE);
+	      gluPartialDisk (floating_context->gauges.disk, inner, outer,
+			      slices, loops, angle1, angle2 - angle1);
+	      glPopMatrix ();
+	    }
 	}
     }
 }

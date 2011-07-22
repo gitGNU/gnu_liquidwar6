@@ -50,6 +50,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->gauge_slices);
       lw6cfg_read_xml_int (key, value, "gauge-loops",
 			   &const_data->gauge_loops);
+      lw6cfg_read_xml_int (key, value, "score-pie-slices",
+			   &const_data->score_pie_slices);
+      lw6cfg_read_xml_int (key, value, "score-pie-loops",
+			   &const_data->score_pie_loops);
     }
 
   if (!strcmp (element, "float"))

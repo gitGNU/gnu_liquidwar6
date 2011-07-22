@@ -49,6 +49,8 @@ typedef struct _mod_gl_hud_floating_const_data_s
   float gauge_min_size;
   float gauge_max_size;
   float gauge_max_health_angle;
+  int score_pie_slices;
+  int score_pie_loops;
   float score_pie_inner;
   float score_pie_outer;
   float score_pie_offset;
@@ -74,6 +76,12 @@ typedef struct _mod_gl_hud_floating_gauges_s
 }
 _mod_gl_hud_floating_gauges_t;
 
+typedef struct _mod_gl_hud_floating_score_pie_s
+{
+  GLUquadricObj *disk;
+}
+_mod_gl_hud_floating_score_pie_t;
+
 typedef struct _mod_gl_hud_floating_context_s
 {
   _mod_gl_hud_floating_const_data_t const_data;
@@ -83,6 +91,7 @@ typedef struct _mod_gl_hud_floating_context_s
   lw6ker_score_array_t score_array;
   _mod_gl_hud_floating_clock_t clock;
   _mod_gl_hud_floating_gauges_t gauges;
+  _mod_gl_hud_floating_score_pie_t score_pie;
 }
 _mod_gl_hud_floating_context_t;
 

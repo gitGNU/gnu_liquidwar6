@@ -351,6 +351,10 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define TMP3(message,arg1,arg2,arg3) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3)
 #define TMP4(message,arg1,arg2,arg3,arg4) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4)
 #define TMP5(message,arg1,arg2,arg3,arg4,arg5) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5)
+#define TMP6(message,arg1,arg2,arg3,arg4,arg5,arg6) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6)
+#define TMP7(message,arg1,arg2,arg3,arg4,arg5,arg6,arg7) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+#define TMP8(message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+#define TMP9(message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
 
 /*
  * Common indenting parameters

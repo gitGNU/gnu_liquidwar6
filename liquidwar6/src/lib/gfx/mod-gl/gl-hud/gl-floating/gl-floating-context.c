@@ -111,6 +111,22 @@ _update_gauges (mod_gl_utils_context_t *
 	}
     }
 
+  if (!floating_context->score_pie.disk)
+    {
+      floating_context->score_pie.disk = gluNewQuadric ();
+      if (floating_context->score_pie.disk)
+	{
+	  gluQuadricOrientation (floating_context->score_pie.disk,
+				 GLU_OUTSIDE);
+	  gluQuadricDrawStyle (floating_context->score_pie.disk, GLU_FILL);
+	  gluQuadricNormals (floating_context->score_pie.disk, GLU_FLAT);
+	}
+      else
+	{
+	  ret = 0;
+	}
+    }
+
   for (i = 0; i < floating_context->score_array.nb_scores; ++i)
     {
       percent = floating_context->score_array.scores[i].fighters_percent;
@@ -282,6 +298,10 @@ _mod_gl_hud_floating_context_clear_hud_gauges (mod_gl_utils_context_t *
 					 floating_context->gauges.
 					 frags_texts[i]);
 	}
+    }
+  if (floating_context->score_pie.disk)
+    {
+      gluDeleteQuadric (floating_context->score_pie.disk);
     }
   if (floating_context->gauges.disk)
     {

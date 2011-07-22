@@ -52,8 +52,10 @@
   <float key="gauge-max-health-angle" value="240" /><!-- Looks like it
 						       is the gradient of the health. Set it to 1 if you don't want any
 						       gradient effect   default: 240 -->
+  <int key="score-pie-slices" value="100" />
+  <int key="score-pie-loops" value="1" />
   <float key="score-pie-inner" value="0.01" />
-  <float key="score-pie-outer" value="0.7" />
+  <float key="score-pie-outer" value="0.66" />
   <float key="score-pie-offset" value="0.01" />
   <float key="score-pie-text-radius-min" value="0.3" />
   <float key="score-pie-text-radius-max" value="0.5" />

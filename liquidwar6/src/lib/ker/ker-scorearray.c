@@ -201,10 +201,41 @@ lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	}
       else
 	{
-	  for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
+	  for (i = 0; i < score_array->nb_scores; ++i)
 	    {
 	      score_array->scores[i].consolidated_percent =
 		score_array->scores[i].fighters_percent;
+	    }
+	}
+      /*
+       * At least one percent per team
+       */
+      diff = 0;
+      for (i = 1; i < score_array->nb_scores; ++i)
+	{
+	  if (score_array->scores[i].consolidated_percent == 0)
+	    {
+	      score_array->scores[i].consolidated_percent = 1;
+	      diff++;
+	    }
+	}
+      if (score_array->nb_scores == 2)
+	{
+	  score_array->scores[0].consolidated_percent =
+	    100 - score_array->scores[1].consolidated_percent;
+	}
+      else if (score_array->nb_scores >= 3)
+	{
+	  while (diff > 0)
+	    {
+	      for (i = score_array->nb_scores - 1; i >= 1; --i)
+		{
+		  if (score_array->scores[i].consolidated_percent > 1)
+		    {
+		      score_array->scores[i].consolidated_percent--;
+		      diff--;
+		    }
+		}
 	    }
 	}
     }
