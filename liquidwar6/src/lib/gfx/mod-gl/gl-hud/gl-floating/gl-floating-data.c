@@ -50,6 +50,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->gauge_slices);
       lw6cfg_read_xml_int (key, value, "gauge-loops",
 			   &const_data->gauge_loops);
+      lw6cfg_read_xml_int (key, value, "score-pie-rotation-period",
+			   &const_data->score_pie_rotation_period);
+      lw6cfg_read_xml_int (key, value, "score-pie-heartbeat-period",
+			   &const_data->score_pie_heartbeat_period);
       lw6cfg_read_xml_int (key, value, "score-pie-slices",
 			   &const_data->score_pie_slices);
       lw6cfg_read_xml_int (key, value, "score-pie-loops",
@@ -94,6 +98,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->gauge_max_size);
       lw6cfg_read_xml_float (key, value, "gauge-max-health-angle",
 			     &const_data->gauge_max_health_angle);
+      lw6cfg_read_xml_float (key, value, "score-pie-heartbeat-factor",
+			     &const_data->score_pie_heartbeat_factor);
       lw6cfg_read_xml_float (key, value, "score-pie-inner",
 			     &const_data->score_pie_inner);
       lw6cfg_read_xml_float (key, value, "score-pie-outer",
