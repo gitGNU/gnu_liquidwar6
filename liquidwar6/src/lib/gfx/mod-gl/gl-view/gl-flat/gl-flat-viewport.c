@@ -93,10 +93,13 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   int main_cursor_y = game_state->map_state.shape.h / 2;
   float dw, dh;
 
-  if (!lw6pil_local_cursors_get_main_info
-      (local_cursors, NULL, &main_cursor_x, &main_cursor_y, NULL))
+  if (local_cursors)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
+      if (!lw6pil_local_cursors_get_main_info
+	  (local_cursors, NULL, &main_cursor_x, &main_cursor_y, NULL))
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
+	}
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;

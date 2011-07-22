@@ -31,8 +31,11 @@
 #define TEST_FULLSCREEN 0
 #define TEST_SLEEP 0.01
 #define TEST_DURATION_SETUP 100
-#define TEST_DURATION_BACKGROUND 2000
+#define TEST_DURATION_SPLASH 500
+#define TEST_DURATION_BACKGROUND 1000
 #define TEST_DURATION_MENU 3000
+#define TEST_DURATION_VIEW 1000
+#define TEST_DURATION_HUD 2000
 #define TEST_MENU_LABEL "My menu"
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 0
@@ -119,6 +122,40 @@ test_init (lw6gfx_backend_t * backend)
 	  {
 	    lw6sys_sleep (TEST_SLEEP);
 	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+test_splash (lw6gfx_backend_t * backend)
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6gui_look_t *look = NULL;
+    int64_t ticks;
+
+    look = lw6gui_look_new (NULL);
+    if (look)
+      {
+	ticks = lw6sys_get_uptime ();
+	while (lw6sys_get_uptime () < ticks + TEST_DURATION_SPLASH)
+	  {
+	    if (!lw6gfx_display (backend,
+				 LW6GUI_DISPLAY_BACKGROUND |
+				 LW6GUI_DISPLAY_SPLASH, look, NULL, NULL,
+				 NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
+		ret = 0;
+	      }
+	    lw6sys_sleep (TEST_SLEEP);
+	  }
+	lw6gui_look_free (look);
       }
   }
 
@@ -232,6 +269,95 @@ test_menu (lw6gfx_backend_t * backend)
 		lw6sys_sleep (TEST_SLEEP);
 	      }
 	    lw6gui_menu_free (menu);	// should free the menuitem
+	  }
+	lw6gui_look_free (look);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+test_view (lw6gfx_backend_t * backend)
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6gui_look_t *look = NULL;
+    int64_t ticks;
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+
+    look = lw6gui_look_new (NULL);
+    if (look)
+      {
+	if (level)
+	  {
+	    game_struct = lw6ker_game_struct_new (level, NULL);
+	    if (game_struct)
+	      {
+		game_state = lw6ker_game_state_new (game_struct, NULL);
+		if (game_state)
+		  {
+		    ticks = lw6sys_get_uptime ();
+		    while (lw6sys_get_uptime () < ticks + TEST_DURATION_VIEW)
+		      {
+			if (!lw6gfx_display (backend,
+					     LW6GUI_DISPLAY_BACKGROUND |
+					     LW6GUI_DISPLAY_MAP |
+					     LW6GUI_DISPLAY_FIGHTERS, look,
+					     level, game_struct, game_state,
+					     NULL, NULL, 0.0f, 0.0f, 0.0f,
+					     NULL, 0, 0, 0, 0))
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_ ("display error"));
+			    ret = 0;
+			  }
+			lw6sys_sleep (TEST_SLEEP);
+		      }
+		    lw6ker_game_state_free (game_state);
+		  }
+		lw6ker_game_struct_free (game_struct);
+	      }
+	    lw6map_free (level);
+	  }
+	lw6gui_look_free (look);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
+test_hud (lw6gfx_backend_t * backend)
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6gui_look_t *look = NULL;
+    int64_t ticks;
+
+    look = lw6gui_look_new (NULL);
+    if (look)
+      {
+	ticks = lw6sys_get_uptime ();
+	while (lw6sys_get_uptime () < ticks + TEST_DURATION_HUD)
+	  {
+	    if (!lw6gfx_display (backend,
+				 LW6GUI_DISPLAY_BACKGROUND |
+				 LW6GUI_DISPLAY_HUD, look, NULL, NULL, NULL,
+				 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
+		ret = 0;
+	      }
+	    lw6sys_sleep (TEST_SLEEP);
 	  }
 	lw6gui_look_free (look);
       }
@@ -377,7 +503,10 @@ lw6gfx_test (int mode)
       if (backend)
 	{
 	  ret = (test_init (backend) && test_resolution (backend)
+		 && test_splash (backend)
 		 && test_background (backend) && test_menu (backend)
+		 && test_view (backend)
+		 && test_hud (backend)
 		 && test_events (backend) && test_quit (backend)) || ret;
 	  lw6gfx_destroy_backend (backend);
 	}
