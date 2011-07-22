@@ -32,10 +32,10 @@
 #define TEST_SLEEP 0.01
 #define TEST_DURATION_SETUP 100
 #define TEST_DURATION_SPLASH 500
-#define TEST_DURATION_BACKGROUND 1000
-#define TEST_DURATION_MENU 3000
-#define TEST_DURATION_VIEW 1000
-#define TEST_DURATION_HUD 2000
+#define TEST_DURATION_BACKGROUND 500
+#define TEST_DURATION_MENU 500
+#define TEST_DURATION_VIEW 500
+#define TEST_DURATION_HUD 10000
 #define TEST_MENU_LABEL "My menu"
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 0
@@ -294,6 +294,7 @@ test_view (lw6gfx_backend_t * backend)
     look = lw6gui_look_new (NULL);
     if (look)
       {
+	level = lw6map_builtin_defaults ();
 	if (level)
 	  {
 	    game_struct = lw6ker_game_struct_new (level, NULL);
@@ -342,22 +343,64 @@ test_hud (lw6gfx_backend_t * backend)
   {
     lw6gui_look_t *look = NULL;
     int64_t ticks;
+    lw6map_level_t *level = NULL;
+    lw6ker_game_struct_t *game_struct = NULL;
+    lw6ker_game_state_t *game_state = NULL;
+    lw6pil_local_cursors_t local_cursors;
+    u_int64_t node_id;
 
     look = lw6gui_look_new (NULL);
     if (look)
       {
-	ticks = lw6sys_get_uptime ();
-	while (lw6sys_get_uptime () < ticks + TEST_DURATION_HUD)
+	level = lw6map_builtin_defaults ();
+	level->param.rules.total_time = LW6MAP_RULES_MIN_TOTAL_TIME;
+	if (level)
 	  {
-	    if (!lw6gfx_display (backend,
-				 LW6GUI_DISPLAY_BACKGROUND |
-				 LW6GUI_DISPLAY_HUD, look, NULL, NULL, NULL,
-				 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+	    game_struct = lw6ker_game_struct_new (level, NULL);
+	    if (game_struct)
 	      {
-		lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("display error"));
-		ret = 0;
+		game_state = lw6ker_game_state_new (game_struct, NULL);
+		if (game_state)
+		  {
+		    lw6pil_local_cursors_reset (&local_cursors);
+		    node_id = lw6sys_generate_id_64 ();
+		    lw6ker_game_state_register_node (game_state, node_id);
+		    lw6ker_game_state_add_cursor (game_state, node_id,
+						  lw6sys_generate_id_16 (),
+						  LW6MAP_TEAM_COLOR_RED);
+		    lw6ker_game_state_add_cursor (game_state, node_id,
+						  lw6sys_generate_id_16 (),
+						  LW6MAP_TEAM_COLOR_GREEN);
+		    lw6ker_game_state_add_cursor (game_state, node_id,
+						  lw6sys_generate_id_16 (),
+						  LW6MAP_TEAM_COLOR_BLUE);
+		    while (lw6ker_game_state_get_time_left (game_state) > 0)
+		      {
+			lw6ker_game_state_do_round (game_state);
+		      }
+
+		    ticks = lw6sys_get_uptime ();
+		    while (lw6sys_get_uptime () < ticks + TEST_DURATION_HUD)
+		      {
+			if (!lw6gfx_display (backend,
+					     LW6GUI_DISPLAY_BACKGROUND |
+					     LW6GUI_DISPLAY_HUD |
+					     LW6GUI_DISPLAY_SCORE, look,
+					     level, game_struct, game_state,
+					     &local_cursors, NULL, 0.0f, 0.0f,
+					     0.0f, NULL, 0, 0, 0, 0))
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_ ("display error"));
+			    ret = 0;
+			  }
+			lw6sys_sleep (TEST_SLEEP);
+		      }
+		    lw6ker_game_state_free (game_state);
+		  }
+		lw6ker_game_struct_free (game_struct);
 	      }
-	    lw6sys_sleep (TEST_SLEEP);
+	    lw6map_free (level);
 	  }
 	lw6gui_look_free (look);
       }
