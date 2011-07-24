@@ -113,8 +113,8 @@ _lw6ker_cursor_array_reset (lw6ker_cursor_array_t * cursor_array)
 }
 
 lw6ker_cursor_t *
-lw6ker_cursor_array_get (lw6ker_cursor_array_t *
-			 cursor_array, u_int16_t cursor_id)
+_lw6ker_cursor_array_get (lw6ker_cursor_array_t *
+			  cursor_array, u_int16_t cursor_id)
 {
   lw6ker_cursor_t *ret = NULL;
   int i;
@@ -131,21 +131,22 @@ lw6ker_cursor_array_get (lw6ker_cursor_array_t *
 }
 
 int
-lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
-			    u_int64_t node_id,
-			    u_int16_t cursor_id, int team_color,
-			    int32_t x, int32_t y)
+_lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
+			     u_int64_t node_id,
+			     u_int16_t cursor_id, int team_color,
+			     int32_t x, int32_t y)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (!cursor)
     {
       cursor = _lw6ker_cursor_array_find_free (cursor_array);
       if (cursor)
 	{
-	  lw6ker_cursor_enable (cursor, node_id, cursor_id, team_color, x, y);
+	  _lw6ker_cursor_enable (cursor, node_id, cursor_id, team_color, x,
+				 y);
 	  cursor_array->nb_cursors++;
 	  ret = 1;
 	}
@@ -161,18 +162,18 @@ lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
-			     u_int64_t node_id, u_int16_t cursor_id)
+_lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
+			      u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
 
-  cursor = lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (cursor)
     {
       if (_lw6ker_cursor_check_node_id (cursor, node_id))
 	{
-	  lw6ker_cursor_disable (cursor);
+	  _lw6ker_cursor_disable (cursor);
 	  cursor_array->nb_cursors--;
 	  ret = 1;
 	}
@@ -188,11 +189,11 @@ lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
-			    u_int64_t node_id,
-			    u_int16_t cursor_id, int32_t x,
-			    int32_t y, int32_t pot_offset,
-			    lw6sys_whd_t * shape, lw6map_rules_t * rules)
+_lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
+			     u_int64_t node_id,
+			     u_int16_t cursor_id, int32_t x,
+			     int32_t y, int32_t pot_offset,
+			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor;
@@ -200,12 +201,13 @@ lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
   lw6sys_log (LW6SYS_LOG_DEBUG,
 	      _x_ ("cursor array update %" LW6SYS_PRINTF_LL "x %x %d %d %d"),
 	      node_id, cursor_id, x, y, pot_offset);
-  cursor = lw6ker_cursor_array_get (cursor_array, cursor_id);
+  cursor = _lw6ker_cursor_array_get (cursor_array, cursor_id);
   if (cursor)
     {
       if (_lw6ker_cursor_check_node_id (cursor, node_id))
 	{
-	  ret = lw6ker_cursor_update (cursor, x, y, pot_offset, shape, rules);
+	  ret =
+	    _lw6ker_cursor_update (cursor, x, y, pot_offset, shape, rules);
 	}
     }
   else
@@ -219,9 +221,9 @@ lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-lw6ker_cursor_array_sanity_check (lw6ker_cursor_array_t * cursor_array,
-				  lw6sys_whd_t * shape,
-				  lw6map_rules_t * rules)
+_lw6ker_cursor_array_sanity_check (lw6ker_cursor_array_t * cursor_array,
+				   lw6sys_whd_t * shape,
+				   lw6map_rules_t * rules)
 {
   int ret = 1;
   int i;
@@ -230,8 +232,8 @@ lw6ker_cursor_array_sanity_check (lw6ker_cursor_array_t * cursor_array,
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       ret = ret
-	&& lw6ker_cursor_sanity_check (&(cursor_array->cursors[i]), shape,
-				       rules);
+	&& _lw6ker_cursor_sanity_check (&(cursor_array->cursors[i]), shape,
+					rules);
       if (cursor_array->cursors[i].enabled)
 	{
 	  found++;

@@ -72,26 +72,26 @@ void
 _lw6ker_fighter_move (lw6ker_fighter_t * fighter,
 		      int32_t fighter_id,
 		      int32_t x,
-		      int32_t y, int32_t z, lw6ker_map_state_t * map_state)
+		      int32_t y, int32_t z, _lw6ker_map_state_t * map_state)
 {
-  lw6ker_map_state_set_fighter_id (map_state,
-				   fighter->pos.x, fighter->pos.y,
-				   fighter->pos.z, -1);
+  _lw6ker_map_state_set_fighter_id (map_state,
+				    fighter->pos.x, fighter->pos.y,
+				    fighter->pos.z, -1);
   fighter->pos.x = x;
   fighter->pos.y = y;
   fighter->pos.z = z;
-  lw6ker_map_state_set_fighter_id (map_state, x, y, z, fighter_id);
+  _lw6ker_map_state_set_fighter_id (map_state, x, y, z, fighter_id);
 }
 
 void
 _lw6ker_fighter_attack (lw6ker_fighter_t * fighter,
 			int32_t x,
-			int32_t y, int32_t z, lw6ker_map_state_t * map_state,
+			int32_t y, int32_t z, _lw6ker_map_state_t * map_state,
 			int32_t fighter_attack, int32_t fighter_new_health)
 {
   lw6ker_fighter_t *enemy;
 
-  enemy = lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
+  enemy = _lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
   enemy->health -= fighter_attack;
   if (enemy->health <= 0)
     {
@@ -116,12 +116,12 @@ _lw6ker_fighter_defend (lw6ker_fighter_t * fighter,
 			int32_t x,
 			int32_t y,
 			int32_t z,
-			lw6ker_map_state_t * map_state,
+			_lw6ker_map_state_t * map_state,
 			int32_t fighter_defense)
 {
   lw6ker_fighter_t *ally;
 
-  ally = lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
+  ally = _lw6ker_map_state_get_fighter_unsafe (map_state, x, y, z);
   ally->health += fighter_defense;
   if (ally->health > LW6MAP_MAX_FIGHTER_HEALTH)
     {

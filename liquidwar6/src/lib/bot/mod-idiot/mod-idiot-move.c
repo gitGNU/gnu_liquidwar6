@@ -39,18 +39,21 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   int found = 0;
   int fighter_id = -1;
   lw6ker_fighter_t *fighter = NULL;
+  lw6sys_whd_t shape = { 0, 0, 0 };
 
   if (lw6ker_game_state_get_cursor_info
       (data->game_state, data->param.cursor_id, NULL,
        NULL, &team_color, &x, &y))
     {
+      lw6ker_game_state_get_shape (data->game_state, &shape);
+
       idiot_context->start_pos_x = x;
       idiot_context->start_pos_y = y;
 
       for (i = 0; i < _MOD_IDIOT_NB_RETRIES && !found; ++i)
 	{
-	  x = lw6sys_random (data->game_state->map_state.shape.w);
-	  y = lw6sys_random (data->game_state->map_state.shape.h);
+	  x = lw6sys_random (shape.w);
+	  y = lw6sys_random (shape.h);
 	  idiot_context->target_pos_x = x;
 	  idiot_context->target_pos_y = y;
 	  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT1
@@ -64,18 +67,16 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
 	    }
 	  else
 	    {
-	      for (z = 0;
-		   z < data->game_state->map_state.shape.d && !found; ++z)
+	      for (z = 0; z < shape.d && !found; ++z)
 		{
 		  fighter_id =
-		    lw6ker_map_state_get_fighter_id (&
-						     (data->game_state->
-						      map_state), x, y, z);
+		    lw6ker_game_state_get_fighter_id (data->game_state, x, y,
+						      z);
 		  if (fighter_id >= 0)
 		    {
 		      fighter =
-			&(data->game_state->map_state.
-			  armies.fighters[fighter_id]);
+			lw6ker_game_state_get_fighter_by_id (data->game_state,
+							     fighter_id);
 		      if (fighter != NULL)
 			{
 			  if (data->param.iq >= _MOD_IDIOT_IQ_LIMIT2
@@ -134,13 +135,14 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
   int start_of_move;
   int end_of_move;
   float average_size = 0.0f;
+  lw6sys_whd_t shape = { 0, 0, 0 };
+
+  lw6ker_game_state_get_shape (data->game_state, &shape);
 
   rounds = lw6ker_game_state_get_rounds (data->game_state);
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("idiot bot move rounds=%d"), rounds);
 
-  average_size =
-    (data->game_state->map_state.shape.w +
-     data->game_state->map_state.shape.h) / 2.0f;
+  average_size = (shape.w + shape.h) / 2.0f;
   d_move =
     lw6sys_max (1,
 		(((float) _MOD_IDIOT_DEFAULT_MOVE_ROUNDS) * average_size) /

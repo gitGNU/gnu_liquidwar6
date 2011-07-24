@@ -1,3 +1,744 @@
+@deftypefun {lw6ker_game_state_t *} {lw6ker_game_state_new} (lw6ker_game_struct_t * @var{game_struct}, lw6sys_progress_t * @var{progress})
+@var{game_struct}:  game_struct use to construct the object
+
+@var{progress}:  progress indicator
+
+Creates a game state from a game struct. The game struct must be kept
+(never freed) while game_state is in use.
+
+@strong{Return value:}  newly created object.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_free} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the object to free
+
+Frees a game_state object, releases all required objects. At this stage
+the map_struct must still be available.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_point_to} (lw6ker_game_state_t * @var{game_state}, lw6ker_game_struct_t * @var{game_struct})
+@var{game_state}:  the game_state to modify
+
+@var{game_struct}:  the game_struct to point to
+
+This can be used when one makes a copy (dup) of a game struct and for some
+reason want the game_state to point on this new copy. Of course you should
+make the game_state point to a game_struct that is identical to the one
+that was used to construct the object in the first place. Use at your own
+risk.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_memory_footprint} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the approximative amount of memory taken by the object.
+
+@strong{Return value:}  number of bytes (approximation)
+@end deftypefun
+
+@deftypefun {char *} {lw6ker_game_state_repr} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Gives a readable representation of the object.
+
+@strong{Return value:}  newly allocated string, must be freed
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_can_sync} (lw6ker_game_state_t * @var{dst}, lw6ker_game_state_t * @var{src})
+@var{dst}:  the destination game_state
+
+@var{src}:  the source game_state
+
+Tells wether src and dst can be synced. This is not a fool proof function
+but in most cases it will raise the error, use it to avoid blunders. It
+just compares @code{dst} and @code{src} and tries to guess if they correspond to the
+same logical objects.
+
+@strong{Return value:}  1 if they are syncable, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_sync} (lw6ker_game_state_t * @var{dst}, lw6ker_game_state_t * @var{src})
+@var{dst}:  the destination game_state
+
+@var{src}:  the source game_state
+
+Fundamental function, used to carbon copy a game state to another,
+this is intensively used to keep too tracks of the game state, one
+most-up-to-date but probably wrong, the one we use to display on the
+screen, and one slightly outdated (or very outdated if network is
+slow) but that we're sure of, something 100% bullet proof we can
+rely on.
+
+@strong{Return value:}  1 on success, 0 on error
+@end deftypefun
+
+@deftypefun {lw6ker_game_state_t *} {lw6ker_game_state_dup} (lw6ker_game_state_t * @var{game_state}, lw6sys_progress_t * @var{progress})
+@var{game_state}:  the game_state to copy
+
+@var{progress}:  progress indicator
+
+Dups (copy) a game_state object. The newly created object points to
+the same game_struct but is an independant copy, you can play
+a whole different game on it. In practice this is often used
+to create the game_state objects for anticipation in network games.
+
+@strong{Return value:}  newly created object
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_state_checksum} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Calculates the checksum of a game_state, this can be very usefull
+to make sure two states are identicall (prevent network errors and/or
+cheating).
+
+@strong{Return value:}  32-bit checksum
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_get_shape} (lw6ker_game_state_t * @var{game_state}, lw6sys_whd_t * @var{shape})
+@var{game_state}:  the game_state to query
+
+@var{shape}:  the shape (out param)
+
+Retrieves the shape (w*h*d)of the game_state.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_w} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Retrieves the width (shape.w) of the game_state.
+
+@strong{Return value:}  the width.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_h} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Retrieves the height (shape.h) of the game_state.
+
+@strong{Return value:}  the height.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_d} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Retrieves the depth (shape.d, AKA number of layers) of the game_state.
+
+@strong{Return value:}  the depth.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_register_node} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id})
+@var{game_state}:  the game_state to act on
+
+@var{node_id}:  the id of the node to register
+
+Registers a node in the game, this must be done, else no action will
+be allowed (such as adding a cursor or moving it). There's a limited number
+of nodes allowed, and ids must be unique.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_unregister_node} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id})
+@var{game_state}:  the game_state to act on
+
+@var{node_id}:  the id of the node to register
+
+Unregisters a node in the game, this must be done when a node leaves the
+game, it will free ressources and allow others to connect.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_node_exists} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id})
+@var{game_state}:  the game_state to query
+
+@var{node_id}:  the node to test
+
+Tells wether a node is present in a game.
+
+@strong{Return value:}  1 if node is in game, 0 if not
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_node_info} (lw6ker_game_state_t *      @var{game_state}, u_int16_t @var{node_id}, u_int32_t * @var{last_command_round})
+@var{game_state}:  game_state to query
+
+@var{node_id}:  the node to get info about
+
+@var{last_command_round}:  the last round for which a command was issued (out parameter)
+
+Queries information about a given node, mostly, what was the last round
+we got a command.
+
+@strong{Return value:}  1 on success, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_add_cursor} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id}, u_int16_t @var{cursor_id}, int @var{team_color})
+@var{game_state}:  the game_state to act upon
+
+@var{node_id}:  the node issuing the command
+
+@var{cursor_id}:  the id of the cursor to add
+
+@var{team_color}:  the color we wish
+
+Adds a cursor in a game. Note that if there's already a cursor with
+that id, it will fail, and the color is only the color we wish, 
+we might indeed be attributed another color on a successfull call.
+
+@strong{Return value:}  1 on success, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_remove_cursor} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id}, u_int16_t @var{cursor_id})
+@var{game_state}:  the game_state to act upon
+
+@var{node_id}:  the node issuing the command
+
+@var{cursor_id}:  the id of the cursor to remove
+
+Removes a cursor from the game, corresponding teams will be removed
+if needed.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_cursor_exists} (lw6ker_game_state_t * @var{game_state}, u_int16_t @var{cursor_id})
+@var{game_state}:  the game_state to query
+
+@var{cursor_id}:  the cursor to test
+
+Tells wether a cursor is present in the game.
+
+@strong{Return value:}  1 if cursor exists, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_cursor_info} (lw6ker_game_state_t *        @var{game_state}, u_int16_t @var{cursor_id}, u_int64_t * @var{node_id}, char * @var{letter}, int * @var{team_color}, int32_t * @var{x}, int32_t * @var{y})
+@var{game_state}:  the game_state to query
+
+@var{cursor_id}:  the cursor to query
+
+@var{node_id}:  the node the cursor belongs to (out param)
+
+@var{letter}:  ASCII letter associated to the cursor (out param)
+
+@var{team_color}:  team color of the cursor (out param)
+
+@var{x}:  x position of the cursor (out param)
+
+@var{y}:  y position of the cursor (out param)
+
+Returns information about a given cursor.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_get_cursor_array} (lw6ker_game_state_t * @var{game_state}, lw6ker_cursor_array_t * @var{cursor_array})
+@var{game_state}:  the game state to query
+
+@var{cursor_array}:  the cursor array (out param)
+
+Copies the cursor_array informations to the given struct pointer.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_set_cursor} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id}, u_int16_t @var{cursor_id}, int32_t @var{x}, int32_t @var{y})
+@var{game_state}:  the game_state to act upon
+
+@var{node_id}:  the node issuing the command
+
+@var{cursor_id}:  the cursor to set
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+Sets a cursor, that is, changes its position, this is pretty much
+anything we can do about a cursor except adding or removing it, just
+because of Liquid War very simple rules.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_team_exists} (lw6ker_game_state_t * @var{game_state}, int @var{team_color})
+@var{game_state}:  the game_state to query
+
+@var{team_color}:  the team color to test
+
+Tells wether a team color is present in the game. Note that this is
+different from cursor ids.
+
+@strong{Return value:}  1 if team exists, 0 if not.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_team_info} (lw6ker_game_state_t *      @var{game_state}, int @var{team_color}, int32_t * @var{nb_cursors}, int32_t * @var{nb_fighters})
+@var{game_state}:  the game_state to query
+
+@var{team_color}:  the color to get informations about
+
+@var{nb_cursors}:  number of cursors with this color (out param)
+
+@var{nb_fighters}:  number of fighters with this color (out param)
+
+Gets informations about a given color. Indeed, a color can have several
+cursors, and knowing how many fighters there are with a given color
+is probably the most important things about a color.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_nb_teams} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Tells how many teams there are in a game. This is different from the
+cursors number, there can be more cursors than teams, because a team
+can have several cursors.
+
+@strong{Return value:}  the number of teams.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_do_spread} (lw6ker_game_state_t *         @var{game_state}, u_int32_t @var{team_mask})
+@var{game_state}:  the game_state to act upon
+
+@var{team_mask}:  a binary mask of which gradients (teams) must be spreaded
+
+Spreads the gradient, that is, calculates the potential of each point
+on the map, ie the distance to the closest cursor. The binary mask
+allows gradient to be spread for only some teams, this is usefull
+in a multithreaded context, as gradients can be calculated separately.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_do_move} (lw6ker_game_state_t *       @var{game_state}, u_int32_t @var{team_mask})
+@var{game_state}:  the game_state to act upon
+
+@var{team_mask}:  a binary mask of which teams must be moved
+
+Moves the fighters, note that you must calculate the gradient from
+time to time else they go to the wrong places. The @code{team_mask} allows
+the moving of only some given teams, but moving (for instance) even
+teams then odd teams isn't the same as moving odd teams then even teams.
+Whereas as far as gradient calculation is concerned, this could have been
+true, you could have multithreaded that.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_finish_round} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to act upon
+
+Finishes a round, that is, vaccums various stuff, checks if some team
+has lost, and so on. This is complementary to the spread and move
+steps, it should be called at each round.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_state_do_round} (lw6ker_game_state_t * @var{game_state})
+
+game_state: the game_state to act upon
+
+This is a fundamental function, it's called at each round,
+it fires all the complex calculations in the game, the
+real core algorithm. Every time this function is called,
+the round is "over" and the game state is ready for the
+next... round. It's equivalent to calling the spread, move
+and finish functions.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_state_get_moves} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the number of moves done on this game.
+
+@strong{Return value:}  number of moves.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_state_get_spreads} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the number of spreads done on this game.
+
+@strong{Return value:}  number of spreads.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_state_get_rounds} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the number of rounds done on this game.
+
+@strong{Return value:}  number of rounds.
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_state_get_total_rounds} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the number of playable rounds in the game, that is the number
+of rounds to be played if game goes up to the time limit. This is
+a fixed number, if game slows down then time is stretched, but the
+the exact maximum number of rounds is known at game start, and it is
+the number returned by this function.
+
+@strong{Return value:}  number of rounds in the game
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_is_over} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Tells wether the game is over or not. The answer depends on time limit,
+game rules, and of course what happened on the battlefield.
+
+@strong{Return value:}  1 if over, 0 if not.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_nb_active_fighters} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Gets the number of active fighters, this is relatively constant within the
+game, it does not change when someone looses, but it can vary when a new
+team arrives or disappears.
+
+@strong{Return value:}  number of fighters.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_time_elapsed} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the time elapsed, this is not the real time you'd time
+with an atomic clock, rather the time that would have elapsed if
+game had been run at its nominal speed. There can be a difference
+if your computer is too slow, among other things.
+
+@strong{Return value:}  time elapsed, in seconds.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_time_left} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  the game_state to query
+
+Returns the time left, this is not the real time you'd time
+with an atomic clock, rather the time that would theorically
+be left is game was to be run at its nominal speed. There can
+be a difference if your computer is too slow, among other things.
+You shouldn't rely on this to know wether a game is over or not,
+there's another dedicated function for that.
+
+@strong{Return value:}  time left, in seconds.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_global_history} (lw6ker_game_state_t * @var{game_state}, int @var{i}, int @var{team_id})
+@var{game_state}:  the game_state to query
+
+@var{i}:  the index of the history point
+
+@var{team_id}:  the team to query
+
+Returns the number of fighters at some point in the past (the lower i,
+the oldest). The history scrolls automatically and erases itself at
+some point, it's of constant length. This is the global, long term
+history, reflects the whole game and could be used for an end-game
+score screen.
+
+@strong{Return value:}  number of fighters at that time.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_latest_history} (lw6ker_game_state_t * @var{game_state}, int @var{i}, int @var{team_id})
+@var{game_state}:  the game_state to query
+
+@var{i}:  the index of the history point
+
+@var{team_id}:  the team to query
+
+Returns the number of fighters at some point in the past (the lower i,
+the oldest). The history scrolls automatically and erases itself at
+some point, it's of constant length. This is the latest, short term
+history, reflects the recent game evolutions and could be used to
+display an in-game monitor.
+
+@strong{Return value:}  number of fighters at that time.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_global_history_max} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  game_state to query
+
+Returns the maximum value, that is, the maximum number of fighters, all teams
+combined, for this history. This can be used to scale charts.
+This function for the global long term history.
+
+@strong{Return value:}  max number of fighters.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_latest_history_max} (lw6ker_game_state_t * @var{game_state})
+@var{game_state}:  game_state to query
+
+Returns the maximum value, that is, the maximum number of fighters, all teams
+combined, for this history. This can be used to scale charts.
+This function for the latest short term history.
+
+@strong{Return value:}  max number of fighters.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_state_get_fighter_id} (lw6ker_game_state_t * @var{game_state}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_state}:  game_state to query
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+@var{z}:  z position
+
+Gets the id of a fighter in a given position. Previous versions of the
+game used to have this declared inline static for speed, but the price
+to pay in terms of maintainability was too high: too much stuff from the
+ker module had to be kept public. This functions is very likely to be
+called often when one wants to know what's happening on the battlefield,
+to draw it, for instance. If there's no fighter, the id is negative,
+any id equal or greater than 0 (returned by this function) is valid.
+
+@strong{Return value:}  the id of the fighter at that position.
+@end deftypefun
+
+@deftypefun {lw6ker_fighter_t *} {lw6ker_game_state_get_fighter_by_id} (lw6ker_game_state_t * @var{game_state}, int32_t @var{fighter_id})
+@var{game_state}:  game_state to query
+
+@var{fighter_id}:  the id of the fighter
+
+Gets a fighter by its id. Internally, all fighters are stored in an array
+so it could be "safe" to get fighter with id 0 then walk the array.
+Previous versions of the game used to have this public (the array),
+it has been hidden since.
+
+@strong{Return value:}  pointer to the fighter with the given id.
+@end deftypefun
+
+@deftypefun {lw6ker_fighter_t *} {lw6ker_game_state_get_fighter_safe} (lw6ker_game_state_t * @var{game_state}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_state}:  game_state to query
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+@var{z}:  z position
+
+Gets a fighter by its position. This function will check for boundaries, if there's
+no fighter in this place, it will return NULL, but nothing worse can happen. More
+precisely, if the place is in a wall, it won't bug, unlike the non-bullet-proof
+equivalent of this function.
+
+@strong{Return value:}  pointer to the fighter at this position, or NULL if none.
+@end deftypefun
+
+@deftypefun {lw6ker_fighter_t *} {lw6ker_game_state_get_fighter_unsafe} (lw6ker_game_state_t * @var{game_state}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_state}:  game_state to query
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+@var{z}:  z position
+
+Gets a fighter by its position. This function will not check for boundaries, if there's
+no fighter in this place, not only will it probably not return a valid value, but it will also
+even segfault before that, trying to access non-existing structures in menory. So only
+call this if you're sure there's a fighter here.
+
+@strong{Return value:}  pointer to the fighter at this position, or NULL if none.
+@end deftypefun
+
+@deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_new} (lw6map_level_t * @var{level}, lw6sys_progress_t * @var{progress})
+@var{level}:  the level on which the game_struct is based
+
+@var{progress}:  progress indicator
+
+Creates a new game_struct from a level. The game_struct is different from
+the level in the sense that the game_struct does contain algorithmic specific
+optimizations, it's a ready-to-use struct desgined for execution speed, while
+the plain level just stores information.
+
+@strong{Return value:}  newly allocated object
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_struct_free} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to free
+
+Frees a game_struct object, releasing all required stuff. The source
+level must still be available when freeing this.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_struct_point_to} (lw6ker_game_struct_t * @var{game_struct}, lw6map_level_t * @var{level})
+@var{game_struct}:  the game_struct to modify
+
+@var{level}:  the level to point to
+
+This can be used when one makes a copy (dup) of a level and for some
+reason want the game_struct to point on this new copy. Of course you should
+make the game_struct point to a level that is identical to the one
+that was used to construct the object in the first place. Use at your own
+risk.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_memory_footprint} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Returns the approximative amount of memory taken by the object.
+
+@strong{Return value:}  number of bytes (approximation)
+@end deftypefun
+
+@deftypefun {char *} {lw6ker_game_struct_repr} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Gives a readable representation of the object.
+
+@strong{Return value:}  newly allocated string, must be freed
+@end deftypefun
+
+@deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_dup} (lw6ker_game_struct_t * @var{game_struct}, lw6sys_progress_t * @var{progress})
+@var{game_struct}:  the game_struct to copy
+
+@var{progress}:  progress indicator
+
+Dups (copy) a game_struct object. The newly created object points to
+the same game_struct but is an independant copy, you can play
+a whole different game on it. In practice this is often used
+to create the game_struct objects for anticipation in network games.
+
+@strong{Return value:}  newly created object
+@end deftypefun
+
+@deftypefun {u_int32_t} {lw6ker_game_struct_checksum} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Calculates the checksum of a game_struct, this can be very usefull
+to make sure two structs are identicall (prevent network errors and/or
+cheating).
+
+@strong{Return value:}  32-bit checksum
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_struct_get_shape} (lw6ker_game_struct_t * @var{game_struct}, lw6sys_whd_t * @var{shape})
+@var{game_struct}:  the game_struct to query
+
+@var{shape}:  the shape (out param)
+
+Retrieves the shape (w*h*d)of the game_struct.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_get_w} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Retrieves the width (shape.w) of the game_struct.
+
+@strong{Return value:}  the width.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_get_h} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Retrieves the height (shape.h) of the game_struct.
+
+@strong{Return value:}  the height.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_get_d} (lw6ker_game_struct_t * @var{game_struct})
+@var{game_struct}:  the game_struct to query
+
+Retrieves the depth (shape.d, AKA number of layers) of the game_struct.
+
+@strong{Return value:}  the depth.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_is_fg} (lw6ker_game_struct_t * @var{game_struct}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_struct}:  the game_struct to query
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+@var{z}:  z position
+
+Tests wether a given position is foreground, that is, occupied by a wall.
+
+@strong{Return value:}  1 if foreground (wall, fighters can't move), 0 if not
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_struct_is_bg} (lw6ker_game_struct_t * @var{game_struct}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_struct}:  the game_struct to query
+
+@var{x}:  x position
+
+@var{y}:  y position
+
+@var{z}:  z position
+
+Tests wether a given position is background, that is, there's no wall.
+
+@strong{Return value:}  1 if background (wall, fighters can move), 0 if not
+@end deftypefun
+
+@deftypefun {int} {lw6ker_score_array_update} (lw6ker_score_array_t * @var{score_array}, lw6ker_game_state_t * @var{game_state})
+@var{score_array}:  the score array to modify
+
+@var{game_state}:  the game_state to get the information from
+
+Updates a score array, that is, calculates all scores, so that they
+can be displayed, for instance.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_team_mask_get} (u_int32_t * @var{even}, u_int32_t * @var{odd}, int32_t @var{round})
+@var{even}:  even team mask (out param)
+
+@var{odd}:  odd team mask (out param)
+
+@var{round}:  round concerned
+
+Returns a default team mask for a given round, even and odd will contain
+ready to use masks (for spread and move functions for instance).
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6ker_team_mask_best} (u_int32_t * @var{even}, u_int32_t * @var{odd}, lw6ker_game_state_t * @var{game_state})
+@var{even}:  even team mask (out param)
+
+@var{odd}:  odd team mask (out param)
+
+@var{game_state}:  the game_state concerned
+
+Returns an optimal team mask for a given round, even and odd will contain
+ready to use masks (for spread and move functions for instance). The difference
+with the default team mask is that this one will test for which teams are present
+and try and manage to find an equilibrated set of odd/even teams.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_team_mask_is_concerned} (int @var{team_color}, u_int32_t @var{team_mask})
+@var{team_color}:  color index
+
+@var{team_mask}:  team mask
+
+Tells wether a given team is concerned by a team mask.
+
+@strong{Return value:}  1 if concerned, 0 if not.
+@end deftypefun
+
 @deftypefun {int} {lw6ker_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

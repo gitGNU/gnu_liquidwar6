@@ -1,3 +1,7 @@
+2011-07-24 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Most ker structs now hidden for maintainability.
+
 2011-07-22 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Basic score pie-chart implemented.

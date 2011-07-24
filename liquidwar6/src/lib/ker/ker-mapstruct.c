@@ -61,7 +61,7 @@ typedef struct draft_zones_s
 draft_zones_t;
 
 void
-_lw6ker_map_struct_update_checksum (lw6ker_map_struct_t *
+_lw6ker_map_struct_update_checksum (_lw6ker_map_struct_t *
 				    map_struct, u_int32_t * checksum)
 {
   int i;
@@ -89,8 +89,8 @@ _lw6ker_map_struct_update_checksum (lw6ker_map_struct_t *
 }
 
 int
-_lw6ker_map_struct_lazy_compare (lw6ker_map_struct_t *
-				 map_struct_a, lw6ker_map_struct_t *
+_lw6ker_map_struct_lazy_compare (_lw6ker_map_struct_t *
+				 map_struct_a, _lw6ker_map_struct_t *
 				 map_struct_b)
 {
   int ret = 0;
@@ -548,7 +548,7 @@ draft_zones_group (lw6map_level_t * level, draft_zones_t * draft_zones,
 }
 
 static int
-_fix_one_way (lw6ker_map_struct_t * map_struct, lw6map_level_t * level)
+_fix_one_way (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level)
 {
   int ret = 0;
   int x, y;
@@ -561,7 +561,7 @@ _fix_one_way (lw6ker_map_struct_t * map_struct, lw6map_level_t * level)
   int allow_east = 0;
   int allow_south = 0;
   int allow_west = 0;
-  lw6ker_zone_struct_t *zone_struct;
+  _lw6ker_zone_struct_t *zone_struct;
 
   for (i = 0; i < map_struct->nb_zones; ++i)
     {
@@ -738,7 +738,7 @@ _fix_one_way (lw6ker_map_struct_t * map_struct, lw6map_level_t * level)
  * the more we get a chance to have things cached.
  */
 static int
-draft_zones_to_map_struct (lw6ker_map_struct_t * map_struct,
+draft_zones_to_map_struct (_lw6ker_map_struct_t * map_struct,
 			   draft_zones_t * draft_zones,
 			   lw6sys_progress_t * progress)
 {
@@ -769,8 +769,8 @@ draft_zones_to_map_struct (lw6ker_map_struct_t * map_struct,
   map_struct->max_zone_size = draft_zones->max_zone_size;
 
   map_struct->zones =
-    (lw6ker_zone_struct_t *) LW6SYS_MALLOC (nb_zones *
-					    sizeof (lw6ker_zone_struct_t));
+    (_lw6ker_zone_struct_t *) LW6SYS_MALLOC (nb_zones *
+					     sizeof (_lw6ker_zone_struct_t));
 
   if (map_struct->zones)
     {
@@ -828,7 +828,7 @@ draft_zones_to_map_struct (lw6ker_map_struct_t * map_struct,
  * Init places, that is, mostly read and aggregate meta-layer info
  */
 static int
-init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
+init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	     lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -850,9 +850,10 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 
   shape = map_struct->shape;
   map_struct->places =
-    (lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
-					     map_struct->shape.h *
-					     sizeof (lw6ker_place_struct_t));
+    (_lw6ker_place_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
+					      map_struct->shape.h *
+					      sizeof
+					      (_lw6ker_place_struct_t));
 
   if (map_struct->places)
     {
@@ -860,7 +861,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	{
 	  for (x = 0; x < shape.w; ++x)
 	    {
-	      map_struct->places[lw6ker_map_struct_place_index
+	      map_struct->places[_lw6ker_map_struct_place_index
 				 (map_struct, x, y)].act_incr =
 		LW6KER_ACT_LIMIT;
 	      /*
@@ -886,7 +887,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 			((0xFF - meta_layer_value) * LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_min) / 0xFF -
 			LW6KER_ACT_LIMIT;
-		      map_struct->places[lw6ker_map_struct_place_index
+		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x, y)].act_incr +=
 			act_incr;
 		    }
@@ -910,7 +911,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 			((0xFF - meta_layer_value) * LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_max) / 0xFF -
 			LW6KER_ACT_LIMIT;
-		      map_struct->places[lw6ker_map_struct_place_index
+		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x, y)].act_incr +=
 			act_incr;
 		    }
@@ -931,7 +932,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 			lw6map_meta_layer_get (&level->body.danger, x, y);
 		      danger_correction =
 			(meta_layer_value * danger_power) / 0xFF;
-		      map_struct->places[lw6ker_map_struct_place_index
+		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x,
 					  y)].health_correction -=
 			danger_correction;
@@ -953,7 +954,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 			lw6map_meta_layer_get (&level->body.medicine, x, y);
 		      medicine_correction =
 			(meta_layer_value * medicine_power) / 0xFF;
-		      map_struct->places[lw6ker_map_struct_place_index
+		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x,
 					  y)].health_correction +=
 			medicine_correction;
@@ -966,7 +967,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	{
 	  for (x = 0; x < shape.w; ++x)
 	    {
-	      i = lw6ker_map_struct_place_index (map_struct, x, y);
+	      i = _lw6ker_map_struct_place_index (map_struct, x, y);
 	      map_struct->places[i].act_incr =
 		lw6sys_max (1, map_struct->places[i].act_incr);
 	      /*
@@ -993,7 +994,7 @@ init_places (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
  * have a quick way to get the right zone for a given (x,y).
  */
 static int
-init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
+init_slots (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	    lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -1005,16 +1006,16 @@ init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
   lw6sys_progress_begin (progress);
 
   map_struct->slots =
-    (lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
-					    map_struct->shape.h *
-					    map_struct->shape.d *
-					    sizeof (lw6ker_slot_struct_t));
+    (_lw6ker_slot_struct_t *) LW6SYS_CALLOC (map_struct->shape.w *
+					     map_struct->shape.h *
+					     map_struct->shape.d *
+					     sizeof (_lw6ker_slot_struct_t));
 
   if (map_struct->slots)
     {
       int32_t i, x, y, z;
 
-      lw6ker_zone_struct_t *zone;
+      _lw6ker_zone_struct_t *zone;
 
       /*
        * Set up the id lookup table
@@ -1027,7 +1028,7 @@ init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	    {
 	      for (x = 0; x < map_struct->shape.w; ++x)
 		{
-		  lw6ker_map_struct_set_zone_id (map_struct, x, y, z, -1);
+		  _lw6ker_map_struct_set_zone_id (map_struct, x, y, z, -1);
 		}
 	    }
 	}
@@ -1040,9 +1041,9 @@ init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	    {
 	      for (x = 0; x < map_struct->zones[i].size; ++x)
 		{
-		  lw6ker_map_struct_set_zone_id (map_struct, zone->pos.x + x,
-						 zone->pos.y + y, zone->pos.z,
-						 i);
+		  _lw6ker_map_struct_set_zone_id (map_struct, zone->pos.x + x,
+						  zone->pos.y + y,
+						  zone->pos.z, i);
 		  map_struct->nb_usable_slots++;
 		  map_struct->room_for_armies++;
 		}
@@ -1068,7 +1069,7 @@ init_slots (lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
  * of wether it's usefull to implement this. Debugging tool.
  */
 float
-_lw6ker_map_struct_get_compression (lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_get_compression (_lw6ker_map_struct_t * map_struct)
 {
   float ret = 0.0f;
 
@@ -1086,7 +1087,7 @@ _lw6ker_map_struct_get_compression (lw6ker_map_struct_t * map_struct)
  * files, into an in-memory "ready for algorithmic stuff" structure.
  */
 int
-_lw6ker_map_struct_init (lw6ker_map_struct_t * map_struct,
+_lw6ker_map_struct_init (_lw6ker_map_struct_t * map_struct,
 			 lw6map_level_t * level, lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -1103,7 +1104,7 @@ _lw6ker_map_struct_init (lw6ker_map_struct_t * map_struct,
   lw6sys_progress_split5 (&progress1, &progress2, &progress3, &progress4,
 			  &progress5, progress);
 
-  memset (map_struct, 0, sizeof (lw6ker_map_struct_t));
+  memset (map_struct, 0, sizeof (_lw6ker_map_struct_t));
 
   draft_zones = draft_zones_new (level, &progress1);
   if (draft_zones)
@@ -1141,7 +1142,7 @@ _lw6ker_map_struct_init (lw6ker_map_struct_t * map_struct,
       ret = ret && init_slots (map_struct, level, &progress5);
       ret = ret && init_places (map_struct, level, &progress1);
 
-      lw6ker_map_struct_sanity_check (map_struct);
+      _lw6ker_map_struct_sanity_check (map_struct);
 
       if (ret)
 	{
@@ -1161,7 +1162,7 @@ _lw6ker_map_struct_init (lw6ker_map_struct_t * map_struct,
 }
 
 void
-_lw6ker_map_struct_clear (lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_clear (_lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
@@ -1177,14 +1178,14 @@ _lw6ker_map_struct_clear (lw6ker_map_struct_t * map_struct)
 	{
 	  LW6SYS_FREE (map_struct->slots);
 	}
-      memset (map_struct, 0, sizeof (lw6ker_map_struct_t));
+      memset (map_struct, 0, sizeof (_lw6ker_map_struct_t));
     }
 }
 
 void
-lw6ker_map_struct_find_free_slot_near (lw6ker_map_struct_t * map_struct,
-				       lw6sys_xyz_t * there,
-				       lw6sys_xyz_t here)
+_lw6ker_map_struct_find_free_slot_near (_lw6ker_map_struct_t * map_struct,
+					lw6sys_xyz_t * there,
+					lw6sys_xyz_t here)
 {
   int found = 0;
 
@@ -1192,7 +1193,7 @@ lw6ker_map_struct_find_free_slot_near (lw6ker_map_struct_t * map_struct,
 
   if (lw6sys_shape_check_pos (&(map_struct->shape), &here))
     {
-      if (lw6ker_map_struct_get_zone_id (map_struct, here.x, here.y, here.z)
+      if (_lw6ker_map_struct_get_zone_id (map_struct, here.x, here.y, here.z)
 	  >= 0)
 	{
 	  *there = here;
@@ -1223,7 +1224,7 @@ lw6ker_map_struct_find_free_slot_near (lw6ker_map_struct_t * map_struct,
 		    {
 		      for (test.z = 0; test.z < map_struct->shape.d; ++test.z)
 			{
-			  if (lw6ker_map_struct_get_zone_id
+			  if (_lw6ker_map_struct_get_zone_id
 			      (map_struct, test.x, test.y, test.z) >= 0)
 			    {
 			      found = 1;
@@ -1246,7 +1247,7 @@ lw6ker_map_struct_find_free_slot_near (lw6ker_map_struct_t * map_struct,
 }
 
 int
-lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
+_lw6ker_map_struct_sanity_check (_lw6ker_map_struct_t * map_struct)
 {
   int ret = 1;
   int x, y, z, w, h, d;
@@ -1284,7 +1285,7 @@ lw6ker_map_struct_sanity_check (lw6ker_map_struct_t * map_struct)
 	{
 	  for (x = 0; x < w; x++)
 	    {
-	      zone_id = lw6ker_map_struct_get_zone_id (map_struct, x, y, z);
+	      zone_id = _lw6ker_map_struct_get_zone_id (map_struct, x, y, z);
 	      if (zone_id == -1 || (zone_id >= 0 && zone_id < nb_zones))
 		{
 		  if (zone_id >= 0)

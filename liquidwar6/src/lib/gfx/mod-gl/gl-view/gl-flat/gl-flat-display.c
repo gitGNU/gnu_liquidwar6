@@ -234,6 +234,11 @@ _display_armies (mod_gl_utils_context_t * utils_context,
 		 _mod_gl_view_flat_context_t *
 		 flat_context, lw6gui_look_t * look)
 {
+  lw6sys_whd_t shape;
+
+  lw6ker_game_state_get_shape (flat_context->game_context.armies.game_state,
+			       &shape);
+
   mod_gl_utils_update_game_bitmap_array (utils_context,
 					 &(flat_context->game_context.armies.
 					   armies_bitmap_array),
@@ -241,14 +246,10 @@ _display_armies (mod_gl_utils_context_t * utils_context,
 					 armies.game_state, look);
   _set_fighters_rules (utils_context, flat_context);
   _display_bitmap_array (utils_context, flat_context,
-			 flat_context->game_context.armies.game_state->
-			 map_state.shape.w,
-			 flat_context->game_context.armies.game_state->
-			 map_state.shape.h,
-			 flat_context->game_context.armies.game_state->
-			 map_state.shape.w,
-			 flat_context->game_context.armies.game_state->
-			 map_state.shape.h,
+			 shape.w,
+			 shape.h,
+			 shape.w,
+			 shape.h,
 			 &(flat_context->game_context.armies.
 			   armies_bitmap_array), look);
 }
@@ -479,13 +480,15 @@ _display_cursors (mod_gl_utils_context_t * utils_context,
 {
   int i;
   lw6ker_cursor_t *cursor;
+  lw6ker_cursor_array_t cursor_array;
   lw6pil_local_cursor_t *local_cursor;
   int blink_state;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display cursors"));
+  lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      cursor = &(game_state->map_state.cursor_array.cursors[i]);
+      cursor = &(cursor_array.cursors[i]);
       if (cursor->enabled)
 	{
 	  local_cursor =

@@ -34,16 +34,22 @@
  */
 SDL_Surface *
 mod_gl_utils_create_zones_surface (mod_gl_utils_context_t * utils_context,
-				   lw6ker_map_struct_t * map_struct)
+				   lw6ker_game_struct_t * game_struct)
 {
   SDL_Surface *zones_surface;
   lw6sys_color_f_t color;
+  lw6sys_whd_t shape;
+
+  lw6ker_game_struct_get_shape (game_struct, &shape);
 
   zones_surface =
-    mod_gl_utils_create_surface (utils_context, map_struct->shape.w,
-				 map_struct->shape.h);
+    mod_gl_utils_create_surface (utils_context, shape.w, shape.h);
   if (zones_surface)
     {
+      /*
+       * TODO rewrite this after major 201107 rewrite
+       */
+#ifdef REWRITE201107
       int i;
       float grey;
       lw6ker_zone_struct_t *zone;
@@ -68,6 +74,7 @@ mod_gl_utils_create_zones_surface (mod_gl_utils_context_t * utils_context,
 				      zone->pos.y + zone->size - 1,
 				      lw6sys_color_f_to_i (&color));
 	}
+#endif
     }
 
   return (zones_surface);

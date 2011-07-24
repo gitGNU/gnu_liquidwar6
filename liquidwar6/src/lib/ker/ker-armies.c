@@ -28,8 +28,8 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_armies_init (lw6ker_armies_t * armies,
-		     lw6ker_map_struct_t * map_struct,
+_lw6ker_armies_init (_lw6ker_armies_t * armies,
+		     _lw6ker_map_struct_t * map_struct,
 		     lw6map_rules_t * options)
 {
   int ret = 0;
@@ -57,7 +57,7 @@ _lw6ker_armies_init (lw6ker_armies_t * armies,
 }
 
 void
-_lw6ker_armies_clear (lw6ker_armies_t * armies)
+_lw6ker_armies_clear (_lw6ker_armies_t * armies)
 {
   if (armies->fighters)
     {
@@ -70,7 +70,7 @@ _lw6ker_armies_clear (lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_armies_sync (lw6ker_armies_t * dst, lw6ker_armies_t * src)
+_lw6ker_armies_sync (_lw6ker_armies_t * dst, _lw6ker_armies_t * src)
 {
   int ret = 0;
 
@@ -101,7 +101,7 @@ _lw6ker_armies_sync (lw6ker_armies_t * dst, lw6ker_armies_t * src)
 }
 
 void
-_lw6ker_armies_update_checksum (lw6ker_armies_t * armies,
+_lw6ker_armies_update_checksum (_lw6ker_armies_t * armies,
 				u_int32_t * checksum)
 {
   int i;
@@ -120,7 +120,8 @@ _lw6ker_armies_update_checksum (lw6ker_armies_t * armies,
 }
 
 int32_t
-lw6ker_armies_add_fighter (lw6ker_armies_t * armies, lw6ker_fighter_t fighter)
+_lw6ker_armies_add_fighter (_lw6ker_armies_t * armies,
+			    lw6ker_fighter_t fighter)
 {
   int32_t new_id = -1;
 
@@ -148,7 +149,7 @@ lw6ker_armies_add_fighter (lw6ker_armies_t * armies, lw6ker_fighter_t fighter)
  * then delete.
  */
 int
-lw6ker_armies_remove_fighter (lw6ker_armies_t * armies)
+_lw6ker_armies_remove_fighter (_lw6ker_armies_t * armies)
 {
   int ret = 0;
 

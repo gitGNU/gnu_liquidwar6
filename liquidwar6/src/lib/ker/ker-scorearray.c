@@ -30,8 +30,8 @@
 #include "ker-internal.h"
 
 int
-lw6ker_score_array_update (lw6ker_score_array_t * score_array,
-			   lw6ker_game_state_t * game_state)
+_lw6ker_score_array_update (lw6ker_score_array_t * score_array,
+			    _lw6ker_game_state_t * game_state)
 {
   int ret = 0;
   int i = 0;
@@ -241,4 +241,23 @@ lw6ker_score_array_update (lw6ker_score_array_t * score_array,
     }
 
   return ret;
+}
+
+/**
+ * lw6ker_score_array_update
+ *
+ * @score_array: the score array to modify
+ * @game_state: the game_state to get the information from
+ *
+ * Updates a score array, that is, calculates all scores, so that they
+ * can be displayed, for instance.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6ker_score_array_update (lw6ker_score_array_t * score_array,
+			   lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_score_array_update (score_array,
+				     (_lw6ker_game_state_t *) game_state);
 }

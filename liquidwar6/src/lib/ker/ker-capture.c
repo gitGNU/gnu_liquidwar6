@@ -62,7 +62,7 @@ capture_eol (int w, int y)
 }
 
 char *
-lw6ker_capture_str (lw6ker_game_state_t * game_state)
+_lw6ker_capture_str (_lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
   int w, h, x, y;
@@ -87,8 +87,8 @@ lw6ker_capture_str (lw6ker_game_state_t * game_state)
 	       * just a preview/debugging function
 	       */
 	      fighter_id =
-		lw6ker_map_state_get_fighter_id (&(game_state->map_state),
-						 x, y, 0);
+		_lw6ker_map_state_get_fighter_id (&(game_state->map_state),
+						  x, y, 0);
 	      if (fighter_id >= 0)
 		{
 		  fighter =
@@ -108,6 +108,16 @@ lw6ker_capture_str (lw6ker_game_state_t * game_state)
 	}
       ret[size] = '\0';
     }
+
+  return ret;
+}
+
+char *
+lw6ker_capture_str (lw6ker_game_state_t * game_state)
+{
+  char *ret = NULL;
+
+  ret = _lw6ker_capture_str ((_lw6ker_game_state_t *) game_state);
 
   return ret;
 }

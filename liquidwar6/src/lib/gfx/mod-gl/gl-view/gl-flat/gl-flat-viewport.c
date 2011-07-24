@@ -89,9 +89,14 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   lw6gui_viewport_t test;
   float test_cursor_x = 0.0f;
   float test_cursor_y = 0.0f;
-  int main_cursor_x = game_state->map_state.shape.w / 2;
-  int main_cursor_y = game_state->map_state.shape.h / 2;
+  int main_cursor_x;
+  int main_cursor_y;
   float dw, dh;
+  lw6sys_whd_t shape;
+
+  lw6ker_game_state_get_shape (game_state, &shape);
+  main_cursor_x = shape.w / 2;
+  main_cursor_y = shape.h / 2;
 
   if (local_cursors)
     {
@@ -117,8 +122,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			utils_context->smoothed.drawable.y2,
 			utils_context->smoothed.center_x,
 			utils_context->smoothed.center_y,
-			game_state->map_state.shape.w,
-			game_state->map_state.shape.h,
+			shape.w,
+			shape.h,
 			game_state->game_struct->rules.x_polarity,
 			game_state->game_struct->rules.y_polarity,
 			look->style.x_wrap,
@@ -153,8 +158,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			utils_context->smoothed.drawable.y2,
 			utils_context->smoothed.center_x,
 			utils_context->smoothed.center_y,
-			game_state->map_state.shape.w,
-			game_state->map_state.shape.h,
+			shape.w,
+			shape.h,
 			game_state->game_struct->rules.x_polarity,
 			game_state->game_struct->rules.y_polarity,
 			look->style.x_wrap,

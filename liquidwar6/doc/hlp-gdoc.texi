@@ -140,7 +140,7 @@ any call to lw6hlp_about or such help related functions.
 
 @deftypefun {void} {lw6hlp_reference_quit} ()
 
-Un-initializes the help reference, this must be called at the
+un-initializes the help reference, this must be called at the
 end of the program.
 
 @strong{Return value:}  1 on success, 0 if failed

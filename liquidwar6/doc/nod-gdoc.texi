@@ -81,8 +81,12 @@ not playing.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
+@deftypefun {int} {lw6nod_info_update} (lw6nod_info_t * @var{info}, u_int64_t @var{community_id}, int @var{round}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, int @var{game_screenshot_size}, void * @var{game_screenshot_data})
 @var{info}:  the node info to update
+
+@var{community_id}:  the id of the community the node belongs to
+
+@var{round}:  the current round (can have an offset with real round number)
 
 @var{level}:  the name of the current level (map)
 

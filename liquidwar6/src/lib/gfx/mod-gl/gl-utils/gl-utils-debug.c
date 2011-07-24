@@ -41,12 +41,12 @@ _display_bitmap (mod_gl_utils_context_t * utils_context,
 static void
 display_map_zones (mod_gl_utils_context_t * utils_context,
 		   lw6gui_look_t * look, lw6map_level_t * level,
-		   lw6ker_map_struct_t * map_struct)
+		   lw6ker_game_struct_t * game_struct)
 {
   mod_gl_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
 
-  surface = mod_gl_utils_create_zones_surface (utils_context, map_struct);
+  surface = mod_gl_utils_create_zones_surface (utils_context, game_struct);
   if (surface)
     {
       bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
@@ -78,7 +78,7 @@ mod_gl_utils_display_zones (mod_gl_utils_context_t * utils_context,
       glEnable (GL_TEXTURE_2D);	// for texture
 
       display_map_zones (utils_context, look, game_struct->level,
-			 &(game_struct->map_struct));
+			 game_struct);
     }
 }
 
@@ -86,14 +86,14 @@ static void
 display_map_gradient (mod_gl_utils_context_t * utils_context,
 		      lw6gui_look_t * look,
 		      lw6map_level_t * level,
-		      lw6ker_map_state_t * map_state, int team_id,
+		      lw6ker_game_state_t * game_state, int team_id,
 		      int layer_id)
 {
   mod_gl_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
 
   surface =
-    mod_gl_utils_create_gradient_surface (utils_context, map_state, team_id,
+    mod_gl_utils_create_gradient_surface (utils_context, game_state, team_id,
 					  layer_id);
   if (surface)
     {
@@ -127,6 +127,6 @@ mod_gl_utils_display_gradient (mod_gl_utils_context_t * utils_context,
 
       display_map_gradient (utils_context, look,
 			    game_state->game_struct->level,
-			    &(game_state->map_state), team_id, layer_id);
+			    game_state, team_id, layer_id);
     }
 }

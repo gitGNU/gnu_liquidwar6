@@ -713,9 +713,11 @@ lw6pil_pilot_repr (lw6pil_pilot_t * pilot)
     {
       ret =
 	lw6sys_new_sprintf
-	("%u (%dx%d commmit_round=%d, current_round=%d)",
-	 pilot->id, pilot->backup->map_state.shape.w,
-	 pilot->backup->map_state.shape.h,
+	("%u (%dx%dx%d commmit_round=%d, current_round=%d)",
+	 pilot->id,
+	 lw6ker_game_state_get_w (pilot->backup),
+	 lw6ker_game_state_get_h (pilot->backup),
+	 lw6ker_game_state_get_d (pilot->backup),
 	 lw6pil_pilot_get_last_commit_round (pilot),
 	 lw6pil_pilot_get_reference_current_round (pilot));
     }

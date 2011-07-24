@@ -70,14 +70,14 @@ _lw6ker_spread_next_dir (int32_t dir)
  * Highest potential = closest to the cursor
  */
 void
-_lw6ker_spread_update_gradient (lw6ker_team_t * team, int skip_vertical)
+_lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical)
 {
   int32_t i;
   int32_t n;
   int32_t zone_id;
   int32_t new_potential;
-  lw6ker_zone_struct_t *zone_structs;
-  lw6ker_zone_state_t *zone_states;
+  _lw6ker_zone_struct_t *zone_structs;
+  _lw6ker_zone_state_t *zone_states;
   int32_t dir;
 
   n = team->map_struct->nb_zones;

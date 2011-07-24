@@ -39,13 +39,14 @@
  */
 static u_int32_t seq_id = 0;
 
-lw6ker_game_state_t *
-lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
-		       lw6sys_progress_t * progress)
+_lw6ker_game_state_t *
+_lw6ker_game_state_new (_lw6ker_game_struct_t * game_struct,
+			lw6sys_progress_t * progress)
 {
-  lw6ker_game_state_t *ret = NULL;
+  _lw6ker_game_state_t *ret = NULL;
 
-  ret = (lw6ker_game_state_t *) LW6SYS_CALLOC (sizeof (lw6ker_game_state_t));
+  ret =
+    (_lw6ker_game_state_t *) LW6SYS_CALLOC (sizeof (_lw6ker_game_state_t));
   if (ret)
     {
       ret->id = 0;
@@ -65,8 +66,27 @@ lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_new
+ *
+ * @game_struct: game_struct use to construct the object
+ * @progress: progress indicator
+ *
+ * Creates a game state from a game struct. The game struct must be kept
+ * (never freed) while game_state is in use.
+ *
+ * Return value: newly created object.
+ */
+lw6ker_game_state_t *
+lw6ker_game_state_new (lw6ker_game_struct_t * game_struct,
+		       lw6sys_progress_t * progress)
+{
+  return (lw6ker_game_state_t *)
+    _lw6ker_game_state_new ((_lw6ker_game_struct_t *) game_struct, progress);
+}
+
 void
-lw6ker_game_state_free (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_free (_lw6ker_game_state_t * game_state)
 {
   /*
    * IMPORTANT NOTE: it's important *not* to reference game_struct
@@ -86,9 +106,25 @@ lw6ker_game_state_free (lw6ker_game_state_t * game_state)
   LW6SYS_FREE (game_state);
 }
 
+/**
+ * lw6ker_game_state_free
+ *
+ * @game_state: the object to free
+ *
+ * Frees a game_state object, releases all required objects. At this stage
+ * the map_struct must still be available.
+ *
+ * Return value: none
+ */
 void
-lw6ker_game_state_point_to (lw6ker_game_state_t * game_state,
-			    lw6ker_game_struct_t * game_struct)
+lw6ker_game_state_free (lw6ker_game_state_t * game_state)
+{
+  _lw6ker_game_state_free ((_lw6ker_game_state_t *) game_state);
+}
+
+void
+_lw6ker_game_state_point_to (_lw6ker_game_state_t * game_state,
+			     _lw6ker_game_struct_t * game_struct)
 {
   int i;
 
@@ -101,8 +137,30 @@ lw6ker_game_state_point_to (lw6ker_game_state_t * game_state,
     }
 }
 
+/**
+ * lw6ker_game_state_point_to
+ *
+ * @game_state: the game_state to modify
+ * @game_struct: the game_struct to point to
+ *
+ * This can be used when one makes a copy (dup) of a game struct and for some
+ * reason want the game_state to point on this new copy. Of course you should
+ * make the game_state point to a game_struct that is identical to the one
+ * that was used to construct the object in the first place. Use at your own
+ * risk.
+ *
+ * Return value: none
+ */
+void
+lw6ker_game_state_point_to (lw6ker_game_state_t * game_state,
+			    lw6ker_game_struct_t * game_struct)
+{
+  _lw6ker_game_state_point_to ((_lw6ker_game_state_t *) game_state,
+			       (_lw6ker_game_struct_t *) game_struct);
+}
+
 int
-lw6ker_game_state_memory_footprint (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_memory_footprint (_lw6ker_game_state_t * game_state)
 {
   int ret = 0;
 
@@ -111,8 +169,24 @@ lw6ker_game_state_memory_footprint (lw6ker_game_state_t * game_state)
   return ret;
 }
 
+/**
+ * lw6ker_game_state_memory_footprint
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the approximative amount of memory taken by the object.
+ *
+ * Return value: number of bytes (approximation)
+ */
+int
+lw6ker_game_state_memory_footprint (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_memory_footprint ((_lw6ker_game_state_t *)
+					      game_state);
+}
+
 char *
-lw6ker_game_state_repr (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_repr (_lw6ker_game_state_t * game_state)
 {
   char *ret = NULL;
 
@@ -128,8 +202,8 @@ lw6ker_game_state_repr (lw6ker_game_state_t * game_state)
 			    game_state->map_state.shape.w,
 			    game_state->map_state.shape.h,
 			    game_state->map_state.shape.d,
-			    lw6ker_game_state_get_rounds (game_state),
-			    lw6ker_game_state_get_nb_active_fighters
+			    _lw6ker_game_state_get_rounds (game_state),
+			    _lw6ker_game_state_get_nb_active_fighters
 			    (game_state));
     }
   else
@@ -141,9 +215,24 @@ lw6ker_game_state_repr (lw6ker_game_state_t * game_state)
   return ret;
 }
 
+/**
+ * lw6ker_game_state_repr
+ * 
+ * @game_state: the game_state to query
+ *
+ * Gives a readable representation of the object.
+ *
+ * Return value: newly allocated string, must be freed
+ */
+char *
+lw6ker_game_state_repr (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_repr ((_lw6ker_game_state_t *) game_state);
+}
+
 int
-lw6ker_game_state_can_sync (lw6ker_game_state_t * dst,
-			    lw6ker_game_state_t * src)
+_lw6ker_game_state_can_sync (_lw6ker_game_state_t * dst,
+			     _lw6ker_game_state_t * src)
 {
   int ret = 0;
 
@@ -169,16 +258,30 @@ lw6ker_game_state_can_sync (lw6ker_game_state_t * dst,
   return ret;
 }
 
-/*
- * Fundamental function, used to carbon copy a game state to another,
- * this is intensively used to keep too tracks of the game state, one
- * most-up-to-date but probably wrong, the one we use to display on the
- * screen, and one slightly outdated (or very outdated if network is
- * slow) but that we're sure of, something 100% bullet proof we can
- * rely on.
+/**
+ * lw6ker_game_state_can_sync
+ *
+ * @dst: the destination game_state
+ * @src: the source game_state
+ *
+ * Tells wether src and dst can be synced. This is not a fool proof function
+ * but in most cases it will raise the error, use it to avoid blunders. It
+ * just compares @dst and @src and tries to guess if they correspond to the
+ * same logical objects.
+ *
+ * Return value: 1 if they are syncable, 0 if not.
  */
 int
-lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
+lw6ker_game_state_can_sync (lw6ker_game_state_t * dst,
+			    lw6ker_game_state_t * src)
+{
+  return _lw6ker_game_state_can_sync ((_lw6ker_game_state_t *) dst,
+				      (_lw6ker_game_state_t *) src);
+}
+
+int
+_lw6ker_game_state_sync (_lw6ker_game_state_t * dst,
+			 _lw6ker_game_state_t * src)
 {
   int ret = 0;
 
@@ -187,7 +290,7 @@ lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
    * which correspond to the same game struct. Any other use is
    * useless in LW6 context.
    */
-  if (lw6ker_game_state_can_sync (dst, src))
+  if (_lw6ker_game_state_can_sync (dst, src))
     {
       if (dst == src)
 	{
@@ -203,11 +306,11 @@ lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
 	{
 	  ret = _lw6ker_map_state_sync (&dst->map_state, &src->map_state);
 	  memcpy (&(dst->node_array), &(src->node_array),
-		  sizeof (lw6ker_node_array_t));
+		  sizeof (_lw6ker_node_array_t));
 	  memcpy (&(dst->global_history), &(src->global_history),
-		  sizeof (lw6ker_history_t));
+		  sizeof (_lw6ker_history_t));
 	  memcpy (&(dst->latest_history), &(src->latest_history),
-		  sizeof (lw6ker_history_t));
+		  sizeof (_lw6ker_history_t));
 	  dst->moves = src->moves;
 	  dst->spreads = src->spreads;
 	  dst->rounds = src->rounds;
@@ -225,30 +328,52 @@ lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
   return ret;
 }
 
-lw6ker_game_state_t *
-lw6ker_game_state_dup (lw6ker_game_state_t * game_state,
-		       lw6sys_progress_t * progress)
+/**
+ * lw6ker_game_state_sync
+ *
+ * @dst: the destination game_state
+ * @src: the source game_state
+ *
+ * Fundamental function, used to carbon copy a game state to another,
+ * this is intensively used to keep too tracks of the game state, one
+ * most-up-to-date but probably wrong, the one we use to display on the
+ * screen, and one slightly outdated (or very outdated if network is
+ * slow) but that we're sure of, something 100% bullet proof we can
+ * rely on.
+ *
+ * Return value: 1 on success, 0 on error
+ */
+int
+lw6ker_game_state_sync (lw6ker_game_state_t * dst, lw6ker_game_state_t * src)
 {
-  lw6ker_game_state_t *ret;
+  return _lw6ker_game_state_sync ((_lw6ker_game_state_t *) dst,
+				  (_lw6ker_game_state_t *) src);
+}
 
-  ret = lw6ker_game_state_new (game_state->game_struct, progress);
+_lw6ker_game_state_t *
+_lw6ker_game_state_dup (_lw6ker_game_state_t * game_state,
+			lw6sys_progress_t * progress)
+{
+  _lw6ker_game_state_t *ret;
+
+  ret = _lw6ker_game_state_new (game_state->game_struct, progress);
   if (ret)
     {
-      if (lw6ker_game_state_sync (ret, game_state))
+      if (_lw6ker_game_state_sync (ret, game_state))
 	{
 	  // ok
 	}
       else
 	{
-	  lw6ker_game_state_free (ret);
+	  _lw6ker_game_state_free (ret);
 	  ret = NULL;
 	}
     }
 
   if (ret)
     {
-      if (lw6ker_game_state_checksum (ret) ==
-	  lw6ker_game_state_checksum (game_state))
+      if (_lw6ker_game_state_checksum (ret) ==
+	  _lw6ker_game_state_checksum (game_state))
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("game_state dup %d->%d"),
 		      game_state->id, ret->id);
@@ -263,8 +388,29 @@ lw6ker_game_state_dup (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_dup
+ *
+ * @game_state: the game_state to copy
+ * @progress: progress indicator
+ *
+ * Dups (copy) a game_state object. The newly created object points to
+ * the same game_struct but is an independant copy, you can play
+ * a whole different game on it. In practice this is often used
+ * to create the game_state objects for anticipation in network games.
+ *
+ * Return value: newly created object
+ */
+lw6ker_game_state_t *
+lw6ker_game_state_dup (lw6ker_game_state_t * game_state,
+		       lw6sys_progress_t * progress)
+{
+  return (lw6ker_game_state_t *)
+    _lw6ker_game_state_dup ((_lw6ker_game_state_t *) game_state, progress);
+}
+
 void
-_lw6ker_game_state_update_checksum (lw6ker_game_state_t *
+_lw6ker_game_state_update_checksum (_lw6ker_game_state_t *
 				    game_state, u_int32_t * checksum)
 {
   _lw6ker_game_struct_update_checksum (game_state->game_struct, checksum);
@@ -280,7 +426,7 @@ _lw6ker_game_state_update_checksum (lw6ker_game_state_t *
 }
 
 u_int32_t
-lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_checksum (_lw6ker_game_state_t * game_state)
 {
   u_int32_t ret = 0;
 
@@ -289,15 +435,94 @@ lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
   return ret;
 }
 
+/**
+ * lw6ker_game_state_checksum
+ *
+ * @game_state: the game_state to query
+ *
+ * Calculates the checksum of a game_state, this can be very usefull
+ * to make sure two states are identicall (prevent network errors and/or
+ * cheating).
+ *
+ * Return value: 32-bit checksum
+ */
+u_int32_t
+lw6ker_game_state_checksum (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_checksum ((_lw6ker_game_state_t *) game_state);
+}
+
+/**
+ * lw6ker_game_state_get_shape
+ *
+ * @game_state: the game_state to query
+ * @shape: the shape (out param)
+ *
+ * Retrieves the shape (w*h*d)of the game_state.
+ *
+ * Return value: none.
+ */
+void
+lw6ker_game_state_get_shape (lw6ker_game_state_t * game_state,
+			     lw6sys_whd_t * shape)
+{
+  (*shape) = ((_lw6ker_game_state_t *) game_state)->map_state.shape;
+}
+
+/**
+ * lw6ker_game_state_get_w
+ *
+ * @game_state: the game_state to query
+ *
+ * Retrieves the width (shape.w) of the game_state.
+ *
+ * Return value: the width.
+ */
 int
-lw6ker_game_state_register_node (lw6ker_game_state_t * game_state,
-				 u_int64_t node_id)
+lw6ker_game_state_get_w (lw6ker_game_state_t * game_state)
+{
+  return ((_lw6ker_game_state_t *) game_state)->map_state.shape.w;
+}
+
+/**
+ * lw6ker_game_state_get_h
+ *
+ * @game_state: the game_state to query
+ *
+ * Retrieves the height (shape.h) of the game_state.
+ *
+ * Return value: the height.
+ */
+int
+lw6ker_game_state_get_h (lw6ker_game_state_t * game_state)
+{
+  return ((_lw6ker_game_state_t *) game_state)->map_state.shape.h;
+}
+
+/**
+ * lw6ker_game_state_get_d
+ *
+ * @game_state: the game_state to query
+ *
+ * Retrieves the depth (shape.d, AKA number of layers) of the game_state.
+ *
+ * Return value: the depth.
+ */
+int
+lw6ker_game_state_get_d (lw6ker_game_state_t * game_state)
+{
+  return ((_lw6ker_game_state_t *) game_state)->map_state.shape.d;
+}
+
+int
+_lw6ker_game_state_register_node (_lw6ker_game_state_t * game_state,
+				  u_int64_t node_id)
 {
   int ret = 0;
 
-  if (!lw6ker_game_state_node_exists (game_state, node_id))
+  if (!_lw6ker_game_state_node_exists (game_state, node_id))
     {
-      ret = lw6ker_node_array_enable (&(game_state->node_array), node_id);
+      ret = _lw6ker_node_array_enable (&(game_state->node_array), node_id);
     }
   else
     {
@@ -309,51 +534,108 @@ lw6ker_game_state_register_node (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_register_node
+ *
+ * @game_state: the game_state to act on
+ * @node_id: the id of the node to register
+ *
+ * Registers a node in the game, this must be done, else no action will
+ * be allowed (such as adding a cursor or moving it). There's a limited number
+ * of nodes allowed, and ids must be unique.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ker_game_state_unregister_node (lw6ker_game_state_t * game_state,
-				   u_int64_t node_id)
+lw6ker_game_state_register_node (lw6ker_game_state_t * game_state,
+				 u_int64_t node_id)
+{
+  return _lw6ker_game_state_register_node ((_lw6ker_game_state_t *)
+					   game_state, node_id);
+}
+
+int
+_lw6ker_game_state_unregister_node (_lw6ker_game_state_t * game_state,
+				    u_int64_t node_id)
 {
   int ret = 0;
   int i;
   lw6ker_cursor_t *cursor;
 
-  if (lw6ker_game_state_node_exists (game_state, node_id))
+  if (_lw6ker_game_state_node_exists (game_state, node_id))
     {
       for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 	{
 	  cursor = &(game_state->map_state.cursor_array.cursors[i]);
 	  if (cursor->enabled && cursor->node_id == node_id)
 	    {
-	      lw6ker_game_state_remove_cursor (game_state, node_id,
-					       cursor->cursor_id);
+	      _lw6ker_game_state_remove_cursor (game_state, node_id,
+						cursor->cursor_id);
 	    }
 	}
-      ret = lw6ker_node_array_disable (&(game_state->node_array), node_id);
+      ret = _lw6ker_node_array_disable (&(game_state->node_array), node_id);
     }
 
   return ret;
 }
 
+/**
+ * lw6ker_game_state_unregister_node
+ *
+ * @game_state: the game_state to act on
+ * @node_id: the id of the node to register
+ *
+ * Unregisters a node in the game, this must be done when a node leaves the
+ * game, it will free ressources and allow others to connect.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ker_game_state_node_exists (lw6ker_game_state_t * game_state,
-			       u_int64_t node_id)
+lw6ker_game_state_unregister_node (lw6ker_game_state_t * game_state,
+				   u_int64_t node_id)
+{
+  return _lw6ker_game_state_unregister_node ((_lw6ker_game_state_t *)
+					     game_state, node_id);
+}
+
+int
+_lw6ker_game_state_node_exists (_lw6ker_game_state_t * game_state,
+				u_int64_t node_id)
 {
   int ret = 0;
 
-  ret = (lw6ker_node_array_get (&(game_state->node_array), node_id) != NULL);
+  ret = (_lw6ker_node_array_get (&(game_state->node_array), node_id) != NULL);
 
   return ret;
 }
 
+/**
+ * lw6ker_game_state_node_exists
+ *
+ * @game_state: the game_state to query
+ * @node_id: the node to test
+ *
+ * Tells wether a node is present in a game.
+ *
+ * Return value: 1 if node is in game, 0 if not
+ */
 int
-lw6ker_game_state_get_node_info (lw6ker_game_state_t *
-				 game_state, u_int16_t node_id,
-				 u_int32_t * last_command_round)
+lw6ker_game_state_node_exists (lw6ker_game_state_t * game_state,
+			       u_int64_t node_id)
+{
+  return _lw6ker_game_state_node_exists ((_lw6ker_game_state_t *) game_state,
+					 node_id);
+}
+
+int
+_lw6ker_game_state_get_node_info (_lw6ker_game_state_t *
+				  game_state, u_int16_t node_id,
+				  u_int32_t * last_command_round)
 {
   int ret = 0;
-  lw6ker_node_t *node = NULL;
+  _lw6ker_node_t *node = NULL;
 
-  node = lw6ker_node_array_get (&(game_state->node_array), node_id);
+  node = _lw6ker_node_array_get (&(game_state->node_array), node_id);
   if (node)
     {
       if (last_command_round)
@@ -367,12 +649,34 @@ lw6ker_game_state_get_node_info (lw6ker_game_state_t *
 
 }
 
+/**
+ * lw6ker_game_state_get_node_info
+ *
+ * @game_state: game_state to query
+ * @node_id: the node to get info about
+ * @last_command_round: the last round for which a command was issued (out parameter)
+ *
+ * Queries information about a given node, mostly, what was the last round
+ * we got a command.
+ *
+ * Return value: 1 on success, 0 on error.
+ */
+int
+lw6ker_game_state_get_node_info (lw6ker_game_state_t *
+				 game_state, u_int16_t node_id,
+				 u_int32_t * last_command_round)
+{
+  return _lw6ker_game_state_get_node_info ((_lw6ker_game_state_t *)
+					   game_state, node_id,
+					   last_command_round);
+}
+
 static int
-check_node_id (lw6ker_game_state_t * game_state, u_int64_t node_id)
+check_node_id (_lw6ker_game_state_t * game_state, u_int64_t node_id)
 {
   int ret = 0;
 
-  if (lw6ker_game_state_node_exists (game_state, node_id))
+  if (_lw6ker_game_state_node_exists (game_state, node_id))
     {
       ret = 1;
     }
@@ -387,9 +691,9 @@ check_node_id (lw6ker_game_state_t * game_state, u_int64_t node_id)
 }
 
 int
-lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
-			      u_int64_t node_id,
-			      u_int16_t cursor_id, int team_color)
+_lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
+			       u_int64_t node_id,
+			       u_int16_t cursor_id, int team_color)
 {
   int ret = 0;
   lw6map_rules_t *rules = NULL;
@@ -401,10 +705,10 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
   if (check_node_id (game_state, node_id))
     {
       rules = &(game_state->game_struct->rules);
-      if (!lw6ker_game_state_cursor_exists (game_state, cursor_id))
+      if (!_lw6ker_game_state_cursor_exists (game_state, cursor_id))
 	{
 	  team_exists =
-	    lw6ker_game_state_team_exists (game_state, team_color);
+	    _lw6ker_game_state_team_exists (game_state, team_color);
 	  real_team_color = team_color;
 	  if (team_exists)
 	    {
@@ -419,9 +723,9 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 		  || rules->color_conflict_mode == 2)
 		{
 		  real_team_color =
-		    lw6ker_map_state_get_free_team_color (&
-							  (game_state->
-							   map_state));
+		    _lw6ker_map_state_get_free_team_color (&
+							   (game_state->
+							    map_state));
 		}
 	    }
 
@@ -434,25 +738,26 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
 			      ("color shift: real_team_color=%d team_color=%d"),
 			      real_team_color, team_color);
 		}
-	      if (!lw6ker_game_state_team_exists
+	      if (!_lw6ker_game_state_team_exists
 		  (game_state, real_team_color))
 		{
-		  lw6ker_game_state_add_team (game_state, node_id,
-					      real_team_color);
+		  _lw6ker_game_state_add_team (game_state, node_id,
+					       real_team_color);
 		}
-	      if (lw6ker_game_state_team_exists (game_state, real_team_color))
+	      if (_lw6ker_game_state_team_exists
+		  (game_state, real_team_color))
 		{
 		  if (_lw6ker_cursor_get_start_xy
 		      (&x, &y, real_team_color, rules->start_position_mode,
-		       lw6ker_game_state_get_rounds (game_state),
+		       _lw6ker_game_state_get_rounds (game_state),
 		       &(game_state->map_state.shape), rules))
 		    {
 		      ret =
-			lw6ker_cursor_array_enable (&
-						    (game_state->map_state.
-						     cursor_array), node_id,
-						    cursor_id,
-						    real_team_color, x, y);
+			_lw6ker_cursor_array_enable (&
+						     (game_state->map_state.
+						      cursor_array), node_id,
+						     cursor_id,
+						     real_team_color, x, y);
 		    }
 		}
 	    }
@@ -473,9 +778,32 @@ lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_add_cursor
+ *
+ * @game_state: the game_state to act upon
+ * @node_id: the node issuing the command
+ * @cursor_id: the id of the cursor to add
+ * @team_color: the color we wish
+ *
+ * Adds a cursor in a game. Note that if there's already a cursor with
+ * that id, it will fail, and the color is only the color we wish, 
+ * we might indeed be attributed another color on a successfull call.
+ *
+ * Return value: 1 on success, 0 on error.
+ */
 int
-lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
-				 u_int64_t node_id, u_int16_t cursor_id)
+lw6ker_game_state_add_cursor (lw6ker_game_state_t * game_state,
+			      u_int64_t node_id,
+			      u_int16_t cursor_id, int team_color)
+{
+  return _lw6ker_game_state_add_cursor ((_lw6ker_game_state_t *) game_state,
+					node_id, cursor_id, team_color);
+}
+
+int
+_lw6ker_game_state_remove_cursor (_lw6ker_game_state_t * game_state,
+				  u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
   int32_t nb_cursors = 0;
@@ -483,21 +811,22 @@ lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
 
   if (check_node_id (game_state, node_id))
     {
-      if (lw6ker_game_state_cursor_exists (game_state, cursor_id))
+      if (_lw6ker_game_state_cursor_exists (game_state, cursor_id))
 	{
-	  lw6ker_game_state_get_cursor_info (game_state, cursor_id, NULL,
-					     NULL, &team_color, NULL, NULL);
+	  _lw6ker_game_state_get_cursor_info (game_state, cursor_id, NULL,
+					      NULL, &team_color, NULL, NULL);
 	  ret =
-	    lw6ker_cursor_array_disable (&
-					 (game_state->map_state.cursor_array),
-					 node_id, cursor_id);
-	  if (lw6ker_game_state_get_team_info
+	    _lw6ker_cursor_array_disable (&
+					  (game_state->
+					   map_state.cursor_array), node_id,
+					  cursor_id);
+	  if (_lw6ker_game_state_get_team_info
 	      (game_state, team_color, &nb_cursors, NULL))
 	    {
 	      if (!nb_cursors)
 		{
-		  lw6ker_game_state_remove_team (game_state, node_id,
-						 team_color);
+		  _lw6ker_game_state_remove_team (game_state, node_id,
+						  team_color);
 		}
 	    }
 	}
@@ -506,15 +835,35 @@ lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_remove_cursor
+ *
+ * @game_state: the game_state to act upon
+ * @node_id: the node issuing the command
+ * @cursor_id: the id of the cursor to remove
+ *
+ * Removes a cursor from the game, corresponding teams will be removed
+ * if needed.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
-				 u_int16_t cursor_id)
+lw6ker_game_state_remove_cursor (lw6ker_game_state_t * game_state,
+				 u_int64_t node_id, u_int16_t cursor_id)
+{
+  return _lw6ker_game_state_remove_cursor ((_lw6ker_game_state_t *)
+					   game_state, node_id, cursor_id);
+}
+
+int
+_lw6ker_game_state_cursor_exists (_lw6ker_game_state_t * game_state,
+				  u_int16_t cursor_id)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor = NULL;
   cursor =
-    lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
-			     cursor_id);
+    _lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
+			      cursor_id);
   if (cursor)
     {
       ret = 1;
@@ -523,20 +872,38 @@ lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_cursor_exists
+ *
+ * @game_state: the game_state to query
+ * @cursor_id: the cursor to test
+ *
+ * Tells wether a cursor is present in the game.
+ *
+ * Return value: 1 if cursor exists, 0 if not.
+ */
 int
-lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
-				   game_state,
-				   u_int16_t cursor_id,
-				   u_int64_t * node_id,
-				   char *letter,
-				   int *team_color, int32_t * x, int32_t * y)
+lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
+				 u_int16_t cursor_id)
+{
+  return _lw6ker_game_state_cursor_exists ((_lw6ker_game_state_t *)
+					   game_state, cursor_id);
+}
+
+int
+_lw6ker_game_state_get_cursor_info (_lw6ker_game_state_t *
+				    game_state,
+				    u_int16_t cursor_id,
+				    u_int64_t * node_id,
+				    char *letter,
+				    int *team_color, int32_t * x, int32_t * y)
 {
   int ret = 0;
   lw6ker_cursor_t *cursor = NULL;
 
   cursor =
-    lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
-			     cursor_id);
+    _lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
+			      cursor_id);
   if (cursor)
     {
       if (node_id)
@@ -565,10 +932,63 @@ lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
   return ret;
 }
 
+/**
+ * lw6ker_game_state_get_cursor_info
+ *
+ * @game_state: the game_state to query
+ * @cursor_id: the cursor to query
+ * @node_id: the node the cursor belongs to (out param)
+ * @letter: ASCII letter associated to the cursor (out param)
+ * @team_color: team color of the cursor (out param)
+ * @x: x position of the cursor (out param)
+ * @y: y position of the cursor (out param)
+ *
+ * Returns information about a given cursor.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
-			      u_int64_t node_id,
-			      u_int16_t cursor_id, int32_t x, int32_t y)
+lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
+				   game_state,
+				   u_int16_t cursor_id,
+				   u_int64_t * node_id,
+				   char *letter,
+				   int *team_color, int32_t * x, int32_t * y)
+{
+  return _lw6ker_game_state_get_cursor_info ((_lw6ker_game_state_t *)
+					     game_state, cursor_id, node_id,
+					     letter, team_color, x, y);
+}
+
+void
+_lw6ker_game_state_get_cursor_array (_lw6ker_game_state_t * game_state,
+				     lw6ker_cursor_array_t * cursor_array)
+{
+  (*cursor_array) = game_state->map_state.cursor_array;
+}
+
+/**
+ * lw6ker_game_state_get_cursor_array
+ *
+ * @game_state: the game state to query
+ * @cursor_array: the cursor array (out param)
+ *
+ * Copies the cursor_array informations to the given struct pointer.
+ *
+ * Return value: none.
+ */
+void
+lw6ker_game_state_get_cursor_array (lw6ker_game_state_t * game_state,
+				    lw6ker_cursor_array_t * cursor_array)
+{
+  _lw6ker_game_state_get_cursor_array ((_lw6ker_game_state_t *) game_state,
+				       cursor_array);
+}
+
+int
+_lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
+			       u_int64_t node_id,
+			       u_int16_t cursor_id, int32_t x, int32_t y)
 {
   int ret = 0;
 
@@ -577,18 +997,42 @@ lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
       lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
-	lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
-				    node_id, cursor_id, x, y, 0,
-				    &(game_state->map_state.shape),
-				    &(game_state->game_struct->rules));
+	_lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
+				     node_id, cursor_id, x, y, 0,
+				     &(game_state->map_state.shape),
+				     &(game_state->game_struct->rules));
     }
 
   return ret;
 }
 
+/**
+ * lw6ker_game_state_set_cursor
+ *
+ * @game_state: the game_state to act upon
+ * @node_id: the node issuing the command
+ * @cursor_id: the cursor to set
+ * @x: x position
+ * @y: y position
+ *
+ * Sets a cursor, that is, changes its position, this is pretty much
+ * anything we can do about a cursor except adding or removing it, just
+ * because of Liquid War very simple rules.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
 int
-_lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
-			     int position_mode)
+lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
+			      u_int64_t node_id,
+			      u_int16_t cursor_id, int32_t x, int32_t y)
+{
+  return _lw6ker_game_state_set_cursor ((_lw6ker_game_state_t *) game_state,
+					node_id, cursor_id, x, y);
+}
+
+int
+_lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
+				      int team_color, int position_mode)
 {
   int ret = 0;
   int32_t i;
@@ -601,7 +1045,7 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
   lw6map_rules_t *rules = NULL;
 
   rules = &(game_state->game_struct->rules);
-  if (!lw6ker_game_state_team_exists (game_state, team_color))
+  if (!_lw6ker_game_state_team_exists (game_state, team_color))
     {
       int32_t nb_fighters;
       lw6sys_xyz_t desired_center;
@@ -609,7 +1053,7 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
       int32_t y;
 
       _lw6ker_cursor_get_start_xy (&x, &y, team_color, position_mode,
-				   lw6ker_game_state_get_rounds (game_state),
+				   _lw6ker_game_state_get_rounds (game_state),
 				   &(game_state->map_state.shape), rules);
       desired_center.x = x;
       desired_center.y = y;
@@ -641,14 +1085,15 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
 			   total_fighters);
 	  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	    {
-	      lw6ker_map_state_remove_team_fighters (&(game_state->map_state),
-						     i,
-						     (total_fighters_to_remove
-						      *
-						      game_state->
-						      map_state.armies.
-						      fighters_per_team[i]) /
-						     total_fighters);
+	      _lw6ker_map_state_remove_team_fighters (&
+						      (game_state->map_state),
+						      i,
+						      (total_fighters_to_remove
+						       *
+						       game_state->
+						       map_state.armies.
+						       fighters_per_team[i]) /
+						      total_fighters);
 	    }
 	  /*
 	   * Note that this value has probably changed since we last
@@ -658,14 +1103,14 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
 	  total_fighters_to_remove =
 	    nb_fighters - (game_state->map_state.armies.max_fighters -
 			   total_fighters);
-	  lw6ker_map_state_remove_fighters (&(game_state->map_state),
-					    total_fighters_to_remove);
+	  _lw6ker_map_state_remove_fighters (&(game_state->map_state),
+					     total_fighters_to_remove);
 	}
       /*
        * Do add people.
        */
-      lw6ker_map_state_populate_team (&game_state->map_state, team_color,
-				      nb_fighters, desired_center, rules);
+      _lw6ker_map_state_populate_team (&game_state->map_state, team_color,
+				       nb_fighters, desired_center, rules);
       ret = 1;
     }
   else
@@ -678,23 +1123,23 @@ _lw6ker_game_state_add_team (lw6ker_game_state_t * game_state, int team_color,
 }
 
 int
-lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
-			    u_int64_t node_id, int team_color)
+_lw6ker_game_state_add_team (_lw6ker_game_state_t * game_state,
+			     u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
   if (check_node_id (game_state, node_id))
     {
       ret =
-	_lw6ker_game_state_add_team (game_state, team_color,
-				     game_state->game_struct->
-				     rules.start_position_mode);
+	_lw6ker_game_state_add_team_internal (game_state, team_color,
+					      game_state->game_struct->
+					      rules.start_position_mode);
       if (ret)
 	{
 	  /*
 	   * Set frags to 0. If we're in a network game and someone
 	   * re-uses a color, we don't want these frags to count.
-	   * Note that the other function _lw6ker_game_state_add_team
+	   * Note that the other function _lw6ker_game_state_add_team_internal
 	   * does *not* touch the frag count.
 	   */
 	  game_state->map_state.armies.frags[team_color] = 0;
@@ -705,8 +1150,8 @@ lw6ker_game_state_add_team (lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
-				int team_color)
+_lw6ker_game_state_remove_team_internal (_lw6ker_game_state_t * game_state,
+					 int team_color)
 {
   int ret = 0;
 
@@ -734,8 +1179,8 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 	   * Weird situation, not sure it should happen, except when in
 	   * a spectator mode -> not one single fighter left!
 	   */
-	  lw6ker_map_state_remove_fighters (&(game_state->map_state),
-					    nb_active_fighters);
+	  _lw6ker_map_state_remove_fighters (&(game_state->map_state),
+					     nb_active_fighters);
 	}
       else
 	{
@@ -748,11 +1193,13 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 	  if (new_average_fighters_per_team >
 	      single_average_fighters_per_team)
 	    {
-	      lw6ker_map_state_remove_team_fighters (&(game_state->map_state),
-						     team_color,
-						     nb_active_fighters -
-						     single_average_fighters_per_team
-						     * (nb_active_teams - 1));
+	      _lw6ker_map_state_remove_team_fighters (&
+						      (game_state->map_state),
+						      team_color,
+						      nb_active_fighters -
+						      single_average_fighters_per_team
+						      * (nb_active_teams -
+							 1));
 	    }
 
 	  /*
@@ -771,16 +1218,16 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 	    {
 	      if (i != team_color)
 		{
-		  lw6ker_map_state_redistribute_team (&
-						      (game_state->map_state),
-						      i, team_color,
-						      (game_state->
-						       map_state.armies.
-						       fighters_per_team[i] *
-						       total_fighters_to_distribute)
-						      / new_active_fighters,
-						      &(game_state->
-							game_struct->rules));
+		  _lw6ker_map_state_redistribute_team (&
+						       (game_state->map_state),
+						       i, team_color,
+						       (game_state->
+							map_state.armies.
+							fighters_per_team[i] *
+							total_fighters_to_distribute)
+						       / new_active_fighters,
+						       &(game_state->
+							 game_struct->rules));
 		}
 	    }
 	  /*
@@ -797,18 +1244,19 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 		{
 		  if (game_state->map_state.teams[i].active)
 		    {
-		      lw6ker_map_state_redistribute_team (&
-							  (game_state->
-							   map_state), i,
-							  team_color, 1,
-							  &(game_state->
-							    game_struct->
-							    rules));
+		      _lw6ker_map_state_redistribute_team (&
+							   (game_state->
+							    map_state), i,
+							   team_color, 1,
+							   &(game_state->
+							     game_struct->
+							     rules));
 		    }
 		}
 	    }
 
-	  lw6ker_map_state_cancel_team (&(game_state->map_state), team_color);
+	  _lw6ker_map_state_cancel_team (&(game_state->map_state),
+					 team_color);
 	}
 
       ret = 1;
@@ -818,22 +1266,22 @@ _lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
 }
 
 int
-lw6ker_game_state_remove_team (lw6ker_game_state_t * game_state,
-			       u_int64_t node_id, int team_color)
+_lw6ker_game_state_remove_team (_lw6ker_game_state_t * game_state,
+				u_int64_t node_id, int team_color)
 {
   int ret = 0;
 
   if (check_node_id (game_state, node_id))
     {
-      ret = _lw6ker_game_state_remove_team (game_state, team_color);
+      ret = _lw6ker_game_state_remove_team_internal (game_state, team_color);
     }
 
   return ret;
 }
 
 int
-lw6ker_game_state_team_exists (lw6ker_game_state_t * game_state,
-			       int team_color)
+_lw6ker_game_state_team_exists (_lw6ker_game_state_t * game_state,
+				int team_color)
 {
   int ret = 0;
 
@@ -845,13 +1293,32 @@ lw6ker_game_state_team_exists (lw6ker_game_state_t * game_state,
   return ret;
 }
 
+/**
+ * lw6ker_game_state_team_exists
+ *
+ * @game_state: the game_state to query
+ * @team_color: the team color to test
+ *
+ * Tells wether a team color is present in the game. Note that this is
+ * different from cursor ids.
+ *
+ * Return value: 1 if team exists, 0 if not.
+ */
 int
-lw6ker_game_state_get_team_info (lw6ker_game_state_t *
-				 game_state, int team_color,
-				 int32_t * nb_cursors, int32_t * nb_fighters)
+lw6ker_game_state_team_exists (lw6ker_game_state_t * game_state,
+			       int team_color)
+{
+  return _lw6ker_game_state_team_exists ((_lw6ker_game_state_t *) game_state,
+					 team_color);
+}
+
+int
+_lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
+				  game_state, int team_color,
+				  int32_t * nb_cursors, int32_t * nb_fighters)
 {
   int ret = 0;
-  lw6ker_team_t *team;
+  _lw6ker_team_t *team;
   lw6ker_cursor_array_t *cursor_array;
   int i = 0;
 
@@ -896,8 +1363,32 @@ lw6ker_game_state_get_team_info (lw6ker_game_state_t *
   return ret;
 }
 
+/**
+ * lw6ker_game_state_get_team_info
+ *
+ * @game_state: the game_state to query
+ * @team_color: the color to get informations about
+ * @nb_cursors: number of cursors with this color (out param)
+ * @nb_fighters: number of fighters with this color (out param)
+ * 
+ * Gets informations about a given color. Indeed, a color can have several
+ * cursors, and knowing how many fighters there are with a given color
+ * is probably the most important things about a color.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ker_game_state_get_nb_teams (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_team_info (lw6ker_game_state_t *
+				 game_state, int team_color,
+				 int32_t * nb_cursors, int32_t * nb_fighters)
+{
+  return _lw6ker_game_state_get_team_info ((_lw6ker_game_state_t *)
+					   game_state, team_color, nb_cursors,
+					   nb_fighters);
+}
+
+int
+_lw6ker_game_state_get_nb_teams (_lw6ker_game_state_t * game_state)
 {
   int ret = 0;
 
@@ -906,37 +1397,98 @@ lw6ker_game_state_get_nb_teams (lw6ker_game_state_t * game_state)
   return ret;
 }
 
+/**
+ * lw6ker_game_state_get_nb_teams
+ * 
+ * @game_state: the game_state to query
+ *
+ * Tells how many teams there are in a game. This is different from the
+ * cursors number, there can be more cursors than teams, because a team
+ * can have several cursors.
+ *
+ * Return value: the number of teams.
+ */
+int
+lw6ker_game_state_get_nb_teams (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_nb_teams ((_lw6ker_game_state_t *)
+					  game_state);
+}
+
+void
+_lw6ker_game_state_do_spread (_lw6ker_game_state_t *
+			      game_state, u_int32_t team_mask)
+{
+  if (!game_state->over)
+    {
+      _lw6ker_map_state_spread_gradient (&(game_state->map_state),
+					 &(game_state->game_struct->rules),
+					 game_state->game_struct->
+					 rules.spreads_per_round, team_mask);
+    }
+}
+
+/**
+ * lw6ker_game_state_do_spread
+ *
+ * @game_state: the game_state to act upon
+ * @team_mask: a binary mask of which gradients (teams) must be spreaded
+ *
+ * Spreads the gradient, that is, calculates the potential of each point
+ * on the map, ie the distance to the closest cursor. The binary mask
+ * allows gradient to be spread for only some teams, this is usefull
+ * in a multithreaded context, as gradients can be calculated separately.
+ *
+ * Return value: none
+ */
 void
 lw6ker_game_state_do_spread (lw6ker_game_state_t *
 			     game_state, u_int32_t team_mask)
 {
+  _lw6ker_game_state_do_spread ((_lw6ker_game_state_t *) game_state,
+				team_mask);
+}
+
+void
+_lw6ker_game_state_do_move (_lw6ker_game_state_t *
+			    game_state, u_int32_t team_mask)
+{
   if (!game_state->over)
     {
-      lw6ker_map_state_spread_gradient (&(game_state->map_state),
-					&(game_state->game_struct->rules),
-					game_state->game_struct->
-					rules.spreads_per_round, team_mask);
+      _lw6ker_map_state_move_fighters (&(game_state->map_state),
+				       lw6sys_checksum_int32
+				       (game_state->rounds) %
+				       LW6KER_NB_PARITIES,
+				       &(game_state->game_struct->rules),
+				       game_state->game_struct->rules.
+				       moves_per_round, team_mask);
     }
 }
 
+/**
+ * lw6ker_game_state_do_move
+ *
+ * @game_state: the game_state to act upon
+ * @team_mask: a binary mask of which teams must be moved
+ *
+ * Moves the fighters, note that you must calculate the gradient from
+ * time to time else they go to the wrong places. The @team_mask allows
+ * the moving of only some given teams, but moving (for instance) even
+ * teams then odd teams isn't the same as moving odd teams then even teams.
+ * Whereas as far as gradient calculation is concerned, this could have been
+ * true, you could have multithreaded that.
+ *
+ * Return value: none.
+ */
 void
 lw6ker_game_state_do_move (lw6ker_game_state_t *
 			   game_state, u_int32_t team_mask)
 {
-  if (!game_state->over)
-    {
-      lw6ker_map_state_move_fighters (&(game_state->map_state),
-				      lw6sys_checksum_int32
-				      (game_state->rounds) %
-				      LW6KER_NB_PARITIES,
-				      &(game_state->game_struct->rules),
-				      game_state->game_struct->rules.
-				      moves_per_round, team_mask);
-    }
+  _lw6ker_game_state_do_move ((_lw6ker_game_state_t *) game_state, team_mask);
 }
 
 void
-lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 {
   int total_rounds;
   int nb_teams;
@@ -946,16 +1498,16 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
   int32_t nb_fighters_to_delete = 0;
   int i;
 
-  total_rounds = lw6ker_game_state_get_total_rounds (game_state);
-  nb_teams = lw6ker_game_state_get_nb_teams (game_state);
+  total_rounds = _lw6ker_game_state_get_total_rounds (game_state);
+  nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
 
   game_state->max_reached_teams =
     lw6sys_max (game_state->max_reached_teams, nb_teams);
 
   for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS; ++team_color)
     {
-      lw6ker_game_state_get_team_info (game_state, team_color, &nb_cursors,
-				       &nb_fighters);
+      _lw6ker_game_state_get_team_info (game_state, team_color, &nb_cursors,
+					&nb_fighters);
       if (nb_cursors == 0)
 	{
 	  /*
@@ -965,7 +1517,7 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("no cursors for team %d, removing it"),
 		      team_color);
-	  _lw6ker_game_state_remove_team (game_state, team_color);
+	  _lw6ker_game_state_remove_team_internal (game_state, team_color);
 	}
       else
 	{
@@ -982,7 +1534,8 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 					  game_state->game_struct->rules.
 					  frags_fade_out);
 		}
-	      _lw6ker_game_state_remove_team (game_state, team_color);
+	      _lw6ker_game_state_remove_team_internal (game_state,
+						       team_color);
 	      if (game_state->game_struct->rules.respawn_team)
 		{
 		  /*
@@ -995,16 +1548,17 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 				 room_for_armies,
 				 game_state->game_struct->rules.
 				 single_army_size),
-				lw6ker_game_state_get_nb_active_fighters
+				_lw6ker_game_state_get_nb_active_fighters
 				(game_state) / 2);
-		  lw6ker_map_state_remove_fighters (&(game_state->map_state),
-						    nb_fighters_to_delete);
+		  _lw6ker_map_state_remove_fighters (&(game_state->map_state),
+						     nb_fighters_to_delete);
 		  /*
 		   * Cancelling then adding will have the effect to repopulate the team
 		   */
-		  _lw6ker_game_state_add_team (game_state, team_color,
-					       game_state->game_struct->
-					       rules.respawn_position_mode);
+		  _lw6ker_game_state_add_team_internal (game_state,
+							team_color,
+							game_state->game_struct->
+							rules.respawn_position_mode);
 		}
 	      else
 		{
@@ -1017,9 +1571,9 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
 		      if (game_state->map_state.cursor_array.cursors[i].
 			  team_color == team_color)
 			{
-			  lw6ker_cursor_disable (&
-						 (game_state->map_state.
-						  cursor_array.cursors[i]));
+			  _lw6ker_cursor_disable (&
+						  (game_state->map_state.
+						   cursor_array.cursors[i]));
 			  game_state->map_state.cursor_array.nb_cursors--;
 			}
 		    }
@@ -1055,15 +1609,25 @@ lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
     }
 }
 
-/*
- * This is a fundamental function, it's called at each round,
- * it fires all the complex calculations in the game, the
- * real core algorithm. Every time this function is called,
- * the round is "over" and the game state is ready for the
- * next... round.
+/**
+ * lw6ker_game_state_finish_round
+ *
+ * @game_state: the game_state to act upon
+ *
+ * Finishes a round, that is, vaccums various stuff, checks if some team
+ * has lost, and so on. This is complementary to the spread and move
+ * steps, it should be called at each round.
+ *
+ * Return value: none.
  */
 void
-lw6ker_game_state_do_round (lw6ker_game_state_t * game_state)
+lw6ker_game_state_finish_round (lw6ker_game_state_t * game_state)
+{
+  _lw6ker_game_state_finish_round ((_lw6ker_game_state_t *) game_state);
+}
+
+void
+_lw6ker_game_state_do_round (_lw6ker_game_state_t * game_state)
 {
   /*
    * No joke about the implementation, here one really must
@@ -1072,94 +1636,449 @@ lw6ker_game_state_do_round (lw6ker_game_state_t * game_state)
    * might assume that those 3 functions are equivalent to
    * do_round when they fiddle zith threads and team_mask.
    */
-  lw6ker_game_state_do_spread (game_state, LW6KER_TEAM_MASK_ALL);
-  lw6ker_game_state_do_move (game_state, LW6KER_TEAM_MASK_ALL);
-  lw6ker_game_state_finish_round (game_state);
+  _lw6ker_game_state_do_spread (game_state, LW6KER_TEAM_MASK_ALL);
+  _lw6ker_game_state_do_move (game_state, LW6KER_TEAM_MASK_ALL);
+  _lw6ker_game_state_finish_round (game_state);
+}
+
+/**
+ * lw6ker_game_state_do_round
+ *
+ * game_state: the game_state to act upon
+ *
+ * This is a fundamental function, it's called at each round,
+ * it fires all the complex calculations in the game, the
+ * real core algorithm. Every time this function is called,
+ * the round is "over" and the game state is ready for the
+ * next... round. It's equivalent to calling the spread, move
+ * and finish functions.
+ *
+ * Return value: none.
+ */
+void
+lw6ker_game_state_do_round (lw6ker_game_state_t * game_state)
+{
+  _lw6ker_game_state_do_round ((_lw6ker_game_state_t *) game_state);
 }
 
 u_int32_t
-lw6ker_game_state_get_moves (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_moves (_lw6ker_game_state_t * game_state)
 {
   return (game_state->moves);
 }
 
+/**
+ * lw6ker_game_state_get_moves
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the number of moves done on this game.
+ *
+ * Return value: number of moves.
+ */
 u_int32_t
-lw6ker_game_state_get_spreads (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_moves (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_moves ((_lw6ker_game_state_t *) game_state);
+}
+
+u_int32_t
+_lw6ker_game_state_get_spreads (_lw6ker_game_state_t * game_state)
 {
   return (game_state->spreads);
 }
 
+/**
+ * lw6ker_game_state_get_spreads
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the number of spreads done on this game.
+ *
+ * Return value: number of spreads.
+ */
 u_int32_t
-lw6ker_game_state_get_rounds (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_spreads (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_spreads ((_lw6ker_game_state_t *) game_state);
+}
+
+u_int32_t
+_lw6ker_game_state_get_rounds (_lw6ker_game_state_t * game_state)
 {
   return (game_state->rounds);
 }
 
+/**
+ * lw6ker_game_state_get_rounds
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the number of rounds done on this game.
+ *
+ * Return value: number of rounds.
+ */
 u_int32_t
-lw6ker_game_state_get_total_rounds (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_rounds (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_rounds ((_lw6ker_game_state_t *) game_state);
+}
+
+u_int32_t
+_lw6ker_game_state_get_total_rounds (_lw6ker_game_state_t * game_state)
 {
   return (game_state->game_struct->rules.rounds_per_sec *
 	  game_state->game_struct->rules.total_time);
 }
 
+/**
+ * lw6ker_game_state_get_total_rounds
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the number of playable rounds in the game, that is the number
+ * of rounds to be played if game goes up to the time limit. This is
+ * a fixed number, if game slows down then time is stretched, but the
+ * the exact maximum number of rounds is known at game start, and it is
+ * the number returned by this function.
+ *
+ * Return value: number of rounds in the game
+ */
+u_int32_t
+lw6ker_game_state_get_total_rounds (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_total_rounds ((_lw6ker_game_state_t *)
+					      game_state);
+}
+
 int
-lw6ker_game_state_is_over (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_is_over (_lw6ker_game_state_t * game_state)
 {
   return game_state->over ? 1 : 0;
 }
 
+/**
+ * lw6ker_game_state_is_over
+ *
+ * @game_state: the game_state to query
+ *
+ * Tells wether the game is over or not. The answer depends on time limit,
+ * game rules, and of course what happened on the battlefield.
+ *
+ * Return value: 1 if over, 0 if not.
+ */
+int
+lw6ker_game_state_is_over (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_is_over ((_lw6ker_game_state_t *) game_state);
+}
+
 int32_t
-lw6ker_game_state_get_nb_active_fighters (lw6ker_game_state_t * game_state)
+_lw6ker_game_state_get_nb_active_fighters (_lw6ker_game_state_t * game_state)
 {
   return (game_state->map_state.armies.active_fighters);
 }
 
+/**
+ * lw6ker_game_state_get_nb_active_fighters
+ *
+ * @game_state: the game_state to query
+ *
+ * Gets the number of active fighters, this is relatively constant within the
+ * game, it does not change when someone looses, but it can vary when a new
+ * team arrives or disappears.
+ *
+ * Return value: number of fighters.
+ */
 int32_t
-lw6ker_game_state_get_time_elapsed (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_nb_active_fighters (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_nb_active_fighters ((_lw6ker_game_state_t *)
+						    game_state);
+}
+
+int32_t
+_lw6ker_game_state_get_time_elapsed (_lw6ker_game_state_t * game_state)
 {
   int32_t ret = 0;
   u_int32_t rounds = 0;
 
-  rounds = lw6ker_game_state_get_rounds (game_state);
+  rounds = _lw6ker_game_state_get_rounds (game_state);
   ret = rounds / (u_int32_t) game_state->game_struct->rules.rounds_per_sec;
 
   return ret;
 }
 
+/**
+ * lw6ker_game_state_get_time_elapsed
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the time elapsed, this is not the real time you'd time
+ * with an atomic clock, rather the time that would have elapsed if
+ * game had been run at its nominal speed. There can be a difference
+ * if your computer is too slow, among other things.
+ *
+ * Return value: time elapsed, in seconds.
+ */
 int32_t
-lw6ker_game_state_get_time_left (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_time_elapsed (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_time_elapsed ((_lw6ker_game_state_t *)
+					      game_state);
+}
+
+int32_t
+_lw6ker_game_state_get_time_left (_lw6ker_game_state_t * game_state)
 {
   int32_t ret = 0;
 
   ret =
     game_state->game_struct->rules.total_time -
-    lw6ker_game_state_get_time_elapsed (game_state);
+    _lw6ker_game_state_get_time_elapsed (game_state);
 
   return ret;
 }
 
+/**
+ * lw6ker_game_state_get_time_left
+ *
+ * @game_state: the game_state to query
+ *
+ * Returns the time left, this is not the real time you'd time
+ * with an atomic clock, rather the time that would theorically
+ * be left is game was to be run at its nominal speed. There can
+ * be a difference if your computer is too slow, among other things.
+ * You shouldn't rely on this to know wether a game is over or not,
+ * there's another dedicated function for that.
+ *
+ * Return value: time left, in seconds.
+ */
 int32_t
-lw6ker_game_state_get_global_history (lw6ker_game_state_t * game_state, int i,
-				      int team_id)
+lw6ker_game_state_get_time_left (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_time_left ((_lw6ker_game_state_t *)
+					   game_state);
+}
+
+int32_t
+_lw6ker_game_state_get_global_history (_lw6ker_game_state_t * game_state,
+				       int i, int team_id)
 {
   return _lw6ker_history_get (&(game_state->global_history), i, team_id);
 }
 
+/**
+ * lw6ker_game_state_get_global_history 
+ *
+ * @game_state: the game_state to query
+ * @i: the index of the history point
+ * @team_id: the team to query
+ *
+ * Returns the number of fighters at some point in the past (the lower i,
+ * the oldest). The history scrolls automatically and erases itself at
+ * some point, it's of constant length. This is the global, long term
+ * history, reflects the whole game and could be used for an end-game
+ * score screen.
+ *
+ * Return value: number of fighters at that time.
+ */
 int32_t
-lw6ker_game_state_get_latest_history (lw6ker_game_state_t * game_state, int i,
+lw6ker_game_state_get_global_history (lw6ker_game_state_t * game_state, int i,
 				      int team_id)
+{
+  return _lw6ker_game_state_get_global_history ((_lw6ker_game_state_t *)
+						game_state, i, team_id);
+}
+
+int32_t
+_lw6ker_game_state_get_latest_history (_lw6ker_game_state_t * game_state,
+				       int i, int team_id)
 {
   return _lw6ker_history_get (&(game_state->latest_history), i, team_id);
 }
 
+/**
+ * lw6ker_game_state_get_latest_history 
+ *
+ * @game_state: the game_state to query
+ * @i: the index of the history point
+ * @team_id: the team to query
+ *
+ * Returns the number of fighters at some point in the past (the lower i,
+ * the oldest). The history scrolls automatically and erases itself at
+ * some point, it's of constant length. This is the latest, short term
+ * history, reflects the recent game evolutions and could be used to
+ * display an in-game monitor.
+ *
+ * Return value: number of fighters at that time.
+ */
 int32_t
-lw6ker_game_state_get_global_history_max (lw6ker_game_state_t * game_state)
+lw6ker_game_state_get_latest_history (lw6ker_game_state_t * game_state, int i,
+				      int team_id)
+{
+  return _lw6ker_game_state_get_latest_history ((_lw6ker_game_state_t *)
+						game_state, i, team_id);
+}
+
+int32_t
+_lw6ker_game_state_get_global_history_max (_lw6ker_game_state_t * game_state)
 {
   return _lw6ker_history_get_max (&(game_state->global_history));
 }
 
+/**
+ * lw6ker_game_state_get_global_history_max
+ *
+ * @game_state: game_state to query
+ *
+ * Returns the maximum value, that is, the maximum number of fighters, all teams
+ * combined, for this history. This can be used to scale charts.
+ * This function for the global long term history.
+ *
+ * Return value: max number of fighters.
+ */
+int32_t
+lw6ker_game_state_get_global_history_max (lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_game_state_get_global_history_max ((_lw6ker_game_state_t *)
+						    game_state);
+}
+
+int32_t
+_lw6ker_game_state_get_latest_history_max (_lw6ker_game_state_t * game_state)
+{
+  return _lw6ker_history_get_max (&(game_state->latest_history));
+}
+
+/**
+ * lw6ker_game_state_get_latest_history_max
+ *
+ * @game_state: game_state to query
+ *
+ * Returns the maximum value, that is, the maximum number of fighters, all teams
+ * combined, for this history. This can be used to scale charts.
+ * This function for the latest short term history.
+ *
+ * Return value: max number of fighters.
+ */
 int32_t
 lw6ker_game_state_get_latest_history_max (lw6ker_game_state_t * game_state)
 {
-  return _lw6ker_history_get_max (&(game_state->latest_history));
+  return _lw6ker_game_state_get_latest_history_max ((_lw6ker_game_state_t *)
+						    game_state);
+}
+
+/**
+ * lw6ker_game_state_get_fighter_id
+ *
+ * @game_state: game_state to query
+ * @x: x position
+ * @y: y position
+ * @z: z position
+ *
+ * Gets the id of a fighter in a given position. Previous versions of the
+ * game used to have this declared inline static for speed, but the price
+ * to pay in terms of maintainability was too high: too much stuff from the
+ * ker module had to be kept public. This functions is very likely to be
+ * called often when one wants to know what's happening on the battlefield,
+ * to draw it, for instance. If there's no fighter, the id is negative,
+ * any id equal or greater than 0 (returned by this function) is valid.
+ * 
+ * Return value: the id of the fighter at that position.
+ */
+int32_t
+lw6ker_game_state_get_fighter_id (lw6ker_game_state_t * game_state,
+				  int32_t x, int32_t y, int32_t z)
+{
+  return
+    _lw6ker_map_state_get_fighter_id (&
+				      (((_lw6ker_game_state_t *)
+					game_state)->map_state), x, y, z);
+}
+
+/**
+ * lw6ker_game_state_get_fighter_by_id
+ *
+ * @game_state: game_state to query
+ * @fighter_id: the id of the fighter
+ *
+ * Gets a fighter by its id. Internally, all fighters are stored in an array
+ * so it could be "safe" to get fighter with id 0 then walk the array.
+ * Previous versions of the game used to have this public (the array),
+ * it has been hidden since.
+ * 
+ * Return value: pointer to the fighter with the given id.
+ */
+lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_by_id (lw6ker_game_state_t * game_state,
+				     int32_t fighter_id)
+{
+  return (&
+	  (((_lw6ker_game_state_t *) game_state)->map_state.
+	   armies.fighters[fighter_id]));
+}
+
+/**
+ * lw6ker_game_state_get_fighter_safe
+ *
+ * @game_state: game_state to query
+ * @x: x position
+ * @y: y position
+ * @z: z position
+ *
+ * Gets a fighter by its position. This function will check for boundaries, if there's
+ * no fighter in this place, it will return NULL, but nothing worse can happen. More
+ * precisely, if the place is in a wall, it won't bug, unlike the non-bullet-proof
+ * equivalent of this function.
+ * 
+ * Return value: pointer to the fighter at this position, or NULL if none.
+ */
+lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_safe (lw6ker_game_state_t * game_state,
+				    int32_t x, int32_t y, int32_t z)
+{
+  lw6ker_fighter_t *ret = NULL;
+  int fighter_id;
+
+  if (x >= 0
+      && x < ((_lw6ker_game_state_t *) game_state)->map_state.shape.w
+      && y >= 0 &&
+      y < ((_lw6ker_game_state_t *) game_state)->map_state.shape.h
+      && z >= 0
+      && z < ((_lw6ker_game_state_t *) game_state)->map_state.shape.d)
+    {
+      fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
+      if (fighter_id >= 0)
+	{
+	  ret = lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+	}
+    }
+
+  return ret;
+};
+
+/**
+ * lw6ker_game_state_get_fighter_unsafe
+ *
+ * @game_state: game_state to query
+ * @x: x position
+ * @y: y position
+ * @z: z position
+ *
+ * Gets a fighter by its position. This function will not check for boundaries, if there's
+ * no fighter in this place, not only will it probably not return a valid value, but it will also
+ * even segfault before that, trying to access non-existing structures in menory. So only
+ * call this if you're sure there's a fighter here.
+ * 
+ * Return value: pointer to the fighter at this position, or NULL if none.
+ */
+lw6ker_fighter_t *
+lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
+				      int32_t x, int32_t y, int32_t z)
+{
+  return
+    _lw6ker_map_state_get_fighter_unsafe (&
+					  (((_lw6ker_game_state_t *)
+					    game_state)->map_state), x, y, z);
 }

@@ -154,12 +154,13 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 
 void
 _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
-				 lw6ker_map_struct_t * map_struct)
+				 _lw6ker_map_struct_t * map_struct)
 {
   if (map_struct)
     {
-      lw6ker_map_struct_find_free_slot_near (map_struct, &(cursor->apply_pos),
-					     (cursor->pos));
+      _lw6ker_map_struct_find_free_slot_near (map_struct,
+					      &(cursor->apply_pos),
+					      (cursor->pos));
     }
   else
     {
@@ -179,10 +180,10 @@ _lw6ker_cursor_reset (lw6ker_cursor_t * cursor)
 }
 
 int
-lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
-		      u_int64_t node_id,
-		      u_int16_t cursor_id,
-		      int team_color, int32_t x, int32_t y)
+_lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
+		       u_int64_t node_id,
+		       u_int16_t cursor_id,
+		       int team_color, int32_t x, int32_t y)
 {
   int ret = 0;
 
@@ -207,7 +208,7 @@ lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
 }
 
 int
-lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
+_lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
 {
   int ret = 0;
 
@@ -228,9 +229,9 @@ lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
 }
 
 int
-lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
-		      int32_t y, int32_t pot_offset,
-		      lw6sys_whd_t * shape, lw6map_rules_t * rules)
+_lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
+		       int32_t y, int32_t pot_offset,
+		       lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 1;
 
@@ -239,7 +240,7 @@ lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
   cursor->pos.x = x;
   cursor->pos.y = y;
   cursor->pot_offset = pot_offset;
-  if (!lw6ker_cursor_sanity_check (cursor, shape, rules))
+  if (!_lw6ker_cursor_sanity_check (cursor, shape, rules))
     {
       ret = 0;
     }
@@ -248,8 +249,8 @@ lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 }
 
 int
-lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
-			    lw6sys_whd_t * shape, lw6map_rules_t * rules)
+_lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
+			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 1;
 

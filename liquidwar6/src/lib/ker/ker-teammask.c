@@ -31,6 +31,18 @@
 
 #define TEAM_MASK_ALL 0x3F;
 
+/**
+ * lw6ker_team_mask_get
+ *
+ * @even: even team mask (out param)
+ * @odd: odd team mask (out param)
+ * @round: round concerned
+ *
+ * Returns a default team mask for a given round, even and odd will contain
+ * ready to use masks (for spread and move functions for instance).
+ *
+ * Return value: none.
+ */
 void
 lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd, int32_t round)
 {
@@ -46,6 +58,20 @@ lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd, int32_t round)
   (*odd) = (*even) ^ LW6KER_TEAM_MASK_ALL;
 }
 
+/**
+ * lw6ker_team_mask_best
+ *
+ * @even: even team mask (out param)
+ * @odd: odd team mask (out param)
+ * @game_state: the game_state concerned
+ *
+ * Returns an optimal team mask for a given round, even and odd will contain
+ * ready to use masks (for spread and move functions for instance). The difference
+ * with the default team mask is that this one will test for which teams are present
+ * and try and manage to find an equilibrated set of odd/even teams.
+ *
+ * Return value: none.
+ */
 void
 lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
 		       lw6ker_game_state_t * game_state)
@@ -61,7 +87,7 @@ lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
       j = k = 0;
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (game_state->map_state.teams[i].active)
+	  if (lw6ker_game_state_team_exists (game_state, i))
 	    {
 	      if (lw6ker_team_mask_is_concerned (i, *even))
 		{
@@ -82,6 +108,16 @@ lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
     }
 }
 
+/**
+ * lw6ker_team_mask_is_concerned
+ *
+ * @team_color: color index
+ * @team_mask: team mask
+ *
+ * Tells wether a given team is concerned by a team mask.
+ *
+ * Return value: 1 if concerned, 0 if not.
+ */
 int
 lw6ker_team_mask_is_concerned (int team_color, u_int32_t team_mask)
 {

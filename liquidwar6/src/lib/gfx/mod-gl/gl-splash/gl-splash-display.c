@@ -61,9 +61,9 @@ _update_system (mod_gl_utils_context_t *
 	((int)
 	 (mod_gl_utils_timer_get_cycle (utils_context) *
 	  splash_context->const_data.cursors_center_speed)) %
-	splash_context->game.game_state->game_struct->map_struct.shape.w;
+	lw6ker_game_state_get_w (splash_context->game.game_state);
       y_center =
-	splash_context->game.game_state->game_struct->map_struct.shape.h / 2;
+	lw6ker_game_state_get_h (splash_context->game.game_state) / 2;
       angle =
 	((float) mod_gl_utils_timer_get_cycle (utils_context)) /
 	((float) splash_context->const_data.cursors_spin_period);

@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ 
 
 noinst_LTLIBRARIES = libker.la
-libker_la_SOURCES = ker-armies.c ker-capture.c ker-cursor.c ker-cursorarray.c ker-fighter.c ker-gamestate.c ker-gamestruct.c ker-history.c ker-mapstate.c ker-mapstruct.c ker-move.c ker-placestruct.c ker-score.c ker-scorearray.c ker-node.c ker-nodearray.c ker-slotstate.c ker-slotstruct.c ker-spread.c ker-tables.c ker-team.c ker-teammask.c ker-test.c ker-trigo.c ker-zonestate.c ker-zonestruct.c
+libker_la_SOURCES = ker-armies.c ker-capture.c ker-cursor.c ker-cursorarray.c ker-fighter.c ker-gamestate.c ker-gamestruct.c ker-history.c ker-mapstate.c ker-mapstruct.c ker-move.c ker-node.c ker-nodearray.c ker-placestruct.c ker-score.c ker-scorearray.c ker-slotstate.c ker-slotstruct.c ker-spread.c ker-tables.c ker-team.c ker-teammask.c ker-test.c ker-trigo.c ker-zonestate.c ker-zonestruct.c
 libkerdir= $(includedir)/@PACKAGE_TARNAME@/ker
 libker_HEADERS = ker.h 
 

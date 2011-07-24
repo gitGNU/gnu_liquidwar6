@@ -5996,6 +5996,7 @@ static SCM
 _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
 {
   lw6ker_game_state_t *c_game_state = NULL;
+  lw6sys_whd_t shape;
   float c_x = 0.0f;
   float c_y = 0.0f;
   float c_z = 0.0f;
@@ -6017,8 +6018,9 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
       c_y = scm_to_double (y);
       c_z = scm_to_double (z);
 
+      lw6ker_game_state_get_shape (c_game_state, &shape);
       lw6pil_coords_fix (&(c_game_state->game_struct->rules),
-			 &(c_game_state->map_state.shape), &c_x, &c_y, &c_z);
+			 &shape, &c_x, &c_y, &c_z);
       ret =
 	scm_list_3 (scm_cons (scm_makfrom0str ("x"), scm_double2num (c_x)),
 		    scm_cons (scm_makfrom0str ("y"), scm_double2num (c_y)),

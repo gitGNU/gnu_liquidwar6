@@ -25,19 +25,19 @@ echo >> Makefile.selfdoc
 
 for i in quick doc show aliases ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo -e "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 cmd \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 cmd \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 
 for i in path players input graphics sound network map map-rules map-hints map-style hooks advanced ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo -e "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 default \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 default \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 
 for i in funcs ; do
     echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
-    echo -e "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 func \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 func \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
 

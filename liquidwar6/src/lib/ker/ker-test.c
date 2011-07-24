@@ -64,6 +64,18 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 {
   char *repr = NULL;
   char *capture = NULL;
+  int i;
+  int32_t nb_cursors;
+  int32_t nb_fighters;
+  int total_fighters;
+  int fighter_id;
+  lw6ker_fighter_t *fighter1;
+  lw6ker_fighter_t *fighter2;
+  lw6ker_fighter_t *fighter3;
+  lw6sys_whd_t shape;
+  int x, y, z;
+  int is_fg, is_bg;
+  lw6ker_cursor_array_t cursor_array;
 
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
@@ -71,7 +83,76 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("game_state repr is \"%s\""), repr);
       LW6SYS_FREE (repr);
     }
-  lw6ker_map_state_print_debug (&(game_state->map_state));
+
+  total_fighters = lw6ker_game_state_get_nb_active_fighters (game_state);
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("active_fighters = %d"), total_fighters);
+  if (total_fighters > 0)
+    {
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  lw6ker_game_state_get_team_info (game_state, i, &nb_cursors,
+					   &nb_fighters);
+
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("team %d has %d cursors, %d fighters (%2.1f%%)"),
+		      i, nb_cursors, nb_fighters,
+		      ((float) nb_fighters) / ((float) total_fighters) *
+		      100.0f);
+	  /*
+	   * Do NOT remove the following calls, as lw6ker_game_state_get_fighter_X
+	   * functions really need to be compiled in.
+	   */
+	  lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
+	  lw6ker_game_state_get_shape (game_state, &shape);
+	  x = lw6sys_random (lw6ker_game_state_get_w (game_state));
+	  y = lw6sys_random (lw6ker_game_state_get_h (game_state));
+	  z = lw6sys_random (lw6ker_game_state_get_d (game_state));
+	  lw6ker_game_struct_get_shape (game_state->game_struct, &shape);
+	  x =
+	    lw6sys_random (lw6ker_game_struct_get_w
+			   (game_state->game_struct));
+	  y =
+	    lw6sys_random (lw6ker_game_struct_get_h
+			   (game_state->game_struct));
+	  z =
+	    lw6sys_random (lw6ker_game_struct_get_d
+			   (game_state->game_struct));
+	  is_fg = lw6ker_game_struct_is_fg (game_state->game_struct, x, y, z);
+	  is_bg = lw6ker_game_struct_is_bg (game_state->game_struct, x, y, z);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _("%d,%d,%d is_fg=%d is_bg=%d"), x,
+		      y, z, is_fg, is_bg);
+	  fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
+	  if (fighter_id >= 0)
+	    {
+	      fighter1 =
+		lw6ker_game_state_get_fighter_by_id (game_state, fighter_id);
+	      fighter2 =
+		lw6ker_game_state_get_fighter_safe (game_state, x, y, z);
+	      fighter3 =
+		lw6ker_game_state_get_fighter_unsafe (game_state, x, y, z);
+	      if (fighter1 == fighter2 && fighter2 == fighter3)
+		{
+		  lw6sys_log (LW6SYS_LOG_NOTICE,
+			      _x_ ("%d,%d,%d fighter has id %d"), x, y, z,
+			      fighter_id);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("fighter pointer mismatch in %d,%d,%d %p,%p,%p"),
+			      x, y, z, fighter1, fighter2, fighter3);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_ ("no fighter in x,y,z (%d)"), x, y, z,
+			  fighter_id);
+	    }
+	}
+    }
+
   capture = lw6ker_capture_str (game_state);
   if (capture)
     {
@@ -154,8 +235,7 @@ test_state ()
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_CHECKSUM);
-		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
-		  && (checksum == TEST_GAME_STATE_CHECKSUM);
+		ret = (checksum == TEST_GAME_STATE_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -213,8 +293,7 @@ test_population ()
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_POPULATE_CHECKSUM);
-		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
-		  && (checksum == TEST_GAME_STATE_POPULATE_CHECKSUM);
+		ret = (checksum == TEST_GAME_STATE_POPULATE_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);
@@ -267,8 +346,8 @@ test_algorithm ()
 		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR3_ID, TEST_COLOR3);
 		print_game_state_repr (game_state);
-		cursor_x = game_state->map_state.shape.w / 2;
-		cursor_y = game_state->map_state.shape.h / 2;
+		cursor_x = lw6ker_game_state_get_w (game_state) / 2;
+		cursor_y = lw6ker_game_state_get_h (game_state) / 2;
 		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR1_ID, cursor_x,
 					      cursor_y);
@@ -292,7 +371,7 @@ test_algorithm ()
 		    lw6ker_game_state_do_round (game_state);
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("round %d, game_state checksum=%08x"),
-				game_state->rounds,
+				lw6ker_game_state_get_rounds (game_state),
 				lw6ker_game_state_checksum (game_state));
 		  }
 		lw6ker_score_array_update (&score_array, game_state);
@@ -333,8 +412,7 @@ test_algorithm ()
 			    _x_
 			    ("game state checksum is %08x and should be %08x"),
 			    checksum, TEST_GAME_STATE_ALGORITHM_CHECKSUM);
-		ret = lw6ker_map_state_sanity_check (&(game_state->map_state))
-		  && (checksum == TEST_GAME_STATE_ALGORITHM_CHECKSUM);
+		ret = (checksum == TEST_GAME_STATE_ALGORITHM_CHECKSUM);
 		lw6ker_game_state_free (game_state);
 	      }
 	    lw6ker_game_struct_free (game_struct);

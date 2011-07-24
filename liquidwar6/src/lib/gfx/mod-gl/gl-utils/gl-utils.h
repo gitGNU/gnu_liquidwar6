@@ -657,7 +657,7 @@ extern void mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
 extern SDL_Surface
   * mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t *
 					  utils_context,
-					  lw6ker_map_state_t * map_state,
+					  lw6ker_game_state_t * game_state,
 					  int team_id, int layer_id);
 
 /*
@@ -943,7 +943,7 @@ extern void mod_gl_utils_viewport_drawable_max (mod_gl_utils_context_t *
  */
 extern SDL_Surface *mod_gl_utils_create_zones_surface (mod_gl_utils_context_t
 						       * utils_context,
-						       lw6ker_map_struct_t *
+						       lw6ker_game_struct_t *
 						       map_struct);
 
 #endif

@@ -207,10 +207,10 @@ _load_game (mod_gl_utils_context_t * utils_context,
 					    _GAME_COLOR4);
 	      splash_context->game.bitmap =
 		mod_gl_utils_bitmap_new (utils_context,
-					 splash_context->game.game_struct->
-					 map_struct.shape.w,
-					 splash_context->game.game_struct->
-					 map_struct.shape.h);
+					 lw6ker_game_state_get_w
+					 (splash_context->game.game_state),
+					 lw6ker_game_state_get_h
+					 (splash_context->game.game_state));
 	      if (splash_context->game.bitmap)
 		{
 		  mod_gl_utils_bitmap_set_wrap (utils_context,

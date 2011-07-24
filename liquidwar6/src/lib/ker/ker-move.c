@@ -53,8 +53,8 @@
 #endif
 
 static inline int
-_is_slot_free (lw6ker_map_struct_t * map_struct,
-	       lw6ker_map_state_t * map_state, int32_t x, int32_t y,
+_is_slot_free (_lw6ker_map_struct_t * map_struct,
+	       _lw6ker_map_state_t * map_state, int32_t x, int32_t y,
 	       int32_t z)
 {
   /*
@@ -63,32 +63,32 @@ _is_slot_free (lw6ker_map_struct_t * map_struct,
    * more rare that free spaces, so the test will return false faster
    * and do not even call get_zone_id.
    */
-  return (lw6ker_map_state_get_fighter_id (map_state, x, y, z) < 0 &&
-	  lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0);
+  return (_lw6ker_map_state_get_fighter_id (map_state, x, y, z) < 0 &&
+	  _lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0);
 }
 
 int
-_lw6ker_move_is_slot_free (lw6ker_map_struct_t * map_struct,
-			   lw6ker_map_state_t * map_state, int32_t x,
+_lw6ker_move_is_slot_free (_lw6ker_map_struct_t * map_struct,
+			   _lw6ker_map_state_t * map_state, int32_t x,
 			   int32_t y, int32_t z)
 {
   return _is_slot_free (map_struct, map_state, x, y, z);
 }
 
 static inline int
-_is_enemy_there (lw6ker_map_struct_t * map_struct,
-		 lw6ker_map_state_t * map_state, int32_t team_color,
+_is_enemy_there (_lw6ker_map_struct_t * map_struct,
+		 _lw6ker_map_state_t * map_state, int32_t team_color,
 		 int32_t x, int32_t y, int32_t z)
 {
   int ret = 0;
 
 #ifdef LW6_PARANOID
-  if (lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0)
+  if (_lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0)
     {
 #endif // LW6_PARANOID
       int32_t enemy_id;
 
-      enemy_id = lw6ker_map_state_get_fighter_id (map_state, x, y, z);
+      enemy_id = _lw6ker_map_state_get_fighter_id (map_state, x, y, z);
       if (enemy_id >= 0)
 	{
 	  ret =
@@ -102,8 +102,8 @@ _is_enemy_there (lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_move_is_enemy_there (lw6ker_map_struct_t * map_struct,
-			     lw6ker_map_state_t * map_state,
+_lw6ker_move_is_enemy_there (_lw6ker_map_struct_t * map_struct,
+			     _lw6ker_map_state_t * map_state,
 			     int32_t team_color, int32_t x, int32_t y,
 			     int32_t z)
 {
@@ -111,20 +111,20 @@ _lw6ker_move_is_enemy_there (lw6ker_map_struct_t * map_struct,
 }
 
 static inline int
-_is_ally_there (lw6ker_map_struct_t * map_struct,
-		lw6ker_map_state_t * map_state, int32_t team_color, int32_t x,
-		int32_t y, int32_t z)
+_is_ally_there (_lw6ker_map_struct_t * map_struct,
+		_lw6ker_map_state_t * map_state, int32_t team_color,
+		int32_t x, int32_t y, int32_t z)
 {
   int ret = 0;
 
 #ifdef LW6_PARANOID
-  if (lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0)
+  if (_lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0)
     {
 #endif // LW6_PARANOID
 
       int32_t ally_id;
 
-      ally_id = lw6ker_map_state_get_fighter_id (map_state, x, y, z);
+      ally_id = _lw6ker_map_state_get_fighter_id (map_state, x, y, z);
       if (ally_id >= 0)
 	{
 	  ret =
@@ -138,8 +138,8 @@ _is_ally_there (lw6ker_map_struct_t * map_struct,
 }
 
 int
-_lw6ker_move_is_ally_there (lw6ker_map_struct_t * map_struct,
-			    lw6ker_map_state_t * map_state,
+_lw6ker_move_is_ally_there (_lw6ker_map_struct_t * map_struct,
+			    _lw6ker_map_state_t * map_state,
 			    int32_t team_color, int32_t x, int32_t y,
 			    int32_t z)
 {
@@ -185,14 +185,14 @@ _lw6ker_move_find_straight_dir (int from_x, int from_y, lw6sys_xyz_t to,
  * Higher potential = closer to the cursor
  */
 static inline int32_t
-_find_best_dir (lw6ker_map_state_t * map_state, lw6ker_fighter_t * fighter,
+_find_best_dir (_lw6ker_map_state_t * map_state, lw6ker_fighter_t * fighter,
 		int parity)
 {
   int32_t ret = fighter->last_direction;
   int32_t zone_id =
-    lw6ker_map_struct_get_zone_id (map_state->map_struct, fighter->pos.x,
-				   fighter->pos.y, fighter->pos.z);
-  lw6ker_zone_state_t *zone_states =
+    _lw6ker_map_struct_get_zone_id (map_state->map_struct, fighter->pos.x,
+				    fighter->pos.y, fighter->pos.z);
+  _lw6ker_zone_state_t *zone_states =
     map_state->teams[fighter->team_color].gradient;
 
   if (zone_id >= 0)
@@ -210,9 +210,9 @@ _find_best_dir (lw6ker_map_state_t * map_state, lw6ker_fighter_t * fighter,
 	   * Nothing in cache, we calculate it
 	   */
 	  int32_t i;
-	  lw6ker_zone_struct_t *zone_structs = map_state->map_struct->zones;
+	  _lw6ker_zone_struct_t *zone_structs = map_state->map_struct->zones;
 	  int32_t neighbour_zone_id;
-	  lw6ker_zone_struct_t *fighter_zone_struct;
+	  _lw6ker_zone_struct_t *fighter_zone_struct;
 	  fighter_zone_struct = &(zone_structs[zone_id]);
 	  int32_t best_potential = zone_states[zone_id].potential;
 
@@ -308,7 +308,7 @@ _find_best_dir (lw6ker_map_state_t * map_state, lw6ker_fighter_t * fighter,
 }
 
 int32_t
-_lw6ker_move_find_best_dir (lw6ker_map_state_t * map_state,
+_lw6ker_move_find_best_dir (_lw6ker_map_state_t * map_state,
 			    lw6ker_fighter_t * fighter, int parity)
 {
   return _find_best_dir (map_state, fighter, parity);
@@ -431,7 +431,7 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
       if (lw6ker_team_mask_is_concerned (lc.fighter_team_color, lc.team_mask))
 	{
 	  lc.place_struct =
-	    &lc.map_struct->places[lw6ker_map_struct_place_index
+	    &lc.map_struct->places[_lw6ker_map_struct_place_index
 				   (lc.map_struct, lc.fighter->pos.x,
 				    lc.fighter->pos.y)];
 	  lc.fighter->act_counter += lc.place_struct->act_incr;

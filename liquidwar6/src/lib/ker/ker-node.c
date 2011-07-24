@@ -28,13 +28,13 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_node_init (lw6ker_node_t * node)
+_lw6ker_node_init (_lw6ker_node_t * node)
 {
-  memset (node, 0, sizeof (lw6ker_node_t));
+  memset (node, 0, sizeof (_lw6ker_node_t));
 }
 
 void
-_lw6ker_node_update_checksum (lw6ker_node_t * node, u_int32_t * checksum)
+_lw6ker_node_update_checksum (_lw6ker_node_t * node, u_int32_t * checksum)
 {
   lw6sys_checksum_update_int64 (checksum, node->node_id);
   lw6sys_checksum_update_int32 (checksum, node->enabled);
@@ -42,14 +42,14 @@ _lw6ker_node_update_checksum (lw6ker_node_t * node, u_int32_t * checksum)
 }
 
 void
-_lw6ker_node_reset (lw6ker_node_t * node)
+_lw6ker_node_reset (_lw6ker_node_t * node)
 {
   node->enabled = 0;
   node->last_command_round = 0;
 }
 
 int
-lw6ker_node_enable (lw6ker_node_t * node, u_int64_t node_id)
+_lw6ker_node_enable (_lw6ker_node_t * node, u_int64_t node_id)
 {
   int ret = 0;
 
@@ -70,7 +70,7 @@ lw6ker_node_enable (lw6ker_node_t * node, u_int64_t node_id)
 }
 
 int
-lw6ker_node_disable (lw6ker_node_t * node)
+_lw6ker_node_disable (_lw6ker_node_t * node)
 {
   int ret = 0;
 
@@ -90,7 +90,7 @@ lw6ker_node_disable (lw6ker_node_t * node)
 }
 
 int
-lw6ker_node_sanity_check (lw6ker_node_t * node, lw6map_rules_t * rules)
+_lw6ker_node_sanity_check (_lw6ker_node_t * node, lw6map_rules_t * rules)
 {
   int ret = 1;
 

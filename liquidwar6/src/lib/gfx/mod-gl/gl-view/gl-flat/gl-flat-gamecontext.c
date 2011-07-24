@@ -141,8 +141,8 @@ _mod_gl_view_flat_game_context_init_armies (mod_gl_utils_context_t *
 				       &
 				       (game_context_armies->
 					armies_bitmap_array),
-				       game_struct->map_struct.shape.w,
-				       game_struct->map_struct.shape.h,
+				       lw6ker_game_struct_get_w (game_struct),
+				       lw6ker_game_struct_get_h (game_struct),
 				       flat_context->const_data.
 				       tile_size_armies);
 

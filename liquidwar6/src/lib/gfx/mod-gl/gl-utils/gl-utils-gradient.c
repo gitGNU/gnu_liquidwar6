@@ -36,24 +36,29 @@
  */
 SDL_Surface *
 mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
-				      lw6ker_map_state_t * map_state,
+				      lw6ker_game_state_t * game_state,
 				      int team_id, int layer_id)
 {
   SDL_Surface *gradient_surface;
   lw6sys_color_f_t color;
+  lw6sys_whd_t shape;
 
-  if (layer_id < 0 || layer_id >= map_state->shape.d)
+  lw6ker_game_state_get_shape (game_state, &shape);
+
+  if (layer_id < 0 || layer_id >= shape.d)
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("layer %d out of range"),
 		  layer_id);
     }
 
   gradient_surface =
-    mod_gl_utils_create_surface (utils_context,
-				 map_state->map_struct->shape.w,
-				 map_state->map_struct->shape.h);
+    mod_gl_utils_create_surface (utils_context, shape.w, shape.h);
   if (gradient_surface)
     {
+      /*
+         TODO fix this after major 201107 code rewrite
+       */
+#ifdef REWRITE201107
       int i;
       float grey;
       lw6ker_zone_struct_t *zone;
@@ -97,6 +102,7 @@ mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
 					  lw6sys_color_f_to_i (&color));
 	    }
 	}
+#endif
     }
 
   return (gradient_surface);

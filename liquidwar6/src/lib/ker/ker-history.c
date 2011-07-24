@@ -30,8 +30,8 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_history_set (lw6ker_history_t * history,
-		     lw6ker_armies_t * armies, int i)
+_lw6ker_history_set (_lw6ker_history_t * history,
+		     _lw6ker_armies_t * armies, int i)
 {
   int j;
 
@@ -55,7 +55,7 @@ _lw6ker_history_set (lw6ker_history_t * history,
 }
 
 void
-_lw6ker_history_add (lw6ker_history_t * history, lw6ker_armies_t * armies)
+_lw6ker_history_add (_lw6ker_history_t * history, _lw6ker_armies_t * armies)
 {
   int i, j;
 
@@ -72,7 +72,7 @@ _lw6ker_history_add (lw6ker_history_t * history, lw6ker_armies_t * armies)
 }
 
 int
-_lw6ker_history_get (lw6ker_history_t * history, int i, int team_id)
+_lw6ker_history_get (_lw6ker_history_t * history, int i, int team_id)
 {
   int offset = 0;
   int ret = 0;
@@ -82,6 +82,11 @@ _lw6ker_history_get (lw6ker_history_t * history, int i, int team_id)
       if (history->nb_entries > LW6KER_HISTORY_SIZE)
 	{
 	  offset = history->nb_entries % LW6KER_HISTORY_SIZE;
+	  /*
+	   * TODO lw6sys_min below is probably lw6sys_max but
+	   * I'd better wait code revamp of end of july 2011 before
+	   * touching this (could change checksums?)
+	   */
 	  i = lw6sys_min (0, (i + offset)) % LW6KER_HISTORY_SIZE;
 	}
       ret = history->nb_fighters[i][team_id];
@@ -95,7 +100,7 @@ _lw6ker_history_get (lw6ker_history_t * history, int i, int team_id)
 }
 
 int32_t
-_lw6ker_history_get_max (lw6ker_history_t * history)
+_lw6ker_history_get_max (_lw6ker_history_t * history)
 {
   int32_t ret = 0;
   int32_t sub_total;
@@ -115,7 +120,7 @@ _lw6ker_history_get_max (lw6ker_history_t * history)
 }
 
 void
-_lw6ker_history_update_checksum (lw6ker_history_t * history,
+_lw6ker_history_update_checksum (_lw6ker_history_t * history,
 				 u_int32_t * checksum)
 {
   int i, j;

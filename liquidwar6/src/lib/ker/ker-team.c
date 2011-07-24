@@ -30,7 +30,7 @@
 #include "ker-internal.h"
 
 int
-_lw6ker_team_init (lw6ker_team_t * team, lw6ker_map_struct_t * map_struct,
+_lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
 		   lw6map_rules_t * rules)
 {
   int ret = 0;
@@ -39,8 +39,8 @@ _lw6ker_team_init (lw6ker_team_t * team, lw6ker_map_struct_t * map_struct,
   team->active = 0;
   team->map_struct = map_struct;
   team->gradient =
-    (lw6ker_zone_state_t *) LW6SYS_CALLOC (map_struct->nb_zones *
-					   sizeof (lw6ker_zone_state_t));
+    (_lw6ker_zone_state_t *) LW6SYS_CALLOC (map_struct->nb_zones *
+					    sizeof (_lw6ker_zone_state_t));
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
 
@@ -71,18 +71,18 @@ _lw6ker_team_init (lw6ker_team_t * team, lw6ker_map_struct_t * map_struct,
 }
 
 void
-_lw6ker_team_clear (lw6ker_team_t * team)
+_lw6ker_team_clear (_lw6ker_team_t * team)
 {
   if (team->gradient)
     {
       LW6SYS_FREE (team->gradient);
     }
 
-  memset (team, 0, sizeof (lw6ker_team_t));
+  memset (team, 0, sizeof (_lw6ker_team_t));
 }
 
 int
-_lw6ker_team_sync (lw6ker_team_t * dst, lw6ker_team_t * src)
+_lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
 {
   int ret = 0;
 
@@ -91,7 +91,7 @@ _lw6ker_team_sync (lw6ker_team_t * dst, lw6ker_team_t * src)
     {
       dst->active = src->active;
       memcpy (dst->gradient, src->gradient,
-	      src->map_struct->nb_zones * sizeof (lw6ker_zone_state_t));
+	      src->map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
       dst->cursor_ref_pot = src->cursor_ref_pot;
       dst->last_spread_dir = src->last_spread_dir;
       ret = 1;
@@ -107,7 +107,7 @@ _lw6ker_team_sync (lw6ker_team_t * dst, lw6ker_team_t * src)
 }
 
 void
-_lw6ker_team_update_checksum (lw6ker_team_t * team, u_int32_t * checksum)
+_lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
 {
   int i;
 
@@ -122,26 +122,26 @@ _lw6ker_team_update_checksum (lw6ker_team_t * team, u_int32_t * checksum)
 }
 
 void
-lw6ker_team_activate (lw6ker_team_t * team, lw6sys_xyz_t pos)
+_lw6ker_team_activate (_lw6ker_team_t * team, lw6sys_xyz_t pos)
 {
   team->active = 1;
 }
 
 void
-lw6ker_team_unactivate (lw6ker_team_t * team)
+_lw6ker_team_unactivate (_lw6ker_team_t * team)
 {
   team->active = 0;
 }
 
 void
-lw6ker_team_normalize_pot (lw6ker_team_t * team, lw6map_rules_t * rules)
+_lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
 {
   int32_t i;
   int32_t n;
   u_int32_t min_pot = rules->max_cursor_pot;
   u_int32_t max_pot = 0;
   u_int32_t delta;
-  lw6ker_zone_state_t *zone_states = team->gradient;
+  _lw6ker_zone_state_t *zone_states = team->gradient;
 
   n = team->map_struct->nb_zones;
   for (i = 0; i < n; ++i)
