@@ -55,39 +55,49 @@ mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
     mod_gl_utils_create_surface (utils_context, shape.w, shape.h);
   if (gradient_surface)
     {
-      /*
-         TODO fix this after major 201107 code rewrite
-       */
-#ifdef REWRITE201107
       int i;
       float grey;
-      lw6ker_zone_struct_t *zone;
-      lw6ker_team_t *team;
       int pot_min = 0;
       int pot_max = 0;
+      int nb_zones;
+      int potential;
+      lw6sys_xyz_t zone_pos;
+      int zone_size;
 
-      team = &map_state->teams[team_id];
-      if (map_state->map_struct->nb_zones > 0)
+      lw6ker_game_struct_get_zones_info (game_state->game_struct, &nb_zones,
+					 NULL);
+      if (nb_zones > 0)
 	{
-	  pot_min = team->gradient[0].potential;
-	  pot_max = team->gradient[0].potential;
+	  pot_min =
+	    lw6ker_game_state_get_zone_potential (game_state, 0, team_id);
+	  pot_max =
+	    lw6ker_game_state_get_zone_potential (game_state, 0, team_id);
 	}
 
-      for (i = 1; i < map_state->map_struct->nb_zones; ++i)
+      for (i = 1; i < nb_zones; ++i)
 	{
-	  pot_min = lw6sys_min (pot_min, team->gradient[i].potential);
-	  pot_max = lw6sys_max (pot_max, team->gradient[i].potential);
+	  pot_min =
+	    lw6sys_min (pot_min,
+			lw6ker_game_state_get_zone_potential (game_state, i,
+							      team_id));
+	  pot_max =
+	    lw6sys_max (pot_max,
+			lw6ker_game_state_get_zone_potential (game_state, i,
+							      team_id));
 	}
 
       pot_max = lw6sys_max (pot_min + 1, pot_max);
 
-      for (i = 0; i < map_state->map_struct->nb_zones; ++i)
+      for (i = 0; i < nb_zones; ++i)
 	{
-	  zone = &map_state->map_struct->zones[i];
-	  if (zone->pos.z == layer_id)
+	  lw6ker_game_struct_get_zone_info (game_state->game_struct, i,
+					    &zone_pos, &zone_size);
+	  if (zone_pos.z == layer_id)
 	    {
+	      potential =
+		lw6ker_game_state_get_zone_potential (game_state, i, team_id);
 	      grey =
-		((float) (team->gradient[i].potential - pot_min)) /
+		((float) (potential - pot_min)) /
 		((float) (pot_max - pot_min));
 	      grey *= DISPLAY_CYCLES;
 	      grey = fmod (grey, 1.0f);
@@ -95,14 +105,13 @@ mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
 	      color.r = color.g = color.b = grey;
 	      color.a = utils_context->const_data.gradient_opacity;
 
-	      mod_gl_utils_draw_rectfill (gradient_surface, zone->pos.x,
-					  zone->pos.y,
-					  zone->pos.x + zone->size - 1,
-					  zone->pos.y + zone->size - 1,
+	      mod_gl_utils_draw_rectfill (gradient_surface, zone_pos.x,
+					  zone_pos.y,
+					  zone_pos.x + zone_size - 1,
+					  zone_pos.y + zone_size - 1,
 					  lw6sys_color_f_to_i (&color));
 	    }
 	}
-#endif
     }
 
   return (gradient_surface);

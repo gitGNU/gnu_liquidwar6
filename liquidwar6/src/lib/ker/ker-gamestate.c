@@ -2082,3 +2082,24 @@ lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
 					  (((_lw6ker_game_state_t *)
 					    game_state)->map_state), x, y, z);
 }
+
+/**
+ * lw6ker_game_state_get_zone_potential
+ *
+ * @game_state: the game_state to query
+ * @i: the zone index
+ * @team_id: the team id (color)
+ *
+ * Gets the potential of a zone. In practice this is not needed to
+ * make the game function, you need not call this to know how to move
+ * fighters, however the information can be interesting for debugging.
+ *
+ * Return value: the potential
+ */
+int
+lw6ker_game_state_get_zone_potential (lw6ker_game_state_t * game_state,
+				      int i, int team_id)
+{
+  return ((_lw6ker_game_state_t *) game_state)->map_state.
+    teams[team_id].gradient[i].potential;
+}

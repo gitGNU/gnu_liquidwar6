@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-07-24 23:23+0200\n"
+"POT-Creation-Date: 2011-07-25 00:32+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -334,9 +334,24 @@ msgid "test FAILED, see log file \"%s\" for details"
 msgstr ""
 "le test a ÉCHOUÉ, voir le fichier de log \"%s\" pour plus d'informations"
 
-#: src/lib/ker/ker-test.c:122
+#: src/lib/ker/ker-test.c:66
 #, c-format
 msgid "%d,%d,%d is_fg=%d is_bg=%d"
+msgstr ""
+
+#: src/lib/ker/ker-test.c:70
+#, c-format
+msgid "nb_zones=%d max_zone_size=%d"
+msgstr ""
+
+#: src/lib/ker/ker-test.c:73
+#, c-format
+msgid "zone_pos=%d,%d,%d zone_size=%d"
+msgstr ""
+
+#: src/lib/ker/ker-test.c:136
+#, c-format
+msgid "potential of zone 0 is %d"
 msgstr ""
 
 #: src/scriptpo.c:1

@@ -454,3 +454,62 @@ lw6ker_game_struct_is_bg (lw6ker_game_struct_t * game_struct, int32_t x,
 	  (&(((_lw6ker_game_struct_t *) game_struct)->map_struct), x, y,
 	   z) >= 0);
 }
+
+/**
+ * lw6ker_game_struct_get_zones_info
+ *
+ * @game_struct: game_struct to query
+ * @nb_zones: the maximum zone size (out param, can be NULL)
+ * @max_zone_size: the maximum zone size (out param, can be NULL)
+ *
+ * This function gets information about the internal zoning system, can
+ * be used for debugging.
+ *
+ * Return value: none.
+ */
+void
+lw6ker_game_struct_get_zones_info (lw6ker_game_struct_t * game_struct,
+				   int *nb_zones, int *max_zone_size)
+{
+  if (nb_zones)
+    {
+      (*nb_zones) =
+	((_lw6ker_game_struct_t *) game_struct)->map_struct.nb_zones;
+    }
+  if (max_zone_size)
+    {
+      (*max_zone_size) =
+	((_lw6ker_game_struct_t *) game_struct)->map_struct.max_zone_size;
+    }
+}
+
+/**
+ * lw6ker_game_struct_get_zone_info
+ *
+ * @game_struct: game_struct to query
+ * @i: index of the zone to query
+ * @zone_pos: coord of the zone, top-left corner (out param, can be NULL)
+ * @zone_size: size of the zone (out param, can be NULL)
+ *
+ * This function gets information about the internal zoning system, can
+ * be used for debugging.
+ *
+ * Return value: none
+ */
+void
+lw6ker_game_struct_get_zone_info (lw6ker_game_struct_t * game_struct,
+				  int i,
+				  lw6sys_xyz_t * zone_pos, int *zone_size)
+{
+  _lw6ker_zone_struct_t *zone;
+
+  zone = &(((_lw6ker_game_struct_t *) game_struct)->map_struct.zones[i]);
+  if (zone_pos)
+    {
+      (*zone_pos) = zone->pos;
+    }
+  if (zone_size)
+    {
+      (*zone_size) = zone->size;
+    }
+}

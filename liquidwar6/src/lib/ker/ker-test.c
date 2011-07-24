@@ -49,6 +49,29 @@ static void
 print_game_struct_repr (lw6ker_game_struct_t * game_struct)
 {
   char *repr = NULL;
+  lw6sys_whd_t shape;
+  int x, y, z;
+  int nb_zones;
+  int max_zone_size;
+  int is_fg, is_bg;
+  lw6sys_xyz_t zone_pos;
+  int zone_size;
+
+  lw6ker_game_struct_get_shape (game_struct, &shape);
+  x = lw6sys_random (lw6ker_game_struct_get_w (game_struct));
+  y = lw6sys_random (lw6ker_game_struct_get_h (game_struct));
+  z = lw6sys_random (lw6ker_game_struct_get_d (game_struct));
+  is_fg = lw6ker_game_struct_is_fg (game_struct, x, y, z);
+  is_bg = lw6ker_game_struct_is_bg (game_struct, x, y, z);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("%d,%d,%d is_fg=%d is_bg=%d"), x,
+	      y, z, is_fg, is_bg);
+
+  lw6ker_game_struct_get_zones_info (game_struct, &nb_zones, &max_zone_size);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("nb_zones=%d max_zone_size=%d"), nb_zones,
+	      max_zone_size);
+  lw6ker_game_struct_get_zone_info (game_struct, 0, &zone_pos, &zone_size);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _("zone_pos=%d,%d,%d zone_size=%d"),
+	      zone_pos.x, zone_pos.y, zone_pos.z, zone_size);
 
   repr = lw6ker_game_struct_repr (game_struct);
   if (repr)
@@ -74,8 +97,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   lw6ker_fighter_t *fighter3;
   lw6sys_whd_t shape;
   int x, y, z;
-  int is_fg, is_bg;
   lw6ker_cursor_array_t cursor_array;
+  int potential;
 
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
@@ -107,20 +130,11 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 	  x = lw6sys_random (lw6ker_game_state_get_w (game_state));
 	  y = lw6sys_random (lw6ker_game_state_get_h (game_state));
 	  z = lw6sys_random (lw6ker_game_state_get_d (game_state));
-	  lw6ker_game_struct_get_shape (game_state->game_struct, &shape);
-	  x =
-	    lw6sys_random (lw6ker_game_struct_get_w
-			   (game_state->game_struct));
-	  y =
-	    lw6sys_random (lw6ker_game_struct_get_h
-			   (game_state->game_struct));
-	  z =
-	    lw6sys_random (lw6ker_game_struct_get_d
-			   (game_state->game_struct));
-	  is_fg = lw6ker_game_struct_is_fg (game_state->game_struct, x, y, z);
-	  is_bg = lw6ker_game_struct_is_bg (game_state->game_struct, x, y, z);
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _("%d,%d,%d is_fg=%d is_bg=%d"), x,
-		      y, z, is_fg, is_bg);
+	  potential =
+	    lw6ker_game_state_get_zone_potential (game_state, 0,
+						  LW6MAP_TEAM_COLOR_RED);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _("potential of zone 0 is %d"),
+		      potential);
 	  fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
 	  if (fighter_id >= 0)
 	    {

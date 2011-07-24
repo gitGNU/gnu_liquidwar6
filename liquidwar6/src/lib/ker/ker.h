@@ -256,6 +256,9 @@ extern lw6ker_fighter_t
 extern lw6ker_fighter_t
   * lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
 					  int32_t x, int32_t y, int32_t z);
+extern int lw6ker_game_state_get_zone_potential (lw6ker_game_state_t *
+						 game_state, int i,
+						 int team_id);
 
 /*
  * In gamestruct.c
@@ -284,6 +287,13 @@ extern int lw6ker_game_struct_is_fg (lw6ker_game_struct_t * game_struct,
 				     int32_t x, int32_t y, int32_t z);
 extern int lw6ker_game_struct_is_bg (lw6ker_game_struct_t * game_struct,
 				     int32_t x, int32_t y, int32_t z);
+extern void lw6ker_game_struct_get_zones_info (lw6ker_game_struct_t *
+					       game_struct, int *nb_zones,
+					       int *max_zone_size);
+extern void lw6ker_game_struct_get_zone_info (lw6ker_game_struct_t *
+					      game_struct, int i,
+					      lw6sys_xyz_t * zone_pos,
+					      int *zone_size);
 
 /*
  * in scorearray.c

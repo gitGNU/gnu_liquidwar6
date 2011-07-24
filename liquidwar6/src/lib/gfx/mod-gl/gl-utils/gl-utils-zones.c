@@ -46,35 +46,36 @@ mod_gl_utils_create_zones_surface (mod_gl_utils_context_t * utils_context,
     mod_gl_utils_create_surface (utils_context, shape.w, shape.h);
   if (zones_surface)
     {
-      /*
-       * TODO rewrite this after major 201107 rewrite
-       */
-#ifdef REWRITE201107
       int i;
       float grey;
-      lw6ker_zone_struct_t *zone;
       int log_base;
+      int nb_zones, max_zone_size;
+      lw6sys_xyz_t zone_pos;
+      int zone_size;
 
-      log_base = map_struct->max_zone_size;
+      lw6ker_game_struct_get_zones_info (game_struct, &nb_zones,
+					 &max_zone_size);
+
+      log_base = max_zone_size;
       if (log_base <= 1)
 	{
 	  log_base = 2;
 	}
 
-      for (i = 0; i < map_struct->nb_zones; ++i)
+      for (i = 0; i < nb_zones; ++i)
 	{
-	  zone = &map_struct->zones[i];
-	  grey = log (zone->size) / log (log_base);
+	  lw6ker_game_struct_get_zone_info (game_struct, i, &zone_pos,
+					    &zone_size);
+	  grey = log (zone_size) / log (log_base);
 
 	  color.r = color.g = color.b = grey;
 	  color.a = utils_context->const_data.gradient_opacity;
 
-	  mod_gl_utils_draw_rectfill (zones_surface, zone->pos.x, zone->pos.y,
-				      zone->pos.x + zone->size - 1,
-				      zone->pos.y + zone->size - 1,
+	  mod_gl_utils_draw_rectfill (zones_surface, zone_pos.x, zone_pos.y,
+				      zone_pos.x + zone_size - 1,
+				      zone_pos.y + zone_size - 1,
 				      lw6sys_color_f_to_i (&color));
 	}
-#endif
     }
 
   return (zones_surface);

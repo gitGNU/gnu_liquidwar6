@@ -4486,6 +4486,20 @@ results on
      *Return value:*  pointer to the fighter at this position, or NULL
      if none.
 
+ -- Function: int lw6ker_game_state_get_zone_potential
+          (lw6ker_game_state_t * GAME_STATE, int I, int TEAM_ID)
+     GAME_STATE:  the game_state to query
+
+     I:  the zone index
+
+     TEAM_ID:  the team id (color)
+
+     Gets the potential of a zone. In practice this is not needed to
+     make the game function, you need not call this to know how to move
+     fighters, however the information can be interesting for debugging.
+
+     *Return value:*  the potential
+
  -- Function: lw6ker_game_struct_t * lw6ker_game_struct_new
           (lw6map_level_t * LEVEL, lw6sys_progress_t * PROGRESS)
      LEVEL:  the level on which the game_struct is based
@@ -4629,6 +4643,37 @@ results on
 
      *Return value:*  1 if background (wall, fighters can move), 0 if
      not
+
+ -- Function: void lw6ker_game_struct_get_zones_info
+          (lw6ker_game_struct_t * GAME_STRUCT, int * NB_ZONES, int *
+          MAX_ZONE_SIZE)
+     GAME_STRUCT:  game_struct to query
+
+     NB_ZONES:  the maximum zone size (out param, can be NULL)
+
+     MAX_ZONE_SIZE:  the maximum zone size (out param, can be NULL)
+
+     This function gets information about the internal zoning system,
+     can be used for debugging.
+
+     *Return value:*  none.
+
+ -- Function: void lw6ker_game_struct_get_zone_info
+          (lw6ker_game_struct_t * GAME_STRUCT, int I, lw6sys_xyz_t *
+          ZONE_POS, int * ZONE_SIZE)
+     GAME_STRUCT:  game_struct to query
+
+     I:  index of the zone to query
+
+     ZONE_POS:  coord of the zone, top-left corner (out param, can be
+     NULL)
+
+     ZONE_SIZE:  size of the zone (out param, can be NULL)
+
+     This function gets information about the internal zoning system,
+     can be used for debugging.
+
+     *Return value:*  none
 
  -- Function: int lw6ker_score_array_update (lw6ker_score_array_t *
           SCORE_ARRAY, lw6ker_game_state_t * GAME_STATE)
