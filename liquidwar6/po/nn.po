@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-06-03 08:34+0200\n"
+"POT-Creation-Date: 2011-07-24 23:23+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -330,6 +330,11 @@ msgstr "alle testane vart utførte utan feil"
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr "test feila (sjå loggfila «%s» for meir informasjon)"
+
+#: src/lib/ker/ker-test.c:122
+#, c-format
+msgid "%d,%d,%d is_fg=%d is_bg=%d"
+msgstr ""
 
 #: src/scriptpo.c:1
 msgid "One life (last wins)"

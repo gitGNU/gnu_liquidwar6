@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.10beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-06-03 08:34+0200\n"
+"POT-Creation-Date: 2011-07-24 23:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -323,6 +323,11 @@ msgstr ""
 #: src/lib/lw6-options.c:165
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
+msgstr ""
+
+#: src/lib/ker/ker-test.c:122
+#, c-format
+msgid "%d,%d,%d is_fg=%d is_bg=%d"
 msgstr ""
 
 #: src/scriptpo.c:1
