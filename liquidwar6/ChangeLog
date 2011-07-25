@@ -1,5 +1,7 @@
 2011-07-25 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added new cursors by Kasper Hviid.
+
 	* Added structs to handle custom cursors.
 
 2011-07-24 : Christian Mauduit <ufoot@ufoot.org>

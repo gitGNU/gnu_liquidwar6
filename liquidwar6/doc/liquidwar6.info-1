@@ -6511,7 +6511,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
  -- XML key: `blink-cursor'
      Type: boolean
 
-     Default value: true
+     Default value: false
 
      If set, then cursor will blink, allowing you to see what's under
      the cursor.  It's just a matter of taste, you might to always have

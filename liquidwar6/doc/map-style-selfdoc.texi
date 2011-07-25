@@ -107,7 +107,7 @@ instance. The possible values are 'void' and 'bubbles'.
 @deffnx {XML key} @code{blink-cursor}
 Type: boolean
 
-Default value: true
+Default value: false
 
 If set, then cursor will blink, allowing you to see what's under the cursor.
 It's just a matter of taste, you might to always have your cursor displayed,
