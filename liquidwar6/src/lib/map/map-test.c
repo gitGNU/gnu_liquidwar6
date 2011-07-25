@@ -224,6 +224,43 @@ _print_body (lw6map_body_t * body)
   fflush (stdout);
 }
 
+static void
+_print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
+{
+  int x, y;
+  lw6sys_color_8_t color;
+  u_int8_t color_alpha;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cursor_texture:"));
+  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
+    {
+      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
+	{
+	  color = lw6map_cursor_texture_get (cursor_texture, x, y);
+	  color_alpha =
+	    lw6map_cursor_texture_get_color_alpha (cursor_texture, x, y);
+	  if (color_alpha < 128)
+	    {
+	      if (color.a < 128)
+		{
+		  printf (".");
+		}
+	      else
+		{
+		  printf ("#");
+		}
+	    }
+	  else
+	    {
+	      printf ("C");
+	    }
+	}
+      printf ("\n");
+    }
+
+  fflush (stdout);
+}
+
 /*
  * Testing defaults
  */
@@ -249,6 +286,7 @@ test_defaults ()
 	    has_alpha = lw6map_texture_has_alpha (&(level->texture));
 	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("has_alpha=%d"), has_alpha);
 	    _print_body (&level->body);
+	    _print_cursor_texture (&level->cursor_texture);
 	    LW6SYS_FREE (repr);
 	  }
 	else

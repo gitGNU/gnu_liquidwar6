@@ -30,6 +30,7 @@
 #define LW6MAP_MAX_NB_CURSORS 26
 #define LW6MAP_MAX_NB_NODES 26
 #define LW6MAP_MAX_NB_DIR_TRIES 7
+#define LW6MAP_CURSOR_TEXTURE_SIZE 64
 
 #define LW6MAP_RULES_POSITION_MODE_PREDEFINED 0
 #define LW6MAP_RULES_POSITION_MODE_PICK_EXISTING 1
@@ -395,9 +396,10 @@ extern char *LW6MAP_RULES_LIST[];
 #define LW6MAP_STYLE_DEFAULT_ANIMATION_DENSITY 1.0f
 #define LW6MAP_STYLE_DEFAULT_ANIMATION_SPEED 1.0f
 #define LW6MAP_STYLE_DEFAULT_CURSOR_SIZE 1.0f
+#define LW6MAP_STYLE_DEFAULT_COLORIZE_CURSOR 1
+#define LW6MAP_STYLE_DEFAULT_BLINK_CURSOR 1
 #define LW6MAP_STYLE_DEFAULT_HIDDEN_LAYER_ALPHA 0.1f
 #define LW6MAP_STYLE_DEFAULT_COLORIZE 1
-#define LW6MAP_STYLE_DEFAULT_COLORIZE_CURSOR 1
 #define LW6MAP_STYLE_DEFAULT_PIXELIZE 0
 #define LW6MAP_STYLE_DEFAULT_COLOR_BASE_BG "#000"
 #define LW6MAP_STYLE_DEFAULT_COLOR_BASE_FG "#ccc"
@@ -532,6 +534,14 @@ typedef struct lw6map_texture_s
   lw6map_color_couple_t guessed_color_alternate;
 } lw6map_texture_t;
 
+typedef struct lw6map_cursor_texture_s
+{
+  lw6sys_color_8_t
+    data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE];
+  u_int8_t
+    color_alpha_data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE];
+} lw6map_cursor_texture_t;
+
 typedef struct lw6map_color_set_s
 {
   lw6map_color_couple_t color_base;
@@ -565,9 +575,10 @@ typedef struct lw6map_style_s
   float animation_density;
   float animation_speed;
   float cursor_size;
+  int colorize_cursor;
+  int blink_cursor;
   float hidden_layer_alpha;
   int colorize;
-  int colorize_cursor;
   int pixelize;
   lw6map_color_set_t color_set;
   char *music_file;
@@ -588,6 +599,7 @@ typedef struct lw6map_level_s
   lw6map_local_info_t local_info;
   lw6map_body_t body;
   lw6map_texture_t texture;
+  lw6map_cursor_texture_t cursor_texture;
   lw6map_param_t param;
 } lw6map_level_t;
 
@@ -661,6 +673,25 @@ extern void lw6map_coords_fix_xy (lw6map_rules_t * rules,
 				  lw6sys_whd_t * shape, int *x, int *y);
 extern void lw6map_coords_fix_z (lw6map_rules_t * rules,
 				 lw6sys_whd_t * shape, int *z);
+
+/* map-cursortexture.c */
+extern void lw6map_cursor_texture_set (lw6map_cursor_texture_t *
+				       cursor_texture, int x, int y,
+				       lw6sys_color_8_t color);
+extern lw6sys_color_8_t lw6map_cursor_texture_get (lw6map_cursor_texture_t *
+						   cursor_texture, int x,
+						   int y);
+extern void lw6map_cursor_texture_set_color_alpha (lw6map_cursor_texture_t *
+						   cursor_texture, int x,
+						   int y,
+						   u_int8_t color_alpha);
+extern u_int8_t lw6map_cursor_texture_get_color_alpha (lw6map_cursor_texture_t
+						       * cursor_texture,
+						       int x, int y);
+extern void lw6map_cursor_texture_clear (lw6map_cursor_texture_t *
+					 cursor_texture);
+extern void lw6map_cursor_texture_builtin (lw6map_cursor_texture_t *
+					   cursor_texture);
 
 /* map-dup.c */
 extern lw6map_level_t *lw6map_dup (lw6map_level_t * source,

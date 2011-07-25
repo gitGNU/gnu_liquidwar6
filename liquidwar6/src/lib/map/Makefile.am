@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libmap.la
-libmap_la_SOURCES = map-body.c map-color.c map-coords.c map-dup.c map-hexa.c map-layer.c map-level.c map-localinfo.c map-metadata.c map-metalayer.c map-rules.c map-param.c map-style.c map-test.c map-texture.c
+libmap_la_SOURCES = map-body.c map-color.c map-coords.c map-cursortexture.c map-dup.c map-hexa.c map-layer.c map-level.c map-localinfo.c map-metadata.c map-metalayer.c map-rules.c map-param.c map-style.c map-test.c map-texture.c
 libmapdir= $(includedir)/@PACKAGE_TARNAME@/map
 libmap_HEADERS = map.h
 

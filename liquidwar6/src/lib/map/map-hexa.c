@@ -154,6 +154,37 @@ push_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
+push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
+		     lw6map_cursor_texture_t * cursor_texture)
+{
+  int ret = 1;
+  int x, y;
+
+  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
+    {
+      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_push_color (hexa_serializer,
+						  lw6map_cursor_texture_get
+						  (cursor_texture, x, y));
+	}
+    }
+  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
+    {
+      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
+						 lw6map_cursor_texture_get_color_alpha
+						 (cursor_texture, x, y));
+	}
+    }
+
+  return ret;
+}
+
+static int
 push_param (lw6sys_hexa_serializer_t * hexa_serializer,
 	    lw6map_param_t * param)
 {
@@ -203,11 +234,20 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
     && lw6sys_hexa_serializer_push_float (hexa_serializer,
 					  param->style.animation_speed);
   ret = ret
-    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
-					  param->style.colorize);
+    && lw6sys_hexa_serializer_push_float (hexa_serializer,
+					  param->style.cursor_size);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					  param->style.colorize_cursor);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  param->style.blink_cursor);
+  ret = ret
+    && lw6sys_hexa_serializer_push_float (hexa_serializer,
+					  param->style.hidden_layer_alpha);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  param->style.colorize);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					  param->style.pixelize);
@@ -354,6 +394,8 @@ lw6map_to_hexa (lw6map_level_t * level)
       ok = ok && push_metadata (hexa_serializer, &(level->metadata));
       ok = ok && push_body (hexa_serializer, &(level->body));
       ok = ok && push_texture (hexa_serializer, &(level->texture));
+      ok = ok
+	&& push_cursor_texture (hexa_serializer, &(level->cursor_texture));
       ok = ok && push_param (hexa_serializer, &(level->param));
       if (ok)
 	{
@@ -592,6 +634,39 @@ pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 }
 
 static int
+pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
+		    lw6map_cursor_texture_t * cursor_texture)
+{
+  int ret = 1;
+  int x, y;
+  lw6sys_color_8_t color = { 0, 0, 0, 0 };
+  int8_t color_alpha = 0;
+
+  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
+    {
+      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_pop_color (hexa_serializer, &color);
+	  lw6map_cursor_texture_set (cursor_texture, x, y, color);
+	}
+    }
+  for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
+    {
+      for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
+	{
+	  ret = ret
+	    && lw6sys_hexa_serializer_pop_int8 (hexa_serializer,
+						&color_alpha);
+	  lw6map_cursor_texture_set_color_alpha (cursor_texture, x, y,
+						 color_alpha);
+	}
+    }
+
+  return ret;
+}
+
+static int
 pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
 {
   int ret = 1;
@@ -645,11 +720,20 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
     && lw6sys_hexa_serializer_pop_float (hexa_serializer,
 					 &(param->style.animation_speed));
   ret = ret
-    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
-					 &(param->style.colorize));
+    && lw6sys_hexa_serializer_pop_float (hexa_serializer,
+					 &(param->style.cursor_size));
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(param->style.colorize_cursor));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(param->style.blink_cursor));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_float (hexa_serializer,
+					 &(param->style.hidden_layer_alpha));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(param->style.colorize));
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(param->style.pixelize));
@@ -800,6 +884,8 @@ lw6map_from_hexa (char *hexa)
 	  ok = ok && pop_metadata (hexa_serializer, &(level->metadata));
 	  ok = ok && pop_body (hexa_serializer, &(level->body));
 	  ok = ok && pop_texture (hexa_serializer, &(level->texture));
+	  ok = ok
+	    && pop_cursor_texture (hexa_serializer, &(level->cursor_texture));
 	  ok = ok && pop_param (hexa_serializer, &(level->param));
 	  if (!lw6sys_hexa_serializer_eof (hexa_serializer))
 	    {

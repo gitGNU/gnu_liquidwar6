@@ -1436,6 +1436,14 @@ populate_references ()
 		  _x_
 		  ("Size of the cursors on the map. 1 is the default, setting it to a higher value will make cursors bigger, a lower value will make them smaller."),
 		  LW6MAP_STYLE_DEFAULT_CURSOR_SIZE, 0, 10);
+  POPULATE_BOOL (LW6DEF_COLORIZE_CURSOR,
+		 _x_
+		 ("If set, then all cursors will use the automatic guessed colors, or the specified colors, but basically they won't be displayed using their native colors. This can be usefull for you can wish to use a generic non-colored texture for your cursor and let it be colorized automatically so that it's accorded to the level."),
+		 LW6MAP_STYLE_DEFAULT_COLORIZE_CURSOR);
+  POPULATE_BOOL (LW6DEF_BLINK_CURSOR,
+		 _x_
+		 ("If set, then cursor will blink, allowing you to see what's under the cursor. It's just a matter of taste, you might to always have your cursor displayed, or prefer to have it disappear from time to time so that you can see the action below"),
+		 LW6MAP_STYLE_DEFAULT_BLINK_CURSOR);
   POPULATE_FLOAT (LW6DEF_HIDDEN_LAYER_ALPHA,
 		  _x_
 		  ("Whenever players are supposed to be hidden behind a wall, for instance if they are in layer 2 and layer 1 is filled with walls, it's still possible to see them, but with a low alpha value (almost transparent). This parameter allows you to trick this value, 0 will make these players absolutely invisible, 1 will make them totally opaque, like if they were on layer 1."),
@@ -1443,10 +1451,6 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_COLORIZE,
 		 _x_
 		 ("If set, then all background drawings including textures will use the background colors. This means, for instance, that if background colors are set automatically by color-auto from the map texture, then the background will adopt the same range of colors than the map itself. In short, the background will mimic the map."),
-		 LW6MAP_STYLE_DEFAULT_COLORIZE);
-  POPULATE_BOOL (LW6DEF_COLORIZE_CURSOR,
-		 _x_
-		 ("If set, then all cursors will use the automatic guessed colors, or the specified colors, but basically they won't be displayed using their native colors."),
 		 LW6MAP_STYLE_DEFAULT_COLORIZE);
   POPULATE_BOOL (LW6DEF_PIXELIZE,
 		 _x_

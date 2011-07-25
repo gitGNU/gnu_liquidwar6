@@ -47,6 +47,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_BIN_ID "bin-id"
 #define LW6DEF_BIND_IP "bind-ip"
 #define LW6DEF_BIND_PORT "bind-port"
+#define LW6DEF_BLINK_CURSOR "blink-cursor"
 #define LW6DEF_BOOST_POWER "boost-power"
 #define LW6DEF_BOT_IQ "bot-iq"
 #define LW6DEF_BOT_SPEED "bot-speed"

@@ -40,6 +40,7 @@
 (define lw6def-bin-id "bin-id")
 (define lw6def-bind-ip "bind-ip")
 (define lw6def-bind-port "bind-port")
+(define lw6def-blink-cursor "blink-cursor")
 (define lw6def-boost-power "boost-power")
 (define lw6def-bot-iq "bot-iq")
 (define lw6def-bot-speed "bot-speed")

@@ -120,6 +120,7 @@ lw6map_builtin_custom (int w, int h, int d, int noise_percent)
       lw6map_body_builtin_custom (&level->body, w, h, d, noise_percent,
 				  &level->param.rules);
       lw6map_texture_from_body (&level->texture, &level->body, &color);
+      lw6map_cursor_texture_builtin (&level->cursor_texture);
       lw6map_metadata_defaults (&level->metadata);
     }
 

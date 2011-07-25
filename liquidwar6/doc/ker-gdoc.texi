@@ -1,3 +1,13 @@
+@deftypefun {void} {lw6ker_cursor_reset} (lw6ker_cursor_t * @var{cursor})
+@var{cursor}:  the cursor to reset
+
+Sets a cursor to defaults (disabled). This function will not touch
+the node_id and cursor_id fields, so you can call it on an already
+used cursor, it will stay usable.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {lw6ker_game_state_t *} {lw6ker_game_state_new} (lw6ker_game_struct_t * @var{game_struct}, lw6sys_progress_t * @var{progress})
 @var{game_struct}:  game_struct use to construct the object
 
@@ -218,50 +228,40 @@ Tells wether a cursor is present in the game.
 @strong{Return value:}  1 if cursor exists, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6ker_game_state_get_cursor_info} (lw6ker_game_state_t *        @var{game_state}, u_int16_t @var{cursor_id}, u_int64_t * @var{node_id}, char * @var{letter}, int * @var{team_color}, int32_t * @var{x}, int32_t * @var{y})
+@deftypefun {int} {lw6ker_game_state_get_cursor} (lw6ker_game_state_t *          @var{game_state}, lw6ker_cursor_t * @var{cursor}, u_int16_t @var{cursor_id})
 @var{game_state}:  the game_state to query
+
+@var{cursor}:  the cursor data (out param)
 
 @var{cursor_id}:  the cursor to query
 
-@var{node_id}:  the node the cursor belongs to (out param)
-
-@var{letter}:  ASCII letter associated to the cursor (out param)
-
-@var{team_color}:  team color of the cursor (out param)
-
-@var{x}:  x position of the cursor (out param)
-
-@var{y}:  y position of the cursor (out param)
-
-Returns information about a given cursor.
 
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {void} {lw6ker_game_state_get_cursor_array} (lw6ker_game_state_t * @var{game_state}, lw6ker_cursor_array_t * @var{cursor_array})
+@deftypefun {void} {lw6ker_game_state_get_cursor_by_index} (lw6ker_game_state_t *            @var{game_state}, lw6ker_cursor_t * @var{cursor}, int @var{i})
 @var{game_state}:  the game state to query
 
-@var{cursor_array}:  the cursor array (out param)
+@var{cursor}:  the cursor (out param)
 
-Copies the cursor_array informations to the given struct pointer.
+@var{i}:  the index
+
+Gets the cursor information, using its index. This is usefull to walk
+the whole cursor without knowing their ids.
 
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ker_game_state_set_cursor} (lw6ker_game_state_t * @var{game_state}, u_int64_t @var{node_id}, u_int16_t @var{cursor_id}, int32_t @var{x}, int32_t @var{y})
+@deftypefun {int} {lw6ker_game_state_set_cursor} (lw6ker_game_state_t * @var{game_state}, lw6ker_cursor_t * @var{cursor})
 @var{game_state}:  the game_state to act upon
 
-@var{node_id}:  the node issuing the command
-
-@var{cursor_id}:  the cursor to set
-
-@var{x}:  x position
-
-@var{y}:  y position
+@var{cursor}:  the cursor
 
 Sets a cursor, that is, changes its position, this is pretty much
 anything we can do about a cursor except adding or removing it, just
-because of Liquid War very simple rules.
+because of Liquid War very simple rules. The passed pointer may be
+freed after the call, only the cursor_id, node_id, x and y fields
+are used, others are ignored.
 
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun

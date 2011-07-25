@@ -101,6 +101,20 @@ also conditions the colors used for other items, such as the menus for
 instance. The possible values are 'void' and 'bubbles'.
 @end deffn
 
+@subsection blink-cursor
+@deffn {Command-line option} @code{--blink-cursor=<value>}
+@deffnx {Environment variable} @code{LW6_BLINK_CURSOR}
+@deffnx {XML key} @code{blink-cursor}
+Type: boolean
+
+Default value: true
+
+If set, then cursor will blink, allowing you to see what's under the cursor.
+It's just a matter of taste, you might to always have your cursor displayed,
+or prefer to have it disappear from time to time so that you can see the
+action below
+@end deffn
+
 @subsection color-alternate-bg
 @deffn {Command-line option} @code{--color-alternate-bg=<value>}
 @deffnx {Environment variable} @code{LW6_COLOR_ALTERNATE_BG}
@@ -182,7 +196,9 @@ Default value: true
 
 If set, then all cursors will use the automatic guessed colors, or the
 specified colors, but basically they won't be displayed using their native
-colors.
+colors. This can be usefull for you can wish to use a generic non-colored
+texture for your cursor and let it be colorized automatically so that it's
+accorded to the level.
 @end deffn
 
 @subsection cursor-size

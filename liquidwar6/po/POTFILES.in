@@ -138,6 +138,7 @@ src/lib/map/map-color.c
 src/lib/map/map-texture.c
 src/lib/map/map-level.c
 src/lib/map/map-metalayer.c
+src/lib/map/map-cursortexture.c
 src/lib/map/map-hexa.c
 src/lib/map/map-param.c
 src/lib/map/map-metadata.c

@@ -561,9 +561,10 @@ update_map_style (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_ANIMATION_DENSITY);
   lw6sys_list_push_back (list, LW6DEF_ANIMATION_SPEED);
   lw6sys_list_push_back (list, LW6DEF_CURSOR_SIZE);
+  lw6sys_list_push_back (list, LW6DEF_COLORIZE_CURSOR);
+  lw6sys_list_push_back (list, LW6DEF_BLINK_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_HIDDEN_LAYER_ALPHA);
   lw6sys_list_push_back (list, LW6DEF_COLORIZE);
-  lw6sys_list_push_back (list, LW6DEF_COLORIZE_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_PIXELIZE);
   lw6sys_list_push_back (list, LW6DEF_COLOR_BASE_BG);
   lw6sys_list_push_back (list, LW6DEF_COLOR_BASE_FG);

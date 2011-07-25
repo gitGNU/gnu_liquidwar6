@@ -19,6 +19,7 @@ bench-value
 bin-id
 bind-ip
 bind-port
+blink-cursor
 boost-power
 bot-iq
 bot-speed

@@ -110,6 +110,80 @@ The index of the color, between 0 & 9
 @strong{Return value:}  an integer.
 @end deftypefun
 
+@deftypefun {void} {lw6map_cursor_texture_set} (lw6map_cursor_texture_t * @var{cursor_texture}, int @var{x}, int @var{y}, lw6sys_color_8_t @var{color})
+@var{cursor_texture}:  the cursor texture to change
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+@var{color}:  the color
+
+Sets a pixel in the cursor texture.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6map_cursor_texture_get} (lw6map_cursor_texture_t * @var{cursor_texture}, int @var{x}, int @var{y})
+@var{cursor_texture}:  the cursor texture to query
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+Gets a pixel in the cursor texture.
+
+@strong{Return value:}  the color
+@end deftypefun
+
+@deftypefun {void} {lw6map_cursor_texture_set_color_alpha} (lw6map_cursor_texture_t *            @var{cursor_texture}, int @var{x}, int @var{y}, u_int8_t @var{color_alpha})
+@var{cursor_texture}:  the cursor texture to change
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+@var{color_alpha}:  the alpha channel value
+
+Sets the color_alpha channel of the cursor texture, the color alpha channel
+is set by the cursor-color.png file, it enables colorization with team color
+at run-time.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {u_int8_t} {lw6map_cursor_texture_get_color_alpha} (lw6map_cursor_texture_t *            @var{cursor_texture}, int @var{x}, int @var{y})
+@var{cursor_texture}:  the cursor texture to query
+
+@var{x}:  x coord
+
+@var{y}:  y coord
+
+Gets the color_alpha channel of the cursor texture, the color alpha channel
+is set by the cursor-color.png file, it enables colorization with team color
+at run-time.
+
+@strong{Return value:}  the color
+@end deftypefun
+
+@deftypefun {void} {lw6map_cursor_texture_clear} (lw6map_cursor_texture_t * @var{cursor_texture})
+@var{cursor_texture}:  the cursor texture to clear
+
+Clears a cursor texture (set it all transparent).
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6map_cursor_texture_builtin} (lw6map_cursor_texture_t * @var{cursor_texture})
+@var{cursor_texture}:  the cursor texture to clear
+
+Sets a cursor texture to the builtin defauts, that is a circle
+that is black on the outside and gets white/transparent in the
+middle.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {lw6map_level_t *} {lw6map_dup} (lw6map_level_t * @var{source}, lw6sys_progress_t * @var{progress})
 @var{source}:  the map to copy
 

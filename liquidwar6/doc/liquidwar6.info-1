@@ -6489,7 +6489,22 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      items, such as the menus for instance. The possible values are
      'void' and 'bubbles'.
 
-4.11.8 color-alternate-bg
+4.11.8 blink-cursor
+-------------------
+
+ -- Command-line option: `--blink-cursor=<value>'
+ -- Environment variable: `LW6_BLINK_CURSOR'
+ -- XML key: `blink-cursor'
+     Type: boolean
+
+     Default value: true
+
+     If set, then cursor will blink, allowing you to see what's under
+     the cursor.  It's just a matter of taste, you might to always have
+     your cursor displayed, or prefer to have it disappear from time to
+     time so that you can see the action below
+
+4.11.9 color-alternate-bg
 -------------------------
 
  -- Command-line option: `--color-alternate-bg=<value>'
@@ -6505,8 +6520,8 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      only need to define color-base-bg, color-base-fg,
      color-alternate-bg and color-alternate-fg.
 
-4.11.9 color-alternate-fg
--------------------------
+4.11.10 color-alternate-fg
+--------------------------
 
  -- Command-line option: `--color-alternate-fg=<value>'
  -- Environment variable: `LW6_COLOR_ALTERNATE_FG'
@@ -6521,7 +6536,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      only need to define color-base-bg, color-base-fg,
      color-alternate-bg and color-alternate-fg.
 
-4.11.10 color-base-bg
+4.11.11 color-base-bg
 ---------------------
 
  -- Command-line option: `--color-base-bg=<value>'
@@ -6537,7 +6552,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      to define color-base-bg, color-base-fg, color-alternate-bg and
      color-alternate-fg.
 
-4.11.11 color-base-fg
+4.11.12 color-base-fg
 ---------------------
 
  -- Command-line option: `--color-base-fg=<value>'
@@ -6553,7 +6568,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      to define color-base-bg, color-base-fg, color-alternate-bg and
      color-alternate-fg.
 
-4.11.12 colorize
+4.11.13 colorize
 ----------------
 
  -- Command-line option: `--colorize=<value>'
@@ -6569,7 +6584,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      texture, then the background will adopt the same range of colors
      than the map itself. In short, the background will mimic the map.
 
-4.11.13 colorize-cursor
+4.11.14 colorize-cursor
 -----------------------
 
  -- Command-line option: `--colorize-cursor=<value>'
@@ -6581,9 +6596,11 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
 
      If set, then all cursors will use the automatic guessed colors, or
      the specified colors, but basically they won't be displayed using
-     their native colors.
+     their native colors. This can be usefull for you can wish to use a
+     generic non-colored texture for your cursor and let it be
+     colorized automatically so that it's accorded to the level.
 
-4.11.14 cursor-size
+4.11.15 cursor-size
 -------------------
 
  -- Command-line option: `--cursor-size=<value>'
@@ -6597,7 +6614,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      higher value will make cursors bigger, a lower value will make
      them smaller.
 
-4.11.15 hidden-layer-alpha
+4.11.16 hidden-layer-alpha
 --------------------------
 
  -- Command-line option: `--hidden-layer-alpha=<value>'
@@ -6614,7 +6631,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      value, 0 will make these players absolutely invisible, 1 will make
      them totally opaque, like if they were on layer 1.
 
-4.11.16 hud-color-frame-bg
+4.11.17 hud-color-frame-bg
 --------------------------
 
  -- Command-line option: `--hud-color-frame-bg=<value>'
@@ -6627,7 +6644,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the background color for the hud frame. Ignored if
      hud-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.17 hud-color-frame-fg
+4.11.18 hud-color-frame-fg
 --------------------------
 
  -- Command-line option: `--hud-color-frame-fg=<value>'
@@ -6640,7 +6657,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the foreground color for the hud frame. Ignored if
      hud-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.18 hud-color-text-bg
+4.11.19 hud-color-text-bg
 -------------------------
 
  -- Command-line option: `--hud-color-text-bg=<value>'
@@ -6653,7 +6670,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the background color for hud text. Ignored if
      hud-color-auto is set.  Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.19 hud-color-text-fg
+4.11.20 hud-color-text-fg
 -------------------------
 
  -- Command-line option: `--hud-color-text-fg=<value>'
@@ -6666,7 +6683,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the foreground color for hud text. Ignored if
      hud-color-auto is set.  Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.20 hud-style
+4.11.21 hud-style
 -----------------
 
  -- Command-line option: `--hud-style=<value>'
@@ -6680,7 +6697,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      means, who is winning, are other status-like informations.
      Possible values include 'floating' and 'tactical'.
 
-4.11.21 keep-ratio
+4.11.22 keep-ratio
 ------------------
 
  -- Command-line option: `--keep-ratio=<value>'
@@ -6693,7 +6710,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines wether the map should keep its ratio, or if it should be
      stretched to fill the shape of your screen.
 
-4.11.22 menu-color-default-bg
+4.11.23 menu-color-default-bg
 -----------------------------
 
  -- Command-line option: `--menu-color-default-bg=<value>'
@@ -6706,7 +6723,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the default background color for menus. Ignored if
      menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.23 menu-color-default-fg
+4.11.24 menu-color-default-fg
 -----------------------------
 
  -- Command-line option: `--menu-color-default-fg=<value>'
@@ -6721,7 +6738,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      menus. Ignored if menu-color-auto is set. Can be #RGB, #RGBA,
      #RRGGBB or #RRGGBBAA.
 
-4.11.24 menu-color-disabled-bg
+4.11.25 menu-color-disabled-bg
 ------------------------------
 
  -- Command-line option: `--menu-color-disabled-bg=<value>'
@@ -6734,7 +6751,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the background color for a disabled menu item. Ignored if
      menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.25 menu-color-disabled-fg
+4.11.26 menu-color-disabled-fg
 ------------------------------
 
  -- Command-line option: `--menu-color-disabled-fg=<value>'
@@ -6747,7 +6764,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the foreground color for a disabled menu item. Ignored if
      menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.26 menu-color-selected-bg
+4.11.27 menu-color-selected-bg
 ------------------------------
 
  -- Command-line option: `--menu-color-selected-bg=<value>'
@@ -6760,7 +6777,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the background color for a selected menu item. Ignored if
      menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.27 menu-color-selected-fg
+4.11.28 menu-color-selected-fg
 ------------------------------
 
  -- Command-line option: `--menu-color-selected-fg=<value>'
@@ -6773,7 +6790,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the foreground color for a selected menu item. Ignored if
      menu-color-auto is set. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.28 menu-style
+4.11.29 menu-style
 ------------------
 
  -- Command-line option: `--menu-style=<value>'
@@ -6786,7 +6803,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      The menu style is simply the name of the engine used to power the
      menu system.  The only possible value, for now, is 'cylinder'.
 
-4.11.29 music-exclude
+4.11.30 music-exclude
 ---------------------
 
  -- Command-line option: `--music-exclude=<value>'
@@ -6799,7 +6816,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      If this string is found in a music file name, it will be excluded
      from the list when playing in random mode.
 
-4.11.30 music-file
+4.11.31 music-file
 ------------------
 
  -- Command-line option: `--music-file=<value>'
@@ -6816,7 +6833,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      absolute or even relative path are allowed, only a plain filename
      with no slash or backslash. Avoid special characters at all cost.
 
-4.11.31 music-filter
+4.11.32 music-filter
 --------------------
 
  -- Command-line option: `--music-filter=<value>'
@@ -6832,7 +6849,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      file to play, please consider reorganizing your files and/or use
      the 'music-file' parameter.
 
-4.11.32 pixelize
+4.11.33 pixelize
 ----------------
 
  -- Command-line option: `--pixelize=<value>'
@@ -6846,7 +6863,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      parts of the game. This can be used to emulate the old LW5
      appearance.
 
-4.11.33 system-color-bg
+4.11.34 system-color-bg
 -----------------------
 
  -- Command-line option: `--system-color-bg=<value>'
@@ -6860,7 +6877,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      info, such as the number of frames per second. Can be #RGB, #RGBA,
      #RRGGBB or #RRGGBBAA.
 
-4.11.34 system-color-fg
+4.11.35 system-color-fg
 -----------------------
 
  -- Command-line option: `--system-color-fg=<value>'
@@ -6874,7 +6891,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      info, such as the number of frames per second. This will typically
      be text color. Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.35 team-color-blue
+4.11.36 team-color-blue
 -----------------------
 
  -- Command-line option: `--team-color-blue=<value>'
@@ -6887,7 +6904,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the blue team. Syntax is HTML-like, #RGB or
      #RRGGBB.
 
-4.11.36 team-color-cyan
+4.11.37 team-color-cyan
 -----------------------
 
  -- Command-line option: `--team-color-cyan=<value>'
@@ -6900,7 +6917,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the cyan team. Syntax is HTML-like, #RGB or
      #RRGGBB.
 
-4.11.37 team-color-dead
+4.11.38 team-color-dead
 -----------------------
 
  -- Command-line option: `--team-color-dead=<value>'
@@ -6914,7 +6931,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      is black, this means when a team is weak it becomes black. Syntax
      is HTML-like, #RGB or #RRGGBB.
 
-4.11.38 team-color-green
+4.11.39 team-color-green
 ------------------------
 
  -- Command-line option: `--team-color-green=<value>'
@@ -6927,7 +6944,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the green team. Syntax is HTML-like, #RGB or
      #RRGGBB.
 
-4.11.39 team-color-lightblue
+4.11.40 team-color-lightblue
 ----------------------------
 
  -- Command-line option: `--team-color-lightblue=<value>'
@@ -6940,7 +6957,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the light blue team. Syntax is HTML-like,
      #RGB or #RRGGBB.
 
-4.11.40 team-color-magenta
+4.11.41 team-color-magenta
 --------------------------
 
  -- Command-line option: `--team-color-magenta=<value>'
@@ -6953,7 +6970,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the magenta team. Syntax is HTML-like, #RGB
      or #RRGGBB.
 
-4.11.41 team-color-orange
+4.11.42 team-color-orange
 -------------------------
 
  -- Command-line option: `--team-color-orange=<value>'
@@ -6966,7 +6983,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the orange team. Syntax is HTML-like, #RGB
      or #RRGGBB.
 
-4.11.42 team-color-pink
+4.11.43 team-color-pink
 -----------------------
 
  -- Command-line option: `--team-color-pink=<value>'
@@ -6979,7 +6996,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the pink team. Syntax is HTML-like, #RGB or
      #RRGGBB.
 
-4.11.43 team-color-purple
+4.11.44 team-color-purple
 -------------------------
 
  -- Command-line option: `--team-color-purple=<value>'
@@ -6992,7 +7009,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the purple team. Syntax is HTML-like, #RGB
      or #RRGGBB.
 
-4.11.44 team-color-red
+4.11.45 team-color-red
 ----------------------
 
  -- Command-line option: `--team-color-red=<value>'
@@ -7005,7 +7022,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the red team. Syntax is HTML-like, #RGB or
      #RRGGBB.
 
-4.11.45 team-color-yellow
+4.11.46 team-color-yellow
 -------------------------
 
  -- Command-line option: `--team-color-yellow=<value>'
@@ -7018,7 +7035,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      Defines the color for the yellow team. Syntax is HTML-like, #RGB
      or #RRGGBB.
 
-4.11.46 view-color-cursor-bg
+4.11.47 view-color-cursor-bg
 ----------------------------
 
  -- Command-line option: `--view-color-cursor-bg=<value>'
@@ -7032,7 +7049,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      draw the shape of the cursor. Ignored if view-color-auto is set.
      Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.47 view-color-cursor-fg
+4.11.48 view-color-cursor-fg
 ----------------------------
 
  -- Command-line option: `--view-color-cursor-fg=<value>'
@@ -7046,7 +7063,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      draw text in the cursor. Ignored if view-color-auto is set. Can be
      #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.48 view-color-map-bg
+4.11.49 view-color-map-bg
 -------------------------
 
  -- Command-line option: `--view-color-map-bg=<value>'
@@ -7061,7 +7078,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      places where armies will go.  Ignored if view-color-auto is set.
      Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.49 view-color-map-fg
+4.11.50 view-color-map-fg
 -------------------------
 
  -- Command-line option: `--view-color-map-fg=<value>'
@@ -7076,7 +7093,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      what armies can't go through. Ignored if view-color-auto is set.
      Can be #RGB, #RGBA, #RRGGBB or #RRGGBBAA.
 
-4.11.50 view-style
+4.11.51 view-style
 ------------------
 
  -- Command-line option: `--view-style=<value>'
@@ -7092,7 +7109,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      one uses (which library) one runs, wether this parameter says what
      kind of rendering one wants.
 
-4.11.51 x-wrap
+4.11.52 x-wrap
 --------------
 
  -- Command-line option: `--x-wrap=<value>'
@@ -7108,7 +7125,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      with polarity but without wrapping if, for instance, textures do
      not tile nicely.
 
-4.11.52 y-wrap
+4.11.53 y-wrap
 --------------
 
  -- Command-line option: `--y-wrap=<value>'
@@ -7124,7 +7141,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      with polarity but without wrapping if, for instance, textures do
      not tile nicely.
 
-4.11.53 zoom
+4.11.54 zoom
 ------------
 
  -- Command-line option: `--zoom=<value>'
@@ -7138,7 +7155,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      fraction of the screen, if greater than 1.0, some areas will be
      outside the screen, and the player will need to scroll through it.
 
-4.11.54 zoom-max
+4.11.55 zoom-max
 ----------------
 
  -- Command-line option: `--zoom-max=<value>'
@@ -7152,7 +7169,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      dynamically view the map with hudge fighters, seeing only a
      fraction of the level.
 
-4.11.55 zoom-min
+4.11.56 zoom-min
 ----------------
 
  -- Command-line option: `--zoom-min=<value>'
