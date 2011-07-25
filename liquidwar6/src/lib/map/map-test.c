@@ -228,20 +228,23 @@ static void
 _print_cursor_texture (lw6map_cursor_texture_t * cursor_texture)
 {
   int x, y;
+  lw6sys_color_8_t fg_bg;
   lw6sys_color_8_t color;
-  u_int8_t color_alpha;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("cursor_texture:"));
   for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
     {
       for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	{
-	  color = lw6map_cursor_texture_get (cursor_texture, x, y);
-	  color_alpha =
-	    lw6map_cursor_texture_get_color_alpha (cursor_texture, x, y);
-	  if (color_alpha < 128)
+	  fg_bg =
+	    lw6map_cursor_texture_layer_get (&(cursor_texture->fg_bg_layer),
+					     x, y);
+	  color =
+	    lw6map_cursor_texture_layer_get (&(cursor_texture->color_layer),
+					     x, y);
+	  if (color.a < 128)
 	    {
-	      if (color.a < 128)
+	      if (fg_bg.a < 128)
 		{
 		  printf (".");
 		}

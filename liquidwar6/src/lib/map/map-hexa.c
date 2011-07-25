@@ -166,8 +166,10 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 	{
 	  ret = ret
 	    && lw6sys_hexa_serializer_push_color (hexa_serializer,
-						  lw6map_cursor_texture_get
-						  (cursor_texture, x, y));
+						  lw6map_cursor_texture_layer_get
+						  (&
+						   (cursor_texture->fg_bg_layer),
+						   x, y));
 	}
     }
   for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
@@ -175,9 +177,11 @@ push_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
       for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
 	{
 	  ret = ret
-	    && lw6sys_hexa_serializer_push_int8 (hexa_serializer,
-						 lw6map_cursor_texture_get_color_alpha
-						 (cursor_texture, x, y));
+	    && lw6sys_hexa_serializer_push_color (hexa_serializer,
+						  lw6map_cursor_texture_layer_get
+						  (&
+						   (cursor_texture->color_layer),
+						   x, y));
 	}
     }
 
@@ -640,7 +644,6 @@ pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
   int ret = 1;
   int x, y;
   lw6sys_color_8_t color = { 0, 0, 0, 0 };
-  int8_t color_alpha = 0;
 
   for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
     {
@@ -648,7 +651,8 @@ pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
 	{
 	  ret = ret
 	    && lw6sys_hexa_serializer_pop_color (hexa_serializer, &color);
-	  lw6map_cursor_texture_set (cursor_texture, x, y, color);
+	  lw6map_cursor_texture_layer_set (&(cursor_texture->fg_bg_layer), x,
+					   y, color);
 	}
     }
   for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++y)
@@ -656,10 +660,9 @@ pop_cursor_texture (lw6sys_hexa_serializer_t * hexa_serializer,
       for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE && ret; ++x)
 	{
 	  ret = ret
-	    && lw6sys_hexa_serializer_pop_int8 (hexa_serializer,
-						&color_alpha);
-	  lw6map_cursor_texture_set_color_alpha (cursor_texture, x, y,
-						 color_alpha);
+	    && lw6sys_hexa_serializer_pop_color (hexa_serializer, &color);
+	  lw6map_cursor_texture_layer_set (&(cursor_texture->color_layer), x,
+					   y, color);
 	}
     }
 

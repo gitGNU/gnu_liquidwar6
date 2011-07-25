@@ -5255,63 +5255,6 @@ results on
 
      *Return value:*  an integer.
 
- -- Function: void lw6map_cursor_texture_set (lw6map_cursor_texture_t *
-          CURSOR_TEXTURE, int X, int Y, lw6sys_color_8_t COLOR)
-     CURSOR_TEXTURE:  the cursor texture to change
-
-     X:  x coord
-
-     Y:  y coord
-
-     COLOR:  the color
-
-     Sets a pixel in the cursor texture.
-
-     *Return value:*  none
-
- -- Function: lw6sys_color_8_t lw6map_cursor_texture_get
-          (lw6map_cursor_texture_t * CURSOR_TEXTURE, int X, int Y)
-     CURSOR_TEXTURE:  the cursor texture to query
-
-     X:  x coord
-
-     Y:  y coord
-
-     Gets a pixel in the cursor texture.
-
-     *Return value:*  the color
-
- -- Function: void lw6map_cursor_texture_set_color_alpha
-          (lw6map_cursor_texture_t * CURSOR_TEXTURE, int X, int Y,
-          u_int8_t COLOR_ALPHA)
-     CURSOR_TEXTURE:  the cursor texture to change
-
-     X:  x coord
-
-     Y:  y coord
-
-     COLOR_ALPHA:  the alpha channel value
-
-     Sets the color_alpha channel of the cursor texture, the color
-     alpha channel is set by the cursor-color.png file, it enables
-     colorization with team color at run-time.
-
-     *Return value:*  none.
-
- -- Function: u_int8_t lw6map_cursor_texture_get_color_alpha
-          (lw6map_cursor_texture_t * CURSOR_TEXTURE, int X, int Y)
-     CURSOR_TEXTURE:  the cursor texture to query
-
-     X:  x coord
-
-     Y:  y coord
-
-     Gets the color_alpha channel of the cursor texture, the color
-     alpha channel is set by the cursor-color.png file, it enables
-     colorization with team color at run-time.
-
-     *Return value:*  the color
-
  -- Function: void lw6map_cursor_texture_clear (lw6map_cursor_texture_t
           * CURSOR_TEXTURE)
      CURSOR_TEXTURE:  the cursor texture to clear
@@ -5329,6 +5272,34 @@ results on
      middle.
 
      *Return value:*  none
+
+ -- Function: void lw6map_cursor_texture_layer_set
+          (lw6map_cursor_texture_layer_t * CURSOR_TEXTURE_LAYER, int X,
+          int Y, lw6sys_color_8_t COLOR)
+     CURSOR_TEXTURE_LAYER:  the cursor texture_layer to change
+
+     X:  x coord
+
+     Y:  y coord
+
+     COLOR:  the color
+
+     Sets a pixel in the cursor texture_layer.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_color_8_t lw6map_cursor_texture_layer_get
+          (lw6map_cursor_texture_layer_t * CURSOR_TEXTURE_LAYER, int X,
+          int Y)
+     CURSOR_TEXTURE_LAYER:  the cursor texture_layer to query
+
+     X:  x coord
+
+     Y:  y coord
+
+     Gets a pixel in the cursor texture_layer.
+
+     *Return value:*  the color
 
  -- Function: lw6map_level_t * lw6map_dup (lw6map_level_t * SOURCE,
           lw6sys_progress_t * PROGRESS)

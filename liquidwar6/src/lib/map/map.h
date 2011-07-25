@@ -534,12 +534,16 @@ typedef struct lw6map_texture_s
   lw6map_color_couple_t guessed_color_alternate;
 } lw6map_texture_t;
 
-typedef struct lw6map_cursor_texture_s
+typedef struct lw6map_cursor_texture_layer_s
 {
   lw6sys_color_8_t
     data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE];
-  u_int8_t
-    color_alpha_data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE];
+} lw6map_cursor_texture_layer_t;
+
+typedef struct lw6map_cursor_texture_s
+{
+  lw6map_cursor_texture_layer_t fg_bg_layer;
+  lw6map_cursor_texture_layer_t color_layer;
 } lw6map_cursor_texture_t;
 
 typedef struct lw6map_color_set_s
@@ -675,19 +679,12 @@ extern void lw6map_coords_fix_z (lw6map_rules_t * rules,
 				 lw6sys_whd_t * shape, int *z);
 
 /* map-cursortexture.c */
-extern void lw6map_cursor_texture_set (lw6map_cursor_texture_t *
-				       cursor_texture, int x, int y,
-				       lw6sys_color_8_t color);
-extern lw6sys_color_8_t lw6map_cursor_texture_get (lw6map_cursor_texture_t *
-						   cursor_texture, int x,
-						   int y);
-extern void lw6map_cursor_texture_set_color_alpha (lw6map_cursor_texture_t *
-						   cursor_texture, int x,
-						   int y,
-						   u_int8_t color_alpha);
-extern u_int8_t lw6map_cursor_texture_get_color_alpha (lw6map_cursor_texture_t
-						       * cursor_texture,
-						       int x, int y);
+extern void lw6map_cursor_texture_layer_set (lw6map_cursor_texture_layer_t *
+					     cursor_texture, int x, int y,
+					     lw6sys_color_8_t color);
+extern lw6sys_color_8_t
+lw6map_cursor_texture_layer_get (lw6map_cursor_texture_layer_t *
+				 cursor_texture, int x, int y);
 extern void lw6map_cursor_texture_clear (lw6map_cursor_texture_t *
 					 cursor_texture);
 extern void lw6map_cursor_texture_builtin (lw6map_cursor_texture_t *

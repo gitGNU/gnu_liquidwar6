@@ -529,6 +529,13 @@ extern int mod_gl_utils_load_consts (mod_gl_utils_context_t * context);
 extern void mod_gl_utils_unload_consts (mod_gl_utils_context_t * context);
 
 /*
+ * In cursor.c
+ */
+extern mod_gl_utils_bitmap_t
+  * mod_gl_utils_create_cursor (mod_gl_utils_context_t * context,
+				lw6map_level_t * level);
+
+/*
  * In data.c
  */
 extern int mod_gl_utils_load_fonts (mod_gl_utils_context_t * context);

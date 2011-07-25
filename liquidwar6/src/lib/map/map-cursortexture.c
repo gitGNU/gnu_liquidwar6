@@ -30,89 +30,10 @@
 #include "map.h"
 
 #define _TEXTURE_DD 1
-#define _COLOR_ALPHA_DMIN 24
-#define _COLOR_ALPHA_DMAX 28
-#define _COLOR_ALPHA_FULL 192
-#define _COLOR_ALPHA_NONE 0
-
-/**
- * lw6map_cursor_texture_set
- *
- * @cursor_texture: the cursor texture to change
- * @x: x coord
- * @y: y coord
- * @color: the color
- *
- * Sets a pixel in the cursor texture.
- *
- * Return value: none
- */
-void
-lw6map_cursor_texture_set (lw6map_cursor_texture_t * cursor_texture, int x,
-			   int y, lw6sys_color_8_t color)
-{
-  cursor_texture->data[y][x] = color;
-}
-
-/**
- * lw6map_cursor_texture_get
- *
- * @cursor_texture: the cursor texture to query
- * @x: x coord
- * @y: y coord
- *
- * Gets a pixel in the cursor texture.
- *
- * Return value: the color
- */
-lw6sys_color_8_t
-lw6map_cursor_texture_get (lw6map_cursor_texture_t * cursor_texture, int x,
-			   int y)
-{
-  return cursor_texture->data[y][x];
-}
-
-/**
- * lw6map_cursor_texture_set_color_alpha
- *
- * @cursor_texture: the cursor texture to change
- * @x: x coord
- * @y: y coord
- * @color_alpha: the alpha channel value
- *
- * Sets the color_alpha channel of the cursor texture, the color alpha channel
- * is set by the cursor-color.png file, it enables colorization with team color
- * at run-time.
- *
- * Return value: none.
- */
-void
-lw6map_cursor_texture_set_color_alpha (lw6map_cursor_texture_t *
-				       cursor_texture, int x, int y,
-				       u_int8_t color_alpha)
-{
-  cursor_texture->color_alpha_data[y][x] = color_alpha;
-}
-
-/**
- * lw6map_cursor_texture_get_color_alpha
- *
- * @cursor_texture: the cursor texture to query
- * @x: x coord
- * @y: y coord
- *
- * Gets the color_alpha channel of the cursor texture, the color alpha channel
- * is set by the cursor-color.png file, it enables colorization with team color
- * at run-time.
- *
- * Return value: the color
- */
-u_int8_t
-lw6map_cursor_texture_get_color_alpha (lw6map_cursor_texture_t *
-				       cursor_texture, int x, int y)
-{
-  return cursor_texture->color_alpha_data[y][x];
-}
+#define _COLOR_DMIN 24
+#define _COLOR_DMAX 28
+#define _COLOR_FULL 192
+#define _COLOR_NONE 0
 
 /**
  * lw6map_cursor_texture_clear
@@ -146,7 +67,6 @@ lw6map_cursor_texture_builtin (lw6map_cursor_texture_t * cursor_texture)
   int x, y, d;
   float c;
   lw6sys_color_8_t color = { 0, 0, 0, 0 };
-  u_int8_t color_alpha = 0;
 
   lw6map_cursor_texture_clear (cursor_texture);
 
@@ -165,13 +85,13 @@ lw6map_cursor_texture_builtin (lw6map_cursor_texture_t * cursor_texture)
 	    {
 	      color.r = color.g = color.b = color.a = 0;
 	    }
-	  color_alpha = (d >= _COLOR_ALPHA_DMIN
-			 && d <=
-			 _COLOR_ALPHA_DMAX) ? _COLOR_ALPHA_FULL :
-	    _COLOR_ALPHA_NONE;
-	  lw6map_cursor_texture_set (cursor_texture, x, y, color);
-	  lw6map_cursor_texture_set_color_alpha (cursor_texture, x, y,
-						 color_alpha);
+	  lw6map_cursor_texture_layer_set (&(cursor_texture->fg_bg_layer), x,
+					   y, color);
+	  color.a = (d >= _COLOR_DMIN
+		     && d <= _COLOR_DMAX) ? _COLOR_FULL : _COLOR_NONE;
+	  color.r = color.g = color.b = 255;
+	  lw6map_cursor_texture_layer_set (&(cursor_texture->color_layer), x,
+					   y, color);
 	}
     }
 }
