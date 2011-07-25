@@ -45,6 +45,8 @@
 #define _LW6LDR_FILE_TEXTURE_JPG "texture.jpg"
 #define _LW6LDR_FILE_TEXTURE_ALPHA_JPEG "texture-alpha.jpeg"
 #define _LW6LDR_FILE_TEXTURE_ALPHA_JPG "texture-alpha.jpg"
+#define _LW6LDR_FILE_CURSOR_PNG "cursor.png"
+#define _LW6LDR_FILE_CURSOR_COLOR_PNG "cursor-color.png"
 
 #define _LW6LDR_FILE_RULES_XML "rules.xml"
 #define _LW6LDR_FILE_HINTS_XML "hints.xml"
@@ -82,6 +84,11 @@ extern float _lw6ldr_bw_gray_level (_lw6ldr_image_bw_t * image);
 extern int _lw6ldr_guess_colors (lw6map_level_t * level,
 				 lw6sys_progress_t * progress);
 extern void _lw6ldr_apply_guessed_colors (lw6map_level_t * level);
+
+/* in cursortexturelayer.c */
+extern int
+_lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t *
+				       cursor_texture_layer, char *png_file);
 
 /*
  * In rgba.c

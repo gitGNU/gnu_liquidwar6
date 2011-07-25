@@ -652,6 +652,7 @@
 (define lw6def-trojan "trojan")
 (define lw6def-upsize-using-bench-value "upsize-using-bench-value")
 (define lw6def-upsize-using-fighter-scale "upsize-using-fighter-scale")
+(define lw6def-use-cursor-texture "use-cursor-texture")
 (define lw6def-use-esc-button "use-esc-button")
 (define lw6def-use-hints-xml "use-hints-xml")
 (define lw6def-use-music-file "use-music-file")

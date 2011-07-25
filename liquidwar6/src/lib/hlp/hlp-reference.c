@@ -930,6 +930,10 @@ populate_references ()
 		 _x_
 		 ("Defines wether the map texture should be used. Of course if there's no map texture, the texture... won't be used. But if there is one, this parameter will force the game to ignore it and play with solid colors. This probably won't look as nice as the textured map in most cases, but some players might find it more readable and confortable to play when throwing eye candy away."),
 		 1);
+  POPULATE_BOOL (LW6DEF_USE_CURSOR_TEXTURE,
+		 _x_
+		 ("Defines wether the cursor textures should be used. If unset, then the default builtin cursor texture will be used instead of the map specific one."),
+		 1);
   POPULATE_BOOL (LW6DEF_USE_RULES_XML,
 		 _x_
 		 ("If set, then rules will be picked up from the map defined rules.xml, if it exists. This is the default. Use force-time and force-size to override this and use user-defined values anyway."),

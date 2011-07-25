@@ -4,7 +4,7 @@
   <float key="cursor-size-max" value="0.020" />
   <float key="scroll-limit" value="0.25" />
   <int key="scroll-min-offset" value="1" />
-  <int key="cursor-blink-period" value="2000" />
+  <int key="cursor-blink-period" value="500" />
   <int key="cursor-heartbeat-period" value="1000" />
   <int key="cursor-texture-size" value="64" />
   <int key="cursor-border-width" value="6" />

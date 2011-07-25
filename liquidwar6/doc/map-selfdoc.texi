@@ -26,6 +26,18 @@ the requested speed. This ultimately allows the player to control everything
 despite the values set by the map designer.
 @end deffn
 
+@subsection use-cursor-texture
+@deffn {Command-line option} @code{--use-cursor-texture=<value>}
+@deffnx {Environment variable} @code{LW6_USE_CURSOR_TEXTURE}
+@deffnx {XML key} @code{use-cursor-texture}
+Type: boolean
+
+Default value: true
+
+Defines wether the cursor textures should be used. If unset, then the default
+builtin cursor texture will be used instead of the map specific one.
+@end deffn
+
 @subsection use-hints-xml
 @deffn {Command-line option} @code{--use-hints-xml=<value>}
 @deffnx {Environment variable} @code{LW6_USE_HINTS_XML}

@@ -53,14 +53,15 @@ typedef struct _mod_gl_view_flat_cursor_context_s
   u_int16_t cursor_id;
   char letter;
   int team_color;
-  mod_gl_utils_bitmap_t *bitmap_even;
-  mod_gl_utils_bitmap_t *bitmap_odd;
+  mod_gl_utils_bitmap_t *bitmap_color;
 }
 _mod_gl_view_flat_cursor_context_t;
 
 typedef struct _mod_gl_view_flat_cursors_context_s
 {
+  u_int32_t level_id;
   lw6map_color_couple_t color;
+  mod_gl_utils_bitmap_t *bitmap_fg_bg;
   _mod_gl_view_flat_cursor_context_t cursor[LW6MAP_MAX_NB_CURSORS];
 }
 _mod_gl_view_flat_cursors_context_t;
@@ -81,24 +82,11 @@ typedef struct _mod_gl_view_flat_const_data_s
 }
 _mod_gl_view_flat_const_data_t;
 
-/*
-typedef struct _mod_gl_view_flat_smoothers_s
-{
-  //float last_zoom;
-  //int last_center_x;
-  //int last_center_y;
-  lw6gui_smoother_t center_x;
-  lw6gui_smoother_t center_y;
-}
-_mod_gl_view_flat_smoothers_t;
-*/
-
 typedef struct _mod_gl_view_flat_context_s
 {
   _mod_gl_view_flat_game_context_t game_context;
   _mod_gl_view_flat_cursors_context_t cursors_context;
   _mod_gl_view_flat_const_data_t const_data;
-  //_mod_gl_view_flat_smoother_t smoothers;
   lw6gui_viewport_t viewport;
 }
 _mod_gl_view_flat_context_t;
@@ -113,6 +101,7 @@ extern int _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
 						  _mod_gl_view_flat_const_data_t
 						  * const_data,
 						  lw6gui_look_t * look,
+						  lw6map_level_t * level,
 						  lw6ker_cursor_t * cursor);
 extern int _mod_gl_view_flat_cursor_context_update (mod_gl_utils_context_t *
 						    utils_context,
@@ -121,6 +110,7 @@ extern int _mod_gl_view_flat_cursor_context_update (mod_gl_utils_context_t *
 						    _mod_gl_view_flat_const_data_t
 						    * const_data,
 						    lw6gui_look_t * look,
+						    lw6map_level_t * level,
 						    lw6ker_cursor_t * cursor);
 extern int _mod_gl_view_flat_cursor_context_clear (mod_gl_utils_context_t *
 						   utils_context,

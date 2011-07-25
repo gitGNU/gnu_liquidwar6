@@ -92,16 +92,20 @@ typedef struct lw6ldr_hints_s
 } lw6ldr_hints_t;
 
 #define LW6LDR_USE_DEFAULT_USE_TEXTURE 1
+#define LW6LDR_USE_DEFAULT_USE_CURSOR_TEXTURE 1
 #define LW6LDR_USE_DEFAULT_USE_RULES_XML 1
 #define LW6LDR_USE_DEFAULT_USE_HINTS_XML 1
 #define LW6LDR_USE_DEFAULT_USE_STYLE_XML 1
+#define LW6LDR_USE_DEFAULT_USE_MUSIC_FILE 1
 
 typedef struct lw6ldr_use_s
 {
   int use_texture;
+  int use_cursor_texture;
   int use_rules_xml;
   int use_hints_xml;
   int use_style_xml;
+  int use_music_file;
 } lw6ldr_use_t;
 
 typedef struct lw6ldr_resampler_s
@@ -134,6 +138,10 @@ extern int lw6ldr_body_read (lw6map_body_t * body, char *dirname,
 /* ldr-color.c */
 extern void lw6ldr_auto_colors (lw6map_style_t * style,
 				lw6ldr_hints_t * hints);
+
+/* ldr-cursortexture.c */
+extern int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
+				       cursor_texture, char *dirname);
 
 /* ldr-dir.c */
 extern void lw6ldr_free_entry (lw6ldr_entry_t * entry);

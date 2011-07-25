@@ -463,11 +463,16 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i,
 		  cursor_x, cursor_y, cursor_w, cursor_h);
-      _display_cursor_bitmap (utils_context, flat_context, cursor_x, cursor_y,
-			      cursor_w, cursor_h,
-			      even_odd ? flat_context->cursors_context.
-			      cursor[i].bitmap_even : flat_context->
-			      cursors_context.cursor[i].bitmap_odd);
+      if (even_odd || !look->style.blink_cursor)
+	{
+	  _display_cursor_bitmap (utils_context, flat_context, cursor_x,
+				  cursor_y, cursor_w, cursor_h,
+				  flat_context->cursors_context.bitmap_fg_bg);
+	  _display_cursor_bitmap (utils_context, flat_context, cursor_x,
+				  cursor_y, cursor_w, cursor_h,
+				  flat_context->cursors_context.
+				  cursor[i].bitmap_color);
+	}
     }
 }
 

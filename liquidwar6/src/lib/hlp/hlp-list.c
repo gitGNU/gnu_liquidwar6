@@ -399,6 +399,7 @@ update_map (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_CHOSEN_MAP);
   lw6sys_list_push_back (list, LW6DEF_USE_TEXTURE);
+  lw6sys_list_push_back (list, LW6DEF_USE_CURSOR_TEXTURE);
   lw6sys_list_push_back (list, LW6DEF_USE_RULES_XML);
   lw6sys_list_push_back (list, LW6DEF_USE_HINTS_XML);
   lw6sys_list_push_back (list, LW6DEF_USE_STYLE_XML);

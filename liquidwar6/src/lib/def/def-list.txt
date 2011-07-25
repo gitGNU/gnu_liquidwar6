@@ -633,6 +633,7 @@ total-time
 trojan
 upsize-using-bench-value
 upsize-using-fighter-scale
+use-cursor-texture
 use-esc-button
 use-hints-xml
 use-music-file

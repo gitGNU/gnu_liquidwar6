@@ -4967,7 +4967,21 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      requested speed. This ultimately allows the player to control
      everything despite the values set by the map designer.
 
-4.8.3 use-hints-xml
+4.8.3 use-cursor-texture
+------------------------
+
+ -- Command-line option: `--use-cursor-texture=<value>'
+ -- Environment variable: `LW6_USE_CURSOR_TEXTURE'
+ -- XML key: `use-cursor-texture'
+     Type: boolean
+
+     Default value: true
+
+     Defines wether the cursor textures should be used. If unset, then
+     the default builtin cursor texture will be used instead of the map
+     specific one.
+
+4.8.4 use-hints-xml
 -------------------
 
  -- Command-line option: `--use-hints-xml=<value>'
@@ -4980,7 +4994,7 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      If set, then hints will be picked up from the map defined
      hints.xml, if it exists. This is the default.
 
-4.8.4 use-music-file
+4.8.5 use-music-file
 --------------------
 
  -- Command-line option: `--use-music-file=<value>'
@@ -4994,7 +5008,7 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      choose the music to play. If unset, then a random builtin music
      will be picked up, regardless of what is specified in 'music-file'.
 
-4.8.5 use-rules-xml
+4.8.6 use-rules-xml
 -------------------
 
  -- Command-line option: `--use-rules-xml=<value>'
@@ -5008,7 +5022,7 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      rules.xml, if it exists. This is the default. Use force-time and
      force-size to override this and use user-defined values anyway.
 
-4.8.6 use-style-xml
+4.8.7 use-style-xml
 -------------------
 
  -- Command-line option: `--use-style-xml=<value>'
@@ -5023,7 +5037,7 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      force-background to override this and use user-defined values
      anyway.
 
-4.8.7 use-texture
+4.8.8 use-texture
 -----------------
 
  -- Command-line option: `--use-texture=<value>'

@@ -28,11 +28,72 @@
 #include "gl-utils.h"
 
 mod_gl_utils_bitmap_t *
-mod_gl_utils_create_cursor (mod_gl_utils_context_t * context,
-			    lw6map_level_t * level)
+mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
+				  lw6map_level_t * level)
 {
   mod_gl_utils_bitmap_t *bitmap = NULL;
+  SDL_Surface *surface = NULL;
+  int x, y;
 
+  surface =
+    mod_gl_utils_create_surface (utils_context, LW6MAP_CURSOR_TEXTURE_SIZE,
+				 LW6MAP_CURSOR_TEXTURE_SIZE);
+  if (surface)
+    {
+      for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
+	{
+	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
+	    {
+	      mod_gl_utils_putpixel (surface, x, y,
+				     lw6sys_color_8_to_i
+				     (lw6map_cursor_texture_layer_get
+				      (&(level->cursor_texture.fg_bg_layer),
+				       x, y)));
+	    }
+	}
+      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      if (!bitmap)
+	{
+	  mod_gl_utils_delete_surface (utils_context, surface);
+	  surface = NULL;
+	}
+    }
+
+  return bitmap;
+}
+
+mod_gl_utils_bitmap_t
+  * mod_gl_utils_cursor_create_color (mod_gl_utils_context_t * utils_context,
+				      lw6map_level_t * level,
+				      lw6ker_cursor_t * cursor)
+{
+  mod_gl_utils_bitmap_t *bitmap = NULL;
+  SDL_Surface *surface = NULL;
+  int x, y;
+
+  surface =
+    mod_gl_utils_create_surface (utils_context, LW6MAP_CURSOR_TEXTURE_SIZE,
+				 LW6MAP_CURSOR_TEXTURE_SIZE);
+  if (surface)
+    {
+      for (y = 0; y < LW6MAP_CURSOR_TEXTURE_SIZE; ++y)
+	{
+	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
+	    {
+	      mod_gl_utils_putpixel (surface, x, y,
+				     lw6sys_color_8_to_i
+				     (lw6map_cursor_texture_layer_get
+				      (&(level->cursor_texture.color_layer),
+				       x, y)));
+	    }
+	}
+      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      if (!bitmap)
+	{
+	  mod_gl_utils_delete_surface (utils_context, surface);
+	  surface = NULL;
+	}
+    }
 
   return bitmap;
 }

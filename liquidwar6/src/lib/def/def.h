@@ -659,6 +659,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_TROJAN "trojan"
 #define LW6DEF_UPSIZE_USING_BENCH_VALUE "upsize-using-bench-value"
 #define LW6DEF_UPSIZE_USING_FIGHTER_SCALE "upsize-using-fighter-scale"
+#define LW6DEF_USE_CURSOR_TEXTURE "use-cursor-texture"
 #define LW6DEF_USE_ESC_BUTTON "use-esc-button"
 #define LW6DEF_USE_HINTS_XML "use-hints-xml"
 #define LW6DEF_USE_MUSIC_FILE "use-music-file"

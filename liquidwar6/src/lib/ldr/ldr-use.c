@@ -40,9 +40,11 @@ void
 lw6ldr_use_defaults (lw6ldr_use_t * use)
 {
   use->use_texture = LW6LDR_USE_DEFAULT_USE_TEXTURE;
+  use->use_cursor_texture = LW6LDR_USE_DEFAULT_USE_CURSOR_TEXTURE;
   use->use_rules_xml = LW6LDR_USE_DEFAULT_USE_RULES_XML;
   use->use_hints_xml = LW6LDR_USE_DEFAULT_USE_HINTS_XML;
   use->use_style_xml = LW6LDR_USE_DEFAULT_USE_STYLE_XML;
+  use->use_music_file = LW6LDR_USE_DEFAULT_USE_MUSIC_FILE;
 }
 
 void
@@ -60,6 +62,10 @@ lw6ldr_use_set (lw6ldr_use_t * use, char *key, char *value)
     {
       use->use_texture = lw6sys_atob (value);
     }
+  else if (lw6sys_arg_match (LW6DEF_USE_CURSOR_TEXTURE, key))
+    {
+      use->use_cursor_texture = lw6sys_atob (value);
+    }
   else if (lw6sys_arg_match (LW6DEF_USE_RULES_XML, key))
     {
       use->use_rules_xml = lw6sys_atob (value);
@@ -71,6 +77,10 @@ lw6ldr_use_set (lw6ldr_use_t * use, char *key, char *value)
   else if (lw6sys_arg_match (LW6DEF_USE_STYLE_XML, key))
     {
       use->use_style_xml = lw6sys_atob (value);
+    }
+  else if (lw6sys_arg_match (LW6DEF_USE_MUSIC_FILE, key))
+    {
+      use->use_music_file = lw6sys_atob (value);
     }
   else
     {

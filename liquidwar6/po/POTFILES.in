@@ -1,4 +1,6 @@
 src/lib/lw6-test.c
+src/lib/ldr/ldr-cursortexture.c
+src/lib/ldr/ldr-cursortexturelayer.c
 src/lib/ldr/ldr-style.c
 src/lib/ldr/ldr-resampler.c
 src/lib/ldr/ldr-body.c

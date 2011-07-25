@@ -31,6 +31,7 @@
 #include "gl-flat.h"
 #include "gl-flat-internal.h"
 
+/*
 static mod_gl_utils_bitmap_t *
 _cursor_bitmap (mod_gl_utils_context_t * utils_context, int w, int h,
 		int border_width, int blur_width, char letter,
@@ -131,6 +132,7 @@ _cursor_bitmap (mod_gl_utils_context_t * utils_context, int w, int h,
 
   return ret;
 }
+*/
 
 int
 _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
@@ -140,6 +142,7 @@ _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
 				       _mod_gl_view_flat_const_data_t
 				       * const_data,
 				       lw6gui_look_t * look,
+				       lw6map_level_t * level,
 				       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
@@ -152,24 +155,10 @@ _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
       cursor_context->cursor_id = cursor->cursor_id;
       cursor_context->letter = cursor->letter;
       cursor_context->team_color = cursor->team_color;
-      cursor_context->bitmap_even =
-	_cursor_bitmap (utils_context, const_data->cursor_texture_size,
-			const_data->cursor_texture_size,
-			const_data->cursor_border_width,
-			const_data->cursor_blur_width, cursor_context->letter,
-			&look->style.color_set.view_color_cursor,
-			look->style.color_set.team_colors[cursor_context->
-							  team_color], 1);
-      cursor_context->bitmap_odd =
-	_cursor_bitmap (utils_context, const_data->cursor_texture_size,
-			const_data->cursor_texture_size,
-			const_data->cursor_border_width,
-			const_data->cursor_blur_width, cursor_context->letter,
-			&look->style.color_set.view_color_cursor,
-			look->style.color_set.team_colors[cursor_context->
-							  team_color], 0);
-      ret = (cursor_context->bitmap_even != NULL)
-	&& (cursor_context->bitmap_odd != NULL);
+      cursor_context->bitmap_color =
+	mod_gl_utils_cursor_create_color (utils_context, level, cursor);
+
+      ret = (cursor_context->bitmap_color != NULL);
     }
   else
     {
@@ -187,6 +176,7 @@ _mod_gl_view_flat_cursor_context_update (mod_gl_utils_context_t *
 					 _mod_gl_view_flat_const_data_t
 					 * const_data,
 					 lw6gui_look_t * look,
+					 lw6map_level_t * level,
 					 lw6ker_cursor_t * cursor)
 {
   int ret = 0;
@@ -194,7 +184,7 @@ _mod_gl_view_flat_cursor_context_update (mod_gl_utils_context_t *
   if (cursor_context->cursor_id == cursor->cursor_id
       && cursor_context->letter == cursor->letter
       && cursor_context->team_color == cursor->team_color
-      && cursor_context->bitmap_even && cursor_context->bitmap_odd)
+      && cursor_context->bitmap_color)
     {
       // nothing to do
       ret = 1;
@@ -204,7 +194,8 @@ _mod_gl_view_flat_cursor_context_update (mod_gl_utils_context_t *
       _mod_gl_view_flat_cursor_context_clear (utils_context, cursor_context);
       ret =
 	_mod_gl_view_flat_cursor_context_init (utils_context, cursor_context,
-					       const_data, look, cursor);
+					       const_data, look, level,
+					       cursor);
     }
 
   return ret;
@@ -218,13 +209,9 @@ _mod_gl_view_flat_cursor_context_clear (mod_gl_utils_context_t *
 {
   int ret = 1;
 
-  if (cursor_context->bitmap_even)
+  if (cursor_context->bitmap_color)
     {
-      mod_gl_utils_bitmap_free (utils_context, cursor_context->bitmap_even);
-    }
-  if (cursor_context->bitmap_odd)
-    {
-      mod_gl_utils_bitmap_free (utils_context, cursor_context->bitmap_odd);
+      mod_gl_utils_bitmap_free (utils_context, cursor_context->bitmap_color);
     }
   memset (cursor_context, 0, sizeof (_mod_gl_view_flat_cursor_context_t));
 
@@ -244,8 +231,14 @@ _mod_gl_view_flat_cursors_context_init (mod_gl_utils_context_t *
   int ret = 1;
   int i;
   lw6ker_cursor_t cursor;
+  lw6map_level_t *level = NULL;
 
+  level = game_state->game_struct->level;
+  cursors_context->level_id = level->id;
   cursors_context->color = look->style.color_set.view_color_cursor;
+  cursors_context->bitmap_fg_bg =
+    mod_gl_utils_cursor_create_fg_bg (utils_context, level);
+  ret = ret && (cursors_context->bitmap_fg_bg != NULL);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
@@ -253,7 +246,7 @@ _mod_gl_view_flat_cursors_context_init (mod_gl_utils_context_t *
 	&& _mod_gl_view_flat_cursor_context_init (utils_context,
 						  &(cursors_context->cursor
 						    [i]), const_data, look,
-						  &cursor);
+						  level, &cursor);
     }
 
   return ret;
@@ -272,9 +265,13 @@ _mod_gl_view_flat_cursors_context_update (mod_gl_utils_context_t *
   int ret = 1;
   int i;
   lw6ker_cursor_t cursor;
+  lw6map_level_t *level = NULL;
 
-  if (!lw6map_color_is_same
-      (&cursors_context->color, &look->style.color_set.view_color_cursor))
+  level = game_state->game_struct->level;
+  if ((cursors_context->level_id != level->id) || (!lw6map_color_is_same
+						   (&cursors_context->color,
+						    &look->style.
+						    color_set.view_color_cursor)))
     {
       _mod_gl_view_flat_cursors_context_clear (utils_context,
 					       cursors_context);
@@ -295,7 +292,7 @@ _mod_gl_view_flat_cursors_context_update (mod_gl_utils_context_t *
 							(cursors_context->
 							 cursor[i]),
 							const_data, look,
-							&cursor);
+							level, &cursor);
 	}
     }
 
@@ -311,6 +308,10 @@ _mod_gl_view_flat_cursors_context_clear (mod_gl_utils_context_t *
   int ret = 1;
   int i;
 
+  if (cursors_context->bitmap_fg_bg)
+    {
+      mod_gl_utils_bitmap_free (utils_context, cursors_context->bitmap_fg_bg);
+    }
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       ret = ret
