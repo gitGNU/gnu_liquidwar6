@@ -186,7 +186,7 @@
 				     (cursor (lw6-get-cursor cursor-key))
 				     (mover (hash-ref cursor "mover"))
 				     )
-				(if (and game-state mover cursor)
+				(if (and game-state mover cursor (hash-ref cursor "x") (hash-ref cursor "y"))
 				    (begin
 				      (mover cursor)
 				      (let* (					    

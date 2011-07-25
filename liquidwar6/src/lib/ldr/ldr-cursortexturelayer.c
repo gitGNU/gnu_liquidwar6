@@ -52,6 +52,8 @@ read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer,
 					       value);
 	    }
 	}
+
+      ret = 1;
     }
   else
     {

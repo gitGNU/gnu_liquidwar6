@@ -29,6 +29,7 @@
 
 mod_gl_utils_bitmap_t *
 mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
+				  lw6gui_look_t * look,
 				  lw6map_level_t * level)
 {
   mod_gl_utils_bitmap_t *bitmap = NULL;
@@ -52,7 +53,14 @@ mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
 	    }
 	}
       bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
-      if (!bitmap)
+      if (bitmap)
+	{
+	  mod_gl_utils_bitmap_colorize (utils_context, bitmap,
+					look->style.colorize_cursor,
+					&look->style.
+					color_set.view_color_cursor);
+	}
+      else
 	{
 	  mod_gl_utils_delete_surface (utils_context, surface);
 	  surface = NULL;
@@ -64,12 +72,14 @@ mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
 
 mod_gl_utils_bitmap_t
   * mod_gl_utils_cursor_create_color (mod_gl_utils_context_t * utils_context,
+				      lw6gui_look_t * look,
 				      lw6map_level_t * level,
 				      lw6ker_cursor_t * cursor)
 {
   mod_gl_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
   int x, y;
+  lw6map_color_couple_t color_couple;
 
   surface =
     mod_gl_utils_create_surface (utils_context, LW6MAP_CURSOR_TEXTURE_SIZE,
@@ -88,7 +98,22 @@ mod_gl_utils_bitmap_t
 	    }
 	}
       bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
-      if (!bitmap)
+      if (bitmap)
+	{
+	  if (cursor->team_color >= 0)
+	    {
+	      color_couple.fg =
+		look->style.color_set.team_colors[cursor->team_color];
+	    }
+	  else
+	    {
+	      color_couple.fg = look->style.color_set.team_color_dead;
+	    }
+	  color_couple.bg = look->style.color_set.team_color_dead;
+	  mod_gl_utils_bitmap_colorize (utils_context, bitmap, 1,
+					&color_couple);
+	}
+      else
 	{
 	  mod_gl_utils_delete_surface (utils_context, surface);
 	  surface = NULL;

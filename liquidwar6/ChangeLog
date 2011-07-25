@@ -2,7 +2,7 @@
 
 	* Added new cursors by Kasper Hviid.
 
-	* Added structs to handle custom cursors.
+	* Now supports custom cursors.
 
 2011-07-24 : Christian Mauduit <ufoot@ufoot.org>
 

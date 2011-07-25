@@ -156,7 +156,7 @@ _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
       cursor_context->letter = cursor->letter;
       cursor_context->team_color = cursor->team_color;
       cursor_context->bitmap_color =
-	mod_gl_utils_cursor_create_color (utils_context, level, cursor);
+	mod_gl_utils_cursor_create_color (utils_context, look, level, cursor);
 
       ret = (cursor_context->bitmap_color != NULL);
     }
@@ -237,7 +237,7 @@ _mod_gl_view_flat_cursors_context_init (mod_gl_utils_context_t *
   cursors_context->level_id = level->id;
   cursors_context->color = look->style.color_set.view_color_cursor;
   cursors_context->bitmap_fg_bg =
-    mod_gl_utils_cursor_create_fg_bg (utils_context, level);
+    mod_gl_utils_cursor_create_fg_bg (utils_context, look, level);
   ret = ret && (cursors_context->bitmap_fg_bg != NULL);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {

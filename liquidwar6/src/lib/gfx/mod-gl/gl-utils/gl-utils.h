@@ -533,9 +533,11 @@ extern void mod_gl_utils_unload_consts (mod_gl_utils_context_t * context);
  */
 extern mod_gl_utils_bitmap_t
   * mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
+				      lw6gui_look_t * look,
 				      lw6map_level_t * level);
 extern mod_gl_utils_bitmap_t
   * mod_gl_utils_cursor_create_color (mod_gl_utils_context_t * utils_context,
+				      lw6gui_look_t * look,
 				      lw6map_level_t * level,
 				      lw6ker_cursor_t * cursor);
 
