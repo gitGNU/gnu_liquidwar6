@@ -397,6 +397,7 @@ extern char *LW6MAP_RULES_LIST[];
 #define LW6MAP_STYLE_DEFAULT_CURSOR_SIZE 1.0f
 #define LW6MAP_STYLE_DEFAULT_HIDDEN_LAYER_ALPHA 0.1f
 #define LW6MAP_STYLE_DEFAULT_COLORIZE 1
+#define LW6MAP_STYLE_DEFAULT_COLORIZE_CURSOR 1
 #define LW6MAP_STYLE_DEFAULT_PIXELIZE 0
 #define LW6MAP_STYLE_DEFAULT_COLOR_BASE_BG "#000"
 #define LW6MAP_STYLE_DEFAULT_COLOR_BASE_FG "#ccc"
@@ -566,6 +567,7 @@ typedef struct lw6map_style_s
   float cursor_size;
   float hidden_layer_alpha;
   int colorize;
+  int colorize_cursor;
   int pixelize;
   lw6map_color_set_t color_set;
   char *music_file;

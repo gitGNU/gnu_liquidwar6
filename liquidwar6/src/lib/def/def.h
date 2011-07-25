@@ -346,6 +346,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_COLOR_BASE_FG "color-base-fg"
 #define LW6DEF_COLOR_CONFLICT_MODE "color-conflict-mode"
 #define LW6DEF_COLORIZE "colorize"
+#define LW6DEF_COLORIZE_CURSOR "colorize-cursor"
 #define LW6DEF_COMMANDS_PER_SEC "commands-per-sec"
 #define LW6DEF_CONFIG_FILE "config-file"
 #define LW6DEF_CONFIGURE_ARGS "configure-args"

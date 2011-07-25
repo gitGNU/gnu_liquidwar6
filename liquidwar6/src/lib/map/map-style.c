@@ -55,6 +55,7 @@ lw6map_style_defaults (lw6map_style_t * style)
   style->cursor_size = LW6MAP_STYLE_DEFAULT_CURSOR_SIZE;
   style->hidden_layer_alpha = LW6MAP_STYLE_DEFAULT_HIDDEN_LAYER_ALPHA;
   style->colorize = LW6MAP_STYLE_DEFAULT_COLORIZE;
+  style->colorize_cursor = LW6MAP_STYLE_DEFAULT_COLORIZE_CURSOR;
   style->pixelize = LW6MAP_STYLE_DEFAULT_PIXELIZE;
   style->color_set.color_base.bg =
     lw6sys_color_a_to_8 (LW6MAP_STYLE_DEFAULT_COLOR_BASE_BG);
@@ -305,6 +306,10 @@ lw6map_style_set (lw6map_style_t * style, char *key, char *value)
       else if (!strcmp (LW6DEF_COLORIZE, formatted_key))
 	{
 	  style->colorize = lw6sys_atob (value);
+	}
+      else if (!strcmp (LW6DEF_COLORIZE_CURSOR, formatted_key))
+	{
+	  style->colorize_cursor = lw6sys_atob (value);
 	}
       else if (!strcmp (LW6DEF_PIXELIZE, formatted_key))
 	{
@@ -577,6 +582,10 @@ lw6map_style_get (lw6map_style_t * style, char *key)
 	{
 	  ret = lw6sys_btoa (style->colorize);
 	}
+      else if (!strcmp (LW6DEF_COLORIZE_CURSOR, formatted_key))
+	{
+	  ret = lw6sys_btoa (style->colorize_cursor);
+	}
       else if (!strcmp (LW6DEF_PIXELIZE, formatted_key))
 	{
 	  ret = lw6sys_btoa (style->pixelize);
@@ -822,6 +831,7 @@ lw6map_style_is_same (lw6map_style_t * style_a, lw6map_style_t * style_b)
   ret = ret && style_a->cursor_size == style_b->cursor_size;
   ret = ret && style_a->hidden_layer_alpha == style_b->hidden_layer_alpha;
   ret = ret && style_a->colorize == style_b->colorize;
+  ret = ret && style_a->colorize_cursor == style_b->colorize_cursor;
   ret = ret && style_a->pixelize == style_b->pixelize;
   ret = ret
     && lw6map_color_set_is_same (&style_a->color_set, &style_b->color_set);

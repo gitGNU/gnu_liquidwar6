@@ -207,6 +207,9 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
 					  param->style.colorize);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  param->style.colorize_cursor);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					  param->style.pixelize);
   ret = ret
     && lw6sys_hexa_serializer_push_color (hexa_serializer,
@@ -644,6 +647,9 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(param->style.colorize));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(param->style.colorize_cursor));
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(param->style.pixelize));

@@ -1442,7 +1442,11 @@ populate_references ()
 		  LW6MAP_STYLE_DEFAULT_HIDDEN_LAYER_ALPHA, 0, 1);
   POPULATE_BOOL (LW6DEF_COLORIZE,
 		 _x_
-		 ("If set, then all background drawings including textures will use the bakground colors. This means, for instance, that if background colors are set automatically by color-auto from the map texture, then the background will adopt the same range of colors than the map itself. In short, the background will mimic the map."),
+		 ("If set, then all background drawings including textures will use the background colors. This means, for instance, that if background colors are set automatically by color-auto from the map texture, then the background will adopt the same range of colors than the map itself. In short, the background will mimic the map."),
+		 LW6MAP_STYLE_DEFAULT_COLORIZE);
+  POPULATE_BOOL (LW6DEF_COLORIZE_CURSOR,
+		 _x_
+		 ("If set, then all cursors will use the automatic guessed colors, or the specified colors, but basically they won't be displayed using their native colors."),
 		 LW6MAP_STYLE_DEFAULT_COLORIZE);
   POPULATE_BOOL (LW6DEF_PIXELIZE,
 		 _x_

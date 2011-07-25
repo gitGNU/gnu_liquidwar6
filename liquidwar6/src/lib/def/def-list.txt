@@ -132,7 +132,7 @@ c-lw6ker-do-round
 c-lw6ker-dup-game-state
 c-lw6ker-game-state-checksum
 c-lw6ker-game-struct-checksum
-c-lw6ker-get-cursor-info
+c-lw6ker-get-cursor
 c-lw6ker-get-moves
 c-lw6ker-get-rounds
 c-lw6ker-get-spreads
@@ -319,6 +319,7 @@ color-base-bg
 color-base-fg
 color-conflict-mode
 colorize
+colorize-cursor
 commands-per-sec
 config-file
 configure-args

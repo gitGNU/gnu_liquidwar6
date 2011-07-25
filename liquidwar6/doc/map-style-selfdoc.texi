@@ -165,11 +165,24 @@ Type: boolean
 
 Default value: true
 
-If set, then all background drawings including textures will use the bakground
-colors. This means, for instance, that if background colors are set
+If set, then all background drawings including textures will use the
+background colors. This means, for instance, that if background colors are set
 automatically by color-auto from the map texture, then the background will
 adopt the same range of colors than the map itself. In short, the background
 will mimic the map.
+@end deffn
+
+@subsection colorize-cursor
+@deffn {Command-line option} @code{--colorize-cursor=<value>}
+@deffnx {Environment variable} @code{LW6_COLORIZE_CURSOR}
+@deffnx {XML key} @code{colorize-cursor}
+Type: boolean
+
+Default value: true
+
+If set, then all cursors will use the automatic guessed colors, or the
+specified colors, but basically they won't be displayed using their native
+colors.
 @end deffn
 
 @subsection cursor-size
