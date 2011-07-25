@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+  <!-- GAME TIME -->
+  <float key="speed" value="0.5" />
+
+  <!--TECHNICAL -->
+  
+  <!-- If true, the colors below will be picked from texture.jpeg
+		color-base-bg
+		color-base-fg
+		color-alternate-bg
+		color-alternate-fg
+-->
+
+ <bool key="guess-colors" value="false" /> 
+
+  
+  <!-- all of these "color-auto" asigns colors automatically, from the following:
+	  color-base-bg
+	  color-base-fg
+	  color-alternate-bg
+	  color-alternate-fg
+  -->
+  
+  <bool key="background-color-auto" value="true" />
+  <bool key="hud-color-auto" value="false" />
+  <bool key="menu-color-auto" value="true" />
+  <bool key="view-color-auto" value="true" /> <!-- background color if no texture, and cursor colors -->
+
+
+</lw6mapparam>

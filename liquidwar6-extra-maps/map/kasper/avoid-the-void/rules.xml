@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+  <!-- ARMY -->
+  <int key="single-army-size" value="25"/> <!--  Default: 30   Min: 1   Max: 95   -->
+  <int key="total-armies-size" value="40"/> <!-- Default: 60   Min: 1   Max: 95   -->
+  
+
+
+
+  <!-- GRADIENT -->
+  <!-- Increase it on complex maps. Decrease it on simple maps, to make it more acurate -->
+  <int key="spreads-per-round" value="1" /> <!-- Default: 3  Min: 1  Max: 12   -->
+  
+</lw6mapparam>

@@ -1,0 +1,19 @@
+Avoid the Void
+
+IDEA
+The idea was to create an open level without any graphic, so that it wouldn't take up any space.
+
+GAMEPLAY
+Copyed from Fishy
+
+TEAM COLORS
+I have mixed the teams into some nice pastel colors.
+
+Made by Kasper Hviid, Denmark
+kasperhviid@gmail.com
+www.kasperhviid.dk
+Created 30/1 2010
+
+License:
+Creative Commons Attribution-Share Alike 3.0 Unported
+http://creativecommons.org/licenses/by-sa/3.0/
