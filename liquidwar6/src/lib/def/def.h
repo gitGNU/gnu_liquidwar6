@@ -159,7 +159,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6KER_DUP_GAME_STATE "c-lw6ker-dup-game-state"
 #define LW6DEF_C_LW6KER_GAME_STATE_CHECKSUM "c-lw6ker-game-state-checksum"
 #define LW6DEF_C_LW6KER_GAME_STRUCT_CHECKSUM "c-lw6ker-game-struct-checksum"
-#define LW6DEF_C_LW6KER_GET_CURSOR_INFO "c-lw6ker-get-cursor-info"
+#define LW6DEF_C_LW6KER_GET_CURSOR "c-lw6ker-get-cursor"
 #define LW6DEF_C_LW6KER_GET_MOVES "c-lw6ker-get-moves"
 #define LW6DEF_C_LW6KER_GET_ROUNDS "c-lw6ker-get-rounds"
 #define LW6DEF_C_LW6KER_GET_SPREADS "c-lw6ker-get-spreads"

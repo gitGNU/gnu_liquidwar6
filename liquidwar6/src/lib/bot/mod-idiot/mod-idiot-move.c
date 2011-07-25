@@ -40,11 +40,15 @@ new_target (_mod_idiot_context_t * idiot_context, lw6bot_data_t * data)
   int fighter_id = -1;
   lw6ker_fighter_t *fighter = NULL;
   lw6sys_whd_t shape = { 0, 0, 0 };
+  lw6ker_cursor_t cursor;
 
-  if (lw6ker_game_state_get_cursor_info
-      (data->game_state, data->param.cursor_id, NULL,
-       NULL, &team_color, &x, &y))
+  if (lw6ker_game_state_get_cursor
+      (data->game_state, &cursor, data->param.cursor_id))
     {
+      x = cursor.pos.x;
+      y = cursor.pos.y;
+      team_color = cursor.team_color;
+
       lw6ker_game_state_get_shape (data->game_state, &shape);
 
       idiot_context->start_pos_x = x;

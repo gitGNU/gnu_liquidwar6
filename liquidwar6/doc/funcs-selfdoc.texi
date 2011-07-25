@@ -540,9 +540,9 @@ Wrapper on lw6ker_game_state_checksum.
 Wrapper on lw6ker_game_struct_checksum.
 @end deffn
 
-@subsection c-lw6ker-get-cursor-info
-@deffn {C function exported to Guile} @code{c-lw6ker-get-cursor-info}
-Wrapper on lw6ker_get_cursor_info.
+@subsection c-lw6ker-get-cursor
+@deffn {C function exported to Guile} @code{c-lw6ker-get-cursor}
+Wrapper on lw6ker_get_cursor.
 @end deffn
 
 @subsection c-lw6ker-get-moves

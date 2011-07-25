@@ -30,7 +30,7 @@
 #include "ker-internal.h"
 
 void
-_lw6ker_cursor_array_init (lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_init (_lw6ker_cursor_array_t * cursor_array)
 {
   int i = 0;
 
@@ -42,7 +42,7 @@ _lw6ker_cursor_array_init (lw6ker_cursor_array_t * cursor_array)
 }
 
 void
-_lw6ker_cursor_array_update_checksum (lw6ker_cursor_array_t *
+_lw6ker_cursor_array_update_checksum (_lw6ker_cursor_array_t *
 				      cursor_array, u_int32_t * checksum)
 {
   int i = 0;
@@ -55,7 +55,7 @@ _lw6ker_cursor_array_update_checksum (lw6ker_cursor_array_t *
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_find_free (lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t * cursor_array)
 {
   lw6ker_cursor_t *ret = NULL;
   int i;
@@ -77,7 +77,7 @@ _lw6ker_cursor_array_find_free (lw6ker_cursor_array_t * cursor_array)
 }
 
 int
-_lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_is_color_owned_by (_lw6ker_cursor_array_t * cursor_array,
 					u_int64_t node_id, int team_color)
 {
   int ret = 1;
@@ -101,19 +101,19 @@ _lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t * cursor_array,
 }
 
 void
-_lw6ker_cursor_array_reset (lw6ker_cursor_array_t * cursor_array)
+_lw6ker_cursor_array_reset (_lw6ker_cursor_array_t * cursor_array)
 {
   int i;
 
   cursor_array->nb_cursors = 0;
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      _lw6ker_cursor_reset (&(cursor_array->cursors[i]));
+      lw6ker_cursor_reset (&(cursor_array->cursors[i]));
     }
 }
 
 lw6ker_cursor_t *
-_lw6ker_cursor_array_get (lw6ker_cursor_array_t *
+_lw6ker_cursor_array_get (_lw6ker_cursor_array_t *
 			  cursor_array, u_int16_t cursor_id)
 {
   lw6ker_cursor_t *ret = NULL;
@@ -131,7 +131,7 @@ _lw6ker_cursor_array_get (lw6ker_cursor_array_t *
 }
 
 int
-_lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id,
 			     u_int16_t cursor_id, int team_color,
 			     int32_t x, int32_t y)
@@ -162,7 +162,7 @@ _lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_disable (_lw6ker_cursor_array_t * cursor_array,
 			      u_int64_t node_id, u_int16_t cursor_id)
 {
   int ret = 0;
@@ -189,7 +189,7 @@ _lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id,
 			     u_int16_t cursor_id, int32_t x,
 			     int32_t y, int32_t pot_offset,
@@ -221,7 +221,7 @@ _lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
 }
 
 int
-_lw6ker_cursor_array_sanity_check (lw6ker_cursor_array_t * cursor_array,
+_lw6ker_cursor_array_sanity_check (_lw6ker_cursor_array_t * cursor_array,
 				   lw6sys_whd_t * shape,
 				   lw6map_rules_t * rules)
 {

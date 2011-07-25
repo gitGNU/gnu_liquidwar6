@@ -808,13 +808,14 @@ _lw6ker_game_state_remove_cursor (_lw6ker_game_state_t * game_state,
   int ret = 0;
   int32_t nb_cursors = 0;
   int team_color = LW6MAP_TEAM_COLOR_INVALID;
+  lw6ker_cursor_t cursor;
 
   if (check_node_id (game_state, node_id))
     {
       if (_lw6ker_game_state_cursor_exists (game_state, cursor_id))
 	{
-	  _lw6ker_game_state_get_cursor_info (game_state, cursor_id, NULL,
-					      NULL, &team_color, NULL, NULL);
+	  _lw6ker_game_state_get_cursor (game_state, &cursor, cursor_id);
+	  team_color = cursor.team_color;
 	  ret =
 	    _lw6ker_cursor_array_disable (&
 					  (game_state->
@@ -891,40 +892,25 @@ lw6ker_game_state_cursor_exists (lw6ker_game_state_t * game_state,
 }
 
 int
-_lw6ker_game_state_get_cursor_info (_lw6ker_game_state_t *
-				    game_state,
-				    u_int16_t cursor_id,
-				    u_int64_t * node_id,
-				    char *letter,
-				    int *team_color, int32_t * x, int32_t * y)
+_lw6ker_game_state_get_cursor (_lw6ker_game_state_t *
+			       game_state,
+			       lw6ker_cursor_t * cursor, u_int16_t cursor_id)
 {
   int ret = 0;
-  lw6ker_cursor_t *cursor = NULL;
+  lw6ker_cursor_t *found_cursor = NULL;
 
-  cursor =
+  found_cursor =
     _lw6ker_cursor_array_get (&(game_state->map_state.cursor_array),
 			      cursor_id);
   if (cursor)
     {
-      if (node_id)
+      lw6ker_cursor_reset (cursor);
+    }
+  if (found_cursor)
+    {
+      if (cursor)
 	{
-	  (*node_id) = cursor->node_id;
-	}
-      if (letter)
-	{
-	  (*letter) = cursor->letter;
-	}
-      if (team_color)
-	{
-	  (*team_color) = cursor->team_color;
-	}
-      if (x)
-	{
-	  (*x) = cursor->pos.x;
-	}
-      if (y)
-	{
-	  (*y) = cursor->pos.y;
+	  (*cursor) = (*found_cursor);
 	}
       ret = 1;
     }
@@ -933,31 +919,21 @@ _lw6ker_game_state_get_cursor_info (_lw6ker_game_state_t *
 }
 
 /**
- * lw6ker_game_state_get_cursor_info
+ * lw6ker_game_state_get_cursor
  *
  * @game_state: the game_state to query
+ * @cursor: the cursor data (out param)
  * @cursor_id: the cursor to query
- * @node_id: the node the cursor belongs to (out param)
- * @letter: ASCII letter associated to the cursor (out param)
- * @team_color: team color of the cursor (out param)
- * @x: x position of the cursor (out param)
- * @y: y position of the cursor (out param)
- *
- * Returns information about a given cursor.
  *
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
-				   game_state,
-				   u_int16_t cursor_id,
-				   u_int64_t * node_id,
-				   char *letter,
-				   int *team_color, int32_t * x, int32_t * y)
+lw6ker_game_state_get_cursor (lw6ker_game_state_t *
+			      game_state,
+			      lw6ker_cursor_t * cursor, u_int16_t cursor_id)
 {
-  return _lw6ker_game_state_get_cursor_info ((_lw6ker_game_state_t *)
-					     game_state, cursor_id, node_id,
-					     letter, team_color, x, y);
+  return _lw6ker_game_state_get_cursor ((_lw6ker_game_state_t *)
+					game_state, cursor, cursor_id);
 }
 
 void
@@ -990,19 +966,21 @@ lw6ker_game_state_get_cursor_by_index (lw6ker_game_state_t *
 
 int
 _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
-			       u_int64_t node_id,
-			       u_int16_t cursor_id, int32_t x, int32_t y)
+			       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
+  int x, y;
 
-  if (check_node_id (game_state, node_id))
+  if (check_node_id (game_state, cursor->node_id))
     {
+      x = cursor->pos.x;
+      y = cursor->pos.y;
       lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	_lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
-				     node_id, cursor_id, x, y, 0,
-				     &(game_state->map_state.shape),
+				     cursor->node_id, cursor->cursor_id, x, y,
+				     0, &(game_state->map_state.shape),
 				     &(game_state->game_struct->rules));
     }
 
@@ -1013,24 +991,22 @@ _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
  * lw6ker_game_state_set_cursor
  *
  * @game_state: the game_state to act upon
- * @node_id: the node issuing the command
- * @cursor_id: the cursor to set
- * @x: x position
- * @y: y position
+ * @cursor: the cursor
  *
  * Sets a cursor, that is, changes its position, this is pretty much
  * anything we can do about a cursor except adding or removing it, just
- * because of Liquid War very simple rules.
+ * because of Liquid War very simple rules. The passed pointer may be
+ * freed after the call, only the cursor_id, node_id, x and y fields
+ * are used, others are ignored.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
 lw6ker_game_state_set_cursor (lw6ker_game_state_t * game_state,
-			      u_int64_t node_id,
-			      u_int16_t cursor_id, int32_t x, int32_t y)
+			      lw6ker_cursor_t * cursor)
 {
   return _lw6ker_game_state_set_cursor ((_lw6ker_game_state_t *) game_state,
-					node_id, cursor_id, x, y);
+					cursor);
 }
 
 int
@@ -1322,7 +1298,7 @@ _lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
 {
   int ret = 0;
   _lw6ker_team_t *team;
-  lw6ker_cursor_array_t *cursor_array;
+  _lw6ker_cursor_array_t *cursor_array;
   int i = 0;
 
   if (team_color >= 0 && team_color < LW6MAP_MAX_NB_TEAMS)

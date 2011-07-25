@@ -333,10 +333,7 @@ test_algorithm ()
     lw6ker_score_array_t score_array;
     int checksum;
     int i;
-    int cursor_x, cursor_y;
-    u_int64_t node_id = 0;
-    char letter = ' ';
-    int team_color = -1;
+    lw6ker_cursor_t cursor;
 
     ret = 0;
     level =
@@ -360,26 +357,22 @@ test_algorithm ()
 		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
 					      TEST_CURSOR3_ID, TEST_COLOR3);
 		print_game_state_repr (game_state);
-		cursor_x = lw6ker_game_state_get_w (game_state) / 2;
-		cursor_y = lw6ker_game_state_get_h (game_state) / 2;
-		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR1_ID, cursor_x,
-					      cursor_y);
-		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR2_ID, cursor_x,
-					      cursor_y);
-		lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
-					      TEST_CURSOR3_ID, cursor_x,
-					      cursor_y);
-		lw6ker_game_state_get_cursor_info (game_state,
-						   TEST_CURSOR1_ID,
-						   &node_id, &letter,
-						   &team_color, &cursor_x,
-						   &cursor_y);
+		lw6ker_cursor_reset (&cursor);
+		cursor.pos.x = lw6ker_game_state_get_w (game_state) / 2;
+		cursor.pos.y = lw6ker_game_state_get_h (game_state) / 2;
+		cursor.node_id = TEST_NODE_ID;
+		cursor.cursor_id = TEST_CURSOR1_ID;
+		lw6ker_game_state_set_cursor (game_state, &cursor);
+		cursor.cursor_id = TEST_CURSOR2_ID;
+		lw6ker_game_state_set_cursor (game_state, &cursor);
+		cursor.cursor_id = TEST_CURSOR3_ID;
+		lw6ker_game_state_set_cursor (game_state, &cursor);
+		lw6ker_game_state_get_cursor (game_state,
+					      &cursor, TEST_CURSOR1_ID);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("cursor %x letter='%c' color=%d x=%d y=%d"),
-			    TEST_CURSOR1_ID, letter, team_color, cursor_x,
-			    cursor_y);
+			    TEST_CURSOR1_ID, cursor.letter, cursor.team_color,
+			    cursor.pos.x, cursor.pos.y);
 		for (i = 0; i < TEST_NB_ROUNDS; ++i)
 		  {
 		    lw6ker_game_state_do_round (game_state);

@@ -675,11 +675,11 @@ File: liquidwar6.info,  Node: C to Guile,  Next: Script hooks,  Prev: Advanced s
  -- C function exported to Guile: `c-lw6ker-game-struct-checksum'
      Wrapper on lw6ker_game_struct_checksum.
 
-4.13.109 c-lw6ker-get-cursor-info
----------------------------------
+4.13.109 c-lw6ker-get-cursor
+----------------------------
 
- -- C function exported to Guile: `c-lw6ker-get-cursor-info'
-     Wrapper on lw6ker_get_cursor_info.
+ -- C function exported to Guile: `c-lw6ker-get-cursor'
+     Wrapper on lw6ker_get_cursor.
 
 4.13.110 c-lw6ker-get-moves
 ---------------------------

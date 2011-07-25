@@ -168,8 +168,19 @@ _lw6ker_cursor_update_apply_pos (lw6ker_cursor_t * cursor,
     }
 }
 
+/**
+ * lw6ker_cursor_reset
+ *
+ * @cursor: the cursor to reset
+ *
+ * Sets a cursor to defaults (disabled). This function will not touch
+ * the node_id and cursor_id fields, so you can call it on an already
+ * used cursor, it will stay usable.
+ *
+ * Return value: none
+ */
 void
-_lw6ker_cursor_reset (lw6ker_cursor_t * cursor)
+lw6ker_cursor_reset (lw6ker_cursor_t * cursor)
 {
   cursor->enabled = 0;
   cursor->team_color = LW6MAP_TEAM_COLOR_INVALID;
@@ -191,7 +202,7 @@ _lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
     {
       cursor->node_id = node_id;
       cursor->cursor_id = cursor_id;
-      _lw6ker_cursor_reset (cursor);
+      lw6ker_cursor_reset (cursor);
       cursor->enabled = 1;
       cursor->team_color = team_color;
       cursor->pos.x = x;
@@ -216,7 +227,7 @@ _lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
     {
       cursor->node_id = 0;
       cursor->cursor_id = 0;
-      _lw6ker_cursor_reset (cursor);
+      lw6ker_cursor_reset (cursor);
       ret = 1;
     }
   else

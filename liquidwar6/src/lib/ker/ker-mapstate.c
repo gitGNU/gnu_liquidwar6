@@ -122,7 +122,7 @@ _lw6ker_map_state_sync (_lw6ker_map_state_t * dst, _lw6ker_map_state_t * src)
 	  ret = ret && _lw6ker_team_sync (&(dst->teams[i]), &(src->teams[i]));
 	}
       memcpy (&(dst->cursor_array), &(src->cursor_array),
-	      sizeof (lw6ker_cursor_array_t));
+	      sizeof (_lw6ker_cursor_array_t));
       dst->nb_slots = src->nb_slots;
       memcpy (dst->slots, src->slots,
 	      src->map_struct->nb_slots * sizeof (_lw6ker_slot_state_t));

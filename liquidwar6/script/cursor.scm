@@ -134,7 +134,7 @@
     (let (
 	  (cursor-id (c-lw6sys-generate-id-16))
 	  )
-      (if (c-lw6ker-get-cursor-info game-state cursor-id)
+      (if (c-lw6ker-get-cursor game-state cursor-id)
 	  (lw6-get-cursor-id-not-in-game-state game-state)
 	  cursor-id))))
 
@@ -143,14 +143,14 @@
     (let* (
 	   (cursor (lw6-get-cursor cursor-key))
 	   (cursor-id (hash-ref cursor "id"))
-	   (cursor-info (c-lw6ker-get-cursor-info game-state cursor-id))
+	   (cursor-c (c-lw6ker-get-cursor game-state cursor-id))
 	   )
-      (if cursor-info
+      (if cursor
 	  (begin
-	    (hash-set! cursor "x" (assoc-ref cursor-info "x"))
-	    (hash-set! cursor "y" (assoc-ref cursor-info "y"))
-	    (hash-set! cursor "letter" (assoc-ref cursor-info "letter"))
-	    (hash-set! cursor "team-color" (assoc-ref cursor-info "team-color"))
+	    (hash-set! cursor "x" (assoc-ref cursor-c "x"))
+	    (hash-set! cursor "y" (assoc-ref cursor-c "y"))
+	    (hash-set! cursor "letter" (assoc-ref cursor-c "letter"))
+	    (hash-set! cursor "team-color" (assoc-ref cursor-c "team-color"))
 	    )))))
 
 (define lw6-cursor-init-configured-mover

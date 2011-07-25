@@ -101,6 +101,7 @@ test_backend (lw6bot_backend_t * backend)
   int i;
   char *capture_str = NULL;
   char *repr = NULL;
+  lw6ker_cursor_t cursor;
 
   memset (&bot_seed, 0, sizeof (lw6bot_seed_t));
 
@@ -118,8 +119,12 @@ test_backend (lw6bot_backend_t * backend)
 	      lw6bot_next_move (backend, &x, &y);
 	      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("round %d moved to %d,%d"),
 			  lw6ker_game_state_get_rounds (game_state), x, y);
-	      lw6ker_game_state_set_cursor (game_state, TEST_NODE_ID,
-					    TEST_CURSOR_ID3, x, y);
+	      lw6ker_cursor_reset (&cursor);
+	      cursor.node_id = TEST_NODE_ID;
+	      cursor.cursor_id = TEST_CURSOR_ID3;
+	      cursor.pos.x = x;
+	      cursor.pos.y = y;
+	      lw6ker_game_state_set_cursor (game_state, &cursor);
 	      for (i = 0; i < TEST_ROUNDS_STEP; ++i)
 		{
 		  lw6ker_game_state_do_round (game_state);

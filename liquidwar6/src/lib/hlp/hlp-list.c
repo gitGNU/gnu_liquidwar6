@@ -841,7 +841,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_ADD_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_REMOVE_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_CURSOR_EXISTS);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_CURSOR_INFO);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_SET_CURSOR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_DO_ROUND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_GET_MOVES);

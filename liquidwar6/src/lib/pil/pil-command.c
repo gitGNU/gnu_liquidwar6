@@ -422,6 +422,7 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
 			lw6pil_command_t * command)
 {
   int ret = 0;
+  lw6ker_cursor_t cursor;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("execute command \"%s\""),
 	      command->text);
@@ -441,11 +442,12 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
 				      command->args.add.team_color);
       break;
     case LW6PIL_COMMAND_CODE_SET:
-      ret =
-	lw6ker_game_state_set_cursor (game_state, command->node_id,
-				      command->args.set.cursor_id,
-				      command->args.set.x,
-				      command->args.set.y);
+      lw6ker_cursor_reset (&cursor);
+      cursor.node_id = command->node_id;
+      cursor.cursor_id = command->args.set.cursor_id;
+      cursor.pos.x = command->args.set.x;
+      cursor.pos.y = command->args.set.y;
+      ret = lw6ker_game_state_set_cursor (game_state, &cursor);
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =

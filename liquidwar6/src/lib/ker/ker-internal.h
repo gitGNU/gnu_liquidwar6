@@ -150,6 +150,13 @@ typedef struct _lw6ker_node_array_s
 }
 _lw6ker_node_array_t;
 
+typedef struct _lw6ker_cursor_array_s
+{
+  int32_t nb_cursors;
+  lw6ker_cursor_t cursors[LW6MAP_MAX_NB_CURSORS];
+}
+_lw6ker_cursor_array_t;
+
 typedef struct _lw6ker_team_s
 {
   int active;
@@ -206,7 +213,7 @@ typedef struct _lw6ker_map_state_s
   _lw6ker_armies_t armies;
   int32_t max_nb_teams;
   _lw6ker_team_t teams[LW6MAP_MAX_NB_TEAMS];
-  lw6ker_cursor_array_t cursor_array;
+  _lw6ker_cursor_array_t cursor_array;
   int32_t nb_slots;		// redundant but convenient
   _lw6ker_slot_state_t *slots;
 }
@@ -301,7 +308,6 @@ extern char *_lw6ker_capture_str (_lw6ker_game_state_t * game_state);
 /*
  * In cursor.c
  */
-extern void _lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 extern void _lw6ker_cursor_init (lw6ker_cursor_t * cursor, char letter);
 extern void _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
 					    u_int32_t * checksum);
@@ -330,34 +336,35 @@ extern int _lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
 /*
  * In cursorarray.c
  */
-extern void _lw6ker_cursor_array_reset (lw6ker_cursor_array_t * cursor_array);
-extern void _lw6ker_cursor_array_init (lw6ker_cursor_array_t * cursor_array);
-extern void _lw6ker_cursor_array_update_checksum (lw6ker_cursor_array_t *
+extern void _lw6ker_cursor_array_reset (_lw6ker_cursor_array_t *
+					cursor_array);
+extern void _lw6ker_cursor_array_init (_lw6ker_cursor_array_t * cursor_array);
+extern void _lw6ker_cursor_array_update_checksum (_lw6ker_cursor_array_t *
 						  cursor_array,
 						  u_int32_t * checksum);
-extern lw6ker_cursor_t *_lw6ker_cursor_array_find_free (lw6ker_cursor_array_t
+extern lw6ker_cursor_t *_lw6ker_cursor_array_find_free (_lw6ker_cursor_array_t
 							* cursor_array);
-extern int _lw6ker_cursor_array_is_color_owned_by (lw6ker_cursor_array_t *
+extern int _lw6ker_cursor_array_is_color_owned_by (_lw6ker_cursor_array_t *
 						   cursor_array,
 						   u_int64_t node_id,
 						   int team_color);
-extern lw6ker_cursor_t *_lw6ker_cursor_array_get (lw6ker_cursor_array_t *
+extern lw6ker_cursor_t *_lw6ker_cursor_array_get (_lw6ker_cursor_array_t *
 						  cursor_array,
 						  u_int16_t cursor_id);
-extern int _lw6ker_cursor_array_enable (lw6ker_cursor_array_t * cursor_array,
+extern int _lw6ker_cursor_array_enable (_lw6ker_cursor_array_t * cursor_array,
 					u_int64_t node_id,
 					u_int16_t cursor_id, int team_color,
 					int32_t x, int32_t y);
-extern int _lw6ker_cursor_array_disable (lw6ker_cursor_array_t * cursor_array,
-					 u_int64_t node_id,
+extern int _lw6ker_cursor_array_disable (_lw6ker_cursor_array_t *
+					 cursor_array, u_int64_t node_id,
 					 u_int16_t cursor_id);
-extern int _lw6ker_cursor_array_update (lw6ker_cursor_array_t * cursor_array,
+extern int _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 					u_int64_t node_id,
 					u_int16_t cursor_id, int32_t x,
 					int32_t y, int32_t pot_offset,
 					lw6sys_whd_t * shape,
 					lw6map_rules_t * rules);
-extern int _lw6ker_cursor_array_sanity_check (lw6ker_cursor_array_t *
+extern int _lw6ker_cursor_array_sanity_check (_lw6ker_cursor_array_t *
 					      cursor_array,
 					      lw6sys_whd_t * shape,
 					      lw6map_rules_t * rules);
@@ -432,20 +439,16 @@ extern int _lw6ker_game_state_remove_cursor (_lw6ker_game_state_t *
 					     u_int16_t cursor_id);
 extern int _lw6ker_game_state_cursor_exists (_lw6ker_game_state_t *
 					     game_state, u_int16_t cursor_id);
-extern int _lw6ker_game_state_get_cursor_info (_lw6ker_game_state_t *
-					       game_state,
-					       u_int16_t cursor_id,
-					       u_int64_t * node_id,
-					       char *letter, int *team_color,
-					       int32_t * x, int32_t * y);
+extern int _lw6ker_game_state_get_cursor (_lw6ker_game_state_t *
+					  game_state,
+					  lw6ker_cursor_t * cursor,
+					  u_int16_t cursor_id);
 extern void _lw6ker_game_state_get_cursor_by_index (_lw6ker_game_state_t *
 						    game_state,
 						    lw6ker_cursor_t * cursor,
 						    int i);
 extern int _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
-					  u_int64_t node_id,
-					  u_int16_t cursor_id, int32_t x,
-					  int32_t y);
+					  lw6ker_cursor_t * cursor);
 extern int _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t *
 						 game_state, int team_color,
 						 int position_mode);

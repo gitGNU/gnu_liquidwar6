@@ -2024,8 +2024,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6ker_remove_cursor."));
   POPULATE_VOID (LW6DEF_C_LW6KER_CURSOR_EXISTS,
 		 _x_ ("Wrapper on lw6ker_cursor_exists."));
-  POPULATE_VOID (LW6DEF_C_LW6KER_GET_CURSOR_INFO,
-		 _x_ ("Wrapper on lw6ker_get_cursor_info."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_GET_CURSOR,
+		 _x_ ("Wrapper on lw6ker_get_cursor."));
   POPULATE_VOID (LW6DEF_C_LW6KER_SET_CURSOR,
 		 _x_ ("Wrapper on lw6ker_set_cursor."));
   POPULATE_VOID (LW6DEF_C_LW6KER_DO_ROUND,

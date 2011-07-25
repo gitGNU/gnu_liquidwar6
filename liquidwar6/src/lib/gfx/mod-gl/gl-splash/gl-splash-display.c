@@ -49,11 +49,10 @@ void
 _update_system (mod_gl_utils_context_t *
 		utils_context, _mod_gl_splash_context_t * splash_context)
 {
-  int x = 0;
-  int y = 0;
   int x_center = 0;
   int y_center = 0;
   float angle = 0.0f;
+  lw6ker_cursor_t cursor;
 
   if (splash_context->game.bitmap && splash_context->game.game_state)
     {
@@ -67,61 +66,57 @@ _update_system (mod_gl_utils_context_t *
       angle =
 	((float) mod_gl_utils_timer_get_cycle (utils_context)) /
 	((float) splash_context->const_data.cursors_spin_period);
-      if (lw6ker_game_state_get_cursor_info
-	  (splash_context->game.game_state, _MOD_GL_SPLASH_GAME_CURSOR1_ID,
-	   NULL, NULL, NULL, &x, NULL))
+      if (lw6ker_game_state_get_cursor
+	  (splash_context->game.game_state, &cursor,
+	   _MOD_GL_SPLASH_GAME_CURSOR1_ID))
 	{
-	  x =
+	  cursor.pos.x =
 	    x_center +
 	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  y =
+	  cursor.pos.y =
 	    y_center +
 	    splash_context->const_data.cursors_spin_radius * sin (angle);
 	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					_MOD_GL_SPLASH_GAME_NODE_ID,
-					_MOD_GL_SPLASH_GAME_CURSOR1_ID, x, y);
+					&cursor);
 	}
-      if (lw6ker_game_state_get_cursor_info
-	  (splash_context->game.game_state, _MOD_GL_SPLASH_GAME_CURSOR2_ID,
-	   NULL, NULL, NULL, &x, NULL))
+      if (lw6ker_game_state_get_cursor
+	  (splash_context->game.game_state, &cursor,
+	   _MOD_GL_SPLASH_GAME_CURSOR2_ID))
 	{
-	  x =
+	  cursor.pos.x =
 	    x_center -
 	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  y =
+	  cursor.pos.y =
 	    y_center +
 	    splash_context->const_data.cursors_spin_radius * cos (angle);
 	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					_MOD_GL_SPLASH_GAME_NODE_ID,
-					_MOD_GL_SPLASH_GAME_CURSOR2_ID, x, y);
+					&cursor);
 	}
-      if (lw6ker_game_state_get_cursor_info
-	  (splash_context->game.game_state, _MOD_GL_SPLASH_GAME_CURSOR3_ID,
-	   NULL, NULL, NULL, &x, NULL))
+      if (lw6ker_game_state_get_cursor
+	  (splash_context->game.game_state, &cursor,
+	   _MOD_GL_SPLASH_GAME_CURSOR3_ID))
 	{
-	  x =
+	  cursor.pos.x =
 	    x_center -
 	    splash_context->const_data.cursors_spin_radius * cos (angle);
-	  y =
+	  cursor.pos.y =
 	    y_center -
 	    splash_context->const_data.cursors_spin_radius * sin (angle);
 	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					_MOD_GL_SPLASH_GAME_NODE_ID,
-					_MOD_GL_SPLASH_GAME_CURSOR3_ID, x, y);
+					&cursor);
 	}
-      if (lw6ker_game_state_get_cursor_info
-	  (splash_context->game.game_state, _MOD_GL_SPLASH_GAME_CURSOR4_ID,
-	   NULL, NULL, NULL, &x, NULL))
+      if (lw6ker_game_state_get_cursor
+	  (splash_context->game.game_state, &cursor,
+	   _MOD_GL_SPLASH_GAME_CURSOR4_ID))
 	{
-	  x =
+	  cursor.pos.x =
 	    x_center +
 	    splash_context->const_data.cursors_spin_radius * sin (angle);
-	  y =
+	  cursor.pos.y =
 	    y_center -
 	    splash_context->const_data.cursors_spin_radius * cos (angle);
 	  lw6ker_game_state_set_cursor (splash_context->game.game_state,
-					_MOD_GL_SPLASH_GAME_NODE_ID,
-					_MOD_GL_SPLASH_GAME_CURSOR4_ID, x, y);
+					&cursor);
 	}
       lw6ker_game_state_do_round (splash_context->game.game_state);
       mod_gl_utils_update_game_bitmap_raw (utils_context,
