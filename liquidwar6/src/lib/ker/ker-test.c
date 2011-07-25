@@ -97,7 +97,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   lw6ker_fighter_t *fighter3;
   lw6sys_whd_t shape;
   int x, y, z;
-  lw6ker_cursor_array_t cursor_array;
+  lw6ker_cursor_t cursor;
   int potential;
 
   repr = lw6ker_game_state_repr (game_state);
@@ -125,7 +125,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 	   * Do NOT remove the following calls, as lw6ker_game_state_get_fighter_X
 	   * functions really need to be compiled in.
 	   */
-	  lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
+	  lw6ker_game_state_get_cursor_by_index (game_state, &cursor, 0);
 	  lw6ker_game_state_get_shape (game_state, &shape);
 	  x = lw6sys_random (lw6ker_game_state_get_w (game_state));
 	  y = lw6sys_random (lw6ker_game_state_get_h (game_state));

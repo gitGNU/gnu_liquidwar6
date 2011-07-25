@@ -479,26 +479,23 @@ _display_cursors (mod_gl_utils_context_t * utils_context,
 		  lw6pil_local_cursors_t * local_cursors)
 {
   int i;
-  lw6ker_cursor_t *cursor;
-  lw6ker_cursor_array_t cursor_array;
+  lw6ker_cursor_t cursor;
   lw6pil_local_cursor_t *local_cursor;
   int blink_state;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display cursors"));
-  lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
-      cursor = &(cursor_array.cursors[i]);
-      if (cursor->enabled)
+      lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
+      if (cursor.enabled)
 	{
 	  local_cursor =
-	    lw6pil_local_cursors_get_cursor (local_cursors,
-					     cursor->cursor_id);
+	    lw6pil_local_cursors_get_cursor (local_cursors, cursor.cursor_id);
 	  blink_state =
 	    lw6sys_math_blink (mod_gl_utils_timer_get_uptime (utils_context),
 			       flat_context->const_data.cursor_blink_period);
 	  _display_cursor (utils_context, flat_context, look, local_cursor, i,
-			   cursor->pos.x, cursor->pos.y, blink_state);
+			   cursor.pos.x, cursor.pos.y, blink_state);
 	}
     }
 }

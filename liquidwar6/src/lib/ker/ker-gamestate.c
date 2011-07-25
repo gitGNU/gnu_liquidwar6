@@ -961,28 +961,31 @@ lw6ker_game_state_get_cursor_info (lw6ker_game_state_t *
 }
 
 void
-_lw6ker_game_state_get_cursor_array (_lw6ker_game_state_t * game_state,
-				     lw6ker_cursor_array_t * cursor_array)
+_lw6ker_game_state_get_cursor_by_index (_lw6ker_game_state_t * game_state,
+					lw6ker_cursor_t * cursor, int i)
 {
-  (*cursor_array) = game_state->map_state.cursor_array;
+  (*cursor) = game_state->map_state.cursor_array.cursors[i];
 }
 
 /**
- * lw6ker_game_state_get_cursor_array
+ * lw6ker_game_state_get_cursor_by_index
  *
  * @game_state: the game state to query
- * @cursor_array: the cursor array (out param)
+ * @cursor: the cursor (out param)
+ * @i: the index
  *
- * Copies the cursor_array informations to the given struct pointer.
+ * Gets the cursor information, using its index. This is usefull to walk
+ * the whole cursor without knowing their ids.
  *
  * Return value: none.
  */
 void
-lw6ker_game_state_get_cursor_array (lw6ker_game_state_t * game_state,
-				    lw6ker_cursor_array_t * cursor_array)
+lw6ker_game_state_get_cursor_by_index (lw6ker_game_state_t *
+				       game_state,
+				       lw6ker_cursor_t * cursor, int i)
 {
-  _lw6ker_game_state_get_cursor_array ((_lw6ker_game_state_t *) game_state,
-				       cursor_array);
+  _lw6ker_game_state_get_cursor_by_index ((_lw6ker_game_state_t *) game_state,
+					  cursor, i);
 }
 
 int

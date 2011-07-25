@@ -438,10 +438,10 @@ extern int _lw6ker_game_state_get_cursor_info (_lw6ker_game_state_t *
 					       u_int64_t * node_id,
 					       char *letter, int *team_color,
 					       int32_t * x, int32_t * y);
-extern void _lw6ker_game_state_get_cursor_array (_lw6ker_game_state_t *
-						 game_state,
-						 lw6ker_cursor_array_t *
-						 cursor_array);
+extern void _lw6ker_game_state_get_cursor_by_index (_lw6ker_game_state_t *
+						    game_state,
+						    lw6ker_cursor_t * cursor,
+						    int i);
 extern int _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
 					  u_int64_t node_id,
 					  u_int16_t cursor_id, int32_t x,

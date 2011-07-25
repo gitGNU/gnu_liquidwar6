@@ -243,17 +243,17 @@ _mod_gl_view_flat_cursors_context_init (mod_gl_utils_context_t *
 {
   int ret = 1;
   int i;
-  lw6ker_cursor_array_t cursor_array;
+  lw6ker_cursor_t cursor;
 
-  lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
   cursors_context->color = look->style.color_set.view_color_cursor;
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
+      lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
       ret = ret
 	&& _mod_gl_view_flat_cursor_context_init (utils_context,
 						  &(cursors_context->cursor
 						    [i]), const_data, look,
-						  &(cursor_array.cursors[i]));
+						  &cursor);
     }
 
   return ret;
@@ -271,7 +271,7 @@ _mod_gl_view_flat_cursors_context_update (mod_gl_utils_context_t *
 {
   int ret = 1;
   int i;
-  lw6ker_cursor_array_t cursor_array;
+  lw6ker_cursor_t cursor;
 
   if (!lw6map_color_is_same
       (&cursors_context->color, &look->style.color_set.view_color_cursor))
@@ -286,17 +286,16 @@ _mod_gl_view_flat_cursors_context_update (mod_gl_utils_context_t *
     }
   else
     {
-      lw6ker_game_state_get_cursor_array (game_state, &cursor_array);
       for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 	{
+	  lw6ker_game_state_get_cursor_by_index (game_state, &cursor, i);
 	  ret = ret
 	    && _mod_gl_view_flat_cursor_context_update (utils_context,
 							&
 							(cursors_context->
 							 cursor[i]),
 							const_data, look,
-							&(cursor_array.
-							  cursors[i]));
+							&cursor);
 	}
     }
 
