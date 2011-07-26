@@ -862,7 +862,7 @@ value between 0 and 100.
 @deffnx {XML key} @code{team-profile-blue-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 110
 Min value: 10
 Max value: 1000
 
@@ -877,7 +877,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-blue-fast}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -908,7 +908,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-blue-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 90
 Min value: 10
 Max value: 1000
 
@@ -938,7 +938,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-cyan-fast}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -953,7 +953,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-cyan-mobile}
 Type: integer
 
-Default value: 0
+Default value: 2
 Min value: -3
 Max value: 3
 
@@ -984,7 +984,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-green-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1030,7 +1030,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-green-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1045,7 +1045,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-lightblue-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 90
 Min value: 10
 Max value: 1000
 
@@ -1060,7 +1060,7 @@ value. Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-lightblue-fast}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1075,7 +1075,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-lightblue-mobile}
 Type: integer
 
-Default value: 0
+Default value: 3
 Min value: -3
 Max value: 3
 
@@ -1122,7 +1122,7 @@ value. Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-magenta-fast}
 Type: integer
 
-Default value: 100
+Default value: 110
 Min value: 10
 Max value: 1000
 
@@ -1137,7 +1137,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-magenta-mobile}
 Type: integer
 
-Default value: 0
+Default value: -1
 Min value: -3
 Max value: 3
 
@@ -1229,7 +1229,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-pink-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 130
 Min value: 10
 Max value: 1000
 
@@ -1244,7 +1244,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-pink-fast}
 Type: integer
 
-Default value: 100
+Default value: 120
 Min value: 10
 Max value: 1000
 
@@ -1259,7 +1259,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-pink-mobile}
 Type: integer
 
-Default value: 0
+Default value: 1
 Min value: -3
 Max value: 3
 
@@ -1275,7 +1275,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-pink-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 160
 Min value: 10
 Max value: 1000
 
@@ -1290,7 +1290,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-purple-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1305,7 +1305,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-purple-fast}
 Type: integer
 
-Default value: 100
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1336,7 +1336,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-purple-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 60
 Min value: 10
 Max value: 1000
 
@@ -1351,7 +1351,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-red-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 120
 Min value: 10
 Max value: 1000
 
@@ -1397,7 +1397,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-red-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 120
 Min value: 10
 Max value: 1000
 
@@ -1412,7 +1412,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-yellow-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 50
 Min value: 10
 Max value: 1000
 
@@ -1427,7 +1427,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-yellow-fast}
 Type: integer
 
-Default value: 100
+Default value: 150
 Min value: 10
 Max value: 1000
 
