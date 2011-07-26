@@ -83,6 +83,7 @@ User's manual
 * Quick start::         Ready, set, go!
 * Strategy tips::       Keep this under your pillow.
 * User interface::      How to control the game.
+* Solo game::           Playing alone.
 * Network games::       Set up and run network games.
 * Graphics::            3D-acceleration issues.
 * Sound & music::       Let's get noisy.
@@ -426,6 +427,7 @@ map creation and programming, this is just for you.
 * Quick start::         Ready, set, go!
 * Strategy tips::       Keep this under your pillow.
 * User interface::      How to control the game.
+* Solo game::           Playing alone.
 * Network games::       Set up and run network games.
 * Graphics::            3D-acceleration issues.
 * Sound & music::       Let's get noisy.
@@ -975,7 +977,7 @@ Todo...
 @c User interface
 @c ---------------------------------------------------------------------------
 
-@node User interface, Network games, Strategy tips, User's manual
+@node User interface, Solo game, Strategy tips, User's manual
 @section User interface
 
 @subsection A reduced set of keys
@@ -1050,10 +1052,39 @@ Think of this feature as the procastinator's ``whoops, here comes my boss!!!''
 emergency function.
 
 @c ---------------------------------------------------------------------------
+@c Solo game
+@c ---------------------------------------------------------------------------
+
+@node Solo game, Network games, User interface, User's manual
+@section Solo game
+
+@subsection Current state
+
+As of today, Liquid War 6 is essentially a solo game since network
+is not working. It allows you to toy arround in arcade mode on any
+map you wish.
+
+A real solo mode with campaign and goals to reach is planned, how
+it will be implemented is yet to be defined.
+
+@subsection Team profiles
+
+By default, teams behave differently, some of them move more rapidly,
+some are more aggressive but vulnerable, some are more defensive but
+do not attack as strong as others. This aspect of the game is under
+active tuning, things might be unfair by now, you can toy arround
+with the various @code{team-profile-...} options, any report is
+appreciated.
+
+Note that this is very different from Liquid War 5, and can give
+very different gaming experiences, you can artificially set up arbitrary
+strong bots, for instance.
+
+@c ---------------------------------------------------------------------------
 @c Network games
 @c ---------------------------------------------------------------------------
 
-@node Network games, Graphics, User interface, User's manual
+@node Network games, Graphics, Solo game, User's manual
 @section Network games
 
 @subsection Choose your ``public url''
