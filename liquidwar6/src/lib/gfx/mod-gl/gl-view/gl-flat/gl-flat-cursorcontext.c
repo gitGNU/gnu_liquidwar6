@@ -146,6 +146,8 @@ _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
 				       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
+  lw6map_color_couple_t color_couple;
+  char text[2] = { 0, 0 };
 
   if (cursor->enabled)
     {
@@ -158,9 +160,28 @@ _mod_gl_view_flat_cursor_context_init (mod_gl_utils_context_t *
       cursor_context->bitmap_color =
 	mod_gl_utils_cursor_create_color (utils_context, look, level, cursor);
 
-      ret = (cursor_context->bitmap_color != NULL);
+      if (cursor->team_color >= 0)
+	{
+	  color_couple.fg =
+	    look->style.color_set.team_colors[cursor->team_color];
+	}
+      else
+	{
+	  color_couple.fg = look->style.color_set.team_color_dead;
+	}
+      color_couple.bg = look->style.color_set.team_color_dead;
+
+      text[0] = cursor->letter;
+      cursor_context->shaded_text_letter =
+	mod_gl_utils_shaded_text_new (utils_context,
+				      utils_context->font_data.cursor, text,
+				      &color_couple);
+
+      ret = (cursor_context->bitmap_color != NULL)
+	&& (cursor_context->shaded_text_letter != NULL);
     }
-  else
+
+  if (!ret)
     {
       _mod_gl_view_flat_cursor_context_clear (utils_context, cursor_context);
     }
@@ -212,6 +233,11 @@ _mod_gl_view_flat_cursor_context_clear (mod_gl_utils_context_t *
   if (cursor_context->bitmap_color)
     {
       mod_gl_utils_bitmap_free (utils_context, cursor_context->bitmap_color);
+    }
+  if (cursor_context->shaded_text_letter)
+    {
+      mod_gl_utils_shaded_text_free (utils_context,
+				     cursor_context->shaded_text_letter);
     }
   memset (cursor_context, 0, sizeof (_mod_gl_view_flat_cursor_context_t));
 

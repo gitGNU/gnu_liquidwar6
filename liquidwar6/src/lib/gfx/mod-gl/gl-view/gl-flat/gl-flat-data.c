@@ -48,12 +48,6 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->cursor_blink_period);
       lw6cfg_read_xml_int (key, value, "cursor-heartbeat-period",
 			   &const_data->cursor_heartbeat_period);
-      lw6cfg_read_xml_int (key, value, "cursor-texture-size",
-			   &const_data->cursor_texture_size);
-      lw6cfg_read_xml_int (key, value, "cursor-border-width",
-			   &const_data->cursor_border_width);
-      lw6cfg_read_xml_int (key, value, "cursor-blur-width",
-			   &const_data->cursor_blur_width);
       lw6cfg_read_xml_int (key, value, "tile-size-map",
 			   &const_data->tile_size_map);
       lw6cfg_read_xml_int (key, value, "tile-size-armies",
@@ -68,6 +62,16 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->cursor_size_max);
       lw6cfg_read_xml_float (key, value, "scroll-limit",
 			     &const_data->scroll_limit);
+      lw6cfg_read_xml_float (key, value, "cursor-relative-text-y1",
+			     &const_data->cursor_relative_text_y1);
+      lw6cfg_read_xml_float (key, value, "cursor-relative-text-y2",
+			     &const_data->cursor_relative_text_y2);
+      lw6cfg_read_xml_float (key, value, "cursor-relative-text-x1",
+			     &const_data->cursor_relative_text_x1);
+      lw6cfg_read_xml_float (key, value, "cursor-relative-text-dw",
+			     &const_data->cursor_relative_text_dw);
+      lw6cfg_read_xml_float (key, value, "cursor-relative-text-dh",
+			     &const_data->cursor_relative_text_dh);
     }
 }
 

@@ -9,7 +9,7 @@
   <float key="persp-zfar" value="1000.0" />
   <int key="menu-font-size" value="32" />
   <int key="hud-font-size" value="16" />
-  <int key="cursor-font-size" value="48" />
+  <int key="cursor-font-size" value="24" />
   <int key="system-font-size" value="12" />
   <int key="system-font-dw" value="2" />
   <int key="system-font-dh" value="1" />

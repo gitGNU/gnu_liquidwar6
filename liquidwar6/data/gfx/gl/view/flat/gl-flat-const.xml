@@ -6,9 +6,11 @@
   <int key="scroll-min-offset" value="1" />
   <int key="cursor-blink-period" value="500" />
   <int key="cursor-heartbeat-period" value="1000" />
-  <int key="cursor-texture-size" value="64" />
-  <int key="cursor-border-width" value="6" />
-  <int key="cursor-blur-width" value="3" />
+  <float key="cursor-relative-text-y1" value="0.5" />
+  <float key="cursor-relative-text-y2" value="1.2" />
+  <float key="cursor-relative-text-x1" value="0.7" />
+  <float key="cursor-relative-text-dw" value="0.05" />
+  <float key="cursor-relative-text-dh" value="0.05" />
   <int key="tile-size-map" value="512" />
   <int key="tile-size-armies" value="128" />
 </liquidwar6>

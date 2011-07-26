@@ -54,6 +54,7 @@ typedef struct _mod_gl_view_flat_cursor_context_s
   char letter;
   int team_color;
   mod_gl_utils_bitmap_t *bitmap_color;
+  mod_gl_utils_shaded_text_t *shaded_text_letter;
 }
 _mod_gl_view_flat_cursor_context_t;
 
@@ -74,9 +75,11 @@ typedef struct _mod_gl_view_flat_const_data_s
   int scroll_min_offset;
   int cursor_blink_period;
   int cursor_heartbeat_period;
-  int cursor_texture_size;
-  int cursor_border_width;
-  int cursor_blur_width;
+  float cursor_relative_text_y1;
+  float cursor_relative_text_y2;
+  float cursor_relative_text_x1;
+  float cursor_relative_text_dw;
+  float cursor_relative_text_dh;
   int tile_size_map;
   int tile_size_armies;
 }

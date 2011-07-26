@@ -410,6 +410,13 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
   float cursor_y = 0.0f;
   float cursor_w = 0.0f;
   float cursor_h = 0.0f;
+  float cursor_avg = 0.0f;
+  float text_x1 = 0.0f;
+  float text_y1 = 0.0f;
+  float text_x2 = 0.0f;
+  float text_y2 = 0.0f;
+  float text_dw = 0.0f;
+  float text_dh = 0.0f;
 
   if (local_cursor && local_cursor->is_main && local_cursor->mouse_controlled)
     {
@@ -460,6 +467,12 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 			       flat_context->const_data.cursor_size_min,
 			       flat_context->const_data.cursor_size_max) *
 	look->style.cursor_size;
+      cursor_avg =
+	(utils_context->video_mode.width +
+	 utils_context->video_mode.height) *
+	((flat_context->const_data.cursor_size_min +
+	  flat_context->const_data.cursor_size_max) / 2.0f) *
+	look->style.cursor_size;
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i,
 		  cursor_x, cursor_y, cursor_w, cursor_h);
@@ -472,6 +485,38 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 				  cursor_y, cursor_w, cursor_h,
 				  flat_context->cursors_context.
 				  cursor[i].bitmap_color);
+	}
+      if (flat_context->cursors_context.cursor[i].
+	  shaded_text_letter->texture_h > 0)
+	{
+	  text_y1 =
+	    cursor_y + (flat_context->const_data.cursor_relative_text_y1 -
+			0.5) * cursor_avg;
+	  text_y2 =
+	    cursor_y + (flat_context->const_data.cursor_relative_text_y2 -
+			0.5) * cursor_avg;
+	  text_x1 =
+	    cursor_x + (flat_context->const_data.cursor_relative_text_x1 -
+			0.5) * cursor_avg;
+	  text_x2 =
+	    text_x1 +
+	    ((text_y2 -
+	      text_y1) *
+	     (flat_context->cursors_context.cursor[i].
+	      shaded_text_letter->texture_w)) /
+	    flat_context->cursors_context.cursor[i].
+	    shaded_text_letter->texture_h;
+	  text_dw =
+	    flat_context->const_data.cursor_relative_text_dw * cursor_avg;
+	  text_dh =
+	    flat_context->const_data.cursor_relative_text_dh * cursor_avg;
+
+	  mod_gl_utils_shaded_text_display (utils_context,
+					    flat_context->
+					    cursors_context.cursor[i].
+					    shaded_text_letter, text_x1,
+					    text_y1, text_x2, text_y2,
+					    text_dw, text_dh);
 	}
     }
 }
