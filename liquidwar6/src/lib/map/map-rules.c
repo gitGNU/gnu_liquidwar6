@@ -60,24 +60,24 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_CURSOR_POT_INIT,
   LW6DEF_MAX_CURSOR_POT_OFFSET,
   LW6DEF_START_RED_X,
-  LW6DEF_START_RED_Y,
   LW6DEF_START_GREEN_X,
-  LW6DEF_START_GREEN_Y,
   LW6DEF_START_BLUE_X,
-  LW6DEF_START_BLUE_Y,
   LW6DEF_START_YELLOW_X,
-  LW6DEF_START_YELLOW_Y,
   LW6DEF_START_CYAN_X,
-  LW6DEF_START_CYAN_Y,
   LW6DEF_START_MAGENTA_X,
-  LW6DEF_START_MAGENTA_Y,
   LW6DEF_START_ORANGE_X,
-  LW6DEF_START_ORANGE_Y,
   LW6DEF_START_LIGHTBLUE_X,
-  LW6DEF_START_LIGHTBLUE_Y,
   LW6DEF_START_PURPLE_X,
-  LW6DEF_START_PURPLE_Y,
   LW6DEF_START_PINK_X,
+  LW6DEF_START_RED_Y,
+  LW6DEF_START_GREEN_Y,
+  LW6DEF_START_BLUE_Y,
+  LW6DEF_START_YELLOW_Y,
+  LW6DEF_START_CYAN_Y,
+  LW6DEF_START_MAGENTA_Y,
+  LW6DEF_START_ORANGE_Y,
+  LW6DEF_START_LIGHTBLUE_Y,
+  LW6DEF_START_PURPLE_Y,
   LW6DEF_START_PINK_Y,
   LW6DEF_START_POSITION_MODE,
   LW6DEF_COLOR_CONFLICT_MODE,
@@ -89,6 +89,47 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_FRAGS_MODE,
   LW6DEF_FRAGS_TO_DISTRIBUTE,
   LW6DEF_FRAGS_FADE_OUT,
+  LW6DEF_USE_TEAM_PROFILES,
+  LW6DEF_TEAM_PROFILE_RED_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_GREEN_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_BLUE_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_CYAN_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE,
+  LW6DEF_TEAM_PROFILE_RED_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_YELLOW_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_CYAN_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_MAGENTA_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_PINK_VULNERABLE,
+  LW6DEF_TEAM_PROFILE_RED_MOBILE,
+  LW6DEF_TEAM_PROFILE_GREEN_MOBILE,
+  LW6DEF_TEAM_PROFILE_BLUE_MOBILE,
+  LW6DEF_TEAM_PROFILE_YELLOW_MOBILE,
+  LW6DEF_TEAM_PROFILE_CYAN_MOBILE,
+  LW6DEF_TEAM_PROFILE_MAGENTA_MOBILE,
+  LW6DEF_TEAM_PROFILE_ORANGE_MOBILE,
+  LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+  LW6DEF_TEAM_PROFILE_PURPLE_MOBILE,
+  LW6DEF_TEAM_PROFILE_PINK_MOBILE,
+  LW6DEF_TEAM_PROFILE_RED_FAST,
+  LW6DEF_TEAM_PROFILE_GREEN_FAST,
+  LW6DEF_TEAM_PROFILE_BLUE_FAST,
+  LW6DEF_TEAM_PROFILE_YELLOW_FAST,
+  LW6DEF_TEAM_PROFILE_CYAN_FAST,
+  LW6DEF_TEAM_PROFILE_MAGENTA_FAST,
+  LW6DEF_TEAM_PROFILE_ORANGE_FAST,
+  LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST,
+  LW6DEF_TEAM_PROFILE_PURPLE_FAST,
+  LW6DEF_TEAM_PROFILE_PINK_FAST,
   NULL				// very important that this list is NULL-terminated
 };
 
@@ -122,27 +163,27 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_MAX_ROUND_DELTA,
   LW6MAP_RULES_DEFAULT_MAX_CURSOR_POT,
   LW6MAP_RULES_DEFAULT_CURSOR_POT_INIT,
-  LW6MAP_RULES_DEFAULT_MAX_CURSOR_POT_OFFSET,
-  LW6MAP_RULES_DEFAULT_START_RED_X,
-  LW6MAP_RULES_DEFAULT_START_RED_Y,
-  LW6MAP_RULES_DEFAULT_START_GREEN_X,
-  LW6MAP_RULES_DEFAULT_START_GREEN_Y,
-  LW6MAP_RULES_DEFAULT_START_BLUE_X,
-  LW6MAP_RULES_DEFAULT_START_BLUE_Y,
-  LW6MAP_RULES_DEFAULT_START_YELLOW_X,
-  LW6MAP_RULES_DEFAULT_START_YELLOW_Y,
-  LW6MAP_RULES_DEFAULT_START_CYAN_X,
-  LW6MAP_RULES_DEFAULT_START_CYAN_Y,
-  LW6MAP_RULES_DEFAULT_START_MAGENTA_X,
-  LW6MAP_RULES_DEFAULT_START_MAGENTA_Y,
-  LW6MAP_RULES_DEFAULT_START_ORANGE_X,
-  LW6MAP_RULES_DEFAULT_START_ORANGE_Y,
-  LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_X,
-  LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_Y,
-  LW6MAP_RULES_DEFAULT_START_PURPLE_X,
-  LW6MAP_RULES_DEFAULT_START_PURPLE_Y,
-  LW6MAP_RULES_DEFAULT_START_PINK_X,
-  LW6MAP_RULES_DEFAULT_START_PINK_Y,
+  LW6MAP_RULES_DEFAULT_MAX_CURSOR_POT_OFFSET, {
+					       LW6MAP_RULES_DEFAULT_START_RED_X,
+					       LW6MAP_RULES_DEFAULT_START_GREEN_X,
+					       LW6MAP_RULES_DEFAULT_START_BLUE_X,
+					       LW6MAP_RULES_DEFAULT_START_YELLOW_X,
+					       LW6MAP_RULES_DEFAULT_START_CYAN_X,
+					       LW6MAP_RULES_DEFAULT_START_MAGENTA_X,
+					       LW6MAP_RULES_DEFAULT_START_ORANGE_X,
+					       LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_X,
+					       LW6MAP_RULES_DEFAULT_START_PURPLE_X,
+					       LW6MAP_RULES_DEFAULT_START_PINK_X}, {
+										    LW6MAP_RULES_DEFAULT_START_RED_Y,
+										    LW6MAP_RULES_DEFAULT_START_GREEN_Y,
+										    LW6MAP_RULES_DEFAULT_START_BLUE_Y,
+										    LW6MAP_RULES_DEFAULT_START_YELLOW_Y,
+										    LW6MAP_RULES_DEFAULT_START_CYAN_Y,
+										    LW6MAP_RULES_DEFAULT_START_MAGENTA_Y,
+										    LW6MAP_RULES_DEFAULT_START_ORANGE_Y,
+										    LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_Y,
+										    LW6MAP_RULES_DEFAULT_START_PURPLE_Y,
+										    LW6MAP_RULES_DEFAULT_START_PINK_Y},
   LW6MAP_RULES_DEFAULT_START_POSITION_MODE,
   LW6MAP_RULES_DEFAULT_COLOR_CONFLICT_MODE,
   LW6MAP_RULES_DEFAULT_SPREAD_THREAD,
@@ -152,7 +193,48 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_MEDICINE_POWER,
   LW6MAP_RULES_DEFAULT_FRAGS_MODE,
   LW6MAP_RULES_DEFAULT_FRAGS_TO_DISTRIBUTE,
-  LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT
+  LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT,
+  LW6MAP_RULES_DEFAULT_USE_TEAM_PROFILES, {
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+					   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_AGGRESSIVE}, {
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_VULNERABLE,
+												LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_VULNERABLE}, {
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_MOBILE,
+																		     LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_MOBILE}, {
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_FAST,
+																								      LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_FAST}
 };
 
 static lw6map_rules_t min_rules = {
@@ -185,27 +267,27 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_MAX_ROUND_DELTA,
   LW6MAP_RULES_MIN_MAX_CURSOR_POT,
   LW6MAP_RULES_MIN_CURSOR_POT_INIT,
-  LW6MAP_RULES_MIN_MAX_CURSOR_POT_OFFSET,
-  LW6MAP_RULES_MIN_START_RED_X,
-  LW6MAP_RULES_MIN_START_RED_Y,
-  LW6MAP_RULES_MIN_START_GREEN_X,
-  LW6MAP_RULES_MIN_START_GREEN_Y,
-  LW6MAP_RULES_MIN_START_BLUE_X,
-  LW6MAP_RULES_MIN_START_BLUE_Y,
-  LW6MAP_RULES_MIN_START_YELLOW_X,
-  LW6MAP_RULES_MIN_START_YELLOW_Y,
-  LW6MAP_RULES_MIN_START_CYAN_X,
-  LW6MAP_RULES_MIN_START_CYAN_Y,
-  LW6MAP_RULES_MIN_START_MAGENTA_X,
-  LW6MAP_RULES_MIN_START_MAGENTA_Y,
-  LW6MAP_RULES_MIN_START_ORANGE_X,
-  LW6MAP_RULES_MIN_START_ORANGE_Y,
-  LW6MAP_RULES_MIN_START_LIGHTBLUE_X,
-  LW6MAP_RULES_MIN_START_LIGHTBLUE_Y,
-  LW6MAP_RULES_MIN_START_PURPLE_X,
-  LW6MAP_RULES_MIN_START_PURPLE_Y,
-  LW6MAP_RULES_MIN_START_PINK_X,
-  LW6MAP_RULES_MIN_START_PINK_Y,
+  LW6MAP_RULES_MIN_MAX_CURSOR_POT_OFFSET, {
+					   LW6MAP_RULES_MIN_START_RED_X,
+					   LW6MAP_RULES_MIN_START_GREEN_X,
+					   LW6MAP_RULES_MIN_START_BLUE_X,
+					   LW6MAP_RULES_MIN_START_YELLOW_X,
+					   LW6MAP_RULES_MIN_START_CYAN_X,
+					   LW6MAP_RULES_MIN_START_MAGENTA_X,
+					   LW6MAP_RULES_MIN_START_ORANGE_X,
+					   LW6MAP_RULES_MIN_START_LIGHTBLUE_X,
+					   LW6MAP_RULES_MIN_START_PURPLE_X,
+					   LW6MAP_RULES_MIN_START_PINK_X}, {
+									    LW6MAP_RULES_MIN_START_RED_Y,
+									    LW6MAP_RULES_MIN_START_GREEN_Y,
+									    LW6MAP_RULES_MIN_START_BLUE_Y,
+									    LW6MAP_RULES_MIN_START_YELLOW_Y,
+									    LW6MAP_RULES_MIN_START_CYAN_Y,
+									    LW6MAP_RULES_MIN_START_MAGENTA_Y,
+									    LW6MAP_RULES_MIN_START_ORANGE_Y,
+									    LW6MAP_RULES_MIN_START_LIGHTBLUE_Y,
+									    LW6MAP_RULES_MIN_START_PURPLE_Y,
+									    LW6MAP_RULES_MIN_START_PINK_Y},
   LW6MAP_RULES_MIN_START_POSITION_MODE,
   LW6MAP_RULES_MIN_COLOR_CONFLICT_MODE,
   LW6MAP_RULES_MIN_SPREAD_THREAD,
@@ -215,7 +297,48 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_MEDICINE_POWER,
   LW6MAP_RULES_MIN_FRAGS_MODE,
   LW6MAP_RULES_MIN_FRAGS_TO_DISTRIBUTE,
-  LW6MAP_RULES_MIN_FRAGS_FADE_OUT
+  LW6MAP_RULES_MIN_FRAGS_FADE_OUT,
+  LW6MAP_RULES_MIN_USE_TEAM_PROFILES, {
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_RED_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+				       LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_AGGRESSIVE}, {
+											LW6MAP_RULES_MIN_TEAM_PROFILE_RED_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_VULNERABLE,
+											LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_VULNERABLE}, {
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_RED_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_MOBILE,
+																	 LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_MOBILE}, {
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_RED_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_FAST,
+																						      LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_FAST}
 };
 
 static lw6map_rules_t max_rules = {
@@ -248,27 +371,27 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_MAX_ROUND_DELTA,
   LW6MAP_RULES_MAX_MAX_CURSOR_POT,
   LW6MAP_RULES_MAX_CURSOR_POT_INIT,
-  LW6MAP_RULES_MAX_MAX_CURSOR_POT_OFFSET,
-  LW6MAP_RULES_MAX_START_RED_X,
-  LW6MAP_RULES_MAX_START_RED_Y,
-  LW6MAP_RULES_MAX_START_GREEN_X,
-  LW6MAP_RULES_MAX_START_GREEN_Y,
-  LW6MAP_RULES_MAX_START_BLUE_X,
-  LW6MAP_RULES_MAX_START_BLUE_Y,
-  LW6MAP_RULES_MAX_START_YELLOW_X,
-  LW6MAP_RULES_MAX_START_YELLOW_Y,
-  LW6MAP_RULES_MAX_START_CYAN_X,
-  LW6MAP_RULES_MAX_START_CYAN_Y,
-  LW6MAP_RULES_MAX_START_MAGENTA_X,
-  LW6MAP_RULES_MAX_START_MAGENTA_Y,
-  LW6MAP_RULES_MAX_START_ORANGE_X,
-  LW6MAP_RULES_MAX_START_ORANGE_Y,
-  LW6MAP_RULES_MAX_START_LIGHTBLUE_X,
-  LW6MAP_RULES_MAX_START_LIGHTBLUE_Y,
-  LW6MAP_RULES_MAX_START_PURPLE_X,
-  LW6MAP_RULES_MAX_START_PURPLE_Y,
-  LW6MAP_RULES_MAX_START_PINK_X,
-  LW6MAP_RULES_MAX_START_PINK_Y,
+  LW6MAP_RULES_MAX_MAX_CURSOR_POT_OFFSET, {
+					   LW6MAP_RULES_MAX_START_RED_X,
+					   LW6MAP_RULES_MAX_START_GREEN_X,
+					   LW6MAP_RULES_MAX_START_BLUE_X,
+					   LW6MAP_RULES_MAX_START_YELLOW_X,
+					   LW6MAP_RULES_MAX_START_CYAN_X,
+					   LW6MAP_RULES_MAX_START_MAGENTA_X,
+					   LW6MAP_RULES_MAX_START_ORANGE_X,
+					   LW6MAP_RULES_MAX_START_LIGHTBLUE_X,
+					   LW6MAP_RULES_MAX_START_PURPLE_X,
+					   LW6MAP_RULES_MAX_START_PINK_X}, {
+									    LW6MAP_RULES_MAX_START_RED_Y,
+									    LW6MAP_RULES_MAX_START_GREEN_Y,
+									    LW6MAP_RULES_MAX_START_BLUE_Y,
+									    LW6MAP_RULES_MAX_START_YELLOW_Y,
+									    LW6MAP_RULES_MAX_START_CYAN_Y,
+									    LW6MAP_RULES_MAX_START_MAGENTA_Y,
+									    LW6MAP_RULES_MAX_START_ORANGE_Y,
+									    LW6MAP_RULES_MAX_START_LIGHTBLUE_Y,
+									    LW6MAP_RULES_MAX_START_PURPLE_Y,
+									    LW6MAP_RULES_MAX_START_PINK_Y},
   LW6MAP_RULES_MAX_START_POSITION_MODE,
   LW6MAP_RULES_MAX_COLOR_CONFLICT_MODE,
   LW6MAP_RULES_MAX_SPREAD_THREAD,
@@ -278,7 +401,48 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_MEDICINE_POWER,
   LW6MAP_RULES_MAX_FRAGS_MODE,
   LW6MAP_RULES_MAX_FRAGS_TO_DISTRIBUTE,
-  LW6MAP_RULES_MAX_FRAGS_FADE_OUT
+  LW6MAP_RULES_MAX_FRAGS_FADE_OUT,
+  LW6MAP_RULES_MAX_USE_TEAM_PROFILES, {
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_RED_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+				       LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_AGGRESSIVE}, {
+											LW6MAP_RULES_MAX_TEAM_PROFILE_RED_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_VULNERABLE,
+											LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_VULNERABLE}, {
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_RED_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_MOBILE,
+																	 LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_MOBILE}, {
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_RED_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_FAST,
+																						      LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_FAST}
 };
 
 void
@@ -330,26 +494,46 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->max_cursor_pot);
   lw6sys_checksum_update_int32 (checksum, rules->cursor_pot_init);
   lw6sys_checksum_update_int32 (checksum, rules->max_cursor_pot_offset);
-  lw6sys_checksum_update_int32 (checksum, rules->start_red_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_red_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_green_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_green_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_blue_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_blue_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_yellow_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_yellow_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_cyan_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_cyan_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_magenta_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_magenta_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_orange_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_orange_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_lightblue_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_lightblue_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_purple_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_purple_y);
-  lw6sys_checksum_update_int32 (checksum, rules->start_pink_x);
-  lw6sys_checksum_update_int32 (checksum, rules->start_pink_y);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_x[LW6MAP_TEAM_COLOR_PINK]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->start_y[LW6MAP_TEAM_COLOR_PINK]);
   lw6sys_checksum_update_int32 (checksum, rules->start_position_mode);
   lw6sys_checksum_update_int32 (checksum, rules->color_conflict_mode);
   lw6sys_checksum_update_int32 (checksum, rules->spread_thread);
@@ -360,6 +544,127 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->frags_mode);
   lw6sys_checksum_update_int32 (checksum, rules->frags_to_distribute);
   lw6sys_checksum_update_int32 (checksum, rules->frags_fade_out);
+  lw6sys_checksum_update_int32 (checksum, rules->use_team_profiles);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_aggressive
+				[LW6MAP_TEAM_COLOR_PINK]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_vulnerable
+				[LW6MAP_TEAM_COLOR_PINK]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_mobile
+				[LW6MAP_TEAM_COLOR_PINK]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_RED]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_GREEN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_BLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_YELLOW]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_CYAN]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_MAGENTA]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_ORANGE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_PURPLE]);
+  lw6sys_checksum_update_int32 (checksum,
+				rules->team_profile_fast
+				[LW6MAP_TEAM_COLOR_PINK]);
 }
 
 int32_t *
@@ -495,83 +800,83 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_RED_X))
 	    {
-	      ret = &(rules->start_red_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_RED_Y))
-	    {
-	      ret = &(rules->start_red_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_RED]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_GREEN_X))
 	    {
-	      ret = &(rules->start_green_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_GREEN_Y))
-	    {
-	      ret = &(rules->start_green_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_GREEN]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_BLUE_X))
 	    {
-	      ret = &(rules->start_blue_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_BLUE_Y))
-	    {
-	      ret = &(rules->start_blue_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_BLUE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_YELLOW_X))
 	    {
-	      ret = &(rules->start_yellow_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_YELLOW_Y))
-	    {
-	      ret = &(rules->start_yellow_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_YELLOW]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_CYAN_X))
 	    {
-	      ret = &(rules->start_cyan_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_CYAN_Y))
-	    {
-	      ret = &(rules->start_cyan_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_CYAN]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_MAGENTA_X))
 	    {
-	      ret = &(rules->start_magenta_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_MAGENTA_Y))
-	    {
-	      ret = &(rules->start_magenta_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_MAGENTA]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_ORANGE_X))
 	    {
-	      ret = &(rules->start_orange_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_ORANGE_Y))
-	    {
-	      ret = &(rules->start_orange_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_ORANGE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_LIGHTBLUE_X))
 	    {
-	      ret = &(rules->start_lightblue_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_LIGHTBLUE_Y))
-	    {
-	      ret = &(rules->start_lightblue_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_PURPLE_X))
 	    {
-	      ret = &(rules->start_purple_x);
-	    }
-	  else if (!strcmp (formatted_key, LW6DEF_START_PURPLE_Y))
-	    {
-	      ret = &(rules->start_purple_y);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_PINK_X))
 	    {
-	      ret = &(rules->start_pink_x);
+	      ret = &(rules->start_x[LW6MAP_TEAM_COLOR_PINK]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_RED_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_GREEN_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_BLUE_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_YELLOW_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_CYAN_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_MAGENTA_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_ORANGE_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_LIGHTBLUE_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_START_PURPLE_Y))
+	    {
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_PURPLE]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_PINK_Y))
 	    {
-	      ret = &(rules->start_pink_y);
+	      ret = &(rules->start_y[LW6MAP_TEAM_COLOR_PINK]);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_START_POSITION_MODE))
 	    {
@@ -612,6 +917,218 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	  else if (!strcmp (formatted_key, LW6DEF_FRAGS_FADE_OUT))
 	    {
 	      ret = &(rules->frags_fade_out);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_USE_TEAM_PROFILES))
+	    {
+	      ret = &(rules->use_team_profiles);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_AGGRESSIVE))
+	    {
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_AGGRESSIVE))
+	    {
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_AGGRESSIVE))
+	    {
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive
+		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE))
+	    {
+	      ret =
+		&(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_PURPLE]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE))
+	    {
+	      ret = &(rules->team_profile_aggressive[LW6MAP_TEAM_COLOR_PINK]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_VULNERABLE))
+	    {
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE))
+	    {
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_VULNERABLE))
+	    {
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable
+		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE))
+	    {
+	      ret =
+		&(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_PURPLE]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_VULNERABLE))
+	    {
+	      ret = &(rules->team_profile_vulnerable[LW6MAP_TEAM_COLOR_PINK]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE))
+	    {
+	      ret =
+		&(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_PURPLE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_MOBILE))
+	    {
+	      ret = &(rules->team_profile_mobile[LW6MAP_TEAM_COLOR_PINK]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_GREEN_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_BLUE_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_YELLOW_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_CYAN_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_MAGENTA_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_ORANGE_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else
+	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PURPLE_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_PURPLE]);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_FAST))
+	    {
+	      ret = &(rules->team_profile_fast[LW6MAP_TEAM_COLOR_PINK]);
 	    }
 	  else
 	    {

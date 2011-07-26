@@ -1134,108 +1134,108 @@ populate_references ()
 		("X start position for the red team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_RED_X,
 		LW6MAP_RULES_MIN_START_RED_X, LW6MAP_RULES_MAX_START_RED_X);
-  POPULATE_INT (LW6DEF_START_RED_Y,
-		_x_
-		("Y start position for the red team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_RED_Y,
-		LW6MAP_RULES_MIN_START_RED_Y, LW6MAP_RULES_MAX_START_RED_Y);
   POPULATE_INT (LW6DEF_START_GREEN_X,
 		_x_
 		("X start position for the green team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_GREEN_X,
 		LW6MAP_RULES_MIN_START_GREEN_X,
 		LW6MAP_RULES_MAX_START_GREEN_X);
-  POPULATE_INT (LW6DEF_START_GREEN_Y,
-		_x_
-		("Y start position for the green team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_GREEN_Y,
-		LW6MAP_RULES_MIN_START_GREEN_Y,
-		LW6MAP_RULES_MAX_START_GREEN_Y);
   POPULATE_INT (LW6DEF_START_BLUE_X,
 		_x_
 		("X start position for the blue team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_BLUE_X,
 		LW6MAP_RULES_MIN_START_BLUE_X, LW6MAP_RULES_MAX_START_BLUE_X);
-  POPULATE_INT (LW6DEF_START_BLUE_Y,
-		_x_
-		("Y start position for the blue team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_BLUE_Y,
-		LW6MAP_RULES_MIN_START_BLUE_Y, LW6MAP_RULES_MAX_START_BLUE_Y);
   POPULATE_INT (LW6DEF_START_YELLOW_X,
 		_x_
 		("X start position for the yellow team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_YELLOW_X,
 		LW6MAP_RULES_MIN_START_YELLOW_X,
 		LW6MAP_RULES_MAX_START_YELLOW_X);
-  POPULATE_INT (LW6DEF_START_YELLOW_Y,
-		_x_
-		("Y start position for the yellow team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_YELLOW_Y,
-		LW6MAP_RULES_MIN_START_YELLOW_Y,
-		LW6MAP_RULES_MAX_START_YELLOW_Y);
   POPULATE_INT (LW6DEF_START_CYAN_X,
 		_x_
 		("X start position for the cyan team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_CYAN_X,
 		LW6MAP_RULES_MIN_START_CYAN_X, LW6MAP_RULES_MAX_START_CYAN_X);
-  POPULATE_INT (LW6DEF_START_CYAN_Y,
-		_x_
-		("Y start position for the cyan team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_CYAN_Y,
-		LW6MAP_RULES_MIN_START_CYAN_Y, LW6MAP_RULES_MAX_START_CYAN_Y);
   POPULATE_INT (LW6DEF_START_MAGENTA_X,
 		_x_
 		("X start position for the magenta team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_MAGENTA_X,
 		LW6MAP_RULES_MIN_START_MAGENTA_X,
 		LW6MAP_RULES_MAX_START_MAGENTA_X);
-  POPULATE_INT (LW6DEF_START_MAGENTA_Y,
-		_x_
-		("Y start position for the magenta team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_MAGENTA_Y,
-		LW6MAP_RULES_MIN_START_MAGENTA_Y,
-		LW6MAP_RULES_MAX_START_MAGENTA_Y);
   POPULATE_INT (LW6DEF_START_ORANGE_X,
 		_x_
 		("X start position for the orange team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_ORANGE_X,
 		LW6MAP_RULES_MIN_START_ORANGE_X,
 		LW6MAP_RULES_MAX_START_ORANGE_X);
-  POPULATE_INT (LW6DEF_START_ORANGE_Y,
-		_x_
-		("Y start position for the orange team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_ORANGE_Y,
-		LW6MAP_RULES_MIN_START_ORANGE_Y,
-		LW6MAP_RULES_MAX_START_ORANGE_Y);
   POPULATE_INT (LW6DEF_START_LIGHTBLUE_X,
 		_x_
 		("X start position for the lightblue team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_X,
 		LW6MAP_RULES_MIN_START_LIGHTBLUE_X,
 		LW6MAP_RULES_MAX_START_LIGHTBLUE_X);
-  POPULATE_INT (LW6DEF_START_LIGHTBLUE_Y,
-		_x_
-		("Y start position for the lightblue team. This is a percentage of map height, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_Y,
-		LW6MAP_RULES_MIN_START_LIGHTBLUE_Y,
-		LW6MAP_RULES_MAX_START_LIGHTBLUE_Y);
   POPULATE_INT (LW6DEF_START_PURPLE_X,
 		_x_
 		("X start position for the purple team. This is a percentage of map width, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_PURPLE_X,
 		LW6MAP_RULES_MIN_START_PURPLE_X,
 		LW6MAP_RULES_MAX_START_PURPLE_X);
+  POPULATE_INT (LW6DEF_START_PINK_X,
+		_x_
+		("X start position for the pink team. This is a percentage of map width, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_PINK_X,
+		LW6MAP_RULES_MIN_START_PINK_X, LW6MAP_RULES_MAX_START_PINK_X);
+  POPULATE_INT (LW6DEF_START_RED_Y,
+		_x_
+		("Y start position for the red team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_RED_Y,
+		LW6MAP_RULES_MIN_START_RED_Y, LW6MAP_RULES_MAX_START_RED_Y);
+  POPULATE_INT (LW6DEF_START_GREEN_Y,
+		_x_
+		("Y start position for the green team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_GREEN_Y,
+		LW6MAP_RULES_MIN_START_GREEN_Y,
+		LW6MAP_RULES_MAX_START_GREEN_Y);
+  POPULATE_INT (LW6DEF_START_BLUE_Y,
+		_x_
+		("Y start position for the blue team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_BLUE_Y,
+		LW6MAP_RULES_MIN_START_BLUE_Y, LW6MAP_RULES_MAX_START_BLUE_Y);
+  POPULATE_INT (LW6DEF_START_YELLOW_Y,
+		_x_
+		("Y start position for the yellow team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_YELLOW_Y,
+		LW6MAP_RULES_MIN_START_YELLOW_Y,
+		LW6MAP_RULES_MAX_START_YELLOW_Y);
+  POPULATE_INT (LW6DEF_START_CYAN_Y,
+		_x_
+		("Y start position for the cyan team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_CYAN_Y,
+		LW6MAP_RULES_MIN_START_CYAN_Y, LW6MAP_RULES_MAX_START_CYAN_Y);
+  POPULATE_INT (LW6DEF_START_MAGENTA_Y,
+		_x_
+		("Y start position for the magenta team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_MAGENTA_Y,
+		LW6MAP_RULES_MIN_START_MAGENTA_Y,
+		LW6MAP_RULES_MAX_START_MAGENTA_Y);
+  POPULATE_INT (LW6DEF_START_ORANGE_Y,
+		_x_
+		("Y start position for the orange team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_ORANGE_Y,
+		LW6MAP_RULES_MIN_START_ORANGE_Y,
+		LW6MAP_RULES_MAX_START_ORANGE_Y);
+  POPULATE_INT (LW6DEF_START_LIGHTBLUE_Y,
+		_x_
+		("Y start position for the lightblue team. This is a percentage of map height, value between 0 and 100."),
+		LW6MAP_RULES_DEFAULT_START_LIGHTBLUE_Y,
+		LW6MAP_RULES_MIN_START_LIGHTBLUE_Y,
+		LW6MAP_RULES_MAX_START_LIGHTBLUE_Y);
   POPULATE_INT (LW6DEF_START_PURPLE_Y,
 		_x_
 		("Y start position for the purple team. This is a percentage of map height, value between 0 and 100."),
 		LW6MAP_RULES_DEFAULT_START_PURPLE_Y,
 		LW6MAP_RULES_MIN_START_PURPLE_Y,
 		LW6MAP_RULES_MAX_START_PURPLE_Y);
-  POPULATE_INT (LW6DEF_START_PINK_X,
-		_x_
-		("X start position for the pink team. This is a percentage of map width, value between 0 and 100."),
-		LW6MAP_RULES_DEFAULT_START_PINK_X,
-		LW6MAP_RULES_MIN_START_PINK_X, LW6MAP_RULES_MAX_START_PINK_X);
   POPULATE_INT (LW6DEF_START_PINK_Y,
 		_x_
 		("Y start position for the pink team. This is a percentage of map height, value between 0 and 100."),
@@ -1297,6 +1297,252 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_FRAGS_FADE_OUT,
 		LW6MAP_RULES_MIN_FRAGS_FADE_OUT,
 		LW6MAP_RULES_MAX_FRAGS_FADE_OUT);
+  POPULATE_INT (LW6DEF_USE_TEAM_PROFILES,
+		_x_
+		("If set, then all the team-profile-... values will be taken in account. This enables a mode in which teams behave differently according to their colors. If you disable this, then all teams will behave the same, which is more fair, but might not be as fun."),
+		LW6MAP_RULES_DEFAULT_USE_TEAM_PROFILES,
+		LW6MAP_RULES_MIN_USE_TEAM_PROFILES,
+		LW6MAP_RULES_MAX_USE_TEAM_PROFILES);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the red team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the green team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the blue team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the yellow team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the cyan team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the magenta team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the orange team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the lightblue team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the purple team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE,
+		_x_
+		("Defines how aggressive the pink team is. This is a percentage, if set to 200 then team will attack twice as much as any other team with the default value. Setting this to a high value clearly advantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_AGGRESSIVE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_AGGRESSIVE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_AGGRESSIVE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_VULNERABLE,
+		_x_
+		("Defines how vulnerable the red team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE,
+		_x_
+		("Defines how vulnerable the green team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE,
+		_x_
+		("Defines how vulnerable the blue team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_VULNERABLE,
+		_x_
+		("Defines how vulnerable the yellow team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_VULNERABLE,
+		_x_
+		("Defines how vulnerable the cyan team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_VULNERABLE,
+		_x_
+		("Defines how vulnerable the magenta team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE,
+		_x_
+		("Defines how vulnerable the orange team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+		_x_
+		("Defines how vulnerable the lightblue team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE,
+		_x_
+		("Defines how vulnerable the purple team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_VULNERABLE,
+		_x_
+		("Defines how vulnerable the pink team is. This is a percentage, if set to 200 then team will be attacked twice as much as any other team with the default value. Setting this to a high value clearly disadvantages this team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_VULNERABLE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_VULNERABLE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_VULNERABLE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the red team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the green team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the blue team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the yellow team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the cyan team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the magenta team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the orange team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the lightblue team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the purple team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_MOBILE,
+		_x_
+		("Increases (or decreases if negative) the number of move/attack/defense tries for the pink team. If set to a high value team will appear more mobile and do more things, but it won't change its cruising speed. It's not obvious to tell wether this is an advantage or not, but it clearly changes the behavior."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_MOBILE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_MOBILE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_MOBILE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_FAST,
+		_x_
+		("Changes the speed of the red team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_FAST,
+		_x_
+		("Changes the speed of the green team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_FAST,
+		_x_
+		("Changes the speed of the blue team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_FAST,
+		_x_
+		("Changes the speed of the yellow team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_FAST,
+		_x_
+		("Changes the speed of the cyan team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_FAST,
+		_x_
+		("Changes the speed of the magenta team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_FAST,
+		_x_
+		("Changes the speed of the orange team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST,
+		_x_
+		("Changes the speed of the lightblue team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_FAST,
+		_x_
+		("Changes the speed of the purple team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_FAST,
+		_x_
+		("Changes the speed of the pink team. This is a percentage, if set to 50, then team will move twice slower than other teams with the default parameter. Setting this high is very likely to advantage the team."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_FAST,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_FAST,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_FAST);
   /*
    * map hints
    */

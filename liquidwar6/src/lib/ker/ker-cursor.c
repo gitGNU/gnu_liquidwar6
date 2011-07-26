@@ -96,50 +96,13 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
 	  team_color =
 	    ((team_color + checksum) & 0xFFFF) % LW6MAP_NB_TEAM_COLORS;
 	}
-
-      switch (team_color)
+      if (team_color >= 0 && team_color < LW6MAP_MAX_NB_TEAMS)
 	{
-	case LW6MAP_TEAM_COLOR_RED:
-	  px = rules->start_red_x;
-	  py = rules->start_red_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_GREEN:
-	  px = rules->start_green_x;
-	  py = rules->start_green_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_BLUE:
-	  px = rules->start_blue_x;
-	  py = rules->start_blue_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_YELLOW:
-	  px = rules->start_yellow_x;
-	  py = rules->start_yellow_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_CYAN:
-	  px = rules->start_cyan_x;
-	  py = rules->start_cyan_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_MAGENTA:
-	  px = rules->start_magenta_x;
-	  py = rules->start_magenta_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_ORANGE:
-	  px = rules->start_orange_x;
-	  py = rules->start_orange_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_LIGHTBLUE:
-	  px = rules->start_lightblue_x;
-	  py = rules->start_lightblue_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_PURPLE:
-	  px = rules->start_purple_x;
-	  py = rules->start_purple_y;
-	  break;
-	case LW6MAP_TEAM_COLOR_PINK:
-	  px = rules->start_pink_x;
-	  py = rules->start_pink_y;
-	  break;
-	default:
+	  px = rules->start_x[team_color];
+	  py = rules->start_y[team_color];
+	}
+      else
+	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid team_color=%d"),
 		      team_color);
 	  ret = 0;

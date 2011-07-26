@@ -5920,7 +5920,556 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the yellow team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.55 total-armies-size
+4.9.55 team-profile-blue-aggressive
+-----------------------------------
+
+ -- Command-line option: `--team-profile-blue-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_AGGRESSIVE'
+ -- XML key: `team-profile-blue-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the blue team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.56 team-profile-blue-fast
+-----------------------------
+
+ -- Command-line option: `--team-profile-blue-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_FAST'
+ -- XML key: `team-profile-blue-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the blue team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.57 team-profile-blue-mobile
+-------------------------------
+
+ -- Command-line option: `--team-profile-blue-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_MOBILE'
+ -- XML key: `team-profile-blue-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the blue team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.58 team-profile-blue-vulnerable
+-----------------------------------
+
+ -- Command-line option: `--team-profile-blue-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_VULNERABLE'
+ -- XML key: `team-profile-blue-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the blue team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.9.59 team-profile-cyan-aggressive
+-----------------------------------
+
+ -- Command-line option: `--team-profile-cyan-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_AGGRESSIVE'
+ -- XML key: `team-profile-cyan-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the cyan team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.60 team-profile-cyan-fast
+-----------------------------
+
+ -- Command-line option: `--team-profile-cyan-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_FAST'
+ -- XML key: `team-profile-cyan-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the cyan team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.61 team-profile-cyan-mobile
+-------------------------------
+
+ -- Command-line option: `--team-profile-cyan-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_MOBILE'
+ -- XML key: `team-profile-cyan-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the cyan team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.62 team-profile-cyan-vulnerable
+-----------------------------------
+
+ -- Command-line option: `--team-profile-cyan-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_VULNERABLE'
+ -- XML key: `team-profile-cyan-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the cyan team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.9.63 team-profile-green-aggressive
+------------------------------------
+
+ -- Command-line option: `--team-profile-green-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_AGGRESSIVE'
+ -- XML key: `team-profile-green-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the green team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.64 team-profile-green-fast
+------------------------------
+
+ -- Command-line option: `--team-profile-green-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_FAST'
+ -- XML key: `team-profile-green-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the green team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.65 team-profile-green-mobile
+--------------------------------
+
+ -- Command-line option: `--team-profile-green-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_MOBILE'
+ -- XML key: `team-profile-green-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the green team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.66 team-profile-green-vulnerable
+------------------------------------
+
+ -- Command-line option: `--team-profile-green-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_VULNERABLE'
+ -- XML key: `team-profile-green-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the green team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.9.67 team-profile-lightblue-aggressive
+----------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE'
+ -- XML key: `team-profile-lightblue-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the lightblue team is. This is a
+     percentage, if set to 200 then team will attack twice as much as
+     any other team with the default value. Setting this to a high
+     value clearly advantages this team.
+
+4.9.68 team-profile-lightblue-fast
+----------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_FAST'
+ -- XML key: `team-profile-lightblue-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the lightblue team. This is a percentage, if
+     set to 50, then team will move twice slower than other teams with
+     the default parameter.  Setting this high is very likely to
+     advantage the team.
+
+4.9.69 team-profile-lightblue-mobile
+------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_MOBILE'
+ -- XML key: `team-profile-lightblue-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the lightblue team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.70 team-profile-lightblue-vulnerable
+----------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_VULNERABLE'
+ -- XML key: `team-profile-lightblue-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the lightblue team is. This is a
+     percentage, if set to 200 then team will be attacked twice as much
+     as any other team with the default value. Setting this to a high
+     value clearly disadvantages this team.
+
+4.9.71 team-profile-magenta-aggressive
+--------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_AGGRESSIVE'
+ -- XML key: `team-profile-magenta-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the magenta team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     advantages this team.
+
+4.9.72 team-profile-magenta-fast
+--------------------------------
+
+ -- Command-line option: `--team-profile-magenta-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_FAST'
+ -- XML key: `team-profile-magenta-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the magenta team. This is a percentage, if
+     set to 50, then team will move twice slower than other teams with
+     the default parameter.  Setting this high is very likely to
+     advantage the team.
+
+4.9.73 team-profile-magenta-mobile
+----------------------------------
+
+ -- Command-line option: `--team-profile-magenta-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_MOBILE'
+ -- XML key: `team-profile-magenta-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the magenta team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.74 team-profile-magenta-vulnerable
+--------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_VULNERABLE'
+ -- XML key: `team-profile-magenta-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the magenta team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.9.75 team-profile-orange-aggressive
+-------------------------------------
+
+ -- Command-line option: `--team-profile-orange-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_AGGRESSIVE'
+ -- XML key: `team-profile-orange-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the orange team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.76 team-profile-orange-fast
+-------------------------------
+
+ -- Command-line option: `--team-profile-orange-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_FAST'
+ -- XML key: `team-profile-orange-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the orange team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.77 team-profile-orange-mobile
+---------------------------------
+
+ -- Command-line option: `--team-profile-orange-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_MOBILE'
+ -- XML key: `team-profile-orange-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the orange team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.78 team-profile-orange-vulnerable
+-------------------------------------
+
+ -- Command-line option: `--team-profile-orange-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_VULNERABLE'
+ -- XML key: `team-profile-orange-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the orange team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.9.79 team-profile-purple-aggressive
+-------------------------------------
+
+ -- Command-line option: `--team-profile-purple-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_AGGRESSIVE'
+ -- XML key: `team-profile-purple-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the purple team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.80 team-profile-purple-fast
+-------------------------------
+
+ -- Command-line option: `--team-profile-purple-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_FAST'
+ -- XML key: `team-profile-purple-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the purple team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.81 team-profile-purple-mobile
+---------------------------------
+
+ -- Command-line option: `--team-profile-purple-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_MOBILE'
+ -- XML key: `team-profile-purple-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the purple team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.82 team-profile-purple-vulnerable
+-------------------------------------
+
+ -- Command-line option: `--team-profile-purple-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_VULNERABLE'
+ -- XML key: `team-profile-purple-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the purple team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.9.83 team-profile-red-aggressive
+----------------------------------
+
+ -- Command-line option: `--team-profile-red-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_AGGRESSIVE'
+ -- XML key: `team-profile-red-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the red team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.84 team-profile-red-fast
+----------------------------
+
+ -- Command-line option: `--team-profile-red-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_FAST'
+ -- XML key: `team-profile-red-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the red team. This is a percentage, if set to
+     50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.85 team-profile-red-mobile
+------------------------------
+
+ -- Command-line option: `--team-profile-red-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_MOBILE'
+ -- XML key: `team-profile-red-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the red team. If set to a high value
+     team will appear more mobile and do more things, but it won't
+     change its cruising speed. It's not obvious to tell wether this is
+     an advantage or not, but it clearly changes the behavior.
+
+4.9.86 team-profile-red-vulnerable
+----------------------------------
+
+ -- Command-line option: `--team-profile-red-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_VULNERABLE'
+ -- XML key: `team-profile-red-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the red team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.9.87 team-profile-yellow-aggressive
+-------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_AGGRESSIVE'
+ -- XML key: `team-profile-yellow-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the yellow team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.88 team-profile-yellow-fast
+-------------------------------
+
+ -- Command-line option: `--team-profile-yellow-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_FAST'
+ -- XML key: `team-profile-yellow-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the yellow team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.89 team-profile-yellow-mobile
+---------------------------------
+
+ -- Command-line option: `--team-profile-yellow-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_MOBILE'
+ -- XML key: `team-profile-yellow-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the yellow team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.90 team-profile-yellow-vulnerable
+-------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_VULNERABLE'
+ -- XML key: `team-profile-yellow-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the yellow team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.9.91 total-armies-size
 ------------------------
 
  -- Command-line option: `--total-armies-size=<value>'
@@ -5941,7 +6490,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      square of 1/2 the size of a square map, so it represents 25% (1/4)
      of the total surface.
 
-4.9.56 total-time
+4.9.92 total-time
 -----------------
 
  -- Command-line option: `--total-time=<value>'
@@ -5959,7 +6508,22 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      So if the computer is too slow and the desired speed is not
      reached, then the game will last for a longer time.
 
-4.9.57 vertical-move
+4.9.93 use-team-profiles
+------------------------
+
+ -- Command-line option: `--use-team-profiles=<value>'
+ -- Environment variable: `LW6_USE_TEAM_PROFILES'
+ -- XML key: `use-team-profiles'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 1
+
+     If set, then all the team-profile-... values will be taken in
+     account. This enables a mode in which teams behave differently
+     according to their colors. If you disable this, then all teams
+     will behave the same, which is more fair, but might not be as fun.
+
+4.9.94 vertical-move
 --------------------
 
  -- Command-line option: `--vertical-move=<value>'
@@ -5975,7 +6539,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      failed. If set to 2, it will be tried just after the second move
      failed. And so on.
 
-4.9.58 x-polarity
+4.9.95 x-polarity
 -----------------
 
  -- Command-line option: `--x-polarity=<value>'
@@ -5994,7 +6558,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.9.59 y-polarity
+4.9.96 y-polarity
 -----------------
 
  -- Command-line option: `--y-polarity=<value>'
@@ -6013,7 +6577,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.9.60 z-polarity
+4.9.97 z-polarity
 -----------------
 
  -- Command-line option: `--z-polarity=<value>'
@@ -7221,753 +7785,4 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
 
      Defines the min map zoom. If set to a low value, you'll be able to
      dynamically view a very small, reduced map.
-
-
-File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map style.xml,  Up: Reference
-
-4.12 Advanced settings
-======================
-
-4.12.1 base64-decode
---------------------
-
- -- Command-line option: `--base64-decode'
-     If specified, program will take stdin and base64 decode it to
-     stdout. This is for testing purpose (for network messages for
-     instance). Will decode in standard base64 encoding using
-     characters + and / but also the url-compliant version using - and
-     /, see RFC 4648 for details.
-
-4.12.2 base64-encode
---------------------
-
- -- Command-line option: `--base64-encode'
-     If specified, program will take stdin and base64 encode it to
-     stdout. This is for testing purpose (for network messages for
-     instance). Will *not* use standard base64 encoding using
-     characters + and / but - and _ instead to be url-compliant, see
-     RFC 4648 for details.
-
-4.12.3 bench
-------------
-
- -- Command-line option: `--bench'
-     Runs a benchmarking test which will report an approximative
-     performance estimation of the game on your computer.
-
-4.12.4 bench-value
-------------------
-
- -- Command-line option: `--bench-value=<value>'
- -- Environment variable: `LW6_BENCH_VALUE'
- -- XML key: `bench-value'
-     Type: integer
-
-     Default value: 20
-
-     Contains the current bench value of the computer running the game.
-     This is used internally to choose the right map settings. You can
-     override this value and use your own but... use at your own risk.
-     Pretending you have a faster computer than what you really have
-     can lead to confusion.
-
-4.12.5 bin-id
--------------
-
- -- Command-line option: `--bin-id=<value>'
- -- Environment variable: `LW6_BIN_ID'
- -- XML key: `bin-id'
-     Type: integer
-
-     Default value: 0
-
-     The internal 'bin-id' value. Note that this is not necessarly
-     equal to the value returned by 'show-build-bin-id'. When they are
-     different, it is assumed this is because of a software upgrade.
-
-4.12.6 bot-iq
--------------
-
- -- Command-line option: `--bot-iq=<value>'
- -- Environment variable: `LW6_BOT_IQ'
- -- XML key: `bot-iq'
-     Type: integer
-
-     Default value: 100 Min value: 0 Max value: 200
-
-     The IQ (intelligence quotient) of bots. Typically, a value of 100
-     will make the bot behave normally, performing at its best. A value
-     of 0 will just make it act the worst way it can. Values over 100
-     probably won't change anything compared to 100, but this truely
-     depends on which bot backend you're running.
-
-4.12.7 bot-speed
-----------------
-
- -- Command-line option: `--bot-speed=<value>'
- -- Environment variable: `LW6_BOT_SPEED'
- -- XML key: `bot-speed'
-     Type: float
-
-     Default value: 1.0
-
-     The speed of bots, 1 means normal speed, higher value will speed
-     it up, lower will slow it down. Note that this only has an impact
-     on bot engines, not on the game speed itself.
-
-4.12.8 check
-------------
-
- -- Command-line option: `--check'
-     Running the game with '-check' is almost like running '-test', the
-     difference is that '-check' will not run tests which involve
-     graphics or sound backends, so it's adapted to pure console mode.
-     This can be usefull for automated checks on a build farm, or if
-     you want to check things in a headless (pure console) environment.
-
-4.12.9 commands-per-sec
------------------------
-
- -- Command-line option: `--commands-per-sec=<value>'
- -- Environment variable: `LW6_COMMANDS_PER_SEC'
- -- XML key: `commands-per-sec'
-     Type: integer
-
-     Default value: 5
-
-     Defines the number of commands per second. When a command is
-     generated, orders are actually sent to the game engine, for
-     instance, 'this cursor moved there'.  So this option will affect
-     game responsiveness, setting this to a high value will make the
-     game more responsive but consume bandwidth on network games.
-
-4.12.10 daemon
---------------
-
- -- Command-line option: `--daemon'
-     Start the game in daemon mode, this is typically used with the
-     server mode, if you want the process to be detached from the
-     console and executed in the background.
-
-4.12.11 debug-layer-id
-----------------------
-
- -- Command-line option: `--debug-layer-id=<value>'
- -- Environment variable: `LW6_DEBUG_LAYER_ID'
- -- XML key: `debug-layer-id'
-     Type: integer
-
-     Default value: 0 Min value: 0 Max value: 6
-
-     A team id which will be used for debugging purposes, for instance
-     when displaying gradient.
-
-4.12.12 debug-team-id
----------------------
-
- -- Command-line option: `--debug-team-id=<value>'
- -- Environment variable: `LW6_DEBUG_TEAM_ID'
- -- XML key: `debug-team-id'
-     Type: integer
-
-     Default value: 0 Min value: 0 Max value: 9
-
-     A team id which will be used for debugging purposes, for instance
-     when displaying gradient.
-
-4.12.13 demo
-------------
-
- -- Command-line option: `--demo'
-     Start the game in demo mode. 2 bots play against each other
-     forever.
-
-4.12.14 dirty-read
-------------------
-
- -- Command-line option: `--dirty-read=<value>'
- -- Environment variable: `LW6_DIRTY_READ'
- -- XML key: `dirty-read'
-     Type: integer
-
-     Default value: 2 Min value: 0 Max value: 2
-
-     How to handle dirty reads and locks when displaying stuff. If set
-     to 0, there will be no dirty reads at all, a lock (mutex) will be
-     set whenever it's needed. If set to 1, display might be done with
-     inconsistent data, however the data itself won't be modified while
-     displaying. If set to 2, displayed data can (and will) be modified
-     while the rendering thread is running.
-
-4.12.15 display-background
---------------------------
-
- -- Command-line option: `--display-background=<value>'
- -- Environment variable: `LW6_DISPLAY_BACKGROUND'
- -- XML key: `display-background'
-     Type: boolean
-
-     Default value: true
-
-     Decides wether the background animation/image should be displayed
-     at all.
-
-4.12.16 display-console
------------------------
-
- -- Command-line option: `--display-console=<value>'
- -- Environment variable: `LW6_DISPLAY_CONSOLE'
- -- XML key: `display-console'
-     Type: boolean
-
-     Default value: false
-
-     Defines wether the interactive system console must be displayed.
-     Note that console support must have been enabled at compilation
-     time. It might not be available on your computer, for instance if
-     you are running a system such as Microsoft Windows.
-
-4.12.17 display-cursors
------------------------
-
- -- Command-line option: `--display-cursors=<value>'
- -- Environment variable: `LW6_DISPLAY_CURSORS'
- -- XML key: `display-cursors'
-     Type: boolean
-
-     Default value: true
-
-     Debugging option which can be set to 'false' to disable the
-     display of cursors when playing.
-
-4.12.18 display-debug-gradient
-------------------------------
-
- -- Command-line option: `--display-debug-gradient=<value>'
- -- Environment variable: `LW6_DISPLAY_DEBUG_GRADIENT'
- -- XML key: `display-debug-gradient'
-     Type: boolean
-
-     Default value: false
-
-     Set this to 'true' to display the gradient, this is usefull to
-     debug the core algorithm or understand how it works.
-
-4.12.19 display-debug-zones
----------------------------
-
- -- Command-line option: `--display-debug-zones=<value>'
- -- Environment variable: `LW6_DISPLAY_DEBUG_ZONES'
- -- XML key: `display-debug-zones'
-     Type: boolean
-
-     Default value: false
-
-     Set this to 'true' to display the zones, this is usefull to debug
-     the core algorithm or understand how it works.
-
-4.12.20 display-fighters
-------------------------
-
- -- Command-line option: `--display-fighters=<value>'
- -- Environment variable: `LW6_DISPLAY_FIGHTERS'
- -- XML key: `display-fighters'
-     Type: boolean
-
-     Default value: true
-
-     Debugging option which can be set to 'false' to disable the
-     display of fighters when playing.
-
-4.12.21 display-fps
--------------------
-
- -- Command-line option: `--display-fps=<value>'
- -- Environment variable: `LW6_DISPLAY_FPS'
- -- XML key: `display-fps'
-     Type: boolean
-
-     Default value: false
-
-     Set this to 'true' to display the number of frames per second.
-     When this gets too low... play a smaller map, buy a new computer
-     or contribute and hack Liquid War 6 so that it runs faster!
-
-4.12.22 display-hud
--------------------
-
- -- Command-line option: `--display-hud=<value>'
- -- Environment variable: `LW6_DISPLAY_HUD'
- -- XML key: `display-hud'
-     Type: boolean
-
-     Default value: true
-
-     Decides wether the hud (informations while playing) should be
-     displayed.
-
-4.12.23 display-log
--------------------
-
- -- Command-line option: `--display-log=<value>'
- -- Environment variable: `LW6_DISPLAY_LOG'
- -- XML key: `display-log'
-     Type: boolean
-
-     Default value: true
-
-     Set this to 'false' to disable the display of error messages on
-     the screen.  Mote that you can miss valuable informations.
-
-4.12.24 display-map
--------------------
-
- -- Command-line option: `--display-map=<value>'
- -- Environment variable: `LW6_DISPLAY_MAP'
- -- XML key: `display-map'
-     Type: boolean
-
-     Default value: true
-
-     Debugging option which can be set to 'false' to disable map
-     (level) display when playing.
-
-4.12.25 display-menu
---------------------
-
- -- Command-line option: `--display-menu=<value>'
- -- Environment variable: `LW6_DISPLAY_MENU'
- -- XML key: `display-menu'
-     Type: boolean
-
-     Default value: true
-
-     Debugging option which can be set to 'false' to disable the
-     display of menus.
-
-4.12.26 display-mouse
----------------------
-
- -- Command-line option: `--display-mouse=<value>'
- -- Environment variable: `LW6_DISPLAY_MOUSE'
- -- XML key: `display-mouse'
-     Type: boolean
-
-     Default value: true
-
-     Set this to 'false' to always hide the mouse pointer.
-
-4.12.27 display-mps
--------------------
-
- -- Command-line option: `--display-mps=<value>'
- -- Environment variable: `LW6_DISPLAY_MPS'
- -- XML key: `display-mps'
-     Type: boolean
-
-     Default value: false
-
-     Set this to 'true' to display the number of moves per second. In
-     theory the game should maintain this constant but in practise it
-     can get low if your computer is too slow or too busy.
-
-4.12.28 display-preview
------------------------
-
- -- Command-line option: `--display-preview=<value>'
- -- Environment variable: `LW6_DISPLAY_PREVIEW'
- -- XML key: `display-preview'
-     Type: boolean
-
-     Default value: true
-
-     Decides wether a map preview should be displayed when choosing a
-     level.
-
-4.12.29 display-progress
-------------------------
-
- -- Command-line option: `--display-progress=<value>'
- -- Environment variable: `LW6_DISPLAY_PROGRESS'
- -- XML key: `display-progress'
-     Type: boolean
-
-     Default value: true
-
-     Decides wether a progress bar should be displayed when a long
-     operation is realized as a background task.
-
-4.12.30 display-score
----------------------
-
- -- Command-line option: `--display-score=<value>'
- -- Environment variable: `LW6_DISPLAY_SCORE'
- -- XML key: `display-score'
-     Type: boolean
-
-     Default value: true
-
-     Decides wether the score screen should be displayed.
-
-4.12.31 display-splash
-----------------------
-
- -- Command-line option: `--display-splash=<value>'
- -- Environment variable: `LW6_DISPLAY_SPLASH'
- -- XML key: `display-splash'
-     Type: boolean
-
-     Default value: true
-
-     Set this to 'false' to disable the display of the splash screen at
-     game startup.
-
-4.12.32 display-url
--------------------
-
- -- Command-line option: `--display-url=<value>'
- -- Environment variable: `LW6_DISPLAY_URL'
- -- XML key: `display-url'
-     Type: boolean
-
-     Default value: false
-
-     Set this to 'true' to display the URL (homepage) of the game. This
-     is mostly used when doing screenshots, so that generated images
-     contain a link to the homepage.
-
-4.12.33 executed-again
-----------------------
-
- -- Command-line option: `--executed-again=<value>'
- -- Environment variable: `LW6_EXECUTED_AGAIN'
- -- XML key: `executed-again'
-     Type: boolean
-
-     Default value: false
-
-     This environment variable/keyword is used to detect wether the
-     program has been launched by itself with an internal execv call.
-     This is used as a workarround to set some environment variables
-     (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is
-     run, as sometimes using setenv() inside the program does not work.
-
-4.12.34 gfx-cpu-usage
----------------------
-
- -- Command-line option: `--gfx-cpu-usage=<value>'
- -- Environment variable: `LW6_GFX_CPU_USAGE'
- -- XML key: `gfx-cpu-usage'
-     Type: float
-
-     Default value: 0.75 Min value: 0 Max value: 1
-
-     Percentage of the CPU which will be used by the display thread.
-     It's wise to leave some time to other threads to execute. The OS
-     does it naturally, but setting this helps the whole process by
-     explicitely pausing (sleep call) the display thread. You could
-     change this to a low value if you have lagging games but smooth
-     display.
-
-4.12.35 gfx-debug
------------------
-
- -- Command-line option: `--gfx-debug=<value>'
- -- Environment variable: `LW6_GFX_DEBUG'
- -- XML key: `gfx-debug'
-     Type: boolean
-
-     Default value: false
-
-     Enables dedicated graphics debugging tools. This is different from
-     'debug' mode which is global, this one is really graphics specific.
-
-4.12.36 io-per-sec
-------------------
-
- -- Command-line option: `--io-per-sec=<value>'
- -- Environment variable: `LW6_IO_PER_SEC'
- -- XML key: `io-per-sec'
-     Type: integer
-
-     Default value: 15
-
-     Defines the number of calls to input/output functions per second.
-     This can affect speed of menus but also cursors, but won't change
-     the speed of the game itself. It's a cosmectic, comfort option.
-
-4.12.37 loader-sleep
---------------------
-
- -- Command-line option: `--loader-sleep=<value>'
- -- Environment variable: `LW6_LOADER_SLEEP'
- -- XML key: `loader-sleep'
-     Type: float
-
-     Default value: 0.5
-
-     Defines how long the loader thread should wait between two polls.
-     Default value should fit in most cases.
-
-4.12.38 log-level
------------------
-
- -- Command-line option: `--log-level=<value>'
- -- Environment variable: `LW6_LOG_LEVEL'
- -- XML key: `log-level'
-     Type: integer
-
-     Default value: 3 Min value: 0 Max value: 4
-
-     Defines the log level, that is, how verbose the program will be
-     regarding logs and console output. 0 (ERROR) is the minimum, only
-     errors are reported. 1 (WARNING) means errors + warnings. 2
-     (NOTICE) displays most important messages. 3 (INFO) is the
-     default, the log file will contain all messages but debug stuff. 4
-     (DEBUG) logs everything, including debug informations.
-
-4.12.39 log-timeout
--------------------
-
- -- Command-line option: `--log-timeout=<value>'
- -- Environment variable: `LW6_LOG_TIMEOUT'
- -- XML key: `log-timeout'
-     Type: integer
-
-     Default value: 5000
-
-     Delay, in msec, for which a log message will stay displayed on the
-     screen.
-
-4.12.40 magic-number
---------------------
-
- -- Command-line option: `--magic-number=<value>'
- -- Environment variable: `LW6_MAGIC_NUMBER'
- -- XML key: `magic-number'
-     Type: integer
-
-     Default value: 33461
-
-     This 'magic' number probably requires an explanation. It's used to
-     estimate how big a map can be built. The calculus is very
-     approximative, basically
-     bench_value*magic_number=total_fighters_on_map*rounds_per_sec*moves_per_round
-     with total_fighters_on_map depending on various parameters such as
-     map size but also how many fighters are on the map. The map loader
-     will try and adjust the map size so that it is just big enough not
-     to saturate your CPU while being as high-res as possible. The
-     magic number in itself has no real meaning, the higher it gets,
-     the more optimized it means the game is. Normally you shouldn't
-     change this but if you find the map resizing is too agressively
-     pessimistic, or if for some reason bench returns bogus values, you
-     can modify it.
-
-4.12.41 memory-bazooka-eraser
------------------------------
-
- -- Command-line option: `--memory-bazooka-eraser=<value>'
- -- Environment variable: `LW6_MEMORY_BAZOOKA_ERASER'
- -- XML key: `memory-bazooka-eraser'
-     Type: boolean
-
-     Default value: true
-
-     The memory eraser is a tool which will systematically fill
-     allocated memory with 'M', and overwrite all allocated bytes with
-     'F' before freeing memory. It will even handle realloc calls. This
-     is usefull to track bugs. Indeed, with this option enabled,
-     freshly allocated memory will never contain zeroes unless one
-     calls calloc, and if you ever free some memory zone before being
-     done with it, it will be filled with junk and therefore not be
-     usable. The memory bazooka must be big enough if you want this
-     feature to actually work.
-
-4.12.42 memory-bazooka-size
----------------------------
-
- -- Command-line option: `--memory-bazooka-size=<value>'
- -- Environment variable: `LW6_MEMORY_BAZOOKA_SIZE'
- -- XML key: `memory-bazooka-size'
-     Type: integer
-
-     Default value: 99991
-
-     The memory bazooka is a brute-force tool, conceived after a full
-     night spent tracking some memory leak. The idea is to keep a track
-     of all allocated pointers, when the data was allocated
-     (timestamp), where in the code (file, line), and even point out
-     what data there is in that place. A memory bazooka report at the
-     end of the game will just show what's left. There should be
-     nothing. This parameter is here to avoid wasting CPU cycles on a
-     feature which is very debug-oriented and does not really make
-     sense for the casual user. Set it to 0 for best performance,
-     something like 100 might just be helpfull, but 1000000 is the
-     right way to seriously debug code.
-
-4.12.43 net-log
----------------
-
- -- Command-line option: `--net-log=<value>'
- -- Environment variable: `LW6_NET_LOG'
- -- XML key: `net-log'
-     Type: boolean
-
-     Default value: false
-
-     Activates network log, that is, logs everything sent/received over
-     the network, except data which is sent through a third party
-     library such as libCurl. This is mostly for debugging purpose, it
-     can lead to rather big log files.
-
-4.12.44 network-reliability
----------------------------
-
- -- Command-line option: `--network-reliability=<value>'
- -- Environment variable: `LW6_NETWORK_RELIABILITY'
- -- XML key: `network-reliability'
-     Type: integer
-
-     Default value: 1000 Min value: 1 Max value: 1000000000
-
-     The program assumes network is non-reliable, however the problem
-     with those assumptions is that when you test, network is always
-     reliable, even with non-garanteed protocols like UDP. This option
-     will force the program to actually ignore some calls to send or
-     recv functions, simulating a network disfunction. This is to
-     ensure the internal mecanisms correcting network problems do work
-     for good, on daily regular use. It's not possible to set it to a
-     perfect behavior, never dropping any packet, however using the
-     default settings you probably won't even notice the performance
-     drop induced by having to fix problems. The highest the number is,
-     the most reliable network will look, the algorithm is simply to
-     drop one message out of X.
-
-4.12.45 open-relay
-------------------
-
- -- Command-line option: `--open-relay=<value>'
- -- Environment variable: `LW6_OPEN_RELAY'
- -- XML key: `open-relay'
-     Type: boolean
-
-     Default value: false
-
-     Enables forwarding of abritrary network messages. If open relay is
-     forbidden, the game will only forward messages when physical
-     sender and logical sender are the same. This is to say if messages
-     come from A for C and is sent by A to B, B will forward it to C.
-     But if message comes from X to C and is sent by A to B, then B
-     won't forward it. In practice, it means without open relay,
-     messages can only be forwarded once.
-
-4.12.46 pilot-lag
------------------
-
- -- Command-line option: `--pilot-lag=<value>'
- -- Environment variable: `LW6_PILOT_LAG'
- -- XML key: `pilot-lag'
-     Type: integer
-
-     Default value: 10
-
-     Maximum lag, in rounds, until the game engine is slowed down. This
-     will typically be usefull if your computer is too slow for the map
-     resolution and the game speed you set up.
-
-4.12.47 quick-start
--------------------
-
- -- Command-line option: `--quick-start'
-     Start the game just like if the player had requested a quick
-     start, without showing any menu.
-
-4.12.48 reset
--------------
-
- -- Command-line option: `--reset'
-     Clears the config file so that the game will run with defaults
-     next time. The idea is to get rid of traces of previous
-     executions. The difference with '-defaults' is that '-reset' does
-     not run the game, while '-defaults' does.
-
-4.12.49 reset-config-on-upgrade
--------------------------------
-
- -- Command-line option: `--reset-config-on-upgrade=<value>'
- -- Environment variable: `LW6_RESET_CONFIG_ON_UPGRADE'
- -- XML key: `reset-config-on-upgrade'
-     Type: boolean
-
-     Default value: true
-
-     If set, then a reset (config file set to defaults) is run every
-     time you upgrade the game.
-
-4.12.50 server
---------------
-
- -- Command-line option: `--server'
-     Start the game in server mode, without requiring any graphics
-     backend. Server mode is usefull if you just want to start a
-     network node without hosting any real game on it. It can be used
-     to list existing nodes and sessions or as a bounce server in case
-     some clients can't contact each other because firewalled. If you
-     only want to start a server game on your computer, don't use this
-     option, just start the game normally and start a game server by
-     clicking on the GUI buttons.
-
-4.12.51 target-fps
-------------------
-
- -- Command-line option: `--target-fps=<value>'
- -- Environment variable: `LW6_TARGET_FPS'
- -- XML key: `target-fps'
-     Type: integer
-
-     Default value: 60
-
-     Defines how many frames will be displayed per second. Of course
-     this is a maximum value, if your hardware can't keep up with this
-     value, display will just be slow, no matter what value you define
-     here. Note that you might really wish to have something rather low
-     here, to keep network and 'logic' function responsiveness. Passed
-     60 frames per second, speed is really only for visual comfort, as
-     Liquid War 6 is now so fast-paced that it requires 200 frames/sec
-     to outperform opponents.
-
-4.12.52 trojan
---------------
-
- -- Command-line option: `--trojan=<value>'
- -- Environment variable: `LW6_TROJAN'
- -- XML key: `trojan'
-     Type: boolean
-
-     Default value: false
-
-     Make the program act like a (stupid) trojan horse, trying to fake
-     messages, sending various inconsistent informations. This is to
-     check the normal version of the program is able to detect such a
-     fake and kick it out of the game. It's of no use for regular
-     players, be sure to unset this if you want to play for good.
-
-4.12.53 z-decode
-----------------
-
- -- Command-line option: `--z-decode'
-     If specified, program will take stdin and z-decode it to stdout.
-     This is for testing purpose (for network messages for instance).
-     Z-decoding, here means verifying there a Z at the beginning,
-     base64 decode and pass the content through Zlib inflating. I
-     content is not Z-prefixed, will be returned as is.
-
-4.12.54 z-encode
-----------------
-
- -- Command-line option: `--z-encode'
-     If specified, program will take stdin and z-encode it to stdout.
-     This is for testing purpose (for network messages for instance).
-     Z-encoding, here means passing the message through Zlib deflating
-     then base64 encoding and prefix it with a Z.
 

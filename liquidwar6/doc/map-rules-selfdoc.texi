@@ -856,6 +856,556 @@ Y start position for the yellow team. This is a percentage of map height,
 value between 0 and 100.
 @end deffn
 
+@subsection team-profile-blue-aggressive
+@deffn {Command-line option} @code{--team-profile-blue-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-blue-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the blue team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-blue-fast
+@deffn {Command-line option} @code{--team-profile-blue-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_FAST}
+@deffnx {XML key} @code{team-profile-blue-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the blue team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-blue-mobile
+@deffn {Command-line option} @code{--team-profile-blue-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_MOBILE}
+@deffnx {XML key} @code{team-profile-blue-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the blue team. If set to a high value team will appear more mobile and do
+more things, but it won't change its cruising speed. It's not obvious to tell
+wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-blue-vulnerable
+@deffn {Command-line option} @code{--team-profile-blue-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_VULNERABLE}
+@deffnx {XML key} @code{team-profile-blue-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the blue team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-cyan-aggressive
+@deffn {Command-line option} @code{--team-profile-cyan-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-cyan-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the cyan team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-cyan-fast
+@deffn {Command-line option} @code{--team-profile-cyan-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_FAST}
+@deffnx {XML key} @code{team-profile-cyan-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the cyan team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-cyan-mobile
+@deffn {Command-line option} @code{--team-profile-cyan-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_MOBILE}
+@deffnx {XML key} @code{team-profile-cyan-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the cyan team. If set to a high value team will appear more mobile and do
+more things, but it won't change its cruising speed. It's not obvious to tell
+wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-cyan-vulnerable
+@deffn {Command-line option} @code{--team-profile-cyan-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_VULNERABLE}
+@deffnx {XML key} @code{team-profile-cyan-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the cyan team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-green-aggressive
+@deffn {Command-line option} @code{--team-profile-green-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-green-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the green team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-green-fast
+@deffn {Command-line option} @code{--team-profile-green-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_FAST}
+@deffnx {XML key} @code{team-profile-green-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the green team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-green-mobile
+@deffn {Command-line option} @code{--team-profile-green-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_MOBILE}
+@deffnx {XML key} @code{team-profile-green-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the green team. If set to a high value team will appear more mobile and do
+more things, but it won't change its cruising speed. It's not obvious to tell
+wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-green-vulnerable
+@deffn {Command-line option} @code{--team-profile-green-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_VULNERABLE}
+@deffnx {XML key} @code{team-profile-green-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the green team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-lightblue-aggressive
+@deffn {Command-line option} @code{--team-profile-lightblue-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-lightblue-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the lightblue team is. This is a percentage, if set to
+200 then team will attack twice as much as any other team with the default
+value. Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-lightblue-fast
+@deffn {Command-line option} @code{--team-profile-lightblue-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_FAST}
+@deffnx {XML key} @code{team-profile-lightblue-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the lightblue team. This is a percentage, if set to 50,
+then team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-lightblue-mobile
+@deffn {Command-line option} @code{--team-profile-lightblue-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_MOBILE}
+@deffnx {XML key} @code{team-profile-lightblue-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the lightblue team. If set to a high value team will appear more mobile
+and do more things, but it won't change its cruising speed. It's not obvious
+to tell wether this is an advantage or not, but it clearly changes the
+behavior.
+@end deffn
+
+@subsection team-profile-lightblue-vulnerable
+@deffn {Command-line option} @code{--team-profile-lightblue-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_VULNERABLE}
+@deffnx {XML key} @code{team-profile-lightblue-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the lightblue team is. This is a percentage, if set to
+200 then team will be attacked twice as much as any other team with the
+default value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-magenta-aggressive
+@deffn {Command-line option} @code{--team-profile-magenta-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-magenta-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the magenta team is. This is a percentage, if set to
+200 then team will attack twice as much as any other team with the default
+value. Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-magenta-fast
+@deffn {Command-line option} @code{--team-profile-magenta-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_FAST}
+@deffnx {XML key} @code{team-profile-magenta-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the magenta team. This is a percentage, if set to 50,
+then team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-magenta-mobile
+@deffn {Command-line option} @code{--team-profile-magenta-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_MOBILE}
+@deffnx {XML key} @code{team-profile-magenta-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the magenta team. If set to a high value team will appear more mobile and
+do more things, but it won't change its cruising speed. It's not obvious to
+tell wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-magenta-vulnerable
+@deffn {Command-line option} @code{--team-profile-magenta-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_VULNERABLE}
+@deffnx {XML key} @code{team-profile-magenta-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the magenta team is. This is a percentage, if set to
+200 then team will be attacked twice as much as any other team with the
+default value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-orange-aggressive
+@deffn {Command-line option} @code{--team-profile-orange-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-orange-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the orange team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-orange-fast
+@deffn {Command-line option} @code{--team-profile-orange-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_FAST}
+@deffnx {XML key} @code{team-profile-orange-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the orange team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-orange-mobile
+@deffn {Command-line option} @code{--team-profile-orange-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_MOBILE}
+@deffnx {XML key} @code{team-profile-orange-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the orange team. If set to a high value team will appear more mobile and
+do more things, but it won't change its cruising speed. It's not obvious to
+tell wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-orange-vulnerable
+@deffn {Command-line option} @code{--team-profile-orange-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_VULNERABLE}
+@deffnx {XML key} @code{team-profile-orange-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the orange team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-purple-aggressive
+@deffn {Command-line option} @code{--team-profile-purple-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-purple-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the purple team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-purple-fast
+@deffn {Command-line option} @code{--team-profile-purple-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_FAST}
+@deffnx {XML key} @code{team-profile-purple-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the purple team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-purple-mobile
+@deffn {Command-line option} @code{--team-profile-purple-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_MOBILE}
+@deffnx {XML key} @code{team-profile-purple-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the purple team. If set to a high value team will appear more mobile and
+do more things, but it won't change its cruising speed. It's not obvious to
+tell wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-purple-vulnerable
+@deffn {Command-line option} @code{--team-profile-purple-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_VULNERABLE}
+@deffnx {XML key} @code{team-profile-purple-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the purple team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-red-aggressive
+@deffn {Command-line option} @code{--team-profile-red-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-red-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the red team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-red-fast
+@deffn {Command-line option} @code{--team-profile-red-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_FAST}
+@deffnx {XML key} @code{team-profile-red-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the red team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-red-mobile
+@deffn {Command-line option} @code{--team-profile-red-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_MOBILE}
+@deffnx {XML key} @code{team-profile-red-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the red team. If set to a high value team will appear more mobile and do
+more things, but it won't change its cruising speed. It's not obvious to tell
+wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-red-vulnerable
+@deffn {Command-line option} @code{--team-profile-red-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_VULNERABLE}
+@deffnx {XML key} @code{team-profile-red-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the red team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-yellow-aggressive
+@deffn {Command-line option} @code{--team-profile-yellow-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-yellow-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the yellow team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-yellow-fast
+@deffn {Command-line option} @code{--team-profile-yellow-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_FAST}
+@deffnx {XML key} @code{team-profile-yellow-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the yellow team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-yellow-mobile
+@deffn {Command-line option} @code{--team-profile-yellow-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_MOBILE}
+@deffnx {XML key} @code{team-profile-yellow-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the yellow team. If set to a high value team will appear more mobile and
+do more things, but it won't change its cruising speed. It's not obvious to
+tell wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-yellow-vulnerable
+@deffn {Command-line option} @code{--team-profile-yellow-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_VULNERABLE}
+@deffnx {XML key} @code{team-profile-yellow-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the yellow team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
 @subsection total-armies-size
 @deffn {Command-line option} @code{--total-armies-size=<value>}
 @deffnx {Environment variable} @code{LW6_TOTAL_ARMIES_SIZE}
@@ -892,6 +1442,22 @@ rings. Also, technically, this value will be translated into rounds and moves,
 and the game engine will wait until enough rounds and moves have been played.
 So if the computer is too slow and the desired speed is not reached, then the
 game will last for a longer time.
+@end deffn
+
+@subsection use-team-profiles
+@deffn {Command-line option} @code{--use-team-profiles=<value>}
+@deffnx {Environment variable} @code{LW6_USE_TEAM_PROFILES}
+@deffnx {XML key} @code{use-team-profiles}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 1
+
+If set, then all the team-profile-... values will be taken in account. This
+enables a mode in which teams behave differently according to their colors. If
+you disable this, then all teams will behave the same, which is more fair, but
+might not be as fun.
 @end deffn
 
 @subsection vertical-move
