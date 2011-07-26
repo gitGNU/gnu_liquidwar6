@@ -496,6 +496,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_AGGRESSIVE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_AGGRESSIVE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_AGGRESSIVE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_VULNERABLE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_VULNERABLE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_VULNERABLE);
@@ -505,6 +506,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_VULNERABLE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_VULNERABLE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_VULNERABLE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_VULNERABLE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_MOBILE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_MOBILE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_MOBILE);
@@ -514,6 +516,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_MOBILE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_MOBILE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_MOBILE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_MOBILE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_FAST);
@@ -523,6 +526,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_FAST);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_FAST);
 
   return ((*list) != NULL);
 }

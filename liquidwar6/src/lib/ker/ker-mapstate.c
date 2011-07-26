@@ -644,6 +644,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
 {
   _lw6ker_move_context_t context;
   int move_i = 0;
+  int i, j;
 
   memset (&context, 0, sizeof (_lw6ker_move_context_t));
 
@@ -654,13 +655,80 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
   context.rules = *rules;
   context.armies = &(map_state->armies);
   context.active_fighters = context.armies->active_fighters;
-  context.fighter_side_attack =
-    lw6ker_percent (rules->fighter_attack, rules->side_attack_factor);
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	{
+	  if (context.rules.use_team_profiles)
+	    {
+	      context.fighter_attack[i][j] =
+		lw6ker_percent (lw6ker_percent
+				(rules->fighter_attack,
+				 rules->team_profile_aggressive[i]),
+				rules->team_profile_vulnerable[j]);
+	    }
+	  else
+	    {
+	      context.fighter_attack[i][j] = rules->fighter_attack;
+	    }
+	  context.fighter_side_attack[i][j] =
+	    lw6ker_percent (context.fighter_attack[i][j],
+			    rules->side_attack_factor);
+	}
+    }
+
   context.fighter_side_defense =
     lw6sys_max (rules->fighter_regenerate,
 		lw6ker_percent (rules->fighter_defense,
 				rules->side_defense_factor));
   context.shape = map_state->shape;
+
+  /*
+   * Here we initialize a per-team array with nb_..._tries values so
+   * that we don't calculate it each time.
+   */
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (context.rules.use_team_profiles)
+	{
+	  context.per_team_nb_move_tries[i] =
+	    context.rules.nb_move_tries +
+	    context.rules.team_profile_mobile[i];
+	  context.per_team_nb_attack_tries[i] =
+	    context.rules.nb_attack_tries +
+	    context.rules.team_profile_mobile[i];
+	  context.per_team_nb_defense_tries[i] =
+	    context.rules.nb_defense_tries +
+	    context.rules.team_profile_mobile[i];
+
+	  context.per_team_nb_move_tries[i] =
+	    lw6sys_max (context.per_team_nb_move_tries[i],
+			LW6MAP_RULES_MIN_NB_MOVE_TRIES);
+	  context.per_team_nb_move_tries[i] =
+	    lw6sys_min (context.per_team_nb_move_tries[i],
+			LW6MAP_RULES_MAX_NB_MOVE_TRIES);
+	  context.per_team_nb_attack_tries[i] =
+	    lw6sys_max (context.per_team_nb_attack_tries[i],
+			LW6MAP_RULES_MIN_NB_ATTACK_TRIES);
+	  context.per_team_nb_attack_tries[i] =
+	    lw6sys_min (context.per_team_nb_attack_tries[i],
+			LW6MAP_RULES_MAX_NB_ATTACK_TRIES);
+	  context.per_team_nb_defense_tries[i] =
+	    lw6sys_max (context.per_team_nb_defense_tries[i],
+			LW6MAP_RULES_MIN_NB_DEFENSE_TRIES);
+	  context.per_team_nb_defense_tries[i] =
+	    lw6sys_min (context.per_team_nb_defense_tries[i],
+			LW6MAP_RULES_MAX_NB_DEFENSE_TRIES);
+	}
+      else
+	{
+	  context.per_team_nb_move_tries[i] = context.rules.nb_move_tries;
+	  context.per_team_nb_attack_tries[i] = context.rules.nb_attack_tries;
+	  context.per_team_nb_defense_tries[i] =
+	    context.rules.nb_defense_tries;
+	}
+    }
 
   for (move_i = 0; move_i < nb_moves; ++move_i)
     {

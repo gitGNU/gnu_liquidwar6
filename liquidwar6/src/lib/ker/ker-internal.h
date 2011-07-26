@@ -279,10 +279,16 @@ typedef struct _lw6ker_move_context_s
   int32_t loop_init;
   int32_t loop_step;
   int done_with_fighter;
-  int32_t fighter_side_attack;
+  int32_t fighter_attack[LW6MAP_MAX_NB_TEAMS][LW6MAP_MAX_NB_TEAMS];
+  int32_t fighter_side_attack[LW6MAP_MAX_NB_TEAMS][LW6MAP_MAX_NB_TEAMS];
   int32_t fighter_side_defense;
+  int32_t per_team_nb_move_tries[LW6MAP_MAX_NB_TEAMS];
+  int32_t per_team_nb_attack_tries[LW6MAP_MAX_NB_TEAMS];
+  int32_t per_team_nb_defense_tries[LW6MAP_MAX_NB_TEAMS];
   lw6sys_whd_t shape;
   int32_t *move_dir_table;
+  int32_t enemy_id;
+  int32_t enemy_color;
 } _lw6ker_move_context_t;
 
 /*
@@ -686,7 +692,9 @@ extern int _lw6ker_move_is_slot_free (_lw6ker_map_struct_t * map_struct,
 extern int _lw6ker_move_is_enemy_there (_lw6ker_map_struct_t * map_struct,
 					_lw6ker_map_state_t * map_state,
 					int32_t team_color, int32_t x,
-					int32_t y, int32_t z);
+					int32_t y, int32_t z,
+					int32_t * enemy_id,
+					int32_t * enemy_color);
 extern int _lw6ker_move_is_ally_there (_lw6ker_map_struct_t * map_struct,
 				       _lw6ker_map_state_t * map_state,
 				       int32_t team_color, int32_t x,

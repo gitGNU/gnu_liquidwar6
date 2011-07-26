@@ -32,7 +32,7 @@
 
 #if LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 #define _CALL_IS_SLOT_FREE(A,B,C,D,E) _lw6ker_move_is_slot_free((A),(B),(C),(D),(E))
-#define _CALL_IS_ENEMY_THERE(A,B,C,D,E,F) _lw6ker_move_is_enemy_there((A),(B),(C),(D),(E),(F))
+#define _CALL_IS_ENEMY_THERE(A,B,C,D,E,F,G,H) _lw6ker_move_is_enemy_there((A),(B),(C),(D),(E),(F),(G),(H))
 #define _CALL_IS_ALLY_THERE(A,B,C,D,E,F) _lw6ker_move_is_ally_there((A),(B),(C),(D),(E),(F))
 #define _CALL_FIND_STRAIGHT_DIR(A,B,C,D) _lw6ker_move_find_straight_dir((A),(B),(C),(D))
 #define _CALL_FIND_BEST_DIR(A,B,C) _lw6ker_move_find_best_dir((A),(B),(C))
@@ -42,7 +42,7 @@
 #define _CALL_ADJUST_HEALTH(A,B) _lw6ker_move_adjust_health((A),(B))
 #else
 #define _CALL_IS_SLOT_FREE(A,B,C,D,E) _is_slot_free((A),(B),(C),(D),(E))
-#define _CALL_IS_ENEMY_THERE(A,B,C,D,E,F) _is_enemy_there((A),(B),(C),(D),(E),(F))
+#define _CALL_IS_ENEMY_THERE(A,B,C,D,E,F,G,H) _is_enemy_there((A),(B),(C),(D),(E),(F),(G),(H))
 #define _CALL_IS_ALLY_THERE(A,B,C,D,E,F) _is_ally_there((A),(B),(C),(D),(E),(F))
 #define _CALL_FIND_STRAIGHT_DIR(A,B,C,D) _find_straight_dir((A),(B),(C),(D))
 #define _CALL_FIND_BEST_DIR(A,B,C) _find_best_dir((A),(B),(C))
@@ -78,7 +78,8 @@ _lw6ker_move_is_slot_free (_lw6ker_map_struct_t * map_struct,
 static inline int
 _is_enemy_there (_lw6ker_map_struct_t * map_struct,
 		 _lw6ker_map_state_t * map_state, int32_t team_color,
-		 int32_t x, int32_t y, int32_t z)
+		 int32_t x, int32_t y, int32_t z, int32_t * enemy_id,
+		 int32_t * enemy_color)
 {
   int ret = 0;
 
@@ -86,13 +87,11 @@ _is_enemy_there (_lw6ker_map_struct_t * map_struct,
   if (_lw6ker_map_struct_get_zone_id (map_struct, x, y, z) >= 0)
     {
 #endif // LW6_PARANOID
-      int32_t enemy_id;
-
-      enemy_id = _lw6ker_map_state_get_fighter_id (map_state, x, y, z);
-      if (enemy_id >= 0)
+      *enemy_id = _lw6ker_map_state_get_fighter_id (map_state, x, y, z);
+      if (*enemy_id >= 0)
 	{
-	  ret =
-	    (map_state->armies.fighters[enemy_id].team_color != team_color);
+	  (*enemy_color) = map_state->armies.fighters[*enemy_id].team_color;
+	  ret = (*enemy_color != team_color);
 	}
 #ifdef LW6_PARANOID
     }
@@ -105,9 +104,11 @@ int
 _lw6ker_move_is_enemy_there (_lw6ker_map_struct_t * map_struct,
 			     _lw6ker_map_state_t * map_state,
 			     int32_t team_color, int32_t x, int32_t y,
-			     int32_t z)
+			     int32_t z, int32_t * enemy_id,
+			     int32_t * enemy_color)
 {
-  return _is_enemy_there (map_struct, map_state, team_color, x, y, z);
+  return _is_enemy_there (map_struct, map_state, team_color, x, y, z,
+			  enemy_id, enemy_color);
 }
 
 static inline int
@@ -434,7 +435,19 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 	    &lc.map_struct->places[_lw6ker_map_struct_place_index
 				   (lc.map_struct, lc.fighter->pos.x,
 				    lc.fighter->pos.y)];
-	  lc.fighter->act_counter += lc.place_struct->act_incr;
+	  /*
+	   * We increment the act_counter. Depending on game rules, we might
+	   * decide to change the default value (which can already depend
+	   * on the map boost/glue settings) according to the specific
+	   * team speed (profile_fast parameter).
+	   */
+	  lc.fighter->act_counter +=
+	    lc.rules.use_team_profiles ? lw6ker_percent (lc.
+							 place_struct->act_incr,
+							 lc.
+							 rules.team_profile_fast
+							 [lc.fighter_team_color])
+	    : lc.place_struct->act_incr;
 	  while (lc.fighter->act_counter >= LW6KER_ACT_LIMIT)
 	    {
 	      lc.fighter->act_counter -= LW6KER_ACT_LIMIT;
@@ -455,7 +468,10 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 
 	      if (lc.shape.d <= 1)
 		{
-		  for (lc.j = 0; lc.j < lc.rules.nb_move_tries; ++lc.j)
+		  for (lc.j = 0;
+		       lc.j <
+		       lc.per_team_nb_move_tries[lc.fighter_team_color];
+		       ++lc.j)
 		    {
 		      lc.test_dir = lc.move_dir_table[lc.j];
 		      _CALL_GOTO_WITH_DIR_XY (&(lc.rules), &lc.shape,
@@ -476,7 +492,10 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 		}
 	      else
 		{
-		  for (lc.j = 0; lc.j < lc.rules.nb_move_tries; ++lc.j)
+		  for (lc.j = 0;
+		       lc.j <
+		       lc.per_team_nb_move_tries[lc.fighter_team_color];
+		       ++lc.j)
 		    {
 		      lc.test_dir = lc.move_dir_table[lc.j];
 		      _CALL_GOTO_WITH_DIR (&(lc.rules), &lc.shape, &lc.x,
@@ -536,7 +555,10 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 
 	      if (!lc.done_with_fighter)
 		{
-		  for (lc.j = 0; lc.j < lc.rules.nb_attack_tries; ++lc.j)
+		  for (lc.j = 0;
+		       lc.j <
+		       lc.per_team_nb_attack_tries[lc.fighter_team_color];
+		       ++lc.j)
 		    {
 		      lc.test_dir = lc.move_dir_table[lc.j];
 		      _CALL_GOTO_WITH_DIR_XY (&lc.rules, &lc.shape, &lc.x,
@@ -544,16 +566,19 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 					      lc.fighter_y, lc.test_dir);
 		      if (_CALL_IS_ENEMY_THERE
 			  (lc.map_struct, lc.map_state, lc.fighter_team_color,
-			   lc.x, lc.y, lc.z))
+			   lc.x, lc.y, lc.z, &lc.enemy_id, &lc.enemy_color))
 			{
 			  lc.done_with_fighter = 1;
 			  _lw6ker_fighter_attack (lc.fighter,
 						  lc.x, lc.y, lc.z,
 						  lc.map_state,
 						  lc.j ==
-						  0 ? lc.rules.
-						  fighter_attack : lc.
-						  fighter_side_attack,
+						  0 ? lc.fighter_attack
+						  [lc.fighter_team_color]
+						  [lc.enemy_color] :
+						  lc.fighter_side_attack
+						  [lc.fighter_team_color]
+						  [lc.enemy_color],
 						  lc.rules.
 						  fighter_new_health);
 			  break;
@@ -563,7 +588,10 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 
 	      if (!lc.done_with_fighter)
 		{
-		  for (lc.j = 0; lc.j < lc.rules.nb_defense_tries; ++lc.j)
+		  for (lc.j = 0;
+		       lc.j <
+		       lc.per_team_nb_defense_tries[lc.fighter_team_color];
+		       ++lc.j)
 		    {
 		      lc.test_dir = lc.move_dir_table[lc.j];
 		      _CALL_GOTO_WITH_DIR_XY (&lc.rules, &lc.shape, &lc.x,

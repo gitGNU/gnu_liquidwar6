@@ -6286,7 +6286,68 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.79 team-profile-purple-aggressive
+4.9.79 team-profile-pink-aggressive
+-----------------------------------
+
+ -- Command-line option: `--team-profile-pink-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_AGGRESSIVE'
+ -- XML key: `team-profile-pink-aggressive'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how aggressive the pink team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.9.80 team-profile-pink-fast
+-----------------------------
+
+ -- Command-line option: `--team-profile-pink-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_FAST'
+ -- XML key: `team-profile-pink-fast'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Changes the speed of the pink team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.9.81 team-profile-pink-mobile
+-------------------------------
+
+ -- Command-line option: `--team-profile-pink-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_MOBILE'
+ -- XML key: `team-profile-pink-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the pink team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.9.82 team-profile-pink-vulnerable
+-----------------------------------
+
+ -- Command-line option: `--team-profile-pink-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_VULNERABLE'
+ -- XML key: `team-profile-pink-vulnerable'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how vulnerable the pink team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.9.83 team-profile-purple-aggressive
 -------------------------------------
 
  -- Command-line option: `--team-profile-purple-aggressive=<value>'
@@ -6301,7 +6362,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.80 team-profile-purple-fast
+4.9.84 team-profile-purple-fast
 -------------------------------
 
  -- Command-line option: `--team-profile-purple-fast=<value>'
@@ -6316,7 +6377,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.81 team-profile-purple-mobile
+4.9.85 team-profile-purple-mobile
 ---------------------------------
 
  -- Command-line option: `--team-profile-purple-mobile=<value>'
@@ -6332,7 +6393,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.82 team-profile-purple-vulnerable
+4.9.86 team-profile-purple-vulnerable
 -------------------------------------
 
  -- Command-line option: `--team-profile-purple-vulnerable=<value>'
@@ -6347,7 +6408,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.83 team-profile-red-aggressive
+4.9.87 team-profile-red-aggressive
 ----------------------------------
 
  -- Command-line option: `--team-profile-red-aggressive=<value>'
@@ -6362,7 +6423,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.84 team-profile-red-fast
+4.9.88 team-profile-red-fast
 ----------------------------
 
  -- Command-line option: `--team-profile-red-fast=<value>'
@@ -6377,7 +6438,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.85 team-profile-red-mobile
+4.9.89 team-profile-red-mobile
 ------------------------------
 
  -- Command-line option: `--team-profile-red-mobile=<value>'
@@ -6393,7 +6454,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change its cruising speed. It's not obvious to tell wether this is
      an advantage or not, but it clearly changes the behavior.
 
-4.9.86 team-profile-red-vulnerable
+4.9.90 team-profile-red-vulnerable
 ----------------------------------
 
  -- Command-line option: `--team-profile-red-vulnerable=<value>'
@@ -6408,7 +6469,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.87 team-profile-yellow-aggressive
+4.9.91 team-profile-yellow-aggressive
 -------------------------------------
 
  -- Command-line option: `--team-profile-yellow-aggressive=<value>'
@@ -6423,7 +6484,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.88 team-profile-yellow-fast
+4.9.92 team-profile-yellow-fast
 -------------------------------
 
  -- Command-line option: `--team-profile-yellow-fast=<value>'
@@ -6438,7 +6499,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.89 team-profile-yellow-mobile
+4.9.93 team-profile-yellow-mobile
 ---------------------------------
 
  -- Command-line option: `--team-profile-yellow-mobile=<value>'
@@ -6454,7 +6515,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.90 team-profile-yellow-vulnerable
+4.9.94 team-profile-yellow-vulnerable
 -------------------------------------
 
  -- Command-line option: `--team-profile-yellow-vulnerable=<value>'
@@ -6469,7 +6530,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.91 total-armies-size
+4.9.95 total-armies-size
 ------------------------
 
  -- Command-line option: `--total-armies-size=<value>'
@@ -6490,7 +6551,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      square of 1/2 the size of a square map, so it represents 25% (1/4)
      of the total surface.
 
-4.9.92 total-time
+4.9.96 total-time
 -----------------
 
  -- Command-line option: `--total-time=<value>'
@@ -6508,7 +6569,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      So if the computer is too slow and the desired speed is not
      reached, then the game will last for a longer time.
 
-4.9.93 use-team-profiles
+4.9.97 use-team-profiles
 ------------------------
 
  -- Command-line option: `--use-team-profiles=<value>'
@@ -6523,7 +6584,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      according to their colors. If you disable this, then all teams
      will behave the same, which is more fair, but might not be as fun.
 
-4.9.94 vertical-move
+4.9.98 vertical-move
 --------------------
 
  -- Command-line option: `--vertical-move=<value>'
@@ -6539,7 +6600,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      failed. If set to 2, it will be tried just after the second move
      failed. And so on.
 
-4.9.95 x-polarity
+4.9.99 x-polarity
 -----------------
 
  -- Command-line option: `--x-polarity=<value>'
@@ -6558,8 +6619,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.9.96 y-polarity
------------------
+4.9.100 y-polarity
+------------------
 
  -- Command-line option: `--y-polarity=<value>'
  -- Environment variable: `LW6_Y_POLARITY'
@@ -6577,8 +6638,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.9.97 z-polarity
------------------
+4.9.101 z-polarity
+------------------
 
  -- Command-line option: `--z-polarity=<value>'
  -- Environment variable: `LW6_Z_POLARITY'

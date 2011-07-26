@@ -1223,6 +1223,67 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-pink-aggressive
+@deffn {Command-line option} @code{--team-profile-pink-aggressive=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_AGGRESSIVE}
+@deffnx {XML key} @code{team-profile-pink-aggressive}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how aggressive the pink team is. This is a percentage, if set to 200
+then team will attack twice as much as any other team with the default value.
+Setting this to a high value clearly advantages this team.
+@end deffn
+
+@subsection team-profile-pink-fast
+@deffn {Command-line option} @code{--team-profile-pink-fast=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_FAST}
+@deffnx {XML key} @code{team-profile-pink-fast}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Changes the speed of the pink team. This is a percentage, if set to 50, then
+team will move twice slower than other teams with the default parameter.
+Setting this high is very likely to advantage the team.
+@end deffn
+
+@subsection team-profile-pink-mobile
+@deffn {Command-line option} @code{--team-profile-pink-mobile=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_MOBILE}
+@deffnx {XML key} @code{team-profile-pink-mobile}
+Type: integer
+
+Default value: 0
+Min value: -3
+Max value: 3
+
+Increases (or decreases if negative) the number of move/attack/defense tries
+for the pink team. If set to a high value team will appear more mobile and do
+more things, but it won't change its cruising speed. It's not obvious to tell
+wether this is an advantage or not, but it clearly changes the behavior.
+@end deffn
+
+@subsection team-profile-pink-vulnerable
+@deffn {Command-line option} @code{--team-profile-pink-vulnerable=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_VULNERABLE}
+@deffnx {XML key} @code{team-profile-pink-vulnerable}
+Type: integer
+
+Default value: 100
+Min value: 10
+Max value: 1000
+
+Defines how vulnerable the pink team is. This is a percentage, if set to 200
+then team will be attacked twice as much as any other team with the default
+value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
 @subsection team-profile-purple-aggressive
 @deffn {Command-line option} @code{--team-profile-purple-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_AGGRESSIVE}
