@@ -42,16 +42,18 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 			    char *dirname)
 {
   int ret = 1;
+  int found = 0;
   char *cursor_dot_png;
   char *cursor_color_dot_png;
 
-  lw6map_cursor_texture_builtin (cursor_texture);
+  lw6map_cursor_texture_clear (cursor_texture);
 
   cursor_dot_png = lw6sys_path_concat (dirname, _LW6LDR_FILE_CURSOR_PNG);
   if (cursor_dot_png)
     {
       if (lw6sys_file_exists (cursor_dot_png))
 	{
+	  found = 1;
 	  ret = ret
 	    &&
 	    _lw6ldr_cursor_texture_layer_read_png (&
@@ -67,6 +69,7 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
     {
       if (lw6sys_file_exists (cursor_color_dot_png))
 	{
+	  found = 1;
 	  ret = ret
 	    &&
 	    _lw6ldr_cursor_texture_layer_read_png (&
@@ -74,6 +77,11 @@ lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
 						   cursor_color_dot_png);
 	}
       LW6SYS_FREE (cursor_color_dot_png);
+    }
+
+  if (!found)
+    {
+      lw6map_cursor_texture_builtin (cursor_texture);
     }
 
   return ret;

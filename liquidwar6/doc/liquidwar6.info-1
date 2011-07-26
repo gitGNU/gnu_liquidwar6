@@ -1583,8 +1583,34 @@ account when choosing the shortest path to go somewhere.  You can
 combine vertical and horizontal one-way informations, making diagonal
 one-way paths.
 
-3.1.9 rules.xml
----------------
+3.1.9 cursor.png and cursor-color.png
+-------------------------------------
+
+By default, a simple cursor will be displayed, but you can use a custom
+per-map cursor. Cursors are defined by two 64x64 bitmaps:
+
+   * `cursor.png' is a PNG file, very likely to use transparency, which
+     will be default be colorized according to the map colors. You can
+     draw it any color, only greyscale informations will be used. You
+     can keep the original colors if you really want to by setting
+     `colorize-cursor' to false, but the default is to ignore the hue.
+
+   * `cursor-color.png' is another PNG file, very likely to use
+     transparency too, which will always be colorized, replacing white
+     by the team color, and black by the "dead" color, which by default
+     is black and is usually a dark color. This colorization is a way
+     to recognize your cursor and know which team it belongs to.
+
+   You can define only one of those bitmaps, if doing so, then the
+other layer will be empty, and won't be filled with the default cursor
+data. Note that additionnally, a little letter (single character) will
+be displayed using the team color, so that's yet another way to
+identify which teams the cursor belongs too. The PNG files really need
+to be PNG (JPEG won't work) and need to be 64x64, any other size will
+be ignored.
+
+3.1.10 rules.xml
+----------------
 
 Whereas `style.xml' is only about the appearance of the map,
 `rules.xml' allows the map designer to change pretty much any parameter.
@@ -1630,7 +1656,7 @@ example is speed.
 
    *Note rules.xml reference: Map rules.xml.
 
-3.1.10 hints.xml
+3.1.11 hints.xml
 ----------------
 
 This parameter is only used by the map loader. The map itself contains
@@ -1652,7 +1678,7 @@ algorithm has no idea of what was in `hints.xml', once it's loaded.
 
    *Note hints.xml reference: Map hints.xml.
 
-3.1.11 style.xml
+3.1.12 style.xml
 ----------------
 
 This is a simple XML file defining various appearance parameters.  It
@@ -1663,7 +1689,7 @@ in this file.
 
    *Note style.xml reference: Map style.xml.
 
-3.1.12 Resampling
+3.1.13 Resampling
 -----------------
 
 This is a very important point. Liquid War almost *always* resamples
@@ -1706,7 +1732,7 @@ design, this is another story. Don't use them. Rely on 'bench-value'
 and just care about game speed. This is achieved by changing the
 "speed" parameter.
 
-3.1.13 Music
+3.1.14 Music
 ------------
 
 It is possible to store your own custom music file within the map

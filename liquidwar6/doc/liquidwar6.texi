@@ -1678,6 +1678,31 @@ will take this in account when choosing the shortest path to go somewhere.
 You can combine vertical and horizontal one-way informations, making diagonal
 one-way paths.
 
+@subsection cursor.png and cursor-color.png
+
+By default, a simple cursor will be displayed, but you can use a custom per-map
+cursor. Cursors are defined by two 64x64 bitmaps:
+
+@itemize
+@item 
+@code{cursor.png} is a PNG file, very likely to use transparency, which will
+be default be colorized according to the map colors. You can draw it any color,
+only greyscale informations will be used. You can keep the original colors if
+you really want to by setting @code{colorize-cursor} to false, but the default
+is to ignore the hue.
+@item 
+@code{cursor-color.png} is another PNG file, very likely to use transparency too,
+which will always be colorized, replacing white by the team color, and black by the
+``dead'' color, which by default is black and is usually a dark color. This colorization
+is a way to recognize your cursor and know which team it belongs to.
+@end itemize
+
+You can define only one of those bitmaps, if doing so, then the other layer
+will be empty, and won't be filled with the default cursor data. Note that additionnally,
+a little letter (single character) will be displayed using the team color, so that's 
+yet another way to identify which teams the cursor belongs too. The PNG files really
+need to be PNG (JPEG won't work) and need to be 64x64, any other size will be ignored.
+
 @subsection rules.xml
 
 @cindex rules.xml
