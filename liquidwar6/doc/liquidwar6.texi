@@ -353,6 +353,8 @@ a build is done with a different source.
 2010-07-05 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.8beta/,0.0.8beta}, codename ``Attila'', stamp 1658
 @item
 2010-08-23 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.9beta/,0.0.9beta}, codename ``Chuck'', stamp 2096
+@item
+2011-07-28 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.10beta/,0.0.10beta}, codename ``Gengis Kahn'', stamp 2561
 @end itemize
 
 @subsection Road map

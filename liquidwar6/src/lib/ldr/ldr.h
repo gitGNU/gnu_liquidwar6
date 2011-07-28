@@ -38,7 +38,7 @@
  * been used for some time but proves too high 
  * on too fast maps.
  */
-#define LW6LDR_DEFAULT_MAGIC_NUMBER 33461
+#define LW6LDR_DEFAULT_MAGIC_NUMBER 28657
 
 #define LW6LDR_HINTS_DEFAULT_RESAMPLE 1
 #define LW6LDR_HINTS_DEFAULT_MIN_MAP_WIDTH 20
