@@ -77,6 +77,11 @@ _lw6ker_cursor_get_start_xy (int32_t * x, int32_t * y, int team_color,
   int32_t py = 50;
   u_int32_t checksum = 0;
 
+  /*
+   * There was a bug suspected here:
+   * https://savannah.gnu.org/bugs/index.php?30842
+   */
+
   checksum = lw6sys_checksum_int32 (random_seed + team_color);
   /*
    * Update with something for when seed is 0 (game beginning)
