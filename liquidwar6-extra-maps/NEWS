@@ -1,5 +1,12 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* July 2011: release of 0.0.10beta. This releases brings a new
+  concept: "team profiles". Team can act differently, some of 
+  them being more aggressive but weak, some other being faster,
+  and so on. Additionnally, bubbling sounds "a la" Liquid War 5
+  were added, along with new bitmap cursors by Kasper Hviid and
+  a basic score screen.
+
 * August 2010: release of 0.0.9beta. This releases fixes bugs
   28030 (killing spree with small teams), 30409 (OS/X packaging), 
   and 30354 (libpng detection). Frags are now by default calculated
