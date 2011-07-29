@@ -213,7 +213,8 @@ _update_pie (mod_gl_utils_context_t *
 	     utils_context, _mod_gl_hud_floating_context_t * floating_context)
 {
   int ret = 1;
-  int percent, frags, team_color;
+  // int percent, frags;
+  int team_color;
   lw6map_color_couple_t color_text;
   char *score_text = NULL;
   int i;
@@ -236,8 +237,8 @@ _update_pie (mod_gl_utils_context_t *
 
   for (i = 0; i < floating_context->score_array.nb_scores; ++i)
     {
-      percent = floating_context->score_array.scores[i].fighters_percent;
-      frags = floating_context->score_array.scores[i].frags;
+      // percent = floating_context->score_array.scores[i].fighters_percent;
+      // frags = floating_context->score_array.scores[i].frags;
       team_color = floating_context->score_array.scores[i].team_color;
 
       color_text = floating_context->look->style.color_set.hud_color_text;
