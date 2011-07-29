@@ -37,6 +37,15 @@ _mod_csound_set_fx_volume (_mod_csound_context_t * csound_context,
 }
 
 extern void
+_mod_csound_set_water_volume (_mod_csound_context_t * csound_context,
+			      float volume)
+{
+  csound_context->volume.water = volume;
+
+  // todo...
+}
+
+extern void
 _mod_csound_set_music_volume (_mod_csound_context_t * csound_context,
 			      float volume)
 {

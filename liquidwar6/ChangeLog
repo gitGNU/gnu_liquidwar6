@@ -1,5 +1,7 @@
 2011-07-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed missing function in mod-csound (wouldn't compile static).
+
 	* 0.0.10beta -> 0.0.11beta.
 
 2011-07-29 : Christian Mauduit <ufoot@ufoot.org>
