@@ -18,9 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6],[0.0.10beta],[ufoot@ufoot.org],[liquidwar6])
+AC_INIT([Liquid War 6],[0.0.11beta],[ufoot@ufoot.org],[liquidwar6])
 # latest versions of automake accept a 5th arg mapped to PACKAGE_URL
-# AC_INIT([Liquid War 6],[0.0.8beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
+# AC_INIT([Liquid War 6],[0.0.11beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -39,7 +39,7 @@ AM_GNU_GETTEXT_VERSION([0.17])
 AM_ICONV
 
 LW6_HKEY=Liquid_War_6
-LW6_MS_WINDOWS_VERSION="0, 0, 10"
+LW6_MS_WINDOWS_VERSION="0, 0, 11"
 AC_SUBST(LW6_HKEY)
 AC_SUBST(LW6_MS_WINDOWS_VERSION)
 
@@ -480,7 +480,7 @@ AC_SUBST(LW6_HOST_CPU)
 LW6_HOST_OS="${host_os}"
 AC_SUBST(LW6_HOST_OS)
 
-LW6_CODENAME="Gengis Khan"
+LW6_CODENAME="Ho Chi Minh"
 AC_SUBST(LW6_CODENAME)
 
 AC_ARG_ENABLE([optimize], AS_HELP_STRING([--enable-optimize],[optimize for speed default=no]), [enable_optimize=$enableval], [enable_optimize=no])
