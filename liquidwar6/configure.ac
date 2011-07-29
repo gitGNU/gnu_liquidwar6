@@ -662,7 +662,7 @@ AC_SUBST(LW6_OS_LDFLAGS)
 
 # For some reason on my Debian box libs moved to specific dir and
 # gcc doesn't seem to find them any more. Those defines shouldn't harm.
-if echo "${host_cpu}" | grep "64" && -d /usr/lib/x86_64-linux-gnu ; then
+if echo "${host_cpu}" | grep "64" && test -d /usr/lib/x86_64-linux-gnu ; then
    LW6_CPU_CFLAGS=
    LW6_CPU_LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
 else

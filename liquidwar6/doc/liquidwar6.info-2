@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -543,7 +543,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
  -- XML key: `magic-number'
      Type: integer
 
-     Default value: 33461
+     Default value: 28657
 
      This 'magic' number probably requires an explanation. It's used to
      estimate how big a map can be built. The calculus is very

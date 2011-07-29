@@ -474,7 +474,7 @@ Delay, in msec, for which a log message will stay displayed on the screen.
 @deffnx {XML key} @code{magic-number}
 Type: integer
 
-Default value: 33461
+Default value: 28657
 
 This 'magic' number probably requires an explanation. It's used to estimate
 how big a map can be built. The calculus is very approximative, basically

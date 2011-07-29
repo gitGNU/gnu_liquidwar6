@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -325,7 +325,7 @@ incremented each time a build is done with a different source.
      (http://download.savannah.gnu.org/releases/liquidwar6/0.0.9beta/),
      codename "Chuck", stamp 2096
 
-   * 2011-07-28 : 0.0.10beta
+   * 2011-07-29 : 0.0.10beta
      (http://download.savannah.gnu.org/releases/liquidwar6/0.0.10beta/),
      codename "Gengis Kahn", stamp 2561
 
@@ -670,7 +670,7 @@ You might find it convenient not to install all the requirements from
 source, but use your favorite GNU/Linux distribution packages.
 
    On an RPM based GNU/Linux system, a typical command (tested with
-Fedora (http://www.fedoraproject.org/) 11) could be:
+Fedora (http://www.fedoraproject.org/)) could be:
 
      yum install \
      make gcc glibc glibc-devel binutils \
@@ -688,16 +688,16 @@ Fedora (http://www.fedoraproject.org/) 11) could be:
      perl lcov global valgrind graphviz gv texinfo-tex
 
    On a DEB package based GNU/Linux system this command (tested with
-Debian (http://www.debian.org/) lenny) would be:
+Debian (http://www.debian.org/) 6.0 squeeze) would be:
 
      apt-get install \
      make gcc libc6 libc6-dev binutils \
      guile-1.8 guile-1.8-dev guile-1.8-libs libgmp3c2 libgmp3-dev \
-     libtool libltdl3 libltdl3-dev \
+     libtool libltdl7 libltdl7-dev \
      zlib1g zlib1g-dev libexpat1 libexpat1-dev \
      libpng12-0 libpng12-dev libjpeg62 libjpeg62-dev \
      libsqlite3-0 libsqlite3-dev \
-     libncurses5 libncurses5-dev libreadline5 libreadline5-dev \
+     libncurses5 libncurses5-dev libreadline6 libreadline6-dev \
      libgl1-mesa-glx libgl1-mesa-dri libgl1-mesa-dev libglu1-mesa libglu1-mesa-dev \
      libsdl1.2debian-alsa libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
      libsdl-mixer1.2 libsdl-mixer1.2-dev \
