@@ -725,7 +725,7 @@ from source, but use your favorite GNU/Linux distribution packages.
 
 On an RPM based GNU/Linux 
 system, a typical command
-(tested with @uref{http://www.fedoraproject.org/, Fedora})
+(tested with @uref{http://www.fedoraproject.org/, Fedora} 15 ``Lovelock'')
 could be:
 
 @example
@@ -742,11 +742,12 @@ SDL SDL-devel SDL_image SDL_image-devel \
 SDL_mixer SDL_mixer-devel \
 freetype freetype-devel SDL_ttf SDL_ttf-devel \
 libcurl libcurl-devel \
-perl lcov global valgrind graphviz gv texinfo-tex
+perl lcov global valgrind graphviz gv texinfo-tex \
+gtk2-devel
 @end example
 
 On a DEB package based GNU/Linux system this command
-(tested with @uref{http://www.debian.org/, Debian} 6.0 squeeze)
+(tested with @uref{http://www.debian.org/, Debian} 6.0 ``squeeze'')
 would be:
 
 @example
