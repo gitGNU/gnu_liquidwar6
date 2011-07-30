@@ -670,7 +670,7 @@ You might find it convenient not to install all the requirements from
 source, but use your favorite GNU/Linux distribution packages.
 
    On an RPM based GNU/Linux system, a typical command (tested with
-Fedora (http://www.fedoraproject.org/)) could be:
+Fedora (http://www.fedoraproject.org/) 15 "Lovelock") could be:
 
      yum install \
      make gcc glibc glibc-devel binutils \
@@ -685,10 +685,11 @@ Fedora (http://www.fedoraproject.org/)) could be:
      SDL_mixer SDL_mixer-devel \
      freetype freetype-devel SDL_ttf SDL_ttf-devel \
      libcurl libcurl-devel \
-     perl lcov global valgrind graphviz gv texinfo-tex
+     perl lcov global valgrind graphviz gv texinfo-tex \
+     gtk2-devel
 
    On a DEB package based GNU/Linux system this command (tested with
-Debian (http://www.debian.org/) 6.0 squeeze) would be:
+Debian (http://www.debian.org/) 6.0 "squeeze") would be:
 
      apt-get install \
      make gcc libc6 libc6-dev binutils \

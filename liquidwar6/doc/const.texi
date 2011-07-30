@@ -1,1 +1,1 @@
-@set LW6_CODENAME Gengis Khan
+@set LW6_CODENAME Ho Chi Minh
