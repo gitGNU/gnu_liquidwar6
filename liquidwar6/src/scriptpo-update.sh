@@ -27,27 +27,16 @@ SCRIPT_DIR=../script
 C_FILE=../src/scriptpo.c
 
 find $SCRIPT_DIR -type f -a -name "*.scm" \
+    | sort \
     | xargs sed "s/^.*( *_  *\\(\\\".*\\\"\\) *).*\$/_(\1)\; \\/\\/ extracted by scriptpo-update.sh/g" \
     | grep scriptpo-update.sh \
     > $C_FILE
 
-## Additionnally, we automatically fill ../po/POTFILES.in
-#cd ..
-#find src -type f -a -name "*.c" \
-#    > po/POTFILES.in
-#find src -type f -a -name "*.c.inc" \
-#    >> po/POTFILES.in
-#cd src
-
-# Translating all the source files requires too much time, only
-# some specific cherry-picked files are translated.
+# Additionnally, we automatically fill ../po/POTFILES.in
 cd ..
 rm po/POTFILES.in
-#for i in src/scriptpo.c src/lib/sys/sys-log.c src/lib/hlp/hlp-reference.c src/lib/hlp/hlp-credits.c src/lib/sys/sys-mem.c src/lib/lw6-print.c src/lib/ldr/ldr-print.c src/lib/*/mod-*/mod-*-backend.c ; do
-find src -type f -a -name "*.c" >> po/POTFILES.in
-#for i in src/scriptpo.c src/lib/sys/sys-log.c src/lib/hlp/hlp-credits.c src/lib/lw6-print.c ; do
-#    echo "$i" >> po/POTFILES.in
-#done
+find src -type f -a -name "*.c" | sort >> po/POTFILES.in
 cd src
 
 indent $C_FILE
+
