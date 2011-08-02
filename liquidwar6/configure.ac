@@ -702,6 +702,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/map/Makefile
 	  src/lib/ker/Makefile
 	  src/lib/bot/Makefile
+	  src/lib/bot/mod-follow/Makefile
 	  src/lib/bot/mod-idiot/Makefile
 	  src/lib/bot/mod-random/Makefile
 	  src/lib/ldr/Makefile

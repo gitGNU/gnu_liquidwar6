@@ -133,7 +133,7 @@ requests.
 @deffnx {XML key} @code{skip-network}
 Type: boolean
 
-Default value: true
+Default value: false
 
 If set, then game won't do anything network related. No listen, no connect, no
 nothing. You are playing locally.

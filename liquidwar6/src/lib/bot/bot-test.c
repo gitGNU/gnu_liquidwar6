@@ -29,7 +29,7 @@
 #define TEST_ARGC 1
 #define TEST_ARGV0 "prog"
 
-#define TEST_NB_BACKENDS 2
+#define TEST_NB_BACKENDS 3
 
 #define TEST_MAP_WIDTH 72
 #define TEST_MAP_HEIGHT 24
@@ -182,8 +182,9 @@ lw6bot_test (int mode)
       lw6ker_test (mode);
     }
 
-  backend[0] = lw6bot_create_backend (argc, argv, "idiot");
-  backend[1] = lw6bot_create_backend (argc, argv, "random");
+  backend[0] = lw6bot_create_backend (argc, argv, "follow");
+  backend[1] = lw6bot_create_backend (argc, argv, "idiot");
+  backend[2] = lw6bot_create_backend (argc, argv, "random");
 
   ret = 1;
 

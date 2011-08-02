@@ -129,6 +129,7 @@ C API
 
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
 * libcfg::              Loading and saving config files.
@@ -3456,6 +3457,33 @@ edit @code{doc/liquidwar6.texi} to and a new node/section for this internal libr
 run @code{./configure && make}, fix code if needed.
 @end itemize
 
+@subsection Add a new module
+
+This describes how to add a new @code{mod-ab} module, for instance a new bot, but gfx or snd backends should work pretty much the same:
+
+@itemize
+@item
+add a new entry in @code{src/lib/bot/Makefile.am}
+@item
+create the subdir @code{src/lib/bot/mod-ab}, with its @code{Makefile.am} (inspired from other existing modules)
+@item
+add the entry in @code{configure.ac} so that @code{src/lib/bot/mod-ab/Makefile} is generated.
+@item
+edit @code{doc/gdoc-update.sh} and add an entry for @code{mod-ab}
+@item
+edit @code{doc/Makefile.am} and add @code{mod-ab-gdoc.texi} in @code{gdoc_TEXINFOS}.
+@item
+in @code{./doc}, run @code{./gdoc-update.sh}.
+@item
+edit @code{doc/liquidwar6texi} to add a new node/section for this module.
+@item
+edit @code{src/lib/bot/bot-test.c}, change the value of @code{TEST_NB_BACKENDS} and modify the code so that the new @code{ab} module is tested too.
+@item
+edit @code{src/lib/bot/bot-register.c}, the code must updated pretty much in every place with the conditionnal @code{LW6_ALLINONE}, you need to add the new module.
+@item
+run @code{automake}, @code{autoconf}, @code{./configure} and @code{make}.
+@end itemize
+
 @c ---------------------------------------------------------------------------
 @c Using GNU Arch
 @c ---------------------------------------------------------------------------
@@ -3890,6 +3918,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @menu
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
 * libcfg::              Loading and saving config files.
@@ -3960,7 +3989,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libbot
 @c ---------------------------------------------------------------------------
 
-@node libbot, mod-idiot, libliquidwar6, C API
+@node libbot, mod-follow, libliquidwar6, C API
 @section libbot
 
 @subsection Overview
@@ -3985,10 +4014,38 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c mod-follow
+@c ---------------------------------------------------------------------------
+
+@node mod-follow, mod-idiot, libbot, C API
+@section mod-follow
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-follow/index.html}.
+
+@subsection API
+
+@ifinfo
+@include mod-follow-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mod-follow-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dfollow.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c mod-idiot
 @c ---------------------------------------------------------------------------
 
-@node mod-idiot, mod-random, libbot, C API
+@node mod-idiot, mod-random, mod-follow, C API
 @section mod-idiot
 
 @subsection Overview

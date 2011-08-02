@@ -56,6 +56,9 @@ print_game_struct_repr (lw6ker_game_struct_t * game_struct)
   int is_fg, is_bg;
   lw6sys_xyz_t zone_pos;
   int zone_size;
+  int zone_id;
+  lw6sys_xyz_t here = { 0, 0, 0 };
+  lw6sys_xyz_t there = { 0, 0, 0 };
 
   lw6ker_game_struct_get_shape (game_struct, &shape);
   x = lw6sys_random (lw6ker_game_struct_get_w (game_struct));
@@ -69,9 +72,15 @@ print_game_struct_repr (lw6ker_game_struct_t * game_struct)
   lw6ker_game_struct_get_zones_info (game_struct, &nb_zones, &max_zone_size);
   lw6sys_log (LW6SYS_LOG_NOTICE, _("nb_zones=%d max_zone_size=%d"), nb_zones,
 	      max_zone_size);
-  lw6ker_game_struct_get_zone_info (game_struct, 0, &zone_pos, &zone_size);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("zone_pos=%d,%d,%d zone_size=%d"),
+  zone_id =
+    lw6ker_game_struct_get_zone_id (game_struct, shape.w / 2, shape.h / 2,
+				    shape.d / 2);
+  lw6ker_game_struct_get_zone_info (game_struct, zone_id, &zone_pos,
+				    &zone_size);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _("zone_id=%d zone_pos=%d,%d,%d zone_size=%d"), zone_id,
 	      zone_pos.x, zone_pos.y, zone_pos.z, zone_size);
+  lw6ker_game_struct_find_free_slot_near (game_struct, &there, here);
 
   repr = lw6ker_game_struct_repr (game_struct);
   if (repr)
@@ -99,6 +108,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   int x, y, z;
   lw6ker_cursor_t cursor;
   int potential;
+  int winner, looser;
 
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
@@ -164,6 +174,14 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 			  _x_ ("no fighter in x,y,z (%d)"), x, y, z,
 			  fighter_id);
 	    }
+	  winner =
+	    lw6ker_game_state_get_winner (game_state,
+					  LW6MAP_TEAM_COLOR_INVALID);
+	  looser =
+	    lw6ker_game_state_get_looser (game_state,
+					  LW6MAP_TEAM_COLOR_INVALID);
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("winner=%d looser=%d"), winner,
+		      looser);
 	}
     }
 

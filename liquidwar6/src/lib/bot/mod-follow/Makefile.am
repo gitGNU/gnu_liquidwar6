@@ -19,28 +19,20 @@
 # Contact author        : ufoot@ufoot.org
 
 AM_CFLAGS = @LW6_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ 
+AM_LDFLAGS = @LW6_LDFLAGS@
 
-if ALLINONE
-LW6DYN_LIB = 
-LW6BOT_LIB_S = mod-follow/libmod_follow_s.la mod-idiot/libmod_idiot_s.la mod-random/libmod_random_s.la
-else
-LW6DYN_LIB = ../dyn/libdyn.la 
-LW6BOT_LIB_S =
+libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
+
+noinst_LTLIBRARIES = libmod_follow_s.la
+MOD_FOLLOW_FILES = mod-follow-backend.c mod-follow-move.c mod-follow-repr.c mod-follow-setup.c
+libmod_follow_s_la_SOURCES = $(MOD_FOLLOW_FILES) 
+
+if !ALLINONE
+lib_LTLIBRARIES = libmod_follow.la
+libmod_follow_la_SOURCES = $(MOD_FOLLOW_FILES) 
+libmod_follow_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
+libmod_followdir = $(includedir)/@PACKAGE_TARNAME@/bot/mod-follow
+libmod_follow_HEADERS = mod-follow.h
 endif
 
-noinst_LTLIBRARIES = libbot.la
-libbot_la_LIBADD = $(LW6BOT_LIB_S)
-libbot_la_SOURCES = bot-api.c bot-register.c bot-test.c 
-libbotdir= $(includedir)/@PACKAGE_TARNAME@/bot
-libbot_HEADERS = bot.h
-
-if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6bot-test
-liquidwar6bot_test_SOURCES = bot-testmain.c
-liquidwar6bot_test_LDADD = libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6bot-test
-endif
-
-SUBDIRS = mod-follow mod-idiot mod-random
-
+EXTRA_DIST = mod-follow-internal.h

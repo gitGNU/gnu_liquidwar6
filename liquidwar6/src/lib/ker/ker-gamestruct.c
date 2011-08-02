@@ -513,3 +513,51 @@ lw6ker_game_struct_get_zone_info (lw6ker_game_struct_t * game_struct,
       (*zone_size) = zone->size;
     }
 }
+
+/**
+ * lw6ker_game_struct_get_zone_id
+ * 
+ * @game_struct: the game_struct to query
+ * @x: x pos
+ * @y: y pos
+ * @z: z pos
+ *
+ * Gets the zone id for a given position. The id returned can then be
+ * used to query for a potential, for instance.
+ *
+ * Return value: the zone id
+ */
+int32_t
+lw6ker_game_struct_get_zone_id (lw6ker_game_struct_t * game_struct,
+				int32_t x, int32_t y, int32_t z)
+{
+  return
+    _lw6ker_map_struct_get_zone_id (&
+				    (((_lw6ker_game_struct_t *)
+				      game_struct)->map_struct), x, y, z);
+}
+
+/**
+ * lw6ker_game_struct_find_free_slot_near
+ *
+ * @game_struct: the game_struct to query
+ * @there: the closest free slot (out param)
+ * @here: where we'd like to be
+ *
+ * Tries to find the closest free slot (there) near a given position (here).
+ * This is typically used internally to find out where to apply the cursor
+ * when it's flying over walls.
+ *
+ * Return value: none
+ */
+void
+lw6ker_game_struct_find_free_slot_near (lw6ker_game_struct_t *
+					game_struct,
+					lw6sys_xyz_t * there,
+					lw6sys_xyz_t here)
+{
+  _lw6ker_map_struct_find_free_slot_near (&
+					  (((_lw6ker_game_struct_t *)
+					    game_struct)->map_struct), there,
+					  here);
+}

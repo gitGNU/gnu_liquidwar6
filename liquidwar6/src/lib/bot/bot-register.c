@@ -28,6 +28,7 @@
 
 #include "bot.h"
 #ifdef LW6_ALLINONE
+#include "mod-follow/mod-follow.h"
 #include "mod-idiot/mod-idiot.h"
 #include "mod-random/mod-random.h"
 #endif
@@ -43,6 +44,13 @@ lw6bot_get_backends (int argc, char *argv[])
   ret = lw6sys_assoc_new (lw6sys_free_callback);
   if (ret)
     {
+      module_pedigree = mod_follow_get_pedigree ();
+      if (module_pedigree)
+	{
+	  lw6sys_assoc_set (&ret, module_pedigree->id,
+			    lw6sys_str_copy (module_pedigree->name));
+	  LW6SYS_FREE (module_pedigree);
+	}
       module_pedigree = mod_idiot_get_pedigree ();
       if (module_pedigree)
 	{
@@ -70,6 +78,10 @@ lw6bot_create_backend (int argc, char *argv[], char *name)
 {
   lw6bot_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
+  if (name && !strcmp (name, "follow"))
+    {
+      backend = mod_follow_create_backend ();
+    }
   if (name && !strcmp (name, "idiot"))
     {
       backend = mod_idiot_create_backend ();

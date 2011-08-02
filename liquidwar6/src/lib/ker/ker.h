@@ -222,6 +222,10 @@ extern u_int32_t lw6ker_game_state_get_rounds (lw6ker_game_state_t *
 extern u_int32_t lw6ker_game_state_get_total_rounds (lw6ker_game_state_t *
 						     game_state);
 extern int lw6ker_game_state_is_over (lw6ker_game_state_t * game_state);
+extern int lw6ker_game_state_get_winner (lw6ker_game_state_t * game_state,
+					 int excluded_team);
+extern int lw6ker_game_state_get_looser (lw6ker_game_state_t * game_state,
+					 int excluded_team);
 extern int32_t lw6ker_game_state_get_nb_active_fighters (lw6ker_game_state_t *
 							 game_state);
 extern int32_t lw6ker_game_state_get_time_elapsed (lw6ker_game_state_t *
@@ -251,7 +255,7 @@ extern lw6ker_fighter_t
   * lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
 					  int32_t x, int32_t y, int32_t z);
 extern int lw6ker_game_state_get_zone_potential (lw6ker_game_state_t *
-						 game_state, int i,
+						 game_state, int zone_i,
 						 int team_id);
 
 /*
@@ -288,6 +292,13 @@ extern void lw6ker_game_struct_get_zone_info (lw6ker_game_struct_t *
 					      game_struct, int i,
 					      lw6sys_xyz_t * zone_pos,
 					      int *zone_size);
+extern int32_t lw6ker_game_struct_get_zone_id (lw6ker_game_struct_t *
+					       game_struct, int32_t x,
+					       int32_t y, int32_t z);
+extern void lw6ker_game_struct_find_free_slot_near (lw6ker_game_struct_t *
+						    game_struct,
+						    lw6sys_xyz_t * there,
+						    lw6sys_xyz_t here);
 
 /*
  * in scorearray.c

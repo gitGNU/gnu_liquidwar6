@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -95,6 +95,7 @@ C API
 
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
 * libcfg::              Loading and saving config files.
@@ -3378,6 +3379,40 @@ This describes how to add a new `libxyz' internal library:
 
    * run `./configure && make', fix code if needed.
 
+3.14.4 Add a new module
+-----------------------
+
+This describes how to add a new `mod-ab' module, for instance a new
+bot, but gfx or snd backends should work pretty much the same:
+
+   * add a new entry in `src/lib/bot/Makefile.am'
+
+   * create the subdir `src/lib/bot/mod-ab', with its `Makefile.am'
+     (inspired from other existing modules)
+
+   * add the entry in `configure.ac' so that
+     `src/lib/bot/mod-ab/Makefile' is generated.
+
+   * edit `doc/gdoc-update.sh' and add an entry for `mod-ab'
+
+   * edit `doc/Makefile.am' and add `mod-ab-gdoc.texi' in
+     `gdoc_TEXINFOS'.
+
+   * in `./doc', run `./gdoc-update.sh'.
+
+   * edit `doc/liquidwar6texi' to add a new node/section for this
+     module.
+
+   * edit `src/lib/bot/bot-test.c', change the value of
+     `TEST_NB_BACKENDS' and modify the code so that the new `ab' module
+     is tested too.
+
+   * edit `src/lib/bot/bot-register.c', the code must updated pretty
+     much in every place with the conditionnal `LW6_ALLINONE', you need
+     to add the new module.
+
+   * run `automake', `autoconf', `./configure' and `make'.
+
 
 File: liquidwar6.info,  Node: Using GNU Arch,  Next: Using GIT,  Prev: Technical HOWTOs,  Up: Hacker's guide
 
@@ -4971,7 +5006,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
  -- XML key: `skip-network'
      Type: boolean
 
-     Default value: true
+     Default value: false
 
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.

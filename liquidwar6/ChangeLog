@@ -1,3 +1,9 @@
+2011-08-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed GTK support.
+
+	* Added a new mod-follow bot, works 50%.
+
 2011-08-01 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Po/pot files generation uses a sorted find.

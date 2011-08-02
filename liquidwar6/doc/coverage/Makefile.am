@@ -28,7 +28,7 @@ opt: index.html
 	cd ../../src && ./liquidwar6 --test
 
 liquidwar6.info: ../../src/main.gcno ../../src/main.gcda
-	lcov --directory ../../src --capture --base-directory ${top_srcdir}/src --output-file liquidwar6.info
+	lcov --directory ../../src/ --capture --base-directory `readlink -m ${top_srcdir}/src/` --output-file liquidwar6.info
 
 index.html: liquidwar6.info
 	genhtml --prefix ${top_srcdir} liquidwar6.info

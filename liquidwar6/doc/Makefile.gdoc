@@ -78,6 +78,9 @@ $(srcdir)/sys-gdoc.texi: ../src/lib/sys/sys-arg.c ../src/lib/sys/sys-assoc.c ../
 $(srcdir)/tsk-gdoc.texi: ../src/lib/tsk/tsk.h ../src/lib/tsk/tsk-internal.h ../src/lib/tsk/tsk-loader.c ../src/lib/tsk/tsk-test.c ../src/lib/tsk/tsk-testmain.c
 	echo gdoc tsk && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/tsk-gdoc.texi
 
+$(srcdir)/mod-follow-gdoc.texi: ../src/lib/bot/mod-follow/mod-follow-move.c ../src/lib/bot/mod-follow/mod-follow-setup.c ../src/lib/bot/mod-follow/mod-follow-internal.h ../src/lib/bot/mod-follow/mod-follow.h ../src/lib/bot/mod-follow/mod-follow-backend.c ../src/lib/bot/mod-follow/mod-follow-repr.c
+	echo gdoc mod-follow && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-follow-gdoc.texi
+
 $(srcdir)/mod-idiot-gdoc.texi: ../src/lib/bot/mod-idiot/mod-idiot-move.c ../src/lib/bot/mod-idiot/mod-idiot-setup.c ../src/lib/bot/mod-idiot/mod-idiot-backend.c ../src/lib/bot/mod-idiot/mod-idiot-internal.h ../src/lib/bot/mod-idiot/mod-idiot-repr.c ../src/lib/bot/mod-idiot/mod-idiot.h
 	echo gdoc mod-idiot && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-idiot-gdoc.texi
 

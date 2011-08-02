@@ -1326,16 +1326,17 @@ _lw6ker_game_state_get_team_info (_lw6ker_game_state_t *
 		game_state->map_state.armies.fighters_per_team[team_color];
 	    }
 	}
-      else
+    }
+
+  if (!ret)
+    {
+      if (nb_cursors)
 	{
-	  if (nb_cursors)
-	    {
-	      (*nb_cursors) = 0;
-	    }
-	  if (nb_fighters)
-	    {
-	      (*nb_fighters) = 0;
-	    }
+	  (*nb_cursors) = 0;
+	}
+      if (nb_fighters)
+	{
+	  (*nb_fighters) = 0;
 	}
     }
 
@@ -1752,6 +1753,111 @@ lw6ker_game_state_is_over (lw6ker_game_state_t * game_state)
   return _lw6ker_game_state_is_over ((_lw6ker_game_state_t *) game_state);
 }
 
+int
+_lw6ker_game_state_get_winner (_lw6ker_game_state_t * game_state,
+			       int excluded_team)
+{
+  int nb_active_fighters_min;
+  int nb_active_fighters;
+  int nb_teams;
+  int i;
+  int ret = LW6MAP_TEAM_COLOR_INVALID;
+
+  nb_active_fighters_min =
+    _lw6ker_game_state_get_nb_active_fighters (game_state);
+  nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
+  for (i = 0; i < nb_teams; ++i)
+    {
+      nb_active_fighters = 0;
+      _lw6ker_game_state_get_team_info (game_state, i, NULL,
+					&nb_active_fighters);
+      if (nb_active_fighters < nb_active_fighters_min
+	  && nb_active_fighters > 0 && i != excluded_team)
+	{
+	  ret = i;
+	  nb_active_fighters_min = nb_active_fighters;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ker_game_state_get_winner
+ *
+ * @game_state: the game_state to query
+ * @excluded_team: a team to exclude
+ *
+ * Returns the winner, if you set excluded_team to something else
+ * than a valid team number (for instance -1, but 0 is a valid team)
+ * then this team will be excluded from search. This is usefull if
+ * you want to find out who's the best positionned player while
+ * excluding yourself, for instance if you're a bot.
+ *
+ * Return value: the winner team number, note that it can be
+ * invalid (-1) if there's no winner (for example, there are no
+ * teams on the map).
+ */
+int
+lw6ker_game_state_get_winner (lw6ker_game_state_t * game_state,
+			      int excluded_team)
+{
+  return _lw6ker_game_state_get_winner ((_lw6ker_game_state_t *) game_state,
+					excluded_team);
+}
+
+int
+_lw6ker_game_state_get_looser (_lw6ker_game_state_t * game_state,
+			       int excluded_team)
+{
+  int nb_active_fighters_max;
+  int nb_active_fighters;
+  int nb_teams;
+  int i;
+  int ret = LW6MAP_TEAM_COLOR_INVALID;
+
+  nb_active_fighters_max = 0;
+  nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
+  for (i = 0; i < nb_teams; ++i)
+    {
+      nb_active_fighters = 0;
+      _lw6ker_game_state_get_team_info (game_state, i, NULL,
+					&nb_active_fighters);
+      if (nb_active_fighters > nb_active_fighters_max
+	  && nb_active_fighters > 0 && i != excluded_team)
+	{
+	  ret = i;
+	  nb_active_fighters_max = nb_active_fighters;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ker_game_state_get_looser
+ *
+ * @game_state: the game_state to query
+ * @excluded_team: a team to exclude
+ *
+ * Returns the looser, if you set excluded_team to something else
+ * than a valid team number (for instance -1, but 0 is a valid team)
+ * then this team will be excluded from search. This is usefull if
+ * you want to find out who's the worst positionned player while
+ * excluding yourself, for instance if you're a bot.
+ *
+ * Return value: the looser team number, note that it can be
+ * invalid (-1) if there's no looser (for example, there are no
+ * teams on the map).
+ */
+int
+lw6ker_game_state_get_looser (lw6ker_game_state_t * game_state,
+			      int excluded_team)
+{
+  return _lw6ker_game_state_get_looser ((_lw6ker_game_state_t *) game_state,
+					excluded_team);
+}
+
 int32_t
 _lw6ker_game_state_get_nb_active_fighters (_lw6ker_game_state_t * game_state)
 {
@@ -2066,7 +2172,7 @@ lw6ker_game_state_get_fighter_unsafe (lw6ker_game_state_t * game_state,
  * lw6ker_game_state_get_zone_potential
  *
  * @game_state: the game_state to query
- * @i: the zone index
+ * @zone_i: the zone index
  * @team_id: the team id (color)
  *
  * Gets the potential of a zone. In practice this is not needed to

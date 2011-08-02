@@ -49,6 +49,8 @@
 #define STATIC_LOG_FILENAME_SIZE 65536
 static char static_log_filename[STATIC_LOG_FILENAME_SIZE + 1] = { 0 };
 
+#define GTK_NB_IDLE_ITERATIONS 10
+
 static char *
 get_log_file ()
 {
@@ -656,23 +658,34 @@ msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
   argv = argv_data;
   if (!gtk_init_done)
     {
-      gtk_init (&argc, &argv);
-      gtk_init_done = 1;
+      if (gtk_init_check (&argc, &argv))
+	{
+	  gtk_init_done = 1;
+	}
+      // no "else" here, we won't log inside a log function
     }
-  dlg = gtk_message_dialog_new (NULL,
-				GTK_DIALOG_MODAL,
-				GTK_MESSAGE_ERROR,
-				GTK_BUTTONS_NONE, "%s", message_full);
-  if (dlg)
+  if (gtk_init_done)
     {
-      gtk_window_set_title (GTK_WINDOW (dlg),
-			    lw6sys_build_get_package_name ());
-      gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK, GTK_RESPONSE_OK);
-      gtk_dialog_run (GTK_DIALOG (dlg));
-      gtk_widget_hide_all (dlg);
-      gtk_main_iteration ();
-      gtk_widget_destroy (dlg);
-      gtk_main_iteration ();
+      dlg = gtk_message_dialog_new (NULL,
+				    GTK_DIALOG_MODAL,
+				    GTK_MESSAGE_ERROR,
+				    GTK_BUTTONS_NONE, "%s", message_full);
+      if (dlg)
+	{
+	  gtk_window_set_title (GTK_WINDOW (dlg),
+				lw6sys_build_get_package_name ());
+	  gtk_dialog_add_button (GTK_DIALOG (dlg), GTK_STOCK_OK,
+				 GTK_RESPONSE_OK);
+	  gtk_dialog_run (GTK_DIALOG (dlg));
+	  gtk_widget_hide_all (dlg);
+	  gtk_widget_destroy (dlg);
+
+	  while (gtk_events_pending ())
+	    {
+	      gtk_main_iteration ();
+	      lw6sys_idle ();
+	    }
+	}
     }
 #endif
 #endif

@@ -400,6 +400,38 @@ game rules, and of course what happened on the battlefield.
 @strong{Return value:}  1 if over, 0 if not.
 @end deftypefun
 
+@deftypefun {int} {lw6ker_game_state_get_winner} (lw6ker_game_state_t * @var{game_state}, int @var{excluded_team})
+@var{game_state}:  the game_state to query
+
+@var{excluded_team}:  a team to exclude
+
+Returns the winner, if you set excluded_team to something else
+than a valid team number (for instance -1, but 0 is a valid team)
+then this team will be excluded from search. This is usefull if
+you want to find out who's the best positionned player while
+excluding yourself, for instance if you're a bot.
+
+@strong{Return value:}  the winner team number, note that it can be
+invalid (-1) if there's no winner (for example, there are no
+teams on the map).
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_looser} (lw6ker_game_state_t * @var{game_state}, int @var{excluded_team})
+@var{game_state}:  the game_state to query
+
+@var{excluded_team}:  a team to exclude
+
+Returns the looser, if you set excluded_team to something else
+than a valid team number (for instance -1, but 0 is a valid team)
+then this team will be excluded from search. This is usefull if
+you want to find out who's the worst positionned player while
+excluding yourself, for instance if you're a bot.
+
+@strong{Return value:}  the looser team number, note that it can be
+invalid (-1) if there's no looser (for example, there are no
+teams on the map).
+@end deftypefun
+
 @deftypefun {int32_t} {lw6ker_game_state_get_nb_active_fighters} (lw6ker_game_state_t * @var{game_state})
 @var{game_state}:  the game_state to query
 
@@ -555,8 +587,6 @@ call this if you're sure there's a fighter here.
 
 @deftypefun {int} {lw6ker_game_state_get_zone_potential} (lw6ker_game_state_t * @var{game_state}, int @var{i}, int @var{team_id})
 @var{game_state}:  the game_state to query
-
-@var{i}:  the zone index
 
 @var{team_id}:  the team id (color)
 
@@ -728,6 +758,35 @@ be used for debugging.
 
 This function gets information about the internal zoning system, can
 be used for debugging.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int32_t} {lw6ker_game_struct_get_zone_id} (lw6ker_game_struct_t * @var{game_struct}, int32_t @var{x}, int32_t @var{y}, int32_t @var{z})
+@var{game_struct}:  the game_struct to query
+
+@var{x}:  x pos
+
+@var{y}:  y pos
+
+@var{z}:  z pos
+
+Gets the zone id for a given position. The id returned can then be
+used to query for a potential, for instance.
+
+@strong{Return value:}  the zone id
+@end deftypefun
+
+@deftypefun {void} {lw6ker_game_struct_find_free_slot_near} (lw6ker_game_struct_t *      @var{game_struct}, lw6sys_xyz_t * @var{there}, lw6sys_xyz_t @var{here})
+@var{game_struct}:  the game_struct to query
+
+@var{there}:  the closest free slot (out param)
+
+@var{here}:  where we'd like to be
+
+Tries to find the closest free slot (there) near a given position (here).
+This is typically used internally to find out where to apply the cursor
+when it's flying over walls.
 
 @strong{Return value:}  none
 @end deftypefun
