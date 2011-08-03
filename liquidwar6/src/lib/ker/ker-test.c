@@ -109,6 +109,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   lw6ker_cursor_t cursor;
   int potential;
   int winner, looser;
+  lw6sys_xyz_t current_pos = { 0, 0, 0 };
+  lw6sys_xyz_t next_pos = { 0, 0, 0 };
 
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
@@ -182,6 +184,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 					  LW6MAP_TEAM_COLOR_INVALID);
 	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("winner=%d looser=%d"), winner,
 		      looser);
+	  lw6ker_move_get_best_next_pos (game_state, &next_pos, &current_pos,
+					 0);
 	}
     }
 

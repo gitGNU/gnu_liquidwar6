@@ -34,13 +34,10 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
   lw6ker_cursor_t cursor;
   int ret = 0;
   lw6sys_whd_t shape = { 0, 0, 0 };
-  int x, y, z;
-  int max_potential = 0;
-  int potential;
-  int zone_id;
-  int fighter_id;
-  lw6ker_fighter_t *fighter;
-  lw6sys_xyz_t found = { 0, 0, 0 };
+  lw6sys_xyz_t current_pos;
+  lw6sys_xyz_t next_pos;
+  int looping = 0;
+  int i;
 
   lw6ker_game_state_get_shape (data->game_state, &shape);
   if (lw6ker_game_state_get_cursor
@@ -50,51 +47,33 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
 	lw6ker_game_state_get_looser (data->game_state, cursor.team_color);
       if (looser >= 0 && looser < LW6MAP_MAX_NB_TEAMS)
 	{
-	  for (z = 0; z < shape.d; ++z)
+	  current_pos = cursor.pos;
+	  follow_context->nb_steps = 0;
+	  while (follow_context->nb_steps <
+		 _MOD_FOLLOW_MAX_PATH_SIZE && !looping)
 	    {
-	      for (y = 0; y < shape.h; ++y)
+	      lw6ker_move_get_best_next_pos
+		(data->game_state, &next_pos, &current_pos, looser);
+	      for (i =
+		   lw6sys_max (0,
+			       follow_context->nb_steps
+			       -
+			       _MOD_FOLLOW_LOOPING_BUFFER_SIZE);
+		   i < follow_context->nb_steps && !looping; ++i)
 		{
-		  for (x = 0; x < shape.w; ++x)
+		  if (follow_context->step[i].x ==
+		      next_pos.x
+		      && follow_context->step[i].y ==
+		      next_pos.y && follow_context->step[i].z == next_pos.z)
 		    {
-		      fighter_id =
-			lw6ker_game_state_get_fighter_id (data->game_state, x,
-							  y, z);
-		      if (fighter_id >= 0)
-			{
-			  fighter =
-			    lw6ker_game_state_get_fighter_by_id
-			    (data->game_state, fighter_id);
-			  if (fighter)
-			    {
-			      if (fighter->team_color == looser)
-				{
-				  zone_id =
-				    lw6ker_game_struct_get_zone_id
-				    (data->game_state->game_struct, x, y, z);
-				  potential =
-				    lw6ker_game_state_get_zone_potential
-				    (data->game_state, zone_id, looser);
-				  if (potential > max_potential)
-				    {
-				      max_potential = potential;
-				      found.x = x;
-				      found.y = y;
-				      found.z = z;
-
-				      /*
-				       * TODO: make it walk through it, not straight...
-				       */
-				      follow_context->step[0] = found;
-				      follow_context->nb_steps = 1;
-
-				      ret = 1;
-				    }
-				}
-			    }
-			}
+		      looping = 1;
 		    }
 		}
+	      follow_context->step[follow_context->nb_steps] = next_pos;
+	      current_pos = next_pos;
+	      follow_context->nb_steps++;
 	    }
+	  ret = 1;
 	}
     }
 
@@ -135,7 +114,6 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
 					  _MOD_FOLLOW_IQ_0_SPEED) +
 					 (data->param.iq *
 					  _MOD_FOLLOW_IQ_100_SPEED)) / 100;
-  TMP1 ("%d", delta_step);
   follow_context->last_move_round = rounds;
   delta_step = lw6sys_min (delta_step, 1);
   follow_context->current_step += delta_step;

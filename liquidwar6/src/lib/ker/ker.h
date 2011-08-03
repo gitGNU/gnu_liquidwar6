@@ -146,9 +146,7 @@ extern char *lw6ker_capture_str (lw6ker_game_state_t * game_state);
  */
 extern void lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 
-/*
- * in gamestate.c
- */
+/* ker-gamestate.c */
 extern lw6ker_game_state_t *lw6ker_game_state_new (lw6ker_game_struct_t *
 						   game_struct,
 						   lw6sys_progress_t *
@@ -258,9 +256,7 @@ extern int lw6ker_game_state_get_zone_potential (lw6ker_game_state_t *
 						 game_state, int zone_i,
 						 int team_id);
 
-/*
- * In gamestruct.c
- */
+/* ker-gamestruct.c */
 extern lw6ker_game_struct_t *lw6ker_game_struct_new (lw6map_level_t * level,
 						     lw6sys_progress_t *
 						     progress);
@@ -300,6 +296,11 @@ extern void lw6ker_game_struct_find_free_slot_near (lw6ker_game_struct_t *
 						    lw6sys_xyz_t * there,
 						    lw6sys_xyz_t here);
 
+/* ker-move.c */
+extern int lw6ker_move_get_best_next_pos (lw6ker_game_state_t * game_state,
+					  lw6sys_xyz_t * next_pos,
+					  lw6sys_xyz_t * current_pos,
+					  int team_color);
 /*
  * in scorearray.c
  */

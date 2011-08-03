@@ -726,6 +726,11 @@ extern void _lw6ker_move_adjust_health (lw6ker_fighter_t * fighter,
 					int32_t health_correction);
 extern void _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t *
 						    context);
+extern int
+_lw6ker_move_get_best_next_pos (_lw6ker_game_state_t * game_state,
+				lw6sys_xyz_t * next_pos,
+				lw6sys_xyz_t * current_pos, int team_color);
+
 
 /* ker-placestruct.c */
 extern void _lw6ker_place_struct_update_checksum (_lw6ker_place_struct_t *

@@ -1,3 +1,7 @@
+2011-08-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* New bot mod-follow works (plays poorly but works).
+
 2011-08-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed GTK support.

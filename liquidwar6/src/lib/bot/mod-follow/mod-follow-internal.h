@@ -29,6 +29,7 @@
 #define _MOD_FOLLOW_MAX_PATH_SIZE 5000
 #define _MOD_FOLLOW_IQ_0_SPEED 0.1f
 #define _MOD_FOLLOW_IQ_100_SPEED 3.0f
+#define _MOD_FOLLOW_LOOPING_BUFFER_SIZE 10
 
 typedef struct _mod_follow_context_s
 {

@@ -622,3 +622,181 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 	}
     }
 }
+
+/*
+ * slow function, only for external use
+ */
+int
+_lw6ker_move_get_best_next_pos (_lw6ker_game_state_t * game_state,
+				lw6sys_xyz_t * next_pos,
+				lw6sys_xyz_t * current_pos, int team_color)
+{
+  _lw6ker_map_state_t *map_state = &(game_state->map_state);
+  _lw6ker_map_struct_t *map_struct = map_state->map_struct;
+  lw6map_rules_t *rules = &(game_state->game_struct->rules);
+  lw6sys_whd_t *shape = &(map_struct->shape);
+  int32_t zone_id;
+  _lw6ker_zone_state_t *zone_states = map_state->teams[team_color].gradient;
+  int best_direction = -1;
+  lw6sys_xyz_t start_pos;
+  lw6sys_xyz_t target;
+  lw6sys_xyz_t test;
+  int32_t test_x, test_y, test_z;
+  int test_dir;
+  int ret = 0;
+  int parity =
+    lw6sys_checksum_int32 (game_state->rounds +
+			   team_color) % LW6KER_NB_PARITIES;
+  int try;
+  int i;
+
+  start_pos = (*current_pos);
+  zone_id =
+    _lw6ker_map_struct_get_zone_id (map_struct, start_pos.x, start_pos.y,
+				    start_pos.z);
+  if (zone_id < 0)
+    {
+      _lw6ker_map_struct_find_free_slot_near (map_struct, &start_pos,
+					      *current_pos);
+      zone_id =
+	_lw6ker_map_struct_get_zone_id (map_struct, start_pos.x, start_pos.y,
+					start_pos.z);
+    }
+  (*next_pos) = start_pos;
+  if (zone_id >= 0)
+    {
+      _lw6ker_zone_struct_t *zone_structs = map_state->map_struct->zones;
+      int32_t neighbour_zone_id;
+      _lw6ker_zone_struct_t *fighter_zone_struct;
+      fighter_zone_struct = &(zone_structs[zone_id]);
+      int32_t best_potential = zone_states[zone_id].potential;
+
+      if (parity)
+	{
+	  for (i = 0; i < LW6KER_NB_DIRS; ++i)
+	    {
+	      neighbour_zone_id = fighter_zone_struct->link[i];
+	      if (neighbour_zone_id >= 0)
+		{
+		  if (zone_states[neighbour_zone_id].potential >
+		      best_potential)
+		    {
+		      best_potential =
+			zone_states[neighbour_zone_id].potential;
+		      best_direction = i;
+		    }
+		}
+	    }
+	}
+      else
+	{
+	  for (i = LW6KER_NB_DIRS; i >= 0; --i)
+	    {
+	      neighbour_zone_id = fighter_zone_struct->link[i];
+	      if (neighbour_zone_id >= 0)
+		{
+		  if (zone_states[neighbour_zone_id].potential >
+		      best_potential)
+		    {
+		      best_potential =
+			zone_states[neighbour_zone_id].potential;
+		      best_direction = i;
+		    }
+		}
+	    }
+	}
+      if (best_direction >= 0)
+	{
+	  for (try = 0; try < LW6MAP_MAX_NB_DIR_TRIES && !ret; ++try)
+	    {
+	      test = (*current_pos);
+	      test_dir = _LW6KER_TABLES_MOVE_DIR[parity][best_direction][try];
+	      _lw6ker_move_goto_with_dir (rules, shape,
+					  &test_x,
+					  &test_y,
+					  &test_z,
+					  start_pos.x,
+					  start_pos.y, start_pos.z, test_dir);
+	      test.x = test_x;
+	      test.y = test_y;
+	      test.z = test_z;
+	      if (_lw6ker_map_struct_get_zone_id
+		  (map_struct, test.x, test.y, test.z) >= 0)
+		{
+		  (*next_pos) = test;
+		  ret = 1;
+		}
+	    }
+	}
+      else
+	{
+	  test = start_pos;
+	  target = zone_states[zone_id].closest_cursor_pos;
+	  if (target.x > start_pos.x)
+	    {
+	      test.x++;
+	    }
+	  if (target.x < start_pos.x)
+	    {
+	      test.x--;
+	    }
+	  if (target.y > start_pos.y)
+	    {
+	      test.y++;
+	    }
+	  if (target.y < start_pos.y)
+	    {
+	      test.y--;
+	    }
+	  if (target.z > start_pos.z)
+	    {
+	      test.z++;
+	    }
+	  if (target.z < start_pos.z)
+	    {
+	      test.z--;
+	    }
+	  if (_lw6ker_map_struct_get_zone_id
+	      (map_struct, test.x, test.y, test.z) >= 0)
+	    {
+	      (*next_pos = test);
+	      ret = 1;
+	    }
+	}
+    }
+  if (next_pos->x == current_pos->x && next_pos->y == current_pos->y
+      && next_pos->z == current_pos->z)
+    {
+      ret = 0;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ker_move_get_best_next_pos
+ *
+ * @game_state: the game_state to work on
+ * @next_pos: the next position (out param)
+ * @current_pos: the current position
+ * @team_color: the team color
+ *
+ * Tries to find the best move given a position and a team. Note that
+ * this function does not check for the presence of another fighter,
+ * it will only check walls and can even (sometimes) fail when there's
+ * a path. The reason is that it uses the game_state at a given
+ * round and does not recalculate gradient while a real fighter
+ * has an ever-changing gradient. Whatsoever, this can be
+ * used to move cursors like they were fighters, it's not perfect
+ * but gives a good illusion.
+ *
+ * Return value: 1 if best place found, 0 if not.
+ */
+int
+lw6ker_move_get_best_next_pos (lw6ker_game_state_t * game_state,
+			       lw6sys_xyz_t * next_pos,
+			       lw6sys_xyz_t * current_pos, int team_color)
+{
+  return _lw6ker_move_get_best_next_pos ((_lw6ker_game_state_t *) game_state,
+					 next_pos, current_pos, team_color);
+}
