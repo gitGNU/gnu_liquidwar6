@@ -129,6 +129,7 @@ C API
 
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-brute::           Brute-force bot.
 * mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
@@ -157,6 +158,7 @@ C API
 * libnod::              Manipulating node data.
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
+* libscm::              Guile wrapper.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -2161,6 +2163,12 @@ The @code{libhlp} is used to handle keywords and internal self-documentation
 knows how to read and save config files,  @code{libcns} handles the console,
 and @code{libdyn} can load @code{.so} shared files dynamically.
 
+To glue all this, there are some Guile bindings with helper functions
+available in @code{libscm} which fills two needs, one being an easy way
+to check if Guile linking is working correctly without requiring all other
+modules to be available, and also performing automatic checks on some actions
+such as registering or executing a function.
+
 Finally there are small modules like @code{libimg} (to make screenshots of the game)
 which 
 have been separated because they required special libraries to link with
@@ -3459,7 +3467,7 @@ run @code{./configure && make}, fix code if needed.
 
 @subsection Add a new module
 
-This describes how to add a new @code{mod-ab} module, for instance a new bot, but gfx or snd backends should work pretty much the same:
+This describes how to add a new @code{mod-ab} module, for instance a new bot, but gfx, snd, cli or srv backends should work pretty much the same:
 
 @itemize
 @item
@@ -3918,6 +3926,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 @menu
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-brute::           Brute-force bot.
 * mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
@@ -3946,6 +3955,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 * libnod::              Manipulating node data.
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
+* libscm::              Guile wrapper.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -3989,7 +3999,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libbot
 @c ---------------------------------------------------------------------------
 
-@node libbot, mod-follow, libliquidwar6, C API
+@node libbot, mod-brute, libliquidwar6, C API
 @section libbot
 
 @subsection Overview
@@ -4014,10 +4024,38 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c mod-brute
+@c ---------------------------------------------------------------------------
+
+@node mod-brute, mod-follow, libbot, C API
+@section mod-brute
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-brute/index.html}.
+
+@subsection API
+
+@ifinfo
+@include mod-brute-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include mod-brute-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/mod_002dbrute.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c mod-follow
 @c ---------------------------------------------------------------------------
 
-@node mod-follow, mod-idiot, libbot, C API
+@node mod-follow, mod-idiot, mod-brute, C API
 @section mod-follow
 
 @subsection Overview
@@ -4757,7 +4795,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libpil
 @c ---------------------------------------------------------------------------
 
-@node libpil, libsnd, libp2p, C API
+@node libpil, libscm, libp2p, C API
 @section libpil
 
 @subsection Overview
@@ -4782,10 +4820,38 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c libscm
+@c ---------------------------------------------------------------------------
+
+@node libscm, libsnd, libpil, C API
+@section libscm
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/scm/index.html}.
+
+@subsection API
+
+@ifinfo
+@include scm-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include scm-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libscm.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c libsnd
 @c ---------------------------------------------------------------------------
 
-@node libsnd, mod-csound, libpil, C API
+@node libsnd, mod-csound, libscm, C API
 @section libsnd
 
 @subsection Overview
@@ -5302,6 +5368,10 @@ The General blinked, gaped, and was generally gobsmacked. Just before his life f
 
 This section lists various Internet Liquid War related links.
 
+@appendixsec Official links
+
+These are all the ``official'' links:
+
 @itemize
 @item
 @uref{http://www.gnu.org/software/liquidwar6/}: Liquid War 6 homepage
@@ -5321,6 +5391,29 @@ This section lists various Internet Liquid War related links.
 @uref{http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
 @item
 @uref{http://kasperhviid.dk/liquid-stuff.html}, @uref{http://kasperhviid.dk/lw6-eyecandy.html}, @uref{http://kasperhviid.dk/lw6-gui.html}: Kasper Hviid brainstorming and resources concerning Liquid War 6.
+@item
+@uref{http://www.ufoot.org/liquidwar/v5}: Liquid War 5
+@end itemize
+
+@appendixsec Other sites and reviews
+
+These links are not maintained by the project maintainer,
+all the contents on them is just ...uncontrolled, which is
+probably a good think as far as reviews are concerned.
+
+Note that some of these links might link to and/or promote
+proprietary software. It's important to emphasize Liquid War 6
+is free software, free as in speech, and you are encouraged to
+use software that protects your freedom. However, for your
+convenience, those links are provided, they might give you
+an idea of what other people think of the game, which is
+a valuable information.
+
+This list is also by no way extensive, it's provided ``as is'',
+navigate it at your own risk.
+
+@itemize
+@item
 @uref{http://en.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia
 @item
 @uref{http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
@@ -5329,7 +5422,17 @@ This section lists various Internet Liquid War related links.
 @item
 @uref{http://libregamewiki.org/Liquid_War_6}: Liquid War 6 entry on Libregamewiki
 @item
-@uref{http://www.ufoot.org/liquidwar/v5}: Liquid War 5
+@uref{http://freshmeat.net/projects/liquid-war-6}: Liquid War 6 on Freshmeat.
+@item
+@uref{http://happypenguin.org/newsitem?id=10821}: Liquid War 6 on the Linux Game Tome.
+@item
+@uref{http://www.pixelprospector.com/liquid-war-6/}: review on Pixel Prospector.
+@item
+@uref{http://www.gamespot.com/pc/action/liquidwar6/news/6262368/indie-spotlight-liquid-war-6}: staff review on Gamespot.
+@item
+@uref{http://www.gamespot.com/pc/action/liquidwar6/player_review.html?id=720653}: user review on Gamespot.
+@item
+@uref{http://linuxgamecast.com/2011/08/l-g-c-b-reel-%E2%80%94-liquid-war-6/}: review on Linux Game Cast.
 @end itemize
 
 @c ---------------------------------------------------------------------------

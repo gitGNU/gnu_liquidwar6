@@ -57,6 +57,7 @@
 #include "srv/srv.h"
 #include "dat/dat.h"
 #include "p2p/p2p.h"
+#include "scm/scm.h"
 
 typedef struct lw6_smob_types_s
 {

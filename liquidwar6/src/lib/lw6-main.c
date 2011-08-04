@@ -23,8 +23,6 @@
 #include "config.h"
 #endif
 
-#include <libguile.h>
-
 #include "liquidwar6.h"
 
 static void *
@@ -47,8 +45,7 @@ guile_main (void *data)
     {
       if (lw6sys_file_exists (script))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading \"%s\""), script);
-	  scm_c_primitive_load (script);
+	  lw6scm_c_primitive_load (script);
 	}
       else
 	{
@@ -58,6 +55,15 @@ guile_main (void *data)
       LW6SYS_FREE (script);
     }
 
+  scm_gc ();
+  /*
+   * Now, this _is_ weird but if you don't snooze (or at
+   * least go idle) then gc does not seem to work and
+   * then our final global garbage collection goes nuts.
+   * so we just wait, and Guile does the job for real.
+   * Weird, I told you.
+   */
+  lw6sys_snooze ();
   scm_gc ();
   /*
    * In older versions there was a lw6_quit_global_1 function to

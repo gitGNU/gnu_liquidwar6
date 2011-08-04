@@ -95,6 +95,7 @@ C API
 
 * libliquidwar6::       Top-level functions.
 * libbot::              Bot algorithms.
+* mod-brute::           Brute-force bot.
 * mod-follow::          A bot that follows others.
 * mod-idiot::           Basic idiot bot.
 * mod-random::          Totally random bot.
@@ -123,6 +124,7 @@ C API
 * libnod::              Manipulating node data.
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
+* libscm::              Guile wrapper.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -2070,6 +2072,12 @@ self-documentation (this is what is used by `--list' and `--about'),
 `libcfg' knows how to read and save config files,  `libcns' handles the
 console, and `libdyn' can load `.so' shared files dynamically.
 
+   To glue all this, there are some Guile bindings with helper functions
+available in `libscm' which fills two needs, one being an easy way to
+check if Guile linking is working correctly without requiring all other
+modules to be available, and also performing automatic checks on some
+actions such as registering or executing a function.
+
    Finally there are small modules like `libimg' (to make screenshots
 of the game) which have been separated because they required special
 libraries to link with and/or did not really fit in existing modules
@@ -3383,7 +3391,7 @@ This describes how to add a new `libxyz' internal library:
 -----------------------
 
 This describes how to add a new `mod-ab' module, for instance a new
-bot, but gfx or snd backends should work pretty much the same:
+bot, but gfx, snd, cli or srv backends should work pretty much the same:
 
    * add a new entry in `src/lib/bot/Makefile.am'
 

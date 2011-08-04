@@ -355,7 +355,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = coverage global cyclo example dtd
 info_TEXINFOS = liquidwar6.texi
-gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi cnx-gdoc.texi dat-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-csound-gdoc.texi mod-follow-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-idiot-gdoc.texi mod-ogg-gdoc.texi mod-random-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi msg-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
+gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi cnx-gdoc.texi dat-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-brute-gdoc.texi mod-csound-gdoc.texi mod-follow-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-idiot-gdoc.texi mod-ogg-gdoc.texi mod-random-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi msg-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi scm-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi
 selfdoc_TEXINFOS = quick-selfdoc.texi doc-selfdoc.texi show-selfdoc.texi path-selfdoc.texi players-selfdoc.texi input-selfdoc.texi graphics-selfdoc.texi sound-selfdoc.texi network-selfdoc.texi map-selfdoc.texi map-rules-selfdoc.texi map-hints-selfdoc.texi map-style-selfdoc.texi funcs-selfdoc.texi hooks-selfdoc.texi advanced-selfdoc.texi aliases-selfdoc.texi
 liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi stamp.texi const.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
 man6_MANS = liquidwar6.man
@@ -1098,6 +1098,9 @@ uninstall-local:
 @LW6_GDOC_TRUE@$(srcdir)/pil-gdoc.texi: ../src/lib/pil/pil-bench.c ../src/lib/pil/pil-command.c ../src/lib/pil/pil-compute.c ../src/lib/pil/pil-coords.c ../src/lib/pil/pil.h ../src/lib/pil/pil-internal.h ../src/lib/pil/pil-localcursors.c ../src/lib/pil/pil-pilot.c ../src/lib/pil/pil-spread.c ../src/lib/pil/pil-test.c ../src/lib/pil/pil-testmain.c ../src/lib/pil/pil-worker.c
 @LW6_GDOC_TRUE@	echo gdoc pil && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/pil-gdoc.texi
 
+@LW6_GDOC_TRUE@$(srcdir)/scm-gdoc.texi: ../src/lib/scm/scm.h ../src/lib/scm/scm-test.c ../src/lib/scm/scm-testmain.c ../src/lib/scm/scm-wrapper.c
+@LW6_GDOC_TRUE@	echo gdoc scm && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/scm-gdoc.texi
+
 @LW6_GDOC_TRUE@$(srcdir)/snd-gdoc.texi: ../src/lib/snd/snd-api.c ../src/lib/snd/snd.h ../src/lib/snd/snd-register.c ../src/lib/snd/snd-test.c ../src/lib/snd/snd-testmain.c
 @LW6_GDOC_TRUE@	echo gdoc snd && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/snd-gdoc.texi
 
@@ -1109,6 +1112,9 @@ uninstall-local:
 
 @LW6_GDOC_TRUE@$(srcdir)/tsk-gdoc.texi: ../src/lib/tsk/tsk.h ../src/lib/tsk/tsk-internal.h ../src/lib/tsk/tsk-loader.c ../src/lib/tsk/tsk-test.c ../src/lib/tsk/tsk-testmain.c
 @LW6_GDOC_TRUE@	echo gdoc tsk && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/tsk-gdoc.texi
+
+@LW6_GDOC_TRUE@$(srcdir)/mod-brute-gdoc.texi: ../src/lib/bot/mod-brute/mod-brute-backend.c ../src/lib/bot/mod-brute/mod-brute-setup.c ../src/lib/bot/mod-brute/mod-brute.h ../src/lib/bot/mod-brute/mod-brute-internal.h ../src/lib/bot/mod-brute/mod-brute-repr.c ../src/lib/bot/mod-brute/mod-brute-move.c
+@LW6_GDOC_TRUE@	echo gdoc mod-brute && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-brute-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/mod-follow-gdoc.texi: ../src/lib/bot/mod-follow/mod-follow-move.c ../src/lib/bot/mod-follow/mod-follow-setup.c ../src/lib/bot/mod-follow/mod-follow-internal.h ../src/lib/bot/mod-follow/mod-follow.h ../src/lib/bot/mod-follow/mod-follow-backend.c ../src/lib/bot/mod-follow/mod-follow-repr.c
 @LW6_GDOC_TRUE@	echo gdoc mod-follow && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-follow-gdoc.texi

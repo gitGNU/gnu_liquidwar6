@@ -791,6 +791,27 @@ when it's flying over walls.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {int} {lw6ker_move_get_best_next_pos} (lw6ker_game_state_t * @var{game_state}, lw6sys_xyz_t * @var{next_pos}, lw6sys_xyz_t * @var{current_pos}, int @var{team_color})
+@var{game_state}:  the game_state to work on
+
+@var{next_pos}:  the next position (out param)
+
+@var{current_pos}:  the current position
+
+@var{team_color}:  the team color
+
+Tries to find the best move given a position and a team. Note that
+this function does not check for the presence of another fighter,
+it will only check walls and can even (sometimes) fail when there's
+a path. The reason is that it uses the game_state at a given
+round and does not recalculate gradient while a real fighter
+has an ever-changing gradient. Whatsoever, this can be
+used to move cursors like they were fighters, it's not perfect
+but gives a good illusion.
+
+@strong{Return value:}  1 if best place found, 0 if not.
+@end deftypefun
+
 @deftypefun {int} {lw6ker_score_array_update} (lw6ker_score_array_t * @var{score_array}, lw6ker_game_state_t * @var{game_state})
 @var{score_array}:  the score array to modify
 

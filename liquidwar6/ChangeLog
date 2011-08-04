@@ -1,3 +1,11 @@
+2011-08-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new brute bot, very CPU-greedy but not that bad.
+
+	* Added links to known reviews.
+
+	* Isolated some guile wrappers in new libscm internal library.
+
 2011-08-03 : Christian Mauduit <ufoot@ufoot.org>
 
 	* New bot mod-follow works (plays poorly but works).

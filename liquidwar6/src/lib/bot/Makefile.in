@@ -78,7 +78,8 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-@ALLINONE_TRUE@am__DEPENDENCIES_1 = mod-follow/libmod_follow_s.la \
+@ALLINONE_TRUE@am__DEPENDENCIES_1 = mob-brute/libmod_brute_s.la \
+@ALLINONE_TRUE@	mod-follow/libmod_follow_s.la \
 @ALLINONE_TRUE@	mod-idiot/libmod_idiot_s.la \
 @ALLINONE_TRUE@	mod-random/libmod_random_s.la
 libbot_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -375,7 +376,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 @ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
 @ALLINONE_TRUE@LW6DYN_LIB = 
 @ALLINONE_FALSE@LW6BOT_LIB_S = 
-@ALLINONE_TRUE@LW6BOT_LIB_S = mod-follow/libmod_follow_s.la mod-idiot/libmod_idiot_s.la mod-random/libmod_random_s.la
+@ALLINONE_TRUE@LW6BOT_LIB_S = mob-brute/libmod_brute_s.la mod-follow/libmod_follow_s.la mod-idiot/libmod_idiot_s.la mod-random/libmod_random_s.la
 noinst_LTLIBRARIES = libbot.la
 libbot_la_LIBADD = $(LW6BOT_LIB_S)
 libbot_la_SOURCES = bot-api.c bot-register.c bot-test.c 
@@ -383,7 +384,7 @@ libbotdir = $(includedir)/@PACKAGE_TARNAME@/bot
 libbot_HEADERS = bot.h
 @FULLSTATIC_FALSE@liquidwar6bot_test_SOURCES = bot-testmain.c
 @FULLSTATIC_FALSE@liquidwar6bot_test_LDADD = libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-SUBDIRS = mod-follow mod-idiot mod-random
+SUBDIRS = mod-brute mod-follow mod-idiot mod-random
 all: all-recursive
 
 .SUFFIXES:

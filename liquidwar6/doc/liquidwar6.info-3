@@ -21,17 +21,17 @@ END-INFO-DIR-ENTRY
 
 File: liquidwar6.info,  Node: libsys,  Next: libtsk,  Prev: mod-udpd,  Up: C API
 
-5.38 libsys
+5.40 libsys
 ===========
 
-5.38.1 Overview
+5.40.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html'.
 
-5.38.2 API
+5.40.2 API
 ----------
 
  -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
@@ -3908,17 +3908,17 @@ results on
 
 File: liquidwar6.info,  Node: libtsk,  Prev: libsys,  Up: C API
 
-5.39 libtsk
+5.41 libtsk
 ===========
 
-5.39.1 Overview
+5.41.1 Overview
 ---------------
 
 View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
 results on
 `http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html'.
 
-5.39.2 API
+5.41.2 API
 ----------
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, float *
@@ -4413,6 +4413,11 @@ Aldono C Links
 
 This section lists various Internet Liquid War related links.
 
+C.1 Official links
+==================
+
+These are all the "official" links:
+
    * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
 
    * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
@@ -4438,7 +4443,27 @@ This section lists various Internet Liquid War related links.
      `http://kasperhviid.dk/lw6-eyecandy.html',
      `http://kasperhviid.dk/lw6-gui.html': Kasper Hviid brainstorming
      and resources concerning Liquid War 6.
-     `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
+
+   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
+
+C.2 Other sites and reviews
+===========================
+
+These links are not maintained by the project maintainer, all the
+contents on them is just ...uncontrolled, which is probably a good
+think as far as reviews are concerned.
+
+   Note that some of these links might link to and/or promote
+proprietary software. It's important to emphasize Liquid War 6 is free
+software, free as in speech, and you are encouraged to use software
+that protects your freedom. However, for your convenience, those links
+are provided, they might give you an idea of what other people think of
+the game, which is a valuable information.
+
+   This list is also by no way extensive, it's provided "as is",
+navigate it at your own risk.
+
+   * `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
      Wikipedia
 
    * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
@@ -4449,7 +4474,26 @@ This section lists various Internet Liquid War related links.
    * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
      Libregamewiki
 
-   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
+   * `http://freshmeat.net/projects/liquid-war-6': Liquid War 6 on
+     Freshmeat.
+
+   * `http://happypenguin.org/newsitem?id=10821': Liquid War 6 on the
+     Linux Game Tome.
+
+   * `http://www.pixelprospector.com/liquid-war-6/': review on Pixel
+     Prospector.
+
+   *
+     `http://www.gamespot.com/pc/action/liquidwar6/news/6262368/indie-spotlight-liquid-war-6':
+     staff review on Gamespot.
+
+   *
+     `http://www.gamespot.com/pc/action/liquidwar6/player_review.html?id=720653':
+     user review on Gamespot.
+
+   *
+     `http://linuxgamecast.com/2011/08/l-g-c-b-reel-%E2%80%94-liquid-war-6/':
+     review on Linux Game Cast.
 
 
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top

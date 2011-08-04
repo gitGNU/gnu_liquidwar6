@@ -24,8 +24,6 @@
 #include "config.h"
 #endif
 
-#include <libguile.h>
-
 #include "liquidwar6.h"
 
 #define TEST_FILE "test.scm"
@@ -90,7 +88,7 @@ test_callback (_lw6_test_param_t * param)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""),
 			    test_file);
-		scm_c_primitive_load (test_file);
+		lw6scm_c_primitive_load (test_file);
 		LW6SYS_FREE (test_file);
 	      }
 	  }
@@ -176,6 +174,7 @@ lw6_test (int mode)
       lw6srv_test (mode);
       lw6dat_test (mode);
       lw6p2p_test (mode);
+      lw6scm_test (mode);
     }
 
   if (lw6_init_global (argc, argv))

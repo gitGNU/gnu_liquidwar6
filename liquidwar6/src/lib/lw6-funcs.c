@@ -7808,7 +7808,13 @@ int
 lw6_register_funcs ()
 {
   int ret = 1;
-  scm_c_define_gsubr ("C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
+
+  lw6scm_c_define_gsubr ("C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
+  /*
+   * This one uses scm_define_gsubr and not the binding
+   * lw6scm_c_define_gsubr for _ is not documented due
+   * to internal parsing limitations.
+   */
   scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)())_scm_gettext);
 
   /*
@@ -7817,432 +7823,432 @@ lw6_register_funcs ()
   /*
    * In bazooka.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_set_memory_bazooka_size);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_set_memory_bazooka_eraser);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_SIZE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_set_memory_bazooka_size);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SET_MEMORY_BAZOOKA_ERASER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_set_memory_bazooka_eraser);
   /*
    * In build.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_package_tarname);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_package_name);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_package_string);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_version);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_codename);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_stamp);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_md5sum);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_copyright);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_license);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_URL, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_url);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_configure_args);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_gcc_version);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_cflags);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_ldflags);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_hostname);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_date);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TIME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_time);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_host_cpu);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_endianness);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_pointer_size);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_X86, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_is_x86);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_host_os);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_is_ms_windows);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_is_mac_os_x);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GP2X, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_is_gp2x);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_top_srcdir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_prefix);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_datadir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_libdir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_includedir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_localedir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_console);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_mod_csound);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_mod_ogg);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_mod_http);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_optimize);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_allinone);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_fullstatic);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_paranoid);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_gprof);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_instrument);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_profiler);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_gcov);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_enable_valgrind);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_build_get_bin_id);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_TARNAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_package_tarname);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_NAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_package_name);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PACKAGE_STRING, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_package_string);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_version);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CODENAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_codename);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_STAMP, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_stamp);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_md5sum);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_copyright);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_license);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_URL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_url);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_configure_args);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_gcc_version);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_cflags);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LDFLAGS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_ldflags);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOSTNAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_hostname);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_date);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TIME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_time);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_CPU, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_host_cpu);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_endianness);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_pointer_size);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_X86, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_x86);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_host_os);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_ms_windows);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_mac_os_x);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GP2X, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_gp2x);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_TOP_SRCDIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_top_srcdir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_PREFIX, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_prefix);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_DATADIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_datadir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LIBDIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_libdir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_INCLUDEDIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_includedir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LOCALEDIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_localedir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_CONSOLE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_console);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GTK, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_gtk);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_GL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_gl);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_csound);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_ogg);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_http);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_optimize);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_allinone);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_fullstatic);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PARANOID, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_paranoid);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GPROF, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_gprof);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_INSTRUMENT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_instrument);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_PROFILER, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_profiler);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_GCOV, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_gcov);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_VALGRIND, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_valgrind);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BIN_ID, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_bin_id);
   /*
    * In debug.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_GET, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_debug_get);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_SET, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_debug_set);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_GET, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_debug_get);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DEBUG_SET, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_debug_set);
   /*
    * In dump.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_dump);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP_CLEAR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_dump_clear);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_dump);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DUMP_CLEAR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_dump_clear);
   /*
    * In env.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USERNAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_username);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_HOSTNAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_hostname);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_getenv);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV_PREFIXED, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_getenv_prefixed);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USERNAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_username);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_HOSTNAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_hostname);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_getenv);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GETENV_PREFIXED, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_getenv_prefixed);
 
   /*
    * In id.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_16, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_generate_id_16);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_32, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_generate_id_32);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_64, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_generate_id_64);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_16, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_generate_id_16);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_32, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_generate_id_32);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GENERATE_ID_64, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_generate_id_64);
 
   /*
    * In log.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0,
-		      (SCM (*)())_scm_lw6sys_log);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_log_get_level);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_log_set_level);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG, 2, 0, 0,
+			 (SCM (*)())_scm_lw6sys_log);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_GET_LEVEL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_log_get_level);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_log_set_level);
   /*
    * In options.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_user_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_config_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_log_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_prefix);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_mod_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_data_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_music_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_music_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_map_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_map_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_default_script_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CWD, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_cwd);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_RUN_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_run_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USER_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_user_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CONFIG_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_config_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_LOG_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_log_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_PREFIX, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_prefix);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MOD_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_mod_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DATA_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_data_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_music_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_music_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_map_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_map_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_get_script_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_user_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_config_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_LOG_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_log_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_PREFIX, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_prefix);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MOD_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_mod_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_DATA_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_data_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_music_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MUSIC_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_music_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_map_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_MAP_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_map_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DEFAULT_SCRIPT_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_default_script_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CWD, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_cwd);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_RUN_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_run_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_USER_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_user_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CONFIG_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_config_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_LOG_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_log_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_PREFIX, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_prefix);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MOD_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_mod_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_DATA_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_data_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_music_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MUSIC_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_music_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_map_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_MAP_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_map_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_SCRIPT_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_get_script_file);
   /*
    * In path.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_CONCAT, 2, 0, 0,
-		      (SCM (*)())_scm_lw6sys_path_concat);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_PARENT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_path_parent);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_SPLIT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_path_split);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_CONCAT, 2, 0, 0,
+			 (SCM (*)())_scm_lw6sys_path_concat);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_PARENT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_path_parent);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_SPLIT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_path_split);
   /*
    * In signal.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_default);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_send_quit);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_signal_poll_quit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_send_quit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_POLL_QUIT,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_poll_quit);
   /*
    * In time.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_TIMESTAMP,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_get_timestamp);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_UPTIME,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_get_uptime);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CYCLE,
-		      0, 0, 0, (SCM (*)())_scm_lw6sys_get_cycle);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SLEEP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_sleep);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_DELAY, 1, 0, 0,
-		      (SCM (*)())_scm_lw6sys_delay);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_idle);
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_SNOOZE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6sys_snooze);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_TIMESTAMP,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_get_timestamp);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_UPTIME,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_get_uptime);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_GET_CYCLE,
+			 0, 0, 0, (SCM (*)())_scm_lw6sys_get_cycle);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SLEEP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_sleep);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_DELAY, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_delay);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_IDLE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_idle);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SNOOZE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_snooze);
   /*
    * In url.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SYS_URL_CANONIZE,
-		      1, 0, 0, (SCM (*)())_scm_lw6sys_url_canonize);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_URL_CANONIZE,
+			 1, 0, 0, (SCM (*)())_scm_lw6sys_url_canonize);
 
   /*
    * In liquidwar6hlp
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_doc);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SHOW,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_show);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PATH,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PLAYERS,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_players);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_INPUT,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_input);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_GRAPHICS,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_graphics);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SOUND,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_sound);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_NETWORK,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_network);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_RULES,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_rules);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_HINTS,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ADVANCED,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES,
-		      0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
-		      (SCM (*)())_scm_lw6hlp_list);
-  scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6hlp_get_default_value);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_doc);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SHOW,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_show);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PATH,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PLAYERS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_players);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_INPUT,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_input);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_GRAPHICS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_graphics);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SOUND,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_sound);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_NETWORK,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_network);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_RULES,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_rules);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_HINTS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ADVANCED,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
+			 (SCM (*)())_scm_lw6hlp_list);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6hlp_get_default_value);
 
   /*
    * In liquidwar6cfg
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_DEFAULTS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_defaults);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_DEFAULTS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_defaults);
   /*
    * In load.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_LOAD, 1, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_load);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_LOAD, 1, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_load);
   /*
    * In option.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_OPTION_EXISTS,
-		      1, 0, 0, (SCM (*)())_scm_lw6cfg_option_exists);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_GET_OPTION, 1, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_get_option);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_SET_OPTION, 2, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_set_option);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_OPTION_EXISTS,
+			 1, 0, 0, (SCM (*)())_scm_lw6cfg_option_exists);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_GET_OPTION, 1, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_get_option);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_SET_OPTION, 2, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_set_option);
   /*
    * In save.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_SAVE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_save);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_SAVE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_save);
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_INIT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_QUIT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_quit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_INIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_init);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_QUIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_quit);
   /*
    * In unified.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_unified_get_user_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_unified_get_log_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_unified_get_music_path);
-  scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cfg_unified_get_map_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_unified_get_user_dir);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_unified_get_log_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_unified_get_music_path);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cfg_unified_get_map_path);
 
   /*
    * In liquidwar6gui
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 3, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_append);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_sync);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_select);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT_ESC, 2, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_select_esc);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_ENABLE_ESC, 2, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_enable_esc);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SCROLL_UP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_scroll_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_menu_scroll_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
-		      0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_SET,
-		      3, 0, 0, (SCM (*)())_scm_lw6gui_look_set);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_GET,
-		      2, 0, 0, (SCM (*)())_scm_lw6gui_look_get);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_ZOOM_IN,
-		      2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_in);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT,
-		      2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_out);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 3, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_append);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_sync);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_select);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SELECT_ESC, 2, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_select_esc);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_ENABLE_ESC, 2, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_enable_esc);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SCROLL_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_scroll_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_scroll_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
+			 0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_SET,
+			 3, 0, 0, (SCM (*)())_scm_lw6gui_look_set);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_GET,
+			 2, 0, 0, (SCM (*)())_scm_lw6gui_look_get);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_ZOOM_IN,
+			 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_in);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT,
+			 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_out);
 
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_INPUT_RESET, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_input_reset);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_INPUT_RESET, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_input_reset);
 
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_poll_move);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_GET_STATE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_get_state);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_is_pressed);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_get_move_pad);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_get_move_pad);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_get_move_pad);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_pop_button_left);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_pop_button_right);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_pop_wheel_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_mouse_pop_wheel_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_left);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_right);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_enter);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_esc);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgup);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgdown);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_left);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_right);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_a);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_b);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_c);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick1_pop_button_d);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_left);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_right);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_a);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_b);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_c);
-  scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, 1, 0, 0,
-		      (SCM (*)())_scm_lw6gui_joystick2_pop_button_d);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_poll_move);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_GET_STATE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_get_state);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_is_pressed);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_get_move_pad);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_get_move_pad);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_get_move_pad);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_pop_button_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_pop_button_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_pop_wheel_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_pop_wheel_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_enter);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_esc);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgup);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgdown);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_a);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_b);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_c);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_d);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_a);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_b);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_c);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_d);
 
   /*
    * In liquidwar6gfx
@@ -8250,8 +8256,8 @@ lw6_register_funcs ()
   /*
    * In backend.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6gfx_get_backends);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6gfx_get_backends);
 
   /*
    * In liquidwar6dsp
@@ -8259,155 +8265,158 @@ lw6_register_funcs ()
   /*
    * In display.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_release);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_update);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_nb_frames);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_last_frame_rendering_time);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_instant_fps);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_average_fps);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_video_mode);
-  scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0,
-		      (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_release);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_update);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_get_nb_frames);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0,
+			 0,
+			 (SCM (*)
+			  ())_scm_lw6dsp_get_last_frame_rendering_time);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_get_instant_fps);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_get_average_fps);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_get_video_mode);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0,
+			 (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
 
   /*
    * In liquidwar6ldr
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_GET_ENTRIES, 2, 0, 0,
-		      (SCM (*)())_scm_lw6ldr_get_entries);
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0,
-		      (SCM (*)())_scm_lw6ldr_read);
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ_RELATIVE, 8, 0, 0,
-		      (SCM (*)())_scm_lw6ldr_read_relative);
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, 0, 0, 0,
-		      (SCM (*)())_scm_lw6ldr_print_examples);
-  scm_c_define_gsubr (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6ldr_hints_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_GET_ENTRIES, 2, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_get_entries);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ, 7, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_read);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_READ_RELATIVE, 8, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_read_relative);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_PRINT_EXAMPLES, 0, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_print_examples);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_hints_get_default);
 
   /*
    * In liquidwar6map
    */
-  scm_c_define_gsubr
+  lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_LOOK, 1, 0, 0, (SCM (*)())_scm_lw6map_get_look);
-  scm_c_define_gsubr
+  lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, 1, 0, 0,
      (SCM (*)())_scm_lw6map_get_music_dir);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_team_color_index_to_key);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_team_color_key_to_index);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_rules_get_default);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_MIN, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_rules_get_min);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_MAX, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_rules_get_max);
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_INT, 2, 0, 0,
-		      (SCM (*)())_scm_lw6map_rules_get_int);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_team_color_index_to_key);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_team_color_key_to_index);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_rules_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_MIN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_rules_get_min);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_MAX, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_rules_get_max);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_INT, 2, 0, 0,
+			 (SCM (*)())_scm_lw6map_rules_get_int);
 
-  scm_c_define_gsubr (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6map_style_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_style_get_default);
 
   /*
    * In liquidwar6ker
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
-		      1, 0, 0, (SCM (*)())_scm_lw6ker_build_game_struct);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_BUILD_GAME_STATE, 1,
-		      0, 0, (SCM (*)())_scm_lw6ker_build_game_state);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_SYNC_GAME_STATE, 2,
-		      0, 0, (SCM (*)())_scm_lw6ker_sync_game_state);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_DUP_GAME_STATE, 2,
-		      0, 0, (SCM (*)())_scm_lw6ker_dup_game_state);
-  scm_c_define_gsubr
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
+			 1, 0, 0, (SCM (*)())_scm_lw6ker_build_game_struct);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_BUILD_GAME_STATE, 1,
+			 0, 0, (SCM (*)())_scm_lw6ker_build_game_state);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_SYNC_GAME_STATE, 2,
+			 0, 0, (SCM (*)())_scm_lw6ker_sync_game_state);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_DUP_GAME_STATE, 2,
+			 0, 0, (SCM (*)())_scm_lw6ker_dup_game_state);
+  lw6scm_c_define_gsubr
     (LW6DEF_C_LW6KER_GAME_STRUCT_CHECKSUM, 1, 0, 0,
      (SCM (*)())_scm_lw6ker_game_struct_checksum);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_GAME_STATE_CHECKSUM,
-		      1, 0, 0, (SCM (*)())_scm_lw6ker_game_state_checksum);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_REGISTER_NODE,
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_register_node);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_UNREGISTER_NODE,
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_unregister_node);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_NODE_EXISTS,
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_node_exists);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_ADD_CURSOR,
-		      4, 0, 0, (SCM (*)())_scm_lw6ker_add_cursor);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_REMOVE_CURSOR,
-		      3, 0, 0, (SCM (*)())_scm_lw6ker_remove_cursor);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_CURSOR_EXISTS,
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_cursor_exists);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_CURSOR,
-		      2, 0, 0, (SCM (*)())_scm_lw6ker_get_cursor);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_SET_CURSOR,
-		      5, 0, 0, (SCM (*)())_scm_lw6ker_set_cursor);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_DO_ROUND,
-		      1, 0, 0, (SCM (*)())_scm_lw6ker_do_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_MOVES, 1, 0, 0,
-		      (SCM (*)())_scm_lw6ker_get_moves);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_SPREADS, 1, 0, 0,
-		      (SCM (*)())_scm_lw6ker_get_spreads);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_ROUNDS, 1, 0, 0,
-		      (SCM (*)())_scm_lw6ker_get_rounds);
-  scm_c_define_gsubr (LW6DEF_C_LW6KER_IS_OVER, 1, 0, 0,
-		      (SCM (*)())_scm_lw6ker_is_over);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GAME_STATE_CHECKSUM,
+			 1, 0, 0, (SCM (*)())_scm_lw6ker_game_state_checksum);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_REGISTER_NODE,
+			 2, 0, 0, (SCM (*)())_scm_lw6ker_register_node);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_UNREGISTER_NODE,
+			 2, 0, 0, (SCM (*)())_scm_lw6ker_unregister_node);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_NODE_EXISTS,
+			 2, 0, 0, (SCM (*)())_scm_lw6ker_node_exists);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_ADD_CURSOR,
+			 4, 0, 0, (SCM (*)())_scm_lw6ker_add_cursor);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_REMOVE_CURSOR,
+			 3, 0, 0, (SCM (*)())_scm_lw6ker_remove_cursor);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_CURSOR_EXISTS,
+			 2, 0, 0, (SCM (*)())_scm_lw6ker_cursor_exists);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_CURSOR,
+			 2, 0, 0, (SCM (*)())_scm_lw6ker_get_cursor);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_SET_CURSOR,
+			 5, 0, 0, (SCM (*)())_scm_lw6ker_set_cursor);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_DO_ROUND,
+			 1, 0, 0, (SCM (*)())_scm_lw6ker_do_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_MOVES, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ker_get_moves);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_SPREADS, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ker_get_spreads);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_GET_ROUNDS, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ker_get_rounds);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_IS_OVER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ker_is_over);
 
   /*
    * In liquidwar6pil
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_BENCH,
-		      0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_BUILD_PILOT,
-		      2, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEND_COMMAND,
-		      3, 0, 0, (SCM (*)())_scm_lw6pil_send_command);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_COMMAND,
-		      2, 0, 0, (SCM (*)())_scm_lw6pil_local_command);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_COMMIT,
-		      1, 0, 0, (SCM (*)())_scm_lw6pil_commit);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_FIX_COORDS,
-		      4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
-		      2, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,
-		      2, 0, 0, (SCM (*)())_scm_lw6pil_local_cursors_set_main);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED,
-		      3, 0, 0,
-		      (SCM (*)
-		       ())_scm_lw6pil_local_cursors_set_mouse_controlled);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_MAKE_BACKUP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_make_backup);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP, 2, 0, 0,
-		      (SCM (*)())_scm_lw6pil_sync_from_backup);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE, 2, 0, 0,
-		      (SCM (*)())_scm_lw6pil_sync_from_reference);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT, 3, 0, 0,
-		      (SCM (*)())_scm_lw6pil_sync_from_draft);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_CALIBRATE, 3, 0, 0,
-		      (SCM (*)())_scm_lw6pil_calibrate);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SPEED_UP, 2, 0, 0,
-		      (SCM (*)())_scm_lw6pil_speed_up);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0,
-		      (SCM (*)())_scm_lw6pil_slow_down);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_NEXT_ROUND, 2, 0, 0,
-		      (SCM (*)())_scm_lw6pil_get_next_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_get_last_commit_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_get_reference_current_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_get_reference_target_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_MAX_ROUND, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_get_max_round);
-  scm_c_define_gsubr (LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0,
-		      (SCM (*)())_scm_lw6pil_is_over);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BENCH,
+			 0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BUILD_PILOT,
+			 2, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEND_COMMAND,
+			 3, 0, 0, (SCM (*)())_scm_lw6pil_send_command);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_COMMAND,
+			 2, 0, 0, (SCM (*)())_scm_lw6pil_local_command);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_COMMIT,
+			 1, 0, 0, (SCM (*)())_scm_lw6pil_commit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_FIX_COORDS,
+			 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
+			 2, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,
+			 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_local_cursors_set_main);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED,
+			 3, 0, 0,
+			 (SCM (*)
+			  ())_scm_lw6pil_local_cursors_set_mouse_controlled);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_MAKE_BACKUP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_make_backup);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_sync_from_backup);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_sync_from_reference);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT, 3, 0, 0,
+			 (SCM (*)())_scm_lw6pil_sync_from_draft);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_CALIBRATE, 3, 0, 0,
+			 (SCM (*)())_scm_lw6pil_calibrate);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SPEED_UP, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_speed_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_slow_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_NEXT_ROUND, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_next_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_last_commit_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_reference_current_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_reference_target_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_MAX_ROUND, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_max_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_is_over);
 
   /*
    * In liquidwar6snd
@@ -8415,45 +8424,45 @@ lw6_register_funcs ()
   /*
    * In backend.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_GET_BACKENDS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6snd_get_backends);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_GET_BACKENDS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6snd_get_backends);
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_NEW, 4, 0, 0,
-		      (SCM (*)())_scm_lw6snd_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_POLL, 1, 0, 0,
-		      (SCM (*)())_scm_lw6snd_poll);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_RELEASE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6snd_release);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_NEW, 4, 0, 0,
+			 (SCM (*)())_scm_lw6snd_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_POLL, 1, 0, 0,
+			 (SCM (*)())_scm_lw6snd_poll);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_RELEASE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6snd_release);
 
   /*
    * In fx.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_FX, 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_play_fx);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_FX_VOLUME, 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_set_fx_volume);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_FX, 2,
+			 0, 0, (SCM (*)())_scm_lw6snd_play_fx);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_FX_VOLUME, 2,
+			 0, 0, (SCM (*)())_scm_lw6snd_set_fx_volume);
 
   /*
    * In water.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_WATER_VOLUME, 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_set_water_volume);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_WATER_VOLUME, 2,
+			 0, 0, (SCM (*)())_scm_lw6snd_set_water_volume);
 
   /*
    * In music.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_IS_MUSIC_FILE, 4,
-		      0, 0, (SCM (*)())_scm_lw6snd_is_music_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_MUSIC_FILE, 4,
-		      0, 0, (SCM (*)())_scm_lw6snd_play_music_file);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM, 4,
-		      0, 0, (SCM (*)())_scm_lw6snd_play_music_random);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_STOP_MUSIC, 1,
-		      0, 0, (SCM (*)())_scm_lw6snd_stop_music);
-  scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_MUSIC_VOLUME, 2,
-		      0, 0, (SCM (*)())_scm_lw6snd_set_music_volume);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_IS_MUSIC_FILE, 4,
+			 0, 0, (SCM (*)())_scm_lw6snd_is_music_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_MUSIC_FILE, 4,
+			 0, 0, (SCM (*)())_scm_lw6snd_play_music_file);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_PLAY_MUSIC_RANDOM, 4,
+			 0, 0, (SCM (*)())_scm_lw6snd_play_music_random);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_STOP_MUSIC, 1,
+			 0, 0, (SCM (*)())_scm_lw6snd_stop_music);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SND_SET_MUSIC_VOLUME, 2,
+			 0, 0, (SCM (*)())_scm_lw6snd_set_music_volume);
 
   /*
    * In liquidwar6con
@@ -8461,29 +8470,29 @@ lw6_register_funcs ()
   /*
    * In support.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_SUPPORT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cns_support);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_SUPPORT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cns_support);
   /*
    * In handler.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cns_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cns_quit);
-  scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cns_poll);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_INIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cns_init);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_QUIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cns_quit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CNS_POLL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cns_poll);
 
   /*
    * In liquidwar6tsk
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_NEW, 1, 0, 0,
-		      (SCM (*)())_scm_lw6tsk_loader_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH, 9, 0, 0,
-		      (SCM (*)())_scm_lw6tsk_loader_push);
-  scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_POP, 1, 0, 0,
-		      (SCM (*)())_scm_lw6tsk_loader_pop);
-  scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_GET_STAGE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6tsk_loader_get_stage);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_NEW, 1, 0, 0,
+			 (SCM (*)())_scm_lw6tsk_loader_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_PUSH, 9, 0, 0,
+			 (SCM (*)())_scm_lw6tsk_loader_push);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_POP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6tsk_loader_pop);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6TSK_LOADER_GET_STAGE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6tsk_loader_get_stage);
 
   /*
    * In liquidwar6net
@@ -8491,10 +8500,10 @@ lw6_register_funcs ()
   /*
    * In setup.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0,
-		      (SCM (*)())_scm_lw6net_init);
-  scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0,
-		      (SCM (*)())_scm_lw6net_quit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6net_init);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6net_quit);
 
   /*
    * In liquidwar6cli
@@ -8502,8 +8511,8 @@ lw6_register_funcs ()
   /*
    * In backend.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6CLI_GET_BACKENDS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6cli_get_backends);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6CLI_GET_BACKENDS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6cli_get_backends);
 
   /*
    * In liquidwar6srv
@@ -8511,26 +8520,26 @@ lw6_register_funcs ()
   /*
    * In backend.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6SRV_GET_BACKENDS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6srv_get_backends);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SRV_GET_BACKENDS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6srv_get_backends);
 
   /*
    * In liquidwar6p2p
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_NEW, 1, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_db_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_RESET, 1, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_db_reset);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME, 0, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_db_default_name);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_NEW, 2, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_node_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_POLL, 1, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_node_poll);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLOSE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_node_close);
-  scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0,
-		      (SCM (*)())_scm_lw6p2p_node_get_id);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_NEW, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_db_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_RESET, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_db_reset);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_DB_DEFAULT_NAME, 0, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_db_default_name);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_NEW, 2, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_POLL, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_poll);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_CLOSE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_close);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_get_id);
 
   /*
    * In liquidwar6bot
@@ -8538,19 +8547,20 @@ lw6_register_funcs ()
   /*
    * In backend.c
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6BOT_GET_BACKENDS, 0, 0, 0,
-		      (SCM (*)())_scm_lw6bot_get_backends);
-  scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0,
-		      (SCM (*)())_scm_lw6bot_new);
-  scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEXT_MOVE, 1, 0, 0,
-		      (SCM (*)())_scm_lw6bot_next_move);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_GET_BACKENDS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6bot_get_backends);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEW, 7, 0, 0,
+			 (SCM (*)())_scm_lw6bot_new);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6BOT_NEXT_MOVE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6bot_next_move);
 
   /*
    * Global control funcs
    */
-  scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0,
-		      (SCM (*)())_scm_lw6_release);
-  scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6_release);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0,
+			 (SCM (*)())_scm_lw6_exit);
 
   return ret;
 }

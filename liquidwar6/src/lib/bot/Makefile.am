@@ -23,7 +23,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 
 if ALLINONE
 LW6DYN_LIB = 
-LW6BOT_LIB_S = mod-follow/libmod_follow_s.la mod-idiot/libmod_idiot_s.la mod-random/libmod_random_s.la
+LW6BOT_LIB_S = mob-brute/libmod_brute_s.la mod-follow/libmod_follow_s.la mod-idiot/libmod_idiot_s.la mod-random/libmod_random_s.la
 else
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6BOT_LIB_S =
@@ -42,5 +42,5 @@ liquidwar6bot_test_LDADD = libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libke
 TESTS = liquidwar6bot-test
 endif
 
-SUBDIRS = mod-follow mod-idiot mod-random
+SUBDIRS = mod-brute mod-follow mod-idiot mod-random
 

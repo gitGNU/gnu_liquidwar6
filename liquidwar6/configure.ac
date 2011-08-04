@@ -702,6 +702,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/map/Makefile
 	  src/lib/ker/Makefile
 	  src/lib/bot/Makefile
+	  src/lib/bot/mod-brute/Makefile
 	  src/lib/bot/mod-follow/Makefile
 	  src/lib/bot/mod-idiot/Makefile
 	  src/lib/bot/mod-random/Makefile
@@ -743,6 +744,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/srv/mod-httpd/Makefile
 	  src/lib/dat/Makefile
 	  src/lib/p2p/Makefile
+	  src/lib/scm/Makefile
 	  src/mswindows.rc
 	  script/Makefile
 	  data/Makefile
