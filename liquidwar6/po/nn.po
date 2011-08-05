@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-05 11:20+0200\n"
+"POT-Creation-Date: 2011-08-05 15:37+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -162,26 +162,6 @@ msgstr "Kjemp mot programvarepatentar %s"
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
-
-#: src/lib/ker/ker-test.c:69
-#, c-format
-msgid "%d,%d,%d is_fg=%d is_bg=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:73
-#, c-format
-msgid "nb_zones=%d max_zone_size=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:81
-#, c-format
-msgid "zone_id=%d zone_pos=%d,%d,%d zone_size=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:148
-#, c-format
-msgid "potential of zone 0 is %d"
-msgstr ""
 
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"

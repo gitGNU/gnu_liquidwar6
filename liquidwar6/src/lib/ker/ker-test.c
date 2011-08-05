@@ -66,19 +66,19 @@ print_game_struct_repr (lw6ker_game_struct_t * game_struct)
   z = lw6sys_random (lw6ker_game_struct_get_d (game_struct));
   is_fg = lw6ker_game_struct_is_fg (game_struct, x, y, z);
   is_bg = lw6ker_game_struct_is_bg (game_struct, x, y, z);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("%d,%d,%d is_fg=%d is_bg=%d"), x,
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%d,%d,%d is_fg=%d is_bg=%d"), x,
 	      y, z, is_fg, is_bg);
 
   lw6ker_game_struct_get_zones_info (game_struct, &nb_zones, &max_zone_size);
-  lw6sys_log (LW6SYS_LOG_NOTICE, _("nb_zones=%d max_zone_size=%d"), nb_zones,
-	      max_zone_size);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("nb_zones=%d max_zone_size=%d"),
+	      nb_zones, max_zone_size);
   zone_id =
     lw6ker_game_struct_get_zone_id (game_struct, shape.w / 2, shape.h / 2,
 				    shape.d / 2);
   lw6ker_game_struct_get_zone_info (game_struct, zone_id, &zone_pos,
 				    &zone_size);
   lw6sys_log (LW6SYS_LOG_NOTICE,
-	      _("zone_id=%d zone_pos=%d,%d,%d zone_size=%d"), zone_id,
+	      _x_ ("zone_id=%d zone_pos=%d,%d,%d zone_size=%d"), zone_id,
 	      zone_pos.x, zone_pos.y, zone_pos.z, zone_size);
   lw6ker_game_struct_find_free_slot_near (game_struct, &there, here);
 
@@ -145,7 +145,7 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 	  potential =
 	    lw6ker_game_state_get_zone_potential (game_state, 0,
 						  LW6MAP_TEAM_COLOR_RED);
-	  lw6sys_log (LW6SYS_LOG_DEBUG, _("potential of zone 0 is %d"),
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("potential of zone 0 is %d"),
 		      potential);
 	  fighter_id = lw6ker_game_state_get_fighter_id (game_state, x, y, z);
 	  if (fighter_id >= 0)

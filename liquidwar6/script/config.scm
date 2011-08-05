@@ -64,10 +64,17 @@
 
 (define lw6-config-defaults
   (lambda ()
-    (begin 
-      (c-lw6cfg-defaults)
-      (lw6-config-set-string! lw6def-gfx-backend (lw6-get-default-gfx-backend))
-      (lw6-config-set-string! lw6def-snd-backend (lw6-get-default-snd-backend))
+    (let (
+	  (default-gfx-backend (lw6-get-default-gfx-backend))
+	  (default-snd-backend (lw6-get-default-snd-backend))
+	  )
+      (begin 
+	(c-lw6cfg-defaults)
+	(if default-gfx-backend
+	    (lw6-config-set-string! lw6def-gfx-backend default-gfx-backend))
+	(if default-snd-backend
+	    (lw6-config-set-string! lw6def-snd-backend default-snd-backend))
+	)
       )
     )
   )

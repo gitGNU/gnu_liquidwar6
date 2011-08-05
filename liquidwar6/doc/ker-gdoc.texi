@@ -260,8 +260,9 @@ the whole cursor without knowing their ids.
 Sets a cursor, that is, changes its position, this is pretty much
 anything we can do about a cursor except adding or removing it, just
 because of Liquid War very simple rules. The passed pointer may be
-freed after the call, only the cursor_id, node_id, x and y fields
-are used, others are ignored.
+freed after the call, only the @code{cursor_id}, @code{node_id}, @code{x}, @code{y} and @code{fire} fields
+are used, others are ignored. More precisely, the @code{enabled} will be ignored,
+it's not a valid way to add/remove teams.
 
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun

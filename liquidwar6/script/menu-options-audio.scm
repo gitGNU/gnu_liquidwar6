@@ -211,11 +211,13 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Sound options")))
+	  (snd (lw6-get-game-global "snd"))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-audio-options-menu-fx-volume-item))
 	(lw6-append-menuitem! menu (lw6-audio-options-menu-water-volume-item))
 	(lw6-append-menuitem! menu (lw6-audio-options-menu-music-volume-item))
-	(lw6-append-menuitem! menu (lw6-audio-options-menu-backend-item))
+	(if snd
+	    (lw6-append-menuitem! menu (lw6-audio-options-menu-backend-item)))
 	menu
 	))))

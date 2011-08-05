@@ -4963,8 +4963,10 @@ results on
      Sets a cursor, that is, changes its position, this is pretty much
      anything we can do about a cursor except adding or removing it,
      just because of Liquid War very simple rules. The passed pointer
-     may be freed after the call, only the cursor_id, node_id, x and y
-     fields are used, others are ignored.
+     may be freed after the call, only the `cursor_id', `node_id', `x',
+     `y' and `fire' fields are used, others are ignored. More
+     precisely, the `enabled' will be ignored, it's not a valid way to
+     add/remove teams.
 
      *Return value:*  1 on success, 0 on failure
 

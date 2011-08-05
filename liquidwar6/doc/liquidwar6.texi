@@ -2339,7 +2339,11 @@ Useless for players.
 @item
 @code{--enable-headless}: will allow compilation without any
 graphics backend. The game is unplayable in that state but one
-can can still wish to compile what is compilable, for testing purposes.
+can still wish to compile what is compilable, for testing purposes.
+@item
+@code{--enable-silent}: will allow compilation without any
+sound backend. The game won't play any music in that state but one
+can still wish to compile what is compilable, for testing purposes.
 @item
 @code{--enable-allinone}: will stuff all the internal libraries
 into one big executable.

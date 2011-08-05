@@ -1,5 +1,7 @@
 2011-08-05 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed bug 33931 (SDL_mixer detection and error when no snd).
+
 	* Introduced new "fire" parameter to SET command.
 
 2011-08-04 : Christian Mauduit <ufoot@ufoot.org>

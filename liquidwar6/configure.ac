@@ -315,7 +315,8 @@ AC_CHECK_LIB(jpeg, jpeg_start_decompress, HAVE_LIBJPEG=1, AC_MSG_ERROR([
 *** Liquid War 6 needs libjpeg (http://www.ijg.org/)
 ]))
 
-AC_ARG_ENABLE([headless], AS_HELP_STRING([--enable-headless],[accept headless built default=no]), [enable_mod_gl=$enableval], [enable_headless=no])
+AC_ARG_ENABLE([headless], AS_HELP_STRING([--enable-headless],[accept headless built default=no]), [enable_headless=$enableval], [enable_headless=no])
+AC_ARG_ENABLE([silent], AS_HELP_STRING([--enable-silent],[accept silent built default=no]), [enable_silent=$enableval], [enable_silent=no])
 
 dnl Begin mod-gl
 
@@ -406,12 +407,12 @@ fi
 AC_SUBST(MOD_GL_ENABLE_CFLAGS)
 dnl End mod-gl
 
-lw6_head=no
+lw6_gfx_exists=no
 if test x$enable_headless != xyes ; then
    if test -z "${MOD_GL_TRUE}"; then
-      lw6_head=gl
+      lw6_gfx_exists=gl
    fi
-   if test x$lw6_head = xno; then
+   if test x$lw6_gfx_exists = xno; then
       AC_MSG_ERROR([No graphical support detected, please consider installing SDL (http://www.libsdl.org/), Mesa (http://www.mesa3d.org/), SDL_image (http://www.libsdl.org/projects/SDL_image/), SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/) with development support (headers and libraries).])
    else
       AC_MSG_NOTICE([Good, at least one gfx backend should work])
@@ -467,6 +468,18 @@ fi
 AC_SUBST(MOD_OGG_ENABLE_CFLAGS)
 AC_SUBST(SDL_LIBS_SOUND)
 dnl End mod-ogg
+
+lw6_snd_exists=no
+if test x$enable_silent != xyes ; then
+   if test -z "${MOD_OGG_TRUE}"; then
+      lw6_snd_exists=ogg
+   fi
+   if test x$lw6_snd_exists = xno; then
+      AC_MSG_ERROR([No sound support detected, please consider installing SDL (http://www.libsdl.org/) and SDL_mixer (http://www.libsdl.org/projects/SDL_mixer/) with development support (headers and libraries).])
+   else
+      AC_MSG_NOTICE([Good, at least one snd backend should work])
+   fi
+fi
 
 LW6_CONFIGURE_ARGS="`echo ${ac_configure_args} | sed 's/^ //g'`"
 AC_SUBST(LW6_CONFIGURE_ARGS)

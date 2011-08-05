@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-05 11:20+0200\n"
+"POT-Creation-Date: 2011-08-05 15:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,26 +160,6 @@ msgstr ""
 #: src/lib/hlp/hlp-credits.c:155
 #, c-format
 msgid "unable to handle credits id %d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:69
-#, c-format
-msgid "%d,%d,%d is_fg=%d is_bg=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:73
-#, c-format
-msgid "nb_zones=%d max_zone_size=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:81
-#, c-format
-msgid "zone_id=%d zone_pos=%d,%d,%d zone_size=%d"
-msgstr ""
-
-#: src/lib/ker/ker-test.c:148
-#, c-format
-msgid "potential of zone 0 is %d"
 msgstr ""
 
 #: src/lib/lw6-fix.c:252
