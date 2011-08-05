@@ -58,10 +58,11 @@
 			     )))))
 
 (define lw6-mover-generic
-  (lambda (get-state-func sensitivity-func max-cursor-speed-func)
+  (lambda (get-state-func pop-fire-func sensitivity-func max-cursor-speed-func)
     (lambda (cursor)
       (let* (
 	     (state (get-state-func))
+	     (fire (or (pop-fire-func) (hash-ref cursor "fire")))
 	     (up (assoc-ref state "up"))
 	     (down (assoc-ref state "down"))
 	     (left (assoc-ref state "left"))
@@ -86,14 +87,17 @@
 		  (lw6-mover-plus cursor sensitivity max-cursor-speed "vx")
 		  (lw6-mover-slow-down cursor sensitivity "vx")))
 	  (if (or (not (= (hash-ref cursor "vx") 0))
-		  (not (= (hash-ref cursor "vy") 0)))
+		  (not (= (hash-ref cursor "vy") 0))
+		  fire)
 	      (begin
 		(hash-set! cursor "mouse-controlled" #f)
 		(hash-set! cursor "x" (+ (hash-ref cursor "x") (hash-ref cursor "vx")))
 		(hash-set! cursor "y" (+ (hash-ref cursor "y") (hash-ref cursor "vy")))
+		(hash-set! cursor "fire" fire)
 		#t)
 	      #f
-	      ))))))
+	      )
+	)))))
 
 (define lw6-mover-mouse-func
   (lambda (cursor)
@@ -101,11 +105,12 @@
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (mouse-state (c-lw6gui-mouse-poll-move dsp))
+	 (fire (or (c-lw6gui-mouse-pop-button-left dsp) (hash-ref cursor "fire")))
 	 (map-x (assoc-ref mouse-state "map-x"))
 	 (map-y (assoc-ref mouse-state "map-y"))
 	 (menu-esc (assoc-ref mouse-state "menu-esc"))
 	 )
-      (if (or mouse-state (hash-ref cursor "mouse-controlled"))
+      (if (or mouse-state (hash-ref cursor "mouse-controlled") fire)
 	  (begin
 	    (if (not mouse-state)
 		(begin
@@ -114,10 +119,12 @@
 		  (set! map-y (assoc-ref mouse-state "map-y"))
 		  ))
 	    (if (or (not (= (hash-ref cursor "x") map-x))
-		    (not (= (hash-ref cursor "y") map-y)))
+		    (not (= (hash-ref cursor "y") map-y))
+		    fire)
 		(begin
 		  (hash-set! cursor "x" map-x)
 		  (hash-set! cursor "y" map-y)
+		  (hash-set! cursor "fire" fire)
 		  (hash-set! cursor "mouse-controlled" #t)
 		  #t)
 		#f)
@@ -128,18 +135,21 @@
 
 (define lw6-mover-keyboard-func
   (lw6-mover-generic (lambda () (c-lw6gui-keyboard-get-move-pad (lw6-get-game-global "dsp")))
+		     (lambda () (c-lw6gui-keyboard-pop-key-enter (lw6-get-game-global "dsp")))
 		     (lambda () (lw6-config-get-number lw6def-cursor-sensitivity))
 		     (lambda () (lw6-config-get-number lw6def-max-cursor-speed))
 		     ))
 
 (define lw6-mover-joystick1-func
   (lw6-mover-generic (lambda () (c-lw6gui-joystick1-get-move-pad (lw6-get-game-global "dsp")))
+		     (lambda () (c-lw6gui-joystick1-pop-button-a (lw6-get-game-global "dsp")))
 		     (lambda () (lw6-config-get-number lw6def-cursor-sensitivity))
 		     (lambda () (lw6-config-get-number lw6def-max-cursor-speed))
 		     ))
 
 (define lw6-mover-joystick2-func
   (lw6-mover-generic (lambda () (c-lw6gui-joystick2-get-move-pad (lw6-get-game-global "dsp")))
+		     (lambda () (c-lw6gui-joystick2-pop-button-a (lw6-get-game-global "dsp")))
 		     (lambda () (lw6-config-get-number lw6def-cursor-sensitivity))
 		     (lambda () (lw6-config-get-number lw6def-max-cursor-speed))
 		     ))
@@ -154,6 +164,7 @@
 	  (begin
 	    (hash-set! cursor "x" (assoc-ref pos "x"))
 	    (hash-set! cursor "y" (assoc-ref pos "y"))
+	    (hash-set! cursor "fire" (or (assoc-ref pos "fire") (hash-ref cursor "fire")))
 	    ;;(tmp (list (assoc-ref pos "x") (assoc-ref pos "y")))
 	    )))))
 
@@ -173,6 +184,9 @@
 						   (assoc-ref joystick2-state dir))))
 				   (list "up" "down" "left" "right"))
 				))
+			  (lambda () (or (c-lw6gui-keyboard-pop-key-enter (lw6-get-game-global "dsp"))
+					 (c-lw6gui-joystick1-pop-button-a (lw6-get-game-global "dsp"))
+					 (c-lw6gui-joystick2-pop-button-a (lw6-get-game-global "dsp"))))
 			  (lambda () (lw6-config-get-number lw6def-cursor-sensitivity))
 			  (lambda () (lw6-config-get-number lw6def-max-cursor-speed))
 			  ) cursor)

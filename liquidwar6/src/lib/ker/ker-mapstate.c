@@ -873,6 +873,24 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 }
 
 void
+_lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
+				lw6map_rules_t * rules)
+{
+  int32_t i, team_color;
+
+  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
+    {
+      if (map_state->cursor_array.cursors[i].enabled
+	  && map_state->cursor_array.cursors[i].fire)
+	{
+	  team_color = map_state->cursor_array.cursors[i].team_color;
+	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fire %d"), team_color);
+	}
+      map_state->cursor_array.cursors[i].fire = 0;
+    }
+}
+
+void
 _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 			int frags_mode, int frags_to_distribute,
 			int frags_fade_out)

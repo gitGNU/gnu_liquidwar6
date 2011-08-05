@@ -39,10 +39,11 @@
     (format #f "~a ~a REMOVE ~a" round node-id cursor-id)))
 
 (define lw6-command-set
-  (lambda (round node-id cursor-id x y)
-    (format #f "~a ~a SET ~a ~a ~a" round node-id cursor-id
+  (lambda (round node-id cursor-id x y fire)
+    (format #f "~a ~a SET ~a ~a ~a ~a" round node-id cursor-id
 	    (inexact->exact (floor x))
 	    (inexact->exact (floor y))
+	    (if fire 1 0)
 	    )))
 
 (define lw6-command-all-local
@@ -53,15 +54,31 @@
       (begin
 	(map (lambda (cursor-key)
 	       (let (
+		     (cursor (lw6-get-cursor cursor-key))		      
+		     )
+		     ;;;)
+		 #t))
+	     (list "1" "2" "3" "4"))
+	(map (lambda (cursor-key)
+	       (let (
 		      (cursor (lw6-get-cursor cursor-key))		      
 		     )
-		 (if (hash-ref cursor "status")
-		     (let (
-			   (cursor-id (hash-ref cursor "id"))
-			   (x (hash-ref cursor "x"))
-			   (y (hash-ref cursor "y"))
-			   )
-		       (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y))))))))
+		 (begin
+		   (if (hash-ref cursor "status")
+		       (let (
+			     (cursor-id (hash-ref cursor "id"))
+			     (x (hash-ref cursor "x"))
+			     (y (hash-ref cursor "y"))
+			     (fire (hash-ref cursor "fire"))
+			     )
+			 (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y fire))
+						)
+			       )
+			 )
+		       )
+		   ;;(hash-set! cursor "fire" #f)
+		   ;;(lw6-log-notice commands)
+		   )))
 	     (list "1" "2" "3" "4"))
 	commands
     ))))
@@ -97,6 +114,13 @@
 			(begin
 			  ;;(tmp commands)
 			  (map (lambda (command) (c-lw6pil-send-command pilot command #t)) commands)
+			  (if for-real
+			      (map (lambda (cursor-key)
+				     (let (
+					   (cursor (lw6-get-cursor cursor-key))		      
+					   )			  
+				       (hash-set! cursor "fire" #f)))
+				   (list "1" "2" "3" "4")))
 			  (c-lw6pil-commit pilot)
 			  ))))))))
     ))
@@ -112,9 +136,11 @@
     (let (
 	  (command-func (lw6-get-game-global "command-func"))
 	  )
-      (if command-func
-	  (command-func for-real)
-	  )
+      (begin
+	(if command-func
+	    (command-func for-real)
+	    )
+	)
       )
     )
   )

@@ -1,3 +1,7 @@
+2011-08-05 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Introduced new "fire" parameter to SET command.
+
 2011-08-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added new brute bot, very CPU-greedy but not that bad.

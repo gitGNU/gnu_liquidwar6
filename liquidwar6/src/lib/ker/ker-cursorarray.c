@@ -192,7 +192,7 @@ int
 _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 			     u_int64_t node_id,
 			     u_int16_t cursor_id, int32_t x,
-			     int32_t y, int32_t pot_offset,
+			     int32_t y, int fire, int32_t pot_offset,
 			     lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 0;
@@ -207,7 +207,8 @@ _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
       if (_lw6ker_cursor_check_node_id (cursor, node_id))
 	{
 	  ret =
-	    _lw6ker_cursor_update (cursor, x, y, pot_offset, shape, rules);
+	    _lw6ker_cursor_update (cursor, x, y, fire, pot_offset, shape,
+				   rules);
 	}
     }
   else

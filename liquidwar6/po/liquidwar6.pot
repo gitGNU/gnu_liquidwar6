@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-02 14:42+0200\n"
+"POT-Creation-Date: 2011-08-05 11:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,7 @@ msgstr ""
 msgid "zone_id=%d zone_pos=%d,%d,%d zone_size=%d"
 msgstr ""
 
-#: src/lib/ker/ker-test.c:146
+#: src/lib/ker/ker-test.c:148
 #, c-format
 msgid "potential of zone 0 is %d"
 msgstr ""
@@ -186,7 +186,7 @@ msgstr ""
 msgid "couldn't fix environment variable by restarting program"
 msgstr ""
 
-#: src/lib/lw6-main.c:56
+#: src/lib/lw6-main.c:53
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr ""
@@ -266,6 +266,10 @@ msgstr ""
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
 
+#: src/lib/scm/scm-test.c:81 src/scriptpo.c:28
+msgid "leaving Guile"
+msgstr ""
+
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
 msgstr ""
@@ -278,46 +282,46 @@ msgstr ""
 msgid "can't initialize mod_udpd"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:73
+#: src/lib/sys/sys-log.c:75
 msgid "log_file is NULL"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:533
+#: src/lib/sys/sys-log.c:535
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr ""
 
-#: src/lib/sys/sys-log.c:753
+#: src/lib/sys/sys-log.c:766
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:758
+#: src/lib/sys/sys-log.c:771
 msgid "ERROR! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:768
+#: src/lib/sys/sys-log.c:781
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:773
+#: src/lib/sys/sys-log.c:786
 msgid "WARNING! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:790
+#: src/lib/sys/sys-log.c:803
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:796
+#: src/lib/sys/sys-log.c:809
 msgid "[debug] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:879
+#: src/lib/sys/sys-log.c:892
 msgid "CRITICAL! "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:883
+#: src/lib/sys/sys-log.c:896
 msgid "CRITICAL!"
 msgstr ""
 
@@ -447,10 +451,6 @@ msgstr ""
 
 #: src/scriptpo.c:27
 msgid "running scheme code with Guile"
-msgstr ""
-
-#: src/scriptpo.c:28
-msgid "leaving Guile"
 msgstr ""
 
 #: src/scriptpo.c:29

@@ -689,7 +689,8 @@ Fedora (http://www.fedoraproject.org/) 15 "Lovelock") could be:
      freetype freetype-devel SDL_ttf SDL_ttf-devel \
      libcurl libcurl-devel \
      perl lcov global valgrind graphviz gv texinfo-tex \
-     gtk2-devel
+     gtk2-devel \
+     rpm-build
 
    On a DEB package based GNU/Linux system this command (tested with
 Debian (http://www.debian.org/) 6.0 "squeeze") would be:
@@ -707,7 +708,8 @@ Debian (http://www.debian.org/) 6.0 "squeeze") would be:
      libsdl-mixer1.2 libsdl-mixer1.2-dev \
      libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
      libcurl4-gnutls-dev \
-     perl lcov global valgrind graphviz gv texinfo texlive-full
+     perl lcov global valgrind graphviz gv texinfo texlive-full \
+     debhelper
 
    Note that those requirements really depend on the exact distribution
 you have, package names may vary from one to another.

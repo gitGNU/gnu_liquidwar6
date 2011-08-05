@@ -407,79 +407,6 @@
 	 )
       (if
        menu
-       (begin
-       (if (lw6-menu-pump-all?)
-	   (cond 
-	    ((or
-	      (c-lw6gui-keyboard-pop-key-up dsp)
-	      (c-lw6gui-joystick1-pop-button-up dsp)
-	      (c-lw6gui-joystick2-pop-button-up dsp))
-	     (if
-	      (lw6-prev-menuitem #f)
-	      (lw6-play-fx-beep-select)
-	      )
-	     )
-	    ((c-lw6gui-mouse-pop-wheel-up dsp)
-	     (if
-	      (lw6-prev-menuitem #t)
-	      (lw6-play-fx-beep-select)
-	      )
-	     )
-	    ((or
-	      (c-lw6gui-keyboard-pop-key-down dsp)
-	      (c-lw6gui-joystick1-pop-button-down dsp)
-	      (c-lw6gui-joystick2-pop-button-down dsp))
-	     (if
-	      (lw6-next-menuitem #f)
-	      (lw6-play-fx-beep-select)
-	      )
-	     )
-	    ((c-lw6gui-mouse-pop-wheel-down dsp)
-	     (if
-	      (lw6-next-menuitem #t)
-	      (lw6-play-fx-beep-select)
-	      )
-	     )
-	    ((or
-	      (c-lw6gui-keyboard-pop-key-left dsp)
-	      (c-lw6gui-joystick1-pop-button-left dsp)
-	      (c-lw6gui-joystick2-pop-button-left dsp))
-	     (if
-	      (lw6-menuitem-action menuitem "on-minus")
-	      (lw6-play-fx-beep-valid)
-	      ) 
-	     )
-	    ((or
-	      (c-lw6gui-keyboard-pop-key-right dsp)
-	      (c-lw6gui-joystick1-pop-button-right dsp)
-	      (c-lw6gui-joystick2-pop-button-right dsp))
-	     (if
-	      (lw6-menuitem-action menuitem "on-plus")
-	      (lw6-play-fx-beep-valid)
-	      ) 
-	     )
-	    ((or
-	      (c-lw6gui-keyboard-pop-key-enter dsp)
-	      (c-lw6gui-joystick1-pop-button-a dsp)
-	      (c-lw6gui-joystick2-pop-button-a dsp))
-	     (if
-	      (lw6-menuitem-action menuitem "on-valid")
-	      (lw6-play-fx-beep-valid)
-	      )
-	     )
-	    ))
-       (cond
-	((or
-	  (c-lw6gui-keyboard-pop-key-esc dsp)
-	  (c-lw6gui-mouse-pop-button-right dsp)
-	  (c-lw6gui-joystick1-pop-button-b dsp)
-	  (c-lw6gui-joystick2-pop-button-b dsp))
-	 (if
-	  (lw6-menu-action menu "on-cancel")
-	  (lw6-play-fx-beep-valid)
-	  )
-	 )
-	((c-lw6gui-mouse-pop-button-left dsp)
 	 (let*
 	     (
 	      (mouse-state (c-lw6gui-mouse-get-state dsp))
@@ -487,35 +414,99 @@
 	      (menu-scroll (assoc-ref mouse-state "menu-scroll"))
 	      (menu-esc (assoc-ref mouse-state "menu-esc"))
 	      )
-	   (cond (
-		  (>= menu-position 0)
-		  (begin
-		    (lw6-set-menuitem! menu-position #f)
-		    (set! menuitem (lw6-current-menuitem))
-		    (if
-		     (lw6-menuitem-action menuitem "on-valid")
-		     (lw6-play-fx-beep-valid)
-		     )
+	   (begin
+	     (if (lw6-menu-pump-all?)
+		 (cond 
+		  ((or
+		    (c-lw6gui-keyboard-pop-key-up dsp)
+		    (c-lw6gui-joystick1-pop-button-up dsp)
+		    (c-lw6gui-joystick2-pop-button-up dsp))
+		   (if
+		    (lw6-prev-menuitem #f)
+		    (lw6-play-fx-beep-select)
 		    )
-		  )
-		 (
-		  (> menu-scroll 0)
-		  (lw6-next-menuitem #f)
-		  )
-		 (
-		  (< menu-scroll 0)
-		  (lw6-prev-menuitem #f)
-		  )
-		 (
-		  menu-esc
-		  (if
-		   (lw6-menu-action menu "on-cancel")
-		   (lw6-play-fx-beep-valid)
 		   )
-		  )
+		  ((c-lw6gui-mouse-pop-wheel-up dsp)
+		   (if
+		    (lw6-prev-menuitem #t)
+		    (lw6-play-fx-beep-select)
+		    )
+		   )
+		  ((or
+		    (c-lw6gui-keyboard-pop-key-down dsp)
+		    (c-lw6gui-joystick1-pop-button-down dsp)
+		    (c-lw6gui-joystick2-pop-button-down dsp))
+		   (if
+		    (lw6-next-menuitem #f)
+		    (lw6-play-fx-beep-select)
+		    )
+		   )
+		  ((c-lw6gui-mouse-pop-wheel-down dsp)
+		   (if
+		    (lw6-next-menuitem #t)
+		    (lw6-play-fx-beep-select)
+		    )
+		   )
+		  ((or
+		    (c-lw6gui-keyboard-pop-key-left dsp)
+		    (c-lw6gui-joystick1-pop-button-left dsp)
+		    (c-lw6gui-joystick2-pop-button-left dsp))
+		   (if
+		    (lw6-menuitem-action menuitem "on-minus")
+		    (lw6-play-fx-beep-valid)
+		    ) 
+		   )
+		  ((or
+		    (c-lw6gui-keyboard-pop-key-right dsp)
+		    (c-lw6gui-joystick1-pop-button-right dsp)
+		    (c-lw6gui-joystick2-pop-button-right dsp))
+		   (if
+		    (lw6-menuitem-action menuitem "on-plus")
+		    (lw6-play-fx-beep-valid)
+		    ) 
+		   )
+		  ((or
+		    (c-lw6gui-keyboard-pop-key-enter dsp)
+		    (c-lw6gui-joystick1-pop-button-a dsp)
+		    (c-lw6gui-joystick2-pop-button-a dsp))
+		   (if
+		    (lw6-menuitem-action menuitem "on-valid")
+		    (lw6-play-fx-beep-valid)
+		    )
+		   )
+		  ))
+	     (cond
+	      ((or
+		(c-lw6gui-keyboard-pop-key-esc dsp)
+		(c-lw6gui-mouse-pop-button-right dsp)
+		(c-lw6gui-joystick1-pop-button-b dsp)
+		(c-lw6gui-joystick2-pop-button-b dsp))
+	       (begin
+		 (lw6-menu-action menu "on-cancel")
+		 (lw6-play-fx-beep-valid)
 		 )
-	   )
-	 )))))))
+	       )
+	      ((>= menu-position 0)
+	       (if (c-lw6gui-mouse-pop-button-left dsp)
+		   (begin
+		     (lw6-set-menuitem! menu-position #f)
+		     (set! menuitem (lw6-current-menuitem))
+		     (if
+		      (lw6-menuitem-action menuitem "on-valid")
+		      (lw6-play-fx-beep-valid)))))
+	      ((> menu-scroll 0)
+	       (if (c-lw6gui-mouse-pop-button-left dsp)
+		   (lw6-next-menuitem #f)))
+	      ((> menu-scroll 0)
+	       (if (c-lw6gui-mouse-pop-button-left
+		   (lw6-prev-menuitem #f)))
+	      (menu-esc
+	       (if (c-lw6gui-mouse-pop-button-left dsp)
+		   (if
+		    (lw6-menu-action menu "on-cancel")
+		    (lw6-play-fx-beep-valid))))
+	      ))))
+      ))))
 
 (define lw6-menu-pump-mouse
   (lambda ()

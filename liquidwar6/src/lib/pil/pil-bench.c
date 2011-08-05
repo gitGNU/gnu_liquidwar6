@@ -38,10 +38,10 @@ static char *bench_init_commands[] = {
   "2 1234abcd1234abcd ADD 2345 GREEN",
   "2 1234abcd1234abcd ADD 3456 BLUE",
   "2 1234abcd1234abcd ADD 5678 YELLOW",
-  "3 1234abcd1234abcd SET 1234 180 140",
-  "3 1234abcd1234abcd SET 2345 220 160",
-  "3 1234abcd1234abcd SET 3456 220 140",
-  "3 1234abcd1234abcd SET 5678 180 160",
+  "3 1234abcd1234abcd SET 1234 180 140 0",
+  "3 1234abcd1234abcd SET 2345 220 160 0",
+  "3 1234abcd1234abcd SET 3456 220 140 0",
+  "3 1234abcd1234abcd SET 5678 180 160 1",
   NULL
 };
 

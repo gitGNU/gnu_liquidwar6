@@ -45,6 +45,7 @@ _lw6ker_cursor_update_checksum (lw6ker_cursor_t * cursor,
   lw6sys_checksum_update_int32 (checksum, cursor->enabled);
   lw6sys_checksum_update_int32 (checksum, cursor->team_color);
   lw6sys_checksum_update_xyz (checksum, &(cursor->pos));
+  lw6sys_checksum_update_int32 (checksum, cursor->fire);
   lw6sys_checksum_update_xyz (checksum, &(cursor->apply_pos));
   lw6sys_checksum_update_int32 (checksum, cursor->pot_offset);
 }
@@ -154,6 +155,8 @@ lw6ker_cursor_reset (lw6ker_cursor_t * cursor)
   cursor->team_color = LW6MAP_TEAM_COLOR_INVALID;
   cursor->pos.x = 0;
   cursor->pos.y = 0;
+  cursor->pos.z = 0;
+  cursor->fire = 0;
   cursor->apply_pos = cursor->pos;
   cursor->pot_offset = 0;
 }
@@ -209,7 +212,7 @@ _lw6ker_cursor_disable (lw6ker_cursor_t * cursor)
 
 int
 _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
-		       int32_t y, int32_t pot_offset,
+		       int32_t y, int fire, int32_t pot_offset,
 		       lw6sys_whd_t * shape, lw6map_rules_t * rules)
 {
   int ret = 1;
@@ -218,6 +221,7 @@ _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
 	      cursor->cursor_id, x, y, pot_offset);
   cursor->pos.x = x;
   cursor->pos.y = y;
+  cursor->fire = fire;
   cursor->pot_offset = pot_offset;
   if (!_lw6ker_cursor_sanity_check (cursor, shape, rules))
     {

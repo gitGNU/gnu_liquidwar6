@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-02 14:42+0200\n"
+"POT-Creation-Date: 2011-08-05 11:20+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -178,7 +178,7 @@ msgstr ""
 msgid "zone_id=%d zone_pos=%d,%d,%d zone_size=%d"
 msgstr ""
 
-#: src/lib/ker/ker-test.c:146
+#: src/lib/ker/ker-test.c:148
 #, c-format
 msgid "potential of zone 0 is %d"
 msgstr ""
@@ -187,7 +187,7 @@ msgstr ""
 msgid "couldn't fix environment variable by restarting program"
 msgstr "klarte ikkje fiksa miljøvariabelen ved å starta programmet på nytt"
 
-#: src/lib/lw6-main.c:56
+#: src/lib/lw6-main.c:53
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr "klarte ikkje lesa hovudskriptfila «%s»"
@@ -272,6 +272,10 @@ msgstr ""
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
 
+#: src/lib/scm/scm-test.c:81 src/scriptpo.c:28
+msgid "leaving Guile"
+msgstr "forlèt Guile"
+
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
 msgstr "klarte ikkje starta mod_httpd"
@@ -284,46 +288,46 @@ msgstr "klarte ikkje starta mod_tcpd"
 msgid "can't initialize mod_udpd"
 msgstr "klarte ikkje starta mod_udpd"
 
-#: src/lib/sys/sys-log.c:73
+#: src/lib/sys/sys-log.c:75
 msgid "log_file is NULL"
 msgstr "log_file er NULL"
 
-#: src/lib/sys/sys-log.c:533
+#: src/lib/sys/sys-log.c:535
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:753
+#: src/lib/sys/sys-log.c:766
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:758
+#: src/lib/sys/sys-log.c:771
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:768
+#: src/lib/sys/sys-log.c:781
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:773
+#: src/lib/sys/sys-log.c:786
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:790
+#: src/lib/sys/sys-log.c:803
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:796
+#: src/lib/sys/sys-log.c:809
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:879
+#: src/lib/sys/sys-log.c:892
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:883
+#: src/lib/sys/sys-log.c:896
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -454,10 +458,6 @@ msgstr "Scheme-feil"
 #: src/scriptpo.c:27
 msgid "running scheme code with Guile"
 msgstr "køyrer Scheme-kode med Guile"
-
-#: src/scriptpo.c:28
-msgid "leaving Guile"
-msgstr "forlèt Guile"
 
 #: src/scriptpo.c:29
 msgid "catched Guile error"

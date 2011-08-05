@@ -969,18 +969,19 @@ _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
 			       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
-  int x, y;
+  int x, y, fire;
 
   if (check_node_id (game_state, cursor->node_id))
     {
       x = cursor->pos.x;
       y = cursor->pos.y;
+      fire = cursor->fire;
       lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	_lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
 				     cursor->node_id, cursor->cursor_id, x, y,
-				     0, &(game_state->map_state.shape),
+				     fire, 0, &(game_state->map_state.shape),
 				     &(game_state->game_struct->rules));
     }
 
@@ -996,8 +997,9 @@ _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
  * Sets a cursor, that is, changes its position, this is pretty much
  * anything we can do about a cursor except adding or removing it, just
  * because of Liquid War very simple rules. The passed pointer may be
- * freed after the call, only the cursor_id, node_id, x and y fields
- * are used, others are ignored.
+ * freed after the call, only the @cursor_id, @node_id, @x, @y and @fire fields
+ * are used, others are ignored. More precisely, the @enabled will be ignored,
+ * it's not a valid way to add/remove teams.
  *
  * Return value: 1 on success, 0 on failure
  */
@@ -1435,6 +1437,8 @@ _lw6ker_game_state_do_move (_lw6ker_game_state_t *
 {
   if (!game_state->over)
     {
+      _lw6ker_map_state_process_fire (&(game_state->map_state),
+				      &(game_state->game_struct->rules));
       _lw6ker_map_state_move_fighters (&(game_state->map_state),
 				       lw6sys_checksum_int32
 				       (game_state->rounds) %

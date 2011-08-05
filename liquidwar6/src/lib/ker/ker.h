@@ -77,6 +77,12 @@ typedef struct lw6ker_fighter_s
 }
 lw6ker_fighter_t;
 
+typedef struct lw6ker_cursor_control_s
+{
+  lw6sys_xyz_t pos;
+  int fire;
+} lw6ker_cursor_control_t;
+
 typedef struct lw6ker_cursor_s
 {
   u_int64_t node_id;
@@ -85,6 +91,7 @@ typedef struct lw6ker_cursor_s
   int enabled;
   int team_color;
   lw6sys_xyz_t pos;
+  int fire;
   lw6sys_xyz_t apply_pos;
   int32_t pot_offset;
 }

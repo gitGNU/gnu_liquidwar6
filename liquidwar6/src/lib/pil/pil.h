@@ -66,6 +66,7 @@ typedef struct lw6pil_set_args_s
   u_int64_t cursor_id;
   int x;
   int y;
+  int fire;
 } lw6pil_set_args_t;
 
 typedef union lw6pil_command_args_u

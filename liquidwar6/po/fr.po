@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-02 14:42+0200\n"
+"POT-Creation-Date: 2011-08-05 11:20+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -177,7 +177,7 @@ msgstr ""
 msgid "zone_id=%d zone_pos=%d,%d,%d zone_size=%d"
 msgstr ""
 
-#: src/lib/ker/ker-test.c:146
+#: src/lib/ker/ker-test.c:148
 #, c-format
 msgid "potential of zone 0 is %d"
 msgstr ""
@@ -186,7 +186,7 @@ msgstr ""
 msgid "couldn't fix environment variable by restarting program"
 msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
 
-#: src/lib/lw6-main.c:56
+#: src/lib/lw6-main.c:53
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr "impossible de lire le fichier de script principal \"%s\""
@@ -275,6 +275,10 @@ msgstr "démarrage du noeud \"%s\""
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 
+#: src/lib/scm/scm-test.c:81 src/scriptpo.c:28
+msgid "leaving Guile"
+msgstr "fin de la session Guile"
+
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
 msgstr "impossible d'initialiser mod_httpd"
@@ -287,46 +291,46 @@ msgstr "impossible d'initialiser mod_tcpd"
 msgid "can't initialize mod_udpd"
 msgstr "impossible d'initialiser mod_udpd"
 
-#: src/lib/sys/sys-log.c:73
+#: src/lib/sys/sys-log.c:75
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
 
-#: src/lib/sys/sys-log.c:533
+#: src/lib/sys/sys-log.c:535
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:753
+#: src/lib/sys/sys-log.c:766
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:758
+#: src/lib/sys/sys-log.c:771
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:768
+#: src/lib/sys/sys-log.c:781
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:773
+#: src/lib/sys/sys-log.c:786
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:790
+#: src/lib/sys/sys-log.c:803
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:796
+#: src/lib/sys/sys-log.c:809
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:879
+#: src/lib/sys/sys-log.c:892
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:883
+#: src/lib/sys/sys-log.c:896
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 
@@ -457,10 +461,6 @@ msgstr "erreur scheme"
 #: src/scriptpo.c:27
 msgid "running scheme code with Guile"
 msgstr "éxécution de code scheme depuis Guile"
-
-#: src/scriptpo.c:28
-msgid "leaving Guile"
-msgstr "fin de la session Guile"
 
 #: src/scriptpo.c:29
 msgid "catched Guile error"
