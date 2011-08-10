@@ -877,6 +877,7 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 				lw6map_rules_t * rules)
 {
   int32_t i, team_color;
+  int charge_percent;
 
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
@@ -884,7 +885,21 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	  && map_state->cursor_array.cursors[i].fire)
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
-	  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("fire %d"), team_color);
+	  charge_percent =
+	    _lw6ker_team_get_charge_percent (&(map_state->teams[team_color]));
+	  if (charge_percent >= 100)
+	    {
+	      _lw6ker_team_reset_charge (&(map_state->teams[team_color]));
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("fire team_color=%d charge_percent=%d"),
+			  team_color, charge_percent);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("can't fire not enough charge for color %d"),
+			  team_color);
+	    }
 	}
       map_state->cursor_array.cursors[i].fire = 0;
     }
@@ -1068,5 +1083,62 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 	{
 	  armies->frags[i] += delta_frags[i];
 	}
+    }
+}
+
+void
+_lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
+			  lw6map_rules_t * rules)
+{
+  int32_t team_color;
+  int charge_incr = 0;
+  int charge_percent = 0;
+  int charge_max = 0;
+  int nb_teams;
+
+  nb_teams = _lw6ker_map_state_get_nb_teams (map_state);
+  charge_max =
+    lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
+
+  if (rules->weapon_charge_delay > 0 && rules->rounds_per_sec > 0)
+    {
+      if (nb_teams > 0)
+	{
+	  for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS; ++team_color)
+	    {
+	      if (map_state->teams[team_color].active)
+		{
+		  charge_incr =
+		    _LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay *
+					    rules->rounds_per_sec);
+		  if (map_state->armies.active_fighters > 0)
+		    {
+		      charge_percent =
+			(map_state->armies.fighters_per_team[team_color] *
+			 nb_teams * 100) / map_state->armies.active_fighters;
+		    }
+		  else
+		    {
+		      charge_percent = 100;
+		    }
+		  charge_percent = (charge_percent + 100) / 2;
+		  charge_incr = lw6ker_percent (charge_incr, charge_percent);
+		  map_state->teams[team_color].charge += charge_incr;
+		  map_state->teams[team_color].charge =
+		    lw6sys_min (map_state->teams[team_color].charge,
+				charge_max);
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("new charge for team %d is %d"),
+			      team_color,
+			      map_state->teams[team_color].charge);
+		}
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"),
+		  rules->weapon_charge_delay, rules->rounds_per_sec);
     }
 }

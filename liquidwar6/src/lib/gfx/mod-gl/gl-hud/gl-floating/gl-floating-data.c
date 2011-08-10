@@ -46,6 +46,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 
   if (!strcmp (element, "int"))
     {
+      lw6cfg_read_xml_int (key, value, "gauge-heartbeat-period",
+			   &const_data->gauge_heartbeat_period);
       lw6cfg_read_xml_int (key, value, "gauge-slices",
 			   &const_data->gauge_slices);
       lw6cfg_read_xml_int (key, value, "gauge-loops",
@@ -88,6 +90,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->gauge_relative_percent_y1);
       lw6cfg_read_xml_float (key, value, "gauge-relative-frags-y1",
 			     &const_data->gauge_relative_frags_y1);
+      lw6cfg_read_xml_float (key, value, "gauge-relative-heartbeat-min",
+			     &const_data->gauge_relative_heartbeat_min);
+      lw6cfg_read_xml_float (key, value, "gauge-relative-heartbeat-max",
+			     &const_data->gauge_relative_heartbeat_max);
       lw6cfg_read_xml_float (key, value, "gauge-start",
 			     &const_data->gauge_start);
       lw6cfg_read_xml_float (key, value, "gauge-sweep",

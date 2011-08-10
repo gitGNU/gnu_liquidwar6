@@ -863,7 +863,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	    {
 	      map_struct->places[_lw6ker_map_struct_place_index
 				 (map_struct, x, y)].act_incr =
-		LW6KER_ACT_LIMIT;
+		_LW6KER_ACT_LIMIT;
 	      /*
 	       * no need to set health_correction to 0, was done 
 	       * by the CALLOC
@@ -876,7 +876,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	{
 	  if (lw6sys_shape_is_same_xy (&level->body.glue.shape, &shape))
 	    {
-	      act_incr_min = LW6KER_ACT_LIMIT / glue_power;
+	      act_incr_min = _LW6KER_ACT_LIMIT / glue_power;
 	      for (y = 0; y < shape.h; ++y)
 		{
 		  for (x = 0; x < shape.w; ++x)
@@ -884,9 +884,9 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 		      meta_layer_value =
 			lw6map_meta_layer_get (&level->body.glue, x, y);
 		      act_incr =
-			((0xFF - meta_layer_value) * LW6KER_ACT_LIMIT +
+			((0xFF - meta_layer_value) * _LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_min) / 0xFF -
-			LW6KER_ACT_LIMIT;
+			_LW6KER_ACT_LIMIT;
 		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x, y)].act_incr +=
 			act_incr;
@@ -900,7 +900,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	{
 	  if (lw6sys_shape_is_same_xy (&level->body.boost.shape, &shape))
 	    {
-	      act_incr_max = LW6KER_ACT_LIMIT * boost_power;
+	      act_incr_max = _LW6KER_ACT_LIMIT * boost_power;
 	      for (y = 0; y < shape.h; ++y)
 		{
 		  for (x = 0; x < shape.w; ++x)
@@ -908,9 +908,9 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 		      meta_layer_value =
 			lw6map_meta_layer_get (&level->body.boost, x, y);
 		      act_incr =
-			((0xFF - meta_layer_value) * LW6KER_ACT_LIMIT +
+			((0xFF - meta_layer_value) * _LW6KER_ACT_LIMIT +
 			 meta_layer_value * act_incr_max) / 0xFF -
-			LW6KER_ACT_LIMIT;
+			_LW6KER_ACT_LIMIT;
 		      map_struct->places[_lw6ker_map_struct_place_index
 					 (map_struct, x, y)].act_incr +=
 			act_incr;

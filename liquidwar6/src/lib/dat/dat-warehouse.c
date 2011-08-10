@@ -31,16 +31,27 @@ _lw6dat_warehouse_new (u_int64_t local_node_id)
 {
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
+  int stack_index = 0;
 
   warehouse =
     (_lw6dat_warehouse_t *) LW6SYS_CALLOC (sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
-      if (_lw6dat_stack_init
-	  (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id,
-	   _LW6DAT_SERIAL_START))
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
 	{
-	  ok = 1;
+	  if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
+	    {
+	      if (_lw6dat_stack_init
+		  (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
+		   local_node_id, _LW6DAT_SERIAL_START))
+		{
+		  ok = 1;
+		}
+	    }
+	  else
+	    {
+	      _lw6dat_stack_clear (&(warehouse->stacks[stack_index]));
+	    }
 	}
     }
   if (warehouse && !ok)
@@ -72,6 +83,7 @@ lw6dat_warehouse_new (u_int64_t local_node_id)
 void
 _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
 {
+  _lw6dat_warehouse_purge (warehouse);
   LW6SYS_FREE (warehouse);
 }
 
@@ -88,4 +100,149 @@ void
 lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse)
 {
   _lw6dat_warehouse_free ((_lw6dat_warehouse_t *) warehouse);
+}
+
+void
+_lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
+{
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      _lw6dat_stack_purge (&(warehouse->stacks[i]));
+    }
+}
+
+/**
+ * lw6dat_warehouse_purge
+ *
+ * @warehouse: the object to purge
+ *
+ * Purges a warehouse object.
+ *
+ * Return value: new object, allocated dynamically
+ */
+void
+lw6dat_warehouse_purge (lw6dat_warehouse_t * warehouse)
+{
+  _lw6dat_warehouse_purge ((_lw6dat_warehouse_t *) warehouse);
+}
+
+int
+_lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
+				   u_int64_t node_id)
+{
+  int ret = -1;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS && ret < 0; ++i)
+    {
+      if (warehouse->stacks[i].node_id == node_id)
+	{
+	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+  int stack_index;
+
+  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
+    {
+      if (warehouse->stacks[stack_index].node_id != 0)
+	{
+	  ++ret;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_nb_nodes
+ *
+ * @warehouse: the warehouse object to query.
+ *
+ * Tells how many nodes are registered in the object.
+ *
+ * Return value: integer, number of nodes
+ */
+int
+lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_nb_nodes ((_lw6dat_warehouse_t *) warehouse);
+}
+
+int
+_lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
+				 u_int64_t node_id, int serial_0)
+{
+  int ret = -1;
+  int stack_index;
+
+  ret = _lw6dat_warehouse_get_stack_index (warehouse, node_id);
+  if (ret < 0)
+    {
+      for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS && ret < 0;
+	   ++stack_index)
+	{
+	  if (warehouse->stacks[stack_index].node_id == 0)
+	    {
+	      if (_lw6dat_stack_init
+		  (&(warehouse->stacks[stack_index]), node_id, serial_0))
+		{
+		  ret = stack_index;
+		}
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("registering already registered node"));
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
+			    u_int64_t from,
+			    int serial, int order_i, int order_n, char *text)
+{
+  int stack_index;
+  int ret = 0;
+
+  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, from);
+  if (stack_index < 0)
+    {
+      stack_index = _lw6dat_warehouse_register_node (warehouse, from, serial);
+    }
+  if (stack_index >= 0)
+    {
+      ret =
+	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
+				order_i, order_n, text);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("warehouse is full, too many stacks"));
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
+				char *atom_str_from_serial_i_n_msg)
+{
+  int ret = 0;
+
+  return ret;
 }

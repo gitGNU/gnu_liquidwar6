@@ -42,6 +42,9 @@ typedef struct _mod_gl_hud_floating_const_data_s
   float gauge_relative_percent_only_y1;
   float gauge_relative_percent_y1;
   float gauge_relative_frags_y1;
+  int gauge_heartbeat_period;
+  float gauge_relative_heartbeat_min;
+  float gauge_relative_heartbeat_max;
   int gauge_slices;
   int gauge_loops;
   float gauge_start;

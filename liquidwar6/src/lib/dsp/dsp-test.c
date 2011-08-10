@@ -39,6 +39,7 @@
 #define TEST_FULLSCREEN2 0
 #define TEST_REPEAT_DELAY 200
 #define TEST_REPEAT_INTERVAL 20
+#define TEST_DOUBLE_CLICK 400
 #define TEST_FRAMES_PER_SEC 60
 #define TEST_DISPLAY_BACKGROUND 1
 #define TEST_DISPLAY_MENU 1
@@ -251,6 +252,7 @@ test_display (char *gfx_backend_name)
 		param.video_mode.fullscreen = TEST_FULLSCREEN2;
 		param.misc.repeat_settings.delay = TEST_REPEAT_DELAY;
 		param.misc.repeat_settings.interval = TEST_REPEAT_INTERVAL;
+		param.misc.repeat_settings.double_click = TEST_DOUBLE_CLICK;
 		param.misc.log_timeout = TEST_LOG_TIMEOUT;
 		lw6dsp_update (display, &param);
 		sleep_and_report (display, TEST_SLEEP_LONG);

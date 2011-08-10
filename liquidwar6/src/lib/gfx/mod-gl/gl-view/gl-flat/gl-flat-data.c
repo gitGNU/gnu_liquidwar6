@@ -56,10 +56,12 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 
   if (!strcmp (element, "float"))
     {
-      lw6cfg_read_xml_float (key, value, "cursor-size-min",
-			     &const_data->cursor_size_min);
-      lw6cfg_read_xml_float (key, value, "cursor-size-max",
-			     &const_data->cursor_size_max);
+      lw6cfg_read_xml_float (key, value, "cursor-size",
+			     &const_data->cursor_size);
+      lw6cfg_read_xml_float (key, value, "cursor-size-heartbeat-min",
+			     &const_data->cursor_size_heartbeat_min);
+      lw6cfg_read_xml_float (key, value, "cursor-size-heartbeat-max",
+			     &const_data->cursor_size_heartbeat_max);
       lw6cfg_read_xml_float (key, value, "scroll-limit",
 			     &const_data->scroll_limit);
       lw6cfg_read_xml_float (key, value, "cursor-relative-text-y1",

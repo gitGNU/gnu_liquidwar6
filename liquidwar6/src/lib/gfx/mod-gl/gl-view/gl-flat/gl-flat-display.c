@@ -402,8 +402,9 @@ _display_cursor_bitmap (mod_gl_utils_context_t * utils_context,
 static void
 _display_cursor (mod_gl_utils_context_t * utils_context,
 		 _mod_gl_view_flat_context_t * flat_context,
-		 lw6gui_look_t * look, lw6pil_local_cursor_t * local_cursor,
-		 int i, int x, int y, int even_odd)
+		 lw6gui_look_t * look, lw6ker_game_state_t * game_state,
+		 lw6pil_local_cursor_t * local_cursor, int i, int x, int y,
+		 int even_odd)
 {
 
   float cursor_x = 0.0f;
@@ -458,21 +459,31 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
       cursor_x <= flat_context->viewport.map_visible.x2 &&
       cursor_y <= flat_context->viewport.map_visible.y2)
     {
-      cursor_w = cursor_h =
-	(utils_context->video_mode.width +
-	 utils_context->video_mode.height) *
-	lw6sys_math_heartbeat (mod_gl_utils_timer_get_uptime (utils_context),
-			       flat_context->const_data.
-			       cursor_heartbeat_period,
-			       flat_context->const_data.cursor_size_min,
-			       flat_context->const_data.cursor_size_max) *
-	look->style.cursor_size;
       cursor_avg =
 	(utils_context->video_mode.width +
 	 utils_context->video_mode.height) *
-	((flat_context->const_data.cursor_size_min +
-	  flat_context->const_data.cursor_size_max) / 2.0f) *
-	look->style.cursor_size;
+	flat_context->const_data.cursor_size * look->style.cursor_size;
+      if (lw6ker_game_state_get_charge_percent
+	  (game_state,
+	   flat_context->cursors_context.cursor[i].team_color) >= 100)
+	{
+	  cursor_w = cursor_h =
+	    (utils_context->video_mode.width +
+	     utils_context->video_mode.height) *
+	    lw6sys_math_heartbeat (mod_gl_utils_timer_get_uptime
+				   (utils_context),
+				   flat_context->const_data.
+				   cursor_heartbeat_period,
+				   flat_context->
+				   const_data.cursor_size_heartbeat_min,
+				   flat_context->
+				   const_data.cursor_size_heartbeat_max) *
+	    look->style.cursor_size;
+	}
+      else
+	{
+	  cursor_w = cursor_h = cursor_avg;
+	}
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i,
 		  cursor_x, cursor_y, cursor_w, cursor_h);
@@ -544,8 +555,9 @@ _display_cursors (mod_gl_utils_context_t * utils_context,
 	  blink_state =
 	    lw6sys_math_blink (mod_gl_utils_timer_get_uptime (utils_context),
 			       flat_context->const_data.cursor_blink_period);
-	  _display_cursor (utils_context, flat_context, look, local_cursor, i,
-			   cursor.pos.x, cursor.pos.y, blink_state);
+	  _display_cursor (utils_context, flat_context, look, game_state,
+			   local_cursor, i, cursor.pos.x, cursor.pos.y,
+			   blink_state);
 	}
     }
 }

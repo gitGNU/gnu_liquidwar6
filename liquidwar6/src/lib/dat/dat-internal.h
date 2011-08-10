@@ -41,6 +41,7 @@
  * In extreme cases, could eat up to 4 gigs of RAM.
  */
 #define _LW6DAT_MAX_NB_BLOCKS 500
+#define _LW6DAT_MAX_NB_ATOMS (_LW6DAT_MAX_NB_BLOCKS*_LW6DAT_NB_ATOMS_PER_BLOCK)
 /*
  * Local node messages are in the first stack
  */
@@ -68,6 +69,7 @@ typedef struct _lw6dat_block_s
 {
   int serial_0;
   int serial_n_1;
+  // no nb_atoms, there can be "holes" in the array
   _lw6dat_atom_t atoms[_LW6DAT_NB_ATOMS_PER_BLOCK];
 } _lw6dat_block_t;
 
@@ -76,7 +78,7 @@ typedef struct _lw6dat_stack_s
   u_int64_t node_id;
   int serial_0;
   int serial_n_1;
-  int nb_blocks;
+  // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
 } _lw6dat_stack_t;
 
@@ -97,14 +99,16 @@ extern char *_lw6dat_atom_get_text (_lw6dat_atom_t * atom);
 /* dat-block.c */
 extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
 extern void _lw6dat_block_free (_lw6dat_block_t * block);
-
-static inline _lw6dat_atom_t *
-_lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
+extern int _lw6dat_block_put_atom (_lw6dat_block_t * block,
+				   int serial,
+				   int order_i, int order_n, char *text);
+extern _lw6dat_atom_t *_lw6dat_block_get_atom (_lw6dat_block_t * block,
+					       int serial);
+static inline int
+_lw6dat_block_get_atom_index (_lw6dat_block_t * block, int serial)
 {
   return (serial >= block->serial_0
-	  && serial <=
-	  block->serial_n_1) ? &(block->atoms[serial -
-					      block->serial_0]) : NULL;
+	  && serial <= block->serial_n_1) ? serial - block->serial_0 : -1;
 }
 
 /* dat-flag.c */
@@ -117,28 +121,35 @@ _lw6dat_flag (int index)
 /* dat-stack.c */
 extern void _lw6dat_stack_zero (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
+extern void _lw6dat_stack_purge (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
 			       int serial_0);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
-				   char *atom_str_serial_i_n_msg);
-
-static inline _lw6dat_atom_t *
-_lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
+				   int serial,
+				   int order_i, int order_n, char *text);
+extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
+					       int serial);
+static inline int
+_lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 {
-  int i = serial - stack->serial_0;
-
-  return (serial >= stack->serial_0
-	  && serial <=
-	  stack->serial_n_1) ? &(stack->blocks[i /
-					       _LW6DAT_NB_ATOMS_PER_BLOCK]->
-				 atoms[i %
-				       _LW6DAT_NB_ATOMS_PER_BLOCK]) : NULL;
+  return (serial >= stack->serial_0)
+    ? (serial - stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK : -1;
 }
 
 /* dat-warehouse.c */
 extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
-extern int _lw6dat_warehouse_put_atom (_lw6dat_stack_t * stack,
-				       char *atom_str_from_serial_i_n_msg);
+extern void _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse);
+extern int _lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse);
+extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
+					      u_int64_t node_id);
+extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
+					    u_int64_t node_id, int serial_0);
+extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
+				       u_int64_t from, int serial,
+				       int order_i, int order_n, char *text);
+extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
+					   char
+					   *atom_str_from_serial_i_n_msg);
 
 #endif

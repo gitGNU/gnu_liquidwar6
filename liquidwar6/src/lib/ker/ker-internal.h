@@ -29,6 +29,9 @@
 #define _LW6KER_STRAIGHT_DIR_DOWN 0x04;
 #define _LW6KER_STRAIGHT_DIR_LEFT 0x08;
 
+#define _LW6KER_ACT_LIMIT 100
+#define _LW6KER_CHARGE_LIMIT 1000000
+
 typedef int32_t _lw6ker_tables_move_offset_t[LW6KER_NB_DIRS];
 typedef int32_t _lw6ker_tables_move_dir_tries_t[LW6MAP_MAX_NB_DIR_TRIES];
 typedef _lw6ker_tables_move_dir_tries_t
@@ -164,6 +167,7 @@ typedef struct _lw6ker_team_s
   _lw6ker_zone_state_t *gradient;
   int32_t cursor_ref_pot;
   int32_t last_spread_dir;
+  int32_t charge;
 }
 _lw6ker_team_t;
 
@@ -641,6 +645,8 @@ extern void _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 					     u_int32_t team_mask);
 extern void _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 					    lw6map_rules_t * rules);
+extern void _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
+				      lw6map_rules_t * rules);
 
 /*
  * In mapstruct.c
@@ -820,6 +826,8 @@ extern void _lw6ker_team_activate (_lw6ker_team_t * team, lw6sys_xyz_t pos);
 extern void _lw6ker_team_unactivate (_lw6ker_team_t * team);
 extern void _lw6ker_team_normalize_pot (_lw6ker_team_t * team,
 					lw6map_rules_t * rules);
+extern int _lw6ker_team_get_charge_percent (_lw6ker_team_t * team);
+extern void _lw6ker_team_reset_charge (_lw6ker_team_t * team);
 
 /*
  * In slotstate.c
@@ -841,6 +849,43 @@ extern void _lw6ker_slot_struct_update_checksum (_lw6ker_slot_struct_t *
 extern int32_t _lw6ker_spread_next_dir (int32_t dir);
 extern void _lw6ker_spread_update_gradient (_lw6ker_team_t * team,
 					    int skip_vertical);
+
+/* ker-weapon.c */
+extern void _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
+				 lw6map_rules_t * rules, int team_color,
+				 int charge_percent);
+extern void _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
+					    lw6map_rules_t * rules,
+					    int team_color,
+					    int charge_percent);
+extern void _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
+					lw6map_rules_t * rules,
+					int team_color, int charge_percent);
+extern void _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
+				       lw6map_rules_t * rules, int team_color,
+				       int charge_percent);
+extern void _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
+					  lw6map_rules_t * rules,
+					  int team_color, int charge_percent);
+extern void _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
+					lw6map_rules_t * rules,
+					int team_color, int charge_percent);
+extern void _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
+					 lw6map_rules_t * rules,
+					 int team_color, int charge_percent);
+extern void _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
+				     lw6map_rules_t * rules, int team_color,
+				     int charge_percent);
+extern void _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
+				     lw6map_rules_t * rules, int team_color,
+				     int charge_percent);
+extern void _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
+					 lw6map_rules_t * rules,
+					 int team_color, int charge_percent);
+extern void _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
+					     lw6map_rules_t * rules,
+					     int team_color,
+					     int charge_percent);
 
 /*
  * In zonestate.c

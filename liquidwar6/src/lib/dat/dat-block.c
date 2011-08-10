@@ -44,5 +44,98 @@ _lw6dat_block_new (int serial_0)
 void
 _lw6dat_block_free (_lw6dat_block_t * block)
 {
+  int i;
+
+  for (i = 0; i < _LW6DAT_NB_ATOMS_PER_BLOCK; ++i)
+    {
+      _lw6dat_atom_clear (&(block->atoms[i]));
+    }
   LW6SYS_FREE (block);
+}
+
+int
+_lw6dat_block_put_atom (_lw6dat_block_t * block,
+			int serial, int order_i, int order_n, char *text)
+{
+  int ret = 0;
+  _lw6dat_atom_t *atom;
+  char *old_text = NULL;
+
+  if (serial >= block->serial_0 && serial <= block->serial_n_1)
+    {
+      atom = &(block->atoms[serial - block->serial_0]);
+      old_text = _lw6dat_atom_get_text (atom);
+      if (old_text)
+	{
+	  if (strcmp (old_text, text) || order_i != atom->order_i
+	      || order_n != atom->order_n || serial != atom->serial)
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("inconsistency, atom set twice atom->serial=%d atom->order_i=%d atom->order_n=%d atom->text=\"%s\" but serial=%d order_i=%d order_n=%d text=\"%s\""),
+			  atom->serial, atom->order_i, atom->order_n,
+			  old_text, serial, order_i, order_n, text);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("receiving same atom serial=%d order_i=%d order_n=%d text=\"%s\""),
+			  serial, order_i, order_n, text);
+	      ret = 1;
+	    }
+	}
+      else
+	{
+	  ret = _lw6dat_atom_set_text (atom, text);
+	  if (ret)
+	    {
+	      atom->serial = serial;
+	      atom->order_i = order_i;
+	      atom->order_n = order_n;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("couldn't set atom text"));
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_
+		  ("serial out of range serial=%d block->serial_0=%d block->serial_n_1=%d"),
+		  serial, block->serial_0, block->serial_n_1);
+    }
+
+  return ret;
+}
+
+_lw6dat_atom_t *
+_lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
+{
+  int atom_index;
+  _lw6dat_atom_t *atom = NULL;
+
+  atom_index = _lw6dat_block_get_atom_index (block, serial);
+  if (atom_index >= 0 && atom_index < _LW6DAT_NB_ATOMS_PER_BLOCK)
+    {
+      if (block->atoms[atom_index].not_null)
+	{
+	  atom = &(block->atoms[atom_index]);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("no atom defined at atom_index=%d for serial %d"),
+		      atom_index, serial);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("bad atom_index=%d for serial %d"),
+		  atom_index, serial);
+    }
+
+  return atom;
 }

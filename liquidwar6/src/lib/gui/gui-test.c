@@ -65,6 +65,7 @@
 #define TEST_LABEL "fake A letter"
 #define TEST_REPEAT_DELAY 100
 #define TEST_REPEAT_INTERVAL 10
+#define TEST_REPEAT_DOUBLE_CLICK 200
 #define TEST_MOUSE_X 12
 #define TEST_MOUSE_Y 34
 #define TEST_JOYSTICK_LIMIT 20
@@ -116,6 +117,7 @@
 #define TEST_SMOOTHER_VALUE2 100.0f
 #define TEST_SMOOTHER_VALUE3 -1000.0f
 #define TEST_SMOOTHER_VALUE4 421.0f
+#define TEST_TIMESTAMP 1000000000000LL
 
 /*
  * Testing button
@@ -127,27 +129,69 @@ test_button ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int ticks = 0;
+    u_int64_t timestamp = TEST_TIMESTAMP;
     lw6gui_button_t button;
+    lw6gui_repeat_settings_t repeat_settings;
+
+    repeat_settings.delay = TEST_REPEAT_DELAY;
+    repeat_settings.interval = TEST_REPEAT_INTERVAL;
+    repeat_settings.double_click = TEST_REPEAT_DOUBLE_CLICK;
 
     memset (&button, 0, sizeof (lw6gui_button_t));
 
-    lw6gui_button_register_down (&button, ticks++);
+    lw6gui_button_register_down (&button, timestamp++);
     lw6gui_button_register_up (&button);
     if (!lw6gui_button_is_pressed (&button))
       {
 	if (lw6gui_button_pop_press (&button))
 	  {
-	    // ok
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("button press buffer works"));
 	  }
 	else
 	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("button press buffer problem"));
 	    ret = 0;
 	  }
       }
     else
       {
 	ret = 0;
+      }
+    if (ret)
+      {
+	ret = 0;
+	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp);
+	if (!lw6gui_button_pop_double_click (&button))
+	  {
+	    lw6gui_button_register_down (&button, timestamp++);
+	    lw6gui_button_update_repeat (&button, &repeat_settings,
+					 timestamp);
+	    if (lw6gui_button_pop_double_click (&button))
+	      {
+		if (!lw6gui_button_pop_double_click (&button))
+		  {
+		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK;
+		    lw6gui_button_register_down (&button, timestamp);
+		    lw6gui_button_update_repeat (&button, &repeat_settings,
+						 timestamp);
+		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK;
+		    lw6gui_button_register_down (&button, timestamp);
+		    lw6gui_button_update_repeat (&button, &repeat_settings,
+						 timestamp);
+		    if (!lw6gui_button_pop_double_click (&button))
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("double click works"));
+			ret = 1;
+		      }
+		  }
+	      }
+	  }
+	if (!ret)
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("double click problem"));
+	  }
       }
   }
 
@@ -219,6 +263,7 @@ test_input ()
 	      {
 		repeat_settings.delay = TEST_REPEAT_DELAY;
 		repeat_settings.interval = TEST_REPEAT_INTERVAL;
+		repeat_settings.double_click = TEST_REPEAT_DOUBLE_CLICK;
 		lw6gui_input_update_repeat (src, &repeat_settings, 0);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("need_sync (before sync) dst=%d src=%d"),

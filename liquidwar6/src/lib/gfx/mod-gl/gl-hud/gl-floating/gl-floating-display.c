@@ -68,6 +68,7 @@ display_gauges (mod_gl_utils_context_t * utils_context,
   float size_factor_screen =
     sqrt (utils_context->video_mode.width * utils_context->video_mode.height);
   float size_factor_score;
+  float size_factor_heartbeat;
   float size_factor;
   float ratio;
   float inner, outer;
@@ -98,7 +99,22 @@ display_gauges (mod_gl_utils_context_t * utils_context,
 		ratio * floating_context->const_data.gauge_max_size + (1.0f -
 								       ratio)
 		* floating_context->const_data.gauge_min_size;
-	      size_factor = size_factor_screen * size_factor_score;
+	      size_factor_heartbeat = (lw6ker_game_state_get_charge_percent
+				       (floating_context->game_state,
+					team_color) >=
+				       100) ?
+		lw6sys_math_heartbeat (mod_gl_utils_timer_get_uptime
+				       (utils_context),
+				       floating_context->const_data.
+				       gauge_heartbeat_period,
+				       floating_context->
+				       const_data.gauge_relative_heartbeat_min,
+				       floating_context->
+				       const_data.gauge_relative_heartbeat_max)
+		: 1.0f;
+	      size_factor =
+		size_factor_screen * size_factor_score *
+		size_factor_heartbeat;
 	      w = size_factor;
 	      h = size_factor;
 

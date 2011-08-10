@@ -448,9 +448,9 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 							 rules.team_profile_fast
 							 [lc.fighter_team_color])
 	    : lc.place_struct->act_incr;
-	  while (lc.fighter->act_counter >= LW6KER_ACT_LIMIT)
+	  while (lc.fighter->act_counter >= _LW6KER_ACT_LIMIT)
 	    {
-	      lc.fighter->act_counter -= LW6KER_ACT_LIMIT;
+	      lc.fighter->act_counter -= _LW6KER_ACT_LIMIT;
 	      lc.done_with_fighter = 0;
 
 	      lc.x = lc.fighter_x = lc.fighter->pos.x;
@@ -690,7 +690,7 @@ _lw6ker_move_get_best_next_pos (_lw6ker_game_state_t * game_state,
 	}
       else
 	{
-	  for (i = LW6KER_NB_DIRS; i >= 0; --i)
+	  for (i = LW6KER_NB_DIRS - 1; i >= 0; --i)
 	    {
 	      neighbour_zone_id = fighter_zone_struct->link[i];
 	      if (neighbour_zone_id >= 0)

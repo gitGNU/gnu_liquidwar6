@@ -105,13 +105,17 @@
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (mouse-state (c-lw6gui-mouse-poll-move dsp))
-	 (fire (or (c-lw6gui-mouse-pop-button-left dsp) (hash-ref cursor "fire")))
+	 (fire (or (c-lw6gui-mouse-pop-double-click dsp) (hash-ref cursor "fire")))
 	 (map-x (assoc-ref mouse-state "map-x"))
 	 (map-y (assoc-ref mouse-state "map-y"))
 	 (menu-esc (assoc-ref mouse-state "menu-esc"))
 	 )
       (if (or mouse-state (hash-ref cursor "mouse-controlled") fire)
 	  (begin
+	    ;; OK this ain't clean but until there's proper
+	    ;; map drag support, we do this to avoid in-game
+	    ;; menu popping arround
+	    (c-lw6gui-mouse-pop-button-left dsp)
 	    (if (not mouse-state)
 		(begin
 		  (set! mouse-state (c-lw6gui-mouse-get-state dsp))

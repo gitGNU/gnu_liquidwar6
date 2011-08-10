@@ -390,9 +390,19 @@ Wrapper on lw6gui_mouse_poll_move.
 Wrapper on lw6gui_mouse_pop_button_left.
 @end deffn
 
+@subsection c-lw6gui-mouse-pop-button-middle
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-button-middle}
+Wrapper on lw6gui_mouse_pop_button_middle.
+@end deffn
+
 @subsection c-lw6gui-mouse-pop-button-right
 @deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-button-right}
 Wrapper on lw6gui_mouse_pop_button_right.
+@end deffn
+
+@subsection c-lw6gui-mouse-pop-double-click
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-double-click}
+Wrapper on lw6gui_mouse_pop_double_click.
 @end deffn
 
 @subsection c-lw6gui-mouse-pop-wheel-down

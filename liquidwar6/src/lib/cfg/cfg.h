@@ -73,6 +73,10 @@ extern void lw6cfg_set_option_bool (void *cfg_context, char *key, int value);
 extern int lw6cfg_must_be_saved (char *option);
 extern int lw6cfg_save (void *cfg_context, char *filename);
 
+/* cfg-score.c */
+extern int lw6cfg_load_score (char *user_dir, int *score);
+extern int lw6cfg_save_score (char *user_dir, int score);
+
 /*
  * In setup.c
  */

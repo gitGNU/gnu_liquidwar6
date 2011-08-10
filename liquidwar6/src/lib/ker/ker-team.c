@@ -43,6 +43,7 @@ _lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
 					    sizeof (_lw6ker_zone_state_t));
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
+  // team->charge is set to 0 because of CALLOC
 
   if (team->gradient)
     {
@@ -94,6 +95,7 @@ _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
 	      src->map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
       dst->cursor_ref_pot = src->cursor_ref_pot;
       dst->last_spread_dir = src->last_spread_dir;
+      dst->charge = src->charge;
       ret = 1;
     }
   else
@@ -119,6 +121,7 @@ _lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
     }
   lw6sys_checksum_update_int32 (checksum, team->cursor_ref_pot);
   lw6sys_checksum_update_int32 (checksum, team->last_spread_dir);
+  lw6sys_checksum_update_int32 (checksum, team->charge);
 }
 
 void
@@ -131,6 +134,7 @@ void
 _lw6ker_team_unactivate (_lw6ker_team_t * team)
 {
   team->active = 0;
+  team->charge = 0;
 }
 
 void
@@ -179,4 +183,23 @@ _lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
 		  team->cursor_ref_pot, max_pot, delta);
       team->cursor_ref_pot = rules->cursor_pot_init;
     }
+}
+
+int
+_lw6ker_team_get_charge_percent (_lw6ker_team_t * team)
+{
+  int ret = 0;
+
+  if (team->active)
+    {
+      ret = (team->charge * 100) / _LW6KER_CHARGE_LIMIT;
+    }
+
+  return ret;
+}
+
+void
+_lw6ker_team_reset_charge (_lw6ker_team_t * team)
+{
+  team->charge = 0;
 }

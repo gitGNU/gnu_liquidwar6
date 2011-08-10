@@ -112,6 +112,18 @@ Default value: (c-lw6gui-keyboard-is-pressed 101) ; SDLK_e
 Custom keycode to be used as the UP key equivalent.
 @end deffn
 
+@subsection double-click
+@deffn {Command-line option} @code{--double-click=<value>}
+@deffnx {Environment variable} @code{LW6_DOUBLE_CLICK}
+@deffnx {XML key} @code{double-click}
+Type: integer
+
+Default value: 200
+
+Time, in milliseconds, determining wether two consecutive clicks make a
+double-click or not.
+@end deffn
+
 @subsection max-cursor-speed
 @deffn {Command-line option} @code{--max-cursor-speed=<value>}
 @deffnx {Environment variable} @code{LW6_MAX_CURSOR_SPEED}
@@ -145,7 +157,7 @@ Type: integer
 
 Default value: 500
 
-Time, in milliseconds, before key repeat will start.
+Time, in milliseconds, before key repeat will start, use 0 to disable.
 @end deffn
 
 @subsection repeat-interval
@@ -156,7 +168,8 @@ Type: integer
 
 Default value: 100
 
-Time, in milliseconds, between two repeats, once repeat has started.
+Time, in milliseconds, between two repeats, once repeat has started, use 0 to
+disable.
 @end deffn
 
 @subsection use-esc-button

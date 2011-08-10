@@ -276,6 +276,7 @@ update_input (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MAX_CURSOR_SPEED);
   lw6sys_list_push_back (list, LW6DEF_REPEAT_DELAY);
   lw6sys_list_push_back (list, LW6DEF_REPEAT_INTERVAL);
+  lw6sys_list_push_back (list, LW6DEF_DOUBLE_CLICK);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_UP);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_DOWN);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_LEFT);
@@ -527,6 +528,29 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_FAST);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_FAST);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_WEAPON_MODE);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_DURATION);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_DELAY);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_MAX);
 
   return ((*list) != NULL);
 }
@@ -823,6 +847,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP);

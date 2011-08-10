@@ -33,6 +33,7 @@
 #define TEST_ARGV2 "--width=800"
 #define TEST_UNIFIED_KEY_YES LW6DEF_WIDTH
 #define TEST_UNIFIED_KEY_NO "unknown"
+#define TEST_SCORE_DIR "/tmp"
 
 /*
  * Testing loading/saving
@@ -130,6 +131,51 @@ test_unified ()
   return ret;
 }
 
+/*
+ * Test score functions
+ */
+static int
+test_score ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int score = 0;
+    int new_score = 0;
+
+    lw6cfg_load_score (TEST_SCORE_DIR, &score);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("first score read score=%d"), score);
+    if (lw6cfg_save_score (TEST_SCORE_DIR, score))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("score saved"));
+	if (lw6cfg_load_score (TEST_SCORE_DIR, &new_score))
+	  {
+	    if (new_score == score)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("new score read score=%d"), new_score);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("wrong new score should be %d but is %d"),
+			    score, new_score);
+		ret = 0;
+	      }
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to save score"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6cfg_test
  *
@@ -153,6 +199,11 @@ lw6cfg_test (int mode)
     }
 
   ret = test_load_save () && test_unified ();
+
+  if (mode)
+    {
+      ret = ret && test_score ();
+    }
 
   return ret;
 }

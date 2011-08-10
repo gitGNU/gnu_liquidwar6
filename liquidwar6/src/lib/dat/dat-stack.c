@@ -40,7 +40,23 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->node_id = 0;
   stack->serial_0 = 0;
   stack->serial_n_1 = -1;
-  stack->nb_blocks = 0;
+  for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
+    {
+      if (stack->blocks[i])
+	{
+	  _lw6dat_block_free (stack->blocks[i]);
+	  stack->blocks[i] = NULL;
+	}
+    }
+}
+
+void
+_lw6dat_stack_purge (_lw6dat_stack_t * stack)
+{
+  int i = 0;
+
+  stack->serial_0 = stack->serial_n_1;
+  stack->serial_n_1 = stack->serial_0 - 1;
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -66,4 +82,81 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
     }
 
   return ret;
+}
+
+int
+_lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
+			int serial, int order_i, int order_n, char *text)
+{
+  int ret = 0;
+
+  int block_index;
+  _lw6dat_block_t *block = NULL;
+
+  if (serial >= stack->serial_0)
+    {
+      block_index = _lw6dat_stack_get_block_index (stack, serial);
+      if (block_index >= 0 && block_index < _LW6DAT_MAX_NB_BLOCKS)
+	{
+	  block = stack->blocks[block_index];
+	  if (!block)
+	    {
+	      stack->blocks[block_index] =
+		_lw6dat_block_new (stack->serial_0 +
+				   block_index * _LW6DAT_NB_ATOMS_PER_BLOCK);
+	      block = stack->blocks[block_index];
+	    }
+	  if (block)
+	    {
+	      stack->serial_n_1 =
+		lw6sys_max (stack->serial_n_1, block->serial_n_1);
+	      ret =
+		_lw6dat_block_put_atom (block, serial, order_i, order_n,
+					text);
+	      if (!ret)
+		{
+		  TMP ("ret0");
+		}
+	    }
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("serial out of range serial=%d stack->serial_0=%d"),
+		  serial, stack->serial_0);
+    }
+
+  return ret;
+}
+
+_lw6dat_atom_t *
+_lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
+{
+  int block_index;
+  _lw6dat_block_t *block = NULL;
+  _lw6dat_atom_t *atom = NULL;
+
+  block_index = _lw6dat_stack_get_block_index (stack, serial);
+  if (block_index >= 0 && block_index < _LW6DAT_MAX_NB_BLOCKS)
+    {
+      block = stack->blocks[block_index];
+      if (block)
+	{
+	  atom = _lw6dat_block_get_atom (block, serial);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _("no block defined at block_index=%d for serial %d"),
+		      block_index, serial);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _("bad block_index=%d for serial %d"),
+		  block_index, serial);
+    }
+
+  return atom;
 }

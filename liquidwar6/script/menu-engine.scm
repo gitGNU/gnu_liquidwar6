@@ -498,7 +498,7 @@
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (lw6-next-menuitem #f)))
 	      ((> menu-scroll 0)
-	       (if (c-lw6gui-mouse-pop-button-left
+	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (lw6-prev-menuitem #f)))
 	      (menu-esc
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
@@ -506,7 +506,7 @@
 		    (lw6-menu-action menu "on-cancel")
 		    (lw6-play-fx-beep-valid))))
 	      ))))
-      ))))
+      )))
 
 (define lw6-menu-pump-mouse
   (lambda ()

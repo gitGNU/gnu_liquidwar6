@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <liquidwar6>
-  <float key="cursor-size-min" value="0.015" />
-  <float key="cursor-size-max" value="0.020" />
+  <float key="cursor-size" value="0.015" />
+  <float key="cursor-size-heartbeat-min" value="0.012" />
+  <float key="cursor-size-heartbeat-max" value="0.020" />
   <float key="scroll-limit" value="0.25" />
   <int key="scroll-min-offset" value="1" />
   <int key="cursor-blink-period" value="500" />

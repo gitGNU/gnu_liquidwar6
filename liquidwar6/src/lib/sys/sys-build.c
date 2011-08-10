@@ -241,7 +241,7 @@ lw6sys_build_get_configure_args ()
 char *
 lw6sys_build_get_gcc_version ()
 {
-#ifdef __GNUC__x_
+#ifdef __GNUC__
   return __VERSION__;
 #else
   return "?";

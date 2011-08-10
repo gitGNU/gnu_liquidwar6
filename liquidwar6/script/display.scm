@@ -52,6 +52,7 @@
 		   lw6def-debug-layer-id
 		   lw6def-repeat-delay
 		   lw6def-repeat-interval
+		   lw6def-double-click
 		   lw6def-log-timeout
 		   lw6def-width
 		   lw6def-height

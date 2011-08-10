@@ -917,6 +917,34 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-blue-weapon-id
+@deffn {Command-line option} @code{--team-profile-blue-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-blue-weapon-id}
+Type: integer
+
+Default value: 2
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the blue team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-blue-weapon-mode
+@deffn {Command-line option} @code{--team-profile-blue-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-blue-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for blue team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-cyan-aggressive
 @deffn {Command-line option} @code{--team-profile-cyan-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_AGGRESSIVE}
@@ -978,6 +1006,34 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-cyan-weapon-id
+@deffn {Command-line option} @code{--team-profile-cyan-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-cyan-weapon-id}
+Type: integer
+
+Default value: 4
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the cyan team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-cyan-weapon-mode
+@deffn {Command-line option} @code{--team-profile-cyan-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-cyan-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for cyan team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-green-aggressive
 @deffn {Command-line option} @code{--team-profile-green-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_AGGRESSIVE}
@@ -1037,6 +1093,34 @@ Max value: 1000
 Defines how vulnerable the green team is. This is a percentage, if set to 200
 then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-green-weapon-id
+@deffn {Command-line option} @code{--team-profile-green-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-green-weapon-id}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the green team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-green-weapon-mode
+@deffn {Command-line option} @code{--team-profile-green-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-green-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for green team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
 @end deffn
 
 @subsection team-profile-lightblue-aggressive
@@ -1101,6 +1185,34 @@ Defines how vulnerable the lightblue team is. This is a percentage, if set to
 default value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-lightblue-weapon-id
+@deffn {Command-line option} @code{--team-profile-lightblue-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-lightblue-weapon-id}
+Type: integer
+
+Default value: 7
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the lightblue team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-lightblue-weapon-mode
+@deffn {Command-line option} @code{--team-profile-lightblue-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-lightblue-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for lightblue team. 0 means there's no weapon, 1 means one weapon
+per team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-magenta-aggressive
 @deffn {Command-line option} @code{--team-profile-magenta-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_AGGRESSIVE}
@@ -1160,6 +1272,34 @@ Max value: 1000
 Defines how vulnerable the magenta team is. This is a percentage, if set to
 200 then team will be attacked twice as much as any other team with the
 default value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-magenta-weapon-id
+@deffn {Command-line option} @code{--team-profile-magenta-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-magenta-weapon-id}
+Type: integer
+
+Default value: 5
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the magenta team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-magenta-weapon-mode
+@deffn {Command-line option} @code{--team-profile-magenta-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-magenta-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for magenta team. 0 means there's no weapon, 1 means one weapon
+per team, defined by the weapon-id parameter, 2 means random weapon.
 @end deffn
 
 @subsection team-profile-orange-aggressive
@@ -1223,6 +1363,34 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-orange-weapon-id
+@deffn {Command-line option} @code{--team-profile-orange-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-orange-weapon-id}
+Type: integer
+
+Default value: 6
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the orange team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-orange-weapon-mode
+@deffn {Command-line option} @code{--team-profile-orange-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-orange-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for orange team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-pink-aggressive
 @deffn {Command-line option} @code{--team-profile-pink-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_AGGRESSIVE}
@@ -1282,6 +1450,34 @@ Max value: 1000
 Defines how vulnerable the pink team is. This is a percentage, if set to 200
 then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-pink-weapon-id
+@deffn {Command-line option} @code{--team-profile-pink-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-pink-weapon-id}
+Type: integer
+
+Default value: 9
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the pink team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-pink-weapon-mode
+@deffn {Command-line option} @code{--team-profile-pink-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-pink-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for pink team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
 @end deffn
 
 @subsection team-profile-purple-aggressive
@@ -1345,6 +1541,34 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-purple-weapon-id
+@deffn {Command-line option} @code{--team-profile-purple-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-purple-weapon-id}
+Type: integer
+
+Default value: 8
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the purple team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-purple-weapon-mode
+@deffn {Command-line option} @code{--team-profile-purple-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-purple-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for purple team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-red-aggressive
 @deffn {Command-line option} @code{--team-profile-red-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_AGGRESSIVE}
@@ -1406,6 +1630,34 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-red-weapon-id
+@deffn {Command-line option} @code{--team-profile-red-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-red-weapon-id}
+Type: integer
+
+Default value: 0
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the red team, see the documentation about weapons
+to know what these ids mean.
+@end deffn
+
+@subsection team-profile-red-weapon-mode
+@deffn {Command-line option} @code{--team-profile-red-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-red-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for red team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
+@end deffn
+
 @subsection team-profile-yellow-aggressive
 @deffn {Command-line option} @code{--team-profile-yellow-aggressive=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_AGGRESSIVE}
@@ -1465,6 +1717,34 @@ Max value: 1000
 Defines how vulnerable the yellow team is. This is a percentage, if set to 200
 then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
+@end deffn
+
+@subsection team-profile-yellow-weapon-id
+@deffn {Command-line option} @code{--team-profile-yellow-weapon-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_WEAPON_ID}
+@deffnx {XML key} @code{team-profile-yellow-weapon-id}
+Type: integer
+
+Default value: 3
+Min value: 0
+Max value: 9
+
+Id of the default weapon for the yellow team, see the documentation about
+weapons to know what these ids mean.
+@end deffn
+
+@subsection team-profile-yellow-weapon-mode
+@deffn {Command-line option} @code{--team-profile-yellow-weapon-mode=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_WEAPON_MODE}
+@deffnx {XML key} @code{team-profile-yellow-weapon-mode}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 2
+
+Weapon mode for yellow team. 0 means there's no weapon, 1 means one weapon per
+team, defined by the weapon-id parameter, 2 means random weapon.
 @end deffn
 
 @subsection total-armies-size
@@ -1535,6 +1815,51 @@ Defines when to process a vertical move (along the Z 'depth' axis). If set to
 0, fighters never spontaneously move along this axis. If set to 1, it will be
 tried just after the first move failed. If set to 2, it will be tried just
 after the second move failed. And so on.
+@end deffn
+
+@subsection weapon-charge-delay
+@deffn {Command-line option} @code{--weapon-charge-delay=<value>}
+@deffnx {Environment variable} @code{LW6_WEAPON_CHARGE_DELAY}
+@deffnx {XML key} @code{weapon-charge-delay}
+Type: integer
+
+Default value: 30
+Min value: 1
+Max value: 600
+
+How long it will take for weapons to charge and be usable, by default. Unit is
+seconds.
+@end deffn
+
+@subsection weapon-charge-max
+@deffn {Command-line option} @code{--weapon-charge-max=<value>}
+@deffnx {Environment variable} @code{LW6_WEAPON_CHARGE_MAX}
+@deffnx {XML key} @code{weapon-charge-max}
+Type: integer
+
+Default value: 200
+Min value: 100
+Max value: 1000
+
+Maximum (percentage) of charge intensity that one have. For instance, if this
+is 400, then if you wait four times more than required before firing, then you
+weapon will have four times its default power, but if you wait five times more
+it will still be four times more powerfull, it's just the limit after which
+it's useless to charge.
+@end deffn
+
+@subsection weapon-duration
+@deffn {Command-line option} @code{--weapon-duration=<value>}
+@deffnx {Environment variable} @code{LW6_WEAPON_DURATION}
+@deffnx {XML key} @code{weapon-duration}
+Type: integer
+
+Default value: 3
+Min value: 1
+Max value: 60
+
+How long all weapons (for which duration makes sense) will last. Unit is
+seconds.
 @end deffn
 
 @subsection x-polarity

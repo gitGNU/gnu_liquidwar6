@@ -598,6 +598,18 @@ fighters, however the information can be interesting for debugging.
 @strong{Return value:}  the potential
 @end deftypefun
 
+@deftypefun {int} {lw6ker_game_state_get_charge_percent} (lw6ker_game_state_t * @var{game_state}, int @var{team_color})
+@var{game_state}:  game_state to query
+
+@var{team_color}:  the team color to query
+
+Returns the charge percentage for a given team/color. A value of 100
+means fire is enabled, more than 100 means super-charge, under 100
+means you have to wait...
+
+@strong{Return value:}  a percentage.
+@end deftypefun
+
 @deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_new} (lw6map_level_t * @var{level}, lw6sys_progress_t * @var{progress})
 @var{level}:  the level on which the game_struct is based
 

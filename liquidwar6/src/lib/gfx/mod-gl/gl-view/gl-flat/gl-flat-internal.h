@@ -69,8 +69,9 @@ _mod_gl_view_flat_cursors_context_t;
 
 typedef struct _mod_gl_view_flat_const_data_s
 {
-  float cursor_size_min;
-  float cursor_size_max;
+  float cursor_size;
+  float cursor_size_heartbeat_min;
+  float cursor_size_heartbeat_max;
   float scroll_limit;
   int scroll_min_offset;
   int cursor_blink_period;

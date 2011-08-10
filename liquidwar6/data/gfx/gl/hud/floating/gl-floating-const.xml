@@ -36,8 +36,9 @@
   <float key="gauge-relative-percent-only-y1" value="-30.20" /><!-- The text position when only percentage is show (non deathmach mode) Default: -0.20-->
   <float key="gauge-relative-percent-y1" value="-30.35" /><!-- The text position (percent) when in deathmath mode Default: -0.35-->
   <float key="gauge-relative-frags-y1" value="-0.20" /><!-- The text positino (frags) when in deathmatch mode (negative values = up) Default: -0.05-->
-
-
+  <int key="gauge-heartbeat-period" value="1000" />
+  <float key="gauge-relative-heartbeat-min" value="0.99" />
+  <float key="gauge-relative-heartbeat-max" value="1.05" />
   <int key="gauge-slices" value="20" /><!-- How many lines the
 					    "circle" shall consist of. The value 4 makes it into a square with an
 					    extra leg   default: 20 -->

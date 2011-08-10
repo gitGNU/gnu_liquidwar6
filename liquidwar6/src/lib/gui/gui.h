@@ -90,6 +90,7 @@ typedef struct lw6gui_repeat_settings_s
 {
   int delay;
   int interval;
+  int double_click;
 } lw6gui_repeat_settings_t;
 
 typedef void (*lw6gui_resize_callback_func_t) (lw6gui_video_mode_t *
@@ -125,8 +126,11 @@ typedef struct lw6gui_button_s
 {
   int is_pressed;
   int press_queue;
+  int double_click_queue;
   int64_t last_press;
   int64_t last_repeat;
+  int64_t double_click_t1;
+  int64_t double_click_t2;
 }
 lw6gui_button_t;
 
@@ -158,6 +162,8 @@ typedef struct lw6gui_mouse_s
   int menu_esc;
   lw6gui_button_t button_left;
   lw6gui_button_t button_right;
+  lw6gui_button_t button_middle;
+  lw6gui_button_t double_click;
   lw6gui_button_t wheel_up;
   lw6gui_button_t wheel_down;
 }
@@ -256,6 +262,7 @@ extern void lw6gui_button_register_down (lw6gui_button_t * button,
 extern void lw6gui_button_register_up (lw6gui_button_t * button);
 extern int lw6gui_button_is_pressed (lw6gui_button_t * button);
 extern int lw6gui_button_pop_press (lw6gui_button_t * button);
+extern int lw6gui_button_pop_double_click (lw6gui_button_t * button);
 extern void lw6gui_button_update_repeat (lw6gui_button_t * button,
 					 lw6gui_repeat_settings_t *
 					 repeat_settings, int64_t timestamp);

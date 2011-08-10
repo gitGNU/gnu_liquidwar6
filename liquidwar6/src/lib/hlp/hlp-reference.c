@@ -544,12 +544,17 @@ populate_references ()
 		  ("Maximum cursor speed when cursor is controlled with keyboard or joystick joystick 1. Consider using cursor-sensitivity too."),
 		  10.0, 0, 0);
   POPULATE_INT (LW6DEF_REPEAT_DELAY,
-		_x_ ("Time, in milliseconds, before key repeat will start."),
+		_x_
+		("Time, in milliseconds, before key repeat will start, use 0 to disable."),
 		500, 0, 0);
   POPULATE_INT (LW6DEF_REPEAT_INTERVAL,
 		_x_
-		("Time, in milliseconds, between two repeats, once repeat has started."),
+		("Time, in milliseconds, between two repeats, once repeat has started, use 0 to disable."),
 		100, 0, 0);
+  POPULATE_INT (LW6DEF_DOUBLE_CLICK,
+		_x_
+		("Time, in milliseconds, determining wether two consecutive clicks make a double-click or not."),
+		200, 0, 0);
   POPULATE_STR (LW6DEF_CUSTOM_UP,
 		_x_ ("Custom keycode to be used as the UP key equivalent."),
 		"(c-lw6gui-keyboard-is-pressed 101) ; SDLK_e");
@@ -1543,6 +1548,144 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_FAST,
 		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_FAST,
 		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_FAST);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the red team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the green team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the blue team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the yellow team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the cyan team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the magenta team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the orange team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the lightblue team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the purple team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID,
+		_x_
+		("Id of the default weapon for the pink team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE,
+		_x_
+		("Weapon mode for red team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE,
+		_x_
+		("Weapon mode for green team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE,
+		_x_
+		("Weapon mode for blue team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_MODE,
+		_x_
+		("Weapon mode for yellow team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_WEAPON_MODE,
+		_x_
+		("Weapon mode for cyan team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_MODE,
+		_x_
+		("Weapon mode for magenta team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_MODE,
+		_x_
+		("Weapon mode for orange team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE,
+		_x_
+		("Weapon mode for lightblue team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_MODE,
+		_x_
+		("Weapon mode for purple team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_WEAPON_MODE,
+		_x_
+		("Weapon mode for pink team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_MODE,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_MODE,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_MODE);
+  POPULATE_INT (LW6DEF_WEAPON_DURATION,
+		_x_
+		("How long all weapons (for which duration makes sense) will last. Unit is seconds."),
+		LW6MAP_RULES_DEFAULT_WEAPON_DURATION,
+		LW6MAP_RULES_MIN_WEAPON_DURATION,
+		LW6MAP_RULES_MAX_WEAPON_DURATION);
+  POPULATE_INT (LW6DEF_WEAPON_CHARGE_DELAY,
+		_x_
+		("How long it will take for weapons to charge and be usable, by default. Unit is seconds."),
+		LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_DELAY,
+		LW6MAP_RULES_MIN_WEAPON_CHARGE_DELAY,
+		LW6MAP_RULES_MAX_WEAPON_CHARGE_DELAY);
+  POPULATE_INT (LW6DEF_WEAPON_CHARGE_MAX,
+		_x_
+		("Maximum (percentage) of charge intensity that one have. For instance, if this is 400, then if you wait four times more than required before firing, then you weapon will have four times its default power, but if you wait five times more it will still be four times more powerfull, it's just the limit after which it's useless to charge."),
+		LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_MAX,
+		LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX,
+		LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX);
   /*
    * map hints
    */
@@ -2162,6 +2305,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_mouse_pop_button_left."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT,
 		 _x_ ("Wrapper on lw6gui_mouse_pop_button_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_button_middle."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_double_click."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP,
 		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_up."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN,

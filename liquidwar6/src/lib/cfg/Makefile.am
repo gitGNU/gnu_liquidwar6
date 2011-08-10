@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lexpat
 
 noinst_LTLIBRARIES = libcfg.la
-libcfg_la_SOURCES = cfg-arg.c cfg-defaults.c cfg-env.c cfg-format.c cfg-load.c cfg-option.c cfg-save.c cfg-setup.c cfg-test.c cfg-unified.c cfg-xml.c
+libcfg_la_SOURCES = cfg-arg.c cfg-defaults.c cfg-env.c cfg-format.c cfg-load.c cfg-option.c cfg-save.c cfg-score.c cfg-setup.c cfg-test.c cfg-unified.c cfg-xml.c
 libcfgdir= $(includedir)/@PACKAGE_TARNAME@/cfg
 libcfg_HEADERS = cfg.h
 
