@@ -132,8 +132,13 @@ extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 {
-  return (serial >= stack->serial_0)
-    ? (serial - stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK : -1;
+  /*
+   * Now we add a big number before dividing so that negative
+   * numbers are still correct, else rounding gives false indexes.
+   */
+  return
+    ((serial + _LW6DAT_MAX_NB_ATOMS -
+      stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK) - _LW6DAT_MAX_NB_BLOCKS;
 }
 
 /* dat-warehouse.c */

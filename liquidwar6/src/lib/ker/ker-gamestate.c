@@ -1440,8 +1440,10 @@ _lw6ker_game_state_do_move (_lw6ker_game_state_t *
       _lw6ker_map_state_charge (&(game_state->map_state),
 				&(game_state->game_struct->rules));
       _lw6ker_map_state_process_fire (&(game_state->map_state),
-				      &(game_state->game_struct->rules));
+				      &(game_state->game_struct->rules),
+				      game_state->rounds);
       _lw6ker_map_state_move_fighters (&(game_state->map_state),
+				       game_state->rounds,
 				       lw6sys_checksum_int32
 				       (game_state->rounds) %
 				       LW6KER_NB_PARITIES,
@@ -2196,24 +2198,51 @@ lw6ker_game_state_get_zone_potential (lw6ker_game_state_t * game_state,
 }
 
 /**
- * lw6ker_game_state_get_charge_percent
+ * lw6ker_game_state_get_charge_per1000
  *
  * @game_state: game_state to query
  * @team_color: the team color to query
  *
- * Returns the charge percentage for a given team/color. A value of 100
- * means fire is enabled, more than 100 means super-charge, under 100
- * means you have to wait...
+ * Returns the charge ratio for a given team/color. A value of 100
+ * means fire is enabled, more than 1000 means super-charge, under 100
+ * means you have to wait.
  *
- * Return value: a percentage.
+ * Return value: integer value.
  */
 int
-lw6ker_game_state_get_charge_percent (lw6ker_game_state_t * game_state,
+lw6ker_game_state_get_charge_per1000 (lw6ker_game_state_t * game_state,
 				      int team_color)
 {
   return
-    _lw6ker_team_get_charge_percent (&
+    _lw6ker_team_get_charge_per1000 (&
 				     (((_lw6ker_game_state_t *)
 				       game_state)->map_state.
 				      teams[team_color]));
+}
+
+/**
+ * lw6ker_game_state_get_weapon_per1000_left
+ *
+ * @game_state: game_state to query
+ * @team_color: the team color to query
+ *
+ * Returns how much of the weapon is yet to be consumed for a given
+ * team. More than 1000 means extra time, 1000 is standard time to
+ * be elapsed, 0 means it's over.
+ *
+ * Return value: integer value.
+ */
+int
+lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t * game_state,
+					   int team_color)
+{
+  return
+    _lw6ker_map_state_get_weapon_per1000_left (&
+					       (((_lw6ker_game_state_t *)
+						 game_state)->map_state),
+					       &(((_lw6ker_game_state_t *)
+						  game_state)->
+						 game_struct->rules),
+					       lw6ker_game_state_get_rounds
+					       (game_state), team_color);
 }

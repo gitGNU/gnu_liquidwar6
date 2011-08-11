@@ -118,7 +118,7 @@ Custom keycode to be used as the UP key equivalent.
 @deffnx {XML key} @code{double-click}
 Type: integer
 
-Default value: 200
+Default value: 666
 
 Time, in milliseconds, determining wether two consecutive clicks make a
 double-click or not.

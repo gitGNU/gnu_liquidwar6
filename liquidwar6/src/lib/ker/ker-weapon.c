@@ -30,11 +30,47 @@
 #include "ker-internal.h"
 
 void
+_lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t * map_state,
+				   int weapon_id)
+{
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (map_state->teams[i].weapon_id == weapon_id)
+	{
+	  map_state->teams[i].weapon_id = _LW6KER_WEAPON_NONE;
+	  map_state->teams[i].weapon_last_round = 0;
+	}
+    }
+}
+
+int
+_lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t * map_state,
+				       int round, int weapon_id)
+{
+  int i;
+  int ret = LW6MAP_TEAM_COLOR_INVALID;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (map_state->teams[i].weapon_id == weapon_id
+	  && map_state->teams[i].weapon_last_round >= round)
+	{
+	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+int
 _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
-		     lw6map_rules_t * rules, int team_color,
+		     lw6map_rules_t * rules, int round, int team_color,
 		     int charge_percent)
 {
   int weapon_id = -1;
+  int ret = 0;
 
   switch (rules->team_profile_weapon_mode[team_color])
     {
@@ -57,116 +93,166 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
     {
       switch (weapon_id)
 	{
-	case 0:
-	  _lw6ker_weapon_fire_invincible (map_state, rules, team_color,
-					  charge_percent);
-	  break;
-	case 1:
-	  _lw6ker_weapon_fire_bezerk (map_state, rules, team_color,
-				      charge_percent);
-	  break;
-	case 2:
-	  _lw6ker_weapon_fire_turbo (map_state, rules, team_color,
-				     charge_percent);
-	  break;
-	case 3:
-	  _lw6ker_weapon_fire_teleport (map_state, rules, team_color,
+	case _LW6KER_WEAPON_BEZERK:
+	  ret =
+	    _lw6ker_weapon_fire_bezerk (map_state, rules, round, team_color,
 					charge_percent);
 	  break;
-	case 4:
-	  _lw6ker_weapon_fire_escape (map_state, rules, team_color,
-				      charge_percent);
+	case _LW6KER_WEAPON_INVINCIBLE:
+	  ret =
+	    _lw6ker_weapon_fire_invincible (map_state, rules, round,
+					    team_color, charge_percent);
 	  break;
-	case 5:
-	  _lw6ker_weapon_fire_scatter (map_state, rules, team_color,
+	case _LW6KER_WEAPON_TURBO:
+	  ret =
+	    _lw6ker_weapon_fire_turbo (map_state, rules, round, team_color,
 				       charge_percent);
 	  break;
-	case 6:
-	  _lw6ker_weapon_fire_fix (map_state, rules, team_color,
-				   charge_percent);
+	case _LW6KER_WEAPON_TELEPORT:
+	  ret =
+	    _lw6ker_weapon_fire_teleport (map_state, rules, round, team_color,
+					  charge_percent);
 	  break;
-	case 7:
-	  _lw6ker_weapon_fire_mix (map_state, rules, team_color,
-				   charge_percent);
+	case _LW6KER_WEAPON_ESCAPE:
+	  ret =
+	    _lw6ker_weapon_fire_escape (map_state, rules, round, team_color,
+					charge_percent);
 	  break;
-	case 8:
-	  _lw6ker_weapon_fire_control (map_state, rules, team_color,
-				       charge_percent);
+	case _LW6KER_WEAPON_SCATTER:
+	  ret =
+	    _lw6ker_weapon_fire_scatter (map_state, rules, round, team_color,
+					 charge_percent);
 	  break;
-	case 9:
-	  _lw6ker_weapon_fire_permutation (map_state, rules, team_color,
-					   charge_percent);
+	case _LW6KER_WEAPON_FIX:
+	  ret = _lw6ker_weapon_fire_fix (map_state, rules, round, team_color,
+					 charge_percent);
+	  break;
+	case _LW6KER_WEAPON_MIX:
+	  ret = _lw6ker_weapon_fire_mix (map_state, rules, round, team_color,
+					 charge_percent);
+	  break;
+	case _LW6KER_WEAPON_CONTROL:
+	  ret =
+	    _lw6ker_weapon_fire_control (map_state, rules, round, team_color,
+					 charge_percent);
+	  break;
+	case _LW6KER_WEAPON_PERMUTATION:
+	  ret =
+	    _lw6ker_weapon_fire_permutation (map_state, rules, round,
+					     team_color, charge_percent);
 	  break;
 	}
+      if (ret)
+	{
+	  map_state->teams[team_color].weapon_id = weapon_id;
+	  map_state->teams[team_color].weapon_last_round =
+	    round + rules->rounds_per_sec * rules->weapon_duration;
+	}
     }
+
+  return ret;
 }
 
-void
-_lw6ker_weapon_fire_invicible (_lw6ker_map_state_t * map_state,
-			       lw6map_rules_t * rules, int team_color,
-			       int charge_percent)
-{
-}
-
-void
+int
 _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int team_color,
+			    lw6map_rules_t * rules, int round, int team_color,
 			    int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
+_lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
+				lw6map_rules_t * rules, int round,
+				int team_color, int charge_percent)
+{
+  int ret = 1;
+
+  return ret;
+}
+
+int
 _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
-			   lw6map_rules_t * rules, int team_color,
+			   lw6map_rules_t * rules, int round, int team_color,
 			   int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
-			      lw6map_rules_t * rules, int team_color,
-			      int charge_percent)
+			      lw6map_rules_t * rules, int round,
+			      int team_color, int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int team_color,
+			    lw6map_rules_t * rules, int round, int team_color,
 			    int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int team_color,
-			     int charge_percent)
+			     lw6map_rules_t * rules, int round,
+			     int team_color, int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
-			 lw6map_rules_t * rules, int team_color,
+			 lw6map_rules_t * rules, int round, int team_color,
 			 int charge_percent)
 {
+  int ret = 1;
+
+  _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_FIX);
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
-			 lw6map_rules_t * rules, int team_color,
+			 lw6map_rules_t * rules, int round, int team_color,
 			 int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
-			     lw6map_rules_t * rules, int team_color,
-			     int charge_percent)
+			     lw6map_rules_t * rules, int round,
+			     int team_color, int charge_percent)
 {
+  int ret = 1;
+
+  _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_CONTROL);
+
+  return ret;
 }
 
-void
+int
 _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
-				 lw6map_rules_t * rules, int team_color,
-				 int charge_percent)
+				 lw6map_rules_t * rules, int round,
+				 int team_color, int charge_percent)
 {
+  int ret = 1;
+
+  return ret;
 }

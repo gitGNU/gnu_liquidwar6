@@ -127,13 +127,13 @@ _lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _("no atom defined at atom_index=%d for serial %d"),
+		      _x_("no atom defined at atom_index=%d for serial %d"),
 		      atom_index, serial);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _("bad atom_index=%d for serial %d"),
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_("bad atom_index=%d for serial %d"),
 		  atom_index, serial);
     }
 

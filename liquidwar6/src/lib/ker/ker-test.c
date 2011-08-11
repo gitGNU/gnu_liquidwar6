@@ -32,9 +32,9 @@
 #define TEST_MAP_NOISE_PERCENT 20
 #define TEST_NB_ROUNDS 100
 #define TEST_GAME_STRUCT_CHECKSUM 0x9db057e9
-#define TEST_GAME_STATE_CHECKSUM 0x9018f275
-#define TEST_GAME_STATE_POPULATE_CHECKSUM 0xabccd6ac
-#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x694ccf90
+#define TEST_GAME_STATE_CHECKSUM 0x9c844247
+#define TEST_GAME_STATE_POPULATE_CHECKSUM 0xb751178e
+#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x9c06f6e3
 #define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234
 #define TEST_CURSOR2_ID 0x2345
@@ -186,7 +186,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 		      looser);
 	  lw6ker_move_get_best_next_pos (game_state, &next_pos, &current_pos,
 					 0);
-	  lw6ker_game_state_get_charge_percent (game_state, 0);
+	  lw6ker_game_state_get_charge_per1000 (game_state, 0);
+	  lw6ker_game_state_get_weapon_per1000_left (game_state, 0);
 	}
     }
 

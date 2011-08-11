@@ -478,11 +478,11 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 					      &lc.x, &lc.y, lc.fighter_x,
 					      lc.fighter_y, lc.test_dir);
 		      if (_CALL_IS_SLOT_FREE
-			  (lc.map_struct, lc.map_state, lc.x, lc.y, 0))
+			  (lc.map_struct, lc.map_state, lc.x, lc.y, lc.z))
 			{
 			  lc.done_with_fighter = 1;
 			  _lw6ker_fighter_move (lc.fighter, lc.i, lc.x, lc.y,
-						0, lc.map_state);
+						lc.z, lc.map_state);
 			  _lw6ker_fighter_regenerate (lc.fighter,
 						      lc.rules.
 						      fighter_regenerate);

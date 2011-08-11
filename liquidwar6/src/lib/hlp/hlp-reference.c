@@ -554,7 +554,7 @@ populate_references ()
   POPULATE_INT (LW6DEF_DOUBLE_CLICK,
 		_x_
 		("Time, in milliseconds, determining wether two consecutive clicks make a double-click or not."),
-		200, 0, 0);
+		666, 0, 0);
   POPULATE_STR (LW6DEF_CUSTOM_UP,
 		_x_ ("Custom keycode to be used as the UP key equivalent."),
 		"(c-lw6gui-keyboard-is-pressed 101) ; SDLK_e");

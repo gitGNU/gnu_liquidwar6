@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-10 09:59+0200\n"
+"POT-Creation-Date: 2011-08-11 16:57+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -30,27 +30,7 @@ msgstr "klarte ikkje starta mod_tcp"
 msgid "can't initialize mod_udp"
 msgstr "klarte ikkje starta mod_udp"
 
-#: src/lib/dat/dat-block.c:130
-#, c-format
-msgid "no atom defined at atom_index=%d for serial %d"
-msgstr ""
-
-#: src/lib/dat/dat-block.c:136
-#, c-format
-msgid "bad atom_index=%d for serial %d"
-msgstr ""
-
-#: src/lib/dat/dat-stack.c:135
-#, c-format
-msgid "no block defined at block_index=%d for serial %d"
-msgstr ""
-
-#: src/lib/dat/dat-stack.c:141
-#, c-format
-msgid "bad block_index=%d for serial %d"
-msgstr ""
-
-#: src/lib/dsp/dsp-test.c:304
+#: src/lib/dsp/dsp-test.c:306
 msgid "this error too"
 msgstr "denne feilen òg"
 

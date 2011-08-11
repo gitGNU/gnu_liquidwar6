@@ -463,9 +463,9 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 	(utils_context->video_mode.width +
 	 utils_context->video_mode.height) *
 	flat_context->const_data.cursor_size * look->style.cursor_size;
-      if (lw6ker_game_state_get_charge_percent
+      if (lw6ker_game_state_get_charge_per1000
 	  (game_state,
-	   flat_context->cursors_context.cursor[i].team_color) >= 100)
+	   flat_context->cursors_context.cursor[i].team_color) >= 1000)
 	{
 	  cursor_w = cursor_h =
 	    (utils_context->video_mode.width +

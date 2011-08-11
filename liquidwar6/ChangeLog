@@ -1,3 +1,11 @@
+2011-08-11 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Gauges now display charge instead of fighter percentage.
+
+	* Bezerk weapon implemented (default for red).
+
+	* Warehouse shifting works.
+
 2011-08-10 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added double-click support for fire action.

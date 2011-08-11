@@ -260,8 +260,11 @@ extern lw6ker_fighter_t
 extern int lw6ker_game_state_get_zone_potential (lw6ker_game_state_t *
 						 game_state, int zone_i,
 						 int team_id);
-extern int lw6ker_game_state_get_charge_percent (lw6ker_game_state_t *
+extern int lw6ker_game_state_get_charge_per1000 (lw6ker_game_state_t *
 						 game_state, int team_color);
+extern int lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t *
+						      game_state,
+						      int team_color);
 
 /* ker-gamestruct.c */
 extern lw6ker_game_struct_t *lw6ker_game_struct_new (lw6map_level_t * level,

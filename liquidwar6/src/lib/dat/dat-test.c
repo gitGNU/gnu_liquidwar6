@@ -44,11 +44,13 @@
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
+#define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
+#define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
 
 /*
  * Testing functions in atom.c
@@ -240,7 +242,7 @@ test_stack ()
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms"),
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in stack"),
 		_TEST_STACK_NB_RANDOM_PUT);
     for (i = 0; i < _TEST_STACK_NB_RANDOM_PUT; ++i)
       {
@@ -332,7 +334,6 @@ test_warehouse ()
 	  }
 	if (overflow)
 	  {
-	    _lw6dat_warehouse_purge (warehouse);
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
 			("OK, warehouse has a stack number limit (%d) this is right"),
@@ -342,6 +343,61 @@ test_warehouse ()
 	  {
 	    ret = 0;
 	  }
+	_lw6dat_warehouse_purge (warehouse);
+	_lw6dat_warehouse_free (warehouse);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't create warehouse object"));
+      }
+
+    warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    if (warehouse)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in warehouse"),
+		    _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW);
+	if (_lw6dat_warehouse_put_atom
+	    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SERIAL,
+	     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
+	     _TEST_WAREHOUSE_TEXT))
+	  {
+	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
+	      {
+		if (!_lw6dat_warehouse_put_atom
+		    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
+		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_ ("unable to put atom %d"), i);
+		    ret = 0;
+		  }
+	      }
+	    if (_lw6dat_warehouse_put_atom
+		(warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
+		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("could put again 1st atom in warehouse, shifting shoud work"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("couldn't put (again) 1st atom in warehouse"));
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("couldn't put 1st atom in warehouse"));
+	    ret = 0;
+	  }
+
 	_lw6dat_warehouse_free (warehouse);
       }
     else

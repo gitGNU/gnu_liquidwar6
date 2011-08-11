@@ -71,6 +71,8 @@ display_gauges (mod_gl_utils_context_t * utils_context,
   float size_factor_heartbeat;
   float size_factor;
   float ratio;
+  int weapon_per1000_left;
+  float charge;
   float inner, outer;
   int slices, loops;
   int i;
@@ -95,14 +97,29 @@ display_gauges (mod_gl_utils_context_t * utils_context,
 	  team_color = floating_context->score_array.scores[i].team_color;
 	  if (team_color >= 0)
 	    {
+	      weapon_per1000_left =
+		lw6ker_game_state_get_weapon_per1000_left
+		(floating_context->game_state, team_color);
+	      if (weapon_per1000_left > 0)
+		{
+		  charge = lw6sys_min (1000, weapon_per1000_left) / 1000.0f;
+		}
+	      else
+		{
+		  charge =
+		    lw6sys_min (1000,
+				lw6ker_game_state_get_charge_per1000
+				(floating_context->game_state,
+				 team_color)) / 1000.0f;
+		}
 	      size_factor_score =
 		ratio * floating_context->const_data.gauge_max_size + (1.0f -
 								       ratio)
 		* floating_context->const_data.gauge_min_size;
-	      size_factor_heartbeat = (lw6ker_game_state_get_charge_percent
+	      size_factor_heartbeat = (lw6ker_game_state_get_charge_per1000
 				       (floating_context->game_state,
 					team_color) >=
-				       100) ?
+				       1000) ?
 		lw6sys_math_heartbeat (mod_gl_utils_timer_get_uptime
 				       (utils_context),
 				       floating_context->const_data.
@@ -123,7 +140,7 @@ display_gauges (mod_gl_utils_context_t * utils_context,
 
 	      slices = floating_context->const_data.gauge_slices;
 	      loops = floating_context->const_data.gauge_loops;
-	      sweep1 = ratio * floating_context->const_data.gauge_sweep;
+	      sweep1 = charge * floating_context->const_data.gauge_sweep;
 	      sweep2 = floating_context->const_data.gauge_sweep - sweep1;
 
 	      glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

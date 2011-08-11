@@ -44,6 +44,8 @@ _lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
   // team->charge is set to 0 because of CALLOC
+  team->weapon_id = _LW6KER_WEAPON_NONE;	// -1
+  // team->weapon_last_round set to 0 because of CALLOC
 
   if (team->gradient)
     {
@@ -96,6 +98,8 @@ _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
       dst->cursor_ref_pot = src->cursor_ref_pot;
       dst->last_spread_dir = src->last_spread_dir;
       dst->charge = src->charge;
+      dst->weapon_id = src->weapon_id;
+      dst->weapon_last_round = src->weapon_last_round;
       ret = 1;
     }
   else
@@ -122,6 +126,8 @@ _lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, team->cursor_ref_pot);
   lw6sys_checksum_update_int32 (checksum, team->last_spread_dir);
   lw6sys_checksum_update_int32 (checksum, team->charge);
+  lw6sys_checksum_update_int32 (checksum, team->weapon_id);
+  lw6sys_checksum_update_int32 (checksum, team->weapon_last_round);
 }
 
 void
@@ -186,13 +192,13 @@ _lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
 }
 
 int
-_lw6ker_team_get_charge_percent (_lw6ker_team_t * team)
+_lw6ker_team_get_charge_per1000 (_lw6ker_team_t * team)
 {
   int ret = 0;
 
   if (team->active)
     {
-      ret = (team->charge * 100) / _LW6KER_CHARGE_LIMIT;
+      ret = (team->charge * 1000) / _LW6KER_CHARGE_LIMIT;
     }
 
   return ret;
@@ -202,4 +208,35 @@ void
 _lw6ker_team_reset_charge (_lw6ker_team_t * team)
 {
   team->charge = 0;
+}
+
+int
+_lw6ker_team_is_this_weapon_active (_lw6ker_team_t * team, int round,
+				    int weapon_id)
+{
+  return (team->weapon_id == weapon_id && team->weapon_last_round >= round);
+}
+
+int
+_lw6ker_team_get_weapon_per1000_left (_lw6ker_team_t * team,
+				      lw6map_rules_t * rules, int round)
+{
+  int ret = 0;
+  int rounds_left = 0;
+
+  rounds_left = team->weapon_last_round - round;
+  if (rounds_left >= 0 && team->weapon_id >= LW6MAP_MIN_WEAPON_ID
+      && team->weapon_id <= LW6MAP_MAX_WEAPON_ID)
+    {
+      ret =
+	lw6sys_max (1,
+		    (rounds_left * 1000) / lw6sys_max (1,
+						       lw6ker_percent
+						       (rules->rounds_per_sec
+							*
+							rules->weapon_duration,
+							rules->weapon_charge_max)));
+    }
+
+  return ret;
 }

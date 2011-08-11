@@ -638,7 +638,7 @@ _lw6ker_map_state_get_nb_teams (_lw6ker_map_state_t * map_state)
 }
 
 void
-_lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
+_lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 				 int parity, lw6map_rules_t * rules,
 				 int32_t nb_moves, u_int32_t team_mask)
 {
@@ -656,11 +656,11 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
   context.armies = &(map_state->armies);
   context.active_fighters = context.armies->active_fighters;
 
-  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+  if (context.rules.use_team_profiles)
     {
-      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (context.rules.use_team_profiles)
+	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] =
 		lw6ker_percent (lw6ker_percent
@@ -668,13 +668,19 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
 				 rules->team_profile_aggressive[i]),
 				rules->team_profile_vulnerable[j]);
 	    }
-	  else
+	}
+    }
+  else
+    {
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] = rules->fighter_attack;
+	      context.fighter_side_attack[i][j] =
+		lw6ker_percent (context.fighter_attack[i][j],
+				rules->side_attack_factor);
 	    }
-	  context.fighter_side_attack[i][j] =
-	    lw6ker_percent (context.fighter_attack[i][j],
-			    rules->side_attack_factor);
 	}
     }
 
@@ -688,9 +694,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
    * Here we initialize a per-team array with nb_..._tries values so
    * that we don't calculate it each time.
    */
-  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+  if (context.rules.use_team_profiles)
     {
-      if (context.rules.use_team_profiles)
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.per_team_nb_move_tries[i] =
 	    context.rules.nb_move_tries +
@@ -720,13 +726,44 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state,
 	  context.per_team_nb_defense_tries[i] =
 	    lw6sys_min (context.per_team_nb_defense_tries[i],
 			LW6MAP_RULES_MAX_NB_DEFENSE_TRIES);
+	  if (map_state->teams[i].weapon_last_round >= round &&
+	      map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID &&
+	      map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID)
+	    {
+	      context.per_team_weapon_id[i] = map_state->teams[i].weapon_id;
+	    }
+	  else
+	    {
+	      context.per_team_weapon_id[i] = _LW6KER_WEAPON_NONE;
+	    }
 	}
-      else
+      /*
+       * Post-processing attack values due to weapons and such
+       */
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_BEZERK)
+	    {
+	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+		{
+		  context.fighter_attack[i][j] =
+		    (LW6MAP_RULES_MAX_FIGHTER_ATTACK +
+		     (_LW6KER_BEZERK_FACTOR -
+		      1) * context.fighter_attack[i][j]) /
+		    (_LW6KER_BEZERK_FACTOR * LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+		}
+	    }
+	}
+    }
+  else
+    {
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.per_team_nb_move_tries[i] = context.rules.nb_move_tries;
 	  context.per_team_nb_attack_tries[i] = context.rules.nb_attack_tries;
 	  context.per_team_nb_defense_tries[i] =
 	    context.rules.nb_defense_tries;
+	  context.per_team_weapon_id[i] = _LW6KER_WEAPON_NONE;
 	}
     }
 
@@ -874,7 +911,7 @@ _lw6ker_map_state_apply_cursors (_lw6ker_map_state_t * map_state,
 
 void
 _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
-				lw6map_rules_t * rules)
+				lw6map_rules_t * rules, int round)
 {
   int32_t i, team_color;
   int charge_percent;
@@ -886,13 +923,18 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
 	  charge_percent =
-	    _lw6ker_team_get_charge_percent (&(map_state->teams[team_color]));
+	    _lw6ker_team_get_charge_per1000 (&(map_state->teams[team_color]))
+	    / 10;
 	  if (charge_percent >= 100)
 	    {
-	      _lw6ker_team_reset_charge (&(map_state->teams[team_color]));
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("fire team_color=%d charge_percent=%d"),
 			  team_color, charge_percent);
+	      if (_lw6ker_weapon_fire
+		  (map_state, rules, round, team_color, charge_percent))
+		{
+		  _lw6ker_team_reset_charge (&(map_state->teams[team_color]));
+		}
 	    }
 	  else
 	    {
@@ -1096,49 +1138,77 @@ _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
   int charge_max = 0;
   int nb_teams;
 
-  nb_teams = _lw6ker_map_state_get_nb_teams (map_state);
-  charge_max =
-    lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
-
-  if (rules->weapon_charge_delay > 0 && rules->rounds_per_sec > 0)
+  if (rules->use_team_profiles)
     {
-      if (nb_teams > 0)
+      nb_teams = _lw6ker_map_state_get_nb_teams (map_state);
+      charge_max =
+	lw6ker_percent (_LW6KER_CHARGE_LIMIT, rules->weapon_charge_max);
+
+      if (rules->weapon_charge_delay > 0 && rules->rounds_per_sec > 0)
 	{
-	  for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS; ++team_color)
+	  if (nb_teams > 0)
 	    {
-	      if (map_state->teams[team_color].active)
+	      for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS;
+		   ++team_color)
 		{
-		  charge_incr =
-		    _LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay *
-					    rules->rounds_per_sec);
-		  if (map_state->armies.active_fighters > 0)
+		  if (map_state->teams[team_color].active
+		      && rules->team_profile_weapon_mode[team_color] !=
+		      LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE)
 		    {
-		      charge_percent =
-			(map_state->armies.fighters_per_team[team_color] *
-			 nb_teams * 100) / map_state->armies.active_fighters;
+		      charge_incr =
+			_LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay *
+						rules->rounds_per_sec);
+		      if (map_state->armies.active_fighters > 0)
+			{
+			  charge_percent =
+			    (map_state->armies.fighters_per_team[team_color] *
+			     nb_teams * 100) /
+			    map_state->armies.active_fighters;
+			}
+		      else
+			{
+			  charge_percent = 100;
+			}
+		      charge_percent = (charge_percent + 100) / 2;
+		      charge_incr =
+			lw6ker_percent (charge_incr, charge_percent);
+		      map_state->teams[team_color].charge += charge_incr;
+		      map_state->teams[team_color].charge =
+			lw6sys_min (map_state->teams[team_color].charge,
+				    charge_max);
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_ ("new charge for team %d is %d"),
+				  team_color,
+				  map_state->teams[team_color].charge);
 		    }
-		  else
-		    {
-		      charge_percent = 100;
-		    }
-		  charge_percent = (charge_percent + 100) / 2;
-		  charge_incr = lw6ker_percent (charge_incr, charge_percent);
-		  map_state->teams[team_color].charge += charge_incr;
-		  map_state->teams[team_color].charge =
-		    lw6sys_min (map_state->teams[team_color].charge,
-				charge_max);
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_ ("new charge for team %d is %d"),
-			      team_color,
-			      map_state->teams[team_color].charge);
 		}
 	    }
 	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"),
+		      rules->weapon_charge_delay, rules->rounds_per_sec);
+	}
     }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("bad rules weapon_charge_delay=%d rounds_per_sec=%d"),
-		  rules->weapon_charge_delay, rules->rounds_per_sec);
-    }
+}
+
+int
+_lw6ker_map_state_is_this_weapon_active (_lw6ker_map_state_t * map_state,
+					 int round, int weapon_id,
+					 int team_color)
+{
+  return _lw6ker_team_is_this_weapon_active (&(map_state->teams[team_color]),
+					     round, weapon_id);
+}
+
+int
+_lw6ker_map_state_get_weapon_per1000_left (_lw6ker_map_state_t * map_state,
+					   lw6map_rules_t * rules, int round,
+					   int team_color)
+{
+  return
+    _lw6ker_team_get_weapon_per1000_left (&(map_state->teams[team_color]),
+					  rules, round);
 }
