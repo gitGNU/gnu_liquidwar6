@@ -750,7 +750,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 		    (LW6MAP_RULES_MAX_FIGHTER_ATTACK +
 		     (_LW6KER_BEZERK_FACTOR -
 		      1) * context.fighter_attack[i][j]) /
-		    (_LW6KER_BEZERK_FACTOR * LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+		    _LW6KER_BEZERK_FACTOR;
 		}
 	    }
 	}
