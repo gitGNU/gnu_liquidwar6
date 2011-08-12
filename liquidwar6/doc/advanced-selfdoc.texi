@@ -474,7 +474,7 @@ Delay, in msec, for which a log message will stay displayed on the screen.
 @deffnx {XML key} @code{magic-number}
 Type: integer
 
-Default value: 28657
+Default value: 14741
 
 This 'magic' number probably requires an explanation. It's used to estimate
 how big a map can be built. The calculus is very approximative, basically
@@ -487,6 +487,36 @@ the higher it gets, the more optimized it means the game is. Normally you
 shouldn't change this but if you find the map resizing is too agressively
 pessimistic, or if for some reason bench returns bogus values, you can modify
 it.
+@end deffn
+
+@subsection max-local-bench-value
+@deffn {Command-line option} @code{--max-local-bench-value=<value>}
+@deffnx {Environment variable} @code{LW6_MAX_LOCAL_BENCH_VALUE}
+@deffnx {XML key} @code{max-local-bench-value}
+Type: integer
+
+Default value: 800
+
+Even if your computer is very fast, this parameter will be used to tame the
+optimism of the test, and do not load maps in very high detail. It's believed
+at some point, it's best to keep your extra power to deal with unordinary
+situations rather than waste it on useless details. Game should be fun with
+that setting, but if you really want to use your shiny CPU at its maximum,
+raise this.
+@end deffn
+
+@subsection max-network-bench-value
+@deffn {Command-line option} @code{--max-network-bench-value=<value>}
+@deffnx {Environment variable} @code{LW6_MAX_NETWORK_BENCH_VALUE}
+@deffnx {XML key} @code{max-network-bench-value}
+Type: integer
+
+Default value: 200
+
+On network games, we need to be sure everyone can play in correct conditions,
+therefore maps won't be loaded with more details than this, by default. You're
+free to increase this parameter but it can cause your games to be unjoignable
+by some people.
 @end deffn
 
 @subsection memory-bazooka-eraser

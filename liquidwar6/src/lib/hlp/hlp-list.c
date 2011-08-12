@@ -551,6 +551,8 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_WEAPON_DURATION);
   lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_DELAY);
   lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_MAX);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_TUNE_BEZERK_POWER);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_TUNE_TURBO_POWER);
 
   return ((*list) != NULL);
 }
@@ -1052,6 +1054,8 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DEMO);
   lw6sys_list_push_back (list, LW6DEF_BENCH);
   lw6sys_list_push_back (list, LW6DEF_BENCH_VALUE);
+  lw6sys_list_push_back (list, LW6DEF_MAX_LOCAL_BENCH_VALUE);
+  lw6sys_list_push_back (list, LW6DEF_MAX_NETWORK_BENCH_VALUE);
   lw6sys_list_push_back (list, LW6DEF_MAGIC_NUMBER);
   lw6sys_list_push_back (list, LW6DEF_BIN_ID);
   lw6sys_list_push_back (list, LW6DEF_CHECK);

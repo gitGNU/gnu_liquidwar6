@@ -265,6 +265,11 @@ extern int lw6ker_game_state_get_charge_per1000 (lw6ker_game_state_t *
 extern int lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t *
 						      game_state,
 						      int team_color);
+extern int lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
+						game_state,
+						int *team_color,
+						int *weapon_id,
+						int *per1000_left);
 
 /* ker-gamestruct.c */
 extern lw6ker_game_struct_t *lw6ker_game_struct_new (lw6map_level_t * level,

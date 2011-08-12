@@ -598,16 +598,46 @@ fighters, however the information can be interesting for debugging.
 @strong{Return value:}  the potential
 @end deftypefun
 
-@deftypefun {int} {lw6ker_game_state_get_charge_percent} (lw6ker_game_state_t * @var{game_state}, int @var{team_color})
+@deftypefun {int} {lw6ker_game_state_get_charge_per1000} (lw6ker_game_state_t * @var{game_state}, int @var{team_color})
 @var{game_state}:  game_state to query
 
 @var{team_color}:  the team color to query
 
-Returns the charge percentage for a given team/color. A value of 100
-means fire is enabled, more than 100 means super-charge, under 100
-means you have to wait...
+Returns the charge ratio for a given team/color. A value of 100
+means fire is enabled, more than 1000 means super-charge, under 100
+means you have to wait.
 
-@strong{Return value:}  a percentage.
+@strong{Return value:}  integer value.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_weapon_per1000_left} (lw6ker_game_state_t * @var{game_state}, int @var{team_color})
+@var{game_state}:  game_state to query
+
+@var{team_color}:  the team color to query
+
+Returns how much of the weapon is yet to be consumed for a given
+team. More than 1000 means extra time, 1000 is standard time to
+be elapsed, 0 means it's over.
+
+@strong{Return value:}  integer value.
+@end deftypefun
+
+@deftypefun {int} {lw6ker_game_state_get_latest_weapon} (lw6ker_game_state_t *          @var{game_state}, int * @var{team_color}, int * @var{weapon_id}, int * @var{per1000_left})
+@var{game_state}:  game_state to query
+
+@var{team_color}:  the team color corresponding to last weapon (out param)
+
+@var{weapon_id}:  the corresponding weapon_id (out param)
+
+@var{per1000_left}:  how much of the weapon is yet to be spent (out param)
+
+Returns informations about the latest weapon, this is typically
+for drawing purposes, just query this and you know if you need
+to paint everything in red, green, whatever, as far as the default
+backend is concerned. In case there's no weapon, well, parameters
+are untouched. Pointers can be passed as NULL.
+
+@strong{Return value:}  1 if found, 0 if not.
 @end deftypefun
 
 @deftypefun {lw6ker_game_struct_t *} {lw6ker_game_struct_new} (lw6map_level_t * @var{level}, lw6sys_progress_t * @var{progress})

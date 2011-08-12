@@ -847,6 +847,14 @@ populate_references ()
 		_x_
 		("Contains the current bench value of the computer running the game. This is used internally to choose the right map settings. You can override this value and use your own but... use at your own risk. Pretending you have a faster computer than what you really have can lead to confusion."),
 		LW6LDR_DEFAULT_BENCH_VALUE, 0, 0);
+  POPULATE_INT (LW6DEF_MAX_LOCAL_BENCH_VALUE,
+		_x_
+		("Even if your computer is very fast, this parameter will be used to tame the optimism of the test, and do not load maps in very high detail. It's believed at some point, it's best to keep your extra power to deal with unordinary situations rather than waste it on useless details. Game should be fun with that setting, but if you really want to use your shiny CPU at its maximum, raise this."),
+		LW6LDR_DEFAULT_MAX_LOCAL_BENCH_VALUE, 0, 0);
+  POPULATE_INT (LW6DEF_MAX_NETWORK_BENCH_VALUE,
+		_x_
+		("On network games, we need to be sure everyone can play in correct conditions, therefore maps won't be loaded with more details than this, by default. You're free to increase this parameter but it can cause your games to be unjoignable by some people."),
+		LW6LDR_DEFAULT_MAX_NETWORK_BENCH_VALUE, 0, 0);
   POPULATE_INT (LW6DEF_MAGIC_NUMBER,
 		_x_
 		("This 'magic' number probably requires an explanation. It's used to estimate how big a map can be built. The calculus is very approximative, basically bench_value*magic_number=total_fighters_on_map*rounds_per_sec*moves_per_round with total_fighters_on_map depending on various parameters such as map size but also how many fighters are on the map. The map loader will try and adjust the map size so that it is just big enough not to saturate your CPU while being as high-res as possible. The magic number in itself has no real meaning, the higher it gets, the more optimized it means the game is. Normally you shouldn't change this but if you find the map resizing is too agressively pessimistic, or if for some reason bench returns bogus values, you can modify it."),
@@ -1686,6 +1694,18 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_MAX,
 		LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX,
 		LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX);
+  POPULATE_INT (LW6DEF_WEAPON_TUNE_BEZERK_POWER,
+		_x_
+		("Use to specifiy how strong bezerk mode is, if set to 3, then attacks will be 3 times as efficient in bezerk mode."),
+		LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BEZERK_POWER,
+		LW6MAP_RULES_MIN_WEAPON_TUNE_BEZERK_POWER,
+		LW6MAP_RULES_MAX_WEAPON_TUNE_BEZERK_POWER);
+  POPULATE_INT (LW6DEF_WEAPON_TUNE_TURBO_POWER,
+		_x_
+		("Defines how fast fighters move in turbo mode, if set to 3, then fighters move and act 3 times as fast."),
+		LW6MAP_RULES_DEFAULT_WEAPON_TUNE_TURBO_POWER,
+		LW6MAP_RULES_MIN_WEAPON_TUNE_TURBO_POWER,
+		LW6MAP_RULES_MAX_WEAPON_TUNE_TURBO_POWER);
   /*
    * map hints
    */

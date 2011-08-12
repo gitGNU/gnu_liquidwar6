@@ -14768,7 +14768,7 @@ fi
 *** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
 " "$LINENO" 5
    fi
-   if guile-config --version ; then
+   if guile-config --version 2> /dev/null ; then
       GUILE_CFLAGS=`guile-config compile`
       GUILE_LDFLAGS=`guile-config link`
       { $as_echo "$as_me:${as_lineno-$LINENO}: checking for scm_with_guile in -lguile" >&5
@@ -15222,6 +15222,12 @@ else
 $as_echo "$as_me: WARNING:
 *** Liquid War 6 recommends libcURL (http://curl.haxx.se/libcurl/)
 " >&2;}
+fi
+
+
+ac_fn_c_check_header_mongrel "$LINENO" "curl/types.h" "ac_cv_header_curl_types_h" "$ac_includes_default"
+if test "x$ac_cv_header_curl_types_h" = xyes; then :
+  HAVE_CURL_TYPES_H=1
 fi
 
 
@@ -16008,16 +16014,15 @@ fi
 
 
 if test x${CSOUND_CONFIG} != xyes; then
-   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
-*** Liquid War 6 recommends csound (http://www.csounds.com/)
-" >&5
-$as_echo "$as_me: WARNING:
-*** Liquid War 6 recommends csound (http://www.csounds.com/)
-" >&2;}
+   { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet." >&5
+$as_echo "$as_me: Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet." >&6;}
+   CSOUND_CFLAGS=
+   CSOUND_LIBS=
+else
+   CSOUND_CFLAGS=`csound-config --cflags`
+   CSOUND_LIBS=`csound-config --libs`
 fi
-CSOUND_CFLAGS=`csound-config --cflags`
 
-CSOUND_LIBS=`csound-config --libs`
 
 ac_fn_c_check_header_mongrel "$LINENO" "csound/csound.h" "ac_cv_header_csound_csound_h" "$ac_includes_default"
 if test "x$ac_cv_header_csound_csound_h" = xyes; then :

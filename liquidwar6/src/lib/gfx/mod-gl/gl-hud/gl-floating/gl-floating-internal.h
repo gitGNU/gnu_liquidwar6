@@ -52,6 +52,7 @@ typedef struct _mod_gl_hud_floating_const_data_s
   float gauge_min_size;
   float gauge_max_size;
   float gauge_max_health_angle;
+  float weapon_ambiance_alpha;
   int score_pie_rotation_period;
   int score_pie_heartbeat_period;
   float score_pie_heartbeat_factor1;

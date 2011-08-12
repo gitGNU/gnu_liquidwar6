@@ -35,16 +35,16 @@
 #define _LW6KER_WEAPON_NONE -1
 #define _LW6KER_WEAPON_BEZERK 0
 #define _LW6KER_WEAPON_INVINCIBLE 1
-#define _LW6KER_WEAPON_TURBO 2
-#define _LW6KER_WEAPON_TELEPORT 3
-#define _LW6KER_WEAPON_ESCAPE 4
+#define _LW6KER_WEAPON_ESCAPE 2
+#define _LW6KER_WEAPON_TURBO 3
+#define _LW6KER_WEAPON_TELEPORT 4
 #define _LW6KER_WEAPON_SCATTER 5
 #define _LW6KER_WEAPON_FIX 6
 #define _LW6KER_WEAPON_MIX 7
 #define _LW6KER_WEAPON_CONTROL 8
 #define _LW6KER_WEAPON_PERMUTATION 9
 
-#define _LW6KER_BEZERK_FACTOR 3
+#define _LW6KER_BEZERK_ROUNDS_TO_KILL 2
 
 typedef int32_t _lw6ker_tables_move_offset_t[LW6KER_NB_DIRS];
 typedef int32_t _lw6ker_tables_move_dir_tries_t[LW6MAP_MAX_NB_DIR_TRIES];
@@ -183,6 +183,7 @@ typedef struct _lw6ker_team_s
   int32_t last_spread_dir;
   int32_t charge;
   int32_t weapon_id;
+  int32_t weapon_first_round;
   int32_t weapon_last_round;
 }
 _lw6ker_team_t;
@@ -305,6 +306,7 @@ typedef struct _lw6ker_move_context_s
   int32_t per_team_nb_move_tries[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_nb_attack_tries[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_nb_defense_tries[LW6MAP_MAX_NB_TEAMS];
+  int32_t per_team_fast[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_weapon_id[LW6MAP_MAX_NB_TEAMS];
   lw6sys_whd_t shape;
   int32_t *move_dir_table;
@@ -671,7 +673,6 @@ extern int _lw6ker_map_state_is_this_weapon_active (_lw6ker_map_state_t *
 						    int team_color);
 extern int _lw6ker_map_state_get_weapon_per1000_left (_lw6ker_map_state_t *
 						      map_state,
-						      lw6map_rules_t * rules,
 						      int round,
 						      int team_color);
 
@@ -858,7 +859,6 @@ extern void _lw6ker_team_reset_charge (_lw6ker_team_t * team);
 extern int _lw6ker_team_is_this_weapon_active (_lw6ker_team_t * team,
 					       int round, int weapon_id);
 extern int _lw6ker_team_get_weapon_per1000_left (_lw6ker_team_t * team,
-						 lw6map_rules_t * rules,
 						 int round);
 
 /*
@@ -888,6 +888,10 @@ extern void _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t *
 extern int _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t *
 						  map_state, int round,
 						  int weapon_id);
+extern int _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
+					     int round, int *team_color,
+					     int *weapon_id,
+					     int *per1000_left);
 extern int _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 				lw6map_rules_t * rules, int round,
 				int team_color, int charge_percent);
@@ -898,15 +902,15 @@ extern int _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
 					   lw6map_rules_t * rules, int round,
 					   int team_color,
 					   int charge_percent);
+extern int _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
+				       lw6map_rules_t * rules, int round,
+				       int team_color, int charge_percent);
 extern int _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
 				      lw6map_rules_t * rules, int round,
 				      int team_color, int charge_percent);
 extern int _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
 					 lw6map_rules_t * rules, int round,
 					 int team_color, int charge_percent);
-extern int _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
-				       lw6map_rules_t * rules, int round,
-				       int team_color, int charge_percent);
 extern int _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
 					lw6map_rules_t * rules, int round,
 					int team_color, int charge_percent);

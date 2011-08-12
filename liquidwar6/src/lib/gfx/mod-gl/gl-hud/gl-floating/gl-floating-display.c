@@ -29,9 +29,9 @@
 #include "../../mod-gl.h"
 #include "gl-floating-internal.h"
 
-void
-display_clock (mod_gl_utils_context_t * utils_context,
-	       _mod_gl_hud_floating_context_t * floating_context)
+static void
+_display_clock (mod_gl_utils_context_t * utils_context,
+		_mod_gl_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, dw, dh;
   float size_factor =
@@ -59,9 +59,9 @@ display_clock (mod_gl_utils_context_t * utils_context,
     }
 }
 
-void
-display_gauges (mod_gl_utils_context_t * utils_context,
-		_mod_gl_hud_floating_context_t * floating_context)
+static void
+_display_gauges (mod_gl_utils_context_t * utils_context,
+		 _mod_gl_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, w, h;
   float text_w, text_h, text_x1, text_x2, text_y1, text_y2, text_dw, text_dh;
@@ -307,14 +307,48 @@ display_gauges (mod_gl_utils_context_t * utils_context,
 }
 
 static void
-display_hud (mod_gl_utils_context_t * utils_context,
-	     _mod_gl_hud_floating_context_t * floating_context)
+_display_weapon (mod_gl_utils_context_t * utils_context,
+		 _mod_gl_hud_floating_context_t * floating_context)
+{
+  int team_color = 0;
+  int weapon_id = 0;
+  int per1000_left = 0;
+  mod_gl_utils_bitmap_t *bitmap = NULL;
+  float x1, y1, x2, y2;
+  int transparency;
+
+  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable (GL_BLEND);
+
+  if (lw6ker_game_state_get_latest_weapon
+      (floating_context->game_state, &team_color, &weapon_id, &per1000_left))
+    {
+      transparency = (per1000_left * MOD_GL_UTILS_TRANSPARENCY_SCALE) / 1000;
+      transparency *= floating_context->const_data.weapon_ambiance_alpha;
+      transparency =
+	lw6sys_max (0,
+		    lw6sys_min (MOD_GL_UTILS_TRANSPARENCY_SCALE,
+				transparency));
+      bitmap =
+	utils_context->
+	textures_1x1.team_colors_transparency[team_color][transparency];
+      x1 = y1 = 0.0f;
+      x2 = utils_context->video_mode.width;
+      y2 = utils_context->video_mode.height;
+      mod_gl_utils_bitmap_display (utils_context, bitmap, x1, y1, x2, y2);
+    }
+}
+
+static void
+_display_hud (mod_gl_utils_context_t * utils_context,
+	      _mod_gl_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
-  display_clock (utils_context, floating_context);
-  display_gauges (utils_context, floating_context);
+  _display_clock (utils_context, floating_context);
+  _display_gauges (utils_context, floating_context);
+  _display_weapon (utils_context, floating_context);
   glMatrixMode (GL_TEXTURE);
   glPopMatrix ();
 }
@@ -331,7 +365,7 @@ _mod_gl_hud_floating_display_hud (mod_gl_utils_context_t * utils_context,
 					   look, game_state, local_cursors);
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
-  display_hud (utils_context, floating_context);
+  _display_hud (utils_context, floating_context);
 }
 
 void
@@ -347,9 +381,9 @@ mod_gl_hud_floating_display_hud (mod_gl_utils_context_t * utils_context,
 				    local_cursors);
 }
 
-void
-display_pie (mod_gl_utils_context_t * utils_context,
-	     _mod_gl_hud_floating_context_t * floating_context)
+static void
+_display_pie (mod_gl_utils_context_t * utils_context,
+	      _mod_gl_hud_floating_context_t * floating_context)
 {
   int i = 0;
   float x0, y0, dx, dy, angle1, angle2, angle_offset;
@@ -496,13 +530,13 @@ display_pie (mod_gl_utils_context_t * utils_context,
 }
 
 static void
-display_score (mod_gl_utils_context_t * utils_context,
-	       _mod_gl_hud_floating_context_t * floating_context)
+_display_score (mod_gl_utils_context_t * utils_context,
+		_mod_gl_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
-  display_pie (utils_context, floating_context);
+  _display_pie (utils_context, floating_context);
   glMatrixMode (GL_TEXTURE);
   glPopMatrix ();
 }
@@ -519,7 +553,7 @@ _mod_gl_hud_floating_display_score (mod_gl_utils_context_t * utils_context,
 					     look, game_state, local_cursors);
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
-  display_score (utils_context, floating_context);
+  _display_score (utils_context, floating_context);
 }
 
 void

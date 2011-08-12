@@ -153,6 +153,8 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_WEAPON_DURATION,
   LW6DEF_WEAPON_CHARGE_DELAY,
   LW6DEF_WEAPON_CHARGE_MAX,
+  LW6DEF_WEAPON_TUNE_BEZERK_POWER,
+  LW6DEF_WEAPON_TUNE_TURBO_POWER,
   NULL				// very important that this list is NULL-terminated
 };
 
@@ -296,7 +298,9 @@ static lw6map_rules_t default_rules = {
    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_MODE},
   LW6MAP_RULES_DEFAULT_WEAPON_DURATION,
   LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_DELAY,
-  LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_MAX
+  LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_MAX,
+  LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BEZERK_POWER,
+  LW6MAP_RULES_DEFAULT_WEAPON_TUNE_TURBO_POWER
 };
 
 static lw6map_rules_t min_rules = {
@@ -439,7 +443,9 @@ static lw6map_rules_t min_rules = {
    LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_MODE},
   LW6MAP_RULES_MIN_WEAPON_DURATION,
   LW6MAP_RULES_MIN_WEAPON_CHARGE_DELAY,
-  LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX
+  LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX,
+  LW6MAP_RULES_MIN_WEAPON_TUNE_BEZERK_POWER,
+  LW6MAP_RULES_MIN_WEAPON_TUNE_TURBO_POWER
 };
 
 static lw6map_rules_t max_rules = {
@@ -582,7 +588,9 @@ static lw6map_rules_t max_rules = {
    LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_MODE},
   LW6MAP_RULES_MAX_WEAPON_DURATION,
   LW6MAP_RULES_MAX_WEAPON_CHARGE_DELAY,
-  LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX
+  LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX,
+  LW6MAP_RULES_MAX_WEAPON_TUNE_BEZERK_POWER,
+  LW6MAP_RULES_MAX_WEAPON_TUNE_TURBO_POWER
 };
 
 void
@@ -686,6 +694,8 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->weapon_duration);
   lw6sys_checksum_update_int32 (checksum, rules->weapon_charge_delay);
   lw6sys_checksum_update_int32 (checksum, rules->weapon_charge_max);
+  lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_bezerk_power);
+  lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_turbo_power);
 }
 
 int32_t *
@@ -1284,6 +1294,14 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	  else if (!strcmp (formatted_key, LW6DEF_WEAPON_CHARGE_MAX))
 	    {
 	      ret = &(rules->weapon_charge_max);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_WEAPON_TUNE_BEZERK_POWER))
+	    {
+	      ret = &(rules->weapon_tune_bezerk_power);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_WEAPON_TUNE_TURBO_POWER))
+	    {
+	      ret = &(rules->weapon_tune_turbo_power);
 	    }
 	  else
 	    {

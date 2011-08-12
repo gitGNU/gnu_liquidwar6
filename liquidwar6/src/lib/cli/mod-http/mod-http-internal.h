@@ -27,7 +27,13 @@
 
 #define CURL_NO_OLDIES 1
 #include <curl/curl.h>
+/*
+ * curl/types.h used to be usefull but recent
+ * versions of curl seem to not have it anymore
+ */
+#ifdef HAVE_CURL_TYPES_H
 #include <curl/types.h>
+#endif
 #include <curl/easy.h>
 
 #define _MOD_HTTP_OOB_INFO_TXT "info.txt"

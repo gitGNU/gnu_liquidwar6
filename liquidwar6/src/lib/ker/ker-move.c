@@ -441,13 +441,21 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 	   * on the map boost/glue settings) according to the specific
 	   * team speed (profile_fast parameter).
 	   */
-	  lc.fighter->act_counter +=
-	    lc.rules.use_team_profiles ? lw6ker_percent (lc.
-							 place_struct->act_incr,
-							 lc.
-							 rules.team_profile_fast
-							 [lc.fighter_team_color])
-	    : lc.place_struct->act_incr;
+	  if (lc.rules.use_team_profiles)
+	    {
+	      lc.fighter->act_counter +=
+		lw6ker_percent (lc.place_struct->act_incr,
+				lc.per_team_fast[lc.fighter_team_color]);
+	    }
+	  else
+	    {
+	      lc.fighter->act_counter += lc.place_struct->act_incr;
+	    }
+	  if (lc.per_team_weapon_id[lc.fighter_team_color] ==
+	      _LW6KER_WEAPON_INVINCIBLE)
+	    {
+	      lc.fighter->health = LW6MAP_MAX_FIGHTER_HEALTH;
+	    }
 	  while (lc.fighter->act_counter >= _LW6KER_ACT_LIMIT)
 	    {
 	      lc.fighter->act_counter -= _LW6KER_ACT_LIMIT;

@@ -2240,9 +2240,37 @@ lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t * game_state,
     _lw6ker_map_state_get_weapon_per1000_left (&
 					       (((_lw6ker_game_state_t *)
 						 game_state)->map_state),
-					       &(((_lw6ker_game_state_t *)
-						  game_state)->
-						 game_struct->rules),
 					       lw6ker_game_state_get_rounds
 					       (game_state), team_color);
+}
+
+/**
+ * lw6ker_game_state_get_weapon_per1000_left
+ *
+ * @game_state: game_state to query
+ * @team_color: the team color corresponding to last weapon (out param)
+ * @weapon_id: the corresponding weapon_id (out param)
+ * @per1000_left: how much of the weapon is yet to be spent (out param)
+ *
+ * Returns informations about the latest weapon, this is typically
+ * for drawing purposes, just query this and you know if you need
+ * to paint everything in red, green, whatever, as far as the default
+ * backend is concerned. In case there's no weapon, well, parameters
+ * are untouched. Pointers can be passed as NULL.
+ *
+ * Return value: 1 if found, 0 if not.
+ */
+int
+lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
+				     game_state,
+				     int *team_color,
+				     int *weapon_id, int *per1000_left)
+{
+  return
+    _lw6ker_weapon_get_latest_weapon (&
+				      (((_lw6ker_game_state_t *)
+					game_state)->map_state),
+				      lw6ker_game_state_get_rounds
+				      (game_state), team_color, weapon_id,
+				      per1000_left);
 }

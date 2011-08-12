@@ -645,6 +645,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
   _lw6ker_move_context_t context;
   int move_i = 0;
   int i, j;
+  int tmp;
 
   memset (&context, 0, sizeof (_lw6ker_move_context_t));
 
@@ -726,9 +727,13 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	  context.per_team_nb_defense_tries[i] =
 	    lw6sys_min (context.per_team_nb_defense_tries[i],
 			LW6MAP_RULES_MAX_NB_DEFENSE_TRIES);
-	  if (map_state->teams[i].weapon_last_round >= round &&
-	      map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID &&
-	      map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID)
+
+	  context.per_team_fast[i] = context.rules.team_profile_fast[i];
+
+	  if (map_state->teams[i].weapon_first_round <= round
+	      && map_state->teams[i].weapon_last_round >= round
+	      && map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID
+	      && map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID)
 	    {
 	      context.per_team_weapon_id[i] = map_state->teams[i].weapon_id;
 	    }
@@ -746,12 +751,35 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
+		  tmp = lw6ker_per1000
+		    (context.fighter_attack[i][j] *
+		     context.rules.weapon_tune_bezerk_power,
+		     _lw6ker_map_state_get_weapon_per1000_left
+		     (map_state, round, i));
+
 		  context.fighter_attack[i][j] =
-		    (LW6MAP_RULES_MAX_FIGHTER_ATTACK +
-		     (_LW6KER_BEZERK_FACTOR -
-		      1) * context.fighter_attack[i][j]) /
-		    _LW6KER_BEZERK_FACTOR;
+		    lw6sys_max (context.fighter_attack[i][j],
+				lw6sys_min (tmp,
+					    LW6MAP_RULES_MAX_FIGHTER_ATTACK));
 		}
+	    }
+	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_INVINCIBLE)
+	    {
+	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+		{
+		  context.fighter_attack[j][i] = 0;
+		}
+	    }
+	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_TURBO)
+	    {
+	      tmp = lw6ker_per1000
+		(context.per_team_fast[i] *
+		 context.rules.weapon_tune_turbo_power,
+		 _lw6ker_map_state_get_weapon_per1000_left
+		 (map_state, round, i));
+
+	      context.per_team_fast[i] =
+		lw6sys_max (context.per_team_fast[i], tmp);
 	    }
 	}
     }
@@ -763,6 +791,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	  context.per_team_nb_attack_tries[i] = context.rules.nb_attack_tries;
 	  context.per_team_nb_defense_tries[i] =
 	    context.rules.nb_defense_tries;
+	  context.per_team_fast[i] = LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
 	  context.per_team_weapon_id[i] = _LW6KER_WEAPON_NONE;
 	}
     }
@@ -1205,10 +1234,9 @@ _lw6ker_map_state_is_this_weapon_active (_lw6ker_map_state_t * map_state,
 
 int
 _lw6ker_map_state_get_weapon_per1000_left (_lw6ker_map_state_t * map_state,
-					   lw6map_rules_t * rules, int round,
-					   int team_color)
+					   int round, int team_color)
 {
   return
     _lw6ker_team_get_weapon_per1000_left (&(map_state->teams[team_color]),
-					  rules, round);
+					  round);
 }

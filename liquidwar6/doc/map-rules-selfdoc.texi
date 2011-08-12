@@ -5,7 +5,7 @@
 Type: integer
 
 Default value: 3
-Min value: 0
+Min value: 1
 Max value: 10
 
 Defines how fast and powerfull the boost is. That is, if on 'boost.png' it's
@@ -191,7 +191,7 @@ proportionnally to how many fighters they have on the battlefield.
 Type: integer
 
 Default value: 20
-Min value: 0
+Min value: 1
 Max value: 100
 
 Defines how sticky and powerfull the glue is. That is, if on 'glue.png' it's
@@ -1860,6 +1860,34 @@ Max value: 60
 
 How long all weapons (for which duration makes sense) will last. Unit is
 seconds.
+@end deffn
+
+@subsection weapon-tune-bezerk-power
+@deffn {Command-line option} @code{--weapon-tune-bezerk-power=<value>}
+@deffnx {Environment variable} @code{LW6_WEAPON_TUNE_BEZERK_POWER}
+@deffnx {XML key} @code{weapon-tune-bezerk-power}
+Type: integer
+
+Default value: 3
+Min value: 1
+Max value: 100
+
+Use to specifiy how strong bezerk mode is, if set to 3, then attacks will be 3
+times as efficient in bezerk mode.
+@end deffn
+
+@subsection weapon-tune-turbo-power
+@deffn {Command-line option} @code{--weapon-tune-turbo-power=<value>}
+@deffnx {Environment variable} @code{LW6_WEAPON_TUNE_TURBO_POWER}
+@deffnx {XML key} @code{weapon-tune-turbo-power}
+Type: integer
+
+Default value: 3
+Min value: 1
+Max value: 10
+
+Defines how fast fighters move in turbo mode, if set to 3, then fighters move
+and act 3 times as fast.
 @end deffn
 
 @subsection x-polarity

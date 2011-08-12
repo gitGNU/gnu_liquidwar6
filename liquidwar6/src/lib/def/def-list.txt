@@ -435,12 +435,14 @@ map-path
 max-cursor-pot
 max-cursor-pot-offset
 max-cursor-speed
+max-local-bench-value
 max-map-height
 max-map-surface
 max-map-width
 max-nb-cursors
 max-nb-nodes
 max-nb-teams
+max-network-bench-value
 max-round-delta
 max-zone-size
 medicine-power
@@ -719,6 +721,8 @@ water-volume
 weapon-charge-delay
 weapon-charge-max
 weapon-duration
+weapon-tune-bezerk-power
+weapon-tune-turbo-power
 width
 windowed-mode-limit
 x-polarity

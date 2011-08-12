@@ -40,6 +40,7 @@ _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t * map_state,
       if (map_state->teams[i].weapon_id == weapon_id)
 	{
 	  map_state->teams[i].weapon_id = _LW6KER_WEAPON_NONE;
+	  map_state->teams[i].weapon_first_round = 0;
 	  map_state->teams[i].weapon_last_round = 0;
 	}
     }
@@ -55,9 +56,70 @@ _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t * map_state,
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       if (map_state->teams[i].weapon_id == weapon_id
+	  && map_state->teams[i].weapon_first_round <= round
 	  && map_state->teams[i].weapon_last_round >= round)
 	{
 	  ret = i;
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
+				  int round, int *team_color, int *weapon_id,
+				  int *per1000_left)
+{
+  int i;
+  int found = LW6MAP_TEAM_COLOR_INVALID;
+  int ret = 0;
+  int latest_round = 0;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      if (map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID
+	  && map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID
+	  && map_state->teams[i].weapon_first_round <= round
+	  && map_state->teams[i].weapon_last_round >= round)
+	{
+	  if (map_state->teams[i].weapon_first_round > latest_round)
+	    {
+	      latest_round = map_state->teams[i].weapon_first_round;
+	      found = i;
+	      ret = 1;
+	    }
+	}
+    }
+
+  if (team_color)
+    {
+      (*team_color) = found;
+    }
+
+  if (weapon_id)
+    {
+      if (found != LW6MAP_TEAM_COLOR_INVALID)
+	{
+	  (*weapon_id) = map_state->teams[found].weapon_id;
+	}
+      else
+	{
+	  (*weapon_id) = _LW6KER_WEAPON_NONE;
+	}
+    }
+
+  if (per1000_left)
+    {
+      if (found != LW6MAP_TEAM_COLOR_INVALID)
+	{
+	  (*per1000_left) =
+	    _lw6ker_team_get_weapon_per1000_left (&(map_state->teams[found]),
+						  round);
+	}
+      else
+	{
+	  (*per1000_left) = 0;
 	}
     }
 
@@ -103,6 +165,11 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 	    _lw6ker_weapon_fire_invincible (map_state, rules, round,
 					    team_color, charge_percent);
 	  break;
+	case _LW6KER_WEAPON_ESCAPE:
+	  ret =
+	    _lw6ker_weapon_fire_escape (map_state, rules, round, team_color,
+					charge_percent);
+	  break;
 	case _LW6KER_WEAPON_TURBO:
 	  ret =
 	    _lw6ker_weapon_fire_turbo (map_state, rules, round, team_color,
@@ -112,11 +179,6 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 	  ret =
 	    _lw6ker_weapon_fire_teleport (map_state, rules, round, team_color,
 					  charge_percent);
-	  break;
-	case _LW6KER_WEAPON_ESCAPE:
-	  ret =
-	    _lw6ker_weapon_fire_escape (map_state, rules, round, team_color,
-					charge_percent);
 	  break;
 	case _LW6KER_WEAPON_SCATTER:
 	  ret =
@@ -145,6 +207,7 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
       if (ret)
 	{
 	  map_state->teams[team_color].weapon_id = weapon_id;
+	  map_state->teams[team_color].weapon_first_round = round;
 	  map_state->teams[team_color].weapon_last_round =
 	    round + rules->rounds_per_sec * rules->weapon_duration;
 	}
@@ -174,6 +237,16 @@ _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
 }
 
 int
+_lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
+			    lw6map_rules_t * rules, int round, int team_color,
+			    int charge_percent)
+{
+  int ret = 1;
+
+  return ret;
+}
+
+int
 _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
 			   lw6map_rules_t * rules, int round, int team_color,
 			   int charge_percent)
@@ -187,16 +260,6 @@ int
 _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
 			      lw6map_rules_t * rules, int round,
 			      int team_color, int charge_percent)
-{
-  int ret = 1;
-
-  return ret;
-}
-
-int
-_lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round, int team_color,
-			    int charge_percent)
 {
   int ret = 1;
 

@@ -1,3 +1,13 @@
+2011-08-12 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added bench limitator.
+
+	* Implemented invincible and turbo weapons.
+
+	* When red fires, screen goes all red.
+
+	* Minor ./configure fixes.
+
 2011-08-11 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Gauges now display charge instead of fighter percentage.

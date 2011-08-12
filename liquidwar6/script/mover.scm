@@ -123,15 +123,15 @@
 		  (set! map-y (assoc-ref mouse-state "map-y"))
 		  ))
 	    (if (or (not (= (hash-ref cursor "x") map-x))
-		    (not (= (hash-ref cursor "y") map-y))
-		    fire)
+		    (not (= (hash-ref cursor "y") map-y)))
 		(begin
 		  (hash-set! cursor "x" map-x)
 		  (hash-set! cursor "y" map-y)
-		  (hash-set! cursor "fire" fire)
 		  (hash-set! cursor "mouse-controlled" #t)
 		  #t)
 		#f)
+	    (if fire
+		(hash-set! cursor "fire" #t))
 	    #t
 	    )
 	  #f

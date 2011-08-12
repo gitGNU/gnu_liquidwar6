@@ -166,7 +166,7 @@ if test "x${lw6_ms_windows}" != "xyes" && test "x${lw6_gp2x}" != "xyes" ; then
 *** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
 ])
    fi
-   if guile-config --version ; then
+   if guile-config --version 2> /dev/null ; then
       GUILE_CFLAGS=`guile-config compile`
       GUILE_LDFLAGS=`guile-config link`
       AC_CHECK_LIB(guile, scm_with_guile, HAVE_LIBGUILE=1, AC_MSG_ERROR([
@@ -258,6 +258,7 @@ dnl Begin mod-http
 AC_CHECK_HEADER(curl/curl.h, HAVE_CURL_H=1, AC_MSG_WARN([
 *** Liquid War 6 recommends libcURL (http://curl.haxx.se/libcurl/)
 ]))
+AC_CHECK_HEADER(curl/types.h, HAVE_CURL_TYPES_H=1)
 AC_CHECK_LIB(curl, curl_global_init, HAVE_LIBCURL=1, AC_MSG_WARN([
 *** Liquid War 6 recommends libcURL (http://curl.haxx.se/libcurl/)
 ]))
@@ -422,13 +423,14 @@ fi
 dnl Begin mod-csound
 AC_CHECK_PROG(CSOUND_CONFIG, csound-config, yes, no)
 if test x${CSOUND_CONFIG} != xyes; then
-   AC_MSG_WARN([
-*** Liquid War 6 recommends csound (http://www.csounds.com/)
-])
+   AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.])
+   CSOUND_CFLAGS=
+   CSOUND_LIBS=
+else
+   CSOUND_CFLAGS=`csound-config --cflags`
+   CSOUND_LIBS=`csound-config --libs`
 fi
-CSOUND_CFLAGS=`csound-config --cflags`
 AC_SUBST(CSOUND_CFLAGS)
-CSOUND_LIBS=`csound-config --libs`
 AC_SUBST(CSOUND_LIBS)
 AC_CHECK_HEADER(csound/csound.h, HAVE_CSOUND_CSOUND_H=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]))
 AC_CHECK_LIB(csound, csoundCreate, HAVE_LIBCSOUND=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]),${CSOUND_LIBS})

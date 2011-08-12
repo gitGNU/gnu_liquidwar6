@@ -5179,7 +5179,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `boost-power'
      Type: integer
 
-     Default value: 3 Min value: 0 Max value: 10
+     Default value: 3 Min value: 1 Max value: 10
 
      Defines how fast and powerfull the boost is. That is, if on
      'boost.png' it's pitch black and this parameter is set to 3, then
@@ -5364,7 +5364,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `glue-power'
      Type: integer
 
-     Default value: 20 Min value: 0 Max value: 100
+     Default value: 20 Min value: 1 Max value: 100
 
      Defines how sticky and powerfull the glue is. That is, if on
      'glue.png' it's pitch black and this parameter is set to 3, then
@@ -6998,7 +6998,33 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long all weapons (for which duration makes sense) will last.
      Unit is seconds.
 
-4.9.122 x-polarity
+4.9.122 weapon-tune-bezerk-power
+--------------------------------
+
+ -- Command-line option: `--weapon-tune-bezerk-power=<value>'
+ -- Environment variable: `LW6_WEAPON_TUNE_BEZERK_POWER'
+ -- XML key: `weapon-tune-bezerk-power'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 100
+
+     Use to specifiy how strong bezerk mode is, if set to 3, then
+     attacks will be 3 times as efficient in bezerk mode.
+
+4.9.123 weapon-tune-turbo-power
+-------------------------------
+
+ -- Command-line option: `--weapon-tune-turbo-power=<value>'
+ -- Environment variable: `LW6_WEAPON_TUNE_TURBO_POWER'
+ -- XML key: `weapon-tune-turbo-power'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 10
+
+     Defines how fast fighters move in turbo mode, if set to 3, then
+     fighters move and act 3 times as fast.
+
+4.9.124 x-polarity
 ------------------
 
  -- Command-line option: `--x-polarity=<value>'
@@ -7017,7 +7043,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.9.123 y-polarity
+4.9.125 y-polarity
 ------------------
 
  -- Command-line option: `--y-polarity=<value>'
@@ -7036,7 +7062,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.9.124 z-polarity
+4.9.126 z-polarity
 ------------------
 
  -- Command-line option: `--z-polarity=<value>'

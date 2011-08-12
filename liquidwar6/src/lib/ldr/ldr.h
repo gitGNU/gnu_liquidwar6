@@ -29,8 +29,11 @@
 #include "../hlp/hlp.h"
 
 #define LW6LDR_DEFAULT_BENCH_VALUE 20
+#define LW6LDR_DEFAULT_MAX_LOCAL_BENCH_VALUE 800
+#define LW6LDR_DEFAULT_MAX_NETWORK_BENCH_VALUE 200
+
 /*
- * This is a "Markov prime" 
+ * This is traditionnally a prime number, just for fun
  * http://en.wikipedia.org/wiki/List_of_prime_numbers
  * 
  * The higher the number is, the more optimistic we
@@ -38,7 +41,7 @@
  * been used for some time but proves too high 
  * on too fast maps.
  */
-#define LW6LDR_DEFAULT_MAGIC_NUMBER 28657
+#define LW6LDR_DEFAULT_MAGIC_NUMBER 14741
 
 #define LW6LDR_HINTS_DEFAULT_RESAMPLE 1
 #define LW6LDR_HINTS_DEFAULT_MIN_MAP_WIDTH 20

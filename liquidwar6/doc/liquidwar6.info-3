@@ -4416,7 +4416,8 @@ This section lists various Internet Liquid War related links.
 C.1 Official links
 ==================
 
-These are all the "official" links:
+These are the "official" links, hopefully you'll find everything you
+need here:
 
    * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
 
@@ -4426,42 +4427,31 @@ These are all the "official" links:
      downloads
 
    * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
+     (mirror)
 
-   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
-     (deprecated)
+   * `http://www.ufoot.org/liquidwar/v6/snapshots/': daily snapshots
 
-   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git',
-     `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
-     (replaces GNU Arch)
+   * `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
 
    * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
+
+   * `http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6':
+     Submit a bug report
 
    * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
      archives
 
-   * `http://kasperhviid.dk/liquid-stuff.html',
-     `http://kasperhviid.dk/lw6-eyecandy.html',
-     `http://kasperhviid.dk/lw6-gui.html': Kasper Hviid brainstorming
-     and resources concerning Liquid War 6.
+C.2 Other sites
+===============
 
-   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5
+Note that some of these links might link to and/or promote proprietary
+software. It's important to emphasize Liquid War 6 is free software,
+free as in speech, and you are encouraged to use software that protects
+your freedom. However, for your convenience, those links are provided,
+they might give you a hopefully neutral idea of what the game is all
+about.
 
-C.2 Other sites and reviews
-===========================
-
-These links are not maintained by the project maintainer, all the
-contents on them is just ...uncontrolled, which is probably a good
-think as far as reviews are concerned.
-
-   Note that some of these links might link to and/or promote
-proprietary software. It's important to emphasize Liquid War 6 is free
-software, free as in speech, and you are encouraged to use software
-that protects your freedom. However, for your convenience, those links
-are provided, they might give you an idea of what other people think of
-the game, which is a valuable information.
-
-   This list is also by no way extensive, it's provided "as is",
-navigate it at your own risk.
+   This list is also by no way extensive, it's provided "as is".
 
    * `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
      Wikipedia
@@ -4469,31 +4459,23 @@ navigate it at your own risk.
    * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
      Wikipedia (French)
 
-   * `http://www.lgdb.org/game/liquid_war': Liquid War 6 entry on LGDB
-
-   * `http://libregamewiki.org/Liquid_War_6': Liquid War 6 entry on
-     Libregamewiki
-
    * `http://freshmeat.net/projects/liquid-war-6': Liquid War 6 on
      Freshmeat.
 
-   * `http://happypenguin.org/newsitem?id=10821': Liquid War 6 on the
-     Linux Game Tome.
+C.3 Old stuff
+=============
 
-   * `http://www.pixelprospector.com/liquid-war-6/': review on Pixel
-     Prospector.
+Various links that are deprecated, but still might contain interesting
+informations for those who enjoy digging into the past.
 
-   *
-     `http://www.gamespot.com/pc/action/liquidwar6/news/6262368/indie-spotlight-liquid-war-6':
-     staff review on Gamespot.
+   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
+     (replaced by Git as for this project)
 
-   *
-     `http://www.gamespot.com/pc/action/liquidwar6/player_review.html?id=720653':
-     user review on Gamespot.
+   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5, the previous
+     version of the game.
 
-   *
-     `http://linuxgamecast.com/2011/08/l-g-c-b-reel-%E2%80%94-liquid-war-6/':
-     review on Linux Game Cast.
+   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git': Gitweb
+     interface, cgit seems to be Savannah's default now.
 
 
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top

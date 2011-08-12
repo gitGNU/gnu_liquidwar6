@@ -29,7 +29,9 @@
 	   (video-mode (c-lw6dsp-get-video-mode dsp))
 	   (width (assoc-ref video-mode "width"))
 	   (height (assoc-ref video-mode "height"))
-	   (bench-value (lw6-config-get-number lw6def-bench-value))
+	   (bench-value (min 
+			 (lw6-config-get-number lw6def-bench-value)
+			 (lw6-config-get-number lw6def-max-local-bench-value)))
 	   (magic-number (lw6-config-get-number lw6def-magic-number))
 	  )
       (begin

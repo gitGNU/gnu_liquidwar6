@@ -36,6 +36,7 @@
 
 #define MOD_GL_UTILS_MENU_TEXTURE_W 512
 #define MOD_GL_UTILS_MENU_TEXTURE_H 128
+#define MOD_GL_UTILS_TRANSPARENCY_SCALE 100
 
 /*
  * We keep 64 menu bitmaps in memory, to avoid redrawing them
@@ -285,6 +286,9 @@ typedef struct mod_gl_utils_texture_1x1_s
   mod_gl_utils_bitmap_t *system_color_bg;
   mod_gl_utils_bitmap_t *team_color_dead;
   mod_gl_utils_bitmap_t *team_colors[LW6MAP_NB_TEAM_COLORS];
+    mod_gl_utils_bitmap_t
+    * team_colors_transparency[LW6MAP_NB_TEAM_COLORS]
+    [MOD_GL_UTILS_TRANSPARENCY_SCALE + 1];
 }
 mod_gl_utils_texture_1x1_t;
 

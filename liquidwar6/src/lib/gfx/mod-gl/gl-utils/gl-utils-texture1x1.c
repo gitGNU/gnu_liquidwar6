@@ -43,13 +43,13 @@ mod_gl_utils_texture_1x1_color2bitmap (mod_gl_utils_context_t *
 				       lw6sys_color_8_t color_8)
 {
   mod_gl_utils_bitmap_t *ret = NULL;
-  SDL_Color color;
+  Uint32 pixel;
 
   ret = mod_gl_utils_bitmap_new (utils_context, 1, 1);
   if (ret)
     {
-      color = mod_gl_utils_color_8_to_sdl (color_8);
-      mod_gl_utils_clear_surface_with_color (ret->surface, color);
+      pixel = lw6sys_color_8_to_i (color_8);
+      mod_gl_utils_putpixel (ret->surface, 0, 0, pixel);
       mod_gl_utils_bitmap_clear_texture (utils_context, ret);
     }
 
@@ -61,7 +61,8 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
 				 lw6gui_look_t * look)
 {
   int ret = 1;
-  int i;
+  int i, j;
+  lw6sys_color_8_t color_tmp;
 
   if (!lw6map_color_set_is_same
       (&(utils_context->textures_1x1.color_set), &(look->style.color_set)))
@@ -222,12 +223,21 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
 	&& ret;
       for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
 	{
+	  color_tmp = look->style.color_set.team_colors[i];
 	  ret =
 	    ((utils_context->textures_1x1.team_colors[i] =
 	      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						     look->style.color_set.
-						     team_colors[i])) != NULL)
+						     color_tmp)) != NULL)
 	    && ret;
+	  for (j = 0; j <= MOD_GL_UTILS_TRANSPARENCY_SCALE; ++j)
+	    {
+	      color_tmp.a = (j * 255) / MOD_GL_UTILS_TRANSPARENCY_SCALE;
+	      ret =
+		((utils_context->textures_1x1.team_colors_transparency[i][j] =
+		  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+							 color_tmp)) != NULL)
+		&& ret;
+	    }
 	}
     }
 
@@ -237,7 +247,7 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
 void
 mod_gl_utils_texture_1x1_clear (mod_gl_utils_context_t * utils_context)
 {
-  int i;
+  int i, j;
 
   _bitmap_free (utils_context, utils_context->textures_1x1.color_base_fg);
   _bitmap_free (utils_context, utils_context->textures_1x1.color_base_bg);
@@ -284,6 +294,12 @@ mod_gl_utils_texture_1x1_clear (mod_gl_utils_context_t * utils_context)
     {
       _bitmap_free (utils_context,
 		    utils_context->textures_1x1.team_colors[i]);
+      for (j = 0; j <= MOD_GL_UTILS_TRANSPARENCY_SCALE; ++j)
+	{
+	  _bitmap_free (utils_context,
+			utils_context->
+			textures_1x1.team_colors_transparency[i][j]);
+	}
     }
   memset (&(utils_context->textures_1x1), 0,
 	  sizeof (mod_gl_utils_texture_1x1_t));

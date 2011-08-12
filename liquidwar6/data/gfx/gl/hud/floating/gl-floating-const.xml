@@ -53,6 +53,7 @@
   <float key="gauge-max-health-angle" value="240" /><!-- Looks like it
 						       is the gradient of the health. Set it to 1 if you don't want any
 						       gradient effect   default: 240 -->
+  <float key="weapon-ambiance-alpha" value="0.66" />
   <int key="score-pie-rotation-period" value="12000" />
   <int key="score-pie-heartbeat-period" value="1000" />
   <float key="score-pie-heartbeat-factor1" value="1.05" />

@@ -31,10 +31,10 @@
 #define TEST_MAP_NB_LAYERS 5
 #define TEST_MAP_NOISE_PERCENT 20
 #define TEST_NB_ROUNDS 100
-#define TEST_GAME_STRUCT_CHECKSUM 0x9db057e9
-#define TEST_GAME_STATE_CHECKSUM 0x9c844247
-#define TEST_GAME_STATE_POPULATE_CHECKSUM 0xb751178e
-#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0x9c06f6e3
+#define TEST_GAME_STRUCT_CHECKSUM 0xc3a26770
+#define TEST_GAME_STATE_CHECKSUM 0x402f86f0
+#define TEST_GAME_STATE_POPULATE_CHECKSUM 0xe0176d0f
+#define TEST_GAME_STATE_ALGORITHM_CHECKSUM 0xea936d93
 #define TEST_NODE_ID 0x1234123412341234LL
 #define TEST_CURSOR1_ID 0x1234
 #define TEST_CURSOR2_ID 0x2345
@@ -111,6 +111,9 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
   int winner, looser;
   lw6sys_xyz_t current_pos = { 0, 0, 0 };
   lw6sys_xyz_t next_pos = { 0, 0, 0 };
+  int team_color = 0;
+  int weapon_id = 0;
+  int per1000_left = 0;
 
   repr = lw6ker_game_state_repr (game_state);
   if (repr)
@@ -188,6 +191,8 @@ print_game_state_repr (lw6ker_game_state_t * game_state)
 					 0);
 	  lw6ker_game_state_get_charge_per1000 (game_state, 0);
 	  lw6ker_game_state_get_weapon_per1000_left (game_state, 0);
+	  lw6ker_game_state_get_latest_weapon (game_state, &team_color,
+					       &weapon_id, &per1000_left);
 	}
     }
 

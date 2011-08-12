@@ -5376,7 +5376,8 @@ This section lists various Internet Liquid War related links.
 
 @appendixsec Official links
 
-These are all the ``official'' links:
+These are the ``official'' links, hopefully you'll find everything
+you need here:
 
 @itemize
 @item
@@ -5386,37 +5387,29 @@ These are all the ``official'' links:
 @item
 @uref{http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads
 @item
-@uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads
+@uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads (mirror)
 @item
-@uref{http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repository (deprecated)
+@uref{http://www.ufoot.org/liquidwar/v6/snapshots/}: daily snapshots
 @item
-@uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git}, @uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository (replaces GNU Arch)
+@uref{http://git.savannah.gnu.org/cgit/liquidwar6.git}: GIT repository
 @item
 @uref{http://savannah.gnu.org/projects/liquidwar6/}: Project on Savannah
 @item
+@uref{http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6}: Submit a bug report
+@item
 @uref{http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
-@item
-@uref{http://kasperhviid.dk/liquid-stuff.html}, @uref{http://kasperhviid.dk/lw6-eyecandy.html}, @uref{http://kasperhviid.dk/lw6-gui.html}: Kasper Hviid brainstorming and resources concerning Liquid War 6.
-@item
-@uref{http://www.ufoot.org/liquidwar/v5}: Liquid War 5
 @end itemize
 
-@appendixsec Other sites and reviews
-
-These links are not maintained by the project maintainer,
-all the contents on them is just ...uncontrolled, which is
-probably a good think as far as reviews are concerned.
+@appendixsec Other sites
 
 Note that some of these links might link to and/or promote
 proprietary software. It's important to emphasize Liquid War 6
 is free software, free as in speech, and you are encouraged to
 use software that protects your freedom. However, for your
 convenience, those links are provided, they might give you
-an idea of what other people think of the game, which is
-a valuable information.
+a hopefully neutral idea of what the game is all about.
 
-This list is also by no way extensive, it's provided ``as is'',
-navigate it at your own risk.
+This list is also by no way extensive, it's provided ``as is''.
 
 @itemize
 @item
@@ -5424,21 +5417,21 @@ navigate it at your own risk.
 @item
 @uref{http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
 @item
-@uref{http://www.lgdb.org/game/liquid_war}: Liquid War 6 entry on LGDB
-@item
-@uref{http://libregamewiki.org/Liquid_War_6}: Liquid War 6 entry on Libregamewiki
-@item
 @uref{http://freshmeat.net/projects/liquid-war-6}: Liquid War 6 on Freshmeat.
+@end itemize
+
+@appendixsec Old stuff
+
+Various links that are deprecated, but still might contain interesting informations
+for those who enjoy digging into the past.
+
+@itemize
 @item
-@uref{http://happypenguin.org/newsitem?id=10821}: Liquid War 6 on the Linux Game Tome.
+@uref{http://arch.sv.gnu.org/archives/liquidwar6/}: GNU Arch repository (replaced by Git as for this project)
 @item
-@uref{http://www.pixelprospector.com/liquid-war-6/}: review on Pixel Prospector.
+@uref{http://www.ufoot.org/liquidwar/v5}: Liquid War 5, the previous version of the game.
 @item
-@uref{http://www.gamespot.com/pc/action/liquidwar6/news/6262368/indie-spotlight-liquid-war-6}: staff review on Gamespot.
-@item
-@uref{http://www.gamespot.com/pc/action/liquidwar6/player_review.html?id=720653}: user review on Gamespot.
-@item
-@uref{http://linuxgamecast.com/2011/08/l-g-c-b-reel-%E2%80%94-liquid-war-6/}: review on Linux Game Cast.
+@uref{http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git}: Gitweb interface, cgit seems to be Savannah's default now.
 @end itemize
 
 @c ---------------------------------------------------------------------------

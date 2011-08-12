@@ -1354,7 +1354,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
  -- XML key: `magic-number'
      Type: integer
 
-     Default value: 28657
+     Default value: 14741
 
      This 'magic' number probably requires an explanation. It's used to
      estimate how big a map can be built. The calculus is very
@@ -1370,7 +1370,39 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      pessimistic, or if for some reason bench returns bogus values, you
      can modify it.
 
-4.12.41 memory-bazooka-eraser
+4.12.41 max-local-bench-value
+-----------------------------
+
+ -- Command-line option: `--max-local-bench-value=<value>'
+ -- Environment variable: `LW6_MAX_LOCAL_BENCH_VALUE'
+ -- XML key: `max-local-bench-value'
+     Type: integer
+
+     Default value: 800
+
+     Even if your computer is very fast, this parameter will be used to
+     tame the optimism of the test, and do not load maps in very high
+     detail. It's believed at some point, it's best to keep your extra
+     power to deal with unordinary situations rather than waste it on
+     useless details. Game should be fun with that setting, but if you
+     really want to use your shiny CPU at its maximum, raise this.
+
+4.12.42 max-network-bench-value
+-------------------------------
+
+ -- Command-line option: `--max-network-bench-value=<value>'
+ -- Environment variable: `LW6_MAX_NETWORK_BENCH_VALUE'
+ -- XML key: `max-network-bench-value'
+     Type: integer
+
+     Default value: 200
+
+     On network games, we need to be sure everyone can play in correct
+     conditions, therefore maps won't be loaded with more details than
+     this, by default. You're free to increase this parameter but it
+     can cause your games to be unjoignable by some people.
+
+4.12.43 memory-bazooka-eraser
 -----------------------------
 
  -- Command-line option: `--memory-bazooka-eraser=<value>'
@@ -1390,7 +1422,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      usable. The memory bazooka must be big enough if you want this
      feature to actually work.
 
-4.12.42 memory-bazooka-size
+4.12.44 memory-bazooka-size
 ---------------------------
 
  -- Command-line option: `--memory-bazooka-size=<value>'
@@ -1412,7 +1444,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      something like 100 might just be helpfull, but 1000000 is the
      right way to seriously debug code.
 
-4.12.43 net-log
+4.12.45 net-log
 ---------------
 
  -- Command-line option: `--net-log=<value>'
@@ -1427,7 +1459,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      library such as libCurl. This is mostly for debugging purpose, it
      can lead to rather big log files.
 
-4.12.44 network-reliability
+4.12.46 network-reliability
 ---------------------------
 
  -- Command-line option: `--network-reliability=<value>'
@@ -1450,7 +1482,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      the most reliable network will look, the algorithm is simply to
      drop one message out of X.
 
-4.12.45 open-relay
+4.12.47 open-relay
 ------------------
 
  -- Command-line option: `--open-relay=<value>'
@@ -1468,7 +1500,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      won't forward it. In practice, it means without open relay,
      messages can only be forwarded once.
 
-4.12.46 pilot-lag
+4.12.48 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -1482,14 +1514,14 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.12.47 quick-start
+4.12.49 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.12.48 reset
+4.12.50 reset
 -------------
 
  -- Command-line option: `--reset'
@@ -1498,7 +1530,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.12.49 reset-config-on-upgrade
+4.12.51 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -1511,7 +1543,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.12.50 server
+4.12.52 server
 --------------
 
  -- Command-line option: `--server'
@@ -1524,7 +1556,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.12.51 target-fps
+4.12.53 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'
@@ -1543,7 +1575,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      Liquid War 6 is now so fast-paced that it requires 200 frames/sec
      to outperform opponents.
 
-4.12.52 trojan
+4.12.54 trojan
 --------------
 
  -- Command-line option: `--trojan=<value>'
@@ -1559,7 +1591,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      fake and kick it out of the game. It's of no use for regular
      players, be sure to unset this if you want to play for good.
 
-4.12.53 z-decode
+4.12.55 z-decode
 ----------------
 
  -- Command-line option: `--z-decode'
@@ -1569,7 +1601,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map s
      base64 decode and pass the content through Zlib inflating. I
      content is not Z-prefixed, will be returned as is.
 
-4.12.54 z-encode
+4.12.56 z-encode
 ----------------
 
  -- Command-line option: `--z-encode'
@@ -6168,17 +6200,50 @@ results on
 
      *Return value:*  the potential
 
- -- Function: int lw6ker_game_state_get_charge_percent
+ -- Function: int lw6ker_game_state_get_charge_per1000
           (lw6ker_game_state_t * GAME_STATE, int TEAM_COLOR)
      GAME_STATE:  game_state to query
 
      TEAM_COLOR:  the team color to query
 
-     Returns the charge percentage for a given team/color. A value of
-     100 means fire is enabled, more than 100 means super-charge, under
-     100 means you have to wait...
+     Returns the charge ratio for a given team/color. A value of 100
+     means fire is enabled, more than 1000 means super-charge, under 100
+     means you have to wait.
 
-     *Return value:*  a percentage.
+     *Return value:*  integer value.
+
+ -- Function: int lw6ker_game_state_get_weapon_per1000_left
+          (lw6ker_game_state_t * GAME_STATE, int TEAM_COLOR)
+     GAME_STATE:  game_state to query
+
+     TEAM_COLOR:  the team color to query
+
+     Returns how much of the weapon is yet to be consumed for a given
+     team. More than 1000 means extra time, 1000 is standard time to be
+     elapsed, 0 means it's over.
+
+     *Return value:*  integer value.
+
+ -- Function: int lw6ker_game_state_get_latest_weapon
+          (lw6ker_game_state_t * GAME_STATE, int * TEAM_COLOR, int *
+          WEAPON_ID, int * PER1000_LEFT)
+     GAME_STATE:  game_state to query
+
+     TEAM_COLOR:  the team color corresponding to last weapon (out
+     param)
+
+     WEAPON_ID:  the corresponding weapon_id (out param)
+
+     PER1000_LEFT:  how much of the weapon is yet to be spent (out
+     param)
+
+     Returns informations about the latest weapon, this is typically
+     for drawing purposes, just query this and you know if you need to
+     paint everything in red, green, whatever, as far as the default
+     backend is concerned. In case there's no weapon, well, parameters
+     are untouched. Pointers can be passed as NULL.
+
+     *Return value:*  1 if found, 0 if not.
 
  -- Function: lw6ker_game_struct_t * lw6ker_game_struct_new
           (lw6map_level_t * LEVEL, lw6sys_progress_t * PROGRESS)

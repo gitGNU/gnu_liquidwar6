@@ -212,14 +212,16 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_("no block defined at block_index=%d for serial %d"),
+		      _x_
+		      ("no block defined at block_index=%d for serial %d"),
 		      block_index, serial);
 	}
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_("bad block_index=%d for serial %d"),
-		  block_index, serial);
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad block_index=%d for serial %d"), block_index,
+		  serial);
     }
 
   return atom;
