@@ -435,7 +435,7 @@ AC_SUBST(CSOUND_LIBS)
 AC_CHECK_HEADER(csound/csound.h, HAVE_CSOUND_CSOUND_H=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]))
 AC_CHECK_LIB(csound, csoundCreate, HAVE_LIBCSOUND=1, AC_MSG_NOTICE([Liquid War 6 will probably use libcsound (http://www.csounds.com/) some day but it's not required yet.]),${CSOUND_LIBS})
 
-AC_ARG_ENABLE([mod-csound], AS_HELP_STRING([--enable-mod-csound],[compile mod-csound default=yes]), [enable_mod_csound=$enableval], [enable_mod_csound=yes])
+AC_ARG_ENABLE([mod-csound], AS_HELP_STRING([--enable-mod-csound],[compile mod-csound default=no]), [enable_mod_csound=$enableval], [enable_mod_csound=no])
 
 AM_CONDITIONAL(MOD_CSOUND, test x$enable_mod_csound = xyes && test x$CSOUND_CONFIG = xyes && test x$HAVE_CSOUND_CSOUND_H = x1 && test x$HAVE_LIBCSOUND = x1)
 

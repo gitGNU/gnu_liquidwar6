@@ -1518,7 +1518,7 @@ Optional Features:
   --enable-headless       accept headless built default=no
   --enable-silent         accept silent built default=no
   --enable-mod-gl         compile mod-gl default=yes
-  --enable-mod-csound     compile mod-csound default=yes
+  --enable-mod-csound     compile mod-csound default=no
   --enable-mod-ogg        compile mod-ogg default=yes
   --enable-optimize       optimize for speed default=no
   --enable-allinone       stuff internal libraries into main binary default=no
@@ -16081,7 +16081,7 @@ fi
 if test "${enable_mod_csound+set}" = set; then :
   enableval=$enable_mod_csound; enable_mod_csound=$enableval
 else
-  enable_mod_csound=yes
+  enable_mod_csound=no
 fi
 
 
