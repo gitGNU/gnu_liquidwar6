@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+
+
+	<float key="cursor-size" value="1.0" />	
+
+<bool key="pixelize" value="true"/>
+<bool key="resample" value="false"/>
+
+
+</lw6mapparam>
