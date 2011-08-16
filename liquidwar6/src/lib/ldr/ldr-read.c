@@ -171,7 +171,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	  lw6cfg_load_exp (user_dir, &player_exp);
 	  if (player_exp >= map_exp)
 	    {
-	      lw6sys_log (LW6SYS_LOG_NOTICE,
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("OK, can load \"%s\" with exp=%d, requires only %d"),
 			  dirname, player_exp, map_exp);
