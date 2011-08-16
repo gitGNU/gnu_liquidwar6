@@ -3382,6 +3382,8 @@ Summary off all operations required for a release:
 
 @itemize
 @item
+check the value of @code{LW6CFG_DEFAULT_EXP} and default for @code{--skip-network}, which might have been changed will developping.
+@item
 in @code{./src}, run @code{./indent.sh}.
 @item
 in @code{./doc}, run @code{./gdoc-update.sh}.

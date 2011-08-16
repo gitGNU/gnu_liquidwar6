@@ -67,6 +67,7 @@ typedef struct _lw6tsk_loader_data_s
 {
   int stop;
   float sleep;
+  char *user_dir;
   void *mutex;
   int stage;
   int request_number;

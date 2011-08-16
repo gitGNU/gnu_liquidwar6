@@ -80,9 +80,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libcfg_la_LIBADD =
 am_libcfg_la_OBJECTS = cfg-arg.lo cfg-defaults.lo cfg-env.lo \
-	cfg-format.lo cfg-load.lo cfg-option.lo cfg-save.lo \
-	cfg-score.lo cfg-setup.lo cfg-test.lo cfg-unified.lo \
-	cfg-xml.lo
+	cfg-format.lo cfg-load.lo cfg-option.lo cfg-save.lo cfg-exp.lo \
+	cfg-setup.lo cfg-test.lo cfg-unified.lo cfg-xml.lo
 libcfg_la_OBJECTS = $(am_libcfg_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libcfgdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -332,7 +331,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lexpat
 noinst_LTLIBRARIES = libcfg.la
-libcfg_la_SOURCES = cfg-arg.c cfg-defaults.c cfg-env.c cfg-format.c cfg-load.c cfg-option.c cfg-save.c cfg-score.c cfg-setup.c cfg-test.c cfg-unified.c cfg-xml.c
+libcfg_la_SOURCES = cfg-arg.c cfg-defaults.c cfg-env.c cfg-format.c cfg-load.c cfg-option.c cfg-save.c cfg-exp.c cfg-setup.c cfg-test.c cfg-unified.c cfg-xml.c
 libcfgdir = $(includedir)/@PACKAGE_TARNAME@/cfg
 libcfg_HEADERS = cfg.h
 @FULLSTATIC_FALSE@liquidwar6cfg_test_SOURCES = cfg-testmain.c
@@ -439,11 +438,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-arg.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-defaults.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-env.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-exp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-format.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-load.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-option.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-save.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-score.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-setup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg-testmain.Po@am__quote@

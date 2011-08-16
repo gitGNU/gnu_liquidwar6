@@ -113,6 +113,7 @@ level_new (char *name, int display_width, int display_height,
 {
   lw6map_level_t *ret = NULL;
   char *map_path = NULL;
+  char *user_dir = NULL;
   int argc = TEST_ARGC;
   char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
@@ -120,10 +121,17 @@ level_new (char *name, int display_width, int display_height,
   map_path = lw6cfg_unified_get_map_path (argc, argv);
   if (map_path)
     {
-      ret =
-	lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL, display_width,
-			      display_height, LW6LDR_DEFAULT_BENCH_VALUE,
-			      LW6LDR_DEFAULT_MAGIC_NUMBER, progress);
+      user_dir = lw6sys_get_user_dir (argc, argv);
+      if (user_dir)
+	{
+	  ret =
+	    lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL,
+				  display_width, display_height,
+				  LW6LDR_DEFAULT_BENCH_VALUE,
+				  LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
+				  progress);
+	  LW6SYS_FREE (user_dir);
+	}
       LW6SYS_FREE (map_path);
     }
   lw6sys_progress_begin (progress);

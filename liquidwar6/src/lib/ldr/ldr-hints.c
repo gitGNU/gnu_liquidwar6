@@ -64,6 +64,7 @@ lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
   hints->wall_grease = LW6LDR_HINTS_DEFAULT_WALL_GREASE;
   hints->guess_moves_per_sec = LW6LDR_HINTS_DEFAULT_GUESS_MOVES_PER_SEC;
   hints->speed = LW6LDR_HINTS_DEFAULT_SPEED;
+  hints->exp = LW6LDR_HINTS_DEFAULT_EXP;
 }
 
 void
@@ -236,6 +237,10 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, char *key, char *value)
 	{
 	  hints->speed = lw6sys_atof (value);
 	}
+      else if (!strcmp (LW6DEF_EXP, formatted_key))
+	{
+	  hints->exp = lw6sys_atoi (value);
+	}
       else
 	{
 	  ret = 0;
@@ -342,6 +347,10 @@ lw6ldr_hints_get (lw6ldr_hints_t * hints, char *key)
       else if (!strcmp (LW6DEF_SPEED, formatted_key))
 	{
 	  ret = lw6sys_ftoa (hints->speed);
+	}
+      else if (!strcmp (LW6DEF_EXP, formatted_key))
+	{
+	  ret = lw6sys_itoa (hints->exp);
 	}
       LW6SYS_FREE (formatted_key);
     }

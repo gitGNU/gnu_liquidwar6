@@ -4730,6 +4730,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
   lw6ldr_entry_t *c_entry;
   char *c_map_path;
   char *c_relative_path;
+  char *user_dir;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -4746,35 +4747,42 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
       c_relative_path = to_0str (relative_path);
       if (c_relative_path)
 	{
-	  c_maps = lw6ldr_get_entries (c_map_path, c_relative_path);
-	  if (c_maps)
+	  user_dir =
+	    lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  if (user_dir)
 	    {
-	      while (!lw6sys_list_is_empty (c_maps))
+	      c_maps =
+		lw6ldr_get_entries (c_map_path, c_relative_path, user_dir);
+	      if (c_maps)
 		{
-		  c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
-		  if (c_entry)
+		  while (!lw6sys_list_is_empty (c_maps))
 		    {
-		      ret = scm_cons (scm_list_4
-				      (scm_cons
-				       (scm_makfrom0str ("title"),
-					scm_makfrom0str (c_entry->title)),
-				       scm_cons (scm_makfrom0str
-						 ("absolute-path"),
-						 scm_makfrom0str
-						 (c_entry->absolute_path)),
-				       scm_cons (scm_makfrom0str
-						 ("relative-path"),
-						 scm_makfrom0str
-						 (c_entry->relative_path)),
-				       scm_cons (scm_makfrom0str
-						 ("has-subdirs"),
-						 c_entry->has_subdirs ?
-						 SCM_BOOL_T : SCM_BOOL_F)),
-				      ret);
-		      lw6ldr_free_entry (c_entry);
+		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
+		      if (c_entry)
+			{
+			  ret = scm_cons (scm_list_4
+					  (scm_cons
+					   (scm_makfrom0str ("title"),
+					    scm_makfrom0str (c_entry->title)),
+					   scm_cons (scm_makfrom0str
+						     ("absolute-path"),
+						     scm_makfrom0str
+						     (c_entry->absolute_path)),
+					   scm_cons (scm_makfrom0str
+						     ("relative-path"),
+						     scm_makfrom0str
+						     (c_entry->relative_path)),
+					   scm_cons (scm_makfrom0str
+						     ("has-subdirs"),
+						     c_entry->has_subdirs ?
+						     SCM_BOOL_T :
+						     SCM_BOOL_F)), ret);
+			  lw6ldr_free_entry (c_entry);
+			}
 		    }
+		  lw6sys_list_free (c_maps);
 		}
-	      lw6sys_list_free (c_maps);
+	      LW6SYS_FREE (user_dir);
 	    }
 	  LW6SYS_FREE (c_relative_path);
 	}
@@ -4801,6 +4809,7 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
   int c_magic_number;
   lw6map_level_t *c_level;
   SCM ret = SCM_BOOL_F;
+  char *user_dir;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -4838,13 +4847,21 @@ _scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param,
 	      c_bench_value = scm_to_int (bench_value);
 	      c_magic_number = scm_to_int (magic_number);
 
-	      c_level =
-		lw6ldr_read (c_dirname, c_default_param, c_forced_param,
-			     c_display_width, c_display_height, c_bench_value,
-			     c_magic_number, &progress);
-	      if (c_level)
+	      user_dir =
+		lw6cfg_unified_get_user_dir (lw6_global.argc,
+					     lw6_global.argv);
+	      if (user_dir)
 		{
-		  ret = lw6_make_scm_map (c_level);
+		  c_level =
+		    lw6ldr_read (c_dirname, c_default_param, c_forced_param,
+				 c_display_width, c_display_height,
+				 c_bench_value, c_magic_number, user_dir,
+				 &progress);
+		  if (c_level)
+		    {
+		      ret = lw6_make_scm_map (c_level);
+		    }
+		  LW6SYS_FREE (user_dir);
 		}
 	      lw6sys_assoc_free (c_forced_param);
 	    }
@@ -4875,6 +4892,7 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
   int c_magic_number;
   lw6map_level_t *c_level;
   SCM ret = SCM_BOOL_F;
+  char *user_dir;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -4918,15 +4936,23 @@ _scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
 		  c_bench_value = scm_to_int (bench_value);
 		  c_magic_number = scm_to_int (magic_number);
 
-		  c_level =
-		    lw6ldr_read_relative (c_map_path, c_relative_path,
-					  c_default_param, c_forced_param,
-					  c_display_width, c_display_height,
-					  c_bench_value, c_magic_number,
-					  &progress);
-		  if (c_level)
+		  user_dir =
+		    lw6cfg_unified_get_user_dir (lw6_global.argc,
+						 lw6_global.argv);
+		  if (user_dir)
 		    {
-		      ret = lw6_make_scm_map (c_level);
+		      c_level =
+			lw6ldr_read_relative (c_map_path, c_relative_path,
+					      c_default_param, c_forced_param,
+					      c_display_width,
+					      c_display_height, c_bench_value,
+					      c_magic_number, user_dir,
+					      &progress);
+		      if (c_level)
+			{
+			  ret = lw6_make_scm_map (c_level);
+			}
+		      LW6SYS_FREE (user_dir);
 		    }
 		  lw6sys_assoc_free (c_forced_param);
 		}
@@ -7029,8 +7055,9 @@ _scm_lw6cns_poll ()
 static SCM
 _scm_lw6tsk_loader_new (SCM sleep)
 {
-  float c_sleep;
-  lw6tsk_loader_t *c_loader;
+  float c_sleep = 0.0f;
+  char *user_dir = NULL;
+  lw6tsk_loader_t *c_loader = NULL;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -7038,10 +7065,16 @@ _scm_lw6tsk_loader_new (SCM sleep)
   SCM_ASSERT (scm_is_number (sleep), sleep, SCM_ARG1, __FUNCTION__);
 
   c_sleep = scm_to_double (sleep);
-  c_loader = lw6tsk_loader_new (c_sleep, &(lw6_global.progress));
-  if (c_loader)
+  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  if (user_dir)
     {
-      ret = lw6_make_scm_loader (c_loader);
+      c_loader =
+	lw6tsk_loader_new (c_sleep, user_dir, &(lw6_global.progress));
+      if (c_loader)
+	{
+	  ret = lw6_make_scm_loader (c_loader);
+	}
+      LW6SYS_FREE (user_dir);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

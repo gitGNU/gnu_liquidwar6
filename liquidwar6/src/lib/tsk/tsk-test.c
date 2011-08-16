@@ -58,92 +58,107 @@ test_manager ()
     lw6ker_game_state_t *game_state = NULL;
     int done = 0;
     float progress = 0.0f;
+    char *user_dir;
 
-    manager = lw6tsk_loader_new (TEST_MANAGER_SLEEP, &progress);
-    if (manager)
+    user_dir = lw6sys_get_default_user_dir ();
+    if (user_dir)
       {
-	map_path = lw6sys_get_default_map_path ();
-	if (map_path)
+	manager = lw6tsk_loader_new (TEST_MANAGER_SLEEP, user_dir, &progress);
+	if (manager)
 	  {
-	    default_param = lw6sys_assoc_new (lw6sys_free_callback);
-	    forced_param = lw6sys_assoc_new (lw6sys_free_callback);
-	    lw6sys_assoc_set (&default_param, TEST_OPTION_KEY1,
-			      lw6sys_str_copy (TEST_OPTION_VALUE1));
-	    lw6sys_assoc_set (&forced_param, TEST_OPTION_KEY2,
-			      lw6sys_str_copy (TEST_OPTION_VALUE2));
-	    if (default_param && forced_param)
+	    map_path = lw6sys_get_default_map_path ();
+	    if (map_path)
 	      {
-		lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
-				    default_param, forced_param,
-				    TEST_DISPLAY_WIDTH, TEST_DISPLAY_HEIGHT,
-				    LW6LDR_DEFAULT_BENCH_VALUE,
-				    LW6LDR_DEFAULT_MAGIC_NUMBER);
-		lw6sys_sleep (TEST_LOOP_SLEEP);
-		lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
-				    default_param, forced_param,
-				    TEST_DISPLAY_WIDTH, TEST_DISPLAY_HEIGHT,
-				    LW6LDR_DEFAULT_BENCH_VALUE,
-				    LW6LDR_DEFAULT_MAGIC_NUMBER);
-		for (i = 0; i < TEST_LOOP_N && !done; i++)
+		default_param = lw6sys_assoc_new (lw6sys_free_callback);
+		forced_param = lw6sys_assoc_new (lw6sys_free_callback);
+		lw6sys_assoc_set (&default_param, TEST_OPTION_KEY1,
+				  lw6sys_str_copy (TEST_OPTION_VALUE1));
+		lw6sys_assoc_set (&forced_param, TEST_OPTION_KEY2,
+				  lw6sys_str_copy (TEST_OPTION_VALUE2));
+		if (default_param && forced_param)
 		  {
+		    lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
+					default_param, forced_param,
+					TEST_DISPLAY_WIDTH,
+					TEST_DISPLAY_HEIGHT,
+					LW6LDR_DEFAULT_BENCH_VALUE,
+					LW6LDR_DEFAULT_MAGIC_NUMBER);
 		    lw6sys_sleep (TEST_LOOP_SLEEP);
-		    repr = lw6tsk_loader_repr (manager);
-		    if (repr)
+		    lw6tsk_loader_push (manager, map_path, TEST_LOAD_MAP,
+					default_param, forced_param,
+					TEST_DISPLAY_WIDTH,
+					TEST_DISPLAY_HEIGHT,
+					LW6LDR_DEFAULT_BENCH_VALUE,
+					LW6LDR_DEFAULT_MAGIC_NUMBER);
+		    for (i = 0; i < TEST_LOOP_N && !done; i++)
 		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("waiting for manager \"%s\""), repr);
-			LW6SYS_FREE (repr);
-		      }
-		    if (lw6tsk_loader_pop
-			(&level, &game_struct, &game_state, manager))
-		      {
-			if (level && game_struct && game_state)
+			lw6sys_sleep (TEST_LOOP_SLEEP);
+			repr = lw6tsk_loader_repr (manager);
+			if (repr)
 			  {
-			    done = 1;
-			    repr = lw6ker_game_struct_repr (game_struct);
-			    if (repr)
-			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("loaded game_struct \"%s\""),
-					    repr);
-				LW6SYS_FREE (repr);
-			      }
-			    repr = lw6ker_game_state_repr (game_state);
-			    if (repr)
-			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("loaded game_state \"%s\""),
-					    repr);
-				LW6SYS_FREE (repr);
-			      }
-			    lw6ker_game_state_free (game_state);
-			    game_state = NULL;
-			    lw6ker_game_struct_free (game_struct);
-			    game_struct = NULL;
-			    lw6map_free (level);
-			    level = NULL;
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("waiting for manager \"%s\""),
+					repr);
+			    LW6SYS_FREE (repr);
 			  }
-			if (level)
+			if (lw6tsk_loader_pop
+			    (&level, &game_struct, &game_state, manager))
 			  {
-			    repr = lw6map_repr (level);
-			    if (repr)
+			    if (level && game_struct && game_state)
 			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("loaded map \"%s\""), repr);
-				LW6SYS_FREE (repr);
+				done = 1;
+				repr = lw6ker_game_struct_repr (game_struct);
+				if (repr)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("loaded game_struct \"%s\""),
+						repr);
+				    LW6SYS_FREE (repr);
+				  }
+				repr = lw6ker_game_state_repr (game_state);
+				if (repr)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("loaded game_state \"%s\""),
+						repr);
+				    LW6SYS_FREE (repr);
+				  }
+				lw6ker_game_state_free (game_state);
+				game_state = NULL;
+				lw6ker_game_struct_free (game_struct);
+				game_struct = NULL;
+				lw6map_free (level);
+				level = NULL;
 			      }
-			    lw6map_free (level);
-			    level = NULL;
+			    if (level)
+			      {
+				repr = lw6map_repr (level);
+				if (repr)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_ ("loaded map \"%s\""),
+						repr);
+				    LW6SYS_FREE (repr);
+				  }
+				lw6map_free (level);
+				level = NULL;
+			      }
 			  }
 		      }
-		  }
-		lw6sys_assoc_free (default_param);
-		lw6sys_assoc_free (forced_param);
+		    lw6sys_assoc_free (default_param);
+		    lw6sys_assoc_free (forced_param);
 
+		  }
+		LW6SYS_FREE (map_path);
 	      }
-	    LW6SYS_FREE (map_path);
+	    lw6tsk_loader_free (manager);
 	  }
-	lw6tsk_loader_free (manager);
+	else
+	  {
+	    ret = 0;
+	  }
       }
     else
       {

@@ -28,6 +28,7 @@ Contact author        : ufoot@ufoot.org
 #define LIQUIDWAR6DEF_DEF_H
 
 #define LW6DEF_ABOUT "about"
+#define LW6DEF_EXP "exp"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
 #define LW6DEF_AMBIANCE_FILTER "ambiance-filter"

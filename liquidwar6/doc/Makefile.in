@@ -1038,7 +1038,7 @@ uninstall-local:
 @LW6_GDOC_TRUE@$(srcdir)/bot-gdoc.texi: ../src/lib/bot/bot-api.c ../src/lib/bot/bot.h ../src/lib/bot/bot-register.c ../src/lib/bot/bot-test.c ../src/lib/bot/bot-testmain.c
 @LW6_GDOC_TRUE@	echo gdoc bot && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/bot-gdoc.texi
 
-@LW6_GDOC_TRUE@$(srcdir)/cfg-gdoc.texi: ../src/lib/cfg/cfg-arg.c ../src/lib/cfg/cfg-defaults.c ../src/lib/cfg/cfg-env.c ../src/lib/cfg/cfg-format.c ../src/lib/cfg/cfg.h ../src/lib/cfg/cfg-internal.h ../src/lib/cfg/cfg-load.c ../src/lib/cfg/cfg-option.c ../src/lib/cfg/cfg-save.c ../src/lib/cfg/cfg-score.c ../src/lib/cfg/cfg-setup.c ../src/lib/cfg/cfg-test.c ../src/lib/cfg/cfg-testmain.c ../src/lib/cfg/cfg-unified.c ../src/lib/cfg/cfg-xml.c
+@LW6_GDOC_TRUE@$(srcdir)/cfg-gdoc.texi: ../src/lib/cfg/cfg-arg.c ../src/lib/cfg/cfg-defaults.c ../src/lib/cfg/cfg-env.c ../src/lib/cfg/cfg-exp.c ../src/lib/cfg/cfg-format.c ../src/lib/cfg/cfg.h ../src/lib/cfg/cfg-internal.h ../src/lib/cfg/cfg-load.c ../src/lib/cfg/cfg-option.c ../src/lib/cfg/cfg-save.c ../src/lib/cfg/cfg-setup.c ../src/lib/cfg/cfg-test.c ../src/lib/cfg/cfg-testmain.c ../src/lib/cfg/cfg-unified.c ../src/lib/cfg/cfg-xml.c
 @LW6_GDOC_TRUE@	echo gdoc cfg && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/cfg-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/cli-gdoc.texi: ../src/lib/cli/cli-api.c ../src/lib/cli/cli.h ../src/lib/cli/cli-oob.c ../src/lib/cli/cli-register.c ../src/lib/cli/cli-test.c ../src/lib/cli/cli-testmain.c

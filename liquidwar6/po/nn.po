@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-11 16:57+0200\n"
+"POT-Creation-Date: 2011-08-16 16:46+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -30,7 +30,7 @@ msgstr "klarte ikkje starta mod_tcp"
 msgid "can't initialize mod_udp"
 msgstr "klarte ikkje starta mod_udp"
 
-#: src/lib/dsp/dsp-test.c:306
+#: src/lib/dsp/dsp-test.c:314
 msgid "this error too"
 msgstr "denne feilen òg"
 

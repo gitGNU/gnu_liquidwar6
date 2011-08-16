@@ -38,6 +38,10 @@
 #define LW6CFG_XML_TRUE "true"
 #define LW6CFG_XML_FALSE "false"
 
+#define LW6CFG_DEFAULT_EXP 0
+#define LW6CFG_MIN_EXP 0
+#define LW6CFG_MAX_EXP 99
+
 // cfg-arg.c
 extern int lw6cfg_parse_command_line (void *context);
 
@@ -73,9 +77,9 @@ extern void lw6cfg_set_option_bool (void *cfg_context, char *key, int value);
 extern int lw6cfg_must_be_saved (char *option);
 extern int lw6cfg_save (void *cfg_context, char *filename);
 
-/* cfg-score.c */
-extern int lw6cfg_load_score (char *user_dir, int *score);
-extern int lw6cfg_save_score (char *user_dir, int score);
+/* cfg-exp.c */
+extern int lw6cfg_load_exp (char *user_dir, int *exp);
+extern int lw6cfg_save_exp (char *user_dir, int exp);
 
 /*
  * In setup.c

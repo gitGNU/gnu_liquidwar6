@@ -33,7 +33,7 @@
 #define TEST_ARGV2 "--width=800"
 #define TEST_UNIFIED_KEY_YES LW6DEF_WIDTH
 #define TEST_UNIFIED_KEY_NO "unknown"
-#define TEST_SCORE_DIR "/tmp"
+#define TEST_EXP_DIR "/tmp"
 
 /*
  * Testing loading/saving
@@ -132,42 +132,42 @@ test_unified ()
 }
 
 /*
- * Test score functions
+ * Test exp functions
  */
 static int
-test_score ()
+test_exp ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int score = 0;
-    int new_score = 0;
+    int exp = 0;
+    int new_exp = 0;
 
-    lw6cfg_load_score (TEST_SCORE_DIR, &score);
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("first score read score=%d"), score);
-    if (lw6cfg_save_score (TEST_SCORE_DIR, score))
+    lw6cfg_load_exp (TEST_EXP_DIR, &exp);
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("first exp read exp=%d"), exp);
+    if (lw6cfg_save_exp (TEST_EXP_DIR, exp))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("score saved"));
-	if (lw6cfg_load_score (TEST_SCORE_DIR, &new_score))
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("exp saved"));
+	if (lw6cfg_load_exp (TEST_EXP_DIR, &new_exp))
 	  {
-	    if (new_score == score)
+	    if (new_exp == exp)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("new score read score=%d"), new_score);
+			    _x_ ("new exp read exp=%d"), new_exp);
 	      }
 	    else
 	      {
 		lw6sys_log (LW6SYS_LOG_WARNING,
-			    _x_ ("wrong new score should be %d but is %d"),
-			    score, new_score);
+			    _x_ ("wrong new exp should be %d but is %d"),
+			    exp, new_exp);
 		ret = 0;
 	      }
 	  }
       }
     else
       {
-	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to save score"));
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to save exp"));
 	ret = 0;
       }
   }
@@ -202,7 +202,7 @@ lw6cfg_test (int mode)
 
   if (mode)
     {
-      ret = ret && test_score ();
+      ret = ret && test_exp ();
     }
 
   return ret;

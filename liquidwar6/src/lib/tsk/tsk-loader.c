@@ -205,7 +205,7 @@ stage1 (_lw6tsk_loader_data_t * loader_data)
       level =
 	lw6ldr_read_relative (map_path, relative_path, default_param,
 			      forced_param, display_w, display_h, bench_value,
-			      magic_number, &progress);
+			      magic_number, loader_data->user_dir, &progress);
       if (level)
 	{
 	  lw6sys_progress_end (&progress);
@@ -528,8 +528,11 @@ loader_data_free (_lw6tsk_loader_data_t * loader_data)
       clear (loader_data);
 
       LOADER_UNLOCK;
-
       lw6sys_mutex_destroy (loader_data->mutex);
+    }
+  if (loader_data->user_dir)
+    {
+      LW6SYS_FREE (loader_data->user_dir);
     }
   LW6SYS_FREE (loader_data);
 }
@@ -562,6 +565,8 @@ loader_join (void *data)
  * lw6tsk_loader_new
  *
  * @sleep: how many seconds to wait between every poll
+ * @user_dir: user directory
+ * @progress: progress indicator to use
  *
  * Creates a new loader. This object is used to do some reputed
  * slow calculus in the background, in a separated thread. Typical example
@@ -571,10 +576,10 @@ loader_join (void *data)
  * Return value: a pointer to the loader, NULL if failed.
  */
 lw6tsk_loader_t *
-lw6tsk_loader_new (float sleep, float *progress)
+lw6tsk_loader_new (float sleep, char *user_dir, float *progress)
 {
-  lw6tsk_loader_t *loader;
-  _lw6tsk_loader_data_t *loader_data;
+  lw6tsk_loader_t *loader = NULL;
+  _lw6tsk_loader_data_t *loader_data = NULL;
 
   loader = (lw6tsk_loader_t *) LW6SYS_CALLOC (sizeof (lw6tsk_loader_t));
   if (loader)
@@ -591,6 +596,7 @@ lw6tsk_loader_new (float sleep, float *progress)
       if (loader->data)
 	{
 	  loader_data->sleep = sleep;
+	  loader_data->user_dir = lw6sys_str_copy (user_dir);
 	  loader_data->progress = progress;
 	  loader_data->mutex = lw6sys_mutex_create ();
 	  if (loader_data->mutex)
@@ -617,15 +623,17 @@ lw6tsk_loader_new (float sleep, float *progress)
 		  _x_ ("unable to allocate memory for loader"));
     }
 
-  if (loader && !loader->thread)
+  if (loader
+      && (!loader->thread || !loader->data
+	  || (loader_data && !loader_data->user_dir)))
     {
       if (loader->thread)
 	{
 	  lw6sys_thread_join (loader->thread);
 	}
-      if (loader->data)
+      if (loader_data)
 	{
-	  loader_data_free (loader->data);
+	  loader_data_free (loader_data);
 	}
       LW6SYS_FREE (loader);
       loader = NULL;

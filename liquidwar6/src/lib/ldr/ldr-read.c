@@ -38,6 +38,7 @@
  * @display_h: the height of the display output (resolution)
  * @bench_value: the bench value (depends on computer capacity)
  * @magic_number: arbitrary constant
+ * @user_dir: the user directory
  * @progress: information used to handle the progress bar
  *
  * Loads a map from dist. The default_param and forced_param can contain
@@ -56,7 +57,8 @@
 lw6map_level_t *
 lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	     lw6sys_assoc_t * forced_param, int display_w, int display_h,
-	     int bench_value, int magic_number, lw6sys_progress_t * progress)
+	     int bench_value, int magic_number, char *user_dir,
+	     lw6sys_progress_t * progress)
 {
   lw6map_level_t *level = NULL;
   int ok = 0;
@@ -66,7 +68,10 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
   lw6sys_progress_t progress_body;
   lw6sys_progress_t progress_color;
   lw6ldr_hints_t hints;
+  lw6ldr_hints_t hints_tmp;
   lw6ldr_use_t use;
+  int player_exp = LW6LDR_HINTS_DEFAULT_EXP;
+  int map_exp = LW6LDR_HINTS_DEFAULT_EXP;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading map \"%s\""), dirname);
 
@@ -99,6 +104,17 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	{
 	  ok = ok && lw6ldr_hints_read (&hints, dirname);
 	  lw6ldr_hints_update ((&hints), forced_param);
+	  map_exp = hints.exp;
+	}
+      else
+	{
+	  /*
+	   * OK we don't use hints, but still we need to know
+	   * the "exp" associated to the level...
+	   */
+	  lw6ldr_hints_defaults (&hints_tmp);
+	  lw6ldr_hints_read (&hints_tmp, dirname);
+	  map_exp = hints_tmp.exp;
 	}
       if (use.use_style_xml)
 	{
@@ -150,6 +166,24 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	}
       lw6ldr_auto_colors (&level->param.style, &hints);
       level->texture.has_alpha = lw6map_texture_has_alpha (&(level->texture));
+      if (ok)
+	{
+	  lw6cfg_load_exp (user_dir, &player_exp);
+	  if (player_exp >= map_exp)
+	    {
+	      lw6sys_log (LW6SYS_LOG_NOTICE,
+			  _x_
+			  ("OK, can load \"%s\" with exp=%d, requires only %d"),
+			  dirname, player_exp, map_exp);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("can't load \"%s\" with exp=%d, requires %d"),
+			  dirname, player_exp, map_exp);
+	      ok = 0;
+	    }
+	}
     }
 
   if (!ok)
@@ -174,6 +208,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
  * @display_h: the height of the display output (resolution)
  * @bench_value: the bench value (depends on computer capacity)
  * @magic_number: arbitrary constant
+ * @user_dir: the user directory
  * @progress: information used to handle the progress bar
  *
  * Reads a map from disk, using the map-path value, which is a collection
@@ -188,7 +223,8 @@ lw6ldr_read_relative (char *map_path, char *relative_path,
 		      lw6sys_assoc_t * default_param,
 		      lw6sys_assoc_t * forced_param,
 		      int display_w, int display_h, int bench_value,
-		      int magic_number, lw6sys_progress_t * progress)
+		      int magic_number, char *user_dir,
+		      lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;
   lw6sys_list_t *dirs = NULL;
@@ -210,7 +246,7 @@ lw6ldr_read_relative (char *map_path, char *relative_path,
 		      ret =
 			lw6ldr_read (full_dir, default_param, forced_param,
 				     display_w, display_h, bench_value,
-				     magic_number, progress);
+				     magic_number, user_dir, progress);
 		    }
 		}
 	      LW6SYS_FREE (full_dir);

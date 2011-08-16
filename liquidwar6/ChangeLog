@@ -1,3 +1,7 @@
+2011-08-16 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Exp support (read-only for now).
+
 2011-08-12 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added bench limitator.

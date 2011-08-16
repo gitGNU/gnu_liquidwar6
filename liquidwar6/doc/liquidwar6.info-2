@@ -4148,6 +4148,24 @@ results on
 
      *Return value:*  1 if successfull, 0 if error.
 
+ -- Function: int lw6cfg_load_exp (char * USER_DIR, int * EXP)
+     USER_DIR:  the user directory
+
+     EXP:  the exp (out param)
+
+     Gets exp from file.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cfg_save_exp (char * USER_DIR, int EXP)
+     USER_DIR:  the user directory
+
+     EXP:  the exp
+
+     Saves exp to file.
+
+     *Return value:*  1 on success, 0 on failure
+
  -- Function: char * lw6cfg_format (char * KEY, char * VALUE,
           lw6hlp_type_t TYPE)
      KEY:  the key of the value to format
@@ -4201,24 +4219,6 @@ results on
      given as command line arguments.
 
      *Return value:*  1 if successfull, 0 if error.
-
- -- Function: int lw6cfg_load_score (char * USER_DIR, int * SCORE)
-     USER_DIR:  the user directory
-
-     SCORE:  the score (out param)
-
-     Gets score from file.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6cfg_save_score (char * USER_DIR, int SCORE)
-     USER_DIR:  the user directory
-
-     SCORE:  the score
-
-     Saves score to file.
-
-     *Return value:*  1 on success, 0 on failure
 
  -- Function: void * lw6cfg_init (int ARGC, char * [] ARGV)
      ARGC:  number of command line arguments, as given to `main'
@@ -6611,11 +6611,13 @@ results on
      *Return value:*  none.
 
  -- Function: lw6sys_list_t * lw6ldr_get_entries (char * MAP_PATH, char
-          * RELATIVE_PATH)
+          * RELATIVE_PATH, char * USER_DIR)
      MAP_PATH:  the map_path environment config variable, delimited
      path list
 
      RELATIVE_PATH:  the relative path to use to find the map directory
+
+     USER_DIR:  the user directory
 
      Lists all maps in a given directory. Returns a list of
      lw6ldr_entry_t which can contain both directories with subdirs and
@@ -6625,12 +6627,14 @@ results on
      *Return value:*  a list of dynamically allocated lw6ldr_entry_t.
 
  -- Function: void lw6ldr_for_all_entries (char * MAP_PATH, char *
-          RELATIVE_PATH, int RECURSIVE, lw6sys_list_callback_func_t
-          CALLBACK_FUNC, void * FUNC_DATA)
+          RELATIVE_PATH, char * USER_DIR, int RECURSIVE,
+          lw6sys_list_callback_func_t CALLBACK_FUNC, void * FUNC_DATA)
      MAP_PATH:  the map_path environment config variable, delimited
      path list
 
      RELATIVE_PATH:  the relative path to use to find the map directory
+
+     USER_DIR:  the user directory
 
      RECURSIVE:  if non-zero, map search will recurse in subdirs
 
@@ -6798,7 +6802,8 @@ results on
  -- Function: lw6map_level_t * lw6ldr_read (char * DIRNAME,
           lw6sys_assoc_t * DEFAULT_PARAM, lw6sys_assoc_t *
           FORCED_PARAM, int DISPLAY_W, int DISPLAY_H, int BENCH_VALUE,
-          int MAGIC_NUMBER, lw6sys_progress_t * PROGRESS)
+          int MAGIC_NUMBER, char * USER_DIR, lw6sys_progress_t *
+          PROGRESS)
      DIRNAME:  the directory containing the map
 
      DEFAULT_PARAM:  default parameters, as strings
@@ -6812,6 +6817,8 @@ results on
      BENCH_VALUE:  the bench value (depends on computer capacity)
 
      MAGIC_NUMBER:  arbitrary constant
+
+     USER_DIR:  the user directory
 
      PROGRESS:  information used to handle the progress bar
 
@@ -6831,8 +6838,8 @@ results on
  -- Function: lw6map_level_t * lw6ldr_read_relative (char * MAP_PATH,
           char * RELATIVE_PATH, lw6sys_assoc_t * DEFAULT_PARAM,
           lw6sys_assoc_t * FORCED_PARAM, int DISPLAY_W, int DISPLAY_H,
-          int BENCH_VALUE, int MAGIC_NUMBER, lw6sys_progress_t *
-          PROGRESS)
+          int BENCH_VALUE, int MAGIC_NUMBER, char * USER_DIR,
+          lw6sys_progress_t * PROGRESS)
      MAP_PATH:  a collection of paths where to find maps
 
      RELATIVE_PATH:  something which will be appended to a `map_path'
@@ -6849,6 +6856,8 @@ results on
      BENCH_VALUE:  the bench value (depends on computer capacity)
 
      MAGIC_NUMBER:  arbitrary constant
+
+     USER_DIR:  the user directory
 
      PROGRESS:  information used to handle the progress bar
 

@@ -28,27 +28,24 @@
 #include "cfg-internal.h"
 #include "../hlp/hlp.h"
 
-#define _SCORE_FILE "score.xml"
-#define _SCORE_KEY "score"
+#define _EXP_FILE "exp.xml"
+#define _EXP_KEY "exp"
 #define _CHECKSUM_KEY "checksum"
-#define _DEFAULT_SCORE 6
-#define _MIN_SCORE 6
-#define _MAX_SCORE 10
 
-typedef struct _score_s
+typedef struct _exp_s
 {
-  int score;
+  int exp;
   int checksum;
-} _score_t;
+} _exp_t;
 
 static char *
 _get_filename (char *user_dir)
 {
-  return lw6sys_path_concat (user_dir, _SCORE_FILE);
+  return lw6sys_path_concat (user_dir, _EXP_FILE);
 }
 
 static u_int32_t
-_calc_checksum (int score)
+_calc_checksum (int exp)
 {
   char *username = NULL;
   char *hostname = NULL;
@@ -62,7 +59,7 @@ _calc_checksum (int score)
 	{
 	  lw6sys_checksum_update_str (&checksum, username);
 	  lw6sys_checksum_update_str (&checksum, hostname);
-	  lw6sys_checksum_update_int32 (&checksum, score);
+	  lw6sys_checksum_update_int32 (&checksum, exp);
 	  LW6SYS_FREE (hostname);
 	}
       LW6SYS_FREE (username);
@@ -74,17 +71,17 @@ _calc_checksum (int score)
 static void
 load_callback (void *callback_data, char *element, char *key, char *value)
 {
-  _score_t *score = (_score_t *) callback_data;
+  _exp_t *exp = (_exp_t *) callback_data;
 
-  score = (_score_t *) callback_data;
+  exp = (_exp_t *) callback_data;
 
-  if (!strcmp (key, _SCORE_KEY))
+  if (!strcmp (key, _EXP_KEY))
     {
-      score->score = lw6sys_atoi (value);
+      exp->exp = lw6sys_atoi (value);
     }
   else if (!strcmp (key, _CHECKSUM_KEY))
     {
-      score->checksum = lw6sys_atoi (value);
+      exp->checksum = lw6sys_atoi (value);
     }
   else
     {
@@ -93,73 +90,72 @@ load_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 /**
- * lw6cfg_load_score
+ * lw6cfg_load_exp
  *
  * @user_dir: the user directory
- * @score: the score (out param)
+ * @exp: the exp (out param)
  * 
- * Gets score from file.
+ * Gets exp from file.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_load_score (char *user_dir, int *score)
+lw6cfg_load_exp (char *user_dir, int *exp)
 {
   int ret = 0;
   char *filename = NULL;
   int checksum = 0;
-  _score_t score_t;
+  _exp_t exp_t;
 
-  score_t.score = _DEFAULT_SCORE;
-  score_t.checksum = 0;
+  exp_t.exp = LW6CFG_DEFAULT_EXP;
+  exp_t.checksum = 0;
 
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading score from \"%s\""),
-		  filename);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading exp from \"%s\""), filename);
 
       if (lw6sys_file_exists (filename))
 	{
 	  ret =
 	    lw6cfg_read_key_value_xml_file (filename, load_callback,
-					    (void *) &score_t);
-	  checksum = _calc_checksum (score_t.score);
-	  if (checksum != score_t.checksum)
+					    (void *) &exp_t);
+	  checksum = _calc_checksum (exp_t.exp);
+	  if (checksum != exp_t.checksum)
 	    {
-	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad score checksum"));
-	      score_t.score = _MIN_SCORE;
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
+	      exp_t.exp = LW6CFG_DEFAULT_EXP;
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
-		      _x_ ("score file \"%s\" doesn't exist, using defaults"),
+		      _x_ ("exp file \"%s\" doesn't exist, using defaults"),
 		      filename);
 	}
 
       LW6SYS_FREE (filename);
     }
 
-  score_t.score =
-    lw6sys_min (_MAX_SCORE, lw6sys_max (_MIN_SCORE, score_t.score));
-  (*score) = score_t.score;
+  exp_t.exp =
+    lw6sys_min (LW6CFG_MAX_EXP, lw6sys_max (LW6CFG_MIN_EXP, exp_t.exp));
+  (*exp) = exp_t.exp;
 
   return ret;
 }
 
 /**
- * lw6cfg_save_score
+ * lw6cfg_save_exp
  *
  * @user_dir: the user directory
- * @score: the score
+ * @exp: the exp
  * 
- * Saves score to file.
+ * Saves exp to file.
  *
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_save_score (char *user_dir, int score)
+lw6cfg_save_exp (char *user_dir, int exp)
 {
   int ret = 0;
   FILE *f;
@@ -169,18 +165,18 @@ lw6cfg_save_score (char *user_dir, int score)
   filename = _get_filename (user_dir);
   if (filename)
     {
-      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("saving score to \"%s\""), filename);
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("saving exp to \"%s\""), filename);
 
       f = fopen (filename, "wb");
       if (f)
 	{
 	  lw6sys_print_xml_header (f,
 				   _x_
-				   ("This is where your score is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
+				   ("This is where your exp is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
 
-	  score = lw6sys_min (_MAX_SCORE, lw6sys_max (_MIN_SCORE, score));
-	  checksum = _calc_checksum (score);
-	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _SCORE_KEY, score,
+	  exp = lw6sys_min (LW6CFG_MAX_EXP, lw6sys_max (LW6CFG_MIN_EXP, exp));
+	  checksum = _calc_checksum (exp);
+	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp,
 		   lw6sys_eol ());
 	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _CHECKSUM_KEY,
 		   checksum, lw6sys_eol ());

@@ -33,16 +33,20 @@
 typedef struct for_all_entries_callback_data_s
 {
   char *map_path;
+  int player_exp;
   int recursive;
   lw6sys_list_callback_func_t callback_func;
   void *func_data;
 } for_all_entries_callback_data_t;
 
 static lw6ldr_entry_t *
-new_entry (char *absolute_path, char *relative_path, char *entry_path)
+new_entry (char *absolute_path, char *relative_path, char *entry_path,
+	   int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
+  lw6ldr_hints_t hints;
   char *map_filename = NULL;
+  int map_exp = LW6LDR_HINTS_DEFAULT_EXP;
 
   if (entry_path[0] != '.')
     {
@@ -79,6 +83,17 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path)
 			   */
 			  entry->has_subdirs = 1;
 			}
+		      else
+			{
+			  lw6ldr_hints_clear (&hints);
+			  lw6ldr_hints_defaults (&hints);
+			  if (lw6ldr_hints_read
+			      (&hints, entry->absolute_path))
+			    {
+			      map_exp = hints.exp;
+			    }
+			  lw6ldr_hints_clear (&hints);
+			}
 		      LW6SYS_FREE (map_filename);
 		    }
 		}
@@ -90,11 +105,23 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path)
 	}
     }
 
-  if (entry
-      && (!entry->title || !entry->absolute_path || !entry->relative_path))
+  if (entry)
     {
-      lw6ldr_free_entry (entry);
-      entry = NULL;
+      if (!entry->title || !entry->absolute_path || !entry->relative_path)
+	{
+	  lw6ldr_free_entry (entry);
+	  entry = NULL;
+	}
+
+      if (map_exp > player_exp && entry->absolute_path)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO,
+		      _x_
+		      ("not enough exp to load \"%s\", excluded from list"),
+		      entry->absolute_path);
+	  lw6ldr_free_entry (entry);
+	  entry = NULL;
+	}
     }
 
   if (entry)
@@ -155,11 +182,12 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
 
 static void
 add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	   char *absolute_path, char *relative_path, char *entry_path, int *n)
+	   char *absolute_path, char *relative_path, char *entry_path, int *n,
+	   int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
 
-  entry = new_entry (absolute_path, relative_path, entry_path);
+  entry = new_entry (absolute_path, relative_path, entry_path, player_exp);
   if (entry)
     {
       if (!lw6sys_assoc_has_key (*entries_index, entry->relative_path))
@@ -182,7 +210,7 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 
 static void
 add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	     char *absolute_path, char *relative_path)
+	     char *absolute_path, char *relative_path, int player_exp)
 {
 #ifdef LW6_MS_WINDOWS
   WIN32_FIND_DATA dir_entry;
@@ -213,7 +241,7 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
       while (!eod)
 	{
 	  add_entry (entries, entries_index, absolute_path, relative_path,
-		     dir_entry.cFileName, &n);
+		     dir_entry.cFileName, &n, player_exp);
 	  memset (&dir_entry, 0, sizeof (WIN32_FIND_DATA));
 	  if (!FindNextFile (dir_handle, &dir_entry))
 	    {
@@ -241,7 +269,8 @@ add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 	      if (dir_entry_result && (dir_entry_result == dir_entry))
 		{
 		  add_entry (entries, entries_index, absolute_path,
-			     relative_path, dir_entry->d_name, &n);
+			     relative_path, dir_entry->d_name, &n,
+			     player_exp);
 		}
 	      else
 		{
@@ -291,21 +320,8 @@ entries_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
   return ret;
 }
 
-/**
- * lw6ldr_get_entries
- *
- * @map_path: the map_path environment config variable, delimited path list
- * @relative_path: the relative path to use to find the map directory
- *
- * Lists all maps in a given directory. Returns a list of lw6ldr_entry_t
- * which can contain both directories with subdirs and actual maps. Maps
- * are sorted before being returned, first directories, then maps, sorted
- * in alphabetical order.
- *
- * Return value: a list of dynamically allocated lw6ldr_entry_t.
- */
-lw6sys_list_t *
-lw6ldr_get_entries (char *map_path, char *relative_path)
+static lw6sys_list_t *
+_get_entries (char *map_path, char *relative_path, int player_exp)
 {
   lw6sys_list_t *entries = NULL;
   lw6sys_assoc_t *entries_index = NULL;
@@ -335,7 +351,8 @@ lw6ldr_get_entries (char *map_path, char *relative_path)
 			      if (lw6sys_dir_exists (absolute_path))
 				{
 				  add_subdirs (&entries, &entries_index,
-					       absolute_path, relative_path);
+					       absolute_path, relative_path,
+					       player_exp);
 				}
 			      LW6SYS_FREE (absolute_path);
 			    }
@@ -356,6 +373,33 @@ lw6ldr_get_entries (char *map_path, char *relative_path)
   return entries;
 }
 
+
+/**
+ * lw6ldr_get_entries
+ *
+ * @map_path: the map_path environment config variable, delimited path list
+ * @relative_path: the relative path to use to find the map directory
+ * @user_dir: the user directory
+ *
+ * Lists all maps in a given directory. Returns a list of lw6ldr_entry_t
+ * which can contain both directories with subdirs and actual maps. Maps
+ * are sorted before being returned, first directories, then maps, sorted
+ * in alphabetical order.
+ *
+ * Return value: a list of dynamically allocated lw6ldr_entry_t.
+ */
+lw6sys_list_t *
+lw6ldr_get_entries (char *map_path, char *relative_path, char *user_dir)
+{
+  int player_exp = 0;
+  lw6sys_list_t *entries = NULL;
+
+  lw6cfg_load_exp (user_dir, &player_exp);
+  entries = _get_entries (map_path, relative_path, player_exp);
+
+  return entries;
+}
+
 static void
 for_all_entries_callback_func (void *func_data, void *data)
 {
@@ -371,8 +415,9 @@ for_all_entries_callback_func (void *func_data, void *data)
 	  if (callback_data->recursive)
 	    {
 	      entries =
-		lw6ldr_get_entries (callback_data->map_path,
-				    entry->relative_path);
+		_get_entries (callback_data->map_path,
+			      entry->relative_path,
+			      callback_data->player_exp);
 	      if (entries)
 		{
 		  lw6sys_list_map (entries, for_all_entries_callback_func,
@@ -393,6 +438,7 @@ for_all_entries_callback_func (void *func_data, void *data)
  *
  * @map_path: the map_path environment config variable, delimited path list
  * @relative_path: the relative path to use to find the map directory
+ * @user_dir: the user directory
  * @recursive: if non-zero, map search will recurse in subdirs
  * @callback_func: the function which will be called on each entry
  * @func_data: an extra pointer to pass data to callback_func
@@ -403,18 +449,22 @@ for_all_entries_callback_func (void *func_data, void *data)
  * Return value: none.
  */
 void
-lw6ldr_for_all_entries (char *map_path, char *relative_path, int recursive,
+lw6ldr_for_all_entries (char *map_path, char *relative_path, char *user_dir,
+			int recursive,
 			lw6sys_list_callback_func_t callback_func,
 			void *func_data)
 {
   lw6sys_list_t *entries = NULL;
   for_all_entries_callback_data_t callback_data;
+  int player_exp;
 
   memset (&callback_data, 0, sizeof (for_all_entries_callback_data_t));
-  entries = lw6ldr_get_entries (map_path, relative_path);
+  lw6cfg_load_exp (user_dir, &player_exp);
+  entries = _get_entries (map_path, relative_path, player_exp);
   if (entries)
     {
       callback_data.map_path = map_path;
+      callback_data.player_exp = player_exp;
       callback_data.recursive = recursive;
       callback_data.callback_func = callback_func;
       callback_data.func_data = func_data;

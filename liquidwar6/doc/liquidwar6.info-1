@@ -3264,6 +3264,9 @@ File: liquidwar6.info,  Node: Technical HOWTOs,  Next: Using GNU Arch,  Prev: Ne
 
 Summary off all operations required for a release:
 
+   * check the value of `LW6CFG_DEFAULT_EXP' and default for
+     `--skip-network', which might have been changed will developping.
+
    * in `./src', run `./indent.sh'.
 
    * in `./doc', run `./gdoc-update.sh'.
@@ -7137,7 +7140,22 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      be bigger because map resolution is lower. This can be usefull if
      you don't want fighters to be too small.
 
-4.10.4 fighter-scale
+4.10.4 exp
+----------
+
+ -- Command-line option: `--exp=<value>'
+ -- Environment variable: `LW6_EXP'
+ -- XML key: `exp'
+     Type: float
+
+     Default value: 0 Min value: 0 Max value: 99
+
+     Level of experience (AKA exp) required to play the current level.
+     If this level is validated (that is, won) then player will be
+     granted with a level of exp+1 and be able to play all the next
+     levels. An exp of 0 means the level is playable by a pure beginner.
+
+4.10.5 fighter-scale
 --------------------
 
  -- Command-line option: `--fighter-scale=<value>'
@@ -7163,7 +7181,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      network games, the first player, who loads the map, defines its
      properties according to its own settings.
 
-4.10.5 guess-colors
+4.10.6 guess-colors
 -------------------
 
  -- Command-line option: `--guess-colors=<value>'
@@ -7182,7 +7200,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      if there can be any form of ambiguity, it's safe to set this to
      false and define one's own colors.
 
-4.10.6 guess-moves-per-sec
+4.10.7 guess-moves-per-sec
 --------------------------
 
  -- Command-line option: `--guess-moves-per-sec=<value>'
@@ -7195,7 +7213,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      If set, then loader will use 'time-to-cross-level' to guess the
      game speed parameters.
 
-4.10.7 hud-color-auto
+4.10.8 hud-color-auto
 ---------------------
 
  -- Command-line option: `--hud-color-auto=<value>'
@@ -7212,7 +7230,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      color-alternate-fg. Then hud_color_frame_bg, hud_color_frame_fg,
      hud_color_text_bg and hud_color_text_fg will be automatically set.
 
-4.10.8 max-map-height
+4.10.9 max-map-height
 ---------------------
 
  -- Command-line option: `--max-map-height=<value>'
@@ -7229,8 +7247,8 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      himself, and does not necessarly wishes to fire Gimp to rescale
      the map.
 
-4.10.9 max-map-surface
-----------------------
+4.10.10 max-map-surface
+-----------------------
 
  -- Command-line option: `--max-map-surface=<value>'
  -- Environment variable: `LW6_MAX_MAP_SURFACE'
@@ -7244,7 +7262,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      hassle of defining both 'max-map-width' and 'max-map-height' in a
      consistent manner.
 
-4.10.10 max-map-width
+4.10.11 max-map-width
 ---------------------
 
  -- Command-line option: `--max-map-width=<value>'
@@ -7261,7 +7279,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      himself, and does not necessarly wishes to fire Gimp to rescale
      the map.
 
-4.10.11 menu-color-auto
+4.10.12 menu-color-auto
 -----------------------
 
  -- Command-line option: `--menu-color-auto=<value>'
@@ -7280,7 +7298,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      menu_color_selected_fg, menu_color_disabled_bg and
      menu_color_disabled_fg will be automatically set.
 
-4.10.12 min-map-height
+4.10.13 min-map-height
 ----------------------
 
  -- Command-line option: `--min-map-height=<value>'
@@ -7297,7 +7315,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      and a hudge screen. He might redefine this himself, and does not
      necessarly wishes to fire Gimp to rescale the map.
 
-4.10.13 min-map-surface
+4.10.14 min-map-surface
 -----------------------
 
  -- Command-line option: `--min-map-surface=<value>'
@@ -7312,7 +7330,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      hassle of defining both 'min-map-width' and 'min-map-height' in a
      consistent manner.
 
-4.10.14 min-map-width
+4.10.15 min-map-width
 ---------------------
 
  -- Command-line option: `--min-map-width=<value>'
@@ -7329,7 +7347,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      and a hudge screen. He might redefine this himself, and does not
      necessarly wishes to fire Gimp to rescale the map.
 
-4.10.15 resample
+4.10.16 resample
 ----------------
 
  -- Command-line option: `--resample=<value>'
@@ -7343,7 +7361,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      depends on your screen resolution, zoom factor, and the rest. If
      false, maps will be set at the exact resolution of map.png.
 
-4.10.16 speed
+4.10.17 speed
 -------------
 
  -- Command-line option: `--speed=<value>'
@@ -7367,7 +7385,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      corresponds roughly to one second to cross the level. If you set
      this to 2.0, it will go twice faster.
 
-4.10.17 system-color-auto
+4.10.18 system-color-auto
 -------------------------
 
  -- Command-line option: `--system-color-auto=<value>'
@@ -7384,7 +7402,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      and color-alternate-fg. Then system_color_bg and system_color_fg
      will be automatically set.
 
-4.10.18 upsize-using-bench-value
+4.10.19 upsize-using-bench-value
 --------------------------------
 
  -- Command-line option: `--upsize-using-bench-value=<value>'
@@ -7401,7 +7419,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      pixelish 'jumbo fighters' look when your computer is powerfull
      enough to do better.
 
-4.10.19 upsize-using-fighter-scale
+4.10.20 upsize-using-fighter-scale
 ----------------------------------
 
  -- Command-line option: `--upsize-using-fighter-scale=<value>'
@@ -7417,7 +7435,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      smaller because map resolution is higher. This can be usefull if
      you don't want fighters to be too big.
 
-4.10.20 view-color-auto
+4.10.21 view-color-auto
 -----------------------
 
  -- Command-line option: `--view-color-auto=<value>'
@@ -7435,7 +7453,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
      view_color_cursor_fg, view_color_map_bg and view_color_map_fg will
      be automatically set.
 
-4.10.21 wall-grease
+4.10.22 wall-grease
 -------------------
 
  -- Command-line option: `--wall-grease=<value>'
@@ -7445,7 +7463,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
 
      Default value: 0 Min value: -5 Max value: 5
 
-     This parameter allows you to make walls (aka map foreground)
+     This parameter allows you to make walls (AKA map foreground)
      thicker, or thiner, when map is loaded. Indeed, when map are
      resampled, and especially when they are downscaled, some walls may
      disappear, or some passages may be blocked. The loader can't

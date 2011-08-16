@@ -595,6 +595,7 @@ update_map_hints (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_WALL_GREASE);
   lw6sys_list_push_back (list, LW6DEF_GUESS_MOVES_PER_SEC);
   lw6sys_list_push_back (list, LW6DEF_SPEED);
+  lw6sys_list_push_back (list, LW6DEF_EXP);
 
   return ((*list) != NULL);
 }

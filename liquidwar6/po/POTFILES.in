@@ -21,11 +21,11 @@ src/lib/bot/mod-random/mod-random-setup.c
 src/lib/cfg/cfg-arg.c
 src/lib/cfg/cfg-defaults.c
 src/lib/cfg/cfg-env.c
+src/lib/cfg/cfg-exp.c
 src/lib/cfg/cfg-format.c
 src/lib/cfg/cfg-load.c
 src/lib/cfg/cfg-option.c
 src/lib/cfg/cfg-save.c
-src/lib/cfg/cfg-score.c
 src/lib/cfg/cfg-setup.c
 src/lib/cfg/cfg-test.c
 src/lib/cfg/cfg-testmain.c

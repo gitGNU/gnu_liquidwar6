@@ -1,5 +1,9 @@
-@deftypefun {lw6tsk_loader_t *} {lw6tsk_loader_new} (float @var{sleep}, float * @var{progress})
+@deftypefun {lw6tsk_loader_t *} {lw6tsk_loader_new} (float @var{sleep}, char * @var{user_dir}, float * @var{progress})
 @var{sleep}:  how many seconds to wait between every poll
+
+@var{user_dir}:  user directory
+
+@var{progress}:  progress indicator to use
 
 Creates a new loader. This object is used to do some reputed
 slow calculus in the background, in a separated thread. Typical example

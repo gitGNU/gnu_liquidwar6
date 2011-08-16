@@ -60,81 +60,89 @@ check_map_with_absolute_path (char *absolute_path)
   char *hexa_level2;
   int ret = 0;
   char *repr = NULL;
+  char *user_dir = NULL;
 
   lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("deep check \"%s\""), absolute_path);
-  level1 =
-    lw6ldr_read (absolute_path, NULL, NULL, TEST_DISPLAY_WIDTH,
-		 TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
-		 LW6LDR_DEFAULT_MAGIC_NUMBER, NULL);
-  if (level1)
+
+  user_dir = lw6sys_get_default_user_dir ();
+  if (user_dir)
     {
-      hexa_level1 = lw6map_to_hexa (level1);
-      if (hexa_level1)
+      level1 =
+	lw6ldr_read (absolute_path, NULL, NULL, TEST_DISPLAY_WIDTH,
+		     TEST_DISPLAY_HEIGHT, LW6LDR_DEFAULT_BENCH_VALUE,
+		     LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir, NULL);
+      if (level1)
 	{
-	  level2 = lw6map_from_hexa (hexa_level1);
-	  if (level2)
+	  hexa_level1 = lw6map_to_hexa (level1);
+	  if (hexa_level1)
 	    {
-	      hexa_level2 = lw6map_to_hexa (level2);
-	      if (hexa_level2)
+	      level2 = lw6map_from_hexa (hexa_level1);
+	      if (level2)
 		{
-		  if (strcmp (hexa_level1, hexa_level2) == 0)
+		  hexa_level2 = lw6map_to_hexa (level2);
+		  if (hexa_level2)
 		    {
-		      level3 = lw6map_dup (level2, NULL);
-		      if (level3)
+		      if (strcmp (hexa_level1, hexa_level2) == 0)
 			{
-			  repr = lw6map_repr (level3);
-			  if (repr)
+			  level3 = lw6map_dup (level2, NULL);
+			  if (level3)
 			    {
-			      lw6sys_log (LW6SYS_LOG_NOTICE,
-					  _x_ ("map repr=\"%s\""), repr);
-			      LW6SYS_FREE (repr);
-			      ret = 1;
+			      repr = lw6map_repr (level3);
+			      if (repr)
+				{
+				  lw6sys_log (LW6SYS_LOG_NOTICE,
+					      _x_ ("map repr=\"%s\""), repr);
+				  LW6SYS_FREE (repr);
+				  ret = 1;
+				}
+			      lw6map_free (level3);
 			    }
-			  lw6map_free (level3);
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _x_ ("unable to copy \"%s\""),
+					  absolute_path);
+			    }
 			}
 		      else
 			{
 			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_ ("unable to copy \"%s\""),
+				      _x_
+				      ("second serialization of \"%s\" returned inconsistent result"),
 				      absolute_path);
 			}
+		      LW6SYS_FREE (hexa_level2);
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_
-				  ("second serialization of \"%s\" returned inconsistent result"),
+				  _x_ ("unable to serialize \"%s\" (2)"),
 				  absolute_path);
 		    }
-		  LW6SYS_FREE (hexa_level2);
+		  lw6map_free (level2);
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("unable to serialize \"%s\" (2)"),
+			      _x_ ("unable to unserialize \"%s\""),
 			      absolute_path);
 		}
-	      lw6map_free (level2);
+	      LW6SYS_FREE (hexa_level1);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("unable to unserialize \"%s\""),
+			  _x_ ("unable to serialize \"%s\" (1)"),
 			  absolute_path);
 	    }
-	  LW6SYS_FREE (hexa_level1);
+	  lw6map_free (level1);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("unable to serialize \"%s\" (1)"), absolute_path);
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read \"%s\""),
+		      absolute_path);
 	}
-      lw6map_free (level1);
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to read \"%s\""),
-		  absolute_path);
+      LW6SYS_FREE (user_dir);
     }
 
   return ret;
@@ -191,15 +199,21 @@ test_data ()
 
   {
     char *map_path = NULL;
+    char *user_dir = NULL;
 
     ret = 1;
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (map_path)
       {
-	lw6ldr_for_all_entries (map_path, "", 1, test_data_callback_quick,
-				&ret);
-	lw6ldr_for_all_entries (map_path, "", 0, test_data_callback_deep,
-				&ret);
+	user_dir = lw6sys_get_user_dir (argc, argv);
+	if (user_dir)
+	  {
+	    lw6ldr_for_all_entries (map_path, "", user_dir, 1,
+				    test_data_callback_quick, &ret);
+	    lw6ldr_for_all_entries (map_path, "", user_dir, 0,
+				    test_data_callback_deep, &ret);
+	    LW6SYS_FREE (user_dir);
+	  }
 	LW6SYS_FREE (map_path);
       }
   }
@@ -223,23 +237,35 @@ test_dir ()
   {
     lw6sys_list_t *entries = NULL;
     char *map_path = NULL;
+    char *user_dir = NULL;
     lw6ldr_entry_t *entry = NULL;
     int entry_found = 0;
 
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (map_path)
       {
-	entries = lw6ldr_get_entries (map_path, TEST_DIR_RELATIVE_PATH);
-	if (entries)
+	user_dir = lw6sys_get_user_dir (argc, argv);
+	if (user_dir)
 	  {
-	    while (entries && (entry = lw6sys_lifo_pop (&entries)) != NULL)
+	    entries =
+	      lw6ldr_get_entries (map_path, TEST_DIR_RELATIVE_PATH, user_dir);
+	    if (entries)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("found map \"%s\" in \"%s\""), entry->title,
-			    entry->absolute_path);
-		entry_found = 1;
-		lw6ldr_free_entry (entry);
-	      };
+		while (entries
+		       && (entry = lw6sys_lifo_pop (&entries)) != NULL)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("found map \"%s\" in \"%s\""),
+				entry->title, entry->absolute_path);
+		    entry_found = 1;
+		    lw6ldr_free_entry (entry);
+		  };
+	      }
+	    else
+	      {
+		ret = 0;
+	      }
+	    LW6SYS_FREE (user_dir);
 	  }
 	else
 	  {
@@ -362,6 +388,7 @@ test_read ()
     lw6map_level_t *level = NULL;
     char *repr = NULL;
     char *map_path = NULL;
+    char *user_dir = NULL;
     lw6sys_progress_t progress;
     float done = 0.0f;
 
@@ -371,25 +398,36 @@ test_read ()
     map_path = lw6cfg_unified_get_map_path (argc, argv);
     if (map_path)
       {
-	level =
-	  lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL,
-				TEST_DISPLAY_WIDTH, TEST_DISPLAY_HEIGHT,
-				LW6LDR_DEFAULT_BENCH_VALUE,
-				LW6LDR_DEFAULT_MAGIC_NUMBER, &progress);
-	if (level)
+	user_dir = lw6sys_get_user_dir (argc, argv);
+	if (user_dir)
 	  {
-	    repr = lw6map_repr (level);
-	    if (repr)
+	    level =
+	      lw6ldr_read_relative (map_path, TEST_MAP, NULL, NULL,
+				    TEST_DISPLAY_WIDTH, TEST_DISPLAY_HEIGHT,
+				    LW6LDR_DEFAULT_BENCH_VALUE,
+				    LW6LDR_DEFAULT_MAGIC_NUMBER, user_dir,
+				    &progress);
+	    if (level)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("after reading, map repr is \"%s\""), repr);
-		LW6SYS_FREE (repr);
+		repr = lw6map_repr (level);
+		if (repr)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("after reading, map repr is \"%s\""),
+				repr);
+		    LW6SYS_FREE (repr);
+		  }
+		else
+		  {
+		    ret = 0;
+		  }
+		lw6map_free (level);
 	      }
 	    else
 	      {
 		ret = 0;
 	      }
-	    lw6map_free (level);
+	    LW6SYS_FREE (user_dir);
 	  }
 	else
 	  {

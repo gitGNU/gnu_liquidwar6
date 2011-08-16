@@ -1783,7 +1783,7 @@ populate_references ()
 		 LW6LDR_HINTS_DEFAULT_SYSTEM_COLOR_AUTO);
   POPULATE_INT (LW6DEF_WALL_GREASE,
 		_x_
-		("This parameter allows you to make walls (aka map foreground) thicker, or thiner, when map is loaded. Indeed, when map are resampled, and especially when they are downscaled, some walls may disappear, or some passages may be blocked. The loader can't automatically figure out wether it's more important to keep an existing wall or to keep an open passage for fighters. This parameter helps doing so, if you set it to a low value, level will be less greasy, and many passages might open themselves. On the contrary, if grease is at a high level, then a thin line of almost isolated pixels might become a thick wall. There's no real garantee your wall or passage will always be present, but it's a same bet to assume on a 'tunnel-like' level one needs to set grease to a low value, and on a 'wide open' level with few walls one needs to set grease to a high value."),
+		("This parameter allows you to make walls (AKA map foreground) thicker, or thiner, when map is loaded. Indeed, when map are resampled, and especially when they are downscaled, some walls may disappear, or some passages may be blocked. The loader can't automatically figure out wether it's more important to keep an existing wall or to keep an open passage for fighters. This parameter helps doing so, if you set it to a low value, level will be less greasy, and many passages might open themselves. On the contrary, if grease is at a high level, then a thin line of almost isolated pixels might become a thick wall. There's no real garantee your wall or passage will always be present, but it's a same bet to assume on a 'tunnel-like' level one needs to set grease to a low value, and on a 'wide open' level with few walls one needs to set grease to a high value."),
 		LW6LDR_HINTS_DEFAULT_WALL_GREASE,
 		LW6LDR_HINTS_MIN_WALL_GREASE, LW6LDR_HINTS_MAX_WALL_GREASE);
   POPULATE_BOOL (LW6DEF_GUESS_MOVES_PER_SEC,
@@ -1794,6 +1794,11 @@ populate_references ()
 		  _x_
 		  ("This parameter is the main parameter on which game speed depends. The map loader will garantee, by downscaling the map, that to cross the level (by crossing the level we mean, for instance, going from top-left corner to bottom-right corner in a straight line) a fighter will take a constant amount of time. Under the hood, the loader might of course rescale the map but it will also change game speed so that, at the end, fighters take a constant time to cross the level. This is, indeed, the most important thing, players do not care much if internally there are X or Y moves per second, the global game experience depends on how fast fighter movement looks on the screen. The default settings corresponds roughly to one second to cross the level. If you set this to 2.0, it will go twice faster."),
 		  LW6LDR_HINTS_DEFAULT_SPEED, 0, 0);
+  POPULATE_FLOAT (LW6DEF_EXP,
+		  _x_
+		  ("Level of experience (AKA exp) required to play the current level. If this level is validated (that is, won) then player will be granted with a level of exp+1 and be able to play all the next levels. An exp of 0 means the level is playable by a pure beginner."),
+		  LW6LDR_HINTS_DEFAULT_EXP, LW6LDR_HINTS_MIN_EXP,
+		  LW6LDR_HINTS_MAX_EXP);
   /*
    * Map style
    */

@@ -51,7 +51,8 @@ extern int lw6tsk_loader_pop (lw6map_level_t ** level,
 			      lw6tsk_loader_t * loader);
 
 /* tsk-loader.c */
-extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, float *progress);
+extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, char *user_dir,
+					   float *progress);
 extern void lw6tsk_loader_free (lw6tsk_loader_t * loader);
 extern char *lw6tsk_loader_repr (lw6tsk_loader_t * loader);
 extern int lw6tsk_loader_get_stage (lw6tsk_loader_t * loader);

@@ -64,10 +64,13 @@
 #define LW6LDR_HINTS_DEFAULT_WALL_GREASE 0
 #define LW6LDR_HINTS_DEFAULT_GUESS_MOVES_PER_SEC 1
 #define LW6LDR_HINTS_DEFAULT_SPEED 1.0
+#define LW6LDR_HINTS_DEFAULT_EXP LW6CFG_DEFAULT_EXP
 
 #define LW6LDR_HINTS_MIN_WALL_GREASE -5
+#define LW6LDR_HINTS_MIN_EXP LW6CFG_MIN_EXP
 
 #define LW6LDR_HINTS_MAX_WALL_GREASE 5
+#define LW6LDR_HINTS_MAX_EXP LW6CFG_MAX_EXP
 
 typedef struct lw6ldr_hints_s
 {
@@ -92,6 +95,7 @@ typedef struct lw6ldr_hints_s
   int wall_grease;
   int guess_moves_per_sec;
   float speed;
+  int exp;
 } lw6ldr_hints_t;
 
 #define LW6LDR_USE_DEFAULT_USE_TEXTURE 1
@@ -149,9 +153,10 @@ extern int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
 /* ldr-dir.c */
 extern void lw6ldr_free_entry (lw6ldr_entry_t * entry);
 extern lw6sys_list_t *lw6ldr_get_entries (char *map_path,
-					  char *relative_path);
+					  char *relative_path,
+					  char *user_dir);
 extern void lw6ldr_for_all_entries (char *map_path, char *relative_path,
-				    int recursive,
+				    char *user_dir, int recursive,
 				    lw6sys_list_callback_func_t callback_func,
 				    void *func_data);
 
@@ -223,6 +228,7 @@ extern lw6map_level_t *lw6ldr_read (char *dirname,
 				    lw6sys_assoc_t * forced_param,
 				    int display_w, int display_h,
 				    int bench_value, int magic_number,
+				    char *user_dir,
 				    lw6sys_progress_t * progress);
 extern lw6map_level_t *lw6ldr_read_relative (char *map_path,
 					     char *relative_path,
@@ -230,7 +236,7 @@ extern lw6map_level_t *lw6ldr_read_relative (char *map_path,
 					     lw6sys_assoc_t * forced_param,
 					     int display_w, int display_h,
 					     int bench_value,
-					     int magic_number,
+					     int magic_number, char *user_dir,
 					     lw6sys_progress_t * progress);
 
 /*

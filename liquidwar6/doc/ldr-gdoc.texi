@@ -56,10 +56,12 @@ Frees a map entry.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (char * @var{map_path}, char * @var{relative_path})
+@deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
 @var{relative_path}:  the relative path to use to find the map directory
+
+@var{user_dir}:  the user directory
 
 Lists all maps in a given directory. Returns a list of lw6ldr_entry_t
 which can contain both directories with subdirs and actual maps. Maps
@@ -69,10 +71,12 @@ in alphabetical order.
 @strong{Return value:}  a list of dynamically allocated lw6ldr_entry_t.
 @end deftypefun
 
-@deftypefun {void} {lw6ldr_for_all_entries} (char * @var{map_path}, char * @var{relative_path}, int @var{recursive}, lw6sys_list_callback_func_t @var{callback_func}, void * @var{func_data})
+@deftypefun {void} {lw6ldr_for_all_entries} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir}, int @var{recursive}, lw6sys_list_callback_func_t @var{callback_func}, void * @var{func_data})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
 @var{relative_path}:  the relative path to use to find the map directory
+
+@var{user_dir}:  the user directory
 
 @var{recursive}:  if non-zero, map search will recurse in subdirs
 
@@ -237,7 +241,7 @@ create the directory if needed.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {lw6map_level_t *} {lw6ldr_read} (char * @var{dirname}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@deftypefun {lw6map_level_t *} {lw6ldr_read} (char * @var{dirname}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, char * @var{user_dir}, lw6sys_progress_t * @var{progress})
 @var{dirname}:  the directory containing the map
 
 @var{default_param}:  default parameters, as strings
@@ -251,6 +255,8 @@ create the directory if needed.
 @var{bench_value}:  the bench value (depends on computer capacity)
 
 @var{magic_number}:  arbitrary constant
+
+@var{user_dir}:  the user directory
 
 @var{progress}:  information used to handle the progress bar
 
@@ -268,7 +274,7 @@ See also @code{lw6ldr_read_relative}.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {lw6map_level_t *} {lw6ldr_read_relative} (char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@deftypefun {lw6map_level_t *} {lw6ldr_read_relative} (char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, char * @var{user_dir}, lw6sys_progress_t * @var{progress})
 @var{map_path}:  a collection of paths where to find maps
 
 @var{relative_path}:  something which will be appended to a @code{map_path} member
@@ -284,6 +290,8 @@ See also @code{lw6ldr_read_relative}.
 @var{bench_value}:  the bench value (depends on computer capacity)
 
 @var{magic_number}:  arbitrary constant
+
+@var{user_dir}:  the user directory
 
 @var{progress}:  information used to handle the progress bar
 

@@ -21,6 +21,7 @@
 ;Generated automatically by def-update.py
 
 (define lw6def-about "about")
+(define lw6def-exp "exp")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")
 (define lw6def-ambiance-filter "ambiance-filter")

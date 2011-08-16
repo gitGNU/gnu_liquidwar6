@@ -23,6 +23,26 @@ variables prefixed by LW6_.
 @strong{Return value:}  1 if successfull, 0 if error.
 @end deftypefun
 
+@deftypefun {int} {lw6cfg_load_exp} (char * @var{user_dir}, int * @var{exp})
+@var{user_dir}:  the user directory
+
+@var{exp}:  the exp (out param)
+
+Gets exp from file.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
+@deftypefun {int} {lw6cfg_save_exp} (char * @var{user_dir}, int @var{exp})
+@var{user_dir}:  the user directory
+
+@var{exp}:  the exp
+
+Saves exp to file.
+
+@strong{Return value:}  1 on success, 0 on failure
+@end deftypefun
+
 @deftypefun {char *} {lw6cfg_format} (char * @var{key}, char * @var{value}, lw6hlp_type_t @var{type})
 @var{key}:  the key of the value to format
 
@@ -77,26 +97,6 @@ override current values. This means the saved file will contain
 values given as command line arguments.
 
 @strong{Return value:}  1 if successfull, 0 if error.
-@end deftypefun
-
-@deftypefun {int} {lw6cfg_load_score} (char * @var{user_dir}, int * @var{score})
-@var{user_dir}:  the user directory
-
-@var{score}:  the score (out param)
-
-Gets score from file.
-
-@strong{Return value:}  1 on success, 0 on failure
-@end deftypefun
-
-@deftypefun {int} {lw6cfg_save_score} (char * @var{user_dir}, int @var{score})
-@var{user_dir}:  the user directory
-
-@var{score}:  the score
-
-Saves score to file.
-
-@strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
 @deftypefun {void *} {lw6cfg_init} (int @var{argc}, char * [] @var{argv})
