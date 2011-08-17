@@ -5420,6 +5420,8 @@ This list is also by no way extensive, it's provided ``as is''.
 @uref{http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
 @item
 @uref{http://freshmeat.net/projects/liquid-war-6}: Liquid War 6 on Freshmeat.
+@item
+@uref{http://www.ohloh.net/p/liquidwar6}: Liquid War 6 on ohloh.
 @end itemize
 
 @appendixsec Old stuff
