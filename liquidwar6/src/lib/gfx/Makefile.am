@@ -51,7 +51,7 @@ libgfx_HEADERS = gfx.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6gfx-test
 liquidwar6gfx_test_SOURCES = gfx-testmain.c
-liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6gfx-test
 endif
 

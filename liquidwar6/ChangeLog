@@ -1,3 +1,7 @@
+2011-08-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added new (but empty) voxel rendering module. Who knows...
+
 2011-08-16 : Christian Mauduit <ufoot@ufoot.org>
 
 	* mod-csound now disabled by default.

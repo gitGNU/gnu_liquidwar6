@@ -81,6 +81,9 @@ $(srcdir)/sys-gdoc.texi: ../src/lib/sys/sys-arg.c ../src/lib/sys/sys-assoc.c ../
 $(srcdir)/tsk-gdoc.texi: ../src/lib/tsk/tsk.h ../src/lib/tsk/tsk-internal.h ../src/lib/tsk/tsk-loader.c ../src/lib/tsk/tsk-test.c ../src/lib/tsk/tsk-testmain.c
 	echo gdoc tsk && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/tsk-gdoc.texi
 
+$(srcdir)/vox-gdoc.texi: ../src/lib/vox/vox.h ../src/lib/vox/vox-internal.h ../src/lib/vox/vox-renderer.c ../src/lib/vox/vox-test.c ../src/lib/vox/vox-testmain.c
+	echo gdoc vox && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/vox-gdoc.texi
+
 $(srcdir)/mod-brute-gdoc.texi: ../src/lib/bot/mod-brute/mod-brute-backend.c ../src/lib/bot/mod-brute/mod-brute-setup.c ../src/lib/bot/mod-brute/mod-brute.h ../src/lib/bot/mod-brute/mod-brute-internal.h ../src/lib/bot/mod-brute/mod-brute-repr.c ../src/lib/bot/mod-brute/mod-brute-move.c
 	echo gdoc mod-brute && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/mod-brute-gdoc.texi
 

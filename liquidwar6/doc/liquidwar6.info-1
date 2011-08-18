@@ -1,6 +1,6 @@
-This is /home/ufoot/home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -134,6 +134,7 @@ C API
 * mod-udpd::            Udp server using native protocol.
 * libsys::              Low-level system utilities.
 * libtsk::              Asynchronous loading.
+* libvox::              Voxel-based 3D rendering.
 
 Appendices
 
@@ -2042,6 +2043,10 @@ transparent, one just has to call an update function from time to time.
 The module will even perform "dirty-reads" on a game state being
 calculated, to render things in real time, as soon as possible.
 
+   An experimental `libvox' module is under design/development and
+might, in the future, provide a real-time voxel renderer. Still
+pre-alpha stage.
+
    To ease up the implementation of different graphics backends, a
 `libgui' module contains code which is meant to be used by any graphics
 backend.  It's just a factorisation module, containing common code and
@@ -3002,6 +3007,10 @@ yourself. More precisely:
      on which Liquid War 6 depends might, for some reason, raise
      warnings. But as far as Liquid War 6 is concerned, the goal is
      simple: zero leak.
+
+   * Liquid War 6 is referenced on ohloh (http://www.ohloh.net/).
+     Visit `http://www.ohloh.net/p/liquidwar6' to get time-based
+     statistics and facts about the source code.
 
    Those tools certainly don't garantee the code is perfect, but they
 do help improving the quality of the program. If you hack, it's

@@ -1,6 +1,6 @@
-This is /home/ufoot/home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -3418,6 +3418,7 @@ interfaces:
 * mod-udpd::            Udp server using native protocol.
 * libsys::              Low-level system utilities.
 * libtsk::              Asynchronous loading.
+* libvox::              Voxel-based 3D rendering.
 
 
 File: liquidwar6.info,  Node: libliquidwar6,  Next: libbot,  Up: C API

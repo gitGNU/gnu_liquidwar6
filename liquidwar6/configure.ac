@@ -725,6 +725,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/ldr/ldr-png.h
 	  src/lib/tsk/Makefile
 	  src/lib/gui/Makefile
+	  src/lib/vox/Makefile
 	  src/lib/gfx/Makefile
   	  src/lib/gfx/mod-gl/Makefile
  	  src/lib/gfx/mod-gl/gl-utils/Makefile

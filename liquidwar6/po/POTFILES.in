@@ -445,5 +445,8 @@ src/lib/sys/sys-vthread.c
 src/lib/tsk/tsk-loader.c
 src/lib/tsk/tsk-test.c
 src/lib/tsk/tsk-testmain.c
+src/lib/vox/vox-renderer.c
+src/lib/vox/vox-test.c
+src/lib/vox/vox-testmain.c
 src/main.c
 src/scriptpo.c

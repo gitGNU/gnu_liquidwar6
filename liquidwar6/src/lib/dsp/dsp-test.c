@@ -504,6 +504,7 @@ lw6dsp_test (int mode)
       lw6map_test (mode);
       lw6ker_test (mode);
       lw6gui_test (mode);
+      lw6vox_test (mode);
       lw6gfx_test (mode);
     }
 

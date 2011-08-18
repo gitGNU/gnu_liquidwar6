@@ -32,6 +32,7 @@
 #include "../cfg/cfg.h"
 #include "../ldr/ldr.h"
 #include "../gui/gui.h"
+#include "../vox/vox.h"
 
 typedef struct lw6gfx_backend_s
 {

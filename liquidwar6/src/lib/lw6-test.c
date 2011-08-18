@@ -161,6 +161,7 @@ lw6_test (int mode)
       lw6ldr_test (mode);
       lw6tsk_test (mode);
       lw6gui_test (mode);
+      lw6vox_test (mode);
       lw6gfx_test (mode);
       lw6dsp_test (mode);
       lw6snd_test (mode);

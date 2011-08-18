@@ -94,10 +94,11 @@ liquidwar6dsp_test_OBJECTS = $(am_liquidwar6dsp_test_OBJECTS)
 @ALLINONE_FALSE@am__DEPENDENCIES_1 = ../dyn/libdyn.la
 @FULLSTATIC_FALSE@liquidwar6dsp_test_DEPENDENCIES = libdsp.la \
 @FULLSTATIC_FALSE@	../gfx/libgfx.la $(am__DEPENDENCIES_1) \
-@FULLSTATIC_FALSE@	../gui/libgui.la ../ldr/libldr.la \
-@FULLSTATIC_FALSE@	../pil/libpil.la ../ker/libker.la \
-@FULLSTATIC_FALSE@	../map/libmap.la ../cfg/libcfg.la \
-@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
+@FULLSTATIC_FALSE@	../vox/libvox.la ../gui/libgui.la \
+@FULLSTATIC_FALSE@	../ldr/libldr.la ../pil/libpil.la \
+@FULLSTATIC_FALSE@	../ker/libker.la ../map/libmap.la \
+@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
+@FULLSTATIC_FALSE@	../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -361,7 +362,7 @@ libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-t
 libdspdir = $(includedir)/@PACKAGE_TARNAME@/dsp
 libdsp_HEADERS = dsp.h
 @FULLSTATIC_FALSE@liquidwar6dsp_test_SOURCES = dsp-testmain.c
-@FULLSTATIC_FALSE@liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)
 all: all-am
 

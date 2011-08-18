@@ -18,40 +18,19 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-if ALLINONE
-AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
-AM_OBJCFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
-AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
-else
 AM_CFLAGS = @LW6_CFLAGS@
-AM_OBJCFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
 
-if ALLINONE
-LW6DYN_LIB = 
-else
-LW6DYN_LIB = ../dyn/libdyn.la 
-endif
-
-if LW6_MAC_OS_X
-OBJC_SRC_FILES = dsp-macosx.m
-OBJC_EXTRA_FILES =
-else
-OBJC_SRC_FILES =
-OBJC_EXTRA_FILES = dsp-macosx.m
-endif
-
-noinst_LTLIBRARIES = libdsp.la
-libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c dsp-test.c
-libdspdir= $(includedir)/@PACKAGE_TARNAME@/dsp
-libdsp_HEADERS = dsp.h
+noinst_LTLIBRARIES = libvox.la
+libvox_la_SOURCES = vox-renderer.c vox-test.c
+libvoxdir= $(includedir)/@PACKAGE_TARNAME@/vox
+libvox_HEADERS = vox.h
 
 if !FULLSTATIC
-libexec_PROGRAMS = liquidwar6dsp-test
-liquidwar6dsp_test_SOURCES = dsp-testmain.c
-liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-TESTS = liquidwar6dsp-test
+libexec_PROGRAMS = liquidwar6vox-test
+liquidwar6vox_test_SOURCES = vox-testmain.c
+liquidwar6vox_test_LDADD = libvox.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+TESTS = liquidwar6vox-test
 endif
 
-EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)
+EXTRA_DIST = vox-internal.h

@@ -168,6 +168,7 @@ C API
 * mod-udpd::            Udp server using native protocol.
 * libsys::              Low-level system utilities.
 * libtsk::              Asynchronous loading.
+* libvox::              Voxel-based 3D rendering.
 
 Appendices
 
@@ -2135,6 +2136,10 @@ call an update function from time to time. The module will even perform
 ``dirty-reads'' on a game state being calculated, to render things
 in real time, as soon as possible.
 
+An experimental @code{libvox} module is under design/development and
+might, in the future, provide a real-time voxel renderer. Still pre-alpha
+stage.
+
 To ease up the implementation of different graphics backends, a @code{libgui}
 module contains code which is meant to be used by any graphics backend.
 It's just a factorisation module, containing common code and interfaces,
@@ -3977,6 +3982,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 * mod-udpd::            Udp server using native protocol.
 * libsys::              Low-level system utilities.
 * libtsk::              Asynchronous loading.
+* libvox::              Voxel-based 3D rendering.
 @end menu
 
 @c ---------------------------------------------------------------------------
@@ -5087,7 +5093,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libtsk
 @c ---------------------------------------------------------------------------
 
-@node libtsk, , libsys, C API
+@node libtsk, libvox, libsys, C API
 @section libtsk
 
 @subsection Overview
@@ -5108,6 +5114,34 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html}
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libtsk.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
+@c libvox
+@c ---------------------------------------------------------------------------
+
+@node libvox, , libtsk, C API
+@section libvox
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/vox/index.html}.
+
+@subsection API
+
+@ifinfo
+@include vox-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include vox-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libvox.html}.
 @end ifnothtml
 @end ifnotinfo
  

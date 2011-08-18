@@ -537,6 +537,7 @@ lw6gfx_test (int mode)
       lw6ker_test (mode);
       lw6pil_test (mode);
       lw6gui_test (mode);
+      lw6vox_test (mode);
     }
 
   if (mode)

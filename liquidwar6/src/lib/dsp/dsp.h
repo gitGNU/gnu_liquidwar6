@@ -33,6 +33,7 @@
 #include "../cfg/cfg.h"
 #include "../ldr/ldr.h"
 #include "../gui/gui.h"
+#include "../vox/vox.h"
 #include "../gfx/gfx.h"
 
 typedef struct lw6dsp_misc_s
