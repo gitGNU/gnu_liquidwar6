@@ -83,7 +83,7 @@ _mod_gl_view_flat_game_context_init_map (mod_gl_utils_context_t *
 							level,
 							flat_context->
 							const_data.
-							tile_size_map);
+							tile_size_map,flat_context->const_data.border_size_map);
   if (ret)
     {
       wrap = GL_CLAMP_TO_EDGE;
@@ -144,7 +144,7 @@ _mod_gl_view_flat_game_context_init_armies (mod_gl_utils_context_t *
 				       lw6ker_game_struct_get_w (game_struct),
 				       lw6ker_game_struct_get_h (game_struct),
 				       flat_context->const_data.
-				       tile_size_armies);
+				       tile_size_armies,flat_context->const_data.border_size_armies);
 
   game_context_armies->game_state = game_state;
   game_context_armies->game_struct_id = game_struct->id;

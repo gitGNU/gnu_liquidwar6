@@ -336,82 +336,8 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
 
   if (wrap)
     {
-      /*
-       * The algorithm is copied/pasted from map code, only here it 
-       * operates with floats, not integers.
-       */
-      if (x < 0.0f || y < 0.0f || x > w || y > h)
-	{
-	  if (viewport->x_polarity > 0 && viewport->x_wrap)
-	    {
-	      while (x > w)
-		{
-		  x -= w;
-		}
-	      while (x < 0)
-		{
-		  x += w;
-		}
-	    }
-	  if (viewport->y_polarity > 0 && viewport->y_wrap)
-	    {
-	      while (y > h)
-		{
-		  y -= h;
-		}
-	      while (y < 0)
-		{
-		  y += h;
-		}
-	    }
-	  if (viewport->x_polarity < 0 && viewport->x_wrap)
-	    {
-	      while (x > w)
-		{
-		  x -= w;
-		  y = h - 1 - y;
-		}
-	      while (x < 0)
-		{
-		  x += w;
-		  y = h - 1 - y;
-		}
-	    }
-	  if (viewport->y_polarity < 0 && viewport->y_wrap)
-	    {
-	      while (y > h)
-		{
-		  x = w - 1 - x;
-		  y -= h;
-		}
-	      while (y < 0)
-		{
-		  x = w - 1 - x;
-		  y += h;
-		}
-	    }
+      lw6gui_polarity_fix_float(&x,&y,w,h,viewport->x_wrap?viewport->x_polarity:0,viewport->y_wrap?viewport->y_polarity:0);
 
-	  /*
-	   * Last, we check for absolute limits, this will also
-	   * handle the 0 polarity case.
-	   */
-	  if (x < 0.0f)
-	    {
-	      x = 0.0f;
-	    }
-	  if (x > w)
-	    {
-	      x = w;
-	    }
-	  if (y < 0.0f)
-	    {
-	      y = 0.0f;
-	    }
-	  if (y > h)
-	    {
-	      y = h;
-	    }
-	}
     }
 
   *map_x = x;

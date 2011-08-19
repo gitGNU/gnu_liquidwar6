@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libgui.la
-libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-smoother.c gui-test.c gui-videomode.c gui-viewport.c gui-zone.c
+libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-polarity.c gui-rect.c gui-rectarray.c gui-smoother.c gui-test.c gui-videomode.c gui-viewport.c gui-zone.c
 libguidir= $(includedir)/@PACKAGE_TARNAME@/gui
 libgui_HEADERS = gui.h
 

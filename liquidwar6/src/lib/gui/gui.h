@@ -71,6 +71,11 @@
 #define LW6GUI_GFX_QUALITY_STANDARD 1
 #define LW6GUI_GFX_QUALITY_HIGH     2
 
+#define LW6GUI_MIN_TILE_SIZE 4
+#define LW6GUI_MAX_TILE_SIZE 4096
+#define LW6GUI_MIN_BORDER_SIZE 0
+#define LW6GUI_MAX_BORDER_SIZE 16
+
 typedef struct lw6gui_video_mode_s
 {
   int width;
@@ -228,6 +233,33 @@ typedef struct lw6gui_smoother_s
   int64_t t1;
   int duration;
 } lw6gui_smoother_t;
+
+typedef struct lw6gui_rect_s
+{
+  int x1;
+  int y1;
+  int x2;
+  int y2;
+  int w;
+  int h;
+}
+  lw6gui_rect_t;
+
+typedef struct lw6gui_rect_array_s
+{
+  lw6sys_whd_t source;
+  int min_x;
+  int min_y;
+  int max_x;
+  int max_y;
+  int tile_size;
+  int border_size;
+  int tile_spacing;
+  int nb_tiles_w;
+  int nb_tiles_h;
+  int nb_tiles;
+}
+  lw6gui_rect_array_t;
 
 typedef struct lw6gui_zone_s
 {
@@ -426,6 +458,23 @@ extern void lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 					lw6gui_repeat_settings_t *
 					repeat_settings, int64_t timestamp);
 extern int lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src);
+
+/* gui-polarity.c */
+extern int lw6gui_polarity_fix_float( float *x, float *y, int *x_flipped, int *y_flipped,float w, float h,int x_polarity, int y_polarity);
+
+/* gui-rect.c */
+extern void lw6gui_rect_init_xywh(lw6gui_rect_t *rect, int x, int y, int w, int h);
+extern void lw6gui_rect_init_x1y1x2y2(lw6gui_rect_t *rect, int x1, int y1, int x2, int y2);
+extern void lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
+			      lw6gui_rect_t * clip);
+
+/* gui-rectarray.c */
+extern int lw6gui_rect_array_init (
+					 lw6gui_rect_array_t *
+					 rect_array, int w, int h,
+					 int tile_size, int border_size);
+extern void lw6gui_rect_array_clear (					   lw6gui_rect_array_t *
+					   rect_array);
 
 /* gui-smoother.c */
 extern void lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value,

@@ -52,6 +52,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->tile_size_map);
       lw6cfg_read_xml_int (key, value, "tile-size-armies",
 			   &const_data->tile_size_armies);
+      lw6cfg_read_xml_int (key, value, "border-size-map",
+			   &const_data->border_size_map);
+      lw6cfg_read_xml_int (key, value, "border-size-armies",
+			   &const_data->border_size_armies);
     }
 
   if (!strcmp (element, "float"))

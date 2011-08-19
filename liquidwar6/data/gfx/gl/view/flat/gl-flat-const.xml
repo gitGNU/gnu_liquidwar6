@@ -14,4 +14,6 @@
   <float key="cursor-relative-text-dh" value="0.05" />
   <int key="tile-size-map" value="512" />
   <int key="tile-size-armies" value="128" />
+  <int key="border-size-map" value="16" />
+  <int key="border-size-armies" value="8" />
 </liquidwar6>

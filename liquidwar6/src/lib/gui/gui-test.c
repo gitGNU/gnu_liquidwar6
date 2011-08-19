@@ -81,6 +81,14 @@
 #define TEST_SRC_Y0 20.0
 #define TEST_SRC_W 100.0
 #define TEST_SRC_H 50.0
+#define TEST_RECT1_X1 3.0f
+#define TEST_RECT1_Y1 2.0f
+#define TEST_RECT1_X2 30.0f
+#define TEST_RECT1_Y2 20.0f
+#define TEST_RECT2_X -1.0f
+#define TEST_RECT2_Y -1.0f
+#define TEST_RECT2_W 10.0f
+#define TEST_RECT2_H 10.0f
 #define TEST_ZONE1_X1 3.0f
 #define TEST_ZONE1_Y1 2.0f
 #define TEST_ZONE1_X2 30.0f
@@ -879,6 +887,57 @@ test_mouse ()
   return ret;
 }
 
+static void
+log_rect (lw6gui_rect_t * rect, char *comment)
+{
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s x1=%d y1=%d x2=%d y2=%d w=%d h=%d"),
+	      comment, rect->x1, rect->y1, rect->x2, rect->y2, rect->w,
+	      rect->h);
+}
+
+/*
+ * Testing rect
+ */
+static int
+test_rect ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6gui_rect_t rect1;
+    lw6gui_rect_t rect2;
+    lw6gui_rect_t rect3;
+
+    lw6gui_rect_init_x1y1x2y2 (&rect1, TEST_RECT1_X1, TEST_RECT1_Y1,
+			       TEST_RECT1_X2, TEST_RECT1_Y2);
+    log_rect (&rect1, _x_ ("rect1"));
+    lw6gui_rect_init_x1y1x2y2 (&rect1, TEST_RECT2_X, TEST_RECT2_Y,
+			       TEST_RECT2_W, TEST_RECT2_H);
+    log_rect (&rect2, _x_ ("rect2"));
+    lw6gui_rect_clip (&rect3, &rect1, &rect2);
+    log_rect (&rect3, _x_ ("rect3"));
+  }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing rect array
+ */
+static int
+test_rect_array ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    // todo
+  }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /*
  * Testing video more
  */
@@ -1154,7 +1213,7 @@ lw6gui_test (int mode)
   ret = test_button () && test_coord () && test_input () && test_joystick ()
     && test_keyboard () && test_keypress ()
     && test_look () && test_menuitem () && test_menu () && test_mouse ()
-    && test_smoother () && test_video_mode () && test_viewport ()
+    && test_rect() && test_rect_array() && test_smoother () && test_video_mode () && test_viewport ()
     && test_zone ();
 
   return ret;

@@ -142,14 +142,14 @@ typedef struct mod_gl_utils_render_param_s
 
 typedef struct mod_gl_utils_rect_array_s
 {
-  int n_w;
-  int n_h;
-  int *x0;
-  int *y0;
-  int *w;
-  int *h;
-  float *screen_x;
-  float *screen_y;
+  int tile_size;
+  int border_size;
+  int tile_spacing;
+  int nb_tiles_w;
+  int nb_tiles_h;
+  int nb_tiles;
+  int source_w;
+  int source_h;
 }
 mod_gl_utils_rect_array_t;
 
@@ -461,19 +461,19 @@ extern int mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 					   utils_context,
 					   mod_gl_utils_bitmap_array_t *
 					   bitmap_array, int w, int h,
-					   int tile_size);
+					   int tile_size,int border_size);
 extern int mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t
 							* utils_context,
 							mod_gl_utils_bitmap_array_t
 							* bitmap_array,
 							SDL_Surface * surface,
-							int tile_size);
+							int tile_size,int border_size);
 extern int mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
 						    utils_context,
 						    mod_gl_utils_bitmap_array_t
 						    * bitmap_array,
 						    lw6map_level_t * level,
-						    int tile_size);
+						    int tile_size,int border_size);
 extern int mod_gl_utils_bitmap_array_update (mod_gl_utils_context_t *
 					     utils_context,
 					     mod_gl_utils_bitmap_array_t *
@@ -799,19 +799,6 @@ mod_gl_utils_putpixel_4_bytes_per_pixel (SDL_Surface * surface, int x, int y,
   *((Uint32 *) ((Uint8 *) surface->pixels + (y * surface->pitch) +
 		(x << 2))) = pixel;
 }
-
-/*
- * In rectarray.c
- */
-extern int mod_gl_utils_rect_array_init (mod_gl_utils_context_t *
-					 utils_context,
-					 mod_gl_utils_rect_array_t *
-					 rect_array, int w, int h,
-					 int tile_size);
-extern void mod_gl_utils_rect_array_clear (mod_gl_utils_context_t *
-					   utils_context,
-					   mod_gl_utils_rect_array_t *
-					   rect_array);
 
 /*
  * In render.c

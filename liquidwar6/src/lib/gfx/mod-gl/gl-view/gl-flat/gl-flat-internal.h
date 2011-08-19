@@ -83,6 +83,8 @@ typedef struct _mod_gl_view_flat_const_data_s
   float cursor_relative_text_dh;
   int tile_size_map;
   int tile_size_armies;
+  int border_size_map;
+  int border_size_armies;
 }
 _mod_gl_view_flat_const_data_t;
 
