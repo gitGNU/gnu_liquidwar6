@@ -319,7 +319,7 @@ mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
 				       lw6ker_game_state_t * game_state,
 				       lw6gui_look_t * look)
 {
-  int n_x, n_y;
+  int i;
   GLint wrap = 0;
   GLint filter = 0;
 
@@ -342,19 +342,16 @@ mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
       utils_context->last_action.game_bitmap_array_update_rounds =
 	lw6ker_game_state_get_rounds (game_state);
 
-      for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+      for (i = 0; i < bitmap_array->nb_tiles; ++i)
 	{
-	  for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
-	    {
-	      _update_game_bitmap (utils_context,
-				   mod_gl_utils_bitmap_array_get
-				   (bitmap_array, n_x, n_y), game_state,
-				   look,
-				   bitmap_array->layout.x0[n_x],
-				   bitmap_array->layout.y0[n_y],
-				   bitmap_array->layout.w[n_x],
-				   bitmap_array->layout.h[n_y]);
-	    }
+	  _update_game_bitmap (utils_context,
+			       mod_gl_utils_bitmap_array_get
+			       (bitmap_array, i), game_state,
+			       look,
+			       bitmap_array->layout.x0[n_x],
+			       bitmap_array->layout.y0[n_y],
+			       bitmap_array->layout.w[n_x],
+			       bitmap_array->layout.h[n_y]);
 	}
 
       /*

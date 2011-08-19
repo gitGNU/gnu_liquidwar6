@@ -85,7 +85,7 @@ typedef struct mod_gl_utils_bitmap_s
   float s2;
   float t2;
   int64_t last_refresh;
-  int need_another_refresh; // should be checked for utility
+  int need_another_refresh;	// should be checked for utility
 } mod_gl_utils_bitmap_t;
 
 typedef struct mod_gl_utils_shaded_text_s
@@ -154,7 +154,7 @@ mod_gl_utils_rect_array_t;
 
 typedef struct mod_gl_utils_bitmap_array_s
 {
-  mod_gl_utils_rect_array_t layout;
+  lw6gui_rect_array_t layout;
   mod_gl_utils_bitmap_t **bitmaps;
 }
 mod_gl_utils_bitmap_array_t;
@@ -467,14 +467,18 @@ extern int mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t
 							* bitmap_array,
 							SDL_Surface * surface,
 							int tile_size,
-							int border_size);
+							int border_size,
+							int x_polarity,
+							int y_polarity);
 extern int mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
 						    utils_context,
 						    mod_gl_utils_bitmap_array_t
 						    * bitmap_array,
 						    lw6map_level_t * level,
 						    int tile_size,
-						    int border_size);
+						    int border_size,
+						    int x_polarity,
+						    int y_polarity);
 extern int mod_gl_utils_bitmap_array_update (mod_gl_utils_context_t *
 					     utils_context,
 					     mod_gl_utils_bitmap_array_t *
@@ -485,11 +489,11 @@ extern void mod_gl_utils_bitmap_array_clear (mod_gl_utils_context_t *
 					     mod_gl_utils_bitmap_array_t *
 					     bitmap_array);
 extern int mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
-					  bitmap_array, int n_x, int n_y,
+					  bitmap_array, int i,
 					  mod_gl_utils_bitmap_t * bitmap);
 extern mod_gl_utils_bitmap_t
   *mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
-				  int n_x, int n_y);
+				  int i);
 
 /*
  * In bitmaphash.c

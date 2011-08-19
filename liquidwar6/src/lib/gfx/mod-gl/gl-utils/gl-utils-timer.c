@@ -62,7 +62,9 @@ mod_gl_utils_timer_get_bitmap_refresh (mod_gl_utils_context_t * utils_context)
 extern void
 mod_gl_utils_timer_set_bitmap_refresh (mod_gl_utils_context_t * utils_context)
 {
-  lw6sys_log(LW6SYS_LOG_NOTICE,_x_("only for MS-Windows & Mac OS/X. Gl context is lost on resize"));
-  mod_gl_utils_bitmap_hash_refresh(utils_context);
+  lw6sys_log (LW6SYS_LOG_NOTICE,
+	      _x_
+	      ("only for MS-Windows & Mac OS/X. Gl context is lost on resize"));
+  mod_gl_utils_bitmap_hash_refresh (utils_context);
   utils_context->timer.bitmap_refresh = utils_context->timer.timestamp;
 }

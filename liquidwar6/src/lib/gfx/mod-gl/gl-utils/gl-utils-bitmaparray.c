@@ -27,7 +27,7 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
-#define _BITMAP_ARRAY_DESC "bitmap_array_%d,%d"
+#define _BITMAP_ARRAY_DESC "bitmap_array"
 
 int
 mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
@@ -36,63 +36,53 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 				int w, int h, int tile_size, int border_size)
 {
   int ret = 0;
-  int n_x, n_y;
+  int i;
   mod_gl_utils_bitmap_t *bitmap;
-  char *desc = NULL;
 
-  if (mod_gl_utils_rect_array_init
-      (utils_context, &(bitmap_array->layout), w, h, tile_size, border_size))
+  tile_size = lw6sys_min (tile_size, utils_context->caps.max_texture_size);
+  if (lw6gui_rect_array_init
+      (&(bitmap_array->layout), w, h, tile_size, border_size))
     {
       bitmap_array->bitmaps =
-	(mod_gl_utils_bitmap_t **) LW6SYS_CALLOC (bitmap_array->layout.n_w *
-						  bitmap_array->layout.n_h *
+	(mod_gl_utils_bitmap_t **) LW6SYS_CALLOC (bitmap_array->
+						  layout.nb_tiles *
 						  sizeof
 						  (mod_gl_utils_bitmap_t *));
 
       if (bitmap_array->bitmaps)
 	{
 	  ret = 1;
-	  for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+	  for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	    {
-	      for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
+	      bitmap =
+		mod_gl_utils_bitmap_new (utils_context,
+					 bitmap_array->layout.tile_size,
+					 bitmap_array->layout.tile_size,
+					 _BITMAP_ARRAY_DESC);
+	      if (bitmap)
 		{
-		  desc = lw6sys_new_sprintf (_BITMAP_ARRAY_DESC, n_x, n_y);
-		  if (desc)
-		    {
-		      bitmap =
-			mod_gl_utils_bitmap_new (utils_context,
-						 bitmap_array->layout.w[n_x],
-						 bitmap_array->layout.h[n_y],
-						 desc);
-		      if (bitmap)
-			{
-			  /*
-			   * Call to refresh before the first update
-			   * (conversion from surface to texture)
-			   * happens when bitmap has never been displayed
-			   * so it might still be 0.
-			   */
-			  mod_gl_utils_bitmap_refresh (utils_context, bitmap);
-			  mod_gl_utils_bitmap_array_set (bitmap_array,
-							 n_x, n_y, bitmap);
-			}
-		      else
-			{
-			  ret = 0;
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("bitmap %d,%d of bitmap array couldn't be created, array is broken"),
-				      n_x, n_y);
-			}
-		      LW6SYS_FREE (desc);
-		    }
+		  /*
+		   * Call to refresh before the first update
+		   * (conversion from surface to texture)
+		   * happens when bitmap has never been displayed
+		   * so it might still be 0.
+		   */
+		  mod_gl_utils_bitmap_refresh (utils_context, bitmap);
+		  mod_gl_utils_bitmap_array_set (bitmap_array, i, bitmap);
+		}
+	      else
+		{
+		  ret = 0;
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("bitmap %d of bitmap array couldn't be created, array is broken"),
+			      i);
 		}
 	    }
 	}
     }
   else
     {
-      mod_gl_utils_rect_array_clear (utils_context, &(bitmap_array->layout));
       if (bitmap_array->bitmaps)
 	{
 	  LW6SYS_FREE (bitmap_array->bitmaps);
@@ -109,108 +99,84 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
 					     mod_gl_utils_bitmap_array_t *
 					     bitmap_array,
 					     SDL_Surface * surface,
-					     int tile_size, int border_size)
+					     int tile_size, int border_size,
+					     int x_polarity, int y_polarity)
 {
   int ret = 0;
-  int n_x, n_y;
+  int i;
+  int x, y;
   mod_gl_utils_bitmap_t *bitmap;
   SDL_Surface *sub_surface;
-  SDL_Rect area;
-  SDL_Rect sub_area;
-  SDL_Rect border_area;
-  SDL_Rect border_sub_area;
+  lw6gui_rect_t rect;
+  lw6map_rules_t rules;
+  lw6sys_whd_t shape;
+  int x_fixed, y_fixed;
 
   if (mod_gl_utils_bitmap_array_init
       (utils_context, bitmap_array, surface->w, surface->h, tile_size,
        border_size))
     {
       ret = 1;
-      for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+      lw6map_rules_defaults (&rules);
+      rules.x_polarity = x_polarity;
+      rules.y_polarity = y_polarity;
+      shape.w = surface->w;
+      shape.h = surface->h;
+      for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
-	  for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
+	  bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, i);
+	  if (bitmap)
 	    {
-	      area.x = bitmap_array->layout.x0[n_x];
-	      area.y = bitmap_array->layout.y0[n_y];
-	      area.w = bitmap_array->layout.w[n_x];
-	      area.h = bitmap_array->layout.h[n_y];
-
-	      sub_area.x = 0;
-	      sub_area.y = 0;
-	      sub_area.w = bitmap_array->layout.w[n_x];
-	      sub_area.h = bitmap_array->layout.h[n_y];
-
-	      bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, n_x, n_y);
-	      if (bitmap)
+	      sub_surface = bitmap->surface;
+	      if (sub_surface)
 		{
-		  sub_surface = bitmap->surface;
-		  if (sub_surface)
+		  SDL_SetAlpha (surface, 0, SDL_ALPHA_OPAQUE);
+		  SDL_SetAlpha (sub_surface, 0, SDL_ALPHA_OPAQUE);
+		  mod_gl_utils_clear_surface (sub_surface);
+		  if (lw6gui_rect_array_get_tile_by_i
+		      (&(bitmap_array->layout), &rect, i))
 		    {
-		      SDL_SetAlpha (surface, 0, SDL_ALPHA_OPAQUE);
-		      SDL_SetAlpha (sub_surface, 0, SDL_ALPHA_OPAQUE);
-		      mod_gl_utils_clear_surface (sub_surface);
-		      SDL_BlitSurface (surface, &area, sub_surface,
-				       &sub_area);
-		      if (area.x == -border_size)
+		      /*
+		       * Previous version of the code used blits but it's really
+		       * annoying to handle with all the wrap/polarity stuff,
+		       * someday could rewrite this to use blits in the middle and
+		       * this ugly get/put only on the edges
+		       */
+		      for (y = rect.y1; y < rect.y2; ++y)
 			{
-			  border_area = area;
-			  border_area.x = 0;
-			  border_area.w = border_size;
-			  border_sub_area = sub_area;
-			  border_sub_area.w = border_size;
-			  SDL_BlitSurface (surface, &border_area, sub_surface,
-					   &border_sub_area);
-			}
-		      if (area.y == -border_size)
-			{
-			  border_area = area;
-			  border_area.y = 0;
-			  border_area.h = border_size;
-			  border_sub_area = sub_area;
-			  border_sub_area.h = border_size;
-			  SDL_BlitSurface (surface, &border_area, sub_surface,
-					   &border_sub_area);
-			}
-		      if (area.x + area.w == surface->w + border_size)
-			{
-			  border_area = area;
-			  border_area.x = surface->w - 1;
-			  border_area.w = border_size;
-			  border_sub_area = sub_area;
-			  border_sub_area.x = sub_area.w - 1;
-			  border_sub_area.w = border_size;
-			}
-		      if (area.y + area.h == surface->h + border_size)
-			{
-			  border_area = area;
-			  border_area.y = surface->h - 1;
-			  border_area.h = border_size;
-			  border_sub_area = sub_area;
-			  border_sub_area.y = sub_area.h - 1;
-			  border_sub_area.h = border_size;
-			}
-		      if (area.x < -border_size || area.y < -border_size
-			  || area.x + area.w > surface->w + border_size
-			  || area.y + area.h > surface->h + border_size)
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("unsupported layout area.x=%d area.y=%d area.w=%d area.h=%d surface->w=%d surface->h=%d"),
-				      area.x, area.y, area.w, area.h,
-				      surface->w, surface->h);
+			  for (x = rect.x1; x < rect.x2; ++x)
+			    {
+			      x_fixed = x;
+			      y_fixed = y;
+			      lw6map_coords_fix_xy (&rules, &shape, &x_fixed,
+						    &y_fixed);
+
+			      mod_gl_utils_putpixel (sub_surface, x - rect.x2,
+						     y - rect.y1,
+						     mod_gl_utils_getpixel
+						     (surface, x_fixed,
+						      y_fixed));
+			    }
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_ ("sub_surface is NULL"));
+				  _x_ ("inconsistent layout"));
 		      ret = 0;
 		    }
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bitmap is NULL"));
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("sub_surface is NULL"));
 		  ret = 0;
 		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bitmap is NULL"));
+	      ret = 0;
 	    }
 	}
     }
@@ -224,7 +190,8 @@ mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
 					 mod_gl_utils_bitmap_array_t *
 					 bitmap_array,
 					 lw6map_level_t * level,
-					 int tile_size, int border_size)
+					 int tile_size, int border_size,
+					 int x_polarity, int y_polarity)
 {
   int ret = 0;
   SDL_Surface *surface;
@@ -235,7 +202,9 @@ mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
       ret = mod_gl_utils_bitmap_array_init_from_surface (utils_context,
 							 bitmap_array,
 							 surface, tile_size,
-							 border_size);
+							 border_size,
+							 x_polarity,
+							 y_polarity);
       mod_gl_utils_delete_surface (utils_context, surface);
     }
 
@@ -249,31 +218,27 @@ mod_gl_utils_bitmap_array_update (mod_gl_utils_context_t *
 				  bitmap_array, GLint wrap, GLint filter)
 {
   int ret = 1;
-  int n_x, n_y;
+  int i;
   mod_gl_utils_bitmap_t *bitmap;
 
-  for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+  for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
     {
-      for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
+      bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, i);
+      if (bitmap)
 	{
-	  bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, n_x, n_y);
-	  if (bitmap)
-	    {
-	      ret = mod_gl_utils_bitmap_set_wrap (utils_context, bitmap, wrap)
-		&& ret;
-	      ret =
-		mod_gl_utils_bitmap_set_filter (utils_context, bitmap, filter)
-		&& ret;
-	      mod_gl_utils_texture_update (utils_context, bitmap->texture,
-					   bitmap->surface);
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("NULL bitmap in bitmap_array at pos %d,%d"),
-			  n_x, n_y);
-	      ret = 0;
-	    }
+	  ret = mod_gl_utils_bitmap_set_wrap (utils_context, bitmap, wrap)
+	    && ret;
+	  ret =
+	    mod_gl_utils_bitmap_set_filter (utils_context, bitmap, filter)
+	    && ret;
+	  mod_gl_utils_texture_update (utils_context, bitmap->texture,
+				       bitmap->surface);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("NULL bitmap in bitmap_array at index %d"), i);
+	  ret = 0;
 	}
     }
 
@@ -288,15 +253,13 @@ mod_gl_utils_bitmap_array_clear (mod_gl_utils_context_t * utils_context,
 
   if (bitmap_array->bitmaps != NULL)
     {
-      for (i = 0; i < bitmap_array->layout.n_w * bitmap_array->layout.n_h;
-	   ++i)
+      for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
 	  mod_gl_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
 	}
       LW6SYS_FREE (bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
     }
-  mod_gl_utils_rect_array_clear (utils_context, &(bitmap_array->layout));
 }
 
 /* 
@@ -315,36 +278,32 @@ sdl_utils_schedule_delete_bitmap_array (mod_gl_utils_context_t *
 
   if (bitmap_array->bitmaps != NULL)
     {
-      for (i = 0; i < bitmap_array->layout.n_w * bitmap_array->layout.n_h;
-	   ++i)
+      for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
 	  mod_gl_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
 	}
       LW6SYS_FREE (bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
     }
-  mod_gl_utils_rect_array_clear (utils_context, &(bitmap_array->layout));
 }
 
 int
 mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
-			       bitmap_array, int n_x, int n_y,
+			       bitmap_array, int i,
 			       mod_gl_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 
-  if (n_x >= 0 && n_x < bitmap_array->layout.n_w && n_y >= 0
-      && n_y < bitmap_array->layout.n_h)
+  if (i >= 0 && i < bitmap_array->layout.nb_tiles)
     {
-      bitmap_array->bitmaps[n_y * bitmap_array->layout.n_w + n_x] = bitmap;
+      bitmap_array->bitmaps[i] = bitmap;
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
-		  ("bitmap_array_set parameters out of range n_x=%d n_y=%d n_w=%d n_h=%d"),
-		  n_x, n_y, bitmap_array->layout.n_w,
-		  bitmap_array->layout.n_h);
+		  ("bitmap_array_set parameters out of range i=%d nb_tiles=%d"),
+		  i, bitmap_array->layout.nb_tiles);
     }
 
   return ret;
@@ -352,22 +311,20 @@ mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
 
 mod_gl_utils_bitmap_t *
 mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t *
-			       bitmap_array, int n_x, int n_y)
+			       bitmap_array, int i)
 {
   mod_gl_utils_bitmap_t *ret = NULL;
 
-  if (n_x >= 0 && n_x < bitmap_array->layout.n_w && n_y >= 0
-      && n_y < bitmap_array->layout.n_h)
+  if (i >= 0 && i < bitmap_array->layout.nb_tiles)
     {
-      ret = bitmap_array->bitmaps[n_y * bitmap_array->layout.n_w + n_x];
+      ret = bitmap_array->bitmaps[i];
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
-		  ("bitmap_array_get parameters out of range n_x=%d n_y=%d n_w=%d n_h=%d"),
-		  n_x, n_y, bitmap_array->layout.n_w,
-		  bitmap_array->layout.n_h);
+		  ("bitmap_array_get parameters out of range i=%d nb_tiles=%d"),
+		  i, bitmap_array->layout.nb_tiles);
     }
 
   return ret;

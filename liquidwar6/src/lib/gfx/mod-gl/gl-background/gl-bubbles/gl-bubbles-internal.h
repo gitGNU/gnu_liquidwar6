@@ -25,7 +25,7 @@
 
 #include "gl-bubbles.h"
 
-#define _MOD_GL_BACKGROUND_BUBBLES_MAX_BUBBLES 64
+#define _MOD_GL_BACKGROUND_BUBBLES_MAX_NB_BUBBLES 100
 
 typedef struct _mod_gl_background_bubbles_bubble_s
 {
@@ -39,7 +39,7 @@ _mod_gl_background_bubbles_bubble_t;
 typedef struct _mod_gl_background_bubbles_state_s
 {
   _mod_gl_background_bubbles_bubble_t
-    bubbles[_MOD_GL_BACKGROUND_BUBBLES_MAX_BUBBLES];
+    bubbles[_MOD_GL_BACKGROUND_BUBBLES_MAX_NB_BUBBLES];
 }
 _mod_gl_background_bubbles_state_t;
 

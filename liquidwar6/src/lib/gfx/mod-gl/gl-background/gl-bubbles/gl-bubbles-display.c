@@ -125,6 +125,7 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
 		  bubbles_context, lw6gui_look_t * look)
 {
   int i;
+  int nb_bubbles;
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
 
@@ -136,14 +137,13 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
   mod_gl_utils_bitmap_bind (utils_context,
 			    bubbles_context->bitmap_data.bubble);
 
-  if (bubbles_context->const_data.nb_bubbles >
-      _MOD_GL_BACKGROUND_BUBBLES_MAX_BUBBLES)
-    {
-      bubbles_context->const_data.nb_bubbles =
-	_MOD_GL_BACKGROUND_BUBBLES_MAX_BUBBLES;
-    }
+  nb_bubbles =
+    bubbles_context->const_data.nb_bubbles * look->style.animation_density;
 
-  for (i = 0; i < bubbles_context->const_data.nb_bubbles; ++i)
+  nb_bubbles =
+    lw6sys_min (nb_bubbles, _MOD_GL_BACKGROUND_BUBBLES_MAX_NB_BUBBLES);
+
+  for (i = 0; i < nb_bubbles; ++i)
     {
       _display_bubble (utils_context, bubbles_context,
 		       &(bubbles_context->state.bubbles[i]), look);
