@@ -152,7 +152,7 @@ _refresh_callback (void *func_data, char *key, void *value)
     (mod_gl_utils_context_t *) func_data;
   mod_gl_utils_bitmap_t *bitmap = (mod_gl_utils_bitmap_t *) value;
 
-  mod_gl_utils_bitmap_refresh (utils_context, bitmap);
+  mod_gl_utils_bitmap_force_refresh (utils_context, bitmap);
 }
 
 int

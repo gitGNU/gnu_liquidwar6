@@ -327,6 +327,8 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
   float y = 0.0f;
   float w = viewport->map_shape.w;
   float h = viewport->map_shape.h;
+  int x_flipped = 0;
+  int y_flipped = 0;
 
   lw6gui_coord_calc_xy (&x, &y,
 			0, 0, viewport->map_shape.w, viewport->map_shape.h,
@@ -336,8 +338,10 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
 
   if (wrap)
     {
-      lw6gui_polarity_fix_float(&x,&y,w,h,viewport->x_wrap?viewport->x_polarity:0,viewport->y_wrap?viewport->y_polarity:0);
-
+      lw6gui_coords_fix_xy_float (&x, &y, &x_flipped, &y_flipped, w, h,
+				  viewport->x_wrap ? viewport->x_polarity : 0,
+				  viewport->
+				  y_wrap ? viewport->y_polarity : 0);
     }
 
   *map_x = x;

@@ -29,7 +29,7 @@ libvox_HEADERS = vox.h
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6vox-test
 liquidwar6vox_test_SOURCES = vox-testmain.c
-liquidwar6vox_test_LDADD = libvox.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+liquidwar6vox_test_LDADD = libvox.la ../gui/libgui.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6vox-test
 endif
 

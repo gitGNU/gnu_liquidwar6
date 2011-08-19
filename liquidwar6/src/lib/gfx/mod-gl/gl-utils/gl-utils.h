@@ -85,8 +85,7 @@ typedef struct mod_gl_utils_bitmap_s
   float s2;
   float t2;
   int64_t last_refresh;
-  int need_another_refresh;
-
+  int need_another_refresh; // should be checked for utility
 } mod_gl_utils_bitmap_t;
 
 typedef struct mod_gl_utils_shaded_text_s
@@ -461,19 +460,21 @@ extern int mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 					   utils_context,
 					   mod_gl_utils_bitmap_array_t *
 					   bitmap_array, int w, int h,
-					   int tile_size,int border_size);
+					   int tile_size, int border_size);
 extern int mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t
 							* utils_context,
 							mod_gl_utils_bitmap_array_t
 							* bitmap_array,
 							SDL_Surface * surface,
-							int tile_size,int border_size);
+							int tile_size,
+							int border_size);
 extern int mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
 						    utils_context,
 						    mod_gl_utils_bitmap_array_t
 						    * bitmap_array,
 						    lw6map_level_t * level,
-						    int tile_size,int border_size);
+						    int tile_size,
+						    int border_size);
 extern int mod_gl_utils_bitmap_array_update (mod_gl_utils_context_t *
 					     utils_context,
 					     mod_gl_utils_bitmap_array_t *
@@ -487,8 +488,8 @@ extern int mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
 					  bitmap_array, int n_x, int n_y,
 					  mod_gl_utils_bitmap_t * bitmap);
 extern mod_gl_utils_bitmap_t
-  * mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
-				   int n_x, int n_y);
+  *mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
+				  int n_x, int n_y);
 
 /*
  * In bitmaphash.c
@@ -893,8 +894,6 @@ extern SDL_Surface *mod_gl_utils_map2surface (mod_gl_utils_context_t *
 /*
  * In texture.c
  */
-extern int mod_gl_utils_power_of_two_le (int size);
-extern int mod_gl_utils_power_of_two_ge (int size);
 extern float mod_gl_utils_texture_scale (int size);
 extern GLuint mod_gl_utils_surface2texture_xywh (mod_gl_utils_context_t *
 						 utils_context,

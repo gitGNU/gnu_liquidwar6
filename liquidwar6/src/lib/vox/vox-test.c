@@ -110,6 +110,7 @@ lw6vox_test (int mode)
       lw6hlp_test (mode);
       lw6map_test (mode);
       lw6ker_test (mode);
+      lw6gui_test (mode);
     }
 
   ret = test_renderer ();

@@ -27,7 +27,6 @@
 #include "../cfg/cfg.h"
 #include "../sys/sys.h"
 #include "../map/map.h"
-#include "../ldr/ldr.h"
 
 #define LW6GUI_NB_KEYS 512
 #define LW6GUI_NB_JOYSTICKS 2
@@ -243,15 +242,12 @@ typedef struct lw6gui_rect_s
   int w;
   int h;
 }
-  lw6gui_rect_t;
+lw6gui_rect_t;
 
 typedef struct lw6gui_rect_array_s
 {
   lw6sys_whd_t source;
-  int min_x;
-  int min_y;
-  int max_x;
-  int max_y;
+  lw6gui_rect_t limits;
   int tile_size;
   int border_size;
   int tile_spacing;
@@ -259,7 +255,36 @@ typedef struct lw6gui_rect_array_s
   int nb_tiles_h;
   int nb_tiles;
 }
-  lw6gui_rect_array_t;
+lw6gui_rect_array_t;
+
+typedef struct lw6gui_point_s
+{
+  float x;
+  float y;
+  float z;
+} lw6gui_point_t;
+
+typedef struct lw6gui_segment_s
+{
+  lw6gui_point_t p1;
+  lw6gui_point_t p2;
+}
+lw6gui_segment_t;
+
+typedef struct lw6gui_triangle_s
+{
+  lw6gui_point_t p1;
+  lw6gui_point_t p2;
+  lw6gui_point_t p3;
+} lw6gui_triangle_t;
+
+typedef struct lw6gui_quad_s
+{
+  lw6gui_point_t p1;
+  lw6gui_point_t p2;
+  lw6gui_point_t p3;
+  lw6gui_point_t p4;
+} lw6gui_quad_t;
 
 typedef struct lw6gui_zone_s
 {
@@ -306,6 +331,9 @@ extern int lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0,
 				 float src_x, float src_y, float src_x0,
 				 float src_y0, float src_w, float src_h);
 extern int lw6gui_coord_viewport_setup (lw6gui_viewport_t * viewport);
+extern void lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flipped,
+					int *y_flipped, float w, float h,
+					int x_polarity, int y_polarity);
 
 /* gui-input.c */
 extern int lw6gui_input_init (lw6gui_input_t * input);
@@ -459,22 +487,47 @@ extern void lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 					repeat_settings, int64_t timestamp);
 extern int lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src);
 
-/* gui-polarity.c */
-extern int lw6gui_polarity_fix_float( float *x, float *y, int *x_flipped, int *y_flipped,float w, float h,int x_polarity, int y_polarity);
+/* gui-point.c */
+extern int lw6gui_point_is_inside_rect (lw6gui_point_t point,
+					lw6gui_rect_t * rect);
+
+/* gui-poweroftwo.c */
+extern int lw6gui_power_of_two_le (int size);
+extern int lw6gui_power_of_two_ge (int size);
+
+/* gui-quad.c */
+extern int lw6gui_quad_is_inside_rect (lw6gui_quad_t * quad,
+				       lw6gui_rect_t * rect);
 
 /* gui-rect.c */
-extern void lw6gui_rect_init_xywh(lw6gui_rect_t *rect, int x, int y, int w, int h);
-extern void lw6gui_rect_init_x1y1x2y2(lw6gui_rect_t *rect, int x1, int y1, int x2, int y2);
+extern void lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w,
+				   int h);
+extern void lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1,
+				       int x2, int y2);
 extern void lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
 			      lw6gui_rect_t * clip);
 
 /* gui-rectarray.c */
-extern int lw6gui_rect_array_init (
-					 lw6gui_rect_array_t *
-					 rect_array, int w, int h,
-					 int tile_size, int border_size);
-extern void lw6gui_rect_array_clear (					   lw6gui_rect_array_t *
-					   rect_array);
+extern int lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
+				   int h, int tile_size, int border_size);
+extern int lw6gui_rect_array_get_tile_by_source_xy (lw6gui_rect_array_t *
+						    rect_array,
+						    lw6gui_rect_t * rect,
+						    int *i, int source_x,
+						    int source_y);
+extern int lw6gui_rect_array_get_tile_by_i (lw6gui_rect_array_t * rect_array,
+					    lw6gui_rect_t * rect, int i);
+extern int lw6gui_rect_array_get_tile_and_quad (lw6gui_rect_array_t *
+						rect_array,
+						lw6gui_rect_t * rect, int *i,
+						lw6gui_quad_t * quad,
+						lw6gui_quad_t * source_quad,
+						int x_polarity,
+						int y_polarity);
+
+/* gui-segment.c */
+extern int lw6gui_segment_is_inside_rect (lw6gui_segment_t * segment,
+					  lw6gui_rect_t * rect);
 
 /* gui-smoother.c */
 extern void lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value,
@@ -488,6 +541,10 @@ extern float lw6gui_smoother_get_value (lw6gui_smoother_t * smoother,
 
 /* gui-test.c */
 extern int lw6gui_test (int mode);
+
+/* gui-triangle.c */
+extern int lw6gui_triangle_is_inside_rect (lw6gui_triangle_t * triangle,
+					   lw6gui_rect_t * rect);
 
 /* gui-videomode.c */
 extern int lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,

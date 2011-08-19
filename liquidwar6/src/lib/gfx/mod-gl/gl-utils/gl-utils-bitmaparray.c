@@ -41,7 +41,7 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
   char *desc = NULL;
 
   if (mod_gl_utils_rect_array_init
-      (utils_context, &(bitmap_array->layout), w, h, tile_size,border_size))
+      (utils_context, &(bitmap_array->layout), w, h, tile_size, border_size))
     {
       bitmap_array->bitmaps =
 	(mod_gl_utils_bitmap_t **) LW6SYS_CALLOC (bitmap_array->layout.n_w *
@@ -109,7 +109,7 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
 					     mod_gl_utils_bitmap_array_t *
 					     bitmap_array,
 					     SDL_Surface * surface,
-					     int tile_size,int border_size)
+					     int tile_size, int border_size)
 {
   int ret = 0;
   int n_x, n_y;
@@ -121,7 +121,8 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
   SDL_Rect border_sub_area;
 
   if (mod_gl_utils_bitmap_array_init
-      (utils_context, bitmap_array, surface->w, surface->h, tile_size,border_size))
+      (utils_context, bitmap_array, surface->w, surface->h, tile_size,
+       border_size))
     {
       ret = 1;
       for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
@@ -223,7 +224,7 @@ mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
 					 mod_gl_utils_bitmap_array_t *
 					 bitmap_array,
 					 lw6map_level_t * level,
-					 int tile_size,int border_size)
+					 int tile_size, int border_size)
 {
   int ret = 0;
   SDL_Surface *surface;
@@ -233,7 +234,8 @@ mod_gl_utils_bitmap_array_init_from_map (mod_gl_utils_context_t *
     {
       ret = mod_gl_utils_bitmap_array_init_from_surface (utils_context,
 							 bitmap_array,
-							 surface, tile_size,border_size);
+							 surface, tile_size,
+							 border_size);
       mod_gl_utils_delete_surface (utils_context, surface);
     }
 

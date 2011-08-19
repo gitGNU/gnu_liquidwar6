@@ -89,6 +89,21 @@
 #define TEST_RECT2_Y -1.0f
 #define TEST_RECT2_W 10.0f
 #define TEST_RECT2_H 10.0f
+#define TEST_RECT_ARRAY_W 1333
+#define TEST_RECT_ARRAY_H 666
+#define TEST_RECT_ARRAY_TILE_SIZE 123
+#define TEST_RECT_ARRAY_BORDER_SIZE 7
+#define TEST_RECT_ARRAY_SOURCE_X 500
+#define TEST_RECT_ARRAY_SOURCE_Y 250
+#define TEST_RECT_ARRAY_TILE_I 19
+#define TEST_RECT_ARRAY_QUAD_P1X -10.0f
+#define TEST_RECT_ARRAY_QUAD_P1Y -5.0f
+#define TEST_RECT_ARRAY_QUAD_P2X 1.0f
+#define TEST_RECT_ARRAY_QUAD_P2Y -4.0f
+#define TEST_RECT_ARRAY_QUAD_P3X -8.0f
+#define TEST_RECT_ARRAY_QUAD_P3Y 2.0f
+#define TEST_RECT_ARRAY_QUAD_P4X -1.0f
+#define TEST_RECT_ARRAY_QUAD_P4Y 3.0f
 #define TEST_ZONE1_X1 3.0f
 #define TEST_ZONE1_Y1 2.0f
 #define TEST_ZONE1_X2 30.0f
@@ -97,6 +112,7 @@
 #define TEST_ZONE2_Y -1.0f
 #define TEST_ZONE2_W 10.0f
 #define TEST_ZONE2_H 10.0f
+#define TEST_POWER_OF_TWO 37
 #define TEST_VIEWPORT_SCREEN_W 800
 #define TEST_VIEWPORT_SCREEN_H 600
 #define TEST_VIEWPORT_DRAWABLE_X1 5
@@ -126,6 +142,12 @@
 #define TEST_SMOOTHER_VALUE3 -1000.0f
 #define TEST_SMOOTHER_VALUE4 421.0f
 #define TEST_TIMESTAMP 1000000000000LL
+#define TEST_GEOMETRY_POINT_MIN 1
+#define TEST_GEOMETRY_POINT_RANGE 10
+#define TEST_GEOMETRY_RECT_X1 2
+#define TEST_GEOMETRY_RECT_Y1 6
+#define TEST_GEOMETRY_RECT_X2 5
+#define TEST_GEOMETRY_RECT_Y2 9
 
 /*
  * Testing button
@@ -896,6 +918,25 @@ log_rect (lw6gui_rect_t * rect, char *comment)
 }
 
 /*
+ * Testing poweroftwo
+ */
+static int
+test_power_of_two ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("input=%d power_of_two_le=%d power_of_two_ge=%d"),
+		TEST_POWER_OF_TWO, lw6gui_power_of_two_le (TEST_POWER_OF_TWO),
+		lw6gui_power_of_two_ge (TEST_POWER_OF_TWO));
+  }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing rect
  */
 static int
@@ -932,7 +973,104 @@ test_rect_array ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    // todo
+    lw6gui_rect_array_t rect_array;
+    lw6gui_rect_t rect;
+    int i = 0;
+    int x_polarity, y_polarity;
+    lw6gui_quad_t quad;
+    lw6gui_quad_t source_quad;
+
+    lw6gui_rect_array_init (&rect_array, TEST_RECT_ARRAY_W, TEST_RECT_ARRAY_H,
+			    TEST_RECT_ARRAY_TILE_SIZE,
+			    TEST_RECT_ARRAY_BORDER_SIZE);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("rect_array source=%dx%d limits=(%d,%d),(%d,%d) tile_size=%d border_size=%d tile_spacing=%d nb_tiles_w=%d nb_tiles_h=%d nb_tiles=%d"),
+		rect_array.source.w, rect_array.source.h,
+		rect_array.limits.x1, rect_array.limits.y1,
+		rect_array.limits.x2, rect_array.limits.y2,
+		rect_array.tile_size, rect_array.border_size,
+		rect_array.tile_spacing, rect_array.nb_tiles_w,
+		rect_array.nb_tiles_h, rect_array.nb_tiles);
+    if (lw6gui_rect_array_get_tile_by_source_xy
+	(&rect_array, &rect, &i, TEST_RECT_ARRAY_SOURCE_X,
+	 TEST_RECT_ARRAY_SOURCE_Y))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("tile for source %d,%d is index %d corners=(%d,%d),(%d,%d)"),
+		    TEST_RECT_ARRAY_SOURCE_X, TEST_RECT_ARRAY_SOURCE_Y, i,
+		    rect.x1, rect.y1, rect.x2, rect.y2);
+	if (lw6gui_rect_array_get_tile_by_i
+	    (&rect_array, &rect, TEST_RECT_ARRAY_TILE_I))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("tile i=%d corners=(%d,%d),(%d,%d)"),
+			TEST_RECT_ARRAY_TILE_I, rect.x1, rect.y1, rect.x2,
+			rect.y2);
+	    source_quad.p1.x = TEST_RECT_ARRAY_QUAD_P1X;
+	    source_quad.p1.y = TEST_RECT_ARRAY_QUAD_P1Y;
+	    source_quad.p2.x = TEST_RECT_ARRAY_QUAD_P2X;
+	    source_quad.p2.y = TEST_RECT_ARRAY_QUAD_P2Y;
+	    source_quad.p3.x = TEST_RECT_ARRAY_QUAD_P3X;
+	    source_quad.p3.y = TEST_RECT_ARRAY_QUAD_P3Y;
+	    source_quad.p4.x = TEST_RECT_ARRAY_QUAD_P4X;
+	    source_quad.p4.y = TEST_RECT_ARRAY_QUAD_P4Y;
+	    for (y_polarity = LW6MAP_RULES_MIN_Y_POLARITY;
+		 y_polarity <= LW6MAP_RULES_MAX_Y_POLARITY; ++y_polarity)
+	      {
+		for (x_polarity = LW6MAP_RULES_MIN_X_POLARITY;
+		     x_polarity <= LW6MAP_RULES_MAX_X_POLARITY; ++x_polarity)
+		  {
+		    if (lw6gui_rect_array_get_tile_and_quad
+			(&rect_array, &rect, &i, &quad, &source_quad,
+			 x_polarity, y_polarity))
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_
+				    ("polarity x=%d y=%d tile corners=(%d,%d),(%d,%d) quad=(%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
+				    x_polarity, y_polarity, rect.x1, rect.y1,
+				    rect.x2, rect.y2, quad.p1.x, quad.p1.y,
+				    quad.p2.x, quad.p2.y, quad.p3.x,
+				    quad.p3.y, quad.p4.x, quad.p4.y);
+		      }
+		    else
+		      {
+			ret = 0;
+		      }
+		  }
+	      }
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("unable to find tile for i=%d"),
+			TEST_RECT_ARRAY_TILE_I);
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to find tile for source %d,%d"),
+		    TEST_RECT_ARRAY_SOURCE_X, TEST_RECT_ARRAY_SOURCE_Y);
+	ret = 0;
+      }
+    /*
+       #define TEST_RECT_ARRAY_SOURCE_X 500
+       #define TEST_RECT_ARRAY_SOURCE_Y 250
+       #define TEST_RECT_ARRAY_TILE_I 19
+       #define TEST_RECT_ARRAY_QUAD_P1X 2000.0f
+       #define TEST_RECT_ARRAY_QUAD_P1Y 3000.0f
+       #define TEST_RECT_ARRAY_QUAD_P2X 2100.0f
+       #define TEST_RECT_ARRAY_QUAD_P2Y 3100.0f
+       #define TEST_RECT_ARRAY_QUAD_P3X 2050.0f
+       #define TEST_RECT_ARRAY_QUAD_P3Y 3100.0f
+       #define TEST_RECT_ARRAY_QUAD_P4X 2050.0f
+       #define TEST_RECT_ARRAY_QUAD_P4Y 2100.0f
+       #define TEST_RECT_ARRAY_X_POLARITY -1
+       #define TEST_RECT_ARRAY_Y_POLARITY 1
+     */
   }
   LW6SYS_TEST_FUNCTION_END;
   return ret;
@@ -1184,6 +1322,79 @@ test_zone ()
   return ret;
 }
 
+/*
+ * Testing point, segment, triangle, quad
+ */
+static int
+test_geometry ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6gui_point_t point;
+    lw6gui_segment_t segment;
+    lw6gui_triangle_t triangle;
+    lw6gui_quad_t quad;
+    lw6gui_rect_t rect;
+
+    point.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    point.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    segment.p1.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    segment.p1.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    segment.p2.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    segment.p2.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p1.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p1.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p2.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p2.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p3.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    triangle.p3.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p1.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p1.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p2.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p2.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p3.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p3.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p4.x =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    quad.p4.y =
+      TEST_GEOMETRY_POINT_MIN + lw6sys_random (TEST_GEOMETRY_POINT_RANGE);
+    lw6gui_rect_init_x1y1x2y2 (&rect, TEST_GEOMETRY_RECT_X1,
+			       TEST_GEOMETRY_RECT_Y1, TEST_GEOMETRY_RECT_X2,
+			       TEST_GEOMETRY_RECT_Y2);
+
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_
+		("point_is_inside=%d segment_is_inside=%d triangle_is_inside=%d quad_is_inside=%d"),
+		lw6gui_point_is_inside_rect (point, &rect),
+		lw6gui_segment_is_inside_rect (&segment, &rect),
+		lw6gui_triangle_is_inside_rect (&triangle, &rect),
+		lw6gui_quad_is_inside_rect (&quad, &rect));
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6gui_test
  *
@@ -1207,14 +1418,14 @@ lw6gui_test (int mode)
       lw6hlp_test (mode);
       lw6cfg_test (mode);
       lw6map_test (mode);
-      lw6ldr_test (mode);
     }
 
   ret = test_button () && test_coord () && test_input () && test_joystick ()
     && test_keyboard () && test_keypress ()
     && test_look () && test_menuitem () && test_menu () && test_mouse ()
-    && test_rect() && test_rect_array() && test_smoother () && test_video_mode () && test_viewport ()
-    && test_zone ();
+    && test_power_of_two () && test_rect () && test_rect_array ()
+    && test_smoother () && test_video_mode () && test_viewport ()
+    && test_zone () && test_geometry ();
 
   return ret;
 }

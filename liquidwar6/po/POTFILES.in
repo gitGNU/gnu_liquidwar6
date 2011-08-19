@@ -149,7 +149,6 @@ src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-mouse.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-path.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-pixel.c
-src/lib/gfx/mod-gl/gl-utils/gl-utils-rectarray.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-render.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-resolution.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-shadedtext.c
@@ -189,9 +188,16 @@ src/lib/gui/gui-look.c
 src/lib/gui/gui-menu.c
 src/lib/gui/gui-menuitem.c
 src/lib/gui/gui-mouse.c
+src/lib/gui/gui-point.c
+src/lib/gui/gui-poweroftwo.c
+src/lib/gui/gui-quad.c
+src/lib/gui/gui-rectarray.c
+src/lib/gui/gui-rect.c
+src/lib/gui/gui-segment.c
 src/lib/gui/gui-smoother.c
 src/lib/gui/gui-test.c
 src/lib/gui/gui-testmain.c
+src/lib/gui/gui-triangle.c
 src/lib/gui/gui-videomode.c
 src/lib/gui/gui-viewport.c
 src/lib/gui/gui-zone.c

@@ -88,9 +88,9 @@ am__liquidwar6vox_test_SOURCES_DIST = vox-testmain.c
 @FULLSTATIC_FALSE@	vox-testmain.$(OBJEXT)
 liquidwar6vox_test_OBJECTS = $(am_liquidwar6vox_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6vox_test_DEPENDENCIES = libvox.la \
-@FULLSTATIC_FALSE@	../ker/libker.la ../map/libmap.la \
-@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../gui/libgui.la ../ker/libker.la \
+@FULLSTATIC_FALSE@	../map/libmap.la ../cfg/libcfg.la \
+@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -335,7 +335,7 @@ libvox_la_SOURCES = vox-renderer.c vox-test.c
 libvoxdir = $(includedir)/@PACKAGE_TARNAME@/vox
 libvox_HEADERS = vox.h
 @FULLSTATIC_FALSE@liquidwar6vox_test_SOURCES = vox-testmain.c
-@FULLSTATIC_FALSE@liquidwar6vox_test_LDADD = libvox.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6vox_test_LDADD = libvox.la ../gui/libgui.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 EXTRA_DIST = vox-internal.h
 all: all-am
 

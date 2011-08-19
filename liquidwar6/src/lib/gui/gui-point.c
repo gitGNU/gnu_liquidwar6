@@ -14,33 +14,32 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+  
 
   Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6VOX_H
-#define LIQUIDWAR6VOX_H
-
-#include "../sys/sys.h"
-#include "../hlp/hlp.h"
-#include "../cfg/cfg.h"
-#include "../map/map.h"
-#include "../ker/ker.h"
-#include "../gui/gui.h"
-
-typedef struct lw6vox_renderer_s
-{
-  int dummy;
-} lw6vox_renderer_t;
-
-/* vox-renderer.c */
-extern lw6vox_renderer_t *lw6vox_renderer_new (lw6ker_game_state_t *
-					       game_state);
-extern void lw6vox_renderer_free (lw6vox_renderer_t * renderer);
-
-/* vox-test.c */
-extern int lw6vox_test (int mode);
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "gui.h"
+
+/**
+ * lw6gui_point_is_inside_rect
+ *
+ * @point: point to test
+ * @rect: rectangle in which point is supposed to be
+ *
+ * Tests wether a point is inside a rectangle, this is typically used to know
+ * if a point is inside the right texture or if we're outside.
+ *
+ * Return value: 1 if OK, 0 if outside
+ */
+int
+lw6gui_point_is_inside_rect (lw6gui_point_t point, lw6gui_rect_t * rect)
+{
+  return (point.x >= rect->x1 && point.x < rect->x2 && point.y >= rect->y1
+	  && point.y < rect->y2);
+}

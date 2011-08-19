@@ -32,34 +32,6 @@
  * mostly testgl.c
  */
 
-/* 
- * Quick utility function for texture creation
- */
-int
-mod_gl_utils_power_of_two_ge (int input)
-{
-  int value = 1;
-
-  while (value < input)
-    {
-      value <<= 1;
-    }
-  return value;
-}
-
-int
-mod_gl_utils_power_of_two_le (int input)
-{
-  int value = 1;
-
-  while ((value << 1) <= input)
-    {
-      value <<= 1;
-    }
-
-  return value;
-}
-
 /*
  * Returns the scale to use in a given direction.
  */

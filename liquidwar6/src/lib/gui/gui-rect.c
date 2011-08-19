@@ -65,8 +65,7 @@ lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1, int x2,
  * Return value: none.
  */
 void
-lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w,
-		       int h)
+lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w, int h)
 {
   rect->x1 = x;
   rect->y1 = y;
@@ -96,10 +95,10 @@ lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
   int min_x2 = 0;
   int min_y2 = 0;
 
-  max_x1 = lw6sys_max(src->x1,clip->x1);
-  max_y1 = lw6sys_max(src->y1,clip->y1);
-  min_x2 = lw6sys_min(src->x2,clip->x2);
-  min_y2 = lw6sys_min(src->y2,clip->y2);
+  max_x1 = lw6sys_max (src->x1, clip->x1);
+  max_y1 = lw6sys_max (src->y1, clip->y1);
+  min_x2 = lw6sys_min (src->x2, clip->x2);
+  min_y2 = lw6sys_min (src->y2, clip->y2);
 
   lw6gui_rect_init_x1y1x2y2 (dst, max_x1, max_y1, min_x2, min_y2);
 }

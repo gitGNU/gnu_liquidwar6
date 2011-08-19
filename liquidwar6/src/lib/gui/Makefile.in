@@ -81,8 +81,10 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libgui_la_LIBADD =
 am_libgui_la_OBJECTS = gui-button.lo gui-coord.lo gui-joystick.lo \
 	gui-keyboard.lo gui-keypress.lo gui-input.lo gui-look.lo \
-	gui-menu.lo gui-menuitem.lo gui-mouse.lo gui-smoother.lo \
-	gui-test.lo gui-videomode.lo gui-viewport.lo gui-zone.lo
+	gui-menu.lo gui-menuitem.lo gui-mouse.lo gui-point.lo \
+	gui-poweroftwo.lo gui-quad.lo gui-rect.lo gui-rectarray.lo \
+	gui-segment.lo gui-smoother.lo gui-test.lo gui-triangle.lo \
+	gui-videomode.lo gui-viewport.lo gui-zone.lo
 libgui_la_OBJECTS = $(am_libgui_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libguidir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -91,9 +93,8 @@ am__liquidwar6gui_test_SOURCES_DIST = gui-testmain.c
 @FULLSTATIC_FALSE@	gui-testmain.$(OBJEXT)
 liquidwar6gui_test_OBJECTS = $(am_liquidwar6gui_test_OBJECTS)
 @FULLSTATIC_FALSE@liquidwar6gui_test_DEPENDENCIES = libgui.la \
-@FULLSTATIC_FALSE@	../ldr/libldr.la ../map/libmap.la \
-@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
-@FULLSTATIC_FALSE@	../sys/libsys.la
+@FULLSTATIC_FALSE@	../map/libmap.la ../cfg/libcfg.la \
+@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -334,11 +335,11 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libgui.la
-libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-smoother.c gui-test.c gui-videomode.c gui-viewport.c gui-zone.c
+libgui_la_SOURCES = gui-button.c gui-coord.c gui-joystick.c gui-keyboard.c gui-keypress.c gui-input.c gui-look.c gui-menu.c gui-menuitem.c gui-mouse.c gui-point.c gui-poweroftwo.c gui-quad.c gui-rect.c gui-rectarray.c gui-segment.c gui-smoother.c gui-test.c gui-triangle.c gui-videomode.c gui-viewport.c gui-zone.c
 libguidir = $(includedir)/@PACKAGE_TARNAME@/gui
 libgui_HEADERS = gui.h
 @FULLSTATIC_FALSE@liquidwar6gui_test_SOURCES = gui-testmain.c
-@FULLSTATIC_FALSE@liquidwar6gui_test_LDADD = libgui.la ../ldr/libldr.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6gui_test_LDADD = libgui.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 all: all-am
 
 .SUFFIXES:
@@ -447,9 +448,16 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-menu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-menuitem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-mouse.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-point.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-poweroftwo.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-quad.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-rect.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-rectarray.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-segment.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-smoother.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-testmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-triangle.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-videomode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-viewport.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui-zone.Plo@am__quote@
