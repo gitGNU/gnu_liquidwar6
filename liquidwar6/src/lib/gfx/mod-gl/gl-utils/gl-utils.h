@@ -68,7 +68,7 @@
 typedef struct mod_gl_utils_bitmap_s
 {
   u_int32_t id;
-  char *filename;
+  char *desc;
   SDL_Surface *surface;
   int has_alpha;
   SDL_Surface *colorized_surface;
@@ -84,7 +84,9 @@ typedef struct mod_gl_utils_bitmap_s
   float t1;
   float s2;
   float t2;
-  u_int64_t last_refresh;
+  int64_t last_refresh;
+  int need_another_refresh;
+
 } mod_gl_utils_bitmap_t;
 
 typedef struct mod_gl_utils_shaded_text_s
@@ -102,6 +104,8 @@ typedef struct mod_gl_utils_path_s
 {
   char *data_dir;
   char *capture_dir;
+  char *bitmap_dir;
+  char *bitmap_frame_dir;
 }
 mod_gl_utils_path_t;
 
@@ -387,6 +391,7 @@ typedef struct mod_gl_utils_context_s
   _mod_gl_utils_smoothed_t smoothed;
   mod_gl_utils_icon_t icon;
   mod_gl_utils_counter_t counter;
+  lw6sys_hash_t *bitmap_hash;
 }
 mod_gl_utils_context_t;
 
@@ -395,13 +400,14 @@ mod_gl_utils_context_t;
  */
 extern mod_gl_utils_bitmap_t *mod_gl_utils_bitmap_new (mod_gl_utils_context_t
 						       * utils_context,
-						       int width, int height);
+						       int width, int height,
+						       char *desc);
 extern mod_gl_utils_bitmap_t *mod_gl_utils_bitmap_load (mod_gl_utils_context_t
 							* utils_context,
 							char *filename);
 extern mod_gl_utils_bitmap_t
   * mod_gl_utils_surface2bitmap (mod_gl_utils_context_t * utils_context,
-				 SDL_Surface * surface);
+				 SDL_Surface * surface, char *desc);
 extern void mod_gl_utils_bitmap_free (mod_gl_utils_context_t * utils_context,
 				      mod_gl_utils_bitmap_t * bitmap);
 extern int mod_gl_utils_bitmap_colorize (mod_gl_utils_context_t *
@@ -483,6 +489,23 @@ extern int mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
 extern mod_gl_utils_bitmap_t
   * mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
 				   int n_x, int n_y);
+
+/*
+ * In bitmaphash.c
+ */
+extern lw6sys_hash_t *mod_gl_utils_bitmap_hash_init ();
+extern void mod_gl_utils_bitmap_hash_quit (lw6sys_hash_t * bitmap_hash);
+extern int mod_gl_utils_bitmap_hash_register (mod_gl_utils_context_t *
+					      utils_context,
+					      mod_gl_utils_bitmap_t * bitmap);
+extern int mod_gl_utils_bitmap_hash_unregister (mod_gl_utils_context_t *
+						utils_context,
+						mod_gl_utils_bitmap_t *
+						bitmap);
+extern int mod_gl_utils_bitmap_hash_refresh (mod_gl_utils_context_t *
+					     utils_context);
+extern int mod_gl_utils_bitmap_hash_dump2disk (mod_gl_utils_context_t *
+					       utils_context, int force);
 
 /*
  * In capture.c
@@ -760,6 +783,7 @@ extern void mod_gl_utils_show_mouse (mod_gl_utils_context_t * utils_context,
  */
 extern int mod_gl_utils_path_init (mod_gl_utils_context_t *
 				   utils_context, int argc, char *argv[]);
+extern int mod_gl_utils_path_update (mod_gl_utils_context_t * utils_context);
 extern void mod_gl_utils_path_quit (mod_gl_utils_context_t * utils_context);
 
 /*

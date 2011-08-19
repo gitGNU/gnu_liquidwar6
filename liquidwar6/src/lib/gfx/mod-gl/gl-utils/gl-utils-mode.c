@@ -398,6 +398,7 @@ mod_gl_utils_sync_mode (mod_gl_utils_context_t * utils_context, int force)
 	   flags) == 0)
 	{
 	  mod_gl_utils_sync_viewport (utils_context);
+	  mod_gl_utils_timer_set_bitmap_refresh (utils_context);
 	  ret = 1;
 	}
       else

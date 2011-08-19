@@ -27,19 +27,6 @@
 #include "../../mod-gl.h"
 #include "gl-bubbles-internal.h"
 
-/*
-static void
-set_background_texture_options (mod_gl_utils_context_t * utils_context,
-				_mod_gl_background_bubbles_context_t *
-				bubbles_context)
-{
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-}
-*/
-
 static void
 _display_background (mod_gl_utils_context_t * utils_context,
 		     _mod_gl_background_bubbles_context_t * bubbles_context,
@@ -55,14 +42,12 @@ _display_background (mod_gl_utils_context_t * utils_context,
   mod_gl_utils_bitmap_bind (utils_context,
 			    bubbles_context->bitmap_data.background);
 
-  //glBindTexture (GL_TEXTURE_2D, bubbles_context->texture_data.background);
-  //set_background_texture_options (utils_context, bubbles_context);
-
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
   glTranslatef (0.0f,
 		bubbles_context->const_data.yspeed *
+		look->style.animation_speed *
 		mod_gl_utils_timer_get_cycle (utils_context) / 1000.0f, 0.0f);
 
   glBegin (GL_QUADS);
@@ -84,7 +69,8 @@ static void
 _display_bubble (mod_gl_utils_context_t * utils_context,
 		 _mod_gl_background_bubbles_context_t *
 		 bubbles_context,
-		 _mod_gl_background_bubbles_bubble_t * bubble)
+		 _mod_gl_background_bubbles_bubble_t * bubble,
+		 lw6gui_look_t * look)
 {
   int dt;
   float y;
@@ -104,15 +90,10 @@ _display_bubble (mod_gl_utils_context_t * utils_context,
   x_px = bubble->x * utils_context->video_mode.width;
   y =
     1.0f + (bubble->size / 2.0f) -
-    (bubble->size * bubbles_context->const_data.bubble_yspeed * dt / 1000.0f);
+    (bubble->size * bubbles_context->const_data.bubble_yspeed *
+     look->style.animation_speed * dt / 1000.0f);
   y_px = y * utils_context->video_mode.height;
   size2_px = (utils_context->video_mode.height * bubble->size) / 2.0f;
-  /*
-     glBindTexture (GL_TEXTURE_2D, bubbles_context->texture_data.bubble);
-     set_background_texture_options (utils_context, bubbles_context);
-   */
-  //  mod_gl_utils_bitmap_colorize(utils_context,bubbles_context->bitmap_data.bubble,look->style.colorize,&(look->style.background_stuff));
-  //mod_gl_utils_bitmap_bind(utils_context,bubbles_context->bitmap_data.bubble);
 
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
@@ -147,7 +128,6 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
 
-  //glBindTexture (GL_TEXTURE_2D, bubbles_context->texture_data.bubble);
   mod_gl_utils_bitmap_colorize (utils_context,
 				bubbles_context->bitmap_data.bubble,
 				look->style.colorize,
@@ -155,8 +135,6 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
 				  background_color_stuff));
   mod_gl_utils_bitmap_bind (utils_context,
 			    bubbles_context->bitmap_data.bubble);
-
-  //set_background_texture_options (utils_context, bubbles_context);
 
   if (bubbles_context->const_data.nb_bubbles >
       _MOD_GL_BACKGROUND_BUBBLES_MAX_BUBBLES)
@@ -168,7 +146,7 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
   for (i = 0; i < bubbles_context->const_data.nb_bubbles; ++i)
     {
       _display_bubble (utils_context, bubbles_context,
-		       &(bubbles_context->state.bubbles[i]));
+		       &(bubbles_context->state.bubbles[i]), look);
     }
 }
 
@@ -179,8 +157,6 @@ _mod_gl_background_bubbles_display_background (mod_gl_utils_context_t *
 					       * bubbles_context,
 					       lw6gui_look_t * look)
 {
-  //  _mod_gl_background_bubbles_colorize_if_needed (utils_context,
-  //                                             bubbles_context, look);
   _display_background (utils_context, bubbles_context, look);
   _display_bubbles (utils_context, bubbles_context, look);
 }

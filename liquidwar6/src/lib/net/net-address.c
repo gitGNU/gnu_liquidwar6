@@ -54,25 +54,42 @@ _lw6net_inet_aton (struct in_addr *in, char *ip)
 
   memset (in, 0, sizeof (struct in_addr));
 
-#ifdef LW6_MS_WINDOWS
-  if ((in->s_addr = inet_addr (ip)) != 0)
-#else
-  if (inet_aton (ip, in) != 0)
-#endif
+  /*
+   * https://savannah.gnu.org/bugs/?34060
+   * "WARNING! inet_addr() failed,..."
+   * For some reason on MS-Windows but not on GNU/Linux,
+   * trying to translate address 0.0.0.0 raises a warning.
+   * We just leave the struct zeroed if we're in this peculiar
+   * case, the zeroed struct should be fine.
+   */
+  if (strcmp (ip, LW6NET_ADDRESS_ANY))
     {
-      ret = 1;
+#ifdef LW6_MS_WINDOWS
+      if ((in->s_addr = inet_addr (ip)) != 0)
+#else
+      if (inet_aton (ip, in) != 0)
+#endif
+	{
+	  ret = 1;
+	}
+      else
+	{
+#ifdef LW6_MS_WINDOWS
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("inet_addr() failed, ip=\"%s\""), ip);
+	  lw6net_last_error ();
+#else
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("inet_aton() failed, ip=\"%s\""), ip);
+	  lw6net_last_error ();
+#endif
+	}
     }
   else
     {
-#ifdef LW6_MS_WINDOWS
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("inet_addr() failed, ip=\"%s\""),
-		  ip);
-      lw6net_last_error ();
-#else
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("inet_aton() failed, ip=\"%s\""),
-		  ip);
-      lw6net_last_error ();
-#endif
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("address \"%s\" identified as \"ANY\""), ip);
+      ret = 1;
     }
 
   return ret;

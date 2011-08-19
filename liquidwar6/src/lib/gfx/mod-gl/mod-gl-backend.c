@@ -294,6 +294,12 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	{
 	  mod_gl_utils_capture2disk (&(mod_gl_context->utils_context));
 	}
+      if (gfx_debug)
+	{
+	  mod_gl_utils_bitmap_hash_dump2disk (&
+					      (mod_gl_context->utils_context),
+					      0);
+	}
       mod_gl_utils_swap_buffers (&(mod_gl_context->utils_context));
 
       ret = 1;

@@ -27,6 +27,9 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
+#define _DESC_GRADIENT "gradient"
+#define _DESC_ZONES "zones"
+
 static void
 _display_bitmap (mod_gl_utils_context_t * utils_context,
 		 mod_gl_utils_bitmap_t * bitmap)
@@ -49,7 +52,8 @@ display_map_zones (mod_gl_utils_context_t * utils_context,
   surface = mod_gl_utils_create_zones_surface (utils_context, game_struct);
   if (surface)
     {
-      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      bitmap =
+	mod_gl_utils_surface2bitmap (utils_context, surface, _DESC_ZONES);
 
       if (bitmap)
 	{
@@ -97,7 +101,8 @@ display_map_gradient (mod_gl_utils_context_t * utils_context,
 					  layer_id);
   if (surface)
     {
-      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      bitmap =
+	mod_gl_utils_surface2bitmap (utils_context, surface, _DESC_GRADIENT);
 
       if (bitmap)
 	{

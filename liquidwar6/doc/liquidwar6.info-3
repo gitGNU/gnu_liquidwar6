@@ -2773,6 +2773,13 @@ results on
 
      *Return value:*  a list containing 0-terminated strings.
 
+ -- Function: char * lw6sys_file_only (char * PATH)
+     PATH:  a path
+
+     Returns the file name only, without heading directories.
+
+     *Return value:*  file name, must be freed
+
  -- Function: int lw6sys_path_is_relative (char * PATH)
      PATH:  a path
 

@@ -27,6 +27,8 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
+#define _DESC_TEXTURE_1X1 "texture_1x1"
+
 static void
 _bitmap_free (mod_gl_utils_context_t * utils_context,
 	      mod_gl_utils_bitmap_t * bitmap)
@@ -45,7 +47,7 @@ mod_gl_utils_texture_1x1_color2bitmap (mod_gl_utils_context_t *
   mod_gl_utils_bitmap_t *ret = NULL;
   Uint32 pixel;
 
-  ret = mod_gl_utils_bitmap_new (utils_context, 1, 1);
+  ret = mod_gl_utils_bitmap_new (utils_context, 1, 1, _DESC_TEXTURE_1X1);
   if (ret)
     {
       pixel = lw6sys_color_8_to_i (color_8);

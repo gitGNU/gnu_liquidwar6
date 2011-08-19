@@ -27,6 +27,9 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
+#define _DESC_SHADED_TEXT_BG "shaded_text_fg"
+#define _DESC_SHADED_TEXT_FG "shaded_text_bg"
+
 mod_gl_utils_shaded_text_t *
 mod_gl_utils_shaded_text_new (mod_gl_utils_context_t * utils_context,
 			      TTF_Font * font, char *text,
@@ -100,7 +103,8 @@ mod_gl_utils_shaded_text_update (mod_gl_utils_context_t * utils_context,
       if (surface_bg)
 	{
 	  shaded_text->bg =
-	    mod_gl_utils_surface2bitmap (utils_context, surface_bg);
+	    mod_gl_utils_surface2bitmap (utils_context, surface_bg,
+					 _DESC_SHADED_TEXT_BG);
 	  if (shaded_text->bg)
 	    {
 	      shaded_text->texture_w = surface_bg->w;
@@ -114,7 +118,8 @@ mod_gl_utils_shaded_text_update (mod_gl_utils_context_t * utils_context,
       if (surface_fg)
 	{
 	  shaded_text->fg =
-	    mod_gl_utils_surface2bitmap (utils_context, surface_fg);
+	    mod_gl_utils_surface2bitmap (utils_context, surface_fg,
+					 _DESC_SHADED_TEXT_FG);
 	  if (shaded_text->fg)
 	    {
 	      shaded_text->texture_w = surface_fg->w;

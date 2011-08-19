@@ -126,6 +126,7 @@ src/lib/gfx/mod-gl/gl-splash/gl-splash-display.c
 src/lib/gfx/mod-gl/gl-splash/gl-splash-setup.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-bitmaparray.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-bitmap.c
+src/lib/gfx/mod-gl/gl-utils/gl-utils-bitmaphash.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-capture.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-color.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-colorize.c

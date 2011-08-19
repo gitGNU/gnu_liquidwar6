@@ -340,6 +340,38 @@ lw6sys_path_split (char *path)
 }
 
 /**
+ * lw6sys_file_only
+ *
+ * @path: a path
+ *
+ * Returns the file name only, without heading directories.
+ *
+ * Return value: file name, must be freed
+ */
+char *
+lw6sys_file_only (char *path)
+{
+  char *ret = NULL;
+  int i = 0;
+
+  /*
+   * We don't use strrchr for we want to trap both
+   * UNIX & MS Windows separators.
+   */
+  i = strlen (path) - 1;
+
+  while (i >= 0 && !is_dir_sep (path[i]))
+    {
+      --i;
+    }
+  ++i;
+
+  ret = lw6sys_str_copy (path + i);
+
+  return ret;
+}
+
+/**
  * lw6sys_path_is_relative
  *
  * @path: a path

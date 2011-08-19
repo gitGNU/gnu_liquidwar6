@@ -30,6 +30,7 @@
 #include "gl-cylinder-internal.h"
 
 #define TEST_MENU_SIZE 8
+#define _DESC_MENU "menu"
 
 /*
  * OpenGL wizardry, to prepare view parameters.
@@ -177,7 +178,8 @@ draw_button (mod_gl_utils_context_t * utils_context,
 		2 * utils_context->const_data.menu_font_size;
 	      bitmap =
 		mod_gl_utils_bitmap_new (utils_context, bitmap_w,
-					 MOD_GL_UTILS_MENU_TEXTURE_H);
+					 MOD_GL_UTILS_MENU_TEXTURE_H,
+					 _DESC_MENU);
 	      if (bitmap != NULL)
 		{
 		  text_rect.x = 0;

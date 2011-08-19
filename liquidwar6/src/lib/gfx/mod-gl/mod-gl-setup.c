@@ -288,6 +288,8 @@ _mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
 	      /*
 	       * Icon must be set before video mode is set
 	       */
+	      gl_context->utils_context.bitmap_hash =
+		mod_gl_utils_bitmap_hash_init ();
 	      mod_gl_utils_icon_set (&(gl_context->utils_context));
 	      SDL_EnableUNICODE (1);
 	    }
@@ -465,6 +467,12 @@ _mod_gl_quit (_mod_gl_context_t * gl_context)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();
+    }
+
+  if (gl_context->utils_context.bitmap_hash)
+    {
+      mod_gl_utils_bitmap_hash_quit (gl_context->utils_context.bitmap_hash);
+      gl_context->utils_context.bitmap_hash = NULL;
     }
 
   /*

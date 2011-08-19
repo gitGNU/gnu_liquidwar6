@@ -3015,6 +3015,14 @@ separators will be interpreted (depends on platform).
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_file_only} (char * @var{path})
+@var{path}:  a path
+
+Returns the file name only, without heading directories.
+
+@strong{Return value:}  file name, must be freed
+@end deftypefun
+
 @deftypefun {int} {lw6sys_path_is_relative} (char * @var{path})
 @var{path}:  a path
 

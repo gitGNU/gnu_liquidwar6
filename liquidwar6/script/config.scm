@@ -191,3 +191,13 @@
   (lambda ()
     (lw6-config-subset (string-split (lw6-config-get-string lw6def-force) #\,))))
 
+(define lw6-default-look
+  (lambda ()
+    (let (
+	  (look (c-lw6gui-default-look))
+	  )
+	 (begin
+	   (map (lambda (key)
+		  (c-lw6gui-look-set look key (lw6-config-get-string key)))
+		(c-lw6hlp-list-map-style))
+	   look))))

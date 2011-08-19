@@ -20,8 +20,8 @@
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6PIL_H
-#define LIQUIDWAR6PIL_H
+#ifndef LIQUIDWAR6VOX_H
+#define LIQUIDWAR6VOX_H
 
 #include "../sys/sys.h"
 #include "../hlp/hlp.h"

@@ -98,6 +98,8 @@ mod_gl_utils_capture2disk (mod_gl_utils_context_t * utils_context)
 		{
 		  if (SDL_SaveBMP (surface, full_path) == 0)
 		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("wrote capture \"%s\""), full_path);
 		      ret = 1;
 		    }
 		  else
@@ -105,7 +107,7 @@ mod_gl_utils_capture2disk (mod_gl_utils_context_t * utils_context)
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
 				  ("unable to write capture \"%s\" to disk"),
-				  file);
+				  full_path);
 		    }
 		  LW6SYS_FREE (full_path);
 		}

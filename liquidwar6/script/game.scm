@@ -76,7 +76,7 @@
       (lw6-game-param-update)
       (lw6-set-game-global! "loader" (c-lw6tsk-loader-new (lw6-config-get-number lw6def-loader-sleep)))
       (lw6-set-game-global! "loaded" (list))
-      (lw6-set-game-global! "look" (c-lw6gui-default-look))
+      (lw6-set-game-global! "look" (lw6-default-look))
       (lw6-set-game-global! "display-param" (lw6-display-param-init))
       (lw6-set-game-global! "zoom-next-in" (c-lw6sys-get-timestamp))
       (lw6-set-game-global! "zoom-next-out" (c-lw6sys-get-timestamp))

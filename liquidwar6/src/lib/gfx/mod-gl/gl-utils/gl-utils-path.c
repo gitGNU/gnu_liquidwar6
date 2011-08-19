@@ -29,6 +29,7 @@
 
 #define SUB "gfx/gl"
 #define CAPTURE "capture"
+#define BITMAP "bitmap"
 
 int
 mod_gl_utils_path_init (mod_gl_utils_context_t *
@@ -50,10 +51,38 @@ mod_gl_utils_path_init (mod_gl_utils_context_t *
     {
       utils_context->path.capture_dir =
 	lw6sys_path_concat (user_dir, CAPTURE);
+      utils_context->path.bitmap_dir = lw6sys_path_concat (user_dir, BITMAP);
+      mod_gl_utils_path_update (utils_context);
       LW6SYS_FREE (user_dir);
     }
 
-  ret = (utils_context->path.data_dir && utils_context->path.capture_dir);
+  ret = (utils_context->path.data_dir && utils_context->path.capture_dir
+	 && utils_context->path.bitmap_dir);
+
+  return ret;
+}
+
+int
+mod_gl_utils_path_update (mod_gl_utils_context_t * utils_context)
+{
+  int ret = 0;
+  char *frame_str = NULL;
+
+  if (utils_context->path.bitmap_dir)
+    {
+      if (utils_context->path.bitmap_frame_dir)
+	{
+	  LW6SYS_FREE (utils_context->path.bitmap_frame_dir);
+	}
+      frame_str = lw6sys_itoa (utils_context->counter.nb_frames);
+      if (frame_str)
+	{
+	  utils_context->path.bitmap_frame_dir =
+	    lw6sys_path_concat (utils_context->path.bitmap_dir, frame_str);
+	  LW6SYS_FREE (frame_str);
+	  ret = 1;
+	}
+    }
 
   return ret;
 }
@@ -68,5 +97,13 @@ mod_gl_utils_path_quit (mod_gl_utils_context_t * utils_context)
   if (utils_context->path.capture_dir)
     {
       LW6SYS_FREE (utils_context->path.capture_dir);
+    }
+  if (utils_context->path.bitmap_dir)
+    {
+      LW6SYS_FREE (utils_context->path.bitmap_dir);
+    }
+  if (utils_context->path.bitmap_frame_dir)
+    {
+      LW6SYS_FREE (utils_context->path.bitmap_frame_dir);
     }
 }

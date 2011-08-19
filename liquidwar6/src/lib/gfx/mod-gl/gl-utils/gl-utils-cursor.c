@@ -27,6 +27,9 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
+#define _DESC_CURSOR_FG_BG "cursor_fg_bg"
+#define _DESC_CURSOR_COLOR "cursor_color"
+
 mod_gl_utils_bitmap_t *
 mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
 				  lw6gui_look_t * look,
@@ -52,7 +55,9 @@ mod_gl_utils_cursor_create_fg_bg (mod_gl_utils_context_t * utils_context,
 				       x, y)));
 	    }
 	}
-      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      bitmap =
+	mod_gl_utils_surface2bitmap (utils_context, surface,
+				     _DESC_CURSOR_FG_BG);
       if (bitmap)
 	{
 	  mod_gl_utils_bitmap_colorize (utils_context, bitmap,
@@ -97,7 +102,9 @@ mod_gl_utils_bitmap_t
 				       x, y)));
 	    }
 	}
-      bitmap = mod_gl_utils_surface2bitmap (utils_context, surface);
+      bitmap =
+	mod_gl_utils_surface2bitmap (utils_context, surface,
+				     _DESC_CURSOR_COLOR);
       if (bitmap)
 	{
 	  if (cursor->team_color >= 0)

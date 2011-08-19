@@ -36,6 +36,7 @@
 #define _GAME_COLOR2 LW6MAP_TEAM_COLOR_GREEN
 #define _GAME_COLOR3 LW6MAP_TEAM_COLOR_BLUE
 #define _GAME_COLOR4 LW6MAP_TEAM_COLOR_YELLOW
+#define _DESC_SPLASH_GAME "splash_game"
 
 static void
 _read_callback (void *callback_data, char *element, char *key, char *value)
@@ -210,7 +211,8 @@ _load_game (mod_gl_utils_context_t * utils_context,
 					 lw6ker_game_state_get_w
 					 (splash_context->game.game_state),
 					 lw6ker_game_state_get_h
-					 (splash_context->game.game_state));
+					 (splash_context->game.game_state),
+					 _DESC_SPLASH_GAME);
 	      if (splash_context->game.bitmap)
 		{
 		  mod_gl_utils_bitmap_set_wrap (utils_context,

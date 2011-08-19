@@ -27,6 +27,8 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
+#define _BITMAP_ARRAY_DESC "bitmap_array_%d,%d"
+
 int
 mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 				utils_context,
@@ -36,6 +38,7 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
   int ret = 0;
   int n_x, n_y;
   mod_gl_utils_bitmap_t *bitmap;
+  char *desc = NULL;
 
   if (mod_gl_utils_rect_array_init
       (utils_context, &(bitmap_array->layout), w, h, tile_size))
@@ -53,29 +56,35 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
 	    {
 	      for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
 		{
-		  bitmap =
-		    mod_gl_utils_bitmap_new (utils_context,
-					     bitmap_array->layout.w[n_x],
-					     bitmap_array->layout.h[n_y]);
-		  if (bitmap)
+		  desc = lw6sys_new_sprintf (_BITMAP_ARRAY_DESC, n_x, n_y);
+		  if (desc)
 		    {
-		      /*
-		       * Call to refresh before the first update
-		       * (conversion from surface to texture)
-		       * happens when bitmap has never been displayed
-		       * so it might still be 0.
-		       */
-		      mod_gl_utils_bitmap_refresh (utils_context, bitmap);
-		      mod_gl_utils_bitmap_array_set (bitmap_array,
-						     n_x, n_y, bitmap);
-		    }
-		  else
-		    {
-		      ret = 0;
-		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_
-				  ("bitmap %d,%d of bitmap array couldn't be created, array is broken"),
-				  n_x, n_y);
+		      bitmap =
+			mod_gl_utils_bitmap_new (utils_context,
+						 bitmap_array->layout.w[n_x],
+						 bitmap_array->layout.h[n_y],
+						 desc);
+		      if (bitmap)
+			{
+			  /*
+			   * Call to refresh before the first update
+			   * (conversion from surface to texture)
+			   * happens when bitmap has never been displayed
+			   * so it might still be 0.
+			   */
+			  mod_gl_utils_bitmap_refresh (utils_context, bitmap);
+			  mod_gl_utils_bitmap_array_set (bitmap_array,
+							 n_x, n_y, bitmap);
+			}
+		      else
+			{
+			  ret = 0;
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("bitmap %d,%d of bitmap array couldn't be created, array is broken"),
+				      n_x, n_y);
+			}
+		      LW6SYS_FREE (desc);
 		    }
 		}
 	    }

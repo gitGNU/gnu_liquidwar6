@@ -1,3 +1,13 @@
+2011-08-19 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Trying to fix #28029, needs testing on win32.
+
+	* Implemented bitmap dump in user directory (to debug).
+
+	* Fixed bug #34060 (WARNING! inet_addr() failed, ip=0.0.0.0)
+
+	* Fixed bug #34058 (Animation-speed in config.xml has no effect)
+
 2011-08-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added new (but empty) voxel rendering module. Who knows...

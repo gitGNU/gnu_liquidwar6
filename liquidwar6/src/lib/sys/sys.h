@@ -812,6 +812,7 @@ extern char *lw6sys_path_add_slash (char *path);
 extern char *lw6sys_path_strip_slash (char *path);
 extern char *lw6sys_path_concat (char *path1, char *path2);
 extern lw6sys_list_t *lw6sys_path_split (char *path);
+extern char *lw6sys_file_only (char *path);
 extern int lw6sys_path_is_relative (char *path);
 extern int lw6sys_path_is_cwd (char *path);
 extern char *lw6sys_path_parent (char *path);
