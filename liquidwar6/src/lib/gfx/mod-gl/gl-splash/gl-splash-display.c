@@ -169,6 +169,14 @@ _display_system (mod_gl_utils_context_t *
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
 
   glDisable (GL_BLEND);
+
+  /*
+   * Dunno why but had to add these after some scroll hack
+   * the splash screen got pixelized???
+   */
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
   mod_gl_utils_bitmap_bind (utils_context, splash_context->game.bitmap);
   // glMatrixMode (GL_TEXTURE);
   // glPushMatrix ();

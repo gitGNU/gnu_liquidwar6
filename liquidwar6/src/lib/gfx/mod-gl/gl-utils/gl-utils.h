@@ -23,6 +23,8 @@
 #ifndef LIQUIDWAR6GFX_MOD_GL_UTILS_H
 #define LIQUIDWAR6GFX_MOD_GL_UTILS_H
 
+#include <math.h>
+
 #include "../../gfx.h"
 
 #include <SDL.h>
@@ -438,7 +440,7 @@ extern void mod_gl_utils_bitmap_clear_texture_now (mod_gl_utils_context_t *
 extern int mod_gl_utils_bitmap_refresh (mod_gl_utils_context_t *
 					utils_context,
 					mod_gl_utils_bitmap_t * bitmap);
-extern int mod_gl_utils_bitmap_force_refresh (mod_gl_utils_context_t *
+extern int mod_gl_utils_bitmap_refresh_force (mod_gl_utils_context_t *
 					      utils_context,
 					      mod_gl_utils_bitmap_t * bitmap);
 extern int mod_gl_utils_bitmap_bind (mod_gl_utils_context_t * utils_context,
@@ -492,8 +494,8 @@ extern int mod_gl_utils_bitmap_array_set (mod_gl_utils_bitmap_array_t *
 					  bitmap_array, int i,
 					  mod_gl_utils_bitmap_t * bitmap);
 extern mod_gl_utils_bitmap_t
-  *mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
-				  int i);
+  * mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t * bitmap_array,
+				   int i);
 
 /*
  * In bitmaphash.c

@@ -85,6 +85,10 @@ typedef struct _mod_gl_view_flat_const_data_s
   int tile_size_armies;
   int border_size_map;
   int border_size_armies;
+  int nb_waves;
+  int vertices_per_wave;
+  int waves_period;
+  float waves_amplitude;
 }
 _mod_gl_view_flat_const_data_t;
 

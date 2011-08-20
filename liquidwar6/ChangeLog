@@ -1,3 +1,7 @@
+2011-08-20 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed polarity issues on zoom in/out (should help on scroll)
+
 2011-08-19 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Trying to fix #28029, needs testing on win32.

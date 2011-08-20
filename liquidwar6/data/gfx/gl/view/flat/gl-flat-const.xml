@@ -12,8 +12,12 @@
   <float key="cursor-relative-text-x1" value="0.7" />
   <float key="cursor-relative-text-dw" value="0.05" />
   <float key="cursor-relative-text-dh" value="0.05" />
-  <int key="tile-size-map" value="512" />
-  <int key="tile-size-armies" value="128" />
-  <int key="border-size-map" value="16" />
-  <int key="border-size-armies" value="8" />
+  <int key="tile-size-map" value="1024" />
+  <int key="tile-size-armies" value="256" />
+  <int key="border-size-map" value="64" />
+  <int key="border-size-armies" value="16" />
+  <int key="nb-waves" value="10" />
+  <int key="vertices-per-wave" value="8" />
+  <int key="waves-period" value="2000" />
+  <float key="waves-amplitude" value="0.05" />
 </liquidwar6>

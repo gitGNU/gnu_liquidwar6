@@ -38,7 +38,7 @@
 float
 mod_gl_utils_texture_scale (int size)
 {
-  return ((float) size) / ((float) mod_gl_utils_power_of_two_ge (size));
+  return ((float) size) / ((float) lw6gui_power_of_two_ge (size));
 }
 
 /*
@@ -67,8 +67,8 @@ _surface2texture_xywh (mod_gl_utils_context_t * gfx_context,
 		  gfx_context->caps.max_texture_size);
     }
 
-  w = mod_gl_utils_power_of_two_ge (w);
-  h = mod_gl_utils_power_of_two_ge (h);
+  w = lw6gui_power_of_two_ge (w);
+  h = lw6gui_power_of_two_ge (h);
 
   image = mod_gl_utils_create_surface (gfx_context, w, h);
 
@@ -168,8 +168,8 @@ _surface2texture (mod_gl_utils_context_t * gfx_context, SDL_Surface * surface,
   int w, h;
 
   /* Use the surface width and height expanded to powers of 2 */
-  w = mod_gl_utils_power_of_two_ge (surface->w);
-  h = mod_gl_utils_power_of_two_ge (surface->h);
+  w = lw6gui_power_of_two_ge (surface->w);
+  h = lw6gui_power_of_two_ge (surface->h);
 
   return _surface2texture_wh (gfx_context, surface, w, h, mipmap);
 }
@@ -237,8 +237,8 @@ _map2texture_xywh (mod_gl_utils_context_t * gfx_context,
 		  w, h);
     }
 
-  w = mod_gl_utils_power_of_two_ge (w);
-  h = mod_gl_utils_power_of_two_ge (h);
+  w = lw6gui_power_of_two_ge (w);
+  h = lw6gui_power_of_two_ge (h);
 
   image = mod_gl_utils_map2surface_xywh (gfx_context, level, x, y, w, h);
 
@@ -294,8 +294,8 @@ _map2texture (mod_gl_utils_context_t * gfx_context, lw6map_level_t * level)
   int w, h;
 
   /* Use the map width and height expanded to powers of 2 */
-  w = mod_gl_utils_power_of_two_ge (level->texture.w);
-  h = mod_gl_utils_power_of_two_ge (level->texture.h);
+  w = lw6gui_power_of_two_ge (level->texture.w);
+  h = lw6gui_power_of_two_ge (level->texture.h);
 
   return _map2texture_wh (gfx_context, level, w, h);
 }

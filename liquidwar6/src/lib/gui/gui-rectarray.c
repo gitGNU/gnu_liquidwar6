@@ -64,6 +64,9 @@ lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
 			 nb_tiles_w * tile_spacing + 2 * border_size,
 			 nb_tiles_h * tile_spacing + 2 * border_size);
 
+  ret = (rect_array->source.w > 0 && rect_array->source.h > 0
+	 && rect_array->tile_size > 0 && rect_array->border_size > 0);
+
   return ret;
 }
 
@@ -177,10 +180,13 @@ lw6gui_rect_array_get_tile_and_quad (lw6gui_rect_array_t * rect_array,
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("quad is outside rect (%f,%f),(%f,%f),(%f,%f),(%f,%f) vs (%d,%d),(%d,%d)"),
+		      ("quad is outside rect (%f,%f),(%f,%f),(%f,%f),(%f,%f) vs (%d,%d),(%d,%d) source was (%f,%f),(%f,%f),(%f,%f),(%f,%f)"),
 		      quad->p1.x, quad->p1.y, quad->p2.x, quad->p2.y,
 		      quad->p3.x, quad->p3.y, quad->p4.x, quad->p4.y,
-		      rect->x1, rect->y1, rect->x2, rect->y2);
+		      rect->x1, rect->y1, rect->x2, rect->y2,
+		      source_quad->p1.x, source_quad->p1.y, source_quad->p2.x,
+		      source_quad->p2.y, source_quad->p3.x, source_quad->p3.y,
+		      source_quad->p4.x, source_quad->p4.y);
 	}
     }
   else

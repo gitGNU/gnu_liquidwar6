@@ -67,100 +67,157 @@ _set_cursor_rules (mod_gl_utils_context_t * utils_context,
 static void
 _display_bitmap_array (mod_gl_utils_context_t * utils_context,
 		       _mod_gl_view_flat_context_t * flat_context,
-		       int bitmap_array_w,
-		       int bitmap_array_h,
-		       int shape_w,
-		       int shape_h,
 		       mod_gl_utils_bitmap_array_t * bitmap_array,
-		       lw6gui_look_t * look)
+		       lw6gui_look_t * look, int x_polarity, int y_polarity)
 {
-  float x1, y1, x2, y2, w, h, coef_x, coef_y;
-  float texture_x1, texture_x2, texture_y1, texture_y2;
-  float texture_w, texture_h, layout_w, layout_h;
-  int n_x, n_y;
-  int view_x, view_y, view_w, view_h;
-  float min_x, min_y, max_x, max_y;
+  float wave_length;
+  float step_for_waves;
+  float step_for_border_x;
+  float step_for_border_y;
+  float step_x = 0.0f;
+  float step_y = 0.0f;
+  float x, y;
+  lw6gui_rect_t rect;
+  int i;
+  lw6gui_quad_t quad;
+  lw6gui_quad_t source_quad;
   mod_gl_utils_bitmap_t *bitmap = NULL;
+  float map_x1, map_y1, map_x2, map_y2;
+  float texture_x1, texture_y1, texture_x2, texture_y2;
+  int use_waves = 0;
+  int waves_cycle = 0;
+  float waves_cycle_offset = 0.0f;
+  float waves_scale_x = 0.0f;
+  float waves_scale_y = 0.0f;
 
-  x1 = flat_context->viewport.map_main.x1;
-  y1 = flat_context->viewport.map_main.y1;
-  x2 = flat_context->viewport.map_main.x2;
-  y2 = flat_context->viewport.map_main.y2;
-
-  w = x2 - x1;
-  h = y2 - y1;
-  coef_x = w / bitmap_array_w;
-  coef_y = h / bitmap_array_h;
-
-  view_x = flat_context->viewport.drawable.x1;
-  view_y = flat_context->viewport.drawable.y1;
-  view_w = flat_context->viewport.drawable.w;
-  view_h = flat_context->viewport.drawable.h;
-
-  min_x = view_x;
-  min_y = view_y;
-  max_x = view_x + view_w;
-  max_y = view_y + view_h;
-
-  if (bitmap_array->layout.n_w > 0)
+  if (bitmap_array->layout.source.w > 0 && bitmap_array->layout.source.h > 0
+      && flat_context->viewport.map_main.w > 0
+      && flat_context->viewport.map_main.h > 0)
     {
-      for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
+      /*
+       * there's a *2 on the denom because we add w and h on the first
+       * member, want we want is nb_waves on an average *per side*
+       */
+      wave_length =
+	(flat_context->viewport.map_visible.w +
+	 flat_context->viewport.map_visible.h) /
+	((float) (flat_context->const_data.nb_waves * 2));
+      if (use_waves)
 	{
-	  bitmap_array->layout.screen_x[n_x] =
-	    x1 + (bitmap_array->layout.x0[n_x] + 1) * coef_x;
+	  step_for_waves =
+	    wave_length /
+	    ((float) flat_context->const_data.vertices_per_wave);
+	  waves_cycle = mod_gl_utils_timer_get_cycle (utils_context);
+	  waves_cycle_offset =
+	    ((float) (waves_cycle)) /
+	    ((float) flat_context->const_data.waves_period);
+	  waves_scale_x =
+	    (flat_context->const_data.waves_amplitude * wave_length *
+	     flat_context->viewport.map_shape.w) /
+	    flat_context->viewport.map_main.w;
+	  waves_scale_y =
+	    (flat_context->const_data.waves_amplitude * wave_length *
+	     flat_context->viewport.map_shape.h) /
+	    flat_context->viewport.map_main.h;
 	}
-      bitmap_array->layout.screen_x[bitmap_array->layout.n_w] =
-	bitmap_array->layout.screen_x[bitmap_array->layout.n_w - 1] +
-	(bitmap_array->layout.w[bitmap_array->layout.n_w - 1] - 2) * coef_x;
-    }
-
-  if (bitmap_array->layout.n_h > 0)
-    {
-      for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+      else
 	{
-	  bitmap_array->layout.screen_y[n_y] =
-	    y1 + (bitmap_array->layout.y0[n_y] + 1) * coef_y;
+	  step_for_waves =
+	    (float) (flat_context->viewport.map_visible.w +
+		     flat_context->viewport.map_visible.h);
 	}
-      bitmap_array->layout.screen_y[bitmap_array->layout.n_h] =
-	bitmap_array->layout.screen_y[bitmap_array->layout.n_h - 1] +
-	(bitmap_array->layout.h[bitmap_array->layout.n_h - 1] - 2) * coef_y;
+      step_for_border_x =
+	bitmap_array->layout.border_size * flat_context->viewport.map_main.w /
+	((float) bitmap_array->layout.source.w);
+      step_for_border_y =
+	bitmap_array->layout.border_size * flat_context->viewport.map_main.h /
+	((float) bitmap_array->layout.source.h);
+      step_x =
+	(step_for_waves <
+	 step_for_border_x) ? step_for_waves : step_for_border_x;
+      step_y =
+	(step_for_waves <
+	 step_for_border_y) ? step_for_waves : step_for_border_y;
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_
+		  ("step_for_waves=%f step_for_border_x=%f step_for_border_y=%f step_x=%f step_y=%f"),
+		  step_for_waves, step_for_border_x, step_for_border_y,
+		  step_x, step_y);
     }
-
-  for (n_y = 0; n_y < bitmap_array->layout.n_h; ++n_y)
+  for (y = flat_context->viewport.map_visible.y1;
+       y < flat_context->viewport.map_visible.y2 - step_y / 2.0f; y += step_y)
     {
-      for (n_x = 0; n_x < bitmap_array->layout.n_w; ++n_x)
+      for (x = flat_context->viewport.map_visible.x1;
+	   x < flat_context->viewport.map_visible.x2 - step_x / 2.0f;
+	   x += step_x)
 	{
-	  if (bitmap_array->layout.screen_x[n_x] > max_x ||
-	      bitmap_array->layout.screen_y[n_y] > max_y ||
-	      bitmap_array->layout.screen_x[n_x + 1] < min_x
-	      || bitmap_array->layout.screen_y[n_y + 1] < min_y)
+	  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_x1,
+					 &map_y1, x, y, 0);
+	  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_x2,
+					 &map_y2, x + step_x, y + step_y, 0);
+	  if (use_waves)
 	    {
-	      // skip texture, it's outside our screen...
+	      map_x1 +=
+		waves_scale_x *
+		cos ((waves_cycle_offset + (x / wave_length)) * M_PI * 2.0f);
+	      map_y1 +=
+		waves_scale_y *
+		sin ((waves_cycle_offset + (y / wave_length)) * M_PI * 2.0f);
+	      map_x2 +=
+		waves_scale_x *
+		cos ((waves_cycle_offset +
+		      ((x + step_x) / wave_length)) * M_PI * 2.0f);
+	      map_y2 +=
+		waves_scale_y *
+		sin ((waves_cycle_offset +
+		      ((y + step_y) / wave_length)) * M_PI * 2.0f);
 	    }
-	  else
+	  map_x1 *=
+	    ((float) bitmap_array->layout.source.w) /
+	    ((float) flat_context->viewport.map_shape.w);
+	  map_y1 *=
+	    ((float) bitmap_array->layout.source.h) /
+	    ((float) flat_context->viewport.map_shape.h);
+	  map_x2 *=
+	    ((float) bitmap_array->layout.source.w) /
+	    ((float) flat_context->viewport.map_shape.w);
+	  map_y2 *=
+	    ((float) bitmap_array->layout.source.h) /
+	    ((float) flat_context->viewport.map_shape.h);
+	  source_quad.p1.x = map_x1;
+	  source_quad.p1.y = map_y1;
+	  source_quad.p2.x = map_x2;
+	  source_quad.p2.y = map_y1;
+	  source_quad.p3.x = map_x2;
+	  source_quad.p3.y = map_y2;
+	  source_quad.p4.x = map_x1;
+	  source_quad.p4.y = map_y2;
+	  if (lw6gui_rect_array_get_tile_and_quad
+	      (&(bitmap_array->layout), &rect, &i, &quad, &source_quad,
+	       x_polarity, y_polarity))
 	    {
-	      layout_w = bitmap_array->layout.w[n_x];
-	      layout_h = bitmap_array->layout.h[n_y];
-	      texture_w = mod_gl_utils_power_of_two_ge (layout_w);
-	      texture_h = mod_gl_utils_power_of_two_ge (layout_h);
-	      texture_x1 = 1.0f / texture_w;
-	      texture_y1 = 1.0f / texture_h;
-	      texture_x2 = (layout_w - 1.0f) / texture_w;
-	      texture_y2 = (layout_h - 1.0f) / texture_h;
-	      bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, n_x, n_y);
+	      bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, i);
 	      mod_gl_utils_bitmap_bind (utils_context, bitmap);
-	      mod_gl_utils_display_texture (utils_context,
-					    bitmap->texture,
-					    bitmap_array->layout.
-					    screen_x[n_x],
-					    bitmap_array->layout.
-					    screen_y[n_y],
-					    bitmap_array->layout.
-					    screen_x[n_x + 1],
-					    bitmap_array->layout.
-					    screen_y[n_y + 1], texture_x1,
-					    texture_y1, texture_x2,
-					    texture_y2);
+	      texture_x1 =
+		(quad.p1.x -
+		 ((float) rect.x1)) /
+		((float) bitmap_array->layout.tile_size);
+	      texture_y1 =
+		(quad.p1.y -
+		 ((float) rect.y1)) /
+		((float) bitmap_array->layout.tile_size);
+	      texture_x2 =
+		(quad.p3.x -
+		 ((float) rect.x1)) /
+		((float) bitmap_array->layout.tile_size);
+	      texture_y2 =
+		(quad.p3.y -
+		 ((float) rect.y1)) /
+		((float) bitmap_array->layout.tile_size);
+	      mod_gl_utils_display_texture (utils_context, bitmap->texture, x,
+					    y, x + step_x, y + step_y,
+					    texture_x1, texture_y1,
+					    texture_x2, texture_y2);
 	    }
 	}
     }
@@ -173,12 +230,9 @@ _display_map_preview (mod_gl_utils_context_t * utils_context,
 {
   _set_map_rules (utils_context, flat_context);
   _display_bitmap_array (utils_context, flat_context,
-			 flat_context->game_context.map.level->texture.w,
-			 flat_context->game_context.map.level->texture.h,
-			 flat_context->game_context.map.level->body.shape.w,
-			 flat_context->game_context.map.level->body.shape.h,
 			 &(flat_context->game_context.map.map_bitmap_array),
-			 look);
+			 look, level->param.rules.x_polarity,
+			 level->param.rules.y_polarity);
 }
 
 void
@@ -235,23 +289,21 @@ _display_armies (mod_gl_utils_context_t * utils_context,
 		 flat_context, lw6gui_look_t * look)
 {
   lw6sys_whd_t shape;
+  lw6ker_game_state_t *game_state;
 
-  lw6ker_game_state_get_shape (flat_context->game_context.armies.game_state,
-			       &shape);
+  game_state = flat_context->game_context.armies.game_state;
+  lw6ker_game_state_get_shape (game_state, &shape);
 
   mod_gl_utils_update_game_bitmap_array (utils_context,
 					 &(flat_context->game_context.armies.
-					   armies_bitmap_array),
-					 flat_context->game_context.
-					 armies.game_state, look);
+					   armies_bitmap_array), game_state,
+					 look);
   _set_fighters_rules (utils_context, flat_context);
   _display_bitmap_array (utils_context, flat_context,
-			 shape.w,
-			 shape.h,
-			 shape.w,
-			 shape.h,
 			 &(flat_context->game_context.armies.
-			   armies_bitmap_array), look);
+			   armies_bitmap_array), look,
+			 game_state->game_struct->rules.x_polarity,
+			 game_state->game_struct->rules.y_polarity);
 }
 
 /*

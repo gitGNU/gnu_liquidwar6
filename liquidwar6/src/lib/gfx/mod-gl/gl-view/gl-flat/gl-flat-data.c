@@ -56,6 +56,11 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->border_size_map);
       lw6cfg_read_xml_int (key, value, "border-size-armies",
 			   &const_data->border_size_armies);
+      lw6cfg_read_xml_int (key, value, "nb-waves", &const_data->nb_waves);
+      lw6cfg_read_xml_int (key, value, "vertices-per-wave",
+			   &const_data->vertices_per_wave);
+      lw6cfg_read_xml_int (key, value, "waves-period",
+			   &const_data->waves_period);
     }
 
   if (!strcmp (element, "float"))
@@ -78,6 +83,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->cursor_relative_text_dw);
       lw6cfg_read_xml_float (key, value, "cursor-relative-text-dh",
 			     &const_data->cursor_relative_text_dh);
+      lw6cfg_read_xml_float (key, value, "waves-amplitude",
+			     &const_data->waves_amplitude);
     }
 }
 

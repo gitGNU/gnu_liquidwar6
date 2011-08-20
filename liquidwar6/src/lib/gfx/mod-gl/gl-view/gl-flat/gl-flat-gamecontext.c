@@ -84,7 +84,11 @@ _mod_gl_view_flat_game_context_init_map (mod_gl_utils_context_t *
 							flat_context->
 							const_data.
 							tile_size_map,
-							flat_context->const_data.border_size_map);
+							flat_context->const_data.border_size_map,
+							level->param.
+							rules.x_polarity,
+							level->param.
+							rules.y_polarity);
   if (ret)
     {
       wrap = GL_CLAMP_TO_EDGE;

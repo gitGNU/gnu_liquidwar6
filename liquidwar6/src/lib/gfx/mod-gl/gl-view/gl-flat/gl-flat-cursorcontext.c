@@ -24,9 +24,6 @@
 #include "config.h"
 #endif
 
-//#include <GL/glu.h>
-#include <math.h>
-
 #include "../../../gfx.h"
 #include "gl-flat.h"
 #include "gl-flat-internal.h"

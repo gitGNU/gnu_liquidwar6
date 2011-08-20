@@ -24,8 +24,6 @@
 #include "config.h"
 #endif
 
-#include <math.h>
-
 #include "../../mod-gl.h"
 #include "gl-cylinder-internal.h"
 

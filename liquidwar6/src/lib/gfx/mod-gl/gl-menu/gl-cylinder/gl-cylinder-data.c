@@ -24,8 +24,6 @@
 #include "config.h"
 #endif
 
-#include <string.h>
-
 #include "../../../gfx.h"
 #include "../../../../cfg/cfg.h"
 #include "gl-cylinder.h"

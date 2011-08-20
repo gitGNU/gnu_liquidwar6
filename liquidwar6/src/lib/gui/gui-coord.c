@@ -139,13 +139,13 @@ lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip,
 	    {
 	      (*x) -= w;
 	      (*y) = h - 1 - (*y);
-	      (*x_flip) = -(*x_flip);
+	      (*y_flip) = -(*y_flip);
 	    }
 	  while ((*x) < 0)
 	    {
 	      (*x) += w;
 	      (*y) = h - 1 - (*y);
-	      (*x_flip) = -(*x_flip);
+	      (*y_flip) = -(*y_flip);
 	    }
 	}
       if (y_polarity < 0)
@@ -154,13 +154,13 @@ lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip,
 	    {
 	      (*x) = w - 1 - (*x);
 	      (*y) -= h;
-	      (*y_flip) = -(*y_flip);
+	      (*x_flip) = -(*x_flip);
 	    }
 	  while ((*y) < 0)
 	    {
 	      (*x) = w - 1 - (*x);
 	      (*y) += h;
-	      (*y_flip) = -(*y_flip);
+	      (*x_flip) = -(*x_flip);
 	    }
 	}
 

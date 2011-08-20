@@ -83,6 +83,7 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
     }
   else
     {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to init rect_array"));
       if (bitmap_array->bitmaps)
 	{
 	  LW6SYS_FREE (bitmap_array->bitmaps);
@@ -110,7 +111,7 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
   lw6gui_rect_t rect;
   lw6map_rules_t rules;
   lw6sys_whd_t shape;
-  int x_fixed, y_fixed;
+  int x_get, y_get, x_put, y_put;
 
   if (mod_gl_utils_bitmap_array_init
       (utils_context, bitmap_array, surface->w, surface->h, tile_size,
@@ -146,16 +147,16 @@ mod_gl_utils_bitmap_array_init_from_surface (mod_gl_utils_context_t *
 			{
 			  for (x = rect.x1; x < rect.x2; ++x)
 			    {
-			      x_fixed = x;
-			      y_fixed = y;
-			      lw6map_coords_fix_xy (&rules, &shape, &x_fixed,
-						    &y_fixed);
-
-			      mod_gl_utils_putpixel (sub_surface, x - rect.x2,
-						     y - rect.y1,
+			      x_get = x;
+			      y_get = y;
+			      lw6map_coords_fix_xy (&rules, &shape, &x_get,
+						    &y_get);
+			      x_put = x - rect.x1;
+			      y_put = y - rect.y1;
+			      mod_gl_utils_putpixel (sub_surface, x_put,
+						     y_put,
 						     mod_gl_utils_getpixel
-						     (surface, x_fixed,
-						      y_fixed));
+						     (surface, x_get, y_get));
 			    }
 			}
 		    }
