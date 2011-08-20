@@ -67,17 +67,30 @@ mod_gl_utils_display_texture_full (mod_gl_utils_context_t * utils_context,
 }
 
 void
-mod_gl_utils_display_texture (mod_gl_utils_context_t * utils_context,
+mod_gl_utils_display_quad_begin (mod_gl_utils_context_t * utils_context)
+{
+  glMatrixMode (GL_TEXTURE);
+  glPushMatrix ();
+  glLoadIdentity ();
+  glBegin (GL_QUADS);
+}
+
+void
+mod_gl_utils_display_quad_end (mod_gl_utils_context_t * utils_context)
+{
+  glEnd ();
+  glMatrixMode (GL_TEXTURE);
+  glPopMatrix ();
+}
+
+void
+mod_gl_utils_display_quad_do (mod_gl_utils_context_t * utils_context,
 			      GLuint texture, float x1, float y1, float x2,
 			      float y2, float texture_x1, float texture_y1,
 			      float texture_x2, float texture_y2)
 {
   glBindTexture (GL_TEXTURE_2D, texture);
 
-  glMatrixMode (GL_TEXTURE);
-  glPushMatrix ();
-  glLoadIdentity ();
-  glBegin (GL_QUADS);
   glTexCoord2d (texture_x1, texture_y1);
   glVertex3f (x1, y1, 0.0f);	// top left
   glTexCoord2d (texture_x2, texture_y1);
@@ -86,10 +99,20 @@ mod_gl_utils_display_texture (mod_gl_utils_context_t * utils_context,
   glVertex3f (x2, y2, 0.0f);	// bottom right
   glTexCoord2d (texture_x1, texture_y2);
   glVertex3f (x1, y2, 0.0f);	// bottom left
-  glEnd ();
+}
 
-  glMatrixMode (GL_TEXTURE);
-  glPopMatrix ();
+void
+mod_gl_utils_display_texture (mod_gl_utils_context_t * utils_context,
+			      GLuint texture, float x1, float y1, float x2,
+			      float y2, float texture_x1, float texture_y1,
+			      float texture_x2, float texture_y2)
+{
+  mod_gl_utils_display_quad_begin (utils_context);
+  mod_gl_utils_display_quad_do (utils_context, texture, x1, y1, x2, y2,
+				texture_x1, texture_y1, texture_x2,
+				texture_y2);
+  ;
+  mod_gl_utils_display_quad_end (utils_context);
 }
 
 void

@@ -87,7 +87,7 @@ typedef struct mod_gl_utils_bitmap_s
   float s2;
   float t2;
   int64_t last_refresh;
-  int need_another_refresh;	// should be checked for utility
+  //  int need_another_refresh;
 } mod_gl_utils_bitmap_t;
 
 typedef struct mod_gl_utils_shaded_text_s
@@ -443,6 +443,9 @@ extern int mod_gl_utils_bitmap_refresh (mod_gl_utils_context_t *
 extern int mod_gl_utils_bitmap_refresh_force (mod_gl_utils_context_t *
 					      utils_context,
 					      mod_gl_utils_bitmap_t * bitmap);
+extern void mod_gl_utils_bitmap_bind_no_gen (mod_gl_utils_context_t *
+					     utils_context,
+					     mod_gl_utils_bitmap_t * bitmap);
 extern int mod_gl_utils_bitmap_bind (mod_gl_utils_context_t * utils_context,
 				     mod_gl_utils_bitmap_t * bitmap);
 extern int mod_gl_utils_bitmap_display (mod_gl_utils_context_t *
@@ -606,6 +609,16 @@ extern void mod_gl_utils_display_gradient (mod_gl_utils_context_t *
 /*
  * In display.c
  */
+extern void mod_gl_utils_display_quad_begin (mod_gl_utils_context_t *
+					     utils_context);
+extern void mod_gl_utils_display_quad_end (mod_gl_utils_context_t *
+					   utils_context);
+extern void mod_gl_utils_display_quad_do (mod_gl_utils_context_t *
+					  utils_context, GLuint texture,
+					  float x1, float y1, float x2,
+					  float y2, float texture_x1,
+					  float texture_y1, float texture_x2,
+					  float texture_y2);
 extern void mod_gl_utils_display_texture_full (mod_gl_utils_context_t *
 					       utils_context, GLuint texture,
 					       float x1, float y1, float x2,

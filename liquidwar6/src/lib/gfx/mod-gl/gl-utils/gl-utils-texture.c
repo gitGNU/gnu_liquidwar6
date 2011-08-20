@@ -127,7 +127,7 @@ _surface2texture_xywh (mod_gl_utils_context_t * gfx_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("glGenTextures failed"));
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("glGenTextures failed"));
     }
 
   if (texture && glIsTexture (texture))
@@ -139,8 +139,10 @@ _surface2texture_xywh (mod_gl_utils_context_t * gfx_context,
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to generate texture from surface"));
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_
+		  ("unable to generate texture from surface x,y=%d,%d w,h=%d,%d"),
+		  y, y, w, h);
     }
 
   mod_gl_utils_delete_surface (gfx_context, image);	/* No longer needed */
@@ -260,7 +262,7 @@ _map2texture_xywh (mod_gl_utils_context_t * gfx_context,
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("glGenTextures failed"));
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("glGenTextures failed"));
 	}
 
       mod_gl_utils_delete_surface (gfx_context, image);	/* No longer needed */

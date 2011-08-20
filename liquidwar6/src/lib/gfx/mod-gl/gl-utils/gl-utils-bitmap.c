@@ -425,29 +425,31 @@ mod_gl_utils_bitmap_refresh (mod_gl_utils_context_t *
 		  bitmap->last_refresh, bitmap_refresh);
       mod_gl_utils_bitmap_clear_texture_now (utils_context, bitmap);
       bitmap->last_refresh = timestamp;
-      bitmap->need_another_refresh = 1;
+      //bitmap->need_another_refresh = 1;
     }
-  else
-    {
-      if (bitmap->last_refresh == timestamp)
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("not touching bitmap %u, refreshing it now wouldn't change anything as it has already been refreshed for this frame"),
-		      bitmap->id);
-	}
-      else
-	{
-	  if (bitmap->need_another_refresh)
-	    {
-	      bitmap->need_another_refresh = 0;
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("refreshing bitmap %u, second time, this could hopefully fix bug #28029 (white rectangles)"),
-			  bitmap->id);
-	    }
-	}
-    }
+  /*
+     else
+     {
+     if (bitmap->last_refresh == timestamp)
+     {
+     lw6sys_log (LW6SYS_LOG_DEBUG,
+     _x_
+     ("not touching bitmap %u, refreshing it now wouldn't change anything as it has already been refreshed for this frame"),
+     bitmap->id);
+     }
+     else
+     {
+     if (bitmap->need_another_refresh)
+     {
+     bitmap->need_another_refresh = 0;
+     lw6sys_log (LW6SYS_LOG_DEBUG,
+     _x_
+     ("refreshing bitmap %u, second time, this could hopefully fix bug #28029 (white rectangles)"),
+     bitmap->id);
+     }
+     }
+     }
+   */
   if (!bitmap->texture)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("refresh bitmap %u"), bitmap->id);
@@ -505,6 +507,18 @@ mod_gl_utils_bitmap_refresh_force (mod_gl_utils_context_t *
   return ret;
 }
 
+void
+mod_gl_utils_bitmap_bind_no_gen (mod_gl_utils_context_t *
+				 utils_context,
+				 mod_gl_utils_bitmap_t * bitmap)
+{
+  glBindTexture (GL_TEXTURE_2D, bitmap->texture);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, bitmap->wrap);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, bitmap->wrap);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, bitmap->filter);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, bitmap->filter);
+}
+
 int
 mod_gl_utils_bitmap_bind (mod_gl_utils_context_t *
 			  utils_context, mod_gl_utils_bitmap_t * bitmap)
@@ -515,12 +529,12 @@ mod_gl_utils_bitmap_bind (mod_gl_utils_context_t *
     {
       mod_gl_utils_bitmap_refresh (utils_context, bitmap);
       glBindTexture (GL_TEXTURE_2D, bitmap->texture);
-      if (!glIsTexture (bitmap->texture))
+      if (bitmap->texture < 0 || !glIsTexture (bitmap->texture))
 	{
 	  mod_gl_utils_bitmap_refresh_force (utils_context, bitmap);
 	  glBindTexture (GL_TEXTURE_2D, bitmap->texture);
 	}
-      if (glIsTexture (bitmap->texture))
+      if (bitmap->texture >= 0 && glIsTexture (bitmap->texture))
 	{
 	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, bitmap->wrap);
 	  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, bitmap->wrap);
@@ -532,8 +546,11 @@ mod_gl_utils_bitmap_bind (mod_gl_utils_context_t *
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to bind texture %d"),
-		      bitmap->texture);
+	  if (bitmap->texture >= 0)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("unable to bind texture %d"),
+			  bitmap->texture);
+	    }
 	}
     }
   else

@@ -99,7 +99,6 @@ _display_bubble (mod_gl_utils_context_t * utils_context,
   glPushMatrix ();
   glLoadIdentity ();
 
-  glBegin (GL_QUADS);
   glTexCoord2d (0.0f, 0.0f);
   glVertex3f (x_px - size2_px, y_px - size2_px, 0.0f);	// top left
   glTexCoord2d (1.0f, 0.0f);
@@ -108,7 +107,6 @@ _display_bubble (mod_gl_utils_context_t * utils_context,
   glVertex3f (x_px + size2_px, y_px + size2_px, 0.0f);	// bottom right
   glTexCoord2d (0.0f, 1.0f);
   glVertex3f (x_px - size2_px, y_px + size2_px, 0.0f);	// bottom left
-  glEnd ();
 
   glMatrixMode (GL_TEXTURE);
   glPopMatrix ();
@@ -143,11 +141,13 @@ _display_bubbles (mod_gl_utils_context_t * utils_context,
   nb_bubbles =
     lw6sys_min (nb_bubbles, _MOD_GL_BACKGROUND_BUBBLES_MAX_NB_BUBBLES);
 
+  glBegin (GL_QUADS);
   for (i = 0; i < nb_bubbles; ++i)
     {
       _display_bubble (utils_context, bubbles_context,
 		       &(bubbles_context->state.bubbles[i]), look);
     }
+  glEnd ();
 }
 
 void
