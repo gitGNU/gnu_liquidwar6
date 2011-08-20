@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-16 16:46+0200\n"
+"POT-Creation-Date: 2011-08-20 17:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,20 +58,20 @@ msgstr ""
 msgid "SDL init error: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:305
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:307
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:360
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:362
 msgid "unable to load data"
 msgstr ""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:368
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:370
 msgid "unable to set video mode"
 msgstr ""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:375
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:377
 msgid "unable to load consts"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "trying to free NULL pointer in %s:%d"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:1950
+#: src/lib/sys/sys-test.c:1951
 msgid "this is a /TEST/ error"
 msgstr ""
 

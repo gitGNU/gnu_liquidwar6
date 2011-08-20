@@ -19,5 +19,5 @@
   <int key="nb-waves" value="10" />
   <int key="vertices-per-wave" value="8" />
   <int key="waves-period" value="2000" />
-  <float key="waves-amplitude" value="0.05" />
+  <float key="waves-amplitude" value="0.03" />
 </liquidwar6>

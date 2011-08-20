@@ -131,6 +131,7 @@ lw6map_style_defaults (lw6map_style_t * style)
   style->music_file = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_FILE);
   style->music_filter = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_FILTER);
   style->music_exclude = lw6sys_str_copy (LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
+  style->waves = LW6MAP_STYLE_DEFAULT_WAVES;
 }
 
 /*
@@ -504,6 +505,10 @@ lw6map_style_set (lw6map_style_t * style, char *key, char *value)
 	    }
 	  style->music_exclude = lw6sys_str_copy (value);
 	}
+      else if (!strcmp (LW6DEF_WAVES, formatted_key))
+	{
+	  style->waves = lw6sys_atob (value);
+	}
       else
 	{
 	  ret = 0;		// no entry matches
@@ -775,6 +780,10 @@ lw6map_style_get (lw6map_style_t * style, char *key)
 	{
 	  ret = lw6sys_str_copy (style->music_exclude);
 	}
+      else if (!strcmp (LW6DEF_WAVES, formatted_key))
+	{
+	  ret = lw6sys_btoa (style->waves);
+	}
       LW6SYS_FREE (formatted_key);
     }
 
@@ -850,6 +859,7 @@ lw6map_style_is_same (lw6map_style_t * style_a, lw6map_style_t * style_b)
     && lw6sys_str_is_same (style_a->music_filter, style_b->music_filter);
   ret = ret
     && lw6sys_str_is_same (style_a->music_exclude, style_b->music_exclude);
+  ret = ret && style_a->waves == style_b->waves;
 
   return ret;
 }

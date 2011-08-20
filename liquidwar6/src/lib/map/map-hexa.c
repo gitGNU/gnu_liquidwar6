@@ -371,6 +371,9 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_push_str (hexa_serializer,
 					param->style.music_exclude);
+  ret = ret
+    && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
+					  param->style.waves);
 
   return ret;
 }
@@ -856,6 +859,9 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
   ret = ret
     && lw6sys_hexa_serializer_pop_str (hexa_serializer,
 				       &(param->style.music_exclude));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
+					 &(param->style.waves));
 
   return ret;
 }

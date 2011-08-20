@@ -323,8 +323,12 @@ _display_weapon (mod_gl_utils_context_t * utils_context,
   if (lw6ker_game_state_get_latest_weapon
       (floating_context->game_state, &team_color, &weapon_id, &per1000_left))
     {
-      transparency = (per1000_left * MOD_GL_UTILS_TRANSPARENCY_SCALE) / 1000;
-      transparency *= floating_context->const_data.weapon_ambiance_alpha;
+      transparency =
+	((per1000_left * floating_context->const_data.weapon_ambiance_alpha1 +
+	  (1000 -
+	   per1000_left) *
+	  floating_context->const_data.weapon_ambiance_alpha2) *
+	 MOD_GL_UTILS_TRANSPARENCY_SCALE) / 1000;
       transparency =
 	lw6sys_max (0,
 		    lw6sys_min (MOD_GL_UTILS_TRANSPARENCY_SCALE,

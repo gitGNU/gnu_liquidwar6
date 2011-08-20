@@ -102,6 +102,34 @@ Registers a "down" (press) event on a button.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {void} {lw6gui_coords_fix_xy_float} (float * @var{x}, float * @var{y}, int * @var{x_flip}, int * @var{y_flip}, float @var{w}, float @var{h}, int @var{x_polarity}, int @var{y_polarity})
+@var{x}:  x coord (in/out param)
+
+@var{y}:  y coord (in/out param)
+
+@var{x_flip}:  flip on x (out param, -1 or +1)
+
+@var{y_flip}:  flip on y (out param, -1 or +1)
+
+@var{w}:  width
+
+@var{h}:  height
+
+@var{x_polarity}:  x polarity (-1, 0 or 1)
+
+@var{y_polarity}:  y polarity (-1, 0 or 1)
+
+Same as @code{lw6map_fix_coords} except it operates on floats.
+Usefull for cursor and other rendering operations. Additionnally,
+will keep track of inversions, that is to say if map is flip
+in one or another way. Be carefull, the flip values are -1 or 1
+so that it's easy to multiply an offset by it, for instance, but
+this means testing if flip is not 0 will always return true, you must
+test if flip is stritly positive or negative.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {int} {lw6gui_input_init} (lw6gui_input_t * @var{input})
 @var{input}:  the input struct to initialise
 
@@ -902,6 +930,83 @@ in src if needed while setting it in dst.
 @strong{Return value:}  1 if success, O if failure.
 @end deftypefun
 
+@deftypefun {int} {lw6gui_point_is_inside_rect} (lw6gui_point_t @var{point}, lw6gui_rect_t * @var{rect})
+@var{point}:  point to test
+
+@var{rect}:  rectangle in which point is supposed to be
+
+Tests wether a point is inside a rectangle, this is typically used to know
+if a point is inside the right texture or if we're outside.
+
+@strong{Return value:}  1 if OK, 0 if outside
+@end deftypefun
+
+@deftypefun {int} {lw6gui_quad_is_inside_rect} (lw6gui_quad_t * @var{quad}, lw6gui_rect_t * @var{rect})
+@var{quad}:  quad to test
+
+@var{rect}:  rectangle in which quad is supposed to be
+
+Tests wether a quad is inside a rectangle, this is typically used to know
+if a quad is inside the right texture or if we're outside.
+
+@strong{Return value:}  1 if OK, 0 if outside
+@end deftypefun
+
+@deftypefun {void} {lw6gui_rect_init_x1y1x2y2} (lw6gui_rect_t * @var{rect}, int @var{x1}, int @var{y1}, int @var{x2}, int @var{y2})
+@var{rect}:  the structure to initialize
+
+@var{x1}:  x for top left corner
+
+@var{y1}:  y for top left corner
+
+@var{x2}:  x for bottom right corner
+
+@var{y2}:  y for bottom right corner
+
+Initializes a rect structure, will calculate w & h.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_rect_init_xywh} (lw6gui_rect_t * @var{rect}, int @var{x}, int @var{y}, int @var{w}, int @var{h})
+@var{rect}:  the structure to initialize
+
+@var{x}:  x for top left corner
+
+@var{y}:  y for top left corner
+
+@var{w}:  width
+
+@var{h}:  height
+
+Initializes a rect structure, will calculate x2 & y2.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_rect_clip} (lw6gui_rect_t * @var{dst}, lw6gui_rect_t * @var{src}, lw6gui_rect_t * @var{clip})
+@var{dst}:  the structure which will contain the result
+
+@var{src}:  the source rect
+
+@var{clip}:  the clipping rect (boundaries)
+
+Clips a rect (think of rectangle clips).
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_segment_is_inside_rect} (lw6gui_segment_t * @var{segment}, lw6gui_rect_t * @var{rect})
+@var{segment}:  segment to test
+
+@var{rect}:  rectangle in which segment is supposed to be
+
+Tests wether a segment is inside a rectangle, this is typically used to know
+if a segment is inside the right texture or if we're outside.
+
+@strong{Return value:}  1 if OK, 0 if outside
+@end deftypefun
+
 @deftypefun {void} {lw6gui_smoother_init} (lw6gui_smoother_t * @var{smoother}, float @var{value}, int @var{duration})
 @var{smoother}:  the structure to initialize
 
@@ -954,6 +1059,17 @@ Returns the current value of the smoother.
 Run tests in the gui module.
 
 @strong{Return value:}  1 if successfull, 0 if failed.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_triangle_is_inside_rect} (lw6gui_triangle_t * @var{triangle}, lw6gui_rect_t * @var{rect})
+@var{triangle}:  triangle to test
+
+@var{rect}:  rectangle in which triangle is supposed to be
+
+Tests wether a triangle is inside a rectangle, this is typically used to know
+if a triangle is inside the right texture or if we're outside.
+
+@strong{Return value:}  1 if OK, 0 if outside
 @end deftypefun
 
 @deftypefun {int} {lw6gui_video_mode_find_closest} (lw6gui_video_mode_t * @var{closest}, lw6gui_video_mode_t * @var{wished}, lw6sys_list_t * @var{available})

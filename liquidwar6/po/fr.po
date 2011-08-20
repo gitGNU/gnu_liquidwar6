@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-16 16:46+0200\n"
+"POT-Creation-Date: 2011-08-20 17:51+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -58,20 +58,20 @@ msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
 msgid "SDL init error: \"%s\""
 msgstr "SDL erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:305
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:307
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "SDL_ttf erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:360
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:362
 msgid "unable to load data"
 msgstr "impossible de charger les données"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:368
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:370
 msgid "unable to set video mode"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-gl/mod-gl-setup.c:375
+#: src/lib/gfx/mod-gl/mod-gl-setup.c:377
 msgid "unable to load consts"
 msgstr "impossible de lire les constantes"
 
@@ -334,7 +334,7 @@ msgstr "pas assez de mémoire, échec de realloc (%d) dans %s:%d"
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "tentative de libérer un pointeur nul dans %s:%d"
 
-#: src/lib/sys/sys-test.c:1950
+#: src/lib/sys/sys-test.c:1951
 msgid "this is a /TEST/ error"
 msgstr "ceci est une erreur de /TEST/"
 

@@ -1,6 +1,5 @@
 ?
 about
-exp
 ambiance-exclude
 ambiance-file
 ambiance-filter
@@ -375,6 +374,7 @@ example-hints-xml
 example-rules-xml
 example-style-xml
 executed-again
+exp
 fighter-attack
 fighter-defense
 fighter-new-health
@@ -719,6 +719,7 @@ view-color-map-fg
 view-style
 wall-grease
 water-volume
+waves
 weapon-charge-delay
 weapon-charge-max
 weapon-duration

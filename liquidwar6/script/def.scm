@@ -21,7 +21,6 @@
 ;Generated automatically by def-update.py
 
 (define lw6def-about "about")
-(define lw6def-exp "exp")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")
 (define lw6def-ambiance-filter "ambiance-filter")
@@ -395,6 +394,7 @@
 (define lw6def-example-rules-xml "example-rules-xml")
 (define lw6def-example-style-xml "example-style-xml")
 (define lw6def-executed-again "executed-again")
+(define lw6def-exp "exp")
 (define lw6def-fighter-attack "fighter-attack")
 (define lw6def-fighter-defense "fighter-defense")
 (define lw6def-fighter-new-health "fighter-new-health")
@@ -737,6 +737,7 @@
 (define lw6def-view-style "view-style")
 (define lw6def-wall-grease "wall-grease")
 (define lw6def-water-volume "water-volume")
+(define lw6def-waves "waves")
 (define lw6def-weapon-charge-delay "weapon-charge-delay")
 (define lw6def-weapon-charge-max "weapon-charge-max")
 (define lw6def-weapon-duration "weapon-duration")

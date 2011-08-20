@@ -718,6 +718,7 @@ extern char *LW6MAP_RULES_LIST[];
 #define LW6MAP_STYLE_DEFAULT_TEAM_COLOR_PINK "#f8b"
 #define LW6MAP_STYLE_DEFAULT_MUSIC_FILE ""
 #define LW6MAP_STYLE_DEFAULT_MUSIC_FILTER ""
+#define LW6MAP_STYLE_DEFAULT_WAVES 1
 /*
  * Hi Tim, this is not to blacklist you, no way! Only this
  * is needed so that your tunes don't get played *in game*
@@ -868,6 +869,7 @@ typedef struct lw6map_style_s
   char *music_file;
   char *music_filter;
   char *music_exclude;
+  int waves;
 } lw6map_style_t;
 
 typedef struct lw6map_param_s

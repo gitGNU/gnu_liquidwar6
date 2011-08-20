@@ -673,6 +673,7 @@ update_map_style (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MUSIC_FILE);
   lw6sys_list_push_back (list, LW6DEF_MUSIC_FILTER);
   lw6sys_list_push_back (list, LW6DEF_MUSIC_EXCLUDE);
+  lw6sys_list_push_back (list, LW6DEF_WAVES);
 
   return ((*list) != NULL);
 }

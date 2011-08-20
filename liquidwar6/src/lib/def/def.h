@@ -28,7 +28,6 @@ Contact author        : ufoot@ufoot.org
 #define LIQUIDWAR6DEF_DEF_H
 
 #define LW6DEF_ABOUT "about"
-#define LW6DEF_EXP "exp"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
 #define LW6DEF_AMBIANCE_FILTER "ambiance-filter"
@@ -402,6 +401,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_EXAMPLE_RULES_XML "example-rules-xml"
 #define LW6DEF_EXAMPLE_STYLE_XML "example-style-xml"
 #define LW6DEF_EXECUTED_AGAIN "executed-again"
+#define LW6DEF_EXP "exp"
 #define LW6DEF_FIGHTER_ATTACK "fighter-attack"
 #define LW6DEF_FIGHTER_DEFENSE "fighter-defense"
 #define LW6DEF_FIGHTER_NEW_HEALTH "fighter-new-health"
@@ -744,6 +744,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_VIEW_STYLE "view-style"
 #define LW6DEF_WALL_GREASE "wall-grease"
 #define LW6DEF_WATER_VOLUME "water-volume"
+#define LW6DEF_WAVES "waves"
 #define LW6DEF_WEAPON_CHARGE_DELAY "weapon-charge-delay"
 #define LW6DEF_WEAPON_CHARGE_MAX "weapon-charge-max"
 #define LW6DEF_WEAPON_DURATION "weapon-duration"

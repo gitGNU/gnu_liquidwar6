@@ -102,6 +102,7 @@ _display_bitmap_array (mod_gl_utils_context_t * utils_context,
 	(flat_context->viewport.map_visible.w +
 	 flat_context->viewport.map_visible.h) /
 	((float) (flat_context->const_data.nb_waves * 2));
+      use_waves = look->style.waves;
       if (use_waves)
 	{
 	  step_for_waves =

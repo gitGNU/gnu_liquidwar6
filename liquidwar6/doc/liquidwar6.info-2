@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -756,7 +756,20 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      one uses (which library) one runs, wether this parameter says what
      kind of rendering one wants.
 
-4.11.52 x-wrap
+4.11.52 waves
+-------------
+
+ -- Command-line option: `--waves=<value>'
+ -- Environment variable: `LW6_WAVES'
+ -- XML key: `waves'
+     Type: boolean
+
+     Default value: true
+
+     Activates the wave effect, that's to say level appears to be under
+     water when playing.
+
+4.11.53 x-wrap
 --------------
 
  -- Command-line option: `--x-wrap=<value>'
@@ -772,7 +785,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      with polarity but without wrapping if, for instance, textures do
      not tile nicely.
 
-4.11.53 y-wrap
+4.11.54 y-wrap
 --------------
 
  -- Command-line option: `--y-wrap=<value>'
@@ -788,7 +801,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      with polarity but without wrapping if, for instance, textures do
      not tile nicely.
 
-4.11.54 zoom
+4.11.55 zoom
 ------------
 
  -- Command-line option: `--zoom=<value>'
@@ -802,7 +815,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      fraction of the screen, if greater than 1.0, some areas will be
      outside the screen, and the player will need to scroll through it.
 
-4.11.55 zoom-max
+4.11.56 zoom-max
 ----------------
 
  -- Command-line option: `--zoom-max=<value>'
@@ -816,7 +829,7 @@ File: liquidwar6.info,  Node: Map style.xml,  Next: Advanced settings,  Prev: Ma
      dynamically view the map with hudge fighters, seeing only a
      fraction of the level.
 
-4.11.56 zoom-min
+4.11.57 zoom-min
 ----------------
 
  -- Command-line option: `--zoom-min=<value>'

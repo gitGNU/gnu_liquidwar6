@@ -2026,6 +2026,10 @@ populate_references ()
 		_x_
 		("If this string is found in a music file name, it will be excluded from the list when playing in random mode."),
 		LW6MAP_STYLE_DEFAULT_MUSIC_EXCLUDE);
+  POPULATE_BOOL (LW6DEF_WAVES,
+		 _x_
+		 ("Activates the wave effect, that's to say level appears to be under water when playing."),
+		 LW6MAP_STYLE_DEFAULT_WAVES);
 
   /*
    * Funcs

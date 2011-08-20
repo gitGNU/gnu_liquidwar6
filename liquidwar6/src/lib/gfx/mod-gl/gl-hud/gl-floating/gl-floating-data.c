@@ -104,8 +104,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->gauge_max_size);
       lw6cfg_read_xml_float (key, value, "gauge-max-health-angle",
 			     &const_data->gauge_max_health_angle);
-      lw6cfg_read_xml_float (key, value, "weapon-ambiance-alpha",
-			     &const_data->weapon_ambiance_alpha);
+      lw6cfg_read_xml_float (key, value, "weapon-ambiance-alpha1",
+			     &const_data->weapon_ambiance_alpha1);
+      lw6cfg_read_xml_float (key, value, "weapon-ambiance-alpha2",
+			     &const_data->weapon_ambiance_alpha2);
       lw6cfg_read_xml_float (key, value, "score-pie-heartbeat-factor1",
 			     &const_data->score_pie_heartbeat_factor1);
       lw6cfg_read_xml_float (key, value, "score-pie-heartbeat-factor2",

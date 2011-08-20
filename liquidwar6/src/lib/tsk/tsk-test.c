@@ -159,6 +159,7 @@ test_manager ()
 	  {
 	    ret = 0;
 	  }
+	LW6SYS_FREE (user_dir);
       }
     else
       {

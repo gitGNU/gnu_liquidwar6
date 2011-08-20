@@ -660,6 +660,18 @@ backend defines which technical tool one uses (which library) one runs, wether
 this parameter says what kind of rendering one wants.
 @end deffn
 
+@subsection waves
+@deffn {Command-line option} @code{--waves=<value>}
+@deffnx {Environment variable} @code{LW6_WAVES}
+@deffnx {XML key} @code{waves}
+Type: boolean
+
+Default value: true
+
+Activates the wave effect, that's to say level appears to be under water when
+playing.
+@end deffn
+
 @subsection x-wrap
 @deffn {Command-line option} @code{--x-wrap=<value>}
 @deffnx {Environment variable} @code{LW6_X_WRAP}

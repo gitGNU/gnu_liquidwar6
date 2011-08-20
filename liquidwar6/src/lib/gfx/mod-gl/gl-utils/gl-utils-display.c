@@ -72,30 +72,7 @@ mod_gl_utils_display_texture (mod_gl_utils_context_t * utils_context,
 			      float y2, float texture_x1, float texture_y1,
 			      float texture_x2, float texture_y2)
 {
-  float tmp;
-
   glBindTexture (GL_TEXTURE_2D, texture);
-
-#ifdef TODO
-  if (texture_x1 > texture_x2)
-    {
-      tmp = texture_x1;
-      texture_x1 = texture_x2;
-      texture_x2 = tmp;
-      /*  tmp=x1;
-         x1=x2;
-         x2=tmp; */
-    }
-  if (texture_y1 > texture_y2)
-    {
-      tmp = texture_y1;
-      texture_y1 = texture_y2;
-      texture_y2 = tmp;
-      /* tmp=y1;
-         y1=y2;
-         y2=tmp; */
-    }
-#endif
 
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
