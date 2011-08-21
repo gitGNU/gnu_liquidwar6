@@ -365,11 +365,13 @@ _mod_gl_hud_floating_display_hud (mod_gl_utils_context_t * utils_context,
 				  lw6ker_game_state_t * game_state,
 				  lw6pil_local_cursors_t * local_cursors)
 {
+  _mod_gl_hud_floating_context_begin_hud (utils_context, floating_context);
   _mod_gl_hud_floating_context_update_hud (utils_context, floating_context,
 					   look, game_state, local_cursors);
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
   _display_hud (utils_context, floating_context);
+  _mod_gl_hud_floating_context_end_hud (utils_context, floating_context);
 }
 
 void
@@ -553,11 +555,13 @@ _mod_gl_hud_floating_display_score (mod_gl_utils_context_t * utils_context,
 				    lw6ker_game_state_t * game_state,
 				    lw6pil_local_cursors_t * local_cursors)
 {
+  _mod_gl_hud_floating_context_begin_score (utils_context, floating_context);
   _mod_gl_hud_floating_context_update_score (utils_context, floating_context,
 					     look, game_state, local_cursors);
 
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
   _display_score (utils_context, floating_context);
+  _mod_gl_hud_floating_context_end_score (utils_context, floating_context);
 }
 
 void

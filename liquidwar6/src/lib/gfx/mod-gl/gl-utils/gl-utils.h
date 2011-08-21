@@ -87,7 +87,7 @@ typedef struct mod_gl_utils_bitmap_s
   float s2;
   float t2;
   int64_t last_refresh;
-  //  int need_another_refresh;
+  int need_another_refresh;
 } mod_gl_utils_bitmap_t;
 
 typedef struct mod_gl_utils_shaded_text_s

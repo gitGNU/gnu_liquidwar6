@@ -40,6 +40,45 @@ _mod_gl_hud_floating_context_init (mod_gl_utils_context_t *
   return ret;
 }
 
+int
+_mod_gl_hud_floating_context_begin_hud (mod_gl_utils_context_t *
+					utils_context,
+					_mod_gl_hud_floating_context_t
+					* floating_context)
+{
+  int ret = 1;
+
+  if (!floating_context->gauges.disk)
+    {
+      floating_context->gauges.disk = gluNewQuadric ();
+      if (floating_context->gauges.disk)
+	{
+	  gluQuadricOrientation (floating_context->gauges.disk, GLU_OUTSIDE);
+	  gluQuadricDrawStyle (floating_context->gauges.disk, GLU_FILL);
+	  gluQuadricNormals (floating_context->gauges.disk, GLU_FLAT);
+	}
+      else
+	{
+	  ret = 0;
+	}
+    }
+
+  return ret;
+}
+
+void
+_mod_gl_hud_floating_context_end_hud (mod_gl_utils_context_t *
+				      utils_context,
+				      _mod_gl_hud_floating_context_t
+				      * floating_context)
+{
+  if (floating_context->gauges.disk)
+    {
+      gluDeleteQuadric (floating_context->gauges.disk);
+      floating_context->gauges.disk = 0;
+    }
+}
+
 static int
 _update_clock (mod_gl_utils_context_t *
 	       utils_context,
@@ -95,21 +134,6 @@ _update_gauges (mod_gl_utils_context_t *
   int percent;
   int frags;
   lw6map_color_couple_t color_text;
-
-  if (!floating_context->gauges.disk)
-    {
-      floating_context->gauges.disk = gluNewQuadric ();
-      if (floating_context->gauges.disk)
-	{
-	  gluQuadricOrientation (floating_context->gauges.disk, GLU_OUTSIDE);
-	  gluQuadricDrawStyle (floating_context->gauges.disk, GLU_FILL);
-	  gluQuadricNormals (floating_context->gauges.disk, GLU_FLAT);
-	}
-      else
-	{
-	  ret = 0;
-	}
-    }
 
   for (i = 0; i < floating_context->score_array.nb_scores; ++i)
     {
@@ -208,16 +232,13 @@ _mod_gl_hud_floating_context_update_hud (mod_gl_utils_context_t *
   return ret;
 }
 
-static int
-_update_pie (mod_gl_utils_context_t *
-	     utils_context, _mod_gl_hud_floating_context_t * floating_context)
+int
+_mod_gl_hud_floating_context_begin_score (mod_gl_utils_context_t *
+					  utils_context,
+					  _mod_gl_hud_floating_context_t
+					  * floating_context)
 {
   int ret = 1;
-  // int percent, frags;
-  int team_color;
-  lw6map_color_couple_t color_text;
-  char *score_text = NULL;
-  int i;
 
   if (!floating_context->score_pie.disk)
     {
@@ -234,6 +255,33 @@ _update_pie (mod_gl_utils_context_t *
 	  ret = 0;
 	}
     }
+
+  return ret;
+}
+
+void
+_mod_gl_hud_floating_context_end_score (mod_gl_utils_context_t *
+					utils_context,
+					_mod_gl_hud_floating_context_t
+					* floating_context)
+{
+  if (floating_context->score_pie.disk)
+    {
+      gluDeleteQuadric (floating_context->score_pie.disk);
+      floating_context->score_pie.disk = 0;
+    }
+}
+
+static int
+_update_pie (mod_gl_utils_context_t *
+	     utils_context, _mod_gl_hud_floating_context_t * floating_context)
+{
+  int ret = 1;
+  // int percent, frags;
+  int team_color;
+  lw6map_color_couple_t color_text;
+  char *score_text = NULL;
+  int i;
 
   for (i = 0; i < floating_context->score_array.nb_scores; ++i)
     {
@@ -362,10 +410,6 @@ _mod_gl_hud_floating_context_clear_hud_gauges (mod_gl_utils_context_t *
 					 frags_texts[i]);
 	}
     }
-  if (floating_context->gauges.disk)
-    {
-      gluDeleteQuadric (floating_context->gauges.disk);
-    }
   memset (&(floating_context->gauges), 0,
 	  sizeof (_mod_gl_hud_floating_gauges_t));
 
@@ -408,10 +452,6 @@ _mod_gl_hud_floating_context_clear_score (mod_gl_utils_context_t *
 					 floating_context->score_pie.
 					 score_texts[i]);
 	}
-    }
-  if (floating_context->score_pie.disk)
-    {
-      gluDeleteQuadric (floating_context->score_pie.disk);
     }
 
   return ret;

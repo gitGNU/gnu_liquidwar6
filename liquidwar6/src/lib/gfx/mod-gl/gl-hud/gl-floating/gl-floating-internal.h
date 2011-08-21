@@ -133,6 +133,14 @@ extern int _mod_gl_hud_floating_context_init (mod_gl_utils_context_t *
 					      utils_context,
 					      _mod_gl_hud_floating_context_t
 					      * floating_context);
+extern int _mod_gl_hud_floating_context_begin_hud (mod_gl_utils_context_t *
+						   utils_context,
+						   _mod_gl_hud_floating_context_t
+						   * floating_context);
+extern void _mod_gl_hud_floating_context_end_hud (mod_gl_utils_context_t *
+						  utils_context,
+						  _mod_gl_hud_floating_context_t
+						  * floating_context);
 extern int _mod_gl_hud_floating_context_update_hud (mod_gl_utils_context_t *
 						    utils_context,
 						    _mod_gl_hud_floating_context_t
@@ -142,6 +150,14 @@ extern int _mod_gl_hud_floating_context_update_hud (mod_gl_utils_context_t *
 						    game_state,
 						    lw6pil_local_cursors_t *
 						    local_cursors);
+extern int _mod_gl_hud_floating_context_begin_score (mod_gl_utils_context_t *
+						     utils_context,
+						     _mod_gl_hud_floating_context_t
+						     * floating_context);
+extern void _mod_gl_hud_floating_context_end_score (mod_gl_utils_context_t *
+						    utils_context,
+						    _mod_gl_hud_floating_context_t
+						    * floating_context);
 extern int _mod_gl_hud_floating_context_update_score (mod_gl_utils_context_t *
 						      utils_context,
 						      _mod_gl_hud_floating_context_t
