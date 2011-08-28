@@ -222,6 +222,7 @@ c-lw6sys-build-get-enable-mod-csound
 c-lw6sys-build-get-enable-mod-gl
 c-lw6sys-build-get-enable-mod-http
 c-lw6sys-build-get-enable-mod-ogg
+c-lw6sys-build-get-enable-openmp
 c-lw6sys-build-get-enable-optimize
 c-lw6sys-build-get-enable-paranoid
 c-lw6sys-build-get-enable-profiler
@@ -535,6 +536,7 @@ show-build-enable-mod-csound
 show-build-enable-mod-gl
 show-build-enable-mod-http
 show-build-enable-mod-ogg
+show-build-enable-openmp
 show-build-enable-optimize
 show-build-enable-paranoid
 show-build-enable-profiler

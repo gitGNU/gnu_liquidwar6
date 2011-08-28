@@ -1078,6 +1078,20 @@ _scm_lw6sys_build_get_enable_mod_http ()
 }
 
 static SCM
+_scm_lw6sys_build_get_enable_openmp ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_makfrom0str (lw6sys_build_get_enable_openmp ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_enable_optimize ()
 {
   SCM ret = SCM_BOOL_F;
@@ -7992,6 +8006,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_ogg);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_enable_mod_http);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPENMP, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_enable_openmp);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_enable_optimize);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE, 0, 0, 0,

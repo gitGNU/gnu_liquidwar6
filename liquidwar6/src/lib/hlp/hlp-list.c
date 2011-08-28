@@ -143,6 +143,7 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_CSOUND);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_OGG);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_MOD_HTTP);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_OPENMP);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_OPTIMIZE);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_ALLINONE);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_ENABLE_FULLSTATIC);
@@ -735,6 +736,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_CSOUND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_OGG);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPENMP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_FULLSTATIC);

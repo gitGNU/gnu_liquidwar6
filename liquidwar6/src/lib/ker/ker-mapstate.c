@@ -602,20 +602,41 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
 				   u_int32_t team_mask)
 {
   int i, j;
+  int teams_concerned[LW6MAP_MAX_NB_TEAMS];
+  int n = 0;
 
   _lw6ker_map_state_apply_cursors (map_state, rules, team_mask);
+  /*
+   * We first construct a list of the concerned teams, this is to
+   * (hopefully) optimize the following OpenMP pragma, so that it's
+   * fed with threads that do somethings only...
+   */
   for (i = 0; i < map_state->max_nb_teams; ++i)
     {
       if (map_state->teams[i].active)
 	{
 	  if (lw6ker_team_mask_is_concerned (i, team_mask))
 	    {
-	      for (j = 0; j < nb_spreads; ++j)
-		{
-		  _lw6ker_spread_update_gradient (&(map_state->teams[i]),
-						  map_state->shape.d == 1);
-		}
+	      teams_concerned[n] = i;
+	      n++;
 	    }
+	}
+    }
+  /*
+   * Now gradients can be calculated independently, OpenMP should
+   * really help us here, as it's a time consuming operation
+   */
+#ifdef LW6_OPENMP
+#pragma omp parallel for
+#endif
+  for (i = 0; i < n; ++i)
+    {
+      for (j = 0; j < nb_spreads; ++j)
+	{
+	  _lw6ker_spread_update_gradient (&
+					  (map_state->teams
+					   [teams_concerned[i]]),
+					  map_state->shape.d == 1);
 	}
     }
 }

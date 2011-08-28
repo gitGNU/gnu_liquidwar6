@@ -639,6 +639,7 @@ ALLINONE_TRUE
 ALLINONE_LDFLAGS
 ALLINONE_CFLAGS
 OPTIMIZE_CFLAGS
+OPENMP_CFLAGS
 LW6_CODENAME
 LW6_HOST_OS
 LW6_HOST_CPU
@@ -859,6 +860,7 @@ enable_silent
 enable_mod_gl
 enable_mod_csound
 enable_mod_ogg
+enable_openmp
 enable_optimize
 enable_allinone
 enable_fullstatic
@@ -1520,6 +1522,7 @@ Optional Features:
   --enable-mod-gl         compile mod-gl default=yes
   --enable-mod-csound     compile mod-csound default=no
   --enable-mod-ogg        compile mod-ogg default=yes
+  --enable-openmp         prepare binary for openmp default=yes
   --enable-optimize       optimize for speed default=no
   --enable-allinone       stuff internal libraries into main binary default=no
   --enable-fullstatic     build a completely static binary default=no
@@ -16218,6 +16221,23 @@ LW6_HOST_OS="${host_os}"
 LW6_CODENAME="Ho Chi Minh"
 
 
+# Check whether --enable-openmp was given.
+if test "${enable_openmp+set}" = set; then :
+  enableval=$enable_openmp; enable_openmp=$enableval
+else
+  enable_openmp=yes
+fi
+
+if test x${enable_openmp} = xyes ; then
+   OPENMP_CFLAGS="-DLW6_OPENMP=1 -fopenmp"
+   OPENMP_LDFLAGS="-fopenmp"
+
+else
+   OPENMP_CFLAGS=
+   OPENMP_LDFLAGS=
+fi
+
+
 # Check whether --enable-optimize was given.
 if test "${enable_optimize+set}" = set; then :
   enableval=$enable_optimize; enable_optimize=$enableval
@@ -16563,8 +16583,8 @@ fi
 
 
 
-LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
-LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
+LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
+LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${OPENMP_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
 
 
 
@@ -19337,6 +19357,13 @@ $as_echo "$as_me: build mod-http... yes" >&6;}
 else
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: build mod-http... no" >&5
 $as_echo "$as_me: build mod-http... no" >&6;}
+fi
+if test x${enable_openmp} = xyes; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: enable openmp... yes" >&5
+$as_echo "$as_me: enable openmp... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: enable openmp... no" >&5
+$as_echo "$as_me: enable openmp... no" >&6;}
 fi
 if test x${enable_optimize} = xyes; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: enable optimize... yes" >&5

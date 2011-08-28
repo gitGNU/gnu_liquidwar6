@@ -498,6 +498,17 @@ AC_SUBST(LW6_HOST_OS)
 LW6_CODENAME="Ho Chi Minh"
 AC_SUBST(LW6_CODENAME)
 
+AC_ARG_ENABLE([openmp], AS_HELP_STRING([--enable-openmp],[prepare binary for openmp default=yes]), [enable_openmp=$enableval], [enable_openmp=yes])
+if test x${enable_openmp} = xyes ; then
+   OPENMP_CFLAGS="-DLW6_OPENMP=1 -fopenmp"
+   OPENMP_LDFLAGS="-fopenmp"
+   AC_SUBST(OPENMP_CFLAGS)
+else
+   OPENMP_CFLAGS=
+   OPENMP_LDFLAGS=
+fi
+AC_SUBST(OPENMP_CFLAGS)
+
 AC_ARG_ENABLE([optimize], AS_HELP_STRING([--enable-optimize],[optimize for speed default=no]), [enable_optimize=$enableval], [enable_optimize=no])
 if test x${enable_optimize} = xyes ; then
    CPU_FLAGS=""
@@ -687,8 +698,8 @@ fi
 AC_SUBST(LW6_CPU_CFLAGS)
 AC_SUBST(LW6_CPU_LDFLAGS)
 
-LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
-LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
+LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
+LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${OPENMP_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
 AC_SUBST(LW6_CFLAGS)
 AC_SUBST(LW6_LDFLAGS)
 
@@ -882,6 +893,11 @@ if test -z "${MOD_HTTP_TRUE}"; then
 	AC_MSG_NOTICE([build mod-http... yes])
 else
 	AC_MSG_NOTICE([build mod-http... no])
+fi
+if test x${enable_openmp} = xyes; then
+	AC_MSG_NOTICE([enable openmp... yes])
+else
+	AC_MSG_NOTICE([enable openmp... no])
 fi
 if test x${enable_optimize} = xyes; then
 	AC_MSG_NOTICE([enable optimize... yes])

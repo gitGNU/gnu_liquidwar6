@@ -583,6 +583,16 @@ some changes in Liquid War 6 source code.
 @itemize
 
 @item
+@uref{http://www.gnu.org/software/make/, GCC}.
+Liquid War 6 does require the GNU C Compiler to build, while other compilers might
+be able to build the game, this is untested.
+
+@item
+@uref{http://gcc.gnu.org/projects/gomp/, Gomp}.
+Liquid War 6 uses OpenMP @code{#pragma} directives, this should help the game
+run faster on SMP systems.
+
+@item
 @uref{http://www.gnu.org/software/make/, GNU Make}.
 Liquid War 6 might and certainly does use GNU Make extensions.
 
@@ -735,6 +745,7 @@ could be:
 @example
 yum install \
 make gcc glibc glibc-devel binutils \
+libgomp \
 guile guile-devel gmp gmp-devel \
 libtool libtool-ltdl libtool-ltdl-devel \
 zlib zlib-devel expat expat-devel \
@@ -758,6 +769,7 @@ would be:
 @example
 apt-get install \
 make gcc libc6 libc6-dev binutils \
+libgomp1 \
 guile-1.8 guile-1.8-dev guile-1.8-libs libgmp3c2 libgmp3-dev \
 libtool libltdl7 libltdl7-dev \
 zlib1g zlib1g-dev libexpat1 libexpat1-dev \

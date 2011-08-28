@@ -343,6 +343,15 @@ mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
       utils_context->last_action.game_bitmap_array_update_rounds =
 	lw6ker_game_state_get_rounds (game_state);
 
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("updating %d game tiles"),
+		  bitmap_array->layout.nb_tiles);
+      /*
+       * Typically parallelizable function. Doesn't matter how tiles are updated,
+       * and in which order.
+       */
+#ifdef LW6_OPENMP
+#pragma omp parallel for
+#endif
       for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
 	  if (lw6gui_rect_array_get_tile_by_i

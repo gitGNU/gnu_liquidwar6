@@ -428,6 +428,7 @@ lw6_print_modules ()
   printf ("enable-mod-csound: %s\n", lw6sys_build_get_enable_mod_csound ());
   printf ("enable-mod-ogg: %s\n", lw6sys_build_get_enable_mod_ogg ());
   printf ("enable-mod-http: %s\n", lw6sys_build_get_enable_mod_http ());
+  printf ("enable-openmp: %s\n", lw6sys_build_get_enable_openmp ());
   printf ("enable-optimize: %s\n", lw6sys_build_get_enable_optimize ());
   printf ("enable-allinone: %s\n", lw6sys_build_get_enable_allinone ());
   printf ("enable-fullstatic: %s\n", lw6sys_build_get_enable_fullstatic ());

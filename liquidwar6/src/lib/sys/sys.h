@@ -451,6 +451,7 @@ extern char *lw6sys_build_get_enable_mod_gl ();
 extern char *lw6sys_build_get_enable_mod_csound ();
 extern char *lw6sys_build_get_enable_mod_ogg ();
 extern char *lw6sys_build_get_enable_mod_http ();
+extern char *lw6sys_build_get_enable_openmp ();
 extern char *lw6sys_build_get_enable_optimize ();
 extern char *lw6sys_build_get_enable_allinone ();
 extern char *lw6sys_build_get_enable_fullstatic ();

@@ -290,6 +290,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_MOD_HTTP,
 		 _x_
 		 ("Shows wether the mod-http network backend has been enabled when building the game. This depends on parameters passed to './configure' and also on the presence of libCurl."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_OPENMP,
+		 _x_
+		 ("Shows wether the program was built with OpenMP support. This depends on parameters passed to './configure'."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_ENABLE_OPTIMIZE,
 		 _x_
 		 ("Shows wether the 'optimize' option has been chosen when building the game. This depends on parameters passed to './configure'."));
@@ -2115,6 +2118,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_ogg."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_MOD_HTTP,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_mod_http."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPENMP,
+		 _x_ ("Wrapper on lw6sys_build_get_enable_openmp."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_OPTIMIZE,
 		 _x_ ("Wrapper on lw6sys_build_get_enable_optimize."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_ENABLE_ALLINONE,

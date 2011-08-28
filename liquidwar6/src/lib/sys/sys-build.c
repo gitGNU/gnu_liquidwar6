@@ -711,6 +711,23 @@ lw6sys_build_get_enable_mod_http ()
 }
 
 /**
+ * lw6sys_build_get_enable_openmp
+ *
+ * Tells wether the game was compiled with openmp support.
+ *
+ * Return value: "yes" or "no", must no be freed.
+ */
+char *
+lw6sys_build_get_enable_openmp ()
+{
+#ifdef LW6_OPENMP
+  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+#else
+  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+#endif
+}
+
+/**
  * lw6sys_build_get_enable_optimize
  *
  * Tells wether the game was compiled in optimize mode.

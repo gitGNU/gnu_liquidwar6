@@ -47,6 +47,7 @@ BuildRequires: make
 BuildRequires: gcc
 BuildRequires: glibc-devel
 BuildRequires: binutils
+BuildRequires: libgomp
 BuildRequires: guile-devel
 BuildRequires: gmp-devel
 BuildRequires: libtool
@@ -156,6 +157,9 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 
 %changelog
+
+* Sun Aug 28 2011 Christian Mauduit <ufoot@ufoot.org>
+- Added libgomp build dependency.
 
 * Fri Jul 23 2010 Christian Mauduit <ufoot@ufoot.org>
 - Added GTK dependency.
