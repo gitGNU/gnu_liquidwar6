@@ -498,7 +498,13 @@ AC_SUBST(LW6_HOST_OS)
 LW6_CODENAME="Ho Chi Minh"
 AC_SUBST(LW6_CODENAME)
 
+AC_CHECK_LIB(gomp, omp_get_num_threads, HAVE_LIBGOMP=1, AC_MSG_NOTICE([
+*** Liquid War 6 suggests Gomp (http://gcc.gnu.org/projects/gomp/)
+]), -fopenmp)
 AC_ARG_ENABLE([openmp], AS_HELP_STRING([--enable-openmp],[prepare binary for openmp default=yes]), [enable_openmp=$enableval], [enable_openmp=yes])
+if test x${HAVE_LIBGOMP} != x1 ; then
+   enable_openmp=no
+fi
 if test x${enable_openmp} = xyes ; then
    OPENMP_CFLAGS="-DLW6_OPENMP=1 -fopenmp"
    OPENMP_LDFLAGS="-fopenmp"
