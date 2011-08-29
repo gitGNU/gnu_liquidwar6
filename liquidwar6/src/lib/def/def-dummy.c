@@ -25,3 +25,9 @@
 #endif
 
 #include <def.h>
+
+/*
+ * Stupid useless integer to get rid of warning messages on some
+ * platform/compiler combinations.
+ */
+int lw6def_dummy = 0;
