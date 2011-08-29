@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-20 17:51+0200\n"
+"POT-Creation-Date: 2011-08-29 16:36+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -17,13 +17,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: src/lib/bot/mod-brute/mod-brute-backend.c:98
+msgid "Brute"
+msgstr "Brute"
+
+#: src/lib/bot/mod-follow/mod-follow-backend.c:101
+msgid "Follow"
+msgstr "Suiveur"
+
+#: src/lib/bot/mod-idiot/mod-idiot-backend.c:98
+msgid "Idiot"
+msgstr "Débile"
+
+#: src/lib/bot/mod-random/mod-random-backend.c:101
+msgid "Random"
+msgstr "Aléatoire"
+
+#: src/lib/cli/mod-http/mod-http-backend.c:161
+msgid "HTTP (Curl)"
+msgstr "HTTP (Curl)"
+
 #: src/lib/cli/mod-http/mod-http-setup.c:68
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:161
+msgid "TCP"
+msgstr "TCP"
+
 #: src/lib/cli/mod-tcp/mod-tcp-setup.c:61
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
+
+#: src/lib/cli/mod-udp/mod-udp-backend.c:161
+msgid "UDP"
+msgstr "UDP"
 
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
 msgid "can't initialize mod_udp"
@@ -52,6 +80,10 @@ msgstr "SDL GetVideoInfo a échoué: \"%s\""
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
+
+#: src/lib/gfx/mod-gl/mod-gl-backend.c:323
+msgid "OpenGL/SDL"
+msgstr "OpenGL/SDL"
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:280
 #, c-format
@@ -220,16 +252,16 @@ msgstr ""
 "certaines conditions.\n"
 "Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
 
-#: src/lib/lw6-print.c:827
+#: src/lib/lw6-print.c:828
 msgid "hello"
 msgstr "bonjour"
 
-#: src/lib/lw6-print.c:834
+#: src/lib/lw6-print.c:835
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "environ %d méga-octets disponibles"
 
-#: src/lib/lw6-print.c:849
+#: src/lib/lw6-print.c:850
 msgid "goodbye"
 msgstr "au revoir"
 
@@ -259,13 +291,33 @@ msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 msgid "leaving Guile"
 msgstr "fin de la session Guile"
 
+#: src/lib/snd/mod-csound/mod-csound-backend.c:215
+msgid "Csound"
+msgstr "Csound"
+
+#: src/lib/snd/mod-ogg/mod-ogg-backend.c:204
+msgid "Ogg Vorbis"
+msgstr "Ogg Vorbis"
+
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:231
+msgid "HTTPD"
+msgstr "HTTPD"
+
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
 msgstr "impossible d'initialiser mod_httpd"
 
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:228
+msgid "TCPD"
+msgstr "TCPD"
+
 #: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:60
 msgid "can't initialize mod_tcpd"
 msgstr "impossible d'initialiser mod_tcpd"
+
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:229
+msgid "UDPD"
+msgstr "UDPD"
 
 #: src/lib/srv/mod-udpd/mod-udpd-setup.c:60
 msgid "can't initialize mod_udpd"

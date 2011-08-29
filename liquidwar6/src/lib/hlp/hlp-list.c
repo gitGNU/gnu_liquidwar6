@@ -431,6 +431,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TOTAL_TIME);
   lw6sys_list_push_back (list, LW6DEF_RESPAWN_TEAM);
   lw6sys_list_push_back (list, LW6DEF_RESPAWN_POSITION_MODE);
+  lw6sys_list_push_back (list, LW6DEF_RESPAWN_DELAY);
   lw6sys_list_push_back (list, LW6DEF_MOVES_PER_ROUND);
   lw6sys_list_push_back (list, LW6DEF_SPREADS_PER_ROUND);
   lw6sys_list_push_back (list, LW6DEF_ROUNDS_PER_SEC);
@@ -539,6 +540,21 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list,
+			 LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list,
+			 LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list,
+			 LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list,
+			 LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list,
+			 LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID);
+  lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE);
   lw6sys_list_push_back (list, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE);

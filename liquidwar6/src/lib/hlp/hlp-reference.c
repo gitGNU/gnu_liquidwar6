@@ -989,6 +989,12 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_RESPAWN_POSITION_MODE,
 		LW6MAP_RULES_MIN_RESPAWN_POSITION_MODE,
 		LW6MAP_RULES_MAX_RESPAWN_POSITION_MODE);
+  POPULATE_INT (LW6DEF_RESPAWN_DELAY,
+		_x_
+		("Delay, in seconds, after which teams reappear on the battlefield, when in deathmatch mode. 0 means team right away."),
+		LW6MAP_RULES_DEFAULT_RESPAWN_DELAY,
+		LW6MAP_RULES_MIN_RESPAWN_DELAY,
+		LW6MAP_RULES_MAX_RESPAWN_DELAY);
   POPULATE_INT (LW6DEF_MOVES_PER_ROUND,
 		_x_
 		("Defines how many times fighters move per round. Increasing this will just make fighters move faster, but won't change anything for the rest, that is keyboard and mouse responsivity, and network traffic will stay the same. Multiplying the number of moves per round by the number of rounds per second will give the number of moves per second, which is, in fact, how fast fighters move on the screen."),
@@ -1619,6 +1625,66 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_ID,
 		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_ID,
 		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the red team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the green team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the blue team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the yellow team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the cyan team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the magenta team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the orange team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the lightblue team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the purple team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID);
+  POPULATE_INT (LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID,
+		_x_
+		("Id of the default alternate weapon for the pink team, see the documentation about weapons to know what these ids mean."),
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID,
+		LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID);
   POPULATE_INT (LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE,
 		_x_
 		("Weapon mode for red team. 0 means there's no weapon, 1 means one weapon per team, defined by the weapon-id parameter, 2 means random weapon."),

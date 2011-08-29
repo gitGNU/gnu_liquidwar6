@@ -1,3 +1,13 @@
+2011-08-29 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added options for alternate weapons.
+
+	* Fixed infinite loop in score update. Could fix #34059.
+
+	* Implemented respawn-delay (task #9816).
+
+	* Forced display of rps and mps when too slow.
+
 2011-08-28 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added OpenMP support through libgomp.

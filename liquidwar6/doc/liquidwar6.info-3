@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -682,6 +682,11 @@ results on
 
  -- Function: char * lw6sys_build_get_enable_mod_http ()
      Tells wether the network mod-http backend was compiled.
+
+     *Return value:*  "yes" or "no", must no be freed.
+
+ -- Function: char * lw6sys_build_get_enable_openmp ()
+     Tells wether the game was compiled with openmp support.
 
      *Return value:*  "yes" or "no", must no be freed.
 

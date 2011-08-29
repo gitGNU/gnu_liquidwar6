@@ -732,6 +732,13 @@ Tells wether the network mod-http backend was compiled.
 @strong{Return value:}  "yes" or "no", must no be freed.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_build_get_enable_openmp} ()
+
+Tells wether the game was compiled with openmp support.
+
+@strong{Return value:}  "yes" or "no", must no be freed.
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_build_get_enable_optimize} ()
 
 Tells wether the game was compiled in optimize mode.

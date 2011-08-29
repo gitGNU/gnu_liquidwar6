@@ -37,6 +37,8 @@ _lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
   int i;
 
   team->active = 0;
+  team->respawn_round = 0;
+  team->offline = 0;
   team->map_struct = map_struct;
   team->gradient =
     (_lw6ker_zone_state_t *) LW6SYS_CALLOC (map_struct->nb_zones *
@@ -94,6 +96,8 @@ _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
       && _lw6ker_map_struct_lazy_compare (dst->map_struct, src->map_struct))
     {
       dst->active = src->active;
+      dst->respawn_round = src->respawn_round;
+      dst->offline = src->offline;
       memcpy (dst->gradient, src->gradient,
 	      src->map_struct->nb_zones * sizeof (_lw6ker_zone_state_t));
       dst->cursor_ref_pot = src->cursor_ref_pot;
@@ -120,6 +124,8 @@ _lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
   int i;
 
   lw6sys_checksum_update_int32 (checksum, team->active);
+  lw6sys_checksum_update_int32 (checksum, team->respawn_round);
+  lw6sys_checksum_update_int32 (checksum, team->offline);
   // map_struct checksumed elsewhere
   for (i = 0; i < team->map_struct->nb_zones; ++i)
     {
@@ -137,12 +143,17 @@ void
 _lw6ker_team_activate (_lw6ker_team_t * team, lw6sys_xyz_t pos)
 {
   team->active = 1;
+  team->respawn_round = 0;
+  team->offline = 0;
+  team->charge = 0;
 }
 
 void
 _lw6ker_team_unactivate (_lw6ker_team_t * team)
 {
   team->active = 0;
+  team->respawn_round = 0;
+  team->offline = 0;
   team->charge = 0;
 }
 

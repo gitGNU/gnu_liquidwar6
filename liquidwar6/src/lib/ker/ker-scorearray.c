@@ -213,7 +213,8 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
       diff = 0;
       for (i = 1; i < score_array->nb_scores; ++i)
 	{
-	  if (score_array->scores[i].consolidated_percent == 0)
+	  if (score_array->scores[i].consolidated_percent == 0
+	      && score_array->scores[i].fighters_absolute > 0)
 	    {
 	      score_array->scores[i].consolidated_percent = 1;
 	      diff++;
@@ -226,11 +227,30 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	}
       else if (score_array->nb_scores >= 3)
 	{
-	  while (diff > 0)
+	  /*
+	   * First pass, substract 1 to all those who at least
+	   * have 2% left
+	   */
+	  for (i = score_array->nb_scores - 1; i >= 1; --i)
 	    {
-	      for (i = score_array->nb_scores - 1; i >= 1; --i)
+	      if (diff > 0)
 		{
 		  if (score_array->scores[i].consolidated_percent > 1)
+		    {
+		      score_array->scores[i].consolidated_percent--;
+		      diff--;
+		    }
+		}
+	    }
+	  /*
+	   * Second pass, substract 1 to all those left with
+	   * at least 1% left.
+	   */
+	  for (i = score_array->nb_scores - 1; i >= 1; --i)
+	    {
+	      if (diff > 0)
+		{
+		  if (score_array->scores[i].consolidated_percent > 0)
 		    {
 		      score_array->scores[i].consolidated_percent--;
 		      diff--;

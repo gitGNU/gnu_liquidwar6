@@ -139,11 +139,21 @@ poll (_lw6dsp_data_t * data)
   lw6ker_game_state_t *game_state = NULL;
   lw6pil_local_cursors_t *local_cursors = NULL;
   float progress = 0.0f;
+  int mask = 0;
 
   timestamp = lw6sys_get_timestamp ();
   data->input = lw6gfx_pump_events (data->gfx_backend);
   lw6gui_input_update_repeat (data->input,
 			      &(data->param.misc.repeat_settings), timestamp);
+  mask = data->param.misc.mask;
+  if (data->slow_fps)
+    {
+      mask |= LW6GUI_DISPLAY_FPS;
+    }
+  if (data->slow_mps)
+    {
+      mask |= LW6GUI_DISPLAY_MPS;
+    }
 
   if (data->param.pilot)
     {
@@ -250,7 +260,7 @@ poll (_lw6dsp_data_t * data)
       if (history)
 	{
 	  if (lw6gfx_display (data->gfx_backend,
-			      data->param.misc.mask,
+			      mask,
 			      data->param.look,
 			      data->param.level,
 			      data->param.game_struct,
@@ -326,6 +336,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
   int64_t nb_ticks = 0;
   int64_t last_display_ticks = 0;
   int64_t last_rounds_ticks = 0;
+  int64_t ticks = 0;
   int64_t delta_ticks = 0;
   int64_t cpu_ticks = 0;
   int rounds;
@@ -356,9 +367,9 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display loop"));
       while (data->run)
 	{
-	  lw6sys_mutex_lock (data->render_mutex);
+	  ticks = lw6sys_get_timestamp ();
 
-	  data->ticks = lw6sys_get_timestamp ();
+	  lw6sys_mutex_lock (data->render_mutex);
 
 	  if (data->param.misc.target_fps > 0)
 	    {
@@ -376,20 +387,25 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  frames_increment = lw6sys_max (frames_increment, 1);
 	  delay_skip = lw6sys_max (delay_skip, 1);
 
-	  nb_ticks = data->ticks - data->start_ticks;
+	  nb_ticks = ticks - data->start_ticks;
 
 	  if (frames_counter < nb_ticks)
 	    {
 	      /*
-	       * The following is more efficient than a plain += it will avoid going
-	       * too fast after a slowdown
+	       * The following is more efficient than a plain += 
+	       * it will avoid going too fast after a slowdown
 	       */
 	      frames_counter =
 		lw6sys_max (frames_counter + frames_increment,
 			    nb_ticks - frames_increment);
 	      data->nb_frames++;
 
-	      delta_ticks = data->ticks - last_display_ticks;
+	      delta_ticks = ticks - last_display_ticks;
+	      if (delta_ticks < 0)
+		{
+		  last_display_ticks = ticks;
+		  data->slow_fps = 0;
+		}
 	      if (delta_ticks > 0)
 		{
 		  data->instant_fps =
@@ -400,11 +416,19 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		     data->average_fps) / (WEIGHT_INSTANT_FPS * delta_ticks +
 					   WEIGHT_AVERAGE_FPS *
 					   ((float) LW6SYS_TICKS_PER_SEC));
-		  last_display_ticks = data->ticks;
+		  last_display_ticks = ticks;
+		  data->slow_fps =
+		    data->average_fps < (data->param.misc.target_fps / 2);
 		}
+
 	      if (data->param.game_state && data->param.game_struct)
 		{
-		  delta_ticks = data->ticks - last_rounds_ticks;
+		  delta_ticks = ticks - last_rounds_ticks;
+		  if (delta_ticks < 0)
+		    {
+		      last_rounds_ticks = ticks;
+		      data->slow_mps = 0;
+		    }
 		  if (delta_ticks >
 		      LW6SYS_TICKS_PER_SEC / MPS_REFRESH_PER_SEC)
 		    {
@@ -418,14 +442,26 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 			      data->param.game_struct->
 			      rules.moves_per_round)) / delta_ticks;
 			  last_display_rounds = rounds;
+			  data->slow_mps =
+			    (data->rounds >
+			     data->param.game_struct->rules.rounds_per_sec)
+			    && (data->mps <
+				((data->param.game_struct->
+				  rules.rounds_per_sec *
+				  data->param.game_struct->
+				  rules.moves_per_round) / 2));
 			}
-		      last_rounds_ticks = data->ticks;
+		      last_rounds_ticks = ticks;
 		    }
+		}
+	      else
+		{
+		  data->slow_mps = 0;
 		}
 
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"),
-			  data->nb_frames, data->ticks);
+			  data->nb_frames, ticks);
 	      loop (data);
 	      do_skip = 0;
 	    }
@@ -438,7 +474,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	       */
 	      do_skip = 1;
 	    }
-	  cpu_ticks = lw6sys_get_timestamp () - data->ticks;
+	  cpu_ticks = lw6sys_get_timestamp () - ticks;
 	  delay_cpu = 0;
 	  if (!do_skip)
 	    {

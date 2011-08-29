@@ -320,7 +320,7 @@ mod_gl_get_pedigree ()
     {
       module_pedigree->id = "gl";
       module_pedigree->category = "gfx";
-      module_pedigree->name = _x_ ("OpenGL/SDL");
+      module_pedigree->name = _("OpenGL/SDL");
       module_pedigree->readme =
 	_x_
 	("This is the most accomplished graphics backend for Liquid War 6. It uses OpenGL hardware acceleration if available, and uses SDL as a technical wrapper.");

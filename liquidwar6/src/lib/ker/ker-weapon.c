@@ -78,7 +78,8 @@ _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
 
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID
+      if (map_state->teams[i].active &&
+	  map_state->teams[i].weapon_id >= LW6MAP_MIN_WEAPON_ID
 	  && map_state->teams[i].weapon_id <= LW6MAP_MAX_WEAPON_ID
 	  && map_state->teams[i].weapon_first_round <= round
 	  && map_state->teams[i].weapon_last_round >= round)
@@ -203,6 +204,56 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 	    _lw6ker_weapon_fire_permutation (map_state, rules, round,
 					     team_color, charge_percent);
 	  break;
+	case _LW6KER_WEAPON_STEAL:
+	  ret =
+	    _lw6ker_weapon_fire_steal (map_state, rules, round,
+				       team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_ATOMIC:
+	  ret =
+	    _lw6ker_weapon_fire_atomic (map_state, rules, round,
+					team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_REVERSE:
+	  ret =
+	    _lw6ker_weapon_fire_reverse (map_state, rules, round,
+					 team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_CRAZY:
+	  ret =
+	    _lw6ker_weapon_fire_crazy (map_state, rules, round,
+				       team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_REWIND:
+	  ret =
+	    _lw6ker_weapon_fire_rewind (map_state, rules, round,
+					team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_ATTRACT:
+	  ret =
+	    _lw6ker_weapon_fire_attract (map_state, rules, round,
+					 team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_SHRINK:
+	  ret =
+	    _lw6ker_weapon_fire_shrink (map_state, rules, round,
+					team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_KAMIKAZE:
+	  ret =
+	    _lw6ker_weapon_fire_kamikaze (map_state, rules, round,
+					  team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_DISAPPEAR:
+	  ret =
+	    _lw6ker_weapon_fire_disappear (map_state, rules, round,
+					   team_color, charge_percent);
+	  break;
+	case _LW6KER_WEAPON_PLAGUE:
+	  ret =
+	    _lw6ker_weapon_fire_plague (map_state, rules, round,
+					team_color, charge_percent);
+	  break;
 	}
       if (ret)
 	{
@@ -317,5 +368,95 @@ _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
 {
   int ret = 1;
 
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_steal (_lw6ker_map_state_t * map_state,
+			   lw6map_rules_t * rules, int round,
+			   int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_atomic (_lw6ker_map_state_t * map_state,
+			    lw6map_rules_t * rules, int round,
+			    int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_reverse (_lw6ker_map_state_t * map_state,
+			     lw6map_rules_t * rules, int round,
+			     int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_crazy (_lw6ker_map_state_t * map_state,
+			   lw6map_rules_t * rules, int round,
+			   int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_rewind (_lw6ker_map_state_t * map_state,
+			    lw6map_rules_t * rules, int round,
+			    int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_attract (_lw6ker_map_state_t * map_state,
+			     lw6map_rules_t * rules, int round,
+			     int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_shrink (_lw6ker_map_state_t * map_state,
+			    lw6map_rules_t * rules, int round,
+			    int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_kamikaze (_lw6ker_map_state_t * map_state,
+			      lw6map_rules_t * rules, int round,
+			      int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_disappear (_lw6ker_map_state_t * map_state,
+			       lw6map_rules_t * rules, int round,
+			       int team_color, int charge_percent)
+{
+  int ret = 1;
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire_plague (_lw6ker_map_state_t * map_state,
+			    lw6map_rules_t * rules, int round,
+			    int team_color, int charge_percent)
+{
+  int ret = 1;
   return ret;
 }

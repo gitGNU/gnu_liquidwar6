@@ -16221,6 +16221,53 @@ LW6_HOST_OS="${host_os}"
 LW6_CODENAME="Ho Chi Minh"
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for omp_get_num_threads in -lgomp" >&5
+$as_echo_n "checking for omp_get_num_threads in -lgomp... " >&6; }
+if ${ac_cv_lib_gomp_omp_get_num_threads+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lgomp -fopenmp $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char omp_get_num_threads ();
+int
+main ()
+{
+return omp_get_num_threads ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_gomp_omp_get_num_threads=yes
+else
+  ac_cv_lib_gomp_omp_get_num_threads=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gomp_omp_get_num_threads" >&5
+$as_echo "$ac_cv_lib_gomp_omp_get_num_threads" >&6; }
+if test "x$ac_cv_lib_gomp_omp_get_num_threads" = xyes; then :
+  HAVE_LIBGOMP=1
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}:
+*** Liquid War 6 suggests Gomp (http://gcc.gnu.org/projects/gomp/)
+" >&5
+$as_echo "$as_me:
+*** Liquid War 6 suggests Gomp (http://gcc.gnu.org/projects/gomp/)
+" >&6;}
+fi
+
 # Check whether --enable-openmp was given.
 if test "${enable_openmp+set}" = set; then :
   enableval=$enable_openmp; enable_openmp=$enableval
@@ -16228,6 +16275,9 @@ else
   enable_openmp=yes
 fi
 
+if test x${HAVE_LIBGOMP} != x1 ; then
+   enable_openmp=no
+fi
 if test x${enable_openmp} = xyes ; then
    OPENMP_CFLAGS="-DLW6_OPENMP=1 -fopenmp"
    OPENMP_LDFLAGS="-fopenmp"

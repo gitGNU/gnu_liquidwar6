@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-20 17:51+0200\n"
+"POT-Creation-Date: 2011-08-29 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,40 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/lib/bot/mod-brute/mod-brute-backend.c:98
+msgid "Brute"
+msgstr ""
+
+#: src/lib/bot/mod-follow/mod-follow-backend.c:101
+msgid "Follow"
+msgstr ""
+
+#: src/lib/bot/mod-idiot/mod-idiot-backend.c:98
+msgid "Idiot"
+msgstr ""
+
+#: src/lib/bot/mod-random/mod-random-backend.c:101
+msgid "Random"
+msgstr ""
+
+#: src/lib/cli/mod-http/mod-http-backend.c:161
+msgid "HTTP (Curl)"
+msgstr ""
+
 #: src/lib/cli/mod-http/mod-http-setup.c:68
 msgid "can't initialize mod_http"
 msgstr ""
 
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:161
+msgid "TCP"
+msgstr ""
+
 #: src/lib/cli/mod-tcp/mod-tcp-setup.c:61
 msgid "can't initialize mod_tcp"
+msgstr ""
+
+#: src/lib/cli/mod-udp/mod-udp-backend.c:161
+msgid "UDP"
 msgstr ""
 
 #: src/lib/cli/mod-udp/mod-udp-setup.c:60
@@ -51,6 +79,10 @@ msgstr ""
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-mode.c:181
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
+msgstr ""
+
+#: src/lib/gfx/mod-gl/mod-gl-backend.c:323
+msgid "OpenGL/SDL"
 msgstr ""
 
 #: src/lib/gfx/mod-gl/mod-gl-setup.c:280
@@ -213,16 +245,16 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/lib/lw6-print.c:827
+#: src/lib/lw6-print.c:828
 msgid "hello"
 msgstr ""
 
-#: src/lib/lw6-print.c:834
+#: src/lib/lw6-print.c:835
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr ""
 
-#: src/lib/lw6-print.c:849
+#: src/lib/lw6-print.c:850
 msgid "goodbye"
 msgstr ""
 
@@ -250,12 +282,32 @@ msgstr ""
 msgid "leaving Guile"
 msgstr ""
 
+#: src/lib/snd/mod-csound/mod-csound-backend.c:215
+msgid "Csound"
+msgstr ""
+
+#: src/lib/snd/mod-ogg/mod-ogg-backend.c:204
+msgid "Ogg Vorbis"
+msgstr ""
+
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:231
+msgid "HTTPD"
+msgstr ""
+
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
 msgstr ""
 
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:228
+msgid "TCPD"
+msgstr ""
+
 #: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:60
 msgid "can't initialize mod_tcpd"
+msgstr ""
+
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:229
+msgid "UDPD"
 msgstr ""
 
 #: src/lib/srv/mod-udpd/mod-udpd-setup.c:60

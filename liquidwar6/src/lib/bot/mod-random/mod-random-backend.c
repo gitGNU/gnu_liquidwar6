@@ -98,7 +98,7 @@ mod_random_get_pedigree ()
     {
       module_pedigree->id = "random";
       module_pedigree->category = "bot";
-      module_pedigree->name = _x_ ("Random");
+      module_pedigree->name = _("Random");
       module_pedigree->readme =
 	_x_
 	("A totally random bot, cursor goes anywhere, whithout any logic.");

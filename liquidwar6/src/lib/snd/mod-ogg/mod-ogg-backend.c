@@ -201,7 +201,7 @@ mod_ogg_get_pedigree ()
     {
       module_pedigree->id = "ogg";
       module_pedigree->category = "snd";
-      module_pedigree->name = _x_ ("Ogg Vorbis");
+      module_pedigree->name = _("Ogg Vorbis");
       module_pedigree->readme =
 	_x_
 	("This sound backend uses Ogg Vorbis (through SDL) to handle sound effects and music. This is the only working sound backend for now.");

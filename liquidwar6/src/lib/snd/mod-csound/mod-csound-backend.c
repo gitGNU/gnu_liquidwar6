@@ -212,7 +212,7 @@ mod_csound_get_pedigree ()
     {
       module_pedigree->id = "csound";
       module_pedigree->category = "snd";
-      module_pedigree->name = _x_ ("Csound");
+      module_pedigree->name = _("Csound");
       module_pedigree->readme =
 	_x_
 	("This sound backend uses Csound to produce on-the-fly music and sound effects. Not impemented yet.");

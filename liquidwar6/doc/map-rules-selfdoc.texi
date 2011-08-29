@@ -401,6 +401,20 @@ fighter to always avoid the enemy, and groups of fighters will just pass each
 other without any fight. Matter of taste.
 @end deffn
 
+@subsection respawn-delay
+@deffn {Command-line option} @code{--respawn-delay=<value>}
+@deffnx {Environment variable} @code{LW6_RESPAWN_DELAY}
+@deffnx {XML key} @code{respawn-delay}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 10
+
+Delay, in seconds, after which teams reappear on the battlefield, when in
+deathmatch mode. 0 means team right away.
+@end deffn
+
 @subsection respawn-position-mode
 @deffn {Command-line option} @code{--respawn-position-mode=<value>}
 @deffnx {Environment variable} @code{LW6_RESPAWN_POSITION_MODE}
@@ -917,6 +931,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-blue-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-blue-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-blue-weapon-alternate-id}
+Type: integer
+
+Default value: 12
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the blue team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-blue-weapon-id
 @deffn {Command-line option} @code{--team-profile-blue-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_BLUE_WEAPON_ID}
@@ -925,7 +953,7 @@ Type: integer
 
 Default value: 2
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the blue team, see the documentation about
 weapons to know what these ids mean.
@@ -1006,6 +1034,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-cyan-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-cyan-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-cyan-weapon-alternate-id}
+Type: integer
+
+Default value: 14
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the cyan team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-cyan-weapon-id
 @deffn {Command-line option} @code{--team-profile-cyan-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_CYAN_WEAPON_ID}
@@ -1014,7 +1056,7 @@ Type: integer
 
 Default value: 4
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the cyan team, see the documentation about
 weapons to know what these ids mean.
@@ -1095,6 +1137,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-green-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-green-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-green-weapon-alternate-id}
+Type: integer
+
+Default value: 11
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the green team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-green-weapon-id
 @deffn {Command-line option} @code{--team-profile-green-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_GREEN_WEAPON_ID}
@@ -1103,7 +1159,7 @@ Type: integer
 
 Default value: 1
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the green team, see the documentation about
 weapons to know what these ids mean.
@@ -1185,6 +1241,20 @@ Defines how vulnerable the lightblue team is. This is a percentage, if set to
 default value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-lightblue-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-lightblue-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-lightblue-weapon-alternate-id}
+Type: integer
+
+Default value: 17
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the lightblue team, see the
+documentation about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-lightblue-weapon-id
 @deffn {Command-line option} @code{--team-profile-lightblue-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID}
@@ -1193,7 +1263,7 @@ Type: integer
 
 Default value: 7
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the lightblue team, see the documentation about
 weapons to know what these ids mean.
@@ -1274,6 +1344,20 @@ Defines how vulnerable the magenta team is. This is a percentage, if set to
 default value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-magenta-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-magenta-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-magenta-weapon-alternate-id}
+Type: integer
+
+Default value: 15
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the magenta team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-magenta-weapon-id
 @deffn {Command-line option} @code{--team-profile-magenta-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_MAGENTA_WEAPON_ID}
@@ -1282,7 +1366,7 @@ Type: integer
 
 Default value: 5
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the magenta team, see the documentation about
 weapons to know what these ids mean.
@@ -1363,6 +1447,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-orange-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-orange-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-orange-weapon-alternate-id}
+Type: integer
+
+Default value: 16
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the orange team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-orange-weapon-id
 @deffn {Command-line option} @code{--team-profile-orange-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_ORANGE_WEAPON_ID}
@@ -1371,7 +1469,7 @@ Type: integer
 
 Default value: 6
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the orange team, see the documentation about
 weapons to know what these ids mean.
@@ -1452,6 +1550,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-pink-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-pink-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-pink-weapon-alternate-id}
+Type: integer
+
+Default value: 19
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the pink team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-pink-weapon-id
 @deffn {Command-line option} @code{--team-profile-pink-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PINK_WEAPON_ID}
@@ -1460,7 +1572,7 @@ Type: integer
 
 Default value: 9
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the pink team, see the documentation about
 weapons to know what these ids mean.
@@ -1541,6 +1653,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-purple-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-purple-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-purple-weapon-alternate-id}
+Type: integer
+
+Default value: 18
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the purple team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-purple-weapon-id
 @deffn {Command-line option} @code{--team-profile-purple-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_PURPLE_WEAPON_ID}
@@ -1549,7 +1675,7 @@ Type: integer
 
 Default value: 8
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the purple team, see the documentation about
 weapons to know what these ids mean.
@@ -1630,6 +1756,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-red-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-red-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-red-weapon-alternate-id}
+Type: integer
+
+Default value: 10
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the red team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-red-weapon-id
 @deffn {Command-line option} @code{--team-profile-red-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_RED_WEAPON_ID}
@@ -1638,7 +1778,7 @@ Type: integer
 
 Default value: 0
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the red team, see the documentation about weapons
 to know what these ids mean.
@@ -1719,6 +1859,20 @@ then team will be attacked twice as much as any other team with the default
 value. Setting this to a high value clearly disadvantages this team.
 @end deffn
 
+@subsection team-profile-yellow-weapon-alternate-id
+@deffn {Command-line option} @code{--team-profile-yellow-weapon-alternate-id=<value>}
+@deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID}
+@deffnx {XML key} @code{team-profile-yellow-weapon-alternate-id}
+Type: integer
+
+Default value: 13
+Min value: 0
+Max value: 19
+
+Id of the default alternate weapon for the yellow team, see the documentation
+about weapons to know what these ids mean.
+@end deffn
+
 @subsection team-profile-yellow-weapon-id
 @deffn {Command-line option} @code{--team-profile-yellow-weapon-id=<value>}
 @deffnx {Environment variable} @code{LW6_TEAM_PROFILE_YELLOW_WEAPON_ID}
@@ -1727,7 +1881,7 @@ Type: integer
 
 Default value: 3
 Min value: 0
-Max value: 9
+Max value: 19
 
 Id of the default weapon for the yellow team, see the documentation about
 weapons to know what these ids mean.

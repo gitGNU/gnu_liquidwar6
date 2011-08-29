@@ -666,7 +666,6 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
   _lw6ker_move_context_t context;
   int move_i = 0;
   int i, j;
-  int tmp;
 
   memset (&context, 0, sizeof (_lw6ker_move_context_t));
 
@@ -772,16 +771,10 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
-		  tmp = lw6ker_per1000
-		    (context.fighter_attack[i][j] *
-		     context.rules.weapon_tune_bezerk_power,
-		     _lw6ker_map_state_get_weapon_per1000_left
-		     (map_state, round, i));
-
 		  context.fighter_attack[i][j] =
-		    lw6sys_max (context.fighter_attack[i][j],
-				lw6sys_min (tmp,
-					    LW6MAP_RULES_MAX_FIGHTER_ATTACK));
+		    lw6sys_min (context.fighter_attack[i][j] *
+				context.rules.weapon_tune_bezerk_power,
+				LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 		}
 	    }
 	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_INVINCIBLE)
@@ -793,14 +786,8 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    }
 	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_TURBO)
 	    {
-	      tmp = lw6ker_per1000
-		(context.per_team_fast[i] *
-		 context.rules.weapon_tune_turbo_power,
-		 _lw6ker_map_state_get_weapon_per1000_left
-		 (map_state, round, i));
-
-	      context.per_team_fast[i] =
-		lw6sys_max (context.per_team_fast[i], tmp);
+	      context.per_team_fast[i] = context.per_team_fast[i] *
+		context.rules.weapon_tune_turbo_power;
 	    }
 	}
     }
@@ -1030,11 +1017,12 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
-      if (map_state->teams[i].active)
+      if (map_state->teams[i].active && (!map_state->teams[i].offline))
 	{
 	  if (armies->fighters_per_team[i] <= 0)
 	    {
 	      nb_loosers++;
+	      map_state->teams[i].offline = 1;
 	    }
 	  else
 	    {
@@ -1110,14 +1098,14 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
 			      _x_
 			      ("can't calculate frags when there are no winners"));
 		}
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("can't calculate frags when there are no loosers"));
 	    }

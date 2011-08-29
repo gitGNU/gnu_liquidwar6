@@ -352,6 +352,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
   _lw6dsp_data_t *data = NULL;
   int diff = 0;
   int need_sync = 0;
+  int i = 0;
 
   data = (_lw6dsp_data_t *) dsp_backend->data;
 
@@ -366,7 +367,8 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
 	  /*
 	   * No need to do anything until next frame is drawn
 	   */
-	  while (data->nb_frames <= data->nb_frames_at_last_update)
+	  while (data->nb_frames <= data->nb_frames_at_last_update
+		 && i < _LW6DSP_IDLE_LIMIT)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
@@ -376,6 +378,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
 	       * caller to get stuck in 100% CPU greedy loops.
 	       */
 	      lw6sys_idle ();
+	      ++i;
 	    }
 	}
 
@@ -473,6 +476,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, lw6dsp_param_t * param)
 
 	  if (diff & _LW6DSP_PARAM_DIFF_GAME_STATE)
 	    {
+	      data->slow_mps = 0;
 	      data->param.game_state = param->game_state;
 	    }
 

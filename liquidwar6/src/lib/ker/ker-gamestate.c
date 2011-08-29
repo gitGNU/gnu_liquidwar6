@@ -1087,6 +1087,7 @@ _lw6ker_game_state_add_team_internal (_lw6ker_game_state_t * game_state,
 	  _lw6ker_map_state_remove_fighters (&(game_state->map_state),
 					     total_fighters_to_remove);
 	}
+      game_state->map_state.teams[team_color].offline = 0;
       /*
        * Do add people.
        */
@@ -1235,7 +1236,6 @@ _lw6ker_game_state_remove_team_internal (_lw6ker_game_state_t * game_state,
 		    }
 		}
 	    }
-
 	  _lw6ker_map_state_cancel_team (&(game_state->map_state),
 					 team_color);
 	}
@@ -1479,6 +1479,7 @@ void
 _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 {
   int total_rounds;
+  int rounds;
   int nb_teams;
   int team_color;
   int32_t nb_cursors = 0;
@@ -1487,6 +1488,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
   int i;
 
   total_rounds = _lw6ker_game_state_get_total_rounds (game_state);
+  rounds = _lw6ker_game_state_get_rounds (game_state);
   nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
 
   game_state->max_reached_teams =
@@ -1498,14 +1500,18 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 					&nb_fighters);
       if (nb_cursors == 0)
 	{
-	  /*
-	   * This should be a rare case, how come there are no cursors for a team?
-	   * Still, with an alliance system, it could theorically happen.
-	   */
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("no cursors for team %d, removing it"),
-		      team_color);
-	  _lw6ker_game_state_remove_team_internal (game_state, team_color);
+	  if (game_state->map_state.teams[team_color].active)
+	    {
+	      /*
+	       * This should be a rare case, how come there are no cursors for a team?
+	       * Still, with an alliance system, it could theorically happen.
+	       */
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("no cursors for team %d, removing it"),
+			  team_color);
+	      _lw6ker_game_state_remove_team_internal (game_state,
+						       team_color);
+	    }
 	}
       else
 	{
@@ -1522,31 +1528,46 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 					  game_state->game_struct->rules.
 					  frags_fade_out);
 		}
-	      _lw6ker_game_state_remove_team_internal (game_state,
-						       team_color);
 	      if (game_state->game_struct->rules.respawn_team)
 		{
-		  /*
-		   * We don't delete more than half of the fighters but still,
-		   * we do need to delete some.
-		   */
-		  nb_fighters_to_delete =
-		    lw6sys_min (lw6ker_per100_2
-				(game_state->map_state.map_struct->
-				 room_for_armies,
-				 game_state->game_struct->rules.
-				 single_army_size),
-				_lw6ker_game_state_get_nb_active_fighters
-				(game_state) / 2);
-		  _lw6ker_map_state_remove_fighters (&(game_state->map_state),
-						     nb_fighters_to_delete);
-		  /*
-		   * Cancelling then adding will have the effect to repopulate the team
-		   */
-		  _lw6ker_game_state_add_team_internal (game_state,
-							team_color,
-							game_state->game_struct->
-							rules.respawn_position_mode);
+		  if (game_state->map_state.teams[team_color].respawn_round ==
+		      0)
+		    {
+		      game_state->map_state.teams[team_color].respawn_round =
+			rounds +
+			(game_state->game_struct->rules.respawn_delay *
+			 game_state->game_struct->rules.rounds_per_sec);
+		    }
+		  if (game_state->map_state.teams[team_color].respawn_round <=
+		      rounds)
+		    {
+		      _lw6ker_game_state_remove_team_internal (game_state,
+							       team_color);
+		      game_state->map_state.teams[team_color].respawn_round =
+			0;
+		      /*
+		       * We don't delete more than half of the fighters but still,
+		       * we do need to delete some.
+		       */
+		      nb_fighters_to_delete =
+			lw6sys_min (lw6ker_per100_2
+				    (game_state->map_state.map_struct->
+				     room_for_armies,
+				     game_state->game_struct->rules.
+				     single_army_size),
+				    _lw6ker_game_state_get_nb_active_fighters
+				    (game_state) / 2);
+		      _lw6ker_map_state_remove_fighters (&
+							 (game_state->map_state),
+							 nb_fighters_to_delete);
+		      /*
+		       * Cancelling then adding will have the effect to repopulate the team
+		       */
+		      _lw6ker_game_state_add_team_internal (game_state,
+							    team_color,
+							    game_state->game_struct->
+							    rules.respawn_position_mode);
+		    }
 		}
 	      else
 		{
@@ -1554,6 +1575,8 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 		   * OK this is hell we do it manually but high-level functions
 		   * all require a node-id...
 		   */
+		  _lw6ker_game_state_remove_team_internal (game_state,
+							   team_color);
 		  for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
 		    {
 		      if (game_state->map_state.cursor_array.cursors[i].
@@ -1571,7 +1594,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
     }
 
   // First good reason to finish : time up
-  if (game_state->rounds >= total_rounds)
+  if (rounds >= total_rounds)
     {
       game_state->over = 1;
     }
@@ -1587,8 +1610,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
     {
       _lw6ker_history_set (&(game_state->global_history),
 			   &(game_state->map_state.armies),
-			   (game_state->rounds * LW6KER_HISTORY_SIZE) /
-			   total_rounds);
+			   (rounds * LW6KER_HISTORY_SIZE) / total_rounds);
       _lw6ker_history_add (&(game_state->latest_history),
 			   &(game_state->map_state.armies));
       game_state->moves += game_state->game_struct->rules.moves_per_round;

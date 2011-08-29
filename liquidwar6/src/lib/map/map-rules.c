@@ -32,6 +32,7 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_TOTAL_TIME,
   LW6DEF_RESPAWN_TEAM,
   LW6DEF_RESPAWN_POSITION_MODE,
+  LW6DEF_RESPAWN_DELAY,
   LW6DEF_MOVES_PER_ROUND,
   LW6DEF_SPREADS_PER_ROUND,
   LW6DEF_ROUNDS_PER_SEC,
@@ -140,6 +141,16 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
   LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ID,
   LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID,
+  LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+  LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID,
   LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE,
   LW6DEF_TEAM_PROFILE_GREEN_WEAPON_MODE,
   LW6DEF_TEAM_PROFILE_BLUE_WEAPON_MODE,
@@ -162,6 +173,7 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_TOTAL_TIME,
   LW6MAP_RULES_DEFAULT_RESPAWN_TEAM,
   LW6MAP_RULES_DEFAULT_RESPAWN_POSITION_MODE,
+  LW6MAP_RULES_DEFAULT_RESPAWN_DELAY,
   LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND,
   LW6MAP_RULES_DEFAULT_SPREADS_PER_ROUND,
   LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC,
@@ -284,6 +296,18 @@ static lw6map_rules_t default_rules = {
    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_WEAPON_ID,
    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_ID},
+  // TEAM_PROFILE_COLOR_WEAPON_ALTERNATE_ID
+  {
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_DEFAULT_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID},
   // TEAM_PROFILE_COLOR_WEAPON_MODE
   {
    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_RED_WEAPON_MODE,
@@ -307,6 +331,7 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_TOTAL_TIME,
   LW6MAP_RULES_MIN_RESPAWN_TEAM,
   LW6MAP_RULES_MIN_RESPAWN_POSITION_MODE,
+  LW6MAP_RULES_MIN_RESPAWN_DELAY,
   LW6MAP_RULES_MIN_MOVES_PER_ROUND,
   LW6MAP_RULES_MIN_SPREADS_PER_ROUND,
   LW6MAP_RULES_MIN_ROUNDS_PER_SEC,
@@ -429,6 +454,18 @@ static lw6map_rules_t min_rules = {
    LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
    LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_WEAPON_ID,
    LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_ID},
+  // TEAM_PROFILE_COLOR_WEAPON_ALTERNATE_ID
+  {
+   LW6MAP_RULES_MIN_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MIN_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID},
   // TEAM_PROFILE_COLOR_WEAPON_MODE
   {
    LW6MAP_RULES_MIN_TEAM_PROFILE_RED_WEAPON_MODE,
@@ -452,6 +489,7 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_TOTAL_TIME,
   LW6MAP_RULES_MAX_RESPAWN_TEAM,
   LW6MAP_RULES_MAX_RESPAWN_POSITION_MODE,
+  LW6MAP_RULES_MAX_RESPAWN_DELAY,
   LW6MAP_RULES_MAX_MOVES_PER_ROUND,
   LW6MAP_RULES_MAX_SPREADS_PER_ROUND,
   LW6MAP_RULES_MAX_ROUNDS_PER_SEC,
@@ -574,6 +612,18 @@ static lw6map_rules_t max_rules = {
    LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID,
    LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_WEAPON_ID,
    LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_ID},
+  // TEAM_PROFILE_COLOR_WEAPON_ALTERNATE_ID
+  {
+   LW6MAP_RULES_MAX_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID,
+   LW6MAP_RULES_MAX_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID},
   // TEAM_PROFILE_COLOR_WEAPON_MODE
   {
    LW6MAP_RULES_MAX_TEAM_PROFILE_RED_WEAPON_MODE,
@@ -617,6 +667,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->total_time);
   lw6sys_checksum_update_int32 (checksum, rules->respawn_team);
   lw6sys_checksum_update_int32 (checksum, rules->respawn_position_mode);
+  lw6sys_checksum_update_int32 (checksum, rules->respawn_delay);
   lw6sys_checksum_update_int32 (checksum, rules->moves_per_round);
   lw6sys_checksum_update_int32 (checksum, rules->spreads_per_round);
   lw6sys_checksum_update_int32 (checksum, rules->rounds_per_sec);
@@ -689,6 +740,12 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
     {
       lw6sys_checksum_update_int32 (checksum,
+				    rules->team_profile_weapon_alternate_id
+				    [i]);
+    }
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      lw6sys_checksum_update_int32 (checksum,
 				    rules->team_profile_weapon_mode[i]);
     }
   lw6sys_checksum_update_int32 (checksum, rules->weapon_duration);
@@ -720,6 +777,10 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	  else if (!strcmp (formatted_key, LW6DEF_RESPAWN_POSITION_MODE))
 	    {
 	      ret = &(rules->respawn_position_mode);
+	    }
+	  else if (!strcmp (formatted_key, LW6DEF_RESPAWN_DELAY))
+	    {
+	      ret = &(rules->respawn_delay);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_MOVES_PER_ROUND))
 	    {
@@ -1216,6 +1277,92 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ID))
 	    {
 	      ret = &(rules->team_profile_weapon_id[LW6MAP_TEAM_COLOR_PINK]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_RED]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_GREEN]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_BLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_YELLOW]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_CYAN]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_MAGENTA]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_ORANGE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_LIGHTBLUE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key,
+		 LW6DEF_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_PURPLE]);
+	    }
+	  else
+	    if (!strcmp
+		(formatted_key, LW6DEF_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID))
+	    {
+	      ret =
+		&(rules->team_profile_weapon_alternate_id
+		  [LW6MAP_TEAM_COLOR_PINK]);
 	    }
 	  else
 	    if (!strcmp (formatted_key, LW6DEF_TEAM_PROFILE_RED_WEAPON_MODE))

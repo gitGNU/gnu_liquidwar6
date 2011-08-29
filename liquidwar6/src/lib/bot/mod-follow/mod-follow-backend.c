@@ -98,7 +98,7 @@ mod_follow_get_pedigree ()
     {
       module_pedigree->id = "follow";
       module_pedigree->category = "bot";
-      module_pedigree->name = _x_ ("Idiot");
+      module_pedigree->name = _("Follow");
       module_pedigree->readme =
 	_x_
 	("A basic - almost follow - bot which uses the old LW5 algorithm, that is, choose a point in the opponents' amries and go to it.");

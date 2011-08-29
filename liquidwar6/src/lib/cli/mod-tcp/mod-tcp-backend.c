@@ -158,7 +158,7 @@ mod_tcp_get_pedigree ()
     {
       module_pedigree->id = "tcp";
       module_pedigree->category = "cli";
-      module_pedigree->name = _x_ ("TCP");
+      module_pedigree->name = _("TCP");
       module_pedigree->readme =
 	_x_
 	("A simple network client which uses raw TCP/IP sockets. The most reliable way to communicate.");

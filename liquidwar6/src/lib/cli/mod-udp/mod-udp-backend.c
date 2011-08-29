@@ -158,7 +158,7 @@ mod_udp_get_pedigree ()
     {
       module_pedigree->id = "udp";
       module_pedigree->category = "cli";
-      module_pedigree->name = _x_ ("UDP");
+      module_pedigree->name = _("UDP");
       module_pedigree->readme =
 	_x_
 	("A simple network client which uses raw UDP/IP sockets. The fastest way to communicate.");

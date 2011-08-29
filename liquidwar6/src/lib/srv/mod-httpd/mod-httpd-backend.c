@@ -228,7 +228,7 @@ mod_httpd_get_pedigree ()
     {
       module_pedigree->id = "httpd";
       module_pedigree->category = "srv";
-      module_pedigree->name = _x_ ("HTTPD");
+      module_pedigree->name = _("HTTPD");
       module_pedigree->readme =
 	_x_
 	("Custom HTTP server, allows HTTP clients to connect, and also exposes game status to standard web browsers.");

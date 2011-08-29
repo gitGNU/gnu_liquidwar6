@@ -34,6 +34,8 @@
 #define _LW6DSP_PARAM_DIFF_GAME_STATE 0x00000040
 #define _LW6DSP_PARAM_DIFF_PILOT 0x00000080
 
+#define _LW6DSP_IDLE_LIMIT 100
+
 typedef struct _lw6dsp_data_s
 {
   int argc;
@@ -49,14 +51,15 @@ typedef struct _lw6dsp_data_s
   int failed;
   lw6gui_resize_callback_func_t resize_callback;
   int64_t start_ticks;
-  int64_t ticks;
   int rounds;
   int nb_frames;
   int nb_frames_at_last_update;
   int last_frame_rendering_time;
   float instant_fps;
   float average_fps;
+  int slow_fps;
   float mps;
+  int slow_mps;
   u_int32_t last_menu_id;
   u_int32_t last_level_id;
   u_int32_t last_game_struct_id;
