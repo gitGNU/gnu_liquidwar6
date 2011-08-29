@@ -24,6 +24,28 @@ Keyboard and joystick sensitivity while moving the cursor. 1.0 is the default,
 game only, the option has no impact on menu navigation.
 @end deffn
 
+@subsection custom-alt
+@deffn {Command-line option} @code{--custom-alt=<value>}
+@deffnx {Environment variable} @code{LW6_CUSTOM_ALT}
+@deffnx {XML key} @code{custom-alt}
+Type: string
+
+Default value: (c-lw6gui-keyboard-is-pressed 110) ; SDLK_n
+
+Guile custom code associated to the ALT key equivalent.
+@end deffn
+
+@subsection custom-ctrl
+@deffn {Command-line option} @code{--custom-ctrl=<value>}
+@deffnx {Environment variable} @code{LW6_CUSTOM_CTRL}
+@deffnx {XML key} @code{custom-ctrl}
+Type: string
+
+Default value: (c-lw6gui-keyboard-is-pressed 98) ; SDLK_b
+
+Guile custom code associated to the CTRL key equivalent.
+@end deffn
+
 @subsection custom-down
 @deffn {Command-line option} @code{--custom-down=<value>}
 @deffnx {Environment variable} @code{LW6_CUSTOM_DOWN}
@@ -41,7 +63,7 @@ Guile custom code associated to the DOWN key equivalent.
 @deffnx {XML key} @code{custom-enter}
 Type: string
 
-Default value: (c-lw6gui-keyboard-is-pressed 104) ; SDLK_h
+Default value: (c-lw6gui-keyboard-is-pressed 103) ; SDLK_g
 
 Guile custom code associated to the ENTER key equivalent.
 @end deffn
@@ -74,7 +96,7 @@ Guile custom code associated to the LEFT key equivalent.
 @deffnx {XML key} @code{custom-pgdown}
 Type: string
 
-Default value: (c-lw6gui-keyboard-is-pressed 110) ; SDLK_n
+Default value: (c-lw6gui-keyboard-is-pressed 115) ; SDLK_s
 
 Guile custom code associated to the PGDOWN key equivalent.
 @end deffn
@@ -85,7 +107,7 @@ Guile custom code associated to the PGDOWN key equivalent.
 @deffnx {XML key} @code{custom-pgup}
 Type: string
 
-Default value: (c-lw6gui-keyboard-is-pressed 98) ; SDLK_b
+Default value: (c-lw6gui-keyboard-is-pressed 119) ; SDLK_w
 
 Guile custom code associated to the PGUP key equivalent.
 @end deffn

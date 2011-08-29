@@ -467,8 +467,8 @@
 		   )
 		  ((or
 		    (c-lw6gui-keyboard-pop-key-enter dsp)
-		    (c-lw6gui-joystick1-pop-button-a dsp)
-		    (c-lw6gui-joystick2-pop-button-a dsp))
+		    (c-lw6gui-joystick1-pop-button-ok dsp)
+		    (c-lw6gui-joystick2-pop-button-ok dsp))
 		   (if
 		    (lw6-menuitem-action menuitem "on-valid")
 		    (lw6-play-fx-beep-valid)
@@ -479,8 +479,8 @@
 	      ((or
 		(c-lw6gui-keyboard-pop-key-esc dsp)
 		(c-lw6gui-mouse-pop-button-right dsp)
-		(c-lw6gui-joystick1-pop-button-b dsp)
-		(c-lw6gui-joystick2-pop-button-b dsp))
+		(c-lw6gui-joystick1-pop-button-cancel dsp)
+		(c-lw6gui-joystick2-pop-button-cancel dsp))
 	       (begin
 		 (lw6-menu-action menu "on-cancel")
 		 (lw6-play-fx-beep-valid)

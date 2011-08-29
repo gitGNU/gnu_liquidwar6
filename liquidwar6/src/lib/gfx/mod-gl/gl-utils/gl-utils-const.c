@@ -95,6 +95,14 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->keysym1_esc);
       lw6cfg_read_xml_int (key, value, "keysym2-esc",
 			   &const_data->keysym2_esc);
+      lw6cfg_read_xml_int (key, value, "keysym1-ctrl",
+			   &const_data->keysym1_ctrl);
+      lw6cfg_read_xml_int (key, value, "keysym2-ctrl",
+			   &const_data->keysym2_ctrl);
+      lw6cfg_read_xml_int (key, value, "keysym1-alt",
+			   &const_data->keysym1_alt);
+      lw6cfg_read_xml_int (key, value, "keysym2-alt",
+			   &const_data->keysym2_alt);
       lw6cfg_read_xml_int (key, value, "keysym1-pgup",
 			   &const_data->keysym1_pgup);
       lw6cfg_read_xml_int (key, value, "keysym2-pgup",
@@ -109,24 +117,32 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->joystick_limit);
       lw6cfg_read_xml_int (key, value, "joystick1-index",
 			   &const_data->joystick1_index);
-      lw6cfg_read_xml_int (key, value, "joystick1-button-a-index",
-			   &const_data->joystick1_button_a_index);
-      lw6cfg_read_xml_int (key, value, "joystick1-button-b-index",
-			   &const_data->joystick1_button_b_index);
-      lw6cfg_read_xml_int (key, value, "joystick1-button-c-index",
-			   &const_data->joystick1_button_c_index);
-      lw6cfg_read_xml_int (key, value, "joystick1-button-d-index",
-			   &const_data->joystick1_button_d_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-ok-index",
+			   &const_data->joystick1_button_ok_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-cancel-index",
+			   &const_data->joystick1_button_cancel_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-fire-index",
+			   &const_data->joystick1_button_fire_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-fire2-index",
+			   &const_data->joystick1_button_fire2_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-plus-index",
+			   &const_data->joystick1_button_plus_index);
+      lw6cfg_read_xml_int (key, value, "joystick1-button-minus-index",
+			   &const_data->joystick1_button_minus_index);
       lw6cfg_read_xml_int (key, value, "joystick2-index",
 			   &const_data->joystick2_index);
-      lw6cfg_read_xml_int (key, value, "joystick2-button-a-index",
-			   &const_data->joystick2_button_a_index);
-      lw6cfg_read_xml_int (key, value, "joystick2-button-b-index",
-			   &const_data->joystick2_button_b_index);
-      lw6cfg_read_xml_int (key, value, "joystick2-button-c-index",
-			   &const_data->joystick2_button_c_index);
-      lw6cfg_read_xml_int (key, value, "joystick2-button-d-index",
-			   &const_data->joystick2_button_d_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-ok-index",
+			   &const_data->joystick2_button_ok_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-cancel-index",
+			   &const_data->joystick2_button_cancel_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-fire-index",
+			   &const_data->joystick2_button_fire_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-fire2-index",
+			   &const_data->joystick2_button_fire2_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-plus-index",
+			   &const_data->joystick2_button_plus_index);
+      lw6cfg_read_xml_int (key, value, "joystick2-button-minus-index",
+			   &const_data->joystick2_button_minus_index);
       lw6cfg_read_xml_int (key, value, "smoother-global-zoom-duration",
 			   &const_data->smoother_global_zoom_duration);
       lw6cfg_read_xml_int (key, value, "smoother-center-duration",

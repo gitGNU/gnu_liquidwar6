@@ -459,8 +459,8 @@ extern int _lw6ker_cursor_enable (lw6ker_cursor_t * cursor,
 				  int team_color, int32_t x, int32_t y);
 extern int _lw6ker_cursor_disable (lw6ker_cursor_t * cursor);
 extern int _lw6ker_cursor_update (lw6ker_cursor_t * cursor, int32_t x,
-				  int32_t y, int fire, int32_t pot_offset,
-				  lw6sys_whd_t * shape,
+				  int32_t y, int fire, int fire2,
+				  int32_t pot_offset, lw6sys_whd_t * shape,
 				  lw6map_rules_t * rules);
 extern int _lw6ker_cursor_sanity_check (lw6ker_cursor_t * cursor,
 					lw6sys_whd_t * shape,
@@ -494,7 +494,7 @@ extern int _lw6ker_cursor_array_disable (_lw6ker_cursor_array_t *
 extern int _lw6ker_cursor_array_update (_lw6ker_cursor_array_t * cursor_array,
 					u_int64_t node_id,
 					u_int16_t cursor_id, int32_t x,
-					int32_t y, int fire,
+					int32_t y, int fire, int fire2,
 					int32_t pot_offset,
 					lw6sys_whd_t * shape,
 					lw6map_rules_t * rules);
@@ -999,6 +999,9 @@ extern int _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
 extern int _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 				lw6map_rules_t * rules, int round,
 				int team_color, int charge_percent);
+extern int _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
+				 lw6map_rules_t * rules, int round,
+				 int team_color, int charge_percent);
 extern int _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
 				       lw6map_rules_t * rules, int round,
 				       int team_color, int charge_percent);

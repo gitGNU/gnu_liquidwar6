@@ -39,11 +39,12 @@
     (format #f "~a ~a REMOVE ~a" round node-id cursor-id)))
 
 (define lw6-command-set
-  (lambda (round node-id cursor-id x y fire)
-    (format #f "~a ~a SET ~a ~a ~a ~a" round node-id cursor-id
+  (lambda (round node-id cursor-id x y fire fire2)
+    (format #f "~a ~a SET ~a ~a ~a ~a ~a" round node-id cursor-id
 	    (inexact->exact (floor x))
 	    (inexact->exact (floor y))
 	    (if fire 1 0)
+	    (if fire2 1 0)
 	    )))
 
 (define lw6-command-all-local
@@ -70,8 +71,9 @@
 			     (x (hash-ref cursor "x"))
 			     (y (hash-ref cursor "y"))
 			     (fire (hash-ref cursor "fire"))
+			     (fire2 (hash-ref cursor "fire2"))
 			     )
-			 (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y fire))
+			 (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y fire fire2))
 						)
 			       )
 			 )
@@ -118,8 +120,11 @@
 			      (map (lambda (cursor-key)
 				     (let (
 					   (cursor (lw6-get-cursor cursor-key))		      
-					   )			  
-				       (hash-set! cursor "fire" #f)))
+					   )		
+				       (begin
+					 (hash-set! cursor "fire" #f)
+					 (hash-set! cursor "fire2" #f)
+					 )))
 				   (list "1" "2" "3" "4")))
 			  (c-lw6pil-commit pilot)
 			  ))))))))

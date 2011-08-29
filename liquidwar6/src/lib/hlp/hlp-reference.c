@@ -573,22 +573,30 @@ populate_references ()
 		_x_
 		("Guile custom code associated to the RIGHT key equivalent."),
 		"(c-lw6gui-keyboard-is-pressed 118) ; SDLK_v");
+  POPULATE_STR (LW6DEF_CUSTOM_ENTER,
+		_x_
+		("Guile custom code associated to the ENTER key equivalent."),
+		"(c-lw6gui-keyboard-is-pressed 103) ; SDLK_g");
   POPULATE_STR (LW6DEF_CUSTOM_ESC,
 		_x_
 		("Guile custom code associated to the ESC key equivalent."),
 		"(c-lw6gui-keyboard-is-pressed 102) ; SDLK_f");
-  POPULATE_STR (LW6DEF_CUSTOM_ENTER,
+  POPULATE_STR (LW6DEF_CUSTOM_CTRL,
 		_x_
-		("Guile custom code associated to the ENTER key equivalent."),
-		"(c-lw6gui-keyboard-is-pressed 104) ; SDLK_h");
+		("Guile custom code associated to the CTRL key equivalent."),
+		"(c-lw6gui-keyboard-is-pressed 98) ; SDLK_b");
+  POPULATE_STR (LW6DEF_CUSTOM_ALT,
+		_x_
+		("Guile custom code associated to the ALT key equivalent."),
+		"(c-lw6gui-keyboard-is-pressed 110) ; SDLK_n");
   POPULATE_STR (LW6DEF_CUSTOM_PGUP,
 		_x_
 		("Guile custom code associated to the PGUP key equivalent."),
-		"(c-lw6gui-keyboard-is-pressed 98) ; SDLK_b");
+		"(c-lw6gui-keyboard-is-pressed 119) ; SDLK_w");
   POPULATE_STR (LW6DEF_CUSTOM_PGDOWN,
 		_x_
 		("Guile custom code associated to the PGDOWN key equivalent."),
-		"(c-lw6gui-keyboard-is-pressed 110) ; SDLK_n");
+		"(c-lw6gui-keyboard-is-pressed 115) ; SDLK_s");
   POPULATE_BOOL (LW6DEF_CLICK_TO_FOCUS,
 		 _x_
 		 ("If set to true, you'll need to click with the mouse to select a menuitem or move the cursor in the game. If not, some actions will be taken automatically without the need to click."),
@@ -2425,6 +2433,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_enter."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC,
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_esc."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_CTRL,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_ctrl."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ALT,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_alt."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP,
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_pgup."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN,
@@ -2437,14 +2449,18 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_left."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT,
 		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_right."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_a."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_b."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_c."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_OK,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_ok."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_CANCEL,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_cancel."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_fire."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE2,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_fire2."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_PLUS,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_plus."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_MINUS,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_minus."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP,
 		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_up."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN,
@@ -2453,14 +2469,18 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_left."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT,
 		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_right."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_a."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_b."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_c."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_OK,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_ok."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_CANCEL,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_cancel."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_fire."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE2,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_fire2."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_PLUS,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_plus."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_MINUS,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_minus."));
   POPULATE_VOID (LW6DEF_C_LW6GFX_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6gfx_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6DSP_NEW, _x_ ("Wrapper on lw6dsp_new."));

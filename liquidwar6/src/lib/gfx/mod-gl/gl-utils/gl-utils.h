@@ -239,6 +239,10 @@ typedef struct mod_gl_utils_const_data_s
   int keysym2_enter;
   int keysym1_esc;
   int keysym2_esc;
+  int keysym1_ctrl;
+  int keysym2_ctrl;
+  int keysym1_alt;
+  int keysym2_alt;
   int keysym1_pgup;
   int keysym2_pgup;
   int keysym1_pgdown;
@@ -246,15 +250,19 @@ typedef struct mod_gl_utils_const_data_s
   int keysym_quit;
   int joystick_limit;
   int joystick1_index;
-  int joystick1_button_a_index;
-  int joystick1_button_b_index;
-  int joystick1_button_c_index;
-  int joystick1_button_d_index;
+  int joystick1_button_ok_index;
+  int joystick1_button_cancel_index;
+  int joystick1_button_fire_index;
+  int joystick1_button_fire2_index;
+  int joystick1_button_plus_index;
+  int joystick1_button_minus_index;
   int joystick2_index;
-  int joystick2_button_a_index;
-  int joystick2_button_b_index;
-  int joystick2_button_c_index;
-  int joystick2_button_d_index;
+  int joystick2_button_ok_index;
+  int joystick2_button_cancel_index;
+  int joystick2_button_fire_index;
+  int joystick2_button_fire2_index;
+  int joystick2_button_plus_index;
+  int joystick2_button_minus_index;
   int joystick_all_buttons;
   int smoother_global_zoom_duration;
   int smoother_center_duration;
@@ -763,9 +771,9 @@ extern int mod_gl_utils_store_button_in_menucache (mod_gl_utils_context_t *
 						   mod_gl_utils_bitmap_t *
 						   bitmap);
 extern mod_gl_utils_bitmap_t
-  * mod_gl_utils_get_button_from_menucache (mod_gl_utils_context_t * context,
-					    lw6gui_look_t * look,
-					    lw6gui_menuitem_t * menuitem);
+  * mod_gl_utils_get_button_minusrom_menucache (mod_gl_utils_context_t *
+						context, lw6gui_look_t * look,
+						lw6gui_menuitem_t * menuitem);
 extern void mod_gl_utils_clear_menucache (mod_gl_utils_context_t *
 					  utils_context);
 

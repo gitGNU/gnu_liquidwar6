@@ -67,6 +67,7 @@ typedef struct lw6pil_set_args_s
   int x;
   int y;
   int fire;
+  int fire2;
 } lw6pil_set_args_t;
 
 typedef union lw6pil_command_args_u

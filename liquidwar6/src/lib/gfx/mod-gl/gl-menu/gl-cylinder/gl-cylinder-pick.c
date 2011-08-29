@@ -132,7 +132,7 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
   lw6gui_menuitem_t *menuitem;
   GLuint select_buffer[SELECT_BUFFER_SIZE];
   GLint select_hits;
-  mod_gl_utils_bitmap_t *button_bitmap = NULL;
+  mod_gl_utils_bitmap_t *button_cancelitmap = NULL;
   float relative_text_width = 1.0f;
 
   lw6gui_menu_update_display_range (menu,
@@ -160,18 +160,18 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       menuitem = menu->items[i + menu->first_item_displayed];
-      button_bitmap =
-	mod_gl_utils_get_button_from_menucache (utils_context, look,
-						menuitem);
-      if (button_bitmap)
+      button_cancelitmap =
+	mod_gl_utils_get_button_minusrom_menucache (utils_context, look,
+						    menuitem);
+      if (button_cancelitmap)
 	{
 	  /*
-	   * If button_bitmap doesn't exist, well, we won't die,
+	   * If button_cancelitmap doesn't exist, well, we won't die,
 	   * we just suppose the button is very large. It practise
 	   * it shouldn't happen for we've drawn them just before.
 	   */
 	  relative_text_width =
-	    ((float) button_bitmap->surface->w) /
+	    ((float) button_cancelitmap->surface->w) /
 	    ((float) MOD_GL_UTILS_MENU_TEXTURE_W);
 	}
       else
@@ -185,18 +185,18 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
     }
   if (menu->esc_item->enabled)
     {
-      button_bitmap =
-	mod_gl_utils_get_button_from_menucache (utils_context, look,
-						menu->esc_item);
-      if (button_bitmap)
+      button_cancelitmap =
+	mod_gl_utils_get_button_minusrom_menucache (utils_context, look,
+						    menu->esc_item);
+      if (button_cancelitmap)
 	{
 	  /*
-	   * If button_bitmap doesn't exist, well, we won't die,
+	   * If button_cancelitmap doesn't exist, well, we won't die,
 	   * we just suppose the button is very large. It practise
 	   * it shouldn't happen for we've drawn them just before.
 	   */
 	  relative_text_width =
-	    ((float) button_bitmap->surface->w) /
+	    ((float) button_cancelitmap->surface->w) /
 	    ((float) MOD_GL_UTILS_MENU_TEXTURE_W);
 	}
       else

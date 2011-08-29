@@ -956,7 +956,8 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
       if (map_state->cursor_array.cursors[i].enabled
-	  && map_state->cursor_array.cursors[i].fire)
+	  && (map_state->cursor_array.cursors[i].fire
+	      || map_state->cursor_array.cursors[i].fire2))
 	{
 	  team_color = map_state->cursor_array.cursors[i].team_color;
 	  charge_percent =
@@ -964,13 +965,48 @@ _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 	    / 10;
 	  if (charge_percent >= 100)
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("fire team_color=%d charge_percent=%d"),
-			  team_color, charge_percent);
-	      if (_lw6ker_weapon_fire
-		  (map_state, rules, round, team_color, charge_percent))
+	      if (map_state->cursor_array.cursors[i].fire)
 		{
-		  _lw6ker_team_reset_charge (&(map_state->teams[team_color]));
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("primary fire team_color=%d charge_percent=%d"),
+			      team_color, charge_percent);
+		  if (_lw6ker_weapon_fire
+		      (map_state, rules, round, team_color, charge_percent))
+		    {
+		      _lw6ker_team_reset_charge (&
+						 (map_state->teams
+						  [team_color]));
+		    }
+		  else if (map_state->cursor_array.cursors[i].fire2)
+		    {
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("secondary fire team_color=%d charge_percent=%d (primary failed)"),
+				  team_color, charge_percent);
+		      if (_lw6ker_weapon_fire2
+			  (map_state, rules, round, team_color,
+			   charge_percent))
+			{
+			  _lw6ker_team_reset_charge (&
+						     (map_state->teams
+						      [team_color]));
+			}
+		    }
+		}
+	      else if (map_state->cursor_array.cursors[i].fire2)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_
+			      ("secondary fire team_color=%d charge_percent=%d"),
+			      team_color, charge_percent);
+		  if (_lw6ker_weapon_fire2
+		      (map_state, rules, round, team_color, charge_percent))
+		    {
+		      _lw6ker_team_reset_charge (&
+						 (map_state->teams
+						  [team_color]));
+		    }
 		}
 	    }
 	  else

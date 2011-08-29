@@ -969,19 +969,21 @@ _lw6ker_game_state_set_cursor (_lw6ker_game_state_t * game_state,
 			       lw6ker_cursor_t * cursor)
 {
   int ret = 0;
-  int x, y, fire;
+  int x, y, fire, fire2;
 
   if (check_node_id (game_state, cursor->node_id))
     {
       x = cursor->pos.x;
       y = cursor->pos.y;
       fire = cursor->fire;
+      fire2 = cursor->fire2;
       lw6map_coords_fix_xy (&(game_state->game_struct->rules),
 			    &(game_state->map_state.shape), &x, &y);
       ret =
 	_lw6ker_cursor_array_update (&(game_state->map_state.cursor_array),
 				     cursor->node_id, cursor->cursor_id, x, y,
-				     fire, 0, &(game_state->map_state.shape),
+				     fire, fire2, 0,
+				     &(game_state->map_state.shape),
 				     &(game_state->game_struct->rules));
     }
 

@@ -1848,1502 +1848,1538 @@ File: liquidwar6.info,  Node: C to Guile,  Next: Script hooks,  Prev: Advanced s
  -- C function exported to Guile: `c-lw6gui-joystick1-get-move-pad'
      Wrapper on lw6gui_joystick1_get_move_pad.
 
-4.13.37 c-lw6gui-joystick1-pop-button-a
----------------------------------------
+4.13.37 c-lw6gui-joystick1-pop-button-cancel
+--------------------------------------------
 
- -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-a'
-     Wrapper on lw6gui_joystick1_pop_button_a.
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-cancel'
+     Wrapper on lw6gui_joystick1_pop_button_cancel.
 
-4.13.38 c-lw6gui-joystick1-pop-button-b
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-b'
-     Wrapper on lw6gui_joystick1_pop_button_b.
-
-4.13.39 c-lw6gui-joystick1-pop-button-c
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-c'
-     Wrapper on lw6gui_joystick1_pop_button_c.
-
-4.13.40 c-lw6gui-joystick1-pop-button-d
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-d'
-     Wrapper on lw6gui_joystick1_pop_button_d.
-
-4.13.41 c-lw6gui-joystick1-pop-button-down
+4.13.38 c-lw6gui-joystick1-pop-button-down
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-down'
      Wrapper on lw6gui_joystick1_pop_button_down.
 
-4.13.42 c-lw6gui-joystick1-pop-button-left
+4.13.39 c-lw6gui-joystick1-pop-button-fire
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-fire'
+     Wrapper on lw6gui_joystick1_pop_button_fire.
+
+4.13.40 c-lw6gui-joystick1-pop-button-fire2
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-fire2'
+     Wrapper on lw6gui_joystick1_pop_button_fire2.
+
+4.13.41 c-lw6gui-joystick1-pop-button-left
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-left'
      Wrapper on lw6gui_joystick1_pop_button_left.
 
-4.13.43 c-lw6gui-joystick1-pop-button-right
+4.13.42 c-lw6gui-joystick1-pop-button-minus
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-minus'
+     Wrapper on lw6gui_joystick1_pop_button_minus.
+
+4.13.43 c-lw6gui-joystick1-pop-button-ok
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-ok'
+     Wrapper on lw6gui_joystick1_pop_button_ok.
+
+4.13.44 c-lw6gui-joystick1-pop-button-plus
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-plus'
+     Wrapper on lw6gui_joystick1_pop_button_plus.
+
+4.13.45 c-lw6gui-joystick1-pop-button-right
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-right'
      Wrapper on lw6gui_joystick1_pop_button_right.
 
-4.13.44 c-lw6gui-joystick1-pop-button-up
+4.13.46 c-lw6gui-joystick1-pop-button-up
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick1-pop-button-up'
      Wrapper on lw6gui_joystick1_pop_button_up.
 
-4.13.45 c-lw6gui-joystick2-get-move-pad
+4.13.47 c-lw6gui-joystick2-get-move-pad
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick2-get-move-pad'
      Wrapper on lw6gui_joystick2_get_move_pad.
 
-4.13.46 c-lw6gui-joystick2-pop-button-a
----------------------------------------
+4.13.48 c-lw6gui-joystick2-pop-button-cancel
+--------------------------------------------
 
- -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-a'
-     Wrapper on lw6gui_joystick2_pop_button_a.
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-cancel'
+     Wrapper on lw6gui_joystick2_pop_button_cancel.
 
-4.13.47 c-lw6gui-joystick2-pop-button-b
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-b'
-     Wrapper on lw6gui_joystick2_pop_button_b.
-
-4.13.48 c-lw6gui-joystick2-pop-button-c
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-c'
-     Wrapper on lw6gui_joystick2_pop_button_c.
-
-4.13.49 c-lw6gui-joystick2-pop-button-d
----------------------------------------
-
- -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-d'
-     Wrapper on lw6gui_joystick2_pop_button_d.
-
-4.13.50 c-lw6gui-joystick2-pop-button-down
+4.13.49 c-lw6gui-joystick2-pop-button-down
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-down'
      Wrapper on lw6gui_joystick2_pop_button_down.
 
-4.13.51 c-lw6gui-joystick2-pop-button-left
+4.13.50 c-lw6gui-joystick2-pop-button-fire
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-fire'
+     Wrapper on lw6gui_joystick2_pop_button_fire.
+
+4.13.51 c-lw6gui-joystick2-pop-button-fire2
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-fire2'
+     Wrapper on lw6gui_joystick2_pop_button_fire2.
+
+4.13.52 c-lw6gui-joystick2-pop-button-left
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-left'
      Wrapper on lw6gui_joystick2_pop_button_left.
 
-4.13.52 c-lw6gui-joystick2-pop-button-right
+4.13.53 c-lw6gui-joystick2-pop-button-minus
+-------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-minus'
+     Wrapper on lw6gui_joystick2_pop_button_minus.
+
+4.13.54 c-lw6gui-joystick2-pop-button-ok
+----------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-ok'
+     Wrapper on lw6gui_joystick2_pop_button_ok.
+
+4.13.55 c-lw6gui-joystick2-pop-button-plus
+------------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-plus'
+     Wrapper on lw6gui_joystick2_pop_button_plus.
+
+4.13.56 c-lw6gui-joystick2-pop-button-right
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-right'
      Wrapper on lw6gui_joystick2_pop_button_right.
 
-4.13.53 c-lw6gui-joystick2-pop-button-up
+4.13.57 c-lw6gui-joystick2-pop-button-up
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-joystick2-pop-button-up'
      Wrapper on lw6gui_joystick2_pop_button_up.
 
-4.13.54 c-lw6gui-keyboard-get-move-pad
+4.13.58 c-lw6gui-keyboard-get-move-pad
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-get-move-pad'
      Wrapper on lw6gui_keyboard_get_move_pad.
 
-4.13.55 c-lw6gui-keyboard-is-pressed
+4.13.59 c-lw6gui-keyboard-is-pressed
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-is-pressed'
      Wrapper on lw6gui_keyboard_is_pressed.
 
-4.13.56 c-lw6gui-keyboard-pop-key-down
+4.13.60 c-lw6gui-keyboard-pop-key-alt
+-------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-alt'
+     Wrapper on lw6gui_keyboard_pop_key_alt.
+
+4.13.61 c-lw6gui-keyboard-pop-key-ctrl
+--------------------------------------
+
+ -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-ctrl'
+     Wrapper on lw6gui_keyboard_pop_key_ctrl.
+
+4.13.62 c-lw6gui-keyboard-pop-key-down
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-down'
      Wrapper on lw6gui_keyboard_pop_key_down.
 
-4.13.57 c-lw6gui-keyboard-pop-key-enter
+4.13.63 c-lw6gui-keyboard-pop-key-enter
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-enter'
      Wrapper on lw6gui_keyboard_pop_key_enter.
 
-4.13.58 c-lw6gui-keyboard-pop-key-esc
+4.13.64 c-lw6gui-keyboard-pop-key-esc
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-esc'
      Wrapper on lw6gui_keyboard_pop_key_esc.
 
-4.13.59 c-lw6gui-keyboard-pop-key-left
+4.13.65 c-lw6gui-keyboard-pop-key-left
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-left'
      Wrapper on lw6gui_keyboard_pop_key_left.
 
-4.13.60 c-lw6gui-keyboard-pop-key-pgdown
+4.13.66 c-lw6gui-keyboard-pop-key-pgdown
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-pgdown'
      Wrapper on lw6gui_keyboard_pop_key_pgdown.
 
-4.13.61 c-lw6gui-keyboard-pop-key-pgup
+4.13.67 c-lw6gui-keyboard-pop-key-pgup
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-pgup'
      Wrapper on lw6gui_keyboard_pop_key_pgup.
 
-4.13.62 c-lw6gui-keyboard-pop-key-right
+4.13.68 c-lw6gui-keyboard-pop-key-right
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-right'
      Wrapper on lw6gui_keyboard_pop_key_right.
 
-4.13.63 c-lw6gui-keyboard-pop-key-up
+4.13.69 c-lw6gui-keyboard-pop-key-up
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-keyboard-pop-key-up'
      Wrapper on lw6gui_keyboard_pop_key_up.
 
-4.13.64 c-lw6gui-look-get
+4.13.70 c-lw6gui-look-get
 -------------------------
 
  -- C function exported to Guile: `c-lw6gui-look-get'
      Wrapper on lw6gui_look_get.
 
-4.13.65 c-lw6gui-look-set
+4.13.71 c-lw6gui-look-set
 -------------------------
 
  -- C function exported to Guile: `c-lw6gui-look-set'
      Wrapper on lw6gui_look_set.
 
-4.13.66 c-lw6gui-look-zoom-in
+4.13.72 c-lw6gui-look-zoom-in
 -----------------------------
 
  -- C function exported to Guile: `c-lw6gui-look-zoom-in'
      Wrapper on lw6gui_look_zoom_in.
 
-4.13.67 c-lw6gui-look-zoom-out
+4.13.73 c-lw6gui-look-zoom-out
 ------------------------------
 
  -- C function exported to Guile: `c-lw6gui-look-zoom-out'
      Wrapper on lw6gui_look_zoom_out.
 
-4.13.68 c-lw6gui-menu-append
+4.13.74 c-lw6gui-menu-append
 ----------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-append'
      Wrapper on lw6gui_menu_append.
 
-4.13.69 c-lw6gui-menu-enable-esc
+4.13.75 c-lw6gui-menu-enable-esc
 --------------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-enable-esc'
      Wrapper on lw6gui_menu_enable_esc.
 
-4.13.70 c-lw6gui-menu-new
+4.13.76 c-lw6gui-menu-new
 -------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-new'
      Wrapper on lw6gui_menu_new.
 
-4.13.71 c-lw6gui-menu-scroll-down
+4.13.77 c-lw6gui-menu-scroll-down
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-scroll-down'
      Wrapper on lw6gui_menu_scroll_down.
 
-4.13.72 c-lw6gui-menu-scroll-up
+4.13.78 c-lw6gui-menu-scroll-up
 -------------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-scroll-up'
      Wrapper on lw6gui_menu_scroll_up.
 
-4.13.73 c-lw6gui-menu-select
+4.13.79 c-lw6gui-menu-select
 ----------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-select'
      Wrapper on lw6gui_menu_select.
 
-4.13.74 c-lw6gui-menu-select-esc
+4.13.80 c-lw6gui-menu-select-esc
 --------------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-select-esc'
      Wrapper on lw6gui_menu_select_esc.
 
-4.13.75 c-lw6gui-menu-sync
+4.13.81 c-lw6gui-menu-sync
 --------------------------
 
  -- C function exported to Guile: `c-lw6gui-menu-sync'
      Wrapper on lw6gui_menu_sync.
 
-4.13.76 c-lw6gui-mouse-get-state
+4.13.82 c-lw6gui-mouse-get-state
 --------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-get-state'
      Wrapper on lw6gui_mouse_get_state.
 
-4.13.77 c-lw6gui-mouse-poll-move
+4.13.83 c-lw6gui-mouse-poll-move
 --------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-poll-move'
      Wrapper on lw6gui_mouse_poll_move.
 
-4.13.78 c-lw6gui-mouse-pop-button-left
+4.13.84 c-lw6gui-mouse-pop-button-left
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-button-left'
      Wrapper on lw6gui_mouse_pop_button_left.
 
-4.13.79 c-lw6gui-mouse-pop-button-middle
+4.13.85 c-lw6gui-mouse-pop-button-middle
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-button-middle'
      Wrapper on lw6gui_mouse_pop_button_middle.
 
-4.13.80 c-lw6gui-mouse-pop-button-right
+4.13.86 c-lw6gui-mouse-pop-button-right
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-button-right'
      Wrapper on lw6gui_mouse_pop_button_right.
 
-4.13.81 c-lw6gui-mouse-pop-double-click
+4.13.87 c-lw6gui-mouse-pop-double-click
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-double-click'
      Wrapper on lw6gui_mouse_pop_double_click.
 
-4.13.82 c-lw6gui-mouse-pop-wheel-down
+4.13.88 c-lw6gui-mouse-pop-wheel-down
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-wheel-down'
      Wrapper on lw6gui_mouse_pop_wheel_down.
 
-4.13.83 c-lw6gui-mouse-pop-wheel-up
+4.13.89 c-lw6gui-mouse-pop-wheel-up
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6gui-mouse-pop-wheel-up'
      Wrapper on lw6gui_mouse_pop_wheel_up.
 
-4.13.84 c-lw6hlp-get-default-value
+4.13.90 c-lw6hlp-get-default-value
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-get-default-value'
      Wrapper on lw6hlp_get_default_value.
 
-4.13.85 c-lw6hlp-list
+4.13.91 c-lw6hlp-list
 ---------------------
 
  -- C function exported to Guile: `c-lw6hlp-list'
      Wrapper on lw6hlp_list.
 
-4.13.86 c-lw6hlp-list-advanced
+4.13.92 c-lw6hlp-list-advanced
 ------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-advanced'
      Wrapper on lw6hlp_list_advanced.
 
-4.13.87 c-lw6hlp-list-aliases
+4.13.93 c-lw6hlp-list-aliases
 -----------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-aliases'
      Wrapper on lw6hlp_list_aliases.
 
-4.13.88 c-lw6hlp-list-doc
+4.13.94 c-lw6hlp-list-doc
 -------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-doc'
      Wrapper on lw6hlp_list_doc.
 
-4.13.89 c-lw6hlp-list-funcs
+4.13.95 c-lw6hlp-list-funcs
 ---------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-funcs'
      Wrapper on lw6hlp_list_funcs.
 
-4.13.90 c-lw6hlp-list-graphics
+4.13.96 c-lw6hlp-list-graphics
 ------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-graphics'
      Wrapper on lw6hlp_list_graphics.
 
-4.13.91 c-lw6hlp-list-hooks
+4.13.97 c-lw6hlp-list-hooks
 ---------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-hooks'
      Wrapper on lw6hlp_list_hooks.
 
-4.13.92 c-lw6hlp-list-input
+4.13.98 c-lw6hlp-list-input
 ---------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-input'
      Wrapper on lw6hlp_list_input.
 
-4.13.93 c-lw6hlp-list-map
+4.13.99 c-lw6hlp-list-map
 -------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-map'
      Wrapper on lw6hlp_list_map.
 
-4.13.94 c-lw6hlp-list-map-hints
--------------------------------
+4.13.100 c-lw6hlp-list-map-hints
+--------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-map-hints'
      Wrapper on lw6hlp_list_map_hints.
 
-4.13.95 c-lw6hlp-list-map-rules
--------------------------------
+4.13.101 c-lw6hlp-list-map-rules
+--------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-map-rules'
      Wrapper on lw6hlp_list_map_rules.
 
-4.13.96 c-lw6hlp-list-map-style
--------------------------------
+4.13.102 c-lw6hlp-list-map-style
+--------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-map-style'
      Wrapper on lw6hlp_list_map_style.
 
-4.13.97 c-lw6hlp-list-network
------------------------------
+4.13.103 c-lw6hlp-list-network
+------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-network'
      Wrapper on lw6hlp_list_network.
 
-4.13.98 c-lw6hlp-list-path
---------------------------
+4.13.104 c-lw6hlp-list-path
+---------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-path'
      Wrapper on lw6hlp_list_path.
 
-4.13.99 c-lw6hlp-list-players
------------------------------
+4.13.105 c-lw6hlp-list-players
+------------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-players'
      Wrapper on lw6hlp_list_players.
 
-4.13.100 c-lw6hlp-list-quick
+4.13.106 c-lw6hlp-list-quick
 ----------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-quick'
      Wrapper on lw6hlp_list_quick.
 
-4.13.101 c-lw6hlp-list-show
+4.13.107 c-lw6hlp-list-show
 ---------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-show'
      Wrapper on lw6hlp_list_show.
 
-4.13.102 c-lw6hlp-list-sound
+4.13.108 c-lw6hlp-list-sound
 ----------------------------
 
  -- C function exported to Guile: `c-lw6hlp-list-sound'
      Wrapper on lw6hlp_list_sound.
 
-4.13.103 c-lw6ker-add-cursor
+4.13.109 c-lw6ker-add-cursor
 ----------------------------
 
  -- C function exported to Guile: `c-lw6ker-add-cursor'
      Wrapper on lw6ker_add_cursor.
 
-4.13.104 c-lw6ker-build-game-state
+4.13.110 c-lw6ker-build-game-state
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6ker-build-game-state'
      Wrapper on lw6ker_build_game_state.
 
-4.13.105 c-lw6ker-build-game-struct
+4.13.111 c-lw6ker-build-game-struct
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6ker-build-game-struct'
      Wrapper on lw6ker_build_game_struct.
 
-4.13.106 c-lw6ker-cursor-exists
+4.13.112 c-lw6ker-cursor-exists
 -------------------------------
 
  -- C function exported to Guile: `c-lw6ker-cursor-exists'
      Wrapper on lw6ker_cursor_exists.
 
-4.13.107 c-lw6ker-do-round
+4.13.113 c-lw6ker-do-round
 --------------------------
 
  -- C function exported to Guile: `c-lw6ker-do-round'
      Wrapper on lw6ker_do_round.
 
-4.13.108 c-lw6ker-dup-game-state
+4.13.114 c-lw6ker-dup-game-state
 --------------------------------
 
  -- C function exported to Guile: `c-lw6ker-dup-game-state'
      Wrapper on lw6ker_dup_game_state.
 
-4.13.109 c-lw6ker-game-state-checksum
+4.13.115 c-lw6ker-game-state-checksum
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6ker-game-state-checksum'
      Wrapper on lw6ker_game_state_checksum.
 
-4.13.110 c-lw6ker-game-struct-checksum
+4.13.116 c-lw6ker-game-struct-checksum
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6ker-game-struct-checksum'
      Wrapper on lw6ker_game_struct_checksum.
 
-4.13.111 c-lw6ker-get-cursor
+4.13.117 c-lw6ker-get-cursor
 ----------------------------
 
  -- C function exported to Guile: `c-lw6ker-get-cursor'
      Wrapper on lw6ker_get_cursor.
 
-4.13.112 c-lw6ker-get-moves
+4.13.118 c-lw6ker-get-moves
 ---------------------------
 
  -- C function exported to Guile: `c-lw6ker-get-moves'
      Wrapper on lw6ker_get_moves.
 
-4.13.113 c-lw6ker-get-rounds
+4.13.119 c-lw6ker-get-rounds
 ----------------------------
 
  -- C function exported to Guile: `c-lw6ker-get-rounds'
      Wrapper on lw6ker_get_rounds.
 
-4.13.114 c-lw6ker-get-spreads
+4.13.120 c-lw6ker-get-spreads
 -----------------------------
 
  -- C function exported to Guile: `c-lw6ker-get-spreads'
      Wrapper on lw6ker_get_spreads.
 
-4.13.115 c-lw6ker-is-over
+4.13.121 c-lw6ker-is-over
 -------------------------
 
  -- C function exported to Guile: `c-lw6ker-is-over'
      Wrapper on lw6ker_is_over.
 
-4.13.116 c-lw6ker-node-exists
+4.13.122 c-lw6ker-node-exists
 -----------------------------
 
  -- C function exported to Guile: `c-lw6ker-node-exists'
      Wrapper on lw6ker_node_exists.
 
-4.13.117 c-lw6ker-register-node
+4.13.123 c-lw6ker-register-node
 -------------------------------
 
  -- C function exported to Guile: `c-lw6ker-register-node'
      Wrapper on lw6ker_register_node.
 
-4.13.118 c-lw6ker-remove-cursor
+4.13.124 c-lw6ker-remove-cursor
 -------------------------------
 
  -- C function exported to Guile: `c-lw6ker-remove-cursor'
      Wrapper on lw6ker_remove_cursor.
 
-4.13.119 c-lw6ker-set-cursor
+4.13.125 c-lw6ker-set-cursor
 ----------------------------
 
  -- C function exported to Guile: `c-lw6ker-set-cursor'
      Wrapper on lw6ker_set_cursor.
 
-4.13.120 c-lw6ker-sync-game-state
+4.13.126 c-lw6ker-sync-game-state
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6ker-sync-game-state'
      Wrapper on lw6ker_sync_game_state.
 
-4.13.121 c-lw6ker-unregister-node
+4.13.127 c-lw6ker-unregister-node
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6ker-unregister-node'
      Wrapper on lw6ker_unregister_node.
 
-4.13.122 c-lw6ldr-get-entries
+4.13.128 c-lw6ldr-get-entries
 -----------------------------
 
  -- C function exported to Guile: `c-lw6ldr-get-entries'
      Wrapper on lw6ldr_get_entries.
 
-4.13.123 c-lw6ldr-hints-get-default
+4.13.129 c-lw6ldr-hints-get-default
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6ldr-hints-get-default'
      Wrapper on lw6ldr_hints_get_default.
 
-4.13.124 c-lw6ldr-print-examples
+4.13.130 c-lw6ldr-print-examples
 --------------------------------
 
  -- C function exported to Guile: `c-lw6ldr-print-examples'
      Wrapper on lw6ldr_print_examples.
 
-4.13.125 c-lw6ldr-read
+4.13.131 c-lw6ldr-read
 ----------------------
 
  -- C function exported to Guile: `c-lw6ldr-read'
      Wrapper on lw6ldr_read.
 
-4.13.126 c-lw6ldr-read-relative
+4.13.132 c-lw6ldr-read-relative
 -------------------------------
 
  -- C function exported to Guile: `c-lw6ldr-read-relative'
      Wrapper on lw6ldr_read_relative.
 
-4.13.127 c-lw6map-get-look
+4.13.133 c-lw6map-get-look
 --------------------------
 
  -- C function exported to Guile: `c-lw6map-get-look'
      Wrapper on lw6map_get_look.
 
-4.13.128 c-lw6map-get-music-dir
+4.13.134 c-lw6map-get-music-dir
 -------------------------------
 
  -- C function exported to Guile: `c-lw6map-get-music-dir'
      Wrapper on lw6map_get_music_dir.
 
-4.13.129 c-lw6map-rules-get-default
+4.13.135 c-lw6map-rules-get-default
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6map-rules-get-default'
      Wrapper on lw6map_rules_get_default.
 
-4.13.130 c-lw6map-rules-get-int
+4.13.136 c-lw6map-rules-get-int
 -------------------------------
 
  -- C function exported to Guile: `c-lw6map-rules-get-int'
      Wrapper on lw6map_rules_get_int.
 
-4.13.131 c-lw6map-rules-get-max
+4.13.137 c-lw6map-rules-get-max
 -------------------------------
 
  -- C function exported to Guile: `c-lw6map-rules-get-max'
      Wrapper on lw6map_rules_get_max.
 
-4.13.132 c-lw6map-rules-get-min
+4.13.138 c-lw6map-rules-get-min
 -------------------------------
 
  -- C function exported to Guile: `c-lw6map-rules-get-min'
      Wrapper on lw6map_rules_get_min.
 
-4.13.133 c-lw6map-style-get-default
+4.13.139 c-lw6map-style-get-default
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6map-style-get-default'
      Wrapper on lw6map_style_get_default.
 
-4.13.134 c-lw6map-team-color-index-to-key
+4.13.140 c-lw6map-team-color-index-to-key
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6map-team-color-index-to-key'
      Wrapper on lw6map_team_color_index_to_key.
 
-4.13.135 c-lw6map-team-color-key-to-index
+4.13.141 c-lw6map-team-color-key-to-index
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6map-team-color-key-to-index'
      Wrapper on lw6map_team_color_key_to_index.
 
-4.13.136 c-lw6net-init
+4.13.142 c-lw6net-init
 ----------------------
 
  -- C function exported to Guile: `c-lw6net-init'
      Wrapper on lw6net_init.
 
-4.13.137 c-lw6net-quit
+4.13.143 c-lw6net-quit
 ----------------------
 
  -- C function exported to Guile: `c-lw6net-quit'
      Wrapper on lw6net_quit.
 
-4.13.138 c-lw6p2p-db-default-name
+4.13.144 c-lw6p2p-db-default-name
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6p2p-db-default-name'
      Wrapper on lw6p2p_db_default_name.
 
-4.13.139 c-lw6p2p-db-new
+4.13.145 c-lw6p2p-db-new
 ------------------------
 
  -- C function exported to Guile: `c-lw6p2p-db-new'
      Wrapper on lw6p2p_db_new.
 
-4.13.140 c-lw6p2p-db-reset
+4.13.146 c-lw6p2p-db-reset
 --------------------------
 
  -- C function exported to Guile: `c-lw6p2p-db-reset'
      Wrapper on lw6p2p_db_reset.
 
-4.13.141 c-lw6p2p-node-close
+4.13.147 c-lw6p2p-node-close
 ----------------------------
 
  -- C function exported to Guile: `c-lw6p2p-node-close'
      Wrapper on lw6p2p_node_close.
 
-4.13.142 c-lw6p2p-node-get-id
+4.13.148 c-lw6p2p-node-get-id
 -----------------------------
 
  -- C function exported to Guile: `c-lw6p2p-node-get-id'
      Wrapper on lw6p2p_node_get_id.
 
-4.13.143 c-lw6p2p-node-new
+4.13.149 c-lw6p2p-node-new
 --------------------------
 
  -- C function exported to Guile: `c-lw6p2p-node-new'
      Wrapper on lw6p2p_node_new.
 
-4.13.144 c-lw6p2p-node-poll
+4.13.150 c-lw6p2p-node-poll
 ---------------------------
 
  -- C function exported to Guile: `c-lw6p2p-node-poll'
      Wrapper on lw6p2p_node_poll.
 
-4.13.145 c-lw6pil-bench
+4.13.151 c-lw6pil-bench
 -----------------------
 
  -- C function exported to Guile: `c-lw6pil-bench'
      Wrapper on lw6pil_bench.
 
-4.13.146 c-lw6pil-build-pilot
+4.13.152 c-lw6pil-build-pilot
 -----------------------------
 
  -- C function exported to Guile: `c-lw6pil-build-pilot'
      Wrapper on lw6pil_build_pilot.
 
-4.13.147 c-lw6pil-calibrate
+4.13.153 c-lw6pil-calibrate
 ---------------------------
 
  -- C function exported to Guile: `c-lw6pil-calibrate'
      Wrapper on lw6pil_calibrate.
 
-4.13.148 c-lw6pil-commit
+4.13.154 c-lw6pil-commit
 ------------------------
 
  -- C function exported to Guile: `c-lw6pil-commit'
      Wrapper on lw6pil_commit.
 
-4.13.149 c-lw6pil-execute-command
+4.13.155 c-lw6pil-execute-command
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6pil-execute-command'
      Wrapper on lw6pil_execute_command.
 
-4.13.150 c-lw6pil-fix-coords
+4.13.156 c-lw6pil-fix-coords
 ----------------------------
 
  -- C function exported to Guile: `c-lw6pil-fix-coords'
      Wrapper on lw6pil_fix_coords.
 
-4.13.151 c-lw6pil-get-last-commit-round
+4.13.157 c-lw6pil-get-last-commit-round
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6pil-get-last-commit-round'
      Wrapper on lw6pil_get_last_commit_round.
 
-4.13.152 c-lw6pil-get-max-round
+4.13.158 c-lw6pil-get-max-round
 -------------------------------
 
  -- C function exported to Guile: `c-lw6pil-get-max-round'
      Wrapper on lw6pil_get_max_round.
 
-4.13.153 c-lw6pil-get-next-round
+4.13.159 c-lw6pil-get-next-round
 --------------------------------
 
  -- C function exported to Guile: `c-lw6pil-get-next-round'
      Wrapper on lw6pil_get_next_round.
 
-4.13.154 c-lw6pil-get-reference-current-round
+4.13.160 c-lw6pil-get-reference-current-round
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6pil-get-reference-current-round'
      Wrapper on lw6pil_get_reference_current_round.
 
-4.13.155 c-lw6pil-get-reference-target-round
+4.13.161 c-lw6pil-get-reference-target-round
 --------------------------------------------
 
  -- C function exported to Guile: `c-lw6pil-get-reference-target-round'
      Wrapper on lw6pil_get_reference_target_round.
 
-4.13.156 c-lw6pil-is-over
+4.13.162 c-lw6pil-is-over
 -------------------------
 
  -- C function exported to Guile: `c-lw6pil-is-over'
      Wrapper on lw6pil_is_over.
 
-4.13.157 c-lw6pil-local-command
+4.13.163 c-lw6pil-local-command
 -------------------------------
 
  -- C function exported to Guile: `c-lw6pil-local-command'
      Wrapper on lw6pil_local_command.
 
-4.13.158 c-lw6pil-local-cursors-set-main
+4.13.164 c-lw6pil-local-cursors-set-main
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6pil-local-cursors-set-main'
      Wrapper on lw6pil_local_cursors_set_main.
 
-4.13.159 c-lw6pil-local-cursors-set-mouse-controlled
+4.13.165 c-lw6pil-local-cursors-set-mouse-controlled
 ----------------------------------------------------
 
  -- C function exported to Guile:
 `c-lw6pil-local-cursors-set-mouse-controlled'
      Wrapper on lw6pil_local_cursors_set_mouse_controlled.
 
-4.13.160 c-lw6pil-make-backup
+4.13.166 c-lw6pil-make-backup
 -----------------------------
 
  -- C function exported to Guile: `c-lw6pil-make-backup'
      Wrapper on lw6pil_make_backup.
 
-4.13.161 c-lw6pil-send-command
+4.13.167 c-lw6pil-send-command
 ------------------------------
 
  -- C function exported to Guile: `c-lw6pil-send-command'
      Wrapper on lw6pil_send_command.
 
-4.13.162 c-lw6pil-slow-down
+4.13.168 c-lw6pil-slow-down
 ---------------------------
 
  -- C function exported to Guile: `c-lw6pil-slow-down'
      Wrapper on lw6pil_slow_down.
 
-4.13.163 c-lw6pil-speed-up
+4.13.169 c-lw6pil-speed-up
 --------------------------
 
  -- C function exported to Guile: `c-lw6pil-speed-up'
      Wrapper on lw6pil_speed_up.
 
-4.13.164 c-lw6pil-sync-from-backup
+4.13.170 c-lw6pil-sync-from-backup
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6pil-sync-from-backup'
      Wrapper on lw6pil_sync_from_backup.
 
-4.13.165 c-lw6pil-sync-from-draft
+4.13.171 c-lw6pil-sync-from-draft
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6pil-sync-from-draft'
      Wrapper on lw6pil_sync_from_draft.
 
-4.13.166 c-lw6pil-sync-from-reference
+4.13.172 c-lw6pil-sync-from-reference
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6pil-sync-from-reference'
      Wrapper on lw6pil_sync_from_reference.
 
-4.13.167 c-lw6snd-get-backends
+4.13.173 c-lw6snd-get-backends
 ------------------------------
 
  -- C function exported to Guile: `c-lw6snd-get-backends'
      Wrapper on lw6snd_get_backends.
 
-4.13.168 c-lw6snd-is-music-file
+4.13.174 c-lw6snd-is-music-file
 -------------------------------
 
  -- C function exported to Guile: `c-lw6snd-is-music-file'
      Wrapper on lw6snd_is_music_file.
 
-4.13.169 c-lw6snd-new
+4.13.175 c-lw6snd-new
 ---------------------
 
  -- C function exported to Guile: `c-lw6snd-new'
      Wrapper on lw6snd_new.
 
-4.13.170 c-lw6snd-play-fx
+4.13.176 c-lw6snd-play-fx
 -------------------------
 
  -- C function exported to Guile: `c-lw6snd-play-fx'
      Wrapper on lw6snd_play_fx.
 
-4.13.171 c-lw6snd-play-music-file
+4.13.177 c-lw6snd-play-music-file
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6snd-play-music-file'
      Wrapper on lw6snd_play_music_file.
 
-4.13.172 c-lw6snd-play-music-random
+4.13.178 c-lw6snd-play-music-random
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6snd-play-music-random'
      Wrapper on lw6snd_play_music_random.
 
-4.13.173 c-lw6snd-poll
+4.13.179 c-lw6snd-poll
 ----------------------
 
  -- C function exported to Guile: `c-lw6snd-poll'
      Wrapper on lw6snd_poll.
 
-4.13.174 c-lw6snd-release
+4.13.180 c-lw6snd-release
 -------------------------
 
  -- C function exported to Guile: `c-lw6snd-release'
      Wrapper on lw6snd_release.
 
-4.13.175 c-lw6snd-set-fx-volume
+4.13.181 c-lw6snd-set-fx-volume
 -------------------------------
 
  -- C function exported to Guile: `c-lw6snd-set-fx-volume'
      Wrapper on lw6snd_set_fx_volume.
 
-4.13.176 c-lw6snd-set-music-volume
+4.13.182 c-lw6snd-set-music-volume
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6snd-set-music-volume'
      Wrapper on lw6snd_set_music_volume.
 
-4.13.177 c-lw6snd-set-water-volume
+4.13.183 c-lw6snd-set-water-volume
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6snd-set-water-volume'
      Wrapper on lw6snd_set_water_volume.
 
-4.13.178 c-lw6snd-stop-music
+4.13.184 c-lw6snd-stop-music
 ----------------------------
 
  -- C function exported to Guile: `c-lw6snd-stop-music'
      Wrapper on lw6snd_stop_music.
 
-4.13.179 c-lw6srv-get-backends
+4.13.185 c-lw6srv-get-backends
 ------------------------------
 
  -- C function exported to Guile: `c-lw6srv-get-backends'
      Wrapper on lw6srv_get_backends.
 
-4.13.180 c-lw6sys-build-get-bin-id
+4.13.186 c-lw6sys-build-get-bin-id
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-bin-id'
      Wrapper on lw6sys_build_get_bin_id.
 
-4.13.181 c-lw6sys-build-get-cflags
+4.13.187 c-lw6sys-build-get-cflags
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-cflags'
      Wrapper on lw6sys_build_get_cflags.
 
-4.13.182 c-lw6sys-build-get-codename
+4.13.188 c-lw6sys-build-get-codename
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-codename'
      Wrapper on lw6sys_build_get_codename.
 
-4.13.183 c-lw6sys-build-get-configure-args
+4.13.189 c-lw6sys-build-get-configure-args
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-configure-args'
      Wrapper on lw6sys_build_get_configure_args.
 
-4.13.184 c-lw6sys-build-get-copyright
+4.13.190 c-lw6sys-build-get-copyright
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-copyright'
      Wrapper on lw6sys_build_get_copyright.
 
-4.13.185 c-lw6sys-build-get-datadir
+4.13.191 c-lw6sys-build-get-datadir
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-datadir'
      Wrapper on lw6sys_build_get_datadir.
 
-4.13.186 c-lw6sys-build-get-date
+4.13.192 c-lw6sys-build-get-date
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-date'
      Wrapper on lw6sys_build_get_date.
 
-4.13.187 c-lw6sys-build-get-enable-allinone
+4.13.193 c-lw6sys-build-get-enable-allinone
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-allinone'
      Wrapper on lw6sys_build_get_enable_allinone.
 
-4.13.188 c-lw6sys-build-get-enable-console
+4.13.194 c-lw6sys-build-get-enable-console
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-console'
      Wrapper on lw6sys_build_get_enable_console.
 
-4.13.189 c-lw6sys-build-get-enable-fullstatic
+4.13.195 c-lw6sys-build-get-enable-fullstatic
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-fullstatic'
      Wrapper on lw6sys_build_get_enable_fullstatic.
 
-4.13.190 c-lw6sys-build-get-enable-gcov
+4.13.196 c-lw6sys-build-get-enable-gcov
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gcov'
      Wrapper on lw6sys_build_get_enable_gcov.
 
-4.13.191 c-lw6sys-build-get-enable-gprof
+4.13.197 c-lw6sys-build-get-enable-gprof
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gprof'
      Wrapper on lw6sys_build_get_enable_gprof.
 
-4.13.192 c-lw6sys-build-get-enable-gtk
+4.13.198 c-lw6sys-build-get-enable-gtk
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-gtk'
      Wrapper on lw6sys_build_get_enable_gtk.
 
-4.13.193 c-lw6sys-build-get-enable-instrument
+4.13.199 c-lw6sys-build-get-enable-instrument
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-instrument'
      Wrapper on lw6sys_build_get_enable_instrument.
 
-4.13.194 c-lw6sys-build-get-enable-mod-csound
+4.13.200 c-lw6sys-build-get-enable-mod-csound
 ---------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-csound'
      Wrapper on lw6sys_build_get_enable_mod_csound.
 
-4.13.195 c-lw6sys-build-get-enable-mod-gl
+4.13.201 c-lw6sys-build-get-enable-mod-gl
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-gl'
      Wrapper on lw6sys_build_get_enable_mod_gl.
 
-4.13.196 c-lw6sys-build-get-enable-mod-http
+4.13.202 c-lw6sys-build-get-enable-mod-http
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-http'
      Wrapper on lw6sys_build_get_enable_mod_http.
 
-4.13.197 c-lw6sys-build-get-enable-mod-ogg
+4.13.203 c-lw6sys-build-get-enable-mod-ogg
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-mod-ogg'
      Wrapper on lw6sys_build_get_enable_mod_ogg.
 
-4.13.198 c-lw6sys-build-get-enable-openmp
+4.13.204 c-lw6sys-build-get-enable-openmp
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-openmp'
      Wrapper on lw6sys_build_get_enable_openmp.
 
-4.13.199 c-lw6sys-build-get-enable-optimize
+4.13.205 c-lw6sys-build-get-enable-optimize
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-optimize'
      Wrapper on lw6sys_build_get_enable_optimize.
 
-4.13.200 c-lw6sys-build-get-enable-paranoid
+4.13.206 c-lw6sys-build-get-enable-paranoid
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-paranoid'
      Wrapper on lw6sys_build_get_enable_paranoid.
 
-4.13.201 c-lw6sys-build-get-enable-profiler
+4.13.207 c-lw6sys-build-get-enable-profiler
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-profiler'
      Wrapper on lw6sys_build_get_enable_profiler.
 
-4.13.202 c-lw6sys-build-get-enable-valgrind
+4.13.208 c-lw6sys-build-get-enable-valgrind
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-enable-valgrind'
      Wrapper on lw6sys_build_get_enable_valgrind.
 
-4.13.203 c-lw6sys-build-get-endianness
+4.13.209 c-lw6sys-build-get-endianness
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-endianness'
      Wrapper on lw6sys_build_get_endianness.
 
-4.13.204 c-lw6sys-build-get-gcc-version
+4.13.210 c-lw6sys-build-get-gcc-version
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-gcc-version'
      Wrapper on lw6sys_build_get_gcc_version.
 
-4.13.205 c-lw6sys-build-get-host-cpu
+4.13.211 c-lw6sys-build-get-host-cpu
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-host-cpu'
      Wrapper on lw6sys_build_get_host_cpu.
 
-4.13.206 c-lw6sys-build-get-host-os
+4.13.212 c-lw6sys-build-get-host-os
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-host-os'
      Wrapper on lw6sys_build_get_host_os.
 
-4.13.207 c-lw6sys-build-get-hostname
+4.13.213 c-lw6sys-build-get-hostname
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-hostname'
      Wrapper on lw6sys_build_get_hostname.
 
-4.13.208 c-lw6sys-build-get-includedir
+4.13.214 c-lw6sys-build-get-includedir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-includedir'
      Wrapper on lw6sys_build_get_includedir.
 
-4.13.209 c-lw6sys-build-get-ldflags
+4.13.215 c-lw6sys-build-get-ldflags
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-ldflags'
      Wrapper on lw6sys_build_get_ldflags.
 
-4.13.210 c-lw6sys-build-get-libdir
+4.13.216 c-lw6sys-build-get-libdir
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-libdir'
      Wrapper on lw6sys_build_get_libdir.
 
-4.13.211 c-lw6sys-build-get-license
+4.13.217 c-lw6sys-build-get-license
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-license'
      Wrapper on lw6sys_build_get_license.
 
-4.13.212 c-lw6sys-build-get-localedir
+4.13.218 c-lw6sys-build-get-localedir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-localedir'
      Wrapper on lw6sys_build_get_localedir.
 
-4.13.213 c-lw6sys-build-get-md5sum
+4.13.219 c-lw6sys-build-get-md5sum
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-md5sum'
      Wrapper on lw6sys_build_get_md5sum.
 
-4.13.214 c-lw6sys-build-get-package-name
+4.13.220 c-lw6sys-build-get-package-name
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-name'
      Wrapper on lw6sys_build_get_package_name.
 
-4.13.215 c-lw6sys-build-get-package-string
+4.13.221 c-lw6sys-build-get-package-string
 ------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-string'
      Wrapper on lw6sys_build_get_package_string.
 
-4.13.216 c-lw6sys-build-get-package-tarname
+4.13.222 c-lw6sys-build-get-package-tarname
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-package-tarname'
      Wrapper on lw6sys_build_get_package_tarname.
 
-4.13.217 c-lw6sys-build-get-pointer-size
+4.13.223 c-lw6sys-build-get-pointer-size
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-pointer-size'
      Wrapper on lw6sys_build_get_pointer_size.
 
-4.13.218 c-lw6sys-build-get-prefix
+4.13.224 c-lw6sys-build-get-prefix
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-prefix'
      Wrapper on lw6sys_build_get_prefix.
 
-4.13.219 c-lw6sys-build-get-stamp
+4.13.225 c-lw6sys-build-get-stamp
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-stamp'
      Wrapper on lw6sys_build_get_stamp.
 
-4.13.220 c-lw6sys-build-get-time
+4.13.226 c-lw6sys-build-get-time
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-time'
      Wrapper on lw6sys_build_get_time.
 
-4.13.221 c-lw6sys-build-get-top-srcdir
+4.13.227 c-lw6sys-build-get-top-srcdir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-top-srcdir'
      Wrapper on lw6sys_build_get_top_srcdir.
 
-4.13.222 c-lw6sys-build-get-url
+4.13.228 c-lw6sys-build-get-url
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-url'
      Wrapper on lw6sys_build_get_url.
 
-4.13.223 c-lw6sys-build-get-version
+4.13.229 c-lw6sys-build-get-version
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-get-version'
      Wrapper on lw6sys_build_get_version.
 
-4.13.224 c-lw6sys-build-is-gp2x
+4.13.230 c-lw6sys-build-is-gp2x
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-gp2x'
      Wrapper on lw6sys_build_is_gp2x.
 
-4.13.225 c-lw6sys-build-is-mac-os-x
+4.13.231 c-lw6sys-build-is-mac-os-x
 -----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-mac-os-x'
      Wrapper on lw6sys_build_is_mac_os_x.
 
-4.13.226 c-lw6sys-build-is-ms-windows
+4.13.232 c-lw6sys-build-is-ms-windows
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-ms-windows'
      Wrapper on lw6sys_build_is_ms_windows.
 
-4.13.227 c-lw6sys-build-is-x86
+4.13.233 c-lw6sys-build-is-x86
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-build-is-x86'
      Wrapper on lw6sys_build_is_x86.
 
-4.13.228 c-lw6sys-debug-get
+4.13.234 c-lw6sys-debug-get
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-debug-get'
      Wrapper on lw6sys_debug_get.
 
-4.13.229 c-lw6sys-debug-set
+4.13.235 c-lw6sys-debug-set
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-debug-set'
      Wrapper on lw6sys_debug_set.
 
-4.13.230 c-lw6sys-delay
+4.13.236 c-lw6sys-delay
 -----------------------
 
  -- C function exported to Guile: `c-lw6sys-delay'
      Wrapper on lw6sys_delay.
 
-4.13.231 c-lw6sys-dump
+4.13.237 c-lw6sys-dump
 ----------------------
 
  -- C function exported to Guile: `c-lw6sys-dump'
      Wrapper on lw6sys_dump.
 
-4.13.232 c-lw6sys-dump-clear
+4.13.238 c-lw6sys-dump-clear
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-dump-clear'
      Wrapper on lw6sys_dump_clear.
 
-4.13.233 c-lw6sys-generate-id-16
+4.13.239 c-lw6sys-generate-id-16
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-16'
      Wrapper on lw6sys_generate_id_16.
 
-4.13.234 c-lw6sys-generate-id-32
+4.13.240 c-lw6sys-generate-id-32
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-32'
      Wrapper on lw6sys_generate_id_32.
 
-4.13.235 c-lw6sys-generate-id-64
+4.13.241 c-lw6sys-generate-id-64
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-generate-id-64'
      Wrapper on lw6sys_generate_id_64.
 
-4.13.236 c-lw6sys-get-config-file
+4.13.242 c-lw6sys-get-config-file
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-config-file'
      Wrapper on lw6sys_get_config_file.
 
-4.13.237 c-lw6sys-get-cwd
+4.13.243 c-lw6sys-get-cwd
 -------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-cwd'
      Wrapper on lw6sys_get_cwd.
 
-4.13.238 c-lw6sys-get-cycle
+4.13.244 c-lw6sys-get-cycle
 ---------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-cycle'
      Wrapper on lw6sys_get_cycle.
 
-4.13.239 c-lw6sys-get-data-dir
+4.13.245 c-lw6sys-get-data-dir
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-data-dir'
      Wrapper on lw6sys_get_data_dir.
 
-4.13.240 c-lw6sys-get-default-config-file
+4.13.246 c-lw6sys-get-default-config-file
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-config-file'
      Wrapper on lw6sys_get_default_config_file.
 
-4.13.241 c-lw6sys-get-default-data-dir
+4.13.247 c-lw6sys-get-default-data-dir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-data-dir'
      Wrapper on lw6sys_get_default_data_dir.
 
-4.13.242 c-lw6sys-get-default-log-file
+4.13.248 c-lw6sys-get-default-log-file
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-log-file'
      Wrapper on lw6sys_get_default_log_file.
 
-4.13.243 c-lw6sys-get-default-map-dir
+4.13.249 c-lw6sys-get-default-map-dir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-map-dir'
      Wrapper on lw6sys_get_default_map_dir.
 
-4.13.244 c-lw6sys-get-default-map-path
+4.13.250 c-lw6sys-get-default-map-path
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-map-path'
      Wrapper on lw6sys_get_default_map_path.
 
-4.13.245 c-lw6sys-get-default-mod-dir
+4.13.251 c-lw6sys-get-default-mod-dir
 -------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-mod-dir'
      Wrapper on lw6sys_get_default_mod_dir.
 
-4.13.246 c-lw6sys-get-default-music-dir
+4.13.252 c-lw6sys-get-default-music-dir
 ---------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-music-dir'
      Wrapper on lw6sys_get_default_music_dir.
 
-4.13.247 c-lw6sys-get-default-music-path
+4.13.253 c-lw6sys-get-default-music-path
 ----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-music-path'
      Wrapper on lw6sys_get_default_music_path.
 
-4.13.248 c-lw6sys-get-default-prefix
+4.13.254 c-lw6sys-get-default-prefix
 ------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-prefix'
      Wrapper on lw6sys_get_default_prefix.
 
-4.13.249 c-lw6sys-get-default-script-file
+4.13.255 c-lw6sys-get-default-script-file
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-script-file'
      Wrapper on lw6sys_get_default_script_file.
 
-4.13.250 c-lw6sys-get-default-user-dir
+4.13.256 c-lw6sys-get-default-user-dir
 --------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-default-user-dir'
      Wrapper on lw6sys_get_default_user_dir.
 
-4.13.251 c-lw6sys-get-hostname
+4.13.257 c-lw6sys-get-hostname
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-hostname'
      Wrapper on lw6sys_get_hostname.
 
-4.13.252 c-lw6sys-get-log-file
+4.13.258 c-lw6sys-get-log-file
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-log-file'
      Wrapper on lw6sys_get_log_file.
 
-4.13.253 c-lw6sys-get-map-dir
+4.13.259 c-lw6sys-get-map-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-map-dir'
      Wrapper on lw6sys_get_map_dir.
 
-4.13.254 c-lw6sys-get-map-path
+4.13.260 c-lw6sys-get-map-path
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-map-path'
      Wrapper on lw6sys_get_map_path.
 
-4.13.255 c-lw6sys-get-mod-dir
+4.13.261 c-lw6sys-get-mod-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-mod-dir'
      Wrapper on lw6sys_get_mod_dir.
 
-4.13.256 c-lw6sys-get-music-dir
+4.13.262 c-lw6sys-get-music-dir
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-music-dir'
      Wrapper on lw6sys_get_music_dir.
 
-4.13.257 c-lw6sys-get-music-path
+4.13.263 c-lw6sys-get-music-path
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-music-path'
      Wrapper on lw6sys_get_music_path.
 
-4.13.258 c-lw6sys-get-prefix
+4.13.264 c-lw6sys-get-prefix
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-prefix'
      Wrapper on lw6sys_get_prefix.
 
-4.13.259 c-lw6sys-get-run-dir
+4.13.265 c-lw6sys-get-run-dir
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-run-dir'
      Wrapper on lw6sys_get_run_dir.
 
-4.13.260 c-lw6sys-get-script-file
+4.13.266 c-lw6sys-get-script-file
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-script-file'
      Wrapper on lw6sys_get_script_file.
 
-4.13.261 c-lw6sys-get-timestamp
+4.13.267 c-lw6sys-get-timestamp
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-timestamp'
      Wrapper on lw6sys_get_timestamp.
 
-4.13.262 c-lw6sys-get-uptime
+4.13.268 c-lw6sys-get-uptime
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-uptime'
      Wrapper on lw6sys_get_uptime.
 
-4.13.263 c-lw6sys-get-user-dir
+4.13.269 c-lw6sys-get-user-dir
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-user-dir'
      Wrapper on lw6sys_get_user_dir.
 
-4.13.264 c-lw6sys-get-username
+4.13.270 c-lw6sys-get-username
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-get-username'
      Wrapper on lw6sys_get_username.
 
-4.13.265 c-lw6sys-getenv
+4.13.271 c-lw6sys-getenv
 ------------------------
 
  -- C function exported to Guile: `c-lw6sys-getenv'
      Wrapper on lw6sys_getenv.
 
-4.13.266 c-lw6sys-getenv-prefixed
+4.13.272 c-lw6sys-getenv-prefixed
 ---------------------------------
 
  -- C function exported to Guile: `c-lw6sys-getenv-prefixed'
      Wrapper on lw6sys_getenv_prefixed.
 
-4.13.267 c-lw6sys-idle
+4.13.273 c-lw6sys-idle
 ----------------------
 
  -- C function exported to Guile: `c-lw6sys-idle'
      Wrapper on lw6sys_idle.
 
-4.13.268 c-lw6sys-log
+4.13.274 c-lw6sys-log
 ---------------------
 
  -- C function exported to Guile: `c-lw6sys-log'
      Wrapper on lw6sys_log.
 
-4.13.269 c-lw6sys-log-get-level
+4.13.275 c-lw6sys-log-get-level
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-log-get-level'
      Wrapper on lw6sys_log_get_level.
 
-4.13.270 c-lw6sys-log-set-level
+4.13.276 c-lw6sys-log-set-level
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-log-set-level'
      Wrapper on lw6sys_log_set_level.
 
-4.13.271 c-lw6sys-path-concat
+4.13.277 c-lw6sys-path-concat
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-concat'
      Wrapper on lw6sys_path_concat.
 
-4.13.272 c-lw6sys-path-parent
+4.13.278 c-lw6sys-path-parent
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-parent'
      Wrapper on lw6sys_path_parent.
 
-4.13.273 c-lw6sys-path-split
+4.13.279 c-lw6sys-path-split
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-split'
      Wrapper on lw6sys_path_split.
 
-4.13.274 c-lw6sys-set-memory-bazooka-eraser
+4.13.280 c-lw6sys-set-memory-bazooka-eraser
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-eraser'
      Wrapper on lw6sys_set_memory_bazooka_eraser.
 
-4.13.275 c-lw6sys-set-memory-bazooka-size
+4.13.281 c-lw6sys-set-memory-bazooka-size
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-size'
      Wrapper on lw6sys_set_memory_bazooka_size.
 
-4.13.276 c-lw6sys-signal-custom
+4.13.282 c-lw6sys-signal-custom
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-custom'
      Wrapper on lw6sys_signal_custom.
 
-4.13.277 c-lw6sys-signal-default
+4.13.283 c-lw6sys-signal-default
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-default'
      Wrapper on lw6sys_signal_default.
 
-4.13.278 c-lw6sys-signal-poll-quit
+4.13.284 c-lw6sys-signal-poll-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-poll-quit'
      Wrapper on lw6sys_signal_poll_quit.
 
-4.13.279 c-lw6sys-signal-send-quit
+4.13.285 c-lw6sys-signal-send-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-send-quit'
      Wrapper on lw6sys_signal_send_quit.
 
-4.13.280 c-lw6sys-sleep
+4.13.286 c-lw6sys-sleep
 -----------------------
 
  -- C function exported to Guile: `c-lw6sys-sleep'
      Wrapper on lw6sys_sleep.
 
-4.13.281 c-lw6sys-snooze
+4.13.287 c-lw6sys-snooze
 ------------------------
 
  -- C function exported to Guile: `c-lw6sys-snooze'
      Wrapper on lw6sys_snooze.
 
-4.13.282 c-lw6sys-url-canonize
+4.13.288 c-lw6sys-url-canonize
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-url-canonize'
      Wrapper on lw6sys_url_canonize.
 
-4.13.283 c-lw6tsk-loader-get-stage
+4.13.289 c-lw6tsk-loader-get-stage
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-get-stage'
      Wrapper on lw6tsk_loader_get_stage.
 
-4.13.284 c-lw6tsk-loader-new
+4.13.290 c-lw6tsk-loader-new
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-new'
      Wrapper on lw6tsk_loader_new.
 
-4.13.285 c-lw6tsk-loader-pop
+4.13.291 c-lw6tsk-loader-pop
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-pop'
      Wrapper on lw6tsk_loader_pop.
 
-4.13.286 c-lw6tsk-loader-push
+4.13.292 c-lw6tsk-loader-push
 -----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-push'

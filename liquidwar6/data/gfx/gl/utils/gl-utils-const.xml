@@ -43,6 +43,10 @@
   <int key="keysym2-enter" value="271" /> <!-- SDLK_KP_ENTER -->
   <int key="keysym1-esc" value="27" /> <!-- SDLK_ESCAPE -->
   <int key="keysym2-esc" value="256" /> <!-- SDLK_KP0 -->
+  <int key="keysym1-ctrl" value="305" /> <!-- SDLK_RCTRL -->
+  <int key="keysym2-ctrl" value="306" /> <!-- SDLK_LCTRL -->
+  <int key="keysym1-alt" value="307" /> <!-- SDLK_RALT -->
+  <int key="keysym2-alt" value="308" /> <!-- SDLK_LALT -->
   <int key="keysym1-pgup" value="280" /> <!-- SDLK_PAGEUP -->
   <int key="keysym2-pgup" value="269" /> <!-- SDLK_KP_MINUS -->
   <int key="keysym1-pgdown" value="281" /> <!-- SDLK_PAGEDOWN -->
@@ -50,15 +54,19 @@
   <int key="keysym-quit" value="291" /> <!-- SDLK_F10 -->
   <int key="joystick-limit" value="16384" />
   <int key="joystick1-index" value="0" />
-  <int key="joystick1-button-a-index" value="0" />
-  <int key="joystick1-button-b-index" value="1" />
-  <int key="joystick1-button-c-index" value="2" />
-  <int key="joystick1-button-d-index" value="3" />
+  <int key="joystick1-button-ok-index" value="0" />
+  <int key="joystick1-button-cancel-index" value="1" />
+  <int key="joystick1-button-fire-index" value="2" />
+  <int key="joystick1-button-fire2-index" value="3" />
+  <int key="joystick1-button-plus-index" value="4" />
+  <int key="joystick1-button-minus-index" value="5" />
   <int key="joystick2-index" value="1" />
-  <int key="joystick2-button-a-index" value="0" />
-  <int key="joystick2-button-b-index" value="1" />
-  <int key="joystick2-button-c-index" value="2" />
-  <int key="joystick2-button-d-index" value="3" />
+  <int key="joystick2-button-ok-index" value="0" />
+  <int key="joystick2-button-cancel-index" value="1" />
+  <int key="joystick2-button-fire-index" value="2" />
+  <int key="joystick2-button-fire2-index" value="3" />
+  <int key="joystick2-button-plus-index" value="4" />
+  <int key="joystick2-button-minus-index" value="5" />
   <bool key="joystick-all-buttons" value="true" />
   <int key="smoother-global-zoom-duration" value="200" />
   <int key="smoother-center-duration" value="500" />

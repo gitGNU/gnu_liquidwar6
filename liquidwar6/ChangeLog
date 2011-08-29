@@ -1,3 +1,7 @@
+2011-08-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added support for CTRL/ALT to use primary/secondary weapons.
+
 2011-08-29 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added options for alternate weapons.

@@ -30,6 +30,7 @@
 	(hash-set! cursor "x" -1)
 	(hash-set! cursor "y" -1)
 	(hash-set! cursor "fire" #f)
+	(hash-set! cursor "fire2" #f)
 	(hash-set! cursor "mouse-controlled" #f)
 	(hash-set! cursor "vx" 0.0)
 	(hash-set! cursor "vy" 0.0)

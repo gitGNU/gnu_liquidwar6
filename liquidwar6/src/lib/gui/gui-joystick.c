@@ -165,13 +165,17 @@ lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick,
 			       timestamp);
   lw6gui_button_update_repeat (&(joystick->button_right), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_a), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_ok), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_b), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_cancel), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_c), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_fire), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_d), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_fire2), repeat_settings,
+			       timestamp);
+  lw6gui_button_update_repeat (&(joystick->button_plus), repeat_settings,
+			       timestamp);
+  lw6gui_button_update_repeat (&(joystick->button_minus), repeat_settings,
 			       timestamp);
 }
 
@@ -195,10 +199,12 @@ lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
     lw6gui_button_sync (&(dst->button_down), &(src->button_down)) &&
     lw6gui_button_sync (&(dst->button_left), &(src->button_left)) &&
     lw6gui_button_sync (&(dst->button_right), &(src->button_right)) &&
-    lw6gui_button_sync (&(dst->button_a), &(src->button_a)) &&
-    lw6gui_button_sync (&(dst->button_b), &(src->button_b)) &&
-    lw6gui_button_sync (&(dst->button_c), &(src->button_c)) &&
-    lw6gui_button_sync (&(dst->button_d), &(src->button_d));
+    lw6gui_button_sync (&(dst->button_ok), &(src->button_ok)) &&
+    lw6gui_button_sync (&(dst->button_cancel), &(src->button_cancel)) &&
+    lw6gui_button_sync (&(dst->button_fire), &(src->button_fire)) &&
+    lw6gui_button_sync (&(dst->button_fire2), &(src->button_fire2)) &&
+    lw6gui_button_sync (&(dst->button_plus), &(src->button_plus)) &&
+    lw6gui_button_sync (&(dst->button_minus), &(src->button_minus));
 
   return ret;
 }

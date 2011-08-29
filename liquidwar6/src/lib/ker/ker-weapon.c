@@ -29,6 +29,9 @@
 #include "ker.h"
 #include "ker-internal.h"
 
+#define _INSTANT_DURATION_DIV1 10
+#define _INSTANT_DURATION_DIV2 2
+
 void
 _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t * map_state,
 				   int weapon_id)
@@ -127,30 +130,12 @@ _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
   return ret;
 }
 
-int
-_lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
-		     lw6map_rules_t * rules, int round, int team_color,
-		     int charge_percent)
+static int
+_do_fire (_lw6ker_map_state_t * map_state,
+	  lw6map_rules_t * rules, int round, int team_color,
+	  int charge_percent, int weapon_id)
 {
-  int weapon_id = -1;
   int ret = 0;
-
-  switch (rules->team_profile_weapon_mode[team_color])
-    {
-    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE:
-      lw6sys_log (LW6SYS_LOG_DEBUG,
-		  _x_ ("weapons disabled by config, doing nothing"));
-      break;
-    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_BY_ID:
-      weapon_id = rules->team_profile_weapon_id[team_color];
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("weapon %d for color %d (config)"),
-		  weapon_id, team_color);
-      break;
-    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_RANDOM:
-      weapon_id = lw6sys_random (LW6MAP_MAX_WEAPON_ID + 1);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random weapon %d"), weapon_id);
-      break;
-    }
 
   if (weapon_id >= LW6MAP_MIN_WEAPON_ID && weapon_id <= LW6MAP_MAX_WEAPON_ID)
     {
@@ -255,14 +240,97 @@ _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 					team_color, charge_percent);
 	  break;
 	}
-      if (ret)
-	{
-	  map_state->teams[team_color].weapon_id = weapon_id;
-	  map_state->teams[team_color].weapon_first_round = round;
-	  map_state->teams[team_color].weapon_last_round =
-	    round + rules->rounds_per_sec * rules->weapon_duration;
-	}
     }
+
+  return ret;
+}
+
+static void
+_register_weapon_duration (_lw6ker_map_state_t * map_state,
+			   lw6map_rules_t * rules, int round, int team_color,
+			   int charge_percent, int weapon_id)
+{
+  map_state->teams[team_color].weapon_id = weapon_id;
+  map_state->teams[team_color].weapon_first_round = round;
+  map_state->teams[team_color].weapon_last_round =
+    round + lw6ker_percent (rules->rounds_per_sec * rules->weapon_duration,
+			    charge_percent);
+}
+
+static void
+_register_weapon_instant (_lw6ker_map_state_t * map_state,
+			  lw6map_rules_t * rules, int round, int team_color,
+			  int charge_percent, int weapon_id)
+{
+  map_state->teams[team_color].weapon_id = weapon_id;
+  map_state->teams[team_color].weapon_first_round = round;
+  map_state->teams[team_color].weapon_last_round =
+    round +
+    lw6sys_min ((rules->rounds_per_sec * rules->weapon_duration) /
+		_INSTANT_DURATION_DIV1,
+		rules->rounds_per_sec / _INSTANT_DURATION_DIV2);
+}
+
+int
+_lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
+		     lw6map_rules_t * rules, int round, int team_color,
+		     int charge_percent)
+{
+  int weapon_id = -1;
+  int ret = 0;
+
+  switch (rules->team_profile_weapon_mode[team_color])
+    {
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE:
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("weapons disabled by config, doing nothing"));
+      break;
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_BY_ID:
+      weapon_id = rules->team_profile_weapon_id[team_color];
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("weapon %d for color %d (config)"),
+		  weapon_id, team_color);
+      break;
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_RANDOM:
+      weapon_id = lw6sys_random (LW6MAP_MAX_WEAPON_ID + 1);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random weapon %d"), weapon_id);
+      break;
+    }
+
+  ret =
+    _do_fire (map_state, rules, round, team_color, charge_percent, weapon_id);
+
+  return ret;
+}
+
+int
+_lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
+		      lw6map_rules_t * rules, int round, int team_color,
+		      int charge_percent)
+{
+  int weapon_id = -1;
+  int ret = 0;
+
+  switch (rules->team_profile_weapon_mode[team_color])
+    {
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE:
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("weapons disabled by config, doing nothing"));
+      break;
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_BY_ID:
+      weapon_id = rules->team_profile_weapon_alternate_id[team_color];
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("alternate weapon %d for color %d (config)"),
+		  weapon_id, team_color);
+      break;
+    case LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_RANDOM:
+      weapon_id = lw6sys_random (LW6MAP_MAX_WEAPON_ID + 1);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random alternate weapon %d"),
+		  weapon_id);
+      break;
+    }
+
+  ret =
+    _do_fire (map_state, rules, round, team_color, charge_percent, weapon_id);
 
   return ret;
 }
@@ -274,6 +342,13 @@ _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
 {
   int ret = 1;
 
+  /*
+   * BEZERK weapon is implemented right in the move/action function,
+   * when in this mode, the attack table is modified, nothing to do here.
+   */
+  _register_weapon_duration (map_state, rules, round, team_color,
+			     charge_percent, _LW6KER_WEAPON_BEZERK);
+
   return ret;
 }
 
@@ -284,6 +359,13 @@ _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
 {
   int ret = 1;
 
+  /*
+   * INVINCIBLE weapon is implemented right in the move/action function,
+   * when in this mode, the attack table is modified, nothing to do here.
+   */
+  _register_weapon_duration (map_state, rules, round, team_color,
+			     charge_percent, _LW6KER_WEAPON_INVINCIBLE);
+
   return ret;
 }
 
@@ -293,6 +375,24 @@ _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
 			    int charge_percent)
 {
   int ret = 1;
+  int x, y, z;
+  lw6sys_whd_t shape;
+
+  shape = map_state->map_struct->shape;
+
+  for (z = 0; z < shape.d; ++z)
+    {
+      for (y = 0; y < shape.h; ++y)
+	{
+	  for (x = 0; x < shape.w; ++x)
+	    {
+	      // todo
+	    }
+	}
+    }
+
+  _register_weapon_instant (map_state, rules, round, team_color,
+			    charge_percent, _LW6KER_WEAPON_ESCAPE);
 
   return ret;
 }
@@ -304,6 +404,13 @@ _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
 {
   int ret = 1;
 
+  /*
+   * TURBO weapon is implemented right in the move/action function,
+   * when in this mode, the move increment is modified, nothing to do here.
+   */
+  _register_weapon_duration (map_state, rules, round, team_color,
+			     charge_percent, _LW6KER_WEAPON_TURBO);
+
   return ret;
 }
 
@@ -312,7 +419,7 @@ _lw6ker_weapon_fire_teleport (_lw6ker_map_state_t * map_state,
 			      lw6map_rules_t * rules, int round,
 			      int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   return ret;
 }
@@ -322,7 +429,7 @@ _lw6ker_weapon_fire_scatter (_lw6ker_map_state_t * map_state,
 			     lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   return ret;
 }
@@ -332,7 +439,7 @@ _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
 			 lw6map_rules_t * rules, int round, int team_color,
 			 int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_FIX);
 
@@ -344,7 +451,7 @@ _lw6ker_weapon_fire_mix (_lw6ker_map_state_t * map_state,
 			 lw6map_rules_t * rules, int round, int team_color,
 			 int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   return ret;
 }
@@ -354,7 +461,7 @@ _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
 			     lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_CONTROL);
 
@@ -366,7 +473,7 @@ _lw6ker_weapon_fire_permutation (_lw6ker_map_state_t * map_state,
 				 lw6map_rules_t * rules, int round,
 				 int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
 
   return ret;
 }
@@ -376,7 +483,7 @@ _lw6ker_weapon_fire_steal (_lw6ker_map_state_t * map_state,
 			   lw6map_rules_t * rules, int round,
 			   int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
   return ret;
 }
 
@@ -385,7 +492,7 @@ _lw6ker_weapon_fire_atomic (_lw6ker_map_state_t * map_state,
 			    lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
   return ret;
 }
 
@@ -394,7 +501,7 @@ _lw6ker_weapon_fire_reverse (_lw6ker_map_state_t * map_state,
 			     lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
   return ret;
 }
 
@@ -403,7 +510,7 @@ _lw6ker_weapon_fire_crazy (_lw6ker_map_state_t * map_state,
 			   lw6map_rules_t * rules, int round,
 			   int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
   return ret;
 }
 
@@ -412,7 +519,8 @@ _lw6ker_weapon_fire_rewind (_lw6ker_map_state_t * map_state,
 			    lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }
 
@@ -421,7 +529,8 @@ _lw6ker_weapon_fire_attract (_lw6ker_map_state_t * map_state,
 			     lw6map_rules_t * rules, int round,
 			     int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }
 
@@ -430,7 +539,8 @@ _lw6ker_weapon_fire_shrink (_lw6ker_map_state_t * map_state,
 			    lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }
 
@@ -439,7 +549,8 @@ _lw6ker_weapon_fire_kamikaze (_lw6ker_map_state_t * map_state,
 			      lw6map_rules_t * rules, int round,
 			      int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }
 
@@ -448,7 +559,8 @@ _lw6ker_weapon_fire_disappear (_lw6ker_map_state_t * map_state,
 			       lw6map_rules_t * rules, int round,
 			       int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }
 
@@ -457,6 +569,7 @@ _lw6ker_weapon_fire_plague (_lw6ker_map_state_t * map_state,
 			    lw6map_rules_t * rules, int round,
 			    int team_color, int charge_percent)
 {
-  int ret = 1;
+  int ret = 0;
+
   return ret;
 }

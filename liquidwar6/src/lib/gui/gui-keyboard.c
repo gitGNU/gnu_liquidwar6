@@ -193,6 +193,10 @@ lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard,
 			       timestamp);
   lw6gui_button_update_repeat (&(keyboard->key_esc), repeat_settings,
 			       timestamp);
+  lw6gui_button_update_repeat (&(keyboard->key_ctrl), repeat_settings,
+			       timestamp);
+  lw6gui_button_update_repeat (&(keyboard->key_alt), repeat_settings,
+			       timestamp);
   lw6gui_button_update_repeat (&(keyboard->key_pgup), repeat_settings,
 			       timestamp);
   lw6gui_button_update_repeat (&(keyboard->key_pgdown), repeat_settings,
@@ -229,6 +233,8 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
     lw6gui_button_sync (&(dst->key_right), &(src->key_right)) &&
     lw6gui_button_sync (&(dst->key_enter), &(src->key_enter)) &&
     lw6gui_button_sync (&(dst->key_esc), &(src->key_esc)) &&
+    lw6gui_button_sync (&(dst->key_ctrl), &(src->key_ctrl)) &&
+    lw6gui_button_sync (&(dst->key_alt), &(src->key_alt)) &&
     lw6gui_button_sync (&(dst->key_pgup), &(src->key_pgup)) &&
     lw6gui_button_sync (&(dst->key_pgdown), &(src->key_pgdown));
 

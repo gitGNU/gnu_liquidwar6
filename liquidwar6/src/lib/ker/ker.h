@@ -79,6 +79,7 @@ typedef struct lw6ker_cursor_control_s
 {
   lw6sys_xyz_t pos;
   int fire;
+  int fire2;
 } lw6ker_cursor_control_t;
 
 typedef struct lw6ker_cursor_s
@@ -90,6 +91,7 @@ typedef struct lw6ker_cursor_s
   int team_color;
   lw6sys_xyz_t pos;
   int fire;
+  int fire2;
   lw6sys_xyz_t apply_pos;
   int32_t pot_offset;
 }
