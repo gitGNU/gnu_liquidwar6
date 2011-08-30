@@ -48,8 +48,8 @@ _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
       || rounds > next_move_round)
     {
       random_context->last_move_round = next_move_round;
-      random_context->pos_x = lw6ker_game_state_get_w (data->game_state);
-      random_context->pos_y = lw6ker_game_state_get_h (data->game_state);
+      random_context->pos_x = lw6sys_random(lw6ker_game_state_get_w (data->game_state));
+      random_context->pos_y = lw6sys_random(lw6ker_game_state_get_h (data->game_state));
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random bot moved %d,%d"),
 		  random_context->pos_x, random_context->pos_y);
     }

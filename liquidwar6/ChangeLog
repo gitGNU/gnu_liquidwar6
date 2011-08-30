@@ -1,5 +1,7 @@
 2011-08-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed bug #34175, random bot wasn't random.
+
 	* Check/upgrade of exp does work.
 
 	* Fixed simple/double-click latency, renamed input functions.
