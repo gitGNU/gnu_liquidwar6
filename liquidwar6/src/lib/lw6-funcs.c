@@ -3797,7 +3797,7 @@ _scm_lw6gui_mouse_pop_wheel_down (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_keyboard_pop_key_up (SCM dsp)
+_scm_lw6gui_keyboard_pop_arrow_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -3810,7 +3810,7 @@ _scm_lw6gui_keyboard_pop_key_up (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.key_up)))
+      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.arrow_up)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -3822,7 +3822,7 @@ _scm_lw6gui_keyboard_pop_key_up (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_keyboard_pop_key_down (SCM dsp)
+_scm_lw6gui_keyboard_pop_arrow_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -3835,7 +3835,7 @@ _scm_lw6gui_keyboard_pop_key_down (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.key_down)))
+      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.arrow_down)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -3847,7 +3847,7 @@ _scm_lw6gui_keyboard_pop_key_down (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_keyboard_pop_key_left (SCM dsp)
+_scm_lw6gui_keyboard_pop_arrow_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -3860,7 +3860,7 @@ _scm_lw6gui_keyboard_pop_key_left (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.key_left)))
+      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.arrow_left)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -3872,7 +3872,7 @@ _scm_lw6gui_keyboard_pop_key_left (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_keyboard_pop_key_right (SCM dsp)
+_scm_lw6gui_keyboard_pop_arrow_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -3885,7 +3885,7 @@ _scm_lw6gui_keyboard_pop_key_right (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.key_right)))
+      if (lw6gui_button_pop_press (&(c_dsp->input->keyboard.arrow_right)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4047,7 +4047,7 @@ _scm_lw6gui_keyboard_pop_key_pgdown (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_up (SCM dsp)
+_scm_lw6gui_joystick1_pop_pad_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4061,7 +4061,7 @@ _scm_lw6gui_joystick1_pop_button_up (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_up)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_up)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4073,7 +4073,7 @@ _scm_lw6gui_joystick1_pop_button_up (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_down (SCM dsp)
+_scm_lw6gui_joystick1_pop_pad_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4087,7 +4087,7 @@ _scm_lw6gui_joystick1_pop_button_down (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_down)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_down)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4099,7 +4099,7 @@ _scm_lw6gui_joystick1_pop_button_down (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_left (SCM dsp)
+_scm_lw6gui_joystick1_pop_pad_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4113,7 +4113,7 @@ _scm_lw6gui_joystick1_pop_button_left (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_left)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_left)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4125,7 +4125,7 @@ _scm_lw6gui_joystick1_pop_button_left (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_right (SCM dsp)
+_scm_lw6gui_joystick1_pop_pad_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4139,7 +4139,7 @@ _scm_lw6gui_joystick1_pop_button_right (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_right)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_right)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4151,7 +4151,7 @@ _scm_lw6gui_joystick1_pop_button_right (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_ok (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_a (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4165,7 +4165,7 @@ _scm_lw6gui_joystick1_pop_button_ok (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_ok)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_a)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4177,7 +4177,7 @@ _scm_lw6gui_joystick1_pop_button_ok (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_cancel (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_b (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4191,7 +4191,7 @@ _scm_lw6gui_joystick1_pop_button_cancel (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_cancel)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_b)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4203,7 +4203,7 @@ _scm_lw6gui_joystick1_pop_button_cancel (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_fire (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_c (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4217,7 +4217,7 @@ _scm_lw6gui_joystick1_pop_button_fire (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_fire)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_c)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4229,7 +4229,7 @@ _scm_lw6gui_joystick1_pop_button_fire (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_fire2 (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_d (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4243,7 +4243,7 @@ _scm_lw6gui_joystick1_pop_button_fire2 (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_fire2)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_d)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4255,7 +4255,7 @@ _scm_lw6gui_joystick1_pop_button_fire2 (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_plus (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_e (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4269,7 +4269,7 @@ _scm_lw6gui_joystick1_pop_button_plus (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_plus)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_e)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4281,7 +4281,7 @@ _scm_lw6gui_joystick1_pop_button_plus (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick1_pop_button_minus (SCM dsp)
+_scm_lw6gui_joystick1_pop_button_f (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4295,7 +4295,7 @@ _scm_lw6gui_joystick1_pop_button_minus (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_minus)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_f)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4307,7 +4307,7 @@ _scm_lw6gui_joystick1_pop_button_minus (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_up (SCM dsp)
+_scm_lw6gui_joystick2_pop_pad_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4321,7 +4321,7 @@ _scm_lw6gui_joystick2_pop_button_up (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_up)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_up)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4333,7 +4333,7 @@ _scm_lw6gui_joystick2_pop_button_up (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_down (SCM dsp)
+_scm_lw6gui_joystick2_pop_pad_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4347,7 +4347,7 @@ _scm_lw6gui_joystick2_pop_button_down (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_down)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_down)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4359,7 +4359,7 @@ _scm_lw6gui_joystick2_pop_button_down (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_left (SCM dsp)
+_scm_lw6gui_joystick2_pop_pad_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4373,7 +4373,7 @@ _scm_lw6gui_joystick2_pop_button_left (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_left)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_left)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4385,7 +4385,7 @@ _scm_lw6gui_joystick2_pop_button_left (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_right (SCM dsp)
+_scm_lw6gui_joystick2_pop_pad_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4399,7 +4399,7 @@ _scm_lw6gui_joystick2_pop_button_right (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_right)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_right)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4411,7 +4411,7 @@ _scm_lw6gui_joystick2_pop_button_right (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_ok (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_a (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4425,7 +4425,7 @@ _scm_lw6gui_joystick2_pop_button_ok (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_ok)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_a)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4437,7 +4437,7 @@ _scm_lw6gui_joystick2_pop_button_ok (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_cancel (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_b (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4451,7 +4451,7 @@ _scm_lw6gui_joystick2_pop_button_cancel (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_cancel)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_b)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4463,7 +4463,7 @@ _scm_lw6gui_joystick2_pop_button_cancel (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_fire (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_c (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4477,7 +4477,7 @@ _scm_lw6gui_joystick2_pop_button_fire (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_fire)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_c)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4489,7 +4489,7 @@ _scm_lw6gui_joystick2_pop_button_fire (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_fire2 (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_d (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4503,7 +4503,7 @@ _scm_lw6gui_joystick2_pop_button_fire2 (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_fire2)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_d)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4515,7 +4515,7 @@ _scm_lw6gui_joystick2_pop_button_fire2 (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_plus (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_e (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4529,7 +4529,7 @@ _scm_lw6gui_joystick2_pop_button_plus (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_plus)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_e)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -4541,7 +4541,7 @@ _scm_lw6gui_joystick2_pop_button_plus (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_joystick2_pop_button_minus (SCM dsp)
+_scm_lw6gui_joystick2_pop_button_f (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -4555,7 +4555,7 @@ _scm_lw6gui_joystick2_pop_button_minus (SCM dsp)
   if (c_dsp)
     {
       if (lw6gui_button_pop_press
-	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_minus)))
+	  (&(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_f)))
 	{
 	  ret = SCM_BOOL_T;
 	}
@@ -5207,6 +5207,38 @@ _scm_lw6ldr_hints_get_default (SCM key)
 
   return ret;
 }
+
+static SCM
+_scm_lw6ldr_exp_validate (SCM level)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6map_level_t *c_level;
+  char *user_dir = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map, level), level,
+	      SCM_ARG1, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      user_dir =
+	lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+      if (user_dir)
+	{
+	  ret =
+	    lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
+	  LW6SYS_FREE (user_dir);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 
 /*
  * In liquidwar6map
@@ -6102,6 +6134,45 @@ _scm_lw6ker_is_over (SCM game_state)
   return ret;
 }
 
+static SCM
+_scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_cursor_id_str;
+  u_int16_t c_cursor_id_int = 0;
+  lw6ker_game_state_t *c_game_state;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.game_state,
+	       game_state), game_state, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
+
+  c_game_state = lw6_scm_to_game_state (game_state);
+  if (c_game_state)
+    {
+      c_cursor_id_str = to_0str (cursor_id);
+      if (c_cursor_id_str)
+	{
+	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
+	  LW6SYS_FREE (c_cursor_id_str);
+	}
+
+      if (lw6sys_check_id (c_cursor_id_int))
+	{
+	  ret =
+	    lw6ker_game_state_did_cursor_win (c_game_state,
+					      c_cursor_id_int) ? SCM_BOOL_T :
+	    SCM_BOOL_F;
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In liquidwar6pil
  */
@@ -6757,6 +6828,45 @@ _scm_lw6pil_is_over (SCM pilot)
       if (lw6pil_pilot_is_over (c_pilot))
 	{
 	  ret = SCM_BOOL_T;
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_cursor_id_str;
+  u_int16_t c_cursor_id_int = 0;
+  lw6pil_pilot_t *c_pilot;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      c_cursor_id_str = to_0str (cursor_id);
+      if (c_cursor_id_str)
+	{
+	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
+	  LW6SYS_FREE (c_cursor_id_str);
+	}
+
+      if (lw6sys_check_id (c_cursor_id_int))
+	{
+	  ret =
+	    lw6pil_pilot_did_cursor_win (c_pilot,
+					 c_cursor_id_int) ? SCM_BOOL_T :
+	    SCM_BOOL_F;
 	}
     }
 
@@ -8490,14 +8600,14 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6gui_mouse_pop_wheel_up);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_mouse_pop_wheel_down);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_up);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_down);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_left);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_right);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_enter);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, 1, 0, 0,
@@ -8510,46 +8620,46 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgup);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgdown);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_up);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_down);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_left);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_right);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_OK, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_ok);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_CANCEL, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_cancel);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_fire);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE2, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_fire2);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_PLUS, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_plus);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_MINUS, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_minus);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_up);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_down);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_left);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_right);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_OK, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_ok);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_CANCEL, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_cancel);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_fire);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE2, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_fire2);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_PLUS, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_plus);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_MINUS, 1, 0, 0,
-			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_minus);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_pad_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_pad_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_pad_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_pad_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_a);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_b);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_c);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_d);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_E, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_e);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_F, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick1_pop_button_f);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_UP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_pad_up);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_DOWN, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_pad_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_LEFT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_pad_left);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_RIGHT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_pad_right);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_a);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_b);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_c);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_d);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_E, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_e);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_F, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_joystick2_pop_button_f);
 
   /*
    * In liquidwar6gfx
@@ -8600,6 +8710,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6ldr_print_examples);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT, 1, 0, 0,
 			 (SCM (*)())_scm_lw6ldr_hints_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_EXP_VALIDATE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_exp_validate);
 
   /*
    * In liquidwar6map
@@ -8667,6 +8779,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6ker_get_rounds);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_IS_OVER, 1, 0, 0,
 			 (SCM (*)())_scm_lw6ker_is_over);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6KER_DID_CURSOR_WIN,
+			 5, 0, 0, (SCM (*)())_scm_lw6ker_did_cursor_win);
 
   /*
    * In liquidwar6pil
@@ -8718,6 +8832,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6pil_get_max_round);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0,
 			 (SCM (*)())_scm_lw6pil_is_over);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_DID_CURSOR_WIN, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_did_cursor_win);
 
   /*
    * In liquidwar6snd

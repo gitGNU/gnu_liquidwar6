@@ -68,10 +68,10 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
   lw6sys_progress_t progress_body;
   lw6sys_progress_t progress_color;
   lw6ldr_hints_t hints;
-  lw6ldr_hints_t hints_tmp;
+  lw6map_rules_t rules_tmp;
   lw6ldr_use_t use;
-  int player_exp = LW6LDR_HINTS_DEFAULT_EXP;
-  int map_exp = LW6LDR_HINTS_DEFAULT_EXP;
+  int player_exp = LW6MAP_RULES_DEFAULT_EXP;
+  int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("loading map \"%s\""), dirname);
 
@@ -83,6 +83,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
     {
       ok = 1;
 
+      lw6cfg_load_exp (user_dir, &player_exp);
       lw6map_rules_defaults (&(level->param.rules));
       lw6ldr_hints_defaults (&hints);
       lw6map_style_defaults (&(level->param.style));
@@ -92,29 +93,43 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
       ok = ok
 	&& lw6map_local_info_set_music_dir (&level->local_info, dirname);
       lw6ldr_rules_update (&(level->param.rules), default_param);
+      level->param.rules.exp = LW6MAP_RULES_DEFAULT_EXP;
       lw6ldr_hints_update (&hints, default_param);
       lw6ldr_style_update (&(level->param.style), default_param);
       lw6ldr_use_update (&use, default_param);
       if (use.use_rules_xml)
 	{
 	  ok = ok && lw6ldr_rules_read (&level->param.rules, dirname);
+	  map_exp = level->param.rules.exp;
 	  lw6ldr_rules_update (&(level->param.rules), forced_param);
-	}
-      if (use.use_hints_xml)
-	{
-	  ok = ok && lw6ldr_hints_read (&hints, dirname);
-	  lw6ldr_hints_update ((&hints), forced_param);
-	  map_exp = hints.exp;
+	  level->param.rules.exp = map_exp;
 	}
       else
 	{
 	  /*
-	   * OK we don't use hints, but still we need to know
+	   * OK we don't use rules, but still we need to know
 	   * the "exp" associated to the level...
 	   */
-	  lw6ldr_hints_defaults (&hints_tmp);
-	  lw6ldr_hints_read (&hints_tmp, dirname);
-	  map_exp = hints_tmp.exp;
+	  lw6map_rules_defaults (&rules_tmp);
+	  lw6ldr_rules_read (&rules_tmp, dirname);
+	  map_exp = rules_tmp.exp;
+	}
+
+      level->param.rules.highest_color_allowed =
+	lw6sys_min (LW6MAP_MAX_NB_TEAMS - 1,
+		    lw6sys_min (level->param.rules.highest_color_allowed,
+				lw6map_exp_get_highest_color_allowed
+				(player_exp)));
+      level->param.rules.highest_weapon_allowed =
+	lw6sys_min (LW6MAP_MAX_WEAPON_ID,
+		    lw6sys_min (level->param.rules.highest_weapon_allowed,
+				lw6map_exp_get_highest_weapon_allowed
+				(player_exp)));
+
+      if (use.use_hints_xml)
+	{
+	  ok = ok && lw6ldr_hints_read (&hints, dirname);
+	  lw6ldr_hints_update ((&hints), forced_param);
 	}
       if (use.use_style_xml)
 	{
@@ -168,7 +183,6 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
       level->texture.has_alpha = lw6map_texture_has_alpha (&(level->texture));
       if (ok)
 	{
-	  lw6cfg_load_exp (user_dir, &player_exp);
 	  if (player_exp >= map_exp)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,

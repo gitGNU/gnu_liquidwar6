@@ -74,26 +74,26 @@ lw6gui_joystick_update_axis_x (lw6gui_joystick_t * joystick,
 {
   if (x < -limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->button_left)))
+      if (!lw6gui_button_is_pressed (&(joystick->pad_left)))
 	{
-	  lw6gui_button_register_down (&(joystick->button_left), timestamp);
+	  lw6gui_button_register_down (&(joystick->pad_left), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->button_left));
+      lw6gui_button_register_up (&(joystick->pad_left));
     }
 
   if (x > limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->button_right)))
+      if (!lw6gui_button_is_pressed (&(joystick->pad_right)))
 	{
-	  lw6gui_button_register_down (&(joystick->button_right), timestamp);
+	  lw6gui_button_register_down (&(joystick->pad_right), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->button_right));
+      lw6gui_button_register_up (&(joystick->pad_right));
     }
 }
 
@@ -117,26 +117,26 @@ lw6gui_joystick_update_axis_y (lw6gui_joystick_t * joystick,
 {
   if (y < -limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->button_up)))
+      if (!lw6gui_button_is_pressed (&(joystick->pad_up)))
 	{
-	  lw6gui_button_register_down (&(joystick->button_up), timestamp);
+	  lw6gui_button_register_down (&(joystick->pad_up), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->button_up));
+      lw6gui_button_register_up (&(joystick->pad_up));
     }
 
   if (y > limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->button_down)))
+      if (!lw6gui_button_is_pressed (&(joystick->pad_down)))
 	{
-	  lw6gui_button_register_down (&(joystick->button_down), timestamp);
+	  lw6gui_button_register_down (&(joystick->pad_down), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->button_down));
+      lw6gui_button_register_up (&(joystick->pad_down));
     }
 }
 
@@ -157,25 +157,25 @@ lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick,
 			       lw6gui_repeat_settings_t * repeat_settings,
 			       int64_t timestamp)
 {
-  lw6gui_button_update_repeat (&(joystick->button_up), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->pad_up), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_down), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->pad_down), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_left), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->pad_left), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_right), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->pad_right), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_ok), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_a), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_cancel), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_b), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_fire), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_c), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_fire2), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_d), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_plus), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_e), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(joystick->button_minus), repeat_settings,
+  lw6gui_button_update_repeat (&(joystick->button_f), repeat_settings,
 			       timestamp);
 }
 
@@ -195,16 +195,16 @@ lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
 {
   int ret = 1;
 
-  ret = lw6gui_button_sync (&(dst->button_up), &(src->button_up)) &&
-    lw6gui_button_sync (&(dst->button_down), &(src->button_down)) &&
-    lw6gui_button_sync (&(dst->button_left), &(src->button_left)) &&
-    lw6gui_button_sync (&(dst->button_right), &(src->button_right)) &&
-    lw6gui_button_sync (&(dst->button_ok), &(src->button_ok)) &&
-    lw6gui_button_sync (&(dst->button_cancel), &(src->button_cancel)) &&
-    lw6gui_button_sync (&(dst->button_fire), &(src->button_fire)) &&
-    lw6gui_button_sync (&(dst->button_fire2), &(src->button_fire2)) &&
-    lw6gui_button_sync (&(dst->button_plus), &(src->button_plus)) &&
-    lw6gui_button_sync (&(dst->button_minus), &(src->button_minus));
+  ret = lw6gui_button_sync (&(dst->pad_up), &(src->pad_up)) &&
+    lw6gui_button_sync (&(dst->pad_down), &(src->pad_down)) &&
+    lw6gui_button_sync (&(dst->pad_left), &(src->pad_left)) &&
+    lw6gui_button_sync (&(dst->pad_right), &(src->pad_right)) &&
+    lw6gui_button_sync (&(dst->button_a), &(src->button_a)) &&
+    lw6gui_button_sync (&(dst->button_b), &(src->button_b)) &&
+    lw6gui_button_sync (&(dst->button_c), &(src->button_c)) &&
+    lw6gui_button_sync (&(dst->button_d), &(src->button_d)) &&
+    lw6gui_button_sync (&(dst->button_e), &(src->button_e)) &&
+    lw6gui_button_sync (&(dst->button_f), &(src->button_f));
 
   return ret;
 }
@@ -224,8 +224,8 @@ void
 lw6gui_joystick_get_move_pad (lw6gui_joystick_t * joystick,
 			      lw6gui_move_pad_t * move_pad)
 {
-  move_pad->up = lw6gui_button_is_pressed (&(joystick->button_up));
-  move_pad->down = lw6gui_button_is_pressed (&(joystick->button_down));
-  move_pad->left = lw6gui_button_is_pressed (&(joystick->button_left));
-  move_pad->right = lw6gui_button_is_pressed (&(joystick->button_right));
+  move_pad->up = lw6gui_button_is_pressed (&(joystick->pad_up));
+  move_pad->down = lw6gui_button_is_pressed (&(joystick->pad_down));
+  move_pad->left = lw6gui_button_is_pressed (&(joystick->pad_left));
+  move_pad->right = lw6gui_button_is_pressed (&(joystick->pad_right));
 }

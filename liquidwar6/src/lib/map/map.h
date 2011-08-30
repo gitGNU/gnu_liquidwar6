@@ -170,6 +170,19 @@
 #define LW6MAP_RULES_MIN_MAX_NB_NODES 2
 #define LW6MAP_RULES_MAX_MAX_NB_NODES LW6MAP_MAX_NB_NODES
 
+#define LW6MAP_RULES_DEFAULT_EXP 1
+#define LW6MAP_RULES_MIN_EXP 0
+#define LW6MAP_RULES_MAX_EXP 99
+
+// LW6MAP_MAX_NB_TEAMS-1
+#define LW6MAP_RULES_DEFAULT_HIGHEST_COLOR_ALLOWED 9
+#define LW6MAP_RULES_MIN_HIGHEST_COLOR_ALLOWED 3
+#define LW6MAP_RULES_MAX_HIGHEST_COLOR_ALLOWED 9
+
+#define LW6MAP_RULES_DEFAULT_HIGHEST_WEAPON_ALLOWED LW6MAP_MAX_WEAPON_ID
+#define LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED 7
+#define LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED LW6MAP_MAX_WEAPON_ID
+
 #define LW6MAP_RULES_DEFAULT_X_POLARITY 0
 #define LW6MAP_RULES_MIN_X_POLARITY -1
 #define LW6MAP_RULES_MAX_X_POLARITY 1
@@ -663,6 +676,9 @@ typedef struct lw6map_rules_s
   int32_t max_nb_teams;
   int32_t max_nb_cursors;
   int32_t max_nb_nodes;
+  int32_t exp;
+  int32_t highest_color_allowed;
+  int32_t highest_weapon_allowed;
   int32_t x_polarity;
   int32_t y_polarity;
   int32_t z_polarity;
@@ -1021,6 +1037,10 @@ extern void lw6map_cursor_texture_builtin (lw6map_cursor_texture_t *
 /* map-dup.c */
 extern lw6map_level_t *lw6map_dup (lw6map_level_t * source,
 				   lw6sys_progress_t * progress);
+
+/* map-exp.c */
+extern int lw6map_exp_get_highest_color_allowed (int exp);
+extern int lw6map_exp_get_highest_weapon_allowed (int exp);
 
 /* map-hexa.c */
 extern char *lw6map_to_hexa (lw6map_level_t * level);

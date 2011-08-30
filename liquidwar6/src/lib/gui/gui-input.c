@@ -207,6 +207,15 @@ lw6gui_input_need_sync (lw6gui_input_t * input)
 
   ret = input->need_sync;
 
+  /*
+   * Now, this is an ugly hack, but technically, the simple & double
+   * click events do not make their way through if there's no update.
+   * In practice, those are only used for mouse button-left, so
+   * we just quick check these...
+   */
+  ret |= (input->mouse.button_left.simple_click_queue
+	  || input->mouse.button_left.double_click_queue);
+
   return ret;
 }
 

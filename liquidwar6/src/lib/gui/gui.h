@@ -33,12 +33,12 @@
 #define LW6GUI_JOYSTICK1_ID 0
 #define LW6GUI_JOYSTICK2_ID 1
 #define LW6GUI_NB_JOYSTICK_BUTTONS 6
-#define LW6GUI_JOYSTICK_BUTTON_ID_OK 0
-#define LW6GUI_JOYSTICK_BUTTON_ID_CANCEL 1
-#define LW6GUI_JOYSTICK_BUTTON_ID_FIRE 2
-#define LW6GUI_JOYSTICK_BUTTON_ID_FIRE2 3
-#define LW6GUI_JOYSTICK_BUTTON_ID_PLUS 4
-#define LW6GUI_JOYSTICK_BUTTON_ID_MINUS 5
+#define LW6GUI_JOYSTICK_BUTTON_ID_A 0
+#define LW6GUI_JOYSTICK_BUTTON_ID_B 1
+#define LW6GUI_JOYSTICK_BUTTON_ID_C 2
+#define LW6GUI_JOYSTICK_BUTTON_ID_D 3
+#define LW6GUI_JOYSTICK_BUTTON_ID_E 4
+#define LW6GUI_JOYSTICK_BUTTON_ID_F 5
 
 #define LW6GUI_DEFAULT_LOW_WIDTH 320
 #define LW6GUI_DEFAULT_LOW_HEIGHT 200
@@ -147,10 +147,10 @@ lw6gui_button_t;
 
 typedef struct lw6gui_keyboard_s
 {
-  lw6gui_button_t key_up;
-  lw6gui_button_t key_down;
-  lw6gui_button_t key_left;
-  lw6gui_button_t key_right;
+  lw6gui_button_t arrow_up;
+  lw6gui_button_t arrow_down;
+  lw6gui_button_t arrow_left;
+  lw6gui_button_t arrow_right;
   lw6gui_button_t key_enter;
   lw6gui_button_t key_esc;
   lw6gui_button_t key_ctrl;
@@ -183,16 +183,16 @@ lw6gui_mouse_t;
 
 typedef struct lw6gui_joystick_s
 {
-  lw6gui_button_t button_up;
-  lw6gui_button_t button_down;
-  lw6gui_button_t button_left;
-  lw6gui_button_t button_right;
-  lw6gui_button_t button_ok;
-  lw6gui_button_t button_cancel;
-  lw6gui_button_t button_fire;
-  lw6gui_button_t button_fire2;
-  lw6gui_button_t button_plus;
-  lw6gui_button_t button_minus;
+  lw6gui_button_t pad_up;
+  lw6gui_button_t pad_down;
+  lw6gui_button_t pad_left;
+  lw6gui_button_t pad_right;
+  lw6gui_button_t button_a;
+  lw6gui_button_t button_b;
+  lw6gui_button_t button_c;
+  lw6gui_button_t button_d;
+  lw6gui_button_t button_e;
+  lw6gui_button_t button_f;
 }
 lw6gui_joystick_t;
 

@@ -418,9 +418,9 @@
 	     (if (lw6-menu-pump-all?)
 		 (cond 
 		  ((or
-		    (c-lw6gui-keyboard-pop-key-up dsp)
-		    (c-lw6gui-joystick1-pop-button-up dsp)
-		    (c-lw6gui-joystick2-pop-button-up dsp))
+		    (c-lw6gui-keyboard-pop-arrow-up dsp)
+		    (c-lw6gui-joystick1-pop-pad-up dsp)
+		    (c-lw6gui-joystick2-pop-pad-up dsp))
 		   (if
 		    (lw6-prev-menuitem #f)
 		    (lw6-play-fx-beep-select)
@@ -433,9 +433,9 @@
 		    )
 		   )
 		  ((or
-		    (c-lw6gui-keyboard-pop-key-down dsp)
-		    (c-lw6gui-joystick1-pop-button-down dsp)
-		    (c-lw6gui-joystick2-pop-button-down dsp))
+		    (c-lw6gui-keyboard-pop-arrow-down dsp)
+		    (c-lw6gui-joystick1-pop-pad-down dsp)
+		    (c-lw6gui-joystick2-pop-pad-down dsp))
 		   (if
 		    (lw6-next-menuitem #f)
 		    (lw6-play-fx-beep-select)
@@ -448,18 +448,18 @@
 		    )
 		   )
 		  ((or
-		    (c-lw6gui-keyboard-pop-key-left dsp)
-		    (c-lw6gui-joystick1-pop-button-left dsp)
-		    (c-lw6gui-joystick2-pop-button-left dsp))
+		    (c-lw6gui-keyboard-pop-arrow-left dsp)
+		    (c-lw6gui-joystick1-pop-pad-left dsp)
+		    (c-lw6gui-joystick2-pop-pad-left dsp))
 		   (if
 		    (lw6-menuitem-action menuitem "on-minus")
 		    (lw6-play-fx-beep-valid)
 		    ) 
 		   )
 		  ((or
-		    (c-lw6gui-keyboard-pop-key-right dsp)
-		    (c-lw6gui-joystick1-pop-button-right dsp)
-		    (c-lw6gui-joystick2-pop-button-right dsp))
+		    (c-lw6gui-keyboard-pop-arrow-right dsp)
+		    (c-lw6gui-joystick1-pop-pad-right dsp)
+		    (c-lw6gui-joystick2-pop-pad-right dsp))
 		   (if
 		    (lw6-menuitem-action menuitem "on-plus")
 		    (lw6-play-fx-beep-valid)
@@ -467,8 +467,8 @@
 		   )
 		  ((or
 		    (c-lw6gui-keyboard-pop-key-enter dsp)
-		    (c-lw6gui-joystick1-pop-button-ok dsp)
-		    (c-lw6gui-joystick2-pop-button-ok dsp))
+		    (c-lw6gui-joystick1-pop-button-a dsp)
+		    (c-lw6gui-joystick2-pop-button-a dsp))
 		   (if
 		    (lw6-menuitem-action menuitem "on-valid")
 		    (lw6-play-fx-beep-valid)
@@ -482,8 +482,8 @@
 	     (cond
 	      ((or
 		(c-lw6gui-keyboard-pop-key-esc dsp)
-		(c-lw6gui-joystick1-pop-button-cancel dsp)
-		(c-lw6gui-joystick2-pop-button-cancel dsp))
+		(c-lw6gui-joystick1-pop-button-b dsp)
+		(c-lw6gui-joystick2-pop-button-b dsp))
 	       (begin
 		 (lw6-menu-action menu "on-cancel")
 		 (lw6-play-fx-beep-valid)

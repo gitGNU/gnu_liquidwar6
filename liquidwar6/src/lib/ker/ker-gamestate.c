@@ -1786,6 +1786,60 @@ lw6ker_game_state_is_over (lw6ker_game_state_t * game_state)
 }
 
 int
+_lw6ker_game_state_did_cursor_win (_lw6ker_game_state_t * game_state,
+				   u_int16_t cursor_id)
+{
+  int ret = 0;
+  lw6ker_score_array_t score_array;
+  int winner_team_color = LW6MAP_TEAM_COLOR_INVALID;
+  lw6ker_cursor_t cursor;
+
+  if (_lw6ker_game_state_is_over (game_state))
+    {
+      if (_lw6ker_game_state_get_cursor (game_state, &cursor, cursor_id))
+	{
+	  if (_lw6ker_score_array_update (&score_array, game_state))
+	    {
+	      winner_team_color = score_array.scores[0].team_color;
+	      if (winner_team_color == cursor.team_color)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("cursor %x with color %d won"),
+			      (int) cursor_id, winner_team_color);
+		  ret = 1;
+		}
+	    }
+	}
+    }
+
+  if (!ret)
+    {
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("cursor %x didn't win"),
+		  (int) cursor_id);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6ker_game_state_did_cursor_win
+ *
+ * @game_state: game_state to query
+ * @cursor_id: the cursor to test
+ *
+ * Tells wether a cursor was the winner after a game is over.
+ *
+ * Return value: 1 if cursor is in winning team, 0 if not.
+ */
+int
+lw6ker_game_state_did_cursor_win (lw6ker_game_state_t * game_state,
+				  u_int16_t cursor_id)
+{
+  return _lw6ker_game_state_did_cursor_win ((_lw6ker_game_state_t *)
+					    game_state, cursor_id);
+}
+
+int
 _lw6ker_game_state_get_winner (_lw6ker_game_state_t * game_state,
 			       int excluded_team)
 {

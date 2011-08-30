@@ -107,7 +107,7 @@ lw6cfg_load_exp (char *user_dir, int *exp)
   int checksum = 0;
   _exp_t exp_t;
 
-  exp_t.exp = LW6CFG_DEFAULT_EXP;
+  exp_t.exp = LW6CFG_MIN_EXP;
   exp_t.checksum = 0;
 
   filename = _get_filename (user_dir);
@@ -124,7 +124,7 @@ lw6cfg_load_exp (char *user_dir, int *exp)
 	  if (checksum != exp_t.checksum)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
-	      exp_t.exp = LW6CFG_DEFAULT_EXP;
+	      exp_t.exp = LW6CFG_MIN_EXP;
 	    }
 	}
       else

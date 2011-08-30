@@ -217,6 +217,8 @@ extern int lw6pil_pilot_get_reference_target_round (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_get_reference_current_round (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_get_max_round (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_is_over (lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot,
+					u_int16_t cursor_id);
 
 /* pil-test.c */
 extern int lw6pil_test (int mode);

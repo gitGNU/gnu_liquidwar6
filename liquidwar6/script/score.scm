@@ -22,12 +22,21 @@
   (lambda ()
     (let* (
 	   (pilot (lw6-get-game-global "pilot"))
+	   (cursor (lw6-get-cursor "1"))
+	   (cursor-id (hash-ref cursor "id"))
+	   (level (lw6-get-game-global "level"))
 	   )
       (if (and pilot 
 	       (c-lw6pil-is-over pilot))	    
 	  (begin
 	    (lw6-display-score-setup)
-	    ;;
+	    (if (and cursor-id (c-lw6pil-did-cursor-win pilot cursor-id))
+		(if level ;; should also check we're local...
+		    (begin
+		      ;;(lw6-log-notice "X")
+		      (c-lw6ldr-exp-validate level)
+		      ))
+		)
 	    )
 	  )
       )

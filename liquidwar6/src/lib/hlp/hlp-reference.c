@@ -1109,6 +1109,23 @@ populate_references ()
 		("Defines the maximum number of servers who can enter the game. Really makes sense in network games. Default value is 10, and should fit in most cases. Can be raised up to 26."),
 		LW6MAP_RULES_DEFAULT_MAX_NB_NODES,
 		LW6MAP_RULES_MIN_MAX_NB_NODES, LW6MAP_RULES_MAX_MAX_NB_NODES);
+  POPULATE_INT (LW6DEF_EXP,
+		_x_
+		("Level of experience (AKA exp) required to play the current level. If this level is validated (that is, won) then player will be granted with a level of exp+1 and be able to play all the next levels. An exp of 0 means the level is playable by a pure beginner."),
+		LW6MAP_RULES_DEFAULT_EXP, LW6MAP_RULES_MIN_EXP,
+		LW6MAP_RULES_MAX_EXP);
+  POPULATE_INT (LW6DEF_HIGHEST_COLOR_ALLOWED,
+		_x_
+		("Id of the greatest/highest color one can use. Normally, you can leave this untouched, the program will automatically fit this according to your exp. Setting an artificially low value will just cause normally available colors to disappear, setting it to a high value does nothing, if you still don't have access to some colors, you still don't, period."),
+		LW6MAP_RULES_DEFAULT_HIGHEST_COLOR_ALLOWED,
+		LW6MAP_RULES_MIN_HIGHEST_COLOR_ALLOWED,
+		LW6MAP_RULES_MAX_HIGHEST_COLOR_ALLOWED);
+  POPULATE_INT (LW6DEF_HIGHEST_WEAPON_ALLOWED,
+		_x_
+		("Id of the greatest/highest weapon one can use. Normally, you can leave this untouched, the program will automatically fit this according to your exp. Setting an artificially low value will just cause normally available weapons to disappear, setting it to a high value does nothing, if you still don't have access to some weapons, you still don't, period."),
+		LW6MAP_RULES_DEFAULT_HIGHEST_WEAPON_ALLOWED,
+		LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED,
+		LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED);
   POPULATE_INT (LW6DEF_X_POLARITY,
 		_x_
 		("Defines how the map will be wrapped on the X (horizontal) axis. If set to 0, nothing is wrapped. If set to 1, the right and left borders are connected, any fighter can disappear on the right border and reappear on the left border, for instance. If set to -1, it will be wrapped but also inversed, that is on a 320x240 map, a fighter disappearing on the left border at position (0,60) will reapper on the right border at position (319,180). You can combine it with 'y-polarity'."),
@@ -1292,8 +1309,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_GLUE_POWER,
 		_x_
 		("Defines how sticky and powerfull the glue is. That is, if on 'glue.png' it's pitch black and this parameter is set to 3, then fighters will take 3 steps to do what would normally take only one step."),
-		LW6MAP_RULES_DEFAULT_GLUE_POWER,
-		LW6MAP_RULES_MIN_GLUE_POWER, LW6MAP_RULES_MAX_GLUE_POWER);
+		LW6MAP_RULES_DEFAULT_GLUE_POWER, LW6MAP_RULES_MIN_GLUE_POWER,
+		LW6MAP_RULES_MAX_GLUE_POWER);
   POPULATE_INT (LW6DEF_BOOST_POWER,
 		_x_
 		("Defines how fast and powerfull the boost is. That is, if on 'boost.png' it's pitch black and this parameter is set to 3, then fighters will move and act 3 times than what they would do normally."),
@@ -1313,8 +1330,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_FRAGS_MODE,
 		_x_
 		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode. 1 is in a mode in which 1 point is attributed to every winner, and looser looses all the corresponding points (total is always 0). 2 isproportional mode, with a total of 0 kept constant, that is, loosers loose as many points as attributed to winners. 3 is a mode in which at each death, winners are attributed a number of points proportional to their fighters, and loosers scores remain untouched."),
-		LW6MAP_RULES_DEFAULT_FRAGS_MODE,
-		LW6MAP_RULES_MIN_FRAGS_MODE, LW6MAP_RULES_MAX_FRAGS_MODE);
+		LW6MAP_RULES_DEFAULT_FRAGS_MODE, LW6MAP_RULES_MIN_FRAGS_MODE,
+		LW6MAP_RULES_MAX_FRAGS_MODE);
   POPULATE_INT (LW6DEF_FRAGS_TO_DISTRIBUTE,
 		_x_
 		("Defines how many points will be distributed when in deathmatch mode. When a player looses, this amont of points will be substracted to its total, and the same amount of points will be distributed to other live players, proportionnally to how many fighters they have on the battlefield."),
@@ -1871,11 +1888,6 @@ populate_references ()
 		  _x_
 		  ("This parameter is the main parameter on which game speed depends. The map loader will garantee, by downscaling the map, that to cross the level (by crossing the level we mean, for instance, going from top-left corner to bottom-right corner in a straight line) a fighter will take a constant amount of time. Under the hood, the loader might of course rescale the map but it will also change game speed so that, at the end, fighters take a constant time to cross the level. This is, indeed, the most important thing, players do not care much if internally there are X or Y moves per second, the global game experience depends on how fast fighter movement looks on the screen. The default settings corresponds roughly to one second to cross the level. If you set this to 2.0, it will go twice faster."),
 		  LW6LDR_HINTS_DEFAULT_SPEED, 0, 0);
-  POPULATE_FLOAT (LW6DEF_EXP,
-		  _x_
-		  ("Level of experience (AKA exp) required to play the current level. If this level is validated (that is, won) then player will be granted with a level of exp+1 and be able to play all the next levels. An exp of 0 means the level is playable by a pure beginner."),
-		  LW6LDR_HINTS_DEFAULT_EXP, LW6LDR_HINTS_MIN_EXP,
-		  LW6LDR_HINTS_MAX_EXP);
   /*
    * Map style
    */
@@ -2423,14 +2435,14 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_up."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN,
 		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_down."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_UP,
-		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_up."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_DOWN,
-		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_down."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_LEFT,
-		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_left."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_RIGHT,
-		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_UP,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_arrow_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_DOWN,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_arrow_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_LEFT,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_arrow_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_RIGHT,
+		 _x_ ("Wrapper on lw6gui_keyboard_pop_arrow_right."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER,
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_enter."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC,
@@ -2443,46 +2455,46 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_pgup."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN,
 		 _x_ ("Wrapper on lw6gui_keyboard_pop_key_pgdown."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_UP,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_up."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_DOWN,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_down."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_LEFT,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_left."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_RIGHT,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_right."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_OK,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_ok."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_CANCEL,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_cancel."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_fire."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_FIRE2,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_fire2."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_PLUS,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_plus."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_MINUS,
-		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_minus."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_UP,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_up."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_DOWN,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_down."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_LEFT,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_left."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_RIGHT,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_right."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_OK,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_ok."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_CANCEL,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_cancel."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_fire."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_FIRE2,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_fire2."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_PLUS,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_plus."));
-  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_MINUS,
-		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_minus."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_UP,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_pad_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_DOWN,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_pad_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_LEFT,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_pad_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_RIGHT,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_pad_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_a."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_b."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_c."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_E,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_e."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_F,
+		 _x_ ("Wrapper on lw6gui_joystick1_pop_button_f."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_UP,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_pad_up."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_DOWN,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_pad_down."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_LEFT,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_pad_left."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_RIGHT,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_pad_right."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_a."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_b."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_c."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_d."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_E,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_e."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_F,
+		 _x_ ("Wrapper on lw6gui_joystick2_pop_button_f."));
   POPULATE_VOID (LW6DEF_C_LW6GFX_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6gfx_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6DSP_NEW, _x_ ("Wrapper on lw6dsp_new."));
@@ -2509,6 +2521,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6ldr_print_examples."));
   POPULATE_VOID (LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT,
 		 _x_ ("Wrapper on lw6ldr_hints_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6LDR_EXP_VALIDATE,
+		 _x_ ("Wrapper on lw6ldr_exp_validate."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_GET_LOOK,
 		 _x_ ("Wrapper on lw6map_get_look."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MUSIC_DIR,
@@ -2564,6 +2578,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6KER_GET_ROUNDS,
 		 _x_ ("Wrapper on lw6ker_get_rounds."));
   POPULATE_VOID (LW6DEF_C_LW6KER_IS_OVER, _x_ ("Wrapper on lw6ker_is_over."));
+  POPULATE_VOID (LW6DEF_C_LW6KER_DID_CURSOR_WIN,
+		 _x_ ("Wrapper on lw6ker_did_cursor_win."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BENCH, _x_ ("Wrapper on lw6pil_bench."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_BUILD_PILOT,
 		 _x_ ("Wrapper on lw6pil_build_pilot."));
@@ -2606,6 +2622,8 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6PIL_GET_MAX_ROUND,
 		 _x_ ("Wrapper on lw6pil_get_max_round."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_IS_OVER, _x_ ("Wrapper on lw6pil_is_over."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_DID_CURSOR_WIN,
+		 _x_ ("Wrapper on lw6pil_did_cursor_win."));
   POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6snd_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6SND_NEW, _x_ ("Wrapper on lw6snd_new."));

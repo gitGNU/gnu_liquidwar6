@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-29 16:36+0200\n"
+"POT-Creation-Date: 2011-08-30 18:06+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -196,6 +196,11 @@ msgstr "Kjemp mot programvarepatentar %s"
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
+#: src/lib/ldr/ldr-exp.c:60
+#, c-format
+msgid "You just gained experience (exp=%d)."
+msgstr ""
+
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
 msgstr "klarte ikkje fiksa miljøvariabelen ved å starta programmet på nytt"
@@ -264,6 +269,11 @@ msgstr "om lag %d megabyte tilgjengeleg"
 #: src/lib/lw6-print.c:850
 msgid "goodbye"
 msgstr "ha det"
+
+#: src/lib/map/map-test.c:399
+#, c-format
+msgid "exp=%d highest_color=%d highest_weapon=%d"
+msgstr ""
 
 #: src/lib/p2p/p2p-data.c:100
 #, c-format

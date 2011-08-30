@@ -68,7 +68,13 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	  fighters_per_team =
 	    game_state->map_state.armies.fighters_per_team[i];
 	  frags = game_state->map_state.armies.frags[i];
-	  if (fighters_per_team > 0 || frags != 0)
+	  /*
+	   * Ideally we should have an indicator "this team has
+	   * played at some time". We only check if it's active
+	   * or if it left traces.
+	   */
+	  if (game_state->map_state.teams[i].active || fighters_per_team > 0
+	      || frags != 0)
 	    {
 	      score_array->nb_scores++;
 	      score_array->scores[i].team_color = i;

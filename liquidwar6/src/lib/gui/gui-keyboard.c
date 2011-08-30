@@ -181,13 +181,13 @@ lw6gui_keyboard_update_repeat (lw6gui_keyboard_t * keyboard,
 {
   int i = 0;
 
-  lw6gui_button_update_repeat (&(keyboard->key_up), repeat_settings,
+  lw6gui_button_update_repeat (&(keyboard->arrow_up), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(keyboard->key_down), repeat_settings,
+  lw6gui_button_update_repeat (&(keyboard->arrow_down), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(keyboard->key_left), repeat_settings,
+  lw6gui_button_update_repeat (&(keyboard->arrow_left), repeat_settings,
 			       timestamp);
-  lw6gui_button_update_repeat (&(keyboard->key_right), repeat_settings,
+  lw6gui_button_update_repeat (&(keyboard->arrow_right), repeat_settings,
 			       timestamp);
   lw6gui_button_update_repeat (&(keyboard->key_enter), repeat_settings,
 			       timestamp);
@@ -227,10 +227,10 @@ lw6gui_keyboard_sync (lw6gui_keyboard_t * dst, lw6gui_keyboard_t * src)
   int i;
   lw6gui_keypress_t *keypress;
 
-  ret = lw6gui_button_sync (&(dst->key_up), &(src->key_up)) &&
-    lw6gui_button_sync (&(dst->key_down), &(src->key_down)) &&
-    lw6gui_button_sync (&(dst->key_left), &(src->key_left)) &&
-    lw6gui_button_sync (&(dst->key_right), &(src->key_right)) &&
+  ret = lw6gui_button_sync (&(dst->arrow_up), &(src->arrow_up)) &&
+    lw6gui_button_sync (&(dst->arrow_down), &(src->arrow_down)) &&
+    lw6gui_button_sync (&(dst->arrow_left), &(src->arrow_left)) &&
+    lw6gui_button_sync (&(dst->arrow_right), &(src->arrow_right)) &&
     lw6gui_button_sync (&(dst->key_enter), &(src->key_enter)) &&
     lw6gui_button_sync (&(dst->key_esc), &(src->key_esc)) &&
     lw6gui_button_sync (&(dst->key_ctrl), &(src->key_ctrl)) &&
@@ -275,8 +275,8 @@ void
 lw6gui_keyboard_get_move_pad (lw6gui_keyboard_t * keyboard,
 			      lw6gui_move_pad_t * move_pad)
 {
-  move_pad->up = lw6gui_button_is_pressed (&(keyboard->key_up));
-  move_pad->down = lw6gui_button_is_pressed (&(keyboard->key_down));
-  move_pad->left = lw6gui_button_is_pressed (&(keyboard->key_left));
-  move_pad->right = lw6gui_button_is_pressed (&(keyboard->key_right));
+  move_pad->up = lw6gui_button_is_pressed (&(keyboard->arrow_up));
+  move_pad->down = lw6gui_button_is_pressed (&(keyboard->arrow_down));
+  move_pad->left = lw6gui_button_is_pressed (&(keyboard->arrow_left));
+  move_pad->right = lw6gui_button_is_pressed (&(keyboard->arrow_right));
 }

@@ -43,22 +43,6 @@ for instance. Downsizing causes fighters to be bigger because map resolution
 is lower. This can be usefull if you don't want fighters to be too small.
 @end deffn
 
-@subsection exp
-@deffn {Command-line option} @code{--exp=<value>}
-@deffnx {Environment variable} @code{LW6_EXP}
-@deffnx {XML key} @code{exp}
-Type: float
-
-Default value: 0
-Min value: 0
-Max value: 99
-
-Level of experience (AKA exp) required to play the current level. If this
-level is validated (that is, won) then player will be granted with a level of
-exp+1 and be able to play all the next levels. An exp of 0 means the level is
-playable by a pure beginner.
-@end deffn
-
 @subsection fighter-scale
 @deffn {Command-line option} @code{--fighter-scale=<value>}
 @deffnx {Environment variable} @code{LW6_FIGHTER_SCALE}

@@ -180,54 +180,54 @@ Wrapper on lw6gui_input_reset.
 Wrapper on lw6gui_joystick1_get_move_pad.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-cancel
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-cancel}
-Wrapper on lw6gui_joystick1_pop_button_cancel.
+@subsection c-lw6gui-joystick1-pop-button-a
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-a}
+Wrapper on lw6gui_joystick1_pop_button_a.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-down
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-down}
-Wrapper on lw6gui_joystick1_pop_button_down.
+@subsection c-lw6gui-joystick1-pop-button-b
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-b}
+Wrapper on lw6gui_joystick1_pop_button_b.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-fire
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-fire}
-Wrapper on lw6gui_joystick1_pop_button_fire.
+@subsection c-lw6gui-joystick1-pop-button-c
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-c}
+Wrapper on lw6gui_joystick1_pop_button_c.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-fire2
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-fire2}
-Wrapper on lw6gui_joystick1_pop_button_fire2.
+@subsection c-lw6gui-joystick1-pop-button-d
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-d}
+Wrapper on lw6gui_joystick1_pop_button_d.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-left
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-left}
-Wrapper on lw6gui_joystick1_pop_button_left.
+@subsection c-lw6gui-joystick1-pop-button-e
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-e}
+Wrapper on lw6gui_joystick1_pop_button_e.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-minus
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-minus}
-Wrapper on lw6gui_joystick1_pop_button_minus.
+@subsection c-lw6gui-joystick1-pop-button-f
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-f}
+Wrapper on lw6gui_joystick1_pop_button_f.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-ok
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-ok}
-Wrapper on lw6gui_joystick1_pop_button_ok.
+@subsection c-lw6gui-joystick1-pop-pad-down
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-pad-down}
+Wrapper on lw6gui_joystick1_pop_pad_down.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-plus
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-plus}
-Wrapper on lw6gui_joystick1_pop_button_plus.
+@subsection c-lw6gui-joystick1-pop-pad-left
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-pad-left}
+Wrapper on lw6gui_joystick1_pop_pad_left.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-right
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-right}
-Wrapper on lw6gui_joystick1_pop_button_right.
+@subsection c-lw6gui-joystick1-pop-pad-right
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-pad-right}
+Wrapper on lw6gui_joystick1_pop_pad_right.
 @end deffn
 
-@subsection c-lw6gui-joystick1-pop-button-up
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-button-up}
-Wrapper on lw6gui_joystick1_pop_button_up.
+@subsection c-lw6gui-joystick1-pop-pad-up
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick1-pop-pad-up}
+Wrapper on lw6gui_joystick1_pop_pad_up.
 @end deffn
 
 @subsection c-lw6gui-joystick2-get-move-pad
@@ -235,54 +235,54 @@ Wrapper on lw6gui_joystick1_pop_button_up.
 Wrapper on lw6gui_joystick2_get_move_pad.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-cancel
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-cancel}
-Wrapper on lw6gui_joystick2_pop_button_cancel.
+@subsection c-lw6gui-joystick2-pop-button-a
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-a}
+Wrapper on lw6gui_joystick2_pop_button_a.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-down
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-down}
-Wrapper on lw6gui_joystick2_pop_button_down.
+@subsection c-lw6gui-joystick2-pop-button-b
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-b}
+Wrapper on lw6gui_joystick2_pop_button_b.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-fire
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-fire}
-Wrapper on lw6gui_joystick2_pop_button_fire.
+@subsection c-lw6gui-joystick2-pop-button-c
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-c}
+Wrapper on lw6gui_joystick2_pop_button_c.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-fire2
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-fire2}
-Wrapper on lw6gui_joystick2_pop_button_fire2.
+@subsection c-lw6gui-joystick2-pop-button-d
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-d}
+Wrapper on lw6gui_joystick2_pop_button_d.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-left
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-left}
-Wrapper on lw6gui_joystick2_pop_button_left.
+@subsection c-lw6gui-joystick2-pop-button-e
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-e}
+Wrapper on lw6gui_joystick2_pop_button_e.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-minus
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-minus}
-Wrapper on lw6gui_joystick2_pop_button_minus.
+@subsection c-lw6gui-joystick2-pop-button-f
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-f}
+Wrapper on lw6gui_joystick2_pop_button_f.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-ok
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-ok}
-Wrapper on lw6gui_joystick2_pop_button_ok.
+@subsection c-lw6gui-joystick2-pop-pad-down
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-pad-down}
+Wrapper on lw6gui_joystick2_pop_pad_down.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-plus
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-plus}
-Wrapper on lw6gui_joystick2_pop_button_plus.
+@subsection c-lw6gui-joystick2-pop-pad-left
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-pad-left}
+Wrapper on lw6gui_joystick2_pop_pad_left.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-right
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-right}
-Wrapper on lw6gui_joystick2_pop_button_right.
+@subsection c-lw6gui-joystick2-pop-pad-right
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-pad-right}
+Wrapper on lw6gui_joystick2_pop_pad_right.
 @end deffn
 
-@subsection c-lw6gui-joystick2-pop-button-up
-@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-button-up}
-Wrapper on lw6gui_joystick2_pop_button_up.
+@subsection c-lw6gui-joystick2-pop-pad-up
+@deffn {C function exported to Guile} @code{c-lw6gui-joystick2-pop-pad-up}
+Wrapper on lw6gui_joystick2_pop_pad_up.
 @end deffn
 
 @subsection c-lw6gui-keyboard-get-move-pad
@@ -295,6 +295,26 @@ Wrapper on lw6gui_keyboard_get_move_pad.
 Wrapper on lw6gui_keyboard_is_pressed.
 @end deffn
 
+@subsection c-lw6gui-keyboard-pop-arrow-down
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-arrow-down}
+Wrapper on lw6gui_keyboard_pop_arrow_down.
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-arrow-left
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-arrow-left}
+Wrapper on lw6gui_keyboard_pop_arrow_left.
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-arrow-right
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-arrow-right}
+Wrapper on lw6gui_keyboard_pop_arrow_right.
+@end deffn
+
+@subsection c-lw6gui-keyboard-pop-arrow-up
+@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-arrow-up}
+Wrapper on lw6gui_keyboard_pop_arrow_up.
+@end deffn
+
 @subsection c-lw6gui-keyboard-pop-key-alt
 @deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-alt}
 Wrapper on lw6gui_keyboard_pop_key_alt.
@@ -303,11 +323,6 @@ Wrapper on lw6gui_keyboard_pop_key_alt.
 @subsection c-lw6gui-keyboard-pop-key-ctrl
 @deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-ctrl}
 Wrapper on lw6gui_keyboard_pop_key_ctrl.
-@end deffn
-
-@subsection c-lw6gui-keyboard-pop-key-down
-@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-down}
-Wrapper on lw6gui_keyboard_pop_key_down.
 @end deffn
 
 @subsection c-lw6gui-keyboard-pop-key-enter
@@ -320,11 +335,6 @@ Wrapper on lw6gui_keyboard_pop_key_enter.
 Wrapper on lw6gui_keyboard_pop_key_esc.
 @end deffn
 
-@subsection c-lw6gui-keyboard-pop-key-left
-@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-left}
-Wrapper on lw6gui_keyboard_pop_key_left.
-@end deffn
-
 @subsection c-lw6gui-keyboard-pop-key-pgdown
 @deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-pgdown}
 Wrapper on lw6gui_keyboard_pop_key_pgdown.
@@ -333,16 +343,6 @@ Wrapper on lw6gui_keyboard_pop_key_pgdown.
 @subsection c-lw6gui-keyboard-pop-key-pgup
 @deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-pgup}
 Wrapper on lw6gui_keyboard_pop_key_pgup.
-@end deffn
-
-@subsection c-lw6gui-keyboard-pop-key-right
-@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-right}
-Wrapper on lw6gui_keyboard_pop_key_right.
-@end deffn
-
-@subsection c-lw6gui-keyboard-pop-key-up
-@deffn {C function exported to Guile} @code{c-lw6gui-keyboard-pop-key-up}
-Wrapper on lw6gui_keyboard_pop_key_up.
 @end deffn
 
 @subsection c-lw6gui-look-get
@@ -565,6 +565,11 @@ Wrapper on lw6ker_build_game_struct.
 Wrapper on lw6ker_cursor_exists.
 @end deffn
 
+@subsection c-lw6ker-did-cursor-win
+@deffn {C function exported to Guile} @code{c-lw6ker-did-cursor-win}
+Wrapper on lw6ker_did_cursor_win.
+@end deffn
+
 @subsection c-lw6ker-do-round
 @deffn {C function exported to Guile} @code{c-lw6ker-do-round}
 Wrapper on lw6ker_do_round.
@@ -638,6 +643,11 @@ Wrapper on lw6ker_sync_game_state.
 @subsection c-lw6ker-unregister-node
 @deffn {C function exported to Guile} @code{c-lw6ker-unregister-node}
 Wrapper on lw6ker_unregister_node.
+@end deffn
+
+@subsection c-lw6ldr-exp-validate
+@deffn {C function exported to Guile} @code{c-lw6ldr-exp-validate}
+Wrapper on lw6ldr_exp_validate.
 @end deffn
 
 @subsection c-lw6ldr-get-entries
@@ -773,6 +783,11 @@ Wrapper on lw6pil_calibrate.
 @subsection c-lw6pil-commit
 @deffn {C function exported to Guile} @code{c-lw6pil-commit}
 Wrapper on lw6pil_commit.
+@end deffn
+
+@subsection c-lw6pil-did-cursor-win
+@deffn {C function exported to Guile} @code{c-lw6pil-did-cursor-win}
+Wrapper on lw6pil_did_cursor_win.
 @end deffn
 
 @subsection c-lw6pil-execute-command

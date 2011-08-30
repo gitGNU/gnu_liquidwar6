@@ -156,25 +156,25 @@ key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event,
       sym == const_data->keysym2_up ||
       sym == const_data->keysym3_up || sym == const_data->keysym4_up)
     {
-      lw6gui_button_register_down (&(keyboard->key_up), timestamp);
+      lw6gui_button_register_down (&(keyboard->arrow_up), timestamp);
     }
   if (sym == const_data->keysym1_down ||
       sym == const_data->keysym2_down ||
       sym == const_data->keysym3_down || sym == const_data->keysym4_down)
     {
-      lw6gui_button_register_down (&(keyboard->key_down), timestamp);
+      lw6gui_button_register_down (&(keyboard->arrow_down), timestamp);
     }
   if (sym == const_data->keysym1_left ||
       sym == const_data->keysym2_left ||
       sym == const_data->keysym3_left || sym == const_data->keysym4_left)
     {
-      lw6gui_button_register_down (&(keyboard->key_left), timestamp);
+      lw6gui_button_register_down (&(keyboard->arrow_left), timestamp);
     }
   if (sym == const_data->keysym1_right ||
       sym == const_data->keysym2_right ||
       sym == const_data->keysym3_right || sym == const_data->keysym4_right)
     {
-      lw6gui_button_register_down (&(keyboard->key_right), timestamp);
+      lw6gui_button_register_down (&(keyboard->arrow_right), timestamp);
     }
   if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
     {
@@ -221,7 +221,7 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_up)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_up))
 	{
-	  lw6gui_button_register_up (&(keyboard->key_up));
+	  lw6gui_button_register_up (&(keyboard->arrow_up));
 	}
     }
   if (sym == const_data->keysym1_down ||
@@ -233,7 +233,7 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_down)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_down))
 	{
-	  lw6gui_button_register_up (&(keyboard->key_down));
+	  lw6gui_button_register_up (&(keyboard->arrow_down));
 	}
     }
   if (sym == const_data->keysym1_left ||
@@ -245,7 +245,7 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym3_left)
 	  && !lw6gui_keyboard_is_pressed (keyboard, const_data->keysym4_left))
 	{
-	  lw6gui_button_register_up (&(keyboard->key_left));
+	  lw6gui_button_register_up (&(keyboard->arrow_left));
 	}
     }
   if (sym == const_data->keysym1_right ||
@@ -258,7 +258,7 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event,
 	  && !lw6gui_keyboard_is_pressed (keyboard,
 					  const_data->keysym4_right))
 	{
-	  lw6gui_button_register_up (&(keyboard->key_right));
+	  lw6gui_button_register_up (&(keyboard->arrow_right));
 	}
     }
   if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
@@ -409,55 +409,55 @@ joystick_button_index (SDL_Event * event,
   switch (i)
     {
     case LW6GUI_JOYSTICK1_ID:
-      if (event->jbutton.button == const_data->joystick1_button_ok_index)
+      if (event->jbutton.button == const_data->joystick1_button_a_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_OK;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_A;
 	}
-      if (event->jbutton.button == const_data->joystick1_button_cancel_index)
+      if (event->jbutton.button == const_data->joystick1_button_b_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_CANCEL;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_B;
 	}
-      if (event->jbutton.button == const_data->joystick1_button_fire_index)
+      if (event->jbutton.button == const_data->joystick1_button_c_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_FIRE;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_C;
 	}
-      if (event->jbutton.button == const_data->joystick1_button_fire2_index)
+      if (event->jbutton.button == const_data->joystick1_button_d_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_FIRE2;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_D;
 	}
-      if (event->jbutton.button == const_data->joystick1_button_plus_index)
+      if (event->jbutton.button == const_data->joystick1_button_e_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_PLUS;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_E;
 	}
-      if (event->jbutton.button == const_data->joystick1_button_minus_index)
+      if (event->jbutton.button == const_data->joystick1_button_f_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_MINUS;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_F;
 	}
       break;
     case LW6GUI_JOYSTICK2_ID:
-      if (event->jbutton.button == const_data->joystick2_button_ok_index)
+      if (event->jbutton.button == const_data->joystick2_button_a_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_OK;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_A;
 	}
-      if (event->jbutton.button == const_data->joystick2_button_cancel_index)
+      if (event->jbutton.button == const_data->joystick2_button_b_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_CANCEL;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_B;
 	}
-      if (event->jbutton.button == const_data->joystick2_button_fire_index)
+      if (event->jbutton.button == const_data->joystick2_button_c_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_FIRE;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_C;
 	}
-      if (event->jbutton.button == const_data->joystick2_button_fire2_index)
+      if (event->jbutton.button == const_data->joystick2_button_d_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_FIRE2;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_D;
 	}
-      if (event->jbutton.button == const_data->joystick2_button_plus_index)
+      if (event->jbutton.button == const_data->joystick2_button_e_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_PLUS;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_E;
 	}
-      if (event->jbutton.button == const_data->joystick2_button_minus_index)
+      if (event->jbutton.button == const_data->joystick2_button_f_index)
 	{
-	  ret = LW6GUI_JOYSTICK_BUTTON_ID_MINUS;
+	  ret = LW6GUI_JOYSTICK_BUTTON_ID_F;
 	}
       break;
     }
@@ -502,23 +502,23 @@ joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event,
 {
   switch (b)
     {
-    case LW6GUI_JOYSTICK_BUTTON_ID_OK:
-      lw6gui_button_register_down (&(joystick->button_ok), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_A:
+      lw6gui_button_register_down (&(joystick->button_a), timestamp);
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_CANCEL:
-      lw6gui_button_register_down (&(joystick->button_cancel), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_B:
+      lw6gui_button_register_down (&(joystick->button_b), timestamp);
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_FIRE:
-      lw6gui_button_register_down (&(joystick->button_fire), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_C:
+      lw6gui_button_register_down (&(joystick->button_c), timestamp);
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_FIRE2:
-      lw6gui_button_register_down (&(joystick->button_fire2), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_D:
+      lw6gui_button_register_down (&(joystick->button_d), timestamp);
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_PLUS:
-      lw6gui_button_register_down (&(joystick->button_plus), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_E:
+      lw6gui_button_register_down (&(joystick->button_e), timestamp);
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_MINUS:
-      lw6gui_button_register_down (&(joystick->button_minus), timestamp);
+    case LW6GUI_JOYSTICK_BUTTON_ID_F:
+      lw6gui_button_register_down (&(joystick->button_f), timestamp);
       break;
     default:
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"),
@@ -532,23 +532,23 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
 {
   switch (b)
     {
-    case LW6GUI_JOYSTICK_BUTTON_ID_OK:
-      lw6gui_button_register_up (&(joystick->button_ok));
+    case LW6GUI_JOYSTICK_BUTTON_ID_A:
+      lw6gui_button_register_up (&(joystick->button_a));
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_CANCEL:
-      lw6gui_button_register_up (&(joystick->button_cancel));
+    case LW6GUI_JOYSTICK_BUTTON_ID_B:
+      lw6gui_button_register_up (&(joystick->button_b));
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_FIRE:
-      lw6gui_button_register_up (&(joystick->button_fire));
+    case LW6GUI_JOYSTICK_BUTTON_ID_C:
+      lw6gui_button_register_up (&(joystick->button_c));
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_FIRE2:
-      lw6gui_button_register_up (&(joystick->button_fire2));
+    case LW6GUI_JOYSTICK_BUTTON_ID_D:
+      lw6gui_button_register_up (&(joystick->button_d));
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_PLUS:
-      lw6gui_button_register_up (&(joystick->button_plus));
+    case LW6GUI_JOYSTICK_BUTTON_ID_E:
+      lw6gui_button_register_up (&(joystick->button_e));
       break;
-    case LW6GUI_JOYSTICK_BUTTON_ID_MINUS:
-      lw6gui_button_register_up (&(joystick->button_minus));
+    case LW6GUI_JOYSTICK_BUTTON_ID_F:
+      lw6gui_button_register_up (&(joystick->button_f));
       break;
     default:
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("joystick %d button %d ignored"),

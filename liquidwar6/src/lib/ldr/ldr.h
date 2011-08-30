@@ -64,13 +64,10 @@
 #define LW6LDR_HINTS_DEFAULT_WALL_GREASE 0
 #define LW6LDR_HINTS_DEFAULT_GUESS_MOVES_PER_SEC 1
 #define LW6LDR_HINTS_DEFAULT_SPEED 1.0
-#define LW6LDR_HINTS_DEFAULT_EXP LW6CFG_DEFAULT_EXP
 
 #define LW6LDR_HINTS_MIN_WALL_GREASE -5
-#define LW6LDR_HINTS_MIN_EXP LW6CFG_MIN_EXP
 
 #define LW6LDR_HINTS_MAX_WALL_GREASE 5
-#define LW6LDR_HINTS_MAX_EXP LW6CFG_MAX_EXP
 
 typedef struct lw6ldr_hints_s
 {
@@ -95,7 +92,6 @@ typedef struct lw6ldr_hints_s
   int wall_grease;
   int guess_moves_per_sec;
   float speed;
-  int exp;
 } lw6ldr_hints_t;
 
 #define LW6LDR_USE_DEFAULT_USE_TEXTURE 1
@@ -159,6 +155,9 @@ extern void lw6ldr_for_all_entries (char *map_path, char *relative_path,
 				    char *user_dir, int recursive,
 				    lw6sys_list_callback_func_t callback_func,
 				    void *func_data);
+
+/* ldr-exp.c */
+extern int lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir);
 
 /* ldr-grease.c */
 extern int lw6ldr_grease_apply (lw6map_layer_t * layer,

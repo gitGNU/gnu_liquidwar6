@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = README map.png texture.jpeg texture-alpha.jpeg style.xml
+pkgdata_DATA = README map.png texture.jpeg texture-alpha.jpeg style.xml rules.xml
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/fish
 EXTRA_DIST = $(pkgdata_DATA)
 

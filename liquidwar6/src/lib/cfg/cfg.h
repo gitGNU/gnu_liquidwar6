@@ -38,7 +38,7 @@
 #define LW6CFG_XML_TRUE "true"
 #define LW6CFG_XML_FALSE "false"
 
-#define LW6CFG_DEFAULT_EXP 0
+#define LW6CFG_DEFAULT_EXP 1
 #define LW6CFG_MIN_EXP 0
 #define LW6CFG_MAX_EXP 99
 

@@ -914,3 +914,28 @@ lw6pil_pilot_is_over (lw6pil_pilot_t * pilot)
 
   return ret;
 }
+
+/**
+ * lw6pil_pilot_did_cursor_win
+ *
+ * @pilot: the object to query
+ * @cursor_id: the cursor_id concerned
+ *
+ * Tells wether a given cursor was winner or not.
+ *
+ * Return value: 1 if over, 0 if not
+ */
+int
+lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot, u_int16_t cursor_id)
+{
+  int ret = 0;
+
+  if (pilot->reference.game_state)
+    {
+      ret =
+	lw6ker_game_state_did_cursor_win (pilot->reference.game_state,
+					  cursor_id);
+    }
+
+  return ret;
+}

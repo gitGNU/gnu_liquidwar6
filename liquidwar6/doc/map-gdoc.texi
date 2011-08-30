@@ -165,6 +165,22 @@ and source can safely be destroyed after it's been duplicated.
 @strong{Return value:}  a newly allocated map, may be NULL.
 @end deftypefun
 
+@deftypefun {int} {lw6map_exp_get_highest_color_allowed} (int @var{exp})
+@var{exp}:  the player experience
+
+Gets the highest color available for a given exp.
+
+@strong{Return value:}  a color id
+@end deftypefun
+
+@deftypefun {int} {lw6map_exp_get_highest_weapon_allowed} (int @var{exp})
+@var{exp}:  the player experience
+
+Gets the highest weapon available for a given exp.
+
+@strong{Return value:}  a weapon id
+@end deftypefun
+
 @deftypefun {char *} {lw6map_to_hexa} (lw6map_level_t * @var{level})
 Converts a map to something that is later readable by @code{lw6map_from_hexa}
 to reproduce the exact same map. Just a serializer.

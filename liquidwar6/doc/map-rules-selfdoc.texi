@@ -64,6 +64,22 @@ value to something like 'fighter-attack'. Being on a dangerous zone is a bit
 like being attacked by an invisible and unknown ennemy.
 @end deffn
 
+@subsection exp
+@deffn {Command-line option} @code{--exp=<value>}
+@deffnx {Environment variable} @code{LW6_EXP}
+@deffnx {XML key} @code{exp}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 99
+
+Level of experience (AKA exp) required to play the current level. If this
+level is validated (that is, won) then player will be granted with a level of
+exp+1 and be able to play all the next levels. An exp of 0 means the level is
+playable by a pure beginner.
+@end deffn
+
 @subsection fighter-attack
 @deffn {Command-line option} @code{--fighter-attack=<value>}
 @deffnx {Environment variable} @code{LW6_FIGHTER_ATTACK}
@@ -197,6 +213,40 @@ Max value: 100
 Defines how sticky and powerfull the glue is. That is, if on 'glue.png' it's
 pitch black and this parameter is set to 3, then fighters will take 3 steps to
 do what would normally take only one step.
+@end deffn
+
+@subsection highest-color-allowed
+@deffn {Command-line option} @code{--highest-color-allowed=<value>}
+@deffnx {Environment variable} @code{LW6_HIGHEST_COLOR_ALLOWED}
+@deffnx {XML key} @code{highest-color-allowed}
+Type: integer
+
+Default value: 9
+Min value: 3
+Max value: 9
+
+Id of the greatest/highest color one can use. Normally, you can leave this
+untouched, the program will automatically fit this according to your exp.
+Setting an artificially low value will just cause normally available colors to
+disappear, setting it to a high value does nothing, if you still don't have
+access to some colors, you still don't, period.
+@end deffn
+
+@subsection highest-weapon-allowed
+@deffn {Command-line option} @code{--highest-weapon-allowed=<value>}
+@deffnx {Environment variable} @code{LW6_HIGHEST_WEAPON_ALLOWED}
+@deffnx {XML key} @code{highest-weapon-allowed}
+Type: integer
+
+Default value: 19
+Min value: 7
+Max value: 19
+
+Id of the greatest/highest weapon one can use. Normally, you can leave this
+untouched, the program will automatically fit this according to your exp.
+Setting an artificially low value will just cause normally available weapons
+to disappear, setting it to a high value does nothing, if you still don't have
+access to some weapons, you still don't, period.
 @end deffn
 
 @subsection max-cursor-pot

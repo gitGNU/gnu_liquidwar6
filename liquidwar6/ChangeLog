@@ -1,5 +1,9 @@
 2011-08-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Check/upgrade of exp does work.
+
+	* Fixed simple/double-click latency, renamed input functions.
+
 	* Fixed OpenMP issues (variables inside a loop need be local).
 
 	* Added support for CTRL/ALT to use primary/secondary weapons.

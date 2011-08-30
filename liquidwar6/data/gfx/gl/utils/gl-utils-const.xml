@@ -54,19 +54,19 @@
   <int key="keysym-quit" value="291" /> <!-- SDLK_F10 -->
   <int key="joystick-limit" value="16384" />
   <int key="joystick1-index" value="0" />
-  <int key="joystick1-button-ok-index" value="0" />
-  <int key="joystick1-button-cancel-index" value="1" />
-  <int key="joystick1-button-fire-index" value="2" />
-  <int key="joystick1-button-fire2-index" value="3" />
-  <int key="joystick1-button-plus-index" value="4" />
-  <int key="joystick1-button-minus-index" value="5" />
+  <int key="joystick1-button-a-index" value="0" />
+  <int key="joystick1-button-b-index" value="1" />
+  <int key="joystick1-button-c-index" value="2" />
+  <int key="joystick1-button-d-index" value="3" />
+  <int key="joystick1-button-e-index" value="4" />
+  <int key="joystick1-button-f-index" value="5" />
   <int key="joystick2-index" value="1" />
-  <int key="joystick2-button-ok-index" value="0" />
-  <int key="joystick2-button-cancel-index" value="1" />
-  <int key="joystick2-button-fire-index" value="2" />
-  <int key="joystick2-button-fire2-index" value="3" />
-  <int key="joystick2-button-plus-index" value="4" />
-  <int key="joystick2-button-minus-index" value="5" />
+  <int key="joystick2-button-a-index" value="0" />
+  <int key="joystick2-button-b-index" value="1" />
+  <int key="joystick2-button-c-index" value="2" />
+  <int key="joystick2-button-d-index" value="3" />
+  <int key="joystick2-button-e-index" value="4" />
+  <int key="joystick2-button-f-index" value="5" />
   <bool key="joystick-all-buttons" value="true" />
   <int key="smoother-global-zoom-duration" value="200" />
   <int key="smoother-center-duration" value="500" />

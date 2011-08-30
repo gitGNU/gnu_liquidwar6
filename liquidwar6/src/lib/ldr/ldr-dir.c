@@ -44,9 +44,9 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 	   int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
-  lw6ldr_hints_t hints;
+  lw6map_rules_t rules;
   char *map_filename = NULL;
-  int map_exp = LW6LDR_HINTS_DEFAULT_EXP;
+  int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
   if (entry_path[0] != '.')
     {
@@ -85,14 +85,12 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 			}
 		      else
 			{
-			  lw6ldr_hints_clear (&hints);
-			  lw6ldr_hints_defaults (&hints);
-			  if (lw6ldr_hints_read
-			      (&hints, entry->absolute_path))
+			  lw6map_rules_defaults (&rules);
+			  if (lw6ldr_rules_read
+			      (&rules, entry->absolute_path))
 			    {
-			      map_exp = hints.exp;
+			      map_exp = rules.exp;
 			    }
-			  lw6ldr_hints_clear (&hints);
 			}
 		      LW6SYS_FREE (map_filename);
 		    }
@@ -112,8 +110,11 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 	  lw6ldr_free_entry (entry);
 	  entry = NULL;
 	}
+    }
 
-      if (map_exp > player_exp && entry->absolute_path)
+  if (entry)
+    {
+      if ((map_exp > player_exp) && (entry->absolute_path != NULL))
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_

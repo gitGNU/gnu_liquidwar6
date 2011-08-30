@@ -227,6 +227,8 @@ extern u_int32_t lw6ker_game_state_get_rounds (lw6ker_game_state_t *
 extern u_int32_t lw6ker_game_state_get_total_rounds (lw6ker_game_state_t *
 						     game_state);
 extern int lw6ker_game_state_is_over (lw6ker_game_state_t * game_state);
+extern int lw6ker_game_state_did_cursor_win (lw6ker_game_state_t * game_state,
+					     u_int16_t cursor_id);
 extern int lw6ker_game_state_get_winner (lw6ker_game_state_t * game_state,
 					 int excluded_team);
 extern int lw6ker_game_state_get_looser (lw6ker_game_state_t * game_state,
@@ -268,8 +270,7 @@ extern int lw6ker_game_state_get_weapon_per1000_left (lw6ker_game_state_t *
 						      game_state,
 						      int team_color);
 extern int lw6ker_game_state_get_latest_weapon (lw6ker_game_state_t *
-						game_state,
-						int *team_color,
+						game_state, int *team_color,
 						int *weapon_id,
 						int *per1000_left);
 

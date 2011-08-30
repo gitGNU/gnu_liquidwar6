@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-29 16:36+0200\n"
+"POT-Creation-Date: 2011-08-30 18:06+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -194,6 +194,11 @@ msgstr "Contre les brevets logiciels %s"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
+#: src/lib/ldr/ldr-exp.c:60
+#, c-format
+msgid "You just gained experience (exp=%d)."
+msgstr ""
+
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
 msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
@@ -264,6 +269,11 @@ msgstr "environ %d méga-octets disponibles"
 #: src/lib/lw6-print.c:850
 msgid "goodbye"
 msgstr "au revoir"
+
+#: src/lib/map/map-test.c:399
+#, c-format
+msgid "exp=%d highest_color=%d highest_weapon=%d"
+msgstr ""
 
 #: src/lib/p2p/p2p-data.c:100
 #, c-format

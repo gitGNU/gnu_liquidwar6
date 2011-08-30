@@ -34,8 +34,8 @@
 	  (and (or
 		(c-lw6gui-keyboard-pop-key-pgup dsp)
 		(c-lw6gui-mouse-pop-wheel-up dsp)
-		(c-lw6gui-joystick1-pop-button-plus dsp)
-		(c-lw6gui-joystick2-pop-button-plus dsp))
+		(c-lw6gui-joystick1-pop-button-e dsp)
+		(c-lw6gui-joystick2-pop-button-e dsp))
 	       (> timestamp zoom-next-in)) ; must be tested *after* input
 	  (c-lw6gui-look-zoom-in look (lw6-config-get-number lw6def-zoom-step))
 	  )
@@ -43,8 +43,8 @@
 	  (and (or
 		(c-lw6gui-keyboard-pop-key-pgdown dsp)
 		(c-lw6gui-mouse-pop-wheel-down dsp)
-		(c-lw6gui-joystick1-pop-button-minus dsp)
-		(c-lw6gui-joystick2-pop-button-minus dsp))
+		(c-lw6gui-joystick1-pop-button-f dsp)
+		(c-lw6gui-joystick2-pop-button-f dsp))
 	       (> timestamp zoom-next-out)) ; must be teste *after* input
 	  (c-lw6gui-look-zoom-out look (lw6-config-get-number lw6def-zoom-step))
 	  )

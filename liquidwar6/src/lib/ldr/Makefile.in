@@ -81,10 +81,10 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libldr_la_LIBADD =
 am_libldr_la_OBJECTS = ldr-body.lo ldr-bw.lo ldr-color.lo \
 	ldr-cursortexture.lo ldr-cursortexturelayer.lo ldr-dir.lo \
-	ldr-metalayer.lo ldr-grease.lo ldr-hints.lo ldr-layer.lo \
-	ldr-metadata.lo ldr-param.lo ldr-print.lo ldr-read.lo \
-	ldr-resampler.lo ldr-rgba.lo ldr-rules.lo ldr-style.lo \
-	ldr-test.lo ldr-texture.lo ldr-use.lo
+	ldr-exp.lo ldr-metalayer.lo ldr-grease.lo ldr-hints.lo \
+	ldr-layer.lo ldr-metadata.lo ldr-param.lo ldr-print.lo \
+	ldr-read.lo ldr-resampler.lo ldr-rgba.lo ldr-rules.lo \
+	ldr-style.lo ldr-test.lo ldr-texture.lo ldr-use.lo
 libldr_la_OBJECTS = $(am_libldr_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libldrdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -336,7 +336,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lpng -ljpeg
 noinst_LTLIBRARIES = libldr.la
-libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-test.c ldr-texture.c ldr-use.c
+libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-exp.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-test.c ldr-texture.c ldr-use.c
 libldrdir = $(includedir)/@PACKAGE_TARNAME@/ldr
 libldr_HEADERS = ldr.h
 @FULLSTATIC_FALSE@liquidwar6ldr_test_SOURCES = ldr-testmain.c
@@ -448,6 +448,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-cursortexture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-cursortexturelayer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-dir.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-exp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-grease.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-hints.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldr-layer.Plo@am__quote@

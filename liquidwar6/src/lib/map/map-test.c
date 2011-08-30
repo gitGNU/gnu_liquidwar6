@@ -34,7 +34,7 @@
 #define TEST_MAP_NOISE_PERCENT 30
 #define TEST_RULES_KEY LW6DEF_TOTAL_TIME
 #define TEST_RULES_VALUE 3600
-#define TEST_RULES_CHECKSUM 0x0dc5bce5
+#define TEST_RULES_CHECKSUM 0x26fd58a9
 #define TEST_STYLE_KEY LW6DEF_ZOOM
 #define TEST_STYLE_VALUE "1.0"
 #define TEST_COORDS_NB 5
@@ -382,6 +382,30 @@ test_dup ()
 }
 
 /*
+ * Testing exp
+ */
+static int
+test_exp ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i = 0;
+
+    for (i = LW6MAP_RULES_MIN_EXP; i <= LW6MAP_RULES_MAX_EXP; ++i)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _("exp=%d highest_color=%d highest_weapon=%d"), i,
+		    lw6map_exp_get_highest_color_allowed (i),
+		    lw6map_exp_get_highest_weapon_allowed (i));
+      }
+  }
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Testing hexa
  */
 static int
@@ -653,7 +677,7 @@ lw6map_test (int mode)
     }
 
   ret = test_new () && test_color () && test_coords ()
-    && test_defaults () && test_dup ()
+    && test_defaults () && test_dup () && test_exp ()
     && test_hexa () && test_local_info () && test_meta_layer ()
     && test_rules () && test_style ();
 
