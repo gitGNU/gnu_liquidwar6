@@ -432,6 +432,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_EXAMPLE_HINTS_XML "example-hints-xml"
 #define LW6DEF_EXAMPLE_RULES_XML "example-rules-xml"
 #define LW6DEF_EXAMPLE_STYLE_XML "example-style-xml"
+#define LW6DEF_EXAMPLE_TEAMS_XML "example-teams-xml"
 #define LW6DEF_EXECUTED_AGAIN "executed-again"
 #define LW6DEF_EXP "exp"
 #define LW6DEF_FIGHTER_ATTACK "fighter-attack"

@@ -3857,113 +3857,120 @@ File: liquidwar6.info,  Node: Doc options,  Next: Show options,  Prev: Basic opt
      Dumps on stdout an example style.xml file. Such a file is normally
      shipped with the game. It is indeed generated using this command.
 
-4.2.4 list-advanced
+4.2.4 example-teams-xml
+-----------------------
+
+ -- Command-line option: `--example-teams-xml'
+     Dumps on stdout an example teams.xml file. Such a file is normally
+     shipped with the game. It is indeed generated using this command.
+
+4.2.5 list-advanced
 -------------------
 
  -- Command-line option: `--list-advanced'
      List advanced options which can be used for fine-tuning the game.
 
-4.2.5 list-aliases
+4.2.6 list-aliases
 ------------------
 
  -- Command-line option: `--list-aliases'
      List the keyword aliases. These are here for convenience.
 
-4.2.6 list-doc
+4.2.7 list-doc
 --------------
 
  -- Command-line option: `--list-doc'
      List documentation-related command line options. These commands
      allow you to list all the keywords related to a given domain.
 
-4.2.7 list-funcs
+4.2.8 list-funcs
 ----------------
 
  -- Command-line option: `--list-funcs'
      List the C-functions which are exported to Guile, thus usable in
      scripts.
 
-4.2.8 list-graphics
+4.2.9 list-graphics
 -------------------
 
  -- Command-line option: `--list-graphics'
      List graphics options (resolution, fullscreen...).
 
-4.2.9 list-hooks
-----------------
+4.2.10 list-hooks
+-----------------
 
  -- Command-line option: `--list-hooks'
      List user-modifiable hooks.
 
-4.2.10 list-input
+4.2.11 list-input
 -----------------
 
  -- Command-line option: `--list-input'
      List input (AKA controls) related options. Use these to change
      keyboard, joystick and mouse settingds.
 
-4.2.11 list-map
+4.2.12 list-map
 ---------------
 
  -- Command-line option: `--list-map'
      List map-related entries, excluding rules.xml, hints.xml and
      style.xml entries.
 
-4.2.12 list-map-hints
+4.2.13 list-map-hints
 ---------------------
 
  -- Command-line option: `--list-map-hints'
      List 'hints.xml' entries. These parameters enable you to modify
      the behavior of the map loader.
 
-4.2.13 list-map-rules
+4.2.14 list-map-rules
 ---------------------
 
  -- Command-line option: `--list-map-rules'
      List 'options.xml' entries. These parameters enable you to modify
      the gameplay.
 
-4.2.14 list-map-style
+4.2.15 list-map-style
 ---------------------
 
  -- Command-line option: `--list-map-style'
      List 'style.xml' entries. These parameters enable you to modify
      the aspect of the game.
 
-4.2.15 list-map-teams
+4.2.16 list-map-teams
 ---------------------
 
  -- Command-line option: `--list-map-teams'
      List 'teams.xml' entries. These parameters enable you to specify
      which teams should play on the map.
 
-4.2.16 list-network
+4.2.17 list-network
 -------------------
 
  -- Command-line option: `--list-network'
      List network options.
 
-4.2.17 list-path
+4.2.18 list-path
 ----------------
 
  -- Command-line option: `--list-path'
      List parameters which allow you to override the defaults of the
      game, and force the game your own file paths and directories.
 
-4.2.18 list-players
+4.2.19 list-players
 -------------------
 
  -- Command-line option: `--list-players'
      List player-related entries, that is to say 'who plays'.
 
-4.2.19 list-quick
+4.2.20 list-quick
 -----------------
 
  -- Command-line option: `--list-quick'
      List quick help entries, this includes the GNU standard options
      and a few troubleshooting tools.
 
-4.2.20 list-show
+4.2.21 list-show
 ----------------
 
  -- Command-line option: `--list-show'
@@ -3971,7 +3978,7 @@ File: liquidwar6.info,  Node: Doc options,  Next: Show options,  Prev: Basic opt
      display on the console many internal parameters. Usefull when
      debugging.
 
-4.2.21 list-sound
+4.2.22 list-sound
 -----------------
 
  -- Command-line option: `--list-sound'

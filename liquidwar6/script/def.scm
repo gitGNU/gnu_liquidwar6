@@ -425,6 +425,7 @@
 (define lw6def-example-hints-xml "example-hints-xml")
 (define lw6def-example-rules-xml "example-rules-xml")
 (define lw6def-example-style-xml "example-style-xml")
+(define lw6def-example-teams-xml "example-teams-xml")
 (define lw6def-executed-again "executed-again")
 (define lw6def-exp "exp")
 (define lw6def-fighter-attack "fighter-attack")

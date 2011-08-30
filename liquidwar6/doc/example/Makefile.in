@@ -293,7 +293,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = rules.xml hints.xml style.xml
+pkgdata_DATA = rules.xml hints.xml style.xml teams.xml
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
@@ -512,6 +512,9 @@ uninstall-am: uninstall-pkgdataDATA
 
 @LW6_SELFDOC_TRUE@$(srcdir)/style.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
 @LW6_SELFDOC_TRUE@	$(top_builddir)/src/liquidwar6 --example-style-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+
+@LW6_SELFDOC_TRUE@$(srcdir)/teams.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
+@LW6_SELFDOC_TRUE@	$(top_builddir)/src/liquidwar6 --example-teams-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

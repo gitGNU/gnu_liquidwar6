@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-30 18:06+0200\n"
+"POT-Creation-Date: 2011-08-31 01:11+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -257,16 +257,16 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/lw6-print.c:828
+#: src/lib/lw6-print.c:848
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/lw6-print.c:835
+#: src/lib/lw6-print.c:855
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "om lag %d megabyte tilgjengeleg"
 
-#: src/lib/lw6-print.c:850
+#: src/lib/lw6-print.c:870
 msgid "goodbye"
 msgstr "ha det"
 

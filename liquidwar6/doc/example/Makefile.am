@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = rules.xml hints.xml style.xml
+pkgdata_DATA = rules.xml hints.xml style.xml teams.xml
 pkgdatadir = $(docdir)/example
 EXTRA_DIST = $(pkgdata_DATA)
 

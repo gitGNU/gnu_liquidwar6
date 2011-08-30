@@ -85,6 +85,7 @@ update_doc (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_RULES_XML);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_HINTS_XML);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_STYLE_XML);
+  lw6sys_list_push_back (list, LW6DEF_EXAMPLE_TEAMS_XML);
 
   return ((*list) != NULL);
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-30 18:06+0200\n"
+"POT-Creation-Date: 2011-08-31 01:11+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -257,16 +257,16 @@ msgstr ""
 "certaines conditions.\n"
 "Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
 
-#: src/lib/lw6-print.c:828
+#: src/lib/lw6-print.c:848
 msgid "hello"
 msgstr "bonjour"
 
-#: src/lib/lw6-print.c:835
+#: src/lib/lw6-print.c:855
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "environ %d méga-octets disponibles"
 
-#: src/lib/lw6-print.c:850
+#: src/lib/lw6-print.c:870
 msgid "goodbye"
 msgstr "au revoir"
 

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<liquidwar6>
+  <!--
+    This is an example Liquid War 6 'teams.xml' file. This file can be put
+    along with a 'map.png' file to explicitely say you want this kind of bot,
+    with this color, and so on. This is not a required file, if not present,
+    defaults will be used, however it's a really good way to personnalize a
+    map, this is just how you populate it by default. Another important
+    parameter is the default color for the player, changing this allows the
+    player to try out various colors along its journey in the game.
+  -->
+  <!--
+    "player-color" (default="red"): Color of the player in solo mode, must be
+    red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or
+    pink. Note that this is different from player1-... parameters, this is
+    used when playing solo with default settings, relying on what the map
+    provides, if you want to play with custom color/teams settings, then this
+    will just be ignored.
+  -->
+  <string key="player-color" value="red"/>
+  <!--
+    "nb-bots" (default="2", min="0", max="9"): Number of bots on the map. 0
+    means no bots, if set to 1 the the bot1-... settings will be used, if set
+    to 2 then bot1-... and bot2-... will be used, and so on.
+  -->
+  <int key="nb-bots" value="3"/>
+  <!--
+    "bot1-color" (default="green"): Color for bot number 1.
+  -->
+  <string key="bot1-color" value="green"/>
+  <!--
+    "bot1-ai" (default="idiot"): AI engine for bot number 1.
+  -->
+  <string key="bot1-ai" value="idiot"/>
+  <!--
+    "bot2-color" (default="blue"): Color for bot number 2.
+  -->
+  <string key="bot2-color" value="blue"/>
+  <!--
+    "bot2-ai" (default="idiot"): AI engine for bot number 2.
+  -->
+  <string key="bot2-ai" value="random"/>
+  <!--
+    "bot3-color" (default="yellow"): Color for bot number 3.
+  -->
+  <string key="bot3-color" value="yellow"/>
+  <!--
+    "bot3-ai" (default="random"): AI engine for bot number 3.
+  -->
+  <string key="bot3-ai" value="follow"/>
+</liquidwar6>

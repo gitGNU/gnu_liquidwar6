@@ -16,6 +16,12 @@ Dumps on stdout an example style.xml file. Such a file is normally shipped
 with the game. It is indeed generated using this command.
 @end deffn
 
+@subsection example-teams-xml
+@deffn {Command-line option} @code{--example-teams-xml}
+Dumps on stdout an example teams.xml file. Such a file is normally shipped
+with the game. It is indeed generated using this command.
+@end deffn
+
 @subsection list-advanced
 @deffn {Command-line option} @code{--list-advanced}
 List advanced options which can be used for fine-tuning the game.

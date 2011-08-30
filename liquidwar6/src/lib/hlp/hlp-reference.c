@@ -183,6 +183,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_EXAMPLE_STYLE_XML,
 		 _x_
 		 ("Dumps on stdout an example style.xml file. Such a file is normally shipped with the game. It is indeed generated using this command."));
+  POPULATE_VOID (LW6DEF_EXAMPLE_TEAMS_XML,
+		 _x_
+		 ("Dumps on stdout an example teams.xml file. Such a file is normally shipped with the game. It is indeed generated using this command."));
   /*
    * Build values
    */

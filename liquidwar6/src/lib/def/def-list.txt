@@ -405,6 +405,7 @@ downsize-using-fighter-scale
 example-hints-xml
 example-rules-xml
 example-style-xml
+example-teams-xml
 executed-again
 exp
 fighter-attack
