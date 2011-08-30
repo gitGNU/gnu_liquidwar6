@@ -627,7 +627,7 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
    * really help us here, as it's a time consuming operation
    */
 #ifdef LW6_OPENMP
-#pragma omp parallel for
+  //  #pragma omp parallel for // OOps, seems checksum go wrong with this?
 #endif
   for (i = 0; i < n; ++i)
     {
