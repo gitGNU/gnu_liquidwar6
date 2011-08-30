@@ -1,4 +1,4 @@
-@set UPDATED 28 August 2011
+@set UPDATED 30 August 2011
 @set UPDATED-MONTH August 2011
 @set EDITION 0.0.11beta
 @set VERSION 0.0.11beta

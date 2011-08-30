@@ -1006,7 +1006,7 @@ Todo...
 Liquid War 6 can be controlled using a reduced set of keys. This is
 to make the game more portable and allow possible ports to platforms
 where a full keyboard is not available. Depending on the graphics backend,
-exact mapping might change, they should be obvious and intuitive.
+exact mapping might change, they should hopefully be obvious and intuitive.
 
 Those keys are:
 @itemize
@@ -1023,10 +1023,16 @@ Those keys are:
 @item
 @code{esc} : the escape key
 @item
+@code{ctrl} : the control key
+@item
+@code{alt} : the alt / meta key
+@item
 @code{pgup} : the page up key
 @item
 @code{pgdown} : the page down key
 @end itemize
+
+Basically,
 
 @subsection Combining mouse, keyboard and joysticks
 
@@ -1034,33 +1040,78 @@ It's also possible to control the game with the mouse only, or with a joystick.
 By default the interface will trap all events and respond on any of these possible 
 devices.
 
-The mouse follows these rules:
-@itemize
-@item
-mouse left-click is equivalent to the keyboard @code{enter}, it validates an item
-@item
-mouse right-click is equivalent to the keyboard @code{esc}, it goes back, cancels, ...
-@item
-mouse wheel-up is equivalent to the keyboard @code{pgup}
-@item
-mouse wheel-down is equivalent to the keyboard @code{pgdown}
-@end itemize
+@multitable @columnfractions .2 .2 .2 .2 .2
+     @headitem Keyboard @tab Mouse @tab Joystick @tab Menu action @tab In-game
 
-The joytick bindings is done as follows:
-@itemize
-@item
-button @code{A} is equivalent to the keyboard @code{enter}, it validates an item
-@item
-button @code{B} is equivalent to the keyboard @code{esc}, it goes back, cancels, ...
-@item
-button @code{C} is equivalent to the keyboard @code{pgup}
-@item
-button @code{D} is equivalent to the keyboard @code{pgdown}
-@end itemize
+     @item @code{up}
+     @tab mouse pointer
+     @tab stick
+     @tab previous menu item
+     @tab move cursor up
 
-What these buttons are exactly on your joystick depends on your hardware and
-driver. Note that Liquid War 6 converts any analog joystick input to a
-digital pad-like information.
+     @item @code{down}
+     @tab mouse pointer
+     @tab stick
+     @tab next menu item
+     @tab move cursor down
+
+     @item @code{left}
+     @tab mouse pointer
+     @tab stick
+     @tab change menu item value
+     @tab move cursor left
+
+     @item @code{right}
+     @tab mouse pointer
+     @tab stick
+     @tab change menu item value
+     @tab move cursor right
+
+     @item @code{enter}
+     @tab left-click
+     @tab button A
+     @tab validate menu
+     @tab validate chat line
+
+     @item @code{esc}
+     @tab right-click
+     @tab button B
+     @tab back to previous menu
+     @tab quit game
+
+     @item @code{ctrl}
+     @tab simple click on left button
+     @tab button C
+     @tab N/A
+     @tab fire
+
+     @item @code{alt}
+     @tab simple click on right button or double click on left button
+     @tab button D
+     @tab N/A
+     @tab alternate fire
+
+     @item @code{pgup}
+     @tab wheel up
+     @tab button E
+     @tab previous menu item
+     @tab zoom in
+
+     @item @code{pgdown}
+     @tab wheel down
+     @tab button F
+     @tab next menu item
+     @tab zoom out
+
+     @end multitable
+
+
+A final word about joystick buttons: there's no such thing as standard
+joystick buttons, some will come with @code{A,B,C,D}, others will
+have @code{A,B,start,select,L,R}, there's no way to know. By default,
+the game will use the buttons with the lowest indexes (returned by
+your driver) for the most usefull functions. Validate menu entries is
+the most usefull action, zooming in and out the one you can live without.
 
 @subsection Quit with F10
 

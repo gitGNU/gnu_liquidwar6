@@ -872,6 +872,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_SIMPLE_CLICK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN);

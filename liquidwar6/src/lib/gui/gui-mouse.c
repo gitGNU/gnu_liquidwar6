@@ -108,7 +108,6 @@ lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 			       timestamp);
   lw6gui_button_update_repeat (&(mouse->button_middle), repeat_settings,
 			       timestamp);
-  // no standard repeat for double_click
   lw6gui_button_update_repeat (&(mouse->wheel_up), repeat_settings,
 			       timestamp);
   lw6gui_button_update_repeat (&(mouse->wheel_down), repeat_settings,
@@ -146,7 +145,6 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
   ret = lw6gui_button_sync (&(dst->button_left), &(src->button_left)) &&
     lw6gui_button_sync (&(dst->button_right), &(src->button_right)) &&
     lw6gui_button_sync (&(dst->button_middle), &(src->button_middle)) &&
-    lw6gui_button_sync (&(dst->double_click), &(src->double_click)) &&
     lw6gui_button_sync (&(dst->wheel_up), &(src->wheel_up)) &&
     lw6gui_button_sync (&(dst->wheel_down), &(src->wheel_down));
 

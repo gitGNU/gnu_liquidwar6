@@ -132,6 +132,7 @@
 (define lw6def-c-lw6gui-mouse-pop-button-middle "c-lw6gui-mouse-pop-button-middle")
 (define lw6def-c-lw6gui-mouse-pop-button-right "c-lw6gui-mouse-pop-button-right")
 (define lw6def-c-lw6gui-mouse-pop-double-click "c-lw6gui-mouse-pop-double-click")
+(define lw6def-c-lw6gui-mouse-pop-simple-click "c-lw6gui-mouse-pop-simple-click")
 (define lw6def-c-lw6gui-mouse-pop-wheel-down "c-lw6gui-mouse-pop-wheel-down")
 (define lw6def-c-lw6gui-mouse-pop-wheel-up "c-lw6gui-mouse-pop-wheel-up")
 (define lw6def-c-lw6hlp-get-default-value "c-lw6hlp-get-default-value")

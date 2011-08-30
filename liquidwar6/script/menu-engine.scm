@@ -474,11 +474,14 @@
 		    (lw6-play-fx-beep-valid)
 		    )
 		   )
+		  ((c-lw6gui-mouse-pop-button-right dsp)
+		   (lw6-menu-action menu "on-cancel")
+		   (lw6-play-fx-beep-valid)
+		   )
 		  ))
 	     (cond
 	      ((or
 		(c-lw6gui-keyboard-pop-key-esc dsp)
-		(c-lw6gui-mouse-pop-button-right dsp)
 		(c-lw6gui-joystick1-pop-button-cancel dsp)
 		(c-lw6gui-joystick2-pop-button-cancel dsp))
 	       (begin

@@ -3697,6 +3697,31 @@ _scm_lw6gui_mouse_pop_button_middle (SCM dsp)
 }
 
 static SCM
+_scm_lw6gui_mouse_pop_simple_click (SCM dsp)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6dsp_backend_t *c_dsp = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
+
+  c_dsp = lw6_scm_to_dsp (dsp);
+  if (c_dsp)
+    {
+      if (lw6gui_button_pop_simple_click (&(c_dsp->input->mouse.button_left)))
+	{
+	  ret = SCM_BOOL_T;
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6gui_mouse_pop_double_click (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
@@ -8457,6 +8482,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6gui_mouse_pop_button_right);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_mouse_pop_button_middle);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_SIMPLE_CLICK, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_mouse_pop_simple_click);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_mouse_pop_double_click);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, 1, 0, 0,

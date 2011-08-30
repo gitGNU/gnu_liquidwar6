@@ -106,8 +106,12 @@
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (mouse-state (c-lw6gui-mouse-poll-move dsp))
-	 (fire (or (c-lw6gui-mouse-pop-double-click dsp) (hash-ref cursor "fire")))
-	 (fire2 (or (c-lw6gui-mouse-pop-double-click dsp) (hash-ref cursor "fire2")))
+	 ;; Default binding is to map left simple on fire, and right + left double-click
+	 ;; on alternate fire, this way a tablet PC and/or tactile screen can
+	 ;; play without any trouble, right button is here for convenience only
+	 (flush (c-lw6gui-mouse-pop-button-left dsp))
+	 (fire (or (c-lw6gui-mouse-pop-simple-click dsp) (hash-ref cursor "fire")))
+	 (fire2 (or (c-lw6gui-mouse-pop-button-right dsp) (c-lw6gui-mouse-pop-double-click dsp) (hash-ref cursor "fire2")))
 	 (map-x (assoc-ref mouse-state "map-x"))
 	 (map-y (assoc-ref mouse-state "map-y"))
 	 (menu-esc (assoc-ref mouse-state "menu-esc"))
@@ -117,10 +121,6 @@
 	(hash-set! cursor "fire2" fire2)
 	(if (or mouse-state (hash-ref cursor "mouse-controlled"))
 	    (begin
-	      ;; OK this ain't clean but until there's proper
-	      ;; map drag support, we do this to avoid in-game
-	      ;; menu popping arround
-	      (c-lw6gui-mouse-pop-button-left dsp)
 	      (if (not mouse-state)
 		  (begin
 		    (set! mouse-state (c-lw6gui-mouse-get-state dsp))

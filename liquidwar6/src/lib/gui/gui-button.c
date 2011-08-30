@@ -44,6 +44,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
   button->last_press = timestamp;
   button->last_repeat = 0;
   if (button->double_click_t1 == 0
+      || button->double_click_queue <= 0
       || timestamp - button->double_click_t2 <
       button->double_click_t2 - button->double_click_t1)
     {
@@ -116,6 +117,32 @@ lw6gui_button_pop_press (lw6gui_button_t * button)
 }
 
 /**
+ * lw6gui_button_pop_simple_click
+ *
+ * @button: the button to query
+ *
+ * Tells how many times the button has been simpleclicked. This is different
+ * from a simple press, in fact, there's a delay, we must wait until the
+ * double-click delay is elapsed to make sure this is a simple click...
+ * Designed for use with mouse to differentiate fire and alternate fire.
+ *
+ * Return value: 1 if there's a simpleclick event in the queue, 0 if empty.
+ */
+int
+lw6gui_button_pop_simple_click (lw6gui_button_t * button)
+{
+  int ret = 0;
+
+  if (button->simple_click_queue > 0)
+    {
+      ret = 1;
+      button->simple_click_queue--;
+    }
+
+  return ret;
+}
+
+/**
  * lw6gui_button_pop_double_click
  *
  * @button: the button to query
@@ -173,7 +200,20 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
       && (button->double_click_t2 - button->double_click_t1) <
       repeat_settings->double_click)
     {
-      button->double_click_queue++;
+      /*
+       * We don't "++" here, no buffering of double clicks
+       */
+      button->double_click_queue = 1;
+      button->double_click_t1 = 0;
+      button->double_click_t2 = 0;
+    }
+  if (button->double_click_t2 > 0
+      && timestamp - button->double_click_t2 > repeat_settings->double_click)
+    {
+      /*
+       * We don't "++" here, no buffering of simple clicks
+       */
+      button->simple_click_queue = 1;
       button->double_click_t1 = 0;
       button->double_click_t2 = 0;
     }
@@ -199,7 +239,9 @@ lw6gui_button_sync (lw6gui_button_t * dst, lw6gui_button_t * src)
 
   dst->press_queue += src->press_queue;
   src->press_queue = 0;		// clear src queue, it's been transfered to dst
-  dst->double_click_queue += src->double_click_queue;
+  dst->simple_click_queue |= src->simple_click_queue;
+  src->simple_click_queue = 0;	// clear src queue, it's been transfered to dst
+  dst->double_click_queue |= src->double_click_queue;
   src->double_click_queue = 0;	// clear src queue, it's been transfered to dst
   dst->is_pressed = src->is_pressed;
   dst->last_press = src->last_press;

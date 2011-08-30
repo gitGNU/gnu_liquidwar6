@@ -940,7 +940,8 @@ File: liquidwar6.info,  Node: User interface,  Next: Solo game,  Prev: Strategy 
 Liquid War 6 can be controlled using a reduced set of keys. This is to
 make the game more portable and allow possible ports to platforms where
 a full keyboard is not available. Depending on the graphics backend,
-exact mapping might change, they should be obvious and intuitive.
+exact mapping might change, they should hopefully be obvious and
+intuitive.
 
    Those keys are:
    * `up' : the arrow up key
@@ -955,9 +956,15 @@ exact mapping might change, they should be obvious and intuitive.
 
    * `esc' : the escape key
 
+   * `ctrl' : the control key
+
+   * `alt' : the alt / meta key
+
    * `pgup' : the page up key
 
    * `pgdown' : the page down key
+
+   Basically,
 
 2.8.2 Combining mouse, keyboard and joysticks
 ---------------------------------------------
@@ -966,31 +973,37 @@ It's also possible to control the game with the mouse only, or with a
 joystick.  By default the interface will trap all events and respond on
 any of these possible devices.
 
-   The mouse follows these rules:
-   * mouse left-click is equivalent to the keyboard `enter', it
-     validates an item
+Keyboard       Mouse          Joystick       Menu action    In-game
+--------------------------------------------------------------------------- 
+`up'           mouse pointer  stick          previous menu  move cursor up
+                                             item           
+`down'         mouse pointer  stick          next menu item move cursor
+                                                            down
+`left'         mouse pointer  stick          change menu    move cursor
+                                             item value     left
+`right'        mouse pointer  stick          change menu    move cursor
+                                             item value     right
+`enter'        left-click     button A       validate menu  validate chat
+                                                            line
+`esc'          right-click    button B       back to        quit game
+                                             previous menu  
+`ctrl'         simple click   button C       N/A            fire
+               on left button                               
+`alt'          simple click   button D       N/A            alternate fire
+               on right                                     
+               button or                                    
+               double click                                 
+               on left button                               
+`pgup'         wheel up       button E       previous menu  zoom in
+                                             item           
+`pgdown'       wheel down     button F       next menu item zoom out
 
-   * mouse right-click is equivalent to the keyboard `esc', it goes
-     back, cancels, ...
-
-   * mouse wheel-up is equivalent to the keyboard `pgup'
-
-   * mouse wheel-down is equivalent to the keyboard `pgdown'
-
-   The joytick bindings is done as follows:
-   * button `A' is equivalent to the keyboard `enter', it validates an
-     item
-
-   * button `B' is equivalent to the keyboard `esc', it goes back,
-     cancels, ...
-
-   * button `C' is equivalent to the keyboard `pgup'
-
-   * button `D' is equivalent to the keyboard `pgdown'
-
-   What these buttons are exactly on your joystick depends on your
-hardware and driver. Note that Liquid War 6 converts any analog
-joystick input to a digital pad-like information.
+   A final word about joystick buttons: there's no such thing as
+standard joystick buttons, some will come with `A,B,C,D', others will
+have `A,B,start,select,L,R', there's no way to know. By default, the
+game will use the buttons with the lowest indexes (returned by your
+driver) for the most usefull functions. Validate menu entries is the
+most usefull action, zooming in and out the one you can live without.
 
 2.8.3 Quit with F10
 -------------------
