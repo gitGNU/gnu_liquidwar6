@@ -1,5 +1,7 @@
 2011-08-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed OpenMP issues (variables inside a loop need be local).
+
 	* Added support for CTRL/ALT to use primary/secondary weapons.
 
 2011-08-29 : Christian Mauduit <ufoot@ufoot.org>

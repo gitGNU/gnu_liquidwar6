@@ -601,7 +601,7 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
 				   lw6map_rules_t * rules, int32_t nb_spreads,
 				   u_int32_t team_mask)
 {
-  int i, j;
+  int i;
   int teams_concerned[LW6MAP_MAX_NB_TEAMS];
   int n = 0;
 
@@ -627,10 +627,17 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
    * really help us here, as it's a time consuming operation
    */
 #ifdef LW6_OPENMP
-  //  #pragma omp parallel for // OOps, seems checksum go wrong with this?
+#pragma omp parallel for
 #endif
   for (i = 0; i < n; ++i)
     {
+      /*
+       * Now it's important to define j *now* and only *now*
+       * inside the above for loop, since when running parrallel,
+       * every thread needs its own copy of j.
+       */
+      int j;
+
       for (j = 0; j < nb_spreads; ++j)
 	{
 	  _lw6ker_spread_update_gradient (&
