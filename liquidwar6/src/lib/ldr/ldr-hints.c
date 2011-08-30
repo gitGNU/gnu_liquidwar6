@@ -36,6 +36,15 @@ typedef struct hints_update_data_s
 }
 hints_update_data_t;
 
+/**
+ * lw6ldr_hints_defaults
+ *
+ * @hints: data to initialize
+ *
+ * Set the hints struct to its defaults.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
 {
@@ -66,10 +75,34 @@ lw6ldr_hints_defaults (lw6ldr_hints_t * hints)
   hints->speed = LW6LDR_HINTS_DEFAULT_SPEED;
 }
 
+/**
+ * lw6ldr_hints_zero
+ *
+ * @hints: data to initialize
+ *
+ * Zeros the hints struct, this is not the same as setting to defaults.
+ *
+ * Return value: none.
+ */
+void
+lw6ldr_hints_zero (lw6ldr_hints_t * hints)
+{
+  memset (hints, 0, sizeof (lw6ldr_hints_t));
+}
+
+/**
+ * lw6ldr_hints_clear
+ *
+ * @hints: data to initialize
+ *
+ * Clears the hints struct, this is not the same as setting to defaults.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_hints_clear (lw6ldr_hints_t * hints)
 {
-  memset (hints, 0, sizeof (lw6ldr_hints_t));
+  lw6ldr_hints_zero (hints);
 }
 
 static void
@@ -250,6 +283,17 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, char *key, char *value)
   return ret;
 }
 
+/**
+ * lw6ldr_hints_get
+ *
+ * @hints: the hints to modify
+ * @key: the key to modify
+ *
+ * Gets one single parameter in a hints structure. Value is
+ * converted as a string.
+ *
+ * Return value: dynamically allocated string, NULL on error.
+ */
 char *
 lw6ldr_hints_get (lw6ldr_hints_t * hints, char *key)
 {
@@ -349,6 +393,15 @@ lw6ldr_hints_get (lw6ldr_hints_t * hints, char *key)
   return ret;
 }
 
+/**
+ * lw6ldr_hints_get_default
+ *
+ * @key: the key we want informations about.
+ *
+ * Gets the default value for a given hints key.
+ *
+ * Return value: dynamically allocated string, NULL on error.
+ */
 char *
 lw6ldr_hints_get_default (char *key)
 {

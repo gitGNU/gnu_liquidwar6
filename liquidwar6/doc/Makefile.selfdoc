@@ -42,6 +42,9 @@ $(srcdir)/map-hints-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
 $(srcdir)/map-style-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
 	echo selfdoc map-style && for k in `$(top_builddir)/src/liquidwar6 --list-map-style` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 default $$k ; done > $(srcdir)/map-style-selfdoc.texi
 
+$(srcdir)/map-teams-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
+	echo selfdoc map-teams && for k in `$(top_builddir)/src/liquidwar6 --list-map-teams` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 default $$k ; done > $(srcdir)/map-teams-selfdoc.texi
+
 $(srcdir)/hooks-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
 	echo selfdoc hooks && for k in `$(top_builddir)/src/liquidwar6 --list-hooks` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 default $$k ; done > $(srcdir)/hooks-selfdoc.texi
 

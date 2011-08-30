@@ -121,6 +121,7 @@ Reference
 * Map rules.xml::       Change game rules.
 * Map hints.xml::       Tune map loader.
 * Map style.xml::       Modify map appearance.
+* Map teams.xml::       Per map teams and bots settings.
 * Advanced settings::   You probably don't want to change these.
 * C to Guile::          C functions exported to Guile.
 * Script hooks::        Available script hooks.
@@ -1892,6 +1893,18 @@ if the map designer thinks this level looks better with this
 or that option, let him say it in this file.
 
 @xref{Map style.xml, style.xml reference}.
+
+@subsection teams.xml
+
+@cindex teams.xml
+
+In this file one can specify per-map team settings. In short, this
+is where you can say how many bots you want, which color, and so on.
+This can be on a per-map basis, so that each map has different
+customized settings, some maps might be fun with only one bot,
+some other maps might be fun packed with 8 opponents.
+
+@xref{Map teams.xml, teams.xml reference}.
 
 @subsection Resampling
 
@@ -3834,6 +3847,7 @@ engines to harvest the content.
 * Map rules.xml::       Change game rules.
 * Map hints.xml::       Tune map loader.
 * Map style.xml::       Modify map appearance.
+* Map teams.xml::       Per map teams and bots settings.
 * Advanced settings::   You probably don't want to change these.
 * C to Guile::          C functions exported to Guile.
 * Script hooks::        Available script hooks.
@@ -3933,16 +3947,25 @@ engines to harvest the content.
 @c Map style.xml
 @c ---------------------------------------------------------------------------
 
-@node Map style.xml, Advanced settings, Map hints.xml, Reference
+@node Map style.xml, Map teams.xml, Map hints.xml, Reference
 @section Map style.xml
 
 @include map-style-selfdoc.texi
 
 @c ---------------------------------------------------------------------------
+@c Map teams.xml
+@c ---------------------------------------------------------------------------
+
+@node Map teams.xml, Advanced settings, Map style.xml, Reference
+@section Map teams.xml
+
+@include map-teams-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
 @c Advanced settings
 @c ---------------------------------------------------------------------------
 
-@node Advanced settings, C to Guile, Map style.xml, Reference
+@node Advanced settings, C to Guile, Map teams.xml, Reference
 @section Advanced settings
 
 @include advanced-selfdoc.texi

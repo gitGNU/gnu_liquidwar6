@@ -71,6 +71,7 @@ extern lw6sys_list_t *lw6hlp_list_map ();
 extern lw6sys_list_t *lw6hlp_list_map_rules ();
 extern lw6sys_list_t *lw6hlp_list_map_hints ();
 extern lw6sys_list_t *lw6hlp_list_map_style ();
+extern lw6sys_list_t *lw6hlp_list_map_teams ();
 extern lw6sys_list_t *lw6hlp_list_funcs ();
 extern lw6sys_list_t *lw6hlp_list_hooks ();
 extern lw6sys_list_t *lw6hlp_list_advanced ();

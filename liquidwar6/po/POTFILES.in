@@ -259,6 +259,7 @@ src/lib/ldr/ldr-resampler.c
 src/lib/ldr/ldr-rgba.c
 src/lib/ldr/ldr-rules.c
 src/lib/ldr/ldr-style.c
+src/lib/ldr/ldr-teams.c
 src/lib/ldr/ldr-test.c
 src/lib/ldr/ldr-testmain.c
 src/lib/ldr/ldr-texture.c

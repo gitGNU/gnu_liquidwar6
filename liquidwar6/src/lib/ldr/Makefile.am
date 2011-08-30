@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -lpng -ljpeg
 
 noinst_LTLIBRARIES = libldr.la
-libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-exp.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-test.c ldr-texture.c ldr-use.c
+libldr_la_SOURCES = ldr-body.c ldr-bw.c ldr-color.c ldr-cursortexture.c ldr-cursortexturelayer.c ldr-dir.c ldr-exp.c ldr-metalayer.c ldr-grease.c ldr-hints.c ldr-layer.c ldr-metadata.c ldr-param.c ldr-print.c ldr-read.c ldr-resampler.c ldr-rgba.c ldr-rules.c ldr-style.c ldr-teams.c ldr-test.c ldr-texture.c ldr-use.c
 libldrdir= $(includedir)/@PACKAGE_TARNAME@/ldr
 libldr_HEADERS = ldr.h
 

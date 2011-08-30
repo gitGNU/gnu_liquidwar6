@@ -78,7 +78,7 @@ lw6map_color_is_same (lw6map_color_couple_t * color1,
 char *
 lw6map_team_color_index_to_key (int index)
 {
-  char *ret = "red";
+  char *ret = LW6MAP_TEAM_COLOR_KEY_RED;
 
   switch (index)
     {

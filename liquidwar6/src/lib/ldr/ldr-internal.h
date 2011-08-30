@@ -51,6 +51,7 @@
 #define _LW6LDR_FILE_RULES_XML "rules.xml"
 #define _LW6LDR_FILE_HINTS_XML "hints.xml"
 #define _LW6LDR_FILE_STYLE_XML "style.xml"
+#define _LW6LDR_FILE_TEAMS_XML "teams.xml"
 
 typedef struct _lw6ldr_image_bw_s
 {

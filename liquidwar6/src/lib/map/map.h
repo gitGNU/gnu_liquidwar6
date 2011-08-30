@@ -93,9 +93,9 @@
 #define LW6MAP_RULES_MIN_MOVES_PER_ROUND 1
 #define LW6MAP_RULES_MAX_MOVES_PER_ROUND 50
 
-#define LW6MAP_RULES_DEFAULT_SPREADS_PER_ROUND 3
+#define LW6MAP_RULES_DEFAULT_SPREADS_PER_ROUND 6
 #define LW6MAP_RULES_MIN_SPREADS_PER_ROUND 1
-#define LW6MAP_RULES_MAX_SPREADS_PER_ROUND 12
+#define LW6MAP_RULES_MAX_SPREADS_PER_ROUND 36
 
 #define LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC 50
 #define LW6MAP_RULES_MIN_ROUNDS_PER_SEC 1
@@ -1014,7 +1014,20 @@ extern int lw6map_color_is_same (lw6map_color_couple_t * color1,
 				 lw6map_color_couple_t * color2);
 extern char *lw6map_team_color_index_to_key (int index);
 extern int lw6map_team_color_key_to_index (char *key);
-
+/**
+ * lw6map_team_color_is_valid
+ *
+ * @team_color: the team color to test
+ *
+ * Tests wether index is a valid team color.
+ *
+ * Return value: 1 if between 0 and 9, else 0.
+ */
+static inline int
+lw6map_team_color_is_valid (int team_color)
+{
+  return (team_color >= 0 && team_color < LW6MAP_MAX_NB_TEAMS);
+}
 
 /* map-coords.c */
 extern void lw6map_coords_fix_xy (lw6map_rules_t * rules,

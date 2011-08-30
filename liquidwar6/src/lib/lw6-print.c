@@ -685,7 +685,7 @@ lw6_print_list_map_hints ()
 /**
  * lw6_print_list_map_style
  *
- * Displays the list of 'amp style' options.
+ * Displays the list of 'map style' options.
  *
  * Return value: none
  */
@@ -695,6 +695,26 @@ lw6_print_list_map_style ()
   lw6sys_list_t *list;
 
   list = lw6hlp_list_map_style ();
+  if (list)
+    {
+      lw6hlp_print_keyword (&list, stdout);
+      lw6sys_list_free (list);
+    }
+}
+
+/**
+ * lw6_print_list_map_teams
+ *
+ * Displays the list of 'map teams' options.
+ *
+ * Return value: none
+ */
+void
+lw6_print_list_map_teams ()
+{
+  lw6sys_list_t *list;
+
+  list = lw6hlp_list_map_teams ();
   if (list)
     {
       lw6hlp_print_keyword (&list, stdout);

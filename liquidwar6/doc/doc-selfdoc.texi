@@ -77,6 +77,12 @@ List 'style.xml' entries. These parameters enable you to modify the aspect of
 the game.
 @end deffn
 
+@subsection list-map-teams
+@deffn {Command-line option} @code{--list-map-teams}
+List 'teams.xml' entries. These parameters enable you to specify which teams
+should play on the map.
+@end deffn
+
 @subsection list-network
 @deffn {Command-line option} @code{--list-network}
 List network options.

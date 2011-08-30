@@ -47,35 +47,6 @@ value returned by 'show-build-bin-id'. When they are different, it is assumed
 this is because of a software upgrade.
 @end deffn
 
-@subsection bot-iq
-@deffn {Command-line option} @code{--bot-iq=<value>}
-@deffnx {Environment variable} @code{LW6_BOT_IQ}
-@deffnx {XML key} @code{bot-iq}
-Type: integer
-
-Default value: 100
-Min value: 0
-Max value: 200
-
-The IQ (intelligence quotient) of bots. Typically, a value of 100 will make
-the bot behave normally, performing at its best. A value of 0 will just make
-it act the worst way it can. Values over 100 probably won't change anything
-compared to 100, but this truely depends on which bot backend you're running.
-@end deffn
-
-@subsection bot-speed
-@deffn {Command-line option} @code{--bot-speed=<value>}
-@deffnx {Environment variable} @code{LW6_BOT_SPEED}
-@deffnx {XML key} @code{bot-speed}
-Type: float
-
-Default value: 1.0
-
-The speed of bots, 1 means normal speed, higher value will speed it up, lower
-will slow it down. Note that this only has an impact on bot engines, not on
-the game speed itself.
-@end deffn
-
 @subsection check
 @deffn {Command-line option} @code{--check}
 Running the game with '--check' is almost like running '--test', the

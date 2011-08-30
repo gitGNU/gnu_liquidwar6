@@ -66,8 +66,49 @@
 #define LW6LDR_HINTS_DEFAULT_SPEED 1.0
 
 #define LW6LDR_HINTS_MIN_WALL_GREASE -5
-
 #define LW6LDR_HINTS_MAX_WALL_GREASE 5
+
+#define LW6LDR_TEAMS_DEFAULT_PLAYER_COLOR LW6MAP_TEAM_COLOR_KEY_RED
+
+#define LW6LDR_TEAMS_DEFAULT_NB_BOTS 2
+#define LW6LDR_TEAMS_MIN_NB_BOTS 0
+#define LW6LDR_TEAMS_MAX_NB_BOTS 9
+
+#define LW6LDR_TEAMS_DEFAULT_BOT_SPEED 1.0f
+
+#define LW6LDR_TEAMS_DEFAULT_BOT_IQ 100
+#define LW6LDR_TEAMS_MIN_BOT_IQ 0
+#define LW6LDR_TEAMS_MAX_BOT_IQ 200
+
+#define LW6LDR_TEAMS_DEFAULT_BOT1_COLOR LW6MAP_TEAM_COLOR_KEY_GREEN
+#define LW6LDR_TEAMS_DEFAULT_BOT2_COLOR LW6MAP_TEAM_COLOR_KEY_BLUE
+#define LW6LDR_TEAMS_DEFAULT_BOT3_COLOR LW6MAP_TEAM_COLOR_KEY_YELLOW
+#define LW6LDR_TEAMS_DEFAULT_BOT4_COLOR LW6MAP_TEAM_COLOR_KEY_CYAN
+#define LW6LDR_TEAMS_DEFAULT_BOT5_COLOR LW6MAP_TEAM_COLOR_KEY_MAGENTA
+#define LW6LDR_TEAMS_DEFAULT_BOT6_COLOR LW6MAP_TEAM_COLOR_KEY_ORANGE
+#define LW6LDR_TEAMS_DEFAULT_BOT7_COLOR LW6MAP_TEAM_COLOR_KEY_LIGHTBLUE
+#define LW6LDR_TEAMS_DEFAULT_BOT8_COLOR LW6MAP_TEAM_COLOR_KEY_PURPLE
+#define LW6LDR_TEAMS_DEFAULT_BOT9_COLOR LW6MAP_TEAM_COLOR_KEY_PINK
+
+#define LW6LDR_TEAMS_DEFAULT_BOT1_AI "idiot"
+#define LW6LDR_TEAMS_DEFAULT_BOT2_AI "idiot"
+#define LW6LDR_TEAMS_DEFAULT_BOT3_AI "random"
+#define LW6LDR_TEAMS_DEFAULT_BOT4_AI "follow"
+#define LW6LDR_TEAMS_DEFAULT_BOT5_AI "brute"
+#define LW6LDR_TEAMS_DEFAULT_BOT6_AI "idiot"
+#define LW6LDR_TEAMS_DEFAULT_BOT7_AI "idiot"
+#define LW6LDR_TEAMS_DEFAULT_BOT8_AI "idiot"
+#define LW6LDR_TEAMS_DEFAULT_BOT9_AI "idiot"
+
+#define LW6LDR_TEAMS_BOT1_INDEX 0
+#define LW6LDR_TEAMS_BOT2_INDEX 1
+#define LW6LDR_TEAMS_BOT3_INDEX 2
+#define LW6LDR_TEAMS_BOT4_INDEX 3
+#define LW6LDR_TEAMS_BOT5_INDEX 4
+#define LW6LDR_TEAMS_BOT6_INDEX 5
+#define LW6LDR_TEAMS_BOT7_INDEX 6
+#define LW6LDR_TEAMS_BOT8_INDEX 7
+#define LW6LDR_TEAMS_BOT9_INDEX 8
 
 typedef struct lw6ldr_hints_s
 {
@@ -94,11 +135,29 @@ typedef struct lw6ldr_hints_s
   float speed;
 } lw6ldr_hints_t;
 
+typedef struct lw6ldr_bot_info_s
+{
+  int color;
+  char *ai;
+}
+lw6ldr_bot_info_t;
+
+typedef struct lw6ldr_teams_s
+{
+  int player_color;
+  int nb_bots;
+  float bot_speed;
+  int bot_iq;
+  lw6ldr_bot_info_t bot[LW6LDR_TEAMS_MAX_NB_BOTS];
+}
+lw6ldr_teams_t;
+
 #define LW6LDR_USE_DEFAULT_USE_TEXTURE 1
 #define LW6LDR_USE_DEFAULT_USE_CURSOR_TEXTURE 1
 #define LW6LDR_USE_DEFAULT_USE_RULES_XML 1
 #define LW6LDR_USE_DEFAULT_USE_HINTS_XML 1
 #define LW6LDR_USE_DEFAULT_USE_STYLE_XML 1
+#define LW6LDR_USE_DEFAULT_USE_TEAMS_XML 1
 #define LW6LDR_USE_DEFAULT_USE_MUSIC_FILE 1
 
 typedef struct lw6ldr_use_s
@@ -108,6 +167,7 @@ typedef struct lw6ldr_use_s
   int use_rules_xml;
   int use_hints_xml;
   int use_style_xml;
+  int use_teams_xml;
   int use_music_file;
 } lw6ldr_use_t;
 
@@ -165,10 +225,9 @@ extern int lw6ldr_grease_apply (lw6map_layer_t * layer,
 				lw6ldr_hints_t * hints,
 				lw6sys_progress_t * progress);
 
-/*
- * hints.c
- */
+/* ldr-hints.c */
 extern void lw6ldr_hints_defaults (lw6ldr_hints_t * hints);
+extern void lw6ldr_hints_zero (lw6ldr_hints_t * hints);
 extern void lw6ldr_hints_clear (lw6ldr_hints_t * hints);
 extern int lw6ldr_hints_read (lw6ldr_hints_t * hints, char *dirname);
 extern int lw6ldr_hints_set (lw6ldr_hints_t * hints, char *key, char *value);
@@ -219,6 +278,7 @@ extern int lw6ldr_param_update (lw6map_param_t * param,
 extern void lw6ldr_print_example_rules_xml (FILE * f);
 extern void lw6ldr_print_example_hints_xml (FILE * f);
 extern void lw6ldr_print_example_style_xml (FILE * f);
+extern void lw6ldr_print_example_teams_xml (FILE * f);
 extern int lw6ldr_print_examples (char *user_dir);
 
 /* ldr-read.c */
@@ -263,6 +323,17 @@ extern void lw6ldr_resampler_target2source (lw6ldr_resampler_t * resampler,
 /* ldr-style.c */
 extern int lw6ldr_style_read (lw6map_style_t * style, char *dirname);
 extern int lw6ldr_style_update (lw6map_style_t * style,
+				lw6sys_assoc_t * values);
+
+/* ldr-teams.c */
+extern void lw6ldr_teams_defaults (lw6ldr_teams_t * teams);
+extern void lw6ldr_teams_zero (lw6ldr_teams_t * teams);
+extern void lw6ldr_teams_clear (lw6ldr_teams_t * teams);
+extern int lw6ldr_teams_read (lw6ldr_teams_t * teams, char *dirname);
+extern int lw6ldr_teams_set (lw6ldr_teams_t * teams, char *key, char *value);
+extern char *lw6ldr_teams_get (lw6ldr_teams_t * teams, char *key);
+extern char *lw6ldr_teams_get_default (char *key);
+extern int lw6ldr_teams_update (lw6ldr_teams_t * teams,
 				lw6sys_assoc_t * values);
 
 /* ldr-test.c */

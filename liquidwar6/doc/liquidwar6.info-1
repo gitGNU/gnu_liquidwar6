@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -87,6 +87,7 @@ Reference
 * Map rules.xml::       Change game rules.
 * Map hints.xml::       Tune map loader.
 * Map style.xml::       Modify map appearance.
+* Map teams.xml::       Per map teams and bots settings.
 * Advanced settings::   You probably don't want to change these.
 * C to Guile::          C functions exported to Guile.
 * Script hooks::        Available script hooks.
@@ -1754,7 +1755,18 @@ in this file.
 
    *Note style.xml reference: Map style.xml.
 
-3.1.13 Resampling
+3.1.13 teams.xml
+----------------
+
+In this file one can specify per-map team settings. In short, this is
+where you can say how many bots you want, which color, and so on.  This
+can be on a per-map basis, so that each map has different customized
+settings, some maps might be fun with only one bot, some other maps
+might be fun packed with 8 opponents.
+
+   *Note teams.xml reference: Map teams.xml.
+
+3.1.14 Resampling
 -----------------
 
 This is a very important point. Liquid War almost *always* resamples
@@ -1797,7 +1809,7 @@ design, this is another story. Don't use them. Rely on 'bench-value'
 and just care about game speed. This is achieved by changing the
 "speed" parameter.
 
-3.1.14 Music
+3.1.15 Music
 ------------
 
 It is possible to store your own custom music file within the map
@@ -3705,6 +3717,7 @@ to harvest the content.
 * Map rules.xml::       Change game rules.
 * Map hints.xml::       Tune map loader.
 * Map style.xml::       Modify map appearance.
+* Map teams.xml::       Per map teams and bots settings.
 * Advanced settings::   You probably don't want to change these.
 * C to Guile::          C functions exported to Guile.
 * Script hooks::        Available script hooks.
@@ -3917,33 +3930,40 @@ File: liquidwar6.info,  Node: Doc options,  Next: Show options,  Prev: Basic opt
      List 'style.xml' entries. These parameters enable you to modify
      the aspect of the game.
 
-4.2.15 list-network
+4.2.15 list-map-teams
+---------------------
+
+ -- Command-line option: `--list-map-teams'
+     List 'teams.xml' entries. These parameters enable you to specify
+     which teams should play on the map.
+
+4.2.16 list-network
 -------------------
 
  -- Command-line option: `--list-network'
      List network options.
 
-4.2.16 list-path
+4.2.17 list-path
 ----------------
 
  -- Command-line option: `--list-path'
      List parameters which allow you to override the defaults of the
      game, and force the game your own file paths and directories.
 
-4.2.17 list-players
+4.2.18 list-players
 -------------------
 
  -- Command-line option: `--list-players'
      List player-related entries, that is to say 'who plays'.
 
-4.2.18 list-quick
+4.2.19 list-quick
 -----------------
 
  -- Command-line option: `--list-quick'
      List quick help entries, this includes the GNU standard options
      and a few troubleshooting tools.
 
-4.2.19 list-show
+4.2.20 list-show
 ----------------
 
  -- Command-line option: `--list-show'
@@ -3951,7 +3971,7 @@ File: liquidwar6.info,  Node: Doc options,  Next: Show options,  Prev: Basic opt
      display on the console many internal parameters. Usefull when
      debugging.
 
-4.2.20 list-sound
+4.2.21 list-sound
 -----------------
 
  -- Command-line option: `--list-sound'
@@ -5822,7 +5842,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `spreads-per-round'
      Type: integer
 
-     Default value: 3 Min value: 1 Max value: 12
+     Default value: 6 Min value: 1 Max value: 36
 
      Defines how many times the gradient is spread per round. Gradient
      spread is a very Liquid War 6 specific feature, just remember that

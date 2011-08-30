@@ -515,6 +515,11 @@ Wrapper on lw6hlp_list_map_rules.
 Wrapper on lw6hlp_list_map_style.
 @end deffn
 
+@subsection c-lw6hlp-list-map-teams
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-map-teams}
+Wrapper on lw6hlp_list_map_teams.
+@end deffn
+
 @subsection c-lw6hlp-list-network
 @deffn {C function exported to Guile} @code{c-lw6hlp-list-network}
 Wrapper on lw6hlp_list_network.

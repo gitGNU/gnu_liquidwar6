@@ -2566,6 +2566,26 @@ _scm_lw6hlp_list_map_style ()
 }
 
 static SCM
+_scm_lw6hlp_list_map_teams ()
+{
+  lw6sys_list_t *c_list = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  c_list = lw6hlp_list_map_teams ();
+  if (c_list)
+    {
+      ret = to_scm_str_list (c_list);
+      lw6sys_list_free (c_list);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6hlp_list_funcs ()
 {
   lw6sys_list_t *c_list = NULL;
@@ -8485,6 +8505,8 @@ lw6_register_funcs ()
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE,
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_TEAMS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_teams);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS,
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS,

@@ -611,9 +611,9 @@ systems. This might change in the future.
 @deffnx {XML key} @code{spreads-per-round}
 Type: integer
 
-Default value: 3
+Default value: 6
 Min value: 1
-Max value: 12
+Max value: 36
 
 Defines how many times the gradient is spread per round. Gradient spread is a
 very Liquid War 6 specific feature, just remember that the more often you do

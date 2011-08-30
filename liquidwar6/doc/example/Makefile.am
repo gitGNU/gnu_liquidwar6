@@ -31,5 +31,8 @@ $(srcdir)/hints.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
 
 $(srcdir)/style.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
 	$(top_builddir)/src/liquidwar6 --example-style-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
+
+$(srcdir)/teams.xml: $(top_srcdir)/src/lib/hlp/hlp-about.c
+	$(top_builddir)/src/liquidwar6 --example-teams-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
 endif
 

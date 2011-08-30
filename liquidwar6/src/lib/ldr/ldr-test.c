@@ -45,6 +45,12 @@
 #define TEST_HINTS_VALUE2 "3.5"
 #define TEST_HINTS_KEY3 LW6DEF_MAX_MAP_SURFACE
 #define TEST_HINTS_VALUE3 "1000000"
+#define TEST_TEAMS_KEY1 LW6DEF_PLAYER_COLOR
+#define TEST_TEAMS_VALUE1 "red"
+#define TEST_TEAMS_KEY2 LW6DEF_BOT_SPEED
+#define TEST_TEAMS_VALUE2 "1.5"
+#define TEST_TEAMS_KEY3 LW6DEF_BOT1_AI
+#define TEST_TEAMS_VALUE3 "foo"
 #define TEST_DISPLAY_WIDTH 640
 #define TEST_DISPLAY_HEIGHT 480
 #define TEST_PROGRESS_MIN 0.1f
@@ -343,7 +349,7 @@ test_hints ()
     lw6ldr_hints_t hints;
     lw6sys_assoc_t *values = NULL;
 
-    memset (&hints, 0, sizeof (lw6ldr_hints_t));
+    lw6ldr_hints_zero (&hints);
     lw6ldr_hints_defaults (&hints);
 
     values = lw6sys_assoc_new (NULL);
@@ -366,7 +372,48 @@ test_hints ()
       }
 
     lw6ldr_hints_clear (&hints);
+  }
 
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
+ * Testing teams
+ */
+static int
+test_teams ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6ldr_teams_t teams;
+    lw6sys_assoc_t *values = NULL;
+
+    lw6ldr_teams_zero (&teams);
+    lw6ldr_teams_defaults (&teams);
+
+    values = lw6sys_assoc_new (NULL);
+    if (values)
+      {
+	lw6sys_assoc_set (&values, TEST_TEAMS_KEY1, TEST_TEAMS_VALUE1);
+	lw6sys_assoc_set (&values, TEST_TEAMS_KEY2, TEST_TEAMS_VALUE2);
+	lw6sys_assoc_set (&values, TEST_TEAMS_KEY3, TEST_TEAMS_VALUE3);
+
+	if (lw6ldr_teams_update (&teams, values))
+	  {
+	    ret = 1;
+	  }
+
+	lw6sys_assoc_free (values);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    lw6ldr_teams_clear (&teams);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -471,8 +518,8 @@ lw6ldr_test (int mode)
       lw6map_test (mode);
     }
 
-  ret = test_dir () && test_hints () && test_param () && test_read ()
-    && test_data ();
+  ret = test_dir () && test_hints () && test_teams () && test_param ()
+    && test_read () && test_data ();
 
   return ret;
 }

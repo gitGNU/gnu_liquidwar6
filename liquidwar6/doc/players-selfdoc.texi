@@ -1,14 +1,3 @@
-@subsection player1-bot
-@deffn {Command-line option} @code{--player1-bot=<value>}
-@deffnx {Environment variable} @code{LW6_PLAYER1_BOT}
-@deffnx {XML key} @code{player1-bot}
-Type: string
-
-Default value: 
-
-Bot engine for the first player, can be 'no', 'random' or 'idiot'.
-@end deffn
-
 @subsection player1-color
 @deffn {Command-line option} @code{--player1-color=<value>}
 @deffnx {Environment variable} @code{LW6_PLAYER1_COLOR}
@@ -54,17 +43,6 @@ Type: boolean
 Default value: true
 
 Status of the first player, true if player is activated, false if idle.
-@end deffn
-
-@subsection player2-bot
-@deffn {Command-line option} @code{--player2-bot=<value>}
-@deffnx {Environment variable} @code{LW6_PLAYER2_BOT}
-@deffnx {XML key} @code{player2-bot}
-Type: string
-
-Default value: 
-
-Bot engine for the second player, can be 'no', 'random' or 'idiot'.
 @end deffn
 
 @subsection player2-color
@@ -114,17 +92,6 @@ Default value: true
 Status of the second player, true if player is activated, false if idle.
 @end deffn
 
-@subsection player3-bot
-@deffn {Command-line option} @code{--player3-bot=<value>}
-@deffnx {Environment variable} @code{LW6_PLAYER3_BOT}
-@deffnx {XML key} @code{player3-bot}
-Type: string
-
-Default value: idiot
-
-Bot engine for the third player, can be 'no', 'random' or 'idiot'.
-@end deffn
-
 @subsection player3-color
 @deffn {Command-line option} @code{--player3-color=<value>}
 @deffnx {Environment variable} @code{LW6_PLAYER3_COLOR}
@@ -170,17 +137,6 @@ Type: boolean
 Default value: false
 
 Status of the third player, true if player is activated, false if idle.
-@end deffn
-
-@subsection player4-bot
-@deffn {Command-line option} @code{--player4-bot=<value>}
-@deffnx {Environment variable} @code{LW6_PLAYER4_BOT}
-@deffnx {XML key} @code{player4-bot}
-Type: string
-
-Default value: random
-
-Bot engine for the fourth player, can be 'no', 'random' or 'idiot'.
 @end deffn
 
 @subsection player4-color

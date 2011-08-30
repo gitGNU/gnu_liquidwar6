@@ -77,6 +77,7 @@ update_doc (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_LIST_MAP_RULES);
   lw6sys_list_push_back (list, LW6DEF_LIST_MAP_HINTS);
   lw6sys_list_push_back (list, LW6DEF_LIST_MAP_STYLE);
+  lw6sys_list_push_back (list, LW6DEF_LIST_MAP_TEAMS);
   lw6sys_list_push_back (list, LW6DEF_LIST_FUNCS);
   lw6sys_list_push_back (list, LW6DEF_LIST_HOOKS);
   lw6sys_list_push_back (list, LW6DEF_LIST_ADVANCED);
@@ -243,10 +244,6 @@ update_players (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_PLAYER2_CONTROL);
   lw6sys_list_push_back (list, LW6DEF_PLAYER3_CONTROL);
   lw6sys_list_push_back (list, LW6DEF_PLAYER4_CONTROL);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER1_BOT);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER2_BOT);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER3_BOT);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER4_BOT);
   lw6sys_list_push_back (list, LW6DEF_PLAYER1_COLOR);
   lw6sys_list_push_back (list, LW6DEF_PLAYER2_COLOR);
   lw6sys_list_push_back (list, LW6DEF_PLAYER3_COLOR);
@@ -714,6 +711,49 @@ lw6hlp_list_map_style ()
 }
 
 static int
+update_map_teams (lw6sys_list_t ** list)
+{
+  lw6sys_list_push_back (list, LW6DEF_PLAYER_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_NB_BOTS);
+  lw6sys_list_push_back (list, LW6DEF_BOT_SPEED);
+  lw6sys_list_push_back (list, LW6DEF_BOT_IQ);
+  lw6sys_list_push_back (list, LW6DEF_BOT1_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT2_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT3_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT4_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT5_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT6_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT7_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT8_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT9_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_BOT1_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT2_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT3_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT4_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT5_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT6_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT7_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT8_AI);
+  lw6sys_list_push_back (list, LW6DEF_BOT9_AI);
+
+  return ((*list) != NULL);
+}
+
+lw6sys_list_t *
+lw6hlp_list_map_teams ()
+{
+  lw6sys_list_t *list = NULL;
+
+  list = lw6sys_list_new (NULL);
+  if (list)
+    {
+      update_map_teams (&list);
+    }
+
+  return list;
+}
+
+static int
 update_funcs (lw6sys_list_t ** list)
 {
   lw6sys_list_push_back (list, LW6DEF_C_GETTEXT);
@@ -833,6 +873,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_MAP_RULES);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_MAP_HINTS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_MAP_STYLE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_MAP_TEAMS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_FUNCS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_HOOKS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_ADVANCED);
@@ -1093,8 +1134,6 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MAGIC_NUMBER);
   lw6sys_list_push_back (list, LW6DEF_BIN_ID);
   lw6sys_list_push_back (list, LW6DEF_CHECK);
-  lw6sys_list_push_back (list, LW6DEF_BOT_SPEED);
-  lw6sys_list_push_back (list, LW6DEF_BOT_IQ);
   lw6sys_list_push_back (list, LW6DEF_DEBUG_TEAM_ID);
   lw6sys_list_push_back (list, LW6DEF_DEBUG_LAYER_ID);
   lw6sys_list_push_back (list, LW6DEF_LOG_TIMEOUT);
@@ -1181,8 +1220,9 @@ lw6hlp_list ()
 	&& update_sound (&list) && update_network (&list)
 	&& update_map (&list) && update_map_rules (&list)
 	&& update_map_hints (&list) && update_map_style (&list)
-	&& update_funcs (&list) && update_hooks (&list)
-	&& update_advanced (&list) && update_aliases (&list);
+	&& update_map_teams (&list) && update_funcs (&list)
+	&& update_hooks (&list) && update_advanced (&list)
+	&& update_aliases (&list);
     }
 
   if (!ok)

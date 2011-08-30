@@ -49,6 +49,15 @@
 #define EXAMPLE_COLOR_ALTERNATE_BG LW6SYS_COLOR_8_BLACK
 #define EXAMPLE_COLOR_ALTERNATE_FG LW6SYS_COLOR_8_RED
 
+#define EXAMPLE_PLAYER_COLOR "red"
+#define EXAMPLE_NB_BOTS 3
+#define EXAMPLE_BOT1_COLOR "green"
+#define EXAMPLE_BOT1_AI "idiot"
+#define EXAMPLE_BOT2_COLOR "blue"
+#define EXAMPLE_BOT2_AI "random"
+#define EXAMPLE_BOT3_COLOR "yellow"
+#define EXAMPLE_BOT3_AI "follow"
+
 /**
  * lw6ldr_print_example_rules_xml
  *
@@ -94,7 +103,8 @@ void
 lw6ldr_print_example_hints_xml (FILE * f)
 {
   lw6ldr_hints_t hints;
-  memset (&hints, 0, sizeof (lw6ldr_hints_t));
+
+  lw6ldr_hints_zero (&hints);
   lw6ldr_hints_defaults (&hints);
   lw6sys_print_xml_header (f,
 			   _x_
@@ -141,6 +151,38 @@ lw6ldr_print_example_style_xml (FILE * f)
 }
 
 /**
+ * lw6ldr_print_example_teams_xml
+ *
+ * @f: file to output content to
+ *
+ * Print to a file a typical map teams.xml file.
+ * 
+ * Return value: none.
+ */
+void
+lw6ldr_print_example_teams_xml (FILE * f)
+{
+  lw6ldr_teams_t teams;
+
+  lw6ldr_teams_zero (&teams);
+  lw6ldr_teams_defaults (&teams);
+  lw6sys_print_xml_header (f,
+			   _x_
+			   ("This is an example Liquid War 6 'teams.xml' file. This file can be put along with a 'map.png' file to explicitely say you want this kind of bot, with this color, and so on. This is not a required file, if not present, defaults will be used, however it's a really good way to personnalize a map, this is just how you populate it by default. Another important parameter is the default color for the player, changing this allows the player to try out various colors along its journey in the game."));
+
+  lw6cfg_write_xml_string (f, LW6DEF_PLAYER_COLOR, EXAMPLE_PLAYER_COLOR);
+  lw6cfg_write_xml_int (f, LW6DEF_NB_BOTS, EXAMPLE_NB_BOTS);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT1_COLOR, EXAMPLE_BOT1_COLOR);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT1_AI, EXAMPLE_BOT1_AI);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT2_COLOR, EXAMPLE_BOT2_COLOR);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT2_AI, EXAMPLE_BOT2_AI);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT3_COLOR, EXAMPLE_BOT3_COLOR);
+  lw6cfg_write_xml_string (f, LW6DEF_BOT3_AI, EXAMPLE_BOT3_AI);
+  lw6sys_print_xml_footer (f);
+  lw6ldr_teams_clear (&teams);
+}
+
+/**
  * lw6ldr_print_examples
  *
  * @user_dir: the user directory or at least, a writable one
@@ -160,6 +202,7 @@ lw6ldr_print_examples (char *user_dir)
   int rules_ok = 0;
   int hints_ok = 0;
   int style_ok = 0;
+  int teams_ok = 0;
   example_dir = lw6sys_path_concat (user_dir, EXAMPLE_DIR);
   if (example_dir)
     {
@@ -217,10 +260,26 @@ lw6ldr_print_examples (char *user_dir)
 		}
 	      LW6SYS_FREE (filename);
 	    }
+	  filename = lw6sys_path_concat (example_dir, _LW6LDR_FILE_TEAMS_XML);
+	  if (filename)
+	    {
+	      f = fopen (filename, "wb");
+	      if (f)
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_
+			      ("writing example map teams file in \"%s\""),
+			      filename);
+		  lw6ldr_print_example_teams_xml (f);
+		  teams_ok = 1;
+		  fclose (f);
+		}
+	      LW6SYS_FREE (filename);
+	    }
 	}
       LW6SYS_FREE (example_dir);
     }
 
-  ret = (rules_ok && hints_ok && style_ok);
+  ret = (rules_ok && hints_ok && style_ok && teams_ok);
   return ret;
 }

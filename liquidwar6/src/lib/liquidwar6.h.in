@@ -236,6 +236,7 @@ extern void lw6_print_list_map ();
 extern void lw6_print_list_map_hints ();
 extern void lw6_print_list_map_rules ();
 extern void lw6_print_list_map_style ();
+extern void lw6_print_list_map_teams ();
 extern void lw6_print_list_funcs ();
 extern void lw6_print_list_hooks ();
 extern void lw6_print_list_advanced ();
