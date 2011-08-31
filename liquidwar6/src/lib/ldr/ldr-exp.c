@@ -77,3 +77,15 @@ lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir)
 
   return ret;
 }
+
+void
+_lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
+{
+  rules->exp = exp;
+  rules->highest_team_color_allowed =
+    lw6sys_min (rules->highest_team_color_allowed,
+		lw6map_exp_get_highest_team_color_allowed (exp));
+  rules->highest_weapon_allowed =
+    lw6sys_min (rules->highest_weapon_allowed,
+		lw6map_exp_get_highest_weapon_allowed (exp));
+}

@@ -462,7 +462,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_HEIGHT "height"
 #define LW6DEF_HELP "help"
 #define LW6DEF_HIDDEN_LAYER_ALPHA "hidden-layer-alpha"
-#define LW6DEF_HIGHEST_COLOR_ALLOWED "highest-color-allowed"
+#define LW6DEF_HIGHEST_TEAM_COLOR_ALLOWED "highest-team-color-allowed"
 #define LW6DEF_HIGHEST_WEAPON_ALLOWED "highest-weapon-allowed"
 #define LW6DEF_HOST "host"
 #define LW6DEF_HUD_COLOR_AUTO "hud-color-auto"

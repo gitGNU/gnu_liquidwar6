@@ -115,9 +115,9 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	  map_exp = rules_tmp.exp;
 	}
 
-      level->param.rules.highest_color_allowed =
+      level->param.rules.highest_team_color_allowed =
 	lw6sys_min (LW6MAP_MAX_NB_TEAMS - 1,
-		    lw6sys_min (level->param.rules.highest_color_allowed,
+		    lw6sys_min (level->param.rules.highest_team_color_allowed,
 				lw6map_exp_get_highest_team_color_allowed
 				(player_exp)));
       level->param.rules.highest_weapon_allowed =
@@ -194,6 +194,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 			  _x_
 			  ("OK, can load \"%s\" with exp=%d, requires only %d"),
 			  dirname, player_exp, map_exp);
+	      _lw6ldr_exp_fix (&(level->param.rules), player_exp);
 	    }
 	  else
 	    {

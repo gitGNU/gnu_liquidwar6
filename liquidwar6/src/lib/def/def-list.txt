@@ -436,7 +436,7 @@ h
 height
 help
 hidden-layer-alpha
-highest-color-allowed
+highest-team-color-allowed
 highest-weapon-allowed
 host
 hud-color-auto

@@ -452,7 +452,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MAX_NB_CURSORS);
   lw6sys_list_push_back (list, LW6DEF_MAX_NB_NODES);
   lw6sys_list_push_back (list, LW6DEF_EXP);
-  lw6sys_list_push_back (list, LW6DEF_HIGHEST_COLOR_ALLOWED);
+  lw6sys_list_push_back (list, LW6DEF_HIGHEST_TEAM_COLOR_ALLOWED);
   lw6sys_list_push_back (list, LW6DEF_HIGHEST_WEAPON_ALLOWED);
   lw6sys_list_push_back (list, LW6DEF_X_POLARITY);
   lw6sys_list_push_back (list, LW6DEF_Y_POLARITY);

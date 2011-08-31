@@ -46,9 +46,9 @@ lw6map_exp_get_highest_team_color_allowed (int exp)
   int ret = 0;
 
   ret =
-    lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_COLOR_ALLOWED,
-		LW6MAP_RULES_MIN_HIGHEST_COLOR_ALLOWED + lw6sys_max (exp,
-								     0) /
+    lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED,
+		LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED + lw6sys_max (exp,
+									  0) /
 		_EXP_PER_COLOR);
 
   return ret;

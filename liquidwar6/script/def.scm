@@ -455,7 +455,7 @@
 (define lw6def-height "height")
 (define lw6def-help "help")
 (define lw6def-hidden-layer-alpha "hidden-layer-alpha")
-(define lw6def-highest-color-allowed "highest-color-allowed")
+(define lw6def-highest-team-color-allowed "highest-team-color-allowed")
 (define lw6def-highest-weapon-allowed "highest-weapon-allowed")
 (define lw6def-host "host")
 (define lw6def-hud-color-auto "hud-color-auto")

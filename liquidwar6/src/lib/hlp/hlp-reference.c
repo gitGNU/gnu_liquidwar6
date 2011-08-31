@@ -1100,12 +1100,12 @@ populate_references ()
 		("Level of experience (AKA exp) required to play the current level. If this level is validated (that is, won) then player will be granted with a level of exp+1 and be able to play all the next levels. An exp of 0 means the level is playable by a pure beginner."),
 		LW6MAP_RULES_DEFAULT_EXP, LW6MAP_RULES_MIN_EXP,
 		LW6MAP_RULES_MAX_EXP);
-  POPULATE_INT (LW6DEF_HIGHEST_COLOR_ALLOWED,
+  POPULATE_INT (LW6DEF_HIGHEST_TEAM_COLOR_ALLOWED,
 		_x_
 		("Id of the greatest/highest color one can use. Normally, you can leave this untouched, the program will automatically fit this according to your exp. Setting an artificially low value will just cause normally available colors to disappear, setting it to a high value does nothing, if you still don't have access to some colors, you still don't, period."),
-		LW6MAP_RULES_DEFAULT_HIGHEST_COLOR_ALLOWED,
-		LW6MAP_RULES_MIN_HIGHEST_COLOR_ALLOWED,
-		LW6MAP_RULES_MAX_HIGHEST_COLOR_ALLOWED);
+		LW6MAP_RULES_DEFAULT_HIGHEST_TEAM_COLOR_ALLOWED,
+		LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED,
+		LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED);
   POPULATE_INT (LW6DEF_HIGHEST_WEAPON_ALLOWED,
 		_x_
 		("Id of the greatest/highest weapon one can use. Normally, you can leave this untouched, the program will automatically fit this according to your exp. Setting an artificially low value will just cause normally available weapons to disappear, setting it to a high value does nothing, if you still don't have access to some weapons, you still don't, period."),

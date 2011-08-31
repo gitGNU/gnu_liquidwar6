@@ -191,9 +191,3 @@ lw6ldr_rules_update (lw6map_rules_t * rules, lw6sys_assoc_t * values)
 
   return ret;
 }
-
-void
-_lw6ldr_rules_fix_exp (lw6map_rules_t * rules, int exp)
-{
-
-}

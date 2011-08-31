@@ -175,9 +175,9 @@
 #define LW6MAP_RULES_MAX_EXP 99
 
 // LW6MAP_MAX_NB_TEAMS-1
-#define LW6MAP_RULES_DEFAULT_HIGHEST_COLOR_ALLOWED 9
-#define LW6MAP_RULES_MIN_HIGHEST_COLOR_ALLOWED 3
-#define LW6MAP_RULES_MAX_HIGHEST_COLOR_ALLOWED 9
+#define LW6MAP_RULES_DEFAULT_HIGHEST_TEAM_COLOR_ALLOWED 9
+#define LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED 3
+#define LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED 9
 
 #define LW6MAP_RULES_DEFAULT_HIGHEST_WEAPON_ALLOWED LW6MAP_MAX_WEAPON_ID
 #define LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED 7
@@ -677,7 +677,7 @@ typedef struct lw6map_rules_s
   int32_t max_nb_cursors;
   int32_t max_nb_nodes;
   int32_t exp;
-  int32_t highest_color_allowed;
+  int32_t highest_team_color_allowed;
   int32_t highest_weapon_allowed;
   int32_t x_polarity;
   int32_t y_polarity;
