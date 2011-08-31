@@ -5948,12 +5948,12 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will take 3 steps to do what would normally take only one
      step.
 
-4.11.14 highest-color-allowed
------------------------------
+4.11.14 highest-team-color-allowed
+----------------------------------
 
- -- Command-line option: `--highest-color-allowed=<value>'
- -- Environment variable: `LW6_HIGHEST_COLOR_ALLOWED'
- -- XML key: `highest-color-allowed'
+ -- Command-line option: `--highest-team-color-allowed=<value>'
+ -- Environment variable: `LW6_HIGHEST_TEAM_COLOR_ALLOWED'
+ -- XML key: `highest-team-color-allowed'
      Type: integer
 
      Default value: 9 Min value: 3 Max value: 9

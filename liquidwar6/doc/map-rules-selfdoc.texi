@@ -215,10 +215,10 @@ pitch black and this parameter is set to 3, then fighters will take 3 steps to
 do what would normally take only one step.
 @end deffn
 
-@subsection highest-color-allowed
-@deffn {Command-line option} @code{--highest-color-allowed=<value>}
-@deffnx {Environment variable} @code{LW6_HIGHEST_COLOR_ALLOWED}
-@deffnx {XML key} @code{highest-color-allowed}
+@subsection highest-team-color-allowed
+@deffn {Command-line option} @code{--highest-team-color-allowed=<value>}
+@deffnx {Environment variable} @code{LW6_HIGHEST_TEAM_COLOR_ALLOWED}
+@deffnx {XML key} @code{highest-team-color-allowed}
 Type: integer
 
 Default value: 9
