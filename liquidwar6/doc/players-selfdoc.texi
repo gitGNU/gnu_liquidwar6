@@ -75,7 +75,7 @@ or custom.
 @deffnx {XML key} @code{player2-name}
 Type: string
 
-Default value: player2@<hostname>
+Default value: player2-<hostname>
 
 Name of the second player. A default value is provided, you'll certainly want
 to change it.
@@ -122,7 +122,7 @@ custom.
 @deffnx {XML key} @code{player3-name}
 Type: string
 
-Default value: player3@<hostname>
+Default value: player3-<hostname>
 
 Name of the third player. A default value is provided, you'll certainly want
 to change it.
@@ -169,7 +169,7 @@ or custom.
 @deffnx {XML key} @code{player4-name}
 Type: string
 
-Default value: player4@<hostname>
+Default value: player4-<hostname>
 
 Name of the fourth player. A default value is provided, you'll certainly want
 to change it.

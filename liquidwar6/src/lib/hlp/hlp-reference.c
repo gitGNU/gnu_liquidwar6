@@ -464,15 +464,15 @@ populate_references ()
   POPULATE_STR (LW6DEF_PLAYER2_NAME,
 		_x_
 		("Name of the second player. A default value is provided, you'll certainly want to change it."),
-		"player2@<hostname>");
+		"player2-<hostname>");
   POPULATE_STR (LW6DEF_PLAYER3_NAME,
 		_x_
 		("Name of the third player. A default value is provided, you'll certainly want to change it."),
-		"player3@<hostname>");
+		"player3-<hostname>");
   POPULATE_STR (LW6DEF_PLAYER4_NAME,
 		_x_
 		("Name of the fourth player. A default value is provided, you'll certainly want to change it."),
-		"player4@<hostname>");
+		"player4-<hostname>");
   POPULATE_BOOL (LW6DEF_PLAYER1_STATUS,
 		 _x_
 		 ("Status of the first player, true if player is activated, false if idle."),

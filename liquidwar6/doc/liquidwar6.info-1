@@ -80,6 +80,8 @@ Reference
 * Doc options::         Liquid War 6 is self-documented.
 * Show options::        Show informations about the program.
 * Path options::        Change default paths.
+* Players options::     Define local players.
+* Input options::       Customize input.
 * Graphics options::    Change display settings.
 * Sound options::       Change audio settings.
 * Network options::     Tweak network parameters.
@@ -3710,6 +3712,8 @@ to harvest the content.
 * Doc options::         Liquid War 6 is self-documented.
 * Show options::        Show informations about the program.
 * Path options::        Change default paths.
+* Players options::     Define local players.
+* Input options::       Customize input.
 * Graphics options::    Change display settings.
 * Sound options::       Change audio settings.
 * Network options::     Tweak network parameters.
@@ -4544,7 +4548,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      files, log files, are stored. Default is '$HOME/.liquidwar6/'.
 
 
-File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show options,  Up: Reference
+File: liquidwar6.info,  Node: Path options,  Next: Players options,  Prev: Show options,  Up: Reference
 
 4.4 Path options
 ================
@@ -4730,12 +4734,486 @@ File: liquidwar6.info,  Node: Path options,  Next: Graphics options,  Prev: Show
      change.
 
 
-File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Path options,  Up: Reference
+File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path options,  Up: Reference
 
-4.5 Graphics options
+4.5 Players options
+===================
+
+4.5.1 player1-color
+-------------------
+
+ -- Command-line option: `--player1-color=<value>'
+ -- Environment variable: `LW6_PLAYER1_COLOR'
+ -- XML key: `player1-color'
+     Type: string
+
+     Default value: red
+
+     Color of the first player, must be red, green, blue, yellow, cyan,
+     magenta, orange, lightblue, purple or pink
+
+4.5.2 player1-control
+---------------------
+
+ -- Command-line option: `--player1-control=<value>'
+ -- Environment variable: `LW6_PLAYER1_CONTROL'
+ -- XML key: `player1-control'
+     Type: string
+
+     Default value: mouse
+
+     Control for the first player, must be mouse, keyboard, joystick1,
+     joystick2 or custom.
+
+4.5.3 player1-name
+------------------
+
+ -- Command-line option: `--player1-name=<value>'
+ -- Environment variable: `LW6_PLAYER1_NAME'
+ -- XML key: `player1-name'
+     Type: string
+
+     Default value: <username>
+
+     Name of the first player, the player used by default. A default
+     value is provided, you can of course, change it at will.
+
+4.5.4 player1-status
+--------------------
+
+ -- Command-line option: `--player1-status=<value>'
+ -- Environment variable: `LW6_PLAYER1_STATUS'
+ -- XML key: `player1-status'
+     Type: boolean
+
+     Default value: true
+
+     Status of the first player, true if player is activated, false if
+     idle.
+
+4.5.5 player2-color
+-------------------
+
+ -- Command-line option: `--player2-color=<value>'
+ -- Environment variable: `LW6_PLAYER2_COLOR'
+ -- XML key: `player2-color'
+     Type: string
+
+     Default value: green
+
+     Color of the second player, must be red, green, blue, yellow,
+     cyan, magenta, orange, lightblue, purple or pink
+
+4.5.6 player2-control
+---------------------
+
+ -- Command-line option: `--player2-control=<value>'
+ -- Environment variable: `LW6_PLAYER2_CONTROL'
+ -- XML key: `player2-control'
+     Type: string
+
+     Default value: keyboard
+
+     Control for the second player, must be mouse, keyboard, joystick1,
+     joystick2 or custom.
+
+4.5.7 player2-name
+------------------
+
+ -- Command-line option: `--player2-name=<value>'
+ -- Environment variable: `LW6_PLAYER2_NAME'
+ -- XML key: `player2-name'
+     Type: string
+
+     Default value: player2-<hostname>
+
+     Name of the second player. A default value is provided, you'll
+     certainly want to change it.
+
+4.5.8 player2-status
+--------------------
+
+ -- Command-line option: `--player2-status=<value>'
+ -- Environment variable: `LW6_PLAYER2_STATUS'
+ -- XML key: `player2-status'
+     Type: boolean
+
+     Default value: true
+
+     Status of the second player, true if player is activated, false if
+     idle.
+
+4.5.9 player3-color
+-------------------
+
+ -- Command-line option: `--player3-color=<value>'
+ -- Environment variable: `LW6_PLAYER3_COLOR'
+ -- XML key: `player3-color'
+     Type: string
+
+     Default value: blue
+
+     Color of the third player, must be red, green, blue, yellow, cyan,
+     magenta, orange, lightblue, purple or pink
+
+4.5.10 player3-control
+----------------------
+
+ -- Command-line option: `--player3-control=<value>'
+ -- Environment variable: `LW6_PLAYER3_CONTROL'
+ -- XML key: `player3-control'
+     Type: string
+
+     Default value: joystick1
+
+     Control for the third player, must be mouse, keyboard, joystick1,
+     joystick2 or custom.
+
+4.5.11 player3-name
+-------------------
+
+ -- Command-line option: `--player3-name=<value>'
+ -- Environment variable: `LW6_PLAYER3_NAME'
+ -- XML key: `player3-name'
+     Type: string
+
+     Default value: player3-<hostname>
+
+     Name of the third player. A default value is provided, you'll
+     certainly want to change it.
+
+4.5.12 player3-status
+---------------------
+
+ -- Command-line option: `--player3-status=<value>'
+ -- Environment variable: `LW6_PLAYER3_STATUS'
+ -- XML key: `player3-status'
+     Type: boolean
+
+     Default value: false
+
+     Status of the third player, true if player is activated, false if
+     idle.
+
+4.5.13 player4-color
+--------------------
+
+ -- Command-line option: `--player4-color=<value>'
+ -- Environment variable: `LW6_PLAYER4_COLOR'
+ -- XML key: `player4-color'
+     Type: string
+
+     Default value: yellow
+
+     Color of the fourth player, must be red, green, blue, yellow,
+     cyan, magenta, orange, lightblue, purple or pink
+
+4.5.14 player4-control
+----------------------
+
+ -- Command-line option: `--player4-control=<value>'
+ -- Environment variable: `LW6_PLAYER4_CONTROL'
+ -- XML key: `player4-control'
+     Type: string
+
+     Default value: joystick2
+
+     Control for the fourth player, must be mouse, keyboard, joystick1,
+     joystick2 or custom.
+
+4.5.15 player4-name
+-------------------
+
+ -- Command-line option: `--player4-name=<value>'
+ -- Environment variable: `LW6_PLAYER4_NAME'
+ -- XML key: `player4-name'
+     Type: string
+
+     Default value: player4-<hostname>
+
+     Name of the fourth player. A default value is provided, you'll
+     certainly want to change it.
+
+4.5.16 player4-status
+---------------------
+
+ -- Command-line option: `--player4-status=<value>'
+ -- Environment variable: `LW6_PLAYER4_STATUS'
+ -- XML key: `player4-status'
+     Type: boolean
+
+     Default value: false
+
+     Status of the fourth player, true if player is activated, false if
+     idle.
+
+
+File: liquidwar6.info,  Node: Input options,  Next: Graphics options,  Prev: Players options,  Up: Reference
+
+4.6 Input options
+=================
+
+4.6.1 click-to-focus
+--------------------
+
+ -- Command-line option: `--click-to-focus=<value>'
+ -- Environment variable: `LW6_CLICK_TO_FOCUS'
+ -- XML key: `click-to-focus'
+     Type: boolean
+
+     Default value: false
+
+     If set to true, you'll need to click with the mouse to select a
+     menuitem or move the cursor in the game. If not, some actions will
+     be taken automatically without the need to click.
+
+4.6.2 cursor-sensitivity
+------------------------
+
+ -- Command-line option: `--cursor-sensitivity=<value>'
+ -- Environment variable: `LW6_CURSOR_SENSITIVITY'
+ -- XML key: `cursor-sensitivity'
+     Type: float
+
+     Default value: 1.0
+
+     Keyboard and joystick sensitivity while moving the cursor. 1.0 is
+     the default, 0.1 is slow, 10 is reponsive. This is used for moving
+     the cursor during the game only, the option has no impact on menu
+     navigation.
+
+4.6.3 custom-alt
+----------------
+
+ -- Command-line option: `--custom-alt=<value>'
+ -- Environment variable: `LW6_CUSTOM_ALT'
+ -- XML key: `custom-alt'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 110) ; SDLK_n
+
+     Guile custom code associated to the ALT key equivalent.
+
+4.6.4 custom-ctrl
+-----------------
+
+ -- Command-line option: `--custom-ctrl=<value>'
+ -- Environment variable: `LW6_CUSTOM_CTRL'
+ -- XML key: `custom-ctrl'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 98) ; SDLK_b
+
+     Guile custom code associated to the CTRL key equivalent.
+
+4.6.5 custom-down
+-----------------
+
+ -- Command-line option: `--custom-down=<value>'
+ -- Environment variable: `LW6_CUSTOM_DOWN'
+ -- XML key: `custom-down'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 100) ; SDLK_d
+
+     Guile custom code associated to the DOWN key equivalent.
+
+4.6.6 custom-enter
+------------------
+
+ -- Command-line option: `--custom-enter=<value>'
+ -- Environment variable: `LW6_CUSTOM_ENTER'
+ -- XML key: `custom-enter'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 103) ; SDLK_g
+
+     Guile custom code associated to the ENTER key equivalent.
+
+4.6.7 custom-esc
+----------------
+
+ -- Command-line option: `--custom-esc=<value>'
+ -- Environment variable: `LW6_CUSTOM_ESC'
+ -- XML key: `custom-esc'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 102) ; SDLK_f
+
+     Guile custom code associated to the ESC key equivalent.
+
+4.6.8 custom-left
+-----------------
+
+ -- Command-line option: `--custom-left=<value>'
+ -- Environment variable: `LW6_CUSTOM_LEFT'
+ -- XML key: `custom-left'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 99) ; SDLK_c
+
+     Guile custom code associated to the LEFT key equivalent.
+
+4.6.9 custom-pgdown
+-------------------
+
+ -- Command-line option: `--custom-pgdown=<value>'
+ -- Environment variable: `LW6_CUSTOM_PGDOWN'
+ -- XML key: `custom-pgdown'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 115) ; SDLK_s
+
+     Guile custom code associated to the PGDOWN key equivalent.
+
+4.6.10 custom-pgup
+------------------
+
+ -- Command-line option: `--custom-pgup=<value>'
+ -- Environment variable: `LW6_CUSTOM_PGUP'
+ -- XML key: `custom-pgup'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 119) ; SDLK_w
+
+     Guile custom code associated to the PGUP key equivalent.
+
+4.6.11 custom-right
+-------------------
+
+ -- Command-line option: `--custom-right=<value>'
+ -- Environment variable: `LW6_CUSTOM_RIGHT'
+ -- XML key: `custom-right'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 118) ; SDLK_v
+
+     Guile custom code associated to the RIGHT key equivalent.
+
+4.6.12 custom-up
+----------------
+
+ -- Command-line option: `--custom-up=<value>'
+ -- Environment variable: `LW6_CUSTOM_UP'
+ -- XML key: `custom-up'
+     Type: string
+
+     Default value: (c-lw6gui-keyboard-is-pressed 101) ; SDLK_e
+
+     Custom keycode to be used as the UP key equivalent.
+
+4.6.13 double-click
+-------------------
+
+ -- Command-line option: `--double-click=<value>'
+ -- Environment variable: `LW6_DOUBLE_CLICK'
+ -- XML key: `double-click'
+     Type: integer
+
+     Default value: 250
+
+     Time, in milliseconds, determining wether two consecutive clicks
+     make a double-click or not.
+
+4.6.14 max-cursor-speed
+-----------------------
+
+ -- Command-line option: `--max-cursor-speed=<value>'
+ -- Environment variable: `LW6_MAX_CURSOR_SPEED'
+ -- XML key: `max-cursor-speed'
+     Type: float
+
+     Default value: 10.0
+
+     Maximum cursor speed when cursor is controlled with keyboard or
+     joystick joystick 1. Consider using cursor-sensitivity too.
+
+4.6.15 mouse-sensitivity
+------------------------
+
+ -- Command-line option: `--mouse-sensitivity=<value>'
+ -- Environment variable: `LW6_MOUSE_SENSITIVITY'
+ -- XML key: `mouse-sensitivity'
+     Type: float
+
+     Default value: 1.0
+
+     Mouse sensitivity, 1.0 is the default, 0.1 is slow, 10 is
+     reponsive. This is used for moving the cursor during the game
+     only, the option has no impact on menu navigation.
+
+4.6.16 repeat-delay
+-------------------
+
+ -- Command-line option: `--repeat-delay=<value>'
+ -- Environment variable: `LW6_REPEAT_DELAY'
+ -- XML key: `repeat-delay'
+     Type: integer
+
+     Default value: 500
+
+     Time, in milliseconds, before key repeat will start, use 0 to
+     disable.
+
+4.6.17 repeat-interval
+----------------------
+
+ -- Command-line option: `--repeat-interval=<value>'
+ -- Environment variable: `LW6_REPEAT_INTERVAL'
+ -- XML key: `repeat-interval'
+     Type: integer
+
+     Default value: 100
+
+     Time, in milliseconds, between two repeats, once repeat has
+     started, use 0 to disable.
+
+4.6.18 use-esc-button
+---------------------
+
+ -- Command-line option: `--use-esc-button=<value>'
+ -- Environment variable: `LW6_USE_ESC_BUTTON'
+ -- XML key: `use-esc-button'
+     Type: boolean
+
+     Default value: true
+
+     Decides wether to display an 'esc' (escape) button in the
+     interface. This is usefull for people who control the game with
+     the mouse only, and have a single buttons, or on a touchscreen.
+
+4.6.19 zoom-step
+----------------
+
+ -- Command-line option: `--zoom-step=<value>'
+ -- Environment variable: `LW6_ZOOM_STEP'
+ -- XML key: `zoom-step'
+     Type: float
+
+     Default value: 1.1
+
+     A value, strictly greater than 1, which will be used when zooming.
+     The greater it is, the more sensible the zoom is.
+
+4.6.20 zoom-stick-delay
+-----------------------
+
+ -- Command-line option: `--zoom-stick-delay=<value>'
+ -- Environment variable: `LW6_ZOOM_STICK_DELAY'
+ -- XML key: `zoom-stick-delay'
+     Type: float
+
+     Default value: 1000
+
+     How long, in msec, the zoom will stick to its default value.
+
+
+File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Input options,  Up: Reference
+
+4.7 Graphics options
 ====================
 
-4.5.1 capture
+4.7.1 capture
 -------------
 
  -- Command-line option: `--capture=<value>'
@@ -4748,7 +5226,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      Enables capture mode, in which a BMP file is dumped on the disk
      (in your user directory, search for a 'capture' sub-directory).
 
-4.5.2 fullscreen
+4.7.2 fullscreen
 ----------------
 
  -- Command-line option: `--fullscreen=<value>'
@@ -4761,7 +5239,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      Force the game to fun fullscreen. Note that the graphics backend
      might ignore this hint.
 
-4.5.3 gfx-backend
+4.7.3 gfx-backend
 -----------------
 
  -- Command-line option: `--gfx-backend=<value>'
@@ -4774,7 +5252,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      Sets the graphics backend AKA 'gfx' to use. For now the only
      choice is 'gl' and will use an OpenGL/SDL 3D-accelerated driver.
 
-4.5.4 gfx-quality
+4.7.4 gfx-quality
 -----------------
 
  -- Command-line option: `--gfx-quality=<value>'
@@ -4790,7 +5268,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      bilinear...). This is not the same as 'pixelize' which is a
      per-map option and emulates an old school appearance.
 
-4.5.5 height
+4.7.5 height
 ------------
 
  -- Command-line option: `--height=<value>'
@@ -4804,7 +5282,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      backend might ignore this hint. Use with its companion option
      'width'. A negative value will force the use of a default value.
 
-4.5.6 width
+4.7.6 width
 -----------
 
  -- Command-line option: `--width=<value>'
@@ -4818,7 +5296,7 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
      backend might ignore this hint. Use with its companion option
      'height'.A negative value will force the use of a default value.
 
-4.5.7 windowed-mode-limit
+4.7.7 windowed-mode-limit
 -------------------------
 
  -- Command-line option: `--windowed-mode-limit=<value>'
@@ -4837,10 +5315,10 @@ File: liquidwar6.info,  Node: Graphics options,  Next: Sound options,  Prev: Pat
 
 File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Graphics options,  Up: Reference
 
-4.6 Sound options
+4.8 Sound options
 =================
 
-4.6.1 ambiance-exclude
+4.8.1 ambiance-exclude
 ----------------------
 
  -- Command-line option: `--ambiance-exclude=<value>'
@@ -4853,7 +5331,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      If this string is present in a music file name, this file won't be
      played during the menus, it will be excluded from the list.
 
-4.6.2 ambiance-file
+4.8.2 ambiance-file
 -------------------
 
  -- Command-line option: `--ambiance-file=<value>'
@@ -4866,7 +5344,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      A music file which will be used to be played during the menus. If
      not found, game will fallback on random files.
 
-4.6.3 ambiance-filter
+4.8.3 ambiance-filter
 ---------------------
 
  -- Command-line option: `--ambiance-filter=<value>'
@@ -4882,7 +5360,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      regex-enabled filter, just a plain string search. Even the '*'
      wildcard won't work.
 
-4.6.4 fx-volume
+4.8.4 fx-volume
 ---------------
 
  -- Command-line option: `--fx-volume=<value>'
@@ -4895,7 +5373,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      Set the sound effects volume. This is a floating point value. 0 is
      mute.  Maximum value is 1.
 
-4.6.5 music-volume
+4.8.5 music-volume
 ------------------
 
  -- Command-line option: `--music-volume=<value>'
@@ -4908,7 +5386,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      Set the music volume.This is a floating point value. 0 is mute.
      Maximum value is 1.
 
-4.6.6 snd-backend
+4.8.6 snd-backend
 -----------------
 
  -- Command-line option: `--snd-backend=<value>'
@@ -4921,7 +5399,7 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
      Sets the sound backend AKA 'snd' to use. Can be 'ogg' or 'csound'
      but only 'ogg' will produce sound in the current release.
 
-4.6.7 water-volume
+4.8.7 water-volume
 ------------------
 
  -- Command-line option: `--water-volume=<value>'
@@ -4937,10 +5415,10 @@ File: liquidwar6.info,  Node: Sound options,  Next: Network options,  Prev: Grap
 
 File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sound options,  Up: Reference
 
-4.7 Network options
+4.9 Network options
 ===================
 
-4.7.1 bind-ip
+4.9.1 bind-ip
 -------------
 
  -- Command-line option: `--bind-ip=<value>'
@@ -4954,7 +5432,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      can use this to specifically use a given network interface, the
      default will listen on any available interface.
 
-4.7.2 bind-port
+4.9.2 bind-port
 ---------------
 
  -- Command-line option: `--bind-port=<value>'
@@ -4969,7 +5447,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      process. That is, if you use your own settings, automatic
      detection of your server by other servers might not work so well.
 
-4.7.3 broadcast
+4.9.3 broadcast
 ---------------
 
  -- Command-line option: `--broadcast=<value>'
@@ -4984,7 +5462,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      discovery and/or if there's a sysadmin arround who does not enjoy
      permanent broadcasts on his LAN.
 
-4.7.4 cli-backends
+4.9.4 cli-backends
 ------------------
 
  -- Command-line option: `--cli-backends=<value>'
@@ -4999,7 +5477,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      protocol, or if you want to activate a custom-made client backend.
      It's a comma separated list.
 
-4.7.5 known-nodes
+4.9.5 known-nodes
 -----------------
 
  -- Command-line option: `--known-nodes=<value>'
@@ -5017,7 +5495,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      want to change this if you really want to connect to a given
      server which is not publically listed. The list is comma separated.
 
-4.7.6 node-description
+4.9.6 node-description
 ----------------------
 
  -- Command-line option: `--node-description=<value>'
@@ -5032,7 +5510,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      the public server URL, it is for general information, so if
      there's something special about your server, say it here.
 
-4.7.7 node-title
+4.9.7 node-title
 ----------------
 
  -- Command-line option: `--node-title=<value>'
@@ -5047,7 +5525,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      there can be several players on a single computer. By default this
      will be set to hostname.
 
-4.7.8 password
+4.9.8 password
 --------------
 
  -- Command-line option: `--password=<value>'
@@ -5065,7 +5543,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      real password. A blank password means anyone can join your games
      when you act like a server.
 
-4.7.9 public-url
+4.9.9 public-url
 ----------------
 
  -- Command-line option: `--public-url=<value>'
@@ -5081,7 +5559,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      you might need to use your own settings if you are using NAT or an
      Apache reverse-proxy to rewrite HTTP requests.
 
-4.7.10 skip-network
+4.9.10 skip-network
 -------------------
 
  -- Command-line option: `--skip-network=<value>'
@@ -5094,7 +5572,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
 
-4.7.11 srv-backends
+4.9.11 srv-backends
 -------------------
 
  -- Command-line option: `--srv-backends=<value>'
@@ -5112,11 +5590,11 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
 
 File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Network options,  Up: Reference
 
-4.8 Map parameters
-==================
+4.10 Map parameters
+===================
 
-4.8.1 chosen-map
-----------------
+4.10.1 chosen-map
+-----------------
 
  -- Command-line option: `--chosen-map=<value>'
  -- Environment variable: `LW6_CHOSEN_MAP'
@@ -5129,8 +5607,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      will be used for a quick-start game, a local game, or a game
      started as a server.
 
-4.8.2 force
------------
+4.10.2 force
+------------
 
  -- Command-line option: `--force=<value>'
  -- Environment variable: `LW6_FORCE'
@@ -5147,8 +5625,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      requested speed. This ultimately allows the player to control
      everything despite the values set by the map designer.
 
-4.8.3 use-cursor-texture
-------------------------
+4.10.3 use-cursor-texture
+-------------------------
 
  -- Command-line option: `--use-cursor-texture=<value>'
  -- Environment variable: `LW6_USE_CURSOR_TEXTURE'
@@ -5161,8 +5639,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      the default builtin cursor texture will be used instead of the map
      specific one.
 
-4.8.4 use-hints-xml
--------------------
+4.10.4 use-hints-xml
+--------------------
 
  -- Command-line option: `--use-hints-xml=<value>'
  -- Environment variable: `LW6_USE_HINTS_XML'
@@ -5174,8 +5652,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      If set, then hints will be picked up from the map defined
      hints.xml, if it exists. This is the default.
 
-4.8.5 use-music-file
---------------------
+4.10.5 use-music-file
+---------------------
 
  -- Command-line option: `--use-music-file=<value>'
  -- Environment variable: `LW6_USE_MUSIC_FILE'
@@ -5188,8 +5666,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      choose the music to play. If unset, then a random builtin music
      will be picked up, regardless of what is specified in 'music-file'.
 
-4.8.6 use-rules-xml
--------------------
+4.10.6 use-rules-xml
+--------------------
 
  -- Command-line option: `--use-rules-xml=<value>'
  -- Environment variable: `LW6_USE_RULES_XML'
@@ -5202,8 +5680,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      rules.xml, if it exists. This is the default. Use force-time and
      force-size to override this and use user-defined values anyway.
 
-4.8.7 use-style-xml
--------------------
+4.10.7 use-style-xml
+--------------------
 
  -- Command-line option: `--use-style-xml=<value>'
  -- Environment variable: `LW6_USE_STYLE_XML'
@@ -5217,8 +5695,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      force-background to override this and use user-defined values
      anyway.
 
-4.8.8 use-teams-xml
--------------------
+4.10.8 use-teams-xml
+--------------------
 
  -- Command-line option: `--use-teams-xml=<value>'
  -- Environment variable: `LW6_USE_TEAMS_XML'
@@ -5232,8 +5710,8 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
      force-background to override this and use user-defined values
      anyway.
 
-4.8.9 use-texture
------------------
+4.10.9 use-texture
+------------------
 
  -- Command-line option: `--use-texture=<value>'
  -- Environment variable: `LW6_USE_TEXTURE'
@@ -5252,11 +5730,11 @@ File: liquidwar6.info,  Node: Map parameters,  Next: Map rules.xml,  Prev: Netwo
 
 File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map parameters,  Up: Reference
 
-4.9 Map rules.xml
-=================
+4.11 Map rules.xml
+==================
 
-4.9.1 boost-power
------------------
+4.11.1 boost-power
+------------------
 
  -- Command-line option: `--boost-power=<value>'
  -- Environment variable: `LW6_BOOST_POWER'
@@ -5270,8 +5748,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will move and act 3 times than what they would do
      normally.
 
-4.9.2 color-conflict-mode
--------------------------
+4.11.2 color-conflict-mode
+--------------------------
 
  -- Command-line option: `--color-conflict-mode=<value>'
  -- Environment variable: `LW6_COLOR_CONFLICT_MODE'
@@ -5290,8 +5768,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      pre-existing color, any new cursor will require a new color, if
      that color is already used, a new color will be picked randomly.
 
-4.9.3 cursor-pot-init
----------------------
+4.11.3 cursor-pot-init
+----------------------
 
  -- Command-line option: `--cursor-pot-init=<value>'
  -- Environment variable: `LW6_CURSOR_POT_INIT'
@@ -5304,8 +5782,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change it.  Theorically, there could be maps where the default
      value doesn't fit, but none has been seen yet.
 
-4.9.4 danger-power
-------------------
+4.11.4 danger-power
+-------------------
 
  -- Command-line option: `--danger-power=<value>'
  -- Environment variable: `LW6_DANGER_POWER'
@@ -5320,8 +5798,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Being on a dangerous zone is a bit like being attacked by an
      invisible and unknown ennemy.
 
-4.9.5 exp
----------
+4.11.5 exp
+----------
 
  -- Command-line option: `--exp=<value>'
  -- Environment variable: `LW6_EXP'
@@ -5335,8 +5813,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      granted with a level of exp+1 and be able to play all the next
      levels. An exp of 0 means the level is playable by a pure beginner.
 
-4.9.6 fighter-attack
---------------------
+4.11.6 fighter-attack
+---------------------
 
  -- Command-line option: `--fighter-attack=<value>'
  -- Environment variable: `LW6_FIGHTER_ATTACK'
@@ -5352,8 +5830,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      opponents. Different styles of game. Can radically change the
      gameplay.
 
-4.9.7 fighter-defense
----------------------
+4.11.7 fighter-defense
+----------------------
 
  -- Command-line option: `--fighter-defense=<value>'
  -- Environment variable: `LW6_FIGHTER_DEFENSE'
@@ -5368,8 +5846,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the parameter is set high, it can almost instantaneously regain
      energy.
 
-4.9.8 fighter-new-health
-------------------------
+4.11.8 fighter-new-health
+-------------------------
 
  -- Command-line option: `--fighter-new-health=<value>'
  -- Environment variable: `LW6_FIGHTER_NEW_HEALTH'
@@ -5386,8 +5864,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      To calibrate this parameter, keep in mind that the absolute
      maximum health a fighter can have is always 10000 (ten-thousands).
 
-4.9.9 fighter-regenerate
-------------------------
+4.11.9 fighter-regenerate
+-------------------------
 
  -- Command-line option: `--fighter-regenerate=<value>'
  -- Environment variable: `LW6_FIGHTER_REGENERATE'
@@ -5401,8 +5879,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      a bit by hiding somewhere in the map. This is typically a low
      value, might even be 0.
 
-4.9.10 frags-fade-out
----------------------
+4.11.10 frags-fade-out
+----------------------
 
  -- Command-line option: `--frags-fade-out=<value>'
  -- Environment variable: `LW6_FRAGS_FADE_OUT'
@@ -5420,8 +5898,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the importance of game start. This is only used in modes where
      frags are distributed in a proportional way.
 
-4.9.11 frags-mode
------------------
+4.11.11 frags-mode
+------------------
 
  -- Command-line option: `--frags-mode=<value>'
  -- Environment variable: `LW6_FRAGS_MODE'
@@ -5439,8 +5917,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      attributed a number of points proportional to their fighters, and
      loosers scores remain untouched.
 
-4.9.12 frags-to-distribute
---------------------------
+4.11.12 frags-to-distribute
+---------------------------
 
  -- Command-line option: `--frags-to-distribute=<value>'
  -- Environment variable: `LW6_FRAGS_TO_DISTRIBUTE'
@@ -5455,8 +5933,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      distributed to other live players, proportionnally to how many
      fighters they have on the battlefield.
 
-4.9.13 glue-power
------------------
+4.11.13 glue-power
+------------------
 
  -- Command-line option: `--glue-power=<value>'
  -- Environment variable: `LW6_GLUE_POWER'
@@ -5470,8 +5948,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will take 3 steps to do what would normally take only one
      step.
 
-4.9.14 highest-color-allowed
-----------------------------
+4.11.14 highest-color-allowed
+-----------------------------
 
  -- Command-line option: `--highest-color-allowed=<value>'
  -- Environment variable: `LW6_HIGHEST_COLOR_ALLOWED'
@@ -5487,8 +5965,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      high value does nothing, if you still don't have access to some
      colors, you still don't, period.
 
-4.9.15 highest-weapon-allowed
------------------------------
+4.11.15 highest-weapon-allowed
+------------------------------
 
  -- Command-line option: `--highest-weapon-allowed=<value>'
  -- Environment variable: `LW6_HIGHEST_WEAPON_ALLOWED'
@@ -5504,8 +5982,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      a high value does nothing, if you still don't have access to some
      weapons, you still don't, period.
 
-4.9.16 max-cursor-pot
----------------------
+4.11.16 max-cursor-pot
+----------------------
 
  -- Command-line option: `--max-cursor-pot=<value>'
  -- Environment variable: `LW6_MAX_CURSOR_POT'
@@ -5518,8 +5996,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change it. Any high value should produce the same results. Low
      values might reveal algorithm bugs and inconsistencies.
 
-4.9.17 max-cursor-pot-offset
-----------------------------
+4.11.17 max-cursor-pot-offset
+-----------------------------
 
  -- Command-line option: `--max-cursor-pot-offset=<value>'
  -- Environment variable: `LW6_MAX_CURSOR_POT_OFFSET'
@@ -5535,8 +6013,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      a multi-cursor controlled team). This parameter is here to limit
      this burst effect and avoid bugs.
 
-4.9.18 max-nb-cursors
----------------------
+4.11.18 max-nb-cursors
+----------------------
 
  -- Command-line option: `--max-nb-cursors=<value>'
  -- Environment variable: `LW6_MAX_NB_CURSORS'
@@ -5549,8 +6027,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Really makes sense in network games. Default value is 26, the
      maximum.
 
-4.9.19 max-nb-nodes
--------------------
+4.11.19 max-nb-nodes
+--------------------
 
  -- Command-line option: `--max-nb-nodes=<value>'
  -- Environment variable: `LW6_MAX_NB_NODES'
@@ -5563,8 +6041,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Really makes sense in network games. Default value is 10, and
      should fit in most cases. Can be raised up to 26.
 
-4.9.20 max-nb-teams
--------------------
+4.11.20 max-nb-teams
+--------------------
 
  -- Command-line option: `--max-nb-teams=<value>'
  -- Environment variable: `LW6_MAX_NB_TEAMS'
@@ -5576,8 +6054,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines the maximum number of teams who can enter the game. Really
      makes sense in network games. Default value is 10, the maximum.
 
-4.9.21 max-round-delta
-----------------------
+4.11.21 max-round-delta
+-----------------------
 
  -- Command-line option: `--max-round-delta=<value>'
  -- Environment variable: `LW6_MAX_ROUND_DELTA'
@@ -5591,8 +6069,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      incremented in some cases by the core algorithm. If in doubt,
      don't touch.
 
-4.9.22 max-zone-size
---------------------
+4.11.22 max-zone-size
+---------------------
 
  -- Command-line option: `--max-zone-size=<value>'
  -- Environment variable: `LW6_MAX_ZONE_SIZE'
@@ -5614,8 +6092,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that anyways passed a certain value, this does not optimize
      anything anymore. In doubt, don't touch it.
 
-4.9.23 medicine-power
----------------------
+4.11.23 medicine-power
+----------------------
 
  -- Command-line option: `--medicine-power=<value>'
  -- Environment variable: `LW6_MEDICINE_POWER'
@@ -5630,8 +6108,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      something like 'fighter-defense'.  Being on a medicined zone is a
      bit like being defended by an invisible and unknown friend.
 
-4.9.24 moves-per-round
-----------------------
+4.11.24 moves-per-round
+-----------------------
 
  -- Command-line option: `--moves-per-round=<value>'
  -- Environment variable: `LW6_MOVES_PER_ROUND'
@@ -5648,8 +6126,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      moves per second, which is, in fact, how fast fighters move on the
      screen.
 
-4.9.25 nb-attack-tries
-----------------------
+4.11.25 nb-attack-tries
+-----------------------
 
  -- Command-line option: `--nb-attack-tries=<value>'
  -- Environment variable: `LW6_NB_ATTACK_TRIES'
@@ -5666,8 +6144,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      switch to the next option, that is, defense/regeneration, if
      there's no opponent right in front of them.
 
-4.9.26 nb-defense-tries
------------------------
+4.11.26 nb-defense-tries
+------------------------
 
  -- Command-line option: `--nb-defense-tries=<value>'
  -- Environment variable: `LW6_NB_DEFENSE_TRIES'
@@ -5683,8 +6161,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      compact pack of fighters for regeneration to operate, else
      fighters will hang arround unhealthy.
 
-4.9.27 nb-move-tries
---------------------
+4.11.27 nb-move-tries
+---------------------
 
  -- Command-line option: `--nb-move-tries=<value>'
  -- Environment variable: `LW6_NB_MOVE_TRIES'
@@ -5704,8 +6182,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      fighters will just pass each other without any fight. Matter of
      taste.
 
-4.9.28 respawn-delay
---------------------
+4.11.28 respawn-delay
+---------------------
 
  -- Command-line option: `--respawn-delay=<value>'
  -- Environment variable: `LW6_RESPAWN_DELAY'
@@ -5717,8 +6195,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Delay, in seconds, after which teams reappear on the battlefield,
      when in deathmatch mode. 0 means team right away.
 
-4.9.29 respawn-position-mode
-----------------------------
+4.11.29 respawn-position-mode
+-----------------------------
 
  -- Command-line option: `--respawn-position-mode=<value>'
  -- Environment variable: `LW6_RESPAWN_POSITION_MODE'
@@ -5733,8 +6211,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      is, red could take green's place. 2 means total randomness, teams
      can appear anywhere.
 
-4.9.30 respawn-team
--------------------
+4.11.30 respawn-team
+--------------------
 
  -- Command-line option: `--respawn-team=<value>'
  -- Environment variable: `LW6_RESPAWN_TEAM'
@@ -5749,8 +6227,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      who stays alive the longest time, since it makes no real sens in
      this case, but the one who has died less often than others.
 
-4.9.31 round-delta
-------------------
+4.11.31 round-delta
+-------------------
 
  -- Command-line option: `--round-delta=<value>'
  -- Environment variable: `LW6_ROUND_DELTA'
@@ -5774,8 +6252,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Toy arround with this if you find fighters take wrong paths on some
      given map. If in doubt, don't touch.
 
-4.9.32 rounds-per-sec
----------------------
+4.11.32 rounds-per-sec
+----------------------
 
  -- Command-line option: `--rounds-per-sec=<value>'
  -- Environment variable: `LW6_ROUNDS_PER_SEC'
@@ -5791,8 +6269,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      spend more CPU time. It will also increase network traffic. Values
      between 10 and 50 really make sense.
 
-4.9.33 side-attack-factor
--------------------------
+4.11.33 side-attack-factor
+--------------------------
 
  -- Command-line option: `--side-attack-factor=<value>'
  -- Environment variable: `LW6_SIDE_ATTACK_FACTOR'
@@ -5808,8 +6286,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      strong. This parameter enables you to tune this. This is a
      percentage.
 
-4.9.34 side-defense-factor
---------------------------
+4.11.34 side-defense-factor
+---------------------------
 
  -- Command-line option: `--side-defense-factor=<value>'
  -- Environment variable: `LW6_SIDE_DEFENSE_FACTOR'
@@ -5821,8 +6299,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines how fast fighters will regenerate, when being side by side
      instead of being right in front of the other. This is a percentage.
 
-4.9.35 single-army-size
------------------------
+4.11.35 single-army-size
+------------------------
 
  -- Command-line option: `--single-army-size=<value>'
  -- Environment variable: `LW6_SINGLE_ARMY_SIZE'
@@ -5839,8 +6317,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that is, a square of 1/2 the size of a square map, so it
      represents 25% (1/4) of the total surface.
 
-4.9.36 spread-thread
---------------------
+4.11.36 spread-thread
+---------------------
 
  -- Command-line option: `--spread-thread=<value>'
  -- Environment variable: `LW6_SPREAD_THREAD'
@@ -5856,8 +6334,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      any significant performance gain, even on SMP systems. This might
      change in the future.
 
-4.9.37 spreads-per-round
-------------------------
+4.11.37 spreads-per-round
+-------------------------
 
  -- Command-line option: `--spreads-per-round=<value>'
  -- Environment variable: `LW6_SPREADS_PER_ROUND'
@@ -5875,8 +6353,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      simple maps where the gradient is obvious, or increase it on
      complex maps where you want fighters to be real smart.
 
-4.9.38 start-blue-x
--------------------
+4.11.38 start-blue-x
+--------------------
 
  -- Command-line option: `--start-blue-x=<value>'
  -- Environment variable: `LW6_START_BLUE_X'
@@ -5888,8 +6366,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the blue team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.39 start-blue-y
--------------------
+4.11.39 start-blue-y
+--------------------
 
  -- Command-line option: `--start-blue-y=<value>'
  -- Environment variable: `LW6_START_BLUE_Y'
@@ -5901,8 +6379,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the blue team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.40 start-cyan-x
--------------------
+4.11.40 start-cyan-x
+--------------------
 
  -- Command-line option: `--start-cyan-x=<value>'
  -- Environment variable: `LW6_START_CYAN_X'
@@ -5914,8 +6392,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the cyan team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.41 start-cyan-y
--------------------
+4.11.41 start-cyan-y
+--------------------
 
  -- Command-line option: `--start-cyan-y=<value>'
  -- Environment variable: `LW6_START_CYAN_Y'
@@ -5927,8 +6405,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the cyan team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.42 start-green-x
---------------------
+4.11.42 start-green-x
+---------------------
 
  -- Command-line option: `--start-green-x=<value>'
  -- Environment variable: `LW6_START_GREEN_X'
@@ -5940,8 +6418,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the green team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.43 start-green-y
---------------------
+4.11.43 start-green-y
+---------------------
 
  -- Command-line option: `--start-green-y=<value>'
  -- Environment variable: `LW6_START_GREEN_Y'
@@ -5953,8 +6431,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the green team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.44 start-lightblue-x
-------------------------
+4.11.44 start-lightblue-x
+-------------------------
 
  -- Command-line option: `--start-lightblue-x=<value>'
  -- Environment variable: `LW6_START_LIGHTBLUE_X'
@@ -5966,8 +6444,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the lightblue team. This is a percentage of
      map width, value between 0 and 100.
 
-4.9.45 start-lightblue-y
-------------------------
+4.11.45 start-lightblue-y
+-------------------------
 
  -- Command-line option: `--start-lightblue-y=<value>'
  -- Environment variable: `LW6_START_LIGHTBLUE_Y'
@@ -5979,8 +6457,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the lightblue team. This is a percentage of
      map height, value between 0 and 100.
 
-4.9.46 start-magenta-x
-----------------------
+4.11.46 start-magenta-x
+-----------------------
 
  -- Command-line option: `--start-magenta-x=<value>'
  -- Environment variable: `LW6_START_MAGENTA_X'
@@ -5992,8 +6470,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the magenta team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.47 start-magenta-y
-----------------------
+4.11.47 start-magenta-y
+-----------------------
 
  -- Command-line option: `--start-magenta-y=<value>'
  -- Environment variable: `LW6_START_MAGENTA_Y'
@@ -6005,8 +6483,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the magenta team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.48 start-orange-x
----------------------
+4.11.48 start-orange-x
+----------------------
 
  -- Command-line option: `--start-orange-x=<value>'
  -- Environment variable: `LW6_START_ORANGE_X'
@@ -6018,8 +6496,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the orange team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.49 start-orange-y
----------------------
+4.11.49 start-orange-y
+----------------------
 
  -- Command-line option: `--start-orange-y=<value>'
  -- Environment variable: `LW6_START_ORANGE_Y'
@@ -6031,8 +6509,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the orange team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.50 start-pink-x
--------------------
+4.11.50 start-pink-x
+--------------------
 
  -- Command-line option: `--start-pink-x=<value>'
  -- Environment variable: `LW6_START_PINK_X'
@@ -6044,8 +6522,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the pink team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.51 start-pink-y
--------------------
+4.11.51 start-pink-y
+--------------------
 
  -- Command-line option: `--start-pink-y=<value>'
  -- Environment variable: `LW6_START_PINK_Y'
@@ -6057,8 +6535,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the pink team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.52 start-position-mode
---------------------------
+4.11.52 start-position-mode
+---------------------------
 
  -- Command-line option: `--start-position-mode=<value>'
  -- Environment variable: `LW6_START_POSITION_MODE'
@@ -6073,8 +6551,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      is, red could take green's place. 2 means total randomness, teams
      can appear anywhere.
 
-4.9.53 start-purple-x
----------------------
+4.11.53 start-purple-x
+----------------------
 
  -- Command-line option: `--start-purple-x=<value>'
  -- Environment variable: `LW6_START_PURPLE_X'
@@ -6086,8 +6564,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the purple team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.54 start-purple-y
----------------------
+4.11.54 start-purple-y
+----------------------
 
  -- Command-line option: `--start-purple-y=<value>'
  -- Environment variable: `LW6_START_PURPLE_Y'
@@ -6099,8 +6577,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the purple team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.55 start-red-x
-------------------
+4.11.55 start-red-x
+-------------------
 
  -- Command-line option: `--start-red-x=<value>'
  -- Environment variable: `LW6_START_RED_X'
@@ -6112,8 +6590,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the red team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.56 start-red-y
-------------------
+4.11.56 start-red-y
+-------------------
 
  -- Command-line option: `--start-red-y=<value>'
  -- Environment variable: `LW6_START_RED_Y'
@@ -6125,8 +6603,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the red team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.57 start-yellow-x
----------------------
+4.11.57 start-yellow-x
+----------------------
 
  -- Command-line option: `--start-yellow-x=<value>'
  -- Environment variable: `LW6_START_YELLOW_X'
@@ -6138,8 +6616,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the yellow team. This is a percentage of map
      width, value between 0 and 100.
 
-4.9.58 start-yellow-y
----------------------
+4.11.58 start-yellow-y
+----------------------
 
  -- Command-line option: `--start-yellow-y=<value>'
  -- Environment variable: `LW6_START_YELLOW_Y'
@@ -6151,8 +6629,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the yellow team. This is a percentage of map
      height, value between 0 and 100.
 
-4.9.59 team-profile-blue-aggressive
------------------------------------
+4.11.59 team-profile-blue-aggressive
+------------------------------------
 
  -- Command-line option: `--team-profile-blue-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_AGGRESSIVE'
@@ -6166,8 +6644,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.60 team-profile-blue-fast
------------------------------
+4.11.60 team-profile-blue-fast
+------------------------------
 
  -- Command-line option: `--team-profile-blue-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_FAST'
@@ -6181,8 +6659,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.61 team-profile-blue-mobile
--------------------------------
+4.11.61 team-profile-blue-mobile
+--------------------------------
 
  -- Command-line option: `--team-profile-blue-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_MOBILE'
@@ -6197,8 +6675,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.62 team-profile-blue-vulnerable
------------------------------------
+4.11.62 team-profile-blue-vulnerable
+------------------------------------
 
  -- Command-line option: `--team-profile-blue-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_VULNERABLE'
@@ -6212,8 +6690,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.63 team-profile-blue-weapon-alternate-id
---------------------------------------------
+4.11.63 team-profile-blue-weapon-alternate-id
+---------------------------------------------
 
  -- Command-line option:
 `--team-profile-blue-weapon-alternate-id=<value>'
@@ -6226,8 +6704,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the blue team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.64 team-profile-blue-weapon-id
-----------------------------------
+4.11.64 team-profile-blue-weapon-id
+-----------------------------------
 
  -- Command-line option: `--team-profile-blue-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_WEAPON_ID'
@@ -6239,8 +6717,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the blue team, see the documentation
      about weapons to know what these ids mean.
 
-4.9.65 team-profile-blue-weapon-mode
-------------------------------------
+4.11.65 team-profile-blue-weapon-mode
+-------------------------------------
 
  -- Command-line option: `--team-profile-blue-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_BLUE_WEAPON_MODE'
@@ -6253,8 +6731,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.66 team-profile-cyan-aggressive
------------------------------------
+4.11.66 team-profile-cyan-aggressive
+------------------------------------
 
  -- Command-line option: `--team-profile-cyan-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_AGGRESSIVE'
@@ -6268,8 +6746,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.67 team-profile-cyan-fast
------------------------------
+4.11.67 team-profile-cyan-fast
+------------------------------
 
  -- Command-line option: `--team-profile-cyan-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_FAST'
@@ -6283,8 +6761,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.68 team-profile-cyan-mobile
--------------------------------
+4.11.68 team-profile-cyan-mobile
+--------------------------------
 
  -- Command-line option: `--team-profile-cyan-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_MOBILE'
@@ -6299,8 +6777,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.69 team-profile-cyan-vulnerable
------------------------------------
+4.11.69 team-profile-cyan-vulnerable
+------------------------------------
 
  -- Command-line option: `--team-profile-cyan-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_VULNERABLE'
@@ -6314,8 +6792,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.70 team-profile-cyan-weapon-alternate-id
---------------------------------------------
+4.11.70 team-profile-cyan-weapon-alternate-id
+---------------------------------------------
 
  -- Command-line option:
 `--team-profile-cyan-weapon-alternate-id=<value>'
@@ -6328,8 +6806,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the cyan team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.71 team-profile-cyan-weapon-id
-----------------------------------
+4.11.71 team-profile-cyan-weapon-id
+-----------------------------------
 
  -- Command-line option: `--team-profile-cyan-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_WEAPON_ID'
@@ -6341,8 +6819,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the cyan team, see the documentation
      about weapons to know what these ids mean.
 
-4.9.72 team-profile-cyan-weapon-mode
-------------------------------------
+4.11.72 team-profile-cyan-weapon-mode
+-------------------------------------
 
  -- Command-line option: `--team-profile-cyan-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_CYAN_WEAPON_MODE'
@@ -6355,8 +6833,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.73 team-profile-green-aggressive
-------------------------------------
+4.11.73 team-profile-green-aggressive
+-------------------------------------
 
  -- Command-line option: `--team-profile-green-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_AGGRESSIVE'
@@ -6370,8 +6848,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.74 team-profile-green-fast
-------------------------------
+4.11.74 team-profile-green-fast
+-------------------------------
 
  -- Command-line option: `--team-profile-green-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_FAST'
@@ -6385,8 +6863,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.75 team-profile-green-mobile
---------------------------------
+4.11.75 team-profile-green-mobile
+---------------------------------
 
  -- Command-line option: `--team-profile-green-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_MOBILE'
@@ -6401,8 +6879,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.76 team-profile-green-vulnerable
-------------------------------------
+4.11.76 team-profile-green-vulnerable
+-------------------------------------
 
  -- Command-line option: `--team-profile-green-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_VULNERABLE'
@@ -6416,8 +6894,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.77 team-profile-green-weapon-alternate-id
----------------------------------------------
+4.11.77 team-profile-green-weapon-alternate-id
+----------------------------------------------
 
  -- Command-line option:
 `--team-profile-green-weapon-alternate-id=<value>'
@@ -6430,8 +6908,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the green team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.78 team-profile-green-weapon-id
------------------------------------
+4.11.78 team-profile-green-weapon-id
+------------------------------------
 
  -- Command-line option: `--team-profile-green-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_WEAPON_ID'
@@ -6443,8 +6921,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the green team, see the documentation
      about weapons to know what these ids mean.
 
-4.9.79 team-profile-green-weapon-mode
--------------------------------------
+4.11.79 team-profile-green-weapon-mode
+--------------------------------------
 
  -- Command-line option: `--team-profile-green-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_GREEN_WEAPON_MODE'
@@ -6457,8 +6935,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.80 team-profile-lightblue-aggressive
-----------------------------------------
+4.11.80 team-profile-lightblue-aggressive
+-----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE'
@@ -6472,8 +6950,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      any other team with the default value. Setting this to a high
      value clearly advantages this team.
 
-4.9.81 team-profile-lightblue-fast
-----------------------------------
+4.11.81 team-profile-lightblue-fast
+-----------------------------------
 
  -- Command-line option: `--team-profile-lightblue-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_FAST'
@@ -6487,8 +6965,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the default parameter.  Setting this high is very likely to
      advantage the team.
 
-4.9.82 team-profile-lightblue-mobile
-------------------------------------
+4.11.82 team-profile-lightblue-mobile
+-------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_MOBILE'
@@ -6503,8 +6981,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.83 team-profile-lightblue-vulnerable
-----------------------------------------
+4.11.83 team-profile-lightblue-vulnerable
+-----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_VULNERABLE'
@@ -6518,8 +6996,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      as any other team with the default value. Setting this to a high
      value clearly disadvantages this team.
 
-4.9.84 team-profile-lightblue-weapon-alternate-id
--------------------------------------------------
+4.11.84 team-profile-lightblue-weapon-alternate-id
+--------------------------------------------------
 
  -- Command-line option:
 `--team-profile-lightblue-weapon-alternate-id=<value>'
@@ -6533,8 +7011,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the lightblue team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.85 team-profile-lightblue-weapon-id
----------------------------------------
+4.11.85 team-profile-lightblue-weapon-id
+----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID'
@@ -6546,8 +7024,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the lightblue team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.86 team-profile-lightblue-weapon-mode
------------------------------------------
+4.11.86 team-profile-lightblue-weapon-mode
+------------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE'
@@ -6560,8 +7038,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.87 team-profile-magenta-aggressive
---------------------------------------
+4.11.87 team-profile-magenta-aggressive
+---------------------------------------
 
  -- Command-line option: `--team-profile-magenta-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_AGGRESSIVE'
@@ -6575,8 +7053,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      advantages this team.
 
-4.9.88 team-profile-magenta-fast
---------------------------------
+4.11.88 team-profile-magenta-fast
+---------------------------------
 
  -- Command-line option: `--team-profile-magenta-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_FAST'
@@ -6590,8 +7068,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the default parameter.  Setting this high is very likely to
      advantage the team.
 
-4.9.89 team-profile-magenta-mobile
-----------------------------------
+4.11.89 team-profile-magenta-mobile
+-----------------------------------
 
  -- Command-line option: `--team-profile-magenta-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_MOBILE'
@@ -6606,8 +7084,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.90 team-profile-magenta-vulnerable
---------------------------------------
+4.11.90 team-profile-magenta-vulnerable
+---------------------------------------
 
  -- Command-line option: `--team-profile-magenta-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_VULNERABLE'
@@ -6621,8 +7099,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.91 team-profile-magenta-weapon-alternate-id
------------------------------------------------
+4.11.91 team-profile-magenta-weapon-alternate-id
+------------------------------------------------
 
  -- Command-line option:
 `--team-profile-magenta-weapon-alternate-id=<value>'
@@ -6635,8 +7113,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the magenta team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.92 team-profile-magenta-weapon-id
--------------------------------------
+4.11.92 team-profile-magenta-weapon-id
+--------------------------------------
 
  -- Command-line option: `--team-profile-magenta-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_WEAPON_ID'
@@ -6648,8 +7126,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the magenta team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.93 team-profile-magenta-weapon-mode
----------------------------------------
+4.11.93 team-profile-magenta-weapon-mode
+----------------------------------------
 
  -- Command-line option: `--team-profile-magenta-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_WEAPON_MODE'
@@ -6662,8 +7140,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.94 team-profile-orange-aggressive
--------------------------------------
+4.11.94 team-profile-orange-aggressive
+--------------------------------------
 
  -- Command-line option: `--team-profile-orange-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_AGGRESSIVE'
@@ -6677,8 +7155,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.95 team-profile-orange-fast
--------------------------------
+4.11.95 team-profile-orange-fast
+--------------------------------
 
  -- Command-line option: `--team-profile-orange-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_FAST'
@@ -6692,8 +7170,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.96 team-profile-orange-mobile
----------------------------------
+4.11.96 team-profile-orange-mobile
+----------------------------------
 
  -- Command-line option: `--team-profile-orange-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_MOBILE'
@@ -6708,8 +7186,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.97 team-profile-orange-vulnerable
--------------------------------------
+4.11.97 team-profile-orange-vulnerable
+--------------------------------------
 
  -- Command-line option: `--team-profile-orange-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_VULNERABLE'
@@ -6723,8 +7201,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.98 team-profile-orange-weapon-alternate-id
-----------------------------------------------
+4.11.98 team-profile-orange-weapon-alternate-id
+-----------------------------------------------
 
  -- Command-line option:
 `--team-profile-orange-weapon-alternate-id=<value>'
@@ -6737,8 +7215,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the orange team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.99 team-profile-orange-weapon-id
-------------------------------------
+4.11.99 team-profile-orange-weapon-id
+-------------------------------------
 
  -- Command-line option: `--team-profile-orange-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_ID'
@@ -6750,8 +7228,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the orange team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.100 team-profile-orange-weapon-mode
----------------------------------------
+4.11.100 team-profile-orange-weapon-mode
+----------------------------------------
 
  -- Command-line option: `--team-profile-orange-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_MODE'
@@ -6764,8 +7242,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.101 team-profile-pink-aggressive
-------------------------------------
+4.11.101 team-profile-pink-aggressive
+-------------------------------------
 
  -- Command-line option: `--team-profile-pink-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_AGGRESSIVE'
@@ -6779,8 +7257,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.102 team-profile-pink-fast
-------------------------------
+4.11.102 team-profile-pink-fast
+-------------------------------
 
  -- Command-line option: `--team-profile-pink-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_FAST'
@@ -6794,8 +7272,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.103 team-profile-pink-mobile
---------------------------------
+4.11.103 team-profile-pink-mobile
+---------------------------------
 
  -- Command-line option: `--team-profile-pink-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_MOBILE'
@@ -6810,8 +7288,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.104 team-profile-pink-vulnerable
-------------------------------------
+4.11.104 team-profile-pink-vulnerable
+-------------------------------------
 
  -- Command-line option: `--team-profile-pink-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_VULNERABLE'
@@ -6825,8 +7303,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.105 team-profile-pink-weapon-alternate-id
----------------------------------------------
+4.11.105 team-profile-pink-weapon-alternate-id
+----------------------------------------------
 
  -- Command-line option:
 `--team-profile-pink-weapon-alternate-id=<value>'
@@ -6839,8 +7317,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the pink team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.106 team-profile-pink-weapon-id
------------------------------------
+4.11.106 team-profile-pink-weapon-id
+------------------------------------
 
  -- Command-line option: `--team-profile-pink-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_WEAPON_ID'
@@ -6852,8 +7330,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the pink team, see the documentation
      about weapons to know what these ids mean.
 
-4.9.107 team-profile-pink-weapon-mode
--------------------------------------
+4.11.107 team-profile-pink-weapon-mode
+--------------------------------------
 
  -- Command-line option: `--team-profile-pink-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PINK_WEAPON_MODE'
@@ -6866,8 +7344,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.108 team-profile-purple-aggressive
---------------------------------------
+4.11.108 team-profile-purple-aggressive
+---------------------------------------
 
  -- Command-line option: `--team-profile-purple-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_AGGRESSIVE'
@@ -6881,8 +7359,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.109 team-profile-purple-fast
---------------------------------
+4.11.109 team-profile-purple-fast
+---------------------------------
 
  -- Command-line option: `--team-profile-purple-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_FAST'
@@ -6896,8 +7374,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.110 team-profile-purple-mobile
-----------------------------------
+4.11.110 team-profile-purple-mobile
+-----------------------------------
 
  -- Command-line option: `--team-profile-purple-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_MOBILE'
@@ -6912,8 +7390,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.111 team-profile-purple-vulnerable
---------------------------------------
+4.11.111 team-profile-purple-vulnerable
+---------------------------------------
 
  -- Command-line option: `--team-profile-purple-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_VULNERABLE'
@@ -6927,8 +7405,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.112 team-profile-purple-weapon-alternate-id
------------------------------------------------
+4.11.112 team-profile-purple-weapon-alternate-id
+------------------------------------------------
 
  -- Command-line option:
 `--team-profile-purple-weapon-alternate-id=<value>'
@@ -6941,8 +7419,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the purple team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.113 team-profile-purple-weapon-id
--------------------------------------
+4.11.113 team-profile-purple-weapon-id
+--------------------------------------
 
  -- Command-line option: `--team-profile-purple-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_WEAPON_ID'
@@ -6954,8 +7432,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the purple team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.114 team-profile-purple-weapon-mode
----------------------------------------
+4.11.114 team-profile-purple-weapon-mode
+----------------------------------------
 
  -- Command-line option: `--team-profile-purple-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_WEAPON_MODE'
@@ -6968,8 +7446,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.115 team-profile-red-aggressive
------------------------------------
+4.11.115 team-profile-red-aggressive
+------------------------------------
 
  -- Command-line option: `--team-profile-red-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_AGGRESSIVE'
@@ -6983,8 +7461,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.116 team-profile-red-fast
------------------------------
+4.11.116 team-profile-red-fast
+------------------------------
 
  -- Command-line option: `--team-profile-red-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_FAST'
@@ -6998,8 +7476,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.117 team-profile-red-mobile
--------------------------------
+4.11.117 team-profile-red-mobile
+--------------------------------
 
  -- Command-line option: `--team-profile-red-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_MOBILE'
@@ -7014,8 +7492,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change its cruising speed. It's not obvious to tell wether this is
      an advantage or not, but it clearly changes the behavior.
 
-4.9.118 team-profile-red-vulnerable
------------------------------------
+4.11.118 team-profile-red-vulnerable
+------------------------------------
 
  -- Command-line option: `--team-profile-red-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_VULNERABLE'
@@ -7029,8 +7507,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.9.119 team-profile-red-weapon-alternate-id
---------------------------------------------
+4.11.119 team-profile-red-weapon-alternate-id
+---------------------------------------------
 
  -- Command-line option:
 `--team-profile-red-weapon-alternate-id=<value>'
@@ -7043,8 +7521,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the red team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.120 team-profile-red-weapon-id
-----------------------------------
+4.11.120 team-profile-red-weapon-id
+-----------------------------------
 
  -- Command-line option: `--team-profile-red-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_WEAPON_ID'
@@ -7056,8 +7534,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the red team, see the documentation
      about weapons to know what these ids mean.
 
-4.9.121 team-profile-red-weapon-mode
-------------------------------------
+4.11.121 team-profile-red-weapon-mode
+-------------------------------------
 
  -- Command-line option: `--team-profile-red-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_RED_WEAPON_MODE'
@@ -7070,8 +7548,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.122 team-profile-yellow-aggressive
---------------------------------------
+4.11.122 team-profile-yellow-aggressive
+---------------------------------------
 
  -- Command-line option: `--team-profile-yellow-aggressive=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_AGGRESSIVE'
@@ -7085,8 +7563,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.9.123 team-profile-yellow-fast
---------------------------------
+4.11.123 team-profile-yellow-fast
+---------------------------------
 
  -- Command-line option: `--team-profile-yellow-fast=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_FAST'
@@ -7100,8 +7578,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.9.124 team-profile-yellow-mobile
-----------------------------------
+4.11.124 team-profile-yellow-mobile
+-----------------------------------
 
  -- Command-line option: `--team-profile-yellow-mobile=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_MOBILE'
@@ -7116,8 +7594,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.9.125 team-profile-yellow-vulnerable
---------------------------------------
+4.11.125 team-profile-yellow-vulnerable
+---------------------------------------
 
  -- Command-line option: `--team-profile-yellow-vulnerable=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_VULNERABLE'
@@ -7131,8 +7609,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.9.126 team-profile-yellow-weapon-alternate-id
------------------------------------------------
+4.11.126 team-profile-yellow-weapon-alternate-id
+------------------------------------------------
 
  -- Command-line option:
 `--team-profile-yellow-weapon-alternate-id=<value>'
@@ -7145,8 +7623,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the yellow team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.127 team-profile-yellow-weapon-id
--------------------------------------
+4.11.127 team-profile-yellow-weapon-id
+--------------------------------------
 
  -- Command-line option: `--team-profile-yellow-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_WEAPON_ID'
@@ -7158,8 +7636,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the yellow team, see the
      documentation about weapons to know what these ids mean.
 
-4.9.128 team-profile-yellow-weapon-mode
----------------------------------------
+4.11.128 team-profile-yellow-weapon-mode
+----------------------------------------
 
  -- Command-line option: `--team-profile-yellow-weapon-mode=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_WEAPON_MODE'
@@ -7172,8 +7650,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.9.129 total-armies-size
--------------------------
+4.11.129 total-armies-size
+--------------------------
 
  -- Command-line option: `--total-armies-size=<value>'
  -- Environment variable: `LW6_TOTAL_ARMIES_SIZE'
@@ -7193,8 +7671,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      square of 1/2 the size of a square map, so it represents 25% (1/4)
      of the total surface.
 
-4.9.130 total-time
-------------------
+4.11.130 total-time
+-------------------
 
  -- Command-line option: `--total-time=<value>'
  -- Environment variable: `LW6_TOTAL_TIME'
@@ -7211,8 +7689,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      So if the computer is too slow and the desired speed is not
      reached, then the game will last for a longer time.
 
-4.9.131 use-team-profiles
--------------------------
+4.11.131 use-team-profiles
+--------------------------
 
  -- Command-line option: `--use-team-profiles=<value>'
  -- Environment variable: `LW6_USE_TEAM_PROFILES'
@@ -7226,8 +7704,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      according to their colors. If you disable this, then all teams
      will behave the same, which is more fair, but might not be as fun.
 
-4.9.132 vertical-move
----------------------
+4.11.132 vertical-move
+----------------------
 
  -- Command-line option: `--vertical-move=<value>'
  -- Environment variable: `LW6_VERTICAL_MOVE'
@@ -7242,8 +7720,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      failed. If set to 2, it will be tried just after the second move
      failed. And so on.
 
-4.9.133 weapon-charge-delay
----------------------------
+4.11.133 weapon-charge-delay
+----------------------------
 
  -- Command-line option: `--weapon-charge-delay=<value>'
  -- Environment variable: `LW6_WEAPON_CHARGE_DELAY'
@@ -7255,8 +7733,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long it will take for weapons to charge and be usable, by
      default. Unit is seconds.
 
-4.9.134 weapon-charge-max
--------------------------
+4.11.134 weapon-charge-max
+--------------------------
 
  -- Command-line option: `--weapon-charge-max=<value>'
  -- Environment variable: `LW6_WEAPON_CHARGE_MAX'
@@ -7272,8 +7750,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      four times more powerfull, it's just the limit after which it's
      useless to charge.
 
-4.9.135 weapon-duration
------------------------
+4.11.135 weapon-duration
+------------------------
 
  -- Command-line option: `--weapon-duration=<value>'
  -- Environment variable: `LW6_WEAPON_DURATION'
@@ -7285,8 +7763,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long all weapons (for which duration makes sense) will last.
      Unit is seconds.
 
-4.9.136 weapon-tune-bezerk-power
---------------------------------
+4.11.136 weapon-tune-bezerk-power
+---------------------------------
 
  -- Command-line option: `--weapon-tune-bezerk-power=<value>'
  -- Environment variable: `LW6_WEAPON_TUNE_BEZERK_POWER'
@@ -7298,8 +7776,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Use to specifiy how strong bezerk mode is, if set to 3, then
      attacks will be 3 times as efficient in bezerk mode.
 
-4.9.137 weapon-tune-turbo-power
--------------------------------
+4.11.137 weapon-tune-turbo-power
+--------------------------------
 
  -- Command-line option: `--weapon-tune-turbo-power=<value>'
  -- Environment variable: `LW6_WEAPON_TUNE_TURBO_POWER'
@@ -7311,8 +7789,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines how fast fighters move in turbo mode, if set to 3, then
      fighters move and act 3 times as fast.
 
-4.9.138 x-polarity
-------------------
+4.11.138 x-polarity
+-------------------
 
  -- Command-line option: `--x-polarity=<value>'
  -- Environment variable: `LW6_X_POLARITY'
@@ -7330,8 +7808,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.9.139 y-polarity
-------------------
+4.11.139 y-polarity
+-------------------
 
  -- Command-line option: `--y-polarity=<value>'
  -- Environment variable: `LW6_Y_POLARITY'
@@ -7349,8 +7827,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.9.140 z-polarity
-------------------
+4.11.140 z-polarity
+-------------------
 
  -- Command-line option: `--z-polarity=<value>'
  -- Environment variable: `LW6_Z_POLARITY'
@@ -7367,383 +7845,4 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      make sense. Consider this an advanced setting which might save a
      layer in some tricky cases, the default value of 0 should fit in
      most cases.
-
-
-File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map rules.xml,  Up: Reference
-
-4.10 Map hints.xml
-==================
-
-4.10.1 background-color-auto
-----------------------------
-
- -- Command-line option: `--background-color-auto=<value>'
- -- Environment variable: `LW6_BACKGROUND_COLOR_AUTO'
- -- XML key: `background-color-auto'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether hud colors will be set automatically from base and
-     alternate colors. This is a time saver to keep map designers from
-     requiring to redefined every single color in the game. You only
-     need to set color-base-bg, color-base-fg, color-alternate-bg and
-     color-alternate-fg. Then hud_color_frame_bg, hud_color_frame_fg,
-     hud_color_text_bg and hud_color_text_fg will be automatically set.
-
-4.10.2 downsize-using-bench-value
----------------------------------
-
- -- Command-line option: `--downsize-using-bench-value=<value>'
- -- Environment variable: `LW6_DOWNSIZE_USING_BENCH_VALUE'
- -- XML key: `downsize-using-bench-value'
-     Type: boolean
-
-     Default value: true
-
-     If set, then the game will automatically downsize a map according
-     to the 'bench-value' parameter. Downsizing means: a 1600x1200 maps
-     becomes 200x150, for instance. Downsizing causes fighters to be
-     bigger because map resolution is lower. This will avoid running
-     the game on a too big map, with your computer not being able to
-     handle it at the required speed.
-
-4.10.3 downsize-using-fighter-scale
------------------------------------
-
- -- Command-line option: `--downsize-using-fighter-scale=<value>'
- -- Environment variable: `LW6_DOWNSIZE_USING_FIGHTER_SCALE'
- -- XML key: `downsize-using-fighter-scale'
-     Type: boolean
-
-     Default value: false
-
-     If set, then the game will automatically downsize a map according
-     to the 'fighter-scale' parameter. Downsizing means: a 1600x1200
-     maps becomes 200x150, for instance. Downsizing causes fighters to
-     be bigger because map resolution is lower. This can be usefull if
-     you don't want fighters to be too small.
-
-4.10.4 fighter-scale
---------------------
-
- -- Command-line option: `--fighter-scale=<value>'
- -- Environment variable: `LW6_FIGHTER_SCALE'
- -- XML key: `fighter-scale'
-     Type: float
-
-     Default value: 1.0
-
-     Defines how wide (in pixels) fighters must be. This parameter is
-     very important and will largely condition the number of fighters
-     on the map. It is used when loading the map. If it is, for
-     instance, set to 1, there will be exactly a fighter per pixel on
-     the screen. That is, if you play 640x480 on an empty map, the
-     maximum fighters you could have is about 300000. The idea is that
-     by changing the resolution, you also define the density of the
-     map. In pratice, this is done in the hope that someone with a slow
-     computer will pick up a low resolution and therefore play small
-     levels. Conversely, someone with a brand new computer with
-     powerfull CPU & GPU will use great resolutions and be happy with
-     many fighters on the map. Still, changing the resolution after
-     loading the map will not affet the number of fighters. Same for
-     network games, the first player, who loads the map, defines its
-     properties according to its own settings.
-
-4.10.5 guess-colors
--------------------
-
- -- Command-line option: `--guess-colors=<value>'
- -- Environment variable: `LW6_GUESS_COLORS'
- -- XML key: `guess-colors'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether colors should be set automatically from texture
-     colors. If set to true, then the program will try to pick up
-     colors automatically from the texture, and will override the
-     values of the color-base-bg, color-base-fg, color-alternate-bg and
-     color-alternate-fg parameters. How these colors are picked up
-     can't be garanteed, so if the map does not have strong contrast or
-     if there can be any form of ambiguity, it's safe to set this to
-     false and define one's own colors.
-
-4.10.6 guess-moves-per-sec
---------------------------
-
- -- Command-line option: `--guess-moves-per-sec=<value>'
- -- Environment variable: `LW6_GUESS_MOVES_PER_SEC'
- -- XML key: `guess-moves-per-sec'
-     Type: boolean
-
-     Default value: true
-
-     If set, then loader will use 'time-to-cross-level' to guess the
-     game speed parameters.
-
-4.10.7 hud-color-auto
----------------------
-
- -- Command-line option: `--hud-color-auto=<value>'
- -- Environment variable: `LW6_HUD_COLOR_AUTO'
- -- XML key: `hud-color-auto'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether hud colors will be set automatically from base and
-     alternate colors. This is a time saver to keep map designers from
-     requiring to redefined every single color in the game. You only
-     need to set color-base-bg, color-base-fg, color-alternate-bg and
-     color-alternate-fg. Then hud_color_frame_bg, hud_color_frame_fg,
-     hud_color_text_bg and hud_color_text_fg will be automatically set.
-
-4.10.8 max-map-height
----------------------
-
- -- Command-line option: `--max-map-height=<value>'
- -- Environment variable: `LW6_MAX_MAP_HEIGHT'
- -- XML key: `max-map-height'
-     Type: integer
-
-     Default value: 3000
-
-     Allows you to give a maximum map height. When designing a map you
-     might wonder: this is dumb I'm conceiving this map I know its
-     height, why should I limit it? Now think of the play who plays on
-     a old slowish computer with a tiny screen. He might redefine this
-     himself, and does not necessarly wishes to fire Gimp to rescale
-     the map.
-
-4.10.9 max-map-surface
-----------------------
-
- -- Command-line option: `--max-map-surface=<value>'
- -- Environment variable: `LW6_MAX_MAP_SURFACE'
- -- XML key: `max-map-surface'
-     Type: integer
-
-     Default value: 3000000
-
-     Allows you to give a maximum map surface. Map surface is simply
-     (width * height). This parameter is just here to save you the
-     hassle of defining both 'max-map-width' and 'max-map-height' in a
-     consistent manner.
-
-4.10.10 max-map-width
----------------------
-
- -- Command-line option: `--max-map-width=<value>'
- -- Environment variable: `LW6_MAX_MAP_WIDTH'
- -- XML key: `max-map-width'
-     Type: integer
-
-     Default value: 4000
-
-     Allows you to give a maximum map width. When designing a map you
-     might wonder: this is dumb I'm conceiving this map I know its
-     width, why should I limit it?  Now think of the play who plays on
-     a old slowish computer with a tiny screen.  He might redefine this
-     himself, and does not necessarly wishes to fire Gimp to rescale
-     the map.
-
-4.10.11 menu-color-auto
------------------------
-
- -- Command-line option: `--menu-color-auto=<value>'
- -- Environment variable: `LW6_MENU_COLOR_AUTO'
- -- XML key: `menu-color-auto'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether menu colors will be set automatically from base and
-     alternate colors. This is a time saver to keep map designers from
-     requiring to redefined every single color in the game. You only
-     need to set color-base-bg, color-base-fg, color-alternate-bg and
-     color-alternate-fg. Then menu_color_default_bg,
-     menu_color_default_fg, menu_color_selected_bg,
-     menu_color_selected_fg, menu_color_disabled_bg and
-     menu_color_disabled_fg will be automatically set.
-
-4.10.12 min-map-height
-----------------------
-
- -- Command-line option: `--min-map-height=<value>'
- -- Environment variable: `LW6_MIN_MAP_HEIGHT'
- -- XML key: `min-map-height'
-     Type: integer
-
-     Default value: 15
-
-     Allows you to give a minimum map height. When designing a map you
-     might wonder: this is dumb I'm conceiving this map I know its
-     height, why should I limit it? Now think of the player who decided
-     to play with highly-defined maps because he has a super calculator
-     and a hudge screen. He might redefine this himself, and does not
-     necessarly wishes to fire Gimp to rescale the map.
-
-4.10.13 min-map-surface
------------------------
-
- -- Command-line option: `--min-map-surface=<value>'
- -- Environment variable: `LW6_MIN_MAP_SURFACE'
- -- XML key: `min-map-surface'
-     Type: integer
-
-     Default value: 1200
-
-     Allows you to give a minimum map surface. Map surface is simply
-     (width * height). This parameter is just here to save you the
-     hassle of defining both 'min-map-width' and 'min-map-height' in a
-     consistent manner.
-
-4.10.14 min-map-width
----------------------
-
- -- Command-line option: `--min-map-width=<value>'
- -- Environment variable: `LW6_MIN_MAP_WIDTH'
- -- XML key: `min-map-width'
-     Type: integer
-
-     Default value: 20
-
-     Allows you to give a minimum map width. When designing a map you
-     might wonder: this is dumb I'm conceiving this map I know its
-     width, why should I limit it?  Now think of the player who decided
-     to play with highly-defined maps because he has a super calculator
-     and a hudge screen. He might redefine this himself, and does not
-     necessarly wishes to fire Gimp to rescale the map.
-
-4.10.15 resample
-----------------
-
- -- Command-line option: `--resample=<value>'
- -- Environment variable: `LW6_RESAMPLE'
- -- XML key: `resample'
-     Type: boolean
-
-     Default value: true
-
-     If set to true, maps will always be resampled to a size which
-     depends on your screen resolution, zoom factor, and the rest. If
-     false, maps will be set at the exact resolution of map.png.
-
-4.10.16 speed
--------------
-
- -- Command-line option: `--speed=<value>'
- -- Environment variable: `LW6_SPEED'
- -- XML key: `speed'
-     Type: float
-
-     Default value: 1.0
-
-     This parameter is the main parameter on which game speed depends.
-     The map loader will garantee, by downscaling the map, that to
-     cross the level (by crossing the level we mean, for instance,
-     going from top-left corner to bottom-right corner in a straight
-     line) a fighter will take a constant amount of time. Under the
-     hood, the loader might of course rescale the map but it will also
-     change game speed so that, at the end, fighters take a constant
-     time to cross the level. This is, indeed, the most important
-     thing, players do not care much if internally there are X or Y
-     moves per second, the global game experience depends on how fast
-     fighter movement looks on the screen. The default settings
-     corresponds roughly to one second to cross the level. If you set
-     this to 2.0, it will go twice faster.
-
-4.10.17 system-color-auto
--------------------------
-
- -- Command-line option: `--system-color-auto=<value>'
- -- Environment variable: `LW6_SYSTEM_COLOR_AUTO'
- -- XML key: `system-color-auto'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether system colors will be set automatically from base
-     and alternate colors. This is a time saver to keep map designers
-     from requiring to redefined every single color in the game. You
-     only need to set color-base-bg, color-base-fg, color-alternate-bg
-     and color-alternate-fg. Then system_color_bg and system_color_fg
-     will be automatically set.
-
-4.10.18 upsize-using-bench-value
---------------------------------
-
- -- Command-line option: `--upsize-using-bench-value=<value>'
- -- Environment variable: `LW6_UPSIZE_USING_BENCH_VALUE'
- -- XML key: `upsize-using-bench-value'
-     Type: boolean
-
-     Default value: false
-
-     If set, then the game will automatically upsize a map according to
-     the 'fighter-scale' parameter. Upsizing means: a 160x120 maps
-     becomes 400x300, for instance. Upsizing causes fighters to be
-     smaller because map resolution is higher. This will avoid useless
-     pixelish 'jumbo fighters' look when your computer is powerfull
-     enough to do better.
-
-4.10.19 upsize-using-fighter-scale
-----------------------------------
-
- -- Command-line option: `--upsize-using-fighter-scale=<value>'
- -- Environment variable: `LW6_UPSIZE_USING_FIGHTER_SCALE'
- -- XML key: `upsize-using-fighter-scale'
-     Type: boolean
-
-     Default value: true
-
-     If set, then the game will automatically upsize a map according to
-     the 'fighter-scale' parameter. Upsizing means: a 160x120 maps
-     becomes 400x300, for instance. Upsizing causes fighters to be
-     smaller because map resolution is higher. This can be usefull if
-     you don't want fighters to be too big.
-
-4.10.20 view-color-auto
------------------------
-
- -- Command-line option: `--view-color-auto=<value>'
- -- Environment variable: `LW6_VIEW_COLOR_AUTO'
- -- XML key: `view-color-auto'
-     Type: boolean
-
-     Default value: true
-
-     Defines wether view colors will be set automatically from base and
-     alternate colors. This is a time saver to keep map designers from
-     requiring to redefined every single color in the game. You only
-     need to set color-base-bg, color-base-fg, color-alternate-bg and
-     color-alternate-fg. Then view_color_cursor_bg,
-     view_color_cursor_fg, view_color_map_bg and view_color_map_fg will
-     be automatically set.
-
-4.10.21 wall-grease
--------------------
-
- -- Command-line option: `--wall-grease=<value>'
- -- Environment variable: `LW6_WALL_GREASE'
- -- XML key: `wall-grease'
-     Type: integer
-
-     Default value: 0 Min value: -5 Max value: 5
-
-     This parameter allows you to make walls (AKA map foreground)
-     thicker, or thiner, when map is loaded. Indeed, when map are
-     resampled, and especially when they are downscaled, some walls may
-     disappear, or some passages may be blocked. The loader can't
-     automatically figure out wether it's more important to keep an
-     existing wall or to keep an open passage for fighters. This
-     parameter helps doing so, if you set it to a low value, level will
-     be less greasy, and many passages might open themselves. On the
-     contrary, if grease is at a high level, then a thin line of almost
-     isolated pixels might become a thick wall. There's no real
-     garantee your wall or passage will always be present, but it's a
-     same bet to assume on a 'tunnel-like' level one needs to set
-     grease to a low value, and on a 'wide open' level with few walls
-     one needs to set grease to a high value.
 

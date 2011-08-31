@@ -19,6 +19,456 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libpil,  Next: libscm,  Prev: libp2p,  Up: C API
+
+5.31 libpil
+===========
+
+5.31.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/pil/index.html'.
+
+5.31.2 API
+----------
+
+ -- Function: int lw6pil_bench (float * BENCH_RESULT, lw6sys_progress_t
+          * PROGRESS)
+     BENCH_RESULT:  pointer to float, will contain the bench result
+
+     PROGRESS:  to inform the caller of the process advancement
+
+     Runs a standard, normalized bench on a default map. Results can be
+     interpreted as an estimated speed/power of your computer.
+
+     *Return value:*  1 on success, 0 if failure
+
+ -- Function: void lw6pil_coords_fix (lw6map_rules_t * RULES,
+          lw6sys_whd_t * SHAPE, float * X, float * Y, float * Z)
+     RULES:  the set of rules to use (defines polarity)
+
+     SHAPE:  the shape of the map (logical part)
+
+     X:  the x coord to fix
+
+     Y:  the y coord to fix
+
+     Z:  the z coord to fix
+
+     Similar to `lw6map_coords_fix' but using floats, this function can
+     be used to check cursor position boundaries. Any float pointer can
+     be NULL.
+
+     *Return value:*  none.
+
+ -- Function: void lw6pil_local_cursors_reset (lw6pil_local_cursors_t *
+          LOCAL_CURSORS)
+     Resets a local cursors struct. Note that this need not be called
+     very often, in fact the local cursors can cope with "dead" cursors
+     easily. In practise, in a local game, there are only 4 of them,
+     great maximum.
+
+     *Return value:*  none.
+
+ -- Function: lw6pil_local_cursor_t * lw6pil_local_cursors_get_cursor
+          (lw6pil_local_cursors_t * LOCAL_CURSORS, u_int16_t CURSOR_ID)
+     CURSOR_ID:  the id of the cursor to query
+
+     Returns a pointer on the cursor with the given id.
+
+     *Return value:*  a pointer (must *not* be freed) which is NULL is
+     cursor does not exist.
+
+ -- Function: int lw6pil_local_cursors_get_info (lw6pil_local_cursors_t
+          * LOCAL_CURSORS, int * X, int * Y, int * MOUSE_CONTROLLED,
+          u_int16_t CURSOR_ID)
+     X:  a pointer to the x position, may be NULL
+
+     Y:  a pointer to the y position, may be NULL
+
+     MOUSE_CONTROLLED:  a pointer to the mouse_controlled flag, may be
+     NULL
+
+     CURSOR_ID:  the id of the cursor to query
+
+     Gets the x,y position of the cursor, and tells if it's mouse
+     controlled.
+
+     *Return value:*  1 on success (cursor exists), 0 on failure (no
+     such cursor).
+
+ -- Function: int lw6pil_local_cursors_set_xy (lw6pil_local_cursors_t *
+          LOCAL_CURSORS, u_int16_t CURSOR_ID, int X, int Y)
+     CURSOR_ID:  the id of the cursor to modify
+
+     X:  the x position
+
+     Y:  the y position
+
+     Sets the position of a cursor in the local cursors struct. If
+     cursor does not exists, it's appended to the list.
+
+     *Return value:*  1 on success (cursor exists), 0 on failure (no
+     such cursor).
+
+ -- Function: int lw6pil_local_cursors_set_mouse_controlled
+          (lw6pil_local_cursors_t * LOCAL_CURSORS, u_int16_t CURSOR_ID,
+          int MOUSE_CONTROLLED)
+     CURSOR_ID:  the id of the cursor to modify
+
+     MOUSE_CONTROLLED:  the mouse_controlled attribute
+
+     Sets which cursor is mouse controlled. If mouse_controlled is 1,
+     the flag is set for this cursor and cleared for all others. If set
+     to 0, only this cursor's flag is cleared.
+
+     *Return value:*  1 on success (cursor exists), 0 on failure (no
+     such cursor).
+
+ -- Function: int lw6pil_local_cursors_get_main_info
+          (lw6pil_local_cursors_t * LOCAL_CURSORS, u_int16_t *
+          CURSOR_ID, int * X, int * Y, int * MOUSE_CONTROLLED)
+     CURSOR_ID:  the id of the main cursor, may be NULL
+
+     X:  a pointer to the x position, may be NULL
+
+     Y:  a pointer to the y position, may be NULL
+
+     MOUSE_CONTROLLED:  a pointer to the mouse_controlled flag, may be
+     NULL
+
+     Gets the x,y position of the main cursor, and tells if it's mouse
+     controlled.
+
+     *Return value:*  1 on success (cursor exists), 0 on failure (no
+     such cursor).
+
+ -- Function: int lw6pil_local_cursors_set_main (lw6pil_local_cursors_t
+          * LOCAL_CURSORS, u_int16_t CURSOR_ID)
+     CURSOR_ID:  the id of the cursor to be labelled as main cursor
+
+     Sets the main cursor attribute, the main cursor is later used, for
+     instance, to decide how to display the map (centered on it, for
+     instance).
+
+     *Return value:*  1 on success (cursor exists), 0 on failure (no
+     such cursor).
+
+ -- Function: lw6pil_pilot_t * lw6pil_pilot_new (lw6ker_game_state_t *
+          GAME_STATE, int64_t TIMESTAMP, lw6sys_progress_t * PROGRESS)
+     GAME_STATE:  the game state we're going to work on
+
+     TIMESTAMP:  the current ticks (1000 ticks per sec, used to
+     calibrate)
+
+     PROGRESS:  object used to show the advancement of the process
+
+     Initializes a 'pilot' object, this object is responsible for
+     interpreting messages, transform them into low-level 'ker' module
+     function calls, and handle all the thread-spooky stuff.
+
+     *Return value:*  a working pilot object. May be NULL on memory
+     failure.
+
+ -- Function: void lw6pil_pilot_free (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to free.
+
+     Frees a 'pilot' object, note that this might involve joining some
+     threads, so it can 'take some time'.
+
+     *Return value:*  none.
+
+ -- Function: int lw6pil_pilot_send_command (lw6pil_pilot_t * PILOT,
+          char * COMMAND_TEXT, int VERIFIED)
+     PILOT:  the object to send commands to.
+
+     COMMAND_TEXT:  the text of the command, as received form network
+
+     VERIFIED:  wether we're sure this message is valid.
+
+     Sends a command and handles it internally.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: int lw6pil_pilot_local_command (lw6pil_pilot_t * PILOT,
+          char * COMMAND_TEXT)
+     PILOT:  the object to apply the local command on
+
+     COMMAND_TEXT:  the command text
+
+     This function is used to fix the annoying fact that by only sending
+     commands a limited number of times per sec to the game state, the
+     display always reflect an outdated position for cursors. But
+     players do not want to see this, they want to see the cursor in
+     the right place.  So what we do is that the pilot can process
+     "local" commands which have absolutely no effect on the game but
+     simply update a local cursor state, only used for display. It's
+     here in the pil module for it's where the command interpreting
+     code is, and the fact that there's this lag is directly linked
+     with the pilot way of doing things.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6pil_pilot_commit (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to commit.
+
+     Commits all commands sent and actually send them to the
+     corresponding threads. This commit system allows better performance
+     by sending, for instance, all the commands for a given round
+     together.
+
+     *Return value:*  none.
+
+ -- Function: int lw6pil_pilot_make_backup (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to perform the backup on
+
+     Makes a new backup in the pilot, that is, copy 'reference' to
+     'backup'.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: int lw6pil_pilot_can_sync (lw6ker_game_state_t * TARGET,
+          lw6pil_pilot_t * PILOT)
+     TARGET:  the target game_state we would sync on
+
+     PILOT:  the object to perform the backup on
+
+     Tests wether sync functions are callable with a given game state.
+     It verifies if the internal game_state and the target look the
+     same.
+
+     *Return value:*  1 if sync functions can be called, 0 if not.
+
+ -- Function: int lw6pil_pilot_sync_from_backup (lw6ker_game_state_t *
+          TARGET, lw6pil_pilot_t * PILOT)
+     TARGET:  the game_state structure which will get the informations.
+
+     PILOT:  the object to get informations from.
+
+     Gets the backup from the pilot object. This is the last snapshot
+     taken by `make_backup' or, by default, the game_state the pilot
+     was constructed with.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: int lw6pil_pilot_sync_from_reference (lw6ker_game_state_t
+          * TARGET, lw6pil_pilot_t * PILOT)
+     TARGET:  the game_state structure which will get the informations.
+
+     PILOT:  the object to get informations from.
+
+     Gets the latest reference game_state, that is, a stable snapshot
+     of the game, with no inconsistency, a game position that exists
+     and that we can rely on. Note that getting this can take time
+     since a global mutex is required, and computations must end before
+     you get the data.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: int lw6pil_pilot_sync_from_draft (lw6ker_game_state_t *
+          TARGET, lw6pil_pilot_t * PILOT, int DIRTY_READ)
+     TARGET:  the game_state structure which will get the informations.
+
+     PILOT:  the object to get informations from.
+
+     DIRTY_READ:  wether to allow dirty read or not
+
+     Gets the informations from the pilot object, not being worried
+     about game consistency, this one will just return the latest
+     version available.  It might even be in an inconsistent state, the
+     position could reflect a position which will never exist. Still,
+     the data returned will not correspond to a half-spread or
+     half-moved game_state if dirty_read is set to 0. In this case the
+     data has at least some basic consistency and getting this does
+     require some mutex lock, however wait time should be fairly small
+     (max. a round). But, in a general manner, this function is only
+     used for display, and we do not care much if there's a small
+     glitch, we prefer fast & smooth display.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: lw6ker_game_state_t * lw6pil_pilot_dirty_read
+          (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to get informations from.
+
+     Returns a direct access to the most up-to-date game_state, without
+     locking anything whatsoever. This is clearly to implement a dirty
+     read mode as the name of the function suggests.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: char * lw6pil_pilot_repr (lw6pil_pilot_t * PILOT)
+     Returns a string describing the pilot. This is a very short
+     description, use it for logs, and to debug stuff. By no means it's
+     a complete exhaustive description. Still, the string returned
+     should be unique.
+
+     *Return value:*  a dynamically allocated string.
+
+ -- Function: void lw6pil_pilot_calibrate (lw6pil_pilot_t * PILOT,
+          int64_t TIMESTAMP, int ROUND)
+     PILOT:  the object to calibrate
+
+     TIMESTAMP:  the current ticks setting (1000 ticks per second)
+
+     ROUND:  the round expected to be returned with this ticks value
+
+     Calibrates the pilot, that is, initializes it so that subsequent
+     calls to `lw6pil_pilot_get_round' return consistent values.
+
+     *Return value:*  none.
+
+ -- Function: void lw6pil_pilot_speed_up (lw6pil_pilot_t * PILOT, int
+          ROUND_INC)
+     PILOT:  the pilot to speed up
+
+     ROUND_INC:  the number of rounds
+
+     Re-calibrates the pilot so that it speeds up a bit.  This will
+     basically increase next_round by round_inc.
+
+     *Return value:*  none.
+
+ -- Function: void lw6pil_pilot_slow_down (lw6pil_pilot_t * PILOT, int
+          ROUND_DEC)
+     PILOT:  the pilot to speed up
+
+     ROUND_DEC:  the number of rounds
+
+     Re-calibrates the pilot so that it slows down a bit.  This will
+     basically decrease next_round by round_inc.
+
+     *Return value:*  none.
+
+ -- Function: int lw6pil_pilot_get_next_round (lw6pil_pilot_t * PILOT,
+          int64_t TIMESTAMP)
+     PILOT:  the object to query
+
+     TIMESTAMP:  the current ticks setting (1000 ticks per second)
+
+     Returns the round one should use to generate new events/commands
+     at a given time (given in ticks).
+
+     *Return value:*  none.
+
+ -- Function: int lw6pil_pilot_get_last_commit_round (lw6pil_pilot_t *
+          PILOT)
+     PILOT:  the object to query
+
+     Returns the round of the last commit (reference game_state) for
+     this object.
+
+     *Return value:*  the commit round (reference object)
+
+ -- Function: int lw6pil_pilot_get_reference_target_round
+          (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Returns the round which is targetted in the reference game_state,
+     this is 'how far computation will go in the reference game_state
+     if no new commands are issued'. Note that there can always be some
+     commands which are not yet processed, so you should not rely on
+     this too heavily, however it gives a good idea of how things are
+     going.
+
+     *Return value:*  the target round (reference object)
+
+ -- Function: int lw6pil_pilot_get_reference_current_round
+          (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Returns the current round in the reference game_state. There's no
+     lock on this call so don't rely on this too heavily, it just gives
+     you an idea of wether the pilot is very late on its objectives or
+     just on time.
+
+     *Return value:*  the current round (reference object)
+
+ -- Function: int lw6pil_pilot_get_max_round (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Returns the max current round in the reference or draft game
+     states. No lock on this call so don't rely on this too heavily, it
+     just gives you an idea of computation state.
+
+     *Return value:*  the current round (reference object)
+
+ -- Function: int lw6pil_pilot_is_over (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Tells wether the game is over or not.
+
+     *Return value:*  1 if over, 0 if not
+
+ -- Function: int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * PILOT,
+          u_int16_t CURSOR_ID)
+     PILOT:  the object to query
+
+     CURSOR_ID:  the cursor_id concerned
+
+     Tells wether a given cursor was winner or not.
+
+     *Return value:*  1 if over, 0 if not
+
+ -- Function: int lw6pil_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `pil' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: libscm,  Next: libsnd,  Prev: libpil,  Up: C API
+
+5.32 libscm
+===========
+
+5.32.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/scm/index.html'.
+
+5.32.2 API
+----------
+
+ -- Function: int lw6scm_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `scm' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: int lw6scm_c_define_gsubr (char * NAME, int REQ, int OPT,
+          int RST, lw6scm_func_t FCN)
+     NAME:  name of the function when called from guile
+
+     REQ:  required parameters
+
+     OPT:  optional parameters
+
+     RST:  ? should RTFM to find that out
+
+     FCN:  the function itself (pointer on the C executable code)
+
+     Wrapper on `scm_c_define_gsubr', one of the value of this function
+     is that it does check wether it's documented before registering
+     it. So if you try to register something not documented, it will
+     fire a warning, which is a very nice code-quality tool.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6scm_c_primitive_load (char * FILENAME)
+     FILENAME:  file to execute
+
+     Loads and executes a script. Will add a log message while doing it.
+
+     *Return value:*  1 on success, 0 on failure.
+
+
 File: liquidwar6.info,  Node: libsnd,  Next: mod-csound,  Prev: libscm,  Up: C API
 
 5.33 libsnd

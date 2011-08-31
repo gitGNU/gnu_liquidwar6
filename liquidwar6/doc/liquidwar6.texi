@@ -114,6 +114,8 @@ Reference
 * Doc options::         Liquid War 6 is self-documented.
 * Show options::        Show informations about the program.
 * Path options::        Change default paths.
+* Players options::     Define local players.
+* Input options::       Customize input.
 * Graphics options::    Change display settings.
 * Sound options::       Change audio settings.
 * Network options::     Tweak network parameters.
@@ -3840,6 +3842,8 @@ engines to harvest the content.
 * Doc options::         Liquid War 6 is self-documented.
 * Show options::        Show informations about the program.
 * Path options::        Change default paths.
+* Players options::     Define local players.
+* Input options::       Customize input.
 * Graphics options::    Change display settings.
 * Sound options::       Change audio settings.
 * Network options::     Tweak network parameters.
@@ -3884,16 +3888,34 @@ engines to harvest the content.
 @c Path options
 @c ---------------------------------------------------------------------------
 
-@node Path options, Graphics options, Show options, Reference
+@node Path options, Players options, Show options, Reference
 @section Path options
 
 @include path-selfdoc.texi
 
 @c ---------------------------------------------------------------------------
+@c Players options
+@c ---------------------------------------------------------------------------
+
+@node Players options, Input options, Path options, Reference
+@section Players options
+
+@include players-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
+@c Input options
+@c ---------------------------------------------------------------------------
+
+@node Input options, Graphics options, Players options, Reference
+@section Input options
+
+@include input-selfdoc.texi
+
+@c ---------------------------------------------------------------------------
 @c Graphics options
 @c ---------------------------------------------------------------------------
 
-@node Graphics options, Sound options, Path options, Reference
+@node Graphics options, Sound options, Input options, Reference
 @section Graphics options
 
 @include graphics-selfdoc.texi
