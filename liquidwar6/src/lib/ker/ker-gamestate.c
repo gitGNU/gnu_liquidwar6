@@ -1437,17 +1437,21 @@ void
 _lw6ker_game_state_do_move (_lw6ker_game_state_t *
 			    game_state, u_int32_t team_mask)
 {
+  int rounds;
+
+  rounds = _lw6ker_game_state_get_rounds (game_state);
+
   if (!game_state->over)
     {
       _lw6ker_map_state_charge (&(game_state->map_state),
-				&(game_state->game_struct->rules));
+				&(game_state->game_struct->rules),rounds);
       _lw6ker_map_state_process_fire (&(game_state->map_state),
 				      &(game_state->game_struct->rules),
-				      game_state->rounds);
+				      rounds);
       _lw6ker_map_state_move_fighters (&(game_state->map_state),
-				       game_state->rounds,
+				       rounds,
 				       lw6sys_checksum_int32
-				       (game_state->rounds) %
+				       (rounds) %
 				       LW6KER_NB_PARITIES,
 				       &(game_state->game_struct->rules),
 				       game_state->game_struct->rules.

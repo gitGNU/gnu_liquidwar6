@@ -659,7 +659,7 @@ extern void _lw6ker_map_state_process_fire (_lw6ker_map_state_t * map_state,
 					    lw6map_rules_t * rules,
 					    int round);
 extern void _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
-				      lw6map_rules_t * rules);
+				      lw6map_rules_t * rules, int round);
 extern int _lw6ker_map_state_is_this_weapon_active (_lw6ker_map_state_t *
 						    map_state, int round,
 						    int weapon_id,
