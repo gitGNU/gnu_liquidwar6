@@ -2111,57 +2111,57 @@ populate_references ()
   POPULATE_STR (LW6DEF_PLAYER_COLOR,
 		_x_
 		("Color of the player in solo mode, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink. Note that this is different from player1-... parameters, this is used when playing solo with default settings, relying on what the map provides, if you want to play with custom color/teams settings, then this will just be ignored."),
-		LW6LDR_TEAMS_DEFAULT_PLAYER_COLOR);
+		LW6MAP_TEAMS_DEFAULT_PLAYER_COLOR);
   POPULATE_INT (LW6DEF_NB_BOTS,
 		_x_
 		("Number of bots on the map. 0 means no bots, if set to 1 the the bot1-... settings will be used, if set to 2 then bot1-... and bot2-... will be used, and so on."),
-		LW6LDR_TEAMS_DEFAULT_NB_BOTS, LW6LDR_TEAMS_MIN_NB_BOTS,
-		LW6LDR_TEAMS_MAX_NB_BOTS);
+		LW6MAP_TEAMS_DEFAULT_NB_BOTS, LW6MAP_TEAMS_MIN_NB_BOTS,
+		LW6MAP_TEAMS_MAX_NB_BOTS);
   POPULATE_FLOAT (LW6DEF_BOT_SPEED,
 		  _x_
 		  ("The speed of bots, 1 means normal speed, higher value will speed it up, lower will slow it down. Note that this only has an impact on bot engines, not on the game speed itself."),
-		  LW6LDR_TEAMS_DEFAULT_BOT_SPEED, 0, 0);
+		  LW6MAP_TEAMS_DEFAULT_BOT_SPEED, 0, 0);
   POPULATE_INT (LW6DEF_BOT_IQ,
 		_x_
 		("The IQ (intelligence quotient) of bots. Typically, a value of 100 will make the bot behave normally, performing at its best. A value of 0 will just make it act the worst way it can. Values over 100 probably won't change anything compared to 100, but this truely depends on which bot backend you're running."),
-		LW6LDR_TEAMS_DEFAULT_BOT_IQ, LW6LDR_TEAMS_MIN_BOT_IQ,
-		LW6LDR_TEAMS_MAX_BOT_IQ);
+		LW6MAP_TEAMS_DEFAULT_BOT_IQ, LW6MAP_TEAMS_MIN_BOT_IQ,
+		LW6MAP_TEAMS_MAX_BOT_IQ);
   POPULATE_STR (LW6DEF_BOT1_COLOR, _x_ ("Color for bot number 1."),
-		LW6LDR_TEAMS_DEFAULT_BOT1_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT1_COLOR);
   POPULATE_STR (LW6DEF_BOT2_COLOR, _x_ ("Color for bot number 2."),
-		LW6LDR_TEAMS_DEFAULT_BOT2_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT2_COLOR);
   POPULATE_STR (LW6DEF_BOT3_COLOR, _x_ ("Color for bot number 3."),
-		LW6LDR_TEAMS_DEFAULT_BOT3_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT3_COLOR);
   POPULATE_STR (LW6DEF_BOT4_COLOR, _x_ ("Color for bot number 4."),
-		LW6LDR_TEAMS_DEFAULT_BOT4_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT4_COLOR);
   POPULATE_STR (LW6DEF_BOT5_COLOR, _x_ ("Color for bot number 5."),
-		LW6LDR_TEAMS_DEFAULT_BOT5_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT5_COLOR);
   POPULATE_STR (LW6DEF_BOT6_COLOR, _x_ ("Color for bot number 6."),
-		LW6LDR_TEAMS_DEFAULT_BOT6_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT6_COLOR);
   POPULATE_STR (LW6DEF_BOT7_COLOR, _x_ ("Color for bot number 7."),
-		LW6LDR_TEAMS_DEFAULT_BOT7_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT7_COLOR);
   POPULATE_STR (LW6DEF_BOT8_COLOR, _x_ ("Color for bot number 8."),
-		LW6LDR_TEAMS_DEFAULT_BOT8_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT8_COLOR);
   POPULATE_STR (LW6DEF_BOT9_COLOR, _x_ ("Color for bot number 9."),
-		LW6LDR_TEAMS_DEFAULT_BOT9_COLOR);
+		LW6MAP_TEAMS_DEFAULT_BOT9_COLOR);
   POPULATE_STR (LW6DEF_BOT1_AI, _x_ ("AI engine for bot number 1."),
-		LW6LDR_TEAMS_DEFAULT_BOT1_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT1_AI);
   POPULATE_STR (LW6DEF_BOT2_AI, _x_ ("AI engine for bot number 2."),
-		LW6LDR_TEAMS_DEFAULT_BOT2_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT2_AI);
   POPULATE_STR (LW6DEF_BOT3_AI, _x_ ("AI engine for bot number 3."),
-		LW6LDR_TEAMS_DEFAULT_BOT3_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT3_AI);
   POPULATE_STR (LW6DEF_BOT4_AI, _x_ ("AI engine for bot number 4."),
-		LW6LDR_TEAMS_DEFAULT_BOT4_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT4_AI);
   POPULATE_STR (LW6DEF_BOT5_AI, _x_ ("AI engine for bot number 5."),
-		LW6LDR_TEAMS_DEFAULT_BOT5_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT5_AI);
   POPULATE_STR (LW6DEF_BOT6_AI, _x_ ("AI engine for bot number 6."),
-		LW6LDR_TEAMS_DEFAULT_BOT6_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT6_AI);
   POPULATE_STR (LW6DEF_BOT7_AI, _x_ ("AI engine for bot number 7."),
-		LW6LDR_TEAMS_DEFAULT_BOT7_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT7_AI);
   POPULATE_STR (LW6DEF_BOT8_AI, _x_ ("AI engine for bot number 8."),
-		LW6LDR_TEAMS_DEFAULT_BOT8_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT8_AI);
   POPULATE_STR (LW6DEF_BOT9_AI, _x_ ("AI engine for bot number 9."),
-		LW6LDR_TEAMS_DEFAULT_BOT9_AI);
+		LW6MAP_TEAMS_DEFAULT_BOT9_AI);
 
   /*
    * Funcs
