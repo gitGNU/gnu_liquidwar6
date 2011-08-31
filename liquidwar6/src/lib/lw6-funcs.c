@@ -5293,6 +5293,42 @@ _scm_lw6map_get_look (SCM level)
 }
 
 static SCM
+_scm_lw6map_param_get (SCM level, SCM key)
+{
+  lw6map_level_t *c_level = NULL;
+  char *c_key;
+  char *c_value;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map,
+	       level), level, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      c_key = to_0str (key);
+      if (c_key)
+	{
+	  c_value = lw6map_param_get (&(c_level->param), c_key);
+	  if (c_value)
+	    {
+	      ret = scm_makfrom0str (c_value);
+	      LW6SYS_FREE (c_value);
+	    }
+	  LW6SYS_FREE (c_key);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6map_get_music_dir (SCM level)
 {
   SCM ret = SCM_BOOL_F;
@@ -8768,6 +8804,8 @@ lw6_register_funcs ()
    */
   lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_LOOK, 1, 0, 0, (SCM (*)())_scm_lw6map_get_look);
+  lw6scm_c_define_gsubr
+    (LW6DEF_C_LW6MAP_PARAM_GET, 2, 0, 0, (SCM (*)())_scm_lw6map_param_get);
   lw6scm_c_define_gsubr
     (LW6DEF_C_LW6MAP_GET_MUSIC_DIR, 1, 0, 0,
      (SCM (*)())_scm_lw6map_get_music_dir);

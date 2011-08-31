@@ -181,14 +181,15 @@ c-lw6ldr-read
 c-lw6ldr-read-relative
 c-lw6map-get-look
 c-lw6map-get-music-dir
+c-lw6map-param-get
 c-lw6map-rules-get-default
 c-lw6map-rules-get-int
 c-lw6map-rules-get-max
 c-lw6map-rules-get-min
 c-lw6map-style-get-default
-c-lw6map-teams-get-default
 c-lw6map-team-color-index-to-key
 c-lw6map-team-color-key-to-index
+c-lw6map-teams-get-default
 c-lw6net-init
 c-lw6net-quit
 c-lw6p2p-db-default-name
@@ -752,8 +753,8 @@ use-hints-xml
 use-music-file
 use-rules-xml
 use-style-xml
-use-teams-xml
 use-team-profiles
+use-teams-xml
 use-texture
 user-dir
 v

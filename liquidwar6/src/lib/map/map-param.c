@@ -129,6 +129,47 @@ lw6map_param_set (lw6map_param_t * param, char *key, char *value)
   return ret;
 }
 
+/**
+ * lw6map_param_get:
+ *
+ * @param: the param struct to query
+ * @key: the name of the parameter to get
+ *
+ * Gets an entry from a param struct. All values returned
+ * as strings, do not use this in performance bottlenecks,
+ * this is just to export values to scripts, for instance.
+ *
+ * Return value: dynamically allocated string, NULL on error,
+ *   might return a string containing 0 on bad keys.
+ */
+char *
+lw6map_param_get (lw6map_param_t * param, char *key)
+{
+  char *ret = NULL;
+
+  ret = lw6map_style_get (&param->style, key);
+  if (!ret)
+    {
+      ret = lw6map_teams_get (&param->teams, key);
+      if (!ret)
+	{
+	  ret = lw6sys_itoa (lw6map_rules_get_int (&param->rules, key));
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_param_is_same
+ *
+ * @param_a: one struct to compare
+ * @param_b: another struct to compare
+ *
+ * Compares the contents of two param structs.
+ *
+ * Return value: 1 if they contain the same thing, 0 if not
+ */
 int
 lw6map_param_is_same (lw6map_param_t * param_a, lw6map_param_t * param_b)
 {

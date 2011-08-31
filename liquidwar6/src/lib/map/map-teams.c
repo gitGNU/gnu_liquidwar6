@@ -506,7 +506,7 @@ lw6map_teams_get_default (char *key)
 }
 
 /**
- * lw6map_teams_is_sme
+ * lw6map_teams_is_same
  *
  * @teams_a: one struct to compare
  * @teams_b: another struct to compare

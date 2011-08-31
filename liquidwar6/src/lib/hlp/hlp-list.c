@@ -968,6 +968,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6LDR_EXP_VALIDATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_LOOK);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_PARAM_GET);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MUSIC_DIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX);

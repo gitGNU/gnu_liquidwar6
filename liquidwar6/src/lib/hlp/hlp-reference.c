@@ -2570,6 +2570,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6ldr_exp_validate."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_GET_LOOK,
 		 _x_ ("Wrapper on lw6map_get_look."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_PARAM_GET,
+		 _x_ ("Wrapper on lw6map_param_get."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_GET_MUSIC_DIR,
 		 _x_ ("Wrapper on lw6map_get_music_dir."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY,

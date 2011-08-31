@@ -1178,11 +1178,12 @@ extern void lw6map_rules_clear (lw6map_rules_t * rules);
 extern int lw6map_rules_is_same (lw6map_rules_t * rules_a,
 				 lw6map_rules_t * rules_b);
 
-// map-param.c
+/* map-param.c */
 extern void lw6map_param_defaults (lw6map_param_t * param);
 extern void lw6map_param_clear (lw6map_param_t * param);
 extern void lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src);
 extern int lw6map_param_set (lw6map_param_t * param, char *key, char *value);
+extern char *lw6map_param_get (lw6map_param_t * param, char *key);
 extern int lw6map_param_is_same (lw6map_param_t * param_a,
 				 lw6map_param_t * param_b);
 
