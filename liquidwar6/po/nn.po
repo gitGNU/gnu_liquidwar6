@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-08-31 01:11+0200\n"
+"POT-Creation-Date: 2011-08-31 02:44+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -270,7 +270,7 @@ msgstr "om lag %d megabyte tilgjengeleg"
 msgid "goodbye"
 msgstr "ha det"
 
-#: src/lib/map/map-test.c:399
+#: src/lib/map/map-test.c:401
 #, c-format
 msgid "exp=%d highest_color=%d highest_weapon=%d"
 msgstr ""
