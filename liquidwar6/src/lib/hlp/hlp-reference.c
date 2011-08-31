@@ -952,6 +952,10 @@ populate_references ()
 		 _x_
 		 ("If set, then style will be picked up from the map defined style.xml, if it exists. This is the default. Use force-time and force-background to override this and use user-defined values anyway."),
 		 1);
+  POPULATE_BOOL (LW6DEF_USE_TEAMS_XML,
+		 _x_
+		 ("If set, then teams will be picked up from the map defined teams.xml, if it exists. This is the default. Use force-time and force-background to override this and use user-defined values anyway."),
+		 1);
   POPULATE_BOOL (LW6DEF_USE_MUSIC_FILE,
 		 _x_
 		 ("If set, then the program will use the 'music-file' attribute to choose the music to play. If unset, then a random builtin music will be picked up, regardless of what is specified in 'music-file'."),

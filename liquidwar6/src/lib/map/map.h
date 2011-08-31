@@ -815,6 +815,65 @@ typedef enum lw6map_team_color_e
     8, LW6MAP_TEAM_COLOR_PINK = 9
 } lw6map_team_color_t;
 
+#define LW6MAP_TEAMS_DEFAULT_PLAYER_COLOR LW6MAP_TEAM_COLOR_KEY_RED
+
+#define LW6MAP_TEAMS_DEFAULT_NB_BOTS 2
+#define LW6MAP_TEAMS_MIN_NB_BOTS 0
+#define LW6MAP_TEAMS_MAX_NB_BOTS 9
+
+#define LW6MAP_TEAMS_DEFAULT_BOT_SPEED 1.0f
+
+#define LW6MAP_TEAMS_DEFAULT_BOT_IQ 100
+#define LW6MAP_TEAMS_MIN_BOT_IQ 0
+#define LW6MAP_TEAMS_MAX_BOT_IQ 200
+
+#define LW6MAP_TEAMS_DEFAULT_BOT1_COLOR LW6MAP_TEAM_COLOR_KEY_GREEN
+#define LW6MAP_TEAMS_DEFAULT_BOT2_COLOR LW6MAP_TEAM_COLOR_KEY_BLUE
+#define LW6MAP_TEAMS_DEFAULT_BOT3_COLOR LW6MAP_TEAM_COLOR_KEY_YELLOW
+#define LW6MAP_TEAMS_DEFAULT_BOT4_COLOR LW6MAP_TEAM_COLOR_KEY_CYAN
+#define LW6MAP_TEAMS_DEFAULT_BOT5_COLOR LW6MAP_TEAM_COLOR_KEY_MAGENTA
+#define LW6MAP_TEAMS_DEFAULT_BOT6_COLOR LW6MAP_TEAM_COLOR_KEY_ORANGE
+#define LW6MAP_TEAMS_DEFAULT_BOT7_COLOR LW6MAP_TEAM_COLOR_KEY_LIGHTBLUE
+#define LW6MAP_TEAMS_DEFAULT_BOT8_COLOR LW6MAP_TEAM_COLOR_KEY_PURPLE
+#define LW6MAP_TEAMS_DEFAULT_BOT9_COLOR LW6MAP_TEAM_COLOR_KEY_PINK
+
+#define LW6MAP_TEAMS_DEFAULT_BOT1_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT2_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT3_AI "random"
+#define LW6MAP_TEAMS_DEFAULT_BOT4_AI "follow"
+#define LW6MAP_TEAMS_DEFAULT_BOT5_AI "brute"
+#define LW6MAP_TEAMS_DEFAULT_BOT6_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT7_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT8_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT9_AI "idiot"
+
+#define LW6MAP_TEAMS_BOT1_INDEX 0
+#define LW6MAP_TEAMS_BOT2_INDEX 1
+#define LW6MAP_TEAMS_BOT3_INDEX 2
+#define LW6MAP_TEAMS_BOT4_INDEX 3
+#define LW6MAP_TEAMS_BOT5_INDEX 4
+#define LW6MAP_TEAMS_BOT6_INDEX 5
+#define LW6MAP_TEAMS_BOT7_INDEX 6
+#define LW6MAP_TEAMS_BOT8_INDEX 7
+#define LW6MAP_TEAMS_BOT9_INDEX 8
+
+typedef struct lw6map_bot_info_s
+{
+  int color;
+  char *ai;
+}
+lw6map_bot_info_t;
+
+typedef struct lw6map_teams_s
+{
+  int player_color;
+  int nb_bots;
+  float bot_speed;
+  int bot_iq;
+  lw6map_bot_info_t bot[LW6MAP_TEAMS_MAX_NB_BOTS];
+}
+lw6map_teams_t;
+
 typedef struct lw6map_metadata_s
 {
   char *title;
@@ -938,6 +997,7 @@ typedef struct lw6map_param_s
 {
   lw6map_rules_t rules;
   lw6map_style_t style;
+  lw6map_teams_t teams;
 } lw6map_param_t;
 
 typedef struct lw6map_level_s
@@ -1140,6 +1200,17 @@ extern int lw6map_color_set_is_same (lw6map_color_set_t * color_set_a,
 				     lw6map_color_set_t * color_set_b);
 extern int lw6map_style_is_same (lw6map_style_t * style_a,
 				 lw6map_style_t * style_b);
+
+/* map-teams.c */
+extern void lw6map_teams_zero (lw6map_teams_t * teams);
+extern void lw6map_teams_defaults (lw6map_teams_t * teams);
+extern void lw6map_teams_clear (lw6map_teams_t * teams);
+extern void lw6map_teams_copy (lw6map_teams_t * dst, lw6map_teams_t * src);
+extern int lw6map_teams_set (lw6map_teams_t * teams, char *key, char *value);
+extern char *lw6map_teams_get (lw6map_teams_t * teams, char *key);
+extern char *lw6map_teams_get_default (char *key);
+extern int lw6map_teams_is_same (lw6map_teams_t * teams_a,
+				 lw6map_teams_t * teams_b);
 
 /* map-test.c */
 extern int lw6map_test (int mode);

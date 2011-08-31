@@ -399,9 +399,91 @@ correctly initialized.
 Sets an entry in a param struct. All values must be submitted
 as strings, internally, the function will call atoi to convert
 to integers if needed, for instance. It will also dispatch
-automatically between rules and style.
+automatically between rules, style and teams.
 
 @strong{Return value:}  1 if parameter successfully set, 0 on error.
+@end deftypefun
+
+@deftypefun {void} {lw6map_teams_zero} (lw6map_teams_t * @var{teams})
+@var{teams}:  data to initialize
+
+Zeros the teams struct, this is not the same as setting to defaults.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_teams_defaults} (lw6map_teams_t * @var{teams})
+@var{teams}:  data to initialize
+
+Set the teams struct to its defaults.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_teams_clear} (lw6map_teams_t * @var{teams})
+@var{teams}:  data to initialize
+
+Clears the teams struct, this is not the same as setting to defaults.
+This one supposes the struct has been properly initialized, at least
+zeroed before usage, it might contain pointers which should be freed.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_teams_copy} (lw6map_teams_t * @var{dst}, lw6map_teams_t * @var{src})
+@var{dst}:  destination
+
+@var{src}:  source
+
+Copies the contents of the teams struct. It's a real duplicate,
+any string is reallocated.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_teams_set} (lw6map_teams_t * @var{teams}, char * @var{key}, char * @var{value})
+@var{teams}:  the teams to modify
+
+@var{key}:  the key to modify
+
+@var{value}:  the value to affect to the key, as a string
+
+Sets one single parameter in a teams structure. Value must
+always be passed as a string, will be converted to the right
+type automatically when storing it in the structure.
+
+@strong{Return value:}  1 if success, 0 if failed. Note that while 0 really
+means there's a problem, some affectations can fail and return 1,
+needs to be worked on.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_teams_get} (lw6map_teams_t * @var{teams}, char * @var{key})
+@var{teams}:  the teams to modify
+
+@var{key}:  the key to modify
+
+Gets one single parameter in a teams structure. Value is
+converted as a string.
+
+@strong{Return value:}  dynamically allocated string, NULL on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_teams_get_default} (char * @var{key})
+@var{key}:  the key we want informations about.
+
+Gets the default value for a given teams key.
+
+@strong{Return value:}  dynamically allocated string, NULL on error.
+@end deftypefun
+
+@deftypefun {int} {lw6map_teams_is_same} (lw6map_teams_t * @var{teams_a}, lw6map_teams_t * @var{teams_b})
+@var{teams_a}:  one struct to compare
+
+@var{teams_b}:  another struct to compare
+
+Compares the contents of two teams structs.
+
+@strong{Return value:}  1 if they contain the same thing, 0 if not
 @end deftypefun
 
 @deftypefun {int} {lw6map_test} (int @var{mode})

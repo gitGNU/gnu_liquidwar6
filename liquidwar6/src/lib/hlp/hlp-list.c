@@ -405,6 +405,7 @@ update_map (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_USE_RULES_XML);
   lw6sys_list_push_back (list, LW6DEF_USE_HINTS_XML);
   lw6sys_list_push_back (list, LW6DEF_USE_STYLE_XML);
+  lw6sys_list_push_back (list, LW6DEF_USE_TEAMS_XML);
   lw6sys_list_push_back (list, LW6DEF_USE_MUSIC_FILE);
   lw6sys_list_push_back (list, LW6DEF_FORCE);
 

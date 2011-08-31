@@ -83,7 +83,8 @@ am_libmap_la_OBJECTS = map-body.lo map-color.lo map-coords.lo \
 	map-cursortexture.lo map-cursortexturelayer.lo map-dup.lo \
 	map-exp.lo map-hexa.lo map-layer.lo map-level.lo \
 	map-localinfo.lo map-metadata.lo map-metalayer.lo map-rules.lo \
-	map-param.lo map-style.lo map-test.lo map-texture.lo
+	map-param.lo map-style.lo map-teams.lo map-test.lo \
+	map-texture.lo
 libmap_la_OBJECTS = $(am_libmap_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libmapdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -334,7 +335,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmap.la
-libmap_la_SOURCES = map-body.c map-color.c map-coords.c map-cursortexture.c map-cursortexturelayer.c map-dup.c map-exp.c map-hexa.c map-layer.c map-level.c map-localinfo.c map-metadata.c map-metalayer.c map-rules.c map-param.c map-style.c map-test.c map-texture.c
+libmap_la_SOURCES = map-body.c map-color.c map-coords.c map-cursortexture.c map-cursortexturelayer.c map-dup.c map-exp.c map-hexa.c map-layer.c map-level.c map-localinfo.c map-metadata.c map-metalayer.c map-rules.c map-param.c map-style.c map-teams.c map-test.c map-texture.c
 libmapdir = $(includedir)/@PACKAGE_TARNAME@/map
 libmap_HEADERS = map.h
 @FULLSTATIC_FALSE@liquidwar6map_test_SOURCES = map-testmain.c
@@ -453,6 +454,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-param.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-rules.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-style.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-teams.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-testmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map-texture.Plo@am__quote@

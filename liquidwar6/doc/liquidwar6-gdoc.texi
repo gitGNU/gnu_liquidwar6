@@ -273,7 +273,14 @@ Displays the list of 'map hints' options.
 
 @deftypefun {void} {lw6_print_list_map_style} ()
 
-Displays the list of 'amp style' options.
+Displays the list of 'map style' options.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_map_teams} ()
+
+Displays the list of 'map teams' options.
 
 @strong{Return value:}  none
 @end deftypefun

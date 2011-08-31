@@ -84,9 +84,8 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
       ok = 1;
 
       lw6cfg_load_exp (user_dir, &player_exp);
-      lw6map_rules_defaults (&(level->param.rules));
+      lw6map_param_defaults (&(level->param));
       lw6ldr_hints_defaults (&hints);
-      lw6map_style_defaults (&(level->param.style));
       lw6ldr_use_defaults (&use);
 
       ok = ok && lw6ldr_metadata_read (&level->metadata, dirname);
@@ -133,8 +132,13 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	}
       if (use.use_style_xml)
 	{
-	  ok = ok && lw6ldr_style_read (&level->param.style, dirname);
+	  ok = ok && lw6ldr_style_read (&(level->param.style), dirname);
 	  lw6ldr_style_update (&(level->param.style), forced_param);
+	}
+      if (use.use_teams_xml)
+	{
+	  ok = ok && lw6ldr_teams_read (&(level->param.teams), dirname);
+	  lw6ldr_teams_update (&(level->param.teams), forced_param);
 	}
       if (use.use_texture)
 	{

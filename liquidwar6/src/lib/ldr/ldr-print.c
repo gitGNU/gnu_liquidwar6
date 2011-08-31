@@ -162,10 +162,10 @@ lw6ldr_print_example_style_xml (FILE * f)
 void
 lw6ldr_print_example_teams_xml (FILE * f)
 {
-  lw6ldr_teams_t teams;
+  lw6map_teams_t teams;
 
-  lw6ldr_teams_zero (&teams);
-  lw6ldr_teams_defaults (&teams);
+  lw6map_teams_zero (&teams);
+  lw6map_teams_defaults (&teams);
   lw6sys_print_xml_header (f,
 			   _x_
 			   ("This is an example Liquid War 6 'teams.xml' file. This file can be put along with a 'map.png' file to explicitely say you want this kind of bot, with this color, and so on. This is not a required file, if not present, defaults will be used, however it's a really good way to personnalize a map, this is just how you populate it by default. Another important parameter is the default color for the player, changing this allows the player to try out various colors along its journey in the game."));
@@ -179,7 +179,7 @@ lw6ldr_print_example_teams_xml (FILE * f)
   lw6cfg_write_xml_string (f, LW6DEF_BOT3_COLOR, EXAMPLE_BOT3_COLOR);
   lw6cfg_write_xml_string (f, LW6DEF_BOT3_AI, EXAMPLE_BOT3_AI);
   lw6sys_print_xml_footer (f);
-  lw6ldr_teams_clear (&teams);
+  lw6map_teams_clear (&teams);
 }
 
 /**

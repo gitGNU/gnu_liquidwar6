@@ -34,9 +34,11 @@
 #define TEST_MAP_NOISE_PERCENT 30
 #define TEST_RULES_KEY LW6DEF_TOTAL_TIME
 #define TEST_RULES_VALUE 3600
-#define TEST_RULES_CHECKSUM 0x26fd58a9
+#define TEST_RULES_CHECKSUM 0x3d42bca9
 #define TEST_STYLE_KEY LW6DEF_ZOOM
 #define TEST_STYLE_VALUE "1.0"
+#define TEST_TEAMS_KEY LW6DEF_BOT_IQ
+#define TEST_TEAMS_VALUE "99"
 #define TEST_COORDS_NB 5
 #define TEST_COORDS_W 100
 #define TEST_COORDS_H 50
@@ -589,6 +591,53 @@ test_style ()
 }
 
 static int
+test_teams ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6map_teams_t *teams;
+    char *value;
+
+    teams = (lw6map_teams_t *) LW6SYS_CALLOC (sizeof (lw6map_teams_t));
+    if (teams)
+      {
+	lw6map_teams_set (teams, TEST_TEAMS_KEY, TEST_TEAMS_VALUE);
+	value = lw6map_teams_get (teams, TEST_TEAMS_KEY);
+	if (value)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("map teams for key \"%s\" is \"%s\""),
+			TEST_TEAMS_KEY, value);
+	    LW6SYS_FREE (value);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("can't find teams key \"%s\""), TEST_TEAMS_KEY);
+	    ret = 0;
+	  }
+	if (!lw6map_teams_is_same (teams, teams))
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("map teams comparison failed"));
+	    ret = 0;
+	  }
+	lw6map_teams_clear (teams);
+	LW6SYS_FREE (teams);
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+static int
 test_local_info ()
 {
   int ret = 1;
@@ -679,7 +728,7 @@ lw6map_test (int mode)
   ret = test_new () && test_color () && test_coords ()
     && test_defaults () && test_dup () && test_exp ()
     && test_hexa () && test_local_info () && test_meta_layer ()
-    && test_rules () && test_style ();
+    && test_rules () && test_style () && test_teams ();
 
   return ret;
 }

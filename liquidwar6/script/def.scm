@@ -770,6 +770,7 @@
 (define lw6def-use-music-file "use-music-file")
 (define lw6def-use-rules-xml "use-rules-xml")
 (define lw6def-use-style-xml "use-style-xml")
+(define lw6def-use-teams-xml "use-teams-xml")
 (define lw6def-use-team-profiles "use-team-profiles")
 (define lw6def-use-texture "use-texture")
 (define lw6def-user-dir "user-dir")

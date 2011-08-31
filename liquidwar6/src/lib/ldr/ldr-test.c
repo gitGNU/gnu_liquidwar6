@@ -388,11 +388,11 @@ test_teams ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6ldr_teams_t teams;
+    lw6map_teams_t teams;
     lw6sys_assoc_t *values = NULL;
 
-    lw6ldr_teams_zero (&teams);
-    lw6ldr_teams_defaults (&teams);
+    lw6map_teams_zero (&teams);
+    lw6map_teams_defaults (&teams);
 
     values = lw6sys_assoc_new (NULL);
     if (values)
@@ -413,7 +413,7 @@ test_teams ()
 	ret = 0;
       }
 
-    lw6ldr_teams_clear (&teams);
+    lw6map_teams_clear (&teams);
   }
 
   LW6SYS_TEST_FUNCTION_END;

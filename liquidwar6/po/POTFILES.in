@@ -291,6 +291,7 @@ src/lib/map/map-metalayer.c
 src/lib/map/map-param.c
 src/lib/map/map-rules.c
 src/lib/map/map-style.c
+src/lib/map/map-teams.c
 src/lib/map/map-test.c
 src/lib/map/map-testmain.c
 src/lib/map/map-texture.c

@@ -751,6 +751,7 @@ use-hints-xml
 use-music-file
 use-rules-xml
 use-style-xml
+use-teams-xml
 use-team-profiles
 use-texture
 user-dir

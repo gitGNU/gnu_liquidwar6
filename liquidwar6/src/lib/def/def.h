@@ -777,6 +777,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_USE_MUSIC_FILE "use-music-file"
 #define LW6DEF_USE_RULES_XML "use-rules-xml"
 #define LW6DEF_USE_STYLE_XML "use-style-xml"
+#define LW6DEF_USE_TEAMS_XML "use-teams-xml"
 #define LW6DEF_USE_TEAM_PROFILES "use-team-profiles"
 #define LW6DEF_USE_TEXTURE "use-texture"
 #define LW6DEF_USER_DIR "user-dir"

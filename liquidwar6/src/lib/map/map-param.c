@@ -43,6 +43,7 @@ lw6map_param_defaults (lw6map_param_t * param)
 {
   lw6map_rules_defaults (&(param->rules));
   lw6map_style_defaults (&(param->style));
+  lw6map_teams_defaults (&(param->teams));
 }
 
 /**
@@ -63,6 +64,7 @@ lw6map_param_clear (lw6map_param_t * param)
     {
       lw6map_rules_clear (&(param->rules));
       lw6map_style_clear (&(param->style));
+      lw6map_teams_clear (&(param->teams));
 
       /*
        * We don't free the param pointer itself, this
@@ -87,6 +89,7 @@ lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src)
 {
   lw6map_rules_copy (&(dst->rules), &(src->rules));
   lw6map_style_copy (&(dst->style), &(src->style));
+  lw6map_teams_copy (&(dst->teams), &(src->teams));
 }
 
 /**
@@ -99,7 +102,7 @@ lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src)
  * Sets an entry in a param struct. All values must be submitted
  * as strings, internally, the function will call atoi to convert
  * to integers if needed, for instance. It will also dispatch
- * automatically between rules and style.
+ * automatically between rules, style and teams.
  *
  * Return value: 1 if parameter successfully set, 0 on error.
  */
@@ -111,6 +114,11 @@ lw6map_param_set (lw6map_param_t * param, char *key, char *value)
   if (lw6map_style_set (&param->style, key, value))
     {
       // ok, it's a style member
+      ret = 1;
+    }
+  else if (lw6map_teams_set (&param->teams, key, value))
+    {
+      // ok, it's a teams member
       ret = 1;
     }
   else
@@ -128,6 +136,7 @@ lw6map_param_is_same (lw6map_param_t * param_a, lw6map_param_t * param_b)
 
   ret = ret && lw6map_rules_is_same (&(param_a->rules), &(param_b->rules));
   ret = ret && lw6map_style_is_same (&(param_a->style), &(param_b->style));
+  ret = ret && lw6map_teams_is_same (&(param_a->teams), &(param_b->teams));
 
   return ret;
 }
