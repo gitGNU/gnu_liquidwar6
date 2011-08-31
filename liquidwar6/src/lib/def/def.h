@@ -213,6 +213,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6MAP_RULES_GET_MAX "c-lw6map-rules-get-max"
 #define LW6DEF_C_LW6MAP_RULES_GET_MIN "c-lw6map-rules-get-min"
 #define LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT "c-lw6map-style-get-default"
+#define LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT "c-lw6map-teams-get-default"
 #define LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY "c-lw6map-team-color-index-to-key"
 #define LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX "c-lw6map-team-color-key-to-index"
 #define LW6DEF_C_LW6NET_INIT "c-lw6net-init"
@@ -814,3 +815,4 @@ Contact author        : ufoot@ufoot.org
 
 
 #endif
+

@@ -725,6 +725,11 @@ Wrapper on lw6map_team_color_index_to_key.
 Wrapper on lw6map_team_color_key_to_index.
 @end deffn
 
+@subsection c-lw6map-teams-get-default
+@deffn {C function exported to Guile} @code{c-lw6map-teams-get-default}
+Wrapper on lw6map_teams_get_default.
+@end deffn
+
 @subsection c-lw6net-init
 @deffn {C function exported to Guile} @code{c-lw6net-init}
 Wrapper on lw6net_init.

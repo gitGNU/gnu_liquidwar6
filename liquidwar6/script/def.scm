@@ -206,6 +206,7 @@
 (define lw6def-c-lw6map-rules-get-max "c-lw6map-rules-get-max")
 (define lw6def-c-lw6map-rules-get-min "c-lw6map-rules-get-min")
 (define lw6def-c-lw6map-style-get-default "c-lw6map-style-get-default")
+(define lw6def-c-lw6map-teams-get-default "c-lw6map-teams-get-default")
 (define lw6def-c-lw6map-team-color-index-to-key "c-lw6map-team-color-index-to-key")
 (define lw6def-c-lw6map-team-color-key-to-index "c-lw6map-team-color-key-to-index")
 (define lw6def-c-lw6net-init "c-lw6net-init")

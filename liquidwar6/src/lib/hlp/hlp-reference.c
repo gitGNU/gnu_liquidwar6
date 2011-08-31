@@ -2586,6 +2586,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_rules_get_int."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT,
 		 _x_ ("Wrapper on lw6map_style_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT,
+		 _x_ ("Wrapper on lw6map_teams_get_default."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
 		 _x_ ("Wrapper on lw6ker_build_game_struct."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STATE,

@@ -169,7 +169,8 @@
     (lw6-config-subset (list lw6def-use-texture
 			     lw6def-use-rules-xml
 			     lw6def-use-hints-xml
-			     lw6def-use-style-xml))))
+			     lw6def-use-style-xml
+			     lw6def-use-teams-xml))))
 
 (define lw6-default-map-rules
   (lambda ()
@@ -183,9 +184,13 @@
   (lambda ()
     (lw6-config-subset (c-lw6hlp-list-map-style))))
 
+(define lw6-default-map-teams
+  (lambda ()
+    (lw6-config-subset (c-lw6hlp-list-map-teams))))
+
 (define lw6-default-param
   (lambda ()
-    (append (lw6-default-map) (lw6-default-map-rules) (lw6-default-map-hints) (lw6-default-map-style))))
+    (append (lw6-default-map) (lw6-default-map-rules) (lw6-default-map-hints) (lw6-default-map-style) (lw6-default-map-teams))))
 
 (define lw6-forced-param
   (lambda ()

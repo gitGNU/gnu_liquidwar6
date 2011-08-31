@@ -5485,6 +5485,34 @@ _scm_lw6map_style_get_default (SCM key)
   return ret;
 }
 
+static SCM
+_scm_lw6map_teams_get_default (SCM key)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_key = NULL;
+  char *c_value = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
+
+  c_key = to_0str (key);
+  if (c_key)
+    {
+      c_value = lw6map_teams_get_default (c_key);
+      if (c_value)
+	{
+	  ret = scm_makfrom0str (c_value);
+	  LW6SYS_FREE (c_value);
+	}
+      LW6SYS_FREE (c_key);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In liquidwar6ker
  */
@@ -8755,9 +8783,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6map_rules_get_max);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_INT, 2, 0, 0,
 			 (SCM (*)())_scm_lw6map_rules_get_int);
-
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_style_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_teams_get_default);
 
   /*
    * In liquidwar6ker

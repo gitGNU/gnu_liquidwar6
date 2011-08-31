@@ -186,6 +186,7 @@ c-lw6map-rules-get-int
 c-lw6map-rules-get-max
 c-lw6map-rules-get-min
 c-lw6map-style-get-default
+c-lw6map-teams-get-default
 c-lw6map-team-color-index-to-key
 c-lw6map-team-color-key-to-index
 c-lw6net-init
