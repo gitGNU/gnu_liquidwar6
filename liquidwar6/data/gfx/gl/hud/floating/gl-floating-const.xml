@@ -38,7 +38,7 @@
   <float key="gauge-relative-frags-y1" value="-0.20" /><!-- The text positino (frags) when in deathmatch mode (negative values = up) Default: -0.05-->
   <int key="gauge-heartbeat-period" value="1000" />
   <float key="gauge-relative-heartbeat-min" value="0.99" />
-  <float key="gauge-relative-heartbeat-max" value="1.05" />
+  <float key="gauge-relative-heartbeat-max" value="1.01" />
   <int key="gauge-slices" value="20" /><!-- How many lines the
 					    "circle" shall consist of. The value 4 makes it into a square with an
 					    extra leg   default: 20 -->
