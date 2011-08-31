@@ -878,6 +878,7 @@ extern void _lw6ker_spread_update_gradient (_lw6ker_team_t * team,
 /* ker-weapon.c */
 extern void _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t *
 					       map_state, int weapon_id);
+extern void _lw6ker_weapon_unset_all (_lw6ker_map_state_t * map_state);
 extern int _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t *
 						  map_state, int round,
 						  int weapon_id);

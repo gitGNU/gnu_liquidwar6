@@ -316,6 +316,11 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
     {
       if (map_state->armies.fighters_per_team[team_color] == 0)
 	{
+	  /*
+	   * We unset all weapons once someone looses to avoid
+	   * artificial killing sprees on unfair settings.
+	   */
+	  _lw6ker_weapon_unset_all (map_state);
 	  _lw6ker_team_unactivate (&(map_state->teams[team_color]));
 	}
       else
@@ -1211,8 +1216,7 @@ _lw6ker_map_state_frag (_lw6ker_map_state_t * map_state, int team_color,
 
 void
 _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
-			  lw6map_rules_t * rules,
-			  int round)
+			  lw6map_rules_t * rules, int round)
 {
   int32_t team_color;
   int charge_incr = 0;
@@ -1236,7 +1240,10 @@ _lw6ker_map_state_charge (_lw6ker_map_state_t * map_state,
 		  if (map_state->teams[team_color].active
 		      && rules->team_profile_weapon_mode[team_color] !=
 		      LW6MAP_RULES_TEAM_PROFILE_WEAPON_MODE_NONE &&
-		      _lw6ker_map_state_get_weapon_per1000_left(map_state,round,team_color)<=0 && !map_state->teams[team_color].offline)
+		      _lw6ker_map_state_get_weapon_per1000_left (map_state,
+								 round,
+								 team_color)
+		      <= 0 && !map_state->teams[team_color].offline)
 		    {
 		      charge_incr =
 			_LW6KER_CHARGE_LIMIT / (rules->weapon_charge_delay *

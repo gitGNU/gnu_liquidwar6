@@ -26,4 +26,4 @@
 
 #include "img.h"
 
-int lw6img_todo=0; // dummy var to avoid compiler warning
+int lw6img_todo = 0;		// dummy var to avoid compiler warning

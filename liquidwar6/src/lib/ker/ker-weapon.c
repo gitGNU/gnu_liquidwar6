@@ -49,6 +49,19 @@ _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t * map_state,
     }
 }
 
+void
+_lw6ker_weapon_unset_all (_lw6ker_map_state_t * map_state)
+{
+  int i;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      map_state->teams[i].weapon_id = LW6MAP_WEAPON_NONE;
+      map_state->teams[i].weapon_first_round = 0;
+      map_state->teams[i].weapon_last_round = 0;
+    }
+}
+
 int
 _lw6ker_weapon_find_team_by_weapon_id (_lw6ker_map_state_t * map_state,
 				       int round, int weapon_id)
@@ -375,18 +388,77 @@ _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
 			    int charge_percent)
 {
   int ret = 1;
-  int x, y, z;
-  lw6sys_whd_t shape;
+  int i = 0, x = 0, y = 0, z = 0;
+  int pot = 0;
+  int worst_pot = 0;
+  int zone_id = 0;
+  int slot_id = 0;
+  int old_slot_id = 0;
+  int new_slot_id = 0;
+  int fighter_id = 0;
+  lw6sys_whd_t shape = { 0, 0, 0 };
+  lw6ker_fighter_t *fighter = NULL;
+  int found = 0;
+  lw6sys_xyz_t new_pos = { 0, 0, 0 };
 
   shape = map_state->map_struct->shape;
-
-  for (z = 0; z < shape.d; ++z)
+  for (i = 0; i < map_state->armies.active_fighters; ++i)
     {
-      for (y = 0; y < shape.h; ++y)
+      fighter = &(map_state->armies.fighters[i]);
+      if (fighter->team_color == team_color)
 	{
-	  for (x = 0; x < shape.w; ++x)
+	  zone_id =
+	    _lw6ker_map_struct_get_zone_id (map_state->map_struct,
+					    fighter->pos.x, fighter->pos.y,
+					    fighter->pos.z);
+	  worst_pot =
+	    map_state->teams[team_color].gradient[zone_id].potential;
+	  found = 0;
+	  for (z = 0; z < shape.d; ++z)
 	    {
-	      // todo
+	      for (y = 0; y < shape.h; ++y)
+		{
+		  for (x = 0; x < shape.w; ++x)
+		    {
+		      slot_id =
+			_lw6ker_map_struct_slot_index (map_state->map_struct,
+						       x, y, z);
+		      zone_id =
+			_lw6ker_map_struct_get_zone_id (map_state->map_struct,
+							x, y, z);
+		      if (slot_id >= 0 && zone_id >= 0)
+			{
+			  if (map_state->slots[slot_id].fighter_id < 0)
+			    {
+			      pot =
+				map_state->
+				teams[team_color].gradient[zone_id].potential;
+			      if (pot < worst_pot)
+				{
+				  worst_pot = pot;
+				  found = 1;
+				  new_pos.x = x;
+				  new_pos.y = y;
+				  new_pos.z = z;
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	  if (found)
+	    {
+	      old_slot_id =
+		_lw6ker_map_struct_slot_index (map_state->map_struct,
+					       fighter->pos.x, fighter->pos.y,
+					       fighter->pos.z);
+	      new_slot_id =
+		_lw6ker_map_struct_slot_index (map_state->map_struct,
+					       new_pos.x, new_pos.y,
+					       new_pos.z);
+	      map_state->slots[new_slot_id].fighter_id = i;
+	      map_state->slots[old_slot_id].fighter_id = -1;
+	      fighter->pos = new_pos;
 	    }
 	}
     }

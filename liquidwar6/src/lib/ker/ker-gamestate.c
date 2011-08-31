@@ -1444,7 +1444,7 @@ _lw6ker_game_state_do_move (_lw6ker_game_state_t *
   if (!game_state->over)
     {
       _lw6ker_map_state_charge (&(game_state->map_state),
-				&(game_state->game_struct->rules),rounds);
+				&(game_state->game_struct->rules), rounds);
       _lw6ker_map_state_process_fire (&(game_state->map_state),
 				      &(game_state->game_struct->rules),
 				      rounds);
