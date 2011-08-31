@@ -2578,6 +2578,14 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_team_color_index_to_key."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX,
 		 _x_ ("Wrapper on lw6map_team_color_key_to_index."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_LIST,
+		 _x_ ("Wrapper on lw6map_team_color_list."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_KEY,
+		 _x_ ("Wrapper on lw6map_weapon_index_to_key."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_KEY_TO_INDEX,
+		 _x_ ("Wrapper on lw6map_weapon_key_to_index."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_LIST,
+		 _x_ ("Wrapper on lw6map_weapon_list."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT,
 		 _x_ ("Wrapper on lw6map_rules_get_default."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_MIN,

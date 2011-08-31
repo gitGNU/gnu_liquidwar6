@@ -766,7 +766,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    }
 	  else
 	    {
-	      context.per_team_weapon_id[i] = _LW6KER_WEAPON_NONE;
+	      context.per_team_weapon_id[i] = LW6MAP_WEAPON_NONE;
 	    }
 	}
       /*
@@ -774,7 +774,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
        */
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_BEZERK)
+	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_BEZERK)
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
@@ -784,14 +784,14 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 				LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 		}
 	    }
-	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_INVINCIBLE)
+	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_INVINCIBLE)
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
 		  context.fighter_attack[j][i] = 0;
 		}
 	    }
-	  if (context.per_team_weapon_id[i] == _LW6KER_WEAPON_TURBO)
+	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_TURBO)
 	    {
 	      context.per_team_fast[i] = context.per_team_fast[i] *
 		context.rules.weapon_tune_turbo_power;
@@ -807,7 +807,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	  context.per_team_nb_defense_tries[i] =
 	    context.rules.nb_defense_tries;
 	  context.per_team_fast[i] = LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
-	  context.per_team_weapon_id[i] = _LW6KER_WEAPON_NONE;
+	  context.per_team_weapon_id[i] = LW6MAP_WEAPON_NONE;
 	}
     }
 

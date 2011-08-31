@@ -457,9 +457,9 @@ other without any fight. Matter of taste.
 @deffnx {XML key} @code{respawn-delay}
 Type: integer
 
-Default value: 1
+Default value: 3
 Min value: 0
-Max value: 10
+Max value: 30
 
 Delay, in seconds, after which teams reappear on the battlefield, when in
 deathmatch mode. 0 means team right away.

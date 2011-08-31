@@ -452,7 +452,7 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 	      lc.fighter->act_counter += lc.place_struct->act_incr;
 	    }
 	  if (lc.per_team_weapon_id[lc.fighter_team_color] ==
-	      _LW6KER_WEAPON_INVINCIBLE)
+	      LW6MAP_WEAPON_INVINCIBLE)
 	    {
 	      lc.fighter->health = LW6MAP_MAX_FIGHTER_HEALTH;
 	    }

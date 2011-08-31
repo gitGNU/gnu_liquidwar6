@@ -18,13 +18,33 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-play-menu-local-item
+(define lw6-play-menu-solo-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Local game")))
+	  (item (lw6-menu-item-template (_ "Solo game")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
+	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-solo-step2)))
+	item
+	))))
+
+(define lw6-play-menu-1on1-item
+  (lambda ()
+    (let (
+	  (item (lw6-menu-item-template (_ "1 on 1")))
+	  )
+      (begin
+	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-1on1-step2)))
+	item
+	))))
+
+(define lw6-play-menu-local-item
+  (lambda ()
+    (let (
+	  (item (lw6-menu-item-template (_ "Local multiplayer")))
+	  )
+      (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-local-step2)))
 	item
 	))))
@@ -73,9 +93,14 @@
 	  (menu (lw6-menu-template (_ "Play")))
 	  )
       (begin
+	(lw6-append-menuitem! menu (lw6-play-menu-solo-item))
+	(lw6-append-menuitem! menu (lw6-play-menu-1on1-item))
 	(lw6-append-menuitem! menu (lw6-play-menu-local-item))
-	(lw6-append-menuitem! menu (lw6-play-menu-join-item))
-	(lw6-append-menuitem! menu (lw6-play-menu-server-item))
+	(if (not (lw6-config-is-true? lw6def-skip-network))
+	    (begin
+	      (lw6-append-menuitem! menu (lw6-play-menu-join-item))
+	      (lw6-append-menuitem! menu (lw6-play-menu-server-item))
+	      ))
 	(lw6-append-menuitem! menu (lw6-play-menu-demo-item))
 	menu
 	))))
@@ -86,8 +111,11 @@
 	  (menu (lw6-menu-template (_ "Play")))
 	  )
       (begin
+	(lw6-append-menuitem! menu (lw6-play-menu-solo-item))
+	(lw6-append-menuitem! menu (lw6-play-menu-1on1-item))
 	(lw6-append-menuitem! menu (lw6-play-menu-local-item))
-	(lw6-append-menuitem! menu (lw6-play-menu-server-item))
+	(if (not (lw6-config-is-true? lw6def-skip-network))
+	    (lw6-append-menuitem! menu (lw6-play-menu-server-item)))
 	(lw6-append-menuitem! menu (lw6-play-menu-back-to-main))
 	menu
 	))))

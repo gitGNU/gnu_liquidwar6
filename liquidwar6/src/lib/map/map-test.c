@@ -34,7 +34,7 @@
 #define TEST_MAP_NOISE_PERCENT 30
 #define TEST_RULES_KEY LW6DEF_TOTAL_TIME
 #define TEST_RULES_VALUE 3600
-#define TEST_RULES_CHECKSUM 0x3d42bca9
+#define TEST_RULES_CHECKSUM 0x0f97e577
 #define TEST_STYLE_KEY LW6DEF_ZOOM
 #define TEST_STYLE_VALUE "1.0"
 #define TEST_TEAMS_KEY LW6DEF_BOT_IQ
@@ -103,6 +103,8 @@ test_color ()
 
   {
     lw6map_color_couple_t color_couple;
+    int i, j;
+    char *key;
 
     color_couple.bg = LW6SYS_COLOR_8_WHITE;
     color_couple.fg = LW6SYS_COLOR_8_BLACK;
@@ -114,6 +116,28 @@ test_color ()
 		    _x_
 		    ("color_is_same pretending colors are different, while they should be equal"));
 	ret = 0;
+      }
+
+    for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+      {
+	key = lw6map_team_color_index_to_key (i);
+	if (key)
+	  {
+	    j = lw6map_team_color_key_to_index (key);
+	    if (i == j)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("team_color key for %d is \"%s\""), i, key);
+	      }
+	    else
+	      {
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
       }
   }
 
@@ -399,7 +423,7 @@ test_exp ()
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _("exp=%d highest_color=%d highest_weapon=%d"), i,
-		    lw6map_exp_get_highest_color_allowed (i),
+		    lw6map_exp_get_highest_team_color_allowed (i),
 		    lw6map_exp_get_highest_weapon_allowed (i));
       }
   }
@@ -702,6 +726,43 @@ test_meta_layer ()
   return ret;
 }
 
+static int
+test_weapon ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i, j;
+    char *key;
+
+    for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
+      {
+	key = lw6map_weapon_index_to_key (i);
+	if (key)
+	  {
+	    j = lw6map_weapon_key_to_index (key);
+	    if (i == j)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("weapon key for %d is \"%s\""), i, key);
+	      }
+	    else
+	      {
+		ret = 0;
+	      }
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6map_test
  *
@@ -728,7 +789,7 @@ lw6map_test (int mode)
   ret = test_new () && test_color () && test_coords ()
     && test_defaults () && test_dup () && test_exp ()
     && test_hexa () && test_local_info () && test_meta_layer ()
-    && test_rules () && test_style () && test_teams ();
+    && test_rules () && test_style () && test_teams () && test_weapon ();
 
   return ret;
 }

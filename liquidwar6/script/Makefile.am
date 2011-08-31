@@ -22,7 +22,6 @@ pkgdata_DATA = \
 backend.scm \
 bench.scm \
 clear.scm \
-color.scm \
 command.scm \
 config.scm \
 console.scm \
@@ -47,7 +46,6 @@ menu-exit.scm \
 menu-ingame.scm \
 menu-map.scm \
 menu-options-audio.scm \
-menu-options-map.scm \
 menu-options-rules.scm \
 menu-options.scm \
 menu-options-system.scm \

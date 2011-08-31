@@ -18,6 +18,14 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
+(define lw6-loader-purge
+  (lambda ()
+    (begin
+      (lw6-game-param-update)
+      (map (lambda (key)
+	     (lw6-set-game-global! key #f))
+	   (list "loaded" "level" "game-state" "pilot")))))
+      
 (define lw6-loader-push
   (lambda (relative-path) 
     (let* (

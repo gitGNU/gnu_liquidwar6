@@ -5388,6 +5388,109 @@ _scm_lw6map_team_color_key_to_index (SCM key)
   return ret;
 }
 
+static SCM
+_scm_lw6map_team_color_list ()
+{
+  SCM ret = SCM_BOOL_F;
+  int i = 0;
+  int exp = 0;
+  char *color_key = NULL;
+  char *user_dir = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  if (user_dir)
+    {
+      if (lw6cfg_load_exp (user_dir, &exp))
+	{
+	  ret = SCM_EOL;
+	  for (i = lw6map_exp_get_highest_team_color_allowed (exp); i >= 0;
+	       --i)
+	    {
+	      color_key = lw6map_team_color_index_to_key (i);
+	      if (color_key)
+		{
+		  ret = scm_cons (scm_makfrom0str (color_key), ret);
+		}
+	    }
+	}
+      LW6SYS_FREE (user_dir);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_weapon_index_to_key (SCM index)
+{
+  SCM ret = SCM_BOOL_F;
+
+  int c_index;
+
+  SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
+
+  c_index = scm_to_int (index);
+  ret = scm_makfrom0str (lw6map_weapon_index_to_key (c_index));
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_weapon_key_to_index (SCM key)
+{
+  SCM ret = SCM_BOOL_F;
+
+  char *c_key = NULL;
+
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
+
+  c_key = to_0str (key);
+  if (c_key)
+    {
+      ret = scm_int2num (lw6map_weapon_key_to_index (c_key));
+      LW6SYS_FREE (c_key);
+    }
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_weapon_list ()
+{
+  SCM ret = SCM_BOOL_F;
+  int i = 0;
+  int exp = 0;
+  char *weapon_key = NULL;
+  char *user_dir = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+  if (user_dir)
+    {
+      if (lw6cfg_load_exp (user_dir, &exp))
+	{
+	  ret = SCM_EOL;
+	  for (i = lw6map_exp_get_highest_weapon_allowed (exp); i >= 0; --i)
+	    {
+	      weapon_key = lw6map_weapon_index_to_key (i);
+	      if (weapon_key)
+		{
+		  ret = scm_cons (scm_makfrom0str (weapon_key), ret);
+		}
+	    }
+	}
+      LW6SYS_FREE (user_dir);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In static.c
  */
@@ -8813,6 +8916,14 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6map_team_color_index_to_key);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_team_color_key_to_index);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_LIST, 0, 0, 0,
+			 (SCM (*)())_scm_lw6map_team_color_list);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_KEY, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_weapon_index_to_key);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_KEY_TO_INDEX, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_weapon_key_to_index);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_LIST, 0, 0, 0,
+			 (SCM (*)())_scm_lw6map_weapon_list);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_rules_get_default);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_MIN, 1, 0, 0,

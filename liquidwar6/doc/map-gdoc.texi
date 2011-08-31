@@ -404,6 +404,29 @@ automatically between rules, style and teams.
 @strong{Return value:}  1 if parameter successfully set, 0 on error.
 @end deftypefun
 
+@deftypefun {char *} {lw6map_param_get} (lw6map_param_t * @var{param}, char * @var{key})
+@var{param}:  the param struct to query
+
+@var{key}:  the name of the parameter to get
+
+Gets an entry from a param struct. All values returned
+as strings, do not use this in performance bottlenecks,
+this is just to export values to scripts, for instance.
+
+@strong{Return value:}  dynamically allocated string, NULL on error,
+might return a string containing 0 on bad keys.
+@end deftypefun
+
+@deftypefun {int} {lw6map_param_is_same} (lw6map_param_t * @var{param_a}, lw6map_param_t * @var{param_b})
+@var{param_a}:  one struct to compare
+
+@var{param_b}:  another struct to compare
+
+Compares the contents of two param structs.
+
+@strong{Return value:}  1 if they contain the same thing, 0 if not
+@end deftypefun
+
 @deftypefun {void} {lw6map_teams_zero} (lw6map_teams_t * @var{teams})
 @var{teams}:  data to initialize
 
@@ -492,5 +515,22 @@ Compares the contents of two teams structs.
 Runs the @code{map} module test suite.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_weapon_index_to_key} (int @var{index})
+@var{index}:  index of the weapon between 0 & 19
+
+Transforms a team weapon index into its readable string form,
+which can be used in config files for instance.
+
+@strong{Return value:}  a string, must *not* be freed.
+@end deftypefun
+
+@deftypefun {int} {lw6map_weapon_key_to_index} (char * @var{key})
+@var{key}:  key of the weapon, for instance "red"
+
+The index of the weapon, between 0 & 19
+
+@strong{Return value:}  an integer.
 @end deftypefun
 

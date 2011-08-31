@@ -18,6 +18,15 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
+(define lw6-cursor-keys
+  (list "1" "2" "3" "4" "bot1" "bot2" "bot3" "bot4" "bot5" "bot6" "bot7" "bot8" "bot9"))
+
+(define lw6-cursor-player-keys
+  (list "1" "2" "3" "4"))
+
+(define lw6-cursor-bot-keys
+  (list "bot1" "bot2" "bot3" "bot4" "bot5" "bot6" "bot7" "bot8" "bot9"))
+
 (define lw6-make-cursor
   (lambda (cursor-key)
     (let (
@@ -47,7 +56,7 @@
   (lambda (cursor-key)
     (let* (
 	   (cursors (lw6-get-game-global "cursors"))
-	   (cursor (hash-ref cursors (string-concatenate (list "cursor" cursor-key))))
+	   (cursor (hash-ref cursors (string-concatenate (list "cursor-" cursor-key))))
 	   )
       cursor)))
 
@@ -58,14 +67,14 @@
 	  )
       (begin
 	(hash-set! cursors 
-		   (string-concatenate (list "cursor" cursor-key))
+		   (string-concatenate (list "cursor-" cursor-key))
 		   (lw6-make-cursor cursor-key))))))
 
 (define lw6-enable-cursor
   (lambda (cursor-key)
     (let* (
 	   (cursors (lw6-get-game-global "cursors"))
-	   (cursor (hash-ref cursors (string-concatenate (list "cursor" cursor-key))))
+	   (cursor (hash-ref cursors (string-concatenate (list "cursor-" cursor-key))))
 	   )
       (begin
 	(hash-set! cursor "status" #t)
@@ -116,6 +125,37 @@
 	  #f)
       )))
 
+(define lw6-cursor-prepare-map-defined-player-command
+  (lambda (level game-state cursor-key node-id)
+    (let* (
+	   (player-color (c-lw6map-param-get level 
+					     (if (equal? cursor-key "1")
+						 lw6def-player-color
+						 lw6def-bot1-color)))
+	   (cursor (lw6-enable-cursor cursor-key))
+	   (cursor-id (lw6-get-cursor-id-not-in-game-state game-state))
+	   (rounds (c-lw6ker-get-rounds game-state))
+	   )
+      (begin
+	(hash-set! cursor "id" cursor-id)
+	(lw6-command-add rounds node-id cursor-id player-color)
+	))))
+
+(define lw6-cursor-prepare-bot-command
+  (lambda (level game-state cursor-key node-id)
+    (let* (
+	   (bot-color-key (string-concatenate (list cursor-key "-color")))
+	   (bot-color (c-lw6map-param-get level bot-color-key))
+	   )
+      (let* (
+	     (cursor (lw6-enable-cursor cursor-key))
+	     (cursor-id (lw6-get-cursor-id-not-in-game-state game-state))
+	     (rounds (c-lw6ker-get-rounds game-state))
+	     )
+	(begin
+	  (hash-set! cursor "id" cursor-id)
+	  (lw6-command-add rounds node-id cursor-id bot-color))))))
+
 (define lw6-cursor-prepare-demo-player-command
   (lambda (game-state cursor-key node-id color)
     (let* (
@@ -160,41 +200,62 @@
     (let* (
 	   (cursor (lw6-get-cursor cursor-key))
 	   (player-status-key (string-concatenate (list "player" cursor-key "-status")))
-	   (player-bot-key (string-concatenate (list "player" cursor-key "-bot")))
 	   (player-control-key (string-concatenate (list "player" cursor-key "-control")))
 	   (player-status (lw6-config-is-true? player-status-key))
-	   (player-bot (lw6-config-get-string player-bot-key))
 	   (player-control (lw6-config-get-string player-control-key))
 	   )
       (if player-status
-	  (hash-set! cursor "mover" (if (or (equal? player-bot "") (not player-bot))
-					(cond 
-					 ((equal? player-control "mouse")
-					  lw6-mover-mouse-func)
-					 ((equal? player-control "keyboard")
-					  lw6-mover-keyboard-func)
-					 ((equal? player-control "joystick1")
-					  lw6-mover-joystick1-func)
-					 ((equal? player-control "joystick2")
-					  lw6-mover-joystick2-func)
-					 (#t
-					  (lambda (c) #f))
-					 )
-					(let ( 
-					      (bot (c-lw6bot-new 
-						    player-bot
-						    (lw6-get-game-global "game-state")
-						    (lw6-get-game-global "pilot")
-						    (lw6-config-get-number lw6def-dirty-read)
-						    (hash-ref cursor "id")
-						    (lw6-config-get-number lw6def-bot-speed)
-						    (lw6-config-get-number lw6def-bot-iq)))
-					      )
-					  (begin
-					    (hash-set! cursor "bot" bot)
-					    lw6-mover-bot-func
-					    )))))
-      )))
+	  (hash-set! cursor "mover" (cond 
+				     ((equal? player-control "mouse")
+				      lw6-mover-mouse-func)
+				     ((equal? player-control "keyboard")
+				      lw6-mover-keyboard-func)
+				     ((equal? player-control "joystick1")
+				      lw6-mover-joystick1-func)
+				     ((equal? player-control "joystick2")
+				      lw6-mover-joystick2-func)
+				     (#t
+				      (lambda (c) #f))
+				     ))))))
+
+(define lw6-cursor-init-map-defined-universal-mover
+  (lambda (cursor-key)
+    (let* (
+	   (cursor (lw6-get-cursor cursor-key))
+	   )
+      (hash-set! cursor "mover" lw6-mover-universal-func))))
+
+(define lw6-cursor-init-map-defined-semi-universal-mover
+  (lambda (cursor-key)
+    (let* (
+	   (cursor (lw6-get-cursor cursor-key))
+	   )
+      (if (equal? cursor-key "1")
+	  (hash-set! cursor "mover" lw6-mover-semi-universal-1-func)
+	  (hash-set! cursor "mover" lw6-mover-semi-universal-2-func)
+	  ))))
+
+(define lw6-cursor-init-map-defined-bot-mover
+  (lambda (level game-state pilot cursor-key)
+    (let* (
+	   (cursor (lw6-get-cursor cursor-key))
+	   (cursor-id (hash-ref cursor "id"))
+	   (bot-ai (c-lw6map-param-get level (string-concatenate (list cursor-key "-ai"))))
+	   (bot-speed (string->number (c-lw6map-param-get level lw6def-bot-speed)))
+	   (bot-iq (string->number (c-lw6map-param-get level lw6def-bot-iq)))
+	   (bot (c-lw6bot-new 
+		 bot-ai
+		 game-state
+		 pilot
+		 (lw6-config-get-number lw6def-dirty-read)
+		 cursor-id
+		 bot-speed
+		 bot-iq))
+	   )
+      (begin
+	(hash-set! cursor "bot" bot)
+	(hash-set! cursor "mover" lw6-mover-bot-func)
+	))))
 
 (define lw6-cursor-init-bot-mover
   (lambda (cursor-key bot-engine)
@@ -229,14 +290,11 @@
     (let* (
 	   (player-status-key (string-concatenate (list "player" cursor-key "-status")))
 	   (player-control-key (string-concatenate (list "player" cursor-key "-control")))
-	   (player-bot-key (string-concatenate (list "player" cursor-key "-bot")))
 	   (player-status (lw6-config-is-true? player-status-key))
 	   (player-control (lw6-config-get-string player-control-key))
-	   (player-bot (lw6-config-get-string player-bot-key))
 	   )
       (begin
 	(and player-status
-	     (equal? player-bot "")
 	     (or (equal? player-control "keyboard")
 		 (equal? player-control "mouse")
 		 (equal? player-control "joystick1")

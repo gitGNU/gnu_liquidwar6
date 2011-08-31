@@ -31,36 +31,69 @@
 	item
 	))))
 
-(define lw6-rules-options-menu-color-conflict-mode-item
-  (lambda ()
-    (let (
-	  (item (lw6-menu-item-list-number-template 
-				    lw6def-color-conflict-mode
-				    (list
-				     (_ "Cursors can have any color")
-				     (_ "Can collaborate locally")
-				     (_ "One cursor per team"))))
+(define lw6-rules-options-menu-per-100-2-label
+  (lambda (v)
+    (inexact->exact (round (/ (* v v) 100)))))
+
+(define lw6-rules-options-menu-armies-size-item-list
+  (list
+   (cons 10 30)
+   (cons 15 40)
+   (cons 20 60)
+   (cons 30 60)
+   (cons 40 70)
+   (cons 50 80)))
+
+(define lw6-rules-options-menu-armies-size-item-label-func
+  (lambda (menuitem)
+      (format #f 
+	      (_ "Armies ~a% - ~a%")
+	      (lw6-rules-options-menu-per-100-2-label
+	       (lw6-config-get-number lw6def-single-army-size))
+	      (lw6-rules-options-menu-per-100-2-label
+	       (lw6-config-get-number lw6def-total-armies-size)))
+      ))
+
+(define lw6-rules-options-menu-armies-size-item-update-func
+  (lambda (menuitem)
+    (let* (
+	   (value (assoc-ref menuitem "value"))
+	   (pair (list-ref lw6-rules-options-menu-armies-size-item-list value))
+	  )
+      (lw6-config-set-number! lw6def-single-army-size (car pair))
+      (lw6-config-set-number! lw6def-total-armies-size (cdr pair))
+      )))
+
+(define lw6-rules-options-menu-armies-size-item-index-func
+  (lambda (menuitem)
+    (let* (
+	   (total-armies-size (lw6-config-get-number lw6def-total-armies-size))
+	   (index 0)
 	  )
       (begin
-	item
+	(map (lambda (v) (if (> total-armies-size (cdr v)) (set! index (+ index 1)))) lw6-rules-options-menu-armies-size-item-list)
+	(if (>= index (length lw6-rules-options-menu-armies-size-item-list))
+	    (set! index (- (length lw6-rules-options-menu-armies-size-item-list) 1)))
+	index
 	))))
+
+(define lw6-rules-options-menu-armies-size-item
+  (lambda ()
+    (lw6-menu-item-list-template
+     lw6-rules-options-menu-armies-size-item-label-func
+     lw6-rules-options-menu-armies-size-item-update-func
+     lw6-rules-options-menu-armies-size-item-index-func
+     lw6-rules-options-menu-armies-size-item-list)
+    ))
 
 (define lw6-rules-options-menu
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Rules")))
-	  (old-respawn-team (lw6-config-get-number lw6def-respawn-team))
-	  (old-color-conflict-mode (lw6-config-get-number lw6def-color-conflict-mode))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-rules-options-menu-respawn-team-item))
-	(lw6-append-menuitem! menu (lw6-rules-options-menu-color-conflict-mode-item))
-	(set! menu (assoc-set! menu "on-pop" 
-			       (lambda (m) 
-				 (if 
-				  (or (not (equal? old-respawn-team (lw6-config-get-number lw6def-respawn-team)))
-				      (not (equal? old-color-conflict-mode (lw6-config-get-number lw6def-color-conflict-mode))))
-				  (begin (lw6-game-param-update) 
-					 (lw6-loader-push (lw6-config-get-string lw6def-chosen-map)))))))
+	(lw6-append-menuitem! menu (lw6-rules-options-menu-armies-size-item))
+	(set! menu(assoc-set! menu "on-pop" (lambda (m) (lw6-loader-purge))))
 	menu
 	))))

@@ -61,8 +61,7 @@
 	  )
       (begin
 	(lw6-config-set-number! lw6def-total-time (list-ref lw6-time-options-menu-time-item-list value))
-	(lw6-game-param-update)
-	(lw6-loader-push (lw6-config-get-string lw6def-chosen-map))      ))))
+	))))
 
 (define lw6-time-options-menu-time-item-index-func
   (lambda (menuitem)
@@ -130,8 +129,7 @@
 	  )
       (begin
 	(lw6-config-set-number! lw6def-speed speed)
-	(lw6-game-param-update)
-	(lw6-loader-push (lw6-config-get-string lw6def-chosen-map))	))))
+	))))
 
 (define lw6-time-options-menu-speed-item-index-func
   (lambda (menuitem)
@@ -192,22 +190,6 @@
 	(lw6-append-menuitem! menu (lw6-time-options-menu-time-item))
 	(lw6-append-menuitem! menu (lw6-time-options-menu-speed-item))
 	(lw6-append-menuitem! menu (lw6-time-options-menu-bench-item))
-	(set! menu (assoc-set! menu "on-push" 
-			       (lambda (m) 
-				 (begin 
-				   (lw6-loader-push-if-needed
-				    (lw6-config-get-string lw6def-chosen-map))
-				   (lw6-game-preview)))))
-	(set! menu (assoc-set! menu "on-pop" 
-			       (lambda (m) 
-				 (begin
-				   (lw6-game-idle)
-				   (if 
-				    (or (not (equal? old-total-time (lw6-config-get-number lw6def-total-time)))
-					;;(not (equal? old-speed (lw6-config-get-number lw6def-speed)))
-					;;(not (equal? old-bench-value (lw6-config-get-number lw6def-bench-value)))
-					)
-				    (begin (lw6-game-param-update) 
-					   (lw6-loader-push (lw6-config-get-string lw6def-chosen-map))))))))
+	(set! menu(assoc-set! menu "on-pop" (lambda (m) (lw6-loader-purge))))
 	menu
 	))))

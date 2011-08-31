@@ -121,7 +121,7 @@ Color for bot number 4.
 @deffnx {XML key} @code{bot5-ai}
 Type: string
 
-Default value: brute
+Default value: random
 
 AI engine for bot number 5.
 @end deffn
@@ -143,7 +143,7 @@ Color for bot number 5.
 @deffnx {XML key} @code{bot6-ai}
 Type: string
 
-Default value: idiot
+Default value: follow
 
 AI engine for bot number 6.
 @end deffn

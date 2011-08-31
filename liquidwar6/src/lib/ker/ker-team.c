@@ -46,7 +46,7 @@ _lw6ker_team_init (_lw6ker_team_t * team, _lw6ker_map_struct_t * map_struct,
   team->cursor_ref_pot = rules->cursor_pot_init;
   team->last_spread_dir = LW6KER_DIR_NNE;
   // team->charge is set to 0 because of CALLOC
-  team->weapon_id = _LW6KER_WEAPON_NONE;	// -1
+  team->weapon_id = LW6MAP_WEAPON_NONE;	// -1
   // team->weapon_first_round set to 0 because of CALLOC
   // team->weapon_last_round set to 0 because of CALLOC
 

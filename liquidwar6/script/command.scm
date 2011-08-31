@@ -59,7 +59,7 @@
 		     )
 		     ;;;)
 		 #t))
-	     (list "1" "2" "3" "4"))
+	     lw6-cursor-keys)
 	(map (lambda (cursor-key)
 	       (let (
 		      (cursor (lw6-get-cursor cursor-key))		      
@@ -81,7 +81,7 @@
 		   ;;(hash-set! cursor "fire" #f)
 		   ;;(lw6-log-notice commands)
 		   )))
-	     (list "1" "2" "3" "4"))
+	     lw6-cursor-keys)
 	commands
     ))))
 
@@ -125,7 +125,7 @@
 					 (hash-set! cursor "fire" #f)
 					 (hash-set! cursor "fire2" #f)
 					 )))
-				   (list "1" "2" "3" "4")))
+				   lw6-cursor-keys))
 			  (c-lw6pil-commit pilot)
 			  ))))))))
     ))

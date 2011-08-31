@@ -42,7 +42,7 @@ _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t * map_state,
     {
       if (map_state->teams[i].weapon_id == weapon_id)
 	{
-	  map_state->teams[i].weapon_id = _LW6KER_WEAPON_NONE;
+	  map_state->teams[i].weapon_id = LW6MAP_WEAPON_NONE;
 	  map_state->teams[i].weapon_first_round = 0;
 	  map_state->teams[i].weapon_last_round = 0;
 	}
@@ -109,7 +109,7 @@ _lw6ker_weapon_get_latest_weapon (_lw6ker_map_state_t * map_state,
 	}
       else
 	{
-	  (*weapon_id) = _LW6KER_WEAPON_NONE;
+	  (*weapon_id) = LW6MAP_WEAPON_NONE;
 	}
     }
 
@@ -141,100 +141,100 @@ _do_fire (_lw6ker_map_state_t * map_state,
     {
       switch (weapon_id)
 	{
-	case _LW6KER_WEAPON_BEZERK:
+	case LW6MAP_WEAPON_BEZERK:
 	  ret =
 	    _lw6ker_weapon_fire_bezerk (map_state, rules, round, team_color,
 					charge_percent);
 	  break;
-	case _LW6KER_WEAPON_INVINCIBLE:
+	case LW6MAP_WEAPON_INVINCIBLE:
 	  ret =
 	    _lw6ker_weapon_fire_invincible (map_state, rules, round,
 					    team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_ESCAPE:
+	case LW6MAP_WEAPON_ESCAPE:
 	  ret =
 	    _lw6ker_weapon_fire_escape (map_state, rules, round, team_color,
 					charge_percent);
 	  break;
-	case _LW6KER_WEAPON_TURBO:
+	case LW6MAP_WEAPON_TURBO:
 	  ret =
 	    _lw6ker_weapon_fire_turbo (map_state, rules, round, team_color,
 				       charge_percent);
 	  break;
-	case _LW6KER_WEAPON_TELEPORT:
+	case LW6MAP_WEAPON_TELEPORT:
 	  ret =
 	    _lw6ker_weapon_fire_teleport (map_state, rules, round, team_color,
 					  charge_percent);
 	  break;
-	case _LW6KER_WEAPON_SCATTER:
+	case LW6MAP_WEAPON_SCATTER:
 	  ret =
 	    _lw6ker_weapon_fire_scatter (map_state, rules, round, team_color,
 					 charge_percent);
 	  break;
-	case _LW6KER_WEAPON_FIX:
+	case LW6MAP_WEAPON_FIX:
 	  ret = _lw6ker_weapon_fire_fix (map_state, rules, round, team_color,
 					 charge_percent);
 	  break;
-	case _LW6KER_WEAPON_MIX:
+	case LW6MAP_WEAPON_MIX:
 	  ret = _lw6ker_weapon_fire_mix (map_state, rules, round, team_color,
 					 charge_percent);
 	  break;
-	case _LW6KER_WEAPON_CONTROL:
+	case LW6MAP_WEAPON_CONTROL:
 	  ret =
 	    _lw6ker_weapon_fire_control (map_state, rules, round, team_color,
 					 charge_percent);
 	  break;
-	case _LW6KER_WEAPON_PERMUTATION:
+	case LW6MAP_WEAPON_PERMUTATION:
 	  ret =
 	    _lw6ker_weapon_fire_permutation (map_state, rules, round,
 					     team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_STEAL:
+	case LW6MAP_WEAPON_STEAL:
 	  ret =
 	    _lw6ker_weapon_fire_steal (map_state, rules, round,
 				       team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_ATOMIC:
+	case LW6MAP_WEAPON_ATOMIC:
 	  ret =
 	    _lw6ker_weapon_fire_atomic (map_state, rules, round,
 					team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_REVERSE:
+	case LW6MAP_WEAPON_REVERSE:
 	  ret =
 	    _lw6ker_weapon_fire_reverse (map_state, rules, round,
 					 team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_CRAZY:
+	case LW6MAP_WEAPON_CRAZY:
 	  ret =
 	    _lw6ker_weapon_fire_crazy (map_state, rules, round,
 				       team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_REWIND:
+	case LW6MAP_WEAPON_REWIND:
 	  ret =
 	    _lw6ker_weapon_fire_rewind (map_state, rules, round,
 					team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_ATTRACT:
+	case LW6MAP_WEAPON_ATTRACT:
 	  ret =
 	    _lw6ker_weapon_fire_attract (map_state, rules, round,
 					 team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_SHRINK:
+	case LW6MAP_WEAPON_SHRINK:
 	  ret =
 	    _lw6ker_weapon_fire_shrink (map_state, rules, round,
 					team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_KAMIKAZE:
+	case LW6MAP_WEAPON_KAMIKAZE:
 	  ret =
 	    _lw6ker_weapon_fire_kamikaze (map_state, rules, round,
 					  team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_DISAPPEAR:
+	case LW6MAP_WEAPON_DISAPPEAR:
 	  ret =
 	    _lw6ker_weapon_fire_disappear (map_state, rules, round,
 					   team_color, charge_percent);
 	  break;
-	case _LW6KER_WEAPON_PLAGUE:
+	case LW6MAP_WEAPON_PLAGUE:
 	  ret =
 	    _lw6ker_weapon_fire_plague (map_state, rules, round,
 					team_color, charge_percent);
@@ -347,7 +347,7 @@ _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
    * when in this mode, the attack table is modified, nothing to do here.
    */
   _register_weapon_duration (map_state, rules, round, team_color,
-			     charge_percent, _LW6KER_WEAPON_BEZERK);
+			     charge_percent, LW6MAP_WEAPON_BEZERK);
 
   return ret;
 }
@@ -364,7 +364,7 @@ _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
    * when in this mode, the attack table is modified, nothing to do here.
    */
   _register_weapon_duration (map_state, rules, round, team_color,
-			     charge_percent, _LW6KER_WEAPON_INVINCIBLE);
+			     charge_percent, LW6MAP_WEAPON_INVINCIBLE);
 
   return ret;
 }
@@ -392,7 +392,7 @@ _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
     }
 
   _register_weapon_instant (map_state, rules, round, team_color,
-			    charge_percent, _LW6KER_WEAPON_ESCAPE);
+			    charge_percent, LW6MAP_WEAPON_ESCAPE);
 
   return ret;
 }
@@ -409,7 +409,7 @@ _lw6ker_weapon_fire_turbo (_lw6ker_map_state_t * map_state,
    * when in this mode, the move increment is modified, nothing to do here.
    */
   _register_weapon_duration (map_state, rules, round, team_color,
-			     charge_percent, _LW6KER_WEAPON_TURBO);
+			     charge_percent, LW6MAP_WEAPON_TURBO);
 
   return ret;
 }
@@ -441,7 +441,7 @@ _lw6ker_weapon_fire_fix (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
-  _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_FIX);
+  _lw6ker_weapon_unset_by_weapon_id (map_state, LW6MAP_WEAPON_FIX);
 
   return ret;
 }
@@ -463,7 +463,7 @@ _lw6ker_weapon_fire_control (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
-  _lw6ker_weapon_unset_by_weapon_id (map_state, _LW6KER_WEAPON_CONTROL);
+  _lw6ker_weapon_unset_by_weapon_id (map_state, LW6MAP_WEAPON_CONTROL);
 
   return ret;
 }

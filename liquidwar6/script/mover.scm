@@ -207,6 +207,35 @@
       (lw6-mover-mouse-func cursor)
       )))
 
+(define lw6-mover-semi-universal-1-func
+  (lambda (cursor)
+    (begin
+      (lw6-mover-joystick1-func cursor)
+      (lw6-mover-mouse-func cursor)
+      )))
+
+(define lw6-mover-semi-universal-2-func
+  (lambda (cursor)
+    ((lw6-mover-generic (lambda () 
+			  (let* (
+				 (dsp (lw6-get-game-global "dsp"))
+				 (keyboard-state (c-lw6gui-keyboard-get-move-pad dsp))
+				 (joystick2-state (c-lw6gui-joystick2-get-move-pad dsp))
+				 )
+			    (map (lambda (dir) 
+				   (cons dir (or (assoc-ref keyboard-state dir)
+						 (assoc-ref joystick2-state dir))))
+				 (list "up" "down" "left" "right"))
+				))
+			(lambda () (or (c-lw6gui-keyboard-pop-key-ctrl (lw6-get-game-global "dsp"))
+				       (c-lw6gui-joystick2-pop-button-c (lw6-get-game-global "dsp"))))
+			(lambda () (or (c-lw6gui-keyboard-pop-key-alt (lw6-get-game-global "dsp"))
+				       (c-lw6gui-joystick2-pop-button-d (lw6-get-game-global "dsp"))))
+			(lambda () (lw6-config-get-number lw6def-cursor-sensitivity))
+			(lambda () (lw6-config-get-number lw6def-max-cursor-speed))
+			) cursor)
+    ))
+
 (define lw6-mover
   (lambda ()
     (map (lambda (cursor-key) (let* (
@@ -228,4 +257,4 @@
 					  ))
 				      )
 				    )))
-	 (list "1" "2" "3" "4"))))
+	 lw6-cursor-keys)))

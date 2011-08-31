@@ -32,7 +32,7 @@
 #define _EXP_PER_WEAPON 3
 
 /**
- * lw6map_exp_get_highest_color_allowed
+ * lw6map_exp_get_highest_team_color_allowed
  *
  * @exp: the player experience
  *
@@ -41,7 +41,7 @@
  * Return value: a color id
  */
 int
-lw6map_exp_get_highest_color_allowed (int exp)
+lw6map_exp_get_highest_team_color_allowed (int exp)
 {
   int ret = 0;
 

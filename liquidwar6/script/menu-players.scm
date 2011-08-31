@@ -26,16 +26,12 @@
 	   (player-status (lw6-config-is-true? player-status-key))
 	   (player-name-key (string-concatenate (list player-prefix "-name")))
 	   (player-name (lw6-config-get-string player-name-key))
-	   (player-bot-key (string-concatenate (list player-prefix "-bot")))
-	   (player-bot (lw6-config-get-string player-bot-key))
 	   (player-color-key (string-concatenate (list player-prefix "-color")))
 	   (player-color (lw6-config-get-string player-color-key))
 	   (player-control-key (string-concatenate (list player-prefix "-control")))
 	   (player-control (lw6-config-get-string player-control-key))
 	   (label (if player-status
-		      (if (equal? player-bot "")
-			  player-name
-			  (assoc-ref (c-lw6bot-get-backends) player-bot))
+		      player-name
 		      (_ "Free slot")))
 	   )
       (begin
@@ -71,6 +67,23 @@
 	    )
 	  ))))
 
+(define lw6-players-menu-bots-item
+  (lambda ()
+    (let (
+	  (item (lw6-menu-item-list-number-template 
+				    lw6def-nb-bots
+				    (append
+				     (list
+				      (_ "No bots")
+				      (_ "One bot"))
+				     (map
+				      (lambda (n) (format #f (_ "~a bots") n))
+				      (list 2 3 4 5 6 7 8 9)))))
+	  )
+      (begin
+	item
+	))))
+
 (define lw6-players-menu
   (lambda()
     (let (
@@ -81,6 +94,8 @@
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player2"))
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player3"))
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player4"))
+	(lw6-append-menuitem! menu (lw6-players-menu-bots-item))
 	(set! menu (assoc-set! menu "on-pop-child" lw6-players-menu-on-pop-child))
+	(set! menu (assoc-set! menu "on-pop" (lambda (m) (lw6-loader-purge))))
 	menu
 	))))

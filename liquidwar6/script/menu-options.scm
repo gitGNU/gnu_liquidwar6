@@ -39,16 +39,6 @@
 	item
 	))))
 
-(define lw6-options-menu-map-item
-  (lambda ()
-    (let (
-	  (item (lw6-menu-item-template (_ "Map")))
-	  )
-      (begin
-	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-options-menu))))
-	item
-	))))
-
 (define lw6-options-menu-video-item
   (lambda ()
     (let (
@@ -102,7 +92,6 @@
       (begin
 	(lw6-append-menuitem! menu (lw6-options-menu-time-item))
 	(lw6-append-menuitem! menu (lw6-options-menu-rules-item))
-	(lw6-append-menuitem! menu (lw6-options-menu-map-item))
 	(lw6-append-menuitem! menu (lw6-options-menu-video-item))
 	(lw6-append-menuitem! menu (lw6-options-menu-sound-item))
 	(lw6-append-menuitem! menu (lw6-options-menu-system-item))

@@ -109,7 +109,7 @@
 				       (c-lw6pil-local-cursors-set-mouse-controlled 
 					pilot cursor-id 
 					(hash-ref cursor "mouse-controlled")))))
-		     (list "1" "2" "3" "4"))
+		     lw6-cursor-keys)
 		(c-lw6pil-local-cursors-set-main pilot main-cursor-id)
 		;(hash-set! display-param "main-cursor-id" main-cursor-id)
 		;(hash-set! display-param "main-cursor-x" (inexact->exact main-cursor-x))

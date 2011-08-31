@@ -95,6 +95,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
       level->param.rules.exp = LW6MAP_RULES_DEFAULT_EXP;
       lw6ldr_hints_update (&hints, default_param);
       lw6ldr_style_update (&(level->param.style), default_param);
+      lw6ldr_teams_update (&(level->param.teams), default_param);
       lw6ldr_use_update (&use, default_param);
       if (use.use_rules_xml)
 	{
@@ -117,7 +118,7 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
       level->param.rules.highest_color_allowed =
 	lw6sys_min (LW6MAP_MAX_NB_TEAMS - 1,
 		    lw6sys_min (level->param.rules.highest_color_allowed,
-				lw6map_exp_get_highest_color_allowed
+				lw6map_exp_get_highest_team_color_allowed
 				(player_exp)));
       level->param.rules.highest_weapon_allowed =
 	lw6sys_min (LW6MAP_MAX_WEAPON_ID,

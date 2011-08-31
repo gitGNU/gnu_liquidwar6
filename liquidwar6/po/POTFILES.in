@@ -295,6 +295,7 @@ src/lib/map/map-teams.c
 src/lib/map/map-test.c
 src/lib/map/map-testmain.c
 src/lib/map/map-texture.c
+src/lib/map/map-weapon.c
 src/lib/msg/msg-cmd.c
 src/lib/msg/msg-envelope.c
 src/lib/msg/msg-oob.c

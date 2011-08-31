@@ -2,16 +2,6 @@ _("no gfx backend found");	// extracted by scriptpo-update.sh
 _("no snd backend found");	// extracted by scriptpo-update.sh
 _("gfx backend ~a not available");	// extracted by scriptpo-update.sh
 _("snd backend ~a not available");	// extracted by scriptpo-update.sh
-_("red");			// extracted by scriptpo-update.sh
-_("green");			// extracted by scriptpo-update.sh
-_("blue");			// extracted by scriptpo-update.sh
-_("yellow");			// extracted by scriptpo-update.sh
-_("cyan");			// extracted by scriptpo-update.sh
-_("magenta");			// extracted by scriptpo-update.sh
-_("orange");			// extracted by scriptpo-update.sh
-_("light blue");		// extracted by scriptpo-update.sh
-_("purple");			// extracted by scriptpo-update.sh
-_("pink");			// extracted by scriptpo-update.sh
 _("Mouse");			// extracted by scriptpo-update.sh
 _("Keyboard");			// extracted by scriptpo-update.sh
 _("Joystick 1");		// extracted by scriptpo-update.sh
@@ -49,25 +39,12 @@ _("No music");			// extracted by scriptpo-update.sh
 _("Music ~a%");			// extracted by scriptpo-update.sh
 _("Backend ~a");		// extracted by scriptpo-update.sh
 _("Sound options");		// extracted by scriptpo-update.sh
-_("Armies ~a% - ~a%");		// extracted by scriptpo-update.sh
-_("Keep map ratio");		// extracted by scriptpo-update.sh
-_("Fit map to screen");		// extracted by scriptpo-update.sh
-_("Use texture");		// extracted by scriptpo-update.sh
-_("Ignore texture");		// extracted by scriptpo-update.sh
-_("Use XML files");		// extracted by scriptpo-update.sh
-_("Ignore XML files");		// extracted by scriptpo-update.sh
-_("Use ~a");			// extracted by scriptpo-update.sh
-_(" and ");			// extracted by scriptpo-update.sh
-_("Map options");		// extracted by scriptpo-update.sh
 _("One life (last wins)");	// extracted by scriptpo-update.sh
 _("Respawn (deatchmatch)");	// extracted by scriptpo-update.sh
-_("Cursors can have any color");	// extracted by scriptpo-update.sh
-_("Can collaborate locally");	// extracted by scriptpo-update.sh
-_("One cursor per team");	// extracted by scriptpo-update.sh
+_("Armies ~a% - ~a%");		// extracted by scriptpo-update.sh
 _("Rules");			// extracted by scriptpo-update.sh
 _("Time & speed");		// extracted by scriptpo-update.sh
 _("Rules");			// extracted by scriptpo-update.sh
-_("Map");			// extracted by scriptpo-update.sh
 _("Video");			// extracted by scriptpo-update.sh
 _("Sound");			// extracted by scriptpo-update.sh
 _("System");			// extracted by scriptpo-update.sh
@@ -96,11 +73,15 @@ _("High res");			// extracted by scriptpo-update.sh
 _("User res");			// extracted by scriptpo-update.sh
 _("Backend ~a");		// extracted by scriptpo-update.sh
 _("Video options");		// extracted by scriptpo-update.sh
-_("Unknown bot");		// extracted by scriptpo-update.sh
 _("Not playing");		// extracted by scriptpo-update.sh
 _("Free slot");			// extracted by scriptpo-update.sh
+_("No bots");			// extracted by scriptpo-update.sh
+_("One bot");			// extracted by scriptpo-update.sh
+_("~a bots");			// extracted by scriptpo-update.sh
 _("Players");			// extracted by scriptpo-update.sh
-_("Local game");		// extracted by scriptpo-update.sh
+_("Solo game");			// extracted by scriptpo-update.sh
+_("1 on 1");			// extracted by scriptpo-update.sh
+_("Local multiplayer");		// extracted by scriptpo-update.sh
 _("Join network game");		// extracted by scriptpo-update.sh
 _("Start server");		// extracted by scriptpo-update.sh
 _("Demo");			// extracted by scriptpo-update.sh

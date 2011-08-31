@@ -85,9 +85,9 @@
 #define LW6MAP_RULES_MIN_RESPAWN_POSITION_MODE 0
 #define LW6MAP_RULES_MAX_RESPAWN_POSITION_MODE 2
 
-#define LW6MAP_RULES_DEFAULT_RESPAWN_DELAY 1
+#define LW6MAP_RULES_DEFAULT_RESPAWN_DELAY 3
 #define LW6MAP_RULES_MIN_RESPAWN_DELAY 0
-#define LW6MAP_RULES_MAX_RESPAWN_DELAY 10
+#define LW6MAP_RULES_MAX_RESPAWN_DELAY 30
 
 #define LW6MAP_RULES_DEFAULT_MOVES_PER_ROUND 2
 #define LW6MAP_RULES_MIN_MOVES_PER_ROUND 1
@@ -807,13 +807,157 @@ extern char *LW6MAP_RULES_LIST[];
 #define LW6MAP_BUILTIN_DEFAULT_NOISE_PERCENT 10
 
 typedef enum lw6map_team_color_e
-{ LW6MAP_TEAM_COLOR_INVALID = -1, LW6MAP_TEAM_COLOR_RED =
+{ LW6MAP_TEAM_COLOR_INVALID = -1,
+  /*
+   * Yes, 0 is a valid color
+   */
+  LW6MAP_TEAM_COLOR_RED =
     0, LW6MAP_TEAM_COLOR_GREEN = 1, LW6MAP_TEAM_COLOR_BLUE =
     2, LW6MAP_TEAM_COLOR_YELLOW = 3, LW6MAP_TEAM_COLOR_CYAN =
     4, LW6MAP_TEAM_COLOR_MAGENTA = 5, LW6MAP_TEAM_COLOR_ORANGE =
     6, LW6MAP_TEAM_COLOR_LIGHTBLUE = 7, LW6MAP_TEAM_COLOR_PURPLE =
     8, LW6MAP_TEAM_COLOR_PINK = 9
 } lw6map_team_color_t;
+
+#define LW6MAP_WEAPON_KEY_BEZERK "bezerk"
+#define LW6MAP_WEAPON_KEY_INVINCIBLE "invincible"
+#define LW6MAP_WEAPON_KEY_ESCAPE "escape"
+#define LW6MAP_WEAPON_KEY_TURBO "turbo"
+#define LW6MAP_WEAPON_KEY_TELEPORT "teleport"
+#define LW6MAP_WEAPON_KEY_SCATTER "scatter"
+#define LW6MAP_WEAPON_KEY_FIX "fix"
+#define LW6MAP_WEAPON_KEY_MIX "mix"
+#define LW6MAP_WEAPON_KEY_CONTROL "control"
+#define LW6MAP_WEAPON_KEY_PERMUTATION "permutation"
+#define LW6MAP_WEAPON_KEY_STEAL "steal"
+#define LW6MAP_WEAPON_KEY_ATOMIC "atomic"
+#define LW6MAP_WEAPON_KEY_REVERSE "reverse"
+#define LW6MAP_WEAPON_KEY_CRAZY "crazy"
+#define LW6MAP_WEAPON_KEY_REWIND "rewind"
+#define LW6MAP_WEAPON_KEY_ATTRACT "attract"
+#define LW6MAP_WEAPON_KEY_SHRINK "shrink"
+#define LW6MAP_WEAPON_KEY_KAMIKAZE "kamikaze"
+#define LW6MAP_WEAPON_KEY_DISAPPEAR "disappear"
+#define LW6MAP_WEAPON_KEY_PLAGUE "plague"
+
+typedef enum lw6map_weapon_e
+{
+  LW6MAP_WEAPON_NONE = -1,
+/*
+ * BEZERK: has super-strong attack for a limited time
+ */
+  LW6MAP_WEAPON_BEZERK = 0,
+/*
+ * INVINCIBLE: no damage for a limited time
+ */
+  LW6MAP_WEAPON_INVINCIBLE = 1,
+/*
+ * ESCAPE: fighters are put in the farest position,
+ * that is as far as possible from the cursor. If one
+ * is trapped, this will cause all fighters to magically
+ * escape from any grip.
+ */
+  LW6MAP_WEAPON_ESCAPE = 2,
+/*
+ * TURBO: goes faster for a limited time (stronger, faster)
+ */
+  LW6MAP_WEAPON_TURBO = 3,
+/*
+ * TELEPORT: fighters are instantaneously placed as close
+ * as possible to the cursor.
+ */
+  LW6MAP_WEAPON_TELEPORT = 4,
+/*
+ * SCATTER: every fighters of every teams are just scattered
+ * in random places all over the map. The proportion of fighters
+ * in every team, their health and so on, is preserved, but
+ * they are just put anywhere like stars in the sky.
+ */
+  LW6MAP_WEAPON_SCATTER = 5,
+/*
+ * FIX: all the other teams are immobilized for some time,
+ * only the team firing this weapon can move, but it can't
+ * attack. Note that if you're trapped, this might not
+ * be of great help.
+ */
+  LW6MAP_WEAPON_FIX = 6,
+/*
+ * MIX: all the fighters of every teams are mixed, positions
+ * are exchanged in a random manner, they globally stay at the
+ * same place, but it's like they were stirred in a bowl.
+ */
+  LW6MAP_WEAPON_MIX = 7,
+/*
+ * CONTROL: your cursor stays in place, and you take control
+ * of all other cursors for a limited time, just drag the other
+ * teams where you want.
+ */
+  LW6MAP_WEAPON_CONTROL = 8,
+/*
+ * PERMUTATION: teams are exchanged, for instance red becomes
+ * green, green becomes blue and blue becomes red. Works only
+ * if there are at least 3 teams on the battlefield. How the
+ * swap/exchange is done depends on moon phases, this is a
+ * double-edged weapon.
+ */
+  LW6MAP_WEAPON_PERMUTATION = 9,
+/*
+ * STEAL: steal some other fighters from other teams.
+ */
+  LW6MAP_WEAPON_STEAL = 10,
+/*
+ * ATOMIC: nuclear explosion, all fighters in a circle
+ * near the caller's cursor are set to minimal health,
+ * ready to die.
+ */
+  LW6MAP_WEAPON_ATOMIC = 11,
+/*
+ * REVERSE: moves continue to operate the right way but
+ * attacks are done in reverse mode, that is if you were trapped
+ * then you get maximal attack, fighting against those
+ * pursuing you. Limited time of course.
+ */
+  LW6MAP_WEAPON_REVERSE = 12,
+/*
+ * CRAZY: for some time, all other teams just go crazy and
+ * move/attack in random directions.
+ */
+  LW6MAP_WEAPON_CRAZY = 13,
+/*
+ * REWIND: make the battlefield be like it was X seconds ago.
+ * X (the time shift) depends on settings and what is available
+ * in memory.
+ */
+  LW6MAP_WEAPON_REWIND = 14,
+/*
+ * ATTRACT: all the fighters from every team are packed near
+ * the caller's cursor.
+ */
+  LW6MAP_WEAPON_ATTRACT = 15,
+/*
+ * SHRINK: diminishes the amount of fighters on the map, in a
+ * proportionnal manner.
+ */
+  LW6MAP_WEAPON_SHRINK = 16,
+/*
+ * KAMIKAZE: requires at least 3 teams to be on the battlefield,
+ * you die and with you dies the one who was the strongest
+ * at this moment.
+ */
+  LW6MAP_WEAPON_KAMIKAZE = 17,
+/*
+ * DISAPPEAR: you disappear for some time, not on the battlefield
+ * anymore, just to reappear later, with the same number of
+ * fighters, in the same state, but somewhere else.
+ */
+  LW6MAP_WEAPON_DISAPPEAR = 18,
+/*
+ * PLAGUE: general disease for everyone including you, everyone
+ * constantly looses health for some time.
+ */
+  LW6MAP_WEAPON_PLAGUE = 19
+}
+lw6map_weapon_t;
 
 #define LW6MAP_TEAMS_DEFAULT_PLAYER_COLOR LW6MAP_TEAM_COLOR_KEY_RED
 
@@ -841,8 +985,8 @@ typedef enum lw6map_team_color_e
 #define LW6MAP_TEAMS_DEFAULT_BOT2_AI "idiot"
 #define LW6MAP_TEAMS_DEFAULT_BOT3_AI "random"
 #define LW6MAP_TEAMS_DEFAULT_BOT4_AI "follow"
-#define LW6MAP_TEAMS_DEFAULT_BOT5_AI "brute"
-#define LW6MAP_TEAMS_DEFAULT_BOT6_AI "idiot"
+#define LW6MAP_TEAMS_DEFAULT_BOT5_AI "random"
+#define LW6MAP_TEAMS_DEFAULT_BOT6_AI "follow"
 #define LW6MAP_TEAMS_DEFAULT_BOT7_AI "idiot"
 #define LW6MAP_TEAMS_DEFAULT_BOT8_AI "idiot"
 #define LW6MAP_TEAMS_DEFAULT_BOT9_AI "idiot"
@@ -1074,15 +1218,6 @@ extern int lw6map_color_is_same (lw6map_color_couple_t * color1,
 				 lw6map_color_couple_t * color2);
 extern char *lw6map_team_color_index_to_key (int index);
 extern int lw6map_team_color_key_to_index (char *key);
-/**
- * lw6map_team_color_is_valid
- *
- * @team_color: the team color to test
- *
- * Tests wether index is a valid team color.
- *
- * Return value: 1 if between 0 and 9, else 0.
- */
 static inline int
 lw6map_team_color_is_valid (int team_color)
 {
@@ -1112,7 +1247,7 @@ extern lw6map_level_t *lw6map_dup (lw6map_level_t * source,
 				   lw6sys_progress_t * progress);
 
 /* map-exp.c */
-extern int lw6map_exp_get_highest_color_allowed (int exp);
+extern int lw6map_exp_get_highest_team_color_allowed (int exp);
 extern int lw6map_exp_get_highest_weapon_allowed (int exp);
 
 /* map-hexa.c */
@@ -1231,5 +1366,14 @@ extern int lw6map_texture_from_body (lw6map_texture_t * texture,
 				     lw6map_body_t * body,
 				     lw6map_color_couple_t * color);
 extern int lw6map_texture_has_alpha (lw6map_texture_t * texture);
+
+/* map-weapon.c */
+extern char *lw6map_weapon_index_to_key (int index);
+extern int lw6map_weapon_key_to_index (char *key);
+static inline int
+lw6map_weapon_is_valid (int weapon)
+{
+  return (weapon >= 0 && weapon <= LW6MAP_MAX_WEAPON_ID);
+}
 
 #endif /*  */

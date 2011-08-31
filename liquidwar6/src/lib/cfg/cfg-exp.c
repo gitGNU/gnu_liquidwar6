@@ -26,7 +26,12 @@
 
 #include "cfg.h"
 #include "cfg-internal.h"
-#include "../hlp/hlp.h"
+
+/*
+ * Now, exceptionnally we include map.h without linking
+ * on it, this is just to have default exp values.
+ */
+#include "../map/map.h"
 
 #define _EXP_FILE "exp.xml"
 #define _EXP_KEY "exp"
@@ -107,7 +112,7 @@ lw6cfg_load_exp (char *user_dir, int *exp)
   int checksum = 0;
   _exp_t exp_t;
 
-  exp_t.exp = LW6CFG_MIN_EXP;
+  exp_t.exp = LW6MAP_RULES_MIN_EXP;
   exp_t.checksum = 0;
 
   filename = _get_filename (user_dir);
@@ -124,7 +129,7 @@ lw6cfg_load_exp (char *user_dir, int *exp)
 	  if (checksum != exp_t.checksum)
 	    {
 	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("bad exp checksum"));
-	      exp_t.exp = LW6CFG_MIN_EXP;
+	      exp_t.exp = LW6MAP_RULES_MIN_EXP;
 	    }
 	}
       else
@@ -138,7 +143,8 @@ lw6cfg_load_exp (char *user_dir, int *exp)
     }
 
   exp_t.exp =
-    lw6sys_min (LW6CFG_MAX_EXP, lw6sys_max (LW6CFG_MIN_EXP, exp_t.exp));
+    lw6sys_min (LW6MAP_RULES_MAX_EXP,
+		lw6sys_max (LW6MAP_RULES_MIN_EXP, exp_t.exp));
   (*exp) = exp_t.exp;
 
   return ret;
@@ -174,7 +180,9 @@ lw6cfg_save_exp (char *user_dir, int exp)
 				   _x_
 				   ("This is where your exp is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
 
-	  exp = lw6sys_min (LW6CFG_MAX_EXP, lw6sys_max (LW6CFG_MIN_EXP, exp));
+	  exp =
+	    lw6sys_min (LW6MAP_RULES_MAX_EXP,
+			lw6sys_max (LW6MAP_RULES_MIN_EXP, exp));
 	  checksum = _calc_checksum (exp);
 	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp,
 		   lw6sys_eol ());

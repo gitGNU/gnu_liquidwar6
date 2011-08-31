@@ -1643,9 +1643,3 @@ lw6map_rules_is_same (lw6map_rules_t * rules_a, lw6map_rules_t * rules_b)
 
   return ret;
 }
-
-int
-lw6map_rules_exists (lw6map_rules_t * rules, char *key)
-{
-
-}

@@ -55,17 +55,17 @@
       (lw6-display-param-set! "pilot" #f)
       (lw6-set-game-global! "cursors" (make-hash-table 5))
       (let ((cursors (lw6-get-game-global "cursors")))
-	(begin
-	  (hash-set! cursors "cursor1" (lw6-make-cursor "1"))
-	  (hash-set! cursors "cursor2" (lw6-make-cursor "2"))
-	  (hash-set! cursors "cursor3" (lw6-make-cursor "3"))
-	  (hash-set! cursors "cursor4" (lw6-make-cursor "4"))))
+	(map (lambda (cursor-key)
+	       (hash-set! cursors (string-concatenate (list "cursor-" cursor-key))
+			  (lw6-make-cursor cursor-key)))
+	     lw6-cursor-keys))
       (let (
 	    (dsp (lw6-get-game-global "dsp"))
 	    (snd (lw6-get-game-global "snd"))
 	    )
 	(if dsp (c-lw6gui-input-reset dsp))
 	)
+      (lw6-game-param-update)
       )))
 
 (define lw6-init-game-globals
@@ -179,12 +179,100 @@
 	    )
 	  ))))
 
-(define lw6-game-start-local-step2
+(define lw6-game-start-solo-step2
   (lambda ()
     (let* (
+	   (level (lw6-get-game-global "level"))
 	   (game-state (lw6-get-game-global "game-state"))
 	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
+	   (bot-keys (list-head lw6-cursor-bot-keys (string->number (c-lw6map-param-get level lw6def-nb-bots))))
+	   )
+      (begin
+	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
+	(map (lambda (player-key)
+	       (let (
+		     (command (lw6-cursor-prepare-map-defined-player-command
+			       level game-state player-key node-id))
+		     )
+		 (if command (c-lw6pil-execute-command game-state command))))
+	     (list "1"))
+	(map (lambda (bot-key)
+	       (let (
+		     (command (lw6-cursor-prepare-bot-command
+			       level game-state bot-key node-id))
+		     )
+		 (if command (c-lw6pil-execute-command game-state command))))
+	     bot-keys)
+	(let (
+	      (pilot (c-lw6pil-build-pilot game-state
+					   (c-lw6sys-get-timestamp)))
+	      )
+	  (begin
+	    (lw6-set-game-global! "pilot" pilot)
+	    (lw6-display-param-set! "pilot" pilot)
+	    (map (lambda (player-key)
+		   (begin
+		     (lw6-cursor-init-pos game-state player-key)
+		     (lw6-cursor-init-map-defined-universal-mover player-key)
+		     ))
+		 (list "1"))
+	    (map (lambda (player-key)
+		   (begin
+		     (lw6-cursor-init-pos game-state player-key)
+		     (lw6-cursor-init-map-defined-bot-mover level game-state pilot player-key)
+		     ))
+		 bot-keys)
+	    ;;(lw6-cursor-set-universal-if-needed)
+	    (lw6-push-menu (lw6-ingame-menu))
+	    (lw6-game-running)
+	    (lw6-set-game-global! "command-func" lw6-command-func-local)
+	    ))))))
+
+(define lw6-game-start-1on1-step2
+  (lambda ()
+    (let* (
+	   (level (lw6-get-game-global "level"))
+	   (game-state (lw6-get-game-global "game-state"))
+	   (node-id (lw6-get-game-global "node-id"))
+	   (rounds (c-lw6ker-get-rounds game-state))
+	   )
+      (begin
+	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
+	(map (lambda (player-key)
+	       (let (
+		     (command (lw6-cursor-prepare-map-defined-player-command
+			       level game-state player-key node-id))
+		     )
+		 (if command (c-lw6pil-execute-command game-state command))))
+	     (list "1" "2"))
+	(let (
+	      (pilot (c-lw6pil-build-pilot game-state
+					   (c-lw6sys-get-timestamp)))
+	      )
+	  (begin
+	    (lw6-set-game-global! "pilot" pilot)
+	    (lw6-display-param-set! "pilot" pilot)
+	    (map (lambda (player-key)
+		   (begin
+		     (lw6-cursor-init-pos game-state player-key)
+		     (lw6-cursor-init-map-defined-semi-universal-mover player-key)
+		     ))
+		 (list "1" "2"))
+	    ;;(lw6-cursor-set-universal-if-needed)
+	    (lw6-push-menu (lw6-ingame-menu))
+	    (lw6-game-running)
+	    (lw6-set-game-global! "command-func" lw6-command-func-local)
+	    ))))))
+
+(define lw6-game-start-local-step2
+  (lambda ()
+    (let* (
+	   (level (lw6-get-game-global "level"))
+	   (game-state (lw6-get-game-global "game-state"))
+	   (node-id (lw6-get-game-global "node-id"))
+	   (rounds (c-lw6ker-get-rounds game-state))
+	   (bot-keys (list-head lw6-cursor-bot-keys (lw6-config-get-number lw6def-nb-bots)))
 	   )
       (begin
 	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
@@ -194,7 +282,14 @@
 			       game-state player-key node-id))
 		     )
 		 (if command (c-lw6pil-execute-command game-state command))))
-	     (list "1" "2" "3" "4"))
+	     lw6-cursor-player-keys)
+	(map (lambda (bot-key)
+	       (let (
+		     (command (lw6-cursor-prepare-bot-command
+			       level game-state bot-key node-id))
+		     )
+		 (if command (c-lw6pil-execute-command game-state command))))
+	     bot-keys)
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
 					   (c-lw6sys-get-timestamp)))
@@ -207,7 +302,13 @@
 		     (lw6-cursor-init-pos game-state player-key)
 		     (lw6-cursor-init-configured-mover player-key)
 		     ))
-		 (list "1" "2" "3" "4"))
+		 lw6-cursor-player-keys)
+	    (map (lambda (player-key)
+		   (begin
+		     (lw6-cursor-init-pos game-state player-key)
+		     (lw6-cursor-init-map-defined-bot-mover level game-state pilot player-key)
+		     ))
+		 bot-keys)
 	    (lw6-cursor-set-universal-if-needed)
 	    (lw6-push-menu (lw6-ingame-menu))
 	    (lw6-game-running)
@@ -216,60 +317,10 @@
 
 (define lw6-game-start-demo-step2
   (lambda ()
-    (let* (
-	   (game-state (lw6-get-game-global "game-state"))
-	   (node-id (lw6-get-game-global "node-id"))
-	   (rounds (c-lw6ker-get-rounds game-state))
-	   )
-      (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
-	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "1" node-id "red"))
-	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "2" node-id "green"))
-	(let (
-	      (pilot (c-lw6pil-build-pilot game-state
-					   (c-lw6sys-get-timestamp)))
-	      )
-	  (begin
-	    (lw6-set-game-global! "pilot" pilot)
-	    (lw6-display-param-set! "pilot" pilot)
-	    (lw6-cursor-init-pos game-state "1")
-	    (lw6-cursor-init-pos game-state "2")
-	    (lw6-cursor-init-bot-mover "1" "idiot")
-	    (lw6-cursor-init-bot-mover "2" "follow")
-	    (lw6-push-menu (lw6-ingame-menu))
-	    (lw6-game-running)
-	    (lw6-set-game-global! "command-func" lw6-command-func-local)
-	    ))))))
+    (begin
+      (lw6-game-start-solo-step2)
+      (lw6-cursor-init-bot-mover "1" "random")
+      )))
 
-(define lw6-game-start-quick-step2
-  (lambda ()
-    (let* (
-	   (game-state (lw6-get-game-global "game-state"))
-	   (node-id (lw6-get-game-global "node-id"))
-	   (rounds (c-lw6ker-get-rounds game-state))
-	   )
-      (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
-	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "1" node-id "red"))
-	(c-lw6pil-execute-command game-state (lw6-cursor-prepare-demo-player-command
-					      game-state "2" node-id "green"))
-	(let (
-	      (pilot (c-lw6pil-build-pilot game-state
-					   (c-lw6sys-get-timestamp)))
-	      )
-	  (begin
-	    (lw6-set-game-global! "pilot" pilot)
-	    (lw6-display-param-set! "pilot" pilot)
-	    (lw6-cursor-init-pos game-state "1")
-	    (lw6-cursor-init-pos game-state "2")
-	    (lw6-cursor-init-universal-mover "1")
-	    (lw6-cursor-init-bot-mover "2" "idiot")
-	    (lw6-push-menu (lw6-ingame-menu))
-	    (lw6-game-running)
-	    (lw6-set-game-global! "command-func" lw6-command-func-local)
-	    ))))))
-
+(define lw6-game-start-quick-step2 lw6-game-start-solo-step2)
 

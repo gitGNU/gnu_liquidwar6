@@ -18,96 +18,19 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
-(define lw6-player-detail-menu-name-item-list
-  (lambda ()
-    (append (list (cons "" #t) 
-		  (cons "" #f))
-	    (c-lw6bot-get-backends))))
-
-(define lw6-player-detail-menu-name-item-label-func
-  (lambda (menuitem)
-    (let* (
-	   (values-list (assoc-ref menuitem "values-list"))
-	   (player-name (assoc-ref menuitem "player-name"))
-	   (player-bot-key (assoc-ref menuitem "player-bot-key"))
-	   (player-bot (lw6-config-get-string player-bot-key))
-	   (bot-label (assoc-ref values-list player-bot))
-	   (player-status-key (assoc-ref menuitem "player-status-key"))
-	   (player-status (lw6-config-is-true? player-status-key))
-	   )
-      (if player-status
-	  (if (equal? player-bot "")
-	      player-name
-	      (if bot-label
-		  bot-label
-		  (_ "Unknown bot")))
-	  (_ "Not playing")))))
-
-(define lw6-player-detail-menu-name-item-update-func
-  (lambda (menuitem)
-    (let* (
-	   (value (assoc-ref menuitem "value"))
-	   (player-bot-key (assoc-ref menuitem "player-bot-key"))
-	   (player-status-key (assoc-ref menuitem "player-status-key"))
-	   (p (list-ref (lw6-player-detail-menu-name-item-list) value))
-	   (p1 (car p))
-	   (p2 (cdr p))
-	   )
-      (begin
-	(lw6-config-set-string! player-bot-key p1)
-	(lw6-config-set-boolean! player-status-key 
-				 (if (equal? p1 "")
-				     p2
-				     #t))
-	(lw6-game-put-local-teams)
-	))))
-
-(define lw6-player-detail-menu-name-item-index-func
-  (lambda (menuitem)
-    (let* (
-	   (values-list (assoc-ref menuitem "values-list"))
-	   (player-bot-key (assoc-ref menuitem "player-bot-key"))
-	   (player-bot (lw6-config-get-string player-bot-key))
-	   (player-status-key (assoc-ref menuitem "player-status-key"))
-	   (player-status (lw6-config-is-true? player-status-key))
-	   (tmp 0)
-	   (index 0)
-	  )
-      (begin
-	(map (lambda (v) (if (equal? player-bot (car v)) 
-			     (set! index tmp)
-			     (set! tmp (1+ tmp))
-			     ))
-	     values-list)
-	(if (and (= index 1) player-status)
-	    (set! index 0))
-	index
-	))))
-
 (define lw6-player-detail-menu-name-item
   (lambda (player-prefix)
     (let* (
-	   (item (list))
+	   (player-status-key (string-concatenate (list player-prefix "-status")))
 	   (player-name-key (string-concatenate (list player-prefix "-name")))
 	   (player-name (lw6-config-get-string player-name-key))
-	   (player-status-key (string-concatenate (list player-prefix "-status")))
-	   (player-status (lw6-config-get-string player-status-key))
-	   (player-bot-key (string-concatenate (list player-prefix "-bot")))
-	   (player-bot (lw6-config-get-string player-bot-key))
+	   (item (lw6-menu-item-list-boolean-template 
+		  player-status-key
+		  player-name
+		  (_ "Not playing")))
 	   )
       (begin
-	(set! item (assoc-set! item "player-bot-key" player-bot-key))
-	(set! item (assoc-set! item "player-name" player-name))
-	(set! item (assoc-set! item "player-status-key" player-status-key))
-	(set! item (lw6-menu-item-list-template-update
-	 item
-	 lw6-player-detail-menu-name-item-label-func
-	 lw6-player-detail-menu-name-item-update-func
-	 lw6-player-detail-menu-name-item-index-func
-	 (lw6-player-detail-menu-name-item-list)))
-	(set! item (assoc-set! item "selected" #t))
-	item
-	))))
+	item))))
 
 (define lw6-player-detail-menu-color-item-index-func
   (lambda (menuitem)
@@ -142,7 +65,7 @@
 	 lw6-menu-item-list-label-func 
 	 lw6-player-detail-menu-color-item-update-func
 	 lw6-player-detail-menu-color-item-index-func
-	 lw6-color-list))
+	 (c-lw6map-team-color-list)))
 	(set! item (assoc-set! item "selected" #f))
 	(set! item (assoc-set! item "value" (c-lw6map-team-color-key-to-index player-color)))
 	(set! item (assoc-set! item "colored" #t))
