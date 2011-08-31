@@ -89,6 +89,19 @@ exists. This is the default. Use force-time and force-background to override
 this and use user-defined values anyway.
 @end deffn
 
+@subsection use-teams-xml
+@deffn {Command-line option} @code{--use-teams-xml=<value>}
+@deffnx {Environment variable} @code{LW6_USE_TEAMS_XML}
+@deffnx {XML key} @code{use-teams-xml}
+Type: boolean
+
+Default value: true
+
+If set, then teams will be picked up from the map defined teams.xml, if it
+exists. This is the default. Use force-time and force-background to override
+this and use user-defined values anyway.
+@end deffn
+
 @subsection use-texture
 @deffn {Command-line option} @code{--use-texture=<value>}
 @deffnx {Environment variable} @code{LW6_USE_TEXTURE}

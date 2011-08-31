@@ -3989,7 +3989,12 @@ results on
      *Return value:*  none
 
  -- Function: void lw6_print_list_map_style ()
-     Displays the list of 'amp style' options.
+     Displays the list of 'map style' options.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_map_teams ()
+     Displays the list of 'map teams' options.
 
      *Return value:*  none
 
@@ -7021,6 +7026,29 @@ results on
 
      *Return value:*  1 if OK, 0 if failed.
 
+ -- Function: void lw6ldr_hints_defaults (lw6ldr_hints_t * HINTS)
+     HINTS:  data to initialize
+
+     Set the hints struct to its defaults.
+
+     *Return value:*  none.
+
+ -- Function: void lw6ldr_hints_zero (lw6ldr_hints_t * HINTS)
+     HINTS:  data to initialize
+
+     Zeros the hints struct, this is not the same as setting to
+     defaults.
+
+     *Return value:*  none.
+
+ -- Function: void lw6ldr_hints_clear (lw6ldr_hints_t * HINTS)
+     HINTS:  data to initialize
+
+     Clears the hints struct, this is not the same as setting to
+     defaults.
+
+     *Return value:*  none.
+
  -- Function: int lw6ldr_hints_read (lw6ldr_hints_t * HINTS, char *
           DIRNAME)
      DIRNAME:  the directory of the map
@@ -7046,6 +7074,24 @@ results on
      *Return value:*  1 if success, 0 if failed. Note that while 0
      really means there's a problem, some affectations can fail and
      return 1, needs to be worked on.
+
+ -- Function: char * lw6ldr_hints_get (lw6ldr_hints_t * HINTS, char *
+          KEY)
+     HINTS:  the hints to modify
+
+     KEY:  the key to modify
+
+     Gets one single parameter in a hints structure. Value is converted
+     as a string.
+
+     *Return value:*  dynamically allocated string, NULL on error.
+
+ -- Function: char * lw6ldr_hints_get_default (char * KEY)
+     KEY:  the key we want informations about.
+
+     Gets the default value for a given hints key.
+
+     *Return value:*  dynamically allocated string, NULL on error.
 
  -- Function: int lw6ldr_hints_update (lw6ldr_hints_t * HINTS,
           lw6sys_assoc_t * VALUES)
@@ -7147,6 +7193,13 @@ results on
      F:  file to output content to
 
      Print to a file a typical map style.xml file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6ldr_print_example_teams_xml (FILE * F)
+     F:  file to output content to
+
+     Print to a file a typical map teams.xml file.
 
      *Return value:*  none.
 
@@ -7288,6 +7341,30 @@ results on
      defaults or custom values. Not all parameters need be defined in
      values. It can even be NULL. The idea is just that if something is
      defined in values, it will override the existing style.
+
+     *Return value:*  1 if success, 0 if failed.
+
+ -- Function: int lw6ldr_teams_read (lw6map_teams_t * TEAMS, char *
+          DIRNAME)
+     DIRNAME:  the directory of the map
+
+     Read the teams (teams.xml) of a map. Pointer to teams must be
+     valid, and values already initialized, either zeroed or filled in
+     with defaults or custom values.
+
+     *Return value:*  1 if success, 0 if failed.
+
+ -- Function: int lw6ldr_teams_update (lw6map_teams_t * TEAMS,
+          lw6sys_assoc_t * VALUES)
+     TEAMS:  the teams struct to fill with values (read/write parameter)
+
+     VALUES:  an assoc containing strings with the new values
+
+     Overrides teams with values. Pointer to teams must be valid, and
+     values already initialized, either zeroed or filled in with
+     defaults or custom values. Not all parameters need be defined in
+     values. It can even be NULL. The idea is just that if something is
+     defined in values, it will override the existing teams.
 
      *Return value:*  1 if success, 0 if failed.
 
@@ -7721,9 +7798,89 @@ results on
      Sets an entry in a param struct. All values must be submitted as
      strings, internally, the function will call atoi to convert to
      integers if needed, for instance. It will also dispatch
-     automatically between rules and style.
+     automatically between rules, style and teams.
 
      *Return value:*  1 if parameter successfully set, 0 on error.
+
+ -- Function: void lw6map_teams_zero (lw6map_teams_t * TEAMS)
+     TEAMS:  data to initialize
+
+     Zeros the teams struct, this is not the same as setting to
+     defaults.
+
+     *Return value:*  none.
+
+ -- Function: void lw6map_teams_defaults (lw6map_teams_t * TEAMS)
+     TEAMS:  data to initialize
+
+     Set the teams struct to its defaults.
+
+     *Return value:*  none.
+
+ -- Function: void lw6map_teams_clear (lw6map_teams_t * TEAMS)
+     TEAMS:  data to initialize
+
+     Clears the teams struct, this is not the same as setting to
+     defaults.  This one supposes the struct has been properly
+     initialized, at least zeroed before usage, it might contain
+     pointers which should be freed.
+
+     *Return value:*  none.
+
+ -- Function: void lw6map_teams_copy (lw6map_teams_t * DST,
+          lw6map_teams_t * SRC)
+     DST:  destination
+
+     SRC:  source
+
+     Copies the contents of the teams struct. It's a real duplicate,
+     any string is reallocated.
+
+     *Return value:*  none.
+
+ -- Function: int lw6map_teams_set (lw6map_teams_t * TEAMS, char * KEY,
+          char * VALUE)
+     TEAMS:  the teams to modify
+
+     KEY:  the key to modify
+
+     VALUE:  the value to affect to the key, as a string
+
+     Sets one single parameter in a teams structure. Value must always
+     be passed as a string, will be converted to the right type
+     automatically when storing it in the structure.
+
+     *Return value:*  1 if success, 0 if failed. Note that while 0
+     really means there's a problem, some affectations can fail and
+     return 1, needs to be worked on.
+
+ -- Function: char * lw6map_teams_get (lw6map_teams_t * TEAMS, char *
+          KEY)
+     TEAMS:  the teams to modify
+
+     KEY:  the key to modify
+
+     Gets one single parameter in a teams structure. Value is converted
+     as a string.
+
+     *Return value:*  dynamically allocated string, NULL on error.
+
+ -- Function: char * lw6map_teams_get_default (char * KEY)
+     KEY:  the key we want informations about.
+
+     Gets the default value for a given teams key.
+
+     *Return value:*  dynamically allocated string, NULL on error.
+
+ -- Function: int lw6map_teams_is_same (lw6map_teams_t * TEAMS_A,
+          lw6map_teams_t * TEAMS_B)
+     TEAMS_A:  one struct to compare
+
+     TEAMS_B:  another struct to compare
+
+     Compares the contents of two teams structs.
+
+     *Return value:*  1 if they contain the same thing, 0 if not
 
  -- Function: int lw6map_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -9361,199 +9518,4 @@ results on
      Loads and executes a script. Will add a log message while doing it.
 
      *Return value:*  1 on success, 0 on failure.
-
-
-File: liquidwar6.info,  Node: libsnd,  Next: mod-csound,  Prev: libscm,  Up: C API
-
-5.33 libsnd
-===========
-
-5.33.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/index.html'.
-
-5.33.2 API
-----------
-
- -- Function: int lw6snd_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `snd' module test suite. If run in check mode (0), won't
-     really perform the test, since it could fail because of hardware
-     problems, context, permissions...
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: mod-csound,  Next: mod-ogg,  Prev: libsnd,  Up: C API
-
-5.34 mod-csound
-===============
-
-5.34.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-csound/index.html'.
-
-5.34.2 API
-----------
-
-
-File: liquidwar6.info,  Node: mod-ogg,  Next: libsrv,  Prev: mod-csound,  Up: C API
-
-5.35 mod-ogg
-============
-
-5.35.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-ogg/index.html'.
-
-5.35.2 API
-----------
-
-
-File: liquidwar6.info,  Node: libsrv,  Next: mod-httpd,  Prev: mod-ogg,  Up: C API
-
-5.36 libsrv
-===========
-
-5.36.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/index.html'.
-
-5.36.2 API
-----------
-
- -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
-          REMOTE_PORT, int SOCK, char * FIRST_LINE)
-     REMOTE_IP:  remote IP address
-
-     REMOTE_PORT:  remote port
-
-     SOCK:  the socket handler (either TCP or UDP)
-
-     FIRST_LINE:  the first line of data (can be NULL)
-
-     Create a new OOB structure, copying required objects.  We need to
-     make copies for this is for usage in a separate thread. The thread
-     member is not set here since the right way to do things is first to
-     set up data then to fire the thread.
-
-     *Return value:*  new object
-
- -- Function: void lw6srv_oob_free (lw6srv_oob_t * OOB)
-     OOB:  the object to free
-
-     Frees an OOB structure.
-
-     *Return value:*  none
-
- -- Function: lw6srv_tcp_accepter_t * lw6srv_tcp_accepter_new (char *
-          CLIENT_IP, int CLIENT_PORT, int SOCK)
-     CLIENT_IP:  the client ip, will be freed when accepter is freed,
-     do not copy it
-
-     CLIENT_PORT:  the client port
-
-     SOCK:  the socket used
-
-     Creates a tcp_accepter object.
-
-     *Return value:*  none
-
- -- Function: void lw6srv_tcp_accepter_free (lw6srv_tcp_accepter_t *
-          TCP_ACCEPTER)
-     TCP_ACCEPTER:  the object to free
-
-     Frees a tcp_accepter object.
-
-     *Return value:*  none
-
- -- Function: int lw6srv_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `srv' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: lw6srv_udp_buffer_t * lw6srv_udp_buffer_new (char *
-          CLIENT_IP, int CLIENT_PORT, char * LINE)
-     CLIENT_IP:  the client ip, will be freed when object is freed, do
-     not free it
-
-     CLIENT_PORT:  the client port
-
-     LINE:  the line received, will be freed when object is freed, do
-     not free it
-
-     Creates an udp_buffer object.
-
-     *Return value:*  none
-
- -- Function: void lw6srv_udp_buffer_free (lw6srv_udp_buffer_t *
-          UDP_BUFFER)
-     UDP_BUFFER:  the object to free
-
-     Frees a udp_buffer object.
-
-     *Return value:*  none
-
-
-File: liquidwar6.info,  Node: mod-httpd,  Next: mod-tcpd,  Prev: libsrv,  Up: C API
-
-5.37 mod-httpd
-==============
-
-5.37.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-httpd/index.html'.
-
-5.37.2 API
-----------
-
-
-File: liquidwar6.info,  Node: mod-tcpd,  Next: mod-udpd,  Prev: mod-httpd,  Up: C API
-
-5.38 mod-tcpd
-=============
-
-5.38.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-tcpd/index.html'.
-
-5.38.2 API
-----------
-
-
-File: liquidwar6.info,  Node: mod-udpd,  Next: libsys,  Prev: mod-tcpd,  Up: C API
-
-5.39 mod-udpd
-=============
-
-5.39.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-udpd/index.html'.
-
-5.39.2 API
-----------
 
