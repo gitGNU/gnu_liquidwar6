@@ -1,22 +1,22 @@
-;Liquid War 6 is a unique multiplayer wargame.
-;Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
-;
-;This program is free software; you can redistribute it and/or modify
-;it under the terms of the GNU General Public License as published by
-;the Free Software Foundation, either version 3 of the License, or
-;(at your option) any later version.
-;
-;This program is distributed in the hope that it will be useful,
-;but WITHOUT ANY WARRANTY; without even the implied warranty of
-;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;GNU General Public License for more details.
-;
-;You should have received a copy of the GNU General Public License
-;along with this program.  If not, see <http://www.gnu.org/licenses/>.
-;
-;
-;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
-;Contact author        : ufoot@ufoot.org
+;; Liquid War 6 is a unique multiplayer wargame.
+;; Copyright (C)  2005, 2006, 2007, 2008, 2009  Christian Mauduit <ufoot@ufoot.org>
+;; 
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;; 
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;; 
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; 
+;; 
+;; Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
+;; Contact author        : ufoot@ufoot.org
 
 (define %lw6-menu-stack
   '()
@@ -55,19 +55,7 @@
 		 ))
 	     (assoc-ref m "items"))
 	m
-       ))))
-    
-;(define lw6-menu-warp-mouse
-;  (lambda ()
-;    (let ((menu (lw6-current-menu)))
-;      (if menu
-;	  (c-lw6gfx-warp-mouse-on-menuitem (assoc-ref menu "smob") (assoc-ref menu "selected-item") (lw6-get-game-global "look"))))))
-
-;(define lw6-menu-center
-;  (lambda ()
-;    (let ((menu (lw6-current-menu)))
-;      (if menu
-;	  (c-lw6gfx-center-menu (assoc-ref menu "smob") (assoc-ref menu "selected-item") (lw6-get-game-global "look"))))))
+	))))
 
 (define lw6-push-menu-nowarp
   (lambda (menu)
@@ -78,14 +66,14 @@
       (lw6-menu-update-selected-item menu)
       (lw6-menu-sync menu)
       (lw6-menuitem-action (lw6-current-menuitem) "on-select")
-      ;(lw6-menu-center)
+					;(lw6-menu-center)
       )))
 
 (define lw6-push-menu 
   (lambda (menu)
     (begin 
       (lw6-push-menu-nowarp menu)
-      ;(lw6-menu-warp-mouse)
+					;(lw6-menu-warp-mouse)
       )))
 
 (define lw6-pop-menu 
@@ -99,8 +87,8 @@
 	    )
 	(if menu
 	    (begin
-	      ;(lw6-menu-center)
-	      ;(lw6-menu-warp-mouse)
+					;(lw6-menu-center)
+					;(lw6-menu-warp-mouse)
 	      ))))))
 
 (define lw6-current-menu 
@@ -158,7 +146,7 @@
 		  (assoc-set! menu "allow-scroll" allow-scroll)
 		  (lw6-menu-sync menu)
 		  (lw6-menuitem-action (lw6-current-menuitem) "on-select")
-		  ;(if warp-mouse (lw6-menu-warp-mouse))
+					;(if warp-mouse (lw6-menu-warp-mouse))
 		  #t
 		  )))))))
 
@@ -281,7 +269,7 @@
 	  (if (> value max-index)
 	      (set! value max-index))
 	  value
-	)))))
+	  )))))
 
 (define lw6-menu-item-list-boolean-index-func
   (lambda (param)
@@ -301,35 +289,35 @@
       (set! item (assoc-set! item "value" (index-func item)))
       (set! item (assoc-set! item "label" (label-func item)))
       (set! item (assoc-set! item "on-plus" 
-		  (lambda (mi)		      
-		    (let* (
-			   (menu-smob (assoc-ref (lw6-current-menu) "smob"))
-			   (value (assoc-ref mi "value"))
-			   )
-		      (begin
-			(set! value (+ value 1))
-			(if (>= value (length values-list))
-			    (set! value 0))
-			(assoc-set! mi "value" value)
-			(update-func mi)
-			(assoc-set! mi "label" (label-func mi))
-			(c-lw6gui-menu-sync menu-smob mi)
-			)))))
+			     (lambda (mi)		      
+			       (let* (
+				      (menu-smob (assoc-ref (lw6-current-menu) "smob"))
+				      (value (assoc-ref mi "value"))
+				      )
+				 (begin
+				   (set! value (+ value 1))
+				   (if (>= value (length values-list))
+				       (set! value 0))
+				   (assoc-set! mi "value" value)
+				   (update-func mi)
+				   (assoc-set! mi "label" (label-func mi))
+				   (c-lw6gui-menu-sync menu-smob mi)
+				   )))))
       (set! item (assoc-set! item "on-minus" 
-		  (lambda (mi)		      
-		    (let* (
-			   (menu-smob (assoc-ref (lw6-current-menu) "smob"))
-			   (value (assoc-ref mi "value"))
-			   )
-		      (begin
-			(set! value (- value 1))
-			(if (< value 0)
-			    (set! value (- (length values-list) 1)))
-			(assoc-set! mi "value" value)
-			(update-func mi)
-			(assoc-set! mi "label" (label-func mi))
-			(c-lw6gui-menu-sync menu-smob mi)
-			)))))
+			     (lambda (mi)		      
+			       (let* (
+				      (menu-smob (assoc-ref (lw6-current-menu) "smob"))
+				      (value (assoc-ref mi "value"))
+				      )
+				 (begin
+				   (set! value (- value 1))
+				   (if (< value 0)
+				       (set! value (- (length values-list) 1)))
+				   (assoc-set! mi "value" value)
+				   (update-func mi)
+				   (assoc-set! mi "label" (label-func mi))
+				   (c-lw6gui-menu-sync menu-smob mi)
+				   )))))
       (set! item (assoc-set! item "on-valid" (assoc-ref item "on-plus")))
       item
       )))
@@ -337,7 +325,7 @@
 (define lw6-menu-item-list-template
   (lambda (label-func update-func index-func values-list)
     (lw6-menu-item-list-template-update (list) label-func update-func index-func values-list)))
-    
+
 (define lw6-menu-item-list-number-template
   (lambda (config-key labels)
     (lw6-menu-item-list-template 
@@ -387,7 +375,7 @@
     (let* (
 	   (menu-smob (assoc-ref menu "smob"))
 	   (id (c-lw6gui-menu-append menu-smob menuitem))
-	  )
+	   )
       (set! menu (assoc-set! menu "items" (append (assoc-ref menu "items") (list (assoc-set! menuitem "id" id))))))))
 
 (define lw6-menu-sync
@@ -407,15 +395,18 @@
 	 )
       (if
        menu
-	 (let*
-	     (
-	      (mouse-state (c-lw6gui-mouse-get-state dsp))
-	      (menu-position (assoc-ref mouse-state "menu-position"))
-	      (menu-scroll (assoc-ref mouse-state "menu-scroll"))
-	      (menu-esc (assoc-ref mouse-state "menu-esc"))
-	      )
-	   (begin
-	     (if (lw6-menu-pump-all?)
+       (let*
+	   (
+	    (mouse-state (c-lw6gui-mouse-get-state dsp))
+	    (menu-position (assoc-ref mouse-state "menu-position"))
+	    (menu-scroll (assoc-ref mouse-state "menu-scroll"))
+	    (menu-esc (assoc-ref mouse-state "menu-esc"))
+	    )
+	 (begin
+	   (if (lw6-menu-pump-all?)
+	       (begin
+		 (c-lw6gui-mouse-pop-simple-click dsp)
+		 (c-lw6gui-mouse-pop-double-click dsp)
 		 (cond 
 		  ((or
 		    (c-lw6gui-keyboard-pop-arrow-up dsp)
@@ -478,37 +469,51 @@
 		   (lw6-menu-action menu "on-cancel")
 		   (lw6-play-fx-beep-valid)
 		   )
-		  ))
-	     (cond
-	      ((or
-		(c-lw6gui-keyboard-pop-key-esc dsp)
-		(c-lw6gui-joystick1-pop-button-b dsp)
-		(c-lw6gui-joystick2-pop-button-b dsp))
-	       (begin
-		 (lw6-menu-action menu "on-cancel")
-		 (lw6-play-fx-beep-valid)
-		 )
+		  )))
+	   (cond
+	    ((or
+	      (c-lw6gui-keyboard-pop-key-esc dsp)
+	      (c-lw6gui-joystick1-pop-button-b dsp)
+	      (c-lw6gui-joystick2-pop-button-b dsp))
+	     (begin
+	       (c-lw6gui-mouse-pop-simple-click dsp)
+	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (lw6-menu-action menu "on-cancel")
+	       (lw6-play-fx-beep-valid)
 	       )
-	      ((>= menu-position 0)
+	     )
+	    ((>= menu-position 0)
+	     (begin
+	       (c-lw6gui-mouse-pop-simple-click dsp)
+	       (c-lw6gui-mouse-pop-double-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (begin
 		     (lw6-set-menuitem! menu-position #f)
 		     (set! menuitem (lw6-current-menuitem))
 		     (if
 		      (lw6-menuitem-action menuitem "on-valid")
-		      (lw6-play-fx-beep-valid)))))
-	      ((> menu-scroll 0)
+		      (lw6-play-fx-beep-valid))))))
+	    ((> menu-scroll 0)
+	     (begin
+	       (c-lw6gui-mouse-pop-simple-click dsp)
+	       (c-lw6gui-mouse-pop-double-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
-		   (lw6-next-menuitem #f)))
-	      ((> menu-scroll 0)
+		   (lw6-next-menuitem #f))))
+	    ((< menu-scroll 0)
+	     (begin
+	       (c-lw6gui-mouse-pop-simple-click dsp)
+	       (c-lw6gui-mouse-pop-double-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
-		   (lw6-prev-menuitem #f)))
-	      (menu-esc
+		   (lw6-prev-menuitem #f))))
+	    (menu-esc
+	     (begin
+	       (c-lw6gui-mouse-pop-simple-click dsp)
+	       (c-lw6gui-mouse-pop-double-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (if
 		    (lw6-menu-action menu "on-cancel")
-		    (lw6-play-fx-beep-valid))))
-	      ))))
+		    (lw6-play-fx-beep-valid)))))
+	    ))))
       )))
 
 (define lw6-menu-pump-mouse

@@ -96,6 +96,7 @@ _lw6ker_team_sync (_lw6ker_team_t * dst, _lw6ker_team_t * src)
       && _lw6ker_map_struct_lazy_compare (dst->map_struct, src->map_struct))
     {
       dst->active = src->active;
+      dst->has_been_active = src->has_been_active;
       dst->respawn_round = src->respawn_round;
       dst->offline = src->offline;
       memcpy (dst->gradient, src->gradient,
@@ -124,6 +125,7 @@ _lw6ker_team_update_checksum (_lw6ker_team_t * team, u_int32_t * checksum)
   int i;
 
   lw6sys_checksum_update_int32 (checksum, team->active);
+  lw6sys_checksum_update_int32 (checksum, team->has_been_active);
   lw6sys_checksum_update_int32 (checksum, team->respawn_round);
   lw6sys_checksum_update_int32 (checksum, team->offline);
   // map_struct checksumed elsewhere
@@ -143,6 +145,7 @@ void
 _lw6ker_team_activate (_lw6ker_team_t * team, lw6sys_xyz_t pos)
 {
   team->active = 1;
+  team->has_been_active = 1;
   team->respawn_round = 0;
   team->offline = 0;
   team->charge = 0;
@@ -152,6 +155,7 @@ void
 _lw6ker_team_unactivate (_lw6ker_team_t * team)
 {
   team->active = 0;
+  // carefull, do not touch "has_been_active" !!!
   team->respawn_round = 0;
   team->offline = 0;
   team->charge = 0;

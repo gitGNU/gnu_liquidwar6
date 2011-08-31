@@ -165,6 +165,7 @@ _lw6ker_cursor_array_t;
 typedef struct _lw6ker_team_s
 {
   int active;
+  int has_been_active;
   int respawn_round;
   int offline;
   _lw6ker_map_struct_t *map_struct;

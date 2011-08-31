@@ -348,13 +348,13 @@ _mod_gl_hud_floating_context_update_score (mod_gl_utils_context_t *
 {
   int ret = 0;
 
-  ret = _update_pie (utils_context, floating_context);
-
   floating_context->look = look;
   floating_context->game_state = game_state;
   floating_context->local_cursors = local_cursors;
   lw6ker_score_array_update (&floating_context->score_array,
 			     floating_context->game_state);
+
+  ret = _update_pie (utils_context, floating_context);
 
   return ret;
 }
