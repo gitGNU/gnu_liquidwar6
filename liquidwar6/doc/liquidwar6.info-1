@@ -4739,20 +4739,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
 4.5 Players options
 ===================
 
-4.5.1 player1-color
--------------------
-
- -- Command-line option: `--player1-color=<value>'
- -- Environment variable: `LW6_PLAYER1_COLOR'
- -- XML key: `player1-color'
-     Type: string
-
-     Default value: red
-
-     Color of the first player, must be red, green, blue, yellow, cyan,
-     magenta, orange, lightblue, purple or pink
-
-4.5.2 player1-control
+4.5.1 player1-control
 ---------------------
 
  -- Command-line option: `--player1-control=<value>'
@@ -4765,7 +4752,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Control for the first player, must be mouse, keyboard, joystick1,
      joystick2 or custom.
 
-4.5.3 player1-name
+4.5.2 player1-name
 ------------------
 
  -- Command-line option: `--player1-name=<value>'
@@ -4778,7 +4765,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Name of the first player, the player used by default. A default
      value is provided, you can of course, change it at will.
 
-4.5.4 player1-status
+4.5.3 player1-status
 --------------------
 
  -- Command-line option: `--player1-status=<value>'
@@ -4791,20 +4778,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Status of the first player, true if player is activated, false if
      idle.
 
-4.5.5 player2-color
--------------------
-
- -- Command-line option: `--player2-color=<value>'
- -- Environment variable: `LW6_PLAYER2_COLOR'
- -- XML key: `player2-color'
-     Type: string
-
-     Default value: green
-
-     Color of the second player, must be red, green, blue, yellow,
-     cyan, magenta, orange, lightblue, purple or pink
-
-4.5.6 player2-control
+4.5.4 player2-control
 ---------------------
 
  -- Command-line option: `--player2-control=<value>'
@@ -4817,7 +4791,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Control for the second player, must be mouse, keyboard, joystick1,
      joystick2 or custom.
 
-4.5.7 player2-name
+4.5.5 player2-name
 ------------------
 
  -- Command-line option: `--player2-name=<value>'
@@ -4830,7 +4804,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Name of the second player. A default value is provided, you'll
      certainly want to change it.
 
-4.5.8 player2-status
+4.5.6 player2-status
 --------------------
 
  -- Command-line option: `--player2-status=<value>'
@@ -4843,21 +4817,8 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Status of the second player, true if player is activated, false if
      idle.
 
-4.5.9 player3-color
--------------------
-
- -- Command-line option: `--player3-color=<value>'
- -- Environment variable: `LW6_PLAYER3_COLOR'
- -- XML key: `player3-color'
-     Type: string
-
-     Default value: blue
-
-     Color of the third player, must be red, green, blue, yellow, cyan,
-     magenta, orange, lightblue, purple or pink
-
-4.5.10 player3-control
-----------------------
+4.5.7 player3-control
+---------------------
 
  -- Command-line option: `--player3-control=<value>'
  -- Environment variable: `LW6_PLAYER3_CONTROL'
@@ -4869,8 +4830,8 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Control for the third player, must be mouse, keyboard, joystick1,
      joystick2 or custom.
 
-4.5.11 player3-name
--------------------
+4.5.8 player3-name
+------------------
 
  -- Command-line option: `--player3-name=<value>'
  -- Environment variable: `LW6_PLAYER3_NAME'
@@ -4882,8 +4843,8 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Name of the third player. A default value is provided, you'll
      certainly want to change it.
 
-4.5.12 player3-status
----------------------
+4.5.9 player3-status
+--------------------
 
  -- Command-line option: `--player3-status=<value>'
  -- Environment variable: `LW6_PLAYER3_STATUS'
@@ -4895,20 +4856,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Status of the third player, true if player is activated, false if
      idle.
 
-4.5.13 player4-color
---------------------
-
- -- Command-line option: `--player4-color=<value>'
- -- Environment variable: `LW6_PLAYER4_COLOR'
- -- XML key: `player4-color'
-     Type: string
-
-     Default value: yellow
-
-     Color of the fourth player, must be red, green, blue, yellow,
-     cyan, magenta, orange, lightblue, purple or pink
-
-4.5.14 player4-control
+4.5.10 player4-control
 ----------------------
 
  -- Command-line option: `--player4-control=<value>'
@@ -4921,7 +4869,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Control for the fourth player, must be mouse, keyboard, joystick1,
      joystick2 or custom.
 
-4.5.15 player4-name
+4.5.11 player4-name
 -------------------
 
  -- Command-line option: `--player4-name=<value>'
@@ -4934,7 +4882,7 @@ File: liquidwar6.info,  Node: Players options,  Next: Input options,  Prev: Path
      Name of the fourth player. A default value is provided, you'll
      certainly want to change it.
 
-4.5.16 player4-status
+4.5.12 player4-status
 ---------------------
 
  -- Command-line option: `--player4-status=<value>'

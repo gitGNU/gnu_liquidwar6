@@ -240,18 +240,51 @@ settings will be used, if set to 2 then bot1-... and bot2-... will be used,
 and so on.
 @end deffn
 
-@subsection player-color
-@deffn {Command-line option} @code{--player-color=<value>}
-@deffnx {Environment variable} @code{LW6_PLAYER_COLOR}
-@deffnx {XML key} @code{player-color}
+@subsection player1-color
+@deffn {Command-line option} @code{--player1-color=<value>}
+@deffnx {Environment variable} @code{LW6_PLAYER1_COLOR}
+@deffnx {XML key} @code{player1-color}
 Type: string
 
 Default value: red
 
-Color of the player in solo mode, must be red, green, blue, yellow, cyan,
-magenta, orange, lightblue, purple or pink. Note that this is different from
-player1-... parameters, this is used when playing solo with default settings,
-relying on what the map provides, if you want to play with custom color/teams
-settings, then this will just be ignored.
+Color of the first player, must be red, green, blue, yellow, cyan, magenta,
+orange, lightblue, purple or pink
+@end deffn
+
+@subsection player2-color
+@deffn {Command-line option} @code{--player2-color=<value>}
+@deffnx {Environment variable} @code{LW6_PLAYER2_COLOR}
+@deffnx {XML key} @code{player2-color}
+Type: string
+
+Default value: green
+
+Color of the second player, must be red, green, blue, yellow, cyan, magenta,
+orange, lightblue, purple or pink
+@end deffn
+
+@subsection player3-color
+@deffn {Command-line option} @code{--player3-color=<value>}
+@deffnx {Environment variable} @code{LW6_PLAYER3_COLOR}
+@deffnx {XML key} @code{player3-color}
+Type: string
+
+Default value: blue
+
+Color of the third player, must be red, green, blue, yellow, cyan, magenta,
+orange, lightblue, purple or pink
+@end deffn
+
+@subsection player4-color
+@deffn {Command-line option} @code{--player4-color=<value>}
+@deffnx {Environment variable} @code{LW6_PLAYER4_COLOR}
+@deffnx {XML key} @code{player4-color}
+Type: string
+
+Default value: yellow
+
+Color of the fourth player, must be red, green, blue, yellow, cyan, magenta,
+orange, lightblue, purple or pink
 @end deffn
 

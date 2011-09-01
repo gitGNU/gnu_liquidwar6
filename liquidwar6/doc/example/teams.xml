@@ -10,14 +10,10 @@
     player to try out various colors along its journey in the game.
   -->
   <!--
-    "player-color" (default="red"): Color of the player in solo mode, must be
-    red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or
-    pink. Note that this is different from player1-... parameters, this is
-    used when playing solo with default settings, relying on what the map
-    provides, if you want to play with custom color/teams settings, then this
-    will just be ignored.
+    "player1-color" (default="red"): Color of the first player, must be red,
+    green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink
   -->
-  <string key="player-color" value="red"/>
+  <string key="player1-color" value="red"/>
   <!--
     "nb-bots" (default="2", min="0", max="9"): Number of bots on the map. 0
     means no bots, if set to 1 the the bot1-... settings will be used, if set

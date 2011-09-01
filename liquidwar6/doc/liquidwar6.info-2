@@ -1487,22 +1487,57 @@ File: liquidwar6.info,  Node: Map teams.xml,  Next: Advanced settings,  Prev: Ma
      bot1-...  settings will be used, if set to 2 then bot1-... and
      bot2-... will be used, and so on.
 
-4.14.22 player-color
---------------------
+4.14.22 player1-color
+---------------------
 
- -- Command-line option: `--player-color=<value>'
- -- Environment variable: `LW6_PLAYER_COLOR'
- -- XML key: `player-color'
+ -- Command-line option: `--player1-color=<value>'
+ -- Environment variable: `LW6_PLAYER1_COLOR'
+ -- XML key: `player1-color'
      Type: string
 
      Default value: red
 
-     Color of the player in solo mode, must be red, green, blue,
-     yellow, cyan, magenta, orange, lightblue, purple or pink. Note
-     that this is different from player1-... parameters, this is used
-     when playing solo with default settings, relying on what the map
-     provides, if you want to play with custom color/teams settings,
-     then this will just be ignored.
+     Color of the first player, must be red, green, blue, yellow, cyan,
+     magenta, orange, lightblue, purple or pink
+
+4.14.23 player2-color
+---------------------
+
+ -- Command-line option: `--player2-color=<value>'
+ -- Environment variable: `LW6_PLAYER2_COLOR'
+ -- XML key: `player2-color'
+     Type: string
+
+     Default value: green
+
+     Color of the second player, must be red, green, blue, yellow,
+     cyan, magenta, orange, lightblue, purple or pink
+
+4.14.24 player3-color
+---------------------
+
+ -- Command-line option: `--player3-color=<value>'
+ -- Environment variable: `LW6_PLAYER3_COLOR'
+ -- XML key: `player3-color'
+     Type: string
+
+     Default value: blue
+
+     Color of the third player, must be red, green, blue, yellow, cyan,
+     magenta, orange, lightblue, purple or pink
+
+4.14.25 player4-color
+---------------------
+
+ -- Command-line option: `--player4-color=<value>'
+ -- Environment variable: `LW6_PLAYER4_COLOR'
+ -- XML key: `player4-color'
+     Type: string
+
+     Default value: yellow
+
+     Color of the fourth player, must be red, green, blue, yellow,
+     cyan, magenta, orange, lightblue, purple or pink
 
 
 File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map teams.xml,  Up: Reference
