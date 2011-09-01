@@ -33,6 +33,7 @@
 #define TEST_ARGV0 "prog"
 #define TEST_ARGV1 "--arg=X"
 #define TEST_DIR_RELATIVE_PATH ""
+#define TEST_DIR_CHAIN_PATH TEST_MAP
 #define TEST_PARAM_KEY1 LW6DEF_TOTAL_TIME
 #define TEST_PARAM_VALUE1 "180"
 #define TEST_PARAM_KEY2 LW6DEF_BACKGROUND_STYLE
@@ -272,6 +273,18 @@ test_dir ()
 		ret = 0;
 	      }
 	    LW6SYS_FREE (user_dir);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+
+	entry = lw6ldr_chain_entry (map_path, TEST_DIR_CHAIN_PATH, user_dir);
+	if (entry)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("chain for \"%s\" is \"%s\""),
+			TEST_DIR_CHAIN_PATH, entry->relative_path);
+	    lw6ldr_free_entry (entry);
 	  }
 	else
 	  {

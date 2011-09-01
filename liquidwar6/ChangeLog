@@ -1,5 +1,7 @@
 2011-09-01 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Introduced level chaining function.
+
 	* Moved all player colors conf to teams.xml.
 
 2011-08-31 : Christian Mauduit <ufoot@ufoot.org>

@@ -39,6 +39,13 @@ typedef struct for_all_entries_callback_data_s
   void *func_data;
 } for_all_entries_callback_data_t;
 
+typedef struct _chain_ret_s
+{
+  int exp;
+  lw6ldr_entry_t *found_entry;
+}
+_chain_ret_t;
+
 static lw6ldr_entry_t *
 new_entry (char *absolute_path, char *relative_path, char *entry_path,
 	   int player_exp)
@@ -46,13 +53,13 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
   lw6ldr_entry_t *entry = NULL;
   lw6map_rules_t rules;
   char *map_filename = NULL;
-  int map_exp = LW6MAP_RULES_DEFAULT_EXP;
 
   if (entry_path[0] != '.')
     {
       entry = (lw6ldr_entry_t *) LW6SYS_CALLOC (sizeof (lw6ldr_entry_t));
       if (entry)
 	{
+	  entry->exp = LW6MAP_RULES_DEFAULT_EXP;
 	  entry->absolute_path =
 	    lw6sys_path_concat (absolute_path, entry_path);
 	  if (entry->absolute_path)
@@ -89,7 +96,7 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 			  if (lw6ldr_rules_read
 			      (&rules, entry->absolute_path))
 			    {
-			      map_exp = rules.exp;
+			      entry->exp = rules.exp;
 			    }
 			}
 		      LW6SYS_FREE (map_filename);
@@ -114,7 +121,7 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 
   if (entry)
     {
-      if ((map_exp > player_exp) && (entry->absolute_path != NULL))
+      if ((entry->exp > player_exp) && (entry->absolute_path != NULL))
 	{
 	  lw6sys_log (LW6SYS_LOG_INFO,
 		      _x_
@@ -179,6 +186,39 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
 	}
     }
   LW6SYS_FREE (entry);
+}
+
+/**
+ * lw6ldr_dup_entry
+ *
+ * @entry: the entry to dup
+ *
+ * Dup a map entry.
+ *
+ * Return value: newly allocated object.
+ */
+lw6ldr_entry_t *
+lw6ldr_dup_entry (lw6ldr_entry_t * entry)
+{
+  lw6ldr_entry_t *ret;
+
+  ret = (lw6ldr_entry_t *) LW6SYS_CALLOC (sizeof (lw6ldr_entry_t));
+  if (ret)
+    {
+      memcpy (ret, entry, sizeof (lw6ldr_entry_t));
+
+      ret->title = lw6sys_str_copy (ret->title);
+      ret->absolute_path = lw6sys_str_copy (ret->absolute_path);
+      ret->relative_path = lw6sys_str_copy (ret->relative_path);
+
+      if (!ret->title || !ret->absolute_path || !ret->relative_path)
+	{
+	  lw6ldr_free_entry (ret);
+	  ret = NULL;
+	}
+    }
+
+  return ret;
 }
 
 static void
@@ -310,6 +350,14 @@ entries_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
       ret = -1;
     }
   else if ((!entry_a->has_subdirs) && entry_b->has_subdirs)
+    {
+      ret = 1;
+    }
+  else if (entry_a->exp < entry_b->exp)
+    {
+      ret = -1;
+    }
+  else if (entry_a->exp > entry_b->exp)
     {
       ret = 1;
     }
@@ -473,4 +521,65 @@ lw6ldr_for_all_entries (char *map_path, char *relative_path, char *user_dir,
 		       (void *) &callback_data);
       lw6sys_list_free (entries);
     }
+}
+
+static void
+_chain_func (void *func_data, void *data)
+{
+  _chain_ret_t *chain_ret = (_chain_ret_t *) func_data;
+  lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
+
+  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"),
+	      entry->absolute_path, entry->exp);
+
+  if (!(chain_ret->found_entry))
+    {
+      /*
+       * We only search for the case where exps are the same
+       * if map exp is inferior means this is a level we're likely
+       * to have already done, if map exp is greater, there's a bug
+       * or we're cheating.
+       */
+      if (entry->exp == chain_ret->exp)
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("ok, found \"%s\" exp=%d which is suitable"),
+		      entry->absolute_path, entry->exp);
+	  chain_ret->found_entry = lw6ldr_dup_entry (entry);
+	}
+    }
+}
+
+/**
+ * lw6ldr_chain_entry
+ *
+ * @map_path: the map_path environment config variable, delimited path list
+ * @relative_path: the relative path to use to find the map directory
+ * @user_dir: the user directory
+ *
+ * Gets the next entry
+ * used in test programs.
+ *
+ * Return value: none.
+ */
+lw6ldr_entry_t *
+lw6ldr_chain_entry (char *map_path, char *relative_path, char *user_dir)
+{
+  char *parent = NULL;
+  lw6ldr_entry_t *ret = NULL;
+  _chain_ret_t chain_ret;
+
+  chain_ret.exp = LW6MAP_RULES_MIN_EXP;
+  chain_ret.found_entry = NULL;
+  lw6cfg_load_exp (user_dir, &chain_ret.exp);
+  parent = lw6sys_path_parent (relative_path);
+  if (parent)
+    {
+      lw6ldr_for_all_entries (map_path, parent, user_dir, 0, &_chain_func,
+			      &chain_ret);
+      ret = chain_ret.found_entry;
+      LW6SYS_FREE (parent);
+    }
+
+  return ret;
 }

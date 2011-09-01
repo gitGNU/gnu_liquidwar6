@@ -194,6 +194,7 @@
 (define lw6def-c-lw6ker-sync-game-state "c-lw6ker-sync-game-state")
 (define lw6def-c-lw6ker-unregister-node "c-lw6ker-unregister-node")
 (define lw6def-c-lw6ldr-exp-validate "c-lw6ldr-exp-validate")
+(define lw6def-c-lw6ldr-chain-entry "c-lw6ldr-chain-entry")
 (define lw6def-c-lw6ldr-get-entries "c-lw6ldr-get-entries")
 (define lw6def-c-lw6ldr-hints-get-default "c-lw6ldr-hints-get-default")
 (define lw6def-c-lw6ldr-print-examples "c-lw6ldr-print-examples")

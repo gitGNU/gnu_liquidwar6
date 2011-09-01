@@ -201,6 +201,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6KER_SYNC_GAME_STATE "c-lw6ker-sync-game-state"
 #define LW6DEF_C_LW6KER_UNREGISTER_NODE "c-lw6ker-unregister-node"
 #define LW6DEF_C_LW6LDR_EXP_VALIDATE "c-lw6ldr-exp-validate"
+#define LW6DEF_C_LW6LDR_CHAIN_ENTRY "c-lw6ldr-chain-entry"
 #define LW6DEF_C_LW6LDR_GET_ENTRIES "c-lw6ldr-get-entries"
 #define LW6DEF_C_LW6LDR_HINTS_GET_DEFAULT "c-lw6ldr-hints-get-default"
 #define LW6DEF_C_LW6LDR_PRINT_EXAMPLES "c-lw6ldr-print-examples"

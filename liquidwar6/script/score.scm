@@ -35,10 +35,12 @@
 		    (begin
 		      ;;(lw6-log-notice "X")
 		      (c-lw6ldr-exp-validate level)
-		      ))
-		)
-	    )
-	  )
-      )
-    )
-  )
+		      (let* (
+			     (map-path (lw6-get-game-global lw6def-map-path))
+			     (relative-path (lw6-config-get-string lw6def-chosen-map))
+			     (entry (c-lw6ldr-chain-entry map-path relative-path))
+			     )
+			(if entry
+			    (begin
+			      (lw6-config-set-string! lw6def-chosen-map (assoc-ref entry "relative-path"))
+			      )))))))))))

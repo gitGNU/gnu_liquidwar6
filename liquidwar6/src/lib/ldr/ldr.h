@@ -129,6 +129,7 @@ typedef struct lw6ldr_entry_s
   char *absolute_path;
   char *relative_path;
   int has_subdirs;
+  int exp;
 }
 lw6ldr_entry_t;
 
@@ -149,6 +150,7 @@ extern int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
 
 /* ldr-dir.c */
 extern void lw6ldr_free_entry (lw6ldr_entry_t * entry);
+extern lw6ldr_entry_t *lw6ldr_dup_entry (lw6ldr_entry_t * entry);
 extern lw6sys_list_t *lw6ldr_get_entries (char *map_path,
 					  char *relative_path,
 					  char *user_dir);
@@ -156,6 +158,9 @@ extern void lw6ldr_for_all_entries (char *map_path, char *relative_path,
 				    char *user_dir, int recursive,
 				    lw6sys_list_callback_func_t callback_func,
 				    void *func_data);
+extern lw6ldr_entry_t *lw6ldr_chain_entry (char *map_path,
+					   char *relative_path,
+					   char *user_dir);
 
 /* ldr-exp.c */
 extern int lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir);

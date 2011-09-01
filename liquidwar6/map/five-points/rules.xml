@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <lw6mapparam>
+  <int key="exp" value="7" />  
+
   <int key="fighter-attack" value="750"/>
   <int key="fighter-defense" value="75"/>
   <int key="fighter-new-health" value="1500"/>

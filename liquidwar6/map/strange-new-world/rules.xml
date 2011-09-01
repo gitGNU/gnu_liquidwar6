@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lw6mapparam>
   
-
+  <int key="exp" value="2" />  
 
   <!-- ARMY -->
   <int key="single-army-size" value="30"/> <!--  Default: 30   Min: 1   Max: 95   -->

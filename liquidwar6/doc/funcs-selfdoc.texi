@@ -650,6 +650,11 @@ Wrapper on lw6ker_sync_game_state.
 Wrapper on lw6ker_unregister_node.
 @end deffn
 
+@subsection c-lw6ldr-chain-entry
+@deffn {C function exported to Guile} @code{c-lw6ldr-chain-entry}
+Wrapper on lw6ldr_chain_entry.
+@end deffn
+
 @subsection c-lw6ldr-exp-validate
 @deffn {C function exported to Guile} @code{c-lw6ldr-exp-validate}
 Wrapper on lw6ldr_exp_validate.

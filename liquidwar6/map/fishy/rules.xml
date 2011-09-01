@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <lw6mapparam>
+  <int key="exp" value="8" />  
 
   <!-- SPECIAL EFFECTS -->
   <int key="glue-power" value="3"/>

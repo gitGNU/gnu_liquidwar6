@@ -4973,7 +4973,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
 		      if (c_entry)
 			{
-			  ret = scm_cons (scm_list_4
+			  ret = scm_cons (scm_list_5
 					  (scm_cons
 					   (scm_makfrom0str ("title"),
 					    scm_makfrom0str (c_entry->title)),
@@ -4988,8 +4988,10 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 					   scm_cons (scm_makfrom0str
 						     ("has-subdirs"),
 						     c_entry->has_subdirs ?
-						     SCM_BOOL_T :
-						     SCM_BOOL_F)), ret);
+						     SCM_BOOL_T : SCM_BOOL_F),
+					   scm_cons (scm_makfrom0str ("exp"),
+						     scm_int2num
+						     (c_entry->exp))), ret);
 			  lw6ldr_free_entry (c_entry);
 			}
 		    }
@@ -5252,6 +5254,68 @@ _scm_lw6ldr_exp_validate (SCM level)
 	    lw6ldr_exp_validate (c_level, user_dir) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (user_dir);
 	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_map_path = NULL;
+  char *c_relative_path = NULL;
+  char *user_dir = NULL;
+  lw6ldr_entry_t *c_entry = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (map_path), map_path, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_string (relative_path), relative_path, SCM_ARG2,
+	      __FUNCTION__);
+
+  c_map_path = to_0str (map_path);
+  if (c_map_path)
+    {
+      c_relative_path = to_0str (relative_path);
+      if (c_relative_path)
+	{
+	  user_dir =
+	    lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
+	  if (user_dir)
+	    {
+	      c_entry =
+		lw6ldr_chain_entry (c_map_path, c_relative_path, user_dir);
+	      if (c_entry)
+		{
+		  ret = scm_list_5
+		    (scm_cons
+		     (scm_makfrom0str ("title"),
+		      scm_makfrom0str (c_entry->title)),
+		     scm_cons (scm_makfrom0str
+			       ("absolute-path"),
+			       scm_makfrom0str
+			       (c_entry->absolute_path)),
+		     scm_cons (scm_makfrom0str
+			       ("relative-path"),
+			       scm_makfrom0str
+			       (c_entry->relative_path)),
+		     scm_cons (scm_makfrom0str
+			       ("has-subdirs"),
+			       c_entry->has_subdirs ?
+			       SCM_BOOL_T :
+			       SCM_BOOL_F),
+		     scm_cons (scm_makfrom0str ("exp"),
+			       scm_int2num (c_entry->exp)));
+		  lw6ldr_free_entry (c_entry);
+		}
+	      LW6SYS_FREE (user_dir);
+	    }
+	  LW6SYS_FREE (c_relative_path);
+	}
+      LW6SYS_FREE (c_map_path);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -8901,6 +8965,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6ldr_hints_get_default);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_EXP_VALIDATE, 1, 0, 0,
 			 (SCM (*)())_scm_lw6ldr_exp_validate);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6LDR_CHAIN_ENTRY, 2, 0, 0,
+			 (SCM (*)())_scm_lw6ldr_chain_entry);
 
   /*
    * In liquidwar6map
