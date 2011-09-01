@@ -130,8 +130,8 @@
     (let* (
 	   (player-color (c-lw6map-param-get level 
 					     (if (equal? cursor-key "1")
-						 lw6def-player-color
-						 lw6def-bot1-color)))
+						 lw6def-player1-color
+						 lw6def-player2-color)))
 	   (cursor (lw6-enable-cursor cursor-key))
 	   (cursor-id (lw6-get-cursor-id-not-in-game-state game-state))
 	   (rounds (c-lw6ker-get-rounds game-state))

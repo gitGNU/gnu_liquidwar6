@@ -551,7 +551,6 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_PEDIGREE "pedigree"
 #define LW6DEF_PILOT_LAG "pilot-lag"
 #define LW6DEF_PIXELIZE "pixelize"
-#define LW6DEF_PLAYER_COLOR "player-color"
 #define LW6DEF_PLAYER1_COLOR "player1-color"
 #define LW6DEF_PLAYER1_CONTROL "player1-control"
 #define LW6DEF_PLAYER1_NAME "player1-name"

@@ -1525,6 +1525,15 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 	    {
 	      if (game_state->game_struct->rules.respawn_team)
 		{
+		  if (game_state->map_state.teams[team_color].respawn_round ==
+		      0)
+		    {
+	  /*
+	   * We unset all weapons once someone looses to avoid
+	   * artificial killing sprees on unfair settings.
+	   */
+		      _lw6ker_weapon_unset_all (&(game_state->map_state));
+
 		  _lw6ker_map_state_frag (&(game_state->map_state),
 					  team_color,
 					  game_state->game_struct->rules.
@@ -1533,12 +1542,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 					  frags_to_distribute,
 					  game_state->game_struct->rules.
 					  frags_fade_out);
-		}
-	      if (game_state->game_struct->rules.respawn_team)
-		{
-		  if (game_state->map_state.teams[team_color].respawn_round ==
-		      0)
-		    {
+
 		      game_state->map_state.teams[team_color].respawn_round =
 			rounds +
 			(game_state->game_struct->rules.respawn_delay *
@@ -1577,6 +1581,11 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 		}
 	      else
 		{
+	  /*
+	   * We unset all weapons once someone looses to avoid
+	   * artificial killing sprees on unfair settings.
+	   */
+		      _lw6ker_weapon_unset_all (&(game_state->map_state));
 		  /*
 		   * OK this is hell we do it manually but high-level functions
 		   * all require a node-id...

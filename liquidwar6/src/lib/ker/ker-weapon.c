@@ -395,7 +395,6 @@ _lw6ker_weapon_fire_escape (_lw6ker_map_state_t * map_state,
   int slot_id = 0;
   int old_slot_id = 0;
   int new_slot_id = 0;
-  int fighter_id = 0;
   lw6sys_whd_t shape = { 0, 0, 0 };
   lw6ker_fighter_t *fighter = NULL;
   int found = 0;

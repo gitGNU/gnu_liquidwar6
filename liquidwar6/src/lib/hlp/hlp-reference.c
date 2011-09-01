@@ -505,22 +505,6 @@ populate_references ()
 		_x_
 		("Control for the fourth player, must be mouse, keyboard, joystick1, joystick2 or custom."),
 		"joystick2");
-  POPULATE_STR (LW6DEF_PLAYER1_COLOR,
-		_x_
-		("Color of the first player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
-		LW6MAP_TEAM_COLOR_KEY_RED);
-  POPULATE_STR (LW6DEF_PLAYER2_COLOR,
-		_x_
-		("Color of the second player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
-		LW6MAP_TEAM_COLOR_KEY_GREEN);
-  POPULATE_STR (LW6DEF_PLAYER3_COLOR,
-		_x_
-		("Color of the third player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
-		LW6MAP_TEAM_COLOR_KEY_BLUE);
-  POPULATE_STR (LW6DEF_PLAYER4_COLOR,
-		_x_
-		("Color of the fourth player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
-		LW6MAP_TEAM_COLOR_KEY_YELLOW);
   /*
    * Input
    */
@@ -2108,10 +2092,22 @@ populate_references ()
   /*
    * Map teams
    */
-  POPULATE_STR (LW6DEF_PLAYER_COLOR,
+  POPULATE_STR (LW6DEF_PLAYER1_COLOR,
 		_x_
-		("Color of the player in solo mode, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink. Note that this is different from player1-... parameters, this is used when playing solo with default settings, relying on what the map provides, if you want to play with custom color/teams settings, then this will just be ignored."),
-		LW6MAP_TEAMS_DEFAULT_PLAYER_COLOR);
+		("Color of the first player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
+		LW6MAP_TEAMS_DEFAULT_PLAYER1_COLOR);
+  POPULATE_STR (LW6DEF_PLAYER2_COLOR,
+		_x_
+		("Color of the second player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
+		LW6MAP_TEAMS_DEFAULT_PLAYER2_COLOR);
+  POPULATE_STR (LW6DEF_PLAYER3_COLOR,
+		_x_
+		("Color of the third player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
+		LW6MAP_TEAMS_DEFAULT_PLAYER3_COLOR);
+  POPULATE_STR (LW6DEF_PLAYER4_COLOR,
+		_x_
+		("Color of the fourth player, must be red, green, blue, yellow, cyan, magenta, orange, lightblue, purple or pink"),
+		LW6MAP_TEAMS_DEFAULT_PLAYER4_COLOR);
   POPULATE_INT (LW6DEF_NB_BOTS,
 		_x_
 		("Number of bots on the map. 0 means no bots, if set to 1 the the bot1-... settings will be used, if set to 2 then bot1-... and bot2-... will be used, and so on."),

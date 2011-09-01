@@ -544,7 +544,6 @@
 (define lw6def-pedigree "pedigree")
 (define lw6def-pilot-lag "pilot-lag")
 (define lw6def-pixelize "pixelize")
-(define lw6def-player-color "player-color")
 (define lw6def-player1-color "player1-color")
 (define lw6def-player1-control "player1-control")
 (define lw6def-player1-name "player1-name")

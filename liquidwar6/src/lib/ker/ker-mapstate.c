@@ -316,11 +316,6 @@ _lw6ker_map_state_cancel_team (_lw6ker_map_state_t * map_state,
     {
       if (map_state->armies.fighters_per_team[team_color] == 0)
 	{
-	  /*
-	   * We unset all weapons once someone looses to avoid
-	   * artificial killing sprees on unfair settings.
-	   */
-	  _lw6ker_weapon_unset_all (map_state);
 	  _lw6ker_team_unactivate (&(map_state->teams[team_color]));
 	}
       else

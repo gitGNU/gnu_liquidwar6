@@ -245,10 +245,6 @@ update_players (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_PLAYER2_CONTROL);
   lw6sys_list_push_back (list, LW6DEF_PLAYER3_CONTROL);
   lw6sys_list_push_back (list, LW6DEF_PLAYER4_CONTROL);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER1_COLOR);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER2_COLOR);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER3_COLOR);
-  lw6sys_list_push_back (list, LW6DEF_PLAYER4_COLOR);
 
   return ((*list) != NULL);
 }
@@ -715,7 +711,10 @@ lw6hlp_list_map_style ()
 static int
 update_map_teams (lw6sys_list_t ** list)
 {
-  lw6sys_list_push_back (list, LW6DEF_PLAYER_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_PLAYER1_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_PLAYER2_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_PLAYER3_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_PLAYER4_COLOR);
   lw6sys_list_push_back (list, LW6DEF_NB_BOTS);
   lw6sys_list_push_back (list, LW6DEF_BOT_SPEED);
   lw6sys_list_push_back (list, LW6DEF_BOT_IQ);

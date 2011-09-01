@@ -49,7 +49,7 @@
 #define EXAMPLE_COLOR_ALTERNATE_BG LW6SYS_COLOR_8_BLACK
 #define EXAMPLE_COLOR_ALTERNATE_FG LW6SYS_COLOR_8_RED
 
-#define EXAMPLE_PLAYER_COLOR "red"
+#define EXAMPLE_PLAYER1_COLOR "red"
 #define EXAMPLE_NB_BOTS 3
 #define EXAMPLE_BOT1_COLOR "green"
 #define EXAMPLE_BOT1_AI "idiot"
@@ -170,7 +170,7 @@ lw6ldr_print_example_teams_xml (FILE * f)
 			   _x_
 			   ("This is an example Liquid War 6 'teams.xml' file. This file can be put along with a 'map.png' file to explicitely say you want this kind of bot, with this color, and so on. This is not a required file, if not present, defaults will be used, however it's a really good way to personnalize a map, this is just how you populate it by default. Another important parameter is the default color for the player, changing this allows the player to try out various colors along its journey in the game."));
 
-  lw6cfg_write_xml_string (f, LW6DEF_PLAYER_COLOR, EXAMPLE_PLAYER_COLOR);
+  lw6cfg_write_xml_string (f, LW6DEF_PLAYER1_COLOR, EXAMPLE_PLAYER1_COLOR);
   lw6cfg_write_xml_int (f, LW6DEF_NB_BOTS, EXAMPLE_NB_BOTS);
   lw6cfg_write_xml_string (f, LW6DEF_BOT1_COLOR, EXAMPLE_BOT1_COLOR);
   lw6cfg_write_xml_string (f, LW6DEF_BOT1_AI, EXAMPLE_BOT1_AI);

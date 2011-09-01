@@ -525,7 +525,6 @@ password
 pedigree
 pilot-lag
 pixelize
-player-color
 player1-color
 player1-control
 player1-name

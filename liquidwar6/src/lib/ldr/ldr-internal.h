@@ -91,6 +91,9 @@ extern int
 _lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t *
 				       cursor_texture_layer, char *png_file);
 
+/* ldr-exp.c */
+extern void _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp);
+
 /*
  * In rgba.c
  */
