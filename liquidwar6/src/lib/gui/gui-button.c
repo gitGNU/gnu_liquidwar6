@@ -198,7 +198,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
     }
   if (button->double_click_t1 > 0 && button->double_click_t2 > 0
       && (button->double_click_t2 - button->double_click_t1) <
-      repeat_settings->double_click)
+      repeat_settings->double_click_delay)
     {
       /*
        * We don't "++" here, no buffering of double clicks
@@ -208,7 +208,8 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
       button->double_click_t2 = 0;
     }
   if (button->double_click_t2 > 0
-      && timestamp - button->double_click_t2 > repeat_settings->double_click)
+      && timestamp - button->double_click_t2 >
+      repeat_settings->double_click_delay)
     {
       /*
        * We don't "++" here, no buffering of simple clicks

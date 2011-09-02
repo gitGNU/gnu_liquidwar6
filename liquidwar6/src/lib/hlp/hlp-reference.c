@@ -528,10 +528,14 @@ populate_references ()
 		_x_
 		("Time, in milliseconds, between two repeats, once repeat has started, use 0 to disable."),
 		100, 0, 0);
-  POPULATE_INT (LW6DEF_DOUBLE_CLICK,
+  POPULATE_INT (LW6DEF_DOUBLE_CLICK_DELAY,
 		_x_
 		("Time, in milliseconds, determining wether two consecutive clicks make a double-click or not."),
 		250, 0, 0);
+  POPULATE_BOOL (LW6DEF_USE_DOUBLE_CLICK,
+		 _x_
+		 ("Wether to use double-click feature, mostly usefull if running on a system that has only one button (such as a tablet-PC or anything with a tactile screen), if your mouse has two buttons, disabling this will provide a more reactive interface."),
+		 0);
   POPULATE_STR (LW6DEF_CUSTOM_UP,
 		_x_ ("Custom keycode to be used as the UP key equivalent."),
 		"(c-lw6gui-keyboard-is-pressed 101) ; SDLK_e");

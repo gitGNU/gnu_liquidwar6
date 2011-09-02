@@ -322,6 +322,7 @@ mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
   int i;
   GLint wrap = 0;
   GLint filter = 0;
+  mod_gl_utils_bitmap_t *bitmap = NULL;
 
   if (utils_context->last_action.game_bitmap_array_update_id !=
       game_state->id
@@ -362,10 +363,13 @@ mod_gl_utils_update_game_bitmap_array (mod_gl_utils_context_t *
 	  if (lw6gui_rect_array_get_tile_by_i
 	      (&(bitmap_array->layout), &rect, i))
 	    {
-	      _update_game_bitmap (utils_context,
-				   mod_gl_utils_bitmap_array_get
-				   (bitmap_array, i), game_state,
-				   look, rect.x1, rect.y1, rect.w, rect.h);
+	      bitmap = mod_gl_utils_bitmap_array_get (bitmap_array, i);
+	      if (bitmap)
+		{
+		  _update_game_bitmap (utils_context, bitmap, game_state,
+				       look, rect.x1, rect.y1, rect.w,
+				       rect.h);
+		}
 	    }
 	}
 

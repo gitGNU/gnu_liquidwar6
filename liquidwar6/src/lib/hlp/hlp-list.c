@@ -271,7 +271,8 @@ update_input (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_MAX_CURSOR_SPEED);
   lw6sys_list_push_back (list, LW6DEF_REPEAT_DELAY);
   lw6sys_list_push_back (list, LW6DEF_REPEAT_INTERVAL);
-  lw6sys_list_push_back (list, LW6DEF_DOUBLE_CLICK);
+  lw6sys_list_push_back (list, LW6DEF_DOUBLE_CLICK_DELAY);
+  lw6sys_list_push_back (list, LW6DEF_USE_DOUBLE_CLICK);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_UP);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_DOWN);
   lw6sys_list_push_back (list, LW6DEF_CUSTOM_LEFT);

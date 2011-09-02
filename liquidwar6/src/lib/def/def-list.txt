@@ -406,7 +406,8 @@ display-progress
 display-score
 display-splash
 display-url
-double-click
+double-click-delay
+use-double-click
 downsize-using-bench-value
 downsize-using-fighter-scale
 example-hints-xml

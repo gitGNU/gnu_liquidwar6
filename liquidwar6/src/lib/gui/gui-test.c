@@ -65,7 +65,7 @@
 #define TEST_LABEL "fake A letter"
 #define TEST_REPEAT_DELAY 100
 #define TEST_REPEAT_INTERVAL 10
-#define TEST_REPEAT_DOUBLE_CLICK 200
+#define TEST_REPEAT_DOUBLE_CLICK_DELAY 200
 #define TEST_MOUSE_X 12
 #define TEST_MOUSE_Y 34
 #define TEST_JOYSTICK_LIMIT 20
@@ -128,6 +128,8 @@
 #define TEST_VIEWPORT_X_WRAP 1
 #define TEST_VIEWPORT_Y_WRAP 1
 #define TEST_VIEWPORT_KEEP_RATIO 1
+#define TEST_VIEWPORT_SCROLL_LIMIT 0.5f
+#define TEST_VIEWPORT_USE_OLD_CENTER 0
 #define TEST_VIEWPORT_GLOBAL_ZOOM_MIN 0.1f
 #define TEST_VIEWPORT_GLOBAL_ZOOM_MAX 10.0f
 #define TEST_VIEWPORT_GLOBAL_ZOOM_STEP 9.9f
@@ -165,7 +167,7 @@ test_button ()
 
     repeat_settings.delay = TEST_REPEAT_DELAY;
     repeat_settings.interval = TEST_REPEAT_INTERVAL;
-    repeat_settings.double_click = TEST_REPEAT_DOUBLE_CLICK;
+    repeat_settings.double_click_delay = TEST_REPEAT_DOUBLE_CLICK_DELAY;
 
     memset (&button, 0, sizeof (lw6gui_button_t));
 
@@ -201,11 +203,11 @@ test_button ()
 	      {
 		if (!lw6gui_button_pop_double_click (&button))
 		  {
-		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK;
+		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
 		    lw6gui_button_update_repeat (&button, &repeat_settings,
 						 timestamp);
-		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK;
+		    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		    lw6gui_button_register_down (&button, timestamp);
 		    lw6gui_button_update_repeat (&button, &repeat_settings,
 						 timestamp);
@@ -293,7 +295,8 @@ test_input ()
 	      {
 		repeat_settings.delay = TEST_REPEAT_DELAY;
 		repeat_settings.interval = TEST_REPEAT_INTERVAL;
-		repeat_settings.double_click = TEST_REPEAT_DOUBLE_CLICK;
+		repeat_settings.double_click_delay =
+		  TEST_REPEAT_DOUBLE_CLICK_DELAY;
 		lw6gui_input_update_repeat (src, &repeat_settings, 0);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("need_sync (before sync) dst=%d src=%d"),
@@ -1263,7 +1266,9 @@ test_viewport ()
 			      TEST_VIEWPORT_Y_POLARITY,
 			      TEST_VIEWPORT_X_WRAP,
 			      TEST_VIEWPORT_Y_WRAP,
-			      TEST_VIEWPORT_KEEP_RATIO, global_zoom);
+			      TEST_VIEWPORT_KEEP_RATIO, global_zoom,
+			      TEST_VIEWPORT_SCROLL_LIMIT,
+			      TEST_VIEWPORT_USE_OLD_CENTER);
 	log_zone (&viewport.drawable, _x_ ("drawable"));
 	log_zone (&viewport.map_main, _x_ ("map_main"));
 	log_zone (&viewport.map_main_clipped, _x_ ("map_main_clipped"));

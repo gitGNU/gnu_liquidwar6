@@ -100,7 +100,7 @@ typedef struct lw6gui_repeat_settings_s
 {
   int delay;
   int interval;
-  int double_click;
+  int double_click_delay;
 } lw6gui_repeat_settings_t;
 
 typedef void (*lw6gui_resize_callback_func_t) (lw6gui_video_mode_t *
@@ -312,6 +312,8 @@ typedef struct lw6gui_viewport_s
   lw6sys_whd_t screen_shape;
   float center_x;
   float center_y;
+  float old_center_x;
+  float old_center_y;
   int x_polarity;
   int y_polarity;
   int x_wrap;
@@ -574,7 +576,8 @@ extern int lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 				 float center_y, int map_w, int map_h,
 				 int x_polarity, int y_polarity, int x_wrap,
 				 int y_wrap, int keep_ratio,
-				 float global_zoom);
+				 float global_zoom, float scroll_limit,
+				 int use_old_center);
 extern void lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport,
 					   float *screen_x, float *screen_y,
 					   float map_x, float map_y,

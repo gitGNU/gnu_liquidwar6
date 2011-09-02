@@ -106,17 +106,33 @@
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (mouse-state (c-lw6gui-mouse-poll-move dsp))
-	 ;; Default binding is to map left simple on fire, and right + left double-click
-	 ;; on alternate fire, this way a tablet PC and/or tactile screen can
-	 ;; play without any trouble, right button is here for convenience only
-	 (flush (c-lw6gui-mouse-pop-button-left dsp))
-	 (fire (or (c-lw6gui-mouse-pop-simple-click dsp) (hash-ref cursor "fire")))
-	 (fire2 (or (c-lw6gui-mouse-pop-button-right dsp) (c-lw6gui-mouse-pop-double-click dsp) (hash-ref cursor "fire2")))
+	 ;; Default binding is to map left simple on fire, and right 
+	 ;; on alternate fire, but on a tablet PC and/or tactile screen 
+	 ;; we use simple/double-clicks instead
+	 (use-double-click (lw6-config-is-true? lw6def-use-double-click))
+	 (fire (or (if use-double-click
+		       (c-lw6gui-mouse-pop-simple-click dsp)
+		       (c-lw6gui-mouse-pop-button-left dsp))
+		   (hash-ref cursor "fire")))
+	 (fire2 (or (if use-double-click
+			(c-lw6gui-mouse-pop-double-click dsp)
+			(c-lw6gui-mouse-pop-button-right dsp))
+		    (hash-ref cursor "fire2")))
 	 (map-x (assoc-ref mouse-state "map-x"))
 	 (map-y (assoc-ref mouse-state "map-y"))
 	 (menu-esc (assoc-ref mouse-state "menu-esc"))
 	 )
       (begin
+	;; We flush the buttons we didn't test
+	(if use-double-click
+	    (begin
+	      (c-lw6gui-mouse-pop-button-left dsp)
+	      (c-lw6gui-mouse-pop-button-right dsp)
+	      )
+	    (begin
+	      (c-lw6gui-mouse-pop-simple-click dsp)
+	      (c-lw6gui-mouse-pop-double-click dsp)
+	      ))
 	(hash-set! cursor "fire" fire)
 	(hash-set! cursor "fire2" fire2)
 	(if (or mouse-state (hash-ref cursor "mouse-controlled"))
@@ -247,7 +263,8 @@
 				    (begin
 				      (mover cursor)
 				      (let* (					    
-					     (coords (c-lw6pil-fix-coords game-state (hash-ref cursor "x") (hash-ref cursor "y") 0.0))
+					     ;; (coords (c-lw6pil-fix-coords game-state (hash-ref cursor "x") (hash-ref cursor "y") 0.0))
+					     (coords (list (cons "x" (hash-ref cursor "x")) (cons "y" (hash-ref cursor "y")) 0.0))
 					     (x (assoc-ref coords "x"))
 					     (y (assoc-ref coords "y"))
 					     )

@@ -134,10 +134,10 @@ Default value: (c-lw6gui-keyboard-is-pressed 101) ; SDLK_e
 Custom keycode to be used as the UP key equivalent.
 @end deffn
 
-@subsection double-click
-@deffn {Command-line option} @code{--double-click=<value>}
-@deffnx {Environment variable} @code{LW6_DOUBLE_CLICK}
-@deffnx {XML key} @code{double-click}
+@subsection double-click-delay
+@deffn {Command-line option} @code{--double-click-delay=<value>}
+@deffnx {Environment variable} @code{LW6_DOUBLE_CLICK_DELAY}
+@deffnx {XML key} @code{double-click-delay}
 Type: integer
 
 Default value: 250
@@ -192,6 +192,20 @@ Default value: 100
 
 Time, in milliseconds, between two repeats, once repeat has started, use 0 to
 disable.
+@end deffn
+
+@subsection use-double-click
+@deffn {Command-line option} @code{--use-double-click=<value>}
+@deffnx {Environment variable} @code{LW6_USE_DOUBLE_CLICK}
+@deffnx {XML key} @code{use-double-click}
+Type: boolean
+
+Default value: false
+
+Wether to use double-click feature, mostly usefull if running on a system that
+has only one button (such as a tablet-PC or anything with a tactile screen),
+if your mouse has two buttons, disabling this will provide a more reactive
+interface.
 @end deffn
 
 @subsection use-esc-button

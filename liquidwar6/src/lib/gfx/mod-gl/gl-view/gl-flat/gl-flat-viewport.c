@@ -70,7 +70,8 @@ _mod_gl_view_flat_viewport_update_preview (mod_gl_utils_context_t *
 			look->style.x_wrap,
 			look->style.y_wrap,
 			look->style.keep_ratio,
-			utils_context->smoothed.global_zoom);
+			utils_context->smoothed.global_zoom,
+			flat_context->const_data.scroll_limit, 0);
 }
 
 void
@@ -129,7 +130,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			look->style.x_wrap,
 			look->style.y_wrap,
 			look->style.keep_ratio,
-			utils_context->smoothed.global_zoom);
+			utils_context->smoothed.global_zoom,
+			flat_context->const_data.scroll_limit, 1);
 
   lw6gui_viewport_map_to_screen (&test, &test_cursor_x, &test_cursor_y,
 				 main_cursor_x, main_cursor_y, 0);
@@ -165,11 +167,11 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			look->style.x_wrap,
 			look->style.y_wrap,
 			look->style.keep_ratio,
-			utils_context->smoothed.global_zoom);
+			utils_context->smoothed.global_zoom,
+			flat_context->const_data.scroll_limit, 1);
 
-  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x,
-				 &mouse_y, utils_context->input.mouse.x,
-				 utils_context->input.mouse.y, 1);
+  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x, &mouse_y, utils_context->input.mouse.x, utils_context->input.mouse.y, 0);	// was 1
+
   utils_context->input.mouse.map_x = mouse_x;
   utils_context->input.mouse.map_y = mouse_y;
 }

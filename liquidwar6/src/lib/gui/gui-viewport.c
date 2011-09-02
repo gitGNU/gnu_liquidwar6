@@ -46,6 +46,8 @@
  * @y_wrap: wether to wrap vertically
  * @keep_ratio: wether to adapt to viewport shape or keep original
  * @global_zoom: global zoom is style_zoom * dynamic_zoom
+ * @scroll_limit: inside this zone, don't scroll
+ * @use_old_center: wether to take previous center in account
  *
  * Initializes all the (jumbo?) viewport structure which will
  * contain valuable informations for a simple "flat" display.
@@ -61,7 +63,8 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		      float drawable_x2, float drawable_y2, float center_x,
 		      float center_y, int map_w, int map_h, int x_polarity,
 		      int y_polarity, int x_wrap, int y_wrap, int keep_ratio,
-		      float global_zoom)
+		      float global_zoom, float scroll_limit,
+		      int use_old_center)
 {
   int ret = 0;
   float map_ratio = 1.0f;
@@ -74,6 +77,10 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
   float map_visible_y1 = 0.0f;
   float map_visible_x2 = 0.0f;
   float map_visible_y2 = 0.0f;
+  float dx = 0.0f;
+  float dy = 0.0f;
+  float old_center_screen_x = 0.0f;
+  float old_center_screen_y = 0.0f;
 
   if (viewport)
     {
@@ -136,6 +143,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 	  map_main_x = viewport->drawable.x1;
 	  map_main_y = viewport->drawable.y1;
 
+#ifdef REMOVE_ME
 	  if (map_main_w < viewport->drawable.w)
 	    {
 	      map_main_x =
@@ -203,6 +211,76 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		    }
 		}
 	    }
+#endif
+	  if (map_main_w < viewport->drawable.w)
+	    {
+	      map_main_x =
+		viewport->drawable.x1 + (viewport->drawable.w -
+					 map_main_w) / 2.0f;
+	    }
+	  if (map_main_w > viewport->drawable.w
+	      || (viewport->x_polarity != 0 && viewport->x_wrap != 0))
+	    {
+	      map_main_x =
+		viewport->drawable.x1 + (viewport->drawable.w -
+					 map_main_w) / 2.0f -
+		(viewport->center_x -
+		 viewport->map_shape.w / 2) * (map_main_w /
+					       viewport->map_shape.w);
+	    }
+	  if (map_main_w > viewport->drawable.w
+	      && (viewport->x_polarity == 0 || viewport->x_wrap == 0))
+	    {
+	      if (map_main_x + map_main_w <
+		  viewport->drawable.x1 + viewport->drawable.w)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("x correct 1 %0.0f"),
+			      map_main_x);
+		  map_main_x =
+		    viewport->drawable.x1 + viewport->drawable.w - map_main_w;
+		}
+	      if (map_main_x > viewport->drawable.x1)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("x correct 2 %0.0f"),
+			      map_main_x);
+		  map_main_x = viewport->drawable.x1;
+		}
+	    }
+
+	  if (map_main_h < viewport->drawable.h)
+	    {
+	      map_main_y =
+		viewport->drawable.y1 + (viewport->drawable.h -
+					 map_main_h) / 2.0f;
+	    }
+	  if (map_main_h > viewport->drawable.h
+	      || (viewport->y_polarity != 0 && viewport->y_wrap != 0))
+	    {
+	      map_main_y =
+		viewport->drawable.y1 + (viewport->drawable.h -
+					 map_main_h) / 2.0f -
+		(viewport->center_y -
+		 viewport->map_shape.h / 2) * (map_main_h /
+					       viewport->map_shape.h);
+	    }
+	  if (map_main_h > viewport->drawable.h
+	      && (viewport->y_polarity == 0 || viewport->y_wrap == 0))
+	    {
+	      if (map_main_y + map_main_h <
+		  viewport->drawable.y1 + viewport->drawable.h)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("y correct 1 %0.0f"),
+			      map_main_y);
+		  map_main_y =
+		    viewport->drawable.y1 + viewport->drawable.h - map_main_h;
+		}
+	      if (map_main_y > viewport->drawable.y1)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("y correct 2 %0.0f"),
+			      map_main_y);
+		  map_main_y = viewport->drawable.y1;
+		}
+	    }
 
 	  lw6gui_zone_init_xywh (&(viewport->map_main), map_main_x,
 				 map_main_y, map_main_w, map_main_h);
@@ -230,6 +308,20 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 	  lw6gui_zone_init_x1y1x2y2 (&(viewport->map_visible), map_visible_x1,
 				     map_visible_y1, map_visible_x2,
 				     map_visible_y2);
+
+	  if (use_old_center)
+	    {
+	      lw6gui_viewport_map_to_screen (viewport, &old_center_screen_x,
+					     &old_center_screen_y,
+					     viewport->old_center_x,
+					     viewport->old_center_y, 0);
+	      dx = old_center_screen_x - viewport->map_visible.w / 2;
+	      dy = old_center_screen_y - viewport->map_visible.h / 2;
+	      //TMP2("dx=%f dy=%f",dx,dy);
+	    }
+
+	  viewport->old_center_x = viewport->center_x;
+	  viewport->old_center_y = viewport->center_y;
 
 	  ret = 1;
 	}
