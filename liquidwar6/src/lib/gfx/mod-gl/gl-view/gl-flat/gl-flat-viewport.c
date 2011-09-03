@@ -137,10 +137,11 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 				 main_cursor_x, main_cursor_y, 0);
   dw = test.map_main_clipped.w * flat_context->const_data.scroll_limit;
   dh = test.map_main_clipped.h * flat_context->const_data.scroll_limit;
-  if (test_cursor_x < test.map_main_clipped.x1 + dw
-      || test_cursor_x > test.map_main_clipped.x2 - dw
-      || test_cursor_y < test.map_main_clipped.y1 + dh
-      || test_cursor_y > test.map_main_clipped.y2 - dh)
+  //TMP5("dw=%f main_clipped.w=%f test_cursor_x=%f main_cursor_x=%d scroll_limit=%f",dw,test.map_visible.w,test_cursor_x,main_cursor_x,flat_context->const_data.scroll_limit);
+  if (test_cursor_x < test.map_visible.x1 + dw
+      || test_cursor_x > test.map_visible.x2 - dw
+      || test_cursor_y < test.map_visible.y1 + dh
+      || test_cursor_y > test.map_visible.y2 - dh)
     {
       lw6gui_smoother_set_target (&(utils_context->smoothers.center_x),
 				  main_cursor_x,
