@@ -203,9 +203,11 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
   int select_ret = 0;
   int connected = 0;
   struct sockaddr_in name;
-  int enable = 1;
-  int disable = 0;
-  struct linger li;
+  /*
+     int enable = 1;
+     int disable = 0;
+     struct linger li; 
+   */
   fd_set write;
   struct timeval tv;
   int64_t origin = 0;
@@ -294,34 +296,36 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 		  if (connected)
 		    {
 		      /*
-		       * Added this code copied/paste from accept.
-		       * don't know if it's usefull
+		         // Added this code copied/paste from accept.
+		         // don't know if it's usefull
+		         // see also https://savannah.gnu.org/bugs/?34060
+
+		         li.l_onoff = 0;
+		         li.l_linger = 0;
+		         if (setsockopt (sock, SOL_SOCKET, SO_KEEPALIVE,
+		         (char *) &enable, sizeof (int)))
+		         {
+		         lw6sys_log (LW6SYS_LOG_WARNING,
+		         _x_
+		         ("setsockopt(SO_KEEPALIVE) failed"));
+		         lw6net_last_error ();
+		         }
+		         if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
+		         (char *) &disable, sizeof (int)))
+		         {
+		         lw6sys_log (LW6SYS_LOG_WARNING,
+		         _x_
+		         ("setsockopt(SO_OOBINLINE) failed"));
+		         lw6net_last_error ();
+		         }
+		         if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
+		         (char *) &li, sizeof (struct linger)))
+		         {
+		         lw6sys_log (LW6SYS_LOG_WARNING,
+		         _x_ ("setsockopt(SO_LINGER) failed"));
+		         lw6net_last_error ();
+		         }
 		       */
-		      li.l_onoff = 0;
-		      li.l_linger = 0;
-		      if (setsockopt (sock, SOL_SOCKET, SO_KEEPALIVE,
-				      (char *) &enable, sizeof (int)))
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("setsockopt(SO_KEEPALIVE) failed"));
-			  lw6net_last_error ();
-			}
-		      if (setsockopt (sock, SOL_SOCKET, SO_OOBINLINE,
-				      (char *) &disable, sizeof (int)))
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_
-				      ("setsockopt(SO_OOBINLINE) failed"));
-			  lw6net_last_error ();
-			}
-		      if (setsockopt (sock, SOL_SOCKET, SO_LINGER,
-				      (char *) &li, sizeof (struct linger)))
-			{
-			  lw6sys_log (LW6SYS_LOG_WARNING,
-				      _x_ ("setsockopt(SO_LINGER) failed"));
-			  lw6net_last_error ();
-			}
 
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_ ("socket %d connected on %s:%d"), sock,
