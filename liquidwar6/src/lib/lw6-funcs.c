@@ -461,33 +461,50 @@ mouse_get_state (lw6dsp_backend_t * c_dsp)
 
   ret = scm_cons
     (scm_cons
-     (scm_makfrom0str ("x"),
-      scm_int2num (c_dsp->input->mouse.x)),
+     (scm_makfrom0str ("screen-pos-x"),
+      scm_int2num (c_dsp->input->mouse.screen_pointer.pos_x)),
      (scm_cons
       (scm_cons
-       (scm_makfrom0str ("y"),
-	scm_int2num (c_dsp->input->mouse.y)),
+       (scm_makfrom0str ("screen-pos-y"),
+	scm_int2num (c_dsp->input->mouse.screen_pointer.pos_y)),
        (scm_cons
 	(scm_cons
-	 (scm_makfrom0str ("map-x"),
-	  scm_int2num (c_dsp->input->mouse.map_x)),
+	 (scm_makfrom0str ("screen-speed-x"),
+	  scm_int2num (c_dsp->input->mouse.screen_pointer.speed_x)),
 	 (scm_cons
 	  (scm_cons
-	   (scm_makfrom0str ("map-y"),
-	    scm_int2num (c_dsp->input->mouse.map_y)),
+	   (scm_makfrom0str ("screen-speed-y"),
+	    scm_int2num (c_dsp->input->mouse.screen_pointer.speed_y)),
 	   (scm_cons
 	    (scm_cons
-	     (scm_makfrom0str ("menu-position"),
-	      scm_int2num (c_dsp->input->mouse.menu_position)),
+	     (scm_makfrom0str ("map-pos-x"),
+	      scm_int2num (c_dsp->input->mouse.map_pointer.pos_x)),
 	     (scm_cons
 	      (scm_cons
-	       (scm_makfrom0str ("menu-scroll"),
-		scm_int2num (c_dsp->input->mouse.menu_scroll)),
+	       (scm_makfrom0str ("map-pos-y"),
+		scm_int2num (c_dsp->input->mouse.map_pointer.pos_y)),
+	       scm_cons
 	       (scm_cons
+		(scm_makfrom0str ("map-speed-x"),
+		 scm_int2num (c_dsp->input->mouse.map_pointer.speed_x)),
 		(scm_cons
-		 (scm_makfrom0str ("menu-esc"),
-		  c_dsp->input->mouse.menu_esc ? SCM_BOOL_T : SCM_BOOL_F),
-		 SCM_LIST0)))))))))))));
+		 (scm_cons
+		  (scm_makfrom0str ("map-speed-y"),
+		   scm_int2num (c_dsp->input->mouse.map_pointer.speed_y)),
+		  (scm_cons
+		   (scm_cons
+		    (scm_makfrom0str ("menu-position"),
+		     scm_int2num (c_dsp->input->mouse.menu_position)),
+		    (scm_cons
+		     (scm_cons
+		      (scm_makfrom0str ("menu-scroll"),
+		       scm_int2num (c_dsp->input->mouse.menu_scroll)),
+		      (scm_cons
+		       (scm_cons
+			(scm_makfrom0str ("menu-esc"),
+			 c_dsp->input->
+			 mouse.menu_esc ? SCM_BOOL_T : SCM_BOOL_F),
+			SCM_LIST0))))))))))))))))))));
 
   return ret;
 }

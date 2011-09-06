@@ -449,13 +449,15 @@ test_events (lw6gfx_backend_t * backend)
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("left mouse button pressed at %dx%d"),
-			    input->mouse.x, input->mouse.y);
+			    input->mouse.screen_pointer.pos_x,
+			    input->mouse.screen_pointer.pos_y);
 	      }
 	    if (lw6gui_button_pop_press (&(input->mouse.button_right)))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("right mouse button pressed at %d,%d"),
-			    input->mouse.x, input->mouse.y);
+			    input->mouse.screen_pointer.pos_x,
+			    input->mouse.screen_pointer.pos_y);
 	      }
 	    if (lw6gui_button_pop_press (&(input->mouse.wheel_up)))
 	      {

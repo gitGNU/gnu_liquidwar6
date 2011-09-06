@@ -162,14 +162,21 @@ typedef struct lw6gui_keyboard_s
 }
 lw6gui_keyboard_t;
 
+typedef struct lw6gui_mouse_pointer_s
+{
+  int pos_x;
+  int pos_y;
+  int speed_x;
+  int speed_y;
+}
+lw6gui_mouse_pointer_t;
+
 typedef struct lw6gui_mouse_s
 {
-  int x;
-  int y;
   int moved;
   int64_t last_moved;
-  int map_x;
-  int map_y;
+  lw6gui_mouse_pointer_t screen_pointer;
+  lw6gui_mouse_pointer_t map_pointer;
   int menu_position;
   int menu_scroll;
   int menu_esc;
@@ -492,9 +499,11 @@ extern lw6gui_menu_t *lw6gui_menu_dup (lw6gui_menu_t * menu);
 extern int lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src);
 
 /* gui-mouse.c */
-extern void lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int x, int y,
+extern void lw6gui_mouse_register_move (lw6gui_mouse_t * mouse,
+					int screen_pos_x, int screen_pos_y,
 					int64_t timestamp);
-extern int lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *x, int *y);
+extern int lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *screen_pos_x,
+				   int *screen_pos_y);
 extern void lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 					lw6gui_repeat_settings_t *
 					repeat_settings, int64_t timestamp);

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-03 09:15+0200\n"
+"POT-Creation-Date: 2011-09-06 10:31+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -341,37 +341,37 @@ msgstr "log_file er NULL"
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:766
+#: src/lib/sys/sys-log.c:791
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:771
+#: src/lib/sys/sys-log.c:796
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:781
+#: src/lib/sys/sys-log.c:806
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:786
+#: src/lib/sys/sys-log.c:811
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:803
+#: src/lib/sys/sys-log.c:828
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:809
+#: src/lib/sys/sys-log.c:834
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:892
+#: src/lib/sys/sys-log.c:917
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:896
+#: src/lib/sys/sys-log.c:921
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -395,7 +395,7 @@ msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
 
-#: src/lib/sys/sys-test.c:1951
+#: src/lib/sys/sys-test.c:1976
 msgid "this is a /TEST/ error"
 msgstr "dette er ein /TEST/-feil"
 

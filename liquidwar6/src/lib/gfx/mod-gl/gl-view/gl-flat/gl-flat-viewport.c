@@ -174,8 +174,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			utils_context->smoothed.global_zoom,
 			flat_context->const_data.scroll_limit, 1);
 
-  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x, &mouse_y, utils_context->input.mouse.x, utils_context->input.mouse.y, 0);	// was 1
+  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x, &mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
 
-  utils_context->input.mouse.map_x = mouse_x;
-  utils_context->input.mouse.map_y = mouse_y;
+  utils_context->input.mouse.map_pointer.pos_x = mouse_x;
+  utils_context->input.mouse.map_pointer.pos_y = mouse_y;
 }

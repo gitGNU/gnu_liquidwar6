@@ -518,8 +518,8 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 		  local_cursor->cursor_id);
       if (local_cursor->mouse_controlled)
 	{
-	  cursor_x = utils_context->input.mouse.x;
-	  cursor_y = utils_context->input.mouse.y;
+	  cursor_x = utils_context->input.mouse.screen_pointer.pos_x;
+	  cursor_y = utils_context->input.mouse.screen_pointer.pos_y;
 	}
       else
 	{

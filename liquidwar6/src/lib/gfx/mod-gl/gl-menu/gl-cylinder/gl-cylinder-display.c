@@ -380,8 +380,11 @@ mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 				     menu_position),
 				   &(utils_context->input.mouse.menu_scroll),
 				   &(utils_context->input.mouse.menu_esc),
-				   menu, utils_context->input.mouse.x,
-				   utils_context->input.mouse.y);
+				   menu,
+				   utils_context->input.mouse.
+				   screen_pointer.pos_x,
+				   utils_context->input.mouse.
+				   screen_pointer.pos_y);
 }
 
 void

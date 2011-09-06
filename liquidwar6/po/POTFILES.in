@@ -409,6 +409,7 @@ src/lib/srv/srv-testmain.c
 src/lib/srv/srv-udpbuffer.c
 src/lib/sys/sys-arg.c
 src/lib/sys/sys-assoc.c
+src/lib/sys/sys-backtrace.c
 src/lib/sys/sys-bazooka.c
 src/lib/sys/sys-build.c
 src/lib/sys/sys-checksum.c

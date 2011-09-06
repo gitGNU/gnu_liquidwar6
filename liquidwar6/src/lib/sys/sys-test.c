@@ -374,6 +374,31 @@ test_assoc ()
 }
 
 /*
+ * Test functions in backtrace.c
+ */
+static int
+test_backtrace ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    char *bt = NULL;
+
+    bt = lw6sys_backtrace (0);
+    if (bt)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("backtrace=\"%s\""), bt);
+	LW6SYS_FREE (bt);
+      }
+    BT;
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/*
  * Test functions in build.c
  */
 static int
@@ -3747,13 +3772,13 @@ lw6sys_test (int mode)
 {
   int ret = 0;
 
-  ret = test_arg () && test_assoc () && test_build () && test_checksum ()
-    && test_color () && test_convert () && test_daemon () && test_dump ()
-    && test_env () && test_escape () && test_file () && test_profiler ()
-    && test_hash () && test_hexa () && test_history () && test_i18n ()
-    && test_id () && test_keyword () && test_list () && test_log (mode)
-    && test_math () && test_mem () && test_mutex () && test_options ()
-    && test_nop () && test_path () && test_progress ()
+  ret = test_arg () && test_assoc () && test_backtrace () && test_build ()
+    && test_checksum () && test_color () && test_convert () && test_daemon ()
+    && test_dump () && test_env () && test_escape () && test_file ()
+    && test_profiler () && test_hash () && test_hexa () && test_history ()
+    && test_i18n () && test_id () && test_keyword () && test_list ()
+    && test_log (mode) && test_math () && test_mem () && test_mutex ()
+    && test_options () && test_nop () && test_path () && test_progress ()
     && test_random () && test_sdl () && test_serial () && test_shape ()
     && test_signal () && test_sort () && test_spinlock () && test_str ()
     && test_stream () && test_thread () && test_time () && test_url ()

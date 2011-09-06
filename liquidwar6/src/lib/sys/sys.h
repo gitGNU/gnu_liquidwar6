@@ -357,6 +357,11 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define TMP9(message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) lw6sys_log(LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
 
 /*
+ * Instant backtrace facility
+ */
+#define BT { char *bt=lw6sys_backtrace(0); if (bt) { TMP1("bt: \"%s\"",bt); LW6SYS_FREE(bt); } }
+
+/*
  * Common indenting parameters
  */
 #define LW6SYS_REFORMAT_DEFAULT_PREFIX ""
@@ -391,6 +396,9 @@ extern void lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
 				       void *func_data);
 extern lw6sys_assoc_t *lw6sys_assoc_dup (lw6sys_assoc_t * assoc,
 					 lw6sys_dup_func_t dup_func);
+
+/* sys-backtrace.c */
+extern char *lw6sys_backtrace (int skip);
 
 /* sys-bazooka.c */
 extern int lw6sys_default_memory_bazooka ();

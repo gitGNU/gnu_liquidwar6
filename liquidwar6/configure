@@ -14193,7 +14193,7 @@ LW6_MS_WINDOWS_VERSION="0, 0, 11"
 
 
 
-for ac_header in arpa/inet.h ctype.h dirent.h errno.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng14/png.h lmcons.h locale.h ltdl.h math.h netdb.h netinet/in.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
+for ac_header in arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng14/png.h lmcons.h locale.h ltdl.h math.h netdb.h netinet/in.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

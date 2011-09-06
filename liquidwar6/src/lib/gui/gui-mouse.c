@@ -30,8 +30,8 @@
  * lw6gui_mouse_register_move
  *
  * @mouse: the mouse object to work on
- * @x: the x position
- * @y: the y position
+ * @screen_pos_x: the x position on screen
+ * @screen_pos_y: the y position on screen
  * @timestamp: current timestamp
  *
  * Registers a mouse move event.
@@ -39,15 +39,32 @@
  * Return value: note. 
  */
 void
-lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int x, int y,
-			    int64_t timestamp)
+lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x,
+			    int screen_pos_y, int64_t timestamp)
 {
-  if (mouse->x != x || mouse->y != y)
+  if (mouse->screen_pointer.pos_x != screen_pos_x
+      || mouse->screen_pointer.pos_y != screen_pos_y)
     {
-      mouse->x = x;
-      mouse->y = y;
+      int dt;
+
+      dt = (int64_t) (timestamp - mouse->last_moved);
+      if (dt > 0)
+	{
+	  mouse->screen_pointer.speed_x =
+	    ((screen_pos_x - mouse->screen_pointer.pos_x) * 1000) / dt;
+	  mouse->screen_pointer.speed_y =
+	    ((screen_pos_y - mouse->screen_pointer.pos_y) * 1000) / dt;
+	}
+      mouse->screen_pointer.pos_x = screen_pos_x;
+      mouse->screen_pointer.pos_y = screen_pos_y;
       mouse->moved = 1;
       mouse->last_moved = timestamp;
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("mouse pos=%d,%d speed=%d,%d",
+		       mouse->screen_pointer.pos_x,
+		       mouse->screen_pointer.pos_y,
+		       mouse->screen_pointer.speed_x,
+		       mouse->screen_pointer.speed_y));
     }
 }
 
@@ -55,15 +72,16 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int x, int y,
  * lw6gui_mouse_poll_move
  *
  * @mouse: the mouse object to poll
- * @x: pointer to the x position (can be NULL), will be updated even if no move
- * @y: pointer to the y position (can be NULL), will be updated even if no move
+ * @screen_pos_x: pointer to the x position (can be NULL), will be updated even if no move
+ * @screen_pos_y: pointer to the y position (can be NULL), will be updated even if no move
  *
  * Asks wether the mouse has moved or not.
  *
  * Return value: 1 if mouse was moved since last call, 0 if not. 
  */
 int
-lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *x, int *y)
+lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *screen_pos_x,
+			int *screen_pos_y)
 {
   int ret = 0;
 
@@ -73,13 +91,13 @@ lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *x, int *y)
       ret = 1;
     }
 
-  if (x)
+  if (screen_pos_x)
     {
-      (*x) = mouse->x;
+      (*screen_pos_x) = mouse->screen_pointer.pos_x;
     }
-  if (y)
+  if (screen_pos_y)
     {
-      (*y) = mouse->y;
+      (*screen_pos_y) = mouse->screen_pointer.pos_y;
     }
 
   return ret;
@@ -131,13 +149,11 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
 {
   int ret = 1;
 
-  dst->x = src->x;
-  dst->y = src->y;
   dst->moved = dst->moved || src->moved;
   src->moved = 0;		// yes, src is cleared
   dst->last_moved = src->last_moved;
-  dst->map_x = src->map_x;
-  dst->map_y = src->map_y;
+  dst->screen_pointer = src->screen_pointer;
+  dst->map_pointer = src->map_pointer;
   dst->menu_position = src->menu_position;
   dst->menu_scroll = src->menu_scroll;
   dst->menu_esc = src->menu_esc;

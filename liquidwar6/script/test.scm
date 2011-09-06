@@ -23,7 +23,7 @@
 (define lw6-test-map
   (lambda ()
     (let (
-	  (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))
+	  (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	  )
       (begin
 	(display the-map)
@@ -32,7 +32,7 @@
 (define lw6-test-game-struct
   (lambda ()
     (let* (
-	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))
+	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	  )
       (begin
@@ -42,7 +42,7 @@
 (define lw6-test-game-state
   (lambda ()
     (let* (
-	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))
+	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
 	  )
@@ -53,7 +53,7 @@
 (define lw6-test-pilot
   (lambda ()
     (let* (
-	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))
+	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
 	   (pilot (c-lw6pil-build-pilot game-state 0))
@@ -68,7 +68,7 @@
 (define lw6-test-bot
   (lambda ()
     (let* (
-	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))
+	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
 	   (pilot (c-lw6pil-build-pilot game-state 0))
@@ -99,7 +99,7 @@
 	  (menu (c-lw6gui-menu-new "Test" "Esc" #t))
 	  (game-state (c-lw6ker-build-game-state 
 		       (c-lw6ker-build-game-struct 
-			(c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333))))
+			(c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))))
 	  (game-look (c-lw6gui-default-look))
 	  (loader (c-lw6tsk-loader-new 1.5))
 	  )
@@ -123,9 +123,9 @@
 	   (loaded #f)
 	  )
       (begin
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333)
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333)
-	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "strange-new-world" '() '() 640 480 25 33333)
+	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
+	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
+	(c-lw6tsk-loader-push loader (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333)
 	(while (not loaded)
 	       (begin
 		 (set! loaded (c-lw6tsk-loader-pop loader))

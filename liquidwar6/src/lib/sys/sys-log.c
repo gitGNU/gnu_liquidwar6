@@ -41,7 +41,7 @@
 #define HISTORY_LENGTH 256
 #define LEVEL_LENGTH 80
 #define MSGBOX_LENGTH 4096
-#define MSGBOX_WIDTH 128
+#define MSGBOX_WIDTH 160
 
 #define CRITICAL_FILE "sys-log.c"
 #define CRITICAL_LINE __LINE__
@@ -604,16 +604,41 @@ log_to_history (char *level_str, char *fmt, va_list ap)
   lw6sys_history_register (full_msg);
 }
 
-static void
-msgbox_alert (char *level_str, char *file, int line, char *fmt, va_list ap)
+/*
+ * This function not declared static so that we're sure it's never inlined
+ * because that could wreck the backtrace construction. It's not exported
+ * in the sys/sys.h header anyway, we don't want others to use it, it still
+ * does have the lw6sys_ prefix to avoid name conflicts.
+ */
+void
+lw6sys_msgbox_alert (char *level_str, char *file, int line, char *fmt,
+		     va_list ap)
 {
   char message_raw[MSGBOX_LENGTH + 1];
   char message_full[MSGBOX_LENGTH + 1];
+  char *bt = NULL;
+  int free_bt = 0;
 
   _lw6sys_buf_vsnprintf (message_raw, MSGBOX_LENGTH, fmt, ap);
   lw6sys_str_reformat_this (message_raw, MSGBOX_WIDTH);
-  lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH, "%s (%s:%d)\n\n%s",
-		      level_str, file, line, message_raw);
+  bt = lw6sys_backtrace (2);	// skip this function & caller  
+  if (bt)
+    {
+      lw6sys_str_reformat_this (bt, MSGBOX_WIDTH);
+      free_bt = 1;
+    }
+  else
+    {
+      bt = "";
+    }
+  lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH,
+		      "%s (%s:%d)\n\n%s\n\nbacktrace: %s", level_str, file,
+		      line, message_raw, bt);
+  if (free_bt)
+    {
+      LW6SYS_FREE (bt);
+      bt = NULL;
+    }
 #ifdef LW6_MS_WINDOWS
   if (message_full)
     {
@@ -850,7 +875,7 @@ lw6sys_log (int level_id, char *file, int line, char *fmt, ...)
 	  if (level_id <= LW6SYS_LOG_ERROR_ID)
 	    {
 	      va_copy (ap2, ap);
-	      msgbox_alert (level_str, file_only, line, fmt, ap2);
+	      lw6sys_msgbox_alert (level_str, file_only, line, fmt, ap2);
 	      va_end (ap2);
 	    }
 	}
@@ -893,7 +918,8 @@ lw6sys_log_critical (char *fmt, ...)
   va_end (ap2);
 
   va_copy (ap2, ap);
-  msgbox_alert (_("CRITICAL!"), CRITICAL_FILE, CRITICAL_LINE, fmt, ap2);
+  lw6sys_msgbox_alert (_("CRITICAL!"), CRITICAL_FILE, CRITICAL_LINE, fmt,
+		       ap2);
   va_end (ap2);
 
   exit (_LW6SYS_EXIT_CRITICAL);

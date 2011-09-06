@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-03 09:15+0200\n"
+"POT-Creation-Date: 2011-09-06 10:31+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -342,37 +342,37 @@ msgstr "Le fichier de log est NULL"
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:766
+#: src/lib/sys/sys-log.c:791
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:771
+#: src/lib/sys/sys-log.c:796
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:781
+#: src/lib/sys/sys-log.c:806
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:786
+#: src/lib/sys/sys-log.c:811
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:803
+#: src/lib/sys/sys-log.c:828
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:809
+#: src/lib/sys/sys-log.c:834
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:892
+#: src/lib/sys/sys-log.c:917
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:896
+#: src/lib/sys/sys-log.c:921
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 
@@ -396,7 +396,7 @@ msgstr "pas assez de mémoire, échec de realloc (%d) dans %s:%d"
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "tentative de libérer un pointeur nul dans %s:%d"
 
-#: src/lib/sys/sys-test.c:1951
+#: src/lib/sys/sys-test.c:1976
 msgid "this is a /TEST/ error"
 msgstr "ceci est une erreur de /TEST/"
 
