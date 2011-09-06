@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -7420,6 +7420,13 @@ results on
 
      *Return value:*  none.
 
+ -- Function: lw6ldr_entry_t * lw6ldr_dup_entry (lw6ldr_entry_t * ENTRY)
+     ENTRY:  the entry to dup
+
+     Dup a map entry.
+
+     *Return value:*  newly allocated object.
+
  -- Function: lw6sys_list_t * lw6ldr_get_entries (char * MAP_PATH, char
           * RELATIVE_PATH, char * USER_DIR)
      MAP_PATH:  the map_path environment config variable, delimited
@@ -7454,6 +7461,19 @@ results on
 
      Executes a given function on all maps in a given place, typically
      used in test programs.
+
+     *Return value:*  none.
+
+ -- Function: lw6ldr_entry_t * lw6ldr_chain_entry (char * MAP_PATH,
+          char * RELATIVE_PATH, char * USER_DIR)
+     MAP_PATH:  the map_path environment config variable, delimited
+     path list
+
+     RELATIVE_PATH:  the relative path to use to find the map directory
+
+     USER_DIR:  the user directory
+
+     Gets the next entry used in test programs.
 
      *Return value:*  none.
 
@@ -8027,7 +8047,7 @@ results on
 
      *Return value:*  a newly allocated map, may be NULL.
 
- -- Function: int lw6map_exp_get_highest_color_allowed (int EXP)
+ -- Function: int lw6map_exp_get_highest_team_color_allowed (int EXP)
      EXP:  the player experience
 
      Gets the highest color available for a given exp.
