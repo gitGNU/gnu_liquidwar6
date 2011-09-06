@@ -216,6 +216,23 @@ data is not dynamically allocated.
 @strong{Returned value:}  a newly allocated assoc.
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_backtrace} (int @var{skip})
+@var{skip}:  number of calls to skip
+
+Returns the current backtrace as a comma separated list.
+This can typically be used for debugging purposes. Not available
+on some platforms, including mingw32, it requires backtrace_symbols
+to be defined. Note that this function calls internal string functions
+so it makes usage of the sys module in many ways, therefore should
+be used only in other modules, it can't be used for debugging of
+internal memory functions for instance. To debug those, use
+backtrace_symbols_fd directly (or maybe just gdb...). The skip
+parameter allows you to skip caller's stack, 0 will display
+everything but @code{lw6sys_backtrace} itself.
+
+@strong{Return value:}  dynamically allocated string
+@end deftypefun
+
 @deftypefun {int} {lw6sys_default_memory_bazooka} ()
 
 Will set up a default memory bazooka, a slow yet convenient

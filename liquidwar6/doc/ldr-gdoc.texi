@@ -56,6 +56,14 @@ Frees a map entry.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {lw6ldr_entry_t *} {lw6ldr_dup_entry} (lw6ldr_entry_t * @var{entry})
+@var{entry}:  the entry to dup
+
+Dup a map entry.
+
+@strong{Return value:}  newly allocated object.
+@end deftypefun
+
 @deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
@@ -85,6 +93,19 @@ in alphabetical order.
 @var{func_data}:  an extra pointer to pass data to callback_func
 
 Executes a given function on all maps in a given place, typically
+used in test programs.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {lw6ldr_entry_t *} {lw6ldr_chain_entry} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir})
+@var{map_path}:  the map_path environment config variable, delimited path list
+
+@var{relative_path}:  the relative path to use to find the map directory
+
+@var{user_dir}:  the user directory
+
+Gets the next entry
 used in test programs.
 
 @strong{Return value:}  none.

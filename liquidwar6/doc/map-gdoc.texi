@@ -165,7 +165,7 @@ and source can safely be destroyed after it's been duplicated.
 @strong{Return value:}  a newly allocated map, may be NULL.
 @end deftypefun
 
-@deftypefun {int} {lw6map_exp_get_highest_color_allowed} (int @var{exp})
+@deftypefun {int} {lw6map_exp_get_highest_team_color_allowed} (int @var{exp})
 @var{exp}:  the player experience
 
 Gets the highest color available for a given exp.

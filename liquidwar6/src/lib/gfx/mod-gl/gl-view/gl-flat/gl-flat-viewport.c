@@ -90,19 +90,22 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   lw6gui_viewport_t test;
   float test_cursor_x = 0.0f;
   float test_cursor_y = 0.0f;
-  int main_cursor_x;
-  int main_cursor_y;
+  int main_cursor_x = 0;
+  int main_cursor_y = 0;
   float dw, dh;
   lw6sys_whd_t shape;
+  int mouse_controlled = 0;
 
   lw6ker_game_state_get_shape (game_state, &shape);
+
   main_cursor_x = shape.w / 2;
   main_cursor_y = shape.h / 2;
 
   if (local_cursors)
     {
       if (!lw6pil_local_cursors_get_main_info
-	  (local_cursors, NULL, &main_cursor_x, &main_cursor_y, NULL))
+	  (local_cursors, NULL, &main_cursor_x, &main_cursor_y,
+	   &mouse_controlled))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
