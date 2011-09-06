@@ -31,9 +31,23 @@
 
 #if LW6_GPROF || LW6_INSTRUMENT || LW6_PROFILER
 #define _CALL_NEXT_DIR(A) _lw6ker_spread_next_dir((A))
+#define _CALL_DO_ALL_DIRS_INCR_XY(A,B,C) _lw6ker_spread_do_all_dirs_incr_xy((A),(B),(C))
+#define _CALL_DO_ALL_DIRS_DECR_XY(A,B,C) _lw6ker_spread_do_all_dirs_decr_xy((A),(B),(C))
+#define _CALL_DO_ONE_DIR_INCR_XY(A,B,C,D) _lw6ker_spread_do_one_dir_incr_xy((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_INCR_Z(A,B,C,D) _lw6ker_spread_do_one_dir_incr_z((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_DECR_XY(A,B,C,D) _lw6ker_spread_do_one_dir_decr_xy((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_DECR_Z(A,B,C,D) _lw6ker_spread_do_one_dir_decr_z((A),(B),(C),(D))
 #else
 #define _CALL_NEXT_DIR(A) _next_dir((A))
+#define _CALL_DO_ALL_DIRS_INCR_XY(A,B,C) _do_all_dirs_incr_xy((A),(B),(C))
+#define _CALL_DO_ALL_DIRS_DECR_XY(A,B,C) _do_all_dirs_decr_xy((A),(B),(C))
+#define _CALL_DO_ONE_DIR_INCR_XY(A,B,C,D) _do_one_dir_incr_xy((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_INCR_Z(A,B,C,D) _do_one_dir_incr_z((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_DECR_XY(A,B,C,D) _do_one_dir_decr_xy((A),(B),(C),(D))
+#define _CALL_DO_ONE_DIR_DECR_Z(A,B,C,D) _do_one_dir_decr_z((A),(B),(C),(D))
 #endif
+
+#define _ALL_DIRS_NB 6
 
 static inline int32_t
 _next_dir (int32_t dir)
@@ -41,18 +55,22 @@ _next_dir (int32_t dir)
   int ret;
   /*
    * Arbitrary hard-coded order for directions. (diags = 1 4 7 10)
-   * 0 5 1
-   * 3 8 4
-   * 12
-   * 6 11 7
-   * 9 2 10
+   * For incr spread, use 2 to 7 (ENE to SW) and 13 (DOWN)
+   * For decr spread, use 8-11 and 0-1 (WSW to NE) 12 (UP)
+   * 2 8 
+   * 5 11
+   * 3 9
    * 13
+   * 0 6
+   * 10 4 
+   * 1 7
+   * 12
    */
   static int corres[LW6KER_NB_DIRS] =
-    { 5 /* 0->5 */ , 3 /* 1->3 */ , 10 /* 2->10 */ , 8 /* 3->8 */ ,
-    12 /* 4->12 */ , 1 /* 5->1 */ , 11 /* 6->11 */ , 9 /* 7->9 */ ,
-    4 /* 8->4 */ , 2 /* 9->2 */ ,
-    13 /* 10->13 */ , 7 /* 11->7 */ , 6 /* 12->6 */ , 0	/* 13->0 */
+    { 6 /* 0->6 */ , 7 /* 1->7 */ , 8 /* 2->8 */ , 9 /* 3->9 */ ,
+    1 /* 4->1 */ , 11 /* 5->11 */ , 10 /* 6->10 */ , 12 /* 7->12 */ ,
+    5 /* 8->5 */ , 13 /* 9->13 */ ,
+    4 /* 10->4 */ , 3 /* 11->3 */ , 2 /* 12->2 */ , 0	/* 13->0 */
   };
 
   ret = corres[dir];
@@ -66,21 +84,205 @@ _lw6ker_spread_next_dir (int32_t dir)
   return _next_dir (dir);
 }
 
+static inline void _do_all_dirs_incr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones)
+{
+  int32_t i, j;
+  int32_t zone_id;
+  int32_t new_potential;
+  static int dirs[_ALL_DIRS_NB] =
+    { LW6KER_DIR_ENE, LW6KER_DIR_ESE, LW6KER_DIR_SE, LW6KER_DIR_SSE,
+    LW6KER_DIR_SSW, LW6KER_DIR_SW
+  };
+
+  for (i = 0; i < nb_zones; ++i)
+    {
+      for (j = 0; j < _ALL_DIRS_NB; ++j)
+	{
+	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
+	      && (zone_states[zone_id].potential
+		  < (new_potential =
+		     zone_states[i].potential - zone_structs[i].size)))
+	    {
+	      zone_states[zone_id].potential = new_potential;
+	      zone_states[zone_id].direction_to_cursor = -1;
+	    }
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_all_dirs_incr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones)
+{
+  return _do_all_dirs_incr_xy (zone_structs, zone_states, nb_zones);
+}
+
+static inline void _do_all_dirs_decr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones)
+{
+  int32_t i, j;
+  int32_t zone_id;
+  int32_t new_potential;
+  static int dirs[_ALL_DIRS_NB] =
+    { LW6KER_DIR_WSW, LW6KER_DIR_WNW, LW6KER_DIR_NW, LW6KER_DIR_NNW,
+    LW6KER_DIR_NNE, LW6KER_DIR_NE
+  };
+
+  for (i = nb_zones - 1; i >= 0; --i)
+    {
+      for (j = 0; j < _ALL_DIRS_NB; ++j)
+	{
+	  if (((zone_id = zone_structs[i].link[dirs[j]]) >= 0)
+	      && (zone_states[zone_id].potential
+		  < (new_potential =
+		     zone_states[i].potential - zone_structs[i].size)))
+	    {
+	      zone_states[zone_id].potential = new_potential;
+	      zone_states[zone_id].direction_to_cursor = -1;
+	    }
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_all_dirs_decr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones)
+{
+  return _do_all_dirs_decr_xy (zone_structs, zone_states, nb_zones);
+}
+
+static inline void _do_one_dir_incr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  int32_t i;
+  int32_t zone_id;
+  int32_t new_potential;
+
+  for (i = 0; i < nb_zones; ++i)
+    {
+      if (((zone_id = zone_structs[i].link[dir]) >= 0)
+	  && (zone_states[zone_id].potential
+	      < (new_potential =
+		 zone_states[i].potential - zone_structs[i].size)))
+	{
+	  zone_states[zone_id].potential = new_potential;
+	  zone_states[zone_id].direction_to_cursor = -1;
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_one_dir_incr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  return _do_one_dir_incr_xy (zone_structs, zone_states, nb_zones, dir);
+}
+
+static inline void _do_one_dir_incr_z
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  int32_t i;
+  int32_t zone_id;
+  int32_t new_potential;
+
+  for (i = 0; i < nb_zones; ++i)
+    {
+      if (((zone_id = zone_structs[i].link[dir]) >= 0)
+	  && (zone_states[zone_id].potential
+	      < (new_potential = zone_states[i].potential - 1)))
+	{
+	  zone_states[zone_id].potential = new_potential;
+	  zone_states[zone_id].direction_to_cursor = -1;
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_one_dir_incr_z
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  return _do_one_dir_incr_z (zone_structs, zone_states, nb_zones, dir);
+}
+
+static inline void _do_one_dir_decr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  int32_t i;
+  int32_t zone_id;
+  int32_t new_potential;
+
+  for (i = nb_zones - 1; i >= 0; --i)
+    {
+      if (((zone_id = zone_structs[i].link[dir]) >= 0)
+	  && (zone_states[zone_id].potential
+	      < (new_potential =
+		 zone_states[i].potential - zone_structs[i].size)))
+	{
+	  zone_states[zone_id].potential = new_potential;
+	  zone_states[zone_id].direction_to_cursor = -1;
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_one_dir_decr_xy
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  return _do_one_dir_decr_xy (zone_structs, zone_states, nb_zones, dir);
+}
+
+static inline void _do_one_dir_decr_z
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  int32_t i;
+  int32_t zone_id;
+  int32_t new_potential;
+
+  for (i = nb_zones - 1; i >= 0; --i)
+    {
+      if (((zone_id = zone_structs[i].link[dir]) >= 0)
+	  && (zone_states[zone_id].potential
+	      < (new_potential = zone_states[i].potential - 1)))
+	{
+	  zone_states[zone_id].potential = new_potential;
+	  zone_states[zone_id].direction_to_cursor = -1;
+	}
+    }
+}
+
+void
+  _lw6ker_spread_do_one_dir_decr_z
+  (_lw6ker_zone_struct_t * zone_structs,
+   _lw6ker_zone_state_t * zone_states, int nb_zones, int dir)
+{
+  return _do_one_dir_decr_z (zone_structs, zone_states, nb_zones, dir);
+}
+
 /*
  * Highest potential = closest to the cursor
  */
 void
-_lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical)
+_lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical,
+				int spread_all_dirs)
 {
-  int32_t i;
-  int32_t n;
-  int32_t zone_id;
-  int32_t new_potential;
+  int32_t nb_zones;
   _lw6ker_zone_struct_t *zone_structs;
   _lw6ker_zone_state_t *zone_states;
   int32_t dir;
 
-  n = team->map_struct->nb_zones;
+  nb_zones = team->map_struct->nb_zones;
   zone_structs = team->map_struct->zones;
   zone_states = team->gradient;
 
@@ -103,29 +305,17 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical)
     case LW6KER_DIR_SSE:
     case LW6KER_DIR_SSW:
     case LW6KER_DIR_SW:
-      for (i = 0; i < n; ++i)
+      if (spread_all_dirs)
 	{
-	  if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
-	    {
-	      zone_states[zone_id].potential = new_potential;
-	      zone_states[zone_id].direction_to_cursor = -1;
-	    }
+	  _CALL_DO_ALL_DIRS_INCR_XY (zone_structs, zone_states, nb_zones);
+	}
+      else
+	{
+	  _CALL_DO_ONE_DIR_INCR_XY (zone_structs, zone_states, nb_zones, dir);
 	}
       break;
     case LW6KER_DIR_DOWN:
-      for (i = 0; i < n; ++i)
-	{
-	  if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential = zone_states[i].potential - 1)))
-	    {
-	      zone_states[zone_id].potential = new_potential;
-	      zone_states[zone_id].direction_to_cursor = -1;
-	    }
-	}
+      _CALL_DO_ONE_DIR_INCR_Z (zone_structs, zone_states, nb_zones, dir);
       break;
     case LW6KER_DIR_WSW:
     case LW6KER_DIR_WNW:
@@ -133,29 +323,17 @@ _lw6ker_spread_update_gradient (_lw6ker_team_t * team, int skip_vertical)
     case LW6KER_DIR_NNW:
     case LW6KER_DIR_NNE:
     case LW6KER_DIR_NE:
-      for (i = n - 1; i >= 0; --i)
+      if (spread_all_dirs)
 	{
-	  if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential =
-		     zone_states[i].potential - zone_structs[i].size)))
-	    {
-	      zone_states[zone_id].potential = new_potential;
-	      zone_states[zone_id].direction_to_cursor = -1;
-	    }
+	  _CALL_DO_ALL_DIRS_DECR_XY (zone_structs, zone_states, nb_zones);
+	}
+      else
+	{
+	  _CALL_DO_ONE_DIR_DECR_XY (zone_structs, zone_states, nb_zones, dir);
 	}
       break;
     case LW6KER_DIR_UP:
-      for (i = n - 1; i >= 0; --i)
-	{
-	  if (((zone_id = zone_structs[i].link[dir]) >= 0)
-	      && (zone_states[zone_id].potential
-		  < (new_potential = zone_states[i].potential - 1)))
-	    {
-	      zone_states[zone_id].potential = new_potential;
-	      zone_states[zone_id].direction_to_cursor = -1;
-	    }
-	}
+      _CALL_DO_ONE_DIR_DECR_Z (zone_structs, zone_states, nb_zones, dir);
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING,

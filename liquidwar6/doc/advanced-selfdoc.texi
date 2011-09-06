@@ -62,7 +62,7 @@ automated checks on a build farm, or if you want to check things in a headless
 @deffnx {XML key} @code{commands-per-sec}
 Type: integer
 
-Default value: 5
+Default value: 10
 
 Defines the number of commands per second. When a command is generated, orders
 are actually sent to the game engine, for instance, 'this cursor moved there'.
@@ -392,7 +392,7 @@ mode which is global, this one is really graphics specific.
 @deffnx {XML key} @code{io-per-sec}
 Type: integer
 
-Default value: 15
+Default value: 20
 
 Defines the number of calls to input/output functions per second. This can
 affect speed of menus but also cursors, but won't change the speed of the game

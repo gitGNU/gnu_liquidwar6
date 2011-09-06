@@ -637,6 +637,7 @@ single-army-size
 skip-network
 snd-backend
 speed
+spread-all-dirs
 spread-thread
 spreads-per-round
 srv-backends

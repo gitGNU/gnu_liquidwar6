@@ -588,6 +588,21 @@ is, 50 means 50%*50%, that is, a square of 1/2 the size of a square map, so it
 represents 25% (1/4) of the total surface.
 @end deffn
 
+@subsection spread-all-dirs
+@deffn {Command-line option} @code{--spread-all-dirs=<value>}
+@deffnx {Environment variable} @code{LW6_SPREAD_ALL_DIRS}
+@deffnx {XML key} @code{spread-all-dirs}
+Type: integer
+
+Default value: 1
+Min value: 0
+Max value: 1
+
+If set to 1, then gradient spread will be slower but gain in terms of
+homogeneity and consistency. You could consider setting this to 0 on very very
+big maps to save CPU cycles, else the default should work fine.
+@end deffn
+
 @subsection spread-thread
 @deffn {Command-line option} @code{--spread-thread=<value>}
 @deffnx {Environment variable} @code{LW6_SPREAD_THREAD}
@@ -613,7 +628,7 @@ Type: integer
 
 Default value: 6
 Min value: 1
-Max value: 36
+Max value: 96
 
 Defines how many times the gradient is spread per round. Gradient spread is a
 very Liquid War 6 specific feature, just remember that the more often you do

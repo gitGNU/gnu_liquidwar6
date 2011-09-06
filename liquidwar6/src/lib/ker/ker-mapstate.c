@@ -643,7 +643,8 @@ _lw6ker_map_state_spread_gradient (_lw6ker_map_state_t * map_state,
 	  _lw6ker_spread_update_gradient (&
 					  (map_state->teams
 					   [teams_concerned[i]]),
-					  map_state->shape.d == 1);
+					  map_state->shape.d == 1,
+					  rules->spread_all_dirs);
 	}
     }
 }

@@ -95,7 +95,7 @@
 
 #define LW6MAP_RULES_DEFAULT_SPREADS_PER_ROUND 6
 #define LW6MAP_RULES_MIN_SPREADS_PER_ROUND 1
-#define LW6MAP_RULES_MAX_SPREADS_PER_ROUND 36
+#define LW6MAP_RULES_MAX_SPREADS_PER_ROUND 96
 
 #define LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC 50
 #define LW6MAP_RULES_MIN_ROUNDS_PER_SEC 1
@@ -142,6 +142,10 @@
 #define LW6MAP_RULES_DEFAULT_VERTICAL_MOVE 1
 #define LW6MAP_RULES_MIN_VERTICAL_MOVE 0
 #define LW6MAP_RULES_MAX_VERTICAL_MOVE LW6MAP_MAX_NB_DIR_TRIES
+
+#define LW6MAP_RULES_DEFAULT_SPREAD_ALL_DIRS 1
+#define LW6MAP_RULES_MIN_SPREAD_ALL_DIRS 0
+#define LW6MAP_RULES_MAX_SPREAD_ALL_DIRS 1
 
 // 9%
 #define LW6MAP_RULES_DEFAULT_SINGLE_ARMY_SIZE 30
@@ -671,6 +675,7 @@ typedef struct lw6map_rules_s
   int32_t nb_attack_tries;
   int32_t nb_defense_tries;
   int32_t vertical_move;
+  int32_t spread_all_dirs;
   int32_t single_army_size;
   int32_t total_armies_size;
   int32_t max_nb_teams;

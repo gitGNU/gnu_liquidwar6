@@ -725,11 +725,11 @@ populate_references ()
   POPULATE_INT (LW6DEF_IO_PER_SEC,
 		_x_
 		("Defines the number of calls to input/output functions per second. This can affect speed of menus but also cursors, but won't change the speed of the game itself. It's a cosmectic, comfort option."),
-		15, 0, 0);
+		20, 0, 0);
   POPULATE_INT (LW6DEF_COMMANDS_PER_SEC,
 		_x_
 		("Defines the number of commands per second. When a command is generated, orders are actually sent to the game engine, for instance, 'this cursor moved there'. So this option will affect game responsiveness, setting this to a high value will make the game more responsive but consume bandwidth on network games."),
-		5, 0, 0);
+		10, 0, 0);
   POPULATE_FLOAT (LW6DEF_LOADER_SLEEP,
 		  _x_
 		  ("Defines how long the loader thread should wait between two polls. Default value should fit in most cases."),
@@ -1055,6 +1055,12 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_VERTICAL_MOVE,
 		LW6MAP_RULES_MIN_VERTICAL_MOVE,
 		LW6MAP_RULES_MAX_VERTICAL_MOVE);
+  POPULATE_INT (LW6DEF_SPREAD_ALL_DIRS,
+		_x_
+		("If set to 1, then gradient spread will be slower but gain in terms of homogeneity and consistency. You could consider setting this to 0 on very very big maps to save CPU cycles, else the default should work fine."),
+		LW6MAP_RULES_DEFAULT_SPREAD_ALL_DIRS,
+		LW6MAP_RULES_MIN_SPREAD_ALL_DIRS,
+		LW6MAP_RULES_MAX_SPREAD_ALL_DIRS);
   POPULATE_INT (LW6DEF_SINGLE_ARMY_SIZE,
 		_x_
 		("Defines the proportion of the whole available space, which will be occupied by an army at the beginning of the game. You can either imagine playing with almost empty maps, or play very crowded with almost no space left. This is a percentage, but will be multiplied by itself to get the actual surface. That is, 50 means 50%*50%, that is, a square of 1/2 the size of a square map, so it represents 25% (1/4) of the total surface."),

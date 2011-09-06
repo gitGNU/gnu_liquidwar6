@@ -6280,7 +6280,22 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that is, a square of 1/2 the size of a square map, so it
      represents 25% (1/4) of the total surface.
 
-4.11.36 spread-thread
+4.11.36 spread-all-dirs
+-----------------------
+
+ -- Command-line option: `--spread-all-dirs=<value>'
+ -- Environment variable: `LW6_SPREAD_ALL_DIRS'
+ -- XML key: `spread-all-dirs'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 1
+
+     If set to 1, then gradient spread will be slower but gain in terms
+     of homogeneity and consistency. You could consider setting this to
+     0 on very very big maps to save CPU cycles, else the default
+     should work fine.
+
+4.11.37 spread-thread
 ---------------------
 
  -- Command-line option: `--spread-thread=<value>'
@@ -6297,7 +6312,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      any significant performance gain, even on SMP systems. This might
      change in the future.
 
-4.11.37 spreads-per-round
+4.11.38 spreads-per-round
 -------------------------
 
  -- Command-line option: `--spreads-per-round=<value>'
@@ -6305,7 +6320,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `spreads-per-round'
      Type: integer
 
-     Default value: 6 Min value: 1 Max value: 36
+     Default value: 6 Min value: 1 Max value: 96
 
      Defines how many times the gradient is spread per round. Gradient
      spread is a very Liquid War 6 specific feature, just remember that
@@ -6316,7 +6331,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      simple maps where the gradient is obvious, or increase it on
      complex maps where you want fighters to be real smart.
 
-4.11.38 start-blue-x
+4.11.39 start-blue-x
 --------------------
 
  -- Command-line option: `--start-blue-x=<value>'
@@ -6329,7 +6344,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the blue team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.39 start-blue-y
+4.11.40 start-blue-y
 --------------------
 
  -- Command-line option: `--start-blue-y=<value>'
@@ -6342,7 +6357,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the blue team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.40 start-cyan-x
+4.11.41 start-cyan-x
 --------------------
 
  -- Command-line option: `--start-cyan-x=<value>'
@@ -6355,7 +6370,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the cyan team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.41 start-cyan-y
+4.11.42 start-cyan-y
 --------------------
 
  -- Command-line option: `--start-cyan-y=<value>'
@@ -6368,7 +6383,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the cyan team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.42 start-green-x
+4.11.43 start-green-x
 ---------------------
 
  -- Command-line option: `--start-green-x=<value>'
@@ -6381,7 +6396,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the green team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.43 start-green-y
+4.11.44 start-green-y
 ---------------------
 
  -- Command-line option: `--start-green-y=<value>'
@@ -6394,7 +6409,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the green team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.44 start-lightblue-x
+4.11.45 start-lightblue-x
 -------------------------
 
  -- Command-line option: `--start-lightblue-x=<value>'
@@ -6407,7 +6422,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the lightblue team. This is a percentage of
      map width, value between 0 and 100.
 
-4.11.45 start-lightblue-y
+4.11.46 start-lightblue-y
 -------------------------
 
  -- Command-line option: `--start-lightblue-y=<value>'
@@ -6420,7 +6435,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the lightblue team. This is a percentage of
      map height, value between 0 and 100.
 
-4.11.46 start-magenta-x
+4.11.47 start-magenta-x
 -----------------------
 
  -- Command-line option: `--start-magenta-x=<value>'
@@ -6433,7 +6448,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the magenta team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.47 start-magenta-y
+4.11.48 start-magenta-y
 -----------------------
 
  -- Command-line option: `--start-magenta-y=<value>'
@@ -6446,7 +6461,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the magenta team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.48 start-orange-x
+4.11.49 start-orange-x
 ----------------------
 
  -- Command-line option: `--start-orange-x=<value>'
@@ -6459,7 +6474,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the orange team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.49 start-orange-y
+4.11.50 start-orange-y
 ----------------------
 
  -- Command-line option: `--start-orange-y=<value>'
@@ -6472,7 +6487,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the orange team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.50 start-pink-x
+4.11.51 start-pink-x
 --------------------
 
  -- Command-line option: `--start-pink-x=<value>'
@@ -6485,7 +6500,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the pink team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.51 start-pink-y
+4.11.52 start-pink-y
 --------------------
 
  -- Command-line option: `--start-pink-y=<value>'
@@ -6498,7 +6513,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the pink team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.52 start-position-mode
+4.11.53 start-position-mode
 ---------------------------
 
  -- Command-line option: `--start-position-mode=<value>'
@@ -6514,7 +6529,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      is, red could take green's place. 2 means total randomness, teams
      can appear anywhere.
 
-4.11.53 start-purple-x
+4.11.54 start-purple-x
 ----------------------
 
  -- Command-line option: `--start-purple-x=<value>'
@@ -6527,7 +6542,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the purple team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.54 start-purple-y
+4.11.55 start-purple-y
 ----------------------
 
  -- Command-line option: `--start-purple-y=<value>'
@@ -6540,7 +6555,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the purple team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.55 start-red-x
+4.11.56 start-red-x
 -------------------
 
  -- Command-line option: `--start-red-x=<value>'
@@ -6553,7 +6568,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the red team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.56 start-red-y
+4.11.57 start-red-y
 -------------------
 
  -- Command-line option: `--start-red-y=<value>'
@@ -6566,7 +6581,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the red team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.57 start-yellow-x
+4.11.58 start-yellow-x
 ----------------------
 
  -- Command-line option: `--start-yellow-x=<value>'
@@ -6579,7 +6594,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      X start position for the yellow team. This is a percentage of map
      width, value between 0 and 100.
 
-4.11.58 start-yellow-y
+4.11.59 start-yellow-y
 ----------------------
 
  -- Command-line option: `--start-yellow-y=<value>'
@@ -6592,7 +6607,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Y start position for the yellow team. This is a percentage of map
      height, value between 0 and 100.
 
-4.11.59 team-profile-blue-aggressive
+4.11.60 team-profile-blue-aggressive
 ------------------------------------
 
  -- Command-line option: `--team-profile-blue-aggressive=<value>'
@@ -6607,7 +6622,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.60 team-profile-blue-fast
+4.11.61 team-profile-blue-fast
 ------------------------------
 
  -- Command-line option: `--team-profile-blue-fast=<value>'
@@ -6622,7 +6637,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.61 team-profile-blue-mobile
+4.11.62 team-profile-blue-mobile
 --------------------------------
 
  -- Command-line option: `--team-profile-blue-mobile=<value>'
@@ -6638,7 +6653,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.62 team-profile-blue-vulnerable
+4.11.63 team-profile-blue-vulnerable
 ------------------------------------
 
  -- Command-line option: `--team-profile-blue-vulnerable=<value>'
@@ -6653,7 +6668,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.11.63 team-profile-blue-weapon-alternate-id
+4.11.64 team-profile-blue-weapon-alternate-id
 ---------------------------------------------
 
  -- Command-line option:
@@ -6667,7 +6682,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the blue team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.64 team-profile-blue-weapon-id
+4.11.65 team-profile-blue-weapon-id
 -----------------------------------
 
  -- Command-line option: `--team-profile-blue-weapon-id=<value>'
@@ -6680,7 +6695,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the blue team, see the documentation
      about weapons to know what these ids mean.
 
-4.11.65 team-profile-blue-weapon-mode
+4.11.66 team-profile-blue-weapon-mode
 -------------------------------------
 
  -- Command-line option: `--team-profile-blue-weapon-mode=<value>'
@@ -6694,7 +6709,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.66 team-profile-cyan-aggressive
+4.11.67 team-profile-cyan-aggressive
 ------------------------------------
 
  -- Command-line option: `--team-profile-cyan-aggressive=<value>'
@@ -6709,7 +6724,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.67 team-profile-cyan-fast
+4.11.68 team-profile-cyan-fast
 ------------------------------
 
  -- Command-line option: `--team-profile-cyan-fast=<value>'
@@ -6724,7 +6739,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.68 team-profile-cyan-mobile
+4.11.69 team-profile-cyan-mobile
 --------------------------------
 
  -- Command-line option: `--team-profile-cyan-mobile=<value>'
@@ -6740,7 +6755,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.69 team-profile-cyan-vulnerable
+4.11.70 team-profile-cyan-vulnerable
 ------------------------------------
 
  -- Command-line option: `--team-profile-cyan-vulnerable=<value>'
@@ -6755,7 +6770,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.11.70 team-profile-cyan-weapon-alternate-id
+4.11.71 team-profile-cyan-weapon-alternate-id
 ---------------------------------------------
 
  -- Command-line option:
@@ -6769,7 +6784,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the cyan team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.71 team-profile-cyan-weapon-id
+4.11.72 team-profile-cyan-weapon-id
 -----------------------------------
 
  -- Command-line option: `--team-profile-cyan-weapon-id=<value>'
@@ -6782,7 +6797,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the cyan team, see the documentation
      about weapons to know what these ids mean.
 
-4.11.72 team-profile-cyan-weapon-mode
+4.11.73 team-profile-cyan-weapon-mode
 -------------------------------------
 
  -- Command-line option: `--team-profile-cyan-weapon-mode=<value>'
@@ -6796,7 +6811,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.73 team-profile-green-aggressive
+4.11.74 team-profile-green-aggressive
 -------------------------------------
 
  -- Command-line option: `--team-profile-green-aggressive=<value>'
@@ -6811,7 +6826,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.74 team-profile-green-fast
+4.11.75 team-profile-green-fast
 -------------------------------
 
  -- Command-line option: `--team-profile-green-fast=<value>'
@@ -6826,7 +6841,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.75 team-profile-green-mobile
+4.11.76 team-profile-green-mobile
 ---------------------------------
 
  -- Command-line option: `--team-profile-green-mobile=<value>'
@@ -6842,7 +6857,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.76 team-profile-green-vulnerable
+4.11.77 team-profile-green-vulnerable
 -------------------------------------
 
  -- Command-line option: `--team-profile-green-vulnerable=<value>'
@@ -6857,7 +6872,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.11.77 team-profile-green-weapon-alternate-id
+4.11.78 team-profile-green-weapon-alternate-id
 ----------------------------------------------
 
  -- Command-line option:
@@ -6871,7 +6886,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the green team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.78 team-profile-green-weapon-id
+4.11.79 team-profile-green-weapon-id
 ------------------------------------
 
  -- Command-line option: `--team-profile-green-weapon-id=<value>'
@@ -6884,7 +6899,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the green team, see the documentation
      about weapons to know what these ids mean.
 
-4.11.79 team-profile-green-weapon-mode
+4.11.80 team-profile-green-weapon-mode
 --------------------------------------
 
  -- Command-line option: `--team-profile-green-weapon-mode=<value>'
@@ -6898,7 +6913,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.80 team-profile-lightblue-aggressive
+4.11.81 team-profile-lightblue-aggressive
 -----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-aggressive=<value>'
@@ -6913,7 +6928,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      any other team with the default value. Setting this to a high
      value clearly advantages this team.
 
-4.11.81 team-profile-lightblue-fast
+4.11.82 team-profile-lightblue-fast
 -----------------------------------
 
  -- Command-line option: `--team-profile-lightblue-fast=<value>'
@@ -6928,7 +6943,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the default parameter.  Setting this high is very likely to
      advantage the team.
 
-4.11.82 team-profile-lightblue-mobile
+4.11.83 team-profile-lightblue-mobile
 -------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-mobile=<value>'
@@ -6944,7 +6959,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.83 team-profile-lightblue-vulnerable
+4.11.84 team-profile-lightblue-vulnerable
 -----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-vulnerable=<value>'
@@ -6959,7 +6974,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      as any other team with the default value. Setting this to a high
      value clearly disadvantages this team.
 
-4.11.84 team-profile-lightblue-weapon-alternate-id
+4.11.85 team-profile-lightblue-weapon-alternate-id
 --------------------------------------------------
 
  -- Command-line option:
@@ -6974,7 +6989,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the lightblue team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.85 team-profile-lightblue-weapon-id
+4.11.86 team-profile-lightblue-weapon-id
 ----------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-weapon-id=<value>'
@@ -6987,7 +7002,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the lightblue team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.86 team-profile-lightblue-weapon-mode
+4.11.87 team-profile-lightblue-weapon-mode
 ------------------------------------------
 
  -- Command-line option: `--team-profile-lightblue-weapon-mode=<value>'
@@ -7001,7 +7016,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.87 team-profile-magenta-aggressive
+4.11.88 team-profile-magenta-aggressive
 ---------------------------------------
 
  -- Command-line option: `--team-profile-magenta-aggressive=<value>'
@@ -7016,7 +7031,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      advantages this team.
 
-4.11.88 team-profile-magenta-fast
+4.11.89 team-profile-magenta-fast
 ---------------------------------
 
  -- Command-line option: `--team-profile-magenta-fast=<value>'
@@ -7031,7 +7046,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      the default parameter.  Setting this high is very likely to
      advantage the team.
 
-4.11.89 team-profile-magenta-mobile
+4.11.90 team-profile-magenta-mobile
 -----------------------------------
 
  -- Command-line option: `--team-profile-magenta-mobile=<value>'
@@ -7047,7 +7062,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.90 team-profile-magenta-vulnerable
+4.11.91 team-profile-magenta-vulnerable
 ---------------------------------------
 
  -- Command-line option: `--team-profile-magenta-vulnerable=<value>'
@@ -7062,7 +7077,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.11.91 team-profile-magenta-weapon-alternate-id
+4.11.92 team-profile-magenta-weapon-alternate-id
 ------------------------------------------------
 
  -- Command-line option:
@@ -7076,7 +7091,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the magenta team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.92 team-profile-magenta-weapon-id
+4.11.93 team-profile-magenta-weapon-id
 --------------------------------------
 
  -- Command-line option: `--team-profile-magenta-weapon-id=<value>'
@@ -7089,7 +7104,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the magenta team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.93 team-profile-magenta-weapon-mode
+4.11.94 team-profile-magenta-weapon-mode
 ----------------------------------------
 
  -- Command-line option: `--team-profile-magenta-weapon-mode=<value>'
@@ -7103,7 +7118,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.94 team-profile-orange-aggressive
+4.11.95 team-profile-orange-aggressive
 --------------------------------------
 
  -- Command-line option: `--team-profile-orange-aggressive=<value>'
@@ -7118,7 +7133,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.95 team-profile-orange-fast
+4.11.96 team-profile-orange-fast
 --------------------------------
 
  -- Command-line option: `--team-profile-orange-fast=<value>'
@@ -7133,7 +7148,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.96 team-profile-orange-mobile
+4.11.97 team-profile-orange-mobile
 ----------------------------------
 
  -- Command-line option: `--team-profile-orange-mobile=<value>'
@@ -7149,7 +7164,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.97 team-profile-orange-vulnerable
+4.11.98 team-profile-orange-vulnerable
 --------------------------------------
 
  -- Command-line option: `--team-profile-orange-vulnerable=<value>'
@@ -7164,7 +7179,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.11.98 team-profile-orange-weapon-alternate-id
+4.11.99 team-profile-orange-weapon-alternate-id
 -----------------------------------------------
 
  -- Command-line option:
@@ -7178,8 +7193,8 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the orange team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.99 team-profile-orange-weapon-id
--------------------------------------
+4.11.100 team-profile-orange-weapon-id
+--------------------------------------
 
  -- Command-line option: `--team-profile-orange-weapon-id=<value>'
  -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_ID'
@@ -7191,7 +7206,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the orange team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.100 team-profile-orange-weapon-mode
+4.11.101 team-profile-orange-weapon-mode
 ----------------------------------------
 
  -- Command-line option: `--team-profile-orange-weapon-mode=<value>'
@@ -7205,7 +7220,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.101 team-profile-pink-aggressive
+4.11.102 team-profile-pink-aggressive
 -------------------------------------
 
  -- Command-line option: `--team-profile-pink-aggressive=<value>'
@@ -7220,7 +7235,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.102 team-profile-pink-fast
+4.11.103 team-profile-pink-fast
 -------------------------------
 
  -- Command-line option: `--team-profile-pink-fast=<value>'
@@ -7235,7 +7250,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.103 team-profile-pink-mobile
+4.11.104 team-profile-pink-mobile
 ---------------------------------
 
  -- Command-line option: `--team-profile-pink-mobile=<value>'
@@ -7251,7 +7266,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.104 team-profile-pink-vulnerable
+4.11.105 team-profile-pink-vulnerable
 -------------------------------------
 
  -- Command-line option: `--team-profile-pink-vulnerable=<value>'
@@ -7266,7 +7281,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.11.105 team-profile-pink-weapon-alternate-id
+4.11.106 team-profile-pink-weapon-alternate-id
 ----------------------------------------------
 
  -- Command-line option:
@@ -7280,7 +7295,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the pink team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.106 team-profile-pink-weapon-id
+4.11.107 team-profile-pink-weapon-id
 ------------------------------------
 
  -- Command-line option: `--team-profile-pink-weapon-id=<value>'
@@ -7293,7 +7308,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the pink team, see the documentation
      about weapons to know what these ids mean.
 
-4.11.107 team-profile-pink-weapon-mode
+4.11.108 team-profile-pink-weapon-mode
 --------------------------------------
 
  -- Command-line option: `--team-profile-pink-weapon-mode=<value>'
@@ -7307,7 +7322,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.108 team-profile-purple-aggressive
+4.11.109 team-profile-purple-aggressive
 ---------------------------------------
 
  -- Command-line option: `--team-profile-purple-aggressive=<value>'
@@ -7322,7 +7337,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.109 team-profile-purple-fast
+4.11.110 team-profile-purple-fast
 ---------------------------------
 
  -- Command-line option: `--team-profile-purple-fast=<value>'
@@ -7337,7 +7352,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.110 team-profile-purple-mobile
+4.11.111 team-profile-purple-mobile
 -----------------------------------
 
  -- Command-line option: `--team-profile-purple-mobile=<value>'
@@ -7353,7 +7368,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.111 team-profile-purple-vulnerable
+4.11.112 team-profile-purple-vulnerable
 ---------------------------------------
 
  -- Command-line option: `--team-profile-purple-vulnerable=<value>'
@@ -7368,7 +7383,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.11.112 team-profile-purple-weapon-alternate-id
+4.11.113 team-profile-purple-weapon-alternate-id
 ------------------------------------------------
 
  -- Command-line option:
@@ -7382,7 +7397,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the purple team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.113 team-profile-purple-weapon-id
+4.11.114 team-profile-purple-weapon-id
 --------------------------------------
 
  -- Command-line option: `--team-profile-purple-weapon-id=<value>'
@@ -7395,7 +7410,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the purple team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.114 team-profile-purple-weapon-mode
+4.11.115 team-profile-purple-weapon-mode
 ----------------------------------------
 
  -- Command-line option: `--team-profile-purple-weapon-mode=<value>'
@@ -7409,7 +7424,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.115 team-profile-red-aggressive
+4.11.116 team-profile-red-aggressive
 ------------------------------------
 
  -- Command-line option: `--team-profile-red-aggressive=<value>'
@@ -7424,7 +7439,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.116 team-profile-red-fast
+4.11.117 team-profile-red-fast
 ------------------------------
 
  -- Command-line option: `--team-profile-red-fast=<value>'
@@ -7439,7 +7454,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.117 team-profile-red-mobile
+4.11.118 team-profile-red-mobile
 --------------------------------
 
  -- Command-line option: `--team-profile-red-mobile=<value>'
@@ -7455,7 +7470,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      change its cruising speed. It's not obvious to tell wether this is
      an advantage or not, but it clearly changes the behavior.
 
-4.11.118 team-profile-red-vulnerable
+4.11.119 team-profile-red-vulnerable
 ------------------------------------
 
  -- Command-line option: `--team-profile-red-vulnerable=<value>'
@@ -7470,7 +7485,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value. Setting this to a high value clearly
      disadvantages this team.
 
-4.11.119 team-profile-red-weapon-alternate-id
+4.11.120 team-profile-red-weapon-alternate-id
 ---------------------------------------------
 
  -- Command-line option:
@@ -7484,7 +7499,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the red team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.120 team-profile-red-weapon-id
+4.11.121 team-profile-red-weapon-id
 -----------------------------------
 
  -- Command-line option: `--team-profile-red-weapon-id=<value>'
@@ -7497,7 +7512,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the red team, see the documentation
      about weapons to know what these ids mean.
 
-4.11.121 team-profile-red-weapon-mode
+4.11.122 team-profile-red-weapon-mode
 -------------------------------------
 
  -- Command-line option: `--team-profile-red-weapon-mode=<value>'
@@ -7511,7 +7526,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.122 team-profile-yellow-aggressive
+4.11.123 team-profile-yellow-aggressive
 ---------------------------------------
 
  -- Command-line option: `--team-profile-yellow-aggressive=<value>'
@@ -7526,7 +7541,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      team with the default value.  Setting this to a high value clearly
      advantages this team.
 
-4.11.123 team-profile-yellow-fast
+4.11.124 team-profile-yellow-fast
 ---------------------------------
 
  -- Command-line option: `--team-profile-yellow-fast=<value>'
@@ -7541,7 +7556,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      default parameter.  Setting this high is very likely to advantage
      the team.
 
-4.11.124 team-profile-yellow-mobile
+4.11.125 team-profile-yellow-mobile
 -----------------------------------
 
  -- Command-line option: `--team-profile-yellow-mobile=<value>'
@@ -7557,7 +7572,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      won't change its cruising speed. It's not obvious to tell wether
      this is an advantage or not, but it clearly changes the behavior.
 
-4.11.125 team-profile-yellow-vulnerable
+4.11.126 team-profile-yellow-vulnerable
 ---------------------------------------
 
  -- Command-line option: `--team-profile-yellow-vulnerable=<value>'
@@ -7572,7 +7587,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      other team with the default value. Setting this to a high value
      clearly disadvantages this team.
 
-4.11.126 team-profile-yellow-weapon-alternate-id
+4.11.127 team-profile-yellow-weapon-alternate-id
 ------------------------------------------------
 
  -- Command-line option:
@@ -7586,7 +7601,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default alternate weapon for the yellow team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.127 team-profile-yellow-weapon-id
+4.11.128 team-profile-yellow-weapon-id
 --------------------------------------
 
  -- Command-line option: `--team-profile-yellow-weapon-id=<value>'
@@ -7599,7 +7614,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Id of the default weapon for the yellow team, see the
      documentation about weapons to know what these ids mean.
 
-4.11.128 team-profile-yellow-weapon-mode
+4.11.129 team-profile-yellow-weapon-mode
 ----------------------------------------
 
  -- Command-line option: `--team-profile-yellow-weapon-mode=<value>'
@@ -7613,7 +7628,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      one weapon per team, defined by the weapon-id parameter, 2 means
      random weapon.
 
-4.11.129 total-armies-size
+4.11.130 total-armies-size
 --------------------------
 
  -- Command-line option: `--total-armies-size=<value>'
@@ -7634,7 +7649,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      square of 1/2 the size of a square map, so it represents 25% (1/4)
      of the total surface.
 
-4.11.130 total-time
+4.11.131 total-time
 -------------------
 
  -- Command-line option: `--total-time=<value>'
@@ -7652,7 +7667,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      So if the computer is too slow and the desired speed is not
      reached, then the game will last for a longer time.
 
-4.11.131 use-team-profiles
+4.11.132 use-team-profiles
 --------------------------
 
  -- Command-line option: `--use-team-profiles=<value>'
@@ -7667,7 +7682,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      according to their colors. If you disable this, then all teams
      will behave the same, which is more fair, but might not be as fun.
 
-4.11.132 vertical-move
+4.11.133 vertical-move
 ----------------------
 
  -- Command-line option: `--vertical-move=<value>'
@@ -7683,7 +7698,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      failed. If set to 2, it will be tried just after the second move
      failed. And so on.
 
-4.11.133 weapon-charge-delay
+4.11.134 weapon-charge-delay
 ----------------------------
 
  -- Command-line option: `--weapon-charge-delay=<value>'
@@ -7696,7 +7711,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long it will take for weapons to charge and be usable, by
      default. Unit is seconds.
 
-4.11.134 weapon-charge-max
+4.11.135 weapon-charge-max
 --------------------------
 
  -- Command-line option: `--weapon-charge-max=<value>'
@@ -7713,7 +7728,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      four times more powerfull, it's just the limit after which it's
      useless to charge.
 
-4.11.135 weapon-duration
+4.11.136 weapon-duration
 ------------------------
 
  -- Command-line option: `--weapon-duration=<value>'
@@ -7726,7 +7741,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long all weapons (for which duration makes sense) will last.
      Unit is seconds.
 
-4.11.136 weapon-tune-bezerk-power
+4.11.137 weapon-tune-bezerk-power
 ---------------------------------
 
  -- Command-line option: `--weapon-tune-bezerk-power=<value>'
@@ -7739,7 +7754,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Use to specifiy how strong bezerk mode is, if set to 3, then
      attacks will be 3 times as efficient in bezerk mode.
 
-4.11.137 weapon-tune-turbo-power
+4.11.138 weapon-tune-turbo-power
 --------------------------------
 
  -- Command-line option: `--weapon-tune-turbo-power=<value>'
@@ -7752,7 +7767,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      Defines how fast fighters move in turbo mode, if set to 3, then
      fighters move and act 3 times as fast.
 
-4.11.138 x-polarity
+4.11.139 x-polarity
 -------------------
 
  -- Command-line option: `--x-polarity=<value>'
@@ -7771,7 +7786,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the right border at position (319,180). You can
      combine it with 'y-polarity'.
 
-4.11.139 y-polarity
+4.11.140 y-polarity
 -------------------
 
  -- Command-line option: `--y-polarity=<value>'
@@ -7790,7 +7805,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      will reapper on the top border at position (280,0). You can
      combine it with 'x-polarity'.
 
-4.11.140 z-polarity
+4.11.141 z-polarity
 -------------------
 
  -- Command-line option: `--z-polarity=<value>'

@@ -1,5 +1,9 @@
 2011-09-06 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Increased the message and i/o rate.
+
+	* Added spread-all-dirs option, which enables better spreads.
+
 	* Implemented internal backtrace facility.
 
 2011-09-05 : Christian Mauduit <ufoot@ufoot.org>

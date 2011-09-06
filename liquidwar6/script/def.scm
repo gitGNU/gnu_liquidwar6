@@ -656,6 +656,7 @@
 (define lw6def-skip-network "skip-network")
 (define lw6def-snd-backend "snd-backend")
 (define lw6def-speed "speed")
+(define lw6def-spread-all-dirs "spread-all-dirs")
 (define lw6def-spread-thread "spread-thread")
 (define lw6def-spreads-per-round "spreads-per-round")
 (define lw6def-srv-backends "srv-backends")

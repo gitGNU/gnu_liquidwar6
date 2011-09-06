@@ -443,6 +443,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_NB_ATTACK_TRIES);
   lw6sys_list_push_back (list, LW6DEF_NB_DEFENSE_TRIES);
   lw6sys_list_push_back (list, LW6DEF_VERTICAL_MOVE);
+  lw6sys_list_push_back (list, LW6DEF_SPREAD_ALL_DIRS);
   lw6sys_list_push_back (list, LW6DEF_SINGLE_ARMY_SIZE);
   lw6sys_list_push_back (list, LW6DEF_TOTAL_ARMIES_SIZE);
   lw6sys_list_push_back (list, LW6DEF_MAX_NB_TEAMS);

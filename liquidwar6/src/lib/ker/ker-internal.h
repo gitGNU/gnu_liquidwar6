@@ -872,8 +872,38 @@ extern void _lw6ker_slot_struct_update_checksum (_lw6ker_slot_struct_t *
  * In spread.c
  */
 extern int32_t _lw6ker_spread_next_dir (int32_t dir);
+extern void _lw6ker_spread_do_all_dirs_incr_xy (_lw6ker_zone_struct_t *
+						zone_structs,
+						_lw6ker_zone_state_t *
+						zone_states, int nb_zones);
+extern void _lw6ker_spread_do_all_dirs_decr_xy (_lw6ker_zone_struct_t *
+						zone_structs,
+						_lw6ker_zone_state_t *
+						zone_states, int nb_zones);
+extern void _lw6ker_spread_do_one_dir_incr_xy (_lw6ker_zone_struct_t *
+					       zone_structs,
+					       _lw6ker_zone_state_t *
+					       zone_states, int nb_zones,
+					       int dir);
+extern void _lw6ker_spread_do_one_dir_incr_z (_lw6ker_zone_struct_t *
+					      zone_structs,
+					      _lw6ker_zone_state_t *
+					      zone_states, int nb_zones,
+					      int dir);
+extern void _lw6ker_spread_do_one_dir_decr_xy (_lw6ker_zone_struct_t *
+					       zone_structs,
+					       _lw6ker_zone_state_t *
+					       zone_states, int nb_zones,
+					       int dir);
+extern void _lw6ker_spread_do_one_dir_decr_z (_lw6ker_zone_struct_t *
+					      zone_structs,
+					      _lw6ker_zone_state_t *
+					      zone_states, int nb_zones,
+					      int dir);
+
 extern void _lw6ker_spread_update_gradient (_lw6ker_team_t * team,
-					    int skip_vertical);
+					    int skip_vertical,
+					    int spread_all_dirs);
 
 /* ker-weapon.c */
 extern void _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t *
