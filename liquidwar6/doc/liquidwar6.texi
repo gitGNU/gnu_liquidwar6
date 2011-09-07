@@ -761,8 +761,7 @@ SDL_mixer SDL_mixer-devel \
 freetype freetype-devel SDL_ttf SDL_ttf-devel \
 libcurl libcurl-devel \
 perl lcov global valgrind graphviz gv texinfo-tex \
-gtk2-devel \
-rpm-build
+gtk2-devel rpm-build
 @end example
 
 On a DEB package based GNU/Linux system this command
@@ -785,7 +784,7 @@ libsdl-mixer1.2 libsdl-mixer1.2-dev \
 libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
 libcurl4-gnutls-dev \
 perl lcov global valgrind graphviz gv texinfo texlive-full \
-debhelper
+libgtk2.0-dev debhelper
 @end example
 
 Note that those requirements really depend on the exact distribution you
@@ -2262,6 +2261,11 @@ and/or did not really fit in existing modules for dependencies reasons.
 So well, this is a lot of modules. The list might move a bit, but the
 big picture is here. Each module is testable separately.
 
+Below is a @uref{http://www.graphviz.org/, Graphviz} diagram, which shows
+the modules dependencies.
+
+@image{deps,19cm,,Diagram showing modules and libraries dependencies}
+
 @section Memory structures
 
 The most important memory structures in Liquid War 6 are:
@@ -3557,6 +3561,8 @@ in @code{./doc}, run @code{./gdoc-update.sh}.
 @item
 edit @code{doc/liquidwar6.texi} to and a new node/section for this internal library.
 @item
+edit @code{doc/deps.dot} to update dependencies.
+@item
 run @code{./configure && make}, fix code if needed.
 @end itemize
 
@@ -3579,6 +3585,8 @@ edit @code{doc/Makefile.am} and add @code{mod-ab-gdoc.texi} in @code{gdoc_TEXINF
 in @code{./doc}, run @code{./gdoc-update.sh}.
 @item
 edit @code{doc/liquidwar6texi} to add a new node/section for this module.
+@item
+edit @code{doc/deps.dot} to update dependencies.
 @item
 edit @code{src/lib/bot/bot-test.c}, change the value of @code{TEST_NB_BACKENDS} and modify the code so that the new @code{ab} module is tested too.
 @item

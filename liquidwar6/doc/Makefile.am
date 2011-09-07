@@ -27,14 +27,32 @@ liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi stamp.texi const.texi $(gdo
 
 man6_MANS = liquidwar6.man
 
-EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh
+EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh deps.dot deps.png deps.eps
+
+deps.png: deps.dot
+	if which dot && which rsync ; then dot -Tpng -o$@ $< && rsync $@ ${srcdir} ; fi
+
+deps.eps: deps.dot
+	if which dot && which rsync ; then dot -Teps -o$@ $< && rsync $@ ${srcdir} ; fi
+
+images: deps.png deps.eps
+	true
+
+clean-images:
+	rm -f deps.png deps.eps
 
 # To generate const.texi we need to first generate const.texi.in
 # in builddir then copy it to srcdir for using a texi file located
 # in builddir causes an error when running make distcheck
 # (complains about write permissions, can't create temp dir).
-all-local:
+all-local: images
 	if ! diff ${builddir}/const.texi.in ${srcdir}/const.texi ; then cp ${builddir}/const.texi.in ${srcdir}/const.texi ; fi
+
+html-local: deps.png
+	if test -d ${builddir}/liquidwar6.html ; then cp -f ${srcdir}/*.png ${builddir}/liquidwar6.html/ ; fi
+
+clean-local: clean-images
+	true
 
 install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi

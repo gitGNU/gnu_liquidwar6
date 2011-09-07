@@ -702,8 +702,7 @@ Fedora (http://www.fedoraproject.org/) 15 "Lovelock") could be:
      freetype freetype-devel SDL_ttf SDL_ttf-devel \
      libcurl libcurl-devel \
      perl lcov global valgrind graphviz gv texinfo-tex \
-     gtk2-devel \
-     rpm-build
+     gtk2-devel rpm-build
 
    On a DEB package based GNU/Linux system this command (tested with
 Debian (http://www.debian.org/) 6.0 "squeeze") would be:
@@ -723,7 +722,7 @@ Debian (http://www.debian.org/) 6.0 "squeeze") would be:
      libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
      libcurl4-gnutls-dev \
      perl lcov global valgrind graphviz gv texinfo texlive-full \
-     debhelper
+     libgtk2.0-dev debhelper
 
    Note that those requirements really depend on the exact distribution
 you have, package names may vary from one to another.
@@ -2129,6 +2128,11 @@ for dependencies reasons.
 
    So well, this is a lot of modules. The list might move a bit, but the
 big picture is here. Each module is testable separately.
+
+   Below is a Graphviz (http://www.graphviz.org/) diagram, which shows
+the modules dependencies.
+
+ [image src="deps.png" alt="dependencies" ]
 
 3.4 Memory structures
 =====================

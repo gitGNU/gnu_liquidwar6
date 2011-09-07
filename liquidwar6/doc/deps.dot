@@ -1,0 +1,136 @@
+digraph g {
+	bot -> dyn
+	bot -> pil
+	bot -> "mod-brute" [dir=both]
+	bot -> "mod-follow" [dir=both]
+	bot -> "mod-idiot" [dir=both]
+	bot -> "mod-random" [dir=both]
+	cfg -> hlp
+	cfg -> expat
+	cli -> dyn
+	cli -> msg
+	cli -> net
+	cli -> "mod-tcp" [dir=both]
+	cli -> "mod-udp" [dir=both]
+	cli -> "mod-http" [dir=both]
+	"mod-http" -> curl
+	cns -> sys
+	cnx -> glb
+	cns -> readline
+	dat -> msg
+	dsp -> gfx
+	dyn -> sys
+	dyn -> ltdl
+	gfx -> dyn
+	gfx -> vox
+	gfx -> pil
+	gfx -> "mod-gl" [dir=both]
+	"mod-gl" -> SDL
+	"mod-gl" -> GL
+	"mod-gl" -> SDL_image
+	"mod-gl" -> SDL_ttf
+	SDL_image -> jpeg
+	SDL_ttf -> png
+	glb -> sys
+	glb -> gnulib
+	gui -> map
+	gui -> cfg
+	hlp -> sys
+	img -> cfg
+	img -> jpeg
+	ker -> map
+	ker -> gomp
+	ldr -> cfg
+	ldr -> map
+	ldr -> png
+	ldr -> jpeg
+	map -> sys
+	msg -> cnx
+	msg -> nod
+	msg -> zlib
+	net -> cfg
+	net -> glb
+	nod -> sys
+	p2p -> dat
+	p2p -> cli
+	p2p -> srv
+	p2p -> sqlite
+	pil -> ker
+	scm -> hlp
+	scm -> guile
+	snd -> dyn
+	snd -> cfg
+	snd -> "mod-ogg" [dir=both]
+	"mod-ogg" -> SDL
+	"mod-ogg" -> SDL_mixer
+	snd -> "mod-csound" [dir=both]
+	"mod-csound" -> csound
+	srv -> dyn
+	srv -> msg
+	srv -> net
+	srv -> "mod-tcpd" [dir=both]
+	srv -> "mod-udpd" [dir=both]
+	srv -> "mod-httpd" [dir=both]
+	sys -> def
+	sys -> pthread
+	tsk -> ldr
+	vox -> gui
+	vox -> ker
+
+	liquidwar6 -> bot
+	liquidwar6 -> dsp
+	liquidwar6 -> img
+	liquidwar6 -> tsk
+	liquidwar6 -> cns
+	liquidwar6 -> p2p
+	liquidwar6 -> snd
+	liquidwar6 -> scm	
+
+	csound [color=grey]
+	csound [fontcolor=grey]
+	curl [color=grey]
+	curl [fontcolor=grey]
+	expat [color=grey]
+	expat [fontcolor=grey]
+	GL [color=grey]
+	GL [fontcolor=grey]
+	gnulib [color=grey]
+	gnulib [fontcolor=grey]
+	gomp [color=grey]
+	gomp [fontcolor=grey]
+	guile [color=grey]
+	guile [fontcolor=grey]
+	jpeg [color=grey]
+	jpeg [fontcolor=grey]
+	ltdl [color=grey]
+	ltdl [fontcolor=grey]
+	png [color=grey]
+	png [fontcolor=grey]
+	pthread [color=grey]
+	pthread [fontcolor=grey]
+	readline [color=grey]	
+	readline [fontcolor=grey]	
+	SDL [color=grey]
+	SDL [fontcolor=grey]
+	SDL_image [color=grey]
+	SDL_image [fontcolor=grey]
+	SDL_mixer [color=grey]
+	SDL_mixer [fontcolor=grey]
+	SDL_ttf [color=grey]
+	SDL_ttf [fontcolor=grey]
+	sqlite [color=grey]
+	sqlite [fontcolor=grey]
+	zlib [color=grey]
+	zlib [fontcolor=grey]
+
+	{rank=same; csound curl expat GL gnulib gomp guile jpeg ltdl png pthread readline SDL SDL_image SDL_mixer SDL_ttf sqlite zlib }
+	{rank=same; "mod-brute" "mod-follow" "mod-idiot" "mod-random"}
+	{rank=same; "mod-gl"}
+	{rank=same; "mod-ogg" "mod-csound"}
+	{rank=same; "mod-tcp" "mod-udp" "mod-http"}
+	{rank=same; "mod-tcpd" "mod-udpd" "mod-httpd"}
+	{rank=same; gfx snd}
+	{rank=same; cli srv}
+	{rank=same; dsp p2p}
+}
+

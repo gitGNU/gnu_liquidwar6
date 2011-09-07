@@ -92,10 +92,10 @@ liquidwar6gfx_test_OBJECTS = $(am_liquidwar6gfx_test_OBJECTS)
 @ALLINONE_FALSE@am__DEPENDENCIES_3 = ../dyn/libdyn.la
 @FULLSTATIC_FALSE@liquidwar6gfx_test_DEPENDENCIES = libgfx.la \
 @FULLSTATIC_FALSE@	$(am__DEPENDENCIES_3) ../vox/libvox.la \
-@FULLSTATIC_FALSE@	../gui/libgui.la ../ldr/libldr.la \
-@FULLSTATIC_FALSE@	../pil/libpil.la ../ker/libker.la \
-@FULLSTATIC_FALSE@	../map/libmap.la ../cfg/libcfg.la \
-@FULLSTATIC_FALSE@	../hlp/libhlp.la ../sys/libsys.la
+@FULLSTATIC_FALSE@	../gui/libgui.la ../pil/libpil.la \
+@FULLSTATIC_FALSE@	../ker/libker.la ../map/libmap.la \
+@FULLSTATIC_FALSE@	../cfg/libcfg.la ../hlp/libhlp.la \
+@FULLSTATIC_FALSE@	../sys/libsys.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -390,7 +390,7 @@ libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-test.c
 libgfxdir = $(includedir)/@PACKAGE_TARNAME@/gfx
 libgfx_HEADERS = gfx.h
 @FULLSTATIC_FALSE@liquidwar6gfx_test_SOURCES = gfx-testmain.c
-@FULLSTATIC_FALSE@liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+@FULLSTATIC_FALSE@liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../vox/libvox.la ../gui/libgui.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 SUBDIRS = $(MOD_GL_SUBDIR)
 all: all-recursive
 
