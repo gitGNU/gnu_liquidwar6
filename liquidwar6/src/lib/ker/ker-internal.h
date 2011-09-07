@@ -903,7 +903,7 @@ extern void _lw6ker_spread_do_one_dir_decr_z (_lw6ker_zone_struct_t *
 
 extern void _lw6ker_spread_update_gradient (_lw6ker_team_t * team,
 					    int skip_vertical,
-					    int spread_all_dirs);
+					    int spread_mode);
 
 /* ker-weapon.c */
 extern void _lw6ker_weapon_unset_by_weapon_id (_lw6ker_map_state_t *

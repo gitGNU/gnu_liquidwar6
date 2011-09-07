@@ -28,20 +28,26 @@
 
 #define LW6KER_NB_DIRS 14
 
-#define LW6KER_DIR_NNE 0
-#define LW6KER_DIR_NE 1
-#define LW6KER_DIR_ENE 2
-#define LW6KER_DIR_ESE 3
-#define LW6KER_DIR_SE 4
-#define LW6KER_DIR_SSE 5
-#define LW6KER_DIR_SSW 6
-#define LW6KER_DIR_SW 7
-#define LW6KER_DIR_WSW 8
-#define LW6KER_DIR_WNW 9
-#define LW6KER_DIR_NW 10
-#define LW6KER_DIR_NNW 11
-#define LW6KER_DIR_UP 12
-#define LW6KER_DIR_DOWN 13
+/*
+ * Historically, first dir (0) was NNE, but it happened
+ * a minor optimization is to have ENE being 0, this allows
+ * dirs 0-2, 3-5, 6-8 and 9-11 to be consider 4 packs of
+ * alike dirs when spreading.
+ */
+#define LW6KER_DIR_NNE 10
+#define LW6KER_DIR_NE 11
+#define LW6KER_DIR_ENE 0
+#define LW6KER_DIR_ESE 1
+#define LW6KER_DIR_SE 2
+#define LW6KER_DIR_SSE 3
+#define LW6KER_DIR_SSW 4
+#define LW6KER_DIR_SW 5
+#define LW6KER_DIR_WSW 6
+#define LW6KER_DIR_WNW 7
+#define LW6KER_DIR_NW 8
+#define LW6KER_DIR_NNW 9
+#define LW6KER_DIR_DOWN 12
+#define LW6KER_DIR_UP 13
 
 #define LW6KER_NB_PARITIES 2
 

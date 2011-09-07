@@ -1055,12 +1055,11 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_VERTICAL_MOVE,
 		LW6MAP_RULES_MIN_VERTICAL_MOVE,
 		LW6MAP_RULES_MAX_VERTICAL_MOVE);
-  POPULATE_INT (LW6DEF_SPREAD_ALL_DIRS,
+  POPULATE_INT (LW6DEF_SPREAD_MODE,
 		_x_
 		("If set to 1, then gradient spread will be slower but gain in terms of homogeneity and consistency. You could consider setting this to 0 on very very big maps to save CPU cycles, else the default should work fine."),
-		LW6MAP_RULES_DEFAULT_SPREAD_ALL_DIRS,
-		LW6MAP_RULES_MIN_SPREAD_ALL_DIRS,
-		LW6MAP_RULES_MAX_SPREAD_ALL_DIRS);
+		LW6MAP_RULES_DEFAULT_SPREAD_MODE,
+		LW6MAP_RULES_MIN_SPREAD_MODE, LW6MAP_RULES_MAX_SPREAD_MODE);
   POPULATE_INT (LW6DEF_SINGLE_ARMY_SIZE,
 		_x_
 		("Defines the proportion of the whole available space, which will be occupied by an army at the beginning of the game. You can either imagine playing with almost empty maps, or play very crowded with almost no space left. This is a percentage, but will be multiplied by itself to get the actual surface. That is, 50 means 50%*50%, that is, a square of 1/2 the size of a square map, so it represents 25% (1/4) of the total surface."),

@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -6280,15 +6280,15 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      that is, a square of 1/2 the size of a square map, so it
      represents 25% (1/4) of the total surface.
 
-4.11.36 spread-all-dirs
------------------------
+4.11.36 spread-mode
+-------------------
 
- -- Command-line option: `--spread-all-dirs=<value>'
- -- Environment variable: `LW6_SPREAD_ALL_DIRS'
- -- XML key: `spread-all-dirs'
+ -- Command-line option: `--spread-mode=<value>'
+ -- Environment variable: `LW6_SPREAD_MODE'
+ -- XML key: `spread-mode'
      Type: integer
 
-     Default value: 1 Min value: 0 Max value: 1
+     Default value: 1 Min value: 0 Max value: 2
 
      If set to 1, then gradient spread will be slower but gain in terms
      of homogeneity and consistency. You could consider setting this to
@@ -6320,7 +6320,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `spreads-per-round'
      Type: integer
 
-     Default value: 6 Min value: 1 Max value: 96
+     Default value: 5 Min value: 1 Max value: 100
 
      Defines how many times the gradient is spread per round. Gradient
      spread is a very Liquid War 6 specific feature, just remember that

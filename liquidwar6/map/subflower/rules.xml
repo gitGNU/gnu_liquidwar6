@@ -48,7 +48,7 @@
 
     <!-- GRADIENT -->
   <!-- Increase it on complex maps. Decrease it on simple maps, to make it more acurate -->
-  <int key="spreads-per-round" value="1" /> <!-- Default: 3  Min: 1  Max: 12   -->
+  <!-- <int key="spreads-per-round" value="1" /> --><!-- Default: 3  Min: 1  Max: 12   --> 
   
   
   

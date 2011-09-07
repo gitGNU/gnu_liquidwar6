@@ -46,7 +46,7 @@ char *LW6MAP_RULES_LIST[] = {
   LW6DEF_NB_ATTACK_TRIES,
   LW6DEF_NB_DEFENSE_TRIES,
   LW6DEF_VERTICAL_MOVE,
-  LW6DEF_SPREAD_ALL_DIRS,
+  LW6DEF_SPREAD_MODE,
   LW6DEF_SINGLE_ARMY_SIZE,
   LW6DEF_TOTAL_ARMIES_SIZE,
   LW6DEF_MAX_NB_TEAMS,
@@ -191,7 +191,7 @@ static lw6map_rules_t default_rules = {
   LW6MAP_RULES_DEFAULT_NB_ATTACK_TRIES,
   LW6MAP_RULES_DEFAULT_NB_DEFENSE_TRIES,
   LW6MAP_RULES_DEFAULT_VERTICAL_MOVE,
-  LW6MAP_RULES_DEFAULT_SPREAD_ALL_DIRS,
+  LW6MAP_RULES_DEFAULT_SPREAD_MODE,
   LW6MAP_RULES_DEFAULT_SINGLE_ARMY_SIZE,
   LW6MAP_RULES_DEFAULT_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_DEFAULT_MAX_NB_TEAMS,
@@ -353,7 +353,7 @@ static lw6map_rules_t min_rules = {
   LW6MAP_RULES_MIN_NB_ATTACK_TRIES,
   LW6MAP_RULES_MIN_NB_DEFENSE_TRIES,
   LW6MAP_RULES_MIN_VERTICAL_MOVE,
-  LW6MAP_RULES_MIN_SPREAD_ALL_DIRS,
+  LW6MAP_RULES_MIN_SPREAD_MODE,
   LW6MAP_RULES_MIN_SINGLE_ARMY_SIZE,
   LW6MAP_RULES_MIN_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_MIN_MAX_NB_TEAMS,
@@ -515,7 +515,7 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_NB_ATTACK_TRIES,
   LW6MAP_RULES_MAX_NB_DEFENSE_TRIES,
   LW6MAP_RULES_MAX_VERTICAL_MOVE,
-  LW6MAP_RULES_MAX_SPREAD_ALL_DIRS,
+  LW6MAP_RULES_MAX_SPREAD_MODE,
   LW6MAP_RULES_MAX_SINGLE_ARMY_SIZE,
   LW6MAP_RULES_MAX_TOTAL_ARMIES_SIZE,
   LW6MAP_RULES_MAX_MAX_NB_TEAMS,
@@ -697,7 +697,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->nb_attack_tries);
   lw6sys_checksum_update_int32 (checksum, rules->nb_defense_tries);
   lw6sys_checksum_update_int32 (checksum, rules->vertical_move);
-  lw6sys_checksum_update_int32 (checksum, rules->spread_all_dirs);
+  lw6sys_checksum_update_int32 (checksum, rules->spread_mode);
   lw6sys_checksum_update_int32 (checksum, rules->single_army_size);
   lw6sys_checksum_update_int32 (checksum, rules->total_armies_size);
   lw6sys_checksum_update_int32 (checksum, rules->max_nb_teams);
@@ -854,9 +854,9 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 	    {
 	      ret = &(rules->vertical_move);
 	    }
-	  else if (!strcmp (formatted_key, LW6DEF_SPREAD_ALL_DIRS))
+	  else if (!strcmp (formatted_key, LW6DEF_SPREAD_MODE))
 	    {
-	      ret = &(rules->spread_all_dirs);
+	      ret = &(rules->spread_mode);
 	    }
 	  else if (!strcmp (formatted_key, LW6DEF_SINGLE_ARMY_SIZE))
 	    {

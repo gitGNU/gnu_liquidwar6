@@ -41,7 +41,13 @@
 #define HISTORY_LENGTH 256
 #define LEVEL_LENGTH 80
 #define MSGBOX_LENGTH 4096
-#define MSGBOX_WIDTH 160
+/*
+ * For some reason seams on GNU/Linux (gtk2/xorg) systems
+ * the message box is trimmed at 64 chars width. 128 makes
+ * it transparent. For the "\n" is already here on one over
+ * two lines.
+ */
+#define MSGBOX_WIDTH 128
 
 #define CRITICAL_FILE "sys-log.c"
 #define CRITICAL_LINE __LINE__

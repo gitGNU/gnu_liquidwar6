@@ -663,7 +663,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_SKIP_NETWORK "skip-network"
 #define LW6DEF_SND_BACKEND "snd-backend"
 #define LW6DEF_SPEED "speed"
-#define LW6DEF_SPREAD_ALL_DIRS "spread-all-dirs"
+#define LW6DEF_SPREAD_MODE "spread-mode"
 #define LW6DEF_SPREAD_THREAD "spread-thread"
 #define LW6DEF_SPREADS_PER_ROUND "spreads-per-round"
 #define LW6DEF_SRV_BACKENDS "srv-backends"

@@ -110,6 +110,16 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
     }
+  /*
+     if (mouse_controlled)
+     {
+     TMP("mouse controlled");
+     }
+     else
+     {
+     TMP("center");
+     }
+   */
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
