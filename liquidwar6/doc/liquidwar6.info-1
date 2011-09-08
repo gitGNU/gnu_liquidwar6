@@ -2132,9 +2132,7 @@ big picture is here. Each module is testable separately.
    Below is a Graphviz (http://www.graphviz.org/) diagram, which shows
 the modules dependencies.
 
- [image src="deps.png" alt="dependencies" ]
-
-3.4 Memory structures
+ 3.4 Memory structures
 =====================
 
 The most important memory structures in Liquid War 6 are:
@@ -3444,6 +3442,8 @@ This describes how to add a new `libxyz' internal library:
    * edit `doc/liquidwar6.texi' to and a new node/section for this
      internal library.
 
+   * edit `doc/deps.dot' to update dependencies.
+
    * run `./configure && make', fix code if needed.
 
 3.14.4 Add a new module
@@ -3469,6 +3469,8 @@ bot, but gfx, snd, cli or srv backends should work pretty much the same:
 
    * edit `doc/liquidwar6texi' to add a new node/section for this
      module.
+
+   * edit `doc/deps.dot' to update dependencies.
 
    * edit `src/lib/bot/bot-test.c', change the value of
      `TEST_NB_BACKENDS' and modify the code so that the new `ab' module

@@ -1,6 +1,14 @@
 digraph g {
 	bot -> dyn
 	bot -> pil
+subgraph cluster_bot {
+	label="bot backends"	
+	bot
+	"mod-brute"
+	"mod-follow"
+	"mod-idiot"
+	"mod-random"
+}
 	bot -> "mod-brute" [dir=both]
 	bot -> "mod-follow" [dir=both]
 	bot -> "mod-idiot" [dir=both]
@@ -10,9 +18,13 @@ digraph g {
 	cli -> dyn
 	cli -> msg
 	cli -> net
+subgraph cluster_cli {
+	label="cli backends"
+	cli
 	cli -> "mod-tcp" [dir=both]
 	cli -> "mod-udp" [dir=both]
 	cli -> "mod-http" [dir=both]
+}
 	"mod-http" -> curl
 	cns -> sys
 	cnx -> glb
@@ -24,13 +36,16 @@ digraph g {
 	gfx -> dyn
 	gfx -> vox
 	gfx -> pil
+subgraph cluster_gfx {
+	label="gfx backends"
+	gfx
 	gfx -> "mod-gl" [dir=both]
+}
+	"mod-gl" [style=filled,fillcolor=lightgrey]
 	"mod-gl" -> SDL
 	"mod-gl" -> GL
 	"mod-gl" -> SDL_image
 	"mod-gl" -> SDL_ttf
-	SDL_image -> jpeg
-	SDL_ttf -> png
 	glb -> sys
 	glb -> gnulib
 	gui -> map
@@ -38,6 +53,7 @@ digraph g {
 	hlp -> sys
 	img -> cfg
 	img -> jpeg
+	ker [style=filled,fillcolor=lightgrey]
 	ker -> map
 	ker -> gomp
 	ldr -> cfg
@@ -51,6 +67,7 @@ digraph g {
 	net -> cfg
 	net -> glb
 	nod -> sys
+	p2p [style=filled,fillcolor=lightgrey]
 	p2p -> dat
 	p2p -> cli
 	p2p -> srv
@@ -60,23 +77,35 @@ digraph g {
 	scm -> guile
 	snd -> dyn
 	snd -> cfg
+subgraph cluster_snd {
+        label="snd backends"
+	snd
 	snd -> "mod-ogg" [dir=both]
+	snd -> "mod-csound" [dir=both]
+} 
 	"mod-ogg" -> SDL
 	"mod-ogg" -> SDL_mixer
-	snd -> "mod-csound" [dir=both]
 	"mod-csound" -> csound
 	srv -> dyn
 	srv -> msg
 	srv -> net
+subgraph cluster_srv {
+        label="srv backends"
+	srv
 	srv -> "mod-tcpd" [dir=both]
 	srv -> "mod-udpd" [dir=both]
 	srv -> "mod-httpd" [dir=both]
+}
+	sys [style=filled,fillcolor=lightgrey]
 	sys -> def
 	sys -> pthread
+	sys -> math
+
 	tsk -> ldr
 	vox -> gui
 	vox -> ker
 
+	liquidwar6 [style=filled,fillcolor=lightgrey]
 	liquidwar6 -> bot
 	liquidwar6 -> dsp
 	liquidwar6 -> img
@@ -84,7 +113,39 @@ digraph g {
 	liquidwar6 -> cns
 	liquidwar6 -> p2p
 	liquidwar6 -> snd
-	liquidwar6 -> scm	
+
+	liquidwar6 -> scm
+subgraph cluster_script {
+        label="Guile scripts"
+	scm -> script	
+}
+	script -> liquidwar6
+
+	SDL_image -> jpeg
+	SDL_image -> png
+
+	expat -> data
+	jpeg -> data
+	png -> data
+	SDL_ttf -> data
+	SDL_mixer -> data
+
+	"mod-brute" [shape=hexagon]
+	"mod-follow" [shape=hexagon]
+	"mod-idiot" [shape=hexagon]
+	"mod-random" [shape=hexagon]
+	"mod-tcp" [shape=hexagon]
+	"mod-udp" [shape=hexagon]
+	"mod-http" [shape=hexagon]
+	"mod-gl" [shape=hexagon]
+	"mod-ogg" [shape=hexagon]
+	"mod-csound" [shape=hexagon]
+	"mod-tcpd" [shape=hexagon]
+	"mod-udpd" [shape=hexagon]
+	"mod-httpd" [shape=hexagon]
+
+	script [shape=triangle,style=filled,fillcolor=lightgrey]
+	data [shape=triangle,style=filled,fillcolor=lightgrey]
 
 	csound [color=grey]
 	csound [fontcolor=grey]
@@ -104,6 +165,8 @@ digraph g {
 	jpeg [fontcolor=grey]
 	ltdl [color=grey]
 	ltdl [fontcolor=grey]
+	math [color=grey]
+	math [fontcolor=grey]
 	png [color=grey]
 	png [fontcolor=grey]
 	pthread [color=grey]
@@ -123,14 +186,29 @@ digraph g {
 	zlib [color=grey]
 	zlib [fontcolor=grey]
 
-	{rank=same; csound curl expat GL gnulib gomp guile jpeg ltdl png pthread readline SDL SDL_image SDL_mixer SDL_ttf sqlite zlib }
-	{rank=same; "mod-brute" "mod-follow" "mod-idiot" "mod-random"}
-	{rank=same; "mod-gl"}
-	{rank=same; "mod-ogg" "mod-csound"}
-	{rank=same; "mod-tcp" "mod-udp" "mod-http"}
-	{rank=same; "mod-tcpd" "mod-udpd" "mod-httpd"}
-	{rank=same; gfx snd}
-	{rank=same; cli srv}
-	{rank=same; dsp p2p}
+subgraph cluster_ext {
+	 label="external libraries"
+	 color=grey
+	 fontcolor=grey
+	 csound
+	 curl
+	 expat
+	 GL
+	 gnulib
+	 gomp
+	 guile
+	 jpeg
+	 ltdl
+	 math
+	 png
+	 pthread
+	 readline
+	 SDL
+	 SDL_image
+	 SDL_mixer
+	 SDL_ttf
+	 sqlite
+	 zlib
+}
 }
 

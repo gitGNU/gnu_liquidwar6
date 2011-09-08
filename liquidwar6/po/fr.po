@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-06 10:31+0200\n"
+"POT-Creation-Date: 2011-09-08 12:28+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -333,46 +333,46 @@ msgstr "UDPD"
 msgid "can't initialize mod_udpd"
 msgstr "impossible d'initialiser mod_udpd"
 
-#: src/lib/sys/sys-log.c:75
+#: src/lib/sys/sys-log.c:81
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
 
-#: src/lib/sys/sys-log.c:535
+#: src/lib/sys/sys-log.c:541
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:791
+#: src/lib/sys/sys-log.c:797
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:796
+#: src/lib/sys/sys-log.c:802
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:806
+#: src/lib/sys/sys-log.c:812
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:811
+#: src/lib/sys/sys-log.c:817
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:828
+#: src/lib/sys/sys-log.c:834
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:834
+#: src/lib/sys/sys-log.c:840
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:917
+#: src/lib/sys/sys-log.c:923
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:921
+#: src/lib/sys/sys-log.c:927
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 
