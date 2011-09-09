@@ -55,11 +55,11 @@ _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
   *w = lw6sys_max (*w, hints->min_map_width);
   *h = lw6sys_max (*h, hints->min_map_height);
 
-  *w = lw6sys_min (*w, LW6MAP_MAX_SIDE);
-  *h = lw6sys_min (*h, LW6MAP_MAX_SIDE);
+  *w = lw6sys_min (*w, LW6MAP_MAX_WIDTH);
+  *h = lw6sys_min (*h, LW6MAP_MAX_HEIGHT);
 
-  *w = lw6sys_max (*w, LW6MAP_MIN_SIDE);
-  *h = lw6sys_max (*h, LW6MAP_MIN_SIDE);
+  *w = lw6sys_max (*w, LW6MAP_MIN_WIDTH);
+  *h = lw6sys_max (*h, LW6MAP_MIN_HEIGHT);
 }
 
 static float
@@ -246,8 +246,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	      f = 1.0f;
 	      if (hints->downsize_using_bench_value && capacity < required)
 		{
-		  while (capacity < required && tmp_w > LW6MAP_MIN_SIDE
-			 && tmp_h > LW6MAP_MIN_SIDE)
+		  while (capacity < required && tmp_w > LW6MAP_MIN_WIDTH
+			 && tmp_h > LW6MAP_MIN_HEIGHT)
 		    {
 		      f *= _RESAMPLER_DOWNSIZE;
 		      tmp_w = target_w * f;
@@ -270,8 +270,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		}
 	      else if (hints->upsize_using_bench_value && capacity > required)
 		{
-		  while (capacity < required && tmp_w < LW6MAP_MAX_SIDE
-			 && tmp_h < LW6MAP_MAX_SIDE)
+		  while (capacity < required && tmp_w < LW6MAP_MAX_WIDTH
+			 && tmp_h < LW6MAP_MAX_HEIGHT)
 		    {
 		      f *= _RESAMPLER_UPSIZE;
 		      tmp_w = target_w * f;

@@ -182,8 +182,11 @@
 #define TEST_SHAPE_X 123
 #define TEST_SHAPE_Y 456
 #define TEST_SHAPE_Z 1
-#define TEST_SHAPE_MIN_WH 10
-#define TEST_SHAPE_MAX_WH 1000
+#define TEST_SHAPE_MIN_W 10
+#define TEST_SHAPE_MIN_H 10
+#define TEST_SHAPE_MIN_D 1
+#define TEST_SHAPE_MAX_W 1000
+#define TEST_SHAPE_MAX_H 1000
 #define TEST_SHAPE_MAX_D 5
 #define TEST_MATH_POLY_WY1Y2S1_NB_STEPS 20
 #define TEST_MATH_POLY_WY1Y2S1_W 5.0f
@@ -3080,15 +3083,20 @@ test_shape ()
     lw6sys_whd_t shape = { TEST_SHAPE_W, TEST_SHAPE_H, TEST_SHAPE_D };
     lw6sys_whd_t shape2 =
       { TEST_SHAPE_W + 1, TEST_SHAPE_H + 1, TEST_SHAPE_D + 1 };
+    lw6sys_whd_t shape_min =
+      { TEST_SHAPE_MIN_W , TEST_SHAPE_MIN_H, TEST_SHAPE_MIN_D  };
+    lw6sys_whd_t shape_max =
+      { TEST_SHAPE_MAX_W , TEST_SHAPE_MAX_H, TEST_SHAPE_MAX_D  };
     lw6sys_xyz_t pos = { TEST_SHAPE_X, TEST_SHAPE_Y, TEST_SHAPE_Z };
 
     if (lw6sys_shape_check_min_max_whd
-	(&shape, TEST_SHAPE_MIN_WH, TEST_SHAPE_MAX_WH, TEST_SHAPE_MAX_D))
+	(&shape, &shape_min,&shape_max))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("shape %dx%dx%d respects [%d-%d-%d] constraints"),
+		    _x_ ("shape %dx%dx%d respects constraints min=%dx%dx%d max=%dx%dx%d"),
 		    (int) shape.w, (int) shape.h, (int) shape.d,
-		    TEST_SHAPE_MIN_WH, TEST_SHAPE_MAX_WH, TEST_SHAPE_MAX_D);
+		    TEST_SHAPE_MIN_W, TEST_SHAPE_MIN_H, TEST_SHAPE_MIN_D,
+TEST_SHAPE_MAX_W, TEST_SHAPE_MAX_H, TEST_SHAPE_MAX_D);
       }
     else
       {

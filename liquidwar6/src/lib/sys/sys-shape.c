@@ -31,9 +31,8 @@
  * lw6sys_shape_check_min_max_whd
  *
  * @shape: the dimensions to control
- * @min_wh: the min value for w and h
- * @max_wh: the max value for w and h
- * @max_d: the max value for d
+ * @min: the minimum shape allowed
+ * @max: the maximum shape allowed
  *
  * Will check wether the given shape respects some basic constraints,
  * being not to small and not too big.
@@ -41,13 +40,11 @@
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, int min_wh, int max_wh,
-				int max_d)
+lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t *min, lw6sys_whd_t *max)
 {
   int ret = 0;
 
-  ret = (shape->w >= min_wh && shape->w <= max_wh && shape->h >= min_wh
-	 && shape->h <= max_wh && shape->d >= 1 && shape->d <= max_d);
+  ret=(shape->w>=min->w && shape->w<=max->w &&shape->h>=min->h && shape->h<=max->h &&shape->d>=min->d && shape->d<=max->d);
 
   return ret;
 }

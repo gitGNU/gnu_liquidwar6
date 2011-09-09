@@ -1464,7 +1464,48 @@ will only be a compressed image of the actual level directory.
    See the `./map/' directory of the source Liquid War 6 distribution
 to see example of maps.
 
-3.1.3 map.png
+3.1.3 Resolution (map size)
+---------------------------
+
+Liquid War 6 does enforce a limit on map size. This is not to frustrate
+map designers and/or players, simply, it would be a lie to pretend the
+game can handle arbitrary big maps.
+
+   They might look great on your computer but will become unplayable
+soon on an older machine. And most of the time they don't look that
+great, carefully crafted 1280×720 just looks awesome and can represent
+a great level complexity.
+
+   Here are the technical limits:
+   * maximum width: 2 000
+
+   * maximum height: 1 500
+
+   * maximum surface: 2 250 000
+
+   The "2 250 000" limit corresponds to a 2 000 x 1 125 map, which is a
+16/9 map with a width of 2000. It's greater than a full HD 1 920 x 1
+080.  The limit is lower than 2 000 * 1 500 (which is 3 000 000) this
+means a 2 000 x 1 500 map will be rejected, the idea is to permit wide
+or high maps while limiting the overall surface, which is a good
+indicator of how complexe the whole thing is.
+
+   These limits apply to map and textures, if you want to design maps
+with great details, here are the suggested resolutions:
+
+   * 16/9 : 1 920 x 1 080
+
+   * 4/3 : 1 600 x 1 200
+
+   * 5/4 : 1 280 x 1 024
+
+   * 1/1 : 1 200 x 1 200
+
+   Keep in mind that the logical map (`map.png') will probably be
+scaled whatsoever, and your texture will rarely appear in its native
+resolution, will probably be distorted, and so on.
+
+3.1.4 map.png
 -------------
 
 This is the only required file in a level.
@@ -1483,7 +1524,7 @@ used. Internally, Liquid War 6 will read the color of every point. If
 it is over 127 on a 0 to 255 scale, it will be considered as
 background, if it is below 127, it will be considered as foreground.
 
-3.1.4 layer2.png ... layer7.png
+3.1.5 layer2.png ... layer7.png
 -------------------------------
 
 Liquid War 6 can handle mutiple layer maps. Think of a pile of maps,
@@ -1524,7 +1565,7 @@ z-axis based tunnels is probably not a great idea.
    The `ufoot/concept/pass' map of the `liquidwar6-extra-maps'
 demonstrates basic layer usage.
 
-3.1.5 texture.png, texture.jpeg and texture-alpha.jpeg
+3.1.6 texture.png, texture.jpeg and texture-alpha.jpeg
 ------------------------------------------------------
 
 It is possible to define a texture for the map by putting a
@@ -1562,7 +1603,7 @@ it's undecided, void, transparent, whatever, it's white. When the Gimp
 
    So white is transparent. Period.
 
-3.1.6 glue.png and boost.png
+3.1.7 glue.png and boost.png
 ----------------------------
 
 If there's a `glue.png' or `boost.png' file in the map directory (you
@@ -1598,7 +1639,7 @@ resampling algorithm and lead to maps that are unplayable. The spirit of
 moving faster or slower but also attacking faster or slower, and, in a
 general manner  doing any action with a different pace.
 
-3.1.7 danger.png and medicine.png
+3.1.8 danger.png and medicine.png
 ---------------------------------
 
 If there's a `danger.png' or `medicine.png' file in the map directory
@@ -1627,7 +1668,7 @@ really clear at this stage, the recommendation is not to do this (it
 does not really make sense anyway) but if you do it, game won't
 complain.
 
-3.1.8 one-way-<direction>.png
+3.1.9 one-way-<direction>.png
 -----------------------------
 
 The four files:
@@ -1650,8 +1691,8 @@ account when choosing the shortest path to go somewhere.  You can
 combine vertical and horizontal one-way informations, making diagonal
 one-way paths.
 
-3.1.9 cursor.png and cursor-color.png
--------------------------------------
+3.1.10 cursor.png and cursor-color.png
+--------------------------------------
 
 By default, a simple cursor will be displayed, but you can use a custom
 per-map cursor. Cursors are defined by two 64x64 bitmaps:
@@ -1676,7 +1717,7 @@ identify which teams the cursor belongs too. The PNG files really need
 to be PNG (JPEG won't work) and need to be 64x64, any other size will
 be ignored.
 
-3.1.10 rules.xml
+3.1.11 rules.xml
 ----------------
 
 Whereas `style.xml' is only about the appearance of the map,
@@ -1723,7 +1764,7 @@ example is speed.
 
    *Note rules.xml reference: Map rules.xml.
 
-3.1.11 hints.xml
+3.1.12 hints.xml
 ----------------
 
 This parameter is only used by the map loader. The map itself contains
@@ -1745,7 +1786,7 @@ algorithm has no idea of what was in `hints.xml', once it's loaded.
 
    *Note hints.xml reference: Map hints.xml.
 
-3.1.12 style.xml
+3.1.13 style.xml
 ----------------
 
 This is a simple XML file defining various appearance parameters.  It
@@ -1756,7 +1797,7 @@ in this file.
 
    *Note style.xml reference: Map style.xml.
 
-3.1.13 teams.xml
+3.1.14 teams.xml
 ----------------
 
 In this file one can specify per-map team settings. In short, this is
@@ -1765,9 +1806,29 @@ can be on a per-map basis, so that each map has different customized
 settings, some maps might be fun with only one bot, some other maps
 might be fun packed with 8 opponents.
 
+   Technically, `teams.xml' will allow you to define up to 4 players
+and 9 bots. This is an awfull lot considering there are only 10 colors.
+Basically, it's OK to simply define:
+   * 2 players (`player1' and `player2')
+
+   * 4 bots (`bot1' and `bot2')
+   It might also be a clever idea to just set up `player2' and `bot1'
+being the same color, in case of a conflict the game will pick up
+another color, but in practice those two entries often correspond to
+"the second player, bot or human, coming on the battlefield".
+
+   All in all, this represents 5 entries to set up (main player, other
+player or first bot which can be the same, then 3 more bots), it's OK
+to have the rest undefined or set to defaults.
+
+   Note that this can also simply be unset, and in that case the game
+defaults will apply, and the user will be able to change them, whereas
+if you set these up, the player will somewhat force to used the map
+settings.
+
    *Note teams.xml reference: Map teams.xml.
 
-3.1.14 Resampling
+3.1.15 Resampling
 -----------------
 
 This is a very important point. Liquid War almost *always* resamples
@@ -1810,7 +1871,7 @@ design, this is another story. Don't use them. Rely on 'bench-value'
 and just care about game speed. This is achieved by changing the
 "speed" parameter.
 
-3.1.15 Music
+3.1.16 Music
 ------------
 
 It is possible to store your own custom music file within the map
@@ -1840,6 +1901,46 @@ have to place it in the same directory than the other files like
      `./music' subfolder in the user directory; step 3: if still not
      found, it will try to play a random file, relying on
      `music-filter' to ignore some files.
+
+3.1.17 Experience ("exp")
+-------------------------
+
+In `rules.xml' you can set a special parameter which is `exp' and
+allows you to tell "a player can't load this map if he doesn't have at
+least `N' at his/her `exp' rating". Gaining `exp' (stands for
+"experience") isn't hard, you just need to win a level with `exp=N' to
+gain `exp=N+1'.
+
+   By default, the player's `exp' is 0 and levels default to 1, so this
+means only levels with `exp' set explicitely to 0 in `rules.xml' might
+be used. Then player wins that level and is given access to all maps by
+default, unless these are explicitely set with `exp' greater than 1.
+
+   In solo game, when a player wins a level, he's automatically
+redirected to the map which is in the same directory and has exactly
+the `exp' he just gain. For instance, if you win a map with `exp=5'
+then you're chained to the first map (in alphabetical order) which has
+`exp=6'.  By setting up the `exp' parameter the right way, with a map
+for each `exp' level one can transform a simple map directory in a
+scenario that player will automatically follow.
+
+   Last, but not least, the game, at startup, only allows you to play
+red, green, blue and yellow. Other colors are unlocked as you progress
+among levels. Same things with weapons, there are "liberated"
+continuously through the game.
+
+   This mechanics allows the following behavior:
+   * when game is launched first, only a small subset of maps are
+     accessible
+
+   * after you win one map (sort of quite easy) you gain access to the
+     next level, plus many of the maps of the `extra' package.
+
+   * after each map you win, you're redirected to the next map, and
+     regularly, you gain access to new colors/weapons
+
+   As a final word, yes, it's possible to cheat, fool the exp system,
+but it's believed this is moot and lame.
 
 
 File: liquidwar6.info,  Node: Translating,  Next: Architecture,  Prev: Designing levels,  Up: Hacker's guide
@@ -2132,7 +2233,7 @@ big picture is here. Each module is testable separately.
    Below is a Graphviz (http://www.graphviz.org/) diagram, which shows
 the modules dependencies.
 
- 3.4 Memory structures
+3.4 Memory structures
 =====================
 
 The most important memory structures in Liquid War 6 are:

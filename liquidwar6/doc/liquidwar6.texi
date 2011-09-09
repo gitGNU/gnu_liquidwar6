@@ -1582,6 +1582,52 @@ image of the actual level directory.
 See the @code{./map/} directory of the source Liquid War 6
 distribution to see example of maps.
 
+@subsection Resolution (map size)
+
+Liquid War 6 does enforce a limit on map size. This is
+not to frustrate map designers and/or players, simply, it would
+be a lie to pretend the game can handle arbitrary big maps.
+
+They might look great on your computer but will become
+unplayable soon on an older machine. And most of the time
+they don't look that great, carefully crafted 1280×720
+just looks awesome and can represent a great level complexity.
+
+Here are the technical limits:
+@itemize
+@item
+maximum width: 2 000
+@item
+maximum height: 1 500
+@item
+maximum surface: 2 250 000
+@end itemize
+
+The ``2 250 000'' limit corresponds to a 2 000 x 1 125 map, which is
+a 16/9 map with a width of 2000. It's greater than a full HD 1 920 x 1 080.
+The limit is lower than 2 000 * 1 500 (which is 3 000 000) this means
+a 2 000 x 1 500 map will be rejected, the idea is to permit wide or high
+maps while limiting the overall surface, which is a good indicator of
+how complexe the whole thing is.
+
+These limits apply to map and textures, if you want to design maps with
+great details, here are the suggested resolutions:
+
+@itemize
+@item
+16/9 : 1 920 x 1 080
+@item
+4/3 : 1 600 x 1 200
+@item
+5/4 : 1 280 x 1 024
+@item
+1/1 : 1 200 x 1 200
+@end itemize
+
+Keep in mind that the logical map (@code{map.png}) will probably be
+scaled whatsoever, and your texture will rarely appear in its native
+resolution, will probably be distorted, and so on.
+
 @subsection map.png
 
 This is the only required file in a level.
@@ -1905,6 +1951,28 @@ This can be on a per-map basis, so that each map has different
 customized settings, some maps might be fun with only one bot,
 some other maps might be fun packed with 8 opponents.
 
+Technically, @code{teams.xml} will allow you to define up to 
+4 players and 9 bots. This is an awfull lot considering there are
+only 10 colors. Basically, it's OK to simply define:
+@itemize
+@item
+2 players (@code{player1} and @code{player2})
+@item
+4 bots (@code{bot1} and @code{bot2})
+@end itemize
+It might also be a clever idea to just set up @code{player2} and @code{bot1} being
+the same color, in case of a conflict the game will pick up another color, but
+in practice those two entries often correspond to ``the second player, bot or human,
+coming on the battlefield''.
+
+All in all, this represents 5 entries to set up (main player, other player or first bot
+which can be the same, then 3 more bots), it's OK to have the rest undefined or set
+to defaults.
+
+Note that this can also simply be unset, and in that case the game defaults will
+apply, and the user will be able to change them, whereas if you set these up, the
+player will somewhat force to used the map settings.
+
 @xref{Map teams.xml, teams.xml reference}.
 
 @subsection Resampling
@@ -1984,6 +2052,47 @@ directory;
 step 3: if still not found, it will try to play a random file, relying
 on @code{music-filter} to ignore some files.
 @end itemize
+
+@subsection Experience (``exp'')
+
+In @code{rules.xml} you can set a special parameter which is @code{exp}
+and allows you to tell ``a player can't load this map if he doesn't have
+at least @code{N} at his/her @code{exp} rating''. Gaining @code{exp} (stands
+for ``experience'') isn't hard, you just need to win a level with @code{exp=N}
+to gain @code{exp=N+1}.
+
+By default, the player's @code{exp} is 0 and levels default to 1, so this means
+only levels with @code{exp} set explicitely to 0 in @code{rules.xml} might be
+used. Then player wins that level and is given access to all maps by default,
+unless these are explicitely set with @code{exp} greater than 1.
+
+In solo game, when a player wins a level, he's automatically redirected
+to the map which is in the same directory and has exactly the @code{exp}
+he just gain. For instance, if you win a map with @code{exp=5} then you're
+chained to the first map (in alphabetical order) which has @code{exp=6}.
+By setting up the @code{exp} parameter the right way, with a map for each
+@code{exp} level one can transform a simple map directory in a scenario
+that player will automatically follow.
+
+Last, but not least, the game, at startup, only allows you to play
+red, green, blue and yellow. Other colors are unlocked as you progress
+among levels. Same things with weapons, there are ``liberated'' 
+continuously through the game.
+
+This mechanics allows the following behavior:
+@itemize
+@item
+when game is launched first, only a small subset of maps are accessible
+@item
+after you win one map (sort of quite easy) you gain access to the next level,
+plus many of the maps of the @code{extra} package.
+@item
+after each map you win, you're redirected to the next map, and
+regularly, you gain access to new colors/weapons
+@end itemize
+
+As a final word, yes, it's possible to cheat, fool the exp system,
+but it's believed this is moot and lame.
 
 @c ---------------------------------------------------------------------------
 @c Translating
