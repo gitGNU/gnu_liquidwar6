@@ -45,15 +45,16 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
 			    int noise_percent, lw6map_rules_t * rules)
 {
   int layer;
-  lw6sys_whd_t shape_min={LW6MAP_MIN_WIDTH,LW6MAP_MIN_HEIGHT,LW6MAP_MIN_DEPTH};
-  lw6sys_whd_t shape_max={LW6MAP_MAX_WIDTH,LW6MAP_MAX_HEIGHT,LW6MAP_MAX_DEPTH};
+  lw6sys_whd_t shape_min =
+    { LW6MAP_MIN_WIDTH, LW6MAP_MIN_HEIGHT, LW6MAP_MIN_DEPTH };
+  lw6sys_whd_t shape_max =
+    { LW6MAP_MAX_WIDTH, LW6MAP_MAX_HEIGHT, LW6MAP_MAX_DEPTH };
 
   lw6map_body_clear (body);
   body->shape.w = w;
   body->shape.h = h;
   body->shape.d = d;
-  if (!lw6sys_shape_check_min_max_whd
-      (&body->shape, &shape_min,&shape_max))
+  if (!lw6sys_shape_check_min_max_whd (&body->shape, &shape_min, &shape_max))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("incorrect default map size %dx%dx%d"), body->shape.w,

@@ -93,11 +93,9 @@ lw6sys_locale_to_utf8 (char *string)
 	  ilen = strlen (string);
 	  max_olen = strlen (string) * 2;
 
-	  utf8 = LW6SYS_MALLOC (max_olen + 1);
+	  utf8 = LW6SYS_CALLOC (max_olen + 1);
 	  if (utf8)
 	    {
-	      memset (utf8, 0, max_olen + 1);
-
 	      iptr = string;
 	      ileft = ilen;
 	      optr = utf8;
@@ -105,7 +103,7 @@ lw6sys_locale_to_utf8 (char *string)
 
 	      if (iconv (cd, &iptr, &ileft, &optr, &oleft) == (size_t) - 1)
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, "iconv error \"%s\"",
+		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("iconv error \"%s\""),
 			      string);
 		}
 	    }
@@ -113,24 +111,19 @@ lw6sys_locale_to_utf8 (char *string)
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, "unable to open iconv");
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to open iconv"));
 	}
     }
 
   if (utf8 == NULL)
     {
-      int length = strlen (string);
-      utf8 = LW6SYS_MALLOC (length + 1);
-      if (utf8 != NULL)
-	{
-	  strncpy (utf8, string, length + 1);
-	  utf8[length] = '\0';
-	}
+      utf8 = lw6sys_str_copy (string);
     }
 
   if (utf8 == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, "unable to translate string to utf8");
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to translate string to utf8"));
     }
 
   return utf8;

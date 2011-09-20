@@ -887,8 +887,9 @@ extern void lw6sys_serialize_int16 (unsigned char *data, int16_t value);
 extern int16_t lw6sys_unserialize_int16 (unsigned char *data);
 
 /* sys-shape.c */
-extern int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t *min,
-					   lw6sys_whd_t *max);
+extern int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape,
+					   lw6sys_whd_t * min,
+					   lw6sys_whd_t * max);
 extern int lw6sys_shape_check_pos (lw6sys_whd_t * shape, lw6sys_xyz_t * pos);
 extern int lw6sys_shape_is_same (lw6sys_whd_t * shape_a,
 				 lw6sys_whd_t * shape_b);

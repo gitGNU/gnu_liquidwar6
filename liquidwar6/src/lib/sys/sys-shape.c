@@ -40,11 +40,13 @@
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t *min, lw6sys_whd_t *max)
+lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape, lw6sys_whd_t * min,
+				lw6sys_whd_t * max)
 {
   int ret = 0;
 
-  ret=(shape->w>=min->w && shape->w<=max->w &&shape->h>=min->h && shape->h<=max->h &&shape->d>=min->d && shape->d<=max->d);
+  ret = (shape->w >= min->w && shape->w <= max->w && shape->h >= min->h
+	 && shape->h <= max->h && shape->d >= min->d && shape->d <= max->d);
 
   return ret;
 }

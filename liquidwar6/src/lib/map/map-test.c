@@ -422,7 +422,7 @@ test_exp ()
     for (i = LW6MAP_RULES_MIN_EXP; i <= LW6MAP_RULES_MAX_EXP; ++i)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_("exp=%d highest_color=%d highest_weapon=%d"), i,
+		    _x_ ("exp=%d highest_color=%d highest_weapon=%d"), i,
 		    lw6map_exp_get_highest_team_color_allowed (i),
 		    lw6map_exp_get_highest_weapon_allowed (i));
       }

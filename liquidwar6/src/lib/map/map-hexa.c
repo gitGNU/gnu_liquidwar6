@@ -527,15 +527,16 @@ pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
 {
   int ret = 1;
   int layer;
-  lw6sys_whd_t shape_min={LW6MAP_MIN_WIDTH,LW6MAP_MIN_HEIGHT,LW6MAP_MIN_DEPTH};
-  lw6sys_whd_t shape_max={LW6MAP_MAX_WIDTH,LW6MAP_MAX_HEIGHT,LW6MAP_MAX_DEPTH};
+  lw6sys_whd_t shape_min =
+    { LW6MAP_MIN_WIDTH, LW6MAP_MIN_HEIGHT, LW6MAP_MIN_DEPTH };
+  lw6sys_whd_t shape_max =
+    { LW6MAP_MAX_WIDTH, LW6MAP_MAX_HEIGHT, LW6MAP_MAX_DEPTH };
 
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(body->checksum));
   ret = ret
     && lw6sys_hexa_serializer_pop_whd (hexa_serializer, &(body->shape));
-  if (lw6sys_shape_check_min_max_whd
-      (&body->shape, &shape_min,&shape_max))
+  if (lw6sys_shape_check_min_max_whd (&body->shape, &shape_min, &shape_max))
     {
       for (layer = 0; layer < body->shape.d; ++layer)
 	{
