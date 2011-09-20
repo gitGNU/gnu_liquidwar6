@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-09 21:31+0200\n"
+"POT-Creation-Date: 2011-09-20 20:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,11 +261,6 @@ msgstr ""
 
 #: src/lib/lw6-print.c:870
 msgid "goodbye"
-msgstr ""
-
-#: src/lib/map/map-test.c:425
-#, c-format
-msgid "exp=%d highest_color=%d highest_weapon=%d"
 msgstr ""
 
 #: src/lib/p2p/p2p-data.c:100
