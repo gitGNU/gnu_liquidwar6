@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -157,7 +157,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `max-map-height'
      Type: integer
 
-     Default value: 3000
+     Default value: 1500
 
      Allows you to give a maximum map height. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its
@@ -174,7 +174,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `max-map-surface'
      Type: integer
 
-     Default value: 3000000
+     Default value: 1000000
 
      Allows you to give a maximum map surface. Map surface is simply
      (width * height). This parameter is just here to save you the
@@ -189,7 +189,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `max-map-width'
      Type: integer
 
-     Default value: 4000
+     Default value: 2000
 
      Allows you to give a maximum map width. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its
@@ -242,7 +242,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `min-map-surface'
      Type: integer
 
-     Default value: 1200
+     Default value: 1000
 
      Allows you to give a minimum map surface. Map surface is simply
      (width * height). This parameter is just here to save you the

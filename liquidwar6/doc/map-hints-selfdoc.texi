@@ -117,7 +117,7 @@ hud_color_text_fg will be automatically set.
 @deffnx {XML key} @code{max-map-height}
 Type: integer
 
-Default value: 3000
+Default value: 1500
 
 Allows you to give a maximum map height. When designing a map you might
 wonder: this is dumb I'm conceiving this map I know its height, why should I
@@ -132,7 +132,7 @@ fire Gimp to rescale the map.
 @deffnx {XML key} @code{max-map-surface}
 Type: integer
 
-Default value: 3000000
+Default value: 1000000
 
 Allows you to give a maximum map surface. Map surface is simply (width *
 height). This parameter is just here to save you the hassle of defining both
@@ -145,7 +145,7 @@ height). This parameter is just here to save you the hassle of defining both
 @deffnx {XML key} @code{max-map-width}
 Type: integer
 
-Default value: 4000
+Default value: 2000
 
 Allows you to give a maximum map width. When designing a map you might wonder:
 this is dumb I'm conceiving this map I know its width, why should I limit it?
@@ -192,7 +192,7 @@ himself, and does not necessarly wishes to fire Gimp to rescale the map.
 @deffnx {XML key} @code{min-map-surface}
 Type: integer
 
-Default value: 1200
+Default value: 1000
 
 Allows you to give a minimum map surface. Map surface is simply (width *
 height). This parameter is just here to save you the hassle of defining both

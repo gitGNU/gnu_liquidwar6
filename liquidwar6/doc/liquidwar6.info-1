@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -711,13 +711,13 @@ Debian (http://www.debian.org/) 6.0 "squeeze") would be:
      make gcc libc6 libc6-dev binutils \
      libgomp1 \
      guile-1.8 guile-1.8-dev guile-1.8-libs libgmp3c2 libgmp3-dev \
-     libtool libltdl7 libltdl7-dev \
+     libtool libltdl7 libltdl-dev \
      zlib1g zlib1g-dev libexpat1 libexpat1-dev \
-     libpng12-0 libpng12-dev libjpeg62 libjpeg62-dev \
+     libpng12-0 libpng12-dev libjpeg8 libjpeg-dev \
      libsqlite3-0 libsqlite3-dev \
      libncurses5 libncurses5-dev libreadline6 libreadline6-dev \
      libgl1-mesa-glx libgl1-mesa-dri libgl1-mesa-dev libglu1-mesa libglu1-mesa-dev \
-     libsdl1.2debian-alsa libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
+     libsdl1.2debian libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
      libsdl-mixer1.2 libsdl-mixer1.2-dev \
      libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
      libcurl4-gnutls-dev \
