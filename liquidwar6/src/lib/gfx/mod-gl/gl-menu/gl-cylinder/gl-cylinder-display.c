@@ -156,12 +156,8 @@ draw_button (mod_gl_utils_context_t * utils_context,
   float relative_text_width;
   float screen_ratio;
 
-  TMP1("%s - 1",__FUNCTION__);
-
   bitmap =
     mod_gl_utils_get_button_from_menucache (utils_context, look, menuitem);
-
-  TMP1("%s - 2",__FUNCTION__);
 
   if (bitmap == NULL)
     {
@@ -198,8 +194,6 @@ draw_button (mod_gl_utils_context_t * utils_context,
 		  SDL_BlitSurface (text_surface, &text_rect, bitmap->surface,
 				   &blit_rect);
 
-		  TMP1("%s - 3",__FUNCTION__);
-
 		  if (!mod_gl_utils_store_button_in_menucache
 		      (utils_context, look, menuitem, bitmap))
 		    {
@@ -224,7 +218,6 @@ draw_button (mod_gl_utils_context_t * utils_context,
 
   if (bitmap != NULL)
     {
-      TMP1("%s - 4",__FUNCTION__);
       relative_text_width =
 	((float) bitmap->surface->w) / ((float) MOD_GL_UTILS_MENU_TEXTURE_W);
       screen_ratio =
@@ -243,16 +236,13 @@ draw_button (mod_gl_utils_context_t * utils_context,
 		    0.0f);
       glRotatef (-90.0f, 0.0f, 0.0f, 1.0f);
 
-      TMP1("%s - 5",__FUNCTION__);
       if (i >= 0)
 	{
-	  TMP1("%s - 5a",__FUNCTION__);
 	  draw_cylinder (utils_context, cylinder_context, i, n,
 			 relative_text_width);
 	}
       else
 	{
-	  TMP1("%s - 5b",__FUNCTION__);
 	  draw_esc_offset = cylinder_context->const_data.esc_offset;
 	  draw_esc_radius = cylinder_context->const_data.esc_radius;
 	  draw_esc_cyl_height =
@@ -289,8 +279,6 @@ draw_button (mod_gl_utils_context_t * utils_context,
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("unable to draw button \"%s\""), menuitem->label);
     }
-
-  TMP1("%s - 6",__FUNCTION__);
 }
 
 static void

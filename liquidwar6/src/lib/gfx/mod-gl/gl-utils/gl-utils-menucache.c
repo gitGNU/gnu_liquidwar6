@@ -63,8 +63,6 @@ mod_gl_utils_store_button_in_menucache (mod_gl_utils_context_t * context,
   char *old_key;
   mod_gl_utils_bitmap_t *old_bitmap;
 
-  TMP(__FUNCTION__);
-
   menucache_array = &(context->menucache_array);
 
   i = menucache_array->last_stored_item =
@@ -106,8 +104,6 @@ mod_gl_utils_get_button_from_menucache (mod_gl_utils_context_t * context,
   int i;
   char *key;
 
-  TMP1("%s - begin",__FUNCTION__);
-
   menucache_array = &(context->menucache_array);
 
   key = create_button_key (look, menuitem);
@@ -128,8 +124,6 @@ mod_gl_utils_get_button_from_menucache (mod_gl_utils_context_t * context,
 	}
       LW6SYS_FREE (key);
     }
-
-  TMP1("%s - end",__FUNCTION__);
 
   return bitmap;
 }

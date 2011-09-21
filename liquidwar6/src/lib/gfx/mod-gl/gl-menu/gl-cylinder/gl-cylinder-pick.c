@@ -139,6 +139,8 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 				    cylinder_context->
 				    const_data.max_displayed_items);
 
+  memset(select_buffer,0,sizeof(GLuint)*SELECT_BUFFER_SIZE);
+
   glSelectBuffer (SELECT_BUFFER_SIZE, select_buffer);
   glRenderMode (GL_SELECT);
   glInitNames ();

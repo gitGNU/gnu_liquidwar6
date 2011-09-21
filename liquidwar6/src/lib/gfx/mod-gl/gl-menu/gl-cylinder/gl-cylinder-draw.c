@@ -61,10 +61,7 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
       float y;
       float dy;
 
-      if (mode == GL_RENDER)
-	{
-	  gluQuadricTexture (cyl, GL_TRUE);
-	}
+	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
 
       radius = cylinder_context->const_data.radius1 / n;
       cyl_height = relative_text_width *
@@ -101,8 +98,10 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
       glRotatef (90.0f, 0.0f, 1.0f, 0.0f);
       glTranslatef (0.0f, y + dy, 0.0f);
 
+      TMP2("%s.gluCylinder begin %d",__FUNCTION__,mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices,
 		   cylinder_context->const_data.stacks);
+      TMP1("%s.gluCylinder end",__FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
@@ -132,10 +131,7 @@ _mod_gl_menu_cylinder_draw_sphere (mod_gl_utils_context_t * utils_context,
       float y;
       float x;
 
-      if (mode == GL_RENDER)
-	{
-	  gluQuadricTexture (cyl, GL_TRUE);
-	}
+	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
 
       radius = cylinder_context->const_data.sphere_radius1 / n;
       y = -cylinder_context->const_data.between1 * (i - (n - 1) / 2.0f) / n;
@@ -184,12 +180,7 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
       int slices;
       int stacks;
 
-      if (mode == GL_RENDER)
-	{
-	  gluQuadricTexture (cyl, GL_TRUE);
-	}
-
-      gluQuadricTexture (cyl, GL_TRUE);
+	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
 
       slices = cylinder_context->const_data.slices_min;
       stacks = cylinder_context->const_data.stacks;
@@ -205,7 +196,9 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
       glRotatef (rotate, 1.0f, 0.0f, 0.0f);
       glTranslatef (0.0f, 0.0f, -cyl_height / 2.0f);
 
+      TMP2("%s.gluCylinder begin %d",__FUNCTION__,mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices, stacks);
+      TMP1("%s.gluCylinder end",__FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
