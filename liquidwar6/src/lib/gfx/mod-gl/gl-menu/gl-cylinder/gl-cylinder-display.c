@@ -140,7 +140,7 @@ draw_button (mod_gl_utils_context_t * utils_context,
 {
   SDL_Surface *text_surface = NULL;
   mod_gl_utils_bitmap_t *bitmap = NULL;
-  char *utf8;
+  char *utf8 = NULL;
   SDL_Color bg_color;
   SDL_Color fg_color;
   int ret = 0;
@@ -157,8 +157,7 @@ draw_button (mod_gl_utils_context_t * utils_context,
   float screen_ratio;
 
   bitmap =
-    mod_gl_utils_get_button_minusrom_menucache (utils_context, look,
-						menuitem);
+    mod_gl_utils_get_button_from_menucache (utils_context, look, menuitem);
 
   if (bitmap == NULL)
     {

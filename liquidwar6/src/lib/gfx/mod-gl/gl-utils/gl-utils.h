@@ -771,9 +771,9 @@ extern int mod_gl_utils_store_button_in_menucache (mod_gl_utils_context_t *
 						   mod_gl_utils_bitmap_t *
 						   bitmap);
 extern mod_gl_utils_bitmap_t
-  * mod_gl_utils_get_button_minusrom_menucache (mod_gl_utils_context_t *
-						context, lw6gui_look_t * look,
-						lw6gui_menuitem_t * menuitem);
+  * mod_gl_utils_get_button_from_menucache (mod_gl_utils_context_t *
+					    context, lw6gui_look_t * look,
+					    lw6gui_menuitem_t * menuitem);
 extern void mod_gl_utils_clear_menucache (mod_gl_utils_context_t *
 					  utils_context);
 

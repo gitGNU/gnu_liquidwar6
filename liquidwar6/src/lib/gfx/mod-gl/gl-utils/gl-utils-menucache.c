@@ -95,9 +95,9 @@ mod_gl_utils_store_button_in_menucache (mod_gl_utils_context_t * context,
  * Gets a button bitmap from the menucache. Returns non NULL if successfull.
  */
 mod_gl_utils_bitmap_t *
-mod_gl_utils_get_button_minusrom_menucache (mod_gl_utils_context_t * context,
-					    lw6gui_look_t * look,
-					    lw6gui_menuitem_t * menuitem)
+mod_gl_utils_get_button_from_menucache (mod_gl_utils_context_t * context,
+					lw6gui_look_t * look,
+					lw6gui_menuitem_t * menuitem)
 {
   mod_gl_utils_menucache_array_t *menucache_array;
   mod_gl_utils_bitmap_t *bitmap = NULL;

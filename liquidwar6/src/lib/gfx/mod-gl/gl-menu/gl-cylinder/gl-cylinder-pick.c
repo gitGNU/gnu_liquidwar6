@@ -161,8 +161,8 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
     {
       menuitem = menu->items[i + menu->first_item_displayed];
       button_cancelitmap =
-	mod_gl_utils_get_button_minusrom_menucache (utils_context, look,
-						    menuitem);
+	mod_gl_utils_get_button_from_menucache (utils_context, look,
+						menuitem);
       if (button_cancelitmap)
 	{
 	  /*
@@ -186,8 +186,8 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
   if (menu->esc_item->enabled)
     {
       button_cancelitmap =
-	mod_gl_utils_get_button_minusrom_menucache (utils_context, look,
-						    menu->esc_item);
+	mod_gl_utils_get_button_from_menucache (utils_context, look,
+						menu->esc_item);
       if (button_cancelitmap)
 	{
 	  /*
