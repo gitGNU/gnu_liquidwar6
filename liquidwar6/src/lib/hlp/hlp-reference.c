@@ -862,7 +862,7 @@ populate_references ()
   POPULATE_INT (LW6DEF_DEBUG_LAYER_ID,
 		_x_
 		("A team id which will be used for debugging purposes, for instance when displaying gradient."),
-		0, 0, LW6MAP_MAX_DEPTH - 1);
+		0, 0, LW6MAP_MAX_BODY_DEPTH - 1);
   POPULATE_INT (LW6DEF_LOG_TIMEOUT,
 		_x_
 		("Delay, in msec, for which a log message will stay displayed on the screen."),

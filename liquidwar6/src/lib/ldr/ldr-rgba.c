@@ -65,6 +65,8 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 		{
 		  png_uint_32 width;
 		  png_uint_32 height;
+		  int max_width;
+		  int max_height;
 		  int bit_depth;
 		  int color_type;
 		  unsigned char **buf = NULL;
@@ -107,6 +109,21 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 		      format_ok = 0;
 		    }
 
+		  max_width =
+		    lw6sys_max (LW6MAP_MAX_BODY_WIDTH,
+				LW6MAP_MAX_TEXTURE_WIDTH);
+		  max_height =
+		    lw6sys_max (LW6MAP_MAX_BODY_HEIGHT,
+				LW6MAP_MAX_TEXTURE_HEIGHT);
+		  if (width > max_width || height > max_height)
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("can't load RGBA PNG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
+				  png_file, width, height, max_width,
+				  max_height);
+		      format_ok = 0;
+		    }
 
 		  if (info_ptr->rowbytes != info_ptr->width * 4 ||
 		      bit_depth > 8)
@@ -212,6 +229,9 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
   int j;
   unsigned char **buf;
   int memory_ok;
+  int size_ok;
+  int max_width;
+  int max_height;
 
   lw6sys_progress_begin (progress);
 
@@ -230,97 +250,120 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
       jpeg_start_decompress (&cinfo);
 
       memory_ok = 1;
-      buf =
-	(unsigned char **) LW6SYS_MALLOC (cinfo.output_height *
-					  sizeof (unsigned char *));
-      if (buf)
-	{
-	  for (j = 0; j < cinfo.output_height; ++j)
-	    {
-	      buf[j] =
-		(unsigned char *) LW6SYS_MALLOC (cinfo.output_width * 4 *
-						 sizeof (unsigned char));
-	      if (!buf[j])
-		{
-		  memory_ok = 0;
-		}
-	    }
-	}
-      else
-	{
-	  memory_ok = 0;
-	}
+      size_ok = 1;
 
-      if (memory_ok)
-	{
-	  switch (cinfo.output_components)
-	    {
-	    case 3:		// color
-	      row_stride = cinfo.output_width * cinfo.output_components;
-	      buffer = (*cinfo.mem->alloc_sarray)
-		((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
-	      while (cinfo.output_scanline < cinfo.output_height)
-		{
-		  lw6sys_progress_update (progress, 0, cinfo.output_height,
-					  cinfo.output_scanline);
-		  j =
-		    lw6sys_max (lw6sys_min
-				(cinfo.output_scanline,
-				 cinfo.output_height - 1), 0);
-
-		  jpeg_read_scanlines (&cinfo, buffer, 1);
-		  for (i = 0; i < cinfo.output_width; i++)
-		    {
-		      buf[j][i * 4 + 0] = buffer[0][i * 3 + 0];
-		      buf[j][i * 4 + 1] = buffer[0][i * 3 + 1];
-		      buf[j][i * 4 + 2] = buffer[0][i * 3 + 2];
-		      buf[j][i * 4 + 3] = 255;
-		    }
-		}
-	      image->w = cinfo.output_width;
-	      image->h = cinfo.output_height;
-	      image->data = buf;
-	      ret = 1;
-	      break;
-
-	    case 1:		// grayscale
-	      row_stride = cinfo.output_width * cinfo.output_components;
-	      buffer = (*cinfo.mem->alloc_sarray)
-		((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
-	      while (cinfo.output_scanline < cinfo.output_height)
-		{
-		  lw6sys_progress_update (progress, 0, cinfo.output_height,
-					  cinfo.output_scanline);
-		  j =
-		    lw6sys_max (lw6sys_min
-				(cinfo.output_scanline,
-				 cinfo.output_height - 1), 0);
-
-		  jpeg_read_scanlines (&cinfo, buffer, 1);
-		  for (i = 0; i < cinfo.output_width; i++)
-		    {
-		      buf[j][i * 4 + 0] =
-			buf[j][i * 4 + 1] = buf[j][i * 4 + 2] = buffer[0][i];
-		      buf[j][i * 4 + 3] = 255;
-		    }
-		}
-	      image->w = cinfo.output_width;
-	      image->h = cinfo.output_height;
-	      image->data = buf;
-	      ret = 1;
-	      break;
-
-	    default:
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_
-			  ("unable to handle jpeg file output_components must be 3 (RGB) but is %d"),
-			  cinfo.output_components);
-	    }
-	}
-      else
+      max_width =
+	lw6sys_max (LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_TEXTURE_WIDTH);
+      max_height =
+	lw6sys_max (LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_TEXTURE_HEIGHT);
+      if (cinfo.output_width > max_width || cinfo.output_height > max_height)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("unable to allocate memory for RGBA JPEG file"));
+		      _x_
+		      ("can't load RGBA JPEG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
+		      jpeg_file, (int) cinfo.output_width,
+		      (int) cinfo.output_height, max_width, max_height);
+	  size_ok = 0;
+	}
+
+      if (size_ok)
+	{
+	  buf =
+	    (unsigned char **) LW6SYS_MALLOC (cinfo.output_height *
+					      sizeof (unsigned char *));
+	  if (buf)
+	    {
+	      for (j = 0; j < cinfo.output_height; ++j)
+		{
+		  buf[j] =
+		    (unsigned char *) LW6SYS_MALLOC (cinfo.output_width * 4 *
+						     sizeof (unsigned char));
+		  if (!buf[j])
+		    {
+		      memory_ok = 0;
+		    }
+		}
+	    }
+	  else
+	    {
+	      memory_ok = 0;
+	    }
+
+	  if (memory_ok)
+	    {
+	      switch (cinfo.output_components)
+		{
+		case 3:	// color
+		  row_stride = cinfo.output_width * cinfo.output_components;
+		  buffer = (*cinfo.mem->alloc_sarray)
+		    ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
+		  while (cinfo.output_scanline < cinfo.output_height)
+		    {
+		      lw6sys_progress_update (progress, 0,
+					      cinfo.output_height,
+					      cinfo.output_scanline);
+		      j =
+			lw6sys_max (lw6sys_min
+				    (cinfo.output_scanline,
+				     cinfo.output_height - 1), 0);
+
+		      jpeg_read_scanlines (&cinfo, buffer, 1);
+		      for (i = 0; i < cinfo.output_width; i++)
+			{
+			  buf[j][i * 4 + 0] = buffer[0][i * 3 + 0];
+			  buf[j][i * 4 + 1] = buffer[0][i * 3 + 1];
+			  buf[j][i * 4 + 2] = buffer[0][i * 3 + 2];
+			  buf[j][i * 4 + 3] = 255;
+			}
+		    }
+		  image->w = cinfo.output_width;
+		  image->h = cinfo.output_height;
+		  image->data = buf;
+		  ret = 1;
+		  break;
+
+		case 1:	// grayscale
+		  row_stride = cinfo.output_width * cinfo.output_components;
+		  buffer = (*cinfo.mem->alloc_sarray)
+		    ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
+		  while (cinfo.output_scanline < cinfo.output_height)
+		    {
+		      lw6sys_progress_update (progress, 0,
+					      cinfo.output_height,
+					      cinfo.output_scanline);
+		      j =
+			lw6sys_max (lw6sys_min
+				    (cinfo.output_scanline,
+				     cinfo.output_height - 1), 0);
+
+		      jpeg_read_scanlines (&cinfo, buffer, 1);
+		      for (i = 0; i < cinfo.output_width; i++)
+			{
+			  buf[j][i * 4 + 0] =
+			    buf[j][i * 4 + 1] = buf[j][i * 4 + 2] =
+			    buffer[0][i];
+			  buf[j][i * 4 + 3] = 255;
+			}
+		    }
+		  image->w = cinfo.output_width;
+		  image->h = cinfo.output_height;
+		  image->data = buf;
+		  ret = 1;
+		  break;
+
+		default:
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_
+			      ("unable to handle jpeg file output_components must be 3 (RGB) but is %d"),
+			      cinfo.output_components);
+		}
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_
+			  ("unable to allocate memory for RGBA JPEG file"));
+	    }
 	}
 
       jpeg_finish_decompress (&cinfo);

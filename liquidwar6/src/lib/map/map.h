@@ -726,38 +726,38 @@ typedef struct lw6map_rules_s
 extern char *LW6MAP_RULES_LIST[];
 
 // Reasonnably, nothing smaller than this is playable
-#define LW6MAP_MIN_WIDTH 8
+#define LW6MAP_MIN_BODY_WIDTH 8
 // Same concept
-#define LW6MAP_MIN_HEIGHT 6
+#define LW6MAP_MIN_BODY_HEIGHT 6
 /*
  * Serious limit here, must be < 8191 because of possible
  * oververflow, but recent (!) optimizations even forces 
- * to be below 2000x1500. The idea is that too big maps
+ * to be below 1500x1000. The idea is that too big maps
  * simply put computers to death and prevent smart
  * optimizations such as (but not limited to) putting 
  * everything on one big texture in GL mode. I (ufoot) believe
- * if you can't have fun on a 2000x1500 map (which still
- * allows 1920x1080 that is, full HD with one fighter per
- * pixel then your map design is just broken...
+ * if you can't have fun on a 1000x1000 map
+ * then your map design is just broken...
  */
-#define LW6MAP_MAX_WIDTH 2000
+#define LW6MAP_MAX_BODY_WIDTH 1500
 // height is smaller, on purpose, still those optimisations
-#define LW6MAP_MAX_HEIGHT 1500
+#define LW6MAP_MAX_BODY_HEIGHT 1000
 // This corresponds to minimalist 16/9 (16*9)
-#define LW6MAP_MIN_SURFACE 144
-/*
- * This corresponds to 16/9 2000*1125, greater than 1920x1080
- * or 1600x1200, again, the idea is not to limit the player
- * and/or the map designer but avoiding pushing the limits
- * too hard and promising something that will never be
- * available for real. Additionnally, 2250000 is also 1500*1500.
- */
-#define LW6MAP_MAX_SURFACE 2250000
+#define LW6MAP_MIN_BODY_SURFACE 144
+// 1000x1000, greater than HD 720p (921600)
+#define LW6MAP_MAX_BODY_SURFACE 1000000
 
 // yeah sur, 0 depth doesn't make sense
-#define LW6MAP_MIN_DEPTH 1
+#define LW6MAP_MIN_BODY_DEPTH 1
 // can't be too high for perf issues
-#define LW6MAP_MAX_DEPTH 7
+#define LW6MAP_MAX_BODY_DEPTH 7
+
+// Theorical limit
+#define LW6MAP_MIN_TEXTURE_WIDTH 1
+#define LW6MAP_MIN_TEXTURE_HEIGHT 1
+// Limited to fit on one OpenGL texture on reasonnable hardware
+#define LW6MAP_MAX_TEXTURE_WIDTH 3000
+#define LW6MAP_MAX_TEXTURE_HEIGHT 2000
 
 #define LW6MAP_STYLE_DEFAULT_KEEP_RATIO 1
 #define LW6MAP_STYLE_DEFAULT_ZOOM 1.0f
@@ -1097,7 +1097,7 @@ typedef struct lw6map_body_s
 {
   int checksum;
   lw6sys_whd_t shape;
-  lw6map_layer_t layers[LW6MAP_MAX_DEPTH];
+  lw6map_layer_t layers[LW6MAP_MAX_BODY_DEPTH];
   lw6map_meta_layer_t glue;
   lw6map_meta_layer_t boost;
   lw6map_meta_layer_t danger;

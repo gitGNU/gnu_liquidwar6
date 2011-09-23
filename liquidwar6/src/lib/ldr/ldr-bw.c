@@ -59,6 +59,8 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 		{
 		  png_uint_32 width;
 		  png_uint_32 height;
+		  int max_width;
+		  int max_height;
 		  int bit_depth;
 		  int color_type;
 		  unsigned char **buf = NULL;
@@ -103,6 +105,22 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", it is still paletted after filtering"),
 				  png_file);
+		      format_ok = 0;
+		    }
+
+		  max_width =
+		    lw6sys_max (LW6MAP_MAX_BODY_WIDTH,
+				LW6MAP_MAX_TEXTURE_WIDTH);
+		  max_height =
+		    lw6sys_max (LW6MAP_MAX_BODY_HEIGHT,
+				LW6MAP_MAX_TEXTURE_HEIGHT);
+		  if (width > max_width || height > max_height)
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("can't load B&W PNG file \"%s\", it is too big (size=%dx%d max=%dx%d)"),
+				  png_file, width, height, max_width,
+				  max_height);
 		      format_ok = 0;
 		    }
 

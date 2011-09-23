@@ -55,7 +55,7 @@ lw6ldr_body_read (lw6map_body_t * body, char *dirname,
 {
   int ret = 0;
   char *dot_png;
-  char *extra_layers_png[LW6MAP_MAX_DEPTH] = { _LW6LDR_FILE_LAYER2_PNG,
+  char *extra_layers_png[LW6MAP_MAX_BODY_DEPTH] = { _LW6LDR_FILE_LAYER2_PNG,
     _LW6LDR_FILE_LAYER3_PNG,
     _LW6LDR_FILE_LAYER4_PNG,
     _LW6LDR_FILE_LAYER5_PNG,
@@ -72,7 +72,7 @@ lw6ldr_body_read (lw6map_body_t * body, char *dirname,
 
   lw6map_body_clear (body);
 
-  for (layer = 1; layer < LW6MAP_MAX_DEPTH; ++layer)
+  for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
     {
       dot_png = lw6sys_path_concat (dirname, extra_layers_png[layer - 1]);
       if (dot_png)
@@ -99,7 +99,7 @@ lw6ldr_body_read (lw6map_body_t * body, char *dirname,
 	{
 	  body->shape = body->layers[0].shape;
 	  body->shape.d = 1;
-	  for (layer = 1; layer < LW6MAP_MAX_DEPTH; ++layer)
+	  for (layer = 1; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
 	    {
 	      dot_png =
 		lw6sys_path_concat (dirname, extra_layers_png[layer - 1]);

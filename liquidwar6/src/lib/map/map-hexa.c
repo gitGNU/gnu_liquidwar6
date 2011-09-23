@@ -528,9 +528,9 @@ pop_body (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_body_t * body)
   int ret = 1;
   int layer;
   lw6sys_whd_t shape_min =
-    { LW6MAP_MIN_WIDTH, LW6MAP_MIN_HEIGHT, LW6MAP_MIN_DEPTH };
+    { LW6MAP_MIN_BODY_WIDTH, LW6MAP_MIN_BODY_HEIGHT, LW6MAP_MIN_BODY_DEPTH };
   lw6sys_whd_t shape_max =
-    { LW6MAP_MAX_WIDTH, LW6MAP_MAX_HEIGHT, LW6MAP_MAX_DEPTH };
+    { LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_BODY_DEPTH };
 
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer, &(body->checksum));
@@ -591,10 +591,10 @@ pop_texture (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(texture->has_alpha));
-  if (texture->w >= LW6MAP_MIN_WIDTH && texture->w <= LW6MAP_MAX_WIDTH
-      && texture->h >= LW6MAP_MIN_HEIGHT && texture->h <= LW6MAP_MAX_HEIGHT
-      && texture->w * texture->h >= LW6MAP_MIN_SURFACE
-      && texture->w * texture->h <= LW6MAP_MAX_SURFACE)
+  if (texture->w >= LW6MAP_MIN_TEXTURE_WIDTH
+      && texture->w <= LW6MAP_MAX_TEXTURE_WIDTH
+      && texture->h >= LW6MAP_MIN_TEXTURE_HEIGHT
+      && texture->h <= LW6MAP_MAX_TEXTURE_HEIGHT)
     {
       texture->data =
 	(lw6sys_color_8_t *) LW6SYS_CALLOC (texture->w *

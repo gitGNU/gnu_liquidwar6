@@ -46,9 +46,9 @@ lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
 {
   int layer;
   lw6sys_whd_t shape_min =
-    { LW6MAP_MIN_WIDTH, LW6MAP_MIN_HEIGHT, LW6MAP_MIN_DEPTH };
+    { LW6MAP_MIN_BODY_WIDTH, LW6MAP_MIN_BODY_HEIGHT, LW6MAP_MIN_BODY_DEPTH };
   lw6sys_whd_t shape_max =
-    { LW6MAP_MAX_WIDTH, LW6MAP_MAX_HEIGHT, LW6MAP_MAX_DEPTH };
+    { LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_BODY_DEPTH };
 
   lw6map_body_clear (body);
   body->shape.w = w;
@@ -98,7 +98,7 @@ lw6map_body_clear (lw6map_body_t * body)
 {
   int layer;
 
-  for (layer = 0; layer < LW6MAP_MAX_DEPTH; ++layer)
+  for (layer = 0; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
     {
       lw6map_layer_clear (&(body->layers[layer]));
     }

@@ -169,7 +169,7 @@ draft_zones_new (lw6map_level_t * level, lw6sys_progress_t * progress)
       d = ret->shape.d;
       size = w * h * d;
 
-      if (size >= LW6MAP_MIN_SURFACE)
+      if (size >= LW6MAP_MIN_BODY_SURFACE)
 	{
 	  ret->zones =
 	    (draft_zone_t *) LW6SYS_CALLOC (size * sizeof (draft_zone_t));
@@ -283,8 +283,8 @@ draft_zones_new (lw6map_level_t * level, lw6sys_progress_t * progress)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_
-		      ("map is too small, size=%d, LW6MAP_MIN_SURFACE=%d"),
-		      size, LW6MAP_MIN_SURFACE);
+		      ("map is too small, size=%d, LW6MAP_MIN_BODY_SURFACE=%d"),
+		      size, LW6MAP_MIN_BODY_SURFACE);
 	}
 
     }

@@ -68,7 +68,7 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
       ret->metadata.title = NULL;
       ret->metadata.readme = NULL;
       ret->local_info.music_dir = NULL;
-      for (layer = 0; layer < LW6MAP_MAX_DEPTH; ++layer)
+      for (layer = 0; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
 	{
 	  ret->body.layers[layer].data = NULL;
 	}

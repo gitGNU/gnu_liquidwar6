@@ -49,17 +49,49 @@
 static void
 _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 {
+  int surface=0;
+  float coeff=1.0f;
+
+  surface=(*w)*(*h);
+
+  if (surface>0) {
+    if (hints->max_map_surface>0) {
+      if (surface>hints->max_map_surface) {
+	coeff=sqrt(hints->max_map_surface/surface);
+	*w *= coeff;
+	*h *= coeff;
+      }
+    }
+    if (hints->min_map_surface>0) {
+      if (surface<hints->min_map_surface) {
+	coeff=sqrt(hints->min_map_surface/surface);
+	*w *= coeff;
+	*h *= coeff;
+      }
+    }
+  if (surface>LW6MAP_MAX_BODY_SURFACE) {
+    coeff=sqrt(LW6MAP_MAX_BODY_SURFACE/surface);
+    *w *= coeff;
+    *h *= coeff;
+  }
+  if (surface<LW6MAP_MIN_BODY_SURFACE) {
+    coeff=sqrt(LW6MAP_MIN_BODY_SURFACE/surface);
+    *w *= coeff;
+    *h *= coeff;
+  }
+  }
+
   *w = lw6sys_min (*w, hints->max_map_width);
   *h = lw6sys_min (*h, hints->max_map_height);
 
   *w = lw6sys_max (*w, hints->min_map_width);
   *h = lw6sys_max (*h, hints->min_map_height);
 
-  *w = lw6sys_min (*w, LW6MAP_MAX_WIDTH);
-  *h = lw6sys_min (*h, LW6MAP_MAX_HEIGHT);
+  *w = lw6sys_min (*w, LW6MAP_MAX_BODY_WIDTH);
+  *h = lw6sys_min (*h, LW6MAP_MAX_BODY_HEIGHT);
 
-  *w = lw6sys_max (*w, LW6MAP_MIN_WIDTH);
-  *h = lw6sys_max (*h, LW6MAP_MIN_HEIGHT);
+  *w = lw6sys_max (*w, LW6MAP_MIN_BODY_WIDTH);
+  *h = lw6sys_max (*h, LW6MAP_MIN_BODY_HEIGHT);
 }
 
 static float
@@ -246,8 +278,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 	      f = 1.0f;
 	      if (hints->downsize_using_bench_value && capacity < required)
 		{
-		  while (capacity < required && tmp_w > LW6MAP_MIN_WIDTH
-			 && tmp_h > LW6MAP_MIN_HEIGHT)
+		  while (capacity < required && tmp_w > LW6MAP_MIN_BODY_WIDTH
+			 && tmp_h > LW6MAP_MIN_BODY_HEIGHT)
 		    {
 		      f *= _RESAMPLER_DOWNSIZE;
 		      tmp_w = target_w * f;
@@ -270,8 +302,8 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		}
 	      else if (hints->upsize_using_bench_value && capacity > required)
 		{
-		  while (capacity < required && tmp_w < LW6MAP_MAX_WIDTH
-			 && tmp_h < LW6MAP_MAX_HEIGHT)
+		  while (capacity < required && tmp_w < LW6MAP_MAX_BODY_WIDTH
+			 && tmp_h < LW6MAP_MAX_BODY_HEIGHT)
 		    {
 		      f *= _RESAMPLER_UPSIZE;
 		      tmp_w = target_w * f;
