@@ -27,10 +27,13 @@ liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi stamp.texi const.texi $(gdo
 
 man6_MANS = liquidwar6.man
 
-EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh deps.dot deps.eps mod-gl-layout.xcf
+EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh deps.dot deps.eps deps.txt mod-gl-layout.xcf mod-gl-layout.ods
 
 deps.eps: deps.dot
 	if which dot ; then dot -Kdot -Teps -o$@ $< ; fi ; if which rsync ; then rsync $@ ${srcdir} ; fi
+
+deps.txt: deps.dot
+	if which dot ; then dot -Tcanon -o$@ $< ; fi ; if which rsync ; then rsync $@ ${srcdir} ; fi
 
 deps.png: deps.dot
 	if which dot ; then dot -Kdot -Tpng -o$@ $< ; fi
@@ -42,7 +45,7 @@ deps.pdf: deps.dot
 # in builddir then copy it to srcdir for using a texi file located
 # in builddir causes an error when running make distcheck
 # (complains about write permissions, can't create temp dir).
-all-local: deps.eps
+all-local: deps.eps deps.txt
 	if ! diff ${builddir}/const.texi.in ${srcdir}/const.texi ; then cp ${builddir}/const.texi.in ${srcdir}/const.texi ; fi
 
 html-local:

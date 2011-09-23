@@ -112,12 +112,27 @@ extern void _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t *
 						 * cylinder_context,
 						 GLenum mode, int i, int n,
 						 float relative_text_width);
+extern void
+_mod_gl_menu_cylinder_draw_cylinder_corners (mod_gl_utils_context_t *
+					     utils_context,
+					     _mod_gl_menu_cylinder_context_t *
+					     cylinder_context, int i, int n,
+					     float relative_text_width,
+					     int pass_through);
 extern void _mod_gl_menu_cylinder_draw_sphere (mod_gl_utils_context_t *
 					       utils_context,
 					       _mod_gl_menu_cylinder_context_t
 					       * cylinder_context,
 					       GLenum mode, int i, int n,
 					       int sphere_i, int nb_spheres);
+extern void _mod_gl_menu_cylinder_draw_sphere_corners (mod_gl_utils_context_t
+						       * utils_context,
+						       _mod_gl_menu_cylinder_context_t
+						       * cylinder_context,
+						       int i, int n,
+						       int sphere_i,
+						       int nb_spheres,
+						       int pass_through);
 extern void _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t
 						       * utils_context,
 						       _mod_gl_menu_cylinder_context_t
@@ -129,6 +144,17 @@ extern void _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t
 						       float
 						       cyl_height_offset,
 						       float rotate);
+extern void
+_mod_gl_menu_cylinder_draw_fixed_cylinder_corners (mod_gl_utils_context_t *
+						   utils_context,
+						   _mod_gl_menu_cylinder_context_t
+						   * cylinder_context,
+						   float offset, float radius,
+						   float cyl_height,
+						   float cyl_height_offset,
+						   float rotate,
+						   float realtive_text_width,
+						   int pass_through);
 
 /*
  * In pick.c

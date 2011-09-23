@@ -61,7 +61,7 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
       float y;
       float dy;
 
-	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
+      gluQuadricTexture (cyl, (mode == GL_RENDER) ? GL_TRUE : GL_FALSE);
 
       radius = cylinder_context->const_data.radius1 / n;
       cyl_height = relative_text_width *
@@ -98,10 +98,11 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
       glRotatef (90.0f, 0.0f, 1.0f, 0.0f);
       glTranslatef (0.0f, y + dy, 0.0f);
 
-      TMP2("%s.gluCylinder begin %d",__FUNCTION__,mode);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder begin %d"),
+		  __FUNCTION__, mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices,
 		   cylinder_context->const_data.stacks);
-      TMP1("%s.gluCylinder end",__FUNCTION__);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"), __FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
@@ -112,6 +113,64 @@ _mod_gl_menu_cylinder_draw_cylinder (mod_gl_utils_context_t * utils_context,
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
     }
+}
+
+void
+_mod_gl_menu_cylinder_draw_cylinder_corners (mod_gl_utils_context_t *
+					     utils_context,
+					     _mod_gl_menu_cylinder_context_t *
+					     cylinder_context, int i, int n,
+					     float relative_text_width,
+					     int pass_through)
+{
+  int32_t dt;
+
+  float radius;
+  float cyl_height;
+  float y;
+  float dy;
+
+  radius = cylinder_context->const_data.radius1 / n;
+  cyl_height = relative_text_width *
+    cylinder_context->const_data.cyl_height *
+    ((float) utils_context->video_mode.width) /
+    ((float) utils_context->video_mode.height);
+  y =
+    _mod_gl_menu_cylinder_get_cylinder_y (utils_context, cylinder_context,
+					  i, n);
+  dt =
+    mod_gl_utils_timer_get_cycle (utils_context) %
+    cylinder_context->const_data.oscil_period;
+  dy =
+    (cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *
+							   ((dt /
+							     ((float)
+							      cylinder_context->
+							      const_data.
+							      oscil_period)) +
+							    (((float) i) /
+							     ((float) n))));
+  glMatrixMode (GL_MODELVIEW);
+  glPushMatrix ();
+  glLoadIdentity ();
+  glTranslatef (-cyl_height / 2.0f, 0.0f, -1.0f);
+  glRotatef (90.0f, 0.0f, 1.0f, 0.0f);
+  glTranslatef (0.0f, y + dy, 0.0f);
+
+  glPassThrough ((float) pass_through);
+  glBegin (GL_POINTS);
+  glVertex3f (0.0f, radius, 0.0f);
+  glVertex3f (0.0f, radius, cyl_height);
+  glVertex3f (0.0f, -radius, cyl_height);
+  glVertex3f (0.0f, -radius, 0.0f);
+  glVertex3f (0.0f, radius, cyl_height * 0.33);
+  glVertex3f (0.0f, radius, cyl_height * 0.67);
+  glVertex3f (0.0f, -radius, cyl_height * 0.67);
+  glVertex3f (0.0f, -radius, cyl_height * 0.33);
+  glEnd ();
+
+  glMatrixMode (GL_MODELVIEW);
+  glPopMatrix ();
 }
 
 void
@@ -131,7 +190,7 @@ _mod_gl_menu_cylinder_draw_sphere (mod_gl_utils_context_t * utils_context,
       float y;
       float x;
 
-	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
+      gluQuadricTexture (cyl, (mode == GL_RENDER) ? GL_TRUE : GL_FALSE);
 
       radius = cylinder_context->const_data.sphere_radius1 / n;
       y = -cylinder_context->const_data.between1 * (i - (n - 1) / 2.0f) / n;
@@ -163,6 +222,42 @@ _mod_gl_menu_cylinder_draw_sphere (mod_gl_utils_context_t * utils_context,
 }
 
 void
+_mod_gl_menu_cylinder_draw_sphere_corners (mod_gl_utils_context_t *
+					   utils_context,
+					   _mod_gl_menu_cylinder_context_t *
+					   cylinder_context, int i, int n,
+					   int sphere_i, int nb_spheres,
+					   int pass_through)
+{
+  float radius;
+  float y;
+  float x;
+
+  radius = cylinder_context->const_data.sphere_radius1 / n;
+  y = -cylinder_context->const_data.between1 * (i - (n - 1) / 2.0f) / n;
+  x =
+    (cylinder_context->const_data.sphere_between1 *
+     (sphere_i + 0.5f - nb_spheres / 2.0f)) / n;
+  glMatrixMode (GL_MODELVIEW);
+  glPushMatrix ();
+  glLoadIdentity ();
+  glTranslatef (x, y, -1.0f);
+
+  glPassThrough ((float) pass_through);
+  glBegin (GL_POINTS);
+
+  glVertex3f (-radius, -radius, 0.0f);
+  glVertex3f (radius, -radius, 0.0f);
+  glVertex3f (radius, radius, 0.0f);
+  glVertex3f (-radius, radius, 0.0f);
+
+  glEnd ();
+
+  glMatrixMode (GL_MODELVIEW);
+  glPopMatrix ();
+}
+
+void
 _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
 					   utils_context,
 					   _mod_gl_menu_cylinder_context_t *
@@ -180,7 +275,7 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
       int slices;
       int stacks;
 
-	  gluQuadricTexture (cyl, (mode==GL_RENDER)? GL_TRUE:GL_FALSE);
+      gluQuadricTexture (cyl, (mode == GL_RENDER) ? GL_TRUE : GL_FALSE);
 
       slices = cylinder_context->const_data.slices_min;
       stacks = cylinder_context->const_data.stacks;
@@ -196,9 +291,10 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
       glRotatef (rotate, 1.0f, 0.0f, 0.0f);
       glTranslatef (0.0f, 0.0f, -cyl_height / 2.0f);
 
-      TMP2("%s.gluCylinder begin %d",__FUNCTION__,mode);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder begin %d"),
+		  __FUNCTION__, mode);
       gluCylinder (cyl, radius, radius, cyl_height, slices, stacks);
-      TMP1("%s.gluCylinder end",__FUNCTION__);
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("%s.gluCylinder end"), __FUNCTION__);
 
       glMatrixMode (GL_MODELVIEW);
       glPopMatrix ();
@@ -209,4 +305,45 @@ _mod_gl_menu_cylinder_draw_fixed_cylinder (mod_gl_utils_context_t *
     {
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create quadric"));
     }
+}
+
+void
+_mod_gl_menu_cylinder_draw_fixed_cylinder_corners (mod_gl_utils_context_t *
+						   utils_context,
+						   _mod_gl_menu_cylinder_context_t
+						   * cylinder_context,
+						   float offset, float radius,
+						   float cyl_height,
+						   float cyl_height_offset,
+						   float rotate,
+						   float relative_text_width,
+						   int pass_through)
+{
+  glMatrixMode (GL_MODELVIEW);
+  glPushMatrix ();
+  glLoadIdentity ();
+  glTranslatef (cyl_height_offset - cyl_height / 2.0f, 0.0f, -1.0f);
+  glRotatef (90.0f, 0.0f, 1.0f, 0.0f);
+  glTranslatef (0.0f, offset, 0.0f);
+
+  glTranslatef (-0.0f, 0.0f, cyl_height / 2.0f);
+  glRotatef (rotate, 1.0f, 0.0f, 0.0f);
+  glTranslatef (0.0f, 0.0f, -cyl_height / 2.0f);
+
+  glPassThrough ((float) pass_through);
+  glBegin (GL_POINTS);
+
+  glVertex3f (0.0f, radius, 0.0f);
+  glVertex3f (0.0f, radius, cyl_height);
+  glVertex3f (0.0f, -radius, cyl_height);
+  glVertex3f (0.0f, -radius, 0.0f);
+  glVertex3f (0.0f, radius, cyl_height * 0.33);
+  glVertex3f (0.0f, radius, cyl_height * 0.67);
+  glVertex3f (0.0f, -radius, cyl_height * 0.67);
+  glVertex3f (0.0f, -radius, cyl_height * 0.33);
+
+  glEnd ();
+
+  glMatrixMode (GL_MODELVIEW);
+  glPopMatrix ();
 }

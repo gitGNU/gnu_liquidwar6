@@ -131,7 +131,8 @@ typedef enum mod_gl_utils_render_mode_e
   MOD_GL_UTILS_RENDER_2D_BLEND = 2,
   MOD_GL_UTILS_RENDER_3D_MAP = 3,
   MOD_GL_UTILS_RENDER_3D_MENU = 4,
-  MOD_GL_UTILS_RENDER_3D_PICK = 5
+  MOD_GL_UTILS_RENDER_3D_SELECT = 5,
+  MOD_GL_UTILS_RENDER_3D_FEEDBACK = 6
 }
 mod_gl_utils_render_mode_t;
 
@@ -843,9 +844,11 @@ extern void mod_gl_utils_set_render_mode_3d_map (mod_gl_utils_context_t *
 						 utils_context);
 extern void mod_gl_utils_set_render_mode_3d_menu (mod_gl_utils_context_t *
 						  utils_context);
-extern void mod_gl_utils_set_render_mode_3d_pick (mod_gl_utils_context_t *
-						  utils_context, int x,
-						  int y);
+extern void mod_gl_utils_set_render_mode_3d_select (mod_gl_utils_context_t *
+						    utils_context, int x,
+						    int y);
+extern void mod_gl_utils_set_render_mode_3d_feedback (mod_gl_utils_context_t *
+						      utils_context);
 
 /*
  * In resolution.c

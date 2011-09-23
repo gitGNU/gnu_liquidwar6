@@ -27,8 +27,8 @@
 #include "../../gfx.h"
 #include "gl-utils.h"
 
-#define PICK_WIDTH 3.0f
-#define PICK_HEIGHT 3.0f
+#define SELECT_WIDTH 3.0f
+#define SELECT_HEIGHT 3.0f
 
 static void
 basic_cleanup ()
@@ -184,19 +184,20 @@ mod_gl_utils_set_render_mode_3d_menu (mod_gl_utils_context_t * utils_context)
 }
 
 void
-mod_gl_utils_set_render_mode_3d_pick (mod_gl_utils_context_t * utils_context,
-				      int x, int y)
+mod_gl_utils_set_render_mode_3d_select (mod_gl_utils_context_t *
+					utils_context, int x, int y)
 {
   GLint viewport[4];
 
   basic_cleanup ();
-  if (utils_context->render_param.mode != MOD_GL_UTILS_RENDER_3D_PICK)
+  if (utils_context->render_param.mode != MOD_GL_UTILS_RENDER_3D_SELECT)
     {
       glMatrixMode (GL_PROJECTION);
       glLoadIdentity ();
 
       glGetIntegerv (GL_VIEWPORT, viewport);
-      gluPickMatrix (x, viewport[3] - y, PICK_WIDTH, PICK_HEIGHT, viewport);
+      gluPickMatrix (x, viewport[3] - y, SELECT_WIDTH, SELECT_HEIGHT,
+		     viewport);
 
       gluPerspective (utils_context->const_data.persp_fovy,
 		      ((float) utils_context->video_mode.width) /
@@ -208,6 +209,34 @@ mod_gl_utils_set_render_mode_3d_pick (mod_gl_utils_context_t * utils_context,
       glDisable (GL_BLEND);
       glDisable (GL_LIGHTING);
 
-      utils_context->render_param.mode = MOD_GL_UTILS_RENDER_3D_PICK;
+      utils_context->render_param.mode = MOD_GL_UTILS_RENDER_3D_SELECT;
+    }
+}
+
+void
+mod_gl_utils_set_render_mode_3d_feedback (mod_gl_utils_context_t *
+					  utils_context)
+{
+  GLint viewport[4];
+
+  basic_cleanup ();
+  if (utils_context->render_param.mode != MOD_GL_UTILS_RENDER_3D_FEEDBACK)
+    {
+      glMatrixMode (GL_PROJECTION);
+      glLoadIdentity ();
+
+      glGetIntegerv (GL_VIEWPORT, viewport);
+
+      gluPerspective (utils_context->const_data.persp_fovy,
+		      ((float) utils_context->video_mode.width) /
+		      ((float) utils_context->video_mode.height),
+		      utils_context->const_data.persp_znear,
+		      utils_context->const_data.persp_zfar);
+      glDisable (GL_DEPTH_TEST);
+      glDisable (GL_DEPTH);
+      glDisable (GL_BLEND);
+      glDisable (GL_LIGHTING);
+
+      utils_context->render_param.mode = MOD_GL_UTILS_RENDER_3D_FEEDBACK;
     }
 }

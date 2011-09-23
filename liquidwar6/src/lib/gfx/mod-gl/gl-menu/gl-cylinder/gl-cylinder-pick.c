@@ -27,7 +27,7 @@
 #include "../../mod-gl.h"
 #include "gl-cylinder-internal.h"
 
-#define SELECT_BUFFER_SIZE 4096
+#define FEEDBACK_BUFFER_SIZE 4096
 
 #define NAME_DEFAULT -1
 #define NAME_PREV -2
@@ -35,88 +35,67 @@
 #define NAME_ESC -4
 
 static void
-draw_button_shape (mod_gl_utils_context_t * utils_context,
-		   _mod_gl_menu_cylinder_context_t * cylinder_context,
-		   int i, int n, float relative_text_width, int name)
+draw_button_corners (mod_gl_utils_context_t * utils_context,
+		     _mod_gl_menu_cylinder_context_t * cylinder_context,
+		     int i, int n, float relative_text_width,
+		     int pass_through)
 {
-  glLoadName (name);
+
   if (i >= 0)
     {
-      _mod_gl_menu_cylinder_draw_cylinder (utils_context, cylinder_context,
-					   GL_SELECT, i, n,
-					   relative_text_width);
+      _mod_gl_menu_cylinder_draw_cylinder_corners (utils_context,
+						   cylinder_context, i, n,
+						   relative_text_width,
+						   pass_through);
     }
   else
     {
-      _mod_gl_menu_cylinder_draw_fixed_cylinder (utils_context,
-						 cylinder_context, GL_SELECT,
-						 cylinder_context->const_data.
-						 esc_offset,
-						 cylinder_context->const_data.
-						 esc_radius,
-						 cylinder_context->const_data.
-						 esc_cyl_height *
-						 ((float) utils_context->
-						  video_mode.width) /
-						 ((float) utils_context->
-						  video_mode.height),
-						 cylinder_context->const_data.
-						 esc_cyl_height_offset *
-						 ((float) utils_context->
-						  video_mode.width) /
-						 ((float) utils_context->
-						  video_mode.height),
-						 cylinder_context->const_data.
-						 esc_rotate);
+      float screen_ratio;
+      float draw_esc_offset;
+      float draw_esc_radius;
+      float draw_esc_cyl_height;
+      float draw_esc_cyl_height_offset;
+      float draw_esc_rotate;
+
+      screen_ratio =
+	((float) utils_context->video_mode.width) /
+	((float) utils_context->video_mode.height);
+
+      draw_esc_offset = cylinder_context->const_data.esc_offset;
+      draw_esc_radius = cylinder_context->const_data.esc_radius;
+      draw_esc_cyl_height =
+	relative_text_width *
+	cylinder_context->const_data.esc_cyl_height * screen_ratio;
+      draw_esc_cyl_height_offset =
+	cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
+      draw_esc_rotate = cylinder_context->const_data.esc_rotate;
+
+      _mod_gl_menu_cylinder_draw_fixed_cylinder_corners (utils_context,
+							 cylinder_context,
+							 draw_esc_offset,
+							 draw_esc_radius,
+							 draw_esc_cyl_height,
+							 draw_esc_cyl_height_offset,
+							 draw_esc_rotate,
+							 relative_text_width,
+							 pass_through);
     }
 }
 
 static void
-draw_spheres_shape (mod_gl_utils_context_t * utils_context,
-		    _mod_gl_menu_cylinder_context_t * cylinder_context, int i,
-		    int n, int nb_spheres, int name)
+draw_spheres_corners (mod_gl_utils_context_t * utils_context,
+		      _mod_gl_menu_cylinder_context_t * cylinder_context,
+		      int i, int n, int nb_spheres, int pass_through)
 {
   int sphere_i;
 
-  glLoadName (name);
-
   for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
     {
-      _mod_gl_menu_cylinder_draw_sphere (utils_context, cylinder_context,
-					 GL_SELECT, i, n, sphere_i,
-					 nb_spheres);
+      _mod_gl_menu_cylinder_draw_sphere_corners (utils_context,
+						 cylinder_context, i, n,
+						 sphere_i, nb_spheres,
+						 pass_through);
     }
-}
-
-static int
-process_select_hits (GLint select_hits,
-		     GLuint select_buffer[SELECT_BUFFER_SIZE], int x, int y)
-{
-  int ret = NAME_DEFAULT;
-  unsigned int i, j;
-  GLuint names, *ptr;
-
-  /*
-   * We decide to walk all the array and keep the last value.
-   * Note that we could look the first one and code could look simpler,
-   * but for debugging purposes, it's easier to keep a track of
-   * how to get all the values, with the lool & all fields.
-   */
-  ptr = (GLuint *) select_buffer;
-  for (i = 0; i < select_hits; i++)
-    {				// for each hit
-      names = *ptr;
-      ptr++;			// names
-      ptr++;			// z1
-      ptr++;			// z2
-      for (j = 0; j < names; j++)
-	{			// for each name
-	  ret = (*ptr);
-	  ptr++;		// name
-	}
-    }
-
-  return ret;
 }
 
 void
@@ -127,38 +106,43 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 				 lw6gui_menu_t * menu, int screen_x,
 				 int screen_y)
 {
-  int ret = NAME_DEFAULT;
+  //  http://users.polytech.unice.fr/~buffa/cours/synthese_image/DOCS/Tutoriaux/glGameDeveloppers/view.cgi-V=tutorial_glfeedback&S=3.htm
+
+  GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
+  GLfloat *ptr;
   int i, n;
+  float x, y, x_min, x_max, y_min, y_max;
   lw6gui_menuitem_t *menuitem;
-  GLuint select_buffer[SELECT_BUFFER_SIZE];
-  GLint select_hits;
   mod_gl_utils_bitmap_t *button_cancelitmap = NULL;
-  float relative_text_width = 1.0f;
+  float relative_text_width;
+  int ret = NAME_DEFAULT;
 
   lw6gui_menu_update_display_range (menu,
 				    cylinder_context->
 				    const_data.max_displayed_items);
 
-  memset(select_buffer,0,sizeof(GLuint)*SELECT_BUFFER_SIZE);
+  memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
 
-  glSelectBuffer (SELECT_BUFFER_SIZE, select_buffer);
-  glRenderMode (GL_SELECT);
-  glInitNames ();
-  glPushName (NAME_DEFAULT);
+  glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
 
-  mod_gl_utils_set_render_mode_3d_pick (utils_context, screen_x, screen_y);
+  mod_gl_utils_set_render_mode_3d_feedback (utils_context);
+  glRenderMode (GL_FEEDBACK);	// enter feedback mode
 
   n = menu->nb_items_displayed + 2;
+
   if (menu->first_item_displayed > 0)
     {
-      draw_spheres_shape (utils_context, cylinder_context, 0, n,
-			  cylinder_context->const_data.nb_spheres, NAME_PREV);
+      draw_spheres_corners (utils_context, cylinder_context, 0, n,
+			    cylinder_context->const_data.nb_spheres,
+			    NAME_PREV);
     }
   if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
     {
-      draw_spheres_shape (utils_context, cylinder_context, n - 1, n,
-			  cylinder_context->const_data.nb_spheres, NAME_NEXT);
+      draw_spheres_corners (utils_context, cylinder_context, n - 1, n,
+			    cylinder_context->const_data.nb_spheres,
+			    NAME_NEXT);
     }
+
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       menuitem = menu->items[i + menu->first_item_displayed];
@@ -167,11 +151,11 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 						menuitem);
       if (button_cancelitmap)
 	{
-	  /*
-	   * If button_cancelitmap doesn't exist, well, we won't die,
-	   * we just suppose the button is very large. It practise
-	   * it shouldn't happen for we've drawn them just before.
-	   */
+	  //
+	  // If button_cancelitmap doesn't exist, well, we won't die,
+	  // we just suppose the button is very large. It practise
+	  // it shouldn't happen for we've drawn them just before.
+	  //
 	  relative_text_width =
 	    ((float) button_cancelitmap->surface->w) /
 	    ((float) MOD_GL_UTILS_MENU_TEXTURE_W);
@@ -180,11 +164,12 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 	{
 	  relative_text_width = 1.0f;
 	}
-      draw_button_shape (utils_context,
-			 cylinder_context,
-			 i + 1, n, relative_text_width,
-			 i + menu->first_item_displayed);
+      draw_button_corners (utils_context,
+			   cylinder_context,
+			   i + 1, n, relative_text_width,
+			   i + menu->first_item_displayed);
     }
+
   if (menu->esc_item->enabled)
     {
       button_cancelitmap =
@@ -192,11 +177,11 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 						menu->esc_item);
       if (button_cancelitmap)
 	{
-	  /*
-	   * If button_cancelitmap doesn't exist, well, we won't die,
-	   * we just suppose the button is very large. It practise
-	   * it shouldn't happen for we've drawn them just before.
-	   */
+	  //
+	  // If button_cancelitmap doesn't exist, well, we won't die,
+	  // we just suppose the button is very large. It practise
+	  // it shouldn't happen for we've drawn them just before.
+	  //
 	  relative_text_width =
 	    ((float) button_cancelitmap->surface->w) /
 	    ((float) MOD_GL_UTILS_MENU_TEXTURE_W);
@@ -205,12 +190,55 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 	{
 	  relative_text_width = 1.0f;
 	}
-      draw_button_shape (utils_context, cylinder_context, -1, n,
-			 relative_text_width, NAME_ESC);
+      draw_button_corners (utils_context, cylinder_context, -1, n,
+			   relative_text_width, NAME_ESC);
     }
 
-  select_hits = glRenderMode (GL_RENDER);
-  ret = process_select_hits (select_hits, select_buffer, screen_x, screen_y);
+  glRenderMode (GL_RENDER);	// back to normal mode
+
+  ptr = feedback_buffer;
+
+  while ((*ptr) == GL_PASS_THROUGH_TOKEN
+	 && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
+    {
+      ptr++;
+      if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
+	{
+	  x_min = utils_context->video_mode.width + 1;
+	  x_max = -1;
+	  y_min = utils_context->video_mode.height + 1;
+	  y_max = -1;
+	  i = (int) (*ptr++);
+	  while ((*ptr) == GL_POINT_TOKEN
+		 && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
+	    {
+	      ptr++;
+	      x = *(ptr++);
+	      y = (utils_context->video_mode.height - *(ptr++));
+	      if (x < x_min)
+		{
+		  x_min = x;
+		}
+	      if (x > x_max)
+		{
+		  x_max = x;
+		}
+	      if (y < y_min)
+		{
+		  y_min = y;
+		}
+	      if (y > y_max)
+		{
+		  y_max = y;
+		}
+	    }
+	  if (x_min <= screen_x && screen_x <= x_max && y_min <= screen_y
+	      && screen_y <= y_max)
+	    {
+	      ret = i;
+	    }
+	}
+    }
 
   switch (ret)
     {
