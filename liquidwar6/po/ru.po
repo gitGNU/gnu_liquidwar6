@@ -21,20 +21,20 @@ msgstr ""
 
 #: src/lib/bot/mod-brute/mod-brute-backend.c:98
 msgid "Brute"
-msgstr ""
+msgstr "Грубо"
 
 #: src/lib/bot/mod-follow/mod-follow-backend.c:101
 #, fuzzy
 msgid "Follow"
-msgstr "jaune"
+msgstr "Следовать"
 
 #: src/lib/bot/mod-idiot/mod-idiot-backend.c:98
 msgid "Idiot"
-msgstr ""
+msgstr "Идиот"
 
 #: src/lib/bot/mod-random/mod-random-backend.c:101
 msgid "Random"
-msgstr ""
+msgstr "Случайно"
 
 #: src/lib/cli/mod-http/mod-http-backend.c:161
 msgid "HTTP (Curl)"
@@ -200,11 +200,11 @@ msgstr ""
 #: src/lib/ldr/ldr-exp.c:60
 #, c-format
 msgid "You just gained experience (exp=%d)."
-msgstr ""
+msgstr "Вы получили опыт (опыт=%d)."
 
 #: src/lib/lw6-fix.c:252
 msgid "couldn't fix environment variable by restarting program"
-msgstr "impossible de red�marrer en corrigeant les variables d'environnement"
+msgstr "невозможно исправить переменную окружения после перезапуска программы"
 
 #: src/lib/lw6-main.c:53
 #, c-format
@@ -214,21 +214,20 @@ msgstr "ошибка чтения главного файла сценариев
 #: src/lib/lw6-options.c:90
 #, c-format
 msgid "unknown option \"%s\""
-msgstr "option inconnue \"%s\""
+msgstr "неизвестный параметр \"%s\""
 
 #: src/lib/lw6-options.c:108
 msgid "unable to start daemon"
-msgstr "impossible de d�marrer le d�mon"
+msgstr "невозможно инициализировать демона"
 
 #: src/lib/lw6-options.c:159
 msgid "all tests SUCCESSFULL!"
-msgstr "tous les tests pass�s avec SUCC�S!"
+msgstr "все тесты прошли УСПЕШНО!"
 
 #: src/lib/lw6-options.c:165
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
-msgstr ""
-"le test a �CHOU�, voir le fichier de log \"%s\" pour plus d'informations"
+msgstr "тест завершился с ошибкой, подробности в журнале \"%s\""
 
 #: src/lib/lw6-print.c:46
 #, c-format
@@ -253,6 +252,11 @@ msgid ""
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
+"Лицензия GPLv3+: GNU GPL версии 3 или более поздней <http://gnu.org/licenses/"
+"gpl.html>\n"
+"Это программа является свободным программным обеспечением. Вы можете "
+"распространять и/или модифицировать её.\n"
+"Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
 #: src/lib/lw6-print.c:848
 msgid "hello"
@@ -270,28 +274,26 @@ msgstr "счастливо"
 #: src/lib/p2p/p2p-data.c:100
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
-msgstr "impossible de lire la requ�te \"%s\" dans \"%s\""
+msgstr ""
 
 #: src/lib/p2p/p2p-node.c:250
 #, c-format
 msgid "started node \"%s\" in trojan mode, expect problems"
 msgstr ""
-"d�marrage du noeud \"%s\" en mode cheval de troie, attendez-vous � "
-"rencontrer des probl�mes"
 
 #: src/lib/p2p/p2p-node.c:255
 #, c-format
 msgid "started node \"%s\""
-msgstr "d�marrage du noeud \"%s\""
+msgstr "начат узел \"%s\""
 
 #: src/lib/p2p/p2p-recv.c:186
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
-msgstr "communication �tablie \"%s\" <-> \"%s\" sur %s:%d"
+msgstr "соединение установлено \"%s\" <-> \"%s\" в %s:%d"
 
 #: src/lib/scm/scm-test.c:81 src/scriptpo.c:18
 msgid "leaving Guile"
-msgstr "fin de la session Guile"
+msgstr "выход Guile"
 
 #: src/lib/snd/mod-csound/mod-csound-backend.c:215
 #, fuzzy
@@ -308,7 +310,7 @@ msgstr ""
 
 #: src/lib/srv/mod-httpd/mod-httpd-setup.c:111
 msgid "can't initialize mod_httpd"
-msgstr "impossible d'initialiser mod_httpd"
+msgstr "ошибка инициализации mod_httpd"
 
 #: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:228
 msgid "TCPD"
@@ -316,7 +318,7 @@ msgstr ""
 
 #: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:60
 msgid "can't initialize mod_tcpd"
-msgstr "impossible d'initialiser mod_tcpd"
+msgstr "ошибка инициализации mod_tcpd"
 
 #: src/lib/srv/mod-udpd/mod-udpd-backend.c:229
 msgid "UDPD"
@@ -324,16 +326,16 @@ msgstr ""
 
 #: src/lib/srv/mod-udpd/mod-udpd-setup.c:60
 msgid "can't initialize mod_udpd"
-msgstr "impossible d'initialiser mod_udpd"
+msgstr "ошибка инициализации mod_udpd"
 
 #: src/lib/sys/sys-log.c:81
 msgid "log_file is NULL"
-msgstr "файлов логов равен NULL"
+msgstr "журнал равен NULL"
 
 #: src/lib/sys/sys-log.c:541
 #, c-format
 msgid "can't open log file \"%s\""
-msgstr "не могу открыть файл логов \"%s\""
+msgstr "не могу открыть журнал \"%s\""
 
 #: src/lib/sys/sys-log.c:797
 #, c-format
@@ -355,7 +357,7 @@ msgstr "ПРЕДУПРЕЖДЕНИЕ! "
 
 #: src/lib/sys/sys-log.c:834
 msgid "[tmp] "
-msgstr "[tmp] "
+msgstr ""
 
 #: src/lib/sys/sys-log.c:840
 msgid "[debug] "
@@ -395,101 +397,99 @@ msgstr "ошибка /TEST/"
 
 #: src/scriptpo.c:1
 msgid "no gfx backend found"
-msgstr "aucun moteur graphique (gfx) trouv�"
+msgstr ""
 
 #: src/scriptpo.c:2
 msgid "no snd backend found"
-msgstr "aucun moteur de son (snd) trouv�"
+msgstr ""
 
 #: src/scriptpo.c:3
 msgid "gfx backend ~a not available"
-msgstr "moteur graphique (gfx)  ~a non disponible"
+msgstr ""
 
 #: src/scriptpo.c:4
 msgid "snd backend ~a not available"
-msgstr "moteur de son (snd) ~a non disponible"
+msgstr ""
 
 #: src/scriptpo.c:5
 msgid "Mouse"
-msgstr "Souris"
+msgstr "Мышка"
 
 #: src/scriptpo.c:6
 msgid "Keyboard"
-msgstr "Clavier"
+msgstr "Клавиатура"
 
 #: src/scriptpo.c:7
 msgid "Joystick 1"
-msgstr "Joystick 1"
+msgstr "Джойстик 1"
 
 #: src/scriptpo.c:8
 msgid "Joystick 2"
-msgstr "Joystick 2"
+msgstr "Джойстик 2"
 
 #: src/scriptpo.c:9
 msgid "Custom"
-msgstr "Sur mesure"
+msgstr ""
 
 #: src/scriptpo.c:10 src/scriptpo.c:15
 msgid "~a (mouse)"
-msgstr "~a (souris)"
+msgstr "~a (мышка)"
 
 #: src/scriptpo.c:11
 msgid "~a (keyb)"
-msgstr "~a (clavier)"
+msgstr "~a (клавиатура)"
 
 #: src/scriptpo.c:12
 msgid "~a (joy1)"
-msgstr "~a (joy1)"
+msgstr "~a (джойстик1)"
 
 #: src/scriptpo.c:13
 msgid "~a (joy2)"
-msgstr "~a (joy2)"
+msgstr "~a (джойстик2)"
 
 #: src/scriptpo.c:14
 msgid "~a (custom)"
-msgstr "~a (util.)"
+msgstr ""
 
 #: src/scriptpo.c:16
 msgid "scheme error"
-msgstr ""
+msgstr "ошибка схемы"
 
 #: src/scriptpo.c:17
 msgid "running scheme code with Guile"
-msgstr "�x�cution de code scheme depuis Guile"
+msgstr "запуск кода схемы с помощью Guile"
 
 #: src/scriptpo.c:19
 msgid "catched Guile error"
-msgstr "erreur Guile \"catch�e\""
+msgstr "получена ошибка Guile"
 
 #: src/scriptpo.c:20
 msgid "begin main game loop"
-msgstr "d�but de la boucle de contr�le g�n�rale"
+msgstr "начало основной процедуры игры"
 
 #: src/scriptpo.c:21
 msgid "running \"~a\""
-msgstr "ex�cution de \"~a\""
+msgstr "запуск \"~a\""
 
 #: src/scriptpo.c:22
 msgid "log file \"~a\""
-msgstr "fichier de log \"~a\""
+msgstr "журнал \"~a\""
 
 #: src/scriptpo.c:23 src/scriptpo.c:24
 msgid "environment \"~a\" is \"~a\""
-msgstr "la variable d'environnement \"~a\" vaut \"~a\""
+msgstr "переменная окружения \"~a\" равна \"~a\""
 
 #: src/scriptpo.c:25
 msgid "upgrading to version ~a"
-msgstr "mise � jour vers la version ~a"
+msgstr "обновление до версии ~a"
 
 #: src/scriptpo.c:26
 msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
-"aucun backend graphique trouv�, le jeu ne peut fonctionner qu'en mode "
-"serveur/console pur"
 
 #: src/scriptpo.c:27
 msgid "running in server mode"
-msgstr "lanc� en mode serveur"
+msgstr "запуск в режиме сервера"
 
 #: src/scriptpo.c:28
 msgid "Esc"
@@ -505,11 +505,11 @@ msgstr "Продолжить"
 
 #: src/scriptpo.c:31
 msgid "Quit Liquid War 6?"
-msgstr "Quitter Liquid War 6?"
+msgstr "Выйти из Liquid War 6?"
 
 #: src/scriptpo.c:32
 msgid "Playing"
-msgstr "Jen en cours"
+msgstr "Играет"
 
 #: src/scriptpo.c:33 src/scriptpo.c:93
 msgid "Choose map"
@@ -517,47 +517,47 @@ msgstr "Выбрать карту"
 
 #: src/scriptpo.c:34
 msgid "No sound FX"
-msgstr "Pas de bruitages"
+msgstr "Без звуков эффектов"
 
 #: src/scriptpo.c:35
 msgid "Sound FX ~a%"
-msgstr "Bruitages ~a%"
+msgstr "Звуки эффектов ~a%"
 
 #: src/scriptpo.c:36
 msgid "No water sounds"
-msgstr "Pas de bruits d'eau"
+msgstr "Без звуков воды"
 
 #: src/scriptpo.c:37
 msgid "Water sounds ~a%"
-msgstr "Bruits d'eau ~a%"
+msgstr "Звуки воды ~a%"
 
 #: src/scriptpo.c:38
 msgid "No music"
-msgstr "Pas de musique"
+msgstr "Без музыки"
 
 #: src/scriptpo.c:39
 msgid "Music ~a%"
-msgstr "Musique ~a%"
+msgstr "Музыка ~a%"
 
 #: src/scriptpo.c:40 src/scriptpo.c:74
 msgid "Backend ~a"
-msgstr "Moteur ~a"
+msgstr ""
 
 #: src/scriptpo.c:41 src/scriptpo.c:128
 msgid "Sound options"
-msgstr "Options son"
+msgstr "Параметры звука"
 
 #: src/scriptpo.c:42
 msgid "One life (last wins)"
-msgstr "Une seule vie (dernier gagne)"
+msgstr "Одна жизнь"
 
 #: src/scriptpo.c:43
 msgid "Respawn (deatchmatch)"
-msgstr "Les �quipes revivent (DM)"
+msgstr "Воскрешение (DM)"
 
 #: src/scriptpo.c:44
 msgid "Armies ~a% - ~a%"
-msgstr "Arm�es ~a% - ~a%"
+msgstr "Армии ~a% - ~a%"
 
 #: src/scriptpo.c:45 src/scriptpo.c:47
 msgid "Rules"
@@ -581,7 +581,7 @@ msgstr "Системные"
 
 #: src/scriptpo.c:51
 msgid "Stop current game"
-msgstr "Arr�ter le jeu en cours"
+msgstr "Закончить игру"
 
 #: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:108
 #: src/scriptpo.c:122
@@ -590,31 +590,31 @@ msgstr "Настройки"
 
 #: src/scriptpo.c:54
 msgid "Display FPS"
-msgstr "Montrer les FPS"
+msgstr "Показывать FPS"
 
 #: src/scriptpo.c:55
 msgid "FPS hidden"
-msgstr "FPS cach�s"
+msgstr "Скрывать FPS"
 
 #: src/scriptpo.c:56
 msgid "Display MPS"
-msgstr "Montrer les MPS"
+msgstr "Показывать MPS"
 
 #: src/scriptpo.c:57
 msgid "MPS hidden"
-msgstr "MPS cach�s"
+msgstr "Скрывать MPS"
 
 #: src/scriptpo.c:58
 msgid "Console enabled"
-msgstr "Console activ�e"
+msgstr "Консоль включен"
 
 #: src/scriptpo.c:59
 msgid "Console disabled"
-msgstr "Console �teinte"
+msgstr "Консоль выключен"
 
 #: src/scriptpo.c:60
 msgid "System options"
-msgstr "Options syst�me"
+msgstr "Параметры системы"
 
 #: src/scriptpo.c:61
 msgid "Time ~a:~a~a:~a~a"
@@ -626,15 +626,15 @@ msgstr "Скорость по умолчанию"
 
 #: src/scriptpo.c:63
 msgid "Speed x~a"
-msgstr "Vitesse x~a"
+msgstr "Скорость x~a"
 
 #: src/scriptpo.c:64
 msgid "Speed ~a%"
-msgstr "Vitesse ~a%"
+msgstr "Скорость ~a%"
 
 #: src/scriptpo.c:65
 msgid "Unknown speed"
-msgstr "Vitesse inconnue"
+msgstr "Неизвестная скорость"
 
 #: src/scriptpo.c:66
 msgid "Bench ~a"
@@ -646,47 +646,47 @@ msgstr "Полноэкранный"
 
 #: src/scriptpo.c:69
 msgid "Windowed"
-msgstr "Fen�tr�"
+msgstr "В окне"
 
 #: src/scriptpo.c:70
 msgid "Low res"
-msgstr "Basse r�s."
+msgstr "Малое разрешение"
 
 #: src/scriptpo.c:71
 msgid "Standard res"
-msgstr "R�s. standard"
+msgstr "Среднее разрешение"
 
 #: src/scriptpo.c:72
 msgid "High res"
-msgstr "Haute r�s."
+msgstr "Высокое разрешение"
 
 #: src/scriptpo.c:73
 msgid "User res"
-msgstr "R�s. util."
+msgstr "Другое разрешение"
 
 #: src/scriptpo.c:75
 msgid "Video options"
-msgstr "Options vid�os"
+msgstr "Настройки видео"
 
 #: src/scriptpo.c:76
 msgid "Not playing"
-msgstr "Ne joue pas"
+msgstr "Нет игрока"
 
 #: src/scriptpo.c:77
 msgid "Free slot"
-msgstr "Libre"
+msgstr "Пусто"
 
 #: src/scriptpo.c:78
 msgid "No bots"
-msgstr ""
+msgstr "Нет ботов"
 
 #: src/scriptpo.c:79
 msgid "One bot"
-msgstr ""
+msgstr "Один бот"
 
 #: src/scriptpo.c:80
 msgid "~a bots"
-msgstr ""
+msgstr "~a ботов"
 
 #: src/scriptpo.c:81 src/scriptpo.c:94
 msgid "Players"
@@ -699,19 +699,19 @@ msgstr "Одиночная игра"
 
 #: src/scriptpo.c:83
 msgid "1 on 1"
-msgstr ""
+msgstr "1 на 1"
 
 #: src/scriptpo.c:84
 msgid "Local multiplayer"
-msgstr ""
+msgstr "Игра в локальной сети"
 
 #: src/scriptpo.c:85
 msgid "Join network game"
-msgstr "Se connecter"
+msgstr "Зайти в игру по сети"
 
 #: src/scriptpo.c:86
 msgid "Start server"
-msgstr "D�marrer un serveur"
+msgstr "Создать сервер"
 
 #: src/scriptpo.c:87
 msgid "Demo"
@@ -719,7 +719,7 @@ msgstr "Демо"
 
 #: src/scriptpo.c:88
 msgid "Back to main menu"
-msgstr "Menu principal"
+msgstr "В главное меню"
 
 #: src/scriptpo.c:89 src/scriptpo.c:90 src/scriptpo.c:92
 msgid "Play"
@@ -731,7 +731,7 @@ msgstr "Быстрый старт"
 
 #: src/scriptpo.c:96
 msgid "Welcome to Liquid War 6"
-msgstr "Bienvenue dans Liquid War 6"
+msgstr "Добро пожаловать в Liquid War 6"
 
 #: src/scriptpo.c:97 src/scriptpo.c:98
 msgid "Please wait..."
@@ -739,15 +739,15 @@ msgstr "Подождите..."
 
 #: src/scriptpo.c:99
 msgid "Exit?"
-msgstr "Fin?"
+msgstr "Точно выйти?"
 
 #: src/scriptpo.c:100
 msgid "Exit"
-msgstr "Fin"
+msgstr "Выход"
 
 #: src/scriptpo.c:101
 msgid "Resume LW6"
-msgstr "Retourner � LW6"
+msgstr "Возобновить LW6"
 
 #: src/scriptpo.c:102
 msgid "Liquid War 6"
@@ -759,23 +759,23 @@ msgstr "Одиночная игра"
 
 #: src/scriptpo.c:105
 msgid "Network game"
-msgstr "Jeu r�seau"
+msgstr "Игра по сети"
 
 #: src/scriptpo.c:106 src/scriptpo.c:121
 msgid "Level"
-msgstr "Tableau"
+msgstr "Уровень"
 
 #: src/scriptpo.c:107
 msgid "Teams"
-msgstr "Equipe"
+msgstr "Команды"
 
 #: src/scriptpo.c:109 src/scriptpo.c:111
 msgid "About"
-msgstr "A propos"
+msgstr "О программе"
 
 #: src/scriptpo.c:112
 msgid "Authors"
-msgstr "Auteurs"
+msgstr "Авторы"
 
 #: src/scriptpo.c:113
 msgid "Copyright"
@@ -783,31 +783,31 @@ msgstr "Copyright"
 
 #: src/scriptpo.c:114
 msgid "License"
-msgstr "Licence"
+msgstr "Лицензия"
 
 #: src/scriptpo.c:115
 msgid "Version"
-msgstr "Version"
+msgstr "Версия"
 
 #: src/scriptpo.c:116
 msgid "View level"
-msgstr "Voir le tableau"
+msgstr "Просмотр уровня"
 
 #: src/scriptpo.c:117
 msgid "Confirm level choice"
-msgstr "Confirmer le choix du tableau"
+msgstr "Подтвердить выбор уровня"
 
 #: src/scriptpo.c:118
 msgid "Choose it"
-msgstr "Le choisir"
+msgstr "Выбрать"
 
 #: src/scriptpo.c:119
 msgid "View"
-msgstr "Voir"
+msgstr "Просмотр"
 
 #: src/scriptpo.c:120
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Отмена"
 
 #: src/scriptpo.c:123
 msgid "Graphics"
@@ -815,65 +815,65 @@ msgstr "Видео"
 
 #: src/scriptpo.c:125
 msgid "Graphics options"
-msgstr "Options vid�o"
+msgstr "Параметры видео"
 
 #: src/scriptpo.c:127 src/scriptpo.c:132
 msgid "Graphics backend"
-msgstr "Moteur graphique"
+msgstr ""
 
 #: src/scriptpo.c:129
 msgid "Sound fx volume"
-msgstr "Volume bruitages"
+msgstr "Громкость эффектов"
 
 #: src/scriptpo.c:130
 msgid "Music volume"
-msgstr "Volume musique"
+msgstr "Громкость музыки"
 
 #: src/scriptpo.c:131 src/scriptpo.c:133
 msgid "Sound backend"
-msgstr "Moteur de son"
+msgstr ""
 
 #: src/scriptpo.c:134
 msgid "This is a test node."
-msgstr "Ceci est un node de test"
+msgstr ""
 
 #: src/scriptpo.c:135
 msgid "testing map"
-msgstr "test du niveau"
+msgstr "проверка карты"
 
 #: src/scriptpo.c:136
 msgid "testing game struct"
-msgstr "test game struct"
+msgstr ""
 
 #: src/scriptpo.c:137
 msgid "testing game state"
-msgstr "test de \"game state\""
+msgstr "проверка состояния игры"
 
 #: src/scriptpo.c:138
 msgid "testing pilot"
-msgstr "test de \"pilot\""
-
+msgstr ""
 #: src/scriptpo.c:139
+
 msgid "testing bot"
-msgstr "test des bots"
+msgstr "проверка бота"
 
 #: src/scriptpo.c:140
 msgid "testing smobs GC, step 1"
-msgstr "test smobs GC, �tape 1"
+msgstr ""
 
 #: src/scriptpo.c:141
 msgid "testing smobs GC, step 2"
-msgstr "test smobs GC, �tape 2"
+msgstr ""
 
 #: src/scriptpo.c:142
 msgid "testing async load"
-msgstr "test chargement asynchrone"
+msgstr ""
 
 #: src/scriptpo.c:143
 msgid "testing db"
-msgstr "test de la base de donn�es"
+msgstr "проверка базы данных"
 
 #: src/scriptpo.c:144
 msgid "testing node"
-msgstr "test du noeud"
+msgstr "проверка узла"
 
