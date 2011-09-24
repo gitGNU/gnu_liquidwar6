@@ -29,7 +29,7 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-#define _NB_CREDITS_ENTRIES 22
+#define _NB_CREDITS_ENTRIES 23
 
 #define _CREDITS_IDEA "Thomas Colcombet"
 #define _CREDITS_CODING "Christian Mauduit"
@@ -42,6 +42,7 @@
 #define _CREDITS_MUSIC3_TITLE "Oriental Travel"
 #define _CREDITS_MUSIC3_AUTHOR "Nighter313"
 #define _CREDITS_NN_TRANSLATOR "Karl Ove Hufthammer"
+#define _CREDITS_RU_TRANSLATOR "Z. Lezhnin"
 #define _LIST_EMAIL "help-liquidwar6@gnu.org"
 #define _HELP_GNU_URL "http://www.gnu.org/help/"
 #define _FFII_URL "http://www.ffii.org/"
@@ -111,44 +112,49 @@ lw6hlp_get_credits (int id)
     case 10:
       ret =
 	lw6sys_new_sprintf (_("Norwegian translation by %s"),
-			    _CREDITS_MUSIC3_TITLE, _CREDITS_NN_TRANSLATOR);
+			    _CREDITS_NN_TRANSLATOR);
       break;
     case 11:
-      ret = lw6sys_str_copy (_("Thanks to all other contributors"));
+      ret =
+	lw6sys_new_sprintf (_("Russian translation by %s"),
+			    _CREDITS_RU_TRANSLATOR);
       break;
     case 12:
-      ret = lw6sys_str_copy (_("Help is always appreciated"));
+      ret = lw6sys_str_copy (_("Thanks to all other contributors"));
       break;
     case 13:
-      ret = lw6sys_str_copy (_("Join us now!"));
+      ret = lw6sys_str_copy (_("Help is always appreciated"));
       break;
     case 14:
-      ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
+      ret = lw6sys_str_copy (_("Join us now!"));
       break;
     case 15:
-      ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
+      ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
       break;
     case 16:
+      ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
+      break;
+    case 17:
       ret =
 	lw6sys_new_sprintf (_("License: %s"), lw6sys_build_get_license ());
       break;
-    case 17:
+    case 18:
       ret = lw6sys_str_copy (lw6sys_build_get_copyright ());
       break;
-    case 18:
+    case 19:
       ret =
 	lw6sys_new_sprintf (_("Built on %s at %s"), lw6sys_build_get_date (),
 			    lw6sys_build_get_time ());
       break;
-    case 19:
+    case 20:
       ret =
 	lw6sys_new_sprintf (_("Stamp %s, Id %d"), lw6sys_build_get_stamp (),
 			    lw6sys_build_get_bin_id ());
       break;
-    case 20:
+    case 21:
       ret = lw6sys_new_sprintf (_("Help GNU %s"), _HELP_GNU_URL);
       break;
-    case 21:
+    case 22:
       ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
       break;
     default:
