@@ -157,7 +157,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `max-map-height'
      Type: integer
 
-     Default value: 1500
+     Default value: 1000
 
      Allows you to give a maximum map height. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its
@@ -189,7 +189,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `max-map-width'
      Type: integer
 
-     Default value: 2000
+     Default value: 1500
 
      Allows you to give a maximum map width. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its
@@ -225,7 +225,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `min-map-height'
      Type: integer
 
-     Default value: 15
+     Default value: 30
 
      Allows you to give a minimum map height. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its
@@ -242,7 +242,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `min-map-surface'
      Type: integer
 
-     Default value: 1000
+     Default value: 3600
 
      Allows you to give a minimum map surface. Map surface is simply
      (width * height). This parameter is just here to save you the
@@ -257,7 +257,7 @@ File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map ru
  -- XML key: `min-map-width'
      Type: integer
 
-     Default value: 20
+     Default value: 40
 
      Allows you to give a minimum map width. When designing a map you
      might wonder: this is dumb I'm conceiving this map I know its

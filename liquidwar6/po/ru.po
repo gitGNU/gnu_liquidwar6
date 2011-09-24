@@ -1,7 +1,6 @@
 # Russian translations for liquidwar6 package.
 # Copyright (C) 2011 Yevgeny Lezhnin
 # This file is distributed under the same license as the liquidwar6 package.
-# Yevgeny Lezhnin <z_lezhnin@mail2000.ru>, 2011.
 # Евгений Лежнин <z_lezhnin@mail2000.ru>, 2011.
 msgid ""
 msgstr ""
@@ -9,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
 "POT-Creation-Date: 2011-09-20 20:55+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
-"Last-Translator: Евгений Лежнин <z_lezhnin@mail2000.ru>\n"
+"Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -165,7 +164,7 @@ msgstr "Список рассылки: <%s>"
 
 #: src/lib/hlp/hlp-credits.c:129
 msgid "Free as in \"free speech\" (not beer)"
-msgstr ""
+msgstr "Свобода"
 
 #: src/lib/hlp/hlp-credits.c:133
 #, c-format
@@ -397,19 +396,19 @@ msgstr "ошибка /TEST/"
 
 #: src/scriptpo.c:1
 msgid "no gfx backend found"
-msgstr ""
+msgstr "не найдено графической библиотеки"
 
 #: src/scriptpo.c:2
 msgid "no snd backend found"
-msgstr ""
+msgstr "не найдено звуковой библиотеки"
 
 #: src/scriptpo.c:3
 msgid "gfx backend ~a not available"
-msgstr ""
+msgstr "графическая библиотека ~a недоступна"
 
 #: src/scriptpo.c:4
 msgid "snd backend ~a not available"
-msgstr ""
+msgstr "звуковая библиотека ~a недоступна"
 
 #: src/scriptpo.c:5
 msgid "Mouse"
@@ -485,7 +484,7 @@ msgstr "обновление до версии ~a"
 
 #: src/scriptpo.c:26
 msgid "no graphical backend found, game can only run in server mode"
-msgstr ""
+msgstr "не найдено графической библиотеки, запуск возможен только в режиме сервера"
 
 #: src/scriptpo.c:27
 msgid "running in server mode"
@@ -541,7 +540,7 @@ msgstr "Музыка ~a%"
 
 #: src/scriptpo.c:40 src/scriptpo.c:74
 msgid "Backend ~a"
-msgstr ""
+msgstr "Библиотека ~a"
 
 #: src/scriptpo.c:41 src/scriptpo.c:128
 msgid "Sound options"
@@ -638,7 +637,7 @@ msgstr "Неизвестная скорость"
 
 #: src/scriptpo.c:66
 msgid "Bench ~a"
-msgstr ""
+msgstr "Отметка ~a"
 
 #: src/scriptpo.c:68 src/scriptpo.c:126
 msgid "Fullscreen"
@@ -819,7 +818,7 @@ msgstr "Параметры видео"
 
 #: src/scriptpo.c:127 src/scriptpo.c:132
 msgid "Graphics backend"
-msgstr ""
+msgstr "Графическая библиотека"
 
 #: src/scriptpo.c:129
 msgid "Sound fx volume"
@@ -831,7 +830,7 @@ msgstr "Громкость музыки"
 
 #: src/scriptpo.c:131 src/scriptpo.c:133
 msgid "Sound backend"
-msgstr ""
+msgstr "Звуковая библиотека"
 
 #: src/scriptpo.c:134
 msgid "This is a test node."

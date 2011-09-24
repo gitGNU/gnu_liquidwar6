@@ -49,37 +49,52 @@
 static void
 _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 {
-  int surface=0;
-  float coeff=1.0f;
+  int surface = 0;
+  float coeff = 1.0f;
 
-  surface=(*w)*(*h);
+  surface = (*w) * (*h);
 
-  if (surface>0) {
-    if (hints->max_map_surface>0) {
-      if (surface>hints->max_map_surface) {
-	coeff=sqrt(hints->max_map_surface/surface);
-	*w *= coeff;
-	*h *= coeff;
-      }
+  if (surface > 0)
+    {
+      if (hints->max_map_surface > 0)
+	{
+	  if (surface > hints->max_map_surface)
+	    {
+	      coeff =
+		sqrt (((float) hints->max_map_surface) / ((float) surface));
+	      *w = ((float) (*w)) * coeff;
+	      *h = ((float) (*h)) * coeff;
+	      surface = (*w) * (*h);
+	    }
+	}
+      if (hints->min_map_surface > 0)
+	{
+	  if (surface < hints->min_map_surface)
+	    {
+	      coeff =
+		sqrt (((float) hints->min_map_surface) / ((float) surface));
+	      *w = ((float) (*w)) * coeff;
+	      *h = ((float) (*h)) * coeff;
+	      surface = (*w) * (*h);
+	    }
+	}
+      if (surface > LW6MAP_MAX_BODY_SURFACE)
+	{
+	  coeff =
+	    sqrt (((float) LW6MAP_MAX_BODY_SURFACE) / ((float) surface));
+	  *w = ((float) (*w)) * coeff;
+	  *h = ((float) (*h)) * coeff;
+	  surface = (*w) * (*h);
+	}
+      if (surface < LW6MAP_MIN_BODY_SURFACE)
+	{
+	  coeff =
+	    sqrt (((float) LW6MAP_MIN_BODY_SURFACE) / ((float) surface));
+	  *w = ((float) (*w)) * coeff;
+	  *h = ((float) (*h)) * coeff;
+	  surface = (*w) * (*h);
+	}
     }
-    if (hints->min_map_surface>0) {
-      if (surface<hints->min_map_surface) {
-	coeff=sqrt(hints->min_map_surface/surface);
-	*w *= coeff;
-	*h *= coeff;
-      }
-    }
-  if (surface>LW6MAP_MAX_BODY_SURFACE) {
-    coeff=sqrt(LW6MAP_MAX_BODY_SURFACE/surface);
-    *w *= coeff;
-    *h *= coeff;
-  }
-  if (surface<LW6MAP_MIN_BODY_SURFACE) {
-    coeff=sqrt(LW6MAP_MIN_BODY_SURFACE/surface);
-    *w *= coeff;
-    *h *= coeff;
-  }
-  }
 
   *w = lw6sys_min (*w, hints->max_map_width);
   *h = lw6sys_min (*h, hints->max_map_height);

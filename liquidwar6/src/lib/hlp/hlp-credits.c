@@ -42,7 +42,7 @@
 #define _CREDITS_MUSIC3_TITLE "Oriental Travel"
 #define _CREDITS_MUSIC3_AUTHOR "Nighter313"
 #define _CREDITS_NN_TRANSLATOR "Karl Ove Hufthammer"
-#define _CREDITS_RU_TRANSLATOR "Z. Lezhnin"
+#define _CREDITS_RU_TRANSLATOR "Yevgeny Lezhnin"
 #define _LIST_EMAIL "help-liquidwar6@gnu.org"
 #define _HELP_GNU_URL "http://www.gnu.org/help/"
 #define _FFII_URL "http://www.ffii.org/"
