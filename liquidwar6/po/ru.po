@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-20 20:55+0200\n"
+"POT-Creation-Date: 2011-09-24 21:30+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -109,89 +109,94 @@ msgstr "ошибка установки видео режима"
 msgid "unable to load consts"
 msgstr "ошибка загрузки констант"
 
-#: src/lib/hlp/hlp-credits.c:78
+#: src/lib/hlp/hlp-credits.c:79
 #, c-format
 msgid "Codename \"%s\""
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:85
+#: src/lib/hlp/hlp-credits.c:86
 #, c-format
 msgid "Idea: %s"
 msgstr "Идея : %s"
 
-#: src/lib/hlp/hlp-credits.c:88
+#: src/lib/hlp/hlp-credits.c:89
 #, c-format
 msgid "Programming: %s"
 msgstr "Программирование : %s"
 
-#: src/lib/hlp/hlp-credits.c:91
+#: src/lib/hlp/hlp-credits.c:92
 #, c-format
 msgid "Maps: %s"
 msgstr "Карты : %s"
 
-#: src/lib/hlp/hlp-credits.c:94
+#: src/lib/hlp/hlp-credits.c:95
 #, c-format
 msgid "Menu music: %s"
 msgstr "Музыка из меню: %s"
 
-#: src/lib/hlp/hlp-credits.c:98 src/lib/hlp/hlp-credits.c:103
-#: src/lib/hlp/hlp-credits.c:108
+#: src/lib/hlp/hlp-credits.c:99 src/lib/hlp/hlp-credits.c:104
+#: src/lib/hlp/hlp-credits.c:109
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Песня \"%s\" %s"
 
-#: src/lib/hlp/hlp-credits.c:113
+#: src/lib/hlp/hlp-credits.c:114
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr "Норвежский перевод %s"
 
-#: src/lib/hlp/hlp-credits.c:117
+#: src/lib/hlp/hlp-credits.c:119
+#, fuzzy, c-format
+msgid "Russian translation by %s"
+msgstr "Норвежский перевод %s"
+
+#: src/lib/hlp/hlp-credits.c:123
 msgid "Thanks to all other contributors"
 msgstr "Также спасибо всем, внесшим свой вклад в проект"
 
-#: src/lib/hlp/hlp-credits.c:120
+#: src/lib/hlp/hlp-credits.c:126
 msgid "Help is always appreciated"
 msgstr "Мы всегда рады вашей помощи"
 
-#: src/lib/hlp/hlp-credits.c:123
+#: src/lib/hlp/hlp-credits.c:129
 msgid "Join us now!"
 msgstr "Присоединяйтесь!"
 
-#: src/lib/hlp/hlp-credits.c:126
+#: src/lib/hlp/hlp-credits.c:132
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "Список рассылки: <%s>"
 
-#: src/lib/hlp/hlp-credits.c:129
+#: src/lib/hlp/hlp-credits.c:135
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Свобода"
 
-#: src/lib/hlp/hlp-credits.c:133
+#: src/lib/hlp/hlp-credits.c:139
 #, c-format
 msgid "License: %s"
 msgstr "Лицензия: %s"
 
-#: src/lib/hlp/hlp-credits.c:140
+#: src/lib/hlp/hlp-credits.c:146
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Собрано на %s в %s"
 
-#: src/lib/hlp/hlp-credits.c:145
+#: src/lib/hlp/hlp-credits.c:151
 #, c-format
 msgid "Stamp %s, Id %d"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:149
+#: src/lib/hlp/hlp-credits.c:155
 #, c-format
 msgid "Help GNU %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:152
+#: src/lib/hlp/hlp-credits.c:158
 #, c-format
 msgid "Fight software patents %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:155
+#: src/lib/hlp/hlp-credits.c:161
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr ""
@@ -484,7 +489,8 @@ msgstr "обновление до версии ~a"
 
 #: src/scriptpo.c:26
 msgid "no graphical backend found, game can only run in server mode"
-msgstr "не найдено графической библиотеки, запуск возможен только в режиме сервера"
+msgstr ""
+"не найдено графической библиотеки, запуск возможен только в режиме сервера"
 
 #: src/scriptpo.c:27
 msgid "running in server mode"
@@ -851,8 +857,8 @@ msgstr "проверка состояния игры"
 #: src/scriptpo.c:138
 msgid "testing pilot"
 msgstr ""
-#: src/scriptpo.c:139
 
+#: src/scriptpo.c:139
 msgid "testing bot"
 msgstr "проверка бота"
 
@@ -875,4 +881,3 @@ msgstr "проверка базы данных"
 #: src/scriptpo.c:144
 msgid "testing node"
 msgstr "проверка узла"
-

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-20 20:55+0200\n"
+"POT-Creation-Date: 2011-09-24 21:30+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -107,89 +107,94 @@ msgstr "impossible de régler le mode vidéo"
 msgid "unable to load consts"
 msgstr "impossible de lire les constantes"
 
-#: src/lib/hlp/hlp-credits.c:78
+#: src/lib/hlp/hlp-credits.c:79
 #, c-format
 msgid "Codename \"%s\""
 msgstr "Nom de code \"%s\""
 
-#: src/lib/hlp/hlp-credits.c:85
+#: src/lib/hlp/hlp-credits.c:86
 #, c-format
 msgid "Idea: %s"
 msgstr "Idée : %s"
 
-#: src/lib/hlp/hlp-credits.c:88
+#: src/lib/hlp/hlp-credits.c:89
 #, c-format
 msgid "Programming: %s"
 msgstr "Programmation : %s"
 
-#: src/lib/hlp/hlp-credits.c:91
+#: src/lib/hlp/hlp-credits.c:92
 #, c-format
 msgid "Maps: %s"
 msgstr "Tableaux : %s"
 
-#: src/lib/hlp/hlp-credits.c:94
+#: src/lib/hlp/hlp-credits.c:95
 #, c-format
 msgid "Menu music: %s"
 msgstr "Musique des menus : %s"
 
-#: src/lib/hlp/hlp-credits.c:98 src/lib/hlp/hlp-credits.c:103
-#: src/lib/hlp/hlp-credits.c:108
+#: src/lib/hlp/hlp-credits.c:99 src/lib/hlp/hlp-credits.c:104
+#: src/lib/hlp/hlp-credits.c:109
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Chanson \"%s\" par %s"
 
-#: src/lib/hlp/hlp-credits.c:113
+#: src/lib/hlp/hlp-credits.c:114
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr "Traduction en norvégien par %s"
 
-#: src/lib/hlp/hlp-credits.c:117
+#: src/lib/hlp/hlp-credits.c:119
+#, fuzzy, c-format
+msgid "Russian translation by %s"
+msgstr "Traduction en norvégien par %s"
+
+#: src/lib/hlp/hlp-credits.c:123
 msgid "Thanks to all other contributors"
 msgstr "Merci à tous les autres contributeurs"
 
-#: src/lib/hlp/hlp-credits.c:120
+#: src/lib/hlp/hlp-credits.c:126
 msgid "Help is always appreciated"
 msgstr "L'aide est toujours appréciée"
 
-#: src/lib/hlp/hlp-credits.c:123
+#: src/lib/hlp/hlp-credits.c:129
 msgid "Join us now!"
 msgstr "Rejoignez-nous!"
 
-#: src/lib/hlp/hlp-credits.c:126
+#: src/lib/hlp/hlp-credits.c:132
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "Liste de diffusion : <%s>"
 
-#: src/lib/hlp/hlp-credits.c:129
+#: src/lib/hlp/hlp-credits.c:135
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Ceci est un Logiciel Libre"
 
-#: src/lib/hlp/hlp-credits.c:133
+#: src/lib/hlp/hlp-credits.c:139
 #, c-format
 msgid "License: %s"
 msgstr "Licence : %s"
 
-#: src/lib/hlp/hlp-credits.c:140
+#: src/lib/hlp/hlp-credits.c:146
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Compilé le %s à %s"
 
-#: src/lib/hlp/hlp-credits.c:145
+#: src/lib/hlp/hlp-credits.c:151
 #, c-format
 msgid "Stamp %s, Id %d"
 msgstr "Stamp %s, Id %d"
 
-#: src/lib/hlp/hlp-credits.c:149
+#: src/lib/hlp/hlp-credits.c:155
 #, c-format
 msgid "Help GNU %s"
 msgstr "Aidez GNU %s"
 
-#: src/lib/hlp/hlp-credits.c:152
+#: src/lib/hlp/hlp-credits.c:158
 #, c-format
 msgid "Fight software patents %s"
 msgstr "Contre les brevets logiciels %s"
 
-#: src/lib/hlp/hlp-credits.c:155
+#: src/lib/hlp/hlp-credits.c:161
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
