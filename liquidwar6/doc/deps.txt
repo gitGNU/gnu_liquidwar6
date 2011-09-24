@@ -1,0 +1,157 @@
+digraph g {
+	node [label="\N"];
+	subgraph cluster_bot {
+		graph [label="bot backends"];
+		"mod-brute" [shape=hexagon];
+		"mod-follow" [shape=hexagon];
+		"mod-idiot" [shape=hexagon];
+		"mod-random" [shape=hexagon];
+		bot -> "mod-brute" [dir=both];
+		bot -> "mod-follow" [dir=both];
+		bot -> "mod-idiot" [dir=both];
+		bot -> "mod-random" [dir=both];
+	}
+	subgraph cluster_cli {
+		graph [label="cli backends"];
+		"mod-tcp" [shape=hexagon];
+		"mod-udp" [shape=hexagon];
+		"mod-http" [shape=hexagon];
+		cli -> "mod-tcp" [dir=both];
+		cli -> "mod-udp" [dir=both];
+		cli -> "mod-http" [dir=both];
+	}
+	subgraph cluster_gfx {
+		graph [label="gfx backends"];
+		"mod-gl" [style=filled, fillcolor=lightgrey, shape=hexagon];
+		gfx -> "mod-gl" [dir=both];
+	}
+	subgraph cluster_snd {
+		graph [label="snd backends"];
+		"mod-ogg" [shape=hexagon];
+		"mod-csound" [shape=hexagon];
+		snd -> "mod-ogg" [dir=both];
+		snd -> "mod-csound" [dir=both];
+	}
+	subgraph cluster_srv {
+		graph [label="srv backends"];
+		"mod-tcpd" [shape=hexagon];
+		"mod-udpd" [shape=hexagon];
+		"mod-httpd" [shape=hexagon];
+		srv -> "mod-tcpd" [dir=both];
+		srv -> "mod-udpd" [dir=both];
+		srv -> "mod-httpd" [dir=both];
+	}
+	subgraph cluster_script {
+		graph [label="Guile scripts"];
+		script [style=filled, fillcolor=lightgrey, shape=triangle];
+		scm -> script;
+	}
+	subgraph cluster_ext {
+		graph [label="external libraries",
+			color=grey,
+			fontcolor=grey];
+		expat [color=grey, fontcolor=grey];
+		curl [color=grey, fontcolor=grey];
+		readline [color=grey, fontcolor=grey];
+		ltdl [color=grey, fontcolor=grey];
+		SDL [color=grey, fontcolor=grey];
+		GL [color=grey, fontcolor=grey];
+		SDL_image [color=grey, fontcolor=grey];
+		SDL_ttf [color=grey, fontcolor=grey];
+		gnulib [color=grey, fontcolor=grey];
+		jpeg [color=grey, fontcolor=grey];
+		gomp [color=grey, fontcolor=grey];
+		png [color=grey, fontcolor=grey];
+		zlib [color=grey, fontcolor=grey];
+		sqlite [color=grey, fontcolor=grey];
+		guile [color=grey, fontcolor=grey];
+		SDL_mixer [color=grey, fontcolor=grey];
+		csound [color=grey, fontcolor=grey];
+		pthread [color=grey, fontcolor=grey];
+		math [color=grey, fontcolor=grey];
+		SDL_image -> jpeg;
+		SDL_image -> png;
+	}
+	sys [style=filled, fillcolor=lightgrey];
+	ker [style=filled, fillcolor=lightgrey];
+	p2p [style=filled, fillcolor=lightgrey];
+	liquidwar6 [style=filled, fillcolor=lightgrey];
+	data [style=filled, fillcolor=lightgrey, shape=triangle];
+	bot -> dyn;
+	bot -> pil;
+	cfg -> hlp;
+	cfg -> expat;
+	cli -> dyn;
+	cli -> msg;
+	cli -> net;
+	"mod-http" -> curl;
+	cns -> sys;
+	cnx -> glb;
+	cns -> readline;
+	dat -> msg;
+	dsp -> gfx;
+	dyn -> sys;
+	dyn -> ltdl;
+	gfx -> dyn;
+	gfx -> vox;
+	gfx -> pil;
+	"mod-gl" -> SDL;
+	"mod-gl" -> GL;
+	"mod-gl" -> SDL_image;
+	"mod-gl" -> SDL_ttf;
+	glb -> sys;
+	glb -> gnulib;
+	gui -> map;
+	gui -> cfg;
+	hlp -> sys;
+	img -> cfg;
+	img -> jpeg;
+	ker -> map;
+	ker -> gomp;
+	ldr -> cfg;
+	ldr -> map;
+	ldr -> png;
+	ldr -> jpeg;
+	map -> sys;
+	msg -> cnx;
+	msg -> nod;
+	msg -> zlib;
+	net -> cfg;
+	net -> glb;
+	nod -> sys;
+	p2p -> dat;
+	p2p -> cli;
+	p2p -> srv;
+	p2p -> sqlite;
+	pil -> ker;
+	scm -> hlp;
+	scm -> guile;
+	snd -> dyn;
+	snd -> cfg;
+	"mod-ogg" -> SDL;
+	"mod-ogg" -> SDL_mixer;
+	"mod-csound" -> csound;
+	srv -> dyn;
+	srv -> msg;
+	srv -> net;
+	sys -> def;
+	sys -> pthread;
+	sys -> math;
+	tsk -> ldr;
+	vox -> gui;
+	vox -> ker;
+	liquidwar6 -> bot;
+	liquidwar6 -> dsp;
+	liquidwar6 -> img;
+	liquidwar6 -> tsk;
+	liquidwar6 -> cns;
+	liquidwar6 -> p2p;
+	liquidwar6 -> snd;
+	liquidwar6 -> scm;
+	script -> liquidwar6;
+	expat -> data;
+	jpeg -> data;
+	png -> data;
+	SDL_ttf -> data;
+	SDL_mixer -> data;
+}
