@@ -43,10 +43,12 @@ _mod_gl_view_flat_viewport_update_preview (mod_gl_utils_context_t *
   center_x = level->body.shape.w / 2;
   center_y = level->body.shape.h / 2;
 
+  /*
   lw6gui_smoother_set_target (&(utils_context->smoothers.center_x), center_x,
 			      utils_context->timer.timestamp);
   lw6gui_smoother_set_target (&(utils_context->smoothers.center_y), center_y,
 			      utils_context->timer.timestamp);
+  */
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
@@ -57,12 +59,12 @@ _mod_gl_view_flat_viewport_update_preview (mod_gl_utils_context_t *
   lw6gui_viewport_init (&(flat_context->viewport),
 			utils_context->video_mode.width,
 			utils_context->video_mode.height,
-			utils_context->smoothed.drawable.x1,
-			utils_context->smoothed.drawable.y1,
-			utils_context->smoothed.drawable.x2,
-			utils_context->smoothed.drawable.y2,
-			utils_context->smoothed.center_x,
-			utils_context->smoothed.center_y,
+			0.0f,
+			0.0f,
+			utils_context->video_mode.width,
+			utils_context->video_mode.height,
+			level->body.shape.w/2,
+			level->body.shape.h/2,
 			level->body.shape.w,
 			level->body.shape.h,
 			level->param.rules.x_polarity,
@@ -121,6 +123,10 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
      }
    */
 
+  if (mouse_controlled) {
+    //
+  }
+
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
 			      global_zoom, utils_context->timer.timestamp);
@@ -130,12 +136,12 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   lw6gui_viewport_init (&test,
 			utils_context->video_mode.width,
 			utils_context->video_mode.height,
-			utils_context->smoothed.drawable.x1,
-			utils_context->smoothed.drawable.y1,
-			utils_context->smoothed.drawable.x2,
-			utils_context->smoothed.drawable.y2,
-			utils_context->smoothed.center_x,
-			utils_context->smoothed.center_y,
+			0.0f,
+			0.0f,
+			utils_context->video_mode.width,
+			utils_context->video_mode.height,
+			main_cursor_x,
+			main_cursor_y,
 			shape.w,
 			shape.h,
 			game_state->game_struct->rules.x_polarity,
@@ -146,6 +152,9 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			utils_context->smoothed.global_zoom,
 			flat_context->const_data.scroll_limit, 1);
 
+  flat_context->viewport=test;
+
+  /*
   lw6gui_viewport_map_to_screen (&test, &test_cursor_x, &test_cursor_y,
 				 main_cursor_x, main_cursor_y, 0);
   dw = test.map_main_clipped.w * flat_context->const_data.scroll_limit;
@@ -186,7 +195,7 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			look->style.keep_ratio,
 			utils_context->smoothed.global_zoom,
 			flat_context->const_data.scroll_limit, 1);
-
+  */
   lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x, &mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
 
   utils_context->input.mouse.map_pointer.pos_x = mouse_x;

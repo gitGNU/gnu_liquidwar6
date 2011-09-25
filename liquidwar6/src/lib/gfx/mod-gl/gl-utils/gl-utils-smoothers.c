@@ -35,6 +35,7 @@ mod_gl_utils_smoothers_init (mod_gl_utils_context_t * utils_context)
   lw6gui_smoother_init (&(utils_context->smoothers.global_zoom), 1.0f,
 			utils_context->const_data.
 			smoother_global_zoom_duration);
+  /*
   lw6gui_smoother_init (&(utils_context->smoothers.center_x), 0,
 			utils_context->const_data.smoother_center_duration);
   lw6gui_smoother_init (&(utils_context->smoothers.center_y), 0,
@@ -47,12 +48,14 @@ mod_gl_utils_smoothers_init (mod_gl_utils_context_t * utils_context)
 			utils_context->const_data.smoother_drawable_duration);
   lw6gui_smoother_init (&(utils_context->smoothers.drawable_y2), 0,
 			utils_context->const_data.smoother_drawable_duration);
+  */
   mod_gl_utils_smoothers_reset_drawable (utils_context);
 }
 
 void
 mod_gl_utils_smoothers_reset_drawable (mod_gl_utils_context_t * utils_context)
 {
+  /*
   lw6gui_smoother_immediate_force (&(utils_context->smoothers.drawable_x1),
 				   0);
   lw6gui_smoother_immediate_force (&(utils_context->smoothers.drawable_y1),
@@ -61,16 +64,18 @@ mod_gl_utils_smoothers_reset_drawable (mod_gl_utils_context_t * utils_context)
 				   utils_context->video_mode.width);
   lw6gui_smoother_immediate_force (&(utils_context->smoothers.drawable_y2),
 				   utils_context->video_mode.height);
+  */
 }
 
 void
 mod_gl_utils_smoothers_update (mod_gl_utils_context_t * utils_context)
 {
-  float drawable_x1, drawable_y1, drawable_x2, drawable_y2;
+  //float drawable_x1, drawable_y1, drawable_x2, drawable_y2;
 
   utils_context->smoothed.global_zoom =
     lw6gui_smoother_get_value (&(utils_context->smoothers.global_zoom),
 			       utils_context->timer.timestamp);
+  /*
   utils_context->smoothed.center_x =
     lw6gui_smoother_get_value (&(utils_context->smoothers.center_x),
 			       utils_context->timer.timestamp);
@@ -91,4 +96,5 @@ mod_gl_utils_smoothers_update (mod_gl_utils_context_t * utils_context)
 			       utils_context->timer.timestamp);
   lw6gui_zone_init_x1y1x2y2 (&(utils_context->smoothed.drawable), drawable_x1,
 			     drawable_y1, drawable_x2, drawable_y2);
+  */
 }

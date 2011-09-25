@@ -347,12 +347,12 @@ mod_gl_utils_timer_t;
 typedef struct _mod_gl_utils_smoothers_s
 {
   lw6gui_smoother_t global_zoom;
-  lw6gui_smoother_t center_x;
-  lw6gui_smoother_t center_y;
-  lw6gui_smoother_t drawable_x1;
-  lw6gui_smoother_t drawable_y1;
-  lw6gui_smoother_t drawable_x2;
-  lw6gui_smoother_t drawable_y2;
+  //lw6gui_smoother_t center_x;
+  //lw6gui_smoother_t center_y;
+  //lw6gui_smoother_t drawable_x1;
+  //lw6gui_smoother_t drawable_y1;
+  //lw6gui_smoother_t drawable_x2;
+  //lw6gui_smoother_t drawable_y2;
 }
 _mod_gl_utils_smoothers_t;
 

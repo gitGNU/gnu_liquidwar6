@@ -276,7 +276,7 @@ mod_gl_utils_set_video_mode (mod_gl_utils_context_t * utils_context,
 
       mod_gl_utils_call_resize_callback (utils_context);
       mod_gl_utils_timer_set_bitmap_refresh (utils_context);
-      mod_gl_utils_smoothers_reset_drawable (utils_context);
+      mod_gl_utils_smoothers_reset_drawable (utils_context);      
 
       lw6sys_sleep (utils_context->const_data.mode_sleep);
     }
