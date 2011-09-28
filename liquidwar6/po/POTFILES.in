@@ -157,6 +157,7 @@ src/lib/gfx/mod-gl/gl-utils/gl-utils-surface.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-texture1x1.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-texture.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-timer.c
+src/lib/gfx/mod-gl/gl-utils/gl-utils-viewport.c
 src/lib/gfx/mod-gl/gl-utils/gl-utils-zones.c
 src/lib/gfx/mod-gl/gl-view/gl-flat/gl-flat-backend.c
 src/lib/gfx/mod-gl/gl-view/gl-flat/gl-flat-cursorcontext.c

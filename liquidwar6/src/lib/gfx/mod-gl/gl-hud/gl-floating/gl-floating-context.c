@@ -35,6 +35,8 @@ _mod_gl_hud_floating_context_init (mod_gl_utils_context_t *
 {
   int ret = 0;
 
+  mod_gl_utils_viewport_drawable_max (utils_context);
+
   ret = 1;
 
   return ret;

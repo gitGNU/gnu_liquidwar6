@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
 noinst_LTLIBRARIES = libgl-utils.la
-libgl_utils_la_SOURCES = gl-utils-bitmap.c gl-utils-bitmaparray.c gl-utils-bitmaphash.c gl-utils-capture.c gl-utils-color.c gl-utils-colorize.c gl-utils-const.c gl-utils-cursor.c gl-utils-data.c gl-utils-debug.c gl-utils-display.c gl-utils-draw.c gl-utils-event.c gl-utils-font.c gl-utils-game.c gl-utils-gradient.c gl-utils-icon.c gl-utils-info.c gl-utils-joystick.c gl-utils-light.c gl-utils-menucache.c gl-utils-mode.c gl-utils-mouse.c gl-utils-path.c gl-utils-pixel.c gl-utils-render.c gl-utils-resolution.c gl-utils-shadedtext.c gl-utils-smoothers.c gl-utils-surface.c gl-utils-texture.c gl-utils-texture1x1.c gl-utils-timer.c gl-utils-zones.c
+libgl_utils_la_SOURCES = gl-utils-bitmap.c gl-utils-bitmaparray.c gl-utils-bitmaphash.c gl-utils-capture.c gl-utils-color.c gl-utils-colorize.c gl-utils-const.c gl-utils-cursor.c gl-utils-data.c gl-utils-debug.c gl-utils-display.c gl-utils-draw.c gl-utils-event.c gl-utils-font.c gl-utils-game.c gl-utils-gradient.c gl-utils-icon.c gl-utils-info.c gl-utils-joystick.c gl-utils-light.c gl-utils-menucache.c gl-utils-mode.c gl-utils-mouse.c gl-utils-path.c gl-utils-pixel.c gl-utils-render.c gl-utils-resolution.c gl-utils-shadedtext.c gl-utils-smoothers.c gl-utils-surface.c gl-utils-texture.c gl-utils-texture1x1.c gl-utils-timer.c gl-utils-viewport.c gl-utils-zones.c
 
 EXTRA_DIST = gl-utils.h
 

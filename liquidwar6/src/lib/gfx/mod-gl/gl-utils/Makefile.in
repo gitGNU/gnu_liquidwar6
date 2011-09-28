@@ -85,7 +85,8 @@ am_libgl_utils_la_OBJECTS = gl-utils-bitmap.lo gl-utils-bitmaparray.lo \
 	gl-utils-path.lo gl-utils-pixel.lo gl-utils-render.lo \
 	gl-utils-resolution.lo gl-utils-shadedtext.lo \
 	gl-utils-smoothers.lo gl-utils-surface.lo gl-utils-texture.lo \
-	gl-utils-texture1x1.lo gl-utils-timer.lo gl-utils-zones.lo
+	gl-utils-texture1x1.lo gl-utils-timer.lo gl-utils-viewport.lo \
+	gl-utils-zones.lo
 libgl_utils_la_OBJECTS = $(am_libgl_utils_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -303,7 +304,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libgl-utils.la
-libgl_utils_la_SOURCES = gl-utils-bitmap.c gl-utils-bitmaparray.c gl-utils-bitmaphash.c gl-utils-capture.c gl-utils-color.c gl-utils-colorize.c gl-utils-const.c gl-utils-cursor.c gl-utils-data.c gl-utils-debug.c gl-utils-display.c gl-utils-draw.c gl-utils-event.c gl-utils-font.c gl-utils-game.c gl-utils-gradient.c gl-utils-icon.c gl-utils-info.c gl-utils-joystick.c gl-utils-light.c gl-utils-menucache.c gl-utils-mode.c gl-utils-mouse.c gl-utils-path.c gl-utils-pixel.c gl-utils-render.c gl-utils-resolution.c gl-utils-shadedtext.c gl-utils-smoothers.c gl-utils-surface.c gl-utils-texture.c gl-utils-texture1x1.c gl-utils-timer.c gl-utils-zones.c
+libgl_utils_la_SOURCES = gl-utils-bitmap.c gl-utils-bitmaparray.c gl-utils-bitmaphash.c gl-utils-capture.c gl-utils-color.c gl-utils-colorize.c gl-utils-const.c gl-utils-cursor.c gl-utils-data.c gl-utils-debug.c gl-utils-display.c gl-utils-draw.c gl-utils-event.c gl-utils-font.c gl-utils-game.c gl-utils-gradient.c gl-utils-icon.c gl-utils-info.c gl-utils-joystick.c gl-utils-light.c gl-utils-menucache.c gl-utils-mode.c gl-utils-mouse.c gl-utils-path.c gl-utils-pixel.c gl-utils-render.c gl-utils-resolution.c gl-utils-shadedtext.c gl-utils-smoothers.c gl-utils-surface.c gl-utils-texture.c gl-utils-texture1x1.c gl-utils-timer.c gl-utils-viewport.c gl-utils-zones.c
 EXTRA_DIST = gl-utils.h
 all: all-am
 
@@ -390,6 +391,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gl-utils-texture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gl-utils-texture1x1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gl-utils-timer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gl-utils-viewport.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gl-utils-zones.Plo@am__quote@
 
 .c.o:

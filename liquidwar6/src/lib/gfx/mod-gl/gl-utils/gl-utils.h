@@ -385,6 +385,7 @@ typedef struct mod_gl_utils_context_s
   mod_gl_utils_mem_counter_t texture_counter;
   mod_gl_utils_caps_t caps;
   lw6gui_video_mode_t video_mode;
+  lw6gui_zone_t viewport;
   mod_gl_utils_render_param_t render_param;
   mod_gl_utils_texture_data_t texture_data;
   mod_gl_utils_font_data_t font_data;
