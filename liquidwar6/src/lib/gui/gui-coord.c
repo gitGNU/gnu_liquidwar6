@@ -44,7 +44,7 @@
  *
  * Registers a "down" (press) event on a button.
  *
- * Return value: none.
+ * Return value: 1 if OK, 0 if error (unable to calculate).
  */
 int
 lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,

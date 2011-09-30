@@ -43,12 +43,10 @@ _mod_gl_view_flat_viewport_update_preview (mod_gl_utils_context_t *
   center_x = level->body.shape.w / 2;
   center_y = level->body.shape.h / 2;
 
-  /*
-     lw6gui_smoother_set_target (&(utils_context->smoothers.center_x), center_x,
-     utils_context->timer.timestamp);
-     lw6gui_smoother_set_target (&(utils_context->smoothers.center_y), center_y,
-     utils_context->timer.timestamp);
-   */
+  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_x),
+				   center_x);
+  lw6gui_smoother_immediate_force (&(utils_context->smoothers.map_center_y),
+				   center_y);
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (&(utils_context->smoothers.global_zoom),
@@ -63,8 +61,8 @@ _mod_gl_view_flat_viewport_update_preview (mod_gl_utils_context_t *
 			utils_context->viewport.y1,
 			utils_context->viewport.x2,
 			utils_context->viewport.y2,
-			level->body.shape.w / 2,
-			level->body.shape.h / 2,
+			center_x,
+			center_y,
 			level->body.shape.w,
 			level->body.shape.h,
 			level->param.rules.x_polarity,
@@ -87,17 +85,17 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 				   lw6pil_local_cursors_t * local_cursors)
 {
   float global_zoom = 1.0f;
-  float mouse_x;
-  float mouse_y;
+  float map_mouse_x = 0.0f;
+  float map_mouse_y = 0.0f;
   lw6gui_viewport_t test;
-  float test_cursor_x = 0.0f;
-  float test_cursor_y = 0.0f;
   int main_cursor_x = 0;
   int main_cursor_y = 0;
-  float dw, dh;
   lw6sys_whd_t shape;
   int mouse_controlled = 0;
-  int dx = 0, dy = 0, sx = 0, sy = 0;
+  int dx = 0, dy = 0, px = 0, py = 0, sx = 0, sy = 0;
+  int delta_x = 0, delta_y = 0;
+  float center_x = 0.0f, center_y = 0.0f;
+  int drag_pop = 0;
 
   lw6ker_game_state_get_shape (game_state, &shape);
 
@@ -126,18 +124,51 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 
   if (mouse_controlled)
     {
-      if (lw6gui_mouse_drag_pop
-	  (&(utils_context->input.mouse), &dx, &dy, &sx, &sy))
+      /*
+         lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_start_drag_x, &map_start_drag_y, utils_context->input.mouse.screen_drag_start.pos_x, utils_context->input.mouse.screen_drag_start.pos_y, 0);    // was 1
+         utils_context->input.mouse.map_drag_start.pos_x=map_start_drag_x;
+         utils_context->input.mouse.map_drag_start.pos_y=map_start_drag_y;
+       */
+      drag_pop = lw6gui_mouse_drag_pop
+	(&(utils_context->input.mouse), &dx, &dy, &px, &py, &sx, &sy);
+      delta_x =
+	px - (flat_context->viewport.drawable.x1 +
+	      flat_context->viewport.drawable.x2) / 2.0f;
+      delta_y =
+	py - (flat_context->viewport.drawable.y1 +
+	      flat_context->viewport.drawable.y2) / 2.0f;
+      //if (drag_pop)
+      //        {
+      lw6gui_viewport_calc_drag (&(flat_context->viewport), &center_x,
+				 &center_y, main_cursor_x, main_cursor_y,
+				 delta_x, delta_y);
+      //}
+      //TMP6("%f %f %d %d %d %d",center_x,center_y,dx,dy,delta_x,delta_y);
+      if (dx || dy)
 	{
-	  TMP2 ("drag! %d %d", dx, dy);
+	  lw6gui_smoother_immediate_force (&
+					   (utils_context->
+					    smoothers.map_center_x),
+					   center_x);
+	  lw6gui_smoother_immediate_force (&
+					   (utils_context->
+					    smoothers.map_center_y),
+					   center_y);
 	}
-      else
+      if (drag_pop)
 	{
-	  if (dx || dy)
-	    {
-	      TMP2 ("%d %d", dx, dy);
-	    }
+	  flat_context->viewport.speed_x = sx;
+	  flat_context->viewport.speed_y = sy;
 	}
+    }
+  else
+    {
+      center_x = main_cursor_x;
+      center_y = main_cursor_y;
+      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_x),
+				  center_x, utils_context->timer.timestamp);
+      lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_y),
+				  center_y, utils_context->timer.timestamp);
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
@@ -153,8 +184,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 			utils_context->viewport.y1,
 			utils_context->viewport.x2,
 			utils_context->viewport.y2,
-			main_cursor_x,
-			main_cursor_y,
+			utils_context->smoothed.map_center_x,
+			utils_context->smoothed.map_center_y,
 			shape.w,
 			shape.h,
 			game_state->game_struct->rules.x_polarity,
@@ -209,8 +240,8 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
      utils_context->smoothed.global_zoom,
      flat_context->const_data.scroll_limit, 1);
    */
-  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &mouse_x, &mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
+  lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_mouse_x, &map_mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
 
-  utils_context->input.mouse.map_pointer.pos_x = mouse_x;
-  utils_context->input.mouse.map_pointer.pos_y = mouse_y;
+  utils_context->input.mouse.map_pointer.pos_x = map_mouse_x;
+  utils_context->input.mouse.map_pointer.pos_y = map_mouse_y;
 }

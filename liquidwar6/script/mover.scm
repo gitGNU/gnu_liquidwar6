@@ -112,11 +112,11 @@
 	 (use-double-click (lw6-config-is-true? lw6def-use-double-click))
 	 (fire (or (if use-double-click
 		       (c-lw6gui-mouse-pop-simple-click dsp)
-		       (c-lw6gui-mouse-pop-button-left dsp))
+		       (c-lw6gui-mouse-pop-button-right dsp))
 		   (hash-ref cursor "fire")))
 	 (fire2 (or (if use-double-click
 			(c-lw6gui-mouse-pop-double-click dsp)
-			(c-lw6gui-mouse-pop-button-right dsp))
+			(c-lw6gui-mouse-pop-button-middle dsp))
 		    (hash-ref cursor "fire2")))
 	 (map-pos-x (assoc-ref mouse-state "map-pos-x"))
 	 (map-pos-y (assoc-ref mouse-state "map-pos-y"))
@@ -128,8 +128,10 @@
 	    (begin
 	      (c-lw6gui-mouse-pop-button-left dsp)
 	      (c-lw6gui-mouse-pop-button-right dsp)
+	      (c-lw6gui-mouse-pop-button-middle dsp)
 	      )
 	    (begin
+	      (c-lw6gui-mouse-pop-button-left dsp)
 	      (c-lw6gui-mouse-pop-simple-click dsp)
 	      (c-lw6gui-mouse-pop-double-click dsp)
 	      ))

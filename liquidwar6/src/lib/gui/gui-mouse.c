@@ -65,6 +65,11 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x,
 		  mouse->screen_pointer.pos_y,
 		  mouse->screen_pointer.speed_x,
 		  mouse->screen_pointer.speed_y);
+      /*
+         if (mouse->drag_mode==LW6GUI_DRAG_MODE_OFF) {
+         mouse->screen_drag_start = mouse->screen_pointer;
+         }
+       */
     }
 }
 
@@ -154,7 +159,7 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
   dst->last_moved = src->last_moved;
   dst->screen_pointer = src->screen_pointer;
   dst->map_pointer = src->map_pointer;
-  dst->drag_start = src->drag_start;
+  dst->screen_drag_start = src->screen_drag_start;
   dst->drag_mode = src->drag_mode;
   dst->menu_position = src->menu_position;
   dst->menu_scroll = src->menu_scroll;
@@ -183,7 +188,7 @@ void
 lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse)
 {
   mouse->drag_mode = LW6GUI_DRAG_MODE_ON;
-  mouse->drag_start = mouse->screen_pointer;
+  mouse->screen_drag_start = mouse->screen_pointer;
 }
 
 /**
@@ -208,6 +213,8 @@ lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
  * @mouse: mouse struct to query
  * @delta_x: x movement (on screen, out param can be NULL)
  * @delta_y: y movement (on screen, out param can be NULL)
+ * @pos_x: x pos (on screen, out param can be NULL)
+ * @pos_y: y pos (on screen, out param can be NULL)
  * @speed_x: x speed (on screen, out param can be NULL)
  * @speed_y: y speed (on screen, out param can be NULL)
  *
@@ -218,19 +225,23 @@ lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
  */
 int
 lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x, int *delta_y,
-		       int *speed_x, int *speed_y)
+		       int *pos_x, int *pos_y, int *speed_x, int *speed_y)
 {
   int ret = 0;
   int dx = 0;
   int dy = 0;
+  int px = 0;
+  int py = 0;
   int sx = 0;
   int sy = 0;
 
+  px = mouse->screen_pointer.pos_x;
+  py = mouse->screen_pointer.pos_y;
   if (mouse->drag_mode == LW6GUI_DRAG_MODE_ON
       || mouse->drag_mode == LW6GUI_DRAG_MODE_DONE)
     {
-      dx = mouse->screen_pointer.pos_x - mouse->drag_start.pos_x;
-      dy = mouse->screen_pointer.pos_y - mouse->drag_start.pos_y;
+      dx = mouse->screen_pointer.pos_x - mouse->screen_drag_start.pos_x;
+      dy = mouse->screen_pointer.pos_y - mouse->screen_drag_start.pos_y;
       sx = mouse->screen_pointer.speed_x;
       sy = mouse->screen_pointer.speed_y;
       if (mouse->drag_mode == LW6GUI_DRAG_MODE_DONE)
@@ -247,6 +258,14 @@ lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x, int *delta_y,
   if (delta_y)
     {
       (*delta_y) = dy;
+    }
+  if (pos_x)
+    {
+      (*pos_x) = px;
+    }
+  if (pos_y)
+    {
+      (*pos_y) = py;
     }
   if (speed_x)
     {

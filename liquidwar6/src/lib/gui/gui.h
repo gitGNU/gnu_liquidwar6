@@ -185,7 +185,7 @@ typedef struct lw6gui_mouse_s
   int64_t last_moved;
   lw6gui_mouse_pointer_t screen_pointer;
   lw6gui_mouse_pointer_t map_pointer;
-  lw6gui_mouse_pointer_t drag_start;
+  lw6gui_mouse_pointer_t screen_drag_start;
   lw6gui_drag_mode_t drag_mode;
   int menu_position;
   int menu_scroll;
@@ -331,6 +331,8 @@ typedef struct lw6gui_viewport_s
   float center_y;
   float old_center_x;
   float old_center_y;
+  float speed_x;
+  float speed_y;
   int x_polarity;
   int y_polarity;
   int x_wrap;
@@ -521,7 +523,8 @@ extern int lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src);
 extern void lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse);
 extern void lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse);
 extern int lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x,
-				  int *delta_y, int *speed_x, int *speed_y);
+				  int *delta_y, int *pos_x, int *pos_y,
+				  int *speed_x, int *speed_y);
 
 /* gui-point.c */
 extern int lw6gui_point_is_inside_rect (lw6gui_point_t point,
@@ -609,6 +612,10 @@ extern void lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport,
 					   float *map_x, float *map_y,
 					   float screen_x, float screen_y,
 					   int wrap);
+extern void lw6gui_viewport_calc_drag (lw6gui_viewport_t * viewport,
+				       float *map_dst_x, float *map_dst_y,
+				       float map_src_x, float map_src_y,
+				       int screen_dx, int screen_dy);
 
 /* gui-zone.c */
 extern void lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1,

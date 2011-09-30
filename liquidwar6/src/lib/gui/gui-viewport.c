@@ -439,3 +439,35 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x,
   *map_x = x;
   *map_y = y;
 }
+
+/**
+ * lw6gui_viewport_calc_drag
+ *
+ * @viewport: viewport to work on
+ * @map_dst_x: map det x coord (out param)
+ * @map_dst_y: map dst y coord (out param)
+ * @map_src_x: map src x coord 
+ * @map_src_y: map src y coord 
+ * @screen_dx: drag x (on screen)
+ * @screen_dy: drag y (on screen)
+ *
+ * Used to calculate the new "center" when in drag mode.
+ *
+ * Return value: none.
+ */
+void
+lw6gui_viewport_calc_drag (lw6gui_viewport_t * viewport,
+			   float *map_dst_x, float *map_dst_y,
+			   float map_src_x, float map_src_y,
+			   int screen_dx, int screen_dy)
+{
+  float map_dx = 0.0f;
+  float map_dy = 0.0f;
+
+  lw6gui_coord_calc_xy (&map_dx, &map_dy, 0.0f, 0.0f, viewport->map_shape.w,
+			viewport->map_shape.h, screen_dx, screen_dy, 0.0f,
+			0.0f, viewport->map_main.w, viewport->map_main.h);
+
+  (*map_dst_x) = map_src_x - map_dx;
+  (*map_dst_y) = map_src_y - map_dy;
+}
