@@ -97,6 +97,7 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   float dw, dh;
   lw6sys_whd_t shape;
   int mouse_controlled = 0;
+  int dx = 0, dy = 0, sx = 0, sy = 0;
 
   lw6ker_game_state_get_shape (game_state, &shape);
 
@@ -125,7 +126,18 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 
   if (mouse_controlled)
     {
-      //
+      if (lw6gui_mouse_drag_pop
+	  (&(utils_context->input.mouse), &dx, &dy, &sx, &sy))
+	{
+	  TMP2 ("drag! %d %d", dx, dy);
+	}
+      else
+	{
+	  if (dx || dy)
+	    {
+	      TMP2 ("%d %d", dx, dy);
+	    }
+	}
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;

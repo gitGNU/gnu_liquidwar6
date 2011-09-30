@@ -162,6 +162,14 @@ typedef struct lw6gui_keyboard_s
 }
 lw6gui_keyboard_t;
 
+typedef enum lw6gui_drag_mode_e
+{
+  LW6GUI_DRAG_MODE_OFF = 0,
+  LW6GUI_DRAG_MODE_ON = 1,
+  LW6GUI_DRAG_MODE_DONE = 2
+}
+lw6gui_drag_mode_t;
+
 typedef struct lw6gui_mouse_pointer_s
 {
   int pos_x;
@@ -177,6 +185,8 @@ typedef struct lw6gui_mouse_s
   int64_t last_moved;
   lw6gui_mouse_pointer_t screen_pointer;
   lw6gui_mouse_pointer_t map_pointer;
+  lw6gui_mouse_pointer_t drag_start;
+  lw6gui_drag_mode_t drag_mode;
   int menu_position;
   int menu_scroll;
   int menu_esc;
@@ -508,6 +518,10 @@ extern void lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse,
 					lw6gui_repeat_settings_t *
 					repeat_settings, int64_t timestamp);
 extern int lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src);
+extern void lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse);
+extern void lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse);
+extern int lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x,
+				  int *delta_y, int *speed_x, int *speed_y);
 
 /* gui-point.c */
 extern int lw6gui_point_is_inside_rect (lw6gui_point_t point,

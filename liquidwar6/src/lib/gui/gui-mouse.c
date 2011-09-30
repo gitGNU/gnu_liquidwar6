@@ -154,6 +154,8 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
   dst->last_moved = src->last_moved;
   dst->screen_pointer = src->screen_pointer;
   dst->map_pointer = src->map_pointer;
+  dst->drag_start = src->drag_start;
+  dst->drag_mode = src->drag_mode;
   dst->menu_position = src->menu_position;
   dst->menu_scroll = src->menu_scroll;
   dst->menu_esc = src->menu_esc;
@@ -163,6 +165,97 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
     lw6gui_button_sync (&(dst->button_middle), &(src->button_middle)) &&
     lw6gui_button_sync (&(dst->wheel_up), &(src->wheel_up)) &&
     lw6gui_button_sync (&(dst->wheel_down), &(src->wheel_down));
+
+  return ret;
+}
+
+/**
+ * lw6gui_mouse_drag_begin
+ *
+ * @mouse: mouse struct to update
+ *
+ * To be called when one wants to start recording a drag session,
+ * typically when left button is pressed.
+ *
+ * Return value: none.
+ */
+void
+lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse)
+{
+  mouse->drag_mode = LW6GUI_DRAG_MODE_ON;
+  mouse->drag_start = mouse->screen_pointer;
+}
+
+/**
+ * lw6gui_mouse_drag_end
+ *
+ * @mouse: mouse struct to update
+ *
+ * To be called when one wants to stop recording a drag session,
+ * typically when left button is released.
+ *
+ * Return value: none.
+ */
+void
+lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
+{
+  mouse->drag_mode = LW6GUI_DRAG_MODE_DONE;
+}
+
+/**
+ * lw6gui_mouse_drag_pop
+ *
+ * @mouse: mouse struct to query
+ * @delta_x: x movement (on screen, out param can be NULL)
+ * @delta_y: y movement (on screen, out param can be NULL)
+ * @speed_x: x speed (on screen, out param can be NULL)
+ * @speed_y: y speed (on screen, out param can be NULL)
+ *
+ * To be called when one wants to stop recording a drag session,
+ * typically when left button is released.
+ *
+ * Return value: none.
+ */
+int
+lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x, int *delta_y,
+		       int *speed_x, int *speed_y)
+{
+  int ret = 0;
+  int dx = 0;
+  int dy = 0;
+  int sx = 0;
+  int sy = 0;
+
+  if (mouse->drag_mode == LW6GUI_DRAG_MODE_ON
+      || mouse->drag_mode == LW6GUI_DRAG_MODE_DONE)
+    {
+      dx = mouse->screen_pointer.pos_x - mouse->drag_start.pos_x;
+      dy = mouse->screen_pointer.pos_y - mouse->drag_start.pos_y;
+      sx = mouse->screen_pointer.speed_x;
+      sy = mouse->screen_pointer.speed_y;
+      if (mouse->drag_mode == LW6GUI_DRAG_MODE_DONE)
+	{
+	  ret = 1;
+	  mouse->drag_mode = LW6GUI_DRAG_MODE_OFF;
+	}
+    }
+
+  if (delta_x)
+    {
+      (*delta_x) = dx;
+    }
+  if (delta_y)
+    {
+      (*delta_y) = dy;
+    }
+  if (speed_x)
+    {
+      (*speed_x) = sx;
+    }
+  if (speed_y)
+    {
+      (*speed_y) = sy;
+    }
 
   return ret;
 }

@@ -328,6 +328,7 @@ mouse_button_down (lw6gui_mouse_t * mouse, SDL_Event * event,
     {
     case SDL_BUTTON_LEFT:
       lw6gui_button_register_down (&(mouse->button_left), timestamp);
+      lw6gui_mouse_drag_begin (mouse);
       break;
     case SDL_BUTTON_RIGHT:
       lw6gui_button_register_down (&(mouse->button_right), timestamp);
@@ -367,6 +368,7 @@ mouse_button_up (lw6gui_mouse_t * mouse, SDL_Event * event)
     {
     case SDL_BUTTON_LEFT:
       lw6gui_button_register_up (&(mouse->button_left));
+      lw6gui_mouse_drag_end (mouse);
       break;
     case SDL_BUTTON_RIGHT:
       lw6gui_button_register_up (&(mouse->button_right));

@@ -886,10 +886,15 @@ test_mouse ()
   {
     lw6gui_mouse_t mouse;
     int x = 0, y = 0;
+    int dx = 0, dy = 0, sx = 0, sy = 0;
 
     memset (&mouse, 0, sizeof (lw6gui_mouse_t));
 
     lw6gui_mouse_register_move (&mouse, TEST_MOUSE_X, TEST_MOUSE_Y, 0);
+    lw6gui_mouse_drag_begin (&mouse);
+    lw6gui_mouse_drag_end (&mouse);
+    lw6gui_mouse_drag_pop (&mouse, &dx, &dy, &sx, &sy);
+
     if (lw6gui_mouse_poll_move (&mouse, &x, &y))
       {
 	if (x == TEST_MOUSE_X && y == TEST_MOUSE_Y)
