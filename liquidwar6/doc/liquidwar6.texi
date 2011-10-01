@@ -1082,13 +1082,13 @@ devices.
      @tab quit game
 
      @item @code{ctrl}
-     @tab simple click on left button
+     @tab right-click or double-click on any button
      @tab button C
      @tab N/A
      @tab fire
 
      @item @code{alt}
-     @tab simple click on right button or double click on left button
+     @tab middle-click or triple-click on any button
      @tab button D
      @tab N/A
      @tab alternate fire

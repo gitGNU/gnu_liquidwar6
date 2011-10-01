@@ -195,7 +195,8 @@ test_button ()
       {
 	ret = 0;
 	lw6gui_button_update_repeat (&button, &repeat_settings, timestamp);
-	if (!lw6gui_button_pop_double_click (&button))
+	if (!lw6gui_button_pop_double_click (&button)
+	    && !lw6gui_button_pop_triple_click (&button))
 	  {
 	    lw6gui_button_register_down (&button, timestamp++);
 	    lw6gui_button_update_repeat (&button, &repeat_settings,

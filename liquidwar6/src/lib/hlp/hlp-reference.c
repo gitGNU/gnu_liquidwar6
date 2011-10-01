@@ -531,10 +531,10 @@ populate_references ()
   POPULATE_INT (LW6DEF_DOUBLE_CLICK_DELAY,
 		_x_
 		("Time, in milliseconds, determining wether two consecutive clicks make a double-click or not."),
-		250, 0, 0);
+		333, 0, 0);
   POPULATE_BOOL (LW6DEF_USE_DOUBLE_CLICK,
 		 _x_
-		 ("Wether to use double-click feature, mostly usefull if running on a system that has only one button (such as a tablet-PC or anything with a tactile screen), if your mouse has two buttons, disabling this will provide a more reactive interface."),
+		 ("Wether to use double-click feature, mostly usefull if running on a system that has only one button (such as a tablet-PC or anything with a tactile screen), if your mouse has three buttons, disabling this might avoid some confusion. Basically, if enabled, double-click is equivalent to right-click (fire) and triple-click is equivalent to middle-click (alternate fire)."),
 		 0);
   POPULATE_STR (LW6DEF_CUSTOM_UP,
 		_x_ ("Custom keycode to be used as the UP key equivalent."),
@@ -2481,6 +2481,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_mouse_pop_simple_click."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK,
 		 _x_ ("Wrapper on lw6gui_mouse_pop_double_click."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_TRIPLE_CLICK,
+		 _x_ ("Wrapper on lw6gui_mouse_pop_triple_click."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP,
 		 _x_ ("Wrapper on lw6gui_mouse_pop_wheel_up."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN,

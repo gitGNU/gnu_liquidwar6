@@ -407,6 +407,7 @@
 	       (begin
 		 (c-lw6gui-mouse-pop-simple-click dsp)
 		 (c-lw6gui-mouse-pop-double-click dsp)
+		 (c-lw6gui-mouse-pop-triple-click dsp)
 		 (cond 
 		  ((or
 		    (c-lw6gui-keyboard-pop-arrow-up dsp)
@@ -478,6 +479,7 @@
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
 	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (lw6-menu-action menu "on-cancel")
 	       (lw6-play-fx-beep-valid)
 	       )
@@ -486,6 +488,7 @@
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
 	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (begin
 		     (lw6-set-menuitem! menu-position #f)
@@ -497,18 +500,21 @@
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
 	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (lw6-next-menuitem #f))))
 	    ((< menu-scroll 0)
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
 	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (lw6-prev-menuitem #f))))
 	    (menu-esc
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)
 	       (c-lw6gui-mouse-pop-double-click dsp)
+	       (c-lw6gui-mouse-pop-triple-click dsp)
 	       (if (c-lw6gui-mouse-pop-button-left dsp)
 		   (if
 		    (lw6-menu-action menu "on-cancel")

@@ -140,7 +140,7 @@ Custom keycode to be used as the UP key equivalent.
 @deffnx {XML key} @code{double-click-delay}
 Type: integer
 
-Default value: 250
+Default value: 333
 
 Time, in milliseconds, determining wether two consecutive clicks make a
 double-click or not.
@@ -204,8 +204,9 @@ Default value: false
 
 Wether to use double-click feature, mostly usefull if running on a system that
 has only one button (such as a tablet-PC or anything with a tactile screen),
-if your mouse has two buttons, disabling this will provide a more reactive
-interface.
+if your mouse has three buttons, disabling this might avoid some confusion.
+Basically, if enabled, double-click is equivalent to right-click (fire) and
+triple-click is equivalent to middle-click (alternate fire).
 @end deffn
 
 @subsection use-esc-button

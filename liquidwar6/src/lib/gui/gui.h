@@ -138,10 +138,12 @@ typedef struct lw6gui_button_s
   int press_queue;
   int simple_click_queue;
   int double_click_queue;
+  int triple_click_queue;
   int64_t last_press;
   int64_t last_repeat;
   int64_t double_click_t1;
   int64_t double_click_t2;
+  int64_t double_click_t3;
 }
 lw6gui_button_t;
 
@@ -352,6 +354,7 @@ extern int lw6gui_button_is_pressed (lw6gui_button_t * button);
 extern int lw6gui_button_pop_press (lw6gui_button_t * button);
 extern int lw6gui_button_pop_simple_click (lw6gui_button_t * button);
 extern int lw6gui_button_pop_double_click (lw6gui_button_t * button);
+extern int lw6gui_button_pop_triple_click (lw6gui_button_t * button);
 extern void lw6gui_button_update_repeat (lw6gui_button_t * button,
 					 lw6gui_repeat_settings_t *
 					 repeat_settings, int64_t timestamp);

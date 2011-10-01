@@ -989,13 +989,14 @@ Keyboard       Mouse          Joystick       Menu action    In-game
                                                             line
 `esc'          right-click    button B       back to        quit game
                                              previous menu  
-`ctrl'         simple click   button C       N/A            fire
-               on left button                               
-`alt'          simple click   button D       N/A            alternate fire
-               on right                                     
-               button or                                    
-               double click                                 
-               on left button                               
+`ctrl'         right-click    button C       N/A            fire
+               or                                           
+               double-click                                 
+               on any button                                
+`alt'          middle-click   button D       N/A            alternate fire
+               or                                           
+               triple-click                                 
+               on any button                                
 `pgup'         wheel up       button E       previous menu  zoom in
                                              item           
 `pgdown'       wheel down     button F       next menu item zoom out
@@ -5323,7 +5324,7 @@ File: liquidwar6.info,  Node: Input options,  Next: Graphics options,  Prev: Pla
  -- XML key: `double-click-delay'
      Type: integer
 
-     Default value: 250
+     Default value: 333
 
      Time, in milliseconds, determining wether two consecutive clicks
      make a double-click or not.
@@ -5393,8 +5394,10 @@ File: liquidwar6.info,  Node: Input options,  Next: Graphics options,  Prev: Pla
 
      Wether to use double-click feature, mostly usefull if running on a
      system that has only one button (such as a tablet-PC or anything
-     with a tactile screen), if your mouse has two buttons, disabling
-     this will provide a more reactive interface.
+     with a tactile screen), if your mouse has three buttons, disabling
+     this might avoid some confusion.  Basically, if enabled,
+     double-click is equivalent to right-click (fire) and triple-click
+     is equivalent to middle-click (alternate fire).
 
 4.6.19 use-esc-button
 ---------------------

@@ -440,6 +440,11 @@ Wrapper on lw6gui_mouse_pop_double_click.
 Wrapper on lw6gui_mouse_pop_simple_click.
 @end deffn
 
+@subsection c-lw6gui-mouse-pop-triple-click
+@deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-triple-click}
+Wrapper on lw6gui_mouse_pop_triple_click.
+@end deffn
+
 @subsection c-lw6gui-mouse-pop-wheel-down
 @deffn {C function exported to Guile} @code{c-lw6gui-mouse-pop-wheel-down}
 Wrapper on lw6gui_mouse_pop_wheel_down.

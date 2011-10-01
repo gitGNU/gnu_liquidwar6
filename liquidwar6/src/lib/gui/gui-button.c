@@ -43,13 +43,13 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
   button->press_queue++;
   button->last_press = timestamp;
   button->last_repeat = 0;
-  if (button->double_click_t1 == 0
-      || button->double_click_queue <= 0
-      || timestamp - button->double_click_t2 <
-      button->double_click_t2 - button->double_click_t1)
+
+  if (button->double_click_t1 <= 0 || button->double_click_t2 <= 0
+      || button->double_click_t3 <= 0)
     {
       button->double_click_t1 = button->double_click_t2;
-      button->double_click_t2 = timestamp;
+      button->double_click_t2 = button->double_click_t3;
+      button->double_click_t3 = timestamp;
     }
 }
 
@@ -168,6 +168,31 @@ lw6gui_button_pop_double_click (lw6gui_button_t * button)
 }
 
 /**
+ * lw6gui_button_pop_triple_click
+ *
+ * @button: the button to query
+ *
+ * Tells how many times the button has been tripleclicked. Typical usage: the
+ * button is tripleclicked, released, tripleclicked, released several times. Then,
+ * after all this, you want to know how many times it has been tripleclicked.
+ *
+ * Return value: 1 if there's a tripleclick event in the queue, 0 if empty.
+ */
+int
+lw6gui_button_pop_triple_click (lw6gui_button_t * button)
+{
+  int ret = 0;
+
+  if (button->triple_click_queue > 0)
+    {
+      ret = 1;
+      button->triple_click_queue--;
+    }
+
+  return ret;
+}
+
+/**
  * lw6gui_button_update_repeat
  *
  * @button: the button to update
@@ -197,7 +222,24 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
 	}
     }
   if (button->double_click_t1 > 0 && button->double_click_t2 > 0
+      && button->double_click_t3 > 0
+      && (button->double_click_t3 - button->double_click_t2) <
+      repeat_settings->double_click_delay
       && (button->double_click_t2 - button->double_click_t1) <
+      repeat_settings->double_click_delay)
+    {
+      /*
+       * We don't "++" here, no buffering of triple clicks
+       */
+      button->triple_click_queue = 1;
+      button->double_click_t1 = 0;
+      button->double_click_t2 = 0;
+      button->double_click_t3 = 0;
+    }
+  if (button->double_click_t2 > 0 && button->double_click_t3 > 0
+      && (button->double_click_t3 - button->double_click_t2) <
+      repeat_settings->double_click_delay
+      && timestamp - button->double_click_t3 >=
       repeat_settings->double_click_delay)
     {
       /*
@@ -206,9 +248,10 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
       button->double_click_queue = 1;
       button->double_click_t1 = 0;
       button->double_click_t2 = 0;
+      button->double_click_t3 = 0;
     }
-  if (button->double_click_t2 > 0
-      && timestamp - button->double_click_t2 >
+  if (button->double_click_t3 > 0
+      && timestamp - button->double_click_t3 >=
       repeat_settings->double_click_delay)
     {
       /*
@@ -217,6 +260,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button,
       button->simple_click_queue = 1;
       button->double_click_t1 = 0;
       button->double_click_t2 = 0;
+      button->double_click_t3 = 0;
     }
 }
 
@@ -244,11 +288,14 @@ lw6gui_button_sync (lw6gui_button_t * dst, lw6gui_button_t * src)
   src->simple_click_queue = 0;	// clear src queue, it's been transfered to dst
   dst->double_click_queue |= src->double_click_queue;
   src->double_click_queue = 0;	// clear src queue, it's been transfered to dst
+  dst->triple_click_queue |= src->triple_click_queue;
+  src->triple_click_queue = 0;	// clear src queue, it's been transfered to dst
   dst->is_pressed = src->is_pressed;
   dst->last_press = src->last_press;
   dst->last_repeat = src->last_repeat;
   dst->double_click_t1 = src->double_click_t1;
   dst->double_click_t2 = src->double_click_t2;
+  dst->double_click_t3 = src->double_click_t3;
 
   return ret;
 }

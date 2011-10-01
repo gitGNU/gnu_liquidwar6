@@ -131,6 +131,7 @@ c-lw6gui-mouse-pop-button-middle
 c-lw6gui-mouse-pop-button-right
 c-lw6gui-mouse-pop-double-click
 c-lw6gui-mouse-pop-simple-click
+c-lw6gui-mouse-pop-triple-click
 c-lw6gui-mouse-pop-wheel-down
 c-lw6gui-mouse-pop-wheel-up
 c-lw6hlp-get-default-value
