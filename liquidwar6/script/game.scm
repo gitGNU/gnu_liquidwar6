@@ -227,7 +227,9 @@
 	    (lw6-push-menu (lw6-ingame-menu))
 	    (lw6-game-running)
 	    (lw6-set-game-global! "command-func" lw6-command-func-local)
-	    ))))))
+	    ))
+	(lw6-set-game-global! "solo" #t)
+	))))
 
 (define lw6-game-start-1on1-step2
   (lambda ()
@@ -263,7 +265,9 @@
 	    (lw6-push-menu (lw6-ingame-menu))
 	    (lw6-game-running)
 	    (lw6-set-game-global! "command-func" lw6-command-func-local)
-	    ))))))
+	    ))
+	(lw6-set-game-global! "solo" #f)
+	))))
 
 (define lw6-game-start-local-step2
   (lambda ()
@@ -312,15 +316,22 @@
 	    (lw6-cursor-set-universal-if-needed)
 	    (lw6-push-menu (lw6-ingame-menu))
 	    (lw6-game-running)
-	    (lw6-set-game-global! "command-func" lw6-command-func-local)
-	    ))))))
+	    (lw6-set-game-global! "command-func" lw6-command-func-local)))
+	(lw6-set-game-global! "solo" #f)
+	))))
 
 (define lw6-game-start-demo-step2
   (lambda ()
     (begin
       (lw6-game-start-solo-step2)
       (lw6-cursor-init-bot-mover "1" "random")
+      (lw6-set-game-global! "solo" #f)
       )))
 
-(define lw6-game-start-quick-step2 lw6-game-start-solo-step2)
+(define lw6-game-start-quick-step2 
+  (lambda ()
+    (begin
+      (lw6-game-start-solo-step2)
+      (lw6-set-game-global! "solo" #f)
+      )))
 

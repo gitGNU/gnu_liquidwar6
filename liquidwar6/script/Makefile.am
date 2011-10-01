@@ -55,6 +55,7 @@ menu-player-detail.scm \
 menu-players.scm \
 menu-play.scm \
 menu-root.scm \
+menu-score.scm \
 menu-wait.scm \
 menu.scm \
 mover.scm \

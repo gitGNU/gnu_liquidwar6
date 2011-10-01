@@ -80,7 +80,7 @@
   (lambda (menu)
     (begin
       (lw6-menu-action menu "on-pop")
-      (set! %lw6-menu-stack (cdr %lw6-menu-stack))
+      (lw6-pop-menu-raw)
       (lw6-menu-action (lw6-current-menu) "on-pop-child")
       (let (
 	    (menu (lw6-current-menu))
@@ -90,6 +90,10 @@
 					;(lw6-menu-center)
 					;(lw6-menu-warp-mouse)
 	      ))))))
+
+(define lw6-pop-menu-raw
+  (lambda ()
+    (set! %lw6-menu-stack (cdr %lw6-menu-stack))))
 
 (define lw6-current-menu 
   (lambda ()
@@ -527,7 +531,7 @@
     (let* (
 	   (dsp (lw6-get-game-global "dsp"))
 	   (menu (lw6-current-menu))
-	   (menu-smob (if menu (assoc-ref menu "smob")))
+	   (menu-smob (if menu (assoc-ref menu "smob") #f))
 	   )
       (if (and (lw6-menu-pump-all?)
 	       (not (lw6-config-is-true? lw6def-click-to-focus)))

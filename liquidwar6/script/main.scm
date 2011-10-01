@@ -56,6 +56,7 @@
       (load "menu-player-detail.scm")
       (load "menu-players.scm")
       (load "menu-root.scm")
+      (load "menu-score.scm")
       (load "menu-wait.scm")
       (load "mover.scm")
       (load "music.scm")

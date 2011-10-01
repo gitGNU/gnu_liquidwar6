@@ -1,5 +1,7 @@
 2011-10-01 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Hacking on level chaining. Doesn't work yet.
+
 	* Implemented triple-click for alt fire.
 
 	* Mouse dragging and scroll do work.

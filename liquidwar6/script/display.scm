@@ -127,6 +127,14 @@
       (hash-set! display-param key value)
       )))
 
+(define lw6-display-param-get
+  (lambda (key)
+    (let (
+	  (display-param (lw6-get-game-global "display-param"))
+	  )
+      (hash-ref display-param key)
+      )))
+
 (define lw6-display-param-set-boolean-from-config!
   (lambda (key)
     (lw6-display-param-set! key (lw6-config-is-true? key))))
