@@ -2653,7 +2653,9 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_local_command."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_COMMIT, _x_ ("Wrapper on lw6pil_commit."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_FIX_COORDS,
-		 _x_ ("Wrapper on lw6pil_fix_coords."));
+		 _x_ ("Wrapper on lw6pil_coords_fix."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_FIX_COORDS_X10,
+		 _x_ ("Wrapper on lw6pil_coords_fix_x10."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
 		 _x_ ("Wrapper on lw6pil_execute_command."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,

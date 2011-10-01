@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <math.h>
+
 #include "gui.h"
 
 /**
@@ -132,4 +134,54 @@ lw6gui_smoother_get_value (lw6gui_smoother_t * smoother, int64_t now)
     }
 
   return ret;
+}
+
+/**
+ * lw6gui_smoother_fix_overflow
+ *
+ * @smoother: object to modify
+ * @step: step size, typically twice the map size
+ *
+ * Companion function of @lw6pil_coords_fix_x10, this one will fix
+ * a smoother target to avoid crazy scrolls when cursor is on a map
+ * edge.
+ *
+ * Return value: none.
+ */
+void
+lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother, int step)
+{
+  float delta = 0.0f;
+  int changed = 0;
+  float value;
+  float closest;
+
+  value = smoother->y1;
+  closest = smoother->y2;
+
+  if (value > closest)
+    {
+      delta = fabs (value - closest);
+      while (delta > fabs ((value - step) - closest))
+	{
+	  value -= step;
+	  delta = fabs (value - closest);
+	  changed = 1;
+	}
+    }
+  if (value < closest)
+    {
+      delta = fabs (value - closest);
+      while (delta > fabs ((value + step) - closest))
+	{
+	  value += step;
+	  delta = fabs (value - closest);
+	  changed = 1;
+	}
+    }
+  if (changed)
+    {
+      smoother->y1 = value;
+      lw6gui_smoother_set_target (smoother, closest, smoother->t1);
+    }
 }

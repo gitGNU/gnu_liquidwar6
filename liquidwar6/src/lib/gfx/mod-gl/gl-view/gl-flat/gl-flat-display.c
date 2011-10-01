@@ -243,11 +243,14 @@ _display_bitmap_array (mod_gl_utils_context_t * utils_context,
 		      last_bitmap = bitmap;
 		      mod_gl_utils_display_quad_begin (utils_context);
 		    }
-		  mod_gl_utils_display_quad_do (utils_context,
-						bitmap->texture, x, y,
-						x + step_x, y + step_y,
-						texture_x1, texture_y1,
-						texture_x2, texture_y2);
+		  if (bitmap)
+		    {
+		      mod_gl_utils_display_quad_do (utils_context,
+						    bitmap->texture, x, y,
+						    x + step_x, y + step_y,
+						    texture_x1, texture_y1,
+						    texture_x2, texture_y2);
+		    }
 		}
 	    }
 	}

@@ -96,6 +96,7 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
   int delta_x = 0, delta_y = 0;
   float center_x = 0.0f, center_y = 0.0f;
   int drag_pop = 0;
+  float x, y, z;
 
   lw6ker_game_state_get_shape (game_state, &shape);
 
@@ -111,24 +112,20 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("no main cursor"));
 	}
     }
+
+  x = main_cursor_x;
+  y = main_cursor_y;
+  z = 0;
   /*
-     if (mouse_controlled)
-     {
-     TMP("mouse controlled");
-     }
-     else
-     {
-     TMP("center");
-     }
+   * Normally fix_10 is called by calling, but just in case.
    */
+  lw6pil_coords_fix_x10 (&(game_state->game_struct->rules), &shape, &x, &y,
+			 &z);
+  main_cursor_x = x;
+  main_cursor_y = y;
 
   if (mouse_controlled)
     {
-      /*
-         lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_start_drag_x, &map_start_drag_y, utils_context->input.mouse.screen_drag_start.pos_x, utils_context->input.mouse.screen_drag_start.pos_y, 0);    // was 1
-         utils_context->input.mouse.map_drag_start.pos_x=map_start_drag_x;
-         utils_context->input.mouse.map_drag_start.pos_y=map_start_drag_y;
-       */
       drag_pop = lw6gui_mouse_drag_pop
 	(&(utils_context->input.mouse), &dx, &dy, &px, &py, &sx, &sy);
       delta_x =
@@ -137,13 +134,9 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
       delta_y =
 	py - (flat_context->viewport.drawable.y1 +
 	      flat_context->viewport.drawable.y2) / 2.0f;
-      //if (drag_pop)
-      //        {
       lw6gui_viewport_calc_drag (&(flat_context->viewport), &center_x,
 				 &center_y, main_cursor_x, main_cursor_y,
 				 delta_x, delta_y);
-      //}
-      //TMP6("%f %f %d %d %d %d",center_x,center_y,dx,dy,delta_x,delta_y);
       if (dx || dy)
 	{
 	  lw6gui_smoother_immediate_force (&
@@ -169,6 +162,10 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 				  center_x, utils_context->timer.timestamp);
       lw6gui_smoother_set_target (&(utils_context->smoothers.map_center_y),
 				  center_y, utils_context->timer.timestamp);
+      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_x),
+				    shape.w * LW6PIL_COORDS_X2);
+      lw6gui_smoother_fix_overflow (&(utils_context->smoothers.map_center_y),
+				    shape.h * LW6PIL_COORDS_X2);
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
@@ -198,48 +195,6 @@ _mod_gl_view_flat_viewport_update (mod_gl_utils_context_t *
 
   flat_context->viewport = test;
 
-  /*
-     lw6gui_viewport_map_to_screen (&test, &test_cursor_x, &test_cursor_y,
-     main_cursor_x, main_cursor_y, 0);
-     dw = test.map_main_clipped.w * flat_context->const_data.scroll_limit;
-     dh = test.map_main_clipped.h * flat_context->const_data.scroll_limit;
-
-     if (test_cursor_x < test.map_visible.x1 + dw
-     || test_cursor_x > test.map_visible.x2 - dw)
-     {
-     lw6gui_smoother_set_target (&(utils_context->smoothers.center_x),
-     main_cursor_x,
-     utils_context->timer.timestamp);
-     }
-     if (test_cursor_y < test.map_visible.y1 + dh
-     || test_cursor_y > test.map_visible.y2 - dh)
-     {
-     lw6gui_smoother_set_target (&(utils_context->smoothers.center_y),
-     main_cursor_y,
-     utils_context->timer.timestamp);
-     }
-
-     mod_gl_utils_smoothers_update (utils_context);
-
-     lw6gui_viewport_init (&(flat_context->viewport),
-     utils_context->video_mode.width,
-     utils_context->video_mode.height,
-     utils_context->smoothed.drawable.x1,
-     utils_context->smoothed.drawable.y1,
-     utils_context->smoothed.drawable.x2,
-     utils_context->smoothed.drawable.y2,
-     utils_context->smoothed.center_x,
-     utils_context->smoothed.center_y,
-     shape.w,
-     shape.h,
-     game_state->game_struct->rules.x_polarity,
-     game_state->game_struct->rules.y_polarity,
-     look->style.x_wrap,
-     look->style.y_wrap,
-     look->style.keep_ratio,
-     utils_context->smoothed.global_zoom,
-     flat_context->const_data.scroll_limit, 1);
-   */
   lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_mouse_x, &map_mouse_y, utils_context->input.mouse.screen_pointer.pos_x, utils_context->input.mouse.screen_pointer.pos_y, 0);	// was 1
 
   utils_context->input.mouse.map_pointer.pos_x = map_mouse_x;

@@ -577,6 +577,8 @@ extern void lw6gui_smoother_set_target (lw6gui_smoother_t * smoother,
 					float value, int64_t now);
 extern float lw6gui_smoother_get_value (lw6gui_smoother_t * smoother,
 					int64_t now);
+extern void lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother,
+					  int step);
 
 /* gui-test.c */
 extern int lw6gui_test (int mode);

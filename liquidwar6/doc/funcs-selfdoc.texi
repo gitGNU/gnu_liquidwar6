@@ -837,7 +837,12 @@ Wrapper on lw6pil_execute_command.
 
 @subsection c-lw6pil-fix-coords
 @deffn {C function exported to Guile} @code{c-lw6pil-fix-coords}
-Wrapper on lw6pil_fix_coords.
+Wrapper on lw6pil_coords_fix.
+@end deffn
+
+@subsection c-lw6pil-fix-coords-x10
+@deffn {C function exported to Guile} @code{c-lw6pil-fix-coords-x10}
+Wrapper on lw6pil_coords_fix_x10.
 @end deffn
 
 @subsection c-lw6pil-get-last-commit-round

@@ -224,6 +224,7 @@ test_coords ()
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("coords before fix %0.2f,%0.2f,%0.2f"), x, y,
 			    z);
+		lw6pil_coords_fix_x10 (&rules, &shape, &x, &y, &z);
 		lw6pil_coords_fix (&rules, &shape, &x, &y, &z);
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_ ("coords after fix %0.2f,%0.2f,0.2f"), x, y,

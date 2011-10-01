@@ -269,8 +269,8 @@
 				    (begin
 				      (mover cursor)
 				      (let* (					    
-					     ;; (coords (c-lw6pil-fix-coords game-state (hash-ref cursor "x") (hash-ref cursor "y") 0.0))
-					     (coords (list (cons "x" (hash-ref cursor "x")) (cons "y" (hash-ref cursor "y")) 0.0))
+					     (coords (c-lw6pil-fix-coords-x10 game-state (hash-ref cursor "x") (hash-ref cursor "y") 0.0))
+					     ;; (coords (list (cons "x" (hash-ref cursor "x")) (cons "y" (hash-ref cursor "y")) 0.0))
 					     (x (assoc-ref coords "x"))
 					     (y (assoc-ref coords "y"))
 					     )

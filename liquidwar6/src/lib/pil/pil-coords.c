@@ -173,3 +173,32 @@ lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape, float *x,
 	}
     }
 }
+
+/**
+ * lw6pil_coords_fix_x10
+ *
+ * @rules: the set of rules to use (defines polarity)
+ * @shape: the shape of the map (logical part)
+ * @x: the x coord to fix
+ * @y: the y coord to fix
+ * @z: the z coord to fix
+ *
+ * Similar to @lw6pil_coords_fix but does use a wider range, say 10 times
+ * the actual size of the map, this is not to contain the cursor within
+ * the map but just to avoid overflow errors.
+ *
+ * Return value: none.
+ */
+void
+lw6pil_coords_fix_x10 (lw6map_rules_t * rules, lw6sys_whd_t * shape,
+		       float *x, float *y, float *z)
+{
+  lw6sys_whd_t shape_x10;
+
+  shape_x10 = (*shape);
+
+  shape_x10.w *= 10;
+  shape_x10.h *= 10;
+
+  lw6pil_coords_fix (rules, &shape_x10, x, y, z);
+}

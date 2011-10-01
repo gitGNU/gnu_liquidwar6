@@ -143,6 +143,7 @@
 #define TEST_SMOOTHER_VALUE2 100.0f
 #define TEST_SMOOTHER_VALUE3 -1000.0f
 #define TEST_SMOOTHER_VALUE4 421.0f
+#define TEST_SMOOTHER_STEP 100
 #define TEST_TIMESTAMP 1000000000000LL
 #define TEST_GEOMETRY_POINT_MIN 1
 #define TEST_GEOMETRY_POINT_RANGE 10
@@ -1123,6 +1124,7 @@ test_smoother ()
 					       lw6sys_get_timestamp ()));
 	lw6sys_delay (TEST_SMOOTHER_DELAY);
       }
+    lw6gui_smoother_fix_overflow (&smoother, TEST_SMOOTHER_STEP);
   }
   LW6SYS_TEST_FUNCTION_END;
   return ret;

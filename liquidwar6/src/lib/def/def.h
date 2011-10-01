@@ -238,6 +238,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6PIL_DID_CURSOR_WIN "c-lw6pil-did-cursor-win"
 #define LW6DEF_C_LW6PIL_EXECUTE_COMMAND "c-lw6pil-execute-command"
 #define LW6DEF_C_LW6PIL_FIX_COORDS "c-lw6pil-fix-coords"
+#define LW6DEF_C_LW6PIL_FIX_COORDS_X10 "c-lw6pil-fix-coords-x10"
 #define LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND "c-lw6pil-get-last-commit-round"
 #define LW6DEF_C_LW6PIL_GET_MAX_ROUND "c-lw6pil-get-max-round"
 #define LW6DEF_C_LW6PIL_GET_NEXT_ROUND "c-lw6pil-get-next-round"

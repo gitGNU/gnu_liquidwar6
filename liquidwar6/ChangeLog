@@ -1,3 +1,7 @@
+2011-10-01 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Mouse dragging and scroll do work.
+
 2011-09-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Dragging maps with mouse works, when polarity >=0.

@@ -1010,6 +1010,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_COMMAND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_COMMIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_FIX_COORDS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_FIX_COORDS_X10);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_EXECUTE_COMMAND);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN);
   lw6sys_list_push_back (list,

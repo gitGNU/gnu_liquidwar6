@@ -6653,6 +6653,46 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
 }
 
 static SCM
+_scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
+{
+  lw6ker_game_state_t *c_game_state = NULL;
+  lw6sys_whd_t shape;
+  float c_x = 0.0f;
+  float c_y = 0.0f;
+  float c_z = 0.0f;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.game_state,
+	       game_state), game_state, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_number (x), x, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_number (y), y, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_number (z), z, SCM_ARG3, __FUNCTION__);
+
+  c_game_state = lw6_scm_to_game_state (game_state);
+  if (c_game_state)
+    {
+      c_x = scm_to_double (x);
+      c_y = scm_to_double (y);
+      c_z = scm_to_double (z);
+
+      lw6ker_game_state_get_shape (c_game_state, &shape);
+      lw6pil_coords_fix_x10 (&(c_game_state->game_struct->rules),
+			     &shape, &c_x, &c_y, &c_z);
+      ret =
+	scm_list_3 (scm_cons (scm_makfrom0str ("x"), scm_double2num (c_x)),
+		    scm_cons (scm_makfrom0str ("y"), scm_double2num (c_y)),
+		    scm_cons (scm_makfrom0str ("z"), scm_double2num (c_z)));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6pil_execute_command (SCM game_state, SCM command_text)
 {
   lw6ker_game_state_t *c_game_state = NULL;
@@ -9094,6 +9134,8 @@ lw6_register_funcs ()
 			 1, 0, 0, (SCM (*)())_scm_lw6pil_commit);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_FIX_COORDS,
 			 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_FIX_COORDS_X10,
+			 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords_x10);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
 			 2, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,

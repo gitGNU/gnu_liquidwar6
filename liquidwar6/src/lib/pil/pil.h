@@ -39,6 +39,9 @@
 #define LW6PIL_DIRTY_READ_SYNC_ONLY 1
 #define LW6PIL_DIRTY_READ_ALWAYS 2
 
+#define LW6PIL_COORDS_X10 10
+#define LW6PIL_COORDS_X2 2
+
 typedef enum lw6pil_command_code_e
 {
   LW6PIL_COMMAND_CODE_INVALID = 0,
@@ -159,6 +162,9 @@ extern int lw6pil_command_execute_local_text (lw6pil_local_cursors_t *
 /* pil-coords.c */
 extern void lw6pil_coords_fix (lw6map_rules_t * rules, lw6sys_whd_t * shape,
 			       float *x, float *y, float *z);
+extern void lw6pil_coords_fix_x10 (lw6map_rules_t * rules,
+				   lw6sys_whd_t * shape, float *x, float *y,
+				   float *z);
 
 /* pil-localcursors.c */
 extern void lw6pil_local_cursors_reset (lw6pil_local_cursors_t *
