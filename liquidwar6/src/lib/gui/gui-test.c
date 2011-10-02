@@ -65,7 +65,7 @@
 #define TEST_LABEL "fake A letter"
 #define TEST_REPEAT_DELAY 100
 #define TEST_REPEAT_INTERVAL 10
-#define TEST_REPEAT_DOUBLE_CLICK_DELAY 200
+#define TEST_REPEAT_DOUBLE_CLICK_DELAY 250
 #define TEST_MOUSE_X 12
 #define TEST_MOUSE_Y 34
 #define TEST_JOYSTICK_LIMIT 20
@@ -199,6 +199,9 @@ test_button ()
 	    && !lw6gui_button_pop_triple_click (&button))
 	  {
 	    lw6gui_button_register_down (&button, timestamp++);
+	    lw6gui_button_update_repeat (&button, &repeat_settings,
+					 timestamp);
+	    timestamp += 2 * TEST_REPEAT_DOUBLE_CLICK_DELAY;
 	    lw6gui_button_update_repeat (&button, &repeat_settings,
 					 timestamp);
 	    if (lw6gui_button_pop_double_click (&button))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.11beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-24 21:30+0200\n"
+"POT-Creation-Date: 2011-10-02 19:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -199,7 +199,7 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/ldr/ldr-exp.c:60
+#: src/lib/ldr/ldr-exp.c:65
 #, c-format
 msgid "You just gained experience (exp=%d)."
 msgstr ""
@@ -539,7 +539,7 @@ msgstr ""
 msgid "Backend ~a"
 msgstr ""
 
-#: src/scriptpo.c:41 src/scriptpo.c:128
+#: src/scriptpo.c:41 src/scriptpo.c:135
 msgid "Sound options"
 msgstr ""
 
@@ -567,7 +567,7 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: src/scriptpo.c:49 src/scriptpo.c:124
+#: src/scriptpo.c:49 src/scriptpo.c:131
 msgid "Sound"
 msgstr ""
 
@@ -579,8 +579,8 @@ msgstr ""
 msgid "Stop current game"
 msgstr ""
 
-#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:108
-#: src/scriptpo.c:122
+#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:115
+#: src/scriptpo.c:129
 msgid "Options"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgstr ""
 msgid "Bench ~a"
 msgstr ""
 
-#: src/scriptpo.c:68 src/scriptpo.c:126
+#: src/scriptpo.c:68 src/scriptpo.c:133
 msgid "Fullscreen"
 msgstr ""
 
@@ -720,7 +720,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: src/scriptpo.c:91 src/scriptpo.c:103 src/scriptpo.c:110
+#: src/scriptpo.c:91 src/scriptpo.c:110 src/scriptpo.c:117
 msgid "Quick start"
 msgstr ""
 
@@ -728,146 +728,166 @@ msgstr ""
 msgid "Welcome to Liquid War 6"
 msgstr ""
 
-#: src/scriptpo.c:97 src/scriptpo.c:98
-msgid "Please wait..."
+#: src/scriptpo.c:97
+msgid "Replay"
+msgstr ""
+
+#: src/scriptpo.c:98
+msgid "Continue"
 msgstr ""
 
 #: src/scriptpo.c:99
+msgid "Back to previous menu"
+msgstr ""
+
+#: src/scriptpo.c:100 src/scriptpo.c:101
+msgid "Next"
+msgstr ""
+
+#: src/scriptpo.c:102 src/scriptpo.c:103
+msgid "Score"
+msgstr ""
+
+#: src/scriptpo.c:104 src/scriptpo.c:105
+msgid "Please wait..."
+msgstr ""
+
+#: src/scriptpo.c:106
 msgid "Exit?"
 msgstr ""
 
-#: src/scriptpo.c:100
+#: src/scriptpo.c:107
 msgid "Exit"
 msgstr ""
 
-#: src/scriptpo.c:101
+#: src/scriptpo.c:108
 msgid "Resume LW6"
 msgstr ""
 
-#: src/scriptpo.c:102
+#: src/scriptpo.c:109
 msgid "Liquid War 6"
 msgstr ""
 
-#: src/scriptpo.c:104
+#: src/scriptpo.c:111
 msgid "Local game"
 msgstr ""
 
-#: src/scriptpo.c:105
+#: src/scriptpo.c:112
 msgid "Network game"
 msgstr ""
 
-#: src/scriptpo.c:106 src/scriptpo.c:121
+#: src/scriptpo.c:113 src/scriptpo.c:128
 msgid "Level"
 msgstr ""
 
-#: src/scriptpo.c:107
+#: src/scriptpo.c:114
 msgid "Teams"
 msgstr ""
 
-#: src/scriptpo.c:109 src/scriptpo.c:111
+#: src/scriptpo.c:116 src/scriptpo.c:118
 msgid "About"
 msgstr ""
 
-#: src/scriptpo.c:112
+#: src/scriptpo.c:119
 msgid "Authors"
 msgstr ""
 
-#: src/scriptpo.c:113
+#: src/scriptpo.c:120
 msgid "Copyright"
 msgstr ""
 
-#: src/scriptpo.c:114
+#: src/scriptpo.c:121
 msgid "License"
 msgstr ""
 
-#: src/scriptpo.c:115
+#: src/scriptpo.c:122
 msgid "Version"
 msgstr ""
 
-#: src/scriptpo.c:116
+#: src/scriptpo.c:123
 msgid "View level"
 msgstr ""
 
-#: src/scriptpo.c:117
+#: src/scriptpo.c:124
 msgid "Confirm level choice"
 msgstr ""
 
-#: src/scriptpo.c:118
+#: src/scriptpo.c:125
 msgid "Choose it"
 msgstr ""
 
-#: src/scriptpo.c:119
+#: src/scriptpo.c:126
 msgid "View"
 msgstr ""
 
-#: src/scriptpo.c:120
+#: src/scriptpo.c:127
 msgid "Cancel"
 msgstr ""
 
-#: src/scriptpo.c:123
+#: src/scriptpo.c:130
 msgid "Graphics"
 msgstr ""
 
-#: src/scriptpo.c:125
+#: src/scriptpo.c:132
 msgid "Graphics options"
 msgstr ""
 
-#: src/scriptpo.c:127 src/scriptpo.c:132
+#: src/scriptpo.c:134 src/scriptpo.c:139
 msgid "Graphics backend"
 msgstr ""
 
-#: src/scriptpo.c:129
+#: src/scriptpo.c:136
 msgid "Sound fx volume"
 msgstr ""
 
-#: src/scriptpo.c:130
+#: src/scriptpo.c:137
 msgid "Music volume"
 msgstr ""
 
-#: src/scriptpo.c:131 src/scriptpo.c:133
+#: src/scriptpo.c:138 src/scriptpo.c:140
 msgid "Sound backend"
 msgstr ""
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:141
 msgid "This is a test node."
 msgstr ""
 
-#: src/scriptpo.c:135
+#: src/scriptpo.c:142
 msgid "testing map"
 msgstr ""
 
-#: src/scriptpo.c:136
+#: src/scriptpo.c:143
 msgid "testing game struct"
 msgstr ""
 
-#: src/scriptpo.c:137
+#: src/scriptpo.c:144
 msgid "testing game state"
 msgstr ""
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:145
 msgid "testing pilot"
 msgstr ""
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:146
 msgid "testing bot"
 msgstr ""
 
-#: src/scriptpo.c:140
+#: src/scriptpo.c:147
 msgid "testing smobs GC, step 1"
 msgstr ""
 
-#: src/scriptpo.c:141
+#: src/scriptpo.c:148
 msgid "testing smobs GC, step 2"
 msgstr ""
 
-#: src/scriptpo.c:142
+#: src/scriptpo.c:149
 msgid "testing async load"
 msgstr ""
 
-#: src/scriptpo.c:143
+#: src/scriptpo.c:150
 msgid "testing db"
 msgstr ""
 
-#: src/scriptpo.c:144
+#: src/scriptpo.c:151
 msgid "testing node"
 msgstr ""

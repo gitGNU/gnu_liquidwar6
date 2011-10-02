@@ -322,10 +322,20 @@ mod_gl_utils_bitmap_array_get (mod_gl_utils_bitmap_array_t *
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (LW6SYS_LOG_INFO,
 		  _x_
 		  ("bitmap_array_get parameters out of range i=%d nb_tiles=%d"),
 		  i, bitmap_array->layout.nb_tiles);
+      /*
+       * By default we still return something, display might be a little
+       * inconsistent but this is not as bad as a segfault. BTW, most of the
+       * time the problem is an out of range due to rounding errors on the edges
+       * so what is to be drawn is usually very small.
+       */
+      if (bitmap_array->layout.nb_tiles > 0)
+	{
+	  ret = bitmap_array->bitmaps[0];
+	}
     }
 
   return ret;

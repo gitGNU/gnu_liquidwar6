@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-24 21:30+0200\n"
+"POT-Creation-Date: 2011-10-02 19:56+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -201,7 +201,7 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/ldr/ldr-exp.c:60
+#: src/lib/ldr/ldr-exp.c:65
 #, c-format
 msgid "You just gained experience (exp=%d)."
 msgstr "Вы получили опыт (опыт=%d)."
@@ -548,7 +548,7 @@ msgstr "Музыка ~a%"
 msgid "Backend ~a"
 msgstr "Библиотека ~a"
 
-#: src/scriptpo.c:41 src/scriptpo.c:128
+#: src/scriptpo.c:41 src/scriptpo.c:135
 msgid "Sound options"
 msgstr "Параметры звука"
 
@@ -576,7 +576,7 @@ msgstr "Время и скорость"
 msgid "Video"
 msgstr "Видео"
 
-#: src/scriptpo.c:49 src/scriptpo.c:124
+#: src/scriptpo.c:49 src/scriptpo.c:131
 msgid "Sound"
 msgstr "Звук"
 
@@ -588,8 +588,8 @@ msgstr "Системные"
 msgid "Stop current game"
 msgstr "Закончить игру"
 
-#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:108
-#: src/scriptpo.c:122
+#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:115
+#: src/scriptpo.c:129
 msgid "Options"
 msgstr "Настройки"
 
@@ -645,7 +645,7 @@ msgstr "Неизвестная скорость"
 msgid "Bench ~a"
 msgstr "Отметка ~a"
 
-#: src/scriptpo.c:68 src/scriptpo.c:126
+#: src/scriptpo.c:68 src/scriptpo.c:133
 msgid "Fullscreen"
 msgstr "Полноэкранный"
 
@@ -730,7 +730,7 @@ msgstr "В главное меню"
 msgid "Play"
 msgstr "Играть"
 
-#: src/scriptpo.c:91 src/scriptpo.c:103 src/scriptpo.c:110
+#: src/scriptpo.c:91 src/scriptpo.c:110 src/scriptpo.c:117
 msgid "Quick start"
 msgstr "Быстрый старт"
 
@@ -738,146 +738,167 @@ msgstr "Быстрый старт"
 msgid "Welcome to Liquid War 6"
 msgstr "Добро пожаловать в Liquid War 6"
 
-#: src/scriptpo.c:97 src/scriptpo.c:98
+#: src/scriptpo.c:97
+msgid "Replay"
+msgstr ""
+
+#: src/scriptpo.c:98
+msgid "Continue"
+msgstr ""
+
+#: src/scriptpo.c:99
+#, fuzzy
+msgid "Back to previous menu"
+msgstr "В главное меню"
+
+#: src/scriptpo.c:100 src/scriptpo.c:101
+msgid "Next"
+msgstr ""
+
+#: src/scriptpo.c:102 src/scriptpo.c:103
+msgid "Score"
+msgstr ""
+
+#: src/scriptpo.c:104 src/scriptpo.c:105
 msgid "Please wait..."
 msgstr "Подождите..."
 
-#: src/scriptpo.c:99
+#: src/scriptpo.c:106
 msgid "Exit?"
 msgstr "Точно выйти?"
 
-#: src/scriptpo.c:100
+#: src/scriptpo.c:107
 msgid "Exit"
 msgstr "Выход"
 
-#: src/scriptpo.c:101
+#: src/scriptpo.c:108
 msgid "Resume LW6"
 msgstr "Возобновить LW6"
 
-#: src/scriptpo.c:102
+#: src/scriptpo.c:109
 msgid "Liquid War 6"
 msgstr "Liquid War 6"
 
-#: src/scriptpo.c:104
+#: src/scriptpo.c:111
 msgid "Local game"
 msgstr "Одиночная игра"
 
-#: src/scriptpo.c:105
+#: src/scriptpo.c:112
 msgid "Network game"
 msgstr "Игра по сети"
 
-#: src/scriptpo.c:106 src/scriptpo.c:121
+#: src/scriptpo.c:113 src/scriptpo.c:128
 msgid "Level"
 msgstr "Уровень"
 
-#: src/scriptpo.c:107
+#: src/scriptpo.c:114
 msgid "Teams"
 msgstr "Команды"
 
-#: src/scriptpo.c:109 src/scriptpo.c:111
+#: src/scriptpo.c:116 src/scriptpo.c:118
 msgid "About"
 msgstr "О программе"
 
-#: src/scriptpo.c:112
+#: src/scriptpo.c:119
 msgid "Authors"
 msgstr "Авторы"
 
-#: src/scriptpo.c:113
+#: src/scriptpo.c:120
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/scriptpo.c:114
+#: src/scriptpo.c:121
 msgid "License"
 msgstr "Лицензия"
 
-#: src/scriptpo.c:115
+#: src/scriptpo.c:122
 msgid "Version"
 msgstr "Версия"
 
-#: src/scriptpo.c:116
+#: src/scriptpo.c:123
 msgid "View level"
 msgstr "Просмотр уровня"
 
-#: src/scriptpo.c:117
+#: src/scriptpo.c:124
 msgid "Confirm level choice"
 msgstr "Подтвердить выбор уровня"
 
-#: src/scriptpo.c:118
+#: src/scriptpo.c:125
 msgid "Choose it"
 msgstr "Выбрать"
 
-#: src/scriptpo.c:119
+#: src/scriptpo.c:126
 msgid "View"
 msgstr "Просмотр"
 
-#: src/scriptpo.c:120
+#: src/scriptpo.c:127
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/scriptpo.c:123
+#: src/scriptpo.c:130
 msgid "Graphics"
 msgstr "Видео"
 
-#: src/scriptpo.c:125
+#: src/scriptpo.c:132
 msgid "Graphics options"
 msgstr "Параметры видео"
 
-#: src/scriptpo.c:127 src/scriptpo.c:132
+#: src/scriptpo.c:134 src/scriptpo.c:139
 msgid "Graphics backend"
 msgstr "Графическая библиотека"
 
-#: src/scriptpo.c:129
+#: src/scriptpo.c:136
 msgid "Sound fx volume"
 msgstr "Громкость эффектов"
 
-#: src/scriptpo.c:130
+#: src/scriptpo.c:137
 msgid "Music volume"
 msgstr "Громкость музыки"
 
-#: src/scriptpo.c:131 src/scriptpo.c:133
+#: src/scriptpo.c:138 src/scriptpo.c:140
 msgid "Sound backend"
 msgstr "Звуковая библиотека"
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:141
 msgid "This is a test node."
 msgstr ""
 
-#: src/scriptpo.c:135
+#: src/scriptpo.c:142
 msgid "testing map"
 msgstr "проверка карты"
 
-#: src/scriptpo.c:136
+#: src/scriptpo.c:143
 msgid "testing game struct"
 msgstr ""
 
-#: src/scriptpo.c:137
+#: src/scriptpo.c:144
 msgid "testing game state"
 msgstr "проверка состояния игры"
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:145
 msgid "testing pilot"
 msgstr ""
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:146
 msgid "testing bot"
 msgstr "проверка бота"
 
-#: src/scriptpo.c:140
+#: src/scriptpo.c:147
 msgid "testing smobs GC, step 1"
 msgstr ""
 
-#: src/scriptpo.c:141
+#: src/scriptpo.c:148
 msgid "testing smobs GC, step 2"
 msgstr ""
 
-#: src/scriptpo.c:142
+#: src/scriptpo.c:149
 msgid "testing async load"
 msgstr ""
 
-#: src/scriptpo.c:143
+#: src/scriptpo.c:150
 msgid "testing db"
 msgstr "проверка базы данных"
 
-#: src/scriptpo.c:144
+#: src/scriptpo.c:151
 msgid "testing node"
 msgstr "проверка узла"

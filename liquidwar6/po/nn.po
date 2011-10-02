@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-09-24 21:30+0200\n"
+"POT-Creation-Date: 2011-10-02 19:56+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -201,7 +201,7 @@ msgstr "Kjemp mot programvarepatentar %s"
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
-#: src/lib/ldr/ldr-exp.c:60
+#: src/lib/ldr/ldr-exp.c:65
 #, c-format
 msgid "You just gained experience (exp=%d)."
 msgstr ""
@@ -549,7 +549,7 @@ msgstr "Musikk ~a%"
 msgid "Backend ~a"
 msgstr "Motor ~a"
 
-#: src/scriptpo.c:41 src/scriptpo.c:128
+#: src/scriptpo.c:41 src/scriptpo.c:135
 msgid "Sound options"
 msgstr "Lydoppsett"
 
@@ -577,7 +577,7 @@ msgstr "Tid og fart"
 msgid "Video"
 msgstr "Video"
 
-#: src/scriptpo.c:49 src/scriptpo.c:124
+#: src/scriptpo.c:49 src/scriptpo.c:131
 msgid "Sound"
 msgstr "Lyd"
 
@@ -589,8 +589,8 @@ msgstr "System"
 msgid "Stop current game"
 msgstr "Stopp spelet"
 
-#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:108
-#: src/scriptpo.c:122
+#: src/scriptpo.c:52 src/scriptpo.c:53 src/scriptpo.c:95 src/scriptpo.c:115
+#: src/scriptpo.c:129
 msgid "Options"
 msgstr "Oppsett"
 
@@ -646,7 +646,7 @@ msgstr "Ukjend fart"
 msgid "Bench ~a"
 msgstr ""
 
-#: src/scriptpo.c:68 src/scriptpo.c:126
+#: src/scriptpo.c:68 src/scriptpo.c:133
 msgid "Fullscreen"
 msgstr "Fullskjerm"
 
@@ -731,7 +731,7 @@ msgstr "Tilbake til hovudmenyen"
 msgid "Play"
 msgstr "Spel"
 
-#: src/scriptpo.c:91 src/scriptpo.c:103 src/scriptpo.c:110
+#: src/scriptpo.c:91 src/scriptpo.c:110 src/scriptpo.c:117
 msgid "Quick start"
 msgstr "Snøggstart"
 
@@ -739,147 +739,168 @@ msgstr "Snøggstart"
 msgid "Welcome to Liquid War 6"
 msgstr "Velkommen til Liquid War 6"
 
-#: src/scriptpo.c:97 src/scriptpo.c:98
+#: src/scriptpo.c:97
+msgid "Replay"
+msgstr ""
+
+#: src/scriptpo.c:98
+msgid "Continue"
+msgstr ""
+
+#: src/scriptpo.c:99
+#, fuzzy
+msgid "Back to previous menu"
+msgstr "Tilbake til hovudmenyen"
+
+#: src/scriptpo.c:100 src/scriptpo.c:101
+msgid "Next"
+msgstr ""
+
+#: src/scriptpo.c:102 src/scriptpo.c:103
+msgid "Score"
+msgstr ""
+
+#: src/scriptpo.c:104 src/scriptpo.c:105
 msgid "Please wait..."
 msgstr "Vent litt …"
 
-#: src/scriptpo.c:99
+#: src/scriptpo.c:106
 msgid "Exit?"
 msgstr "Vil du avslutta?"
 
-#: src/scriptpo.c:100
+#: src/scriptpo.c:107
 msgid "Exit"
 msgstr "Avslutt"
 
-#: src/scriptpo.c:101
+#: src/scriptpo.c:108
 msgid "Resume LW6"
 msgstr "Hald fram LW 6"
 
-#: src/scriptpo.c:102
+#: src/scriptpo.c:109
 msgid "Liquid War 6"
 msgstr "Liquid War 6"
 
-#: src/scriptpo.c:104
+#: src/scriptpo.c:111
 msgid "Local game"
 msgstr "Lokalt spel"
 
-#: src/scriptpo.c:105
+#: src/scriptpo.c:112
 msgid "Network game"
 msgstr "Nettverksspel"
 
-#: src/scriptpo.c:106 src/scriptpo.c:121
+#: src/scriptpo.c:113 src/scriptpo.c:128
 msgid "Level"
 msgstr "Brett"
 
-#: src/scriptpo.c:107
+#: src/scriptpo.c:114
 msgid "Teams"
 msgstr "Lag"
 
-#: src/scriptpo.c:109 src/scriptpo.c:111
+#: src/scriptpo.c:116 src/scriptpo.c:118
 msgid "About"
 msgstr "Om"
 
-#: src/scriptpo.c:112
+#: src/scriptpo.c:119
 msgid "Authors"
 msgstr "Utviklarar"
 
-#: src/scriptpo.c:113
+#: src/scriptpo.c:120
 msgid "Copyright"
 msgstr "Opphavsrett"
 
-#: src/scriptpo.c:114
+#: src/scriptpo.c:121
 msgid "License"
 msgstr "Lisens"
 
-#: src/scriptpo.c:115
+#: src/scriptpo.c:122
 msgid "Version"
 msgstr "Versjon"
 
-#: src/scriptpo.c:116
+#: src/scriptpo.c:123
 msgid "View level"
 msgstr "Vis brett"
 
-#: src/scriptpo.c:117
+#: src/scriptpo.c:124
 msgid "Confirm level choice"
 msgstr "Stadfest brettval"
 
-#: src/scriptpo.c:118
+#: src/scriptpo.c:125
 msgid "Choose it"
 msgstr "Vel det"
 
-#: src/scriptpo.c:119
+#: src/scriptpo.c:126
 msgid "View"
 msgstr "Vis"
 
-#: src/scriptpo.c:120
+#: src/scriptpo.c:127
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/scriptpo.c:123
+#: src/scriptpo.c:130
 msgid "Graphics"
 msgstr "Bilete"
 
-#: src/scriptpo.c:125
+#: src/scriptpo.c:132
 msgid "Graphics options"
 msgstr "Biletoppsett"
 
-#: src/scriptpo.c:127 src/scriptpo.c:132
+#: src/scriptpo.c:134 src/scriptpo.c:139
 msgid "Graphics backend"
 msgstr "Grafikkmotor"
 
-#: src/scriptpo.c:129
+#: src/scriptpo.c:136
 msgid "Sound fx volume"
 msgstr "Lydstyrke: lydeffektar"
 
-#: src/scriptpo.c:130
+#: src/scriptpo.c:137
 msgid "Music volume"
 msgstr "Lydstyrke: musikk"
 
-#: src/scriptpo.c:131 src/scriptpo.c:133
+#: src/scriptpo.c:138 src/scriptpo.c:140
 msgid "Sound backend"
 msgstr "Lydmotor"
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:141
 msgid "This is a test node."
 msgstr "Dette er ein testnode."
 
-#: src/scriptpo.c:135
+#: src/scriptpo.c:142
 msgid "testing map"
 msgstr "testar kart"
 
-#: src/scriptpo.c:136
+#: src/scriptpo.c:143
 msgid "testing game struct"
 msgstr "testar spelstruct"
 
-#: src/scriptpo.c:137
+#: src/scriptpo.c:144
 msgid "testing game state"
 msgstr "testar speltilstand"
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:145
 msgid "testing pilot"
 msgstr "testar pilot"
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:146
 msgid "testing bot"
 msgstr "testar bot"
 
-#: src/scriptpo.c:140
+#: src/scriptpo.c:147
 msgid "testing smobs GC, step 1"
 msgstr "testar smobs GC – steg 1"
 
-#: src/scriptpo.c:141
+#: src/scriptpo.c:148
 msgid "testing smobs GC, step 2"
 msgstr "testar smobs GC – steg 2"
 
-#: src/scriptpo.c:142
+#: src/scriptpo.c:149
 msgid "testing async load"
 msgstr "testar async-last"
 
-#: src/scriptpo.c:143
+#: src/scriptpo.c:150
 msgid "testing db"
 msgstr "testar database"
 
-#: src/scriptpo.c:144
+#: src/scriptpo.c:151
 msgid "testing node"
 msgstr "testar node"
 
