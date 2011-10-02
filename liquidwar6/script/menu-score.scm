@@ -25,27 +25,29 @@
 	  )
       (begin
 	;; no items here!
+	(tmp "score")
 	(assoc-set! menu "on-pop" (lambda (m) 
 				    (let ((dsp (lw6-get-game-global "dsp")))
 				      (begin
 					(c-lw6gui-input-reset dsp)					  
-					(lw6-display-idle-setup)
+					(lw6-display-no-score-setup)
 					))))
 	menu
 	))))
 
-(define lw6-score-exp-menu
+(define lw6-score-solo-menu
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Score")))
 	  )
       (begin
 	;; no items here!
+	(tmp "score exp")
 	(assoc-set! menu "on-pop" (lambda (m) 
 				    (let ((dsp (lw6-get-game-global "dsp")))
 				      (begin
 					(c-lw6gui-input-reset dsp)					  
-					(lw6-display-idle-setup)
+					(lw6-display-no-score-setup)
 					(lw6-game-start-local-step1 lw6-game-start-solo-step2)))))
 	menu
 	))))

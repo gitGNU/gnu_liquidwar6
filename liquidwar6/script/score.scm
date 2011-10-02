@@ -35,26 +35,26 @@
 	    (lw6-display-score-setup)
 	    (lw6-pop-menu (lw6-current-menu))
 	    ;;(lw6-pop-menu-raw)
-	    (if (and cursor-id 
-		     (c-lw6pil-did-cursor-win pilot cursor-id)
-		     level 
-		     (lw6-get-game-global "solo"))
+	    (if (lw6-get-game-global "solo")
 		(begin
-		  ;;(lw6-log-notice "X")
-		  (c-lw6ldr-exp-validate level)
-		  (let* (
-			 (map-path (lw6-get-game-global lw6def-map-path))
-			 (relative-path (lw6-config-get-string lw6def-chosen-map))
-			 (entry (c-lw6ldr-chain-entry map-path relative-path))
-			 )
-		    (if entry
-			(begin
-			  (lw6-config-set-string! lw6def-chosen-map (assoc-ref entry "relative-path"))
-			  (lw6-push-menu (lw6-score-exp-menu))
-			  )
-			(lw6-push-menu (lw6-score-menu)))
-		    )))
+		  (if (and cursor-id 
+			   (c-lw6pil-did-cursor-win pilot cursor-id)
+			   level)
+		      (begin
+			;;(lw6-log-notice "X")
+			(c-lw6ldr-exp-validate level)
+			(let* (
+			       (map-path (lw6-get-game-global lw6def-map-path))
+			       (relative-path (lw6-config-get-string lw6def-chosen-map))
+			       (entry (c-lw6ldr-chain-entry map-path relative-path))
+			       )
+			  (if entry
+			      (begin
+				(lw6-config-set-string! lw6def-chosen-map (assoc-ref entry "relative-path")))))))
+		  (lw6-push-menu (lw6-score-solo-menu))
+		  (tmp "solo"))
 		(begin
-		  (lw6-push-menu (lw6-score-menu)))
-		)))))
-	    
+		  (lw6-push-menu (lw6-score-menu))
+		  (tmp "not solo")
+		  )))))))
+

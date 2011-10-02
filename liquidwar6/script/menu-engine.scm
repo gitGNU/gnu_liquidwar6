@@ -66,14 +66,14 @@
       (lw6-menu-update-selected-item menu)
       (lw6-menu-sync menu)
       (lw6-menuitem-action (lw6-current-menuitem) "on-select")
-					;(lw6-menu-center)
+      ;;(lw6-menu-center)
       )))
 
 (define lw6-push-menu 
   (lambda (menu)
     (begin 
       (lw6-push-menu-nowarp menu)
-					;(lw6-menu-warp-mouse)
+      ;;(lw6-menu-warp-mouse)
       )))
 
 (define lw6-pop-menu 
@@ -87,8 +87,8 @@
 	    )
 	(if menu
 	    (begin
-					;(lw6-menu-center)
-					;(lw6-menu-warp-mouse)
+	      ;;(lw6-menu-center)
+	      ;;(lw6-menu-warp-mouse)
 	      ))))))
 
 (define lw6-pop-menu-raw

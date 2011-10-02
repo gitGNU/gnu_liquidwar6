@@ -204,3 +204,9 @@
       (lw6-display-param-set-boolean-from-config! lw6def-display-menu)
       )))
 
+(define lw6-display-no-score-setup
+  (lambda ()
+    (begin
+      (lw6-display-param-set! lw6def-display-score #f)
+      )))
+
