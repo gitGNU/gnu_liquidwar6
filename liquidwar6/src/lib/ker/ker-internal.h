@@ -32,7 +32,7 @@
 #define _LW6KER_ACT_LIMIT 100
 #define _LW6KER_CHARGE_LIMIT 1000000
 
-#define _LW6KER_BEZERK_ROUNDS_TO_KILL 2
+#define _LW6KER_BERZERK_ROUNDS_TO_KILL 2
 
 typedef int32_t _lw6ker_tables_move_offset_t[LW6KER_NB_DIRS];
 typedef int32_t _lw6ker_tables_move_dir_tries_t[LW6MAP_MAX_NB_DIR_TRIES];
@@ -922,9 +922,9 @@ extern int _lw6ker_weapon_fire (_lw6ker_map_state_t * map_state,
 extern int _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
 				 lw6map_rules_t * rules, int round,
 				 int team_color, int charge_percent);
-extern int _lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
-				       lw6map_rules_t * rules, int round,
-				       int team_color, int charge_percent);
+extern int _lw6ker_weapon_fire_berzerk (_lw6ker_map_state_t * map_state,
+					lw6map_rules_t * rules, int round,
+					int team_color, int charge_percent);
 extern int _lw6ker_weapon_fire_invincible (_lw6ker_map_state_t * map_state,
 					   lw6map_rules_t * rules, int round,
 					   int team_color,

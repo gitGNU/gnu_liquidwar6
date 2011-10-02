@@ -805,7 +805,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_WEAPON_CHARGE_DELAY "weapon-charge-delay"
 #define LW6DEF_WEAPON_CHARGE_MAX "weapon-charge-max"
 #define LW6DEF_WEAPON_DURATION "weapon-duration"
-#define LW6DEF_WEAPON_TUNE_BEZERK_POWER "weapon-tune-bezerk-power"
+#define LW6DEF_WEAPON_TUNE_BERZERK_POWER "weapon-tune-berzerk-power"
 #define LW6DEF_WEAPON_TUNE_TURBO_POWER "weapon-tune-turbo-power"
 #define LW6DEF_WIDTH "width"
 #define LW6DEF_WINDOWED_MODE_LIMIT "windowed-mode-limit"

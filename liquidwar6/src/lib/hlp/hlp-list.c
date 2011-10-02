@@ -570,7 +570,7 @@ update_map_rules (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_WEAPON_DURATION);
   lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_DELAY);
   lw6sys_list_push_back (list, LW6DEF_WEAPON_CHARGE_MAX);
-  lw6sys_list_push_back (list, LW6DEF_WEAPON_TUNE_BEZERK_POWER);
+  lw6sys_list_push_back (list, LW6DEF_WEAPON_TUNE_BERZERK_POWER);
   lw6sys_list_push_back (list, LW6DEF_WEAPON_TUNE_TURBO_POWER);
 
   return ((*list) != NULL);

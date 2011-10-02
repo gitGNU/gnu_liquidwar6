@@ -154,10 +154,10 @@ _do_fire (_lw6ker_map_state_t * map_state,
     {
       switch (weapon_id)
 	{
-	case LW6MAP_WEAPON_BEZERK:
+	case LW6MAP_WEAPON_BERZERK:
 	  ret =
-	    _lw6ker_weapon_fire_bezerk (map_state, rules, round, team_color,
-					charge_percent);
+	    _lw6ker_weapon_fire_berzerk (map_state, rules, round, team_color,
+					 charge_percent);
 	  break;
 	case LW6MAP_WEAPON_INVINCIBLE:
 	  ret =
@@ -349,18 +349,18 @@ _lw6ker_weapon_fire2 (_lw6ker_map_state_t * map_state,
 }
 
 int
-_lw6ker_weapon_fire_bezerk (_lw6ker_map_state_t * map_state,
-			    lw6map_rules_t * rules, int round, int team_color,
-			    int charge_percent)
+_lw6ker_weapon_fire_berzerk (_lw6ker_map_state_t * map_state,
+			     lw6map_rules_t * rules, int round,
+			     int team_color, int charge_percent)
 {
   int ret = 1;
 
   /*
-   * BEZERK weapon is implemented right in the move/action function,
+   * BERZERK weapon is implemented right in the move/action function,
    * when in this mode, the attack table is modified, nothing to do here.
    */
   _register_weapon_duration (map_state, rules, round, team_color,
-			     charge_percent, LW6MAP_WEAPON_BEZERK);
+			     charge_percent, LW6MAP_WEAPON_BERZERK);
 
   return ret;
 }

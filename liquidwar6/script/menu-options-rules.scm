@@ -31,6 +31,19 @@
 	item
 	))))
 
+(define lw6-rules-options-menu-use-team-profiles-item
+  (lambda ()
+    (let (
+	  (item (lw6-menu-item-list-number-template 
+				    lw6def-use-team-profiles
+				    (list
+				     (_ "All teams are equal")
+				     (_ "Use team profiles"))))
+	  )
+      (begin
+	item
+	))))
+
 (define lw6-rules-options-menu-per-100-2-label
   (lambda (v)
     (inexact->exact (round (/ (* v v) 100)))))
@@ -93,6 +106,7 @@
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-rules-options-menu-respawn-team-item))
+	(lw6-append-menuitem! menu (lw6-rules-options-menu-use-team-profiles-item))
 	(lw6-append-menuitem! menu (lw6-rules-options-menu-armies-size-item))
 	(set! menu(assoc-set! menu "on-pop" (lambda (m) (lw6-loader-purge))))
 	menu

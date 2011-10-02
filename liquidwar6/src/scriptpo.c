@@ -41,6 +41,8 @@ _("Backend ~a");		// extracted by scriptpo-update.sh
 _("Sound options");		// extracted by scriptpo-update.sh
 _("One life (last wins)");	// extracted by scriptpo-update.sh
 _("Respawn (deatchmatch)");	// extracted by scriptpo-update.sh
+_("All teams are equal");	// extracted by scriptpo-update.sh
+_("Use team profiles");		// extracted by scriptpo-update.sh
 _("Armies ~a% - ~a%");		// extracted by scriptpo-update.sh
 _("Rules");			// extracted by scriptpo-update.sh
 _("Time & speed");		// extracted by scriptpo-update.sh

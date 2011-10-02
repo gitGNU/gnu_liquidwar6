@@ -38,9 +38,9 @@ typedef enum lw6map_weapon_e
 {
   LW6MAP_WEAPON_NONE = -1,
 /*
- * BEZERK: has super-strong attack for a limited time
+ * BERZERK: has super-strong attack for a limited time
  */
-  LW6MAP_WEAPON_BEZERK = 0,
+  LW6MAP_WEAPON_BERZERK = 0,
 /*
  * INVINCIBLE: no damage for a limited time
  */
@@ -654,7 +654,7 @@ lw6map_weapon_t;
 #define LW6MAP_RULES_MIN_TEAM_PROFILE_MAGENTA_WEAPON_ID LW6MAP_MIN_WEAPON_ID
 #define LW6MAP_RULES_MAX_TEAM_PROFILE_MAGENTA_WEAPON_ID LW6MAP_MAX_WEAPON_ID
 
-#define LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_ID LW6MAP_WEAPON_BEZERK
+#define LW6MAP_RULES_DEFAULT_TEAM_PROFILE_ORANGE_WEAPON_ID LW6MAP_WEAPON_BERZERK
 #define LW6MAP_RULES_MIN_TEAM_PROFILE_ORANGE_WEAPON_ID LW6MAP_MIN_WEAPON_ID
 #define LW6MAP_RULES_MAX_TEAM_PROFILE_ORANGE_WEAPON_ID LW6MAP_MAX_WEAPON_ID
 
@@ -762,9 +762,9 @@ lw6map_weapon_t;
 #define LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX 100
 #define LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX 1000
 
-#define LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BEZERK_POWER 3
-#define LW6MAP_RULES_MIN_WEAPON_TUNE_BEZERK_POWER 1
-#define LW6MAP_RULES_MAX_WEAPON_TUNE_BEZERK_POWER 100
+#define LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BERZERK_POWER 3
+#define LW6MAP_RULES_MIN_WEAPON_TUNE_BERZERK_POWER 1
+#define LW6MAP_RULES_MAX_WEAPON_TUNE_BERZERK_POWER 100
 
 #define LW6MAP_RULES_DEFAULT_WEAPON_TUNE_TURBO_POWER 3
 #define LW6MAP_RULES_MIN_WEAPON_TUNE_TURBO_POWER 1
@@ -839,7 +839,7 @@ typedef struct lw6map_rules_s
   int32_t weapon_duration;
   int32_t weapon_charge_delay;
   int32_t weapon_charge_max;
-  int32_t weapon_tune_bezerk_power;
+  int32_t weapon_tune_berzerk_power;
   int32_t weapon_tune_turbo_power;
 } lw6map_rules_t;
 
@@ -973,7 +973,7 @@ typedef enum lw6map_team_color_e
     8, LW6MAP_TEAM_COLOR_PINK = 9
 } lw6map_team_color_t;
 
-#define LW6MAP_WEAPON_KEY_BEZERK "bezerk"
+#define LW6MAP_WEAPON_KEY_BERZERK "berzerk"
 #define LW6MAP_WEAPON_KEY_INVINCIBLE "invincible"
 #define LW6MAP_WEAPON_KEY_ESCAPE "escape"
 #define LW6MAP_WEAPON_KEY_TURBO "turbo"

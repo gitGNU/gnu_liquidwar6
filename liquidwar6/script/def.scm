@@ -798,7 +798,7 @@
 (define lw6def-weapon-charge-delay "weapon-charge-delay")
 (define lw6def-weapon-charge-max "weapon-charge-max")
 (define lw6def-weapon-duration "weapon-duration")
-(define lw6def-weapon-tune-bezerk-power "weapon-tune-bezerk-power")
+(define lw6def-weapon-tune-berzerk-power "weapon-tune-berzerk-power")
 (define lw6def-weapon-tune-turbo-power "weapon-tune-turbo-power")
 (define lw6def-width "width")
 (define lw6def-windowed-mode-limit "windowed-mode-limit")

@@ -1767,12 +1767,12 @@ populate_references ()
 		LW6MAP_RULES_DEFAULT_WEAPON_CHARGE_MAX,
 		LW6MAP_RULES_MIN_WEAPON_CHARGE_MAX,
 		LW6MAP_RULES_MAX_WEAPON_CHARGE_MAX);
-  POPULATE_INT (LW6DEF_WEAPON_TUNE_BEZERK_POWER,
+  POPULATE_INT (LW6DEF_WEAPON_TUNE_BERZERK_POWER,
 		_x_
-		("Use to specifiy how strong bezerk mode is, if set to 3, then attacks will be 3 times as efficient in bezerk mode."),
-		LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BEZERK_POWER,
-		LW6MAP_RULES_MIN_WEAPON_TUNE_BEZERK_POWER,
-		LW6MAP_RULES_MAX_WEAPON_TUNE_BEZERK_POWER);
+		("Use to specifiy how strong berzerk mode is, if set to 3, then attacks will be 3 times as efficient in berzerk mode."),
+		LW6MAP_RULES_DEFAULT_WEAPON_TUNE_BERZERK_POWER,
+		LW6MAP_RULES_MIN_WEAPON_TUNE_BERZERK_POWER,
+		LW6MAP_RULES_MAX_WEAPON_TUNE_BERZERK_POWER);
   POPULATE_INT (LW6DEF_WEAPON_TUNE_TURBO_POWER,
 		_x_
 		("Defines how fast fighters move in turbo mode, if set to 3, then fighters move and act 3 times as fast."),

@@ -780,7 +780,7 @@ waves
 weapon-charge-delay
 weapon-charge-max
 weapon-duration
-weapon-tune-bezerk-power
+weapon-tune-berzerk-power
 weapon-tune-turbo-power
 width
 windowed-mode-limit

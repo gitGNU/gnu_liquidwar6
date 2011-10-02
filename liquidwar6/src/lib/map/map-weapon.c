@@ -39,12 +39,12 @@
 char *
 lw6map_weapon_index_to_key (int index)
 {
-  char *ret = LW6MAP_WEAPON_KEY_BEZERK;
+  char *ret = LW6MAP_WEAPON_KEY_BERZERK;
 
   switch (index)
     {
-    case LW6MAP_WEAPON_BEZERK:
-      ret = LW6MAP_WEAPON_KEY_BEZERK;
+    case LW6MAP_WEAPON_BERZERK:
+      ret = LW6MAP_WEAPON_KEY_BERZERK;
       break;
     case LW6MAP_WEAPON_INVINCIBLE:
       ret = LW6MAP_WEAPON_KEY_INVINCIBLE;
@@ -125,9 +125,9 @@ lw6map_weapon_key_to_index (char *key)
 {
   int ret = LW6MAP_WEAPON_NONE;
 
-  if (!strcasecmp (key, LW6MAP_WEAPON_KEY_BEZERK))
+  if (!strcasecmp (key, LW6MAP_WEAPON_KEY_BERZERK))
     {
-      ret = LW6MAP_WEAPON_BEZERK;
+      ret = LW6MAP_WEAPON_BERZERK;
     }
   else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_INVINCIBLE))
     {

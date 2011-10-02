@@ -775,13 +775,13 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
        */
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
-	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_BEZERK)
+	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_BERZERK)
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
 		  context.fighter_attack[i][j] =
 		    lw6sys_min (context.fighter_attack[i][j] *
-				context.rules.weapon_tune_bezerk_power,
+				context.rules.weapon_tune_berzerk_power,
 				LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 		}
 	    }
