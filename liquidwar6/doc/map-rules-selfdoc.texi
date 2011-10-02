@@ -941,7 +941,7 @@ value between 0 and 100.
 @deffnx {XML key} @code{team-profile-blue-aggressive}
 Type: integer
 
-Default value: 110
+Default value: 300
 Min value: 10
 Max value: 1000
 
@@ -956,7 +956,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-blue-fast}
 Type: integer
 
-Default value: 80
+Default value: 50
 Min value: 10
 Max value: 1000
 
@@ -1002,7 +1002,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-blue-weapon-alternate-id}
 Type: integer
 
-Default value: 12
+Default value: LW6MAP_WEAPON_CONTROL
 Min value: 0
 Max value: 19
 
@@ -1016,7 +1016,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-blue-weapon-id}
 Type: integer
 
-Default value: 2
+Default value: LW6MAP_WEAPON_REWIND
 Min value: 0
 Max value: 19
 
@@ -1044,7 +1044,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-cyan-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 110
 Min value: 10
 Max value: 1000
 
@@ -1059,7 +1059,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-cyan-fast}
 Type: integer
 
-Default value: 80
+Default value: 40
 Min value: 10
 Max value: 1000
 
@@ -1074,7 +1074,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-cyan-mobile}
 Type: integer
 
-Default value: 2
+Default value: 0
 Min value: -3
 Max value: 3
 
@@ -1090,7 +1090,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-cyan-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 10
 Min value: 10
 Max value: 1000
 
@@ -1105,7 +1105,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-cyan-weapon-alternate-id}
 Type: integer
 
-Default value: 14
+Default value: LW6MAP_WEAPON_REVERSE
 Min value: 0
 Max value: 19
 
@@ -1119,7 +1119,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-cyan-weapon-id}
 Type: integer
 
-Default value: 4
+Default value: LW6MAP_WEAPON_TURBO
 Min value: 0
 Max value: 19
 
@@ -1147,7 +1147,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-green-aggressive}
 Type: integer
 
-Default value: 80
+Default value: 100
 Min value: 10
 Max value: 1000
 
@@ -1162,7 +1162,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-green-fast}
 Type: integer
 
-Default value: 100
+Default value: 70
 Min value: 10
 Max value: 1000
 
@@ -1193,7 +1193,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-green-vulnerable}
 Type: integer
 
-Default value: 80
+Default value: 45
 Min value: 10
 Max value: 1000
 
@@ -1208,7 +1208,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-green-weapon-alternate-id}
 Type: integer
 
-Default value: 11
+Default value: LW6MAP_WEAPON_MIX
 Min value: 0
 Max value: 19
 
@@ -1222,7 +1222,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-green-weapon-id}
 Type: integer
 
-Default value: 1
+Default value: LW6MAP_WEAPON_CRAZY
 Min value: 0
 Max value: 19
 
@@ -1250,7 +1250,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-lightblue-aggressive}
 Type: integer
 
-Default value: 90
+Default value: 1000
 Min value: 10
 Max value: 1000
 
@@ -1265,7 +1265,7 @@ value. Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-lightblue-fast}
 Type: integer
 
-Default value: 80
+Default value: 20
 Min value: 10
 Max value: 1000
 
@@ -1280,7 +1280,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-lightblue-mobile}
 Type: integer
 
-Default value: 3
+Default value: 0
 Min value: -3
 Max value: 3
 
@@ -1297,7 +1297,7 @@ behavior.
 @deffnx {XML key} @code{team-profile-lightblue-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 40
 Min value: 10
 Max value: 1000
 
@@ -1312,7 +1312,7 @@ default value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-lightblue-weapon-alternate-id}
 Type: integer
 
-Default value: 17
+Default value: LW6MAP_WEAPON_KAMIKAZE
 Min value: 0
 Max value: 19
 
@@ -1326,7 +1326,7 @@ documentation about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-lightblue-weapon-id}
 Type: integer
 
-Default value: 7
+Default value: LW6MAP_WEAPON_TELEPORT
 Min value: 0
 Max value: 19
 
@@ -1354,7 +1354,7 @@ per team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-magenta-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 60
 Min value: 10
 Max value: 1000
 
@@ -1369,7 +1369,7 @@ value. Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-magenta-fast}
 Type: integer
 
-Default value: 110
+Default value: 320
 Min value: 10
 Max value: 1000
 
@@ -1384,7 +1384,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-magenta-mobile}
 Type: integer
 
-Default value: -1
+Default value: 0
 Min value: -3
 Max value: 3
 
@@ -1400,7 +1400,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-magenta-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 600
 Min value: 10
 Max value: 1000
 
@@ -1415,7 +1415,7 @@ default value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-magenta-weapon-alternate-id}
 Type: integer
 
-Default value: 15
+Default value: LW6MAP_WEAPON_ATTRACT
 Min value: 0
 Max value: 19
 
@@ -1429,7 +1429,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-magenta-weapon-id}
 Type: integer
 
-Default value: 5
+Default value: LW6MAP_WEAPON_FIX
 Min value: 0
 Max value: 19
 
@@ -1457,7 +1457,7 @@ per team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-orange-aggressive}
 Type: integer
 
-Default value: 100
+Default value: 30
 Min value: 10
 Max value: 1000
 
@@ -1472,7 +1472,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-orange-fast}
 Type: integer
 
-Default value: 100
+Default value: 160
 Min value: 10
 Max value: 1000
 
@@ -1503,7 +1503,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-orange-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 90
 Min value: 10
 Max value: 1000
 
@@ -1518,7 +1518,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-orange-weapon-alternate-id}
 Type: integer
 
-Default value: 16
+Default value: LW6MAP_WEAPON_SHRINK
 Min value: 0
 Max value: 19
 
@@ -1532,7 +1532,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-orange-weapon-id}
 Type: integer
 
-Default value: 6
+Default value: LW6MAP_WEAPON_BEZERK
 Min value: 0
 Max value: 19
 
@@ -1560,7 +1560,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-pink-aggressive}
 Type: integer
 
-Default value: 130
+Default value: 800
 Min value: 10
 Max value: 1000
 
@@ -1575,7 +1575,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-pink-fast}
 Type: integer
 
-Default value: 120
+Default value: 80
 Min value: 10
 Max value: 1000
 
@@ -1590,7 +1590,7 @@ Setting this high is very likely to advantage the team.
 @deffnx {XML key} @code{team-profile-pink-mobile}
 Type: integer
 
-Default value: 1
+Default value: 0
 Min value: -3
 Max value: 3
 
@@ -1606,7 +1606,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-pink-vulnerable}
 Type: integer
 
-Default value: 160
+Default value: 800
 Min value: 10
 Max value: 1000
 
@@ -1621,7 +1621,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-pink-weapon-alternate-id}
 Type: integer
 
-Default value: 19
+Default value: LW6MAP_WEAPON_PLAGUE
 Min value: 0
 Max value: 19
 
@@ -1635,7 +1635,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-pink-weapon-id}
 Type: integer
 
-Default value: 9
+Default value: LW6MAP_WEAPON_INVINCIBLE
 Min value: 0
 Max value: 19
 
@@ -1663,7 +1663,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-purple-aggressive}
 Type: integer
 
-Default value: 80
+Default value: 40
 Min value: 10
 Max value: 1000
 
@@ -1709,7 +1709,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-purple-vulnerable}
 Type: integer
 
-Default value: 60
+Default value: 20
 Min value: 10
 Max value: 1000
 
@@ -1724,7 +1724,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-purple-weapon-alternate-id}
 Type: integer
 
-Default value: 18
+Default value: LW6MAP_WEAPON_DISAPPEAR
 Min value: 0
 Max value: 19
 
@@ -1738,7 +1738,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-purple-weapon-id}
 Type: integer
 
-Default value: 8
+Default value: LW6MAP_WEAPON_ATOMIC
 Min value: 0
 Max value: 19
 
@@ -1766,7 +1766,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-red-aggressive}
 Type: integer
 
-Default value: 120
+Default value: 90
 Min value: 10
 Max value: 1000
 
@@ -1781,7 +1781,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-red-fast}
 Type: integer
 
-Default value: 100
+Default value: 160
 Min value: 10
 Max value: 1000
 
@@ -1827,7 +1827,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-red-weapon-alternate-id}
 Type: integer
 
-Default value: 10
+Default value: LW6MAP_WEAPON_ESCAPE
 Min value: 0
 Max value: 19
 
@@ -1841,7 +1841,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-red-weapon-id}
 Type: integer
 
-Default value: 0
+Default value: LW6MAP_WEAPON_STEAL
 Min value: 0
 Max value: 19
 
@@ -1869,7 +1869,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-yellow-aggressive}
 Type: integer
 
-Default value: 50
+Default value: 300
 Min value: 10
 Max value: 1000
 
@@ -1884,7 +1884,7 @@ Setting this to a high value clearly advantages this team.
 @deffnx {XML key} @code{team-profile-yellow-fast}
 Type: integer
 
-Default value: 150
+Default value: 70
 Min value: 10
 Max value: 1000
 
@@ -1915,7 +1915,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-yellow-vulnerable}
 Type: integer
 
-Default value: 100
+Default value: 120
 Min value: 10
 Max value: 1000
 
@@ -1930,7 +1930,7 @@ value. Setting this to a high value clearly disadvantages this team.
 @deffnx {XML key} @code{team-profile-yellow-weapon-alternate-id}
 Type: integer
 
-Default value: 13
+Default value: LW6MAP_WEAPON_PERMUTATION
 Min value: 0
 Max value: 19
 
@@ -1944,7 +1944,7 @@ about weapons to know what these ids mean.
 @deffnx {XML key} @code{team-profile-yellow-weapon-id}
 Type: integer
 
-Default value: 3
+Default value: LW6MAP_WEAPON_SCATTER
 Min value: 0
 Max value: 19
 

@@ -21,9 +21,9 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 liquidwar6.info-1: 794
-liquidwar6.info-2: 297885
-liquidwar6.info-3: 594720
-liquidwar6.info-4: 856423
+liquidwar6.info-2: 298260
+liquidwar6.info-3: 595095
+liquidwar6.info-4: 856798
 
 Tag Table:
 (Indirect)
@@ -75,60 +75,60 @@ Node: Sound options209653
 Node: Network options212341
 Node: Map parameters217899
 Node: Map rules.xml222139
-Node: Map hints.xml297885
-Node: Map style.xml312126
-Node: Map teams.xml337020
-Node: Advanced settings343908
-Node: C to Guile368059
-Node: Script hooks420241
-Node: C API420359
-Node: libliquidwar6424037
-Node: libbot442998
-Node: mod-brute443564
-Node: mod-follow443901
-Node: mod-idiot444244
-Node: mod-random444585
-Node: libcfg444925
-Node: libcli452514
-Node: mod-http453853
-Node: mod-tcp454183
-Node: mod-udp454517
-Node: libcns454849
-Node: libcnx455359
-Node: libdat464156
-Node: libdef465520
-Node: libdsp465755
-Node: libdyn472099
-Node: libgfx476135
-Node: mod-gl481500
-Node: libglb482024
-Node: libgui486408
-Node: libhlp486728
-Node: libimg492180
-Node: libker492689
-Node: libldr526783
-Node: libmap544560
-Node: libmsg560720
-Node: libnet578979
-Node: libnod587139
-Node: libp2p594720
-Node: libpil600160
-Node: libscm614383
-Node: libsnd615774
-Node: mod-csound616428
-Node: mod-ogg616772
-Node: libsrv617107
-Node: mod-httpd619468
-Node: mod-tcpd619809
-Node: mod-udpd620149
-Node: libsys620486
-Node: libtsk770043
-Node: libvox771831
-Node: 2005 .plan772774
-Node: Fanfic785046
-Node: Links791383
-Node: Copying793674
-Node: GNU Free Documentation License831256
-Node: Indexes856423
+Node: Map hints.xml298260
+Node: Map style.xml312501
+Node: Map teams.xml337395
+Node: Advanced settings344283
+Node: C to Guile368434
+Node: Script hooks420616
+Node: C API420734
+Node: libliquidwar6424412
+Node: libbot443373
+Node: mod-brute443939
+Node: mod-follow444276
+Node: mod-idiot444619
+Node: mod-random444960
+Node: libcfg445300
+Node: libcli452889
+Node: mod-http454228
+Node: mod-tcp454558
+Node: mod-udp454892
+Node: libcns455224
+Node: libcnx455734
+Node: libdat464531
+Node: libdef465895
+Node: libdsp466130
+Node: libdyn472474
+Node: libgfx476510
+Node: mod-gl481875
+Node: libglb482399
+Node: libgui486783
+Node: libhlp487103
+Node: libimg492555
+Node: libker493064
+Node: libldr527158
+Node: libmap544935
+Node: libmsg561095
+Node: libnet579354
+Node: libnod587514
+Node: libp2p595095
+Node: libpil600535
+Node: libscm614758
+Node: libsnd616149
+Node: mod-csound616803
+Node: mod-ogg617147
+Node: libsrv617482
+Node: mod-httpd619843
+Node: mod-tcpd620184
+Node: mod-udpd620524
+Node: libsys620861
+Node: libtsk770418
+Node: libvox772206
+Node: 2005 .plan773149
+Node: Fanfic785421
+Node: Links791758
+Node: Copying794049
+Node: GNU Free Documentation License831631
+Node: Indexes856798
 
 End Tag Table
