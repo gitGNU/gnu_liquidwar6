@@ -1482,33 +1482,27 @@ great, carefully crafted 1280×720 just looks awesome and can represent
 a great level complexity.
 
    Here are the technical limits:
-   * maximum width: 2 000
 
-   * maximum height: 1 500
+Type               Max width          Max height         Max surface
+---------------------------------------------------------------------------- 
+Texture            3 000              2 000              6 000 000
+Logical map        1 500              1 000              1 000 000
 
-   * maximum surface: 2 250 000
+   The texture can be somewhat bigger than the logical map, this allows
+for pretty levels while limiting the horsepower needed to move the
+fighters and animate everything. Note that you could technically feed
+the game with a `map.png' that is bigger than the logical map limit,
+only it will be downscaled when being loaded.
 
-   The "2 250 000" limit corresponds to a 2 000 x 1 125 map, which is a
-16/9 map with a width of 2000. It's greater than a full HD 1 920 x 1
-080.  The limit is lower than 2 000 * 1 500 (which is 3 000 000) this
-means a 2 000 x 1 500 map will be rejected, the idea is to permit wide
-or high maps while limiting the overall surface, which is a good
-indicator of how complexe the whole thing is.
-
-   These limits apply to map and textures, if you want to design maps
-with great details, here are the suggested resolutions:
-
-   * 16/9 : 1 920 x 1 080
-
-   * 4/3 : 1 600 x 1 200
-
-   * 5/4 : 1 280 x 1 024
-
-   * 1/1 : 1 200 x 1 200
+   The texture limits are generous enough to accept a full-HD 1920x1080
+image, or a 4/3 1600x1200 image, while the "one million pixels" logical
+map limit is enough to store a 16/9 1280x720 map or a 4/3 1024x768.
 
    Keep in mind that the logical map (`map.png') will probably be
-scaled whatsoever, and your texture will rarely appear in its native
-resolution, will probably be distorted, and so on.
+scaled whatsoever, even if it's within the absolute limits (the game
+adapts the resolution to your computer speed) and your texture will
+rarely appear in its native resolution, will probably be distorted, and
+so on.
 
 3.1.4 map.png
 -------------
