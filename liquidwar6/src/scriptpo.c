@@ -94,6 +94,13 @@ _("Choose map");		// extracted by scriptpo-update.sh
 _("Players");			// extracted by scriptpo-update.sh
 _("Options");			// extracted by scriptpo-update.sh
 _("Welcome to Liquid War 6");	// extracted by scriptpo-update.sh
+_("Replay");			// extracted by scriptpo-update.sh
+_("Continue");			// extracted by scriptpo-update.sh
+_("Back to previous menu");	// extracted by scriptpo-update.sh
+_("Next");			// extracted by scriptpo-update.sh
+_("Next");			// extracted by scriptpo-update.sh
+_("Score");			// extracted by scriptpo-update.sh
+_("Score");			// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Exit?");			// extracted by scriptpo-update.sh

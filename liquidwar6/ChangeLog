@@ -1,3 +1,7 @@
+2011-10-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Level-chaining now works (along with exp gain).
+
 2011-10-01 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Hacking on level chaining. Doesn't work yet.

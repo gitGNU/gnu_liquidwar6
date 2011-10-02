@@ -1066,6 +1066,7 @@ typedef struct lw6map_metadata_s
 {
   char *title;
   char *readme;
+  int vanilla_exp;
 } lw6map_metadata_t;
 
 /*

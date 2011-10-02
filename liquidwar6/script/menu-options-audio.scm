@@ -184,13 +184,13 @@
     (let* (
 	   (snd-backend (lw6-config-get-string lw6def-snd-backend))
 	   (index 0)
-	   (tmp 0)
+	   (t 0)
 	   (backend-list (lw6-audio-options-menu-backend-item-list))
 	  )
       (begin
 	(map (lambda (v) (if (equal? snd-backend (car v)) 
-			     (set! index tmp)
-			     (set! tmp (+ 1 tmp))
+			     (set! index t)
+			     (set! t (+ 1 t))
 			     ))
 	     backend-list)
 	(if (>= index (length backend-list))

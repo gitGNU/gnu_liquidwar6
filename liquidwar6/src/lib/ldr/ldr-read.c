@@ -114,6 +114,8 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	  lw6ldr_rules_read (&rules_tmp, dirname);
 	  map_exp = rules_tmp.exp;
 	}
+      // following is important else exp increase won't work
+      level->metadata.vanilla_exp = map_exp;
 
       level->param.rules.highest_team_color_allowed =
 	lw6sys_min (LW6MAP_MAX_NB_TEAMS - 1,

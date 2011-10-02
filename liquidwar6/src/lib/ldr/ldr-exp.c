@@ -46,7 +46,12 @@ lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir)
   int ret = 0;
 
   lw6cfg_load_exp (user_dir, &player_exp);
-  map_exp = level->param.rules.exp;
+  /*
+   * It's important to use vanilla_exp and not rules.exp this
+   * way we use the real exp from the level, not our own, else
+   * we would ever increase exp playing any level
+   */
+  map_exp = level->metadata.vanilla_exp;
 
   if (player_exp == map_exp)
     {
@@ -81,7 +86,8 @@ lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir)
 void
 _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
 {
-  rules->exp = exp;
+  rules->exp =
+    lw6sys_max (LW6MAP_RULES_MIN_EXP, lw6sys_max (exp, rules->exp));
   rules->highest_team_color_allowed =
     lw6sys_min (rules->highest_team_color_allowed,
 		lw6map_exp_get_highest_team_color_allowed (exp));
