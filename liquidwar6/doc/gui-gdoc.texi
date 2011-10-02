@@ -57,6 +57,16 @@ after all this, you want to know how many times it has been doubleclicked.
 @strong{Return value:}  1 if there's a doubleclick event in the queue, 0 if empty.
 @end deftypefun
 
+@deftypefun {int} {lw6gui_button_pop_triple_click} (lw6gui_button_t * @var{button})
+@var{button}:  the button to query
+
+Tells how many times the button has been tripleclicked. Typical usage: the
+button is tripleclicked, released, tripleclicked, released several times. Then,
+after all this, you want to know how many times it has been tripleclicked.
+
+@strong{Return value:}  1 if there's a tripleclick event in the queue, 0 if empty.
+@end deftypefun
+
 @deftypefun {void} {lw6gui_button_update_repeat} (lw6gui_button_t * @var{button}, lw6gui_repeat_settings_t * @var{repeat_settings}, int64_t @var{timestamp})
 @var{button}:  the button to update
 
@@ -110,7 +120,7 @@ data to put it in dst, and clearing src.
 
 Registers a "down" (press) event on a button.
 
-@strong{Return value:}  none.
+@strong{Return value:}  1 if OK, 0 if error (unable to calculate).
 @end deftypefun
 
 @deftypefun {void} {lw6gui_coords_fix_xy_float} (float * @var{x}, float * @var{y}, int * @var{x_flip}, int * @var{y_flip}, float @var{w}, float @var{h}, int @var{x_polarity}, int @var{y_polarity})
@@ -941,6 +951,45 @@ in src if needed while setting it in dst.
 @strong{Return value:}  1 if success, O if failure.
 @end deftypefun
 
+@deftypefun {void} {lw6gui_mouse_drag_begin} (lw6gui_mouse_t * @var{mouse})
+@var{mouse}:  mouse struct to update
+
+To be called when one wants to start recording a drag session,
+typically when left button is pressed.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_mouse_drag_end} (lw6gui_mouse_t * @var{mouse})
+@var{mouse}:  mouse struct to update
+
+To be called when one wants to stop recording a drag session,
+typically when left button is released.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6gui_mouse_drag_pop} (lw6gui_mouse_t * @var{mouse}, int * @var{delta_x}, int * @var{delta_y}, int * @var{pos_x}, int * @var{pos_y}, int * @var{speed_x}, int * @var{speed_y})
+@var{mouse}:  mouse struct to query
+
+@var{delta_x}:  x movement (on screen, out param can be NULL)
+
+@var{delta_y}:  y movement (on screen, out param can be NULL)
+
+@var{pos_x}:  x pos (on screen, out param can be NULL)
+
+@var{pos_y}:  y pos (on screen, out param can be NULL)
+
+@var{speed_x}:  x speed (on screen, out param can be NULL)
+
+@var{speed_y}:  y speed (on screen, out param can be NULL)
+
+To be called when one wants to stop recording a drag session,
+typically when left button is released.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6gui_point_is_inside_rect} (lw6gui_point_t @var{point}, lw6gui_rect_t * @var{rect})
 @var{point}:  point to test
 
@@ -1062,6 +1111,18 @@ the next returned values.
 Returns the current value of the smoother.
 
 @strong{Return value:}  a float.
+@end deftypefun
+
+@deftypefun {void} {lw6gui_smoother_fix_overflow} (lw6gui_smoother_t * @var{smoother}, int @var{step})
+@var{smoother}:  object to modify
+
+@var{step}:  step size, typically twice the map size
+
+Companion function of @code{lw6pil_coords_fix_x10}, this one will fix
+a smoother target to avoid crazy scrolls when cursor is on a map
+edge.
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {int} {lw6gui_test} (int @var{mode})
@@ -1207,6 +1268,26 @@ be formally outside map boundaries for it can return a value exactly
 equal to w,h while in interger mode it would be w-1,h-1.
 
 @strong{Return value:}  NULL
+@end deftypefun
+
+@deftypefun {void} {lw6gui_viewport_calc_drag} (lw6gui_viewport_t * @var{viewport}, float * @var{map_dst_x}, float * @var{map_dst_y}, float @var{map_src_x}, float @var{map_src_y}, int @var{screen_dx}, int @var{screen_dy})
+@var{viewport}:  viewport to work on
+
+@var{map_dst_x}:  map det x coord (out param)
+
+@var{map_dst_y}:  map dst y coord (out param)
+
+@var{map_src_x}:  map src x coord 
+
+@var{map_src_y}:  map src y coord 
+
+@var{screen_dx}:  drag x (on screen)
+
+@var{screen_dy}:  drag y (on screen)
+
+Used to calculate the new "center" when in drag mode.
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {void} {lw6gui_zone_init_x1y1x2y2} (lw6gui_zone_t * @var{zone}, float @var{x1}, float @var{y1}, float @var{x2}, float @var{y2})

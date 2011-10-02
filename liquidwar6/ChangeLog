@@ -1,5 +1,7 @@
 2011-10-02 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Released 0.0.11beta.
+
 	* Made Kasper's proposal for team profiles the default.
 
 	* Level-chaining now works (along with exp gain).

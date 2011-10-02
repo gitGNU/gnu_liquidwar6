@@ -336,6 +336,10 @@ incremented each time a build is done with a different source.
      (http://download.savannah.gnu.org/releases/liquidwar6/0.0.10beta/),
      codename "Gengis Kahn", stamp 2562
 
+   * 2011-10-02 : 0.0.11beta
+     (http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/),
+     codename "Ho Chi Minh", stamp 2785
+
 1.2.4 Road map
 --------------
 
@@ -3572,7 +3576,7 @@ File: liquidwar6.info,  Node: Technical HOWTOs,  Next: Using GNU Arch,  Prev: Ne
 
 Summary off all operations required for a release:
 
-   * check the value of `LW6CFG_DEFAULT_EXP' and default for
+   * check the value of `LW6MAP_RULES_DEFAULT_EXP' and default for
      `--skip-network', which might have been changed will developping.
 
    * in `./src', run `./indent.sh'.
@@ -5798,7 +5802,7 @@ File: liquidwar6.info,  Node: Network options,  Next: Map parameters,  Prev: Sou
  -- XML key: `skip-network'
      Type: boolean
 
-     Default value: false
+     Default value: true
 
      If set, then game won't do anything network related. No listen, no
      connect, no nothing. You are playing locally.
@@ -7469,7 +7473,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-orange-weapon-id'
      Type: integer
 
-     Default value: LW6MAP_WEAPON_BEZERK Min value: 0 Max value: 19
+     Default value: LW6MAP_WEAPON_BERZERK Min value: 0 Max value: 19
 
      Id of the default weapon for the orange team, see the
      documentation about weapons to know what these ids mean.
@@ -8009,18 +8013,18 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
      How long all weapons (for which duration makes sense) will last.
      Unit is seconds.
 
-4.11.137 weapon-tune-bezerk-power
----------------------------------
+4.11.137 weapon-tune-berzerk-power
+----------------------------------
 
- -- Command-line option: `--weapon-tune-bezerk-power=<value>'
- -- Environment variable: `LW6_WEAPON_TUNE_BEZERK_POWER'
- -- XML key: `weapon-tune-bezerk-power'
+ -- Command-line option: `--weapon-tune-berzerk-power=<value>'
+ -- Environment variable: `LW6_WEAPON_TUNE_BERZERK_POWER'
+ -- XML key: `weapon-tune-berzerk-power'
      Type: integer
 
      Default value: 3 Min value: 1 Max value: 100
 
-     Use to specifiy how strong bezerk mode is, if set to 3, then
-     attacks will be 3 times as efficient in bezerk mode.
+     Use to specifiy how strong berzerk mode is, if set to 3, then
+     attacks will be 3 times as efficient in berzerk mode.
 
 4.11.138 weapon-tune-turbo-power
 --------------------------------

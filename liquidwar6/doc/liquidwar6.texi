@@ -363,7 +363,7 @@ a build is done with a different source.
 @item
 2011-07-29 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.10beta/,0.0.10beta}, codename ``Gengis Kahn'', stamp 2562
 @item
-2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/,0.0.11beta}, codename ``Ho Chi Minh'', stamp 2784
+2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/,0.0.11beta}, codename ``Ho Chi Minh'', stamp 2785
 @end itemize
 
 @subsection Road map
@@ -3584,7 +3584,7 @@ Summary off all operations required for a release:
 
 @itemize
 @item
-check the value of @code{LW6CFG_DEFAULT_EXP} and default for @code{--skip-network}, which might have been changed will developping.
+check the value of @code{LW6MAP_RULES_DEFAULT_EXP} and default for @code{--skip-network}, which might have been changed will developping.
 @item
 in @code{./src}, run @code{./indent.sh}.
 @item

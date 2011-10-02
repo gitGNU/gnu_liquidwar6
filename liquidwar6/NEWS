@@ -1,5 +1,11 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* October 2011: release of 0.0.11beta. This releases introduces
+  weapons, to complete the team profiles concept. It also has
+  an exp system which unlocks the next level when you win a given
+  level in solo games, two new bot engines, visual enhancements
+  including a wave effect, and fixes about 10 outstanding bugs.
+
 * July 2011: release of 0.0.10beta. This releases brings a new
   concept: "team profiles". Team can act differently, some of 
   them being more aggressive but weak, some other being faster,

@@ -3387,14 +3387,12 @@ Recovers a 16-bit integer from a byte buffer created,
 for instance, with @code{lw6sys_serialize_int16}.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_shape_check_min_max_whd} (lw6sys_whd_t * @var{shape}, int @var{min_wh}, int @var{max_wh}, int @var{max_d})
+@deftypefun {int} {lw6sys_shape_check_min_max_whd} (lw6sys_whd_t * @var{shape}, lw6sys_whd_t * @var{min}, lw6sys_whd_t * @var{max})
 @var{shape}:  the dimensions to control
 
-@var{min_wh}:  the min value for w and h
+@var{min}:  the minimum shape allowed
 
-@var{max_wh}:  the max value for w and h
-
-@var{max_d}:  the max value for d
+@var{max}:  the maximum shape allowed
 
 Will check wether the given shape respects some basic constraints,
 being not to small and not too big.

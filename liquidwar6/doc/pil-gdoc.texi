@@ -27,6 +27,24 @@ can be NULL.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {void} {lw6pil_coords_fix_x10} (lw6map_rules_t * @var{rules}, lw6sys_whd_t * @var{shape}, float * @var{x}, float * @var{y}, float * @var{z})
+@var{rules}:  the set of rules to use (defines polarity)
+
+@var{shape}:  the shape of the map (logical part)
+
+@var{x}:  the x coord to fix
+
+@var{y}:  the y coord to fix
+
+@var{z}:  the z coord to fix
+
+Similar to @code{lw6pil_coords_fix} but does use a wider range, say 10 times
+the actual size of the map, this is not to contain the cursor within
+the map but just to avoid overflow errors.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6pil_local_cursors_reset} (lw6pil_local_cursors_t * @var{local_cursors})
 Resets a local cursors struct. Note that this need not be called very often,
 in fact the local cursors can cope with "dead" cursors easily. In practise,

@@ -235,6 +235,24 @@ results on
 
      *Return value:*  none.
 
+ -- Function: void lw6pil_coords_fix_x10 (lw6map_rules_t * RULES,
+          lw6sys_whd_t * SHAPE, float * X, float * Y, float * Z)
+     RULES:  the set of rules to use (defines polarity)
+
+     SHAPE:  the shape of the map (logical part)
+
+     X:  the x coord to fix
+
+     Y:  the y coord to fix
+
+     Z:  the z coord to fix
+
+     Similar to `lw6pil_coords_fix' but does use a wider range, say 10
+     times the actual size of the map, this is not to contain the
+     cursor within the map but just to avoid overflow errors.
+
+     *Return value:*  none.
+
  -- Function: void lw6pil_local_cursors_reset (lw6pil_local_cursors_t *
           LOCAL_CURSORS)
      Resets a local cursors struct. Note that this need not be called
@@ -3943,14 +3961,12 @@ results on
      instance, with `lw6sys_serialize_int16'.
 
  -- Function: int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * SHAPE,
-          int MIN_WH, int MAX_WH, int MAX_D)
+          lw6sys_whd_t * MIN, lw6sys_whd_t * MAX)
      SHAPE:  the dimensions to control
 
-     MIN_WH:  the min value for w and h
+     MIN:  the minimum shape allowed
 
-     MAX_WH:  the max value for w and h
-
-     MAX_D:  the max value for d
+     MAX:  the maximum shape allowed
 
      Will check wether the given shape respects some basic constraints,
      being not to small and not too big.
