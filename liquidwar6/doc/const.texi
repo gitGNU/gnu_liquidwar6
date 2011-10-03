@@ -1,1 +1,1 @@
-@set LW6_CODENAME Ho Chi Minh
+@set LW6_CODENAME Aguirre

@@ -18,9 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6],[0.0.11beta],[ufoot@ufoot.org],[liquidwar6])
+AC_INIT([Liquid War 6],[0.0.12beta],[ufoot@ufoot.org],[liquidwar6])
 # latest versions of automake accept a 5th arg mapped to PACKAGE_URL
-# AC_INIT([Liquid War 6],[0.0.11beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
+# AC_INIT([Liquid War 6],[0.0.12beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -39,9 +39,12 @@ AM_GNU_GETTEXT_VERSION([0.17])
 AM_ICONV
 
 LW6_HKEY=Liquid_War_6
-LW6_MS_WINDOWS_VERSION="0, 0, 11"
+LW6_MS_WINDOWS_VERSION="0, 0, 12"
 AC_SUBST(LW6_HKEY)
 AC_SUBST(LW6_MS_WINDOWS_VERSION)
+
+LW6_CODENAME="Aguirre"
+AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
 AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng14/png.h lmcons.h locale.h ltdl.h math.h netdb.h netinet/in.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
@@ -494,9 +497,6 @@ AC_SUBST(LW6_HOST_CPU)
 
 LW6_HOST_OS="${host_os}"
 AC_SUBST(LW6_HOST_OS)
-
-LW6_CODENAME="Ho Chi Minh"
-AC_SUBST(LW6_CODENAME)
 
 AC_CHECK_LIB(gomp, omp_get_num_threads, HAVE_LIBGOMP=1, AC_MSG_NOTICE([
 *** Liquid War 6 suggests Gomp (http://gcc.gnu.org/projects/gomp/)

@@ -3592,15 +3592,17 @@ edit @code{NEWS} file, in both @code{liquidwar6} and @code{liquidwar6-extra-maps
 @item
 update the version history in @code{doc/liquidwar6.texi}.
 @item
+update @code{debian/changelog} files in both main and extra maps packages.
+@item
 run @code{make distcheck}... (at least!)
 @item
 build @code{RPM} package (@code{make -C pkg rpm}), check @code{yum install} produces a working installation, also check the @code{rpm -e} command to verify uninstalling is OK too.
 @item
 build @code{.exe} main binary on Microsoft Windows then go back to GNU/Linux and build @code{.exe} installer (@code{make -C pkg installer}), go back to Microsoft Windows and test the installer (there are often problems at this stage because of missing libraries or other files...).
 @item
-build @code{.dmd} Mac OS X disk image, check it works even when @code{/opt} and @code{/usr/local} or (re)moved, this is important, else execution might rely on binaries which are only on the development machine and do not ship with game.
+build @code{.dmg} Mac OS X disk image, check it works even when @code{/opt} and @code{/usr/local} or (re)moved, this is important, else execution might rely on binaries which are only on the development machine and do not ship with game.
 @item
-upload files (doc on @uref{http://savannah.gnu.org/maintenance/DownloadArea}), with a command like @code{rsync --rsh=ssh ./version/ login@@dl.sv.nongnu.org:/releases/liquidwar6/version/}. Each file must have its @code{.sig} corresponding file.
+upload files (doc on @uref{http://savannah.gnu.org/maintenance/DownloadArea}), with a command like @code{rsync --rsh=ssh --recursive ./version/ login@@dl.sv.nongnu.org:/releases/liquidwar6/version/}. Each file must have its @code{.sig} corresponding file.
 @item
 update online docs with @code{gendocs.sh}, carefull, @code{liquidwar6.html} is suppressed by this, need to re-create it from previous version and/or @code{index.html} which is the same.
 @item

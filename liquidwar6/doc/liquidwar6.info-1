@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -3582,6 +3582,9 @@ Summary off all operations required for a release:
 
    * update the version history in `doc/liquidwar6.texi'.
 
+   * update `debian/changelog' files in both main and extra maps
+     packages.
+
    * run `make distcheck'... (at least!)
 
    * build `RPM' package (`make -C pkg rpm'), check `yum install'
@@ -3594,14 +3597,14 @@ Summary off all operations required for a release:
      problems at this stage because of missing libraries or other
      files...).
 
-   * build `.dmd' Mac OS X disk image, check it works even when `/opt'
+   * build `.dmg' Mac OS X disk image, check it works even when `/opt'
      and `/usr/local' or (re)moved, this is important, else execution
      might rely on binaries which are only on the development machine
      and do not ship with game.
 
    * upload files (doc on
      `http://savannah.gnu.org/maintenance/DownloadArea'), with a
-     command like `rsync --rsh=ssh ./version/
+     command like `rsync --rsh=ssh --recursive ./version/
      login@dl.sv.nongnu.org:/releases/liquidwar6/version/'. Each file
      must have its `.sig' corresponding file.
 
