@@ -149,7 +149,7 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %defattr(-,root,root)
 %{_prefix}/bin/*
 %{_prefix}/share/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
-%{_prefix}/share/locale/fr/LC_MESSAGES/*
+%{_prefix}/share/locale/*/LC_MESSAGES/*
 %{_prefix}/share/pixmaps/*
 %{_prefix}/share/applications/*
 %{_prefix}/info/*
@@ -157,6 +157,9 @@ if which install-info && test -d %{_prefix}/info && test -f %{_prefix}/info/dir;
 %{_prefix}/share/doc/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/*
 
 %changelog
+
+* Tue Oct 04 2011 Christian Mauduit <ufoot@ufoot.org>
+- Fixed LC_MESSAGES handling (French only was handled)
 
 * Sun Aug 28 2011 Christian Mauduit <ufoot@ufoot.org>
 - Added libgomp build dependency.
