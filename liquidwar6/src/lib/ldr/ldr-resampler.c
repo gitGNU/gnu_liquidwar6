@@ -24,7 +24,6 @@
 #include "config.h"
 #endif
 
-#include <string.h>
 #include <math.h>
 
 #include "ldr.h"
@@ -45,6 +44,7 @@
 #define _RESAMPLER_UPSIZE 1.01f
 #define _RESAMPLER_DOWNSIZE 0.99f
 #define _RESAMPLER_R2 1.414f
+#define _RESAMPLER_05 0.49f
 
 static void
 _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
@@ -425,8 +425,10 @@ void
 lw6ldr_resampler_source2target (lw6ldr_resampler_t * resampler, int *target_x,
 				int *target_y, int source_x, int source_y)
 {
-  (*target_x) = (int) (source_x * resampler->scale_x);
-  (*target_y) = (int) (source_y * resampler->scale_y);
+  (*target_x) =
+    (int) (floor ((((float) source_x) + _RESAMPLER_05) * resampler->scale_x));
+  (*target_y) =
+    (int) (floor ((((float) source_y) + _RESAMPLER_05) * resampler->scale_y));
   check_bounds (target_x, target_y, resampler->target_w, resampler->target_h);
 }
 
@@ -434,7 +436,9 @@ void
 lw6ldr_resampler_target2source (lw6ldr_resampler_t * resampler, int *source_x,
 				int *source_y, int target_x, int target_y)
 {
-  (*source_x) = (int) (target_x / resampler->scale_x);
-  (*source_y) = (int) (target_y / resampler->scale_y);
+  (*source_x) =
+    (int) (floor ((((float) target_x) + _RESAMPLER_05) / resampler->scale_x));
+  (*source_y) =
+    (int) (floor ((((float) target_y) + _RESAMPLER_05) / resampler->scale_y));
   check_bounds (source_x, source_y, resampler->source_w, resampler->source_h);
 }
