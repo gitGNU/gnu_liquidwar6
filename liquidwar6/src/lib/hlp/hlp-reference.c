@@ -661,7 +661,7 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_SKIP_NETWORK,
 		 _x_
 		 ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."),
-		 1);
+		 0);
   POPULATE_BOOL (LW6DEF_BROADCAST,
 		 _x_
 		 ("Allows the program to send broadcast messages on the network. It can be usefull to disable those if you don't use UDP node discovery and/or if there's a sysadmin arround who does not enjoy permanent broadcasts on his LAN."),
