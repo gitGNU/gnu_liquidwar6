@@ -5558,6 +5558,33 @@ results on
 
      *Return value:*  integer, number of nodes
 
+ -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_FROM, char *
+          ATOM_STR_SERIAL_I_N_MSG)
+     WAREHOUSE:  warehouse object to use
+
+     LOGICAL_FROM:  from who the message came from originally
+
+     ATOM_STR_SERIAL_I_N_MSG:  message of the form serial i n msg
+
+     Puts an atomic string in the object, this kind of string is
+     typically received on the network.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_put_msg (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_FROM, char * MSG)
+     WAREHOUSE:  warehouse object to use
+
+     LOGICAL_FROM:  from who the message came from originally
+
+     MSG:  message
+
+     Puts a message in the object. The message will be splitted into
+     several atoms if needed, it can be arbitrary long.
+
+     *Return value:*  1 on success, 0 on error
+
 
 File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
 
@@ -8893,6 +8920,20 @@ results on
      MSG:  the message to parse
 
      Analyses a message, gets the first word and interpret it as an int.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6msg_word_first_int_ge0 (int * PARSED_VALUE, char
+          ** NEXT, char * MSG)
+     PARSED_VALUE:  will contain the parsed value
+
+     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
+     remaining message
+
+     MSG:  the message to parse
+
+     Analyses a message, gets the first word and interpret it as an int.
+     The value must be strictly greater than 0.
 
      *Return value:*  1 on success, 0 on failure.
 

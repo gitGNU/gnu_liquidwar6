@@ -309,3 +309,38 @@ lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 
   return ret;
 }
+
+int
+_lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
+			   u_int64_t logical_from, char *msg)
+{
+  int ret = 0;
+
+  // todo
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_put_msg
+ *
+ * @warehouse: warehouse object to use
+ * @logical_from: from who the message came from originally
+ * @msg: message
+ *
+ * Puts a message in the object. The message will be splitted into
+ * several atoms if needed, it can be arbitrary long.
+ *
+ * Return value: 1 on success, 0 on error
+ */
+int
+lw6dat_warehouse_put_msg (lw6dat_warehouse_t * warehouse,
+			  u_int64_t logical_from, char *msg)
+{
+  int ret = 0;
+
+  ret = _lw6dat_warehouse_put_msg ((_lw6dat_warehouse_t *) warehouse,
+				   logical_from, msg);
+
+  return ret;
+}

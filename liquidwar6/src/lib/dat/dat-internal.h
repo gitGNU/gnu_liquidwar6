@@ -156,5 +156,7 @@ extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
 					   char *atom_str_serial_i_n_msg);
+extern int _lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
+				      u_int64_t logical_from, char *msg);
 
 #endif
