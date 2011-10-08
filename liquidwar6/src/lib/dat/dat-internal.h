@@ -151,10 +151,10 @@ extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
 extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 					    u_int64_t node_id, int serial_0);
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
-				       u_int64_t from, int serial,
+				       u_int64_t logical_from, int serial,
 				       int order_i, int order_n, char *text);
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
-					   char
-					   *atom_str_from_serial_i_n_msg);
+					   u_int64_t logical_from,
+					   char *atom_str_serial_i_n_msg);
 
 #endif

@@ -189,6 +189,8 @@ extern int lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg);
 extern int lw6msg_word_first_base64 (lw6msg_word_t * word, char **next,
 				     char *msg);
 extern int lw6msg_word_first_int (int *parsed_value, char **next, char *msg);
+extern int lw6msg_word_first_int_ge0 (int *parsed_value, char **next,
+				      char *msg);
 extern int lw6msg_word_first_int_gt0 (int *parsed_value, char **next,
 				      char *msg);
 extern int lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,

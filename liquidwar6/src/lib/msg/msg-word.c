@@ -284,6 +284,43 @@ lw6msg_word_first_int (int *parsed_value, char **next, char *msg)
 }
 
 /**
+ * lw6msg_word_first_int_ge0
+ *
+ * @parsed_value: will contain the parsed value
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message, gets the first word and interpret it as an int.
+ * The value must be strictly greater than 0.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_int_ge0 (int *parsed_value, char **next, char *msg)
+{
+  int ret = 0;
+  int tmp_value = 0;
+
+  (*parsed_value) = 0;
+  if (lw6msg_word_first_int (&tmp_value, next, msg))
+    {
+      if (tmp_value >= 0)
+	{
+	  (*parsed_value) = tmp_value;
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad int value %d, not greater or equal to 0"),
+		      tmp_value);
+	}
+    }
+
+  return ret;
+}
+
+/**
  * lw6msg_word_first_int_gt0
  *
  * @parsed_value: will contain the parsed value

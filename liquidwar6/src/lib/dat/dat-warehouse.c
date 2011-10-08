@@ -212,16 +212,17 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
-			    u_int64_t from,
+			    u_int64_t logical_from,
 			    int serial, int order_i, int order_n, char *text)
 {
   int stack_index;
   int ret = 0;
 
-  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, from);
+  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
   if (stack_index < 0)
     {
-      stack_index = _lw6dat_warehouse_register_node (warehouse, from, serial);
+      stack_index =
+	_lw6dat_warehouse_register_node (warehouse, logical_from, serial);
     }
   if (stack_index >= 0)
     {
@@ -240,9 +241,71 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
-				char *atom_str_from_serial_i_n_msg)
+				u_int64_t logical_from,
+				char *atom_str_serial_i_n_msg)
 {
   int ret = 0;
+  char *next = atom_str_serial_i_n_msg;
+  int serial = 0;
+  int i = 0;
+  int n = 0;
+
+  if (lw6msg_word_first_int_ge0 (&serial, &next, next))
+    {
+      if (lw6msg_word_first_int_ge0 (&i, &next, next))
+	{
+	  if (lw6msg_word_first_int_gt0 (&n, &next, next))
+	    {
+	      ret =
+		_lw6dat_warehouse_put_atom (warehouse, logical_from, serial,
+					    i, n, next);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("bad value for n in atom \"%s\""),
+			  atom_str_serial_i_n_msg);
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad value for i in atom \"%s\""),
+		      atom_str_serial_i_n_msg);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad value for serial in atom \"%s\""),
+		  atom_str_serial_i_n_msg);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_put_atom_str
+ *
+ * @warehouse: warehouse object to use
+ * @logical_from: from who the message came from originally
+ * @atom_str_serial_i_n_msg: message of the form serial i n msg
+ *
+ * Puts an atomic string in the object, this kind of string is
+ * typically received on the network.
+ *
+ * Return value: 1 on success, 0 on error
+ */
+int
+lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
+			       u_int64_t logical_from,
+			       char *atom_str_serial_i_n_msg)
+{
+  int ret = 0;
+
+  ret =
+    _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse,
+				    logical_from, atom_str_serial_i_n_msg);
 
   return ret;
 }

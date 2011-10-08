@@ -78,6 +78,8 @@
 #define _TEST_WORD_BASE64_KO "j*k$lmjk %s I said BASE64 first!"
 #define _TEST_WORD_INT_OK "0 is a number"
 #define _TEST_WORD_INT_KO "\n"
+#define _TEST_WORD_INT_GE0_OK "0 is greater or equal to 0"
+#define _TEST_WORD_INT_GE0_KO "-1 is lower than 0"
 #define _TEST_WORD_INT_GT0_OK "1 is greater than 0"
 #define _TEST_WORD_INT_GT0_KO "zero can't be parsed as a number so will fail"
 #define _TEST_WORD_ID_16_OK "12ab foo bar"
@@ -1344,6 +1346,32 @@ test_word ()
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("unable to parse \"%s\", that's right"),
 		    _TEST_WORD_INT_KO);
+      }
+
+    if (lw6msg_word_first_int_ge0 (&i, &next, _TEST_WORD_INT_GE0_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("parsed int=%d (>0), next=\"%s\""), i, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to parse int (>0) from \"%s\""),
+		    _TEST_WORD_INT_GE0_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int_ge0 (&i, &next, _TEST_WORD_INT_GE0_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_GE0_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("unable to parse int from \"%s\", that's right"),
+		    _TEST_WORD_INT_GE0_KO);
       }
 
     if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_OK))

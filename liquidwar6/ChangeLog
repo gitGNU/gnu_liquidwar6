@@ -1,3 +1,7 @@
+2011-10-08 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Network dat/warehouse able to process atom strings.
+
 2011-10-07 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed map resampling, texture and fighters correctly aligned.

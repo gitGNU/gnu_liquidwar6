@@ -51,6 +51,7 @@
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
 #define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
+#define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 foo bar"
 
 /*
  * Testing functions in atom.c
@@ -306,17 +307,18 @@ test_warehouse ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    _lw6dat_warehouse_t *warehouse;
+    _lw6dat_warehouse_t *_warehouse;
+    lw6dat_warehouse_t *warehouse;
     int overflow = 0;
     int i;
 
-    warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
-    if (warehouse)
+    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    if (_warehouse)
       {
 	if (_lw6dat_warehouse_put_atom
-	    (warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID, _TEST_WAREHOUSE_SERIAL,
-	     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-	     _TEST_WAREHOUSE_TEXT))
+	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
+	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("text \"%s\" put into warehouse"),
@@ -325,7 +327,7 @@ test_warehouse ()
 	for (i = 0; i < _TEST_WAREHOUSE_NB_STACKS_OVERFLOW; ++i)
 	  {
 	    if (!_lw6dat_warehouse_put_atom
-		(warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
+		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
 		 _TEST_WAREHOUSE_TEXT))
 	      {
@@ -337,35 +339,36 @@ test_warehouse ()
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_
 			("OK, warehouse has a stack number limit (%d) this is right"),
-			_lw6dat_warehouse_get_nb_nodes (warehouse));
+			_lw6dat_warehouse_get_nb_nodes (_warehouse));
 	  }
 	else
 	  {
 	    ret = 0;
 	  }
-	_lw6dat_warehouse_purge (warehouse);
-	_lw6dat_warehouse_free (warehouse);
+	_lw6dat_warehouse_purge (_warehouse);
+	_lw6dat_warehouse_free (_warehouse);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("couldn't create warehouse object"));
+		    _x_ ("couldn't create _warehouse object"));
+	ret = 0;
       }
 
-    warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
-    if (warehouse)
+    _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    if (_warehouse)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("putting %d atoms in warehouse"),
 		    _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW);
 	if (_lw6dat_warehouse_put_atom
-	    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID, _TEST_WAREHOUSE_SERIAL,
-	     _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-	     _TEST_WAREHOUSE_TEXT))
+	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
 	  {
 	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
 	      {
 		if (!_lw6dat_warehouse_put_atom
-		    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
 		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
 		  {
@@ -375,7 +378,7 @@ test_warehouse ()
 		  }
 	      }
 	    if (_lw6dat_warehouse_put_atom
-		(warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
 		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
 	      {
@@ -398,12 +401,38 @@ test_warehouse ()
 	    ret = 0;
 	  }
 
-	_lw6dat_warehouse_free (warehouse);
+	_lw6dat_warehouse_free (_warehouse);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("couldn't create _warehouse object"));
+	ret = 0;
+      }
+
+    warehouse = lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+    if (warehouse)
+      {
+	if (lw6dat_warehouse_put_atom_str
+	    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
+	     _TEST_WAREHOUSE_SERIAL_I_N_MSG))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("lw6dat_warehouse_put_atom_str seem to work"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("lw6dat_warehouse_put_atom_str failed"));
+	    ret = 0;
+	  }
+	lw6dat_warehouse_free (warehouse);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("couldn't create warehouse object"));
+	ret = 0;
       }
   }
 
