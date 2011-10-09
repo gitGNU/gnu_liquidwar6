@@ -5558,6 +5558,22 @@ results on
 
      *Return value:*  integer, number of nodes
 
+ -- Function: u_int64_t lw6dat_warehouse_get_local_id
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the local id.
+
+     *Return value:*  64-bit id.
+
+ -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
+          * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the latest (highest) serial number given for local node.
+
+     *Return value:*  integer, latest serial number
+
  -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
           WAREHOUSE, u_int64_t LOGICAL_FROM, char *
           ATOM_STR_SERIAL_I_N_MSG)
@@ -5573,10 +5589,8 @@ results on
      *Return value:*  1 on success, 0 on error
 
  -- Function: int lw6dat_warehouse_put_msg (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_FROM, char * MSG)
+          WAREHOUSE, char * MSG)
      WAREHOUSE:  warehouse object to use
-
-     LOGICAL_FROM:  from who the message came from originally
 
      MSG:  message
 

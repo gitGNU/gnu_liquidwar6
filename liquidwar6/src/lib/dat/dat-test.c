@@ -52,6 +52,8 @@
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
 #define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
 #define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 foo bar"
+#define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
+#define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
 
 /*
  * Testing functions in atom.c
@@ -311,6 +313,7 @@ test_warehouse ()
     lw6dat_warehouse_t *warehouse;
     int overflow = 0;
     int i;
+    char *msg = NULL;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -413,6 +416,13 @@ test_warehouse ()
     warehouse = lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (warehouse)
       {
+	if (lw6dat_warehouse_get_local_id (warehouse) !=
+	    _TEST_WAREHOUSE_LOCAL_NODE_ID)
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("lw6dat_warehouse_get_local_id failed"));
+	    ret = 0;
+	  }
 	if (lw6dat_warehouse_put_atom_str
 	    (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL_I_N_MSG))
@@ -425,6 +435,33 @@ test_warehouse ()
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("lw6dat_warehouse_put_atom_str failed"));
 	    ret = 0;
+	  }
+
+	_lw6dat_warehouse_purge (_warehouse);
+
+	for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE;
+	     i < _TEST_WAREHOUSE_PUT_MAX_SIZE; ++i)
+	  {
+	    msg = lw6sys_str_random_words (i);
+	    if (msg)
+	      {
+		if (lw6dat_warehouse_put_msg (warehouse, msg))
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("put msg serial=%d len=%d"),
+				lw6dat_warehouse_get_local_serial (warehouse),
+				i);
+		  }
+		else
+		  {
+		    lw6sys_log (LW6SYS_LOG_WARNING,
+				_x_
+				("unable to put msg \"%s\" into warehouse"),
+				msg);
+		    ret = 0;
+		  }
+		LW6SYS_FREE (msg);
+	      }
 	  }
 	lw6dat_warehouse_free (warehouse);
       }

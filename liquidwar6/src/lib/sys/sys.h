@@ -953,6 +953,7 @@ extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
 extern char *lw6sys_str_random (int len);
+extern char *lw6sys_str_random_words (int len);
 extern int lw6sys_str_is_bin (char *buf, int len);
 
 /* sys-stream.c */

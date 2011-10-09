@@ -1,3 +1,7 @@
+2011-10-09 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Message can be splitted into atoms by dat-warehouse.
+
 2011-10-08 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Network dat/warehouse able to process atom strings.

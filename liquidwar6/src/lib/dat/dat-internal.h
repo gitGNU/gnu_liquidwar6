@@ -29,7 +29,11 @@
  * This limit does not mean we can't store longer lines,
  * only if longer they'll be allocated dynamically.
  */
-#define _LW6DAT_ATOM_STATIC_SIZE 99
+#define _LW6DAT_ATOM_STATIC_SIZE 79
+/*
+ * If longer than this, messages will be cut in slices
+ */
+#define _LW6DAT_ATOM_MAX_SIZE 1279
 /*
  * This makes blocks of approx. 250kb
  */
@@ -78,6 +82,7 @@ typedef struct _lw6dat_stack_s
   u_int64_t node_id;
   int serial_0;
   int serial_n_1;
+  int serial_max;
   // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
 } _lw6dat_stack_t;
@@ -85,8 +90,8 @@ typedef struct _lw6dat_stack_s
 typedef struct _lw6dat_warehouse_s
 {
   int dummy;			// same as in lw6dat_warehouse_t
-  int serial_0;
-  int serial_n_1;
+  // int serial_0;
+  // int serial_n_1;
   _lw6dat_stack_t stacks[LW6DAT_MAX_NB_STACKS];
 } _lw6dat_warehouse_t;
 
@@ -146,6 +151,10 @@ extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
 extern void _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse);
 extern int _lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse);
+extern u_int64_t _lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t *
+						 warehouse);
+extern int _lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t *
+					       warehouse);
 extern int _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse,
 					      u_int64_t node_id);
 extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
@@ -157,6 +166,6 @@ extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
 					   char *atom_str_serial_i_n_msg);
 extern int _lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
-				      u_int64_t logical_from, char *msg);
+				      char *msg);
 
 #endif

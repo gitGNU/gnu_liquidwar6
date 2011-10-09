@@ -37,6 +37,7 @@
 
 #define _STR_BIN_TEXT_OTHER ".,:;!?()'\"-+*/=_ \t\r\n"
 #define _STR_BIN_TEXT_MIN_PERCENT 75
+#define _STR_RANDOM_WORDS "     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 /**
  * lw6sys_str_copy
@@ -911,6 +912,34 @@ lw6sys_str_random (int len)
   for (i = 0; i < len; ++i)
     {
       ret[i] = lw6sys_random (254) + 1;
+    }
+  ret[len] = 0;
+
+  return (char *) ret;
+}
+
+/**
+ * lw6sys_str_random_words
+ *
+ * @len: the length of the random string to generate.
+ *
+ * Generates a random string, this is usefull for testing.
+ * This version only generates words with alpha-numerical
+ * content (letters and digits plus spaces).
+ *
+ * Return value: newly allocated string
+ */
+char *
+lw6sys_str_random_words (int len)
+{
+  unsigned char *ret = NULL;
+  int i = 0;
+  int cat_len = strlen (_STR_RANDOM_WORDS);
+
+  ret = (unsigned char *) LW6SYS_MALLOC (len + 1);
+  for (i = 0; i < len; ++i)
+    {
+      ret[i] = _STR_RANDOM_WORDS[lw6sys_random (cat_len)];
     }
   ret[len] = 0;
 

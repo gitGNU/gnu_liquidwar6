@@ -4423,6 +4423,15 @@ results on
 
      *Return value:*  newly allocated string
 
+ -- Function: char * lw6sys_str_random_words (int LEN)
+     LEN:  the length of the random string to generate.
+
+     Generates a random string, this is usefull for testing.  This
+     version only generates words with alpha-numerical content (letters
+     and digits plus spaces).
+
+     *Return value:*  newly allocated string
+
  -- Function: int lw6sys_str_is_bin (char * BUF, int LEN)
      BUF:  the buffer to test
 

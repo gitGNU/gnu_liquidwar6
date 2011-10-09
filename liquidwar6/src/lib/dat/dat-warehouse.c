@@ -178,6 +178,57 @@ lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t * warehouse)
   return _lw6dat_warehouse_get_nb_nodes ((_lw6dat_warehouse_t *) warehouse);
 }
 
+u_int64_t
+_lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t * warehouse)
+{
+  u_int64_t ret = 0;
+
+  ret = warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].node_id;
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_local_id
+ *
+ * @warehouse: the warehouse object to query.
+ *
+ * Returns the local id.
+ *
+ * Return value: 64-bit id.
+ */
+u_int64_t
+lw6dat_warehouse_get_local_id (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_local_id ((_lw6dat_warehouse_t *) warehouse);
+}
+
+int
+_lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+
+  ret = warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].serial_max;
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_local_serial
+ *
+ * @warehouse: the warehouse object to query.
+ *
+ * Returns the latest (highest) serial number given for local node.
+ *
+ * Return value: integer, latest serial number
+ */
+int
+lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse)
+{
+  return _lw6dat_warehouse_get_local_serial ((_lw6dat_warehouse_t *)
+					     warehouse);
+}
+
 int
 _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 				 u_int64_t node_id, int serial_0)
@@ -250,35 +301,43 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
   int i = 0;
   int n = 0;
 
-  if (lw6msg_word_first_int_ge0 (&serial, &next, next))
+  if (logical_from != _lw6dat_warehouse_get_local_id (warehouse))
     {
-      if (lw6msg_word_first_int_ge0 (&i, &next, next))
+      if (lw6msg_word_first_int_ge0 (&serial, &next, next))
 	{
-	  if (lw6msg_word_first_int_gt0 (&n, &next, next))
+	  if (lw6msg_word_first_int_ge0 (&i, &next, next))
 	    {
-	      ret =
-		_lw6dat_warehouse_put_atom (warehouse, logical_from, serial,
-					    i, n, next);
+	      if (lw6msg_word_first_int_gt0 (&n, &next, next))
+		{
+		  ret =
+		    _lw6dat_warehouse_put_atom (warehouse, logical_from,
+						serial, i, n, next);
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("bad value for n in atom \"%s\""),
+			      atom_str_serial_i_n_msg);
+		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("bad value for n in atom \"%s\""),
+			  _x_ ("bad value for i in atom \"%s\""),
 			  atom_str_serial_i_n_msg);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad value for i in atom \"%s\""),
+		      _x_ ("bad value for serial in atom \"%s\""),
 		      atom_str_serial_i_n_msg);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("bad value for serial in atom \"%s\""),
-		  atom_str_serial_i_n_msg);
+		  _x_ ("_lw6dat_warehouse_put_atom_str used with local id"));
     }
 
   return ret;
@@ -311,12 +370,41 @@ lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 }
 
 int
-_lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
-			   u_int64_t logical_from, char *msg)
+_lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse, char *msg)
 {
   int ret = 0;
+  u_int64_t logical_from;
+  int len = 0;
+  int order_n = 0;
+  int order_i = 0;
+  int p = 0;
+  int s = 0;
+  int serial = 0;
+  char atom_str[_LW6DAT_ATOM_MAX_SIZE + 1];
 
-  // todo
+  atom_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
+  logical_from = _lw6dat_warehouse_get_local_id (warehouse);
+  len = strlen (msg);
+  order_n = (lw6sys_max ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
+  for (order_i = 0; order_i < order_n; ++order_i)
+    {
+      ret = 1;
+      p = order_i * _LW6DAT_ATOM_MAX_SIZE;
+      if (p < len)
+	{
+	  s = lw6sys_min (len - p, _LW6DAT_ATOM_MAX_SIZE);
+	  if (s > 0)
+	    {
+	      memcpy (atom_str, msg + p, s);
+	      atom_str[s] = '\0';
+	      serial = _lw6dat_warehouse_get_local_serial (warehouse) + 1;
+	      ret = ret
+		&& _lw6dat_warehouse_put_atom (warehouse, logical_from,
+					       serial, order_i, order_n,
+					       atom_str);
+	    }
+	}
+    }
 
   return ret;
 }
@@ -334,13 +422,11 @@ _lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
  * Return value: 1 on success, 0 on error
  */
 int
-lw6dat_warehouse_put_msg (lw6dat_warehouse_t * warehouse,
-			  u_int64_t logical_from, char *msg)
+lw6dat_warehouse_put_msg (lw6dat_warehouse_t * warehouse, char *msg)
 {
   int ret = 0;
 
-  ret = _lw6dat_warehouse_put_msg ((_lw6dat_warehouse_t *) warehouse,
-				   logical_from, msg);
+  ret = _lw6dat_warehouse_put_msg ((_lw6dat_warehouse_t *) warehouse, msg);
 
   return ret;
 }

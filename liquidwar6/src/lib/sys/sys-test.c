@@ -2975,6 +2975,27 @@ test_str ()
 		    strlen (str), str);
 	LW6SYS_FREE (str);
       }
+    str = lw6sys_str_random_words (_TEST_STR_RANDOM_LEN);
+    if (str)
+      {
+	is_bin = lw6sys_str_is_bin (str, strlen (str));
+	if (!is_bin)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("random string not considered binary -> good!"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("random string considered binary, this is strange, test isn't reported as failed since an error can always happen and a monkey could random-type a shakespeare masterpice, but still..."));
+	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_
+		    ("random string (with alnum words) of %d chars \"%s\""),
+		    strlen (str), str);
+	LW6SYS_FREE (str);
+      }
     str = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
     if (str)
       {

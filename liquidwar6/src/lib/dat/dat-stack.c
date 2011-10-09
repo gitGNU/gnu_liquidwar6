@@ -40,6 +40,7 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->node_id = 0;
   stack->serial_0 = 0;
   stack->serial_n_1 = -1;
+  stack->serial_max = -1;
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -56,6 +57,7 @@ _lw6dat_stack_purge (_lw6dat_stack_t * stack)
   int i = 0;
 
   stack->serial_0 = stack->serial_n_1 + 1;
+  stack->serial_max = stack->serial_0 - 1;
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -77,6 +79,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
       stack->node_id = node_id;
       stack->serial_0 = serial_0;
       stack->serial_n_1 = serial_0 - 1;
+      stack->serial_max = serial_0 - 1;
       ret = 1;
     }
 
@@ -157,7 +160,6 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
     }
 
-
   block_index = _lw6dat_stack_get_block_index (stack, serial);
   if (block_index >= 0 && block_index < _LW6DAT_MAX_NB_BLOCKS)
     {
@@ -189,6 +191,11 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 		  _x_
 		  ("serial out of range serial=%d stack->serial_0=%d, block_index=%d"),
 		  serial, stack->serial_0, block_index);
+    }
+
+  if (ret)
+    {
+      stack->serial_max = lw6sys_max (stack->serial_max, serial);
     }
 
   return ret;

@@ -3893,6 +3893,16 @@ Generates a random string, this is usefull for testing.
 @strong{Return value:}  newly allocated string
 @end deftypefun
 
+@deftypefun {char *} {lw6sys_str_random_words} (int @var{len})
+@var{len}:  the length of the random string to generate.
+
+Generates a random string, this is usefull for testing.
+This version only generates words with alpha-numerical
+content (letters and digits plus spaces).
+
+@strong{Return value:}  newly allocated string
+@end deftypefun
+
 @deftypefun {int} {lw6sys_str_is_bin} (char * @var{buf}, int @var{len})
 @var{buf}:  the buffer to test
 
