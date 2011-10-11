@@ -88,7 +88,8 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 
 int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
-			int serial, int order_i, int order_n, char *text)
+			int serial, int order_i, int order_n, char *text,
+			int send_flag)
 {
   int ret = 0;
   int block_index = 0;
@@ -176,7 +177,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	  stack->serial_n_1 =
 	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
 	  ret =
-	    _lw6dat_block_put_atom (block, serial, order_i, order_n, text);
+	    _lw6dat_block_put_atom (block, serial, order_i, order_n, text,
+				    send_flag);
 	  if (!ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,

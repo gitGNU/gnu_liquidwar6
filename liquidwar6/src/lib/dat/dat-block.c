@@ -55,7 +55,8 @@ _lw6dat_block_free (_lw6dat_block_t * block)
 
 int
 _lw6dat_block_put_atom (_lw6dat_block_t * block,
-			int serial, int order_i, int order_n, char *text)
+			int serial, int order_i, int order_n, char *text,
+			int send_flag)
 {
   int ret = 0;
   _lw6dat_atom_t *atom;
@@ -93,6 +94,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block,
 	      atom->serial = serial;
 	      atom->order_i = order_i;
 	      atom->order_n = order_n;
+	      atom->send_flag = send_flag;
 	    }
 	  else
 	    {

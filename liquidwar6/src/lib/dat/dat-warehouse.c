@@ -266,7 +266,8 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
 			    int serial, int order_i, int order_n, char *text)
 {
-  int stack_index;
+  int stack_index = -1;
+  int flag = 0;
   int ret = 0;
 
   stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
@@ -277,9 +278,10 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     }
   if (stack_index >= 0)
     {
+      flag = _lw6dat_not_flag (stack_index);
       ret =
 	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, text);
+				order_i, order_n, text, flag);
     }
   else
     {
@@ -303,7 +305,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 
   if (logical_from != _lw6dat_warehouse_get_local_id (warehouse))
     {
-      if (lw6msg_word_first_int_ge0 (&serial, &next, next))
+      if (lw6msg_word_first_int_gt0 (&serial, &next, next))
 	{
 	  if (lw6msg_word_first_int_ge0 (&i, &next, next))
 	    {

@@ -31,8 +31,9 @@
 
 /*
  * Must be greater than LW6MAP_MAX_NB_NODES
+ * but still lower than 32.
  */
-#define LW6DAT_MAX_NB_STACKS 33
+#define LW6DAT_MAX_NB_STACKS 30
 
 typedef struct lw6dat_warehouse_s
 {

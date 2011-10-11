@@ -34,6 +34,7 @@
 #define _TEST_BLOCK_STEP 3
 #define _TEST_BLOCK_TEXT_1 "0+0=zero"
 #define _TEST_BLOCK_TEXT_2 "2+2=4"
+#define _TEST_BLOCK_SEND_FLAG 6
 
 #define _TEST_STACK_NODE_ID 0x2345234523452345LL
 #define _TEST_STACK_SERIAL_0 123
@@ -42,6 +43,7 @@
 #define _TEST_STACK_TEXT "..."
 #define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/10)
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
+#define _TEST_STACK_SEND_FLAG 5
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
@@ -146,7 +148,7 @@ test_block ()
 	  {
 	    if (_lw6dat_block_put_atom
 		(block, serial, order_i, _TEST_BLOCK_ORDER_N,
-		 _TEST_BLOCK_TEXT_1))
+		 _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG))
 	      {
 		// ok
 	      }
@@ -167,7 +169,7 @@ test_block ()
 		    _x_ ("trying various invalid atom \"put\" calls"));
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_TEXT_2))
+	     _TEST_BLOCK_TEXT_2, _TEST_BLOCK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("wrong duplicate detection"));
@@ -179,12 +181,13 @@ test_block ()
 	  }
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0 - 1, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_TEXT_1)
+	     _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG)
 	    || _lw6dat_block_put_atom (block,
 				       _TEST_BLOCK_SERIAL_0 +
 				       _LW6DAT_NB_ATOMS_PER_BLOCK, 0,
 				       _TEST_BLOCK_ORDER_N,
-				       _TEST_BLOCK_TEXT_1))
+				       _TEST_BLOCK_TEXT_1,
+				       _TEST_BLOCK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong range check"));
 	    ret = 0;
@@ -253,7 +256,7 @@ test_stack ()
 	  _TEST_STACK_SERIAL_0 + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
-	     _TEST_STACK_TEXT))
+	     _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("error putting atom on stack i=%d serial=%d"), i,
@@ -447,10 +450,7 @@ test_warehouse ()
 	      {
 		if (lw6dat_warehouse_put_msg (warehouse, msg))
 		  {
-		    lw6sys_log (LW6SYS_LOG_NOTICE,
-				_x_ ("put msg serial=%d len=%d"),
-				lw6dat_warehouse_get_local_serial (warehouse),
-				i);
+		    // ok
 		  }
 		else
 		  {
@@ -463,6 +463,10 @@ test_warehouse ()
 		LW6SYS_FREE (msg);
 	      }
 	  }
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("last put msg local_serial=%d i=%d"),
+		    lw6dat_warehouse_get_local_serial (warehouse), i);
+
 	lw6dat_warehouse_free (warehouse);
       }
     else

@@ -55,7 +55,10 @@
  */
 #define _LW6DAT_SERIAL_START 1
 
-#define _LW6DAT_FLAG_ALL 0xffffffff
+/*
+ * This must match LW6DAT_MAX_NB_STACKS
+ */
+#define _LW6DAT_FLAG_ALL 0x3fffffff
 
 typedef struct _lw6dat_atom_s
 {
@@ -106,7 +109,8 @@ extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
 extern void _lw6dat_block_free (_lw6dat_block_t * block);
 extern int _lw6dat_block_put_atom (_lw6dat_block_t * block,
 				   int serial,
-				   int order_i, int order_n, char *text);
+				   int order_i, int order_n, char *text,
+				   int send_flag);
 extern _lw6dat_atom_t *_lw6dat_block_get_atom (_lw6dat_block_t * block,
 					       int serial);
 static inline int
@@ -123,6 +127,12 @@ _lw6dat_flag (int index)
   return (1 << index);
 };
 
+inline static int
+_lw6dat_not_flag (int index)
+{
+  return (_LW6DAT_FLAG_ALL ^ _lw6dat_flag (index));
+};
+
 /* dat-stack.c */
 extern void _lw6dat_stack_zero (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
@@ -131,7 +141,8 @@ extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
 			       int serial_0);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 				   int serial,
-				   int order_i, int order_n, char *text);
+				   int order_i, int order_n, char *text,
+				   int send_flag);
 extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
 static inline int
@@ -167,5 +178,6 @@ extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   char *atom_str_serial_i_n_msg);
 extern int _lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse,
 				      char *msg);
+//extern int _lw6dat_warehouse_pop_msg (_lw6dat_warehouse_t *warehouse, u_int64_t *logical_from, char **msg);
 
 #endif
