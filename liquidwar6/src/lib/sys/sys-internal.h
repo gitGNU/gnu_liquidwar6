@@ -29,8 +29,6 @@
 
 #include "sys.h"
 
-#define _LW6SYS_EXIT_CRITICAL 1
-
 /*
  * By default memory bazooka size is just hudge, will eat up to 7 or 8 megs.
  * The game will set it up to a much lower value through its config, still

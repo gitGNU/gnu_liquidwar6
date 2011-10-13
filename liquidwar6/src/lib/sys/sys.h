@@ -106,6 +106,10 @@ typedef char *char_ptr_t;
 #define LW6SYS_SLEEP_DELAY 1
 #define LW6SYS_SNOOZE_DELAY 100
 
+#define LW6SYS_EXIT_OK 0
+#define LW6SYS_EXIT_ERROR 1
+#define LW6SYS_EXIT_CRITICAL 2
+
 /*
  * Yet another MS-windows hack, printf %ll doesn't work
  * one needs to use a special "%I64" instead...

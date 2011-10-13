@@ -43,7 +43,7 @@ main (int argc, char *argv[])
   LW6HLP_MAIN_END;
   LW6SYS_MAIN_END;
 
-  return (!ret);
+  return (ret ? LW6SYS_EXIT_OK : LW6SYS_EXIT_ERROR);
 }
 
 /*

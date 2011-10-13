@@ -932,7 +932,7 @@ lw6sys_log_critical (char *fmt, ...)
 			ap2);
   va_end (ap2);
 
-  exit (_LW6SYS_EXIT_CRITICAL);
+  exit (LW6SYS_EXIT_CRITICAL);
 
   va_end (ap);
 }

@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -868,12 +868,16 @@ Now, game looks correctly installed, but you have problems running it.
    * Run the game from a terminal, not from a Gnome or KDE launcher, you
      need to see the console output.
 
-   * In the `$HOME/.liquidwar6/' directory, you'll find two files,
-     `log.csv' and `dump.txt'. They might contain valuable information,
-     read them.  Note that byt default on Microsoft Windows this
-     directory is `C:\Documents and Settings\<username>\Liquid War 6'
-     and on Mac OS X it is in `/Users/<username>/Library/Application
-     Support/Liquid War 6/'.
+   * In the `$HOME/.liquidwar6/' directory, you'll find some files, the
+     main log file `log.csv' and maybe `dump.txt' or `backtrace.txt'.
+     They might contain valuable information, read them. Note that
+     while `log.csv' is overwritten each time you start the game,
+     `dump.txt' or `backtrace.txt' are conserved until a new problem
+     arises. So check the date of these files to be sure you're
+     analyzing the right ones.  Note that byt default on Microsoft
+     Windows `$HOME/.liquidwar6/' is replaced by `C:\Documents and
+     Settings\<username>\Liquid War 6' and on Mac OS X it is in
+     `/Users/<username>/Library/Application Support/Liquid War 6/'.
 
    * Run `liquidwar6 --defaults'. This will reset all options to
      defaults.  You might need to run this when upgrading from a

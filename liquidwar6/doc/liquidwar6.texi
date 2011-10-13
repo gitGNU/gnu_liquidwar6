@@ -937,8 +937,9 @@ Now, game looks correctly installed, but you have problems running it.
 Run the game from a terminal, not from a Gnome or KDE launcher, you
 need to see the console output.
 @item
-In the @code{$HOME/.liquidwar6/} directory, you'll find two files, @code{log.csv} and @code{dump.txt}. They might contain valuable information, read them.
-Note that byt default on Microsoft Windows this directory is @code{C:\Documents and Settings\<username>\Liquid War 6} and on Mac OS X it is
+In the @code{$HOME/.liquidwar6/} directory, you'll find some files, the main log file @code{log.csv} and maybe @code{dump.txt} or @code{backtrace.txt}. They might contain valuable information, read them. Note that while @code{log.csv} is overwritten each time you start the game, @code{dump.txt} or @code{backtrace.txt} are conserved until a new problem arises. So check the date of these files to be sure you're analyzing the right ones.
+Note that byt default on Microsoft Windows @code{$HOME/.liquidwar6/} is replaced by
+@code{C:\Documents and Settings\<username>\Liquid War 6} and on Mac OS X it is
 in @code{/Users/<username>/Library/Application Support/Liquid War 6/}.
 @item
 Run @code{liquidwar6 --defaults}. This will reset all options to defaults.

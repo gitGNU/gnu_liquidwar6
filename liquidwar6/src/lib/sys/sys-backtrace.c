@@ -32,6 +32,23 @@
 #include "sys-internal.h"
 
 #define _CALLSTACK_SIZE 200
+#define _BACKTRACE_FILE "backtrace.txt"
+
+static char *
+get_backtrace_file ()
+{
+  char *backtrace_file = NULL;
+  char *user_dir = NULL;
+
+  user_dir = lw6sys_get_default_user_dir ();
+  if (user_dir)
+    {
+      backtrace_file = lw6sys_path_concat (user_dir, _BACKTRACE_FILE);
+      LW6SYS_FREE (user_dir);
+    }
+
+  return backtrace_file;
+}
 
 /**
  * lw6sys_backtrace
@@ -55,6 +72,7 @@ char *
 lw6sys_backtrace (int skip)
 {
   char *ret = NULL;
+  char *backtrace_file = NULL;
 
 #if LW6_UNIX && HAVE_EXECINFO_H
   void *callstack[_CALLSTACK_SIZE];
@@ -96,6 +114,20 @@ lw6sys_backtrace (int skip)
 #else
   ret = lw6sys_new_sprintf (_x_ ("no backtrace"));
 #endif
+
+  if (ret)
+    {
+      backtrace_file = get_backtrace_file ();
+      if (backtrace_file)
+	{
+	  /*
+	   * On a dump, we would log stuff, but here no, we do
+	   * not want to use complex internal functions.
+	   */
+	  lw6sys_write_file_content (backtrace_file, ret);
+	  LW6SYS_FREE (backtrace_file);
+	}
+    }
 
   return ret;
 }

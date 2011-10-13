@@ -206,7 +206,16 @@ lw6sys_signal_segv_handler (int signum)
    */
   if (signum == SIGSEGV)
     {
-      lw6sys_log_critical (_("Segmentation fault"));
+      /*
+       * Now we restore default, in case our routine
+       * fires the same error once again...
+       */
+      if (signal (SIGSEGV, SIG_DFL) == SIG_IGN)
+	{
+	  signal (SIGSEGV, SIG_IGN);
+	}
+      lw6sys_log (LW6SYS_LOG_ERROR, _("Segmentation fault"));
+      exit (LW6SYS_EXIT_ERROR);
     }
   else
     {
@@ -237,7 +246,16 @@ lw6sys_signal_fpe_handler (int signum)
    */
   if (signum == SIGFPE)
     {
-      lw6sys_log_critical (_("Floating point exception"));
+      /*
+       * Now we restore default, in case our routine
+       * fires the same error once again...
+       */
+      if (signal (SIGFPE, SIG_DFL) == SIG_IGN)
+	{
+	  signal (SIGFPE, SIG_IGN);
+	}
+      lw6sys_log (LW6SYS_LOG_ERROR, _("Floating point exception"));
+      exit (LW6SYS_EXIT_ERROR);
     }
   else
     {
