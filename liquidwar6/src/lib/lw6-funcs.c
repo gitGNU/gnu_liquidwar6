@@ -1,3 +1,4 @@
+
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011  Christian Mauduit <ufoot@ufoot.org>
@@ -705,13 +706,27 @@ _scm_lw6sys_build_get_license ()
 }
 
 static SCM
-_scm_lw6sys_build_get_url ()
+_scm_lw6sys_build_get_home_url ()
 {
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_url ());
+  ret = scm_makfrom0str (lw6sys_build_get_home_url ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_get_bugs_url ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_makfrom0str (lw6sys_build_get_bugs_url ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -8592,8 +8607,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_build_get_copyright);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_license);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_URL, 0, 0, 0,
-			 (SCM (*)())_scm_lw6sys_build_get_url);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOME_URL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_home_url);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_BUGS_URL, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_get_bugs_url);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_configure_args);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION, 0, 0, 0,

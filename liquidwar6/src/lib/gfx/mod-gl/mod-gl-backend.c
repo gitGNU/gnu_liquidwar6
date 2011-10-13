@@ -283,7 +283,7 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=url"));
 	  mod_gl_utils_display_url (&(mod_gl_context->utils_context),
-				    look, lw6sys_build_get_url ());
+				    look, lw6sys_build_get_home_url ());
 	}
       mod_gl_utils_show_mouse (&(mod_gl_context->utils_context),
 			       mask & LW6GUI_DISPLAY_MOUSE, 0);

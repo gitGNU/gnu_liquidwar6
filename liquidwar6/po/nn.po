@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-13 16:46+0200\n"
+"POT-Creation-Date: 2011-10-13 22:16+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -196,7 +196,12 @@ msgstr "Hjelp GNU %s"
 msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
-#: src/lib/hlp/hlp-credits.c:161
+#: src/lib/hlp/hlp-credits.c:162 src/lib/lw6-print.c:58
+#: src/lib/sys/sys-log.c:646
+msgid "Report bugs"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:166
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
@@ -238,17 +243,11 @@ msgstr "test feila (sjå loggfila «%s» for meir informasjon)"
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 msgstr "Bruk: %s [--val1[=verdu1]] … [--valN[=verdiN]]\n"
 
-#: src/lib/lw6-print.c:58
-#, c-format
-msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
-msgstr "Brukarhandbok: http://www.gnu.org/software/liquidwar6/manual/\n"
+#: src/lib/lw6-print.c:57
+msgid "Home page"
+msgstr ""
 
-#: src/lib/lw6-print.c:60
-#, c-format
-msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
-msgstr "Meld frå om feil til <bug-liquidwar6@gnu.org>\n"
-
-#: src/lib/lw6-print.c:95
+#: src/lib/lw6-print.c:92
 #, c-format
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -262,16 +261,16 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/lw6-print.c:848
+#: src/lib/lw6-print.c:846
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/lw6-print.c:855
+#: src/lib/lw6-print.c:853
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "om lag %d megabyte tilgjengeleg"
 
-#: src/lib/lw6-print.c:870
+#: src/lib/lw6-print.c:868
 msgid "goodbye"
 msgstr "ha det"
 
@@ -342,40 +341,40 @@ msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
 #: src/lib/sys/sys-log.c:646
-msgid "backtrace"
+msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:801
+#: src/lib/sys/sys-log.c:802
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:806
+#: src/lib/sys/sys-log.c:807
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:816
+#: src/lib/sys/sys-log.c:817
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:821
+#: src/lib/sys/sys-log.c:822
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:838
+#: src/lib/sys/sys-log.c:839
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:844
+#: src/lib/sys/sys-log.c:845
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:927
+#: src/lib/sys/sys-log.c:928
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:931
+#: src/lib/sys/sys-log.c:932
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -399,11 +398,11 @@ msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
 
-#: src/lib/sys/sys-signal.c:209
+#: src/lib/sys/sys-signal.c:217
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:240
+#: src/lib/sys/sys-signal.c:257
 msgid "Floating point exception"
 msgstr ""
 
@@ -924,6 +923,12 @@ msgstr "testar database"
 #: src/scriptpo.c:153
 msgid "testing node"
 msgstr "testar node"
+
+#~ msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
+#~ msgstr "Brukarhandbok: http://www.gnu.org/software/liquidwar6/manual/\n"
+
+#~ msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
+#~ msgstr "Meld frå om feil til <bug-liquidwar6@gnu.org>\n"
 
 #~ msgid "Keep map ratio"
 #~ msgstr "Behald høgd/breidd-forhold"

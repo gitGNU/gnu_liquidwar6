@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-13 16:46+0200\n"
+"POT-Creation-Date: 2011-10-13 22:16+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -196,7 +196,12 @@ msgstr ""
 msgid "Fight software patents %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:161
+#: src/lib/hlp/hlp-credits.c:162 src/lib/lw6-print.c:58
+#: src/lib/sys/sys-log.c:646
+msgid "Report bugs"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:166
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr ""
@@ -238,17 +243,11 @@ msgstr "тест завершился с ошибкой, подробности 
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 msgstr "Использование: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 
-#: src/lib/lw6-print.c:58
-#, c-format
-msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
-msgstr "Документация: http://www.gnu.org/software/liquidwar6/manual/\n"
+#: src/lib/lw6-print.c:57
+msgid "Home page"
+msgstr ""
 
-#: src/lib/lw6-print.c:60
-#, c-format
-msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
-msgstr "Сообщения об ошибках на <bug-liquidwar6@gnu.org>\n"
-
-#: src/lib/lw6-print.c:95
+#: src/lib/lw6-print.c:92
 #, c-format
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -262,16 +261,16 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/lw6-print.c:848
+#: src/lib/lw6-print.c:846
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/lw6-print.c:855
+#: src/lib/lw6-print.c:853
 #, c-format
 msgid "approx. %d megabytes available"
 msgstr "примерно %d мегабайт доступно"
 
-#: src/lib/lw6-print.c:870
+#: src/lib/lw6-print.c:868
 msgid "goodbye"
 msgstr "счастливо"
 
@@ -342,40 +341,40 @@ msgid "can't open log file \"%s\""
 msgstr "не могу открыть журнал \"%s\""
 
 #: src/lib/sys/sys-log.c:646
-msgid "backtrace"
+msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:801
+#: src/lib/sys/sys-log.c:802
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ОШИБКА! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:806
+#: src/lib/sys/sys-log.c:807
 msgid "ERROR! "
 msgstr "ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:816
+#: src/lib/sys/sys-log.c:817
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:821
+#: src/lib/sys/sys-log.c:822
 msgid "WARNING! "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! "
 
-#: src/lib/sys/sys-log.c:838
+#: src/lib/sys/sys-log.c:839
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:844
+#: src/lib/sys/sys-log.c:845
 msgid "[debug] "
 msgstr "[отладка] "
 
-#: src/lib/sys/sys-log.c:927
+#: src/lib/sys/sys-log.c:928
 msgid "CRITICAL! "
 msgstr "КРИТИЧЕСКАЯ ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:931
+#: src/lib/sys/sys-log.c:932
 msgid "CRITICAL!"
 msgstr "КРИТИЧЕСКАЯ ОШИБКА!"
 
@@ -399,11 +398,11 @@ msgstr "недостаточно памяти, ошибка realloc (%d) в %s:%
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "попытка освободить память по указателю NULL в %s:%d"
 
-#: src/lib/sys/sys-signal.c:209
+#: src/lib/sys/sys-signal.c:217
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:240
+#: src/lib/sys/sys-signal.c:257
 msgid "Floating point exception"
 msgstr ""
 
@@ -922,3 +921,9 @@ msgstr "проверка базы данных"
 #: src/scriptpo.c:153
 msgid "testing node"
 msgstr "проверка узла"
+
+#~ msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
+#~ msgstr "Документация: http://www.gnu.org/software/liquidwar6/manual/\n"
+
+#~ msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
+#~ msgstr "Сообщения об ошибках на <bug-liquidwar6@gnu.org>\n"

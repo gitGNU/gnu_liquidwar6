@@ -213,8 +213,10 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_LICENSE,
 		 _x_
 		 ("Shows the license of the program (GNU GPL v3 or later)."));
-  POPULATE_VOID (LW6DEF_SHOW_BUILD_URL,
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_HOME_URL,
 		 _x_ ("Shows the URL of the program, its homepage."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_BUGS_URL,
+		 _x_ ("Shows the URL to make bug reports."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_CONFIGURE_ARGS,
 		 _x_
 		 ("Shows the arguments that have been passed to the GNU Autoconf './configure' script when building the program. This can be very usefull if you want to know how the program has been built."));
@@ -2196,8 +2198,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_get_copyright."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_LICENSE,
 		 _x_ ("Wrapper on lw6sys_build_get_license."));
-  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_URL,
-		 _x_ ("Wrapper on lw6sys_build_get_url."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOME_URL,
+		 _x_ ("Wrapper on lw6sys_build_get_home_url."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_BUGS_URL,
+		 _x_ ("Wrapper on lw6sys_build_get_bugs_url."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS,
 		 _x_ ("Wrapper on lw6sys_build_get_configure_args."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION,

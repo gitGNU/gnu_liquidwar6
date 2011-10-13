@@ -31,7 +31,8 @@
 
 #define COPYRIGHT "Copyright (C)  2011  Christian Mauduit <ufoot@ufoot.org>"
 #define LICENSE "GPLv3+ (GNU GPL version 3 or later)"
-#define URL "http://www.gnu.org/software/liquidwar6/"
+#define HOME_URL "http://www.gnu.org/software/liquidwar6/"
+#define BUGS_URL "http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6"
 #define TOP_SRCDIR_TEST_FILE "liquidwar6.spec.in"
 #define TOP_SRCDIR_MAX_UNPARENT 4
 #define ENABLE_YES "yes"
@@ -201,7 +202,7 @@ lw6sys_build_get_license ()
 }
 
 /**
- * lw6sys_build_get_url:
+ * lw6sys_build_get_home_url:
  *
  * Returns the URL of the game, its homepage.
  *
@@ -209,9 +210,23 @@ lw6sys_build_get_license ()
  *   Must not be freed.
  */
 char *
-lw6sys_build_get_url ()
+lw6sys_build_get_home_url ()
 {
-  return URL;
+  return HOME_URL;
+}
+
+/**
+ * lw6sys_build_get_bugs_url:
+ *
+ * Returns the URL for bugs, the bug reports page.
+ *
+ * Return value: a non-NULL string, single line whithout '\n' at the end. 
+ *   Must not be freed.
+ */
+char *
+lw6sys_build_get_bugs_url ()
+{
+  return BUGS_URL;
 }
 
 /**
@@ -915,7 +930,8 @@ lw6sys_build_get_bin_id ()
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_copyright ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_license ());
-  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_url ());
+  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_home_url ());
+  lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_bugs_url ());
   lw6sys_checksum_update_str (&checksum_global,
 			      lw6sys_build_get_configure_args ());
   lw6sys_checksum_update_str (&checksum_global,
@@ -1027,8 +1043,10 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_copyright ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build license is \"%s\""),
 	      lw6sys_build_get_license ());
-  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build url is \"%s\""),
-	      lw6sys_build_get_url ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build home url is \"%s\""),
+	      lw6sys_build_get_home_url ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build bug url is \"%s\""),
+	      lw6sys_build_get_bugs_url ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build configure args is \"%s\""),
 	      lw6sys_build_get_configure_args ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build gcc_version is \"%s\""),

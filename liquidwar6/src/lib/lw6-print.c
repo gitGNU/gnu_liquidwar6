@@ -54,11 +54,8 @@ lw6_print_help ()
       lw6sys_list_free (list);
     }
 
-  printf
-    (_("Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"));
-  printf ("\n");
-  printf (_("Report bugs to <bug-liquidwar6@gnu.org>\n"));
-  printf ("\n");
+  printf ("%s: %s\n\n", _("Home page"), lw6sys_build_get_home_url ());
+  printf ("%s: %s\n\n", _("Report bugs"), lw6sys_build_get_bugs_url ());
 
   fflush (stdout);
 }
@@ -163,7 +160,8 @@ lw6_print_pedigree ()
   printf ("md5sum: %s\n", lw6sys_build_get_md5sum ());
   printf ("copyright: %s\n", lw6sys_build_get_copyright ());
   printf ("license: %s\n", lw6sys_build_get_license ());
-  printf ("url: %s\n", lw6sys_build_get_url ());
+  printf ("home url: %s\n", lw6sys_build_get_home_url ());
+  printf ("bugs url: %s\n", lw6sys_build_get_bugs_url ());
   printf ("configure-args: %s\n", lw6sys_build_get_configure_args ());
   printf ("gcc-version: %s\n", lw6sys_build_get_gcc_version ());
   printf ("cflags: %s\n", lw6sys_build_get_cflags ());

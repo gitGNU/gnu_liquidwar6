@@ -1,5 +1,7 @@
 2011-10-13 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Error dialog box displays bug-report URL.
+
 	* SIGSEGV and SIGFPS now trapped.
 
 2011-10-11 : Christian Mauduit <ufoot@ufoot.org>

@@ -116,7 +116,8 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_MD5SUM);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_COPYRIGHT);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_LICENSE);
-  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_URL);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_HOME_URL);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_BUGS_URL);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_CONFIGURE_ARGS);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_GCC_VERSION);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_CFLAGS);
@@ -771,7 +772,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_MD5SUM);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_COPYRIGHT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_LICENSE);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_URL);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_HOME_URL);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_BUGS_URL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_CONFIGURE_ARGS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_GCC_VERSION);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_CFLAGS);

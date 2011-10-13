@@ -284,7 +284,8 @@ c-lw6sys-build-get-prefix
 c-lw6sys-build-get-stamp
 c-lw6sys-build-get-time
 c-lw6sys-build-get-top-srcdir
-c-lw6sys-build-get-url
+c-lw6sys-build-get-home-url
+c-lw6sys-build-get-bugs-url
 c-lw6sys-build-get-version
 c-lw6sys-build-is-gp2x
 c-lw6sys-build-is-mac-os-x
@@ -606,7 +607,8 @@ show-build-prefix
 show-build-stamp
 show-build-time
 show-build-top-srcdir
-show-build-url
+show-build-home-url
+show-build-bugs-url
 show-build-version
 show-build-x86
 show-config-file

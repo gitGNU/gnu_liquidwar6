@@ -642,8 +642,9 @@ _lw6sys_msgbox_alert (char *level_str, char *file, int line, char *fmt,
       bt = "";
     }
   lw6sys_buf_sprintf (message_full, MSGBOX_LENGTH,
-		      "%s (%s:%d)\n\n%s\n\n%s: %s", level_str, file,
-		      line, message_raw, _("backtrace"), bt);
+		      "%s (%s:%d)\n\n%s\n\n%s: %s\n\n%s: %s", level_str, file,
+		      line, message_raw, _("Backtrace"), bt, _("Report bugs"),
+		      lw6sys_build_get_bugs_url ());
   if (free_bt)
     {
       LW6SYS_FREE (bt);

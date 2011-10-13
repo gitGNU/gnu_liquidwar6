@@ -1328,8 +1328,14 @@ results on
      *Return value:*  a non-NULL string, single line whithout '\n' at
      the end.  Must not be freed.
 
- -- Function: char * lw6sys_build_get_url ()
+ -- Function: char * lw6sys_build_get_home_url ()
      Returns the URL of the game, its homepage.
+
+     *Return value:*  a non-NULL string, single line whithout '\n' at
+     the end.  Must not be freed.
+
+ -- Function: char * lw6sys_build_get_bugs_url ()
+     Returns the URL for bugs, the bug reports page.
 
      *Return value:*  a non-NULL string, single line whithout '\n' at
      the end.  Must not be freed.
@@ -4039,6 +4045,20 @@ results on
 
      The own HUP signal handler, will basically do something that shows
      the program is alive, typically display a NOTICE message.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_segv_handler (int SIGNUM)
+     SIGNUM:  SIGTERM
+
+     The own SEGV signal handler, will display a backtrace and exit.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sys_signal_fpe_handler (int SIGNUM)
+     SIGNUM:  SIGTERM
+
+     The own FPE signal handler, will display a backtrace and exit.
 
      *Return value:*  none.
 

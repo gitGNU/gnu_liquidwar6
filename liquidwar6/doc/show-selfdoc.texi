@@ -4,6 +4,11 @@ Shows the internal 'bin-id' value. This value does not mean anything in itself
 but it's supposed to change each time you compile the game.
 @end deffn
 
+@subsection show-build-bugs-url
+@deffn {Command-line option} @code{--show-build-bugs-url}
+Shows the URL to make bug reports.
+@end deffn
+
 @subsection show-build-cflags
 @deffn {Command-line option} @code{--show-build-cflags}
 Shows what value you should put in 'CFLAGS' (environment variable) if you want
@@ -169,6 +174,11 @@ program.
 Returns 1 (true) if host is a GP2X, 0 (false) if not.
 @end deffn
 
+@subsection show-build-home-url
+@deffn {Command-line option} @code{--show-build-home-url}
+Shows the URL of the program, its homepage.
+@end deffn
+
 @subsection show-build-host-cpu
 @deffn {Command-line option} @code{--show-build-host-cpu}
 Shows the host CPU, as defined by 'host_cpu' in GNU Autoconf.
@@ -277,11 +287,6 @@ Shows the time when the binary was compiled.
 @subsection show-build-top-srcdir
 @deffn {Command-line option} @code{--show-build-top-srcdir}
 Shows the top source directory on the machine where the binary was compiled.
-@end deffn
-
-@subsection show-build-url
-@deffn {Command-line option} @code{--show-build-url}
-Shows the URL of the program, its homepage.
 @end deffn
 
 @subsection show-build-version

@@ -1000,6 +1000,11 @@ Wrapper on lw6srv_get_backends.
 Wrapper on lw6sys_build_get_bin_id.
 @end deffn
 
+@subsection c-lw6sys-build-get-bugs-url
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-bugs-url}
+Wrapper on lw6sys_build_get_bugs_url.
+@end deffn
+
 @subsection c-lw6sys-build-get-cflags
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-cflags}
 Wrapper on lw6sys_build_get_cflags.
@@ -1120,6 +1125,11 @@ Wrapper on lw6sys_build_get_endianness.
 Wrapper on lw6sys_build_get_gcc_version.
 @end deffn
 
+@subsection c-lw6sys-build-get-home-url
+@deffn {C function exported to Guile} @code{c-lw6sys-build-get-home-url}
+Wrapper on lw6sys_build_get_home_url.
+@end deffn
+
 @subsection c-lw6sys-build-get-host-cpu
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-host-cpu}
 Wrapper on lw6sys_build_get_host_cpu.
@@ -1203,11 +1213,6 @@ Wrapper on lw6sys_build_get_time.
 @subsection c-lw6sys-build-get-top-srcdir
 @deffn {C function exported to Guile} @code{c-lw6sys-build-get-top-srcdir}
 Wrapper on lw6sys_build_get_top_srcdir.
-@end deffn
-
-@subsection c-lw6sys-build-get-url
-@deffn {C function exported to Guile} @code{c-lw6sys-build-get-url}
-Wrapper on lw6sys_build_get_url.
 @end deffn
 
 @subsection c-lw6sys-build-get-version

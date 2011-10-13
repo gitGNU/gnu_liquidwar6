@@ -29,7 +29,7 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-#define _NB_CREDITS_ENTRIES 23
+#define _NB_CREDITS_ENTRIES 24
 
 #define _CREDITS_IDEA "Thomas Colcombet"
 #define _CREDITS_CODING "Christian Mauduit"
@@ -80,7 +80,7 @@ lw6hlp_get_credits (int id)
 			    lw6sys_build_get_codename ());
       break;
     case 2:
-      ret = lw6sys_str_copy (lw6sys_build_get_url ());
+      ret = lw6sys_str_copy (lw6sys_build_get_home_url ());
       break;
     case 3:
       ret = lw6sys_new_sprintf (_("Idea: %s"), _CREDITS_IDEA);
@@ -156,6 +156,11 @@ lw6hlp_get_credits (int id)
       break;
     case 22:
       ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
+      break;
+    case 23:
+      ret =
+	lw6sys_new_sprintf ("%s: %s", _("Report bugs"),
+			    lw6sys_build_get_bugs_url ());
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _("unable to handle credits id %d"),
