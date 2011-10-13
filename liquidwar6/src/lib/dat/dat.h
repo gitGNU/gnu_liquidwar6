@@ -50,9 +50,10 @@ extern u_int64_t lw6dat_warehouse_get_local_id (lw6dat_warehouse_t *
 extern int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse);
 extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 					  u_int64_t logical_from,
-					  char *atom_str_serial_i_n_msg);
-extern int lw6dat_warehouse_put_msg (lw6dat_warehouse_t * warehouse,
-				     char *msg);
+					  char
+					  *atom_str_serial_i_n_round_from_cmd);
+extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
+					   char *msg);
 
 /* dat-test.c */
 extern int lw6dat_test (int mode);

@@ -208,7 +208,8 @@ _lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t * warehouse)
 {
   int ret = 0;
 
-  ret = warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX].serial_max;
+  ret =
+    _lw6dat_stack_get_serial (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]));
 
   return ret;
 }
@@ -264,10 +265,11 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
-			    int serial, int order_i, int order_n, char *text)
+			    int serial, int order_i, int order_n, int round,
+			    char *text)
 {
   int stack_index = -1;
-  int flag = 0;
+  int send_flag = 0;
   int ret = 0;
 
   stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
@@ -278,10 +280,10 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     }
   if (stack_index >= 0)
     {
-      flag = _lw6dat_not_flag (stack_index);
+      send_flag = _lw6dat_not_flag (stack_index);
       ret =
 	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, text, flag);
+				order_i, order_n, round, text, send_flag);
     }
   else
     {
@@ -295,51 +297,40 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 				u_int64_t logical_from,
-				char *atom_str_serial_i_n_msg)
+				char *atom_str_serial_i_n_round_from_cmd)
 {
   int ret = 0;
-  char *next = atom_str_serial_i_n_msg;
   int serial = 0;
-  int i = 0;
-  int n = 0;
+  int order_i = 0;
+  int order_n = 0;
+  int round = 0;
+  u_int64_t logical_from2 = 0L;
+  char *cmd = NULL;
 
-  if (logical_from != _lw6dat_warehouse_get_local_id (warehouse))
+  /*
+   * It's more efficient to use _lw6dat_warehouse_put_atom
+   * than _lw6dat_stack_put_atom_str for we need to check if
+   * logical ids match, and else we'd parse the message twice
+   * in most cases.
+   */
+  if (_lw6dat_atom_parse_serial_i_n_round_from_cmd
+      (&serial, &order_i, &order_n, &round, &logical_from2, &cmd,
+       atom_str_serial_i_n_round_from_cmd))
     {
-      if (lw6msg_word_first_int_gt0 (&serial, &next, next))
+      if (logical_from == logical_from2)
 	{
-	  if (lw6msg_word_first_int_ge0 (&i, &next, next))
-	    {
-	      if (lw6msg_word_first_int_gt0 (&n, &next, next))
-		{
-		  ret =
-		    _lw6dat_warehouse_put_atom (warehouse, logical_from,
-						serial, i, n, next);
-		}
-	      else
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("bad value for n in atom \"%s\""),
-			      atom_str_serial_i_n_msg);
-		}
-	    }
-	  else
-	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING,
-			  _x_ ("bad value for i in atom \"%s\""),
-			  atom_str_serial_i_n_msg);
-	    }
+	  ret =
+	    _lw6dat_warehouse_put_atom (warehouse, logical_from,
+					serial, order_i, order_n, round, cmd);
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad value for serial in atom \"%s\""),
-		      atom_str_serial_i_n_msg);
+		      _x_
+		      ("cant't put atom string, logical_from inconsistency logical_from=%"
+		       LW6SYS_PRINTF_LL "x logical_from2=%" LW6SYS_PRINTF_LL
+		       "x"), logical_from, logical_from2);
 	}
-    }
-  else
-    {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("_lw6dat_warehouse_put_atom_str used with local id"));
     }
 
   return ret;
@@ -350,7 +341,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: warehouse object to use
  * @logical_from: from who the message came from originally
- * @atom_str_serial_i_n_msg: message of the form serial i n msg
+ * @atom_str_serial_i_n_round_from_cmd: message of the form serial i n round from cmd
  *
  * Puts an atomic string in the object, this kind of string is
  * typically received on the network.
@@ -360,59 +351,32 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 int
 lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 			       u_int64_t logical_from,
-			       char *atom_str_serial_i_n_msg)
+			       char *atom_str_serial_i_n_round_from_cmd)
 {
   int ret = 0;
 
   ret =
     _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse,
-				    logical_from, atom_str_serial_i_n_msg);
+				    logical_from,
+				    atom_str_serial_i_n_round_from_cmd);
 
   return ret;
 }
 
 int
-_lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse, char *msg)
+_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
 {
   int ret = 0;
-  u_int64_t logical_from;
-  int len = 0;
-  int order_n = 0;
-  int order_i = 0;
-  int p = 0;
-  int s = 0;
-  int serial = 0;
-  char atom_str[_LW6DAT_ATOM_MAX_SIZE + 1];
 
-  atom_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
-  logical_from = _lw6dat_warehouse_get_local_id (warehouse);
-  len = strlen (msg);
-  order_n = (lw6sys_max ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
-  for (order_i = 0; order_i < order_n; ++order_i)
-    {
-      ret = 1;
-      p = order_i * _LW6DAT_ATOM_MAX_SIZE;
-      if (p < len)
-	{
-	  s = lw6sys_min (len - p, _LW6DAT_ATOM_MAX_SIZE);
-	  if (s > 0)
-	    {
-	      memcpy (atom_str, msg + p, s);
-	      atom_str[s] = '\0';
-	      serial = _lw6dat_warehouse_get_local_serial (warehouse) + 1;
-	      ret = ret
-		&& _lw6dat_warehouse_put_atom (warehouse, logical_from,
-					       serial, order_i, order_n,
-					       atom_str);
-	    }
-	}
-    }
+  ret =
+    _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
+			   msg, _LW6DAT_FLAG_LOCAL);
 
   return ret;
 }
 
 /**
- * lw6dat_warehouse_put_msg
+ * lw6dat_warehouse_put_local_msg
  *
  * @warehouse: warehouse object to use
  * @logical_from: from who the message came from originally
@@ -424,11 +388,12 @@ _lw6dat_warehouse_put_msg (_lw6dat_warehouse_t * warehouse, char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6dat_warehouse_put_msg (lw6dat_warehouse_t * warehouse, char *msg)
+lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, char *msg)
 {
   int ret = 0;
 
-  ret = _lw6dat_warehouse_put_msg ((_lw6dat_warehouse_t *) warehouse, msg);
+  ret =
+    _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg);
 
   return ret;
 }

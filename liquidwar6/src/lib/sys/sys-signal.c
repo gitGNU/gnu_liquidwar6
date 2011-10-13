@@ -61,6 +61,18 @@ lw6sys_signal_custom ()
       signal (SIGHUP, SIG_IGN);
     }
 #endif
+#ifdef SIGSEGV
+  if (signal (SIGSEGV, lw6sys_signal_segv_handler) == SIG_IGN)
+    {
+      signal (SIGSEGV, SIG_IGN);
+    }
+#endif
+#ifdef SIGFPE
+  if (signal (SIGFPE, lw6sys_signal_fpe_handler) == SIG_IGN)
+    {
+      signal (SIGFPE, SIG_IGN);
+    }
+#endif
 }
 
 /**
@@ -74,7 +86,8 @@ void
 lw6sys_signal_default ()
 {
   lw6sys_log (LW6SYS_LOG_INFO,
-	      _x_ ("setting default SIGTERM, SIGINT, SIGHUP handlers"));
+	      _x_
+	      ("setting default SIGTERM, SIGINT, SIGHUP, SIGSEGV, SIGFPE handlers"));
 #ifdef SIGTERM
   if (signal (SIGTERM, SIG_DFL) == SIG_IGN)
     {
@@ -91,6 +104,18 @@ lw6sys_signal_default ()
   if (signal (SIGHUP, SIG_DFL) == SIG_IGN)
     {
       signal (SIGHUP, SIG_IGN);
+    }
+#endif
+#ifdef SIGSEGV
+  if (signal (SIGSEGV, SIG_DFL) == SIG_IGN)
+    {
+      signal (SIGSEGV, SIG_IGN);
+    }
+#endif
+#ifdef SIGFPE
+  if (signal (SIGFPE, SIG_DFL) == SIG_IGN)
+    {
+      signal (SIGFPE, SIG_IGN);
     }
 #endif
 }
@@ -158,6 +183,68 @@ lw6sys_signal_hup_handler (int signum)
     {
       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("caught SIGHUP"));
     }
+}
+
+/**
+ * lw6sys_signal_segv_handler
+ *
+ * @signum: SIGTERM
+ *
+ * The own SEGV signal handler, will display a backtrace and exit.
+ * 
+ * Return value: none.
+ */
+void
+lw6sys_signal_segv_handler (int signum)
+{
+#ifdef SIGSEGV
+  /*
+   * OK here we test wether signum is really SIGSEGV,
+   * if this is the case the error is fired for good so
+   * we exit, if not, we keep on going, probably this
+   * is just a test.
+   */
+  if (signum == SIGSEGV)
+    {
+      lw6sys_log_critical (_("Segmentation fault"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_ERROR,
+		  _x_ ("Testing segmentation fault handler"));
+    }
+#endif
+}
+
+/**
+ * lw6sys_signal_fpe_handler
+ *
+ * @signum: SIGTERM
+ *
+ * The own FPE signal handler, will display a backtrace and exit.
+ * 
+ * Return value: none.
+ */
+void
+lw6sys_signal_fpe_handler (int signum)
+{
+#ifdef SIGFPE
+  /*
+   * OK here we test wether signum is really SIGFPE,
+   * if this is the case the error is fired for good so
+   * we exit, if not, we keep on going, probably this
+   * is just a test.
+   */
+  if (signum == SIGFPE)
+    {
+      lw6sys_log_critical (_("Floating point exception"));
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_ERROR,
+		  _x_ ("Testing floating point exception handler"));
+    }
+#endif
 }
 
 /**

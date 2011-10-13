@@ -902,6 +902,8 @@ extern void lw6sys_signal_default ();
 extern void lw6sys_signal_term_handler (int signum);
 extern void lw6sys_signal_int_handler (int signum);
 extern void lw6sys_signal_hup_handler (int signum);
+extern void lw6sys_signal_segv_handler (int signum);
+extern void lw6sys_signal_fpe_handler (int signum);
 extern void lw6sys_signal_send_quit ();
 extern int lw6sys_signal_poll_quit ();
 

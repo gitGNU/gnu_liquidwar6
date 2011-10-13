@@ -87,9 +87,19 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 }
 
 int
+_lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+
+  ret = stack->serial_max;
+
+  return ret;
+}
+
+int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
-			int serial, int order_i, int order_n, char *text,
-			int send_flag)
+			int serial, int order_i, int order_n, int round,
+			char *text, int send_flag)
 {
   int ret = 0;
   int block_index = 0;
@@ -177,12 +187,12 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	  stack->serial_n_1 =
 	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
 	  ret =
-	    _lw6dat_block_put_atom (block, serial, order_i, order_n, text,
-				    send_flag);
+	    _lw6dat_block_put_atom (block, serial, order_i, order_n, round,
+				    text, send_flag);
 	  if (!ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("unable to put atom in warehouse serial=%d"),
+			  _x_ ("unable to put atom in stack serial=%d"),
 			  serial);
 	    }
 	}
@@ -198,6 +208,32 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
   if (ret)
     {
       stack->serial_max = lw6sys_max (stack->serial_max, serial);
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
+			    char *atom_str_serial_i_n_round_from_cmd,
+			    int send_flag)
+{
+  int ret = 0;
+  int serial = 0;
+  int order_i = 0;
+  int order_n = 0;
+  int round = 0;
+  u_int64_t logical_from = 0L;
+  char *cmd = NULL;
+
+  if (_lw6dat_atom_parse_serial_i_n_round_from_cmd
+      (&serial, &order_i, &order_n, &round, &logical_from, &cmd,
+       atom_str_serial_i_n_round_from_cmd))
+    {
+      ret =
+	_lw6dat_stack_put_atom (stack,
+				serial, order_i, order_n, round, cmd,
+				send_flag);
     }
 
   return ret;
@@ -234,4 +270,62 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
     }
 
   return atom;
+}
+
+int
+_lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
+{
+  int ret = 0;
+  int len = 0;
+  int order_n = 0;
+  int order_i = 0;
+  int round = 0;
+  u_int64_t logical_from = 0;
+  int p = 0;
+  int s = 0;
+  int serial = 0;
+  char atom_str[_LW6DAT_ATOM_MAX_SIZE + 1];
+  char *next = NULL;
+
+  next = msg;
+  if (lw6msg_word_first_int_ge0 (&round, &next, next))
+    {
+      if (lw6msg_word_first_id_64 (&logical_from, &next, next))
+	{
+	  atom_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
+	  len = strlen (msg);
+	  order_n = (lw6sys_max ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
+	  for (order_i = 0; order_i < order_n; ++order_i)
+	    {
+	      ret = 1;
+	      p = order_i * _LW6DAT_ATOM_MAX_SIZE;
+	      if (p < len)
+		{
+		  s = lw6sys_min (len - p, _LW6DAT_ATOM_MAX_SIZE);
+		  if (s > 0)
+		    {
+		      memcpy (atom_str, msg + p, s);
+		      atom_str[s] = '\0';
+		      serial = _lw6dat_stack_get_serial (stack) + 1;
+		      ret = ret
+			&& _lw6dat_stack_put_atom (stack,
+						   serial, order_i, order_n,
+						   round, atom_str,
+						   send_flag);
+		    }
+		}
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad logical_from in message \"%s\""), msg);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad round in message \"%s\""),
+		  msg);
+    }
+  return ret;
 }

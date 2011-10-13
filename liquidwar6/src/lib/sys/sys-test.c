@@ -2540,9 +2540,11 @@ test_random ()
 
 /*
  * Testing functions in signal.c
+ *
+ * Not declared static so that backtrace is more meaningfull.
  */
-static int
-test_signal ()
+int
+_lw6sys_test_signal (int mode)
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -2572,6 +2574,11 @@ test_signal ()
     lw6sys_signal_term_handler (0);
     lw6sys_signal_int_handler (0);
     lw6sys_signal_hup_handler (0);
+    if (mode)
+      {
+	lw6sys_signal_segv_handler (0);
+	lw6sys_signal_fpe_handler (0);
+      }
     lw6sys_signal_default ();
   }
 
@@ -3809,9 +3816,9 @@ lw6sys_test (int mode)
     && test_log (mode) && test_math () && test_mem () && test_mutex ()
     && test_options () && test_nop () && test_path () && test_progress ()
     && test_random () && test_sdl () && test_serial () && test_shape ()
-    && test_signal () && test_sort () && test_spinlock () && test_str ()
-    && test_stream () && test_thread () && test_time () && test_url ()
-    && test_vthread ();
+    && _lw6sys_test_signal (mode) && test_sort () && test_spinlock ()
+    && test_str () && test_stream () && test_thread () && test_time ()
+    && test_url () && test_vthread ();
 
   return ret;
 }

@@ -31,6 +31,7 @@
 
 #define _TEST_BLOCK_SERIAL_0 456
 #define _TEST_BLOCK_ORDER_N 7
+#define _TEST_BLOCK_ROUND 2
 #define _TEST_BLOCK_STEP 3
 #define _TEST_BLOCK_TEXT_1 "0+0=zero"
 #define _TEST_BLOCK_TEXT_2 "2+2=4"
@@ -40,6 +41,7 @@
 #define _TEST_STACK_SERIAL_0 123
 #define _TEST_STACK_ORDER_I 0
 #define _TEST_STACK_ORDER_N 1
+#define _TEST_STACK_ROUND 5
 #define _TEST_STACK_TEXT "..."
 #define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/10)
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
@@ -50,10 +52,11 @@
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
+#define _TEST_WAREHOUSE_ROUND 7
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
 #define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
-#define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 foo bar"
+#define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 10 2345234523452345 foo bar"
 #define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
 #define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
 
@@ -148,7 +151,8 @@ test_block ()
 	  {
 	    if (_lw6dat_block_put_atom
 		(block, serial, order_i, _TEST_BLOCK_ORDER_N,
-		 _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG))
+		 _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1,
+		 _TEST_BLOCK_SEND_FLAG))
 	      {
 		// ok
 	      }
@@ -169,7 +173,7 @@ test_block ()
 		    _x_ ("trying various invalid atom \"put\" calls"));
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_TEXT_2, _TEST_BLOCK_SEND_FLAG))
+	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_2, _TEST_BLOCK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("wrong duplicate detection"));
@@ -181,11 +185,11 @@ test_block ()
 	  }
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0 - 1, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG)
+	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG)
 	    || _lw6dat_block_put_atom (block,
 				       _TEST_BLOCK_SERIAL_0 +
 				       _LW6DAT_NB_ATOMS_PER_BLOCK, 0,
-				       _TEST_BLOCK_ORDER_N,
+				       _TEST_BLOCK_ORDER_N, _TEST_BLOCK_ROUND,
 				       _TEST_BLOCK_TEXT_1,
 				       _TEST_BLOCK_SEND_FLAG))
 	  {
@@ -256,7 +260,7 @@ test_stack ()
 	  _TEST_STACK_SERIAL_0 + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
-	     _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
+	     _TEST_STACK_ROUND, _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("error putting atom on stack i=%d serial=%d"), i,
@@ -316,6 +320,8 @@ test_warehouse ()
     lw6dat_warehouse_t *warehouse;
     int overflow = 0;
     int i;
+    char *cmd = NULL;
+    char *id_str = NULL;
     char *msg = NULL;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
@@ -324,7 +330,8 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+	     _TEST_WAREHOUSE_TEXT))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("text \"%s\" put into warehouse"),
@@ -335,7 +342,7 @@ test_warehouse ()
 	    if (!_lw6dat_warehouse_put_atom
 		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-		 _TEST_WAREHOUSE_TEXT))
+		 _TEST_WAREHOUSE_ROUND, _TEST_WAREHOUSE_TEXT))
 	      {
 		overflow = 1;
 	      }
@@ -369,14 +376,16 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+	     _TEST_WAREHOUSE_TEXT))
 	  {
 	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
 	      {
 		if (!_lw6dat_warehouse_put_atom
 		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
-		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+		     _TEST_WAREHOUSE_TEXT))
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_ ("unable to put atom %d"), i);
@@ -386,7 +395,8 @@ test_warehouse ()
 	    if (_lw6dat_warehouse_put_atom
 		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_TEXT))
+		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+		 _TEST_WAREHOUSE_TEXT))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -442,26 +452,38 @@ test_warehouse ()
 
 	_lw6dat_warehouse_purge (_warehouse);
 
-	for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE;
-	     i < _TEST_WAREHOUSE_PUT_MAX_SIZE; ++i)
+	id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+	if (id_str)
 	  {
-	    msg = lw6sys_str_random_words (i);
-	    if (msg)
+	    for (i = _TEST_WAREHOUSE_PUT_MIN_SIZE;
+		 i < _TEST_WAREHOUSE_PUT_MAX_SIZE; ++i)
 	      {
-		if (lw6dat_warehouse_put_msg (warehouse, msg))
+		cmd = lw6sys_str_random_words (i);
+		if (cmd)
 		  {
-		    // ok
+		    msg =
+		      lw6sys_new_sprintf ("%d %s %s", _TEST_WAREHOUSE_ROUND,
+					  id_str, cmd);
+		    if (msg)
+		      {
+			if (lw6dat_warehouse_put_local_msg (warehouse, msg))
+			  {
+			    // ok
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_
+					("unable to put msg \"%s\" into warehouse"),
+					msg);
+			    ret = 0;
+			  }
+			LW6SYS_FREE (msg);
+		      }
+		    LW6SYS_FREE (cmd);
 		  }
-		else
-		  {
-		    lw6sys_log (LW6SYS_LOG_WARNING,
-				_x_
-				("unable to put msg \"%s\" into warehouse"),
-				msg);
-		    ret = 0;
-		  }
-		LW6SYS_FREE (msg);
 	      }
+	    LW6SYS_FREE (id_str);
 	  }
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("last put msg local_serial=%d i=%d"),
