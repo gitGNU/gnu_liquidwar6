@@ -89,6 +89,8 @@ typedef struct _lw6dat_stack_s
   int serial_0;
   int serial_n_1;
   int serial_max;
+  int serial_draft;
+  int serial_reference;
   // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
 } _lw6dat_stack_t;
@@ -151,7 +153,7 @@ extern void _lw6dat_stack_clear (_lw6dat_stack_t * stack);
 extern void _lw6dat_stack_purge (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id,
 			       int serial_0);
-extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * warehouse);
+extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 				   int serial,
 				   int order_i, int order_n, int round,
@@ -164,6 +166,11 @@ extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
 extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg,
 				  int send_flag);
+extern int _lw6dat_stack_calc_serial_draft (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_calc_serial_reference (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_get_round_draft (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_get_round_reference (_lw6dat_stack_t * stack);
+
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 {

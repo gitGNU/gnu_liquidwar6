@@ -41,6 +41,9 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->serial_0 = 0;
   stack->serial_n_1 = -1;
   stack->serial_max = -1;
+  stack->serial_draft = stack->serial_max;
+  stack->serial_reference = stack->serial_max;
+
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -58,6 +61,8 @@ _lw6dat_stack_purge (_lw6dat_stack_t * stack)
 
   stack->serial_0 = stack->serial_n_1 + 1;
   stack->serial_max = stack->serial_0 - 1;
+  stack->serial_draft = stack->serial_max;
+  stack->serial_reference = stack->serial_max;
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -327,5 +332,38 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad round in message \"%s\""),
 		  msg);
     }
+  return ret;
+}
+
+int
+_lw6dat_stack_calc_serial_draft (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+
+  return ret;
+}
+
+int
+_lw6dat_stack_calc_serial_reference (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+
+  return ret;
+}
+
+
+int
+_lw6dat_stack_get_round_draft (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+
+  return ret;
+}
+
+int
+_lw6dat_stack_get_round_reference (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+
   return ret;
 }
