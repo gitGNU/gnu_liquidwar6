@@ -20,6 +20,8 @@
 
 ;Generated automatically by def-update.py
 
+(define lw6def-c-lw6sys-megabytes-available "c-lw6sys-megabytes-available")
+(define lw6def-c-lw6sys-openmp-get-num-procs "c-lw6sys-openmp-get-num-procs")
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")

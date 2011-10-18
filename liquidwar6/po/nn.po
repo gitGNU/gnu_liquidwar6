@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-13 22:16+0200\n"
+"POT-Creation-Date: 2011-10-18 17:37+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -62,6 +62,11 @@ msgstr "klarte ikkje starta mod_udp"
 #: src/lib/dsp/dsp-test.c:315
 msgid "this error too"
 msgstr "denne feilen òg"
+
+#: src/lib/dyn/dyn-dl.c:223
+#, fuzzy, c-format
+msgid "loaded module \"%s\""
+msgstr "Kodenamn «%s»"
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
 #, c-format
@@ -261,16 +266,11 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/lw6-print.c:846
+#: src/lib/lw6-print.c:850
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/lw6-print.c:853
-#, c-format
-msgid "approx. %d megabytes available"
-msgstr "om lag %d megabyte tilgjengeleg"
-
-#: src/lib/lw6-print.c:868
+#: src/lib/lw6-print.c:898
 msgid "goodbye"
 msgstr "ha det"
 
@@ -378,22 +378,22 @@ msgstr "Kritisk"
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-mem.c:75
+#: src/lib/sys/sys-mem.c:87
 #, c-format
 msgid "out of memory malloc (%d) failed in %s:%d"
 msgstr "slapp opp for minne ved malloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:118
+#: src/lib/sys/sys-mem.c:130
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
 msgstr "slapp opp for minne ved calloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:175
+#: src/lib/sys/sys-mem.c:187
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
 msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:219
+#: src/lib/sys/sys-mem.c:231
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
@@ -923,6 +923,9 @@ msgstr "testar database"
 #: src/scriptpo.c:153
 msgid "testing node"
 msgstr "testar node"
+
+#~ msgid "approx. %d megabytes available"
+#~ msgstr "om lag %d megabyte tilgjengeleg"
 
 #~ msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
 #~ msgstr "Brukarhandbok: http://www.gnu.org/software/liquidwar6/manual/\n"

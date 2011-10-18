@@ -436,6 +436,7 @@ src/lib/sys/sys-math.c
 src/lib/sys/sys-mem.c
 src/lib/sys/sys-mutex.c
 src/lib/sys/sys-nop.c
+src/lib/sys/sys-openmp.c
 src/lib/sys/sys-options.c
 src/lib/sys/sys-path.c
 src/lib/sys/sys-print.c

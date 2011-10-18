@@ -219,7 +219,7 @@ lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
 							   */
 							  lw6sys_log
 							    (LW6SYS_LOG_NOTICE,
-							     _x_
+							     _
 							     ("loaded module \"%s\""),
 							     so_file);
 							  first_load = 0;

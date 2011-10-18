@@ -88,6 +88,18 @@
 /* Define to 1 if you have the <ltdl.h> header file. */
 #undef HAVE_LTDL_H
 
+/* Define to 1 if you have the <mach/mach_host.h> header file. */
+#undef HAVE_MACH_MACH_HOST_H
+
+/* Define to 1 if you have the <mach/mach_init.h> header file. */
+#undef HAVE_MACH_MACH_INIT_H
+
+/* Define to 1 if you have the <mach/mach_types.h> header file. */
+#undef HAVE_MACH_MACH_TYPES_H
+
+/* Define to 1 if you have the <mach/vm_statistics.h> header file. */
+#undef HAVE_MACH_VM_STATISTICS_H
+
 /* Define to 1 if you have the <math.h> header file. */
 #undef HAVE_MATH_H
 
@@ -99,6 +111,9 @@
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
+
+/* Define to 1 if you have the <omp.h> header file. */
+#undef HAVE_OMP_H
 
 /* Define to 1 if you have the <pthread.h> header file. */
 #undef HAVE_PTHREAD_H
@@ -156,6 +171,9 @@
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/sysinfo.h> header file. */
+#undef HAVE_SYS_SYSINFO_H
 
 /* Define to 1 if you have the <sys/time.h> header file. */
 #undef HAVE_SYS_TIME_H

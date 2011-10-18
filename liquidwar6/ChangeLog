@@ -1,3 +1,9 @@
+2011-10-18 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added memory / cpu number detection
+
+	* Tracking dat atoms (for use in network context).
+
 2011-10-13 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Error dialog box displays bug-report URL.

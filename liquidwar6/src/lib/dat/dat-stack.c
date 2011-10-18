@@ -103,7 +103,7 @@ _lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
 
 int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
-			int serial, int order_i, int order_n, int round,
+			int serial, int order_i, int order_n, int seq,
 			char *text, int send_flag)
 {
   int ret = 0;
@@ -192,7 +192,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	  stack->serial_n_1 =
 	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
 	  ret =
-	    _lw6dat_block_put_atom (block, serial, order_i, order_n, round,
+	    _lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
 				    text, send_flag);
 	  if (!ret)
 	    {
@@ -220,24 +220,24 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
 int
 _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
-			    char *atom_str_serial_i_n_round_from_cmd,
+			    char *atom_str_serial_i_n_seq_from_cmd,
 			    int send_flag)
 {
   int ret = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
-  int round = 0;
+  int seq = 0;
   u_int64_t logical_from = 0L;
   char *cmd = NULL;
 
-  if (_lw6dat_atom_parse_serial_i_n_round_from_cmd
-      (&serial, &order_i, &order_n, &round, &logical_from, &cmd,
-       atom_str_serial_i_n_round_from_cmd))
+  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
+      (&serial, &order_i, &order_n, &seq, &logical_from, &cmd,
+       atom_str_serial_i_n_seq_from_cmd))
     {
       ret =
 	_lw6dat_stack_put_atom (stack,
-				serial, order_i, order_n, round, cmd,
+				serial, order_i, order_n, seq, cmd,
 				send_flag);
     }
 
@@ -284,7 +284,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
   int len = 0;
   int order_n = 0;
   int order_i = 0;
-  int round = 0;
+  int seq = 0;
   u_int64_t logical_from = 0;
   int p = 0;
   int s = 0;
@@ -293,7 +293,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
   char *next = NULL;
 
   next = msg;
-  if (lw6msg_word_first_int_ge0 (&round, &next, next))
+  if (lw6msg_word_first_int_ge0 (&seq, &next, next))
     {
       if (lw6msg_word_first_id_64 (&logical_from, &next, next))
 	{
@@ -315,8 +315,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
 		      ret = ret
 			&& _lw6dat_stack_put_atom (stack,
 						   serial, order_i, order_n,
-						   round, atom_str,
-						   send_flag);
+						   seq, atom_str, send_flag);
 		    }
 		}
 	    }
@@ -329,41 +328,122 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad round in message \"%s\""),
-		  msg);
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad seq in message \"%s\""), msg);
     }
   return ret;
 }
 
 int
-_lw6dat_stack_calc_serial_draft (_lw6dat_stack_t * stack)
+_lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 {
   int ret = 0;
+  int seq = 0;
+  int serial = 0;
+  _lw6dat_atom_t *atom = NULL;
+  int atom_complete = 1;
+  int atoms_no_hole = 1;
+  int order_i = 0;
+  int order_n = 0;
+
+  serial = stack->serial_reference + 1;
+  seq = _lw6dat_stack_get_seq_reference (stack);
+  while (serial <= stack->serial_max)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  if (atom->order_i == 0)
+	    {
+	      atom_complete = 1;
+	      seq = atom->seq;
+	      order_n = atom->order_n;
+	      for (order_i = 1;
+		   order_i < order_n && serial + order_i <= stack->serial_max;
+		   ++order_i)
+		{
+		  atom = _lw6dat_stack_get_atom (stack, serial);
+		  if (atom)
+		    {
+		      if (atom->seq != seq)
+			{
+			  atom_complete = 0;
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("bad seq %d should be %i for atom \"%s\""),
+				      atom->seq, seq,
+				      _lw6dat_atom_get_text (atom));
+			}
+		      if (atom->order_i != order_i)
+			{
+			  atom_complete = 0;
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("bad order_i %d should be %i for atom \"%s\""),
+				      atom->order_i, order_i,
+				      _lw6dat_atom_get_text (atom));
+			}
+		    }
+		  else
+		    {
+		      atom_complete = 0;
+		    }
+		}
+	      if (order_i == order_n && atom_complete)
+		{
+		  stack->serial_draft = serial;
+		  if (atoms_no_hole)
+		    {
+		      stack->serial_reference = serial;
+		    }
+		}
+	      else
+		{
+		  atoms_no_hole = 0;
+		}
+	      serial += order_i;
+	    }
+	  else
+	    {
+	      atoms_no_hole = 0;
+	      serial++;
+	    }
+	}
+      else
+	{
+	  atoms_no_hole = 0;
+	  serial++;
+	}
+    }
 
   return ret;
 }
 
 int
-_lw6dat_stack_calc_serial_reference (_lw6dat_stack_t * stack)
+_lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack)
 {
   int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
 
-  return ret;
-}
-
-
-int
-_lw6dat_stack_get_round_draft (_lw6dat_stack_t * stack)
-{
-  int ret = 0;
+  atom = _lw6dat_stack_get_atom (stack, stack->serial_draft);
+  if (atom)
+    {
+      ret = atom->seq;
+    }
 
   return ret;
 }
 
 int
-_lw6dat_stack_get_round_reference (_lw6dat_stack_t * stack)
+_lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
 {
   int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+
+  atom = _lw6dat_stack_get_atom (stack, stack->serial_reference);
+  if (atom)
+    {
+      ret = atom->seq;
+    }
 
   return ret;
 }

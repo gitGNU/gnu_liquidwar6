@@ -843,15 +843,45 @@ lw6_print_about (char *keyword)
 void
 lw6_print_hello (int argc, char *argv[])
 {
+  char *username = NULL;
+  char *hostname = NULL;
+  char *date_rfc1123 = NULL;
+
   lw6sys_log (LW6SYS_LOG_INFO, _("hello"));
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" #%s (%s) %s/%s",
+	      lw6sys_build_get_version (),
+	      lw6sys_build_get_codename (),
+	      lw6sys_build_get_stamp (),
+	      lw6sys_build_get_date (),
+	      lw6sys_build_get_host_os (), lw6sys_build_get_host_cpu ());
+
+  date_rfc1123 = lw6sys_date_rfc1123 (0);
+  if (date_rfc1123)
+    {
+      username = lw6sys_get_username ();
+      if (username)
+	{
+	  hostname = lw6sys_get_hostname ();
+	  {
+	    lw6sys_log (LW6SYS_LOG_INFO, "%s \"%s@%s\"",
+			date_rfc1123, username, hostname);
+	    LW6SYS_FREE (hostname);
+	  }
+	  LW6SYS_FREE (username);
+	}
+      LW6SYS_FREE (date_rfc1123);
+    }
+
+  lw6sys_log (LW6SYS_LOG_INFO, "%d %s - %d %s",
+	      lw6sys_megabytes_available (), _x_ ("Mb"),
+	      lw6sys_openmp_get_num_procs (), _x_ ("procs"));
 
   lw6sys_build_log_all ();
   lw6sys_options_log_defaults ();
   lw6sys_options_log (argc, argv);
 
   lw6sys_check_types_size (argc, argv);
-  lw6sys_log (LW6SYS_LOG_INFO, _("approx. %d megabytes available"),
-	      lw6sys_megabytes_available ());
 }
 
 /**

@@ -265,7 +265,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
-			    int serial, int order_i, int order_n, int round,
+			    int serial, int order_i, int order_n, int seq,
 			    char *text)
 {
   int stack_index = -1;
@@ -283,7 +283,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
       send_flag = _lw6dat_not_flag (stack_index);
       ret =
 	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, round, text, send_flag);
+				order_i, order_n, seq, text, send_flag);
     }
   else
     {
@@ -297,13 +297,13 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 				u_int64_t logical_from,
-				char *atom_str_serial_i_n_round_from_cmd)
+				char *atom_str_serial_i_n_seq_from_cmd)
 {
   int ret = 0;
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
-  int round = 0;
+  int seq = 0;
   u_int64_t logical_from2 = 0L;
   char *cmd = NULL;
 
@@ -313,15 +313,15 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    * logical ids match, and else we'd parse the message twice
    * in most cases.
    */
-  if (_lw6dat_atom_parse_serial_i_n_round_from_cmd
-      (&serial, &order_i, &order_n, &round, &logical_from2, &cmd,
-       atom_str_serial_i_n_round_from_cmd))
+  if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
+      (&serial, &order_i, &order_n, &seq, &logical_from2, &cmd,
+       atom_str_serial_i_n_seq_from_cmd))
     {
       if (logical_from == logical_from2)
 	{
 	  ret =
 	    _lw6dat_warehouse_put_atom (warehouse, logical_from,
-					serial, order_i, order_n, round, cmd);
+					serial, order_i, order_n, seq, cmd);
 	}
       else
 	{
@@ -341,7 +341,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: warehouse object to use
  * @logical_from: from who the message came from originally
- * @atom_str_serial_i_n_round_from_cmd: message of the form serial i n round from cmd
+ * @atom_str_serial_i_n_seq_from_cmd: message of the form serial i n seq from cmd
  *
  * Puts an atomic string in the object, this kind of string is
  * typically received on the network.
@@ -351,14 +351,14 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 int
 lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 			       u_int64_t logical_from,
-			       char *atom_str_serial_i_n_round_from_cmd)
+			       char *atom_str_serial_i_n_seq_from_cmd)
 {
   int ret = 0;
 
   ret =
     _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse,
 				    logical_from,
-				    atom_str_serial_i_n_round_from_cmd);
+				    atom_str_serial_i_n_seq_from_cmd);
 
   return ret;
 }

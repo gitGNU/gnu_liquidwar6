@@ -32,7 +32,19 @@
 
 #ifdef LW6_MS_WINDOWS
 #include <winbase.h>
-#endif
+#else
+#ifdef LW6_MAC_OS_X
+#include <mach/vm_statistics.h>
+#include <mach/mach_types.h>
+#include <mach/mach_init.h>
+#include <mach/mach_host.h>
+#else
+#ifdef HAVE_SYS_SYSINFO_H
+#include <sys/types.h>
+#include <sys/sysinfo.h>
+#endif // HAVE_SYS_SYSINFO_H
+#endif // LW6_MAC_OS_X
+#endif // LW6_MS_WINDOWS
 
 #define MEM_DIVIDE 1048576
 
@@ -267,12 +279,48 @@ lw6sys_megabytes_available ()
   GlobalMemoryStatus (&status);
   ret = status.dwAvailPhys / MEM_DIVIDE;
 #else
+#ifdef LW6_MAC_OS_X
+  vm_size_t page_size;
+  mach_port_t mach_port;
+  mach_msg_type_number_t count;
+  vm_statistics_data_t vm_stats;
+  int64_t freeram = 0 mach_port = mach_host_self ();
+  count = sizeof (vm_stats) / sizeof (natural_t);
+  if (KERN_SUCCESS == host_page_size (mach_port, &page_size) &&
+      KERN_SUCCESS == host_statistics (mach_port, HOST_VM_INFO,
+				       (host_info_t) & vm_stats, &count))
+    {
+      freeram = (int64_t) vm_stats.free_count * (int64_t) page_size;
+    }
+  freeram /= MEM_DIVIDE;
+  ret = freeram;
+#else
+#ifdef HAVE_SYS_SYSINFO_H
+  /*
+   * sys/sysinfo.h is Linux specific
+   */
+  struct sysinfo meminfo;
+  int64_t freeram = 0;
+
+  memset (&meminfo, 0, sizeof (struct sysinfo));
+  sysinfo (&meminfo);
+  freeram = meminfo.freeram;
+  freeram *= meminfo.mem_unit;
+  freeram /= MEM_DIVIDE;
+  ret = freeram;
+#else
 #ifdef _SC_AVPHYS_PAGES
+  /*
+   * Fallback, seems to return low values, dunno why
+   */
   ret = (sysconf (_SC_PAGESIZE) * sysconf (_SC_AVPHYS_PAGES)) / MEM_DIVIDE;
 #else
-  // Todo : find a way to get available memory on Mac OS X
-#endif
-#endif
+  lw6sys_log (LW6SYS_LOG_WARNING,
+	      _x_ ("unable to guess how much free memory is available"));
+#endif // _SC_AVPHYS_PAGES
+#endif // HAVE_SYS_SYSINFO_H
+#endif // LW6_MAC_OS_X
+#endif // LW6_MS_WINDOWS
 
   return ret;
 }

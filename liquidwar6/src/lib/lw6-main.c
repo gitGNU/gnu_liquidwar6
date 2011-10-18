@@ -148,12 +148,9 @@ lw6_main (int argc, char *argv[])
 	{
 	  lw6sys_log_critical (_x_ ("can't determine log file"));
 	}
-      lw6sys_log (LW6SYS_LOG_NOTICE, "v%s \"%s\" #%s (%s) %s/%s",
-		  lw6sys_build_get_version (),
-		  lw6sys_build_get_codename (),
-		  lw6sys_build_get_stamp (),
-		  lw6sys_build_get_date (),
-		  lw6sys_build_get_host_os (), lw6sys_build_get_host_cpu ());
+
+
+
       lw6_print_hello (argc, argv);
       lw6_fix_env (argc, argv);
 

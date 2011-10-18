@@ -789,6 +789,9 @@ extern int lw6sys_check_mutex_count ();
 extern int lw6sys_true ();
 extern int lw6sys_false ();
 
+/* sys-openmp.c */
+extern int lw6sys_openmp_get_num_procs ();
+
 /* sys-options.c */
 extern char *lw6sys_get_cwd ();
 extern char *lw6sys_get_default_user_dir ();

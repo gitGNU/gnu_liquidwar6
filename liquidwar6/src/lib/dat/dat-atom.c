@@ -112,15 +112,15 @@ _lw6dat_atom_get_text (_lw6dat_atom_t * atom)
 }
 
 int
-_lw6dat_atom_parse_serial_i_n_round_from_cmd (int *serial, int *order_i,
-					      int *order_n, int *round,
-					      u_int64_t * logical_from,
-					      char **cmd,
-					      char
-					      *atom_str_serial_i_n_round_from_cmd)
+_lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
+					    int *order_n, int *seq,
+					    u_int64_t * logical_from,
+					    char **cmd,
+					    char
+					    *atom_str_serial_i_n_seq_from_cmd)
 {
   int ret = 0;
-  char *next = atom_str_serial_i_n_round_from_cmd;
+  char *next = atom_str_serial_i_n_seq_from_cmd;
 
   if (lw6msg_word_first_int_gt0 (serial, &next, next))
     {
@@ -128,7 +128,7 @@ _lw6dat_atom_parse_serial_i_n_round_from_cmd (int *serial, int *order_i,
 	{
 	  if (lw6msg_word_first_int_gt0 (order_n, &next, next))
 	    {
-	      if (lw6msg_word_first_int_ge0 (round, &next, next))
+	      if (lw6msg_word_first_int_ge0 (seq, &next, next))
 		{
 		  if (lw6msg_word_first_id_64 (logical_from, &next, next))
 		    {
@@ -140,35 +140,35 @@ _lw6dat_atom_parse_serial_i_n_round_from_cmd (int *serial, int *order_i,
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
 				  ("bad value for logical_from in atom \"%s\""),
-				  atom_str_serial_i_n_round_from_cmd);
+				  atom_str_serial_i_n_seq_from_cmd);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
-			      _x_ ("bad value for round in atom \"%s\""),
-			      atom_str_serial_i_n_round_from_cmd);
+			      _x_ ("bad value for seq in atom \"%s\""),
+			      atom_str_serial_i_n_seq_from_cmd);
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_ ("bad value for order_n in atom \"%s\""),
-			  atom_str_serial_i_n_round_from_cmd);
+			  atom_str_serial_i_n_seq_from_cmd);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("bad value for order_i in atom \"%s\""),
-		      atom_str_serial_i_n_round_from_cmd);
+		      atom_str_serial_i_n_seq_from_cmd);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("bad value for serial in atom \"%s\""),
-		  atom_str_serial_i_n_round_from_cmd);
+		  atom_str_serial_i_n_seq_from_cmd);
     }
 
   return ret;

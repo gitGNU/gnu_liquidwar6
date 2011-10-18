@@ -1455,6 +1455,16 @@ Wrapper on lw6sys_log_get_level.
 Wrapper on lw6sys_log_set_level.
 @end deffn
 
+@subsection c-lw6sys-megabytes-available
+@deffn {C function exported to Guile} @code{c-lw6sys-megabytes-available}
+Wrapper on lw6sys_megabytes_available.
+@end deffn
+
+@subsection c-lw6sys-openmp-get-num-procs
+@deffn {C function exported to Guile} @code{c-lw6sys-openmp-get-num-procs}
+Wrapper on lw6sys_openmp_get_num_procs.
+@end deffn
+
 @subsection c-lw6sys-path-concat
 @deffn {C function exported to Guile} @code{c-lw6sys-path-concat}
 Wrapper on lw6sys_path_concat.

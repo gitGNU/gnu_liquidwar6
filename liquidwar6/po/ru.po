@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-13 22:16+0200\n"
+"POT-Creation-Date: 2011-10-18 17:37+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -62,6 +62,11 @@ msgstr "ошибка инициализации mod_udp"
 #: src/lib/dsp/dsp-test.c:315
 msgid "this error too"
 msgstr "и эта ошибка"
+
+#: src/lib/dyn/dyn-dl.c:223
+#, fuzzy, c-format
+msgid "loaded module \"%s\""
+msgstr "начат узел \"%s\""
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
 #, c-format
@@ -261,16 +266,11 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/lw6-print.c:846
+#: src/lib/lw6-print.c:850
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/lw6-print.c:853
-#, c-format
-msgid "approx. %d megabytes available"
-msgstr "примерно %d мегабайт доступно"
-
-#: src/lib/lw6-print.c:868
+#: src/lib/lw6-print.c:898
 msgid "goodbye"
 msgstr "счастливо"
 
@@ -378,22 +378,22 @@ msgstr "КРИТИЧЕСКАЯ ОШИБКА! "
 msgid "CRITICAL!"
 msgstr "КРИТИЧЕСКАЯ ОШИБКА!"
 
-#: src/lib/sys/sys-mem.c:75
+#: src/lib/sys/sys-mem.c:87
 #, c-format
 msgid "out of memory malloc (%d) failed in %s:%d"
 msgstr "недостаточно памяти, ошибка malloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:118
+#: src/lib/sys/sys-mem.c:130
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
 msgstr "недостаточно памяти, ошибка calloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:175
+#: src/lib/sys/sys-mem.c:187
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
 msgstr "недостаточно памяти, ошибка realloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:219
+#: src/lib/sys/sys-mem.c:231
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "попытка освободить память по указателю NULL в %s:%d"
@@ -921,6 +921,9 @@ msgstr "проверка базы данных"
 #: src/scriptpo.c:153
 msgid "testing node"
 msgstr "проверка узла"
+
+#~ msgid "approx. %d megabytes available"
+#~ msgstr "примерно %d мегабайт доступно"
 
 #~ msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
 #~ msgstr "Документация: http://www.gnu.org/software/liquidwar6/manual/\n"

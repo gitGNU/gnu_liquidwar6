@@ -1,4 +1,3 @@
-
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011  Christian Mauduit <ufoot@ufoot.org>
@@ -1558,6 +1557,40 @@ _scm_lw6sys_log_set_level (SCM level)
   LW6SYS_SCRIPT_FUNCTION_END;
 
   return SCM_UNDEFINED;
+}
+
+/*
+ * In mem.c
+ */
+static SCM
+_scm_lw6sys_megabytes_available ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_int2num (lw6sys_megabytes_available ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+/*
+ * In openmp.c
+ */
+static SCM
+_scm_lw6sys_openmp_get_num_procs ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_int2num (lw6sys_openmp_get_num_procs ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
 }
 
 /*
@@ -8732,6 +8765,16 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_log_get_level);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_LOG_SET_LEVEL, 1, 0, 0,
 			 (SCM (*)())_scm_lw6sys_log_set_level);
+  /*
+   * in mem.c
+   */
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_megabytes_available);
+  /*
+   * in openmp.c
+   */
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_openmp_get_num_procs);
   /*
    * In options.c
    */

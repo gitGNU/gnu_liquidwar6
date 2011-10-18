@@ -2303,6 +2303,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_log_get_level."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_LOG_SET_LEVEL,
 		 _x_ ("Wrapper on lw6sys_log_set_level."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE,
+		 _x_ ("Wrapper on lw6sys_megabytes_available."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS,
+		 _x_ ("Wrapper on lw6sys_openmp_get_num_procs."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_USER_DIR,
 		 _x_ ("Wrapper on lw6sys_get_default_user_dir."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_GET_DEFAULT_CONFIG_FILE,

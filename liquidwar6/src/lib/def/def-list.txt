@@ -1,4 +1,6 @@
 ?
+c-lw6sys-megabytes-available
+c-lw6sys-openmp-get-num-procs
 about
 ambiance-exclude
 ambiance-file

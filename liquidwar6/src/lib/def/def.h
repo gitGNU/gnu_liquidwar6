@@ -27,6 +27,8 @@ Contact author        : ufoot@ufoot.org
 #ifndef LIQUIDWAR6DEF_DEF_H
 #define LIQUIDWAR6DEF_DEF_H
 
+#define LW6DEF_C_LW6SYS_MEGABYTES_AVAILABLE "c-lw6sys-megabytes-available"
+#define LW6DEF_C_LW6SYS_OPENMP_GET_NUM_PROCS "c-lw6sys-openmp-get-num-procs"
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"

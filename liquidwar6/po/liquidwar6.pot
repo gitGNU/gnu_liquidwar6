@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.12beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-13 22:16+0200\n"
+"POT-Creation-Date: 2011-10-18 17:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,11 @@ msgstr ""
 
 #: src/lib/dsp/dsp-test.c:315
 msgid "this error too"
+msgstr ""
+
+#: src/lib/dyn/dyn-dl.c:223
+#, c-format
+msgid "loaded module \"%s\""
 msgstr ""
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
@@ -254,16 +259,11 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/lib/lw6-print.c:846
+#: src/lib/lw6-print.c:850
 msgid "hello"
 msgstr ""
 
-#: src/lib/lw6-print.c:853
-#, c-format
-msgid "approx. %d megabytes available"
-msgstr ""
-
-#: src/lib/lw6-print.c:868
+#: src/lib/lw6-print.c:898
 msgid "goodbye"
 msgstr ""
 
@@ -370,22 +370,22 @@ msgstr ""
 msgid "CRITICAL!"
 msgstr ""
 
-#: src/lib/sys/sys-mem.c:75
+#: src/lib/sys/sys-mem.c:87
 #, c-format
 msgid "out of memory malloc (%d) failed in %s:%d"
 msgstr ""
 
-#: src/lib/sys/sys-mem.c:118
+#: src/lib/sys/sys-mem.c:130
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
 msgstr ""
 
-#: src/lib/sys/sys-mem.c:175
+#: src/lib/sys/sys-mem.c:187
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
 msgstr ""
 
-#: src/lib/sys/sys-mem.c:219
+#: src/lib/sys/sys-mem.c:231
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
 msgstr ""
