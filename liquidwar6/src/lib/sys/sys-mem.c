@@ -284,7 +284,7 @@ lw6sys_megabytes_available ()
   mach_port_t mach_port;
   mach_msg_type_number_t count;
   vm_statistics_data_t vm_stats;
-  int64_t freeram = 0 ;
+  int64_t freeram = 0;
 
   mach_port = mach_host_self ();
   count = sizeof (vm_stats) / sizeof (natural_t);
