@@ -284,7 +284,9 @@ lw6sys_megabytes_available ()
   mach_port_t mach_port;
   mach_msg_type_number_t count;
   vm_statistics_data_t vm_stats;
-  int64_t freeram = 0 mach_port = mach_host_self ();
+  int64_t freeram = 0 ;
+
+  mach_port = mach_host_self ();
   count = sizeof (vm_stats) / sizeof (natural_t);
   if (KERN_SUCCESS == host_page_size (mach_port, &page_size) &&
       KERN_SUCCESS == host_statistics (mach_port, HOST_VM_INFO,
