@@ -55,6 +55,7 @@
 /*
  * Those are so common it saves time to always include them
  */
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

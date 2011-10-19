@@ -2714,6 +2714,15 @@ in the main binary some functions which would otherwise be stripped
 during the final link.
 @end deftypefun
 
+@deftypefun {int} {lw6sys_openmp_get_num_procs} ()
+
+Wrapper on @code{omp_get_num_procs} the advantage of this is that
+it's always defined, wether OpenMP supported is compiled in
+or not, will returned 1 if no OpenMP support.
+
+@strong{Return value:}  number of procs
+@end deftypefun
+
 @deftypefun {char *} {lw6sys_get_default_user_dir} ()
 
 Returns the default user directory. Note that this value

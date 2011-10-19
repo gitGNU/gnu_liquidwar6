@@ -88,6 +88,7 @@ typedef struct _lw6dat_stack_s
   u_int64_t node_id;
   int serial_0;
   int serial_n_1;
+  int serial_min;
   int serial_max;
   int serial_draft;
   int serial_reference;
@@ -168,6 +169,8 @@ extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg,
 				  int send_flag);
 extern int _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t *
 							  stack);
+extern int _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack);
 

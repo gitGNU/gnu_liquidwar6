@@ -53,12 +53,12 @@ Returns the latest (highest) serial number given for local node.
 @strong{Return value:}  integer, latest serial number
 @end deftypefun
 
-@deftypefun {int} {lw6dat_warehouse_put_atom_str} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{logical_from}, char * @var{atom_str_serial_i_n_round_from_cmd})
+@deftypefun {int} {lw6dat_warehouse_put_atom_str} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{logical_from}, char * @var{atom_str_serial_i_n_seq_from_cmd})
 @var{warehouse}:  warehouse object to use
 
 @var{logical_from}:  from who the message came from originally
 
-@var{atom_str_serial_i_n_round_from_cmd}:  message of the form serial i n round from cmd
+@var{atom_str_serial_i_n_seq_from_cmd}:  message of the form serial i n seq from cmd
 
 Puts an atomic string in the object, this kind of string is
 typically received on the network.

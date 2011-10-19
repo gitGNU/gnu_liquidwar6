@@ -40,6 +40,7 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->node_id = 0;
   stack->serial_0 = 0;
   stack->serial_n_1 = -1;
+  stack->serial_min = INT_MAX;
   stack->serial_max = -1;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
@@ -60,6 +61,7 @@ _lw6dat_stack_purge (_lw6dat_stack_t * stack)
   int i = 0;
 
   stack->serial_0 = stack->serial_n_1 + 1;
+  stack->serial_min = INT_MAX;
   stack->serial_max = stack->serial_0 - 1;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
@@ -84,6 +86,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
       stack->node_id = node_id;
       stack->serial_0 = serial_0;
       stack->serial_n_1 = serial_0 - 1;
+      stack->serial_min = INT_MAX;
       stack->serial_max = serial_0 - 1;
       ret = 1;
     }
@@ -212,6 +215,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
   if (ret)
     {
+      stack->serial_min = lw6sys_min (stack->serial_min, serial);
       stack->serial_max = lw6sys_max (stack->serial_max, serial);
     }
 
@@ -412,6 +416,44 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	{
 	  atoms_no_hole = 0;
 	  serial++;
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+
+  if (stack->serial_min >= stack->serial_0
+      && stack->serial_min <= stack->serial_n_1)
+    {
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
+      if (atom)
+	{
+	  ret = atom->seq;
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack)
+{
+  int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+
+  if (stack->serial_max >= stack->serial_0
+      && stack->serial_max <= stack->serial_n_1)
+    {
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_max);
+      if (atom)
+	{
+	  ret = atom->seq;
 	}
     }
 

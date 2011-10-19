@@ -1,6 +1,4 @@
 ?
-c-lw6sys-megabytes-available
-c-lw6sys-openmp-get-num-procs
 about
 ambiance-exclude
 ambiance-file
@@ -176,8 +174,8 @@ c-lw6ker-remove-cursor
 c-lw6ker-set-cursor
 c-lw6ker-sync-game-state
 c-lw6ker-unregister-node
-c-lw6ldr-exp-validate
 c-lw6ldr-chain-entry
+c-lw6ldr-exp-validate
 c-lw6ldr-get-entries
 c-lw6ldr-hints-get-default
 c-lw6ldr-print-examples
@@ -194,10 +192,10 @@ c-lw6map-style-get-default
 c-lw6map-team-color-index-to-key
 c-lw6map-team-color-key-to-index
 c-lw6map-team-color-list
+c-lw6map-teams-get-default
 c-lw6map-weapon-index-to-key
 c-lw6map-weapon-key-to-index
 c-lw6map-weapon-list
-c-lw6map-teams-get-default
 c-lw6net-init
 c-lw6net-quit
 c-lw6p2p-db-default-name
@@ -245,6 +243,7 @@ c-lw6snd-set-water-volume
 c-lw6snd-stop-music
 c-lw6srv-get-backends
 c-lw6sys-build-get-bin-id
+c-lw6sys-build-get-bugs-url
 c-lw6sys-build-get-cflags
 c-lw6sys-build-get-codename
 c-lw6sys-build-get-configure-args
@@ -269,6 +268,7 @@ c-lw6sys-build-get-enable-profiler
 c-lw6sys-build-get-enable-valgrind
 c-lw6sys-build-get-endianness
 c-lw6sys-build-get-gcc-version
+c-lw6sys-build-get-home-url
 c-lw6sys-build-get-host-cpu
 c-lw6sys-build-get-host-os
 c-lw6sys-build-get-hostname
@@ -286,8 +286,6 @@ c-lw6sys-build-get-prefix
 c-lw6sys-build-get-stamp
 c-lw6sys-build-get-time
 c-lw6sys-build-get-top-srcdir
-c-lw6sys-build-get-home-url
-c-lw6sys-build-get-bugs-url
 c-lw6sys-build-get-version
 c-lw6sys-build-is-gp2x
 c-lw6sys-build-is-mac-os-x
@@ -336,6 +334,8 @@ c-lw6sys-idle
 c-lw6sys-log
 c-lw6sys-log-get-level
 c-lw6sys-log-set-level
+c-lw6sys-megabytes-available
+c-lw6sys-openmp-get-num-procs
 c-lw6sys-path-concat
 c-lw6sys-path-parent
 c-lw6sys-path-split
@@ -412,7 +412,6 @@ display-score
 display-splash
 display-url
 double-click-delay
-use-double-click
 downsize-using-bench-value
 downsize-using-fighter-scale
 example-hints-xml
@@ -564,6 +563,7 @@ rounds-per-sec
 script-file
 server
 show-build-bin-id
+show-build-bugs-url
 show-build-cflags
 show-build-codename
 show-build-configure-args
@@ -590,6 +590,7 @@ show-build-enable-valgrind
 show-build-endianness
 show-build-gcc-version
 show-build-gp2x
+show-build-home-url
 show-build-host-cpu
 show-build-host-os
 show-build-hostname
@@ -609,8 +610,6 @@ show-build-prefix
 show-build-stamp
 show-build-time
 show-build-top-srcdir
-show-build-home-url
-show-build-bugs-url
 show-build-version
 show-build-x86
 show-config-file
@@ -760,6 +759,7 @@ trojan
 upsize-using-bench-value
 upsize-using-fighter-scale
 use-cursor-texture
+use-double-click
 use-esc-button
 use-hints-xml
 use-music-file

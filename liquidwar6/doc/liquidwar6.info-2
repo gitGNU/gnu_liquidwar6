@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -5594,13 +5594,13 @@ results on
 
  -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
           WAREHOUSE, u_int64_t LOGICAL_FROM, char *
-          ATOM_STR_SERIAL_I_N_ROUND_FROM_CMD)
+          ATOM_STR_SERIAL_I_N_SEQ_FROM_CMD)
      WAREHOUSE:  warehouse object to use
 
      LOGICAL_FROM:  from who the message came from originally
 
-     ATOM_STR_SERIAL_I_N_ROUND_FROM_CMD:  message of the form serial i
-     n round from cmd
+     ATOM_STR_SERIAL_I_N_SEQ_FROM_CMD:  message of the form serial i n
+     seq from cmd
 
      Puts an atomic string in the object, this kind of string is
      typically received on the network.
