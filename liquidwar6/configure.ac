@@ -47,7 +47,7 @@ LW6_CODENAME="Aguirre"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
-AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng14/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
+AC_CHECK_HEADERS(arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h)
 
 AM_MISSING_PROG(PERL, perl, ${missing_dir})
 AM_MISSING_PROG(AWK, awk, ${missing_dir})
@@ -292,23 +292,31 @@ else
 fi
 
 AC_CHECK_HEADER(libpng12/png.h, HAVE_LIBPNG12_PNG_H=1)
+AC_CHECK_HEADER(libpng13/png.h, HAVE_LIBPNG12_PNG_H=1)
 AC_CHECK_HEADER(libpng14/png.h, HAVE_LIBPNG14_PNG_H=1)
-if test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG14_PNG_H} = x1; then
+AC_CHECK_HEADER(libpng15/png.h, HAVE_LIBPNG15_PNG_H=1)
+if test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG13_PNG_H} = x1 || test x${HAVE_LIBPNG14_PNG_H} = x1 || test x${HAVE_LIBPNG15_PNG_H} = x1; then
    if test x${HAVE_LIBPNG12_PNG_H} = x1; then
       LIBPNG_1X_H=libpng12/png.h
+   fi
+   if test x${HAVE_LIBPNG13_PNG_H} = x1; then
+      LIBPNG_1X_H=libpng13/png.h
    fi
    if test x${HAVE_LIBPNG14_PNG_H} = x1; then
       LIBPNG_1X_H=libpng14/png.h
    fi
+   if test x${HAVE_LIBPNG15_PNG_H} = x1; then
+      LIBPNG_1X_H=libpng15/png.h
+   fi
 else
    AC_MSG_ERROR([
-*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
+*** Liquid War 6 needs libpng 1.2 1.3 1.4 or 1.5 (http://www.libpng.org/pub/png/libpng.html)
 ])
 fi
 AC_SUBST(LIBPNG_1X_H)
 
 AC_CHECK_LIB(png, png_sig_cmp, HAVE_LIBPNG=1, AC_MSG_ERROR([
-*** Liquid War 6 needs libpng 1.2 or libpng 1.4 (http://www.libpng.org/pub/png/libpng.html)
+*** Liquid War 6 needs libpng 1.2 1.3 1.4 or 1.5 (http://www.libpng.org/pub/png/libpng.html)
 ]))
 
 AC_CHECK_HEADER(jpeglib.h, HAVE_JPEGLIB_H=1, AC_MSG_ERROR([

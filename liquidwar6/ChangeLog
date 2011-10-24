@@ -1,3 +1,7 @@
+2011-10-24 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed bug #34614, compatibility with libpng 1.5.
+
 2011-10-18 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added memory / cpu number detection

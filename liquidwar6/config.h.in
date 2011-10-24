@@ -76,8 +76,14 @@
 /* Define to 1 if you have the <libpng12/png.h> header file. */
 #undef HAVE_LIBPNG12_PNG_H
 
+/* Define to 1 if you have the <libpng13/png.h> header file. */
+#undef HAVE_LIBPNG13_PNG_H
+
 /* Define to 1 if you have the <libpng14/png.h> header file. */
 #undef HAVE_LIBPNG14_PNG_H
+
+/* Define to 1 if you have the <libpng15/png.h> header file. */
+#undef HAVE_LIBPNG15_PNG_H
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H

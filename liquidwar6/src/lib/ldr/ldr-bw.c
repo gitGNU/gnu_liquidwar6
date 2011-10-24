@@ -59,6 +59,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 		{
 		  png_uint_32 width;
 		  png_uint_32 height;
+		  png_uint_32 rowbytes;
 		  int max_width;
 		  int max_height;
 		  int bit_depth;
@@ -96,6 +97,8 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 		  png_get_IHDR (png_ptr, info_ptr, &width, &height,
 				&bit_depth, &color_type, NULL, NULL, NULL);
 
+		  rowbytes = png_get_rowbytes (png_ptr, info_ptr);
+
 		  step = ((color_type & PNG_COLOR_MASK_COLOR) ? 3 : 1) +
 		    ((color_type & PNG_COLOR_MASK_ALPHA) ? 1 : 0);
 
@@ -124,14 +127,13 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 		      format_ok = 0;
 		    }
 
-		  if (info_ptr->rowbytes != info_ptr->width * step ||
-		      bit_depth > 8)
+		  if (rowbytes != width * step || bit_depth > 8)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
 				  ("can't load B&W PNG file \"%s\", memory footprint is inconsistent, color_type=%d, rowbytes=%d, width=%d, step=%d, bit_depth=%d"),
 				  png_file, color_type,
-				  info_ptr->rowbytes, width, step, bit_depth);
+				  rowbytes, width, step, bit_depth);
 		      format_ok = 0;
 		    }
 
@@ -147,7 +149,7 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
 			    {
 			      buf[row] =
 				(unsigned char *)
-				LW6SYS_MALLOC (info_ptr->rowbytes *
+				LW6SYS_MALLOC (rowbytes *
 					       sizeof (unsigned char));
 			      if (!buf[row])
 				{
