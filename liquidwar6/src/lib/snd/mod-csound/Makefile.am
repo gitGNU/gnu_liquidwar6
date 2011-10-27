@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@ @CSOUND_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @CSOUND_LIBS@
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/snd
+libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/snd
 
 noinst_LTLIBRARIES = libmod_csound_s.la
 MOD_CSOUND_FILES = mod-csound-backend.c mod-csound-fx.c mod-csound-music.c mod-csound-path.c mod-csound-repr.c mod-csound-setup.c mod-csound-volume.c mod-csound-water.c 

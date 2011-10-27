@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
+libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
 
 noinst_LTLIBRARIES = libmod_random_s.la
 MOD_RANDOM_FILES = mod-random-backend.c mod-random-move.c mod-random-repr.c mod-random-setup.c

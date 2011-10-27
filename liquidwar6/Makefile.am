@@ -35,6 +35,6 @@ distclean-local:
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(includedir)/@PACKAGE_TARNAME@
-	rm -rf $(DESTDIR)$(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -rf $(DESTDIR)$(libdir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 	rm -rf $(DESTDIR)$(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 

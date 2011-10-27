@@ -25,7 +25,7 @@ else
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
 endif
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
+libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/gfx
 
 noinst_LTLIBRARIES = libmod_gl_s.la
 MOD_GL_FILES = mod-gl-backend.c mod-gl-repr.c mod-gl-setup.c

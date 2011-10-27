@@ -839,7 +839,7 @@ distclean-local:
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(includedir)/@PACKAGE_TARNAME@
-	rm -rf $(DESTDIR)$(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	rm -rf $(DESTDIR)$(libdir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 	rm -rf $(DESTDIR)$(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

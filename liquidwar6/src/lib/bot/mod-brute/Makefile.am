@@ -21,7 +21,7 @@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 
-libdir = $(prefix)/lib/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
+libdir = @libdir@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/bot
 
 noinst_LTLIBRARIES = libmod_brute_s.la
 MOD_BRUTE_FILES = mod-brute-backend.c mod-brute-move.c mod-brute-repr.c mod-brute-setup.c

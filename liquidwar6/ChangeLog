@@ -1,6 +1,10 @@
+2011-10-27 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Patch to handle /usr/lib64 by (K. Anderson).
+
 2011-10-24 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Fixed bug #34614, compatibility with libpng 1.5.
+	* Fixed bug #34614, compatibility with libpng 1.5 (by W. v. Kesteren).
 
 2011-10-18 : Christian Mauduit <ufoot@ufoot.org>
 
