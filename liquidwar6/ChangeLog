@@ -1,3 +1,7 @@
+2011-10-28 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Added serial2seq and seq2serial in dat module.
+
 2011-10-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Patch to handle /usr/lib64 by (K. Anderson).

@@ -55,6 +55,9 @@
  */
 #define _LW6DAT_SERIAL_START 1
 
+#define _LW6DAT_SERIAL_INVALID 0
+#define _LW6DAT_SEQ_INVALID -1
+
 /*
  * This must match LW6DAT_MAX_NB_STACKS
  */
@@ -173,6 +176,8 @@ extern int _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack);
+extern int _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int seq);
+extern int _lw6dat_stack_serial2seq (_lw6dat_stack_t * stack, int serial);
 
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)

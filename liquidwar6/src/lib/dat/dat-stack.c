@@ -489,3 +489,131 @@ _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
 
   return ret;
 }
+
+int
+_lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int seq)
+{
+  int ret = _LW6DAT_SERIAL_INVALID;
+  _lw6dat_atom_t *atom = NULL;
+  /*
+   * Carefull, those values won't hold the real
+   * min and max values for seq, as seq ain't
+   * garanteed to be ordered. Still, it should
+   * give a good idea of the result in most cases,
+   * the most common case in which seq isn't
+   * ever increasing is when a map is resetted
+   * and round counting is back to "0".
+   */
+  int seq_min = _LW6DAT_SEQ_INVALID;
+  int seq_max = _LW6DAT_SEQ_INVALID;
+  int i;
+
+  if (stack->serial_max >= stack->serial_0
+      && stack->serial_max <= stack->serial_n_1)
+    {
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_min);
+      if (atom)
+	{
+	  seq_min = atom->seq;
+	}
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_max);
+      if (atom)
+	{
+	  seq_max = atom->seq;
+	}
+      if (seq_min != _LW6DAT_SEQ_INVALID && seq_max != _LW6DAT_SEQ_INVALID)
+	{
+	  if (seq_min < seq_max && seq_min <= seq && seq <= seq_max &&
+	      seq - seq_min < seq_max - seq)
+	    {
+	      /*
+	       * Loop with i increasing since we suspect we'd
+	       * better start from the bottom of the lif
+	       */
+	      for (i = stack->serial_min;
+		   i <= stack->serial_max
+		   && ret == _LW6DAT_SERIAL_INVALID; ++i)
+		{
+		  atom = _lw6dat_stack_get_atom (stack, i);
+		  if (atom)
+		    {
+		      if (atom->seq == seq)
+			{
+			  ret = i;
+			}
+		    }
+		}
+	    }
+	  else
+	    {
+	      /*
+	       * By default, walk from top, most
+	       * interesting messages are here, they
+	       * are the latest sent.
+	       */
+	      for (i = stack->serial_max;
+		   i >= stack->serial_min
+		   && ret == _LW6DAT_SERIAL_INVALID; --i)
+		{
+		  atom = _lw6dat_stack_get_atom (stack, i);
+		  if (atom)
+		    {
+		      if (atom->seq == seq)
+			{
+			  ret = i;
+			}
+		    }
+		}
+	    }
+	  if (seq_min == seq_max && seq_min == seq)
+	    {
+	      ret = stack->serial_min;
+	    }
+	  if (ret != _LW6DAT_SERIAL_INVALID)
+	    {
+	      /*
+	       * Now this might be a little risky, be carefull
+	       * when hacking algorithm above, that atom
+	       * does indeed contain the correct element
+	       */
+	      if (atom)
+		{
+		  if (atom->serial == ret)
+		    {
+		      /*
+		       * We return the *first* element
+		       */
+		      ret -= atom->order_i;
+		    }
+		  else
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_
+				  ("inconsistency, serial is %d and should be %d"),
+				  ret, atom->serial);
+		    }
+		}
+	    }
+	}
+    }
+
+  return ret;
+}
+
+int
+_lw6dat_stack_serial2seq (_lw6dat_stack_t * stack, int serial)
+{
+  int ret = _LW6DAT_SEQ_INVALID;
+  _lw6dat_atom_t *atom = NULL;
+
+  if (serial >= stack->serial_min && serial <= stack->serial_max)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  ret = atom->seq;
+	}
+    }
+
+  return ret;
+}

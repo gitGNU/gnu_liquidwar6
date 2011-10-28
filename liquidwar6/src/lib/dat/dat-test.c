@@ -246,7 +246,9 @@ test_stack ()
   {
     _lw6dat_stack_t stack;
     int i;
-    int serial;
+    int serial = _LW6DAT_SERIAL_INVALID;
+    int seq = _LW6DAT_SEQ_INVALID;
+    int tmp;
     int found_null = 0;
     int found_not_null = 0;
 
@@ -258,9 +260,10 @@ test_stack ()
       {
 	serial =
 	  _TEST_STACK_SERIAL_0 + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
+	seq = _TEST_STACK_ROUND + i;
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
-	     _TEST_STACK_ROUND, _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
+	     seq, _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("error putting atom on stack i=%d serial=%d"), i,
@@ -268,8 +271,68 @@ test_stack ()
 	    ret = 0;
 	  }
       }
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("last put serial=%d seq=%d"), serial,
+		seq);
     if (ret)
       {
+	/*
+	 * The tests for seq2serial and serial2seq must
+	 * be done now as serial and seq values are untouched.
+	 */
+	if (_lw6dat_stack_seq2serial (&stack, _LW6DAT_SEQ_INVALID) ==
+	    _LW6DAT_SERIAL_INVALID)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("invalid seq number correctly treated by seq2serial"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("invalid seq number correctly treated by seq2serial"));
+	    ret = 0;
+	  }
+	if (_lw6dat_stack_serial2seq (&stack, _LW6DAT_SERIAL_INVALID) ==
+	    _LW6DAT_SEQ_INVALID)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_
+			("invalid serial number correctly treated by serial2seq"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_
+			("invalid serial number correctly treated by serial2seq"));
+	    ret = 0;
+	  }
+	tmp = _lw6dat_stack_serial2seq (&stack, serial);
+	if (tmp == seq)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("serial2seq OK %d->%d"),
+			serial, seq);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("serial2seq problem %d->%d instead of %d"),
+			serial, tmp, seq);
+	    ret = 0;
+	  }
+	tmp = _lw6dat_stack_seq2serial (&stack, seq);
+	if (tmp == serial)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("seq2serial OK %d->%d"), seq,
+			serial);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("seq2serial problem %d->%d instead of %d"), seq,
+			tmp, serial);
+	    ret = 0;
+	  }
 	for (serial = stack.serial_0; serial <= stack.serial_n_1; ++serial)
 	  {
 	    if (_lw6dat_stack_get_atom (&stack, serial))
