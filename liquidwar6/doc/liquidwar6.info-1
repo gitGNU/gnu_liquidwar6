@@ -7042,7 +7042,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-cyan-vulnerable'
      Type: integer
 
-     Default value: 10 Min value: 10 Max value: 1000
+     Default value: 30 Min value: 10 Max value: 1000
 
      Defines how vulnerable the cyan team is. This is a percentage, if
      set to 200 then team will be attacked twice as much as any other
@@ -7813,7 +7813,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-yellow-aggressive'
      Type: integer
 
-     Default value: 300 Min value: 10 Max value: 1000
+     Default value: 275 Min value: 10 Max value: 1000
 
      Defines how aggressive the yellow team is. This is a percentage,
      if set to 200 then team will attack twice as much as any other
