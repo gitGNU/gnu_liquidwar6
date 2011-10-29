@@ -6,7 +6,7 @@
   <int key="fighter-defense" value="75"/>
   <int key="fighter-new-health" value="1500"/>
 
-  <int key="rounds-per-sec" value="25"/>
+  <int key="rounds-per-sec" value="15"/>
   <int key="moves-per-round" value="1"/>
 
   <int key="nb-attack-tries" value="1"/>

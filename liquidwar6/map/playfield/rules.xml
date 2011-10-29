@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <lw6mapparam>
-  <int key="exp" value="3" />  
+  <int key="exp" value="5" />  
 
   <int key="x-polarity" value="1" />
   <int key="y-polarity" value="1" />
+  <int key="total-time" value="90"/> <!-- Default: 900   Min: 10  Max: 864000-->
   
    <!-- FIGHTERS -->
   <!-- There is an invisible one called max-fighter-health which always is equal to 10000 

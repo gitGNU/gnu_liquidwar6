@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = README map.png texture.jpeg glue.png rules.xml hints.xml style.xml cursor.png cursor-color.png
+pkgdata_DATA = README map.png texture.jpeg glue.png rules.xml hints.xml style.xml teams.xml cursor.png cursor-color.png
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/fishy
 EXTRA_DIST = $(pkgdata_DATA)
 

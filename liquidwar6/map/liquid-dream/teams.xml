@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+
+  <int key="bot-iq" value="100" />  
+  <float key="bot-speed" value="1.5" /> 
+
+
+  <int key="bot1-ai" value="follow" />  <!-- random follow idiot -->
+  <color key="bot1-color" value="blue" />
+
+  <int key="bot2-ai" value="idiot" />  
+  <color key="bot2-color" value="yellow" />
+  
+ <int key="bot3-ai" value="idiot" />  
+ <color key="bot3-color" value="orange" />
+  
+  <int key="bot4-ai" value="follow" />  
+  <color key="bot4-color" value="cyan" />
+  
+   <int key="bot5-ai" value="random" />  
+ <color key="bot5-color" value="magenta" />
+  
+  <int key="bot6-ai" value="follow" />  
+  <color key="bot6-color" value="orange" />
+  
+  <int key="bot7-ai" value="idiot" />  
+  <color key="bot7-color" value="lightblue" />
+  
+  <int key="bot8-ai" value="idiot" />  
+  <color key="bot8-color" value="purple" />
+  
+  <int key="bot9-ai" value="idiot" />  
+  <color key="bot9-color" value="pink" />
+  
+  
+  <int key="nb-bots" value="2" /> 
+  <color key="player1-color" value="green" />
+  <color key="player2-color" value="yellow" />
+  <color key="player3-color" value="blue" />
+  <color key="player4-color" value="red" />
+  
+  
+  
+  
+
+  
+  
+  
+  
+</lw6mapparam>

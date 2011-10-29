@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-pkgdata_DATA = README boost.png danger.png hints.xml map.png medicine.png one-way-east.png one-way-north.png one-way-south.png one-way-west.png rules.xml style.xml texture.jpeg cursor.png cursor-color.png
+pkgdata_DATA = README boost.png danger.png hints.xml map.png medicine.png one-way-east.png one-way-north.png one-way-south.png one-way-west.png rules.xml style.xml teams.xml texture.jpeg cursor.png cursor-color.png
 pkgdatadir = $(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map/january
 EXTRA_DIST = $(pkgdata_DATA)
 

@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <lw6mapparam>
-  <int key="exp" value="0" />  
+  <int key="exp" value="1" />  
+  <int key="total-time" value="90"/> <!-- Default: 900   Min: 10  Max: 864000-->
 </lw6mapparam>

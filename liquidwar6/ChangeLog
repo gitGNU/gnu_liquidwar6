@@ -1,3 +1,7 @@
+2011-10-29 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Map update with addition of teams.xml by Kasper Hviid.
+
 2011-10-28 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added serial2seq and seq2serial in dat module.
