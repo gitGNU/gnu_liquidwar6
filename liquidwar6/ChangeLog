@@ -1,3 +1,7 @@
+2011-10-30 : Christian Mauduit <ufoot@ufoot.org>
+
+	* The fast parameter (team profile) does not influence attack anymore.
+
 2011-10-29 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Map update with addition of teams.xml by Kasper Hviid.

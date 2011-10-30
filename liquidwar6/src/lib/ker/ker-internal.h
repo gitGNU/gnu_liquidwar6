@@ -292,7 +292,9 @@ typedef struct _lw6ker_move_context_s
   int done_with_fighter;
   int32_t fighter_attack[LW6MAP_MAX_NB_TEAMS][LW6MAP_MAX_NB_TEAMS];
   int32_t fighter_side_attack[LW6MAP_MAX_NB_TEAMS][LW6MAP_MAX_NB_TEAMS];
-  int32_t fighter_side_defense;
+  int32_t fighter_defense[LW6MAP_MAX_NB_TEAMS];
+  int32_t fighter_side_defense[LW6MAP_MAX_NB_TEAMS];
+  int32_t fighter_regenerate[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_nb_move_tries[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_nb_attack_tries[LW6MAP_MAX_NB_TEAMS];
   int32_t per_team_nb_defense_tries[LW6MAP_MAX_NB_TEAMS];

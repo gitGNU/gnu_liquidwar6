@@ -6080,7 +6080,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `fighter-defense'
      Type: integer
 
-     Default value: 50 Min value: 0 Max value: 10000
+     Default value: 50 Min value: 1 Max value: 10000
 
      Defines how fast fighters will regenerate after an attack. When
      this parameter is set low, an attacked fighter, which is very dark

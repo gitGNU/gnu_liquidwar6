@@ -713,10 +713,15 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	}
     }
 
-  context.fighter_side_defense =
-    lw6sys_max (rules->fighter_regenerate,
-		lw6ker_percent (rules->fighter_defense,
-				rules->side_defense_factor));
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      context.fighter_defense[i] = rules->fighter_defense;
+      context.fighter_side_defense[i] =
+	lw6sys_max (rules->fighter_regenerate,
+		    lw6ker_percent (rules->fighter_defense,
+				    rules->side_defense_factor));
+      context.fighter_regenerate[i] = rules->fighter_regenerate;
+    }
   context.shape = map_state->shape;
 
   /*
@@ -779,10 +784,8 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    {
 	      for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 		{
-		  context.fighter_attack[i][j] =
-		    lw6sys_min (context.fighter_attack[i][j] *
-				context.rules.weapon_tune_berzerk_power,
-				LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+		  context.fighter_attack[i][j] *=
+		    context.rules.weapon_tune_berzerk_power;
 		}
 	    }
 	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_INVINCIBLE)
@@ -794,8 +797,90 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    }
 	  if (context.per_team_weapon_id[i] == LW6MAP_WEAPON_TURBO)
 	    {
-	      context.per_team_fast[i] = context.per_team_fast[i] *
+	      context.per_team_fast[i] *=
 		context.rules.weapon_tune_turbo_power;
+	    }
+	}
+      /*
+       * Now we check for min & max, this is not the definitive test
+       * but it will enforce some theorical limits.
+       */
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  context.fighter_defense[i] =
+	    lw6sys_min (context.fighter_defense[i],
+			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	  context.fighter_side_defense[i] =
+	    lw6sys_min (context.fighter_side_defense[i],
+			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	  context.fighter_regenerate[i] =
+	    lw6sys_min (context.fighter_regenerate[i],
+			LW6MAP_RULES_MAX_FIGHTER_REGENERATE);
+	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	    {
+	      context.fighter_attack[i][j] =
+		lw6sys_min (context.fighter_attack[i][j],
+			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+	      context.fighter_side_attack[i][j] =
+		lw6sys_min (context.fighter_side_attack[i][j],
+			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+	    }
+	}
+      /*
+       * OK, now we correct all values depending on speed, indeed
+       * if we don't do this, faster fighters attack stronger, which
+       * is theorically OK, they do act faster in any way, but in
+       * pratice it's just plain wrong, we don't want the moving
+       * speed to change the strength.
+       */
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  context.per_team_fast[i] = lw6sys_max (1, context.per_team_fast[i]);
+
+	  context.fighter_defense[i] *=
+	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_defense[i] /= context.per_team_fast[i];
+	  context.fighter_side_defense[i] *=
+	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_side_defense[i] /= context.per_team_fast[i];
+	  context.fighter_regenerate[i] *=
+	    LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	  context.fighter_regenerate[i] /= context.per_team_fast[i];
+	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	    {
+	      context.fighter_attack[i][j] *=
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	      context.fighter_attack[i][j] /= context.per_team_fast[i];
+	      context.fighter_side_attack[i][j] *=
+		LW6MAP_RULES_DEFAULT_TEAM_PROFILE_FAST;
+	      context.fighter_side_attack[i][j] /= context.per_team_fast[i];
+	    }
+	}
+      /*
+       * Now we check for min & max, a 2nd tiem, after all the calcs we did, since
+       * speed/fast has an influence, this won't enfore some theorical
+       * limits, but globally, the job will be done in the sense that
+       * we won't have overflow errors.
+       */
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  context.fighter_defense[i] =
+	    lw6sys_min (context.fighter_defense[i],
+			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	  context.fighter_side_defense[i] =
+	    lw6sys_min (context.fighter_side_defense[i],
+			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	  context.fighter_regenerate[i] =
+	    lw6sys_min (context.fighter_regenerate[i],
+			LW6MAP_RULES_MAX_FIGHTER_REGENERATE);
+	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
+	    {
+	      context.fighter_attack[i][j] =
+		lw6sys_min (context.fighter_attack[i][j],
+			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+	      context.fighter_side_attack[i][j] =
+		lw6sys_min (context.fighter_side_attack[i][j],
+			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
 	    }
 	}
     }

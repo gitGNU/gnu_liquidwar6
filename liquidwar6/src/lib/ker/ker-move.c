@@ -492,8 +492,8 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 			  _lw6ker_fighter_move (lc.fighter, lc.i, lc.x, lc.y,
 						lc.z, lc.map_state);
 			  _lw6ker_fighter_regenerate (lc.fighter,
-						      lc.rules.
-						      fighter_regenerate);
+						      lc.fighter_regenerate
+						      [lc.fighter_team_color]);
 			  break;
 			}
 		    }
@@ -517,8 +517,8 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 			  _lw6ker_fighter_move (lc.fighter, lc.i, lc.x, lc.y,
 						lc.z, lc.map_state);
 			  _lw6ker_fighter_regenerate (lc.fighter,
-						      lc.rules.
-						      fighter_regenerate);
+						      lc.fighter_regenerate
+						      [lc.fighter_team_color]);
 			  break;
 			}
 		      if (lc.j + 1 == lc.rules.vertical_move)
@@ -536,8 +536,9 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 						    lc.fighter_y, lc.z,
 						    lc.map_state);
 			      _lw6ker_fighter_regenerate (lc.fighter,
-							  lc.rules.
-							  fighter_regenerate);
+							  lc.
+							  fighter_regenerate
+							  [lc.fighter_team_color]);
 			      break;
 			    }
 			  _CALL_GOTO_WITH_DIR_Z (&(lc.rules), &lc.shape,
@@ -553,8 +554,9 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 						    lc.fighter_y, lc.z,
 						    lc.map_state);
 			      _lw6ker_fighter_regenerate (lc.fighter,
-							  lc.rules.
-							  fighter_regenerate);
+							  lc.
+							  fighter_regenerate
+							  [lc.fighter_team_color]);
 			      break;
 			    }
 			}
@@ -614,9 +616,12 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 						  lc.x, lc.y, lc.z,
 						  lc.map_state,
 						  lc.j ==
-						  0 ? lc.rules.
-						  fighter_defense : lc.
-						  fighter_side_defense);
+						  0 ? lc.
+						  fighter_defense
+						  [lc.fighter_team_color] :
+						  lc.
+						  fighter_side_defense
+						  [lc.fighter_team_color]);
 			  break;
 			}
 		    }
@@ -624,7 +629,9 @@ _lw6ker_move_update_fighters_universal (_lw6ker_move_context_t * context)
 	      if (!lc.done_with_fighter)
 		{
 		  _lw6ker_fighter_regenerate (lc.fighter,
-					      lc.rules.fighter_regenerate);
+					      lc.
+					      fighter_regenerate
+					      [lc.fighter_team_color]);
 		}
 	    }
 	}
