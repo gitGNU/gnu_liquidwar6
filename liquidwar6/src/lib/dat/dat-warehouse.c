@@ -411,8 +411,27 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 				       int seq_min, int seq_max)
 {
   lw6sys_list_t *ret = NULL;
+  int stack_index = 0;
+  int seq = 0;
 
-  //todo
+  ret = _lw6dat_stack_init_list ();
+  if (ret)
+    {
+      for (seq = seq_max; seq >= seq_min; --seq)
+	{
+	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
+	       ++stack_index)
+	    {
+	      if (warehouse->stacks[stack_index].node_id != 0)
+		{
+		  _lw6dat_stack_update_msg_list_by_seq (&
+							(warehouse->stacks
+							 [stack_index]), &ret,
+							seq);
+		}
+	    }
+	}
+    }
 
   return ret;
 }
@@ -447,8 +466,30 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
 					      warehouse, u_int64_t logical_to)
 {
   lw6sys_list_t *ret = 0;
+  int stack_index = 0;
+  int target_index = 0;
 
-  // todo
+  ret = _lw6dat_stack_init_list ();
+  if (ret)
+    {
+      target_index =
+	_lw6dat_warehouse_get_stack_index (warehouse, logical_to);
+      if (target_index >= 0 && target_index < LW6DAT_MAX_NB_STACKS)
+	{
+	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS;
+	       ++stack_index)
+	    {
+	      if (warehouse->stacks[stack_index].node_id != 0)
+		{
+		  _lw6dat_stack_update_atom_str_list_not_sent (&
+							       (warehouse->stacks
+								[stack_index]),
+							       &ret,
+							       target_index);
+		}
+	    }
+	}
+    }
 
   return ret;
 }
