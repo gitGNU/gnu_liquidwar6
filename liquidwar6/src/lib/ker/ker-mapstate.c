@@ -808,8 +808,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.fighter_defense[i] =
-	    lw6sys_min (context.fighter_defense[i],
-			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	    lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_DEFENSE,
+			lw6sys_min (context.fighter_defense[i],
+				    LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
 	  context.fighter_side_defense[i] =
 	    lw6sys_min (context.fighter_side_defense[i],
 			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
@@ -819,8 +820,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] =
-		lw6sys_min (context.fighter_attack[i][j],
-			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+		lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_ATTACK,
+			    lw6sys_min (context.fighter_attack[i][j],
+					LW6MAP_RULES_MAX_FIGHTER_ATTACK));
 	      context.fighter_side_attack[i][j] =
 		lw6sys_min (context.fighter_side_attack[i][j],
 			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
@@ -857,7 +859,7 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    }
 	}
       /*
-       * Now we check for min & max, a 2nd tiem, after all the calcs we did, since
+       * Now we check for min & max, a 2nd time, after all the calcs we did, since
        * speed/fast has an influence, this won't enfore some theorical
        * limits, but globally, the job will be done in the sense that
        * we won't have overflow errors.
@@ -865,8 +867,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
       for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
 	{
 	  context.fighter_defense[i] =
-	    lw6sys_min (context.fighter_defense[i],
-			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
+	    lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_DEFENSE,
+			lw6sys_min (context.fighter_defense[i],
+				    LW6MAP_RULES_MAX_FIGHTER_DEFENSE));
 	  context.fighter_side_defense[i] =
 	    lw6sys_min (context.fighter_side_defense[i],
 			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
@@ -875,9 +878,10 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 			LW6MAP_RULES_MAX_FIGHTER_REGENERATE);
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
-	      context.fighter_attack[i][j] =
-		lw6sys_min (context.fighter_attack[i][j],
-			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
+	      lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_ATTACK,
+			  context.fighter_attack[i][j] =
+			  lw6sys_min (context.fighter_attack[i][j],
+				      LW6MAP_RULES_MAX_FIGHTER_ATTACK));
 	      context.fighter_side_attack[i][j] =
 		lw6sys_min (context.fighter_side_attack[i][j],
 			    LW6MAP_RULES_MAX_FIGHTER_ATTACK);
