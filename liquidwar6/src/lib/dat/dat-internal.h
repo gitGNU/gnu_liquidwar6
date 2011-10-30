@@ -187,7 +187,7 @@ extern int _lw6dat_stack_serial2seq (_lw6dat_stack_t * stack, int serial);
 extern lw6sys_list_t *_lw6dat_stack_init_list ();
 extern int _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
 						 lw6sys_list_t ** msg_list,
-						 int seq_from, int seq_to);
+						 int seq);
 extern int _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t *
 							 stack,
 							 lw6sys_list_t **

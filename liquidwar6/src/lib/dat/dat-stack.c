@@ -654,10 +654,53 @@ _lw6dat_stack_init_list ()
 
 int
 _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
-				      lw6sys_list_t ** msg_list, int seq_from,
-				      int seq_to)
+				      lw6sys_list_t ** msg_list, int seq)
 {
   int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+  char *text = NULL;
+  int serial = 0;
+  char *msg = NULL;
+  int i, n;
+  int no_hole = 1;
+
+  serial = _lw6dat_stack_seq2serial (stack, seq);
+  if (serial >= stack->serial_min && serial <= stack->serial_max)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  n = atom->order_n;
+	  msg =
+	    (char *) LW6SYS_CALLOC (((_LW6DAT_ATOM_MAX_SIZE * n) + 1) *
+				    sizeof (char));
+	  if (msg)
+	    {
+	      for (i = 0; i < n && no_hole; ++i)
+		{
+		  atom = _lw6dat_stack_get_atom (stack, serial);
+		  if (atom)
+		    {
+		      text = _lw6dat_atom_get_text (atom);
+		      if (text)
+			{
+			  memcpy (msg + (i * _LW6DAT_ATOM_MAX_SIZE), text,
+				  strlen (text));
+			}
+		    }
+		  else
+		    {
+		      no_hole = 0;
+		    }
+		}
+	      if (no_hole)
+		{
+		  lw6sys_list_push_front (msg_list, msg);
+		  ret = 1;
+		}
+	    }
+	}
+    }
 
   return ret;
 }
@@ -686,7 +729,6 @@ _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t * stack,
 	    }
 	}
     }
-
 
   return ret;
 }
@@ -733,6 +775,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 		    }
 		  atom->sent_status |= send_mask;
 		  lw6sys_list_push_front (msg_list, atom_str);
+		  ret = 1;
 		}
 	    }
 	}
@@ -741,7 +784,6 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 	  no_hole = 0;
 	}
     }
-  ret = 1;
 
   return ret;
 }
