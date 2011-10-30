@@ -83,7 +83,15 @@ lw6dat_warehouse_new (u_int64_t local_node_id)
 void
 _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
 {
+  int i;
+
   _lw6dat_warehouse_purge (warehouse);
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      _lw6dat_stack_clear (&(warehouse->stacks[i]));
+    }
+
   LW6SYS_FREE (warehouse);
 }
 

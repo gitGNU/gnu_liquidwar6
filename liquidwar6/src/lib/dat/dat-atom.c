@@ -173,3 +173,21 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 
   return ret;
 }
+
+char *
+_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
+					  char *logical_from_str)
+{
+  char *ret = NULL;
+  char *text = NULL;
+
+  text = _lw6dat_atom_get_text (atom);
+  if (text != NULL)
+    {
+      ret =
+	lw6sys_new_sprintf ("%d %d %d %d %s %s", atom->serial, atom->order_i,
+			    atom->order_n, atom->seq, logical_from_str, text);
+    }
+
+  return ret;
+}

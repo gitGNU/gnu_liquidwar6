@@ -38,6 +38,11 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   int i = 0;
 
   stack->node_id = 0;
+  if (stack->node_id_str)
+    {
+      LW6SYS_FREE (stack->node_id_str);
+      stack->node_id_str = NULL;
+    }
   stack->serial_0 = 0;
   stack->serial_n_1 = -1;
   stack->serial_min = INT_MAX;
@@ -84,11 +89,24 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
     {
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
+      if (stack->node_id_str)
+	{
+	  LW6SYS_FREE (stack->node_id_str);
+	  stack->node_id_str = NULL;
+	}
+      stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
       stack->serial_n_1 = serial_0 - 1;
       stack->serial_min = INT_MAX;
       stack->serial_max = serial_0 - 1;
-      ret = 1;
+      if (stack->node_id_str != NULL)
+	{
+	  ret = 1;
+	}
+      else
+	{
+	  _lw6dat_stack_clear (stack);
+	}
     }
 
   return ret;
@@ -614,6 +632,99 @@ _lw6dat_stack_serial2seq (_lw6dat_stack_t * stack, int serial)
 	  ret = atom->seq;
 	}
     }
+
+  return ret;
+}
+
+lw6sys_list_t *
+_lw6dat_stack_init_list ()
+{
+  lw6sys_list_t *ret = NULL;
+
+  ret = lw6sys_list_new (lw6sys_free_callback);
+
+  return ret;
+}
+
+int
+_lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
+				      lw6sys_list_t ** msg_list, int seq_from,
+				      int seq_to)
+{
+  int ret = 0;
+
+  return ret;
+}
+
+int
+_lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t * stack,
+					      lw6sys_list_t ** msg_list,
+					      int serial)
+{
+  int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+  char *atom_str = NULL;
+
+  if (serial >= stack->serial_min && serial <= stack->serial_max)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  atom_str =
+	    _lw6dat_atom_recreate_atom_str_from_atom (atom,
+						      stack->node_id_str);
+	  if (atom_str)
+	    {
+	      lw6sys_list_push_front (msg_list, atom_str);
+	      ret = 1;
+	    }
+	}
+    }
+
+
+  return ret;
+}
+
+int
+_lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
+					     lw6sys_list_t ** msg_list,
+					     int target_index)
+{
+  int ret = 0;
+  _lw6dat_atom_t *atom = NULL;
+  char *atom_str = NULL;
+  int serial = 0;
+  int serial_min = 0;
+  int serial_max = 0;
+  int send_mask = 0;
+
+  send_mask = _lw6dat_flag (target_index);
+  /*
+   * Serious optimization to do: keep track of serial_min
+   * per target...
+   */
+  serial_min = stack->serial_min;
+  serial_max = stack->serial_max;
+  for (serial = serial_min; serial <= serial_max; ++serial)
+    {
+      atom = _lw6dat_stack_get_atom (stack, serial);
+      if (atom)
+	{
+	  if ((atom->send_flag & send_mask)
+	      && !(atom->sent_status & send_mask))
+	    {
+	      atom_str =
+		_lw6dat_atom_recreate_atom_str_from_atom (atom,
+							  stack->node_id_str);
+	      if (atom_str)
+		{
+		  atom->sent_status |= send_mask;
+		  lw6sys_list_push_front (msg_list, atom_str);
+		}
+	    }
+	}
+    }
+  ret = 1;
 
   return ret;
 }

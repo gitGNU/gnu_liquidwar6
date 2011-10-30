@@ -28,6 +28,7 @@
 
 #define _TEST_ATOM_TEXT_SHORT "this is a short text"
 #define _TEST_ATOM_TEXT_LONG "this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text, this is a long text..."
+#define _TEST_ATOM_LOGICAL_FROM_STR "1234123412341234"
 
 #define _TEST_BLOCK_SERIAL_0 456
 #define _TEST_BLOCK_ORDER_N 7
@@ -43,9 +44,10 @@
 #define _TEST_STACK_ORDER_N 1
 #define _TEST_STACK_ROUND 5
 #define _TEST_STACK_TEXT "..."
-#define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/10)
+#define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/100)
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
 #define _TEST_STACK_SEND_FLAG 5
+#define _TEST_STACK_TARGET_INDEX 2
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
@@ -72,6 +74,7 @@ test_atom ()
   {
     _lw6dat_atom_t atom;
     char *text = NULL;
+    char *cmd = NULL;
 
     _lw6dat_atom_zero (&atom);
     if (_lw6dat_atom_get_text (&atom))
@@ -119,6 +122,14 @@ test_atom ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
+      }
+    cmd =
+      _lw6dat_atom_recreate_atom_str_from_atom (&atom,
+						_TEST_ATOM_LOGICAL_FROM_STR);
+    if (cmd)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("recreated cmd is \"%s\""), cmd);
+	LW6SYS_FREE (cmd);
       }
     _lw6dat_atom_clear (&atom);
   }
@@ -251,6 +262,9 @@ test_stack ()
     int tmp;
     int found_null = 0;
     int found_not_null = 0;
+    lw6sys_list_t *msg_list = NULL;
+    char *msg = NULL;
+    int length = 0;
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
@@ -358,6 +372,72 @@ test_stack ()
 			("couldn't find both NULL and non-NULL entries found_not_null=%d found_null=%d"),
 			found_not_null, found_null);
 	    ret = 0;
+	  }
+	msg_list = _lw6dat_stack_init_list ();
+	if (msg_list)
+	  {
+	    _lw6dat_stack_update_atom_str_list_by_serial (&stack, &msg_list,
+							  stack.serial_max);
+	    length = lw6sys_list_length (msg_list);
+	    if (length == 1)
+	      {
+		msg = (char *) lw6sys_list_pop_front (&msg_list);
+		if (msg)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_ ("got atom str by serial \"%s\""), msg);
+		    LW6SYS_FREE (msg);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("there should be an atom at serial %d, unable to get it"),
+			    stack.serial_max);
+		ret = 0;
+	      }
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
+							 _TEST_STACK_TARGET_INDEX);
+	    length = lw6sys_list_length (msg_list);
+	    if (length == found_not_null)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("got %d unsent atoms"),
+			    length);
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("error getting list of atoms length=%d found_not_null=%d"),
+			    length, found_not_null);
+		ret = 0;
+	      }
+	    while (!lw6sys_list_is_empty (msg_list))
+	      {
+		msg = (char *) lw6sys_list_pop_front (&msg_list);
+		if (msg)
+		  {
+		    LW6SYS_FREE (msg);
+		  }
+	      }
+	    _lw6dat_stack_update_atom_str_list_not_sent (&stack, &msg_list,
+							 _TEST_STACK_TARGET_INDEX);
+	    length = lw6sys_list_length (msg_list);
+	    if (length == 0)
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_ ("got no more unsent atoms on second call"));
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_
+			    ("error getting list of atoms length=%d, should be 0"),
+			    length);
+		ret = 0;
+	      }
+	    lw6sys_list_free (msg_list);
 	  }
       }
 

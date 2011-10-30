@@ -89,6 +89,7 @@ typedef struct _lw6dat_block_s
 typedef struct _lw6dat_stack_s
 {
   u_int64_t node_id;
+  char *node_id_str;
   int serial_0;
   int serial_n_1;
   int serial_min;
@@ -131,6 +132,10 @@ extern int _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial,
 						       char **cmd,
 						       char
 						       *atom_str_serial_i_n_seq_from_cmd);
+extern char *_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
+						       char
+						       *logical_from_str);
+
 static inline int
 _lw6dat_block_get_atom_index (_lw6dat_block_t * block, int serial)
 {
@@ -178,6 +183,20 @@ extern int _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int seq);
 extern int _lw6dat_stack_serial2seq (_lw6dat_stack_t * stack, int serial);
+extern lw6sys_list_t *_lw6dat_stack_init_list ();
+extern int _lw6dat_stack_update_msg_list_by_seq (_lw6dat_stack_t * stack,
+						 lw6sys_list_t ** msg_list,
+						 int seq_from, int seq_to);
+extern int _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t *
+							 stack,
+							 lw6sys_list_t **
+							 msg_list,
+							 int serial);
+extern int _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t *
+							stack,
+							lw6sys_list_t **
+							msg_list,
+							int target_index);
 
 static inline int
 _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
