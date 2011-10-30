@@ -30,7 +30,7 @@ for i in quick doc show aliases ; do
 done
 
 for i in path players input graphics sound network map map-rules map-hints map-style map-teams hooks advanced ; do
-    echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
+    echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c \$(top_srcdir)/src/lib/map/map.h \$(top_srcdir)/src/lib/ldr/ldr.h" >> Makefile.selfdoc
     echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 default \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
     echo >> Makefile.selfdoc
 done
