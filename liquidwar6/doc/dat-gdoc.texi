@@ -77,3 +77,26 @@ several atoms if needed, it can be arbitrary long.
 @strong{Return value:}  1 on success, 0 on error
 @end deftypefun
 
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_msg_list_by_seq} (lw6dat_warehouse_t * @var{warehouse}, int @var{seq_min}, int @var{seq_max})
+@var{warehouse}:  object to query
+
+@var{seq_min}:  lowest sequence number (round or chat index)
+
+@var{seq_max}:  highest sequence number (round or chat index)
+
+Gets the list of messages for a given sequence (round or chat index),
+polling all the nodes. The from and to boundaries are included.
+
+@strong{Return value:}  a list of strings.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_atom_str_list_not_sent} (lw6dat_warehouse_t *            @var{warehouse}, u_int64_t @var{logical_to})
+@var{warehouse}:  object to query
+
+@var{logical_to}:  the id of the node that we want to send data to
+
+Returns all the messages that were not sent for the given warehouse.
+
+@strong{Return value:}  a list of strings, containing atoms.
+@end deftypefun
+

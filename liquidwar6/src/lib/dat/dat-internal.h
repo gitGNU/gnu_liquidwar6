@@ -234,6 +234,12 @@ extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   *atom_str_serial_i_n_seq_from_cmd);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
 					    char *msg);
-//extern int _lw6dat_warehouse_pop_msg (_lw6dat_warehouse_t *warehouse, u_int64_t *logical_from, char **msg);
+extern lw6sys_list_t
+  * _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
+					   int seq_min, int seq_max);
+extern lw6sys_list_t
+  * _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
+						  warehouse,
+						  u_int64_t logical_to);
 
 #endif

@@ -405,3 +405,73 @@ lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, char *msg)
 
   return ret;
 }
+
+lw6sys_list_t *
+_lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
+				       int seq_min, int seq_max)
+{
+  lw6sys_list_t *ret = NULL;
+
+  //todo
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_msg_list_by_seq
+ *
+ * @warehouse: object to query
+ * @seq_min: lowest sequence number (round or chat index)
+ * @seq_max: highest sequence number (round or chat index)
+ * 
+ * Gets the list of messages for a given sequence (round or chat index),
+ * polling all the nodes. The from and to boundaries are included.
+ * 
+ * Return value: a list of strings.
+ */
+lw6sys_list_t *
+lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t * warehouse,
+				      int seq_min, int seq_max)
+{
+  lw6sys_list_t *ret = NULL;
+
+  ret =
+    _lw6dat_warehouse_get_msg_list_by_seq ((_lw6dat_warehouse_t *) warehouse,
+					   seq_min, seq_max);
+
+  return ret;
+}
+
+lw6sys_list_t *
+_lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
+					      warehouse, u_int64_t logical_to)
+{
+  lw6sys_list_t *ret = 0;
+
+  // todo
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_atom_str_list_not_sent
+ *
+ * @warehouse: object to query
+ * @logical_to: the id of the node that we want to send data to
+ *
+ * Returns all the messages that were not sent for the given warehouse.
+ *
+ * Return value: a list of strings, containing atoms.
+ */
+lw6sys_list_t *
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
+					     warehouse, u_int64_t logical_to)
+{
+  lw6sys_list_t *ret = 0;
+
+  ret =
+    _lw6dat_warehouse_get_atom_str_list_not_sent ((_lw6dat_warehouse_t *)
+						  warehouse, logical_to);
+
+  return ret;
+}

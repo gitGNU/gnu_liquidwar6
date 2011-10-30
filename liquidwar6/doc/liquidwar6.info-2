@@ -5618,6 +5618,32 @@ results on
 
      *Return value:*  1 on success, 0 on error
 
+ -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
+          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
+     WAREHOUSE:  object to query
+
+     SEQ_MIN:  lowest sequence number (round or chat index)
+
+     SEQ_MAX:  highest sequence number (round or chat index)
+
+     Gets the list of messages for a given sequence (round or chat
+     index), polling all the nodes. The from and to boundaries are
+     included.
+
+     *Return value:*  a list of strings.
+
+ -- Function: lw6sys_list_t *
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_TO)
+     WAREHOUSE:  object to query
+
+     LOGICAL_TO:  the id of the node that we want to send data to
+
+     Returns all the messages that were not sent for the given
+     warehouse.
+
+     *Return value:*  a list of strings, containing atoms.
+
 
 File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
 
@@ -9269,231 +9295,6 @@ results on
      Runs the `net' module test suite. This one could fail if some
      sockets are already bound, for instance. It's still run even in
      check-only (mode=0) mode.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
-
-5.29 libnod
-===========
-
-5.29.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
-
-5.29.2 API
-----------
-
- -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
-     DYN_INFO:  the dyn info struct to free
-
-     Frees a dyn info object, to be used after a call to
-     `lw6nod_info_dup_dyn' for instance.
-
-     *Return value:*  none
-
- -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
-          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
-          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
-          void * IDLE_SCREENSHOT_DATA)
-     PROGRAM:  the program (normally it's liquidwar6)
-
-     VERSION:  the version
-
-     CODENAME:  the codename
-
-     STAMP:  the stamp
-
-     ID:  the node id
-
-     URL:  the node public url
-
-     TITLE:  the node title
-
-     DESCRIPTION:  the node description
-
-     PASSWORD:  the node password
-
-     BENCH:  the node bench
-
-     OPEN_RELAY:  open relay or not
-
-     UPTIME:  uptime in seconds
-
-     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
-     when game is idle
-
-     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
-     when game is idle
-
-     Creates a node info object. The arguments correspond to the
-     immutable node attributes, other properties such as how many
-     players are connected or set in other functions like
-     `lw6nod_info_update' which can be called later.
-
-     *Return value:*  newly allocated object, NULL on error.
-
- -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
-     INFO:  the node info to free
-
-     Frees a node info object.
-
-     *Return value:*  none
-
- -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
-     INFO:  the node info to lock
-
-     Locks a node info object, this is usefull for some members,
-     typically list of servers, can be accessed by separated threads,
-     one reading, many writing, and these objects (chained lists)
-     certainly do not want to be modified while being read.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
-     INFO:  the node info to unlock
-
-     Unlocks a node info object, this is the compation of the
-     `lw6nod_info_lock' function.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
-     INFO:  the node info to modify
-
-     Clears a node info object and sets all its variable attributes to
-     NULL/default values. This is what we want when the node is idle,
-     not playing.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
-          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
-          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
-          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
-          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
-     INFO:  the node info to update
-
-     COMMUNITY_ID:  the id of the community the node belongs to
-
-     ROUND:  the current round (can have an offset with real round
-     number)
-
-     LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  max number of colors allowed
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  max number of cursors allowed
-
-     NB_NODES:  number of nodes playing
-
-     MAX_NB_NODES:  max number of nodes allowed
-
-     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
-
-     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
-
-     Set a node info object variable attributes. Call this whenever the
-     node has changed some parameter. Not too often for it's not needed
-     and some operations such as modying the screenshot, can be time
-     consuming.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
-          INFO)
-     INFO:  the node info containing the dyn info to duplicate
-
-     Extracts the dynamic part of an info struct and duplicates it,
-     this is to avoid protection fault error when concurrent threads
-     access this info.
-
-     *Return value:*  newly allocated object, must be freed.
-
- -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
-     Creates a new hash, to be used as a discovered nodes list.  Using
-     this function has the advantage of setting the hash options to
-     their defaults.  We use a hash to avoid having uselessly long
-     lists containing always the same node due to multiple detections.
-
-     *Return value:*  an empty hash
-
- -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
-          INFO, char * PUBLIC_URL)
-     INFO:  the node info to update
-
-     PUBLIC_URL:  the address of the discovered node
-
-     Registers a new server, and queues it as something that should be
-     checked later because it's interesting. We can't insert in the
-     database all the servers we suspect to exist so network threads
-     should use this, then main thread will process discovered servers
-     afterwards. This is also a good way to avoid trivial DOS attacks.
-
-     *Return value:*  1 if OK, O if error.
-
- -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
-          (lw6nod_info_t * INFO)
-     INFO:  the node info to query
-
-     Returns a list of all discovered nodes (their public URL) and
-     empties the current queue as well.
-
-     *Return value:*  a list of dynamically allocated strings.
-
- -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
-     Creates a new list, to be filled with nodes and typically passed
-     to `lw6nod_info_set_verified_nodes'. Using this function has the
-     advantage of setting the listh options to their defaults.
-
-     *Return value:*  an empty list
-
- -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
-          lw6sys_list_t * LIST)
-     INFO:  the node info to modify
-
-     LIST:  the list of verified nodes, will be freed by this function
-
-     Sets the list of verified nodes, that is, the list of nodes we are
-     sure to exist, this is typically the list we will display later on
-     a web page. We can't directly display any discovered node, one
-     needs to filter them through main thread.  Something very
-     important about this function is that `list' will be freed by
-     function, that is, if you call this, then you can (you should)
-     forget your object, it will disappear any time soon.
-
-     *Return value:*  1 if OK, 0 on error.
-
- -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
-          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
-     INFO:  the node info concerned
-
-     FUNC:  the function to apply
-
-     FUNC_DATA:  arbitrary pointer holding data to pass to function
-
-     Calls `lw6sys_hash_map' with `func' on every member of the list of
-     verified nodes. The reason there's a function for this is that it
-     is very important that list object is locked when doing this.
-     This function does perform a lock/unlock so it is safe.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `nod' module test suite.
 
      *Return value:*  1 if test is successfull, 0 on error.
 
