@@ -1,5 +1,7 @@
 2011-10-30 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Message recollection in dat fully works.
+
 	* The fast parameter (team profile) does not influence attack anymore.
 
 2011-10-29 : Christian Mauduit <ufoot@ufoot.org>

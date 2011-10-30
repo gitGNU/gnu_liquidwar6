@@ -48,6 +48,15 @@
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
 #define _TEST_STACK_SEND_FLAG 5
 #define _TEST_STACK_TARGET_INDEX 2
+#define _TEST_STACK_MSG_1 "2 2345234523452345 first message, short one"
+#define _TEST_STACK_MSG_2 "3 2345234523452345 second message, short one too"
+#define _TEST_STACK_MSG_3 "11 2345234523452345 third message, short one again"
+#define _TEST_STACK_MSG_4 "11 2345234523452345 fourth message, this one is long, will be filled with random string %s"
+#define _TEST_STACK_MSG_4_RANDOM_PART_SIZE 500000
+#define _TEST_STACK_MSG_5 "11 2345234523452345 fifth message, with same round/seq than the two previous ones"
+#define _TEST_STACK_MSG_6 "13 2345234523452345 last message"
+#define _TEST_STACK_MSG_GET_SEQ 11
+#define _TEST_STACK_MSG_GET_NB 3
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
 #define _TEST_WAREHOUSE_OTHER_NODE_ID 0x2345234523452345LL
@@ -61,6 +70,14 @@
 #define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 10 2345234523452345 foo bar"
 #define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
 #define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
+
+typedef struct _test_stack_msg_data_s
+{
+  char *msg4;
+  int msg3_found;
+  int msg4_found;
+  int msg5_found;
+} _test_stack_msg_data_t;
 
 /*
  * Testing functions in atom.c
@@ -245,6 +262,32 @@ test_block ()
   return ret;
 }
 
+static void
+_test_stack_msg_callback (void *func_data, void *data)
+{
+  _test_stack_msg_data_t *msg_data = (_test_stack_msg_data_t *) func_data;
+  char *msg = (char *) data;
+
+  if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_3))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 3 found (length=%d)"),
+		  strlen (msg));
+      msg_data->msg3_found = 1;
+    }
+  if (lw6sys_str_is_same (msg, msg_data->msg4))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 4 found (length=%d)"),
+		  strlen (msg));
+      msg_data->msg4_found = 1;
+    }
+  if (lw6sys_str_is_same (msg, _TEST_STACK_MSG_5))
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("message 5 found (length=%d)"),
+		  strlen (msg));
+      msg_data->msg5_found = 1;
+    }
+}
+
 /*
  * Testing functions in stack.c
  */
@@ -265,6 +308,9 @@ test_stack ()
     lw6sys_list_t *msg_list = NULL;
     char *msg = NULL;
     int length = 0;
+    char *msg4 = NULL;
+    char *msg4_random_part = NULL;
+    _test_stack_msg_data_t msg_data = { NULL, 0, 0, 0 };
 
     _lw6dat_stack_zero (&stack);
     _lw6dat_stack_init (&stack, _TEST_STACK_NODE_ID, _TEST_STACK_SERIAL_0);
@@ -439,6 +485,82 @@ test_stack ()
 	      }
 	    lw6sys_list_free (msg_list);
 	  }
+      }
+
+    /*
+     * We purge the whole stuff, we don't want previous random
+     * data to interfere
+     */
+    _lw6dat_stack_purge (&stack);
+
+    msg4_random_part =
+      lw6sys_str_random_words (_TEST_STACK_MSG_4_RANDOM_PART_SIZE);
+    if (msg4_random_part)
+      {
+	msg4 = lw6sys_new_sprintf (_TEST_STACK_MSG_4, msg4_random_part);
+	if (msg4)
+	  {
+	    if (_lw6dat_stack_put_msg
+		(&stack, _TEST_STACK_MSG_1, _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_2,
+					  _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_3,
+					  _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, msg4, _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_5,
+					  _TEST_STACK_SEND_FLAG)
+		&& _lw6dat_stack_put_msg (&stack, _TEST_STACK_MSG_6,
+					  _TEST_STACK_SEND_FLAG))
+	      {
+		lw6sys_log (LW6SYS_LOG_NOTICE,
+			    _x_
+			    ("put a few messages in stack to test recollection of atoms into a full message"));
+		msg_list = _lw6dat_stack_init_list ();
+		if (msg_list)
+		  {
+		    _lw6dat_stack_update_msg_list_by_seq (&stack, &msg_list,
+							  _TEST_STACK_MSG_GET_SEQ);
+		    length = lw6sys_list_length (msg_list);
+		    if (length == _TEST_STACK_MSG_GET_NB)
+		      {
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("OK, got %d messages"), length);
+			msg_data.msg4 = msg4;
+			lw6sys_list_map (msg_list, _test_stack_msg_callback,
+					 (void *) &msg_data);
+			if (msg_data.msg3_found && msg_data.msg4_found
+			    && msg_data.msg5_found)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("all messages OK"));
+			  }
+			else
+			  {
+			    lw6sys_log (LW6SYS_LOG_WARNING,
+					_x_ ("some messages were wrong"));
+			    ret = 0;
+			  }
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("error, should have got %d messages and got %d"),
+				    _TEST_STACK_MSG_GET_NB, length);
+			ret = 0;
+		      }
+		    lw6sys_list_free (msg_list);
+		  }
+	      }
+	    else
+	      {
+		lw6sys_log (LW6SYS_LOG_WARNING,
+			    _x_ ("unable to put one of the messages"));
+		ret = 0;
+	      }
+	    LW6SYS_FREE (msg4);
+	  }
+	LW6SYS_FREE (msg4_random_part);
       }
 
     _lw6dat_stack_clear (&stack);
