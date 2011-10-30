@@ -96,6 +96,7 @@ typedef struct _lw6dat_stack_s
   int serial_max;
   int serial_draft;
   int serial_reference;
+  int serial_min_to_send[LW6DAT_MAX_NB_STACKS];
   // no nb_blocks, there can be "holes" in the array
   _lw6dat_block_t *blocks[_LW6DAT_MAX_NB_BLOCKS];
 } _lw6dat_stack_t;

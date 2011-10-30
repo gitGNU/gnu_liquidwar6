@@ -49,7 +49,10 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
   stack->serial_max = -1;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
-
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      stack->serial_min_to_send[i] = 0;
+    }
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -70,6 +73,10 @@ _lw6dat_stack_purge (_lw6dat_stack_t * stack)
   stack->serial_max = stack->serial_0 - 1;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      stack->serial_min_to_send[i] = stack->serial_0;
+    }
   for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
     {
       if (stack->blocks[i])
@@ -97,7 +104,6 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
       stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
       stack->serial_n_1 = serial_0 - 1;
-      stack->serial_min = INT_MAX;
       stack->serial_max = serial_0 - 1;
       if (stack->node_id_str != NULL)
 	{
@@ -697,13 +703,16 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
   int serial_min = 0;
   int serial_max = 0;
   int send_mask = 0;
+  int no_hole = 1;
 
   send_mask = _lw6dat_flag (target_index);
   /*
-   * Serious optimization to do: keep track of serial_min
-   * per target...
+   * We keep a track of per-node "minimum atom to send",
+   * this is just so that we avoid walking over the whole
+   * stuff each time
    */
-  serial_min = stack->serial_min;
+  serial_min =
+    lw6sys_max (stack->serial_min, stack->serial_min_to_send[target_index]);
   serial_max = stack->serial_max;
   for (serial = serial_min; serial <= serial_max; ++serial)
     {
@@ -718,10 +727,18 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 							  stack->node_id_str);
 	      if (atom_str)
 		{
+		  if (no_hole)
+		    {
+		      stack->serial_min_to_send[target_index] = serial;
+		    }
 		  atom->sent_status |= send_mask;
 		  lw6sys_list_push_front (msg_list, atom_str);
 		}
 	    }
+	}
+      else
+	{
+	  no_hole = 0;
 	}
     }
   ret = 1;
