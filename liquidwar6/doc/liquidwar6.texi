@@ -5548,7 +5548,7 @@ Note that this road map takes it for granted that I'll be the lone coder on the 
 @item
 2007 : glue all this together to make something usable by anyone, heavy work on the GUI, on the options, on error checking, many bug fixes. The goal is to have a game which is equivalent to @uref{http://www.ufoot.org/liquidwar/v5,Liquid War 5}, with the network aspects pushed to the next level.
 @item
-2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform Freshmeat 8-) - and enhance it with all the feedback from gamers (bug reports and suggestions received since 1998). Work on artwork (both graphics and musics). Write documentation.
+2008 : tadaaaaaaaaaaa! Release the game "publicly" - inform Freecode 8-) - and enhance it with all the feedback from gamers (bug reports and suggestions received since 1998). Work on artwork (both graphics and musics). Write documentation.
 @item
 2009 : stabilize the game, patch it for all those things which had been forgotten back then in 2005, optimize for speed, bug-fix bug-fix bug-fix.
 @item
@@ -5685,7 +5685,7 @@ This list is also by no way extensive, it's provided ``as is''.
 @item
 @uref{http://fr.wikipedia.org/wiki/Liquid_War}: Liquid War entry on Wikipedia (French)
 @item
-@uref{http://freshmeat.net/projects/liquid-war-6}: Liquid War 6 on Freshmeat.
+@uref{http://freecode.com/projects/liquid-war-6}: Liquid War 6 on Freecode.
 @item
 @uref{http://www.ohloh.net/p/liquidwar6}: Liquid War 6 on ohloh.
 @end itemize

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <math.h>
+
 #include "dat-internal.h"
 
 #define _TEST_ATOM_TEXT_SHORT "this is a short text"
@@ -70,6 +72,7 @@
 #define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 10 2345234523452345 foo bar"
 #define _TEST_WAREHOUSE_PUT_MIN_SIZE 1
 #define _TEST_WAREHOUSE_PUT_MAX_SIZE 3000
+#define _TEST_WAREHOUSE_OTHER_NODE_MSG "toto"
 
 typedef struct _test_stack_msg_data_s
 {
@@ -571,6 +574,25 @@ test_stack ()
   return ret;
 }
 
+static void
+_test_warehouse_copy_atoms_callback (void *func_data, void *data)
+{
+  lw6dat_warehouse_t *warehouse2 = (lw6dat_warehouse_t *) func_data;
+  char *atom_str = (char *) data;
+
+  if (lw6dat_warehouse_put_atom_str
+      (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, atom_str))
+    {
+      //TMP1("%s",atom_str);
+      // ok
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("error copying atom \"%s\""),
+		  atom_str);
+    }
+}
+
 /*
  * Testing functions in warehouse.c
  */
@@ -583,11 +605,19 @@ test_warehouse ()
   {
     _lw6dat_warehouse_t *_warehouse;
     lw6dat_warehouse_t *warehouse;
+    lw6dat_warehouse_t *warehouse2;
     int overflow = 0;
     int i;
     char *cmd = NULL;
     char *id_str = NULL;
     char *msg = NULL;
+    lw6sys_list_t *list_not_sent = NULL;
+    lw6sys_list_t *list_by_seq = NULL;
+    int length = 0;
+    int seq_min = 0;
+    int seq_max = 0;
+    int seq_draft = 0;
+    int seq_reference = 0;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -727,8 +757,9 @@ test_warehouse ()
 		if (cmd)
 		  {
 		    msg =
-		      lw6sys_new_sprintf ("%d %s %s", _TEST_WAREHOUSE_ROUND,
-					  id_str, cmd);
+		      lw6sys_new_sprintf ("%d %s %s",
+					  _TEST_WAREHOUSE_ROUND +
+					  (int) sqrt (i), id_str, cmd);
 		    if (msg)
 		      {
 			if (lw6dat_warehouse_put_local_msg (warehouse, msg))
@@ -754,6 +785,81 @@ test_warehouse ()
 		    _x_ ("last put msg local_serial=%d i=%d"),
 		    lw6dat_warehouse_get_local_serial (warehouse), i);
 
+	lw6dat_warehouse_calc_serial_draft_and_reference (warehouse);
+	seq_min = lw6dat_warehouse_get_seq_min (warehouse);
+	seq_max = lw6dat_warehouse_get_seq_max (warehouse);
+	seq_draft = lw6dat_warehouse_get_seq_draft (warehouse);
+	seq_reference = lw6dat_warehouse_get_seq_reference (warehouse);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("seq info min=%d max=%d draft=%d reference=%d"),
+		    seq_min, seq_max, seq_draft, seq_reference);
+
+	warehouse2 = lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID);
+	if (warehouse2)
+	  {
+	    id_str = lw6sys_id_ltoa (_TEST_WAREHOUSE_LOCAL_NODE_ID);
+	    if (id_str)
+	      {
+		msg =
+		  lw6sys_new_sprintf ("%d %s %s",
+				      _TEST_WAREHOUSE_ROUND,
+				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
+		if (msg)
+		  {
+		    if (lw6dat_warehouse_put_local_msg (warehouse2, msg))
+		      {
+			list_not_sent =
+			  lw6dat_warehouse_get_atom_str_list_not_sent
+			  (warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID);
+			if (list_not_sent)
+			  {
+			    length = lw6sys_list_length (list_not_sent);
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("putting %d atoms from warehouse to warehouse2"),
+					length);
+			    lw6sys_list_map (list_not_sent,
+					     _test_warehouse_copy_atoms_callback,
+					     (void *) warehouse2);
+			    lw6dat_warehouse_calc_serial_draft_and_reference
+			      (warehouse2);
+			    seq_min =
+			      lw6dat_warehouse_get_seq_min (warehouse2);
+			    seq_max =
+			      lw6dat_warehouse_get_seq_max (warehouse2);
+			    seq_draft =
+			      lw6dat_warehouse_get_seq_draft (warehouse2);
+			    seq_reference =
+			      lw6dat_warehouse_get_seq_reference (warehouse2);
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_
+					("seq info min=%d max=%d draft=%d reference=%d"),
+					seq_min, seq_max, seq_draft,
+					seq_reference);
+
+
+			    lw6sys_list_free (list_not_sent);
+			  }
+		      }
+		    else
+		      {
+			lw6sys_log (LW6SYS_LOG_WARNING,
+				    _x_
+				    ("unable to put message in other warehouse"));
+			ret = 0;
+		      }
+		    LW6SYS_FREE (msg);
+		  }
+		LW6SYS_FREE (id_str);
+	      }
+	    lw6dat_warehouse_free (warehouse2);
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("couldn't create warehouse2 object"));
+	    ret = 0;
+	  }
 	lw6dat_warehouse_free (warehouse);
       }
     else

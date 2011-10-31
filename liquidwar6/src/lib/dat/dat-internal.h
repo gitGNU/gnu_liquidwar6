@@ -63,7 +63,7 @@
  */
 #define _LW6DAT_FLAG_ALL 0x3fffffff
 #define _LW6DAT_FLAG_LOCAL 0x00000001
-#define _LW6DAT_FLAG_DISTANT 0x3ffffffe
+#define _LW6DAT_FLAG_REMOTE 0x3ffffffe
 
 typedef struct _lw6dat_atom_s
 {
@@ -234,6 +234,14 @@ extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   *atom_str_serial_i_n_seq_from_cmd);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
 					    char *msg);
+extern int
+_lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
+						   warehouse);
+extern int _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse);
+extern int _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse);
+extern int _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse);
+extern int _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t *
+						warehouse);
 extern lw6sys_list_t
   * _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
 					   int seq_min, int seq_max);

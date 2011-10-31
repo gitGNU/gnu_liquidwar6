@@ -1,3 +1,7 @@
+2011-10-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Consolidation of message handling from stack to warehouse.
+
 2011-10-30 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Message recollection in dat fully works.

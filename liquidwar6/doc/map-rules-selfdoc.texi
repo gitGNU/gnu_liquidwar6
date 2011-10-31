@@ -104,7 +104,7 @@ the gameplay.
 Type: integer
 
 Default value: 50
-Min value: 1
+Min value: 0
 Max value: 10000
 
 Defines how fast fighters will regenerate after an attack. When this parameter

@@ -815,8 +815,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    lw6sys_min (context.fighter_side_defense[i],
 			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
 	  context.fighter_regenerate[i] =
-	    lw6sys_min (context.fighter_regenerate[i],
-			LW6MAP_RULES_MAX_FIGHTER_REGENERATE);
+	    lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_REGENERATE,
+			lw6sys_min (context.fighter_regenerate[i],
+				    LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      context.fighter_attack[i][j] =
@@ -874,8 +875,9 @@ _lw6ker_map_state_move_fighters (_lw6ker_map_state_t * map_state, int round,
 	    lw6sys_min (context.fighter_side_defense[i],
 			LW6MAP_RULES_MAX_FIGHTER_DEFENSE);
 	  context.fighter_regenerate[i] =
-	    lw6sys_min (context.fighter_regenerate[i],
-			LW6MAP_RULES_MAX_FIGHTER_REGENERATE);
+	    lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_REGENERATE,
+			lw6sys_min (context.fighter_regenerate[i],
+				    LW6MAP_RULES_MAX_FIGHTER_REGENERATE));
 	  for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	    {
 	      lw6sys_max (LW6MAP_RULES_MIN_FIGHTER_ATTACK,

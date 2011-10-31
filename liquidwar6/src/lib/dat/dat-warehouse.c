@@ -378,7 +378,54 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, char *msg)
 
   ret =
     _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]),
-			   msg, _LW6DAT_FLAG_LOCAL);
+			   msg, _LW6DAT_FLAG_REMOTE);
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t *
+						   warehouse)
+{
+  int ret = 1;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  ret =
+	    _lw6dat_stack_calc_serial_draft_and_reference (&
+							   (warehouse->stacks
+							    [i])) && ret;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_calc_serial_draft_and_reference
+ *
+ * @warehouse: object to work on
+ *
+ * The various @get_seq functions can perform slowly if 
+ * we don't pre-calculate the serial number of draft and reference
+ * atoms. So this calculation is not within the functions themselves
+ * but can be cached by using this function. Just call it and
+ * after you might query the object for reference and draft info.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
+						  warehouse)
+{
+  int ret = 0;
+
+  ret =
+    _lw6dat_warehouse_calc_serial_draft_and_reference ((_lw6dat_warehouse_t *)
+						       warehouse);
 
   return ret;
 }
@@ -402,6 +449,179 @@ lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, char *msg)
 
   ret =
     _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg);
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = INT_MAX;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  ret =
+	    lw6sys_min (ret,
+			_lw6dat_stack_get_seq_min (&(warehouse->stacks[i])));
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_seq_min
+ *
+ * @warehouse: object to query
+ *
+ * Tells the lowest seq referenced in the warehouse. Does not
+ * mean this is the lowest ever received, only we really have
+ * no chances of going below that point, nothing is stored, either
+ * complete or partial, below that.
+ *
+ * Return value: integer.
+ */
+int
+lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+
+  ret = _lw6dat_warehouse_get_seq_min ((_lw6dat_warehouse_t *) warehouse);
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  ret =
+	    lw6sys_max (ret,
+			_lw6dat_stack_get_seq_max (&(warehouse->stacks[i])));
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_seq_max
+ *
+ * @warehouse: object to query
+ *
+ * Tells the highest seq referenced in the warehouse. Does not
+ * mean an actual message can be built from it, only we've
+ * got some traces of such a high seq.
+ *
+ * Return value: integer.
+ */
+int
+lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+
+  ret = _lw6dat_warehouse_get_seq_max ((_lw6dat_warehouse_t *) warehouse);
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  ret =
+	    lw6sys_max (ret,
+			_lw6dat_stack_get_seq_draft (&
+						     (warehouse->stacks[i])));
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_seq_draft
+ *
+ * @warehouse: object to query
+ *
+ * Tells the highest seq that can be considered as a valid draft.
+ * This is not exactly the maximimum seq encountered, for here we
+ * want at least one complete message and not just one chunk of
+ * data (an atom) referring to a high seq, we want the complete
+ * stuff. However there can be missing messages in between.
+ *
+ * Return value: integer.
+ */
+int
+lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+
+  ret = _lw6dat_warehouse_get_seq_draft ((_lw6dat_warehouse_t *) warehouse);
+
+  return ret;
+}
+
+int
+_lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
+{
+  int ret = INT_MAX;
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id)
+	{
+	  ret =
+	    lw6sys_min (ret,
+			_lw6dat_stack_get_seq_reference (&
+							 (warehouse->stacks
+							  [i])));
+	}
+    }
+  if (ret >= INT_MAX)
+    {
+      ret = _LW6DAT_SEQ_INVALID;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6dat_warehouse_get_seq_reference
+ *
+ * @warehouse: object to query
+ *
+ * Tells the highest seq that can be considered as a reference.
+ * Being considered as a reference means we received all messages
+ * for this seq *and* at least one message from the following seq,
+ * and this for every node involved. This being said, we're sure
+ * to have the right information, nothing is missing.
+ *
+ * Return value: integer.
+ */
+int
+lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
+{
+  int ret = 0;
+
+  ret =
+    _lw6dat_warehouse_get_seq_reference ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }

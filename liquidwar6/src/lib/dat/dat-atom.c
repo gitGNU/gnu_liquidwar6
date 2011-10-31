@@ -187,6 +187,11 @@ _lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
       ret =
 	lw6sys_new_sprintf ("%d %d %d %d %s %s", atom->serial, atom->order_i,
 			    atom->order_n, atom->seq, logical_from_str, text);
+      /*
+         ret =
+         lw6sys_new_sprintf ("%d %d %d %s", atom->serial, atom->order_i,
+         atom->order_n, text);
+       */
     }
 
   return ret;

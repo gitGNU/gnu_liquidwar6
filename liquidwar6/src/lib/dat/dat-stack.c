@@ -160,8 +160,11 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       for (i = _LW6DAT_MAX_NB_BLOCKS - 1;
 	   i >= _LW6DAT_MAX_NB_BLOCKS + delta_min; --i)
 	{
-	  _lw6dat_block_free (stack->blocks[i]);
-	  stack->blocks[i] = NULL;
+	  if (stack->blocks[i])
+	    {
+	      _lw6dat_block_free (stack->blocks[i]);
+	      stack->blocks[i] = NULL;
+	    }
 	}
       for (i = _LW6DAT_MAX_NB_BLOCKS + delta - 1; i >= 0; --i)
 	{
@@ -191,8 +194,11 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	}
       for (i = 0; i < delta_max; ++i)
 	{
-	  _lw6dat_block_free (stack->blocks[i]);
-	  stack->blocks[i] = NULL;
+	  if (stack->blocks[i])
+	    {
+	      _lw6dat_block_free (stack->blocks[i]);
+	      stack->blocks[i] = NULL;
+	    }
 	}
       for (i = delta; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
 	{
@@ -373,7 +379,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
   int order_i = 0;
   int order_n = 0;
 
-  serial = stack->serial_reference + 1;
+  serial = lw6sys_max (stack->serial_min, stack->serial_reference + 1);
   seq = _lw6dat_stack_get_seq_reference (stack);
   while (serial <= stack->serial_max)
     {
@@ -389,7 +395,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 		   order_i < order_n && serial + order_i <= stack->serial_max;
 		   ++order_i)
 		{
-		  atom = _lw6dat_stack_get_atom (stack, serial);
+		  atom = _lw6dat_stack_get_atom (stack, serial + order_i);
 		  if (atom)
 		    {
 		      if (atom->seq != seq)
@@ -397,7 +403,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 			  atom_complete = 0;
 			  lw6sys_log (LW6SYS_LOG_WARNING,
 				      _x_
-				      ("bad seq %d should be %i for atom \"%s\""),
+				      ("bad seq %d should be %d for atom \"%s\""),
 				      atom->seq, seq,
 				      _lw6dat_atom_get_text (atom));
 			}
@@ -406,7 +412,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 			  atom_complete = 0;
 			  lw6sys_log (LW6SYS_LOG_WARNING,
 				      _x_
-				      ("bad order_i %d should be %i for atom \"%s\""),
+				      ("bad order_i %d should be %d for atom \"%s\""),
 				      atom->order_i, order_i,
 				      _lw6dat_atom_get_text (atom));
 			}
@@ -443,13 +449,18 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	}
     }
 
+  TMP4 ("serial_draft=%d serial_reference=%d seq_draft=%d seq_reference=%d",
+	stack->serial_draft, stack->serial_reference,
+	_lw6dat_stack_get_seq_draft (stack),
+	_lw6dat_stack_get_seq_reference (stack));
+
   return ret;
 }
 
 int
 _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack)
 {
-  int ret = 0;
+  int ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
   if (stack->serial_min >= stack->serial_0
@@ -468,7 +479,7 @@ _lw6dat_stack_get_seq_min (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack)
 {
-  int ret = 0;
+  int ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
   if (stack->serial_max >= stack->serial_0
@@ -487,13 +498,17 @@ _lw6dat_stack_get_seq_max (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack)
 {
-  int ret = 0;
+  int ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  atom = _lw6dat_stack_get_atom (stack, stack->serial_draft);
-  if (atom)
+  if (stack->serial_draft >= stack->serial_0
+      && stack->serial_draft <= stack->serial_n_1)
     {
-      ret = atom->seq;
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_draft);
+      if (atom)
+	{
+	  ret = atom->seq;
+	}
     }
 
   return ret;
@@ -502,13 +517,26 @@ _lw6dat_stack_get_seq_draft (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_get_seq_reference (_lw6dat_stack_t * stack)
 {
-  int ret = 0;
+  int ret = _LW6DAT_SEQ_INVALID;
   _lw6dat_atom_t *atom = NULL;
 
-  atom = _lw6dat_stack_get_atom (stack, stack->serial_reference);
-  if (atom)
+  if (stack->serial_reference >= stack->serial_0
+      && stack->serial_reference <= stack->serial_n_1)
     {
-      ret = atom->seq;
+      atom = _lw6dat_stack_get_atom (stack, stack->serial_reference);
+      if (atom)
+	{
+	  /*
+	   * Now here the "-1" is very (very!) important,
+	   * it means that if we are sure we've received complete
+	   * messages until, say round 1200, then we're 100% sure we
+	   * have the complete stuff for rounf 1199, while there's
+	   * still a chance we receive messages for round 1200, there's
+	   * no way we can still have informations about round 1199
+	   * again.
+	   */
+	  ret = atom->seq - 1;
+	}
     }
 
   return ret;
