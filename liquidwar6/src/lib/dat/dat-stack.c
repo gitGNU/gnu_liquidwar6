@@ -43,10 +43,10 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
       LW6SYS_FREE (stack->node_id_str);
       stack->node_id_str = NULL;
     }
-  stack->serial_0 = 0;
-  stack->serial_n_1 = -1;
+  stack->serial_0 = _LW6DAT_SERIAL_START;
+  stack->serial_n_1 = _LW6DAT_SERIAL_START - 1;
   stack->serial_min = INT_MAX;
-  stack->serial_max = -1;
+  stack->serial_max = _LW6DAT_SERIAL_INVALID;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -92,8 +92,23 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 {
   int ret = 0;
 
-  if (lw6sys_check_id (node_id) && serial_0 > _LW6DAT_SERIAL_INVALID)
+  if (lw6sys_check_id (node_id) && serial_0 >= _LW6DAT_SERIAL_START)
     {
+      /*
+       * Now we "align" our serial_0 value so that _LW6DAT_SERIAL_START
+       * is always at index 0, this is to make sure we don't get in a
+       * weird situation where we start, say at serial_0=5 so to store
+       * serial_0=4 we need to have some block that goes from "-1995" to 4.
+       * In theory it's not that bad but it's just as easy to align
+       * everything and consider "minus something" is an error,
+       * additionnally it provides an easy way to implement per block
+       * checkpoints since blocks are aligned the same way on every node.
+       */
+      serial_0 =
+	(((serial_0 -
+	   _LW6DAT_SERIAL_START) / _LW6DAT_NB_ATOMS_PER_BLOCK) *
+	 _LW6DAT_NB_ATOMS_PER_BLOCK) + _LW6DAT_SERIAL_START;
+
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
       if (stack->node_id_str)
@@ -101,6 +116,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 	  LW6SYS_FREE (stack->node_id_str);
 	  stack->node_id_str = NULL;
 	}
+
       stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
       stack->serial_n_1 = serial_0 - 1;
@@ -110,7 +126,6 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
 	      && stack->serial_n_1 >= _LW6DAT_SERIAL_INVALID)
 	    {
-	      TMP1 ("init %d", stack->serial_0);
 	      ret = 1;
 	    }
 	  else
@@ -152,6 +167,13 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
   block_index = _lw6dat_stack_get_block_index (stack, serial);
 
+  /*
+   * Now this block delta handling should be bulletproof tested,
+   * it seems it gets wrong when delta is really too high,
+   * this is (at least) related to get_block_index having limitations
+   * when delta is high (or very negative, to be more precise)
+   */
+
   delta = block_index;
   if (delta < 0)
     {
@@ -187,9 +209,11 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
     }
 
+  //delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
   delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
   if (delta > 0)
     {
+      //TMP2("delta very big=%d serial=%d",delta,serial);
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks down delta=%d"),
 		  delta);
       if (delta < _LW6DAT_MAX_NB_BLOCKS)
@@ -333,7 +357,7 @@ _lw6dat_stack_get_atom (_lw6dat_stack_t * stack, int serial)
     }
   else
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
+      lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("bad block_index=%d for serial %d"), block_index,
 		  serial);
     }

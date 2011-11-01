@@ -62,9 +62,15 @@
  * Start at 1
  */
 #define _LW6DAT_SERIAL_START 1
+#define _LW6DAT_SEQ_START 0
 
 #define _LW6DAT_SERIAL_INVALID 0
 #define _LW6DAT_SEQ_INVALID -1
+
+/*
+ * Constant used to compensate for some possible overflow error
+ */
+#define _LW6DAT_GET_FACTOR 100
 
 /*
  * This must match LW6DAT_MAX_NB_STACKS
@@ -115,8 +121,6 @@ typedef struct _lw6dat_stack_s
 typedef struct _lw6dat_warehouse_s
 {
   int dummy;			// same as in lw6dat_warehouse_t
-  // int serial_0;
-  // int serial_n_1;
   _lw6dat_stack_t stacks[LW6DAT_MAX_NB_STACKS];
 } _lw6dat_warehouse_t;
 
@@ -220,8 +224,9 @@ _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
    * numbers are still correct, else seqing gives false indexes.
    */
   return
-    ((serial + _LW6DAT_MAX_NB_ATOMS -
-      stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK) - _LW6DAT_MAX_NB_BLOCKS;
+    ((serial + _LW6DAT_GET_FACTOR * _LW6DAT_MAX_NB_ATOMS -
+      stack->serial_0) / _LW6DAT_NB_ATOMS_PER_BLOCK) -
+    (_LW6DAT_GET_FACTOR * _LW6DAT_MAX_NB_BLOCKS);
 }
 
 /* dat-warehouse.c */
