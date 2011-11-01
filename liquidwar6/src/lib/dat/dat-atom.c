@@ -117,8 +117,7 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 					    u_int64_t * logical_from,
 					    int *seq_from_cmd_str_offset,
 					    int *cmd_str_offset,
-					    char
-					    *full_str)
+					    char *full_str)
 {
   int ret = 0;
   char *next = full_str;
@@ -136,12 +135,12 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 	       * the advantage is that it allows us to cache the whole stuff
 	       * and avoid rewritting it each time we need to read it.
 	       */
-	      (*seq_from_cmd_str_offset) = next-full_str;
+	      (*seq_from_cmd_str_offset) = next - full_str;
 	      if (lw6msg_word_first_int_ge0 (seq, &next, next))
 		{
 		  if (lw6msg_word_first_id_64 (logical_from, &next, next))
 		    {
-		      (*cmd_str_offset)=next-full_str;
+		      (*cmd_str_offset) = next - full_str;
 		      ret = 1;
 		    }
 		  else
@@ -169,15 +168,13 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad value for order_i in atom \"%s\""),
-		      full_str);
+		      _x_ ("bad value for order_i in atom \"%s\""), full_str);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("bad value for serial in atom \"%s\""),
-		  full_str);
+		  _x_ ("bad value for serial in atom \"%s\""), full_str);
     }
 
   return ret;

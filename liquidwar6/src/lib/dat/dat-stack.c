@@ -131,7 +131,8 @@ _lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 			int serial, int order_i, int order_n, int seq,
-			char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag)
+			char *full_str, int seq_from_cmd_str_offset,
+			int cmd_str_offset, int send_flag)
 {
   int ret = 0;
   int block_index = 0;
@@ -226,7 +227,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
 	  ret =
 	    _lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
-				    full_str, seq_from_cmd_str_offset,cmd_str_offset,send_flag);
+				    full_str, seq_from_cmd_str_offset,
+				    cmd_str_offset, send_flag);
 	  if (!ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -254,8 +256,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
 int
 _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
-			    char *full_str,
-			    int send_flag)
+			    char *full_str, int send_flag)
 {
   int ret = 0;
   int serial = 0;
@@ -267,12 +268,13 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int cmd_str_offset = 0;
 
   if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from, &seq_from_cmd_str_offset,&cmd_str_offset,
-       full_str))
+      (&serial, &order_i, &order_n, &seq, &logical_from,
+       &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       ret =
 	_lw6dat_stack_put_atom (stack,
-				serial, order_i, order_n, seq, full_str,seq_from_cmd_str_offset,cmd_str_offset,
+				serial, order_i, order_n, seq, full_str,
+				seq_from_cmd_str_offset, cmd_str_offset,
 				send_flag);
     }
 
@@ -324,9 +326,9 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
   int p = 0;
   int s = 0;
   int serial = 0;
-  char full_str[_LW6DAT_HEADER_MAX_SIZE+_LW6DAT_ATOM_MAX_SIZE + 1];
-  int seq_from_cmd_str_offset=0;
-  int cmd_str_offset=0;
+  char full_str[_LW6DAT_HEADER_MAX_SIZE + _LW6DAT_ATOM_MAX_SIZE + 1];
+  int seq_from_cmd_str_offset = 0;
+  int cmd_str_offset = 0;
   char *next = NULL;
 
   next = msg;
@@ -334,8 +336,8 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
     {
       if (lw6msg_word_first_id_64 (&logical_from, &next, next))
 	{
-	  full_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
-	  len = strlen (msg);
+	  full_str[_LW6DAT_HEADER_MAX_SIZE + _LW6DAT_ATOM_MAX_SIZE] = '\0';
+	  len = strlen (next);
 	  order_n = (lw6sys_max ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
 	  for (order_i = 0; order_i < order_n; ++order_i)
 	    {
@@ -346,39 +348,61 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
 		  s = lw6sys_min (len - p, _LW6DAT_ATOM_MAX_SIZE);
 		  if (s >= 0)
 		    {
-		      snprintf(full_str,_LW6DAT_HEADER_MAX_SIZE,"%d %d %d ",serial,order_i,order_n);
-		      seq_from_cmd_str_offset=strlen(full_str);
-		      if (seq_from_cmd_str_offset<_LW6DAT_HEADER_MAX_SIZE)
+		      serial = _lw6dat_stack_get_serial (stack) + 1;
+		      snprintf (full_str, _LW6DAT_HEADER_MAX_SIZE,
+				"%d %d %d ", serial, order_i, order_n);
+		      seq_from_cmd_str_offset = strlen (full_str);
+		      if (seq_from_cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
 			{
 			  /*
 			   * stupid cast as long long unsigned int as GCC can't figure
 			   * it's the same as u_int64_t
 			   */
-			  snprintf(full_str+seq_from_cmd_str_offset,_LW6DAT_HEADER_MAX_SIZE-seq_from_cmd_str_offset,"%d %" LW6SYS_PRINTF_LL "x ",seq,(long long unsigned int) logical_from);
-		      cmd_str_offset=strlen(full_str);
-		      if (cmd_str_offset<_LW6DAT_HEADER_MAX_SIZE)
-			{
-		      if (s>0) {
-			memcpy (full_str+cmd_str_offset, msg + p, s);
-		      } else {
-			lw6sys_log(LW6SYS_LOG_WARNING,_x_("0 sized atom"));
-		      }
-		      full_str[cmd_str_offset+s] = '\0';
-		      serial = _lw6dat_stack_get_serial (stack) + 1;
-		      //TMP2("%d: \"%s\"",serial,full_str);
-		      ret = ret
-			&& _lw6dat_stack_put_atom (stack,
-						   serial, order_i, order_n,
-						   seq, full_str, seq_from_cmd_str_offset,cmd_str_offset,send_flag);
-			} else
-			{
-			  lw6sys_log(LW6SYS_LOG_WARNING,_x_("header is too long (cmd_str_offest=%d)"),cmd_str_offset);
-			  ret=0;			  
+			  snprintf (full_str + seq_from_cmd_str_offset,
+				    _LW6DAT_HEADER_MAX_SIZE -
+				    seq_from_cmd_str_offset,
+				    "%d %" LW6SYS_PRINTF_LL "x ", seq,
+				    (long long unsigned int) logical_from);
+			  cmd_str_offset = strlen (full_str);
+			  if (cmd_str_offset < _LW6DAT_HEADER_MAX_SIZE)
+			    {
+			      if (s > 0)
+				{
+				  memcpy (full_str + cmd_str_offset, next + p,
+					  s);
+				}
+			      else
+				{
+				  lw6sys_log (LW6SYS_LOG_WARNING,
+					      _x_ ("0 sized atom"));
+				}
+			      full_str[cmd_str_offset + s] = '\0';
+			      //TMP2("%d: \"%s\"",serial,full_str);
+			      ret = ret
+				&& _lw6dat_stack_put_atom (stack,
+							   serial, order_i,
+							   order_n, seq,
+							   full_str,
+							   seq_from_cmd_str_offset,
+							   cmd_str_offset,
+							   send_flag);
+			    }
+			  else
+			    {
+			      lw6sys_log (LW6SYS_LOG_WARNING,
+					  _x_
+					  ("header is too long (cmd_str_offest=%d)"),
+					  cmd_str_offset);
+			      ret = 0;
+			    }
 			}
-			} else
+		      else
 			{
-			  lw6sys_log(LW6SYS_LOG_WARNING,_x_("header is too long (seq_from_cmd_str_offset=%d)"),seq_from_cmd_str_offset);
-			  ret=0;
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_
+				      ("header is too long (seq_from_cmd_str_offset=%d)"),
+				      seq_from_cmd_str_offset);
+			  ret = 0;
 			}
 		    }
 		}
@@ -720,6 +744,8 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
   _lw6dat_atom_t *atom = NULL;
   char *full_str = NULL;
   char *msg = NULL;
+  char *cmd = NULL;
+  int seq_from_len = 0;
   int i, n;
   int no_hole = 1;
 
@@ -733,45 +759,66 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 	    {
 	      n = atom->order_n;
 	      msg =
-		(char *) LW6SYS_CALLOC (((_LW6DAT_ATOM_MAX_SIZE * n) + 1) *
-					sizeof (char));
+		(char *)
+		LW6SYS_CALLOC (((_LW6DAT_HEADER_MAX_SIZE +
+				 (_LW6DAT_ATOM_MAX_SIZE * n)) +
+				1) * sizeof (char));
 	      if (msg)
 		{
-		  for (i = 0; i < n && no_hole; ++i)
+		  full_str = _lw6dat_atom_get_full_str (atom);
+		  seq_from_len =
+		    atom->cmd_str_offset - atom->seq_from_cmd_str_offset;
+		  if (seq_from_len > 0
+		      && seq_from_len < _LW6DAT_HEADER_MAX_SIZE)
 		    {
-		      atom = _lw6dat_stack_get_atom (stack, serial + i);
-		      if (atom)
+		      memcpy (msg, full_str + atom->seq_from_cmd_str_offset,
+			      seq_from_len);
+		      cmd = msg + seq_from_len;
+		      for (i = 0; i < n && no_hole; ++i)
 			{
-			  full_str = _lw6dat_atom_get_full_str (atom);
-			  if (full_str)
+			  atom = _lw6dat_stack_get_atom (stack, serial + i);
+			  if (atom)
 			    {
-			      memcpy (msg + (i * _LW6DAT_ATOM_MAX_SIZE), full_str,
-				      strlen (full_str));
+			      full_str = _lw6dat_atom_get_full_str (atom);
+			      if (full_str)
+				{
+				  memcpy (cmd + (i * _LW6DAT_ATOM_MAX_SIZE),
+					  full_str + atom->cmd_str_offset,
+					  strlen (full_str +
+						  atom->cmd_str_offset));
+				}
+			    }
+			  else
+			    {
+			      no_hole = 0;
 			    }
 			}
-		      else
+		      if (no_hole)
 			{
-			  no_hole = 0;
+			  if (search_dec)
+			    {
+			      _update_msg_list_by_seq_with_search (stack,
+								   msg_list,
+								   seq,
+								   serial - 1,
+								   0, 1);
+			    }
+			  lw6sys_list_push_front (msg_list, msg);
+			  if (search_inc)
+			    {
+			      _update_msg_list_by_seq_with_search (stack,
+								   msg_list,
+								   seq,
+								   serial + n,
+								   1, 0);
+			    }
+			  ret = 1;
 			}
 		    }
-		  if (no_hole)
+		  else
 		    {
-		      if (search_dec)
-			{
-			  _update_msg_list_by_seq_with_search (stack,
-							       msg_list, seq,
-							       serial - 1, 0,
-							       1);
-			}
-		      lw6sys_list_push_front (msg_list, msg);
-		      if (search_inc)
-			{
-			  _update_msg_list_by_seq_with_search (stack,
-							       msg_list, seq,
-							       serial + n, 1,
-							       0);
-			}
-		      ret = 1;
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_ ("bad seq_from_len=%d"), seq_from_len);
 		    }
 		}
 	    }
@@ -809,12 +856,12 @@ _lw6dat_stack_update_atom_str_list_by_serial (_lw6dat_stack_t * stack,
       atom = _lw6dat_stack_get_atom (stack, serial);
       if (atom)
 	{
-	  atom_str =
-	    _lw6dat_atom_recreate_atom_str_from_atom (atom,
-						      stack->node_id_str);
+	  atom_str = _lw6dat_atom_get_full_str (atom);
 	  if (atom_str)
 	    {
-	      lw6sys_list_push_front (msg_list, atom_str);
+	      lw6sys_list_push_front (msg_list,
+				      lw6sys_str_copy (atom_str +
+						       atom->seq_from_cmd_str_offset));
 	      ret = 1;
 	    }
 	}
@@ -854,9 +901,7 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 	  if ((atom->send_flag & send_mask)
 	      && !(atom->sent_status & send_mask))
 	    {
-	      atom_str =
-		_lw6dat_atom_recreate_atom_str_from_atom (atom,
-							  stack->node_id_str);
+	      atom_str = _lw6dat_atom_get_full_str (atom);
 	      if (atom_str)
 		{
 		  if (no_hole)
@@ -864,7 +909,8 @@ _lw6dat_stack_update_atom_str_list_not_sent (_lw6dat_stack_t * stack,
 		      stack->serial_min_to_send[target_index] = serial;
 		    }
 		  atom->sent_status |= send_mask;
-		  lw6sys_list_push_front (msg_list, atom_str);
+		  lw6sys_list_push_front (msg_list,
+					  lw6sys_str_copy (atom_str));
 		  ret = 1;
 		}
 	    }

@@ -132,22 +132,23 @@ extern void _lw6dat_block_free (_lw6dat_block_t * block);
 extern int _lw6dat_block_put_atom (_lw6dat_block_t * block,
 				   int serial,
 				   int order_i, int order_n, int seq,
-				   char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag);
+				   char *full_str,
+				   int seq_from_cmd_str_offset,
+				   int cmd_str_offset, int send_flag);
 extern _lw6dat_atom_t *_lw6dat_block_get_atom (_lw6dat_block_t * block,
 					       int serial);
 extern int _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial,
 						       int *order_i,
-						       int *order_n,
-						       int *seq,
+						       int *order_n, int *seq,
 						       u_int64_t *
 						       logical_from,
-						       int *seq_from_cmd_str_offset,
+						       int
+						       *seq_from_cmd_str_offset,
 						       int *cmd_str_offset,
-						       char
-						       *full_str);
+						       char *full_str);
 //extern char *_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
-//						       char
-//						       *logical_from_str);
+//                                                     char
+//                                                     *logical_from_str);
 
 static inline int
 _lw6dat_block_get_atom_index (_lw6dat_block_t * block, int serial)
@@ -179,11 +180,11 @@ extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 				   int serial,
 				   int order_i, int order_n, int seq,
-				   char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag);
+				   char *full_str,
+				   int seq_from_cmd_str_offset,
+				   int cmd_str_offset, int send_flag);
 extern int _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
-				       char
-				       *full_str,
-				       int send_flag);
+				       char *full_str, int send_flag);
 extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
 extern int _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg,
@@ -239,11 +240,12 @@ extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 				       u_int64_t logical_from, int serial,
 				       int order_i, int order_n, int seq,
-				       char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset);
+				       char *full_str,
+				       int seq_from_cmd_str_offset,
+				       int cmd_str_offset);
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
-					   char
-					   *full_str);
+					   char *full_str);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
 					    char *msg);
 extern int

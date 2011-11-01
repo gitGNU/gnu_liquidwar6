@@ -50,8 +50,7 @@ extern u_int64_t lw6dat_warehouse_get_local_id (lw6dat_warehouse_t *
 extern int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse);
 extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 					  u_int64_t logical_from,
-					  char
-					  *full_str);
+					  char *full_str);
 extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
 					   char *msg);
 extern int

@@ -38,6 +38,8 @@
 #define _TEST_BLOCK_STEP 3
 #define _TEST_BLOCK_TEXT_1 "0+0=zero"
 #define _TEST_BLOCK_TEXT_2 "2+2=4"
+#define _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET 0
+#define _TEST_BLOCK_CMD_STR_OFFSET 0
 #define _TEST_BLOCK_SEND_FLAG 6
 
 #define _TEST_STACK_NODE_ID 0x2345234523452345LL
@@ -46,6 +48,8 @@
 #define _TEST_STACK_ORDER_N 1
 #define _TEST_STACK_ROUND 5
 #define _TEST_STACK_TEXT "..."
+#define _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET 0
+#define _TEST_STACK_CMD_STR_OFFSET 0
 #define _TEST_STACK_NB_RANDOM_PUT (_LW6DAT_MAX_NB_ATOMS/100)
 #define _TEST_STACK_RANDOM_RANGE _LW6DAT_MAX_NB_ATOMS
 #define _TEST_STACK_SEND_FLAG 5
@@ -67,6 +71,8 @@
 #define _TEST_WAREHOUSE_ORDER_N 1
 #define _TEST_WAREHOUSE_ROUND 7
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
+#define _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET 0
+#define _TEST_WAREHOUSE_CMD_STR_OFFSET 0
 #define _TEST_WAREHOUSE_NB_STACKS_OVERFLOW (LW6DAT_MAX_NB_STACKS*2)
 #define _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW (_LW6DAT_MAX_NB_ATOMS*2)
 #define _TEST_WAREHOUSE_SERIAL_I_N_MSG "123 2 4 10 2345234523452345 foo bar"
@@ -94,17 +100,17 @@ test_atom ()
   {
     _lw6dat_atom_t atom;
     char *text = NULL;
-    char *cmd = NULL;
+    //    char *cmd = NULL;
 
     _lw6dat_atom_zero (&atom);
-    if (_lw6dat_atom_get_text (&atom))
+    if (_lw6dat_atom_get_full_str (&atom))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
 		    _x_ ("get text returned something on a zeroed atom"));
 	ret = 0;
       }
-    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
-    text = _lw6dat_atom_get_text (&atom);
+    _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_SHORT);
+    text = _lw6dat_atom_get_full_str (&atom);
     if (text)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
@@ -113,8 +119,8 @@ test_atom ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
-    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
-    text = _lw6dat_atom_get_text (&atom);
+    _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_LONG);
+    text = _lw6dat_atom_get_full_str (&atom);
     if (text)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
@@ -123,8 +129,8 @@ test_atom ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
-    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_SHORT);
-    text = _lw6dat_atom_get_text (&atom);
+    _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_SHORT);
+    text = _lw6dat_atom_get_full_str (&atom);
     if (text)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
@@ -133,8 +139,8 @@ test_atom ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
-    _lw6dat_atom_set_text (&atom, _TEST_ATOM_TEXT_LONG);
-    text = _lw6dat_atom_get_text (&atom);
+    _lw6dat_atom_set_full_str (&atom, _TEST_ATOM_TEXT_LONG);
+    text = _lw6dat_atom_get_full_str (&atom);
     if (text)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("atom text is \"%s\""), text);
@@ -143,14 +149,16 @@ test_atom ()
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to get atom text"));
       }
-    cmd =
-      _lw6dat_atom_recreate_atom_str_from_atom (&atom,
-						_TEST_ATOM_LOGICAL_FROM_STR);
-    if (cmd)
-      {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("recreated cmd is \"%s\""), cmd);
-	LW6SYS_FREE (cmd);
-      }
+    /*
+       cmd =
+       _lw6dat_atom_recreate_atom_str_from_atom (&atom,
+       _TEST_ATOM_LOGICAL_FROM_STR);
+       if (cmd)
+       {
+       lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("recreated cmd is \"%s\""), cmd);
+       LW6SYS_FREE (cmd);
+       }
+     */
     _lw6dat_atom_clear (&atom);
   }
 
@@ -183,7 +191,8 @@ test_block ()
 	    if (_lw6dat_block_put_atom
 		(block, serial, order_i, _TEST_BLOCK_ORDER_N,
 		 _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1,
-		 _TEST_BLOCK_SEND_FLAG))
+		 _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
+		 _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG))
 	      {
 		// ok
 	      }
@@ -204,7 +213,9 @@ test_block ()
 		    _x_ ("trying various invalid atom \"put\" calls"));
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_2, _TEST_BLOCK_SEND_FLAG))
+	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_2,
+	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
+	     _TEST_BLOCK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("wrong duplicate detection"));
@@ -216,12 +227,16 @@ test_block ()
 	  }
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0 - 1, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1, _TEST_BLOCK_SEND_FLAG)
+	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1,
+	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
+	     _TEST_BLOCK_SEND_FLAG)
 	    || _lw6dat_block_put_atom (block,
 				       _TEST_BLOCK_SERIAL_0 +
 				       _LW6DAT_NB_ATOMS_PER_BLOCK, 0,
 				       _TEST_BLOCK_ORDER_N, _TEST_BLOCK_ROUND,
 				       _TEST_BLOCK_TEXT_1,
+				       _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
+				       _TEST_BLOCK_CMD_STR_OFFSET,
 				       _TEST_BLOCK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong range check"));
@@ -326,7 +341,8 @@ test_stack ()
 	seq = _TEST_STACK_ROUND + i;
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
-	     seq, _TEST_STACK_TEXT, _TEST_STACK_SEND_FLAG))
+	     seq, _TEST_STACK_TEXT, _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET,
+	     _TEST_STACK_CMD_STR_OFFSET, _TEST_STACK_SEND_FLAG))
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
 			_x_ ("error putting atom on stack i=%d serial=%d"), i,
@@ -583,7 +599,7 @@ _test_warehouse_copy_atoms_callback (void *func_data, void *data)
   if (lw6dat_warehouse_put_atom_str
       (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, atom_str))
     {
-     TMP1("%s",atom_str);
+      //TMP1("%s",atom_str);
       // ok
     }
   else
@@ -626,7 +642,8 @@ test_warehouse ()
 	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
 	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
-	     _TEST_WAREHOUSE_TEXT))
+	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,
 			_x_ ("text \"%s\" put into warehouse"),
@@ -637,7 +654,9 @@ test_warehouse ()
 	    if (!_lw6dat_warehouse_put_atom
 		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-		 _TEST_WAREHOUSE_ROUND, _TEST_WAREHOUSE_TEXT))
+		 _TEST_WAREHOUSE_ROUND, _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
 		overflow = 1;
 	      }
@@ -672,7 +691,8 @@ test_warehouse ()
 	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
 	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
-	     _TEST_WAREHOUSE_TEXT))
+	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
 	    for (i = 1; i < _TEST_WAREHOUSE_NB_ATOMS_OVERFLOW; ++i)
 	      {
@@ -680,7 +700,9 @@ test_warehouse ()
 		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
 		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
-		     _TEST_WAREHOUSE_TEXT))
+		     _TEST_WAREHOUSE_TEXT,
+		     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+		     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 		  {
 		    lw6sys_log (LW6SYS_LOG_WARNING,
 				_x_ ("unable to put atom %d"), i);
@@ -691,7 +713,9 @@ test_warehouse ()
 		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
 		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
-		 _TEST_WAREHOUSE_TEXT))
+		 _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
+		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
 		lw6sys_log (LW6SYS_LOG_NOTICE,
 			    _x_
@@ -836,7 +860,6 @@ test_warehouse ()
 					("seq info min=%d max=%d draft=%d reference=%d"),
 					seq_min, seq_max, seq_draft,
 					seq_reference);
-
 
 			    lw6sys_list_free (list_not_sent);
 			  }

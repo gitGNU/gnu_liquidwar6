@@ -56,7 +56,8 @@ _lw6dat_block_free (_lw6dat_block_t * block)
 int
 _lw6dat_block_put_atom (_lw6dat_block_t * block,
 			int serial, int order_i, int order_n, int seq,
-			char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag)
+			char *full_str, int seq_from_cmd_str_offset,
+			int cmd_str_offset, int send_flag)
 {
   int ret = 0;
   _lw6dat_atom_t *atom;
@@ -95,13 +96,14 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block,
 	      atom->order_i = order_i;
 	      atom->order_n = order_n;
 	      atom->seq = seq;
-	      atom->seq_from_cmd_str_offset=seq_from_cmd_str_offset;
-	      atom->cmd_str_offset=cmd_str_offset;
+	      atom->seq_from_cmd_str_offset = seq_from_cmd_str_offset;
+	      atom->cmd_str_offset = cmd_str_offset;
 	      atom->send_flag = send_flag;
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("couldn't set atom full_str"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_ ("couldn't set atom full_str"));
 	    }
 	}
     }

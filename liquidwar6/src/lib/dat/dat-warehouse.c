@@ -274,7 +274,8 @@ int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
 			    int serial, int order_i, int order_n, int seq,
-			    char *full_str,char *seq_from_cmd_str, char *cmd_str)
+			    char *full_str, int seq_from_cmd_str_offset,
+			    int cmd_str_offset)
 {
   int stack_index = -1;
   int send_flag = 0;
@@ -291,7 +292,9 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
       send_flag = _lw6dat_not_flag (stack_index);
       ret =
 	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, seq, full_str, seq_from_cmd_str,cmd_str,send_flag);
+				order_i, order_n, seq, full_str,
+				seq_from_cmd_str_offset, cmd_str_offset,
+				send_flag);
     }
   else
     {
@@ -304,8 +307,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
-				u_int64_t logical_from,
-				char *full_str)
+				u_int64_t logical_from, char *full_str)
 {
   int ret = 0;
   int serial = 0;
@@ -313,7 +315,8 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
   int order_n = 0;
   int seq = 0;
   u_int64_t logical_from2 = 0L;
-  char *cmd = NULL;
+  int seq_from_cmd_str_offset = 0;
+  int cmd_str_offset = 0;
 
   /*
    * It's more efficient to use _lw6dat_warehouse_put_atom
@@ -322,14 +325,16 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    * in most cases.
    */
   if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from2, &cmd,
-       full_str))
+      (&serial, &order_i, &order_n, &seq, &logical_from2,
+       &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       if (logical_from == logical_from2)
 	{
 	  ret =
 	    _lw6dat_warehouse_put_atom (warehouse, logical_from,
-					serial, order_i, order_n, seq, cmd);
+					serial, order_i, order_n, seq,
+					full_str, seq_from_cmd_str_offset,
+					cmd_str_offset);
 	}
       else
 	{
@@ -358,15 +363,13 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  */
 int
 lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
-			       u_int64_t logical_from,
-			       char *full_str)
+			       u_int64_t logical_from, char *full_str)
 {
   int ret = 0;
 
   ret =
     _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse,
-				    logical_from,
-				    full_str);
+				    logical_from, full_str);
 
   return ret;
 }
