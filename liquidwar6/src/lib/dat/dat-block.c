@@ -56,50 +56,52 @@ _lw6dat_block_free (_lw6dat_block_t * block)
 int
 _lw6dat_block_put_atom (_lw6dat_block_t * block,
 			int serial, int order_i, int order_n, int seq,
-			char *text, int send_flag)
+			char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag)
 {
   int ret = 0;
   _lw6dat_atom_t *atom;
-  char *old_text = NULL;
+  char *old_full_str = NULL;
 
   if (serial >= block->serial_0 && serial <= block->serial_n_1)
     {
       atom = &(block->atoms[serial - block->serial_0]);
-      old_text = _lw6dat_atom_get_text (atom);
-      if (old_text)
+      old_full_str = _lw6dat_atom_get_full_str (atom);
+      if (old_full_str)
 	{
-	  if (strcmp (old_text, text) || order_i != atom->order_i
+	  if (strcmp (old_full_str, full_str) || order_i != atom->order_i
 	      || order_n != atom->order_n || serial != atom->serial)
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
-			  ("inconsistency, atom set twice atom->serial=%d atom->order_i=%d atom->order_n=%d atom->text=\"%s\" but serial=%d order_i=%d order_n=%d text=\"%s\""),
+			  ("inconsistency, atom set twice atom->serial=%d atom->order_i=%d atom->order_n=%d atom->full_str=\"%s\" but serial=%d order_i=%d order_n=%d full_str=\"%s\""),
 			  atom->serial, atom->order_i, atom->order_n,
-			  old_text, serial, order_i, order_n, text);
+			  old_full_str, serial, order_i, order_n, full_str);
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
-			  ("receiving same atom serial=%d order_i=%d order_n=%d text=\"%s\""),
-			  serial, order_i, order_n, text);
+			  ("receiving same atom serial=%d order_i=%d order_n=%d full_str=\"%s\""),
+			  serial, order_i, order_n, full_str);
 	      ret = 1;
 	    }
 	}
       else
 	{
-	  ret = _lw6dat_atom_set_text (atom, text);
+	  ret = _lw6dat_atom_set_full_str (atom, full_str);
 	  if (ret)
 	    {
 	      atom->serial = serial;
 	      atom->order_i = order_i;
 	      atom->order_n = order_n;
 	      atom->seq = seq;
+	      atom->seq_from_cmd_str_offset=seq_from_cmd_str_offset;
+	      atom->cmd_str_offset=cmd_str_offset;
 	      atom->send_flag = send_flag;
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("couldn't set atom text"));
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("couldn't set atom full_str"));
 	    }
 	}
     }

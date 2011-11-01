@@ -131,7 +131,7 @@ _lw6dat_stack_get_serial (_lw6dat_stack_t * stack)
 int
 _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 			int serial, int order_i, int order_n, int seq,
-			char *text, int send_flag)
+			char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag)
 {
   int ret = 0;
   int block_index = 0;
@@ -226,7 +226,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
 	  ret =
 	    _lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
-				    text, send_flag);
+				    full_str, seq_from_cmd_str_offset,cmd_str_offset,send_flag);
 	  if (!ret)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -254,7 +254,7 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
 int
 _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
-			    char *atom_str_serial_i_n_seq_from_cmd,
+			    char *full_str,
 			    int send_flag)
 {
   int ret = 0;
@@ -263,15 +263,16 @@ _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
   int order_n = 0;
   int seq = 0;
   u_int64_t logical_from = 0L;
-  char *cmd = NULL;
+  int seq_from_cmd_str_offset = 0;
+  int cmd_str_offset = 0;
 
   if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
-      (&serial, &order_i, &order_n, &seq, &logical_from, &cmd,
-       atom_str_serial_i_n_seq_from_cmd))
+      (&serial, &order_i, &order_n, &seq, &logical_from, &seq_from_cmd_str_offset,&cmd_str_offset,
+       full_str))
     {
       ret =
 	_lw6dat_stack_put_atom (stack,
-				serial, order_i, order_n, seq, cmd,
+				serial, order_i, order_n, seq, full_str,seq_from_cmd_str_offset,cmd_str_offset,
 				send_flag);
     }
 
@@ -323,7 +324,9 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
   int p = 0;
   int s = 0;
   int serial = 0;
-  char atom_str[_LW6DAT_ATOM_MAX_SIZE + 1];
+  char full_str[_LW6DAT_HEADER_MAX_SIZE+_LW6DAT_ATOM_MAX_SIZE + 1];
+  int seq_from_cmd_str_offset=0;
+  int cmd_str_offset=0;
   char *next = NULL;
 
   next = msg;
@@ -331,7 +334,7 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
     {
       if (lw6msg_word_first_id_64 (&logical_from, &next, next))
 	{
-	  atom_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
+	  full_str[_LW6DAT_ATOM_MAX_SIZE] = '\0';
 	  len = strlen (msg);
 	  order_n = (lw6sys_max ((len - 1), 0) / _LW6DAT_ATOM_MAX_SIZE) + 1;
 	  for (order_i = 0; order_i < order_n; ++order_i)
@@ -341,15 +344,42 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, char *msg, int send_flag)
 	      if (p < len)
 		{
 		  s = lw6sys_min (len - p, _LW6DAT_ATOM_MAX_SIZE);
-		  if (s > 0)
+		  if (s >= 0)
 		    {
-		      memcpy (atom_str, msg + p, s);
-		      atom_str[s] = '\0';
+		      snprintf(full_str,_LW6DAT_HEADER_MAX_SIZE,"%d %d %d ",serial,order_i,order_n);
+		      seq_from_cmd_str_offset=strlen(full_str);
+		      if (seq_from_cmd_str_offset<_LW6DAT_HEADER_MAX_SIZE)
+			{
+			  /*
+			   * stupid cast as long long unsigned int as GCC can't figure
+			   * it's the same as u_int64_t
+			   */
+			  snprintf(full_str+seq_from_cmd_str_offset,_LW6DAT_HEADER_MAX_SIZE-seq_from_cmd_str_offset,"%d %" LW6SYS_PRINTF_LL "x ",seq,(long long unsigned int) logical_from);
+		      cmd_str_offset=strlen(full_str);
+		      if (cmd_str_offset<_LW6DAT_HEADER_MAX_SIZE)
+			{
+		      if (s>0) {
+			memcpy (full_str+cmd_str_offset, msg + p, s);
+		      } else {
+			lw6sys_log(LW6SYS_LOG_WARNING,_x_("0 sized atom"));
+		      }
+		      full_str[cmd_str_offset+s] = '\0';
 		      serial = _lw6dat_stack_get_serial (stack) + 1;
+		      //TMP2("%d: \"%s\"",serial,full_str);
 		      ret = ret
 			&& _lw6dat_stack_put_atom (stack,
 						   serial, order_i, order_n,
-						   seq, atom_str, send_flag);
+						   seq, full_str, seq_from_cmd_str_offset,cmd_str_offset,send_flag);
+			} else
+			{
+			  lw6sys_log(LW6SYS_LOG_WARNING,_x_("header is too long (cmd_str_offest=%d)"),cmd_str_offset);
+			  ret=0;			  
+			}
+			} else
+			{
+			  lw6sys_log(LW6SYS_LOG_WARNING,_x_("header is too long (seq_from_cmd_str_offset=%d)"),seq_from_cmd_str_offset);
+			  ret=0;
+			}
 		    }
 		}
 	    }
@@ -405,7 +435,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 				      _x_
 				      ("bad seq %d should be %d for atom \"%s\""),
 				      atom->seq, seq,
-				      _lw6dat_atom_get_text (atom));
+				      _lw6dat_atom_get_full_str (atom));
 			}
 		      if (atom->order_i != order_i)
 			{
@@ -414,7 +444,7 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 				      _x_
 				      ("bad order_i %d should be %d for atom \"%s\""),
 				      atom->order_i, order_i,
-				      _lw6dat_atom_get_text (atom));
+				      _lw6dat_atom_get_full_str (atom));
 			}
 		    }
 		  else
@@ -688,7 +718,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 {
   int ret = 0;
   _lw6dat_atom_t *atom = NULL;
-  char *text = NULL;
+  char *full_str = NULL;
   char *msg = NULL;
   int i, n;
   int no_hole = 1;
@@ -712,11 +742,11 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 		      atom = _lw6dat_stack_get_atom (stack, serial + i);
 		      if (atom)
 			{
-			  text = _lw6dat_atom_get_text (atom);
-			  if (text)
+			  full_str = _lw6dat_atom_get_full_str (atom);
+			  if (full_str)
 			    {
-			      memcpy (msg + (i * _LW6DAT_ATOM_MAX_SIZE), text,
-				      strlen (text));
+			      memcpy (msg + (i * _LW6DAT_ATOM_MAX_SIZE), full_str,
+				      strlen (full_str));
 			    }
 			}
 		      else

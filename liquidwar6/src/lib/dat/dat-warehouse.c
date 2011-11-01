@@ -274,7 +274,7 @@ int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
 			    int serial, int order_i, int order_n, int seq,
-			    char *text)
+			    char *full_str,char *seq_from_cmd_str, char *cmd_str)
 {
   int stack_index = -1;
   int send_flag = 0;
@@ -291,7 +291,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
       send_flag = _lw6dat_not_flag (stack_index);
       ret =
 	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), serial,
-				order_i, order_n, seq, text, send_flag);
+				order_i, order_n, seq, full_str, seq_from_cmd_str,cmd_str,send_flag);
     }
   else
     {
@@ -305,7 +305,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 				u_int64_t logical_from,
-				char *atom_str_serial_i_n_seq_from_cmd)
+				char *full_str)
 {
   int ret = 0;
   int serial = 0;
@@ -323,7 +323,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
    */
   if (_lw6dat_atom_parse_serial_i_n_seq_from_cmd
       (&serial, &order_i, &order_n, &seq, &logical_from2, &cmd,
-       atom_str_serial_i_n_seq_from_cmd))
+       full_str))
     {
       if (logical_from == logical_from2)
 	{
@@ -349,7 +349,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
  *
  * @warehouse: warehouse object to use
  * @logical_from: from who the message came from originally
- * @atom_str_serial_i_n_seq_from_cmd: message of the form serial i n seq from cmd
+ * @full_str: message of the form serial i n seq from cmd
  *
  * Puts an atomic string in the object, this kind of string is
  * typically received on the network.
@@ -359,14 +359,14 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 int
 lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse,
 			       u_int64_t logical_from,
-			       char *atom_str_serial_i_n_seq_from_cmd)
+			       char *full_str)
 {
   int ret = 0;
 
   ret =
     _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse,
 				    logical_from,
-				    atom_str_serial_i_n_seq_from_cmd);
+				    full_str);
 
   return ret;
 }

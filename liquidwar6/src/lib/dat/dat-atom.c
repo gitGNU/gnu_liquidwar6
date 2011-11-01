@@ -35,52 +35,52 @@ _lw6dat_atom_zero (_lw6dat_atom_t * atom)
 void
 _lw6dat_atom_clear (_lw6dat_atom_t * atom)
 {
-  if (atom->text_if_longer)
+  if (atom->full_str_if_longer)
     {
-      LW6SYS_FREE (atom->text_if_longer);
+      LW6SYS_FREE (atom->full_str_if_longer);
     }
   memset (atom, 0, sizeof (_lw6dat_atom_t));
 }
 
 int
-_lw6dat_atom_set_text (_lw6dat_atom_t * atom, char *text)
+_lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, char *full_str)
 {
   int ret = 0;
   int len = 0;
 
-  len = strlen (text);
+  len = strlen (full_str);
   if (len <= _LW6DAT_ATOM_STATIC_SIZE)
     {
-      memcpy (atom->text_if_short, text, len);
-      atom->text_if_short[len] = '\0';
-      if (atom->text_if_longer)
+      memcpy (atom->full_str_if_short, full_str, len);
+      atom->full_str_if_short[len] = '\0';
+      if (atom->full_str_if_longer)
 	{
-	  LW6SYS_FREE (atom->text_if_longer);
-	  atom->text_if_longer = NULL;
+	  LW6SYS_FREE (atom->full_str_if_longer);
+	  atom->full_str_if_longer = NULL;
 	}
       ret = 1;
     }
   else
     {
-      if (atom->text_if_longer)
+      if (atom->full_str_if_longer)
 	{
-	  if (strlen (atom->text_if_longer) >= len)
+	  if (strlen (atom->full_str_if_longer) >= len)
 	    {
-	      memcpy (atom->text_if_longer, text, len);
-	      atom->text_if_longer[len] = '\0';
+	      memcpy (atom->full_str_if_longer, full_str, len);
+	      atom->full_str_if_longer[len] = '\0';
 	      ret = 1;
 	    }
 	  else
 	    {
-	      LW6SYS_FREE (atom->text_if_longer);
-	      atom->text_if_longer = NULL;
+	      LW6SYS_FREE (atom->full_str_if_longer);
+	      atom->full_str_if_longer = NULL;
 	    }
 	}
-      if (!atom->text_if_longer)
+      if (!atom->full_str_if_longer)
 	{
-	  atom->text_if_longer = lw6sys_str_copy (text);
+	  atom->full_str_if_longer = lw6sys_str_copy (full_str);
 	}
-      if (atom->text_if_longer)
+      if (atom->full_str_if_longer)
 	{
 	  ret = 1;
 	}
@@ -92,19 +92,19 @@ _lw6dat_atom_set_text (_lw6dat_atom_t * atom, char *text)
 }
 
 char *
-_lw6dat_atom_get_text (_lw6dat_atom_t * atom)
+_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom)
 {
   char *ret = NULL;
 
   if (atom->not_null)
     {
-      if (atom->text_if_longer)
+      if (atom->full_str_if_longer)
 	{
-	  ret = atom->text_if_longer;
+	  ret = atom->full_str_if_longer;
 	}
       else
 	{
-	  ret = atom->text_if_short;
+	  ret = atom->full_str_if_short;
 	}
     }
 
@@ -115,12 +115,13 @@ int
 _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 					    int *order_n, int *seq,
 					    u_int64_t * logical_from,
-					    char **cmd,
+					    int *seq_from_cmd_str_offset,
+					    int *cmd_str_offset,
 					    char
-					    *atom_str_serial_i_n_seq_from_cmd)
+					    *full_str)
 {
   int ret = 0;
-  char *next = atom_str_serial_i_n_seq_from_cmd;
+  char *next = full_str;
 
   if (lw6msg_word_first_int_gt0 (serial, &next, next))
     {
@@ -128,11 +129,19 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 	{
 	  if (lw6msg_word_first_int_gt0 (order_n, &next, next))
 	    {
+	      /*
+	       * Now this is a "trick", we set cmd to the part that is just
+	       * after order_n and before the seq, this is so that the stored
+	       * string contains seq and logical_from. OK, it's redundant, but
+	       * the advantage is that it allows us to cache the whole stuff
+	       * and avoid rewritting it each time we need to read it.
+	       */
+	      (*seq_from_cmd_str_offset) = next-full_str;
 	      if (lw6msg_word_first_int_ge0 (seq, &next, next))
 		{
 		  if (lw6msg_word_first_id_64 (logical_from, &next, next))
 		    {
-		      (*cmd) = next;
+		      (*cmd_str_offset)=next-full_str;
 		      ret = 1;
 		    }
 		  else
@@ -140,59 +149,61 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 		      lw6sys_log (LW6SYS_LOG_WARNING,
 				  _x_
 				  ("bad value for logical_from in atom \"%s\""),
-				  atom_str_serial_i_n_seq_from_cmd);
+				  full_str);
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (LW6SYS_LOG_WARNING,
 			      _x_ ("bad value for seq in atom \"%s\""),
-			      atom_str_serial_i_n_seq_from_cmd);
+			      full_str);
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_ ("bad value for order_n in atom \"%s\""),
-			  atom_str_serial_i_n_seq_from_cmd);
+			  full_str);
 	    }
 	}
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
 		      _x_ ("bad value for order_i in atom \"%s\""),
-		      atom_str_serial_i_n_seq_from_cmd);
+		      full_str);
 	}
     }
   else
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("bad value for serial in atom \"%s\""),
-		  atom_str_serial_i_n_seq_from_cmd);
+		  full_str);
     }
 
   return ret;
 }
 
+/*
 char *
 _lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
 					  char *logical_from_str)
 {
   char *ret = NULL;
-  char *text = NULL;
+  char *full_str = NULL;
 
-  text = _lw6dat_atom_get_text (atom);
-  if (text != NULL)
+  full_str = _lw6dat_atom_get_full_str (atom);
+  if (full_str != NULL)
     {
+      
+      //ret =
+      //	lw6sys_new_sprintf ("%d %d %d %d %s %s", atom->serial, atom->order_i,
+      //			    atom->order_n, atom->seq, logical_from_str, full_str);
+      //
       ret =
-	lw6sys_new_sprintf ("%d %d %d %d %s %s", atom->serial, atom->order_i,
-			    atom->order_n, atom->seq, logical_from_str, text);
-      /*
-         ret =
-         lw6sys_new_sprintf ("%d %d %d %s", atom->serial, atom->order_i,
-         atom->order_n, text);
-       */
+	lw6sys_new_sprintf ("%d %d %d %s", atom->serial, atom->order_i,
+			    atom->order_n, full_str);
     }
 
   return ret;
 }
+*/

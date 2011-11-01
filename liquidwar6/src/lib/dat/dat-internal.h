@@ -29,11 +29,19 @@
  * This limit does not mean we can't store longer lines,
  * only if longer they'll be allocated dynamically.
  */
-#define _LW6DAT_ATOM_STATIC_SIZE 79
+#define _LW6DAT_ATOM_STATIC_SIZE 99
 /*
  * If longer than this, messages will be cut in slices
+ * Note that this isn't an absolute size, atoms can store
+ * a little more informations, for instance the header
+ * will be added and is not included in this.
  */
-#define _LW6DAT_ATOM_MAX_SIZE 1279
+#define _LW6DAT_ATOM_MAX_SIZE 1199
+/*
+ * This must be able to store the "serial i n seq from" 
+ * header.
+ */
+#define _LW6DAT_HEADER_MAX_SIZE 119
 /*
  * This makes blocks of approx. 250kb
  */
@@ -74,8 +82,11 @@ typedef struct _lw6dat_atom_s
   int order_i;
   int order_n;
   int seq;
-  char text_if_short[_LW6DAT_ATOM_STATIC_SIZE + 1];
-  char *text_if_longer;
+  char full_str_if_short[_LW6DAT_ATOM_STATIC_SIZE + 1];
+  char *full_str_if_longer;
+  int seq_from_cmd_str_offset;
+  int cmd_str_offset;
+  char *recreated_cmd_cache;
 } _lw6dat_atom_t;
 
 typedef struct _lw6dat_block_s
@@ -112,8 +123,8 @@ typedef struct _lw6dat_warehouse_s
 /* dat-atom.c */
 extern void _lw6dat_atom_zero (_lw6dat_atom_t * atom);
 extern void _lw6dat_atom_clear (_lw6dat_atom_t * atom);
-extern int _lw6dat_atom_set_text (_lw6dat_atom_t * atom, char *text);
-extern char *_lw6dat_atom_get_text (_lw6dat_atom_t * atom);
+extern int _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, char *full_str);
+extern char *_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom);
 
 /* dat-block.c */
 extern _lw6dat_block_t *_lw6dat_block_new (int serial_0);
@@ -121,7 +132,7 @@ extern void _lw6dat_block_free (_lw6dat_block_t * block);
 extern int _lw6dat_block_put_atom (_lw6dat_block_t * block,
 				   int serial,
 				   int order_i, int order_n, int seq,
-				   char *text, int send_flag);
+				   char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag);
 extern _lw6dat_atom_t *_lw6dat_block_get_atom (_lw6dat_block_t * block,
 					       int serial);
 extern int _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial,
@@ -130,12 +141,13 @@ extern int _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial,
 						       int *seq,
 						       u_int64_t *
 						       logical_from,
-						       char **cmd,
+						       int *seq_from_cmd_str_offset,
+						       int *cmd_str_offset,
 						       char
-						       *atom_str_serial_i_n_seq_from_cmd);
-extern char *_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
-						       char
-						       *logical_from_str);
+						       *full_str);
+//extern char *_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
+//						       char
+//						       *logical_from_str);
 
 static inline int
 _lw6dat_block_get_atom_index (_lw6dat_block_t * block, int serial)
@@ -167,10 +179,10 @@ extern int _lw6dat_stack_get_serial (_lw6dat_stack_t * stack);
 extern int _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 				   int serial,
 				   int order_i, int order_n, int seq,
-				   char *text, int send_flag);
+				   char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset,int send_flag);
 extern int _lw6dat_stack_put_atom_str (_lw6dat_stack_t * stack,
 				       char
-				       *atom_str_serial_i_n_seq_from_cmd,
+				       *full_str,
 				       int send_flag);
 extern _lw6dat_atom_t *_lw6dat_stack_get_atom (_lw6dat_stack_t * stack,
 					       int serial);
@@ -227,11 +239,11 @@ extern int _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 extern int _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 				       u_int64_t logical_from, int serial,
 				       int order_i, int order_n, int seq,
-				       char *text);
+				       char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset);
 extern int _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
 					   u_int64_t logical_from,
 					   char
-					   *atom_str_serial_i_n_seq_from_cmd);
+					   *full_str);
 extern int _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse,
 					    char *msg);
 extern int
