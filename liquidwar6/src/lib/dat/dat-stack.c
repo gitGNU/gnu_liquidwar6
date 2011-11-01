@@ -92,7 +92,7 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 {
   int ret = 0;
 
-  if (lw6sys_check_id (node_id) && serial_0 > 0)
+  if (lw6sys_check_id (node_id) && serial_0 > _LW6DAT_SERIAL_INVALID)
     {
       _lw6dat_stack_clear (stack);
       stack->node_id = node_id;
@@ -107,9 +107,20 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
       stack->serial_max = serial_0 - 1;
       if (stack->node_id_str != NULL)
 	{
-	  ret = 1;
+	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
+	      && stack->serial_n_1 >= _LW6DAT_SERIAL_INVALID)
+	    {
+	      TMP1 ("init %d", stack->serial_0);
+	      ret = 1;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("bad range serial_0=%d and serial_n_1=%d"),
+			  stack->serial_0, stack->serial_n_1);
+	    }
 	}
-      else
+      if (!ret)
 	{
 	  _lw6dat_stack_clear (stack);
 	}
@@ -247,8 +258,24 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 
   if (ret)
     {
-      stack->serial_min = lw6sys_min (stack->serial_min, serial);
-      stack->serial_max = lw6sys_max (stack->serial_max, serial);
+      if (serial > _LW6DAT_SERIAL_INVALID)
+	{
+	  stack->serial_min = lw6sys_min (stack->serial_min, serial);
+	  stack->serial_max = lw6sys_max (stack->serial_max, serial);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("bad serial %d in atom \"%d\""), serial);
+	}
+    }
+
+  if (stack->serial_0 <= _LW6DAT_SERIAL_INVALID
+      || stack->serial_n_1 < _LW6DAT_SERIAL_INVALID)
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("bad range serial_0=%d and serial_n_1=%d (serial=%d)"),
+		  stack->serial_0, stack->serial_n_1, serial);
     }
 
   return ret;
@@ -503,10 +530,12 @@ _lw6dat_stack_calc_serial_draft_and_reference (_lw6dat_stack_t * stack)
 	}
     }
 
-  TMP4 ("serial_draft=%d serial_reference=%d seq_draft=%d seq_reference=%d",
-	stack->serial_draft, stack->serial_reference,
-	_lw6dat_stack_get_seq_draft (stack),
-	_lw6dat_stack_get_seq_reference (stack));
+  TMP6
+    ("serial_draft=%d serial_reference=%d seq_draft=%d seq_reference=%d serial_0=%d serial_n_1=%d",
+     stack->serial_draft, stack->serial_reference,
+     _lw6dat_stack_get_seq_draft (stack),
+     _lw6dat_stack_get_seq_reference (stack), stack->serial_0,
+     stack->serial_n_1);
 
   return ret;
 }
