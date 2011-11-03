@@ -44,7 +44,9 @@ _lw6dat_stack_clear (_lw6dat_stack_t * stack)
       stack->node_id_str = NULL;
     }
   stack->serial_0 = _LW6DAT_SERIAL_START;
-  stack->serial_n_1 = _LW6DAT_SERIAL_START - 1;
+  stack->serial_n_1 =
+    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
+    1;
   stack->serial_min = INT_MAX;
   stack->serial_max = _LW6DAT_SERIAL_INVALID;
   stack->serial_draft = stack->serial_max;
@@ -69,8 +71,11 @@ _lw6dat_stack_purge (_lw6dat_stack_t * stack)
   int i = 0;
 
   stack->serial_0 = stack->serial_n_1 + 1;
+  stack->serial_n_1 =
+    stack->serial_0 + (_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) -
+    1;
   stack->serial_min = INT_MAX;
-  stack->serial_max = stack->serial_0 - 1;
+  stack->serial_max = _LW6DAT_SERIAL_INVALID;
   stack->serial_draft = stack->serial_max;
   stack->serial_reference = stack->serial_max;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -119,8 +124,11 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 
       stack->node_id_str = lw6sys_id_ltoa (node_id);
       stack->serial_0 = serial_0;
-      stack->serial_n_1 = serial_0 - 1;
-      stack->serial_max = serial_0 - 1;
+      stack->serial_n_1 =
+	stack->serial_0 +
+	(_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) - 1;
+      //stack->serial_min=INT_MAX;
+      //stack->serial_max = _LW6DAT_SERIAL_INVALID;
       if (stack->node_id_str != NULL)
 	{
 	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
@@ -175,100 +183,136 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
    */
 
   delta = block_index;
-  if (delta < 0)
+  if (delta > -_LW6DAT_BLOCK_DELTA_MAX && delta < _LW6DAT_BLOCK_DELTA_MAX)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks up delta=%d"),
-		  delta);
-      if (delta > -_LW6DAT_MAX_NB_BLOCKS)
+      if (delta < 0)
 	{
-	  delta_min = delta;
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("very big serial leap, history will be cleared, delta=%d"),
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks up delta=%d"),
 		      delta);
-	  delta_min = -_LW6DAT_MAX_NB_BLOCKS;
-	}
-      for (i = _LW6DAT_MAX_NB_BLOCKS - 1;
-	   i >= _LW6DAT_MAX_NB_BLOCKS + delta_min; --i)
-	{
-	  if (stack->blocks[i])
+	  if (delta > -_LW6DAT_MAX_NB_BLOCKS)
 	    {
-	      _lw6dat_block_free (stack->blocks[i]);
-	      stack->blocks[i] = NULL;
+	      delta_min = delta;
 	    }
-	}
-      for (i = _LW6DAT_MAX_NB_BLOCKS + delta - 1; i >= 0; --i)
-	{
-	  stack->blocks[i - delta] = stack->blocks[i];
-	  stack->blocks[i] = NULL;
-	}
-      stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
-      stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
-    }
-
-  //delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
-  delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
-  if (delta > 0)
-    {
-      //TMP2("delta very big=%d serial=%d",delta,serial);
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks down delta=%d"),
-		  delta);
-      if (delta < _LW6DAT_MAX_NB_BLOCKS)
-	{
-	  delta_max = delta;
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("very big serial leap, history will be cleared, delta=%d"),
-		      delta);
-	  delta_max = _LW6DAT_MAX_NB_BLOCKS;
-	}
-      for (i = 0; i < delta_max; ++i)
-	{
-	  if (stack->blocks[i])
-	    {
-	      _lw6dat_block_free (stack->blocks[i]);
-	      stack->blocks[i] = NULL;
-	    }
-	}
-      for (i = delta; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
-	{
-	  stack->blocks[i - delta] = stack->blocks[i];
-	  stack->blocks[i] = NULL;
-	}
-      stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
-      stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
-    }
-
-  block_index = _lw6dat_stack_get_block_index (stack, serial);
-  if (block_index >= 0 && block_index < _LW6DAT_MAX_NB_BLOCKS)
-    {
-      block = stack->blocks[block_index];
-      if (!block)
-	{
-	  stack->blocks[block_index] =
-	    _lw6dat_block_new (stack->serial_0 +
-			       block_index * _LW6DAT_NB_ATOMS_PER_BLOCK);
-	  block = stack->blocks[block_index];
-	}
-      if (block)
-	{
-	  stack->serial_n_1 =
-	    lw6sys_max (stack->serial_n_1, block->serial_n_1);
-	  ret =
-	    _lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
-				    full_str, seq_from_cmd_str_offset,
-				    cmd_str_offset, send_flag);
-	  if (!ret)
+	  else
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("unable to put atom in stack serial=%d"),
-			  serial);
+			  _x_
+			  ("very big serial leap, history will be cleared, delta=%d"),
+			  delta);
+	      delta_min = -_LW6DAT_MAX_NB_BLOCKS;
+	    }
+	  for (i = _LW6DAT_MAX_NB_BLOCKS - 1;
+	       i >= _LW6DAT_MAX_NB_BLOCKS + delta_min; --i)
+	    {
+	      if (stack->blocks[i])
+		{
+		  _lw6dat_block_free (stack->blocks[i]);
+		  stack->blocks[i] = NULL;
+		}
+	    }
+	  for (i = _LW6DAT_MAX_NB_BLOCKS + delta - 1; i >= 0; --i)
+	    {
+	      stack->blocks[i - delta] = stack->blocks[i];
+	      stack->blocks[i] = NULL;
+	    }
+	  stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	}
+
+      //delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
+      delta = block_index + 1 - _LW6DAT_MAX_NB_BLOCKS;
+      if (delta > 0)
+	{
+	  //TMP2("delta very big=%d serial=%d",delta,serial);
+	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("shifting blocks down delta=%d"),
+		      delta);
+	  if (delta < _LW6DAT_MAX_NB_BLOCKS)
+	    {
+	      delta_max = delta;
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("very big serial leap, history will be cleared, delta=%d"),
+			  delta);
+	      delta_max = _LW6DAT_MAX_NB_BLOCKS;
+	    }
+	  for (i = 0; i < delta_max; ++i)
+	    {
+	      if (stack->blocks[i])
+		{
+		  _lw6dat_block_free (stack->blocks[i]);
+		  stack->blocks[i] = NULL;
+		}
+	    }
+	  for (i = delta; i < _LW6DAT_MAX_NB_BLOCKS; ++i)
+	    {
+	      stack->blocks[i - delta] = stack->blocks[i];
+	      stack->blocks[i] = NULL;
+	    }
+	  stack->serial_0 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	  stack->serial_n_1 += delta * _LW6DAT_NB_ATOMS_PER_BLOCK;
+	}
+
+      block_index = _lw6dat_stack_get_block_index (stack, serial);
+      if (block_index >= 0 && block_index < _LW6DAT_MAX_NB_BLOCKS)
+	{
+	  block = stack->blocks[block_index];
+	  if (!block)
+	    {
+	      stack->blocks[block_index] =
+		_lw6dat_block_new (stack->serial_0 +
+				   block_index * _LW6DAT_NB_ATOMS_PER_BLOCK);
+	      block = stack->blocks[block_index];
+	    }
+	  if (block)
+	    {
+	      /*
+	         stack->serial_n_1 =
+	         lw6sys_max (stack->serial_n_1, block->serial_n_1);
+	         stack->serial_0 =
+	         lw6sys_min (stack->serial_0, block->serial_0);
+	       */
+	      ret =
+		_lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
+					full_str, seq_from_cmd_str_offset,
+					cmd_str_offset, send_flag);
+	      if (!ret)
+		{
+		  lw6sys_log (LW6SYS_LOG_DEBUG,
+			      _x_ ("unable to put atom in stack serial=%d"),
+			      serial);
+		}
+	    }
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_
+		      ("serial out of range serial=%d stack->serial_0=%d, block_index=%d"),
+		      serial, stack->serial_0, block_index);
+	}
+
+      if (ret)
+	{
+	  if (serial > _LW6DAT_SERIAL_INVALID)
+	    {
+	      stack->serial_min =
+		lw6sys_max (stack->serial_min, stack->serial_0);
+	      stack->serial_min =
+		lw6sys_max (stack->serial_min, stack->serial_0);
+	      stack->serial_max =
+		lw6sys_min (stack->serial_max, stack->serial_n_1);
+	      stack->serial_max =
+		lw6sys_min (stack->serial_max, stack->serial_n_1);
+	      stack->serial_min = lw6sys_min (stack->serial_min, serial);
+	      stack->serial_max = lw6sys_max (stack->serial_max, serial);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("bad serial %d in atom \"%d\""), serial);
 	    }
 	}
     }
@@ -276,22 +320,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_
-		  ("serial out of range serial=%d stack->serial_0=%d, block_index=%d"),
-		  serial, stack->serial_0, block_index);
-    }
-
-  if (ret)
-    {
-      if (serial > _LW6DAT_SERIAL_INVALID)
-	{
-	  stack->serial_min = lw6sys_min (stack->serial_min, serial);
-	  stack->serial_max = lw6sys_max (stack->serial_max, serial);
-	}
-      else
-	{
-	  lw6sys_log (LW6SYS_LOG_WARNING,
-		      _x_ ("bad serial %d in atom \"%d\""), serial);
-	}
+		  ("unable to put atom, range delta is too big delta=%d serial=%d serial_0=%d"),
+		  delta, serial, stack->serial_0);
     }
 
   if (stack->serial_0 <= _LW6DAT_SERIAL_INVALID

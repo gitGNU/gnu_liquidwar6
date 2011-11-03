@@ -71,6 +71,10 @@
  * Constant used to compensate for some possible overflow error
  */
 #define _LW6DAT_GET_FACTOR 100
+/*
+ * Limit how far we can try and go back/forward in history
+ */
+#define _LW6DAT_BLOCK_DELTA_MAX (_LW6DAT_MAX_NB_BLOCKS*(_LW6DAT_GET_FACTOR-(_LW6DAT_GET_FACTOR/10)))
 
 /*
  * This must match LW6DAT_MAX_NB_STACKS
