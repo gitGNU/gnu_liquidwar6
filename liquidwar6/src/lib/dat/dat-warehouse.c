@@ -117,7 +117,10 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
-      _lw6dat_stack_purge (&(warehouse->stacks[i]));
+      if (warehouse->stacks[i].node_id != 0)
+	{
+	  _lw6dat_stack_purge (&(warehouse->stacks[i]));
+	}
     }
 }
 

@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -20,115 +20,115 @@ END-INFO-DIR-ENTRY
 
 
 Indirect:
-liquidwar6.info-1: 794
-liquidwar6.info-2: 299144
-liquidwar6.info-3: 591623
-liquidwar6.info-4: 862596
+liquidwar6.info-1: 798
+liquidwar6.info-2: 299148
+liquidwar6.info-3: 591627
+liquidwar6.info-4: 862580
 
 Tag Table:
 (Indirect)
-Node: Top794
-Node: Introduction6165
-Node: In a nutshell6524
-Node: Project status7428
-Node: How you can help13841
-Node: User's manual15318
-Node: Mailing lists16434
-Node: Getting the game18924
-Node: Installation21193
-Node: Extra maps29542
-Node: Troubleshooting31767
-Node: Quick start36016
-Node: Strategy tips36765
-Node: User interface36912
-Node: Solo game40436
-Node: Network games41434
-Node: Graphics49738
-Node: Sound & music52713
-Node: Config file53407
-Node: Logs54682
-Node: Report bugs55590
-Node: Hacker's guide56188
-Node: Designing levels57436
-Node: Translating80746
-Node: Architecture84034
-Node: About mod-gl101811
-Node: Compilation tips104093
-Node: Coding guidelines130829
-Node: Using the console138511
-Node: Advanced tweaking140167
-Node: Writing modules141512
-Node: Use as a library141685
-Node: Network protocol141859
-Node: Technical HOWTOs146823
-Node: Using GNU Arch153413
-Node: Using GIT159183
-Node: Reference161351
-Node: Basic options162902
-Node: Doc options166150
-Node: Show options170289
-Node: Path options189502
-Node: Players options196100
-Node: Input options200076
-Node: Graphics options207556
-Node: Sound options210560
-Node: Network options213248
-Node: Map parameters218806
-Node: Map rules.xml223046
-Node: Map hints.xml299144
-Node: Map style.xml313385
-Node: Map teams.xml338279
-Node: Advanced settings345167
-Node: C to Guile369318
-Node: Script hooks422081
-Node: C API422199
-Node: libliquidwar6425877
-Node: libbot444838
-Node: mod-brute445404
-Node: mod-follow445741
-Node: mod-idiot446084
-Node: mod-random446425
-Node: libcfg446765
-Node: libcli454354
-Node: mod-http455693
-Node: mod-tcp456023
-Node: mod-udp456357
-Node: libcns456689
-Node: libcnx457199
-Node: libdat465996
-Node: libdef469556
-Node: libdsp469791
-Node: libdyn476135
-Node: libgfx480171
-Node: mod-gl485536
-Node: libglb486060
-Node: libgui490444
-Node: libhlp490764
-Node: libimg496216
-Node: libker496725
-Node: libldr530819
-Node: libmap548596
-Node: libmsg564756
-Node: libnet583463
-Node: libnod591623
-Node: libp2p599204
-Node: libpil604644
-Node: libscm619421
-Node: libsnd620812
-Node: mod-csound621466
-Node: mod-ogg621810
-Node: libsrv622145
-Node: mod-httpd624506
-Node: mod-tcpd624847
-Node: mod-udpd625187
-Node: libsys625524
-Node: libtsk776219
-Node: libvox778007
-Node: 2005 .plan778950
+Node: Top798
+Node: Introduction6169
+Node: In a nutshell6528
+Node: Project status7432
+Node: How you can help13845
+Node: User's manual15322
+Node: Mailing lists16438
+Node: Getting the game18928
+Node: Installation21197
+Node: Extra maps29546
+Node: Troubleshooting31771
+Node: Quick start36020
+Node: Strategy tips36769
+Node: User interface36916
+Node: Solo game40440
+Node: Network games41438
+Node: Graphics49742
+Node: Sound & music52717
+Node: Config file53411
+Node: Logs54686
+Node: Report bugs55594
+Node: Hacker's guide56192
+Node: Designing levels57440
+Node: Translating80750
+Node: Architecture84038
+Node: About mod-gl101815
+Node: Compilation tips104097
+Node: Coding guidelines130833
+Node: Using the console138515
+Node: Advanced tweaking140171
+Node: Writing modules141516
+Node: Use as a library141689
+Node: Network protocol141863
+Node: Technical HOWTOs146827
+Node: Using GNU Arch153417
+Node: Using GIT159187
+Node: Reference161355
+Node: Basic options162906
+Node: Doc options166154
+Node: Show options170293
+Node: Path options189506
+Node: Players options196104
+Node: Input options200080
+Node: Graphics options207560
+Node: Sound options210564
+Node: Network options213252
+Node: Map parameters218810
+Node: Map rules.xml223050
+Node: Map hints.xml299148
+Node: Map style.xml313389
+Node: Map teams.xml338283
+Node: Advanced settings345171
+Node: C to Guile369322
+Node: Script hooks422085
+Node: C API422203
+Node: libliquidwar6425881
+Node: libbot444842
+Node: mod-brute445408
+Node: mod-follow445745
+Node: mod-idiot446088
+Node: mod-random446429
+Node: libcfg446769
+Node: libcli454358
+Node: mod-http455697
+Node: mod-tcp456027
+Node: mod-udp456361
+Node: libcns456693
+Node: libcnx457203
+Node: libdat466000
+Node: libdef469560
+Node: libdsp469795
+Node: libdyn476139
+Node: libgfx480175
+Node: mod-gl485540
+Node: libglb486064
+Node: libgui490448
+Node: libhlp490768
+Node: libimg496220
+Node: libker496729
+Node: libldr530823
+Node: libmap548600
+Node: libmsg564760
+Node: libnet583467
+Node: libnod591627
+Node: libp2p599208
+Node: libpil604648
+Node: libscm619425
+Node: libsnd620816
+Node: mod-csound621470
+Node: mod-ogg621814
+Node: libsrv622149
+Node: mod-httpd624510
+Node: mod-tcpd624851
+Node: mod-udpd625191
+Node: libsys625528
+Node: libtsk776223
+Node: libvox778011
+Node: 2005 .plan778954
 Node: Fanfic791221
-Node: Links797558
-Node: Copying799847
-Node: GNU Free Documentation License837429
-Node: Indexes862596
+Node: Links797554
+Node: Copying799839
+Node: GNU Free Documentation License837417
+Node: Indexes862580
 
 End Tag Table

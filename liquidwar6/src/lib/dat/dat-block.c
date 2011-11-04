@@ -92,6 +92,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block,
 	  ret = _lw6dat_atom_set_full_str (atom, full_str);
 	  if (ret)
 	    {
+	      atom->not_null = 1;
 	      atom->serial = serial;
 	      atom->order_i = order_i;
 	      atom->order_n = order_n;
