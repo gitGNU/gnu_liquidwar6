@@ -599,7 +599,6 @@ _test_warehouse_copy_atoms_callback (void *func_data, void *data)
   if (lw6dat_warehouse_put_atom_str
       (warehouse2, _TEST_WAREHOUSE_LOCAL_NODE_ID, atom_str))
     {
-      //TMP1("%s",atom_str);
       // ok
     }
   else
