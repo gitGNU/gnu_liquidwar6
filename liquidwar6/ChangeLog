@@ -1,3 +1,7 @@
+2011-11-04 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed various bugs in dat/network code.
+
 2011-10-31 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Consolidation of message handling from stack to warehouse.

@@ -130,10 +130,10 @@ _lw6dat_stack_init (_lw6dat_stack_t * stack, u_int64_t node_id, int serial_0)
 	(_LW6DAT_MAX_NB_BLOCKS * _LW6DAT_NB_ATOMS_PER_BLOCK) - 1;
       //stack->serial_min=INT_MAX;
       //stack->serial_max = _LW6DAT_SERIAL_INVALID;
-  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-    {
-      stack->serial_min_to_send[i] = stack->serial_0;
-    }
+      for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+	{
+	  stack->serial_min_to_send[i] = stack->serial_0;
+	}
       if (stack->node_id_str != NULL)
 	{
 	  if (stack->serial_0 > _LW6DAT_SERIAL_INVALID
@@ -278,7 +278,8 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
       stack->serial_min = INT_MAX;
       for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
 	{
-	  stack->serial_min_to_send[i] = lw6sys_max(stack->serial_min_to_send[i] ,stack->serial_0);
+	  stack->serial_min_to_send[i] =
+	    lw6sys_max (stack->serial_min_to_send[i], stack->serial_0);
 	}
       for (i = 0; i < _LW6DAT_MAX_NB_BLOCKS && stack->serial_min == INT_MAX;
 	   ++i)

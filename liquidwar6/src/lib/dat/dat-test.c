@@ -628,7 +628,9 @@ test_warehouse ()
     char *msg = NULL;
     lw6sys_list_t *list_not_sent = NULL;
     lw6sys_list_t *list_by_seq = NULL;
+    lw6sys_list_t *list_by_seq2 = NULL;
     int length = 0;
+    int length2 = 0;
     int seq_min = 0;
     int seq_max = 0;
     int seq_draft = 0;
@@ -859,7 +861,40 @@ test_warehouse ()
 					("seq info min=%d max=%d draft=%d reference=%d"),
 					seq_min, seq_max, seq_draft,
 					seq_reference);
-
+			    list_by_seq =
+			      lw6dat_warehouse_get_msg_list_by_seq (warehouse,
+								    seq_reference
+								    + 1,
+								    seq_draft);
+			    if (list_by_seq)
+			      {
+				length = lw6sys_list_length (list_by_seq);
+				list_by_seq2 =
+				  lw6dat_warehouse_get_msg_list_by_seq
+				  (warehouse2, seq_reference + 1, seq_draft);
+				if (list_by_seq2)
+				  {
+				    length2 =
+				      lw6sys_list_length (list_by_seq2);
+				    if (length2 == (length + 1))
+				      {
+					lw6sys_log (LW6SYS_LOG_NOTICE,
+						    _x_
+						    ("ok, length=%d length2=%d this means there's the same number of messages in both warehouses, only the 1st has been purged and the second contains one local message"),
+						    length, length2);
+				      }
+				    else
+				      {
+					lw6sys_log (LW6SYS_LOG_WARNING,
+						    _x_
+						    ("length of lists mismatch length=%d length2=%d"),
+						    length, length2);
+					ret = 0;
+				      }
+				    lw6sys_list_free (list_by_seq2);
+				  }
+				lw6sys_list_free (list_by_seq);
+			      }
 			    lw6sys_list_free (list_not_sent);
 			  }
 		      }
