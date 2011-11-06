@@ -100,7 +100,7 @@ to_sys_str_assoc (SCM assoc)
 	  n = scm_to_int (scm_length (assoc));
 	  for (i = 0; i < n; ++i)
 	    {
-	      item = scm_list_ref (assoc, scm_int2num (i));
+	      item = scm_list_ref (assoc, scm_from_int (i));
 	      if (SCM_CONSP (item))
 		{
 		  key = to_0str (scm_car (item));
@@ -462,43 +462,43 @@ mouse_get_state (lw6dsp_backend_t * c_dsp)
   ret = scm_cons
     (scm_cons
      (scm_makfrom0str ("screen-pos-x"),
-      scm_int2num (c_dsp->input->mouse.screen_pointer.pos_x)),
+      scm_from_int (c_dsp->input->mouse.screen_pointer.pos_x)),
      (scm_cons
       (scm_cons
        (scm_makfrom0str ("screen-pos-y"),
-	scm_int2num (c_dsp->input->mouse.screen_pointer.pos_y)),
+	scm_from_int (c_dsp->input->mouse.screen_pointer.pos_y)),
        (scm_cons
 	(scm_cons
 	 (scm_makfrom0str ("screen-speed-x"),
-	  scm_int2num (c_dsp->input->mouse.screen_pointer.speed_x)),
+	  scm_from_int (c_dsp->input->mouse.screen_pointer.speed_x)),
 	 (scm_cons
 	  (scm_cons
 	   (scm_makfrom0str ("screen-speed-y"),
-	    scm_int2num (c_dsp->input->mouse.screen_pointer.speed_y)),
+	    scm_from_int (c_dsp->input->mouse.screen_pointer.speed_y)),
 	   (scm_cons
 	    (scm_cons
 	     (scm_makfrom0str ("map-pos-x"),
-	      scm_int2num (c_dsp->input->mouse.map_pointer.pos_x)),
+	      scm_from_int (c_dsp->input->mouse.map_pointer.pos_x)),
 	     (scm_cons
 	      (scm_cons
 	       (scm_makfrom0str ("map-pos-y"),
-		scm_int2num (c_dsp->input->mouse.map_pointer.pos_y)),
+		scm_from_int (c_dsp->input->mouse.map_pointer.pos_y)),
 	       scm_cons
 	       (scm_cons
 		(scm_makfrom0str ("map-speed-x"),
-		 scm_int2num (c_dsp->input->mouse.map_pointer.speed_x)),
+		 scm_from_int (c_dsp->input->mouse.map_pointer.speed_x)),
 		(scm_cons
 		 (scm_cons
 		  (scm_makfrom0str ("map-speed-y"),
-		   scm_int2num (c_dsp->input->mouse.map_pointer.speed_y)),
+		   scm_from_int (c_dsp->input->mouse.map_pointer.speed_y)),
 		  (scm_cons
 		   (scm_cons
 		    (scm_makfrom0str ("menu-position"),
-		     scm_int2num (c_dsp->input->mouse.menu_position)),
+		     scm_from_int (c_dsp->input->mouse.menu_position)),
 		    (scm_cons
 		     (scm_cons
 		      (scm_makfrom0str ("menu-scroll"),
-		       scm_int2num (c_dsp->input->mouse.menu_scroll)),
+		       scm_from_int (c_dsp->input->mouse.menu_scroll)),
 		      (scm_cons
 		       (scm_cons
 			(scm_makfrom0str ("menu-esc"),
@@ -865,7 +865,7 @@ _scm_lw6sys_build_get_pointer_size ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_build_get_pointer_size ());
+  ret = scm_from_int (lw6sys_build_get_pointer_size ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -879,7 +879,7 @@ _scm_lw6sys_build_is_x86 ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_build_is_x86 ());
+  ret = scm_from_int (lw6sys_build_is_x86 ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1257,7 +1257,7 @@ _scm_lw6sys_build_get_bin_id ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_build_get_bin_id ());
+  ret = scm_from_int (lw6sys_build_get_bin_id ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1535,7 +1535,7 @@ _scm_lw6sys_log_get_level ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_log_get_level ());
+  ret = scm_from_int (lw6sys_log_get_level ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1569,7 +1569,7 @@ _scm_lw6sys_megabytes_available ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_megabytes_available ());
+  ret = scm_from_int (lw6sys_megabytes_available ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1586,7 +1586,7 @@ _scm_lw6sys_openmp_get_num_procs ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_openmp_get_num_procs ());
+  ret = scm_from_int (lw6sys_openmp_get_num_procs ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2271,7 +2271,7 @@ _scm_lw6sys_get_cycle ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_int2num (lw6sys_get_cycle ());
+  ret = scm_from_int (lw6sys_get_cycle ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -3175,9 +3175,9 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
       c_menu = lw6_scm_to_menu (menu);
 
       ret =
-	scm_int2num (lw6gui_menu_append_for_id_use
-		     (c_menu, c_label, c_value, c_enabled, c_selected,
-		      c_colored, lw6sys_get_timestamp ()));
+	scm_from_int (lw6gui_menu_append_for_id_use
+		      (c_menu, c_label, c_value, c_enabled, c_selected,
+		       c_colored, lw6sys_get_timestamp ()));
 
       LW6SYS_FREE (c_label);
     }
@@ -4852,7 +4852,7 @@ _scm_lw6dsp_get_nb_frames (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_int2num (lw6dsp_get_nb_frames (c_dsp));
+      ret = scm_from_int (lw6dsp_get_nb_frames (c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -4874,7 +4874,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_int2num (lw6dsp_get_last_frame_rendering_time (c_dsp));
+      ret = scm_from_int (lw6dsp_get_last_frame_rendering_time (c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -4896,7 +4896,7 @@ _scm_lw6dsp_get_instant_fps (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_int2num (lw6dsp_get_instant_fps (c_dsp));
+      ret = scm_from_int (lw6dsp_get_instant_fps (c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -4918,7 +4918,7 @@ _scm_lw6dsp_get_average_fps (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_int2num (lw6dsp_get_average_fps (c_dsp));
+      ret = scm_from_int (lw6dsp_get_average_fps (c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -4947,9 +4947,9 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
 	  ret =
 	    scm_list_3 (scm_cons
 			(scm_makfrom0str ("width"),
-			 scm_int2num (video_mode.width)),
+			 scm_from_int (video_mode.width)),
 			scm_cons (scm_makfrom0str ("height"),
-				  scm_int2num (video_mode.height)),
+				  scm_from_int (video_mode.height)),
 			scm_cons (scm_makfrom0str ("fullscreen"),
 				  video_mode.fullscreen ? SCM_BOOL_T :
 				  SCM_BOOL_F));
@@ -4982,12 +4982,12 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 	  ret = scm_list_3 (scm_cons (scm_makfrom0str ("low"),
 				      scm_list_3 (scm_cons
 						  (scm_makfrom0str ("width"),
-						   scm_int2num
+						   scm_from_int
 						   (fullscreen_modes.low.
 						    width)),
 						  scm_cons (scm_makfrom0str
 							    ("height"),
-							    scm_int2num
+							    scm_from_int
 							    (fullscreen_modes.
 							     low.height)),
 						  scm_cons (scm_makfrom0str
@@ -5000,12 +5000,12 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 			    scm_cons (scm_makfrom0str ("standard"),
 				      scm_list_3 (scm_cons
 						  (scm_makfrom0str ("width"),
-						   scm_int2num
+						   scm_from_int
 						   (fullscreen_modes.standard.
 						    width)),
 						  scm_cons (scm_makfrom0str
 							    ("height"),
-							    scm_int2num
+							    scm_from_int
 							    (fullscreen_modes.
 							     standard.
 							     height)),
@@ -5019,12 +5019,12 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 			    scm_cons (scm_makfrom0str ("high"),
 				      scm_list_3 (scm_cons
 						  (scm_makfrom0str ("width"),
-						   scm_int2num
+						   scm_from_int
 						   (fullscreen_modes.high.
 						    width)),
 						  scm_cons (scm_makfrom0str
 							    ("height"),
-							    scm_int2num
+							    scm_from_int
 							    (fullscreen_modes.
 							     high.height)),
 						  scm_cons (scm_makfrom0str
@@ -5100,7 +5100,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 						     c_entry->has_subdirs ?
 						     SCM_BOOL_T : SCM_BOOL_F),
 					   scm_cons (scm_makfrom0str ("exp"),
-						     scm_int2num
+						     scm_from_int
 						     (c_entry->exp))), ret);
 			  lw6ldr_free_entry (c_entry);
 			}
@@ -5418,7 +5418,7 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 			       SCM_BOOL_T :
 			       SCM_BOOL_F),
 		     scm_cons (scm_makfrom0str ("exp"),
-			       scm_int2num (c_entry->exp)));
+			       scm_from_int (c_entry->exp)));
 		  lw6ldr_free_entry (c_entry);
 		}
 	      LW6SYS_FREE (user_dir);
@@ -5555,7 +5555,7 @@ _scm_lw6map_team_color_key_to_index (SCM key)
   c_key = to_0str (key);
   if (c_key)
     {
-      ret = scm_int2num (lw6map_team_color_key_to_index (c_key));
+      ret = scm_from_int (lw6map_team_color_key_to_index (c_key));
       LW6SYS_FREE (c_key);
     }
 
@@ -5624,7 +5624,7 @@ _scm_lw6map_weapon_key_to_index (SCM key)
   c_key = to_0str (key);
   if (c_key)
     {
-      ret = scm_int2num (lw6map_weapon_key_to_index (c_key));
+      ret = scm_from_int (lw6map_weapon_key_to_index (c_key));
       LW6SYS_FREE (c_key);
     }
 
@@ -5681,7 +5681,7 @@ _scm_lw6map_rules_get_default (SCM key)
   c_key = to_0str (key);
   if (c_key)
     {
-      ret = scm_int2num (lw6map_rules_get_default (c_key));
+      ret = scm_from_int (lw6map_rules_get_default (c_key));
 
       LW6SYS_FREE (c_key);
     }
@@ -5704,7 +5704,7 @@ _scm_lw6map_rules_get_min (SCM key)
   c_key = to_0str (key);
   if (c_key)
     {
-      ret = scm_int2num (lw6map_rules_get_min (c_key));
+      ret = scm_from_int (lw6map_rules_get_min (c_key));
 
       LW6SYS_FREE (c_key);
     }
@@ -5727,7 +5727,7 @@ _scm_lw6map_rules_get_max (SCM key)
   c_key = to_0str (key);
   if (c_key)
     {
-      ret = scm_int2num (lw6map_rules_get_max (c_key));
+      ret = scm_from_int (lw6map_rules_get_max (c_key));
 
       LW6SYS_FREE (c_key);
     }
@@ -5759,8 +5759,8 @@ _scm_lw6map_rules_get_int (SCM game_struct, SCM key)
       if (c_key)
 	{
 	  ret =
-	    scm_int2num (lw6map_rules_get_int
-			 (&(c_game_struct->rules), c_key));
+	    scm_from_int (lw6map_rules_get_int
+			  (&(c_game_struct->rules), c_key));
 	  LW6SYS_FREE (c_key);
 	}
     }
@@ -5962,7 +5962,7 @@ _scm_lw6ker_game_struct_checksum (SCM game_struct)
   c_game_struct = lw6_scm_to_game_struct (game_struct);
   if (c_game_struct)
     {
-      ret = scm_int2num (lw6ker_game_struct_checksum (c_game_struct));
+      ret = scm_from_int (lw6ker_game_struct_checksum (c_game_struct));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -5984,7 +5984,7 @@ _scm_lw6ker_game_state_checksum (SCM game_state)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      ret = scm_int2num (lw6ker_game_state_checksum (c_game_state));
+      ret = scm_from_int (lw6ker_game_state_checksum (c_game_state));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -6313,11 +6313,11 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 					(scm_makfrom0str ("team-color"),
 					 scm_makfrom0str (c_team_color_str)),
 					scm_cons (scm_makfrom0str ("x"),
-						  scm_int2num (c_cursor.
-							       pos.x)),
+						  scm_from_int (c_cursor.
+								pos.x)),
 					scm_cons (scm_makfrom0str ("y"),
-						  scm_int2num (c_cursor.
-							       pos.y)));
+						  scm_from_int (c_cursor.
+								pos.y)));
 		      LW6SYS_FREE (c_node_id_str);
 		    }
 		}
@@ -6418,7 +6418,7 @@ _scm_lw6ker_get_moves (SCM game_state)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      ret = scm_int2num (lw6ker_game_state_get_moves (c_game_state));
+      ret = scm_from_int (lw6ker_game_state_get_moves (c_game_state));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -6440,7 +6440,7 @@ _scm_lw6ker_get_spreads (SCM game_state)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      ret = scm_int2num (lw6ker_game_state_get_spreads (c_game_state));
+      ret = scm_from_int (lw6ker_game_state_get_spreads (c_game_state));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -6462,7 +6462,7 @@ _scm_lw6ker_get_rounds (SCM game_state)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      ret = scm_int2num (lw6ker_game_state_get_rounds (c_game_state));
+      ret = scm_from_int (lw6ker_game_state_get_rounds (c_game_state));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -6551,7 +6551,7 @@ _scm_lw6pil_bench ()
 
   if (lw6pil_bench (&c_ret, &progress))
     {
-      ret = scm_int2num (ceil (c_ret));
+      ret = scm_from_int (ceil (c_ret));
     }
 
   lw6sys_progress_begin (&progress);
@@ -7111,7 +7111,7 @@ _scm_lw6pil_get_next_round (SCM pilot, SCM timestamp)
     {
       c_timestamp = scm_to_long_long (timestamp);
 
-      ret = scm_int2num (lw6pil_pilot_get_next_round (c_pilot, c_timestamp));
+      ret = scm_from_int (lw6pil_pilot_get_next_round (c_pilot, c_timestamp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7134,7 +7134,7 @@ _scm_lw6pil_get_last_commit_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_int2num (lw6pil_pilot_get_last_commit_round (c_pilot));
+      ret = scm_from_int (lw6pil_pilot_get_last_commit_round (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7157,7 +7157,7 @@ _scm_lw6pil_get_reference_current_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_int2num (lw6pil_pilot_get_reference_current_round (c_pilot));
+      ret = scm_from_int (lw6pil_pilot_get_reference_current_round (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7180,7 +7180,7 @@ _scm_lw6pil_get_reference_target_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_int2num (lw6pil_pilot_get_reference_target_round (c_pilot));
+      ret = scm_from_int (lw6pil_pilot_get_reference_target_round (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7203,7 +7203,7 @@ _scm_lw6pil_get_max_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_int2num (lw6pil_pilot_get_max_round (c_pilot));
+      ret = scm_from_int (lw6pil_pilot_get_max_round (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7438,7 +7438,7 @@ _scm_lw6snd_play_fx (SCM snd, SCM fx_id)
     {
       c_fx_id = scm_to_int (fx_id);
 
-      ret = scm_int2num (lw6snd_play_fx (c_snd, c_fx_id));
+      ret = scm_from_int (lw6snd_play_fx (c_snd, c_fx_id));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7573,9 +7573,9 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path,
 	      if (c_music_file)
 		{
 		  ret =
-		    scm_int2num (lw6snd_play_music_file
-				 (c_snd, c_map_dir, c_music_path,
-				  c_music_file));
+		    scm_from_int (lw6snd_play_music_file
+				  (c_snd, c_map_dir, c_music_path,
+				   c_music_file));
 		  LW6SYS_FREE (c_music_file);
 		}
 	      LW6SYS_FREE (c_music_path);
@@ -7622,9 +7622,9 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter,
 	      if (c_music_exclude)
 		{
 		  ret =
-		    scm_int2num (lw6snd_play_music_random
-				 (c_snd, c_music_path, c_music_filter,
-				  c_music_exclude));
+		    scm_from_int (lw6snd_play_music_random
+				  (c_snd, c_music_path, c_music_filter,
+				   c_music_exclude));
 		  LW6SYS_FREE (c_music_exclude);
 		}
 	      LW6SYS_FREE (c_music_filter);
@@ -7934,7 +7934,7 @@ _scm_lw6tsk_loader_get_stage (SCM loader)
   if (c_loader)
     {
       c_ret = lw6tsk_loader_get_stage (c_loader);
-      ret = scm_int2num (c_ret);
+      ret = scm_from_int (c_ret);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -8549,9 +8549,9 @@ _scm_lw6bot_next_move (SCM bot)
       if (lw6bot_next_move (c_bot, &c_x, &c_y))
 	{
 	  ret = scm_list_2 (scm_cons
-			    (scm_makfrom0str ("x"), scm_int2num (c_x)),
+			    (scm_makfrom0str ("x"), scm_from_int (c_x)),
 			    scm_cons (scm_makfrom0str ("y"),
-				      scm_int2num (c_y)));
+				      scm_from_int (c_y)));
 	}
     }
 

@@ -1,3 +1,7 @@
+2011-11-06 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Removed discouraged Guile functions.
+
 2011-11-04 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed various bugs in dat/network code.
