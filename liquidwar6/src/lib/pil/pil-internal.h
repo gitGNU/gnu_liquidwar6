@@ -25,6 +25,9 @@
 
 #include "pil.h"
 
+#define _LW6PIL_MIN_SEQ_0 10000000000L
+#define _LW6PIL_RANGE_SEQ_0 1000000000
+
 typedef struct _lw6pil_spread_data_s
 {
   lw6ker_game_state_t *game_state;

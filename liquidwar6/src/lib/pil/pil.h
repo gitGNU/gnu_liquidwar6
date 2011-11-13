@@ -82,6 +82,7 @@ typedef union lw6pil_command_args_u
 
 typedef struct lw6pil_command_s
 {
+  int64_t seq;
   int round;
   u_int64_t node_id;
   lw6pil_command_code_t code;
@@ -125,8 +126,9 @@ lw6pil_local_cursors_t;
 typedef struct lw6pil_pilot_s
 {
   u_int32_t id;
-  int64_t calibrate_ticks;
-  int calibrate_round;
+  int64_t seq_0;
+  int64_t calibrate_timestamp;
+  int64_t calibrate_seq;
   lw6map_level_t *level;
   lw6ker_game_struct_t *game_struct;
   lw6ker_game_state_t *backup;
@@ -135,8 +137,8 @@ typedef struct lw6pil_pilot_s
   lw6sys_list_t *verified_queue;
   lw6sys_list_t *unverified_queue;
   lw6sys_list_t *replay;
-  int last_commit_round;
-  int last_sync_draft_from_reference;
+  int64_t last_commit_seq;
+  int64_t last_sync_draft_from_reference_seq;
   lw6pil_local_cursors_t local_cursors;
 } lw6pil_pilot_t;
 
@@ -144,14 +146,15 @@ typedef struct lw6pil_pilot_s
 extern int lw6pil_bench (float *bench_result, lw6sys_progress_t * progress);
 
 /* pil-command.c */
-extern lw6pil_command_t *lw6pil_command_new (char *command_text);
+extern lw6pil_command_t *lw6pil_command_new (char *command_text,
+					     int64_t seq_0);
 extern lw6pil_command_t *lw6pil_command_dup (lw6pil_command_t * command);
 extern void lw6pil_command_free (lw6pil_command_t * command);
 extern char *lw6pil_command_repr (lw6pil_command_t * command);
 extern int lw6pil_command_execute (lw6ker_game_state_t * game_state,
 				   lw6pil_command_t * command);
 extern int lw6pil_command_execute_text (lw6ker_game_state_t * game_state,
-					char *command_text);
+					char *command_text, int64_t seq_0);
 extern int lw6pil_command_execute_local (lw6pil_local_cursors_t *
 					 local_cursors,
 					 lw6pil_command_t * command);
@@ -192,6 +195,7 @@ extern int lw6pil_local_cursors_set_main (lw6pil_local_cursors_t *
 
 /* pil-pilot.c */
 extern lw6pil_pilot_t *lw6pil_pilot_new (lw6ker_game_state_t * game_state,
+					 int64_t seq_0,
 					 int64_t timestamp,
 					 lw6sys_progress_t * progress);
 extern void lw6pil_pilot_free (lw6pil_pilot_t * pilot);
@@ -213,18 +217,25 @@ extern int lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
 extern lw6ker_game_state_t *lw6pil_pilot_dirty_read (lw6pil_pilot_t * pilot);
 extern char *lw6pil_pilot_repr (lw6pil_pilot_t * pilot);
 extern void lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp,
-				    int round);
-extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int round_inc);
-extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int round_dec);
-extern int lw6pil_pilot_get_next_round (lw6pil_pilot_t * pilot,
-					int64_t timestamp);
-extern int lw6pil_pilot_get_last_commit_round (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_get_reference_target_round (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_get_reference_current_round (lw6pil_pilot_t * pilot);
-extern int lw6pil_pilot_get_max_round (lw6pil_pilot_t * pilot);
+				    int64_t seq);
+extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int64_t seq_inc);
+extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int64_t seq_dec);
+extern int64_t lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq);
+extern int64_t lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round);
+extern int64_t lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot,
+					  int64_t timestamp);
+extern int64_t lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot);
+extern int64_t lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t *
+						       pilot);
+extern int64_t lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_is_over (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot,
 					u_int16_t cursor_id);
+
+/* pil-seq.c */
+extern int64_t lw6pil_seq_random_0 ();
 
 /* pil-test.c */
 extern int lw6pil_test (int mode);

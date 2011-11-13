@@ -206,7 +206,7 @@ command_set_parse (lw6pil_command_t * command, char *command_args)
 }
 
 static int
-command_parse (lw6pil_command_t * command, char *command_text)
+command_parse (lw6pil_command_t * command, char *command_text, int64_t seq_0)
 {
   int ret = 0;
   char *pos;
@@ -230,9 +230,10 @@ command_parse (lw6pil_command_t * command, char *command_text)
 	    {
 	      (*seek) = '\0';
 	      seek++;
-	      command->round = lw6sys_atoi (pos);
-	      if (command->round >= 0)
+	      command->seq = lw6sys_atoll (pos);
+	      if (command->seq >= _LW6PIL_MIN_SEQ_0 && command->seq >= seq_0)
 		{
+		  command->round = command->seq - seq_0;
 		  pos = seek;
 		  while (!is_spc (*seek))
 		    {
@@ -296,7 +297,19 @@ command_parse (lw6pil_command_t * command, char *command_text)
 				}
 			    }
 			}
+		      else
+			{
+			  lw6sys_log (LW6SYS_LOG_WARNING,
+				      _x_ ("bad id in command \"%s\""),
+				      command_text);
+			}
 		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("bad seq in command \"%s\""),
+			      command_text);
 		}
 	    }
 	}
@@ -318,14 +331,14 @@ command_parse (lw6pil_command_t * command, char *command_text)
 }
 
 lw6pil_command_t *
-lw6pil_command_new (char *command_text)
+lw6pil_command_new (char *command_text, int64_t seq_0)
 {
   lw6pil_command_t *ret = NULL;
 
   ret = (lw6pil_command_t *) LW6SYS_CALLOC (sizeof (lw6pil_command_t));
   if (ret)
     {
-      if (!command_parse (ret, command_text))
+      if (!command_parse (ret, command_text, seq_0))
 	{
 	  LW6SYS_FREE (ret);
 	  ret = NULL;
@@ -380,11 +393,11 @@ _lw6pil_command_sort_callback (lw6sys_list_t ** list_a,
   lw6pil_command_t *command_a = (lw6pil_command_t *) ((*list_a)->data);
   lw6pil_command_t *command_b = (lw6pil_command_t *) ((*list_b)->data);
 
-  if (command_a->round < command_b->round)
+  if (command_a->seq < command_b->seq)
     {
       ret = -1;
     }
-  else if (command_a->round > command_b->round)
+  else if (command_a->seq > command_b->seq)
     {
       ret = 1;
     }
@@ -421,18 +434,20 @@ lw6pil_command_repr (lw6pil_command_t * command)
     {
     case LW6PIL_COMMAND_CODE_NOP:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->node_id, LW6PIL_COMMAND_TEXT_NOP);
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s", command->seq, command->node_id,
+			    LW6PIL_COMMAND_TEXT_NOP);
       break;
     case LW6PIL_COMMAND_CODE_REGISTER:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->node_id, LW6PIL_COMMAND_TEXT_REGISTER);
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s", command->seq, command->node_id,
+			    LW6PIL_COMMAND_TEXT_REGISTER);
       break;
     case LW6PIL_COMMAND_CODE_ADD:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x %s",
-			    command->round, command->node_id,
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s %x %s", command->seq, command->node_id,
 			    LW6PIL_COMMAND_TEXT_ADD,
 			    (int) command->args.add.cursor_id,
 			    lw6map_team_color_index_to_key (command->args.
@@ -440,23 +455,25 @@ lw6pil_command_repr (lw6pil_command_t * command)
       break;
     case LW6PIL_COMMAND_CODE_SET:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x %d %d %d %d",
-			    command->round, command->node_id,
-			    LW6PIL_COMMAND_TEXT_SET,
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s %x %d %d %d %d", command->seq,
+			    command->node_id, LW6PIL_COMMAND_TEXT_SET,
 			    (int) command->args.set.cursor_id,
 			    command->args.set.x, command->args.set.y,
 			    command->args.set.fire, command->args.set.fire2);
       break;
     case LW6PIL_COMMAND_CODE_REMOVE:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s %x", command->round,
-			    command->node_id, LW6PIL_COMMAND_TEXT_REMOVE,
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s %x", command->seq, command->node_id,
+			    LW6PIL_COMMAND_TEXT_REMOVE,
 			    (int) command->args.remove.cursor_id);
       break;
     case LW6PIL_COMMAND_CODE_UNREGISTER:
       ret =
-	lw6sys_new_sprintf ("%d %" LW6SYS_PRINTF_LL "x %s", command->round,
-			    command->node_id, LW6PIL_COMMAND_TEXT_UNREGISTER);
+	lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %" LW6SYS_PRINTF_LL
+			    "x %s", command->seq, command->node_id,
+			    LW6PIL_COMMAND_TEXT_UNREGISTER);
       break;
     default:
       ret =
@@ -521,12 +538,12 @@ lw6pil_command_execute (lw6ker_game_state_t * game_state,
 
 int
 lw6pil_command_execute_text (lw6ker_game_state_t * game_state,
-			     char *command_text)
+			     char *command_text, int64_t seq_0)
 {
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text);
+  command = lw6pil_command_new (command_text, seq_0);
   if (command)
     {
       ret = lw6pil_command_execute (game_state, command);
@@ -577,7 +594,7 @@ lw6pil_command_execute_local_text (lw6pil_local_cursors_t * local_cursors,
   int ret = 0;
   lw6pil_command_t *command = NULL;
 
-  command = lw6pil_command_new (command_text);
+  command = lw6pil_command_new (command_text, _LW6PIL_MIN_SEQ_0);
   if (command)
     {
       ret = lw6pil_command_execute_local (local_cursors, command);

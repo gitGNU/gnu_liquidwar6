@@ -80,8 +80,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libpil_la_LIBADD =
 am_libpil_la_OBJECTS = pil-bench.lo pil-command.lo pil-compute.lo \
-	pil-coords.lo pil-localcursors.lo pil-pilot.lo pil-spread.lo \
-	pil-test.lo pil-worker.lo
+	pil-coords.lo pil-localcursors.lo pil-pilot.lo pil-seq.lo \
+	pil-spread.lo pil-test.lo pil-worker.lo
 libpil_la_OBJECTS = $(am_libpil_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libpildir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -333,7 +333,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libpil.la
-libpil_la_SOURCES = pil-bench.c pil-command.c pil-compute.c pil-coords.c pil-localcursors.c pil-pilot.c pil-spread.c pil-test.c pil-worker.c
+libpil_la_SOURCES = pil-bench.c pil-command.c pil-compute.c pil-coords.c pil-localcursors.c pil-pilot.c pil-seq.c pil-spread.c pil-test.c pil-worker.c
 libpildir = $(includedir)/@PACKAGE_TARNAME@/pil
 libpil_HEADERS = pil.h
 @FULLSTATIC_FALSE@liquidwar6pil_test_SOURCES = pil-testmain.c
@@ -443,6 +443,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-coords.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-localcursors.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-pilot.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-seq.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-spread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pil-testmain.Po@am__quote@

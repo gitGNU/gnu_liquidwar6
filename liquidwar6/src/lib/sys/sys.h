@@ -556,9 +556,11 @@ extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
 /* sys-convert.c */
 extern int lw6sys_atoi (char *str);
+extern int64_t lw6sys_atoll (char *str);
 extern int lw6sys_atob (char *str);
 extern float lw6sys_atof (char *str);
 extern char *lw6sys_itoa (int value);
+extern char *lw6sys_lltoa (int64_t value);
 extern char *lw6sys_btoa (int value);
 extern char *lw6sys_ftoa (float value);
 

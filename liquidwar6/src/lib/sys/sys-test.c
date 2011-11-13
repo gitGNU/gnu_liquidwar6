@@ -162,6 +162,7 @@
 #define TEST_SORT_STR_MAX "9"
 #define _TEST_SIGNAL_LOOPS 25
 #define TEST_CONVERT_INT 421
+#define TEST_CONVERT_LONG_LONG 421421421421421
 #define TEST_CONVERT_BOOL 1
 #define TEST_CONVERT_FLOAT 3.14f
 #define TEST_RANDOM_RANGE 1000
@@ -560,6 +561,7 @@ test_convert ()
   {
     char *str;
     int i;
+    int64_t l;
     float f;
 
     str = lw6sys_itoa (TEST_CONVERT_INT);
@@ -569,6 +571,25 @@ test_convert ()
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("int=%d -> str=\"%s\" -> int=%d"),
 		    TEST_CONVERT_INT, str, i);
 	if (i != TEST_CONVERT_INT)
+	  {
+	    ret = 0;
+	  }
+	LW6SYS_FREE (str);
+      }
+    else
+      {
+	ret = 0;
+      }
+
+    str = lw6sys_lltoa (TEST_CONVERT_LONG_LONG);
+    if (str)
+      {
+	l = lw6sys_atoll (str);
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("long long=%" LW6SYS_PRINTF_LL
+			 "d -> str=\"%s\" -> long long=%" LW6SYS_PRINTF_LL
+			 "d"), TEST_CONVERT_LONG_LONG, str, l);
+	if (l != TEST_CONVERT_LONG_LONG)
 	  {
 	    ret = 0;
 	  }

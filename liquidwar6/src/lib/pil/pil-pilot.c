@@ -41,6 +41,7 @@ static u_int32_t seq_id = 0;
  * lw6pil_pilot_new
  *
  * @game_state: the game state we're going to work on
+ * @seq_0: the start sequence to use, that is, the seq at round=0
  * @timestamp: the current ticks (1000 ticks per sec, used to calibrate)
  * @progress: object used to show the advancement of the process
  *
@@ -51,8 +52,8 @@ static u_int32_t seq_id = 0;
  * Return value: a working pilot object. May be NULL on memory failure.
  */
 lw6pil_pilot_t *
-lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t timestamp,
-		  lw6sys_progress_t * progress)
+lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t seq_0,
+		  int64_t timestamp, lw6sys_progress_t * progress)
 {
   lw6pil_pilot_t *ret = NULL;
   int ok = 0;
@@ -74,11 +75,12 @@ lw6pil_pilot_new (lw6ker_game_state_t * game_state, int64_t timestamp,
 	{
 	  ret->id = ++seq_id;
 	}
-      ret->last_commit_round = -1;
-      ret->last_sync_draft_from_reference = -1;
+      ret->last_commit_seq = -1L;
+      ret->last_sync_draft_from_reference_seq = -1L;
+      ret->seq_0 = seq_0;
       lw6pil_pilot_calibrate (ret, timestamp,
+			      seq_0 +
 			      lw6ker_game_state_get_rounds (game_state));
-
       ret->replay =
 	lw6sys_list_new ((lw6sys_free_func_t) lw6pil_command_free);
       if (ret->replay)
@@ -272,14 +274,14 @@ lw6pil_pilot_local_command (lw6pil_pilot_t * pilot, char *command_text)
 static void
 sync_draft_from_reference (lw6pil_pilot_t * pilot)
 {
-  if (lw6pil_pilot_get_reference_current_round (pilot) >
-      pilot->last_sync_draft_from_reference)
+  if (lw6pil_pilot_get_reference_current_seq (pilot) >
+      pilot->last_sync_draft_from_reference_seq)
     {
       lw6sys_mutex_lock (pilot->draft.compute_mutex);
       lw6sys_mutex_lock (pilot->reference.compute_mutex);
 
-      if (lw6pil_pilot_get_reference_current_round (pilot) >
-	  pilot->last_sync_draft_from_reference)
+      if (lw6pil_pilot_get_reference_current_seq (pilot) >
+	  pilot->last_sync_draft_from_reference_seq)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("pilot sync round=%d"),
 		      lw6ker_game_state_get_rounds (pilot->
@@ -289,8 +291,8 @@ sync_draft_from_reference (lw6pil_pilot_t * pilot)
 	  pilot->draft.target_round = pilot->reference.target_round;
 	  pilot->draft.current_round = pilot->reference.current_round;
 
-	  pilot->last_sync_draft_from_reference =
-	    lw6pil_pilot_get_reference_current_round (pilot);
+	  pilot->last_sync_draft_from_reference_seq =
+	    lw6pil_pilot_get_reference_current_seq (pilot);
 	}
 
       lw6sys_mutex_unlock (pilot->reference.compute_mutex);
@@ -317,7 +319,7 @@ commit_reference (lw6pil_pilot_t * pilot)
 	     && (command_text =
 		 lw6sys_list_pop_front (&(pilot->verified_queue))) != NULL)
 	{
-	  command = lw6pil_command_new (command_text);
+	  command = lw6pil_command_new (command_text, pilot->seq_0);
 	  if (command)
 	    {
 	      if (min_round < 0)
@@ -735,7 +737,7 @@ lw6pil_pilot_repr (lw6pil_pilot_t * pilot)
  *
  * @pilot: the object to calibrate
  * @timestamp: the current ticks setting (1000 ticks per second)
- * @round: the round expected to be returned with this ticks value
+ * @seq: the round expected to be returned with this ticks value
  *
  * Calibrates the pilot, that is, initializes it so that subsequent calls
  * to @lw6pil_pilot_get_round return consistent values.
@@ -743,155 +745,209 @@ lw6pil_pilot_repr (lw6pil_pilot_t * pilot)
  * Return value: none.
  */
 void
-lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp, int round)
+lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp,
+			int64_t seq)
 {
-  pilot->calibrate_ticks = timestamp;
-  pilot->calibrate_round = round;
+  pilot->calibrate_timestamp = timestamp;
+  pilot->calibrate_seq = seq;
 }
 
 /**
  * lw6pil_pilot_speed_up
  *
  * @pilot: the pilot to speed up
- * @round_inc: the number of rounds
+ * @seq_inc: the number of seqs
  *
  * Re-calibrates the pilot so that it speeds up a bit.
- * This will basically increase next_round by round_inc.
+ * This will basically increase next_seq by seq_inc.
  *
  * Return value: none.
  */
 void
-lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int round_inc)
+lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int seq_inc)
 {
-  pilot->calibrate_round += round_inc;
+  pilot->calibrate_seq += seq_inc;
 }
 
 /**
  * lw6pil_pilot_slow_down
  *
  * @pilot: the pilot to speed up
- * @round_dec: the number of rounds
+ * @seq_dec: the number of seqs
  *
  * Re-calibrates the pilot so that it slows down a bit.
- * This will basically decrease next_round by round_inc.
+ * This will basically decrease next_seq by seq_inc.
  *
  * Return value: none.
  */
 void
-lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int round_dec)
+lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec)
 {
-  pilot->calibrate_round -= round_dec;
+  pilot->calibrate_seq -= seq_dec;
 }
 
 /**
- * lw6pil_pilot_get_next_round
+ * lw6pil_pilot_get_seq_0
+ *
+ * @pilot: pilot object to query
+ * 
+ * Get the initial seq (the one passed at object construction) which
+ * says what the seq was at round=0, it's just an offset.
+ *
+ * Return value: 64-bit integer
+ */
+int64_t
+lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot)
+{
+  return pilot->seq_0;
+}
+
+/**
+ * lw6pil_pilot_seq2round
+ *
+ * @pilot: pilot object to work on
+ * @seq: the seq to convert
+ * 
+ * Converts a seq (64-bit) to a round (32-bit). 64-bit seqs are used
+ * to avoid out-of-range errors on very long games, OTOH a round is 32-bit
+ * to garantee the atomicity of its affection, even on platforms which
+ * are not native 64-bit.
+ *
+ * Return value: the round (32-bit integer)
+ */
+int
+lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq)
+{
+  return seq - lw6pil_pilot_get_seq_0 (pilot);
+}
+
+/**
+ * lw6pil_pilot_round2seq
+ *
+ * @pilot: pilot object to work on
+ * @round: the round to convert
+ * 
+ * Converts a round (32-bit) to a seq (64-bit). 64-bit seqs are used
+ * to avoid out-of-range errors on very long games, OTOH a round is 32-bit
+ * to garantee the atomicity of its affection, even on platforms which
+ * are not native 64-bit.
+ *
+ * Return value: the seq (64-bit integer)
+ */
+int64_t
+lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round)
+{
+  return round + lw6pil_pilot_get_seq_0 (pilot);
+}
+
+/**
+ * lw6pil_pilot_get_next_seq
  *
  * @pilot: the object to query
  * @timestamp: the current ticks setting (1000 ticks per second)
  *
- * Returns the round one should use to generate new events/commands
+ * Returns the seq one should use to generate new events/commands
  * at a given time (given in ticks).
  *
  * Return value: none.
  */
 int
-lw6pil_pilot_get_next_round (lw6pil_pilot_t * pilot, int64_t timestamp)
+lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot, int64_t timestamp)
 {
   int ret = 0;
   int64_t delta;
 
-  delta = timestamp - pilot->calibrate_ticks;
+  delta = timestamp - pilot->calibrate_timestamp;
   delta *= (int64_t) pilot->backup->game_struct->rules.rounds_per_sec;
   delta /= LW6SYS_TICKS_PER_SEC;
-  ret = pilot->calibrate_round + (int) delta;
+  ret = pilot->calibrate_seq + (int) delta;
 
   return ret;
 }
 
 /**
- * lw6pil_pilot_get_last_commit_round
+ * lw6pil_pilot_get_last_commit_seq
  *
  * @pilot: the object to query
  *
- * Returns the round of the last commit (reference game_state) for
+ * Returns the seq of the last commit (reference game_state) for
  * this object.
  *
- * Return value: the commit round (reference object)
+ * Return value: the commit seq (reference object)
  */
 int
-lw6pil_pilot_get_last_commit_round (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
-  ret = pilot->last_commit_round;
+  ret = pilot->last_commit_seq;
 
   return ret;
 }
 
 /**
- * lw6pil_pilot_get_reference_target_round
+ * lw6pil_pilot_get_reference_target_seq
  *
  * @pilot: the object to query
  *
- * Returns the round which is targetted in the reference game_state,
+ * Returns the seq which is targetted in the reference game_state,
  * this is 'how far computation will go in the reference game_state
  * if no new commands are issued'. Note that there can always
  * be some commands which are not yet processed, so you should not
  * rely on this too heavily, however it gives a good idea of how
  * things are going.
  *
- * Return value: the target round (reference object)
+ * Return value: the target seq (reference object)
  */
 int
-lw6pil_pilot_get_reference_target_round (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
-  ret = pilot->reference.target_round;
+  ret = pilot->reference.target_seq;
 
   return ret;
 }
 
 /**
- * lw6pil_pilot_get_reference_current_round
+ * lw6pil_pilot_get_reference_current_seq
  *
  * @pilot: the object to query
  *
- * Returns the current round in the reference game_state. There's no
+ * Returns the current seq in the reference game_state. There's no
  * lock on this call so don't rely on this too heavily, it just
  * gives you an idea of wether the pilot is very late on its
  * objectives or just on time.
  *
- * Return value: the current round (reference object)
+ * Return value: the current seq (reference object)
  */
 int
-lw6pil_pilot_get_reference_current_round (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
-  ret = pilot->reference.current_round;
+  ret = pilot->reference.current_seq;
 
   return ret;
 }
 
 /**
- * lw6pil_pilot_get_max_round
+ * lw6pil_pilot_get_max_seq
  *
  * @pilot: the object to query
  *
- * Returns the max current round in the reference or draft
+ * Returns the max current seq in the reference or draft
  * game states. No lock on this call so don't rely on this
  * too heavily, it just gives you an idea of computation state.
  *
- * Return value: the current round (reference object)
+ * Return value: the current seq (reference object)
  */
 int
-lw6pil_pilot_get_max_round (lw6pil_pilot_t * pilot)
+lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot)
 {
   int ret = 0;
 
-  ret =
-    lw6sys_max (pilot->reference.current_round, pilot->draft.current_round);
+  ret = lw6sys_max (pilot->reference.current_seq, pilot->draft.current_seq);
 
   return ret;
 }

@@ -343,6 +343,7 @@ src/lib/pil/pil-compute.c
 src/lib/pil/pil-coords.c
 src/lib/pil/pil-localcursors.c
 src/lib/pil/pil-pilot.c
+src/lib/pil/pil-seq.c
 src/lib/pil/pil-spread.c
 src/lib/pil/pil-test.c
 src/lib/pil/pil-testmain.c

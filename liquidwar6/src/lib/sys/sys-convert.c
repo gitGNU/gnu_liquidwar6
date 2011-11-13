@@ -42,6 +42,21 @@ lw6sys_atoi (char *str)
 }
 
 /**
+ * lw6sys_atoll
+ *
+ * @str: string to convert
+ *
+ * Wrapper on @atoll, it's here for API consistency.
+ *
+ * Return value: a 64-bit integer.
+ */
+int64_t
+lw6sys_atoll (char *str)
+{
+  return atoll (str);
+}
+
+/**
  * lw6sys_atob
  *
  * @str: string to convert
@@ -121,6 +136,22 @@ char *
 lw6sys_itoa (int value)
 {
   return lw6sys_new_sprintf ("%d", value);
+}
+
+/**
+ * lw6sys_lltoa
+ *
+ * @value: the integer to convert
+ *
+ * Converts a 64-bit integer to a string, the advantage of this function
+ * is it allocates memory, and does the dirty job.
+ *
+ * Return value: a newly allocated pointer, must be freed, may be NULL.
+ */
+char *
+lw6sys_lltoa (int64_t value)
+{
+  return lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d", value);
 }
 
 /**
