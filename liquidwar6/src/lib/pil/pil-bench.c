@@ -31,7 +31,7 @@
 #define DUMMY_INIT 0LL
 #define DUMMY_INC 1LL
 #define NOP_LOOP 100000
-#define BENCH_SEQ_0 10000000000L
+#define BENCH_SEQ_0 _LW6PIL_MIN_SEQ_0
 #define BENCH_TIMESTAMP 0L
 
 static char *bench_init_commands[] = {
@@ -51,8 +51,8 @@ static char *bench_init_commands[] = {
  * max round by default is MAX_TOTAL_TIME*DEFAULTS_ROUND_PER_SEC
  * which is about 2*10^7
  */
-#define BENCH_INFINITE_SEQ (_LW6PIL_MIN_SEQ_0+10000000)
-#define BENCH_NOP_COMMAND "%d 1234abcd1234abcd NOP"
+#define BENCH_INFINITE_SEQ ((int64_t) (BENCH_SEQ_0+10000000))
+#define BENCH_NOP_COMMAND ("%" LW6SYS_PRINTF_LL "d 1234abcd1234abcd NOP")
 #define BENCH_ANTICIPATION_DELTA LW6MAP_RULES_DEFAULT_ROUNDS_PER_SEC
 
 #define _PROGRESS_INIT_HERE 0.1f
@@ -75,8 +75,8 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   int64_t current_time = 0L;
   int64_t dummy = DUMMY_INIT;
   char **command;
-  int64_t current_seq = _LW6PIL_MIN_SEQ_0;
-  int64_t last_seq = _LW6PIL_MIN_SEQ_0 - BENCH_ANTICIPATION_DELTA;
+  int64_t current_seq = BENCH_SEQ_0;
+  int64_t last_seq = BENCH_SEQ_0 - BENCH_ANTICIPATION_DELTA;
   char *command_str;
   int64_t seq_reference = 0;
   int64_t seq_draft = 0;

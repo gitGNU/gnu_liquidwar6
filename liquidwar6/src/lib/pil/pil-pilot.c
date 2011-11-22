@@ -308,6 +308,7 @@ commit_reference (lw6pil_pilot_t * pilot)
   lw6pil_command_t *command = NULL;
   int min_round = -1;
   int max_round = 0;
+  int last_commit_round = 0;
 
   /*
    * Process the commands for the reference threads.
@@ -344,17 +345,19 @@ commit_reference (lw6pil_pilot_t * pilot)
       lw6sys_spinlock_unlock (pilot->reference.commands_spinlock);
       if (min_round >= 0)
 	{
-	  if (min_round <= pilot->last_commit_round)
+	  last_commit_round =
+	    lw6pil_pilot_seq2round (pilot, pilot->last_commit_seq);
+	  if (min_round <= last_commit_round)
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
 			  ("possible game inconsistency, min_round=%d last_commit_round=%d"),
-			  min_round, pilot->last_commit_round);
+			  min_round, last_commit_round);
 	    }
 	}
       if (max_round > 0)
 	{
-	  pilot->last_commit_round = max_round;
+	  pilot->last_commit_seq = lw6pil_pilot_round2seq (pilot, max_round);
 	}
     }
 
@@ -369,6 +372,7 @@ commit_draft (lw6pil_pilot_t * pilot)
   lw6pil_command_t *command = NULL;
   lw6pil_command_t *command_dup = NULL;
   lw6sys_list_t *replay = NULL;
+  int last_sync_draft_from_reference = 0;
 
   /*
    * Process the commands for the draft threads.
@@ -382,10 +386,13 @@ commit_draft (lw6pil_pilot_t * pilot)
 	     && (command_text =
 		 lw6sys_list_pop_front (&(pilot->unverified_queue))) != NULL)
 	{
-	  command = lw6pil_command_new (command_text);
+	  command = lw6pil_command_new (command_text, pilot->seq_0);
 	  if (command)
 	    {
-	      if (command->round > pilot->last_sync_draft_from_reference
+	      last_sync_draft_from_reference =
+		lw6pil_pilot_seq2round (pilot,
+					pilot->last_sync_draft_from_reference_seq);
+	      if (command->round > last_sync_draft_from_reference
 		  && pilot->replay)
 		{
 		  lw6sys_list_push_front (&(pilot->replay), command);
@@ -423,7 +430,10 @@ commit_draft (lw6pil_pilot_t * pilot)
 			 (lw6pil_command_t *)
 			 lw6sys_list_pop_front (&(pilot->replay))))
 		{
-		  if (command->round > pilot->last_sync_draft_from_reference)
+		  last_sync_draft_from_reference =
+		    lw6pil_pilot_seq2round (pilot,
+					    pilot->last_sync_draft_from_reference_seq);
+		  if (command->round > last_sync_draft_from_reference)
 		    {
 		      command_dup = lw6pil_command_dup (command);
 		      if (command_dup)
@@ -603,20 +613,25 @@ lw6pil_pilot_sync_from_draft (lw6ker_game_state_t * target,
 			      lw6pil_pilot_t * pilot, int dirty_read)
 {
   int ret = 0;
+  int max_round;
   int draft_rounds;
   int reference_rounds;
   int current_round;
 
   current_round = lw6ker_game_state_get_rounds (target);
 
-  if (lw6pil_pilot_get_max_round (pilot) > current_round)
+  max_round =
+    lw6pil_pilot_seq2round (pilot, lw6pil_pilot_get_max_seq (pilot));
+  if (max_round > current_round)
     {
       if (dirty_read == LW6PIL_DIRTY_READ_NEVER)
 	{
 	  lw6sys_mutex_lock (pilot->draft.compute_mutex);
 	  lw6sys_mutex_lock (pilot->reference.compute_mutex);
 	}
-      if (lw6pil_pilot_get_max_round (pilot) > current_round)
+      max_round =
+	lw6pil_pilot_seq2round (pilot, lw6pil_pilot_get_max_seq (pilot));
+      if (max_round > current_round)
 	{
 	  draft_rounds =
 	    lw6ker_game_state_get_rounds (pilot->draft.game_state);
@@ -715,13 +730,13 @@ lw6pil_pilot_repr (lw6pil_pilot_t * pilot)
     {
       ret =
 	lw6sys_new_sprintf
-	("%u (%dx%dx%d commmit_round=%d, current_round=%d)",
-	 pilot->id,
+	("%u (%dx%dx%d commmit_seq=%" LW6SYS_PRINTF_LL "d, current_seq=%"
+	 LW6SYS_PRINTF_LL "d)", pilot->id,
 	 lw6ker_game_state_get_w (pilot->backup),
 	 lw6ker_game_state_get_h (pilot->backup),
 	 lw6ker_game_state_get_d (pilot->backup),
-	 lw6pil_pilot_get_last_commit_round (pilot),
-	 lw6pil_pilot_get_reference_current_round (pilot));
+	 lw6pil_pilot_get_last_commit_seq (pilot),
+	 lw6pil_pilot_get_reference_current_seq (pilot));
     }
   else
     {
@@ -851,10 +866,10 @@ lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round)
  *
  * Return value: none.
  */
-int
+int64_t
 lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot, int64_t timestamp)
 {
-  int ret = 0;
+  int64_t ret = 0;
   int64_t delta;
 
   delta = timestamp - pilot->calibrate_timestamp;
@@ -875,10 +890,10 @@ lw6pil_pilot_get_next_seq (lw6pil_pilot_t * pilot, int64_t timestamp)
  *
  * Return value: the commit seq (reference object)
  */
-int
+int64_t
 lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
   ret = pilot->last_commit_seq;
 
@@ -899,12 +914,12 @@ lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t * pilot)
  *
  * Return value: the target seq (reference object)
  */
-int
+int64_t
 lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
-  ret = pilot->reference.target_seq;
+  ret = lw6pil_pilot_round2seq (pilot, pilot->reference.target_round);
 
   return ret;
 }
@@ -921,12 +936,12 @@ lw6pil_pilot_get_reference_target_seq (lw6pil_pilot_t * pilot)
  *
  * Return value: the current seq (reference object)
  */
-int
+int64_t
 lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t * pilot)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
-  ret = pilot->reference.current_seq;
+  ret = lw6pil_pilot_round2seq (pilot, pilot->reference.current_round);
 
   return ret;
 }
@@ -942,12 +957,15 @@ lw6pil_pilot_get_reference_current_seq (lw6pil_pilot_t * pilot)
  *
  * Return value: the current seq (reference object)
  */
-int
+int64_t
 lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
-  ret = lw6sys_max (pilot->reference.current_seq, pilot->draft.current_seq);
+  ret =
+    lw6pil_pilot_round2seq (pilot,
+			    lw6sys_max (pilot->reference.current_round,
+					pilot->draft.current_round));
 
   return ret;
 }

@@ -63,25 +63,25 @@
 #define _TEST_LOCAL_CURSORS_MOUSE_CONTROLLED2 0
 
 static char *test_commands[] = {
-  "2 1234abcd1234abcd REGISTER",
-  "3 1234abcd1234abcd ADD 5678 YELLOW",
-  "3 1234abcd1234abcd ADD 6789 PURPLE",
-  "4 1234abcd1234abcd SET 5678 20 5 0 0",
-  "5 1234abcd1234abcd SET 6789 20 10 1 1",
-  "10 1234abcd1234abcd NOP",
-  "30 1234abcd1234abcd NOP",
-  "40 1234abcd1234abcd NOP",
-  "50 1234abcd1234abcd NOP",
-  "60 1234abcd1234abcd NOP",
-  "70 1234abcd1234abcd NOP",
-  "80 1234abcd1234abcd NOP",
-  "90 1234abcd1234abcd NOP",
-  "100 1234abcd1234abcd NOP",
-  "200 1234abcd1234abcd NOP",
-  "300 1234abcd1234abcd NOP",
-  "400 1234abcd1234abcd REMOVE 5678",
-  "1000 1234abcd1234abcd UNREGISTER",
-  "foo bar",
+  "10000000002 1234abcd1234abcd REGISTER",
+  "10000000003 1234abcd1234abcd ADD 5678 YELLOW",
+  "10000000003 1234abcd1234abcd ADD 6789 PURPLE",
+  "10000000004 1234abcd1234abcd SET 5678 20 5 0 0",
+  "10000000005 1234abcd1234abcd SET 6789 20 10 1 1",
+  "10000000010 1234abcd1234abcd NOP",
+  "10000000030 1234abcd1234abcd NOP",
+  "10000000040 1234abcd1234abcd NOP",
+  "10000000050 1234abcd1234abcd NOP",
+  "10000000060 1234abcd1234abcd NOP",
+  "10000000070 1234abcd1234abcd NOP",
+  "10000000080 1234abcd1234abcd NOP",
+  "10000000090 1234abcd1234abcd NOP",
+  "10000000100 1234abcd1234abcd NOP",
+  "10000000200 1234abcd1234abcd NOP",
+  "10000000300 1234abcd1234abcd NOP",
+  "10000000400 1234abcd1234abcd REMOVE 5678",
+  "10000001000 1234abcd1234abcd UNREGISTER",
+  "5 foo bar",
   NULL, NULL			// need two NULLs here for there's a +=2 in loop
 };
 
@@ -148,7 +148,8 @@ test_command ()
       {
 	for (i = 0; test_commands[i] && commands; ++i)
 	  {
-	    command = lw6pil_command_new (test_commands[i]);
+	    command =
+	      lw6pil_command_new (test_commands[i], _LW6PIL_MIN_SEQ_0);
 	    if (command)
 	      {
 		repr = lw6pil_command_repr (command);
@@ -361,7 +362,8 @@ test_pilot ()
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
-		pilot = lw6pil_pilot_new (game_state, 0, NULL);
+		pilot =
+		  lw6pil_pilot_new (game_state, _LW6PIL_MIN_SEQ_0, 0, NULL);
 		if (pilot)
 		  {
 		    repr = lw6pil_pilot_repr (pilot);
@@ -468,33 +470,38 @@ test_pilot ()
 			lw6sys_sleep (TEST_CYCLE);
 
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("next_round for ticks %"
-					 LW6SYS_PRINTF_LL "d is %d"),
+				    _x_ ("next_seq for ticks %"
+					 LW6SYS_PRINTF_LL "d is %"
+					 LW6SYS_PRINTF_LL "d"),
 				    (int64_t) TEST_CALIBRATE_TICKS1,
 				    (int64_t)
-				    lw6pil_pilot_get_next_round (pilot,
-								 TEST_CALIBRATE_TICKS1));
+				    lw6pil_pilot_get_next_seq (pilot,
+							       TEST_CALIBRATE_TICKS1));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("next_round for ticks %"
-					 LW6SYS_PRINTF_LL "d is %d"),
+				    _x_ ("next_seq for ticks %"
+					 LW6SYS_PRINTF_LL "d is %"
+					 LW6SYS_PRINTF_LL "d"),
 				    (int64_t) TEST_CALIBRATE_TICKS2,
 				    (int64_t)
-				    lw6pil_pilot_get_next_round (pilot,
-								 TEST_CALIBRATE_TICKS2));
+				    lw6pil_pilot_get_next_seq (pilot,
+							       TEST_CALIBRATE_TICKS2));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("last_commit_round=%d"),
-				    lw6pil_pilot_get_last_commit_round
+				    _x_ ("last_commit_seq=%" LW6SYS_PRINTF_LL
+					 "d"),
+				    lw6pil_pilot_get_last_commit_seq (pilot));
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("reference_current_seq=%"
+					 LW6SYS_PRINTF_LL "d"),
+				    lw6pil_pilot_get_reference_current_seq
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("reference_current_round=%d"),
-				    lw6pil_pilot_get_reference_current_round
+				    _x_ ("reference_target_seq=%"
+					 LW6SYS_PRINTF_LL "d"),
+				    lw6pil_pilot_get_reference_target_seq
 				    (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("reference_target_round=%d"),
-				    lw6pil_pilot_get_reference_target_round
-				    (pilot));
-			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max_round=%d"),
-				    lw6pil_pilot_get_max_round (pilot));
+				    _x_ ("max_seq=%" LW6SYS_PRINTF_LL "d"),
+				    lw6pil_pilot_get_max_seq (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" stop"), repr);
 

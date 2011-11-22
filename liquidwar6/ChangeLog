@@ -1,3 +1,7 @@
+2011-11-22 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Now using 64-bit seq in pil module.
+
 2011-11-06 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Removed discouraged Guile functions.

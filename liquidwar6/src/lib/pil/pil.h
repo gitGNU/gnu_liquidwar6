@@ -218,8 +218,8 @@ extern lw6ker_game_state_t *lw6pil_pilot_dirty_read (lw6pil_pilot_t * pilot);
 extern char *lw6pil_pilot_repr (lw6pil_pilot_t * pilot);
 extern void lw6pil_pilot_calibrate (lw6pil_pilot_t * pilot, int64_t timestamp,
 				    int64_t seq);
-extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int64_t seq_inc);
-extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int64_t seq_dec);
+extern void lw6pil_pilot_speed_up (lw6pil_pilot_t * pilot, int seq_inc);
+extern void lw6pil_pilot_slow_down (lw6pil_pilot_t * pilot, int seq_dec);
 extern int64_t lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_seq2round (lw6pil_pilot_t * pilot, int64_t seq);
 extern int64_t lw6pil_pilot_round2seq (lw6pil_pilot_t * pilot, int round);
