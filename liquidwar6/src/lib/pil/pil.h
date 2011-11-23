@@ -125,21 +125,13 @@ lw6pil_local_cursors_t;
 
 typedef struct lw6pil_pilot_s
 {
+  /*
+   * The  first members, id, is the same as the internal
+   * _lw6pil_piot_t structure. The rest of it is hidden.
+   * The program will cast from lw6pil_pilot_t to _lw6pil_pilot_t
+   * internally.
+   */
   u_int32_t id;
-  int64_t seq_0;
-  int64_t calibrate_timestamp;
-  int64_t calibrate_seq;
-  lw6map_level_t *level;
-  lw6ker_game_struct_t *game_struct;
-  lw6ker_game_state_t *backup;
-  lw6pil_worker_t reference;
-  lw6pil_worker_t draft;
-  lw6sys_list_t *verified_queue;
-  lw6sys_list_t *unverified_queue;
-  lw6sys_list_t *replay;
-  int64_t last_commit_seq;
-  int64_t last_sync_draft_from_reference_seq;
-  lw6pil_local_cursors_t local_cursors;
 } lw6pil_pilot_t;
 
 /* pil-bench.c */
@@ -233,6 +225,8 @@ extern int64_t lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_is_over (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot,
 					u_int16_t cursor_id);
+extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t
+							       * pilot);
 
 /* pil-seq.c */
 extern int64_t lw6pil_seq_random_0 ();

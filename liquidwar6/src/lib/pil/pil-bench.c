@@ -69,7 +69,7 @@ _lw6pil_bench_dummy_nop (int64_t * dummy)
 }
 
 static void
-do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
+do_bench (_lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 {
   int64_t start_time = 0L;
   int64_t current_time = 0L;
@@ -91,8 +91,8 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   command = bench_init_commands;
   while (*command)
     {
-      lw6pil_pilot_send_command (pilot, *command, 0);
-      lw6pil_pilot_send_command (pilot, *command, 1);
+      _lw6pil_pilot_send_command (pilot, *command, 0);
+      _lw6pil_pilot_send_command (pilot, *command, 1);
       command++;
     }
   command_str = lw6sys_new_sprintf (BENCH_NOP_COMMAND, BENCH_INFINITE_SEQ);
@@ -100,11 +100,11 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
     {
       lw6sys_log (LW6SYS_LOG_INFO, _x_ ("infinite command \"%s\""),
 		  command_str);
-      lw6pil_pilot_send_command (pilot, command_str, 0);
-      lw6pil_pilot_send_command (pilot, command_str, 1);
+      _lw6pil_pilot_send_command (pilot, command_str, 0);
+      _lw6pil_pilot_send_command (pilot, command_str, 1);
       LW6SYS_FREE (command_str);
     }
-  lw6pil_pilot_commit (pilot);
+  _lw6pil_pilot_commit (pilot);
 
   computed_reference_begin = pilot->reference.computed_rounds;
   computed_draft_begin = pilot->draft.computed_rounds;
@@ -114,7 +114,7 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
   while ((current_time =
 	  lw6sys_get_timestamp ()) < start_time + BENCH_DURATION)
     {
-      current_seq = lw6pil_pilot_get_reference_current_seq (pilot);
+      current_seq = _lw6pil_pilot_get_reference_current_seq (pilot);
       if (current_seq - BENCH_ANTICIPATION_DELTA >= last_seq)
 	{
 	  command_str =
@@ -125,10 +125,10 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 	      lw6sys_log (LW6SYS_LOG_INFO,
 			  _x_ ("anticipate at seq %" LW6SYS_PRINTF_LL
 			       "d with \"%s\""), current_seq, command_str);
-	      lw6pil_pilot_send_command (pilot, command_str, 0);
+	      _lw6pil_pilot_send_command (pilot, command_str, 0);
 	      LW6SYS_FREE (command_str);
 	    }
-	  lw6pil_pilot_commit (pilot);
+	  _lw6pil_pilot_commit (pilot);
 	  last_seq = current_seq;
 	}
       lw6sys_progress_update (progress, 0, BENCH_DURATION,
@@ -139,13 +139,13 @@ do_bench (lw6pil_pilot_t * pilot, float *value, lw6sys_progress_t * progress)
 	      _x_ ("stress stop dummy=%" LW6SYS_PRINTF_LL "d"), dummy);
 
   seq_reference =
-    lw6pil_pilot_round2seq (pilot,
-			    lw6ker_game_state_get_rounds (pilot->
-							  reference.game_state));
+    _lw6pil_pilot_round2seq (pilot,
+			     lw6ker_game_state_get_rounds (pilot->
+							   reference.game_state));
   seq_draft =
-    lw6pil_pilot_round2seq (pilot,
-			    lw6ker_game_state_get_rounds (pilot->
-							  draft.game_state));
+    _lw6pil_pilot_round2seq (pilot,
+			     lw6ker_game_state_get_rounds (pilot->
+							   draft.game_state));
   computed_reference_end = pilot->reference.computed_rounds;
   computed_draft_end = pilot->draft.computed_rounds;
   computed_reference_delta =
@@ -201,7 +201,7 @@ lw6pil_bench (float *bench_result, lw6sys_progress_t * progress)
   lw6map_level_t *level = NULL;
   lw6ker_game_struct_t *game_struct = NULL;
   lw6ker_game_state_t *game_state = NULL;
-  lw6pil_pilot_t *pilot = NULL;
+  _lw6pil_pilot_t *pilot = NULL;
   float value;
   lw6sys_progress_t progress_init;
   lw6sys_progress_t progress_level;
@@ -229,8 +229,8 @@ lw6pil_bench (float *bench_result, lw6sys_progress_t * progress)
 	  if (game_state)
 	    {
 	      pilot =
-		lw6pil_pilot_new (game_state, BENCH_SEQ_0, BENCH_TIMESTAMP,
-				  &progress_pilot);
+		_lw6pil_pilot_new (game_state, BENCH_SEQ_0, BENCH_TIMESTAMP,
+				   &progress_pilot);
 	      if (pilot)
 		{
 		  /*
@@ -253,7 +253,7 @@ lw6pil_bench (float *bench_result, lw6sys_progress_t * progress)
 		      (*bench_result) = value;
 		    }
 		  ret = 1;
-		  lw6pil_pilot_free (pilot);
+		  _lw6pil_pilot_free (pilot);
 		}
 	      if (game_state)
 		{

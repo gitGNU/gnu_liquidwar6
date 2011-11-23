@@ -6836,7 +6836,8 @@ _scm_lw6pil_local_cursors_set_main (SCM pilot, SCM cursor_id)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
 	  ret =
-	    lw6pil_local_cursors_set_main (&(c_pilot->local_cursors),
+	    lw6pil_local_cursors_set_main (lw6pil_pilot_get_local_cursors
+					   (c_pilot),
 					   c_cursor_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
 	  LW6SYS_FREE (c_cursor_id_str);
@@ -6876,12 +6877,9 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (SCM pilot, SCM cursor_id,
 	  c_cursor_id_int = lw6sys_id_atol (c_cursor_id_str);
 	  c_mouse_controlled = SCM_NFALSEP (mouse_controlled);
 	  ret =
-	    lw6pil_local_cursors_set_mouse_controlled (&
-						       (c_pilot->
-							local_cursors),
-						       c_cursor_id_int,
-						       c_mouse_controlled) ?
-	    SCM_BOOL_T : SCM_BOOL_F;
+	    lw6pil_local_cursors_set_mouse_controlled
+	    (lw6pil_pilot_get_local_cursors (c_pilot), c_cursor_id_int,
+	     c_mouse_controlled) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (c_cursor_id_str);
 	}
     }

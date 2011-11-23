@@ -1,5 +1,4 @@
 ?
-c-lw6pil-seq-random-0
 about
 ambiance-exclude
 ambiance-file
@@ -225,6 +224,7 @@ c-lw6pil-local-cursors-set-main
 c-lw6pil-local-cursors-set-mouse-controlled
 c-lw6pil-make-backup
 c-lw6pil-send-command
+c-lw6pil-seq-random-0
 c-lw6pil-slow-down
 c-lw6pil-speed-up
 c-lw6pil-sync-from-backup

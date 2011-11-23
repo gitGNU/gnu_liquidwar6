@@ -227,11 +227,12 @@ poll (_lw6dsp_data_t * data)
 	   * might contain inconsistent data, but at least it won't
 	   * be modified *while* we are reading it.
 	   */
-	  data->local_cursors = data->param.pilot->local_cursors;
+	  data->local_cursors =
+	    (*lw6pil_pilot_get_local_cursors (data->param.pilot));
 	  break;
 	case LW6PIL_DIRTY_READ_ALWAYS:
 	  game_state = lw6pil_pilot_dirty_read (data->param.pilot);
-	  local_cursors = &(data->param.pilot->local_cursors);
+	  local_cursors = lw6pil_pilot_get_local_cursors (data->param.pilot);
 	  break;
 	default:
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("bad value %d for dirty_read"),
