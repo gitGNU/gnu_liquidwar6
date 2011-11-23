@@ -572,8 +572,11 @@ results on
      such cursor).
 
  -- Function: lw6pil_pilot_t * lw6pil_pilot_new (lw6ker_game_state_t *
-          GAME_STATE, int64_t TIMESTAMP, lw6sys_progress_t * PROGRESS)
+          GAME_STATE, int64_t SEQ_0, int64_t TIMESTAMP,
+          lw6sys_progress_t * PROGRESS)
      GAME_STATE:  the game state we're going to work on
+
+     SEQ_0:  the start sequence to use, that is, the seq at round=0
 
      TIMESTAMP:  the current ticks (1000 ticks per sec, used to
      calibrate)
@@ -723,12 +726,12 @@ results on
      *Return value:*  a dynamically allocated string.
 
  -- Function: void lw6pil_pilot_calibrate (lw6pil_pilot_t * PILOT,
-          int64_t TIMESTAMP, int ROUND)
+          int64_t TIMESTAMP, int64_t SEQ)
      PILOT:  the object to calibrate
 
      TIMESTAMP:  the current ticks setting (1000 ticks per second)
 
-     ROUND:  the round expected to be returned with this ticks value
+     SEQ:  the round expected to be returned with this ticks value
 
      Calibrates the pilot, that is, initializes it so that subsequent
      calls to `lw6pil_pilot_get_round' return consistent values.
@@ -736,79 +739,113 @@ results on
      *Return value:*  none.
 
  -- Function: void lw6pil_pilot_speed_up (lw6pil_pilot_t * PILOT, int
-          ROUND_INC)
+          SEQ_INC)
      PILOT:  the pilot to speed up
 
-     ROUND_INC:  the number of rounds
+     SEQ_INC:  the number of seqs
 
      Re-calibrates the pilot so that it speeds up a bit.  This will
-     basically increase next_round by round_inc.
+     basically increase next_seq by seq_inc.
 
      *Return value:*  none.
 
  -- Function: void lw6pil_pilot_slow_down (lw6pil_pilot_t * PILOT, int
-          ROUND_DEC)
+          SEQ_DEC)
      PILOT:  the pilot to speed up
 
-     ROUND_DEC:  the number of rounds
+     SEQ_DEC:  the number of seqs
 
      Re-calibrates the pilot so that it slows down a bit.  This will
-     basically decrease next_round by round_inc.
+     basically decrease next_seq by seq_inc.
 
      *Return value:*  none.
 
- -- Function: int lw6pil_pilot_get_next_round (lw6pil_pilot_t * PILOT,
-          int64_t TIMESTAMP)
+ -- Function: int64_t lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * PILOT)
+     PILOT:  pilot object to query
+
+     Get the initial seq (the one passed at object construction) which
+     says what the seq was at round=0, it's just an offset.
+
+     *Return value:*  64-bit integer
+
+ -- Function: int lw6pil_pilot_seq2round (lw6pil_pilot_t * PILOT,
+          int64_t SEQ)
+     PILOT:  pilot object to work on
+
+     SEQ:  the seq to convert
+
+     Converts a seq (64-bit) to a round (32-bit). 64-bit seqs are used
+     to avoid out-of-range errors on very long games, OTOH a round is
+     32-bit to garantee the atomicity of its affection, even on
+     platforms which are not native 64-bit.
+
+     *Return value:*  the round (32-bit integer)
+
+ -- Function: int64_t lw6pil_pilot_round2seq (lw6pil_pilot_t * PILOT,
+          int ROUND)
+     PILOT:  pilot object to work on
+
+     ROUND:  the round to convert
+
+     Converts a round (32-bit) to a seq (64-bit). 64-bit seqs are used
+     to avoid out-of-range errors on very long games, OTOH a round is
+     32-bit to garantee the atomicity of its affection, even on
+     platforms which are not native 64-bit.
+
+     *Return value:*  the seq (64-bit integer)
+
+ -- Function: int64_t lw6pil_pilot_get_next_seq (lw6pil_pilot_t *
+          PILOT, int64_t TIMESTAMP)
      PILOT:  the object to query
 
      TIMESTAMP:  the current ticks setting (1000 ticks per second)
 
-     Returns the round one should use to generate new events/commands
-     at a given time (given in ticks).
+     Returns the seq one should use to generate new events/commands at
+     a given time (given in ticks).
 
      *Return value:*  none.
 
- -- Function: int lw6pil_pilot_get_last_commit_round (lw6pil_pilot_t *
-          PILOT)
+ -- Function: int64_t lw6pil_pilot_get_last_commit_seq (lw6pil_pilot_t
+          * PILOT)
      PILOT:  the object to query
 
-     Returns the round of the last commit (reference game_state) for
-     this object.
+     Returns the seq of the last commit (reference game_state) for this
+     object.
 
-     *Return value:*  the commit round (reference object)
+     *Return value:*  the commit seq (reference object)
 
- -- Function: int lw6pil_pilot_get_reference_target_round
+ -- Function: int64_t lw6pil_pilot_get_reference_target_seq
           (lw6pil_pilot_t * PILOT)
      PILOT:  the object to query
 
-     Returns the round which is targetted in the reference game_state,
+     Returns the seq which is targetted in the reference game_state,
      this is 'how far computation will go in the reference game_state
      if no new commands are issued'. Note that there can always be some
      commands which are not yet processed, so you should not rely on
      this too heavily, however it gives a good idea of how things are
      going.
 
-     *Return value:*  the target round (reference object)
+     *Return value:*  the target seq (reference object)
 
- -- Function: int lw6pil_pilot_get_reference_current_round
+ -- Function: int64_t lw6pil_pilot_get_reference_current_seq
           (lw6pil_pilot_t * PILOT)
      PILOT:  the object to query
 
-     Returns the current round in the reference game_state. There's no
+     Returns the current seq in the reference game_state. There's no
      lock on this call so don't rely on this too heavily, it just gives
      you an idea of wether the pilot is very late on its objectives or
      just on time.
 
-     *Return value:*  the current round (reference object)
+     *Return value:*  the current seq (reference object)
 
- -- Function: int lw6pil_pilot_get_max_round (lw6pil_pilot_t * PILOT)
+ -- Function: int64_t lw6pil_pilot_get_max_seq (lw6pil_pilot_t * PILOT)
      PILOT:  the object to query
 
-     Returns the max current round in the reference or draft game
-     states. No lock on this call so don't rely on this too heavily, it
-     just gives you an idea of computation state.
+     Returns the max current seq in the reference or draft game states.
+     No lock on this call so don't rely on this too heavily, it just
+     gives you an idea of computation state.
 
-     *Return value:*  the current round (reference object)
+     *Return value:*  the current seq (reference object)
 
  -- Function: int lw6pil_pilot_is_over (lw6pil_pilot_t * PILOT)
      PILOT:  the object to query
@@ -826,6 +863,14 @@ results on
      Tells wether a given cursor was winner or not.
 
      *Return value:*  1 if over, 0 if not
+
+ -- Function: int64_t lw6pil_seq_random_0 ()
+     Gets a pseudo-random start seq, why do we use this? Just to make
+     sure even in non-network situations, seq are always very high and
+     random, this way this is one less bug to check in networked
+     context.
+
+     *Return value:*  random integer value, always greater than INT_MAX
 
  -- Function: int lw6pil_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2184,6 +2229,13 @@ results on
 
      *Return value:*  an integer.
 
+ -- Function: int64_t lw6sys_atoll (char * STR)
+     STR:  string to convert
+
+     Wrapper on `atoll', it's here for API consistency.
+
+     *Return value:*  a 64-bit integer.
+
  -- Function: int lw6sys_atob (char * STR)
      STR:  string to convert
 
@@ -2206,6 +2258,15 @@ results on
 
      Converts an integer to a string, the advantage of this function is
      it allocates memory, and does the dirty job.
+
+     *Return value:*  a newly allocated pointer, must be freed, may be
+     NULL.
+
+ -- Function: char * lw6sys_lltoa (int64_t VALUE)
+     VALUE:  the integer to convert
+
+     Converts a 64-bit integer to a string, the advantage of this
+     function is it allocates memory, and does the dirty job.
 
      *Return value:*  a newly allocated pointer, must be freed, may be
      NULL.

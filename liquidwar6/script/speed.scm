@@ -21,10 +21,10 @@
 (define lw6-speed-calibrate-local-pilot
   (lambda (pilot)
     (let* (
-	   (max-round (c-lw6pil-get-max-round pilot))
-	   (next-round (c-lw6pil-get-next-round pilot (c-lw6sys-get-timestamp)))
+	   (max-seq (c-lw6pil-get-max-seq pilot))
+	   (next-seq (c-lw6pil-get-next-seq pilot (c-lw6sys-get-timestamp)))
 	   (pilot-lag (lw6-config-get-number lw6def-pilot-lag))
-	   (delta (- next-round max-round))
+	   (delta (- next-seq max-seq))
 	   )
       (if (< pilot-lag delta)
 	  (let (

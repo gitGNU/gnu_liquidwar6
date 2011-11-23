@@ -20,6 +20,7 @@
 
 ;Generated automatically by def-update.py
 
+(define lw6def-c-lw6pil-seq-random-0 "c-lw6pil-seq-random-0")
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")
@@ -233,11 +234,11 @@
 (define lw6def-c-lw6pil-execute-command "c-lw6pil-execute-command")
 (define lw6def-c-lw6pil-fix-coords "c-lw6pil-fix-coords")
 (define lw6def-c-lw6pil-fix-coords-x10 "c-lw6pil-fix-coords-x10")
-(define lw6def-c-lw6pil-get-last-commit-round "c-lw6pil-get-last-commit-round")
-(define lw6def-c-lw6pil-get-max-round "c-lw6pil-get-max-round")
-(define lw6def-c-lw6pil-get-next-round "c-lw6pil-get-next-round")
-(define lw6def-c-lw6pil-get-reference-current-round "c-lw6pil-get-reference-current-round")
-(define lw6def-c-lw6pil-get-reference-target-round "c-lw6pil-get-reference-target-round")
+(define lw6def-c-lw6pil-get-last-commit-seq "c-lw6pil-get-last-commit-seq")
+(define lw6def-c-lw6pil-get-max-seq "c-lw6pil-get-max-seq")
+(define lw6def-c-lw6pil-get-next-seq "c-lw6pil-get-next-seq")
+(define lw6def-c-lw6pil-get-reference-current-seq "c-lw6pil-get-reference-current-seq")
+(define lw6def-c-lw6pil-get-reference-target-seq "c-lw6pil-get-reference-target-seq")
 (define lw6def-c-lw6pil-is-over "c-lw6pil-is-over")
 (define lw6def-c-lw6pil-local-command "c-lw6pil-local-command")
 (define lw6def-c-lw6pil-local-cursors-set-main "c-lw6pil-local-cursors-set-main")

@@ -27,6 +27,7 @@ Contact author        : ufoot@ufoot.org
 #ifndef LIQUIDWAR6DEF_DEF_H
 #define LIQUIDWAR6DEF_DEF_H
 
+#define LW6DEF_C_LW6PIL_SEQ_RANDOM_0 "c-lw6pil-seq-random-0"
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
@@ -240,11 +241,11 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6PIL_EXECUTE_COMMAND "c-lw6pil-execute-command"
 #define LW6DEF_C_LW6PIL_FIX_COORDS "c-lw6pil-fix-coords"
 #define LW6DEF_C_LW6PIL_FIX_COORDS_X10 "c-lw6pil-fix-coords-x10"
-#define LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND "c-lw6pil-get-last-commit-round"
-#define LW6DEF_C_LW6PIL_GET_MAX_ROUND "c-lw6pil-get-max-round"
-#define LW6DEF_C_LW6PIL_GET_NEXT_ROUND "c-lw6pil-get-next-round"
-#define LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND "c-lw6pil-get-reference-current-round"
-#define LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND "c-lw6pil-get-reference-target-round"
+#define LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ "c-lw6pil-get-last-commit-seq"
+#define LW6DEF_C_LW6PIL_GET_MAX_SEQ "c-lw6pil-get-max-seq"
+#define LW6DEF_C_LW6PIL_GET_NEXT_SEQ "c-lw6pil-get-next-seq"
+#define LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ "c-lw6pil-get-reference-current-seq"
+#define LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_SEQ "c-lw6pil-get-reference-target-seq"
 #define LW6DEF_C_LW6PIL_IS_OVER "c-lw6pil-is-over"
 #define LW6DEF_C_LW6PIL_LOCAL_COMMAND "c-lw6pil-local-command"
 #define LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN "c-lw6pil-local-cursors-set-main"

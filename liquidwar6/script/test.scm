@@ -56,7 +56,9 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state 0))
+	   (pilot (c-lw6pil-build-pilot game-state 					   
+					(c-lw6pil-seq-random-0)
+					0))
 	  )
       (begin
 	(c-lw6sys-sleep 1)
@@ -71,7 +73,9 @@
 	   (the-map (c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))
 	   (game-struct (c-lw6ker-build-game-struct the-map))
 	   (game-state (c-lw6ker-build-game-state game-struct))
-	   (pilot (c-lw6pil-build-pilot game-state 0))
+	   (pilot (c-lw6pil-build-pilot game-state 					   
+					(c-lw6pil-seq-random-0)
+					0))
 	   )
       (begin
 	(c-lw6pil-execute-command game-state "0 1234123412341234 REGISTER")

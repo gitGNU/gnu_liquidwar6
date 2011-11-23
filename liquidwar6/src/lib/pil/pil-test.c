@@ -542,6 +542,29 @@ test_pilot ()
   return ret;
 }
 
+/*
+ * Testing functions in seq.c
+ */
+static int
+test_seq ()
+{
+  int ret = 0;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int64_t random_0;
+
+    random_0 = lw6pil_seq_random_0 ();
+    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("random_0=%" LW6SYS_PRINTF_LL "d"),
+		random_0);
+
+    ret = 1;
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6pil_test
  *
@@ -567,7 +590,7 @@ lw6pil_test (int mode)
     }
 
   ret = test_command () && test_coords () && test_local_cursors ()
-    && test_pilot () && test_bench ();
+    && test_pilot () && test_bench () && test_seq ();
 
   return ret;
 }

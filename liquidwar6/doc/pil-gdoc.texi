@@ -125,8 +125,10 @@ for instance).
 @strong{Return value:}  1 on success (cursor exists), 0 on failure (no such cursor).
 @end deftypefun
 
-@deftypefun {lw6pil_pilot_t *} {lw6pil_pilot_new} (lw6ker_game_state_t * @var{game_state}, int64_t @var{timestamp}, lw6sys_progress_t * @var{progress})
+@deftypefun {lw6pil_pilot_t *} {lw6pil_pilot_new} (lw6ker_game_state_t * @var{game_state}, int64_t @var{seq_0}, int64_t @var{timestamp}, lw6sys_progress_t * @var{progress})
 @var{game_state}:  the game state we're going to work on
+
+@var{seq_0}:  the start sequence to use, that is, the seq at round=0
 
 @var{timestamp}:  the current ticks (1000 ticks per sec, used to calibrate)
 
@@ -273,12 +275,12 @@ description. Still, the string returned should be unique.
 @strong{Return value:}  a dynamically allocated string.
 @end deftypefun
 
-@deftypefun {void} {lw6pil_pilot_calibrate} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp}, int @var{round})
+@deftypefun {void} {lw6pil_pilot_calibrate} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp}, int64_t @var{seq})
 @var{pilot}:  the object to calibrate
 
 @var{timestamp}:  the current ticks setting (1000 ticks per second)
 
-@var{round}:  the round expected to be returned with this ticks value
+@var{seq}:  the round expected to be returned with this ticks value
 
 Calibrates the pilot, that is, initializes it so that subsequent calls
 to @code{lw6pil_pilot_get_round} return consistent values.
@@ -286,80 +288,115 @@ to @code{lw6pil_pilot_get_round} return consistent values.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6pil_pilot_speed_up} (lw6pil_pilot_t * @var{pilot}, int @var{round_inc})
+@deftypefun {void} {lw6pil_pilot_speed_up} (lw6pil_pilot_t * @var{pilot}, int @var{seq_inc})
 @var{pilot}:  the pilot to speed up
 
-@var{round_inc}:  the number of rounds
+@var{seq_inc}:  the number of seqs
 
 Re-calibrates the pilot so that it speeds up a bit.
-This will basically increase next_round by round_inc.
+This will basically increase next_seq by seq_inc.
 
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6pil_pilot_slow_down} (lw6pil_pilot_t * @var{pilot}, int @var{round_dec})
+@deftypefun {void} {lw6pil_pilot_slow_down} (lw6pil_pilot_t * @var{pilot}, int @var{seq_dec})
 @var{pilot}:  the pilot to speed up
 
-@var{round_dec}:  the number of rounds
+@var{seq_dec}:  the number of seqs
 
 Re-calibrates the pilot so that it slows down a bit.
-This will basically decrease next_round by round_inc.
+This will basically decrease next_seq by seq_inc.
 
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_get_next_round} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp})
+@deftypefun {int64_t} {lw6pil_pilot_get_seq_0} (lw6pil_pilot_t * @var{pilot})
+@var{pilot}:  pilot object to query
+
+Get the initial seq (the one passed at object construction) which
+says what the seq was at round=0, it's just an offset.
+
+@strong{Return value:}  64-bit integer
+@end deftypefun
+
+@deftypefun {int} {lw6pil_pilot_seq2round} (lw6pil_pilot_t * @var{pilot}, int64_t @var{seq})
+@var{pilot}:  pilot object to work on
+
+@var{seq}:  the seq to convert
+
+Converts a seq (64-bit) to a round (32-bit). 64-bit seqs are used
+to avoid out-of-range errors on very long games, OTOH a round is 32-bit
+to garantee the atomicity of its affection, even on platforms which
+are not native 64-bit.
+
+@strong{Return value:}  the round (32-bit integer)
+@end deftypefun
+
+@deftypefun {int64_t} {lw6pil_pilot_round2seq} (lw6pil_pilot_t * @var{pilot}, int @var{round})
+@var{pilot}:  pilot object to work on
+
+@var{round}:  the round to convert
+
+Converts a round (32-bit) to a seq (64-bit). 64-bit seqs are used
+to avoid out-of-range errors on very long games, OTOH a round is 32-bit
+to garantee the atomicity of its affection, even on platforms which
+are not native 64-bit.
+
+@strong{Return value:}  the seq (64-bit integer)
+@end deftypefun
+
+@deftypefun {int64_t} {lw6pil_pilot_get_next_seq} (lw6pil_pilot_t * @var{pilot}, int64_t @var{timestamp})
 @var{pilot}:  the object to query
 
 @var{timestamp}:  the current ticks setting (1000 ticks per second)
 
-Returns the round one should use to generate new events/commands
+Returns the seq one should use to generate new events/commands
 at a given time (given in ticks).
 
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_get_last_commit_round} (lw6pil_pilot_t * @var{pilot})
+@deftypefun {int64_t} {lw6pil_pilot_get_last_commit_seq} (lw6pil_pilot_t * @var{pilot})
 @var{pilot}:  the object to query
 
-Returns the round of the last commit (reference game_state) for
+Returns the seq of the last commit (reference game_state) for
 this object.
 
-@strong{Return value:}  the commit round (reference object)
+@strong{Return value:}  the commit seq (reference object)
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_get_reference_target_round} (lw6pil_pilot_t * @var{pilot})
+@deftypefun {int64_t} {lw6pil_pilot_get_reference_target_seq} (lw6pil_pilot_t * @var{pilot})
 @var{pilot}:  the object to query
 
-Returns the round which is targetted in the reference game_state,
+Returns the seq which is targetted in the reference game_state,
 this is 'how far computation will go in the reference game_state
 if no new commands are issued'. Note that there can always
 be some commands which are not yet processed, so you should not
 rely on this too heavily, however it gives a good idea of how
 things are going.
 
-@strong{Return value:}  the target round (reference object)
+@strong{Return value:}  the target seq (reference object)
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_get_reference_current_round} (lw6pil_pilot_t * @var{pilot})
+@deftypefun {int64_t} {lw6pil_pilot_get_reference_current_seq} (lw6pil_pilot_t * @var{pilot})
 @var{pilot}:  the object to query
 
-Returns the current round in the reference game_state. There's no
+Returns the current seq in the reference game_state. There's no
 lock on this call so don't rely on this too heavily, it just
 gives you an idea of wether the pilot is very late on its
 objectives or just on time.
 
-@strong{Return value:}  the current round (reference object)
+@strong{Return value:}  the current seq (reference object)
 @end deftypefun
 
-@deftypefun {int} {lw6pil_pilot_get_max_round} (lw6pil_pilot_t * @var{pilot})
+@deftypefun {int64_t} {lw6pil_pilot_get_max_seq} (lw6pil_pilot_t * @var{pilot})
 @var{pilot}:  the object to query
 
-Returns the max current round in the reference or draft
+Returns the max current seq in the reference or draft
 game states. No lock on this call so don't rely on this
 too heavily, it just gives you an idea of computation state.
 
-@strong{Return value:}  the current round (reference object)
+@strong{Return value:}  the current seq (reference object)
 @end deftypefun
 
 @deftypefun {int} {lw6pil_pilot_is_over} (lw6pil_pilot_t * @var{pilot})
@@ -378,6 +415,15 @@ Tells wether the game is over or not.
 Tells wether a given cursor was winner or not.
 
 @strong{Return value:}  1 if over, 0 if not
+@end deftypefun
+
+@deftypefun {int64_t} {lw6pil_seq_random_0} ()
+
+Gets a pseudo-random start seq, why do we use this? Just to make
+sure even in non-network situations, seq are always very high and
+random, this way this is one less bug to check in networked context.
+
+@strong{Return value:}  random integer value, always greater than INT_MAX
 @end deftypefun
 
 @deftypefun {int} {lw6pil_test} (int @var{mode})

@@ -1,4 +1,5 @@
 ?
+c-lw6pil-seq-random-0
 about
 ambiance-exclude
 ambiance-file
@@ -213,11 +214,11 @@ c-lw6pil-did-cursor-win
 c-lw6pil-execute-command
 c-lw6pil-fix-coords
 c-lw6pil-fix-coords-x10
-c-lw6pil-get-last-commit-round
-c-lw6pil-get-max-round
-c-lw6pil-get-next-round
-c-lw6pil-get-reference-current-round
-c-lw6pil-get-reference-target-round
+c-lw6pil-get-last-commit-seq
+c-lw6pil-get-max-seq
+c-lw6pil-get-next-seq
+c-lw6pil-get-reference-current-seq
+c-lw6pil-get-reference-target-seq
 c-lw6pil-is-over
 c-lw6pil-local-command
 c-lw6pil-local-cursors-set-main

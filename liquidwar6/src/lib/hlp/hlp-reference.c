@@ -2687,19 +2687,21 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_speed_up."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SLOW_DOWN,
 		 _x_ ("Wrapper on lw6pil_slow_down."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_NEXT_ROUND,
-		 _x_ ("Wrapper on lw6pil_get_next_round."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND,
-		 _x_ ("Wrapper on lw6pil_get_last_commit_round."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND,
-		 _x_ ("Wrapper on lw6pil_get_reference_current_round."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND,
-		 _x_ ("Wrapper on lw6pil_get_reference_target_round."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_MAX_ROUND,
-		 _x_ ("Wrapper on lw6pil_get_max_round."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_NEXT_SEQ,
+		 _x_ ("Wrapper on lw6pil_get_next_seq."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ,
+		 _x_ ("Wrapper on lw6pil_get_last_commit_seq."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ,
+		 _x_ ("Wrapper on lw6pil_get_reference_current_seq."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_SEQ,
+		 _x_ ("Wrapper on lw6pil_get_reference_target_seq."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_MAX_SEQ,
+		 _x_ ("Wrapper on lw6pil_get_max_seq."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_IS_OVER, _x_ ("Wrapper on lw6pil_is_over."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_DID_CURSOR_WIN,
 		 _x_ ("Wrapper on lw6pil_did_cursor_win."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_SEQ_RANDOM_0,
+		 _x_ ("Wrapper on lw6pil_seq_random_0."));
   POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6snd_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6SND_NEW, _x_ ("Wrapper on lw6snd_new."));

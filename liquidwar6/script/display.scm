@@ -89,8 +89,8 @@
 			       (lw6-config-get-string lw6def-gfx-quality)))
 	(if (and game-state pilot node-id)
 	    (let* (
-		   (round (c-lw6pil-get-max-round pilot))
-		   (commands (lw6-command-all-local round node-id))
+		   (seq (c-lw6pil-get-max-seq pilot))
+		   (commands (lw6-command-all-local seq node-id))
 		   (main-cursor (lw6-get-cursor "1"))
 		   (main-cursor-id (if main-cursor (hash-ref main-cursor "id") "0"))
 		   ;(main-cursor-x (if main-cursor (hash-ref main-cursor "x") 0))

@@ -178,7 +178,9 @@ pilot_new (lw6ker_game_state_t * game_state, lw6sys_progress_t * progress)
   lw6pil_pilot_t *ret = NULL;
 
   lw6sys_progress_begin (progress);
-  ret = lw6pil_pilot_new (game_state, lw6sys_get_timestamp (), progress);
+  ret =
+    lw6pil_pilot_new (game_state, lw6pil_seq_random_0 (),
+		      lw6sys_get_timestamp (), progress);
   if (ret)
     {
       // ok

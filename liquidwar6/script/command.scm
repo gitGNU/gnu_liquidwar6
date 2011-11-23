@@ -19,36 +19,36 @@
 ;Contact author        : ufoot@ufoot.org
 
 (define lw6-command-nop
-  (lambda (round node-id)
-    (format #f "~a ~a NOP" round node-id)))
+  (lambda (seq node-id)
+    (format #f "~a ~a NOP" seq node-id)))
 
 (define lw6-command-register
-  (lambda (round node-id)
-    (format #f "~a ~a REGISTER" round node-id)))
+  (lambda (seq node-id)
+    (format #f "~a ~a REGISTER" seq node-id)))
 
 (define lw6-command-unregister
-  (lambda (round node-id)
-    (format #f "~a ~a UNREGISTER" round node-id)))
+  (lambda (seq node-id)
+    (format #f "~a ~a UNREGISTER" seq node-id)))
 
 (define lw6-command-add
-  (lambda (round node-id cursor-id team-color)
-    (format #f "~a ~a ADD ~a ~a" round node-id cursor-id team-color)))
+  (lambda (seq node-id cursor-id team-color)
+    (format #f "~a ~a ADD ~a ~a" seq node-id cursor-id team-color)))
 
 (define lw6-command-remove
-  (lambda (round node-id cursor-id)
-    (format #f "~a ~a REMOVE ~a" round node-id cursor-id)))
+  (lambda (seq node-id cursor-id)
+    (format #f "~a ~a REMOVE ~a" seq node-id cursor-id)))
 
 (define lw6-command-set
-  (lambda (round node-id cursor-id x y fire fire2)
-    (format #f "~a ~a SET ~a ~a ~a ~a ~a" round node-id cursor-id
-	    (inexact->exact (floor x))
-	    (inexact->exact (floor y))
+  (lambda (seq node-id cursor-id x y fire fire2)
+    (format #f "~a ~a SET ~a ~a ~a ~a ~a" seq node-id cursor-id
+	    (inexact->exact (floor (or x 0)))
+	    (inexact->exact (floor (or y 0)))
 	    (if fire 1 0)
 	    (if fire2 1 0)
 	    )))
 
 (define lw6-command-all-local
-  (lambda (round node-id)
+  (lambda (seq node-id)
     (let (
 	  (commands (list))
 	  )
@@ -73,7 +73,7 @@
 			     (fire (hash-ref cursor "fire"))
 			     (fire2 (hash-ref cursor "fire2"))
 			     )
-			 (set! commands (append commands (list (lw6-command-set round node-id cursor-id x y fire fire2))
+			 (set! commands (append commands (list (lw6-command-set seq node-id cursor-id x y fire fire2))
 						)
 			       )
 			 )
@@ -102,16 +102,16 @@
 	    (if (c-lw6pil-is-over pilot)
 		#f ;; game over
 		(let* (
-		       (last-commit-round (c-lw6pil-get-last-commit-round pilot))
-		       (next-round (c-lw6pil-get-next-round pilot timestamp))
-		       (delta-round (- next-round last-commit-round))
+		       (last-commit-seq (c-lw6pil-get-last-commit-seq pilot))
+		       (next-seq (c-lw6pil-get-next-seq pilot timestamp))
+		       (delta-seq (- next-seq last-commit-seq))
 		       )
-		  (if (or (>= delta-round 2) 
-			  (and (>= delta-round 1) for-real))
+		  (if (or (>= delta-seq 2) 
+			  (and (>= delta-seq 1) for-real))
 		      (let (
 			(commands (if for-real
-				      (lw6-command-all-local next-round node-id)
-				      (list (lw6-command-nop (- next-round 1) node-id))))
+				      (lw6-command-all-local next-seq node-id)
+				      (list (lw6-command-nop (- next-seq 1) node-id))))
 			)
 			(begin
 			  ;;(tmp commands)

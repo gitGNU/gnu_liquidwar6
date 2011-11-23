@@ -850,29 +850,29 @@ Wrapper on lw6pil_coords_fix.
 Wrapper on lw6pil_coords_fix_x10.
 @end deffn
 
-@subsection c-lw6pil-get-last-commit-round
-@deffn {C function exported to Guile} @code{c-lw6pil-get-last-commit-round}
-Wrapper on lw6pil_get_last_commit_round.
+@subsection c-lw6pil-get-last-commit-seq
+@deffn {C function exported to Guile} @code{c-lw6pil-get-last-commit-seq}
+Wrapper on lw6pil_get_last_commit_seq.
 @end deffn
 
-@subsection c-lw6pil-get-max-round
-@deffn {C function exported to Guile} @code{c-lw6pil-get-max-round}
-Wrapper on lw6pil_get_max_round.
+@subsection c-lw6pil-get-max-seq
+@deffn {C function exported to Guile} @code{c-lw6pil-get-max-seq}
+Wrapper on lw6pil_get_max_seq.
 @end deffn
 
-@subsection c-lw6pil-get-next-round
-@deffn {C function exported to Guile} @code{c-lw6pil-get-next-round}
-Wrapper on lw6pil_get_next_round.
+@subsection c-lw6pil-get-next-seq
+@deffn {C function exported to Guile} @code{c-lw6pil-get-next-seq}
+Wrapper on lw6pil_get_next_seq.
 @end deffn
 
-@subsection c-lw6pil-get-reference-current-round
-@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-current-round}
-Wrapper on lw6pil_get_reference_current_round.
+@subsection c-lw6pil-get-reference-current-seq
+@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-current-seq}
+Wrapper on lw6pil_get_reference_current_seq.
 @end deffn
 
-@subsection c-lw6pil-get-reference-target-round
-@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-target-round}
-Wrapper on lw6pil_get_reference_target_round.
+@subsection c-lw6pil-get-reference-target-seq
+@deffn {C function exported to Guile} @code{c-lw6pil-get-reference-target-seq}
+Wrapper on lw6pil_get_reference_target_seq.
 @end deffn
 
 @subsection c-lw6pil-is-over
@@ -903,6 +903,11 @@ Wrapper on lw6pil_make_backup.
 @subsection c-lw6pil-send-command
 @deffn {C function exported to Guile} @code{c-lw6pil-send-command}
 Wrapper on lw6pil_send_command.
+@end deffn
+
+@subsection c-lw6pil-seq-random-0
+@deffn {C function exported to Guile} @code{c-lw6pil-seq-random-0}
+Wrapper on lw6pil_seq_random_0.
 @end deffn
 
 @subsection c-lw6pil-slow-down

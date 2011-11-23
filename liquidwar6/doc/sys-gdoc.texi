@@ -1213,6 +1213,14 @@ Just a plain wrapper on @code{atoi}, it's here for API consistency.
 @strong{Return value:}  an integer.
 @end deftypefun
 
+@deftypefun {int64_t} {lw6sys_atoll} (char * @var{str})
+@var{str}:  string to convert
+
+Wrapper on @code{atoll}, it's here for API consistency.
+
+@strong{Return value:}  a 64-bit integer.
+@end deftypefun
+
 @deftypefun {int} {lw6sys_atob} (char * @var{str})
 @var{str}:  string to convert
 
@@ -1236,6 +1244,15 @@ serialization for instance.
 @var{value}:  the integer to convert
 
 Converts an integer to a string, the advantage of this function
+is it allocates memory, and does the dirty job.
+
+@strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_lltoa} (int64_t @var{value})
+@var{value}:  the integer to convert
+
+Converts a 64-bit integer to a string, the advantage of this function
 is it allocates memory, and does the dirty job.
 
 @strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.

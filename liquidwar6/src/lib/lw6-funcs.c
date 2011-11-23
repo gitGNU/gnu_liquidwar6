@@ -6562,9 +6562,10 @@ _scm_lw6pil_bench ()
 }
 
 static SCM
-_scm_lw6pil_build_pilot (SCM game_state, SCM timestamp)
+_scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
 {
   lw6ker_game_state_t *c_game_state;
+  int64_t c_seq_0;
   int64_t c_timestamp;
   lw6pil_pilot_t *c_ret;
   SCM ret = SCM_BOOL_F;
@@ -6575,7 +6576,8 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM timestamp)
   SCM_ASSERT (SCM_SMOB_PREDICATE
 	      (lw6_global.smob_types.game_state,
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG3, __FUNCTION__);
 
   lw6sys_progress_default (&progress, &(lw6_global.progress));
   lw6sys_progress_begin (&progress);
@@ -6583,8 +6585,10 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM timestamp)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
+      c_seq_0 = scm_to_long_long (seq_0);
       c_timestamp = scm_to_long_long (timestamp);
-      c_ret = lw6pil_pilot_new (c_game_state, c_timestamp, &progress);
+      c_ret =
+	lw6pil_pilot_new (c_game_state, c_seq_0, c_timestamp, &progress);
       if (c_ret)
 	{
 	  ret = lw6_make_scm_pilot (c_ret);
@@ -6772,10 +6776,12 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
 }
 
 static SCM
-_scm_lw6pil_execute_command (SCM game_state, SCM command_text)
+_scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
 {
   lw6ker_game_state_t *c_game_state = NULL;
   char *c_command_text = NULL;
+  int64_t c_seq_0;
+
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -6785,17 +6791,19 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text)
 	       game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2,
 	      __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG3, __FUNCTION__);
 
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
       c_command_text = to_0str (command_text);
+      c_seq_0 = scm_to_long_long (seq_0);
       if (c_command_text)
 	{
 	  ret =
 	    lw6pil_command_execute_text (c_game_state,
-					 c_command_text) ? SCM_BOOL_T :
-	    SCM_BOOL_F;
+					 c_command_text,
+					 c_seq_0) ? SCM_BOOL_T : SCM_BOOL_F;
 	  LW6SYS_FREE (c_command_text);
 	}
     }
@@ -7093,7 +7101,7 @@ _scm_lw6pil_slow_down (SCM pilot, SCM round_dec)
 }
 
 static SCM
-_scm_lw6pil_get_next_round (SCM pilot, SCM timestamp)
+_scm_lw6pil_get_next_seq (SCM pilot, SCM timestamp)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   int64_t c_timestamp;
@@ -7111,7 +7119,8 @@ _scm_lw6pil_get_next_round (SCM pilot, SCM timestamp)
     {
       c_timestamp = scm_to_long_long (timestamp);
 
-      ret = scm_from_int (lw6pil_pilot_get_next_round (c_pilot, c_timestamp));
+      ret =
+	scm_from_long_long (lw6pil_pilot_get_next_seq (c_pilot, c_timestamp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7120,7 +7129,7 @@ _scm_lw6pil_get_next_round (SCM pilot, SCM timestamp)
 }
 
 static SCM
-_scm_lw6pil_get_last_commit_round (SCM pilot)
+_scm_lw6pil_get_last_commit_seq (SCM pilot)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   SCM ret = SCM_BOOL_F;
@@ -7134,7 +7143,7 @@ _scm_lw6pil_get_last_commit_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_from_int (lw6pil_pilot_get_last_commit_round (c_pilot));
+      ret = scm_from_long_long (lw6pil_pilot_get_last_commit_seq (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7143,7 +7152,7 @@ _scm_lw6pil_get_last_commit_round (SCM pilot)
 }
 
 static SCM
-_scm_lw6pil_get_reference_current_round (SCM pilot)
+_scm_lw6pil_get_reference_current_seq (SCM pilot)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   SCM ret = SCM_BOOL_F;
@@ -7157,7 +7166,8 @@ _scm_lw6pil_get_reference_current_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_from_int (lw6pil_pilot_get_reference_current_round (c_pilot));
+      ret =
+	scm_from_long_long (lw6pil_pilot_get_reference_current_seq (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7166,7 +7176,7 @@ _scm_lw6pil_get_reference_current_round (SCM pilot)
 }
 
 static SCM
-_scm_lw6pil_get_reference_target_round (SCM pilot)
+_scm_lw6pil_get_reference_target_seq (SCM pilot)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   SCM ret = SCM_BOOL_F;
@@ -7180,7 +7190,8 @@ _scm_lw6pil_get_reference_target_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_from_int (lw6pil_pilot_get_reference_target_round (c_pilot));
+      ret =
+	scm_from_long_long (lw6pil_pilot_get_reference_target_seq (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7189,7 +7200,7 @@ _scm_lw6pil_get_reference_target_round (SCM pilot)
 }
 
 static SCM
-_scm_lw6pil_get_max_round (SCM pilot)
+_scm_lw6pil_get_max_seq (SCM pilot)
 {
   lw6pil_pilot_t *c_pilot = NULL;
   SCM ret = SCM_BOOL_F;
@@ -7203,7 +7214,7 @@ _scm_lw6pil_get_max_round (SCM pilot)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      ret = scm_from_int (lw6pil_pilot_get_max_round (c_pilot));
+      ret = scm_from_long_long (lw6pil_pilot_get_max_seq (c_pilot));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7270,6 +7281,20 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
 	    SCM_BOOL_F;
 	}
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_seq_random_0 ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = scm_from_long_long (lw6pil_seq_random_0 ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -9218,7 +9243,7 @@ lw6_register_funcs ()
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BENCH,
 			 0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_BUILD_PILOT,
-			 2, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
+			 3, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEND_COMMAND,
 			 3, 0, 0, (SCM (*)())_scm_lw6pil_send_command);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_COMMAND,
@@ -9230,7 +9255,7 @@ lw6_register_funcs ()
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_FIX_COORDS_X10,
 			 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords_x10);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_EXECUTE_COMMAND,
-			 2, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
+			 3, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,
 			 2, 0, 0,
 			 (SCM (*)())_scm_lw6pil_local_cursors_set_main);
@@ -9252,20 +9277,22 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6pil_speed_up);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0,
 			 (SCM (*)())_scm_lw6pil_slow_down);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_NEXT_ROUND, 2, 0, 0,
-			 (SCM (*)())_scm_lw6pil_get_next_round);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_ROUND, 1, 0, 0,
-			 (SCM (*)())_scm_lw6pil_get_last_commit_round);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_ROUND, 1, 0, 0,
-			 (SCM (*)())_scm_lw6pil_get_reference_current_round);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_ROUND, 1, 0, 0,
-			 (SCM (*)())_scm_lw6pil_get_reference_target_round);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_MAX_ROUND, 1, 0, 0,
-			 (SCM (*)())_scm_lw6pil_get_max_round);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_NEXT_SEQ, 2, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_next_seq);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_last_commit_seq);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_reference_current_seq);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_SEQ, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_reference_target_seq);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_MAX_SEQ, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_max_seq);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0,
 			 (SCM (*)())_scm_lw6pil_is_over);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_DID_CURSOR_WIN, 2, 0, 0,
 			 (SCM (*)())_scm_lw6pil_did_cursor_win);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEQ_RANDOM_0, 0, 0, 0,
+			 (SCM (*)())_scm_lw6pil_seq_random_0);
 
   /*
    * In liquidwar6snd

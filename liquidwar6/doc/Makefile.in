@@ -1117,7 +1117,7 @@ uninstall-local:
 @LW6_GDOC_TRUE@$(srcdir)/p2p-gdoc.texi: ../src/lib/p2p/p2p-backends.c ../src/lib/p2p/p2p-clioob.c ../src/lib/p2p/p2p-data.c ../src/lib/p2p/p2p-db.c ../src/lib/p2p/p2p-explore.c ../src/lib/p2p/p2p-flush.c ../src/lib/p2p/p2p.h ../src/lib/p2p/p2p-internal.h ../src/lib/p2p/p2p-node.c ../src/lib/p2p/p2p-recv.c ../src/lib/p2p/p2p-srvoob.c ../src/lib/p2p/p2p-tentacle.c ../src/lib/p2p/p2p-test.c ../src/lib/p2p/p2p-testmain.c
 @LW6_GDOC_TRUE@	echo gdoc p2p && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/p2p-gdoc.texi
 
-@LW6_GDOC_TRUE@$(srcdir)/pil-gdoc.texi: ../src/lib/pil/pil-bench.c ../src/lib/pil/pil-command.c ../src/lib/pil/pil-compute.c ../src/lib/pil/pil-coords.c ../src/lib/pil/pil.h ../src/lib/pil/pil-internal.h ../src/lib/pil/pil-localcursors.c ../src/lib/pil/pil-pilot.c ../src/lib/pil/pil-spread.c ../src/lib/pil/pil-test.c ../src/lib/pil/pil-testmain.c ../src/lib/pil/pil-worker.c
+@LW6_GDOC_TRUE@$(srcdir)/pil-gdoc.texi: ../src/lib/pil/pil-bench.c ../src/lib/pil/pil-command.c ../src/lib/pil/pil-compute.c ../src/lib/pil/pil-coords.c ../src/lib/pil/pil.h ../src/lib/pil/pil-internal.h ../src/lib/pil/pil-localcursors.c ../src/lib/pil/pil-pilot.c ../src/lib/pil/pil-seq.c ../src/lib/pil/pil-spread.c ../src/lib/pil/pil-test.c ../src/lib/pil/pil-testmain.c ../src/lib/pil/pil-worker.c
 @LW6_GDOC_TRUE@	echo gdoc pil && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/pil-gdoc.texi
 
 @LW6_GDOC_TRUE@$(srcdir)/scm-gdoc.texi: ../src/lib/scm/scm.h ../src/lib/scm/scm-test.c ../src/lib/scm/scm-testmain.c ../src/lib/scm/scm-wrapper.c

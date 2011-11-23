@@ -186,26 +186,28 @@
 	   (game-state (lw6-get-game-global "game-state"))
 	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
+	   (seq-0 (c-lw6pil-seq-random-0))
 	   (bot-keys (list-head lw6-cursor-bot-keys (string->number (c-lw6map-param-get level lw6def-nb-bots))))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register (+ seq-0 rounds) node-id) seq-0)
 	(map (lambda (player-key)
 	       (let (
 		     (command (lw6-cursor-prepare-map-defined-player-command
-			       level game-state player-key node-id))
+			       level game-state seq-0 player-key node-id))
 		     )
-		 (if command (c-lw6pil-execute-command game-state command))))
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
 	     (list "1"))
 	(map (lambda (bot-key)
 	       (let (
 		     (command (lw6-cursor-prepare-bot-command
-			       level game-state bot-key node-id))
+			       level game-state seq-0 bot-key node-id))
 		     )
-		 (if command (c-lw6pil-execute-command game-state command))))
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
 	     bot-keys)
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
+					   seq-0
 					   (c-lw6sys-get-timestamp)))
 	      )
 	  (begin
@@ -238,18 +240,20 @@
 	   (game-state (lw6-get-game-global "game-state"))
 	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
+	   (seq-0 (c-lw6pil-seq-random-0))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register (+ seq-0 rounds) node-id) seq-0)
 	(map (lambda (player-key)
 	       (let (
 		     (command (lw6-cursor-prepare-map-defined-player-command
-			       level game-state player-key node-id))
+			       level game-state seq-0 player-key node-id))
 		     )
-		 (if command (c-lw6pil-execute-command game-state command))))
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
 	     (list "1" "2"))
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
+					   seq-0
 					   (c-lw6sys-get-timestamp)))
 	      )
 	  (begin
@@ -277,25 +281,27 @@
 	   (node-id (lw6-get-game-global "node-id"))
 	   (rounds (c-lw6ker-get-rounds game-state))
 	   (bot-keys (list-head lw6-cursor-bot-keys (lw6-config-get-number lw6def-nb-bots)))
+	   (seq-0 (c-lw6pil-seq-random-0))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state (lw6-command-register rounds node-id))
+	(c-lw6pil-execute-command game-state (lw6-command-register (+ seq-0 rounds) node-id) seq-0)
 	(map (lambda (player-key)
 	       (let (
 		     (command (lw6-cursor-prepare-configured-player-command
-			       game-state player-key node-id))
+			       game-state seq-0 player-key node-id))
 		     )
-		 (if command (c-lw6pil-execute-command game-state command))))
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
 	     lw6-cursor-player-keys)
 	(map (lambda (bot-key)
 	       (let (
 		     (command (lw6-cursor-prepare-bot-command
-			       level game-state bot-key node-id))
+			       level game-state seq-0 bot-key node-id))
 		     )
-		 (if command (c-lw6pil-execute-command game-state command))))
+		 (if command (c-lw6pil-execute-command game-state command seq-0))))
 	     bot-keys)
 	(let (
 	      (pilot (c-lw6pil-build-pilot game-state
+					   seq-0
 					   (c-lw6sys-get-timestamp)))
 	      )
 	  (begin
