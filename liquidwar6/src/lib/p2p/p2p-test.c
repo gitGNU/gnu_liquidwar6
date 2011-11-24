@@ -33,6 +33,33 @@
 #define _TEST_DB_NAME12 "p2p.test.12"
 #define _TEST_DB_NAME34 "p2p.test.34"
 #define _TEST_DB_NAME56 "p2p.test.56"
+
+#define _TEST_ENTRY_CREATION_TIMESTAMP 123
+#define _TEST_ENTRY_VERSION "0.0.0"
+#define _TEST_ENTRY_CODENAME "zozo"
+#define _TEST_ENTRY_STAMP 456
+#define _TEST_ENTRY_ID "1234123412341234"
+#define _TEST_ENTRY_URL "http://my.site.com:1234"
+#define _TEST_ENTRY_TITLE "My Server"
+#define _TEST_ENTRY_DESCRIPTION "This is my server"
+#define _TEST_ENTRY_HAS_PASSWORD 0
+#define _TEST_ENTRY_BENCH 10
+#define _TEST_ENTRY_OPEN_RELAY 0
+#define _TEST_ENTRY_COMMUNITY_ID "1234123412341234"
+#define _TEST_ENTRY_ROUND 1000
+#define _TEST_ENTRY_LEVEL "the-map"
+#define _TEST_ENTRY_REQUIRED_BENCH 5
+#define _TEST_ENTRY_NB_COLORS 0
+#define _TEST_ENTRY_MAX_NB_COLORS 5
+#define _TEST_ENTRY_NB_CURSORS 0
+#define _TEST_ENTRY_MAX_NB_CURSORS 5
+#define _TEST_ENTRY_NB_NODES 0
+#define _TEST_ENTRY_MAX_NB_NODES 5
+#define _TEST_ENTRY_IP "127.0.0.1"
+#define _TEST_ENTRY_PORT 1234
+#define _TEST_ENTRY_LAST_PING_TIMESTAMP 123456789
+#define _TEST_ENTRY_PING_DELAY_MSEC 500
+
 #define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
 #define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
@@ -121,6 +148,67 @@ _test_db ()
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("can't delete db"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/* 
+ * Testing entry
+ */
+static int
+_test_entry ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6p2p_entry_t *entry;
+    char *repr;
+
+    entry = lw6p2p_entry_new (_TEST_ENTRY_CREATION_TIMESTAMP,
+			      _TEST_ENTRY_VERSION,
+			      _TEST_ENTRY_CODENAME,
+			      _TEST_ENTRY_STAMP,
+			      _TEST_ENTRY_ID,
+			      _TEST_ENTRY_URL,
+			      _TEST_ENTRY_TITLE,
+			      _TEST_ENTRY_DESCRIPTION,
+			      _TEST_ENTRY_HAS_PASSWORD,
+			      _TEST_ENTRY_BENCH,
+			      _TEST_ENTRY_OPEN_RELAY,
+			      _TEST_ENTRY_COMMUNITY_ID,
+			      _TEST_ENTRY_ROUND,
+			      _TEST_ENTRY_LEVEL,
+			      _TEST_ENTRY_REQUIRED_BENCH,
+			      _TEST_ENTRY_NB_COLORS,
+			      _TEST_ENTRY_MAX_NB_COLORS,
+			      _TEST_ENTRY_NB_CURSORS,
+			      _TEST_ENTRY_MAX_NB_CURSORS,
+			      _TEST_ENTRY_NB_NODES,
+			      _TEST_ENTRY_MAX_NB_NODES,
+			      _TEST_ENTRY_IP,
+			      _TEST_ENTRY_PORT,
+			      _TEST_ENTRY_LAST_PING_TIMESTAMP,
+			      _TEST_ENTRY_PING_DELAY_MSEC);
+    if (entry)
+      {
+	repr = lw6p2p_entry_repr (entry);
+	if (repr)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("entry created: \"%s\""),
+			repr);
+	    LW6SYS_FREE (repr);
+	  }
+	lw6p2p_entry_free (entry);
+	entry = NULL;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to create entry"));
 	ret = 0;
       }
   }
@@ -731,8 +819,8 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      ret = _test_db () && _test_node_init () && _test_node_oob ()
-	&& _test_node_cmd ();
+      ret = _test_db () && _test_entry () && _test_node_init ()
+	&& _test_node_oob () && _test_node_cmd ();
       lw6net_quit (argc, argv);
     }
 

@@ -61,6 +61,70 @@ in signed mode even if converted to seconds.
 @strong{Return value:}  a timestamp, 0 means "beginning of program" (think of it as uptime)
 @end deftypefun
 
+@deftypefun {lw6p2p_entry_t *} {lw6p2p_entry_new} (int @var{creation_timestamp}, char * @var{version}, char * @var{codename}, int @var{stamp}, char * @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{has_password}, int @var{bench}, int @var{open_relay}, char * @var{community_id}, int @var{round}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, char * @var{ip}, int @var{port}, int @var{last_ping_timestamp}, int @var{ping_delay_msec})
+@var{creation_timestamp}:  when it has been created, UNIX timestamp
+
+@var{version}:  version of the node
+
+@var{codename}:  codename of the node
+
+@var{stamp}:  stamp of the node
+
+@var{id}:  id of the node (string representation)
+
+@var{url}:  public url of the node
+
+@var{title}:  title of the node
+
+@var{description}:  description of the node
+
+@var{has_password}:  wether node is password protected or not
+
+@var{bench}:  node bench
+
+@var{open_relay}:  wether the node is in open relay mode or not
+
+@var{round}:  current round
+
+@var{level}:  current level played
+
+@var{required_bench}:  current bench
+
+@var{nb_colors}:  number of colors playing
+
+@var{max_nb_colors}:  maximum number of colors
+
+@var{nb_cursors}:  number of cursors playing
+
+@var{max_nb_cursors}:  maximum number of cursors
+
+@var{nb_nodes}:  number of nodes playing
+
+@var{max_nb_nodes}:  maximum number of nodes
+
+@var{ip}:  node ip (string representation)
+
+@var{port}:  node port
+
+@var{last_ping_timestamp}:  UNIX timestamp of last contact with node
+
+@var{ping_delay_msec}:  ping delay, in milliseconds
+
+Creates a new p2p entry. Will accept NULL parameters for strings
+as well as arbitrary long strings, will simply cut them short if
+there aren't already limited to max size.
+
+@strong{Return value:}  newly allocated object
+@end deftypefun
+
+@deftypefun {void} {lw6p2p_entry_free} (lw6p2p_entry_t * @var{entry})
+@var{entry}:  entry to free
+
+Frees a p2p entry.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, char * @var{known_nodes}, int @var{network_reliability}, int @var{trojan})
 @var{argc}:  number of args, as passed to @code{main}
 

@@ -319,6 +319,76 @@ results on
      *Return value:*  a timestamp, 0 means "beginning of program"
      (think of it as uptime)
 
+ -- Function: lw6p2p_entry_t * lw6p2p_entry_new (int
+          CREATION_TIMESTAMP, char * VERSION, char * CODENAME, int
+          STAMP, char * ID, char * URL, char * TITLE, char *
+          DESCRIPTION, int HAS_PASSWORD, int BENCH, int OPEN_RELAY,
+          char * COMMUNITY_ID, int ROUND, char * LEVEL, int
+          REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS, int
+          NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
+          MAX_NB_NODES, char * IP, int PORT, int LAST_PING_TIMESTAMP,
+          int PING_DELAY_MSEC)
+     CREATION_TIMESTAMP:  when it has been created, UNIX timestamp
+
+     VERSION:  version of the node
+
+     CODENAME:  codename of the node
+
+     STAMP:  stamp of the node
+
+     ID:  id of the node (string representation)
+
+     URL:  public url of the node
+
+     TITLE:  title of the node
+
+     DESCRIPTION:  description of the node
+
+     HAS_PASSWORD:  wether node is password protected or not
+
+     BENCH:  node bench
+
+     OPEN_RELAY:  wether the node is in open relay mode or not
+
+     ROUND:  current round
+
+     LEVEL:  current level played
+
+     REQUIRED_BENCH:  current bench
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  maximum number of colors
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  maximum number of cursors
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  maximum number of nodes
+
+     IP:  node ip (string representation)
+
+     PORT:  node port
+
+     LAST_PING_TIMESTAMP:  UNIX timestamp of last contact with node
+
+     PING_DELAY_MSEC:  ping delay, in milliseconds
+
+     Creates a new p2p entry. Will accept NULL parameters for strings
+     as well as arbitrary long strings, will simply cut them short if
+     there aren't already limited to max size.
+
+     *Return value:*  newly allocated object
+
+ -- Function: void lw6p2p_entry_free (lw6p2p_entry_t * ENTRY)
+     ENTRY:  entry to free
+
+     Frees a p2p entry.
+
+     *Return value:*  none.
+
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
@@ -863,6 +933,15 @@ results on
      Tells wether a given cursor was winner or not.
 
      *Return value:*  1 if over, 0 if not
+
+ -- Function: lw6pil_local_cursors_t * lw6pil_pilot_get_local_cursors
+          (lw6pil_pilot_t * PILOT)
+     PILOT:  object to query
+
+     Returns a pointer on the local_cursors struct used within the
+     object. Beware, this is the *real* pointer, not a copy...
+
+     *Return value:*  pointer on internal object
 
  -- Function: int64_t lw6pil_seq_random_0 ()
      Gets a pseudo-random start seq, why do we use this? Just to make

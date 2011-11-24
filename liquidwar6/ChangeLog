@@ -1,3 +1,7 @@
+2011-11-24 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Introduced p2p_entry object to list remote nodes.
+
 2011-11-23 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Cleaned up pilot (opacified) for cleaner net design.

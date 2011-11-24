@@ -329,6 +329,7 @@ src/lib/p2p/p2p-backends.c
 src/lib/p2p/p2p-clioob.c
 src/lib/p2p/p2p-data.c
 src/lib/p2p/p2p-db.c
+src/lib/p2p/p2p-entry.c
 src/lib/p2p/p2p-explore.c
 src/lib/p2p/p2p-flush.c
 src/lib/p2p/p2p-node.c

@@ -1346,3 +1346,34 @@ _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 
   return ret;
 }
+
+lw6sys_list_t *
+_lw6p2p_node_get_entries (_lw6p2p_node_t * node)
+{
+  lw6sys_list_t *ret;
+
+  ret = lw6sys_list_new ((lw6sys_free_func_t) lw6p2p_entry_free);
+  if (ret)
+    {
+      // todo ...
+    }
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_get_entries
+ *
+ * @node: node to query
+ *
+ * Returns a list of all known nodes, this is a plain
+ * table dump, sorted so that the most likely to be interesting
+ * to connect oneself to are listed first.
+ *
+ * Return value: list object containing @lw6p2p_entry_t objects
+ */
+lw6sys_list_t *
+lw6p2p_node_get_entries (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node);
+}

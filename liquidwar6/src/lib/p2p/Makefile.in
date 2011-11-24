@@ -80,8 +80,8 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libp2p_la_LIBADD =
 am_libp2p_la_OBJECTS = p2p-backends.lo p2p-clioob.lo p2p-data.lo \
-	p2p-db.lo p2p-explore.lo p2p-flush.lo p2p-node.lo p2p-recv.lo \
-	p2p-srvoob.lo p2p-tentacle.lo p2p-test.lo
+	p2p-db.lo p2p-entry.lo p2p-explore.lo p2p-flush.lo p2p-node.lo \
+	p2p-recv.lo p2p-srvoob.lo p2p-tentacle.lo p2p-test.lo
 libp2p_la_OBJECTS = $(am_libp2p_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libp2pdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -340,7 +340,7 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lsqlite3
 @ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
 @ALLINONE_TRUE@LW6DYN_LIB = 
 noinst_LTLIBRARIES = libp2p.la
-libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-explore.c p2p-flush.c p2p-node.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
+libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c p2p-test.c
 libp2pdir = $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
 @FULLSTATIC_FALSE@liquidwar6p2p_test_SOURCES = p2p-testmain.c
@@ -448,6 +448,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-clioob.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-data.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-db.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-entry.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-explore.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-flush.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p2p-node.Plo@am__quote@

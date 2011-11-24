@@ -417,6 +417,15 @@ Tells wether a given cursor was winner or not.
 @strong{Return value:}  1 if over, 0 if not
 @end deftypefun
 
+@deftypefun {lw6pil_local_cursors_t *} {lw6pil_pilot_get_local_cursors} (lw6pil_pilot_t * @var{pilot})
+@var{pilot}:  object to query
+
+Returns a pointer on the local_cursors struct used within
+the object. Beware, this is the *real* pointer, not a copy...
+
+@strong{Return value:}  pointer on internal object
+@end deftypefun
+
 @deftypefun {int64_t} {lw6pil_seq_random_0} ()
 
 Gets a pseudo-random start seq, why do we use this? Just to make

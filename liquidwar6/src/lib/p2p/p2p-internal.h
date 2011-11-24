@@ -307,6 +307,7 @@ extern int _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node,
 					   u_int64_t remote_id);
 extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
 					     u_int64_t remote_id);
+extern lw6sys_list_t *_lw6p2p_node_get_entries (_lw6p2p_node_t * node);
 
 /* p2p-recv.c */
 extern void _lw6p2p_recv_process (_lw6p2p_node_t * node,

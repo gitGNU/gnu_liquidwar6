@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-10-18 17:37+0200\n"
+"POT-Creation-Date: 2011-11-24 15:31+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -59,7 +59,7 @@ msgstr ""
 msgid "can't initialize mod_udp"
 msgstr "ошибка инициализации mod_udp"
 
-#: src/lib/dsp/dsp-test.c:315
+#: src/lib/dsp/dsp-test.c:317
 msgid "this error too"
 msgstr "и эта ошибка"
 
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:1979
+#: src/lib/sys/sys-test.c:2000
 msgid "this is a /TEST/ error"
 msgstr "ошибка /TEST/"
 

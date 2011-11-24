@@ -39,6 +39,20 @@
  */
 #define LW6P2P_MAX_NB_TENTACLES 100
 
+/*
+ * Hardcoded size for database stored data, carefull
+ * that these match the sizes in create-database.sql
+ */
+#define LW6P2P_VERSION_SIZE 64
+#define LW6P2P_CODENAME_SIZE 64
+#define LW6P2P_ID_SIZE 16
+#define LW6P2P_URL_SIZE 1024
+#define LW6P2P_TITLE_SIZE 256
+#define LW6P2P_DESCRIPTION_SIZE 2048
+#define LW6P2P_COMMUNITY_ID_SIZE 16
+#define LW6P2P_LEVEL_SIZE 1024
+#define LW6P2P_IP_SIZE 64
+
 typedef struct lw6p2p_db_s
 {
   /*
@@ -61,12 +75,64 @@ typedef struct lw6p2p_node_s
   u_int32_t id;
 } lw6p2p_node_t;
 
+/*
+ * This entry should match as close as possible the
+ * corresponding (node) entry in the database.
+ */
+typedef struct lw6p2p_entry_s
+{
+  // constant data 
+  int creation_timestamp;
+  char version[LW6P2P_VERSION_SIZE + 1];
+  char codename[LW6P2P_CODENAME_SIZE + 1];
+  int stamp;
+  char id[LW6P2P_ID_SIZE + 1];
+  char url[LW6P2P_URL_SIZE + 1];
+  char title[LW6P2P_TITLE_SIZE + 1];
+  char description[LW6P2P_DESCRIPTION_SIZE + 1];
+  int has_password;
+  int bench;
+  int open_relay;
+  // variable data
+  char community_id[LW6P2P_COMMUNITY_ID_SIZE + 1];
+  int round;
+  char level[LW6P2P_LEVEL_SIZE + 1];
+  int required_bench;
+  int nb_colors;
+  int max_nb_colors;
+  int nb_cursors;
+  int max_nb_cursors;
+  int nb_nodes;
+  int max_nb_nodes;
+  // additionnal data
+  char ip[LW6P2P_IP_SIZE + 1];
+  int port;
+  int last_ping_timestamp;
+  int ping_delay_msec;
+} lw6p2p_entry_t;
+
 /* p2p-db.c */
 extern lw6p2p_db_t *lw6p2p_db_open (int argc, char *argv[], char *name);
 extern void lw6p2p_db_close (lw6p2p_db_t * db);
 extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
 extern int lw6p2p_db_reset (int argc, char *argv[], char *name);
 extern char *lw6p2p_db_default_name ();
+
+/* p2p-entry.c */
+lw6p2p_entry_t *lw6p2p_entry_new (int creation_timestamp, char *version,
+				  char *codename, int stamp, char *node_id,
+				  char *node_url, char *node_title,
+				  char *node_description, int has_password,
+				  int bench, int open_relay,
+				  char *community_id, int round, char *level,
+				  int required_bench, int nb_colors,
+				  int max_nb_colors, int nb_cursors,
+				  int max_nb_cursors, int nb_nodes,
+				  int max_nb_nodes, char *ip, int port,
+				  int last_ping_timestamp,
+				  int ping_delay_msec);
+void lw6p2p_entry_free (lw6p2p_entry_t * entry);
+char *lw6p2p_entry_repr (lw6p2p_entry_t * entry);
 
 /* p2p-node.c */
 extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],
@@ -86,6 +152,7 @@ extern char *lw6p2p_node_repr (lw6p2p_node_t * node);
 extern int lw6p2p_node_poll (lw6p2p_node_t * node);
 extern void lw6p2p_node_close (lw6p2p_node_t * node);
 extern u_int64_t lw6p2p_node_get_id (lw6p2p_node_t * node);
+extern lw6sys_list_t *lw6p2p_node_get_entries (lw6p2p_node_t * node);
 
 /* p2p-test.c */
 extern int lw6p2p_test (int mode);
