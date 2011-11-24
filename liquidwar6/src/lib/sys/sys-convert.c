@@ -32,13 +32,14 @@
  * @str: string to convert
  *
  * Just a plain wrapper on @atoi, it's here for API consistency.
+ * Will check if str is NULL (and in this case return 0).
  *
  * Return value: an integer.
  */
 int
 lw6sys_atoi (char *str)
 {
-  return atoi (str);
+  return (str != NULL) ? atoi (str) : 0;
 }
 
 /**
@@ -47,13 +48,14 @@ lw6sys_atoi (char *str)
  * @str: string to convert
  *
  * Wrapper on @atoll, it's here for API consistency.
+ * Will check if str is NULL (and in this case return 0).
  *
  * Return value: a 64-bit integer.
  */
 int64_t
 lw6sys_atoll (char *str)
 {
-  return atoll (str);
+  return (str != NULL) ? atoll (str) : 0L;
 }
 
 /**
@@ -63,6 +65,7 @@ lw6sys_atoll (char *str)
  *
  * Transform a string into a boolean value. Accepts "0"/"1" in input,
  * but also y/n, yes/no, true/false, on/off.
+ * Will check if str is NULL (and in this case return 0).
  *
  * Return value: an integer, 0 or 1.
  */
@@ -71,11 +74,14 @@ lw6sys_atob (char *str)
 {
   int ret = 0;
 
-  ret = (strcasecmp (str, "true") == 0
-	 || strcasecmp (str, "y") == 0
-	 || strcasecmp (str, "yes") == 0
-	 || strcasecmp (str, "on") == 0 || strlen (str) == 0
-	 || lw6sys_atoi (str) > 0);
+  if (str != NULL)
+    {
+      ret = (strcasecmp (str, "true") == 0
+	     || strcasecmp (str, "y") == 0
+	     || strcasecmp (str, "yes") == 0
+	     || strcasecmp (str, "on") == 0 || strlen (str) == 0
+	     || lw6sys_atoi (str) > 0);
+    }
 
   return ret;
 }
@@ -88,6 +94,7 @@ lw6sys_atob (char *str)
  * A wrapper on @atof, makes sure the locale used is C (default)
  * and won't change the decimal separator whatsoever. Usefull for
  * serialization for instance.
+ * Will check if str is NULL (and in this case return 0).
  *
  * Return value: a float.
  */
@@ -98,24 +105,27 @@ lw6sys_atof (char *str)
   char *locale;
   char *old_locale;
 
-  locale = setlocale (LC_ALL, NULL);
-  if (locale)
+  if (str != NULL)
     {
-      /*
-       * We do need to make a copy in a separate buffer,
-       * otherwise the content pointed by *locale
-       * might change dynamically when calling setlocale
-       */
-      old_locale = lw6sys_str_copy (locale);
-
-      setlocale (LC_ALL, "C");
-
-      ret = atof (str);
-
-      setlocale (LC_ALL, old_locale);
-      if (old_locale)
+      locale = setlocale (LC_ALL, NULL);
+      if (locale)
 	{
-	  LW6SYS_FREE (old_locale);
+	  /*
+	   * We do need to make a copy in a separate buffer,
+	   * otherwise the content pointed by *locale
+	   * might change dynamically when calling setlocale
+	   */
+	  old_locale = lw6sys_str_copy (locale);
+
+	  setlocale (LC_ALL, "C");
+
+	  ret = atof (str);
+
+	  setlocale (LC_ALL, old_locale);
+	  if (old_locale)
+	    {
+	      LW6SYS_FREE (old_locale);
+	    }
 	}
     }
 

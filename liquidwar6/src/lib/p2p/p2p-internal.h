@@ -44,9 +44,11 @@
 #define _LW6P2P_SELECT_NODE_BY_URL_SQL "select-node-by-url.sql"
 #define _LW6P2P_SELECT_UNVERIFIED_NODE_SQL "select-unverified-node.sql"
 #define _LW6P2P_SELECT_OTHER_NODE_SQL "select-other-node.sql"
+#define _LW6P2P_SELECT_AVAILABLE_NODE_SQL "select-available-node.sql"
+#define _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL "select-unavailable-node.sql"
 #define _LW6P2P_UPDATE_NODE_SQL "update-node.sql"
 
-#define _LW6P2P_DB_NODE_NB_FIELDS 25
+#define _LW6P2P_DB_NODE_NB_FIELDS 26
 #define _LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP 0
 #define _LW6P2P_DB_NODE_ORDER_VERSION 1
 #define _LW6P2P_DB_NODE_ORDER_CODENAME 2
@@ -60,8 +62,8 @@
 #define _LW6P2P_DB_NODE_ORDER_OPEN_RELAY 10
 #define _LW6P2P_DB_NODE_ORDER_COMMUNITY_ID 11
 #define _LW6P2P_DB_NODE_ORDER_ROUND 12
-#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 13
-#define _LW6P2P_DB_NODE_ORDER_LEVEL 14
+#define _LW6P2P_DB_NODE_ORDER_LEVEL 13
+#define _LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH 14
 #define _LW6P2P_DB_NODE_ORDER_NB_COLORS 15
 #define _LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS 16
 #define _LW6P2P_DB_NODE_ORDER_NB_CURSORS 17
@@ -72,6 +74,7 @@
 #define _LW6P2P_DB_NODE_ORDER_PORT 22
 #define _LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP 23
 #define _LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC 24
+#define _LW6P2P_DB_NODE_ORDER_AVAILABLE 25
 
 typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields,
 				      char **fields_values,

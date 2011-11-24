@@ -1183,6 +1183,7 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   char *escaped_description = NULL;
   char *escaped_community_id = NULL;
   char *escaped_level = NULL;
+  int available;
 
   escaped_version = lw6sys_escape_sql_value (version);
   escaped_codename = lw6sys_escape_sql_value (codename);
@@ -1192,6 +1193,12 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   escaped_description = lw6sys_escape_sql_value (description);
   escaped_community_id = lw6sys_escape_sql_value (community_id);
   escaped_level = lw6sys_escape_sql_value (level);
+  // todo : test for bench to set available the right way
+  available = ((!lw6sys_str_is_null_or_empty (id))
+	       && (!lw6sys_str_is_same (id, node->node_id_str))
+	       && (!lw6sys_str_is_null_or_empty (level))
+	       && (nb_colors < max_nb_colors) && (nb_cursors < max_nb_cursors)
+	       && (nb_nodes < max_nb_nodes)) ? 1 : 0;
 
   query = lw6sys_new_sprintf (_lw6p2p_db_get_query
 			      (node->db,
@@ -1204,7 +1211,7 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
 			      escaped_level, required_bench, nb_colors,
 			      max_nb_colors, nb_cursors, max_nb_cursors,
 			      nb_nodes, max_nb_nodes, ip, port,
-			      last_ping_timestamp, ping_delay_msec,
+			      last_ping_timestamp, ping_delay_msec, available,
 			      escaped_url);
   if (query)
     {
@@ -1347,15 +1354,118 @@ _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
   return ret;
 }
 
+int
+_get_entries_callback (void *func_data, int nb_fields,
+		       char **fields_values, char **fields_names)
+{
+  int ret = 0;
+  lw6sys_list_t **list = (lw6sys_list_t **) func_data;
+  lw6p2p_entry_t *entry = NULL;
+
+  if (nb_fields == _LW6P2P_DB_NODE_NB_FIELDS)
+    {
+      entry =
+	lw6p2p_entry_new (lw6sys_atoi
+			  (fields_values
+			   [_LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP]),
+			  fields_values[_LW6P2P_DB_NODE_ORDER_VERSION],
+			  fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME],
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_STAMP]),
+			  fields_values[_LW6P2P_DB_NODE_ORDER_ID],
+			  fields_values[_LW6P2P_DB_NODE_ORDER_URL],
+			  fields_values[_LW6P2P_DB_NODE_ORDER_TITLE],
+			  fields_values[_LW6P2P_DB_NODE_ORDER_DESCRIPTION],
+			  lw6sys_atob (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_HAS_PASSWORD]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_BENCH]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_OPEN_RELAY]),
+			  fields_values[_LW6P2P_DB_NODE_ORDER_COMMUNITY_ID],
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_ROUND]),
+			  fields_values[_LW6P2P_DB_NODE_ORDER_LEVEL],
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_REQUIRED_BENCH]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_NB_COLORS]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_COLORS]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_NB_CURSORS]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_CURSORS]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_NB_NODES]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_MAX_NB_NODES]),
+			  fields_values[_LW6P2P_DB_NODE_ORDER_IP],
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_PORT]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_LAST_PING_TIMESTAMP]),
+			  lw6sys_atoi (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]),
+			  lw6sys_atob (fields_values
+				       [_LW6P2P_DB_NODE_ORDER_AVAILABLE]));
+      if (entry)
+	{
+	  lw6sys_list_push_front (list, entry);
+	}
+    }
+
+  return ret;
+}
+
 lw6sys_list_t *
 _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
 {
   lw6sys_list_t *ret;
+  char *query = NULL;
+  lw6sys_list_t *list_of_node;
 
   ret = lw6sys_list_new ((lw6sys_free_func_t) lw6p2p_entry_free);
   if (ret)
     {
-      // todo ...
+      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("flush verified nodes"));
+
+      list_of_node = lw6nod_info_new_verified_nodes ();
+      if (list_of_node)
+	{
+	  /*
+	   * We lock the whole session, to avoid double listing
+	   * something, or forgetting something if things change
+	   * between the two calls
+	   */
+	  if (_lw6p2p_db_lock (node->db))
+	    {
+	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+					  (node->db,
+					   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
+	      if (query)
+		{
+		  _lw6p2p_db_exec (node->db, query,
+				   _get_entries_callback, &ret);
+		  _lw6p2p_db_unlock (node->db);
+		}
+	      LW6SYS_FREE (query);
+
+	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+					  (node->db,
+					   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
+	      if (query)
+		{
+		  if (_lw6p2p_db_lock (node->db))
+		    {
+		      _lw6p2p_db_exec (node->db, query,
+				       _get_entries_callback, &ret);
+		    }
+		  LW6SYS_FREE (query);
+		}
+	      _lw6p2p_db_unlock (node->db);
+	    }
+	}
     }
 
   return ret;
@@ -1368,7 +1478,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
  *
  * Returns a list of all known nodes, this is a plain
  * table dump, sorted so that the most likely to be interesting
- * to connect oneself to are listed first.
+ * to connect oneself to are listed first. 
  *
  * Return value: list object containing @lw6p2p_entry_t objects
  */

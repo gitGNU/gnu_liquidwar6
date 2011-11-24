@@ -148,6 +148,9 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_URL_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_OTHER_NODE_SQL);
+      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_AVAILABLE_NODE_SQL);
+      _read_query (sql->queries, sql_dir,
+		   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL);
       _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_SQL);
 
       lw6sys_hash_map (sql->queries, _check_query_not_null, &ret);

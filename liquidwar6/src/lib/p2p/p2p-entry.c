@@ -55,6 +55,7 @@
  * @port: node port
  * @last_ping_timestamp: UNIX timestamp of last contact with node
  * @ping_delay_msec: ping delay, in milliseconds
+ * @available: wether node is available, wether we can connect to it
  *
  * Creates a new p2p entry. Will accept NULL parameters for strings
  * as well as arbitrary long strings, will simply cut them short if
@@ -70,7 +71,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
 		  int required_bench, int nb_colors, int max_nb_colors,
 		  int nb_cursors, int max_nb_cursors, int nb_nodes,
 		  int max_nb_nodes, char *ip, int port,
-		  int last_ping_timestamp, int ping_delay_msec)
+		  int last_ping_timestamp, int ping_delay_msec, int available)
 {
   lw6p2p_entry_t *entry = NULL;
 
@@ -166,8 +167,8 @@ lw6p2p_entry_repr (lw6p2p_entry_t * entry)
   char *repr = NULL;
 
   repr =
-    lw6sys_new_sprintf ("%s url=%s (%s:%d)", entry->title, entry->url,
-			entry->ip, entry->port);
+    lw6sys_new_sprintf ("%s url=%s (%s:%d) available=%d", entry->title,
+			entry->url, entry->ip, entry->port, entry->available);
 
   return repr;
 }

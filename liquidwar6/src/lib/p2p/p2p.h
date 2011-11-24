@@ -109,6 +109,7 @@ typedef struct lw6p2p_entry_s
   int port;
   int last_ping_timestamp;
   int ping_delay_msec;
+  int available;
 } lw6p2p_entry_t;
 
 /* p2p-db.c */
@@ -130,7 +131,7 @@ lw6p2p_entry_t *lw6p2p_entry_new (int creation_timestamp, char *version,
 				  int max_nb_cursors, int nb_nodes,
 				  int max_nb_nodes, char *ip, int port,
 				  int last_ping_timestamp,
-				  int ping_delay_msec);
+				  int ping_delay_msec, int available);
 void lw6p2p_entry_free (lw6p2p_entry_t * entry);
 char *lw6p2p_entry_repr (lw6p2p_entry_t * entry);
 

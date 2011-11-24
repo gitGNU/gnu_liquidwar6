@@ -59,6 +59,7 @@
 #define _TEST_ENTRY_PORT 1234
 #define _TEST_ENTRY_LAST_PING_TIMESTAMP 123456789
 #define _TEST_ENTRY_PING_DELAY_MSEC 500
+#define _TEST_ENTRY_AVAILABLE 1
 
 #define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
@@ -193,7 +194,8 @@ _test_entry ()
 			      _TEST_ENTRY_IP,
 			      _TEST_ENTRY_PORT,
 			      _TEST_ENTRY_LAST_PING_TIMESTAMP,
-			      _TEST_ENTRY_PING_DELAY_MSEC);
+			      _TEST_ENTRY_PING_DELAY_MSEC,
+			      _TEST_ENTRY_AVAILABLE);
     if (entry)
       {
 	repr = lw6p2p_entry_repr (entry);
