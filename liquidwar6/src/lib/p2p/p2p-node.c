@@ -1195,6 +1195,10 @@ _lw6p2p_node_update_peer (_lw6p2p_node_t * node, char *version,
   escaped_level = lw6sys_escape_sql_value (level);
   // todo : test for bench to set available the right way
   available = ((!lw6sys_str_is_null_or_empty (id))
+	       &&
+	       (lw6sys_str_is_same
+		(version, node->node_info->const_info.version))
+	       && (required_bench <= node->node_info->const_info.bench)
 	       && (!lw6sys_str_is_same (id, node->node_id_str))
 	       && (!lw6sys_str_is_null_or_empty (level))
 	       && (nb_colors < max_nb_colors) && (nb_cursors < max_nb_cursors)
@@ -1423,48 +1427,42 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
 {
   lw6sys_list_t *ret;
   char *query = NULL;
-  lw6sys_list_t *list_of_node;
 
   ret = lw6sys_list_new ((lw6sys_free_func_t) lw6p2p_entry_free);
   if (ret)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("flush verified nodes"));
 
-      list_of_node = lw6nod_info_new_verified_nodes ();
-      if (list_of_node)
+      /*
+       * We lock the whole session, to avoid double listing
+       * something, or forgetting something if things change
+       * between the two calls
+       */
+      if (_lw6p2p_db_lock (node->db))
 	{
-	  /*
-	   * We lock the whole session, to avoid double listing
-	   * something, or forgetting something if things change
-	   * between the two calls
-	   */
-	  if (_lw6p2p_db_lock (node->db))
+	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				      (node->db,
+				       _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
+	  if (query)
 	    {
-	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-					  (node->db,
-					   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
-	      if (query)
+	      _lw6p2p_db_exec (node->db, query, _get_entries_callback, &ret);
+	      _lw6p2p_db_unlock (node->db);
+	    }
+	  LW6SYS_FREE (query);
+
+	  query = lw6sys_new_sprintf (_lw6p2p_db_get_query
+				      (node->db,
+				       _LW6P2P_SELECT_AVAILABLE_NODE_SQL));
+	  if (query)
+	    {
+	      if (_lw6p2p_db_lock (node->db))
 		{
 		  _lw6p2p_db_exec (node->db, query,
 				   _get_entries_callback, &ret);
-		  _lw6p2p_db_unlock (node->db);
 		}
 	      LW6SYS_FREE (query);
-
-	      query = lw6sys_new_sprintf (_lw6p2p_db_get_query
-					  (node->db,
-					   _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL));
-	      if (query)
-		{
-		  if (_lw6p2p_db_lock (node->db))
-		    {
-		      _lw6p2p_db_exec (node->db, query,
-				       _get_entries_callback, &ret);
-		    }
-		  LW6SYS_FREE (query);
-		}
-	      _lw6p2p_db_unlock (node->db);
 	    }
+	  _lw6p2p_db_unlock (node->db);
 	}
     }
 
@@ -1478,7 +1476,9 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node)
  *
  * Returns a list of all known nodes, this is a plain
  * table dump, sorted so that the most likely to be interesting
- * to connect oneself to are listed first. 
+ * to connect oneself to are listed *last*, this is just a (little)
+ * optimization, since we know we'll need to parse this list
+ * to construct a Guile object, we reverse the order.
  *
  * Return value: list object containing @lw6p2p_entry_t objects
  */

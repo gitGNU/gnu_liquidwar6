@@ -607,6 +607,22 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_db_t * db56,
     }
 }
 
+static void
+_print_entry_callback (void *func_data, void *data)
+{
+  _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
+  lw6p2p_entry_t *entry = (lw6p2p_entry_t *) data;
+  char *repr = NULL;
+
+  repr = lw6p2p_entry_repr (entry);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("node \"%s\" knows entry \"%s\""),
+		  node->node_info->const_info.title, repr);
+      LW6SYS_FREE (repr);
+    }
+}
+
 /* 
  * Testing node connection
  */
@@ -624,6 +640,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
   lw6p2p_node_t *node5 = NULL;
   lw6p2p_node_t *node6 = NULL;
   int64_t end_timestamp = 0;
+  lw6sys_list_t *entries = NULL;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_ ("testing cmd with backends \"%s\" and \"%s\""),
@@ -680,6 +697,14 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
 	      lw6p2p_node_poll (node5);
 	      lw6p2p_node_poll (node6);
 	      lw6sys_idle ();
+	    }
+
+	  entries = lw6p2p_node_get_entries (node1);
+	  if (entries)
+	    {
+	      lw6sys_list_map (entries, _print_entry_callback,
+			       (void *) node1);
+	      lw6sys_list_free (entries);
 	    }
 
 	  ret = 1;

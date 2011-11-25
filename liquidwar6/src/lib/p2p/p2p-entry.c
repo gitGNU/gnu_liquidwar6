@@ -79,28 +79,28 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
   if (entry)
     {
       entry->creation_timestamp = creation_timestamp;
-      if (entry->version)
+      if (version)
 	{
 	  strncpy (entry->version, version, LW6P2P_VERSION_SIZE);
 	}
-      if (entry->codename)
+      if (codename)
 	{
 	  strncpy (entry->codename, codename, LW6P2P_CODENAME_SIZE);
 	}
       entry->stamp = stamp;
-      if (entry->id)
+      if (id)
 	{
 	  strncpy (entry->id, id, LW6P2P_ID_SIZE);
 	}
-      if (entry->url)
+      if (url)
 	{
 	  strncpy (entry->url, url, LW6P2P_URL_SIZE);
 	}
-      if (entry->title)
+      if (title)
 	{
 	  strncpy (entry->title, title, LW6P2P_TITLE_SIZE);
 	}
-      if (entry->description)
+      if (description)
 	{
 	  strncpy (entry->description, description, LW6P2P_DESCRIPTION_SIZE);
 	}
@@ -108,12 +108,12 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
       entry->bench = bench;
       entry->open_relay = open_relay;
       // variable data
-      if (entry->community_id)
+      if (community_id)
 	{
 	  strncpy (entry->community_id, community_id,
 		   LW6P2P_COMMUNITY_ID_SIZE);
 	}
-      if (entry->level)
+      if (level)
 	{
 	  strncpy (entry->level, level, LW6P2P_LEVEL_SIZE);
 	}
@@ -125,7 +125,7 @@ lw6p2p_entry_new (int creation_timestamp, char *version, char *codename,
       entry->nb_nodes = nb_nodes;
       entry->max_nb_nodes = max_nb_nodes;
       // additionnal data
-      if (entry->ip)
+      if (ip)
 	{
 	  strncpy (entry->ip, ip, LW6P2P_IP_SIZE);
 	}
