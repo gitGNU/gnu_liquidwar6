@@ -5441,9 +5441,14 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6cfg_read_key_value_xml_file (char * FILENAME, void
-          (*CALLBACK_FUNC)
+ -- Function: int lw6cfg_read_key_value_xml_file (char * FILENAME,
+          lw6cfg_read_xml_callback_func_t CALLBACK_FUNC, void *
+          CALLBACK_DATA)
      FILENAME:  full path of file to read
+
+     CALLBACK_FUNC:  callback function to be called on each element
+
+     CALLBACK_DATA:  additionnal pointer passed to callback function
 
      Will parse a file and call the given callback on each element.
      This is an over-simplified way to read XML file, in fact we just

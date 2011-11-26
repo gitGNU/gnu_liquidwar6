@@ -284,10 +284,7 @@ element_end (void *data, const char *el)
  */
 int
 lw6cfg_read_key_value_xml_file (char *filename,
-				void (*callback_func) (void *callback_data,
-						       char *element,
-						       char *key,
-						       char *value),
+				lw6cfg_read_xml_callback_func_t callback_func,
 				void *callback_data)
 {
   int ret = 0;

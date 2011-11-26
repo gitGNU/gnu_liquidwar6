@@ -403,8 +403,12 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_read_key_value_xml_file} (char * @var{filename}, void @var{(*callback_func})
+@deftypefun {int} {lw6cfg_read_key_value_xml_file} (char * @var{filename}, lw6cfg_read_xml_callback_func_t @var{callback_func}, void * @var{callback_data})
 @var{filename}:  full path of file to read
+
+@var{callback_func}:  callback function to be called on each element
+
+@var{callback_data}:  additionnal pointer passed to callback function
 
 Will parse a file and call the given callback on each element.
 This is an over-simplified way to read XML file, in fact we just

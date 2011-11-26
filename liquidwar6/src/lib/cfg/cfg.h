@@ -38,6 +38,10 @@
 #define LW6CFG_XML_TRUE "true"
 #define LW6CFG_XML_FALSE "false"
 
+typedef void (*lw6cfg_read_xml_callback_func_t) (void *callback_data,
+						 char *element,
+						 char *key, char *value);
+
 /* cfg-arg.c */
 extern int lw6cfg_parse_command_line (void *context);
 
