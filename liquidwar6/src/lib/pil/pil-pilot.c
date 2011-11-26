@@ -380,8 +380,11 @@ _commit_reference (_lw6pil_pilot_t * pilot)
 	    {
 	      lw6sys_log (LW6SYS_LOG_WARNING,
 			  _x_
-			  ("possible game inconsistency, min_round=%d last_commit_round=%d"),
-			  min_round, last_commit_round);
+			  ("possible game inconsistency, min_round=%d last_commit_round=%d, seq_0=%"
+			   LW6SYS_PRINTF_LL "d last_commmit_seq=%"
+			   LW6SYS_PRINTF_LL "d"), min_round,
+			  last_commit_round, pilot->seq_0,
+			  pilot->last_commit_seq);
 	    }
 	}
       if (max_round > 0)
@@ -927,7 +930,7 @@ lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot)
 int
 _lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
 {
-  return seq - _lw6pil_pilot_get_seq_0 (pilot);
+  return (seq >= 10000000000L ? (seq - _lw6pil_pilot_get_seq_0 (pilot)) : -1);
 }
 
 /**
