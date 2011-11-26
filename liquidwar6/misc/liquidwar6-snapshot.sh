@@ -122,6 +122,7 @@ if test x${LW6_OK} = x1 ; then
     killall liquidwar6 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     sleep 10 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     killall -9 liquidwar6 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    sleep 1
     src/liquidwar6 --daemon --server --node-title="ufoot.org snapshot" --node-description="Latest snapshot running on ufoot.org" --public-url="http://ufoot.org:8056/" > ${LW6_LOG_FILE}.daemon.log.txt 2>&1
 fi
 

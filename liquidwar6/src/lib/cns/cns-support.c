@@ -26,6 +26,13 @@
 
 #include "cns.h"
 
+/**
+ * lw6cns_support
+ *
+ * Tells wether console is supported.
+ *
+ * Return value: 1 if console can be enabled, 0 if not
+ */
 int
 lw6cns_support ()
 {

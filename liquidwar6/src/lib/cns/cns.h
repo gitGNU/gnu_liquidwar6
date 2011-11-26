@@ -25,21 +25,17 @@
 
 #include "../sys/sys.h"
 
-/*
- * Functions in handler.c
- */
-extern void lw6cns_handler_install (void (*callback) (char *line));
+typedef void (*lw6cns_callback_func_t) (char *line);
+
+/* cns-handler.c */
+extern void lw6cns_handler_install (lw6cns_callback_func_t callback);
 extern void lw6cns_handler_poll ();
 extern void lw6cns_handler_remove ();
 
-/*
- * Functions in history.c
- */
+/* cns-history.c */
 extern void lw6cns_history_add_if_needed (char *line);
 
-/*
- * Functions in support.c
- */
+/* cns-support.c */
 extern int lw6cns_support ();
 
 /* cns-test.c */

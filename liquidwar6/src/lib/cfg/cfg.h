@@ -104,13 +104,8 @@ extern void lw6cfg_read_xml_color (char *xml_key, char *xml_value,
 				   char *target_key,
 				   lw6sys_color_8_t * value);
 extern int lw6cfg_read_key_value_xml_file (char *filename,
-					   void (*callback_func) (void
-								  *callback_data,
-								  char
-								  *element,
-								  char *key,
-								  char
-								  *value),
+					   lw6cfg_read_xml_callback_func_t
+					   callback_func,
 					   void *callback_data);
 extern void lw6cfg_write_xml_int (FILE * f, char *key, int value);
 extern void lw6cfg_write_xml_bool (FILE * f, char *key, int value);

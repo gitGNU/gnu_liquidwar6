@@ -5946,6 +5946,37 @@ results on
 5.12.2 API
 ----------
 
+ -- Function: void lw6cns_handler_install (lw6cns_callback_func_t
+          CALLBACK)
+     CALLBACK:  handler function.
+
+     Installs a console handler.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_handler_poll ()
+     Polling function for console, must be called on a regular basis.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_handler_remove ()
+     Remove console handler.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_history_add_if_needed (char * LINE)
+     LINE:  line to add
+
+     Adds a line to the console history, won't add it if it's NULL or
+     empty.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cns_support ()
+     Tells wether console is supported.
+
+     *Return value:*  1 if console can be enabled, 0 if not
+
  -- Function: int lw6cns_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

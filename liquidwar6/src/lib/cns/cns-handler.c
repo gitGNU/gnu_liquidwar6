@@ -39,8 +39,17 @@
 
 #define PROMPT "lw6> "
 
+/**
+ * lw6cns_handler_install
+ *
+ * @callback: handler function.
+ *
+ * Installs a console handler.
+ *
+ * Return value: none.
+ */
 void
-lw6cns_handler_install (void (*callback) (char *line))
+lw6cns_handler_install (lw6cns_callback_func_t callback)
 {
 #ifdef LW6_CONSOLE
   fflush (stdin);
@@ -56,6 +65,13 @@ lw6cns_handler_install (void (*callback) (char *line))
 #endif
 }
 
+/**
+ * lw6cns_handler_poll
+ *
+ * Polling function for console, must be called on a regular basis.
+ *
+ * Return value: none.
+ */
 void
 lw6cns_handler_poll ()
 {
@@ -90,6 +106,13 @@ lw6cns_handler_poll ()
 #endif
 }
 
+/**
+ * lw6cns_handler_remove
+ * 
+ * Remove console handler.
+ *
+ * Return value: none.
+ */
 void
 lw6cns_handler_remove ()
 {

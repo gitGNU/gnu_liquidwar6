@@ -34,6 +34,16 @@
 
 #include "cns.h"
 
+/**
+ * lw6cns_history_add_if_needed
+ *
+ * @line: line to add
+ *
+ * Adds a line to the console history, won't add it if
+ * it's NULL or empty.
+ *
+ * Return value: none.
+ */
 void
 lw6cns_history_add_if_needed (char *line)
 {
