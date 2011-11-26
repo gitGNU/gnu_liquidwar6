@@ -4880,6 +4880,79 @@ results on
 5.2.2 API
 ---------
 
+ -- Function: int lw6bot_init (lw6bot_backend_t * BACKEND,
+          lw6bot_seed_t * SEED)
+     BACKEND:  backend to use
+
+     SEED:  parameters required to build bot (game state, among other
+     things)
+
+     Initializes a bot object. The seed is absolutely required, for a
+     bot really needs to know what map/context it's working on,
+     including at creation time
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6bot_quit (lw6bot_backend_t * BACKEND)
+     BACKEND:  unitialize a bot
+
+     Closes a bot, but does not free all ressources.
+
+ -- Function: int lw6bot_next_move (lw6bot_backend_t * BACKEND, int *
+          X, int * Y)
+     BACKEND:  bot to work on
+
+     X:  next x position (out param)
+
+     Y:  next y position (out param)
+
+     Queries the bot for its next move, this is actually the one
+     interesting function in the whole bot API.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: char * lw6bot_repr (lw6bot_backend_t * BACKEND)
+     BACKEND:  bot to represent
+
+     Gives a human readable representation of bot
+
+     *Return value:*  dynamically allocated string.
+
+ -- Function: lw6sys_assoc_t * lw6bot_get_backends (int ARGC, char * []
+          ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available bots. The list contains only the bot keys, strings
+     which can then be used to construct the bots themselves, but at
+     this stage bot objects might not be instanciated.
+
+     *Return value:*  list of strings.
+
+ -- Function: lw6bot_backend_t * lw6bot_create_backend (int ARGC, char
+          * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing bot key, typically got from
+     `lw6bot_get_backends'
+
+     Creates a bot backend, this is just about loading the dynamic
+     library if needed, and/or check bot engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  bot backend.
+
+ -- Function: void lw6bot_destroy_backend (lw6bot_backend_t * BACKEND)
+     BACKEND:  bot backend to destroy
+
+     Frees the ressources associated to a bot, which must have been
+     properly uninitialized before.
+
+     *Return value:*  none.
+
  -- Function: int lw6bot_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

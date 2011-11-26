@@ -66,17 +66,13 @@ typedef struct lw6bot_backend_s
 }
 lw6bot_backend_t;
 
-/*
- * In api.c
- */
+/* bot-api.c */
 extern int lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed);
 extern void lw6bot_quit (lw6bot_backend_t * backend);
 extern int lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y);
 extern char *lw6bot_repr (lw6bot_backend_t * backend);
 
-/*
- * In register.c
- */
+/* bot-register.c */
 extern lw6sys_assoc_t *lw6bot_get_backends (int argc, char *argv[]);
 extern lw6bot_backend_t *lw6bot_create_backend (int argc, char *argv[],
 						char *name);

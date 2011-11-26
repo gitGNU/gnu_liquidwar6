@@ -115,7 +115,7 @@ if test x${LW6_OK} = x1 ; then
     cp ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz ${LW6_RUN}/src/ >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     cd ${LW6_RUN}/src/ >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     tar xzf liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz >> ${LW6_LOG_FILE}.run.log.txt 2>&1
-    cd ${LW6_SNAPSHOT_VERSION}    
+    cd liquidwar6-${LW6_SNAPSHOT_VERSION}    
     ./configure --prefix=${LW6_RUN} >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     make >> ${LW6_LOG_FILE}.run.log.txt 2>&1
     make install >> ${LW6_LOG_FILE}.run.log.txt 2>&1

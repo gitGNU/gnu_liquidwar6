@@ -327,7 +327,7 @@ results on
           REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS, int
           NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
           MAX_NB_NODES, char * IP, int PORT, int LAST_PING_TIMESTAMP,
-          int PING_DELAY_MSEC)
+          int PING_DELAY_MSEC, int AVAILABLE)
      CREATION_TIMESTAMP:  when it has been created, UNIX timestamp
 
      VERSION:  version of the node
@@ -376,6 +376,8 @@ results on
 
      PING_DELAY_MSEC:  ping delay, in milliseconds
 
+     AVAILABLE:  wether node is available, wether we can connect to it
+
      Creates a new p2p entry. Will accept NULL parameters for strings
      as well as arbitrary long strings, will simply cut them short if
      there aren't already limited to max size.
@@ -388,6 +390,13 @@ results on
      Frees a p2p entry.
 
      *Return value:*  none.
+
+ -- Function: char * lw6p2p_entry_repr (lw6p2p_entry_t * ENTRY)
+     ENTRY:  entry to represent
+
+     Gives a human-readable representation of the entry
+
+     *Return value:*  dynamically allocated string
 
  -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
           ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
@@ -474,6 +483,18 @@ results on
      the node at run-time.
 
      *Return value:*  numerical id.
+
+ -- Function: lw6sys_list_t * lw6p2p_node_get_entries (lw6p2p_node_t *
+          NODE)
+     NODE:  node to query
+
+     Returns a list of all known nodes, this is a plain table dump,
+     sorted so that the most likely to be interesting to connect
+     oneself to are listed *last*, this is just a (little)
+     optimization, since we know we'll need to parse this list to
+     construct a Guile object, we reverse the order.
+
+     *Return value:*  list object containing `lw6p2p_entry_t' objects
 
  -- Function: int lw6p2p_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -2305,13 +2326,15 @@ results on
      STR:  string to convert
 
      Just a plain wrapper on `atoi', it's here for API consistency.
+     Will check if str is NULL (and in this case return 0).
 
      *Return value:*  an integer.
 
  -- Function: int64_t lw6sys_atoll (char * STR)
      STR:  string to convert
 
-     Wrapper on `atoll', it's here for API consistency.
+     Wrapper on `atoll', it's here for API consistency.  Will check if
+     str is NULL (and in this case return 0).
 
      *Return value:*  a 64-bit integer.
 
@@ -2319,7 +2342,8 @@ results on
      STR:  string to convert
 
      Transform a string into a boolean value. Accepts "0"/"1" in input,
-     but also y/n, yes/no, true/false, on/off.
+     but also y/n, yes/no, true/false, on/off.  Will check if str is
+     NULL (and in this case return 0).
 
      *Return value:*  an integer, 0 or 1.
 
@@ -2328,7 +2352,8 @@ results on
 
      A wrapper on `atof', makes sure the locale used is C (default) and
      won't change the decimal separator whatsoever. Usefull for
-     serialization for instance.
+     serialization for instance.  Will check if str is NULL (and in
+     this case return 0).
 
      *Return value:*  a float.
 

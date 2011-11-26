@@ -1209,6 +1209,7 @@ Make a color "solid" that is make it not transparent at all.
 @var{str}:  string to convert
 
 Just a plain wrapper on @code{atoi}, it's here for API consistency.
+Will check if str is NULL (and in this case return 0).
 
 @strong{Return value:}  an integer.
 @end deftypefun
@@ -1217,6 +1218,7 @@ Just a plain wrapper on @code{atoi}, it's here for API consistency.
 @var{str}:  string to convert
 
 Wrapper on @code{atoll}, it's here for API consistency.
+Will check if str is NULL (and in this case return 0).
 
 @strong{Return value:}  a 64-bit integer.
 @end deftypefun
@@ -1226,6 +1228,7 @@ Wrapper on @code{atoll}, it's here for API consistency.
 
 Transform a string into a boolean value. Accepts "0"/"1" in input,
 but also y/n, yes/no, true/false, on/off.
+Will check if str is NULL (and in this case return 0).
 
 @strong{Return value:}  an integer, 0 or 1.
 @end deftypefun
@@ -1236,6 +1239,7 @@ but also y/n, yes/no, true/false, on/off.
 A wrapper on @code{atof}, makes sure the locale used is C (default)
 and won't change the decimal separator whatsoever. Usefull for
 serialization for instance.
+Will check if str is NULL (and in this case return 0).
 
 @strong{Return value:}  a float.
 @end deftypefun

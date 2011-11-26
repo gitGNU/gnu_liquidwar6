@@ -33,6 +33,17 @@ _warning (const char *func_name)
 	      _x_ ("bot backend function \"%s\" is not defined"), func_name);
 }
 
+/**
+ * lw6bot_init
+ *
+ * @backend: backend to use
+ * @seed: parameters required to build bot (game state, among other things)
+ *
+ * Initializes a bot object. The seed is absolutely required, for a bot really
+ * needs to know what map/context it's working on, including at creation time
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
 {
@@ -71,6 +82,13 @@ lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
   return backend->bot_context ? 1 : 0;
 }
 
+/**
+ * lw6bot_quit
+ *
+ * @backend: unitialize a bot
+ *
+ * Closes a bot, but does not free all ressources.
+ */
 void
 lw6bot_quit (lw6bot_backend_t * backend)
 {
@@ -96,6 +114,18 @@ lw6bot_quit (lw6bot_backend_t * backend)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6bot_next_move
+ *
+ * @backend: bot to work on
+ * @x: next x position (out param)
+ * @y: next y position (out param)
+ *
+ * Queries the bot for its next move, this is actually the one
+ * interesting function in the whole bot API.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 {
@@ -143,6 +173,15 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
   return ret;
 }
 
+/**
+ * lw6bot_repr
+ *
+ * @backend: bot to represent
+ *
+ * Gives a human readable representation of bot
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6bot_repr (lw6bot_backend_t * backend)
 {

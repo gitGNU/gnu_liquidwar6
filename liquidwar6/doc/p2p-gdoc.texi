@@ -61,7 +61,7 @@ in signed mode even if converted to seconds.
 @strong{Return value:}  a timestamp, 0 means "beginning of program" (think of it as uptime)
 @end deftypefun
 
-@deftypefun {lw6p2p_entry_t *} {lw6p2p_entry_new} (int @var{creation_timestamp}, char * @var{version}, char * @var{codename}, int @var{stamp}, char * @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{has_password}, int @var{bench}, int @var{open_relay}, char * @var{community_id}, int @var{round}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, char * @var{ip}, int @var{port}, int @var{last_ping_timestamp}, int @var{ping_delay_msec})
+@deftypefun {lw6p2p_entry_t *} {lw6p2p_entry_new} (int @var{creation_timestamp}, char * @var{version}, char * @var{codename}, int @var{stamp}, char * @var{id}, char * @var{url}, char * @var{title}, char * @var{description}, int @var{has_password}, int @var{bench}, int @var{open_relay}, char * @var{community_id}, int @var{round}, char * @var{level}, int @var{required_bench}, int @var{nb_colors}, int @var{max_nb_colors}, int @var{nb_cursors}, int @var{max_nb_cursors}, int @var{nb_nodes}, int @var{max_nb_nodes}, char * @var{ip}, int @var{port}, int @var{last_ping_timestamp}, int @var{ping_delay_msec}, int @var{available})
 @var{creation_timestamp}:  when it has been created, UNIX timestamp
 
 @var{version}:  version of the node
@@ -110,6 +110,8 @@ in signed mode even if converted to seconds.
 
 @var{ping_delay_msec}:  ping delay, in milliseconds
 
+@var{available}:  wether node is available, wether we can connect to it
+
 Creates a new p2p entry. Will accept NULL parameters for strings
 as well as arbitrary long strings, will simply cut them short if
 there aren't already limited to max size.
@@ -123,6 +125,14 @@ there aren't already limited to max size.
 Frees a p2p entry.
 
 @strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {char *} {lw6p2p_entry_repr} (lw6p2p_entry_t * @var{entry})
+@var{entry}:  entry to represent
+
+Gives a human-readable representation of the entry
+
+@strong{Return value:}  dynamically allocated string
 @end deftypefun
 
 @deftypefun {lw6p2p_node_t *} {lw6p2p_node_new} (int @var{argc}, char * [] @var{argv}, lw6p2p_db_t * @var{db}, char * @var{client_backends}, char * @var{server_backends}, char * @var{bind_ip}, int @var{bind_port}, int @var{broadcast}, char * @var{public_url}, char * @var{title}, char * @var{description}, char * @var{password}, int @var{bench}, int @var{open_relay}, char * @var{known_nodes}, int @var{network_reliability}, int @var{trojan})
@@ -210,6 +220,18 @@ Returns the node id, an id which is supposed to uniquely identify
 the node at run-time.
 
 @strong{Return value:}  numerical id.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6p2p_node_get_entries} (lw6p2p_node_t * @var{node})
+@var{node}:  node to query
+
+Returns a list of all known nodes, this is a plain
+table dump, sorted so that the most likely to be interesting
+to connect oneself to are listed *last*, this is just a (little)
+optimization, since we know we'll need to parse this list
+to construct a Guile object, we reverse the order.
+
+@strong{Return value:}  list object containing @code{lw6p2p_entry_t} objects
 @end deftypefun
 
 @deftypefun {int} {lw6p2p_test} (int @var{mode})

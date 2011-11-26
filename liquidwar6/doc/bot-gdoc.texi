@@ -1,3 +1,76 @@
+@deftypefun {int} {lw6bot_init} (lw6bot_backend_t * @var{backend}, lw6bot_seed_t * @var{seed})
+@var{backend}:  backend to use
+
+@var{seed}:  parameters required to build bot (game state, among other things)
+
+Initializes a bot object. The seed is absolutely required, for a bot really
+needs to know what map/context it's working on, including at creation time
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6bot_quit} (lw6bot_backend_t * @var{backend})
+@var{backend}:  unitialize a bot
+
+Closes a bot, but does not free all ressources.
+@end deftypefun
+
+@deftypefun {int} {lw6bot_next_move} (lw6bot_backend_t * @var{backend}, int * @var{x}, int * @var{y})
+@var{backend}:  bot to work on
+
+@var{x}:  next x position (out param)
+
+@var{y}:  next y position (out param)
+
+Queries the bot for its next move, this is actually the one
+interesting function in the whole bot API.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {char *} {lw6bot_repr} (lw6bot_backend_t * @var{backend})
+@var{backend}:  bot to represent
+
+Gives a human readable representation of bot
+
+@strong{Return value:}  dynamically allocated string.
+@end deftypefun
+
+@deftypefun {lw6sys_assoc_t *} {lw6bot_get_backends} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, as passed to @code{main}
+
+@var{argv}:  argv, as passed to @code{main}
+
+List available bots. The list contains only the bot keys,
+strings which can then be used to construct the bots themselves,
+but at this stage bot objects might not be instanciated.
+
+@strong{Return value:}  list of strings.
+@end deftypefun
+
+@deftypefun {lw6bot_backend_t *} {lw6bot_create_backend} (int @var{argc}, char * [] @var{argv}, char * @var{name})
+@var{argc}:  argc, as passed to @code{main}
+
+@var{argv}:  argv, as passed to @code{main}
+
+@var{name}:  string containing bot key, typically got from @code{lw6bot_get_backends}
+
+Creates a bot backend, this is just about loading the dynamic
+library if needed, and/or check bot engine is available, and
+connect to it. It does not perform initialization.
+
+@strong{Return value:}  bot backend.
+@end deftypefun
+
+@deftypefun {void} {lw6bot_destroy_backend} (lw6bot_backend_t * @var{backend})
+@var{backend}:  bot backend to destroy
+
+Frees the ressources associated to a bot, which must have been
+properly uninitialized before.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6bot_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

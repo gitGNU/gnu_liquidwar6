@@ -34,6 +34,18 @@
 #include "mod-random/mod-random.h"
 #endif
 
+/**
+ * lw6bot_get_backends
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ *
+ * List available bots. The list contains only the bot keys,
+ * strings which can then be used to construct the bots themselves,
+ * but at this stage bot objects might not be instanciated.
+ *
+ * Return value: list of strings.
+ */
 lw6sys_assoc_t *
 lw6bot_get_backends (int argc, char *argv[])
 {
@@ -81,6 +93,19 @@ lw6bot_get_backends (int argc, char *argv[])
   return ret;
 }
 
+/**
+ * lw6bot_create_backend
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ * @name: string containing bot key, typically got from @lw6bot_get_backends
+ *
+ * Creates a bot backend, this is just about loading the dynamic
+ * library if needed, and/or check bot engine is available, and
+ * connect to it. It does not perform initialization.
+ *
+ * Return value: bot backend.
+ */
 lw6bot_backend_t *
 lw6bot_create_backend (int argc, char *argv[], char *name)
 {
@@ -171,6 +196,16 @@ lw6bot_create_backend (int argc, char *argv[], char *name)
   return backend;
 }
 
+/**
+ * lw6bot_destroy_backend
+ *
+ * @backend: bot backend to destroy
+ *
+ * Frees the ressources associated to a bot, which must have been
+ * properly uninitialized before.
+ *
+ * Return value: none.
+ */
 void
 lw6bot_destroy_backend (lw6bot_backend_t * backend)
 {
