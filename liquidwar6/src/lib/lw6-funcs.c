@@ -8422,6 +8422,152 @@ _scm_lw6p2p_node_get_id (SCM node)
   return ret;
 }
 
+static void
+_lw6p2p_node_get_entries_callback (void *func_data, void *data)
+{
+  SCM *ret = (SCM *) func_data;
+  lw6p2p_entry_t *entry = (lw6p2p_entry_t *) data;
+  SCM item;
+
+  item = SCM_EOL;
+
+  // constant data
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("creation-timestamp"),
+	       scm_int2num (entry->creation_timestamp)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("version"), scm_makfrom0str (entry->version)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("codename"),
+	       scm_makfrom0str (entry->codename)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("stamp"), scm_int2num (entry->stamp)), item);
+  item =
+    scm_cons (scm_cons (scm_makfrom0str ("id"), scm_makfrom0str (entry->id)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("url"), scm_makfrom0str (entry->url)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("title"), scm_makfrom0str (entry->title)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("description"),
+	       scm_makfrom0str (entry->description)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("has-password"),
+	       entry->has_password ? SCM_BOOL_T : SCM_BOOL_F), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("bench"), scm_int2num (entry->bench)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("open-relay"),
+	       entry->open_relay ? SCM_BOOL_T : SCM_BOOL_F), item);
+  // variable data
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("community-id"),
+	       scm_makfrom0str (entry->community_id)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("round"), scm_int2num (entry->round)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("level"), scm_makfrom0str (entry->level)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("required-bench"),
+	       scm_int2num (entry->required_bench)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("nb-colors"), scm_int2num (entry->nb_colors)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("max-nb-colors"),
+	       scm_int2num (entry->max_nb_colors)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("nb-cursors"),
+	       scm_int2num (entry->nb_cursors)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("max-nb-cursors"),
+	       scm_int2num (entry->max_nb_cursors)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("nb-nodes"), scm_int2num (entry->nb_nodes)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("max-nb-nodes"),
+	       scm_int2num (entry->max_nb_nodes)), item);
+  // additionnal data
+  item =
+    scm_cons (scm_cons (scm_makfrom0str ("ip"), scm_makfrom0str (entry->ip)),
+	      item);
+  item =
+    scm_cons (scm_cons (scm_makfrom0str ("port"), scm_int2num (entry->port)),
+	      item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("last-ping-timestamp"),
+	       scm_int2num (entry->last_ping_timestamp)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("ping-delay-msec"),
+	       scm_int2num (entry->ping_delay_msec)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_makfrom0str ("available"),
+	       entry->available ? SCM_BOOL_T : SCM_BOOL_F), item);
+
+  item = scm_reverse (item);
+
+  (*ret) = scm_cons (item, *ret);
+}
+
+static SCM
+_scm_lw6p2p_node_get_entries (SCM node)
+{
+  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_list_t *c_ret = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.node,
+	       node), node, SCM_ARG1, __FUNCTION__);
+
+  c_node = lw6_scm_to_node (node);
+  if (c_node)
+    {
+      c_ret = lw6p2p_node_get_entries (c_node);
+      if (c_ret)
+	{
+	  ret = SCM_EOL;
+	  lw6sys_list_map (c_ret, _lw6p2p_node_get_entries_callback,
+			   (void *) &ret);
+	  lw6sys_list_free (c_ret);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In liquidwar6bot
  */
@@ -9414,6 +9560,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6p2p_node_close);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ID, 1, 0, 0,
 			 (SCM (*)())_scm_lw6p2p_node_get_id);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES, 1, 0, 0,
+			 (SCM (*)())_scm_lw6p2p_node_get_entries);
 
   /*
    * In liquidwar6bot

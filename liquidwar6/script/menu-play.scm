@@ -55,6 +55,7 @@
 	  (item (lw6-menu-item-template (_ "Join network game")))
 	  )
       (begin
+	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-join-menu))))
 	item
 	))))
 

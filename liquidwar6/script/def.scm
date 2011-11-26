@@ -20,7 +20,6 @@
 
 ;Generated automatically by def-update.py
 
-(define lw6def-c-lw6pil-seq-random-0 "c-lw6pil-seq-random-0")
 (define lw6def-about "about")
 (define lw6def-ambiance-exclude "ambiance-exclude")
 (define lw6def-ambiance-file "ambiance-file")
@@ -223,6 +222,7 @@
 (define lw6def-c-lw6p2p-db-new "c-lw6p2p-db-new")
 (define lw6def-c-lw6p2p-db-reset "c-lw6p2p-db-reset")
 (define lw6def-c-lw6p2p-node-close "c-lw6p2p-node-close")
+(define lw6def-c-lw6p2p-node-get-entries "c-lw6p2p-node-get-entries")
 (define lw6def-c-lw6p2p-node-get-id "c-lw6p2p-node-get-id")
 (define lw6def-c-lw6p2p-node-new "c-lw6p2p-node-new")
 (define lw6def-c-lw6p2p-node-poll "c-lw6p2p-node-poll")
@@ -245,6 +245,7 @@
 (define lw6def-c-lw6pil-local-cursors-set-mouse-controlled "c-lw6pil-local-cursors-set-mouse-controlled")
 (define lw6def-c-lw6pil-make-backup "c-lw6pil-make-backup")
 (define lw6def-c-lw6pil-send-command "c-lw6pil-send-command")
+(define lw6def-c-lw6pil-seq-random-0 "c-lw6pil-seq-random-0")
 (define lw6def-c-lw6pil-slow-down "c-lw6pil-slow-down")
 (define lw6def-c-lw6pil-speed-up "c-lw6pil-speed-up")
 (define lw6def-c-lw6pil-sync-from-backup "c-lw6pil-sync-from-backup")

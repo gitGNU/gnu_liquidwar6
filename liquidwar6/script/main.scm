@@ -45,6 +45,7 @@
       (load "menu.scm")
       (load "menu-exit.scm")
       (load "menu-ingame.scm")
+      (load "menu-join.scm")
       (load "menu-map.scm")
       (load "menu-options.scm")
       (load "menu-options-time.scm")

@@ -202,6 +202,7 @@ c-lw6p2p-db-default-name
 c-lw6p2p-db-new
 c-lw6p2p-db-reset
 c-lw6p2p-node-close
+c-lw6p2p-node-get-entries
 c-lw6p2p-node-get-id
 c-lw6p2p-node-new
 c-lw6p2p-node-poll

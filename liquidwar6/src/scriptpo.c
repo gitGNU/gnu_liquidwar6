@@ -30,6 +30,8 @@ _("Quit");			// extracted by scriptpo-update.sh
 _("Resume");			// extracted by scriptpo-update.sh
 _("Quit Liquid War 6?");	// extracted by scriptpo-update.sh
 _("Playing");			// extracted by scriptpo-update.sh
+_("No server found");		// extracted by scriptpo-update.sh
+_("Play");			// extracted by scriptpo-update.sh
 _("Choose map");		// extracted by scriptpo-update.sh
 _("No sound FX");		// extracted by scriptpo-update.sh
 _("Sound FX ~a%");		// extracted by scriptpo-update.sh

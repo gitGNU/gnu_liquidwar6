@@ -1,3 +1,7 @@
+2011-11-26 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Nodes are listed in menu interface.
+
 2011-11-25 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Node listing works (bug-fixed some SQL queries).

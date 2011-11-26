@@ -2753,6 +2753,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6p2p_node_close."));
   POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_ID,
 		 _x_ ("Wrapper on lw6p2p_node_get_id."));
+  POPULATE_VOID (LW6DEF_C_LW6P2P_NODE_GET_ENTRIES,
+		 _x_ ("Wrapper on lw6p2p_node_get_entries."));
   POPULATE_VOID (LW6DEF_C_LW6BOT_GET_BACKENDS,
 		 _x_ ("Wrapper on lw6bot_get_backends."));
   POPULATE_VOID (LW6DEF_C_LW6BOT_NEW, _x_ ("Wrapper on lw6bot_new."));

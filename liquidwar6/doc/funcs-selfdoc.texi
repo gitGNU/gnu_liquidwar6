@@ -795,6 +795,11 @@ Wrapper on lw6p2p_db_reset.
 Wrapper on lw6p2p_node_close.
 @end deffn
 
+@subsection c-lw6p2p-node-get-entries
+@deffn {C function exported to Guile} @code{c-lw6p2p-node-get-entries}
+Wrapper on lw6p2p_node_get_entries.
+@end deffn
+
 @subsection c-lw6p2p-node-get-id
 @deffn {C function exported to Guile} @code{c-lw6p2p-node-get-id}
 Wrapper on lw6p2p_node_get_id.

@@ -29,6 +29,7 @@ LW6_BIN=${LW6_SNAPSHOT_ROOT}/bin
 LW6_LOG=${LW6_SNAPSHOT_ROOT}/log
 LW6_PUB=${LW6_SNAPSHOT_ROOT}/pub
 LW6_TMP=${LW6_SNAPSHOT_ROOT}/tmp
+LW6_RUN=${LW6_SNAPSHOT_ROOT}/run
 LW6_BRANCH="liquidwar6--beta"
 LW6_BRANCH_EXTRA_MAPS="liquidwar6--extra-maps"
 LW6_SNAPSHOT_VERSION=`date +%Y%m%d`"snapshot"
@@ -106,6 +107,23 @@ fi
    
 cd ..
 cd ..
+
+if test x${LW6_OK} = x1 ; then
+    date > ${LW6_LOG_FILE}.run.log.txt 2>&1
+    rm -rf ${LW6_RUN} >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    install -d ${LW6_RUN}/src >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    cp ${LW6_PUB}/${LW6_SNAPSHOT_VERSION}/liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz ${LW6_RUN}/src/ >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    cd ${LW6_RUN}/src/ >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    tar xzf liquidwar6-${LW6_SNAPSHOT_VERSION}.tar.gz >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    cd ${LW6_SNAPSHOT_VERSION}    
+    ./configure --prefix=${LW6_RUN} >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    make >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    make install >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    killall liquidwar6 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    sleep 10 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    killall -9 liquidwar6 >> ${LW6_LOG_FILE}.run.log.txt 2>&1
+    src/liquidwar6 --daemon --server --node-title="ufoot.org snapshot" --node-description="Latest snapshot running on ufoot.org" > ${LW6_LOG_FILE}.daemon.log.txt 2>&1
+fi
 
 if test x${LW6_OK} = x1 && test x${LW6_OK_EXTRA_MAPS} = x1 ; then
     exit 0

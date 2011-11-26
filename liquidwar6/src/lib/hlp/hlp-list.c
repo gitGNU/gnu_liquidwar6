@@ -1066,6 +1066,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_POLL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_CLOSE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_ID);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6P2P_NODE_GET_ENTRIES);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_GET_BACKENDS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_NEW);
   lw6sys_list_push_back (list, LW6DEF_C_LW6BOT_NEXT_MOVE);

@@ -27,7 +27,6 @@ Contact author        : ufoot@ufoot.org
 #ifndef LIQUIDWAR6DEF_DEF_H
 #define LIQUIDWAR6DEF_DEF_H
 
-#define LW6DEF_C_LW6PIL_SEQ_RANDOM_0 "c-lw6pil-seq-random-0"
 #define LW6DEF_ABOUT "about"
 #define LW6DEF_AMBIANCE_EXCLUDE "ambiance-exclude"
 #define LW6DEF_AMBIANCE_FILE "ambiance-file"
@@ -230,6 +229,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6P2P_DB_NEW "c-lw6p2p-db-new"
 #define LW6DEF_C_LW6P2P_DB_RESET "c-lw6p2p-db-reset"
 #define LW6DEF_C_LW6P2P_NODE_CLOSE "c-lw6p2p-node-close"
+#define LW6DEF_C_LW6P2P_NODE_GET_ENTRIES "c-lw6p2p-node-get-entries"
 #define LW6DEF_C_LW6P2P_NODE_GET_ID "c-lw6p2p-node-get-id"
 #define LW6DEF_C_LW6P2P_NODE_NEW "c-lw6p2p-node-new"
 #define LW6DEF_C_LW6P2P_NODE_POLL "c-lw6p2p-node-poll"
@@ -252,6 +252,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED "c-lw6pil-local-cursors-set-mouse-controlled"
 #define LW6DEF_C_LW6PIL_MAKE_BACKUP "c-lw6pil-make-backup"
 #define LW6DEF_C_LW6PIL_SEND_COMMAND "c-lw6pil-send-command"
+#define LW6DEF_C_LW6PIL_SEQ_RANDOM_0 "c-lw6pil-seq-random-0"
 #define LW6DEF_C_LW6PIL_SLOW_DOWN "c-lw6pil-slow-down"
 #define LW6DEF_C_LW6PIL_SPEED_UP "c-lw6pil-speed-up"
 #define LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP "c-lw6pil-sync-from-backup"
