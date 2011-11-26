@@ -5666,6 +5666,8 @@ you need here:
 @uref{http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6}: Submit a bug report
 @item
 @uref{http://lists.gnu.org/archive/html/help-liquidwar6/}: Mailing-list archives
+@item
+@uref{http://ufoot.org:8056/}: Permanent ``seed'' server running latest snapshot
 @end itemize
 
 @appendixsec Other sites
