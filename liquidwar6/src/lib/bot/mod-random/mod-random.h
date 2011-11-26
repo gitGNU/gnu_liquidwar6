@@ -25,6 +25,7 @@
 
 #include "../bot.h"
 
+/* mod-random-backend.c */
 extern lw6sys_module_pedigree_t *mod_random_get_pedigree ();
 extern lw6bot_backend_t *mod_random_create_backend ();
 extern void mod_random_is_GPL_compatible ();

@@ -28,12 +28,21 @@
 #include "mod-random.h"
 #include "mod-random-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_random_is_GPL_compatible
+ *
+ * Defined to tell mod_random is compatible with GNU General Public License.
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 mod_random_is_GPL_compatible ()
 {
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
 }
 
 static void *
@@ -86,6 +95,14 @@ _repr (void *bot_context, u_int32_t id)
   return ret;
 }
 
+/**
+ * mod_random_get_pedigree
+ *
+ * Returns the pedigree for mod-random, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
 mod_random_get_pedigree ()
 {
@@ -113,6 +130,13 @@ mod_random_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_random_create_backend
+ *
+ * Creates a mod-random backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6bot_backend_t *
 mod_random_create_backend ()
 {

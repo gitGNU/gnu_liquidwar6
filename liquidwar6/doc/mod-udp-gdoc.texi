@@ -1,0 +1,24 @@
+@deftypefun {void} {mod_udp_is_GPL_compatible} ()
+
+Defined to tell mod_udp is compatible with GNU General Public License.
+Of course it is. This function does nothing, but the fact it's declared
+makes its GPL compatibility obvious. Having this declared is required.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {lw6sys_module_pedigree_t *} {mod_udp_get_pedigree} ()
+
+Returns the pedigree for mod-udp, giving details about the module,
+including name, description, licence, date/time of compilation.
+
+@strong{Return value:}  dynamically allocated object.
+@end deftypefun
+
+@deftypefun {lw6cli_backend_t *} {mod_udp_create_backend} ()
+
+Creates a mod-udp backend.
+
+@strong{Return value:}  backend pointer.
+@end deftypefun
+

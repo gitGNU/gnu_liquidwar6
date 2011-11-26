@@ -28,12 +28,21 @@
 #include "mod-idiot.h"
 #include "mod-idiot-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_idiot_is_GPL_compatible
+ *
+ * Defined to tell mod_idiot is compatible with GNU General Public License.
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 mod_idiot_is_GPL_compatible ()
 {
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
 }
 
 static void *
@@ -83,6 +92,14 @@ _repr (void *bot_context, u_int32_t id)
   return ret;
 }
 
+/**
+ * mod_idiot_get_pedigree
+ *
+ * Returns the pedigree for mod-idiot, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
 mod_idiot_get_pedigree ()
 {
@@ -110,6 +127,13 @@ mod_idiot_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_idiot_create_backend
+ *
+ * Creates a mod-idiot backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6bot_backend_t *
 mod_idiot_create_backend ()
 {

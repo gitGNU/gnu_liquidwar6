@@ -28,12 +28,21 @@
 #include "mod-tcp.h"
 #include "mod-tcp-internal.h"
 
-/*
- * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+/**
+ * mod_tcp_is_GPL_compatible
+ *
+ * Defined to tell mod_tcp is compatible with GNU General Public License.
+ * Of course it is. This function does nothing, but the fact it's declared
+ * makes its GPL compatibility obvious. Having this declared is required.
+ *
+ * Return value: none
  */
 void
 mod_tcp_is_GPL_compatible ()
 {
+/*
+ * http://www.gnu.org/prep/standards/html_node/Dynamic-Plug_002dIn-Interfaces.html
+ */
 }
 
 static void *
@@ -146,6 +155,14 @@ _repr (void *cli_context, lw6cnx_connection_t * connection)
   return ret;
 }
 
+/**
+ * mod_tcp_get_pedigree
+ *
+ * Returns the pedigree for mod-tcp, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
 mod_tcp_get_pedigree ()
 {
@@ -173,6 +190,13 @@ mod_tcp_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_tcp_create_backend
+ *
+ * Creates a mod-tcp backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6cli_backend_t *
 mod_tcp_create_backend ()
 {

@@ -25,6 +25,7 @@
 
 #include "../bot.h"
 
+/* mod-idiot-backend.c */
 extern lw6sys_module_pedigree_t *mod_idiot_get_pedigree ();
 extern lw6bot_backend_t *mod_idiot_create_backend ();
 extern void mod_idiot_is_GPL_compatible ();

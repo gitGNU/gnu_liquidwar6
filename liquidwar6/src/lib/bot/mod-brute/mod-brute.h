@@ -25,6 +25,7 @@
 
 #include "../bot.h"
 
+/* mod-brute-backend.c */
 extern lw6sys_module_pedigree_t *mod_brute_get_pedigree ();
 extern lw6bot_backend_t *mod_brute_create_backend ();
 extern void mod_brute_is_GPL_compatible ();

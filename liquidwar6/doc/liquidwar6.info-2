@@ -4980,6 +4980,26 @@ results on
 5.3.2 API
 ---------
 
+ -- Function: void mod_brute_is_GPL_compatible ()
+     Defined to tell mod_brute is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_brute_get_pedigree ()
+     Returns the pedigree for mod-brute, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_brute_create_backend ()
+     Creates a mod-brute backend.
+
+     *Return value:*  backend pointer.
+
 
 File: liquidwar6.info,  Node: mod-follow,  Next: mod-idiot,  Prev: mod-brute,  Up: C API
 
@@ -4995,6 +5015,26 @@ results on
 
 5.4.2 API
 ---------
+
+ -- Function: void mod_follow_is_GPL_compatible ()
+     Defined to tell mod_follow is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_follow_get_pedigree ()
+     Returns the pedigree for mod-follow, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_follow_create_backend ()
+     Creates a mod-follow backend.
+
+     *Return value:*  backend pointer.
 
 
 File: liquidwar6.info,  Node: mod-idiot,  Next: mod-random,  Prev: mod-follow,  Up: C API
@@ -5012,6 +5052,26 @@ results on
 5.5.2 API
 ---------
 
+ -- Function: void mod_idiot_is_GPL_compatible ()
+     Defined to tell mod_idiot is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_idiot_get_pedigree ()
+     Returns the pedigree for mod-idiot, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_idiot_create_backend ()
+     Creates a mod-idiot backend.
+
+     *Return value:*  backend pointer.
+
 
 File: liquidwar6.info,  Node: mod-random,  Next: libcfg,  Prev: mod-idiot,  Up: C API
 
@@ -5027,6 +5087,26 @@ results on
 
 5.6.2 API
 ---------
+
+ -- Function: void mod_random_is_GPL_compatible ()
+     Defined to tell mod_random is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_random_get_pedigree ()
+     Returns the pedigree for mod-random, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_random_create_backend ()
+     Creates a mod-random backend.
+
+     *Return value:*  backend pointer.
 
 
 File: liquidwar6.info,  Node: libcfg,  Next: libcli,  Prev: mod-random,  Up: C API
@@ -5761,6 +5841,25 @@ results on
 5.9.2 API
 ---------
 
+ -- Function: void mod_http_is_GPL_compatible ()
+     Defined to tell mod_http is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_http_get_pedigree ()
+     Returns the pedigree for mod-http, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_http_create_backend ()
+     Creates a mod-http backend.
+
+     *Return value:*  backend pointer.
+
 
 File: liquidwar6.info,  Node: mod-tcp,  Next: mod-udp,  Prev: mod-http,  Up: C API
 
@@ -5777,6 +5876,25 @@ results on
 5.10.2 API
 ----------
 
+ -- Function: void mod_tcp_is_GPL_compatible ()
+     Defined to tell mod_tcp is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_tcp_get_pedigree ()
+     Returns the pedigree for mod-tcp, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_tcp_create_backend ()
+     Creates a mod-tcp backend.
+
+     *Return value:*  backend pointer.
+
 
 File: liquidwar6.info,  Node: mod-udp,  Next: libcns,  Prev: mod-tcp,  Up: C API
 
@@ -5792,6 +5910,25 @@ results on
 
 5.11.2 API
 ----------
+
+ -- Function: void mod_udp_is_GPL_compatible ()
+     Defined to tell mod_udp is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_udp_get_pedigree ()
+     Returns the pedigree for mod-udp, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_udp_create_backend ()
+     Creates a mod-udp backend.
+
+     *Return value:*  backend pointer.
 
 
 File: liquidwar6.info,  Node: libcns,  Next: libcnx,  Prev: mod-udp,  Up: C API
