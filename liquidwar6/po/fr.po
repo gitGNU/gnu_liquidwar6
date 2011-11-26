@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-11-26 11:05+0100\n"
+"POT-Creation-Date: 2011-11-26 15:19+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/lib/bot/mod-brute/mod-brute-backend.c:98
+#: src/lib/bot/mod-brute/mod-brute-backend.c:115
 msgid "Brute"
 msgstr "Brute"
 
-#: src/lib/bot/mod-follow/mod-follow-backend.c:101
+#: src/lib/bot/mod-follow/mod-follow-backend.c:118
 msgid "Follow"
 msgstr "Suiveur"
 
-#: src/lib/bot/mod-idiot/mod-idiot-backend.c:98
+#: src/lib/bot/mod-idiot/mod-idiot-backend.c:115
 msgid "Idiot"
 msgstr "Débile"
 
-#: src/lib/bot/mod-random/mod-random-backend.c:101
+#: src/lib/bot/mod-random/mod-random-backend.c:118
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/lib/cli/mod-http/mod-http-backend.c:161
+#: src/lib/cli/mod-http/mod-http-backend.c:178
 msgid "HTTP (Curl)"
 msgstr "HTTP (Curl)"
 
@@ -41,7 +41,7 @@ msgstr "HTTP (Curl)"
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:161
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:178
 msgid "TCP"
 msgstr "TCP"
 
@@ -49,7 +49,7 @@ msgstr "TCP"
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:161
+#: src/lib/cli/mod-udp/mod-udp-backend.c:178
 msgid "UDP"
 msgstr "UDP"
 
@@ -62,9 +62,9 @@ msgid "this error too"
 msgstr "cette erreur aussi"
 
 #: src/lib/dyn/dyn-dl.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "loaded module \"%s\""
-msgstr "démarrage du noeud \"%s\""
+msgstr "chargement du module \"%s\""
 
 #: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:71
 #, c-format
@@ -202,7 +202,7 @@ msgstr "Contre les brevets logiciels %s"
 #: src/lib/hlp/hlp-credits.c:162 src/lib/lw6-print.c:58
 #: src/lib/sys/sys-log.c:646
 msgid "Report bugs"
-msgstr ""
+msgstr "Soummission de bugs"
 
 #: src/lib/hlp/hlp-credits.c:166
 #, c-format
@@ -249,7 +249,7 @@ msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 
 #: src/lib/lw6-print.c:57
 msgid "Home page"
-msgstr ""
+msgstr "Page d'accueil"
 
 #: src/lib/lw6-print.c:92
 #, c-format
@@ -342,7 +342,7 @@ msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
 #: src/lib/sys/sys-log.c:646
 msgid "Backtrace"
-msgstr ""
+msgstr "Trace"
 
 #: src/lib/sys/sys-log.c:802
 #, c-format
@@ -400,11 +400,11 @@ msgstr "tentative de libérer un pointeur nul dans %s:%d"
 
 #: src/lib/sys/sys-signal.c:217
 msgid "Segmentation fault"
-msgstr ""
+msgstr "Erreur de segmentation"
 
 #: src/lib/sys/sys-signal.c:257
 msgid "Floating point exception"
-msgstr ""
+msgstr "Erreur calcul flottant"
 
 #: src/lib/sys/sys-test.c:2000
 msgid "this is a /TEST/ error"
@@ -529,9 +529,8 @@ msgid "Playing"
 msgstr "Jen en cours"
 
 #: src/scriptpo.c:33
-#, fuzzy
 msgid "No server found"
-msgstr "Pas de bruits d'eau"
+msgstr "Aucun serveur trouvé"
 
 #: src/scriptpo.c:34 src/scriptpo.c:93 src/scriptpo.c:94 src/scriptpo.c:96
 msgid "Play"
@@ -925,13 +924,3 @@ msgstr "test de la base de données"
 #: src/scriptpo.c:155
 msgid "testing node"
 msgstr "test du noeud"
-
-#~ msgid "approx. %d megabytes available"
-#~ msgstr "environ %d méga-octets disponibles"
-
-#~ msgid "Online manual: http://www.gnu.org/software/liquidwar6/manual/\n"
-#~ msgstr ""
-#~ "Documentation en ligne: http://www.gnu.org/software/liquidwar6/manual/\n"
-
-#~ msgid "Report bugs to <bug-liquidwar6@gnu.org>\n"
-#~ msgstr "Rapporter les bugs à <bug-liquidwar6@gnu.org>\n"

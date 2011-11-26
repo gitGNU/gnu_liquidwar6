@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.12beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-11-26 11:05+0100\n"
+"POT-Creation-Date: 2011-11-26 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/bot/mod-brute/mod-brute-backend.c:98
+#: src/lib/bot/mod-brute/mod-brute-backend.c:115
 msgid "Brute"
 msgstr ""
 
-#: src/lib/bot/mod-follow/mod-follow-backend.c:101
+#: src/lib/bot/mod-follow/mod-follow-backend.c:118
 msgid "Follow"
 msgstr ""
 
-#: src/lib/bot/mod-idiot/mod-idiot-backend.c:98
+#: src/lib/bot/mod-idiot/mod-idiot-backend.c:115
 msgid "Idiot"
 msgstr ""
 
-#: src/lib/bot/mod-random/mod-random-backend.c:101
+#: src/lib/bot/mod-random/mod-random-backend.c:118
 msgid "Random"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-backend.c:161
+#: src/lib/cli/mod-http/mod-http-backend.c:178
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr ""
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:161
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:178
 msgid "TCP"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:161
+#: src/lib/cli/mod-udp/mod-udp-backend.c:178
 msgid "UDP"
 msgstr ""
 
