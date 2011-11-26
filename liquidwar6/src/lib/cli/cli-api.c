@@ -33,6 +33,15 @@ _warning (const char *func_name)
 	      _x_ ("cli backend function \"%s\" is not defined"), func_name);
 }
 
+/**
+ * lw6cli_init
+ *
+ * @backend: backend to use
+ *
+ * Initializes a client backend. Must be performed before any other call.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
 int
 lw6cli_init (lw6cli_backend_t * backend)
 {
@@ -52,6 +61,13 @@ lw6cli_init (lw6cli_backend_t * backend)
   return backend->cli_context ? 1 : 0;
 }
 
+/**
+ * lw6cli_quit
+ *
+ * @backend: unitialize a cli backend
+ *
+ * Closes a cli, but does not free all ressources.
+ */
 void
 lw6cli_quit (lw6cli_backend_t * backend)
 {
@@ -77,6 +93,20 @@ lw6cli_quit (lw6cli_backend_t * backend)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6cli_process_oob
+ *
+ * @backend: backend to use
+ * @node_info: information on the current node
+ * @oob_data: data of the out-of-band request
+ *
+ * Processes the required out-of-band tasks, this typically, for a client,
+ * includes broadcasting. Depending on parameters passed in oob_data, might
+ * actually do a broadcast or simply call a given host and see what's the answer.
+ * A typicall exchange is PING then INFO and finally LIST.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6cli_process_oob (lw6cli_backend_t * backend,
 		    lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
@@ -99,6 +129,28 @@ lw6cli_process_oob (lw6cli_backend_t * backend,
   return ret;
 }
 
+/**
+ * lw6cli_open
+ * 
+ * @backend: backend to use
+ * @local_url: our local public url
+ * @remote_url: the remote url we want to connect to
+ * @remote_ip: remote IP address
+ * @remote_port: remote IP port
+ * @password: password to use (if needed)
+ * @local_id: our local id
+ * @remote_id: the remote id
+ * @dns_ok: wether the remote announced URL matches DNS information
+ * @network_reliability: network reliability (the highest, the better)
+ * @recv_callback_func: callback func to be called when data is received
+ * @recv_callback_data: pointer on additionnal data to pass to callback func
+ *
+ * Opens a connection with a remote host. Be carefull with the implementation
+ * of @recv_callback_func, it should be at least reentrant, and when it accesses
+ * shared data, use locks.
+ *
+ * Return value: new object.
+ */
 lw6cnx_connection_t *
 lw6cli_open (lw6cli_backend_t * backend, char *local_url, char *remote_url,
 	     char *remote_ip, int remote_port,
@@ -129,6 +181,16 @@ lw6cli_open (lw6cli_backend_t * backend, char *local_url, char *remote_url,
   return ret;
 }
 
+/**
+ * lw6cli_close
+ *
+ * @backend: backend to use
+ * @connection: connection to use
+ *
+ * Closes a connection, this will free the connection object.
+ *
+ * Return value: none.
+ */
 void
 lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
@@ -146,6 +208,21 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6cli_send
+ *
+ * @backend: backend to use
+ * @connection: connection to use
+ * @physical_ticket_sig: signature of physical sender
+ * @logical_ticket_sig: signature of logical sender
+ * @logical_from_id: id of logical sender
+ * @logical_to_id: id of logicial target
+ * @message: text of message to send
+ *
+ * Sends a message to a peer over a given connection.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
@@ -184,6 +261,18 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
   return ret;
 }
 
+/**
+ * lw6cli_poll
+ *
+ * @backend: backend to use
+ * @connection: connection to use
+ *
+ * Performs required duty on connection, depending on the backend,
+ * this can include sending messages and/or receiving them.
+ * Must be called on a regular basis.
+ *
+ * Return value: none.
+ */
 void
 lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
@@ -201,6 +290,16 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6cli_repr
+ *
+ * @backend: backend to use
+ * @connection: connection to represent
+ *
+ * Gives a human readable representation of the connection.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6cli_repr (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {

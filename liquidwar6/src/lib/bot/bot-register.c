@@ -40,11 +40,14 @@
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  *
- * List available bots. The list contains only the bot keys,
- * strings which can then be used to construct the bots themselves,
- * but at this stage bot objects might not be instanciated.
+ * List available bot backends. The hash contains pairs with id and name
+ * for each backend. The id is the technical key you can use to
+ * load the backend, the name is something more readable you can display
+ * in an interface. The backend objects themselves are not instanciated
+ * by this (in fact, they are, but released on the fly) you need to
+ * load and initialize them afterwards.
  *
- * Return value: list of strings.
+ * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
 lw6bot_get_backends (int argc, char *argv[])

@@ -88,9 +88,7 @@ typedef struct lw6cli_backend_s
 }
 lw6cli_backend_t;
 
-/*
- * In api.c
- */
+/* cli-api.c */
 extern int lw6cli_init (lw6cli_backend_t * backend);
 extern void lw6cli_quit (lw6cli_backend_t * backend);
 extern int lw6cli_process_oob (lw6cli_backend_t * backend,
@@ -129,9 +127,7 @@ extern lw6cli_oob_t *lw6cli_oob_new (char *public_url,
 				     void *verify_callback_data);
 extern void lw6cli_oob_free (lw6cli_oob_t * oob);
 
-/*
- * In register.c
- */
+/* cli-register.c */
 extern char *lw6cli_default_backends ();
 extern lw6sys_assoc_t *lw6cli_get_backends (int argc, char *argv[]);
 extern lw6cli_backend_t *lw6cli_create_backend (int argc, char *argv[],

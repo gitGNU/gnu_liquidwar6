@@ -38,12 +38,34 @@
 #define _CLI_DEFAULT_BACKENDS "tcp,udp"
 #endif
 
+/**
+ * lw6cli_default_backends
+ * 
+ * Returns the list of the default cli backends.
+ *
+ * Return value: comma separated string, must not be freed.
+ */
 char *
 lw6cli_default_backends ()
 {
   return _CLI_DEFAULT_BACKENDS;
 }
 
+/**
+ * lw6cli_get_backends
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ *
+ * List available cli backends. The hash contains pairs with id and name
+ * for each backend. The id is the technical key you can use to
+ * load the backend, the name is something more readable you can display
+ * in an interface. The backend objects themselves are not instanciated
+ * by this (in fact, they are, but released on the fly) you need to
+ * load and initialize them afterwards.
+ *
+ * Return value: hash containing id/name pairs.
+ */
 lw6sys_assoc_t *
 lw6cli_get_backends (int argc, char *argv[])
 {
@@ -85,6 +107,19 @@ lw6cli_get_backends (int argc, char *argv[])
   return ret;
 }
 
+/**
+ * lw6cli_create_backend
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ * @name: string containing cli key, typically got from @lw6cli_get_backends
+ *
+ * Creates a cli backend, this is just about loading the dynamic
+ * library if needed, and/or check cli engine is available, and
+ * connect to it. It does not perform initialization.
+ *
+ * Return value: cli backend.
+ */
 lw6cli_backend_t *
 lw6cli_create_backend (int argc, char *argv[], char *name)
 {
@@ -181,6 +216,19 @@ lw6cli_create_backend (int argc, char *argv[], char *name)
   return backend;
 }
 
+/**
+ * lw6cli_create_backend
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ * @name: string containing cli key, typically got from @lw6cli_get_backends
+ *
+ * Creates a cli backend, this is just about loading the dynamic
+ * library if needed, and/or check cli engine is available, and
+ * connect to it. It does not perform initialization.
+ *
+ * Return value: cli backend.
+ */
 void
 lw6cli_destroy_backend (lw6cli_backend_t * backend)
 {

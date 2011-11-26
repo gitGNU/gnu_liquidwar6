@@ -39,7 +39,8 @@ _warning (const char *func_name)
  * @backend: backend to use
  * @seed: parameters required to build bot (game state, among other things)
  *
- * Initializes a bot object. The seed is absolutely required, for a bot really
+ * Initializes a bot object. Must be performed before any other call.
+ * The seed is absolutely required, for a bot really
  * needs to know what map/context it's working on, including at creation time
  *
  * Return value: 1 on success, 0 on failure.
@@ -85,7 +86,7 @@ lw6bot_init (lw6bot_backend_t * backend, lw6bot_seed_t * seed)
 /**
  * lw6bot_quit
  *
- * @backend: unitialize a bot
+ * @backend: unitialize a bot backend
  *
  * Closes a bot, but does not free all ressources.
  */
