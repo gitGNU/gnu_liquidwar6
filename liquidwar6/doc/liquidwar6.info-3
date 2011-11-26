@@ -19,6 +19,224 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: C API
+
+5.28 libnet
+===========
+
+5.28.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html'.
+
+5.28.2 API
+----------
+
+ -- Function: int lw6net_dns_is_ip (char * IP)
+     IP:  the string to check
+
+     Tests if a given string is a valid IP (IPV4). Test is only
+     syntaxic, it's just to know if we're likely to need to query the
+     DNS, it does not mean the IP is *really* valid.
+
+     *Return value:*  1 if it's an IP, O if not.
+
+ -- Function: char * lw6net_dns_gethostbyname (char * NAME)
+     NAME:  name of the host
+
+     A wrapper over the standard gethostbyname function, will even
+     accept an IP as an input (in this case, will copy it...) and
+     allocate a new string for the result.
+
+     *Return value:*  an IP if success, NULL on error.
+
+ -- Function: int lw6net_dns_lock ()
+     Locks access to dns function `lw6net_dns_gethostbyname'.  This is
+     because `gethostbyname' isn't reentrant plus, even if we didn't
+     use it but its multithreadable equivalent (which is however not
+     standard and always available) other libs (such as `libcurl' not
+     to name it) might use this function too so in a general manner
+     it's a good idea to use a mutex to protect multiple accesses to
+     this.
+
+     *Return value:*  an IP if success, 0 on error.
+
+ -- Function: int lw6net_dns_unlock ()
+     Unlocks access to dns function `lw6net_dns_gethostbyname'.
+
+     *Return value:*  an IP if success, 0 on error.
+
+ -- Function: int lw6net_last_error ()
+     Reports the last network error. This is basically a debug function,
+     designed mostly for Microsoft Winsock API, but can be safely called
+     on any platform.
+
+     *Return value:*  the last error code, has no universal meaning,
+     depends on the platform you're working on.
+
+ -- Function: char * lw6net_if_guess_local ()
+     Guess the local IP address. This is not fool-proof, and it
+     probably cannot be as we can't handle all user-specific configs
+     involving multiple IP addresses, virtual private networks, and so
+     on. But this is just to provide a default public IP address when
+     starting a network game, saavy users can always specify the right
+     interface/address if needed. Will return NULL if interface can't
+     be guessed.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
+ -- Function: char * lw6net_if_guess_public_url (char * BIND_IP, int
+          BIND_PORT)
+     BIND_IP:  the IP address used to bind on
+
+     BIND_PORT:  the IP port used to bind on
+
+     Guess the server public url, based on `lw6net_if_guess_local'
+     which tries to find a valid local IP address which is not
+     loopback. This is only in case `bind_ip' is 0.0.0.0 (listen on all
+     addresses) else it will just use `bind_ip' as you would expect.
+     Function isn't foolproof, that's why one can override its default
+     with a user settings.
+
+     *Return value:*  the IP as a string, dynamically allocated
+
+ -- Function: char * lw6net_recv_line_tcp (int SOCK)
+     SOCK:  the socket descriptor
+
+     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
+     chr(10)chr(13)) on a TCP socket, that is, stream oriented. If
+     there's no complete line available, function returns immediately
+     with NULL. Same if socket is closed, broken, whatever. Only if
+     there's something consistent will the function return non-NULL.
+
+     *Return value:*  a dynamically allocated string with the content
+     received. The tailing (CR)/LF is stripped.
+
+ -- Function: int lw6net_send_line_tcp (int SOCK, char * LINE)
+     SOCK:  the socket descriptor
+
+     LINE:  the line to be sent, without the "\n" at the end
+
+     Sends a line terminated by LF ("\n", chr(10)) on a TCP socket,
+     that is, stream oriented. The "\n" is automatically added, do not
+     bother sending it.
+
+     *Return value:*  non-zero if success
+
+ -- Function: char * lw6net_recv_line_udp (int SOCK, char **
+          INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  the socket descriptor
+
+     INCOMING_IP:  the IP address of the sender (returned)
+
+     INCOMING_PORT:  the IP port of the sender (returned)
+
+     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
+     chr(10)chr(13)) on a UDP socket, that is, datagram oriented. If
+     there's no complete line available, function returns immediately
+     with NULL. Same if socket is closed, broken, whatever. Only if
+     there's something consistent will the function return non-NULL.
+     By-value parameters allow the caller to know where the data come
+     from.
+
+     *Return value:*  a dynamically allocated string with the content
+     received. The tailing (CR)/LF is stripped.
+
+ -- Function: lw6sys_list_t * lw6net_recv_lines_udp (int SOCK, char **
+          INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  the socket descriptor
+
+     INCOMING_IP:  the IP address of the sender (returned)
+
+     INCOMING_PORT:  the IP port of the sender (returned)
+
+     Receives several lines terminated by LF ("\n", chr(10)) or CR/LF
+     ("\r\n", chr(10)chr(13)) on a UDP socket, that is, datagram
+     oriented. If there's no complete line available, function returns
+     immediately with NULL. Same if socket is closed, broken, whatever.
+     Only if there's something consistent will the function return
+     non-NULL.  By-value parameters allow the caller to know where the
+     data come from. This variant of `lw6net_recv_line_tcp' will return
+     a list of lines, this is mandatory since in UDP we can't call recv
+     several times.
+
+     *Return value:*  a list of dynamically allocated strings.  The
+     tailing (CR)/LF is stripped from strings.
+
+ -- Function: int lw6net_send_line_udp (int SOCK, char * LINE, char *
+          IP, int PORT)
+     SOCK:  the socket descriptor
+
+     LINE:  the line to be sent, without the "\n" at the end
+
+     IP:  the IP address of the target
+
+     PORT:  the IP port of the target
+
+     Sends a line terminated by LF ("\n", chr(10)) on a UDP socket,
+     that is, datagram oriented. The "\n" is automatically added, do
+     not bother sending it.
+
+     *Return value:*  the number of bytes sent, 0 if failure
+
+ -- Function: int lw6net_init (int ARGC, char * [] ARGV, int NET_LOG)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     NET_LOG:  1 if you want to enable net log, 0 if not
+
+     Initializes the low-level network API, you must call this before
+     calling any other network related function, for it allocates a
+     dynamic context which is in turn used by every function.
+
+     *Return value:*  non-zero if success
+
+ -- Function: void lw6net_quit ()
+     Frees memory, joins active threads, and releases everything set up
+     by network code.
+
+     *Return value:*  void
+
+ -- Function: int lw6net_socket_set_blocking_mode (int SOCK, int MODE)
+     SOCK:  the socket to modify
+
+     MODE:  the mode to use (1 -> blocking mode, 0 -> non-blocking)
+
+     Sets the blocking mode of a socket, the reason we use this is that
+     `ioctl' isn't portable (`ioctlsocket' on MS-Windows).
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6net_socket_is_valid (int SOCK)
+     SOCK:  the socket to test
+
+     Tells if a socket is valid or not. This does not mean the socket
+     is opened/connected and/or the peer is reachable, it just checks
+     the socket is a valid descriptor. In practice it's just to avoid
+     copy/pasting if (sock>=0)" everywhere.
+
+     *Return value:*  1 if valid, 0 if not
+
+ -- Function: void lw6net_socket_close (int SOCK)
+     SOCK:  the socket to close
+
+     Closes a socket, that is, stop activity and free its descriptor.
+
+     *Return value:*  none.
+
+ -- Function: int lw6net_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `net' module test suite. This one could fail if some
+     sockets are already bound, for instance. It's still run even in
+     check-only (mode=0) mode.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
 File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
 
 5.29 libnod

@@ -22,8 +22,8 @@ END-INFO-DIR-ENTRY
 Indirect:
 liquidwar6.info-1: 794
 liquidwar6.info-2: 299144
-liquidwar6.info-3: 596352
-liquidwar6.info-4: 872705
+liquidwar6.info-3: 597179
+liquidwar6.info-4: 881692
 
 Tag Table:
 (Indirect)
@@ -89,46 +89,46 @@ Node: mod-follow448310
 Node: mod-idiot448653
 Node: mod-random448994
 Node: libcfg449334
-Node: libcli456923
-Node: mod-http458262
-Node: mod-tcp458592
-Node: mod-udp458926
-Node: libcns459258
-Node: libcnx459768
-Node: libdat468565
-Node: libdef474285
-Node: libdsp474520
-Node: libdyn480864
-Node: libgfx484900
-Node: mod-gl490265
-Node: libglb490789
-Node: libgui495173
-Node: libhlp495493
-Node: libimg500945
-Node: libker501454
-Node: libldr535548
-Node: libmap553325
-Node: libmsg569485
-Node: libnet588192
-Node: libnod596352
-Node: libp2p603933
-Node: libpil612118
-Node: libscm628812
-Node: libsnd630203
-Node: mod-csound630857
-Node: mod-ogg631201
-Node: libsrv631536
-Node: mod-httpd633897
-Node: mod-tcpd634238
-Node: mod-udpd634578
-Node: libsys634915
-Node: libtsk786328
-Node: libvox788116
-Node: 2005 .plan789059
-Node: Fanfic801330
-Node: Links807667
-Node: Copying809956
-Node: GNU Free Documentation License847538
-Node: Indexes872705
+Node: libcli465910
+Node: mod-http467249
+Node: mod-tcp467579
+Node: mod-udp467913
+Node: libcns468245
+Node: libcnx468755
+Node: libdat477552
+Node: libdef483272
+Node: libdsp483507
+Node: libdyn489851
+Node: libgfx493887
+Node: mod-gl499252
+Node: libglb499776
+Node: libgui504160
+Node: libhlp504480
+Node: libimg509932
+Node: libker510441
+Node: libldr544535
+Node: libmap562312
+Node: libmsg578472
+Node: libnet597179
+Node: libnod605339
+Node: libp2p612920
+Node: libpil621105
+Node: libscm637799
+Node: libsnd639190
+Node: mod-csound639844
+Node: mod-ogg640188
+Node: libsrv640523
+Node: mod-httpd642884
+Node: mod-tcpd643225
+Node: mod-udpd643565
+Node: libsys643902
+Node: libtsk795315
+Node: libvox797103
+Node: 2005 .plan798046
+Node: Fanfic810317
+Node: Links816654
+Node: Copying818943
+Node: GNU Free Documentation License856525
+Node: Indexes881692
 
 End Tag Table

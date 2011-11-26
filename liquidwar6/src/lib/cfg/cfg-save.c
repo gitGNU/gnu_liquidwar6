@@ -28,6 +28,19 @@
 #include "cfg-internal.h"
 #include "../hlp/hlp.h"
 
+/**
+ * lw6cfg_must_be_saved
+ *
+ * @key: key to test
+ *
+ * Tells wether a key should be saved in the config file.
+ * Typically, some options you don't want to savem such as
+ * the location of the config file itself. Most of those
+ * non-savable parameters are path-related. This does not
+ * mean no paths are saved in the config file.
+ *
+ * Return value: 1 if must be saved, 0 if not
+ */
 int
 lw6cfg_must_be_saved (char *key)
 {

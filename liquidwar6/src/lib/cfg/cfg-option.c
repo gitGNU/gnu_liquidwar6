@@ -37,6 +37,16 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, char *key)
   return ret;
 }
 
+/**
+ * lw6cfg_option_exists
+ *
+ * @context: context to query
+ * @key: key to search
+ *
+ * Returns wether a key exists within context or not.
+ *
+ * Return value: 1 if exists, 0 if not
+ */
 int
 lw6cfg_option_exists (void *context, char *key)
 {
@@ -58,6 +68,18 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, char *key)
   return ret;
 }
 
+/**
+ * lw6cfg_get_option
+ *
+ * @context: context to query
+ * @key: key to search
+ *
+ * Returns the current value for a given query, the returned value is always
+ * a string, typically the string one would pass on the command line or
+ * set in a config file
+ *
+ * Return value: pointer to string, must not be freed.
+ */
 char *
 lw6cfg_get_option (void *context, char *key)
 {
@@ -76,6 +98,19 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, char *key, char *value)
     }
 }
 
+/**
+ * lw6cfg_set_option
+ *
+ * @context: context to modify
+ * @key: key to search and change
+ * @value: new value
+ *
+ * Sets a given key to the specified value, this is a string only
+ * function, pass the value you would pass on the command line or
+ * set in a config file.
+ *
+ * Return value: none
+ */
 void
 lw6cfg_set_option (void *context, char *key, char *value)
 {
@@ -96,6 +131,19 @@ _lw6cfg_get_option_int (_lw6cfg_context_t * context, char *key)
   return ret;
 }
 
+/**
+ * lw6cfg_get_option_int
+ *
+ * @context: context to query
+ * @key: key to search
+ *
+ * Returns an option as an integer. Note that this function does
+ * not know wether the parameter should really be an integer or not,
+ * so you can call it even on non-integer values, but of course
+ * results will have no real meaning.
+ *
+ * Return value: option value converted to int
+ */
 int
 lw6cfg_get_option_int (void *context, char *key)
 {
@@ -115,6 +163,19 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, char *key, int value)
     }
 }
 
+/**
+ * lw6cfg_set_option_int
+ *
+ * @context: context to modify
+ * @key: key to search and change
+ * @value: new value
+ *
+ * Set a config option to an integer value. Note that this function
+ * does not know wether the parameter should really be an integer or not,
+ * so you can call it even on non-integer values, at your own risk.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_set_option_int (void *context, char *key, int value)
 {
@@ -135,6 +196,19 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, char *key)
   return ret;
 }
 
+/**
+ * lw6cfg_get_option_bool
+ *
+ * @context: context to query
+ * @key: key to search
+ *
+ * Returns an option as a boolean. Note that this function does
+ * not know wether the parameter should really be a boolean or not,
+ * so you can call it even on non-boolean values, but of course
+ * results will have no real meaning.
+ *
+ * Return value: option value converted to boolean
+ */
 int
 lw6cfg_get_option_bool (void *context, char *key)
 {
@@ -154,6 +228,19 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, char *key, int value)
     }
 }
 
+/**
+ * lw6cfg_set_option_bool
+ *
+ * @context: context to modify
+ * @key: key to search and change
+ * @value: new value
+ *
+ * Set a config option to a boolean value. Note that this function
+ * does not know wether the parameter should really be a boolean or not,
+ * so you can call it even on non-boolean values, at your own risk.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_set_option_bool (void *context, char *key, int value)
 {

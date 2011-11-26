@@ -30,6 +30,18 @@
 #include "cfg.h"
 #include "cfg-internal.h"
 
+/**
+ * lw6cfg_xml_element
+ *
+ * @type: type as an enum
+ *
+ * Returns the string corresponding to a given type, suitable for
+ * use in XML files. For instance if you pass @LW6HLP_TYPE_INT then
+ * you will obtain the string int (string of 3 chars containing i, n 
+ * and t.
+ *
+ * Return value: string, must not be freed.
+ */
 char *
 lw6cfg_xml_element (lw6hlp_type_t type)
 {
@@ -60,6 +72,21 @@ lw6cfg_xml_element (lw6hlp_type_t type)
   return xml_type;
 }
 
+/**
+ * lw6cfg_read_xml_int
+ *
+ * @xml_key: key found in XML file
+ * @xml_value: value found in XML file
+ * @target_key: key we're searching for
+ * @value: the value if found (out param)
+ *
+ * Tries to find a value in a key/value pair. If @xml_key and @target_key
+ * match, then will put the corresponding value (converted to int) in
+ * the @value param. Typically, you would call this in a loop on every
+ * single entry found in an XML file, in an expat callback.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_read_xml_int (char *xml_key, char *xml_value, char *target_key,
 		     int *value)
@@ -73,6 +100,21 @@ lw6cfg_read_xml_int (char *xml_key, char *xml_value, char *target_key,
     }
 }
 
+/**
+ * lw6cfg_read_xml_bool
+ *
+ * @xml_key: key found in XML file
+ * @xml_value: value found in XML file
+ * @target_key: key we're searching for
+ * @value: the value if found (out param)
+ *
+ * Tries to find a value in a key/value pair. If @xml_key and @target_key
+ * match, then will put the corresponding value (converted to boolean) in
+ * the @value param. Typically, you would call this in a loop on every
+ * single entry found in an XML file, in an expat callback.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_read_xml_bool (char *xml_key, char *xml_value, char *target_key,
 		      int *value)
@@ -96,6 +138,21 @@ lw6cfg_read_xml_bool (char *xml_key, char *xml_value, char *target_key,
     }
 }
 
+/**
+ * lw6cfg_read_xml_float
+ *
+ * @xml_key: key found in XML file
+ * @xml_value: value found in XML file
+ * @target_key: key we're searching for
+ * @value: the value if found (out param)
+ *
+ * Tries to find a value in a key/value pair. If @xml_key and @target_key
+ * match, then will put the corresponding value (converted to float) in
+ * the @value param. Typically, you would call this in a loop on every
+ * single entry found in an XML file, in an expat callback.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_read_xml_float (char *xml_key, char *xml_value, char *target_key,
 		       float *value)
@@ -109,6 +166,21 @@ lw6cfg_read_xml_float (char *xml_key, char *xml_value, char *target_key,
     }
 }
 
+/**
+ * lw6cfg_read_xml_string
+ *
+ * @xml_key: key found in XML file
+ * @xml_value: value found in XML file
+ * @target_key: key we're searching for
+ * @value: the value if found (out param)
+ *
+ * Tries to find a value in a key/value pair. If @xml_key and @target_key
+ * match, then will put the corresponding value (as a string) in
+ * the @value param. Typically, you would call this in a loop on every
+ * single entry found in an XML file, in an expat callback.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_read_xml_string (char *xml_key, char *xml_value, char *target_key,
 			char **value)
@@ -131,6 +203,21 @@ lw6cfg_read_xml_string (char *xml_key, char *xml_value, char *target_key,
     }
 }
 
+/**
+ * lw6cfg_read_xml_color
+ *
+ * @xml_key: key found in XML file
+ * @xml_value: value found in XML file
+ * @target_key: key we're searching for
+ * @value: the value if found (out param)
+ *
+ * Tries to find a value in a key/value pair. If @xml_key and @target_key
+ * match, then will put the corresponding value (converted to a color) in
+ * the @value param. Typically, you would call this in a loop on every
+ * single entry found in an XML file, in an expat callback.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_read_xml_color (char *xml_key, char *xml_value,
 		       char *target_key, lw6sys_color_8_t * value)
@@ -181,6 +268,20 @@ element_end (void *data, const char *el)
 
 }
 
+/**
+ * lw6cfg_read_key_value_xml_file
+ *
+ * @filename: full path of file to read
+ * @callback_func: callback function to be called on each element
+ * @callback_data: additionnal pointer passed to callback function
+ *
+ * Will parse a file and call the given callback on each element.
+ * This is an over-simplified way to read XML file, in fact we just
+ * explain plain non-nested simple elements but this is exactly what
+ * LW config files are made of.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6cfg_read_key_value_xml_file (char *filename,
 				void (*callback_func) (void *callback_data,
@@ -381,6 +482,17 @@ write_xml (FILE * f, char *type, char *key, char *value)
     }
 }
 
+/**
+ * lw6cfg_write_xml_int
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes an int entry into an opened XML file.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_int (FILE * f, char *key, int value)
 {
@@ -394,6 +506,17 @@ lw6cfg_write_xml_int (FILE * f, char *key, int value)
     }
 }
 
+/**
+ * lw6cfg_write_xml_bool
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes a boolean entry into an opened XML file.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_bool (FILE * f, char *key, int value)
 {
@@ -407,6 +530,17 @@ lw6cfg_write_xml_bool (FILE * f, char *key, int value)
     }
 }
 
+/**
+ * lw6cfg_write_xml_float
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes a float entry into an opened XML file.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_float (FILE * f, char *key, float value)
 {
@@ -420,12 +554,34 @@ lw6cfg_write_xml_float (FILE * f, char *key, float value)
     }
 }
 
+/**
+ * lw6cfg_write_xml_string
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes a string entry into an opened XML file.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_string (FILE * f, char *key, char *value)
 {
   write_xml (f, LW6CFG_XML_STRING, key, value);
 }
 
+/**
+ * lw6cfg_write_xml_color
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes a color entry into an opened XML file.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_color (FILE * f, char *key, lw6sys_color_8_t value)
 {
@@ -439,6 +595,23 @@ lw6cfg_write_xml_color (FILE * f, char *key, lw6sys_color_8_t value)
     }
 }
 
+/**
+ * lw6cfg_write_xml_guess_type
+ *
+ * @f: file to write data to (append mode)
+ * @key: key to write
+ * @value: value to write
+ *
+ * Writes an entry into an opened XML file, will try and guess
+ * type from the internal help system, typically, if this is a
+ * standard config file entry (the one documented by the about
+ * command line function) it will pick up the right type. The
+ * reason not to use this all the times is that sometimes, one
+ * might to to store non-standard options, and additionnally,
+ * guessing the type does consume some CPU.
+ *
+ * Return value: none.
+ */
 void
 lw6cfg_write_xml_guess_type (FILE * f, char *key, char *value)
 {

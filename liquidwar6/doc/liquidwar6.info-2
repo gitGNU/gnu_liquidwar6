@@ -5123,6 +5123,105 @@ results on
 
      *Return value:*  1 if successfull, 0 if error.
 
+ -- Function: int lw6cfg_option_exists (void * CONTEXT, char * KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns wether a key exists within context or not.
+
+     *Return value:*  1 if exists, 0 if not
+
+ -- Function: char * lw6cfg_get_option (void * CONTEXT, char * KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns the current value for a given query, the returned value is
+     always a string, typically the string one would pass on the
+     command line or set in a config file
+
+     *Return value:*  pointer to string, must not be freed.
+
+ -- Function: void lw6cfg_set_option (void * CONTEXT, char * KEY, char
+          * VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Sets a given key to the specified value, this is a string only
+     function, pass the value you would pass on the command line or set
+     in a config file.
+
+     *Return value:*  none
+
+ -- Function: int lw6cfg_get_option_int (void * CONTEXT, char * KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns an option as an integer. Note that this function does not
+     know wether the parameter should really be an integer or not, so
+     you can call it even on non-integer values, but of course results
+     will have no real meaning.
+
+     *Return value:*  option value converted to int
+
+ -- Function: void lw6cfg_set_option_int (void * CONTEXT, char * KEY,
+          int VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Set a config option to an integer value. Note that this function
+     does not know wether the parameter should really be an integer or
+     not, so you can call it even on non-integer values, at your own
+     risk.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_get_option_bool (void * CONTEXT, char * KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns an option as a boolean. Note that this function does not
+     know wether the parameter should really be a boolean or not, so
+     you can call it even on non-boolean values, but of course results
+     will have no real meaning.
+
+     *Return value:*  option value converted to boolean
+
+ -- Function: void lw6cfg_set_option_bool (void * CONTEXT, char * KEY,
+          int VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Set a config option to a boolean value. Note that this function
+     does not know wether the parameter should really be a boolean or
+     not, so you can call it even on non-boolean values, at your own
+     risk.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_must_be_saved (char * KEY)
+     KEY:  key to test
+
+     Tells wether a key should be saved in the config file.  Typically,
+     some options you don't want to savem such as the location of the
+     config file itself. Most of those non-savable parameters are
+     path-related. This does not mean no paths are saved in the config
+     file.
+
+     *Return value:*  1 if must be saved, 0 if not
+
  -- Function: int lw6cfg_save (void * CFG_CONTEXT, char * FILENAME)
      CFG_CONTEXT:  a context returned by `lw6cfg_init'
 
@@ -5238,6 +5337,195 @@ results on
      paramater and the LW6DEF_MAP_PATH config file entry.
 
      *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_xml_element (lw6hlp_type_t TYPE)
+     TYPE:  type as an enum
+
+     Returns the string corresponding to a given type, suitable for use
+     in XML files. For instance if you pass `LW6HLP_TYPE_INT' then you
+     will obtain the string int (string of 3 chars containing i, n and
+     t.
+
+     *Return value:*  string, must not be freed.
+
+ -- Function: void lw6cfg_read_xml_int (char * XML_KEY, char *
+          XML_VALUE, char * TARGET_KEY, int * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to int) in the `value' param. Typically, you would call
+     this in a loop on every single entry found in an XML file, in an
+     expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_bool (char * XML_KEY, char *
+          XML_VALUE, char * TARGET_KEY, int * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to boolean) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_float (char * XML_KEY, char *
+          XML_VALUE, char * TARGET_KEY, float * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to float) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_string (char * XML_KEY, char *
+          XML_VALUE, char * TARGET_KEY, char ** VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value (as a
+     string) in the `value' param. Typically, you would call this in a
+     loop on every single entry found in an XML file, in an expat
+     callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_color (char * XML_KEY, char *
+          XML_VALUE, char * TARGET_KEY, lw6sys_color_8_t * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to a color) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_read_key_value_xml_file (char * FILENAME, void
+          (*CALLBACK_FUNC)
+     FILENAME:  full path of file to read
+
+     Will parse a file and call the given callback on each element.
+     This is an over-simplified way to read XML file, in fact we just
+     explain plain non-nested simple elements but this is exactly what
+     LW config files are made of.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6cfg_write_xml_int (FILE * F, char * KEY, int
+          VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes an int entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_bool (FILE * F, char * KEY, int
+          VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a boolean entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_float (FILE * F, char * KEY, float
+          VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a float entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_string (FILE * F, char * KEY, char
+          * VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a string entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_color (FILE * F, char * KEY,
+          lw6sys_color_8_t VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a color entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_guess_type (FILE * F, char * KEY,
+          char * VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes an entry into an opened XML file, will try and guess type
+     from the internal help system, typically, if this is a standard
+     config file entry (the one documented by the about command line
+     function) it will pick up the right type. The reason not to use
+     this all the times is that sometimes, one might to to store
+     non-standard options, and additionnally, guessing the type does
+     consume some CPU.
+
+     *Return value:*  none.
 
 
 File: liquidwar6.info,  Node: libcli,  Next: mod-http,  Prev: libcfg,  Up: C API
@@ -9219,222 +9507,4 @@ results on
 
      *Return value:*  newly allocated string, 0 terminated, NULL on
      error.
-
-
-File: liquidwar6.info,  Node: libnet,  Next: libnod,  Prev: libmsg,  Up: C API
-
-5.28 libnet
-===========
-
-5.28.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html'.
-
-5.28.2 API
-----------
-
- -- Function: int lw6net_dns_is_ip (char * IP)
-     IP:  the string to check
-
-     Tests if a given string is a valid IP (IPV4). Test is only
-     syntaxic, it's just to know if we're likely to need to query the
-     DNS, it does not mean the IP is *really* valid.
-
-     *Return value:*  1 if it's an IP, O if not.
-
- -- Function: char * lw6net_dns_gethostbyname (char * NAME)
-     NAME:  name of the host
-
-     A wrapper over the standard gethostbyname function, will even
-     accept an IP as an input (in this case, will copy it...) and
-     allocate a new string for the result.
-
-     *Return value:*  an IP if success, NULL on error.
-
- -- Function: int lw6net_dns_lock ()
-     Locks access to dns function `lw6net_dns_gethostbyname'.  This is
-     because `gethostbyname' isn't reentrant plus, even if we didn't
-     use it but its multithreadable equivalent (which is however not
-     standard and always available) other libs (such as `libcurl' not
-     to name it) might use this function too so in a general manner
-     it's a good idea to use a mutex to protect multiple accesses to
-     this.
-
-     *Return value:*  an IP if success, 0 on error.
-
- -- Function: int lw6net_dns_unlock ()
-     Unlocks access to dns function `lw6net_dns_gethostbyname'.
-
-     *Return value:*  an IP if success, 0 on error.
-
- -- Function: int lw6net_last_error ()
-     Reports the last network error. This is basically a debug function,
-     designed mostly for Microsoft Winsock API, but can be safely called
-     on any platform.
-
-     *Return value:*  the last error code, has no universal meaning,
-     depends on the platform you're working on.
-
- -- Function: char * lw6net_if_guess_local ()
-     Guess the local IP address. This is not fool-proof, and it
-     probably cannot be as we can't handle all user-specific configs
-     involving multiple IP addresses, virtual private networks, and so
-     on. But this is just to provide a default public IP address when
-     starting a network game, saavy users can always specify the right
-     interface/address if needed. Will return NULL if interface can't
-     be guessed.
-
-     *Return value:*  the IP as a string, dynamically allocated
-
- -- Function: char * lw6net_if_guess_public_url (char * BIND_IP, int
-          BIND_PORT)
-     BIND_IP:  the IP address used to bind on
-
-     BIND_PORT:  the IP port used to bind on
-
-     Guess the server public url, based on `lw6net_if_guess_local'
-     which tries to find a valid local IP address which is not
-     loopback. This is only in case `bind_ip' is 0.0.0.0 (listen on all
-     addresses) else it will just use `bind_ip' as you would expect.
-     Function isn't foolproof, that's why one can override its default
-     with a user settings.
-
-     *Return value:*  the IP as a string, dynamically allocated
-
- -- Function: char * lw6net_recv_line_tcp (int SOCK)
-     SOCK:  the socket descriptor
-
-     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
-     chr(10)chr(13)) on a TCP socket, that is, stream oriented. If
-     there's no complete line available, function returns immediately
-     with NULL. Same if socket is closed, broken, whatever. Only if
-     there's something consistent will the function return non-NULL.
-
-     *Return value:*  a dynamically allocated string with the content
-     received. The tailing (CR)/LF is stripped.
-
- -- Function: int lw6net_send_line_tcp (int SOCK, char * LINE)
-     SOCK:  the socket descriptor
-
-     LINE:  the line to be sent, without the "\n" at the end
-
-     Sends a line terminated by LF ("\n", chr(10)) on a TCP socket,
-     that is, stream oriented. The "\n" is automatically added, do not
-     bother sending it.
-
-     *Return value:*  non-zero if success
-
- -- Function: char * lw6net_recv_line_udp (int SOCK, char **
-          INCOMING_IP, int * INCOMING_PORT)
-     SOCK:  the socket descriptor
-
-     INCOMING_IP:  the IP address of the sender (returned)
-
-     INCOMING_PORT:  the IP port of the sender (returned)
-
-     Receives a line terminated by LF ("\n", chr(10)) or CR/LF ("\r\n",
-     chr(10)chr(13)) on a UDP socket, that is, datagram oriented. If
-     there's no complete line available, function returns immediately
-     with NULL. Same if socket is closed, broken, whatever. Only if
-     there's something consistent will the function return non-NULL.
-     By-value parameters allow the caller to know where the data come
-     from.
-
-     *Return value:*  a dynamically allocated string with the content
-     received. The tailing (CR)/LF is stripped.
-
- -- Function: lw6sys_list_t * lw6net_recv_lines_udp (int SOCK, char **
-          INCOMING_IP, int * INCOMING_PORT)
-     SOCK:  the socket descriptor
-
-     INCOMING_IP:  the IP address of the sender (returned)
-
-     INCOMING_PORT:  the IP port of the sender (returned)
-
-     Receives several lines terminated by LF ("\n", chr(10)) or CR/LF
-     ("\r\n", chr(10)chr(13)) on a UDP socket, that is, datagram
-     oriented. If there's no complete line available, function returns
-     immediately with NULL. Same if socket is closed, broken, whatever.
-     Only if there's something consistent will the function return
-     non-NULL.  By-value parameters allow the caller to know where the
-     data come from. This variant of `lw6net_recv_line_tcp' will return
-     a list of lines, this is mandatory since in UDP we can't call recv
-     several times.
-
-     *Return value:*  a list of dynamically allocated strings.  The
-     tailing (CR)/LF is stripped from strings.
-
- -- Function: int lw6net_send_line_udp (int SOCK, char * LINE, char *
-          IP, int PORT)
-     SOCK:  the socket descriptor
-
-     LINE:  the line to be sent, without the "\n" at the end
-
-     IP:  the IP address of the target
-
-     PORT:  the IP port of the target
-
-     Sends a line terminated by LF ("\n", chr(10)) on a UDP socket,
-     that is, datagram oriented. The "\n" is automatically added, do
-     not bother sending it.
-
-     *Return value:*  the number of bytes sent, 0 if failure
-
- -- Function: int lw6net_init (int ARGC, char * [] ARGV, int NET_LOG)
-     ARGC:  argc as passed to `main'
-
-     ARGV:  argv as passed to `main'
-
-     NET_LOG:  1 if you want to enable net log, 0 if not
-
-     Initializes the low-level network API, you must call this before
-     calling any other network related function, for it allocates a
-     dynamic context which is in turn used by every function.
-
-     *Return value:*  non-zero if success
-
- -- Function: void lw6net_quit ()
-     Frees memory, joins active threads, and releases everything set up
-     by network code.
-
-     *Return value:*  void
-
- -- Function: int lw6net_socket_set_blocking_mode (int SOCK, int MODE)
-     SOCK:  the socket to modify
-
-     MODE:  the mode to use (1 -> blocking mode, 0 -> non-blocking)
-
-     Sets the blocking mode of a socket, the reason we use this is that
-     `ioctl' isn't portable (`ioctlsocket' on MS-Windows).
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6net_socket_is_valid (int SOCK)
-     SOCK:  the socket to test
-
-     Tells if a socket is valid or not. This does not mean the socket
-     is opened/connected and/or the peer is reachable, it just checks
-     the socket is a valid descriptor. In practice it's just to avoid
-     copy/pasting if (sock>=0)" everywhere.
-
-     *Return value:*  1 if valid, 0 if not
-
- -- Function: void lw6net_socket_close (int SOCK)
-     SOCK:  the socket to close
-
-     Closes a socket, that is, stop activity and free its descriptor.
-
-     *Return value:*  none.
-
- -- Function: int lw6net_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `net' module test suite. This one could fail if some
-     sockets are already bound, for instance. It's still run even in
-     check-only (mode=0) mode.
-
-     *Return value:*  1 if test is successfull, 0 on error.
 

@@ -38,31 +38,23 @@
 #define LW6CFG_XML_TRUE "true"
 #define LW6CFG_XML_FALSE "false"
 
-//#define LW6CFG_DEFAULT_EXP 1
-//#define LW6CFG_MIN_EXP 0
-//#define LW6CFG_MAX_EXP 99
-
-// cfg-arg.c
+/* cfg-arg.c */
 extern int lw6cfg_parse_command_line (void *context);
 
-// cfg-defaults.c
+/* cfg-defaults.c */
 extern int lw6cfg_defaults (void *cfg_context);
 
-// cfg-env.c
+/* cfg-env.c */
 extern int lw6cfg_merge_env (void *cfg_context);
 
-// cfg-format.c
+/* cfg-format.c */
 extern char *lw6cfg_format (char *key, char *value, lw6hlp_type_t type);
 extern char *lw6cfg_format_guess_type (char *key, char *value);
 
-/*
- * In load.c
- */
+/* cfg-load.c */
 extern int lw6cfg_load (void *cfg_context, char *filename);
 
-/*
- * In option.c
- */
+/* cfg-option.c */
 extern int lw6cfg_option_exists (void *cfg_context, char *key);
 extern char *lw6cfg_get_option (void *cfg_context, char *key);
 extern void lw6cfg_set_option (void *cfg_context, char *key, char *value);
@@ -71,9 +63,7 @@ extern void lw6cfg_set_option_int (void *cfg_context, char *key, int value);
 extern int lw6cfg_get_option_bool (void *cfg_context, char *key);
 extern void lw6cfg_set_option_bool (void *cfg_context, char *key, int value);
 
-/*
- * In save.c
- */
+/* cfg-save.c */
 extern int lw6cfg_must_be_saved (char *option);
 extern int lw6cfg_save (void *cfg_context, char *filename);
 
@@ -81,9 +71,7 @@ extern int lw6cfg_save (void *cfg_context, char *filename);
 extern int lw6cfg_load_exp (char *user_dir, int *exp);
 extern int lw6cfg_save_exp (char *user_dir, int exp);
 
-/*
- * In setup.c
- */
+/* cfg-setup.c */
 extern void *lw6cfg_init (int argc, char *argv[]);
 extern void lw6cfg_quit (void *cfg_context);
 extern void lw6cfg_reset (int argc, char *argv[]);
@@ -98,9 +86,7 @@ extern char *lw6cfg_unified_get_log_file (int argc, char *argv[]);
 extern char *lw6cfg_unified_get_music_path (int argc, char *argv[]);
 extern char *lw6cfg_unified_get_map_path (int argc, char *argv[]);
 
-/*
- * Functions in xml.c
- */
+/* cfg-xml.c */
 extern char *lw6cfg_xml_element (lw6hlp_type_t type);
 extern void lw6cfg_read_xml_int (char *xml_key, char *xml_value,
 				 char *target_key, int *value);
