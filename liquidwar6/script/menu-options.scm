@@ -21,7 +21,8 @@
 (define lw6-options-menu-time-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Time & speed")))
+	  (item (lw6-menu-item-template (_ "Time & speed")
+					(_ "Define how long the game lasts, and how fast it is") ))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
@@ -32,7 +33,8 @@
 (define lw6-options-menu-rules-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Rules")))
+	  (item (lw6-menu-item-template (_ "Rules")
+					(_ "Modify the gameplay, note that config file and command-line options allow you to change many more things")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-rules-options-menu))))
@@ -42,7 +44,8 @@
 (define lw6-options-menu-video-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Video")))
+	  (item (lw6-menu-item-template (_ "Video")
+					(_ "Resolution and fullscreen vs windowed modes")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-video-options-menu))))
@@ -52,7 +55,8 @@
 (define lw6-options-menu-sound-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Sound")))
+	  (item (lw6-menu-item-template (_ "Sound")
+					(_ "Audio settings")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-audio-options-menu))))
@@ -62,7 +66,8 @@
 (define lw6-options-menu-system-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "System")))
+	  (item (lw6-menu-item-template (_ "System")
+					(_ "Advanced system stuff")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-system-options-menu))))
@@ -72,7 +77,8 @@
 (define lw6-options-menu-stop-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Stop current game")))
+	  (item (lw6-menu-item-template (_ "Stop current game")
+					(_ "Return to parent menu")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (begin

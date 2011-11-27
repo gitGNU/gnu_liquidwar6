@@ -27,7 +27,8 @@
 	   (item (lw6-menu-item-list-boolean-template 
 		  player-status-key
 		  player-name
-		  (_ "Not playing")))
+		  (_ "Not playing")
+		  (_ "Activate or disable a human player")))
 	   )
       (begin
 	item))))
@@ -65,7 +66,9 @@
 	 lw6-menu-item-list-label-func 
 	 lw6-player-detail-menu-color-item-update-func
 	 lw6-player-detail-menu-color-item-index-func
-	 (c-lw6map-team-color-list)))
+	 (c-lw6map-team-color-list)
+	 (_ "Choose among the available colors, not that all colors might not be available when you play the game for the first time")
+	 ))
 	(set! item (assoc-set! item "selected" #f))
 	(set! item (assoc-set! item "value" (c-lw6map-team-color-key-to-index player-color)))
 	(set! item (assoc-set! item "colored" #t))
@@ -103,7 +106,9 @@
 	 lw6-menu-item-list-label-func 
 	 lw6-player-detail-menu-control-item-update-func
 	 lw6-player-detail-menu-control-item-index-func
-	 lw6-control-list))
+	 lw6-control-list
+	 (_ "Choose the control device")
+	 ))
 	(set! item (assoc-set! item "selected" #f))
 	(set! item (assoc-set! item "value" (lw6-control-key-to-index player-control)))
 	item

@@ -22,7 +22,7 @@
   (lambda (entry)
     (let* (
 	   (title (assoc-ref entry "title"))
-	   (menuitem (lw6-menu-item-template title))
+	   (menuitem (lw6-menu-item-template title #f))
 	   (relative-path (assoc-ref entry "relative-path"))
 	  )
       (if (assoc-ref entry "has-subdirs")

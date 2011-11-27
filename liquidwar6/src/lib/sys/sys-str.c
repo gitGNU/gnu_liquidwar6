@@ -559,6 +559,7 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
   int i = 0;
   int space_i = 0;
 
+  nb_columns = lw6sys_max (nb_columns, 1);
   str_copy = lw6sys_str_copy (str);
   if (str_copy)
     {
@@ -663,6 +664,7 @@ lw6sys_str_reformat_this (char *str, int nb_columns)
   char *pos = NULL;
   char *last_space = NULL;
 
+  nb_columns = lw6sys_max (nb_columns, 1);
   pos = str;
   while (*pos)
     {

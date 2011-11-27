@@ -21,7 +21,8 @@
 (define lw6-score-menu-replay-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Replay")))
+	  (item (lw6-menu-item-template (_ "Replay")
+					(_ "Replay this level, since you didn't win")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
@@ -41,7 +42,8 @@
 (define lw6-score-menu-continue-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Continue")))
+	  (item (lw6-menu-item-template (_ "Continue")
+					(_ "Advance to next level")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
@@ -57,7 +59,8 @@
 (define lw6-score-menu-back-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Back to previous menu")))
+	  (item (lw6-menu-item-template (_ "Back to previous menu")
+					(_ "Go back to previous menu")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (begin

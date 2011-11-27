@@ -54,6 +54,16 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->sphere_slices_min);
       lw6cfg_read_xml_int (key, value, "sphere-blink-period",
 			   &const_data->sphere_blink_period);
+      lw6cfg_read_xml_int (key, value, "tooltip-max-width",
+			   &const_data->tooltip_max_width);
+      lw6cfg_read_xml_int (key, value, "tooltip-max-height",
+			   &const_data->tooltip_max_height);
+      lw6cfg_read_xml_int (key, value, "tooltip-border-size",
+			   &const_data->tooltip_border_size);
+      lw6cfg_read_xml_int (key, value, "tooltip-margin-size",
+			   &const_data->tooltip_margin_size);
+      lw6cfg_read_xml_int (key, value, "tooltip-reformat-width",
+			   &const_data->tooltip_reformat_width);
     }
 
   if (!strcmp (element, "float"))
@@ -86,6 +96,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->esc_cyl_height_offset);
       lw6cfg_read_xml_float (key, value, "esc-rotate",
 			     &const_data->esc_rotate);
+      lw6cfg_read_xml_float (key, value, "tooltip-relative-size",
+			     &const_data->tooltip_relative_size);
     }
 }
 

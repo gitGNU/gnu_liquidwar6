@@ -45,7 +45,7 @@
 (define lw6-players-menu-player-item
   (lambda (player-prefix)
     (let* (
-	   (item (lw6-menu-item-template ""))
+	   (item (lw6-menu-item-template "" #f))
 	  )
       (begin
 	(set! item (assoc-set! item "player-prefix" player-prefix))

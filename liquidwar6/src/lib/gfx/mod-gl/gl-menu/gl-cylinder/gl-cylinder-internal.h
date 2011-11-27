@@ -51,6 +51,12 @@ typedef struct _mod_gl_menu_cylinder_const_data_s
   float esc_cyl_height;
   float esc_cyl_height_offset;
   float esc_rotate;
+  int tooltip_max_width;
+  int tooltip_max_height;
+  int tooltip_border_size;
+  int tooltip_margin_size;
+  int tooltip_reformat_width;
+  float tooltip_relative_size;
 }
 _mod_gl_menu_cylinder_const_data_t;
 
@@ -166,6 +172,15 @@ _mod_gl_menu_cylinder_pick_item (mod_gl_utils_context_t * utils_context,
 				 int *position, int *scroll, int *esc,
 				 lw6gui_menu_t * menu, int screen_x,
 				 int screen_y);
+extern void
+_mod_gl_menu_cylinder_get_cylinder_right_point (mod_gl_utils_context_t *
+						utils_context,
+						_mod_gl_menu_cylinder_context_t
+						* cylinder_context, int i,
+						int n,
+						float relative_text_width,
+						float *right_point_x,
+						float *right_point_y);
 
 /*
  * In progress.c

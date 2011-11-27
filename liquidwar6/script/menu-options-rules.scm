@@ -25,7 +25,8 @@
 				    lw6def-respawn-team
 				    (list
 				     (_ "One life (last wins)")
-				     (_ "Respawn (deatchmatch)"))))
+				     (_ "Respawn (deatchmatch)"))
+				    (_ "Choose wether you want the game to end when everyone is dead but the winner or if you prefer to keep playing until time limit, with teams respawning")))
 	  )
       (begin
 	item
@@ -38,7 +39,8 @@
 				    lw6def-use-team-profiles
 				    (list
 				     (_ "All teams are equal")
-				     (_ "Use team profiles"))))
+				     (_ "Use team profiles"))
+				    (_ "Team profiles can really change the game, depending on your color you could move faster or slower, have a stronger or weaker attack, and so on")))
 	  )
       (begin
 	item
@@ -96,7 +98,8 @@
      lw6-rules-options-menu-armies-size-item-label-func
      lw6-rules-options-menu-armies-size-item-update-func
      lw6-rules-options-menu-armies-size-item-index-func
-     lw6-rules-options-menu-armies-size-item-list)
+     lw6-rules-options-menu-armies-size-item-list
+     (_ "Defines how crowded the battlefield is, if you raise this, there will be a lot of fighters in a limited space"))
     ))
 
 (define lw6-rules-options-menu

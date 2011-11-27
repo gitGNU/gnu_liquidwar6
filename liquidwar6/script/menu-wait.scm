@@ -21,7 +21,8 @@
 (define lw6-wait-menu-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Please wait...")))
+	  (menuitem (lw6-menu-item-template (_ "Please wait...")
+					    #f))
 	  )
       (begin
 	(assoc-set! menuitem "selected" #t)

@@ -52,6 +52,7 @@
 #define TEST_NB_MENUITEMS1 5
 #define TEST_NB_MENUITEMS2 15
 #define TEST_MENUITEM_LABEL_FORMAT "Item %d"
+#define TEST_MENUITEM_TOOLTIP_FORMAT "Item %d"
 #define TEST_MENUITEM_COLORED_INDEX 2
 #define TEST_MAP "subflower/"
 #define TEST_NB_ROUNDS 250
@@ -81,6 +82,7 @@ menu_new (int n)
   lw6gui_menu_t *ret = NULL;
   lw6gui_menuitem_t *item = NULL;
   char *label;
+  char *tooltip;
   int i;
 
   ret =
@@ -92,12 +94,18 @@ menu_new (int n)
 	  label = lw6sys_new_sprintf (TEST_MENUITEM_LABEL_FORMAT, i + 1);
 	  if (label)
 	    {
-	      item =
-		lw6gui_menuitem_new (label, i + 1, 1, i == 0,
-				     i == TEST_MENUITEM_COLORED_INDEX);
-	      if (item)
+	      tooltip =
+		lw6sys_new_sprintf (TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
+	      if (tooltip)
 		{
-		  lw6gui_menu_append (ret, item, 0);
+		  item =
+		    lw6gui_menuitem_new (label, tooltip, i + 1, 1, i == 0,
+					 i == TEST_MENUITEM_COLORED_INDEX);
+		  if (item)
+		    {
+		      lw6gui_menu_append (ret, item, 0);
+		    }
+		  LW6SYS_FREE (tooltip);
 		}
 	      LW6SYS_FREE (label);
 	    }

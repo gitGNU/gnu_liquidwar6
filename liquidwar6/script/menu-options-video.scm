@@ -60,7 +60,8 @@
 	  (item (lw6-menu-item-template-switch 
 		 lw6-video-options-menu-fullscreen-item-label 
 		 lw6-video-options-menu-fullscreen-item-toggle 
-		 lw6-video-options-menu-fullscreen-item-toggle ))
+		 lw6-video-options-menu-fullscreen-item-toggle
+		 (_ "Use this to toggle between windowed and fullscreen mode")))
 	  )
       (begin
   	(assoc-set! item "selected" #t)
@@ -204,7 +205,9 @@
 	  (item (lw6-menu-item-template-switch 
 		 lw6-video-options-menu-resolution-item-label 
 		 lw6-video-options-menu-resolution-item-plus 
-		 lw6-video-options-menu-resolution-item-minus ))
+		 lw6-video-options-menu-resolution-item-minus
+		 (_ "Change the window size, in windowed mode you could just resize it with the mouse")
+		 ))
 	  )
       item)))
 
@@ -265,7 +268,9 @@
      lw6-video-options-menu-backend-item-label-func
      lw6-video-options-menu-backend-item-update-func
      lw6-video-options-menu-backend-item-index-func
-     (lw6-video-options-menu-backend-item-list))
+     (lw6-video-options-menu-backend-item-list)
+     (_ "The graphics backend is the library used for rendering images, if in doubt, don't touch")
+     )
     ))
 
 (define lw6-video-options-menu-on-display

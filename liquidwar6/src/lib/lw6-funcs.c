@@ -36,22 +36,27 @@
 static char *
 to_0str (SCM string)
 {
-  char *c_string;
-  int length;
+  char *c_string = NULL;
+  int length = 0;
 
-  SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, "");
+  if (SCM_NFALSEP (string))
+    {
+      SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
+      /*
+       * See the comment in sys/sys-str.c to see why we use
+       * 2 trailing '\0' at the end of the string.
+       */
+      length = scm_c_string_length (string);
+    }
 
-  /*
-   * See the comment in sys/sys-str.c to see why we use
-   * 2 trailing '\0' at the end of the string.
-   */
-  length = scm_c_string_length (string);
   c_string = (char *) LW6SYS_MALLOC ((length + 2) * sizeof (char));
-
   if (c_string)
     {
-      memcpy ((void *) c_string, (void *) scm_i_string_chars (string),
-	      length * sizeof (char));
+      if (length > 0)
+	{
+	  memcpy ((void *) c_string, (void *) scm_i_string_chars (string),
+		  length * sizeof (char));
+	}
       c_string[length] = c_string[length + 1] = '\0';
     }
   else
@@ -3143,6 +3148,7 @@ static SCM
 _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 {
   char *c_label;
+  char *c_tooltip;
   int c_value;
   int c_enabled;
   int c_selected;
@@ -3158,27 +3164,35 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
   c_label = to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("label")));
-
   if (c_label)
     {
-      lw6gui_menu_t *c_menu;
+      c_tooltip =
+	to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("tooltip")));
+      if (c_tooltip)
+	{
+	  lw6gui_menu_t *c_menu;
 
-      c_value =
-	scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
-      c_enabled =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("enabled")));
-      c_selected =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("selected")));
-      c_colored =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("colored")));
+	  c_value =
+	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
+	  c_enabled =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("enabled")));
+	  c_selected =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("selected")));
+	  c_colored =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("colored")));
 
-      c_menu = lw6_scm_to_menu (menu);
+	  c_menu = lw6_scm_to_menu (menu);
 
-      ret =
-	scm_from_int (lw6gui_menu_append_for_id_use
-		      (c_menu, c_label, c_value, c_enabled, c_selected,
-		       c_colored, lw6sys_get_timestamp ()));
+	  ret =
+	    scm_from_int (lw6gui_menu_append_for_id_use
+			  (c_menu, c_label, c_tooltip, c_value, c_enabled,
+			   c_selected, c_colored, lw6sys_get_timestamp ()));
 
+	  LW6SYS_FREE (c_tooltip);
+	}
       LW6SYS_FREE (c_label);
     }
 

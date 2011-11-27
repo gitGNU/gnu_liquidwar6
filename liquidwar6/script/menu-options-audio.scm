@@ -83,7 +83,9 @@
 	  (item (lw6-menu-item-template-switch 
 		 lw6-audio-options-menu-fx-volume-item-label 
 		 lw6-audio-options-menu-fx-volume-item-plus 
-		 lw6-audio-options-menu-fx-volume-item-minus ))
+		 lw6-audio-options-menu-fx-volume-item-minus
+		 (_ "Change volume for sound FX, this includes all sounds but music and background water sound")
+		 ))
 	  )
       (begin
   	(set! item (assoc-set! item "selected" #t))
@@ -111,7 +113,10 @@
 	  (item (lw6-menu-item-template-switch 
 		 lw6-audio-options-menu-water-volume-item-label 
 		 lw6-audio-options-menu-water-volume-item-plus 
-		 lw6-audio-options-menu-water-volume-item-minus ))
+		 lw6-audio-options-menu-water-volume-item-minus 
+		 (_ "Change volume for water sound, the bubbling sound you can here in the background")
+		 
+		 ))
 	  )
       (begin
   	(set! item (assoc-set! item "selected" #t))
@@ -139,7 +144,9 @@
 	  (item (lw6-menu-item-template-switch 
 		 lw6-audio-options-menu-music-volume-item-label 
 		 lw6-audio-options-menu-music-volume-item-plus 
-		 lw6-audio-options-menu-music-volume-item-minus ))
+		 lw6-audio-options-menu-music-volume-item-minus 
+		 (_ "Change music volume")
+		 ))
 	  )
       (begin
 	item))))
@@ -204,7 +211,9 @@
      lw6-audio-options-menu-backend-item-label-func
      lw6-audio-options-menu-backend-item-update-func
      lw6-audio-options-menu-backend-item-index-func
-     (lw6-audio-options-menu-backend-item-list))
+     (lw6-audio-options-menu-backend-item-list
+     (_ "The sound backend is the library used to play sounds, if in doubt, don't touch")     
+     ))
     ))
 
 (define lw6-audio-options-menu

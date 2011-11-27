@@ -189,6 +189,8 @@ typedef struct mod_gl_utils_menucache_array_s
   int last_stored_item;
     mod_gl_utils_menucache_item_t
     item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE];
+  char *tooltip_str;
+  mod_gl_utils_bitmap_t *tooltip_bitmap;
 }
 mod_gl_utils_menucache_array_t;
 
@@ -405,6 +407,17 @@ typedef struct mod_gl_utils_context_s
   lw6sys_hash_t *bitmap_hash;
 }
 mod_gl_utils_context_t;
+
+typedef struct mod_gl_utils_multiline_text_callback_data_s
+{
+  mod_gl_utils_context_t *utils_context;
+  TTF_Font *font;
+  SDL_Color sdl_color_bg;
+  SDL_Color sdl_color_fg;
+  lw6sys_whd_t shape;
+  lw6sys_xyz_t pos;
+  SDL_Surface *target;
+} mod_gl_utils_multiline_text_callback_data_t;
 
 /*
  * In bitmap.c
@@ -670,6 +683,14 @@ extern int mod_gl_utils_get_system_text_width (mod_gl_utils_context_t *
 					       utils_context, char *text);
 extern int mod_gl_utils_get_system_text_height (mod_gl_utils_context_t *
 						utils_context, char *text);
+extern mod_gl_utils_bitmap_t
+  * mod_gl_utils_multiline_text_write_solid (mod_gl_utils_context_t *
+					     utils_context, TTF_Font * font,
+					     char *text,
+					     lw6map_color_couple_t * color,
+					     int max_width, int max_height,
+					     int border_size, int margin_size,
+					     int reformat_width);
 extern SDL_Surface *mod_gl_utils_blended_text_surface (mod_gl_utils_context_t
 						       * context,
 						       TTF_Font * font,

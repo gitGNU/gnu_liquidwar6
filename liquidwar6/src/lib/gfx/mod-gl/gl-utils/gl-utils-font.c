@@ -109,6 +109,153 @@ mod_gl_utils_blended_text_surface (mod_gl_utils_context_t * utils_context,
   return ret;
 }
 
+static void
+_multiline_text_size_callback (void *func_data, void *data)
+{
+
+  mod_gl_utils_multiline_text_callback_data_t *text_callback_data =
+    (mod_gl_utils_multiline_text_callback_data_t *) func_data;
+  char *line = (char *) data;
+  int w = 0, h = 0;
+
+  if (!lw6sys_str_is_blank (line))
+    {
+      _get_text_wh (text_callback_data->font, line, &w, &h);
+      text_callback_data->shape.w =
+	lw6sys_max (text_callback_data->shape.w, w);
+      text_callback_data->shape.h += h;
+    }
+}
+
+static void
+_multiline_text_draw_callback (void *func_data, void *data)
+{
+
+  mod_gl_utils_multiline_text_callback_data_t *text_callback_data =
+    (mod_gl_utils_multiline_text_callback_data_t *) func_data;
+  char *line = (char *) data;
+  SDL_Surface *buffer = NULL;
+  char *utf8 = NULL;
+  SDL_Rect src_rect;
+  SDL_Rect dst_rect;
+
+  if (!lw6sys_str_is_blank (line))
+    {
+      utf8 = lw6sys_locale_to_utf8 (line);
+      if (utf8 != NULL)
+	{
+	  buffer =
+	    TTF_RenderUTF8_Shaded (text_callback_data->font, utf8,
+				   text_callback_data->sdl_color_fg,
+				   text_callback_data->sdl_color_bg);
+	  if (buffer)
+	    {
+	      text_callback_data->utils_context->
+		surface_counter.new_counter++;
+
+	      src_rect.x = 0;
+	      src_rect.y = 0;
+	      src_rect.w = buffer->w;
+	      src_rect.h = buffer->h;
+	      dst_rect.x = text_callback_data->pos.x;
+	      dst_rect.y = text_callback_data->pos.y;
+	      dst_rect.w = buffer->w;
+	      dst_rect.h = buffer->h;
+
+	      SDL_BlitSurface (buffer, &src_rect, text_callback_data->target,
+			       &dst_rect);
+
+	      text_callback_data->pos.y += buffer->h;
+
+	      mod_gl_utils_delete_surface (text_callback_data->utils_context,
+					   buffer);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING,
+			  _x_ ("TTF_RenderUTF8_Shaded failed"));
+	    }
+	  LW6SYS_FREE (utf8);
+	}
+    }
+}
+
+mod_gl_utils_bitmap_t *
+mod_gl_utils_multiline_text_write_solid (mod_gl_utils_context_t *
+					 utils_context, TTF_Font * font,
+					 char *text,
+					 lw6map_color_couple_t * color,
+					 int max_width, int max_height,
+					 int border_size, int margin_size,
+					 int reformat_width)
+{
+  char *reformatted = NULL;
+  lw6sys_list_t *lines = NULL;
+  mod_gl_utils_bitmap_t *ret = NULL;
+  mod_gl_utils_multiline_text_callback_data_t data;
+  Uint32 i_color_bg;
+  Uint32 i_color_fg;
+
+  memset (&data, 0, sizeof (mod_gl_utils_multiline_text_callback_data_t));
+  reformatted = lw6sys_str_reformat (text, "", reformat_width);
+  if (reformatted)
+    {
+      lines = lw6sys_str_split (reformatted, '\n');
+      if (lines)
+	{
+	  data.utils_context = utils_context;
+	  data.font = font;
+	  lw6sys_list_map (lines, _multiline_text_size_callback,
+			   (void *) &data);
+	  data.shape.w += (2 * (border_size + margin_size));
+	  data.shape.h += (2 * (border_size + margin_size));
+	  data.pos.x = border_size + margin_size;
+	  data.pos.y = border_size + margin_size;
+	  data.shape.w =
+	    lw6sys_max (1 + 2 * (border_size + margin_size),
+			lw6sys_min (data.shape.w, max_width));
+	  data.shape.h =
+	    lw6sys_max (1 + 2 * (border_size + margin_size),
+			lw6sys_min (data.shape.h, max_height));
+
+	  data.target =
+	    mod_gl_utils_create_surface (utils_context, data.shape.w,
+					 data.shape.h);
+	  if (data.target)
+	    {
+	      data.sdl_color_bg = mod_gl_utils_color_8_to_sdl (color->bg);
+	      data.sdl_color_fg = mod_gl_utils_color_8_to_sdl (color->fg);
+	      i_color_bg = lw6sys_color_8_to_i (color->bg);
+	      i_color_fg = lw6sys_color_8_to_i (color->fg);
+
+	      mod_gl_utils_draw_rectfill (data.target, 0, 0, data.shape.w - 1,
+					  data.shape.h - 1, i_color_fg);
+	      mod_gl_utils_draw_rectfill (data.target, border_size,
+					  border_size,
+					  data.shape.w - 1 - border_size,
+					  data.shape.h - 1 - border_size,
+					  i_color_bg);
+
+	      lw6sys_list_map (lines, _multiline_text_draw_callback,
+			       (void *) &data);
+
+	      ret =
+		mod_gl_utils_surface2bitmap (utils_context, data.target,
+					     _x_ ("tooltip"));
+	      if (!ret)
+		{
+		  mod_gl_utils_delete_surface (utils_context, data.target);
+		}
+	    }
+
+	  lw6sys_list_free (lines);
+	}
+      LW6SYS_FREE (reformatted);
+    }
+
+  return ret;
+}
+
 /*
  * Helper internal func
  */

@@ -82,7 +82,8 @@
      lw6-time-options-menu-time-item-label-func
      lw6-time-options-menu-time-item-update-func
      lw6-time-options-menu-time-item-index-func
-     lw6-time-options-menu-time-item-list)
+     lw6-time-options-menu-time-item-list
+     (_ "Defines how long the game will last, this is a maximum limit"))
     ))
 
 (define lw6-time-options-menu-speed-item-list
@@ -150,7 +151,8 @@
      lw6-time-options-menu-speed-item-label-func
      lw6-time-options-menu-speed-item-update-func
      lw6-time-options-menu-speed-item-index-func
-     lw6-time-options-menu-speed-item-list)
+     lw6-time-options-menu-speed-item-list
+     (_ "Defines the global speed of the game, if set to a high value, there will be more moves per second"))
     ))
 
 (define lw6-time-options-menu-bench-item-label-func
@@ -163,7 +165,7 @@
 (define lw6-time-options-menu-bench-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template ""))
+	  (menuitem (lw6-menu-item-template "" (_ "Bench is counted in an arbitrary unit, it gives a global idea of how fast your computer is, as far as this game is concerned")))
 	  )
       (begin
 	(assoc-set! menuitem "label" (lw6-time-options-menu-bench-item-label-func menuitem))

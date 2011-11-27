@@ -21,7 +21,8 @@
 (define lw6-root-menu-quick-start-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Quick start")))
+	  (menuitem (lw6-menu-item-template (_ "Quick start")
+					    (_ "Start playing now!")))
 	  )
       (begin
 	(assoc-set! menuitem "selected" #t)
@@ -32,7 +33,8 @@
 (define lw6-root-menu-play-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Play")))
+	  (menuitem (lw6-menu-item-template (_ "Play")
+					    (_ "Start a new game")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-play-menu))))
@@ -42,7 +44,8 @@
 (define lw6-root-menu-map-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Choose map")))
+	  (menuitem (lw6-menu-item-template (_ "Choose map")
+					    (_ "Browse map directory and choose a map to play on")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-map-menu)))
@@ -52,7 +55,8 @@
 (define lw6-root-menu-players-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Players")))
+	  (menuitem (lw6-menu-item-template (_ "Players")
+					    (_ "Choose player name, color (teams), controls (keyboard, mouse, joystick) and populate your map with bots")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-players-menu))))
@@ -62,7 +66,8 @@
 (define lw6-root-menu-options-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Options")))
+	  (menuitem (lw6-menu-item-template (_ "Options")
+					    (_ "Set up video, sound, game rules, and more")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-options-menu))))

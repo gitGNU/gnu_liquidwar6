@@ -21,7 +21,8 @@
 (define lw6-play-menu-solo-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Solo game")))
+	  (item (lw6-menu-item-template (_ "Solo game") 
+					(_ "Play alone against the computer, try and win levels to get access to new colors and weapons")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
@@ -32,7 +33,8 @@
 (define lw6-play-menu-1on1-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "1 on 1")))
+	  (item (lw6-menu-item-template (_ "1 on 1") 
+					(_ "Play with a friend locally on this computer")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-1on1-step2)))
@@ -42,7 +44,8 @@
 (define lw6-play-menu-local-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Local multiplayer")))
+	  (item (lw6-menu-item-template (_ "Local multiplayer")
+					(_ "Start a local multiplayer session, with up to 4 players, plus some bots")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-local-step2)))
@@ -52,7 +55,8 @@
 (define lw6-play-menu-join-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Join network game")))
+	  (item (lw6-menu-item-template (_ "Join network game")
+					(_ "Join an existing network game, DOES NOT WORK YET")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-push-menu (lw6-join-menu))))
@@ -62,7 +66,8 @@
 (define lw6-play-menu-server-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Start server")))
+	  (item (lw6-menu-item-template (_ "Start server")
+					(_ "Start a server, DOES NOT WORK YET")))
 	  )
       (begin
 	item
@@ -71,7 +76,8 @@
 (define lw6-play-menu-demo-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Demo")))
+	  (item (lw6-menu-item-template (_ "Demo")
+					(_ "Watch the AI play against itself")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-local-step1 lw6-game-start-demo-step2)))
@@ -81,7 +87,8 @@
 (define lw6-play-menu-back-to-main
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "Back to main menu")))
+	  (item (lw6-menu-item-template (_ "Back to main menu")
+					(_ "Go back to main menu")))
 	  )
       (begin
 	(assoc-set! item "on-valid" (lambda (mi) (lw6-init-menu)))

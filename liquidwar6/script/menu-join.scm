@@ -22,8 +22,17 @@
   (lambda (menu entry)
     (let* (
 	   (title (assoc-ref entry "title"))
-	   (item (lw6-menu-item-template title))
-	  )
+	   (version (assoc-ref entry "version"))
+	   (id (assoc-ref entry "id"))
+	   (url (assoc-ref entry "url"))
+	   (description (assoc-ref entry "description"))
+	   (password (if (assoc-ref entry "password") (_ "yes") (_ "no")))
+	   (level (assoc-ref entry "level"))
+	   (item (lw6-menu-item-template title
+					 (format #f
+						 (_ "Version: ~a~%Id: ~a~%URL: ~a~%Description: ~a~%Password: ~a~%Level: ~a~%")
+						 version id url description password level)))
+	   )
       (begin
 	(lw6-append-menuitem! menu item)
 	))))
@@ -31,7 +40,8 @@
 (define lw6-join-menu-none-item
   (lambda ()
     (let (
-	  (item (lw6-menu-item-template (_ "No server found")))
+	  (item (lw6-menu-item-template (_ "No server found")
+					(_ "No remote node could be found on the network")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)

@@ -29,6 +29,7 @@
 
 #define TEST_MENU_SIZE 8
 #define _DESC_MENU "menu"
+#define _PASS_THROUGH_SELECTED 1
 
 /*
  * OpenGL wizardry, to prepare view parameters.
@@ -318,8 +319,13 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 				    lw6gui_menu_t * menu)
 {
   int i, j, n;
+  int i_right_point = 0;
   int blink_state;
   lw6gui_menuitem_t *menuitem;
+  float right_point_x = 0.0f;
+  float right_point_y = 0.0f;
+  float tooltip_x, tooltip_y, tooltip_w, tooltip_h;
+  char *tooltip = NULL;
 
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
   mod_gl_utils_texture_1x1_update (utils_context, look);
@@ -349,12 +355,79 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
     {
       j = i + menu->first_item_displayed;
       menuitem = menu->items[j];
+      if (menuitem->selected)
+	{
+	  i_right_point = i;
+	  tooltip = menuitem->tooltip;
+	}
       draw_button (utils_context, cylinder_context, look, menuitem, i + 1, n);
     }
   if (menu->esc_item->enabled)
     {
       draw_button (utils_context, cylinder_context, look, menu->esc_item, -1,
 		   n);
+    }
+
+  if (!lw6sys_str_is_null_or_empty (tooltip))
+    {
+      _mod_gl_menu_cylinder_get_cylinder_right_point (utils_context,
+						      cylinder_context,
+						      i_right_point + 1, n,
+						      1.0f, &right_point_x,
+						      &right_point_y);
+      if ((!lw6sys_str_is_same
+	   (tooltip, utils_context->menucache_array.tooltip_str))
+	  || (!utils_context->menucache_array.tooltip_bitmap))
+	{
+	  if (utils_context->menucache_array.tooltip_str)
+	    {
+	      LW6SYS_FREE (utils_context->menucache_array.tooltip_str);
+	      utils_context->menucache_array.tooltip_str = NULL;
+	    }
+	  if (utils_context->menucache_array.tooltip_bitmap)
+	    {
+	      mod_gl_utils_bitmap_free (utils_context,
+					utils_context->
+					menucache_array.tooltip_bitmap);
+	      utils_context->menucache_array.tooltip_bitmap = NULL;
+	    }
+	  utils_context->menucache_array.tooltip_str =
+	    lw6sys_str_copy (tooltip);
+	  utils_context->menucache_array.tooltip_bitmap =
+	    mod_gl_utils_multiline_text_write_solid (utils_context,
+						     utils_context->
+						     font_data.hud, tooltip,
+						     &(look->style.
+						       color_set.menu_color_default),
+						     cylinder_context->const_data.tooltip_max_width,
+						     cylinder_context->const_data.tooltip_max_height,
+						     cylinder_context->const_data.tooltip_border_size,
+						     cylinder_context->const_data.tooltip_margin_size,
+						     cylinder_context->const_data.tooltip_reformat_width);
+	}
+
+      if (utils_context->menucache_array.tooltip_bitmap)
+	{
+	  mod_gl_utils_set_render_mode_2d_blend (utils_context);
+
+	  tooltip_w =
+	    (utils_context->video_mode.width *
+	     cylinder_context->const_data.tooltip_relative_size *
+	     utils_context->menucache_array.tooltip_bitmap->surface->w) /
+	    cylinder_context->const_data.tooltip_max_width;
+	  tooltip_h =
+	    (tooltip_w *
+	     utils_context->menucache_array.tooltip_bitmap->surface->h) /
+	    utils_context->menucache_array.tooltip_bitmap->surface->w;
+	  tooltip_x = utils_context->video_mode.width - tooltip_w;
+	  tooltip_y = right_point_y - tooltip_h / 2;
+	  mod_gl_utils_bitmap_display (utils_context,
+				       utils_context->
+				       menucache_array.tooltip_bitmap,
+				       tooltip_x, tooltip_y,
+				       tooltip_x + tooltip_w,
+				       tooltip_y + tooltip_h);
+	}
     }
 }
 

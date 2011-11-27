@@ -21,7 +21,8 @@
 (define lw6-exit-menu-quit-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Quit")))
+	  (menuitem (lw6-menu-item-template (_ "Quit")
+					    (_ "Yes, quit Liquid War 6")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" 
@@ -33,7 +34,8 @@
 (define lw6-exit-menu-resume-item
   (lambda ()
     (let (
-	  (menuitem (lw6-menu-item-template (_ "Resume")))
+	  (menuitem (lw6-menu-item-template (_ "Resume")
+					    (_ "No, return back to game")))
 	  )
       (begin
 	(assoc-set! menuitem "on-valid" (lambda (mi) (lw6-pop-menu (lw6-current-menu))))

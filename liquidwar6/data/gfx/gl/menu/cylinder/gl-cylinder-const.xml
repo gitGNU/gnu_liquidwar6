@@ -24,4 +24,10 @@
   <float key="esc-cyl-height" value="0.4" />
   <float key="esc-cyl-height-offset" value="-0.35" />
   <float key="esc-rotate" value="-30.0" />
+  <int key="tooltip-max-width" value="512" />
+  <int key="tooltip-max-height" value="512" />
+  <int key="tooltip-border-size" value="2" />
+  <int key="tooltip-margin-size" value="2" />
+  <int key="tooltip-reformat-width" value="40" />
+  <float key="tooltip-relative-size" value="0.33" />
 </liquidwar6>

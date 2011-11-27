@@ -217,6 +217,7 @@ test_menu (lw6gfx_backend_t * backend)
     lw6gui_menu_t *menu = NULL;
     int i;
     char *menuitem_label;
+    char *menuitem_tooltip;
     int64_t ticks;
     float progress;
 
@@ -236,14 +237,24 @@ test_menu (lw6gfx_backend_t * backend)
 		  lw6sys_new_sprintf (_x_ ("Test menuitem %d"), i);
 		if (menuitem_label)
 		  {
-		    menuitem =
-		      lw6gui_menuitem_new (menuitem_label, TEST_MENU_COLOR, 1,
-					   0,
-					   i == TEST_MENU_COLORED_MENUITEM);
-		    if (menuitem)
+		    menuitem_tooltip =
+		      lw6sys_new_sprintf (_x_
+					  ("Tooltip for menuitem %d\nExplaining how it works\nIt works as follows:\n...it works!"),
+					  i);
+		    if (menuitem_tooltip)
 		      {
-			lw6gui_menu_append (menu, menuitem,
-					    lw6sys_get_uptime ());
+			menuitem =
+			  lw6gui_menuitem_new (menuitem_label,
+					       menuitem_tooltip,
+					       TEST_MENU_COLOR, 1, 0,
+					       i ==
+					       TEST_MENU_COLORED_MENUITEM);
+			if (menuitem)
+			  {
+			    lw6gui_menu_append (menu, menuitem,
+						lw6sys_get_uptime ());
+			  }
+			LW6SYS_FREE (menuitem_tooltip);
 		      }
 		    LW6SYS_FREE (menuitem_label);
 		  }

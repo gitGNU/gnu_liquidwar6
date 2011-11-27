@@ -40,6 +40,8 @@ static u_int32_t seq_id = 0;
  *
  * @label: the string to be displayed, what the user sees. Can be freed after
  *   the call is done, function will make a copy internally.
+ * @tooltip: the string to be displayed as a tooltip, describing the menu
+ *   item in detail. Can be NULL if you don't want to use this feature.
  * @value: the value. No GUI function uses this, this is the "real" value
  *   associated to the item.
  * @enabled: wether the menu item can be selected, used, and so on
@@ -55,30 +57,36 @@ static u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menuitem_t *
-lw6gui_menuitem_new (char *label, int value, int enabled, int selected,
-		     int colored)
+lw6gui_menuitem_new (char *label, char *tooltip, int value, int enabled,
+		     int selected, int colored)
 {
   lw6gui_menuitem_t *menuitem = NULL;
 
   menuitem = (lw6gui_menuitem_t *) LW6SYS_CALLOC (sizeof (lw6gui_menuitem_t));
   if (menuitem)
     {
+      menuitem->id = 0;
+      while (!menuitem->id)
+	{
+	  menuitem->id = ++seq_id;
+	}
+
       menuitem->label = lw6sys_str_copy (label);
       if (menuitem->label)
 	{
-	  menuitem->id = 0;
-	  while (!menuitem->id)
+	  menuitem->tooltip =
+	    lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
+	  if (menuitem->tooltip)
 	    {
-	      menuitem->id = ++seq_id;
+	      menuitem->value = value;
+	      menuitem->enabled = enabled;
+	      menuitem->selected = selected;
+	      menuitem->colored = colored;
 	    }
-	  menuitem->value = value;
-	  menuitem->enabled = enabled;
-	  menuitem->selected = selected;
-	  menuitem->colored = colored;
 	}
-      else
+      if ((!menuitem->label) || (!menuitem->tooltip))
 	{
-	  LW6SYS_FREE (menuitem);
+	  lw6gui_menuitem_free (menuitem);
 	  menuitem = NULL;
 	}
     }
@@ -108,6 +116,15 @@ lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL label"));
+	}
+      if (menuitem->tooltip)
+	{
+	  LW6SYS_FREE (menuitem->tooltip);
+	  menuitem->tooltip = NULL;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menuitem with NULL tooltip"));
 	}
       LW6SYS_FREE (menuitem);
     }
@@ -204,10 +221,43 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
 }
 
 /**
+ * lw6gui_menuitem_set_tooltip
+ *
+ * @menuitem: a pointer to the menuitem.
+ * @tooltip: the new tooltip, you can free it after calling the function,
+ *   an internal copy will be made. 
+ * @now: the current time, as a timestamp.
+ *
+ * Change the tooltip of the menu item (the explanation of what the item is about)
+ * Use this function to change the menuitem 
+ * value, don't try to access the struct directly. The idea is 1) to have safe 
+ * memory management and 2) to keep the @last_change member up to date. 
+ * It can be later used for eye-candy effects.
+ *
+ * Return value: none
+ */
+void
+lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem, char *tooltip,
+			     int64_t now)
+{
+  if (strcmp (tooltip, menuitem->tooltip))
+    {
+      menuitem->last_change = now;
+    }
+  LW6SYS_FREE (menuitem->tooltip);
+  menuitem->tooltip = lw6sys_str_copy (tooltip);
+  if (!(menuitem->tooltip))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("couldn't set menu item tooltip \"%s\""), tooltip);
+    }
+}
+
+/**
  * lw6gui_menuitem_set_value
  *
  * @menuitem: a pointer to the menuitem.
- * @label: the new value.
+ * @value: the new value.
  * @now: the current time, as a timestamp.
  * 
  * Changes the value of a menuitem. This is the internal value, not what
@@ -378,9 +428,9 @@ lw6gui_menuitem_dup (lw6gui_menuitem_t * menuitem)
   if (menuitem)
     {
       ret =
-	lw6gui_menuitem_new (menuitem->label, menuitem->value,
-			     menuitem->enabled, menuitem->selected,
-			     menuitem->colored);
+	lw6gui_menuitem_new (menuitem->label, menuitem->tooltip,
+			     menuitem->value, menuitem->enabled,
+			     menuitem->selected, menuitem->colored);
       if (ret)
 	{
 	  ret->last_change = menuitem->last_change;
@@ -410,9 +460,13 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
 
   if (dst && src)
     {
-      if (strcmp (dst->label, src->label))
+      if (!lw6sys_str_is_same (dst->label, src->label))
 	{
 	  lw6gui_menuitem_set_label (dst, src->label, src->last_change);
+	}
+      if (!lw6sys_str_is_same (dst->tooltip, src->tooltip))
+	{
+	  lw6gui_menuitem_set_tooltip (dst, src->label, src->last_change);
 	}
       dst->value = src->value;
       dst->enabled = src->enabled;

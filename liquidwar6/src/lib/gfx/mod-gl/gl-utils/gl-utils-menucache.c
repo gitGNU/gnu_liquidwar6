@@ -152,6 +152,14 @@ mod_gl_utils_clear_menucache (mod_gl_utils_context_t * context)
 	  mod_gl_utils_bitmap_free (context, bitmap);
 	}
     }
+  if (menucache_array->tooltip_str)
+    {
+      LW6SYS_FREE (menucache_array->tooltip_str);
+    }
+  if (menucache_array->tooltip_bitmap)
+    {
+      mod_gl_utils_bitmap_free (context, menucache_array->tooltip_bitmap);
+    }
 
   memset (menucache_array, 0, sizeof (mod_gl_utils_menucache_array_t));
 }

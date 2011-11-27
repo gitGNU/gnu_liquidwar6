@@ -59,7 +59,8 @@ lw6gui_menu_new (char *title, char *esc, int enable_esc)
       menu->title = lw6sys_str_copy (title);
       if (menu->title)
 	{
-	  menu->esc_item = lw6gui_menuitem_new (esc, 0, enable_esc, 0, 0);
+	  menu->esc_item =
+	    lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
 	  if (menu->esc_item)
 	    {
 	      menu->id = 0;
@@ -634,6 +635,7 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
  *
  * @menu: the menu to work on
  * @label: the label of the menuitem to append
+ * @tooltip: the tooltip of the menuitem to append
  * @value: the value of the menuitem to append
  * @enabled: wether the inserted menuitem should be enabled
  * @selected: wether the inserted menuitem should be selected
@@ -656,14 +658,16 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, int value,
-			       int enabled, int selected,
-			       int colored, int position, int64_t now)
+lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label,
+			       char *tooltip, int value, int enabled,
+			       int selected, int colored, int position,
+			       int64_t now)
 {
   int ret = 0;
   lw6gui_menuitem_t *menuitem;
 
-  menuitem = lw6gui_menuitem_new (label, value, enabled, selected, colored);
+  menuitem =
+    lw6gui_menuitem_new (label, tooltip, value, enabled, selected, colored);
   if (menuitem)
     {
       if (lw6gui_menu_insert (menu, menuitem, position, now))
@@ -684,6 +688,7 @@ lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, int value,
  *
  * @menu: the menu to work on
  * @label: the label of the menuitem to append
+ * @tooltip: the tooltip of the menuitem to append
  * @value: the value of the menuitem to append
  * @enabled: wether the appended menuitem should be enabled
  * @selected: wether the appended menuitem should be selected
@@ -699,15 +704,15 @@ lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, int value,
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label, int value,
-			       int enabled, int selected,
-			       int colored, int64_t now)
+lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label,
+			       char *tooltip, int value, int enabled,
+			       int selected, int colored, int64_t now)
 {
   int ret = 0;
 
   ret =
-    lw6gui_menu_insert_for_id_use (menu, label, value, enabled, selected,
-				   colored, menu->nb_items, now);
+    lw6gui_menu_insert_for_id_use (menu, label, tooltip, value, enabled,
+				   selected, colored, menu->nb_items, now);
 
   return ret;
 }

@@ -203,9 +203,10 @@
      (cons "on-display" (lambda (m) #t)))))
 
 (define lw6-menu-item-template
-  (lambda (label)
+  (lambda (label tooltip)
     (let (
-	  (menuitem (list (cons "label" label)))
+	  (menuitem (list (cons "label" label) 
+			  (cons "tooltip" tooltip)))
 	  )
       (begin
 	(set! menuitem (lw6-menu-item-template-update menuitem))
@@ -327,31 +328,40 @@
       )))
 
 (define lw6-menu-item-list-template
-  (lambda (label-func update-func index-func values-list)
-    (lw6-menu-item-list-template-update (list) label-func update-func index-func values-list)))
+  (lambda (label-func update-func index-func values-list tooltip)
+    (let (
+	  (menu-item (list))
+)
+      (begin
+	(lw6-menu-item-list-template-update menu-item label-func update-func index-func values-list)
+	(assoc-set! menu-item "tooltip" tooltip)
+	menu-item
+	))))
 
 (define lw6-menu-item-list-number-template
-  (lambda (config-key labels)
+  (lambda (config-key labels tooltip)
     (lw6-menu-item-list-template 
      lw6-menu-item-list-label-func
      (lw6-menu-item-list-number-update-func config-key)
      (lw6-menu-item-list-number-index-func config-key)
      labels
+     tooltip
      )))
 
 (define lw6-menu-item-list-boolean-template
-  (lambda (config-key label-true label-false)
+  (lambda (config-key label-true label-false tooltip)
     (lw6-menu-item-list-template 
      lw6-menu-item-list-label-func
      (lw6-menu-item-list-boolean-update-func config-key)
      (lw6-menu-item-list-boolean-index-func config-key)
      (list label-false label-true)
+     tooltip
      )))
 
 (define lw6-menu-item-template-switch
-  (lambda (label-func on-plus on-minus)
+  (lambda (label-func on-plus on-minus tooltip)
     (let (
-	  (item (lw6-menu-item-template (label-func)))
+	  (item (lw6-menu-item-template (label-func tooltip)))
 	  )
       (begin
 	(assoc-set! item "on-valid" 

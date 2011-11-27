@@ -629,10 +629,12 @@ equal to @code{selected_item}.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6gui_menu_insert_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int @var{position}, int64_t @var{now})
+@deftypefun {int} {lw6gui_menu_insert_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, char * @var{tooltip}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int @var{position}, int64_t @var{now})
 @var{menu}:  the menu to work on
 
 @var{label}:  the label of the menuitem to append
+
+@var{tooltip}:  the tooltip of the menuitem to append
 
 @var{value}:  the value of the menuitem to append
 
@@ -659,10 +661,12 @@ the prototype is scary.
 used with '_using_id' functions.
 @end deftypefun
 
-@deftypefun {int} {lw6gui_menu_append_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
+@deftypefun {int} {lw6gui_menu_append_for_id_use} (lw6gui_menu_t * @var{menu}, char * @var{label}, char * @var{tooltip}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
 @var{menu}:  the menu to work on
 
 @var{label}:  the label of the menuitem to append
+
+@var{tooltip}:  the tooltip of the menuitem to append
 
 @var{value}:  the value of the menuitem to append
 
@@ -750,9 +754,12 @@ not very orthodox, but should work.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
-@deftypefun {lw6gui_menuitem_t *} {lw6gui_menuitem_new} (char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored})
+@deftypefun {lw6gui_menuitem_t *} {lw6gui_menuitem_new} (char * @var{label}, char * @var{tooltip}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored})
 @var{label}:  the string to be displayed, what the user sees. Can be freed after
 the call is done, function will make a copy internally.
+
+@var{tooltip}:  the string to be displayed as a tooltip, describing the menu
+item in detail. Can be NULL if you don't want to use this feature.
 
 @var{value}:  the value. No GUI function uses this, this is the "real" value
 associated to the item.
@@ -817,8 +824,27 @@ It can be later used for eye-candy effects.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {void} {lw6gui_menuitem_set_tooltip} (lw6gui_menuitem_t * @var{menuitem}, char * @var{tooltip}, int64_t @var{now})
+@var{menuitem}:  a pointer to the menuitem.
+
+@var{tooltip}:  the new tooltip, you can free it after calling the function,
+an internal copy will be made. 
+
+@var{now}:  the current time, as a timestamp.
+
+Change the tooltip of the menu item (the explanation of what the item is about)
+Use this function to change the menuitem 
+value, don't try to access the struct directly. The idea is 1) to have safe 
+memory management and 2) to keep the @code{last_change} member up to date. 
+It can be later used for eye-candy effects.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {void} {lw6gui_menuitem_set_value} (lw6gui_menuitem_t * @var{menuitem}, int @var{value}, int64_t @var{now})
 @var{menuitem}:  a pointer to the menuitem.
+
+@var{value}:  the new value.
 
 @var{now}:  the current time, as a timestamp.
 

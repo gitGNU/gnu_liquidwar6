@@ -35,6 +35,10 @@
 #define TEST_MENUITEM_LABEL2 "My Label 2"
 #define TEST_MENUITEM_LABEL3 "The third label"
 #define TEST_MENUITEM_LABEL4 "From outer space"
+#define TEST_MENUITEM_TOOLTIP1 "Tooltip explaining what my label means"
+#define TEST_MENUITEM_TOOLTIP2 "Tooltip explaining what my label 2 means,\nand does it on 2 lines"
+#define TEST_MENUITEM_TOOLTIP3 "The third label is the best label of all, at least this is what this (rather long) tooltip says"
+#define TEST_MENUITEM_TOOLTIP4 NULL
 #define TEST_MENUITEM_VALUE1 42
 #define TEST_MENUITEM_VALUE2 421
 #define TEST_MENUITEM_VALUE3 -1
@@ -655,12 +659,14 @@ test_menuitem ()
     char *repr;
 
     menuitem =
-      lw6gui_menuitem_new (TEST_MENUITEM_LABEL1, TEST_MENUITEM_VALUE1, 1, 0,
-			   0);
+      lw6gui_menuitem_new (TEST_MENUITEM_LABEL1, TEST_MENUITEM_TOOLTIP1,
+			   TEST_MENUITEM_VALUE1, 1, 0, 0);
     if (menuitem)
       {
 	lw6gui_menuitem_set_label (menuitem, TEST_MENUITEM_LABEL2,
 				   TEST_MENUITEM_NOW);
+	lw6gui_menuitem_set_tooltip (menuitem, TEST_MENUITEM_TOOLTIP2,
+				     TEST_MENUITEM_NOW);
 	lw6gui_menuitem_set_value (menuitem, TEST_MENUITEM_VALUE2,
 				   TEST_MENUITEM_NOW);
 	lw6gui_menuitem_select (menuitem, 1, TEST_MENUITEM_NOW);
@@ -776,17 +782,19 @@ test_menu ()
 	lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);
 
 	menuitem1 =
-	  lw6gui_menuitem_new (TEST_MENUITEM_LABEL1, TEST_MENUITEM_VALUE1, 1,
-			       0, 0);
+	  lw6gui_menuitem_new (TEST_MENUITEM_LABEL1, TEST_MENUITEM_TOOLTIP1,
+			       TEST_MENUITEM_VALUE1, 1, 0, 0);
 	if (menuitem1)
 	  {
 	    menuitem2 =
-	      lw6gui_menuitem_new (TEST_MENUITEM_LABEL2, TEST_MENUITEM_VALUE2,
-				   1, 0, 0);
+	      lw6gui_menuitem_new (TEST_MENUITEM_LABEL2,
+				   TEST_MENUITEM_TOOLTIP2,
+				   TEST_MENUITEM_VALUE2, 1, 0, 0);
 	    if (menuitem2)
 	      {
 		menuitem3 =
 		  lw6gui_menuitem_new (TEST_MENUITEM_LABEL3,
+				       TEST_MENUITEM_TOOLTIP3,
 				       TEST_MENUITEM_VALUE3, 1, 0, 0);
 		if (menuitem3)
 		  {
@@ -799,6 +807,7 @@ test_menu ()
 		    menuitem_id =
 		      lw6gui_menu_append_for_id_use (menu,
 						     TEST_MENUITEM_LABEL4,
+						     TEST_MENUITEM_TOOLTIP4,
 						     TEST_MENUITEM_VALUE4, 1,
 						     0, 0, 0);
 		    if (menuitem_id)

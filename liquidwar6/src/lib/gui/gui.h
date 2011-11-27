@@ -228,6 +228,7 @@ typedef struct lw6gui_menuitem_s
 {
   u_int32_t id;
   char *label;
+  char *tooltip;
   int value;
   int enabled;
   int selected;
@@ -443,15 +444,17 @@ extern int lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step);
 extern int lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step);
 
 /* gui-menuitem.c */
-extern lw6gui_menuitem_t *lw6gui_menuitem_new (char *label, int value,
-					       int enabled, int selected,
-					       int colored);
+extern lw6gui_menuitem_t *lw6gui_menuitem_new (char *label, char *tooltip,
+					       int value, int enabled,
+					       int selected, int colored);
 extern void lw6gui_menuitem_free (lw6gui_menuitem_t * menuitem);
 
 extern int lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t * menuitem);
 extern char *lw6gui_menuitem_repr (lw6gui_menuitem_t * menuitem);
 extern void lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem,
 				       char *label, int64_t now);
+extern void lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem,
+					 char *label, int64_t now);
 extern void lw6gui_menuitem_set_value (lw6gui_menuitem_t * menuitem,
 				       int value, int64_t now);
 extern void lw6gui_menuitem_select (lw6gui_menuitem_t * menuitem, int state,
@@ -495,13 +498,14 @@ extern int lw6gui_menu_remove (lw6gui_menu_t * menu, int position,
 extern void lw6gui_menu_update_display_range (lw6gui_menu_t * menu,
 					      int max_displayed_items);
 extern int lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label,
-					  int value, int enabled,
-					  int selected, int colored,
-					  int position, int64_t now);
-extern int lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label,
-					  int value, int enabled,
-					  int selected, int colored,
+					  char *tooltip, int value,
+					  int enabled, int selected,
+					  int colored, int position,
 					  int64_t now);
+extern int lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label,
+					  char *tooltip, int value,
+					  int enabled, int selected,
+					  int colored, int64_t now);
 extern int lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
 					int64_t now);
 extern void lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id,
