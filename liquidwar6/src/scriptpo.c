@@ -129,6 +129,7 @@ _("Free slot");			// extracted by scriptpo-update.sh
 _("No bots");			// extracted by scriptpo-update.sh
 _("One bot");			// extracted by scriptpo-update.sh
 _("~a bots");			// extracted by scriptpo-update.sh
+_("Put up to ~a bots on your map");	// extracted by scriptpo-update.sh
 _("Players");			// extracted by scriptpo-update.sh
 _("Change player options");	// extracted by scriptpo-update.sh
 _("Solo game");			// extracted by scriptpo-update.sh

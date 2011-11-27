@@ -1,5 +1,7 @@
 2011-11-27 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed bug #34646 (Unable to configure players).
+
 	* Implemented help and tooltips for menus.
 
 2011-11-26 : Christian Mauduit <ufoot@ufoot.org>

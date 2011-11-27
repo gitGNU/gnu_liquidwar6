@@ -30,7 +30,7 @@
 	   (level (assoc-ref entry "level"))
 	   (item (lw6-menu-item-template title
 					 (format #f
-						 "~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%"
+						 "~a: ~a~%%~a: ~a~%%~a: ~a~%%~a: ~a~%%~a: ~a~%%~a: ~a~%%"
 						 (_ "Version") version
 						 (_ "Id") id 
 						 (_ "URL") url 

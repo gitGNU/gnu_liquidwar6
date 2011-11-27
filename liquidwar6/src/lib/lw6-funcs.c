@@ -5608,7 +5608,7 @@ _scm_lw6map_team_color_list ()
 {
   SCM ret = SCM_BOOL_F;
   int i = 0;
-  int exp = 0;
+  int exp = LW6MAP_RULES_MIN_EXP;
   char *color_key = NULL;
   char *user_dir = NULL;
 
@@ -5617,17 +5617,14 @@ _scm_lw6map_team_color_list ()
   user_dir = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (user_dir)
     {
-      if (lw6cfg_load_exp (user_dir, &exp))
+      lw6cfg_load_exp (user_dir, &exp);
+      ret = SCM_EOL;
+      for (i = lw6map_exp_get_highest_team_color_allowed (exp); i >= 0; --i)
 	{
-	  ret = SCM_EOL;
-	  for (i = lw6map_exp_get_highest_team_color_allowed (exp); i >= 0;
-	       --i)
+	  color_key = lw6map_team_color_index_to_key (i);
+	  if (color_key)
 	    {
-	      color_key = lw6map_team_color_index_to_key (i);
-	      if (color_key)
-		{
-		  ret = scm_cons (scm_makfrom0str (color_key), ret);
-		}
+	      ret = scm_cons (scm_makfrom0str (color_key), ret);
 	    }
 	}
       LW6SYS_FREE (user_dir);

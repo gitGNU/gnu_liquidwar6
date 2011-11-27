@@ -50,7 +50,7 @@
 	  )
       (begin
 	(lw6-config-set-string! player-color-key (c-lw6map-team-color-index-to-key value))
-	(lw6-game-put-local-teams)
+	;;(lw6-game-put-local-teams)
       ))))
 
 (define lw6-player-detail-menu-color-item
@@ -58,17 +58,18 @@
     (let* (
 	   (player-color-key (string-concatenate (list player-prefix "-color")))
 	   (player-color (lw6-config-get-string player-color-key))
-	   (item (list (cons "player-color-key" player-color-key)))
-	  )
+	   (item (list (cons "player-color-key" player-color-key)
+		       (cons "tooltip" (_ "Choose among the available colors, not that all colors might not be available when you play the game for the first time"))		       
+		       ))
+	   )
       (begin
 	(set! item (lw6-menu-item-list-template-update
-	 item
-	 lw6-menu-item-list-label-func 
-	 lw6-player-detail-menu-color-item-update-func
-	 lw6-player-detail-menu-color-item-index-func
-	 (c-lw6map-team-color-list)
-	 (_ "Choose among the available colors, not that all colors might not be available when you play the game for the first time")
-	 ))
+		    item
+		    lw6-menu-item-list-label-func 
+		    lw6-player-detail-menu-color-item-update-func
+		    lw6-player-detail-menu-color-item-index-func
+		    (c-lw6map-team-color-list)
+		    ))
 	(set! item (assoc-set! item "selected" #f))
 	(set! item (assoc-set! item "value" (c-lw6map-team-color-key-to-index player-color)))
 	(set! item (assoc-set! item "colored" #t))
@@ -98,7 +99,8 @@
     (let* (
 	   (player-control-key (string-concatenate (list player-prefix "-control")))
 	   (player-control (lw6-config-get-string player-control-key))
-	   (item (list (cons "player-control-key" player-control-key)))
+	   (item (list (cons "player-control-key" player-control-key)
+		       (cons "tooltip" (_ "Choose the control device"))))
 	  )
       (begin
 	(set! item (lw6-menu-item-list-template-update
@@ -107,7 +109,6 @@
 	 lw6-player-detail-menu-control-item-update-func
 	 lw6-player-detail-menu-control-item-index-func
 	 lw6-control-list
-	 (_ "Choose the control device")
 	 ))
 	(set! item (assoc-set! item "selected" #f))
 	(set! item (assoc-set! item "value" (lw6-control-key-to-index player-control)))
