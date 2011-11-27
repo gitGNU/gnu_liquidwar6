@@ -5142,7 +5142,12 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 						     SCM_BOOL_T : SCM_BOOL_F),
 					   scm_cons (scm_makfrom0str ("exp"),
 						     scm_from_int
-						     (c_entry->exp))), ret);
+						     (c_entry->exp))
+					   /*, 
+					      scm_cons (scm_makfrom0str ("forbidden"),
+					      c_entry->forbidden ? SCM_BOOL_T:SCM_BOOL_F)
+					    */
+					  ), ret);
 			  lw6ldr_free_entry (c_entry);
 			}
 		    }

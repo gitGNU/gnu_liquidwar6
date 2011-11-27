@@ -132,6 +132,7 @@ typedef struct lw6ldr_entry_s
   char *relative_path;
   int has_subdirs;
   int exp;
+  int forbidden;
 }
 lw6ldr_entry_t;
 

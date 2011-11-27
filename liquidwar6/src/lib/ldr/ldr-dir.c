@@ -123,12 +123,11 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
     {
       if ((entry->exp > player_exp) && (entry->absolute_path != NULL))
 	{
-	  lw6sys_log (LW6SYS_LOG_INFO,
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
-		      ("not enough exp to load \"%s\", excluded from list"),
+		      ("not enough exp to load \"%s\", we load it but mark it as forbidden"),
 		      entry->absolute_path);
-	  lw6ldr_free_entry (entry);
-	  entry = NULL;
+	  entry->forbidden = 1;
 	}
     }
 
