@@ -78,7 +78,11 @@
 				      (_ "One bot"))
 				     (map
 				      (lambda (n) (format #f (_ "~a bots") n))
-				      (list 2 3 4 5 6 7 8 9)))))
+				      (list 2 3 4 5 6 7 8 9))
+				     )
+				    (format #f
+					    (_ "Put up to ~a bots on your map")
+					    9)))
 	  )
       (begin
 	item

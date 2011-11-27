@@ -211,9 +211,9 @@
      lw6-audio-options-menu-backend-item-label-func
      lw6-audio-options-menu-backend-item-update-func
      lw6-audio-options-menu-backend-item-index-func
-     (lw6-audio-options-menu-backend-item-list
+     (lw6-audio-options-menu-backend-item-list)
      (_ "The sound backend is the library used to play sounds, if in doubt, don't touch")     
-     ))
+     )
     ))
 
 (define lw6-audio-options-menu

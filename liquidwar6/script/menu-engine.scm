@@ -334,8 +334,8 @@
 	  (menu-item (list))
 )
       (begin
-	(lw6-menu-item-list-template-update menu-item label-func update-func index-func values-list)
-	(assoc-set! menu-item "tooltip" tooltip)
+	(set! menu-item (lw6-menu-item-list-template-update menu-item label-func update-func index-func values-list))
+	(set! menu-item (assoc-set! menu-item "tooltip" tooltip))
 	menu-item
 	))))
 
