@@ -87,7 +87,8 @@
 (define lw6-players-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Players")))
+	  (menu (lw6-menu-template (_ "Players")
+				   (_ "Change player options")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-players-menu-player-item "player1"))	

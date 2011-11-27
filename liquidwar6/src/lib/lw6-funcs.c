@@ -3106,35 +3106,62 @@ _scm_lw6cfg_unified_get_map_path ()
  * In liquidwar6gui
  */
 static SCM
-_scm_lw6gui_menu_new (SCM title, SCM esc, SCM enable_esc)
+_scm_lw6gui_menu_new (SCM title, SCM help, SCM esc, SCM enable_esc)
 {
   SCM ret = SCM_BOOL_F;
 
   char *c_title = NULL;
+  char *c_help = NULL;
   char *c_esc = NULL;
   int c_enable_esc = 0;
   lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  SCM_ASSERT (scm_is_string (title), title, SCM_ARG1, __FUNCTION__);
-  SCM_ASSERT (scm_is_string (esc), esc, SCM_ARG2, __FUNCTION__);
-  SCM_ASSERT (SCM_BOOLP (enable_esc), enable_esc, SCM_ARG3, __FUNCTION__);
+  if (SCM_NFALSEP (title))
+    {
+      SCM_ASSERT (scm_is_string (title), title, SCM_ARG1, __FUNCTION__);
+    }
+  if (SCM_NFALSEP (help))
+    {
+      SCM_ASSERT (scm_is_string (help), help, SCM_ARG2, __FUNCTION__);
+    }
+  SCM_ASSERT (scm_is_string (esc), esc, SCM_ARG3, __FUNCTION__);
+  SCM_ASSERT (SCM_BOOLP (enable_esc), enable_esc, SCM_ARG4, __FUNCTION__);
 
-  c_title = to_0str (title);
+  if (SCM_NFALSEP (title))
+    {
+      c_title = to_0str (title);
+    }
+  else
+    {
+      c_title = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+    }
   if (c_title)
     {
-      c_esc = to_0str (esc);
-      if (c_esc)
+      if (SCM_NFALSEP (help))
 	{
-	  c_enable_esc = SCM_NFALSEP (enable_esc);
-
-	  c_menu = lw6gui_menu_new (c_title, c_esc, c_enable_esc);
-	  if (c_menu)
+	  c_help = to_0str (help);
+	}
+      else
+	{
+	  c_help = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+	}
+      if (c_help)
+	{
+	  c_esc = to_0str (esc);
+	  if (c_esc)
 	    {
-	      ret = lw6_make_scm_menu (c_menu);
+	      c_enable_esc = SCM_NFALSEP (enable_esc);
+
+	      c_menu = lw6gui_menu_new (c_title, c_help, c_esc, c_enable_esc);
+	      if (c_menu)
+		{
+		  ret = lw6_make_scm_menu (c_menu);
+		}
+	      LW6SYS_FREE (c_esc);
 	    }
-	  LW6SYS_FREE (c_esc);
+	  LW6SYS_FREE (c_help);
 	}
       LW6SYS_FREE (c_title);
     }
@@ -9142,7 +9169,7 @@ lw6_register_funcs ()
   /*
    * In liquidwar6gui
    */
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 3, 0, 0,
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 4, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_new);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_append);

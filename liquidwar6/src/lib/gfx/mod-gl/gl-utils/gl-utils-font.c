@@ -145,9 +145,8 @@ _multiline_text_draw_callback (void *func_data, void *data)
       if (utf8 != NULL)
 	{
 	  buffer =
-	    TTF_RenderUTF8_Shaded (text_callback_data->font, utf8,
-				   text_callback_data->sdl_color_fg,
-				   text_callback_data->sdl_color_bg);
+	    TTF_RenderUTF8_Blended (text_callback_data->font, utf8,
+				    text_callback_data->sdl_color_fg);
 	  if (buffer)
 	    {
 	      text_callback_data->utils_context->
@@ -155,15 +154,21 @@ _multiline_text_draw_callback (void *func_data, void *data)
 
 	      src_rect.x = 0;
 	      src_rect.y = 0;
-	      src_rect.w = buffer->w;
+	      src_rect.w =
+		lw6sys_min (buffer->w,
+			    text_callback_data->shape.w - 2 * src_rect.x);
 	      src_rect.h = buffer->h;
 	      dst_rect.x = text_callback_data->pos.x;
 	      dst_rect.y = text_callback_data->pos.y;
-	      dst_rect.w = buffer->w;
-	      dst_rect.h = buffer->h;
+	      dst_rect.w = src_rect.w;
+	      dst_rect.h = src_rect.h;
 
-	      SDL_BlitSurface (buffer, &src_rect, text_callback_data->target,
-			       &dst_rect);
+	      if (dst_rect.y + dst_rect.h <
+		  text_callback_data->shape.h - 2 * src_rect.x)
+		{
+		  SDL_BlitSurface (buffer, &src_rect,
+				   text_callback_data->target, &dst_rect);
+		}
 
 	      text_callback_data->pos.y += buffer->h;
 
@@ -181,13 +186,14 @@ _multiline_text_draw_callback (void *func_data, void *data)
 }
 
 mod_gl_utils_bitmap_t *
-mod_gl_utils_multiline_text_write_solid (mod_gl_utils_context_t *
-					 utils_context, TTF_Font * font,
-					 char *text,
-					 lw6map_color_couple_t * color,
-					 int max_width, int max_height,
-					 int border_size, int margin_size,
-					 int reformat_width)
+mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
+				   utils_context, TTF_Font * font,
+				   char *text,
+				   lw6map_color_couple_t * color,
+				   float alpha_bg,
+				   int max_width, int max_height,
+				   int border_size, int margin_size,
+				   int reformat_width)
 {
   char *reformatted = NULL;
   lw6sys_list_t *lines = NULL;
@@ -238,10 +244,11 @@ mod_gl_utils_multiline_text_write_solid (mod_gl_utils_context_t *
 
 	      lw6sys_list_map (lines, _multiline_text_draw_callback,
 			       (void *) &data);
-
+	      mod_gl_utils_draw_set_alpha_for_color (data.target, alpha_bg,
+						     i_color_bg);
 	      ret =
 		mod_gl_utils_surface2bitmap (utils_context, data.target,
-					     _x_ ("tooltip"));
+					     _x_ ("multiline"));
 	      if (!ret)
 		{
 		  mod_gl_utils_delete_surface (utils_context, data.target);

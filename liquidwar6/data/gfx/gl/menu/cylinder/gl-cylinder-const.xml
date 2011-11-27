@@ -24,10 +24,18 @@
   <float key="esc-cyl-height" value="0.4" />
   <float key="esc-cyl-height-offset" value="-0.35" />
   <float key="esc-rotate" value="-30.0" />
-  <int key="tooltip-max-width" value="512" />
+  <float key="tooltip-alpha-bg" value="0.5" />
+  <int key="tooltip-max-width" value="256" />
   <int key="tooltip-max-height" value="512" />
   <int key="tooltip-border-size" value="2" />
   <int key="tooltip-margin-size" value="2" />
-  <int key="tooltip-reformat-width" value="40" />
-  <float key="tooltip-relative-size" value="0.33" />
+  <int key="tooltip-reformat-width" value="30" />
+  <float key="tooltip-relative-size" value="0.3" />
+  <float key="help-alpha-bg" value="0.5" />
+  <int key="help-max-width" value="512" />
+  <int key="help-max-height" value="256" />
+  <int key="help-border-size" value="2" />
+  <int key="help-margin-size" value="2" />
+  <int key="help-reformat-width" value="60" />
+  <float key="help-relative-size" value="0.6" />
 </liquidwar6>

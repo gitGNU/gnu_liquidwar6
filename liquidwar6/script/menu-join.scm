@@ -30,8 +30,13 @@
 	   (level (assoc-ref entry "level"))
 	   (item (lw6-menu-item-template title
 					 (format #f
-						 (_ "Version: ~a~%Id: ~a~%URL: ~a~%Description: ~a~%Password: ~a~%Level: ~a~%")
-						 version id url description password level)))
+						 "~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%~a: ~a~%"
+						 (_ "Version") version
+						 (_ "Id") id 
+						 (_ "URL") url 
+						 (_ "Description") description 
+						 (_ "Password") password 
+						 (_ "Map") level)))
 	   )
       (begin
 	(lw6-append-menuitem! menu item)
@@ -51,7 +56,8 @@
 (define lw6-join-menu
   (lambda()
     (let* (
-	  (menu (lw6-menu-template (_ "Play")))
+	  (menu (lw6-menu-template (_ "Join server")
+				   (_ "Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.")))
 	  (node (lw6-get-game-global "node"))
 	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
 	  )

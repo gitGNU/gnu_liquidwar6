@@ -32,7 +32,8 @@
 (define lw6-wait-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Please wait...")))
+	  (menu (lw6-menu-template (_ "Please wait...")
+				   (_ "Program is calculating complicated stuff you're happy not to have to deal with")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-wait-menu-item))

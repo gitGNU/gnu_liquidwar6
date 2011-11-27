@@ -187,9 +187,10 @@
 	#f )))
 
 (define lw6-menu-template
-  (lambda (title)
+  (lambda (title help)
     (list
      (cons "smob" (c-lw6gui-menu-new title 
+				     help
 				     (_ "Esc") 
 				     (lw6-config-is-true? lw6def-use-esc-button)))
      (cons "selected-item" 0)
@@ -361,7 +362,7 @@
 (define lw6-menu-item-template-switch
   (lambda (label-func on-plus on-minus tooltip)
     (let (
-	  (item (lw6-menu-item-template (label-func tooltip)))
+	  (item (lw6-menu-item-template (label-func) tooltip))
 	  )
       (begin
 	(assoc-set! item "on-valid" 

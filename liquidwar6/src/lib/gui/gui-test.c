@@ -46,6 +46,8 @@
 #define TEST_MENUITEM_NOW 1234
 #define TEST_MENU_TITLE1 "My Title"
 #define TEST_MENU_TITLE2 "My Title 2"
+#define TEST_MENU_HELP1 "Chapi chapo this is the first help"
+#define TEST_MENU_HELP2 "2nd help, things change, now let's face it, this is a long string are there few chances it won't be cut somewhere when displayed"
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 1
 #define TEST_MENU_ALLOW_SCROLL1 0
@@ -740,10 +742,12 @@ test_menu ()
     char *repr;
 
     menu =
-      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
+      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
+		       TEST_MENU_ENABLE_ESC);
     if (menu)
       {
 	lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);
+	lw6gui_menu_set_help (menu, TEST_MENU_HELP2);
 	repr = lw6gui_menu_repr (menu);
 	if (repr)
 	  {
@@ -776,7 +780,8 @@ test_menu ()
     int menuitem_id;
 
     menu =
-      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
+      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
+		       TEST_MENU_ENABLE_ESC);
     if (menu)
       {
 	lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);

@@ -105,7 +105,8 @@
 (define lw6-rules-options-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Rules")))
+	  (menu (lw6-menu-template (_ "Rules")
+				   (_ "Changing rules will modify the gameplay, you can also be curious, read the documentation and try config file and command line options")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-rules-options-menu-respawn-team-item))

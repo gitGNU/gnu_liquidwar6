@@ -47,3 +47,31 @@ mod_gl_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2,
 	}
     }
 }
+
+void
+mod_gl_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha,
+				       Uint32 color)
+{
+  int x, y, w, h;
+  Uint32 pixel_color;
+  Uint32 alpha_color;
+  lw6sys_color_f_t color_f_tmp;
+
+  //alpha_8=lw6sys_color_float2char(alpha);
+  lw6sys_color_i_to_f (&color_f_tmp, color);
+  color_f_tmp.a = alpha;
+  alpha_color = lw6sys_color_f_to_i (&color_f_tmp);
+  w = surface->w;
+  h = surface->h;
+  for (x = 0; x <= w; ++x)
+    {
+      for (y = 0; y <= h; ++y)
+	{
+	  pixel_color = mod_gl_utils_getpixel (surface, x, y);
+	  if (pixel_color == color)
+	    {
+	      mod_gl_utils_putpixel (surface, x, y, alpha_color);
+	    }
+	}
+    }
+}

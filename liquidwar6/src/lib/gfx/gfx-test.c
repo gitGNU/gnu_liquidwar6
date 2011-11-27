@@ -36,7 +36,8 @@
 #define TEST_DURATION_MENU 500
 #define TEST_DURATION_VIEW 500
 #define TEST_DURATION_HUD 10000
-#define TEST_MENU_LABEL "My menu"
+#define TEST_MENU_TITLE "My menu"
+#define TEST_MENU_HELP "This is a sample menu"
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 0
 #define TEST_MENU_ALLOW_SCROLL 0
@@ -227,7 +228,7 @@ test_menu (lw6gfx_backend_t * backend)
     if (look)
       {
 	menu =
-	  lw6gui_menu_new (TEST_MENU_LABEL, TEST_MENU_ESC,
+	  lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_ESC,
 			   TEST_MENU_ENABLE_ESC);
 	if (menu)
 	  {

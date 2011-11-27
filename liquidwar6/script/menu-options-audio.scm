@@ -219,7 +219,8 @@
 (define lw6-audio-options-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Sound options")))
+	  (menu (lw6-menu-template (_ "Sound options")
+				   (_ "Change volumes and audio settings here")))
 	  (snd (lw6-get-game-global "snd"))
 	  )
       (begin

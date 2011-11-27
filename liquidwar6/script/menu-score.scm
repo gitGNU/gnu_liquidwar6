@@ -75,7 +75,8 @@
 (define lw6-score-menu-next
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Next")))
+	  (menu (lw6-menu-template (_ "Next")
+				   (_ "And now?")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-score-menu-replay-item))
@@ -86,7 +87,8 @@
 (define lw6-score-solo-menu-next
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Next")))
+	  (menu (lw6-menu-template (_ "Next")
+				   (_ "And now?")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-score-menu-continue-item))
@@ -97,7 +99,8 @@
 (define lw6-score-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Score")))
+	  (menu (lw6-menu-template (_ "Score")
+				   (_ "And the winner is...")))
 	  )
       (begin
 	;; no items here!
@@ -112,7 +115,8 @@
 (define lw6-score-solo-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Score")))
+	  (menu (lw6-menu-template (_ "Score")
+				   (_ "And the winner is...")))
 	  )
       (begin
 	;; no items here!

@@ -291,7 +291,8 @@
 (define lw6-video-options-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Video options")))
+	  (menu (lw6-menu-template (_ "Video options")
+				   (_ "Change screen resolution, video mode, ...")))
 	  )
       (begin
 	(lw6-config-update-video)

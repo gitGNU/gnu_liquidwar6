@@ -21,14 +21,15 @@
 (define lw6-ingame-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Playing")))
+	  (menu (lw6-menu-template (_ "Playing")
+				   (_ "Game is running, press ESC to leave")))
 	  )
       (begin
 	;; no items here!
 	(assoc-set! menu "on-cancel" (lambda (m) 
 				       (let ((dsp (lw6-get-game-global "dsp")))
 					 (begin
-					   (c-lw6gui-input-reset dsp)					  
+					   (c-lw6gui-input-reset dsp) 
 					   (lw6-push-menu (lw6-options-menu-light))))))
 	menu
 	))))

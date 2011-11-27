@@ -45,7 +45,8 @@
 (define lw6-exit-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Quit Liquid War 6?")))
+	  (menu (lw6-menu-template (_ "Quit Liquid War 6?")
+				   (_ "Procrastinating on games is mother of all vices")))
 	  )
       (begin
 	(c-lw6gui-menu-enable-esc (assoc-ref menu "smob") #f)

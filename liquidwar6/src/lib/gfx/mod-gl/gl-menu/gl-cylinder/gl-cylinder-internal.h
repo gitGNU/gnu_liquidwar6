@@ -51,12 +51,20 @@ typedef struct _mod_gl_menu_cylinder_const_data_s
   float esc_cyl_height;
   float esc_cyl_height_offset;
   float esc_rotate;
+  float tooltip_alpha_bg;
   int tooltip_max_width;
   int tooltip_max_height;
   int tooltip_border_size;
   int tooltip_margin_size;
   int tooltip_reformat_width;
   float tooltip_relative_size;
+  float help_alpha_bg;
+  int help_max_width;
+  int help_max_height;
+  int help_border_size;
+  int help_margin_size;
+  int help_reformat_width;
+  float help_relative_size;
 }
 _mod_gl_menu_cylinder_const_data_t;
 

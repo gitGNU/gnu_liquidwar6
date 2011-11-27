@@ -49,7 +49,8 @@
 (define lw6-map-menu-relative
   (lambda (relative-path)
     (let* (
-	   (menu (lw6-menu-template (_ "Choose map")))
+	   (menu (lw6-menu-template (_ "Choose map")
+				    (_ "Browse your hard drive to find a map")))
 	   (map-path (c-lw6cfg-unified-get-map-path))
 	   (map-parent-path (c-lw6sys-path-parent relative-path))
 	   (entries (c-lw6ldr-get-entries map-path map-parent-path))

@@ -40,6 +40,8 @@ static u_int32_t seq_id = 0;
  *
  * @title: the string to be displayed, what the user sees. Can be freed after
  *   the call is done, function will make a copy internally.
+ * @help: a string introducing the menu, describing what it does,
+ *   giving hints on how to use it.
  * @esc: the label to be displayed in the ESC button
  * @enable_esc: wether to enable the escape button.
  *
@@ -49,36 +51,36 @@ static u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menu_t *
-lw6gui_menu_new (char *title, char *esc, int enable_esc)
+lw6gui_menu_new (char *title, char *help, char *esc, int enable_esc)
 {
   lw6gui_menu_t *menu = NULL;
 
   menu = (lw6gui_menu_t *) LW6SYS_CALLOC (sizeof (lw6gui_menu_t));
   if (menu)
     {
-      menu->title = lw6sys_str_copy (title);
+      menu->id = 0;
+      while (!menu->id)
+	{
+	  menu->id = ++seq_id;
+	}
+
+      menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
       if (menu->title)
 	{
-	  menu->esc_item =
-	    lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
-	  if (menu->esc_item)
+	  menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
+	  if (menu->help)
 	    {
-	      menu->id = 0;
-	      while (!menu->id)
+	      menu->esc_item =
+		lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
+	      if (menu->esc_item)
 		{
-		  menu->id = ++seq_id;
+		  // OK
 		}
 	    }
-	  else
-	    {
-	      LW6SYS_FREE (menu->title);
-	      LW6SYS_FREE (menu);
-	      menu = NULL;
-	    }
 	}
-      else
+      if ((!menu->title) || (!menu->help) || (!menu->esc_item))
 	{
-	  LW6SYS_FREE (menu);
+	  lw6gui_menu_free (menu);
 	  menu = NULL;
 	}
     }
@@ -110,6 +112,16 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL title"));
+	}
+
+      if (menu->help)
+	{
+	  LW6SYS_FREE (menu->help);
+	  menu->help = NULL;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL help"));
 	}
 
       if (menu->esc_item)
@@ -152,6 +164,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
     {
       memory_footprint += sizeof (lw6gui_menu_t);
       memory_footprint += strlen (menu->title) + 1;
+      memory_footprint += strlen (menu->help) + 1;
       for (i = 0; i < menu->nb_items; ++i)
 	{
 	  memory_footprint +=
@@ -213,6 +226,31 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu title \"%s\""), title);
+    }
+}
+
+/**
+ * lw6gui_menu_set_help
+ *
+ * @menu: a pointer to the menu.
+ * @help: the new help, you can free it after calling the function,
+ *   an internal copy will be made. 
+ *
+ * Change the help of the menu. That is to say, its help.
+ * Use this function to change the help, don't try to access the 
+ * struct directly. The idea is to have safe memory management.
+ *
+ * Return value: none
+ */
+void
+lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help)
+{
+  LW6SYS_FREE (menu->help);
+  menu->help = lw6sys_str_copy (help);
+  if (!(menu->help))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("couldn't set menu help \"%s\""), help);
     }
 }
 
@@ -837,7 +875,8 @@ lw6gui_menu_is_same (lw6gui_menu_t * menu_a, lw6gui_menu_t * menu_b)
     }
   if (menu_a && menu_b)
     {
-      ret = ret && !strcmp (menu_a->title, menu_b->title);
+      ret = ret && lw6sys_str_is_same (menu_a->title, menu_b->title);
+      ret = ret && lw6sys_str_is_same (menu_a->help, menu_b->help);
       ret = ret && menu_a->nb_items == menu_b->nb_items;
       ret = ret
 	&& lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
@@ -883,7 +922,7 @@ lw6gui_menu_dup (lw6gui_menu_t * menu)
   if (menu)
     {
       ret =
-	lw6gui_menu_new (menu->title, menu->esc_item->label,
+	lw6gui_menu_new (menu->title, menu->help, menu->esc_item->label,
 			 menu->esc_item->enabled);
       if (ret)
 	{
@@ -948,9 +987,13 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 
   if (dst && src)
     {
-      if (strcmp (dst->title, src->title))
+      if (!lw6sys_str_is_same (dst->title, src->title))
 	{
 	  lw6gui_menu_set_title (dst, src->title);
+	}
+      if (!lw6sys_str_is_same (dst->help, src->help))
+	{
+	  lw6gui_menu_set_help (dst, src->help);
 	}
       d = dst->nb_items - src->nb_items;
       if (d > 0)

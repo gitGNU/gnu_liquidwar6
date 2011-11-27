@@ -326,6 +326,8 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
   float right_point_y = 0.0f;
   float tooltip_x, tooltip_y, tooltip_w, tooltip_h;
   char *tooltip = NULL;
+  float help_x, help_y, help_w, help_h;
+  char *help = NULL;
 
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
   mod_gl_utils_texture_1x1_update (utils_context, look);
@@ -394,16 +396,23 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 	  utils_context->menucache_array.tooltip_str =
 	    lw6sys_str_copy (tooltip);
 	  utils_context->menucache_array.tooltip_bitmap =
-	    mod_gl_utils_multiline_text_write_solid (utils_context,
-						     utils_context->
-						     font_data.hud, tooltip,
-						     &(look->style.
-						       color_set.menu_color_default),
-						     cylinder_context->const_data.tooltip_max_width,
-						     cylinder_context->const_data.tooltip_max_height,
-						     cylinder_context->const_data.tooltip_border_size,
-						     cylinder_context->const_data.tooltip_margin_size,
-						     cylinder_context->const_data.tooltip_reformat_width);
+	    mod_gl_utils_multiline_text_write (utils_context,
+					       utils_context->font_data.hud,
+					       tooltip,
+					       &(look->style.
+						 color_set.menu_color_default),
+					       cylinder_context->
+					       const_data.tooltip_alpha_bg,
+					       cylinder_context->
+					       const_data.tooltip_max_width,
+					       cylinder_context->
+					       const_data.tooltip_max_height,
+					       cylinder_context->
+					       const_data.tooltip_border_size,
+					       cylinder_context->
+					       const_data.tooltip_margin_size,
+					       cylinder_context->
+					       const_data.tooltip_reformat_width);
 	}
 
       if (utils_context->menucache_array.tooltip_bitmap)
@@ -427,6 +436,69 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 				       tooltip_x, tooltip_y,
 				       tooltip_x + tooltip_w,
 				       tooltip_y + tooltip_h);
+	}
+    }
+
+  help = menu->help;
+  if (!lw6sys_str_is_null_or_empty (help))
+    {
+      if ((!lw6sys_str_is_same
+	   (help, utils_context->menucache_array.help_str))
+	  || (!utils_context->menucache_array.help_bitmap))
+	{
+	  if (utils_context->menucache_array.help_str)
+	    {
+	      LW6SYS_FREE (utils_context->menucache_array.help_str);
+	      utils_context->menucache_array.help_str = NULL;
+	    }
+	  if (utils_context->menucache_array.help_bitmap)
+	    {
+	      mod_gl_utils_bitmap_free (utils_context,
+					utils_context->
+					menucache_array.help_bitmap);
+	      utils_context->menucache_array.help_bitmap = NULL;
+	    }
+	  utils_context->menucache_array.help_str = lw6sys_str_copy (help);
+	  utils_context->menucache_array.help_bitmap =
+	    mod_gl_utils_multiline_text_write (utils_context,
+					       utils_context->font_data.hud,
+					       help,
+					       &(look->style.
+						 color_set.menu_color_default),
+					       cylinder_context->
+					       const_data.help_alpha_bg,
+					       cylinder_context->
+					       const_data.help_max_width,
+					       cylinder_context->
+					       const_data.help_max_height,
+					       cylinder_context->
+					       const_data.help_border_size,
+					       cylinder_context->
+					       const_data.help_margin_size,
+					       cylinder_context->
+					       const_data.help_reformat_width);
+	}
+
+      if (utils_context->menucache_array.help_bitmap)
+	{
+	  mod_gl_utils_set_render_mode_2d_blend (utils_context);
+
+	  help_w =
+	    (utils_context->video_mode.width *
+	     cylinder_context->const_data.help_relative_size *
+	     utils_context->menucache_array.help_bitmap->surface->w) /
+	    cylinder_context->const_data.help_max_width;
+	  help_h =
+	    (help_w *
+	     utils_context->menucache_array.help_bitmap->surface->h) /
+	    utils_context->menucache_array.help_bitmap->surface->w;
+	  help_x = (utils_context->video_mode.width - help_w) / 2;
+	  help_y = 0.0f;
+	  mod_gl_utils_bitmap_display (utils_context,
+				       utils_context->
+				       menucache_array.help_bitmap, help_x,
+				       help_y, help_x + help_w,
+				       help_y + help_h);
 	}
     }
 }

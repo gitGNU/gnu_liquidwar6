@@ -93,7 +93,8 @@
 (define lw6-options-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Options")))
+	  (menu (lw6-menu-template (_ "Options")
+				   (_ "Change options here, but player settings and map choosing are done elsewhere")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-options-menu-time-item))
@@ -107,7 +108,8 @@
 (define lw6-options-menu-light
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "Options")))
+	  (menu (lw6-menu-template (_ "Options")
+				   (_ "Change options")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-options-menu-stop-item))

@@ -191,6 +191,8 @@ typedef struct mod_gl_utils_menucache_array_s
     item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE];
   char *tooltip_str;
   mod_gl_utils_bitmap_t *tooltip_bitmap;
+  char *help_str;
+  mod_gl_utils_bitmap_t *help_bitmap;
 }
 mod_gl_utils_menucache_array_t;
 
@@ -669,6 +671,8 @@ extern void mod_gl_utils_display_texture_with_filter (mod_gl_utils_context_t *
  */
 extern void mod_gl_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1,
 					int x2, int y2, Uint32 color);
+extern void mod_gl_utils_draw_set_alpha_for_color (SDL_Surface * surface,
+						   float alpha, Uint32 color);
 
 /*
  * In event.c
@@ -684,13 +688,13 @@ extern int mod_gl_utils_get_system_text_width (mod_gl_utils_context_t *
 extern int mod_gl_utils_get_system_text_height (mod_gl_utils_context_t *
 						utils_context, char *text);
 extern mod_gl_utils_bitmap_t
-  * mod_gl_utils_multiline_text_write_solid (mod_gl_utils_context_t *
-					     utils_context, TTF_Font * font,
-					     char *text,
-					     lw6map_color_couple_t * color,
-					     int max_width, int max_height,
-					     int border_size, int margin_size,
-					     int reformat_width);
+  * mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
+				       utils_context, TTF_Font * font,
+				       char *text,
+				       lw6map_color_couple_t * color,
+				       float alpha_bg, int max_width,
+				       int max_height, int border_size,
+				       int margin_size, int reformat_width);
 extern SDL_Surface *mod_gl_utils_blended_text_surface (mod_gl_utils_context_t
 						       * context,
 						       TTF_Font * font,

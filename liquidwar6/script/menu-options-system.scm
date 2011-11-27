@@ -89,7 +89,8 @@
 (define lw6-system-options-menu
   (lambda()
     (let (
-	  (menu (lw6-menu-template (_ "System options")))
+	  (menu (lw6-menu-template (_ "System options")
+				   (_ "All those weird options and tweaks you can live without")))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-fps-item))

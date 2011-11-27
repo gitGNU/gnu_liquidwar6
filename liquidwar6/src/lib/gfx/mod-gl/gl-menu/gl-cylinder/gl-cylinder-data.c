@@ -64,6 +64,16 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->tooltip_margin_size);
       lw6cfg_read_xml_int (key, value, "tooltip-reformat-width",
 			   &const_data->tooltip_reformat_width);
+      lw6cfg_read_xml_int (key, value, "help-max-width",
+			   &const_data->help_max_width);
+      lw6cfg_read_xml_int (key, value, "help-max-height",
+			   &const_data->help_max_height);
+      lw6cfg_read_xml_int (key, value, "help-border-size",
+			   &const_data->help_border_size);
+      lw6cfg_read_xml_int (key, value, "help-margin-size",
+			   &const_data->help_margin_size);
+      lw6cfg_read_xml_int (key, value, "help-reformat-width",
+			   &const_data->help_reformat_width);
     }
 
   if (!strcmp (element, "float"))
@@ -96,8 +106,14 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->esc_cyl_height_offset);
       lw6cfg_read_xml_float (key, value, "esc-rotate",
 			     &const_data->esc_rotate);
+      lw6cfg_read_xml_float (key, value, "tooltip-alpha-bg",
+			     &const_data->tooltip_alpha_bg);
       lw6cfg_read_xml_float (key, value, "tooltip-relative-size",
 			     &const_data->tooltip_relative_size);
+      lw6cfg_read_xml_float (key, value, "help-alpha-bg",
+			     &const_data->help_alpha_bg);
+      lw6cfg_read_xml_float (key, value, "help-relative-size",
+			     &const_data->help_relative_size);
     }
 }
 
