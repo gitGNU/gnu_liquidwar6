@@ -137,6 +137,7 @@
 (define lw6def-c-lw6gui-look-zoom-in "c-lw6gui-look-zoom-in")
 (define lw6def-c-lw6gui-look-zoom-out "c-lw6gui-look-zoom-out")
 (define lw6def-c-lw6gui-menu-append "c-lw6gui-menu-append")
+(define lw6def-c-lw6gui-menu-set-breadcrumbs "c-lw6gui-menu-set-breadcrumbs")
 (define lw6def-c-lw6gui-menu-enable-esc "c-lw6gui-menu-enable-esc")
 (define lw6def-c-lw6gui-menu-new "c-lw6gui-menu-new")
 (define lw6def-c-lw6gui-menu-scroll-down "c-lw6gui-menu-scroll-down")

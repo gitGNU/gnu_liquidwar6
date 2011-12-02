@@ -39,6 +39,12 @@
 #define _STR_BIN_TEXT_MIN_PERCENT 75
 #define _STR_RANDOM_WORDS "     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
+typedef struct _join_callback_data_s
+{
+  char *ret;
+  char *glue;
+} _join_callback_data_t;
+
 /**
  * lw6sys_str_copy
  *
@@ -829,6 +835,57 @@ lw6sys_list_t *
 lw6sys_str_split_config_item (char *str)
 {
   return lw6sys_str_split_no_0 (str, ',');
+}
+
+static void
+_join_callback (void *func_data, void *data)
+{
+  _join_callback_data_t *join_callback_data =
+    (_join_callback_data_t *) func_data;
+  char *str = (char *) data;
+  char *tmp = NULL;
+
+  if (join_callback_data->ret)
+    {
+      tmp = join_callback_data->ret;
+      join_callback_data->ret =
+	lw6sys_new_sprintf ("%s%s%s", join_callback_data->ret,
+			    join_callback_data->glue, str);
+      LW6SYS_FREE (tmp);
+    }
+  else
+    {
+      join_callback_data->ret = lw6sys_str_copy (str);
+    }
+}
+
+/**
+ * lw6sys_str_join
+ *
+ * @list: list of strings to join
+ * @glue: string to add in-between
+ *
+ * Companion function of @lw6sys_str_split which will do
+ * the contrary and join the string. Here we use a string
+ * as the glue/separator, more flexible than a simple char
+ * in this case.
+ *
+ * Return value: dynamically allocated string
+ */
+char *
+lw6sys_str_join (lw6sys_list_t * list, char *glue)
+{
+  char *ret = NULL;
+  _join_callback_data_t join_callback_data;
+
+  join_callback_data.ret = ret;
+  join_callback_data.glue = glue;
+
+  lw6sys_list_map (list, _join_callback, &join_callback_data);
+
+  ret = join_callback_data.ret;
+
+  return ret;
 }
 
 /**

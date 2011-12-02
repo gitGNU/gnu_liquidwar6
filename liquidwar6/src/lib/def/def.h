@@ -144,6 +144,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6GUI_LOOK_ZOOM_IN "c-lw6gui-look-zoom-in"
 #define LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT "c-lw6gui-look-zoom-out"
 #define LW6DEF_C_LW6GUI_MENU_APPEND "c-lw6gui-menu-append"
+#define LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS "c-lw6gui-menu-set-breadcrumbs"
 #define LW6DEF_C_LW6GUI_MENU_ENABLE_ESC "c-lw6gui-menu-enable-esc"
 #define LW6DEF_C_LW6GUI_MENU_NEW "c-lw6gui-menu-new"
 #define LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN "c-lw6gui-menu-scroll-down"

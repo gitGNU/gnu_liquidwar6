@@ -962,6 +962,7 @@ extern char *lw6sys_eol ();
 extern lw6sys_list_t *lw6sys_str_split (char *str, char c);
 extern lw6sys_list_t *lw6sys_str_split_no_0 (char *str, char c);
 extern lw6sys_list_t *lw6sys_str_split_config_item (char *str);
+extern char *lw6sys_str_join (lw6sys_list_t * list, char *glue);
 extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);

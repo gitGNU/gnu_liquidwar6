@@ -146,6 +146,7 @@
 #define TEST_REFORMAT_COLUMNS 40
 #define TEST_SPLIT_STR "/foo/bar,/foo/bar"
 #define TEST_SPLIT_CHAR 'o'
+#define TEST_STR_GLUE "-+-"
 #define _TEST_STR_LOWER_UPPER "foObaR!"
 #define _TEST_STR_TRUNCATE 5
 #define _TEST_STR_RANDOM_LEN 1000
@@ -2951,6 +2952,13 @@ test_str ()
     if (list)
       {
 	lw6sys_list_map (list, str_split_func, NULL);
+	str = lw6sys_str_join (list, TEST_STR_GLUE);
+	if (str)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("joined string is \"%s\""),
+			str);
+	    LW6SYS_FREE (str);
+	  }
 	lw6sys_list_free (list);
       }
 
@@ -2958,6 +2966,13 @@ test_str ()
     if (list)
       {
 	lw6sys_list_map (list, str_split_func, NULL);
+	str = lw6sys_str_join (list, TEST_STR_GLUE);
+	if (str)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("joined string is \"%s\""),
+			str);
+	    LW6SYS_FREE (str);
+	  }
 	lw6sys_list_free (list);
       }
 
@@ -2965,6 +2980,13 @@ test_str ()
     if (list)
       {
 	lw6sys_list_map (list, str_split_func, NULL);
+	str = lw6sys_str_join (list, TEST_STR_GLUE);
+	if (str)
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("joined string is \"%s\""),
+			str);
+	    LW6SYS_FREE (str);
+	  }
 	lw6sys_list_free (list);
       }
 

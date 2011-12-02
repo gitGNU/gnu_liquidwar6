@@ -124,6 +124,37 @@ to_sys_str_assoc (SCM assoc)
   return c_assoc;
 }
 
+static lw6sys_list_t *
+to_sys_str_list (SCM list)
+{
+  lw6sys_list_t *c_list = NULL;
+
+  c_list = lw6sys_list_new (lw6sys_free_callback);
+  if (c_list)
+    {
+      if (SCM_CONSP (list))
+	{
+	  int i, n;
+	  char *c_item;
+	  SCM item;
+
+	  n = scm_to_int (scm_length (list));
+	  for (i = n - 1; i >= 0; --i)
+	    {
+	      item = scm_list_ref (list, scm_from_int (i));
+	      c_item = to_0str (item);
+	      if (c_item)
+		{
+		  lw6sys_list_push_front (&c_list, c_item);
+		  // do not free c_item, list will do it
+		}
+	    }
+	}
+    }
+
+  return c_list;
+}
+
 static int
 prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
 {
@@ -3388,6 +3419,34 @@ _scm_lw6gui_menu_scroll_down (SCM menu)
   c_menu = lw6_scm_to_menu (menu);
 
   ret = lw6gui_menu_scroll_down (c_menu) ? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
+{
+  lw6gui_menu_t *c_menu;
+  lw6sys_list_t *c_breadcrumbs;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.menu,
+	       menu), menu, SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (SCM_CONSP (breadcrumbs)
+	      || breadcrumbs == SCM_EOL, breadcrumbs, SCM_ARG2, __FUNCTION__);
+
+  c_menu = lw6_scm_to_menu (menu);
+  c_breadcrumbs = to_sys_str_list (breadcrumbs);
+  if (c_breadcrumbs)
+    {
+      // todo
+      lw6sys_list_free (c_breadcrumbs);
+    }
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -9201,6 +9260,8 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6gui_menu_scroll_up);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, 1, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_scroll_down);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS, 2, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_set_breadcrumbs);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
 			 0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_SET,

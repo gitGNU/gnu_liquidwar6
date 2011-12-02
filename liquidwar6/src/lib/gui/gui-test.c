@@ -52,6 +52,8 @@
 #define TEST_MENU_ENABLE_ESC 1
 #define TEST_MENU_ALLOW_SCROLL1 0
 #define TEST_MENU_ALLOW_SCROLL2 0
+#define TEST_MENU_BREADCRUMBS1 "foo"
+#define TEST_MENU_BREADCRUMBS2 "bar"
 #define TEST_MAX_DISPLAYED_ITEMS 2
 #define TEST_VIDEO_MODE_WISHED_WIDTH 640
 #define TEST_VIDEO_MODE_WISHED_HEIGHT 480
@@ -778,89 +780,111 @@ test_menu ()
     lw6gui_menuitem_t *menuitem3 = NULL;
     char *repr;
     int menuitem_id;
+    lw6sys_list_t *breadcrumbs = NULL;
 
-    menu =
-      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
-		       TEST_MENU_ENABLE_ESC);
-    if (menu)
+    breadcrumbs = lw6sys_list_new (lw6sys_free_callback);
+    if (breadcrumbs)
       {
-	lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);
-
-	menuitem1 =
-	  lw6gui_menuitem_new (TEST_MENUITEM_LABEL1, TEST_MENUITEM_TOOLTIP1,
-			       TEST_MENUITEM_VALUE1, 1, 0, 0);
-	if (menuitem1)
+	lw6sys_list_push_back (&breadcrumbs,
+			       lw6sys_str_copy (TEST_MENU_BREADCRUMBS1));
+	lw6sys_list_push_back (&breadcrumbs,
+			       lw6sys_str_copy (TEST_MENU_BREADCRUMBS2));
+      }
+    if (breadcrumbs)
+      {
+	menu =
+	  lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
+			   TEST_MENU_ENABLE_ESC);
+	if (menu)
 	  {
-	    menuitem2 =
-	      lw6gui_menuitem_new (TEST_MENUITEM_LABEL2,
-				   TEST_MENUITEM_TOOLTIP2,
-				   TEST_MENUITEM_VALUE2, 1, 0, 0);
-	    if (menuitem2)
+	    lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);
+	    lw6gui_menu_set_breadcrumbs (menu, breadcrumbs);
+	    menuitem1 =
+	      lw6gui_menuitem_new (TEST_MENUITEM_LABEL1,
+				   TEST_MENUITEM_TOOLTIP1,
+				   TEST_MENUITEM_VALUE1, 1, 0, 0);
+	    if (menuitem1)
 	      {
-		menuitem3 =
-		  lw6gui_menuitem_new (TEST_MENUITEM_LABEL3,
-				       TEST_MENUITEM_TOOLTIP3,
-				       TEST_MENUITEM_VALUE3, 1, 0, 0);
-		if (menuitem3)
+		menuitem2 =
+		  lw6gui_menuitem_new (TEST_MENUITEM_LABEL2,
+				       TEST_MENUITEM_TOOLTIP2,
+				       TEST_MENUITEM_VALUE2, 1, 0, 0);
+		if (menuitem2)
 		  {
-		    lw6gui_menu_append (menu, menuitem1, 0);
-		    lw6gui_menu_insert (menu, menuitem2, 0, 0);
-		    lw6gui_menu_insert (menu, menuitem3, 1, 0);
-		    lw6gui_menu_select (menu, 2, TEST_MENU_ALLOW_SCROLL1, 0);
-		    lw6gui_menu_remove (menu, 0, 0);
-		    lw6gui_menu_select (menu, 0, TEST_MENU_ALLOW_SCROLL2, 0);
-		    menuitem_id =
-		      lw6gui_menu_append_for_id_use (menu,
-						     TEST_MENUITEM_LABEL4,
-						     TEST_MENUITEM_TOOLTIP4,
-						     TEST_MENUITEM_VALUE4, 1,
-						     0, 0, 0);
-		    if (menuitem_id)
+		    menuitem3 =
+		      lw6gui_menuitem_new (TEST_MENUITEM_LABEL3,
+					   TEST_MENUITEM_TOOLTIP3,
+					   TEST_MENUITEM_VALUE3, 1, 0, 0);
+		    if (menuitem3)
 		      {
-			lw6gui_menu_sync_using_id (menu, menuitem_id,
-						   TEST_MENUITEM_LABEL1,
-						   TEST_MENUITEM_VALUE1, 1, 0,
-						   0, 0);
-			lw6gui_menu_remove_using_id (menu, menuitem_id, 0);
-		      }
-		    lw6gui_menu_update_display_range (menu,
-						      TEST_MAX_DISPLAYED_ITEMS);
-		    lw6gui_menu_center (menu, 1, TEST_MAX_DISPLAYED_ITEMS);
-		    repr = lw6gui_menu_repr (menu);
-		    if (repr)
-		      {
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("menu repr is %s"), repr);
-			LW6SYS_FREE (repr);
-		      }
-		    else
-		      {
-			ret = 0;
-		      }
-		    menu2 = lw6gui_menu_dup (menu);
-		    if (menu2)
-		      {
-			if (lw6gui_menu_is_same (menu, menu2))
+			lw6gui_menu_append (menu, menuitem1, 0);
+			lw6gui_menu_insert (menu, menuitem2, 0, 0);
+			lw6gui_menu_insert (menu, menuitem3, 1, 0);
+			lw6gui_menu_select (menu, 2, TEST_MENU_ALLOW_SCROLL1,
+					    0);
+			lw6gui_menu_remove (menu, 0, 0);
+			lw6gui_menu_select (menu, 0, TEST_MENU_ALLOW_SCROLL2,
+					    0);
+			menuitem_id =
+			  lw6gui_menu_append_for_id_use (menu,
+							 TEST_MENUITEM_LABEL4,
+							 TEST_MENUITEM_TOOLTIP4,
+							 TEST_MENUITEM_VALUE4,
+							 1, 0, 0, 0);
+			if (menuitem_id)
 			  {
-			    lw6gui_menu_sync (menu2, menu);
-			    repr = lw6gui_menu_repr (menu2);
-			    if (repr)
-			      {
-				lw6sys_log (LW6SYS_LOG_NOTICE,
-					    _x_ ("menu duplicate repr is %s"),
-					    repr);
-				LW6SYS_FREE (repr);
-			      }
-			    else
-			      {
-				ret = 0;
-			      }
+			    lw6gui_menu_sync_using_id (menu, menuitem_id,
+						       TEST_MENUITEM_LABEL1,
+						       TEST_MENUITEM_VALUE1,
+						       1, 0, 0, 0);
+			    lw6gui_menu_remove_using_id (menu, menuitem_id,
+							 0);
+			  }
+			lw6gui_menu_update_display_range (menu,
+							  TEST_MAX_DISPLAYED_ITEMS);
+			lw6gui_menu_center (menu, 1,
+					    TEST_MAX_DISPLAYED_ITEMS);
+			repr = lw6gui_menu_repr (menu);
+			if (repr)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("menu repr is %s"), repr);
+			    LW6SYS_FREE (repr);
 			  }
 			else
 			  {
 			    ret = 0;
 			  }
-			lw6gui_menu_free (menu2);
+			menu2 = lw6gui_menu_dup (menu);
+			if (menu2)
+			  {
+			    if (lw6gui_menu_is_same (menu, menu2))
+			      {
+				lw6gui_menu_sync (menu2, menu);
+				repr = lw6gui_menu_repr (menu2);
+				if (repr)
+				  {
+				    lw6sys_log (LW6SYS_LOG_NOTICE,
+						_x_
+						("menu duplicate repr is %s"),
+						repr);
+				    LW6SYS_FREE (repr);
+				  }
+				else
+				  {
+				    ret = 0;
+				  }
+			      }
+			    else
+			      {
+				ret = 0;
+			      }
+			    lw6gui_menu_free (menu2);
+			  }
+			else
+			  {
+			    ret = 0;
+			  }
 		      }
 		    else
 		      {
@@ -876,12 +900,13 @@ test_menu ()
 	      {
 		ret = 0;
 	      }
+	    lw6gui_menu_free (menu);
 	  }
 	else
 	  {
 	    ret = 0;
 	  }
-	lw6gui_menu_free (menu);
+	lw6sys_list_free (breadcrumbs);
       }
     else
       {

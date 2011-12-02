@@ -65,6 +65,7 @@
       (lw6-menu-action menu "on-push") 
       (lw6-menu-update-selected-item menu)
       (lw6-menu-sync menu)
+      (c-lw6gui-menu-set-breadcrumbs (assoc-ref menu "smob") (lw6-menu-breadcrumbs))
       (let (
 	    (menuitem (lw6-current-menuitem))
 	    )
@@ -87,6 +88,7 @@
     (begin
       (lw6-menu-action menu "on-pop")
       (lw6-pop-menu-raw)
+      (c-lw6gui-menu-set-breadcrumbs (assoc-ref menu "smob") (lw6-menu-breadcrumbs))
       (lw6-menu-action (lw6-current-menu) "on-pop-child")
       (let (
 	    (menu (lw6-current-menu))
@@ -207,6 +209,7 @@
 				     help
 				     (_ "Esc") 
 				     (lw6-config-is-true? lw6def-use-esc-button)))
+     (cons "title" title)
      (cons "selected-item" 0)
      (cons "allow-scroll" #f)
      (cons "items" (list))
@@ -623,6 +626,17 @@
 	    (if menu-smob
 		(c-lw6gui-menu-select-esc menu-smob menu-esc)))	       
 	  ))))
+
+(define lw6-menu-breadcrumbs
+  (lambda ()
+    (let (
+	  (menu-stack %lw6-menu-stack)
+	  )
+      (reverse
+       (map (lambda (menuitem) 
+	      (assoc-ref menuitem "title")) 
+	    menu-stack)
+       ))))
 
 (define lw6-menu
   (lambda () 

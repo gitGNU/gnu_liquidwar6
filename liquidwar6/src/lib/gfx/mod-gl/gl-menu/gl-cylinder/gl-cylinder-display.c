@@ -30,6 +30,7 @@
 #define TEST_MENU_SIZE 8
 #define _DESC_MENU "menu"
 #define _PASS_THROUGH_SELECTED 1
+#define _BREADCRUMBS_GLUE " > "
 
 /*
  * OpenGL wizardry, to prepare view parameters.
@@ -338,6 +339,8 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
   char *tooltip = NULL;
   float help_x, help_y, help_w, help_h;
   char *help = NULL;
+  float breadcrumbs_x, breadcrumbs_y, breadcrumbs_w, breadcrumbs_h;
+  char *breadcrumbs = NULL;
 
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
   mod_gl_utils_texture_1x1_update (utils_context, look);
@@ -510,6 +513,20 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 				       help_y, help_x + help_w,
 				       help_y + help_h);
 	}
+    }
+
+  if (menu->breadcrumbs)
+    {
+      breadcrumbs = lw6sys_str_join (menu->breadcrumbs, _BREADCRUMBS_GLUE);
+    }
+  else
+    {
+      //TMP("no breadcrumbs");
+    }
+  if (breadcrumbs)
+    {
+      //TMP1("%s",breadcrumbs);
+      LW6SYS_FREE (breadcrumbs);
     }
 }
 

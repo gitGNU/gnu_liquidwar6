@@ -136,6 +136,10 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 	    }
 	  LW6SYS_FREE (menu->items);
 	}
+      if (menu->breadcrumbs)
+	{
+	  lw6sys_list_free (menu->breadcrumbs);
+	}
       LW6SYS_FREE (menu);
     }
   else
@@ -410,6 +414,35 @@ lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
       menu->first_item_displayed++;
       ret = 1;
     }
+
+  return ret;
+}
+
+/**
+ * lw6gui_menu_set_breadcrumbs
+ *
+ * @menu: the menu to scroll
+ * @breadcrumbs: list of strings containing breadcrumbs
+ *
+ * Set the breadcrumbs, that's to say the readable, logical
+ * path to get to a given menu. This is just eye candy, not
+ * linked to any logic at this level.
+ *
+ * Return value: 1 if OK, 0 if failed.
+ */
+int
+lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
+			     lw6sys_list_t * breadcrumbs)
+{
+  int ret = 0;
+
+  if (menu->breadcrumbs)
+    {
+      lw6sys_list_free (menu->breadcrumbs);
+    }
+  menu->breadcrumbs =
+    lw6sys_list_dup (breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
+  ret = (menu->breadcrumbs != NULL);
 
   return ret;
 }
@@ -898,6 +931,21 @@ lw6gui_menu_is_same (lw6gui_menu_t * menu_a, lw6gui_menu_t * menu_b)
 	&& menu_a->order_of_selected_on_display ==
 	menu_b->order_of_selected_on_display;
       ret = ret && menu_a->allow_scroll == menu_b->allow_scroll;
+      if (menu_a->breadcrumbs && menu_b->breadcrumbs)
+	{
+	  /*
+	   * OK, here, in theory, we should check each item
+	   * one by one. In practice, we just rely on size,
+	   * period.
+	   */
+	  ret = ret
+	    && lw6sys_list_length (menu_a->breadcrumbs) ==
+	    lw6sys_list_length (menu_b->breadcrumbs);
+	}
+      else
+	{
+	  ret = ret && (menu_a->breadcrumbs == menu_b->breadcrumbs);
+	}
     }
 
   return ret;
@@ -957,6 +1005,18 @@ lw6gui_menu_dup (lw6gui_menu_t * menu)
       ret->nb_items_displayed = menu->nb_items_displayed;
       ret->order_of_selected_on_display = menu->order_of_selected_on_display;
       ret->allow_scroll = menu->allow_scroll;
+
+      if (menu->breadcrumbs)
+	{
+	  ret->breadcrumbs =
+	    lw6sys_list_dup (menu->breadcrumbs,
+			     (lw6sys_dup_func_t) lw6sys_str_copy);
+	  if (!(ret->breadcrumbs))
+	    {
+	      lw6gui_menu_free (ret);
+	      ret = NULL;
+	    }
+	}
     }
 
   return ret;
@@ -1042,6 +1102,39 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	   * The rest is "normal", copied from src to dst
 	   */
 	  dst->allow_scroll = src->allow_scroll;
+
+	  if (src->breadcrumbs)
+	    {
+	      if (dst->breadcrumbs)
+		{
+		  /*
+		   * Lazy test on size only
+		   */
+		  if (lw6sys_list_length (dst->breadcrumbs) !=
+		      lw6sys_list_length (src->breadcrumbs))
+		    {
+		      lw6sys_list_free (dst->breadcrumbs);
+		      dst->breadcrumbs =
+			lw6sys_list_dup (src->breadcrumbs,
+					 (lw6sys_dup_func_t) lw6sys_str_copy);
+		    }
+		}
+	      else
+		{
+		  dst->breadcrumbs =
+		    lw6sys_list_dup (src->breadcrumbs,
+				     (lw6sys_dup_func_t) lw6sys_str_copy);
+		}
+	    }
+	  else
+	    {
+	      if (dst->breadcrumbs)
+		{
+		  lw6sys_list_free (dst->breadcrumbs);
+		  dst->breadcrumbs = NULL;
+		}
+	    }
+
 	  ret = 1;
 	}
       else

@@ -907,6 +907,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_ENABLE_ESC);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SCROLL_UP);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_DEFAULT_LOOK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_LOOK_SET);
   lw6sys_list_push_back (list, LW6DEF_C_LW6GUI_LOOK_GET);

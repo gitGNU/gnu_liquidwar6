@@ -252,6 +252,7 @@ typedef struct lw6gui_menu_s
   int nb_items_displayed;
   int order_of_selected_on_display;
   int allow_scroll;
+  lw6sys_list_t *breadcrumbs;
 }
 lw6gui_menu_t;
 
@@ -488,6 +489,8 @@ extern void lw6gui_menu_enable_esc (lw6gui_menu_t * menu, int state,
 				    int64_t now);
 extern int lw6gui_menu_scroll_up (lw6gui_menu_t * menu);
 extern int lw6gui_menu_scroll_down (lw6gui_menu_t * menu);
+extern int lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu,
+					lw6sys_list_t * breadcrumbs);
 extern void lw6gui_menu_center (lw6gui_menu_t * menu, int position,
 				int max_displayed_items);
 extern int lw6gui_menu_insert (lw6gui_menu_t * menu,
