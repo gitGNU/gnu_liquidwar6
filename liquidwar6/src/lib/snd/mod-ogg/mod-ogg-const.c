@@ -60,6 +60,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			      &const_data->file_valid);
       lw6cfg_read_xml_string (key, value, "file-select",
 			      &const_data->file_select);
+      lw6cfg_read_xml_string (key, value, "file-no", &const_data->file_no);
       lw6cfg_read_xml_string (key, value, "file-start",
 			      &const_data->file_start);
       lw6cfg_read_xml_string (key, value, "file-death",
@@ -129,6 +130,10 @@ _mod_ogg_unload_consts (_mod_ogg_context_t * context)
   if (context->const_data.file_select)
     {
       LW6SYS_FREE (context->const_data.file_select);
+    }
+  if (context->const_data.file_no)
+    {
+      LW6SYS_FREE (context->const_data.file_no);
     }
   if (context->const_data.file_start)
     {

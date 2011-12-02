@@ -1,3 +1,4 @@
+
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011  Christian Mauduit <ufoot@ufoot.org>
@@ -27,18 +28,19 @@
 #include "../dyn/dyn.h"
 #include "../cfg/cfg.h"
 
-#define LW6SND_NB_FX 9
+#define LW6SND_NB_FX 10
 typedef enum lw6snd_fx_enum_e
 {
   LW6SND_FX_SPLASH = 0,
   LW6SND_FX_VALID = 1,
   LW6SND_FX_SELECT = 2,
-  LW6SND_FX_START = 3,
-  LW6SND_FX_DEATH = 4,
-  LW6SND_FX_BELL = 5,
-  LW6SND_FX_SCORE = 6,
-  LW6SND_FX_HELLO = 7,
-  LW6SND_FX_GOODBYE = 8
+  LW6SND_FX_NO = 3,
+  LW6SND_FX_START = 4,
+  LW6SND_FX_DEATH = 5,
+  LW6SND_FX_BELL = 6,
+  LW6SND_FX_SCORE = 7,
+  LW6SND_FX_HELLO = 8,
+  LW6SND_FX_GOODBYE = 9
 }
 lw6snd_fx_enum_t;
 

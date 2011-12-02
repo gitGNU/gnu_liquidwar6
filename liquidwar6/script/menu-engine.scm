@@ -65,7 +65,13 @@
       (lw6-menu-action menu "on-push") 
       (lw6-menu-update-selected-item menu)
       (lw6-menu-sync menu)
-      (lw6-menuitem-action (lw6-current-menuitem) "on-select")
+      (let (
+	    (menuitem (lw6-current-menuitem))
+	    )
+	(if (assoc-ref menuitem "enabled")
+	    (lw6-menuitem-action menuitem "on-select")
+	    )
+	)
       ;;(lw6-menu-center)
       )))
 
@@ -144,12 +150,20 @@
 	    (if (= selected-item new-selected-item)
 		#f
 		(begin
-		  (lw6-play-fx-beep-select)
 		  (lw6-menuitem-action menuitem "on-unselect")
 		  (assoc-set! menu "selected-item" new-selected-item)
 		  (assoc-set! menu "allow-scroll" allow-scroll)
 		  (lw6-menu-sync menu)
-		  (lw6-menuitem-action (lw6-current-menuitem) "on-select")
+		  (let (
+			(menuitem (lw6-current-menuitem))
+			)
+		    (if (assoc-ref menuitem "enabled")
+			(begin
+			  (lw6-play-fx-beep-select)
+			  (lw6-menuitem-action menuitem "on-select")
+			  )
+			)
+		    )
 					;(if warp-mouse (lw6-menu-warp-mouse))
 		  #t
 		  )))))))
@@ -402,11 +416,12 @@
 
 (define lw6-menu-pump-buttons
   (lambda ()
-    (let
+    (let*
 	(
 	 (dsp (lw6-get-game-global "dsp"))
 	 (menu (lw6-current-menu))
 	 (menuitem (lw6-current-menuitem))
+	 (enabled (if menuitem (assoc-ref menuitem "enabled") #f))
 	 )
       (if
        menu
@@ -430,13 +445,17 @@
 		    (c-lw6gui-joystick2-pop-pad-up dsp))
 		   (if
 		    (lw6-prev-menuitem #f)
-		    (lw6-play-fx-beep-select)
+		    (if (assoc-ref (lw6-current-menuitem) "enabled")
+			(lw6-play-fx-beep-select)
+			)
 		    )
 		   )
 		  ((c-lw6gui-mouse-pop-wheel-up dsp)
 		   (if
 		    (lw6-prev-menuitem #t)
-		    (lw6-play-fx-beep-select)
+		    (if (assoc-ref (lw6-current-menuitem) "enabled")
+			(lw6-play-fx-beep-select)
+			)
 		    )
 		   )
 		  ((or
@@ -445,41 +464,57 @@
 		    (c-lw6gui-joystick2-pop-pad-down dsp))
 		   (if
 		    (lw6-next-menuitem #f)
-		    (lw6-play-fx-beep-select)
+		    (if (assoc-ref (lw6-current-menuitem) "enabled")
+			(lw6-play-fx-beep-select)
+			)
 		    )
 		   )
 		  ((c-lw6gui-mouse-pop-wheel-down dsp)
 		   (if
 		    (lw6-next-menuitem #t)
-		    (lw6-play-fx-beep-select)
+		    (if (assoc-ref (lw6-current-menuitem) "enabled")
+			(lw6-play-fx-beep-select)
+			)
 		    )
 		   )
 		  ((or
 		    (c-lw6gui-keyboard-pop-arrow-left dsp)
 		    (c-lw6gui-joystick1-pop-pad-left dsp)
 		    (c-lw6gui-joystick2-pop-pad-left dsp))
-		   (if
-		    (lw6-menuitem-action menuitem "on-minus")
-		    (lw6-play-fx-beep-valid)
-		    ) 
+		   (if enabled 
+		       (if
+			(lw6-menuitem-action menuitem "on-minus")
+			(lw6-play-fx-beep-valid)
+			(lw6-play-fx-beep-no)
+			)
+		       (lw6-play-fx-beep-no)
+		       )
 		   )
 		  ((or
 		    (c-lw6gui-keyboard-pop-arrow-right dsp)
 		    (c-lw6gui-joystick1-pop-pad-right dsp)
 		    (c-lw6gui-joystick2-pop-pad-right dsp))
-		   (if
-		    (lw6-menuitem-action menuitem "on-plus")
-		    (lw6-play-fx-beep-valid)
-		    ) 
+		   (if enabled
+		       (if
+			(lw6-menuitem-action menuitem "on-plus")
+			(lw6-play-fx-beep-valid)
+			(lw6-play-fx-beep-no)
+			)
+		       (lw6-play-fx-beep-no)
+		       )
 		   )
 		  ((or
 		    (c-lw6gui-keyboard-pop-key-enter dsp)
 		    (c-lw6gui-joystick1-pop-button-a dsp)
 		    (c-lw6gui-joystick2-pop-button-a dsp))
-		   (if
-		    (lw6-menuitem-action menuitem "on-valid")
-		    (lw6-play-fx-beep-valid)
-		    )
+		   (if enabled
+		       (if
+			(lw6-menuitem-action menuitem "on-valid")
+			(lw6-play-fx-beep-valid)
+			(lw6-play-fx-beep-no)
+			)
+		       (lw6-play-fx-beep-no)
+		       )
 		   )
 		  ((c-lw6gui-mouse-pop-button-right dsp)
 		   (lw6-menu-action menu "on-cancel")
@@ -508,9 +543,15 @@
 		   (begin
 		     (lw6-set-menuitem! menu-position #f)
 		     (set! menuitem (lw6-current-menuitem))
-		     (if
-		      (lw6-menuitem-action menuitem "on-valid")
-		      (lw6-play-fx-beep-valid))))))
+		   (if (assoc-ref menuitem "enabled") 
+		       (if
+			(lw6-menuitem-action menuitem "on-valid")
+			(lw6-play-fx-beep-valid)
+			(lw6-play-fx-beep-no)
+			)
+		       (lw6-play-fx-beep-no)
+		       )
+		   ))))
 	    ((> menu-scroll 0)
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)

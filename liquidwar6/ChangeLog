@@ -1,3 +1,7 @@
+2011-12-02 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Proper handling of disabled menu items (used for maps).
+
 2011-11-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed bug #34646 (Unable to configure players).

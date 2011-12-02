@@ -78,6 +78,7 @@ typedef struct _mod_ogg_const_data_s
   char *file_splash;
   char *file_valid;
   char *file_select;
+  char *file_no;
   char *file_start;
   char *file_death;
   char *file_bell;

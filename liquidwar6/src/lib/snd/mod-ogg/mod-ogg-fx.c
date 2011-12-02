@@ -134,6 +134,8 @@ _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
     load_fx (ogg_context, ogg_context->const_data.file_valid);
   ogg_context->fx.fx[LW6SND_FX_SELECT] =
     load_fx (ogg_context, ogg_context->const_data.file_select);
+  ogg_context->fx.fx[LW6SND_FX_NO] =
+    load_fx (ogg_context, ogg_context->const_data.file_no);
   ogg_context->fx.fx[LW6SND_FX_START] =
     load_fx (ogg_context, ogg_context->const_data.file_start);
   ogg_context->fx.fx[LW6SND_FX_DEATH] =

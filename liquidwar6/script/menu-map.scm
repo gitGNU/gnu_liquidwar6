@@ -24,6 +24,7 @@
 	   (title (assoc-ref entry "title"))
 	   (menuitem (lw6-menu-item-template title #f))
 	   (relative-path (assoc-ref entry "relative-path"))
+	   (forbidden (assoc-ref entry "forbidden"))
 	  )
       (if (assoc-ref entry "has-subdirs")
 	  (begin
@@ -31,12 +32,14 @@
 	    (set! menuitem (assoc-set! menuitem "label" (string-concatenate (list title "/"))))
 	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-idle)))))
 	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-menu-relative (c-lw6sys-path-concat relative-path title))))))
+	    (set! menuitem (assoc-set! menuitem "enabled" (not forbidden)))
 	    menuitem
 	    )
 	  (begin
 	    (set! menuitem (assoc-set! menuitem "selected" (equal? relative-path (lw6-config-get-string lw6def-chosen-map))))
 	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-preview) (lw6-loader-push-if-needed relative-path) (lw6-config-set-string! lw6def-chosen-map relative-path)))))
 	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-play-menu-map)))))
+	    (set! menuitem (assoc-set! menuitem "enabled" (not forbidden)))
 	    menuitem
 	    )
 	  ))))

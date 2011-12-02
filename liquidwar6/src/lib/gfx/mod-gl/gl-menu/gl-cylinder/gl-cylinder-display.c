@@ -65,13 +65,7 @@ get_fg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
-  if (!menuitem->enabled)
-    {
-      color =
-	mod_gl_utils_color_8_to_sdl (look->style.color_set.
-				     menu_color_disabled.fg);
-    }
-  else if (menuitem->selected)
+  if (menuitem->selected)
     {
       color =
 	mod_gl_utils_color_8_to_sdl (look->style.color_set.
@@ -79,9 +73,18 @@ get_fg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
     }
   else
     {
-      color =
-	mod_gl_utils_color_8_to_sdl (look->style.color_set.menu_color_default.
-				     fg);
+      if (menuitem->enabled)
+	{
+	  color =
+	    mod_gl_utils_color_8_to_sdl (look->style.
+					 color_set.menu_color_default.fg);
+	}
+      else
+	{
+	  color =
+	    mod_gl_utils_color_8_to_sdl (look->style.color_set.
+					 menu_color_disabled.fg);
+	}
     }
 
   return color;
@@ -92,13 +95,7 @@ get_bg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
-  if (!menuitem->enabled)
-    {
-      color =
-	mod_gl_utils_color_8_to_sdl (look->style.color_set.
-				     menu_color_disabled.bg);
-    }
-  else if (menuitem->colored)
+  if (menuitem->colored)
     {
       if (menuitem->value >= 0 && menuitem->value < LW6MAP_NB_TEAM_COLORS)
 	{
@@ -115,17 +112,30 @@ get_bg_color (lw6gui_look_t * look, lw6gui_menuitem_t * menuitem)
 	  color = mod_gl_utils_color_8_to_sdl (LW6SYS_COLOR_8_WHITE);
 	}
     }
-  else if (menuitem->selected)
-    {
-      color =
-	mod_gl_utils_color_8_to_sdl (look->style.color_set.
-				     menu_color_selected.bg);
-    }
   else
     {
-      color =
-	mod_gl_utils_color_8_to_sdl (look->style.color_set.menu_color_default.
-				     bg);
+      if (menuitem->selected)
+	{
+	  color =
+	    mod_gl_utils_color_8_to_sdl (look->style.color_set.
+					 menu_color_selected.bg);
+	}
+      else
+	{
+	  if (menuitem->enabled)
+	    {
+	      color =
+		mod_gl_utils_color_8_to_sdl (look->style.
+					     color_set.menu_color_default.bg);
+	    }
+	  else
+	    {
+	      color =
+		mod_gl_utils_color_8_to_sdl (look->style.
+					     color_set.menu_color_disabled.
+					     bg);
+	    }
+	}
     }
 
   return color;

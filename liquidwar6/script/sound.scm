@@ -38,9 +38,13 @@
   (lambda ()
     (lw6-play-fx-by-id 2)))
 
-(define lw6-play-fx-start
+(define lw6-play-fx-beep-no
   (lambda ()
     (lw6-play-fx-by-id 3)))
+
+(define lw6-play-fx-start
+  (lambda ()
+    (lw6-play-fx-by-id 4)))
 
 (define lw6-sound-poll
   (lambda ()

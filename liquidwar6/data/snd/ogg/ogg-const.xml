@@ -9,6 +9,7 @@
   <string key="file-splash" value="fanfare.ogg" />
   <string key="file-valid" value="menuvalid.ogg" />
   <string key="file-select" value="menuselect.ogg" />
+  <string key="file-no" value="endbell-low.ogg" />
   <string key="file-start" value="endbell-low.ogg" />
   <string key="file-death" value="teamdie.ogg" />
   <string key="file-bell"  value="endbell-long.ogg" />

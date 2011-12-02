@@ -5096,6 +5096,7 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
   char *c_relative_path;
   char *user_dir;
   SCM ret = SCM_BOOL_F;
+  SCM item = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
@@ -5124,30 +5125,43 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
 		      if (c_entry)
 			{
-			  ret = scm_cons (scm_list_5
-					  (scm_cons
+			  item = scm_cons (scm_cons
 					   (scm_makfrom0str ("title"),
 					    scm_makfrom0str (c_entry->title)),
-					   scm_cons (scm_makfrom0str
-						     ("absolute-path"),
-						     scm_makfrom0str
-						     (c_entry->absolute_path)),
-					   scm_cons (scm_makfrom0str
-						     ("relative-path"),
-						     scm_makfrom0str
-						     (c_entry->relative_path)),
-					   scm_cons (scm_makfrom0str
-						     ("has-subdirs"),
-						     c_entry->has_subdirs ?
-						     SCM_BOOL_T : SCM_BOOL_F),
-					   scm_cons (scm_makfrom0str ("exp"),
-						     scm_from_int
-						     (c_entry->exp))
-					   /*, 
-					      scm_cons (scm_makfrom0str ("forbidden"),
-					      c_entry->forbidden ? SCM_BOOL_T:SCM_BOOL_F)
-					    */
-					  ), ret);
+					   scm_cons (scm_cons (scm_makfrom0str
+							       ("absolute-path"),
+							       scm_makfrom0str
+							       (c_entry->absolute_path)),
+						     scm_cons (scm_cons
+							       (scm_makfrom0str
+								("relative-path"),
+								scm_makfrom0str
+								(c_entry->relative_path)),
+							       scm_cons
+							       (scm_cons
+								(scm_makfrom0str
+								 ("has-subdirs"),
+								 c_entry->has_subdirs
+								 ? SCM_BOOL_T
+								 :
+								 SCM_BOOL_F),
+								scm_cons
+								(scm_cons
+								 (scm_makfrom0str
+								  ("exp"),
+								  scm_from_int
+								  (c_entry->exp)),
+								 scm_cons
+								 (scm_cons
+								  (scm_makfrom0str
+								   ("forbidden"),
+								   c_entry->forbidden
+								   ?
+								   SCM_BOOL_T
+								   :
+								   SCM_BOOL_F),
+								  SCM_EOL))))));
+			  ret = scm_cons (item, ret);
 			  lw6ldr_free_entry (c_entry);
 			}
 		    }
