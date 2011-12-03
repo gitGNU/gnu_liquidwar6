@@ -26,10 +26,13 @@
 	   (description (assoc-ref entry "description"))
 	   (license (assoc-ref entry "license"))
 	   (has-subdirs (assoc-ref entry "has-subdirs"))
+	   (nb-submaps (assoc-ref entry "nb-submaps"))
 	   (forbidden (assoc-ref entry "forbidden"))
 	   (menuitem (lw6-menu-item-template title 
 					     (if has-subdirs 
-						 (_ "Subfolder")
+						 (format #f
+							 (_ "Subfolder with ~a maps")
+							 nb-submaps)
 						 (if forbidden
 						     (_ "You can't play this map yet")
 						     (format #f "~a: ~a~%%~a: ~a~%%~a: ~a"
@@ -44,7 +47,7 @@
       (if has-subdirs
 	  (begin
 	    (set! menuitem (assoc-set! menuitem "selected" (string-prefix? relative-path (lw6-config-get-string lw6def-chosen-map))))
-	    (set! menuitem (assoc-set! menuitem "label" (string-concatenate (list title "/"))))
+	    (set! menuitem (assoc-set! menuitem "label" (format #f "~a/ (~a)" title nb-submaps)))
 	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-idle)))))
 	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-menu-relative (c-lw6sys-path-concat relative-path title))))))
 	    (set! menuitem (assoc-set! menuitem "enabled" #t))

@@ -45,7 +45,7 @@ _("No server found");		// extracted by scriptpo-update.sh
 _("No remote node could be found on the network");	// extracted by scriptpo-update.sh
 _("Join server");		// extracted by scriptpo-update.sh
 _("Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.");	// extracted by scriptpo-update.sh
-_("Subfolder");			// extracted by scriptpo-update.sh
+_("Subfolder with ~a maps");	// extracted by scriptpo-update.sh
 _("You can't play this map yet");	// extracted by scriptpo-update.sh
 _("Author");			// extracted by scriptpo-update.sh
 _("Description");		// extracted by scriptpo-update.sh

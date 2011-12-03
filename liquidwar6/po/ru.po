@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-03 15:47+0100\n"
+"POT-Creation-Date: 2011-12-03 16:15+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -595,7 +595,7 @@ msgid ""
 msgstr ""
 
 #: src/scriptpo.c:48
-msgid "Subfolder"
+msgid "Subfolder with ~a maps"
 msgstr ""
 
 #: src/scriptpo.c:49

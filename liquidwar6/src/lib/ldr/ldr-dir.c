@@ -39,6 +39,12 @@ typedef struct for_all_entries_callback_data_s
   void *func_data;
 } for_all_entries_callback_data_t;
 
+typedef struct _count_submaps_callback_func1_data_s
+{
+  char *map_path;
+  char *user_dir;
+} _count_submaps_callback_func1_data_t;
+
 typedef struct _chain_ret_s
 {
   int exp;
@@ -427,6 +433,30 @@ _get_entries (char *map_path, char *relative_path, int player_exp)
   return entries;
 }
 
+static void
+_count_submaps_callback_func2 (void *func_data, void *data)
+{
+  lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
+  int *nb_submaps = (int *) func_data;
+
+  if (!entry->has_subdirs)
+    {
+      (*nb_submaps)++;
+    }
+}
+
+static void
+_count_submaps_callback_func1 (void *func_data, void *data)
+{
+  lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
+  _count_submaps_callback_func1_data_t *func1_data =
+    (_count_submaps_callback_func1_data_t *) func_data;
+
+  lw6ldr_for_all_entries (func1_data->map_path, entry->relative_path,
+			  func1_data->user_dir, 1,
+			  _count_submaps_callback_func2,
+			  &(entry->nb_submaps));
+}
 
 /**
  * lw6ldr_get_entries
@@ -447,9 +477,14 @@ lw6ldr_get_entries (char *map_path, char *relative_path, char *user_dir)
 {
   int player_exp = 0;
   lw6sys_list_t *entries = NULL;
+  _count_submaps_callback_func1_data_t func1_data;
 
   lw6cfg_load_exp (user_dir, &player_exp);
   entries = _get_entries (map_path, relative_path, player_exp);
+  func1_data.map_path = map_path;
+  func1_data.user_dir = user_dir;
+  lw6sys_list_map (entries, _count_submaps_callback_func1,
+		   (void *) &func1_data);
 
   return entries;
 }

@@ -5252,6 +5252,11 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 				       SCM_BOOL_F), item);
 			  item =
 			    scm_cons (scm_cons
+				      (scm_makfrom0str ("nb-submaps"),
+				       scm_from_int (c_entry->nb_submaps)),
+				      item);
+			  item =
+			    scm_cons (scm_cons
 				      (scm_makfrom0str ("exp"),
 				       scm_from_int (c_entry->
 						     metadata.vanilla_exp)),
@@ -5595,6 +5600,10 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 			      (scm_makfrom0str ("has-subdirs"),
 			       c_entry->has_subdirs ? SCM_BOOL_T :
 			       SCM_BOOL_F), ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("nb-submaps"),
+			       scm_from_int (c_entry->nb_submaps)), ret);
 		  ret =
 		    scm_cons (scm_cons
 			      (scm_makfrom0str ("exp"),
