@@ -32,7 +32,7 @@
 	    (set! menuitem (assoc-set! menuitem "label" (string-concatenate (list title "/"))))
 	    (set! menuitem (assoc-set! menuitem "on-select" (lambda (mi) (begin (lw6-game-idle)))))
 	    (set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-map-menu-relative (c-lw6sys-path-concat relative-path title))))))
-	    (set! menuitem (assoc-set! menuitem "enabled" (not forbidden)))
+	    (set! menuitem (assoc-set! menuitem "enabled" #t))
 	    menuitem
 	    )
 	  (begin
