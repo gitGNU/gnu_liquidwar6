@@ -1,5 +1,7 @@
 2011-12-03 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Meta information now displayed separately from menus.
+
 	* Implemented map metadata.
 
 	* Implemented breadcrumbs.

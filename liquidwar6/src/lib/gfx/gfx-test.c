@@ -270,8 +270,8 @@ test_menu (lw6gfx_backend_t * backend)
 			     ticks)) / ((float) TEST_DURATION_MENU);
 		if (!lw6gfx_display (backend,
 				     LW6GUI_DISPLAY_BACKGROUND |
-				     LW6GUI_DISPLAY_MENU |
-				     LW6GUI_DISPLAY_PROGRESS, look, NULL,
+				     LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META
+				     | LW6GUI_DISPLAY_PROGRESS, look, NULL,
 				     NULL, NULL, 0, menu, progress, 0, 0,
 				     NULL, 0, 0, 0, 0))
 		  {

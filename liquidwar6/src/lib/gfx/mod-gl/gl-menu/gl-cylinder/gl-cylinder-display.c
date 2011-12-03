@@ -330,17 +330,8 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 				    lw6gui_menu_t * menu)
 {
   int i, j, n;
-  int i_right_point = 0;
   int blink_state;
   lw6gui_menuitem_t *menuitem;
-  float right_point_x = 0.0f;
-  float right_point_y = 0.0f;
-  float tooltip_x, tooltip_y, tooltip_w, tooltip_h;
-  char *tooltip = NULL;
-  float help_x, help_y, help_w, help_h;
-  char *help = NULL;
-  float breadcrumbs_x, breadcrumbs_y, breadcrumbs_w, breadcrumbs_h;
-  char *breadcrumbs = NULL;
 
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
   mod_gl_utils_texture_1x1_update (utils_context, look);
@@ -372,8 +363,8 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
       menuitem = menu->items[j];
       if (menuitem->selected)
 	{
-	  i_right_point = i;
-	  tooltip = menuitem->tooltip;
+	  cylinder_context->i_right_point = i;
+	  cylinder_context->j_tooltip = j;
 	}
       draw_button (utils_context, cylinder_context, look, menuitem, i + 1, n);
     }
@@ -382,13 +373,95 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
       draw_button (utils_context, cylinder_context, look, menu->esc_item, -1,
 		   n);
     }
+}
 
+void
+mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
+				   void *cylinder_context,
+				   lw6gui_look_t * look, lw6gui_menu_t * menu)
+{
+  _mod_gl_menu_cylinder_display_menu (utils_context,
+				      (_mod_gl_menu_cylinder_context_t *)
+				      cylinder_context, look, menu);
+  /*
+   * It's really better to pick *after* drawing for the first
+   * step will generate bitmaps in cache, and those bitmaps we
+   * need later when picking to scale things
+   */
+  _mod_gl_menu_cylinder_pick_item (utils_context,
+				   (_mod_gl_menu_cylinder_context_t *)
+				   cylinder_context,
+				   look,
+				   &(utils_context->input.mouse.
+				     menu_position),
+				   &(utils_context->input.mouse.menu_scroll),
+				   &(utils_context->input.mouse.menu_esc),
+				   menu,
+				   utils_context->input.mouse.
+				   screen_pointer.pos_x,
+				   utils_context->input.mouse.
+				   screen_pointer.pos_y);
+}
+
+void
+_mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t *
+					utils_context,
+					_mod_gl_menu_cylinder_context_t *
+					cylinder_context,
+					lw6gui_look_t * look, float progress)
+{
+  mod_gl_utils_set_render_mode_3d_menu (utils_context);
+  mod_gl_utils_texture_1x1_update (utils_context, look);
+
+  prepare_view (utils_context, cylinder_context);
+
+  if (progress > 0.0f && progress < 1.0f)	// strict, to disable it when complete
+    {
+      _mod_gl_menu_cylinder_draw_progress (utils_context, cylinder_context,
+					   look, progress);
+    }
+}
+
+void
+mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t * utils_context,
+				       void *cylinder_context,
+				       lw6gui_look_t * look, float progress)
+{
+  _mod_gl_menu_cylinder_display_progress (utils_context,
+					  (_mod_gl_menu_cylinder_context_t *)
+					  cylinder_context, look, progress);
+}
+
+/*
+ * Display a menu.
+ */
+void
+_mod_gl_menu_cylinder_display_meta (mod_gl_utils_context_t * utils_context,
+				    _mod_gl_menu_cylinder_context_t *
+				    cylinder_context, lw6gui_look_t * look,
+				    lw6gui_menu_t * menu)
+{
+  int n;
+  float right_point_x = 0.0f;
+  float right_point_y = 0.0f;
+  float tooltip_x, tooltip_y, tooltip_w, tooltip_h;
+  char *tooltip = NULL;
+  float help_x, help_y, help_w, help_h;
+  char *help = NULL;
+  float breadcrumbs_x, breadcrumbs_y, breadcrumbs_w, breadcrumbs_h;
+  char *breadcrumbs = NULL;
+
+  mod_gl_utils_set_render_mode_3d_menu (utils_context);
+
+  n = menu->nb_items_displayed + 2;
+  tooltip = menu->items[cylinder_context->j_tooltip]->tooltip;
   if (!lw6sys_str_is_null_or_empty (tooltip))
     {
       _mod_gl_menu_cylinder_get_cylinder_right_point (utils_context,
 						      cylinder_context,
-						      i_right_point + 1, n,
-						      1.0f, &right_point_x,
+						      cylinder_context->i_right_point
+						      + 1, n, 1.0f,
+						      &right_point_x,
 						      &right_point_y);
       if ((!lw6sys_str_is_same
 	   (tooltip, utils_context->menucache_array.tooltip_str))
@@ -594,58 +667,11 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 }
 
 void
-mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
+mod_gl_menu_cylinder_display_meta (mod_gl_utils_context_t * utils_context,
 				   void *cylinder_context,
 				   lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
-  _mod_gl_menu_cylinder_display_menu (utils_context,
+  _mod_gl_menu_cylinder_display_meta (utils_context,
 				      (_mod_gl_menu_cylinder_context_t *)
 				      cylinder_context, look, menu);
-  /*
-   * It's really better to pick *after* drawing for the first
-   * step will generate bitmaps in cache, and those bitmaps we
-   * need later when picking to scale things
-   */
-  _mod_gl_menu_cylinder_pick_item (utils_context,
-				   (_mod_gl_menu_cylinder_context_t *)
-				   cylinder_context,
-				   look,
-				   &(utils_context->input.mouse.
-				     menu_position),
-				   &(utils_context->input.mouse.menu_scroll),
-				   &(utils_context->input.mouse.menu_esc),
-				   menu,
-				   utils_context->input.mouse.
-				   screen_pointer.pos_x,
-				   utils_context->input.mouse.
-				   screen_pointer.pos_y);
-}
-
-void
-_mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t *
-					utils_context,
-					_mod_gl_menu_cylinder_context_t *
-					cylinder_context,
-					lw6gui_look_t * look, float progress)
-{
-  mod_gl_utils_set_render_mode_3d_menu (utils_context);
-  mod_gl_utils_texture_1x1_update (utils_context, look);
-
-  prepare_view (utils_context, cylinder_context);
-
-  if (progress > 0.0f && progress < 1.0f)	// strict, to disable it when complete
-    {
-      _mod_gl_menu_cylinder_draw_progress (utils_context, cylinder_context,
-					   look, progress);
-    }
-}
-
-void
-mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t * utils_context,
-				       void *cylinder_context,
-				       lw6gui_look_t * look, float progress)
-{
-  _mod_gl_menu_cylinder_display_progress (utils_context,
-					  (_mod_gl_menu_cylinder_context_t *)
-					  cylinder_context, look, progress);
 }

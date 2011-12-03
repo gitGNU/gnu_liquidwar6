@@ -43,6 +43,9 @@ typedef struct mod_gl_menu_backend_s
   void (*display_progress) (mod_gl_utils_context_t * utils_context,
 			    void *menu_context, lw6gui_look_t * look,
 			    float progress);
+  void (*display_meta) (mod_gl_utils_context_t * utils_context,
+			void *menu_context, lw6gui_look_t * look,
+			lw6gui_menu_t * menu);
 }
 mod_gl_menu_backend_t;
 
@@ -62,6 +65,10 @@ extern void mod_gl_menu_display_progress (mod_gl_utils_context_t *
 					  mod_gl_menu_backend_t * backend,
 					  lw6gui_look_t * look,
 					  float progress);
+extern void mod_gl_menu_display_meta (mod_gl_utils_context_t * utils_context,
+				      mod_gl_menu_backend_t * backend,
+				      lw6gui_look_t * look,
+				      lw6gui_menu_t * menu);
 
 /*
  * In backend.c

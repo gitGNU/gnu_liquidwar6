@@ -783,6 +783,10 @@ populate_references ()
 		 _x_
 		 ("Debugging option which can be set to 'false' to disable the display of menus."),
 		 1);
+  POPULATE_BOOL (LW6DEF_DISPLAY_META,
+		 _x_
+		 ("Set to 'false' to disable the display of meta information, this includes the help, tootips and breadcrumbs in menus."),
+		 1);
   POPULATE_BOOL (LW6DEF_DISPLAY_PROGRESS,
 		 _x_
 		 ("Decides wether a progress bar should be displayed when a long operation is realized as a background task."),

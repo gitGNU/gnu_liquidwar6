@@ -43,6 +43,7 @@ mod_gl_menu_cylinder_create_backend (mod_gl_utils_context_t * utils_context)
       backend->quit = mod_gl_menu_cylinder_quit;
       backend->display_menu = mod_gl_menu_cylinder_display_menu;
       backend->display_progress = mod_gl_menu_cylinder_display_progress;
+      backend->display_meta = mod_gl_menu_cylinder_display_meta;
     }
 
   return backend;

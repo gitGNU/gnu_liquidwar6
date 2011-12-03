@@ -94,3 +94,19 @@ mod_gl_menu_display_progress (mod_gl_utils_context_t * utils_context,
       _warning (__FUNCTION__);
     }
 }
+
+void
+mod_gl_menu_display_meta (mod_gl_utils_context_t * utils_context,
+			  mod_gl_menu_backend_t * backend,
+			  lw6gui_look_t * look, lw6gui_menu_t * menu)
+{
+  if (backend->display_meta)
+    {
+      backend->display_meta (utils_context, backend->menu_context, look,
+			     menu);
+    }
+  else
+    {
+      _warning (__FUNCTION__);
+    }
+}

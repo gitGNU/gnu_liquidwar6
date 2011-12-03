@@ -34,6 +34,7 @@
 		   lw6def-display-hud
 		   lw6def-display-score
 		   lw6def-display-menu
+		   lw6def-display-meta
 		   lw6def-display-progress
 		   lw6def-display-log
 		   lw6def-display-fps
@@ -150,6 +151,7 @@
       (lw6-display-param-set! lw6def-display-hud #f)
       (lw6-display-param-set! lw6def-display-score #f)
       (lw6-display-param-set! lw6def-display-menu #f)
+      (lw6-display-param-set! lw6def-display-meta #f)
       )))
 
 (define lw6-display-idle-setup
@@ -163,6 +165,7 @@
       (lw6-display-param-set! lw6def-display-hud #f)
       (lw6-display-param-set! lw6def-display-score #f)
       (lw6-display-param-set-boolean-from-config! lw6def-display-menu)
+      (lw6-display-param-set-boolean-from-config! lw6def-display-meta)
       )))
 
 (define lw6-display-preview-setup
@@ -176,6 +179,7 @@
       (lw6-display-param-set! lw6def-display-hud #f)
       (lw6-display-param-set! lw6def-display-score #f)
       (lw6-display-param-set-boolean-from-config! lw6def-display-menu)
+      (lw6-display-param-set-boolean-from-config! lw6def-display-meta)
       )))
 
 (define lw6-display-running-setup
@@ -189,6 +193,7 @@
       (lw6-display-param-set-boolean-from-config! lw6def-display-hud)
       (lw6-display-param-set! lw6def-display-score #f)
       (lw6-display-param-set-boolean-from-config! lw6def-display-menu)
+      (lw6-display-param-set! lw6def-display-meta #f)
       )))
 
 (define lw6-display-score-setup
@@ -202,6 +207,7 @@
       (lw6-display-param-set! lw6def-display-hud #f)
       (lw6-display-param-set-boolean-from-config! lw6def-display-score)
       (lw6-display-param-set-boolean-from-config! lw6def-display-menu)
+      (lw6-display-param-set-boolean-from-config! lw6def-display-meta)
       )))
 
 (define lw6-display-no-score-setup

@@ -435,6 +435,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_DISPLAY_LOG "display-log"
 #define LW6DEF_DISPLAY_MAP "display-map"
 #define LW6DEF_DISPLAY_MENU "display-menu"
+#define LW6DEF_DISPLAY_META "display-meta"
 #define LW6DEF_DISPLAY_MOUSE "display-mouse"
 #define LW6DEF_DISPLAY_MPS "display-mps"
 #define LW6DEF_DISPLAY_PREVIEW "display-preview"

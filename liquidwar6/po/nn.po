@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-03 16:15+0100\n"
+"POT-Creation-Date: 2011-12-03 17:02+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -88,7 +88,7 @@ msgstr "Feil ved SDL GetVideoInfo: «%s»"
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Feil ved SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: «%s»"
 
-#: src/lib/gfx/mod-gl/mod-gl-backend.c:323
+#: src/lib/gfx/mod-gl/mod-gl-backend.c:330
 msgid "OpenGL/SDL"
 msgstr ""
 

@@ -77,6 +77,8 @@ _mod_gl_menu_cylinder_const_data_t;
 
 typedef struct _mod_gl_menu_cylinder_context_s
 {
+  int i_right_point;
+  int j_tooltip;
   _mod_gl_menu_cylinder_const_data_t const_data;
 }
 _mod_gl_menu_cylinder_context_t;
@@ -106,6 +108,12 @@ extern void _mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t *
 						    * cylinder_context,
 						    lw6gui_look_t * look,
 						    float progress);
+extern void _mod_gl_menu_cylinder_display_meta (mod_gl_utils_context_t *
+						utils_context,
+						_mod_gl_menu_cylinder_context_t
+						* cylinder_context,
+						lw6gui_look_t * look,
+						lw6gui_menu_t * menu);
 
 /*
  * In data.c

@@ -258,6 +258,13 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
 					    mod_gl_context->menu_backend,
 					    look, progress);
 	    }
+	  if ((mask & LW6GUI_DISPLAY_META) && menu)
+	    {
+	      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display step=meta"));
+	      mod_gl_menu_display_meta (&(mod_gl_context->utils_context),
+					mod_gl_context->menu_backend, look,
+					menu);
+	    }
 	}
       if ((mask & LW6GUI_DISPLAY_LOG) && log_list)
 	{

@@ -1134,6 +1134,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_HUD);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_SCORE);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_MENU);
+  lw6sys_list_push_back (list, LW6DEF_DISPLAY_META);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_PROGRESS);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_LOG);
   lw6sys_list_push_back (list, LW6DEF_DISPLAY_FPS);

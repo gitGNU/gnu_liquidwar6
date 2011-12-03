@@ -428,6 +428,7 @@
 (define lw6def-display-log "display-log")
 (define lw6def-display-map "display-map")
 (define lw6def-display-menu "display-menu")
+(define lw6def-display-meta "display-meta")
 (define lw6def-display-mouse "display-mouse")
 (define lw6def-display-mps "display-mps")
 (define lw6def-display-preview "display-preview")

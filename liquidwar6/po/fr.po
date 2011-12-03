@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-03 16:15+0100\n"
+"POT-Creation-Date: 2011-12-03 17:02+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -86,7 +86,7 @@ msgstr "SDL GetVideoInfo a échoué: \"%s\""
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-backend.c:323
+#: src/lib/gfx/mod-gl/mod-gl-backend.c:330
 msgid "OpenGL/SDL"
 msgstr "OpenGL/SDL"
 

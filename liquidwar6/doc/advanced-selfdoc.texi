@@ -259,6 +259,18 @@ Default value: true
 Debugging option which can be set to 'false' to disable the display of menus.
 @end deffn
 
+@subsection display-meta
+@deffn {Command-line option} @code{--display-meta=<value>}
+@deffnx {Environment variable} @code{LW6_DISPLAY_META}
+@deffnx {XML key} @code{display-meta}
+Type: boolean
+
+Default value: true
+
+Set to 'false' to disable the display of meta information, this includes the
+help, tootips and breadcrumbs in menus.
+@end deffn
+
 @subsection display-mouse
 @deffn {Command-line option} @code{--display-mouse=<value>}
 @deffnx {Environment variable} @code{LW6_DISPLAY_MOUSE}

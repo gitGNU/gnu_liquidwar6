@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-03 16:15+0100\n"
+"POT-Creation-Date: 2011-12-03 17:02+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -88,7 +88,7 @@ msgstr "Ошибка SDL GetVideoInfo: \"%s\""
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Ошибка SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: \"%s\""
 
-#: src/lib/gfx/mod-gl/mod-gl-backend.c:323
+#: src/lib/gfx/mod-gl/mod-gl-backend.c:330
 msgid "OpenGL/SDL"
 msgstr ""
 

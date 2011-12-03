@@ -49,6 +49,12 @@ extern void mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t *
 						   lw6gui_look_t * look,
 						   float progress);
 
+extern void mod_gl_menu_cylinder_display_meta (mod_gl_utils_context_t *
+					       utils_context,
+					       void *menu_context,
+					       lw6gui_look_t * look,
+					       lw6gui_menu_t * menu);
+
 /*
  * In setup.c
  */

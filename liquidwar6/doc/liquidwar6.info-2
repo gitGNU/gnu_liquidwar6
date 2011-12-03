@@ -1832,7 +1832,20 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Debugging option which can be set to 'false' to disable the
      display of menus.
 
-4.15.24 display-mouse
+4.15.24 display-meta
+--------------------
+
+ -- Command-line option: `--display-meta=<value>'
+ -- Environment variable: `LW6_DISPLAY_META'
+ -- XML key: `display-meta'
+     Type: boolean
+
+     Default value: true
+
+     Set to 'false' to disable the display of meta information, this
+     includes the help, tootips and breadcrumbs in menus.
+
+4.15.25 display-mouse
 ---------------------
 
  -- Command-line option: `--display-mouse=<value>'
@@ -1844,7 +1857,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
 
      Set this to 'false' to always hide the mouse pointer.
 
-4.15.25 display-mps
+4.15.26 display-mps
 -------------------
 
  -- Command-line option: `--display-mps=<value>'
@@ -1858,7 +1871,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      theory the game should maintain this constant but in practise it
      can get low if your computer is too slow or too busy.
 
-4.15.26 display-preview
+4.15.27 display-preview
 -----------------------
 
  -- Command-line option: `--display-preview=<value>'
@@ -1871,7 +1884,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Decides wether a map preview should be displayed when choosing a
      level.
 
-4.15.27 display-progress
+4.15.28 display-progress
 ------------------------
 
  -- Command-line option: `--display-progress=<value>'
@@ -1884,7 +1897,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Decides wether a progress bar should be displayed when a long
      operation is realized as a background task.
 
-4.15.28 display-score
+4.15.29 display-score
 ---------------------
 
  -- Command-line option: `--display-score=<value>'
@@ -1896,7 +1909,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
 
      Decides wether the score screen should be displayed.
 
-4.15.29 display-splash
+4.15.30 display-splash
 ----------------------
 
  -- Command-line option: `--display-splash=<value>'
@@ -1909,7 +1922,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Set this to 'false' to disable the display of the splash screen at
      game startup.
 
-4.15.30 display-url
+4.15.31 display-url
 -------------------
 
  -- Command-line option: `--display-url=<value>'
@@ -1923,7 +1936,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      is mostly used when doing screenshots, so that generated images
      contain a link to the homepage.
 
-4.15.31 executed-again
+4.15.32 executed-again
 ----------------------
 
  -- Command-line option: `--executed-again=<value>'
@@ -1939,7 +1952,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      (DYLD_LIBRARY_PATH on Mac OS X for instance) before the program is
      run, as sometimes using setenv() inside the program does not work.
 
-4.15.32 gfx-cpu-usage
+4.15.33 gfx-cpu-usage
 ---------------------
 
  -- Command-line option: `--gfx-cpu-usage=<value>'
@@ -1956,7 +1969,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      change this to a low value if you have lagging games but smooth
      display.
 
-4.15.33 gfx-debug
+4.15.34 gfx-debug
 -----------------
 
  -- Command-line option: `--gfx-debug=<value>'
@@ -1969,7 +1982,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Enables dedicated graphics debugging tools. This is different from
      'debug' mode which is global, this one is really graphics specific.
 
-4.15.34 io-per-sec
+4.15.35 io-per-sec
 ------------------
 
  -- Command-line option: `--io-per-sec=<value>'
@@ -1983,7 +1996,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      This can affect speed of menus but also cursors, but won't change
      the speed of the game itself. It's a cosmectic, comfort option.
 
-4.15.35 loader-sleep
+4.15.36 loader-sleep
 --------------------
 
  -- Command-line option: `--loader-sleep=<value>'
@@ -1996,7 +2009,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Defines how long the loader thread should wait between two polls.
      Default value should fit in most cases.
 
-4.15.36 log-level
+4.15.37 log-level
 -----------------
 
  -- Command-line option: `--log-level=<value>'
@@ -2013,7 +2026,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      default, the log file will contain all messages but debug stuff. 4
      (DEBUG) logs everything, including debug informations.
 
-4.15.37 log-timeout
+4.15.38 log-timeout
 -------------------
 
  -- Command-line option: `--log-timeout=<value>'
@@ -2026,7 +2039,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Delay, in msec, for which a log message will stay displayed on the
      screen.
 
-4.15.38 magic-number
+4.15.39 magic-number
 --------------------
 
  -- Command-line option: `--magic-number=<value>'
@@ -2050,7 +2063,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      pessimistic, or if for some reason bench returns bogus values, you
      can modify it.
 
-4.15.39 max-local-bench-value
+4.15.40 max-local-bench-value
 -----------------------------
 
  -- Command-line option: `--max-local-bench-value=<value>'
@@ -2067,7 +2080,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      useless details. Game should be fun with that setting, but if you
      really want to use your shiny CPU at its maximum, raise this.
 
-4.15.40 max-network-bench-value
+4.15.41 max-network-bench-value
 -------------------------------
 
  -- Command-line option: `--max-network-bench-value=<value>'
@@ -2082,7 +2095,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      this, by default. You're free to increase this parameter but it
      can cause your games to be unjoignable by some people.
 
-4.15.41 memory-bazooka-eraser
+4.15.42 memory-bazooka-eraser
 -----------------------------
 
  -- Command-line option: `--memory-bazooka-eraser=<value>'
@@ -2102,7 +2115,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      usable. The memory bazooka must be big enough if you want this
      feature to actually work.
 
-4.15.42 memory-bazooka-size
+4.15.43 memory-bazooka-size
 ---------------------------
 
  -- Command-line option: `--memory-bazooka-size=<value>'
@@ -2124,7 +2137,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      something like 100 might just be helpfull, but 1000000 is the
      right way to seriously debug code.
 
-4.15.43 net-log
+4.15.44 net-log
 ---------------
 
  -- Command-line option: `--net-log=<value>'
@@ -2139,7 +2152,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      library such as libCurl. This is mostly for debugging purpose, it
      can lead to rather big log files.
 
-4.15.44 network-reliability
+4.15.45 network-reliability
 ---------------------------
 
  -- Command-line option: `--network-reliability=<value>'
@@ -2162,7 +2175,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      the most reliable network will look, the algorithm is simply to
      drop one message out of X.
 
-4.15.45 open-relay
+4.15.46 open-relay
 ------------------
 
  -- Command-line option: `--open-relay=<value>'
@@ -2180,7 +2193,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      won't forward it. In practice, it means without open relay,
      messages can only be forwarded once.
 
-4.15.46 pilot-lag
+4.15.47 pilot-lag
 -----------------
 
  -- Command-line option: `--pilot-lag=<value>'
@@ -2194,14 +2207,14 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      will typically be usefull if your computer is too slow for the map
      resolution and the game speed you set up.
 
-4.15.47 quick-start
+4.15.48 quick-start
 -------------------
 
  -- Command-line option: `--quick-start'
      Start the game just like if the player had requested a quick
      start, without showing any menu.
 
-4.15.48 reset
+4.15.49 reset
 -------------
 
  -- Command-line option: `--reset'
@@ -2210,7 +2223,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      executions. The difference with '-defaults' is that '-reset' does
      not run the game, while '-defaults' does.
 
-4.15.49 reset-config-on-upgrade
+4.15.50 reset-config-on-upgrade
 -------------------------------
 
  -- Command-line option: `--reset-config-on-upgrade=<value>'
@@ -2223,7 +2236,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      If set, then a reset (config file set to defaults) is run every
      time you upgrade the game.
 
-4.15.50 server
+4.15.51 server
 --------------
 
  -- Command-line option: `--server'
@@ -2236,7 +2249,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.15.51 target-fps
+4.15.52 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'
@@ -2255,7 +2268,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Liquid War 6 is now so fast-paced that it requires 200 frames/sec
      to outperform opponents.
 
-4.15.52 trojan
+4.15.53 trojan
 --------------
 
  -- Command-line option: `--trojan=<value>'
@@ -2271,7 +2284,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      fake and kick it out of the game. It's of no use for regular
      players, be sure to unset this if you want to play for good.
 
-4.15.53 z-decode
+4.15.54 z-decode
 ----------------
 
  -- Command-line option: `--z-decode'
@@ -2281,7 +2294,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      base64 decode and pass the content through Zlib inflating. I
      content is not Z-prefixed, will be returned as is.
 
-4.15.54 z-encode
+4.15.55 z-encode
 ----------------
 
  -- Command-line option: `--z-encode'

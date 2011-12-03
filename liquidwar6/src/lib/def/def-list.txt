@@ -408,6 +408,7 @@ display-hud
 display-log
 display-map
 display-menu
+display-meta
 display-mouse
 display-mps
 display-preview

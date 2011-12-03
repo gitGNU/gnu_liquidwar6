@@ -240,6 +240,14 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
+    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_META), SCM_BOOL_F);
+  SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_META);
+  if (SCM_NFALSEP (value))
+    {
+      c_param->misc.mask |= LW6GUI_DISPLAY_META;
+    }
+
+  value =
     scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_PROGRESS),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_PROGRESS);
