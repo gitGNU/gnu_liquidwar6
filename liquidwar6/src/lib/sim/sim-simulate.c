@@ -39,7 +39,8 @@
  * 
  * Return value: 1 on success, 0 on failure.
  */
-int lw6sim_simulate (lw6sim_simulation_results_t *results, int nb_teams)
+int
+lw6sim_simulate (lw6sim_simulation_results_t * results, int nb_teams)
 {
   int ret = 0;
 

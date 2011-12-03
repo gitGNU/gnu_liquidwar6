@@ -39,8 +39,8 @@ test_simulate ()
 
   {
     lw6sim_simulation_results_t results;
-    
-    ret=lw6sim_simulate(&results,_TEST_NB_TEAMS);
+
+    ret = lw6sim_simulate (&results, _TEST_NB_TEAMS);
   }
 
   LW6SYS_TEST_FUNCTION_END;

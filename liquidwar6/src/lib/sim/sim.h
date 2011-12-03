@@ -30,12 +30,14 @@
 #include "../dyn/dyn.h"
 #include "../bot/bot.h"
 
-typedef struct lw6sim_simulation_results_s {
+typedef struct lw6sim_simulation_results_s
+{
   float percent[LW6MAP_MAX_NB_TEAMS];
 } lw6sim_simulation_results_t;
 
 /* sim-simulate.c */
-extern int lw6sim_simulate (lw6sim_simulation_results_t *results, int nb_teams);
+extern int lw6sim_simulate (lw6sim_simulation_results_t * results,
+			    int nb_teams);
 
 /* sim-test.c */
 extern int lw6sim_test (int mode);

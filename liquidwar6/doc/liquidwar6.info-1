@@ -2386,6 +2386,7 @@ digraph g {
 	pil -> ker;
 	scm -> hlp;
 	scm -> guile;
+	sim -> bot;
 	snd -> dyn;
 	snd -> cfg;
 	"mod-ogg" -> SDL;
@@ -2400,7 +2401,7 @@ digraph g {
 	tsk -> ldr;
 	vox -> gui;
 	vox -> ker;
-	liquidwar6 -> bot;
+	liquidwar6 -> sim;
 	liquidwar6 -> dsp;
 	liquidwar6 -> img;
 	liquidwar6 -> tsk;

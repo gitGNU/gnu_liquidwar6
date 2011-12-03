@@ -352,6 +352,9 @@ src/lib/pil/pil-worker.c
 src/lib/scm/scm-test.c
 src/lib/scm/scm-testmain.c
 src/lib/scm/scm-wrapper.c
+src/lib/sim/sim-simulate.c
+src/lib/sim/sim-test.c
+src/lib/sim/sim-testmain.c
 src/lib/snd/mod-csound/mod-csound-backend.c
 src/lib/snd/mod-csound/mod-csound-fx.c
 src/lib/snd/mod-csound/mod-csound-music.c
