@@ -128,6 +128,7 @@ C API
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
 * libscm::              Guile wrapper.
+* libsim::              Simulating fights.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -3712,11 +3713,11 @@ This describes how to add a new `libxyz' internal library:
      `lw6abc_test' function so that it contains a reference to
      `lw6xzy_test'.
 
-   * in every internal `abc' library that depends on `abc/abc.h', edit
+   * in every internal `abc' library that depends on `xyz/xyz.h', edit
      the `abc/abc.h' header so that it includes `xzy/xyz.h'. Also edit
      `src/lib/liquidwar6.h.in'.
 
-   * in every internal `abc' library that depends on `abc/abc.h', add a
+   * in every internal `abc' library that depends on `libxyz', add a
      reference to `../xyz/libxyz.la' inf the `_LDADD' section.
 
    * edit `doc/gdoc-update.sh' and add the entry for `xyz'.

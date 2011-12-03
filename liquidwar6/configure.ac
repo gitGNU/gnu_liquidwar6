@@ -741,11 +741,13 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/cfg/Makefile
 	  src/lib/map/Makefile
 	  src/lib/ker/Makefile
+	  src/lib/pil/Makefile
 	  src/lib/bot/Makefile
 	  src/lib/bot/mod-brute/Makefile
 	  src/lib/bot/mod-follow/Makefile
 	  src/lib/bot/mod-idiot/Makefile
 	  src/lib/bot/mod-random/Makefile
+	  src/lib/sim/Makefile
 	  src/lib/ldr/Makefile
 	  src/lib/ldr/ldr-png.h
 	  src/lib/tsk/Makefile
@@ -774,7 +776,6 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/cnx/Makefile
 	  src/lib/msg/Makefile
 	  src/lib/img/Makefile
-	  src/lib/pil/Makefile
 	  src/lib/cli/Makefile
 	  src/lib/cli/mod-tcp/Makefile
 	  src/lib/cli/mod-udp/Makefile

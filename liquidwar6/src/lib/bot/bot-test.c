@@ -180,6 +180,7 @@ lw6bot_test (int mode)
       lw6sys_test (mode);
       lw6map_test (mode);
       lw6ker_test (mode);
+      lw6dyn_test (mode);
     }
 
   backend[0] = lw6bot_create_backend (argc, argv, "brute");

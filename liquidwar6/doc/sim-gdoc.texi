@@ -1,0 +1,21 @@
+@deftypefun {int} {lw6sim_simulate} (lw6sim_simulation_results_t * @var{results}, int @var{nb_teams})
+@var{results}:  out param, results of the simulation
+
+@var{nb_teams}:  number of teams
+
+Runs a simulation of several battle/games on the default map using
+different team settings. Will test teams up to the given number,
+for instance if you give 3 as an argument, will run tests with teams
+0, 1 and 2 (that's to say a total of 3 teams).
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6sim_test} (int @var{mode})
+@var{mode}:  0 for check only, 1 for full test
+
+Runs the @code{sim} module test suite.
+
+@strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+

@@ -162,6 +162,7 @@ C API
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
 * libscm::              Guile wrapper.
+* libsim::              Simulating fights.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -3682,9 +3683,9 @@ edit @code{src/lib/lw6-test.c} and add a reference to the @code{lw6xzy_test()} f
 @item
 in every internal @code{abc} library that depends on @code{xyz}, edit the @code{lw6abc_test} function so that it contains a reference to @code{lw6xzy_test}.
 @item
-in every internal @code{abc} library that depends on @code{abc/abc.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}. Also edit @code{src/lib/liquidwar6.h.in}.
+in every internal @code{abc} library that depends on @code{xyz/xyz.h}, edit the @code{abc/abc.h} header so that it includes @code{xzy/xyz.h}. Also edit @code{src/lib/liquidwar6.h.in}.
 @item
-in every internal @code{abc} library that depends on @code{abc/abc.h}, add a reference to @code{../xyz/libxyz.la} inf the @code{_LDADD} section.
+in every internal @code{abc} library that depends on @code{libxyz}, add a reference to @code{../xyz/libxyz.la} inf the @code{_LDADD} section.
 @item
 edit @code{doc/gdoc-update.sh} and add the entry for @code{xyz}.
 @item
@@ -4222,6 +4223,7 @@ of functions. It enables the programmer to spots the ``ugly'' and dangerous part
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
 * libscm::              Guile wrapper.
+* libsim::              Simulating fights.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.
@@ -5090,7 +5092,7 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c libscm
 @c ---------------------------------------------------------------------------
 
-@node libscm, libsnd, libpil, C API
+@node libscm, libsim, libpil, C API
 @section libscm
 
 @subsection Overview
@@ -5115,10 +5117,38 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @end ifnotinfo
  
 @c ---------------------------------------------------------------------------
+@c libsim
+@c ---------------------------------------------------------------------------
+
+@node libsim, libsnd, libscm, C API
+@section libsim
+
+@subsection Overview
+
+View @uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov} test coverage results 
+on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/sim/index.html}.
+
+@subsection API
+
+@ifinfo
+@include sim-gdoc.texi
+@end ifinfo
+
+@ifnotinfo
+@ifhtml
+@include sim-gdoc.texi
+@end ifhtml
+@ifnothtml
+Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
+@uref{http://www.gnu.org/software/liquidwar6/manual/html_node/libsim.html}.
+@end ifnothtml
+@end ifnotinfo
+ 
+@c ---------------------------------------------------------------------------
 @c libsnd
 @c ---------------------------------------------------------------------------
 
-@node libsnd, mod-csound, libscm, C API
+@node libsnd, mod-csound, libsim, C API
 @section libsnd
 
 @subsection Overview

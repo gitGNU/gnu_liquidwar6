@@ -2381,6 +2381,8 @@ F.2 Function and keyword index
 * lw6scm_c_define_gsubr:                 libscm.             (line   25)
 * lw6scm_c_primitive_load:               libscm.             (line   43)
 * lw6scm_test:                           libscm.             (line   17)
+* lw6sim_simulate:                       libsim.             (line   18)
+* lw6sim_test:                           libsim.             (line   30)
 * lw6snd_test:                           libsnd.             (line   17)
 * lw6srv_oob_free:                       libsrv.             (line   34)
 * lw6srv_oob_new:                        libsrv.             (line   18)

@@ -75,6 +75,7 @@ subgraph cluster_gfx {
 	pil -> ker
 	scm -> hlp
 	scm -> guile
+	sim -> bot
 	snd -> dyn
 	snd -> cfg
 subgraph cluster_snd {
@@ -106,7 +107,7 @@ subgraph cluster_srv {
 	vox -> ker
 
 	liquidwar6 [style=filled,fillcolor=lightgrey]
-	liquidwar6 -> bot
+	liquidwar6 -> sim
 	liquidwar6 -> dsp
 	liquidwar6 -> img
 	liquidwar6 -> tsk

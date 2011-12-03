@@ -24,10 +24,10 @@
 #define LIQUIDWAR6BOT_H
 
 #include "../sys/sys.h"
-#include "../dyn/dyn.h"
 #include "../map/map.h"
 #include "../ker/ker.h"
 #include "../pil/pil.h"
+#include "../dyn/dyn.h"
 
 typedef struct lw6bot_param_s
 {

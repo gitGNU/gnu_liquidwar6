@@ -4270,6 +4270,7 @@ interfaces:
 * libp2p::              A la peer to peer network system.
 * libpil::              Dealing with game lag.
 * libscm::              Guile wrapper.
+* libsim::              Simulating fights.
 * libsnd::              Sound.
 * mod-csound::          Csound sound backend (vaporware).
 * mod-ogg::             Ogg/libSDL default sound backend.

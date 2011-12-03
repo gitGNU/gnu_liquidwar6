@@ -57,11 +57,11 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@FULLSTATIC_FALSE@libexec_PROGRAMS = liquidwar6-test$(EXEEXT)
-@FULLSTATIC_FALSE@TESTS = liquidwar6-test$(EXEEXT)
-subdir = src/lib
-DIST_COMMON = $(am__libliquidwar6_HEADERS_DIST) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/liquidwar6.h.in
+@FULLSTATIC_FALSE@libexec_PROGRAMS = liquidwar6sim-test$(EXEEXT)
+@FULLSTATIC_FALSE@TESTS = liquidwar6sim-test$(EXEEXT)
+subdir = src/lib/sim
+DIST_COMMON = $(libsim_HEADERS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
@@ -75,8 +75,39 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = liquidwar6.h
+CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+libsim_la_LIBADD =
+am_libsim_la_OBJECTS = sim-simulate.lo sim-test.lo
+libsim_la_OBJECTS = $(am_libsim_la_OBJECTS)
+am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsimdir)"
+PROGRAMS = $(libexec_PROGRAMS)
+am__liquidwar6sim_test_SOURCES_DIST = sim-testmain.c
+@FULLSTATIC_FALSE@am_liquidwar6sim_test_OBJECTS =  \
+@FULLSTATIC_FALSE@	sim-testmain.$(OBJEXT)
+liquidwar6sim_test_OBJECTS = $(am_liquidwar6sim_test_OBJECTS)
+@ALLINONE_FALSE@am__DEPENDENCIES_1 = ../dyn/libdyn.la
+@FULLSTATIC_FALSE@liquidwar6sim_test_DEPENDENCIES = libsim.la \
+@FULLSTATIC_FALSE@	../bot/libbot.la $(am__DEPENDENCIES_1) \
+@FULLSTATIC_FALSE@	../pil/libpil.la ../ker/libker.la \
+@FULLSTATIC_FALSE@	../map/libmap.la ../sys/libsys.la
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+SOURCES = $(libsim_la_SOURCES) $(liquidwar6sim_test_SOURCES)
+DIST_SOURCES = $(libsim_la_SOURCES) \
+	$(am__liquidwar6sim_test_SOURCES_DIST)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -98,104 +129,12 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libexecdir)" \
-	"$(DESTDIR)$(libliquidwar6dir)"
-LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
-@ALLINONE_FALSE@am__DEPENDENCIES_1 = dyn/libdyn.la
-am__DEPENDENCIES_2 = sys/libsys.la glb/libglb.la cns/libcns.la \
-	hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la \
-	pil/libpil.la bot/libbot.la sim/libsim.la ldr/libldr.la \
-	gui/libgui.la vox/libvox.la gfx/libgfx.la dsp/libdsp.la \
-	snd/libsnd.la img/libimg.la net/libnet.la nod/libnod.la \
-	cnx/libcnx.la msg/libmsg.la cli/libcli.la srv/libsrv.la \
-	dat/libdat.la p2p/libp2p.la scm/libscm.la tsk/libtsk.la \
-	$(am__DEPENDENCIES_1)
-@ALLINONE_FALSE@libliquidwar6_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
-am__libliquidwar6_la_SOURCES_DIST = lw6-callback.c lw6-control.c \
-	lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c \
-	lw6-print.c lw6-smobs.c lw6-test.c
-am__objects_1 = lw6-callback.lo lw6-control.lo lw6-fix.lo lw6-funcs.lo \
-	lw6-global.lo lw6-main.lo lw6-options.lo lw6-print.lo \
-	lw6-smobs.lo lw6-test.lo
-@ALLINONE_FALSE@am_libliquidwar6_la_OBJECTS = $(am__objects_1)
-libliquidwar6_la_OBJECTS = $(am_libliquidwar6_la_OBJECTS)
-libliquidwar6_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(libliquidwar6_la_LDFLAGS) $(LDFLAGS) -o $@
-@ALLINONE_FALSE@am_libliquidwar6_la_rpath = -rpath $(libdir)
-libliquidwar6_s_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
-am_libliquidwar6_s_la_OBJECTS = $(am__objects_1)
-libliquidwar6_s_la_OBJECTS = $(am_libliquidwar6_s_la_OBJECTS)
-PROGRAMS = $(libexec_PROGRAMS)
-am__liquidwar6_test_SOURCES_DIST = lw6-testmain.c
-@FULLSTATIC_FALSE@am_liquidwar6_test_OBJECTS = lw6-testmain.$(OBJEXT)
-liquidwar6_test_OBJECTS = $(am_liquidwar6_test_OBJECTS)
-@FULLSTATIC_FALSE@liquidwar6_test_DEPENDENCIES = libliquidwar6_s.la \
-@FULLSTATIC_FALSE@	$(am__DEPENDENCIES_2)
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__depfiles_maybe = depfiles
-am__mv = mv -f
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
-SOURCES = $(libliquidwar6_la_SOURCES) $(libliquidwar6_s_la_SOURCES) \
-	$(liquidwar6_test_SOURCES)
-DIST_SOURCES = $(am__libliquidwar6_la_SOURCES_DIST) \
-	$(libliquidwar6_s_la_SOURCES) \
-	$(am__liquidwar6_test_SOURCES_DIST)
-RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
-	html-recursive info-recursive install-data-recursive \
-	install-dvi-recursive install-exec-recursive \
-	install-html-recursive install-info-recursive \
-	install-pdf-recursive install-ps-recursive install-recursive \
-	installcheck-recursive installdirs-recursive pdf-recursive \
-	ps-recursive uninstall-recursive
-am__libliquidwar6_HEADERS_DIST = liquidwar6.h
-HEADERS = $(libliquidwar6_HEADERS)
-RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
-  distclean-recursive maintainer-clean-recursive
-AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
-	$(RECURSIVE_CLEAN_TARGETS:-recursive=) tags TAGS ctags CTAGS \
-	distdir
+HEADERS = $(libsim_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
 red=; grn=; lgn=; blu=; std=
-DIST_SUBDIRS = def sys glb map ker pil dyn bot sim cns hlp cfg ldr tsk \
-	gui vox gfx snd dsp img net nod cnx msg cli srv dat p2p scm
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-am__relativize = \
-  dir0=`pwd`; \
-  sed_first='s,^\([^/]*\)/.*$$,\1,'; \
-  sed_rest='s,^[^/]*/*,,'; \
-  sed_last='s,^.*/\([^/]*\)$$,\1,'; \
-  sed_butlast='s,/*[^/]*$$,,'; \
-  while test -n "$$dir1"; do \
-    first=`echo "$$dir1" | sed -e "$$sed_first"`; \
-    if test "$$first" != "."; then \
-      if test "$$first" = ".."; then \
-        dir2=`echo "$$dir0" | sed -e "$$sed_last"`/"$$dir2"; \
-        dir0=`echo "$$dir0" | sed -e "$$sed_butlast"`; \
-      else \
-        first2=`echo "$$dir2" | sed -e "$$sed_first"`; \
-        if test "$$first2" = "$$first"; then \
-          dir2=`echo "$$dir2" | sed -e "$$sed_rest"`; \
-        else \
-          dir2="../$$dir2"; \
-        fi; \
-        dir0="$$dir0"/"$$first"; \
-      fi; \
-    fi; \
-    dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
-  done; \
-  reldir="$$dir2"
 ACLOCAL = @ACLOCAL@
 ALLINONE_CFLAGS = @ALLINONE_CFLAGS@
 ALLINONE_LDFLAGS = @ALLINONE_LDFLAGS@
@@ -391,29 +330,17 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-@ALLINONE_FALSE@AM_CFLAGS = @LW6_CFLAGS@
-@ALLINONE_TRUE@AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@ @SDL_CFLAGS@
-@ALLINONE_FALSE@AM_LDFLAGS = @LW6_LDFLAGS@
-@ALLINONE_TRUE@AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-@ALLINONE_FALSE@LW6DYN_LIB = dyn/libdyn.la 
+AM_CFLAGS = @LW6_CFLAGS@
+AM_LDFLAGS = @LW6_LDFLAGS@
+@ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
 @ALLINONE_TRUE@LW6DYN_LIB = 
-@ALLINONE_FALSE@LW6DYN_SUBDIR = dyn
-@ALLINONE_TRUE@LW6DYN_SUBDIR = 
-noinst_LTLIBRARIES = libliquidwar6_s.la
-LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-global.c lw6-main.c lw6-options.c lw6-print.c lw6-smobs.c lw6-test.c
-LW6_LIBS = sys/libsys.la glb/libglb.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la sim/libsim.la ldr/libldr.la gui/libgui.la vox/libvox.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la net/libnet.la nod/libnod.la cnx/libcnx.la msg/libmsg.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la scm/libscm.la tsk/libtsk.la $(LW6DYN_LIB) 
-libliquidwar6_s_la_SOURCES = $(LW6_FILES)
-libliquidwar6_s_la_LIBADD = $(LW6_LIBS)
-@ALLINONE_FALSE@lib_LTLIBRARIES = libliquidwar6.la
-@ALLINONE_FALSE@libliquidwar6_la_SOURCES = $(LW6_FILES)
-@ALLINONE_FALSE@libliquidwar6_la_LIBADD = $(LW6_LIBS)
-@ALLINONE_FALSE@libliquidwar6_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GUILE_LDFLAGS@
-@ALLINONE_FALSE@libliquidwar6dir = $(includedir)/@PACKAGE_TARNAME@
-@ALLINONE_FALSE@libliquidwar6_HEADERS = liquidwar6.h
-@FULLSTATIC_FALSE@liquidwar6_test_SOURCES = lw6-testmain.c
-@FULLSTATIC_FALSE@liquidwar6_test_LDADD = libliquidwar6_s.la $(LW6_LIBS) @LW6_LIBINTL_LDADD@
-SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot sim cns hlp cfg ldr tsk gui vox gfx snd dsp img net nod cnx msg cli srv dat p2p scm
-all: all-recursive
+noinst_LTLIBRARIES = libsim.la
+libsim_la_SOURCES = sim-simulate.c sim-test.c
+libsimdir = $(includedir)/@PACKAGE_TARNAME@/sim
+libsim_HEADERS = sim.h
+@FULLSTATIC_FALSE@liquidwar6sim_test_SOURCES = sim-testmain.c
+@FULLSTATIC_FALSE@liquidwar6sim_test_LDADD = libsim.la ../bot/libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
@@ -426,9 +353,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/sim/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/lib/Makefile
+	  $(AUTOMAKE) --gnu src/lib/sim/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -447,39 +374,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-liquidwar6.h: $(top_builddir)/config.status $(srcdir)/liquidwar6.h.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
-	}
-
-uninstall-libLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	for p in $$list; do \
-	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
-	done
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
-	  test "$$dir" != "$$p" || dir=.; \
-	  echo "rm -f \"$${dir}/so_locations\""; \
-	  rm -f "$${dir}/so_locations"; \
-	done
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -489,10 +383,8 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libliquidwar6.la: $(libliquidwar6_la_OBJECTS) $(libliquidwar6_la_DEPENDENCIES) 
-	$(libliquidwar6_la_LINK) $(am_libliquidwar6_la_rpath) $(libliquidwar6_la_OBJECTS) $(libliquidwar6_la_LIBADD) $(LIBS)
-libliquidwar6_s.la: $(libliquidwar6_s_la_OBJECTS) $(libliquidwar6_s_la_DEPENDENCIES) 
-	$(LINK)  $(libliquidwar6_s_la_OBJECTS) $(libliquidwar6_s_la_LIBADD) $(LIBS)
+libsim.la: $(libsim_la_OBJECTS) $(libsim_la_DEPENDENCIES) 
+	$(LINK)  $(libsim_la_OBJECTS) $(libsim_la_LIBADD) $(LIBS)
 install-libexecPROGRAMS: $(libexec_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libexecdir)" || $(MKDIR_P) "$(DESTDIR)$(libexecdir)"
@@ -536,9 +428,9 @@ clean-libexecPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-liquidwar6-test$(EXEEXT): $(liquidwar6_test_OBJECTS) $(liquidwar6_test_DEPENDENCIES) 
-	@rm -f liquidwar6-test$(EXEEXT)
-	$(LINK) $(liquidwar6_test_OBJECTS) $(liquidwar6_test_LDADD) $(LIBS)
+liquidwar6sim-test$(EXEEXT): $(liquidwar6sim_test_OBJECTS) $(liquidwar6sim_test_DEPENDENCIES) 
+	@rm -f liquidwar6sim-test$(EXEEXT)
+	$(LINK) $(liquidwar6sim_test_OBJECTS) $(liquidwar6sim_test_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -546,17 +438,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-callback.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-control.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-fix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-funcs.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-global.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-main.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-options.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-print.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-smobs.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-test.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lw6-testmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-simulate.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-test.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-testmain.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -584,96 +468,26 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-libliquidwar6HEADERS: $(libliquidwar6_HEADERS)
+install-libsimHEADERS: $(libsim_HEADERS)
 	@$(NORMAL_INSTALL)
-	test -z "$(libliquidwar6dir)" || $(MKDIR_P) "$(DESTDIR)$(libliquidwar6dir)"
-	@list='$(libliquidwar6_HEADERS)'; test -n "$(libliquidwar6dir)" || list=; \
+	test -z "$(libsimdir)" || $(MKDIR_P) "$(DESTDIR)$(libsimdir)"
+	@list='$(libsim_HEADERS)'; test -n "$(libsimdir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libliquidwar6dir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libliquidwar6dir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libsimdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libsimdir)" || exit $$?; \
 	done
 
-uninstall-libliquidwar6HEADERS:
+uninstall-libsimHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libliquidwar6_HEADERS)'; test -n "$(libliquidwar6dir)" || list=; \
+	@list='$(libsim_HEADERS)'; test -n "$(libsimdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(libliquidwar6dir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(libliquidwar6dir)" && rm -f $$files
-
-# This directory's subdirectories are mostly independent; you can cd
-# into them and run `make' without going through this Makefile.
-# To change the values of `make' variables: instead of editing Makefiles,
-# (1) if the variable is set in `config.status', edit `config.status'
-#     (which will cause the Makefiles to be regenerated when you run `make');
-# (2) otherwise, pass the desired values on the `make' command line.
-$(RECURSIVE_TARGETS):
-	@fail= failcom='exit 1'; \
-	for f in x $$MAKEFLAGS; do \
-	  case $$f in \
-	    *=* | --[!k]*);; \
-	    *k*) failcom='fail=yes';; \
-	  esac; \
-	done; \
-	dot_seen=no; \
-	target=`echo $@ | sed s/-recursive//`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    dot_seen=yes; \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	  || eval $$failcom; \
-	done; \
-	if test "$$dot_seen" = "no"; then \
-	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
-	fi; test -z "$$fail"
-
-$(RECURSIVE_CLEAN_TARGETS):
-	@fail= failcom='exit 1'; \
-	for f in x $$MAKEFLAGS; do \
-	  case $$f in \
-	    *=* | --[!k]*);; \
-	    *k*) failcom='fail=yes';; \
-	  esac; \
-	done; \
-	dot_seen=no; \
-	case "$@" in \
-	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
-	  *) list='$(SUBDIRS)' ;; \
-	esac; \
-	rev=''; for subdir in $$list; do \
-	  if test "$$subdir" = "."; then :; else \
-	    rev="$$subdir $$rev"; \
-	  fi; \
-	done; \
-	rev="$$rev ."; \
-	target=`echo $@ | sed s/-recursive//`; \
-	for subdir in $$rev; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	  || eval $$failcom; \
-	done && test -z "$$fail"
-tags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
-	done
-ctags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) ctags); \
-	done
+	echo " ( cd '$(DESTDIR)$(libsimdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libsimdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -685,23 +499,10 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	mkid -fID $$unique
 tags: TAGS
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	set x; \
 	here=`pwd`; \
-	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
-	  include_option=--etags-include; \
-	  empty_fix=.; \
-	else \
-	  include_option=--include; \
-	  empty_fix=; \
-	fi; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test ! -f $$subdir/TAGS || \
-	      set "$$@" "$$include_option=$$here/$$subdir/TAGS"; \
-	  fi; \
-	done; \
 	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
@@ -720,7 +521,7 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	  fi; \
 	fi
 ctags: CTAGS
-CTAGS: ctags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
@@ -862,52 +663,23 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test -d "$(distdir)/$$subdir" \
-	    || $(MKDIR_P) "$(distdir)/$$subdir" \
-	    || exit 1; \
-	  fi; \
-	done
-	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    dir1=$$subdir; dir2="$(distdir)/$$subdir"; \
-	    $(am__relativize); \
-	    new_distdir=$$reldir; \
-	    dir1=$$subdir; dir2="$(top_distdir)"; \
-	    $(am__relativize); \
-	    new_top_distdir=$$reldir; \
-	    echo " (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir="$$new_top_distdir" distdir="$$new_distdir" \\"; \
-	    echo "     am__remove_distdir=: am__skip_length_check=: am__skip_mode_fix=: distdir)"; \
-	    ($(am__cd) $$subdir && \
-	      $(MAKE) $(AM_MAKEFLAGS) \
-	        top_distdir="$$new_top_distdir" \
-	        distdir="$$new_distdir" \
-		am__remove_distdir=: \
-		am__skip_length_check=: \
-		am__skip_mode_fix=: \
-	        distdir) \
-	      || exit 1; \
-	  fi; \
-	done
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
-check: check-recursive
+check: check-am
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
-installdirs: installdirs-recursive
-installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libliquidwar6dir)"; do \
+installdirs:
+	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsimdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
-install-exec: install-exec-recursive
-install-data: install-data-recursive
-uninstall: uninstall-recursive
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-recursive
+installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  install_sh_PROGRAM="$(INSTALL_STRIP_PROGRAM)" INSTALL_STRIP_FLAG=-s \
@@ -924,99 +696,94 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-recursive
+clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libexecPROGRAMS \
-	clean-libtool clean-noinstLTLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libexecPROGRAMS clean-libtool \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
-distclean: distclean-recursive
+distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
 
-dvi: dvi-recursive
+dvi: dvi-am
 
 dvi-am:
 
-html: html-recursive
+html: html-am
 
 html-am:
 
-info: info-recursive
+info: info-am
 
 info-am:
 
-install-data-am: install-libliquidwar6HEADERS
+install-data-am: install-libsimHEADERS
 
-install-dvi: install-dvi-recursive
+install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES install-libexecPROGRAMS
+install-exec-am: install-libexecPROGRAMS
 
-install-html: install-html-recursive
+install-html: install-html-am
 
 install-html-am:
 
-install-info: install-info-recursive
+install-info: install-info-am
 
 install-info-am:
 
 install-man:
 
-install-pdf: install-pdf-recursive
+install-pdf: install-pdf-am
 
 install-pdf-am:
 
-install-ps: install-ps-recursive
+install-ps: install-ps-am
 
 install-ps-am:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-recursive
+maintainer-clean: maintainer-clean-am
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-recursive
+mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-pdf: pdf-recursive
+pdf: pdf-am
 
 pdf-am:
 
-ps: ps-recursive
+ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-libexecPROGRAMS \
-	uninstall-libliquidwar6HEADERS
+uninstall-am: uninstall-libexecPROGRAMS uninstall-libsimHEADERS
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) check-am \
-	ctags-recursive install-am install-strip tags-recursive
+.MAKE: check-am install-am install-strip
 
-.PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
-	all all-am check check-TESTS check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libexecPROGRAMS clean-libtool \
-	clean-noinstLTLIBRARIES ctags ctags-recursive distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-libexecPROGRAMS \
-	install-libliquidwar6HEADERS install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-libexecPROGRAMS \
-	uninstall-libliquidwar6HEADERS
+.PHONY: CTAGS GTAGS all all-am check check-TESTS check-am clean \
+	clean-generic clean-libexecPROGRAMS clean-libtool \
+	clean-noinstLTLIBRARIES ctags distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libexecPROGRAMS \
+	install-libsimHEADERS install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-libexecPROGRAMS \
+	uninstall-libsimHEADERS
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

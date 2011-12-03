@@ -28,7 +28,7 @@ echo "\techo gdoc $i && cd \$(top_srcdir)/doc && \$(PERL) \$(top_srcdir)/doc/gdo
 echo >> Makefile.gdoc
 perl gdoc.pl -texinfo ../src/lib/*.[ch] > liquidwar6-gdoc.texi
 
-for i in bot cfg cli cns cnx dat dsp dyn gfx glb gui hlp img ker ldr map msg net nod p2p pil scm snd srv sys tsk vox ; do
+for i in bot cfg cli cns cnx dat dsp dyn gfx glb gui hlp img ker ldr map msg net nod p2p pil scm sim snd srv sys tsk vox ; do
     echo "\$(srcdir)/$i-gdoc.texi: "`ls ../src/lib/$i/*.[ch] | sort` >> Makefile.gdoc
     echo "\techo gdoc $i && cd \$(top_srcdir)/doc && \$(PERL) \$(top_srcdir)/doc/gdoc.pl -texinfo \$^ > \$(top_srcdir)/doc/$i-gdoc.texi" >> Makefile.gdoc
     echo >> Makefile.gdoc

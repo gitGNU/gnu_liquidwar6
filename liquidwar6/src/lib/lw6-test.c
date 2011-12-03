@@ -154,7 +154,9 @@ lw6_test (int mode)
       lw6glb_test (mode);
       lw6map_test (mode);
       lw6ker_test (mode);
+      lw6pil_test (mode);
       lw6bot_test (mode);
+      lw6sim_test (mode);
       lw6cns_test (mode);
       lw6hlp_test (mode);
       lw6cfg_test (mode);
@@ -166,7 +168,6 @@ lw6_test (int mode)
       lw6dsp_test (mode);
       lw6snd_test (mode);
       lw6img_test (mode);
-      lw6pil_test (mode);
       lw6net_test (mode);
       lw6nod_test (mode);
       lw6cnx_test (mode);

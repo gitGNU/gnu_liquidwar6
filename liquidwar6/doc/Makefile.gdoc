@@ -69,6 +69,9 @@ $(srcdir)/pil-gdoc.texi: ../src/lib/pil/pil-bench.c ../src/lib/pil/pil-command.c
 $(srcdir)/scm-gdoc.texi: ../src/lib/scm/scm.h ../src/lib/scm/scm-test.c ../src/lib/scm/scm-testmain.c ../src/lib/scm/scm-wrapper.c
 	echo gdoc scm && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/scm-gdoc.texi
 
+$(srcdir)/sim-gdoc.texi: ../src/lib/sim/sim.h ../src/lib/sim/sim-simulate.c ../src/lib/sim/sim-test.c ../src/lib/sim/sim-testmain.c
+	echo gdoc sim && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/sim-gdoc.texi
+
 $(srcdir)/snd-gdoc.texi: ../src/lib/snd/snd-api.c ../src/lib/snd/snd.h ../src/lib/snd/snd-register.c ../src/lib/snd/snd-test.c ../src/lib/snd/snd-testmain.c
 	echo gdoc snd && cd $(top_srcdir)/doc && $(PERL) $(top_srcdir)/doc/gdoc.pl -texinfo $^ > $(top_srcdir)/doc/snd-gdoc.texi
 
