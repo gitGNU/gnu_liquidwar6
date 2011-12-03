@@ -48,7 +48,7 @@
 
   <!-- NUMBER OF PARTICIPANTS -->
   <int key="max-nb-cursors" value="26"/> <!-- Default is 26, which also is the maximum -->
-  <int key="max-nb-servers" value="10"/> <!-- Default is 10, the maximum is 26 -->
+  <int key="max-nb-nodes" value="10"/> <!-- Default is 10, the maximum is 26 -->
   <int key="max-nb-teams" value="10"/> <!--   Default is 10, which also is the maximum -->
 
   
