@@ -1629,6 +1629,27 @@ scaled whatsoever, even if it's within the absolute limits
 and your texture will rarely appear in its native
 resolution, will probably be distorted, and so on.
 
+@subsection Metadata
+
+Older versions of Liquid War 6 used to load a plain @code{README} file
+and use this as metadata. Title was take from map directory name. This is
+still supported, but it now also supports the addition of a @code{metadata.xml} file
+in which you can describe your map.
+
+The following files can be defined:
+
+@itemize
+@item
+@code{title}: map title, what will appear in the menus
+@item
+@code{author}: map author
+@item
+@code{description}: description of the map, to help players when browsing folders
+@item
+@code{license}: map license (short version, just a simple one-liner, don't use lenghtly copyright
+notices here, the @code{README} file would be the file to put long legal sections)
+@end itemize
+
 @subsection map.png
 
 This is the only required file in a level.

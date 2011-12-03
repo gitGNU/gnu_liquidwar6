@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Fishy" />
+  <string key="author" value="Kasper Hviid" />
+  <string key="description" value="Map with fighters which can really dig into the enemy. Their behavior have a very natural look, almost like plants or fractals." />
+  <string key="license" value="CC BY-SA 2.5 or GPL v2+" />
+</lw6mapparam>

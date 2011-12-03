@@ -59,14 +59,15 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
       entry = (lw6ldr_entry_t *) LW6SYS_CALLOC (sizeof (lw6ldr_entry_t));
       if (entry)
 	{
-	  entry->exp = LW6MAP_RULES_DEFAULT_EXP;
+	  entry->metadata.vanilla_exp = LW6MAP_RULES_DEFAULT_EXP;
 	  entry->absolute_path =
 	    lw6sys_path_concat (absolute_path, entry_path);
 	  if (entry->absolute_path)
 	    {
 	      if (lw6sys_dir_exists (entry->absolute_path))
 		{
-		  entry->title = lw6sys_str_copy (entry_path);
+		  lw6ldr_metadata_read (&(entry->metadata),
+					entry->absolute_path);
 		  if (lw6sys_path_is_cwd (relative_path))
 		    {
 		      entry->relative_path = lw6sys_str_copy (entry_path);
@@ -96,7 +97,7 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 			  if (lw6ldr_rules_read
 			      (&rules, entry->absolute_path))
 			    {
-			      entry->exp = rules.exp;
+			      entry->metadata.vanilla_exp = rules.exp;
 			    }
 			}
 		      LW6SYS_FREE (map_filename);
@@ -112,7 +113,9 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 
   if (entry)
     {
-      if (!entry->title || !entry->absolute_path || !entry->relative_path)
+      if (!entry->metadata.title || !entry->metadata.author
+	  || !entry->metadata.description || !entry->metadata.license
+	  || !entry->absolute_path || !entry->relative_path)
 	{
 	  lw6ldr_free_entry (entry);
 	  entry = NULL;
@@ -121,7 +124,8 @@ new_entry (char *absolute_path, char *relative_path, char *entry_path,
 
   if (entry)
     {
-      if ((entry->exp > player_exp) && (entry->absolute_path != NULL))
+      if ((entry->metadata.vanilla_exp > player_exp)
+	  && (entry->absolute_path != NULL))
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_
@@ -168,11 +172,7 @@ lw6ldr_free_entry (lw6ldr_entry_t * entry)
   if (entry)
     {
       // needs to be rock solid for construction bugs
-      if (entry->title)
-	{
-	  LW6SYS_FREE (entry->title);
-	  entry->title = NULL;
-	}
+      lw6map_metadata_clear (&(entry->metadata));
       if (entry->absolute_path)
 	{
 	  LW6SYS_FREE (entry->absolute_path);
@@ -206,11 +206,17 @@ lw6ldr_dup_entry (lw6ldr_entry_t * entry)
     {
       memcpy (ret, entry, sizeof (lw6ldr_entry_t));
 
-      ret->title = lw6sys_str_copy (ret->title);
+      ret->metadata.title = lw6sys_str_copy (ret->metadata.title);
+      ret->metadata.author = lw6sys_str_copy (ret->metadata.author);
+      ret->metadata.description = lw6sys_str_copy (ret->metadata.description);
+      ret->metadata.license = lw6sys_str_copy (ret->metadata.license);
+      ret->metadata.vanilla_exp = ret->metadata.vanilla_exp;
       ret->absolute_path = lw6sys_str_copy (ret->absolute_path);
       ret->relative_path = lw6sys_str_copy (ret->relative_path);
 
-      if (!ret->title || !ret->absolute_path || !ret->relative_path)
+      if (!ret->metadata.title || !ret->metadata.author
+	  || !ret->metadata.description || !ret->metadata.license
+	  || !ret->absolute_path || !ret->relative_path)
 	{
 	  lw6ldr_free_entry (ret);
 	  ret = NULL;
@@ -352,17 +358,17 @@ entries_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
     {
       ret = 1;
     }
-  else if (entry_a->exp < entry_b->exp)
+  else if (entry_a->metadata.vanilla_exp < entry_b->metadata.vanilla_exp)
     {
       ret = -1;
     }
-  else if (entry_a->exp > entry_b->exp)
+  else if (entry_a->metadata.vanilla_exp > entry_b->metadata.vanilla_exp)
     {
       ret = 1;
     }
   else
     {
-      ret = strcmp (entry_a->title, entry_b->title);
+      ret = strcmp (entry_a->metadata.title, entry_b->metadata.title);
     }
 
   return ret;
@@ -529,7 +535,7 @@ _chain_func (void *func_data, void *data)
   lw6ldr_entry_t *entry = (lw6ldr_entry_t *) data;
 
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing \"%s\" exp=%d"),
-	      entry->absolute_path, entry->exp);
+	      entry->absolute_path, entry->metadata.vanilla_exp);
 
   if (!(chain_ret->found_entry))
     {
@@ -539,11 +545,11 @@ _chain_func (void *func_data, void *data)
        * to have already done, if map exp is greater, there's a bug
        * or we're cheating.
        */
-      if (entry->exp == chain_ret->exp)
+      if (entry->metadata.vanilla_exp == chain_ret->exp)
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("ok, found \"%s\" exp=%d which is suitable"),
-		      entry->absolute_path, entry->exp);
+		      entry->absolute_path, entry->metadata.vanilla_exp);
 	  chain_ret->found_entry = lw6ldr_dup_entry (entry);
 	}
     }

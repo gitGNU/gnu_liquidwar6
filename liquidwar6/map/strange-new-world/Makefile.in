@@ -293,7 +293,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = README map.png texture.jpeg rules.xml hints.xml style.xml teams.xml thmoov.mid cursor.png cursor-color.png
+pkgdata_DATA = README map.png texture.jpeg rules.xml hints.xml style.xml teams.xml metadata.xml thmoov.mid cursor.png cursor-color.png
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 

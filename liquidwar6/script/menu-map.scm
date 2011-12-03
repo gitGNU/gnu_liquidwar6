@@ -22,11 +22,26 @@
   (lambda (entry)
     (let* (
 	   (title (assoc-ref entry "title"))
-	   (menuitem (lw6-menu-item-template title #f))
-	   (relative-path (assoc-ref entry "relative-path"))
+	   (author (assoc-ref entry "author"))
+	   (description (assoc-ref entry "description"))
+	   (license (assoc-ref entry "license"))
+	   (has-subdirs (assoc-ref entry "has-subdirs"))
 	   (forbidden (assoc-ref entry "forbidden"))
-	  )
-      (if (assoc-ref entry "has-subdirs")
+	   (menuitem (lw6-menu-item-template title 
+					     (if has-subdirs 
+						 (_ "Subfolder")
+						 (if forbidden
+						     (_ "You can't play this map yet")
+						     (format #f "~a: ~a~%%~a: ~a~%%~a: ~a"
+							     (_ "Author")
+							     author
+							     (_ "Description")
+							     description
+							     (_ "License")
+							     license)))))
+	   (relative-path (assoc-ref entry "relative-path"))
+	   )
+      (if has-subdirs
 	  (begin
 	    (set! menuitem (assoc-set! menuitem "selected" (string-prefix? relative-path (lw6-config-get-string lw6def-chosen-map))))
 	    (set! menuitem (assoc-set! menuitem "label" (string-concatenate (list title "/"))))

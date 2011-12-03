@@ -1508,7 +1508,28 @@ adapts the resolution to your computer speed) and your texture will
 rarely appear in its native resolution, will probably be distorted, and
 so on.
 
-3.1.4 map.png
+3.1.4 Metadata
+--------------
+
+Older versions of Liquid War 6 used to load a plain `README' file and
+use this as metadata. Title was take from map directory name. This is
+still supported, but it now also supports the addition of a
+`metadata.xml' file in which you can describe your map.
+
+   The following files can be defined:
+
+   * `title': map title, what will appear in the menus
+
+   * `author': map author
+
+   * `description': description of the map, to help players when
+     browsing folders
+
+   * `license': map license (short version, just a simple one-liner,
+     don't use lenghtly copyright notices here, the `README' file would
+     be the file to put long legal sections)
+
+3.1.5 map.png
 -------------
 
 This is the only required file in a level.
@@ -1527,7 +1548,7 @@ used. Internally, Liquid War 6 will read the color of every point. If
 it is over 127 on a 0 to 255 scale, it will be considered as
 background, if it is below 127, it will be considered as foreground.
 
-3.1.5 layer2.png ... layer7.png
+3.1.6 layer2.png ... layer7.png
 -------------------------------
 
 Liquid War 6 can handle mutiple layer maps. Think of a pile of maps,
@@ -1568,7 +1589,7 @@ z-axis based tunnels is probably not a great idea.
    The `ufoot/concept/pass' map of the `liquidwar6-extra-maps'
 demonstrates basic layer usage.
 
-3.1.6 texture.png, texture.jpeg and texture-alpha.jpeg
+3.1.7 texture.png, texture.jpeg and texture-alpha.jpeg
 ------------------------------------------------------
 
 It is possible to define a texture for the map by putting a
@@ -1606,7 +1627,7 @@ it's undecided, void, transparent, whatever, it's white. When the Gimp
 
    So white is transparent. Period.
 
-3.1.7 glue.png and boost.png
+3.1.8 glue.png and boost.png
 ----------------------------
 
 If there's a `glue.png' or `boost.png' file in the map directory (you
@@ -1642,7 +1663,7 @@ resampling algorithm and lead to maps that are unplayable. The spirit of
 moving faster or slower but also attacking faster or slower, and, in a
 general manner  doing any action with a different pace.
 
-3.1.8 danger.png and medicine.png
+3.1.9 danger.png and medicine.png
 ---------------------------------
 
 If there's a `danger.png' or `medicine.png' file in the map directory
@@ -1671,8 +1692,8 @@ really clear at this stage, the recommendation is not to do this (it
 does not really make sense anyway) but if you do it, game won't
 complain.
 
-3.1.9 one-way-<direction>.png
------------------------------
+3.1.10 one-way-<direction>.png
+------------------------------
 
 The four files:
 
@@ -1694,7 +1715,7 @@ account when choosing the shortest path to go somewhere.  You can
 combine vertical and horizontal one-way informations, making diagonal
 one-way paths.
 
-3.1.10 cursor.png and cursor-color.png
+3.1.11 cursor.png and cursor-color.png
 --------------------------------------
 
 By default, a simple cursor will be displayed, but you can use a custom
@@ -1720,7 +1741,7 @@ identify which teams the cursor belongs too. The PNG files really need
 to be PNG (JPEG won't work) and need to be 64x64, any other size will
 be ignored.
 
-3.1.11 rules.xml
+3.1.12 rules.xml
 ----------------
 
 Whereas `style.xml' is only about the appearance of the map,
@@ -1767,7 +1788,7 @@ example is speed.
 
    *Note rules.xml reference: Map rules.xml.
 
-3.1.12 hints.xml
+3.1.13 hints.xml
 ----------------
 
 This parameter is only used by the map loader. The map itself contains
@@ -1789,7 +1810,7 @@ algorithm has no idea of what was in `hints.xml', once it's loaded.
 
    *Note hints.xml reference: Map hints.xml.
 
-3.1.13 style.xml
+3.1.14 style.xml
 ----------------
 
 This is a simple XML file defining various appearance parameters.  It
@@ -1800,7 +1821,7 @@ in this file.
 
    *Note style.xml reference: Map style.xml.
 
-3.1.14 teams.xml
+3.1.15 teams.xml
 ----------------
 
 In this file one can specify per-map team settings. In short, this is
@@ -1831,7 +1852,7 @@ settings.
 
    *Note teams.xml reference: Map teams.xml.
 
-3.1.15 Resampling
+3.1.16 Resampling
 -----------------
 
 This is a very important point. Liquid War almost *always* resamples
@@ -1874,7 +1895,7 @@ design, this is another story. Don't use them. Rely on 'bench-value'
 and just care about game speed. This is achieved by changing the
 "speed" parameter.
 
-3.1.16 Music
+3.1.17 Music
 ------------
 
 It is possible to store your own custom music file within the map
@@ -1905,7 +1926,7 @@ have to place it in the same directory than the other files like
      found, it will try to play a random file, relying on
      `music-filter' to ignore some files.
 
-3.1.17 Experience ("exp")
+3.1.18 Experience ("exp")
 -------------------------
 
 In `rules.xml' you can set a special parameter which is `exp' and

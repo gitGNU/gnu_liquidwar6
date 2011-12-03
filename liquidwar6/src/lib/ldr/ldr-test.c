@@ -263,7 +263,7 @@ test_dir ()
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_ ("found map \"%s\" in \"%s\""),
-				entry->title, entry->absolute_path);
+				entry->metadata.title, entry->absolute_path);
 		    entry_found = 1;
 		    lw6ldr_free_entry (entry);
 		  };

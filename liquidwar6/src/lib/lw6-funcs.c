@@ -5212,42 +5212,55 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 		      c_entry = (lw6ldr_entry_t *) lw6sys_lifo_pop (&c_maps);
 		      if (c_entry)
 			{
+			  item = SCM_EOL;
 			  item = scm_cons (scm_cons
 					   (scm_makfrom0str ("title"),
-					    scm_makfrom0str (c_entry->title)),
-					   scm_cons (scm_cons (scm_makfrom0str
-							       ("absolute-path"),
-							       scm_makfrom0str
-							       (c_entry->absolute_path)),
-						     scm_cons (scm_cons
-							       (scm_makfrom0str
-								("relative-path"),
-								scm_makfrom0str
-								(c_entry->relative_path)),
-							       scm_cons
-							       (scm_cons
-								(scm_makfrom0str
-								 ("has-subdirs"),
-								 c_entry->has_subdirs
-								 ? SCM_BOOL_T
-								 :
-								 SCM_BOOL_F),
-								scm_cons
-								(scm_cons
-								 (scm_makfrom0str
-								  ("exp"),
-								  scm_from_int
-								  (c_entry->exp)),
-								 scm_cons
-								 (scm_cons
-								  (scm_makfrom0str
-								   ("forbidden"),
-								   c_entry->forbidden
-								   ?
-								   SCM_BOOL_T
-								   :
-								   SCM_BOOL_F),
-								  SCM_EOL))))));
+					    scm_makfrom0str
+					    (c_entry->metadata.title)), item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("author"),
+				       scm_makfrom0str (c_entry->
+							metadata.author)),
+				      item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("description"),
+				       scm_makfrom0str (c_entry->
+							metadata.description)),
+				      item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("license"),
+				       scm_makfrom0str (c_entry->
+							metadata.license)),
+				      item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("absolute-path"),
+				       scm_makfrom0str
+				       (c_entry->absolute_path)), item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("relative-path"),
+				       scm_makfrom0str
+				       (c_entry->relative_path)), item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("has-subdirs"),
+				       c_entry->has_subdirs ? SCM_BOOL_T :
+				       SCM_BOOL_F), item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("exp"),
+				       scm_from_int (c_entry->
+						     metadata.vanilla_exp)),
+				      item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_makfrom0str ("forbidden"),
+				       c_entry->forbidden ? SCM_BOOL_T :
+				       SCM_BOOL_F), item);
 			  ret = scm_cons (item, ret);
 			  lw6ldr_free_entry (c_entry);
 			}
@@ -5547,25 +5560,51 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 		lw6ldr_chain_entry (c_map_path, c_relative_path, user_dir);
 	      if (c_entry)
 		{
-		  ret = scm_list_5
-		    (scm_cons
-		     (scm_makfrom0str ("title"),
-		      scm_makfrom0str (c_entry->title)),
-		     scm_cons (scm_makfrom0str
-			       ("absolute-path"),
-			       scm_makfrom0str
-			       (c_entry->absolute_path)),
-		     scm_cons (scm_makfrom0str
-			       ("relative-path"),
-			       scm_makfrom0str
-			       (c_entry->relative_path)),
-		     scm_cons (scm_makfrom0str
-			       ("has-subdirs"),
-			       c_entry->has_subdirs ?
-			       SCM_BOOL_T :
-			       SCM_BOOL_F),
-		     scm_cons (scm_makfrom0str ("exp"),
-			       scm_from_int (c_entry->exp)));
+		  ret = SCM_EOL;
+		  ret = scm_cons (scm_cons
+				  (scm_makfrom0str ("title"),
+				   scm_makfrom0str (c_entry->metadata.title)),
+				  ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("author"),
+			       scm_makfrom0str (c_entry->metadata.author)),
+			      ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("description"),
+			       scm_makfrom0str (c_entry->
+						metadata.description)), ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("license"),
+			       scm_makfrom0str (c_entry->metadata.license)),
+			      ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("absolute-path"),
+			       scm_makfrom0str (c_entry->absolute_path)),
+			      ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("relative-path"),
+			       scm_makfrom0str (c_entry->relative_path)),
+			      ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("has-subdirs"),
+			       c_entry->has_subdirs ? SCM_BOOL_T :
+			       SCM_BOOL_F), ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("exp"),
+			       scm_from_int (c_entry->metadata.vanilla_exp)),
+			      ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_makfrom0str ("forbidden"),
+			       c_entry->forbidden ? SCM_BOOL_T : SCM_BOOL_F),
+			      ret);
 		  lw6ldr_free_entry (c_entry);
 		}
 	      LW6SYS_FREE (user_dir);

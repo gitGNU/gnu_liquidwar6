@@ -526,16 +526,16 @@ F.1 Concept index
 * Download:                              Getting the game.    (line   9)
 * GIT:                                   Using GIT.           (line   6)
 * GPL, GNU General Public License:       Copying.             (line   6)
-* hints.xml:                             Designing levels.    (line 344)
+* hints.xml:                             Designing levels.    (line 365)
 * Log file:                              Logs.                (line   6)
 * Mac OS X:                              Compilation tips.    (line 412)
 * Microsoft Windows:                     Compilation tips.    (line  99)
-* rules.xml:                             Designing levels.    (line 297)
+* rules.xml:                             Designing levels.    (line 318)
 * source code:                           Using GIT.           (line   6)
-* style.xml:                             Designing levels.    (line 366)
+* style.xml:                             Designing levels.    (line 387)
 * subversion:                            Using GIT.           (line   6)
 * SVN:                                   Using GIT.           (line   6)
-* teams.xml:                             Designing levels.    (line 377)
+* teams.xml:                             Designing levels.    (line 398)
 
 F.2 Function and keyword index
 ==============================

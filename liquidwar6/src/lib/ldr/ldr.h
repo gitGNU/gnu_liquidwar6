@@ -127,11 +127,10 @@ lw6ldr_resampler_t;
 
 typedef struct lw6ldr_entry_s
 {
-  char *title;
+  lw6map_metadata_t metadata;
   char *absolute_path;
   char *relative_path;
   int has_subdirs;
-  int exp;
   int forbidden;
 }
 lw6ldr_entry_t;

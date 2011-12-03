@@ -293,7 +293,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pkgdata_DATA = README boost.png danger.png hints.xml map.png medicine.png one-way-east.png one-way-north.png one-way-south.png one-way-west.png rules.xml style.xml teams.xml texture.jpeg cursor.png cursor-color.png
+pkgdata_DATA = README boost.png danger.png hints.xml map.png medicine.png one-way-east.png one-way-north.png one-way-south.png one-way-west.png rules.xml style.xml teams.xml metadata.xml texture.jpeg cursor.png cursor-color.png
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
