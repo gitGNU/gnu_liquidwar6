@@ -304,6 +304,7 @@ EXTRA_DIST = $(pkgdata_DATA) liquidwar6.spec liquidwar6d
 # doing things in /tmp/liquidwar6. Use at your own risk.
 TMP = /tmp/@PACKAGE_TARNAME@
 PACKAGE_TMP = /tmp/@PACKAGE_TARNAME@/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+PACKAGE_TMP_EXTRA = /tmp/@PACKAGE_TARNAME@/liquidwar6-extra-maps-@PACKAGE_VERSION@
 DLL_ZIP = /storage/download/liquidwar/v6/mingw32/dll-for-liquidwar6-20100823.zip
 all: all-am
 
@@ -544,11 +545,13 @@ zip: ms-windows-zip
 
 ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip: liquidwar6.exe @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz
 	rm -rf ${TMP}
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	cd ${TMP} && tar xzf liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz
 	mv ${PACKAGE_TMP}/NEWS ${PACKAGE_TMP}/news.txt
 	mv ${PACKAGE_TMP}/ChangeLog ${PACKAGE_TMP}/changes.txt
 	mv ${PACKAGE_TMP}/COPYING ${PACKAGE_TMP}/license.txt
@@ -565,6 +568,7 @@ ms-windows-zip: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-ms-windows.zip
 	mv ${PACKAGE_TMP}2/license.txt ${PACKAGE_TMP}/
 	mv ${PACKAGE_TMP}2/readme.txt ${PACKAGE_TMP}/
 	rm -rf ${PACKAGE_TMP}2
+	mv ${PACKAGE_TMP_EXTRA}/map ${PACKAGE_TMP}/map/extra
 	for i in `find ${PACKAGE_TMP}/ -name README`; do j=`echo $$i | sed s/README/readme.txt/g`; mv $$i $$j ; done
 	find ${PACKAGE_TMP} -name "Makefile*" | xargs rm -f
 	install -d ${PACKAGE_TMP}/doc
@@ -617,33 +621,36 @@ dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg
 # http://qin.laya.com/tech_coding_help/dylib_linking.html
 # http://doc.qt.nokia.com/qq/qq09-mac-deployment.html
 
-@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz Info.plist
+@PACKAGE_TARNAME@-@PACKAGE_VERSION@-mac-os-x.dmg: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz Info.plist
 	rm -rf ${TMP}
 	install -d ${TMP}
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
+	cp liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	cd ${TMP} && tar xzf liquidwar6-extra-maps-@PACKAGE_VERSION@.tar.gz
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/music "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/map "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp -r ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/script "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/NEWS "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/ChangeLog "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/License.txt"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/README "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp -r ${PACKAGE_TMP}/data "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp -r ${PACKAGE_TMP}/music "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp -r ${PACKAGE_TMP}/map "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	mv ${PACKAGE_TMP_EXTRA}/map "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/map/extra"
+	cp -r ${PACKAGE_TMP}/script "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${PACKAGE_TMP}/NEWS "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${PACKAGE_TMP}/ChangeLog "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${PACKAGE_TMP}/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${PACKAGE_TMP}/COPYING "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/License.txt"
+	cp ${PACKAGE_TMP}/README "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
+	cp ${PACKAGE_TMP}/data/icon/liquidwar6.icns "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
 	install -d ${TMP}/dll
 	cd ${TMP}/dll && unzip ${DLL_ZIP}
 	cp -r ${TMP}/dll/guile "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/"
-	cd ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --prefix=/opt && make
+	cd ${PACKAGE_TMP} && ./configure --prefix=/opt && make
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS"
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"
-	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/liquidwar6"; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
-	for i in `otool -L ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; done; done # 2nd pass, we track the references inside every .dylib so that dylibs reference each other correctly
+	cp ${PACKAGE_TMP}/src/liquidwar6 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"
+	for i in `otool -L ${PACKAGE_TMP}/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; cp $$i "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/"; chmod 644 "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -id @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; install_name_tool -change $$i @executable_path/$$j "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/liquidwar6"; done # yes, this is complicated, the idea is to run otool -L to find every library dependency, keep only those in /opt installed by macports or from source, then run install_name_tool to change references to a path relative to the executable path, so that it's findable within the package and does not rely on some developper's local install. One more point: we can't put libs outsite @executable_path (./MacOS) because if path is too long install_name_path won't work... See -headerpad_max_install_names option in LDFLAGS, might help too.
+	for i in `otool -L ${PACKAGE_TMP}/src/liquidwar6 | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do j=$${i##*/}; for k in `otool -L "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j" | grep dylib | grep -v /usr | grep /opt | cut -d "(" -f 1` ; do l=$${k##*/}; install_name_tool -change $$k @executable_path/$$l "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/$$j"; done; done # 2nd pass, we track the references inside every .dylib so that dylibs reference each other correctly
 	ln -s "libpng12.0.dylib" "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/libpng12.dylib" # needed by SDL_image
 	ln -s "libjpeg.62.dylib" "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/MacOS/libjpeg.dylib" # needed by SDL_image
-	cp ${TMP}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/"
+	cp ${PACKAGE_TMP}/pkg/Info.plist "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/"
 	install -d "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc"
 	make -C ../doc liquidwar6.html liquidwar6.pdf
 	cp -r ../doc/liquidwar6.html "${TMP}/@PACKAGE_STRING@/@PACKAGE_NAME@.app/Contents/Resources/doc/html"

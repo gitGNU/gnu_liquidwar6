@@ -18,7 +18,7 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6 extra maps],[0.0.11beta],[ufoot@ufoot.org],[liquidwar6-extra-maps])
+AC_INIT([Liquid War 6 extra maps],[0.0.12beta],[ufoot@ufoot.org],[liquidwar6-extra-maps])
 
 AC_ARG_ENABLE([liquidwar6], AC_HELP_STRING([--enable-liquidwar6=PATH-TO-LIQUIDWAR6-BINARY],[specify the liquidwar6 binary which will use the extra maps, this overrides the --prefix settings]), [LIQUIDWAR6_BIN=$enableval], [LIQUIDWAR6_BIN=no])
 
