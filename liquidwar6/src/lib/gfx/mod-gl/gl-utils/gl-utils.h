@@ -193,6 +193,8 @@ typedef struct mod_gl_utils_menucache_array_s
   mod_gl_utils_bitmap_t *tooltip_bitmap;
   char *help_str;
   mod_gl_utils_bitmap_t *help_bitmap;
+  char *breadcrumbs_str;
+  mod_gl_utils_bitmap_t *breadcrumbs_bitmap;
 }
 mod_gl_utils_menucache_array_t;
 

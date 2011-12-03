@@ -3444,7 +3444,7 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
   c_breadcrumbs = to_sys_str_list (breadcrumbs);
   if (c_breadcrumbs)
     {
-      // todo
+      lw6gui_menu_set_breadcrumbs(c_menu,c_breadcrumbs);
       lw6sys_list_free (c_breadcrumbs);
     }
 

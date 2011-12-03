@@ -1,3 +1,7 @@
+2011-12-03 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Implemented breadcrumbs.
+
 2011-12-02 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Proper handling of disabled menu items (used for maps).

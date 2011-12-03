@@ -38,4 +38,11 @@
   <int key="help-margin-size" value="2" />
   <int key="help-reformat-width" value="60" />
   <float key="help-relative-size" value="0.6" />
+  <float key="breadcrumbs-alpha-bg" value="0.5" />
+  <int key="breadcrumbs-max-width" value="512" />
+  <int key="breadcrumbs-max-height" value="256" />
+  <int key="breadcrumbs-border-size" value="2" />
+  <int key="breadcrumbs-margin-size" value="2" />
+  <int key="breadcrumbs-reformat-width" value="60" />
+  <float key="breadcrumbs-relative-size" value="0.6" />
 </liquidwar6>

@@ -506,7 +506,7 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 	     utils_context->menucache_array.help_bitmap->surface->h) /
 	    utils_context->menucache_array.help_bitmap->surface->w;
 	  help_x = (utils_context->video_mode.width - help_w) / 2;
-	  help_y = 0.0f;
+	  help_y = utils_context->video_mode.height-help_h;
 	  mod_gl_utils_bitmap_display (utils_context,
 				       utils_context->
 				       menucache_array.help_bitmap, help_x,
@@ -519,14 +519,71 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
     {
       breadcrumbs = lw6sys_str_join (menu->breadcrumbs, _BREADCRUMBS_GLUE);
     }
-  else
+
+  if (!lw6sys_str_is_null_or_empty (breadcrumbs))
     {
-      //TMP("no breadcrumbs");
+      if ((!lw6sys_str_is_same
+	   (breadcrumbs, utils_context->menucache_array.breadcrumbs_str))
+	  || (!utils_context->menucache_array.breadcrumbs_bitmap))
+	{
+	  if (utils_context->menucache_array.breadcrumbs_str)
+	    {
+	      LW6SYS_FREE (utils_context->menucache_array.breadcrumbs_str);
+	      utils_context->menucache_array.breadcrumbs_str = NULL;
+	    }
+	  if (utils_context->menucache_array.breadcrumbs_bitmap)
+	    {
+	      mod_gl_utils_bitmap_free (utils_context,
+					utils_context->
+					menucache_array.breadcrumbs_bitmap);
+	      utils_context->menucache_array.breadcrumbs_bitmap = NULL;
+	    }
+	  utils_context->menucache_array.breadcrumbs_str = lw6sys_str_copy (breadcrumbs);
+	  utils_context->menucache_array.breadcrumbs_bitmap =
+	    mod_gl_utils_multiline_text_write (utils_context,
+					       utils_context->font_data.hud,
+					       breadcrumbs,
+					       &(look->style.
+						 color_set.menu_color_default),
+					       cylinder_context->
+					       const_data.breadcrumbs_alpha_bg,
+					       cylinder_context->
+					       const_data.breadcrumbs_max_width,
+					       cylinder_context->
+					       const_data.breadcrumbs_max_height,
+					       cylinder_context->
+					       const_data.breadcrumbs_border_size,
+					       cylinder_context->
+					       const_data.breadcrumbs_margin_size,
+					       cylinder_context->
+					       const_data.breadcrumbs_reformat_width);
+	}
+
+      if (utils_context->menucache_array.breadcrumbs_bitmap)
+	{
+	  mod_gl_utils_set_render_mode_2d_blend (utils_context);
+
+	  breadcrumbs_w =
+	    (utils_context->video_mode.width *
+	     cylinder_context->const_data.breadcrumbs_relative_size *
+	     utils_context->menucache_array.breadcrumbs_bitmap->surface->w) /
+	    cylinder_context->const_data.breadcrumbs_max_width;
+	  breadcrumbs_h =
+	    (breadcrumbs_w *
+	     utils_context->menucache_array.breadcrumbs_bitmap->surface->h) /
+	    utils_context->menucache_array.breadcrumbs_bitmap->surface->w;
+	  breadcrumbs_x = utils_context->video_mode.width *(1.0f-cylinder_context->const_data.breadcrumbs_relative_size)/2.0f;
+	  breadcrumbs_y = 0.0f;
+	  mod_gl_utils_bitmap_display (utils_context,
+				       utils_context->
+				       menucache_array.breadcrumbs_bitmap, breadcrumbs_x,
+				       breadcrumbs_y, breadcrumbs_x + breadcrumbs_w,
+				       breadcrumbs_y + breadcrumbs_h);
+	}
     }
   if (breadcrumbs)
     {
-      //TMP1("%s",breadcrumbs);
-      LW6SYS_FREE (breadcrumbs);
+      LW6SYS_FREE(breadcrumbs);
     }
 }
 

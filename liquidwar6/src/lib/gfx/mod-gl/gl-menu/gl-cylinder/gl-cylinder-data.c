@@ -74,6 +74,16 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->help_margin_size);
       lw6cfg_read_xml_int (key, value, "help-reformat-width",
 			   &const_data->help_reformat_width);
+      lw6cfg_read_xml_int (key, value, "breadcrumbs-max-width",
+			   &const_data->breadcrumbs_max_width);
+      lw6cfg_read_xml_int (key, value, "breadcrumbs-max-height",
+			   &const_data->breadcrumbs_max_height);
+      lw6cfg_read_xml_int (key, value, "breadcrumbs-border-size",
+			   &const_data->breadcrumbs_border_size);
+      lw6cfg_read_xml_int (key, value, "breadcrumbs-margin-size",
+			   &const_data->breadcrumbs_margin_size);
+      lw6cfg_read_xml_int (key, value, "breadcrumbs-reformat-width",
+			   &const_data->breadcrumbs_reformat_width);
     }
 
   if (!strcmp (element, "float"))
@@ -114,6 +124,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->help_alpha_bg);
       lw6cfg_read_xml_float (key, value, "help-relative-size",
 			     &const_data->help_relative_size);
+      lw6cfg_read_xml_float (key, value, "breadcrumbs-alpha-bg",
+			     &const_data->breadcrumbs_alpha_bg);
+      lw6cfg_read_xml_float (key, value, "breadcrumbs-relative-size",
+			     &const_data->breadcrumbs_relative_size);
     }
 }
 

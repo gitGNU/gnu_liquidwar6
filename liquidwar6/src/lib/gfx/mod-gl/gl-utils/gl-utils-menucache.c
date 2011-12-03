@@ -168,6 +168,14 @@ mod_gl_utils_clear_menucache (mod_gl_utils_context_t * context)
     {
       mod_gl_utils_bitmap_free (context, menucache_array->help_bitmap);
     }
+  if (menucache_array->breadcrumbs_str)
+    {
+      LW6SYS_FREE (menucache_array->breadcrumbs_str);
+    }
+  if (menucache_array->breadcrumbs_bitmap)
+    {
+      mod_gl_utils_bitmap_free (context, menucache_array->breadcrumbs_bitmap);
+    }
 
   memset (menucache_array, 0, sizeof (mod_gl_utils_menucache_array_t));
 }
