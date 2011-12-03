@@ -181,7 +181,7 @@ test_data_callback_deep (void *func_data, void *data)
   int *ret = (int *) func_data;
   int ok = 0;
 
-  if (entry)
+  if (entry && (!entry->forbidden))
     {
       ok = check_map_with_absolute_path (entry->absolute_path);
       if (ret)
