@@ -1485,6 +1485,11 @@ Wrapper on lw6sys_openmp_get_num_procs.
 Wrapper on lw6sys_path_concat.
 @end deffn
 
+@subsection c-lw6sys-path-file-only
+@deffn {C function exported to Guile} @code{c-lw6sys-path-file-only}
+Wrapper on lw6sys_path_file_only.
+@end deffn
+
 @subsection c-lw6sys-path-parent
 @deffn {C function exported to Guile} @code{c-lw6sys-path-parent}
 Wrapper on lw6sys_path_parent.

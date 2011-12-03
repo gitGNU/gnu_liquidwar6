@@ -2151,6 +2151,34 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
 }
 
 static SCM
+_scm_lw6sys_path_file_only (SCM path)
+{
+  SCM ret = SCM_BOOL_F;
+  char *c_path = NULL;
+  char *c_ret = NULL;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_string (path), path, SCM_ARG1, __FUNCTION__);
+
+  c_path = to_0str (path);
+  if (c_path)
+    {
+      c_ret = lw6sys_path_file_only (c_path);
+      if (c_ret)
+	{
+	  ret = scm_makfrom0str (c_ret);
+	  LW6SYS_FREE (c_ret);
+	}
+      LW6SYS_FREE (c_path);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_path_parent (SCM path)
 {
   SCM ret = SCM_BOOL_F;
@@ -3444,7 +3472,7 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
   c_breadcrumbs = to_sys_str_list (breadcrumbs);
   if (c_breadcrumbs)
     {
-      lw6gui_menu_set_breadcrumbs(c_menu,c_breadcrumbs);
+      lw6gui_menu_set_breadcrumbs (c_menu, c_breadcrumbs);
       lw6sys_list_free (c_breadcrumbs);
     }
 
@@ -9116,6 +9144,8 @@ lw6_register_funcs ()
    */
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_CONCAT, 2, 0, 0,
 			 (SCM (*)())_scm_lw6sys_path_concat);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_FILE_ONLY, 1, 0, 0,
+			 (SCM (*)())_scm_lw6sys_path_file_only);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_PARENT, 1, 0, 0,
 			 (SCM (*)())_scm_lw6sys_path_parent);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_PATH_SPLIT, 1, 0, 0,

@@ -506,7 +506,7 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 	     utils_context->menucache_array.help_bitmap->surface->h) /
 	    utils_context->menucache_array.help_bitmap->surface->w;
 	  help_x = (utils_context->video_mode.width - help_w) / 2;
-	  help_y = utils_context->video_mode.height-help_h;
+	  help_y = utils_context->video_mode.height - help_h;
 	  mod_gl_utils_bitmap_display (utils_context,
 				       utils_context->
 				       menucache_array.help_bitmap, help_x,
@@ -538,7 +538,8 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 					menucache_array.breadcrumbs_bitmap);
 	      utils_context->menucache_array.breadcrumbs_bitmap = NULL;
 	    }
-	  utils_context->menucache_array.breadcrumbs_str = lw6sys_str_copy (breadcrumbs);
+	  utils_context->menucache_array.breadcrumbs_str =
+	    lw6sys_str_copy (breadcrumbs);
 	  utils_context->menucache_array.breadcrumbs_bitmap =
 	    mod_gl_utils_multiline_text_write (utils_context,
 					       utils_context->font_data.hud,
@@ -572,18 +573,23 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
 	    (breadcrumbs_w *
 	     utils_context->menucache_array.breadcrumbs_bitmap->surface->h) /
 	    utils_context->menucache_array.breadcrumbs_bitmap->surface->w;
-	  breadcrumbs_x = utils_context->video_mode.width *(1.0f-cylinder_context->const_data.breadcrumbs_relative_size)/2.0f;
+	  breadcrumbs_x =
+	    utils_context->video_mode.width * (1.0f -
+					       cylinder_context->
+					       const_data.breadcrumbs_relative_size)
+	    / 2.0f;
 	  breadcrumbs_y = 0.0f;
 	  mod_gl_utils_bitmap_display (utils_context,
 				       utils_context->
-				       menucache_array.breadcrumbs_bitmap, breadcrumbs_x,
-				       breadcrumbs_y, breadcrumbs_x + breadcrumbs_w,
+				       menucache_array.breadcrumbs_bitmap,
+				       breadcrumbs_x, breadcrumbs_y,
+				       breadcrumbs_x + breadcrumbs_w,
 				       breadcrumbs_y + breadcrumbs_h);
 	}
     }
   if (breadcrumbs)
     {
-      LW6SYS_FREE(breadcrumbs);
+      LW6SYS_FREE (breadcrumbs);
     }
 }
 

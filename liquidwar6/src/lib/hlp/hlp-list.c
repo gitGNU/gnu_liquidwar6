@@ -853,6 +853,7 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GET_MAP_PATH);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_GET_SCRIPT_FILE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_PATH_CONCAT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_PATH_FILE_ONLY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_PATH_PARENT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_PATH_SPLIT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_SIGNAL_CUSTOM);

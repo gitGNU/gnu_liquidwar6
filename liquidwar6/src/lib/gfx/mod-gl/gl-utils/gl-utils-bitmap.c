@@ -118,7 +118,7 @@ mod_gl_utils_bitmap_load (mod_gl_utils_context_t *
 	  ret->id = ++seq_id;
 	}
 
-      desc = lw6sys_file_only (filename);
+      desc = lw6sys_path_file_only (filename);
       if (desc)
 	{
 	  ret->surface = mod_gl_utils_load_image (utils_context, filename);

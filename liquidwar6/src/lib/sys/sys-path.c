@@ -340,7 +340,7 @@ lw6sys_path_split (char *path)
 }
 
 /**
- * lw6sys_file_only
+ * lw6sys_path_file_only
  *
  * @path: a path
  *
@@ -349,7 +349,7 @@ lw6sys_path_split (char *path)
  * Return value: file name, must be freed
  */
 char *
-lw6sys_file_only (char *path)
+lw6sys_path_file_only (char *path)
 {
   char *ret = NULL;
   int i = 0;

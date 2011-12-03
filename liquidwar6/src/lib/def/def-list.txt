@@ -117,13 +117,13 @@ c-lw6gui-look-set
 c-lw6gui-look-zoom-in
 c-lw6gui-look-zoom-out
 c-lw6gui-menu-append
-c-lw6gui-menu-set-breadcrumbs
 c-lw6gui-menu-enable-esc
 c-lw6gui-menu-new
 c-lw6gui-menu-scroll-down
 c-lw6gui-menu-scroll-up
 c-lw6gui-menu-select
 c-lw6gui-menu-select-esc
+c-lw6gui-menu-set-breadcrumbs
 c-lw6gui-menu-sync
 c-lw6gui-mouse-get-state
 c-lw6gui-mouse-poll-move
@@ -340,6 +340,7 @@ c-lw6sys-log-set-level
 c-lw6sys-megabytes-available
 c-lw6sys-openmp-get-num-procs
 c-lw6sys-path-concat
+c-lw6sys-path-file-only
 c-lw6sys-path-parent
 c-lw6sys-path-split
 c-lw6sys-set-memory-bazooka-eraser

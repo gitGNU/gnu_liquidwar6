@@ -4082,91 +4082,97 @@ File: liquidwar6.info,  Node: C to Guile,  Next: Script hooks,  Prev: Advanced s
  -- C function exported to Guile: `c-lw6sys-path-concat'
      Wrapper on lw6sys_path_concat.
 
-4.16.298 c-lw6sys-path-parent
+4.16.298 c-lw6sys-path-file-only
+--------------------------------
+
+ -- C function exported to Guile: `c-lw6sys-path-file-only'
+     Wrapper on lw6sys_path_file_only.
+
+4.16.299 c-lw6sys-path-parent
 -----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-parent'
      Wrapper on lw6sys_path_parent.
 
-4.16.299 c-lw6sys-path-split
+4.16.300 c-lw6sys-path-split
 ----------------------------
 
  -- C function exported to Guile: `c-lw6sys-path-split'
      Wrapper on lw6sys_path_split.
 
-4.16.300 c-lw6sys-set-memory-bazooka-eraser
+4.16.301 c-lw6sys-set-memory-bazooka-eraser
 -------------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-eraser'
      Wrapper on lw6sys_set_memory_bazooka_eraser.
 
-4.16.301 c-lw6sys-set-memory-bazooka-size
+4.16.302 c-lw6sys-set-memory-bazooka-size
 -----------------------------------------
 
  -- C function exported to Guile: `c-lw6sys-set-memory-bazooka-size'
      Wrapper on lw6sys_set_memory_bazooka_size.
 
-4.16.302 c-lw6sys-signal-custom
+4.16.303 c-lw6sys-signal-custom
 -------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-custom'
      Wrapper on lw6sys_signal_custom.
 
-4.16.303 c-lw6sys-signal-default
+4.16.304 c-lw6sys-signal-default
 --------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-default'
      Wrapper on lw6sys_signal_default.
 
-4.16.304 c-lw6sys-signal-poll-quit
+4.16.305 c-lw6sys-signal-poll-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-poll-quit'
      Wrapper on lw6sys_signal_poll_quit.
 
-4.16.305 c-lw6sys-signal-send-quit
+4.16.306 c-lw6sys-signal-send-quit
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6sys-signal-send-quit'
      Wrapper on lw6sys_signal_send_quit.
 
-4.16.306 c-lw6sys-sleep
+4.16.307 c-lw6sys-sleep
 -----------------------
 
  -- C function exported to Guile: `c-lw6sys-sleep'
      Wrapper on lw6sys_sleep.
 
-4.16.307 c-lw6sys-snooze
+4.16.308 c-lw6sys-snooze
 ------------------------
 
  -- C function exported to Guile: `c-lw6sys-snooze'
      Wrapper on lw6sys_snooze.
 
-4.16.308 c-lw6sys-url-canonize
+4.16.309 c-lw6sys-url-canonize
 ------------------------------
 
  -- C function exported to Guile: `c-lw6sys-url-canonize'
      Wrapper on lw6sys_url_canonize.
 
-4.16.309 c-lw6tsk-loader-get-stage
+4.16.310 c-lw6tsk-loader-get-stage
 ----------------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-get-stage'
      Wrapper on lw6tsk_loader_get_stage.
 
-4.16.310 c-lw6tsk-loader-new
+4.16.311 c-lw6tsk-loader-new
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-new'
      Wrapper on lw6tsk_loader_new.
 
-4.16.311 c-lw6tsk-loader-pop
+4.16.312 c-lw6tsk-loader-pop
 ----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-pop'
      Wrapper on lw6tsk_loader_pop.
 
-4.16.312 c-lw6tsk-loader-push
+4.16.313 c-lw6tsk-loader-push
 -----------------------------
 
  -- C function exported to Guile: `c-lw6tsk-loader-push'

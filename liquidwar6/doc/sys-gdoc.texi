@@ -3077,7 +3077,7 @@ separators will be interpreted (depends on platform).
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_file_only} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_file_only} (char * @var{path})
 @var{path}:  a path
 
 Returns the file name only, without heading directories.
@@ -3908,6 +3908,19 @@ for config elements such as backend lists. Only paths need
 another separator (platform-dependant).
 
 @strong{Return value:}  a list containing 0-terminated strings.
+@end deftypefun
+
+@deftypefun {char *} {lw6sys_str_join} (lw6sys_list_t * @var{list}, char * @var{glue})
+@var{list}:  list of strings to join
+
+@var{glue}:  string to add in-between
+
+Companion function of @code{lw6sys_str_split} which will do
+the contrary and join the string. Here we use a string
+as the glue/separator, more flexible than a simple char
+in this case.
+
+@strong{Return value:}  dynamically allocated string
 @end deftypefun
 
 @deftypefun {void} {lw6sys_str_toupper} (char * @var{str})

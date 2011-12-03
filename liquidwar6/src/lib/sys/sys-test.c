@@ -2455,7 +2455,7 @@ test_path ()
 		    _FIND_IN_DIR_AND_PATH_PATH, _FIND_IN_DIR_AND_PATH_FILE);
 	LW6SYS_FREE (path);
       }
-    path = lw6sys_file_only (_TEST_PATH_FILE_ONLY);
+    path = lw6sys_path_file_only (_TEST_PATH_FILE_ONLY);
     if (path)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("file only for \"%s\" is \"%s\""),

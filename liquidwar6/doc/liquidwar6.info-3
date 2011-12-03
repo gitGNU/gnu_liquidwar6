@@ -4829,7 +4829,7 @@ results on
 
      *Return value:*  a list containing 0-terminated strings.
 
- -- Function: char * lw6sys_file_only (char * PATH)
+ -- Function: char * lw6sys_path_file_only (char * PATH)
      PATH:  a path
 
      Returns the file name only, without heading directories.
@@ -5603,6 +5603,17 @@ results on
      (platform-dependant).
 
      *Return value:*  a list containing 0-terminated strings.
+
+ -- Function: char * lw6sys_str_join (lw6sys_list_t * LIST, char * GLUE)
+     LIST:  list of strings to join
+
+     GLUE:  string to add in-between
+
+     Companion function of `lw6sys_str_split' which will do the
+     contrary and join the string. Here we use a string as the
+     glue/separator, more flexible than a simple char in this case.
+
+     *Return value:*  dynamically allocated string
 
  -- Function: void lw6sys_str_toupper (char * STR)
      STR:  the string to modify

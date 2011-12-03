@@ -52,11 +52,17 @@
 (define lw6-map-menu-relative
   (lambda (relative-path)
     (let* (
-	   (menu (lw6-menu-template (_ "Choose map")
-				    (_ "Browse your hard drive to find a map")))
-	   (map-path (c-lw6cfg-unified-get-map-path))
 	   (map-parent-path (c-lw6sys-path-parent relative-path))
+	   (file-only (c-lw6sys-path-file-only map-parent-path))
+	   (map-path (c-lw6cfg-unified-get-map-path))
 	   (entries (c-lw6ldr-get-entries map-path map-parent-path))
+	   (title (if (or (not file-only)
+			  (equal? file-only "")
+			  (equal? file-only "."))
+		      (_ "Choose map")
+		      file-only))
+	   (menu (lw6-menu-template title
+				    (_ "Browse your hard drive to find a map")))
 	  )
       (begin
 	(map (lw6-map-menu-item-appender menu) entries)

@@ -178,7 +178,7 @@ _("Score");			// extracted by scriptpo-update.sh
 _("And the winner is...");	// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
-_("Program is calculating complicated stuff you're happy not to have to deal with");	// extracted by scriptpo-update.sh
+_("Calculating complicated stuff");	// extracted by scriptpo-update.sh
 _("Exit?");			// extracted by scriptpo-update.sh
 _("Exit");			// extracted by scriptpo-update.sh
 _("Resume LW6");		// extracted by scriptpo-update.sh

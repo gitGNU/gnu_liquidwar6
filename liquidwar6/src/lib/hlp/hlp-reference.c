@@ -2356,6 +2356,8 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_get_script_file."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_CONCAT,
 		 _x_ ("Wrapper on lw6sys_path_concat."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_FILE_ONLY,
+		 _x_ ("Wrapper on lw6sys_path_file_only."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_PARENT,
 		 _x_ ("Wrapper on lw6sys_path_parent."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_PATH_SPLIT,
