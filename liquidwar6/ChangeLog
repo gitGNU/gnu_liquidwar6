@@ -4,7 +4,7 @@
 
 2011-12-02 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Proper handling of disabled menu items (used for maps).
+	* Proper handling of disabled menu items, fixes #34647.
 
 2011-11-27 : Christian Mauduit <ufoot@ufoot.org>
 
