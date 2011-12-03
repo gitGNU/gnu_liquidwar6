@@ -7,9 +7,9 @@
   <int key="rounds-per-sec" value="2"/>
   <int key="moves-per-round" value="10"/>
 
-  <int key="nb-attack-tries" value=""/>
-  <int key="nb-defense-tries" value=""/>
-  <int key="nb-move-tries" value=""/>
+  <int key="nb-attack-tries" value="1"/>
+  <int key="nb-defense-tries" value="1"/>
+  <int key="nb-move-tries" value="3"/>
 
   <int key="single-army-size" value="50"/>
   <int key="total-armies-size" value="71"/>
