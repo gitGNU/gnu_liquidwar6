@@ -113,6 +113,24 @@ read_readme (char *dirname)
   return readme;
 }
 
+static void
+read_callback (void *callback_data, char *element, char *key, char *value)
+{
+  lw6map_metadata_t *metadata_data;
+
+  metadata_data = (lw6map_metadata_t *) callback_data;
+
+  if (!strcmp (element, "string"))
+    {
+      lw6cfg_read_xml_string (key, value, "title", &(metadata_data->title));
+      lw6cfg_read_xml_string (key, value, "author", &(metadata_data->author));
+      lw6cfg_read_xml_string (key, value, "description",
+			      &(metadata_data->description));
+      lw6cfg_read_xml_string (key, value, "license",
+			      &(metadata_data->license));
+    }
+}
+
 /*
  * Read the metadata associated to a map. Pointer to metadata must be valid,
  * it's modified in-place.
@@ -121,13 +139,42 @@ int
 lw6ldr_metadata_read (lw6map_metadata_t * metadata, char *dirname)
 {
   int ret = 0;
+  char *buf = NULL;
 
   lw6map_metadata_clear (metadata);
 
-  metadata->title = extract_title_from_dirname (dirname);
-  metadata->readme = read_readme (dirname);
+  buf = lw6sys_path_concat (dirname, _LW6LDR_FILE_METADATA_XML);
+  if (buf)
+    {
+      if (lw6sys_file_exists (buf))
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("reading metadata \"%s\""), buf);
+	  ret =
+	    lw6cfg_read_key_value_xml_file (buf, read_callback,
+					    (void *) metadata);
+	}
+      LW6SYS_FREE (buf);
+    }
 
-  ret = (metadata->title && metadata->readme);
+  if (!(metadata->title))
+    {
+      metadata->title = extract_title_from_dirname (dirname);
+    }
+  if (!(metadata->author))
+    {
+      metadata->author = lw6sys_str_copy (_x_ ("unknown"));
+    }
+  if (!(metadata->description))
+    {
+      metadata->description = read_readme (dirname);
+    }
+  if (!(metadata->license))
+    {
+      metadata->license = lw6sys_str_copy (_x_ ("unspecified"));
+    }
+
+  ret = (metadata->title && metadata->author && metadata->description
+	 && metadata->license);
 
   return ret;
 }

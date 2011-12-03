@@ -173,7 +173,9 @@ lw6map_memory_footprint (lw6map_level_t * level)
     {
       memory_footprint += sizeof (lw6map_level_t);
       memory_footprint += strlen (level->metadata.title) + 1;
-      memory_footprint += strlen (level->metadata.readme) + 1;
+      memory_footprint += strlen (level->metadata.author) + 1;
+      memory_footprint += strlen (level->metadata.description) + 1;
+      memory_footprint += strlen (level->metadata.license) + 1;
       memory_footprint +=
 	level->body.shape.w * level->body.shape.h * level->body.shape.d *
 	sizeof (u_int8_t);

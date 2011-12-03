@@ -1066,7 +1066,9 @@ lw6map_teams_t;
 typedef struct lw6map_metadata_s
 {
   char *title;
-  char *readme;
+  char *author;
+  char *description;
+  char *license;
   int vanilla_exp;
 } lw6map_metadata_t;
 

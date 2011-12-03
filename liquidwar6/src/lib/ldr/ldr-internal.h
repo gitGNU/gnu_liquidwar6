@@ -25,6 +25,8 @@
 
 #define _LW6LDR_FILE_README "README"
 #define _LW6LDR_FILE_README_TXT "readme.txt"
+#define _LW6LDR_FILE_METADATA_XML "metadata.xml"
+
 #define _LW6LDR_FILE_MAP_PNG "map.png"
 #define _LW6LDR_FILE_LAYER2_PNG "layer2.png"
 #define _LW6LDR_FILE_LAYER3_PNG "layer3.png"

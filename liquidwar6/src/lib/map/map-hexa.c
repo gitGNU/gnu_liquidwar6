@@ -35,7 +35,12 @@ push_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_push_str (hexa_serializer, metadata->title);
   ret = ret
-    && lw6sys_hexa_serializer_push_str (hexa_serializer, metadata->readme);
+    && lw6sys_hexa_serializer_push_str (hexa_serializer, metadata->author);
+  ret = ret
+    && lw6sys_hexa_serializer_push_str (hexa_serializer,
+					metadata->description);
+  ret = ret
+    && lw6sys_hexa_serializer_push_str (hexa_serializer, metadata->license);
   ret = ret
     && lw6sys_hexa_serializer_push_int32 (hexa_serializer,
 					  metadata->vanilla_exp);
@@ -427,7 +432,12 @@ pop_metadata (lw6sys_hexa_serializer_t * hexa_serializer,
   ret = ret
     && lw6sys_hexa_serializer_pop_str (hexa_serializer, &(metadata->title));
   ret = ret
-    && lw6sys_hexa_serializer_pop_str (hexa_serializer, &(metadata->readme));
+    && lw6sys_hexa_serializer_pop_str (hexa_serializer, &(metadata->author));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_str (hexa_serializer,
+				       &(metadata->description));
+  ret = ret
+    && lw6sys_hexa_serializer_pop_str (hexa_serializer, &(metadata->license));
   ret = ret
     && lw6sys_hexa_serializer_pop_int32 (hexa_serializer,
 					 &(metadata->vanilla_exp));

@@ -66,7 +66,9 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
        * NULL and avoid the much more complex to debug "double free".
        */
       ret->metadata.title = NULL;
-      ret->metadata.readme = NULL;
+      ret->metadata.author = NULL;
+      ret->metadata.description = NULL;
+      ret->metadata.license = NULL;
       ret->local_info.music_dir = NULL;
       for (layer = 0; layer < LW6MAP_MAX_BODY_DEPTH; ++layer)
 	{
@@ -88,9 +90,18 @@ lw6map_dup (lw6map_level_t * source, lw6sys_progress_t * progress)
 	{
 	  ret->metadata.title = lw6sys_str_copy (source->metadata.title);
 	}
-      if (source->metadata.readme)
+      if (source->metadata.author)
 	{
-	  ret->metadata.readme = lw6sys_str_copy (source->metadata.readme);
+	  ret->metadata.author = lw6sys_str_copy (source->metadata.author);
+	}
+      if (source->metadata.description)
+	{
+	  ret->metadata.description =
+	    lw6sys_str_copy (source->metadata.description);
+	}
+      if (source->metadata.license)
+	{
+	  ret->metadata.license = lw6sys_str_copy (source->metadata.license);
 	}
       if (source->local_info.music_dir)
 	{
