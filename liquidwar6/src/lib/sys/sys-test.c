@@ -142,8 +142,10 @@
 #define _ESCAPE_STR_SQL_VALUE "this is a string with a simple quote '' a double quote \" a tab char \" \" and a backslash \"\\\" a lower and greater <> and a few allowed chars _-.,#:;?& OK"
 #define TEST_REFORMAT_STR1 "this is a short string"
 #define TEST_REFORMAT_STR2 "this is a very long string it should be cut in some places but wherever there is a very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very-very long word it won't be cut.\n\nIt should even handle newlines in some places but well, this is not absolutely necessary"
-#define TEST_REFORMAT_PREFIX "# "
-#define TEST_REFORMAT_COLUMNS 40
+#define TEST_REFORMAT_PREFIX1 "# "
+#define TEST_REFORMAT_COLUMNS1 25
+#define TEST_REFORMAT_PREFIX2 ""
+#define TEST_REFORMAT_COLUMNS2 10
 #define TEST_SPLIT_STR "/foo/bar,/foo/bar"
 #define TEST_SPLIT_CHAR 'o'
 #define TEST_STR_GLUE "-+-"
@@ -2903,8 +2905,8 @@ test_str ()
       && !lw6sys_str_starts_with_no_case (STR_STARTS_WITH,
 					  STR_STARTS_WITH_KO);
     str =
-      lw6sys_str_reformat (TEST_REFORMAT_STR1, TEST_REFORMAT_PREFIX,
-			   TEST_REFORMAT_COLUMNS);
+      lw6sys_str_reformat (TEST_REFORMAT_STR1, TEST_REFORMAT_PREFIX1,
+			   TEST_REFORMAT_COLUMNS2);
     if (str)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
@@ -2917,8 +2919,8 @@ test_str ()
       }
 
     str =
-      lw6sys_str_reformat (TEST_REFORMAT_STR2, TEST_REFORMAT_PREFIX,
-			   TEST_REFORMAT_COLUMNS);
+      lw6sys_str_reformat (TEST_REFORMAT_STR2, TEST_REFORMAT_PREFIX2,
+			   TEST_REFORMAT_COLUMNS2);
     if (str)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
@@ -2933,7 +2935,7 @@ test_str ()
     str = lw6sys_str_copy (TEST_REFORMAT_STR1);
     if (str)
       {
-	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS);
+	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS1);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
 		    str);
 	LW6SYS_FREE (str);
@@ -2942,7 +2944,7 @@ test_str ()
     str = lw6sys_str_copy (TEST_REFORMAT_STR2);
     if (str)
       {
-	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS);
+	lw6sys_str_reformat_this (str, TEST_REFORMAT_COLUMNS2);
 	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("reformatted string is \"%s\""),
 		    str);
 	LW6SYS_FREE (str);

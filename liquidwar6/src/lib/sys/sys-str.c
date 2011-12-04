@@ -577,7 +577,7 @@ lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
 	{
 	  if (lw6sys_chr_is_eol (pos[0]))
 	    {
-	      while (lw6sys_chr_is_eol (pos[0]))
+	      while (lw6sys_chr_is_eol (pos[1]))
 		{
 		  pos++;
 		}

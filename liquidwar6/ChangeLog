@@ -1,5 +1,7 @@
 2011-12-03 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed bug in string reformatting, could help fixing #34977.
+
 	* Added a new module to simulate fights and calibrate profiles.
 
 	* Default MS-Windows and Mac OS X packages include extra-maps.
