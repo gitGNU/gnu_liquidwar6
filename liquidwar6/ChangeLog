@@ -1,6 +1,6 @@
 2011-12-03 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Fixed bug in string reformatting, could help fixing #34977.
+	* Fixed bug in string reformatting (fixes #34977).
 
 	* Added a new module to simulate fights and calibrate profiles.
 

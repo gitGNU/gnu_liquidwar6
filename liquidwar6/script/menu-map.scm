@@ -35,7 +35,7 @@
 							 nb-submaps)
 						 (if forbidden
 						     (_ "You can't play this map yet")
-						     (format #f "~a: ~a~%%~a: ~a~%%~a: ~a"
+						     (format #f "~a: ~a~%~a: ~a~%~a: ~a"
 							     (_ "Author")
 							     author
 							     (_ "Description")
