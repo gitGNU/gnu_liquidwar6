@@ -2184,7 +2184,9 @@ people are joining a new game, or to check up if things are going right.
 just a simple `move' function which takes a game state as an input, and
 returns an `x,y' position, just the way a mouse handler would. How
 complex a bot is "under the hood" depends on the type of bot. Current
-bots are really basic.
+bots are really basic. Additionnally, `libsim' will run dummy fight
+simulations to find out wether some team has a real advantage on
+another one, speaking of team profiles depending on colors.
 
    The `libgfx' module handles all the graphics stuff. It is itself
 splitted in several sub-modules, that is, it does not do anything but

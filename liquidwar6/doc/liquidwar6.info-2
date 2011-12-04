@@ -2249,7 +2249,30 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      option, just start the game normally and start a game server by
      clicking on the GUI buttons.
 
-4.15.52 target-fps
+4.15.52 simulate-basic
+----------------------
+
+ -- Command-line option: `--simulate-basic'
+     Simulates some fights using the basic colors red, green, yellow
+     and blue. Will output on the console a percentage based on scores
+     obtained by the teams. This is typically for map designers and/or
+     people who want to fiddle with team profiles, if some team is
+     really stronger than another one, it should appear in these
+     percentages.
+
+4.15.53 simulate-full
+---------------------
+
+ -- Command-line option: `--simulate-full'
+     Simulates some fights using all available colors. This can be very
+     long, it will run approximatively 1000 games consecutively, you
+     can look in the log file to see the progress. Will output on the
+     console a percentage based on scores obtained by the teams. This
+     is typically for map designers and/or people who want to fiddle
+     with team profiles, if some team is really stronger than another
+     one, it should appear in these percentages.
+
+4.15.54 target-fps
 ------------------
 
  -- Command-line option: `--target-fps=<value>'
@@ -2268,7 +2291,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      Liquid War 6 is now so fast-paced that it requires 200 frames/sec
      to outperform opponents.
 
-4.15.53 trojan
+4.15.55 trojan
 --------------
 
  -- Command-line option: `--trojan=<value>'
@@ -2284,7 +2307,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      fake and kick it out of the game. It's of no use for regular
      players, be sure to unset this if you want to play for good.
 
-4.15.54 z-decode
+4.15.56 z-decode
 ----------------
 
  -- Command-line option: `--z-decode'
@@ -2294,7 +2317,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
      base64 decode and pass the content through Zlib inflating. I
      content is not Z-prefixed, will be returned as is.
 
-4.15.55 z-encode
+4.15.57 z-encode
 ----------------
 
  -- Command-line option: `--z-encode'
@@ -8224,6 +8247,13 @@ results on
      Tells wether a given team is concerned by a team mask.
 
      *Return value:*  1 if concerned, 0 if not.
+
+ -- Function: int lw6ker_team_mask_color2mask (int TEAM_COLOR)
+     TEAM_COLOR:  color index
+
+     Gives the mask corresponding to a given color.
+
+     *Return value:*  bitwise mask.
 
  -- Function: int lw6ker_test (int MODE)
      MODE:  0 for check only, 1 for full test

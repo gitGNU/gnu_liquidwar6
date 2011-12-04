@@ -1841,16 +1841,74 @@ results on
 5.33.2 API
 ----------
 
- -- Function: int lw6sim_simulate (lw6sim_simulation_results_t *
-          RESULTS, int NB_TEAMS)
+ -- Function: void lw6sim_print (lw6sim_results_t * RESULTS, FILE * F)
+     RESULTS:  data to print
+
+     F:  file to print data to
+
+     Pretty prints results on standard output.
+
+     *Return value:*  none.
+
+ -- Function: void lw6sim_results_zero (lw6sim_results_t * RESULTS)
+     RESULTS:  out param, will be cleared
+
+     Fills the struct with zeroes.
+
+     *Return value:*  none.
+
+ -- Function: int lw6sim_results_update_percents (lw6sim_results_t *
+          RESULTS)
+     RESULTS:  results set to work on (in/out param)
+
+     Updates the structure so that the percent members are up to date.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6sim_simulate (int ARGC, char * [] ARGV,
+          lw6sim_results_t * RESULTS, int NB_TEAMS, char * BOT_BACKEND)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
      RESULTS:  out param, results of the simulation
 
      NB_TEAMS:  number of teams
+
+     BOT_BACKEND:  bot backend to use
 
      Runs a simulation of several battle/games on the default map using
      different team settings. Will test teams up to the given number,
      for instance if you give 3 as an argument, will run tests with
      teams 0, 1 and 2 (that's to say a total of 3 teams).
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6sim_simulate_basic (int ARGC, char * [] ARGV,
+          lw6sim_results_t * RESULTS)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     RESULTS:  out param, results of the simulation
+
+     Runs a simulation of several battle/games on the default map using
+     different team settings. Will test the most common colors only,
+     with the most popular bot.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6sim_simulate_full (int ARGC, char * [] ARGV,
+          lw6sim_results_t * RESULTS)
+     ARGC:  argc as passed to `main'
+
+     ARGV:  argv as passed to `main'
+
+     RESULTS:  out param, results of the simulation
+
+     Runs a simulation of several battle/games on the default map using
+     different team settings. Will test all colors, with the most
+     popular bot.
 
      *Return value:*  1 on success, 0 on failure.
 

@@ -639,6 +639,25 @@ use this option, just start the game normally and start a game server by
 clicking on the GUI buttons.
 @end deffn
 
+@subsection simulate-basic
+@deffn {Command-line option} @code{--simulate-basic}
+Simulates some fights using the basic colors red, green, yellow and blue. Will
+output on the console a percentage based on scores obtained by the teams. This
+is typically for map designers and/or people who want to fiddle with team
+profiles, if some team is really stronger than another one, it should appear
+in these percentages.
+@end deffn
+
+@subsection simulate-full
+@deffn {Command-line option} @code{--simulate-full}
+Simulates some fights using all available colors. This can be very long, it
+will run approximatively 1000 games consecutively, you can look in the log
+file to see the progress. Will output on the console a percentage based on
+scores obtained by the teams. This is typically for map designers and/or
+people who want to fiddle with team profiles, if some team is really stronger
+than another one, it should appear in these percentages.
+@end deffn
+
 @subsection target-fps
 @deffn {Command-line option} @code{--target-fps=<value>}
 @deffnx {Environment variable} @code{LW6_TARGET_FPS}
