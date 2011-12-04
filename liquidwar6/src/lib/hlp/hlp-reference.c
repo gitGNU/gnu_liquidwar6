@@ -918,6 +918,12 @@ populate_references ()
 		 _x_
 		 ("Make the program act like a (stupid) trojan horse, trying to fake messages, sending various inconsistent informations. This is to check the normal version of the program is able to detect such a fake and kick it out of the game. It's of no use for regular players, be sure to unset this if you want to play for good."),
 		 0);
+  POPULATE_VOID (LW6DEF_SIMULATE_BASIC,
+		 _x_
+		 ("Simulates some fights using the basic colors red, green, yellow and blue. Will output on the console a percentage based on scores obtained by the teams. This is typically for map designers and/or people who want to fiddle with team profiles, if some team is really stronger than another one, it should appear in these percentages."));
+  POPULATE_VOID (LW6DEF_SIMULATE_FULL,
+		 _x_
+		 ("Simulates some fights using all available colors. This can be very long, it will run approximatively 1000 games consecutively, you can look in the log file to see the progress. Will output on the console a percentage based on scores obtained by the teams. This is typically for map designers and/or people who want to fiddle with team profiles, if some team is really stronger than another one, it should appear in these percentages."));
 
   /*
    * Game settings

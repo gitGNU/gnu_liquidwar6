@@ -25,8 +25,48 @@
 #endif
 
 #include "sim.h"
+#include "sim-internal.h"
 
-#define _TEST_NB_TEAMS 2
+#define _TEST_ARGC 1
+#define _TEST_ARGV0 "prog"
+
+#define _TEST_SIMULATE_NB_TEAMS 2
+#define _TEST_SIMULATE_BOT_BACKEND "random"
+#define _TEST_MASK_NB_TEAMS 3
+
+/*
+ * Testing functions in mask.c
+ */
+static int
+test_mask ()
+{
+  int ret = 0;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int i, n;
+    int mask, valid;
+
+    for (i = 0; i <= LW6MAP_MAX_NB_TEAMS; ++i)
+      {
+	mask = _lw6sim_mask_get_max (i);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("max mask for %d is %d"), i,
+		    mask);
+      }
+
+    n = _lw6sim_mask_get_max (_TEST_MASK_NB_TEAMS);
+    for (i = _LW6SIM_MASK_MIN; i < n; ++i)
+      {
+	valid = _lw6sim_mask_is_valid (i);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("mask=%d valid=%d"), i, valid);
+      }
+
+    ret = 1;
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
 
 /*
  * Testing functions in simulate.c
@@ -38,9 +78,21 @@ test_simulate ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    lw6sim_simulation_results_t results;
+    int argc = _TEST_ARGC;
+    char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+    lw6sim_results_t results;
 
-    ret = lw6sim_simulate (&results, _TEST_NB_TEAMS);
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("simulating %d teams with bot backend \"%s\""),
+		_TEST_SIMULATE_NB_TEAMS, _TEST_SIMULATE_BOT_BACKEND);
+    lw6sim_results_zero (&results);
+    ret =
+      lw6sim_simulate (argc, argv, &results, _TEST_SIMULATE_NB_TEAMS,
+		       _TEST_SIMULATE_BOT_BACKEND);
+    if (ret)
+      {
+	lw6sim_print (&results, stderr);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -74,7 +126,7 @@ lw6sim_test (int mode)
       lw6bot_test (mode);
     }
 
-  ret = test_simulate ();
+  ret = test_mask () && test_simulate ();
 
   return ret;
 }

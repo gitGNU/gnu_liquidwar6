@@ -25,12 +25,126 @@
 #endif
 
 #include "sim.h"
+#include "sim-internal.h"
+
+static int
+_simulate (int argc, char *argv[], lw6sim_results_t * results,
+	   lw6ker_game_struct_t * game_struct, int mask, char *bot_backend)
+{
+  int ret = 0;
+  lw6ker_game_state_t *game_state = NULL;
+  int nb_cursors = 0;
+  u_int64_t node_id;
+  int cursors_colors[LW6MAP_MAX_NB_TEAMS];
+  u_int16_t cursors_ids[LW6MAP_MAX_NB_TEAMS];
+  lw6bot_backend_t *cursors_bots[LW6MAP_MAX_NB_TEAMS];
+  lw6ker_cursor_t cursor;
+  int i, j;
+  int round, nb_rounds;
+  lw6bot_seed_t seed;
+  int x = 0, y = 0;
+  lw6ker_score_array_t score_array;
+  int bonus;
+
+  memset (cursors_colors, 0, sizeof (cursors_colors));
+  memset (cursors_ids, 0, sizeof (cursors_ids));
+  memset (cursors_bots, 0, sizeof (cursors_bots));
+  memset (&cursor, 0, sizeof (lw6ker_cursor_t));
+
+  node_id = lw6sys_generate_id_64 ();
+  nb_rounds =
+    game_struct->rules.rounds_per_sec * game_struct->rules.total_time;
+
+  game_state = lw6ker_game_state_new (game_struct, NULL);
+  if (game_state)
+    {
+      seed.game_state = game_state;
+      seed.pilot = NULL;
+      seed.dirty_read = 0;
+      seed.param.speed = LW6MAP_TEAMS_DEFAULT_BOT_SPEED;
+      seed.param.speed = LW6MAP_TEAMS_DEFAULT_BOT_IQ;
+
+      ret = 1;
+
+      lw6ker_game_state_register_node (game_state, node_id);
+      for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+	{
+	  if (lw6ker_team_mask_is_concerned (i, mask))
+	    {
+	      cursors_colors[nb_cursors] = i;
+	      cursors_ids[nb_cursors] = lw6sys_generate_id_16 ();
+	      lw6ker_game_state_add_cursor (game_state, node_id,
+					    cursors_ids[nb_cursors], i);
+	      cursors_bots[nb_cursors] =
+		lw6bot_create_backend (argc, argv, bot_backend);
+	      if (cursors_bots[nb_cursors])
+		{
+		  seed.param.cursor_id = cursors_ids[nb_cursors];
+		  ret = ret && lw6bot_init (cursors_bots[nb_cursors], &seed);
+		}
+	      nb_cursors++;
+	    }
+	}
+
+      for (round = 0; round < nb_rounds; ++round)
+	{
+	  if (!(round % _LW6SIM_BOT_ROUNDS_PERIOD))
+	    {
+	      for (i = 0; i < nb_cursors; ++i)
+		{
+		  if (cursors_bots[i])
+		    {
+		      lw6bot_next_move (cursors_bots[i], &x, &y);
+		      lw6ker_cursor_reset (&cursor);
+		      cursor.pos.x = x;
+		      cursor.pos.y = y;
+		      cursor.node_id = node_id;
+		      cursor.cursor_id = cursors_ids[i];
+		      lw6ker_game_state_set_cursor (game_state, &cursor);
+		    }
+		}
+	    }
+
+	  lw6ker_game_state_do_round (game_state);
+	}
+
+      lw6ker_score_array_update (&score_array, game_state);
+      for (i = 0; i < score_array.nb_scores; ++i)
+	{
+	  j = score_array.scores[i].team_color;
+	  if (lw6map_team_color_is_valid (j))
+	    {
+	      bonus = score_array.scores[i].consolidated_percent;
+	      results->absolute[j] += bonus;
+	      lw6sys_log (LW6SYS_LOG_INFO,
+			  _x_ ("bonus for team %d is %d, new absolute is %d"),
+			  j, bonus, results->absolute[j]);
+	    }
+	}
+
+      for (i = 0; i < nb_cursors; ++i)
+	{
+	  if (cursors_bots[i])
+	    {
+	      lw6bot_quit (cursors_bots[i]);
+	      lw6bot_destroy_backend (cursors_bots[i]);
+	    }
+	}
+
+      lw6ker_game_state_free (game_state);
+    }
+
+  return ret;
+}
 
 /**
  * lw6sim_simulate
  *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
  * @results: out param, results of the simulation
  * @nb_teams: number of teams
+ * @bot_backend: bot backend to use
  *
  * Runs a simulation of several battle/games on the default map using
  * different team settings. Will test teams up to the given number,
@@ -40,9 +154,92 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate (lw6sim_simulation_results_t * results, int nb_teams)
+lw6sim_simulate (int argc, char *argv[], lw6sim_results_t * results,
+		 int nb_teams, char *bot_backend)
 {
   int ret = 0;
+  int max_mask;
+  int i;
+  lw6map_level_t *level = NULL;
+  lw6ker_game_struct_t *game_struct = NULL;
+
+  level = lw6map_builtin_defaults ();
+  level->param.rules.total_time = _LW6SIM_SIMULATION_TIME;
+  if (level)
+    {
+      game_struct = lw6ker_game_struct_new (level, NULL);
+      if (game_struct)
+	{
+	  max_mask = _lw6sim_mask_get_max (nb_teams);
+	  lw6sim_results_zero (results);
+	  results->nb_teams = nb_teams;
+	  ret = 1;
+	  for (i = 0; i < max_mask; ++i)
+	    {
+	      if (_lw6sim_mask_is_valid (i))
+		{
+		  if (ret)
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("simulating %d/%d"),
+				  i, max_mask);
+		      ret =
+			_simulate (argc, argv, results, game_struct, i,
+				   bot_backend);
+		    }
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_INFO,
+			      _x_ ("skipping simulation %d/%d, unvalid mask"),
+			      i, max_mask);
+		}
+	    }
+	  lw6ker_game_struct_free (game_struct);
+	}
+      lw6map_free (level);
+    }
+
+  ret = lw6sim_results_update_percents (results) && ret;
 
   return ret;
+}
+
+/**
+ * lw6sim_simulate_basic
+ *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
+ * @results: out param, results of the simulation
+ *
+ * Runs a simulation of several battle/games on the default map using
+ * different team settings. Will test the most common colors only,
+ * with the most popular bot.
+ * 
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6sim_simulate_basic (int argc, char *argv[], lw6sim_results_t * results)
+{
+  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_BASIC_NB_TEAMS,
+			  LW6SIM_SIMULATE_BASIC_BOT_BACKEND);
+}
+
+/**
+ * lw6sim_simulate_full
+ *
+ * @argc: argc as passed to @main
+ * @argv: argv as passed to @main
+ * @results: out param, results of the simulation
+ *
+ * Runs a simulation of several battle/games on the default map using
+ * different team settings. Will test all colors,
+ * with the most popular bot.
+ * 
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6sim_simulate_full (int argc, char *argv[], lw6sim_results_t * results)
+{
+  return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_FULL_NB_TEAMS,
+			  LW6SIM_SIMULATE_FULL_BOT_BACKEND);
 }

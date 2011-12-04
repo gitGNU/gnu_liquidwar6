@@ -79,7 +79,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libsim_la_LIBADD =
-am_libsim_la_OBJECTS = sim-simulate.lo sim-test.lo
+am_libsim_la_OBJECTS = sim-mask.lo sim-print.lo sim-results.lo \
+	sim-simulate.lo sim-test.lo
 libsim_la_OBJECTS = $(am_libsim_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libsimdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -335,11 +336,12 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 @ALLINONE_FALSE@LW6DYN_LIB = ../dyn/libdyn.la 
 @ALLINONE_TRUE@LW6DYN_LIB = 
 noinst_LTLIBRARIES = libsim.la
-libsim_la_SOURCES = sim-simulate.c sim-test.c
+libsim_la_SOURCES = sim-mask.c sim-print.c sim-results.c sim-simulate.c sim-test.c
 libsimdir = $(includedir)/@PACKAGE_TARNAME@/sim
 libsim_HEADERS = sim.h
 @FULLSTATIC_FALSE@liquidwar6sim_test_SOURCES = sim-testmain.c
 @FULLSTATIC_FALSE@liquidwar6sim_test_LDADD = libsim.la ../bot/libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
+EXTRA_DIST = sim-internal.h
 all: all-am
 
 .SUFFIXES:
@@ -438,6 +440,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-mask.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-print.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-results.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-simulate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sim-testmain.Po@am__quote@

@@ -1170,6 +1170,8 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_OPEN_RELAY);
   lw6sys_list_push_back (list, LW6DEF_NETWORK_RELIABILITY);
   lw6sys_list_push_back (list, LW6DEF_TROJAN);
+  lw6sys_list_push_back (list, LW6DEF_SIMULATE_BASIC);
+  lw6sys_list_push_back (list, LW6DEF_SIMULATE_FULL);
 
   return ((*list) != NULL);
 }

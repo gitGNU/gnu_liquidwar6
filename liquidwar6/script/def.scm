@@ -35,6 +35,8 @@
 (define lw6def-background-style "background-style")
 (define lw6def-base64-decode "base64-decode")
 (define lw6def-base64-encode "base64-encode")
+(define lw6def-simulate-basic "simulate-basic")
+(define lw6def-simulate-full "simulate-full")
 (define lw6def-bench "bench")
 (define lw6def-bench-value "bench-value")
 (define lw6def-bin-id "bin-id")

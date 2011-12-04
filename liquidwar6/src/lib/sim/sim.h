@@ -30,14 +30,33 @@
 #include "../dyn/dyn.h"
 #include "../bot/bot.h"
 
-typedef struct lw6sim_simulation_results_s
+#define LW6SIM_SIMULATE_BASIC_NB_TEAMS 4
+#define LW6SIM_SIMULATE_BASIC_BOT_BACKEND "idiot"
+#define LW6SIM_SIMULATE_FULL_NB_TEAMS 10
+#define LW6SIM_SIMULATE_FULL_BOT_BACKEND "idiot"
+
+typedef struct lw6sim_results_s
 {
+  int nb_teams;
+  int absolute[LW6MAP_MAX_NB_TEAMS];
   float percent[LW6MAP_MAX_NB_TEAMS];
-} lw6sim_simulation_results_t;
+} lw6sim_results_t;
+
+/* sim-print.c */
+extern void lw6sim_print (lw6sim_results_t * results, FILE * f);
+
+/* sim-results.c */
+extern void lw6sim_results_zero (lw6sim_results_t * results);
+extern int lw6sim_results_update_percents (lw6sim_results_t * results);
 
 /* sim-simulate.c */
-extern int lw6sim_simulate (lw6sim_simulation_results_t * results,
-			    int nb_teams);
+extern int lw6sim_simulate (int argc, char *argv[],
+			    lw6sim_results_t * results, int nb_teams,
+			    char *bot_backend);
+extern int lw6sim_simulate_basic (int argc, char *argv[],
+				  lw6sim_results_t * results);
+extern int lw6sim_simulate_full (int argc, char *argv[],
+				 lw6sim_results_t * results);
 
 /* sim-test.c */
 extern int lw6sim_test (int mode);

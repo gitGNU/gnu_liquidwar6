@@ -340,6 +340,7 @@ extern void lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
 				   lw6ker_game_state_t * game_state);
 extern int lw6ker_team_mask_is_concerned (int team_color,
 					  u_int32_t team_mask);
+extern int lw6ker_team_mask_color2mask (int team_color);
 
 /* ker-test.c */
 extern int lw6ker_test (int mode);

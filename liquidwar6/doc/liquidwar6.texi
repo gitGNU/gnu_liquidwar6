@@ -2324,7 +2324,9 @@ A special @code{libbot} module is here to handle bot algorithms. A bot is just
 a simple @code{move} function which takes a game state as an input, and returns
 an @code{x,y} position, just the way a mouse handler would. How complex a 
 bot is ``under the hood'' depends on the type of bot. Current bots are really
-basic.
+basic. Additionnally, @code{libsim} will run dummy fight simulations to find
+out wether some team has a real advantage on another one, speaking of team
+profiles depending on colors.
 
 The @code{libgfx} module handles all the graphics stuff. It is itself splitted
 in several sub-modules, that is, it does not do anything but load a module

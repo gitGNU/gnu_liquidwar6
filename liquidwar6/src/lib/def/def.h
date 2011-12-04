@@ -42,6 +42,8 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_BACKGROUND_STYLE "background-style"
 #define LW6DEF_BASE64_DECODE "base64-decode"
 #define LW6DEF_BASE64_ENCODE "base64-encode"
+#define LW6DEF_SIMULATE_BASIC "simulate-basic"
+#define LW6DEF_SIMULATE_FULL "simulate-full"
 #define LW6DEF_BENCH "bench"
 #define LW6DEF_BENCH_VALUE "bench-value"
 #define LW6DEF_BIN_ID "bin-id"

@@ -141,3 +141,57 @@ lw6ker_team_mask_is_concerned (int team_color, u_int32_t team_mask)
 
   return ret;
 }
+
+/**
+ * lw6ker_team_mask_color2mask
+ *
+ * @team_color: color index
+ *
+ * Gives the mask corresponding to a given color.
+ *
+ * Return value: bitwise mask.
+ */
+int
+lw6ker_team_mask_color2mask (int team_color)
+{
+  int ret = 0;
+
+  switch (team_color)
+    {
+    case LW6MAP_TEAM_COLOR_RED:
+      ret = LW6KER_TEAM_MASK_RED;
+      break;
+    case LW6MAP_TEAM_COLOR_GREEN:
+      ret = LW6KER_TEAM_MASK_GREEN;
+      break;
+    case LW6MAP_TEAM_COLOR_BLUE:
+      ret = LW6KER_TEAM_MASK_BLUE;
+      break;
+    case LW6MAP_TEAM_COLOR_YELLOW:
+      ret = LW6KER_TEAM_MASK_YELLOW;
+      break;
+    case LW6MAP_TEAM_COLOR_CYAN:
+      ret = LW6KER_TEAM_MASK_CYAN;
+      break;
+    case LW6MAP_TEAM_COLOR_MAGENTA:
+      ret = LW6KER_TEAM_MASK_MAGENTA;
+      break;
+    case LW6MAP_TEAM_COLOR_ORANGE:
+      ret = LW6KER_TEAM_MASK_ORANGE;
+      break;
+    case LW6MAP_TEAM_COLOR_LIGHTBLUE:
+      ret = LW6KER_TEAM_MASK_LIGHTBLUE;
+      break;
+    case LW6MAP_TEAM_COLOR_PURPLE:
+      ret = LW6KER_TEAM_MASK_PURPLE;
+      break;
+    case LW6MAP_TEAM_COLOR_PINK:
+      ret = LW6KER_TEAM_MASK_PINK;
+      break;
+    default:
+      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("invalid team index %d"),
+		  team_color);
+    }
+
+  return ret;
+}

@@ -970,6 +970,25 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	    }
 	  (*run_game) = 0;
 	}
+      /*
+       * Simulate fights for statistics
+       */
+      else if (lw6sys_arg_match (LW6DEF_SIMULATE_BASIC, argv[i]))
+	{
+	  lw6sim_results_t results;
+
+	  lw6sim_simulate_basic (argc, argv, &results);
+	  lw6sim_print (&results, stdout);
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_SIMULATE_FULL, argv[i]))
+	{
+	  lw6sim_results_t results;
+
+	  lw6sim_simulate_full (argc, argv, &results);
+	  lw6sim_print (&results, stdout);
+	  (*run_game) = 0;
+	}
     }
 
   return ret;
