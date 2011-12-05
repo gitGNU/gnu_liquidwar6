@@ -64,9 +64,7 @@ typedef struct lw6gfx_backend_s
 }
 lw6gfx_backend_t;
 
-/*
- * In api.c
- */
+/* gfx-api.c */
 extern int lw6gfx_init (lw6gfx_backend_t * backend,
 			lw6gui_video_mode_t * video_mode,
 			lw6gui_resize_callback_func_t resize_callback);
@@ -89,9 +87,7 @@ extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 			   int gfx_debug, int debug_team_id,
 			   int debug_layer_id);
 
-/*
- * In register.c
- */
+/* gfx-register.c */
 extern lw6sys_assoc_t *lw6gfx_get_backends (int argc, char *argv[]);
 extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, char *argv[],
 						char *name);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.12beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-03 17:02+0100\n"
+"POT-Creation-Date: 2011-12-05 20:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2001
+#: src/lib/sys/sys-test.c:2003
 msgid "this is a /TEST/ error"
 msgstr ""
 

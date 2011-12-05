@@ -6900,6 +6900,44 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
+ -- Function: lw6sys_assoc_t * lw6gfx_get_backends (int ARGC, char * []
+          ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available gfx backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6gfx_backend_t * lw6gfx_create_backend (int ARGC, char
+          * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing gfx key, typically got from
+     `lw6gfx_get_backends'
+
+     Creates a gfx backend, this is just about loading the dynamic
+     library if needed, and/or check gfx engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  gfx backend.
+
+ -- Function: void lw6gfx_destroy_backend (lw6gfx_backend_t * BACKEND)
+     BACKEND:  gfx backend to destroy
+
+     Frees the ressources associated to a gfx, which must have been
+     properly uninitialized before.
+
+     *Return value:*  none.
+
  -- Function: int lw6gfx_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -7296,6 +7334,16 @@ results on
 
 5.24.2 API
 ----------
+
+ -- Function: char * lw6ker_capture_str (lw6ker_game_state_t *
+          GAME_STATE)
+     GAME_STATE:  game state to represent
+
+     Gives a string representation, an ASCII capture of the game.  This
+     representation is suitable for debugging, typically print it to a
+     VT100 console.
+
+     *Return value:*  dynamically allocated string.
 
  -- Function: void lw6ker_cursor_reset (lw6ker_cursor_t * CURSOR)
      CURSOR:  the cursor to reset

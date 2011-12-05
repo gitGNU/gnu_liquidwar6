@@ -112,6 +112,17 @@ _lw6ker_capture_str (_lw6ker_game_state_t * game_state)
   return ret;
 }
 
+/**
+ * lw6ker_capture_str
+ *
+ * @game_state: game state to represent
+ *
+ * Gives a string representation, an ASCII capture of the game.
+ * This representation is suitable for debugging, typically print
+ * it to a VT100 console.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6ker_capture_str (lw6ker_game_state_t * game_state)
 {

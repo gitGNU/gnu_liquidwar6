@@ -149,14 +149,10 @@ typedef struct lw6ker_game_state_s
 }
 lw6ker_game_state_t;
 
-/*
- * in capture.c
- */
+/* ker-capture.c */
 extern char *lw6ker_capture_str (lw6ker_game_state_t * game_state);
 
-/*
- * in reset.c
- */
+/* ker-cursor.c */
 extern void lw6ker_cursor_reset (lw6ker_cursor_t * cursor);
 
 /* ker-gamestate.c */
@@ -325,15 +321,11 @@ extern int lw6ker_move_get_best_next_pos (lw6ker_game_state_t * game_state,
 					  lw6sys_xyz_t * next_pos,
 					  lw6sys_xyz_t * current_pos,
 					  int team_color);
-/*
- * in scorearray.c
- */
+/* ker-scorearray.c */
 extern int lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 				      lw6ker_game_state_t * game_state);
 
-/*
- * in teammask.c
- */
+/* ker-teammask.c */
 extern void lw6ker_team_mask_get (u_int32_t * even, u_int32_t * odd,
 				  int32_t round);
 extern void lw6ker_team_mask_best (u_int32_t * even, u_int32_t * odd,
@@ -345,9 +337,7 @@ extern int lw6ker_team_mask_color2mask (int team_color);
 /* ker-test.c */
 extern int lw6ker_test (int mode);
 
-/*
- * In trigo.c
- */
+/* ker-trigo.c */
 static inline int32_t
 lw6ker_sin (int32_t alpha)
 {
@@ -362,9 +352,7 @@ lw6ker_cos (int32_t alpha)
   return LW6KER_TRIGO_SIN_TABLE[alpha];
 }
 
-/*
- * Various utils
- */
+// utils
 static inline int32_t
 lw6ker_percent (int32_t n, int32_t percent)
 {
