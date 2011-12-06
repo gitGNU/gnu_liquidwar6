@@ -191,6 +191,30 @@ _guess_moves_per_sec (lw6map_rules_t * rules, lw6ldr_hints_t * hints, int w,
     }
 }
 
+/**
+ * lw6ldr_resampler_init
+ *
+ * @resampler: resampler object to init
+ * @param: map parameters to use
+ * @hints: loading hints
+ * @source_w: width of source map
+ * @source_h: height of source map
+ * @display_w: width of source display
+ * @display_h: height of source display
+ * @target_ratio: ratio, that is width/height of the target
+ * @bench_value: rough estimation of this computer power
+ * @magic_number: arbitrary constant, needed to calibrate speed
+ * @expected_depth: how thick the map could be (in practice, looks like d in whd)
+ * @gray_level: used to estimate capacity, 1.0f is white and means many slots
+ *
+ * Initializes a resampler. There is wizardry based on the bench, magic number
+ * map size, gray level. This is bot bullet proof, but has been experience
+ * driven and is the result of many tries / failures and hopefully successes.
+ * Might need tuning as the algorithm evolves. This is the very function that
+ * chooses the actual logical map size.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 		       lw6map_param_t * param, lw6ldr_hints_t * hints,
@@ -406,6 +430,21 @@ check_bounds (int *x, int *y, int w, int h)
   (*y) = lw6sys_max ((*y), 0);
 }
 
+/**
+ * lw6ldr_resampler_force
+ *
+ * @resampler: resampler to set
+ * @source_w: source map width
+ * @source_h: source map height
+ * @target_w: target map width
+ * @target_h: target map height
+ *
+ * Initializes a resampler with hardcoded values, does not
+ * calibrate according to context, simply set it to rescale
+ * the size you want.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
 			int source_w,
@@ -421,6 +460,20 @@ lw6ldr_resampler_force (lw6ldr_resampler_t * resampler,
     ((float) (resampler->target_h)) / ((float) (resampler->source_h));
 }
 
+/**
+ * lw6ldr_resampler_source2target
+ *
+ * @resample: resampler to use
+ * @target_x: target x coordinate (out param)
+ * @target_y: target y coordinate (out param)
+ * @source_x: source x coordinate (in param)
+ * @source_y: source y coordinate (in param)
+ *
+ * Transforms from source coordinate to target coordinates.
+ * Does rounding fine-tuning, it's not a simple integer division.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_resampler_source2target (lw6ldr_resampler_t * resampler, int *target_x,
 				int *target_y, int source_x, int source_y)
@@ -432,6 +485,23 @@ lw6ldr_resampler_source2target (lw6ldr_resampler_t * resampler, int *target_x,
   check_bounds (target_x, target_y, resampler->target_w, resampler->target_h);
 }
 
+/**
+ * lw6ldr_resampler_target2source
+ *
+ * @resample: resampler to use
+ * @source_x: source x coordinate (out param)
+ * @source_y: source y coordinate (out param)
+ * @target_x: target x coordinate (in param)
+ * @target_y: target y coordinate (in param)
+ *
+ * Transforms from target coordinate to source coordinates.
+ * Yes, target to source. Target is our final logical map,
+ * source is what we loaded from disk, here we want to know,
+ * given a point in the target, where to fetch its data from source.
+ * Does rounding fine-tuning, it's not a simple integer division.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_resampler_target2source (lw6ldr_resampler_t * resampler, int *source_x,
 				int *source_y, int target_x, int target_y)

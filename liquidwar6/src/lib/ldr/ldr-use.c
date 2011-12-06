@@ -36,6 +36,17 @@ typedef struct use_update_data_s
 }
 use_update_data_t;
 
+/**
+ * lw6ldr_use_defaults
+ *
+ * @use: struct to initialize
+ *
+ * Sets the use structure to its defaults, this structure
+ * being used to now wether we should use texture, cursor textures,
+ * rules, hints, style, teams and music.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_use_defaults (lw6ldr_use_t * use)
 {
@@ -48,12 +59,35 @@ lw6ldr_use_defaults (lw6ldr_use_t * use)
   use->use_music_file = LW6LDR_USE_DEFAULT_USE_MUSIC_FILE;
 }
 
+/**
+ * lw6ldr_use_clear
+ *
+ * @use: struct to clear
+ *
+ * Clears the use structure, set it to the use nothing mode.
+ *
+ * Return value: none.
+ */
 void
 lw6ldr_use_clear (lw6ldr_use_t * use)
 {
   memset (use, 0, sizeof (lw6ldr_use_t));
 }
 
+/**
+ * lw6ldr_use_set
+ *
+ * @use: struct to modify
+ * @key: key to change (as a string)
+ * @value: value to set (as a string)
+ *
+ * Sets a key to the given value, OK all fields are integer,
+ * this is just a convenient function to be called in more
+ * general functions which are fed with those string pointers,
+ * typically coming from an XML file.
+ *
+ * Return value: 1 on success, 0 on failure (key not found).
+ */
 int
 lw6ldr_use_set (lw6ldr_use_t * use, char *key, char *value)
 {

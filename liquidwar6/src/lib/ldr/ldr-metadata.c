@@ -131,9 +131,17 @@ read_callback (void *callback_data, char *element, char *key, char *value)
     }
 }
 
-/*
- * Read the metadata associated to a map. Pointer to metadata must be valid,
- * it's modified in-place.
+/**
+ * lw6ldr_metadata_read
+ * 
+ * @metadata: structure containting read data (out param)
+ * @dirname: map dirname (absolute path)
+ *
+ * Reads the metadata, will first parse metadata.xml, and if not available
+ * read README and guess a title from map path. When function returns,
+ * all fields in structure are non-NULL.
+ *
+ * Return value: 1 on success, 0 on failure.
  */
 int
 lw6ldr_metadata_read (lw6map_metadata_t * metadata, char *dirname)

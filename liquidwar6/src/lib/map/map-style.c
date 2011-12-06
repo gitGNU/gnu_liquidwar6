@@ -28,12 +28,33 @@
 
 #include "map.h"
 
+/**
+ * lw6map_style_zero
+ *
+ * @style: struct to initialize
+ *
+ * Sets a style struct to zero, simply puts zero everywhere
+ * without checking what was here before
+ *
+ * Return value: none.
+ */
 void
 lw6map_style_zero (lw6map_style_t * style)
 {
   memset (style, 0, sizeof (lw6map_style_t));
 }
 
+/**
+ * lw6map_style_defaults
+ *
+ * @style: struct to modify
+ *
+ * Sets a style struct to defaults values, expects
+ * the object to be in a consistent style, that's to
+ * say either containing real data or being zeroed.
+ *
+ * Return value: none.
+ */
 void
 lw6map_style_defaults (lw6map_style_t * style)
 {
@@ -134,11 +155,17 @@ lw6map_style_defaults (lw6map_style_t * style)
   style->waves = LW6MAP_STYLE_DEFAULT_WAVES;
 }
 
-/*
- * Note that this function won't work on an unitialized
+/**
+ * lw6map_style_clear
+ *
+ * @style: struct to clear
+ *
+ * Clears a style struct. This function won't work on an unitialized
  * structure, structure must be zeroed by some CALLOC
  * or something, else automatic freeing of pointers
  * will fail.
+ *
+ * Return value: none.
  */
 void
 lw6map_style_clear (lw6map_style_t * style)
@@ -184,9 +211,17 @@ lw6map_style_clear (lw6map_style_t * style)
     }
 }
 
-/*
- * Like with clear, *dst must be either initialized or
+/**
+ * lw6map_style_copy
+ *
+ * @dst: destination
+ * @src: source
+ *
+ * Copies style data from source to destination.
+ * Like with clear, @dst must be either initialized or
  * totally zeroed, else function will fail (core dump)
+ *
+ * Return value: none.
  */
 void
 lw6map_style_copy (lw6map_style_t * dst, lw6map_style_t * src)
@@ -224,6 +259,19 @@ lw6map_style_copy (lw6map_style_t * dst, lw6map_style_t * src)
     }
 }
 
+/**
+ * lw6map_style_set
+ *
+ * @style: style struct to modify (out param)
+ * @key: key to use
+ * @value: value to use
+ *
+ * Sets a style entry, takes string values and will
+ * identify the struct offset and convert the value
+ * to whatever C type is needed.
+ *
+ * Return value: 1 on success, 0 on failure (key not found)
+ */
 int
 lw6map_style_set (lw6map_style_t * style, char *key, char *value)
 {
@@ -523,6 +571,19 @@ lw6map_style_set (lw6map_style_t * style, char *key, char *value)
   return ret;
 }
 
+/**
+ * lw6map_style_get
+ *
+ * @style: style struct to query
+ * @key: key to use
+ *
+ * Get a style entry, takes a string key and will
+ * identify the struct offset. The return value is
+ * converted to string, typically the cannonical 
+ * representation suitable to write in an XML config file.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6map_style_get (lw6map_style_t * style, char *key)
 {
@@ -790,6 +851,18 @@ lw6map_style_get (lw6map_style_t * style, char *key)
   return ret;
 }
 
+/**
+ * lw6map_style_get_default
+ *
+ * @key: key to query
+ *
+ * Get the default value for a style entry. This is quite
+ * a cost-expensive function given what it does, indeed it
+ * will convert anything to a string, and also perform
+ * key lookup to fetch the value.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6map_style_get_default (char *key)
 {
@@ -816,6 +889,17 @@ lw6map_style_get_default (char *key)
   return ret;
 }
 
+/**
+ * lw6map_color_set_is_same
+ *
+ * @color_set_a: first item to compare
+ * @color_set_b: second item to compare
+ *
+ * Compares two color sets, telling if they contain
+ * the same data.
+ *
+ * Return value: 1 if same, 0 if different.
+ */
 int
 lw6map_color_set_is_same (lw6map_color_set_t * color_set_a,
 			  lw6map_color_set_t * color_set_b)
@@ -827,6 +911,17 @@ lw6map_color_set_is_same (lw6map_color_set_t * color_set_a,
   return ret;
 }
 
+/**
+ * lw6map_style_is_same
+ *
+ * @style_a: first item to compare
+ * @style_b: second item to compare
+ *
+ * Compares two style structures, telling if they contain
+ * the same data.
+ *
+ * Return value: 1 if same, 0 if different.
+ */
 int
 lw6map_style_is_same (lw6map_style_t * style_a, lw6map_style_t * style_b)
 {

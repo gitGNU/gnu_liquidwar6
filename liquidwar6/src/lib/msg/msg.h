@@ -162,7 +162,7 @@ extern int lw6msg_oob_analyse_request (int *syntax_ok, char **command,
 				       char *password);
 extern char *lw6msg_oob_analyse_pong (char *text);
 
-/* nod-test.c */
+/* msg-test.c */
 extern int lw6msg_test (int mode);
 
 /* msg-ticket.c */

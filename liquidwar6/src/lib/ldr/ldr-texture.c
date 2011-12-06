@@ -180,11 +180,25 @@ read_alpha_jpeg (lw6map_texture_t * texture, char *texture_alpha_dot_jpeg,
   return ret;
 }
 
-/*
+/**
+ * lw6ldr_texture_read
+ *
+ * @texture: structure to hold read data
+ * @dirname: map dirname (absolute path)
+ * @param: parameters to use
+ * @hints: loading hints to use
+ * @use_texture: wether to use texture.png
+ * @display_w: display width
+ * @display_h: display height
+ * @ratio: target width/height factor (out param)
+ * @texture_exists: true if texture.png is here (out param)
+ * @progress: progress indicator (in/out param)
+ *
  * Read the texture associated to a map. Pointer to texture must be valid,
  * it's modified in-place. The function will automatically figure out
  * if texture.png exists or if we must use foreground.png/background.png.
- * Depth is read-only.
+ *
+ * Return value: 1 on success, 0 on failure.
  */
 int
 lw6ldr_texture_read (lw6map_texture_t * texture, char *dirname,

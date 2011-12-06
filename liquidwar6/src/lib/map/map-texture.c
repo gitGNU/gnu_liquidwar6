@@ -28,6 +28,20 @@
 
 #include "map.h"
 
+/**
+ * lw6map_texture_from_body
+ *
+ * @texture: texture to load (out param)
+ * @body: body to pick data from
+ * @color: colors to use
+ *
+ * Will create a default bicolor texture from the body data,
+ * this is in case we don't want to use the texture or there is
+ * none. Result is not beautifull but might be very comfortable
+ * to play.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6map_texture_from_body (lw6map_texture_t * texture, lw6map_body_t * body,
 			  lw6map_color_couple_t * color)
@@ -69,8 +83,15 @@ lw6map_texture_from_body (lw6map_texture_t * texture, lw6map_body_t * body,
   return ret;
 }
 
-/*
- * Clears a texture.
+/**
+ * lw6map_texture_clear
+ *
+ * @texture: data to clear
+ *
+ * Clears a texture object, expects it to be in a consitent
+ * state, either filled with real data of zeroed.
+ *
+ * Return value: none.
  */
 void
 lw6map_texture_clear (lw6map_texture_t * texture)
@@ -83,6 +104,20 @@ lw6map_texture_clear (lw6map_texture_t * texture)
   memset (texture, 0, sizeof (lw6map_texture_t));
 }
 
+/**
+ * lw6map_texture_coord_from_body
+ *
+ * @level: map to work on
+ * @texture_x: texture x coordinate (out param)
+ * @texture_y: texture y coordinate (out param)
+ * @body_x: body x coordinate (in param)
+ * @body_y: body y coordinate (in param)
+ *
+ * Translates from body coordinate space to texture
+ * coordinate space.
+ *
+ * Return value: 1 on success, 0 if failure.
+ */
 int
 lw6map_texture_coord_from_body (lw6map_level_t * level, int *texture_x,
 				int *texture_y, int body_x, int body_y)
@@ -108,6 +143,18 @@ lw6map_texture_coord_from_body (lw6map_level_t * level, int *texture_x,
   return ret;
 }
 
+/**
+ * lw6map_texture_get_with_body_coord
+ *
+ * @level: map to use
+ * @body_x: x coordinate in body space
+ * @body_y: y coordinate in body space
+ *
+ * Get the color of a given point in the texture, using the
+ * body coordinate space.
+ *
+ * Return value: RGBA 8-bit color.
+ */
 lw6sys_color_8_t
 lw6map_texture_get_with_body_coord (lw6map_level_t * level, int body_x,
 				    int body_y)
@@ -125,6 +172,20 @@ lw6map_texture_get_with_body_coord (lw6map_level_t * level, int body_x,
   return ret;
 }
 
+/**
+ * lw6map_texture_has_alpha
+ *
+ * @texture: texture object to test
+ *
+ * Finds out if the texture is fully opaque or not. If it has
+ * an alpha layer (typically, PNG file) but this one is filled
+ * at 100% everywhere, then it will consider opaque. This is
+ * a slow function but the result is cached in the has_alpha
+ * member, so as the function is called at map loading, use
+ * the cached value instead.
+ *
+ * Return value: 1 if has used alpha layer, 0 if opaque.
+ */
 int
 lw6map_texture_has_alpha (lw6map_texture_t * texture)
 {

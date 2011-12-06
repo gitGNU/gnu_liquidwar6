@@ -1323,9 +1323,7 @@ extern int lw6map_local_info_set_music_dir (lw6map_local_info_t *
 					    local_info, char *music_dir);
 extern void lw6map_local_info_clear (lw6map_local_info_t * local_info);
 
-/*
- * In metadata.c
- */
+/* map-metadata.c */
 extern void lw6map_metadata_defaults (lw6map_metadata_t * metadata);
 extern void lw6map_metadata_clear (lw6map_metadata_t * metadata);
 extern int lw6map_metadata_is_same (lw6map_metadata_t * metadata_a,
@@ -1341,9 +1339,7 @@ extern int lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer,
 					     int w, int h, int analog,
 					     int noise_percent, int seed);
 
-/*
- * In rules.c
- */
+/* map-rules.c */
 extern void lw6map_rules_defaults (lw6map_rules_t * rules);
 extern void lw6map_rules_copy (lw6map_rules_t * dst, lw6map_rules_t * src);
 extern void lw6map_rules_update_checksum (lw6map_rules_t * rules,
@@ -1370,9 +1366,7 @@ extern char *lw6map_param_get (lw6map_param_t * param, char *key);
 extern int lw6map_param_is_same (lw6map_param_t * param_a,
 				 lw6map_param_t * param_b);
 
-/*
- * In style.c
- */
+/* map-style.c */
 extern void lw6map_style_zero (lw6map_style_t * style);
 extern void lw6map_style_defaults (lw6map_style_t * style);
 extern void lw6map_style_clear (lw6map_style_t * style);
@@ -1399,9 +1393,10 @@ extern int lw6map_teams_is_same (lw6map_teams_t * teams_a,
 /* map-test.c */
 extern int lw6map_test (int mode);
 
-/*
- * In texture.c
- */
+/* map-texture.c */
+extern int lw6map_texture_from_body (lw6map_texture_t * texture,
+				     lw6map_body_t * body,
+				     lw6map_color_couple_t * color);
 extern void lw6map_texture_clear (lw6map_texture_t * texture);
 extern int lw6map_texture_coord_from_body (lw6map_level_t * level,
 					   int *texture_x, int *texture_y,
@@ -1410,9 +1405,6 @@ extern lw6sys_color_8_t lw6map_texture_get_with_body_coord (lw6map_level_t *
 							    level,
 							    int body_x,
 							    int body_y);
-extern int lw6map_texture_from_body (lw6map_texture_t * texture,
-				     lw6map_body_t * body,
-				     lw6map_color_couple_t * color);
 extern int lw6map_texture_has_alpha (lw6map_texture_t * texture);
 
 /* map-weapon.c */
@@ -1424,4 +1416,4 @@ lw6map_weapon_is_valid (int weapon)
   return (weapon >= 0 && weapon <= LW6MAP_MAX_WEAPON_ID);
 }
 
-#endif /*  */
+#endif

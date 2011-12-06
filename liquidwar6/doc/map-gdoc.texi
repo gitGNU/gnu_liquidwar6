@@ -304,6 +304,36 @@ Clears the local_info structure, before destroying a level for instance.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {void} {lw6map_metadata_defaults} (lw6map_metadata_t * @var{metadata})
+@var{metadata}:  struct to set to defaults
+
+Sets the metadata struct to defaults, this does not set
+fields to NULL/empty values, but rather fills it with
+data claiming, for instance, that this is a default map.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_metadata_clear} (lw6map_metadata_t * @var{metadata})
+@var{metadata}:  struct to clear
+
+Clears a metadata, will expect it to be in a consistent
+state, that is either filled with proper values or
+completely zeroed.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_metadata_is_same} (lw6map_metadata_t * @var{metadata_a}, lw6map_metadata_t * @var{metadata_b})
+@var{metadata_a}:  first item to compare
+
+@var{metadata_b}:  second item to compare
+
+Tells wether both metadata items contain the same values.
+
+@strong{Return value:}  1 if same, 0 if different.
+@end deftypefun
+
 @deftypefun {void} {lw6map_meta_layer_set} (lw6map_meta_layer_t * @var{meta_layer}, int @var{x}, int @var{y}, u_int8_t @var{value})
 @var{meta_layer}:  the meta_layer structure
 
@@ -427,6 +457,246 @@ Compares the contents of two param structs.
 @strong{Return value:}  1 if they contain the same thing, 0 if not
 @end deftypefun
 
+@deftypefun {void} {lw6map_rules_defaults} (lw6map_rules_t * @var{rules})
+@var{rules}:  struct to set to defaults
+
+Set rules to default values, as these are all integers,
+you can call this on any rules object.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_rules_copy} (lw6map_rules_t * @var{dst}, lw6map_rules_t * @var{src})
+@var{dst}:  destination (out param)
+
+@var{src}:  source (in param)
+
+Copies the data from source to destination, simple
+wrapper on memcpy.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_rules_update_checksum} (lw6map_rules_t * @var{rules}, u_int32_t * @var{checksum})
+@var{rules}:  rules struct to check
+
+@var{checksum}:  checksum to update (in/out param)
+
+Updates a checksum with the rules data.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6map_rules_get_default} (char * @var{key})
+@var{key}:  key to query
+
+Get the default value for a given string key. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6map_rules_get_min} (char * @var{key})
+@var{key}:  key to query
+
+Get the min value for a given string key. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6map_rules_get_max} (char * @var{key})
+@var{key}:  key to query
+
+Get the min value for a given string key. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int32_t} {lw6map_rules_get_int} (lw6map_rules_t * @var{rules}, char * @var{key})
+@var{rules}:  struct to use
+
+@var{key}:  key to query
+
+Get the value for a given string key, as an integer. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int} {lw6map_rules_set_int} (lw6map_rules_t * @var{rules}, char * @var{key}, int32_t @var{value})
+@var{rules}:  struct to use
+
+@var{key}:  key to set
+
+@var{value}:  new integer value for key
+
+Set the value for a given string key, as an integer. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  1 on success, 0 on failure (eg key not found)
+@end deftypefun
+
+@deftypefun {int} {lw6map_rules_get_bool} (lw6map_rules_t * @var{rules}, char * @var{key})
+@var{rules}:  struct to use
+
+@var{key}:  key to query
+
+Get the value for a given string key, as a boolean. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  boolean.
+@end deftypefun
+
+@deftypefun {int} {lw6map_rules_set_bool} (lw6map_rules_t * @var{rules}, char * @var{key}, int @var{value})
+@var{rules}:  struct to use
+
+@var{key}:  key to set
+
+@var{value}:  new boolean value for key
+
+Set the value for a given string key, as a boolean. Of course
+you could access the member, but this function internally does
+the conversion between readable string and actual
+struct offset.
+
+@strong{Return value:}  1 on success, 0 on failure (eg key not found)
+@end deftypefun
+
+@deftypefun {void} {lw6map_rules_clear} (lw6map_rules_t * @var{rules})
+@var{rules}:  struct to init
+
+Set rules to 0, this is not defaults, this is 0 (probably
+unusable as a real-world setting).
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_rules_is_same} (lw6map_rules_t * @var{rules_a}, lw6map_rules_t * @var{rules_b})
+@var{rules_a}:  first item to compare
+
+@var{rules_b}:  second item to compare
+
+Compares two rules items. Will tell if they contain the same data.
+
+@strong{Return value:}  1 if same, 0 if different.
+@end deftypefun
+
+@deftypefun {void} {lw6map_style_zero} (lw6map_style_t * @var{style})
+@var{style}:  struct to initialize
+
+Sets a style struct to zero, simply puts zero everywhere
+without checking what was here before
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_style_defaults} (lw6map_style_t * @var{style})
+@var{style}:  struct to modify
+
+Sets a style struct to defaults values, expects
+the object to be in a consistent style, that's to
+say either containing real data or being zeroed.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_style_clear} (lw6map_style_t * @var{style})
+@var{style}:  struct to clear
+
+Clears a style struct. This function won't work on an unitialized
+structure, structure must be zeroed by some CALLOC
+or something, else automatic freeing of pointers
+will fail.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_style_copy} (lw6map_style_t * @var{dst}, lw6map_style_t * @var{src})
+@var{dst}:  destination
+
+@var{src}:  source
+
+Copies style data from source to destination.
+Like with clear, @code{dst} must be either initialized or
+totally zeroed, else function will fail (core dump)
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_style_set} (lw6map_style_t * @var{style}, char * @var{key}, char * @var{value})
+@var{style}:  style struct to modify (out param)
+
+@var{key}:  key to use
+
+@var{value}:  value to use
+
+Sets a style entry, takes string values and will
+identify the struct offset and convert the value
+to whatever C type is needed.
+
+@strong{Return value:}  1 on success, 0 on failure (key not found)
+@end deftypefun
+
+@deftypefun {char *} {lw6map_style_get} (lw6map_style_t * @var{style}, char * @var{key})
+@var{style}:  style struct to query
+
+@var{key}:  key to use
+
+Get a style entry, takes a string key and will
+identify the struct offset. The return value is
+converted to string, typically the cannonical 
+representation suitable to write in an XML config file.
+
+@strong{Return value:}  dynamically allocated string.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_style_get_default} (char * @var{key})
+@var{key}:  key to query
+
+Get the default value for a style entry. This is quite
+a cost-expensive function given what it does, indeed it
+will convert anything to a string, and also perform
+key lookup to fetch the value.
+
+@strong{Return value:}  dynamically allocated string.
+@end deftypefun
+
+@deftypefun {int} {lw6map_color_set_is_same} (lw6map_color_set_t * @var{color_set_a}, lw6map_color_set_t * @var{color_set_b})
+@var{color_set_a}:  first item to compare
+
+@var{color_set_b}:  second item to compare
+
+Compares two color sets, telling if they contain
+the same data.
+
+@strong{Return value:}  1 if same, 0 if different.
+@end deftypefun
+
+@deftypefun {int} {lw6map_style_is_same} (lw6map_style_t * @var{style_a}, lw6map_style_t * @var{style_b})
+@var{style_a}:  first item to compare
+
+@var{style_b}:  second item to compare
+
+Compares two style structures, telling if they contain
+the same data.
+
+@strong{Return value:}  1 if same, 0 if different.
+@end deftypefun
+
 @deftypefun {void} {lw6map_teams_zero} (lw6map_teams_t * @var{teams})
 @var{teams}:  data to initialize
 
@@ -515,6 +785,73 @@ Compares the contents of two teams structs.
 Runs the @code{map} module test suite.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6map_texture_from_body} (lw6map_texture_t * @var{texture}, lw6map_body_t * @var{body}, lw6map_color_couple_t * @var{color})
+@var{texture}:  texture to load (out param)
+
+@var{body}:  body to pick data from
+
+@var{color}:  colors to use
+
+Will create a default bicolor texture from the body data,
+this is in case we don't want to use the texture or there is
+none. Result is not beautifull but might be very comfortable
+to play.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {void} {lw6map_texture_clear} (lw6map_texture_t * @var{texture})
+@var{texture}:  data to clear
+
+Clears a texture object, expects it to be in a consitent
+state, either filled with real data of zeroed.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6map_texture_coord_from_body} (lw6map_level_t * @var{level}, int * @var{texture_x}, int * @var{texture_y}, int @var{body_x}, int @var{body_y})
+@var{level}:  map to work on
+
+@var{texture_x}:  texture x coordinate (out param)
+
+@var{texture_y}:  texture y coordinate (out param)
+
+@var{body_x}:  body x coordinate (in param)
+
+@var{body_y}:  body y coordinate (in param)
+
+Translates from body coordinate space to texture
+coordinate space.
+
+@strong{Return value:}  1 on success, 0 if failure.
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6map_texture_get_with_body_coord} (lw6map_level_t * @var{level}, int @var{body_x}, int @var{body_y})
+@var{level}:  map to use
+
+@var{body_x}:  x coordinate in body space
+
+@var{body_y}:  y coordinate in body space
+
+Get the color of a given point in the texture, using the
+body coordinate space.
+
+@strong{Return value:}  RGBA 8-bit color.
+@end deftypefun
+
+@deftypefun {int} {lw6map_texture_has_alpha} (lw6map_texture_t * @var{texture})
+@var{texture}:  texture object to test
+
+Finds out if the texture is fully opaque or not. If it has
+an alpha layer (typically, PNG file) but this one is filled
+at 100% everywhere, then it will consider opaque. This is
+a slow function but the result is cached in the has_alpha
+member, so as the function is called at map loading, use
+the cached value instead.
+
+@strong{Return value:}  1 if has used alpha layer, 0 if opaque.
 @end deftypefun
 
 @deftypefun {char *} {lw6map_weapon_index_to_key} (int @var{index})

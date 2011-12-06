@@ -199,9 +199,7 @@ extern int lw6ldr_layer_read_first (lw6map_layer_t * layer, char *filename,
 extern int lw6ldr_layer_read_next (lw6map_layer_t * layer, char *filename,
 				   int target_w, int target_h);
 
-/*
- * In metadata.c
- */
+/* ldr-metadata.c */
 extern int lw6ldr_metadata_read (lw6map_metadata_t * metadata, char *dirname);
 
 /* ldr-metalayer.c */
@@ -247,9 +245,7 @@ extern lw6map_level_t *lw6ldr_read_relative (char *map_path,
 					     int magic_number, char *user_dir,
 					     lw6sys_progress_t * progress);
 
-/*
- * In resampler.c
- */
+/* ldr-resampler.c */
 extern void lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 				   lw6map_param_t * param,
 				   lw6ldr_hints_t * hints,
@@ -282,9 +278,7 @@ extern int lw6ldr_teams_update (lw6map_teams_t * teams,
 /* ldr-test.c */
 extern int lw6ldr_test (int mode);
 
-/*
- * In texture.c
- */
+/* ldr-texture.c */
 extern int lw6ldr_texture_read (lw6map_texture_t * texture, char *dirname,
 				lw6map_param_t * param,
 				lw6ldr_hints_t * hints,
@@ -293,9 +287,7 @@ extern int lw6ldr_texture_read (lw6map_texture_t * texture, char *dirname,
 				int *texture_exists,
 				lw6sys_progress_t * progress);
 
-/*
- * use.c
- */
+/* ldr-use.c */
 extern void lw6ldr_use_defaults (lw6ldr_use_t * use);
 extern void lw6ldr_use_clear (lw6ldr_use_t * use);
 extern int lw6ldr_use_set (lw6ldr_use_t * use, char *key, char *value);

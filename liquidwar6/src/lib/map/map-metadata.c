@@ -26,6 +26,17 @@
 
 #include "map.h"
 
+/**
+ * lw6map_metadata_defaults
+ *
+ * @metadata: struct to set to defaults
+ *
+ * Sets the metadata struct to defaults, this does not set
+ * fields to NULL/empty values, but rather fills it with
+ * data claiming, for instance, that this is a default map.
+ *
+ * Return value: none.
+ */
 void
 lw6map_metadata_defaults (lw6map_metadata_t * metadata)
 {
@@ -47,8 +58,16 @@ lw6map_metadata_defaults (lw6map_metadata_t * metadata)
     }
 }
 
-/*
- * Clears a metadata.
+/**
+ * lw6map_metadata_clear
+ *
+ * @metadata: struct to clear
+ *
+ * Clears a metadata, will expect it to be in a consistent
+ * state, that is either filled with proper values or
+ * completely zeroed.
+ *
+ * Return value: none.
  */
 void
 lw6map_metadata_clear (lw6map_metadata_t * metadata)
@@ -80,6 +99,16 @@ lw6map_metadata_clear (lw6map_metadata_t * metadata)
     }
 }
 
+/**
+ * lw6map_metadata_is_same
+ *
+ * @metadata_a: first item to compare
+ * @metadata_b: second item to compare
+ *
+ * Tells wether both metadata items contain the same values.
+ *
+ * Return value: 1 if same, 0 if different.
+ */
 int
 lw6map_metadata_is_same (lw6map_metadata_t * metadata_a,
 			 lw6map_metadata_t * metadata_b)

@@ -659,12 +659,33 @@ static lw6map_rules_t max_rules = {
   LW6MAP_RULES_MAX_WEAPON_TUNE_TURBO_POWER
 };
 
+/**
+ * lw6map_rules_defaults
+ *
+ * @rules: struct to set to defaults
+ *
+ * Set rules to default values, as these are all integers,
+ * you can call this on any rules object.
+ *
+ * Return value: none.
+ */
 void
 lw6map_rules_defaults (lw6map_rules_t * rules)
 {
   lw6map_rules_copy (rules, &default_rules);
 }
 
+/**
+ * lw6map_rules_copy
+ *
+ * @dst: destination (out param)
+ * @src: source (in param)
+ *
+ * Copies the data from source to destination, simple
+ * wrapper on memcpy.
+ *
+ * Return value: none.
+ */
 void
 lw6map_rules_copy (lw6map_rules_t * dst, lw6map_rules_t * src)
 {
@@ -675,6 +696,16 @@ lw6map_rules_copy (lw6map_rules_t * dst, lw6map_rules_t * src)
   memcpy (dst, src, sizeof (lw6map_rules_t));
 }
 
+/**
+ * lw6map_rules_update_checksum
+ *
+ * @rules: rules struct to check
+ * @checksum: checksum to update (in/out param)
+ *
+ * Updates a checksum with the rules data.
+ *
+ * Return value: none.
+ */
 void
 lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
 {
@@ -775,7 +806,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_turbo_power);
 }
 
-int32_t *
+static int32_t *
 get_rules_int_ptr (lw6map_rules_t * rules, char *key)
 {
   int32_t *ret = NULL;
@@ -1500,6 +1531,18 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
   return ret;
 }
 
+/**
+ * lw6map_rules_get_default
+ *
+ * @key: key to query
+ *
+ * Get the default value for a given string key. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: integer.
+ */
 int32_t
 lw6map_rules_get_default (char *key)
 {
@@ -1515,6 +1558,18 @@ lw6map_rules_get_default (char *key)
   return ret;
 }
 
+/**
+ * lw6map_rules_get_min
+ *
+ * @key: key to query
+ *
+ * Get the min value for a given string key. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: integer.
+ */
 int32_t
 lw6map_rules_get_min (char *key)
 {
@@ -1530,6 +1585,18 @@ lw6map_rules_get_min (char *key)
   return ret;
 }
 
+/**
+ * lw6map_rules_get_min
+ *
+ * @key: key to query
+ *
+ * Get the min value for a given string key. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: integer.
+ */
 int32_t
 lw6map_rules_get_max (char *key)
 {
@@ -1545,6 +1612,19 @@ lw6map_rules_get_max (char *key)
   return ret;
 }
 
+/**
+ * lw6map_rules_get_int
+ *
+ * @rules: struct to use
+ * @key: key to query
+ *
+ * Get the value for a given string key, as an integer. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: integer.
+ */
 int32_t
 lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
 {
@@ -1583,6 +1663,20 @@ lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
   return ret;
 }
 
+/**
+ * lw6map_rules_set_int
+ *
+ * @rules: struct to use
+ * @key: key to set
+ * @value: new integer value for key
+ *
+ * Set the value for a given string key, as an integer. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: 1 on success, 0 on failure (eg key not found)
+ */
 int
 lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
 {
@@ -1622,18 +1716,55 @@ lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
   return ret;
 }
 
+/**
+ * lw6map_rules_get_bool
+ *
+ * @rules: struct to use
+ * @key: key to query
+ *
+ * Get the value for a given string key, as a boolean. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: boolean.
+ */
 int
 lw6map_rules_get_bool (lw6map_rules_t * rules, char *key)
 {
   return lw6map_rules_get_int (rules, key) ? 1 : 0;
 }
 
+/**
+ * lw6map_rules_set_bool
+ *
+ * @rules: struct to use
+ * @key: key to set
+ * @value: new boolean value for key
+ *
+ * Set the value for a given string key, as a boolean. Of course
+ * you could access the member, but this function internally does
+ * the conversion between readable string and actual
+ * struct offset.
+ *
+ * Return value: 1 on success, 0 on failure (eg key not found)
+ */
 int
 lw6map_rules_set_bool (lw6map_rules_t * rules, char *key, int value)
 {
   return lw6map_rules_set_int (rules, key, value ? 1 : 0);
 }
 
+/**
+ * lw6map_rules_clear
+ *
+ * @rules: struct to init
+ *
+ * Set rules to 0, this is not defaults, this is 0 (probably
+ * unusable as a real-world setting).
+ *
+ * Return value: none.
+ */
 void
 lw6map_rules_clear (lw6map_rules_t * rules)
 {
@@ -1643,6 +1774,16 @@ lw6map_rules_clear (lw6map_rules_t * rules)
     }
 }
 
+/**
+ * lw6map_rules_is_same
+ *
+ * @rules_a: first item to compare
+ * @rules_b: second item to compare
+ *
+ * Compares two rules items. Will tell if they contain the same data.
+ *
+ * Return value: 1 if same, 0 if different.
+ */
 int
 lw6map_rules_is_same (lw6map_rules_t * rules_a, lw6map_rules_t * rules_b)
 {
