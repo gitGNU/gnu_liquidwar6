@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -21,8 +21,8 @@ END-INFO-DIR-ENTRY
 
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top
 
-Annexe D GNU GENERAL PUBLIC LICENSE
-***********************************
+Appendix D GNU GENERAL PUBLIC LICENSE
+*************************************
 
                         Version 3, 29 June 2007
 
@@ -744,8 +744,8 @@ please read `http://www.gnu.org/philosophy/why-not-lgpl.html'.
 
 File: liquidwar6.info,  Node: GNU Free Documentation License,  Next: Indexes,  Prev: Copying,  Up: Top
 
-Annexe E GNU Free Documentation License
-***************************************
+Appendix E GNU Free Documentation License
+*****************************************
 
                      Version 1.3, 3 November 2008
 
@@ -1230,8 +1230,8 @@ permit their use in free software.
 
 File: liquidwar6.info,  Node: Indexes,  Prev: GNU Free Documentation License,  Up: Top
 
-Annexe F Indexes
-****************
+Appendix F Indexes
+******************
 
 F.1 Concept index
 =================
@@ -3076,7 +3076,19 @@ F.2 Function and keyword index
 * lw6net_socket_close:                   libnet.             (line  203)
 * lw6net_socket_is_valid:                libnet.             (line  193)
 * lw6net_socket_set_blocking_mode:       libnet.             (line  183)
-* lw6net_test:                           libnet.             (line  210)
+* lw6net_tcp_accept:                     libnet.             (line  220)
+* lw6net_tcp_connect:                    libnet.             (line  235)
+* lw6net_tcp_is_alive:                   libnet.             (line  295)
+* lw6net_tcp_listen:                     libnet.             (line  210)
+* lw6net_tcp_peek:                       libnet.             (line  264)
+* lw6net_tcp_recv:                       libnet.             (line  279)
+* lw6net_tcp_send:                       libnet.             (line  247)
+* lw6net_test:                           libnet.             (line  303)
+* lw6net_udp_client:                     libnet.             (line  312)
+* lw6net_udp_peek:                       libnet.             (line  348)
+* lw6net_udp_recv:                       libnet.             (line  360)
+* lw6net_udp_send:                       libnet.             (line  329)
+* lw6net_udp_server:                     libnet.             (line  318)
 * lw6nod_dyn_info_free:                  libnod.             (line   17)
 * lw6nod_info_add_discovered_node:       libnod.             (line  159)
 * lw6nod_info_dup_dyn:                   libnod.             (line  141)
@@ -3156,7 +3168,22 @@ F.2 Function and keyword index
 * lw6sim_simulate_basic:                 libsim.             (line   61)
 * lw6sim_simulate_full:                  libsim.             (line   75)
 * lw6sim_test:                           libsim.             (line   88)
-* lw6snd_test:                           libsnd.             (line   17)
+* lw6snd_create_backend:                 libsnd.             (line  165)
+* lw6snd_destroy_backend:                libsnd.             (line  179)
+* lw6snd_get_backends:                   libsnd.             (line  150)
+* lw6snd_init:                           libsnd.             (line   81)
+* lw6snd_is_music_file:                  libsnd.             (line   27)
+* lw6snd_play_fx:                        libsnd.             (line   17)
+* lw6snd_play_music_file:                libsnd.             (line   43)
+* lw6snd_play_music_random:              libsnd.             (line   57)
+* lw6snd_poll:                           libsnd.             (line  127)
+* lw6snd_quit:                           libsnd.             (line  134)
+* lw6snd_repr:                           libsnd.             (line  142)
+* lw6snd_set_fx_volume:                  libsnd.             (line   98)
+* lw6snd_set_music_volume:               libsnd.             (line  118)
+* lw6snd_set_water_volume:               libsnd.             (line  108)
+* lw6snd_stop_music:                     libsnd.             (line   73)
+* lw6snd_test:                           libsnd.             (line  187)
 * lw6srv_oob_free:                       libsrv.             (line   34)
 * lw6srv_oob_new:                        libsrv.             (line   18)
 * lw6srv_tcp_accepter_free:              libsrv.             (line   55)

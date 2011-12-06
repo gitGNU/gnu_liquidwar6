@@ -41,6 +41,16 @@ _lw6net_delay_msec_to_timeval (struct timeval *tv, int delay_msec)
   tv->tv_usec = delay_msec % 1000;
 }
 
+/**
+ * lw6net_tcp_listen
+ *
+ * @ip: IP address to bind to
+ * @port: IP port to listen on
+ *
+ * Listens in TCP on a given port. 
+ *
+ * Return value: >=0 on success, -1 on failure.
+ */
 int
 lw6net_tcp_listen (char *ip, int port)
 {
@@ -66,6 +76,18 @@ lw6net_tcp_listen (char *ip, int port)
   return sock;
 }
 
+/**
+ * lw6net_tcp_accept
+ *
+ * @incoming_ip: address of remote peer (out param, dynamically allocated)
+ * @incoming_port: port of remote peer (out param)
+ * @listening_sock: socket to listen on
+ * @delay_msec: delay, in msec, after which we stop accepting
+ *
+ * Accepts for a connexion on the given socket.
+ *
+ * Return value: the new socket (>=0) if accepted, else -1
+ */
 int
 lw6net_tcp_accept (char **incoming_ip,
 		   int *incoming_port, int listening_sock, int delay_msec)
@@ -194,6 +216,17 @@ lw6net_tcp_accept (char **incoming_ip,
   return new_sock;
 }
 
+/**
+ * lw6net_tcp_connect
+ *
+ * @ip: address to connect to
+ * @port: port to connect to
+ * @delay_msec: delay before we consider it's too late
+ *
+ * Tries to connect on a given socket.
+ *
+ * Return value: socket (>=0) on success, else -1
+ */
 int
 lw6net_tcp_connect (char *ip, int port, int delay_msec)
 {
@@ -367,6 +400,20 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
   return sock;
 }
 
+/**
+ * lw6net_tcp_send
+ *
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @delay_msec: delay after which we give up
+ * @loop: accept to do several calls if needed
+ *
+ * Will send data, possibly looping until all is send, and waiting for
+ * a maximum time of delay_msec.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
 lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 {
@@ -469,6 +516,19 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
   return ret;
 }
 
+/**
+ * lw6net_tcp_peek
+ * 
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @delay_msec: maximum time to wait
+ *
+ * Tells wether data is available. Will actually fill the buffer
+ * with the data, but not remove it from the fifo list.
+ *
+ * Return value: number of bytes available, 0 when nothing
+ */
 int
 lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
 {
@@ -522,6 +582,20 @@ lw6net_tcp_peek (int sock, char *buf, int len, int delay_msec)
   return available;
 }
 
+/**
+ * lw6net_tcp_recv
+ * 
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @delay_msec: maximum time to wait
+ * @loop: wether to loop or not
+ *
+ * If data is available, put it in buffer. If needed, will
+ * loop until @delay_msec is elapsed. Data is removed from queue.
+ *
+ * Return value: number of bytes received, 0 when nothing
+ */
 int
 lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 {
@@ -617,6 +691,16 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
   return ret;
 }
 
+/**
+ * lw6net_tcp_is_alive
+ *
+ * @sock: socket to test
+ *
+ * Tells wether a socket is alive and able to send data. This function
+ * will attempt a write to test if it's really usable.
+ *
+ * Return value: 1 if alive, 0 if not.
+ */
 int
 lw6net_tcp_is_alive (int sock)
 {

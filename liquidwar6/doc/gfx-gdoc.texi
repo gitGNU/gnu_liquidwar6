@@ -13,7 +13,7 @@ the user doesn't have enough rights to access the hardware, and so on.
 @end deftypefun
 
 @deftypefun {void} {lw6gfx_quit} (lw6gfx_backend_t * @var{backend})
-@var{backend}:  the backend to free
+@var{backend}:  the backend to quit
 
 Uninitializes the backend, that is, exits the graphical mode. All threads that
 use graphics must be closed when this is called.

@@ -33,6 +33,16 @@ _warning (const char *func_name)
 	      _x_ ("snd backend function \"%s\" is not defined"), func_name);
 }
 
+/**
+ * lw6snd_play_fx
+ *
+ * @backend: sound backend to use
+ * @fx_id: sound fx id
+ *
+ * Plays a sound fx.
+ *
+ * Return value: 1 on success, 0 on error
+ */
 int
 lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
 {
@@ -54,6 +64,20 @@ lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
   return ret;
 }
 
+/**
+ * lw6snd_is_music_file
+ *
+ * @backend: sound backend to use
+ * @map_dir: map directory, to search additionnal files
+ * @music_path: config entry containing multiple paths
+ * @music_file: relative/local name of a music file
+ *
+ * Tells wether a file is a valid music file, typicallly based on file 
+ * existence and extension. Not bullet proof, file might actually not
+ * be loadable, but chances are 99%.
+ *
+ * Return value: 1 if music file, 0 if not
+ */
 int
 lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
 		      char *music_path, char *music_file)
@@ -83,6 +107,18 @@ lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir,
   return ret;
 }
 
+/**
+ * lw6snd_play_music_file
+ *
+ * @backend: sound backend to use
+ * @map_dir: map directory, to search additionnal files
+ * @music_path: config entry containing multiple paths
+ * @music_file: relative/local name of a music file
+ *
+ * Plays a music file.
+ *
+ * Return value: 1 if OK, 0 if not.
+ */
 int
 lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
 			char *music_path, char *music_file)
@@ -120,6 +156,22 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir,
   return ret;
 }
 
+/**
+ * lw6snd_play_music_random
+ *
+ * @backend: sound backend to use
+ * @map_dir: map directory, to search additionnal files
+ * @music_path: config entry containing multiple paths
+ * @music_filter: string filter, must be present
+ * @music_exclude: string filter, must not be present
+ *
+ * Plays a random music file. The filter and exclude mecanisms
+ * are not complete regex filters, only a quick and dirty feature
+ * which should still help in some cases, such as sorting musics
+ * for the menus and for the rest.
+ *
+ * Return value: 1 if OK, 0 if not.
+ */
 int
 lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path,
 			  char *music_filter, char *music_exclude)
@@ -148,6 +200,15 @@ lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path,
   return ret;
 }
 
+/**
+ * lw6snd_stop_music
+ *
+ * @backend: sound backend to use
+ *
+ * Stops the music.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_stop_music (lw6snd_backend_t * backend)
 {
@@ -165,6 +226,21 @@ lw6snd_stop_music (lw6snd_backend_t * backend)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_init
+ *
+ * @backend: the graphical backend to use
+ * @fx_volume: sound fx volume
+ * @water_volume: water sounds volume
+ * @music_volume: music volume
+ *
+ * Sets up the sound backend for good, initializing a playback engine
+ * ready to play sounds and set to defaults.
+ * This call can typically fail if there's no device available, if
+ * the user doesn't have enough rights to access the hardware, and so on.
+ *
+ * Return value: 1 on success, 0 if not
+ */
 int
 lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume,
 	     float music_volume)
@@ -187,6 +263,16 @@ lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume,
   return backend->snd_context ? 1 : 0;
 }
 
+/**
+ * lw6snd_set_fx_volume
+ *
+ * @backend: sound backend to use
+ * @volume: sound fx volume
+ * 
+ * Changes sound fx volume.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
 {
@@ -204,6 +290,16 @@ lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_set_water_volume
+ *
+ * @backend: sound backend to use
+ * @volume: water sounds volume
+ * 
+ * Changes water sounds volume.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
 {
@@ -221,6 +317,16 @@ lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_set_music_volume
+ *
+ * @backend: sound backend to use
+ * @volume: music volume
+ * 
+ * Changes music volume.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
 {
@@ -238,6 +344,15 @@ lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_poll
+ *
+ * @backend: sound backend to use
+ * 
+ * Polling function, must be called on a regular basis.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_poll (lw6snd_backend_t * backend)
 {
@@ -258,6 +373,15 @@ lw6snd_poll (lw6snd_backend_t * backend)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_quit
+ *
+ * @backend: the backend to quit
+ *
+ * Uninitializes the backend, that is, releases resources, stops playback.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_quit (lw6snd_backend_t * backend)
 {
@@ -283,6 +407,15 @@ lw6snd_quit (lw6snd_backend_t * backend)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6snd_repr
+ *
+ * @backend: the backend to represent
+ *
+ * Returns a readable version of the backend object.
+ *
+ * Return value: a newly allocated pointer.
+ */
 char *
 lw6snd_repr (lw6snd_backend_t * backend)
 {

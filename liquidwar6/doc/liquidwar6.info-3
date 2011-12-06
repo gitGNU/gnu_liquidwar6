@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -1655,6 +1655,99 @@ results on
 
      *Return value:*  none.
 
+ -- Function: int lw6net_tcp_listen (char * IP, int PORT)
+     IP:  IP address to bind to
+
+     PORT:  IP port to listen on
+
+     Listens in TCP on a given port.
+
+     *Return value:*  >=0 on success, -1 on failure.
+
+ -- Function: int lw6net_tcp_accept (char ** INCOMING_IP, int *
+          INCOMING_PORT, int LISTENING_SOCK, int DELAY_MSEC)
+     INCOMING_IP:  address of remote peer (out param, dynamically
+     allocated)
+
+     INCOMING_PORT:  port of remote peer (out param)
+
+     LISTENING_SOCK:  socket to listen on
+
+     DELAY_MSEC:  delay, in msec, after which we stop accepting
+
+     Accepts for a connexion on the given socket.
+
+     *Return value:*  the new socket (>=0) if accepted, else -1
+
+ -- Function: int lw6net_tcp_connect (char * IP, int PORT, int
+          DELAY_MSEC)
+     IP:  address to connect to
+
+     PORT:  port to connect to
+
+     DELAY_MSEC:  delay before we consider it's too late
+
+     Tries to connect on a given socket.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_tcp_send (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC, int LOOP)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  delay after which we give up
+
+     LOOP:  accept to do several calls if needed
+
+     Will send data, possibly looping until all is send, and waiting for
+     a maximum time of delay_msec.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6net_tcp_peek (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  maximum time to wait
+
+     Tells wether data is available. Will actually fill the buffer with
+     the data, but not remove it from the fifo list.
+
+     *Return value:*  number of bytes available, 0 when nothing
+
+ -- Function: int lw6net_tcp_recv (int SOCK, char * BUF, int LEN, int
+          DELAY_MSEC, int LOOP)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     DELAY_MSEC:  maximum time to wait
+
+     LOOP:  wether to loop or not
+
+     If data is available, put it in buffer. If needed, will loop until
+     `delay_msec' is elapsed. Data is removed from queue.
+
+     *Return value:*  number of bytes received, 0 when nothing
+
+ -- Function: int lw6net_tcp_is_alive (int SOCK)
+     SOCK:  socket to test
+
+     Tells wether a socket is alive and able to send data. This function
+     will attempt a write to test if it's really usable.
+
+     *Return value:*  1 if alive, 0 if not.
+
  -- Function: int lw6net_test (int MODE)
      MODE:  0 for check only, 1 for full test
 
@@ -1663,6 +1756,65 @@ results on
      check-only (mode=0) mode.
 
      *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: int lw6net_udp_client ()
+     Creates an UDP client socket, that is, creates it and does not
+     bind it to any address.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_udp_server (char * IP, int PORT)
+     IP:  IP address to bind to
+
+     PORT:  IP port to listen on
+
+     Creates an UDP listening socket, that is, creates it and binds it
+     on a given address.
+
+     *Return value:*  socket (>=0) on success, else -1
+
+ -- Function: int lw6net_udp_send (int SOCK, char * BUF, int LEN, char
+          * IP, int PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     IP:  IP address to send data to
+
+     PORT:  IP port to send data to
+
+     Sends an UDP datagram. Size can't be longer than about 1400 bytes,
+     see problems about MTU, in practice all values arround 1000 are
+     quite safe, 500 is pretty much garanteed to work everywhere, and
+     for various reasons 1452 is a good maximum bet.
+
+     *Return value:*  number of bytes sent
+
+ -- Function: int lw6net_udp_peek (int SOCK, char * BUF, int LEN, char
+          ** INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     Peeks for a UDP datagram. Will not remove the data from queue.
+
+     *Return value:*  number of bytes received
+
+ -- Function: int lw6net_udp_recv (int SOCK, char * BUF, int LEN, char
+          ** INCOMING_IP, int * INCOMING_PORT)
+     SOCK:  socket to use
+
+     BUF:  data buffer
+
+     LEN:  data buffer length
+
+     Receives a UDP datagram. Will remove the data from queue.
+
+     *Return value:*  number of bytes received
 
 
 File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
@@ -2783,6 +2935,176 @@ results on
 
 5.34.2 API
 ----------
+
+ -- Function: int lw6snd_play_fx (lw6snd_backend_t * BACKEND, int FX_ID)
+     BACKEND:  sound backend to use
+
+     FX_ID:  sound fx id
+
+     Plays a sound fx.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6snd_is_music_file (lw6snd_backend_t * BACKEND,
+          char * MAP_DIR, char * MUSIC_PATH, char * MUSIC_FILE)
+     BACKEND:  sound backend to use
+
+     MAP_DIR:  map directory, to search additionnal files
+
+     MUSIC_PATH:  config entry containing multiple paths
+
+     MUSIC_FILE:  relative/local name of a music file
+
+     Tells wether a file is a valid music file, typicallly based on file
+     existence and extension. Not bullet proof, file might actually not
+     be loadable, but chances are 99%.
+
+     *Return value:*  1 if music file, 0 if not
+
+ -- Function: int lw6snd_play_music_file (lw6snd_backend_t * BACKEND,
+          char * MAP_DIR, char * MUSIC_PATH, char * MUSIC_FILE)
+     BACKEND:  sound backend to use
+
+     MAP_DIR:  map directory, to search additionnal files
+
+     MUSIC_PATH:  config entry containing multiple paths
+
+     MUSIC_FILE:  relative/local name of a music file
+
+     Plays a music file.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: int lw6snd_play_music_random (lw6snd_backend_t * BACKEND,
+          char * MUSIC_PATH, char * MUSIC_FILTER, char * MUSIC_EXCLUDE)
+     BACKEND:  sound backend to use
+
+     MUSIC_PATH:  config entry containing multiple paths
+
+     MUSIC_FILTER:  string filter, must be present
+
+     MUSIC_EXCLUDE:  string filter, must not be present
+
+     Plays a random music file. The filter and exclude mecanisms are
+     not complete regex filters, only a quick and dirty feature which
+     should still help in some cases, such as sorting musics for the
+     menus and for the rest.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: void lw6snd_stop_music (lw6snd_backend_t * BACKEND)
+     BACKEND:  sound backend to use
+
+     Stops the music.
+
+     *Return value:*  none.
+
+ -- Function: int lw6snd_init (lw6snd_backend_t * BACKEND, float
+          FX_VOLUME, float WATER_VOLUME, float MUSIC_VOLUME)
+     BACKEND:  the graphical backend to use
+
+     FX_VOLUME:  sound fx volume
+
+     WATER_VOLUME:  water sounds volume
+
+     MUSIC_VOLUME:  music volume
+
+     Sets up the sound backend for good, initializing a playback engine
+     ready to play sounds and set to defaults.  This call can typically
+     fail if there's no device available, if the user doesn't have
+     enough rights to access the hardware, and so on.
+
+     *Return value:*  1 on success, 0 if not
+
+ -- Function: void lw6snd_set_fx_volume (lw6snd_backend_t * BACKEND,
+          float VOLUME)
+     BACKEND:  sound backend to use
+
+     VOLUME:  sound fx volume
+
+     Changes sound fx volume.
+
+     *Return value:*  none.
+
+ -- Function: void lw6snd_set_water_volume (lw6snd_backend_t * BACKEND,
+          float VOLUME)
+     BACKEND:  sound backend to use
+
+     VOLUME:  water sounds volume
+
+     Changes water sounds volume.
+
+     *Return value:*  none.
+
+ -- Function: void lw6snd_set_music_volume (lw6snd_backend_t * BACKEND,
+          float VOLUME)
+     BACKEND:  sound backend to use
+
+     VOLUME:  music volume
+
+     Changes music volume.
+
+     *Return value:*  none.
+
+ -- Function: void lw6snd_poll (lw6snd_backend_t * BACKEND)
+     BACKEND:  sound backend to use
+
+     Polling function, must be called on a regular basis.
+
+     *Return value:*  none.
+
+ -- Function: void lw6snd_quit (lw6snd_backend_t * BACKEND)
+     BACKEND:  the backend to quit
+
+     Uninitializes the backend, that is, releases resources, stops
+     playback.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6snd_repr (lw6snd_backend_t * BACKEND)
+     BACKEND:  the backend to represent
+
+     Returns a readable version of the backend object.
+
+     *Return value:*  a newly allocated pointer.
+
+ -- Function: lw6sys_assoc_t * lw6snd_get_backends (int ARGC, char * []
+          ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available snd backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6snd_backend_t * lw6snd_create_backend (int ARGC, char
+          * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing snd key, typically got from
+     `lw6snd_get_backends'
+
+     Creates a snd backend, this is just about loading the dynamic
+     library if needed, and/or check snd engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  snd backend.
+
+ -- Function: void lw6snd_destroy_backend (lw6snd_backend_t * BACKEND)
+     BACKEND:  snd backend to destroy
+
+     Frees the ressources associated to a snd, which must have been
+     properly uninitialized before.
+
+     *Return value:*  none.
 
  -- Function: int lw6snd_test (int MODE)
      MODE:  0 for check only, 1 for full test
@@ -7045,8 +7367,8 @@ results on
 
 File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
 
-Annexe A 2005 .plan
-*******************
+Appendix A 2005 .plan
+*********************
 
 Here's my .plan file, which describes what I (Christian Mauduit
 (mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
@@ -7343,8 +7665,8 @@ themselves are not clearly identified. But for the rest (starting in
 
 File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
 
-Annexe B Fanfic
-***************
+Appendix B Fanfic
+*****************
 
 Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
 it after a friend claimed that there wasn't any liquid war fanfic
@@ -7488,8 +7810,8 @@ in defeat he snarled,
 
 File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
 
-Annexe C Links
-**************
+Appendix C Links
+****************
 
 This section lists various Internet Liquid War related links.
 

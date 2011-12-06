@@ -32,6 +32,14 @@
 #include "net.h"
 #include "net-internal.h"
 
+/**
+ * lw6net_udp_client
+ *
+ * Creates an UDP client socket, that is, creates it and does
+ * not bind it to any address.
+ *
+ * Return value: socket (>=0) on success, else -1
+ */
 int
 lw6net_udp_client ()
 {
@@ -70,6 +78,17 @@ lw6net_udp_client ()
   return sock;
 }
 
+/**
+ * lw6net_udp_server
+ *
+ * @ip: IP address to bind to
+ * @port: IP port to listen on
+ *
+ * Creates an UDP listening socket, that is, creates it
+ * and binds it on a given address.
+ *
+ * Return value: socket (>=0) on success, else -1
+ */
 int
 lw6net_udp_server (char *ip, int port)
 {
@@ -101,6 +120,22 @@ lw6net_udp_server (char *ip, int port)
   return sock;
 }
 
+/**
+ * lw6net_udp_send
+ *
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @ip: IP address to send data to
+ * @port: IP port to send data to
+ *
+ * Sends an UDP datagram. Size can't be longer than about 1400 bytes,
+ * see problems about MTU, in practice all values arround 1000 are quite safe,
+ * 500 is pretty much garanteed to work everywhere, and for various reasons
+ * 1452 is a good maximum bet.
+ *
+ * Return value: number of bytes sent
+ */
 int
 lw6net_udp_send (int sock, char *buf, int len, char *ip, int port)
 {
@@ -185,6 +220,19 @@ udp_recv (int sock, char *buf,
   return recv_size;
 }
 
+/**
+ * lw6net_udp_peek
+ *
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @ip: IP address of sender (out param, dynamically allocated)
+ * @port: IP port to send data to (out param)
+ *
+ * Peeks for a UDP datagram. Will not remove the data from queue.
+ *
+ * Return value: number of bytes received
+ */
 int
 lw6net_udp_peek (int sock, char *buf, int len,
 		 char **incoming_ip, int *incoming_port)
@@ -192,6 +240,19 @@ lw6net_udp_peek (int sock, char *buf, int len,
   return udp_recv (sock, buf, len, incoming_ip, incoming_port, MSG_PEEK);
 }
 
+/**
+ * lw6net_udp_recv
+ *
+ * @sock: socket to use
+ * @buf: data buffer
+ * @len: data buffer length
+ * @ip: IP address of sender (out param, dynamically allocated)
+ * @port: IP port to send data to (out param)
+ *
+ * Receives a UDP datagram. Will remove the data from queue.
+ *
+ * Return value: number of bytes received
+ */
 int
 lw6net_udp_recv (int sock, char *buf,
 		 int len, char **incoming_ip, int *incoming_port)

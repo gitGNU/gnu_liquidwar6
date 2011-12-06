@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -6787,7 +6787,7 @@ results on
      *Return value:*  1 on success, 0 if not
 
  -- Function: void lw6gfx_quit (lw6gfx_backend_t * BACKEND)
-     BACKEND:  the backend to free
+     BACKEND:  the backend to quit
 
      Uninitializes the backend, that is, exits the graphical mode. All
      threads that use graphics must be closed when this is called.

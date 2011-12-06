@@ -69,9 +69,7 @@ typedef struct lw6snd_backend_s
 }
 lw6snd_backend_t;
 
-/*
- * In api.c
- */
+/* snd-api.c */
 extern int lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id);
 extern int lw6snd_is_music_file (lw6snd_backend_t * backend,
 				 char *map_dir,
@@ -95,9 +93,7 @@ extern void lw6snd_poll (lw6snd_backend_t * backend);
 extern void lw6snd_quit (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (lw6snd_backend_t * backend);
 
-/*
- * In register.c
- */
+/* snd-register.c */
 extern lw6sys_assoc_t *lw6snd_get_backends (int argc, char *argv[]);
 extern lw6snd_backend_t *lw6snd_create_backend (int argc, char *argv[],
 						char *name);

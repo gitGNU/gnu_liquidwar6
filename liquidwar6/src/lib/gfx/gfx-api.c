@@ -71,7 +71,7 @@ lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode,
 /**
  * lw6gfx_quit
  *
- * @backend: the backend to free
+ * @backend: the backend to quit
  *
  * Uninitializes the backend, that is, exits the graphical mode. All threads that
  * use graphics must be closed when this is called.

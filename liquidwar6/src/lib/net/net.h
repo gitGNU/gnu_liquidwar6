@@ -71,9 +71,7 @@ extern int lw6net_dns_unlock ();
 extern char *lw6net_if_guess_local ();
 extern char *lw6net_if_guess_public_url (char *bind_ip, int bind_port);
 
-/*
- * In line.c
- */
+/* net-line.c */
 extern char *lw6net_recv_line_tcp (int sock);
 extern int lw6net_send_line_tcp (int sock, char *line);
 extern char *lw6net_recv_line_udp (int sock,
@@ -92,9 +90,7 @@ extern int lw6net_socket_set_blocking_mode (int sock, int mode);
 extern int lw6net_socket_is_valid (int sock);
 extern void lw6net_socket_close (int sock);
 
-/*
- * In tcp.c
- */
+/* net-tcp.c */
 extern int lw6net_tcp_listen (char *ip, int port);
 extern int lw6net_tcp_accept (char **incoming_ip,
 			      int *incoming_port, int listening_sock,
@@ -110,9 +106,7 @@ extern int lw6net_tcp_is_alive (int sock);
 /* net-test.c */
 extern int lw6net_test (int mode);
 
-/*
- * In udp.c
- */
+/* net-udp.c */
 extern int lw6net_udp_client ();
 extern int lw6net_udp_server (char *ip, int port);
 extern int lw6net_udp_send (int sock, char *buf, int len, char *ip, int port);

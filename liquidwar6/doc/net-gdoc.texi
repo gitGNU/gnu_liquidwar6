@@ -214,6 +214,100 @@ Closes a socket, that is, stop activity and free its descriptor.
 @strong{Return value:}  none.
 @end deftypefun
 
+@deftypefun {int} {lw6net_tcp_listen} (char * @var{ip}, int @var{port})
+@var{ip}:  IP address to bind to
+
+@var{port}:  IP port to listen on
+
+Listens in TCP on a given port. 
+
+@strong{Return value:}  >=0 on success, -1 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_accept} (char ** @var{incoming_ip}, int * @var{incoming_port}, int @var{listening_sock}, int @var{delay_msec})
+@var{incoming_ip}:  address of remote peer (out param, dynamically allocated)
+
+@var{incoming_port}:  port of remote peer (out param)
+
+@var{listening_sock}:  socket to listen on
+
+@var{delay_msec}:  delay, in msec, after which we stop accepting
+
+Accepts for a connexion on the given socket.
+
+@strong{Return value:}  the new socket (>=0) if accepted, else -1
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_connect} (char * @var{ip}, int @var{port}, int @var{delay_msec})
+@var{ip}:  address to connect to
+
+@var{port}:  port to connect to
+
+@var{delay_msec}:  delay before we consider it's too late
+
+Tries to connect on a given socket.
+
+@strong{Return value:}  socket (>=0) on success, else -1
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_send} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+@var{delay_msec}:  delay after which we give up
+
+@var{loop}:  accept to do several calls if needed
+
+Will send data, possibly looping until all is send, and waiting for
+a maximum time of delay_msec.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_peek} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+@var{delay_msec}:  maximum time to wait
+
+Tells wether data is available. Will actually fill the buffer
+with the data, but not remove it from the fifo list.
+
+@strong{Return value:}  number of bytes available, 0 when nothing
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_recv} (int @var{sock}, char * @var{buf}, int @var{len}, int @var{delay_msec}, int @var{loop})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+@var{delay_msec}:  maximum time to wait
+
+@var{loop}:  wether to loop or not
+
+If data is available, put it in buffer. If needed, will
+loop until @code{delay_msec} is elapsed. Data is removed from queue.
+
+@strong{Return value:}  number of bytes received, 0 when nothing
+@end deftypefun
+
+@deftypefun {int} {lw6net_tcp_is_alive} (int @var{sock})
+@var{sock}:  socket to test
+
+Tells wether a socket is alive and able to send data. This function
+will attempt a write to test if it's really usable.
+
+@strong{Return value:}  1 if alive, 0 if not.
+@end deftypefun
+
 @deftypefun {int} {lw6net_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 
@@ -222,5 +316,67 @@ sockets are already bound, for instance. It's still run even
 in check-only (mode=0) mode.
 
 @strong{Return value:}  1 if test is successfull, 0 on error.
+@end deftypefun
+
+@deftypefun {int} {lw6net_udp_client} ()
+
+Creates an UDP client socket, that is, creates it and does
+not bind it to any address.
+
+@strong{Return value:}  socket (>=0) on success, else -1
+@end deftypefun
+
+@deftypefun {int} {lw6net_udp_server} (char * @var{ip}, int @var{port})
+@var{ip}:  IP address to bind to
+
+@var{port}:  IP port to listen on
+
+Creates an UDP listening socket, that is, creates it
+and binds it on a given address.
+
+@strong{Return value:}  socket (>=0) on success, else -1
+@end deftypefun
+
+@deftypefun {int} {lw6net_udp_send} (int @var{sock}, char * @var{buf}, int @var{len}, char * @var{ip}, int @var{port})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+@var{ip}:  IP address to send data to
+
+@var{port}:  IP port to send data to
+
+Sends an UDP datagram. Size can't be longer than about 1400 bytes,
+see problems about MTU, in practice all values arround 1000 are quite safe,
+500 is pretty much garanteed to work everywhere, and for various reasons
+1452 is a good maximum bet.
+
+@strong{Return value:}  number of bytes sent
+@end deftypefun
+
+@deftypefun {int} {lw6net_udp_peek} (int @var{sock}, char * @var{buf}, int @var{len}, char ** @var{incoming_ip}, int * @var{incoming_port})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+Peeks for a UDP datagram. Will not remove the data from queue.
+
+@strong{Return value:}  number of bytes received
+@end deftypefun
+
+@deftypefun {int} {lw6net_udp_recv} (int @var{sock}, char * @var{buf}, int @var{len}, char ** @var{incoming_ip}, int * @var{incoming_port})
+@var{sock}:  socket to use
+
+@var{buf}:  data buffer
+
+@var{len}:  data buffer length
+
+Receives a UDP datagram. Will remove the data from queue.
+
+@strong{Return value:}  number of bytes received
 @end deftypefun
 

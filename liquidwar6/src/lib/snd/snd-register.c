@@ -32,6 +32,21 @@
 #include "mod-ogg/mod-ogg.h"
 #endif
 
+/**
+ * lw6snd_get_backends
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ *
+ * List available snd backends. The hash contains pairs with id and name
+ * for each backend. The id is the technical key you can use to
+ * load the backend, the name is something more readable you can display
+ * in an interface. The backend objects themselves are not instanciated
+ * by this (in fact, they are, but released on the fly) you need to
+ * load and initialize them afterwards.
+ *
+ * Return value: hash containing id/name pairs.
+ */
 lw6sys_assoc_t *
 lw6snd_get_backends (int argc, char *argv[])
 {
@@ -69,6 +84,19 @@ lw6snd_get_backends (int argc, char *argv[])
   return ret;
 }
 
+/**
+ * lw6snd_create_backend
+ *
+ * @argc: argc, as passed to @main
+ * @argv: argv, as passed to @main
+ * @name: string containing snd key, typically got from @lw6snd_get_backends
+ *
+ * Creates a snd backend, this is just about loading the dynamic
+ * library if needed, and/or check snd engine is available, and
+ * connect to it. It does not perform initialization.
+ *
+ * Return value: snd backend.
+ */
 lw6snd_backend_t *
 lw6snd_create_backend (int argc, char *argv[], char *name)
 {
@@ -156,6 +184,16 @@ lw6snd_create_backend (int argc, char *argv[], char *name)
   return backend;
 }
 
+/**
+ * lw6snd_destroy_backend
+ *
+ * @backend: snd backend to destroy
+ *
+ * Frees the ressources associated to a snd, which must have been
+ * properly uninitialized before.
+ *
+ * Return value: none.
+ */
 void
 lw6snd_destroy_backend (lw6snd_backend_t * backend)
 {
