@@ -14,8 +14,6 @@ background-color-stuff-fg
 background-style
 base64-decode
 base64-encode
-simulate-basic
-simulate-full
 bench
 bench-value
 bin-id
@@ -645,6 +643,8 @@ show-script-file
 show-user-dir
 side-attack-factor
 side-defense-factor
+simulate-basic
+simulate-full
 single-army-size
 skip-network
 snd-backend

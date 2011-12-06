@@ -66,7 +66,8 @@ lw6cli_default_backends ()
  *
  * Return value: hash containing id/name pairs.
  */
-  lw6sys_assoc_t * lw6cli_get_backends (int argc, char *argv[])
+lw6sys_assoc_t *
+lw6cli_get_backends (int argc, char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 #ifdef LW6_ALLINONE
