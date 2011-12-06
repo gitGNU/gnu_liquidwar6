@@ -38,7 +38,7 @@ typedef struct lw6tsk_loader_s
 }
 lw6tsk_loader_t;
 
-/* tsk-load.c */
+/* tsk-loader.c */
 extern void lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
 				char *relative_path,
 				lw6sys_assoc_t * default_param,
@@ -49,8 +49,6 @@ extern int lw6tsk_loader_pop (lw6map_level_t ** level,
 			      lw6ker_game_struct_t ** game_struct,
 			      lw6ker_game_state_t ** game_state,
 			      lw6tsk_loader_t * loader);
-
-/* tsk-loader.c */
 extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, char *user_dir,
 					   float *progress);
 extern void lw6tsk_loader_free (lw6tsk_loader_t * loader);

@@ -3163,6 +3163,207 @@ results on
 5.37.2 API
 ----------
 
+ -- Function: int lw6srv_init (lw6srv_backend_t * BACKEND,
+          lw6srv_listener_t * LISTENER)
+     BACKEND:  backend to use
+
+     Initializes a server backend. Must be performed before any other
+     call.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: void lw6srv_quit (lw6srv_backend_t * BACKEND)
+     BACKEND:  unitialize a srv backend
+
+     Closes a srv, but does not free all ressources.
+
+ -- Function: int lw6srv_analyse_tcp (lw6srv_backend_t * BACKEND,
+          lw6srv_tcp_accepter_t * TCP_ACCEPTER, lw6nod_info_t *
+          NODE_INFO, u_int64_t * REMOTE_ID, char ** REMOTE_URL)
+     BACKEND:  server backend to use
+
+     TCP_ACCEPTER:  TCP mode accepter
+
+     NODE_INFO:  this node information
+
+     REMOTE_ID:  remote host id (out param)
+
+     REMOTE_URL:  remote host URL (out param, dynamically allocated)
+
+     Analyzes new TCP messages, typically handled within the accepter
+     object. The result is a combination of bitwise flags, namely
+     namely `LW6SRV_ANALYSE_DEAD', `LW6SRV_ANALYSE_UNDERSTANDABLE', and
+     `LW6SRV_ANALYSE_OOB' which helps knowing what to do with message.
+
+     *Return value:*  bitwise flag.
+
+ -- Function: int lw6srv_analyse_udp (lw6srv_backend_t * BACKEND,
+          lw6srv_udp_buffer_t * UDP_BUFFER, lw6nod_info_t * NODE_INFO,
+          u_int64_t * REMOTE_ID, char ** REMOTE_URL)
+     BACKEND:  server backend to use
+
+     UDP_BUFFER:  UDP buffer
+
+     NODE_INFO:  this node information
+
+     REMOTE_ID:  remote host id (out param)
+
+     REMOTE_URL:  remote host URL (out param, dynamically allocated)
+
+     Analyzes an UDP buffer, received on a socket.  The result is a
+     combination of bitwise flags, namely namely `LW6SRV_ANALYSE_DEAD',
+     `LW6SRV_ANALYSE_UNDERSTANDABLE', and `LW6SRV_ANALYSE_OOB' which
+     helps knowing what to do with message.
+
+     *Return value:*  bitwise flag.
+
+ -- Function: int lw6srv_process_oob (lw6srv_backend_t * BACKEND,
+          lw6nod_info_t * NODE_INFO, lw6srv_oob_data_t * OOB_DATA)
+     BACKEND:  server backend to use
+
+     NODE_INFO:  this node information
+
+     OOB_DATA:  OOB data received
+
+     Processes an OOB message sent from a client.
+
+     *Return value:*  1 if OK, 0 if not.
+
+ -- Function: lw6cnx_connection_t * lw6srv_open (lw6srv_backend_t *
+          BACKEND, lw6srv_listener_t * LISTENER, char * LOCAL_URL, char
+          * REMOTE_URL, char * REMOTE_IP, int REMOTE_PORT, char *
+          PASSWORD, u_int64_t LOCAL_ID, u_int64_t REMOTE_ID, int
+          DNS_OK, int NETWORK_RELIABILITY, lw6cnx_recv_callback_t
+          RECV_CALLBACK_FUNC, void * RECV_CALLBACK_DATA)
+     BACKEND:  server backend to use
+
+     LOCAL_URL:  local url to use (to send to peer)
+
+     REMOTE_URL:  remote url to communicate with
+
+     REMOTE_IP:  remote ip to communicate with
+
+     REMOTE_PORT:  remote port to communicate with
+
+     PASSWORD:  password to use (the real password, not a hash)
+
+     LOCAL_ID:  the local 64-bit id
+
+     REMOTE_ID:  the remove 64-bit id
+
+     DNS_OK:  1 if no DNS mismatch, 0 if situation is unclear
+
+     NETWORK_RELIABILITY:  the greater, the more reliable it is
+
+     RECV_CALLBACK_FUNC:  callback fired when receiving data
+
+     RECV_CALLBACK_DATA:  additionnal data passed to callback
+
+     Opens a server connection. One might wonder, clients open
+     connections, but servers? To some extent, this is the equivalent
+     of `accept' in the socket API, it will actually create an object
+     one can then use to communicate. Be carefull with the
+     implementation of the callback, keep in mind it can be called any
+     time in multithreaded mode, you need to set up locks when
+     accessing shared objects, including, but not limited to, your own
+     data buffers.
+
+     *Return value:*  new connection object.
+
+ -- Function: int lw6srv_feed_with_tcp (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION, lw6srv_tcp_accepter_t *
+          TCP_ACCEPTER)
+     CONNECTION:  connection to use
+
+     TCP_ACCEPTER:  TCP accepter holding data
+
+     When data is receivedm feeds the server object with data.  Will
+     typically fire the callback receive function if there are actually
+     some data stuff.
+
+     *Return value:*  1 some data processed, else 0
+
+ -- Function: int lw6srv_feed_with_udp (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION, lw6srv_udp_buffer_t *
+          UDP_BUFFER)
+     CONNECTION:  connection to use
+
+     When data is receivedm feeds the server object with data.  Will
+     typically fire the callback receive function if there are actually
+     some data stuff.
+
+     *Return value:*  1 some data processed, else 0
+
+ -- Function: void lw6srv_close (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  server backend to use
+
+     CONNECTION:  connection to close
+
+     Closes a connection, will also free it.
+
+     *Return value:*  none.
+
+ -- Function: int lw6srv_send (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION, u_int32_t
+          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
+          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MESSAGE)
+     BACKEND:  server backend to use
+
+     CONNECTION:  connection to use
+
+     PHYSICAL_TICKET_SIG:  physical ticket
+
+     LOGICAL_TICKET_SIG:  logical ticket
+
+     LOGICAL_FROM_ID:  logical id of sender
+
+     LOGICAL_TO_ID:  logical id of receiver
+
+     MESSAGE:  string with the message to send
+
+     Sends a message. The added value with a plain send is that it
+     handles all the special ticket fields.
+
+     *Return value:*  1 on success, 0 if not
+
+ -- Function: void lw6srv_poll (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  server backend to use
+
+     CONNECTION:  connection to use
+
+     Polling function, to be called on a regular basis.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6srv_repr (lw6srv_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  backend to use
+
+     CONNECTION:  connection to represent
+
+     Gives a human readable representation of the connection.
+
+     *Return value:*  dynamically allocated string.
+
+ -- Function: lw6srv_listener_t * lw6srv_start (char * IP, int PORT)
+     IP:  ip address to listen on
+
+     PORT:  port IP to bind to
+
+     Starts a server, binds the socket(s) and returns a listener object
+     which can in turn be used to create connections.
+
+     *Return value:*  new listener object.
+
+ -- Function: void lw6srv_stop (lw6srv_listener_t * LISTENER)
+     LISTENER:  listener to stop
+
+     Stops a listener object, and frees it.
+
+     *Return value:*  none.
+
  -- Function: lw6srv_oob_t * lw6srv_oob_new (char * REMOTE_IP, int
           REMOTE_PORT, int SOCK, char * FIRST_LINE)
      REMOTE_IP:  remote IP address
@@ -3186,6 +3387,48 @@ results on
      Frees an OOB structure.
 
      *Return value:*  none
+
+ -- Function: char * lw6srv_default_backends ()
+     Returns the list of the default srv backends.
+
+     *Return value:*  comma separated string, must not be freed.
+
+ -- Function: lw6sys_assoc_t * lw6srv_get_backends (int ARGC, char * []
+          ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available srv backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6srv_backend_t * lw6srv_create_backend (int ARGC, char
+          * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing srv key, typically got from
+     `lw6srv_get_backends'
+
+     Creates a srv backend, this is just about loading the dynamic
+     library if needed, and/or check srv engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  srv backend.
+
+ -- Function: void lw6srv_destroy_backend (lw6srv_backend_t * BACKEND)
+     BACKEND:  backend to destroy
+
+     Destroys a srv backend.
+
+     *Return value:*  none.
 
  -- Function: lw6srv_tcp_accepter_t * lw6srv_tcp_accepter_new (char *
           CLIENT_IP, int CLIENT_PORT, int SOCK)
@@ -7280,6 +7523,50 @@ results on
 
 5.42.2 API
 ----------
+
+ -- Function: void lw6tsk_loader_push (lw6tsk_loader_t * LOADER, char *
+          MAP_PATH, char * RELATIVE_PATH, lw6sys_assoc_t *
+          DEFAULT_PARAM, lw6sys_assoc_t * FORCED_PARAM, int DISPLAY_W,
+          int DISPLAY_H, int BENCH_VALUE, int MAGIC_NUMBER)
+     LOADER:  loader object
+
+     MAP_PATH:  map-path config entry
+
+     RELATIVE_PATH:  relative map path
+
+     DEFAULT_PARAM:  default parameters to use for load
+
+     FORCED_PARAM:  parameters to be forced and their values
+
+     DISPLAY_W:  display width
+
+     DISPLAY_H:  display height
+
+     MAGIC_NUMBER:  used to calibrate speed
+
+     Pushes a load request to the loader. Will stop the current load
+     and push a new one.
+
+     *Return value:*  none.
+
+ -- Function: int lw6tsk_loader_pop (lw6map_level_t ** LEVEL,
+          lw6ker_game_struct_t ** GAME_STRUCT, lw6ker_game_state_t **
+          GAME_STATE, lw6tsk_loader_t * LOADER)
+     LEVEL:  loaded level (out param)
+
+     GAME_STRUCT:  loaded struct (out param)
+
+     GAME_STATE:  loaded state (out param)
+
+     LOADER:  loader object
+
+     Pops data from the loader, will allocate everything dynamically.
+     Function can either return just level or level and game struct and
+     game state (3 of them together). It's safe to use the received
+     level, display it right away, then wait for the rest. If things
+     are loaded fast enough, you just receive everything at once.
+
+     *Return value:*  1 if some data, 0 if none.
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, char *
           USER_DIR, float * PROGRESS)

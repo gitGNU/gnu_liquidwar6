@@ -5705,7 +5705,8 @@ results on
      client, includes broadcasting. Depending on parameters passed in
      oob_data, might actually do a broadcast or simply call a given
      host and see what's the answer.  A typicall exchange is PING then
-     INFO and finally LIST.
+     INFO and finally LIST. It's the responsability of the client to
+     take the OOB initiative and contact the server.
 
      *Return value:*  1 on success, 0 on failure.
 
@@ -5830,21 +5831,6 @@ results on
 
      *Return value:*  comma separated string, must not be freed.
 
- -- Function: lw6sys_assoc_t * lw6cli_get_backends (int ARGC, char * []
-          ARGV)
-     ARGC:  argc, as passed to `main'
-
-     ARGV:  argv, as passed to `main'
-
-     List available cli backends. The hash contains pairs with id and
-     name for each backend. The id is the technical key you can use to
-     load the backend, the name is something more readable you can
-     display in an interface. The backend objects themselves are not
-     instanciated by this (in fact, they are, but released on the fly)
-     you need to load and initialize them afterwards.
-
-     *Return value:*  hash containing id/name pairs.
-
  -- Function: lw6cli_backend_t * lw6cli_create_backend (int ARGC, char
           * [] ARGV, char * NAME)
      ARGC:  argc, as passed to `main'
@@ -5861,11 +5847,11 @@ results on
      *Return value:*  cli backend.
 
  -- Function: void lw6cli_destroy_backend (lw6cli_backend_t * BACKEND)
-     Creates a cli backend, this is just about loading the dynamic
-     library if needed, and/or check cli engine is available, and
-     connect to it. It does not perform initialization.
+     BACKEND:  backend to destroy
 
-     *Return value:*  cli backend.
+     Destroys a cli backend.
+
+     *Return value:*  none.
 
  -- Function: int lw6cli_test (int MODE)
      MODE:  0 for check only, 1 for full test

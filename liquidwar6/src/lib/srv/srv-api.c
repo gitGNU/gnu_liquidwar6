@@ -33,6 +33,15 @@ _warning (const char *func_name)
 	      _x_ ("srv backend function \"%s\" is not defined"), func_name);
 }
 
+/**
+ * lw6srv_init
+ *
+ * @backend: backend to use
+ *
+ * Initializes a server backend. Must be performed before any other call.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
 int
 lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
 {
@@ -53,6 +62,13 @@ lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
   return backend->srv_context ? 1 : 0;
 }
 
+/**
+ * lw6srv_quit
+ *
+ * @backend: unitialize a srv backend
+ *
+ * Closes a srv, but does not free all ressources.
+ */
 void
 lw6srv_quit (lw6srv_backend_t * backend)
 {
@@ -74,10 +90,26 @@ lw6srv_quit (lw6srv_backend_t * backend)
     {
       _warning (__FUNCTION__);
     }
-
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6srv_analyse_tcp
+ *
+ * @backend: server backend to use
+ * @tcp_accepter: TCP mode accepter
+ * @node_info: this node information
+ * @remote_id: remote host id (out param)
+ * @remote_url: remote host URL (out param, dynamically allocated)
+ *
+ * Analyzes new TCP messages, typically handled within the accepter
+ * object. The result is a combination of bitwise flags, namely
+ * namely @LW6SRV_ANALYSE_DEAD, @LW6SRV_ANALYSE_UNDERSTANDABLE,
+ * and @LW6SRV_ANALYSE_OOB which helps knowing what to do with
+ * message.
+ *
+ * Return value: bitwise flag.
+ */
 int
 lw6srv_analyse_tcp (lw6srv_backend_t * backend,
 		    lw6srv_tcp_accepter_t * tcp_accepter,
@@ -104,6 +136,23 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend,
   return ret;
 }
 
+/**
+ * lw6srv_analyse_tcp
+ *
+ * @backend: server backend to use
+ * @udp_buffer: UDP buffer
+ * @node_info: this node information
+ * @remote_id: remote host id (out param)
+ * @remote_url: remote host URL (out param, dynamically allocated)
+ *
+ * Analyzes an UDP buffer, received on a socket.
+ * The result is a combination of bitwise flags, namely
+ * namely @LW6SRV_ANALYSE_DEAD, @LW6SRV_ANALYSE_UNDERSTANDABLE,
+ * and @LW6SRV_ANALYSE_OOB which helps knowing what to do with
+ * message.
+ *
+ * Return value: bitwise flag.
+ */
 int
 lw6srv_analyse_udp (lw6srv_backend_t * backend,
 		    lw6srv_udp_buffer_t * udp_buffer,
@@ -130,6 +179,17 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend,
   return ret;
 }
 
+/**
+ * lw6srv_process_oob
+ *
+ * @backend: server backend to use
+ * @node_info: this node information
+ * @oob_data: OOB data received
+ *
+ * Processes an OOB message sent from a client.
+ * 
+ * Return value: 1 if OK, 0 if not.
+ */
 int
 lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
 		    lw6srv_oob_data_t * oob_data)
@@ -152,6 +212,33 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info,
   return ret;
 }
 
+/**
+ * lw6srv_open
+ *
+ * @backend: server backend to use
+ * @lw6srv_listener: listener object
+ * @local_url: local url to use (to send to peer)
+ * @remote_url: remote url to communicate with
+ * @remote_ip: remote ip to communicate with
+ * @remote_port: remote port to communicate with
+ * @password: password to use (the real password, not a hash)
+ * @local_id: the local 64-bit id
+ * @remote_id: the remove 64-bit id
+ * @dns_ok: 1 if no DNS mismatch, 0 if situation is unclear
+ * @network_reliability: the greater, the more reliable it is
+ * @recv_callback_func: callback fired when receiving data
+ * @recv_callback_data: additionnal data passed to callback
+ *
+ * Opens a server connection. One might wonder, clients open
+ * connections, but servers? To some extent, this is the equivalent
+ * of @accept in the socket API, it will actually create an object
+ * one can then use to communicate. Be carefull with the implementation
+ * of the callback, keep in mind it can be called any time in
+ * multithreaded mode, you need to set up locks when accessing shared
+ * objects, including, but not limited to, your own data buffers.
+ *
+ * Return value: new connection object.
+ */
 lw6cnx_connection_t *
 lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     char *local_url, char *remote_url, char *remote_ip,
@@ -182,6 +269,19 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
   return ret;
 }
 
+/**
+ * lw6srv_feed_with_tcp
+ *
+ * @beckend: server backend to use
+ * @connection: connection to use
+ * @tcp_accepter: TCP accepter holding data
+ *
+ * When data is receivedm feeds the server object with data.
+ * Will typically fire the callback receive function if there
+ * are actually some data stuff.
+ *
+ * Return value: 1 some data processed, else 0
+ */
 int
 lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
 		      lw6cnx_connection_t * connection,
@@ -207,6 +307,19 @@ lw6srv_feed_with_tcp (lw6srv_backend_t * backend,
   return ret;
 }
 
+/**
+ * lw6srv_feed_with_udp
+ *
+ * @beckend: server backend to use
+ * @connection: connection to use
+ * @tcp_accepter: TCP accepter holding data
+ *
+ * When data is receivedm feeds the server object with data.
+ * Will typically fire the callback receive function if there
+ * are actually some data stuff.
+ *
+ * Return value: 1 some data processed, else 0
+ */
 int
 lw6srv_feed_with_udp (lw6srv_backend_t * backend,
 		      lw6cnx_connection_t * connection,
@@ -231,6 +344,16 @@ lw6srv_feed_with_udp (lw6srv_backend_t * backend,
   return ret;
 }
 
+/**
+ * lw6srv_close
+ *
+ * @backend: server backend to use
+ * @connection: connection to close
+ *
+ * Closes a connection, will also free it.
+ *
+ * Return value: none.
+ */
 void
 lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
@@ -248,6 +371,22 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6srv_send
+ *
+ * @backend: server backend to use
+ * @connection: connection to use
+ * @physical_ticket_sig: physical ticket
+ * @logical_ticket_sig: logical ticket
+ * @logical_from_id: logical id of sender
+ * @logical_to_id: logical id of receiver
+ * @message: string with the message to send
+ * 
+ * Sends a message. The added value with a plain send is that it handles
+ * all the special ticket fields.
+ *
+ * Return value: 1 on success, 0 if not
+ */
 int
 lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 	     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig,
@@ -286,6 +425,16 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
   return ret;
 }
 
+/**
+ * lw6srv_poll
+ *
+ * @backend: server backend to use
+ * @connection: connection to use
+ * 
+ * Polling function, to be called on a regular basis.
+ *
+ * Return value: none.
+ */
 void
 lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
@@ -303,6 +452,16 @@ lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
   LW6SYS_BACKEND_FUNCTION_END;
 }
 
+/**
+ * lw6srv_repr
+ *
+ * @backend: backend to use
+ * @connection: connection to represent
+ *
+ * Gives a human readable representation of the connection.
+ *
+ * Return value: dynamically allocated string.
+ */
 char *
 lw6srv_repr (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {

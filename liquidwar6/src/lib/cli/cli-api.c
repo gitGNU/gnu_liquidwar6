@@ -103,7 +103,8 @@ lw6cli_quit (lw6cli_backend_t * backend)
  * Processes the required out-of-band tasks, this typically, for a client,
  * includes broadcasting. Depending on parameters passed in oob_data, might
  * actually do a broadcast or simply call a given host and see what's the answer.
- * A typicall exchange is PING then INFO and finally LIST.
+ * A typicall exchange is PING then INFO and finally LIST. It's the responsability
+ * of the client to take the OOB initiative and contact the server.
  *
  * Return value: 1 on success, 0 on failure.
  */

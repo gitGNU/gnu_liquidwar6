@@ -130,9 +130,7 @@ typedef struct lw6srv_backend_s
 }
 lw6srv_backend_t;
 
-/*
- * In api.c
- */
+/* srv-api.c */
 extern int lw6srv_init (lw6srv_backend_t * backend,
 			lw6srv_listener_t * listener);
 extern void lw6srv_quit (lw6srv_backend_t * backend);
@@ -176,9 +174,7 @@ extern void lw6srv_poll (lw6srv_backend_t * backend,
 extern char *lw6srv_repr (lw6srv_backend_t * backend,
 			  lw6cnx_connection_t * connection);
 
-/*
- * In control.c
- */
+/* srv-control.c */
 extern lw6srv_listener_t *lw6srv_start (char *ip, int port);
 extern void lw6srv_stop (lw6srv_listener_t * listener);
 
@@ -187,9 +183,7 @@ extern lw6srv_oob_t *lw6srv_oob_new (char *remote_ip, int remote_port,
 				     int sock, char *first_line);
 extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
-/*
- * In register.c
- */
+/* srv-register.c */
 extern char *lw6srv_default_backends ();
 extern lw6sys_assoc_t *lw6srv_get_backends (int argc, char *argv[]);
 extern lw6srv_backend_t *lw6srv_create_backend (int argc, char *argv[],

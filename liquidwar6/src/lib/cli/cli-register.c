@@ -66,8 +66,7 @@ lw6cli_default_backends ()
  *
  * Return value: hash containing id/name pairs.
  */
-lw6sys_assoc_t *
-lw6cli_get_backends (int argc, char *argv[])
+  lw6sys_assoc_t * lw6cli_get_backends (int argc, char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 #ifdef LW6_ALLINONE
@@ -217,17 +216,13 @@ lw6cli_create_backend (int argc, char *argv[], char *name)
 }
 
 /**
- * lw6cli_create_backend
+ * lw6cli_destroy_backend
  *
- * @argc: argc, as passed to @main
- * @argv: argv, as passed to @main
- * @name: string containing cli key, typically got from @lw6cli_get_backends
+ * @backend: backend to destroy
  *
- * Creates a cli backend, this is just about loading the dynamic
- * library if needed, and/or check cli engine is available, and
- * connect to it. It does not perform initialization.
+ * Destroys a cli backend.
  *
- * Return value: cli backend.
+ * Return value: none.
  */
 void
 lw6cli_destroy_backend (lw6cli_backend_t * backend)

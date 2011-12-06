@@ -1,3 +1,44 @@
+@deftypefun {void} {lw6tsk_loader_push} (lw6tsk_loader_t * @var{loader}, char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number})
+@var{loader}:  loader object
+
+@var{map_path}:  map-path config entry
+
+@var{relative_path}:  relative map path
+
+@var{default_param}:  default parameters to use for load
+
+@var{forced_param}:  parameters to be forced and their values
+
+@var{display_w}:  display width
+
+@var{display_h}:  display height
+
+@var{magic_number}:  used to calibrate speed
+
+Pushes a load request to the loader. Will stop the current
+load and push a new one.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6tsk_loader_pop} (lw6map_level_t ** @var{level}, lw6ker_game_struct_t ** @var{game_struct}, lw6ker_game_state_t ** @var{game_state}, lw6tsk_loader_t * @var{loader})
+@var{level}:  loaded level (out param)
+
+@var{game_struct}:  loaded struct (out param)
+
+@var{game_state}:  loaded state (out param)
+
+@var{loader}:  loader object
+
+Pops data from the loader, will allocate everything dynamically.
+Function can either return just level or level and game struct and
+game state (3 of them together). It's safe to use the received
+level, display it right away, then wait for the rest. If things
+are loaded fast enough, you just receive everything at once.
+
+@strong{Return value:}  1 if some data, 0 if none.
+@end deftypefun
+
 @deftypefun {lw6tsk_loader_t *} {lw6tsk_loader_new} (float @var{sleep}, char * @var{user_dir}, float * @var{progress})
 @var{sleep}:  how many seconds to wait between every poll
 

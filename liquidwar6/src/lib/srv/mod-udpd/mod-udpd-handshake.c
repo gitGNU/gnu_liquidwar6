@@ -153,6 +153,8 @@ _mod_udpd_feed_with_udp (_udpd_context_t * udpd_context,
        &logical_ticket_sig, &physical_from_id, &physical_to_id,
        &logical_from_id, &logical_to_id, NULL))
     {
+      ret = 1;
+
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("mod_udpd analysed msg \"%s\""),
 		  msg);
       /*

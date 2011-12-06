@@ -424,6 +424,23 @@ _lw6tsk_loader_poll (_lw6tsk_loader_data_t * loader_data)
   loader_data->stage = 0;
 }
 
+/**
+ * lw6tsk_loader_push
+ * 
+ * @loader: loader object
+ * @map_path: map-path config entry
+ * @relative_path: relative map path
+ * @default_param: default parameters to use for load
+ * @forced_param: parameters to be forced and their values
+ * @display_w: display width
+ * @display_h: display height
+ * @magic_number: used to calibrate speed
+ *
+ * Pushes a load request to the loader. Will stop the current
+ * load and push a new one.
+ *
+ * Return value: none.
+ */
 void
 lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
 		    char *relative_path, lw6sys_assoc_t * default_param,
@@ -453,6 +470,22 @@ lw6tsk_loader_push (lw6tsk_loader_t * loader, char *map_path,
   LOADER_UNLOCK;
 }
 
+/**
+ * lw6tsk_loader_pop
+ *
+ * @level: loaded level (out param)
+ * @game_struct: loaded struct (out param)
+ * @game_state: loaded state (out param)
+ * @loader: loader object
+ *
+ * Pops data from the loader, will allocate everything dynamically.
+ * Function can either return just level or level and game struct and
+ * game state (3 of them together). It's safe to use the received
+ * level, display it right away, then wait for the rest. If things
+ * are loaded fast enough, you just receive everything at once.
+ * 
+ * Return value: 1 if some data, 0 if none.
+ */
 int
 lw6tsk_loader_pop (lw6map_level_t ** level,
 		   lw6ker_game_struct_t ** game_struct,

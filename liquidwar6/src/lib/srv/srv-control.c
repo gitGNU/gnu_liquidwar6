@@ -26,6 +26,17 @@
 
 #include "srv.h"
 
+/**
+ * lw6srv_start
+ *
+ * @ip: ip address to listen on
+ * @port: port IP to bind to
+ *
+ * Starts a server, binds the socket(s) and returns a listener
+ * object which can in turn be used to create connections.
+ *
+ * Return value: new listener object.
+ */
 lw6srv_listener_t *
 lw6srv_start (char *ip, int port)
 {
@@ -70,6 +81,15 @@ _accepter_close_callback (void *func_data, void *data)
     }
 }
 
+/**
+ * lw6srv_stop
+ * 
+ * @listener: listener to stop
+ *
+ * Stops a listener object, and frees it.
+ *
+ * Return value: none.
+ */
 void
 lw6srv_stop (lw6srv_listener_t * listener)
 {
