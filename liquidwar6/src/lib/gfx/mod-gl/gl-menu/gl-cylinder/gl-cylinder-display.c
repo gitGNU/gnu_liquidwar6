@@ -526,7 +526,13 @@ _mod_gl_menu_cylinder_display_meta (mod_gl_utils_context_t * utils_context,
   if (!lw6gui_menu_has_popup (menu))
     {
       n = menu->nb_items_displayed + 2;
-      tooltip = menu->items[cylinder_context->j_tooltip]->tooltip;
+      if (cylinder_context->j_tooltip >= 0
+	  && cylinder_context->j_tooltip < menu->nb_items
+	  && cylinder_context->i_right_point >= 0
+	  && cylinder_context->i_right_point < menu->nb_items_displayed)
+	{
+	  tooltip = menu->items[cylinder_context->j_tooltip]->tooltip;
+	}
       if (!lw6sys_str_is_null_or_empty (tooltip))
 	{
 	  _mod_gl_menu_cylinder_get_cylinder_right_point (utils_context,
