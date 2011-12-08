@@ -1,5 +1,7 @@
 2011-12-08 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Fixed #35014, recommending (only) necessary tex packages.
+
 	* Fixed #35017, updated docs to explain how to generate deb package.
 
 	* Trying to fix #35016, added trap-errors option to use gdb if needed.

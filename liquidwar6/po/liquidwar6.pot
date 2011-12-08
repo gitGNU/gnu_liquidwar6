@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.12beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-08 16:39+0100\n"
+"POT-Creation-Date: 2011-12-08 22:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,11 +259,11 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/lib/lw6-print.c:850
+#: src/lib/lw6-print.c:852
 msgid "hello"
 msgstr ""
 
-#: src/lib/lw6-print.c:898
+#: src/lib/lw6-print.c:900
 msgid "goodbye"
 msgstr ""
 
@@ -390,15 +390,15 @@ msgstr ""
 msgid "trying to free NULL pointer in %s:%d"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:217
+#: src/lib/sys/sys-signal.c:222
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:257
+#: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2003
+#: src/lib/sys/sys-test.c:2004
 msgid "this is a /TEST/ error"
 msgstr ""
 

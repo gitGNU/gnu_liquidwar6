@@ -726,7 +726,8 @@ Debian (http://www.debian.org/) 6.0 "squeeze") would be:
      libsdl-mixer1.2 libsdl-mixer1.2-dev \
      libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
      libcurl4-gnutls-dev \
-     perl lcov global valgrind graphviz gv texinfo texlive-full \
+     perl lcov global valgrind graphviz gv \
+     texinfo texlive-base texlive-generic-extra \
      libgtk2.0-dev debhelper
 
    Note that those requirements really depend on the exact distribution

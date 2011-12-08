@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-08 16:39+0100\n"
+"POT-Creation-Date: 2011-12-08 22:38+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -266,11 +266,11 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/lw6-print.c:850
+#: src/lib/lw6-print.c:852
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/lw6-print.c:898
+#: src/lib/lw6-print.c:900
 msgid "goodbye"
 msgstr "ha det"
 
@@ -398,15 +398,15 @@ msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
 
-#: src/lib/sys/sys-signal.c:217
+#: src/lib/sys/sys-signal.c:222
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:257
+#: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2003
+#: src/lib/sys/sys-test.c:2004
 msgid "this is a /TEST/ error"
 msgstr "dette er ein /TEST/-feil"
 

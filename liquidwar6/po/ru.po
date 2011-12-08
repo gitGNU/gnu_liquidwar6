@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-08 16:39+0100\n"
+"POT-Creation-Date: 2011-12-08 22:38+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -266,11 +266,11 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/lw6-print.c:850
+#: src/lib/lw6-print.c:852
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/lw6-print.c:898
+#: src/lib/lw6-print.c:900
 msgid "goodbye"
 msgstr "счастливо"
 
@@ -398,15 +398,15 @@ msgstr "недостаточно памяти, ошибка realloc (%d) в %s:%
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "попытка освободить память по указателю NULL в %s:%d"
 
-#: src/lib/sys/sys-signal.c:217
+#: src/lib/sys/sys-signal.c:222
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:257
+#: src/lib/sys/sys-signal.c:262
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2003
+#: src/lib/sys/sys-test.c:2004
 msgid "this is a /TEST/ error"
 msgstr "ошибка /TEST/"
 
