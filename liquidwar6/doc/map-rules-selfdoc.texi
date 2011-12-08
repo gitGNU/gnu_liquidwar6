@@ -987,7 +987,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-blue-vulnerable}
 Type: integer
 
-Default value: 45
+Default value: 60
 Min value: 5
 Max value: 2000
 
@@ -1193,7 +1193,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-green-vulnerable}
 Type: integer
 
-Default value: 32
+Default value: 30
 Min value: 5
 Max value: 2000
 
@@ -1766,7 +1766,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-red-aggressive}
 Type: integer
 
-Default value: 144
+Default value: 220
 Min value: 5
 Max value: 2000
 
@@ -1812,7 +1812,7 @@ wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-red-vulnerable}
 Type: integer
 
-Default value: 192
+Default value: 110
 Min value: 5
 Max value: 2000
 
@@ -1869,7 +1869,7 @@ team, defined by the weapon-id parameter, 2 means random weapon.
 @deffnx {XML key} @code{team-profile-yellow-aggressive}
 Type: integer
 
-Default value: 193
+Default value: 200
 Min value: 5
 Max value: 2000
 
@@ -1915,7 +1915,7 @@ tell wether this is an advantage or not, but it clearly changes the behavior.
 @deffnx {XML key} @code{team-profile-yellow-vulnerable}
 Type: integer
 
-Default value: 84
+Default value: 90
 Min value: 5
 Max value: 2000
 

@@ -989,7 +989,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-blue-vulnerable'
      Type: integer
 
-     Default value: 45 Min value: 5 Max value: 2000
+     Default value: 60 Min value: 5 Max value: 2000
 
      Defines how vulnerable the blue team is. This is a percentage, if
      set to 200 then team will be attacked twice as much as any other
@@ -1193,7 +1193,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-green-vulnerable'
      Type: integer
 
-     Default value: 32 Min value: 5 Max value: 2000
+     Default value: 30 Min value: 5 Max value: 2000
 
      Defines how vulnerable the green team is. This is a percentage, if
      set to 200 then team will be attacked twice as much as any other
@@ -1760,7 +1760,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-red-aggressive'
      Type: integer
 
-     Default value: 144 Min value: 5 Max value: 2000
+     Default value: 220 Min value: 5 Max value: 2000
 
      Defines how aggressive the red team is. This is a percentage, if
      set to 200 then team will attack twice as much as any other team
@@ -1806,7 +1806,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-red-vulnerable'
      Type: integer
 
-     Default value: 192 Min value: 5 Max value: 2000
+     Default value: 110 Min value: 5 Max value: 2000
 
      Defines how vulnerable the red team is. This is a percentage, if
      set to 200 then team will be attacked twice as much as any other
@@ -1862,7 +1862,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-yellow-aggressive'
      Type: integer
 
-     Default value: 193 Min value: 5 Max value: 2000
+     Default value: 200 Min value: 5 Max value: 2000
 
      Defines how aggressive the yellow team is. This is a percentage,
      if set to 200 then team will attack twice as much as any other
@@ -1908,7 +1908,7 @@ File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map pa
  -- XML key: `team-profile-yellow-vulnerable'
      Type: integer
 
-     Default value: 84 Min value: 5 Max value: 2000
+     Default value: 90 Min value: 5 Max value: 2000
 
      Defines how vulnerable the yellow team is. This is a percentage,
      if set to 200 then team will be attacked twice as much as any
