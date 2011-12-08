@@ -38,3 +38,8 @@ uninstall-local:
 	rm -rf $(DESTDIR)$(libdir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 	rm -rf $(DESTDIR)$(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 
+deb:
+	echo "Copy source tarball to ./pkg then \"cd pkg\" and build package there." 
+
+rpm:
+	echo "Copy source tarball to ./pkg then \"cd pkg\" and build package there." 

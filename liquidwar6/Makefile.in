@@ -846,6 +846,12 @@ uninstall-local:
 	rm -rf $(DESTDIR)$(libdir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 	rm -rf $(DESTDIR)$(datadir)/@PACKAGE_TARNAME@-@PACKAGE_VERSION@
 
+deb:
+	echo "Copy source tarball to ./pkg then \"cd pkg\" and build package there." 
+
+rpm:
+	echo "Copy source tarball to ./pkg then \"cd pkg\" and build package there." 
+
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
