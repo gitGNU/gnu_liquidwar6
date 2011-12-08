@@ -130,6 +130,8 @@ update_show (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_POINTER_SIZE);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_X86);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_HOST_OS);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_GNU);
+  lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_UNIX);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_MS_WINDOWS);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_MAC_OS_X);
   lw6sys_list_push_back (list, LW6DEF_SHOW_BUILD_GP2X);
@@ -786,6 +788,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_X86);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_GNU);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_UNIX);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_BUILD_IS_GP2X);
@@ -1174,6 +1178,7 @@ update_advanced (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_TROJAN);
   lw6sys_list_push_back (list, LW6DEF_SIMULATE_BASIC);
   lw6sys_list_push_back (list, LW6DEF_SIMULATE_FULL);
+  lw6sys_list_push_back (list, LW6DEF_TRAP_ERRORS);
 
   return ((*list) != NULL);
 }

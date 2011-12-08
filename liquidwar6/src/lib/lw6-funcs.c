@@ -945,6 +945,34 @@ _scm_lw6sys_build_get_host_os ()
 }
 
 static SCM
+_scm_lw6sys_build_is_gnu ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = lw6sys_build_is_gnu ()? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6sys_build_is_unix ()
+{
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  ret = lw6sys_build_is_unix ()? SCM_BOOL_T : SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_is_ms_windows ()
 {
   SCM ret = SCM_BOOL_F;
@@ -2256,11 +2284,16 @@ _scm_lw6sys_path_split (SCM path)
  * In signal.c
  */
 static SCM
-_scm_lw6sys_signal_custom ()
+_scm_lw6sys_signal_custom (SCM trap_errors)
 {
+  int c_trap_errors;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  lw6sys_signal_custom ();
+  SCM_ASSERT (SCM_BOOLP (trap_errors), trap_errors, SCM_ARG1, __FUNCTION__);
+
+  c_trap_errors = SCM_NFALSEP (trap_errors);
+  lw6sys_signal_custom (trap_errors);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -9093,6 +9126,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6sys_build_is_x86);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_get_host_os);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_GNU, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_gnu);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_UNIX, 0, 0, 0,
+			 (SCM (*)())_scm_lw6sys_build_is_unix);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS, 0, 0, 0,
 			 (SCM (*)())_scm_lw6sys_build_is_ms_windows);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X, 0, 0, 0,
@@ -9266,7 +9303,7 @@ lw6_register_funcs ()
    * In signal.c
    */
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_CUSTOM,
-			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
+			 1, 0, 0, (SCM (*)())_scm_lw6sys_signal_custom);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_DEFAULT,
 			 0, 0, 0, (SCM (*)())_scm_lw6sys_signal_default);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_SIGNAL_SEND_QUIT,

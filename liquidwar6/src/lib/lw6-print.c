@@ -188,6 +188,8 @@ lw6_print_host ()
   printf ("pointer-size: %d\n", lw6sys_build_get_pointer_size ());
   printf ("x86: %d\n", lw6sys_build_is_x86 ());
   printf ("host-os: %s\n", lw6sys_build_get_host_os ());
+  printf ("gnu: %d\n", lw6sys_build_is_gnu ());
+  printf ("unix: %d\n", lw6sys_build_is_unix ());
   printf ("ms-windows: %d\n", lw6sys_build_is_ms_windows ());
   printf ("mac-os-x: %d\n", lw6sys_build_is_mac_os_x ());
   printf ("gp2x: %d\n", lw6sys_build_is_gp2x ());

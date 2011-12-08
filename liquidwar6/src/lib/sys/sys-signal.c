@@ -32,6 +32,8 @@
 /**
  * lw6sys_signal_custom
  *
+ * @trap_errors: set to 1 if you want to trap SIGSEGV and SIGFPE
+ *
  * Set up our signal handlers. This will probably be overrided
  * later by other libs such as libSDL, but at least in pure server
  * mode it gives a way to treat SIGTERM the right way.
@@ -39,7 +41,7 @@
  * Return value: none.
  */
 void
-lw6sys_signal_custom ()
+lw6sys_signal_custom (int trap_errors)
 {
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _x_ ("setting custom SIGTERM, SIGINT, SIGHUP handlers"));
@@ -61,16 +63,19 @@ lw6sys_signal_custom ()
       signal (SIGHUP, SIG_IGN);
     }
 #endif
-#ifdef SIGSEGV
-  if (signal (SIGSEGV, lw6sys_signal_segv_handler) == SIG_IGN)
+  if (trap_errors)
     {
-      signal (SIGSEGV, SIG_IGN);
-    }
+#ifdef SIGSEGV
+      if (signal (SIGSEGV, lw6sys_signal_segv_handler) == SIG_IGN)
+	{
+	  signal (SIGSEGV, SIG_IGN);
+	}
 #endif
 #ifdef SIGFPE
-  if (signal (SIGFPE, lw6sys_signal_fpe_handler) == SIG_IGN)
-    {
-      signal (SIGFPE, SIG_IGN);
+      if (signal (SIGFPE, lw6sys_signal_fpe_handler) == SIG_IGN)
+	{
+	  signal (SIGFPE, SIG_IGN);
+	}
     }
 #endif
 }

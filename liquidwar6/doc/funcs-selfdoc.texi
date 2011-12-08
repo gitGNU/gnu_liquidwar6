@@ -1245,6 +1245,11 @@ Wrapper on lw6sys_build_get_top_srcdir.
 Wrapper on lw6sys_build_get_version.
 @end deffn
 
+@subsection c-lw6sys-build-is-gnu
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-gnu}
+Wrapper on lw6sys_build_is_gnu.
+@end deffn
+
 @subsection c-lw6sys-build-is-gp2x
 @deffn {C function exported to Guile} @code{c-lw6sys-build-is-gp2x}
 Wrapper on lw6sys_build_is_gp2x.
@@ -1258,6 +1263,11 @@ Wrapper on lw6sys_build_is_mac_os_x.
 @subsection c-lw6sys-build-is-ms-windows
 @deffn {C function exported to Guile} @code{c-lw6sys-build-is-ms-windows}
 Wrapper on lw6sys_build_is_ms_windows.
+@end deffn
+
+@subsection c-lw6sys-build-is-unix
+@deffn {C function exported to Guile} @code{c-lw6sys-build-is-unix}
+Wrapper on lw6sys_build_is_unix.
 @end deffn
 
 @subsection c-lw6sys-build-is-x86

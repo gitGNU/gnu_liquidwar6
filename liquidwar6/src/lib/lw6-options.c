@@ -497,19 +497,29 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  printf ("%s\n", lw6sys_build_get_host_os ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_GNU, argv[i]))
+	{
+	  printf ("%d\n", lw6sys_build_is_gnu ());
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_UNIX, argv[i]))
+	{
+	  printf ("%d\n", lw6sys_build_is_unix ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_MS_WINDOWS, argv[i]))
 	{
 	  printf ("%d\n", lw6sys_build_is_ms_windows ());
 	  (*run_game) = 0;
 	}
-      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_GP2X, argv[i]))
-	{
-	  printf ("%d\n", lw6sys_build_is_gp2x ());
-	  (*run_game) = 0;
-	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_MAC_OS_X, argv[i]))
 	{
 	  printf ("%d\n", lw6sys_build_is_mac_os_x ());
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_GP2X, argv[i]))
+	{
+	  printf ("%d\n", lw6sys_build_is_gp2x ());
 	  (*run_game) = 0;
 	}
       else if (lw6sys_arg_match (LW6DEF_SHOW_BUILD_TOP_SRCDIR, argv[i]))

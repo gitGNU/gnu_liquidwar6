@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -4494,37 +4494,44 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      Returns the version of the GNU C compiler which was used to
      compile the program.
 
-4.3.28 show-build-gp2x
+4.3.28 show-build-gnu
+---------------------
+
+ -- Command-line option: `--show-build-gnu'
+     Returns 1 (true) if host OS is a GNU system, or at least has been
+     considered as such when compiling, 0 (false) if not.
+
+4.3.29 show-build-gp2x
 ----------------------
 
  -- Command-line option: `--show-build-gp2x'
      Returns 1 (true) if host is a GP2X, 0 (false) if not.
 
-4.3.29 show-build-home-url
+4.3.30 show-build-home-url
 --------------------------
 
  -- Command-line option: `--show-build-home-url'
      Shows the URL of the program, its homepage.
 
-4.3.30 show-build-host-cpu
+4.3.31 show-build-host-cpu
 --------------------------
 
  -- Command-line option: `--show-build-host-cpu'
      Shows the host CPU, as defined by 'host_cpu' in GNU Autoconf.
 
-4.3.31 show-build-host-os
+4.3.32 show-build-host-os
 -------------------------
 
  -- Command-line option: `--show-build-host-os'
      Shows the host OS, as defined by 'host_os' in GNU Autoconf.
 
-4.3.32 show-build-hostname
+4.3.33 show-build-hostname
 --------------------------
 
  -- Command-line option: `--show-build-hostname'
      Shows the name of the host where the binary was compiled.
 
-4.3.33 show-build-includedir
+4.3.34 show-build-includedir
 ----------------------------
 
  -- Command-line option: `--show-build-includedir'
@@ -4532,14 +4539,14 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      './configure' script when compiling the program. Default is
      '/usr/local/include'.
 
-4.3.34 show-build-ldflags
+4.3.35 show-build-ldflags
 -------------------------
 
  -- Command-line option: `--show-build-ldflags'
      Shows what value you should put in 'LDFLAGS' (environment
      variable) if you want to link programs against libliquidwar6.
 
-4.3.35 show-build-libdir
+4.3.36 show-build-libdir
 ------------------------
 
  -- Command-line option: `--show-build-libdir'
@@ -4550,13 +4557,13 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      elsewhere (usually in a sub-directory) see the 'mod-dir' switch for
      more information.
 
-4.3.36 show-build-license
+4.3.37 show-build-license
 -------------------------
 
  -- Command-line option: `--show-build-license'
      Shows the license of the program (GNU GPL v3 or later).
 
-4.3.37 show-build-localedir
+4.3.38 show-build-localedir
 ---------------------------
 
  -- Command-line option: `--show-build-localedir'
@@ -4564,52 +4571,51 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      './configure' script when compiling the program. Default is
      '/usr/local/share/locale'.
 
-4.3.38 show-build-mac-os-x
+4.3.39 show-build-mac-os-x
 --------------------------
 
  -- Command-line option: `--show-build-mac-os-x'
      Returns 1 (true) if host OS is Mac OS X, 0 (false) if not.
 
-4.3.39 show-build-md5sum
+4.3.40 show-build-md5sum
 ------------------------
 
  -- Command-line option: `--show-build-md5sum'
      Shows the MD5 checksum, which has been calculated from the C
      source files.  Complementary with 'show-build-stamp'.
 
-4.3.40 show-build-ms-windows
+4.3.41 show-build-ms-windows
 ----------------------------
 
  -- Command-line option: `--show-build-ms-windows'
-     Returns 1 (true) if host OS is Microsoft Windows 32-bit platform,
-     0 (false) if not.
+     Returns 1 (true) if host OS is Microsoft Windows, 0 (false) if not.
 
-4.3.41 show-build-package-name
+4.3.42 show-build-package-name
 ------------------------------
 
  -- Command-line option: `--show-build-package-name'
      Shows the package name, that is, 'Liquid War 6'.
 
-4.3.42 show-build-package-string
+4.3.43 show-build-package-string
 --------------------------------
 
  -- Command-line option: `--show-build-package-string'
      Shows the package string, that is, 'Liquid War 6 <version>
 
-4.3.43 show-build-package-tarname
+4.3.44 show-build-package-tarname
 ---------------------------------
 
  -- Command-line option: `--show-build-package-tarname'
      Shows the package tarname, that is, liquidwar6.
 
-4.3.44 show-build-pointer-size
+4.3.45 show-build-pointer-size
 ------------------------------
 
  -- Command-line option: `--show-build-pointer-size'
      Returns the pointer size, in bytes. Should be 4 on 32-bit systems
      and 8 on 64-bit systems.
 
-4.3.45 show-build-prefix
+4.3.46 show-build-prefix
 ------------------------
 
  -- Command-line option: `--show-build-prefix'
@@ -4617,7 +4623,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      './configure' script when compiling the program. Default is
      '/usr/local'.
 
-4.3.46 show-build-stamp
+4.3.47 show-build-stamp
 -----------------------
 
  -- Command-line option: `--show-build-stamp'
@@ -4628,20 +4634,27 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      work-in-progress version, it might be very convenient to use this
      to know what your are running exactly.
 
-4.3.47 show-build-time
+4.3.48 show-build-time
 ----------------------
 
  -- Command-line option: `--show-build-time'
      Shows the time when the binary was compiled.
 
-4.3.48 show-build-top-srcdir
+4.3.49 show-build-top-srcdir
 ----------------------------
 
  -- Command-line option: `--show-build-top-srcdir'
      Shows the top source directory on the machine where the binary was
      compiled.
 
-4.3.49 show-build-version
+4.3.50 show-build-unix
+----------------------
+
+ -- Command-line option: `--show-build-unix'
+     Returns 1 (true) if host OS is a UNIX system, or at least has been
+     considered as such when compiling, 0 (false) if not.
+
+4.3.51 show-build-version
 -------------------------
 
  -- Command-line option: `--show-build-version'
@@ -4650,27 +4663,27 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      with a short copyright notice. This one will just return the
      version, without the package tarname or anything else.
 
-4.3.50 show-build-x86
+4.3.52 show-build-x86
 ---------------------
 
  -- Command-line option: `--show-build-x86'
      Tells wether the CPU belongs to x86 family.
 
-4.3.51 show-config-file
+4.3.53 show-config-file
 -----------------------
 
  -- Command-line option: `--show-config-file'
      Shows the config file path. Default is
      '$HOME/.liquidwar6/config.xml'.
 
-4.3.52 show-cwd
+4.3.54 show-cwd
 ---------------
 
  -- Command-line option: `--show-cwd'
      Shows the current working directory, the value that the pwd
      command would return.
 
-4.3.53 show-data-dir
+4.3.55 show-data-dir
 --------------------
 
  -- Command-line option: `--show-data-dir'
@@ -4679,14 +4692,14 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      which are stored elsewhere.  Default is
      '/usr/local/share/liquidwar6-<version>/data'.
 
-4.3.54 show-default-config-file
+4.3.56 show-default-config-file
 -------------------------------
 
  -- Command-line option: `--show-default-config-file'
      Shows the default config file path. Default is
      '$HOME/.liquidwar6/config.xml'.
 
-4.3.55 show-default-data-dir
+4.3.57 show-default-data-dir
 ----------------------------
 
  -- Command-line option: `--show-default-data-dir'
@@ -4695,21 +4708,21 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      maps, which are stored elsewhere. Default is
      '/usr/local/share/liquidwar6-<version>/data'.
 
-4.3.56 show-default-log-file
+4.3.58 show-default-log-file
 ----------------------------
 
  -- Command-line option: `--show-default-log-file'
      Shows the default log file path. Default is
      '$HOME/.liquidwar6/log.csv'.
 
-4.3.57 show-default-map-dir
+4.3.59 show-default-map-dir
 ---------------------------
 
  -- Command-line option: `--show-default-map-dir'
      Shows the default map directory. This is where builtin maps are
      stored.  Default is '/usr/local/share/liquidwar6-<version>/map'.
 
-4.3.58 show-default-map-path
+4.3.60 show-default-map-path
 ----------------------------
 
  -- Command-line option: `--show-default-map-path'
@@ -4718,7 +4731,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      builtin paths. Might return more directories than the one
      specified in a single 'map-path=dir1:dir2' argument.
 
-4.3.59 show-default-mod-dir
+4.3.61 show-default-mod-dir
 ---------------------------
 
  -- Command-line option: `--show-default-mod-dir'
@@ -4726,7 +4739,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      dynamically loaded modules are stored. Default is
      '/usr/local/lib/liquidwar6-<version>'.
 
-4.3.60 show-default-music-dir
+4.3.62 show-default-music-dir
 -----------------------------
 
  -- Command-line option: `--show-default-music-dir'
@@ -4734,7 +4747,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      are stored.  Default is
      '/usr/local/share/liquidwar6-<version>/music'.
 
-4.3.61 show-default-music-path
+4.3.63 show-default-music-path
 ------------------------------
 
  -- Command-line option: `--show-default-music-path'
@@ -4743,7 +4756,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      arguments and builtin paths.  Might return more directories than
      the one specified in a single 'music-path=dir1:dir2' argument.
 
-4.3.62 show-default-prefix
+4.3.64 show-default-prefix
 --------------------------
 
  -- Command-line option: `--show-default-prefix'
@@ -4752,7 +4765,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      game. Most other path are deduced from this one. Default is
      '/usr/local'.
 
-4.3.63 show-default-script-file
+4.3.65 show-default-script-file
 -------------------------------
 
  -- Command-line option: `--show-default-script-file'
@@ -4762,7 +4775,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      it is the main program. Default is
      '/usr/local/share/liquidwar6-<version>/script/liquidwar6.scm'.
 
-4.3.64 show-default-user-dir
+4.3.66 show-default-user-dir
 ----------------------------
 
  -- Command-line option: `--show-default-user-dir'
@@ -4770,20 +4783,20 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      data, config files, log files, are stored. Default is
      '$HOME/.liquidwar6/'.
 
-4.3.65 show-log-file
+4.3.67 show-log-file
 --------------------
 
  -- Command-line option: `--show-log-file'
      Shows the log file path. Default is '$HOME/.liquidwar6/log.csv'.
 
-4.3.66 show-map-dir
+4.3.68 show-map-dir
 -------------------
 
  -- Command-line option: `--show-map-dir'
      Shows the map directory. This is where builtin maps are stored.
      Default is '/usr/local/share/liquidwar6-<version>/map'.
 
-4.3.67 show-map-path
+4.3.69 show-map-path
 --------------------
 
  -- Command-line option: `--show-map-path'
@@ -4792,7 +4805,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      paths. Might return more directories than the one specified in a
      single 'map-path=dir1:dir2' argument.
 
-4.3.68 show-mod-dir
+4.3.70 show-mod-dir
 -------------------
 
  -- Command-line option: `--show-mod-dir'
@@ -4800,14 +4813,14 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      loaded modules are stored. Default is
      '/usr/local/lib/liquidwar6-<version>'.
 
-4.3.69 show-music-dir
+4.3.71 show-music-dir
 ---------------------
 
  -- Command-line option: `--show-music-dir'
      Shows the music directory. This is where builtin maps are stored.
      Default is '/usr/local/share/liquidwar6-<version>/music'.
 
-4.3.70 show-music-path
+4.3.72 show-music-path
 ----------------------
 
  -- Command-line option: `--show-music-path'
@@ -4816,7 +4829,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      paths. Might return more directories than the one specified in a
      single 'music-path=dir1:dir2' argument.
 
-4.3.71 show-prefix
+4.3.73 show-prefix
 ------------------
 
  -- Command-line option: `--show-prefix'
@@ -4824,7 +4837,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      to the GNU Autoconf ./configure script when building the game.
      Most other path are deduced from this one. Default is '/usr/local'.
 
-4.3.72 show-run-dir
+4.3.74 show-run-dir
 -------------------
 
  -- Command-line option: `--show-run-dir'
@@ -4832,7 +4845,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      depends on how and where the program is launched. It is guessed
      from the argc/argv values at runtime.
 
-4.3.73 show-script-file
+4.3.75 show-script-file
 -----------------------
 
  -- Command-line option: `--show-script-file'
@@ -4842,7 +4855,7 @@ File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc opti
      program. Default is
      '/usr/local/share/liquidwar6-<version>/script/liquidwar6.scm'.
 
-4.3.74 show-user-dir
+4.3.76 show-user-dir
 --------------------
 
  -- Command-line option: `--show-user-dir'

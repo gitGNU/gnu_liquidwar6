@@ -250,9 +250,15 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SHOW_BUILD_HOST_OS,
 		 _x_
 		 ("Shows the host OS, as defined by 'host_os' in GNU Autoconf."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_GNU,
+		 _x_
+		 ("Returns 1 (true) if host OS is a GNU system, or at least has been considered as such when compiling, 0 (false) if not."));
+  POPULATE_VOID (LW6DEF_SHOW_BUILD_UNIX,
+		 _x_
+		 ("Returns 1 (true) if host OS is a UNIX system, or at least has been considered as such when compiling, 0 (false) if not."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_MS_WINDOWS,
 		 _x_
-		 ("Returns 1 (true) if host OS is Microsoft Windows 32-bit platform, 0 (false) if not."));
+		 ("Returns 1 (true) if host OS is Microsoft Windows, 0 (false) if not."));
   POPULATE_VOID (LW6DEF_SHOW_BUILD_MAC_OS_X,
 		 _x_
 		 ("Returns 1 (true) if host OS is Mac OS X, 0 (false) if not."));
@@ -924,6 +930,10 @@ populate_references ()
   POPULATE_VOID (LW6DEF_SIMULATE_FULL,
 		 _x_
 		 ("Simulates some fights using all available colors. This can be very long, it will run approximatively 1000 games consecutively, you can look in the log file to see the progress. Will output on the console a percentage based on scores obtained by the teams. This is typically for map designers and/or people who want to fiddle with team profiles, if some team is really stronger than another one, it should appear in these percentages."));
+  POPULATE_BOOL (LW6DEF_TRAP_ERRORS,
+		 _x_
+		 ("If set to true, will trap segmentation fault and floating point errors, and display messages about those in a custom box instead of the default one"),
+		 !lw6sys_build_is_unix ());
 
   /*
    * Game settings
@@ -2236,6 +2246,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6sys_build_is_x86."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS,
 		 _x_ ("Wrapper on lw6sys_build_get_host_os."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_GNU,
+		 _x_ ("Wrapper on lw6sys_build_is_gnu."));
+  POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_UNIX,
+		 _x_ ("Wrapper on lw6sys_build_is_unix."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS,
 		 _x_ ("Wrapper on lw6sys_build_is_ms_windows."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_BUILD_IS_MAC_OS_X,

@@ -675,6 +675,18 @@ comfort, as Liquid War 6 is now so fast-paced that it requires 200 frames/sec
 to outperform opponents.
 @end deffn
 
+@subsection trap-errors
+@deffn {Command-line option} @code{--trap-errors=<value>}
+@deffnx {Environment variable} @code{LW6_TRAP_ERRORS}
+@deffnx {XML key} @code{trap-errors}
+Type: boolean
+
+Default value: false
+
+If set to true, will trap segmentation fault and floating point errors, and
+display messages about those in a custom box instead of the default one
+@end deffn
+
 @subsection trojan
 @deffn {Command-line option} @code{--trojan=<value>}
 @deffnx {Environment variable} @code{LW6_TROJAN}

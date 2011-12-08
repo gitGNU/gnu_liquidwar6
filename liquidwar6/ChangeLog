@@ -1,5 +1,7 @@
 2011-12-08 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Trying to fix #35016, added trap-errors option to use gdb if needed.
+
 	* Implemented popup messages.
 
 2011-12-06 : Christian Mauduit <ufoot@ufoot.org>

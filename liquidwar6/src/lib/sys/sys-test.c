@@ -164,6 +164,7 @@
 #define TEST_SORT_STR_MIN "0"
 #define TEST_SORT_STR_MAX "9"
 #define _TEST_SIGNAL_LOOPS 25
+#define _TEST_SIGNAL_TRAP_ERRORS 1
 #define TEST_CONVERT_INT 421
 #define TEST_CONVERT_LONG_LONG 421421421421421
 #define TEST_CONVERT_BOOL 1
@@ -2580,7 +2581,7 @@ _lw6sys_test_signal (int mode)
       {
 	lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("quit!=0, strange..."));
       }
-    lw6sys_signal_custom ();
+    lw6sys_signal_custom (_TEST_SIGNAL_TRAP_ERRORS);
     lw6sys_log (LW6SYS_LOG_NOTICE,
 		_x_
 		("our own SIGTERM and SIGHUP signals are in place, try typing CTRL+C for instance"));

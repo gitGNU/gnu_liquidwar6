@@ -169,6 +169,12 @@ Returns the version of the GNU C compiler which was used to compile the
 program.
 @end deffn
 
+@subsection show-build-gnu
+@deffn {Command-line option} @code{--show-build-gnu}
+Returns 1 (true) if host OS is a GNU system, or at least has been considered
+as such when compiling, 0 (false) if not.
+@end deffn
+
 @subsection show-build-gp2x
 @deffn {Command-line option} @code{--show-build-gp2x}
 Returns 1 (true) if host is a GP2X, 0 (false) if not.
@@ -239,8 +245,7 @@ Complementary with 'show-build-stamp'.
 
 @subsection show-build-ms-windows
 @deffn {Command-line option} @code{--show-build-ms-windows}
-Returns 1 (true) if host OS is Microsoft Windows 32-bit platform, 0 (false) if
-not.
+Returns 1 (true) if host OS is Microsoft Windows, 0 (false) if not.
 @end deffn
 
 @subsection show-build-package-name
@@ -287,6 +292,12 @@ Shows the time when the binary was compiled.
 @subsection show-build-top-srcdir
 @deffn {Command-line option} @code{--show-build-top-srcdir}
 Shows the top source directory on the machine where the binary was compiled.
+@end deffn
+
+@subsection show-build-unix
+@deffn {Command-line option} @code{--show-build-unix}
+Returns 1 (true) if host OS is a UNIX system, or at least has been considered
+as such when compiling, 0 (false) if not.
 @end deffn
 
 @subsection show-build-version

@@ -292,9 +292,11 @@ c-lw6sys-build-get-stamp
 c-lw6sys-build-get-time
 c-lw6sys-build-get-top-srcdir
 c-lw6sys-build-get-version
+c-lw6sys-build-is-gnu
 c-lw6sys-build-is-gp2x
 c-lw6sys-build-is-mac-os-x
 c-lw6sys-build-is-ms-windows
+c-lw6sys-build-is-unix
 c-lw6sys-build-is-x86
 c-lw6sys-debug-get
 c-lw6sys-debug-set
@@ -596,6 +598,7 @@ show-build-enable-profiler
 show-build-enable-valgrind
 show-build-endianness
 show-build-gcc-version
+show-build-gnu
 show-build-gp2x
 show-build-home-url
 show-build-host-cpu
@@ -617,6 +620,7 @@ show-build-prefix
 show-build-stamp
 show-build-time
 show-build-top-srcdir
+show-build-unix
 show-build-version
 show-build-x86
 show-config-file
@@ -764,6 +768,7 @@ team-profile-yellow-weapon-mode
 test
 total-armies-size
 total-time
+trap-errors
 trojan
 upsize-using-bench-value
 upsize-using-fighter-scale

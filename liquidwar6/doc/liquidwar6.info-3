@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -4100,6 +4100,16 @@ results on
 
      *Return value:*  a non-NULL string, must not be freed.
 
+ -- Function: int lw6sys_build_is_gnu ()
+     Tells wether the program was compiled for a GNU system, or not.
+
+     *Return value:*  1 if compiled on windows, 0 if not
+
+ -- Function: int lw6sys_build_is_unix ()
+     Tells wether the program was compiled for a UNIX system, or not.
+
+     *Return value:*  1 if compiled on windows, 0 if not
+
  -- Function: int lw6sys_build_is_ms_windows ()
      Tells wether the program was compiled for Microsoft Windows, or
      not.
@@ -6711,7 +6721,9 @@ results on
 
      *Return value:*  1 if same_xy, 0 if not.
 
- -- Function: void lw6sys_signal_custom ()
+ -- Function: void lw6sys_signal_custom (int TRAP_ERRORS)
+     TRAP_ERRORS:  set to 1 if you want to trap SIGSEGV and SIGFPE
+
      Set up our signal handlers. This will probably be overrided later
      by other libs such as libSDL, but at least in pure server mode it
      gives a way to treat SIGTERM the right way.
@@ -7654,8 +7666,8 @@ results on
 
 File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
 
-Annexe A 2005 .plan
-*******************
+Appendix A 2005 .plan
+*********************
 
 Here's my .plan file, which describes what I (Christian Mauduit
 (mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
@@ -7952,8 +7964,8 @@ themselves are not clearly identified. But for the rest (starting in
 
 File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
 
-Annexe B Fanfic
-***************
+Appendix B Fanfic
+*****************
 
 Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
 it after a friend claimed that there wasn't any liquid war fanfic
@@ -8097,8 +8109,8 @@ in defeat he snarled,
 
 File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
 
-Annexe C Links
-**************
+Appendix C Links
+****************
 
 This section lists various Internet Liquid War related links.
 

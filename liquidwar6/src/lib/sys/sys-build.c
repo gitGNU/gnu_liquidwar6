@@ -424,6 +424,40 @@ lw6sys_build_get_host_os ()
 }
 
 /**
+ * lw6sys_build_is_gnu:
+ *
+ * Tells wether the program was compiled for a GNU system, or not.
+ *
+ * Return value: 1 if compiled on windows, 0 if not
+ */
+int
+lw6sys_build_is_gnu ()
+{
+#ifdef LW6_GNU
+  return 1;
+#else
+  return 0;
+#endif
+}
+
+/**
+ * lw6sys_build_is_unix:
+ *
+ * Tells wether the program was compiled for a UNIX system, or not.
+ *
+ * Return value: 1 if compiled on windows, 0 if not
+ */
+int
+lw6sys_build_is_unix ()
+{
+#ifdef LW6_UNIX
+  return 1;
+#else
+  return 0;
+#endif
+}
+
+/**
  * lw6sys_build_is_ms_windows:
  *
  * Tells wether the program was compiled for Microsoft Windows, or not.
@@ -948,6 +982,8 @@ lw6sys_build_get_bin_id ()
 				lw6sys_build_get_pointer_size ());
   lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_x86 ());
   lw6sys_checksum_update_str (&checksum_global, lw6sys_build_get_host_os ());
+  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_gnu ());
+  lw6sys_checksum_update_int32 (&checksum_global, lw6sys_build_is_unix ());
   lw6sys_checksum_update_int32 (&checksum_global,
 				lw6sys_build_is_ms_windows ());
   lw6sys_checksum_update_int32 (&checksum_global,
@@ -1067,6 +1103,10 @@ lw6sys_build_log_all ()
 	      lw6sys_build_get_pointer_size ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build host os is \"%s\""),
 	      lw6sys_build_get_host_os ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build gnu is %d"),
+	      lw6sys_build_is_gnu ());
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build unix is %d"),
+	      lw6sys_build_is_unix ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build ms windows is %d"),
 	      lw6sys_build_is_ms_windows ());
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("build mac os x is %d"),

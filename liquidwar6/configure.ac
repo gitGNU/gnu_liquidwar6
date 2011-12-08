@@ -77,14 +77,24 @@ if test x${MD5SUM} != xyes; then
 fi
 
 dnl Target conditionals
+
+lw6_unix=yes
+
+lw6_gnu=no
+if echo "${host_os}" | grep -i "gnu" ; then
+   lw6_gnu=yes
+fi
+AM_CONDITIONAL(LW6_GNU, test x${lw6_gnu} = xyes)
+
 lw6_ms_windows=no
 if echo "${host_os}" | grep "mingw32" ; then
    lw6_ms_windows=yes
+   lw6_unix=no
 fi
 AM_CONDITIONAL(LW6_MS_WINDOWS, test x${lw6_ms_windows} = xyes)
 
 lw6_mac_os_x=no
-if echo "${host_os}" | grep "arwin" ; then
+if echo "${host_os}" | grep -i "darwin" ; then
    lw6_mac_os_x=yes
 fi
 AM_CONDITIONAL(LW6_MAC_OS_X, test x${lw6_mac_os_x} = xyes)
@@ -93,17 +103,21 @@ lw6_gp2x=no
 if echo "${host_os}" | grep "arm-open2x" ; then
    lw6_gp2x=yes
 fi
+
 AM_CONDITIONAL(LW6_GP2X, test x${lw6_gp2x} = xyes)
 
 lw6_x86=no
 if test ${host_cpu} = i386 || test ${host_cpu} = i486 || test ${host_cpu} = i586 || test ${host_cpu} = i686 ; then
    lw6_x86=yes
 fi
+
 AM_CONDITIONAL(LW6_X86, test x${lw6_x86} = xyes)
 LW6_X86_CFLAGS=
 if test x${lw6_x86} = xyes ; then
    LW6_X86_CFLAGS="-DLW6_X86=1"
 fi
+
+AM_CONDITIONAL(LW6_UNIX, test x${lw6_unix} = xyes)
 
 dnl For debugging and profiling
 AC_CHECK_PROG(GPROF, gprof, yes, no)
@@ -680,24 +694,39 @@ fi
 AC_SUBST(LW6_LIBINTL_LDFLAGS)
 AC_SUBST(LW6_LIBINTL_LDADD)
 
+LW6_GNU_CFLAGS=""
+LW6_UNIX_CFLAGS=""
+LW6_MS_WINDOWS_CFLAGS=""
+LW6_MAC_OS_X_CFLAGS=""
+LW6_GP2X_CFLAGS=""
+
+if test "x${lw6_gnu}" = "xyes" ; then
+   LW6_GNU_CFLAGS="-DLW6_GNU"
+fi
+if test "x${lw6_unix}" = "xyes" ; then
+   LW6_UNIX_CFLAGS="-DLW6_UNIX"
+fi
 if test "x${lw6_ms_windows}" = "xyes" ; then
-   LW6_OS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
+   LW6_MS_WINDOWS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
    LW6_OS_LDFLAGS="-lpthreadGC2 -lws2_32 -liphlpapi"
 else
    if test "x${lw6_mac_os_x}" = "xyes" ; then
-      LW6_OS_CFLAGS="-DLW6_UNIX=1 -DLW6_MAC_OS_X=1"
+      LW6_MAC_OS_X_CFLAGS="-DLW6_MAC_OS_X=1"
       LW6_OS_LDFLAGS="-lpthread -Wl,-framework -Wl,CoreFoundation -Wl,-framework -Wl,Cocoa"
    else
       if test "x{lw6_gp2x}" = "xyes" ; then
-         LW6_OS_CFLAGS="-DLW6_GP2X=1"
+         LW6_GP2X_CFLAGS="-DLW6_GP2X=1"
          LW6_OS_LDFLAGS="-lpthread"
       else
-         LW6_OS_CFLAGS="-DLW6_UNIX=1"
          LW6_OS_LDFLAGS="-lpthread"
       fi
    fi
 fi;
-AC_SUBST(LW6_OS_CFLAGS)
+AC_SUBST(LW6_GNU_CFLAGS)
+AC_SUBST(LW6_UNIX_CFLAGS)
+AC_SUBST(LW6_MS_WINDOWS_CFLAGS)
+AC_SUBST(LW6_MAC_OS_X_CFLAGS)
+AC_SUBST(LW6_GP2X_CFLAGS)
 AC_SUBST(LW6_OS_LDFLAGS)
 
 # For some reason on my Debian box libs moved to specific dir and
@@ -712,7 +741,7 @@ fi
 AC_SUBST(LW6_CPU_CFLAGS)
 AC_SUBST(LW6_CPU_LDFLAGS)
 
-LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
+LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_GNU_CFLAGS} ${LW6_UNIX_CFLAGS} ${LW6_MS_WINDOWS_CFLAGS} ${LW6_MAC_OS_X_CFLAGS} ${LW6_GP2X_CFLAGS} ${LW6_CPU_CFLAGS}"
 LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${OPENMP_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
 AC_SUBST(LW6_CFLAGS)
 AC_SUBST(LW6_LDFLAGS)
@@ -859,6 +888,16 @@ AC_MSG_NOTICE([hostname is "${HOSTNAME}"])
 AC_MSG_NOTICE([host_cpu is "${host_cpu}"])
 AC_MSG_NOTICE([host_os is "${host_os}"])
 
+if test -z "${LW6_GNU_TRUE}"; then
+	AC_MSG_NOTICE([GNU support... yes])
+else
+	AC_MSG_NOTICE([GNU support... no])
+fi
+if test -z "${LW6_UNIX_TRUE}"; then
+	AC_MSG_NOTICE([UNIX support... yes])
+else
+	AC_MSG_NOTICE([UNIX support... no])
+fi
 if test -z "${LW6_MS_WINDOWS_TRUE}"; then
 	AC_MSG_NOTICE([MS Windows support... yes])
 else

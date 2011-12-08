@@ -621,7 +621,11 @@ LW6_CFLAGS
 LW6_CPU_LDFLAGS
 LW6_CPU_CFLAGS
 LW6_OS_LDFLAGS
-LW6_OS_CFLAGS
+LW6_GP2X_CFLAGS
+LW6_MAC_OS_X_CFLAGS
+LW6_MS_WINDOWS_CFLAGS
+LW6_UNIX_CFLAGS
+LW6_GNU_CFLAGS
 LW6_LIBINTL_LDADD
 LW6_LIBINTL_LDFLAGS
 VALGRIND_CFLAGS
@@ -681,6 +685,8 @@ LCOV
 GCOV
 PPROF
 GPROF
+LW6_UNIX_FALSE
+LW6_UNIX_TRUE
 LW6_X86_FALSE
 LW6_X86_TRUE
 LW6_GP2X_FALSE
@@ -689,6 +695,8 @@ LW6_MAC_OS_X_FALSE
 LW6_MAC_OS_X_TRUE
 LW6_MS_WINDOWS_FALSE
 LW6_MS_WINDOWS_TRUE
+LW6_GNU_FALSE
+LW6_GNU_TRUE
 MD5SUM
 LW6_SELFDOC_FALSE
 LW6_SELFDOC_TRUE
@@ -14296,9 +14304,26 @@ $as_echo "$as_me: WARNING:
 " >&2;}
 fi
 
+
+lw6_unix=yes
+
+lw6_gnu=no
+if echo "${host_os}" | grep -i "gnu" ; then
+   lw6_gnu=yes
+fi
+ if test x${lw6_gnu} = xyes; then
+  LW6_GNU_TRUE=
+  LW6_GNU_FALSE='#'
+else
+  LW6_GNU_TRUE='#'
+  LW6_GNU_FALSE=
+fi
+
+
 lw6_ms_windows=no
 if echo "${host_os}" | grep "mingw32" ; then
    lw6_ms_windows=yes
+   lw6_unix=no
 fi
  if test x${lw6_ms_windows} = xyes; then
   LW6_MS_WINDOWS_TRUE=
@@ -14310,7 +14335,7 @@ fi
 
 
 lw6_mac_os_x=no
-if echo "${host_os}" | grep "arwin" ; then
+if echo "${host_os}" | grep -i "darwin" ; then
    lw6_mac_os_x=yes
 fi
  if test x${lw6_mac_os_x} = xyes; then
@@ -14326,6 +14351,7 @@ lw6_gp2x=no
 if echo "${host_os}" | grep "arm-open2x" ; then
    lw6_gp2x=yes
 fi
+
  if test x${lw6_gp2x} = xyes; then
   LW6_GP2X_TRUE=
   LW6_GP2X_FALSE='#'
@@ -14339,6 +14365,7 @@ lw6_x86=no
 if test ${host_cpu} = i386 || test ${host_cpu} = i486 || test ${host_cpu} = i586 || test ${host_cpu} = i686 ; then
    lw6_x86=yes
 fi
+
  if test x${lw6_x86} = xyes; then
   LW6_X86_TRUE=
   LW6_X86_FALSE='#'
@@ -14351,6 +14378,15 @@ LW6_X86_CFLAGS=
 if test x${lw6_x86} = xyes ; then
    LW6_X86_CFLAGS="-DLW6_X86=1"
 fi
+
+ if test x${lw6_unix} = xyes; then
+  LW6_UNIX_TRUE=
+  LW6_UNIX_FALSE='#'
+else
+  LW6_UNIX_TRUE='#'
+  LW6_UNIX_FALSE=
+fi
+
 
 # Extract the first word of "gprof", so it can be a program name with args.
 set dummy gprof; ac_word=$2
@@ -16619,23 +16655,38 @@ fi
 
 
 
+LW6_GNU_CFLAGS=""
+LW6_UNIX_CFLAGS=""
+LW6_MS_WINDOWS_CFLAGS=""
+LW6_MAC_OS_X_CFLAGS=""
+LW6_GP2X_CFLAGS=""
+
+if test "x${lw6_gnu}" = "xyes" ; then
+   LW6_GNU_CFLAGS="-DLW6_GNU"
+fi
+if test "x${lw6_unix}" = "xyes" ; then
+   LW6_UNIX_CFLAGS="-DLW6_UNIX"
+fi
 if test "x${lw6_ms_windows}" = "xyes" ; then
-   LW6_OS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
+   LW6_MS_WINDOWS_CFLAGS="-DLW6_MS_WINDOWS=1 -DWIN32"
    LW6_OS_LDFLAGS="-lpthreadGC2 -lws2_32 -liphlpapi"
 else
    if test "x${lw6_mac_os_x}" = "xyes" ; then
-      LW6_OS_CFLAGS="-DLW6_UNIX=1 -DLW6_MAC_OS_X=1"
+      LW6_MAC_OS_X_CFLAGS="-DLW6_MAC_OS_X=1"
       LW6_OS_LDFLAGS="-lpthread -Wl,-framework -Wl,CoreFoundation -Wl,-framework -Wl,Cocoa"
    else
       if test "x{lw6_gp2x}" = "xyes" ; then
-         LW6_OS_CFLAGS="-DLW6_GP2X=1"
+         LW6_GP2X_CFLAGS="-DLW6_GP2X=1"
          LW6_OS_LDFLAGS="-lpthread"
       else
-         LW6_OS_CFLAGS="-DLW6_UNIX=1"
          LW6_OS_LDFLAGS="-lpthread"
       fi
    fi
 fi;
+
+
+
+
 
 
 
@@ -16651,7 +16702,7 @@ fi
 
 
 
-LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_OS_CFLAGS} ${LW6_CPU_CFLAGS}"
+LW6_CFLAGS="-Wall ${LW6_X86_CFLAGS} ${ALLINONE_CFLAGS} ${FULLSTATIC_CFLAGS} ${OPENMP_CFLAGS} ${OPTIMIZE_CFLAGS} ${PARANOID_CFLAGS} ${GPROF_CFLAGS} ${INSTRUMENT_CFLAGS} ${PROFILER_CFLAGS} ${GCOV_CFLAGS} ${VALGRIND_CFLAGS} ${LW6_GNU_CFLAGS} ${LW6_UNIX_CFLAGS} ${LW6_MS_WINDOWS_CFLAGS} ${LW6_MAC_OS_X_CFLAGS} ${LW6_GP2X_CFLAGS} ${LW6_CPU_CFLAGS}"
 LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${OPENMP_LDFLAGS} ${GPROF_LDFLAGS} ${INSTRUMENT_LDFLAGS} ${PROFILER_LDFLAGS} ${LW6_LIBINTL_LDFLAGS} ${LW6_OS_LDFLAGS} ${LW6_CPU_LDFLAGS}"
 
 
@@ -16800,6 +16851,10 @@ if test -z "${LW6_SELFDOC_TRUE}" && test -z "${LW6_SELFDOC_FALSE}"; then
   as_fn_error $? "conditional \"LW6_SELFDOC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${LW6_GNU_TRUE}" && test -z "${LW6_GNU_FALSE}"; then
+  as_fn_error $? "conditional \"LW6_GNU\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${LW6_MS_WINDOWS_TRUE}" && test -z "${LW6_MS_WINDOWS_FALSE}"; then
   as_fn_error $? "conditional \"LW6_MS_WINDOWS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -16814,6 +16869,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LW6_X86_TRUE}" && test -z "${LW6_X86_FALSE}"; then
   as_fn_error $? "conditional \"LW6_X86\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${LW6_UNIX_TRUE}" && test -z "${LW6_UNIX_FALSE}"; then
+  as_fn_error $? "conditional \"LW6_UNIX\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LW6_CONSOLE_TRUE}" && test -z "${LW6_CONSOLE_FALSE}"; then
@@ -19357,6 +19416,20 @@ $as_echo "$as_me: host_cpu is \"${host_cpu}\"" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: host_os is \"${host_os}\"" >&5
 $as_echo "$as_me: host_os is \"${host_os}\"" >&6;}
 
+if test -z "${LW6_GNU_TRUE}"; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: GNU support... yes" >&5
+$as_echo "$as_me: GNU support... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: GNU support... no" >&5
+$as_echo "$as_me: GNU support... no" >&6;}
+fi
+if test -z "${LW6_UNIX_TRUE}"; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: UNIX support... yes" >&5
+$as_echo "$as_me: UNIX support... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: UNIX support... no" >&5
+$as_echo "$as_me: UNIX support... no" >&6;}
+fi
 if test -z "${LW6_MS_WINDOWS_TRUE}"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: MS Windows support... yes" >&5
 $as_echo "$as_me: MS Windows support... yes" >&6;}
