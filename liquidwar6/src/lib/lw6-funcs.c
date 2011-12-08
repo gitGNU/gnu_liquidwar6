@@ -2293,7 +2293,7 @@ _scm_lw6sys_signal_custom (SCM trap_errors)
   SCM_ASSERT (SCM_BOOLP (trap_errors), trap_errors, SCM_ARG1, __FUNCTION__);
 
   c_trap_errors = SCM_NFALSEP (trap_errors);
-  lw6sys_signal_custom (trap_errors);
+  lw6sys_signal_custom (c_trap_errors);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
