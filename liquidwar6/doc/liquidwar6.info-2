@@ -19,6 +19,2140 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: Map rules.xml,  Next: Map hints.xml,  Prev: Map parameters,  Up: Reference
+
+4.11 Map rules.xml
+==================
+
+4.11.1 boost-power
+------------------
+
+ -- Command-line option: `--boost-power=<value>'
+ -- Environment variable: `LW6_BOOST_POWER'
+ -- XML key: `boost-power'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 10
+
+     Defines how fast and powerfull the boost is. That is, if on
+     'boost.png' it's pitch black and this parameter is set to 3, then
+     fighters will move and act 3 times than what they would do
+     normally.
+
+4.11.2 color-conflict-mode
+--------------------------
+
+ -- Command-line option: `--color-conflict-mode=<value>'
+ -- Environment variable: `LW6_COLOR_CONFLICT_MODE'
+ -- XML key: `color-conflict-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     How to handle color conflicts, that is, when a player requests a
+     color, but this color is already used, what should be done? If 0,
+     wether a color already exists won't affect the color of a new
+     cursor. If 1, then two players on the same computer will be
+     allowed to share the same color/team, but if another computer is
+     already playing with a color, any new computer will need to use
+     another team. If 2, then it's impossible for a new cursor to use a
+     pre-existing color, any new cursor will require a new color, if
+     that color is already used, a new color will be picked randomly.
+
+4.11.3 cursor-pot-init
+----------------------
+
+ -- Command-line option: `--cursor-pot-init=<value>'
+ -- Environment variable: `LW6_CURSOR_POT_INIT'
+ -- XML key: `cursor-pot-init'
+     Type: integer
+
+     Default value: 100000 Min value: 5000 Max value: 500000
+
+     Defines the cursor potential at startup. Not really any reason to
+     change it.  Theorically, there could be maps where the default
+     value doesn't fit, but none has been seen yet.
+
+4.11.4 danger-power
+-------------------
+
+ -- Command-line option: `--danger-power=<value>'
+ -- Environment variable: `LW6_DANGER_POWER'
+ -- XML key: `danger-power'
+     Type: integer
+
+     Default value: 200 Min value: 0 Max value: 10000
+
+     Defines how dangerous are the black zones defined in 'danger.png'.
+     The value is used to decrease the fighter health at each move, so
+     you should compare its value to something like 'fighter-attack'.
+     Being on a dangerous zone is a bit like being attacked by an
+     invisible and unknown ennemy.
+
+4.11.5 exp
+----------
+
+ -- Command-line option: `--exp=<value>'
+ -- Environment variable: `LW6_EXP'
+ -- XML key: `exp'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 99
+
+     Level of experience (AKA exp) required to play the current level.
+     If this level is validated (that is, won) then player will be
+     granted with a level of exp+1 and be able to play all the next
+     levels. An exp of 0 means the level is playable by a pure beginner.
+
+4.11.6 fighter-attack
+---------------------
+
+ -- Command-line option: `--fighter-attack=<value>'
+ -- Environment variable: `LW6_FIGHTER_ATTACK'
+ -- XML key: `fighter-attack'
+     Type: integer
+
+     Default value: 500 Min value: 1 Max value: 10000
+
+     Defines how hard fighters will attack others, that is, in one
+     attack, how many life-points the attacked fighter will loose.
+     Increasing this will cause your opponents to melt faster when you
+     attack them. With a low value, it will take ages to take on your
+     opponents. Different styles of game. Can radically change the
+     gameplay.
+
+4.11.7 fighter-defense
+----------------------
+
+ -- Command-line option: `--fighter-defense=<value>'
+ -- Environment variable: `LW6_FIGHTER_DEFENSE'
+ -- XML key: `fighter-defense'
+     Type: integer
+
+     Default value: 50 Min value: 0 Max value: 10000
+
+     Defines how fast fighters will regenerate after an attack. When
+     this parameter is set low, an attacked fighter, which is very dark
+     and almost dead will take a very long time to regain energy. If
+     the parameter is set high, it can almost instantaneously regain
+     energy.
+
+4.11.8 fighter-new-health
+-------------------------
+
+ -- Command-line option: `--fighter-new-health=<value>'
+ -- Environment variable: `LW6_FIGHTER_NEW_HEALTH'
+ -- XML key: `fighter-new-health'
+     Type: integer
+
+     Default value: 5000 Min value: 1 Max value: 10000
+
+     Defines how healthy fighters will be when they appear on the map.
+     This can be either at the beginning of the game of when a fighter
+     changes team. Setting this low will allow battefields to switch
+     from one side to another very fast, for freshly gained fighters
+     will be feeble and very likely to return to their original camp.
+     To calibrate this parameter, keep in mind that the absolute
+     maximum health a fighter can have is always 10000 (ten-thousands).
+
+4.11.9 fighter-regenerate
+-------------------------
+
+ -- Command-line option: `--fighter-regenerate=<value>'
+ -- Environment variable: `LW6_FIGHTER_REGENERATE'
+ -- XML key: `fighter-regenerate'
+     Type: integer
+
+     Default value: 5 Min value: 0 Max value: 10000
+
+     Defines at which speed fighters will self-regenerate, without even
+     begin packed together. This will allow lone fighters to regenerate
+     a bit by hiding somewhere in the map. This is typically a low
+     value, might even be 0.
+
+4.11.10 frags-fade-out
+----------------------
+
+ -- Command-line option: `--frags-fade-out=<value>'
+ -- Environment variable: `LW6_FRAGS_FADE_OUT'
+ -- XML key: `frags-fade-out'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 100
+
+     When a player looses (in deathmatch mode) all player points will be
+     multiplicated by this percentage, for instance if it's 90 and
+     player had 50 points, then player will only have 45 points, then
+     points corresponding to the new death will be added/substrated to
+     its total. This is to avoid players with thousands of points in
+     advance, and keep everyone in the race. A low value will minimize
+     the importance of game start. This is only used in modes where
+     frags are distributed in a proportional way.
+
+4.11.11 frags-mode
+------------------
+
+ -- Command-line option: `--frags-mode=<value>'
+ -- Environment variable: `LW6_FRAGS_MODE'
+ -- XML key: `frags-mode'
+     Type: integer
+
+     Default value: 2 Min value: 0 Max value: 3
+
+     Defines how points are calculated in deathmatch mode, 0 is old
+     school simple mode. 1 is in a mode in which 1 point is attributed
+     to every winner, and looser looses all the corresponding points
+     (total is always 0). 2 isproportional mode, with a total of 0 kept
+     constant, that is, loosers loose as many points as attributed to
+     winners. 3 is a mode in which at each death, winners are
+     attributed a number of points proportional to their fighters, and
+     loosers scores remain untouched.
+
+4.11.12 frags-to-distribute
+---------------------------
+
+ -- Command-line option: `--frags-to-distribute=<value>'
+ -- Environment variable: `LW6_FRAGS_TO_DISTRIBUTE'
+ -- XML key: `frags-to-distribute'
+     Type: integer
+
+     Default value: 100 Min value: 10 Max value: 1000
+
+     Defines how many points will be distributed when in deathmatch
+     mode. When a player looses, this amont of points will be
+     substracted to its total, and the same amount of points will be
+     distributed to other live players, proportionnally to how many
+     fighters they have on the battlefield.
+
+4.11.13 glue-power
+------------------
+
+ -- Command-line option: `--glue-power=<value>'
+ -- Environment variable: `LW6_GLUE_POWER'
+ -- XML key: `glue-power'
+     Type: integer
+
+     Default value: 20 Min value: 1 Max value: 100
+
+     Defines how sticky and powerfull the glue is. That is, if on
+     'glue.png' it's pitch black and this parameter is set to 3, then
+     fighters will take 3 steps to do what would normally take only one
+     step.
+
+4.11.14 highest-team-color-allowed
+----------------------------------
+
+ -- Command-line option: `--highest-team-color-allowed=<value>'
+ -- Environment variable: `LW6_HIGHEST_TEAM_COLOR_ALLOWED'
+ -- XML key: `highest-team-color-allowed'
+     Type: integer
+
+     Default value: 9 Min value: 3 Max value: 9
+
+     Id of the greatest/highest color one can use. Normally, you can
+     leave this untouched, the program will automatically fit this
+     according to your exp.  Setting an artificially low value will
+     just cause normally available colors to disappear, setting it to a
+     high value does nothing, if you still don't have access to some
+     colors, you still don't, period.
+
+4.11.15 highest-weapon-allowed
+------------------------------
+
+ -- Command-line option: `--highest-weapon-allowed=<value>'
+ -- Environment variable: `LW6_HIGHEST_WEAPON_ALLOWED'
+ -- XML key: `highest-weapon-allowed'
+     Type: integer
+
+     Default value: 19 Min value: 7 Max value: 19
+
+     Id of the greatest/highest weapon one can use. Normally, you can
+     leave this untouched, the program will automatically fit this
+     according to your exp.  Setting an artificially low value will
+     just cause normally available weapons to disappear, setting it to
+     a high value does nothing, if you still don't have access to some
+     weapons, you still don't, period.
+
+4.11.16 max-cursor-pot
+----------------------
+
+ -- Command-line option: `--max-cursor-pot=<value>'
+ -- Environment variable: `LW6_MAX_CURSOR_POT'
+ -- XML key: `max-cursor-pot'
+     Type: integer
+
+     Default value: 1000000 Min value: 50000 Max value: 5000000
+
+     Defines the maximum cursor potential. Not really any reason to
+     change it. Any high value should produce the same results. Low
+     values might reveal algorithm bugs and inconsistencies.
+
+4.11.17 max-cursor-pot-offset
+-----------------------------
+
+ -- Command-line option: `--max-cursor-pot-offset=<value>'
+ -- Environment variable: `LW6_MAX_CURSOR_POT_OFFSET'
+ -- XML key: `max-cursor-pot-offset'
+     Type: integer
+
+     Default value: 100 Min value: 1 Max value: 10000
+
+     Defines the maximum cursor potential offset. The idea is that in
+     some cases, the potential of a cursor can increase in burst mode,
+     for instance to make this cursor more important than others, so
+     that fighters rally to it, neglecting other cursors (talking about
+     a multi-cursor controlled team). This parameter is here to limit
+     this burst effect and avoid bugs.
+
+4.11.18 max-nb-cursors
+----------------------
+
+ -- Command-line option: `--max-nb-cursors=<value>'
+ -- Environment variable: `LW6_MAX_NB_CURSORS'
+ -- XML key: `max-nb-cursors'
+     Type: integer
+
+     Default value: 26 Min value: 2 Max value: 26
+
+     Defines the maximum number of cursors who can enter the game.
+     Really makes sense in network games. Default value is 26, the
+     maximum.
+
+4.11.19 max-nb-nodes
+--------------------
+
+ -- Command-line option: `--max-nb-nodes=<value>'
+ -- Environment variable: `LW6_MAX_NB_NODES'
+ -- XML key: `max-nb-nodes'
+     Type: integer
+
+     Default value: 12 Min value: 2 Max value: 26
+
+     Defines the maximum number of servers who can enter the game.
+     Really makes sense in network games. Default value is 10, and
+     should fit in most cases. Can be raised up to 26.
+
+4.11.20 max-nb-teams
+--------------------
+
+ -- Command-line option: `--max-nb-teams=<value>'
+ -- Environment variable: `LW6_MAX_NB_TEAMS'
+ -- XML key: `max-nb-teams'
+     Type: integer
+
+     Default value: 10 Min value: 2 Max value: 10
+
+     Defines the maximum number of teams who can enter the game. Really
+     makes sense in network games. Default value is 10, the maximum.
+
+4.11.21 max-round-delta
+-----------------------
+
+ -- Command-line option: `--max-round-delta=<value>'
+ -- Environment variable: `LW6_MAX_ROUND_DELTA'
+ -- XML key: `max-round-delta'
+     Type: integer
+
+     Default value: 1000 Min value: 1 Max value: 10000
+
+     This is the companion value of 'round-delta'. Will put an absolute
+     limit to the delta, which (what did you think?) is of course
+     incremented in some cases by the core algorithm. If in doubt,
+     don't touch.
+
+4.11.22 max-zone-size
+---------------------
+
+ -- Command-line option: `--max-zone-size=<value>'
+ -- Environment variable: `LW6_MAX_ZONE_SIZE'
+ -- XML key: `max-zone-size'
+     Type: integer
+
+     Default value: 8 Min value: 1 Max value: 64
+
+     Defines the maximum zone size, which is an internal and rather
+     technical parameter. The idea is that to optimize things, Liquid
+     War 6 divides the battlefield in squares, where it can, and tries
+     to make these squares as big as possible, the idea being that
+     everywhere in this square, fighters follow the same intructions.
+     Just a technical optimization. The problem is that setting it too
+     high will reveal the optimization and its tradeoffs to the player,
+     who will see the fighter behave strangely, following invisible
+     paths.  Plus, it's ugly. Depending on your tastes (speed,
+     look'n'feel) you'll prefer something nice or something fast. Note
+     that anyways passed a certain value, this does not optimize
+     anything anymore. In doubt, don't touch it.
+
+4.11.23 medicine-power
+----------------------
+
+ -- Command-line option: `--medicine-power=<value>'
+ -- Environment variable: `LW6_MEDICINE_POWER'
+ -- XML key: `medicine-power'
+     Type: integer
+
+     Default value: 100 Min value: 0 Max value: 10000
+
+     Defines how fast fighter will automatically regenerate on black
+     zones defined in 'medicine.png'. The value is used to decrease the
+     fighter health at each move, so you should compare its value to
+     something like 'fighter-defense'.  Being on a medicined zone is a
+     bit like being defended by an invisible and unknown friend.
+
+4.11.24 moves-per-round
+-----------------------
+
+ -- Command-line option: `--moves-per-round=<value>'
+ -- Environment variable: `LW6_MOVES_PER_ROUND'
+ -- XML key: `moves-per-round'
+     Type: integer
+
+     Default value: 2 Min value: 1 Max value: 50
+
+     Defines how many times fighters move per round. Increasing this
+     will just make fighters move faster, but won't change anything for
+     the rest, that is keyboard and mouse responsivity, and network
+     traffic will stay the same. Multiplying the number of moves per
+     round by the number of rounds per second will give the number of
+     moves per second, which is, in fact, how fast fighters move on the
+     screen.
+
+4.11.25 nb-attack-tries
+-----------------------
+
+ -- Command-line option: `--nb-attack-tries=<value>'
+ -- Environment variable: `LW6_NB_ATTACK_TRIES'
+ -- XML key: `nb-attack-tries'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 7
+
+     Defines how many tries a fighter will do before giving-up
+     attacking and choosing another behvior (defense). By tries we
+     mean: how many directions it will try. Going North? Going
+     North-West? Setting this to a low value will make fighters
+     somewhat less aggressive. This idea is that they'll prefer to
+     switch to the next option, that is, defense/regeneration, if
+     there's no opponent right in front of them.
+
+4.11.26 nb-defense-tries
+------------------------
+
+ -- Command-line option: `--nb-defense-tries=<value>'
+ -- Environment variable: `LW6_NB_DEFENSE_TRIES'
+ -- XML key: `nb-defense-tries'
+     Type: integer
+
+     Default value: 1 Min value: 1 Max value: 7
+
+     Defines how many tries a fighter will do before giving-up
+     attacking and choosing another behavior (do nothing). By tries we
+     mean: how many directions it will try. Going North? Going
+     North-West? Setting this to a low value, you'll need a very
+     compact pack of fighters for regeneration to operate, else
+     fighters will hang arround unhealthy.
+
+4.11.27 nb-move-tries
+---------------------
+
+ -- Command-line option: `--nb-move-tries=<value>'
+ -- Environment variable: `LW6_NB_MOVE_TRIES'
+ -- XML key: `nb-move-tries'
+     Type: integer
+
+     Default value: 5 Min value: 3 Max value: 7
+
+     Defines how many tries a fighter will do before giving-up moving
+     and choosing another behvior (attack or defense). By tries we
+     mean: how many directions it will try. Going North? Going
+     North-West? Setting this to a low value, your fighters will look
+     very stubborn and always try to move in one direction, neglecting
+     the fact that they could dodge. This can lead to queues of fighters
+     and other strange behaviors. On the other hand, setting it too
+     high will cause fighter to always avoid the enemy, and groups of
+     fighters will just pass each other without any fight. Matter of
+     taste.
+
+4.11.28 respawn-delay
+---------------------
+
+ -- Command-line option: `--respawn-delay=<value>'
+ -- Environment variable: `LW6_RESPAWN_DELAY'
+ -- XML key: `respawn-delay'
+     Type: integer
+
+     Default value: 3 Min value: 0 Max value: 30
+
+     Delay, in seconds, after which teams reappear on the battlefield,
+     when in deathmatch mode. 0 means team right away.
+
+4.11.29 respawn-position-mode
+-----------------------------
+
+ -- Command-line option: `--respawn-position-mode=<value>'
+ -- Environment variable: `LW6_RESPAWN_POSITION_MODE'
+ -- XML key: `respawn-position-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Defines how teams are set up on the map when respawning. 0 means
+     teams respect the pre-defined start positions. 1 means that a
+     random position will be picked, among the existing positions. That
+     is, red could take green's place. 2 means total randomness, teams
+     can appear anywhere.
+
+4.11.30 respawn-team
+--------------------
+
+ -- Command-line option: `--respawn-team=<value>'
+ -- Environment variable: `LW6_RESPAWN_TEAM'
+ -- XML key: `respawn-team'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 1
+
+     Defines what to do when a team dies. If set to 0, team disappears
+     forever, if set to 1, team reappears automatically with fresh
+     fighters. It's a deathmatch mode, where the winner is not the one
+     who stays alive the longest time, since it makes no real sens in
+     this case, but the one who has died less often than others.
+
+4.11.31 round-delta
+-------------------
+
+ -- Command-line option: `--round-delta=<value>'
+ -- Environment variable: `LW6_ROUND_DELTA'
+ -- XML key: `round-delta'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 100
+
+     Conditions by how much the cursor potential will be incremented
+     each time gradient is spreaded. Sounds cryptic? It is. The idea is
+     that at each time you move your cursor of 1 pixel, theorically,
+     you'll need in the worst case to move of 1 more pixel to reach any
+     point on the map. Of course this is not true but this is the
+     default asumption, and gradient spread will fix that. Only in
+     Liquid War 6 this is not even the worst case, for you can control
+     your cursor with the mouse and cross walls. Whenever you cross a
+     wall, you might have done a great distance from the fighters'
+     point of view, if the map is a maze. Thus this parameter, which
+     corrects things, experience shows it does give acceptable results
+     to increase the cursor potential by more than one at each turn.
+     Toy arround with this if you find fighters take wrong paths on some
+     given map. If in doubt, don't touch.
+
+4.11.32 rounds-per-sec
+----------------------
+
+ -- Command-line option: `--rounds-per-sec=<value>'
+ -- Environment variable: `LW6_ROUNDS_PER_SEC'
+ -- XML key: `rounds-per-sec'
+     Type: integer
+
+     Default value: 50 Min value: 1 Max value: 200
+
+     Defines the overall speed of the game. All other settings being
+     equal, raising this value will cause the game to behave faster.
+     Everything will be faster, except probably the display since your
+     computer will calculate more game positions in a given time and
+     spend more CPU time. It will also increase network traffic. Values
+     between 10 and 50 really make sense.
+
+4.11.33 side-attack-factor
+--------------------------
+
+ -- Command-line option: `--side-attack-factor=<value>'
+ -- Environment variable: `LW6_SIDE_ATTACK_FACTOR'
+ -- XML key: `side-attack-factor'
+     Type: integer
+
+     Default value: 20 Min value: 0 Max value: 100
+
+     Defines how hard fighters will attack sideways. It's an algorithm
+     trick, fighters attack by default the opponent right in front, but
+     if there's no fighter there, they will still try to attack someone
+     else, maybe sideways. But doing this their attack is not as
+     strong. This parameter enables you to tune this. This is a
+     percentage.
+
+4.11.34 side-defense-factor
+---------------------------
+
+ -- Command-line option: `--side-defense-factor=<value>'
+ -- Environment variable: `LW6_SIDE_DEFENSE_FACTOR'
+ -- XML key: `side-defense-factor'
+     Type: integer
+
+     Default value: 20 Min value: 0 Max value: 100
+
+     Defines how fast fighters will regenerate, when being side by side
+     instead of being right in front of the other. This is a percentage.
+
+4.11.35 single-army-size
+------------------------
+
+ -- Command-line option: `--single-army-size=<value>'
+ -- Environment variable: `LW6_SINGLE_ARMY_SIZE'
+ -- XML key: `single-army-size'
+     Type: integer
+
+     Default value: 30 Min value: 1 Max value: 95
+
+     Defines the proportion of the whole available space, which will be
+     occupied by an army at the beginning of the game. You can either
+     imagine playing with almost empty maps, or play very crowded with
+     almost no space left. This is a percentage, but will be multiplied
+     by itself to get the actual surface. That is, 50 means 50%*50%,
+     that is, a square of 1/2 the size of a square map, so it
+     represents 25% (1/4) of the total surface.
+
+4.11.36 spread-mode
+-------------------
+
+ -- Command-line option: `--spread-mode=<value>'
+ -- Environment variable: `LW6_SPREAD_MODE'
+ -- XML key: `spread-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     If set to 1, then gradient spread will be slower but gain in terms
+     of homogeneity and consistency. You could consider setting this to
+     0 on very very big maps to save CPU cycles, else the default
+     should work fine.
+
+4.11.37 spread-thread
+---------------------
+
+ -- Command-line option: `--spread-thread=<value>'
+ -- Environment variable: `LW6_SPREAD_THREAD'
+ -- XML key: `spread-thread'
+     Type: integer
+
+     Default value: 0 Min value: 0 Max value: 1
+
+     If set to 1, the core algorithm with fire a separate thread to
+     spread the gradient. By default this is turned off (set to 0).
+     Consider this as an experimental feature, the program is already
+     rather heavily threaded, turning this on will probably not offer
+     any significant performance gain, even on SMP systems. This might
+     change in the future.
+
+4.11.38 spreads-per-round
+-------------------------
+
+ -- Command-line option: `--spreads-per-round=<value>'
+ -- Environment variable: `LW6_SPREADS_PER_ROUND'
+ -- XML key: `spreads-per-round'
+     Type: integer
+
+     Default value: 5 Min value: 1 Max value: 100
+
+     Defines how many times the gradient is spread per round. Gradient
+     spread is a very Liquid War 6 specific feature, just remember that
+     the more often you do it, the more accurately fighters will move.
+     That is, you will be sure they really take the shortest path.
+     Usually this does not have much effect, the default value should
+     fit in most cases, but you might want to decrease it on very
+     simple maps where the gradient is obvious, or increase it on
+     complex maps where you want fighters to be real smart.
+
+4.11.39 start-blue-x
+--------------------
+
+ -- Command-line option: `--start-blue-x=<value>'
+ -- Environment variable: `LW6_START_BLUE_X'
+ -- XML key: `start-blue-x'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     X start position for the blue team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.40 start-blue-y
+--------------------
+
+ -- Command-line option: `--start-blue-y=<value>'
+ -- Environment variable: `LW6_START_BLUE_Y'
+ -- XML key: `start-blue-y'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     Y start position for the blue team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.41 start-cyan-x
+--------------------
+
+ -- Command-line option: `--start-cyan-x=<value>'
+ -- Environment variable: `LW6_START_CYAN_X'
+ -- XML key: `start-cyan-x'
+     Type: integer
+
+     Default value: 35 Min value: 0 Max value: 100
+
+     X start position for the cyan team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.42 start-cyan-y
+--------------------
+
+ -- Command-line option: `--start-cyan-y=<value>'
+ -- Environment variable: `LW6_START_CYAN_Y'
+ -- XML key: `start-cyan-y'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     Y start position for the cyan team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.43 start-green-x
+---------------------
+
+ -- Command-line option: `--start-green-x=<value>'
+ -- Environment variable: `LW6_START_GREEN_X'
+ -- XML key: `start-green-x'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     X start position for the green team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.44 start-green-y
+---------------------
+
+ -- Command-line option: `--start-green-y=<value>'
+ -- Environment variable: `LW6_START_GREEN_Y'
+ -- XML key: `start-green-y'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     Y start position for the green team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.45 start-lightblue-x
+-------------------------
+
+ -- Command-line option: `--start-lightblue-x=<value>'
+ -- Environment variable: `LW6_START_LIGHTBLUE_X'
+ -- XML key: `start-lightblue-x'
+     Type: integer
+
+     Default value: 35 Min value: 0 Max value: 100
+
+     X start position for the lightblue team. This is a percentage of
+     map width, value between 0 and 100.
+
+4.11.46 start-lightblue-y
+-------------------------
+
+ -- Command-line option: `--start-lightblue-y=<value>'
+ -- Environment variable: `LW6_START_LIGHTBLUE_Y'
+ -- XML key: `start-lightblue-y'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     Y start position for the lightblue team. This is a percentage of
+     map height, value between 0 and 100.
+
+4.11.47 start-magenta-x
+-----------------------
+
+ -- Command-line option: `--start-magenta-x=<value>'
+ -- Environment variable: `LW6_START_MAGENTA_X'
+ -- XML key: `start-magenta-x'
+     Type: integer
+
+     Default value: 65 Min value: 0 Max value: 100
+
+     X start position for the magenta team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.48 start-magenta-y
+-----------------------
+
+ -- Command-line option: `--start-magenta-y=<value>'
+ -- Environment variable: `LW6_START_MAGENTA_Y'
+ -- XML key: `start-magenta-y'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     Y start position for the magenta team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.49 start-orange-x
+----------------------
+
+ -- Command-line option: `--start-orange-x=<value>'
+ -- Environment variable: `LW6_START_ORANGE_X'
+ -- XML key: `start-orange-x'
+     Type: integer
+
+     Default value: 65 Min value: 0 Max value: 100
+
+     X start position for the orange team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.50 start-orange-y
+----------------------
+
+ -- Command-line option: `--start-orange-y=<value>'
+ -- Environment variable: `LW6_START_ORANGE_Y'
+ -- XML key: `start-orange-y'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     Y start position for the orange team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.51 start-pink-x
+--------------------
+
+ -- Command-line option: `--start-pink-x=<value>'
+ -- Environment variable: `LW6_START_PINK_X'
+ -- XML key: `start-pink-x'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     X start position for the pink team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.52 start-pink-y
+--------------------
+
+ -- Command-line option: `--start-pink-y=<value>'
+ -- Environment variable: `LW6_START_PINK_Y'
+ -- XML key: `start-pink-y'
+     Type: integer
+
+     Default value: 50 Min value: 0 Max value: 100
+
+     Y start position for the pink team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.53 start-position-mode
+---------------------------
+
+ -- Command-line option: `--start-position-mode=<value>'
+ -- Environment variable: `LW6_START_POSITION_MODE'
+ -- XML key: `start-position-mode'
+     Type: integer
+
+     Default value: 0 Min value: 0 Max value: 2
+
+     Defines how teams are set up on the map at game startup. 0 means
+     teams respect the pre-defined start positions. 1 means that a
+     random position will be picked, among the existing positions. That
+     is, red could take green's place. 2 means total randomness, teams
+     can appear anywhere.
+
+4.11.54 start-purple-x
+----------------------
+
+ -- Command-line option: `--start-purple-x=<value>'
+ -- Environment variable: `LW6_START_PURPLE_X'
+ -- XML key: `start-purple-x'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     X start position for the purple team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.55 start-purple-y
+----------------------
+
+ -- Command-line option: `--start-purple-y=<value>'
+ -- Environment variable: `LW6_START_PURPLE_Y'
+ -- XML key: `start-purple-y'
+     Type: integer
+
+     Default value: 50 Min value: 0 Max value: 100
+
+     Y start position for the purple team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.56 start-red-x
+-------------------
+
+ -- Command-line option: `--start-red-x=<value>'
+ -- Environment variable: `LW6_START_RED_X'
+ -- XML key: `start-red-x'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     X start position for the red team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.57 start-red-y
+-------------------
+
+ -- Command-line option: `--start-red-y=<value>'
+ -- Environment variable: `LW6_START_RED_Y'
+ -- XML key: `start-red-y'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     Y start position for the red team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.58 start-yellow-x
+----------------------
+
+ -- Command-line option: `--start-yellow-x=<value>'
+ -- Environment variable: `LW6_START_YELLOW_X'
+ -- XML key: `start-yellow-x'
+     Type: integer
+
+     Default value: 10 Min value: 0 Max value: 100
+
+     X start position for the yellow team. This is a percentage of map
+     width, value between 0 and 100.
+
+4.11.59 start-yellow-y
+----------------------
+
+ -- Command-line option: `--start-yellow-y=<value>'
+ -- Environment variable: `LW6_START_YELLOW_Y'
+ -- XML key: `start-yellow-y'
+     Type: integer
+
+     Default value: 90 Min value: 0 Max value: 100
+
+     Y start position for the yellow team. This is a percentage of map
+     height, value between 0 and 100.
+
+4.11.60 team-profile-blue-aggressive
+------------------------------------
+
+ -- Command-line option: `--team-profile-blue-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_AGGRESSIVE'
+ -- XML key: `team-profile-blue-aggressive'
+     Type: integer
+
+     Default value: 150 Min value: 5 Max value: 2000
+
+     Defines how aggressive the blue team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.61 team-profile-blue-fast
+------------------------------
+
+ -- Command-line option: `--team-profile-blue-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_FAST'
+ -- XML key: `team-profile-blue-fast'
+     Type: integer
+
+     Default value: 50 Min value: 5 Max value: 2000
+
+     Changes the speed of the blue team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.62 team-profile-blue-mobile
+--------------------------------
+
+ -- Command-line option: `--team-profile-blue-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_MOBILE'
+ -- XML key: `team-profile-blue-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the blue team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.63 team-profile-blue-vulnerable
+------------------------------------
+
+ -- Command-line option: `--team-profile-blue-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_VULNERABLE'
+ -- XML key: `team-profile-blue-vulnerable'
+     Type: integer
+
+     Default value: 45 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the blue team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.11.64 team-profile-blue-weapon-alternate-id
+---------------------------------------------
+
+ -- Command-line option:
+`--team-profile-blue-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-blue-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_CONTROL Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the blue team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.65 team-profile-blue-weapon-id
+-----------------------------------
+
+ -- Command-line option: `--team-profile-blue-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_WEAPON_ID'
+ -- XML key: `team-profile-blue-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_REWIND Min value: 0 Max value: 19
+
+     Id of the default weapon for the blue team, see the documentation
+     about weapons to know what these ids mean.
+
+4.11.66 team-profile-blue-weapon-mode
+-------------------------------------
+
+ -- Command-line option: `--team-profile-blue-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_BLUE_WEAPON_MODE'
+ -- XML key: `team-profile-blue-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for blue team. 0 means there's no weapon, 1 means one
+     weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.67 team-profile-cyan-aggressive
+------------------------------------
+
+ -- Command-line option: `--team-profile-cyan-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_AGGRESSIVE'
+ -- XML key: `team-profile-cyan-aggressive'
+     Type: integer
+
+     Default value: 44 Min value: 5 Max value: 2000
+
+     Defines how aggressive the cyan team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.68 team-profile-cyan-fast
+------------------------------
+
+ -- Command-line option: `--team-profile-cyan-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_FAST'
+ -- XML key: `team-profile-cyan-fast'
+     Type: integer
+
+     Default value: 40 Min value: 5 Max value: 2000
+
+     Changes the speed of the cyan team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.69 team-profile-cyan-mobile
+--------------------------------
+
+ -- Command-line option: `--team-profile-cyan-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_MOBILE'
+ -- XML key: `team-profile-cyan-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the cyan team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.70 team-profile-cyan-vulnerable
+------------------------------------
+
+ -- Command-line option: `--team-profile-cyan-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_VULNERABLE'
+ -- XML key: `team-profile-cyan-vulnerable'
+     Type: integer
+
+     Default value: 12 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the cyan team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.11.71 team-profile-cyan-weapon-alternate-id
+---------------------------------------------
+
+ -- Command-line option:
+`--team-profile-cyan-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-cyan-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_REVERSE Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the cyan team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.72 team-profile-cyan-weapon-id
+-----------------------------------
+
+ -- Command-line option: `--team-profile-cyan-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_WEAPON_ID'
+ -- XML key: `team-profile-cyan-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_TURBO Min value: 0 Max value: 19
+
+     Id of the default weapon for the cyan team, see the documentation
+     about weapons to know what these ids mean.
+
+4.11.73 team-profile-cyan-weapon-mode
+-------------------------------------
+
+ -- Command-line option: `--team-profile-cyan-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_CYAN_WEAPON_MODE'
+ -- XML key: `team-profile-cyan-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for cyan team. 0 means there's no weapon, 1 means one
+     weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.74 team-profile-green-aggressive
+-------------------------------------
+
+ -- Command-line option: `--team-profile-green-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_AGGRESSIVE'
+ -- XML key: `team-profile-green-aggressive'
+     Type: integer
+
+     Default value: 70 Min value: 5 Max value: 2000
+
+     Defines how aggressive the green team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.75 team-profile-green-fast
+-------------------------------
+
+ -- Command-line option: `--team-profile-green-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_FAST'
+ -- XML key: `team-profile-green-fast'
+     Type: integer
+
+     Default value: 70 Min value: 5 Max value: 2000
+
+     Changes the speed of the green team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.76 team-profile-green-mobile
+---------------------------------
+
+ -- Command-line option: `--team-profile-green-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_MOBILE'
+ -- XML key: `team-profile-green-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the green team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.77 team-profile-green-vulnerable
+-------------------------------------
+
+ -- Command-line option: `--team-profile-green-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_VULNERABLE'
+ -- XML key: `team-profile-green-vulnerable'
+     Type: integer
+
+     Default value: 32 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the green team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.11.78 team-profile-green-weapon-alternate-id
+----------------------------------------------
+
+ -- Command-line option:
+`--team-profile-green-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-green-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_MIX Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the green team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.79 team-profile-green-weapon-id
+------------------------------------
+
+ -- Command-line option: `--team-profile-green-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_WEAPON_ID'
+ -- XML key: `team-profile-green-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_CRAZY Min value: 0 Max value: 19
+
+     Id of the default weapon for the green team, see the documentation
+     about weapons to know what these ids mean.
+
+4.11.80 team-profile-green-weapon-mode
+--------------------------------------
+
+ -- Command-line option: `--team-profile-green-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_GREEN_WEAPON_MODE'
+ -- XML key: `team-profile-green-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for green team. 0 means there's no weapon, 1 means one
+     weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.81 team-profile-lightblue-aggressive
+-----------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_AGGRESSIVE'
+ -- XML key: `team-profile-lightblue-aggressive'
+     Type: integer
+
+     Default value: 200 Min value: 5 Max value: 2000
+
+     Defines how aggressive the lightblue team is. This is a
+     percentage, if set to 200 then team will attack twice as much as
+     any other team with the default value. Setting this to a high
+     value clearly advantages this team.
+
+4.11.82 team-profile-lightblue-fast
+-----------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_FAST'
+ -- XML key: `team-profile-lightblue-fast'
+     Type: integer
+
+     Default value: 20 Min value: 5 Max value: 2000
+
+     Changes the speed of the lightblue team. This is a percentage, if
+     set to 50, then team will move twice slower than other teams with
+     the default parameter.  Setting this high is very likely to
+     advantage the team.
+
+4.11.83 team-profile-lightblue-mobile
+-------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_MOBILE'
+ -- XML key: `team-profile-lightblue-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the lightblue team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.84 team-profile-lightblue-vulnerable
+-----------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_VULNERABLE'
+ -- XML key: `team-profile-lightblue-vulnerable'
+     Type: integer
+
+     Default value: 8 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the lightblue team is. This is a
+     percentage, if set to 200 then team will be attacked twice as much
+     as any other team with the default value. Setting this to a high
+     value clearly disadvantages this team.
+
+4.11.85 team-profile-lightblue-weapon-alternate-id
+--------------------------------------------------
+
+ -- Command-line option:
+`--team-profile-lightblue-weapon-alternate-id=<value>'
+ -- Environment variable:
+`LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-lightblue-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_KAMIKAZE Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the lightblue team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.86 team-profile-lightblue-weapon-id
+----------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_ID'
+ -- XML key: `team-profile-lightblue-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_TELEPORT Min value: 0 Max value: 19
+
+     Id of the default weapon for the lightblue team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.87 team-profile-lightblue-weapon-mode
+------------------------------------------
+
+ -- Command-line option: `--team-profile-lightblue-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_LIGHTBLUE_WEAPON_MODE'
+ -- XML key: `team-profile-lightblue-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for lightblue team. 0 means there's no weapon, 1 means
+     one weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.88 team-profile-magenta-aggressive
+---------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_AGGRESSIVE'
+ -- XML key: `team-profile-magenta-aggressive'
+     Type: integer
+
+     Default value: 192 Min value: 5 Max value: 2000
+
+     Defines how aggressive the magenta team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     advantages this team.
+
+4.11.89 team-profile-magenta-fast
+---------------------------------
+
+ -- Command-line option: `--team-profile-magenta-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_FAST'
+ -- XML key: `team-profile-magenta-fast'
+     Type: integer
+
+     Default value: 320 Min value: 5 Max value: 2000
+
+     Changes the speed of the magenta team. This is a percentage, if
+     set to 50, then team will move twice slower than other teams with
+     the default parameter.  Setting this high is very likely to
+     advantage the team.
+
+4.11.90 team-profile-magenta-mobile
+-----------------------------------
+
+ -- Command-line option: `--team-profile-magenta-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_MOBILE'
+ -- XML key: `team-profile-magenta-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the magenta team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.91 team-profile-magenta-vulnerable
+---------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_VULNERABLE'
+ -- XML key: `team-profile-magenta-vulnerable'
+     Type: integer
+
+     Default value: 1920 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the magenta team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.11.92 team-profile-magenta-weapon-alternate-id
+------------------------------------------------
+
+ -- Command-line option:
+`--team-profile-magenta-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-magenta-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_ATTRACT Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the magenta team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.93 team-profile-magenta-weapon-id
+--------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_WEAPON_ID'
+ -- XML key: `team-profile-magenta-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_FIX Min value: 0 Max value: 19
+
+     Id of the default weapon for the magenta team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.94 team-profile-magenta-weapon-mode
+----------------------------------------
+
+ -- Command-line option: `--team-profile-magenta-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_MAGENTA_WEAPON_MODE'
+ -- XML key: `team-profile-magenta-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for magenta team. 0 means there's no weapon, 1 means
+     one weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.95 team-profile-orange-aggressive
+--------------------------------------
+
+ -- Command-line option: `--team-profile-orange-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_AGGRESSIVE'
+ -- XML key: `team-profile-orange-aggressive'
+     Type: integer
+
+     Default value: 48 Min value: 5 Max value: 2000
+
+     Defines how aggressive the orange team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.96 team-profile-orange-fast
+--------------------------------
+
+ -- Command-line option: `--team-profile-orange-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_FAST'
+ -- XML key: `team-profile-orange-fast'
+     Type: integer
+
+     Default value: 160 Min value: 5 Max value: 2000
+
+     Changes the speed of the orange team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.97 team-profile-orange-mobile
+----------------------------------
+
+ -- Command-line option: `--team-profile-orange-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_MOBILE'
+ -- XML key: `team-profile-orange-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the orange team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.98 team-profile-orange-vulnerable
+--------------------------------------
+
+ -- Command-line option: `--team-profile-orange-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_VULNERABLE'
+ -- XML key: `team-profile-orange-vulnerable'
+     Type: integer
+
+     Default value: 144 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the orange team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.11.99 team-profile-orange-weapon-alternate-id
+-----------------------------------------------
+
+ -- Command-line option:
+`--team-profile-orange-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-orange-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_SHRINK Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the orange team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.100 team-profile-orange-weapon-id
+--------------------------------------
+
+ -- Command-line option: `--team-profile-orange-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_ID'
+ -- XML key: `team-profile-orange-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_BERZERK Min value: 0 Max value: 19
+
+     Id of the default weapon for the orange team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.101 team-profile-orange-weapon-mode
+----------------------------------------
+
+ -- Command-line option: `--team-profile-orange-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_ORANGE_WEAPON_MODE'
+ -- XML key: `team-profile-orange-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for orange team. 0 means there's no weapon, 1 means
+     one weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.102 team-profile-pink-aggressive
+-------------------------------------
+
+ -- Command-line option: `--team-profile-pink-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_AGGRESSIVE'
+ -- XML key: `team-profile-pink-aggressive'
+     Type: integer
+
+     Default value: 640 Min value: 5 Max value: 2000
+
+     Defines how aggressive the pink team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.103 team-profile-pink-fast
+-------------------------------
+
+ -- Command-line option: `--team-profile-pink-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_FAST'
+ -- XML key: `team-profile-pink-fast'
+     Type: integer
+
+     Default value: 80 Min value: 5 Max value: 2000
+
+     Changes the speed of the pink team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.104 team-profile-pink-mobile
+---------------------------------
+
+ -- Command-line option: `--team-profile-pink-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_MOBILE'
+ -- XML key: `team-profile-pink-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the pink team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.105 team-profile-pink-vulnerable
+-------------------------------------
+
+ -- Command-line option: `--team-profile-pink-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_VULNERABLE'
+ -- XML key: `team-profile-pink-vulnerable'
+     Type: integer
+
+     Default value: 640 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the pink team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.11.106 team-profile-pink-weapon-alternate-id
+----------------------------------------------
+
+ -- Command-line option:
+`--team-profile-pink-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-pink-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_PLAGUE Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the pink team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.107 team-profile-pink-weapon-id
+------------------------------------
+
+ -- Command-line option: `--team-profile-pink-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_WEAPON_ID'
+ -- XML key: `team-profile-pink-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_INVINCIBLE Min value: 0 Max value: 19
+
+     Id of the default weapon for the pink team, see the documentation
+     about weapons to know what these ids mean.
+
+4.11.108 team-profile-pink-weapon-mode
+--------------------------------------
+
+ -- Command-line option: `--team-profile-pink-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PINK_WEAPON_MODE'
+ -- XML key: `team-profile-pink-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for pink team. 0 means there's no weapon, 1 means one
+     weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.109 team-profile-purple-aggressive
+---------------------------------------
+
+ -- Command-line option: `--team-profile-purple-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_AGGRESSIVE'
+ -- XML key: `team-profile-purple-aggressive'
+     Type: integer
+
+     Default value: 32 Min value: 5 Max value: 2000
+
+     Defines how aggressive the purple team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.110 team-profile-purple-fast
+---------------------------------
+
+ -- Command-line option: `--team-profile-purple-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_FAST'
+ -- XML key: `team-profile-purple-fast'
+     Type: integer
+
+     Default value: 80 Min value: 5 Max value: 2000
+
+     Changes the speed of the purple team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.111 team-profile-purple-mobile
+-----------------------------------
+
+ -- Command-line option: `--team-profile-purple-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_MOBILE'
+ -- XML key: `team-profile-purple-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the purple team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.112 team-profile-purple-vulnerable
+---------------------------------------
+
+ -- Command-line option: `--team-profile-purple-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_VULNERABLE'
+ -- XML key: `team-profile-purple-vulnerable'
+     Type: integer
+
+     Default value: 16 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the purple team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.11.113 team-profile-purple-weapon-alternate-id
+------------------------------------------------
+
+ -- Command-line option:
+`--team-profile-purple-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-purple-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_DISAPPEAR Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the purple team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.114 team-profile-purple-weapon-id
+--------------------------------------
+
+ -- Command-line option: `--team-profile-purple-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_WEAPON_ID'
+ -- XML key: `team-profile-purple-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_ATOMIC Min value: 0 Max value: 19
+
+     Id of the default weapon for the purple team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.115 team-profile-purple-weapon-mode
+----------------------------------------
+
+ -- Command-line option: `--team-profile-purple-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_PURPLE_WEAPON_MODE'
+ -- XML key: `team-profile-purple-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for purple team. 0 means there's no weapon, 1 means
+     one weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.116 team-profile-red-aggressive
+------------------------------------
+
+ -- Command-line option: `--team-profile-red-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_AGGRESSIVE'
+ -- XML key: `team-profile-red-aggressive'
+     Type: integer
+
+     Default value: 144 Min value: 5 Max value: 2000
+
+     Defines how aggressive the red team is. This is a percentage, if
+     set to 200 then team will attack twice as much as any other team
+     with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.117 team-profile-red-fast
+------------------------------
+
+ -- Command-line option: `--team-profile-red-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_FAST'
+ -- XML key: `team-profile-red-fast'
+     Type: integer
+
+     Default value: 160 Min value: 5 Max value: 2000
+
+     Changes the speed of the red team. This is a percentage, if set to
+     50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.118 team-profile-red-mobile
+--------------------------------
+
+ -- Command-line option: `--team-profile-red-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_MOBILE'
+ -- XML key: `team-profile-red-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the red team. If set to a high value
+     team will appear more mobile and do more things, but it won't
+     change its cruising speed. It's not obvious to tell wether this is
+     an advantage or not, but it clearly changes the behavior.
+
+4.11.119 team-profile-red-vulnerable
+------------------------------------
+
+ -- Command-line option: `--team-profile-red-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_VULNERABLE'
+ -- XML key: `team-profile-red-vulnerable'
+     Type: integer
+
+     Default value: 192 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the red team is. This is a percentage, if
+     set to 200 then team will be attacked twice as much as any other
+     team with the default value. Setting this to a high value clearly
+     disadvantages this team.
+
+4.11.120 team-profile-red-weapon-alternate-id
+---------------------------------------------
+
+ -- Command-line option:
+`--team-profile-red-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-red-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_ESCAPE Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the red team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.121 team-profile-red-weapon-id
+-----------------------------------
+
+ -- Command-line option: `--team-profile-red-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_WEAPON_ID'
+ -- XML key: `team-profile-red-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_STEAL Min value: 0 Max value: 19
+
+     Id of the default weapon for the red team, see the documentation
+     about weapons to know what these ids mean.
+
+4.11.122 team-profile-red-weapon-mode
+-------------------------------------
+
+ -- Command-line option: `--team-profile-red-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_RED_WEAPON_MODE'
+ -- XML key: `team-profile-red-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for red team. 0 means there's no weapon, 1 means one
+     weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.123 team-profile-yellow-aggressive
+---------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-aggressive=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_AGGRESSIVE'
+ -- XML key: `team-profile-yellow-aggressive'
+     Type: integer
+
+     Default value: 193 Min value: 5 Max value: 2000
+
+     Defines how aggressive the yellow team is. This is a percentage,
+     if set to 200 then team will attack twice as much as any other
+     team with the default value.  Setting this to a high value clearly
+     advantages this team.
+
+4.11.124 team-profile-yellow-fast
+---------------------------------
+
+ -- Command-line option: `--team-profile-yellow-fast=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_FAST'
+ -- XML key: `team-profile-yellow-fast'
+     Type: integer
+
+     Default value: 70 Min value: 5 Max value: 2000
+
+     Changes the speed of the yellow team. This is a percentage, if set
+     to 50, then team will move twice slower than other teams with the
+     default parameter.  Setting this high is very likely to advantage
+     the team.
+
+4.11.125 team-profile-yellow-mobile
+-----------------------------------
+
+ -- Command-line option: `--team-profile-yellow-mobile=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_MOBILE'
+ -- XML key: `team-profile-yellow-mobile'
+     Type: integer
+
+     Default value: 0 Min value: -3 Max value: 3
+
+     Increases (or decreases if negative) the number of
+     move/attack/defense tries for the yellow team. If set to a high
+     value team will appear more mobile and do more things, but it
+     won't change its cruising speed. It's not obvious to tell wether
+     this is an advantage or not, but it clearly changes the behavior.
+
+4.11.126 team-profile-yellow-vulnerable
+---------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-vulnerable=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_VULNERABLE'
+ -- XML key: `team-profile-yellow-vulnerable'
+     Type: integer
+
+     Default value: 84 Min value: 5 Max value: 2000
+
+     Defines how vulnerable the yellow team is. This is a percentage,
+     if set to 200 then team will be attacked twice as much as any
+     other team with the default value. Setting this to a high value
+     clearly disadvantages this team.
+
+4.11.127 team-profile-yellow-weapon-alternate-id
+------------------------------------------------
+
+ -- Command-line option:
+`--team-profile-yellow-weapon-alternate-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_WEAPON_ALTERNATE_ID'
+ -- XML key: `team-profile-yellow-weapon-alternate-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_PERMUTATION Min value: 0 Max value: 19
+
+     Id of the default alternate weapon for the yellow team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.128 team-profile-yellow-weapon-id
+--------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-weapon-id=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_WEAPON_ID'
+ -- XML key: `team-profile-yellow-weapon-id'
+     Type: integer
+
+     Default value: LW6MAP_WEAPON_SCATTER Min value: 0 Max value: 19
+
+     Id of the default weapon for the yellow team, see the
+     documentation about weapons to know what these ids mean.
+
+4.11.129 team-profile-yellow-weapon-mode
+----------------------------------------
+
+ -- Command-line option: `--team-profile-yellow-weapon-mode=<value>'
+ -- Environment variable: `LW6_TEAM_PROFILE_YELLOW_WEAPON_MODE'
+ -- XML key: `team-profile-yellow-weapon-mode'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 2
+
+     Weapon mode for yellow team. 0 means there's no weapon, 1 means
+     one weapon per team, defined by the weapon-id parameter, 2 means
+     random weapon.
+
+4.11.130 total-armies-size
+--------------------------
+
+ -- Command-line option: `--total-armies-size=<value>'
+ -- Environment variable: `LW6_TOTAL_ARMIES_SIZE'
+ -- XML key: `total-armies-size'
+     Type: integer
+
+     Default value: 60 Min value: 1 Max value: 95
+
+     Defines the proportion of the whole available space, which can be
+     occupied by all the armies present together. Setting this low,
+     whenever a new team arrives on the map, fighters might be stolen
+     to other teams, otherwise the ame would get too crowded. This
+     allows you to play with reasonnably enough fighters with 2
+     players, while still allowing interesting gameplay with many
+     players. This is a percentage, but will be multiplied by itself to
+     get the actual surface.  That is, 50 means 50%*50%, that is, a
+     square of 1/2 the size of a square map, so it represents 25% (1/4)
+     of the total surface.
+
+4.11.131 total-time
+-------------------
+
+ -- Command-line option: `--total-time=<value>'
+ -- Environment variable: `LW6_TOTAL_TIME'
+ -- XML key: `total-time'
+     Type: integer
+
+     Default value: 900 Min value: 10 Max value: 864000
+
+     Defines the maximum time of the game, in seconds. Note that in
+     some cases, the game can end much earlier if some player has
+     managed to win before the bell rings. Also, technically, this
+     value will be translated into rounds and moves, and the game
+     engine will wait until enough rounds and moves have been played.
+     So if the computer is too slow and the desired speed is not
+     reached, then the game will last for a longer time.
+
+4.11.132 use-team-profiles
+--------------------------
+
+ -- Command-line option: `--use-team-profiles=<value>'
+ -- Environment variable: `LW6_USE_TEAM_PROFILES'
+ -- XML key: `use-team-profiles'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 1
+
+     If set, then all the team-profile-... values will be taken in
+     account. This enables a mode in which teams behave differently
+     according to their colors. If you disable this, then all teams
+     will behave the same, which is more fair, but might not be as fun.
+
+4.11.133 vertical-move
+----------------------
+
+ -- Command-line option: `--vertical-move=<value>'
+ -- Environment variable: `LW6_VERTICAL_MOVE'
+ -- XML key: `vertical-move'
+     Type: integer
+
+     Default value: 1 Min value: 0 Max value: 7
+
+     Defines when to process a vertical move (along the Z 'depth'
+     axis). If set to 0, fighters never spontaneously move along this
+     axis. If set to 1, it will be tried just after the first move
+     failed. If set to 2, it will be tried just after the second move
+     failed. And so on.
+
+4.11.134 weapon-charge-delay
+----------------------------
+
+ -- Command-line option: `--weapon-charge-delay=<value>'
+ -- Environment variable: `LW6_WEAPON_CHARGE_DELAY'
+ -- XML key: `weapon-charge-delay'
+     Type: integer
+
+     Default value: 30 Min value: 1 Max value: 600
+
+     How long it will take for weapons to charge and be usable, by
+     default. Unit is seconds.
+
+4.11.135 weapon-charge-max
+--------------------------
+
+ -- Command-line option: `--weapon-charge-max=<value>'
+ -- Environment variable: `LW6_WEAPON_CHARGE_MAX'
+ -- XML key: `weapon-charge-max'
+     Type: integer
+
+     Default value: 200 Min value: 100 Max value: 1000
+
+     Maximum (percentage) of charge intensity that one have. For
+     instance, if this is 400, then if you wait four times more than
+     required before firing, then you weapon will have four times its
+     default power, but if you wait five times more it will still be
+     four times more powerfull, it's just the limit after which it's
+     useless to charge.
+
+4.11.136 weapon-duration
+------------------------
+
+ -- Command-line option: `--weapon-duration=<value>'
+ -- Environment variable: `LW6_WEAPON_DURATION'
+ -- XML key: `weapon-duration'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 60
+
+     How long all weapons (for which duration makes sense) will last.
+     Unit is seconds.
+
+4.11.137 weapon-tune-berzerk-power
+----------------------------------
+
+ -- Command-line option: `--weapon-tune-berzerk-power=<value>'
+ -- Environment variable: `LW6_WEAPON_TUNE_BERZERK_POWER'
+ -- XML key: `weapon-tune-berzerk-power'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 100
+
+     Use to specifiy how strong berzerk mode is, if set to 3, then
+     attacks will be 3 times as efficient in berzerk mode.
+
+4.11.138 weapon-tune-turbo-power
+--------------------------------
+
+ -- Command-line option: `--weapon-tune-turbo-power=<value>'
+ -- Environment variable: `LW6_WEAPON_TUNE_TURBO_POWER'
+ -- XML key: `weapon-tune-turbo-power'
+     Type: integer
+
+     Default value: 3 Min value: 1 Max value: 10
+
+     Defines how fast fighters move in turbo mode, if set to 3, then
+     fighters move and act 3 times as fast.
+
+4.11.139 x-polarity
+-------------------
+
+ -- Command-line option: `--x-polarity=<value>'
+ -- Environment variable: `LW6_X_POLARITY'
+ -- XML key: `x-polarity'
+     Type: integer
+
+     Default value: 0 Min value: -1 Max value: 1
+
+     Defines how the map will be wrapped on the X (horizontal) axis. If
+     set to 0, nothing is wrapped. If set to 1, the right and left
+     borders are connected, any fighter can disappear on the right
+     border and reappear on the left border, for instance. If set to
+     -1, it will be wrapped but also inversed, that is on a 320x240
+     map, a fighter disappearing on the left border at position (0,60)
+     will reapper on the right border at position (319,180). You can
+     combine it with 'y-polarity'.
+
+4.11.140 y-polarity
+-------------------
+
+ -- Command-line option: `--y-polarity=<value>'
+ -- Environment variable: `LW6_Y_POLARITY'
+ -- XML key: `y-polarity'
+     Type: integer
+
+     Default value: 0 Min value: -1 Max value: 1
+
+     Defines how the map will be wrapped on the Y (vertical) axis. If
+     set to 0, nothing is wrapped. If set to 1, the top and bottom
+     borders are connected, any fighter can disappear on the top border
+     and reappear on the bottom border, for instance. If set to -1, it
+     will be wrapped but also inversed, that is on a 320x240 map, a
+     fighter disappearing on the bottom border at position (40,239)
+     will reapper on the top border at position (280,0). You can
+     combine it with 'x-polarity'.
+
+4.11.141 z-polarity
+-------------------
+
+ -- Command-line option: `--z-polarity=<value>'
+ -- Environment variable: `LW6_Z_POLARITY'
+ -- XML key: `z-polarity'
+     Type: integer
+
+     Default value: 0 Min value: 0 Max value: 1
+
+     Defines how the map will be wrapped on the Z (deep) axis. If set
+     to 0, nothing is wrapped. If set to 1, when using a 4 layer map,
+     for instance, fighters on layer 1 will be able to go directly to
+     layer 4 even if layers 2 and 3 are filled with walls. A value of
+     -1 is forbidden, this is not like x and y axis, it does not really
+     make sense. Consider this an advanced setting which might save a
+     layer in some tricky cases, the default value of 0 should fit in
+     most cases.
+
+
 File: liquidwar6.info,  Node: Map hints.xml,  Next: Map style.xml,  Prev: Map rules.xml,  Up: Reference
 
 4.12 Map hints.xml
@@ -7173,1870 +9307,4 @@ results on
 
 5.21.2 API
 ----------
-
-
-File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: C API
-
-5.22 libhlp
-===========
-
-5.22.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/hlp/index.html'.
-
-5.22.2 API
-----------
-
- -- Function: int lw6hlp_is_documented (char * KEYWORD)
-     KEYWORD:  the keyword we want to check out
-
-     Checks wether a given keyword is documented or not.
-
-     *Return value:*  1 if documented, 0 if not.
-
- -- Function: char * lw6hlp_about (lw6hlp_type_t * TYPE, char **
-          DEFAULT_VALUE, int * MIN_VALUE, int * MAX_VALUE, char *
-          KEYWORD)
-     TYPE:  the type of the data associated to the keyword, will be
-     written
-
-     DEFAULT_VALUE:  the default value for the keyword, will be written
-
-     MIN_VALUE:  the min value for the keyword, will be written
-
-     MAX_VALUE:  the max value for the keyword, will be written
-
-     KEYWORD:  the keyword we want help about
-
-     Returns the documentation string associated to a keyword. The
-     keyword might be a command-line option, a Guile function, an XML
-     file entry.  Raises a warning if the keyword is undocumented, but
-     never returns NULL, you can use the returned value without
-     checking it. String is localized if a translation is available.
-     It's safe to call this function with type or other parameters
-     being NULL.
-
-     *Return value:*  a help string, never NULL, must not be freed.
-     Additionnally, type will be updated.
-
- -- Function: lw6hlp_type_t lw6hlp_get_type (char * KEYWORD)
-     KEYWORD:  the keyword we want the type of
-
-     Returns the type of a keyword. Calls lw6hlp_about internally.
-
-     *Return value:*  the type, might be LW6HLP_TYPE_VOID.
-
- -- Function: char * lw6hlp_get_default_value (char * KEYWORD)
-     KEYWORD:  the keyword we want the default for
-
-     Returns the default value for a keyword. Note that it can be NULL!
-     The returned value is always a string, it's suitable to store in
-     the config file, it's the value a user would pass on a command
-     line, the one he wants documented.
-
-     *Return value:*  a pointer, which can be NULL, must not be freed.
-
- -- Function: int lw6hlp_get_min_value (char * KEYWORD)
-     KEYWORD:  the keyword we want the min for
-
-     Returns the min value for a keyword. Wether this is relevant for a
-     given keyword does not affect the fact that you can call this
-     function.  A min and max of zero means min and max make no sense.
-
-     *Return value:*  the value (integer)
-
- -- Function: int lw6hlp_get_max_value (char * KEYWORD)
-     KEYWORD:  the keyword we want the max for
-
-     Returns the max value for a keyword. Wether this is relevant for a
-     given keyword does not affect the fact that you can call this
-     function.  A min and max of zero means min and max make no sense.
-
-     *Return value:*  the value (integer)
-
- -- Function: char * lw6hlp_get_credits (int ID)
-     ID:  the id of the credits line to return
-
-     Returns a "credit line", that is a short sentence, about 30 to 50
-     chars, saying who developped the game, created graphics, giving
-     important URLs, and so on. One can pass an arbitraty high `id', no
-     risk.
-
-     *Return value:*  the string, must be freed.
-
- -- Function: int lw6hlp_match (char * KEYWORD1, char * KEYWORD2)
-     KEYWORD1:  the 1st keyword
-
-     KEYWORD2:  the 2nd keyword
-
-     Checks wether a keyword matches another. Not only a string
-     comparison, will also try and guess if the error is only about
-     dash "-" replaced by underscode "_", for instance.
-
-     *Return value:*  1 if matches, 0 if different.
-
- -- Function: lw6sys_list_t * lw6hlp_list ()
-     Returns a list of all available keywords.
-
-     *Return value:*  a list containing all the keywords. Strings are
-     not dynamically allocated, you can't modify them.
-
- -- Function: void lw6hlp_print_keyword (lw6sys_list_t ** LIST, FILE *
-          F)
-     LIST:  a pointer to a list of keywords
-
-     F:  the file to print the content to
-
-     Prints all the keywords from the list. One keyword per line.
-
-     *Return value:*  none.
-
- -- Function: void lw6hlp_print_content (lw6sys_list_t ** LIST, FILE *
-          F)
-     LIST:  a pointer to a list of keywords
-
-     F:  the file to print the content to
-
-     Prints all the keywords from the list, with the associated keyword
-     help, to the given file. Output is formatted to fit on the
-     standard terminal/console.
-
-     *Return value:*  none.
-
- -- Function: void lw6hlp_print_about (char * KEYWORD, FILE * F)
-     KEYWORD:  the keyword to print help about
-
-     F:  the file to print the content to
-
-     Displays the help about a keyword, to a file, directly.  It's
-     formatted for the purpose of the -about=<value> option.
-
-     *Return value:*  none
-
- -- Function: int lw6hlp_reference_init ()
-     Initializes the help reference, this must be called before any
-     call to lw6hlp_about or such help related functions.
-
-     *Return value:*  1 on success, 0 if failed
-
- -- Function: void lw6hlp_reference_quit ()
-     un-initializes the help reference, this must be called at the end
-     of the program.
-
-     *Return value:*  1 on success, 0 if failed
-
- -- Function: int lw6hlp_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `hlp' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libimg,  Next: libker,  Prev: libhlp,  Up: C API
-
-5.23 libimg
-===========
-
-5.23.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/img/index.html'.
-
-5.23.2 API
-----------
-
- -- Function: int lw6img_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `img' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libker,  Next: libldr,  Prev: libimg,  Up: C API
-
-5.24 libker
-===========
-
-5.24.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/ker/index.html'.
-
-5.24.2 API
-----------
-
- -- Function: char * lw6ker_capture_str (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  game state to represent
-
-     Gives a string representation, an ASCII capture of the game.  This
-     representation is suitable for debugging, typically print it to a
-     VT100 console.
-
-     *Return value:*  dynamically allocated string.
-
- -- Function: void lw6ker_cursor_reset (lw6ker_cursor_t * CURSOR)
-     CURSOR:  the cursor to reset
-
-     Sets a cursor to defaults (disabled). This function will not touch
-     the node_id and cursor_id fields, so you can call it on an already
-     used cursor, it will stay usable.
-
-     *Return value:*  none
-
- -- Function: lw6ker_game_state_t * lw6ker_game_state_new
-          (lw6ker_game_struct_t * GAME_STRUCT, lw6sys_progress_t *
-          PROGRESS)
-     GAME_STRUCT:  game_struct use to construct the object
-
-     PROGRESS:  progress indicator
-
-     Creates a game state from a game struct. The game struct must be
-     kept (never freed) while game_state is in use.
-
-     *Return value:*  newly created object.
-
- -- Function: void lw6ker_game_state_free (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the object to free
-
-     Frees a game_state object, releases all required objects. At this
-     stage the map_struct must still be available.
-
-     *Return value:*  none
-
- -- Function: void lw6ker_game_state_point_to (lw6ker_game_state_t *
-          GAME_STATE, lw6ker_game_struct_t * GAME_STRUCT)
-     GAME_STATE:  the game_state to modify
-
-     GAME_STRUCT:  the game_struct to point to
-
-     This can be used when one makes a copy (dup) of a game struct and
-     for some reason want the game_state to point on this new copy. Of
-     course you should make the game_state point to a game_struct that
-     is identical to the one that was used to construct the object in
-     the first place. Use at your own risk.
-
-     *Return value:*  none
-
- -- Function: int lw6ker_game_state_memory_footprint
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the approximative amount of memory taken by the object.
-
-     *Return value:*  number of bytes (approximation)
-
- -- Function: char * lw6ker_game_state_repr (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Gives a readable representation of the object.
-
-     *Return value:*  newly allocated string, must be freed
-
- -- Function: int lw6ker_game_state_can_sync (lw6ker_game_state_t *
-          DST, lw6ker_game_state_t * SRC)
-     DST:  the destination game_state
-
-     SRC:  the source game_state
-
-     Tells wether src and dst can be synced. This is not a fool proof
-     function but in most cases it will raise the error, use it to
-     avoid blunders. It just compares `dst' and `src' and tries to
-     guess if they correspond to the same logical objects.
-
-     *Return value:*  1 if they are syncable, 0 if not.
-
- -- Function: int lw6ker_game_state_sync (lw6ker_game_state_t * DST,
-          lw6ker_game_state_t * SRC)
-     DST:  the destination game_state
-
-     SRC:  the source game_state
-
-     Fundamental function, used to carbon copy a game state to another,
-     this is intensively used to keep too tracks of the game state, one
-     most-up-to-date but probably wrong, the one we use to display on
-     the screen, and one slightly outdated (or very outdated if network
-     is slow) but that we're sure of, something 100% bullet proof we can
-     rely on.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: lw6ker_game_state_t * lw6ker_game_state_dup
-          (lw6ker_game_state_t * GAME_STATE, lw6sys_progress_t *
-          PROGRESS)
-     GAME_STATE:  the game_state to copy
-
-     PROGRESS:  progress indicator
-
-     Dups (copy) a game_state object. The newly created object points to
-     the same game_struct but is an independant copy, you can play a
-     whole different game on it. In practice this is often used to
-     create the game_state objects for anticipation in network games.
-
-     *Return value:*  newly created object
-
- -- Function: u_int32_t lw6ker_game_state_checksum (lw6ker_game_state_t
-          * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Calculates the checksum of a game_state, this can be very usefull
-     to make sure two states are identicall (prevent network errors
-     and/or cheating).
-
-     *Return value:*  32-bit checksum
-
- -- Function: void lw6ker_game_state_get_shape (lw6ker_game_state_t *
-          GAME_STATE, lw6sys_whd_t * SHAPE)
-     GAME_STATE:  the game_state to query
-
-     SHAPE:  the shape (out param)
-
-     Retrieves the shape (w*h*d)of the game_state.
-
-     *Return value:*  none.
-
- -- Function: int lw6ker_game_state_get_w (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Retrieves the width (shape.w) of the game_state.
-
-     *Return value:*  the width.
-
- -- Function: int lw6ker_game_state_get_h (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Retrieves the height (shape.h) of the game_state.
-
-     *Return value:*  the height.
-
- -- Function: int lw6ker_game_state_get_d (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Retrieves the depth (shape.d, AKA number of layers) of the
-     game_state.
-
-     *Return value:*  the depth.
-
- -- Function: int lw6ker_game_state_register_node (lw6ker_game_state_t
-          * GAME_STATE, u_int64_t NODE_ID)
-     GAME_STATE:  the game_state to act on
-
-     NODE_ID:  the id of the node to register
-
-     Registers a node in the game, this must be done, else no action
-     will be allowed (such as adding a cursor or moving it). There's a
-     limited number of nodes allowed, and ids must be unique.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ker_game_state_unregister_node
-          (lw6ker_game_state_t * GAME_STATE, u_int64_t NODE_ID)
-     GAME_STATE:  the game_state to act on
-
-     NODE_ID:  the id of the node to register
-
-     Unregisters a node in the game, this must be done when a node
-     leaves the game, it will free ressources and allow others to
-     connect.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ker_game_state_node_exists (lw6ker_game_state_t *
-          GAME_STATE, u_int64_t NODE_ID)
-     GAME_STATE:  the game_state to query
-
-     NODE_ID:  the node to test
-
-     Tells wether a node is present in a game.
-
-     *Return value:*  1 if node is in game, 0 if not
-
- -- Function: int lw6ker_game_state_get_node_info (lw6ker_game_state_t
-          * GAME_STATE, u_int16_t NODE_ID, u_int32_t *
-          LAST_COMMAND_ROUND)
-     GAME_STATE:  game_state to query
-
-     NODE_ID:  the node to get info about
-
-     LAST_COMMAND_ROUND:  the last round for which a command was issued
-     (out parameter)
-
-     Queries information about a given node, mostly, what was the last
-     round we got a command.
-
-     *Return value:*  1 on success, 0 on error.
-
- -- Function: int lw6ker_game_state_add_cursor (lw6ker_game_state_t *
-          GAME_STATE, u_int64_t NODE_ID, u_int16_t CURSOR_ID, int
-          TEAM_COLOR)
-     GAME_STATE:  the game_state to act upon
-
-     NODE_ID:  the node issuing the command
-
-     CURSOR_ID:  the id of the cursor to add
-
-     TEAM_COLOR:  the color we wish
-
-     Adds a cursor in a game. Note that if there's already a cursor with
-     that id, it will fail, and the color is only the color we wish, we
-     might indeed be attributed another color on a successfull call.
-
-     *Return value:*  1 on success, 0 on error.
-
- -- Function: int lw6ker_game_state_remove_cursor (lw6ker_game_state_t
-          * GAME_STATE, u_int64_t NODE_ID, u_int16_t CURSOR_ID)
-     GAME_STATE:  the game_state to act upon
-
-     NODE_ID:  the node issuing the command
-
-     CURSOR_ID:  the id of the cursor to remove
-
-     Removes a cursor from the game, corresponding teams will be removed
-     if needed.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ker_game_state_cursor_exists (lw6ker_game_state_t
-          * GAME_STATE, u_int16_t CURSOR_ID)
-     GAME_STATE:  the game_state to query
-
-     CURSOR_ID:  the cursor to test
-
-     Tells wether a cursor is present in the game.
-
-     *Return value:*  1 if cursor exists, 0 if not.
-
- -- Function: int lw6ker_game_state_get_cursor (lw6ker_game_state_t *
-          GAME_STATE, lw6ker_cursor_t * CURSOR, u_int16_t CURSOR_ID)
-     GAME_STATE:  the game_state to query
-
-     CURSOR:  the cursor data (out param)
-
-     CURSOR_ID:  the cursor to query
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6ker_game_state_get_cursor_by_index
-          (lw6ker_game_state_t * GAME_STATE, lw6ker_cursor_t * CURSOR,
-          int I)
-     GAME_STATE:  the game state to query
-
-     CURSOR:  the cursor (out param)
-
-     I:  the index
-
-     Gets the cursor information, using its index. This is usefull to
-     walk the whole cursor without knowing their ids.
-
-     *Return value:*  none.
-
- -- Function: int lw6ker_game_state_set_cursor (lw6ker_game_state_t *
-          GAME_STATE, lw6ker_cursor_t * CURSOR)
-     GAME_STATE:  the game_state to act upon
-
-     CURSOR:  the cursor
-
-     Sets a cursor, that is, changes its position, this is pretty much
-     anything we can do about a cursor except adding or removing it,
-     just because of Liquid War very simple rules. The passed pointer
-     may be freed after the call, only the `cursor_id', `node_id', `x',
-     `y' and `fire' fields are used, others are ignored. More
-     precisely, the `enabled' will be ignored, it's not a valid way to
-     add/remove teams.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6ker_game_state_team_exists (lw6ker_game_state_t *
-          GAME_STATE, int TEAM_COLOR)
-     GAME_STATE:  the game_state to query
-
-     TEAM_COLOR:  the team color to test
-
-     Tells wether a team color is present in the game. Note that this is
-     different from cursor ids.
-
-     *Return value:*  1 if team exists, 0 if not.
-
- -- Function: int lw6ker_game_state_get_team_info (lw6ker_game_state_t
-          * GAME_STATE, int TEAM_COLOR, int32_t * NB_CURSORS, int32_t *
-          NB_FIGHTERS)
-     GAME_STATE:  the game_state to query
-
-     TEAM_COLOR:  the color to get informations about
-
-     NB_CURSORS:  number of cursors with this color (out param)
-
-     NB_FIGHTERS:  number of fighters with this color (out param)
-
-     Gets informations about a given color. Indeed, a color can have
-     several cursors, and knowing how many fighters there are with a
-     given color is probably the most important things about a color.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ker_game_state_get_nb_teams (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Tells how many teams there are in a game. This is different from
-     the cursors number, there can be more cursors than teams, because
-     a team can have several cursors.
-
-     *Return value:*  the number of teams.
-
- -- Function: void lw6ker_game_state_do_spread (lw6ker_game_state_t *
-          GAME_STATE, u_int32_t TEAM_MASK)
-     GAME_STATE:  the game_state to act upon
-
-     TEAM_MASK:  a binary mask of which gradients (teams) must be
-     spreaded
-
-     Spreads the gradient, that is, calculates the potential of each
-     point on the map, ie the distance to the closest cursor. The
-     binary mask allows gradient to be spread for only some teams, this
-     is usefull in a multithreaded context, as gradients can be
-     calculated separately.
-
-     *Return value:*  none
-
- -- Function: void lw6ker_game_state_do_move (lw6ker_game_state_t *
-          GAME_STATE, u_int32_t TEAM_MASK)
-     GAME_STATE:  the game_state to act upon
-
-     TEAM_MASK:  a binary mask of which teams must be moved
-
-     Moves the fighters, note that you must calculate the gradient from
-     time to time else they go to the wrong places. The `team_mask'
-     allows the moving of only some given teams, but moving (for
-     instance) even teams then odd teams isn't the same as moving odd
-     teams then even teams.  Whereas as far as gradient calculation is
-     concerned, this could have been true, you could have multithreaded
-     that.
-
-     *Return value:*  none.
-
- -- Function: void lw6ker_game_state_finish_round (lw6ker_game_state_t
-          * GAME_STATE)
-     GAME_STATE:  the game_state to act upon
-
-     Finishes a round, that is, vaccums various stuff, checks if some
-     team has lost, and so on. This is complementary to the spread and
-     move steps, it should be called at each round.
-
-     *Return value:*  none.
-
- -- Function: void lw6ker_game_state_do_round (lw6ker_game_state_t *
-          GAME_STATE)
-     game_state: the game_state to act upon
-
-     This is a fundamental function, it's called at each round, it
-     fires all the complex calculations in the game, the real core
-     algorithm. Every time this function is called, the round is "over"
-     and the game state is ready for the next... round. It's equivalent
-     to calling the spread, move and finish functions.
-
-     *Return value:*  none.
-
- -- Function: u_int32_t lw6ker_game_state_get_moves
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the number of moves done on this game.
-
-     *Return value:*  number of moves.
-
- -- Function: u_int32_t lw6ker_game_state_get_spreads
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the number of spreads done on this game.
-
-     *Return value:*  number of spreads.
-
- -- Function: u_int32_t lw6ker_game_state_get_rounds
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the number of rounds done on this game.
-
-     *Return value:*  number of rounds.
-
- -- Function: u_int32_t lw6ker_game_state_get_total_rounds
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the number of playable rounds in the game, that is the
-     number of rounds to be played if game goes up to the time limit.
-     This is a fixed number, if game slows down then time is stretched,
-     but the the exact maximum number of rounds is known at game start,
-     and it is the number returned by this function.
-
-     *Return value:*  number of rounds in the game
-
- -- Function: int lw6ker_game_state_is_over (lw6ker_game_state_t *
-          GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Tells wether the game is over or not. The answer depends on time
-     limit, game rules, and of course what happened on the battlefield.
-
-     *Return value:*  1 if over, 0 if not.
-
- -- Function: int lw6ker_game_state_did_cursor_win (lw6ker_game_state_t
-          * GAME_STATE, u_int16_t CURSOR_ID)
-     GAME_STATE:  game_state to query
-
-     CURSOR_ID:  the cursor to test
-
-     Tells wether a cursor was the winner after a game is over.
-
-     *Return value:*  1 if cursor is in winning team, 0 if not.
-
- -- Function: int lw6ker_game_state_get_winner (lw6ker_game_state_t *
-          GAME_STATE, int EXCLUDED_TEAM)
-     GAME_STATE:  the game_state to query
-
-     EXCLUDED_TEAM:  a team to exclude
-
-     Returns the winner, if you set excluded_team to something else
-     than a valid team number (for instance -1, but 0 is a valid team)
-     then this team will be excluded from search. This is usefull if
-     you want to find out who's the best positionned player while
-     excluding yourself, for instance if you're a bot.
-
-     *Return value:*  the winner team number, note that it can be
-     invalid (-1) if there's no winner (for example, there are no teams
-     on the map).
-
- -- Function: int lw6ker_game_state_get_looser (lw6ker_game_state_t *
-          GAME_STATE, int EXCLUDED_TEAM)
-     GAME_STATE:  the game_state to query
-
-     EXCLUDED_TEAM:  a team to exclude
-
-     Returns the looser, if you set excluded_team to something else
-     than a valid team number (for instance -1, but 0 is a valid team)
-     then this team will be excluded from search. This is usefull if
-     you want to find out who's the worst positionned player while
-     excluding yourself, for instance if you're a bot.
-
-     *Return value:*  the looser team number, note that it can be
-     invalid (-1) if there's no looser (for example, there are no teams
-     on the map).
-
- -- Function: int32_t lw6ker_game_state_get_nb_active_fighters
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Gets the number of active fighters, this is relatively constant
-     within the game, it does not change when someone looses, but it
-     can vary when a new team arrives or disappears.
-
-     *Return value:*  number of fighters.
-
- -- Function: int32_t lw6ker_game_state_get_time_elapsed
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the time elapsed, this is not the real time you'd time
-     with an atomic clock, rather the time that would have elapsed if
-     game had been run at its nominal speed. There can be a difference
-     if your computer is too slow, among other things.
-
-     *Return value:*  time elapsed, in seconds.
-
- -- Function: int32_t lw6ker_game_state_get_time_left
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  the game_state to query
-
-     Returns the time left, this is not the real time you'd time with
-     an atomic clock, rather the time that would theorically be left is
-     game was to be run at its nominal speed. There can be a difference
-     if your computer is too slow, among other things.  You shouldn't
-     rely on this to know wether a game is over or not, there's another
-     dedicated function for that.
-
-     *Return value:*  time left, in seconds.
-
- -- Function: int32_t lw6ker_game_state_get_global_history
-          (lw6ker_game_state_t * GAME_STATE, int I, int TEAM_ID)
-     GAME_STATE:  the game_state to query
-
-     I:  the index of the history point
-
-     TEAM_ID:  the team to query
-
-     Returns the number of fighters at some point in the past (the
-     lower i, the oldest). The history scrolls automatically and erases
-     itself at some point, it's of constant length. This is the global,
-     long term history, reflects the whole game and could be used for
-     an end-game score screen.
-
-     *Return value:*  number of fighters at that time.
-
- -- Function: int32_t lw6ker_game_state_get_latest_history
-          (lw6ker_game_state_t * GAME_STATE, int I, int TEAM_ID)
-     GAME_STATE:  the game_state to query
-
-     I:  the index of the history point
-
-     TEAM_ID:  the team to query
-
-     Returns the number of fighters at some point in the past (the
-     lower i, the oldest). The history scrolls automatically and erases
-     itself at some point, it's of constant length. This is the latest,
-     short term history, reflects the recent game evolutions and could
-     be used to display an in-game monitor.
-
-     *Return value:*  number of fighters at that time.
-
- -- Function: int32_t lw6ker_game_state_get_global_history_max
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  game_state to query
-
-     Returns the maximum value, that is, the maximum number of
-     fighters, all teams combined, for this history. This can be used
-     to scale charts.  This function for the global long term history.
-
-     *Return value:*  max number of fighters.
-
- -- Function: int32_t lw6ker_game_state_get_latest_history_max
-          (lw6ker_game_state_t * GAME_STATE)
-     GAME_STATE:  game_state to query
-
-     Returns the maximum value, that is, the maximum number of
-     fighters, all teams combined, for this history. This can be used
-     to scale charts.  This function for the latest short term history.
-
-     *Return value:*  max number of fighters.
-
- -- Function: int32_t lw6ker_game_state_get_fighter_id
-          (lw6ker_game_state_t * GAME_STATE, int32_t X, int32_t Y,
-          int32_t Z)
-     GAME_STATE:  game_state to query
-
-     X:  x position
-
-     Y:  y position
-
-     Z:  z position
-
-     Gets the id of a fighter in a given position. Previous versions of
-     the game used to have this declared inline static for speed, but
-     the price to pay in terms of maintainability was too high: too
-     much stuff from the ker module had to be kept public. This
-     functions is very likely to be called often when one wants to know
-     what's happening on the battlefield, to draw it, for instance. If
-     there's no fighter, the id is negative, any id equal or greater
-     than 0 (returned by this function) is valid.
-
-     *Return value:*  the id of the fighter at that position.
-
- -- Function: lw6ker_fighter_t * lw6ker_game_state_get_fighter_by_id
-          (lw6ker_game_state_t * GAME_STATE, int32_t FIGHTER_ID)
-     GAME_STATE:  game_state to query
-
-     FIGHTER_ID:  the id of the fighter
-
-     Gets a fighter by its id. Internally, all fighters are stored in
-     an array so it could be "safe" to get fighter with id 0 then walk
-     the array.  Previous versions of the game used to have this public
-     (the array), it has been hidden since.
-
-     *Return value:*  pointer to the fighter with the given id.
-
- -- Function: lw6ker_fighter_t * lw6ker_game_state_get_fighter_safe
-          (lw6ker_game_state_t * GAME_STATE, int32_t X, int32_t Y,
-          int32_t Z)
-     GAME_STATE:  game_state to query
-
-     X:  x position
-
-     Y:  y position
-
-     Z:  z position
-
-     Gets a fighter by its position. This function will check for
-     boundaries, if there's no fighter in this place, it will return
-     NULL, but nothing worse can happen. More precisely, if the place
-     is in a wall, it won't bug, unlike the non-bullet-proof equivalent
-     of this function.
-
-     *Return value:*  pointer to the fighter at this position, or NULL
-     if none.
-
- -- Function: lw6ker_fighter_t * lw6ker_game_state_get_fighter_unsafe
-          (lw6ker_game_state_t * GAME_STATE, int32_t X, int32_t Y,
-          int32_t Z)
-     GAME_STATE:  game_state to query
-
-     X:  x position
-
-     Y:  y position
-
-     Z:  z position
-
-     Gets a fighter by its position. This function will not check for
-     boundaries, if there's no fighter in this place, not only will it
-     probably not return a valid value, but it will also even segfault
-     before that, trying to access non-existing structures in menory.
-     So only call this if you're sure there's a fighter here.
-
-     *Return value:*  pointer to the fighter at this position, or NULL
-     if none.
-
- -- Function: int lw6ker_game_state_get_zone_potential
-          (lw6ker_game_state_t * GAME_STATE, int I, int TEAM_ID)
-     GAME_STATE:  the game_state to query
-
-     TEAM_ID:  the team id (color)
-
-     Gets the potential of a zone. In practice this is not needed to
-     make the game function, you need not call this to know how to move
-     fighters, however the information can be interesting for debugging.
-
-     *Return value:*  the potential
-
- -- Function: int lw6ker_game_state_get_charge_per1000
-          (lw6ker_game_state_t * GAME_STATE, int TEAM_COLOR)
-     GAME_STATE:  game_state to query
-
-     TEAM_COLOR:  the team color to query
-
-     Returns the charge ratio for a given team/color. A value of 100
-     means fire is enabled, more than 1000 means super-charge, under 100
-     means you have to wait.
-
-     *Return value:*  integer value.
-
- -- Function: int lw6ker_game_state_get_weapon_per1000_left
-          (lw6ker_game_state_t * GAME_STATE, int TEAM_COLOR)
-     GAME_STATE:  game_state to query
-
-     TEAM_COLOR:  the team color to query
-
-     Returns how much of the weapon is yet to be consumed for a given
-     team. More than 1000 means extra time, 1000 is standard time to be
-     elapsed, 0 means it's over.
-
-     *Return value:*  integer value.
-
- -- Function: int lw6ker_game_state_get_latest_weapon
-          (lw6ker_game_state_t * GAME_STATE, int * TEAM_COLOR, int *
-          WEAPON_ID, int * PER1000_LEFT)
-     GAME_STATE:  game_state to query
-
-     TEAM_COLOR:  the team color corresponding to last weapon (out
-     param)
-
-     WEAPON_ID:  the corresponding weapon_id (out param)
-
-     PER1000_LEFT:  how much of the weapon is yet to be spent (out
-     param)
-
-     Returns informations about the latest weapon, this is typically
-     for drawing purposes, just query this and you know if you need to
-     paint everything in red, green, whatever, as far as the default
-     backend is concerned. In case there's no weapon, well, parameters
-     are untouched. Pointers can be passed as NULL.
-
-     *Return value:*  1 if found, 0 if not.
-
- -- Function: lw6ker_game_struct_t * lw6ker_game_struct_new
-          (lw6map_level_t * LEVEL, lw6sys_progress_t * PROGRESS)
-     LEVEL:  the level on which the game_struct is based
-
-     PROGRESS:  progress indicator
-
-     Creates a new game_struct from a level. The game_struct is
-     different from the level in the sense that the game_struct does
-     contain algorithmic specific optimizations, it's a ready-to-use
-     struct desgined for execution speed, while the plain level just
-     stores information.
-
-     *Return value:*  newly allocated object
-
- -- Function: void lw6ker_game_struct_free (lw6ker_game_struct_t *
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to free
-
-     Frees a game_struct object, releasing all required stuff. The
-     source level must still be available when freeing this.
-
-     *Return value:*  none
-
- -- Function: void lw6ker_game_struct_point_to (lw6ker_game_struct_t *
-          GAME_STRUCT, lw6map_level_t * LEVEL)
-     GAME_STRUCT:  the game_struct to modify
-
-     LEVEL:  the level to point to
-
-     This can be used when one makes a copy (dup) of a level and for
-     some reason want the game_struct to point on this new copy. Of
-     course you should make the game_struct point to a level that is
-     identical to the one that was used to construct the object in the
-     first place. Use at your own risk.
-
-     *Return value:*  none
-
- -- Function: int lw6ker_game_struct_memory_footprint
-          (lw6ker_game_struct_t * GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Returns the approximative amount of memory taken by the object.
-
-     *Return value:*  number of bytes (approximation)
-
- -- Function: char * lw6ker_game_struct_repr (lw6ker_game_struct_t *
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Gives a readable representation of the object.
-
-     *Return value:*  newly allocated string, must be freed
-
- -- Function: lw6ker_game_struct_t * lw6ker_game_struct_dup
-          (lw6ker_game_struct_t * GAME_STRUCT, lw6sys_progress_t *
-          PROGRESS)
-     GAME_STRUCT:  the game_struct to copy
-
-     PROGRESS:  progress indicator
-
-     Dups (copy) a game_struct object. The newly created object points
-     to the same game_struct but is an independant copy, you can play a
-     whole different game on it. In practice this is often used to
-     create the game_struct objects for anticipation in network games.
-
-     *Return value:*  newly created object
-
- -- Function: u_int32_t lw6ker_game_struct_checksum
-          (lw6ker_game_struct_t * GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Calculates the checksum of a game_struct, this can be very usefull
-     to make sure two structs are identicall (prevent network errors
-     and/or cheating).
-
-     *Return value:*  32-bit checksum
-
- -- Function: void lw6ker_game_struct_get_shape (lw6ker_game_struct_t *
-          GAME_STRUCT, lw6sys_whd_t * SHAPE)
-     GAME_STRUCT:  the game_struct to query
-
-     SHAPE:  the shape (out param)
-
-     Retrieves the shape (w*h*d)of the game_struct.
-
-     *Return value:*  none.
-
- -- Function: int lw6ker_game_struct_get_w (lw6ker_game_struct_t *
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Retrieves the width (shape.w) of the game_struct.
-
-     *Return value:*  the width.
-
- -- Function: int lw6ker_game_struct_get_h (lw6ker_game_struct_t *
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Retrieves the height (shape.h) of the game_struct.
-
-     *Return value:*  the height.
-
- -- Function: int lw6ker_game_struct_get_d (lw6ker_game_struct_t *
-          GAME_STRUCT)
-     GAME_STRUCT:  the game_struct to query
-
-     Retrieves the depth (shape.d, AKA number of layers) of the
-     game_struct.
-
-     *Return value:*  the depth.
-
- -- Function: int lw6ker_game_struct_is_fg (lw6ker_game_struct_t *
-          GAME_STRUCT, int32_t X, int32_t Y, int32_t Z)
-     GAME_STRUCT:  the game_struct to query
-
-     X:  x position
-
-     Y:  y position
-
-     Z:  z position
-
-     Tests wether a given position is foreground, that is, occupied by
-     a wall.
-
-     *Return value:*  1 if foreground (wall, fighters can't move), 0 if
-     not
-
- -- Function: int lw6ker_game_struct_is_bg (lw6ker_game_struct_t *
-          GAME_STRUCT, int32_t X, int32_t Y, int32_t Z)
-     GAME_STRUCT:  the game_struct to query
-
-     X:  x position
-
-     Y:  y position
-
-     Z:  z position
-
-     Tests wether a given position is background, that is, there's no
-     wall.
-
-     *Return value:*  1 if background (wall, fighters can move), 0 if
-     not
-
- -- Function: void lw6ker_game_struct_get_zones_info
-          (lw6ker_game_struct_t * GAME_STRUCT, int * NB_ZONES, int *
-          MAX_ZONE_SIZE)
-     GAME_STRUCT:  game_struct to query
-
-     NB_ZONES:  the maximum zone size (out param, can be NULL)
-
-     MAX_ZONE_SIZE:  the maximum zone size (out param, can be NULL)
-
-     This function gets information about the internal zoning system,
-     can be used for debugging.
-
-     *Return value:*  none.
-
- -- Function: void lw6ker_game_struct_get_zone_info
-          (lw6ker_game_struct_t * GAME_STRUCT, int I, lw6sys_xyz_t *
-          ZONE_POS, int * ZONE_SIZE)
-     GAME_STRUCT:  game_struct to query
-
-     I:  index of the zone to query
-
-     ZONE_POS:  coord of the zone, top-left corner (out param, can be
-     NULL)
-
-     ZONE_SIZE:  size of the zone (out param, can be NULL)
-
-     This function gets information about the internal zoning system,
-     can be used for debugging.
-
-     *Return value:*  none
-
- -- Function: int32_t lw6ker_game_struct_get_zone_id
-          (lw6ker_game_struct_t * GAME_STRUCT, int32_t X, int32_t Y,
-          int32_t Z)
-     GAME_STRUCT:  the game_struct to query
-
-     X:  x pos
-
-     Y:  y pos
-
-     Z:  z pos
-
-     Gets the zone id for a given position. The id returned can then be
-     used to query for a potential, for instance.
-
-     *Return value:*  the zone id
-
- -- Function: void lw6ker_game_struct_find_free_slot_near
-          (lw6ker_game_struct_t * GAME_STRUCT, lw6sys_xyz_t * THERE,
-          lw6sys_xyz_t HERE)
-     GAME_STRUCT:  the game_struct to query
-
-     THERE:  the closest free slot (out param)
-
-     HERE:  where we'd like to be
-
-     Tries to find the closest free slot (there) near a given position
-     (here).  This is typically used internally to find out where to
-     apply the cursor when it's flying over walls.
-
-     *Return value:*  none
-
- -- Function: int lw6ker_move_get_best_next_pos (lw6ker_game_state_t *
-          GAME_STATE, lw6sys_xyz_t * NEXT_POS, lw6sys_xyz_t *
-          CURRENT_POS, int TEAM_COLOR)
-     GAME_STATE:  the game_state to work on
-
-     NEXT_POS:  the next position (out param)
-
-     CURRENT_POS:  the current position
-
-     TEAM_COLOR:  the team color
-
-     Tries to find the best move given a position and a team. Note that
-     this function does not check for the presence of another fighter,
-     it will only check walls and can even (sometimes) fail when there's
-     a path. The reason is that it uses the game_state at a given round
-     and does not recalculate gradient while a real fighter has an
-     ever-changing gradient. Whatsoever, this can be used to move
-     cursors like they were fighters, it's not perfect but gives a good
-     illusion.
-
-     *Return value:*  1 if best place found, 0 if not.
-
- -- Function: int lw6ker_score_array_update (lw6ker_score_array_t *
-          SCORE_ARRAY, lw6ker_game_state_t * GAME_STATE)
-     SCORE_ARRAY:  the score array to modify
-
-     GAME_STATE:  the game_state to get the information from
-
-     Updates a score array, that is, calculates all scores, so that they
-     can be displayed, for instance.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6ker_team_mask_get (u_int32_t * EVEN, u_int32_t *
-          ODD, int32_t ROUND)
-     EVEN:  even team mask (out param)
-
-     ODD:  odd team mask (out param)
-
-     ROUND:  round concerned
-
-     Returns a default team mask for a given round, even and odd will
-     contain ready to use masks (for spread and move functions for
-     instance).
-
-     *Return value:*  none.
-
- -- Function: void lw6ker_team_mask_best (u_int32_t * EVEN, u_int32_t *
-          ODD, lw6ker_game_state_t * GAME_STATE)
-     EVEN:  even team mask (out param)
-
-     ODD:  odd team mask (out param)
-
-     GAME_STATE:  the game_state concerned
-
-     Returns an optimal team mask for a given round, even and odd will
-     contain ready to use masks (for spread and move functions for
-     instance). The difference with the default team mask is that this
-     one will test for which teams are present and try and manage to
-     find an equilibrated set of odd/even teams.
-
-     *Return value:*  none.
-
- -- Function: int lw6ker_team_mask_is_concerned (int TEAM_COLOR,
-          u_int32_t TEAM_MASK)
-     TEAM_COLOR:  color index
-
-     TEAM_MASK:  team mask
-
-     Tells wether a given team is concerned by a team mask.
-
-     *Return value:*  1 if concerned, 0 if not.
-
- -- Function: int lw6ker_team_mask_color2mask (int TEAM_COLOR)
-     TEAM_COLOR:  color index
-
-     Gives the mask corresponding to a given color.
-
-     *Return value:*  bitwise mask.
-
- -- Function: int lw6ker_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `ker' module test suite. Will perform deep checksums and
-     *really* check many things. If this passes, the algorithm is fine.
-     What could make it fail is a serious bug and/or some weird
-     combination of endianess, byte alignment...
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libldr,  Next: libmap,  Prev: libker,  Up: C API
-
-5.25 libldr
-===========
-
-5.25.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/ldr/index.html'.
-
-5.25.2 API
-----------
-
- -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, char *
-          DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS, int
-          DISPLAY_W, int DISPLAY_H, float RATIO, int BENCH_VALUE, int
-          MAGIC_NUMBER, lw6sys_progress_t * PROGRESS)
-     BODY:  the body to read, must point to allocated memory
-
-     DIRNAME:  the directory of the map
-
-     PARAM:  map parameters
-
-     HINTS:  map hints
-
-     DISPLAY_W:  the display width
-
-     DISPLAY_H:  the display height
-
-     RATIO:  wished map ratio
-
-     BENCH_VALUE:  the bench value (depends on computer capacity)
-
-     MAGIC_NUMBER:  arbitrary constant
-
-     PROGRESS:  structure to transmit loading progress
-
-     Reads the map body, that is, all the layers.
-
-     *Return value:*  1 if OK, 0 if failed.
-
- -- Function: void lw6ldr_auto_colors (lw6map_style_t * STYLE,
-          lw6ldr_hints_t * HINTS)
-     STYLE:  the style structure to process.
-
-     HINTS:  additionnal hints to know what to set automatically
-
-     Deduces all colors from background color, if needed. The function
-     will check color_auto parameters and replace all other colors by
-     base and alternate colors if needed. Note that the background
-     color itself is not changed by this function. Background can only
-     be guessed from texture.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
-          CURSOR_TEXTURE, char * DIRNAME)
-     CURSOR_TEXTURE:  the cursor texture (out param)
-
-     DIRNAME:  the directory we load the data form (map dir)
-
-     Reads the cursor texture information, if not available, will use
-     defaults
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6ldr_free_entry (lw6ldr_entry_t * ENTRY)
-     ENTRY:  the entry to free
-
-     Frees a map entry.
-
-     *Return value:*  none.
-
- -- Function: lw6ldr_entry_t * lw6ldr_dup_entry (lw6ldr_entry_t * ENTRY)
-     ENTRY:  the entry to dup
-
-     Dup a map entry.
-
-     *Return value:*  newly allocated object.
-
- -- Function: lw6sys_list_t * lw6ldr_get_entries (char * MAP_PATH, char
-          * RELATIVE_PATH, char * USER_DIR)
-     MAP_PATH:  the map_path environment config variable, delimited
-     path list
-
-     RELATIVE_PATH:  the relative path to use to find the map directory
-
-     USER_DIR:  the user directory
-
-     Lists all maps in a given directory. Returns a list of
-     lw6ldr_entry_t which can contain both directories with subdirs and
-     actual maps. Maps are sorted before being returned, first
-     directories, then maps, sorted in alphabetical order.
-
-     *Return value:*  a list of dynamically allocated lw6ldr_entry_t.
-
- -- Function: void lw6ldr_for_all_entries (char * MAP_PATH, char *
-          RELATIVE_PATH, char * USER_DIR, int RECURSIVE,
-          lw6sys_list_callback_func_t CALLBACK_FUNC, void * FUNC_DATA)
-     MAP_PATH:  the map_path environment config variable, delimited
-     path list
-
-     RELATIVE_PATH:  the relative path to use to find the map directory
-
-     USER_DIR:  the user directory
-
-     RECURSIVE:  if non-zero, map search will recurse in subdirs
-
-     CALLBACK_FUNC:  the function which will be called on each entry
-
-     FUNC_DATA:  an extra pointer to pass data to callback_func
-
-     Executes a given function on all maps in a given place, typically
-     used in test programs.
-
-     *Return value:*  none.
-
- -- Function: lw6ldr_entry_t * lw6ldr_chain_entry (char * MAP_PATH,
-          char * RELATIVE_PATH, char * USER_DIR)
-     MAP_PATH:  the map_path environment config variable, delimited
-     path list
-
-     RELATIVE_PATH:  the relative path to use to find the map directory
-
-     USER_DIR:  the user directory
-
-     Gets the next entry used in test programs.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_exp_validate (lw6map_level_t * LEVEL, char *
-          USER_DIR)
-     LEVEL:  the level to validate
-
-     USER_DIR:  user directory
-
-     Validates a level, acknowledges you've won it. Upgrades exp.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ldr_grease_apply (lw6map_layer_t * LAYER,
-          lw6map_rules_t * RULES, lw6ldr_hints_t * HINTS,
-          lw6sys_progress_t * PROGRESS)
-     LAYER:  the layer on which to apply the grease
-
-     RULES:  map rules
-
-     HINTS:  map hints
-
-     PROGRESS:  structure to transmit loading progress
-
-     Reads the map body, that is, all the layers.
-
-     *Return value:*  1 if OK, 0 if failed.
-
- -- Function: void lw6ldr_hints_defaults (lw6ldr_hints_t * HINTS)
-     HINTS:  data to initialize
-
-     Set the hints struct to its defaults.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_hints_zero (lw6ldr_hints_t * HINTS)
-     HINTS:  data to initialize
-
-     Zeros the hints struct, this is not the same as setting to
-     defaults.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_hints_clear (lw6ldr_hints_t * HINTS)
-     HINTS:  data to initialize
-
-     Clears the hints struct, this is not the same as setting to
-     defaults.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_hints_read (lw6ldr_hints_t * HINTS, char *
-          DIRNAME)
-     DIRNAME:  the directory of the map
-
-     Read the hints (hints.xml) of a map. Pointer to hints must be
-     valid, and values already initialized, either zeroed or filled in
-     with defaults or custom values.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_hints_set (lw6ldr_hints_t * HINTS, char * KEY,
-          char * VALUE)
-     HINTS:  the hints to modify
-
-     KEY:  the key to modify
-
-     VALUE:  the value to affect to the key, as a string
-
-     Sets one single parameter in a hints structure. Value must always
-     be passed as a string, will be converted to the right type
-     automatically when storing it in the structure.
-
-     *Return value:*  1 if success, 0 if failed. Note that while 0
-     really means there's a problem, some affectations can fail and
-     return 1, needs to be worked on.
-
- -- Function: char * lw6ldr_hints_get (lw6ldr_hints_t * HINTS, char *
-          KEY)
-     HINTS:  the hints to modify
-
-     KEY:  the key to modify
-
-     Gets one single parameter in a hints structure. Value is converted
-     as a string.
-
-     *Return value:*  dynamically allocated string, NULL on error.
-
- -- Function: char * lw6ldr_hints_get_default (char * KEY)
-     KEY:  the key we want informations about.
-
-     Gets the default value for a given hints key.
-
-     *Return value:*  dynamically allocated string, NULL on error.
-
- -- Function: int lw6ldr_hints_update (lw6ldr_hints_t * HINTS,
-          lw6sys_assoc_t * VALUES)
-     HINTS:  the hints struct to fill with values (read/write parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides hints with values. Pointer to hints must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing hints.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_metadata_read (lw6map_metadata_t * METADATA,
-          char * DIRNAME)
-     METADATA:  structure containting read data (out param)
-
-     DIRNAME:  map dirname (absolute path)
-
-     Reads the metadata, will first parse metadata.xml, and if not
-     available read README and guess a title from map path. When
-     function returns, all fields in structure are non-NULL.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6ldr_meta_layer_read (lw6map_meta_layer_t *
-          META_LAYER, char * FILENAME, int TARGET_W, int TARGET_H, int
-          ANALOG)
-     META_LAYER:  the meta layer to read
-
-     FILENAME:  the file to open
-
-     TARGET_W:  the wanted width
-
-     TARGET_H:  the wanted height
-
-     ANALOG:  wether to use analog info (0-255) or boolean (0-1)
-
-     Reads a meta-layer from the disj, resampling is done according to
-     the given parameters.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t
-          * META_LAYER, char * DIRNAME, char * FILE_ONLY, int TARGET_W,
-          int TARGET_H, int ANALOG)
-     META_LAYER:  the meta layer to read
-
-     DIRNAME:  the map directory
-
-     FILE_ONLY:  the meta-layer file name only (without the path)
-
-     TARGET_W:  the wanted width
-
-     TARGET_H:  the wanted height
-
-     ANALOG:  wether to use analog info (0-255) or boolean (0-1)
-
-     Reads a meta-layer from the disj, resampling is done according to
-     the given parameters. This function is different from
-     `lw6ldr_meta_layer_read' for it will 1) concatenate `dirname' and
-     `file_only' and 2) return OK (1) if file does not exist.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6ldr_param_read (lw6map_param_t * PARAM, char *
-          DIRNAME)
-     PARAM:  the parameter struct to fill with values (read/write
-     parameter)
-
-     DIRNAME:  the directory of the map
-
-     Read the parameters associated to a map. Pointer to param must be
-     valid, and values already initialized, either zeroed or filled in
-     with defaults or custom values.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_param_update (lw6map_param_t * PARAM,
-          lw6sys_assoc_t * VALUES)
-     PARAM:  the parameter struct to fill with values (read/write
-     parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides param with values. Pointer to param must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing param.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: void lw6ldr_print_example_rules_xml (FILE * F)
-     F:  file to output content to
-
-     Print to a file a typical map rules.xml file.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_print_example_hints_xml (FILE * F)
-     F:  file to output content to
-
-     Print to a file a typical map hints.xml file.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_print_example_style_xml (FILE * F)
-     F:  file to output content to
-
-     Print to a file a typical map style.xml file.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_print_example_teams_xml (FILE * F)
-     F:  file to output content to
-
-     Print to a file a typical map teams.xml file.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_print_examples (char * USER_DIR)
-     USER_DIR:  the user directory or at least, a writable one
-
-     Writes all example XML files in 'user_dir/example/', will create
-     the directory if needed.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: lw6map_level_t * lw6ldr_read (char * DIRNAME,
-          lw6sys_assoc_t * DEFAULT_PARAM, lw6sys_assoc_t *
-          FORCED_PARAM, int DISPLAY_W, int DISPLAY_H, int BENCH_VALUE,
-          int MAGIC_NUMBER, char * USER_DIR, lw6sys_progress_t *
-          PROGRESS)
-     DIRNAME:  the directory containing the map
-
-     DEFAULT_PARAM:  default parameters, as strings
-
-     FORCED_PARAM:  forced parameters, as strings
-
-     DISPLAY_W:  the width of the display output (resolution)
-
-     DISPLAY_H:  the height of the display output (resolution)
-
-     BENCH_VALUE:  the bench value (depends on computer capacity)
-
-     MAGIC_NUMBER:  arbitrary constant
-
-     USER_DIR:  the user directory
-
-     PROGRESS:  information used to handle the progress bar
-
-     Loads a map from dist. The default_param and forced_param can
-     contain values corresponding to rules.xml and style.xml entries.
-     Parameters are read in 4 steps. 1st, a default value is picked by
-     the program.  2nd, any value in `default_param' replaces previous
-     values. 3rd, any value in rules.xml or style.xml replaces previous
-     values.  4th, any value in `forced_param' replaces previous
-     values. In practice, the `default_param' allows the user to set
-     defaults which can still be overwritten by the map, while
-     `forced_param' is a definitive 'ignore what is is defined in the
-     map' way of doing things.  See also `lw6ldr_read_relative'.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: lw6map_level_t * lw6ldr_read_relative (char * MAP_PATH,
-          char * RELATIVE_PATH, lw6sys_assoc_t * DEFAULT_PARAM,
-          lw6sys_assoc_t * FORCED_PARAM, int DISPLAY_W, int DISPLAY_H,
-          int BENCH_VALUE, int MAGIC_NUMBER, char * USER_DIR,
-          lw6sys_progress_t * PROGRESS)
-     MAP_PATH:  a collection of paths where to find maps
-
-     RELATIVE_PATH:  something which will be appended to a `map_path'
-     member
-
-     DEFAULT_PARAM:  default parameters, as strings
-
-     FORCED_PARAM:  forced parameters, as strings
-
-     DISPLAY_W:  the width of the display output (resolution)
-
-     DISPLAY_H:  the height of the display output (resolution)
-
-     BENCH_VALUE:  the bench value (depends on computer capacity)
-
-     MAGIC_NUMBER:  arbitrary constant
-
-     USER_DIR:  the user directory
-
-     PROGRESS:  information used to handle the progress bar
-
-     Reads a map from disk, using the map-path value, which is a
-     collection of paths defined by the command-line, the environment
-     variables, and the config file. `default_param' and `forced_param'
-     work as in the function `lw6ldr_read'.
-
-     *Return value:*  1 if success, 0 if failure.
-
- -- Function: void lw6ldr_resampler_init (lw6ldr_resampler_t *
-          RESAMPLER, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS,
-          int SOURCE_W, int SOURCE_H, int DISPLAY_W, int DISPLAY_H,
-          float TARGET_RATIO, int BENCH_VALUE, int MAGIC_NUMBER, int
-          EXPECTED_DEPTH, float GRAY_LEVEL)
-     RESAMPLER:  resampler object to init
-
-     PARAM:  map parameters to use
-
-     HINTS:  loading hints
-
-     SOURCE_W:  width of source map
-
-     SOURCE_H:  height of source map
-
-     DISPLAY_W:  width of source display
-
-     DISPLAY_H:  height of source display
-
-     TARGET_RATIO:  ratio, that is width/height of the target
-
-     BENCH_VALUE:  rough estimation of this computer power
-
-     MAGIC_NUMBER:  arbitrary constant, needed to calibrate speed
-
-     EXPECTED_DEPTH:  how thick the map could be (in practice, looks
-     like d in whd)
-
-     GRAY_LEVEL:  used to estimate capacity, 1.0f is white and means
-     many slots
-
-     Initializes a resampler. There is wizardry based on the bench,
-     magic number map size, gray level. This is bot bullet proof, but
-     has been experience driven and is the result of many tries /
-     failures and hopefully successes.  Might need tuning as the
-     algorithm evolves. This is the very function that chooses the
-     actual logical map size.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_resampler_force (lw6ldr_resampler_t *
-          RESAMPLER, int SOURCE_W, int SOURCE_H, int TARGET_W, int
-          TARGET_H)
-     RESAMPLER:  resampler to set
-
-     SOURCE_W:  source map width
-
-     SOURCE_H:  source map height
-
-     TARGET_W:  target map width
-
-     TARGET_H:  target map height
-
-     Initializes a resampler with hardcoded values, does not calibrate
-     according to context, simply set it to rescale the size you want.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_resampler_source2target (lw6ldr_resampler_t *
-          RESAMPLER, int * TARGET_X, int * TARGET_Y, int SOURCE_X, int
-          SOURCE_Y)
-     TARGET_X:  target x coordinate (out param)
-
-     TARGET_Y:  target y coordinate (out param)
-
-     SOURCE_X:  source x coordinate (in param)
-
-     SOURCE_Y:  source y coordinate (in param)
-
-     Transforms from source coordinate to target coordinates.  Does
-     rounding fine-tuning, it's not a simple integer division.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_resampler_target2source (lw6ldr_resampler_t *
-          RESAMPLER, int * SOURCE_X, int * SOURCE_Y, int TARGET_X, int
-          TARGET_Y)
-     SOURCE_X:  source x coordinate (out param)
-
-     SOURCE_Y:  source y coordinate (out param)
-
-     TARGET_X:  target x coordinate (in param)
-
-     TARGET_Y:  target y coordinate (in param)
-
-     Transforms from target coordinate to source coordinates.  Yes,
-     target to source. Target is our final logical map, source is what
-     we loaded from disk, here we want to know, given a point in the
-     target, where to fetch its data from source.  Does rounding
-     fine-tuning, it's not a simple integer division.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_rules_read (lw6map_rules_t * RULES, char *
-          DIRNAME)
-     DIRNAME:  the directory of the map
-
-     Read the rules (rules.xml) of a map. Pointer to rules must be
-     valid, and values already initialized, either zeroed or filled in
-     with defaults or custom values.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_rules_update (lw6map_rules_t * RULES,
-          lw6sys_assoc_t * VALUES)
-     RULES:  the rules struct to fill with values (read/write parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides rules with values. Pointer to rules must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing rules.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_style_read (lw6map_style_t * STYLE, char *
-          DIRNAME)
-     DIRNAME:  the directory of the map
-
-     Read the style (style.xml) of a map. Pointer to style must be
-     valid, and values already initialized, either zeroed or filled in
-     with defaults or custom values.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_style_set (lw6map_style_t * STYLE, char * KEY,
-          char * VALUE)
-     STYLE:  the style to modify
-
-     KEY:  the key to modify
-
-     VALUE:  the value to affect to the key, as a string
-
-     Sets one single parameter in a style structure. Value must always
-     be passed as a string, will be converted to the right type
-     automatically when storing it in the structure.
-
-     *Return value:*  1 if success, 0 if failed. Note that while 0
-     really means there's a problem, some affectations can fail and
-     return 1, needs to be worked on.
-
- -- Function: int lw6ldr_style_update (lw6map_style_t * STYLE,
-          lw6sys_assoc_t * VALUES)
-     STYLE:  the style struct to fill with values (read/write parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides style with values. Pointer to style must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing style.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_teams_read (lw6map_teams_t * TEAMS, char *
-          DIRNAME)
-     DIRNAME:  the directory of the map
-
-     Read the teams (teams.xml) of a map. Pointer to teams must be
-     valid, and values already initialized, either zeroed or filled in
-     with defaults or custom values.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_teams_update (lw6map_teams_t * TEAMS,
-          lw6sys_assoc_t * VALUES)
-     TEAMS:  the teams struct to fill with values (read/write parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides teams with values. Pointer to teams must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing teams.
-
-     *Return value:*  1 if success, 0 if failed.
-
- -- Function: int lw6ldr_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `ldr' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: int lw6ldr_texture_read (lw6map_texture_t * TEXTURE, char
-          * DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS,
-          int USE_TEXTURE, int DISPLAY_W, int DISPLAY_H, float * RATIO,
-          int * TEXTURE_EXISTS, lw6sys_progress_t * PROGRESS)
-     TEXTURE:  structure to hold read data
-
-     DIRNAME:  map dirname (absolute path)
-
-     PARAM:  parameters to use
-
-     HINTS:  loading hints to use
-
-     USE_TEXTURE:  wether to use texture.png
-
-     DISPLAY_W:  display width
-
-     DISPLAY_H:  display height
-
-     RATIO:  target width/height factor (out param)
-
-     TEXTURE_EXISTS:  true if texture.png is here (out param)
-
-     PROGRESS:  progress indicator (in/out param)
-
-     Read the texture associated to a map. Pointer to texture must be
-     valid, it's modified in-place. The function will automatically
-     figure out if texture.png exists or if we must use
-     foreground.png/background.png.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6ldr_use_defaults (lw6ldr_use_t * USE)
-     USE:  struct to initialize
-
-     Sets the use structure to its defaults, this structure being used
-     to now wether we should use texture, cursor textures, rules,
-     hints, style, teams and music.
-
-     *Return value:*  none.
-
- -- Function: void lw6ldr_use_clear (lw6ldr_use_t * USE)
-     USE:  struct to clear
-
-     Clears the use structure, set it to the use nothing mode.
-
-     *Return value:*  none.
-
- -- Function: int lw6ldr_use_set (lw6ldr_use_t * USE, char * KEY, char
-          * VALUE)
-     USE:  struct to modify
-
-     KEY:  key to change (as a string)
-
-     VALUE:  value to set (as a string)
-
-     Sets a key to the given value, OK all fields are integer, this is
-     just a convenient function to be called in more general functions
-     which are fed with those string pointers, typically coming from an
-     XML file.
-
-     *Return value:*  1 on success, 0 on failure (key not found).
-
- -- Function: int lw6ldr_use_update (lw6ldr_use_t * USE, lw6sys_assoc_t
-          * VALUES)
-     USE:  the use struct to fill with values (read/write parameter)
-
-     VALUES:  an assoc containing strings with the new values
-
-     Overrides use with values. Pointer to use must be valid, and
-     values already initialized, either zeroed or filled in with
-     defaults or custom values. Not all parameters need be defined in
-     values. It can even be NULL. The idea is just that if something is
-     defined in values, it will override the existing use.
-
-     *Return value:*  1 if success, 0 if failed.
 

@@ -2625,6 +2625,51 @@ Use for debugging only, usually together with
 @code{--enable-allinone}.
 @end itemize
 
+@subsection Debian packages
+
+Liquid War 6 does have a @code{./debian} in both main and extra maps packages,
+so it's ``debianized''.
+To build the main @code{.deb} package, untar the main source tarball, then:
+
+@verbatim
+make dist
+cd pkg
+cp ../liquidwar6-X.Y.Z.tar.gz . # X.Y.Z is the version
+make deb
+@end verbatim  
+
+Note that you have to copy the source tarball to @code{./pkg} and move
+to this directory before typing @code{make deb}. This is, among other things,
+to simplify the main @code{Makefile}.
+
+To build the extra maps @code{.deb} package, untar the extra maps tarball, then:
+
+@verbatim
+make deb
+@end verbatim
+
+@subsection Red Hat packages
+
+Liquid War 6 does have a @code{.spec} files in both main and extra maps packages.
+To build the main @code{.rpm} package, untar the main source tarball, then:
+
+@verbatim
+make dist
+cd pkg
+cp ../liquidwar6-X.Y.Z.tar.gz . # X.Y.Z is the version
+make rpm
+@end verbatim  
+
+Note that you have to copy the source tarball to @code{./pkg} and move
+to this directory before typing @code{make rpm}. This is, among other things,
+to simplify the main @code{Makefile}.
+
+To build the extra maps @code{.rpm} package, untar the extra maps tarball, then:
+
+@verbatim
+make rpm
+@end verbatim
+
 @subsection Microsoft Windows msys/mingw32 port
 
 @cindex Microsoft Windows
