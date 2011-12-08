@@ -84,6 +84,16 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			   &const_data->breadcrumbs_margin_size);
       lw6cfg_read_xml_int (key, value, "breadcrumbs-reformat-width",
 			   &const_data->breadcrumbs_reformat_width);
+      lw6cfg_read_xml_int (key, value, "popup-max-width",
+			   &const_data->popup_max_width);
+      lw6cfg_read_xml_int (key, value, "popup-max-height",
+			   &const_data->popup_max_height);
+      lw6cfg_read_xml_int (key, value, "popup-border-size",
+			   &const_data->popup_border_size);
+      lw6cfg_read_xml_int (key, value, "popup-margin-size",
+			   &const_data->popup_margin_size);
+      lw6cfg_read_xml_int (key, value, "popup-reformat-width",
+			   &const_data->popup_reformat_width);
     }
 
   if (!strcmp (element, "float"))
@@ -128,6 +138,10 @@ read_callback (void *callback_data, char *element, char *key, char *value)
 			     &const_data->breadcrumbs_alpha_bg);
       lw6cfg_read_xml_float (key, value, "breadcrumbs-relative-size",
 			     &const_data->breadcrumbs_relative_size);
+      lw6cfg_read_xml_float (key, value, "popup-alpha-bg",
+			     &const_data->popup_alpha_bg);
+      lw6cfg_read_xml_float (key, value, "popup-relative-size",
+			     &const_data->popup_relative_size);
     }
 }
 

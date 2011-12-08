@@ -35,7 +35,8 @@
 		  )
 	      (if dsp
 		  (begin
-		    (lw6-push-menu (lw6-wait-menu))
+		    (lw6-push-menu (lw6-wait-menu
+				    (_ "Benchmarking your computer, thanks for your patience")))
 		    (lw6-display-update)
 		    (lw6-config-set-number! lw6def-bench-value (c-lw6pil-bench))
 		    (lw6-pop-menu (lw6-current-menu))

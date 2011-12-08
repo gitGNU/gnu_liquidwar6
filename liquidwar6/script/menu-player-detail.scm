@@ -121,7 +121,8 @@
 	   (player-name-key (string-concatenate (list player-prefix "-name")))
 	   (player-name (lw6-config-get-string player-name-key))
 	   (menu (lw6-menu-template player-name
-				    (format #f (_ "Change options for player ~a") player-name)))
+				    (format #f (_ "Change options for player ~a") player-name)
+				    #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-player-detail-menu-name-item player-prefix))	

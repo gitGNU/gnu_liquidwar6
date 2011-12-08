@@ -48,6 +48,8 @@
 #define TEST_MENU_TITLE2 "My Title 2"
 #define TEST_MENU_HELP1 "Chapi chapo this is the first help"
 #define TEST_MENU_HELP2 "2nd help, things change, now let's face it, this is a long string are there few chances it won't be cut somewhere when displayed"
+#define TEST_MENU_POPUP1 NULL
+#define TEST_MENU_POPUP2 "Be carefull\nt...this is important!\nYou're likely to be eaten by a grue ;)"
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 1
 #define TEST_MENU_ALLOW_SCROLL1 0
@@ -744,12 +746,35 @@ test_menu ()
     char *repr;
 
     menu =
-      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
-		       TEST_MENU_ENABLE_ESC);
+      lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_POPUP1,
+		       TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
     if (menu)
       {
 	lw6gui_menu_set_title (menu, TEST_MENU_TITLE2);
 	lw6gui_menu_set_help (menu, TEST_MENU_HELP2);
+	lw6gui_menu_set_popup (menu, TEST_MENU_POPUP2);
+	lw6gui_menu_close_popup (menu);
+	if (!lw6gui_menu_has_popup (menu))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("no popup after close, OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("popup reported to exist after being closed"));
+	    ret = 0;
+	  }
+	lw6gui_menu_set_popup (menu, TEST_MENU_POPUP2);
+	if (lw6gui_menu_has_popup (menu))
+	  {
+	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("popup defined, OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (LW6SYS_LOG_WARNING,
+			_x_ ("no popup reported when it's just been set"));
+	    ret = 0;
+	  }
 	repr = lw6gui_menu_repr (menu);
 	if (repr)
 	  {
@@ -793,7 +818,8 @@ test_menu ()
     if (breadcrumbs)
       {
 	menu =
-	  lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1, TEST_MENU_ESC,
+	  lw6gui_menu_new (TEST_MENU_TITLE1, TEST_MENU_HELP1,
+			   TEST_MENU_POPUP1, TEST_MENU_ESC,
 			   TEST_MENU_ENABLE_ESC);
 	if (menu)
 	  {

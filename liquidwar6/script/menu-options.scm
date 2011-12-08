@@ -94,7 +94,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Options")
-				   (_ "Change options here, but player settings and map choosing are done elsewhere")))
+				   (_ "Change options here, but player settings and map choosing are done elsewhere")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-options-menu-time-item))
@@ -109,7 +110,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Options")
-				   (_ "Change options")))
+				   (_ "Change options")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-options-menu-stop-item))

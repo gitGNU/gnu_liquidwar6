@@ -47,6 +47,7 @@
 #define TEST_DISPLAY_VIEW 1
 #define TEST_MENU_TITLE "This is a title"
 #define TEST_MENU_HELP "This is a help, it's quite long so it's very likely it should be displayed on several lines, anyways, who knows, you can't garantee that"
+#define TEST_MENU_POPUP ""
 #define TEST_MENU_ESC "<-"
 #define TEST_MENU_ENABLE_ESC 1
 #define TEST_MENU_ALLOW_SCROLL 0
@@ -87,8 +88,8 @@ menu_new (int n)
   int i;
 
   ret =
-    lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_ESC,
-		     TEST_MENU_ENABLE_ESC);
+    lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_POPUP,
+		     TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
   if (ret)
     {
       for (i = 0; i < n; ++i)

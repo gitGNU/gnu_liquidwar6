@@ -42,6 +42,8 @@ static u_int32_t seq_id = 0;
  *   the call is done, function will make a copy internally.
  * @help: a string introducing the menu, describing what it does,
  *   giving hints on how to use it.
+ * @popup: a string to be displayed in popup mode when menu is displayed
+ *   for the first time.
  * @esc: the label to be displayed in the ESC button
  * @enable_esc: wether to enable the escape button.
  *
@@ -51,7 +53,8 @@ static u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menu_t *
-lw6gui_menu_new (char *title, char *help, char *esc, int enable_esc)
+lw6gui_menu_new (char *title, char *help, char *popup, char *esc,
+		 int enable_esc)
 {
   lw6gui_menu_t *menu = NULL;
 
@@ -70,15 +73,21 @@ lw6gui_menu_new (char *title, char *help, char *esc, int enable_esc)
 	  menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
 	  if (menu->help)
 	    {
-	      menu->esc_item =
-		lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
-	      if (menu->esc_item)
+	      menu->popup =
+		lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
+	      if (menu->popup)
 		{
-		  // OK
+		  menu->esc_item =
+		    lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
+		  if (menu->esc_item)
+		    {
+		      // OK
+		    }
 		}
 	    }
 	}
-      if ((!menu->title) || (!menu->help) || (!menu->esc_item))
+      if ((!menu->title) || (!menu->help) || (!menu->popup)
+	  || (!menu->esc_item))
 	{
 	  lw6gui_menu_free (menu);
 	  menu = NULL;
@@ -122,6 +131,16 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL help"));
+	}
+
+      if (menu->popup)
+	{
+	  LW6SYS_FREE (menu->popup);
+	  menu->popup = NULL;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("menu with NULL popup"));
 	}
 
       if (menu->esc_item)
@@ -169,6 +188,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
       memory_footprint += sizeof (lw6gui_menu_t);
       memory_footprint += strlen (menu->title) + 1;
       memory_footprint += strlen (menu->help) + 1;
+      memory_footprint += strlen (menu->popup) + 1;
       for (i = 0; i < menu->nb_items; ++i)
 	{
 	  memory_footprint +=
@@ -215,7 +235,7 @@ lw6gui_menu_repr (lw6gui_menu_t * menu)
  * @title: the new title, you can free it after calling the function,
  *   an internal copy will be made. 
  *
- * Change the title of the menu. That is to say, its title.
+ * Change the title of the menu.
  * Use this function to change the title, don't try to access the 
  * struct directly. The idea is to have safe memory management.
  *
@@ -225,7 +245,7 @@ void
 lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
 {
   LW6SYS_FREE (menu->title);
-  menu->title = lw6sys_str_copy (title);
+  menu->title = lw6sys_str_copy (lw6sys_str_empty_if_null (title));
   if (!(menu->title))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
@@ -240,7 +260,7 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title)
  * @help: the new help, you can free it after calling the function,
  *   an internal copy will be made. 
  *
- * Change the help of the menu. That is to say, its help.
+ * Change the help of the menu.
  * Use this function to change the help, don't try to access the 
  * struct directly. The idea is to have safe memory management.
  *
@@ -250,12 +270,73 @@ void
 lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help)
 {
   LW6SYS_FREE (menu->help);
-  menu->help = lw6sys_str_copy (help);
+  menu->help = lw6sys_str_copy (lw6sys_str_empty_if_null (help));
   if (!(menu->help))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
 		  _x_ ("couldn't set menu help \"%s\""), help);
     }
+}
+
+/**
+ * lw6gui_menu_set_popup
+ *
+ * @menu: a pointer to the menu.
+ * @popup: the new popup, you can free it after calling the function,
+ *   an internal copy will be made. 
+ *
+ * Change the popup of the menu. That is to say, its popup.
+ * Use this function to change the popup, don't try to access the 
+ * struct directly. The idea is to have safe memory management.
+ *
+ * Return value: none
+ */
+void
+lw6gui_menu_set_popup (lw6gui_menu_t * menu, char *popup)
+{
+  LW6SYS_FREE (menu->popup);
+  menu->popup = lw6sys_str_copy (lw6sys_str_empty_if_null (popup));
+  if (!(menu->popup))
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("couldn't set menu popup \"%s\""), popup);
+    }
+}
+
+/**
+ * lw6gui_menu_close_popup
+ *
+ * @menu: a pointer to the menu.
+ *
+ * Closes the popup, in practice, this is equivalent to
+ * setting the popup string to "" or NULL.
+ *
+ * Return value: none
+ */
+void
+lw6gui_menu_close_popup (lw6gui_menu_t * menu)
+{
+  lw6gui_menu_set_popup (menu, NULL);
+}
+
+/**
+ * lw6gui_menu_has_popup
+ *
+ * @menu: a pointer to the menu.
+ *
+ * Tells wether a popup is defined. Behavior is simplistic,
+ * at creation (when a non-NULL non-empty popup string has
+ * been set) then the popup is displayed. In this state,
+ * popup is considered to be defined. Then it can be close,
+ * and after this action the popup ain't here anymore,
+ * program continues the way it started.
+ *
+ * Return value: 1 if has popup, 0 if does not
+ */
+int
+lw6gui_menu_has_popup (lw6gui_menu_t * menu)
+{
+  return !lw6sys_str_is_null_or_empty (menu->popup);
 }
 
 /**
@@ -910,6 +991,7 @@ lw6gui_menu_is_same (lw6gui_menu_t * menu_a, lw6gui_menu_t * menu_b)
     {
       ret = ret && lw6sys_str_is_same (menu_a->title, menu_b->title);
       ret = ret && lw6sys_str_is_same (menu_a->help, menu_b->help);
+      ret = ret && lw6sys_str_is_same (menu_a->popup, menu_b->popup);
       ret = ret && menu_a->nb_items == menu_b->nb_items;
       ret = ret
 	&& lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
@@ -970,8 +1052,8 @@ lw6gui_menu_dup (lw6gui_menu_t * menu)
   if (menu)
     {
       ret =
-	lw6gui_menu_new (menu->title, menu->help, menu->esc_item->label,
-			 menu->esc_item->enabled);
+	lw6gui_menu_new (menu->title, menu->help, menu->popup,
+			 menu->esc_item->label, menu->esc_item->enabled);
       if (ret)
 	{
 	  lw6gui_menuitem_sync (ret->esc_item, menu->esc_item);
@@ -1054,6 +1136,10 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
       if (!lw6sys_str_is_same (dst->help, src->help))
 	{
 	  lw6gui_menu_set_help (dst, src->help);
+	}
+      if (!lw6sys_str_is_same (dst->popup, src->popup))
+	{
+	  lw6gui_menu_set_popup (dst, src->popup);
 	}
       d = dst->nb_items - src->nb_items;
       if (d > 0)

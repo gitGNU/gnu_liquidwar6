@@ -220,7 +220,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Sound options")
-				   (_ "Change volumes and audio settings here")))
+				   (_ "Change volumes and audio settings here")
+				   #f))
 	  (snd (lw6-get-game-global "snd"))
 	  )
       (begin

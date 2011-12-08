@@ -212,7 +212,7 @@ lw6gui_menuitem_set_label (lw6gui_menuitem_t * menuitem, char *label,
       menuitem->last_change = now;
     }
   LW6SYS_FREE (menuitem->label);
-  menuitem->label = lw6sys_str_copy (label);
+  menuitem->label = lw6sys_str_copy (lw6sys_str_empty_if_null (label));
   if (!(menuitem->label))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,
@@ -245,7 +245,7 @@ lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t * menuitem, char *tooltip,
       menuitem->last_change = now;
     }
   LW6SYS_FREE (menuitem->tooltip);
-  menuitem->tooltip = lw6sys_str_copy (tooltip);
+  menuitem->tooltip = lw6sys_str_copy (lw6sys_str_empty_if_null (tooltip));
   if (!(menuitem->tooltip))
     {
       lw6sys_log (LW6SYS_LOG_WARNING,

@@ -57,7 +57,8 @@
   (lambda()
     (let* (
 	  (menu (lw6-menu-template (_ "Join server")
-				   (_ "Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.")))
+				   (_ "Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.")
+				   (_ "Network does NOT work yet")))
 	  (node (lw6-get-game-global "node"))
 	  (entries (if node (c-lw6p2p-node-get-entries node) #f))
 	  )

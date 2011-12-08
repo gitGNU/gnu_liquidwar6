@@ -100,7 +100,7 @@
 (define lw6-test-smobs-gc
   (lambda ()
     (let (
-	  (menu (c-lw6gui-menu-new "Test" "Esc" #t))
+	  (menu (c-lw6gui-menu-new "Test" "This is the (usefull) help" "Pop... UP" "Esc" #t))
 	  (game-state (c-lw6ker-build-game-state 
 		       (c-lw6ker-build-game-struct 
 			(c-lw6ldr-read-relative (c-lw6cfg-unified-get-map-path) "subflower" '() '() 640 480 25 33333))))

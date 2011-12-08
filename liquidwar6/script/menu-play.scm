@@ -99,7 +99,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Play")
-				   (_ "Choose your game type")))
+				   (_ "Choose your game type")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-play-menu-solo-item))
@@ -118,7 +119,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Play")
-				   (_ "Choose your game type and play with chosen map")))
+				   (_ "Choose your game type and play with chosen map")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-play-menu-solo-item))

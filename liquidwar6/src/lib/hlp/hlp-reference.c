@@ -2469,6 +2469,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6gui_menu_scroll_down."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS,
 		 _x_ ("Wrapper on lw6gui_menu_set_breadcrumbs."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_CLOSE_POPUP,
+		 _x_ ("Wrapper on lw6gui_menu_close_popup."));
+  POPULATE_VOID (LW6DEF_C_LW6GUI_MENU_HAS_POPUP,
+		 _x_ ("Wrapper on lw6gui_menu_has_popup."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
 		 _x_ ("Wrapper on lw6gui_default_look."));
   POPULATE_VOID (LW6DEF_C_LW6GUI_LOOK_SET,

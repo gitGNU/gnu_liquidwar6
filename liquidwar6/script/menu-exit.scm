@@ -46,7 +46,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Quit Liquid War 6?")
-				   (_ "Procrastinating on games is mother of all vices")))
+				   (_ "Procrastinating on games is mother of all vices")
+				   #f))
 	  )
       (begin
 	(c-lw6gui-menu-enable-esc (assoc-ref menu "smob") #f)

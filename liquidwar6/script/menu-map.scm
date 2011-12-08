@@ -80,7 +80,8 @@
 		      (_ "Choose map")
 		      file-only))
 	   (menu (lw6-menu-template title
-				    (_ "Browse your hard drive to find a map")))
+				    (_ "Browse your hard drive to find a map")
+				    #f))
 	  )
       (begin
 	(map (lw6-map-menu-item-appender menu) entries)

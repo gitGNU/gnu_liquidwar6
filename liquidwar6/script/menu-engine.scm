@@ -126,6 +126,25 @@
 	  (lw6-menu-has-items? menu)
 	  #f))))
 
+(define lw6-menu-has-popup?
+  (lambda ()
+    (let* (
+	   (menu (lw6-current-menu))
+	   (menu-smob (if menu (assoc-ref menu "smob") #f))
+	   )
+      (if menu 
+	  (c-lw6gui-menu-has-popup menu-smob)
+	  #f))))	  
+
+(define lw6-menu-close-popup
+  (lambda ()
+    (let* (
+	   (menu (lw6-current-menu))
+	   (menu-smob (if menu (assoc-ref menu "smob") #f))
+	   )
+      (if menu 
+	  (c-lw6gui-menu-close-popup menu-smob)))))
+
 (define lw6-current-menuitem
   (lambda ()
     (let* (
@@ -203,10 +222,11 @@
 	#f )))
 
 (define lw6-menu-template
-  (lambda (title help)
+  (lambda (title help popup)
     (list
      (cons "smob" (c-lw6gui-menu-new title 
 				     help
+				     popup
 				     (_ "Esc") 
 				     (lw6-config-is-true? lw6def-use-esc-button)))
      (cons "title" title)
@@ -644,8 +664,12 @@
       (if (lw6-empty-menu-stack?)
 	  (c-lw6sys-signal-send-quit)
 	  )
-      (lw6-menu-pump-buttons)
-      (lw6-menu-pump-mouse)
-      (if (not (lw6-menu-pump-all?))
-	  (lw6-zoom-pump))
+      (if (lw6-menu-has-popup?)
+	  (if (lw6-wait-is-any-key-pressed?)
+	      (lw6-menu-close-popup))
+	  (begin
+	    (lw6-menu-pump-buttons)
+	    (lw6-menu-pump-mouse)
+	    (if (not (lw6-menu-pump-all?))
+		(lw6-zoom-pump))))
       )))

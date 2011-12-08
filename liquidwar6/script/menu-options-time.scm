@@ -184,7 +184,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Time & speed")
-				   (_ "Shorten and/or accelerate your games")))
+				   (_ "Shorten and/or accelerate your games")
+				   #f))
 	  (old-total-time (lw6-config-get-number lw6def-total-time))
 	  (old-speed (lw6-config-get-number lw6def-speed))
 	  (old-bench-value (lw6-config-get-number lw6def-bench-value))

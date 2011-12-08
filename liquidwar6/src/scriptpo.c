@@ -2,6 +2,7 @@ _("no gfx backend found");	// extracted by scriptpo-update.sh
 _("no snd backend found");	// extracted by scriptpo-update.sh
 _("gfx backend ~a not available");	// extracted by scriptpo-update.sh
 _("snd backend ~a not available");	// extracted by scriptpo-update.sh
+_("Benchmarking your computer, thanks for your patience");	// extracted by scriptpo-update.sh
 _("Mouse");			// extracted by scriptpo-update.sh
 _("Keyboard");			// extracted by scriptpo-update.sh
 _("Joystick 1");		// extracted by scriptpo-update.sh
@@ -13,6 +14,7 @@ _("~a (joy1)");			// extracted by scriptpo-update.sh
 _("~a (joy2)");			// extracted by scriptpo-update.sh
 _("~a (custom)");		// extracted by scriptpo-update.sh
 _("~a (mouse)");		// extracted by scriptpo-update.sh
+_("Preparing map, this can take some time");	// extracted by scriptpo-update.sh
 _("scheme error");		// extracted by scriptpo-update.sh
 _("running scheme code with Guile");	// extracted by scriptpo-update.sh
 _("leaving Guile");		// extracted by scriptpo-update.sh
@@ -45,6 +47,7 @@ _("No server found");		// extracted by scriptpo-update.sh
 _("No remote node could be found on the network");	// extracted by scriptpo-update.sh
 _("Join server");		// extracted by scriptpo-update.sh
 _("Choose a server and connect to it, all the nodes which you can technically connect to are listed, however you might not be able to connect to some of them, just because they are either idle, full, running another version of the game, etc.");	// extracted by scriptpo-update.sh
+_("Network does NOT work yet");	// extracted by scriptpo-update.sh
 _("Subfolder with ~a maps");	// extracted by scriptpo-update.sh
 _("You can't play this map yet");	// extracted by scriptpo-update.sh
 _("Author");			// extracted by scriptpo-update.sh
@@ -97,6 +100,9 @@ _("Use this to check how fast your display is");	// extracted by scriptpo-update
 _("Display MPS");		// extracted by scriptpo-update.sh
 _("MPS hidden");		// extracted by scriptpo-update.sh
 _("MPS stands for Moves Per Second, displaying this might reveal some slowing down in gameplay");	// extracted by scriptpo-update.sh
+_("Verbose display");		// extracted by scriptpo-update.sh
+_("Clean display");		// extracted by scriptpo-update.sh
+_("Do you want breadcrumbs, help and tooltips to be displayed?");	// extracted by scriptpo-update.sh
 _("Console enabled");		// extracted by scriptpo-update.sh
 _("Console disabled");		// extracted by scriptpo-update.sh
 _("Console is a Guile interpreter which will allow you to type any command interactively, use at your own risk");	// extracted by scriptpo-update.sh
@@ -177,13 +183,14 @@ _("Next");			// extracted by scriptpo-update.sh
 _("And now?");			// extracted by scriptpo-update.sh
 _("Next");			// extracted by scriptpo-update.sh
 _("And now?");			// extracted by scriptpo-update.sh
+_("Achievement 2/2");		// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
 _("And the winner is...");	// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
 _("And the winner is...");	// extracted by scriptpo-update.sh
+_("Achievement 1/2");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
-_("Calculating complicated stuff");	// extracted by scriptpo-update.sh
 _("Exit?");			// extracted by scriptpo-update.sh
 _("Exit");			// extracted by scriptpo-update.sh
 _("Resume LW6");		// extracted by scriptpo-update.sh

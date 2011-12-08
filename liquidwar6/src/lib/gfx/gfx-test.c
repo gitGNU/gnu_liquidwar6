@@ -38,6 +38,7 @@
 #define TEST_DURATION_HUD 10000
 #define TEST_MENU_TITLE "My menu"
 #define TEST_MENU_HELP "This is a sample menu"
+#define TEST_MENU_POPUP ""
 #define TEST_MENU_ESC "Esc"
 #define TEST_MENU_ENABLE_ESC 0
 #define TEST_MENU_ALLOW_SCROLL 0
@@ -228,8 +229,8 @@ test_menu (lw6gfx_backend_t * backend)
     if (look)
       {
 	menu =
-	  lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_ESC,
-			   TEST_MENU_ENABLE_ESC);
+	  lw6gui_menu_new (TEST_MENU_TITLE, TEST_MENU_HELP, TEST_MENU_POPUP,
+			   TEST_MENU_ESC, TEST_MENU_ENABLE_ESC);
 	if (menu)
 	  {
 	    for (i = 0; i < TEST_MENU_NB_MENUITEMS; ++i)

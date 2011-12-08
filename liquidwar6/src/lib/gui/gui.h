@@ -245,6 +245,7 @@ typedef struct lw6gui_menu_s
   u_int32_t id;
   char *title;
   char *help;
+  char *popup;
   int nb_items;
   lw6gui_menuitem_t *esc_item;
   lw6gui_menuitem_t **items;
@@ -473,13 +474,16 @@ extern int lw6gui_menuitem_sync (lw6gui_menuitem_t * dst,
 				 lw6gui_menuitem_t * src);
 
 /* gui-menu.c */
-extern lw6gui_menu_t *lw6gui_menu_new (char *title, char *help, char *esc,
-				       int enable_esc);
+extern lw6gui_menu_t *lw6gui_menu_new (char *title, char *help, char *popup,
+				       char *esc, int enable_esc);
 extern void lw6gui_menu_free (lw6gui_menu_t * menu);
 extern int lw6gui_menu_memory_footprint (lw6gui_menu_t * menu);
 extern char *lw6gui_menu_repr (lw6gui_menu_t * menu);
 extern void lw6gui_menu_set_title (lw6gui_menu_t * menu, char *title);
 extern void lw6gui_menu_set_help (lw6gui_menu_t * menu, char *help);
+extern void lw6gui_menu_set_popup (lw6gui_menu_t * menu, char *popup);
+extern void lw6gui_menu_close_popup (lw6gui_menu_t * menu);
+extern int lw6gui_menu_has_popup (lw6gui_menu_t * menu);
 extern lw6gui_menuitem_t *lw6gui_menu_get_item (lw6gui_menu_t * menu,
 						int position);
 extern int lw6gui_menu_select (lw6gui_menu_t * menu, int position,

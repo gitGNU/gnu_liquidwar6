@@ -3173,12 +3173,13 @@ _scm_lw6cfg_unified_get_map_path ()
  * In liquidwar6gui
  */
 static SCM
-_scm_lw6gui_menu_new (SCM title, SCM help, SCM esc, SCM enable_esc)
+_scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 {
   SCM ret = SCM_BOOL_F;
 
   char *c_title = NULL;
   char *c_help = NULL;
+  char *c_popup = NULL;
   char *c_esc = NULL;
   int c_enable_esc = 0;
   lw6gui_menu_t *c_menu = NULL;
@@ -3193,8 +3194,12 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM esc, SCM enable_esc)
     {
       SCM_ASSERT (scm_is_string (help), help, SCM_ARG2, __FUNCTION__);
     }
-  SCM_ASSERT (scm_is_string (esc), esc, SCM_ARG3, __FUNCTION__);
-  SCM_ASSERT (SCM_BOOLP (enable_esc), enable_esc, SCM_ARG4, __FUNCTION__);
+  if (SCM_NFALSEP (popup))
+    {
+      SCM_ASSERT (scm_is_string (popup), popup, SCM_ARG3, __FUNCTION__);
+    }
+  SCM_ASSERT (scm_is_string (esc), esc, SCM_ARG4, __FUNCTION__);
+  SCM_ASSERT (SCM_BOOLP (enable_esc), enable_esc, SCM_ARG5, __FUNCTION__);
 
   if (SCM_NFALSEP (title))
     {
@@ -3216,17 +3221,31 @@ _scm_lw6gui_menu_new (SCM title, SCM help, SCM esc, SCM enable_esc)
 	}
       if (c_help)
 	{
-	  c_esc = to_0str (esc);
-	  if (c_esc)
+	  if (SCM_NFALSEP (popup))
 	    {
-	      c_enable_esc = SCM_NFALSEP (enable_esc);
-
-	      c_menu = lw6gui_menu_new (c_title, c_help, c_esc, c_enable_esc);
-	      if (c_menu)
+	      c_popup = to_0str (popup);
+	    }
+	  else
+	    {
+	      c_popup = lw6sys_str_copy (LW6SYS_STR_EMPTY);
+	    }
+	  if (c_popup)
+	    {
+	      c_esc = to_0str (esc);
+	      if (c_esc)
 		{
-		  ret = lw6_make_scm_menu (c_menu);
+		  c_enable_esc = SCM_NFALSEP (enable_esc);
+
+		  c_menu =
+		    lw6gui_menu_new (c_title, c_help, c_popup, c_esc,
+				     c_enable_esc);
+		  if (c_menu)
+		    {
+		      ret = lw6_make_scm_menu (c_menu);
+		    }
+		  LW6SYS_FREE (c_esc);
 		}
-	      LW6SYS_FREE (c_esc);
+	      LW6SYS_FREE (c_popup);
 	    }
 	  LW6SYS_FREE (c_help);
 	}
@@ -3483,6 +3502,43 @@ _scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
       lw6gui_menu_set_breadcrumbs (c_menu, c_breadcrumbs);
       lw6sys_list_free (c_breadcrumbs);
     }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6gui_menu_close_popup (SCM menu)
+{
+  lw6gui_menu_t *c_menu;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.menu,
+	       menu), menu, SCM_ARG1, __FUNCTION__);
+  c_menu = lw6_scm_to_menu (menu);
+  lw6gui_menu_close_popup (c_menu);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return SCM_BOOL_F;
+}
+
+static SCM
+_scm_lw6gui_menu_has_popup (SCM menu)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6gui_menu_t *c_menu;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.menu,
+	       menu), menu, SCM_ARG1, __FUNCTION__);
+  c_menu = lw6_scm_to_menu (menu);
+  ret = lw6gui_menu_has_popup (c_menu) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -9330,7 +9386,7 @@ lw6_register_funcs ()
   /*
    * In liquidwar6gui
    */
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 4, 0, 0,
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_NEW, 5, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_new);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_append);
@@ -9348,6 +9404,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6gui_menu_scroll_down);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS, 2, 0, 0,
 			 (SCM (*)())_scm_lw6gui_menu_set_breadcrumbs);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_CLOSE_POPUP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_close_popup);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_MENU_HAS_POPUP, 1, 0, 0,
+			 (SCM (*)())_scm_lw6gui_menu_has_popup);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_DEFAULT_LOOK,
 			 0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6GUI_LOOK_SET,

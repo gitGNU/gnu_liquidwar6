@@ -22,7 +22,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Playing")
-				   (_ "Game is running, press ESC to leave")))
+				   (_ "Game is running, press ESC to leave")
+				   #f))
 	  )
       (begin
 	;; no items here!

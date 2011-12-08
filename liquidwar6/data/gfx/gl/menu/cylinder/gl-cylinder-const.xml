@@ -45,4 +45,11 @@
   <int key="breadcrumbs-margin-size" value="2" />
   <int key="breadcrumbs-reformat-width" value="60" />
   <float key="breadcrumbs-relative-size" value="0.6" />
+  <float key="popup-alpha-bg" value="0.5" />
+  <int key="popup-max-width" value="512" />
+  <int key="popup-max-height" value="512" />
+  <int key="popup-border-size" value="2" />
+  <int key="popup-margin-size" value="2" />
+  <int key="popup-reformat-width" value="30" />
+  <float key="popup-relative-size" value="0.6" />
 </liquidwar6>

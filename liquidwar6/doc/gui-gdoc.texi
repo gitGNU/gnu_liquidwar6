@@ -432,12 +432,15 @@ Returns a human-readable representation of the keypress.
 @strong{Return value:}  a newly allocated string
 @end deftypefun
 
-@deftypefun {lw6gui_menu_t *} {lw6gui_menu_new} (char * @var{title}, char * @var{help}, char * @var{esc}, int @var{enable_esc})
+@deftypefun {lw6gui_menu_t *} {lw6gui_menu_new} (char * @var{title}, char * @var{help}, char * @var{popup}, char * @var{esc}, int @var{enable_esc})
 @var{title}:  the string to be displayed, what the user sees. Can be freed after
 the call is done, function will make a copy internally.
 
 @var{help}:  a string introducing the menu, describing what it does,
 giving hints on how to use it.
+
+@var{popup}:  a string to be displayed in popup mode when menu is displayed
+for the first time.
 
 @var{esc}:  the label to be displayed in the ESC button
 
@@ -483,7 +486,7 @@ object, but helps knowing what it is.
 @var{title}:  the new title, you can free it after calling the function,
 an internal copy will be made. 
 
-Change the title of the menu. That is to say, its title.
+Change the title of the menu.
 Use this function to change the title, don't try to access the 
 struct directly. The idea is to have safe memory management.
 
@@ -496,11 +499,46 @@ struct directly. The idea is to have safe memory management.
 @var{help}:  the new help, you can free it after calling the function,
 an internal copy will be made. 
 
-Change the help of the menu. That is to say, its help.
+Change the help of the menu.
 Use this function to change the help, don't try to access the 
 struct directly. The idea is to have safe memory management.
 
 @strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_set_popup} (lw6gui_menu_t * @var{menu}, char * @var{popup})
+@var{menu}:  a pointer to the menu.
+
+@var{popup}:  the new popup, you can free it after calling the function,
+an internal copy will be made. 
+
+Change the popup of the menu. That is to say, its popup.
+Use this function to change the popup, don't try to access the 
+struct directly. The idea is to have safe memory management.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6gui_menu_close_popup} (lw6gui_menu_t * @var{menu})
+@var{menu}:  a pointer to the menu.
+
+Closes the popup, in practice, this is equivalent to
+setting the popup string to "" or NULL.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {int} {lw6gui_menu_has_popup} (lw6gui_menu_t * @var{menu})
+@var{menu}:  a pointer to the menu.
+
+Tells wether a popup is defined. Behavior is simplistic,
+at creation (when a non-NULL non-empty popup string has
+been set) then the popup is displayed. In this state,
+popup is considered to be defined. Then it can be close,
+and after this action the popup ain't here anymore,
+program continues the way it started.
+
+@strong{Return value:}  1 if has popup, 0 if does not
 @end deftypefun
 
 @deftypefun {lw6gui_menuitem_t *} {lw6gui_menu_get_item} (lw6gui_menu_t * @var{menu}, int @var{position})

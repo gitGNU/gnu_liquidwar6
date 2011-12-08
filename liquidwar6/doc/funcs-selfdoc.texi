@@ -370,9 +370,19 @@ Wrapper on lw6gui_look_zoom_out.
 Wrapper on lw6gui_menu_append.
 @end deffn
 
+@subsection c-lw6gui-menu-close-popup
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-close-popup}
+Wrapper on lw6gui_menu_close_popup.
+@end deffn
+
 @subsection c-lw6gui-menu-enable-esc
 @deffn {C function exported to Guile} @code{c-lw6gui-menu-enable-esc}
 Wrapper on lw6gui_menu_enable_esc.
+@end deffn
+
+@subsection c-lw6gui-menu-has-popup
+@deffn {C function exported to Guile} @code{c-lw6gui-menu-has-popup}
+Wrapper on lw6gui_menu_has_popup.
 @end deffn
 
 @subsection c-lw6gui-menu-new

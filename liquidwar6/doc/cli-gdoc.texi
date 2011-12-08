@@ -143,6 +143,21 @@ Returns the list of the default cli backends.
 @strong{Return value:}  comma separated string, must not be freed.
 @end deftypefun
 
+@deftypefun {lw6sys_assoc_t *} {lw6cli_get_backends} (int @var{argc}, char * [] @var{argv})
+@var{argc}:  argc, as passed to @code{main}
+
+@var{argv}:  argv, as passed to @code{main}
+
+List available cli backends. The hash contains pairs with id and name
+for each backend. The id is the technical key you can use to
+load the backend, the name is something more readable you can display
+in an interface. The backend objects themselves are not instanciated
+by this (in fact, they are, but released on the fly) you need to
+load and initialize them afterwards.
+
+@strong{Return value:}  hash containing id/name pairs.
+@end deftypefun
+
 @deftypefun {lw6cli_backend_t *} {lw6cli_create_backend} (int @var{argc}, char * [] @var{argv}, char * @var{name})
 @var{argc}:  argc, as passed to @code{main}
 

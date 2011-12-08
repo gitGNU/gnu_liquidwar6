@@ -78,7 +78,8 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Liquid War 6")
-				   (_ "Welcome to Liquid War 6, have fun!")))
+				   (_ "Welcome to Liquid War 6, have fun!")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-root-menu-quick-start-item))

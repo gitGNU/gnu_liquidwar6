@@ -72,6 +72,13 @@ typedef struct _mod_gl_menu_cylinder_const_data_s
   int breadcrumbs_margin_size;
   int breadcrumbs_reformat_width;
   float breadcrumbs_relative_size;
+  float popup_alpha_bg;
+  int popup_max_width;
+  int popup_max_height;
+  int popup_border_size;
+  int popup_margin_size;
+  int popup_reformat_width;
+  float popup_relative_size;
 }
 _mod_gl_menu_cylinder_const_data_t;
 

@@ -62,6 +62,28 @@
      lw6-system-options-menu-display-mps-item-toggle
      (_ "MPS stands for Moves Per Second, displaying this might reveal some slowing down in gameplay"))))
 
+(define lw6-system-options-menu-display-meta-item-label
+  (lambda ()
+    (if (lw6-config-is-true? lw6def-display-meta)
+	(_ "Verbose display")
+	(_ "Clean display"))))
+
+(define lw6-system-options-menu-display-meta-item-toggle
+  (lambda (menuitem)
+    (begin
+      (lw6-config-set-boolean! lw6def-display-meta (not (lw6-config-is-true? lw6def-display-meta)))
+      (lw6-display-param-set! lw6def-display-meta (lw6-config-is-true? lw6def-display-meta))
+      (lw6-display-update)
+      )))
+
+(define lw6-system-options-menu-display-meta-item
+  (lambda ()
+    (lw6-menu-item-template-switch 
+     lw6-system-options-menu-display-meta-item-label 
+     lw6-system-options-menu-display-meta-item-toggle 
+     lw6-system-options-menu-display-meta-item-toggle
+     (_ "Do you want breadcrumbs, help and tooltips to be displayed?"))))
+
 (define lw6-system-options-menu-display-console-item-label
   (lambda ()
     (if (lw6-config-is-true? lw6def-display-console)
@@ -90,11 +112,13 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "System options")
-				   (_ "All those weird options and tweaks you can live without")))
+				   (_ "All those weird options and tweaks you can live without")
+				   #f))
 	  )
       (begin
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-fps-item))
 	(lw6-append-menuitem! menu (lw6-system-options-menu-display-mps-item))
+	(lw6-append-menuitem! menu (lw6-system-options-menu-display-meta-item))
 	(if (c-lw6cns-support)
 	    (lw6-append-menuitem! menu (lw6-system-options-menu-display-console-item)))
 	menu
