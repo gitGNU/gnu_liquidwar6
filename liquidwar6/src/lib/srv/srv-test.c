@@ -224,6 +224,11 @@ lw6srv_test (int mode)
       lw6nod_test (mode);
       lw6cnx_test (mode);
       lw6msg_test (mode);
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
     }
 
   ret = _test_oob () && _test_tcp_accepter () && _test_udp_buffer ();

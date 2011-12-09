@@ -190,6 +190,11 @@ lw6snd_test (int mode)
        */
       lw6sys_test (mode);
       lw6cfg_test (mode);
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
     }
 
   if (mode)

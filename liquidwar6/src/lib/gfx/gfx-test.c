@@ -553,6 +553,11 @@ lw6gfx_test (int mode)
       lw6pil_test (mode);
       lw6gui_test (mode);
       lw6vox_test (mode);
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
     }
 
   if (mode)

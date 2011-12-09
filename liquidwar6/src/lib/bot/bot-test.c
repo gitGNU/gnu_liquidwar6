@@ -180,7 +180,11 @@ lw6bot_test (int mode)
       lw6sys_test (mode);
       lw6map_test (mode);
       lw6ker_test (mode);
-      lw6dyn_test (mode);
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
     }
 
   backend[0] = lw6bot_create_backend (argc, argv, "brute");

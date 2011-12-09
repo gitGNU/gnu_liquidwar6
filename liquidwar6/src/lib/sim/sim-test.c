@@ -122,9 +122,13 @@ lw6sim_test (int mode)
       lw6map_test (mode);
       lw6ker_test (mode);
       lw6pil_test (mode);
-      lw6dyn_test (mode);
       lw6bot_test (mode);
-    }
+      /*
+       * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
+       * this function is available only in non-allinone mode.
+       */
+      // lw6dyn_test (mode);
+  }
 
   ret = test_mask () && test_simulate ();
 
