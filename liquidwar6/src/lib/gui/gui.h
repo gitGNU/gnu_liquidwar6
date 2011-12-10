@@ -519,8 +519,8 @@ extern int lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label,
 extern int lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
 					int64_t now);
 extern void lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id,
-				       char *label, int value, int enabled,
-				       int selected, int colored,
+				       char *label, char *tooltip, int value,
+				       int enabled, int selected, int colored,
 				       int64_t now);
 extern int lw6gui_menu_is_same (lw6gui_menu_t * menu_a,
 				lw6gui_menu_t * menu_b);

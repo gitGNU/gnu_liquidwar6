@@ -929,6 +929,12 @@ lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
  *
  * @menu: the menu to work on
  * @menuitem_id: the id of the menuitem to synchronize
+ * @label: menu label
+ * @tooltip: menu tooltip
+ * @value: value
+ * @enabled: wether it's usable or not
+ * @selected: 1 if the menuite is current item
+ * @colored: wether to use color
  * @now: current time (timestamp)
  *
  * Updates the menuitem with the given id. Very important: the id is not
@@ -943,8 +949,8 @@ lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id,
  */
 void
 lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label,
-			   int value, int enabled, int selected, int colored,
-			   int64_t now)
+			   char *tooltip, int value, int enabled,
+			   int selected, int colored, int64_t now)
 {
   int position;
   lw6gui_menuitem_t *menuitem;
@@ -956,6 +962,7 @@ lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label,
       if (menuitem)
 	{
 	  lw6gui_menuitem_set_label (menuitem, label, now);
+	  lw6gui_menuitem_set_tooltip (menuitem, tooltip, now);
 	  lw6gui_menuitem_set_value (menuitem, value, now);
 	  menuitem->enabled = enabled;
 	  if (selected)

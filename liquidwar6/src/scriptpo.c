@@ -14,6 +14,11 @@ _("~a (joy1)");			// extracted by scriptpo-update.sh
 _("~a (joy2)");			// extracted by scriptpo-update.sh
 _("~a (custom)");		// extracted by scriptpo-update.sh
 _("~a (mouse)");		// extracted by scriptpo-update.sh
+_("Move cursor: pointer~%Menu: left button~%Primary fire: right button~%Alternate fire: middle button~%Zoom: wheel");	// extracted by scriptpo-update.sh
+_("Move cursor: arrows~%Menu: ENTER and ESC~%Primary fire: CTRL key~%Alternate fire: ALT key~%Zoom: PGUP and PGDOWN");	// extracted by scriptpo-update.sh
+_("Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Alternate fire: D button~%Zoom: E and F buttons");	// extracted by scriptpo-update.sh
+_("Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Alternate fire: D button~%Zoom: E and F buttons");	// extracted by scriptpo-update.sh
+_("Not working yet");		// extracted by scriptpo-update.sh
 _("Preparing map, this can take some time");	// extracted by scriptpo-update.sh
 _("scheme error");		// extracted by scriptpo-update.sh
 _("running scheme code with Guile");	// extracted by scriptpo-update.sh
@@ -133,10 +138,13 @@ _("Video options");		// extracted by scriptpo-update.sh
 _("Change screen resolution, video mode, ...");	// extracted by scriptpo-update.sh
 _("Not playing");		// extracted by scriptpo-update.sh
 _("Activate or disable a human player");	// extracted by scriptpo-update.sh
-_("Choose among the available colors, not that all colors might not be available when you play the game for the first time");	// extracted by scriptpo-update.sh
 _("Choose the control device");	// extracted by scriptpo-update.sh
 _("Change options for player ~a");	// extracted by scriptpo-update.sh
 _("Free slot");			// extracted by scriptpo-update.sh
+_("Name");			// extracted by scriptpo-update.sh
+_("Color");			// extracted by scriptpo-update.sh
+_("Control");			// extracted by scriptpo-update.sh
+_("You can create a new player here");	// extracted by scriptpo-update.sh
 _("No bots");			// extracted by scriptpo-update.sh
 _("One bot");			// extracted by scriptpo-update.sh
 _("~a bots");			// extracted by scriptpo-update.sh

@@ -168,6 +168,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6GUI_MOUSE_POP_TRIPLE_CLICK "c-lw6gui-mouse-pop-triple-click"
 #define LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN "c-lw6gui-mouse-pop-wheel-down"
 #define LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP "c-lw6gui-mouse-pop-wheel-up"
+#define LW6DEF_C_LW6HLP_ABOUT "c-lw6hlp-about"
 #define LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE "c-lw6hlp-get-default-value"
 #define LW6DEF_C_LW6HLP_LIST "c-lw6hlp-list"
 #define LW6DEF_C_LW6HLP_LIST_ADVANCED "c-lw6hlp-list-advanced"

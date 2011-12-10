@@ -861,6 +861,7 @@ test_menu ()
 			  {
 			    lw6gui_menu_sync_using_id (menu, menuitem_id,
 						       TEST_MENUITEM_LABEL1,
+						       TEST_MENUITEM_TOOLTIP1,
 						       TEST_MENUITEM_VALUE1,
 						       1, 0, 0, 0);
 			    lw6gui_menu_remove_using_id (menu, menuitem_id,

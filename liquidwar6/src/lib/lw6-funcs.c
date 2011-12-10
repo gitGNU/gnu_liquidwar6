@@ -2477,6 +2477,55 @@ _scm_lw6sys_url_canonize (SCM url)
 /*
  * lw6hlp
  */
+
+static SCM
+_scm_lw6hlp_about (SCM key)
+{
+  char *c_key;
+  char *c_ret;
+  SCM ret = SCM_BOOL_F;
+
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
+
+  c_key = to_0str (key);
+  if (c_key)
+    {
+      c_ret = lw6hlp_about (NULL, NULL, NULL, NULL, c_key);
+      if (c_ret)
+	{
+	  ret = scm_makfrom0str (c_ret);
+	  // no need to free c_ret
+	}
+      LW6SYS_FREE (c_key);
+    }
+
+  return ret;
+}
+
+static SCM
+_scm_lw6hlp_get_default_value (SCM key)
+{
+  char *c_key;
+  char *c_ret;
+  SCM ret = SCM_BOOL_F;
+
+  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
+
+  c_key = to_0str (key);
+  if (c_key)
+    {
+      c_ret = lw6hlp_get_default_value (c_key);
+      if (c_ret)
+	{
+	  ret = scm_makfrom0str (c_ret);
+	  // no need to free c_ret
+	}
+      LW6SYS_FREE (c_key);
+    }
+
+  return ret;
+}
+
 static SCM
 _scm_lw6hlp_list_quick ()
 {
@@ -2893,29 +2942,6 @@ _scm_lw6hlp_list ()
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
-
-  return ret;
-}
-
-static SCM
-_scm_lw6hlp_get_default_value (SCM key)
-{
-  char *c_key;
-  char *c_ret;
-  SCM ret = SCM_BOOL_F;
-
-  SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
-
-  c_key = to_0str (key);
-  if (c_key)
-    {
-      c_ret = lw6hlp_get_default_value (c_key);
-      if (c_ret)
-	{
-	  ret = scm_makfrom0str (c_ret);
-	  // no need to free c_ret
-	}
-    }
 
   return ret;
 }
@@ -3392,6 +3418,7 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 {
   int c_id;
   char *c_label;
+  char *c_tooltip;
   int c_value;
   int c_enabled;
   int c_selected;
@@ -3407,27 +3434,36 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
   c_label = to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("label")));
-
   if (c_label)
     {
-      lw6gui_menu_t *c_menu;
+      c_tooltip =
+	to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("tooltip")));
+      if (c_tooltip)
+	{
+	  lw6gui_menu_t *c_menu;
 
-      c_id = scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("id")));
-      c_value =
-	scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
-      c_enabled =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("enabled")));
-      c_selected =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("selected")));
-      c_colored =
-	scm_to_bool (scm_assoc_ref (menuitem, scm_makfrom0str ("colored")));
+	  c_id =
+	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("id")));
+	  c_value =
+	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
+	  c_enabled =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("enabled")));
+	  c_selected =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("selected")));
+	  c_colored =
+	    scm_to_bool (scm_assoc_ref
+			 (menuitem, scm_makfrom0str ("colored")));
 
-      c_menu = lw6_scm_to_menu (menu);
+	  c_menu = lw6_scm_to_menu (menu);
 
-      lw6gui_menu_sync_using_id
-	(c_menu, c_id, c_label, c_value, c_enabled, c_selected,
-	 c_colored, lw6sys_get_timestamp ());
+	  lw6gui_menu_sync_using_id
+	    (c_menu, c_id, c_label, c_tooltip, c_value, c_enabled, c_selected,
+	     c_colored, lw6sys_get_timestamp ());
 
+	  LW6SYS_FREE (c_tooltip);
+	}
       LW6SYS_FREE (c_label);
     }
 
@@ -9376,6 +9412,10 @@ lw6_register_funcs ()
   /*
    * In liquidwar6hlp
    */
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_ABOUT, 1, 0, 0,
+			 (SCM (*)())_scm_lw6hlp_about);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
+			 (SCM (*)())_scm_lw6hlp_get_default_value);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK,
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC,
@@ -9418,8 +9458,6 @@ lw6_register_funcs ()
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_weapons);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
 			 (SCM (*)())_scm_lw6hlp_list);
-  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,
-			 (SCM (*)())_scm_lw6hlp_get_default_value);
 
   /*
    * In liquidwar6cfg

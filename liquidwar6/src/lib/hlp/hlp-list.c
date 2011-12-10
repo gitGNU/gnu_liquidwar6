@@ -972,6 +972,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_IDLE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_SNOOZE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SYS_URL_CANONIZE);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_ABOUT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_QUICK);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_DOC);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_SHOW);
@@ -993,7 +995,6 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_TEAM_COLORS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_WEAPONS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST);
-  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CFG_DEFAULTS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CFG_LOAD);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CFG_OPTION_EXISTS);

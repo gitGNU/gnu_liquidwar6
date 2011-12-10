@@ -71,5 +71,17 @@
       "custom")
      index)))
 
+(define lw6-control-index-to-tooltip
+  (lambda (index)
+    (list-ref
+     (list
+      (format #f (_ "Move cursor: pointer~%Menu: left button~%Primary fire: right button~%Alternate fire: middle button~%Zoom: wheel"))
+      (format #f (_ "Move cursor: arrows~%Menu: ENTER and ESC~%Primary fire: CTRL key~%Alternate fire: ALT key~%Zoom: PGUP and PGDOWN"))
+      (format #f (_ "Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Alternate fire: D button~%Zoom: E and F buttons"))
+      (format #f (_ "Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~%Alternate fire: D button~%Zoom: E and F buttons"))
+      (format #f (_ "Not working yet"))
+      )
+     index)))
+
    
 

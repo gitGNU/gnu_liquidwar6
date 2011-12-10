@@ -2426,6 +2426,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6SYS_SNOOZE, _x_ ("Wrapper on lw6sys_snooze."));
   POPULATE_VOID (LW6DEF_C_LW6SYS_URL_CANONIZE,
 		 _x_ ("Wrapper on lw6sys_url_canonize."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_ABOUT, _x_ ("Wrapper on lw6hlp_about."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE,
+		 _x_ ("Wrapper on lw6hlp_get_default_value."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_QUICK,
 		 _x_ ("Wrapper on lw6hlp_list_quick."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_DOC,
@@ -2467,8 +2470,6 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_WEAPONS,
 		 _x_ ("Wrapper on lw6hlp_list_weapons."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST, _x_ ("Wrapper on lw6hlp_list."));
-  POPULATE_VOID (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE,
-		 _x_ ("Wrapper on lw6hlp_get_default_value."));
   POPULATE_VOID (LW6DEF_C_LW6CFG_DEFAULTS,
 		 _x_ ("Wrapper on lw6cfg_defaults."));
   POPULATE_VOID (LW6DEF_C_LW6CFG_LOAD, _x_ ("Wrapper on lw6cfg_load."));

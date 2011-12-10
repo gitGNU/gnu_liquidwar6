@@ -33,9 +33,21 @@
 	   (label (if player-status
 		      player-name
 		      (_ "Free slot")))
+	   (tooltip (if player-status
+			(format #f
+				"~a: ~a~%~a: ~a~%~a: ~a"
+				(_ "Name")
+				player-name
+				(_ "Color")
+				player-color
+				(_ "Control")
+				player-control
+				)
+			(_ "You can create a new player here")))
 	   )
       (begin
 	(set! menuitem (assoc-set! menuitem "label" label))
+	(set! menuitem (assoc-set! menuitem "tooltip" tooltip))
 	(set! menuitem (assoc-set! menuitem "on-valid" (lambda (mi) (lw6-push-menu (lw6-player-detail-menu player-prefix)))))
 	(set! menuitem (assoc-set! menuitem "value" (c-lw6map-team-color-key-to-index player-color)))
 	(set! menuitem (assoc-set! menuitem "colored" player-status))

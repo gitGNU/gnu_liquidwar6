@@ -161,6 +161,7 @@
 (define lw6def-c-lw6gui-mouse-pop-triple-click "c-lw6gui-mouse-pop-triple-click")
 (define lw6def-c-lw6gui-mouse-pop-wheel-down "c-lw6gui-mouse-pop-wheel-down")
 (define lw6def-c-lw6gui-mouse-pop-wheel-up "c-lw6gui-mouse-pop-wheel-up")
+(define lw6def-c-lw6hlp-about "c-lw6hlp-about")
 (define lw6def-c-lw6hlp-get-default-value "c-lw6hlp-get-default-value")
 (define lw6def-c-lw6hlp-list "c-lw6hlp-list")
 (define lw6def-c-lw6hlp-list-advanced "c-lw6hlp-list-advanced")

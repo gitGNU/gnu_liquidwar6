@@ -45,11 +45,14 @@
 (define lw6-player-detail-menu-color-item-update-func
   (lambda (menuitem)
     (let* (
-	   (player-color-key (assoc-ref menuitem "player-color-key"))
 	   (value (assoc-ref menuitem "value"))
+	   (player-color-key (assoc-ref menuitem "player-color-key"))
+	   (player-color (c-lw6map-team-color-index-to-key value))
+	   (player-color-tooltip (c-lw6hlp-about player-color))
 	  )
       (begin
-	(lw6-config-set-string! player-color-key (c-lw6map-team-color-index-to-key value))
+	(lw6-config-set-string! player-color-key player-color)
+	(set! menuitem (assoc-set! menuitem "tooltip" player-color-tooltip))
 	;;(lw6-game-put-local-teams)
       ))))
 
@@ -58,9 +61,9 @@
     (let* (
 	   (player-color-key (string-concatenate (list player-prefix "-color")))
 	   (player-color (lw6-config-get-string player-color-key))
+	   (player-color-tooltip (c-lw6hlp-about player-color))
 	   (item (list (cons "player-color-key" player-color-key)
-		       (cons "tooltip" (_ "Choose among the available colors, not that all colors might not be available when you play the game for the first time"))		       
-		       ))
+		       (cons "tooltip" player-color-tooltip)))
 	   )
       (begin
 	(set! item (lw6-menu-item-list-template-update
@@ -92,6 +95,7 @@
 	   (value (assoc-ref menuitem "value"))
 	  )
       (lw6-config-set-string! player-control-key (lw6-control-index-to-key value))
+      (set! menuitem (assoc-set! menuitem "tooltip" (lw6-control-index-to-tooltip value)))
       )))
 
 (define lw6-player-detail-menu-control-item

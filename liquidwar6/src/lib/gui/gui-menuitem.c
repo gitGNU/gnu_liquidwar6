@@ -466,7 +466,7 @@ lw6gui_menuitem_sync (lw6gui_menuitem_t * dst, lw6gui_menuitem_t * src)
 	}
       if (!lw6sys_str_is_same (dst->tooltip, src->tooltip))
 	{
-	  lw6gui_menuitem_set_tooltip (dst, src->label, src->last_change);
+	  lw6gui_menuitem_set_tooltip (dst, src->tooltip, src->last_change);
 	}
       dst->value = src->value;
       dst->enabled = src->enabled;
