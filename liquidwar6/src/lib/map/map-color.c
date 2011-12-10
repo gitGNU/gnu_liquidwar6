@@ -78,39 +78,39 @@ lw6map_color_is_same (lw6map_color_couple_t * color1,
 char *
 lw6map_team_color_index_to_key (int index)
 {
-  char *ret = LW6MAP_TEAM_COLOR_KEY_RED;
+  char *ret = LW6DEF_RED;
 
   switch (index)
     {
     case LW6MAP_TEAM_COLOR_RED:
-      ret = LW6MAP_TEAM_COLOR_KEY_RED;
+      ret = LW6DEF_RED;
       break;
     case LW6MAP_TEAM_COLOR_GREEN:
-      ret = LW6MAP_TEAM_COLOR_KEY_GREEN;
+      ret = LW6DEF_GREEN;
       break;
     case LW6MAP_TEAM_COLOR_BLUE:
-      ret = LW6MAP_TEAM_COLOR_KEY_BLUE;
+      ret = LW6DEF_BLUE;
       break;
     case LW6MAP_TEAM_COLOR_YELLOW:
-      ret = LW6MAP_TEAM_COLOR_KEY_YELLOW;
+      ret = LW6DEF_YELLOW;
       break;
     case LW6MAP_TEAM_COLOR_CYAN:
-      ret = LW6MAP_TEAM_COLOR_KEY_CYAN;
+      ret = LW6DEF_CYAN;
       break;
     case LW6MAP_TEAM_COLOR_MAGENTA:
-      ret = LW6MAP_TEAM_COLOR_KEY_MAGENTA;
+      ret = LW6DEF_MAGENTA;
       break;
     case LW6MAP_TEAM_COLOR_ORANGE:
-      ret = LW6MAP_TEAM_COLOR_KEY_ORANGE;
+      ret = LW6DEF_ORANGE;
       break;
     case LW6MAP_TEAM_COLOR_LIGHTBLUE:
-      ret = LW6MAP_TEAM_COLOR_KEY_LIGHTBLUE;
+      ret = LW6DEF_LIGHTBLUE;
       break;
     case LW6MAP_TEAM_COLOR_PURPLE:
-      ret = LW6MAP_TEAM_COLOR_KEY_PURPLE;
+      ret = LW6DEF_PURPLE;
       break;
     case LW6MAP_TEAM_COLOR_PINK:
-      ret = LW6MAP_TEAM_COLOR_KEY_PINK;
+      ret = LW6DEF_PINK;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("team color index %d isn't valid"),
@@ -134,43 +134,43 @@ lw6map_team_color_key_to_index (char *key)
 {
   int ret = LW6MAP_TEAM_COLOR_INVALID;
 
-  if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_RED))
+  if (!strcasecmp (key, LW6DEF_RED))
     {
       ret = LW6MAP_TEAM_COLOR_RED;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_GREEN))
+  else if (!strcasecmp (key, LW6DEF_GREEN))
     {
       ret = LW6MAP_TEAM_COLOR_GREEN;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_BLUE))
+  else if (!strcasecmp (key, LW6DEF_BLUE))
     {
       ret = LW6MAP_TEAM_COLOR_BLUE;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_YELLOW))
+  else if (!strcasecmp (key, LW6DEF_YELLOW))
     {
       ret = LW6MAP_TEAM_COLOR_YELLOW;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_CYAN))
+  else if (!strcasecmp (key, LW6DEF_CYAN))
     {
       ret = LW6MAP_TEAM_COLOR_CYAN;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_MAGENTA))
+  else if (!strcasecmp (key, LW6DEF_MAGENTA))
     {
       ret = LW6MAP_TEAM_COLOR_MAGENTA;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_ORANGE))
+  else if (!strcasecmp (key, LW6DEF_ORANGE))
     {
       ret = LW6MAP_TEAM_COLOR_ORANGE;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_LIGHTBLUE))
+  else if (!strcasecmp (key, LW6DEF_LIGHTBLUE))
     {
       ret = LW6MAP_TEAM_COLOR_LIGHTBLUE;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_PURPLE))
+  else if (!strcasecmp (key, LW6DEF_PURPLE))
     {
       ret = LW6MAP_TEAM_COLOR_PURPLE;
     }
-  else if (!strcasecmp (key, LW6MAP_TEAM_COLOR_KEY_PINK))
+  else if (!strcasecmp (key, LW6DEF_PINK))
     {
       ret = LW6MAP_TEAM_COLOR_PINK;
     }

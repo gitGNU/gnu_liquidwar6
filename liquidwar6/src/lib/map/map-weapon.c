@@ -39,69 +39,69 @@
 char *
 lw6map_weapon_index_to_key (int index)
 {
-  char *ret = LW6MAP_WEAPON_KEY_BERZERK;
+  char *ret = LW6DEF_BERZERK;
 
   switch (index)
     {
     case LW6MAP_WEAPON_BERZERK:
-      ret = LW6MAP_WEAPON_KEY_BERZERK;
+      ret = LW6DEF_BERZERK;
       break;
     case LW6MAP_WEAPON_INVINCIBLE:
-      ret = LW6MAP_WEAPON_KEY_INVINCIBLE;
+      ret = LW6DEF_INVINCIBLE;
       break;
     case LW6MAP_WEAPON_ESCAPE:
-      ret = LW6MAP_WEAPON_KEY_ESCAPE;
+      ret = LW6DEF_ESCAPE;
       break;
     case LW6MAP_WEAPON_TURBO:
-      ret = LW6MAP_WEAPON_KEY_TURBO;
+      ret = LW6DEF_TURBO;
       break;
     case LW6MAP_WEAPON_TELEPORT:
-      ret = LW6MAP_WEAPON_KEY_TELEPORT;
+      ret = LW6DEF_TELEPORT;
       break;
     case LW6MAP_WEAPON_SCATTER:
-      ret = LW6MAP_WEAPON_KEY_SCATTER;
+      ret = LW6DEF_SCATTER;
       break;
     case LW6MAP_WEAPON_FIX:
-      ret = LW6MAP_WEAPON_KEY_FIX;
+      ret = LW6DEF_FIX;
       break;
     case LW6MAP_WEAPON_MIX:
-      ret = LW6MAP_WEAPON_KEY_MIX;
+      ret = LW6DEF_MIX;
       break;
     case LW6MAP_WEAPON_CONTROL:
-      ret = LW6MAP_WEAPON_KEY_CONTROL;
+      ret = LW6DEF_CONTROL;
       break;
     case LW6MAP_WEAPON_PERMUTATION:
-      ret = LW6MAP_WEAPON_KEY_PERMUTATION;
+      ret = LW6DEF_PERMUTATION;
       break;
     case LW6MAP_WEAPON_STEAL:
-      ret = LW6MAP_WEAPON_KEY_STEAL;
+      ret = LW6DEF_STEAL;
       break;
     case LW6MAP_WEAPON_ATOMIC:
-      ret = LW6MAP_WEAPON_KEY_ATOMIC;
+      ret = LW6DEF_ATOMIC;
       break;
     case LW6MAP_WEAPON_REVERSE:
-      ret = LW6MAP_WEAPON_KEY_REVERSE;
+      ret = LW6DEF_REVERSE;
       break;
     case LW6MAP_WEAPON_CRAZY:
-      ret = LW6MAP_WEAPON_KEY_CRAZY;
+      ret = LW6DEF_CRAZY;
       break;
     case LW6MAP_WEAPON_REWIND:
-      ret = LW6MAP_WEAPON_KEY_REWIND;
+      ret = LW6DEF_REWIND;
       break;
     case LW6MAP_WEAPON_ATTRACT:
-      ret = LW6MAP_WEAPON_KEY_ATTRACT;
+      ret = LW6DEF_ATTRACT;
       break;
     case LW6MAP_WEAPON_SHRINK:
-      ret = LW6MAP_WEAPON_KEY_SHRINK;
+      ret = LW6DEF_SHRINK;
       break;
     case LW6MAP_WEAPON_KAMIKAZE:
-      ret = LW6MAP_WEAPON_KEY_KAMIKAZE;
+      ret = LW6DEF_KAMIKAZE;
       break;
     case LW6MAP_WEAPON_DISAPPEAR:
-      ret = LW6MAP_WEAPON_KEY_DISAPPEAR;
+      ret = LW6DEF_DISAPPEAR;
       break;
     case LW6MAP_WEAPON_PLAGUE:
-      ret = LW6MAP_WEAPON_KEY_PLAGUE;
+      ret = LW6DEF_PLAGUE;
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING,
@@ -125,83 +125,83 @@ lw6map_weapon_key_to_index (char *key)
 {
   int ret = LW6MAP_WEAPON_NONE;
 
-  if (!strcasecmp (key, LW6MAP_WEAPON_KEY_BERZERK))
+  if (!strcasecmp (key, LW6DEF_BERZERK))
     {
       ret = LW6MAP_WEAPON_BERZERK;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_INVINCIBLE))
+  else if (!strcasecmp (key, LW6DEF_INVINCIBLE))
     {
       ret = LW6MAP_WEAPON_INVINCIBLE;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_ESCAPE))
+  else if (!strcasecmp (key, LW6DEF_ESCAPE))
     {
       ret = LW6MAP_WEAPON_ESCAPE;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_TURBO))
+  else if (!strcasecmp (key, LW6DEF_TURBO))
     {
       ret = LW6MAP_WEAPON_TURBO;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_TELEPORT))
+  else if (!strcasecmp (key, LW6DEF_TELEPORT))
     {
       ret = LW6MAP_WEAPON_TELEPORT;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_SCATTER))
+  else if (!strcasecmp (key, LW6DEF_SCATTER))
     {
       ret = LW6MAP_WEAPON_SCATTER;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_FIX))
+  else if (!strcasecmp (key, LW6DEF_FIX))
     {
       ret = LW6MAP_WEAPON_FIX;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_MIX))
+  else if (!strcasecmp (key, LW6DEF_MIX))
     {
       ret = LW6MAP_WEAPON_MIX;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_CONTROL))
+  else if (!strcasecmp (key, LW6DEF_CONTROL))
     {
       ret = LW6MAP_WEAPON_CONTROL;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_PERMUTATION))
+  else if (!strcasecmp (key, LW6DEF_PERMUTATION))
     {
       ret = LW6MAP_WEAPON_PERMUTATION;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_STEAL))
+  else if (!strcasecmp (key, LW6DEF_STEAL))
     {
       ret = LW6MAP_WEAPON_STEAL;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_ATOMIC))
+  else if (!strcasecmp (key, LW6DEF_ATOMIC))
     {
       ret = LW6MAP_WEAPON_ATOMIC;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_REVERSE))
+  else if (!strcasecmp (key, LW6DEF_REVERSE))
     {
       ret = LW6MAP_WEAPON_REVERSE;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_CRAZY))
+  else if (!strcasecmp (key, LW6DEF_CRAZY))
     {
       ret = LW6MAP_WEAPON_CRAZY;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_REWIND))
+  else if (!strcasecmp (key, LW6DEF_REWIND))
     {
       ret = LW6MAP_WEAPON_REWIND;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_ATTRACT))
+  else if (!strcasecmp (key, LW6DEF_ATTRACT))
     {
       ret = LW6MAP_WEAPON_ATTRACT;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_SHRINK))
+  else if (!strcasecmp (key, LW6DEF_SHRINK))
     {
       ret = LW6MAP_WEAPON_SHRINK;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_KAMIKAZE))
+  else if (!strcasecmp (key, LW6DEF_KAMIKAZE))
     {
       ret = LW6MAP_WEAPON_KAMIKAZE;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_DISAPPEAR))
+  else if (!strcasecmp (key, LW6DEF_DISAPPEAR))
     {
       ret = LW6MAP_WEAPON_DISAPPEAR;
     }
-  else if (!strcasecmp (key, LW6MAP_WEAPON_KEY_PLAGUE))
+  else if (!strcasecmp (key, LW6DEF_PLAGUE))
     {
       ret = LW6MAP_WEAPON_PLAGUE;
     }
