@@ -470,6 +470,11 @@ Wrapper on lw6gui_mouse_pop_wheel_down.
 Wrapper on lw6gui_mouse_pop_wheel_up.
 @end deffn
 
+@subsection c-lw6hlp-about
+@deffn {C function exported to Guile} @code{c-lw6hlp-about}
+Wrapper on lw6hlp_about.
+@end deffn
+
 @subsection c-lw6hlp-get-default-value
 @deffn {C function exported to Guile} @code{c-lw6hlp-get-default-value}
 Wrapper on lw6hlp_get_default_value.

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-10 02:48+0100\n"
+"POT-Creation-Date: 2011-12-10 23:03+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -211,134 +211,134 @@ msgstr ""
 msgid "unable to handle credits id %d"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2824
+#: src/lib/hlp/hlp-reference.c:2840
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2825
+#: src/lib/hlp/hlp-reference.c:2841
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2826
+#: src/lib/hlp/hlp-reference.c:2842
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2827
+#: src/lib/hlp/hlp-reference.c:2843
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2828
+#: src/lib/hlp/hlp-reference.c:2844
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2830
+#: src/lib/hlp/hlp-reference.c:2846
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2831
+#: src/lib/hlp/hlp-reference.c:2847
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2833
+#: src/lib/hlp/hlp-reference.c:2849
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2835
+#: src/lib/hlp/hlp-reference.c:2851
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2837
+#: src/lib/hlp/hlp-reference.c:2853
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2845
+#: src/lib/hlp/hlp-reference.c:2860
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2847
+#: src/lib/hlp/hlp-reference.c:2862
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2850
+#: src/lib/hlp/hlp-reference.c:2865
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2851
+#: src/lib/hlp/hlp-reference.c:2866
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2853
+#: src/lib/hlp/hlp-reference.c:2868
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2856
+#: src/lib/hlp/hlp-reference.c:2871
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2859
+#: src/lib/hlp/hlp-reference.c:2874
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2862
+#: src/lib/hlp/hlp-reference.c:2877
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2865
+#: src/lib/hlp/hlp-reference.c:2880
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2868
+#: src/lib/hlp/hlp-reference.c:2883
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2869
+#: src/lib/hlp/hlp-reference.c:2884
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2872
+#: src/lib/hlp/hlp-reference.c:2887
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2875
+#: src/lib/hlp/hlp-reference.c:2890
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2878
+#: src/lib/hlp/hlp-reference.c:2893
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2880
+#: src/lib/hlp/hlp-reference.c:2895
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2883
+#: src/lib/hlp/hlp-reference.c:2898
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2885
+#: src/lib/hlp/hlp-reference.c:2900
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2888
+#: src/lib/hlp/hlp-reference.c:2903
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2891
+#: src/lib/hlp/hlp-reference.c:2906
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2894
+#: src/lib/hlp/hlp-reference.c:2909
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
@@ -425,7 +425,7 @@ msgstr "начат узел \"%s\""
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "соединение установлено \"%s\" <-> \"%s\" в %s:%d"
 
-#: src/lib/scm/scm-test.c:81 src/scriptpo.c:20
+#: src/lib/scm/scm-test.c:81 src/scriptpo.c:25
 msgid "leaving Guile"
 msgstr "выход Guile"
 
@@ -602,130 +602,152 @@ msgid "~a (custom)"
 msgstr ""
 
 #: src/scriptpo.c:17
-msgid "Preparing map, this can take some time"
+msgid ""
+"Move cursor: pointer~%Menu: left button~%Primary fire: right button~"
+"%Alternate fire: middle button~%Zoom: wheel"
 msgstr ""
 
 #: src/scriptpo.c:18
+msgid ""
+"Move cursor: arrows~%Menu: ENTER and ESC~%Primary fire: CTRL key~%Alternate "
+"fire: ALT key~%Zoom: PGUP and PGDOWN"
+msgstr ""
+
+#: src/scriptpo.c:19 src/scriptpo.c:20
+msgid ""
+"Move cursor: pad/stick~%Menu: A and B buttons~%Primary fire: C button~"
+"%Alternate fire: D button~%Zoom: E and F buttons"
+msgstr ""
+
+#: src/scriptpo.c:21
+msgid "Not working yet"
+msgstr ""
+
+#: src/scriptpo.c:22
+msgid "Preparing map, this can take some time"
+msgstr ""
+
+#: src/scriptpo.c:23
 msgid "scheme error"
 msgstr "ошибка схемы"
 
-#: src/scriptpo.c:19
+#: src/scriptpo.c:24
 msgid "running scheme code with Guile"
 msgstr "запуск кода схемы с помощью Guile"
 
-#: src/scriptpo.c:21
+#: src/scriptpo.c:26
 msgid "catched Guile error"
 msgstr "получена ошибка Guile"
 
-#: src/scriptpo.c:22
+#: src/scriptpo.c:27
 msgid "begin main game loop"
 msgstr "начало основной процедуры игры"
 
-#: src/scriptpo.c:23
+#: src/scriptpo.c:28
 msgid "running \"~a\""
 msgstr "запуск \"~a\""
 
-#: src/scriptpo.c:24
+#: src/scriptpo.c:29
 msgid "log file \"~a\""
 msgstr "журнал \"~a\""
 
-#: src/scriptpo.c:25 src/scriptpo.c:26
+#: src/scriptpo.c:30 src/scriptpo.c:31
 msgid "environment \"~a\" is \"~a\""
 msgstr "переменная окружения \"~a\" равна \"~a\""
 
-#: src/scriptpo.c:27
+#: src/scriptpo.c:32
 msgid "upgrading to version ~a"
 msgstr "обновление до версии ~a"
 
-#: src/scriptpo.c:28
+#: src/scriptpo.c:33
 msgid "no graphical backend found, game can only run in server mode"
 msgstr ""
 "не найдено графической библиотеки, запуск возможен только в режиме сервера"
 
-#: src/scriptpo.c:29
+#: src/scriptpo.c:34
 msgid "running in server mode"
 msgstr "запуск в режиме сервера"
 
-#: src/scriptpo.c:30
+#: src/scriptpo.c:35
 msgid "Esc"
 msgstr "Esc"
 
-#: src/scriptpo.c:31
+#: src/scriptpo.c:36
 msgid "Quit"
 msgstr "Выход"
 
-#: src/scriptpo.c:32
+#: src/scriptpo.c:37
 #, fuzzy
 msgid "Yes, quit Liquid War 6"
 msgstr "Выйти из Liquid War 6?"
 
-#: src/scriptpo.c:33
+#: src/scriptpo.c:38
 msgid "Resume"
 msgstr "Продолжить"
 
-#: src/scriptpo.c:34
+#: src/scriptpo.c:39
 msgid "No, return back to game"
 msgstr ""
 
-#: src/scriptpo.c:35
+#: src/scriptpo.c:40
 msgid "Quit Liquid War 6?"
 msgstr "Выйти из Liquid War 6?"
 
-#: src/scriptpo.c:36
+#: src/scriptpo.c:41
 msgid "Procrastinating on games is mother of all vices"
 msgstr ""
 
-#: src/scriptpo.c:37
+#: src/scriptpo.c:42
 msgid "Playing"
 msgstr "Играет"
 
-#: src/scriptpo.c:38
+#: src/scriptpo.c:43
 msgid "Game is running, press ESC to leave"
 msgstr ""
 
-#: src/scriptpo.c:39
+#: src/scriptpo.c:44
 msgid "no"
 msgstr ""
 
-#: src/scriptpo.c:40 src/scriptpo.c:210
+#: src/scriptpo.c:45 src/scriptpo.c:218
 msgid "Version"
 msgstr "Версия"
 
-#: src/scriptpo.c:41
+#: src/scriptpo.c:46
 msgid "Id"
 msgstr ""
 
-#: src/scriptpo.c:42
+#: src/scriptpo.c:47
 msgid "URL"
 msgstr ""
 
-#: src/scriptpo.c:43 src/scriptpo.c:54
+#: src/scriptpo.c:48 src/scriptpo.c:59
 msgid "Description"
 msgstr ""
 
-#: src/scriptpo.c:44
+#: src/scriptpo.c:49
 msgid "Password"
 msgstr ""
 
-#: src/scriptpo.c:45
+#: src/scriptpo.c:50
 msgid "Map"
 msgstr ""
 
-#: src/scriptpo.c:46
+#: src/scriptpo.c:51
 #, fuzzy
 msgid "No server found"
 msgstr "Без звуков воды"
 
-#: src/scriptpo.c:47
+#: src/scriptpo.c:52
 msgid "No remote node could be found on the network"
 msgstr ""
 
-#: src/scriptpo.c:48
+#: src/scriptpo.c:53
 #, fuzzy
 msgid "Join server"
 msgstr "Без звуков воды"
 
-#: src/scriptpo.c:49
+#: src/scriptpo.c:54
 msgid ""
 "Choose a server and connect to it, all the nodes which you can technically "
 "connect to are listed, however you might not be able to connect to some of "
@@ -733,692 +755,702 @@ msgid ""
 "the game, etc."
 msgstr ""
 
-#: src/scriptpo.c:50
+#: src/scriptpo.c:55
 msgid "Network does NOT work yet"
 msgstr ""
 
-#: src/scriptpo.c:51
+#: src/scriptpo.c:56
 msgid "Subfolder with ~a maps"
 msgstr ""
 
-#: src/scriptpo.c:52
+#: src/scriptpo.c:57
 msgid "You can't play this map yet"
 msgstr ""
 
-#: src/scriptpo.c:53
+#: src/scriptpo.c:58
 #, fuzzy
 msgid "Author"
 msgstr "Авторы"
 
-#: src/scriptpo.c:55 src/scriptpo.c:209
+#: src/scriptpo.c:60 src/scriptpo.c:217
 msgid "License"
 msgstr "Лицензия"
 
-#: src/scriptpo.c:56 src/scriptpo.c:168
+#: src/scriptpo.c:61 src/scriptpo.c:176
 msgid "Choose map"
 msgstr "Выбрать карту"
 
-#: src/scriptpo.c:57
+#: src/scriptpo.c:62
 msgid "Browse your hard drive to find a map"
 msgstr ""
 
-#: src/scriptpo.c:58
+#: src/scriptpo.c:63
 msgid "No sound FX"
 msgstr "Без звуков эффектов"
 
-#: src/scriptpo.c:59
+#: src/scriptpo.c:64
 msgid "Sound FX ~a%"
 msgstr "Звуки эффектов ~a%"
 
-#: src/scriptpo.c:60
+#: src/scriptpo.c:65
 msgid ""
 "Change volume for sound FX, this includes all sounds but music and "
 "background water sound"
 msgstr ""
 
-#: src/scriptpo.c:61
+#: src/scriptpo.c:66
 msgid "No water sounds"
 msgstr "Без звуков воды"
 
-#: src/scriptpo.c:62
+#: src/scriptpo.c:67
 msgid "Water sounds ~a%"
 msgstr "Звуки воды ~a%"
 
-#: src/scriptpo.c:63
+#: src/scriptpo.c:68
 msgid ""
 "Change volume for water sound, the bubbling sound you can here in the "
 "background"
 msgstr ""
 
-#: src/scriptpo.c:64
+#: src/scriptpo.c:69
 msgid "No music"
 msgstr "Без музыки"
 
-#: src/scriptpo.c:65
+#: src/scriptpo.c:70
 msgid "Music ~a%"
 msgstr "Музыка ~a%"
 
-#: src/scriptpo.c:66
+#: src/scriptpo.c:71
 #, fuzzy
 msgid "Change music volume"
 msgstr "Громкость музыки"
 
-#: src/scriptpo.c:67 src/scriptpo.c:130
+#: src/scriptpo.c:72 src/scriptpo.c:135
 msgid "Backend ~a"
 msgstr "Библиотека ~a"
 
-#: src/scriptpo.c:68
+#: src/scriptpo.c:73
 msgid ""
 "The sound backend is the library used to play sounds, if in doubt, don't "
 "touch"
 msgstr ""
 
-#: src/scriptpo.c:69 src/scriptpo.c:223
+#: src/scriptpo.c:74 src/scriptpo.c:231
 msgid "Sound options"
 msgstr "Параметры звука"
 
-#: src/scriptpo.c:70
+#: src/scriptpo.c:75
 msgid "Change volumes and audio settings here"
 msgstr ""
 
-#: src/scriptpo.c:71
+#: src/scriptpo.c:76
 msgid "One life (last wins)"
 msgstr "Одна жизнь"
 
-#: src/scriptpo.c:72
+#: src/scriptpo.c:77
 msgid "Respawn (deatchmatch)"
 msgstr "Воскрешение (DM)"
 
-#: src/scriptpo.c:73
+#: src/scriptpo.c:78
 msgid ""
 "Choose wether you want the game to end when everyone is dead but the winner "
 "or if you prefer to keep playing until time limit, with teams respawning"
 msgstr ""
 
-#: src/scriptpo.c:74
+#: src/scriptpo.c:79
 msgid "All teams are equal"
 msgstr ""
 
-#: src/scriptpo.c:75
+#: src/scriptpo.c:80
 msgid "Use team profiles"
 msgstr ""
 
-#: src/scriptpo.c:76
+#: src/scriptpo.c:81
 msgid ""
 "Team profiles can really change the game, depending on your color you could "
 "move faster or slower, have a stronger or weaker attack, and so on"
 msgstr ""
 
-#: src/scriptpo.c:77
+#: src/scriptpo.c:82
 msgid "Armies ~a% - ~a%"
 msgstr "Армии ~a% - ~a%"
 
-#: src/scriptpo.c:78
+#: src/scriptpo.c:83
 msgid ""
 "Defines how crowded the battlefield is, if you raise this, there will be a "
 "lot of fighters in a limited space"
 msgstr ""
 
-#: src/scriptpo.c:79 src/scriptpo.c:83
+#: src/scriptpo.c:84 src/scriptpo.c:88
 msgid "Rules"
 msgstr "Правила"
 
-#: src/scriptpo.c:80
+#: src/scriptpo.c:85
 msgid ""
 "Changing rules will modify the gameplay, you can also be curious, read the "
 "documentation and try config file and command line options"
 msgstr ""
 
-#: src/scriptpo.c:81 src/scriptpo.c:120
+#: src/scriptpo.c:86 src/scriptpo.c:125
 msgid "Time & speed"
 msgstr "Время и скорость"
 
-#: src/scriptpo.c:82
+#: src/scriptpo.c:87
 msgid "Define how long the game lasts, and how fast it is"
 msgstr ""
 
-#: src/scriptpo.c:84
+#: src/scriptpo.c:89
 msgid ""
 "Modify the gameplay, note that config file and command-line options allow "
 "you to change many more things"
 msgstr ""
 
-#: src/scriptpo.c:85
+#: src/scriptpo.c:90
 msgid "Video"
 msgstr "Видео"
 
-#: src/scriptpo.c:86
+#: src/scriptpo.c:91
 msgid "Resolution and fullscreen vs windowed modes"
 msgstr ""
 
-#: src/scriptpo.c:87 src/scriptpo.c:219
+#: src/scriptpo.c:92 src/scriptpo.c:227
 msgid "Sound"
 msgstr "Звук"
 
-#: src/scriptpo.c:88
+#: src/scriptpo.c:93
 msgid "Audio settings"
 msgstr ""
 
-#: src/scriptpo.c:89
+#: src/scriptpo.c:94
 msgid "System"
 msgstr "Системные"
 
-#: src/scriptpo.c:90
+#: src/scriptpo.c:95
 msgid "Advanced system stuff"
 msgstr ""
 
-#: src/scriptpo.c:91
+#: src/scriptpo.c:96
 msgid "Stop current game"
 msgstr "Закончить игру"
 
-#: src/scriptpo.c:92
+#: src/scriptpo.c:97
 msgid "Return to parent menu"
 msgstr ""
 
-#: src/scriptpo.c:93 src/scriptpo.c:95 src/scriptpo.c:172 src/scriptpo.c:203
-#: src/scriptpo.c:217
+#: src/scriptpo.c:98 src/scriptpo.c:100 src/scriptpo.c:180 src/scriptpo.c:211
+#: src/scriptpo.c:225
 msgid "Options"
 msgstr "Настройки"
 
-#: src/scriptpo.c:94
+#: src/scriptpo.c:99
 msgid ""
 "Change options here, but player settings and map choosing are done elsewhere"
 msgstr ""
 
-#: src/scriptpo.c:96
+#: src/scriptpo.c:101
 #, fuzzy
 msgid "Change options"
 msgstr "Параметры звука"
 
-#: src/scriptpo.c:97
+#: src/scriptpo.c:102
 msgid "Display FPS"
 msgstr "Показывать FPS"
 
-#: src/scriptpo.c:98
+#: src/scriptpo.c:103
 msgid "FPS hidden"
 msgstr "Скрывать FPS"
 
-#: src/scriptpo.c:99
+#: src/scriptpo.c:104
 msgid "Use this to check how fast your display is"
 msgstr ""
 
-#: src/scriptpo.c:100
+#: src/scriptpo.c:105
 msgid "Display MPS"
 msgstr "Показывать MPS"
 
-#: src/scriptpo.c:101
+#: src/scriptpo.c:106
 msgid "MPS hidden"
 msgstr "Скрывать MPS"
 
-#: src/scriptpo.c:102
+#: src/scriptpo.c:107
 msgid ""
 "MPS stands for Moves Per Second, displaying this might reveal some slowing "
 "down in gameplay"
 msgstr ""
 
-#: src/scriptpo.c:103
+#: src/scriptpo.c:108
 msgid "Verbose display"
 msgstr ""
 
-#: src/scriptpo.c:104
+#: src/scriptpo.c:109
 msgid "Clean display"
 msgstr ""
 
-#: src/scriptpo.c:105
+#: src/scriptpo.c:110
 msgid "Do you want breadcrumbs, help and tooltips to be displayed?"
 msgstr ""
 
-#: src/scriptpo.c:106
+#: src/scriptpo.c:111
 msgid "Console enabled"
 msgstr "Консоль включен"
 
-#: src/scriptpo.c:107
+#: src/scriptpo.c:112
 msgid "Console disabled"
 msgstr "Консоль выключен"
 
-#: src/scriptpo.c:108
+#: src/scriptpo.c:113
 msgid ""
 "Console is a Guile interpreter which will allow you to type any command "
 "interactively, use at your own risk"
 msgstr ""
 
-#: src/scriptpo.c:109
+#: src/scriptpo.c:114
 msgid "System options"
 msgstr "Параметры системы"
 
-#: src/scriptpo.c:110
+#: src/scriptpo.c:115
 msgid "All those weird options and tweaks you can live without"
 msgstr ""
 
-#: src/scriptpo.c:111
+#: src/scriptpo.c:116
 msgid "Time ~a:~a~a:~a~a"
 msgstr "Время ~a:~a~a:~a~a"
 
-#: src/scriptpo.c:112
+#: src/scriptpo.c:117
 msgid "Defines how long the game will last, this is a maximum limit"
 msgstr ""
 
-#: src/scriptpo.c:113
+#: src/scriptpo.c:118
 msgid "Default speed"
 msgstr "Скорость по умолчанию"
 
-#: src/scriptpo.c:114
+#: src/scriptpo.c:119
 msgid "Speed x~a"
 msgstr "Скорость x~a"
 
-#: src/scriptpo.c:115
+#: src/scriptpo.c:120
 msgid "Speed ~a%"
 msgstr "Скорость ~a%"
 
-#: src/scriptpo.c:116
+#: src/scriptpo.c:121
 msgid "Unknown speed"
 msgstr "Неизвестная скорость"
 
-#: src/scriptpo.c:117
+#: src/scriptpo.c:122
 msgid ""
 "Defines the global speed of the game, if set to a high value, there will be "
 "more moves per second"
 msgstr ""
 
-#: src/scriptpo.c:118
+#: src/scriptpo.c:123
 msgid "Bench ~a"
 msgstr "Отметка ~a"
 
-#: src/scriptpo.c:119
+#: src/scriptpo.c:124
 msgid ""
 "Bench is counted in an arbitrary unit, it gives a global idea of how fast "
 "your computer is, as far as this game is concerned"
 msgstr ""
 
-#: src/scriptpo.c:121
+#: src/scriptpo.c:126
 msgid "Shorten and/or accelerate your games"
 msgstr ""
 
-#: src/scriptpo.c:122 src/scriptpo.c:221
+#: src/scriptpo.c:127 src/scriptpo.c:229
 msgid "Fullscreen"
 msgstr "Полноэкранный"
 
-#: src/scriptpo.c:123
+#: src/scriptpo.c:128
 msgid "Windowed"
 msgstr "В окне"
 
-#: src/scriptpo.c:124
+#: src/scriptpo.c:129
 msgid "Use this to toggle between windowed and fullscreen mode"
 msgstr ""
 
-#: src/scriptpo.c:125
+#: src/scriptpo.c:130
 msgid "Low res"
 msgstr "Малое разрешение"
 
-#: src/scriptpo.c:126
+#: src/scriptpo.c:131
 msgid "Standard res"
 msgstr "Среднее разрешение"
 
-#: src/scriptpo.c:127
+#: src/scriptpo.c:132
 msgid "High res"
 msgstr "Высокое разрешение"
 
-#: src/scriptpo.c:128
+#: src/scriptpo.c:133
 msgid "User res"
 msgstr "Другое разрешение"
 
-#: src/scriptpo.c:129
+#: src/scriptpo.c:134
 msgid ""
 "Change the window size, in windowed mode you could just resize it with the "
 "mouse"
 msgstr ""
 
-#: src/scriptpo.c:131
+#: src/scriptpo.c:136
 msgid ""
 "The graphics backend is the library used for rendering images, if in doubt, "
 "don't touch"
 msgstr ""
 
-#: src/scriptpo.c:132
+#: src/scriptpo.c:137
 msgid "Video options"
 msgstr "Настройки видео"
 
-#: src/scriptpo.c:133
+#: src/scriptpo.c:138
 msgid "Change screen resolution, video mode, ..."
 msgstr ""
 
-#: src/scriptpo.c:134
+#: src/scriptpo.c:139
 msgid "Not playing"
 msgstr "Нет игрока"
 
-#: src/scriptpo.c:135
+#: src/scriptpo.c:140
 msgid "Activate or disable a human player"
 msgstr ""
 
-#: src/scriptpo.c:136
-msgid ""
-"Choose among the available colors, not that all colors might not be "
-"available when you play the game for the first time"
-msgstr ""
-
-#: src/scriptpo.c:137
+#: src/scriptpo.c:141
 msgid "Choose the control device"
 msgstr ""
 
-#: src/scriptpo.c:138
+#: src/scriptpo.c:142
 msgid "Change options for player ~a"
 msgstr ""
 
-#: src/scriptpo.c:139
+#: src/scriptpo.c:143
 msgid "Free slot"
 msgstr "Пусто"
 
-#: src/scriptpo.c:140
-msgid "No bots"
-msgstr "Нет ботов"
-
-#: src/scriptpo.c:141
-msgid "One bot"
-msgstr "Один бот"
-
-#: src/scriptpo.c:142
-msgid "~a bots"
-msgstr "~a ботов"
-
-#: src/scriptpo.c:143
-msgid "Put up to ~a bots on your map"
+#: src/scriptpo.c:144
+msgid "Name"
 msgstr ""
 
-#: src/scriptpo.c:144 src/scriptpo.c:170
-msgid "Players"
-msgstr "Игроки"
-
 #: src/scriptpo.c:145
-msgid "Change player options"
+msgid "Color"
 msgstr ""
 
 #: src/scriptpo.c:146
+msgid "Control"
+msgstr ""
+
+#: src/scriptpo.c:147
+msgid "You can create a new player here"
+msgstr ""
+
+#: src/scriptpo.c:148
+msgid "No bots"
+msgstr "Нет ботов"
+
+#: src/scriptpo.c:149
+msgid "One bot"
+msgstr "Один бот"
+
+#: src/scriptpo.c:150
+msgid "~a bots"
+msgstr "~a ботов"
+
+#: src/scriptpo.c:151
+msgid "Put up to ~a bots on your map"
+msgstr ""
+
+#: src/scriptpo.c:152 src/scriptpo.c:178
+msgid "Players"
+msgstr "Игроки"
+
+#: src/scriptpo.c:153
+msgid "Change player options"
+msgstr ""
+
+#: src/scriptpo.c:154
 #, fuzzy
 msgid "Solo game"
 msgstr "Одиночная игра"
 
-#: src/scriptpo.c:147
+#: src/scriptpo.c:155
 msgid ""
 "Play alone against the computer, try and win levels to get access to new "
 "colors and weapons"
 msgstr ""
 
-#: src/scriptpo.c:148
+#: src/scriptpo.c:156
 msgid "1 on 1"
 msgstr "1 на 1"
 
-#: src/scriptpo.c:149
+#: src/scriptpo.c:157
 msgid "Play with a friend locally on this computer"
 msgstr ""
 
-#: src/scriptpo.c:150
+#: src/scriptpo.c:158
 msgid "Local multiplayer"
 msgstr "Игра в локальной сети"
 
-#: src/scriptpo.c:151
+#: src/scriptpo.c:159
 msgid "Start a local multiplayer session, with up to 4 players, plus some bots"
 msgstr ""
 
-#: src/scriptpo.c:152
+#: src/scriptpo.c:160
 msgid "Join network game"
 msgstr "Зайти в игру по сети"
 
-#: src/scriptpo.c:153
+#: src/scriptpo.c:161
 msgid "Join an existing network game, DOES NOT WORK YET"
 msgstr ""
 
-#: src/scriptpo.c:154
+#: src/scriptpo.c:162
 msgid "Start server"
 msgstr "Создать сервер"
 
-#: src/scriptpo.c:155
+#: src/scriptpo.c:163
 msgid "Start a server, DOES NOT WORK YET"
 msgstr ""
 
-#: src/scriptpo.c:156
+#: src/scriptpo.c:164
 msgid "Demo"
 msgstr "Демо"
 
-#: src/scriptpo.c:157
+#: src/scriptpo.c:165
 msgid "Watch the AI play against itself"
 msgstr ""
 
-#: src/scriptpo.c:158
+#: src/scriptpo.c:166
 msgid "Back to main menu"
 msgstr "В главное меню"
 
-#: src/scriptpo.c:159
+#: src/scriptpo.c:167
 #, fuzzy
 msgid "Go back to main menu"
 msgstr "В главное меню"
 
-#: src/scriptpo.c:160 src/scriptpo.c:162 src/scriptpo.c:166
+#: src/scriptpo.c:168 src/scriptpo.c:170 src/scriptpo.c:174
 msgid "Play"
 msgstr "Играть"
 
-#: src/scriptpo.c:161
+#: src/scriptpo.c:169
 msgid "Choose your game type"
 msgstr ""
 
-#: src/scriptpo.c:163
+#: src/scriptpo.c:171
 msgid "Choose your game type and play with chosen map"
 msgstr ""
 
-#: src/scriptpo.c:164 src/scriptpo.c:198 src/scriptpo.c:205
+#: src/scriptpo.c:172 src/scriptpo.c:206 src/scriptpo.c:213
 msgid "Quick start"
 msgstr "Быстрый старт"
 
-#: src/scriptpo.c:165
+#: src/scriptpo.c:173
 #, fuzzy
 msgid "Start playing now!"
 msgstr "Нет игрока"
 
-#: src/scriptpo.c:167
+#: src/scriptpo.c:175
 msgid "Start a new game"
 msgstr ""
 
-#: src/scriptpo.c:169
+#: src/scriptpo.c:177
 msgid "Browse map directory and choose a map to play on"
 msgstr ""
 
-#: src/scriptpo.c:171
+#: src/scriptpo.c:179
 msgid ""
 "Choose player name, color (teams), controls (keyboard, mouse, joystick) and "
 "populate your map with bots"
 msgstr ""
 
-#: src/scriptpo.c:173
+#: src/scriptpo.c:181
 msgid "Set up video, sound, game rules, and more"
 msgstr ""
 
-#: src/scriptpo.c:174 src/scriptpo.c:197
+#: src/scriptpo.c:182 src/scriptpo.c:205
 msgid "Liquid War 6"
 msgstr "Liquid War 6"
 
-#: src/scriptpo.c:175
+#: src/scriptpo.c:183
 #, fuzzy
 msgid "Welcome to Liquid War 6, have fun!"
 msgstr "Добро пожаловать в Liquid War 6"
 
-#: src/scriptpo.c:176
+#: src/scriptpo.c:184
 msgid "Replay"
 msgstr ""
 
-#: src/scriptpo.c:177
+#: src/scriptpo.c:185
 msgid "Replay this level, since you didn't win"
 msgstr ""
 
-#: src/scriptpo.c:178
+#: src/scriptpo.c:186
 msgid "Continue"
 msgstr ""
 
-#: src/scriptpo.c:179
+#: src/scriptpo.c:187
 msgid "Advance to next level"
 msgstr ""
 
-#: src/scriptpo.c:180
+#: src/scriptpo.c:188
 #, fuzzy
 msgid "Back to previous menu"
 msgstr "В главное меню"
 
-#: src/scriptpo.c:181
+#: src/scriptpo.c:189
 #, fuzzy
 msgid "Go back to previous menu"
 msgstr "В главное меню"
 
-#: src/scriptpo.c:182 src/scriptpo.c:184
+#: src/scriptpo.c:190 src/scriptpo.c:192
 msgid "Next"
 msgstr ""
 
-#: src/scriptpo.c:183 src/scriptpo.c:185
+#: src/scriptpo.c:191 src/scriptpo.c:193
 msgid "And now?"
 msgstr ""
 
-#: src/scriptpo.c:186
+#: src/scriptpo.c:194
 msgid "Achievement 2/2"
 msgstr ""
 
-#: src/scriptpo.c:187 src/scriptpo.c:189
+#: src/scriptpo.c:195 src/scriptpo.c:197
 msgid "Score"
 msgstr ""
 
-#: src/scriptpo.c:188 src/scriptpo.c:190
+#: src/scriptpo.c:196 src/scriptpo.c:198
 msgid "And the winner is..."
 msgstr ""
 
-#: src/scriptpo.c:191
+#: src/scriptpo.c:199
 msgid "Achievement 1/2"
 msgstr ""
 
-#: src/scriptpo.c:192 src/scriptpo.c:193
+#: src/scriptpo.c:200 src/scriptpo.c:201
 msgid "Please wait..."
 msgstr "Подождите..."
 
-#: src/scriptpo.c:194
+#: src/scriptpo.c:202
 msgid "Exit?"
 msgstr "Точно выйти?"
 
-#: src/scriptpo.c:195
+#: src/scriptpo.c:203
 msgid "Exit"
 msgstr "Выход"
 
-#: src/scriptpo.c:196
+#: src/scriptpo.c:204
 msgid "Resume LW6"
 msgstr "Возобновить LW6"
 
-#: src/scriptpo.c:199
+#: src/scriptpo.c:207
 msgid "Local game"
 msgstr "Одиночная игра"
 
-#: src/scriptpo.c:200
+#: src/scriptpo.c:208
 msgid "Network game"
 msgstr "Игра по сети"
 
-#: src/scriptpo.c:201 src/scriptpo.c:216
+#: src/scriptpo.c:209 src/scriptpo.c:224
 msgid "Level"
 msgstr "Уровень"
 
-#: src/scriptpo.c:202
+#: src/scriptpo.c:210
 msgid "Teams"
 msgstr "Команды"
 
-#: src/scriptpo.c:204 src/scriptpo.c:206
+#: src/scriptpo.c:212 src/scriptpo.c:214
 msgid "About"
 msgstr "О программе"
 
-#: src/scriptpo.c:207
+#: src/scriptpo.c:215
 msgid "Authors"
 msgstr "Авторы"
 
-#: src/scriptpo.c:208
+#: src/scriptpo.c:216
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/scriptpo.c:211
+#: src/scriptpo.c:219
 msgid "View level"
 msgstr "Просмотр уровня"
 
-#: src/scriptpo.c:212
+#: src/scriptpo.c:220
 msgid "Confirm level choice"
 msgstr "Подтвердить выбор уровня"
 
-#: src/scriptpo.c:213
+#: src/scriptpo.c:221
 msgid "Choose it"
 msgstr "Выбрать"
 
-#: src/scriptpo.c:214
+#: src/scriptpo.c:222
 msgid "View"
 msgstr "Просмотр"
 
-#: src/scriptpo.c:215
+#: src/scriptpo.c:223
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/scriptpo.c:218
+#: src/scriptpo.c:226
 msgid "Graphics"
 msgstr "Видео"
 
-#: src/scriptpo.c:220
+#: src/scriptpo.c:228
 msgid "Graphics options"
 msgstr "Параметры видео"
 
-#: src/scriptpo.c:222 src/scriptpo.c:227
+#: src/scriptpo.c:230 src/scriptpo.c:235
 msgid "Graphics backend"
 msgstr "Графическая библиотека"
 
-#: src/scriptpo.c:224
+#: src/scriptpo.c:232
 msgid "Sound fx volume"
 msgstr "Громкость эффектов"
 
-#: src/scriptpo.c:225
+#: src/scriptpo.c:233
 msgid "Music volume"
 msgstr "Громкость музыки"
 
-#: src/scriptpo.c:226 src/scriptpo.c:228
+#: src/scriptpo.c:234 src/scriptpo.c:236
 msgid "Sound backend"
 msgstr "Звуковая библиотека"
 
-#: src/scriptpo.c:229
+#: src/scriptpo.c:237
 msgid "This is a test node."
 msgstr ""
 
-#: src/scriptpo.c:230
+#: src/scriptpo.c:238
 msgid "testing map"
 msgstr "проверка карты"
 
-#: src/scriptpo.c:231
+#: src/scriptpo.c:239
 msgid "testing game struct"
 msgstr ""
 
-#: src/scriptpo.c:232
+#: src/scriptpo.c:240
 msgid "testing game state"
 msgstr "проверка состояния игры"
 
-#: src/scriptpo.c:233
+#: src/scriptpo.c:241
 msgid "testing pilot"
 msgstr ""
 
-#: src/scriptpo.c:234
+#: src/scriptpo.c:242
 msgid "testing bot"
 msgstr "проверка бота"
 
-#: src/scriptpo.c:235
+#: src/scriptpo.c:243
 msgid "testing smobs GC, step 1"
 msgstr ""
 
-#: src/scriptpo.c:236
+#: src/scriptpo.c:244
 msgid "testing smobs GC, step 2"
 msgstr ""
 
-#: src/scriptpo.c:237
+#: src/scriptpo.c:245
 msgid "testing async load"
 msgstr ""
 
-#: src/scriptpo.c:238
+#: src/scriptpo.c:246
 msgid "testing db"
 msgstr "проверка базы данных"
 
-#: src/scriptpo.c:239
+#: src/scriptpo.c:247
 msgid "testing node"
 msgstr "проверка узла"
 
