@@ -35,8 +35,6 @@
 #define BUGS_URL "http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6"
 #define TOP_SRCDIR_TEST_FILE "liquidwar6.spec.in"
 #define TOP_SRCDIR_MAX_UNPARENT 4
-#define ENABLE_YES "yes"
-#define ENABLE_NO "no"
 
 /**
  * lw6sys_build_get_package_tarname:
@@ -668,9 +666,9 @@ char *
 lw6sys_build_get_enable_console ()
 {
 #ifdef LW6_CONSOLE
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -685,9 +683,9 @@ char *
 lw6sys_build_get_enable_gtk ()
 {
 #ifdef LW6_GTK
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -702,9 +700,9 @@ char *
 lw6sys_build_get_enable_mod_gl ()
 {
 #ifdef MOD_GL
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -719,9 +717,9 @@ char *
 lw6sys_build_get_enable_mod_csound ()
 {
 #ifdef MOD_CSOUND
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -736,9 +734,9 @@ char *
 lw6sys_build_get_enable_mod_ogg ()
 {
 #ifdef MOD_OGG
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -753,9 +751,9 @@ char *
 lw6sys_build_get_enable_mod_http ()
 {
 #ifdef MOD_HTTP
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -770,9 +768,9 @@ char *
 lw6sys_build_get_enable_openmp ()
 {
 #ifdef LW6_OPENMP
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -787,9 +785,9 @@ char *
 lw6sys_build_get_enable_optimize ()
 {
 #ifdef LW6_OPTIMIZE
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -804,9 +802,9 @@ char *
 lw6sys_build_get_enable_allinone ()
 {
 #ifdef LW6_ALLINONE
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -821,9 +819,9 @@ char *
 lw6sys_build_get_enable_fullstatic ()
 {
 #ifdef LW6_FULLSTATIC
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -838,9 +836,9 @@ char *
 lw6sys_build_get_enable_paranoid ()
 {
 #ifdef LW6_PARANOID
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -855,9 +853,9 @@ char *
 lw6sys_build_get_enable_gprof ()
 {
 #ifdef LW6_GPROF
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -872,9 +870,9 @@ char *
 lw6sys_build_get_enable_instrument ()
 {
 #ifdef LW6_INSTRUMENT
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -889,9 +887,9 @@ char *
 lw6sys_build_get_enable_profiler ()
 {
 #ifdef LW6_PROFILER
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -906,9 +904,9 @@ char *
 lw6sys_build_get_enable_gcov ()
 {
 #ifdef LW6_GCOV
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 
@@ -923,9 +921,9 @@ char *
 lw6sys_build_get_enable_valgrind ()
 {
 #ifdef LW6_VALGRIND
-  return ENABLE_YES;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_YES;	// do not translate this, could be interpreted by a script
 #else
-  return ENABLE_NO;		// do not translate this, could be interpreted by a script
+  return LW6SYS_BUILD_ENABLE_NO;	// do not translate this, could be interpreted by a script
 #endif
 }
 

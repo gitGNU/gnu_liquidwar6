@@ -936,8 +936,8 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_TRAP_ERRORS,
 		 _x_
 		 ("If set to true, will trap segmentation fault and floating point errors, and display messages about those in a custom box instead of the default one"),
-		 !lw6sys_build_is_unix ());
-
+		 lw6sys_str_is_same (lw6sys_build_get_enable_allinone (),
+				     LW6SYS_BUILD_ENABLE_YES));
   /*
    * Game settings
    */
@@ -983,8 +983,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_TOTAL_TIME,
 		_x_
 		("Defines the maximum time of the game, in seconds. Note that in some cases, the game can end much earlier if some player has managed to win before the bell rings. Also, technically, this value will be translated into rounds and moves, and the game engine will wait until enough rounds and moves have been played. So if the computer is too slow and the desired speed is not reached, then the game will last for a longer time."),
-		LW6MAP_RULES_DEFAULT_TOTAL_TIME, LW6MAP_RULES_MIN_TOTAL_TIME,
-		LW6MAP_RULES_MAX_TOTAL_TIME);
+		LW6MAP_RULES_DEFAULT_TOTAL_TIME,
+		LW6MAP_RULES_MIN_TOTAL_TIME, LW6MAP_RULES_MAX_TOTAL_TIME);
   POPULATE_INT (LW6DEF_RESPAWN_TEAM,
 		_x_
 		("Defines what to do when a team dies. If set to 0, team disappears forever, if set to 1, team reappears automatically with fresh fighters. It's a deathmatch mode, where the winner is not the one who stays alive the longest time, since it makes no real sens in this case, but the one who has died less often than others."),
@@ -1133,18 +1133,18 @@ populate_references ()
   POPULATE_INT (LW6DEF_X_POLARITY,
 		_x_
 		("Defines how the map will be wrapped on the X (horizontal) axis. If set to 0, nothing is wrapped. If set to 1, the right and left borders are connected, any fighter can disappear on the right border and reappear on the left border, for instance. If set to -1, it will be wrapped but also inversed, that is on a 320x240 map, a fighter disappearing on the left border at position (0,60) will reapper on the right border at position (319,180). You can combine it with 'y-polarity'."),
-		LW6MAP_RULES_DEFAULT_X_POLARITY, LW6MAP_RULES_MIN_X_POLARITY,
-		LW6MAP_RULES_MAX_X_POLARITY);
+		LW6MAP_RULES_DEFAULT_X_POLARITY,
+		LW6MAP_RULES_MIN_X_POLARITY, LW6MAP_RULES_MAX_X_POLARITY);
   POPULATE_INT (LW6DEF_Y_POLARITY,
 		_x_
 		("Defines how the map will be wrapped on the Y (vertical) axis. If set to 0, nothing is wrapped. If set to 1, the top and bottom borders are connected, any fighter can disappear on the top border and reappear on the bottom border, for instance. If set to -1, it will be wrapped but also inversed, that is on a 320x240 map, a fighter disappearing on the bottom border at position (40,239) will reapper on the top border at position (280,0). You can combine it with 'x-polarity'."),
-		LW6MAP_RULES_DEFAULT_Y_POLARITY, LW6MAP_RULES_MIN_Y_POLARITY,
-		LW6MAP_RULES_MAX_Y_POLARITY);
+		LW6MAP_RULES_DEFAULT_Y_POLARITY,
+		LW6MAP_RULES_MIN_Y_POLARITY, LW6MAP_RULES_MAX_Y_POLARITY);
   POPULATE_INT (LW6DEF_Z_POLARITY,
 		_x_
 		("Defines how the map will be wrapped on the Z (deep) axis. If set to 0, nothing is wrapped. If set to 1, when using a 4 layer map, for instance, fighters on layer 1 will be able to go directly to layer 4 even if layers 2 and 3 are filled with walls. A value of -1 is forbidden, this is not like x and y axis, it does not really make sense. Consider this an advanced setting which might save a layer in some tricky cases, the default value of 0 should fit in most cases."),
-		LW6MAP_RULES_DEFAULT_Z_POLARITY, LW6MAP_RULES_MIN_Z_POLARITY,
-		LW6MAP_RULES_MAX_Z_POLARITY);
+		LW6MAP_RULES_DEFAULT_Z_POLARITY,
+		LW6MAP_RULES_MIN_Z_POLARITY, LW6MAP_RULES_MAX_Z_POLARITY);
   POPULATE_INT (LW6DEF_MAX_ZONE_SIZE,
 		_x_
 		("Defines the maximum zone size, which is an internal and rather technical parameter. The idea is that to optimize things, Liquid War 6 divides the battlefield in squares, where it can, and tries to make these squares as big as possible, the idea being that everywhere in this square, fighters follow the same intructions. Just a technical optimization. The problem is that setting it too high will reveal the optimization and its tradeoffs to the player, who will see the fighter behave strangely, following invisible paths. Plus, it's ugly. Depending on your tastes (speed, look'n'feel) you'll prefer something nice or something fast. Note that anyways passed a certain value, this does not optimize anything anymore. In doubt, don't touch it."),
@@ -1313,8 +1313,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_GLUE_POWER,
 		_x_
 		("Defines how sticky and powerfull the glue is. That is, if on 'glue.png' it's pitch black and this parameter is set to 3, then fighters will take 3 steps to do what would normally take only one step."),
-		LW6MAP_RULES_DEFAULT_GLUE_POWER, LW6MAP_RULES_MIN_GLUE_POWER,
-		LW6MAP_RULES_MAX_GLUE_POWER);
+		LW6MAP_RULES_DEFAULT_GLUE_POWER,
+		LW6MAP_RULES_MIN_GLUE_POWER, LW6MAP_RULES_MAX_GLUE_POWER);
   POPULATE_INT (LW6DEF_BOOST_POWER,
 		_x_
 		("Defines how fast and powerfull the boost is. That is, if on 'boost.png' it's pitch black and this parameter is set to 3, then fighters will move and act 3 times than what they would do normally."),
@@ -1334,8 +1334,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_FRAGS_MODE,
 		_x_
 		("Defines how points are calculated in deathmatch mode, 0 is old school simple mode. 1 is in a mode in which 1 point is attributed to every winner, and looser looses all the corresponding points (total is always 0). 2 isproportional mode, with a total of 0 kept constant, that is, loosers loose as many points as attributed to winners. 3 is a mode in which at each death, winners are attributed a number of points proportional to their fighters, and loosers scores remain untouched."),
-		LW6MAP_RULES_DEFAULT_FRAGS_MODE, LW6MAP_RULES_MIN_FRAGS_MODE,
-		LW6MAP_RULES_MAX_FRAGS_MODE);
+		LW6MAP_RULES_DEFAULT_FRAGS_MODE,
+		LW6MAP_RULES_MIN_FRAGS_MODE, LW6MAP_RULES_MAX_FRAGS_MODE);
   POPULATE_INT (LW6DEF_FRAGS_TO_DISTRIBUTE,
 		_x_
 		("Defines how many points will be distributed when in deathmatch mode. When a player looses, this amont of points will be substracted to its total, and the same amount of points will be distributed to other live players, proportionnally to how many fighters they have on the battlefield."),
@@ -2145,8 +2145,8 @@ populate_references ()
   POPULATE_INT (LW6DEF_NB_BOTS,
 		_x_
 		("Number of bots on the map. 0 means no bots, if set to 1 the the bot1-... settings will be used, if set to 2 then bot1-... and bot2-... will be used, and so on."),
-		LW6MAP_TEAMS_DEFAULT_NB_BOTS, LW6MAP_TEAMS_MIN_NB_BOTS,
-		LW6MAP_TEAMS_MAX_NB_BOTS);
+		LW6MAP_TEAMS_DEFAULT_NB_BOTS,
+		LW6MAP_TEAMS_MIN_NB_BOTS, LW6MAP_TEAMS_MAX_NB_BOTS);
   POPULATE_FLOAT (LW6DEF_BOT_SPEED,
 		  _x_
 		  ("The speed of bots, 1 means normal speed, higher value will speed it up, lower will slow it down. Note that this only has an impact on bot engines, not on the game speed itself."),
@@ -2154,45 +2154,62 @@ populate_references ()
   POPULATE_INT (LW6DEF_BOT_IQ,
 		_x_
 		("The IQ (intelligence quotient) of bots. Typically, a value of 100 will make the bot behave normally, performing at its best. A value of 0 will just make it act the worst way it can. Values over 100 probably won't change anything compared to 100, but this truely depends on which bot backend you're running."),
-		LW6MAP_TEAMS_DEFAULT_BOT_IQ, LW6MAP_TEAMS_MIN_BOT_IQ,
-		LW6MAP_TEAMS_MAX_BOT_IQ);
-  POPULATE_STR (LW6DEF_BOT1_COLOR, _x_ ("Color for bot number 1."),
+		LW6MAP_TEAMS_DEFAULT_BOT_IQ,
+		LW6MAP_TEAMS_MIN_BOT_IQ, LW6MAP_TEAMS_MAX_BOT_IQ);
+  POPULATE_STR (LW6DEF_BOT1_COLOR,
+		_x_ ("Color for bot number 1."),
 		LW6MAP_TEAMS_DEFAULT_BOT1_COLOR);
-  POPULATE_STR (LW6DEF_BOT2_COLOR, _x_ ("Color for bot number 2."),
+  POPULATE_STR (LW6DEF_BOT2_COLOR,
+		_x_ ("Color for bot number 2."),
 		LW6MAP_TEAMS_DEFAULT_BOT2_COLOR);
-  POPULATE_STR (LW6DEF_BOT3_COLOR, _x_ ("Color for bot number 3."),
+  POPULATE_STR (LW6DEF_BOT3_COLOR,
+		_x_ ("Color for bot number 3."),
 		LW6MAP_TEAMS_DEFAULT_BOT3_COLOR);
-  POPULATE_STR (LW6DEF_BOT4_COLOR, _x_ ("Color for bot number 4."),
+  POPULATE_STR (LW6DEF_BOT4_COLOR,
+		_x_ ("Color for bot number 4."),
 		LW6MAP_TEAMS_DEFAULT_BOT4_COLOR);
-  POPULATE_STR (LW6DEF_BOT5_COLOR, _x_ ("Color for bot number 5."),
+  POPULATE_STR (LW6DEF_BOT5_COLOR,
+		_x_ ("Color for bot number 5."),
 		LW6MAP_TEAMS_DEFAULT_BOT5_COLOR);
-  POPULATE_STR (LW6DEF_BOT6_COLOR, _x_ ("Color for bot number 6."),
+  POPULATE_STR (LW6DEF_BOT6_COLOR,
+		_x_ ("Color for bot number 6."),
 		LW6MAP_TEAMS_DEFAULT_BOT6_COLOR);
-  POPULATE_STR (LW6DEF_BOT7_COLOR, _x_ ("Color for bot number 7."),
+  POPULATE_STR (LW6DEF_BOT7_COLOR,
+		_x_ ("Color for bot number 7."),
 		LW6MAP_TEAMS_DEFAULT_BOT7_COLOR);
-  POPULATE_STR (LW6DEF_BOT8_COLOR, _x_ ("Color for bot number 8."),
+  POPULATE_STR (LW6DEF_BOT8_COLOR,
+		_x_ ("Color for bot number 8."),
 		LW6MAP_TEAMS_DEFAULT_BOT8_COLOR);
-  POPULATE_STR (LW6DEF_BOT9_COLOR, _x_ ("Color for bot number 9."),
+  POPULATE_STR (LW6DEF_BOT9_COLOR,
+		_x_ ("Color for bot number 9."),
 		LW6MAP_TEAMS_DEFAULT_BOT9_COLOR);
-  POPULATE_STR (LW6DEF_BOT1_AI, _x_ ("AI engine for bot number 1."),
+  POPULATE_STR (LW6DEF_BOT1_AI,
+		_x_ ("AI engine for bot number 1."),
 		LW6MAP_TEAMS_DEFAULT_BOT1_AI);
-  POPULATE_STR (LW6DEF_BOT2_AI, _x_ ("AI engine for bot number 2."),
+  POPULATE_STR (LW6DEF_BOT2_AI,
+		_x_ ("AI engine for bot number 2."),
 		LW6MAP_TEAMS_DEFAULT_BOT2_AI);
-  POPULATE_STR (LW6DEF_BOT3_AI, _x_ ("AI engine for bot number 3."),
+  POPULATE_STR (LW6DEF_BOT3_AI,
+		_x_ ("AI engine for bot number 3."),
 		LW6MAP_TEAMS_DEFAULT_BOT3_AI);
-  POPULATE_STR (LW6DEF_BOT4_AI, _x_ ("AI engine for bot number 4."),
+  POPULATE_STR (LW6DEF_BOT4_AI,
+		_x_ ("AI engine for bot number 4."),
 		LW6MAP_TEAMS_DEFAULT_BOT4_AI);
-  POPULATE_STR (LW6DEF_BOT5_AI, _x_ ("AI engine for bot number 5."),
+  POPULATE_STR (LW6DEF_BOT5_AI,
+		_x_ ("AI engine for bot number 5."),
 		LW6MAP_TEAMS_DEFAULT_BOT5_AI);
-  POPULATE_STR (LW6DEF_BOT6_AI, _x_ ("AI engine for bot number 6."),
+  POPULATE_STR (LW6DEF_BOT6_AI,
+		_x_ ("AI engine for bot number 6."),
 		LW6MAP_TEAMS_DEFAULT_BOT6_AI);
-  POPULATE_STR (LW6DEF_BOT7_AI, _x_ ("AI engine for bot number 7."),
+  POPULATE_STR (LW6DEF_BOT7_AI,
+		_x_ ("AI engine for bot number 7."),
 		LW6MAP_TEAMS_DEFAULT_BOT7_AI);
-  POPULATE_STR (LW6DEF_BOT8_AI, _x_ ("AI engine for bot number 8."),
+  POPULATE_STR (LW6DEF_BOT8_AI,
+		_x_ ("AI engine for bot number 8."),
 		LW6MAP_TEAMS_DEFAULT_BOT8_AI);
-  POPULATE_STR (LW6DEF_BOT9_AI, _x_ ("AI engine for bot number 9."),
+  POPULATE_STR (LW6DEF_BOT9_AI,
+		_x_ ("AI engine for bot number 9."),
 		LW6MAP_TEAMS_DEFAULT_BOT9_AI);
-
   /*
    * Funcs
    */
@@ -2709,9 +2726,9 @@ populate_references ()
 		 _x_ ("Wrapper on lw6pil_execute_command."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN,
 		 _x_ ("Wrapper on lw6pil_local_cursors_set_main."));
-  POPULATE_VOID (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED,
-		 _x_
-		 ("Wrapper on lw6pil_local_cursors_set_mouse_controlled."));
+  POPULATE_VOID
+    (LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED,
+     _x_ ("Wrapper on lw6pil_local_cursors_set_mouse_controlled."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_MAKE_BACKUP,
 		 _x_ ("Wrapper on lw6pil_make_backup."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP,
@@ -2801,7 +2818,6 @@ populate_references ()
 		 _x_ ("Wrapper on lw6bot_next_move."));
   POPULATE_VOID (LW6DEF_C_LW6_RELEASE, _x_ ("Wrapper on lw6_release."));
   POPULATE_VOID (LW6DEF_C_LW6_EXIT, _x_ ("Wrapper on lw6_exit."));
-
   /*
    * Aliases
    */
@@ -2816,7 +2832,6 @@ populate_references ()
 		 _x_ ("An alias for '--show-build-ldflags'."));
   POPULATE_VOID (LW6DEF_CONFIGURE_ARGS,
 		 _x_ ("An alias for '--show-build-configure-args'."));
-
   /*
    * team colors
    */
@@ -2835,7 +2850,6 @@ populate_references ()
 		 _("has a very good defense but a weak attack"));
   POPULATE_VOID (LW6DEF_PINK,
 		 _("has a very strong attack, but is also very vulnerable"));
-
   /*
    * weapons
    */
@@ -2892,7 +2906,6 @@ populate_references ()
   POPULATE_VOID (LW6DEF_PLAGUE,
 		 _
 		 ("general disease, all fighters mysteriously loose health"));
-
   ret = 1;
   return ret;
 }
@@ -2966,7 +2979,8 @@ _lw6hlp_reference_get_entry (char *key)
 	  if (!entry)
 	    {
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
-			  _x_ ("entry %s does not exists in help reference"),
+			  _x_
+			  ("entry %s does not exists in help reference"),
 			  key);
 	    }
 	  LW6SYS_FREE (formatted_key);
