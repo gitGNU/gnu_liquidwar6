@@ -54,3 +54,9 @@ $(srcdir)/advanced-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c $(top
 $(srcdir)/funcs-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
 	echo selfdoc funcs && for k in `$(top_builddir)/src/liquidwar6 --list-funcs` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 func $$k ; done > $(srcdir)/funcs-selfdoc.texi
 
+$(srcdir)/team-colors-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
+	echo selfdoc team-colors && for k in `$(top_builddir)/src/liquidwar6 --list-team-colors` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 item $$k ; done > $(srcdir)/team-colors-selfdoc.texi
+
+$(srcdir)/weapons-selfdoc.texi: $(top_srcdir)/src/lib/hlp/hlp-reference.c
+	echo selfdoc weapons && for k in `$(top_builddir)/src/liquidwar6 --list-weapons` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 item $$k ; done > $(srcdir)/weapons-selfdoc.texi
+

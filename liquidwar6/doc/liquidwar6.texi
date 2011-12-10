@@ -1159,6 +1159,26 @@ Note that this is very different from Liquid War 5, and can give
 very different gaming experiences, you can artificially set up arbitrary
 strong bots, for instance.
 
+Here's a description of the default color settings:
+
+@itemize
+@include team-colors-selfdoc.texi
+@end itemize
+
+@subsection Weapons
+
+Additionnally, when profiles are used, each team has two weapons, 
+a primary weapon and an alternate one. Think of weapons as special
+(usually nasty) tricks you can play on your opponents.
+
+Here's a description of available weapons:
+
+@itemize
+@include weapons-selfdoc.texi
+@end itemize
+
+Note that this is in progress, some of them are NOT IMPLEMENTED YET.
+
 @c ---------------------------------------------------------------------------
 @c Network games
 @c ---------------------------------------------------------------------------

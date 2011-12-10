@@ -570,6 +570,16 @@ Wrapper on lw6hlp_list_show.
 Wrapper on lw6hlp_list_sound.
 @end deffn
 
+@subsection c-lw6hlp-list-team-colors
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-team-colors}
+Wrapper on lw6hlp_list_team_colors.
+@end deffn
+
+@subsection c-lw6hlp-list-weapons
+@deffn {C function exported to Guile} @code{c-lw6hlp-list-weapons}
+Wrapper on lw6hlp_list_weapons.
+@end deffn
+
 @subsection c-lw6ker-add-cursor
 @deffn {C function exported to Guile} @code{c-lw6ker-add-cursor}
 Wrapper on lw6ker_add_cursor.

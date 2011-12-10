@@ -47,6 +47,13 @@ update_quick (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_quick
+ *
+ * Returns the list of keywords concerning quick options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_quick ()
 {
@@ -82,6 +89,8 @@ update_doc (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_LIST_HOOKS);
   lw6sys_list_push_back (list, LW6DEF_LIST_ADVANCED);
   lw6sys_list_push_back (list, LW6DEF_LIST_ALIASES);
+  lw6sys_list_push_back (list, LW6DEF_LIST_TEAM_COLORS);
+  lw6sys_list_push_back (list, LW6DEF_LIST_WEAPONS);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_RULES_XML);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_HINTS_XML);
   lw6sys_list_push_back (list, LW6DEF_EXAMPLE_STYLE_XML);
@@ -90,6 +99,13 @@ update_doc (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_doc
+ *
+ * Returns the list of keywords concerning self-documentation system.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_doc ()
 {
@@ -187,6 +203,13 @@ update_show (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_show
+ *
+ * Returns the list of keywords concerning the show options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_show ()
 {
@@ -219,6 +242,13 @@ update_path (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_path
+ *
+ * Returns the list of keywords concerning the path options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_path ()
 {
@@ -252,6 +282,13 @@ update_players (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_players
+ *
+ * Returns the list of keywords concerning the players options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_players ()
 {
@@ -294,6 +331,13 @@ update_input (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_input
+ *
+ * Returns the list of keywords concerning the input options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_input ()
 {
@@ -322,6 +366,13 @@ update_graphics (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_graphics
+ *
+ * Returns the list of keywords concerning the graphics options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_graphics ()
 {
@@ -350,6 +401,13 @@ update_sound (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_sound
+ *
+ * Returns the list of keywords concerning the sound options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_sound ()
 {
@@ -382,6 +440,13 @@ update_network (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_network
+ *
+ * Returns the list of keywords concerning the network options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_network ()
 {
@@ -412,6 +477,13 @@ update_map (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_map
+ *
+ * Returns the list of keywords concerning the map options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_map ()
 {
@@ -579,6 +651,13 @@ update_map_rules (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_rules
+ *
+ * Returns the list of keywords concerning the rules options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_map_rules ()
 {
@@ -621,6 +700,13 @@ update_map_hints (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_hints
+ *
+ * Returns the list of keywords concerning the hints options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_map_hints ()
 {
@@ -699,6 +785,13 @@ update_map_style (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_style
+ *
+ * Returns the list of keywords concerning the style options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_map_style ()
 {
@@ -745,6 +838,13 @@ update_map_teams (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_teams
+ *
+ * Returns the list of keywords concerning the teams options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_map_teams ()
 {
@@ -890,6 +990,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_HOOKS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_ADVANCED);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_ALIASES);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_TEAM_COLORS);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST_WEAPONS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_LIST);
   lw6sys_list_push_back (list, LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6CFG_DEFAULTS);
@@ -1084,6 +1186,13 @@ update_funcs (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_funcs
+ *
+ * Returns the list of C-function exported to Guile.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_funcs ()
 {
@@ -1104,6 +1213,13 @@ update_hooks (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_hooks
+ *
+ * Returns the list of hooks.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_hooks ()
 {
@@ -1183,6 +1299,13 @@ update_advanced (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_advanced
+ *
+ * Returns the list of keywords concerning advanced options.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_advanced ()
 {
@@ -1213,6 +1336,13 @@ update_aliases (lw6sys_list_t ** list)
   return ((*list) != NULL);
 }
 
+/**
+ * lw6hlp_list_aliases
+ *
+ * Returns the list of command-line aliases.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
 lw6sys_list_t *
 lw6hlp_list_aliases ()
 {
@@ -1227,13 +1357,98 @@ lw6hlp_list_aliases ()
   return list;
 }
 
+static int
+update_team_colors (lw6sys_list_t ** list)
+{
+  lw6sys_list_push_back (list, LW6DEF_RED);
+  lw6sys_list_push_back (list, LW6DEF_GREEN);
+  lw6sys_list_push_back (list, LW6DEF_BLUE);
+  lw6sys_list_push_back (list, LW6DEF_YELLOW);
+  lw6sys_list_push_back (list, LW6DEF_CYAN);
+  lw6sys_list_push_back (list, LW6DEF_MAGENTA);
+  lw6sys_list_push_back (list, LW6DEF_ORANGE);
+  lw6sys_list_push_back (list, LW6DEF_LIGHTBLUE);
+  lw6sys_list_push_back (list, LW6DEF_PURPLE);
+  lw6sys_list_push_back (list, LW6DEF_PINK);
+
+  return ((*list) != NULL);
+}
+
+/**
+ * lw6hlp_list_team_colors
+ *
+ * Returns the list of team_colors.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
+lw6sys_list_t *
+lw6hlp_list_team_colors ()
+{
+  lw6sys_list_t *list = NULL;
+
+  list = lw6sys_list_new (NULL);
+  if (list)
+    {
+      update_team_colors (&list);
+    }
+
+  return list;
+}
+
+static int
+update_weapons (lw6sys_list_t ** list)
+{
+  lw6sys_list_push_back (list, LW6DEF_BERZERK);
+  lw6sys_list_push_back (list, LW6DEF_INVINCIBLE);
+  lw6sys_list_push_back (list, LW6DEF_ESCAPE);
+  lw6sys_list_push_back (list, LW6DEF_TURBO);
+  lw6sys_list_push_back (list, LW6DEF_TELEPORT);
+  lw6sys_list_push_back (list, LW6DEF_SCATTER);
+  lw6sys_list_push_back (list, LW6DEF_FIX);
+  lw6sys_list_push_back (list, LW6DEF_MIX);
+  lw6sys_list_push_back (list, LW6DEF_CONTROL);
+  lw6sys_list_push_back (list, LW6DEF_PERMUTATION);
+  lw6sys_list_push_back (list, LW6DEF_STEAL);
+  lw6sys_list_push_back (list, LW6DEF_ATOMIC);
+  lw6sys_list_push_back (list, LW6DEF_REVERSE);
+  lw6sys_list_push_back (list, LW6DEF_CRAZY);
+  lw6sys_list_push_back (list, LW6DEF_REWIND);
+  lw6sys_list_push_back (list, LW6DEF_ATTRACT);
+  lw6sys_list_push_back (list, LW6DEF_SHRINK);
+  lw6sys_list_push_back (list, LW6DEF_KAMIKAZE);
+  lw6sys_list_push_back (list, LW6DEF_DISAPPEAR);
+  lw6sys_list_push_back (list, LW6DEF_PLAGUE);
+
+  return ((*list) != NULL);
+}
+
+/**
+ * lw6hlp_list_weapons
+ *
+ * Returns the list of weapons.
+ *
+ * Return value: list of static strings (can't modify them)
+ */
+lw6sys_list_t *
+lw6hlp_list_weapons ()
+{
+  lw6sys_list_t *list = NULL;
+
+  list = lw6sys_list_new (NULL);
+  if (list)
+    {
+      update_weapons (&list);
+    }
+
+  return list;
+}
+
 /**
  * lw6hlp_list
  *
- * Returns a list of all available keywords.
+ * Returns the list of all available keywords.
  *
- * Return value: a list containing all the keywords. Strings are not
- *   dynamically allocated, you can't modify them.
+ * Return value: list of static strings (can't modify them)
  */
 lw6sys_list_t *
 lw6hlp_list ()
@@ -1252,7 +1467,8 @@ lw6hlp_list ()
 	&& update_map_hints (&list) && update_map_style (&list)
 	&& update_map_teams (&list) && update_funcs (&list)
 	&& update_hooks (&list) && update_advanced (&list)
-	&& update_aliases (&list);
+	&& update_aliases (&list) && update_team_colors (&list)
+	&& update_weapons (&list);
     }
 
   if (!ok)

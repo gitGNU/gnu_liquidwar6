@@ -803,6 +803,46 @@ lw6_print_list_aliases ()
 }
 
 /**
+ * lw6_print_list_team_colors
+ *
+ * Displays the list of team colors.
+ *
+ * Return value: none
+ */
+void
+lw6_print_list_team_colors ()
+{
+  lw6sys_list_t *list;
+
+  list = lw6hlp_list_team_colors ();
+  if (list)
+    {
+      lw6hlp_print_keyword (&list, stdout);
+      lw6sys_list_free (list);
+    }
+}
+
+/**
+ * lw6_print_list_weapons
+ *
+ * Displays the list of weapons.
+ *
+ * Return value: none
+ */
+void
+lw6_print_list_weapons ()
+{
+  lw6sys_list_t *list;
+
+  list = lw6hlp_list_weapons ();
+  if (list)
+    {
+      lw6hlp_print_keyword (&list, stdout);
+      lw6sys_list_free (list);
+    }
+}
+
+/**
  * lw6_print_list
  *
  * Displays the list of all known options.

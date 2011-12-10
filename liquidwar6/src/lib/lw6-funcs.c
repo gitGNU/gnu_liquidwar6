@@ -2838,6 +2838,46 @@ _scm_lw6hlp_list_aliases ()
 }
 
 static SCM
+_scm_lw6hlp_list_team_colors ()
+{
+  lw6sys_list_t *c_list = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  c_list = lw6hlp_list_team_colors ();
+  if (c_list)
+    {
+      ret = to_scm_str_list (c_list);
+      lw6sys_list_free (c_list);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6hlp_list_weapons ()
+{
+  lw6sys_list_t *c_list = NULL;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  c_list = lw6hlp_list_weapons ();
+  if (c_list)
+    {
+      ret = to_scm_str_list (c_list);
+      lw6sys_list_free (c_list);
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6hlp_list ()
 {
   lw6sys_list_t *c_list = NULL;
@@ -9372,6 +9412,10 @@ lw6_register_funcs ()
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES,
 			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_TEAM_COLORS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_team_colors);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_WEAPONS,
+			 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_weapons);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0,
 			 (SCM (*)())_scm_lw6hlp_list);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0,

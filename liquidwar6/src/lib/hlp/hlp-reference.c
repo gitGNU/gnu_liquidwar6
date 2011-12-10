@@ -174,6 +174,9 @@ populate_references ()
   POPULATE_VOID (LW6DEF_LIST_ALIASES,
 		 _x_
 		 ("List the keyword aliases. These are here for convenience."));
+  POPULATE_VOID (LW6DEF_LIST_TEAM_COLORS,
+		 _x_ ("List the team colors, there should be 10 of them"));
+  POPULATE_VOID (LW6DEF_LIST_WEAPONS, _x_ ("List the available weapons."));
   POPULATE_VOID (LW6DEF_EXAMPLE_RULES_XML,
 		 _x_
 		 ("Dumps on stdout an example options.xml file. Such a file is normally shipped with the game. It is indeed generated using this command."));
@@ -2442,6 +2445,10 @@ populate_references ()
 		 _x_ ("Wrapper on lw6hlp_list_advanced."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_ALIASES,
 		 _x_ ("Wrapper on lw6hlp_list_aliases."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_TEAM_COLORS,
+		 _x_ ("Wrapper on lw6hlp_list_team_colors."));
+  POPULATE_VOID (LW6DEF_C_LW6HLP_LIST_WEAPONS,
+		 _x_ ("Wrapper on lw6hlp_list_weapons."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_LIST, _x_ ("Wrapper on lw6hlp_list."));
   POPULATE_VOID (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE,
 		 _x_ ("Wrapper on lw6hlp_get_default_value."));
@@ -2809,6 +2816,83 @@ populate_references ()
 		 _x_ ("An alias for '--show-build-ldflags'."));
   POPULATE_VOID (LW6DEF_CONFIGURE_ARGS,
 		 _x_ ("An alias for '--show-build-configure-args'."));
+
+  /*
+   * team colors
+   */
+  // note: team colors need to be localized
+  POPULATE_VOID (LW6DEF_RED, _("moves faster than the average"));
+  POPULATE_VOID (LW6DEF_GREEN, _("has a better defense than the average"));
+  POPULATE_VOID (LW6DEF_BLUE, _("has a strong attack but is slow"));
+  POPULATE_VOID (LW6DEF_YELLOW, _("has a strong attack"));
+  POPULATE_VOID (LW6DEF_CYAN, _("has an extremely good defense but is slow"));
+  POPULATE_VOID (LW6DEF_MAGENTA,
+		 _("is extremely fast but also very vulnerable"));
+  POPULATE_VOID (LW6DEF_ORANGE, _("is fast, but has a very weak attack"));
+  POPULATE_VOID (LW6DEF_LIGHTBLUE,
+		 _("has an extremely strong attack but is very slow"));
+  POPULATE_VOID (LW6DEF_PURPLE,
+		 _("has a very good defense but a weak attack"));
+  POPULATE_VOID (LW6DEF_PINK,
+		 _("has a very strong attack, but is also very vulnerable"));
+
+  /*
+   * weapons
+   */
+  // note: weapons need to be localized
+  POPULATE_VOID (LW6DEF_BERZERK,
+		 _
+		 ("super-strong attack for a limited time, crush your enemies"));
+  POPULATE_VOID (LW6DEF_INVINCIBLE,
+		 _("no damage for a limited time, move untouched"));
+  POPULATE_VOID (LW6DEF_ESCAPE,
+		 _
+		 ("fighters placed as far as possible from cursor, magically escape from any grip"));
+  POPULATE_VOID (LW6DEF_TURBO, _("move faster for a limited time"));
+  POPULATE_VOID (LW6DEF_TELEPORT,
+		 _("fighters placed as close as possible to cursor"));
+  POPULATE_VOID (LW6DEF_SCATTER,
+		 _
+		 ("every fighters of every team scattered in random places"));
+  POPULATE_VOID (LW6DEF_FIX,
+		 _
+		 ("all other teams are freezed, you can move but not attack them"));
+  POPULATE_VOID (LW6DEF_MIX,
+		 _
+		 ("fighters exchange position, their properties being preserved"));
+  POPULATE_VOID (LW6DEF_CONTROL,
+		 _
+		 ("you take the control of all other teams while your cursor stays in place"));
+  POPULATE_VOID (LW6DEF_PERMUTATION,
+		 _
+		 ("will exchange colors, randomly, requires at least 3 teams (double edged weapon)"));
+  POPULATE_VOID (LW6DEF_STEAL, _("steals some fighters to other teams"));
+  POPULATE_VOID (LW6DEF_ATOMIC,
+		 _
+		 ("nuclear explosion, all fighters arround your cursor are about to die"));
+  POPULATE_VOID (LW6DEF_REVERSE,
+		 _
+		 ("fighters continue to move normally, but attacks are done in reverse mode, backwards"));
+  POPULATE_VOID (LW6DEF_CRAZY,
+		 _
+		 ("all your opponents go crazy for some time, acting with no logic"));
+  POPULATE_VOID (LW6DEF_REWIND,
+		 _("make the battlefield be like it was a few seconds ago"));
+  POPULATE_VOID (LW6DEF_ATTRACT,
+		 _
+		 ("all fighters from all teams are packed near your cursor"));
+  POPULATE_VOID (LW6DEF_SHRINK,
+		 _("reduces the number of fighters on the map"));
+  POPULATE_VOID (LW6DEF_KAMIKAZE,
+		 _
+		 ("you die along with the strongest team on the battlefield, requires at least 3 teams"));
+  POPULATE_VOID (LW6DEF_DISAPPEAR,
+		 _
+		 ("you disappear for some time from the battlefield, to reappear later, somewhere else"));
+  POPULATE_VOID (LW6DEF_PLAGUE,
+		 _
+		 ("general disease, all fighters mysteriously loose health"));
+
   ret = 1;
   return ret;
 }

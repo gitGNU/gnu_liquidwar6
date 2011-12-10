@@ -37,118 +37,25 @@
 typedef enum lw6map_weapon_e
 {
   LW6MAP_WEAPON_NONE = -1,
-/*
- * BERZERK: has super-strong attack for a limited time
- */
   LW6MAP_WEAPON_BERZERK = 0,
-/*
- * INVINCIBLE: no damage for a limited time
- */
   LW6MAP_WEAPON_INVINCIBLE = 1,
-/*
- * ESCAPE: fighters are put in the farest position,
- * that is as far as possible from the cursor. If one
- * is trapped, this will cause all fighters to magically
- * escape from any grip.
- */
   LW6MAP_WEAPON_ESCAPE = 2,
-/*
- * TURBO: goes faster for a limited time (stronger, faster)
- */
   LW6MAP_WEAPON_TURBO = 3,
-/*
- * TELEPORT: fighters are instantaneously placed as close
- * as possible to the cursor.
- */
   LW6MAP_WEAPON_TELEPORT = 4,
-/*
- * SCATTER: every fighters of every teams are just scattered
- * in random places all over the map. The proportion of fighters
- * in every team, their health and so on, is preserved, but
- * they are just put anywhere like stars in the sky.
- */
   LW6MAP_WEAPON_SCATTER = 5,
-/*
- * FIX: all the other teams are immobilized for some time,
- * only the team firing this weapon can move, but it can't
- * attack. Note that if you're trapped, this might not
- * be of great help.
- */
   LW6MAP_WEAPON_FIX = 6,
-/*
- * MIX: all the fighters of every teams are mixed, positions
- * are exchanged in a random manner, they globally stay at the
- * same place, but it's like they were stirred in a bowl.
- */
   LW6MAP_WEAPON_MIX = 7,
-/*
- * CONTROL: your cursor stays in place, and you take control
- * of all other cursors for a limited time, just drag the other
- * teams where you want.
- */
   LW6MAP_WEAPON_CONTROL = 8,
-/*
- * PERMUTATION: teams are exchanged, for instance red becomes
- * green, green becomes blue and blue becomes red. Works only
- * if there are at least 3 teams on the battlefield. How the
- * swap/exchange is done depends on moon phases, this is a
- * double-edged weapon.
- */
   LW6MAP_WEAPON_PERMUTATION = 9,
-/*
- * STEAL: steal some other fighters from other teams.
- */
   LW6MAP_WEAPON_STEAL = 10,
-/*
- * ATOMIC: nuclear explosion, all fighters in a circle
- * near the caller's cursor are set to minimal health,
- * ready to die.
- */
   LW6MAP_WEAPON_ATOMIC = 11,
-/*
- * REVERSE: moves continue to operate the right way but
- * attacks are done in reverse mode, that is if you were trapped
- * then you get maximal attack, fighting against those
- * pursuing you. Limited time of course.
- */
   LW6MAP_WEAPON_REVERSE = 12,
-/*
- * CRAZY: for some time, all other teams just go crazy and
- * move/attack in random directions.
- */
   LW6MAP_WEAPON_CRAZY = 13,
-/*
- * REWIND: make the battlefield be like it was X seconds ago.
- * X (the time shift) depends on settings and what is available
- * in memory.
- */
   LW6MAP_WEAPON_REWIND = 14,
-/*
- * ATTRACT: all the fighters from every team are packed near
- * the caller's cursor.
- */
   LW6MAP_WEAPON_ATTRACT = 15,
-/*
- * SHRINK: diminishes the amount of fighters on the map, in a
- * proportionnal manner.
- */
   LW6MAP_WEAPON_SHRINK = 16,
-/*
- * KAMIKAZE: requires at least 3 teams to be on the battlefield,
- * you die and with you dies the one who was the strongest
- * at this moment.
- */
   LW6MAP_WEAPON_KAMIKAZE = 17,
-/*
- * DISAPPEAR: you disappear for some time, not on the battlefield
- * anymore, just to reappear later, with the same number of
- * fighters, in the same state, but somewhere else.
- */
   LW6MAP_WEAPON_DISAPPEAR = 18,
-/*
- * PLAGUE: general disease for everyone including you, everyone
- * constantly looses health for some time.
- */
   LW6MAP_WEAPON_PLAGUE = 19
 }
 lw6map_weapon_t;

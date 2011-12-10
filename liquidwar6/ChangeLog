@@ -1,5 +1,7 @@
 2011-12-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added description of colors and weapons to (self-generated) doc.
+
 	* Other problem with #35017, fixed (useless ref to lw6dyn_test).
 
 2011-12-08 : Christian Mauduit <ufoot@ufoot.org>

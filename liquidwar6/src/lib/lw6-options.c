@@ -356,6 +356,16 @@ lw6_process_non_run_options (int argc, char *argv[], int *run_game)
 	  lw6_print_list_aliases ();
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (LW6DEF_LIST_TEAM_COLORS, argv[i]))
+	{
+	  lw6_print_list_team_colors ();
+	  (*run_game) = 0;
+	}
+      else if (lw6sys_arg_match (LW6DEF_LIST_WEAPONS, argv[i]))
+	{
+	  lw6_print_list_weapons ();
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (LW6DEF_EXAMPLE_RULES_XML, argv[i]))
 	{
 	  lw6ldr_print_example_rules_xml (stdout);

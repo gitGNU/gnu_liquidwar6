@@ -128,7 +128,7 @@ lw6sim_test (int mode)
        * this function is available only in non-allinone mode.
        */
       // lw6dyn_test (mode);
-  }
+    }
 
   ret = test_mask () && test_simulate ();
 

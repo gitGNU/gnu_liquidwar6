@@ -122,3 +122,13 @@ the console many internal parameters. Usefull when debugging.
 List sound options (volume...).
 @end deffn
 
+@subsection list-team-colors
+@deffn {Command-line option} @code{--list-team-colors}
+List the team colors, there should be 10 of them
+@end deffn
+
+@subsection list-weapons
+@deffn {Command-line option} @code{--list-weapons}
+List the available weapons.
+@end deffn
+

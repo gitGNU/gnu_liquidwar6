@@ -105,7 +105,7 @@ lw6map_weapon_index_to_key (int index)
       break;
     default:
       lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("team weapon index %d isn't valid"), index);
+		  _x_ ("weapon index %d isn't valid"), index);
     }
 
   return ret;

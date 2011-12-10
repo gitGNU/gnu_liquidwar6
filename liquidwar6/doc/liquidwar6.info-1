@@ -1059,6 +1059,91 @@ various `team-profile-...' options, any report is appreciated.
 very different gaming experiences, you can artificially set up arbitrary
 strong bots, for instance.
 
+   Here's a description of the default color settings:
+
+   * `blue': has a strong attack but is slow
+
+   * `cyan': has an extremely good defense but is slow
+
+   * `green': has a better defense than the average
+
+   * `lightblue': has an extremely strong attack but is very slow
+
+   * `magenta': is extremely fast but also very vulnerable
+
+   * `orange': is fast, but has a very weak attack
+
+   * `pink': has a very strong attack, but is also very vulnerable
+
+   * `purple': has a very good defense but a weak attack
+
+   * `red': moves faster than the average
+
+   * `yellow': has a strong attack
+
+
+2.9.3 Weapons
+-------------
+
+Additionnally, when profiles are used, each team has two weapons, a
+primary weapon and an alternate one. Think of weapons as special
+(usually nasty) tricks you can play on your opponents.
+
+   Here's a description of available weapons:
+
+   * `atomic': nuclear explosion, all fighters arround your cursor are
+     about to die
+
+   * `attract': all fighters from all teams are packed near your cursor
+
+   * `berzerk': super-strong attack for a limited time, crush your
+     enemies
+
+   * `control': you take the control of all other teams while your
+     cursor stays in place
+
+   * `crazy': all your opponents go crazy for some time, acting with no
+     logic
+
+   * `disappear': you disappear for some time from the battlefield, to
+     reappear later, somewhere else
+
+   * `escape': fighters placed as far as possible from cursor,
+     magically escape from any grip
+
+   * `fix': all other teams are freezed, you can move but not attack
+     them
+
+   * `invincible': no damage for a limited time, move untouched
+
+   * `kamikaze': you die along with the strongest team on the
+     battlefield, requires at least 3 teams
+
+   * `mix': fighters exchange position, their properties being preserved
+
+   * `permutation': will exchange colors, randomly, requires at least 3
+     teams (double edged weapon)
+
+   * `plague': general disease, all fighters mysteriously loose health
+
+   * `reverse': fighters continue to move normally, but attacks are
+     done in reverse mode, backwards
+
+   * `rewind': make the battlefield be like it was a few seconds ago
+
+   * `scatter': every fighters of every team scattered in random places
+
+   * `shrink': reduces the number of fighters on the map
+
+   * `steal': steals some fighters to other teams
+
+   * `teleport': fighters placed as close as possible to cursor
+
+   * `turbo': move faster for a limited time
+
+
+   Note that this is in progress, some of them are NOT IMPLEMENTED YET.
+
 
 File: liquidwar6.info,  Node: Network games,  Next: Graphics,  Prev: Solo game,  Up: User's manual
 
@@ -4326,6 +4411,18 @@ File: liquidwar6.info,  Node: Doc options,  Next: Show options,  Prev: Basic opt
 
  -- Command-line option: `--list-sound'
      List sound options (volume...).
+
+4.2.23 list-team-colors
+-----------------------
+
+ -- Command-line option: `--list-team-colors'
+     List the team colors, there should be 10 of them
+
+4.2.24 list-weapons
+-------------------
+
+ -- Command-line option: `--list-weapons'
+     List the available weapons.
 
 
 File: liquidwar6.info,  Node: Show options,  Next: Path options,  Prev: Doc options,  Up: Reference

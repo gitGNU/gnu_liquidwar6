@@ -53,23 +53,27 @@ sub go {
 	$type_void=1;
     }
 
-    SWITCH: {
+    SWITCH1: {
 	open(CMD,"$path_to_binary --about=$keyword |");
 	$type_void=1 if <CMD> !~ /^Type/;
 	close(CMD);
 
+	if ($mode eq "item") {
+	    printf("\@item\n\@code{$keyword}:\n");
+	    last SWITCH1;
+	}
 	printf("\@subsection $keyword\n");
 	if ($mode eq "func") {
 	    printf("\@deffn {$FUNC_HEADER} \@code{$keyword}\n");
-	    last SWITCH;
+	    last SWITCH1;
 	}
 	if ($type_void) {
 	    printf("\@deffn {$CMD_HEADER} \@code{--$keyword}\n");
 	} else {
 	    printf("\@deffn {$CMD_HEADER} \@code{--$keyword=<value>}\n");
 	}
-	last SWITCH if $mode eq "cmd";
-	last SWITCH if $type_void;
+	last SWITCH1 if $mode eq "cmd";
+	last SWITCH1 if $type_void;
 	printf("\@deffnx {$ENV_HEADER} \@code{$keyword_env}\n");
 	printf("\@deffnx {$XML_HEADER} \@code{$keyword}\n");
     }
@@ -80,7 +84,12 @@ sub go {
     }
     close(CMD);
 
-    print "\@end deffn\n";
+    SWITCH2: {
+	if ($mode eq "item") {
+	    last SWITCH2;
+	}
+	print "\@end deffn\n";
+    }
     print "\n";
 }
 

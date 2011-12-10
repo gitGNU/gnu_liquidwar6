@@ -41,3 +41,9 @@ for i in funcs ; do
     echo >> Makefile.selfdoc
 done
 
+for i in team-colors weapons ; do
+    echo "\$(srcdir)/$i-selfdoc.texi: \$(top_srcdir)/src/lib/hlp/hlp-reference.c" >> Makefile.selfdoc
+    echo "\techo selfdoc $i && for k in \`\$(top_builddir)/src/liquidwar6 --list-$i\` ; do \$(PERL) \$(top_srcdir)/doc/selfdoc.pl \$(top_builddir)/src/liquidwar6 item \$\$k ; done > \$(srcdir)/$i-selfdoc.texi" >> Makefile.selfdoc
+    echo >> Makefile.selfdoc
+done
+
