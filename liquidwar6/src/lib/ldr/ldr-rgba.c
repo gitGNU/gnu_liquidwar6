@@ -249,7 +249,6 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
       cinfo.err = jpeg_std_error (&jerr);
       jpeg_stdio_src (&cinfo, f);
       jpeg_read_header (&cinfo, TRUE);
-      jpeg_start_decompress (&cinfo);
 
       memory_ok = 1;
       size_ok = 1;
@@ -270,6 +269,8 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
 
       if (size_ok)
 	{
+	  jpeg_start_decompress (&cinfo);
+
 	  buf =
 	    (unsigned char **) LW6SYS_MALLOC (cinfo.output_height *
 					      sizeof (unsigned char *));
@@ -366,9 +367,9 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
 			  _x_
 			  ("unable to allocate memory for RGBA JPEG file"));
 	    }
+	  jpeg_finish_decompress (&cinfo);
 	}
 
-      jpeg_finish_decompress (&cinfo);
       jpeg_destroy_decompress (&cinfo);
 
       fclose (f);

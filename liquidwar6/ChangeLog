@@ -1,3 +1,7 @@
+2011-12-13 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #35016, segfault was due to bad libjpeg usage.
+
 2011-12-09 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added description of colors and weapons to (self-generated) doc.
