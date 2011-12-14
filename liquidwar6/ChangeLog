@@ -1,5 +1,7 @@
 2011-12-14 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Implemented low-level functions to show what colors were gained.
+
 	* Fixed #35019, color cache problem.
 
 2011-12-13 : Christian Mauduit <ufoot@ufoot.org>
