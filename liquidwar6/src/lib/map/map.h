@@ -1172,6 +1172,12 @@ extern lw6map_level_t *lw6map_dup (lw6map_level_t * source,
 /* map-exp.c */
 extern int lw6map_exp_get_highest_team_color_allowed (int exp);
 extern int lw6map_exp_get_highest_weapon_allowed (int exp);
+extern int lw6map_exp_is_team_color_allowed (lw6map_rules_t * rules,
+					     int team_color_id);
+extern int lw6map_exp_is_weapon_allowed (lw6map_rules_t * rules,
+					 int weapon_id);
+extern int lw6map_exp_get_unlocked_team_color (int exp);
+extern int lw6map_exp_get_unlocked_weapon (int exp);
 
 /* map-hexa.c */
 extern char *lw6map_to_hexa (lw6map_level_t * level);

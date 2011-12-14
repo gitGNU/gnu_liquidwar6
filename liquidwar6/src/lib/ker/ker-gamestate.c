@@ -729,35 +729,40 @@ _lw6ker_game_state_add_cursor (_lw6ker_game_state_t * game_state,
 		}
 	    }
 
-	  if (real_team_color >= 0)
+	  if (lw6map_team_color_is_valid (real_team_color))
 	    {
-	      if (real_team_color != team_color)
+	      if (lw6map_exp_is_team_color_allowed (rules, team_color))
 		{
-		  lw6sys_log (LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("color shift: real_team_color=%d team_color=%d"),
-			      real_team_color, team_color);
-		}
-	      if (!_lw6ker_game_state_team_exists
-		  (game_state, real_team_color))
-		{
-		  _lw6ker_game_state_add_team (game_state, node_id,
-					       real_team_color);
-		}
-	      if (_lw6ker_game_state_team_exists
-		  (game_state, real_team_color))
-		{
-		  if (_lw6ker_cursor_get_start_xy
-		      (&x, &y, real_team_color, rules->start_position_mode,
-		       _lw6ker_game_state_get_rounds (game_state),
-		       &(game_state->map_state.shape), rules))
+		  if (real_team_color != team_color)
 		    {
-		      ret =
-			_lw6ker_cursor_array_enable (&
-						     (game_state->map_state.
-						      cursor_array), node_id,
-						     cursor_id,
-						     real_team_color, x, y);
+		      lw6sys_log (LW6SYS_LOG_DEBUG,
+				  _x_
+				  ("color shift: real_team_color=%d team_color=%d"),
+				  real_team_color, team_color);
+		    }
+		  if (!_lw6ker_game_state_team_exists
+		      (game_state, real_team_color))
+		    {
+		      _lw6ker_game_state_add_team (game_state, node_id,
+						   real_team_color);
+		    }
+		  if (_lw6ker_game_state_team_exists
+		      (game_state, real_team_color))
+		    {
+		      if (_lw6ker_cursor_get_start_xy
+			  (&x, &y, real_team_color,
+			   rules->start_position_mode,
+			   _lw6ker_game_state_get_rounds (game_state),
+			   &(game_state->map_state.shape), rules))
+			{
+			  ret =
+			    _lw6ker_cursor_array_enable (&
+							 (game_state->map_state.
+							  cursor_array),
+							 node_id, cursor_id,
+							 real_team_color, x,
+							 y);
+			}
 		    }
 		}
 	    }

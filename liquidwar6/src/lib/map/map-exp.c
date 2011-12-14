@@ -28,7 +28,7 @@
 
 #include "map.h"
 
-#define _EXP_PER_COLOR 2
+#define _EXP_PER_TEAM_COLOR 2
 #define _EXP_PER_WEAPON 3
 
 /**
@@ -45,11 +45,17 @@ lw6map_exp_get_highest_team_color_allowed (int exp)
 {
   int ret = 0;
 
-  ret =
-    lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED,
-		LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED + lw6sys_max (exp,
-									  0) /
-		_EXP_PER_COLOR);
+  if (_EXP_PER_TEAM_COLOR > 0)
+    {
+      ret =
+	lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED,
+		    LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED +
+		    lw6sys_max (exp, 0) / _EXP_PER_TEAM_COLOR);
+    }
+  else
+    {
+      ret = LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED;
+    }
 
   return ret;
 }
@@ -68,11 +74,116 @@ lw6map_exp_get_highest_weapon_allowed (int exp)
 {
   int ret = 0;
 
-  ret =
-    lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED,
-		LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED + lw6sys_max (exp,
-								      0) /
-		_EXP_PER_WEAPON);
+  if (_EXP_PER_WEAPON > 0)
+    {
+      ret =
+	lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED,
+		    LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED + lw6sys_max (exp,
+									  0) /
+		    _EXP_PER_WEAPON);
+    }
+  else
+    {
+      ret = LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_exp_is_team_color_allowed
+ *
+ * @rules: set of rules to use
+ * @team_color_id: color id to test
+ *
+ * Tests wether a team color is allowed for a given set of rules.
+ *
+ * Return value: 1 if allowed, 0 if not.
+ */
+int
+lw6map_exp_is_team_color_allowed (lw6map_rules_t * rules, int team_color_id)
+{
+  int ret = 0;
+
+  ret = lw6map_team_color_is_valid (team_color_id)
+    && (ret <= lw6map_exp_get_highest_team_color_allowed (rules->exp));
+
+  return ret;
+}
+
+/**
+ * lw6map_exp_is_weapon_allowed
+ *
+ * @rules: set of rules to use
+ * @weapon_id: weapon id to test
+ *
+ * Tests wether a weapon is allowed for a given set of rules.
+ *
+ * Return value: 1 if allowed, 0 if not.
+ */
+int
+lw6map_exp_is_weapon_allowed (lw6map_rules_t * rules, int weapon_id)
+{
+  int ret = 0;
+
+  ret = lw6map_weapon_is_valid (weapon_id)
+    && (ret <= lw6map_exp_get_highest_weapon_allowed (rules->exp));
+
+  return ret;
+}
+
+/**
+ * lw6map_exp_get_unlocked_team_color
+ *
+ * @exp: exp to test
+ *
+ * Get the unlocked team color for a given exp, if applyable.
+ *
+ * Return value: -1 if nothing unlocked, else the team color
+ */
+int
+lw6map_exp_get_unlocked_team_color (int exp)
+{
+  int ret = LW6MAP_TEAM_COLOR_INVALID;
+  int i, before, now;
+
+  for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+    {
+      before = lw6map_exp_get_highest_team_color_allowed (exp - 1);
+      now = lw6map_exp_get_highest_team_color_allowed (exp);
+      if (before < now)
+	{
+	  ret = now;
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6map_exp_get_unlocked_weapon
+ *
+ * @exp: exp to test
+ *
+ * Get the unlocked primary weapon for a given exp, if applyable.
+ *
+ * Return value: -1 if nothing unlocked, else the weapon id
+ */
+int
+lw6map_exp_get_unlocked_weapon (int exp)
+{
+  int ret = LW6MAP_WEAPON_NONE;
+  int i, before, now;
+
+  for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
+    {
+      before = lw6map_exp_get_highest_weapon_allowed (exp - 1);
+      now = lw6map_exp_get_highest_weapon_allowed (exp);
+      if (before < now)
+	{
+	  ret = now;
+	}
+    }
 
   return ret;
 }

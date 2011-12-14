@@ -313,6 +313,20 @@ Displays the list of options aliases.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {void} {lw6_print_list_team_colors} ()
+
+Displays the list of team colors.
+
+@strong{Return value:}  none
+@end deftypefun
+
+@deftypefun {void} {lw6_print_list_weapons} ()
+
+Displays the list of weapons.
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {void} {lw6_print_list} ()
 
 Displays the list of all known options.

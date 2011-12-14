@@ -89,12 +89,151 @@ about dash "-" replaced by underscode "_", for instance.
 @strong{Return value:}  1 if matches, 0 if different.
 @end deftypefun
 
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_quick} ()
+
+Returns the list of keywords concerning quick options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_doc} ()
+
+Returns the list of keywords concerning self-documentation system.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_show} ()
+
+Returns the list of keywords concerning the show options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_path} ()
+
+Returns the list of keywords concerning the path options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_players} ()
+
+Returns the list of keywords concerning the players options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_input} ()
+
+Returns the list of keywords concerning the input options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_graphics} ()
+
+Returns the list of keywords concerning the graphics options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_sound} ()
+
+Returns the list of keywords concerning the sound options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_network} ()
+
+Returns the list of keywords concerning the network options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_map} ()
+
+Returns the list of keywords concerning the map options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_map_rules} ()
+
+Returns the list of keywords concerning the rules options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_map_hints} ()
+
+Returns the list of keywords concerning the hints options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_map_style} ()
+
+Returns the list of keywords concerning the style options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_map_teams} ()
+
+Returns the list of keywords concerning the teams options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_funcs} ()
+
+Returns the list of C-function exported to Guile.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_hooks} ()
+
+Returns the list of hooks.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_advanced} ()
+
+Returns the list of keywords concerning advanced options.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_aliases} ()
+
+Returns the list of command-line aliases.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_team_colors} ()
+
+Returns the list of team_colors.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6hlp_list_weapons} ()
+
+Returns the list of weapons.
+
+@strong{Return value:}  list of static strings (can't modify them)
+@end deftypefun
+
 @deftypefun {lw6sys_list_t *} {lw6hlp_list} ()
 
-Returns a list of all available keywords.
+Returns the list of all available keywords.
 
-@strong{Return value:}  a list containing all the keywords. Strings are not
-dynamically allocated, you can't modify them.
+@strong{Return value:}  list of static strings (can't modify them)
 @end deftypefun
 
 @deftypefun {void} {lw6hlp_print_keyword} (lw6sys_list_t ** @var{list}, FILE * @var{f})

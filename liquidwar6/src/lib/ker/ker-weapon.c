@@ -150,7 +150,8 @@ _do_fire (_lw6ker_map_state_t * map_state,
 {
   int ret = 0;
 
-  if (weapon_id >= LW6MAP_MIN_WEAPON_ID && weapon_id <= LW6MAP_MAX_WEAPON_ID)
+  if (lw6map_weapon_is_valid (weapon_id)
+      && lw6map_exp_is_weapon_allowed (rules, weapon_id))
     {
       switch (weapon_id)
 	{

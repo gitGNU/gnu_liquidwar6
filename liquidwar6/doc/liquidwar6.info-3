@@ -122,11 +122,110 @@ results on
 
      *Return value:*  1 if matches, 0 if different.
 
- -- Function: lw6sys_list_t * lw6hlp_list ()
-     Returns a list of all available keywords.
+ -- Function: lw6sys_list_t * lw6hlp_list_quick ()
+     Returns the list of keywords concerning quick options.
 
-     *Return value:*  a list containing all the keywords. Strings are
-     not dynamically allocated, you can't modify them.
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_doc ()
+     Returns the list of keywords concerning self-documentation system.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_show ()
+     Returns the list of keywords concerning the show options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_path ()
+     Returns the list of keywords concerning the path options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_players ()
+     Returns the list of keywords concerning the players options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_input ()
+     Returns the list of keywords concerning the input options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_graphics ()
+     Returns the list of keywords concerning the graphics options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_sound ()
+     Returns the list of keywords concerning the sound options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_network ()
+     Returns the list of keywords concerning the network options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_map ()
+     Returns the list of keywords concerning the map options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_map_rules ()
+     Returns the list of keywords concerning the rules options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_map_hints ()
+     Returns the list of keywords concerning the hints options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_map_style ()
+     Returns the list of keywords concerning the style options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_map_teams ()
+     Returns the list of keywords concerning the teams options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_funcs ()
+     Returns the list of C-function exported to Guile.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_hooks ()
+     Returns the list of hooks.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_advanced ()
+     Returns the list of keywords concerning advanced options.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_aliases ()
+     Returns the list of command-line aliases.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_team_colors ()
+     Returns the list of team_colors.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list_weapons ()
+     Returns the list of weapons.
+
+     *Return value:*  list of static strings (can't modify them)
+
+ -- Function: lw6sys_list_t * lw6hlp_list ()
+     Returns the list of all available keywords.
+
+     *Return value:*  list of static strings (can't modify them)
 
  -- Function: void lw6hlp_print_keyword (lw6sys_list_t ** LIST, FILE *
           F)
@@ -2079,6 +2178,40 @@ results on
      Gets the highest weapon available for a given exp.
 
      *Return value:*  a weapon id
+
+ -- Function: int lw6map_exp_is_team_color_allowed (lw6map_rules_t *
+          RULES, int TEAM_COLOR_ID)
+     RULES:  set of rules to use
+
+     TEAM_COLOR_ID:  color id to test
+
+     Tests wether a team color is allowed for a given set of rules.
+
+     *Return value:*  1 if allowed, 0 if not.
+
+ -- Function: int lw6map_exp_is_weapon_allowed (lw6map_rules_t * RULES,
+          int WEAPON_ID)
+     RULES:  set of rules to use
+
+     WEAPON_ID:  weapon id to test
+
+     Tests wether a weapon is allowed for a given set of rules.
+
+     *Return value:*  1 if allowed, 0 if not.
+
+ -- Function: int lw6map_exp_get_unlocked_team_color (int EXP)
+     EXP:  exp to test
+
+     Get the unlocked team color for a given exp, if applyable.
+
+     *Return value:*  -1 if nothing unlocked, else the team color
+
+ -- Function: int lw6map_exp_get_unlocked_weapon (int EXP)
+     EXP:  exp to test
+
+     Get the unlocked primary weapon for a given exp, if applyable.
+
+     *Return value:*  -1 if nothing unlocked, else the weapon id
 
  -- Function: char * lw6map_to_hexa (lw6map_level_t * LEVEL)
      Converts a map to something that is later readable by

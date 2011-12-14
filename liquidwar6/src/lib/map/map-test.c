@@ -418,13 +418,28 @@ test_exp ()
 
   {
     int i = 0;
+    lw6map_rules_t rules;
 
+    lw6map_rules_defaults (&rules);
     for (i = LW6MAP_RULES_MIN_EXP; i <= LW6MAP_RULES_MAX_EXP; ++i)
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("exp=%d highest_color=%d highest_weapon=%d"), i,
-		    lw6map_exp_get_highest_team_color_allowed (i),
-		    lw6map_exp_get_highest_weapon_allowed (i));
+		    _x_
+		    ("exp=%d highest_color=%d highest_weapon=%d unlocked_team_color=%d unlocked_weapon=%d"),
+		    i, lw6map_exp_get_highest_team_color_allowed (i),
+		    lw6map_exp_get_highest_weapon_allowed (i),
+		    lw6map_exp_get_unlocked_team_color (i),
+		    lw6map_exp_get_unlocked_weapon (i));
+      }
+    for (i = 0; i < LW6MAP_MAX_NB_TEAMS; ++i)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("team_color=%d allowed=%d"), i,
+		    lw6map_exp_is_team_color_allowed (&rules, i));
+      }
+    for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("weapon=%d allowed=%d"), i,
+		    lw6map_exp_is_weapon_allowed (&rules, i));
       }
   }
   LW6SYS_TEST_FUNCTION_END;

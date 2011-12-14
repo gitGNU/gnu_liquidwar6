@@ -768,10 +768,22 @@ to use if, for some reason, you don't have the pointer on the menuitem.
 @strong{Return value:}  1 if success, 0 if failure (out of range).
 @end deftypefun
 
-@deftypefun {void} {lw6gui_menu_sync_using_id} (lw6gui_menu_t * @var{menu}, int @var{menuitem_id}, char * @var{label}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
+@deftypefun {void} {lw6gui_menu_sync_using_id} (lw6gui_menu_t * @var{menu}, int @var{menuitem_id}, char * @var{label}, char * @var{tooltip}, int @var{value}, int @var{enabled}, int @var{selected}, int @var{colored}, int64_t @var{now})
 @var{menu}:  the menu to work on
 
 @var{menuitem_id}:  the id of the menuitem to synchronize
+
+@var{label}:  menu label
+
+@var{tooltip}:  menu tooltip
+
+@var{value}:  value
+
+@var{enabled}:  wether it's usable or not
+
+@var{selected}:  1 if the menuite is current item
+
+@var{colored}:  wether to use color
 
 @var{now}:  current time (timestamp)
 

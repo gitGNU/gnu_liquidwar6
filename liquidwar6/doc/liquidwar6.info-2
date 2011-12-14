@@ -6755,6 +6755,16 @@ results on
 
      *Return value:*  none
 
+ -- Function: void lw6_print_list_team_colors ()
+     Displays the list of team colors.
+
+     *Return value:*  none
+
+ -- Function: void lw6_print_list_weapons ()
+     Displays the list of weapons.
+
+     *Return value:*  none
+
  -- Function: void lw6_print_list ()
      Displays the list of all known options.
 
