@@ -66,180 +66,169 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
   int i, j;
   lw6sys_color_8_t color_tmp;
 
-  if (!lw6map_color_set_is_same
-      (&(utils_context->textures_1x1.color_set), &(look->style.color_set)))
+  ret =
+    ((utils_context->textures_1x1.color_base_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     color_base.fg)) != NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.color_base_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     color_base.bg)) != NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.color_alternate_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     color_alternate.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.color_alternate_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     color_alternate.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.background_color_root_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     background_color_root.fg)) !=
+     NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.background_color_root_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     background_color_root.bg)) !=
+     NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.background_color_stuff_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     background_color_stuff.fg)) !=
+     NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.background_color_stuff_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     background_color_stuff.bg)) !=
+     NULL) && ret;
+  ret =
+    ((utils_context->textures_1x1.hud_color_frame_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     hud_color_frame.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.hud_color_frame_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     hud_color_frame.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.hud_color_text_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     hud_color_text.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.hud_color_text_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     hud_color_text.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_default_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_default.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_default_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_default.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_selected_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_selected.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_selected_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_selected.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_disabled_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_disabled.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.menu_color_disabled_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     menu_color_disabled.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.view_color_cursor_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     view_color_cursor.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.view_color_cursor_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     view_color_cursor.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.view_color_map_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     view_color_map.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.view_color_map_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     view_color_map.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.system_color_fg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     system_color.fg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.system_color_bg =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     system_color.bg)) != NULL)
+    && ret;
+  ret =
+    ((utils_context->textures_1x1.team_color_dead =
+      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
+					     look->style.color_set.
+					     team_color_dead)) != NULL)
+    && ret;
+  for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     {
-      lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("updating textures_1x1"));
-      mod_gl_utils_texture_1x1_clear (utils_context);
-      utils_context->textures_1x1.color_set = look->style.color_set;
-
+      color_tmp = look->style.color_set.team_colors[i];
       ret =
-	((utils_context->textures_1x1.color_base_fg =
+	((utils_context->textures_1x1.team_colors[i] =
 	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 color_base.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.color_base_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 color_base.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.color_alternate_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 color_alternate.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.color_alternate_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 color_alternate.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.background_color_root_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 background_color_root.fg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.background_color_root_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 background_color_root.bg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.background_color_stuff_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 background_color_stuff.
-						 fg)) != NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.background_color_stuff_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 background_color_stuff.
-						 bg)) != NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.hud_color_frame_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 hud_color_frame.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.hud_color_frame_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 hud_color_frame.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.hud_color_text_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 hud_color_text.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.hud_color_text_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 hud_color_text.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_default_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_default.fg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_default_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_default.bg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_selected_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_selected.fg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_selected_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_selected.bg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_disabled_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_disabled.fg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.menu_color_disabled_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 menu_color_disabled.bg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.view_color_cursor_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 view_color_cursor.fg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.view_color_cursor_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 view_color_cursor.bg)) !=
-	 NULL) && ret;
-      ret =
-	((utils_context->textures_1x1.view_color_map_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 view_color_map.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.view_color_map_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 view_color_map.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.system_color_fg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 system_color.fg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.system_color_bg =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 system_color.bg)) != NULL)
-	&& ret;
-      ret =
-	((utils_context->textures_1x1.team_color_dead =
-	  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-						 look->style.color_set.
-						 team_color_dead)) != NULL)
-	&& ret;
-      for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
+						 color_tmp)) != NULL) && ret;
+      for (j = 0; j <= MOD_GL_UTILS_TRANSPARENCY_SCALE; ++j)
 	{
-	  color_tmp = look->style.color_set.team_colors[i];
+	  color_tmp.a = (j * 255) / MOD_GL_UTILS_TRANSPARENCY_SCALE;
 	  ret =
-	    ((utils_context->textures_1x1.team_colors[i] =
+	    ((utils_context->textures_1x1.team_colors_transparency[i][j] =
 	      mod_gl_utils_texture_1x1_color2bitmap (utils_context,
 						     color_tmp)) != NULL)
 	    && ret;
-	  for (j = 0; j <= MOD_GL_UTILS_TRANSPARENCY_SCALE; ++j)
-	    {
-	      color_tmp.a = (j * 255) / MOD_GL_UTILS_TRANSPARENCY_SCALE;
-	      ret =
-		((utils_context->textures_1x1.team_colors_transparency[i][j] =
-		  mod_gl_utils_texture_1x1_color2bitmap (utils_context,
-							 color_tmp)) != NULL)
-		&& ret;
-	    }
 	}
     }
 

@@ -1,3 +1,7 @@
+2011-12-14 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #35019, color cache problem.
+
 2011-12-13 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Fixed #35016, segfault was due to bad libjpeg usage.

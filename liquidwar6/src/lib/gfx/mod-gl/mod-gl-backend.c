@@ -158,8 +158,8 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
        * drawable will be fully handled.
        */
       mod_gl_utils_smoothers_update (&(mod_gl_context->utils_context));	// to be fixed
-
       _mod_gl_set_backends (mod_gl_context, look);
+      mod_gl_utils_cache_update (&(mod_gl_context->utils_context), look);
 
       mod_gl_utils_prepare_buffer (&(mod_gl_context->utils_context), look);
 

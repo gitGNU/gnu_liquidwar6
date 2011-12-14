@@ -191,7 +191,7 @@ mod_gl_utils_load_data (mod_gl_utils_context_t * utils_context)
   look = lw6gui_look_new (NULL);
   if (look)
     {
-      ret = mod_gl_utils_texture_1x1_update (utils_context, look) && ret;
+      ret = mod_gl_utils_cache_update (utils_context, look) && ret;
       lw6gui_look_free (look);
     }
 

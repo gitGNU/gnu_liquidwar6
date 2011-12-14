@@ -186,6 +186,7 @@ mod_gl_utils_menucache_item_t;
 
 typedef struct mod_gl_utils_menucache_array_s
 {
+  lw6map_color_set_t color_set;
   int last_stored_item;
     mod_gl_utils_menucache_item_t
     item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE];
@@ -281,7 +282,6 @@ mod_gl_utils_const_data_t;
 
 typedef struct mod_gl_utils_texture_1x1_s
 {
-  lw6map_color_set_t color_set;
   mod_gl_utils_bitmap_t *color_base_fg;
   mod_gl_utils_bitmap_t *color_base_bg;
   mod_gl_utils_bitmap_t *color_alternate_fg;
@@ -385,6 +385,12 @@ typedef struct mod_gl_utils_counter_s
 }
 mod_gl_utils_counter_t;
 
+typedef struct mod_gl_utils_cache_s
+{
+  lw6map_color_set_t color_set;
+}
+mod_gl_utils_cache_t;
+
 typedef struct mod_gl_utils_context_s
 {
   lw6gui_resize_callback_func_t resize_callback;
@@ -411,6 +417,7 @@ typedef struct mod_gl_utils_context_s
   mod_gl_utils_icon_t icon;
   mod_gl_utils_counter_t counter;
   lw6sys_hash_t *bitmap_hash;
+  mod_gl_utils_cache_t cache;
 }
 mod_gl_utils_context_t;
 
@@ -545,6 +552,10 @@ extern int mod_gl_utils_bitmap_hash_refresh (mod_gl_utils_context_t *
 					     utils_context);
 extern int mod_gl_utils_bitmap_hash_dump2disk (mod_gl_utils_context_t *
 					       utils_context, int force);
+
+/* gl-utils-cache.c */
+int mod_gl_utils_cache_update (mod_gl_utils_context_t * utils_context,
+			       lw6gui_look_t * look);
 
 /*
  * In capture.c

@@ -336,7 +336,6 @@ _mod_gl_menu_cylinder_display_menu (mod_gl_utils_context_t * utils_context,
   char *popup = NULL;
 
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
-  mod_gl_utils_texture_1x1_update (utils_context, look);
 
   prepare_view (utils_context, cylinder_context);
 
@@ -481,7 +480,6 @@ _mod_gl_menu_cylinder_display_progress (mod_gl_utils_context_t *
 					lw6gui_look_t * look, float progress)
 {
   mod_gl_utils_set_render_mode_3d_menu (utils_context);
-  mod_gl_utils_texture_1x1_update (utils_context, look);
 
   prepare_view (utils_context, cylinder_context);
 
