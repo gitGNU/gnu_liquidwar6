@@ -66,6 +66,8 @@ mod_gl_utils_texture_1x1_update (mod_gl_utils_context_t * utils_context,
   int i, j;
   lw6sys_color_8_t color_tmp;
 
+  mod_gl_utils_texture_1x1_clear (utils_context);
+
   ret =
     ((utils_context->textures_1x1.color_base_fg =
       mod_gl_utils_texture_1x1_color2bitmap (utils_context,
