@@ -720,6 +720,26 @@ Wrapper on lw6ldr_read.
 Wrapper on lw6ldr_read_relative.
 @end deffn
 
+@subsection c-lw6map-exp-get-unlocked-team-color
+@deffn {C function exported to Guile} @code{c-lw6map-exp-get-unlocked-team-color}
+Wrapper on lw6map_exp_get_unlocked_team_color.
+@end deffn
+
+@subsection c-lw6map-exp-get-unlocked-weapon
+@deffn {C function exported to Guile} @code{c-lw6map-exp-get-unlocked-weapon}
+Wrapper on lw6map_exp_get_unlocked_weapon.
+@end deffn
+
+@subsection c-lw6map-exp-is-team-color-allowed
+@deffn {C function exported to Guile} @code{c-lw6map-exp-is-team-color-allowed}
+Wrapper on lw6map_exp_is_team_color_allowed.
+@end deffn
+
+@subsection c-lw6map-exp-is-weapon-allowed
+@deffn {C function exported to Guile} @code{c-lw6map-exp-is-weapon-allowed}
+Wrapper on lw6map_exp_is_weapon_allowed.
+@end deffn
+
 @subsection c-lw6map-get-look
 @deffn {C function exported to Guile} @code{c-lw6map-get-look}
 Wrapper on lw6map_get_look.
