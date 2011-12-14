@@ -22,7 +22,7 @@
   (lambda ()
     (let (
 	  (item (lw6-menu-item-template (_ "Replay")
-					(_ "Replay this level, since you didn't win")))
+					(_ "Replay this level")))
 	  )
       (begin
 	(assoc-set! item "selected" #t)
@@ -116,12 +116,15 @@
 	))))
 
 (define lw6-score-solo-menu
-  (lambda()
-    (let (
-	  (menu (lw6-menu-template (_ "Score")
-				   (_ "And the winner is...")
-				   (_ "Achievement 1/2")))
-	  )
+  (lambda(won)
+    (let* (
+	   (menu (lw6-menu-template (_ "Score")
+				    (_ "And the winner is...")
+				    (if won
+					(_ "You win!")
+					(_ "You loose...")
+					)))
+	   )
       (begin
 	;; no items here!
 	(assoc-set! menu "on-cancel" (lambda (m) 

@@ -26,6 +26,7 @@
 	   (cursor-id (hash-ref cursor "id"))
 	   (level (lw6-get-game-global "level"))
 	   (dsp (lw6-get-game-global "dsp"))
+	   (won #f)
 	   )
       (if (and pilot 
 	       (c-lw6pil-is-over pilot)
@@ -37,18 +38,19 @@
 	    ;;(lw6-pop-menu-raw)
 	    (if (lw6-get-game-global "solo")
 		(begin
-		  (if (and cursor-id 
-			   (c-lw6pil-did-cursor-win pilot cursor-id)
-			   level)
-		      (c-lw6ldr-exp-validate level))
-		  (let* (
-			 (map-path (lw6-get-game-global lw6def-map-path))
-			 (relative-path (lw6-config-get-string lw6def-chosen-map))
-			 (entry (c-lw6ldr-chain-entry map-path relative-path))
-			 )
+		  (set! won (and cursor-id 
+				 (c-lw6pil-did-cursor-win pilot cursor-id)
+				 level
+				 (c-lw6ldr-exp-validate level)))
+		  (if won
+		      (let* (
+			     (map-path (lw6-get-game-global lw6def-map-path))
+			     (relative-path (lw6-config-get-string lw6def-chosen-map))
+			     (entry (c-lw6ldr-chain-entry map-path relative-path))
+			     )
 		    (if entry
-			(lw6-config-set-string! lw6def-chosen-map (assoc-ref entry "relative-path"))))
-		  (lw6-push-menu (lw6-score-solo-menu)))
+			(lw6-config-set-string! lw6def-chosen-map (assoc-ref entry "relative-path")))))
+		  (lw6-push-menu (lw6-score-solo-menu won)))
 		(begin
 		  (lw6-push-menu (lw6-score-menu))
 		  )))))))
