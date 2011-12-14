@@ -2672,6 +2672,14 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_style_get_default."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT,
 		 _x_ ("Wrapper on lw6map_teams_get_default."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_EXP_IS_TEAM_COLOR_ALLOWED,
+		 _x_ ("Wrapper on lw6map_exp_is_team_color_allowed."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_EXP_IS_WEAPON_ALLOWED,
+		 _x_ ("Wrapper on lw6map_exp_is_weapon_allowed."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_TEAM_COLOR,
+		 _x_ ("Wrapper on lw6map_exp_get_unlocked_team_color."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON,
+		 _x_ ("Wrapper on lw6map_exp_get_unlocked_weapon."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STRUCT,
 		 _x_ ("Wrapper on lw6ker_build_game_struct."));
   POPULATE_VOID (LW6DEF_C_LW6KER_BUILD_GAME_STATE,

@@ -1100,6 +1100,10 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_RULES_GET_INT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_STYLE_GET_DEFAULT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_IS_TEAM_COLOR_ALLOWED);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_IS_WEAPON_ALLOWED);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_TEAM_COLOR);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_BUILD_GAME_STRUCT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_BUILD_GAME_STATE);
   lw6sys_list_push_back (list, LW6DEF_C_LW6KER_SYNC_GAME_STATE);

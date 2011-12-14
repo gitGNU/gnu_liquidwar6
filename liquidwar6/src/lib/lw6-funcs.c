@@ -6191,6 +6191,104 @@ _scm_lw6map_teams_get_default (SCM key)
   return ret;
 }
 
+static SCM
+_scm_lw6map_exp_is_team_color_allowed (SCM level, SCM team_color)
+{
+  lw6map_level_t *c_level;
+  int c_team_color;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map, level), level,
+	      SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (team_color), team_color, SCM_ARG2,
+	      __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      c_team_color = scm_to_int (team_color);
+
+      ret =
+	scm_from_int (lw6map_exp_is_team_color_allowed
+		      (&(c_level->param.rules), c_team_color));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_exp_is_weapon_allowed (SCM level, SCM weapon)
+{
+  lw6map_level_t *c_level;
+  int c_weapon;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.map, level), level,
+	      SCM_ARG1, __FUNCTION__);
+  SCM_ASSERT (scm_is_integer (weapon), weapon, SCM_ARG2, __FUNCTION__);
+
+  c_level = lw6_scm_to_map (level);
+  if (c_level)
+    {
+      c_weapon = scm_to_int (weapon);
+
+      ret =
+	scm_from_int (lw6map_exp_is_weapon_allowed
+		      (&(c_level->param.rules), c_weapon));
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_exp_get_unlocked_team_color (SCM team_color)
+{
+  int c_team_color;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_integer (team_color), team_color, SCM_ARG1,
+	      __FUNCTION__);
+
+  c_team_color = scm_to_int (team_color);
+
+  ret = scm_from_int (lw6map_exp_get_unlocked_team_color (c_team_color));
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_exp_get_unlocked_weapon (SCM weapon)
+{
+  int c_weapon;
+  SCM ret = SCM_BOOL_F;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (scm_is_integer (weapon), weapon, SCM_ARG1, __FUNCTION__);
+
+  c_weapon = scm_to_int (weapon);
+
+  ret = scm_from_int (lw6map_exp_get_unlocked_weapon (c_weapon));
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * In liquidwar6ker
  */
@@ -9718,6 +9816,14 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6map_style_get_default);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAMS_GET_DEFAULT, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_teams_get_default);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_EXP_IS_TEAM_COLOR_ALLOWED, 2, 0, 0,
+			 (SCM (*)())_scm_lw6map_exp_is_team_color_allowed);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_EXP_IS_WEAPON_ALLOWED, 2, 0, 0,
+			 (SCM (*)())_scm_lw6map_exp_is_weapon_allowed);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_TEAM_COLOR, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_exp_get_unlocked_team_color);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_EXP_GET_UNLOCKED_WEAPON, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_exp_get_unlocked_weapon);
 
   /*
    * In liquidwar6ker

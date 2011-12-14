@@ -191,6 +191,10 @@ c-lw6ldr-hints-get-default
 c-lw6ldr-print-examples
 c-lw6ldr-read
 c-lw6ldr-read-relative
+c-lw6map-exp-get-unlocked-team-color
+c-lw6map-exp-get-unlocked-weapon
+c-lw6map-exp-is-team-color-allowed
+c-lw6map-exp-is-weapon-allowed
 c-lw6map-get-look
 c-lw6map-get-music-dir
 c-lw6map-param-get
