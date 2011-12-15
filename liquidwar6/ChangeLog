@@ -1,5 +1,7 @@
 2011-12-15 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Now displays "X wins" at end of game.
+
 	* Fixed #35076, score screen team index error.
 
 2011-12-14 : Christian Mauduit <ufoot@ufoot.org>

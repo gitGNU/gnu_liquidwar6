@@ -182,3 +182,57 @@ lw6map_team_color_key_to_index (char *key)
 
   return ret;
 }
+
+/**
+ * lw6map_team_color_index_to_label
+ *
+ * @index: index of the color between 0 & 9
+ *
+ * Transforms a team color index into its readable string form,
+ * which can be used to display information to players.
+ *
+ * Return value: a string, must *not* be freed.
+ */
+char *
+lw6map_team_color_index_to_label (int index)
+{
+  char *ret = LW6SYS_STR_EMPTY;
+
+  switch (index)
+    {
+    case LW6MAP_TEAM_COLOR_RED:
+      ret = _("Red");
+      break;
+    case LW6MAP_TEAM_COLOR_GREEN:
+      ret = _("Green");
+      break;
+    case LW6MAP_TEAM_COLOR_BLUE:
+      ret = _("Blue");
+      break;
+    case LW6MAP_TEAM_COLOR_YELLOW:
+      ret = _("Yellow");;
+      break;
+    case LW6MAP_TEAM_COLOR_CYAN:
+      ret = _("Cyan");
+      break;
+    case LW6MAP_TEAM_COLOR_MAGENTA:
+      ret = _("Magenta");
+      break;
+    case LW6MAP_TEAM_COLOR_ORANGE:
+      ret = _("Orange");
+      break;
+    case LW6MAP_TEAM_COLOR_LIGHTBLUE:
+      ret = _("Light blue");
+      break;
+    case LW6MAP_TEAM_COLOR_PURPLE:
+      ret = _("Purple");
+      break;
+    case LW6MAP_TEAM_COLOR_PINK:
+      ret = _("Pink");
+      break;
+    default:
+      ret = _("Invalid color");
+    }
+
+  return ret;
+}

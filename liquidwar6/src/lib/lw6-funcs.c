@@ -5931,6 +5931,21 @@ _scm_lw6map_team_color_key_to_index (SCM key)
 }
 
 static SCM
+_scm_lw6map_team_color_index_to_label (SCM index)
+{
+  SCM ret = SCM_BOOL_F;
+
+  int c_index;
+
+  SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
+
+  c_index = scm_to_int (index);
+  ret = scm_makfrom0str (lw6map_team_color_index_to_label (c_index));
+
+  return ret;
+}
+
+static SCM
 _scm_lw6map_team_color_list ()
 {
   SCM ret = SCM_BOOL_F;
@@ -5992,6 +6007,21 @@ _scm_lw6map_weapon_key_to_index (SCM key)
       ret = scm_from_int (lw6map_weapon_key_to_index (c_key));
       LW6SYS_FREE (c_key);
     }
+
+  return ret;
+}
+
+static SCM
+_scm_lw6map_weapon_index_to_label (SCM index)
+{
+  SCM ret = SCM_BOOL_F;
+
+  int c_index;
+
+  SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
+
+  c_index = scm_to_int (index);
+  ret = scm_makfrom0str (lw6map_weapon_index_to_label (c_index));
 
   return ret;
 }
@@ -7740,6 +7770,62 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
 	    lw6pil_pilot_did_cursor_win (c_pilot,
 					 c_cursor_id_int) ? SCM_BOOL_T :
 	    SCM_BOOL_F;
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_get_winner (SCM pilot)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6pil_pilot_t *c_pilot;
+  int c_ret;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      c_ret = lw6pil_pilot_get_winner (c_pilot);
+      if (lw6map_team_color_is_valid (c_ret))
+	{
+	  ret = scm_from_int (c_ret);
+	}
+    }
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
+_scm_lw6pil_get_looser (SCM pilot)
+{
+  SCM ret = SCM_BOOL_F;
+  lw6pil_pilot_t *c_pilot;
+  int c_ret;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+
+  SCM_ASSERT (SCM_SMOB_PREDICATE
+	      (lw6_global.smob_types.pilot,
+	       pilot), pilot, SCM_ARG1, __FUNCTION__);
+
+  c_pilot = lw6_scm_to_pilot (pilot);
+  if (c_pilot)
+    {
+      c_ret = lw6pil_pilot_get_looser (c_pilot);
+      if (lw6map_team_color_is_valid (c_ret))
+	{
+	  ret = scm_from_int (c_ret);
 	}
     }
 
@@ -9796,12 +9882,16 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6map_team_color_index_to_key);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_team_color_key_to_index);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_LABEL, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_team_color_index_to_label);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_TEAM_COLOR_LIST, 0, 0, 0,
 			 (SCM (*)())_scm_lw6map_team_color_list);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_KEY, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_weapon_index_to_key);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_KEY_TO_INDEX, 1, 0, 0,
 			 (SCM (*)())_scm_lw6map_weapon_key_to_index);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_LABEL, 1, 0, 0,
+			 (SCM (*)())_scm_lw6map_weapon_index_to_label);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_WEAPON_LIST, 0, 0, 0,
 			 (SCM (*)())_scm_lw6map_weapon_list);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT, 1, 0, 0,
@@ -9924,6 +10014,10 @@ lw6_register_funcs ()
 			 (SCM (*)())_scm_lw6pil_is_over);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_DID_CURSOR_WIN, 2, 0, 0,
 			 (SCM (*)())_scm_lw6pil_did_cursor_win);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_WINNER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_winner);
+  lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_GET_LOOSER, 1, 0, 0,
+			 (SCM (*)())_scm_lw6pil_get_looser);
   lw6scm_c_define_gsubr (LW6DEF_C_LW6PIL_SEQ_RANDOM_0, 0, 0, 0,
 			 (SCM (*)())_scm_lw6pil_seq_random_0);
 

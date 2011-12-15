@@ -18,6 +18,26 @@
 ;Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 ;Contact author        : ufoot@ufoot.org
 
+(define lw6-score-get-winner
+  (lambda ()
+    (let* (
+	   (pilot (lw6-get-game-global "pilot"))
+	   (winner-color-index (if pilot (c-lw6pil-get-winner pilot) #f))
+	   (winner-color-label (if winner-color-index (c-lw6map-team-color-index-to-label winner-color-index) ""))
+	  )
+      winner-color-label
+      )))
+
+(define lw6-score-get-looser
+  (lambda ()
+    (let* (
+	   (pilot (lw6-get-game-global "pilot"))
+	   (looser-color-index (if pilot (c-lw6pil-get-looser pilot) #f))
+	   (looser-color-label (if looser-color-index (c-lw6map-team-color-index-to-label looser-color-index) ""))
+	  )
+      looser-color-label
+      )))
+
 (define lw6-score
   (lambda ()
     (let* (

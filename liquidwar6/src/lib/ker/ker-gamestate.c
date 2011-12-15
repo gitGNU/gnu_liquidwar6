@@ -1861,25 +1861,24 @@ int
 _lw6ker_game_state_get_winner (_lw6ker_game_state_t * game_state,
 			       int excluded_team)
 {
-  int nb_active_fighters_min;
+  int nb_active_fighters_max;
   int nb_active_fighters;
   int nb_teams;
   int i;
   int ret = LW6MAP_TEAM_COLOR_INVALID;
 
-  nb_active_fighters_min =
-    _lw6ker_game_state_get_nb_active_fighters (game_state);
+  nb_active_fighters_max = 0;
   nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
   for (i = 0; i < nb_teams; ++i)
     {
       nb_active_fighters = 0;
       _lw6ker_game_state_get_team_info (game_state, i, NULL,
 					&nb_active_fighters);
-      if (nb_active_fighters < nb_active_fighters_min
+      if (nb_active_fighters > nb_active_fighters_max
 	  && nb_active_fighters > 0 && i != excluded_team)
 	{
 	  ret = i;
-	  nb_active_fighters_min = nb_active_fighters;
+	  nb_active_fighters_max = nb_active_fighters;
 	}
     }
 
@@ -1914,24 +1913,25 @@ int
 _lw6ker_game_state_get_looser (_lw6ker_game_state_t * game_state,
 			       int excluded_team)
 {
-  int nb_active_fighters_max;
+  int nb_active_fighters_min;
   int nb_active_fighters;
   int nb_teams;
   int i;
   int ret = LW6MAP_TEAM_COLOR_INVALID;
 
-  nb_active_fighters_max = 0;
+  nb_active_fighters_min =
+    _lw6ker_game_state_get_nb_active_fighters (game_state);
   nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
   for (i = 0; i < nb_teams; ++i)
     {
       nb_active_fighters = 0;
       _lw6ker_game_state_get_team_info (game_state, i, NULL,
 					&nb_active_fighters);
-      if (nb_active_fighters > nb_active_fighters_max
+      if (nb_active_fighters < nb_active_fighters_min
 	  && nb_active_fighters > 0 && i != excluded_team)
 	{
 	  ret = i;
-	  nb_active_fighters_max = nb_active_fighters;
+	  nb_active_fighters_min = nb_active_fighters;
 	}
     }
 

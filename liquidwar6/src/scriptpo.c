@@ -193,9 +193,9 @@ _("Next");			// extracted by scriptpo-update.sh
 _("And now?");			// extracted by scriptpo-update.sh
 _("Achievement 2/2");		// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
-_("And the winner is...");	// extracted by scriptpo-update.sh
+_("~a wins");			// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
-_("And the winner is...");	// extracted by scriptpo-update.sh
+_("~a wins");			// extracted by scriptpo-update.sh
 _("You win!");			// extracted by scriptpo-update.sh
 _("You loose...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh

@@ -2652,12 +2652,16 @@ populate_references ()
 		 _x_ ("Wrapper on lw6map_team_color_index_to_key."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX,
 		 _x_ ("Wrapper on lw6map_team_color_key_to_index."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_LABEL,
+		 _x_ ("Wrapper on lw6map_team_color_index_to_label."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_TEAM_COLOR_LIST,
 		 _x_ ("Wrapper on lw6map_team_color_list."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_KEY,
 		 _x_ ("Wrapper on lw6map_weapon_index_to_key."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_KEY_TO_INDEX,
 		 _x_ ("Wrapper on lw6map_weapon_key_to_index."));
+  POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_LABEL,
+		 _x_ ("Wrapper on lw6map_weapon_index_to_label."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_WEAPON_LIST,
 		 _x_ ("Wrapper on lw6map_weapon_list."));
   POPULATE_VOID (LW6DEF_C_LW6MAP_RULES_GET_DEFAULT,
@@ -2765,6 +2769,10 @@ populate_references ()
   POPULATE_VOID (LW6DEF_C_LW6PIL_IS_OVER, _x_ ("Wrapper on lw6pil_is_over."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_DID_CURSOR_WIN,
 		 _x_ ("Wrapper on lw6pil_did_cursor_win."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_WINNER,
+		 _x_ ("Wrapper on lw6pil_get_winner."));
+  POPULATE_VOID (LW6DEF_C_LW6PIL_GET_LOOSER,
+		 _x_ ("Wrapper on lw6pil_get_looser."));
   POPULATE_VOID (LW6DEF_C_LW6PIL_SEQ_RANDOM_0,
 		 _x_ ("Wrapper on lw6pil_seq_random_0."));
   POPULATE_VOID (LW6DEF_C_LW6SND_GET_BACKENDS,

@@ -2108,6 +2108,14 @@ results on
 
      *Return value:*  an integer.
 
+ -- Function: char * lw6map_team_color_index_to_label (int INDEX)
+     INDEX:  index of the color between 0 & 9
+
+     Transforms a team color index into its readable string form, which
+     can be used to display information to players.
+
+     *Return value:*  a string, must *not* be freed.
+
  -- Function: void lw6map_cursor_texture_clear (lw6map_cursor_texture_t
           * CURSOR_TEXTURE)
      CURSOR_TEXTURE:  the cursor texture to clear
@@ -2865,6 +2873,14 @@ results on
      The index of the weapon, between 0 & 19
 
      *Return value:*  an integer.
+
+ -- Function: char * lw6map_weapon_index_to_label (int INDEX)
+     INDEX:  index of the weapon between 0 & 19
+
+     Transforms a team weapon index into its readable string form,
+     which can be used to display information to players.
+
+     *Return value:*  a string, must *not* be freed.
 
 
 File: liquidwar6.info,  Node: libmsg,  Next: libnet,  Prev: libmap,  Up: C API
@@ -4751,6 +4767,20 @@ results on
      Tells wether a given cursor was winner or not.
 
      *Return value:*  1 if over, 0 if not
+
+ -- Function: int lw6pil_pilot_get_winner (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Gets the winner color.
+
+     *Return value:*  a team color, -1 if no winner and/or error.
+
+ -- Function: int lw6pil_pilot_get_looser (lw6pil_pilot_t * PILOT)
+     PILOT:  the object to query
+
+     Gets the looser color.
+
+     *Return value:*  a team color, -1 if no looser and/or error.
 
  -- Function: lw6pil_local_cursors_t * lw6pil_pilot_get_local_cursors
           (lw6pil_pilot_t * PILOT)

@@ -212,3 +212,87 @@ lw6map_weapon_key_to_index (char *key)
 
   return ret;
 }
+
+/**
+ * lw6map_weapon_index_to_label
+ *
+ * @index: index of the weapon between 0 & 19
+ *
+ * Transforms a team weapon index into its readable string form,
+ * which can be used to display information to players.
+ *
+ * Return value: a string, must *not* be freed.
+ */
+char *
+lw6map_weapon_index_to_label (int index)
+{
+  char *ret = LW6SYS_STR_EMPTY;
+
+  switch (index)
+    {
+    case LW6MAP_WEAPON_BERZERK:
+      ret = _("Berzerk");
+      break;
+    case LW6MAP_WEAPON_INVINCIBLE:
+      ret = _("Invincible");
+      break;
+    case LW6MAP_WEAPON_ESCAPE:
+      ret = _("Escape");
+      break;
+    case LW6MAP_WEAPON_TURBO:
+      ret = _("Turbo");
+      break;
+    case LW6MAP_WEAPON_TELEPORT:
+      ret = _("Teleport");
+      break;
+    case LW6MAP_WEAPON_SCATTER:
+      ret = _("Scatter");
+      break;
+    case LW6MAP_WEAPON_FIX:
+      ret = _("Fix");
+      break;
+    case LW6MAP_WEAPON_MIX:
+      ret = _("Mix");
+      break;
+    case LW6MAP_WEAPON_CONTROL:
+      ret = _("Control");
+      break;
+    case LW6MAP_WEAPON_PERMUTATION:
+      ret = _("Permutation");
+      break;
+    case LW6MAP_WEAPON_STEAL:
+      ret = _("Steal");
+      break;
+    case LW6MAP_WEAPON_ATOMIC:
+      ret = _("Atomic");
+      break;
+    case LW6MAP_WEAPON_REVERSE:
+      ret = _("Reverse");
+      break;
+    case LW6MAP_WEAPON_CRAZY:
+      ret = _("Crazy");
+      break;
+    case LW6MAP_WEAPON_REWIND:
+      ret = _("Rewind");
+      break;
+    case LW6MAP_WEAPON_ATTRACT:
+      ret = _("Attract");
+      break;
+    case LW6MAP_WEAPON_SHRINK:
+      ret = _("Shrink");
+      break;
+    case LW6MAP_WEAPON_KAMIKAZE:
+      ret = _("Kamikaze");
+      break;
+    case LW6MAP_WEAPON_DISAPPEAR:
+      ret = _("Disappear");
+      break;
+    case LW6MAP_WEAPON_PLAGUE:
+      ret = _("Plague");
+      break;
+    default:
+      ret = _("No weapon");
+    }
+
+  return ret;
+}

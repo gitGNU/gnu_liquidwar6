@@ -204,10 +204,12 @@ c-lw6map-rules-get-max
 c-lw6map-rules-get-min
 c-lw6map-style-get-default
 c-lw6map-team-color-index-to-key
+c-lw6map-team-color-index-to-label
 c-lw6map-team-color-key-to-index
 c-lw6map-team-color-list
 c-lw6map-teams-get-default
 c-lw6map-weapon-index-to-key
+c-lw6map-weapon-index-to-label
 c-lw6map-weapon-key-to-index
 c-lw6map-weapon-list
 c-lw6net-init
@@ -234,6 +236,8 @@ c-lw6pil-get-next-seq
 c-lw6pil-get-reference-current-seq
 c-lw6pil-get-reference-target-seq
 c-lw6pil-is-over
+c-lw6pil-get-looser
+c-lw6pil-get-winner
 c-lw6pil-local-command
 c-lw6pil-local-cursors-set-main
 c-lw6pil-local-cursors-set-mouse-controlled

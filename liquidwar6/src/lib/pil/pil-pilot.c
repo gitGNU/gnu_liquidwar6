@@ -1178,6 +1178,66 @@ lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot, u_int16_t cursor_id)
   return _lw6pil_pilot_did_cursor_win ((_lw6pil_pilot_t *) pilot, cursor_id);
 }
 
+int
+_lw6pil_pilot_get_winner (_lw6pil_pilot_t * pilot)
+{
+  int ret = 0;
+
+  if (pilot->reference.game_state)
+    {
+      ret =
+	lw6ker_game_state_get_winner (pilot->reference.game_state,
+				      LW6MAP_TEAM_COLOR_INVALID);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6pil_pilot_get_winner
+ *
+ * @pilot: the object to query
+ *
+ * Gets the winner color.
+ *
+ * Return value: a team color, -1 if no winner and/or error.
+ */
+int
+lw6pil_pilot_get_winner (lw6pil_pilot_t * pilot)
+{
+  return _lw6pil_pilot_get_winner ((_lw6pil_pilot_t *) pilot);
+}
+
+int
+_lw6pil_pilot_get_looser (_lw6pil_pilot_t * pilot)
+{
+  int ret = 0;
+
+  if (pilot->reference.game_state)
+    {
+      ret =
+	lw6ker_game_state_get_looser (pilot->reference.game_state,
+				      LW6MAP_TEAM_COLOR_INVALID);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6pil_pilot_get_looser
+ *
+ * @pilot: the object to query
+ *
+ * Gets the looser color.
+ *
+ * Return value: a team color, -1 if no looser and/or error.
+ */
+int
+lw6pil_pilot_get_looser (lw6pil_pilot_t * pilot)
+{
+  return _lw6pil_pilot_get_looser ((_lw6pil_pilot_t *) pilot);
+}
+
 lw6pil_local_cursors_t *
 _lw6pil_pilot_get_local_cursors (_lw6pil_pilot_t * pilot)
 {

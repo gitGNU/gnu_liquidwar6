@@ -1141,6 +1141,7 @@ extern int lw6map_color_is_same (lw6map_color_couple_t * color1,
 				 lw6map_color_couple_t * color2);
 extern char *lw6map_team_color_index_to_key (int index);
 extern int lw6map_team_color_key_to_index (char *key);
+extern char *lw6map_team_color_index_to_label (int index);
 static inline int
 lw6map_team_color_is_valid (int team_color)
 {
@@ -1291,6 +1292,7 @@ extern int lw6map_texture_has_alpha (lw6map_texture_t * texture);
 /* map-weapon.c */
 extern char *lw6map_weapon_index_to_key (int index);
 extern int lw6map_weapon_key_to_index (char *key);
+extern char *lw6map_weapon_index_to_label (int index);
 static inline int
 lw6map_weapon_is_valid (int weapon)
 {

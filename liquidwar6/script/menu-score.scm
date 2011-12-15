@@ -102,7 +102,7 @@
   (lambda()
     (let (
 	  (menu (lw6-menu-template (_ "Score")
-				   (_ "And the winner is...")
+				   (format #f (_ "~a wins") (lw6-score-get-winner))
 				   #f))
 	  )
       (begin
@@ -119,7 +119,7 @@
   (lambda(won)
     (let* (
 	   (menu (lw6-menu-template (_ "Score")
-				    (_ "And the winner is...")
+				    (format #f (_ "~a wins") (lw6-score-get-winner))
 				    (if won
 					(_ "You win!")
 					(_ "You loose...")

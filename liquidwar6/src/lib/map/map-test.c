@@ -105,6 +105,7 @@ test_color ()
     lw6map_color_couple_t color_couple;
     int i, j;
     char *key;
+    char *label;
 
     color_couple.bg = LW6SYS_COLOR_8_WHITE;
     color_couple.fg = LW6SYS_COLOR_8_BLACK;
@@ -123,11 +124,21 @@ test_color ()
 	key = lw6map_team_color_index_to_key (i);
 	if (key)
 	  {
-	    j = lw6map_team_color_key_to_index (key);
-	    if (i == j)
+	    label = lw6map_team_color_index_to_label (i);
+	    if (label)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("team_color key for %d is \"%s\""), i, key);
+		j = lw6map_team_color_key_to_index (key);
+		if (i == j)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("team_color key for %d is \"%s\" label is \"%s\""),
+				i, key, label);
+		  }
+		else
+		  {
+		    ret = 0;
+		  }
 	      }
 	    else
 	      {
@@ -750,17 +761,28 @@ test_weapon ()
   {
     int i, j;
     char *key;
+    char *label;
 
     for (i = 0; i <= LW6MAP_MAX_WEAPON_ID; ++i)
       {
 	key = lw6map_weapon_index_to_key (i);
 	if (key)
 	  {
-	    j = lw6map_weapon_key_to_index (key);
-	    if (i == j)
+	    label = lw6map_weapon_index_to_label (i);
+	    if (label)
 	      {
-		lw6sys_log (LW6SYS_LOG_NOTICE,
-			    _x_ ("weapon key for %d is \"%s\""), i, key);
+		j = lw6map_weapon_key_to_index (key);
+		if (i == j)
+		  {
+		    lw6sys_log (LW6SYS_LOG_NOTICE,
+				_x_
+				("weapon key for %d is \"%s\" label is \"%s\""),
+				i, key, label);
+		  }
+		else
+		  {
+		    ret = 0;
+		  }
 	      }
 	    else
 	      {

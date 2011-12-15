@@ -110,6 +110,15 @@ The index of the color, between 0 & 9
 @strong{Return value:}  an integer.
 @end deftypefun
 
+@deftypefun {char *} {lw6map_team_color_index_to_label} (int @var{index})
+@var{index}:  index of the color between 0 & 9
+
+Transforms a team color index into its readable string form,
+which can be used to display information to players.
+
+@strong{Return value:}  a string, must *not* be freed.
+@end deftypefun
+
 @deftypefun {void} {lw6map_cursor_texture_clear} (lw6map_cursor_texture_t * @var{cursor_texture})
 @var{cursor_texture}:  the cursor texture to clear
 
@@ -905,5 +914,14 @@ which can be used in config files for instance.
 The index of the weapon, between 0 & 19
 
 @strong{Return value:}  an integer.
+@end deftypefun
+
+@deftypefun {char *} {lw6map_weapon_index_to_label} (int @var{index})
+@var{index}:  index of the weapon between 0 & 19
+
+Transforms a team weapon index into its readable string form,
+which can be used to display information to players.
+
+@strong{Return value:}  a string, must *not* be freed.
 @end deftypefun
 

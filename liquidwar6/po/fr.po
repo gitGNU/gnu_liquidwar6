@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-14 22:57+0100\n"
+"POT-Creation-Date: 2011-12-15 23:04+0100\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -209,134 +209,134 @@ msgstr "Soummission de bugs"
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/hlp/hlp-reference.c:2848
+#: src/lib/hlp/hlp-reference.c:2856
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2849
+#: src/lib/hlp/hlp-reference.c:2857
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2850
+#: src/lib/hlp/hlp-reference.c:2858
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2851
+#: src/lib/hlp/hlp-reference.c:2859
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2852
+#: src/lib/hlp/hlp-reference.c:2860
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2854
+#: src/lib/hlp/hlp-reference.c:2862
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2855
+#: src/lib/hlp/hlp-reference.c:2863
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2857
+#: src/lib/hlp/hlp-reference.c:2865
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2859
+#: src/lib/hlp/hlp-reference.c:2867
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2861
+#: src/lib/hlp/hlp-reference.c:2869
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2868
+#: src/lib/hlp/hlp-reference.c:2876
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2870
+#: src/lib/hlp/hlp-reference.c:2878
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2873
+#: src/lib/hlp/hlp-reference.c:2881
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2874
+#: src/lib/hlp/hlp-reference.c:2882
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2876
+#: src/lib/hlp/hlp-reference.c:2884
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2879
+#: src/lib/hlp/hlp-reference.c:2887
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2882
+#: src/lib/hlp/hlp-reference.c:2890
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2885
+#: src/lib/hlp/hlp-reference.c:2893
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2888
+#: src/lib/hlp/hlp-reference.c:2896
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2891
+#: src/lib/hlp/hlp-reference.c:2899
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2892
+#: src/lib/hlp/hlp-reference.c:2900
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2895
+#: src/lib/hlp/hlp-reference.c:2903
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2898
+#: src/lib/hlp/hlp-reference.c:2906
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2901
+#: src/lib/hlp/hlp-reference.c:2909
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2903
+#: src/lib/hlp/hlp-reference.c:2911
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2906
+#: src/lib/hlp/hlp-reference.c:2914
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2908
+#: src/lib/hlp/hlp-reference.c:2916
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2911
+#: src/lib/hlp/hlp-reference.c:2919
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2914
+#: src/lib/hlp/hlp-reference.c:2922
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2917
+#: src/lib/hlp/hlp-reference.c:2925
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
@@ -403,6 +403,135 @@ msgstr "bonjour"
 #: src/lib/lw6-print.c:940
 msgid "goodbye"
 msgstr "au revoir"
+
+#: src/lib/map/map-color.c:204
+msgid "Red"
+msgstr ""
+
+#: src/lib/map/map-color.c:207
+msgid "Green"
+msgstr ""
+
+#: src/lib/map/map-color.c:210
+msgid "Blue"
+msgstr ""
+
+#: src/lib/map/map-color.c:213
+#, fuzzy
+msgid "Yellow"
+msgstr "bonjour"
+
+#: src/lib/map/map-color.c:216
+msgid "Cyan"
+msgstr ""
+
+#: src/lib/map/map-color.c:219
+msgid "Magenta"
+msgstr ""
+
+#: src/lib/map/map-color.c:222
+msgid "Orange"
+msgstr ""
+
+#: src/lib/map/map-color.c:225
+msgid "Light blue"
+msgstr ""
+
+#: src/lib/map/map-color.c:228
+msgid "Purple"
+msgstr ""
+
+#: src/lib/map/map-color.c:231
+msgid "Pink"
+msgstr ""
+
+#: src/lib/map/map-color.c:234
+msgid "Invalid color"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:234
+msgid "Berzerk"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:237
+msgid "Invincible"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:240
+msgid "Escape"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:243
+msgid "Turbo"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:246
+msgid "Teleport"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:249
+msgid "Scatter"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:252
+msgid "Fix"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:255
+msgid "Mix"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:258 src/scriptpo.c:146
+msgid "Control"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:261
+msgid "Permutation"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:264
+msgid "Steal"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:267
+msgid "Atomic"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:270
+msgid "Reverse"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:273
+msgid "Crazy"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:276
+msgid "Rewind"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:279
+msgid "Attract"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:282
+msgid "Shrink"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:285
+msgid "Kamikaze"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:288
+msgid "Disappear"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:291
+msgid "Plague"
+msgstr ""
+
+#: src/lib/map/map-weapon.c:294
+msgid "No weapon"
+msgstr ""
 
 #: src/lib/p2p/p2p-data.c:100
 #, c-format
@@ -709,7 +838,7 @@ msgstr "Le jeu est en cours, appuyer sur ESC pour en sortir"
 msgid "no"
 msgstr "non"
 
-#: src/scriptpo.c:45 src/scriptpo.c:218
+#: src/scriptpo.c:45 src/scriptpo.c:219
 msgid "Version"
 msgstr "Version"
 
@@ -773,7 +902,7 @@ msgstr "Vous ne pouvez pas encore jouer à ce tableau"
 msgid "Author"
 msgstr "Auteur"
 
-#: src/scriptpo.c:60 src/scriptpo.c:217
+#: src/scriptpo.c:60 src/scriptpo.c:218
 msgid "License"
 msgstr "Licence"
 
@@ -839,7 +968,7 @@ msgstr ""
 "Le moteur de son est la bibliothèque technique utilisée, en cas de doute, "
 "n'y touchez pas"
 
-#: src/scriptpo.c:74 src/scriptpo.c:231
+#: src/scriptpo.c:74 src/scriptpo.c:232
 msgid "Sound options"
 msgstr "Options son"
 
@@ -929,7 +1058,7 @@ msgstr "Vidéo"
 msgid "Resolution and fullscreen vs windowed modes"
 msgstr "Résolution et mode plein écran ou fenêtré"
 
-#: src/scriptpo.c:92 src/scriptpo.c:227
+#: src/scriptpo.c:92 src/scriptpo.c:228
 msgid "Sound"
 msgstr "Son"
 
@@ -953,8 +1082,8 @@ msgstr "Arrêter le jeu en cours"
 msgid "Return to parent menu"
 msgstr "Retourner au menu parent"
 
-#: src/scriptpo.c:98 src/scriptpo.c:100 src/scriptpo.c:180 src/scriptpo.c:211
-#: src/scriptpo.c:225
+#: src/scriptpo.c:98 src/scriptpo.c:100 src/scriptpo.c:180 src/scriptpo.c:212
+#: src/scriptpo.c:226
 msgid "Options"
 msgstr "Options"
 
@@ -1081,7 +1210,7 @@ msgstr ""
 msgid "Shorten and/or accelerate your games"
 msgstr "Ralentir ou accélérer le jeu"
 
-#: src/scriptpo.c:127 src/scriptpo.c:229
+#: src/scriptpo.c:127 src/scriptpo.c:230
 msgid "Fullscreen"
 msgstr "Plein écran"
 
@@ -1159,10 +1288,6 @@ msgstr ""
 
 #: src/scriptpo.c:145
 msgid "Color"
-msgstr ""
-
-#: src/scriptpo.c:146
-msgid "Control"
 msgstr ""
 
 #: src/scriptpo.c:147
@@ -1265,7 +1390,7 @@ msgstr "Choisissez votre type de jeu"
 msgid "Choose your game type and play with chosen map"
 msgstr "Choisissez votre type de jeu et jouez avec le tableau choisi"
 
-#: src/scriptpo.c:172 src/scriptpo.c:206 src/scriptpo.c:213
+#: src/scriptpo.c:172 src/scriptpo.c:207 src/scriptpo.c:214
 msgid "Quick start"
 msgstr "Jouer tout de suite"
 
@@ -1293,7 +1418,7 @@ msgstr ""
 msgid "Set up video, sound, game rules, and more"
 msgstr "Définir les options vidéo, son, les règles, et plus"
 
-#: src/scriptpo.c:182 src/scriptpo.c:205
+#: src/scriptpo.c:182 src/scriptpo.c:206
 msgid "Liquid War 6"
 msgstr "Liquid War 6"
 
@@ -1306,7 +1431,8 @@ msgid "Replay"
 msgstr "Rejouer"
 
 #: src/scriptpo.c:185
-msgid "Replay this level, since you didn't win"
+#, fuzzy
+msgid "Replay this level"
 msgstr "Rejouer ce niveau, vu que vous avez perdu"
 
 #: src/scriptpo.c:186
@@ -1342,144 +1468,154 @@ msgid "Score"
 msgstr "Score"
 
 #: src/scriptpo.c:196 src/scriptpo.c:198
-msgid "And the winner is..."
-msgstr "Et le vainqueur est..."
+msgid "~a wins"
+msgstr ""
 
 #: src/scriptpo.c:199
-msgid "Achievement 1/2"
-msgstr "1/2"
+msgid "You win!"
+msgstr ""
 
-#: src/scriptpo.c:200 src/scriptpo.c:201
+#: src/scriptpo.c:200
+msgid "You loose..."
+msgstr ""
+
+#: src/scriptpo.c:201 src/scriptpo.c:202
 msgid "Please wait..."
 msgstr "Patience..."
 
-#: src/scriptpo.c:202
+#: src/scriptpo.c:203
 msgid "Exit?"
 msgstr "Fin?"
 
-#: src/scriptpo.c:203
+#: src/scriptpo.c:204
 msgid "Exit"
 msgstr "Fin"
 
-#: src/scriptpo.c:204
+#: src/scriptpo.c:205
 msgid "Resume LW6"
 msgstr "Retourner à LW6"
 
-#: src/scriptpo.c:207
+#: src/scriptpo.c:208
 msgid "Local game"
 msgstr "Jeu local"
 
-#: src/scriptpo.c:208
+#: src/scriptpo.c:209
 msgid "Network game"
 msgstr "Jeu réseau"
 
-#: src/scriptpo.c:209 src/scriptpo.c:224
+#: src/scriptpo.c:210 src/scriptpo.c:225
 msgid "Level"
 msgstr "Tableau"
 
-#: src/scriptpo.c:210
+#: src/scriptpo.c:211
 msgid "Teams"
 msgstr "Equipe"
 
-#: src/scriptpo.c:212 src/scriptpo.c:214
+#: src/scriptpo.c:213 src/scriptpo.c:215
 msgid "About"
 msgstr "A propos"
 
-#: src/scriptpo.c:215
+#: src/scriptpo.c:216
 msgid "Authors"
 msgstr "Auteurs"
 
-#: src/scriptpo.c:216
+#: src/scriptpo.c:217
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/scriptpo.c:219
+#: src/scriptpo.c:220
 msgid "View level"
 msgstr "Voir le tableau"
 
-#: src/scriptpo.c:220
+#: src/scriptpo.c:221
 msgid "Confirm level choice"
 msgstr "Confirmer le choix du tableau"
 
-#: src/scriptpo.c:221
+#: src/scriptpo.c:222
 msgid "Choose it"
 msgstr "Le choisir"
 
-#: src/scriptpo.c:222
+#: src/scriptpo.c:223
 msgid "View"
 msgstr "Voir"
 
-#: src/scriptpo.c:223
+#: src/scriptpo.c:224
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/scriptpo.c:226
+#: src/scriptpo.c:227
 msgid "Graphics"
 msgstr "Vidéo"
 
-#: src/scriptpo.c:228
+#: src/scriptpo.c:229
 msgid "Graphics options"
 msgstr "Options vidéo"
 
-#: src/scriptpo.c:230 src/scriptpo.c:235
+#: src/scriptpo.c:231 src/scriptpo.c:236
 msgid "Graphics backend"
 msgstr "Moteur graphique"
 
-#: src/scriptpo.c:232
+#: src/scriptpo.c:233
 msgid "Sound fx volume"
 msgstr "Volume bruitages"
 
-#: src/scriptpo.c:233
+#: src/scriptpo.c:234
 msgid "Music volume"
 msgstr "Volume musique"
 
-#: src/scriptpo.c:234 src/scriptpo.c:236
+#: src/scriptpo.c:235 src/scriptpo.c:237
 msgid "Sound backend"
 msgstr "Moteur de son"
 
-#: src/scriptpo.c:237
+#: src/scriptpo.c:238
 msgid "This is a test node."
 msgstr "Ceci est un node de test"
 
-#: src/scriptpo.c:238
+#: src/scriptpo.c:239
 msgid "testing map"
 msgstr "test du niveau"
 
-#: src/scriptpo.c:239
+#: src/scriptpo.c:240
 msgid "testing game struct"
 msgstr "test game struct"
 
-#: src/scriptpo.c:240
+#: src/scriptpo.c:241
 msgid "testing game state"
 msgstr "test de \"game state\""
 
-#: src/scriptpo.c:241
+#: src/scriptpo.c:242
 msgid "testing pilot"
 msgstr "test de \"pilot\""
 
-#: src/scriptpo.c:242
+#: src/scriptpo.c:243
 msgid "testing bot"
 msgstr "test des bots"
 
-#: src/scriptpo.c:243
+#: src/scriptpo.c:244
 msgid "testing smobs GC, step 1"
 msgstr "test smobs GC, étape 1"
 
-#: src/scriptpo.c:244
+#: src/scriptpo.c:245
 msgid "testing smobs GC, step 2"
 msgstr "test smobs GC, étape 2"
 
-#: src/scriptpo.c:245
+#: src/scriptpo.c:246
 msgid "testing async load"
 msgstr "test chargement asynchrone"
 
-#: src/scriptpo.c:246
+#: src/scriptpo.c:247
 msgid "testing db"
 msgstr "test de la base de données"
 
-#: src/scriptpo.c:247
+#: src/scriptpo.c:248
 msgid "testing node"
 msgstr "test du noeud"
+
+#~ msgid "And the winner is..."
+#~ msgstr "Et le vainqueur est..."
+
+#~ msgid "Achievement 1/2"
+#~ msgstr "1/2"
 
 #~ msgid ""
 #~ "Choose among the available colors, not that all colors might not be "

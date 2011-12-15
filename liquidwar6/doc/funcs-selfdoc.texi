@@ -785,6 +785,11 @@ Wrapper on lw6map_style_get_default.
 Wrapper on lw6map_team_color_index_to_key.
 @end deffn
 
+@subsection c-lw6map-team-color-index-to-label
+@deffn {C function exported to Guile} @code{c-lw6map-team-color-index-to-label}
+Wrapper on lw6map_team_color_index_to_label.
+@end deffn
+
 @subsection c-lw6map-team-color-key-to-index
 @deffn {C function exported to Guile} @code{c-lw6map-team-color-key-to-index}
 Wrapper on lw6map_team_color_key_to_index.
@@ -803,6 +808,11 @@ Wrapper on lw6map_teams_get_default.
 @subsection c-lw6map-weapon-index-to-key
 @deffn {C function exported to Guile} @code{c-lw6map-weapon-index-to-key}
 Wrapper on lw6map_weapon_index_to_key.
+@end deffn
+
+@subsection c-lw6map-weapon-index-to-label
+@deffn {C function exported to Guile} @code{c-lw6map-weapon-index-to-label}
+Wrapper on lw6map_weapon_index_to_label.
 @end deffn
 
 @subsection c-lw6map-weapon-key-to-index
@@ -910,6 +920,11 @@ Wrapper on lw6pil_coords_fix_x10.
 Wrapper on lw6pil_get_last_commit_seq.
 @end deffn
 
+@subsection c-lw6pil-get-looser
+@deffn {C function exported to Guile} @code{c-lw6pil-get-looser}
+Wrapper on lw6pil_get_looser.
+@end deffn
+
 @subsection c-lw6pil-get-max-seq
 @deffn {C function exported to Guile} @code{c-lw6pil-get-max-seq}
 Wrapper on lw6pil_get_max_seq.
@@ -928,6 +943,11 @@ Wrapper on lw6pil_get_reference_current_seq.
 @subsection c-lw6pil-get-reference-target-seq
 @deffn {C function exported to Guile} @code{c-lw6pil-get-reference-target-seq}
 Wrapper on lw6pil_get_reference_target_seq.
+@end deffn
+
+@subsection c-lw6pil-get-winner
+@deffn {C function exported to Guile} @code{c-lw6pil-get-winner}
+Wrapper on lw6pil_get_winner.
 @end deffn
 
 @subsection c-lw6pil-is-over

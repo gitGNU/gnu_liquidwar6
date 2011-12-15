@@ -1090,9 +1090,11 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_GET_MUSIC_DIR);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_KEY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_KEY_TO_INDEX);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_INDEX_TO_LABEL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_TEAM_COLOR_LIST);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_KEY);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_WEAPON_KEY_TO_INDEX);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_WEAPON_INDEX_TO_LABEL);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_WEAPON_LIST);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_RULES_GET_DEFAULT);
   lw6sys_list_push_back (list, LW6DEF_C_LW6MAP_RULES_GET_MIN);
@@ -1149,6 +1151,8 @@ update_funcs (lw6sys_list_t ** list)
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_MAX_SEQ);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_IS_OVER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_DID_CURSOR_WIN);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_WINNER);
+  lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_GET_LOOSER);
   lw6sys_list_push_back (list, LW6DEF_C_LW6PIL_SEQ_RANDOM_0);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_GET_BACKENDS);
   lw6sys_list_push_back (list, LW6DEF_C_LW6SND_NEW);

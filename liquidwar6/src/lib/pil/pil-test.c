@@ -504,7 +504,13 @@ test_pilot ()
 				    lw6pil_pilot_get_max_seq (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_ ("pilot \"%s\" stop"), repr);
-
+			lw6sys_log (LW6SYS_LOG_NOTICE,
+				    _x_ ("is_over=%d"),
+				    lw6pil_pilot_is_over (pilot));
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("winner=%d"),
+				    lw6pil_pilot_get_winner (pilot));
+			lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("looser=%d"),
+				    lw6pil_pilot_get_looser (pilot));
 			lw6sys_log (LW6SYS_LOG_NOTICE,
 				    _x_
 				    ("checksum at round %d is %x and should be %x"),

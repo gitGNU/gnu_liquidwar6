@@ -225,6 +225,8 @@ extern int64_t lw6pil_pilot_get_max_seq (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_is_over (lw6pil_pilot_t * pilot);
 extern int lw6pil_pilot_did_cursor_win (lw6pil_pilot_t * pilot,
 					u_int16_t cursor_id);
+extern int lw6pil_pilot_get_winner (lw6pil_pilot_t * pilot);
+extern int lw6pil_pilot_get_looser (lw6pil_pilot_t * pilot);
 extern lw6pil_local_cursors_t *lw6pil_pilot_get_local_cursors (lw6pil_pilot_t
 							       * pilot);
 
