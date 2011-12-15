@@ -105,6 +105,7 @@ lw6ker_cursor_t;
 
 typedef struct lw6ker_score_s
 {
+  int has_been_active;
   int team_color;
   int fighters_percent;
   int fighters_absolute;

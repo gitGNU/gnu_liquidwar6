@@ -33,21 +33,37 @@ _lw6ker_score_sort_quantity_callback (lw6ker_score_t * score_a,
 {
   int ret = 0;
 
-  if (score_a->fighters_absolute == score_b->fighters_absolute)
+  if (score_a->has_been_active == score_b->has_been_active)
     {
-      if (score_a->frags == score_b->frags)
+      if (score_a->fighters_absolute == score_b->fighters_absolute)
 	{
-	  ret = 0;
+	  if (score_a->frags == score_b->frags)
+	    {
+	      ret = 0;
+	    }
+	  else
+	    {
+	      ret = (score_a->frags < score_b->frags) ? -1 : 1;
+	    }
 	}
       else
 	{
-	  ret = (score_a->frags < score_b->frags) ? -1 : 1;
+	  ret =
+	    (score_a->fighters_absolute <
+	     score_b->fighters_absolute) ? -1 : 1;
 	}
     }
   else
     {
-      ret =
-	(score_a->fighters_absolute < score_b->fighters_absolute) ? -1 : 1;
+      /*
+       * It's important to sort on this parameter
+       * to make sure if a team has lost/is respawning it stills
+       * appear next to the active teams after being sorted
+       * This fixes bug https://savannah.gnu.org/bugs/?35076
+       * because this way team_color=-1 will be put at the
+       * end of the list when sorting reverse (desc)
+       */
+      ret = (score_a->team_color < score_b->team_color) ? -1 : 1;
     }
 
   return ret;
@@ -66,22 +82,37 @@ _lw6ker_score_sort_frags_callback (lw6ker_score_t * score_a,
 {
   int ret = 0;
 
-  if (score_a->frags == score_b->frags)
+  if (score_a->has_been_active == score_b->has_been_active)
     {
-      if (score_a->fighters_absolute == score_b->fighters_absolute)
+      if (score_a->frags == score_b->frags)
 	{
-	  ret = 0;
+	  if (score_a->fighters_absolute == score_b->fighters_absolute)
+	    {
+	      ret = 0;
+	    }
+	  else
+	    {
+	      ret =
+		(score_a->fighters_absolute <
+		 score_b->fighters_absolute) ? -1 : 1;
+	    }
 	}
       else
 	{
-	  ret =
-	    (score_a->fighters_absolute <
-	     score_b->fighters_absolute) ? -1 : 1;
+	  ret = (score_a->frags < score_b->frags) ? -1 : 1;
 	}
     }
   else
     {
-      ret = (score_a->frags < score_b->frags) ? -1 : 1;
+      /*
+       * It's important to sort on this parameter
+       * to make sure if a team has lost/is respawning it stills
+       * appear next to the active teams after being sorted
+       * This fixes bug https://savannah.gnu.org/bugs/?35076
+       * because this way team_color=-1 will be put at the
+       * end of the list when sorting reverse (desc)
+       */
+      ret = (score_a->team_color < score_b->team_color) ? -1 : 1;
     }
 
   return ret;

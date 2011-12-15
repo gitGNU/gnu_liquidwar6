@@ -75,6 +75,7 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	  if (game_state->map_state.teams[i].has_been_active)
 	    {
 	      score_array->nb_scores++;
+	      score_array->scores[i].has_been_active = 1;
 	      score_array->scores[i].team_color = i;
 	      score_array->scores[i].fighters_absolute = fighters_per_team;
 	      score_array->scores[i].fighters_percent =

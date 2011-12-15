@@ -1,3 +1,7 @@
+2011-12-15 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Fixed #35076, score screen team index error.
+
 2011-12-14 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Implemented low-level functions to show what colors were gained.

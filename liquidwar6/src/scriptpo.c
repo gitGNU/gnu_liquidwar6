@@ -182,7 +182,7 @@ _("Set up video, sound, game rules, and more");	// extracted by scriptpo-update.
 _("Liquid War 6");		// extracted by scriptpo-update.sh
 _("Welcome to Liquid War 6, have fun!");	// extracted by scriptpo-update.sh
 _("Replay");			// extracted by scriptpo-update.sh
-_("Replay this level, since you didn't win");	// extracted by scriptpo-update.sh
+_("Replay this level");		// extracted by scriptpo-update.sh
 _("Continue");			// extracted by scriptpo-update.sh
 _("Advance to next level");	// extracted by scriptpo-update.sh
 _("Back to previous menu");	// extracted by scriptpo-update.sh
@@ -196,7 +196,8 @@ _("Score");			// extracted by scriptpo-update.sh
 _("And the winner is...");	// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
 _("And the winner is...");	// extracted by scriptpo-update.sh
-_("Achievement 1/2");		// extracted by scriptpo-update.sh
+_("You win!");			// extracted by scriptpo-update.sh
+_("You loose...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Please wait...");		// extracted by scriptpo-update.sh
 _("Exit?");			// extracted by scriptpo-update.sh
