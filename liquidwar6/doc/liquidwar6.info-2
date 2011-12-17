@@ -4433,7 +4433,7 @@ File: liquidwar6.info,  Node: Advanced settings,  Next: C to Guile,  Prev: Map t
  -- XML key: `trap-errors'
      Type: boolean
 
-     Default value: false
+     Default value: true
 
      If set to true, will trap segmentation fault and floating point
      errors, and display messages about those in a custom box instead

@@ -86,12 +86,20 @@
 	))))
 
 (define lw6-score-solo-menu-next
-  (lambda()
-    (let (
-	  (menu (lw6-menu-template (_ "Next")
-				   (_ "And now?")
-				   (_ "Achievement 2/2")))
-	  )
+  (lambda(won)
+    (let* (
+	   (unlocked-team-color (c-lw6map-exp-get-unlocked-team-color))
+	   (menu (lw6-menu-template (_ "Next")
+				    (_ "And now?")
+				    (if (and won unlocked-team-color)
+					(format #f 
+						"~a~%~a: ~a"
+						(_ "New color available")
+						(c-lw6map-team-color-index-to-label unlocked-team-color)
+						(c-lw6hlp-about (c-lw6map-team-color-index-to-key unlocked-team-color)))
+					#f
+					)))
+	   )
       (begin
 	(lw6-append-menuitem! menu (lw6-score-menu-continue-item))
 	(lw6-append-menuitem! menu (lw6-score-menu-back-item))
@@ -131,7 +139,7 @@
 				       (let ((dsp (lw6-get-game-global "dsp")))
 					 (begin
 					   (c-lw6gui-input-reset dsp)					  
-					   (lw6-push-menu (lw6-score-solo-menu-next))))))
+					   (lw6-push-menu (lw6-score-solo-menu-next won))))))
 	menu
 	))))
 

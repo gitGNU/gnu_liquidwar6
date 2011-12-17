@@ -191,7 +191,7 @@ _("Next");			// extracted by scriptpo-update.sh
 _("And now?");			// extracted by scriptpo-update.sh
 _("Next");			// extracted by scriptpo-update.sh
 _("And now?");			// extracted by scriptpo-update.sh
-_("Achievement 2/2");		// extracted by scriptpo-update.sh
+_("New color available");	// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh
 _("~a wins");			// extracted by scriptpo-update.sh
 _("Score");			// extracted by scriptpo-update.sh

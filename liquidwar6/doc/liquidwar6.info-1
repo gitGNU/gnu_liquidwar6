@@ -341,6 +341,10 @@ incremented each time a build is done with a different source.
      (http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/),
      codename "Ho Chi Minh", stamp 2785
 
+   * 2011-10-02 : 0.0.12beta
+     (http://download.savannah.gnu.org/releases/liquidwar6/0.0.12beta/),
+     codename "Aguirre", stamp 2938
+
 1.2.4 Road map
 --------------
 
@@ -894,11 +898,13 @@ Now, game looks correctly installed, but you have problems running it.
      right code?
 
    * Game segfaults: try `make uninstall && make clean && make && make
-     install'.  Many problems can come from using a wrong shared module,
-     especially with beta versions.
+     install'.  Many problems can come from using a wrong shared
+     module. You can also launch the game with the
+     `--trap-errors=false' switch, this will disable the custom popup
+     window and allow you to get the real error.
 
-   * Game (still) segfaults: try `gdb liquidwar6'. Type `run' and watch
-     output.
+   * Game (still) segfaults: try `gdb liquidwar6'. Type `run
+     --trap-errors=false' and watch output.
 
    * The dynamic library loader can sometimes have problemes, and does
      not always report explicit messages on `stdout' or `stderr'.  You

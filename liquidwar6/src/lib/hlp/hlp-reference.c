@@ -936,8 +936,7 @@ populate_references ()
   POPULATE_BOOL (LW6DEF_TRAP_ERRORS,
 		 _x_
 		 ("If set to true, will trap segmentation fault and floating point errors, and display messages about those in a custom box instead of the default one"),
-		 lw6sys_str_is_same (lw6sys_build_get_enable_allinone (),
-				     LW6SYS_BUILD_ENABLE_YES));
+		 1);
   /*
    * Game settings
    */

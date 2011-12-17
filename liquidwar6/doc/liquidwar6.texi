@@ -365,6 +365,8 @@ a build is done with a different source.
 2011-07-29 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.10beta/,0.0.10beta}, codename ``Gengis Kahn'', stamp 2562
 @item
 2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/,0.0.11beta}, codename ``Ho Chi Minh'', stamp 2785
+@item
+2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.12beta/,0.0.12beta}, codename ``Aguirre'', stamp 2938
 @end itemize
 
 @subsection Road map
@@ -953,10 +955,11 @@ Run @code{liquidwar6 --test}. This should run a complete test suite, many functi
 Run @code{liquidwar6 --show-script-file}. Are you really running the right code?
 @item
 Game segfaults: try @code{make uninstall && make clean && make && make install}.
-Many problems can come from using a wrong shared module,
-especially with beta versions.
+Many problems can come from using a wrong shared module. You can also launch
+the game with the @code{--trap-errors=false} switch, this will disable the custom
+popup window and allow you to get the real error.
 @item
-Game (still) segfaults: try @code{gdb liquidwar6}. Type @code{run} and watch output.
+Game (still) segfaults: try @code{gdb liquidwar6}. Type @code{run --trap-errors=false} and watch output.
 @item
 The dynamic library loader can sometimes have problemes, and does not
 always report explicit messages on @code{stdout} or @code{stderr}.

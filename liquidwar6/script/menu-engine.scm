@@ -536,12 +536,19 @@
 			(lw6-play-fx-beep-valid)
 			(lw6-play-fx-beep-no)
 			)
-		       (lw6-play-fx-beep-no)
-		       )
+		       (if menuitem
+			   (lw6-play-fx-beep-no)
+			   (begin
+			     (lw6-menu-action menu "on-cancel")
+			     (lw6-play-fx-beep-valid)
+			     )
+			   ))
 		   )
 		  ((c-lw6gui-mouse-pop-button-right dsp)
-		   (lw6-menu-action menu "on-cancel")
-		   (lw6-play-fx-beep-valid)
+		   (begin
+		     (lw6-menu-action menu "on-cancel")
+		     (lw6-play-fx-beep-valid)
+		     )
 		   )
 		  )))
 	   (cond
@@ -566,15 +573,22 @@
 		   (begin
 		     (lw6-set-menuitem! menu-position #f)
 		     (set! menuitem (lw6-current-menuitem))
-		   (if (assoc-ref menuitem "enabled") 
-		       (if
-			(lw6-menuitem-action menuitem "on-valid")
-			(lw6-play-fx-beep-valid)
-			(lw6-play-fx-beep-no)
-			)
-		       (lw6-play-fx-beep-no)
-		       )
-		   ))))
+		     (if (assoc-ref menuitem "enabled") 
+			 (if
+			  (lw6-menuitem-action menuitem "on-valid")
+			  (lw6-play-fx-beep-valid)
+			  (lw6-play-fx-beep-no)
+			  )
+			 (if menuitem
+			     (lw6-play-fx-beep-no)
+			     (begin
+			       (lw6-menu-action menu "on-cancel")
+			       (lw6-play-fx-beep-valid)
+			     )
+			     ))
+		     ))
+	       )	     
+	     )	    
 	    ((> menu-scroll 0)
 	     (begin
 	       (c-lw6gui-mouse-pop-simple-click dsp)

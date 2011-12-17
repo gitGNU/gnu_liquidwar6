@@ -681,7 +681,7 @@ to outperform opponents.
 @deffnx {XML key} @code{trap-errors}
 Type: boolean
 
-Default value: false
+Default value: true
 
 If set to true, will trap segmentation fault and floating point errors, and
 display messages about those in a custom box instead of the default one
