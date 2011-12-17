@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Copyright notice" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="Open map with text on it, which acts as small obstacles" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>
