@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lw6mapparam>
   <string key="title" value="Marionet" />
-  <string key="author" value="Christian Mauduit" />
+  <string key="author" value="Valerie Mauduit" />
   <string key="description" value="Old Liquid War 5 map" />
-  <string key="license" value="GPL v2+" />
+  <string key="license" value="GPL v3+" />
 </lw6mapparam>
