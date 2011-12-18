@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Sinusoid" />
+  <string key="author" value="Kasper Hviid" />
+  <string key="description" value="The practical purpose of this map was to use the wrap-around feature of LW6." />
+  <string key="license" value="CC BY-SA 3.0 or, at your option, GPL v3+" />
+</lw6mapparam>
