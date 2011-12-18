@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+   <string key="title" value="Pass" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="A simple map using layers to create tunnel/bridge effects" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>

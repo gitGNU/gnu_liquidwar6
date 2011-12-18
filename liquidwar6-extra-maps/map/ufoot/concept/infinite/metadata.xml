@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Infinite" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="A simple map showing how polarity works, this map simply has no limits" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>

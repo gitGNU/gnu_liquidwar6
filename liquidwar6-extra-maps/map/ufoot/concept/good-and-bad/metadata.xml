@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Good and bad" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="Fighters will die in the center (skull) and regain energy in the corners (hearts)" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>

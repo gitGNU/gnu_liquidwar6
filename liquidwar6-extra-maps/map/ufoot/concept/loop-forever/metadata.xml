@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Loop forever" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="Fighters are forced to go clockwise" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>

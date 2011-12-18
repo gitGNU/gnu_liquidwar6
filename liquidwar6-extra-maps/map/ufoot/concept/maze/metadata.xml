@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Maze" />
+  <string key="author" value="Christian Mauduit" />
+  <string key="description" value="A hudge maze with plenty of room to fight around it" />
+  <string key="license" value="GPL v3+" />
+</lw6mapparam>
