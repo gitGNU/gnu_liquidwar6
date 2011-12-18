@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lw6mapparam>
-  <string key="title" value="Mobile" />
+  <string key="title" value="Mux" />
   <string key="author" value="Kasper Hviid" />
-  <string key="description" value="Map with layers, bridge and tunnerl" />
+  <string key="description" value="Map with layers, bridge and tunnel" />
   <string key="license" value="CC BY-SA 2.5 or, at your option, GPL v2+" />
 </lw6mapparam>
