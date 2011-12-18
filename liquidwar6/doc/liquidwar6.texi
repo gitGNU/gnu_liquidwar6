@@ -366,7 +366,7 @@ a build is done with a different source.
 @item
 2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.11beta/,0.0.11beta}, codename ``Ho Chi Minh'', stamp 2785
 @item
-2011-10-02 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.12beta/,0.0.12beta}, codename ``Aguirre'', stamp 2938
+2011-12-18 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.0.12beta/,0.0.12beta}, codename ``Aguirre'', stamp 2938
 @end itemize
 
 @subsection Road map
