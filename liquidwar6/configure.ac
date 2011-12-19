@@ -18,9 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6],[0.0.12beta],[ufoot@ufoot.org],[liquidwar6])
+AC_INIT([Liquid War 6],[0.0.13beta],[ufoot@ufoot.org],[liquidwar6])
 # latest versions of automake accept a 5th arg mapped to PACKAGE_URL
-# AC_INIT([Liquid War 6],[0.0.12beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
+# AC_INIT([Liquid War 6],[0.0.13beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -39,11 +39,11 @@ AM_GNU_GETTEXT_VERSION([0.17])
 AM_ICONV
 
 LW6_HKEY=Liquid_War_6
-LW6_MS_WINDOWS_VERSION="0, 0, 12"
+LW6_MS_WINDOWS_VERSION="0, 0, 13"
 AC_SUBST(LW6_HKEY)
 AC_SUBST(LW6_MS_WINDOWS_VERSION)
 
-LW6_CODENAME="Aguirre"
+LW6_CODENAME="Blackbeard"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
@@ -306,7 +306,7 @@ else
 fi
 
 AC_CHECK_HEADER(libpng12/png.h, HAVE_LIBPNG12_PNG_H=1)
-AC_CHECK_HEADER(libpng13/png.h, HAVE_LIBPNG12_PNG_H=1)
+AC_CHECK_HEADER(libpng13/png.h, HAVE_LIBPNG13_PNG_H=1)
 AC_CHECK_HEADER(libpng14/png.h, HAVE_LIBPNG14_PNG_H=1)
 AC_CHECK_HEADER(libpng15/png.h, HAVE_LIBPNG15_PNG_H=1)
 if test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG13_PNG_H} = x1 || test x${HAVE_LIBPNG14_PNG_H} = x1 || test x${HAVE_LIBPNG15_PNG_H} = x1; then
