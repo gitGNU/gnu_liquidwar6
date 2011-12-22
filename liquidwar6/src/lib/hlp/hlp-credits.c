@@ -29,12 +29,13 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-#define _NB_CREDITS_ENTRIES 24
+#define _NB_CREDITS_ENTRIES 26
 
 #define _CREDITS_IDEA "Thomas Colcombet"
 #define _CREDITS_CODING "Christian Mauduit"
-#define _CREDITS_MAPS "Kasper Hviid"
+#define _CREDITS_ARTWORK "Kasper Hviid"
 #define _CREDITS_MUSIC_MENU "Tim Chadburn"
+#define _CREDITS_EXTRA_MAPS1 "Joey Dodson"
 #define _CREDITS_MUSIC1_TITLE "Free the sounds"
 #define _CREDITS_MUSIC1_AUTHOR "Robert Radamant"
 #define _CREDITS_MUSIC2_TITLE "Heav'hypnosis"
@@ -89,75 +90,81 @@ lw6hlp_get_credits (int id)
       ret = lw6sys_new_sprintf (_("Programming: %s"), _CREDITS_CODING);
       break;
     case 5:
-      ret = lw6sys_new_sprintf (_("Maps: %s"), _CREDITS_MAPS);
+      ret = lw6sys_new_sprintf (_("Artwork & design: %s"), _CREDITS_ARTWORK);
       break;
     case 6:
       ret = lw6sys_new_sprintf (_("Menu music: %s"), _CREDITS_MUSIC_MENU);
       break;
     case 7:
+      ret = lw6sys_new_sprintf (_("Thanks to all Liquid War 5 contributors"));
+      break;
+    case 8:
+      ret = lw6sys_new_sprintf (_("Extra maps: %s"), _CREDITS_EXTRA_MAPS1);
+      break;
+    case 9:
       ret =
 	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC1_TITLE,
 			    _CREDITS_MUSIC1_AUTHOR);
       break;
-    case 8:
+    case 10:
       ret =
 	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC2_TITLE,
 			    _CREDITS_MUSIC2_AUTHOR);
       break;
-    case 9:
+    case 11:
       ret =
 	lw6sys_new_sprintf (_("Song \"%s\" by %s"), _CREDITS_MUSIC3_TITLE,
 			    _CREDITS_MUSIC3_AUTHOR);
       break;
-    case 10:
+    case 12:
       ret =
 	lw6sys_new_sprintf (_("Norwegian translation by %s"),
 			    _CREDITS_NN_TRANSLATOR);
       break;
-    case 11:
+    case 13:
       ret =
 	lw6sys_new_sprintf (_("Russian translation by %s"),
 			    _CREDITS_RU_TRANSLATOR);
       break;
-    case 12:
+    case 14:
       ret = lw6sys_str_copy (_("Thanks to all other contributors"));
       break;
-    case 13:
+    case 15:
       ret = lw6sys_str_copy (_("Help is always appreciated"));
       break;
-    case 14:
+    case 16:
       ret = lw6sys_str_copy (_("Join us now!"));
       break;
-    case 15:
+    case 17:
       ret = lw6sys_new_sprintf (_("Mailing list: <%s>"), _LIST_EMAIL);
       break;
-    case 16:
+    case 18:
       ret = lw6sys_str_copy (_("Free as in \"free speech\" (not beer)"));
       break;
-    case 17:
+    case 19:
       ret =
 	lw6sys_new_sprintf (_("License: %s"), lw6sys_build_get_license ());
       break;
-    case 18:
+    case 20:
       ret = lw6sys_str_copy (lw6sys_build_get_copyright ());
       break;
-    case 19:
+    case 21:
       ret =
 	lw6sys_new_sprintf (_("Built on %s at %s"), lw6sys_build_get_date (),
 			    lw6sys_build_get_time ());
       break;
-    case 20:
+    case 22:
       ret =
 	lw6sys_new_sprintf (_("Stamp %s, Id %d"), lw6sys_build_get_stamp (),
 			    lw6sys_build_get_bin_id ());
       break;
-    case 21:
+    case 23:
       ret = lw6sys_new_sprintf (_("Help GNU %s"), _HELP_GNU_URL);
       break;
-    case 22:
+    case 24:
       ret = lw6sys_new_sprintf (_("Fight software patents %s"), _FFII_URL);
       break;
-    case 23:
+    case 25:
       ret =
 	lw6sys_new_sprintf ("%s: %s", _("Report bugs"),
 			    lw6sys_build_get_bugs_url ());

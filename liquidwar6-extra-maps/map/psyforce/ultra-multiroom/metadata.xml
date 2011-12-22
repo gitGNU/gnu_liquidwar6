@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<lw6mapparam>
+  <string key="title" value="Ultra Multiroom" />
+  <string key="author" value="Joey Dodson" />
+  <string key="description" value="Designed for LW5, ported to LW6" />
+  <string key="license" value="GPL v2+" />
+</lw6mapparam>
