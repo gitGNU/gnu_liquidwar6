@@ -291,9 +291,10 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 			   * can be down or you can just be playing locally.
 			   */
 			case WSAEHOSTUNREACH:
+			case WSAEHOSTDOWN:
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _x_
-				      ("can't connect on \"%s:%d\", host unreachable"),
+				      ("can't connect on \"%s:%d\", host unreachable or down"),
 				      ip, port);
 			  break;
 			default:
@@ -320,9 +321,10 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 			   * can be down or you can just be playing locally.
 			   */
 			case EHOSTUNREACH:
+			case EHOSTDOWN:
 			  lw6sys_log (LW6SYS_LOG_INFO,
 				      _x_
-				      ("can't connect on \"%s:%d\", host unreachable"),
+				      ("can't connect on \"%s:%d\", host unreachable or down"),
 				      ip, port);
 			  break;
 			default:
