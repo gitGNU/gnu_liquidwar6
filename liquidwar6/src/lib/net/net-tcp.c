@@ -304,7 +304,7 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 			  lw6net_last_error ();
 			}
 #else
-		      switch (winerr)
+		      switch (errno)
 			{
 			  /*
 			   * Fixed 35104 (warning on windows build) by specifically

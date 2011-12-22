@@ -1,6 +1,6 @@
 2011-12-22 : Christian Mauduit <ufoot@ufoot.org>
 
-	* Fixed #35104: Warnings on MS-Windows build.
+	* Fixed #35105: network warnings (MS-Windows and Mac OS X).
 
 	* Fixed #35125, was an out-of-bound array error.
 
