@@ -275,29 +275,61 @@ lw6net_tcp_connect (char *ip, int port, int delay_msec)
 		    {
 #ifdef LW6_MS_WINDOWS
 		      winerr = WSAGetLastError ();
-		      if (winerr == WSAEINPROGRESS)
+		      switch (winerr)
 			{
+			  /*
+			   * Fixed 35104 (warning on windows build) by specifically
+			   * adding both INPROGRESS and WOULDBLOCK in acceptable values.
+			   */
+			case WSAEINPROGRESS:
+			case WSAEWOULDBLOCK:
 			  connect_async = 1;
-			}
-		      else
-			{
+			  break;
+			  /*
+			   * UNREACH is not reported as an error, only an info,
+			   * it's very common not to be able to reach host, it
+			   * can be down or you can just be playing locally.
+			   */
+			case WSAEHOSTUNREACH:
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_
+				      ("can't connect on \"%s:%d\", host unreachable"),
+				      ip, port);
+			  break;
+			default:
 			  lw6sys_log (LW6SYS_LOG_WARNING,
 				      _x_
-				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS (code=%d)"),
+				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS or WSAEWOULDBLOCK (code=%d)"),
 				      ip, port, winerr);
 			  lw6net_last_error ();
 			}
 #else
-		      if (errno == EINPROGRESS)
+		      switch (winerr)
 			{
+			  /*
+			   * Fixed 35104 (warning on windows build) by specifically
+			   * adding both INPROGRESS and WOULDBLOCK in acceptable values.
+			   */
+			case EINPROGRESS:
+			case EWOULDBLOCK:
 			  connect_async = 1;
-			}
-		      else
-			{
+			  break;
+			  /*
+			   * UNREACH is not reported as an error, only an info,
+			   * it's very common not to be able to reach host, it
+			   * can be down or you can just be playing locally.
+			   */
+			case EHOSTUNREACH:
+			  lw6sys_log (LW6SYS_LOG_INFO,
+				      _x_
+				      ("can't connect on \"%s:%d\", host unreachable"),
+				      ip, port);
+			  break;
+			default:
 			  lw6sys_log (LW6SYS_LOG_WARNING,
 				      _x_
-				      ("connect on \"%s:%d\" failed, did not return WSAEINPROGRESS (code=%d)"),
-				      ip, port);
+				      ("connect on \"%s:%d\" failed, did not return EINPROGRESS or EWOULDBLOCK (code=%d)"),
+				      ip, port, errno);
 			  lw6net_last_error ();
 			}
 #endif
