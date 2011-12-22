@@ -78,9 +78,9 @@
 					0))
 	   )
       (begin
-	(c-lw6pil-execute-command game-state "0 1234123412341234 REGISTER")
-	(c-lw6pil-execute-command game-state "0 1234123412341234 ADD 1234 RED")
-	(c-lw6pil-execute-command game-state "0 1234123412341234 ADD 2345 GREEN")
+	(c-lw6pil-execute-command game-state "123123123123 1234123412341234 REGISTER" 123123123123)
+	(c-lw6pil-execute-command game-state "123123123123 1234123412341234 ADD 1234 RED" 123123123123)
+	(c-lw6pil-execute-command game-state "123123123123 1234123412341234 ADD 2345 GREEN" 123123123123)
 	(let (
 	      (bot1 (c-lw6bot-new "idiot" game-state pilot 2 "1234" 1.0 100))
 	      (bot2 (c-lw6bot-new "random" game-state pilot 2 "2345" 1.0 100))
