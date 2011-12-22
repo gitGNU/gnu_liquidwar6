@@ -39,9 +39,9 @@ mod_gl_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2,
 
   int x, y;
 
-  for (x = x1; x <= x2; ++x)
+  for (x = x1; x < x2; ++x)
     {
-      for (y = y1; y <= y2; ++y)
+      for (y = y1; y < y2; ++y)
 	{
 	  mod_gl_utils_putpixel (surface, x, y, color);
 	}
@@ -63,9 +63,9 @@ mod_gl_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha,
   alpha_color = lw6sys_color_f_to_i (&color_f_tmp);
   w = surface->w;
   h = surface->h;
-  for (x = 0; x <= w; ++x)
+  for (x = 0; x < w; ++x)
     {
-      for (y = 0; y <= h; ++y)
+      for (y = 0; y < h; ++y)
 	{
 	  pixel_color = mod_gl_utils_getpixel (surface, x, y);
 	  if (pixel_color == color)
