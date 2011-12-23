@@ -319,7 +319,11 @@ level features, including multi-layer (allowing the map designer to create
 bridges and tunnels), wrapping (fighters disappearing on the left
 can reappear on the right). Those really change the gameplay.
 @item
-deathmatch mode. Give it a try, it does change the deal ;)
+deathmatch mode. Give it a try, it's now the default mode, and definitely
+changes the rules.
+@item
+team profiles, as well as special ``weapons'', which are tricks you can
+play on opponents.
 @item
 modularity, overall code quality. While this is not a user-visible change, the game
 is far less monolithic, therefore hacking to revamp the graphics engine,
