@@ -1,12 +1,13 @@
 Liquid War NEWS -- history of user-visible changes.
 
-* December 2011: release of 0.0.12beta. Major improvements
+* December 2011: release of 0.0.13beta. Major improvements
   include help, tooltips and breadcrumbs displayed within the
   menus. The network remote node detection is enabled by default,
-  even if network are not yet possible. Map can also have a
+  even if network games are not yet possible. Map can also have a
   proper description, mention author and license in the metadata.
   MS-Windows and Mac OS X packates now include all maps, including
-  the contents of the extra-map package.
+  the contents of the extra-map package. Note that 0.0.12beta
+  contained bugs, one being serious, with are fixed in 0.0.13beta.
 
 * October 2011: release of 0.0.11beta. This releases introduces
   weapons, to complete the team profiles concept. It also has
