@@ -48,7 +48,7 @@ typedef struct lw6dsp_misc_s
   int debug_layer_id;
   lw6gui_repeat_settings_t repeat_settings;
   int log_timeout;
-  float *progress;
+  volatile float *progress;
 } lw6dsp_misc_t;
 
 typedef struct lw6dsp_param_s

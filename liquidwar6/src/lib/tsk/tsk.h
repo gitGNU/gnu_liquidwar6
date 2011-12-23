@@ -50,7 +50,7 @@ extern int lw6tsk_loader_pop (lw6map_level_t ** level,
 			      lw6ker_game_state_t ** game_state,
 			      lw6tsk_loader_t * loader);
 extern lw6tsk_loader_t *lw6tsk_loader_new (float sleep, char *user_dir,
-					   float *progress);
+					   volatile float *progress);
 extern void lw6tsk_loader_free (lw6tsk_loader_t * loader);
 extern char *lw6tsk_loader_repr (lw6tsk_loader_t * loader);
 extern int lw6tsk_loader_get_stage (lw6tsk_loader_t * loader);

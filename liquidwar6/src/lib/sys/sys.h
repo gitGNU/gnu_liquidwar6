@@ -229,7 +229,7 @@ typedef struct lw6sys_progress_s
 {
   float min;
   float max;
-  float *value;
+  volatile float *value;
 } lw6sys_progress_t;
 
 typedef struct lw6sys_module_pedigree_s
@@ -546,6 +546,9 @@ extern void lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t * color_hsv,
 				     lw6sys_color_8_t color_8);
 extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (lw6sys_color_hsv_t *
 						 color_hsv);
+extern void lw6sys_color_hsv_invert (lw6sys_color_hsv_t * color_hsv,
+				     int invert_h, int invert_s,
+				     int invert_v);
 extern int lw6sys_color_is_grey (lw6sys_color_8_t color);
 extern lw6sys_color_8_t lw6sys_color_average (int size,
 					      lw6sys_color_8_t * colors);

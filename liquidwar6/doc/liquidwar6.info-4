@@ -1061,6 +1061,21 @@ results on
 
      *Return value:*  the RGB color.
 
+ -- Function: void lw6sys_color_hsv_invert (lw6sys_color_hsv_t *
+          COLOR_HSV, int INVERT_H, int INVERT_S, int INVERT_V)
+     COLOR_HSV:  the source color, in HSV format
+
+     INVERT_H:  wether to invert the hue
+
+     INVERT_S:  wether to invert the saturation
+
+     INVERT_V:  wether to invert the value
+
+     Inverts an HSV color, calling it with 1,0,0 the color will become
+     a color with opposite hue but same saturation and same value.
+
+     *Return value:*  none.
+
  -- Function: lw6sys_color_8_t lw6sys_color_average (int SIZE,
           lw6sys_color_8_t * COLORS)
      SIZE:  number of the color array (number of items)
@@ -4080,7 +4095,7 @@ results on
      *Return value:*  1 if some data, 0 if none.
 
  -- Function: lw6tsk_loader_t * lw6tsk_loader_new (float SLEEP, char *
-          USER_DIR, float * PROGRESS)
+          USER_DIR, volatile float * PROGRESS)
      SLEEP:  how many seconds to wait between every poll
 
      USER_DIR:  user directory

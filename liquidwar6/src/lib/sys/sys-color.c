@@ -546,6 +546,42 @@ lw6sys_color_hsv_to_rgb (lw6sys_color_hsv_t * color_hsv)
   return color_8;
 }
 
+/**
+ * lw6sys_color_hsv_invert
+ *
+ * @color_hsv: the source color, in HSV format
+ * @invert_h: wether to invert the hue
+ * @invert_s: wether to invert the saturation
+ * @invert_v: wether to invert the value
+ *
+ * Inverts an HSV color, calling it with 1,0,0 the color
+ * will become a color with opposite hue but same saturation
+ * and same value.
+ *
+ * Return value: none.
+ */
+void
+lw6sys_color_hsv_invert (lw6sys_color_hsv_t * color_hsv, int invert_h,
+			 int invert_s, int invert_v)
+{
+  if (invert_h)
+    {
+      color_hsv->h += 180.0f;
+      if (color_hsv->h >= 360.0f)
+	{
+	  color_hsv->h -= 360.0f;
+	}
+    }
+  if (invert_s)
+    {
+      color_hsv->s = 1.0f - color_hsv->s;
+    }
+  if (invert_v)
+    {
+      color_hsv->v = 1.0f - color_hsv->v;
+    }
+}
+
 /*
  * lw6sys_color_is_grey
  * 

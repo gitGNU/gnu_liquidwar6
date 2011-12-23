@@ -1,5 +1,9 @@
 2011-12-23 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Guile 2.0 support.
+
+	* Fixed #35099, color detection on some maps.
+
 	* Introduced some const attributes in low-level API.
 
 2011-12-22 : Christian Mauduit <ufoot@ufoot.org>

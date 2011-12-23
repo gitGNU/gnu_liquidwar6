@@ -39,7 +39,7 @@ are loaded fast enough, you just receive everything at once.
 @strong{Return value:}  1 if some data, 0 if none.
 @end deftypefun
 
-@deftypefun {lw6tsk_loader_t *} {lw6tsk_loader_new} (float @var{sleep}, char * @var{user_dir}, float * @var{progress})
+@deftypefun {lw6tsk_loader_t *} {lw6tsk_loader_new} (float @var{sleep}, char * @var{user_dir}, volatile float * @var{progress})
 @var{sleep}:  how many seconds to wait between every poll
 
 @var{user_dir}:  user directory

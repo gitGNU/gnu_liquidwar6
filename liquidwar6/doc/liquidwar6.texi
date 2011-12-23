@@ -632,6 +632,12 @@ GMP is a free library for arbitrary precision arithmetic,
 required by Guile.
 
 @item
+@uref{https://launchpad.net/libgc, libgc}.
+This is a a garbage collector library, recent versions of Guile
+might require this so in case your version of Guile requires it,
+then Liquid War 6 will need it too.
+
+@item
 @uref{http://www.gnu.org/software/libtool/, ltdl}. 
 This library, which comes with libtool, provides a portable
 alternative to @code{dlopen} and @code{dlclose}. Check
@@ -754,7 +760,7 @@ could be:
 yum install \
 make gcc glibc glibc-devel binutils \
 libgomp \
-guile guile-devel gmp gmp-devel \
+guile guile-devel gmp gmp-devel libgc1c2 libgc-dev \
 libtool libtool-ltdl libtool-ltdl-devel \
 zlib zlib-devel expat expat-devel \
 libpng libpng-devel libjpeg libjpeg-devel \

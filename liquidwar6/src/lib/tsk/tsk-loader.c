@@ -609,7 +609,7 @@ loader_join (void *data)
  * Return value: a pointer to the loader, NULL if failed.
  */
 lw6tsk_loader_t *
-lw6tsk_loader_new (float sleep, char *user_dir, float *progress)
+lw6tsk_loader_new (float sleep, char *user_dir, volatile float *progress)
 {
   lw6tsk_loader_t *loader = NULL;
   _lw6tsk_loader_data_t *loader_data = NULL;

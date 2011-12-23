@@ -49,6 +49,9 @@
 /* Define to 1 if you have the <GL/gl.h> header file. */
 #undef HAVE_GL_GL_H
 
+/* Define to 1 if you have the <gmp.h> header file. */
+#undef HAVE_GMP_H
+
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
@@ -66,9 +69,6 @@
 
 /* Define to 1 if you have the <langinfo.h> header file. */
 #undef HAVE_LANGINFO_H
-
-/* Define to 1 if you have the <libguile.h> header file. */
-#undef HAVE_LIBGUILE_H
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H

@@ -93,11 +93,21 @@ average_color (color_info_t * ret, int size, color_info_t * color_info,
   lw6sys_color_rgb_to_hsv (&ret->color_hsv, ret->color_8);
 }
 
+static void
+_set_to_invert (color_info_t * dst, color_info_t * src)
+{
+  dst->color_hsv = src->color_hsv;
+  lw6sys_color_hsv_invert (&(dst->color_hsv), 1, 0, 0);
+  dst->color_8 = lw6sys_color_hsv_to_rgb (&(dst->color_hsv));
+}
+
 int
 _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 {
   int ret = 0;
   int x, y, i_bg = 0, i_fg = 0;
+  int ok_bg = 0;
+  int ok_fg = 0;
   int size;
   int step;
   color_info_t *bg = NULL;
@@ -171,10 +181,11 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 				 GLOBAL_END);
 		  average_color (&dark_bg, i_bg, bg, DARK_BEGIN, DARK_END);
 		  average_color (&light_bg, i_bg, bg, LIGHT_BEGIN, LIGHT_END);
+		  ok_bg = 1;
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_
 			      ("no background color found, unable to guess color"));
 		}
@@ -185,14 +196,32 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 				 GLOBAL_END);
 		  average_color (&dark_fg, i_fg, fg, DARK_BEGIN, DARK_END);
 		  average_color (&light_fg, i_fg, fg, LIGHT_BEGIN, LIGHT_END);
+		  ok_fg = 1;
 		}
 	      else
 		{
-		  lw6sys_log (LW6SYS_LOG_WARNING,
+		  lw6sys_log (LW6SYS_LOG_INFO,
 			      _x_
 			      ("no foreground color found, unable to guess color"));
 		}
-	      if (i_fg > 0 && i_bg > 0)
+
+	      if (ok_fg && !ok_bg)
+		{
+		  _set_to_invert (&global_bg, &global_fg);
+		  _set_to_invert (&dark_bg, &dark_fg);
+		  _set_to_invert (&light_bg, &light_fg);
+		  ok_bg = 1;
+		}
+
+	      if (ok_bg && !ok_fg)
+		{
+		  _set_to_invert (&global_fg, &global_bg);
+		  _set_to_invert (&dark_fg, &dark_bg);
+		  _set_to_invert (&light_fg, &light_bg);
+		  ok_fg = 1;
+		}
+
+	      if (ok_fg && ok_bg)
 		{
 		  ret = 1;
 		  distance_regular = lw6sys_min (lw6sys_color_distance
@@ -294,6 +323,11 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 		    alternate_bg.color_8;
 		  level->texture.guessed_color_alternate.fg =
 		    alternate_fg.color_8;
+		}
+	      else
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("unable to guess colors"));
 		}
 	      LW6SYS_FREE (fg);
 	    }

@@ -14204,7 +14204,7 @@ LW6_MS_WINDOWS_VERSION="0, 0, 13"
 LW6_CODENAME="Blackbeard"
 
 
-for ac_header in arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libguile.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
+for ac_header in arpa/inet.h ctype.h dirent.h errno.h execinfo.h expat.h fcntl.h gmp.h GL/gl.h GL/glu.h iconv.h ifaddrs.h jpeglib.h langinfo.h libintl.h libpng12/png.h libpng13/png.h libpng14/png.h libpng15/png.h lmcons.h limits.h locale.h ltdl.h mach/vm_statistics.h mach/mach_types.h mach/mach_init.h mach/mach_host.h math.h netdb.h netinet/in.h omp.h pthread.h readline/history.h readline/readline.h SDL/SDL.h SDL/SDL_image.h SDL/SDL_mixer.h SDL/SDL_ttf.h signal.h stdarg.h stdio.h stdlib.h string.h syslog.h sys/select.h sys/signal.h sys/socket.h sys/stat.h sys/sysinfo.h sys/time.h sys/types.h sys/utsname.h time.h unistd.h winbase.h windows.h winsock2.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -14639,6 +14639,45 @@ if test x${VALGRIND} != xyes; then
 $as_echo "$as_me: Liquid War 6 suggests Valgrind (http://valgrind.org/)" >&6;}
 fi
 
+ac_fn_c_check_header_mongrel "$LINENO" "gmp.h" "ac_cv_header_gmp_h" "$ac_includes_default"
+if test "x$ac_cv_header_gmp_h" = xyes; then :
+  HAVE_GMP_H=1
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+*** Liquid War 6 needs GNU MP because of Guile (http://gmplib.org/)
+" >&5
+$as_echo "$as_me: WARNING:
+*** Liquid War 6 needs GNU MP because of Guile (http://gmplib.org/)
+" >&2;}
+fi
+
+
+ac_fn_c_check_header_mongrel "$LINENO" "libguile.h" "ac_cv_header_libguile_h" "$ac_includes_default"
+if test "x$ac_cv_header_libguile_h" = xyes; then :
+  HAVE_LIBGUILE1_H=1
+fi
+
+
+ac_fn_c_check_header_mongrel "$LINENO" "guile/1.8/libguile.h" "ac_cv_header_guile_1_8_libguile_h" "$ac_includes_default"
+if test "x$ac_cv_header_guile_1_8_libguile_h" = xyes; then :
+  HAVE_LIBGUILE1_H=1
+fi
+
+
+ac_fn_c_check_header_mongrel "$LINENO" "guile/2.0/libguile.h" "ac_cv_header_guile_2_0_libguile_h" "$ac_includes_default"
+if test "x$ac_cv_header_guile_2_0_libguile_h" = xyes; then :
+  HAVE_LIBGUILE2_H=1
+fi
+
+
+if test x${HAVE_LIBGUILE1} != x1 && test x${HAVE_LIBGUILE2} != x1; then
+   # OK this is a notice and not an error, for some
+   # reason guile/2.0/libguile.h is not detected, in fact
+   # it includes other headers that would need -Iguile/2.0
+   # to work...
+   { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)" >&5
+$as_echo "$as_me: Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)" >&6;}
+fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for dlopen in -ldl" >&5
 $as_echo_n "checking for dlopen in -ldl... " >&6; }
 if ${ac_cv_lib_dl_dlopen+:} false; then :
@@ -14678,35 +14717,52 @@ $as_echo "$ac_cv_lib_dl_dlopen" >&6; }
 if test "x$ac_cv_lib_dl_dlopen" = xyes; then :
   HAVE_LIBDL=1
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}:
-no libdl
-" >&5
-$as_echo "$as_me:
-no libdl
-" >&6;}
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 can need libdl because of Guile (http://www.gnu.org/software/libc/)" >&5
+$as_echo "$as_me: Liquid War 6 can need libdl because of Guile (http://www.gnu.org/software/libc/)" >&6;}
 fi
 
-
-ac_fn_c_check_header_mongrel "$LINENO" "gmp.h" "ac_cv_header_gmp_h" "$ac_includes_default"
-if test "x$ac_cv_header_gmp_h" = xyes; then :
-  HAVE_GMP_H=1
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GC_malloc in -lgc" >&5
+$as_echo_n "checking for GC_malloc in -lgc... " >&6; }
+if ${ac_cv_lib_gc_GC_malloc+:} false; then :
+  $as_echo_n "(cached) " >&6
 else
-  as_fn_error $? "
-*** Liquid War 6 needs GNU MP (http://gmplib.org/)
-" "$LINENO" 5
-fi
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lgc  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
 
-
-
-ac_fn_c_check_header_mongrel "$LINENO" "libguile.h" "ac_cv_header_libguile_h" "$ac_includes_default"
-if test "x$ac_cv_header_libguile_h" = xyes; then :
-  HAVE_LIBGUILE_H=1
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char GC_malloc ();
+int
+main ()
+{
+return GC_malloc ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_gc_GC_malloc=yes
 else
-  as_fn_error $? "
-*** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
-" "$LINENO" 5
+  ac_cv_lib_gc_GC_malloc=no
 fi
-
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gc_GC_malloc" >&5
+$as_echo "$ac_cv_lib_gc_GC_malloc" >&6; }
+if test "x$ac_cv_lib_gc_GC_malloc" = xyes; then :
+  HAVE_LIBGC=1
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 can need libgc because of Guile (https://launchpad.net/libgc)" >&5
+$as_echo "$as_me: Liquid War 6 can need libgc because of Guile (https://launchpad.net/libgc)" >&6;}
+fi
 
 
 GUILE_CFLAGS=""
@@ -14764,7 +14820,7 @@ fi
 
    if test x${GUILE} != xyes; then
       as_fn_error $? "
-*** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
+*** Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)
 " "$LINENO" 5
    fi
    # Extract the first word of "guile-config", so it can be a program name with args.
@@ -14807,7 +14863,7 @@ fi
 
    if test x${GUILE_CONFIG} != xyes; then
       as_fn_error $? "
-*** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
+*** Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)
 " "$LINENO" 5
    fi
    if guile-config --version 2> /dev/null ; then
@@ -14819,7 +14875,7 @@ if ${ac_cv_lib_guile_scm_with_guile+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lguile  $LIBS"
+LIBS="-lguile $GUILE_LDFLAGS $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -14850,13 +14906,60 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_guile_scm_with_guile" >&5
 $as_echo "$ac_cv_lib_guile_scm_with_guile" >&6; }
 if test "x$ac_cv_lib_guile_scm_with_guile" = xyes; then :
-  HAVE_LIBGUILE=1
+  HAVE_LIBGUILE1=1
 else
-  as_fn_error $? "
-*** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
-" "$LINENO" 5
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)" >&5
+$as_echo "$as_me: Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)" >&6;}
 fi
 
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for scm_with_guile in -lguile-2.0" >&5
+$as_echo_n "checking for scm_with_guile in -lguile-2.0... " >&6; }
+if ${ac_cv_lib_guile_2_0_scm_with_guile+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lguile-2.0 $GUILE_LDFLAGS $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char scm_with_guile ();
+int
+main ()
+{
+return scm_with_guile ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_guile_2_0_scm_with_guile=yes
+else
+  ac_cv_lib_guile_2_0_scm_with_guile=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_guile_2_0_scm_with_guile" >&5
+$as_echo "$ac_cv_lib_guile_2_0_scm_with_guile" >&6; }
+if test "x$ac_cv_lib_guile_2_0_scm_with_guile" = xyes; then :
+  HAVE_LIBGUILE2=1
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)" >&5
+$as_echo "$as_me: Liquid War 6 needs Guile (http://www.gnu.org/software/guile/)" >&6;}
+fi
+
+      if test x${HAVE_LIBGUILE1} != x1 && test x${HAVE_LIBGUILE2} != x1; then
+      as_fn_error $? "
+*** Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)
+" "$LINENO" 5
+      fi
    else
       # Guile-config doesn't work (GP2X for instance), use builtin
       GUILE_LDFLAGS="-lguile -lgmp -lpthread -lltdl"
@@ -14900,12 +15003,13 @@ if test "x$ac_cv_lib_guile_scm_with_guile" = xyes; then :
   HAVE_LIBGUILE=1
 else
   as_fn_error $? "
-*** Liquid War 6 needs Guile 1.8 (http://www.gnu.org/software/guile/)
+*** Liquid War 6 needs Guile 1.8 or 2.0 (http://www.gnu.org/software/guile/)
 " "$LINENO" 5
 fi
 
    fi
 fi
+
 
 
 
@@ -14972,7 +15076,6 @@ else
 *** Liquid War 6 needs zlib (http://www.zlib.net/)
 " "$LINENO" 5
 fi
-
 
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gzopen in -lz" >&5

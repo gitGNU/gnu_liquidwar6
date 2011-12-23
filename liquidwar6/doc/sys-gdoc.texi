@@ -1150,6 +1150,22 @@ Alpha layer is kept as is.
 @strong{Return value:}  the RGB color.
 @end deftypefun
 
+@deftypefun {void} {lw6sys_color_hsv_invert} (lw6sys_color_hsv_t * @var{color_hsv}, int @var{invert_h}, int @var{invert_s}, int @var{invert_v})
+@var{color_hsv}:  the source color, in HSV format
+
+@var{invert_h}:  wether to invert the hue
+
+@var{invert_s}:  wether to invert the saturation
+
+@var{invert_v}:  wether to invert the value
+
+Inverts an HSV color, calling it with 1,0,0 the color
+will become a color with opposite hue but same saturation
+and same value.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {lw6sys_color_8_t} {lw6sys_color_average} (int @var{size}, lw6sys_color_8_t * @var{colors})
 @var{size}:  number of the color array (number of items)
 

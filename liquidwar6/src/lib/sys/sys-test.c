@@ -488,6 +488,25 @@ rgb_to_hsv_to_rgb (char *label, lw6sys_color_8_t color_8)
 	      color_8_back.r, color_8_back.g, color_8_back.b);
 }
 
+static void
+hsv_invert (char *label, lw6sys_color_8_t color_8)
+{
+  lw6sys_color_hsv_t color_hsv;
+  lw6sys_color_8_t color_8_back;
+
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s init r=%d,g=%d,b=%d"), label,
+	      color_8.r, color_8.g, color_8.b);
+  lw6sys_color_rgb_to_hsv (&color_hsv, color_8);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s HSV convert h=%.2f,s=%.2f,v=%.2f"),
+	      label, color_hsv.h, color_hsv.s, color_hsv.v);
+  lw6sys_color_hsv_invert (&color_hsv, 1, 1, 1);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s HSV invert h=%.2f,s=%.2f,v=%.2f"),
+	      label, color_hsv.h, color_hsv.s, color_hsv.v);
+  color_8_back = lw6sys_color_hsv_to_rgb (&color_hsv);
+  lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("%s RGB convert r=%d,g=%d,b=%d"), label,
+	      color_8_back.r, color_8_back.g, color_8_back.b);
+}
+
 /*
  * Testing functions in color.c
  */
@@ -521,6 +540,13 @@ test_color ()
     rgb_to_hsv_to_rgb ("green", LW6SYS_COLOR_8_GREEN);
     rgb_to_hsv_to_rgb ("blue", LW6SYS_COLOR_8_BLUE);
     rgb_to_hsv_to_rgb (LW6DEF_TEST, color_8);
+
+    hsv_invert ("white", LW6SYS_COLOR_8_WHITE);
+    hsv_invert ("black", LW6SYS_COLOR_8_BLACK);
+    hsv_invert ("red", LW6SYS_COLOR_8_RED);
+    hsv_invert ("green", LW6SYS_COLOR_8_GREEN);
+    hsv_invert ("blue", LW6SYS_COLOR_8_BLUE);
+    hsv_invert (LW6DEF_TEST, color_8);
 
     color_8 =
       lw6sys_color_ponderate (LW6SYS_COLOR_8_RED, LW6SYS_COLOR_8_BLUE, 0.5f);

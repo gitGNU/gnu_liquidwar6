@@ -71,7 +71,7 @@ typedef struct _lw6tsk_loader_data_s
   void *mutex;
   int stage;
   int request_number;
-  float *progress;
+  volatile float *progress;
   _lw6tsk_loader_stage1_t stage1;
   _lw6tsk_loader_stage2_t stage2;
 }
