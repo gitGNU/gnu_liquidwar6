@@ -3691,7 +3691,7 @@ Unlocks a spinlock.
 @strong{Return value:}  1 if sucess, 0 if error.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_str_copy} (char * @var{src})
+@deftypefun {char *} {lw6sys_str_copy} (const char * @var{src})
 @var{src}:  the string to copy
 
 Duplicate a string, creating a new pointer on it, which 
@@ -3702,7 +3702,7 @@ possible memory leaks.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_str_concat} (char * @var{str1}, char * @var{str2})
+@deftypefun {char *} {lw6sys_str_concat} (const char * @var{str1}, const char * @var{str2})
 @var{str1}:  the left part to be concatenated
 
 @var{str2}:  the right part to be concatenated
@@ -3714,7 +3714,7 @@ pointer.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_new_sprintf} (char * @var{fmt},  @var{...})
+@deftypefun {char *} {lw6sys_new_sprintf} (const char * @var{fmt},  @var{...})
 @var{fmt}:  a format string, like the one you would pass to @code{printf}
 @...: optional arguments, like the ones you would pass to @code{printf}
 
@@ -3730,7 +3730,7 @@ Additionnally, helps avoiding memory leaks and buffer overflows.
 @strong{Return value:}  a new allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_buf_sprintf} (char * @var{buf}, int @var{len}, char * @var{fmt},  @var{...})
+@deftypefun {int} {lw6sys_buf_sprintf} (char * @var{buf}, int @var{len}, const char * @var{fmt},  @var{...})
 @var{buf}:  a buffer of len+1 chars
 
 @var{len}:  the max length of string
@@ -3745,7 +3745,7 @@ must be of size len+1.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_is_blank} (char * @var{str})
+@deftypefun {int} {lw6sys_str_is_blank} (const char * @var{str})
 @var{str}:  the string to test
 
 Tests wether a string is blank, that is, if it's composed
@@ -3754,7 +3754,7 @@ of space, tabs, or carriage returns only.
 @strong{Return value:}  1 if blank, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_is_null_or_empty} (char * @var{str})
+@deftypefun {int} {lw6sys_str_is_null_or_empty} (const char * @var{str})
 @var{str}:  the string to test
 
 Tests wether a string is NULL or empty (string with 0 chars "").
@@ -3766,11 +3766,13 @@ Tests wether a string is NULL or empty (string with 0 chars "").
 @var{str}:  the string to test
 
 Returns always a non-NULL string, if string is NULL, returns ""
+The argument @code{str} is not passed as const else this function
+would equate to a disguised cast from const to non-const.
 
 @strong{Return value:}  source string or "" if it was NULL
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_is_same} (char * @var{str_a}, char * @var{str_b})
+@deftypefun {int} {lw6sys_str_is_same} (const char * @var{str_a}, const char * @var{str_b})
 @var{str_a}:  1st string to compare, can be NULL
 
 @var{str_b}:  2nd string to compare, can be NULL
@@ -3783,7 +3785,7 @@ of space, tabs, or carriage returns only.
 @strong{Return value:}  1 if same, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_is_same_no_case} (char * @var{str_a}, char * @var{str_b})
+@deftypefun {int} {lw6sys_str_is_same_no_case} (const char * @var{str_a}, const char * @var{str_b})
 @var{str_a}:  1st string to compare, can be NULL
 
 @var{str_b}:  2nd string to compare, can be NULL
@@ -3797,7 +3799,7 @@ is not case sensitive.
 @strong{Return value:}  1 if same, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_starts_with} (char * @var{str}, char * @var{beginning})
+@deftypefun {int} {lw6sys_str_starts_with} (const char * @var{str}, const char * @var{beginning})
 @var{str}:  the string to analyse
 
 @var{beginning}:  the pattern to search
@@ -3807,7 +3809,7 @@ Tells wether string starts with a given beginning.
 @strong{Return value:}  1 if @code{str} starts with @code{beginning}, 0 if not
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_starts_with_no_case} (char * @var{str}, char * @var{beginning})
+@deftypefun {int} {lw6sys_str_starts_with_no_case} (const char * @var{str}, const char * @var{beginning})
 @var{str}:  the string to analyse
 
 @var{beginning}:  the pattern to search
@@ -3854,7 +3856,7 @@ will even remove any character above ASCII 127.
 @strong{Return value:}  none. 
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_str_reformat} (char * @var{str}, char * @var{prefix}, int @var{nb_columns})
+@deftypefun {char *} {lw6sys_str_reformat} (const char * @var{str}, const char * @var{prefix}, int @var{nb_columns})
 @var{str}:  a pointer to the string we want to modify
 
 @var{prefix}:  a prefix to put before each line
@@ -3892,7 +3894,7 @@ network protocol oriented string would use chr(10) and char(13) directly.
 @strong{Return value:}  the EOL string, must not be freed.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_str_split} (char * @var{str}, char @var{c})
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split} (const char * @var{str}, char @var{c})
 @var{str}:  a string
 
 @var{c}:  the delimiter to split with
@@ -3903,7 +3905,7 @@ return 'f', '' and ',bar'.
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_str_split_no_0} (char * @var{str}, char @var{c})
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split_no_0} (const char * @var{str}, char @var{c})
 @var{str}:  a string
 
 @var{c}:  the delimiter to split with
@@ -3914,7 +3916,7 @@ Splits a string, ignoring empty '0-length' members. For instance
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_str_split_config_item} (char * @var{str})
+@deftypefun {lw6sys_list_t *} {lw6sys_str_split_config_item} (const char * @var{str})
 @var{str}:  a string
 
 Splits a string, ignoring empty '0-length' members, and using
@@ -3925,7 +3927,7 @@ another separator (platform-dependant).
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_str_join} (lw6sys_list_t * @var{list}, char * @var{glue})
+@deftypefun {char *} {lw6sys_str_join} (lw6sys_list_t * @var{list}, const char * @var{glue})
 @var{list}:  list of strings to join
 
 @var{glue}:  string to add in-between
@@ -3985,7 +3987,7 @@ content (letters and digits plus spaces).
 @strong{Return value:}  newly allocated string
 @end deftypefun
 
-@deftypefun {int} {lw6sys_str_is_bin} (char * @var{buf}, int @var{len})
+@deftypefun {int} {lw6sys_str_is_bin} (const char * @var{buf}, int @var{len})
 @var{buf}:  the buffer to test
 
 @var{len}:  the length of the buffer

@@ -117,8 +117,9 @@ extern int _lw6sys_bazooka_register_realloc_2 (char *ptr, char *ptr2,
 					       int size, char *file,
 					       int line);
 extern int _lw6sys_bazooka_register_free (char *ptr);
-extern char *_lw6sys_new_vsnprintf (int n, char *fmt, va_list ap);
-extern int _lw6sys_buf_vsnprintf (char *buf, int len, char *fmt, va_list ap);
+extern char *_lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap);
+extern int _lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt,
+				  va_list ap);
 #ifdef LW6_MAC_OS_X
 extern void _lw6sys_macosx_alert (char *title, char *msg);
 #endif

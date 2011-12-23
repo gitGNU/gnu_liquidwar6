@@ -947,33 +947,35 @@ extern int lw6sys_spinlock_trylock (void *spinlock);
 extern int lw6sys_spinlock_unlock (void *spinlock);
 
 /* sys-str.c */
-extern char *lw6sys_str_copy (char *src);
-extern char *lw6sys_str_concat (char *str1, char *str2);
-extern char *lw6sys_new_sprintf (char *fmt, ...);
-extern int lw6sys_buf_sprintf (char *buf, int len, char *fmt, ...);
-extern int lw6sys_str_is_blank (char *str);
-extern int lw6sys_str_is_null_or_empty (char *str);
+extern char *lw6sys_str_copy (const char *src);
+extern char *lw6sys_str_concat (const char *str1, const char *str2);
+extern char *lw6sys_new_sprintf (const char *fmt, ...);
+extern int lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...);
+extern int lw6sys_str_is_blank (const char *str);
+extern int lw6sys_str_is_null_or_empty (const char *str);
 extern char *lw6sys_str_empty_if_null (char *str);
-extern int lw6sys_str_is_same (char *str_a, char *str_b);
-extern int lw6sys_str_is_same_no_case (char *str_a, char *str_b);
-extern int lw6sys_str_starts_with (char *str, char *beginning);
-extern int lw6sys_str_starts_with_no_case (char *str, char *beginning);
+extern int lw6sys_str_is_same (const char *str_a, const char *str_b);
+extern int lw6sys_str_is_same_no_case (const char *str_a, const char *str_b);
+extern int lw6sys_str_starts_with (const char *str, const char *beginning);
+extern int lw6sys_str_starts_with_no_case (const char *str,
+					   const char *beginning);
 extern int lw6sys_skip_blanks (char **str_ptr);
 extern void lw6sys_str_cleanup (char *str);
 extern void lw6sys_str_cleanup_ascii7 (char *str);
-extern char *lw6sys_str_reformat (char *str, char *prefix, int nb_columns);
+extern char *lw6sys_str_reformat (const char *str, const char *prefix,
+				  int nb_columns);
 extern void lw6sys_str_reformat_this (char *str, int nb_columns);
 extern char *lw6sys_eol ();
-extern lw6sys_list_t *lw6sys_str_split (char *str, char c);
-extern lw6sys_list_t *lw6sys_str_split_no_0 (char *str, char c);
-extern lw6sys_list_t *lw6sys_str_split_config_item (char *str);
-extern char *lw6sys_str_join (lw6sys_list_t * list, char *glue);
+extern lw6sys_list_t *lw6sys_str_split (const char *str, char c);
+extern lw6sys_list_t *lw6sys_str_split_no_0 (const char *str, char c);
+extern lw6sys_list_t *lw6sys_str_split_config_item (const char *str);
+extern char *lw6sys_str_join (lw6sys_list_t * list, const char *glue);
 extern void lw6sys_str_toupper (char *str);
 extern void lw6sys_str_tolower (char *str);
 extern void lw6sys_str_truncate (char *str, int len);
 extern char *lw6sys_str_random (int len);
 extern char *lw6sys_str_random_words (int len);
-extern int lw6sys_str_is_bin (char *buf, int len);
+extern int lw6sys_str_is_bin (const char *buf, int len);
 
 /* sys-stream.c */
 extern char *lw6sys_stream_file_to_str (FILE * f);

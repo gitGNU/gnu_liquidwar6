@@ -42,7 +42,7 @@
 typedef struct _join_callback_data_s
 {
   char *ret;
-  char *glue;
+  const char *glue;
 } _join_callback_data_t;
 
 /**
@@ -58,7 +58,7 @@ typedef struct _join_callback_data_s
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_copy (char *src)
+lw6sys_str_copy (const char *src)
 {
   char *copy = NULL;
   int length;
@@ -87,7 +87,7 @@ lw6sys_str_copy (char *src)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_str_concat (char *str1, char *str2)
+lw6sys_str_concat (const char *str1, const char *str2)
 {
   char *concat = NULL;
   int length;
@@ -104,7 +104,7 @@ lw6sys_str_concat (char *str1, char *str2)
 }
 
 char *
-_lw6sys_new_vsnprintf (int n, char *fmt, va_list ap)
+_lw6sys_new_vsnprintf (int n, const char *fmt, va_list ap)
 {
   char *ret = NULL;
   int written;
@@ -158,7 +158,7 @@ more_mem (int n)
  * Return value: a new allocated string, must be freed.
  */
 char *
-lw6sys_new_sprintf (char *fmt, ...)
+lw6sys_new_sprintf (const char *fmt, ...)
 {
   char *ret = NULL;
   va_list ap;
@@ -194,7 +194,7 @@ lw6sys_new_sprintf (char *fmt, ...)
 }
 
 int
-_lw6sys_buf_vsnprintf (char *buf, int len, char *fmt, va_list ap)
+_lw6sys_buf_vsnprintf (char *buf, int len, const char *fmt, va_list ap)
 {
   int ret = 0;
 
@@ -237,7 +237,7 @@ _lw6sys_buf_vsnprintf (char *buf, int len, char *fmt, va_list ap)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6sys_buf_sprintf (char *buf, int len, char *fmt, ...)
+lw6sys_buf_sprintf (char *buf, int len, const char *fmt, ...)
 {
   int ret = 0;
   va_list ap;
@@ -275,20 +275,19 @@ lw6sys_buf_sprintf (char *buf, int len, char *fmt, ...)
  * Return value: 1 if blank, 0 if not.
  */
 int
-lw6sys_str_is_blank (char *str)
+lw6sys_str_is_blank (const char *str)
 {
   int ret = 1;
-  char *pos;
+  int pos = 0;
 
-  pos = str;
-  while (ret && *pos)
+  while (ret && str[pos])
     {
       /*
        * A simple >32 test is enough to exclude blanks (' ')
        * but will also get rid of '\t', '\n', '\r', and in
        * a general all characters but real stuff.
        */
-      if ((*pos) > 32)
+      if (str[pos] > 32)
 	{
 	  ret = 0;
 	}
@@ -308,7 +307,7 @@ lw6sys_str_is_blank (char *str)
  * Return value: 1 if NULL or empty, 0 if contains something.
  */
 int
-lw6sys_str_is_null_or_empty (char *str)
+lw6sys_str_is_null_or_empty (const char *str)
 {
   return (str == NULL || str[0] == '\0');
 }
@@ -319,6 +318,8 @@ lw6sys_str_is_null_or_empty (char *str)
  * @str: the string to test
  *
  * Returns always a non-NULL string, if string is NULL, returns ""
+ * The argument @str is not passed as const else this function
+ * would equate to a disguised cast from const to non-const.
  *
  * Return value: source string or "" if it was NULL
  */
@@ -342,7 +343,7 @@ lw6sys_str_empty_if_null (char *str)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same (char *str_a, char *str_b)
+lw6sys_str_is_same (const char *str_a, const char *str_b)
 {
   int ret = 1;
 
@@ -373,7 +374,7 @@ lw6sys_str_is_same (char *str_a, char *str_b)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_str_is_same_no_case (char *str_a, char *str_b)
+lw6sys_str_is_same_no_case (const char *str_a, const char *str_b)
 {
   int ret = 1;
 
@@ -400,7 +401,7 @@ lw6sys_str_is_same_no_case (char *str_a, char *str_b)
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with (char *str, char *beginning)
+lw6sys_str_starts_with (const char *str, const char *beginning)
 {
   int ret = 0;
 
@@ -421,7 +422,7 @@ lw6sys_str_starts_with (char *str, char *beginning)
  * Return value: 1 if @str starts with @beginning, 0 if not
  */
 int
-lw6sys_str_starts_with_no_case (char *str, char *beginning)
+lw6sys_str_starts_with_no_case (const char *str, const char *beginning)
 {
   int ret = 0;
 
@@ -524,7 +525,7 @@ lw6sys_str_cleanup_ascii7 (char *str)
 }
 
 static void
-reformat_newline (char **formatted_str, char *append, char *prefix)
+reformat_newline (char **formatted_str, char *append, const char *prefix)
 {
   char *new_str = NULL;
 
@@ -556,7 +557,7 @@ reformat_newline (char **formatted_str, char *append, char *prefix)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_str_reformat (char *str, char *prefix, int nb_columns)
+lw6sys_str_reformat (const char *str, const char *prefix, int nb_columns)
 {
   char *ret = NULL;
   char *str_copy = NULL;
@@ -719,7 +720,7 @@ lw6sys_eol ()
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split (char *str, char c)
+lw6sys_str_split (const char *str, char c)
 {
   lw6sys_list_t *ret = NULL;
   char *found = NULL;
@@ -768,7 +769,7 @@ lw6sys_str_split (char *str, char c)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split_no_0 (char *str, char c)
+lw6sys_str_split_no_0 (const char *str, char c)
 {
   lw6sys_list_t *ret = NULL;
   char *found = NULL;
@@ -832,7 +833,7 @@ lw6sys_str_split_no_0 (char *str, char c)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_str_split_config_item (char *str)
+lw6sys_str_split_config_item (const char *str)
 {
   return lw6sys_str_split_no_0 (str, ',');
 }
@@ -873,7 +874,7 @@ _join_callback (void *func_data, void *data)
  * Return value: dynamically allocated string
  */
 char *
-lw6sys_str_join (lw6sys_list_t * list, char *glue)
+lw6sys_str_join (lw6sys_list_t * list, const char *glue)
 {
   char *ret = NULL;
   _join_callback_data_t join_callback_data;
@@ -1025,7 +1026,7 @@ _chr_is_text (char c)
  * Return value: 1 if probably binary, 0 if probably text
  */
 int
-lw6sys_str_is_bin (char *buf, int len)
+lw6sys_str_is_bin (const char *buf, int len)
 {
   int ret = 0;
   int text_chars = 0;
