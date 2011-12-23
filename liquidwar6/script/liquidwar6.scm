@@ -19,9 +19,9 @@
 ;Contact author        : ufoot@ufoot.org
 
 (read-enable 'positions)
-(debug-enable 'debug)
+;;(debug-enable 'debug)
 (debug-enable 'backtrace)
-(debug-set! frames 12)
+;;(debug-set! frames 12)
 (debug-set! depth 50)
 
 (define (lazy-catch-handler key . args)

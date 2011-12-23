@@ -1,6 +1,6 @@
-This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
-by makeinfo version 4.13 from
-/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
+makeinfo version 4.13 from
+/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -607,6 +607,11 @@ code.
    * GNU MP (http://gmplib.org/).  GMP is a free library for arbitrary
      precision arithmetic, required by Guile.
 
+   * libgc (https://launchpad.net/libgc).  This is a a garbage
+     collector library, recent versions of Guile might require this so
+     in case your version of Guile requires it, then Liquid War 6 will
+     need it too.
+
    * ltdl (http://www.gnu.org/software/libtool/).  This library, which
      comes with libtool, provides a portable alternative to `dlopen'
      and `dlclose'. Check that you have a `/usr/include/ltdl.h' file,
@@ -699,7 +704,7 @@ Fedora (http://www.fedoraproject.org/) 15 "Lovelock") could be:
      yum install \
      make gcc glibc glibc-devel binutils \
      libgomp \
-     guile guile-devel gmp gmp-devel \
+     guile guile-devel gmp gmp-devel libgc1c2 libgc-dev \
      libtool libtool-ltdl libtool-ltdl-devel \
      zlib zlib-devel expat expat-devel \
      libpng libpng-devel libjpeg libjpeg-devel \

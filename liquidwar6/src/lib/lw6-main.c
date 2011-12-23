@@ -30,10 +30,14 @@ guile_main (void *data)
 {
   char *script = NULL;
 
+  // following is deprecated in Guile 2.0
+  // I didn't find any replacement :(
+#ifdef SCM_DEVAL_P
   SCM_DEVAL_P = 1;
   SCM_BACKTRACE_P = 1;
   SCM_RECORD_POSITIONS_P = 1;
   SCM_RESET_DEBUG_MODE;
+#endif
 
   lw6sys_log (LW6SYS_LOG_INFO,
 	      _x_ ("registering C types and functions for Guile"));

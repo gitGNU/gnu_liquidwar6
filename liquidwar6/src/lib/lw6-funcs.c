@@ -79,7 +79,8 @@ to_scm_str_list (lw6sys_list_t * c_list)
     {
       if (c_item->data)
 	{
-	  ret = scm_cons (scm_makfrom0str ((char *) c_item->data), ret);
+	  ret =
+	    scm_cons (scm_from_locale_string ((char *) c_item->data), ret);
 	}
     }
 
@@ -164,7 +165,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   lw6dsp_param_zero (c_param);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_SPLASH), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SPLASH),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_SPLASH);
   if (SCM_NFALSEP (value))
     {
@@ -172,7 +174,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_BACKGROUND),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_BACKGROUND),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_BACKGROUND);
   if (SCM_NFALSEP (value))
@@ -181,7 +183,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_PREVIEW),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PREVIEW),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_PREVIEW);
   if (SCM_NFALSEP (value))
@@ -190,7 +192,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_MAP), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MAP),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MAP);
   if (SCM_NFALSEP (value))
     {
@@ -198,7 +201,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_FIGHTERS),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FIGHTERS),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_FIGHTERS);
   if (SCM_NFALSEP (value))
@@ -207,7 +210,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_CURSORS),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_CURSORS),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_CURSORS);
   if (SCM_NFALSEP (value))
@@ -216,7 +219,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_HUD), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_HUD),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_HUD);
   if (SCM_NFALSEP (value))
     {
@@ -224,7 +228,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_SCORE), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SCORE),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_SCORE);
   if (SCM_NFALSEP (value))
     {
@@ -232,7 +237,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_MENU), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MENU),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MENU);
   if (SCM_NFALSEP (value))
     {
@@ -240,7 +246,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_META), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_META),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_META);
   if (SCM_NFALSEP (value))
     {
@@ -248,7 +255,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_PROGRESS),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_PROGRESS),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_PROGRESS);
   if (SCM_NFALSEP (value))
@@ -257,7 +264,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_LOG), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_LOG),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_LOG);
   if (SCM_NFALSEP (value))
     {
@@ -265,7 +273,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_FPS), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_FPS),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_FPS);
   if (SCM_NFALSEP (value))
     {
@@ -273,7 +282,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_MPS), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MPS),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MPS);
   if (SCM_NFALSEP (value))
     {
@@ -281,7 +291,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_URL), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_URL),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_URL);
   if (SCM_NFALSEP (value))
     {
@@ -289,7 +300,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_MOUSE), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_MOUSE),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_MOUSE);
   if (SCM_NFALSEP (value))
     {
@@ -297,7 +309,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_DEBUG_ZONES),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_ZONES),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_DEBUG_ZONES);
   if (SCM_NFALSEP (value))
@@ -306,7 +318,8 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DISPLAY_DEBUG_GRADIENT),
+    scm_hash_ref (param,
+		  scm_from_locale_string (LW6DEF_DISPLAY_DEBUG_GRADIENT),
 		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn,
 	      LW6DEF_DISPLAY_DEBUG_GRADIENT);
@@ -316,60 +329,69 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
     }
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_TARGET_FPS), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_TARGET_FPS),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_TARGET_FPS);
   c_param->misc.target_fps = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_GFX_CPU_USAGE), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_CPU_USAGE),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_number (value), value, SCM_ARGn, LW6DEF_GFX_CPU_USAGE);
   c_param->misc.gfx_cpu_usage = scm_to_double (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DIRTY_READ), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DIRTY_READ),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DIRTY_READ);
   c_param->misc.dirty_read = scm_to_int (value);
 
-  value = scm_hash_ref (param, scm_makfrom0str (LW6DEF_CAPTURE), SCM_BOOL_F);
+  value =
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_CAPTURE), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_CAPTURE);
   c_param->misc.capture = SCM_NFALSEP (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_GFX_DEBUG), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_GFX_DEBUG),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_GFX_DEBUG);
   c_param->misc.gfx_debug = SCM_NFALSEP (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DEBUG_TEAM_ID), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_TEAM_ID),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DEBUG_TEAM_ID);
   c_param->misc.debug_team_id = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DEBUG_LAYER_ID), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DEBUG_LAYER_ID),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_DEBUG_LAYER_ID);
   c_param->misc.debug_layer_id = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_REPEAT_DELAY), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_DELAY),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_REPEAT_DELAY);
   c_param->misc.repeat_settings.delay = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_REPEAT_INTERVAL),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_REPEAT_INTERVAL),
 		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
 	      LW6DEF_REPEAT_INTERVAL);
   c_param->misc.repeat_settings.interval = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_DOUBLE_CLICK_DELAY),
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_DOUBLE_CLICK_DELAY),
 		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn,
 	      LW6DEF_DOUBLE_CLICK_DELAY);
   c_param->misc.repeat_settings.double_click_delay = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_LOG_TIMEOUT), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_LOG_TIMEOUT),
+		  SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_LOG_TIMEOUT);
   c_param->misc.log_timeout = scm_to_int (value);
 
@@ -381,29 +403,32 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   /*
    * Video mode
    */
-  value = scm_hash_ref (param, scm_makfrom0str (LW6DEF_WIDTH), SCM_BOOL_F);
+  value =
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_WIDTH), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_WIDTH);
   c_param->video_mode.width = scm_to_int (value);
 
-  value = scm_hash_ref (param, scm_makfrom0str (LW6DEF_HEIGHT), SCM_BOOL_F);
+  value =
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_HEIGHT), SCM_BOOL_F);
   SCM_ASSERT (scm_is_integer (value), value, SCM_ARGn, LW6DEF_HEIGHT);
   c_param->video_mode.height = scm_to_int (value);
 
   value =
-    scm_hash_ref (param, scm_makfrom0str (LW6DEF_FULLSCREEN), SCM_BOOL_F);
+    scm_hash_ref (param, scm_from_locale_string (LW6DEF_FULLSCREEN),
+		  SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_FULLSCREEN);
   c_param->video_mode.fullscreen = SCM_NFALSEP (value);
 
   /*
    * Pointers on complex data types
    */
-  value = scm_hash_ref (param, scm_makfrom0str ("look"), SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string ("look"), SCM_BOOL_F);
   if (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, value))
     {
       c_param->look = lw6_scm_to_look (value);
     }
 
-  value = scm_hash_ref (param, scm_makfrom0str ("menu"), SCM_BOOL_F);
+  value = scm_hash_ref (param, scm_from_locale_string ("menu"), SCM_BOOL_F);
   if (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, value))
     {
       c_param->menu = lw6_scm_to_menu (value);
@@ -426,7 +451,8 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
     {
       prepare_update_param_bootstrap (c_param, param);
 
-      value = scm_hash_ref (param, scm_makfrom0str ("level"), SCM_BOOL_F);
+      value =
+	scm_hash_ref (param, scm_from_locale_string ("level"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, value))
 	{
 	  /*
@@ -443,7 +469,8 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	}
 
       value =
-	scm_hash_ref (param, scm_makfrom0str ("game-struct"), SCM_BOOL_F);
+	scm_hash_ref (param, scm_from_locale_string ("game-struct"),
+		      SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, value))
 	{
 	  /*
@@ -460,7 +487,8 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	}
 
       value =
-	scm_hash_ref (param, scm_makfrom0str ("game-state"), SCM_BOOL_F);
+	scm_hash_ref (param, scm_from_locale_string ("game-state"),
+		      SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, value))
 	{
 	  /*
@@ -476,7 +504,8 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	  c_param->game_state = NULL;
 	}
 
-      value = scm_hash_ref (param, scm_makfrom0str ("pilot"), SCM_BOOL_F);
+      value =
+	scm_hash_ref (param, scm_from_locale_string ("pilot"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, value))
 	{
 	  /*
@@ -505,47 +534,47 @@ mouse_get_state (lw6dsp_backend_t * c_dsp)
 
   ret = scm_cons
     (scm_cons
-     (scm_makfrom0str ("screen-pos-x"),
+     (scm_from_locale_string ("screen-pos-x"),
       scm_from_int (c_dsp->input->mouse.screen_pointer.pos_x)),
      (scm_cons
       (scm_cons
-       (scm_makfrom0str ("screen-pos-y"),
+       (scm_from_locale_string ("screen-pos-y"),
 	scm_from_int (c_dsp->input->mouse.screen_pointer.pos_y)),
        (scm_cons
 	(scm_cons
-	 (scm_makfrom0str ("screen-speed-x"),
+	 (scm_from_locale_string ("screen-speed-x"),
 	  scm_from_int (c_dsp->input->mouse.screen_pointer.speed_x)),
 	 (scm_cons
 	  (scm_cons
-	   (scm_makfrom0str ("screen-speed-y"),
+	   (scm_from_locale_string ("screen-speed-y"),
 	    scm_from_int (c_dsp->input->mouse.screen_pointer.speed_y)),
 	   (scm_cons
 	    (scm_cons
-	     (scm_makfrom0str ("map-pos-x"),
+	     (scm_from_locale_string ("map-pos-x"),
 	      scm_from_int (c_dsp->input->mouse.map_pointer.pos_x)),
 	     (scm_cons
 	      (scm_cons
-	       (scm_makfrom0str ("map-pos-y"),
+	       (scm_from_locale_string ("map-pos-y"),
 		scm_from_int (c_dsp->input->mouse.map_pointer.pos_y)),
 	       scm_cons
 	       (scm_cons
-		(scm_makfrom0str ("map-speed-x"),
+		(scm_from_locale_string ("map-speed-x"),
 		 scm_from_int (c_dsp->input->mouse.map_pointer.speed_x)),
 		(scm_cons
 		 (scm_cons
-		  (scm_makfrom0str ("map-speed-y"),
+		  (scm_from_locale_string ("map-speed-y"),
 		   scm_from_int (c_dsp->input->mouse.map_pointer.speed_y)),
 		  (scm_cons
 		   (scm_cons
-		    (scm_makfrom0str ("menu-position"),
+		    (scm_from_locale_string ("menu-position"),
 		     scm_from_int (c_dsp->input->mouse.menu_position)),
 		    (scm_cons
 		     (scm_cons
-		      (scm_makfrom0str ("menu-scroll"),
+		      (scm_from_locale_string ("menu-scroll"),
 		       scm_from_int (c_dsp->input->mouse.menu_scroll)),
 		      (scm_cons
 		       (scm_cons
-			(scm_makfrom0str ("menu-esc"),
+			(scm_from_locale_string ("menu-esc"),
 			 c_dsp->input->
 			 mouse.menu_esc ? SCM_BOOL_T : SCM_BOOL_F),
 			SCM_LIST0))))))))))))))))))));
@@ -567,7 +596,7 @@ _scm_gettext (SCM string)
   c_string = to_0str (string);
   if (c_string)
     {
-      ret = scm_makfrom0str (gettext (c_string));
+      ret = scm_from_locale_string (gettext (c_string));
       LW6SYS_FREE (c_string);
     }
 
@@ -629,7 +658,7 @@ _scm_lw6sys_build_get_package_tarname ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_package_tarname ());
+  ret = scm_from_locale_string (lw6sys_build_get_package_tarname ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -643,7 +672,7 @@ _scm_lw6sys_build_get_package_name ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_package_name ());
+  ret = scm_from_locale_string (lw6sys_build_get_package_name ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -657,7 +686,7 @@ _scm_lw6sys_build_get_package_string ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_package_string ());
+  ret = scm_from_locale_string (lw6sys_build_get_package_string ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -671,7 +700,7 @@ _scm_lw6sys_build_get_version ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_version ());
+  ret = scm_from_locale_string (lw6sys_build_get_version ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -685,7 +714,7 @@ _scm_lw6sys_build_get_codename ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_codename ());
+  ret = scm_from_locale_string (lw6sys_build_get_codename ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -699,7 +728,7 @@ _scm_lw6sys_build_get_stamp ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_stamp ());
+  ret = scm_from_locale_string (lw6sys_build_get_stamp ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -713,7 +742,7 @@ _scm_lw6sys_build_get_md5sum ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_md5sum ());
+  ret = scm_from_locale_string (lw6sys_build_get_md5sum ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -727,7 +756,7 @@ _scm_lw6sys_build_get_copyright ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_copyright ());
+  ret = scm_from_locale_string (lw6sys_build_get_copyright ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -741,7 +770,7 @@ _scm_lw6sys_build_get_license ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_license ());
+  ret = scm_from_locale_string (lw6sys_build_get_license ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -755,7 +784,7 @@ _scm_lw6sys_build_get_home_url ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_home_url ());
+  ret = scm_from_locale_string (lw6sys_build_get_home_url ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -769,7 +798,7 @@ _scm_lw6sys_build_get_bugs_url ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_bugs_url ());
+  ret = scm_from_locale_string (lw6sys_build_get_bugs_url ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -783,7 +812,7 @@ _scm_lw6sys_build_get_configure_args ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_configure_args ());
+  ret = scm_from_locale_string (lw6sys_build_get_configure_args ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -797,7 +826,7 @@ _scm_lw6sys_build_get_gcc_version ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_gcc_version ());
+  ret = scm_from_locale_string (lw6sys_build_get_gcc_version ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -811,7 +840,7 @@ _scm_lw6sys_build_get_cflags ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_cflags ());
+  ret = scm_from_locale_string (lw6sys_build_get_cflags ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -825,7 +854,7 @@ _scm_lw6sys_build_get_ldflags ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_ldflags ());
+  ret = scm_from_locale_string (lw6sys_build_get_ldflags ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -839,7 +868,7 @@ _scm_lw6sys_build_get_hostname ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_hostname ());
+  ret = scm_from_locale_string (lw6sys_build_get_hostname ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -853,7 +882,7 @@ _scm_lw6sys_build_get_date ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_date ());
+  ret = scm_from_locale_string (lw6sys_build_get_date ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -867,7 +896,7 @@ _scm_lw6sys_build_get_time ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_time ());
+  ret = scm_from_locale_string (lw6sys_build_get_time ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -881,7 +910,7 @@ _scm_lw6sys_build_get_host_cpu ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_host_cpu ());
+  ret = scm_from_locale_string (lw6sys_build_get_host_cpu ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -895,7 +924,7 @@ _scm_lw6sys_build_get_endianness ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_endianness ());
+  ret = scm_from_locale_string (lw6sys_build_get_endianness ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -937,7 +966,7 @@ _scm_lw6sys_build_get_host_os ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_host_os ());
+  ret = scm_from_locale_string (lw6sys_build_get_host_os ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1021,7 +1050,7 @@ _scm_lw6sys_build_get_top_srcdir ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_top_srcdir ());
+  ret = scm_from_locale_string (lw6sys_build_get_top_srcdir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1035,7 +1064,7 @@ _scm_lw6sys_build_get_prefix ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_prefix ());
+  ret = scm_from_locale_string (lw6sys_build_get_prefix ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1049,7 +1078,7 @@ _scm_lw6sys_build_get_datadir ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_datadir ());
+  ret = scm_from_locale_string (lw6sys_build_get_datadir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1063,7 +1092,7 @@ _scm_lw6sys_build_get_libdir ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_libdir ());
+  ret = scm_from_locale_string (lw6sys_build_get_libdir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1077,7 +1106,7 @@ _scm_lw6sys_build_get_includedir ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_includedir ());
+  ret = scm_from_locale_string (lw6sys_build_get_includedir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1091,7 +1120,7 @@ _scm_lw6sys_build_get_localedir ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_localedir ());
+  ret = scm_from_locale_string (lw6sys_build_get_localedir ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1105,7 +1134,7 @@ _scm_lw6sys_build_get_enable_console ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_console ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_console ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1119,7 +1148,7 @@ _scm_lw6sys_build_get_enable_gtk ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_gtk ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_gtk ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1133,7 +1162,7 @@ _scm_lw6sys_build_get_enable_mod_gl ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_mod_gl ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_gl ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1147,7 +1176,7 @@ _scm_lw6sys_build_get_enable_mod_csound ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_mod_csound ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_csound ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1161,7 +1190,7 @@ _scm_lw6sys_build_get_enable_mod_ogg ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_mod_ogg ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_ogg ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1175,7 +1204,7 @@ _scm_lw6sys_build_get_enable_mod_http ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_mod_http ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_mod_http ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1189,7 +1218,7 @@ _scm_lw6sys_build_get_enable_openmp ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_openmp ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_openmp ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1203,7 +1232,7 @@ _scm_lw6sys_build_get_enable_optimize ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_optimize ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_optimize ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1217,7 +1246,7 @@ _scm_lw6sys_build_get_enable_allinone ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_allinone ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_allinone ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1231,7 +1260,7 @@ _scm_lw6sys_build_get_enable_fullstatic ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_fullstatic ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_fullstatic ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1245,7 +1274,7 @@ _scm_lw6sys_build_get_enable_paranoid ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_paranoid ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_paranoid ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1259,7 +1288,7 @@ _scm_lw6sys_build_get_enable_gprof ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_gprof ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_gprof ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1273,7 +1302,7 @@ _scm_lw6sys_build_get_enable_instrument ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_instrument ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_instrument ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1287,7 +1316,7 @@ _scm_lw6sys_build_get_enable_profiler ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_profiler ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_profiler ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1301,7 +1330,7 @@ _scm_lw6sys_build_get_enable_gcov ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_gcov ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_gcov ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1315,7 +1344,7 @@ _scm_lw6sys_build_get_enable_valgrind ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_enable_valgrind ());
+  ret = scm_from_locale_string (lw6sys_build_get_enable_valgrind ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1437,7 +1466,7 @@ _scm_lw6sys_get_username ()
   buf = lw6sys_get_username ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1457,7 +1486,7 @@ _scm_lw6sys_get_hostname ()
   buf = lw6sys_get_hostname ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1483,7 +1512,7 @@ _scm_lw6sys_getenv (SCM key)
       buf = lw6sys_getenv (c_key);
       if (buf)
 	{
-	  ret = scm_makfrom0str (buf);
+	  ret = scm_from_locale_string (buf);
 	  LW6SYS_FREE (buf);
 	}
       LW6SYS_FREE (c_key);
@@ -1511,7 +1540,7 @@ _scm_lw6sys_getenv_prefixed (SCM keyword)
       buf = lw6sys_getenv_prefixed (c_keyword);
       if (buf)
 	{
-	  ret = scm_makfrom0str (buf);
+	  ret = scm_from_locale_string (buf);
 	  LW6SYS_FREE (buf);
 	}
       LW6SYS_FREE (c_keyword);
@@ -1534,7 +1563,7 @@ _scm_lw6sys_generate_id_16 ()
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_16 ());
   if (c_ret)
     {
-      ret = scm_makfrom0str (c_ret);
+      ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
 
@@ -1550,7 +1579,7 @@ _scm_lw6sys_generate_id_32 ()
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_32 ());
   if (c_ret)
     {
-      ret = scm_makfrom0str (c_ret);
+      ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
 
@@ -1566,7 +1595,7 @@ _scm_lw6sys_generate_id_64 ()
   c_ret = lw6sys_id_ltoa (lw6sys_generate_id_64 ());
   if (c_ret)
     {
-      ret = scm_makfrom0str (c_ret);
+      ret = scm_from_locale_string (c_ret);
       LW6SYS_FREE (c_ret);
     }
 
@@ -1679,7 +1708,7 @@ _scm_lw6sys_get_default_user_dir ()
   buf = lw6sys_get_default_user_dir ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1699,7 +1728,7 @@ _scm_lw6sys_get_default_config_file ()
   buf = lw6sys_get_default_config_file ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1719,7 +1748,7 @@ _scm_lw6sys_get_default_log_file ()
   buf = lw6sys_get_default_log_file ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1739,7 +1768,7 @@ _scm_lw6sys_get_default_prefix ()
   buf = lw6sys_get_default_prefix ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1759,7 +1788,7 @@ _scm_lw6sys_get_default_mod_dir ()
   buf = lw6sys_get_default_mod_dir ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1779,7 +1808,7 @@ _scm_lw6sys_get_default_data_dir ()
   buf = lw6sys_get_default_data_dir ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1799,7 +1828,7 @@ _scm_lw6sys_get_default_music_dir ()
   buf = lw6sys_get_default_music_dir ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1819,7 +1848,7 @@ _scm_lw6sys_get_default_music_path ()
   buf = lw6sys_get_default_music_path ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1839,7 +1868,7 @@ _scm_lw6sys_get_default_map_dir ()
   buf = lw6sys_get_default_map_dir ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1859,7 +1888,7 @@ _scm_lw6sys_get_default_map_path ()
   buf = lw6sys_get_default_map_path ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1879,7 +1908,7 @@ _scm_lw6sys_get_default_script_file ()
   buf = lw6sys_get_default_script_file ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1899,7 +1928,7 @@ _scm_lw6sys_get_cwd ()
   buf = lw6sys_get_cwd ();
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1919,7 +1948,7 @@ _scm_lw6sys_get_run_dir ()
   buf = lw6sys_get_run_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1939,7 +1968,7 @@ _scm_lw6sys_get_user_dir ()
   buf = lw6sys_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1959,7 +1988,7 @@ _scm_lw6sys_get_config_file ()
   buf = lw6sys_get_config_file (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1979,7 +2008,7 @@ _scm_lw6sys_get_log_file ()
   buf = lw6sys_get_log_file (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -1999,7 +2028,7 @@ _scm_lw6sys_get_prefix ()
   buf = lw6sys_get_prefix (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2019,7 +2048,7 @@ _scm_lw6sys_get_mod_dir ()
   buf = lw6sys_get_mod_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2039,7 +2068,7 @@ _scm_lw6sys_get_data_dir ()
   buf = lw6sys_get_data_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2059,7 +2088,7 @@ _scm_lw6sys_get_music_dir ()
   buf = lw6sys_get_music_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2079,7 +2108,7 @@ _scm_lw6sys_get_music_path ()
   buf = lw6sys_get_music_path (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2099,7 +2128,7 @@ _scm_lw6sys_get_map_dir ()
   buf = lw6sys_get_map_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2119,7 +2148,7 @@ _scm_lw6sys_get_map_path ()
   buf = lw6sys_get_map_path (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2139,7 +2168,7 @@ _scm_lw6sys_get_script_file ()
   buf = lw6sys_get_script_file (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -2173,7 +2202,7 @@ _scm_lw6sys_path_concat (SCM path1, SCM path2)
 	  c_ret = lw6sys_path_concat (c_path1, c_path2);
 	  if (c_ret)
 	    {
-	      ret = scm_makfrom0str (c_ret);
+	      ret = scm_from_locale_string (c_ret);
 	      LW6SYS_FREE (c_ret);
 	    }
 	  LW6SYS_FREE (c_path2);
@@ -2203,7 +2232,7 @@ _scm_lw6sys_path_file_only (SCM path)
       c_ret = lw6sys_path_file_only (c_path);
       if (c_ret)
 	{
-	  ret = scm_makfrom0str (c_ret);
+	  ret = scm_from_locale_string (c_ret);
 	  LW6SYS_FREE (c_ret);
 	}
       LW6SYS_FREE (c_path);
@@ -2231,7 +2260,7 @@ _scm_lw6sys_path_parent (SCM path)
       c_ret = lw6sys_path_parent (c_path);
       if (c_ret)
 	{
-	  ret = scm_makfrom0str (c_ret);
+	  ret = scm_from_locale_string (c_ret);
 	  LW6SYS_FREE (c_ret);
 	}
       LW6SYS_FREE (c_path);
@@ -2266,7 +2295,9 @@ _scm_lw6sys_path_split (SCM path)
 	    {
 	      if (tmp->data)
 		{
-		  ret = scm_cons (scm_makfrom0str ((char *) tmp->data), ret);
+		  ret =
+		    scm_cons (scm_from_locale_string ((char *) tmp->data),
+			      ret);
 		}
 	    }
 	  lw6sys_list_free (c_ret);
@@ -2348,7 +2379,7 @@ _scm_lw6sys_get_timestamp ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_long_long2num (lw6sys_get_timestamp ());
+  ret = scm_from_long_long (lw6sys_get_timestamp ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2362,7 +2393,7 @@ _scm_lw6sys_get_uptime ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_long_long2num (lw6sys_get_uptime ());
+  ret = scm_from_long_long (lw6sys_get_uptime ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2463,7 +2494,7 @@ _scm_lw6sys_url_canonize (SCM url)
       c_ret = lw6sys_url_canonize (c_url);
       if (c_ret)
 	{
-	  ret = scm_makfrom0str (c_ret);
+	  ret = scm_from_locale_string (c_ret);
 	  LW6SYS_FREE (c_ret);
 	}
       LW6SYS_FREE (c_url);
@@ -2493,7 +2524,7 @@ _scm_lw6hlp_about (SCM key)
       c_ret = lw6hlp_about (NULL, NULL, NULL, NULL, c_key);
       if (c_ret)
 	{
-	  ret = scm_makfrom0str (c_ret);
+	  ret = scm_from_locale_string (c_ret);
 	  // no need to free c_ret
 	}
       LW6SYS_FREE (c_key);
@@ -2517,7 +2548,7 @@ _scm_lw6hlp_get_default_value (SCM key)
       c_ret = lw6hlp_get_default_value (c_key);
       if (c_ret)
 	{
-	  ret = scm_makfrom0str (c_ret);
+	  ret = scm_from_locale_string (c_ret);
 	  // no need to free c_ret
 	}
       LW6SYS_FREE (c_key);
@@ -3060,8 +3091,8 @@ _scm_lw6cfg_get_option (SCM key)
 	  if (value)
 	    {
 	      ret =
-		scm_makfrom0str (lw6cfg_get_option
-				 (lw6_global.cfg_context, c_key));
+		scm_from_locale_string (lw6cfg_get_option
+					(lw6_global.cfg_context, c_key));
 	    }
 
 	  LW6SYS_FREE (c_key);
@@ -3193,7 +3224,7 @@ _scm_lw6cfg_unified_get_user_dir ()
   buf = lw6cfg_unified_get_user_dir (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -3213,7 +3244,7 @@ _scm_lw6cfg_unified_get_log_file ()
   buf = lw6cfg_unified_get_log_file (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -3233,7 +3264,7 @@ _scm_lw6cfg_unified_get_music_path ()
   buf = lw6cfg_unified_get_music_path (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -3253,7 +3284,7 @@ _scm_lw6cfg_unified_get_map_path ()
   buf = lw6cfg_unified_get_map_path (lw6_global.argc, lw6_global.argv);
   if (buf)
     {
-      ret = scm_makfrom0str (buf);
+      ret = scm_from_locale_string (buf);
       LW6SYS_FREE (buf);
     }
 
@@ -3375,26 +3406,29 @@ _scm_lw6gui_menu_append (SCM menu, SCM menuitem)
   SCM_ASSERT (SCM_CONSP (menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
-  c_label = to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("label")));
+  c_label =
+    to_0str (scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
       c_tooltip =
-	to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("tooltip")));
+	to_0str (scm_assoc_ref
+		 (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
 
 	  c_value =
-	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
+	    scm_to_int (scm_assoc_ref
+			(menuitem, scm_from_locale_string ("value")));
 	  c_enabled =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("enabled")));
+			 (menuitem, scm_from_locale_string ("enabled")));
 	  c_selected =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("selected")));
+			 (menuitem, scm_from_locale_string ("selected")));
 	  c_colored =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("colored")));
+			 (menuitem, scm_from_locale_string ("colored")));
 
 	  c_menu = lw6_scm_to_menu (menu);
 
@@ -3433,28 +3467,32 @@ _scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
   SCM_ASSERT (SCM_CONSP (menuitem)
 	      || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
-  c_label = to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("label")));
+  c_label =
+    to_0str (scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
       c_tooltip =
-	to_0str (scm_assoc_ref (menuitem, scm_makfrom0str ("tooltip")));
+	to_0str (scm_assoc_ref
+		 (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
 
 	  c_id =
-	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("id")));
+	    scm_to_int (scm_assoc_ref
+			(menuitem, scm_from_locale_string ("id")));
 	  c_value =
-	    scm_to_int (scm_assoc_ref (menuitem, scm_makfrom0str ("value")));
+	    scm_to_int (scm_assoc_ref
+			(menuitem, scm_from_locale_string ("value")));
 	  c_enabled =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("enabled")));
+			 (menuitem, scm_from_locale_string ("enabled")));
 	  c_selected =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("selected")));
+			 (menuitem, scm_from_locale_string ("selected")));
 	  c_colored =
 	    scm_to_bool (scm_assoc_ref
-			 (menuitem, scm_makfrom0str ("colored")));
+			 (menuitem, scm_from_locale_string ("colored")));
 
 	  c_menu = lw6_scm_to_menu (menu);
 
@@ -3736,7 +3774,7 @@ _scm_lw6gui_look_get (SCM look, SCM key)
 	  c_value = lw6gui_look_get (c_look, c_key);
 	  if (c_value)
 	    {
-	      ret = scm_makfrom0str (c_value);
+	      ret = scm_from_locale_string (c_value);
 	      LW6SYS_FREE (c_value);
 	    }
 	  LW6SYS_FREE (c_key);
@@ -3919,16 +3957,16 @@ _scm_lw6gui_keyboard_get_move_pad (SCM dsp)
     {
       lw6gui_keyboard_get_move_pad (&(c_dsp->input->keyboard), &move_pad);
       ret = scm_list_4 (scm_cons
-			(scm_makfrom0str ("up"),
+			(scm_from_locale_string ("up"),
 			 move_pad.up ? SCM_BOOL_T : SCM_BOOL_F),
 			scm_cons
-			(scm_makfrom0str ("down"),
+			(scm_from_locale_string ("down"),
 			 move_pad.down ? SCM_BOOL_T : SCM_BOOL_F),
 			scm_cons
-			(scm_makfrom0str ("left"),
+			(scm_from_locale_string ("left"),
 			 move_pad.left ? SCM_BOOL_T : SCM_BOOL_F),
 			scm_cons
-			(scm_makfrom0str ("right"),
+			(scm_from_locale_string ("right"),
 			 move_pad.right ? SCM_BOOL_T : SCM_BOOL_F));
     }
 
@@ -3958,13 +3996,13 @@ _scm_lw6gui_joystick1_get_move_pad (SCM dsp)
 				    &move_pad);
       ret =
 	scm_list_4 (scm_cons
-		    (scm_makfrom0str ("up"),
+		    (scm_from_locale_string ("up"),
 		     move_pad.up ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("down"),
+		    scm_cons (scm_from_locale_string ("down"),
 			      move_pad.down ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("left"),
+		    scm_cons (scm_from_locale_string ("left"),
 			      move_pad.left ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("right"),
+		    scm_cons (scm_from_locale_string ("right"),
 			      move_pad.right ? SCM_BOOL_T : SCM_BOOL_F));
     }
 
@@ -3994,13 +4032,13 @@ _scm_lw6gui_joystick2_get_move_pad (SCM dsp)
 				    &move_pad);
       ret =
 	scm_list_4 (scm_cons
-		    (scm_makfrom0str ("up"),
+		    (scm_from_locale_string ("up"),
 		     move_pad.up ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("down"),
+		    scm_cons (scm_from_locale_string ("down"),
 			      move_pad.down ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("left"),
+		    scm_cons (scm_from_locale_string ("left"),
 			      move_pad.left ? SCM_BOOL_T : SCM_BOOL_F),
-		    scm_cons (scm_makfrom0str ("right"),
+		    scm_cons (scm_from_locale_string ("right"),
 			      move_pad.right ? SCM_BOOL_T : SCM_BOOL_F));
     }
 
@@ -5033,8 +5071,8 @@ _scm_lw6gfx_get_backends ()
 		    (char *) lw6sys_assoc_get (backends, module_id);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str (module_id),
-			       scm_makfrom0str (module_name)), ret);
+			      (scm_from_locale_string (module_id),
+			       scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (key);
 	    }
@@ -5247,11 +5285,11 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
 	{
 	  ret =
 	    scm_list_3 (scm_cons
-			(scm_makfrom0str ("width"),
+			(scm_from_locale_string ("width"),
 			 scm_from_int (video_mode.width)),
-			scm_cons (scm_makfrom0str ("height"),
+			scm_cons (scm_from_locale_string ("height"),
 				  scm_from_int (video_mode.height)),
-			scm_cons (scm_makfrom0str ("fullscreen"),
+			scm_cons (scm_from_locale_string ("fullscreen"),
 				  video_mode.fullscreen ? SCM_BOOL_T :
 				  SCM_BOOL_F));
 	}
@@ -5280,61 +5318,63 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 
       if (lw6dsp_get_fullscreen_modes (c_dsp, &fullscreen_modes))
 	{
-	  ret = scm_list_3 (scm_cons (scm_makfrom0str ("low"),
+	  ret = scm_list_3 (scm_cons (scm_from_locale_string ("low"),
 				      scm_list_3 (scm_cons
-						  (scm_makfrom0str ("width"),
+						  (scm_from_locale_string
+						   ("width"),
 						   scm_from_int
 						   (fullscreen_modes.low.
 						    width)),
-						  scm_cons (scm_makfrom0str
-							    ("height"),
-							    scm_from_int
-							    (fullscreen_modes.
-							     low.height)),
-						  scm_cons (scm_makfrom0str
-							    ("fullscreen"),
-							    fullscreen_modes.
-							    low.
-							    fullscreen ?
-							    SCM_BOOL_T :
-							    SCM_BOOL_F))),
-			    scm_cons (scm_makfrom0str ("standard"),
+						  scm_cons
+						  (scm_from_locale_string
+						   ("height"),
+						   scm_from_int
+						   (fullscreen_modes.
+						    low.height)),
+						  scm_cons
+						  (scm_from_locale_string
+						   ("fullscreen"),
+						   fullscreen_modes.low.
+						   fullscreen ? SCM_BOOL_T :
+						   SCM_BOOL_F))),
+			    scm_cons (scm_from_locale_string ("standard"),
 				      scm_list_3 (scm_cons
-						  (scm_makfrom0str ("width"),
+						  (scm_from_locale_string
+						   ("width"),
 						   scm_from_int
 						   (fullscreen_modes.standard.
 						    width)),
-						  scm_cons (scm_makfrom0str
-							    ("height"),
-							    scm_from_int
-							    (fullscreen_modes.
-							     standard.
-							     height)),
-						  scm_cons (scm_makfrom0str
-							    ("fullscreen"),
-							    fullscreen_modes.
-							    standard.
-							    fullscreen ?
-							    SCM_BOOL_T :
-							    SCM_BOOL_F))),
-			    scm_cons (scm_makfrom0str ("high"),
+						  scm_cons
+						  (scm_from_locale_string
+						   ("height"),
+						   scm_from_int
+						   (fullscreen_modes.standard.
+						    height)),
+						  scm_cons
+						  (scm_from_locale_string
+						   ("fullscreen"),
+						   fullscreen_modes.standard.
+						   fullscreen ? SCM_BOOL_T :
+						   SCM_BOOL_F))),
+			    scm_cons (scm_from_locale_string ("high"),
 				      scm_list_3 (scm_cons
-						  (scm_makfrom0str ("width"),
+						  (scm_from_locale_string
+						   ("width"),
 						   scm_from_int
 						   (fullscreen_modes.high.
 						    width)),
-						  scm_cons (scm_makfrom0str
-							    ("height"),
-							    scm_from_int
-							    (fullscreen_modes.
-							     high.height)),
-						  scm_cons (scm_makfrom0str
-							    ("fullscreen"),
-							    fullscreen_modes.
-							    high.
-							    fullscreen ?
-							    SCM_BOOL_T :
-							    SCM_BOOL_F))));
+						  scm_cons
+						  (scm_from_locale_string
+						   ("height"),
+						   scm_from_int
+						   (fullscreen_modes.
+						    high.height)),
+						  scm_cons
+						  (scm_from_locale_string
+						   ("fullscreen"),
+						   fullscreen_modes.high.
+						   fullscreen ? SCM_BOOL_T :
+						   SCM_BOOL_F))));
 
 	}
     }
@@ -5387,56 +5427,56 @@ _scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 			{
 			  item = SCM_EOL;
 			  item = scm_cons (scm_cons
-					   (scm_makfrom0str ("title"),
-					    scm_makfrom0str
+					   (scm_from_locale_string ("title"),
+					    scm_from_locale_string
 					    (c_entry->metadata.title)), item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("author"),
-				       scm_makfrom0str (c_entry->
-							metadata.author)),
+				      (scm_from_locale_string ("author"),
+				       scm_from_locale_string
+				       (c_entry->metadata.author)), item);
+			  item =
+			    scm_cons (scm_cons
+				      (scm_from_locale_string ("description"),
+				       scm_from_locale_string
+				       (c_entry->metadata.description)),
 				      item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("description"),
-				       scm_makfrom0str (c_entry->
-							metadata.description)),
-				      item);
+				      (scm_from_locale_string ("license"),
+				       scm_from_locale_string
+				       (c_entry->metadata.license)), item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("license"),
-				       scm_makfrom0str (c_entry->
-							metadata.license)),
-				      item);
-			  item =
-			    scm_cons (scm_cons
-				      (scm_makfrom0str ("absolute-path"),
-				       scm_makfrom0str
+				      (scm_from_locale_string
+				       ("absolute-path"),
+				       scm_from_locale_string
 				       (c_entry->absolute_path)), item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("relative-path"),
-				       scm_makfrom0str
+				      (scm_from_locale_string
+				       ("relative-path"),
+				       scm_from_locale_string
 				       (c_entry->relative_path)), item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("has-subdirs"),
+				      (scm_from_locale_string ("has-subdirs"),
 				       c_entry->has_subdirs ? SCM_BOOL_T :
 				       SCM_BOOL_F), item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("nb-submaps"),
+				      (scm_from_locale_string ("nb-submaps"),
 				       scm_from_int (c_entry->nb_submaps)),
 				      item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("exp"),
+				      (scm_from_locale_string ("exp"),
 				       scm_from_int (c_entry->
 						     metadata.vanilla_exp)),
 				      item);
 			  item =
 			    scm_cons (scm_cons
-				      (scm_makfrom0str ("forbidden"),
+				      (scm_from_locale_string ("forbidden"),
 				       c_entry->forbidden ? SCM_BOOL_T :
 				       SCM_BOOL_F), item);
 			  ret = scm_cons (item, ret);
@@ -5667,7 +5707,7 @@ _scm_lw6ldr_hints_get_default (SCM key)
       c_value = lw6ldr_hints_get_default (c_key);
       if (c_value)
 	{
-	  ret = scm_makfrom0str (c_value);
+	  ret = scm_from_locale_string (c_value);
 	  LW6SYS_FREE (c_value);
 	}
       LW6SYS_FREE (c_key);
@@ -5740,51 +5780,55 @@ _scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 		{
 		  ret = SCM_EOL;
 		  ret = scm_cons (scm_cons
-				  (scm_makfrom0str ("title"),
-				   scm_makfrom0str (c_entry->metadata.title)),
+				  (scm_from_locale_string ("title"),
+				   scm_from_locale_string (c_entry->
+							   metadata.title)),
 				  ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("author"),
-			       scm_makfrom0str (c_entry->metadata.author)),
+			      (scm_from_locale_string ("author"),
+			       scm_from_locale_string (c_entry->
+						       metadata.author)),
 			      ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("description"),
-			       scm_makfrom0str (c_entry->
-						metadata.description)), ret);
-		  ret =
-		    scm_cons (scm_cons
-			      (scm_makfrom0str ("license"),
-			       scm_makfrom0str (c_entry->metadata.license)),
+			      (scm_from_locale_string ("description"),
+			       scm_from_locale_string (c_entry->
+						       metadata.description)),
 			      ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("absolute-path"),
-			       scm_makfrom0str (c_entry->absolute_path)),
+			      (scm_from_locale_string ("license"),
+			       scm_from_locale_string (c_entry->
+						       metadata.license)),
 			      ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("relative-path"),
-			       scm_makfrom0str (c_entry->relative_path)),
-			      ret);
+			      (scm_from_locale_string ("absolute-path"),
+			       scm_from_locale_string
+			       (c_entry->absolute_path)), ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("has-subdirs"),
+			      (scm_from_locale_string ("relative-path"),
+			       scm_from_locale_string
+			       (c_entry->relative_path)), ret);
+		  ret =
+		    scm_cons (scm_cons
+			      (scm_from_locale_string ("has-subdirs"),
 			       c_entry->has_subdirs ? SCM_BOOL_T :
 			       SCM_BOOL_F), ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("nb-submaps"),
+			      (scm_from_locale_string ("nb-submaps"),
 			       scm_from_int (c_entry->nb_submaps)), ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("exp"),
+			      (scm_from_locale_string ("exp"),
 			       scm_from_int (c_entry->metadata.vanilla_exp)),
 			      ret);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str ("forbidden"),
+			      (scm_from_locale_string ("forbidden"),
 			       c_entry->forbidden ? SCM_BOOL_T : SCM_BOOL_F),
 			      ret);
 		  lw6ldr_free_entry (c_entry);
@@ -5858,7 +5902,7 @@ _scm_lw6map_param_get (SCM level, SCM key)
 	  c_value = lw6map_param_get (&(c_level->param), c_key);
 	  if (c_value)
 	    {
-	      ret = scm_makfrom0str (c_value);
+	      ret = scm_from_locale_string (c_value);
 	      LW6SYS_FREE (c_value);
 	    }
 	  LW6SYS_FREE (c_key);
@@ -5887,7 +5931,7 @@ _scm_lw6map_get_music_dir (SCM level)
     {
       if (c_level->local_info.music_dir)
 	{
-	  ret = scm_makfrom0str (c_level->local_info.music_dir);
+	  ret = scm_from_locale_string (c_level->local_info.music_dir);
 	}
     }
 
@@ -5906,7 +5950,7 @@ _scm_lw6map_team_color_index_to_key (SCM index)
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
   c_index = scm_to_int (index);
-  ret = scm_makfrom0str (lw6map_team_color_index_to_key (c_index));
+  ret = scm_from_locale_string (lw6map_team_color_index_to_key (c_index));
 
   return ret;
 }
@@ -5940,7 +5984,7 @@ _scm_lw6map_team_color_index_to_label (SCM index)
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
   c_index = scm_to_int (index);
-  ret = scm_makfrom0str (lw6map_team_color_index_to_label (c_index));
+  ret = scm_from_locale_string (lw6map_team_color_index_to_label (c_index));
 
   return ret;
 }
@@ -5966,7 +6010,7 @@ _scm_lw6map_team_color_list ()
 	  color_key = lw6map_team_color_index_to_key (i);
 	  if (color_key)
 	    {
-	      ret = scm_cons (scm_makfrom0str (color_key), ret);
+	      ret = scm_cons (scm_from_locale_string (color_key), ret);
 	    }
 	}
       LW6SYS_FREE (user_dir);
@@ -5987,7 +6031,7 @@ _scm_lw6map_weapon_index_to_key (SCM index)
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
   c_index = scm_to_int (index);
-  ret = scm_makfrom0str (lw6map_weapon_index_to_key (c_index));
+  ret = scm_from_locale_string (lw6map_weapon_index_to_key (c_index));
 
   return ret;
 }
@@ -6021,7 +6065,7 @@ _scm_lw6map_weapon_index_to_label (SCM index)
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
   c_index = scm_to_int (index);
-  ret = scm_makfrom0str (lw6map_weapon_index_to_label (c_index));
+  ret = scm_from_locale_string (lw6map_weapon_index_to_label (c_index));
 
   return ret;
 }
@@ -6048,7 +6092,7 @@ _scm_lw6map_weapon_list ()
 	      weapon_key = lw6map_weapon_index_to_key (i);
 	      if (weapon_key)
 		{
-		  ret = scm_cons (scm_makfrom0str (weapon_key), ret);
+		  ret = scm_cons (scm_from_locale_string (weapon_key), ret);
 		}
 	    }
 	}
@@ -6182,7 +6226,7 @@ _scm_lw6map_style_get_default (SCM key)
       c_value = lw6map_style_get_default (c_key);
       if (c_value)
 	{
-	  ret = scm_makfrom0str (c_value);
+	  ret = scm_from_locale_string (c_value);
 	  LW6SYS_FREE (c_value);
 	}
       LW6SYS_FREE (c_key);
@@ -6210,7 +6254,7 @@ _scm_lw6map_teams_get_default (SCM key)
       c_value = lw6map_teams_get_default (c_key);
       if (c_value)
 	{
-	  ret = scm_makfrom0str (c_value);
+	  ret = scm_from_locale_string (c_value);
 	  LW6SYS_FREE (c_value);
 	}
       LW6SYS_FREE (c_key);
@@ -6806,18 +6850,23 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 		    {
 		      c_letter_str[0] = c_letter_char;
 		      ret = scm_list_5 (scm_cons
-					(scm_makfrom0str ("node-id"),
-					 scm_makfrom0str (c_node_id_str)),
-					scm_cons
-					(scm_makfrom0str ("letter"),
-					 scm_makfrom0str (c_letter_str)),
-					scm_cons
-					(scm_makfrom0str ("team-color"),
-					 scm_makfrom0str (c_team_color_str)),
-					scm_cons (scm_makfrom0str ("x"),
+					(scm_from_locale_string ("node-id"),
+					 scm_from_locale_string
+					 (c_node_id_str)),
+					scm_cons (scm_from_locale_string
+						  ("letter"),
+						  scm_from_locale_string
+						  (c_letter_str)),
+					scm_cons (scm_from_locale_string
+						  ("team-color"),
+						  scm_from_locale_string
+						  (c_team_color_str)),
+					scm_cons (scm_from_locale_string
+						  ("x"),
 						  scm_from_int (c_cursor.
 								pos.x)),
-					scm_cons (scm_makfrom0str ("y"),
+					scm_cons (scm_from_locale_string
+						  ("y"),
 						  scm_from_int (c_cursor.
 								pos.y)));
 		      LW6SYS_FREE (c_node_id_str);
@@ -7227,9 +7276,12 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
       lw6pil_coords_fix (&(c_game_state->game_struct->rules),
 			 &shape, &c_x, &c_y, &c_z);
       ret =
-	scm_list_3 (scm_cons (scm_makfrom0str ("x"), scm_double2num (c_x)),
-		    scm_cons (scm_makfrom0str ("y"), scm_double2num (c_y)),
-		    scm_cons (scm_makfrom0str ("z"), scm_double2num (c_z)));
+	scm_list_3 (scm_cons
+		    (scm_from_locale_string ("x"), scm_from_double (c_x)),
+		    scm_cons (scm_from_locale_string ("y"),
+			      scm_from_double (c_y)),
+		    scm_cons (scm_from_locale_string ("z"),
+			      scm_from_double (c_z)));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7267,9 +7319,12 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
       lw6pil_coords_fix_x10 (&(c_game_state->game_struct->rules),
 			     &shape, &c_x, &c_y, &c_z);
       ret =
-	scm_list_3 (scm_cons (scm_makfrom0str ("x"), scm_double2num (c_x)),
-		    scm_cons (scm_makfrom0str ("y"), scm_double2num (c_y)),
-		    scm_cons (scm_makfrom0str ("z"), scm_double2num (c_z)));
+	scm_list_3 (scm_cons
+		    (scm_from_locale_string ("x"), scm_from_double (c_x)),
+		    scm_cons (scm_from_locale_string ("y"),
+			      scm_from_double (c_y)),
+		    scm_cons (scm_from_locale_string ("z"),
+			      scm_from_double (c_z)));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -7893,8 +7948,8 @@ _scm_lw6snd_get_backends ()
 		    (char *) lw6sys_assoc_get (backends, module_id);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str (module_id),
-			       scm_makfrom0str (module_name)), ret);
+			      (scm_from_locale_string (module_id),
+			       scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (key);
 	    }
@@ -7931,9 +7986,9 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume,
   c_backend_name = to_0str (backend_name);
   if (backend_name)
     {
-      c_fx_volume = scm_num2float (fx_volume, 0, NULL);
-      c_water_volume = scm_num2float (water_volume, 0, NULL);
-      c_music_volume = scm_num2float (music_volume, 0, NULL);
+      c_fx_volume = scm_to_double (fx_volume);
+      c_water_volume = scm_to_double (water_volume);
+      c_music_volume = scm_to_double (music_volume);
 
       c_ret = lw6snd_create_backend (lw6_global.argc, lw6_global.argv,
 				     c_backend_name);
@@ -8042,7 +8097,7 @@ _scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_fx_volume = scm_num2float (fx_volume, 0, NULL);
+      c_fx_volume = scm_to_double (fx_volume);
       lw6snd_set_fx_volume (c_snd, c_fx_volume);
     }
 
@@ -8066,7 +8121,7 @@ _scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_water_volume = scm_num2float (water_volume, 0, NULL);
+      c_water_volume = scm_to_double (water_volume);
       lw6snd_set_water_volume (c_snd, c_water_volume);
     }
 
@@ -8255,7 +8310,7 @@ _scm_lw6snd_set_music_volume (SCM snd, SCM music_volume)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      c_music_volume = scm_num2float (music_volume, 0, NULL);
+      c_music_volume = scm_to_double (music_volume);
       lw6snd_set_music_volume (c_snd, c_music_volume);
     }
 
@@ -8485,10 +8540,10 @@ _scm_lw6tsk_loader_pop (SCM loader)
 	    }
 	  ret =
 	    scm_list_3 (scm_cons
-			(scm_makfrom0str ("level"), level),
+			(scm_from_locale_string ("level"), level),
 			scm_cons
-			(scm_makfrom0str ("game-struct"), game_struct),
-			scm_cons (scm_makfrom0str ("game-state"),
+			(scm_from_locale_string ("game-struct"), game_struct),
+			scm_cons (scm_from_locale_string ("game-state"),
 				  game_state));
 	}
     }
@@ -8604,8 +8659,8 @@ _scm_lw6cli_get_backends ()
 		    (char *) lw6sys_assoc_get (backends, module_id);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str (module_id),
-			       scm_makfrom0str (module_name)), ret);
+			      (scm_from_locale_string (module_id),
+			       scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (key);
 	    }
@@ -8656,8 +8711,8 @@ _scm_lw6srv_get_backends ()
 		    (char *) lw6sys_assoc_get (backends, module_id);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str (module_id),
-			       scm_makfrom0str (module_name)), ret);
+			      (scm_from_locale_string (module_id),
+			       scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (key);
 	    }
@@ -8737,7 +8792,7 @@ _scm_lw6p2p_db_default_name ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6p2p_db_default_name ());
+  ret = scm_from_locale_string (lw6p2p_db_default_name ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -8784,22 +8839,26 @@ _scm_lw6p2p_node_new (SCM db, SCM param)
   if (lw6_global.net_initialized)
     {
       client_backends =
-	scm_assoc_ref (param, scm_makfrom0str ("client-backends"));
+	scm_assoc_ref (param, scm_from_locale_string ("client-backends"));
       server_backends =
-	scm_assoc_ref (param, scm_makfrom0str ("server-backends"));
-      bind_ip = scm_assoc_ref (param, scm_makfrom0str ("bind-ip"));
-      bind_port = scm_assoc_ref (param, scm_makfrom0str ("bind-port"));
-      broadcast = scm_assoc_ref (param, scm_makfrom0str ("broadcast"));
-      public_url = scm_assoc_ref (param, scm_makfrom0str ("public-url"));
-      password = scm_assoc_ref (param, scm_makfrom0str ("password"));
-      title = scm_assoc_ref (param, scm_makfrom0str ("title"));
-      description = scm_assoc_ref (param, scm_makfrom0str ("description"));
-      bench = scm_assoc_ref (param, scm_makfrom0str ("bench"));
-      open_relay = scm_assoc_ref (param, scm_makfrom0str ("open-relay"));
-      known_nodes = scm_assoc_ref (param, scm_makfrom0str ("known-nodes"));
+	scm_assoc_ref (param, scm_from_locale_string ("server-backends"));
+      bind_ip = scm_assoc_ref (param, scm_from_locale_string ("bind-ip"));
+      bind_port = scm_assoc_ref (param, scm_from_locale_string ("bind-port"));
+      broadcast = scm_assoc_ref (param, scm_from_locale_string ("broadcast"));
+      public_url =
+	scm_assoc_ref (param, scm_from_locale_string ("public-url"));
+      password = scm_assoc_ref (param, scm_from_locale_string ("password"));
+      title = scm_assoc_ref (param, scm_from_locale_string ("title"));
+      description =
+	scm_assoc_ref (param, scm_from_locale_string ("description"));
+      bench = scm_assoc_ref (param, scm_from_locale_string ("bench"));
+      open_relay =
+	scm_assoc_ref (param, scm_from_locale_string ("open-relay"));
+      known_nodes =
+	scm_assoc_ref (param, scm_from_locale_string ("known-nodes"));
       network_reliability =
-	scm_assoc_ref (param, scm_makfrom0str ("network-reliability"));
-      trojan = scm_assoc_ref (param, scm_makfrom0str ("trojan"));
+	scm_assoc_ref (param, scm_from_locale_string ("network-reliability"));
+      trojan = scm_assoc_ref (param, scm_from_locale_string ("trojan"));
 
       SCM_ASSERT (SCM_SMOB_PREDICATE
 		  (lw6_global.smob_types.db, db), db, SCM_ARG1, __FUNCTION__);
@@ -8970,7 +9029,7 @@ _scm_lw6p2p_node_get_id (SCM node)
       c_ret_str = lw6sys_id_ltoa (c_ret_int);
       if (c_ret_str)
 	{
-	  ret = scm_makfrom0str (c_ret_str);
+	  ret = scm_from_locale_string (c_ret_str);
 	  LW6SYS_FREE (c_ret_str);
 	}
     }
@@ -8992,102 +9051,109 @@ _lw6p2p_node_get_entries_callback (void *func_data, void *data)
   // constant data
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("creation-timestamp"),
-	       scm_int2num (entry->creation_timestamp)), item);
+	      (scm_from_locale_string ("creation-timestamp"),
+	       scm_from_int (entry->creation_timestamp)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("version"), scm_makfrom0str (entry->version)),
+	      (scm_from_locale_string ("version"),
+	       scm_from_locale_string (entry->version)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("codename"),
+	       scm_from_locale_string (entry->codename)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("stamp"), scm_from_int (entry->stamp)),
 	      item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("codename"),
-	       scm_makfrom0str (entry->codename)), item);
+	      (scm_from_locale_string ("id"),
+	       scm_from_locale_string (entry->id)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("stamp"), scm_int2num (entry->stamp)), item);
-  item =
-    scm_cons (scm_cons (scm_makfrom0str ("id"), scm_makfrom0str (entry->id)),
-	      item);
+	      (scm_from_locale_string ("url"),
+	       scm_from_locale_string (entry->url)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("url"), scm_makfrom0str (entry->url)), item);
+	      (scm_from_locale_string ("title"),
+	       scm_from_locale_string (entry->title)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("title"), scm_makfrom0str (entry->title)),
-	      item);
+	      (scm_from_locale_string ("description"),
+	       scm_from_locale_string (entry->description)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("description"),
-	       scm_makfrom0str (entry->description)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_makfrom0str ("has-password"),
+	      (scm_from_locale_string ("has-password"),
 	       entry->has_password ? SCM_BOOL_T : SCM_BOOL_F), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("bench"), scm_int2num (entry->bench)), item);
+	      (scm_from_locale_string ("bench"), scm_from_int (entry->bench)),
+	      item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("open-relay"),
+	      (scm_from_locale_string ("open-relay"),
 	       entry->open_relay ? SCM_BOOL_T : SCM_BOOL_F), item);
   // variable data
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("community-id"),
-	       scm_makfrom0str (entry->community_id)), item);
+	      (scm_from_locale_string ("community-id"),
+	       scm_from_locale_string (entry->community_id)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("round"), scm_int2num (entry->round)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_makfrom0str ("level"), scm_makfrom0str (entry->level)),
+	      (scm_from_locale_string ("round"), scm_from_int (entry->round)),
 	      item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("required-bench"),
-	       scm_int2num (entry->required_bench)), item);
+	      (scm_from_locale_string ("level"),
+	       scm_from_locale_string (entry->level)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("nb-colors"), scm_int2num (entry->nb_colors)),
-	      item);
+	      (scm_from_locale_string ("required-bench"),
+	       scm_from_int (entry->required_bench)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("max-nb-colors"),
-	       scm_int2num (entry->max_nb_colors)), item);
+	      (scm_from_locale_string ("nb-colors"),
+	       scm_from_int (entry->nb_colors)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("nb-cursors"),
-	       scm_int2num (entry->nb_cursors)), item);
+	      (scm_from_locale_string ("max-nb-colors"),
+	       scm_from_int (entry->max_nb_colors)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("max-nb-cursors"),
-	       scm_int2num (entry->max_nb_cursors)), item);
+	      (scm_from_locale_string ("nb-cursors"),
+	       scm_from_int (entry->nb_cursors)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("nb-nodes"), scm_int2num (entry->nb_nodes)),
-	      item);
+	      (scm_from_locale_string ("max-nb-cursors"),
+	       scm_from_int (entry->max_nb_cursors)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("max-nb-nodes"),
-	       scm_int2num (entry->max_nb_nodes)), item);
+	      (scm_from_locale_string ("nb-nodes"),
+	       scm_from_int (entry->nb_nodes)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("max-nb-nodes"),
+	       scm_from_int (entry->max_nb_nodes)), item);
   // additionnal data
   item =
-    scm_cons (scm_cons (scm_makfrom0str ("ip"), scm_makfrom0str (entry->ip)),
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("ip"),
+	       scm_from_locale_string (entry->ip)), item);
+  item =
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("port"), scm_from_int (entry->port)),
 	      item);
   item =
-    scm_cons (scm_cons (scm_makfrom0str ("port"), scm_int2num (entry->port)),
-	      item);
+    scm_cons (scm_cons
+	      (scm_from_locale_string ("last-ping-timestamp"),
+	       scm_from_int (entry->last_ping_timestamp)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("last-ping-timestamp"),
-	       scm_int2num (entry->last_ping_timestamp)), item);
+	      (scm_from_locale_string ("ping-delay-msec"),
+	       scm_from_int (entry->ping_delay_msec)), item);
   item =
     scm_cons (scm_cons
-	      (scm_makfrom0str ("ping-delay-msec"),
-	       scm_int2num (entry->ping_delay_msec)), item);
-  item =
-    scm_cons (scm_cons
-	      (scm_makfrom0str ("available"),
+	      (scm_from_locale_string ("available"),
 	       entry->available ? SCM_BOOL_T : SCM_BOOL_F), item);
 
   item = scm_reverse (item);
@@ -9162,8 +9228,8 @@ _scm_lw6bot_get_backends ()
 		    (char *) lw6sys_assoc_get (backends, module_id);
 		  ret =
 		    scm_cons (scm_cons
-			      (scm_makfrom0str (module_id),
-			       scm_makfrom0str (module_name)), ret);
+			      (scm_from_locale_string (module_id),
+			       scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (key);
 	    }
@@ -9276,8 +9342,9 @@ _scm_lw6bot_next_move (SCM bot)
       if (lw6bot_next_move (c_bot, &c_x, &c_y))
 	{
 	  ret = scm_list_2 (scm_cons
-			    (scm_makfrom0str ("x"), scm_from_int (c_x)),
-			    scm_cons (scm_makfrom0str ("y"),
+			    (scm_from_locale_string ("x"),
+			     scm_from_int (c_x)),
+			    scm_cons (scm_from_locale_string ("y"),
 				      scm_from_int (c_y)));
 	}
     }
@@ -10203,7 +10270,7 @@ lw6_cns_handler (char *c_line)
 		  c_line);
 
       lw6cns_history_add_if_needed (c_line);
-      line = scm_makfrom0str (c_line);
+      line = scm_from_locale_string (c_line);
 
       func_symbol = scm_c_lookup ("lw6-console-try-catch");
       func = scm_variable_ref (func_symbol);

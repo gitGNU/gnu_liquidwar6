@@ -315,7 +315,7 @@ lw6ldr_texture_read (lw6map_texture_t * texture, char *dirname,
     }
   else
     {
-      *ratio = 1.0f;
+      *ratio = 0.0f;
     }
 
   if ((*texture_exists) == 0)

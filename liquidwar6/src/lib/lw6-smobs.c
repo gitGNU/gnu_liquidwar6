@@ -108,7 +108,7 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_DSP " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -269,7 +269,7 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_SND " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -426,7 +426,7 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_MAP " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -590,7 +590,7 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_MENU " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -753,7 +753,7 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_GAME_STRUCT " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -924,7 +924,7 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_GAME_STATE " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1088,7 +1088,7 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_PILOT " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1249,7 +1249,7 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_BOT " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1412,7 +1412,7 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_LOOK " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1570,7 +1570,7 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_LOADER " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1727,7 +1727,7 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_DB " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);
@@ -1886,7 +1886,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
   scm_puts ("#<" SMOB_TYPE_NODE " ", port);
   if (repr)
     {
-      scm_display (scm_makfrom0str (repr), port);
+      scm_display (scm_from_locale_string (repr), port);
       LW6SYS_FREE (repr);
     }
   scm_puts (">", port);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.13beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-19 10:49+0100\n"
+"POT-Creation-Date: 2011-12-23 23:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,99 +112,108 @@ msgstr ""
 msgid "unable to load consts"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:79
+#: src/lib/hlp/hlp-credits.c:80
 #, c-format
 msgid "Codename \"%s\""
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:86
+#: src/lib/hlp/hlp-credits.c:87
 #, c-format
 msgid "Idea: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:89
+#: src/lib/hlp/hlp-credits.c:90
 #, c-format
 msgid "Programming: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:92
+#: src/lib/hlp/hlp-credits.c:93
 #, c-format
-msgid "Maps: %s"
+msgid "Artwork & design: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:95
+#: src/lib/hlp/hlp-credits.c:96
 #, c-format
 msgid "Menu music: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:99 src/lib/hlp/hlp-credits.c:104
-#: src/lib/hlp/hlp-credits.c:109
+#: src/lib/hlp/hlp-credits.c:99
+msgid "Thanks to all Liquid War 5 contributors"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:102
+#, c-format
+msgid "Extra maps: %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:106 src/lib/hlp/hlp-credits.c:111
+#: src/lib/hlp/hlp-credits.c:116
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:114
+#: src/lib/hlp/hlp-credits.c:121
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:119
+#: src/lib/hlp/hlp-credits.c:126
 #, c-format
 msgid "Russian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:123
+#: src/lib/hlp/hlp-credits.c:130
 msgid "Thanks to all other contributors"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:126
+#: src/lib/hlp/hlp-credits.c:133
 msgid "Help is always appreciated"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:129
+#: src/lib/hlp/hlp-credits.c:136
 msgid "Join us now!"
-msgstr ""
-
-#: src/lib/hlp/hlp-credits.c:132
-#, c-format
-msgid "Mailing list: <%s>"
-msgstr ""
-
-#: src/lib/hlp/hlp-credits.c:135
-msgid "Free as in \"free speech\" (not beer)"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:139
 #, c-format
-msgid "License: %s"
+msgid "Mailing list: <%s>"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:142
+msgid "Free as in \"free speech\" (not beer)"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:146
 #, c-format
+msgid "License: %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:153
+#, c-format
 msgid "Built on %s at %s"
-msgstr ""
-
-#: src/lib/hlp/hlp-credits.c:151
-#, c-format
-msgid "Stamp %s, Id %d"
-msgstr ""
-
-#: src/lib/hlp/hlp-credits.c:155
-#, c-format
-msgid "Help GNU %s"
 msgstr ""
 
 #: src/lib/hlp/hlp-credits.c:158
 #, c-format
+msgid "Stamp %s, Id %d"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:162
+#, c-format
+msgid "Help GNU %s"
+msgstr ""
+
+#: src/lib/hlp/hlp-credits.c:165
+#, c-format
 msgid "Fight software patents %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:162 src/lib/lw6-print.c:58
+#: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
 #: src/lib/sys/sys-log.c:646
 msgid "Report bugs"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:166
+#: src/lib/hlp/hlp-credits.c:173
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr ""
@@ -349,7 +358,7 @@ msgstr ""
 msgid "couldn't fix environment variable by restarting program"
 msgstr ""
 
-#: src/lib/lw6-main.c:53
+#: src/lib/lw6-main.c:57
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr ""
@@ -657,7 +666,7 @@ msgstr ""
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2004
+#: src/lib/sys/sys-test.c:2030
 msgid "this is a /TEST/ error"
 msgstr ""
 

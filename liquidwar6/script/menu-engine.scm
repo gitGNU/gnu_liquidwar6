@@ -97,6 +97,7 @@
 	    (begin
 	      ;;(lw6-menu-center)
 	      ;;(lw6-menu-warp-mouse)
+	      #f
 	      ))))))
 
 (define lw6-pop-menu-raw

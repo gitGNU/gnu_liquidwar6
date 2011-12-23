@@ -166,7 +166,6 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
 	{
 	  lw6map_cursor_texture_builtin (&(level->cursor_texture));
 	}
-
       ok = ok
 	&& lw6ldr_body_read (&level->body, dirname, &(level->param), &hints,
 			     display_w, display_h, ratio, bench_value,

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-19 10:49+0100\n"
+"POT-Creation-Date: 2011-12-23 23:21+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -114,99 +114,109 @@ msgstr "klarte ikkje byta videomodus"
 msgid "unable to load consts"
 msgstr "klarte ikkje lasta konstantar"
 
-#: src/lib/hlp/hlp-credits.c:79
+#: src/lib/hlp/hlp-credits.c:80
 #, c-format
 msgid "Codename \"%s\""
 msgstr "Kodenamn «%s»"
 
-#: src/lib/hlp/hlp-credits.c:86
+#: src/lib/hlp/hlp-credits.c:87
 #, c-format
 msgid "Idea: %s"
 msgstr "Idé: %s"
 
-#: src/lib/hlp/hlp-credits.c:89
+#: src/lib/hlp/hlp-credits.c:90
 #, c-format
 msgid "Programming: %s"
 msgstr "Programmering: %s"
 
-#: src/lib/hlp/hlp-credits.c:92
+#: src/lib/hlp/hlp-credits.c:93
 #, c-format
-msgid "Maps: %s"
-msgstr "Kart: %s"
+msgid "Artwork & design: %s"
+msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:95
+#: src/lib/hlp/hlp-credits.c:96
 #, c-format
 msgid "Menu music: %s"
 msgstr "Menymusikk: %s"
 
-#: src/lib/hlp/hlp-credits.c:99 src/lib/hlp/hlp-credits.c:104
-#: src/lib/hlp/hlp-credits.c:109
+#: src/lib/hlp/hlp-credits.c:99
+#, fuzzy
+msgid "Thanks to all Liquid War 5 contributors"
+msgstr "Takk til alle bidragsytarane"
+
+#: src/lib/hlp/hlp-credits.c:102
+#, fuzzy, c-format
+msgid "Extra maps: %s"
+msgstr "Kart: %s"
+
+#: src/lib/hlp/hlp-credits.c:106 src/lib/hlp/hlp-credits.c:111
+#: src/lib/hlp/hlp-credits.c:116
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Song «%s» av %s"
 
-#: src/lib/hlp/hlp-credits.c:114
+#: src/lib/hlp/hlp-credits.c:121
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:119
+#: src/lib/hlp/hlp-credits.c:126
 #, c-format
 msgid "Russian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:123
+#: src/lib/hlp/hlp-credits.c:130
 msgid "Thanks to all other contributors"
 msgstr "Takk til alle bidragsytarane"
 
-#: src/lib/hlp/hlp-credits.c:126
+#: src/lib/hlp/hlp-credits.c:133
 msgid "Help is always appreciated"
 msgstr "Me set alltid pris på hjelp"
 
-#: src/lib/hlp/hlp-credits.c:129
+#: src/lib/hlp/hlp-credits.c:136
 msgid "Join us now!"
 msgstr "Vert med!"
 
-#: src/lib/hlp/hlp-credits.c:132
+#: src/lib/hlp/hlp-credits.c:139
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "E-postliste: <%s>"
 
-#: src/lib/hlp/hlp-credits.c:135
+#: src/lib/hlp/hlp-credits.c:142
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Fullstendig fri programvare"
 
-#: src/lib/hlp/hlp-credits.c:139
+#: src/lib/hlp/hlp-credits.c:146
 #, c-format
 msgid "License: %s"
 msgstr "Lisens: %s"
 
-#: src/lib/hlp/hlp-credits.c:146
+#: src/lib/hlp/hlp-credits.c:153
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Bygd på %s %s"
 
-#: src/lib/hlp/hlp-credits.c:151
+#: src/lib/hlp/hlp-credits.c:158
 #, c-format
 msgid "Stamp %s, Id %d"
 msgstr "Stempel %s, ID %d"
 
-#: src/lib/hlp/hlp-credits.c:155
+#: src/lib/hlp/hlp-credits.c:162
 #, c-format
 msgid "Help GNU %s"
 msgstr "Hjelp GNU %s"
 
-#: src/lib/hlp/hlp-credits.c:158
+#: src/lib/hlp/hlp-credits.c:165
 #, c-format
 msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
-#: src/lib/hlp/hlp-credits.c:162 src/lib/lw6-print.c:58
+#: src/lib/hlp/hlp-credits.c:169 src/lib/lw6-print.c:58
 #: src/lib/sys/sys-log.c:646
 msgid "Report bugs"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:166
+#: src/lib/hlp/hlp-credits.c:173
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
@@ -351,7 +361,7 @@ msgstr ""
 msgid "couldn't fix environment variable by restarting program"
 msgstr "klarte ikkje fiksa miljøvariabelen ved å starta programmet på nytt"
 
-#: src/lib/lw6-main.c:53
+#: src/lib/lw6-main.c:57
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr "klarte ikkje lesa hovudskriptfila «%s»"
@@ -672,7 +682,7 @@ msgstr ""
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2004
+#: src/lib/sys/sys-test.c:2030
 msgid "this is a /TEST/ error"
 msgstr "dette er ein /TEST/-feil"
 

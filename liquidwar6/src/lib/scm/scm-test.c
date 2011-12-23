@@ -38,7 +38,7 @@ _scm_lw6sys_build_get_version ()
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
-  ret = scm_makfrom0str (lw6sys_build_get_version ());
+  ret = scm_from_locale_string (lw6sys_build_get_version ());
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
