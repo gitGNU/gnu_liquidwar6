@@ -18,9 +18,9 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-AC_INIT([Liquid War 6],[0.0.13beta],[ufoot@ufoot.org],[liquidwar6])
+AC_INIT([Liquid War 6],[0.0.14beta],[ufoot@ufoot.org],[liquidwar6])
 # latest versions of automake accept a 5th arg mapped to PACKAGE_URL
-# AC_INIT([Liquid War 6],[0.0.13beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
+# AC_INIT([Liquid War 6],[0.0.14beta],[ufoot@ufoot.org],[liquidwar6],[http://www.gnu.org/software/liquidwar6/])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -39,11 +39,11 @@ AM_GNU_GETTEXT_VERSION([0.17])
 AM_ICONV
 
 LW6_HKEY=Liquid_War_6
-LW6_MS_WINDOWS_VERSION="0, 0, 13"
+LW6_MS_WINDOWS_VERSION="0, 0, 14"
 AC_SUBST(LW6_HKEY)
 AC_SUBST(LW6_MS_WINDOWS_VERSION)
 
-LW6_CODENAME="Blackbeard"
+LW6_CODENAME="Davy Crockett"
 AC_SUBST(LW6_CODENAME)
 
 dnl Headers, some are optional
