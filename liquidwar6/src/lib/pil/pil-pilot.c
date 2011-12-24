@@ -930,7 +930,8 @@ lw6pil_pilot_get_seq_0 (lw6pil_pilot_t * pilot)
 int
 _lw6pil_pilot_seq2round (_lw6pil_pilot_t * pilot, int64_t seq)
 {
-  return (seq >= 10000000000L ? (seq - _lw6pil_pilot_get_seq_0 (pilot)) : -1);
+  return (seq >=
+	  _LW6PIL_MIN_SEQ_0 ? (seq - _lw6pil_pilot_get_seq_0 (pilot)) : -1);
 }
 
 /**
