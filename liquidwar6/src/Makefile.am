@@ -19,7 +19,7 @@
 # Contact author        : ufoot@ufoot.org
 
 if ALLINONE
-AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @SDL_CFLAGS@
+AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
 else
 AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@
