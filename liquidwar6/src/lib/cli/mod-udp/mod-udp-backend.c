@@ -46,7 +46,7 @@ mod_udp_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[])
+_init (int argc, const char *argv[])
 {
   _udp_context_t *udp_context = _mod_udp_init (argc, argv);
 

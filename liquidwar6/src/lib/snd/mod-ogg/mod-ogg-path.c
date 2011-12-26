@@ -30,7 +30,8 @@
 #define SUB "snd/ogg"
 
 int
-_mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc, char *argv[])
+_mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc,
+		    const char *argv[])
 {
   char *data_root_dir = NULL;
   int ret = 0;

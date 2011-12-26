@@ -70,8 +70,8 @@ lw6cli_test (int mode)
 {
   int ret = 0;
   lw6cli_backend_t *backend;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {

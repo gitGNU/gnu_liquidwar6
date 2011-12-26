@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_backends_init_cli (int argc, char *argv[],
+_lw6p2p_backends_init_cli (int argc, const char *argv[],
 			   _lw6p2p_backends_t * backends,
 			   char *client_backends)
 {
@@ -104,7 +104,7 @@ _lw6p2p_backends_init_cli (int argc, char *argv[],
 }
 
 int
-_lw6p2p_backends_init_srv (int argc, char *argv[],
+_lw6p2p_backends_init_srv (int argc, const char *argv[],
 			   _lw6p2p_backends_t * backends,
 			   char *server_backends,
 			   lw6srv_listener_t * listener)

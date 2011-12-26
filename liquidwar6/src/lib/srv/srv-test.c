@@ -209,8 +209,8 @@ lw6srv_test (int mode)
   int ret = 0;
   lw6srv_backend_t *backend[TEST_NB_BACKENDS];
   lw6srv_listener_t *listener = NULL;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {

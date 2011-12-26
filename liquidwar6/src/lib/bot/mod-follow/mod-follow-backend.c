@@ -46,7 +46,7 @@ mod_follow_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6bot_data_t * data)
+_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_follow_context_t *follow_context = _mod_follow_init (argc, argv, data);
 

@@ -42,7 +42,7 @@
 #endif
 
 static void
-_fix_guile_load_path (int argc, char *argv[])
+_fix_guile_load_path (int argc, const char *argv[])
 {
   char *run_dir = NULL;
   char *guile_dir = NULL;
@@ -73,7 +73,7 @@ _fix_guile_load_path (int argc, char *argv[])
 
 #if LW6_MAC_OS_X
 static void
-_fix_library_path (int argc, char *argv[], char *library_path)
+_fix_library_path (int argc, const char *argv[], char *library_path)
 {
   /*
    * Fixes bug http://savannah.gnu.org/bugs/?30409
@@ -199,20 +199,20 @@ _fix_library_path (int argc, char *argv[], char *library_path)
 }
 
 static void
-_fix_dyld_fallback_library_path (int argc, char *argv[])
+_fix_dyld_fallback_library_path (int argc, const char *argv[])
 {
   _fix_library_path (argc, argv, DYLD_FALLBACK_LIBRARY_PATH);
 }
 
 /*
 static void
-_fix_dyld_library_path (int argc, char *argv[])
+_fix_dyld_library_path (int argc, const char *argv[])
 {
   _fix_library_path (argc, argv, DYLD_LIBRARY_PATH);
 }
 
 static void
-_fix_ld_library_path (int argc, char *argv[])
+_fix_ld_library_path (int argc, const char *argv[])
 {
   _fix_library_path (argc, argv, LD_LIBRARY_PATH);
 }
@@ -233,7 +233,7 @@ _fix_ld_library_path (int argc, char *argv[])
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6_fix_env (int argc, char *argv[])
+lw6_fix_env (int argc, const char *argv[])
 {
   int ret = 1;
 

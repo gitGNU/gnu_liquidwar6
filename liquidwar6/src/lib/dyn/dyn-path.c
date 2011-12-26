@@ -28,14 +28,15 @@
 #include "dyn.h"
 #include "dyn-internal.h"
 
-char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] =
+const char *_LW6DYN_DEVEL_DEPTH_STRINGS[_LW6DYN_DEVEL_NB_DEPTHS] =
   { "", "../", "../../", "../../../" };
 
 #define BACKEND_DEVEL_PATH_FORMAT "%ssrc/lib/%s/mod-%s/.libs/libmod_%s-%s." _LW6DYN_SUFFIX
 #define BACKEND_SYSTEM_PATH_FORMAT "%s/%s/libmod_%s-%s." _LW6DYN_SUFFIX
 
 static char *
-make_devel_backend_path (char *top_level_lib, char *backend_name, int depth)
+make_devel_backend_path (const char *top_level_lib, const char *backend_name,
+			 int depth)
 {
   char *ret = NULL;
 
@@ -52,8 +53,8 @@ make_devel_backend_path (char *top_level_lib, char *backend_name, int depth)
 }
 
 static char *
-make_system_backend_path (int argc, char *argv[], char *top_level_lib,
-			  char *backend_name)
+make_system_backend_path (int argc, const char *argv[],
+			  const char *top_level_lib, const char *backend_name)
 {
   char *ret = NULL;
   char *mod_dir = NULL;
@@ -92,8 +93,8 @@ make_system_backend_path (int argc, char *argv[], char *top_level_lib,
  * Return value: the full path of the .so file, needs to be freed.
  */
 char *
-lw6dyn_path_find_backend (int argc, char *argv[], char *top_level_lib,
-			  char *backend_name)
+lw6dyn_path_find_backend (int argc, const char *argv[],
+			  const char *top_level_lib, const char *backend_name)
 {
   char *ret = NULL;
   char *system_backend_path = NULL;

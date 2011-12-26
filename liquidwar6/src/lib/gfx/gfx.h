@@ -39,10 +39,11 @@ typedef struct lw6gfx_backend_s
   lw6dyn_dl_handle_t *dl_handle;
   void *gfx_context;
   int argc;
-  char **argv;
+  const char **argv;
   u_int32_t id;
 
-  void *(*init) (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
+  void *(*init) (int argc, const char *argv[],
+		 lw6gui_video_mode_t * video_mode,
 		 lw6gui_resize_callback_func_t resize_callback);
   void (*quit) (void *gfx_context);
   char *(*repr) (void *gfx_context, u_int32_t id);
@@ -88,8 +89,8 @@ extern int lw6gfx_display (lw6gfx_backend_t * backend, int mask,
 			   int debug_layer_id);
 
 /* gfx-register.c */
-extern lw6sys_assoc_t *lw6gfx_get_backends (int argc, char *argv[]);
-extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, char *argv[],
+extern lw6sys_assoc_t *lw6gfx_get_backends (int argc, const char *argv[]);
+extern lw6gfx_backend_t *lw6gfx_create_backend (int argc, const char *argv[],
 						char *name);
 extern void lw6gfx_destroy_backend (lw6gfx_backend_t * backend);
 

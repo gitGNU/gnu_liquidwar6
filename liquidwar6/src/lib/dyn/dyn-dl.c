@@ -28,7 +28,7 @@
 #include "dyn-internal.h"
 
 static lt_dlhandle
-verbose_dlopen (char *file)
+verbose_dlopen (const char *file)
 {
   lt_dlhandle ret = NULL;
   int nb_errs = 0;
@@ -81,7 +81,7 @@ verbose_dlopen (char *file)
  *   need to call a module specific @init() function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend_so (char *so_file)
+lw6dyn_dlopen_backend_so (const char *so_file)
 {
   lw6dyn_dl_handle_t *ret = NULL;
 
@@ -134,8 +134,8 @@ lw6dyn_dlopen_backend_so (char *so_file)
  *   need to call a module specific @init() function, but it's another story.
  */
 lw6dyn_dl_handle_t *
-lw6dyn_dlopen_backend (int argc, char *argv[], char *top_level_lib,
-		       char *backend_name)
+lw6dyn_dlopen_backend (int argc, const char *argv[],
+		       const char *top_level_lib, const char *backend_name)
 {
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
@@ -462,7 +462,7 @@ lw6dyn_dlclose_backend (lw6dyn_dl_handle_t * handle)
  * Return value: a pointer to the function, NULL if not found.
  */
 void *
-lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, char *func_name)
+lw6dyn_dlsym (lw6dyn_dl_handle_t * handle, const char *func_name)
 {
   void *ret;
 

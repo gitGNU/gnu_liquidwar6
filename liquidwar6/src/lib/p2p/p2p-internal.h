@@ -211,10 +211,10 @@ typedef struct _lw6p2p_cli_oob_callback_data_s
 } _lw6p2p_cli_oob_callback_data_t;
 
 /* p2p-backends.c */
-extern int _lw6p2p_backends_init_cli (int argc, char *argv[],
+extern int _lw6p2p_backends_init_cli (int argc, const char *argv[],
 				      _lw6p2p_backends_t * backends,
 				      char *client_backends);
-extern int _lw6p2p_backends_init_srv (int argc, char *argv[],
+extern int _lw6p2p_backends_init_srv (int argc, const char *argv[],
 				      _lw6p2p_backends_t * backends,
 				      char *server_backends,
 				      lw6srv_listener_t * listener);
@@ -241,7 +241,8 @@ extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
 extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 
 /* p2p-db.c */
-extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, char *argv[], char *name);
+extern _lw6p2p_db_t *_lw6p2p_db_open (int argc, const char *argv[],
+				      char *name);
 extern void _lw6p2p_db_close (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_repr (_lw6p2p_db_t * db);
 extern char *_lw6p2p_db_get_query (_lw6p2p_db_t * db, char *key);
@@ -269,7 +270,7 @@ extern int _lw6p2p_flush_discovered_nodes_if_needed (_lw6p2p_node_t * node);
 extern int _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node);
 
 /* p2p-node.c */
-extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, char *argv[],
+extern _lw6p2p_node_t *_lw6p2p_node_new (int argc, const char *argv[],
 					 _lw6p2p_db_t * db,
 					 char *client_backends,
 					 char *server_backends,

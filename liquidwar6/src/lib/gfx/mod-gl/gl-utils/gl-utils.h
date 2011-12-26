@@ -852,7 +852,8 @@ extern void mod_gl_utils_show_mouse (mod_gl_utils_context_t * utils_context,
  * In path.c
  */
 extern int mod_gl_utils_path_init (mod_gl_utils_context_t *
-				   utils_context, int argc, char *argv[]);
+				   utils_context, int argc,
+				   const char *argv[]);
 extern int mod_gl_utils_path_update (mod_gl_utils_context_t * utils_context);
 extern void mod_gl_utils_path_quit (mod_gl_utils_context_t * utils_context);
 

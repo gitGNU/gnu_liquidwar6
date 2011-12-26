@@ -204,7 +204,7 @@ lw6_print_host ()
  * Return value: none
  */
 void
-lw6_print_audit (int argc, char *argv[])
+lw6_print_audit (int argc, const char *argv[])
 {
   char *default_path = NULL;
   char *path = NULL;
@@ -883,7 +883,7 @@ lw6_print_about (char *keyword)
  * Return value: none
  */
 void
-lw6_print_hello (int argc, char *argv[])
+lw6_print_hello (int argc, const char *argv[])
 {
   char *username = NULL;
   char *hostname = NULL;

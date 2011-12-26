@@ -114,7 +114,7 @@ _end (void *data)
  *   use is "return !lw6_main(argc, argv);".
  */
 int
-lw6_main (int argc, char *argv[])
+lw6_main (int argc, const char *argv[])
 {
   int ret = 0;
   char *debug_str = NULL;

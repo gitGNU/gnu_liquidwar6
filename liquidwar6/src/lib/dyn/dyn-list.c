@@ -45,7 +45,8 @@
 #define LIST_SO_STR "." _LW6DYN_SUFFIX
 
 static int
-add_backend (lw6sys_assoc_t ** list, char *libdir, char *filename, char *id)
+add_backend (lw6sys_assoc_t ** list, const char *libdir, const char *filename,
+	     const char *id)
 {
   int ret = 0;
   char *so_file = NULL;
@@ -101,7 +102,7 @@ add_backend (lw6sys_assoc_t ** list, char *libdir, char *filename, char *id)
 }
 
 static void
-update_list (lw6sys_assoc_t ** list, char *path)
+update_list (lw6sys_assoc_t ** list, const char *path)
 {
   DIR *dir_handle = NULL;
   struct dirent *dir_entry = NULL;
@@ -156,7 +157,8 @@ update_list (lw6sys_assoc_t ** list, char *path)
 }
 
 static void
-update_devel_list (lw6sys_assoc_t ** list, char *top_level_lib, int depth)
+update_devel_list (lw6sys_assoc_t ** list, const char *top_level_lib,
+		   int depth)
 {
   char *dir1 = NULL;
   char *dir2 = NULL;
@@ -233,7 +235,7 @@ update_devel_list (lw6sys_assoc_t ** list, char *top_level_lib, int depth)
 
 static void
 update_system_list (lw6sys_assoc_t ** list, int argc,
-		    char *argv[], char *top_level_lib)
+		    const char *argv[], const char *top_level_lib)
 {
   char *mod_dir = NULL;
   char *libdir = NULL;
@@ -266,7 +268,7 @@ update_system_list (lw6sys_assoc_t ** list, int argc,
  * Return value: an assoc object containing key/label pairs.
  */
 lw6sys_assoc_t *
-lw6dyn_list_backends (int argc, char *argv[], char *top_level_lib)
+lw6dyn_list_backends (int argc, const char *argv[], const char *top_level_lib)
 {
   lw6sys_assoc_t *ret = NULL;
   int depth = 0;

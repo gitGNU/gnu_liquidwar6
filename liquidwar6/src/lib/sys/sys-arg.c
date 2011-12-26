@@ -64,7 +64,7 @@
  * Return value: non zero if it matches, 0 if it doesn't.
  */
 int
-lw6sys_arg_match (char *keyword, char *argv_string)
+lw6sys_arg_match (const char *keyword, const char *argv_string)
 {
   int ret = 0;
   char *buf = NULL;
@@ -128,7 +128,7 @@ lw6sys_arg_match (char *keyword, char *argv_string)
  * Return value: 1 if key is present, 0 if not.
  */
 int
-lw6sys_arg_exists (int argc, char *argv[], char *keyword)
+lw6sys_arg_exists (int argc, const char *argv[], const char *keyword)
 {
   int i;
   int ret = 0;
@@ -157,7 +157,7 @@ lw6sys_arg_exists (int argc, char *argv[], char *keyword)
  * Return value: a pointer to the value. May be NULL. Must be freed. 
  */
 char *
-lw6sys_arg_get_value (int argc, char *argv[], char *keyword)
+lw6sys_arg_get_value (int argc, const char *argv[], const char *keyword)
 {
   int i;
   char *equal = NULL;
@@ -201,7 +201,8 @@ lw6sys_arg_get_value (int argc, char *argv[], char *keyword)
  * Return value: a pointer to the value. May be NULL. Must be freed. 
  */
 char *
-lw6sys_arg_get_value_with_env (int argc, char *argv[], char *keyword)
+lw6sys_arg_get_value_with_env (int argc, const char *argv[],
+			       const char *keyword)
 {
   char *ret = NULL;
 
@@ -230,7 +231,7 @@ lw6sys_arg_get_value_with_env (int argc, char *argv[], char *keyword)
  * Return value: 1 if complete test must be run, 0 is only check
  */
 int
-lw6sys_arg_test_mode (int argc, char *argv[])
+lw6sys_arg_test_mode (int argc, const char *argv[])
 {
   int ret = 0;
   int syntax_ok = 0;

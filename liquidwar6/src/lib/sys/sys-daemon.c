@@ -52,7 +52,7 @@ static int _pid_file_descriptor = -1;
  * Return value: newly allocated string
  */
 char *
-lw6sys_daemon_pid_file (int argc, char *argv[])
+lw6sys_daemon_pid_file (int argc, const char *argv[])
 {
   char *user_dir = NULL;
   char *pid_file = NULL;

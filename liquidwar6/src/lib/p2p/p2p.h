@@ -113,10 +113,10 @@ typedef struct lw6p2p_entry_s
 } lw6p2p_entry_t;
 
 /* p2p-db.c */
-extern lw6p2p_db_t *lw6p2p_db_open (int argc, char *argv[], char *name);
+extern lw6p2p_db_t *lw6p2p_db_open (int argc, const char *argv[], char *name);
 extern void lw6p2p_db_close (lw6p2p_db_t * db);
 extern char *lw6p2p_db_repr (lw6p2p_db_t * db);
-extern int lw6p2p_db_reset (int argc, char *argv[], char *name);
+extern int lw6p2p_db_reset (int argc, const char *argv[], char *name);
 extern char *lw6p2p_db_default_name ();
 
 /* p2p-entry.c */
@@ -136,7 +136,7 @@ void lw6p2p_entry_free (lw6p2p_entry_t * entry);
 char *lw6p2p_entry_repr (lw6p2p_entry_t * entry);
 
 /* p2p-node.c */
-extern lw6p2p_node_t *lw6p2p_node_new (int argc, char *argv[],
+extern lw6p2p_node_t *lw6p2p_node_new (int argc, const char *argv[],
 				       lw6p2p_db_t * db,
 				       char *client_backends,
 				       char *server_backends,

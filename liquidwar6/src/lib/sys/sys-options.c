@@ -270,7 +270,7 @@ get_dir (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 }
 
 static char *
-get_dir_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
+get_dir_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
 		   char *mask2, char *prefix2, char *sub)
 {
   char *dir = NULL;
@@ -416,7 +416,7 @@ get_file (char *mask1, char *prefix1, char *mask2, char *prefix2, char *sub)
 }
 
 static char *
-get_file_argc_argv (int argc, char *argv[], char *mask1, char *prefix1,
+get_file_argc_argv (int argc, const char *argv[], char *mask1, char *prefix1,
 		    char *mask2, char *prefix2, char *sub)
 {
   char *file = NULL;
@@ -488,7 +488,7 @@ get_mod_dir_with_prefix (char *prefix)
 }
 
 static char *
-get_mod_dir_with_prefix_argc_argc (int argc, char *argv[], char *prefix)
+get_mod_dir_with_prefix_argc_argc (int argc, const char *argv[], char *prefix)
 {
   char *mod_dir = NULL;
   char *libdir = NULL;
@@ -538,8 +538,8 @@ get_share_dir_with_prefix (char *prefix, char *sub)
 }
 
 static char *
-get_share_dir_with_prefix_argc_argv (int argc, char *argv[], char *prefix,
-				     char *sub)
+get_share_dir_with_prefix_argc_argv (int argc, const char *argv[],
+				     char *prefix, char *sub)
 {
   char *share_dir = NULL;
   char *datadir = NULL;
@@ -742,8 +742,8 @@ get_share_file_with_prefix (char *prefix, char *sub)
 }
 
 static char *
-get_share_file_with_prefix_argc_argv (int argc, char *argv[], char *prefix,
-				      char *sub)
+get_share_file_with_prefix_argc_argv (int argc, const char *argv[],
+				      char *prefix, char *sub)
 {
   char *share_file = NULL;
   char *datadir;
@@ -862,7 +862,7 @@ lw6sys_options_log_defaults ()
 }
 
 static void *
-get_command_arg_with_env (int argc, char *argv[], char *keyword)
+get_command_arg_with_env (int argc, const char *argv[], char *keyword)
 {
   char *arg_value = NULL;
   char *ret = NULL;
@@ -931,7 +931,7 @@ lw6sys_get_cwd ()
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_run_dir (int argc, char *argv[])
+lw6sys_get_run_dir (int argc, const char *argv[])
 {
   char *run_dir = NULL;
 
@@ -960,7 +960,7 @@ lw6sys_get_run_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_user_dir (int argc, char *argv[])
+lw6sys_get_user_dir (int argc, const char *argv[])
 {
   char *user_dir = NULL;
 
@@ -999,7 +999,7 @@ lw6sys_get_user_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_config_file (int argc, char *argv[])
+lw6sys_get_config_file (int argc, const char *argv[])
 {
   char *config_file = NULL;
   char *user_dir = NULL;
@@ -1031,7 +1031,7 @@ lw6sys_get_config_file (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_log_file (int argc, char *argv[])
+lw6sys_get_log_file (int argc, const char *argv[])
 {
   char *log_file = NULL;
   char *user_dir = NULL;
@@ -1063,7 +1063,7 @@ lw6sys_get_log_file (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_prefix (int argc, char *argv[])
+lw6sys_get_prefix (int argc, const char *argv[])
 {
   char *prefix = NULL;
 
@@ -1090,7 +1090,7 @@ lw6sys_get_prefix (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_mod_dir (int argc, char *argv[])
+lw6sys_get_mod_dir (int argc, const char *argv[])
 {
   char *mod_dir = NULL;
   char *prefix = NULL;
@@ -1122,7 +1122,7 @@ lw6sys_get_mod_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_data_dir (int argc, char *argv[])
+lw6sys_get_data_dir (int argc, const char *argv[])
 {
   char *data_dir = NULL;
   char *prefix = NULL;
@@ -1156,7 +1156,7 @@ lw6sys_get_data_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_music_dir (int argc, char *argv[])
+lw6sys_get_music_dir (int argc, const char *argv[])
 {
   char *music_dir = NULL;
   char *prefix = NULL;
@@ -1190,7 +1190,7 @@ lw6sys_get_music_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_music_path (int argc, char *argv[])
+lw6sys_get_music_path (int argc, const char *argv[])
 {
   char *music_path = NULL;
   char *music_path_cmd = NULL;
@@ -1250,7 +1250,7 @@ lw6sys_get_music_path (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_map_dir (int argc, char *argv[])
+lw6sys_get_map_dir (int argc, const char *argv[])
 {
   char *map_dir = NULL;
   char *prefix = NULL;
@@ -1283,7 +1283,7 @@ lw6sys_get_map_dir (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_map_path (int argc, char *argv[])
+lw6sys_get_map_path (int argc, const char *argv[])
 {
   char *map_path = NULL;
   char *map_path_cmd = NULL;
@@ -1343,7 +1343,7 @@ lw6sys_get_map_path (int argc, char *argv[])
  * Return value: a newly allocated string.
  */
 char *
-lw6sys_get_script_file (int argc, char *argv[])
+lw6sys_get_script_file (int argc, const char *argv[])
 {
   char *script_file = NULL;
   char *prefix = NULL;
@@ -1376,7 +1376,7 @@ lw6sys_get_script_file (int argc, char *argv[])
  * program is searching for things.
  */
 void
-lw6sys_options_log (int argc, char *argv[])
+lw6sys_options_log (int argc, const char *argv[])
 {
   char *path = NULL;
 

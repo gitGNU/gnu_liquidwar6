@@ -45,7 +45,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6gfx_get_backends (int argc, char *argv[])
+lw6gfx_get_backends (int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -86,7 +86,7 @@ lw6gfx_get_backends (int argc, char *argv[])
  * Return value: gfx backend.
  */
 lw6gfx_backend_t *
-lw6gfx_create_backend (int argc, char *argv[], char *name)
+lw6gfx_create_backend (int argc, const char *argv[], char *name)
 {
   lw6gfx_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE

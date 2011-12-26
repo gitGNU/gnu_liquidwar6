@@ -94,7 +94,7 @@ lw6sys_env_separator_str ()
  * Return value: the concatenated string, must be freed.
  */
 char *
-lw6sys_env_concat (char *value1, char *value2)
+lw6sys_env_concat (const char *value1, const char *value2)
 {
   char *ret = NULL;
 
@@ -132,7 +132,7 @@ lw6sys_env_concat (char *value1, char *value2)
  * Return value: 1 if the environment variable exists, 0 if not.
  */
 int
-lw6sys_env_exists_prefixed (char *keyword)
+lw6sys_env_exists_prefixed (const char *keyword)
 {
   int ret = 0;
   char *value = NULL;
@@ -161,7 +161,7 @@ lw6sys_env_exists_prefixed (char *keyword)
  * Return value: the value for the given keyword. May be NULL. Must be freed.
  */
 char *
-lw6sys_getenv (char *key)
+lw6sys_getenv (const char *key)
 {
 #ifdef LW6_MS_WINDOWS
   char value[GETENV_SIZE + 1];
@@ -215,7 +215,7 @@ lw6sys_getenv (char *key)
  * Return value: the value for the given keyword. May be NULL. Must be freed.
  */
 char *
-lw6sys_getenv_prefixed (char *keyword)
+lw6sys_getenv_prefixed (const char *keyword)
 {
   char *keyword_prefixed = NULL;
   char *ret = NULL;
@@ -245,7 +245,7 @@ lw6sys_getenv_prefixed (char *keyword)
  * Return value: 1 if success, 0 if failed
  */
 int
-lw6sys_setenv (char *keyword, char *value)
+lw6sys_setenv (const char *keyword, const char *value)
 {
   int ret = 0;
 
@@ -304,7 +304,7 @@ lw6sys_setenv (char *keyword, char *value)
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6sys_setenv_prefixed (char *keyword, char *value)
+lw6sys_setenv_prefixed (const char *keyword, const char *value)
 {
   char *keyword_prefixed = NULL;
   int ret = 0;
@@ -331,7 +331,7 @@ lw6sys_setenv_prefixed (char *keyword, char *value)
  * Return value: a list of strings.
  */
 lw6sys_list_t *
-lw6sys_env_split (char *value)
+lw6sys_env_split (const char *value)
 {
   lw6sys_list_t *ret = NULL;
   char *copy = NULL;

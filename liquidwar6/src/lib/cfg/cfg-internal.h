@@ -36,7 +36,7 @@ _lw6cfg_option_t;
 typedef struct _lw6cfg_context_s
 {
   int argc;
-  char **argv;
+  const char **argv;
   char *config_file;
   lw6sys_hash_t *options;
 }
@@ -80,7 +80,7 @@ extern void _lw6cfg_set_option_bool (_lw6cfg_context_t * cfg_context,
 extern int _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename);
 
 /* cfg-setup.c */
-extern _lw6cfg_context_t *_lw6cfg_init (int argc, char *argv[]);
+extern _lw6cfg_context_t *_lw6cfg_init (int argc, const char *argv[]);
 extern void _lw6cfg_quit (_lw6cfg_context_t * cfg_context);
 
 #endif

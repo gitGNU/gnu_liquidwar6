@@ -231,8 +231,8 @@ test_arg ()
 
   {
     char *value = NULL;
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
 
     lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("trying to match \"%s\""),
@@ -684,8 +684,8 @@ test_daemon ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
     char *pid_file = NULL;
 
@@ -926,7 +926,7 @@ test_escape ()
  * Testing functions in exec.c
  */
 static int
-test_exec (int argc, char *argv[], int mode)
+test_exec (int argc, const char *argv[], int mode)
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
@@ -1000,8 +1000,8 @@ test_file ()
     char *user_dir = NULL;
     char *filename = NULL;
     int filesize = 0;
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
 
     user_dir = lw6sys_get_user_dir (argc, argv);
@@ -2260,8 +2260,8 @@ test_options ()
 
   {
     char *path;
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
 
     path = lw6sys_get_user_dir (argc, argv);
@@ -3315,8 +3315,8 @@ test_stream ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] =
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] =
       { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2, TEST_ARGV3 };
     FILE *f = NULL;
     char *user_dir = NULL;
@@ -3854,7 +3854,7 @@ test_vthread ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6sys_test_exec (int argc, char *argv[], int mode)
+lw6sys_test_exec (int argc, const char *argv[], int mode)
 {
   int ret = 0;
 

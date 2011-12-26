@@ -57,8 +57,8 @@ test_list ()
   {
     lw6sys_assoc_t *list = NULL;
     int found = 0;
-    int argc = TEST_ARGC;
-    char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    const int argc = TEST_ARGC;
+    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
 
     list = lw6dyn_list_backends (argc, argv, TEST_DYN_TOP_LEVEL_LIB);
     if (list)
@@ -89,8 +89,8 @@ test_path ()
 
   {
     char *library_path;
-    int argc = TEST_ARGC;
-    char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
+    const int argc = TEST_ARGC;
+    const char *argv[] = { TEST_ARGV0, TEST_ARGV1 };
 
     library_path =
       lw6dyn_path_find_backend (argc, argv, TEST_DYN_TOP_LEVEL_LIB,

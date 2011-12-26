@@ -34,7 +34,8 @@
 #define _UDP_SEND_FILE "udp-send.log"
 
 int
-_lw6net_counters_init (int argc, char *argv[], _lw6net_counters_t * counters)
+_lw6net_counters_init (int argc, const char *argv[],
+		       _lw6net_counters_t * counters)
 {
   int ret = 0;
 

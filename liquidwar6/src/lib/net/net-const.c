@@ -53,7 +53,8 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Loads constants.
  */
 int
-_lw6net_const_init (int argc, char *argv[], _lw6net_const_data_t * const_data)
+_lw6net_const_init (int argc, const char *argv[],
+		    _lw6net_const_data_t * const_data)
 {
   int ret = 0;
   char *const_file = NULL;

@@ -31,7 +31,7 @@
 
 int
 _mod_csound_path_init (_mod_csound_context_t * csound_context, int argc,
-		       char *argv[])
+		       const char *argv[])
 {
   char *data_root_dir = NULL;
   int ret = 0;

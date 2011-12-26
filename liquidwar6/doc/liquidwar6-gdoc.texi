@@ -33,7 +33,7 @@ Sends a quit message and displays a newline.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {int} {lw6_fix_env} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6_fix_env} (int @var{argc}, const char * [] @var{argv})
 
 argc: number of args as passed to main
 argv: array of strings as passed to main
@@ -66,7 +66,7 @@ the current Guile environment.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {int} {lw6_init_global} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6_init_global} (int @var{argc}, const char * [] @var{argv})
 
 argc: number of args as passed to main
 argv: array of strings as passed to main
@@ -88,7 +88,7 @@ tell Guile how to do it).
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6_main} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6_main} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  the argc parameter of the @code{main}() function, that is, the number
 of command-line args.
 
@@ -109,7 +109,7 @@ function should return 0 if success, else an error code. Typical
 use is "return !lw6_main(argc, argv);".
 @end deftypefun
 
-@deftypefun {int} {lw6_process_non_run_options} (int @var{argc}, char * [] @var{argv}, int * @var{run_game})
+@deftypefun {int} {lw6_process_non_run_options} (int @var{argc}, const char * [] @var{argv}, int * @var{run_game})
 @var{argc}:  the number of command-line args, as passed to @code{main()}
 
 @var{argv}:  an array of strings containing command-line args, as passed to @code{main()}
@@ -173,7 +173,7 @@ Displays the host on which the program was compiled.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {void} {lw6_print_audit} (int @var{argc}, char * [] @var{argv})
+@deftypefun {void} {lw6_print_audit} (int @var{argc}, const char * [] @var{argv})
 
 Displays various paths used by the game.
 
@@ -341,7 +341,7 @@ Displays the about message for a keyword.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {void} {lw6_print_hello} (int @var{argc}, char * [] @var{argv})
+@deftypefun {void} {lw6_print_hello} (int @var{argc}, const char * [] @var{argv})
 
 Displays 'hello' at the beginning of the program.
 

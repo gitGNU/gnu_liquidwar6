@@ -28,7 +28,7 @@
 #include "sim-internal.h"
 
 static int
-_simulate (int argc, char *argv[], lw6sim_results_t * results,
+_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 	   lw6ker_game_struct_t * game_struct, int mask, char *bot_backend)
 {
   int ret = 0;
@@ -154,7 +154,7 @@ _simulate (int argc, char *argv[], lw6sim_results_t * results,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate (int argc, char *argv[], lw6sim_results_t * results,
+lw6sim_simulate (int argc, const char *argv[], lw6sim_results_t * results,
 		 int nb_teams, char *bot_backend)
 {
   int ret = 0;
@@ -218,7 +218,8 @@ lw6sim_simulate (int argc, char *argv[], lw6sim_results_t * results,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate_basic (int argc, char *argv[], lw6sim_results_t * results)
+lw6sim_simulate_basic (int argc, const char *argv[],
+		       lw6sim_results_t * results)
 {
   return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_BASIC_NB_TEAMS,
 			  LW6SIM_SIMULATE_BASIC_BOT_BACKEND);
@@ -238,7 +239,8 @@ lw6sim_simulate_basic (int argc, char *argv[], lw6sim_results_t * results)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6sim_simulate_full (int argc, char *argv[], lw6sim_results_t * results)
+lw6sim_simulate_full (int argc, const char *argv[],
+		      lw6sim_results_t * results)
 {
   return lw6sim_simulate (argc, argv, results, LW6SIM_SIMULATE_FULL_NB_TEAMS,
 			  LW6SIM_SIMULATE_FULL_BOT_BACKEND);

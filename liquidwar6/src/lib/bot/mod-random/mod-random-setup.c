@@ -28,7 +28,7 @@
 #include "mod-random-internal.h"
 
 _mod_random_context_t *
-_mod_random_init (int argc, char *argv[], lw6bot_data_t * data)
+_mod_random_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_random_context_t *random_context = NULL;
 

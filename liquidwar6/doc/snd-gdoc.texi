@@ -134,7 +134,7 @@ Returns a readable version of the backend object.
 @strong{Return value:}  a newly allocated pointer.
 @end deftypefun
 
-@deftypefun {lw6sys_assoc_t *} {lw6snd_get_backends} (int @var{argc}, char * [] @var{argv})
+@deftypefun {lw6sys_assoc_t *} {lw6snd_get_backends} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, as passed to @code{main}
 
 @var{argv}:  argv, as passed to @code{main}
@@ -149,7 +149,7 @@ load and initialize them afterwards.
 @strong{Return value:}  hash containing id/name pairs.
 @end deftypefun
 
-@deftypefun {lw6snd_backend_t *} {lw6snd_create_backend} (int @var{argc}, char * [] @var{argv}, char * @var{name})
+@deftypefun {lw6snd_backend_t *} {lw6snd_create_backend} (int @var{argc}, const char * [] @var{argv}, char * @var{name})
 @var{argc}:  argc, as passed to @code{main}
 
 @var{argv}:  argv, as passed to @code{main}

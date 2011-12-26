@@ -201,8 +201,8 @@ test_data ()
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
 
   {
     char *map_path = NULL;
@@ -238,8 +238,8 @@ test_dir ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
 
   {
     lw6sys_list_t *entries = NULL;
@@ -441,8 +441,8 @@ test_read ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1 };
 
   {
     lw6map_level_t *level = NULL;

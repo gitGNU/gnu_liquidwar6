@@ -115,8 +115,8 @@ _test_db ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = _TEST_ARGC;
-    char *argv[] = { _TEST_ARGV0 };
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0 };
     lw6p2p_db_t *db = NULL;
     char *repr = NULL;
 
@@ -229,8 +229,8 @@ _test_node_init ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = _TEST_ARGC;
-    char *argv[] = { _TEST_ARGV0 };
+    const int argc = _TEST_ARGC;
+    const char *argv[] = { _TEST_ARGV0 };
     lw6p2p_db_t *db = NULL;
     lw6p2p_node_t *node = NULL;
     char *id_str;
@@ -296,8 +296,8 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 	     lw6p2p_node_t ** node4, lw6p2p_node_t ** node5,
 	     lw6p2p_node_t ** node6)
 {
-  int argc = _TEST_ARGC;
-  char *argv[] = { _TEST_ARGV0 };
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
   char *repr = NULL;
   int ret = 0;
 
@@ -824,8 +824,8 @@ int
 lw6p2p_test (int mode)
 {
   int ret = 0;
-  int argc = _TEST_ARGC;
-  char *argv[] = { _TEST_ARGV0 };
+  const int argc = _TEST_ARGC;
+  const char *argv[] = { _TEST_ARGV0 };
 
   if (lw6sys_false ())
     {

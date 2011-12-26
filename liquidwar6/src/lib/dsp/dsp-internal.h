@@ -39,7 +39,7 @@
 typedef struct _lw6dsp_data_s
 {
   int argc;
-  char **argv;
+  const char **argv;
   char *gfx_backend_name;
   lw6gfx_backend_t *gfx_backend;
   lw6gui_video_mode_t video_mode_requested;

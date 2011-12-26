@@ -57,7 +57,7 @@ extern void _mod_udp_unload_data (_udp_data_t * udp_data);
 /*
  * In setup.c
  */
-extern _udp_context_t *_mod_udp_init (int argc, char *argv[]);
+extern _udp_context_t *_mod_udp_init (int argc, const char *argv[]);
 extern void _mod_udp_quit (_udp_context_t * udp_context);
 
 /*

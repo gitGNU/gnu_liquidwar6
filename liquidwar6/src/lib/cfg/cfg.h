@@ -76,19 +76,20 @@ extern int lw6cfg_load_exp (char *user_dir, int *exp);
 extern int lw6cfg_save_exp (char *user_dir, int exp);
 
 /* cfg-setup.c */
-extern void *lw6cfg_init (int argc, char *argv[]);
+extern void *lw6cfg_init (int argc, const char *argv[]);
 extern void lw6cfg_quit (void *cfg_context);
-extern void lw6cfg_reset (int argc, char *argv[]);
+extern void lw6cfg_reset (int argc, const char *argv[]);
 
 /* cfg-test.c */
 extern int lw6cfg_test (int mode);
 
 /* cfg-unified.c */
-extern char *lw6cfg_unified_get_value (int argc, char *argv[], char *key);
-extern char *lw6cfg_unified_get_user_dir (int argc, char *argv[]);
-extern char *lw6cfg_unified_get_log_file (int argc, char *argv[]);
-extern char *lw6cfg_unified_get_music_path (int argc, char *argv[]);
-extern char *lw6cfg_unified_get_map_path (int argc, char *argv[]);
+extern char *lw6cfg_unified_get_value (int argc, const char *argv[],
+				       char *key);
+extern char *lw6cfg_unified_get_user_dir (int argc, const char *argv[]);
+extern char *lw6cfg_unified_get_log_file (int argc, const char *argv[]);
+extern char *lw6cfg_unified_get_music_path (int argc, const char *argv[]);
+extern char *lw6cfg_unified_get_map_path (int argc, const char *argv[]);
 
 /* cfg-xml.c */
 extern char *lw6cfg_xml_element (lw6hlp_type_t type);

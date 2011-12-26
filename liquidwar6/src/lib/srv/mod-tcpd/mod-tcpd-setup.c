@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 _tcpd_context_t *
-_mod_tcpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
+_mod_tcpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 {
   _tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;

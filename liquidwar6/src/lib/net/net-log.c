@@ -34,7 +34,8 @@
 #define _UDP_SEND_FILE "udp-send.log"
 
 int
-_lw6net_log_init (int argc, char *argv[], _lw6net_log_t * log, int net_log)
+_lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log,
+		  int net_log)
 {
   int ret = 0;
   char *user_dir;

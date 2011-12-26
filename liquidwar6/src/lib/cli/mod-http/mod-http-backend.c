@@ -46,7 +46,7 @@ mod_http_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[])
+_init (int argc, const char *argv[])
 {
   _mod_http_context_t *http_context = _mod_http_init (argc, argv);
 

@@ -57,7 +57,7 @@ extern void _mod_udpd_unload_data (_udpd_data_t * udpd_data);
 /*
  * In setup.c
  */
-extern _udpd_context_t *_mod_udpd_init (int argc, char *argv[],
+extern _udpd_context_t *_mod_udpd_init (int argc, const char *argv[],
 					lw6srv_listener_t * listener);
 extern void _mod_udpd_quit (_udpd_context_t * udpd_context);
 

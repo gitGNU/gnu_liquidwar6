@@ -29,7 +29,7 @@
 #include "cfg-internal.h"
 
 static char *
-get_option (int argc, char *argv[], char *key)
+get_option (int argc, const char *argv[], char *key)
 {
   char *ret = NULL;
   char *config_file = NULL;
@@ -81,7 +81,7 @@ get_option (int argc, char *argv[], char *key)
  * Return value: a string with the value. Can be NULL. Must be freed.
  */
 char *
-lw6cfg_unified_get_value (int argc, char *argv[], char *key)
+lw6cfg_unified_get_value (int argc, const char *argv[], char *key)
 {
   char *ret = NULL;
 
@@ -108,7 +108,7 @@ lw6cfg_unified_get_value (int argc, char *argv[], char *key)
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_user_dir (int argc, char *argv[])
+lw6cfg_unified_get_user_dir (int argc, const char *argv[])
 {
   char *ret;
 
@@ -134,7 +134,7 @@ lw6cfg_unified_get_user_dir (int argc, char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_log_file (int argc, char *argv[])
+lw6cfg_unified_get_log_file (int argc, const char *argv[])
 {
   char *ret;
 
@@ -160,7 +160,7 @@ lw6cfg_unified_get_log_file (int argc, char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_music_path (int argc, char *argv[])
+lw6cfg_unified_get_music_path (int argc, const char *argv[])
 {
   char *tmp = NULL;
   char *music_path = NULL;
@@ -195,7 +195,7 @@ lw6cfg_unified_get_music_path (int argc, char *argv[])
  * Return value: the directory path, might be NULL, must be freed.
  */
 char *
-lw6cfg_unified_get_map_path (int argc, char *argv[])
+lw6cfg_unified_get_map_path (int argc, const char *argv[])
 {
   char *tmp = NULL;
   char *map_path = NULL;

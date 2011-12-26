@@ -64,7 +64,7 @@ lw6srv_default_backends ()
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6srv_get_backends (int argc, char *argv[])
+lw6srv_get_backends (int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -117,7 +117,7 @@ lw6srv_get_backends (int argc, char *argv[])
  * Return value: srv backend.
  */
 lw6srv_backend_t *
-lw6srv_create_backend (int argc, char *argv[], char *name)
+lw6srv_create_backend (int argc, const char *argv[], char *name)
 {
   lw6srv_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE

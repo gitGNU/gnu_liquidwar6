@@ -222,7 +222,7 @@ _mod_gl_set_view_backend (_mod_gl_context_t * gl_context, char *view_style)
  * Low-level SDL initialisation.
  */
 _mod_gl_context_t *
-_mod_gl_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
+_mod_gl_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 	      lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gl_context_t *gl_context = NULL;

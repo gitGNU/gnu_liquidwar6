@@ -28,7 +28,7 @@
 #include "mod-tcp-internal.h"
 
 _mod_tcp_context_t *
-_mod_tcp_init (int argc, char *argv[])
+_mod_tcp_init (int argc, const char *argv[])
 {
   _mod_tcp_context_t *tcp_context = NULL;
   char *data_dir = NULL;

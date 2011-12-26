@@ -43,8 +43,8 @@ test_load_save ()
 {
   int ret = 1;
   void *context;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
   char *user_dir = NULL;
   char *test_cfg = NULL;
 
@@ -94,8 +94,8 @@ test_unified ()
 {
   int ret = 1;
   LW6SYS_TEST_FUNCTION_BEGIN;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0, TEST_ARGV1, TEST_ARGV2 };
 
   {
     char *value;

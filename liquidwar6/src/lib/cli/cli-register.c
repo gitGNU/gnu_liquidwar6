@@ -67,7 +67,7 @@ lw6cli_default_backends ()
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6cli_get_backends (int argc, char *argv[])
+lw6cli_get_backends (int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 #ifdef LW6_ALLINONE
@@ -121,7 +121,7 @@ lw6cli_get_backends (int argc, char *argv[])
  * Return value: cli backend.
  */
 lw6cli_backend_t *
-lw6cli_create_backend (int argc, char *argv[], char *name)
+lw6cli_create_backend (int argc, const char *argv[], char *name)
 {
   lw6cli_backend_t *backend = NULL;
 

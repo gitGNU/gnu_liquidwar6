@@ -155,7 +155,7 @@ extern void _mod_ogg_stop_music (_mod_ogg_context_t * ogg_context);
  * In path.c
  */
 extern int _mod_ogg_path_init (_mod_ogg_context_t * ogg_context,
-			       int argc, char *argv[]);
+			       int argc, const char *argv[]);
 extern void _mod_ogg_path_quit (_mod_ogg_context_t * ogg_context);
 
 /*
@@ -166,7 +166,7 @@ extern char *_mod_ogg_repr (_mod_ogg_context_t * gfx_context, u_int32_t id);
 /*
  * In setup.c
  */
-extern _mod_ogg_context_t *_mod_ogg_init (int argc, char *argv[],
+extern _mod_ogg_context_t *_mod_ogg_init (int argc, const char *argv[],
 					  float fx_volume, float water_volume,
 					  float music_volume);
 extern void _mod_ogg_poll (_mod_ogg_context_t * ogg_context);

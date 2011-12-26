@@ -37,7 +37,7 @@ mod_httpd_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6srv_listener_t * listener)
+_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 {
   _mod_httpd_context_t *httpd_context =
     _mod_httpd_init (argc, argv, listener);

@@ -57,7 +57,7 @@ static u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created objects.
  */
 lw6p2p_node_t *
-lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
+lw6p2p_node_new (int argc, const char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, int broadcast,
 		 char *public_url, char *title,
@@ -74,7 +74,7 @@ lw6p2p_node_new (int argc, char *argv[], lw6p2p_db_t * db,
 }
 
 _lw6p2p_node_t *
-_lw6p2p_node_new (int argc, char *argv[], _lw6p2p_db_t * db,
+_lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, int broadcast,
 		  char *public_url, char *title,

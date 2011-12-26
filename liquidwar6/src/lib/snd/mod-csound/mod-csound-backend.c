@@ -116,7 +116,7 @@ _stop_music (void *snd_context)
 }
 
 static void *
-_init (int argc, char *argv[], float fx_volume, float water_volume,
+_init (int argc, const char *argv[], float fx_volume, float water_volume,
        float music_volume)
 {
   _mod_csound_context_t *csound_context =

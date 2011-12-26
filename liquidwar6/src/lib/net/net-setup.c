@@ -45,7 +45,7 @@ _lw6net_context_t *_lw6net_global_context = NULL;
  * Return value: non-zero if success
  */
 int
-lw6net_init (int argc, char *argv[], int net_log)
+lw6net_init (int argc, const char *argv[], int net_log)
 {
   int ok = 0;
 

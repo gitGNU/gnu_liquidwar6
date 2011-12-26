@@ -1,11 +1,11 @@
-@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend_so} (char * @var{so_file})
+@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend_so} (const char * @var{so_file})
 Opens a .so file directly, using a valid (full) path name.
 
 @strong{Return value:}  a handle to the module, once it's opened. You might still
 need to call a module specific @code{init}() function, but it's another story.
 @end deftypefun
 
-@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend} (int @var{argc}, char * [] @var{argv}, char * @var{top_level_lib}, char * @var{backend_name})
+@deftypefun {lw6dyn_dl_handle_t *} {lw6dyn_dlopen_backend} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{backend_name})
 @var{argc}:  the number of command-line arguments as passed to @code{main}
 
 @var{top_level_lib}:  the top-level library concerned, this means is it
@@ -31,7 +31,7 @@ specific clear, destroy, deinit, exit, function before.
 @strong{Return value:}  1 if success, 0 on error.
 @end deftypefun
 
-@deftypefun {void *} {lw6dyn_dlsym} (lw6dyn_dl_handle_t * @var{handle}, char * @var{func_name})
+@deftypefun {void *} {lw6dyn_dlsym} (lw6dyn_dl_handle_t * @var{handle}, const char * @var{func_name})
 @var{handle}:  the backend concerned
 
 @var{func_name}:  the function name, as a NULL terminated string
@@ -41,7 +41,7 @@ Finds a C function in the given backend.
 @strong{Return value:}  a pointer to the function, NULL if not found.
 @end deftypefun
 
-@deftypefun {lw6sys_assoc_t *} {lw6dyn_list_backends} (int @var{argc}, char * [] @var{argv}, char * @var{top_level_lib})
+@deftypefun {lw6sys_assoc_t *} {lw6dyn_list_backends} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib})
 @var{argc}:  the number of command line args, as passed to main
 
 @var{argv}:  the commind line args, as passed to main
@@ -56,7 +56,7 @@ the module, for instance 'OpenGL'.
 @strong{Return value:}  an assoc object containing key/label pairs.
 @end deftypefun
 
-@deftypefun {char *} {lw6dyn_path_find_backend} (int @var{argc}, char * [] @var{argv}, char * @var{top_level_lib}, char * @var{backend_name})
+@deftypefun {char *} {lw6dyn_path_find_backend} (int @var{argc}, const char * [] @var{argv}, const char * @var{top_level_lib}, const char * @var{backend_name})
 @var{argc}:  the number of command-line arguments as passed to @code{main}
 
 @var{top_level_lib}:  the top-level library concerned, this means is it

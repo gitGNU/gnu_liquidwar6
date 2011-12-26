@@ -69,7 +69,8 @@ extern void _mod_csound_stop_music (_mod_csound_context_t * csound_context);
  * In path.c
  */
 extern int _mod_csound_path_init (_mod_csound_context_t *
-				  csound_context, int argc, char *argv[]);
+				  csound_context, int argc,
+				  const char *argv[]);
 extern void _mod_csound_path_quit (_mod_csound_context_t * csound_context);
 
 /*
@@ -81,7 +82,7 @@ extern char *_mod_csound_repr (_mod_csound_context_t * csound_context,
 /*
  * In setup.c
  */
-extern _mod_csound_context_t *_mod_csound_init (int argc, char *argv[],
+extern _mod_csound_context_t *_mod_csound_init (int argc, const char *argv[],
 						float fx_volume,
 						float water_volume,
 						float music_volume);

@@ -78,8 +78,8 @@ test_simulate ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = _TEST_ARGC;
-    char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
+    const int argc = _TEST_ARGC;
+    const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
     lw6sim_results_t results;
 
     lw6sys_log (LW6SYS_LOG_NOTICE,

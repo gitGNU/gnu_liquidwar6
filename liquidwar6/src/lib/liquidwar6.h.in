@@ -167,7 +167,7 @@ typedef struct lw6_global_s
   int net_initialized;
   int start_time;
   int argc;
-  char **argv;
+  const char **argv;
   float progress;
   lw6_smob_types_t smob_types;
   lw6sys_assoc_t *dsp_smobs;
@@ -193,7 +193,7 @@ extern void lw6_release ();
 extern void lw6_exit ();
 
 /* lw6-fix.c */
-extern int lw6_fix_env (int argc, char *argv[]);
+extern int lw6_fix_env (int argc, const char *argv[]);
 
 /* lw6-funcs.c */
 extern int lw6_register_funcs ();
@@ -204,14 +204,14 @@ extern void lw6_cns_handler (char *line);
 #define LW6_MUTEX_UNLOCK pthread_mutex_unlock( &lw6_global.mutex );
 
 extern lw6_global_t lw6_global;
-extern int lw6_init_global (int argc, char *argv[]);
+extern int lw6_init_global (int argc, const char *argv[]);
 extern void lw6_quit_global ();
 
 /* lw6-main.c */
-extern int lw6_main (int argc, char *argv[]);
+extern int lw6_main (int argc, const char *argv[]);
 
 /* lw6-options.c */
-extern int lw6_process_non_run_options (int argc, char *argv[],
+extern int lw6_process_non_run_options (int argc, const char *argv[],
 					int *run_game);
 
 /* lw6-print.c */
@@ -222,7 +222,7 @@ extern void lw6_print_long_copyright ();
 extern void lw6_print_bench (float bench_result);
 extern void lw6_print_pedigree ();
 extern void lw6_print_host ();
-extern void lw6_print_audit (int argc, char *argv[]);
+extern void lw6_print_audit (int argc, const char *argv[]);
 extern void lw6_print_modules ();
 extern void lw6_print_list_quick ();
 extern void lw6_print_list_doc ();
@@ -246,7 +246,7 @@ extern void lw6_print_list_team_colors ();
 extern void lw6_print_list_weapons ();
 extern void lw6_print_list ();
 extern void lw6_print_about (char *keyword);
-extern void lw6_print_hello (int argc, char *argv[]);
+extern void lw6_print_hello (int argc, const char *argv[]);
 extern void lw6_print_goodbye ();
 
 /* lw6-smobs.c */

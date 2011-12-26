@@ -1,4 +1,4 @@
-@deftypefun {int} {lw6sys_arg_match} (char * @var{keyword}, char * @var{argv_string})
+@deftypefun {int} {lw6sys_arg_match} (const char * @var{keyword}, const char * @var{argv_string})
 @var{keyword}:  the option to match, without the prefix "-" or "--"
 
 @var{argv_string}:  the argv value, for instance argv[1]
@@ -19,7 +19,7 @@ to say running "liquidwar6 --option" is the same as running
 @strong{Return value:}  non zero if it matches, 0 if it doesn't.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_arg_exists} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@deftypefun {int} {lw6sys_arg_exists} (int @var{argc}, const char * [] @var{argv}, const char * @var{keyword})
 @var{argc}:  the number of arguments, as passed to @code{main}
 
 @var{argv}:  an array of arguments, as passed to @code{main}
@@ -32,7 +32,7 @@ precise "--key[=...]" entry.
 @strong{Return value:}  1 if key is present, 0 if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_arg_get_value} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@deftypefun {char *} {lw6sys_arg_get_value} (int @var{argc}, const char * [] @var{argv}, const char * @var{keyword})
 @var{argc}:  the number of arguments, as passed to @code{main}
 
 @var{argv}:  an array of arguments, as passed to @code{main}
@@ -45,7 +45,7 @@ precise "--key=value" pair, and returns the value.
 @strong{Return value:}  a pointer to the value. May be NULL. Must be freed. 
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_arg_get_value_with_env} (int @var{argc}, char * [] @var{argv}, char * @var{keyword})
+@deftypefun {char *} {lw6sys_arg_get_value_with_env} (int @var{argc}, const char * [] @var{argv}, const char * @var{keyword})
 @var{argc}:  the number of arguments, as passed to @code{main}
 
 @var{argv}:  an array of arguments, as passed to @code{main}
@@ -64,7 +64,7 @@ parameter is present.
 @strong{Return value:}  a pointer to the value. May be NULL. Must be freed. 
 @end deftypefun
 
-@deftypefun {int} {lw6sys_arg_test_mode} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6sys_arg_test_mode} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc as passed to main
 
 @var{argv}:  argv as passed to main
@@ -1310,7 +1310,7 @@ is it allocates memory, and does the dirty job.
 @strong{Return value:}  a newly allocated pointer, must be freed, may be NULL.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_daemon_pid_file} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_daemon_pid_file} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc as passed to @code{main}
 
 @var{argv}:  argv as passed to @code{main}
@@ -1395,7 +1395,7 @@ this would be ":" on GNU and ";" on Microsft platforms.
 which contains the character. Must not be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_env_concat} (char * @var{value1}, char * @var{value2})
+@deftypefun {char *} {lw6sys_env_concat} (const char * @var{value1}, const char * @var{value2})
 @var{value1}:  the left part to be concatenated
 
 @var{value2}:  the right part to be concatenated
@@ -1406,7 +1406,7 @@ by @code{lw6sys_env_separator_char} between them.
 @strong{Return value:}  the concatenated string, must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_env_exists_prefixed} (char * @var{keyword})
+@deftypefun {int} {lw6sys_env_exists_prefixed} (const char * @var{keyword})
 @var{keyword}:  the keyword to be searched in the environment variables.
 
 Searches environment variables for the given keyword. The keyword
@@ -1420,7 +1420,7 @@ the "LW6_MY_PARAM" environment variable.
 @strong{Return value:}  1 if the environment variable exists, 0 if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_getenv} (char * @var{key})
+@deftypefun {char *} {lw6sys_getenv} (const char * @var{key})
 @var{key}:  the environment variable to get.
 
 Searches environment variables for the given value.
@@ -1432,7 +1432,7 @@ OS functions.
 @strong{Return value:}  the value for the given keyword. May be NULL. Must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_getenv_prefixed} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_getenv_prefixed} (const char * @var{keyword})
 @var{keyword}:  the keyword to be searched in the environment variables.
 
 Searches environment variables for the given value. The keyword
@@ -1446,7 +1446,7 @@ the "LW6_MY_PARAM" environment variable.
 @strong{Return value:}  the value for the given keyword. May be NULL. Must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_setenv} (char * @var{keyword}, char * @var{value})
+@deftypefun {int} {lw6sys_setenv} (const char * @var{keyword}, const char * @var{value})
 @var{keyword}:  the environment variable to set
 
 @var{value}:  the value of the environment variable to set
@@ -1460,7 +1460,7 @@ call "lw6sys_keyword_as_env" if needed.
 @strong{Return value:}  1 if success, 0 if failed
 @end deftypefun
 
-@deftypefun {int} {lw6sys_setenv_prefixed} (char * @var{keyword}, char * @var{value})
+@deftypefun {int} {lw6sys_setenv_prefixed} (const char * @var{keyword}, const char * @var{value})
 @var{keyword}:  the keyword to be searched in the environment variables.
 
 @var{value}:  the value of the environment variable to set
@@ -1476,7 +1476,7 @@ the "LW6_MY_PARAM" environment variable.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_env_split} (char * @var{value})
+@deftypefun {lw6sys_list_t *} {lw6sys_env_split} (const char * @var{value})
 @var{value}:  the value, a list of item separated by... the separator
 
 Splits the environment value into a list of strings containing
@@ -1553,7 +1553,7 @@ URL chars, it will mostly convert chars over 128 into their
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_exec_find_myself} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_exec_find_myself} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  number of args as passed to main
 
 @var{argv}:  array of args as passed to main
@@ -1564,7 +1564,7 @@ pass it to @code{lw6sys_exec_again} and run it again.
 @strong{Return value:}  the path (newly allocated string).
 @end deftypefun
 
-@deftypefun {int} {lw6sys_is_executed_again} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6sys_is_executed_again} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  number of args as passed to main
 
 @var{argv}:  array of args as passed to main
@@ -1575,7 +1575,7 @@ Tells wether the program is already executed by itself by
 @strong{Return value:}  1 if executed again, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_exec_again} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6sys_exec_again} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  number of args as passed to main
 
 @var{argv}:  array of args as passed to main
@@ -1591,7 +1591,7 @@ the process once.
 @strong{Return value:}  1 on success, 0 on failure (always fail)
 @end deftypefun
 
-@deftypefun {int} {lw6sys_exec_restart} (int @var{argc}, char * [] @var{argv})
+@deftypefun {int} {lw6sys_exec_restart} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  number of args as passed to main
 
 @var{argv}:  array of args as passed to main
@@ -2216,7 +2216,7 @@ All ids (16, 32 and 64-bit) are handled.
 @strong{Return value:}  the id as a long integer, 0 if incorrect source id.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_keyword_as_key} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_keyword_as_key} (const char * @var{keyword})
 @var{keyword}:  the keyword to transform
 
 Transforms a keyword into a "key", that is, removes all heading dashes,
@@ -2226,7 +2226,7 @@ to match options and config file parameters, for instance.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_keyword_as_arg} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_keyword_as_arg} (const char * @var{keyword})
 @var{keyword}:  the keyword to transform
 
 Transforms a keyword into a command-line parameter to be matched.
@@ -2235,7 +2235,7 @@ Does the same as @code{lw6sys_keyword_as_key}, and adds a "--" prefix.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_keyword_as_env} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_keyword_as_env} (const char * @var{keyword})
 @var{keyword}:  the keyword to transform
 
 Transforms a keyword into the corresponding environment variable name.
@@ -2245,7 +2245,7 @@ prefix. "my-param" will become "LW6_MY_PARAM".
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_keyword_as_xml} (char * @var{keyword})
+@deftypefun {char *} {lw6sys_keyword_as_xml} (const char * @var{keyword})
 @var{keyword}:  the keyword to transform
 
 Transforms a keyword into the corresponding config file entry.
@@ -2870,7 +2870,7 @@ Returns the current working directory (absolute path).
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_run_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_run_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2882,7 +2882,7 @@ command-line arguments.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_user_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_user_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2894,7 +2894,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_config_file} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_config_file} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2906,7 +2906,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_log_file} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_log_file} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2918,7 +2918,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_prefix} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_prefix} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2930,7 +2930,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_mod_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_mod_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2943,7 +2943,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_data_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_data_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2955,7 +2955,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_music_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_music_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2967,7 +2967,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_music_path} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_music_path} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2979,7 +2979,7 @@ on the result. Music path can contain several directories.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_map_dir} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_map_dir} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -2991,7 +2991,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_map_path} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_map_path} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -3003,7 +3003,7 @@ on the result. Map path can contain several directories.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_get_script_file} (int @var{argc}, char * [] @var{argv})
+@deftypefun {char *} {lw6sys_get_script_file} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -3015,7 +3015,7 @@ on the result.
 @strong{Return value:}  a newly allocated string.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_options_log} (int @var{argc}, char * [] @var{argv})
+@deftypefun {void} {lw6sys_options_log} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, number of arguments, as given to @code{main}
 
 @var{argv}:  argv, pointer to arguments, as given to @code{main}
@@ -3026,7 +3026,7 @@ and environment variables. Usefull to debug and know where the
 program is searching for things.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_file_exists} (char * @var{filename})
+@deftypefun {int} {lw6sys_file_exists} (const char * @var{filename})
 @var{filename}:  the file to test
 
 Tests the existence of a file on the filesystem. File is considered
@@ -3035,7 +3035,7 @@ to exists if it's at least readable.
 @strong{Return value:}  1 if OK, 0 if file doesn't exist or can't be read.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_dir_exists} (char * @var{dirname})
+@deftypefun {int} {lw6sys_dir_exists} (const char * @var{dirname})
 @var{dirname}:  the directory to test
 
 Tests the existence of a directory on the filesystem.
@@ -3043,7 +3043,7 @@ Tests the existence of a directory on the filesystem.
 @strong{Return value:}  1 if OK, 0 if directory doesn't exist.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_create_dir} (char * @var{dirname})
+@deftypefun {int} {lw6sys_create_dir} (const char * @var{dirname})
 @var{dirname}:  the directory to create
 
 Creates a directory, performing sanity checks such as verifying
@@ -3052,7 +3052,7 @@ the directory really exists after being created.
 @strong{Return value:}  1 if OK, 0 if error.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_create_dir_silent} (char * @var{dirname})
+@deftypefun {int} {lw6sys_create_dir_silent} (const char * @var{dirname})
 @var{dirname}:  the directory to create
 
 Creates a directory like @code{lw6sys_create_dir} but this function
@@ -3063,7 +3063,7 @@ infinite loops on error.
 @strong{Return value:}  1 if OK, 0 if error.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_add_slash} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_add_slash} (const char * @var{path})
 @var{path}:  a path
 
 Adds a slash, or in a general manner, a directory separator,
@@ -3073,7 +3073,7 @@ at the end of a path, if needed. So /foo/bar will become
 @strong{Return value:}  a newly allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_strip_slash} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_strip_slash} (const char * @var{path})
 @var{path}:  a path
 
 Strips the slash, or in a general manner, the directory separator,
@@ -3083,7 +3083,7 @@ at the end of a path, if needed. So /foo/bar/ will become
 @strong{Return value:}  a newly allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_concat} (char * @var{path1}, char * @var{path2})
+@deftypefun {char *} {lw6sys_path_concat} (const char * @var{path1}, const char * @var{path2})
 @var{path1}:  left part of the path
 
 @var{path2}:  right part of the path
@@ -3096,7 +3096,7 @@ and conversely insert a directory separator when concatenating
 @strong{Return value:}  a newly allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_path_split} (char * @var{path})
+@deftypefun {lw6sys_list_t *} {lw6sys_path_split} (const char * @var{path})
 @var{path}:  a path
 
 Splits a path into all its parts. For instance /boo/bar/foo2/bar2
@@ -3107,7 +3107,7 @@ separators will be interpreted (depends on platform).
 @strong{Return value:}  a list containing 0-terminated strings.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_file_only} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_file_only} (const char * @var{path})
 @var{path}:  a path
 
 Returns the file name only, without heading directories.
@@ -3115,7 +3115,7 @@ Returns the file name only, without heading directories.
 @strong{Return value:}  file name, must be freed
 @end deftypefun
 
-@deftypefun {int} {lw6sys_path_is_relative} (char * @var{path})
+@deftypefun {int} {lw6sys_path_is_relative} (const char * @var{path})
 @var{path}:  a path
 
 Checks wether a path is relative or absolute.
@@ -3123,7 +3123,7 @@ Checks wether a path is relative or absolute.
 @strong{Return value:}  1 if relative, 0 if absolute.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_path_is_cwd} (char * @var{path})
+@deftypefun {int} {lw6sys_path_is_cwd} (const char * @var{path})
 @var{path}:  a path
 
 Checks wether a path is "." or not. Will also trap "" and "./".
@@ -3131,7 +3131,7 @@ Checks wether a path is "." or not. Will also trap "" and "./".
 @strong{Return value:}  1 if relative, 0 if absolute.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_parent} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_parent} (const char * @var{path})
 @var{path}:  a path
 
 Returns the parent path. That will return /foo when given
@@ -3140,7 +3140,7 @@ Returns the parent path. That will return /foo when given
 @strong{Return value:}  a newly allocated string, must be freed.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_path_unparent} (char * @var{path})
+@deftypefun {char *} {lw6sys_path_unparent} (const char * @var{path})
 @var{path}:  a path
 
 Given the ../foo/bar path, will return foo/bar. Usefull to
@@ -3161,7 +3161,7 @@ the result is not dynamically allocated and copied from source.
 string passed as an argument.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_dir_list} (char * @var{dir}, lw6sys_dir_list_filter_func_t @var{filter_func}, void * @var{func_data}, int * @var{n})
+@deftypefun {lw6sys_list_t *} {lw6sys_dir_list} (const char * @var{dir}, lw6sys_dir_list_filter_func_t @var{filter_func}, void * @var{func_data}, int * @var{n})
 @var{dir}:  the path of the directory to list
 
 @var{filter_func}:  a function which will filter entries, can be NULL
@@ -3177,7 +3177,7 @@ it's suppressed from the list.
 @strong{Return value:}  a list containing strings (file paths).
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6sys_path_list} (char * @var{path}, lw6sys_dir_list_filter_func_t     @var{filter_func}, void * @var{func_data}, int * @var{n})
+@deftypefun {lw6sys_list_t *} {lw6sys_path_list} (const char * @var{path}, lw6sys_dir_list_filter_func_t     @var{filter_func}, void * @var{func_data}, int * @var{n})
 @var{path}:  the path of the path to list
 
 @var{filter_func}:  a function which will filter entries, can be NULL
@@ -3196,7 +3196,7 @@ to @code{lw6sys_dir_list} on each of the path members.
 @strong{Return value:}  a list containing strings (file paths).
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_find_in_dir_and_path} (char * @var{dir}, char * @var{path}, char * @var{file})
+@deftypefun {char *} {lw6sys_find_in_dir_and_path} (const char * @var{dir}, const char * @var{path}, const char * @var{file})
 @var{dir}:  a directory, when to search the file first
 
 @var{path}:  the path to search too, a separated list of dirs
@@ -4039,7 +4039,7 @@ file (just a simple fprint).
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_test_exec} (int @var{argc}, char * [] @var{argv}, int @var{mode})
+@deftypefun {int} {lw6sys_test_exec} (int @var{argc}, const char * [] @var{argv}, int @var{mode})
 @var{argc}:  number of args as passed to main
 
 @var{argv}:  array of args as passed to main

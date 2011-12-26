@@ -1,4 +1,4 @@
-@deftypefun {lw6dsp_backend_t *} {lw6dsp_create_backend} (int @var{argc}, char * [] @var{argv}, char * @var{gfx_backend_name})
+@deftypefun {lw6dsp_backend_t *} {lw6dsp_create_backend} (int @var{argc}, const char * [] @var{argv}, char * @var{gfx_backend_name})
 @var{argc}:  argc as passed to @code{main}
 
 @var{argv}:  argv as passed to @code{main}

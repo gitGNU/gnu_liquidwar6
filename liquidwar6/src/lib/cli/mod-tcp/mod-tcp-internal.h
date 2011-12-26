@@ -76,7 +76,7 @@ extern void _mod_tcp_unload_data (_mod_tcp_data_t * tcp_data);
 /*
  * In setup.c
  */
-extern _mod_tcp_context_t *_mod_tcp_init (int argc, char *argv[]);
+extern _mod_tcp_context_t *_mod_tcp_init (int argc, const char *argv[]);
 extern void _mod_tcp_quit (_mod_tcp_context_t * tcp_context);
 
 /*

@@ -42,7 +42,7 @@
  * Return value: the path (newly allocated string).
  */
 char *
-lw6sys_exec_find_myself (int argc, char *argv[])
+lw6sys_exec_find_myself (int argc, const char *argv[])
 {
   char *myself = NULL;
 
@@ -76,7 +76,7 @@ lw6sys_exec_find_myself (int argc, char *argv[])
  * Return value: 1 if executed again, 0 if not.
  */
 int
-lw6sys_is_executed_again (int argc, char *argv[])
+lw6sys_is_executed_again (int argc, const char *argv[])
 {
   int ret = 0;
 
@@ -103,7 +103,7 @@ lw6sys_is_executed_again (int argc, char *argv[])
  * Return value: 1 on success, 0 on failure (always fail)
  */
 int
-lw6sys_exec_again (int argc, char *argv[])
+lw6sys_exec_again (int argc, const char *argv[])
 {
   char *myself;
   char **new_argv;
@@ -123,7 +123,7 @@ lw6sys_exec_again (int argc, char *argv[])
 		{
 		  for (i = 0; i < argc; ++i)
 		    {
-		      new_argv[i] = argv[i];
+		      new_argv[i] = lw6sys_str_copy (argv[i]);
 		    }
 		  lw6sys_setenv_prefixed (LW6DEF_EXECUTED_AGAIN,
 					  _EXECUTED_AGAIN_TRUE);
@@ -132,6 +132,13 @@ lw6sys_exec_again (int argc, char *argv[])
 		  execvp (myself, (void *) new_argv);
 		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("execvp(%s) failed"),
 			      myself);
+		  for (i = 0; i < argc; ++i)
+		    {
+		      if (new_argv[i])
+			{
+			  LW6SYS_FREE (new_argv[i]);
+			}
+		    }
 		  LW6SYS_FREE (new_argv);
 		}
 	      LW6SYS_FREE (myself);
@@ -166,7 +173,7 @@ lw6sys_exec_again (int argc, char *argv[])
  * Return value: 1 on success, 0 on failure (always fail)
  */
 int
-lw6sys_exec_restart (int argc, char *argv[])
+lw6sys_exec_restart (int argc, const char *argv[])
 {
   char *myself;
   char **new_argv;
@@ -183,12 +190,19 @@ lw6sys_exec_restart (int argc, char *argv[])
 	    {
 	      for (i = 0; i < argc; ++i)
 		{
-		  new_argv[i] = argv[i];
+		  new_argv[i] = lw6sys_str_copy (argv[i]);
 		}
 	      new_argv[argc] = NULL;
 	      execvp (myself, (void *) new_argv);
 	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("execvp(%s) failed"),
 			  myself);
+	      for (i = 0; i < argc; ++i)
+		{
+		  if (new_argv[i])
+		    {
+		      LW6SYS_FREE (new_argv[i]);
+		    }
+		}
 	      LW6SYS_FREE (new_argv);
 	    }
 	  LW6SYS_FREE (myself);

@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -6590,7 +6590,7 @@ results on
 
      *Return value:*  none
 
- -- Function: int lw6_fix_env (int ARGC, char * [] ARGV)
+ -- Function: int lw6_fix_env (int ARGC, const char * [] ARGV)
      argc: number of args as passed to main argv: array of strings as
      passed to main
 
@@ -6615,7 +6615,7 @@ results on
 
      *Return value:*  none
 
- -- Function: int lw6_init_global (int ARGC, char * [] ARGV)
+ -- Function: int lw6_init_global (int ARGC, const char * [] ARGV)
      argc: number of args as passed to main argv: array of strings as
      passed to main
 
@@ -6633,7 +6633,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6_main (int ARGC, char * [] ARGV)
+ -- Function: int lw6_main (int ARGC, const char * [] ARGV)
      ARGC:  the argc parameter of the `main'() function, that is, the
      number of command-line args.
 
@@ -6653,8 +6653,8 @@ results on
      function should return 0 if success, else an error code. Typical
      use is "return !lw6_main(argc, argv);".
 
- -- Function: int lw6_process_non_run_options (int ARGC, char * []
-          ARGV, int * RUN_GAME)
+ -- Function: int lw6_process_non_run_options (int ARGC, const char *
+          [] ARGV, int * RUN_GAME)
      ARGC:  the number of command-line args, as passed to `main()'
 
      ARGV:  an array of strings containing command-line args, as passed
@@ -6703,7 +6703,7 @@ results on
 
      *Return value:*  none
 
- -- Function: void lw6_print_audit (int ARGC, char * [] ARGV)
+ -- Function: void lw6_print_audit (int ARGC, const char * [] ARGV)
      Displays various paths used by the game.
 
      *Return value:*  none
@@ -6823,7 +6823,7 @@ results on
 
      *Return value:*  none
 
- -- Function: void lw6_print_hello (int ARGC, char * [] ARGV)
+ -- Function: void lw6_print_hello (int ARGC, const char * [] ARGV)
      Displays 'hello' at the beginning of the program.
 
      *Return value:*  none
@@ -7215,8 +7215,8 @@ results on
 
      *Return value:*  dynamically allocated string.
 
- -- Function: lw6sys_assoc_t * lw6bot_get_backends (int ARGC, char * []
-          ARGV)
+ -- Function: lw6sys_assoc_t * lw6bot_get_backends (int ARGC, const
+          char * [] ARGV)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -7230,8 +7230,8 @@ results on
 
      *Return value:*  hash containing id/name pairs.
 
- -- Function: lw6bot_backend_t * lw6bot_create_backend (int ARGC, char
-          * [] ARGV, char * NAME)
+ -- Function: lw6bot_backend_t * lw6bot_create_backend (int ARGC, const
+          char * [] ARGV, const char * NAME)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -7614,7 +7614,7 @@ results on
 
      *Return value:*  1 if successfull, 0 if error.
 
- -- Function: void * lw6cfg_init (int ARGC, char * [] ARGV)
+ -- Function: void * lw6cfg_init (int ARGC, const char * [] ARGV)
      ARGC:  number of command line arguments, as given to `main'
 
      ARGV:  a list of command line arguments, as given to `main'
@@ -7633,7 +7633,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_reset (int ARGC, char * [] ARGV)
+ -- Function: void lw6cfg_reset (int ARGC, const char * [] ARGV)
      ARGC:  number of command line arguments, as given to `main'
 
      ARGV:  a list of command line arguments, as given to `main'
@@ -7648,8 +7648,8 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- Function: char * lw6cfg_unified_get_value (int ARGC, char * []
-          ARGV, char * KEY)
+ -- Function: char * lw6cfg_unified_get_value (int ARGC, const char *
+          [] ARGV, char * KEY)
      ARGC:  number of command-line args, as passed to `main'
 
      ARGV:  arry of command-line args, as passed to `main'
@@ -7670,8 +7670,8 @@ results on
      *Return value:*  a string with the value. Can be NULL. Must be
      freed.
 
- -- Function: char * lw6cfg_unified_get_user_dir (int ARGC, char * []
-          ARGV)
+ -- Function: char * lw6cfg_unified_get_user_dir (int ARGC, const char
+          * [] ARGV)
      ARGC:  number of command-line args, as passed to `main'
 
      ARGV:  arry of command-line args, as passed to `main'
@@ -7682,8 +7682,8 @@ results on
 
      *Return value:*  the directory path, might be NULL, must be freed.
 
- -- Function: char * lw6cfg_unified_get_log_file (int ARGC, char * []
-          ARGV)
+ -- Function: char * lw6cfg_unified_get_log_file (int ARGC, const char
+          * [] ARGV)
      ARGC:  number of command-line args, as passed to `main'
 
      ARGV:  arry of command-line args, as passed to `main'
@@ -7694,8 +7694,8 @@ results on
 
      *Return value:*  the directory path, might be NULL, must be freed.
 
- -- Function: char * lw6cfg_unified_get_music_path (int ARGC, char * []
-          ARGV)
+ -- Function: char * lw6cfg_unified_get_music_path (int ARGC, const
+          char * [] ARGV)
      ARGC:  number of command-line args, as passed to `main'
 
      ARGV:  arry of command-line args, as passed to `main'
@@ -7706,8 +7706,8 @@ results on
 
      *Return value:*  the directory path, might be NULL, must be freed.
 
- -- Function: char * lw6cfg_unified_get_map_path (int ARGC, char * []
-          ARGV)
+ -- Function: char * lw6cfg_unified_get_map_path (int ARGC, const char
+          * [] ARGV)
      ARGC:  number of command-line args, as passed to `main'
 
      ARGV:  arry of command-line args, as passed to `main'
@@ -8079,8 +8079,8 @@ results on
 
      *Return value:*  comma separated string, must not be freed.
 
- -- Function: lw6sys_assoc_t * lw6cli_get_backends (int ARGC, char * []
-          ARGV)
+ -- Function: lw6sys_assoc_t * lw6cli_get_backends (int ARGC, const
+          char * [] ARGV)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -8094,8 +8094,8 @@ results on
 
      *Return value:*  hash containing id/name pairs.
 
- -- Function: lw6cli_backend_t * lw6cli_create_backend (int ARGC, char
-          * [] ARGV, char * NAME)
+ -- Function: lw6cli_backend_t * lw6cli_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -8739,8 +8739,8 @@ results on
 5.16.2 API
 ----------
 
- -- Function: lw6dsp_backend_t * lw6dsp_create_backend (int ARGC, char
-          * [] ARGV, char * GFX_BACKEND_NAME)
+ -- Function: lw6dsp_backend_t * lw6dsp_create_backend (int ARGC, const
+          char * [] ARGV, char * GFX_BACKEND_NAME)
      ARGC:  argc as passed to `main'
 
      ARGV:  argv as passed to `main'
@@ -8912,8 +8912,8 @@ results on
 5.17.2 API
 ----------
 
- -- Function: lw6dyn_dl_handle_t * lw6dyn_dlopen_backend_so (char *
-          SO_FILE)
+ -- Function: lw6dyn_dl_handle_t * lw6dyn_dlopen_backend_so (const char
+          * SO_FILE)
      Opens a .so file directly, using a valid (full) path name.
 
      *Return value:*  a handle to the module, once it's opened. You
@@ -8921,7 +8921,8 @@ results on
      it's another story.
 
  -- Function: lw6dyn_dl_handle_t * lw6dyn_dlopen_backend (int ARGC,
-          char * [] ARGV, char * TOP_LEVEL_LIB, char * BACKEND_NAME)
+          const char * [] ARGV, const char * TOP_LEVEL_LIB, const char
+          * BACKEND_NAME)
      ARGC:  the number of command-line arguments as passed to `main'
 
      TOP_LEVEL_LIB:  the top-level library concerned, this means is it
@@ -8946,8 +8947,8 @@ results on
 
      *Return value:*  1 if success, 0 on error.
 
- -- Function: void * lw6dyn_dlsym (lw6dyn_dl_handle_t * HANDLE, char *
-          FUNC_NAME)
+ -- Function: void * lw6dyn_dlsym (lw6dyn_dl_handle_t * HANDLE, const
+          char * FUNC_NAME)
      HANDLE:  the backend concerned
 
      FUNC_NAME:  the function name, as a NULL terminated string
@@ -8956,8 +8957,8 @@ results on
 
      *Return value:*  a pointer to the function, NULL if not found.
 
- -- Function: lw6sys_assoc_t * lw6dyn_list_backends (int ARGC, char *
-          [] ARGV, char * TOP_LEVEL_LIB)
+ -- Function: lw6sys_assoc_t * lw6dyn_list_backends (int ARGC, const
+          char * [] ARGV, const char * TOP_LEVEL_LIB)
      ARGC:  the number of command line args, as passed to main
 
      ARGV:  the commind line args, as passed to main
@@ -8972,8 +8973,9 @@ results on
 
      *Return value:*  an assoc object containing key/label pairs.
 
- -- Function: char * lw6dyn_path_find_backend (int ARGC, char * []
-          ARGV, char * TOP_LEVEL_LIB, char * BACKEND_NAME)
+ -- Function: char * lw6dyn_path_find_backend (int ARGC, const char *
+          [] ARGV, const char * TOP_LEVEL_LIB, const char *
+          BACKEND_NAME)
      ARGC:  the number of command-line arguments as passed to `main'
 
      TOP_LEVEL_LIB:  the top-level library concerned, this means is it
@@ -9149,8 +9151,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: lw6sys_assoc_t * lw6gfx_get_backends (int ARGC, char * []
-          ARGV)
+ -- Function: lw6sys_assoc_t * lw6gfx_get_backends (int ARGC, const
+          char * [] ARGV)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -9164,8 +9166,8 @@ results on
 
      *Return value:*  hash containing id/name pairs.
 
- -- Function: lw6gfx_backend_t * lw6gfx_create_backend (int ARGC, char
-          * [] ARGV, char * NAME)
+ -- Function: lw6gfx_backend_t * lw6gfx_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'

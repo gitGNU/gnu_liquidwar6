@@ -225,7 +225,7 @@ Returns the list of the default srv backends.
 @strong{Return value:}  comma separated string, must not be freed.
 @end deftypefun
 
-@deftypefun {lw6sys_assoc_t *} {lw6srv_get_backends} (int @var{argc}, char * [] @var{argv})
+@deftypefun {lw6sys_assoc_t *} {lw6srv_get_backends} (int @var{argc}, const char * [] @var{argv})
 @var{argc}:  argc, as passed to @code{main}
 
 @var{argv}:  argv, as passed to @code{main}
@@ -240,7 +240,7 @@ load and initialize them afterwards.
 @strong{Return value:}  hash containing id/name pairs.
 @end deftypefun
 
-@deftypefun {lw6srv_backend_t *} {lw6srv_create_backend} (int @var{argc}, char * [] @var{argv}, char * @var{name})
+@deftypefun {lw6srv_backend_t *} {lw6srv_create_backend} (int @var{argc}, const char * [] @var{argv}, char * @var{name})
 @var{argc}:  argc, as passed to @code{main}
 
 @var{argv}:  argv, as passed to @code{main}

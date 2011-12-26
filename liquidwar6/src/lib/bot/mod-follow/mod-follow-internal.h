@@ -40,23 +40,17 @@ typedef struct _mod_follow_context_s
 }
 _mod_follow_context_t;
 
-/*
- * In setup.c
- */
+/* mod-follow-setup.c */
 extern _mod_follow_context_t *_mod_follow_init (int argc,
-						char *argv[],
+						const char *argv[],
 						lw6bot_data_t * data);
 extern void _mod_follow_quit (_mod_follow_context_t * follow_context);
 
-/*
- * In move.c
- */
+/* mod-follow-move.c */
 extern int _mod_follow_next_move (_mod_follow_context_t * follow_context,
 				  int *x, int *y, lw6bot_data_t * data);
 
-/*
- * In repr.c
- */
+/* mod-follow-repr.c */
 extern char *_mod_follow_repr (_mod_follow_context_t * follow_context,
 			       u_int32_t id);
 

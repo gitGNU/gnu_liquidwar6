@@ -92,12 +92,12 @@ typedef struct lw6srv_backend_s
   lw6dyn_dl_handle_t *dl_handle;
   void *srv_context;
   int argc;
-  char **argv;
+  const char **argv;
   u_int32_t id;
   char *name;
   lw6nod_info_t *info;
 
-  void *(*init) (int argc, char *argv[], lw6srv_listener_t * listener);
+  void *(*init) (int argc, const char *argv[], lw6srv_listener_t * listener);
   void (*quit) (void *srv_context);
   int (*analyse_tcp) (void *srv_context,
 		      lw6srv_tcp_accepter_t * tcp_accepter,
@@ -185,8 +185,8 @@ extern void lw6srv_oob_free (lw6srv_oob_t * oob);
 
 /* srv-register.c */
 extern char *lw6srv_default_backends ();
-extern lw6sys_assoc_t *lw6srv_get_backends (int argc, char *argv[]);
-extern lw6srv_backend_t *lw6srv_create_backend (int argc, char *argv[],
+extern lw6sys_assoc_t *lw6srv_get_backends (int argc, const char *argv[]);
+extern lw6srv_backend_t *lw6srv_create_backend (int argc, const char *argv[],
 						char *name);
 extern void lw6srv_destroy_backend (lw6srv_backend_t * backend);
 

@@ -28,7 +28,7 @@
 #include "cfg-internal.h"
 
 _lw6cfg_context_t *
-_lw6cfg_init (int argc, char *argv[])
+_lw6cfg_init (int argc, const char *argv[])
 {
   _lw6cfg_context_t *cfg_context = NULL;
 
@@ -82,7 +82,7 @@ _lw6cfg_init (int argc, char *argv[])
  * Return value: an opaque pointer, must be freed with @lw6cfg_quit.
  */
 void *
-lw6cfg_init (int argc, char *argv[])
+lw6cfg_init (int argc, const char *argv[])
 {
   return (void *) _lw6cfg_init (argc, argv);
 }
@@ -124,7 +124,7 @@ lw6cfg_quit (void *cfg_context)
  * Use this to get rid of old configurations.
  */
 void
-lw6cfg_reset (int argc, char *argv[])
+lw6cfg_reset (int argc, const char *argv[])
 {
   char *config_file = NULL;
   void *cfg_context = NULL;

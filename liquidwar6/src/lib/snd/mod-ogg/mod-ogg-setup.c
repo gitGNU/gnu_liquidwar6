@@ -28,8 +28,8 @@
 #include "mod-ogg-internal.h"
 
 _mod_ogg_context_t *
-_mod_ogg_init (int argc, char *argv[], float fx_volume, float water_volume,
-	       float music_volume)
+_mod_ogg_init (int argc, const char *argv[], float fx_volume,
+	       float water_volume, float music_volume)
 {
   _mod_ogg_context_t *snd_context = NULL;
   int sdl_ok = 1;

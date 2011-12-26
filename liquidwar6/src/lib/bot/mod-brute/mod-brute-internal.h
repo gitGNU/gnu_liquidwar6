@@ -36,23 +36,17 @@ typedef struct _mod_brute_context_s
 }
 _mod_brute_context_t;
 
-/*
- * In setup.c
- */
+/* mod-brute-setup.c */
 extern _mod_brute_context_t *_mod_brute_init (int argc,
-					      char *argv[],
+					      const char *argv[],
 					      lw6bot_data_t * data);
 extern void _mod_brute_quit (_mod_brute_context_t * brute_context);
 
-/*
- * In move.c
- */
+/* mod-brute-move.c */
 extern int _mod_brute_next_move (_mod_brute_context_t * brute_context,
 				 int *x, int *y, lw6bot_data_t * data);
 
-/*
- * In repr.c
- */
+/* mod-brute-repr.c */
 extern char *_mod_brute_repr (_mod_brute_context_t * brute_context,
 			      u_int32_t id);
 

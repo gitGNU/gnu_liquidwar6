@@ -35,23 +35,17 @@ typedef struct _mod_random_context_s
 }
 _mod_random_context_t;
 
-/*
- * In setup.c
- */
+/* mod-random-setup.c */
 extern _mod_random_context_t *_mod_random_init (int argc,
-						char *argv[],
+						const char *argv[],
 						lw6bot_data_t * data);
 extern void _mod_random_quit (_mod_random_context_t * random_context);
 
-/*
- * In move.c
- */
+/* mod-random-move.c */
 extern int _mod_random_next_move (_mod_random_context_t * random_context,
 				  int *x, int *y, lw6bot_data_t * data);
 
-/*
- * In repr.c
- */
+/* mod-random-repr.c */
 extern char *_mod_random_repr (_mod_random_context_t * random_context,
 			       u_int32_t id);
 

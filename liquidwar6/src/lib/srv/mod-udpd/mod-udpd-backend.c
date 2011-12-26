@@ -37,7 +37,7 @@ mod_udpd_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6srv_listener_t * listener)
+_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 {
   _udpd_context_t *udpd_context = _mod_udpd_init (argc, argv, listener);
 

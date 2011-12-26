@@ -27,7 +27,7 @@
 #include "srv.h"
 
 int
-main (int argc, char *argv[])
+main (int argc, const char *argv[])
 {
   int ret = 1;
 

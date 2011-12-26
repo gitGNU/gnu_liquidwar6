@@ -52,7 +52,7 @@ lw6_global_t lw6_global;
  * Return value: 1 on success, 0 if failed
  */
 int
-lw6_init_global (int argc, char *argv[])
+lw6_init_global (int argc, const char *argv[])
 {
   int ret = 0;
 

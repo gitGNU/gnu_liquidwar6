@@ -32,8 +32,8 @@
 #define DYN_TEST lw6dyn_test(1)
 #endif
 
-int
-check_arg (char *arg)
+static int
+check_arg (const char *arg)
 {
   char *keyword = NULL;
   char *equal = NULL;
@@ -67,7 +67,7 @@ check_arg (char *arg)
  *   instance, the test suite returning "no, tests were not OK".
  */
 int
-lw6_process_non_run_options (int argc, char *argv[], int *run_game)
+lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 {
   int i;
   int ret = 1;

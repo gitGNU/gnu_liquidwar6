@@ -46,7 +46,7 @@ mod_brute_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6bot_data_t * data)
+_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_brute_context_t *brute_context = _mod_brute_init (argc, argv, data);
 

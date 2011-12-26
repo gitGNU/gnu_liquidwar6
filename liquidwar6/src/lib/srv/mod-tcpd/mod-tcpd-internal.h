@@ -63,7 +63,7 @@ extern void _mod_tcpd_unload_data (_tcpd_data_t * tcpd_data);
 /*
  * In setup.c
  */
-extern _tcpd_context_t *_mod_tcpd_init (int argc, char *argv[],
+extern _tcpd_context_t *_mod_tcpd_init (int argc, const char *argv[],
 					lw6srv_listener_t * listener);
 extern void _mod_tcpd_quit (_tcpd_context_t * tcpd_context);
 

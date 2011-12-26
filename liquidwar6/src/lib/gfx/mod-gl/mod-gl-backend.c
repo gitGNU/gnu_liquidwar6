@@ -37,7 +37,7 @@ mod_gl_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6gui_video_mode_t * video_mode,
+_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
        lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gl_context_t *mod_gl_context =

@@ -46,7 +46,7 @@ mod_idiot_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6bot_data_t * data)
+_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_idiot_context_t *idiot_context = _mod_idiot_init (argc, argv, data);
 

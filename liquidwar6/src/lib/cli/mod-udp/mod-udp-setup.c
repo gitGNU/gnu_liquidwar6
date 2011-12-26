@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 _udp_context_t *
-_mod_udp_init (int argc, char *argv[])
+_mod_udp_init (int argc, const char *argv[])
 {
   _udp_context_t *udp_context = NULL;
   char *data_dir = NULL;

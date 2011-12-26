@@ -82,7 +82,7 @@ extern lw6sys_list_t *lw6net_recv_lines_udp (int sock,
 extern int lw6net_send_line_udp (int sock, char *line, char *ip, int port);
 
 /* net-setup.c */
-extern int lw6net_init (int argc, char *argv[], int net_log);
+extern int lw6net_init (int argc, const char *argv[], int net_log);
 extern void lw6net_quit ();
 
 /* net-socket.c */

@@ -52,23 +52,23 @@ is_equal (char c)
 }
 
 static void
-skip_prefix (char **keyword)
+skip_prefix (const char *keyword, int *pos)
 {
   /*
    * Only 2 separators at beginning, more leads to confusion...
    */
-  if (is_sep ((*keyword)[0]))
+  if (is_sep (keyword[*pos]))
     {
-      (*keyword)++;
+      (*pos)++;
     }
-  if (is_sep ((*keyword)[0]))
+  if (is_sep (keyword[*pos]))
     {
-      (*keyword)++;
+      (*pos)++;
     }
 
-  if (strncasecmp ((*keyword), ENV_PREFIX, strlen (ENV_PREFIX)) == 0)
+  if (strncasecmp (keyword + (*pos), ENV_PREFIX, strlen (ENV_PREFIX)) == 0)
     {
-      (*keyword) += strlen (ENV_PREFIX);
+      (*pos) += strlen (ENV_PREFIX);
     }
 }
 
@@ -85,40 +85,39 @@ skip_prefix (char **keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_key (char *keyword)
+lw6sys_keyword_as_key (const char *keyword)
 {
   char *ret = NULL;
-  char *pos = NULL;
+  int pos_i = 0;
+  char *pos_p = NULL;
 
-  pos = keyword;
+  skip_prefix (keyword, &pos_i);
 
-  skip_prefix (&pos);
-
-  ret = lw6sys_str_copy (pos);
+  ret = lw6sys_str_copy (keyword + pos_i);
   if (ret)
     {
-      pos = ret;
-      while (pos[0])
+      pos_p = ret;
+      while (pos_p[0])
 	{
-	  if (is_c (pos[0]))
+	  if (is_c (pos_p[0]))
 	    {
-	      pos[0] = tolower (pos[0]);
+	      pos_p[0] = tolower (pos_p[0]);
 	    }
-	  else if (is_sep (pos[0]))
+	  else if (is_sep (pos_p[0]))
 	    {
-	      pos[0] = '-';
+	      pos_p[0] = '-';
 	    }
-	  else if (is_equal (pos[0]))
+	  else if (is_equal (pos_p[0]))
 	    {
-	      pos[0] = '\0';
+	      pos_p[0] = '\0';
 	    }
 	  else
 	    {
 	      lw6sys_log_critical (_x_
 				   ("weird char '%c' in keyword \"%s\""),
-				   pos[0], keyword);
+				   pos_p[0], keyword);
 	    }
-	  pos++;
+	  pos_p++;
 	}
     }
 
@@ -136,7 +135,7 @@ lw6sys_keyword_as_key (char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_arg (char *keyword)
+lw6sys_keyword_as_arg (const char *keyword)
 {
   char *ret = NULL;
   char *key = NULL;
@@ -163,40 +162,39 @@ lw6sys_keyword_as_arg (char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_env (char *keyword)
+lw6sys_keyword_as_env (const char *keyword)
 {
   char *ret = NULL;
-  char *pos = NULL;
+  int pos_i = 0;
+  char *pos_p = NULL;
 
-  pos = keyword;
+  skip_prefix (keyword, &pos_i);
 
-  skip_prefix (&pos);
-
-  ret = lw6sys_new_sprintf (ENV_MASK, pos);
+  ret = lw6sys_new_sprintf (ENV_MASK, keyword + pos_i);
   if (ret)
     {
-      pos = ret;
-      while (pos[0])
+      pos_p = ret;
+      while (pos_p[0])
 	{
-	  if (is_c (pos[0]))
+	  if (is_c (pos_p[0]))
 	    {
-	      pos[0] = toupper (pos[0]);
+	      pos_p[0] = toupper (pos_p[0]);
 	    }
-	  else if (is_sep (pos[0]))
+	  else if (is_sep (pos_p[0]))
 	    {
-	      pos[0] = '_';
+	      pos_p[0] = '_';
 	    }
-	  else if (is_equal (pos[0]))
+	  else if (is_equal (pos_p[0]))
 	    {
-	      pos[0] = '\0';
+	      pos_p[0] = '\0';
 	    }
 	  else
 	    {
 	      lw6sys_log_critical (_x_
 				   ("weird char '%c' in keyword \"%s\""),
-				   pos[0], keyword);
+				   pos_p[0], keyword);
 	    }
-	  pos++;
+	  pos_p++;
 	}
     }
 
@@ -214,7 +212,7 @@ lw6sys_keyword_as_env (char *keyword)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_keyword_as_xml (char *keyword)
+lw6sys_keyword_as_xml (const char *keyword)
 {
   char *ret = NULL;
 

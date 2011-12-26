@@ -108,12 +108,12 @@ extern int _lw6net_inet_aton (struct in_addr *in, char *ip);
 /*
  * In const.c
  */
-extern int _lw6net_const_init (int argc, char *argv[],
+extern int _lw6net_const_init (int argc, const char *argv[],
 			       _lw6net_const_data_t * const_data);
 extern void _lw6net_const_quit (_lw6net_const_data_t * const_data);
 
 /* net-counters.c */
-extern int _lw6net_counters_init (int argc, char *argv[],
+extern int _lw6net_counters_init (int argc, const char *argv[],
 				  _lw6net_counters_t * counters);
 extern void _lw6net_counters_quit (_lw6net_counters_t * counters);
 extern void _lw6net_counters_register_socket (_lw6net_counters_t * counters);
@@ -134,8 +134,8 @@ extern char *_lw6net_wsa_str (int wsa_int);
 #endif
 
 /* net-log.c */
-extern int _lw6net_log_init (int argc, char *argv[], _lw6net_log_t * log,
-			     int net_log);
+extern int _lw6net_log_init (int argc, const char *argv[],
+			     _lw6net_log_t * log, int net_log);
 extern void _lw6net_log_quit (_lw6net_log_t * log);
 extern int _lw6net_log_tcp_recv (_lw6net_log_t * log, char *buf, int len);
 extern int _lw6net_log_tcp_send (_lw6net_log_t * log, char *buf, int len);

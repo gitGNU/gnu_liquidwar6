@@ -380,12 +380,14 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define LW6SYS_REFORMAT_XML_NB_COLUMNS 74
 
 /* sys-arg.c */
-extern int lw6sys_arg_match (char *keyword, char *argv_string);
-extern int lw6sys_arg_exists (int argc, char *argv[], char *keyword);
-extern char *lw6sys_arg_get_value (int argc, char *argv[], char *keyword);
-extern char *lw6sys_arg_get_value_with_env (int argc, char *argv[],
-					    char *keyword);
-extern int lw6sys_arg_test_mode (int argc, char *argv[]);
+extern int lw6sys_arg_match (const char *keyword, const char *argv_string);
+extern int lw6sys_arg_exists (int argc, const char *argv[],
+			      const char *keyword);
+extern char *lw6sys_arg_get_value (int argc, const char *argv[],
+				   const char *keyword);
+extern char *lw6sys_arg_get_value_with_env (int argc, const char *argv[],
+					    const char *keyword);
+extern int lw6sys_arg_test_mode (int argc, const char *argv[]);
 
 /* sys-assoc.c */
 extern lw6sys_assoc_t *lw6sys_assoc_new (lw6sys_free_func_t free_func);
@@ -573,7 +575,7 @@ extern char *lw6sys_btoa (int value);
 extern char *lw6sys_ftoa (float value);
 
 /* sys-daemon.c */
-extern char *lw6sys_daemon_pid_file (int argc, char *argv[]);
+extern char *lw6sys_daemon_pid_file (int argc, const char *argv[]);
 extern int lw6sys_daemon_start (char *pid_file);
 extern int lw6sys_daemon_stop (char *pid_file);
 
@@ -588,13 +590,13 @@ extern int lw6sys_dump (char *user_dir, char *content);
 /* sys-env.c */
 extern char lw6sys_env_separator_char ();
 extern char *lw6sys_env_separator_str ();
-extern char *lw6sys_env_concat (char *value1, char *value2);
-extern int lw6sys_env_exists_prefixed (char *keyword);
-extern char *lw6sys_getenv (char *key);
-extern char *lw6sys_getenv_prefixed (char *keyword);
-extern int lw6sys_setenv (char *keyword, char *value);
-extern int lw6sys_setenv_prefixed (char *keyword, char *value);
-extern lw6sys_list_t *lw6sys_env_split (char *value);
+extern char *lw6sys_env_concat (const char *value1, const char *value2);
+extern int lw6sys_env_exists_prefixed (const char *keyword);
+extern char *lw6sys_getenv (const char *key);
+extern char *lw6sys_getenv_prefixed (const char *keyword);
+extern int lw6sys_setenv (const char *keyword, const char *value);
+extern int lw6sys_setenv_prefixed (const char *keyword, const char *value);
+extern lw6sys_list_t *lw6sys_env_split (const char *value);
 extern char *lw6sys_get_home ();
 extern char *lw6sys_get_username ();
 extern char *lw6sys_get_hostname ();
@@ -605,10 +607,10 @@ extern char *lw6sys_escape_html_attribute (char *src);
 extern char *lw6sys_escape_sql_value (char *src);
 
 /* sys-exec.c */
-extern char *lw6sys_exec_find_myself (int argc, char *argv[]);
-extern int lw6sys_is_executed_again (int argc, char *argv[]);
-extern int lw6sys_exec_again (int argc, char *argv[]);
-extern int lw6sys_exec_restart (int argc, char *argv[]);
+extern char *lw6sys_exec_find_myself (int argc, const char *argv[]);
+extern int lw6sys_is_executed_again (int argc, const char *argv[]);
+extern int lw6sys_exec_again (int argc, const char *argv[]);
+extern int lw6sys_exec_restart (int argc, const char *argv[]);
 
 /* sys-file.c */
 extern int lw6sys_clear_file (char *filename);
@@ -719,10 +721,10 @@ extern char *lw6sys_id_ltoa (u_int64_t id);
 extern u_int64_t lw6sys_id_atol (char *id);
 
 /* sys-keyword.c */
-extern char *lw6sys_keyword_as_key (char *keyword);
-extern char *lw6sys_keyword_as_arg (char *keyword);
-extern char *lw6sys_keyword_as_env (char *keyword);
-extern char *lw6sys_keyword_as_xml (char *keyword);
+extern char *lw6sys_keyword_as_key (const char *keyword);
+extern char *lw6sys_keyword_as_arg (const char *keyword);
+extern char *lw6sys_keyword_as_env (const char *keyword);
+extern char *lw6sys_keyword_as_xml (const char *keyword);
 
 /* sys-list.c */
 extern lw6sys_list_t *lw6sys_list_new (lw6sys_free_func_t free_func);
@@ -817,42 +819,43 @@ extern char *lw6sys_get_default_map_dir ();
 extern char *lw6sys_get_default_map_path ();
 extern char *lw6sys_get_default_script_file ();
 extern void lw6sys_options_log_defaults ();
-extern char *lw6sys_get_run_dir (int argc, char *argv[]);
-extern char *lw6sys_get_user_dir (int argc, char *argv[]);
-extern char *lw6sys_get_config_file (int argc, char *argv[]);
-extern char *lw6sys_get_log_file (int argc, char *argv[]);
-extern char *lw6sys_get_prefix (int argc, char *argv[]);
-extern char *lw6sys_get_mod_dir (int argc, char *argv[]);
-extern char *lw6sys_get_data_dir (int argc, char *argv[]);
-extern char *lw6sys_get_music_dir (int argc, char *argv[]);
-extern char *lw6sys_get_music_path (int argc, char *argv[]);
-extern char *lw6sys_get_map_dir (int argc, char *argv[]);
-extern char *lw6sys_get_map_path (int argc, char *argv[]);
-extern char *lw6sys_get_script_file (int argc, char *argv[]);
-extern void lw6sys_options_log (int argc, char *argv[]);
+extern char *lw6sys_get_run_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_user_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_config_file (int argc, const char *argv[]);
+extern char *lw6sys_get_log_file (int argc, const char *argv[]);
+extern char *lw6sys_get_prefix (int argc, const char *argv[]);
+extern char *lw6sys_get_mod_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_data_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_music_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_music_path (int argc, const char *argv[]);
+extern char *lw6sys_get_map_dir (int argc, const char *argv[]);
+extern char *lw6sys_get_map_path (int argc, const char *argv[]);
+extern char *lw6sys_get_script_file (int argc, const char *argv[]);
+extern void lw6sys_options_log (int argc, const char *argv[]);
 
 /* sys-path.c */
-extern int lw6sys_file_exists (char *filename);
-extern int lw6sys_dir_exists (char *dirname);
-extern int lw6sys_create_dir (char *dirname);
-extern int lw6sys_create_dir_silent (char *dirname);
-extern char *lw6sys_path_add_slash (char *path);
-extern char *lw6sys_path_strip_slash (char *path);
-extern char *lw6sys_path_concat (char *path1, char *path2);
-extern lw6sys_list_t *lw6sys_path_split (char *path);
-extern char *lw6sys_path_file_only (char *path);
-extern int lw6sys_path_is_relative (char *path);
-extern int lw6sys_path_is_cwd (char *path);
-extern char *lw6sys_path_parent (char *path);
-extern char *lw6sys_path_unparent (char *path);
+extern int lw6sys_file_exists (const char *filename);
+extern int lw6sys_dir_exists (const char *dirname);
+extern int lw6sys_create_dir (const char *dirname);
+extern int lw6sys_create_dir_silent (const char *dirname);
+extern char *lw6sys_path_add_slash (const char *path);
+extern char *lw6sys_path_strip_slash (const char *path);
+extern char *lw6sys_path_concat (const char *path1, const char *path2);
+extern lw6sys_list_t *lw6sys_path_split (const char *path);
+extern char *lw6sys_path_file_only (const char *path);
+extern int lw6sys_path_is_relative (const char *path);
+extern int lw6sys_path_is_cwd (const char *path);
+extern char *lw6sys_path_parent (const char *path);
+extern char *lw6sys_path_unparent (const char *path);
 extern char *lw6sys_path_unparent_no_malloc (char *path);
-extern lw6sys_list_t *lw6sys_dir_list (char *dir,
+extern lw6sys_list_t *lw6sys_dir_list (const char *dir,
 				       lw6sys_dir_list_filter_func_t
 				       filter_func, void *func_data, int *n);
-extern lw6sys_list_t *lw6sys_path_list (char *path,
+extern lw6sys_list_t *lw6sys_path_list (const char *path,
 					lw6sys_dir_list_filter_func_t
 					filter_func, void *func_data, int *n);
-extern char *lw6sys_find_in_dir_and_path (char *dir, char *path, char *file);
+extern char *lw6sys_find_in_dir_and_path (const char *dir, const char *path,
+					  const char *file);
 
 /* sys-print.c */
 extern void lw6sys_print_xml_header (FILE * f, char *comment);
@@ -985,7 +988,7 @@ extern char *lw6sys_stream_file_to_str (FILE * f);
 extern void lw6sys_stream_str_to_file (FILE * f, char *str);
 
 /* sys-test.c */
-extern int lw6sys_test_exec (int argc, char *argv[], int mode);
+extern int lw6sys_test_exec (int argc, const char *argv[], int mode);
 extern int lw6sys_test (int mode);
 
 /* sys-testandset.s */

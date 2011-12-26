@@ -50,7 +50,7 @@ extern char *_mod_gl_repr (_mod_gl_context_t * gl_context, u_int32_t id);
 /*
  * In setup.c
  */
-extern _mod_gl_context_t *_mod_gl_init (int argc, char *argv[],
+extern _mod_gl_context_t *_mod_gl_init (int argc, const char *argv[],
 					lw6gui_video_mode_t * video_mode,
 					lw6gui_resize_callback_func_t
 					resize_callback);

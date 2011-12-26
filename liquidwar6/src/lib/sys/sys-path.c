@@ -75,7 +75,7 @@ normalize (char *path)
  * Return value: 1 if OK, 0 if file doesn't exist or can't be read.
  */
 int
-lw6sys_file_exists (char *filename)
+lw6sys_file_exists (const char *filename)
 {
   int ret = 0;
   FILE *f;
@@ -100,7 +100,7 @@ lw6sys_file_exists (char *filename)
  * Return value: 1 if OK, 0 if directory doesn't exist.
  */
 int
-lw6sys_dir_exists (char *dirname)
+lw6sys_dir_exists (const char *dirname)
 {
   int ret = 0;
   DIR *dir = NULL;
@@ -117,7 +117,7 @@ lw6sys_dir_exists (char *dirname)
 }
 
 static int
-create_dir (char *dirname, int verbose)
+create_dir (const char *dirname, int verbose)
 {
   int ret = 0;
 
@@ -156,7 +156,7 @@ create_dir (char *dirname, int verbose)
  * Return value: 1 if OK, 0 if error.
  */
 int
-lw6sys_create_dir (char *dirname)
+lw6sys_create_dir (const char *dirname)
 {
   return create_dir (dirname, 1);
 }
@@ -174,7 +174,7 @@ lw6sys_create_dir (char *dirname)
  * Return value: 1 if OK, 0 if error.
  */
 int
-lw6sys_create_dir_silent (char *dirname)
+lw6sys_create_dir_silent (const char *dirname)
 {
   return create_dir (dirname, 0);
 }
@@ -191,7 +191,7 @@ lw6sys_create_dir_silent (char *dirname)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_add_slash (char *path)
+lw6sys_path_add_slash (const char *path)
 {
   char *ret;
   int len;
@@ -226,7 +226,7 @@ lw6sys_path_add_slash (char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_strip_slash (char *path)
+lw6sys_path_strip_slash (const char *path)
 {
   char *ret;
   int len;
@@ -263,7 +263,7 @@ lw6sys_path_strip_slash (char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_concat (char *path1, char *path2)
+lw6sys_path_concat (const char *path1, const char *path2)
 {
   char *path1_stripped = NULL;
   char *path2_stripped = NULL;
@@ -324,7 +324,7 @@ lw6sys_path_concat (char *path1, char *path2)
  * Return value: a list containing 0-terminated strings.
  */
 lw6sys_list_t *
-lw6sys_path_split (char *path)
+lw6sys_path_split (const char *path)
 {
   char *stripped_path = NULL;
   lw6sys_list_t *ret = NULL;
@@ -349,7 +349,7 @@ lw6sys_path_split (char *path)
  * Return value: file name, must be freed
  */
 char *
-lw6sys_path_file_only (char *path)
+lw6sys_path_file_only (const char *path)
 {
   char *ret = NULL;
   int i = 0;
@@ -381,7 +381,7 @@ lw6sys_path_file_only (char *path)
  * Return value: 1 if relative, 0 if absolute.
  */
 int
-lw6sys_path_is_relative (char *path)
+lw6sys_path_is_relative (const char *path)
 {
   int ret = 0;
 
@@ -407,7 +407,7 @@ lw6sys_path_is_relative (char *path)
  * Return value: 1 if relative, 0 if absolute.
  */
 int
-lw6sys_path_is_cwd (char *path)
+lw6sys_path_is_cwd (const char *path)
 {
   int ret = 0;
 
@@ -433,7 +433,7 @@ lw6sys_path_is_cwd (char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_parent (char *path)
+lw6sys_path_parent (const char *path)
 {
   char *parent = NULL;
   char *stripped_path = NULL;
@@ -489,7 +489,7 @@ lw6sys_path_parent (char *path)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6sys_path_unparent (char *path)
+lw6sys_path_unparent (const char *path)
 {
   char *unparent = NULL;
   char *slashed_path = NULL;
@@ -549,7 +549,7 @@ lw6sys_path_unparent_no_malloc (char *path)
 }
 
 static void
-_dir_list_add_entry (lw6sys_list_t ** list, char *dir, char *item,
+_dir_list_add_entry (lw6sys_list_t ** list, const char *dir, const char *item,
 		     lw6sys_dir_list_filter_func_t filter_func,
 		     void *func_data, int *n)
 {
@@ -583,7 +583,7 @@ _dir_list_add_entry (lw6sys_list_t ** list, char *dir, char *item,
 }
 
 static void
-_dir_list_add_entries (lw6sys_list_t ** list, char *dir,
+_dir_list_add_entries (lw6sys_list_t ** list, const char *dir,
 		       lw6sys_dir_list_filter_func_t filter_func,
 		       void *func_data, int *n)
 {
@@ -686,7 +686,7 @@ _dir_list_add_entries (lw6sys_list_t ** list, char *dir,
  * Return value: a list containing strings (file paths).
  */
 lw6sys_list_t *
-lw6sys_dir_list (char *dir, lw6sys_dir_list_filter_func_t filter_func,
+lw6sys_dir_list (const char *dir, lw6sys_dir_list_filter_func_t filter_func,
 		 void *func_data, int *n)
 {
   lw6sys_list_t *ret = NULL;
@@ -725,7 +725,7 @@ lw6sys_dir_list (char *dir, lw6sys_dir_list_filter_func_t filter_func,
  * Return value: a list containing strings (file paths).
  */
 lw6sys_list_t *
-lw6sys_path_list (char *path,
+lw6sys_path_list (const char *path,
 		  lw6sys_dir_list_filter_func_t
 		  filter_func, void *func_data, int *n)
 {
@@ -772,28 +772,30 @@ lw6sys_path_list (char *path,
  * Return value: the full path of the found file.
  */
 char *
-lw6sys_find_in_dir_and_path (char *dir, char *path, char *file)
+lw6sys_find_in_dir_and_path (const char *dir, const char *path,
+			     const char *file)
 {
   char *ret = NULL;
-  char *file_only = NULL;
+  int file_only_offset = 0;
   char *tmp = NULL;
   char *full_path;
   lw6sys_list_t *dirs = NULL;
+  char *d = NULL;
 
-  file_only = file;
+  file_only_offset = 0;		// file
   tmp = strrchr (file, DIR_SEP_CHAR_UNIX);
   if (tmp)
     {
-      file_only = tmp + 1;
+      file_only_offset = (tmp - file) + 1;
     }
   tmp = strrchr (file, DIR_SEP_CHAR_MS_WINDOWS);
   if (tmp)
     {
-      file_only = tmp + 1;
+      file_only_offset = (tmp - file) + 1;
     }
-  if (dir && !ret)
+  if (dir && (!ret) && file_only_offset >= 0)
     {
-      full_path = lw6sys_path_concat (dir, file_only);
+      full_path = lw6sys_path_concat (dir, file + file_only_offset);
       if (full_path)
 	{
 	  if ((!ret) && lw6sys_file_exists (full_path))
@@ -806,15 +808,15 @@ lw6sys_find_in_dir_and_path (char *dir, char *path, char *file)
 	    }
 	}
     }
-  if (path && !ret)
+  if (path && (!ret) && file_only_offset >= 0)
     {
       dirs = lw6sys_env_split (path);
       if (dirs)
 	{
 	  while (dirs
-		 && ((dir = (char *) lw6sys_list_pop_front (&dirs)) != NULL))
+		 && ((d = (char *) lw6sys_list_pop_front (&dirs)) != NULL))
 	    {
-	      full_path = lw6sys_path_concat (dir, file_only);
+	      full_path = lw6sys_path_concat (d, file + file_only_offset);
 	      if (full_path)
 		{
 		  if ((!ret) && lw6sys_file_exists (full_path))
@@ -826,7 +828,7 @@ lw6sys_find_in_dir_and_path (char *dir, char *path, char *file)
 		      LW6SYS_FREE (full_path);
 		    }
 		}
-	      LW6SYS_FREE (dir);
+	      LW6SYS_FREE (d);
 	    }
 	  // normally dirs is already freed here
 	}

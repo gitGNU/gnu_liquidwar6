@@ -61,11 +61,11 @@ typedef struct lw6cli_backend_s
   lw6dyn_dl_handle_t *dl_handle;
   void *cli_context;
   int argc;
-  char **argv;
+  const char **argv;
   u_int32_t id;
   char *name;
 
-  void *(*init) (int argc, char *argv[]);
+  void *(*init) (int argc, const char *argv[]);
   void (*quit) (void *cli_context);
   int (*process_oob) (void *cli_context, lw6nod_info_t * node_info,
 		      lw6cli_oob_data_t * oob_data);
@@ -129,8 +129,8 @@ extern void lw6cli_oob_free (lw6cli_oob_t * oob);
 
 /* cli-register.c */
 extern char *lw6cli_default_backends ();
-extern lw6sys_assoc_t *lw6cli_get_backends (int argc, char *argv[]);
-extern lw6cli_backend_t *lw6cli_create_backend (int argc, char *argv[],
+extern lw6sys_assoc_t *lw6cli_get_backends (int argc, const char *argv[]);
+extern lw6cli_backend_t *lw6cli_create_backend (int argc, const char *argv[],
 						char *name);
 extern void lw6cli_destroy_backend (lw6cli_backend_t * backend);
 

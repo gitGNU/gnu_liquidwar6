@@ -119,8 +119,8 @@ test_play_music (lw6snd_backend_t * backend)
 
   {
     char *map_path = NULL;
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] = { TEST_ARGV0 };
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
     map_path = lw6cfg_unified_get_music_path (argc, argv);
     if (map_path)
@@ -180,8 +180,8 @@ lw6snd_test (int mode)
 {
   int ret = 1;
   lw6snd_backend_t *backend;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {

@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -3624,7 +3624,8 @@ results on
 
      *Return value:*  the number of bytes sent, 0 if failure
 
- -- Function: int lw6net_init (int ARGC, char * [] ARGV, int NET_LOG)
+ -- Function: int lw6net_init (int ARGC, const char * [] ARGV, int
+          NET_LOG)
      ARGC:  argc as passed to `main'
 
      ARGV:  argv as passed to `main'
@@ -4072,8 +4073,8 @@ results on
 5.30.2 API
 ----------
 
- -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, char * [] ARGV,
-          char * NAME)
+ -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, const char * []
+          ARGV, char * NAME)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -4101,8 +4102,8 @@ results on
 
      *Return value:*  a dynamically allocated string
 
- -- Function: int lw6p2p_db_reset (int ARGC, char * [] ARGV, char *
-          NAME)
+ -- Function: int lw6p2p_db_reset (int ARGC, const char * [] ARGV, char
+          * NAME)
      ARGC:  number of args, as passed to `main'
 
      ARGV:  args array, as passed to `main'
@@ -4211,8 +4212,8 @@ results on
 
      *Return value:*  dynamically allocated string
 
- -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, char * []
-          ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
+ -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, const char *
+          [] ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
           SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
           BROADCAST, char * PUBLIC_URL, char * TITLE, char *
           DESCRIPTION, char * PASSWORD, int BENCH, int OPEN_RELAY, char
@@ -4895,7 +4896,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6sim_simulate (int ARGC, char * [] ARGV,
+ -- Function: int lw6sim_simulate (int ARGC, const char * [] ARGV,
           lw6sim_results_t * RESULTS, int NB_TEAMS, char * BOT_BACKEND)
      ARGC:  argc as passed to `main'
 
@@ -4914,8 +4915,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6sim_simulate_basic (int ARGC, char * [] ARGV,
-          lw6sim_results_t * RESULTS)
+ -- Function: int lw6sim_simulate_basic (int ARGC, const char * []
+          ARGV, lw6sim_results_t * RESULTS)
      ARGC:  argc as passed to `main'
 
      ARGV:  argv as passed to `main'
@@ -4928,7 +4929,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: int lw6sim_simulate_full (int ARGC, char * [] ARGV,
+ -- Function: int lw6sim_simulate_full (int ARGC, const char * [] ARGV,
           lw6sim_results_t * RESULTS)
      ARGC:  argc as passed to `main'
 
@@ -5097,8 +5098,8 @@ results on
 
      *Return value:*  a newly allocated pointer.
 
- -- Function: lw6sys_assoc_t * lw6snd_get_backends (int ARGC, char * []
-          ARGV)
+ -- Function: lw6sys_assoc_t * lw6snd_get_backends (int ARGC, const
+          char * [] ARGV)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -5112,8 +5113,8 @@ results on
 
      *Return value:*  hash containing id/name pairs.
 
- -- Function: lw6snd_backend_t * lw6snd_create_backend (int ARGC, char
-          * [] ARGV, char * NAME)
+ -- Function: lw6snd_backend_t * lw6snd_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -5422,8 +5423,8 @@ results on
 
      *Return value:*  comma separated string, must not be freed.
 
- -- Function: lw6sys_assoc_t * lw6srv_get_backends (int ARGC, char * []
-          ARGV)
+ -- Function: lw6sys_assoc_t * lw6srv_get_backends (int ARGC, const
+          char * [] ARGV)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'
@@ -5437,8 +5438,8 @@ results on
 
      *Return value:*  hash containing id/name pairs.
 
- -- Function: lw6srv_backend_t * lw6srv_create_backend (int ARGC, char
-          * [] ARGV, char * NAME)
+ -- Function: lw6srv_backend_t * lw6srv_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
      ARGC:  argc, as passed to `main'
 
      ARGV:  argv, as passed to `main'

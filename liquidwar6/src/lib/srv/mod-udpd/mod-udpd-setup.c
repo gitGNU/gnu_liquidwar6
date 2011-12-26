@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 _udpd_context_t *
-_mod_udpd_init (int argc, char *argv[], lw6srv_listener_t * listener)
+_mod_udpd_init (int argc, const char *argv[], lw6srv_listener_t * listener)
 {
   _udpd_context_t *udpd_context = NULL;
   char *data_dir = NULL;

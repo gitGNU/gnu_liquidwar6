@@ -42,23 +42,17 @@ typedef struct _mod_idiot_context_s
 }
 _mod_idiot_context_t;
 
-/*
- * In setup.c
- */
+/* mod-idiot-setup.c */
 extern _mod_idiot_context_t *_mod_idiot_init (int argc,
-					      char *argv[],
+					      const char *argv[],
 					      lw6bot_data_t * data);
 extern void _mod_idiot_quit (_mod_idiot_context_t * idiot_context);
 
-/*
- * In move.c
- */
+/* mod-idiot-move.c */
 extern int _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x,
 				 int *y, lw6bot_data_t * data);
 
-/*
- * In repr.c
- */
+/* mod-idiot-repr.c */
 extern char *_mod_idiot_repr (_mod_idiot_context_t * idiot_context,
 			      u_int32_t id);
 

@@ -167,8 +167,8 @@ int
 lw6bot_test (int mode)
 {
   int ret = 0;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
   lw6bot_backend_t *backend[TEST_NB_BACKENDS];
   int i;
 

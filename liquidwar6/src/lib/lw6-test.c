@@ -39,8 +39,8 @@ _lw6_test_param_t;
 static char *
 get_test_file ()
 {
-  int argc = TEST_ARGC;
-  char *argv[] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[] = { TEST_ARGV0 };
   char *script_file = NULL;
   char *script_dir = NULL;
   char *ret = NULL;
@@ -140,8 +140,8 @@ int
 lw6_test (int mode)
 {
   _lw6_test_param_t param;
-  int argc = TEST_ARGC;
-  char *argv[] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[] = { TEST_ARGV0 };
 
   memset (&param, 0, sizeof (_lw6_test_param_t));
 

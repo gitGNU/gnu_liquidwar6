@@ -158,7 +158,7 @@ extern _mod_httpd_response_t *_mod_httpd_http_error (_mod_httpd_context_t *
 /*
  * In setup.c
  */
-extern _mod_httpd_context_t *_mod_httpd_init (int argc, char *argv[],
+extern _mod_httpd_context_t *_mod_httpd_init (int argc, const char *argv[],
 					      lw6srv_listener_t * listener);
 extern void _mod_httpd_quit (_mod_httpd_context_t * httpd_context);
 

@@ -125,8 +125,8 @@ level_new (char *name, int display_width, int display_height,
   lw6map_level_t *ret = NULL;
   char *map_path = NULL;
   char *user_dir = NULL;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   lw6sys_progress_begin (progress);
   map_path = lw6cfg_unified_get_map_path (argc, argv);
@@ -209,8 +209,8 @@ test_display (char *gfx_backend_name)
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    int argc = TEST_ARGC;
-    char *argv[TEST_ARGC] = { TEST_ARGV0 };
+    const int argc = TEST_ARGC;
+    const char *argv[TEST_ARGC] = { TEST_ARGV0 };
     lw6dsp_backend_t *display = NULL;
     lw6gui_keypress_t *keypress = NULL;
     lw6dsp_param_t param;
@@ -505,8 +505,8 @@ lw6dsp_test (int mode)
 {
   int ret = 0;
   lw6sys_assoc_t *gfx_backends = NULL;
-  int argc = TEST_ARGC;
-  char *argv[TEST_ARGC] = { TEST_ARGV0 };
+  const int argc = TEST_ARGC;
+  const char *argv[TEST_ARGC] = { TEST_ARGV0 };
 
   if (lw6sys_false ())
     {

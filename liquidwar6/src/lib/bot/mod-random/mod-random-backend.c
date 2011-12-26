@@ -46,7 +46,7 @@ mod_random_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, char *argv[], lw6bot_data_t * data)
+_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_random_context_t *random_context = _mod_random_init (argc, argv, data);
 

@@ -33,7 +33,7 @@
 
 int
 mod_gl_utils_path_init (mod_gl_utils_context_t *
-			utils_context, int argc, char *argv[])
+			utils_context, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   char *user_dir = NULL;

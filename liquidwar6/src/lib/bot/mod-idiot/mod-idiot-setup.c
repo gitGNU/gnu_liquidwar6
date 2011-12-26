@@ -28,7 +28,7 @@
 #include "mod-idiot-internal.h"
 
 _mod_idiot_context_t *
-_mod_idiot_init (int argc, char *argv[], lw6bot_data_t * data)
+_mod_idiot_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_idiot_context_t *idiot_context = NULL;
 

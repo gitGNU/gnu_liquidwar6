@@ -80,7 +80,7 @@ extern void _mod_http_unload_data (_mod_http_data_t * http_data);
 /*
  * In setup.c
  */
-extern _mod_http_context_t *_mod_http_init (int argc, char *argv[]);
+extern _mod_http_context_t *_mod_http_init (int argc, const char *argv[]);
 extern void _mod_http_quit (_mod_http_context_t * http_context);
 
 /* http-get.c */

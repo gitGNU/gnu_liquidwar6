@@ -49,7 +49,7 @@ typedef struct lw6snd_backend_s
   lw6dyn_dl_handle_t *dl_handle;
   void *snd_context;
   int argc;
-  char **argv;
+  const char **argv;
   u_int32_t id;
 
   int (*play_fx) (void *snd_context, int fx_id);
@@ -58,8 +58,8 @@ typedef struct lw6snd_backend_s
   int (*play_music_random) (void *snd_context, char *music_path,
 			    char *music_filter, char *music_exclude);
   void (*stop_music) (void *snd_context);
-  void *(*init) (int argc, char *argv[], float fx_volume, float water_volume,
-		 float music_volume);
+  void *(*init) (int argc, const char *argv[], float fx_volume,
+		 float water_volume, float music_volume);
   void (*set_fx_volume) (void *snd_context, float volume);
   void (*set_water_volume) (void *snd_context, float volume);
   void (*set_music_volume) (void *snd_context, float volume);
@@ -94,8 +94,8 @@ extern void lw6snd_quit (lw6snd_backend_t * backend);
 extern char *lw6snd_repr (lw6snd_backend_t * backend);
 
 /* snd-register.c */
-extern lw6sys_assoc_t *lw6snd_get_backends (int argc, char *argv[]);
-extern lw6snd_backend_t *lw6snd_create_backend (int argc, char *argv[],
+extern lw6sys_assoc_t *lw6snd_get_backends (int argc, const char *argv[]);
+extern lw6snd_backend_t *lw6snd_create_backend (int argc, const char *argv[],
 						char *name);
 extern void lw6snd_destroy_backend (lw6snd_backend_t * backend);
 

@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -34,7 +34,8 @@ results on
 5.41.2 API
 ----------
 
- -- Function: int lw6sys_arg_match (char * KEYWORD, char * ARGV_STRING)
+ -- Function: int lw6sys_arg_match (const char * KEYWORD, const char *
+          ARGV_STRING)
      KEYWORD:  the option to match, without the prefix "-" or "-"
 
      ARGV_STRING:  the argv value, for instance argv[1]
@@ -54,8 +55,8 @@ results on
 
      *Return value:*  non zero if it matches, 0 if it doesn't.
 
- -- Function: int lw6sys_arg_exists (int ARGC, char * [] ARGV, char *
-          KEYWORD)
+ -- Function: int lw6sys_arg_exists (int ARGC, const char * [] ARGV,
+          const char * KEYWORD)
      ARGC:  the number of arguments, as passed to `main'
 
      ARGV:  an array of arguments, as passed to `main'
@@ -67,8 +68,8 @@ results on
 
      *Return value:*  1 if key is present, 0 if not.
 
- -- Function: char * lw6sys_arg_get_value (int ARGC, char * [] ARGV,
-          char * KEYWORD)
+ -- Function: char * lw6sys_arg_get_value (int ARGC, const char * []
+          ARGV, const char * KEYWORD)
      ARGC:  the number of arguments, as passed to `main'
 
      ARGV:  an array of arguments, as passed to `main'
@@ -81,8 +82,8 @@ results on
      *Return value:*  a pointer to the value. May be NULL. Must be
      freed.
 
- -- Function: char * lw6sys_arg_get_value_with_env (int ARGC, char * []
-          ARGV, char * KEYWORD)
+ -- Function: char * lw6sys_arg_get_value_with_env (int ARGC, const
+          char * [] ARGV, const char * KEYWORD)
      ARGC:  the number of arguments, as passed to `main'
 
      ARGV:  an array of arguments, as passed to `main'
@@ -100,7 +101,7 @@ results on
      *Return value:*  a pointer to the value. May be NULL. Must be
      freed.
 
- -- Function: int lw6sys_arg_test_mode (int ARGC, char * [] ARGV)
+ -- Function: int lw6sys_arg_test_mode (int ARGC, const char * [] ARGV)
      ARGC:  argc as passed to main
 
      ARGV:  argv as passed to main
@@ -1213,7 +1214,8 @@ results on
      *Return value:*  a newly allocated pointer, must be freed, may be
      NULL.
 
- -- Function: char * lw6sys_daemon_pid_file (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_daemon_pid_file (int ARGC, const char * []
+          ARGV)
      ARGC:  argc as passed to `main'
 
      ARGV:  argv as passed to `main'
@@ -1285,7 +1287,8 @@ results on
      *Return value:*  a pointer to a single 0-terminated character
      string which contains the character. Must not be freed.
 
- -- Function: char * lw6sys_env_concat (char * VALUE1, char * VALUE2)
+ -- Function: char * lw6sys_env_concat (const char * VALUE1, const char
+          * VALUE2)
      VALUE1:  the left part to be concatenated
 
      VALUE2:  the right part to be concatenated
@@ -1295,7 +1298,7 @@ results on
 
      *Return value:*  the concatenated string, must be freed.
 
- -- Function: int lw6sys_env_exists_prefixed (char * KEYWORD)
+ -- Function: int lw6sys_env_exists_prefixed (const char * KEYWORD)
      KEYWORD:  the keyword to be searched in the environment variables.
 
      Searches environment variables for the given keyword. The keyword
@@ -1308,7 +1311,7 @@ results on
 
      *Return value:*  1 if the environment variable exists, 0 if not.
 
- -- Function: char * lw6sys_getenv (char * KEY)
+ -- Function: char * lw6sys_getenv (const char * KEY)
      KEY:  the environment variable to get.
 
      Searches environment variables for the given value.  This is a
@@ -1319,7 +1322,7 @@ results on
      *Return value:*  the value for the given keyword. May be NULL.
      Must be freed.
 
- -- Function: char * lw6sys_getenv_prefixed (char * KEYWORD)
+ -- Function: char * lw6sys_getenv_prefixed (const char * KEYWORD)
      KEYWORD:  the keyword to be searched in the environment variables.
 
      Searches environment variables for the given value. The keyword
@@ -1333,7 +1336,8 @@ results on
      *Return value:*  the value for the given keyword. May be NULL.
      Must be freed.
 
- -- Function: int lw6sys_setenv (char * KEYWORD, char * VALUE)
+ -- Function: int lw6sys_setenv (const char * KEYWORD, const char *
+          VALUE)
      KEYWORD:  the environment variable to set
 
      VALUE:  the value of the environment variable to set
@@ -1346,7 +1350,8 @@ results on
 
      *Return value:*  1 if success, 0 if failed
 
- -- Function: int lw6sys_setenv_prefixed (char * KEYWORD, char * VALUE)
+ -- Function: int lw6sys_setenv_prefixed (const char * KEYWORD, const
+          char * VALUE)
      KEYWORD:  the keyword to be searched in the environment variables.
 
      VALUE:  the value of the environment variable to set
@@ -1361,7 +1366,7 @@ results on
 
      *Return value:*  1 if success, 0 if failure
 
- -- Function: lw6sys_list_t * lw6sys_env_split (char * VALUE)
+ -- Function: lw6sys_list_t * lw6sys_env_split (const char * VALUE)
      VALUE:  the value, a list of item separated by... the separator
 
      Splits the environment value into a list of strings containing
@@ -1428,7 +1433,8 @@ results on
 
      *Return value:*  newly allocated string.
 
- -- Function: char * lw6sys_exec_find_myself (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_exec_find_myself (int ARGC, const char * []
+          ARGV)
      ARGC:  number of args as passed to main
 
      ARGV:  array of args as passed to main
@@ -1438,7 +1444,8 @@ results on
 
      *Return value:*  the path (newly allocated string).
 
- -- Function: int lw6sys_is_executed_again (int ARGC, char * [] ARGV)
+ -- Function: int lw6sys_is_executed_again (int ARGC, const char * []
+          ARGV)
      ARGC:  number of args as passed to main
 
      ARGV:  array of args as passed to main
@@ -1449,7 +1456,7 @@ results on
 
      *Return value:*  1 if executed again, 0 if not.
 
- -- Function: int lw6sys_exec_again (int ARGC, char * [] ARGV)
+ -- Function: int lw6sys_exec_again (int ARGC, const char * [] ARGV)
      ARGC:  number of args as passed to main
 
      ARGV:  array of args as passed to main
@@ -1464,7 +1471,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure (always fail)
 
- -- Function: int lw6sys_exec_restart (int ARGC, char * [] ARGV)
+ -- Function: int lw6sys_exec_restart (int ARGC, const char * [] ARGV)
      ARGC:  number of args as passed to main
 
      ARGV:  array of args as passed to main
@@ -2060,7 +2067,7 @@ results on
      *Return value:*  the id as a long integer, 0 if incorrect source
      id.
 
- -- Function: char * lw6sys_keyword_as_key (char * KEYWORD)
+ -- Function: char * lw6sys_keyword_as_key (const char * KEYWORD)
      KEYWORD:  the keyword to transform
 
      Transforms a keyword into a "key", that is, removes all heading
@@ -2070,7 +2077,7 @@ results on
 
      *Return value:*  a newly allocated pointer, must be freed.
 
- -- Function: char * lw6sys_keyword_as_arg (char * KEYWORD)
+ -- Function: char * lw6sys_keyword_as_arg (const char * KEYWORD)
      KEYWORD:  the keyword to transform
 
      Transforms a keyword into a command-line parameter to be matched.
@@ -2078,7 +2085,7 @@ results on
 
      *Return value:*  a newly allocated pointer, must be freed.
 
- -- Function: char * lw6sys_keyword_as_env (char * KEYWORD)
+ -- Function: char * lw6sys_keyword_as_env (const char * KEYWORD)
      KEYWORD:  the keyword to transform
 
      Transforms a keyword into the corresponding environment variable
@@ -2087,7 +2094,7 @@ results on
 
      *Return value:*  a newly allocated pointer, must be freed.
 
- -- Function: char * lw6sys_keyword_as_xml (char * KEYWORD)
+ -- Function: char * lw6sys_keyword_as_xml (const char * KEYWORD)
      KEYWORD:  the keyword to transform
 
      Transforms a keyword into the corresponding config file entry.  In
@@ -2639,7 +2646,7 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_run_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_run_dir (int ARGC, const char * [] ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2650,7 +2657,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_user_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_user_dir (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2661,7 +2669,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_config_file (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_config_file (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2672,7 +2681,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_log_file (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_log_file (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2683,7 +2693,7 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_prefix (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_prefix (int ARGC, const char * [] ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2693,7 +2703,7 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_mod_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_mod_dir (int ARGC, const char * [] ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2704,7 +2714,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_data_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_data_dir (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2715,7 +2726,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_music_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_music_dir (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2726,7 +2738,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_music_path (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_music_path (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2737,7 +2750,7 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_map_dir (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_map_dir (int ARGC, const char * [] ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2748,7 +2761,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_map_path (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_map_path (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2759,7 +2773,8 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: char * lw6sys_get_script_file (int ARGC, char * [] ARGV)
+ -- Function: char * lw6sys_get_script_file (int ARGC, const char * []
+          ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2770,7 +2785,7 @@ results on
 
      *Return value:*  a newly allocated string.
 
- -- Function: void lw6sys_options_log (int ARGC, char * [] ARGV)
+ -- Function: void lw6sys_options_log (int ARGC, const char * [] ARGV)
      ARGC:  argc, number of arguments, as given to `main'
 
      ARGV:  argv, pointer to arguments, as given to `main'
@@ -2780,7 +2795,7 @@ results on
      and environment variables. Usefull to debug and know where the
      program is searching for things.
 
- -- Function: int lw6sys_file_exists (char * FILENAME)
+ -- Function: int lw6sys_file_exists (const char * FILENAME)
      FILENAME:  the file to test
 
      Tests the existence of a file on the filesystem. File is considered
@@ -2788,14 +2803,14 @@ results on
 
      *Return value:*  1 if OK, 0 if file doesn't exist or can't be read.
 
- -- Function: int lw6sys_dir_exists (char * DIRNAME)
+ -- Function: int lw6sys_dir_exists (const char * DIRNAME)
      DIRNAME:  the directory to test
 
      Tests the existence of a directory on the filesystem.
 
      *Return value:*  1 if OK, 0 if directory doesn't exist.
 
- -- Function: int lw6sys_create_dir (char * DIRNAME)
+ -- Function: int lw6sys_create_dir (const char * DIRNAME)
      DIRNAME:  the directory to create
 
      Creates a directory, performing sanity checks such as verifying
@@ -2803,7 +2818,7 @@ results on
 
      *Return value:*  1 if OK, 0 if error.
 
- -- Function: int lw6sys_create_dir_silent (char * DIRNAME)
+ -- Function: int lw6sys_create_dir_silent (const char * DIRNAME)
      DIRNAME:  the directory to create
 
      Creates a directory like `lw6sys_create_dir' but this function is
@@ -2813,7 +2828,7 @@ results on
 
      *Return value:*  1 if OK, 0 if error.
 
- -- Function: char * lw6sys_path_add_slash (char * PATH)
+ -- Function: char * lw6sys_path_add_slash (const char * PATH)
      PATH:  a path
 
      Adds a slash, or in a general manner, a directory separator, at
@@ -2822,7 +2837,7 @@ results on
 
      *Return value:*  a newly allocated string, must be freed.
 
- -- Function: char * lw6sys_path_strip_slash (char * PATH)
+ -- Function: char * lw6sys_path_strip_slash (const char * PATH)
      PATH:  a path
 
      Strips the slash, or in a general manner, the directory separator,
@@ -2831,7 +2846,8 @@ results on
 
      *Return value:*  a newly allocated string, must be freed.
 
- -- Function: char * lw6sys_path_concat (char * PATH1, char * PATH2)
+ -- Function: char * lw6sys_path_concat (const char * PATH1, const char
+          * PATH2)
      PATH1:  left part of the path
 
      PATH2:  right part of the path
@@ -2842,7 +2858,7 @@ results on
 
      *Return value:*  a newly allocated string, must be freed.
 
- -- Function: lw6sys_list_t * lw6sys_path_split (char * PATH)
+ -- Function: lw6sys_list_t * lw6sys_path_split (const char * PATH)
      PATH:  a path
 
      Splits a path into all its parts. For instance /boo/bar/foo2/bar2
@@ -2852,28 +2868,28 @@ results on
 
      *Return value:*  a list containing 0-terminated strings.
 
- -- Function: char * lw6sys_path_file_only (char * PATH)
+ -- Function: char * lw6sys_path_file_only (const char * PATH)
      PATH:  a path
 
      Returns the file name only, without heading directories.
 
      *Return value:*  file name, must be freed
 
- -- Function: int lw6sys_path_is_relative (char * PATH)
+ -- Function: int lw6sys_path_is_relative (const char * PATH)
      PATH:  a path
 
      Checks wether a path is relative or absolute.
 
      *Return value:*  1 if relative, 0 if absolute.
 
- -- Function: int lw6sys_path_is_cwd (char * PATH)
+ -- Function: int lw6sys_path_is_cwd (const char * PATH)
      PATH:  a path
 
      Checks wether a path is "." or not. Will also trap "" and "./".
 
      *Return value:*  1 if relative, 0 if absolute.
 
- -- Function: char * lw6sys_path_parent (char * PATH)
+ -- Function: char * lw6sys_path_parent (const char * PATH)
      PATH:  a path
 
      Returns the parent path. That will return /foo when given /foo/bar
@@ -2881,7 +2897,7 @@ results on
 
      *Return value:*  a newly allocated string, must be freed.
 
- -- Function: char * lw6sys_path_unparent (char * PATH)
+ -- Function: char * lw6sys_path_unparent (const char * PATH)
      PATH:  a path
 
      Given the ../foo/bar path, will return foo/bar. Usefull to get rid
@@ -2900,7 +2916,7 @@ results on
      *Return value:*  a pointer which points somewhere within the
      string passed as an argument.
 
- -- Function: lw6sys_list_t * lw6sys_dir_list (char * DIR,
+ -- Function: lw6sys_list_t * lw6sys_dir_list (const char * DIR,
           lw6sys_dir_list_filter_func_t FILTER_FUNC, void * FUNC_DATA,
           int * N)
      DIR:  the path of the directory to list
@@ -2917,7 +2933,7 @@ results on
 
      *Return value:*  a list containing strings (file paths).
 
- -- Function: lw6sys_list_t * lw6sys_path_list (char * PATH,
+ -- Function: lw6sys_list_t * lw6sys_path_list (const char * PATH,
           lw6sys_dir_list_filter_func_t FILTER_FUNC, void * FUNC_DATA,
           int * N)
      PATH:  the path of the path to list
@@ -2936,8 +2952,8 @@ results on
 
      *Return value:*  a list containing strings (file paths).
 
- -- Function: char * lw6sys_find_in_dir_and_path (char * DIR, char *
-          PATH, char * FILE)
+ -- Function: char * lw6sys_find_in_dir_and_path (const char * DIR,
+          const char * PATH, const char * FILE)
      DIR:  a directory, when to search the file first
 
      PATH:  the path to search too, a separated list of dirs
@@ -3725,7 +3741,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6sys_test_exec (int ARGC, char * [] ARGV, int MODE)
+ -- Function: int lw6sys_test_exec (int ARGC, const char * [] ARGV, int
+          MODE)
      ARGC:  number of args as passed to main
 
      ARGV:  array of args as passed to main
@@ -4180,8 +4197,8 @@ results on
 
 File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
 
-Appendix A 2005 .plan
-*********************
+Annexe A 2005 .plan
+*******************
 
 Here's my .plan file, which describes what I (Christian Mauduit
 (mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
@@ -4478,8 +4495,8 @@ themselves are not clearly identified. But for the rest (starting in
 
 File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
 
-Appendix B Fanfic
-*****************
+Annexe B Fanfic
+***************
 
 Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
 it after a friend claimed that there wasn't any liquid war fanfic
@@ -4623,8 +4640,8 @@ in defeat he snarled,
 
 File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
 
-Appendix C Links
-****************
+Annexe C Links
+**************
 
 This section lists various Internet Liquid War related links.
 
@@ -4700,8 +4717,8 @@ informations for those who enjoy digging into the past.
 
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top
 
-Appendix D GNU GENERAL PUBLIC LICENSE
-*************************************
+Annexe D GNU GENERAL PUBLIC LICENSE
+***********************************
 
                         Version 3, 29 June 2007
 
@@ -5423,8 +5440,8 @@ please read `http://www.gnu.org/philosophy/why-not-lgpl.html'.
 
 File: liquidwar6.info,  Node: GNU Free Documentation License,  Next: Indexes,  Prev: Copying,  Up: Top
 
-Appendix E GNU Free Documentation License
-*****************************************
+Annexe E GNU Free Documentation License
+***************************************
 
                      Version 1.3, 3 November 2008
 

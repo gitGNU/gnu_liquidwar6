@@ -49,7 +49,7 @@ must_be_stored (char *key)
 }
 
 static int
-parse_option (_lw6cfg_context_t * context, char *option)
+parse_option (_lw6cfg_context_t * context, const char *option)
 {
   int ret = 0;
 

@@ -50,7 +50,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6bot_get_backends (int argc, char *argv[])
+lw6bot_get_backends (int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -110,7 +110,7 @@ lw6bot_get_backends (int argc, char *argv[])
  * Return value: bot backend.
  */
 lw6bot_backend_t *
-lw6bot_create_backend (int argc, char *argv[], char *name)
+lw6bot_create_backend (int argc, const char *argv[], const char *name)
 {
   lw6bot_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE

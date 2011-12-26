@@ -1,5 +1,9 @@
 2011-12-24 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Using const char *argv instead of char *argv (cleanup).
+
+2011-12-24 : Christian Mauduit <ufoot@ufoot.org>
+
 	* Released 0.0.13beta.
 
 2011-12-23 : Christian Mauduit <ufoot@ufoot.org>

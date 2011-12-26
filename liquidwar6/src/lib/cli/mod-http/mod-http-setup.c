@@ -30,7 +30,7 @@
 #define _CURL_FLAGS 0
 
 _mod_http_context_t *
-_mod_http_init (int argc, char *argv[])
+_mod_http_init (int argc, const char *argv[])
 {
   _mod_http_context_t *http_context = NULL;
   char *data_dir = NULL;

@@ -28,7 +28,7 @@
 #include "mod-follow-internal.h"
 
 _mod_follow_context_t *
-_mod_follow_init (int argc, char *argv[], lw6bot_data_t * data)
+_mod_follow_init (int argc, const char *argv[], lw6bot_data_t * data)
 {
   _mod_follow_context_t *follow_context = NULL;
 
