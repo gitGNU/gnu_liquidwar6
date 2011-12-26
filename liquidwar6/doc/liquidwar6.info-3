@@ -294,6 +294,29 @@ results on
 5.23.2 API
 ----------
 
+ -- Function: lw6img_jpeg_t * lw6img_screenshot_new
+          (lw6ker_game_state_t * GAME_STATE, char * USER_DIR, int
+          QUALITY)
+     GAME_STATE:  game_state to create a screenshot from
+
+     USER_DIR:  user directory
+
+     QUALITY:  quality, from 0 to 100
+
+     Creates a JPEG screenshot from a game state. The `user_dir'
+     parameter is used to build a file name and then use it to write
+     data on disk, it is then read and kept in memory.  Globally it's
+     not that bad to store it for we do not generate screenshots that
+     often, and it's nice for debugging to have it so developping a
+     RAM-only writer wouldn't make it a blast anyway.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: void lw6img_screenshot_free (lw6img_jpeg_t * SCREENSHOT)
+     Frees a JPEG screenshot.
+
+     *Return value:*  none.
+
  -- Function: int lw6img_test (int MODE)
      MODE:  0 for check only, 1 for full test
 

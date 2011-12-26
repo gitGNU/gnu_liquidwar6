@@ -1,3 +1,26 @@
+@deftypefun {lw6img_jpeg_t *} {lw6img_screenshot_new} (lw6ker_game_state_t * @var{game_state}, char * @var{user_dir}, int @var{quality})
+@var{game_state}:  game_state to create a screenshot from
+
+@var{user_dir}:  user directory
+
+@var{quality}:  quality, from 0 to 100
+
+Creates a JPEG screenshot from a game state. The @code{user_dir} parameter
+is used to build a file name and then use it
+to write data on disk, it is then read and kept in memory.
+Globally it's not that bad to store it for we do not generate
+screenshots that often, and it's nice for debugging to have it so
+developping a RAM-only writer wouldn't make it a blast anyway.
+
+@strong{Return value:}  dynamically allocated object.
+@end deftypefun
+
+@deftypefun {void} {lw6img_screenshot_free} (lw6img_jpeg_t * @var{screenshot})
+Frees a JPEG screenshot.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {int} {lw6img_test} (int @var{mode})
 @var{mode}:  0 for check only, 1 for full test
 

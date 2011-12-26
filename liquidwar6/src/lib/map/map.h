@@ -1128,7 +1128,7 @@ extern void lw6map_body_fix_checksum (lw6map_body_t * body);
 extern int lw6map_body_check_and_fix_holes (lw6map_body_t * body,
 					    lw6map_rules_t * rules);
 extern int lw6map_body_coord_from_texture (lw6map_level_t * level,
-					   int *depth_x, int *depth_y,
+					   int *body_x, int *body_y,
 					   int texture_x, int texture_y);
 extern u_int8_t lw6map_body_get_with_texture_coord (lw6map_level_t *
 						    level,

@@ -26,4 +26,187 @@
 
 #include "img.h"
 
-int lw6img_todo = 0;		// dummy var to avoid compiler warning
+#include <jpeglib.h>
+
+#define _JPEG_3 3
+#define _SCREENSHOT_JPEG_FILE "screenshot.jpeg"
+
+/**
+ * lw6img_screenshot_new
+ *
+ * @game_state: game_state to create a screenshot from
+ * @user_dir: user directory
+ * @quality: quality, from 0 to 100
+ *
+ * Creates a JPEG screenshot from a game state. The @user_dir parameter
+ * is used to build a file name and then use it
+ * to write data on disk, it is then read and kept in memory.
+ * Globally it's not that bad to store it for we do not generate
+ * screenshots that often, and it's nice for debugging to have it so
+ * developping a RAM-only writer wouldn't make it a blast anyway.
+ *
+ * Return value: dynamically allocated object.
+ */
+lw6img_jpeg_t *
+lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
+		       int quality)
+{
+  lw6img_jpeg_t *ret = NULL;
+  lw6ker_game_struct_t *game_struct = game_state->game_struct;
+  lw6map_level_t *level = game_struct->level;
+  lw6map_style_t *style = &(game_struct->level->param.style);
+  lw6sys_whd_t shape = { 0, 0, 0 };
+  int x, y, z;
+  int fighter_id = -1;
+  lw6ker_fighter_t *fighter = NULL;
+  int team_color = LW6MAP_TEAM_COLOR_INVALID;
+  lw6sys_color_8_t pixel_color;
+  int surface = 0;
+  JSAMPLE *tmp_buffer = NULL;
+  int i = 9;
+  struct jpeg_compress_struct cinfo;
+  struct jpeg_error_mgr jerr;
+  FILE *outfile;
+  JSAMPROW row_pointer[1];
+  int row_stride;
+  char *filename = NULL;
+
+  lw6ker_game_state_get_shape (game_state, &shape);
+
+  filename = lw6sys_path_concat (user_dir, _SCREENSHOT_JPEG_FILE);
+  if (filename)
+    {
+      ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sizeof (lw6img_jpeg_t));
+      if (ret)
+	{
+	  surface = shape.w * shape.h;
+	  tmp_buffer =
+	    (JSAMPLE *) LW6SYS_CALLOC (surface * _JPEG_3 * sizeof (JSAMPLE));
+	  if (tmp_buffer)
+	    {
+	      for (y = 0; y < shape.h; ++y)
+		{
+		  for (x = 0; x < shape.w; ++x)
+		    {
+		      fighter_id = -1;
+		      for (z = 0; z < shape.d && fighter_id < 0; ++z)
+			{
+			  fighter_id =
+			    lw6ker_game_state_get_fighter_id (game_state,
+							      x, y, z);
+			}
+		      if (fighter_id >= 0)
+			{
+			  fighter =
+			    lw6ker_game_state_get_fighter_by_id (game_state,
+								 fighter_id);
+			  team_color = fighter->team_color;
+			  if (lw6map_team_color_is_valid (team_color))
+			    {
+			      pixel_color =
+				style->color_set.team_colors[team_color];
+			    }
+			  else
+			    {
+			      /*
+			       * Normally we should never get there, but well,
+			       * just in case, we use black/dead color
+			       */
+			      lw6sys_log (LW6SYS_LOG_INFO,
+					  _x_ ("bad team_color=%d at %d,%d"),
+					  team_color, x, y);
+			      pixel_color = style->color_set.team_color_dead;
+			    }
+			}
+		      else
+			{
+			  pixel_color =
+			    lw6map_texture_get_with_body_coord (level, x, y);
+			}
+		      tmp_buffer[i++] = pixel_color.r;
+		      tmp_buffer[i++] = pixel_color.g;
+		      tmp_buffer[i++] = pixel_color.b;
+		    }
+		}
+
+	      cinfo.err = jpeg_std_error (&jerr);
+	      jpeg_create_compress (&cinfo);
+
+	      if ((outfile = fopen (filename, "wb")) == NULL)
+		{
+		  lw6sys_log (LW6SYS_LOG_WARNING,
+			      _x_ ("can't open jpeg file \"%s\""), filename);
+		}
+	      else
+		{
+		  jpeg_stdio_dest (&cinfo, outfile);
+
+		  cinfo.image_width = shape.w;
+		  cinfo.image_height = shape.h;
+		  cinfo.input_components = _JPEG_3;
+		  cinfo.in_color_space = JCS_RGB;
+
+		  jpeg_set_defaults (&cinfo);
+		  jpeg_set_quality (&cinfo, quality, TRUE);
+
+		  jpeg_start_compress (&cinfo, TRUE);
+
+		  row_stride = shape.w * _JPEG_3;
+
+		  while (cinfo.next_scanline < cinfo.image_height)
+		    {
+		      row_pointer[0] =
+			&tmp_buffer[cinfo.next_scanline * row_stride];
+		      (void) jpeg_write_scanlines (&cinfo, row_pointer, 1);
+		    }
+
+		  jpeg_finish_compress (&cinfo);
+
+		  fclose (outfile);
+
+		  ret->jpeg_data =
+		    lw6sys_read_file_content_bin (&ret->jpeg_size, filename);
+		  if ((ret->jpeg_data != NULL) && (ret->jpeg_size > 0))
+		    {
+		      lw6sys_log (LW6SYS_LOG_INFO,
+				  _x_ ("wrote screenshot in \"%s\""),
+				  filename);
+		    }
+		  else
+		    {
+		      LW6SYS_FREE (ret);
+		      ret = NULL;
+		    }
+		}
+
+	      jpeg_destroy_compress (&cinfo);
+	      LW6SYS_FREE (tmp_buffer);
+	    }
+	}
+      LW6SYS_FREE (filename);
+    }
+
+  return ret;
+}
+
+/**
+ * lw6img_screenshot_free
+ *
+ * @screenhost: screenshot object to free
+ *
+ * Frees a JPEG screenshot.
+ *
+ * Return value: none.
+ */
+void
+lw6img_screenshot_free (lw6img_jpeg_t * screenshot)
+{
+  if (screenshot)
+    {
+      if (screenshot->jpeg_data)
+	{
+	  LW6SYS_FREE (screenshot->jpeg_data);
+	}
+      LW6SYS_FREE (screenshot);
+    }
+}

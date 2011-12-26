@@ -1,5 +1,7 @@
 2011-12-24 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Ported some 0.0.2beta JPEG screenshot code to current tree.
+
 	* Using const char *argv instead of char *argv (cleanup).
 
 2011-12-24 : Christian Mauduit <ufoot@ufoot.org>

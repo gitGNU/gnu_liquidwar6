@@ -363,7 +363,7 @@ lw6map_body_check_and_fix_holes (lw6map_body_t * body, lw6map_rules_t * rules)
 }
 
 /**
- * lw6map_body_coord_from_exture
+ * lw6map_body_coord_from_texture
  *
  * @level: the level to work on
  * @body_x: the body (logical) x coord

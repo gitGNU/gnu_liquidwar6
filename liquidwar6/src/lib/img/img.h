@@ -28,6 +28,22 @@
 #include "../map/map.h"
 #include "../ker/ker.h"
 
+#define LW6IMG_JPEG_QUALITY_MIN 0
+#define LW6IMG_JPEG_QUALITY_MAX 100
+#define LW6IMG_JPEG_QUALITY_DEFAULT 85
+
+typedef struct lw6img_jpeg_s
+{
+  int jpeg_size;
+  void *jpeg_data;
+}
+lw6img_jpeg_t;
+
+/* img-screenshot.c */
+extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state,
+					     char *user_dir, int quality);
+extern void lw6img_screenshot_free (lw6img_jpeg_t * screenshot);
+
 /* img-test.c */
 extern int lw6img_test (int mode);
 
