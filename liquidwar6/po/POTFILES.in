@@ -211,6 +211,7 @@ src/lib/hlp/hlp-print.c
 src/lib/hlp/hlp-reference.c
 src/lib/hlp/hlp-test.c
 src/lib/hlp/hlp-testmain.c
+src/lib/img/img-repr.c
 src/lib/img/img-screenshot.c
 src/lib/img/img-test.c
 src/lib/img/img-testmain.c

@@ -38,6 +38,7 @@
 #define SMOB_TYPE_LOADER "lw6tsk-loader"
 #define SMOB_TYPE_DB "lw6p2p-db"
 #define SMOB_TYPE_NODE "lw6p2p-node"
+#define SMOB_TYPE_JPEG "lw6img-jpeg"
 
 static char *
 smob_id (char *type, int id)
@@ -1995,6 +1996,162 @@ lw6_free_node_smob (lw6_node_smob_t * node_smob)
   LW6SYS_FREE (node_smob);
 }
 
+/*
+ * Jpeg smob
+ */
+static SCM
+mark_jpeg (SCM jpeg)
+{
+  return SCM_BOOL_F;
+}
+
+static size_t
+free_jpeg (SCM jpeg)
+{
+  char *id = NULL;
+  lw6_jpeg_smob_t *jpeg_smob = (lw6_jpeg_smob_t *) SCM_SMOB_DATA (jpeg);
+
+  LW6_MUTEX_LOCK;
+
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("garbage collect jpeg smob"));
+  id = smob_id (SMOB_TYPE_JPEG, jpeg_smob->c_jpeg->id);
+  if (id)
+    {
+      if (lw6_global.jpeg_smobs)
+	{
+	  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("request free jpeg smob \"%s\""),
+		      id);
+	  lw6sys_assoc_unset (lw6_global.jpeg_smobs, id);
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("request free jpeg smob \"%s\" but assoc is NULL"),
+		      id);
+	}
+      LW6SYS_FREE (id);
+    }
+
+  LW6_MUTEX_UNLOCK;
+
+  return 0;
+}
+
+static int
+print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
+{
+  lw6img_jpeg_t *c_jpeg = lw6_scm_to_jpeg (jpeg);
+  char *repr = NULL;
+
+  repr = lw6img_repr (c_jpeg);
+
+  scm_puts ("#<" SMOB_TYPE_JPEG " ", port);
+  if (repr)
+    {
+      scm_display (scm_from_locale_string (repr), port);
+      LW6SYS_FREE (repr);
+    }
+  scm_puts (">", port);
+
+  return 1;
+}
+
+/**
+ * lw6_make_scm_jpeg
+ *
+ * @c_jpeg: the database object
+ *
+ * Creates an SCM 'jpeg' object from C data.
+ *
+ * Return value: the SCM object
+ */
+SCM
+lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
+{
+  char *repr = NULL;
+  char *id = NULL;
+  lw6_jpeg_smob_t *jpeg_smob = NULL;
+
+  scm_gc ();
+
+  jpeg_smob = (lw6_jpeg_smob_t *) LW6SYS_CALLOC (sizeof (lw6_jpeg_smob_t));
+  if (jpeg_smob)
+    {
+      jpeg_smob->c_jpeg = c_jpeg;
+      id = smob_id (SMOB_TYPE_JPEG, c_jpeg->id);
+      if (id)
+	{
+	  repr = lw6img_repr (c_jpeg);
+	  if (repr)
+	    {
+	      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("creating jpeg smob \"%s\""),
+			  repr);
+	      LW6_MUTEX_LOCK;
+	      lw6sys_assoc_set (&lw6_global.jpeg_smobs, id,
+				(void *) jpeg_smob);
+	      LW6_MUTEX_UNLOCK;
+	      LW6SYS_FREE (repr);
+	    }
+	  LW6SYS_FREE (id);
+	}
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("unable to create jpeg smob, expect trouble"));
+    }
+
+  SCM_RETURN_NEWSMOB (lw6_global.smob_types.jpeg, jpeg_smob);
+}
+
+/**
+ * lw6_scm_to_jpeg
+ *
+ * @jpeg: the jpeg to convert (SCM object)
+ *
+ * Gets the internal C pointer corresponding to the
+ * scheme 'jpeg' object.
+ *
+ * Return value: a pointer, *not* a copy, must not be freed
+ */
+lw6img_jpeg_t *
+lw6_scm_to_jpeg (SCM jpeg)
+{
+  void *c_jpeg;
+
+  c_jpeg = ((lw6_jpeg_smob_t *) SCM_SMOB_DATA (jpeg))->c_jpeg;
+
+  return c_jpeg;
+}
+
+/**
+ * lw6_free_jpeg_smob
+ *
+ * @jpeg_smob: the smob to free
+ *
+ * Frees a jpeg smob, we need a special function to do
+ * that as structures like assoc hold pointers to these
+ * objects and therefore need a proper callback when being
+ * destroyed. 
+ *
+ * Return value: none
+ */
+void
+lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob)
+{
+  char *repr = NULL;
+
+  repr = lw6img_repr (jpeg_smob->c_jpeg);
+  if (repr)
+    {
+      lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing jpeg smob \"%s\""), repr);
+      LW6SYS_FREE (repr);
+    }
+
+  lw6img_screenshot_free (jpeg_smob->c_jpeg);
+  LW6SYS_FREE (jpeg_smob);
+}
+
 /**
  * lw6_register_smobs
  *
@@ -2079,6 +2236,12 @@ lw6_register_smobs ()
   scm_set_smob_mark (lw6_global.smob_types.node, mark_node);
   scm_set_smob_free (lw6_global.smob_types.node, free_node);
   scm_set_smob_print (lw6_global.smob_types.node, print_node);
+
+  lw6_global.smob_types.jpeg =
+    scm_make_smob_type (SMOB_TYPE_JPEG, sizeof (lw6_jpeg_smob_t));
+  scm_set_smob_mark (lw6_global.smob_types.jpeg, mark_jpeg);
+  scm_set_smob_free (lw6_global.smob_types.jpeg, free_jpeg);
+  scm_set_smob_print (lw6_global.smob_types.jpeg, print_jpeg);
 
   return ret;
 }

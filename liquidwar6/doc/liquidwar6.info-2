@@ -7147,6 +7147,30 @@ results on
 
      *Return value:*  none
 
+ -- Function: SCM lw6_make_scm_jpeg (lw6img_jpeg_t * C_JPEG)
+     C_JPEG:  the database object
+
+     Creates an SCM 'jpeg' object from C data.
+
+     *Return value:*  the SCM object
+
+ -- Function: lw6img_jpeg_t * lw6_scm_to_jpeg (SCM JPEG)
+     JPEG:  the jpeg to convert (SCM object)
+
+     Gets the internal C pointer corresponding to the scheme 'jpeg'
+     object.
+
+     *Return value:*  a pointer, *not* a copy, must not be freed
+
+ -- Function: void lw6_free_jpeg_smob (lw6_jpeg_smob_t * JPEG_SMOB)
+     JPEG_SMOB:  the smob to free
+
+     Frees a jpeg smob, we need a special function to do that as
+     structures like assoc hold pointers to these objects and therefore
+     need a proper callback when being destroyed.
+
+     *Return value:*  none
+
  -- Function: int lw6_register_smobs ()
      Register all smobs to Guile.
 
@@ -9216,173 +9240,5 @@ test coverage directory index
 complete information).
 
 5.19.2 API
-----------
-
-
-File: liquidwar6.info,  Node: libglb,  Next: libgui,  Prev: mod-gl,  Up: C API
-
-5.20 libglb
-===========
-
-5.20.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/glb/index.html'.
-
-5.20.2 API
-----------
-
- -- Function: char * lw6glb_base64_encode_bin (char * BUF, int SIZE)
-     BUF:  the data to encode
-
-     SIZE:  the size of data to encode
-
-     Encodes data into base64. Memory allocation is done automatically.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6glb_base64_decode_bin (int * SIZE, char *
-          BASE64_STR)
-     SIZE:  the size of the decoded data
-
-     BASE64_STR:  the string to decode
-
-     Decodes data from base64. Memory allocation is done automatically.
-     Note that this function only works for strings, other data might
-     not be handled correctly.
-
-     *Return value:*  newly allocated pointer, NULL on error.
-
- -- Function: char * lw6glb_base64_encode_str (char * STR)
-     STR:  the string to encode
-
-     Encodes a string into base64.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6glb_base64_decode_str (char * STR)
-     STR:  the string to decode
-
-     Decodes a string from base64.
-
-     *Return value:*  newly allocated string, NULL on error.
-
- -- Function: char * lw6glb_base64_encode_bin_prefix (char * BUF, int
-          SIZE, char * PREFIX)
-     BUF:  the data to encode
-
-     SIZE:  the size of data to encode
-
-     PREFIX:  a prefix string
-
-     Encodes data into base64. Memory allocation is done automatically.
-     The encoded string will be prefixed with `prefix'.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6glb_base64_decode_bin_prefix (int * SIZE, char
-          * BASE64_STR, char * PREFIX)
-     SIZE:  the size of the decoded data
-
-     BASE64_STR:  the string to decode
-
-     PREFIX:  a prefix string
-
-     Decodes data from base64. Memory allocation is done automatically.
-     Note that this function only works for strings, other data might
-     not be handled correctly.  The encoded is expected to start with
-     prefix `prefix' and then contain base64 data.
-
-     *Return value:*  newly allocated pointer, NULL on error.
-
- -- Function: char * lw6glb_base64_encode_str_prefix (char * STR, char
-          * PREFIX)
-     STR:  the string to encode
-
-     PREFIX:  a prefix string
-
-     Encodes a string into base64. The encoded string will be prefixed
-     with `prefix'.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6glb_base64_decode_str_prefix (char * STR, char
-          * PREFIX)
-     STR:  the string to decode
-
-     PREFIX:  a prefix string
-
-     Decodes a string from base64. The encoded is expected to start
-     with prefix `prefix' and then contain base64 data.
-
-     *Return value:*  newly allocated string, NULL on error.
-
- -- Function: char * lw6glb_sha1_hmac_80_bin (char * KEY, int KEY_SIZE,
-          char * BUF, int BUF_SIZE)
-     KEY:  the key buffer `key_size'
-
-     BUF:  the data to analyse
-
-     BUF_SIZE:  the size of data to analyse
-
-     Calculates an SHA-1 sum of buffer, using key to seed calc.
-
-     *Return value:*  newly allocated string, containing 20 chars
-     checksum.
-
- -- Function: char * lw6glb_sha1_hmac_80_str (char * KEY, char * STR)
-     KEY:  a key (string)
-
-     STR:  the string to calculate the checksum for
-
-     Calculates an SHA-1 sum of a string, using key to seed calc.
-
-     *Return value:*  newly allocated string, containing 20 chars
-     checksum.
-
- -- Function: u_int32_t lw6glb_sha1_hmac_32_bin (char * KEY, int
-          KEY_SIZE, char * BUF, int BUF_SIZE)
-     KEY:  the key buffer `key_size'
-
-     BUF:  the data to analyse
-
-     BUF_SIZE:  the size of data to analyse
-
-     Calculates an SHA-1 sum of buffer, using key to seed calc.
-
-     *Return value:*  a 32-bit unsigned integer
-
- -- Function: u_int32_t lw6glb_sha1_hmac_32_str (char * KEY, char * STR)
-     KEY:  a key (string)
-
-     STR:  the string to calculate the checksum for
-
-     Calculates an SHA-1 sum of a string, using key to seed calc.
-
-     *Return value:*  a 32-bit unsigned integer
-
- -- Function: int lw6glb_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `glb' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libgui,  Next: libhlp,  Prev: libglb,  Up: C API
-
-5.21 libgui
-===========
-
-5.21.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gui/index.html'.
-
-5.21.2 API
 ----------
 

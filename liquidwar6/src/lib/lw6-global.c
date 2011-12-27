@@ -97,7 +97,9 @@ lw6_init_global (int argc, const char *argv[])
     ((lw6_global.db_smobs =
       lw6sys_assoc_new ((void (*)(void *)) lw6_free_db_smob)) != NULL) &&
     ((lw6_global.node_smobs =
-      lw6sys_assoc_new ((void (*)(void *)) lw6_free_node_smob)) != NULL);
+      lw6sys_assoc_new ((void (*)(void *)) lw6_free_node_smob)) != NULL) &&
+    ((lw6_global.jpeg_smobs =
+      lw6sys_assoc_new ((void (*)(void *)) lw6_free_jpeg_smob)) != NULL);
 
   LW6_MUTEX_UNLOCK;
 
@@ -158,6 +160,9 @@ lw6_quit_global ()
    * Should the Guile GC be perfect, not one single object
    * would be freed here.
    */
+  lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining jpeg smobs"));
+  lw6sys_assoc_free (lw6_global.jpeg_smobs);
+  lw6_global.jpeg_smobs = NULL;
   lw6sys_log (LW6SYS_LOG_INFO, _x_ ("freeing remaining node smobs"));
   lw6sys_assoc_free (lw6_global.node_smobs);
   lw6_global.node_smobs = NULL;

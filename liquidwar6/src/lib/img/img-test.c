@@ -1,3 +1,4 @@
+
 /*
   Liquid War 6 is a unique multiplayer wargame.
   Copyright (C)  2005, 2006, 2007, 2008, 2009, 2010, 2011  Christian Mauduit <ufoot@ufoot.org>
@@ -28,6 +29,13 @@
 
 #define TEST_ARGC 1
 #define TEST_ARGV0 "foo"
+#define TEST_NODE_ID 0x1234123412341234LL
+#define TEST_CURSOR1_ID 0x1234
+#define TEST_CURSOR2_ID 0x2345
+#define TEST_CURSOR3_ID 0x3456
+#define TEST_COLOR1 LW6MAP_TEAM_COLOR_RED
+#define TEST_COLOR2 LW6MAP_TEAM_COLOR_GREEN
+#define TEST_COLOR3 LW6MAP_TEAM_COLOR_BLUE
 
 /*
  * Testing functions in screenshot.c
@@ -47,6 +55,7 @@ test_screenshot ()
     lw6sys_whd_t shape = { 0, 0, 0 };
     char *user_dir = NULL;
     lw6img_jpeg_t *jpeg = NULL;
+    char *repr = NULL;
 
     level = lw6map_builtin_defaults ();
     if (level)
@@ -57,6 +66,14 @@ test_screenshot ()
 	    game_state = lw6ker_game_state_new (game_struct, NULL);
 	    if (game_state)
 	      {
+		lw6ker_game_state_register_node (game_state, TEST_NODE_ID);
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
+					      TEST_CURSOR1_ID, TEST_COLOR1);
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
+					      TEST_CURSOR2_ID, TEST_COLOR2);
+		lw6ker_game_state_add_cursor (game_state, TEST_NODE_ID,
+					      TEST_CURSOR3_ID, TEST_COLOR3);
+
 		user_dir = lw6sys_get_user_dir (argc, argv);
 		if (user_dir)
 		  {
@@ -65,10 +82,14 @@ test_screenshot ()
 					     LW6IMG_JPEG_QUALITY_DEFAULT);
 		    if (jpeg)
 		      {
-			lw6ker_game_state_get_shape (game_state, &shape);
-			lw6sys_log (LW6SYS_LOG_NOTICE,
-				    _x_ ("generated screenshot %dx%d"),
-				    shape.w, shape.h);
+			repr = lw6img_repr (jpeg);
+			if (repr)
+			  {
+			    lw6sys_log (LW6SYS_LOG_NOTICE,
+					_x_ ("generated screenshot \"%s\""),
+					repr);
+			    LW6SYS_FREE (repr);
+			  }
 			lw6img_screenshot_free (jpeg);
 			jpeg = NULL;
 		      }

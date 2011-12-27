@@ -710,6 +710,34 @@ destroyed.
 @strong{Return value:}  none
 @end deftypefun
 
+@deftypefun {SCM} {lw6_make_scm_jpeg} (lw6img_jpeg_t * @var{c_jpeg})
+@var{c_jpeg}:  the database object
+
+Creates an SCM 'jpeg' object from C data.
+
+@strong{Return value:}  the SCM object
+@end deftypefun
+
+@deftypefun {lw6img_jpeg_t *} {lw6_scm_to_jpeg} (SCM @var{jpeg})
+@var{jpeg}:  the jpeg to convert (SCM object)
+
+Gets the internal C pointer corresponding to the
+scheme 'jpeg' object.
+
+@strong{Return value:}  a pointer, *not* a copy, must not be freed
+@end deftypefun
+
+@deftypefun {void} {lw6_free_jpeg_smob} (lw6_jpeg_smob_t * @var{jpeg_smob})
+@var{jpeg_smob}:  the smob to free
+
+Frees a jpeg smob, we need a special function to do
+that as structures like assoc hold pointers to these
+objects and therefore need a proper callback when being
+destroyed. 
+
+@strong{Return value:}  none
+@end deftypefun
+
 @deftypefun {int} {lw6_register_smobs} ()
 
 Register all smobs to Guile.

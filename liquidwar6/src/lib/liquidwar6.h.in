@@ -74,6 +74,7 @@ typedef struct lw6_smob_types_s
   scm_t_bits loader;
   scm_t_bits db;
   scm_t_bits node;
+  scm_t_bits jpeg;
 }
 lw6_smob_types_t;
 
@@ -158,6 +159,12 @@ typedef struct lw6_node_smob_s
 }
 lw6_node_smob_t;
 
+typedef struct lw6_jpeg_smob_s
+{
+  lw6img_jpeg_t *c_jpeg;
+}
+lw6_jpeg_smob_t;
+
 typedef struct lw6_global_s
 {
   pthread_mutex_t mutex;
@@ -182,6 +189,7 @@ typedef struct lw6_global_s
   lw6sys_assoc_t *loader_smobs;
   lw6sys_assoc_t *db_smobs;
   lw6sys_assoc_t *node_smobs;
+  lw6sys_assoc_t *jpeg_smobs;
 }
 lw6_global_t;
 
@@ -291,6 +299,9 @@ extern void lw6_free_db_smob (lw6_db_smob_t * db_smob);
 extern SCM lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db);
 extern lw6p2p_node_t *lw6_scm_to_node (SCM node);
 extern void lw6_free_node_smob (lw6_node_smob_t * node_smob);
+extern SCM lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg);
+extern lw6img_jpeg_t *lw6_scm_to_jpeg (SCM jpeg);
+extern void lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob);
 extern int lw6_register_smobs ();
 
 /* lw6-test.c */

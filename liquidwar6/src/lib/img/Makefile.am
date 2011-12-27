@@ -22,7 +22,7 @@ AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -ljpeg
 
 noinst_LTLIBRARIES = libimg.la
-libimg_la_SOURCES = img-screenshot.c img-test.c
+libimg_la_SOURCES = img-repr.c img-screenshot.c img-test.c
 libimgdir= $(includedir)/@PACKAGE_TARNAME@/img
 libimg_HEADERS = img.h
 

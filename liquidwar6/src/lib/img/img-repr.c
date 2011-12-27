@@ -20,36 +20,39 @@
   Contact author        : ufoot@ufoot.org
 */
 
-#ifndef LIQUIDWAR6IMG_H
-#define LIQUIDWAR6IMG_H
-
-#include "../sys/sys.h"
-#include "../cfg/cfg.h"
-#include "../map/map.h"
-#include "../ker/ker.h"
-
-#define LW6IMG_JPEG_QUALITY_MIN 0
-#define LW6IMG_JPEG_QUALITY_MAX 100
-#define LW6IMG_JPEG_QUALITY_DEFAULT 85
-
-typedef struct lw6img_jpeg_s
-{
-  u_int32_t id;
-  lw6sys_whd_t shape;
-  int jpeg_size;
-  void *jpeg_data;
-}
-lw6img_jpeg_t;
-
-/* img-repr.c */
-extern char *lw6img_repr (lw6img_jpeg_t * jpeg);
-
-/* img-screenshot.c */
-extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state,
-					     char *user_dir, int quality);
-extern void lw6img_screenshot_free (lw6img_jpeg_t * screenshot);
-
-/* img-test.c */
-extern int lw6img_test (int mode);
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "img.h"
+
+/**
+ * lw6img_repr
+ *
+ * @jpeg: the jpeg to describe
+ *
+ * Returns a string describing the jepg. This is a very short description,
+ * use it for logs, and to debug stuff. By no means it's a complete exhaustive
+ * description. Still, the string returned should be unique.
+ *
+ * Return value: a dynamically allocated string.
+ */
+char *
+lw6img_repr (lw6img_jpeg_t * jpeg)
+{
+  char *ret = NULL;
+
+  if (jpeg)
+    {
+      ret =
+	lw6sys_new_sprintf ("%u jpeg %dx%d, %d bytes", jpeg->id,
+			    jpeg->shape.w, jpeg->shape.h, jpeg->jpeg_size);
+    }
+  else
+    {
+      lw6sys_log (LW6SYS_LOG_WARNING,
+		  _x_ ("can't generate string id for NULL jpeg"));
+    }
+
+  return ret;
+}

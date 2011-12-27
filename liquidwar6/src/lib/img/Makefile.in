@@ -79,7 +79,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libimg_la_LIBADD =
-am_libimg_la_OBJECTS = img-screenshot.lo img-test.lo
+am_libimg_la_OBJECTS = img-repr.lo img-screenshot.lo img-test.lo
 libimg_la_OBJECTS = $(am_libimg_la_OBJECTS)
 am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libimgdir)"
 PROGRAMS = $(libexec_PROGRAMS)
@@ -336,7 +336,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ -ljpeg
 noinst_LTLIBRARIES = libimg.la
-libimg_la_SOURCES = img-screenshot.c img-test.c
+libimg_la_SOURCES = img-repr.c img-screenshot.c img-test.c
 libimgdir = $(includedir)/@PACKAGE_TARNAME@/img
 libimg_HEADERS = img.h
 @FULLSTATIC_FALSE@liquidwar6img_test_SOURCES = img-testmain.c
@@ -439,6 +439,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/img-repr.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/img-screenshot.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/img-test.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/img-testmain.Po@am__quote@

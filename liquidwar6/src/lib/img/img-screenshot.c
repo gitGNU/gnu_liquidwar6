@@ -31,6 +31,16 @@
 #define _JPEG_3 3
 #define _SCREENSHOT_JPEG_FILE "screenshot.jpeg"
 
+/*
+ * This is used to stamp jpegs as they are created.
+ * Note that there's no race condition due to the fact that this
+ * is global here, in fact even when 2 processes would share
+ * this sequence id, it would not matter for they would then
+ * try and identify the objects in their on per-process lists,
+ * structures, Guile object, whatever they use.
+ */
+static u_int32_t seq_id = 0;
+
 /**
  * lw6img_screenshot_new
  *
@@ -79,6 +89,12 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
       ret = (lw6img_jpeg_t *) LW6SYS_CALLOC (sizeof (lw6img_jpeg_t));
       if (ret)
 	{
+	  ret->id = 0;
+	  while (!ret->id)
+	    {
+	      ret->id = ++seq_id;
+	    }
+
 	  surface = shape.w * shape.h;
 	  tmp_buffer =
 	    (JSAMPLE *) LW6SYS_CALLOC (surface * _JPEG_3 * sizeof (JSAMPLE));
@@ -168,14 +184,10 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		    lw6sys_read_file_content_bin (&ret->jpeg_size, filename);
 		  if ((ret->jpeg_data != NULL) && (ret->jpeg_size > 0))
 		    {
+		      ret->shape = shape;
 		      lw6sys_log (LW6SYS_LOG_INFO,
 				  _x_ ("wrote screenshot in \"%s\""),
 				  filename);
-		    }
-		  else
-		    {
-		      LW6SYS_FREE (ret);
-		      ret = NULL;
 		    }
 		}
 
@@ -184,6 +196,16 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 	    }
 	}
       LW6SYS_FREE (filename);
+    }
+
+  if (ret)
+    {
+      if ((!(ret->jpeg_data)) || (ret->jpeg_size <= 0) || (ret->shape.w <= 0)
+	  || (ret->shape.h <= 0))
+	{
+	  lw6img_screenshot_free (ret);
+	  ret = NULL;
+	}
     }
 
   return ret;
