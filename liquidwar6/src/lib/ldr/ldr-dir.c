@@ -32,7 +32,7 @@
 
 typedef struct for_all_entries_callback_data_s
 {
-  char *map_path;
+  const char *map_path;
   int player_exp;
   int recursive;
   lw6sys_list_callback_func_t callback_func;
@@ -41,8 +41,8 @@ typedef struct for_all_entries_callback_data_s
 
 typedef struct _count_submaps_callback_func1_data_s
 {
-  char *map_path;
-  char *user_dir;
+  const char *map_path;
+  const char *user_dir;
 } _count_submaps_callback_func1_data_t;
 
 typedef struct _chain_ret_s
@@ -53,8 +53,8 @@ typedef struct _chain_ret_s
 _chain_ret_t;
 
 static lw6ldr_entry_t *
-new_entry (char *absolute_path, char *relative_path, char *entry_path,
-	   int player_exp)
+new_entry (const char *absolute_path, const char *relative_path,
+	   const char *entry_path, int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
   lw6map_rules_t rules;
@@ -234,8 +234,8 @@ lw6ldr_dup_entry (lw6ldr_entry_t * entry)
 
 static void
 add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	   char *absolute_path, char *relative_path, char *entry_path, int *n,
-	   int player_exp)
+	   const char *absolute_path, const char *relative_path,
+	   const char *entry_path, int *n, int player_exp)
 {
   lw6ldr_entry_t *entry = NULL;
 
@@ -262,7 +262,8 @@ add_entry (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
 
 static void
 add_subdirs (lw6sys_list_t ** entries, lw6sys_assoc_t ** entries_index,
-	     char *absolute_path, char *relative_path, int player_exp)
+	     const char *absolute_path, const char *relative_path,
+	     int player_exp)
 {
 #ifdef LW6_MS_WINDOWS
   WIN32_FIND_DATA dir_entry;
@@ -381,7 +382,7 @@ entries_sort_callback (lw6sys_list_t ** list_a, lw6sys_list_t ** list_b)
 }
 
 static lw6sys_list_t *
-_get_entries (char *map_path, char *relative_path, int player_exp)
+_get_entries (const char *map_path, const char *relative_path, int player_exp)
 {
   lw6sys_list_t *entries = NULL;
   lw6sys_assoc_t *entries_index = NULL;
@@ -473,7 +474,8 @@ _count_submaps_callback_func1 (void *func_data, void *data)
  * Return value: a list of dynamically allocated lw6ldr_entry_t.
  */
 lw6sys_list_t *
-lw6ldr_get_entries (char *map_path, char *relative_path, char *user_dir)
+lw6ldr_get_entries (const char *map_path, const char *relative_path,
+		    const char *user_dir)
 {
   int player_exp = 0;
   lw6sys_list_t *entries = NULL;
@@ -538,8 +540,8 @@ for_all_entries_callback_func (void *func_data, void *data)
  * Return value: none.
  */
 void
-lw6ldr_for_all_entries (char *map_path, char *relative_path, char *user_dir,
-			int recursive,
+lw6ldr_for_all_entries (const char *map_path, const char *relative_path,
+			const char *user_dir, int recursive,
 			lw6sys_list_callback_func_t callback_func,
 			void *func_data)
 {
@@ -603,7 +605,8 @@ _chain_func (void *func_data, void *data)
  * Return value: none.
  */
 lw6ldr_entry_t *
-lw6ldr_chain_entry (char *map_path, char *relative_path, char *user_dir)
+lw6ldr_chain_entry (const char *map_path, const char *relative_path,
+		    const char *user_dir)
 {
   char *parent = NULL;
   lw6ldr_entry_t *ret = NULL;

@@ -28,7 +28,7 @@
 #include "cfg-internal.h"
 
 int
-_lw6cfg_option_exists (_lw6cfg_context_t * context, char *key)
+_lw6cfg_option_exists (_lw6cfg_context_t * context, const char *key)
 {
   int ret = 0;
 
@@ -48,13 +48,13 @@ _lw6cfg_option_exists (_lw6cfg_context_t * context, char *key)
  * Return value: 1 if exists, 0 if not
  */
 int
-lw6cfg_option_exists (void *context, char *key)
+lw6cfg_option_exists (void *context, const char *key)
 {
   return _lw6cfg_option_exists ((_lw6cfg_context_t *) context, key);
 }
 
 char *
-_lw6cfg_get_option (_lw6cfg_context_t * context, char *key)
+_lw6cfg_get_option (_lw6cfg_context_t * context, const char *key)
 {
   char *ret = "";
 
@@ -81,13 +81,14 @@ _lw6cfg_get_option (_lw6cfg_context_t * context, char *key)
  * Return value: pointer to string, must not be freed.
  */
 char *
-lw6cfg_get_option (void *context, char *key)
+lw6cfg_get_option (void *context, const char *key)
 {
   return _lw6cfg_get_option ((_lw6cfg_context_t *) context, key);
 }
 
 void
-_lw6cfg_set_option (_lw6cfg_context_t * context, char *key, char *value)
+_lw6cfg_set_option (_lw6cfg_context_t * context, const char *key,
+		    const char *value)
 {
   char *value_converted = NULL;
 
@@ -112,13 +113,13 @@ _lw6cfg_set_option (_lw6cfg_context_t * context, char *key, char *value)
  * Return value: none
  */
 void
-lw6cfg_set_option (void *context, char *key, char *value)
+lw6cfg_set_option (void *context, const char *key, const char *value)
 {
   _lw6cfg_set_option ((_lw6cfg_context_t *) context, key, value);
 }
 
 int
-_lw6cfg_get_option_int (_lw6cfg_context_t * context, char *key)
+_lw6cfg_get_option_int (_lw6cfg_context_t * context, const char *key)
 {
   int ret = 0;
   char *str = _lw6cfg_get_option (context, key);
@@ -145,13 +146,14 @@ _lw6cfg_get_option_int (_lw6cfg_context_t * context, char *key)
  * Return value: option value converted to int
  */
 int
-lw6cfg_get_option_int (void *context, char *key)
+lw6cfg_get_option_int (void *context, const char *key)
 {
   return _lw6cfg_get_option_int ((_lw6cfg_context_t *) context, key);
 }
 
 void
-_lw6cfg_set_option_int (_lw6cfg_context_t * context, char *key, int value)
+_lw6cfg_set_option_int (_lw6cfg_context_t * context, const char *key,
+			int value)
 {
   char *str;
 
@@ -177,13 +179,13 @@ _lw6cfg_set_option_int (_lw6cfg_context_t * context, char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_set_option_int (void *context, char *key, int value)
+lw6cfg_set_option_int (void *context, const char *key, int value)
 {
   _lw6cfg_set_option_int ((_lw6cfg_context_t *) context, key, value);
 }
 
 int
-_lw6cfg_get_option_bool (_lw6cfg_context_t * context, char *key)
+_lw6cfg_get_option_bool (_lw6cfg_context_t * context, const char *key)
 {
   int ret = 0;
   char *str = _lw6cfg_get_option (context, key);
@@ -210,13 +212,14 @@ _lw6cfg_get_option_bool (_lw6cfg_context_t * context, char *key)
  * Return value: option value converted to boolean
  */
 int
-lw6cfg_get_option_bool (void *context, char *key)
+lw6cfg_get_option_bool (void *context, const char *key)
 {
   return _lw6cfg_get_option_bool ((_lw6cfg_context_t *) context, key);
 }
 
 void
-_lw6cfg_set_option_bool (_lw6cfg_context_t * context, char *key, int value)
+_lw6cfg_set_option_bool (_lw6cfg_context_t * context, const char *key,
+			 int value)
 {
   char *str;
 
@@ -242,7 +245,7 @@ _lw6cfg_set_option_bool (_lw6cfg_context_t * context, char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_set_option_bool (void *context, char *key, int value)
+lw6cfg_set_option_bool (void *context, const char *key, int value)
 {
   _lw6cfg_set_option_bool ((_lw6cfg_context_t *) context, key, value);
 }

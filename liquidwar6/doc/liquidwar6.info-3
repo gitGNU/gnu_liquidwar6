@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -202,16 +202,16 @@ results on
 5.22.2 API
 ----------
 
- -- Function: int lw6hlp_is_documented (char * KEYWORD)
+ -- Function: int lw6hlp_is_documented (const char * KEYWORD)
      KEYWORD:  the keyword we want to check out
 
      Checks wether a given keyword is documented or not.
 
      *Return value:*  1 if documented, 0 if not.
 
- -- Function: char * lw6hlp_about (lw6hlp_type_t * TYPE, char **
-          DEFAULT_VALUE, int * MIN_VALUE, int * MAX_VALUE, char *
-          KEYWORD)
+ -- Function: const char * lw6hlp_about (lw6hlp_type_t * TYPE, const
+          char ** DEFAULT_VALUE, int * MIN_VALUE, int * MAX_VALUE,
+          const char * KEYWORD)
      TYPE:  the type of the data associated to the keyword, will be
      written
 
@@ -234,14 +234,15 @@ results on
      *Return value:*  a help string, never NULL, must not be freed.
      Additionnally, type will be updated.
 
- -- Function: lw6hlp_type_t lw6hlp_get_type (char * KEYWORD)
+ -- Function: lw6hlp_type_t lw6hlp_get_type (const char * KEYWORD)
      KEYWORD:  the keyword we want the type of
 
      Returns the type of a keyword. Calls lw6hlp_about internally.
 
      *Return value:*  the type, might be LW6HLP_TYPE_VOID.
 
- -- Function: char * lw6hlp_get_default_value (char * KEYWORD)
+ -- Function: const char * lw6hlp_get_default_value (const char *
+          KEYWORD)
      KEYWORD:  the keyword we want the default for
 
      Returns the default value for a keyword. Note that it can be NULL!
@@ -251,7 +252,7 @@ results on
 
      *Return value:*  a pointer, which can be NULL, must not be freed.
 
- -- Function: int lw6hlp_get_min_value (char * KEYWORD)
+ -- Function: int lw6hlp_get_min_value (const char * KEYWORD)
      KEYWORD:  the keyword we want the min for
 
      Returns the min value for a keyword. Wether this is relevant for a
@@ -260,7 +261,7 @@ results on
 
      *Return value:*  the value (integer)
 
- -- Function: int lw6hlp_get_max_value (char * KEYWORD)
+ -- Function: int lw6hlp_get_max_value (const char * KEYWORD)
      KEYWORD:  the keyword we want the max for
 
      Returns the max value for a keyword. Wether this is relevant for a
@@ -279,7 +280,8 @@ results on
 
      *Return value:*  the string, must be freed.
 
- -- Function: int lw6hlp_match (char * KEYWORD1, char * KEYWORD2)
+ -- Function: int lw6hlp_match (const char * KEYWORD1, const char *
+          KEYWORD2)
      KEYWORD1:  the 1st keyword
 
      KEYWORD2:  the 2nd keyword
@@ -417,7 +419,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6hlp_print_about (char * KEYWORD, FILE * F)
+ -- Function: void lw6hlp_print_about (const char * KEYWORD, FILE * F)
      KEYWORD:  the keyword to print help about
 
      F:  the file to print the content to
@@ -1512,7 +1514,7 @@ results on
 5.25.2 API
 ----------
 
- -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, char *
+ -- Function: int lw6ldr_body_read (lw6map_body_t * BODY, const char *
           DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS, int
           DISPLAY_W, int DISPLAY_H, float RATIO, int BENCH_VALUE, int
           MAGIC_NUMBER, lw6sys_progress_t * PROGRESS)
@@ -1555,7 +1557,7 @@ results on
      *Return value:*  none.
 
  -- Function: int lw6ldr_cursor_texture_read (lw6map_cursor_texture_t *
-          CURSOR_TEXTURE, char * DIRNAME)
+          CURSOR_TEXTURE, const char * DIRNAME)
      CURSOR_TEXTURE:  the cursor texture (out param)
 
      DIRNAME:  the directory we load the data form (map dir)
@@ -1579,8 +1581,8 @@ results on
 
      *Return value:*  newly allocated object.
 
- -- Function: lw6sys_list_t * lw6ldr_get_entries (char * MAP_PATH, char
-          * RELATIVE_PATH, char * USER_DIR)
+ -- Function: lw6sys_list_t * lw6ldr_get_entries (const char *
+          MAP_PATH, const char * RELATIVE_PATH, const char * USER_DIR)
      MAP_PATH:  the map_path environment config variable, delimited
      path list
 
@@ -1595,8 +1597,8 @@ results on
 
      *Return value:*  a list of dynamically allocated lw6ldr_entry_t.
 
- -- Function: void lw6ldr_for_all_entries (char * MAP_PATH, char *
-          RELATIVE_PATH, char * USER_DIR, int RECURSIVE,
+ -- Function: void lw6ldr_for_all_entries (const char * MAP_PATH, const
+          char * RELATIVE_PATH, const char * USER_DIR, int RECURSIVE,
           lw6sys_list_callback_func_t CALLBACK_FUNC, void * FUNC_DATA)
      MAP_PATH:  the map_path environment config variable, delimited
      path list
@@ -1616,8 +1618,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: lw6ldr_entry_t * lw6ldr_chain_entry (char * MAP_PATH,
-          char * RELATIVE_PATH, char * USER_DIR)
+ -- Function: lw6ldr_entry_t * lw6ldr_chain_entry (const char *
+          MAP_PATH, const char * RELATIVE_PATH, const char * USER_DIR)
      MAP_PATH:  the map_path environment config variable, delimited
      path list
 
@@ -1629,8 +1631,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6ldr_exp_validate (lw6map_level_t * LEVEL, char *
-          USER_DIR)
+ -- Function: int lw6ldr_exp_validate (lw6map_level_t * LEVEL, const
+          char * USER_DIR)
      LEVEL:  the level to validate
 
      USER_DIR:  user directory
@@ -1677,8 +1679,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6ldr_hints_read (lw6ldr_hints_t * HINTS, char *
-          DIRNAME)
+ -- Function: int lw6ldr_hints_read (lw6ldr_hints_t * HINTS, const char
+          * DIRNAME)
      DIRNAME:  the directory of the map
 
      Read the hints (hints.xml) of a map. Pointer to hints must be
@@ -1687,8 +1689,8 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: int lw6ldr_hints_set (lw6ldr_hints_t * HINTS, char * KEY,
-          char * VALUE)
+ -- Function: int lw6ldr_hints_set (lw6ldr_hints_t * HINTS, const char
+          * KEY, const char * VALUE)
      HINTS:  the hints to modify
 
      KEY:  the key to modify
@@ -1703,8 +1705,8 @@ results on
      really means there's a problem, some affectations can fail and
      return 1, needs to be worked on.
 
- -- Function: char * lw6ldr_hints_get (lw6ldr_hints_t * HINTS, char *
-          KEY)
+ -- Function: char * lw6ldr_hints_get (lw6ldr_hints_t * HINTS, const
+          char * KEY)
      HINTS:  the hints to modify
 
      KEY:  the key to modify
@@ -1714,7 +1716,7 @@ results on
 
      *Return value:*  dynamically allocated string, NULL on error.
 
- -- Function: char * lw6ldr_hints_get_default (char * KEY)
+ -- Function: char * lw6ldr_hints_get_default (const char * KEY)
      KEY:  the key we want informations about.
 
      Gets the default value for a given hints key.
@@ -1735,8 +1737,56 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
+ -- Function: int lw6ldr_layer_read_first (lw6map_layer_t * LAYER,
+          const char * FILENAME, lw6map_param_t * PARAM, lw6ldr_hints_t
+          * HINTS, int DISPLAY_W, int DISPLAY_H, float TARGET_RATIO,
+          int BENCH_VALUE, int MAGIC_NUMBER, int EXPECTED_DEPTH,
+          lw6sys_progress_t * PROGRESS)
+     LAYER:  layer to update (out param)
+
+     FILENAME:  name of PNG file
+
+     PARAM:  parameters of the map
+
+     HINTS:  hints of the map
+
+     DISPLAY_W:  width of display
+
+     DISPLAY_H:  height of display
+
+     TARGET_RATIO:  width/height ratio we want
+
+     BENCH_VALUE:  bench for this computer
+
+     MAGIC_NUMBER:  arbitrary constant
+
+     EXPECTED_DEPTH:  depth of map according to files available
+
+     PROGRESS:  progress object to provide feedback (in/out)
+
+     Reads the first layer, that is map.png. This function has many
+     parameters since it will try and guess the final (real) resolution
+     of the map.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6ldr_layer_read_next (lw6map_layer_t * LAYER, const
+          char * FILENAME, int TARGET_W, int TARGET_H)
+     LAYER:  layer to update (out param)
+
+     FILENAME:  name of PNG file
+
+     TARGET_W:  width we want
+
+     TARGET_H:  height we want
+
+     Reads a layer, knowing the exact size we want. This is typically
+     to load layer2-7.png once map.png has been loaded.
+
+     *Return value:*  1 on success, 0 on failure.
+
  -- Function: int lw6ldr_metadata_read (lw6map_metadata_t * METADATA,
-          char * DIRNAME)
+          const char * DIRNAME)
      METADATA:  structure containting read data (out param)
 
      DIRNAME:  map dirname (absolute path)
@@ -1748,8 +1798,8 @@ results on
      *Return value:*  1 on success, 0 on failure.
 
  -- Function: int lw6ldr_meta_layer_read (lw6map_meta_layer_t *
-          META_LAYER, char * FILENAME, int TARGET_W, int TARGET_H, int
-          ANALOG)
+          META_LAYER, const char * FILENAME, int TARGET_W, int
+          TARGET_H, int ANALOG)
      META_LAYER:  the meta layer to read
 
      FILENAME:  the file to open
@@ -1766,8 +1816,8 @@ results on
      *Return value:*  1 on success, 0 on failure
 
  -- Function: int lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t
-          * META_LAYER, char * DIRNAME, char * FILE_ONLY, int TARGET_W,
-          int TARGET_H, int ANALOG)
+          * META_LAYER, const char * DIRNAME, const char * FILE_ONLY,
+          int TARGET_W, int TARGET_H, int ANALOG)
      META_LAYER:  the meta layer to read
 
      DIRNAME:  the map directory
@@ -1787,8 +1837,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: int lw6ldr_param_read (lw6map_param_t * PARAM, char *
-          DIRNAME)
+ -- Function: int lw6ldr_param_read (lw6map_param_t * PARAM, const char
+          * DIRNAME)
      PARAM:  the parameter struct to fill with values (read/write
      parameter)
 
@@ -1851,10 +1901,10 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: lw6map_level_t * lw6ldr_read (char * DIRNAME,
+ -- Function: lw6map_level_t * lw6ldr_read (const char * DIRNAME,
           lw6sys_assoc_t * DEFAULT_PARAM, lw6sys_assoc_t *
           FORCED_PARAM, int DISPLAY_W, int DISPLAY_H, int BENCH_VALUE,
-          int MAGIC_NUMBER, char * USER_DIR, lw6sys_progress_t *
+          int MAGIC_NUMBER, const char * USER_DIR, lw6sys_progress_t *
           PROGRESS)
      DIRNAME:  the directory containing the map
 
@@ -1887,11 +1937,11 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: lw6map_level_t * lw6ldr_read_relative (char * MAP_PATH,
-          char * RELATIVE_PATH, lw6sys_assoc_t * DEFAULT_PARAM,
-          lw6sys_assoc_t * FORCED_PARAM, int DISPLAY_W, int DISPLAY_H,
-          int BENCH_VALUE, int MAGIC_NUMBER, char * USER_DIR,
-          lw6sys_progress_t * PROGRESS)
+ -- Function: lw6map_level_t * lw6ldr_read_relative (const char *
+          MAP_PATH, const char * RELATIVE_PATH, lw6sys_assoc_t *
+          DEFAULT_PARAM, lw6sys_assoc_t * FORCED_PARAM, int DISPLAY_W,
+          int DISPLAY_H, int BENCH_VALUE, int MAGIC_NUMBER, const char
+          * USER_DIR, lw6sys_progress_t * PROGRESS)
      MAP_PATH:  a collection of paths where to find maps
 
      RELATIVE_PATH:  something which will be appended to a `map_path'
@@ -2013,8 +2063,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6ldr_rules_read (lw6map_rules_t * RULES, char *
-          DIRNAME)
+ -- Function: int lw6ldr_rules_read (lw6map_rules_t * RULES, const char
+          * DIRNAME)
      DIRNAME:  the directory of the map
 
      Read the rules (rules.xml) of a map. Pointer to rules must be
@@ -2037,8 +2087,8 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: int lw6ldr_style_read (lw6map_style_t * STYLE, char *
-          DIRNAME)
+ -- Function: int lw6ldr_style_read (lw6map_style_t * STYLE, const char
+          * DIRNAME)
      DIRNAME:  the directory of the map
 
      Read the style (style.xml) of a map. Pointer to style must be
@@ -2047,8 +2097,8 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: int lw6ldr_style_set (lw6map_style_t * STYLE, char * KEY,
-          char * VALUE)
+ -- Function: int lw6ldr_style_set (lw6map_style_t * STYLE, const char
+          * KEY, const char * VALUE)
      STYLE:  the style to modify
 
      KEY:  the key to modify
@@ -2077,8 +2127,8 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- Function: int lw6ldr_teams_read (lw6map_teams_t * TEAMS, char *
-          DIRNAME)
+ -- Function: int lw6ldr_teams_read (lw6map_teams_t * TEAMS, const char
+          * DIRNAME)
      DIRNAME:  the directory of the map
 
      Read the teams (teams.xml) of a map. Pointer to teams must be
@@ -2108,10 +2158,10 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- Function: int lw6ldr_texture_read (lw6map_texture_t * TEXTURE, char
-          * DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t * HINTS,
-          int USE_TEXTURE, int DISPLAY_W, int DISPLAY_H, float * RATIO,
-          int * TEXTURE_EXISTS, lw6sys_progress_t * PROGRESS)
+ -- Function: int lw6ldr_texture_read (lw6map_texture_t * TEXTURE,
+          const char * DIRNAME, lw6map_param_t * PARAM, lw6ldr_hints_t
+          * HINTS, int USE_TEXTURE, int DISPLAY_W, int DISPLAY_H, float
+          * RATIO, int * TEXTURE_EXISTS, lw6sys_progress_t * PROGRESS)
      TEXTURE:  structure to hold read data
 
      DIRNAME:  map dirname (absolute path)
@@ -2155,8 +2205,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6ldr_use_set (lw6ldr_use_t * USE, char * KEY, char
-          * VALUE)
+ -- Function: int lw6ldr_use_set (lw6ldr_use_t * USE, const char * KEY,
+          const char * VALUE)
      USE:  struct to modify
 
      KEY:  key to change (as a string)
@@ -2302,7 +2352,7 @@ results on
 
      *Return value:*  a string, must *not* be freed.
 
- -- Function: int lw6map_team_color_key_to_index (char * KEY)
+ -- Function: int lw6map_team_color_key_to_index (const char * KEY)
      KEY:  key of the color, for instance "red"
 
      The index of the color, between 0 & 9
@@ -2430,7 +2480,7 @@ results on
      *Return value:*  a newly allocated pointer, NULL if conversion
      failed.
 
- -- Function: lw6map_level_t * lw6map_from_hexa (char * HEXA)
+ -- Function: lw6map_level_t * lw6map_from_hexa (const char * HEXA)
      HEXA:  an hexadecimal ASCII string, created by `lw6map_to_hexa'
 
      Constructs a map from an hexadecimal string generated by
@@ -2521,7 +2571,7 @@ results on
      *Return value:*  1 if they're the same, 0 if not.
 
  -- Function: int lw6map_local_info_set_music_dir (lw6map_local_info_t
-          * LOCAL_INFO, char * MUSIC_DIR)
+          * LOCAL_INFO, const char * MUSIC_DIR)
      LOCAL_INFO:  the structure to modify
 
      MUSIC_DIR:  the new music_dir value
@@ -2652,8 +2702,8 @@ results on
 
      *Return value:*  none
 
- -- Function: int lw6map_param_set (lw6map_param_t * PARAM, char * KEY,
-          char * VALUE)
+ -- Function: int lw6map_param_set (lw6map_param_t * PARAM, const char
+          * KEY, const char * VALUE)
      PARAM:  the param struct to modify
 
      KEY:  the name of the parameter to modify
@@ -2667,8 +2717,8 @@ results on
 
      *Return value:*  1 if parameter successfully set, 0 on error.
 
- -- Function: char * lw6map_param_get (lw6map_param_t * PARAM, char *
-          KEY)
+ -- Function: char * lw6map_param_get (lw6map_param_t * PARAM, const
+          char * KEY)
      PARAM:  the param struct to query
 
      KEY:  the name of the parameter to get
@@ -2719,7 +2769,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: int32_t lw6map_rules_get_default (char * KEY)
+ -- Function: int32_t lw6map_rules_get_default (const char * KEY)
      KEY:  key to query
 
      Get the default value for a given string key. Of course you could
@@ -2728,7 +2778,7 @@ results on
 
      *Return value:*  integer.
 
- -- Function: int32_t lw6map_rules_get_min (char * KEY)
+ -- Function: int32_t lw6map_rules_get_min (const char * KEY)
      KEY:  key to query
 
      Get the min value for a given string key. Of course you could
@@ -2737,7 +2787,7 @@ results on
 
      *Return value:*  integer.
 
- -- Function: int32_t lw6map_rules_get_max (char * KEY)
+ -- Function: int32_t lw6map_rules_get_max (const char * KEY)
      KEY:  key to query
 
      Get the min value for a given string key. Of course you could
@@ -2747,7 +2797,7 @@ results on
      *Return value:*  integer.
 
  -- Function: int32_t lw6map_rules_get_int (lw6map_rules_t * RULES,
-          char * KEY)
+          const char * KEY)
      RULES:  struct to use
 
      KEY:  key to query
@@ -2758,8 +2808,8 @@ results on
 
      *Return value:*  integer.
 
- -- Function: int lw6map_rules_set_int (lw6map_rules_t * RULES, char *
-          KEY, int32_t VALUE)
+ -- Function: int lw6map_rules_set_int (lw6map_rules_t * RULES, const
+          char * KEY, int32_t VALUE)
      RULES:  struct to use
 
      KEY:  key to set
@@ -2772,8 +2822,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure (eg key not found)
 
- -- Function: int lw6map_rules_get_bool (lw6map_rules_t * RULES, char *
-          KEY)
+ -- Function: int lw6map_rules_get_bool (lw6map_rules_t * RULES, const
+          char * KEY)
      RULES:  struct to use
 
      KEY:  key to query
@@ -2784,8 +2834,8 @@ results on
 
      *Return value:*  boolean.
 
- -- Function: int lw6map_rules_set_bool (lw6map_rules_t * RULES, char *
-          KEY, int VALUE)
+ -- Function: int lw6map_rules_set_bool (lw6map_rules_t * RULES, const
+          char * KEY, int VALUE)
      RULES:  struct to use
 
      KEY:  key to set
@@ -2854,8 +2904,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6map_style_set (lw6map_style_t * STYLE, char * KEY,
-          char * VALUE)
+ -- Function: int lw6map_style_set (lw6map_style_t * STYLE, const char
+          * KEY, const char * VALUE)
      STYLE:  style struct to modify (out param)
 
      KEY:  key to use
@@ -2867,8 +2917,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure (key not found)
 
- -- Function: char * lw6map_style_get (lw6map_style_t * STYLE, char *
-          KEY)
+ -- Function: char * lw6map_style_get (lw6map_style_t * STYLE, const
+          char * KEY)
      STYLE:  style struct to query
 
      KEY:  key to use
@@ -2879,7 +2929,7 @@ results on
 
      *Return value:*  dynamically allocated string.
 
- -- Function: char * lw6map_style_get_default (char * KEY)
+ -- Function: char * lw6map_style_get_default (const char * KEY)
      KEY:  key to query
 
      Get the default value for a style entry. This is quite a
@@ -2946,8 +2996,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6map_teams_set (lw6map_teams_t * TEAMS, char * KEY,
-          char * VALUE)
+ -- Function: int lw6map_teams_set (lw6map_teams_t * TEAMS, const char
+          * KEY, const char * VALUE)
      TEAMS:  the teams to modify
 
      KEY:  the key to modify
@@ -2962,8 +3012,8 @@ results on
      really means there's a problem, some affectations can fail and
      return 1, needs to be worked on.
 
- -- Function: char * lw6map_teams_get (lw6map_teams_t * TEAMS, char *
-          KEY)
+ -- Function: char * lw6map_teams_get (lw6map_teams_t * TEAMS, const
+          char * KEY)
      TEAMS:  the teams to modify
 
      KEY:  the key to modify
@@ -2973,7 +3023,7 @@ results on
 
      *Return value:*  dynamically allocated string, NULL on error.
 
- -- Function: char * lw6map_teams_get_default (char * KEY)
+ -- Function: char * lw6map_teams_get_default (const char * KEY)
      KEY:  the key we want informations about.
 
      Gets the default value for a given teams key.
@@ -3068,7 +3118,7 @@ results on
 
      *Return value:*  a string, must *not* be freed.
 
- -- Function: int lw6map_weapon_key_to_index (char * KEY)
+ -- Function: int lw6map_weapon_key_to_index (const char * KEY)
      KEY:  key of the weapon, for instance "red"
 
      The index of the weapon, between 0 & 19

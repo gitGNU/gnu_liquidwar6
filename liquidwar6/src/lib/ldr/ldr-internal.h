@@ -76,7 +76,7 @@ _lw6ldr_image_rgba_t;
 /*
  * In bw.c
  */
-extern int _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
+extern int _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 			    lw6sys_progress_t * progress);
 extern void _lw6ldr_bw_clear (_lw6ldr_image_bw_t * image);
 extern float _lw6ldr_bw_gray_level (_lw6ldr_image_bw_t * image);
@@ -91,7 +91,8 @@ extern void _lw6ldr_apply_guessed_colors (lw6map_level_t * level);
 /* in cursortexturelayer.c */
 extern int
 _lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t *
-				       cursor_texture_layer, char *png_file);
+				       cursor_texture_layer,
+				       const char *png_file);
 
 /* ldr-exp.c */
 extern void _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp);
@@ -100,10 +101,10 @@ extern void _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp);
  * In rgba.c
  */
 extern int _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image,
-				  char *png_file,
+				  const char *png_file,
 				  lw6sys_progress_t * progress);
 extern int _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image,
-				   char *jpeg_file,
+				   const char *jpeg_file,
 				   lw6sys_progress_t * progress);
 extern void _lw6ldr_rgba_clear (_lw6ldr_image_rgba_t * image);
 

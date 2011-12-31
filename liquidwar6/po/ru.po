@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-26 12:38+0100\n"
+"POT-Creation-Date: 2011-12-30 15:31+0100\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -73,7 +73,7 @@ msgstr "начат узел \"%s\""
 msgid "unable to load image \"%s\""
 msgstr "ошибка загрузки изображения \"%s\""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:108
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr " загрузки шрифта \"%s\""
@@ -544,7 +544,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:100
+#: src/lib/p2p/p2p-data.c:102
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""

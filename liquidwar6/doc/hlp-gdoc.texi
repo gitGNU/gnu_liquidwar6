@@ -1,4 +1,4 @@
-@deftypefun {int} {lw6hlp_is_documented} (char * @var{keyword})
+@deftypefun {int} {lw6hlp_is_documented} (const char * @var{keyword})
 @var{keyword}:  the keyword we want to check out
 
 Checks wether a given keyword is documented or not.
@@ -6,7 +6,7 @@ Checks wether a given keyword is documented or not.
 @strong{Return value:}  1 if documented, 0 if not.
 @end deftypefun
 
-@deftypefun {char *} {lw6hlp_about} (lw6hlp_type_t * @var{type}, char ** @var{default_value}, int * @var{min_value}, int * @var{max_value}, char * @var{keyword})
+@deftypefun {const char *} {lw6hlp_about} (lw6hlp_type_t * @var{type}, const char ** @var{default_value}, int * @var{min_value}, int * @var{max_value}, const char * @var{keyword})
 @var{type}:  the type of the data associated to the keyword, will be written
 
 @var{default_value}:  the default value for the keyword, will be written
@@ -28,7 +28,7 @@ function with type or other parameters being NULL.
 Additionnally, type will be updated.
 @end deftypefun
 
-@deftypefun {lw6hlp_type_t} {lw6hlp_get_type} (char * @var{keyword})
+@deftypefun {lw6hlp_type_t} {lw6hlp_get_type} (const char * @var{keyword})
 @var{keyword}:  the keyword we want the type of
 
 Returns the type of a keyword. Calls lw6hlp_about internally.
@@ -36,7 +36,7 @@ Returns the type of a keyword. Calls lw6hlp_about internally.
 @strong{Return value:}  the type, might be LW6HLP_TYPE_VOID.
 @end deftypefun
 
-@deftypefun {char *} {lw6hlp_get_default_value} (char * @var{keyword})
+@deftypefun {const char *} {lw6hlp_get_default_value} (const char * @var{keyword})
 @var{keyword}:  the keyword we want the default for
 
 Returns the default value for a keyword. Note that it can be NULL!
@@ -47,7 +47,7 @@ the one he wants documented.
 @strong{Return value:}  a pointer, which can be NULL, must not be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6hlp_get_min_value} (char * @var{keyword})
+@deftypefun {int} {lw6hlp_get_min_value} (const char * @var{keyword})
 @var{keyword}:  the keyword we want the min for
 
 Returns the min value for a keyword. Wether this is relevant for a
@@ -57,7 +57,7 @@ A min and max of zero means min and max make no sense.
 @strong{Return value:}  the value (integer)
 @end deftypefun
 
-@deftypefun {int} {lw6hlp_get_max_value} (char * @var{keyword})
+@deftypefun {int} {lw6hlp_get_max_value} (const char * @var{keyword})
 @var{keyword}:  the keyword we want the max for
 
 Returns the max value for a keyword. Wether this is relevant for a
@@ -77,7 +77,7 @@ and so on. One can pass an arbitraty high @code{id}, no risk.
 @strong{Return value:}  the string, must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6hlp_match} (char * @var{keyword1}, char * @var{keyword2})
+@deftypefun {int} {lw6hlp_match} (const char * @var{keyword1}, const char * @var{keyword2})
 @var{keyword1}:  the 1st keyword
 
 @var{keyword2}:  the 2nd keyword
@@ -258,7 +258,7 @@ on the standard terminal/console.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6hlp_print_about} (char * @var{keyword}, FILE * @var{f})
+@deftypefun {void} {lw6hlp_print_about} (const char * @var{keyword}, FILE * @var{f})
 @var{keyword}:  the keyword to print help about
 
 @var{f}:  the file to print the content to

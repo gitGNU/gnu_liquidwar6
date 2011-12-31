@@ -74,7 +74,8 @@ typedef struct _mod_http_specific_data_s
 _mod_http_specific_data_t;
 
 /* mod-http-data.c */
-extern int _mod_http_load_data (_mod_http_data_t * http_data, char *data_dir);
+extern int _mod_http_load_data (_mod_http_data_t * http_data,
+				const char *data_dir);
 extern void _mod_http_unload_data (_mod_http_data_t * http_data);
 
 /*

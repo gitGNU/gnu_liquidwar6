@@ -39,7 +39,7 @@
  */
 int
 lw6map_local_info_set_music_dir (lw6map_local_info_t * local_info,
-				 char *music_dir)
+				 const char *music_dir)
 {
   int ret = 0;
 

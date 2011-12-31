@@ -104,7 +104,7 @@ the callback passed when first creating the assoc.
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {int} {lw6sys_assoc_has_key} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@deftypefun {int} {lw6sys_assoc_has_key} (lw6sys_assoc_t * @var{assoc}, const char * @var{key})
 @var{assoc}:  the assoc to test
 
 @var{key}:  the key to search
@@ -116,7 +116,7 @@ called internally until the key is found.
 corresponding key. 
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_assoc_get} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@deftypefun {void *} {lw6sys_assoc_get} (lw6sys_assoc_t * @var{assoc}, const char * @var{key})
 @var{assoc}:  the assoc to query
 
 @var{key}:  the key of which we want the value
@@ -129,7 +129,7 @@ try to free it... As long as memory management is concerned,
 destroying the assoc will actually free the data if needed.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_assoc_set} (lw6sys_assoc_t ** @var{assoc}, char * @var{key}, void * @var{value})
+@deftypefun {void} {lw6sys_assoc_set} (lw6sys_assoc_t ** @var{assoc}, const char * @var{key}, void * @var{value})
 @var{assoc}:  the assoc to modify
 
 @var{key}:  the key we want to updated
@@ -148,7 +148,7 @@ be used to free stuff whenever needed (unset or free).
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {void} {lw6sys_assoc_unset} (lw6sys_assoc_t * @var{assoc}, char * @var{key})
+@deftypefun {void} {lw6sys_assoc_unset} (lw6sys_assoc_t * @var{assoc}, const char * @var{key})
 @var{assoc}:  the assoc concerned
 
 @var{key}:  the key to unset
@@ -877,7 +877,7 @@ handle in standard C than any malloc'ed stuff.
 @strong{Return value:}  the checksum, as an integer.
 @end deftypefun
 
-@deftypefun {u_int32_t} {lw6sys_checksum_str} (char * @var{value})
+@deftypefun {u_int32_t} {lw6sys_checksum_str} (const char * @var{value})
 @var{value}:  the string to process
 
 Creates a checksum from a string. This is a convenience
@@ -947,7 +947,7 @@ and get a global checksum on different sources.
 @strong{Return value:}  none. 
 @end deftypefun
 
-@deftypefun {void} {lw6sys_checksum_update_str} (u_int32_t * @var{checksum}, char * @var{value})
+@deftypefun {void} {lw6sys_checksum_update_str} (u_int32_t * @var{checksum}, const char * @var{value})
 @var{checksum}:  a pointer to the previous checksum
 
 @var{value}:  the string to process
@@ -1030,7 +1030,7 @@ equivalent between 0.0f and 1.0f. Usefull in color conversion.
 @strong{Return value:}  a float between 0.0f and 1.0f.
 @end deftypefun
 
-@deftypefun {lw6sys_color_8_t} {lw6sys_color_f_to_8} (lw6sys_color_f_t * @var{color_f})
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_f_to_8} (const lw6sys_color_f_t * @var{color_f})
 @var{color_f}:  the color to convert
 
 Converts a color from floating point format to the
@@ -1052,7 +1052,7 @@ All fields (RGBA) are converted.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {u_int32_t} {lw6sys_color_f_to_i} (lw6sys_color_f_t * @var{color_f})
+@deftypefun {u_int32_t} {lw6sys_color_f_to_i} (const lw6sys_color_f_t * @var{color_f})
 @var{color_f}:  the color to convert
 
 Converts a color from floating point format to a single
@@ -1094,7 +1094,7 @@ a "0 to 255" based structure.
 @strong{Return value:}  the converted color (structure).
 @end deftypefun
 
-@deftypefun {lw6sys_color_8_t} {lw6sys_color_a_to_8} (char * @var{ascii})
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_a_to_8} (const char * @var{ascii})
 @var{ascii}:  the color to convert
 
 Converts a color from a human readable string to
@@ -1105,7 +1105,7 @@ manner any HTML-valid value should work.
 @strong{Return value:}  the converted color (structure).
 @end deftypefun
 
-@deftypefun {void} {lw6sys_color_a_to_f} (lw6sys_color_f_t * @var{color_f}, char * @var{ascii})
+@deftypefun {void} {lw6sys_color_a_to_f} (lw6sys_color_f_t * @var{color_f}, const char * @var{ascii})
 @var{color_f}:  the converted color (pointer must point to writable memory)
 
 @var{ascii}:  the color to convert
@@ -1140,7 +1140,7 @@ for transformation. Alpha layer is kept as is.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {lw6sys_color_8_t} {lw6sys_color_hsv_to_rgb} (lw6sys_color_hsv_t * @var{color_hsv})
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_hsv_to_rgb} (const lw6sys_color_hsv_t * @var{color_hsv})
 @var{color_hsv}:  the source color, in HSV format
 
 Converts from RGB to HSV. Usefull to make colors transformed in HSV
@@ -1166,7 +1166,16 @@ and same value.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {lw6sys_color_8_t} {lw6sys_color_average} (int @var{size}, lw6sys_color_8_t * @var{colors})
+@deftypefun {int} {lw6sys_color_is_grey} (lw6sys_color_8_t @var{color})
+@var{color}:  the color to test
+
+Tells wether a color is pure grey or not. This is interesting
+for such colors have no hue and sometimes need special handling.
+
+@strong{Return value:}  1 if grey, 0 if colored
+@end deftypefun
+
+@deftypefun {lw6sys_color_8_t} {lw6sys_color_average} (int @var{size}, const lw6sys_color_8_t * @var{colors})
 @var{size}:  number of the color array (number of items)
 
 @var{colors}:  the colors to compute
@@ -1235,7 +1244,7 @@ Make a color "solid" that is make it not transparent at all.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_atoi} (char * @var{str})
+@deftypefun {int} {lw6sys_atoi} (const char * @var{str})
 @var{str}:  string to convert
 
 Just a plain wrapper on @code{atoi}, it's here for API consistency.
@@ -1244,7 +1253,7 @@ Will check if str is NULL (and in this case return 0).
 @strong{Return value:}  an integer.
 @end deftypefun
 
-@deftypefun {int64_t} {lw6sys_atoll} (char * @var{str})
+@deftypefun {int64_t} {lw6sys_atoll} (const char * @var{str})
 @var{str}:  string to convert
 
 Wrapper on @code{atoll}, it's here for API consistency.
@@ -1253,7 +1262,7 @@ Will check if str is NULL (and in this case return 0).
 @strong{Return value:}  a 64-bit integer.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_atob} (char * @var{str})
+@deftypefun {int} {lw6sys_atob} (const char * @var{str})
 @var{str}:  string to convert
 
 Transform a string into a boolean value. Accepts "0"/"1" in input,
@@ -1263,7 +1272,7 @@ Will check if str is NULL (and in this case return 0).
 @strong{Return value:}  an integer, 0 or 1.
 @end deftypefun
 
-@deftypefun {float} {lw6sys_atof} (char * @var{str})
+@deftypefun {float} {lw6sys_atof} (const char * @var{str})
 @var{str}:  string to convert
 
 A wrapper on @code{atof}, makes sure the locale used is C (default)
@@ -1602,7 +1611,7 @@ the first time.
 @strong{Return value:}  1 on success, 0 on failure (always fail)
 @end deftypefun
 
-@deftypefun {int} {lw6sys_clear_file} (char * @var{filename})
+@deftypefun {int} {lw6sys_clear_file} (const char * @var{filename})
 @var{filename}:  absolute or relative filename
 
 Clears a file, that is, make it a 0 byte file, empty, ready
@@ -1613,7 +1622,7 @@ execution.
 @strong{Return value:}  1 if success, 0 if failure.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_read_file_content} (char * @var{filename})
+@deftypefun {char *} {lw6sys_read_file_content} (const char * @var{filename})
 @var{filename}:  absolute or relative filename
 
 Reads the content of a file, and returns it as a string.
@@ -1625,7 +1634,7 @@ segfault when used with the returned value.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_read_file_content_bin} (int * @var{filesize}, char * @var{filename})
+@deftypefun {void *} {lw6sys_read_file_content_bin} (int * @var{filesize}, const char * @var{filename})
 @var{filesize}:  will contain the file size, in bytes
 
 @var{filename}:  absolute or relative filename
@@ -1644,7 +1653,7 @@ the @code{lw6sys_read_file_content} function.
 @strong{Return value:}  a newly allocated pointer, must be freed.
 @end deftypefun
 
-@deftypefun {int} {lw6sys_write_file_content} (char * @var{filename}, char * @var{content})
+@deftypefun {int} {lw6sys_write_file_content} (const char * @var{filename}, const char * @var{content})
 @var{filename}:  absolute or relative filename
 
 @var{content}:  the content to be written.
@@ -1685,7 +1694,7 @@ the callback passed when first creating the hash.
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {int} {lw6sys_hash_has_key} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@deftypefun {int} {lw6sys_hash_has_key} (lw6sys_hash_t * @var{hash}, const char * @var{key})
 @var{hash}:  the hash to test
 
 @var{key}:  the key to search
@@ -1697,7 +1706,7 @@ called internally until the key is found.
 corresponding key. 
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_hash_get} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@deftypefun {void *} {lw6sys_hash_get} (lw6sys_hash_t * @var{hash}, const char * @var{key})
 @var{hash}:  the hash to query
 
 @var{key}:  the key of which we want the value
@@ -1710,7 +1719,7 @@ try to free it... As long as memory management is concerned,
 destroying the hash will actually free the data if needed.
 @end deftypefun
 
-@deftypefun {void} {lw6sys_hash_set} (lw6sys_hash_t * @var{hash}, char * @var{key}, void * @var{value})
+@deftypefun {void} {lw6sys_hash_set} (lw6sys_hash_t * @var{hash}, const char * @var{key}, void * @var{value})
 @var{hash}:  the hash to modify
 
 @var{key}:  the key we want to updated
@@ -1729,7 +1738,7 @@ be used to free stuff whenever needed (unset or free).
 @strong{Return value:}  void
 @end deftypefun
 
-@deftypefun {void} {lw6sys_hash_unset} (lw6sys_hash_t * @var{hash}, char * @var{key})
+@deftypefun {void} {lw6sys_hash_unset} (lw6sys_hash_t * @var{hash}, const char * @var{key})
 @var{hash}:  the hash concerned
 
 @var{key}:  the key to unset
@@ -1797,7 +1806,7 @@ data is not dynamically allocated.
 @strong{Returned value:}  a newly allocated hash.
 @end deftypefun
 
-@deftypefun {lw6sys_hexa_serializer_t *} {lw6sys_hexa_serializer_new} (char * @var{hexa_string})
+@deftypefun {lw6sys_hexa_serializer_t *} {lw6sys_hexa_serializer_new} (const char * @var{hexa_string})
 @var{hexa_string}:  an initialization string, can be NULL.
 
 Creates an hexa serializer object. It can be initialized or not,
@@ -1897,7 +1906,7 @@ Pushes a floating point value in the serializer object.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
-@deftypefun {int} {lw6sys_hexa_serializer_push_str} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, char * @var{value})
+@deftypefun {int} {lw6sys_hexa_serializer_push_str} (lw6sys_hexa_serializer_t * @var{hexa_serializer}, const char * @var{value})
 @var{hexa_serializer}:  an hexa serializer object
 
 @var{value}:  value to push
@@ -2035,7 +2044,7 @@ Pops a color from the serializer object.
 @strong{Return value:}  1 if success, 0 if failure
 @end deftypefun
 
-@deftypefun {int} {lw6sys_hexa_str_to_buf} (void * @var{buf}, int @var{size}, char * @var{str})
+@deftypefun {int} {lw6sys_hexa_str_to_buf} (void * @var{buf}, int @var{size}, const char * @var{str})
 @var{buf}:  binary buffer to convert
 
 @var{size}:  binary buffer length
@@ -2058,7 +2067,7 @@ Transforms a binary buffer into its hexa representation.
 @strong{Return value:}  newly allocated string.
 @end deftypefun
 
-@deftypefun {void *} {lw6sys_hexa_str_to_ptr} (char * @var{str})
+@deftypefun {void *} {lw6sys_hexa_str_to_ptr} (const char * @var{str})
 @var{str}:  the string containing an hexa representation of pointer
 
 Transforms a string into a pointer, this is typically used
@@ -2121,7 +2130,7 @@ Frees a pointer returned by @code{lw6sys_history_get}.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {char *} {lw6sys_locale_to_utf8} (char * @var{string})
+@deftypefun {char *} {lw6sys_locale_to_utf8} (const char * @var{string})
 @var{string}:  the string to convert
 
 Used to force strings into UTF-8 mode, this is basically

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-26 12:38+0100\n"
+"POT-Creation-Date: 2011-12-30 15:31+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -73,7 +73,7 @@ msgstr "Kodenamn «%s»"
 msgid "unable to load image \"%s\""
 msgstr "klarte ikkje lasta biletet «%s»"
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:108
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr "klarte ikkje lasta skrifta «%s»"
@@ -550,7 +550,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:100
+#: src/lib/p2p/p2p-data.c:102
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "klarte ikkje lesa spørjinga «%s» i «%s»"

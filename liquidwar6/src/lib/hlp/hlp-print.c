@@ -51,7 +51,7 @@ print_content_callback (void *func_data, void *data)
   FILE *f;
   char *entry = NULL;
   char *desc = NULL;
-  char *about;
+  const char *about;
   lw6hlp_type_t type;
 
   f = (FILE *) func_data;
@@ -140,11 +140,11 @@ lw6hlp_print_content (lw6sys_list_t ** list, FILE * f)
  * Return value: none
  */
 void
-lw6hlp_print_about (char *keyword, FILE * f)
+lw6hlp_print_about (const char *keyword, FILE * f)
 {
   char *doc_str = NULL;
   lw6hlp_type_t type = LW6HLP_TYPE_VOID;
-  char *default_value = NULL;
+  const char *default_value = NULL;
   int min_value = 0;
   int max_value = 0;
   char *type_str = NULL;

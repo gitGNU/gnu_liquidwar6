@@ -37,7 +37,7 @@
  * Return value: an integer.
  */
 int
-lw6sys_atoi (char *str)
+lw6sys_atoi (const char *str)
 {
   return (str != NULL) ? atoi (str) : 0;
 }
@@ -53,7 +53,7 @@ lw6sys_atoi (char *str)
  * Return value: a 64-bit integer.
  */
 int64_t
-lw6sys_atoll (char *str)
+lw6sys_atoll (const char *str)
 {
   return (str != NULL) ? atoll (str) : 0L;
 }
@@ -70,7 +70,7 @@ lw6sys_atoll (char *str)
  * Return value: an integer, 0 or 1.
  */
 int
-lw6sys_atob (char *str)
+lw6sys_atob (const char *str)
 {
   int ret = 0;
 
@@ -99,7 +99,7 @@ lw6sys_atob (char *str)
  * Return value: a float.
  */
 float
-lw6sys_atof (char *str)
+lw6sys_atof (const char *str)
 {
   float ret = 0.0f;
   char *locale;

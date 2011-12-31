@@ -32,7 +32,7 @@
 
 mod_gl_utils_shaded_text_t *
 mod_gl_utils_shaded_text_new (mod_gl_utils_context_t * utils_context,
-			      TTF_Font * font, char *text,
+			      TTF_Font * font, const char *text,
 			      lw6map_color_couple_t * color)
 {
   mod_gl_utils_shaded_text_t *shaded_text;
@@ -56,7 +56,8 @@ mod_gl_utils_shaded_text_new (mod_gl_utils_context_t * utils_context,
 int
 mod_gl_utils_shaded_text_update (mod_gl_utils_context_t * utils_context,
 				 mod_gl_utils_shaded_text_t * shaded_text,
-				 char *text, lw6map_color_couple_t * color)
+				 const char *text,
+				 lw6map_color_couple_t * color)
 {
   int ret = 0;
   int change = 0;

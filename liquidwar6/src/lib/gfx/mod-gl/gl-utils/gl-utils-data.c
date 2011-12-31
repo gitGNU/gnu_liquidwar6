@@ -37,7 +37,7 @@
  */
 SDL_Surface *
 mod_gl_utils_load_image (mod_gl_utils_context_t * utils_context,
-			 char *filename)
+			 const char *filename)
 {
   SDL_Surface *ret = NULL;
   char *image_file = NULL;
@@ -88,7 +88,8 @@ mod_gl_utils_unload_image (mod_gl_utils_context_t * utils_context,
  * Dummy wrapper to handle cast & errors.
  */
 static TTF_Font *
-load_font (mod_gl_utils_context_t * utils_context, char *filename, int size)
+load_font (mod_gl_utils_context_t * utils_context, const char *filename,
+	   int size)
 {
   TTF_Font *ret = NULL;
   char *font_file;

@@ -261,8 +261,8 @@ typedef struct lw6sys_module_pedigree_s
 #define LW6SYS_BROADCAST_ID_64 0xffffffffffffffffLL
 
 typedef void (*lw6sys_free_func_t) (void *data);
-typedef void (*lw6sys_assoc_callback_func_t) (void *func_data, char *key,
-					      void *value);
+typedef void (*lw6sys_assoc_callback_func_t) (void *func_data,
+					      const char *key, void *value);
 typedef void (*lw6sys_list_callback_func_t) (void *func_data, void *data);
 typedef int (*lw6sys_list_filter_func_t) (void *func_data, void *data);
 typedef void *(*lw6sys_dup_func_t) (void *data);
@@ -392,11 +392,11 @@ extern int lw6sys_arg_test_mode (int argc, const char *argv[]);
 /* sys-assoc.c */
 extern lw6sys_assoc_t *lw6sys_assoc_new (lw6sys_free_func_t free_func);
 extern void lw6sys_assoc_free (lw6sys_assoc_t * assoc);
-extern int lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, char *key);
-extern void *lw6sys_assoc_get (lw6sys_assoc_t * assoc, char *key);
-extern void lw6sys_assoc_set (lw6sys_assoc_t ** assoc, char *key,
+extern int lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key);
+extern void *lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key);
+extern void lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key,
 			      void *value);
-extern void lw6sys_assoc_unset (lw6sys_assoc_t * assoc, char *key);
+extern void lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key);
 extern lw6sys_list_t *lw6sys_assoc_keys (lw6sys_assoc_t * assoc);
 extern void lw6sys_assoc_map (lw6sys_assoc_t * assoc,
 			      lw6sys_assoc_callback_func_t func,
@@ -513,14 +513,15 @@ lw6sys_chr_is_eol (char c)
 
 /* sys-checksum.c */
 extern u_int32_t lw6sys_checksum (unsigned char *data, int len);
-extern u_int32_t lw6sys_checksum_str (char *value);
+extern u_int32_t lw6sys_checksum_str (const char *value);
 extern u_int32_t lw6sys_checksum_int32 (u_int32_t value);
 extern u_int32_t lw6sys_checksum_int64 (u_int64_t value);
 extern u_int32_t lw6sys_checksum_whd (lw6sys_whd_t * whd);
 extern u_int32_t lw6sys_checksum_xyz (lw6sys_xyz_t * xyz);
 extern void lw6sys_checksum_update (u_int32_t * checksum,
 				    unsigned char *data, int len);
-extern void lw6sys_checksum_update_str (u_int32_t * checksum, char *value);
+extern void lw6sys_checksum_update_str (u_int32_t * checksum,
+					const char *value);
 extern void lw6sys_checksum_update_int32 (u_int32_t * checksum,
 					  int32_t value);
 extern void lw6sys_checksum_update_int64 (u_int32_t * checksum,
@@ -533,27 +534,30 @@ extern void lw6sys_checksum_update_xyz (u_int32_t * checksum,
 /* sys-color.c */
 extern u_int8_t lw6sys_color_float2char (float f);
 extern float lw6sys_color_char2float (u_int8_t i);
-extern lw6sys_color_8_t lw6sys_color_f_to_8 (lw6sys_color_f_t * color_f);
-extern void lw6sys_color_8_to_f (lw6sys_color_f_t *
-				 color_f, lw6sys_color_8_t color_8);
-extern u_int32_t lw6sys_color_f_to_i (lw6sys_color_f_t * color_f);
+extern lw6sys_color_8_t lw6sys_color_f_to_8 (const lw6sys_color_f_t *
+					     color_f);
+extern void lw6sys_color_8_to_f (lw6sys_color_f_t * color_f,
+				 lw6sys_color_8_t color_8);
+extern u_int32_t lw6sys_color_f_to_i (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_8_to_i (lw6sys_color_8_t color_8);
 extern void lw6sys_color_i_to_f (lw6sys_color_f_t * color_f,
 				 u_int32_t color_i);
 extern lw6sys_color_8_t lw6sys_color_i_to_8 (u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_a_to_8 (char *ascii);
-extern void lw6sys_color_a_to_f (lw6sys_color_f_t * color_f, char *ascii);
+extern lw6sys_color_8_t lw6sys_color_a_to_8 (const char *ascii);
+extern void lw6sys_color_a_to_f (lw6sys_color_f_t * color_f,
+				 const char *ascii);
 extern char *lw6sys_color_8_to_a (lw6sys_color_8_t color_8);
 extern void lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t * color_hsv,
 				     lw6sys_color_8_t color_8);
-extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (lw6sys_color_hsv_t *
+extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (const lw6sys_color_hsv_t *
 						 color_hsv);
 extern void lw6sys_color_hsv_invert (lw6sys_color_hsv_t * color_hsv,
 				     int invert_h, int invert_s,
 				     int invert_v);
 extern int lw6sys_color_is_grey (lw6sys_color_8_t color);
 extern lw6sys_color_8_t lw6sys_color_average (int size,
-					      lw6sys_color_8_t * colors);
+					      const lw6sys_color_8_t *
+					      colors);
 extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_color_8_t color1,
 						lw6sys_color_8_t color2,
 						float coeff);
@@ -565,10 +569,10 @@ extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
 /* sys-convert.c */
-extern int lw6sys_atoi (char *str);
-extern int64_t lw6sys_atoll (char *str);
-extern int lw6sys_atob (char *str);
-extern float lw6sys_atof (char *str);
+extern int lw6sys_atoi (const char *str);
+extern int64_t lw6sys_atoll (const char *str);
+extern int lw6sys_atob (const char *str);
+extern float lw6sys_atof (const char *str);
 extern char *lw6sys_itoa (int value);
 extern char *lw6sys_lltoa (int64_t value);
 extern char *lw6sys_btoa (int value);
@@ -613,10 +617,12 @@ extern int lw6sys_exec_again (int argc, const char *argv[]);
 extern int lw6sys_exec_restart (int argc, const char *argv[]);
 
 /* sys-file.c */
-extern int lw6sys_clear_file (char *filename);
-extern char *lw6sys_read_file_content (char *filename);
-extern void *lw6sys_read_file_content_bin (int *filesize, char *filename);
-extern int lw6sys_write_file_content (char *filename, char *content);
+extern int lw6sys_clear_file (const char *filename);
+extern char *lw6sys_read_file_content (const char *filename);
+extern void *lw6sys_read_file_content_bin (int *filesize,
+					   const char *filename);
+extern int lw6sys_write_file_content (const char *filename,
+				      const char *content);
 
 /* sys-profiler.c */
 extern int lw6sys_profiler_check (int verbose);
@@ -625,10 +631,11 @@ extern int lw6sys_profiler_check (int verbose);
 extern lw6sys_hash_t *lw6sys_hash_new (lw6sys_free_func_t free_func,
 				       int size);
 extern void lw6sys_hash_free (lw6sys_hash_t * hash);
-extern int lw6sys_hash_has_key (lw6sys_hash_t * hash, char *key);
-extern void *lw6sys_hash_get (lw6sys_hash_t * hash, char *key);
-extern void lw6sys_hash_set (lw6sys_hash_t * hash, char *key, void *value);
-extern void lw6sys_hash_unset (lw6sys_hash_t * hash, char *key);
+extern int lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key);
+extern void *lw6sys_hash_get (lw6sys_hash_t * hash, const char *key);
+extern void lw6sys_hash_set (lw6sys_hash_t * hash, const char *key,
+			     void *value);
+extern void lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key);
 extern lw6sys_list_t *lw6sys_hash_keys (lw6sys_hash_t * hash);
 extern void lw6sys_hash_map (lw6sys_hash_t * hash,
 			     lw6sys_assoc_callback_func_t func,
@@ -640,7 +647,7 @@ extern lw6sys_hash_t *lw6sys_hash_dup (lw6sys_hash_t * hash,
 				       lw6sys_dup_func_t dup_func);
 
 /* sys-hexa.c */
-extern lw6sys_hexa_serializer_t *lw6sys_hexa_serializer_new (char
+extern lw6sys_hexa_serializer_t *lw6sys_hexa_serializer_new (const char
 							     *hexa_string);
 extern void lw6sys_hexa_serializer_free (lw6sys_hexa_serializer_t *
 					 hexa_serializer);
@@ -661,7 +668,8 @@ extern int lw6sys_hexa_serializer_push_int8 (lw6sys_hexa_serializer_t *
 extern int lw6sys_hexa_serializer_push_float (lw6sys_hexa_serializer_t *
 					      hexa_serializer, float value);
 extern int lw6sys_hexa_serializer_push_str (lw6sys_hexa_serializer_t *
-					    hexa_serializer, char *value);
+					    hexa_serializer,
+					    const char *value);
 extern int lw6sys_hexa_serializer_push_xyz (lw6sys_hexa_serializer_t *
 					    hexa_serializer,
 					    lw6sys_xyz_t value);
@@ -695,9 +703,9 @@ extern int lw6sys_hexa_serializer_pop_whd (lw6sys_hexa_serializer_t *
 extern int lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
 					     hexa_serializer,
 					     lw6sys_color_8_t * value);
-extern int lw6sys_hexa_str_to_buf (void *buf, int size, char *str);
+extern int lw6sys_hexa_str_to_buf (void *buf, int size, const char *str);
 extern char *lw6sys_hexa_buf_to_str (void *buf, int size);
-extern void *lw6sys_hexa_str_to_ptr (char *str);
+extern void *lw6sys_hexa_str_to_ptr (const char *str);
 extern char *lw6sys_hexa_ptr_to_str (void *ptr);
 
 /* sys-history.c */
@@ -707,7 +715,7 @@ extern char **lw6sys_history_get (int64_t timeout);
 extern void lw6sys_history_free (char **history);
 
 /* sys-i18n.c */
-extern char *lw6sys_locale_to_utf8 (char *string);
+extern char *lw6sys_locale_to_utf8 (const char *string);
 
 /* sys-id.c */
 extern u_int16_t lw6sys_generate_id_16 ();

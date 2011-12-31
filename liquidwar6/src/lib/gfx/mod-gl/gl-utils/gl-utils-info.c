@@ -77,15 +77,17 @@ mod_gl_utils_display_mps (mod_gl_utils_context_t * context,
 
 void
 mod_gl_utils_display_url (mod_gl_utils_context_t * context,
-			  lw6gui_look_t * look, char *url)
+			  lw6gui_look_t * look, const char *url)
 {
   char *list_url[2];
 
   if (url)
     {
-      list_url[0] = url;
+      /*
+       * Cast else we'd get a const warning.
+       */
+      list_url[0] = (char *) url;
       list_url[1] = NULL;
-
       mod_gl_utils_draw_system_text_bottom_right (context, look, list_url);
     }
 }

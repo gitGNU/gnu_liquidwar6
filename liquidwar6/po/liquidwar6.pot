@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-26 12:38+0100\n"
+"POT-Creation-Date: 2011-12-30 15:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,7 +71,7 @@ msgstr ""
 msgid "unable to load image \"%s\""
 msgstr ""
 
-#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:108
+#: src/lib/gfx/mod-gl/gl-utils/gl-utils-data.c:109
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr ""
@@ -535,7 +535,7 @@ msgstr ""
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:100
+#: src/lib/p2p/p2p-data.c:102
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr ""

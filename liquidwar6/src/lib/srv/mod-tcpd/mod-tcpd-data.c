@@ -31,7 +31,8 @@
 #define _CONSTS_FILE "tcpd-const.xml"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _tcpd_consts_t *consts;
 
@@ -45,7 +46,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_tcpd_consts_t * consts, char *consts_file)
+_load_consts (_tcpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -59,7 +60,7 @@ _load_consts (_tcpd_consts_t * consts, char *consts_file)
 }
 
 int
-_mod_tcpd_load_data (_tcpd_data_t * tcpd_data, char *data_dir)
+_mod_tcpd_load_data (_tcpd_data_t * tcpd_data, const char *data_dir)
 {
   int ret = 0;
   char *tcpd_subdir = NULL;

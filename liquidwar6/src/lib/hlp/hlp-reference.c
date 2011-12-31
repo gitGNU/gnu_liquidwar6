@@ -61,8 +61,8 @@ true_false (int b)
 }
 
 static _lw6hlp_reference_entry_t *
-new_reference (lw6hlp_type_t type, char *key, char *about,
-	       char *default_value, int min_value, int max_value)
+new_reference (lw6hlp_type_t type, const char *key, const char *about,
+	       const char *default_value, int min_value, int max_value)
 {
   _lw6hlp_reference_entry_t *ret = NULL;
 
@@ -2980,7 +2980,7 @@ lw6hlp_reference_quit ()
 }
 
 _lw6hlp_reference_entry_t *
-_lw6hlp_reference_get_entry (char *key)
+_lw6hlp_reference_get_entry (const char *key)
 {
   _lw6hlp_reference_entry_t *entry = NULL;
   char *formatted_key = NULL;

@@ -57,7 +57,8 @@ typedef struct _tcpd_specific_data_s
 _tcpd_specific_data_t;
 
 /* mod-tcpd-data.c */
-extern int _mod_tcpd_load_data (_tcpd_data_t * tcpd_data, char *data_dir);
+extern int _mod_tcpd_load_data (_tcpd_data_t * tcpd_data,
+				const char *data_dir);
 extern void _mod_tcpd_unload_data (_tcpd_data_t * tcpd_data);
 
 /*

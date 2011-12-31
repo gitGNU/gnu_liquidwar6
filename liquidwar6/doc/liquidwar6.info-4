@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -140,8 +140,8 @@ results on
 
      *Return value:*  void
 
- -- Function: int lw6sys_assoc_has_key (lw6sys_assoc_t * ASSOC, char *
-          KEY)
+ -- Function: int lw6sys_assoc_has_key (lw6sys_assoc_t * ASSOC, const
+          char * KEY)
      ASSOC:  the assoc to test
 
      KEY:  the key to search
@@ -152,8 +152,8 @@ results on
      *Return value:*  non-zero if there's an entry with the
      corresponding key.
 
- -- Function: void * lw6sys_assoc_get (lw6sys_assoc_t * ASSOC, char *
-          KEY)
+ -- Function: void * lw6sys_assoc_get (lw6sys_assoc_t * ASSOC, const
+          char * KEY)
      ASSOC:  the assoc to query
 
      KEY:  the key of which we want the value
@@ -164,8 +164,8 @@ results on
      memory management is concerned, destroying the assoc will actually
      free the data if needed.
 
- -- Function: void lw6sys_assoc_set (lw6sys_assoc_t ** ASSOC, char *
-          KEY, void * VALUE)
+ -- Function: void lw6sys_assoc_set (lw6sys_assoc_t ** ASSOC, const
+          char * KEY, void * VALUE)
      ASSOC:  the assoc to modify
 
      KEY:  the key we want to updated
@@ -183,8 +183,8 @@ results on
 
      *Return value:*  void
 
- -- Function: void lw6sys_assoc_unset (lw6sys_assoc_t * ASSOC, char *
-          KEY)
+ -- Function: void lw6sys_assoc_unset (lw6sys_assoc_t * ASSOC, const
+          char * KEY)
      ASSOC:  the assoc concerned
 
      KEY:  the key to unset
@@ -803,7 +803,7 @@ results on
 
      *Return value:*  the checksum, as an integer.
 
- -- Function: u_int32_t lw6sys_checksum_str (char * VALUE)
+ -- Function: u_int32_t lw6sys_checksum_str (const char * VALUE)
      VALUE:  the string to process
 
      Creates a checksum from a string. This is a convenience function
@@ -869,7 +869,7 @@ results on
      *Return value:*  none.
 
  -- Function: void lw6sys_checksum_update_str (u_int32_t * CHECKSUM,
-          char * VALUE)
+          const char * VALUE)
      CHECKSUM:  a pointer to the previous checksum
 
      VALUE:  the string to process
@@ -949,8 +949,8 @@ results on
 
      *Return value:*  a float between 0.0f and 1.0f.
 
- -- Function: lw6sys_color_8_t lw6sys_color_f_to_8 (lw6sys_color_f_t *
-          COLOR_F)
+ -- Function: lw6sys_color_8_t lw6sys_color_f_to_8 (const
+          lw6sys_color_f_t * COLOR_F)
      COLOR_F:  the color to convert
 
      Converts a color from floating point format to the integer "0 to
@@ -970,7 +970,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: u_int32_t lw6sys_color_f_to_i (lw6sys_color_f_t * COLOR_F)
+ -- Function: u_int32_t lw6sys_color_f_to_i (const lw6sys_color_f_t *
+          COLOR_F)
      COLOR_F:  the color to convert
 
      Converts a color from floating point format to a single integer,
@@ -1009,7 +1010,7 @@ results on
 
      *Return value:*  the converted color (structure).
 
- -- Function: lw6sys_color_8_t lw6sys_color_a_to_8 (char * ASCII)
+ -- Function: lw6sys_color_8_t lw6sys_color_a_to_8 (const char * ASCII)
      ASCII:  the color to convert
 
      Converts a color from a human readable string to a "0 to 255"
@@ -1019,7 +1020,7 @@ results on
      *Return value:*  the converted color (structure).
 
  -- Function: void lw6sys_color_a_to_f (lw6sys_color_f_t * COLOR_F,
-          char * ASCII)
+          const char * ASCII)
      COLOR_F:  the converted color (pointer must point to writable
      memory)
 
@@ -1052,8 +1053,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: lw6sys_color_8_t lw6sys_color_hsv_to_rgb
-          (lw6sys_color_hsv_t * COLOR_HSV)
+ -- Function: lw6sys_color_8_t lw6sys_color_hsv_to_rgb (const
+          lw6sys_color_hsv_t * COLOR_HSV)
      COLOR_HSV:  the source color, in HSV format
 
      Converts from RGB to HSV. Usefull to make colors transformed in HSV
@@ -1077,7 +1078,15 @@ results on
 
      *Return value:*  none.
 
- -- Function: lw6sys_color_8_t lw6sys_color_average (int SIZE,
+ -- Function: int lw6sys_color_is_grey (lw6sys_color_8_t COLOR)
+     COLOR:  the color to test
+
+     Tells wether a color is pure grey or not. This is interesting for
+     such colors have no hue and sometimes need special handling.
+
+     *Return value:*  1 if grey, 0 if colored
+
+ -- Function: lw6sys_color_8_t lw6sys_color_average (int SIZE, const
           lw6sys_color_8_t * COLORS)
      SIZE:  number of the color array (number of items)
 
@@ -1143,7 +1152,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6sys_atoi (char * STR)
+ -- Function: int lw6sys_atoi (const char * STR)
      STR:  string to convert
 
      Just a plain wrapper on `atoi', it's here for API consistency.
@@ -1151,7 +1160,7 @@ results on
 
      *Return value:*  an integer.
 
- -- Function: int64_t lw6sys_atoll (char * STR)
+ -- Function: int64_t lw6sys_atoll (const char * STR)
      STR:  string to convert
 
      Wrapper on `atoll', it's here for API consistency.  Will check if
@@ -1159,7 +1168,7 @@ results on
 
      *Return value:*  a 64-bit integer.
 
- -- Function: int lw6sys_atob (char * STR)
+ -- Function: int lw6sys_atob (const char * STR)
      STR:  string to convert
 
      Transform a string into a boolean value. Accepts "0"/"1" in input,
@@ -1168,7 +1177,7 @@ results on
 
      *Return value:*  an integer, 0 or 1.
 
- -- Function: float lw6sys_atof (char * STR)
+ -- Function: float lw6sys_atof (const char * STR)
      STR:  string to convert
 
      A wrapper on `atof', makes sure the locale used is C (default) and
@@ -1481,7 +1490,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure (always fail)
 
- -- Function: int lw6sys_clear_file (char * FILENAME)
+ -- Function: int lw6sys_clear_file (const char * FILENAME)
      FILENAME:  absolute or relative filename
 
      Clears a file, that is, make it a 0 byte file, empty, ready to be
@@ -1490,7 +1499,7 @@ results on
 
      *Return value:*  1 if success, 0 if failure.
 
- -- Function: char * lw6sys_read_file_content (char * FILENAME)
+ -- Function: char * lw6sys_read_file_content (const char * FILENAME)
      FILENAME:  absolute or relative filename
 
      Reads the content of a file, and returns it as a string.  Note
@@ -1501,8 +1510,8 @@ results on
 
      *Return value:*  a newly allocated pointer, must be freed.
 
- -- Function: void * lw6sys_read_file_content_bin (int * FILESIZE, char
-          * FILENAME)
+ -- Function: void * lw6sys_read_file_content_bin (int * FILESIZE,
+          const char * FILENAME)
      FILESIZE:  will contain the file size, in bytes
 
      FILENAME:  absolute or relative filename
@@ -1519,8 +1528,8 @@ results on
 
      *Return value:*  a newly allocated pointer, must be freed.
 
- -- Function: int lw6sys_write_file_content (char * FILENAME, char *
-          CONTENT)
+ -- Function: int lw6sys_write_file_content (const char * FILENAME,
+          const char * CONTENT)
      FILENAME:  absolute or relative filename
 
      CONTENT:  the content to be written.
@@ -1559,7 +1568,8 @@ results on
 
      *Return value:*  void
 
- -- Function: int lw6sys_hash_has_key (lw6sys_hash_t * HASH, char * KEY)
+ -- Function: int lw6sys_hash_has_key (lw6sys_hash_t * HASH, const char
+          * KEY)
      HASH:  the hash to test
 
      KEY:  the key to search
@@ -1570,7 +1580,8 @@ results on
      *Return value:*  non-zero if there's an entry with the
      corresponding key.
 
- -- Function: void * lw6sys_hash_get (lw6sys_hash_t * HASH, char * KEY)
+ -- Function: void * lw6sys_hash_get (lw6sys_hash_t * HASH, const char
+          * KEY)
      HASH:  the hash to query
 
      KEY:  the key of which we want the value
@@ -1581,8 +1592,8 @@ results on
      management is concerned, destroying the hash will actually free
      the data if needed.
 
- -- Function: void lw6sys_hash_set (lw6sys_hash_t * HASH, char * KEY,
-          void * VALUE)
+ -- Function: void lw6sys_hash_set (lw6sys_hash_t * HASH, const char *
+          KEY, void * VALUE)
      HASH:  the hash to modify
 
      KEY:  the key we want to updated
@@ -1599,7 +1610,8 @@ results on
 
      *Return value:*  void
 
- -- Function: void lw6sys_hash_unset (lw6sys_hash_t * HASH, char * KEY)
+ -- Function: void lw6sys_hash_unset (lw6sys_hash_t * HASH, const char
+          * KEY)
      HASH:  the hash concerned
 
      KEY:  the key to unset
@@ -1666,7 +1678,7 @@ results on
      *Returned value:*  a newly allocated hash.
 
  -- Function: lw6sys_hexa_serializer_t * lw6sys_hexa_serializer_new
-          (char * HEXA_STRING)
+          (const char * HEXA_STRING)
      HEXA_STRING:  an initialization string, can be NULL.
 
      Creates an hexa serializer object. It can be initialized or not,
@@ -1766,7 +1778,8 @@ results on
      *Return value:*  1 if success, 0 if failure
 
  -- Function: int lw6sys_hexa_serializer_push_str
-          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, char * VALUE)
+          (lw6sys_hexa_serializer_t * HEXA_SERIALIZER, const char *
+          VALUE)
      HEXA_SERIALIZER:  an hexa serializer object
 
      VALUE:  value to push
@@ -1909,8 +1922,8 @@ results on
 
      *Return value:*  1 if success, 0 if failure
 
- -- Function: int lw6sys_hexa_str_to_buf (void * BUF, int SIZE, char *
-          STR)
+ -- Function: int lw6sys_hexa_str_to_buf (void * BUF, int SIZE, const
+          char * STR)
      BUF:  binary buffer to convert
 
      SIZE:  binary buffer length
@@ -1931,7 +1944,7 @@ results on
 
      *Return value:*  newly allocated string.
 
- -- Function: void * lw6sys_hexa_str_to_ptr (char * STR)
+ -- Function: void * lw6sys_hexa_str_to_ptr (const char * STR)
      STR:  the string containing an hexa representation of pointer
 
      Transforms a string into a pointer, this is typically used to
@@ -1987,7 +2000,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: char * lw6sys_locale_to_utf8 (char * STRING)
+ -- Function: char * lw6sys_locale_to_utf8 (const char * STRING)
      STRING:  the string to convert
 
      Used to force strings into UTF-8 mode, this is basically to match
@@ -4197,8 +4210,8 @@ results on
 
 File: liquidwar6.info,  Node: 2005 .plan,  Next: Fanfic,  Up: Top
 
-Appendix A 2005 .plan
-*********************
+Annexe A 2005 .plan
+*******************
 
 Here's my .plan file, which describes what I (Christian Mauduit
 (mailto:ufoot@ufoot.org)) have planned for Liquid War 6.  There's no
@@ -4495,8 +4508,8 @@ themselves are not clearly identified. But for the rest (starting in
 
 File: liquidwar6.info,  Node: Fanfic,  Next: Links,  Prev: 2005 .plan,  Up: Top
 
-Appendix B Fanfic
-*****************
+Annexe B Fanfic
+***************
 
 Quoting Gavin: "I wrote a liquid war fanfic some time ago [...] I wrote
 it after a friend claimed that there wasn't any liquid war fanfic
@@ -4640,8 +4653,8 @@ in defeat he snarled,
 
 File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
 
-Appendix C Links
-****************
+Annexe C Links
+**************
 
 This section lists various Internet Liquid War related links.
 
@@ -4717,8 +4730,8 @@ informations for those who enjoy digging into the past.
 
 File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top
 
-Appendix D GNU GENERAL PUBLIC LICENSE
-*************************************
+Annexe D GNU GENERAL PUBLIC LICENSE
+***********************************
 
                         Version 3, 29 June 2007
 
@@ -5440,8 +5453,8 @@ please read `http://www.gnu.org/philosophy/why-not-lgpl.html'.
 
 File: liquidwar6.info,  Node: GNU Free Documentation License,  Next: Indexes,  Prev: Copying,  Up: Top
 
-Appendix E GNU Free Documentation License
-*****************************************
+Annexe E GNU Free Documentation License
+***************************************
 
                      Version 1.3, 3 November 2008
 

@@ -39,8 +39,9 @@
 #define LW6CFG_XML_FALSE "false"
 
 typedef void (*lw6cfg_read_xml_callback_func_t) (void *callback_data,
-						 char *element,
-						 char *key, char *value);
+						 const char *element,
+						 const char *key,
+						 const char *value);
 
 /* cfg-arg.c */
 extern int lw6cfg_parse_command_line (void *context);
@@ -51,29 +52,33 @@ extern int lw6cfg_defaults (void *cfg_context);
 /* cfg-env.c */
 extern int lw6cfg_merge_env (void *cfg_context);
 
+/* cfg-exp.c */
+extern int lw6cfg_load_exp (const char *user_dir, int *exp);
+extern int lw6cfg_save_exp (const char *user_dir, int exp);
+
 /* cfg-format.c */
-extern char *lw6cfg_format (char *key, char *value, lw6hlp_type_t type);
-extern char *lw6cfg_format_guess_type (char *key, char *value);
+extern char *lw6cfg_format (const char *key, const char *value,
+			    lw6hlp_type_t type);
+extern char *lw6cfg_format_guess_type (const char *key, const char *value);
 
 /* cfg-load.c */
-extern int lw6cfg_load (void *cfg_context, char *filename);
+extern int lw6cfg_load (void *cfg_context, const char *filename);
 
 /* cfg-option.c */
-extern int lw6cfg_option_exists (void *cfg_context, char *key);
-extern char *lw6cfg_get_option (void *cfg_context, char *key);
-extern void lw6cfg_set_option (void *cfg_context, char *key, char *value);
-extern int lw6cfg_get_option_int (void *cfg_context, char *key);
-extern void lw6cfg_set_option_int (void *cfg_context, char *key, int value);
-extern int lw6cfg_get_option_bool (void *cfg_context, char *key);
-extern void lw6cfg_set_option_bool (void *cfg_context, char *key, int value);
+extern int lw6cfg_option_exists (void *cfg_context, const char *key);
+extern char *lw6cfg_get_option (void *cfg_context, const char *key);
+extern void lw6cfg_set_option (void *cfg_context, const char *key,
+			       const char *value);
+extern int lw6cfg_get_option_int (void *cfg_context, const char *key);
+extern void lw6cfg_set_option_int (void *cfg_context, const char *key,
+				   int value);
+extern int lw6cfg_get_option_bool (void *cfg_context, const char *key);
+extern void lw6cfg_set_option_bool (void *cfg_context, const char *key,
+				    int value);
 
 /* cfg-save.c */
-extern int lw6cfg_must_be_saved (char *option);
-extern int lw6cfg_save (void *cfg_context, char *filename);
-
-/* cfg-exp.c */
-extern int lw6cfg_load_exp (char *user_dir, int *exp);
-extern int lw6cfg_save_exp (char *user_dir, int exp);
+extern int lw6cfg_must_be_saved (const char *option);
+extern int lw6cfg_save (void *cfg_context, const char *filename);
 
 /* cfg-setup.c */
 extern void *lw6cfg_init (int argc, const char *argv[]);
@@ -93,27 +98,30 @@ extern char *lw6cfg_unified_get_map_path (int argc, const char *argv[]);
 
 /* cfg-xml.c */
 extern char *lw6cfg_xml_element (lw6hlp_type_t type);
-extern void lw6cfg_read_xml_int (char *xml_key, char *xml_value,
-				 char *target_key, int *value);
-extern void lw6cfg_read_xml_bool (char *xml_key, char *xml_value,
-				  char *target_key, int *value);
-extern void lw6cfg_read_xml_float (char *xml_key, char *xml_value,
-				   char *target_key, float *value);
-extern void lw6cfg_read_xml_string (char *xml_key, char *xml_value,
-				    char *target_key, char **value);
-extern void lw6cfg_read_xml_color (char *xml_key, char *xml_value,
-				   char *target_key,
+extern void lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
+				 const char *target_key, int *value);
+extern void lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
+				  const char *target_key, int *value);
+extern void lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
+				   const char *target_key, float *value);
+extern void lw6cfg_read_xml_string (const char *xml_key,
+				    const char *xml_value,
+				    const char *target_key, char **value);
+extern void lw6cfg_read_xml_color (const char *xml_key, const char *xml_value,
+				   const char *target_key,
 				   lw6sys_color_8_t * value);
-extern int lw6cfg_read_key_value_xml_file (char *filename,
+extern int lw6cfg_read_key_value_xml_file (const char *filename,
 					   lw6cfg_read_xml_callback_func_t
 					   callback_func,
 					   void *callback_data);
-extern void lw6cfg_write_xml_int (FILE * f, char *key, int value);
-extern void lw6cfg_write_xml_bool (FILE * f, char *key, int value);
-extern void lw6cfg_write_xml_float (FILE * f, char *key, float value);
-extern void lw6cfg_write_xml_string (FILE * f, char *key, char *value);
-extern void lw6cfg_write_xml_color (FILE * f, char *key,
+extern void lw6cfg_write_xml_int (FILE * f, const char *key, int value);
+extern void lw6cfg_write_xml_bool (FILE * f, const char *key, int value);
+extern void lw6cfg_write_xml_float (FILE * f, const char *key, float value);
+extern void lw6cfg_write_xml_string (FILE * f, const char *key,
+				     const char *value);
+extern void lw6cfg_write_xml_color (FILE * f, const char *key,
 				    lw6sys_color_8_t value);
-extern void lw6cfg_write_xml_guess_type (FILE * f, char *key, char *value);
+extern void lw6cfg_write_xml_guess_type (FILE * f, const char *key,
+					 const char *value);
 
 #endif

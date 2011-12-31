@@ -89,7 +89,7 @@ lw6ldr_use_clear (lw6ldr_use_t * use)
  * Return value: 1 on success, 0 on failure (key not found).
  */
 int
-lw6ldr_use_set (lw6ldr_use_t * use, char *key, char *value)
+lw6ldr_use_set (lw6ldr_use_t * use, const char *key, const char *value)
 {
   int ret = 1;
 

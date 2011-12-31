@@ -121,7 +121,7 @@ read_alpha_image (lw6map_texture_t * texture, _lw6ldr_image_rgba_t * image)
 }
 
 static int
-read_png (lw6map_texture_t * texture, char *texture_dot_png,
+read_png (lw6map_texture_t * texture, const char *texture_dot_png,
 	  lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -141,7 +141,7 @@ read_png (lw6map_texture_t * texture, char *texture_dot_png,
 }
 
 static int
-read_jpeg (lw6map_texture_t * texture, char *texture_dot_jpeg,
+read_jpeg (lw6map_texture_t * texture, const char *texture_dot_jpeg,
 	   lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -161,7 +161,8 @@ read_jpeg (lw6map_texture_t * texture, char *texture_dot_jpeg,
 }
 
 static int
-read_alpha_jpeg (lw6map_texture_t * texture, char *texture_alpha_dot_jpeg,
+read_alpha_jpeg (lw6map_texture_t * texture,
+		 const char *texture_alpha_dot_jpeg,
 		 lw6sys_progress_t * progress)
 {
   int ret = 0;
@@ -201,7 +202,7 @@ read_alpha_jpeg (lw6map_texture_t * texture, char *texture_alpha_dot_jpeg,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_texture_read (lw6map_texture_t * texture, char *dirname,
+lw6ldr_texture_read (lw6map_texture_t * texture, const char *dirname,
 		     lw6map_param_t * param, lw6ldr_hints_t * hints,
 		     int use_texture, int display_w, int display_h,
 		     float *ratio, int *texture_exists,

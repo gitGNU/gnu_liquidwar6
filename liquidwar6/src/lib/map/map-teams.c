@@ -172,7 +172,7 @@ lw6map_teams_copy (lw6map_teams_t * dst, lw6map_teams_t * src)
  * needs to be worked on.
  */
 int
-lw6map_teams_set (lw6map_teams_t * teams, char *key, char *value)
+lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -388,7 +388,7 @@ _get_bot_ai (lw6map_bot_info_t * bot_info)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6map_teams_get (lw6map_teams_t * teams, char *key)
+lw6map_teams_get (lw6map_teams_t * teams, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -524,7 +524,7 @@ lw6map_teams_get (lw6map_teams_t * teams, char *key)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6map_teams_get_default (char *key)
+lw6map_teams_get_default (const char *key)
 {
   lw6map_teams_t *teams;
   char *ret = NULL;

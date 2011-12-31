@@ -81,8 +81,29 @@ read_png (lw6map_layer_t * layer, _lw6ldr_image_bw_t * image,
   return ret;
 }
 
+/**
+ * lw6ldr_layer_read_first
+ *
+ * @layer: layer to update (out param)
+ * @filename: name of PNG file
+ * @param: parameters of the map
+ * @hints: hints of the map
+ * @display_w: width of display
+ * @display_h: height of display
+ * @target_ratio: width/height ratio we want
+ * @bench_value: bench for this computer
+ * @magic_number: arbitrary constant
+ * @expected_depth: depth of map according to files available
+ * @progress: progress object to provide feedback (in/out)
+ *
+ * Reads the first layer, that is map.png. This function has
+ * many parameters since it will try and guess the final
+ * (real) resolution of the map.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ldr_layer_read_first (lw6map_layer_t * layer, char *filename,
+lw6ldr_layer_read_first (lw6map_layer_t * layer, const char *filename,
 			 lw6map_param_t * param, lw6ldr_hints_t * hints,
 			 int display_w, int display_h, float target_ratio,
 			 int bench_value, int magic_number,
@@ -122,8 +143,21 @@ lw6ldr_layer_read_first (lw6map_layer_t * layer, char *filename,
   return ret;
 }
 
+/**
+ * lw6ldr_layer_read_next
+ *
+ * @layer: layer to update (out param)
+ * @filename: name of PNG file
+ * @target_w: width we want
+ * @target_h: height we want
+ *
+ * Reads a layer, knowing the exact size we want. This is typically
+ * to load layer2-7.png once map.png has been loaded.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
 int
-lw6ldr_layer_read_next (lw6map_layer_t * layer, char *filename,
+lw6ldr_layer_read_next (lw6map_layer_t * layer, const char *filename,
 			int target_w, int target_h)
 {
   int ret = 0;

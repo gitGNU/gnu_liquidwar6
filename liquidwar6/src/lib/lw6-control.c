@@ -27,7 +27,7 @@
 #include "liquidwar6.h"
 
 void
-_release_dsp_quit (void *func_data, char *key, void *value)
+_release_dsp_quit (void *func_data, const char *key, void *value)
 {
   lw6_dsp_smob_t *dsp_smob;
   char *repr = NULL;
@@ -46,7 +46,7 @@ _release_dsp_quit (void *func_data, char *key, void *value)
 }
 
 void
-_release_snd_quit (void *func_data, char *key, void *value)
+_release_snd_quit (void *func_data, const char *key, void *value)
 {
   lw6_snd_smob_t *snd_smob;
   char *repr = NULL;
@@ -65,7 +65,7 @@ _release_snd_quit (void *func_data, char *key, void *value)
 }
 
 void
-_release_node_close (void *func_data, char *key, void *value)
+_release_node_close (void *func_data, const char *key, void *value)
 {
   lw6_node_smob_t *node_smob;
   char *repr = NULL;

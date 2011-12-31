@@ -273,7 +273,7 @@ lw6map_style_copy (lw6map_style_t * dst, lw6map_style_t * src)
  * Return value: 1 on success, 0 on failure (key not found)
  */
 int
-lw6map_style_set (lw6map_style_t * style, char *key, char *value)
+lw6map_style_set (lw6map_style_t * style, const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -585,7 +585,7 @@ lw6map_style_set (lw6map_style_t * style, char *key, char *value)
  * Return value: dynamically allocated string.
  */
 char *
-lw6map_style_get (lw6map_style_t * style, char *key)
+lw6map_style_get (lw6map_style_t * style, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -864,7 +864,7 @@ lw6map_style_get (lw6map_style_t * style, char *key)
  * Return value: dynamically allocated string.
  */
 char *
-lw6map_style_get_default (char *key)
+lw6map_style_get_default (const char *key)
 {
   lw6map_style_t *style;
   char *ret = NULL;

@@ -45,7 +45,7 @@
  * Return value: a newly allocated object.
  */
 lw6sys_hexa_serializer_t *
-lw6sys_hexa_serializer_new (char *hexa_string)
+lw6sys_hexa_serializer_new (const char *hexa_string)
 {
   lw6sys_hexa_serializer_t *hexa_serializer = NULL;
 
@@ -412,7 +412,7 @@ lw6sys_hexa_serializer_push_float (lw6sys_hexa_serializer_t * hexa_serializer,
  */
 int
 lw6sys_hexa_serializer_push_str (lw6sys_hexa_serializer_t * hexa_serializer,
-				 char *value)
+				 const char *value)
 {
   int ret = 0;
 
@@ -857,7 +857,7 @@ lw6sys_hexa_serializer_pop_color (lw6sys_hexa_serializer_t *
  * Return value: 1 on success
  */
 int
-lw6sys_hexa_str_to_buf (void *buf, int size, char *str)
+lw6sys_hexa_str_to_buf (void *buf, int size, const char *str)
 {
   char *buffer = (char *) buf;
   int ret = 0;
@@ -872,7 +872,6 @@ lw6sys_hexa_str_to_buf (void *buf, int size, char *str)
 	  sscanf (hexa2, "%02x", &j);
 	  buffer[i] = (u_int8_t) j;
 	}
-      str[2 * size] = '\0';
       ret = 1;
     }
   else
@@ -935,7 +934,7 @@ lw6sys_hexa_buf_to_str (void *buf, int size)
  * Return value: the pointer, or NULL is str is invalid.
  */
 void *
-lw6sys_hexa_str_to_ptr (char *str)
+lw6sys_hexa_str_to_ptr (const char *str)
 {
   void *ptr = NULL;
 

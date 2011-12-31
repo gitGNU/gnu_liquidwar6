@@ -53,7 +53,8 @@ static u_int32_t seq_id = 0;
  * Return value: a newly allocated object.
  */
 lw6dsp_backend_t *
-lw6dsp_create_backend (int argc, const char *argv[], char *gfx_backend_name)
+lw6dsp_create_backend (int argc, const char *argv[],
+		       const char *gfx_backend_name)
 {
   lw6dsp_backend_t *ret = NULL;
   _lw6dsp_data_t *data = NULL;

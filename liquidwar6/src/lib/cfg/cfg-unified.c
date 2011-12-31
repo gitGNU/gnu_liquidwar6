@@ -26,6 +26,7 @@
 
 #include <string.h>
 
+#include "cfg.h"
 #include "cfg-internal.h"
 
 static char *

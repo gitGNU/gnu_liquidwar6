@@ -237,7 +237,7 @@ extern int _lw6p2p_cli_oob_verify_callback_func (void *func_data, char *url,
 						 lw6sys_assoc_t * assoc);
 
 /* p2p-data.c */
-extern int _lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir);
+extern int _lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir);
 extern int _lw6p2p_data_unload (_lw6p2p_data_t * data);
 
 /* p2p-db.c */

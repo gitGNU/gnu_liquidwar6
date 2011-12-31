@@ -71,7 +71,8 @@ read_image (lw6map_cursor_texture_layer_t * cursor_texture_layer,
 
 int
 _lw6ldr_cursor_texture_layer_read_png (lw6map_cursor_texture_layer_t *
-				       cursor_texture_layer, char *png_file)
+				       cursor_texture_layer,
+				       const char *png_file)
 {
   int ret = 0;
   _lw6ldr_image_rgba_t image;

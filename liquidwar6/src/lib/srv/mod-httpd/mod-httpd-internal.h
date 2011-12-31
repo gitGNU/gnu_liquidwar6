@@ -147,7 +147,7 @@ _mod_httpd_specific_data_t;
 
 /* mod-httpd-data.c */
 extern int _mod_httpd_load_data (_mod_httpd_data_t * httpd_data,
-				 char *data_dir);
+				 const char *data_dir);
 extern void _mod_httpd_unload_data (_mod_httpd_data_t * httpd_data);
 
 /* mod-httpd-error.c */

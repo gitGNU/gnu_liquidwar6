@@ -44,40 +44,40 @@ _lw6cfg_context_t;
 
 typedef struct _lw6cfg_xml_callback_s
 {
-  void (*func) (void *data, char *element, char *key, char *value);
+  lw6cfg_read_xml_callback_func_t func;
   void *data;
 }
 _lw6cfg_xml_callback_t;
 
-/*
- * In commandline.c
- */
+/* cfg-commandline.c */
 extern int _lw6cfg_parse_command_line (_lw6cfg_context_t * cfg_context);
 
-// cfg-env.c
+/* cfg-env.c */
 extern int _lw6cfg_merge_env (_lw6cfg_context_t * cfg_context);
 
 /* cfg-load.c */
-extern int _lw6cfg_load (_lw6cfg_context_t * cfg_context, char *filename);
+extern int _lw6cfg_load (_lw6cfg_context_t * cfg_context,
+			 const char *filename);
 
-/*
- * In option.c
- */
-extern int _lw6cfg_option_exists (_lw6cfg_context_t * cfg_context, char *key);
-extern char *_lw6cfg_get_option (_lw6cfg_context_t * cfg_context, char *key);
-extern void _lw6cfg_set_option (_lw6cfg_context_t * cfg_context, char *key,
-				char *value);
+/* cfg-option.c */
+extern int _lw6cfg_option_exists (_lw6cfg_context_t * cfg_context,
+				  const char *key);
+extern char *_lw6cfg_get_option (_lw6cfg_context_t * cfg_context,
+				 const char *key);
+extern void _lw6cfg_set_option (_lw6cfg_context_t * cfg_context,
+				const char *key, const char *value);
 extern int _lw6cfg_get_option_int (_lw6cfg_context_t * cfg_context,
-				   char *key);
+				   const char *key);
 extern void _lw6cfg_set_option_int (_lw6cfg_context_t * cfg_context,
-				    char *key, int value);
+				    const char *key, int value);
 extern int _lw6cfg_get_option_bool (_lw6cfg_context_t * cfg_context,
-				    char *key);
+				    const char *key);
 extern void _lw6cfg_set_option_bool (_lw6cfg_context_t * cfg_context,
-				     char *key, int value);
+				     const char *key, int value);
 
 /* cfg-save.c */
-extern int _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename);
+extern int _lw6cfg_save (_lw6cfg_context_t * cfg_context,
+			 const char *filename);
 
 /* cfg-setup.c */
 extern _lw6cfg_context_t *_lw6cfg_init (int argc, const char *argv[]);

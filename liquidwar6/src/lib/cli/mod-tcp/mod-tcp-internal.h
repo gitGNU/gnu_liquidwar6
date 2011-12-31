@@ -70,7 +70,8 @@ typedef struct _mod_tcp_connect_data_s
 _mod_tcp_connect_data_t;
 
 /* mod-tcp-data.c */
-extern int _mod_tcp_load_data (_mod_tcp_data_t * tcp_data, char *data_dir);
+extern int _mod_tcp_load_data (_mod_tcp_data_t * tcp_data,
+			       const char *data_dir);
 extern void _mod_tcp_unload_data (_mod_tcp_data_t * tcp_data);
 
 /*

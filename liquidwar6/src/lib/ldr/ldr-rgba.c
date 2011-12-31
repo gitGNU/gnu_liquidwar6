@@ -36,7 +36,7 @@
 #include "ldr-internal.h"
 
 int
-_lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
+_lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 		       lw6sys_progress_t * progress)
 {
   png_structp png_ptr = NULL;
@@ -218,7 +218,7 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, char *png_file,
 }
 
 int
-_lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, char *jpeg_file,
+_lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 			lw6sys_progress_t * progress)
 {
   int ret = 0;

@@ -39,9 +39,9 @@ test_about ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    char *help_string = NULL;
+    const char *help_string = NULL;
     lw6hlp_type_t type;
-    char *default_value;
+    const char *default_value;
     int min_value;
     int max_value;
 

@@ -29,11 +29,11 @@
 #include "hlp.h"
 #include "hlp-internal.h"
 
-static char *
-about (lw6hlp_type_t * type, char **default_value, int *min_value,
-       int *max_value, char *keyword)
+static const char *
+about (lw6hlp_type_t * type, const char **default_value, int *min_value,
+       int *max_value, const char *keyword)
 {
-  char *ret = NULL;
+  const char *ret = NULL;
   _lw6hlp_reference_entry_t *entry = NULL;
 
   entry = _lw6hlp_reference_get_entry (keyword);
@@ -71,7 +71,7 @@ about (lw6hlp_type_t * type, char **default_value, int *min_value,
  * Return value: 1 if documented, 0 if not.
  */
 int
-lw6hlp_is_documented (char *keyword)
+lw6hlp_is_documented (const char *keyword)
 {
   int ret = 0;
 
@@ -99,11 +99,11 @@ lw6hlp_is_documented (char *keyword)
  * Return value: a help string, never NULL, must not be freed.
  *   Additionnally, type will be updated.
  */
-char *
-lw6hlp_about (lw6hlp_type_t * type, char **default_value, int *min_value,
-	      int *max_value, char *keyword)
+const char *
+lw6hlp_about (lw6hlp_type_t * type, const char **default_value,
+	      int *min_value, int *max_value, const char *keyword)
 {
-  char *ret = NULL;
+  const char *ret = NULL;
 
   ret = about (type, default_value, min_value, max_value, keyword);
 
@@ -143,7 +143,7 @@ lw6hlp_about (lw6hlp_type_t * type, char **default_value, int *min_value,
  * Return value: the type, might be LW6HLP_TYPE_VOID.
  */
 lw6hlp_type_t
-lw6hlp_get_type (char *keyword)
+lw6hlp_get_type (const char *keyword)
 {
   lw6hlp_type_t ret = LW6HLP_TYPE_VOID;
 
@@ -164,10 +164,10 @@ lw6hlp_get_type (char *keyword)
  *
  * Return value: a pointer, which can be NULL, must not be freed.
  */
-char *
-lw6hlp_get_default_value (char *keyword)
+const char *
+lw6hlp_get_default_value (const char *keyword)
 {
-  char *ret = NULL;
+  const char *ret = NULL;
 
   lw6hlp_about (NULL, &ret, NULL, NULL, keyword);
 
@@ -186,7 +186,7 @@ lw6hlp_get_default_value (char *keyword)
  * Return value: the value (integer)
  */
 int
-lw6hlp_get_min_value (char *keyword)
+lw6hlp_get_min_value (const char *keyword)
 {
   int ret = 0;
 
@@ -207,7 +207,7 @@ lw6hlp_get_min_value (char *keyword)
  * Return value: the value (integer)
  */
 int
-lw6hlp_get_max_value (char *keyword)
+lw6hlp_get_max_value (const char *keyword)
 {
   int ret = 0;
 

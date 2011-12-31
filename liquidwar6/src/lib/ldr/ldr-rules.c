@@ -47,7 +47,8 @@ rules_update_data_t;
  */
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   lw6map_rules_t *rules_data;
   int int_value;
@@ -96,7 +97,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_rules_read (lw6map_rules_t * rules, char *dirname)
+lw6ldr_rules_read (lw6map_rules_t * rules, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;

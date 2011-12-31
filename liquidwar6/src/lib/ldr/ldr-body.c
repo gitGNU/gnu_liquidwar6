@@ -48,7 +48,7 @@
  * Return value: 1 if OK, 0 if failed.
  */
 int
-lw6ldr_body_read (lw6map_body_t * body, char *dirname,
+lw6ldr_body_read (lw6map_body_t * body, const char *dirname,
 		  lw6map_param_t * param, lw6ldr_hints_t * hints,
 		  int display_w, int display_h, float ratio, int bench_value,
 		  int magic_number, lw6sys_progress_t * progress)

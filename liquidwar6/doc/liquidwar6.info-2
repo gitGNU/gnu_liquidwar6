@@ -1,6 +1,6 @@
-This is /home/ufoot/Home/_/liquidwar6/doc/liquidwar6.info, produced by
-makeinfo version 4.13 from
-/home/ufoot/Home/_/liquidwar6/doc/liquidwar6.texi.
+This is /home/mauduit/Home/_/liquidwar6/doc/liquidwar6.info, produced
+by makeinfo version 4.13 from
+/home/mauduit/Home/_/liquidwar6/doc/liquidwar6.texi.
 
 Liquid War 6, a unique multiplayer wargame.
 
@@ -7467,7 +7467,7 @@ results on
 
      *Return value:*  1 if successfull, 0 if error.
 
- -- Function: int lw6cfg_load_exp (char * USER_DIR, int * EXP)
+ -- Function: int lw6cfg_load_exp (const char * USER_DIR, int * EXP)
      USER_DIR:  the user directory
 
      EXP:  the exp (out param)
@@ -7476,7 +7476,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: int lw6cfg_save_exp (char * USER_DIR, int EXP)
+ -- Function: int lw6cfg_save_exp (const char * USER_DIR, int EXP)
      USER_DIR:  the user directory
 
      EXP:  the exp
@@ -7485,8 +7485,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure
 
- -- Function: char * lw6cfg_format (char * KEY, char * VALUE,
-          lw6hlp_type_t TYPE)
+ -- Function: char * lw6cfg_format (const char * KEY, const char *
+          VALUE, lw6hlp_type_t TYPE)
      KEY:  the key of the value to format
 
      VALUE:  the value to format
@@ -7501,7 +7501,8 @@ results on
      *Return value:*  a newly allocated string, containing the same as
      the input, but reformatted the pedantic way.
 
- -- Function: char * lw6cfg_format_guess_type (char * KEY, char * VALUE)
+ -- Function: char * lw6cfg_format_guess_type (const char * KEY, const
+          char * VALUE)
      KEY:  the key of the value to format
 
      VALUE:  the value to format
@@ -7516,7 +7517,8 @@ results on
      *Return value:*  a newly allocated string, containing the same as
      the input, but reformatted the pedantic way.
 
- -- Function: int lw6cfg_load (void * CFG_CONTEXT, char * FILENAME)
+ -- Function: int lw6cfg_load (void * CFG_CONTEXT, const char *
+          FILENAME)
      CFG_CONTEXT:  a context returned by `lw6cfg_init'
 
      FILENAME:  a file path, absolute or relative
@@ -7527,7 +7529,8 @@ results on
 
      *Return value:*  1 if successfull, 0 if error.
 
- -- Function: int lw6cfg_option_exists (void * CONTEXT, char * KEY)
+ -- Function: int lw6cfg_option_exists (void * CONTEXT, const char *
+          KEY)
      CONTEXT:  context to query
 
      KEY:  key to search
@@ -7536,7 +7539,8 @@ results on
 
      *Return value:*  1 if exists, 0 if not
 
- -- Function: char * lw6cfg_get_option (void * CONTEXT, char * KEY)
+ -- Function: char * lw6cfg_get_option (void * CONTEXT, const char *
+          KEY)
      CONTEXT:  context to query
 
      KEY:  key to search
@@ -7547,8 +7551,8 @@ results on
 
      *Return value:*  pointer to string, must not be freed.
 
- -- Function: void lw6cfg_set_option (void * CONTEXT, char * KEY, char
-          * VALUE)
+ -- Function: void lw6cfg_set_option (void * CONTEXT, const char * KEY,
+          const char * VALUE)
      CONTEXT:  context to modify
 
      KEY:  key to search and change
@@ -7561,7 +7565,8 @@ results on
 
      *Return value:*  none
 
- -- Function: int lw6cfg_get_option_int (void * CONTEXT, char * KEY)
+ -- Function: int lw6cfg_get_option_int (void * CONTEXT, const char *
+          KEY)
      CONTEXT:  context to query
 
      KEY:  key to search
@@ -7573,8 +7578,8 @@ results on
 
      *Return value:*  option value converted to int
 
- -- Function: void lw6cfg_set_option_int (void * CONTEXT, char * KEY,
-          int VALUE)
+ -- Function: void lw6cfg_set_option_int (void * CONTEXT, const char *
+          KEY, int VALUE)
      CONTEXT:  context to modify
 
      KEY:  key to search and change
@@ -7588,7 +7593,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6cfg_get_option_bool (void * CONTEXT, char * KEY)
+ -- Function: int lw6cfg_get_option_bool (void * CONTEXT, const char *
+          KEY)
      CONTEXT:  context to query
 
      KEY:  key to search
@@ -7600,8 +7606,8 @@ results on
 
      *Return value:*  option value converted to boolean
 
- -- Function: void lw6cfg_set_option_bool (void * CONTEXT, char * KEY,
-          int VALUE)
+ -- Function: void lw6cfg_set_option_bool (void * CONTEXT, const char *
+          KEY, int VALUE)
      CONTEXT:  context to modify
 
      KEY:  key to search and change
@@ -7615,7 +7621,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6cfg_must_be_saved (char * KEY)
+ -- Function: int lw6cfg_must_be_saved (const char * KEY)
      KEY:  key to test
 
      Tells wether a key should be saved in the config file.  Typically,
@@ -7626,7 +7632,8 @@ results on
 
      *Return value:*  1 if must be saved, 0 if not
 
- -- Function: int lw6cfg_save (void * CFG_CONTEXT, char * FILENAME)
+ -- Function: int lw6cfg_save (void * CFG_CONTEXT, const char *
+          FILENAME)
      CFG_CONTEXT:  a context returned by `lw6cfg_init'
 
      FILENAME:  a file path, absolute or relative
@@ -7752,8 +7759,8 @@ results on
 
      *Return value:*  string, must not be freed.
 
- -- Function: void lw6cfg_read_xml_int (char * XML_KEY, char *
-          XML_VALUE, char * TARGET_KEY, int * VALUE)
+ -- Function: void lw6cfg_read_xml_int (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, int * VALUE)
      XML_KEY:  key found in XML file
 
      XML_VALUE:  value found in XML file
@@ -7770,8 +7777,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_read_xml_bool (char * XML_KEY, char *
-          XML_VALUE, char * TARGET_KEY, int * VALUE)
+ -- Function: void lw6cfg_read_xml_bool (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, int * VALUE)
      XML_KEY:  key found in XML file
 
      XML_VALUE:  value found in XML file
@@ -7788,8 +7795,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_read_xml_float (char * XML_KEY, char *
-          XML_VALUE, char * TARGET_KEY, float * VALUE)
+ -- Function: void lw6cfg_read_xml_float (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, float * VALUE)
      XML_KEY:  key found in XML file
 
      XML_VALUE:  value found in XML file
@@ -7806,8 +7813,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_read_xml_string (char * XML_KEY, char *
-          XML_VALUE, char * TARGET_KEY, char ** VALUE)
+ -- Function: void lw6cfg_read_xml_string (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, char ** VALUE)
      XML_KEY:  key found in XML file
 
      XML_VALUE:  value found in XML file
@@ -7824,8 +7831,9 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_read_xml_color (char * XML_KEY, char *
-          XML_VALUE, char * TARGET_KEY, lw6sys_color_8_t * VALUE)
+ -- Function: void lw6cfg_read_xml_color (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, lw6sys_color_8_t *
+          VALUE)
      XML_KEY:  key found in XML file
 
      XML_VALUE:  value found in XML file
@@ -7842,9 +7850,9 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6cfg_read_key_value_xml_file (char * FILENAME,
-          lw6cfg_read_xml_callback_func_t CALLBACK_FUNC, void *
-          CALLBACK_DATA)
+ -- Function: int lw6cfg_read_key_value_xml_file (const char *
+          FILENAME, lw6cfg_read_xml_callback_func_t CALLBACK_FUNC, void
+          * CALLBACK_DATA)
      FILENAME:  full path of file to read
 
      CALLBACK_FUNC:  callback function to be called on each element
@@ -7858,8 +7866,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: void lw6cfg_write_xml_int (FILE * F, char * KEY, int
-          VALUE)
+ -- Function: void lw6cfg_write_xml_int (FILE * F, const char * KEY,
+          int VALUE)
      F:  file to write data to (append mode)
 
      KEY:  key to write
@@ -7870,8 +7878,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_write_xml_bool (FILE * F, char * KEY, int
-          VALUE)
+ -- Function: void lw6cfg_write_xml_bool (FILE * F, const char * KEY,
+          int VALUE)
      F:  file to write data to (append mode)
 
      KEY:  key to write
@@ -7882,8 +7890,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_write_xml_float (FILE * F, char * KEY, float
-          VALUE)
+ -- Function: void lw6cfg_write_xml_float (FILE * F, const char * KEY,
+          float VALUE)
      F:  file to write data to (append mode)
 
      KEY:  key to write
@@ -7894,8 +7902,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_write_xml_string (FILE * F, char * KEY, char
-          * VALUE)
+ -- Function: void lw6cfg_write_xml_string (FILE * F, const char * KEY,
+          const char * VALUE)
      F:  file to write data to (append mode)
 
      KEY:  key to write
@@ -7906,7 +7914,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_write_xml_color (FILE * F, char * KEY,
+ -- Function: void lw6cfg_write_xml_color (FILE * F, const char * KEY,
           lw6sys_color_8_t VALUE)
      F:  file to write data to (append mode)
 
@@ -7918,8 +7926,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6cfg_write_xml_guess_type (FILE * F, char * KEY,
-          char * VALUE)
+ -- Function: void lw6cfg_write_xml_guess_type (FILE * F, const char *
+          KEY, const char * VALUE)
      F:  file to write data to (append mode)
 
      KEY:  key to write
@@ -8764,7 +8772,7 @@ results on
 ----------
 
  -- Function: lw6dsp_backend_t * lw6dsp_create_backend (int ARGC, const
-          char * [] ARGV, char * GFX_BACKEND_NAME)
+          char * [] ARGV, const char * GFX_BACKEND_NAME)
      ARGC:  argc as passed to `main'
 
      ARGV:  argv as passed to `main'

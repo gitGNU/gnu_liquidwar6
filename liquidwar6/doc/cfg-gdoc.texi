@@ -23,7 +23,7 @@ variables prefixed by LW6_.
 @strong{Return value:}  1 if successfull, 0 if error.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_load_exp} (char * @var{user_dir}, int * @var{exp})
+@deftypefun {int} {lw6cfg_load_exp} (const char * @var{user_dir}, int * @var{exp})
 @var{user_dir}:  the user directory
 
 @var{exp}:  the exp (out param)
@@ -33,7 +33,7 @@ Gets exp from file.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_save_exp} (char * @var{user_dir}, int @var{exp})
+@deftypefun {int} {lw6cfg_save_exp} (const char * @var{user_dir}, int @var{exp})
 @var{user_dir}:  the user directory
 
 @var{exp}:  the exp
@@ -43,7 +43,7 @@ Saves exp to file.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {char *} {lw6cfg_format} (char * @var{key}, char * @var{value}, lw6hlp_type_t @var{type})
+@deftypefun {char *} {lw6cfg_format} (const char * @var{key}, const char * @var{value}, lw6hlp_type_t @var{type})
 @var{key}:  the key of the value to format
 
 @var{value}:  the value to format
@@ -59,7 +59,7 @@ but will ensure everything is correct.
 input, but reformatted the pedantic way.
 @end deftypefun
 
-@deftypefun {char *} {lw6cfg_format_guess_type} (char * @var{key}, char * @var{value})
+@deftypefun {char *} {lw6cfg_format_guess_type} (const char * @var{key}, const char * @var{value})
 @var{key}:  the key of the value to format
 
 @var{value}:  the value to format
@@ -74,7 +74,7 @@ guess the type of the value from its description in the help system.
 input, but reformatted the pedantic way.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_load} (void * @var{cfg_context}, char * @var{filename})
+@deftypefun {int} {lw6cfg_load} (void * @var{cfg_context}, const char * @var{filename})
 @var{cfg_context}:  a context returned by @code{lw6cfg_init}
 
 @var{filename}:  a file path, absolute or relative
@@ -86,7 +86,7 @@ as command line parameters, will be taken from the command-line.
 @strong{Return value:}  1 if successfull, 0 if error.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_option_exists} (void * @var{context}, char * @var{key})
+@deftypefun {int} {lw6cfg_option_exists} (void * @var{context}, const char * @var{key})
 @var{context}:  context to query
 
 @var{key}:  key to search
@@ -96,7 +96,7 @@ Returns wether a key exists within context or not.
 @strong{Return value:}  1 if exists, 0 if not
 @end deftypefun
 
-@deftypefun {char *} {lw6cfg_get_option} (void * @var{context}, char * @var{key})
+@deftypefun {char *} {lw6cfg_get_option} (void * @var{context}, const char * @var{key})
 @var{context}:  context to query
 
 @var{key}:  key to search
@@ -108,7 +108,7 @@ set in a config file
 @strong{Return value:}  pointer to string, must not be freed.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_set_option} (void * @var{context}, char * @var{key}, char * @var{value})
+@deftypefun {void} {lw6cfg_set_option} (void * @var{context}, const char * @var{key}, const char * @var{value})
 @var{context}:  context to modify
 
 @var{key}:  key to search and change
@@ -122,7 +122,7 @@ set in a config file.
 @strong{Return value:}  none
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_get_option_int} (void * @var{context}, char * @var{key})
+@deftypefun {int} {lw6cfg_get_option_int} (void * @var{context}, const char * @var{key})
 @var{context}:  context to query
 
 @var{key}:  key to search
@@ -135,7 +135,7 @@ results will have no real meaning.
 @strong{Return value:}  option value converted to int
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_set_option_int} (void * @var{context}, char * @var{key}, int @var{value})
+@deftypefun {void} {lw6cfg_set_option_int} (void * @var{context}, const char * @var{key}, int @var{value})
 @var{context}:  context to modify
 
 @var{key}:  key to search and change
@@ -149,7 +149,7 @@ so you can call it even on non-integer values, at your own risk.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_get_option_bool} (void * @var{context}, char * @var{key})
+@deftypefun {int} {lw6cfg_get_option_bool} (void * @var{context}, const char * @var{key})
 @var{context}:  context to query
 
 @var{key}:  key to search
@@ -162,7 +162,7 @@ results will have no real meaning.
 @strong{Return value:}  option value converted to boolean
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_set_option_bool} (void * @var{context}, char * @var{key}, int @var{value})
+@deftypefun {void} {lw6cfg_set_option_bool} (void * @var{context}, const char * @var{key}, int @var{value})
 @var{context}:  context to modify
 
 @var{key}:  key to search and change
@@ -176,7 +176,7 @@ so you can call it even on non-boolean values, at your own risk.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_must_be_saved} (char * @var{key})
+@deftypefun {int} {lw6cfg_must_be_saved} (const char * @var{key})
 @var{key}:  key to test
 
 Tells wether a key should be saved in the config file.
@@ -188,7 +188,7 @@ mean no paths are saved in the config file.
 @strong{Return value:}  1 if must be saved, 0 if not
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_save} (void * @var{cfg_context}, char * @var{filename})
+@deftypefun {int} {lw6cfg_save} (void * @var{cfg_context}, const char * @var{filename})
 @var{cfg_context}:  a context returned by @code{lw6cfg_init}
 
 @var{filename}:  a file path, absolute or relative
@@ -318,7 +318,7 @@ and t.
 @strong{Return value:}  string, must not be freed.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_read_xml_int} (char * @var{xml_key}, char * @var{xml_value}, char * @var{target_key}, int * @var{value})
+@deftypefun {void} {lw6cfg_read_xml_int} (const char * @var{xml_key}, const char * @var{xml_value}, const char * @var{target_key}, int * @var{value})
 @var{xml_key}:  key found in XML file
 
 @var{xml_value}:  value found in XML file
@@ -335,7 +335,7 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_read_xml_bool} (char * @var{xml_key}, char * @var{xml_value}, char * @var{target_key}, int * @var{value})
+@deftypefun {void} {lw6cfg_read_xml_bool} (const char * @var{xml_key}, const char * @var{xml_value}, const char * @var{target_key}, int * @var{value})
 @var{xml_key}:  key found in XML file
 
 @var{xml_value}:  value found in XML file
@@ -352,7 +352,7 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_read_xml_float} (char * @var{xml_key}, char * @var{xml_value}, char * @var{target_key}, float * @var{value})
+@deftypefun {void} {lw6cfg_read_xml_float} (const char * @var{xml_key}, const char * @var{xml_value}, const char * @var{target_key}, float * @var{value})
 @var{xml_key}:  key found in XML file
 
 @var{xml_value}:  value found in XML file
@@ -369,7 +369,7 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_read_xml_string} (char * @var{xml_key}, char * @var{xml_value}, char * @var{target_key}, char ** @var{value})
+@deftypefun {void} {lw6cfg_read_xml_string} (const char * @var{xml_key}, const char * @var{xml_value}, const char * @var{target_key}, char ** @var{value})
 @var{xml_key}:  key found in XML file
 
 @var{xml_value}:  value found in XML file
@@ -386,7 +386,7 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_read_xml_color} (char * @var{xml_key}, char * @var{xml_value}, char * @var{target_key}, lw6sys_color_8_t * @var{value})
+@deftypefun {void} {lw6cfg_read_xml_color} (const char * @var{xml_key}, const char * @var{xml_value}, const char * @var{target_key}, lw6sys_color_8_t * @var{value})
 @var{xml_key}:  key found in XML file
 
 @var{xml_value}:  value found in XML file
@@ -403,7 +403,7 @@ single entry found in an XML file, in an expat callback.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6cfg_read_key_value_xml_file} (char * @var{filename}, lw6cfg_read_xml_callback_func_t @var{callback_func}, void * @var{callback_data})
+@deftypefun {int} {lw6cfg_read_key_value_xml_file} (const char * @var{filename}, lw6cfg_read_xml_callback_func_t @var{callback_func}, void * @var{callback_data})
 @var{filename}:  full path of file to read
 
 @var{callback_func}:  callback function to be called on each element
@@ -418,7 +418,7 @@ LW config files are made of.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_int} (FILE * @var{f}, char * @var{key}, int @var{value})
+@deftypefun {void} {lw6cfg_write_xml_int} (FILE * @var{f}, const char * @var{key}, int @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write
@@ -430,7 +430,7 @@ Writes an int entry into an opened XML file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_bool} (FILE * @var{f}, char * @var{key}, int @var{value})
+@deftypefun {void} {lw6cfg_write_xml_bool} (FILE * @var{f}, const char * @var{key}, int @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write
@@ -442,7 +442,7 @@ Writes a boolean entry into an opened XML file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_float} (FILE * @var{f}, char * @var{key}, float @var{value})
+@deftypefun {void} {lw6cfg_write_xml_float} (FILE * @var{f}, const char * @var{key}, float @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write
@@ -454,7 +454,7 @@ Writes a float entry into an opened XML file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_string} (FILE * @var{f}, char * @var{key}, char * @var{value})
+@deftypefun {void} {lw6cfg_write_xml_string} (FILE * @var{f}, const char * @var{key}, const char * @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write
@@ -466,7 +466,7 @@ Writes a string entry into an opened XML file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_color} (FILE * @var{f}, char * @var{key}, lw6sys_color_8_t @var{value})
+@deftypefun {void} {lw6cfg_write_xml_color} (FILE * @var{f}, const char * @var{key}, lw6sys_color_8_t @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write
@@ -478,7 +478,7 @@ Writes a color entry into an opened XML file.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6cfg_write_xml_guess_type} (FILE * @var{f}, char * @var{key}, char * @var{value})
+@deftypefun {void} {lw6cfg_write_xml_guess_type} (FILE * @var{f}, const char * @var{key}, const char * @var{value})
 @var{f}:  file to write data to (append mode)
 
 @var{key}:  key to write

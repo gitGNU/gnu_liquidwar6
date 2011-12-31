@@ -31,7 +31,8 @@
 
 
 static void
-load_callback (void *callback_data, char *element, char *key, char *value)
+load_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   _lw6cfg_context_t *cfg_context;
 
@@ -48,7 +49,7 @@ load_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 int
-_lw6cfg_load (_lw6cfg_context_t * cfg_context, char *filename)
+_lw6cfg_load (_lw6cfg_context_t * cfg_context, const char *filename)
 {
   int ret = 0;
 
@@ -86,7 +87,7 @@ _lw6cfg_load (_lw6cfg_context_t * cfg_context, char *filename)
  * Return value: 1 if successfull, 0 if error.
  */
 int
-lw6cfg_load (void *cfg_context, char *filename)
+lw6cfg_load (void *cfg_context, const char *filename)
 {
   return _lw6cfg_load ((_lw6cfg_context_t *) cfg_context, filename);
 }

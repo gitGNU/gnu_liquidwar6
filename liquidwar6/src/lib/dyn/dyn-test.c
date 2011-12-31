@@ -34,10 +34,10 @@
 #define TEST_ARGV1 "--toto=this-is-a-test"
 
 static void
-display_module (void *func_data, char *key, void *value)
+display_module (void *func_data, const char *key, void *value)
 {
   int *found;
-  char *id;
+  const char *id;
   char *name;
 
   found = (int *) func_data;

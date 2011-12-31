@@ -88,8 +88,8 @@ lw6cfg_xml_element (lw6hlp_type_t type)
  * Return value: none.
  */
 void
-lw6cfg_read_xml_int (char *xml_key, char *xml_value, char *target_key,
-		     int *value)
+lw6cfg_read_xml_int (const char *xml_key, const char *xml_value,
+		     const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -116,8 +116,8 @@ lw6cfg_read_xml_int (char *xml_key, char *xml_value, char *target_key,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_bool (char *xml_key, char *xml_value, char *target_key,
-		      int *value)
+lw6cfg_read_xml_bool (const char *xml_key, const char *xml_value,
+		      const char *target_key, int *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -154,8 +154,8 @@ lw6cfg_read_xml_bool (char *xml_key, char *xml_value, char *target_key,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_float (char *xml_key, char *xml_value, char *target_key,
-		       float *value)
+lw6cfg_read_xml_float (const char *xml_key, const char *xml_value,
+		       const char *target_key, float *value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -182,8 +182,8 @@ lw6cfg_read_xml_float (char *xml_key, char *xml_value, char *target_key,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_string (char *xml_key, char *xml_value, char *target_key,
-			char **value)
+lw6cfg_read_xml_string (const char *xml_key, const char *xml_value,
+			const char *target_key, char **value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -219,8 +219,8 @@ lw6cfg_read_xml_string (char *xml_key, char *xml_value, char *target_key,
  * Return value: none.
  */
 void
-lw6cfg_read_xml_color (char *xml_key, char *xml_value,
-		       char *target_key, lw6sys_color_8_t * value)
+lw6cfg_read_xml_color (const char *xml_key, const char *xml_value,
+		       const char *target_key, lw6sys_color_8_t * value)
 {
   if (!strcasecmp (xml_key, target_key))
     {
@@ -283,7 +283,7 @@ element_end (void *data, const char *el)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cfg_read_key_value_xml_file (char *filename,
+lw6cfg_read_key_value_xml_file (const char *filename,
 				lw6cfg_read_xml_callback_func_t callback_func,
 				void *callback_data)
 {
@@ -349,15 +349,15 @@ lw6cfg_read_key_value_xml_file (char *filename,
 
 // if type is NULL, will be guessed automatically
 static void
-write_xml (FILE * f, char *type, char *key, char *value)
+write_xml (FILE * f, const char *type, const char *key, const char *value)
 {
   char *tmp = NULL;
-  char *pos = NULL;
-  char *guessed_type = NULL;
+  int pos = 0;
+  const char *guessed_type = NULL;
   char *help_string = NULL;
-  char *hlp_about = NULL;
+  const char *hlp_about = NULL;
   lw6hlp_type_t hlp_type = LW6HLP_TYPE_STR;
-  char *hlp_default_value = NULL;
+  const char *hlp_default_value = NULL;
   int hlp_min_value = 0;
   int hlp_max_value = 0;
 
@@ -447,9 +447,9 @@ write_xml (FILE * f, char *type, char *key, char *value)
 	    }
 	  fprintf (f, "  <%s %s=\"%s\" %s=\"", type, LW6CFG_XML_KEY,
 		   key, LW6CFG_XML_VALUE);
-	  for (pos = value; (*pos) != '\0'; ++pos)
+	  for (pos = 0; value[pos] != '\0'; ++pos)
 	    {
-	      switch (*pos)
+	      switch (value[pos])
 		{
 		case '<':
 		  fprintf (f, "&lt;");
@@ -467,7 +467,7 @@ write_xml (FILE * f, char *type, char *key, char *value)
 		  fprintf (f, "&apos;");
 		  break;
 		default:
-		  fprintf (f, "%c", (*pos));
+		  fprintf (f, "%c", value[pos]);
 		}
 	    }
 	  fprintf (f, "\"/>%s", lw6sys_eol ());
@@ -491,7 +491,7 @@ write_xml (FILE * f, char *type, char *key, char *value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_int (FILE * f, char *key, int value)
+lw6cfg_write_xml_int (FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
@@ -515,7 +515,7 @@ lw6cfg_write_xml_int (FILE * f, char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_bool (FILE * f, char *key, int value)
+lw6cfg_write_xml_bool (FILE * f, const char *key, int value)
 {
   char *str_value = NULL;
 
@@ -539,7 +539,7 @@ lw6cfg_write_xml_bool (FILE * f, char *key, int value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_float (FILE * f, char *key, float value)
+lw6cfg_write_xml_float (FILE * f, const char *key, float value)
 {
   char *str_value = NULL;
 
@@ -563,7 +563,7 @@ lw6cfg_write_xml_float (FILE * f, char *key, float value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_string (FILE * f, char *key, char *value)
+lw6cfg_write_xml_string (FILE * f, const char *key, const char *value)
 {
   write_xml (f, LW6CFG_XML_STRING, key, value);
 }
@@ -580,7 +580,7 @@ lw6cfg_write_xml_string (FILE * f, char *key, char *value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_color (FILE * f, char *key, lw6sys_color_8_t value)
+lw6cfg_write_xml_color (FILE * f, const char *key, lw6sys_color_8_t value)
 {
   char *str_value = NULL;
 
@@ -610,7 +610,7 @@ lw6cfg_write_xml_color (FILE * f, char *key, lw6sys_color_8_t value)
  * Return value: none.
  */
 void
-lw6cfg_write_xml_guess_type (FILE * f, char *key, char *value)
+lw6cfg_write_xml_guess_type (FILE * f, const char *key, const char *value)
 {
   write_xml (f, NULL, key, value);
 }

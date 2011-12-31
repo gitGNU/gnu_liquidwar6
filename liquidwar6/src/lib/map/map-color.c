@@ -130,7 +130,7 @@ lw6map_team_color_index_to_key (int index)
  * Return value: an integer.
  */
 int
-lw6map_team_color_key_to_index (char *key)
+lw6map_team_color_key_to_index (const char *key)
 {
   int ret = LW6MAP_TEAM_COLOR_INVALID;
 

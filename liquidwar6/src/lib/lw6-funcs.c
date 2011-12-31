@@ -2513,7 +2513,7 @@ static SCM
 _scm_lw6hlp_about (SCM key)
 {
   char *c_key;
-  char *c_ret;
+  const char *c_ret;
   SCM ret = SCM_BOOL_F;
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
@@ -2537,7 +2537,7 @@ static SCM
 _scm_lw6hlp_get_default_value (SCM key)
 {
   char *c_key;
-  char *c_ret;
+  const char *c_ret;
   SCM ret = SCM_BOOL_F;
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);

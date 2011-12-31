@@ -30,7 +30,7 @@
 #include "gl-utils.h"
 
 static void
-_get_text_wh (TTF_Font * font, char *text, int *width, int *height)
+_get_text_wh (TTF_Font * font, const char *text, int *width, int *height)
 {
   if (TTF_SizeUTF8 (font, text, width, height) == -1)
     {
@@ -43,7 +43,7 @@ _get_text_wh (TTF_Font * font, char *text, int *width, int *height)
 }
 
 static int
-_get_text_width (TTF_Font * font, char *text)
+_get_text_width (TTF_Font * font, const char *text)
 {
   int width = 0;
 
@@ -53,7 +53,7 @@ _get_text_width (TTF_Font * font, char *text)
 }
 
 static int
-_get_text_height (TTF_Font * font, char *text)
+_get_text_height (TTF_Font * font, const char *text)
 {
   int height = 0;
 
@@ -67,7 +67,7 @@ _get_text_height (TTF_Font * font, char *text)
  */
 int
 mod_gl_utils_get_system_text_width (mod_gl_utils_context_t * utils_context,
-				    char *text)
+				    const char *text)
 {
   return _get_text_width (utils_context->font_data.system, text);
 }
@@ -77,7 +77,7 @@ mod_gl_utils_get_system_text_width (mod_gl_utils_context_t * utils_context,
  */
 int
 mod_gl_utils_get_system_text_height (mod_gl_utils_context_t * utils_context,
-				     char *text)
+				     const char *text)
 {
   return _get_text_height (utils_context->font_data.system, text);
 }
@@ -85,7 +85,7 @@ mod_gl_utils_get_system_text_height (mod_gl_utils_context_t * utils_context,
 SDL_Surface *
 mod_gl_utils_blended_text_surface (mod_gl_utils_context_t * utils_context,
 				   TTF_Font * font, SDL_Color color,
-				   char *text)
+				   const char *text)
 {
   SDL_Surface *ret = NULL;
   char *utf8 = NULL;
@@ -188,7 +188,7 @@ _multiline_text_draw_callback (void *func_data, void *data)
 mod_gl_utils_bitmap_t *
 mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
 				   utils_context, TTF_Font * font,
-				   char *text,
+				   const char *text,
 				   lw6map_color_couple_t * color,
 				   float alpha_bg,
 				   int max_width, int max_height,
@@ -268,7 +268,7 @@ mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
  */
 static void
 _draw_text (mod_gl_utils_context_t * utils_context,
-	    TTF_Font * font, char *text, lw6map_color_couple_t * color,
+	    TTF_Font * font, const char *text, lw6map_color_couple_t * color,
 	    float x, float y, float dw, float dh)
 {
   mod_gl_utils_shaded_text_t *shaded_text;
@@ -297,7 +297,8 @@ _draw_text (mod_gl_utils_context_t * utils_context,
  */
 void
 mod_gl_utils_draw_system_text (mod_gl_utils_context_t * utils_context,
-			       lw6gui_look_t * look, char *text, int x, int y)
+			       lw6gui_look_t * look, const char *text, int x,
+			       int y)
 {
   mod_gl_utils_set_render_mode_2d_blend (utils_context);
 

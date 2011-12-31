@@ -31,6 +31,8 @@
 
 #include "sys.h"
 
+#define _UTF8 "UTF-8"
+
 /**
  * lw6sys_locale_to_utf8
  *
@@ -47,7 +49,7 @@
  *   no matter what the locale is.
  */
 char *
-lw6sys_locale_to_utf8 (char *string)
+lw6sys_locale_to_utf8 (const char *string)
 {
   char *utf8 = NULL;
 
@@ -75,43 +77,52 @@ lw6sys_locale_to_utf8 (char *string)
    */
   if (codeset)
     {
-      cd = iconv_open ("UTF-8", codeset);
-
-      if (cd != (iconv_t) - 1)
+      if (lw6sys_str_is_same (codeset, _UTF8))
 	{
-	  int ilen;
-	  int max_olen;
-#ifdef LW6_MS_WINDOWS
-	  const char *iptr;
-#else
-	  char *iptr;
-#endif
-	  size_t ileft;
-	  char *optr;
-	  size_t oleft;
-
-	  ilen = strlen (string);
-	  max_olen = strlen (string) * 2;
-
-	  utf8 = LW6SYS_CALLOC (max_olen + 1);
-	  if (utf8)
-	    {
-	      iptr = string;
-	      ileft = ilen;
-	      optr = utf8;
-	      oleft = max_olen;
-
-	      if (iconv (cd, &iptr, &ileft, &optr, &oleft) == (size_t) - 1)
-		{
-		  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("iconv error \"%s\""),
-			      string);
-		}
-	    }
-	  iconv_close (cd);
+	  utf8 = lw6sys_str_copy (string);
 	}
       else
 	{
-	  lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to open iconv"));
+	  int ilen;
+	  int max_olen;
+	  char *iptr = NULL;
+	  size_t ileft;
+	  char *optr = NULL;
+	  size_t oleft;
+
+	  cd = iconv_open ("UTF-8", codeset);
+
+	  if (cd != (iconv_t) - 1)
+	    {
+	      ilen = strlen (string);
+	      max_olen = strlen (string) * 2;
+
+	      utf8 = LW6SYS_CALLOC (max_olen + 1);
+	      if (utf8)
+		{
+		  /*
+		   * OK, we do a cast from const to non-const,
+		   * actually iconv does modify iptr when
+		   * passed &iptr but it does not touch *iptr.
+		   */
+		  iptr = (char *) string;
+		  ileft = ilen;
+		  optr = utf8;
+		  oleft = max_olen;
+
+		  if (iconv (cd, &iptr, &ileft, &optr, &oleft) ==
+		      (size_t) - 1)
+		    {
+		      lw6sys_log (LW6SYS_LOG_WARNING,
+				  _x_ ("iconv error \"%s\""), string);
+		    }
+		}
+	      iconv_close (cd);
+	    }
+	  else
+	    {
+	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to open iconv"));
+	    }
 	}
     }
 

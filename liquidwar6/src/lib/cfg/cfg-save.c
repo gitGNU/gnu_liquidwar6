@@ -42,7 +42,7 @@
  * Return value: 1 if must be saved, 0 if not
  */
 int
-lw6cfg_must_be_saved (char *key)
+lw6cfg_must_be_saved (const char *key)
 {
   int ret = 1;
 
@@ -66,7 +66,7 @@ lw6cfg_must_be_saved (char *key)
 }
 
 int
-_lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename)
+_lw6cfg_save (_lw6cfg_context_t * cfg_context, const char *filename)
 {
   int ret = 0;
   FILE *f;
@@ -111,7 +111,7 @@ _lw6cfg_save (_lw6cfg_context_t * cfg_context, char *filename)
  * Return value: 1 if successfull, 0 if error.
  */
 int
-lw6cfg_save (void *cfg_context, char *filename)
+lw6cfg_save (void *cfg_context, const char *filename)
 {
   return _lw6cfg_save ((_lw6cfg_context_t *) cfg_context, filename);
 }

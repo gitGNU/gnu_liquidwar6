@@ -39,7 +39,7 @@
  */
 int
 lw6ldr_cursor_texture_read (lw6map_cursor_texture_t * cursor_texture,
-			    char *dirname)
+			    const char *dirname)
 {
   int ret = 1;
   int found = 0;

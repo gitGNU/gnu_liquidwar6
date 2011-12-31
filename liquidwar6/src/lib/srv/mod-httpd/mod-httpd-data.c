@@ -37,7 +37,8 @@
 #define _FAVICON_ICO_FILE "favicon.ico"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _mod_httpd_consts_t *consts;
 
@@ -85,7 +86,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_mod_httpd_consts_t * consts, char *consts_file)
+_load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -108,7 +109,7 @@ _load_consts (_mod_httpd_consts_t * consts, char *consts_file)
 }
 
 static int
-_load_htdocs (_mod_httpd_htdocs_t * htdocs, char *htdocs_dir)
+_load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
 {
   int ret = 1;
   char *filename = NULL;
@@ -155,7 +156,7 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, char *htdocs_dir)
 }
 
 int
-_mod_httpd_load_data (_mod_httpd_data_t * httpd_data, char *data_dir)
+_mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
 {
   int ret = 0;
   char *httpd_subdir = NULL;

@@ -30,7 +30,7 @@
 #include "ldr-internal.h"
 
 int
-_lw6ldr_bw_read (_lw6ldr_image_bw_t * image, char *png_file,
+_lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 		 lw6sys_progress_t * progress)
 {
   png_structp png_ptr = NULL;

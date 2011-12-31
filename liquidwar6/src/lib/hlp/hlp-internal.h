@@ -28,13 +28,15 @@
 typedef struct _lw6hlp_reference_entry_s
 {
   lw6hlp_type_t type;
-  char *key;
-  char *about;
-  char *default_value;
+  const char *key;
+  const char *about;
+  const char *default_value;
   int min_value;
   int max_value;
 } _lw6hlp_reference_entry_t;
 
-extern _lw6hlp_reference_entry_t *_lw6hlp_reference_get_entry (char *key);
+/* hlp-reference.c */
+extern _lw6hlp_reference_entry_t *_lw6hlp_reference_get_entry (const char
+							       *key);
 
 #endif

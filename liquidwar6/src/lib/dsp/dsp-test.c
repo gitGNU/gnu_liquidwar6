@@ -202,7 +202,7 @@ pilot_new (lw6ker_game_state_t * game_state, lw6sys_progress_t * progress)
 }
 
 static int
-test_display (char *gfx_backend_name)
+test_display (const char *gfx_backend_name)
 {
   int ret = 0;
 
@@ -482,7 +482,7 @@ test_display (char *gfx_backend_name)
 }
 
 static void
-test_callback_func (void *func_data, char *key, void *value)
+test_callback_func (void *func_data, const char *key, void *value)
 {
   int *ret = NULL;
 

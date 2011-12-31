@@ -37,7 +37,8 @@ typedef struct teams_update_data_s
 teams_update_data_t;
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   lw6map_teams_t *teams_data;
 
@@ -59,7 +60,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_teams_read (lw6map_teams_t * teams, char *dirname)
+lw6ldr_teams_read (lw6map_teams_t * teams, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;

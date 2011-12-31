@@ -38,7 +38,8 @@
 #define IMAGE_GAUGE_FRAME "gauge-frame.png"
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   _mod_gl_hud_floating_const_data_t *const_data;
 

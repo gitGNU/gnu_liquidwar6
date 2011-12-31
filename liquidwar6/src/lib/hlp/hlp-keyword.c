@@ -41,7 +41,7 @@
  * Return value: 1 if matches, 0 if different.
  */
 int
-lw6hlp_match (char *keyword1, char *keyword2)
+lw6hlp_match (const char *keyword1, const char *keyword2)
 {
   int ret = 0;
   char *key1 = NULL;

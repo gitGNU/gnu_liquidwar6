@@ -39,7 +39,8 @@
 #define _DESC_SPLASH_GAME "splash_game"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _mod_gl_splash_const_data_t *const_data;
 

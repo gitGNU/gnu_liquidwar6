@@ -28,7 +28,7 @@
 #include "ldr-internal.h"
 
 static char *
-extract_title_from_dirname (char *dirname)
+extract_title_from_dirname (const char *dirname)
 {
   char *copy = NULL;
   char *title = NULL;
@@ -67,7 +67,7 @@ extract_title_from_dirname (char *dirname)
 }
 
 static char *
-read_readme (char *dirname)
+read_readme (const char *dirname)
 {
   char *buf = NULL;
   char *readme = NULL;
@@ -114,7 +114,8 @@ read_readme (char *dirname)
 }
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   lw6map_metadata_t *metadata_data;
 
@@ -144,7 +145,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_metadata_read (lw6map_metadata_t * metadata, char *dirname)
+lw6ldr_metadata_read (lw6map_metadata_t * metadata, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;

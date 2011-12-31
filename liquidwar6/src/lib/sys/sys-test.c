@@ -285,7 +285,7 @@ test_arg ()
  * Used to test lw6sys_assoc_map.
  */
 static void
-assoc_map_func (void *func_data, char *key, void *value)
+assoc_map_func (void *func_data, const char *key, void *value)
 {
   int *ret = (int *) func_data;
   int *i = (int *) value;

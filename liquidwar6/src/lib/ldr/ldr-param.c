@@ -42,7 +42,7 @@
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_param_read (lw6map_param_t * param, char *dirname)
+lw6ldr_param_read (lw6map_param_t * param, const char *dirname)
 {
   int ret = 0;
 

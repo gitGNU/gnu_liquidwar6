@@ -31,7 +31,8 @@
 #define _CONSTS_FILE "udpd-const.xml"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _udpd_consts_t *consts;
 
@@ -45,7 +46,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_udpd_consts_t * consts, char *consts_file)
+_load_consts (_udpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -59,7 +60,7 @@ _load_consts (_udpd_consts_t * consts, char *consts_file)
 }
 
 int
-_mod_udpd_load_data (_udpd_data_t * udpd_data, char *data_dir)
+_mod_udpd_load_data (_udpd_data_t * udpd_data, const char *data_dir)
 {
   int ret = 0;
   char *udpd_subdir = NULL;

@@ -202,7 +202,7 @@ push_param (lw6sys_hexa_serializer_t * hexa_serializer,
 {
   int ret = 1;
   int i, value;
-  char *key;
+  const char *key;
 
   for (i = 0; (key = LW6MAP_RULES_LIST[i]) != NULL && ret; ++i)
     {
@@ -697,7 +697,7 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
   int ret = 1;
   int32_t value;
   int i;
-  char *key;
+  const char *key;
 
   for (i = 0; (key = LW6MAP_RULES_LIST[i]) != NULL && ret; ++i)
     {
@@ -896,7 +896,7 @@ pop_param (lw6sys_hexa_serializer_t * hexa_serializer, lw6map_param_t * param)
  * Return value: a new map, might be NULL if string isn't correct.
  */
 lw6map_level_t *
-lw6map_from_hexa (char *hexa)
+lw6map_from_hexa (const char *hexa)
 {
   lw6map_level_t *level = NULL;
   lw6sys_hexa_serializer_t *hexa_serializer;

@@ -121,7 +121,7 @@ lw6map_weapon_index_to_key (int index)
  * Return value: an integer.
  */
 int
-lw6map_weapon_key_to_index (char *key)
+lw6map_weapon_key_to_index (const char *key)
 {
   int ret = LW6MAP_WEAPON_NONE;
 

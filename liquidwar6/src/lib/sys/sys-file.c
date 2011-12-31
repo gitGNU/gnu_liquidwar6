@@ -39,7 +39,7 @@
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_clear_file (char *filename)
+lw6sys_clear_file (const char *filename)
 {
   int ret = 0;
   FILE *f = NULL;
@@ -70,7 +70,7 @@ lw6sys_clear_file (char *filename)
 }
 
 static void *
-_read_bin (int *filesize, char *filename)
+_read_bin (int *filesize, const char *filename)
 {
   char *file_content = NULL;
   FILE *f;
@@ -154,7 +154,7 @@ _read_bin (int *filesize, char *filename)
  * Return value: a newly allocated pointer, must be freed.
  */
 char *
-lw6sys_read_file_content (char *filename)
+lw6sys_read_file_content (const char *filename)
 {
   char *ret = NULL;
 
@@ -183,7 +183,7 @@ lw6sys_read_file_content (char *filename)
  * Return value: a newly allocated pointer, must be freed.
  */
 void *
-lw6sys_read_file_content_bin (int *filesize, char *filename)
+lw6sys_read_file_content_bin (int *filesize, const char *filename)
 {
   void *ret = NULL;
 
@@ -206,7 +206,7 @@ lw6sys_read_file_content_bin (int *filesize, char *filename)
  * and opaque binary data usage is not recommended.
  */
 int
-lw6sys_write_file_content (char *filename, char *content)
+lw6sys_write_file_content (const char *filename, const char *content)
 {
   FILE *f = NULL;
   int ret = 0;

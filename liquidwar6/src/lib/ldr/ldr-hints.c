@@ -106,7 +106,8 @@ lw6ldr_hints_clear (lw6ldr_hints_t * hints)
 }
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   lw6ldr_hints_t *hints_data;
 
@@ -128,7 +129,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_hints_read (lw6ldr_hints_t * hints, char *dirname)
+lw6ldr_hints_read (lw6ldr_hints_t * hints, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -177,7 +178,7 @@ lw6ldr_hints_read (lw6ldr_hints_t * hints, char *dirname)
  * needs to be worked on.
  */
 int
-lw6ldr_hints_set (lw6ldr_hints_t * hints, char *key, char *value)
+lw6ldr_hints_set (lw6ldr_hints_t * hints, const char *key, const char *value)
 {
   int ret = 1;
   char *formatted_key = NULL;
@@ -295,7 +296,7 @@ lw6ldr_hints_set (lw6ldr_hints_t * hints, char *key, char *value)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6ldr_hints_get (lw6ldr_hints_t * hints, char *key)
+lw6ldr_hints_get (lw6ldr_hints_t * hints, const char *key)
 {
   char *ret = NULL;
   char *formatted_key = NULL;
@@ -403,7 +404,7 @@ lw6ldr_hints_get (lw6ldr_hints_t * hints, char *key)
  * Return value: dynamically allocated string, NULL on error.
  */
 char *
-lw6ldr_hints_get_default (char *key)
+lw6ldr_hints_get_default (const char *key)
 {
   lw6ldr_hints_t *hints;
   char *ret = NULL;

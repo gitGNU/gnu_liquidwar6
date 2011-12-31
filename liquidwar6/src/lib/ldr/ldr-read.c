@@ -55,9 +55,9 @@
  * Return value: 1 if success, 0 if failed.
  */
 lw6map_level_t *
-lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
+lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
 	     lw6sys_assoc_t * forced_param, int display_w, int display_h,
-	     int bench_value, int magic_number, char *user_dir,
+	     int bench_value, int magic_number, const char *user_dir,
 	     lw6sys_progress_t * progress)
 {
   lw6map_level_t *level = NULL;
@@ -240,11 +240,11 @@ lw6ldr_read (char *dirname, lw6sys_assoc_t * default_param,
  * Return value: 1 if success, 0 if failure.
  */
 lw6map_level_t *
-lw6ldr_read_relative (char *map_path, char *relative_path,
+lw6ldr_read_relative (const char *map_path, const char *relative_path,
 		      lw6sys_assoc_t * default_param,
 		      lw6sys_assoc_t * forced_param,
 		      int display_w, int display_h, int bench_value,
-		      int magic_number, char *user_dir,
+		      int magic_number, const char *user_dir,
 		      lw6sys_progress_t * progress)
 {
   lw6map_level_t *ret = NULL;

@@ -28,7 +28,7 @@
 
 #include "map.h"
 
-char *LW6MAP_RULES_LIST[] = {
+const char *LW6MAP_RULES_LIST[] = {
   LW6DEF_TOTAL_TIME,
   LW6DEF_RESPAWN_TEAM,
   LW6DEF_RESPAWN_POSITION_MODE,
@@ -807,7 +807,7 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
 }
 
 static int32_t *
-get_rules_int_ptr (lw6map_rules_t * rules, char *key)
+get_rules_int_ptr (lw6map_rules_t * rules, const char *key)
 {
   int32_t *ret = NULL;
   char *formatted_key = NULL;
@@ -1544,7 +1544,7 @@ get_rules_int_ptr (lw6map_rules_t * rules, char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_default (char *key)
+lw6map_rules_get_default (const char *key)
 {
   int32_t *ptr;
   int32_t ret = 0;
@@ -1571,7 +1571,7 @@ lw6map_rules_get_default (char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_min (char *key)
+lw6map_rules_get_min (const char *key)
 {
   int32_t *ptr;
   int32_t ret = 0;
@@ -1598,7 +1598,7 @@ lw6map_rules_get_min (char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_max (char *key)
+lw6map_rules_get_max (const char *key)
 {
   int32_t *ptr;
   int32_t ret = 0;
@@ -1626,7 +1626,7 @@ lw6map_rules_get_max (char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
+lw6map_rules_get_int (lw6map_rules_t * rules, const char *key)
 {
   int32_t ret = 0;
   int32_t *ptr;
@@ -1678,7 +1678,7 @@ lw6map_rules_get_int (lw6map_rules_t * rules, char *key)
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
+lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
 {
   int32_t *ptr;
   int32_t min_value;
@@ -1730,7 +1730,7 @@ lw6map_rules_set_int (lw6map_rules_t * rules, char *key, int32_t value)
  * Return value: boolean.
  */
 int
-lw6map_rules_get_bool (lw6map_rules_t * rules, char *key)
+lw6map_rules_get_bool (lw6map_rules_t * rules, const char *key)
 {
   return lw6map_rules_get_int (rules, key) ? 1 : 0;
 }
@@ -1750,7 +1750,7 @@ lw6map_rules_get_bool (lw6map_rules_t * rules, char *key)
  * Return value: 1 on success, 0 on failure (eg key not found)
  */
 int
-lw6map_rules_set_bool (lw6map_rules_t * rules, char *key, int value)
+lw6map_rules_set_bool (lw6map_rules_t * rules, const char *key, int value)
 {
   return lw6map_rules_set_int (rules, key, value ? 1 : 0);
 }

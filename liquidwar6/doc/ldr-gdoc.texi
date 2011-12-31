@@ -1,4 +1,4 @@
-@deftypefun {int} {lw6ldr_body_read} (lw6map_body_t * @var{body}, char * @var{dirname}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{display_w}, int @var{display_h}, float @var{ratio}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
+@deftypefun {int} {lw6ldr_body_read} (lw6map_body_t * @var{body}, const char * @var{dirname}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{display_w}, int @var{display_h}, float @var{ratio}, int @var{bench_value}, int @var{magic_number}, lw6sys_progress_t * @var{progress})
 @var{body}:  the body to read, must point to allocated memory
 
 @var{dirname}:  the directory of the map
@@ -38,7 +38,7 @@ be guessed from texture.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_cursor_texture_read} (lw6map_cursor_texture_t * @var{cursor_texture}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_cursor_texture_read} (lw6map_cursor_texture_t * @var{cursor_texture}, const char * @var{dirname})
 @var{cursor_texture}:  the cursor texture (out param)
 
 @var{dirname}:  the directory we load the data form (map dir)
@@ -64,7 +64,7 @@ Dup a map entry.
 @strong{Return value:}  newly allocated object.
 @end deftypefun
 
-@deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir})
+@deftypefun {lw6sys_list_t *} {lw6ldr_get_entries} (const char * @var{map_path}, const char * @var{relative_path}, const char * @var{user_dir})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
 @var{relative_path}:  the relative path to use to find the map directory
@@ -79,7 +79,7 @@ in alphabetical order.
 @strong{Return value:}  a list of dynamically allocated lw6ldr_entry_t.
 @end deftypefun
 
-@deftypefun {void} {lw6ldr_for_all_entries} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir}, int @var{recursive}, lw6sys_list_callback_func_t @var{callback_func}, void * @var{func_data})
+@deftypefun {void} {lw6ldr_for_all_entries} (const char * @var{map_path}, const char * @var{relative_path}, const char * @var{user_dir}, int @var{recursive}, lw6sys_list_callback_func_t @var{callback_func}, void * @var{func_data})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
 @var{relative_path}:  the relative path to use to find the map directory
@@ -98,7 +98,7 @@ used in test programs.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {lw6ldr_entry_t *} {lw6ldr_chain_entry} (char * @var{map_path}, char * @var{relative_path}, char * @var{user_dir})
+@deftypefun {lw6ldr_entry_t *} {lw6ldr_chain_entry} (const char * @var{map_path}, const char * @var{relative_path}, const char * @var{user_dir})
 @var{map_path}:  the map_path environment config variable, delimited path list
 
 @var{relative_path}:  the relative path to use to find the map directory
@@ -111,7 +111,7 @@ used in test programs.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_exp_validate} (lw6map_level_t * @var{level}, char * @var{user_dir})
+@deftypefun {int} {lw6ldr_exp_validate} (lw6map_level_t * @var{level}, const char * @var{user_dir})
 @var{level}:  the level to validate
 
 @var{user_dir}:  user directory
@@ -159,7 +159,7 @@ Clears the hints struct, this is not the same as setting to defaults.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_hints_read} (lw6ldr_hints_t * @var{hints}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_hints_read} (lw6ldr_hints_t * @var{hints}, const char * @var{dirname})
 @var{dirname}:  the directory of the map
 
 Read the hints (hints.xml) of a map. Pointer to hints must be valid,
@@ -169,7 +169,7 @@ or custom values.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_hints_set} (lw6ldr_hints_t * @var{hints}, char * @var{key}, char * @var{value})
+@deftypefun {int} {lw6ldr_hints_set} (lw6ldr_hints_t * @var{hints}, const char * @var{key}, const char * @var{value})
 @var{hints}:  the hints to modify
 
 @var{key}:  the key to modify
@@ -185,7 +185,7 @@ means there's a problem, some affectations can fail and return 1,
 needs to be worked on.
 @end deftypefun
 
-@deftypefun {char *} {lw6ldr_hints_get} (lw6ldr_hints_t * @var{hints}, char * @var{key})
+@deftypefun {char *} {lw6ldr_hints_get} (lw6ldr_hints_t * @var{hints}, const char * @var{key})
 @var{hints}:  the hints to modify
 
 @var{key}:  the key to modify
@@ -196,7 +196,7 @@ converted as a string.
 @strong{Return value:}  dynamically allocated string, NULL on error.
 @end deftypefun
 
-@deftypefun {char *} {lw6ldr_hints_get_default} (char * @var{key})
+@deftypefun {char *} {lw6ldr_hints_get_default} (const char * @var{key})
 @var{key}:  the key we want informations about.
 
 Gets the default value for a given hints key.
@@ -218,7 +218,52 @@ it will override the existing hints.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_metadata_read} (lw6map_metadata_t * @var{metadata}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_layer_read_first} (lw6map_layer_t * @var{layer}, const char * @var{filename}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{display_w}, int @var{display_h}, float @var{target_ratio}, int @var{bench_value}, int @var{magic_number}, int @var{expected_depth}, lw6sys_progress_t * @var{progress})
+@var{layer}:  layer to update (out param)
+
+@var{filename}:  name of PNG file
+
+@var{param}:  parameters of the map
+
+@var{hints}:  hints of the map
+
+@var{display_w}:  width of display
+
+@var{display_h}:  height of display
+
+@var{target_ratio}:  width/height ratio we want
+
+@var{bench_value}:  bench for this computer
+
+@var{magic_number}:  arbitrary constant
+
+@var{expected_depth}:  depth of map according to files available
+
+@var{progress}:  progress object to provide feedback (in/out)
+
+Reads the first layer, that is map.png. This function has
+many parameters since it will try and guess the final
+(real) resolution of the map.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_layer_read_next} (lw6map_layer_t * @var{layer}, const char * @var{filename}, int @var{target_w}, int @var{target_h})
+@var{layer}:  layer to update (out param)
+
+@var{filename}:  name of PNG file
+
+@var{target_w}:  width we want
+
+@var{target_h}:  height we want
+
+Reads a layer, knowing the exact size we want. This is typically
+to load layer2-7.png once map.png has been loaded.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6ldr_metadata_read} (lw6map_metadata_t * @var{metadata}, const char * @var{dirname})
 @var{metadata}:  structure containting read data (out param)
 
 @var{dirname}:  map dirname (absolute path)
@@ -230,7 +275,7 @@ all fields in structure are non-NULL.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_meta_layer_read} (lw6map_meta_layer_t * @var{meta_layer}, char * @var{filename}, int @var{target_w}, int @var{target_h}, int @var{analog})
+@deftypefun {int} {lw6ldr_meta_layer_read} (lw6map_meta_layer_t * @var{meta_layer}, const char * @var{filename}, int @var{target_w}, int @var{target_h}, int @var{analog})
 @var{meta_layer}:  the meta layer to read
 
 @var{filename}:  the file to open
@@ -247,7 +292,7 @@ to the given parameters.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_meta_layer_read_if_exists} (lw6map_meta_layer_t * @var{meta_layer}, char * @var{dirname}, char * @var{file_only}, int @var{target_w}, int @var{target_h}, int @var{analog})
+@deftypefun {int} {lw6ldr_meta_layer_read_if_exists} (lw6map_meta_layer_t * @var{meta_layer}, const char * @var{dirname}, const char * @var{file_only}, int @var{target_w}, int @var{target_h}, int @var{analog})
 @var{meta_layer}:  the meta layer to read
 
 @var{dirname}:  the map directory
@@ -268,7 +313,7 @@ and @code{file_only} and 2) return OK (1) if file does not exist.
 @strong{Return value:}  1 on success, 0 on failure
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_param_read} (lw6map_param_t * @var{param}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_param_read} (lw6map_param_t * @var{param}, const char * @var{dirname})
 @var{param}:  the parameter struct to fill with values (read/write parameter)
 
 @var{dirname}:  the directory of the map
@@ -335,7 +380,7 @@ create the directory if needed.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {lw6map_level_t *} {lw6ldr_read} (char * @var{dirname}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, char * @var{user_dir}, lw6sys_progress_t * @var{progress})
+@deftypefun {lw6map_level_t *} {lw6ldr_read} (const char * @var{dirname}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, const char * @var{user_dir}, lw6sys_progress_t * @var{progress})
 @var{dirname}:  the directory containing the map
 
 @var{default_param}:  default parameters, as strings
@@ -368,7 +413,7 @@ See also @code{lw6ldr_read_relative}.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {lw6map_level_t *} {lw6ldr_read_relative} (char * @var{map_path}, char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, char * @var{user_dir}, lw6sys_progress_t * @var{progress})
+@deftypefun {lw6map_level_t *} {lw6ldr_read_relative} (const char * @var{map_path}, const char * @var{relative_path}, lw6sys_assoc_t * @var{default_param}, lw6sys_assoc_t * @var{forced_param}, int @var{display_w}, int @var{display_h}, int @var{bench_value}, int @var{magic_number}, const char * @var{user_dir}, lw6sys_progress_t * @var{progress})
 @var{map_path}:  a collection of paths where to find maps
 
 @var{relative_path}:  something which will be appended to a @code{map_path} member
@@ -482,7 +527,7 @@ Does rounding fine-tuning, it's not a simple integer division.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_rules_read} (lw6map_rules_t * @var{rules}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_rules_read} (lw6map_rules_t * @var{rules}, const char * @var{dirname})
 @var{dirname}:  the directory of the map
 
 Read the rules (rules.xml) of a map. Pointer to rules must be valid,
@@ -506,7 +551,7 @@ it will override the existing rules.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_style_read} (lw6map_style_t * @var{style}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_style_read} (lw6map_style_t * @var{style}, const char * @var{dirname})
 @var{dirname}:  the directory of the map
 
 Read the style (style.xml) of a map. Pointer to style must be valid,
@@ -516,7 +561,7 @@ or custom values.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_style_set} (lw6map_style_t * @var{style}, char * @var{key}, char * @var{value})
+@deftypefun {int} {lw6ldr_style_set} (lw6map_style_t * @var{style}, const char * @var{key}, const char * @var{value})
 @var{style}:  the style to modify
 
 @var{key}:  the key to modify
@@ -546,7 +591,7 @@ it will override the existing style.
 @strong{Return value:}  1 if success, 0 if failed.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_teams_read} (lw6map_teams_t * @var{teams}, char * @var{dirname})
+@deftypefun {int} {lw6ldr_teams_read} (lw6map_teams_t * @var{teams}, const char * @var{dirname})
 @var{dirname}:  the directory of the map
 
 Read the teams (teams.xml) of a map. Pointer to teams must be valid,
@@ -578,7 +623,7 @@ Runs the @code{ldr} module test suite.
 @strong{Return value:}  1 if test is successfull, 0 on error.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_texture_read} (lw6map_texture_t * @var{texture}, char * @var{dirname}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{use_texture}, int @var{display_w}, int @var{display_h}, float * @var{ratio}, int * @var{texture_exists}, lw6sys_progress_t * @var{progress})
+@deftypefun {int} {lw6ldr_texture_read} (lw6map_texture_t * @var{texture}, const char * @var{dirname}, lw6map_param_t * @var{param}, lw6ldr_hints_t * @var{hints}, int @var{use_texture}, int @var{display_w}, int @var{display_h}, float * @var{ratio}, int * @var{texture_exists}, lw6sys_progress_t * @var{progress})
 @var{texture}:  structure to hold read data
 
 @var{dirname}:  map dirname (absolute path)
@@ -624,7 +669,7 @@ Clears the use structure, set it to the use nothing mode.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6ldr_use_set} (lw6ldr_use_t * @var{use}, char * @var{key}, char * @var{value})
+@deftypefun {int} {lw6ldr_use_set} (lw6ldr_use_t * @var{use}, const char * @var{key}, const char * @var{value})
 @var{use}:  struct to modify
 
 @var{key}:  key to change (as a string)

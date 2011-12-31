@@ -71,7 +71,7 @@ lw6sys_checksum (unsigned char *data, int len)
  * Return value: the checksum, as an integer.
  */
 u_int32_t
-lw6sys_checksum_str (char *value)
+lw6sys_checksum_str (const char *value)
 {
   u_int32_t ret = 0;
 
@@ -219,7 +219,7 @@ lw6sys_checksum_update (u_int32_t * checksum, unsigned char *data, int len)
  * Return value: none. 
  */
 void
-lw6sys_checksum_update_str (u_int32_t * checksum, char *value)
+lw6sys_checksum_update_str (u_int32_t * checksum, const char *value)
 {
   int len = 0;
 

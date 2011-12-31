@@ -1,3 +1,7 @@
+2011-12-31 : Christian Mauduit <ufoot@ufoot.org>
+
+	* Massive usage of const char * where suitable.
+
 2011-12-27 : Christian Mauduit <ufoot@ufoot.org>
 
 	* Added screenshot SMOB.

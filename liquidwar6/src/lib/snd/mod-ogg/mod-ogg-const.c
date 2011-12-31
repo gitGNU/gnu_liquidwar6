@@ -30,7 +30,8 @@
 #define CONST_FILE "ogg-const.xml"
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   _mod_ogg_const_data_t *const_data;
 

@@ -52,7 +52,6 @@ test_screenshot ()
     lw6map_level_t *level = NULL;
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
-    lw6sys_whd_t shape = { 0, 0, 0 };
     char *user_dir = NULL;
     lw6img_jpeg_t *jpeg = NULL;
     char *repr = NULL;

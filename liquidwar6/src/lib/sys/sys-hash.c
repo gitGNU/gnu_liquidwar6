@@ -155,7 +155,7 @@ lw6sys_hash_free (lw6sys_hash_t * hash)
  *   corresponding key. 
  */
 int
-lw6sys_hash_has_key (lw6sys_hash_t * hash, char *key)
+lw6sys_hash_has_key (lw6sys_hash_t * hash, const char *key)
 {
   int exists = 0;
   int index = 0;
@@ -186,7 +186,7 @@ lw6sys_hash_has_key (lw6sys_hash_t * hash, char *key)
  *   destroying the hash will actually free the data if needed.
  */
 void *
-lw6sys_hash_get (lw6sys_hash_t * hash, char *key)
+lw6sys_hash_get (lw6sys_hash_t * hash, const char *key)
 {
   void *value = NULL;
   int index = 0;
@@ -223,7 +223,7 @@ lw6sys_hash_get (lw6sys_hash_t * hash, char *key)
  * Return value: void
  */
 void
-lw6sys_hash_set (lw6sys_hash_t * hash, char *key, void *value)
+lw6sys_hash_set (lw6sys_hash_t * hash, const char *key, void *value)
 {
   int index = 0;
 
@@ -251,7 +251,7 @@ lw6sys_hash_set (lw6sys_hash_t * hash, char *key, void *value)
  * Return value: void
  */
 void
-lw6sys_hash_unset (lw6sys_hash_t * hash, char *key)
+lw6sys_hash_unset (lw6sys_hash_t * hash, const char *key)
 {
   int index = 0;
 

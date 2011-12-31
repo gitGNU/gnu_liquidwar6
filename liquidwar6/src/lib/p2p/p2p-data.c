@@ -35,7 +35,8 @@
 #define _SCREENSHOT_FILE "idle.jpg"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _lw6p2p_consts_t *consts;
 
@@ -65,7 +66,7 @@ _read_callback (void *callback_data, char *element, char *key, char *value)
 }
 
 static int
-_load_consts (_lw6p2p_consts_t * consts, char *consts_file)
+_load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -78,7 +79,8 @@ _load_consts (_lw6p2p_consts_t * consts, char *consts_file)
 }
 
 static int
-_read_query (lw6sys_hash_t * queries, char *sql_dir, char *query_file)
+_read_query (lw6sys_hash_t * queries, const char *sql_dir,
+	     const char *query_file)
 {
   int ret = 0;
   char *filename = NULL;
@@ -107,7 +109,7 @@ _read_query (lw6sys_hash_t * queries, char *sql_dir, char *query_file)
 }
 
 static void
-_check_query_not_null (void *func_data, char *key, void *value)
+_check_query_not_null (void *func_data, const char *key, void *value)
 {
   int *ret = (int *) func_data;
   char *query = (char *) value;
@@ -125,7 +127,7 @@ _check_query_not_null (void *func_data, char *key, void *value)
 }
 
 static int
-_load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
+_load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
 {
   int ret = 0;
 
@@ -160,7 +162,8 @@ _load_sql (_lw6p2p_sql_t * sql, char *sql_dir)
 }
 
 static int
-_load_screenshot (_lw6p2p_screenshot_t * screenshot, char *screenshot_file)
+_load_screenshot (_lw6p2p_screenshot_t * screenshot,
+		  const char *screenshot_file)
 {
   int ret = 0;
 
@@ -193,7 +196,7 @@ _load_screenshot (_lw6p2p_screenshot_t * screenshot, char *screenshot_file)
 }
 
 int
-_lw6p2p_data_load (_lw6p2p_data_t * data, char *data_dir)
+_lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
 {
   int ret = 0;
   char *p2p_subdir = NULL;

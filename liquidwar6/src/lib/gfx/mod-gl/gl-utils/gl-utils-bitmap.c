@@ -33,7 +33,7 @@ static u_int32_t seq_id = 0;
 
 static void
 _set_defaults (mod_gl_utils_context_t * utils_context,
-	       mod_gl_utils_bitmap_t * bitmap, char *desc)
+	       mod_gl_utils_bitmap_t * bitmap, const char *desc)
 {
   // some values not set, already at zero because of CALLOC
   bitmap->wrap = GL_REPEAT;
@@ -54,7 +54,7 @@ _set_defaults (mod_gl_utils_context_t * utils_context,
 }
 
 static int
-_has_alpha (char *filename)
+_has_alpha (const char *filename)
 {
   int ret = 0;
 
@@ -68,7 +68,8 @@ _has_alpha (char *filename)
 
 mod_gl_utils_bitmap_t *
 mod_gl_utils_bitmap_new (mod_gl_utils_context_t *
-			 utils_context, int width, int height, char *desc)
+			 utils_context, int width, int height,
+			 const char *desc)
 {
   mod_gl_utils_bitmap_t *ret = NULL;
 
@@ -103,7 +104,7 @@ mod_gl_utils_bitmap_new (mod_gl_utils_context_t *
 
 mod_gl_utils_bitmap_t *
 mod_gl_utils_bitmap_load (mod_gl_utils_context_t *
-			  utils_context, char *filename)
+			  utils_context, const char *filename)
 {
   mod_gl_utils_bitmap_t *ret = NULL;
   char *desc = NULL;
@@ -153,7 +154,7 @@ mod_gl_utils_bitmap_load (mod_gl_utils_context_t *
 mod_gl_utils_bitmap_t *
 mod_gl_utils_surface2bitmap (mod_gl_utils_context_t
 			     * utils_context, SDL_Surface * surface,
-			     char *desc)
+			     const char *desc)
 {
   mod_gl_utils_bitmap_t *ret = NULL;
 

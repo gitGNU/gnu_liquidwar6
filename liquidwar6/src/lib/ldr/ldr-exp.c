@@ -38,7 +38,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6ldr_exp_validate (lw6map_level_t * level, char *user_dir)
+lw6ldr_exp_validate (lw6map_level_t * level, const char *user_dir)
 {
   int player_exp = LW6MAP_RULES_MIN_EXP;
   int new_player_exp = LW6MAP_RULES_MIN_EXP;

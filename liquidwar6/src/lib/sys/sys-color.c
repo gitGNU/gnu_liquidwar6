@@ -103,7 +103,7 @@ lw6sys_color_char2float (u_int8_t i)
  * Return value: the color in 8-bit format.
  */
 lw6sys_color_8_t
-lw6sys_color_f_to_8 (lw6sys_color_f_t * color_f)
+lw6sys_color_f_to_8 (const lw6sys_color_f_t * color_f)
 {
   lw6sys_color_8_t ret;
 
@@ -149,7 +149,7 @@ lw6sys_color_8_to_f (lw6sys_color_f_t * color_f, lw6sys_color_8_t color_8)
  * Return value: the color serialized in an integer.
  */
 u_int32_t
-lw6sys_color_f_to_i (lw6sys_color_f_t * color_f)
+lw6sys_color_f_to_i (const lw6sys_color_f_t * color_f)
 {
   u_int32_t ret;
 
@@ -249,7 +249,7 @@ lw6sys_color_i_to_8 (u_int32_t color_i)
  * Return value: the converted color (structure).
  */
 lw6sys_color_8_t
-lw6sys_color_a_to_8 (char *ascii)
+lw6sys_color_a_to_8 (const char *ascii)
 {
   lw6sys_color_8_t ret;
 
@@ -330,7 +330,7 @@ lw6sys_color_a_to_8 (char *ascii)
  * Return value: none.
  */
 void
-lw6sys_color_a_to_f (lw6sys_color_f_t * color_f, char *ascii)
+lw6sys_color_a_to_f (lw6sys_color_f_t * color_f, const char *ascii)
 {
   lw6sys_color_8_t color_8;
 
@@ -465,7 +465,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t * color_hsv,
  * Return value: the RGB color.
  */
 lw6sys_color_8_t
-lw6sys_color_hsv_to_rgb (lw6sys_color_hsv_t * color_hsv)
+lw6sys_color_hsv_to_rgb (const lw6sys_color_hsv_t * color_hsv)
 {
   // inspired from Allegro src/color.c
   lw6sys_color_8_t color_8 = LW6SYS_COLOR_8_BLACK;
@@ -582,7 +582,7 @@ lw6sys_color_hsv_invert (lw6sys_color_hsv_t * color_hsv, int invert_h,
     }
 }
 
-/*
+/**
  * lw6sys_color_is_grey
  * 
  * @color: the color to test
@@ -615,7 +615,7 @@ lw6sys_color_is_grey (lw6sys_color_8_t color)
  * Return value: the (inexact) average color.
  */
 lw6sys_color_8_t
-lw6sys_color_average (int size, lw6sys_color_8_t * colors)
+lw6sys_color_average (int size, const lw6sys_color_8_t * colors)
 {
   int i;
   int64_t sum_r = 0;

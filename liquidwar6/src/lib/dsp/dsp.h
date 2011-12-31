@@ -73,7 +73,7 @@ typedef struct lw6dsp_backend_s
 
 /* dsp-display.c */
 extern lw6dsp_backend_t *lw6dsp_create_backend (int argc, const char *argv[],
-						char *gfx_backend_name);
+						const char *gfx_backend_name);
 extern void lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend);
 extern char *lw6dsp_repr (lw6dsp_backend_t * dsp_backend);
 extern int lw6dsp_init (lw6dsp_backend_t * dsp_backend,

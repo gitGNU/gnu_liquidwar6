@@ -137,7 +137,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
  *   corresponding key. 
  */
 int
-lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, char *key)
+lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, const char *key)
 {
   int exists = 0;
 
@@ -173,7 +173,7 @@ lw6sys_assoc_has_key (lw6sys_assoc_t * assoc, char *key)
  *   destroying the assoc will actually free the data if needed.
  */
 void *
-lw6sys_assoc_get (lw6sys_assoc_t * assoc, char *key)
+lw6sys_assoc_get (lw6sys_assoc_t * assoc, const char *key)
 {
   void *value = NULL;
 
@@ -215,7 +215,7 @@ lw6sys_assoc_get (lw6sys_assoc_t * assoc, char *key)
  * Return value: void
  */
 void
-lw6sys_assoc_set (lw6sys_assoc_t ** assoc, char *key, void *value)
+lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
 {
   int exists = 0;
 
@@ -269,7 +269,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, char *key, void *value)
  * Return value: void
  */
 void
-lw6sys_assoc_unset (lw6sys_assoc_t * assoc, char *key)
+lw6sys_assoc_unset (lw6sys_assoc_t * assoc, const char *key)
 {
   if (assoc)
     {
@@ -456,7 +456,7 @@ lw6sys_assoc_sort_and_map (lw6sys_assoc_t * assoc,
 }
 
 static void
-assoc_dup_callback (void *func_data, char *key, void *value)
+assoc_dup_callback (void *func_data, const char *key, void *value)
 {
   assoc_dup_callback_data_t *assoc_dup_callback_data =
     (assoc_dup_callback_data_t *) func_data;

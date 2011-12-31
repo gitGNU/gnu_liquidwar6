@@ -39,7 +39,8 @@
 #define IMAGE_BUBBLE "bubble.png"
 
 static void
-_read_callback (void *callback_data, char *element, char *key, char *value)
+_read_callback (void *callback_data, const char *element, const char *key,
+		const char *value)
 {
   _mod_gl_background_bubbles_const_data_t *const_data;
 

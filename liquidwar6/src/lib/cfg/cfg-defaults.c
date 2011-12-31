@@ -33,7 +33,7 @@ static void
 defaults_callback (void *func_data, void *data)
 {
   char *entry = NULL;
-  char *default_value = NULL;
+  const char *default_value = NULL;
 
   entry = (char *) data;
   if (entry)

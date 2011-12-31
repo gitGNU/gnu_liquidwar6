@@ -438,13 +438,13 @@ typedef struct mod_gl_utils_multiline_text_callback_data_s
 extern mod_gl_utils_bitmap_t *mod_gl_utils_bitmap_new (mod_gl_utils_context_t
 						       * utils_context,
 						       int width, int height,
-						       char *desc);
+						       const char *desc);
 extern mod_gl_utils_bitmap_t *mod_gl_utils_bitmap_load (mod_gl_utils_context_t
 							* utils_context,
-							char *filename);
+							const char *filename);
 extern mod_gl_utils_bitmap_t
   * mod_gl_utils_surface2bitmap (mod_gl_utils_context_t * utils_context,
-				 SDL_Surface * surface, char *desc);
+				 SDL_Surface * surface, const char *desc);
 extern void mod_gl_utils_bitmap_free (mod_gl_utils_context_t * utils_context,
 				      mod_gl_utils_bitmap_t * bitmap);
 extern int mod_gl_utils_bitmap_colorize (mod_gl_utils_context_t *
@@ -625,7 +625,8 @@ extern int mod_gl_utils_load_fonts (mod_gl_utils_context_t * context);
 extern void mod_gl_utils_unload_fonts (mod_gl_utils_context_t * context);
 
 extern SDL_Surface *mod_gl_utils_load_image (mod_gl_utils_context_t *
-					     utils_context, char *filename);
+					     utils_context,
+					     const char *filename);
 extern void mod_gl_utils_unload_image (mod_gl_utils_context_t * utils_context,
 				       SDL_Surface * image);
 extern int mod_gl_utils_load_fonts (mod_gl_utils_context_t * utils_context);
@@ -699,13 +700,14 @@ extern lw6gui_input_t *mod_gl_utils_pump_events (mod_gl_utils_context_t *
  * In font.c
  */
 extern int mod_gl_utils_get_system_text_width (mod_gl_utils_context_t *
-					       utils_context, char *text);
+					       utils_context,
+					       const char *text);
 extern int mod_gl_utils_get_system_text_height (mod_gl_utils_context_t *
-						utils_context, char *text);
+						utils_context,
+						const char *text);
 extern mod_gl_utils_bitmap_t
-  * mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
-				       utils_context, TTF_Font * font,
-				       char *text,
+  * mod_gl_utils_multiline_text_write (mod_gl_utils_context_t * utils_context,
+				       TTF_Font * font, const char *text,
 				       lw6map_color_couple_t * color,
 				       float alpha_bg, int max_width,
 				       int max_height, int border_size,
@@ -714,11 +716,11 @@ extern SDL_Surface *mod_gl_utils_blended_text_surface (mod_gl_utils_context_t
 						       * context,
 						       TTF_Font * font,
 						       SDL_Color color,
-						       char *text);
+						       const char *text);
 extern void mod_gl_utils_draw_system_text (mod_gl_utils_context_t *
 					   utils_context,
-					   lw6gui_look_t * look, char *text,
-					   int x, int y);
+					   lw6gui_look_t * look,
+					   const char *text, int x, int y);
 extern void mod_gl_utils_draw_system_text_top_left (mod_gl_utils_context_t *
 						    utils_context,
 						    lw6gui_look_t * look,
@@ -787,7 +789,7 @@ extern void mod_gl_utils_display_mps (mod_gl_utils_context_t * utils_context,
 				      lw6gui_look_t * look, float mps,
 				      int target_mps);
 extern void mod_gl_utils_display_url (mod_gl_utils_context_t * utils_context,
-				      lw6gui_look_t * look, char *url);
+				      lw6gui_look_t * look, const char *url);
 
 /*
  * In joystick.c
@@ -911,12 +913,12 @@ extern void mod_gl_utils_find_closest_resolution (mod_gl_utils_context_t *
  */
 extern mod_gl_utils_shaded_text_t
   * mod_gl_utils_shaded_text_new (mod_gl_utils_context_t * utils_context,
-				  TTF_Font * font, char *text,
+				  TTF_Font * font, const char *text,
 				  lw6map_color_couple_t * color);
 extern int mod_gl_utils_shaded_text_update (mod_gl_utils_context_t *
 					    utils_context,
 					    mod_gl_utils_shaded_text_t *
-					    shaded_text, char *text,
+					    shaded_text, const char *text,
 					    lw6map_color_couple_t * color);
 extern int mod_gl_utils_shaded_text_display (mod_gl_utils_context_t *
 					     utils_context,

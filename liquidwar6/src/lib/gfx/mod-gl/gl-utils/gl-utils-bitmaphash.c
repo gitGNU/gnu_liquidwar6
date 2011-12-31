@@ -146,7 +146,7 @@ mod_gl_utils_bitmap_hash_unregister (mod_gl_utils_context_t * utils_context,
 }
 
 static void
-_refresh_callback (void *func_data, char *key, void *value)
+_refresh_callback (void *func_data, const char *key, void *value)
 {
   mod_gl_utils_context_t *utils_context =
     (mod_gl_utils_context_t *) func_data;
@@ -170,7 +170,7 @@ mod_gl_utils_bitmap_hash_refresh (mod_gl_utils_context_t * utils_context)
 }
 
 static void
-_dump2disk_callback (void *func_data, char *key, void *value)
+_dump2disk_callback (void *func_data, const char *key, void *value)
 {
   mod_gl_utils_context_t *utils_context =
     (mod_gl_utils_context_t *) func_data;

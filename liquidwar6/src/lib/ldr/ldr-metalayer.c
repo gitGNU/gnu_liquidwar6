@@ -97,8 +97,9 @@ read_png (lw6map_meta_layer_t * meta_layer, _lw6ldr_image_bw_t * image,
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, char *filename,
-			int target_w, int target_h, int analog)
+lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer,
+			const char *filename, int target_w, int target_h,
+			int analog)
 {
   int ret = 0;
   lw6ldr_resampler_t resampler;
@@ -142,7 +143,7 @@ lw6ldr_meta_layer_read (lw6map_meta_layer_t * meta_layer, char *filename,
  */
 int
 lw6ldr_meta_layer_read_if_exists (lw6map_meta_layer_t * meta_layer,
-				  char *dirname, char *file_only,
+				  const char *dirname, const char *file_only,
 				  int target_w, int target_h, int analog)
 {
   int ret = 0;

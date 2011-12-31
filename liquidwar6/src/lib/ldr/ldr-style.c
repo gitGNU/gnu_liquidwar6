@@ -35,7 +35,8 @@ typedef struct style_update_data_s
 style_update_data_t;
 
 static void
-read_callback (void *callback_data, char *element, char *key, char *value)
+read_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   lw6map_style_t *style_data;
 
@@ -57,7 +58,7 @@ read_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 if success, 0 if failed.
  */
 int
-lw6ldr_style_read (lw6map_style_t * style, char *dirname)
+lw6ldr_style_read (lw6map_style_t * style, const char *dirname)
 {
   int ret = 0;
   char *buf = NULL;
@@ -106,10 +107,10 @@ lw6ldr_style_read (lw6map_style_t * style, char *dirname)
  * needs to be worked on.
  */
 int
-lw6ldr_style_set (lw6map_style_t * style, char *key, char *value)
+lw6ldr_style_set (lw6map_style_t * style, const char *key, const char *value)
 {
   int ret = 0;
-  char *about = NULL;
+  const char *about = NULL;
   char *element = NULL;
   lw6hlp_type_t type = LW6HLP_TYPE_VOID;
 

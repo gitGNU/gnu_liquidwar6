@@ -43,7 +43,7 @@
  * input, but reformatted the pedantic way.
  */
 char *
-lw6cfg_format (char *key, char *value, lw6hlp_type_t type)
+lw6cfg_format (const char *key, const char *value, lw6hlp_type_t type)
 {
   char *ret = NULL;
 
@@ -88,7 +88,7 @@ lw6cfg_format (char *key, char *value, lw6hlp_type_t type)
  * input, but reformatted the pedantic way.
  */
 char *
-lw6cfg_format_guess_type (char *key, char *value)
+lw6cfg_format_guess_type (const char *key, const char *value)
 {
   char *ret = NULL;
   lw6hlp_type_t type;

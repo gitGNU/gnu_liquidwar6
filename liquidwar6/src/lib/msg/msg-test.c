@@ -1105,7 +1105,7 @@ test_ticket ()
 }
 
 static void
-_key_value_assoc_callback (void *func_data, char *key, void *value)
+_key_value_assoc_callback (void *func_data, const char *key, void *value)
 {
   char *value_str = (char *) value;
   int *count = (int *) func_data;

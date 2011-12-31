@@ -107,7 +107,7 @@ lw6map_param_copy (lw6map_param_t * dst, lw6map_param_t * src)
  * Return value: 1 if parameter successfully set, 0 on error.
  */
 int
-lw6map_param_set (lw6map_param_t * param, char *key, char *value)
+lw6map_param_set (lw6map_param_t * param, const char *key, const char *value)
 {
   int ret = 0;
 
@@ -143,7 +143,7 @@ lw6map_param_set (lw6map_param_t * param, char *key, char *value)
  *   might return a string containing 0 on bad keys.
  */
 char *
-lw6map_param_get (lw6map_param_t * param, char *key)
+lw6map_param_get (lw6map_param_t * param, const char *key)
 {
   char *ret = NULL;
 

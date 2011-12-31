@@ -44,7 +44,7 @@ typedef struct _exp_s
 } _exp_t;
 
 static char *
-_get_filename (char *user_dir)
+_get_filename (const char *user_dir)
 {
   return lw6sys_path_concat (user_dir, _EXP_FILE);
 }
@@ -74,7 +74,8 @@ _calc_checksum (int exp)
 }
 
 static void
-load_callback (void *callback_data, char *element, char *key, char *value)
+load_callback (void *callback_data, const char *element, const char *key,
+	       const char *value)
 {
   _exp_t *exp = (_exp_t *) callback_data;
 
@@ -105,7 +106,7 @@ load_callback (void *callback_data, char *element, char *key, char *value)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_load_exp (char *user_dir, int *exp)
+lw6cfg_load_exp (const char *user_dir, int *exp)
 {
   int ret = 0;
   char *filename = NULL;
@@ -161,7 +162,7 @@ lw6cfg_load_exp (char *user_dir, int *exp)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cfg_save_exp (char *user_dir, int exp)
+lw6cfg_save_exp (const char *user_dir, int exp)
 {
   int ret = 0;
   FILE *f;
