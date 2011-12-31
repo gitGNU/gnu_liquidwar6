@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 0.0.14beta\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-30 15:31+0100\n"
+"POT-Creation-Date: 2011-12-31 14:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1527,7 +1527,7 @@ msgid "Sound backend"
 msgstr ""
 
 #: src/scriptpo.c:238
-msgid "This is a test node."
+msgid "Dummy test node"
 msgstr ""
 
 #: src/scriptpo.c:239

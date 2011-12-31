@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2011-12-30 15:31+0100\n"
+"POT-Creation-Date: 2011-12-31 14:53+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -1559,8 +1559,9 @@ msgid "Sound backend"
 msgstr "Lydmotor"
 
 #: src/scriptpo.c:238
-msgid "This is a test node."
-msgstr "Dette er ein testnode."
+#, fuzzy
+msgid "Dummy test node"
+msgstr "testar node"
 
 #: src/scriptpo.c:239
 msgid "testing map"
@@ -1601,6 +1602,9 @@ msgstr "testar database"
 #: src/scriptpo.c:248
 msgid "testing node"
 msgstr "testar node"
+
+#~ msgid "This is a test node."
+#~ msgstr "Dette er ein testnode."
 
 #~ msgid "approx. %d megabytes available"
 #~ msgstr "om lag %d megabyte tilgjengeleg"

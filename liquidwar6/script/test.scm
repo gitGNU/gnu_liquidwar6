@@ -164,7 +164,7 @@
 					       (cons "public-url" "http://localhost/")
 					       (cons "password" "")
 					       (cons "title" "")
-					       (cons "description" (_ "This is a test node."))
+					       (cons "description" (_ "Dummy test node"))
 					       (cons "bench" 10)
 					       (cons "open-relay" #f)
 					       (cons "known-nodes" "http://ufoot.org:8056/")

@@ -38,6 +38,7 @@ to_0str (SCM string)
 {
   char *c_string = NULL;
   int length = 0;
+  int c_length = 0;
 
   if (SCM_NFALSEP (string))
     {
@@ -49,15 +50,20 @@ to_0str (SCM string)
       length = scm_c_string_length (string);
     }
 
-  c_string = (char *) LW6SYS_MALLOC ((length + 2) * sizeof (char));
+  /*
+   * We use a double size + 3 extra bytes to make double-triple
+   * sure it's zero terminated, you never know, if it's interpreted
+   * in UTF-16, who knows, I just don't want to take any risk,
+   * string handling is awfull enough...
+   */
+  c_length = length * 2 * sizeof (char);
+  c_string = (char *) LW6SYS_CALLOC (c_length + 3);
   if (c_string)
     {
       if (length > 0)
 	{
-	  memcpy ((void *) c_string, (void *) scm_i_string_chars (string),
-		  length * sizeof (char));
+	  scm_to_locale_stringbuf (string, c_string, c_length);
 	}
-      c_string[length] = c_string[length + 1] = '\0';
     }
   else
     {

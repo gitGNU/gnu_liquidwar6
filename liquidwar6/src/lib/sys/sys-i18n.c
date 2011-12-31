@@ -70,15 +70,13 @@ lw6sys_locale_to_utf8 (const char *string)
       codeset = "ISO-8859-1";
     }
 
-  /*
-   * Note: we could also test here if we are already
-   * in UTF-8 mode to avoid translating from UTF-8 to UTF-8,
-   * not sure it would make a big difference anyway.
-   */
   if (codeset)
     {
       if (lw6sys_str_is_same (codeset, _UTF8))
 	{
+	  /*
+	   * Note: we are in UTF-8 already, no need to change again...
+	   */
 	  utf8 = lw6sys_str_copy (string);
 	}
       else
@@ -113,15 +111,29 @@ lw6sys_locale_to_utf8 (const char *string)
 		  if (iconv (cd, &iptr, &ileft, &optr, &oleft) ==
 		      (size_t) - 1)
 		    {
+		      /* 
+		       * The message below is not translated, not
+		       * even _x_-ed because well, we certainly
+		       * do not want this function to be called
+		       * recursively in case of problem. If transation
+		       * is not working, it makes to translate
+		       * anyway...
+		       */
 		      lw6sys_log (LW6SYS_LOG_WARNING,
-				  _x_ ("iconv error \"%s\""), string);
+				  "iconv error \"%s\"", string);
+		      LW6SYS_FREE (utf8);
+		      utf8 = NULL;	// important to be sure it's handled later
 		    }
 		}
 	      iconv_close (cd);
 	    }
 	  else
 	    {
-	      lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("unable to open iconv"));
+	      /*
+	       * Message not translated, iconv doesn't work anyway
+	       * if we're here
+	       */
+	      lw6sys_log (LW6SYS_LOG_WARNING, "unable to open iconv");
 	    }
 	}
     }
@@ -133,8 +145,11 @@ lw6sys_locale_to_utf8 (const char *string)
 
   if (utf8 == NULL)
     {
-      lw6sys_log (LW6SYS_LOG_WARNING,
-		  _x_ ("unable to translate string to utf8"));
+      /*
+       * Message not translated, iconv doesn't work anyway
+       * if we're here
+       */
+      lw6sys_log (LW6SYS_LOG_WARNING, "unable to translate string to utf8");
     }
 
   return utf8;
