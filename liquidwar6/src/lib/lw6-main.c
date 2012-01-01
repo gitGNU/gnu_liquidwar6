@@ -83,7 +83,7 @@ static void
 _run (void *data)
 {
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
-  scm_with_guile (guile_main, NULL);
+  scm_with_guile (guile_main, data);
 }
 
 static void
