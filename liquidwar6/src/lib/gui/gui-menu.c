@@ -985,7 +985,8 @@ lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label,
  * Return value: 1 if they are the same, 0 if not
  */
 int
-lw6gui_menu_is_same (lw6gui_menu_t * menu_a, lw6gui_menu_t * menu_b)
+lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
+		     const lw6gui_menu_t * menu_b)
 {
   int ret = 1;
   int i;

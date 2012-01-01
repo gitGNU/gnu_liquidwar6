@@ -28,9 +28,23 @@
 
 #include "map.h"
 
+/**
+ * lw6map_coords_fix_xy
+ * @rules: set of rules to use
+ * @shape: shape of the map
+ * @x: x coord (in/out param)
+ * @y: y coord (in/out param)
+ *
+ * Fixes the x and y values so that it's always inside the map. This
+ * function will read the rules and if there's some polarity enable,
+ * will do the right thing, for instance, a fighter too much on the
+ * right might reapper on the left side of the map.
+ *
+ * Return value: none.
+ */
 void
-lw6map_coords_fix_xy (lw6map_rules_t * rules, lw6sys_whd_t * shape, int *x,
-		      int *y)
+lw6map_coords_fix_xy (const lw6map_rules_t * rules,
+		      const lw6sys_whd_t * shape, int *x, int *y)
 {
   if ((*x) < 0 || (*y) < 0 || (*x) >= shape->w || (*y) >= shape->h)
     {
@@ -115,8 +129,22 @@ lw6map_coords_fix_xy (lw6map_rules_t * rules, lw6sys_whd_t * shape, int *x,
     }
 }
 
+/**
+ * lw6map_coords_fix_z
+ * @rules: set of rules to use
+ * @shape: shape of the map
+ * @z: z coord (in/out param)
+ *
+ * Fixes the z value so that it's always inside the map. This
+ * function will read the rules and if there's some polarity enable,
+ * will do the right thing, for instance, a fighter too low it
+ * might reapper on top.
+ *
+ * Return value: none.
+ */
 void
-lw6map_coords_fix_z (lw6map_rules_t * rules, lw6sys_whd_t * shape, int *z)
+lw6map_coords_fix_z (const lw6map_rules_t * rules, const lw6sys_whd_t * shape,
+		     int *z)
 {
 
   if ((*z) < 0 || (*z) >= shape->d)

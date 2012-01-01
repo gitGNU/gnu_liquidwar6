@@ -901,8 +901,8 @@ lw6map_style_get_default (const char *key)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_color_set_is_same (lw6map_color_set_t * color_set_a,
-			  lw6map_color_set_t * color_set_b)
+lw6map_color_set_is_same (const lw6map_color_set_t * color_set_a,
+			  const lw6map_color_set_t * color_set_b)
 {
   int ret = 0;
 
@@ -923,7 +923,8 @@ lw6map_color_set_is_same (lw6map_color_set_t * color_set_a,
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_style_is_same (lw6map_style_t * style_a, lw6map_style_t * style_b)
+lw6map_style_is_same (const lw6map_style_t * style_a,
+		      const lw6map_style_t * style_b)
 {
   int ret = 1;
 

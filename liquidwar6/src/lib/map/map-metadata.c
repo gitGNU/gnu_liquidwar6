@@ -110,8 +110,8 @@ lw6map_metadata_clear (lw6map_metadata_t * metadata)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_metadata_is_same (lw6map_metadata_t * metadata_a,
-			 lw6map_metadata_t * metadata_b)
+lw6map_metadata_is_same (const lw6map_metadata_t * metadata_a,
+			 const lw6map_metadata_t * metadata_b)
 {
   int ret = 1;
 

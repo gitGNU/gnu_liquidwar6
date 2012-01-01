@@ -560,7 +560,8 @@ lw6map_teams_get_default (const char *key)
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_teams_is_same (lw6map_teams_t * teams_a, lw6map_teams_t * teams_b)
+lw6map_teams_is_same (const lw6map_teams_t * teams_a,
+		      const lw6map_teams_t * teams_b)
 {
   int ret = 1;
   int i;

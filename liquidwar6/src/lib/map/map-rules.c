@@ -687,7 +687,7 @@ lw6map_rules_defaults (lw6map_rules_t * rules)
  * Return value: none.
  */
 void
-lw6map_rules_copy (lw6map_rules_t * dst, lw6map_rules_t * src)
+lw6map_rules_copy (lw6map_rules_t * dst, const lw6map_rules_t * src)
 {
   /*
    * Note that in this context, we'd better not use strings
@@ -707,7 +707,8 @@ lw6map_rules_copy (lw6map_rules_t * dst, lw6map_rules_t * src)
  * Return value: none.
  */
 void
-lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
+lw6map_rules_update_checksum (const lw6map_rules_t * rules,
+			      u_int32_t * checksum)
 {
   int i = 0;
 
@@ -806,10 +807,10 @@ lw6map_rules_update_checksum (lw6map_rules_t * rules, u_int32_t * checksum)
   lw6sys_checksum_update_int32 (checksum, rules->weapon_tune_turbo_power);
 }
 
-static int32_t *
-get_rules_int_ptr (lw6map_rules_t * rules, const char *key)
+static const int32_t *
+get_rules_int_ptr (const lw6map_rules_t * rules, const char *key)
 {
-  int32_t *ret = NULL;
+  const int32_t *ret = NULL;
   char *formatted_key = NULL;
 
   if (rules && key)
@@ -1546,7 +1547,7 @@ get_rules_int_ptr (lw6map_rules_t * rules, const char *key)
 int32_t
 lw6map_rules_get_default (const char *key)
 {
-  int32_t *ptr;
+  const int32_t *ptr;
   int32_t ret = 0;
 
   ptr = get_rules_int_ptr (&default_rules, key);
@@ -1573,7 +1574,7 @@ lw6map_rules_get_default (const char *key)
 int32_t
 lw6map_rules_get_min (const char *key)
 {
-  int32_t *ptr;
+  const int32_t *ptr;
   int32_t ret = 0;
 
   ptr = get_rules_int_ptr (&min_rules, key);
@@ -1600,7 +1601,7 @@ lw6map_rules_get_min (const char *key)
 int32_t
 lw6map_rules_get_max (const char *key)
 {
-  int32_t *ptr;
+  const int32_t *ptr;
   int32_t ret = 0;
 
   ptr = get_rules_int_ptr (&max_rules, key);
@@ -1626,10 +1627,10 @@ lw6map_rules_get_max (const char *key)
  * Return value: integer.
  */
 int32_t
-lw6map_rules_get_int (lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_int (const lw6map_rules_t * rules, const char *key)
 {
   int32_t ret = 0;
-  int32_t *ptr;
+  const int32_t *ptr;
   int32_t min_value;
   int32_t max_value;
 
@@ -1685,7 +1686,11 @@ lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
   int32_t max_value;
   int ret = 0;
 
-  ptr = get_rules_int_ptr (rules, key);
+  /*
+   * We cast const to not const, actually in that case it's OK,
+   * the rules we used are really supposed to be writeable.
+   */
+  ptr = (int32_t *) get_rules_int_ptr (rules, key);
   if (ptr)
     {
       min_value = lw6map_rules_get_min (key);
@@ -1730,7 +1735,7 @@ lw6map_rules_set_int (lw6map_rules_t * rules, const char *key, int32_t value)
  * Return value: boolean.
  */
 int
-lw6map_rules_get_bool (lw6map_rules_t * rules, const char *key)
+lw6map_rules_get_bool (const lw6map_rules_t * rules, const char *key)
 {
   return lw6map_rules_get_int (rules, key) ? 1 : 0;
 }
@@ -1785,7 +1790,8 @@ lw6map_rules_clear (lw6map_rules_t * rules)
  * Return value: 1 if same, 0 if different.
  */
 int
-lw6map_rules_is_same (lw6map_rules_t * rules_a, lw6map_rules_t * rules_b)
+lw6map_rules_is_same (const lw6map_rules_t * rules_a,
+		      const lw6map_rules_t * rules_b)
 {
   int ret = 1;
 

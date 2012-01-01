@@ -798,7 +798,7 @@ automatically synchronize the @code{selected_item} field of the menu struct.
 @strong{Return value:}  1 if success, 0 if failure (out of range).
 @end deftypefun
 
-@deftypefun {int} {lw6gui_menu_is_same} (lw6gui_menu_t * @var{menu_a}, lw6gui_menu_t * @var{menu_b})
+@deftypefun {int} {lw6gui_menu_is_same} (const lw6gui_menu_t * @var{menu_a}, const lw6gui_menu_t * @var{menu_b})
 @var{menu_a}:  first item to compare
 
 @var{menu_b}:  second item to compare
@@ -975,7 +975,7 @@ redraw it.
 @strong{Return value:}  a checksum.
 @end deftypefun
 
-@deftypefun {int} {lw6gui_menuitem_is_same} (lw6gui_menuitem_t * @var{menuitem_a}, lw6gui_menuitem_t * @var{menuitem_b})
+@deftypefun {int} {lw6gui_menuitem_is_same} (const lw6gui_menuitem_t * @var{menuitem_a}, const lw6gui_menuitem_t * @var{menuitem_b})
 @var{menuitem_a}:  first item to compare
 
 @var{menuitem_b}:  second item to compare
@@ -1264,7 +1264,7 @@ and was found, else 0 if the wished video_mode doesn't exist and
 an approximative match was picked.
 @end deftypefun
 
-@deftypefun {int} {lw6gui_video_mode_is_same} (lw6gui_video_mode_t * @var{mode_a}, lw6gui_video_mode_t * @var{mode_b})
+@deftypefun {int} {lw6gui_video_mode_is_same} (const lw6gui_video_mode_t * @var{mode_a}, const lw6gui_video_mode_t * @var{mode_b})
 @var{mode_a}:  first mode to compare
 
 @var{mode_b}:  second mode to compare

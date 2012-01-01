@@ -2251,8 +2251,8 @@ results on
 ----------
 
  -- Function: void lw6map_body_builtin_custom (lw6map_body_t * BODY,
-          int W, int H, int D, int NOISE_PERCENT, lw6map_rules_t *
-          RULES)
+          int W, int H, int D, int NOISE_PERCENT, const lw6map_rules_t
+          * RULES)
      BODY:  the body to initialize
 
      W:  the width
@@ -2284,7 +2284,7 @@ results on
      *Return value:*  none.
 
  -- Function: int lw6map_body_check_and_fix_holes (lw6map_body_t *
-          BODY, lw6map_rules_t * RULES)
+          BODY, const lw6map_rules_t * RULES)
      BODY:  the structure to update
 
      RULES:  the game rules
@@ -2334,8 +2334,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6map_color_is_same (lw6map_color_couple_t * COLOR1,
-          lw6map_color_couple_t * COLOR2)
+ -- Function: int lw6map_color_is_same (const lw6map_color_couple_t *
+          COLOR1, const lw6map_color_couple_t * COLOR2)
      COLOR1:  1st color to compare
 
      COLOR2:  2nd color to compare
@@ -2366,6 +2366,38 @@ results on
      can be used to display information to players.
 
      *Return value:*  a string, must *not* be freed.
+
+ -- Function: void lw6map_coords_fix_xy (const lw6map_rules_t * RULES,
+          const lw6sys_whd_t * SHAPE, int * X, int * Y)
+     RULES:  set of rules to use
+
+     SHAPE:  shape of the map
+
+     X:  x coord (in/out param)
+
+     Y:  y coord (in/out param)
+
+     Fixes the x and y values so that it's always inside the map. This
+     function will read the rules and if there's some polarity enable,
+     will do the right thing, for instance, a fighter too much on the
+     right might reapper on the left side of the map.
+
+     *Return value:*  none.
+
+ -- Function: void lw6map_coords_fix_z (const lw6map_rules_t * RULES,
+          const lw6sys_whd_t * SHAPE, int * Z)
+     RULES:  set of rules to use
+
+     SHAPE:  shape of the map
+
+     Z:  z coord (in/out param)
+
+     Fixes the z value so that it's always inside the map. This
+     function will read the rules and if there's some polarity enable,
+     will do the right thing, for instance, a fighter too low it might
+     reapper on top.
+
+     *Return value:*  none.
 
  -- Function: void lw6map_cursor_texture_clear (lw6map_cursor_texture_t
           * CURSOR_TEXTURE)
@@ -2438,8 +2470,8 @@ results on
 
      *Return value:*  a weapon id
 
- -- Function: int lw6map_exp_is_team_color_allowed (lw6map_rules_t *
-          RULES, int TEAM_COLOR_ID)
+ -- Function: int lw6map_exp_is_team_color_allowed (const
+          lw6map_rules_t * RULES, int TEAM_COLOR_ID)
      RULES:  set of rules to use
 
      TEAM_COLOR_ID:  color id to test
@@ -2448,8 +2480,8 @@ results on
 
      *Return value:*  1 if allowed, 0 if not.
 
- -- Function: int lw6map_exp_is_weapon_allowed (lw6map_rules_t * RULES,
-          int WEAPON_ID)
+ -- Function: int lw6map_exp_is_weapon_allowed (const lw6map_rules_t *
+          RULES, int WEAPON_ID)
      RULES:  set of rules to use
 
      WEAPON_ID:  weapon id to test
@@ -2559,7 +2591,7 @@ results on
 
      *Return value:*  a dynamically allocated string.
 
- -- Function: int lw6map_is_same (lw6map_level_t * LEVEL_A,
+ -- Function: int lw6map_is_same (const lw6map_level_t * LEVEL_A, const
           lw6map_level_t * LEVEL_B)
      LEVEL_A:  the first level to compare
 
@@ -2608,8 +2640,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6map_metadata_is_same (lw6map_metadata_t *
-          METADATA_A, lw6map_metadata_t * METADATA_B)
+ -- Function: int lw6map_metadata_is_same (const lw6map_metadata_t *
+          METADATA_A, const lw6map_metadata_t * METADATA_B)
      METADATA_A:  first item to compare
 
      METADATA_B:  second item to compare
@@ -2730,8 +2762,8 @@ results on
      *Return value:*  dynamically allocated string, NULL on error,
      might return a string containing 0 on bad keys.
 
- -- Function: int lw6map_param_is_same (lw6map_param_t * PARAM_A,
-          lw6map_param_t * PARAM_B)
+ -- Function: int lw6map_param_is_same (const lw6map_param_t * PARAM_A,
+          const lw6map_param_t * PARAM_B)
      PARAM_A:  one struct to compare
 
      PARAM_B:  another struct to compare
@@ -2748,7 +2780,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6map_rules_copy (lw6map_rules_t * DST,
+ -- Function: void lw6map_rules_copy (lw6map_rules_t * DST, const
           lw6map_rules_t * SRC)
      DST:  destination (out param)
 
@@ -2759,7 +2791,7 @@ results on
 
      *Return value:*  none.
 
- -- Function: void lw6map_rules_update_checksum (lw6map_rules_t *
+ -- Function: void lw6map_rules_update_checksum (const lw6map_rules_t *
           RULES, u_int32_t * CHECKSUM)
      RULES:  rules struct to check
 
@@ -2796,8 +2828,8 @@ results on
 
      *Return value:*  integer.
 
- -- Function: int32_t lw6map_rules_get_int (lw6map_rules_t * RULES,
-          const char * KEY)
+ -- Function: int32_t lw6map_rules_get_int (const lw6map_rules_t *
+          RULES, const char * KEY)
      RULES:  struct to use
 
      KEY:  key to query
@@ -2822,8 +2854,8 @@ results on
 
      *Return value:*  1 on success, 0 on failure (eg key not found)
 
- -- Function: int lw6map_rules_get_bool (lw6map_rules_t * RULES, const
-          char * KEY)
+ -- Function: int lw6map_rules_get_bool (const lw6map_rules_t * RULES,
+          const char * KEY)
      RULES:  struct to use
 
      KEY:  key to query
@@ -2856,8 +2888,8 @@ results on
 
      *Return value:*  none.
 
- -- Function: int lw6map_rules_is_same (lw6map_rules_t * RULES_A,
-          lw6map_rules_t * RULES_B)
+ -- Function: int lw6map_rules_is_same (const lw6map_rules_t * RULES_A,
+          const lw6map_rules_t * RULES_B)
      RULES_A:  first item to compare
 
      RULES_B:  second item to compare
@@ -2939,8 +2971,8 @@ results on
 
      *Return value:*  dynamically allocated string.
 
- -- Function: int lw6map_color_set_is_same (lw6map_color_set_t *
-          COLOR_SET_A, lw6map_color_set_t * COLOR_SET_B)
+ -- Function: int lw6map_color_set_is_same (const lw6map_color_set_t *
+          COLOR_SET_A, const lw6map_color_set_t * COLOR_SET_B)
      COLOR_SET_A:  first item to compare
 
      COLOR_SET_B:  second item to compare
@@ -2949,8 +2981,8 @@ results on
 
      *Return value:*  1 if same, 0 if different.
 
- -- Function: int lw6map_style_is_same (lw6map_style_t * STYLE_A,
-          lw6map_style_t * STYLE_B)
+ -- Function: int lw6map_style_is_same (const lw6map_style_t * STYLE_A,
+          const lw6map_style_t * STYLE_B)
      STYLE_A:  first item to compare
 
      STYLE_B:  second item to compare
@@ -3030,8 +3062,8 @@ results on
 
      *Return value:*  dynamically allocated string, NULL on error.
 
- -- Function: int lw6map_teams_is_same (lw6map_teams_t * TEAMS_A,
-          lw6map_teams_t * TEAMS_B)
+ -- Function: int lw6map_teams_is_same (const lw6map_teams_t * TEAMS_A,
+          const lw6map_teams_t * TEAMS_B)
      TEAMS_A:  one struct to compare
 
      TEAMS_B:  another struct to compare

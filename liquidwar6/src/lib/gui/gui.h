@@ -440,8 +440,8 @@ extern int lw6gui_look_memory_footprint (lw6gui_look_t * look);
 extern char *lw6gui_look_repr (lw6gui_look_t * look);
 extern int lw6gui_look_set (lw6gui_look_t * look, char *key, char *value);
 extern char *lw6gui_look_get (lw6gui_look_t * look, char *key);
-extern int lw6gui_look_is_same (lw6gui_look_t * look_a,
-				lw6gui_look_t * look_b);
+extern int lw6gui_look_is_same (const lw6gui_look_t * look_a,
+				const lw6gui_look_t * look_b);
 extern lw6gui_look_t *lw6gui_look_dup (lw6gui_look_t * look);
 extern void lw6gui_look_fix (lw6gui_look_t * look);
 extern int lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step);
@@ -467,8 +467,8 @@ extern void lw6gui_menuitem_enable (lw6gui_menuitem_t * menuitem, int state,
 				    int64_t now);
 extern u_int32_t lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem,
 					   lw6gui_look_t * look);
-extern int lw6gui_menuitem_is_same (lw6gui_menuitem_t * menuitem_a,
-				    lw6gui_menuitem_t * menuitem_b);
+extern int lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a,
+				    const lw6gui_menuitem_t * menuitem_b);
 extern lw6gui_menuitem_t *lw6gui_menuitem_dup (lw6gui_menuitem_t * menuitem);
 extern int lw6gui_menuitem_sync (lw6gui_menuitem_t * dst,
 				 lw6gui_menuitem_t * src);
@@ -522,8 +522,8 @@ extern void lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id,
 				       char *label, char *tooltip, int value,
 				       int enabled, int selected, int colored,
 				       int64_t now);
-extern int lw6gui_menu_is_same (lw6gui_menu_t * menu_a,
-				lw6gui_menu_t * menu_b);
+extern int lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
+				const lw6gui_menu_t * menu_b);
 extern lw6gui_menu_t *lw6gui_menu_dup (lw6gui_menu_t * menu);
 extern int lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src);
 
@@ -608,8 +608,8 @@ extern int lw6gui_triangle_is_inside_rect (lw6gui_triangle_t * triangle,
 extern int lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
 					   lw6gui_video_mode_t * wished,
 					   lw6sys_list_t * available);
-extern int lw6gui_video_mode_is_same (lw6gui_video_mode_t * mode_a,
-				      lw6gui_video_mode_t * mode_b);
+extern int lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
+				      const lw6gui_video_mode_t * mode_b);
 extern int lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst,
 					 lw6gui_video_mode_t * src);
 

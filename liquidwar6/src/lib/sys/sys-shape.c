@@ -84,7 +84,8 @@ lw6sys_shape_check_pos (lw6sys_whd_t * shape, lw6sys_xyz_t * pos)
  * Return value: 1 if same, 0 if not.
  */
 int
-lw6sys_shape_is_same (lw6sys_whd_t * shape_a, lw6sys_whd_t * shape_b)
+lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
+		      const lw6sys_whd_t * shape_b)
 {
   int ret = 0;
 
@@ -105,7 +106,8 @@ lw6sys_shape_is_same (lw6sys_whd_t * shape_a, lw6sys_whd_t * shape_b)
  * Return value: 1 if same_xy, 0 if not.
  */
 int
-lw6sys_shape_is_same_xy (lw6sys_whd_t * shape_a, lw6sys_whd_t * shape_b)
+lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
+			 const lw6sys_whd_t * shape_b)
 {
   int ret = 0;
 

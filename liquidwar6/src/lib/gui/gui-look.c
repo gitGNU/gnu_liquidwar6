@@ -190,7 +190,8 @@ lw6gui_look_get (lw6gui_look_t * look, char *key)
 }
 
 int
-lw6gui_look_is_same (lw6gui_look_t * look_a, lw6gui_look_t * look_b)
+lw6gui_look_is_same (const lw6gui_look_t * look_a,
+		     const lw6gui_look_t * look_b)
 {
   int ret = 1;
 

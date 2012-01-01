@@ -563,8 +563,8 @@ extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_color_8_t color1,
 						float coeff);
 extern float lw6sys_color_distance (lw6sys_color_8_t color1,
 				    lw6sys_color_8_t color2);
-extern int lw6sys_color_is_same (lw6sys_color_8_t color1,
-				 lw6sys_color_8_t color2);
+extern int lw6sys_color_is_same (const lw6sys_color_8_t color1,
+				 const lw6sys_color_8_t color2);
 extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
@@ -921,10 +921,10 @@ extern int lw6sys_shape_check_min_max_whd (lw6sys_whd_t * shape,
 					   lw6sys_whd_t * min,
 					   lw6sys_whd_t * max);
 extern int lw6sys_shape_check_pos (lw6sys_whd_t * shape, lw6sys_xyz_t * pos);
-extern int lw6sys_shape_is_same (lw6sys_whd_t * shape_a,
-				 lw6sys_whd_t * shape_b);
-extern int lw6sys_shape_is_same_xy (lw6sys_whd_t * shape_a,
-				    lw6sys_whd_t * shape_b);
+extern int lw6sys_shape_is_same (const lw6sys_whd_t * shape_a,
+				 const lw6sys_whd_t * shape_b);
+extern int lw6sys_shape_is_same_xy (const lw6sys_whd_t * shape_a,
+				    const lw6sys_whd_t * shape_b);
 
 /* sys-signal.c */
 extern void lw6sys_signal_custom (int trap_errors);

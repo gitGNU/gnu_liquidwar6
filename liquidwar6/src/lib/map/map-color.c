@@ -58,8 +58,8 @@ lw6map_color_invert (lw6map_color_couple_t * color)
  * Return value: 1 if equal, 0 if not.
  */
 int
-lw6map_color_is_same (lw6map_color_couple_t * color1,
-		      lw6map_color_couple_t * color2)
+lw6map_color_is_same (const lw6map_color_couple_t * color1,
+		      const lw6map_color_couple_t * color2)
 {
   return lw6sys_color_is_same (color1->fg, color2->fg)
     && lw6sys_color_is_same (color1->bg, color2->bg);

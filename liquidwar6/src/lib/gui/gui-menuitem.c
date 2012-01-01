@@ -387,8 +387,8 @@ lw6gui_menuitem_checksum (lw6gui_menuitem_t * menuitem, lw6gui_look_t * look)
  * Return value: 1 if they are the same, 0 if not
  */
 int
-lw6gui_menuitem_is_same (lw6gui_menuitem_t * menuitem_a,
-			 lw6gui_menuitem_t * menuitem_b)
+lw6gui_menuitem_is_same (const lw6gui_menuitem_t * menuitem_a,
+			 const lw6gui_menuitem_t * menuitem_b)
 {
   int ret = 1;
 

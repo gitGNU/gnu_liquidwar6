@@ -101,7 +101,8 @@ lw6map_exp_get_highest_weapon_allowed (int exp)
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_team_color_allowed (lw6map_rules_t * rules, int team_color_id)
+lw6map_exp_is_team_color_allowed (const lw6map_rules_t * rules,
+				  int team_color_id)
 {
   int ret = 0;
 
@@ -122,7 +123,7 @@ lw6map_exp_is_team_color_allowed (lw6map_rules_t * rules, int team_color_id)
  * Return value: 1 if allowed, 0 if not.
  */
 int
-lw6map_exp_is_weapon_allowed (lw6map_rules_t * rules, int weapon_id)
+lw6map_exp_is_weapon_allowed (const lw6map_rules_t * rules, int weapon_id)
 {
   int ret = 0;
 

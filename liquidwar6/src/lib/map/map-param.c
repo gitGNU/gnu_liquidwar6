@@ -171,7 +171,8 @@ lw6map_param_get (lw6map_param_t * param, const char *key)
  * Return value: 1 if they contain the same thing, 0 if not
  */
 int
-lw6map_param_is_same (lw6map_param_t * param_a, lw6map_param_t * param_b)
+lw6map_param_is_same (const lw6map_param_t * param_a,
+		      const lw6map_param_t * param_b)
 {
   int ret = 1;
 

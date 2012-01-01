@@ -150,8 +150,8 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest,
  * Return value: 1 if equal, 0 if not.
  */
 int
-lw6gui_video_mode_is_same (lw6gui_video_mode_t * mode_a,
-			   lw6gui_video_mode_t * mode_b)
+lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a,
+			   const lw6gui_video_mode_t * mode_b)
 {
   int ret = 0;
 

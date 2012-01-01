@@ -244,7 +244,8 @@ lw6map_repr (lw6map_level_t * level)
  * Return value: 1 if they're the same, 0 if not.
  */
 int
-lw6map_is_same (lw6map_level_t * level_a, lw6map_level_t * level_b)
+lw6map_is_same (const lw6map_level_t * level_a,
+		const lw6map_level_t * level_b)
 {
   int ret = 1;
 

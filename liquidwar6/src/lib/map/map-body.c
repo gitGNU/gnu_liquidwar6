@@ -42,7 +42,7 @@
  */
 void
 lw6map_body_builtin_custom (lw6map_body_t * body, int w, int h, int d,
-			    int noise_percent, lw6map_rules_t * rules)
+			    int noise_percent, const lw6map_rules_t * rules)
 {
   int layer;
   lw6sys_whd_t shape_min =
@@ -212,7 +212,8 @@ update_if_needed (lw6map_body_t * dst, lw6map_body_t * src, int x,
  * Return value: none.
  */
 int
-lw6map_body_check_and_fix_holes (lw6map_body_t * body, lw6map_rules_t * rules)
+lw6map_body_check_and_fix_holes (lw6map_body_t * body,
+				 const lw6map_rules_t * rules)
 {
   int ret = 0;
   lw6map_body_t fixed_body;

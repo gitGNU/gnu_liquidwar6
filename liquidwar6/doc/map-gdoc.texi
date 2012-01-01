@@ -1,4 +1,4 @@
-@deftypefun {void} {lw6map_body_builtin_custom} (lw6map_body_t * @var{body}, int @var{w}, int @var{h}, int @var{d}, int @var{noise_percent}, lw6map_rules_t * @var{rules})
+@deftypefun {void} {lw6map_body_builtin_custom} (lw6map_body_t * @var{body}, int @var{w}, int @var{h}, int @var{d}, int @var{noise_percent}, const lw6map_rules_t * @var{rules})
 @var{body}:  the body to initialize
 
 @var{w}:  the width
@@ -32,7 +32,7 @@ Updates (calculates) the checksum of a map body structure.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6map_body_check_and_fix_holes} (lw6map_body_t * @var{body}, lw6map_rules_t * @var{rules})
+@deftypefun {int} {lw6map_body_check_and_fix_holes} (lw6map_body_t * @var{body}, const lw6map_rules_t * @var{rules})
 @var{body}:  the structure to update
 
 @var{rules}:  the game rules
@@ -83,7 +83,7 @@ Inverts a color couple, that is, replace fg by bg and vice-versa.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6map_color_is_same} (lw6map_color_couple_t * @var{color1}, lw6map_color_couple_t * @var{color2})
+@deftypefun {int} {lw6map_color_is_same} (const lw6map_color_couple_t * @var{color1}, const lw6map_color_couple_t * @var{color2})
 @var{color1}:  1st color to compare
 
 @var{color2}:  2nd color to compare
@@ -117,6 +117,38 @@ Transforms a team color index into its readable string form,
 which can be used to display information to players.
 
 @strong{Return value:}  a string, must *not* be freed.
+@end deftypefun
+
+@deftypefun {void} {lw6map_coords_fix_xy} (const lw6map_rules_t * @var{rules}, const lw6sys_whd_t * @var{shape}, int * @var{x}, int * @var{y})
+@var{rules}:  set of rules to use
+
+@var{shape}:  shape of the map
+
+@var{x}:  x coord (in/out param)
+
+@var{y}:  y coord (in/out param)
+
+Fixes the x and y values so that it's always inside the map. This
+function will read the rules and if there's some polarity enable,
+will do the right thing, for instance, a fighter too much on the
+right might reapper on the left side of the map.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6map_coords_fix_z} (const lw6map_rules_t * @var{rules}, const lw6sys_whd_t * @var{shape}, int * @var{z})
+@var{rules}:  set of rules to use
+
+@var{shape}:  shape of the map
+
+@var{z}:  z coord (in/out param)
+
+Fixes the z value so that it's always inside the map. This
+function will read the rules and if there's some polarity enable,
+will do the right thing, for instance, a fighter too low it
+might reapper on top.
+
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {void} {lw6map_cursor_texture_clear} (lw6map_cursor_texture_t * @var{cursor_texture})
@@ -190,7 +222,7 @@ Gets the highest weapon available for a given exp.
 @strong{Return value:}  a weapon id
 @end deftypefun
 
-@deftypefun {int} {lw6map_exp_is_team_color_allowed} (lw6map_rules_t * @var{rules}, int @var{team_color_id})
+@deftypefun {int} {lw6map_exp_is_team_color_allowed} (const lw6map_rules_t * @var{rules}, int @var{team_color_id})
 @var{rules}:  set of rules to use
 
 @var{team_color_id}:  color id to test
@@ -200,7 +232,7 @@ Tests wether a team color is allowed for a given set of rules.
 @strong{Return value:}  1 if allowed, 0 if not.
 @end deftypefun
 
-@deftypefun {int} {lw6map_exp_is_weapon_allowed} (lw6map_rules_t * @var{rules}, int @var{weapon_id})
+@deftypefun {int} {lw6map_exp_is_weapon_allowed} (const lw6map_rules_t * @var{rules}, int @var{weapon_id})
 @var{rules}:  set of rules to use
 
 @var{weapon_id}:  weapon id to test
@@ -319,7 +351,7 @@ description. Still, the string returned should be unique.
 @strong{Return value:}  a dynamically allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6map_is_same} (lw6map_level_t * @var{level_a}, lw6map_level_t * @var{level_b})
+@deftypefun {int} {lw6map_is_same} (const lw6map_level_t * @var{level_a}, const lw6map_level_t * @var{level_b})
 @var{level_a}:  the first level to compare
 
 @var{level_b}:  the other level to compare
@@ -369,7 +401,7 @@ completely zeroed.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6map_metadata_is_same} (lw6map_metadata_t * @var{metadata_a}, lw6map_metadata_t * @var{metadata_b})
+@deftypefun {int} {lw6map_metadata_is_same} (const lw6map_metadata_t * @var{metadata_a}, const lw6map_metadata_t * @var{metadata_b})
 @var{metadata_a}:  first item to compare
 
 @var{metadata_b}:  second item to compare
@@ -492,7 +524,7 @@ this is just to export values to scripts, for instance.
 might return a string containing 0 on bad keys.
 @end deftypefun
 
-@deftypefun {int} {lw6map_param_is_same} (lw6map_param_t * @var{param_a}, lw6map_param_t * @var{param_b})
+@deftypefun {int} {lw6map_param_is_same} (const lw6map_param_t * @var{param_a}, const lw6map_param_t * @var{param_b})
 @var{param_a}:  one struct to compare
 
 @var{param_b}:  another struct to compare
@@ -511,7 +543,7 @@ you can call this on any rules object.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6map_rules_copy} (lw6map_rules_t * @var{dst}, lw6map_rules_t * @var{src})
+@deftypefun {void} {lw6map_rules_copy} (lw6map_rules_t * @var{dst}, const lw6map_rules_t * @var{src})
 @var{dst}:  destination (out param)
 
 @var{src}:  source (in param)
@@ -522,7 +554,7 @@ wrapper on memcpy.
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {void} {lw6map_rules_update_checksum} (lw6map_rules_t * @var{rules}, u_int32_t * @var{checksum})
+@deftypefun {void} {lw6map_rules_update_checksum} (const lw6map_rules_t * @var{rules}, u_int32_t * @var{checksum})
 @var{rules}:  rules struct to check
 
 @var{checksum}:  checksum to update (in/out param)
@@ -565,7 +597,7 @@ struct offset.
 @strong{Return value:}  integer.
 @end deftypefun
 
-@deftypefun {int32_t} {lw6map_rules_get_int} (lw6map_rules_t * @var{rules}, const char * @var{key})
+@deftypefun {int32_t} {lw6map_rules_get_int} (const lw6map_rules_t * @var{rules}, const char * @var{key})
 @var{rules}:  struct to use
 
 @var{key}:  key to query
@@ -593,7 +625,7 @@ struct offset.
 @strong{Return value:}  1 on success, 0 on failure (eg key not found)
 @end deftypefun
 
-@deftypefun {int} {lw6map_rules_get_bool} (lw6map_rules_t * @var{rules}, const char * @var{key})
+@deftypefun {int} {lw6map_rules_get_bool} (const lw6map_rules_t * @var{rules}, const char * @var{key})
 @var{rules}:  struct to use
 
 @var{key}:  key to query
@@ -630,7 +662,7 @@ unusable as a real-world setting).
 @strong{Return value:}  none.
 @end deftypefun
 
-@deftypefun {int} {lw6map_rules_is_same} (lw6map_rules_t * @var{rules_a}, lw6map_rules_t * @var{rules_b})
+@deftypefun {int} {lw6map_rules_is_same} (const lw6map_rules_t * @var{rules_a}, const lw6map_rules_t * @var{rules_b})
 @var{rules_a}:  first item to compare
 
 @var{rules_b}:  second item to compare
@@ -720,7 +752,7 @@ key lookup to fetch the value.
 @strong{Return value:}  dynamically allocated string.
 @end deftypefun
 
-@deftypefun {int} {lw6map_color_set_is_same} (lw6map_color_set_t * @var{color_set_a}, lw6map_color_set_t * @var{color_set_b})
+@deftypefun {int} {lw6map_color_set_is_same} (const lw6map_color_set_t * @var{color_set_a}, const lw6map_color_set_t * @var{color_set_b})
 @var{color_set_a}:  first item to compare
 
 @var{color_set_b}:  second item to compare
@@ -731,7 +763,7 @@ the same data.
 @strong{Return value:}  1 if same, 0 if different.
 @end deftypefun
 
-@deftypefun {int} {lw6map_style_is_same} (lw6map_style_t * @var{style_a}, lw6map_style_t * @var{style_b})
+@deftypefun {int} {lw6map_style_is_same} (const lw6map_style_t * @var{style_a}, const lw6map_style_t * @var{style_b})
 @var{style_a}:  first item to compare
 
 @var{style_b}:  second item to compare
@@ -814,7 +846,7 @@ Gets the default value for a given teams key.
 @strong{Return value:}  dynamically allocated string, NULL on error.
 @end deftypefun
 
-@deftypefun {int} {lw6map_teams_is_same} (lw6map_teams_t * @var{teams_a}, lw6map_teams_t * @var{teams_b})
+@deftypefun {int} {lw6map_teams_is_same} (const lw6map_teams_t * @var{teams_a}, const lw6map_teams_t * @var{teams_b})
 @var{teams_a}:  one struct to compare
 
 @var{teams_b}:  another struct to compare
