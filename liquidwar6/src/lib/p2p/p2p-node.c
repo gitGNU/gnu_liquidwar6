@@ -1487,3 +1487,172 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node)
 {
   return _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node);
 }
+
+int
+_lw6p2p_node_server_start (_lw6p2p_node_t * node)
+{
+  int ret = 0;
+
+  // todo...
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_server_start
+ *
+ * @node: node to start
+ * 
+ * Starts a node in server mode, if node was previously connected to other
+ * nodes, disconnect it from any peer.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6p2p_node_server_start (lw6p2p_node_t * node)
+{
+  return _lw6p2p_node_server_start ((_lw6p2p_node_t *) node);
+}
+
+int
+_lw6p2p_node_client_join (_lw6p2p_node_t * node, char *node_url)
+{
+  int ret = 0;
+
+  // todo...
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_client_join
+ *
+ * @node: node to use
+ * @remote_url: url of remote node to join
+ * 
+ * Starts a node in client mode, joins the given node, 
+ * if node was previously connected to other
+ * nodes, disconnect it from any peer.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6p2p_node_client_join (lw6p2p_node_t * node, char *remote_url)
+{
+  return _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_url);
+}
+
+void
+_lw6p2p_node_server_disconnect (_lw6p2p_node_t * node)
+{
+  // todo...
+}
+
+/**
+ * lw6p2p_node_server_disconnect
+ *
+ * @node: node to disconnect
+ * 
+ * Disconnects a node, if node was previously connected to other
+ * nodes, disconnect it from any peer. Note that this does not
+ * affect out-of-band connections, only real game-related links.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+void
+lw6p2p_node_server_disconnect (lw6p2p_node_t * node)
+{
+  _lw6p2p_node_server_disconnect ((_lw6p2p_node_t *) node);
+}
+
+int
+_lw6p2p_node_update_info (_lw6p2p_node_t * node,
+			  int round, char *level, int required_bench,
+			  int nb_colors, int max_nb_colors,
+			  int nb_cursors, int max_nb_cursors,
+			  int nb_nodes, int max_nb_nodes,
+			  int game_screenshot_size,
+			  void *game_screenshot_data)
+{
+  int ret = 0;
+
+  // todo...
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_update_info
+ *
+ * @node: node to update
+ * @round: the current round (can have an offset with real round number)
+ * @level: the name of the current level (map)
+ * @required_bench: the bench required to connect
+ * @nb_colors: number of colors playing
+ * @max_nb_colors: max number of colors allowed
+ * @nb_cursors: number of cursors playing
+ * @max_nb_cursors: max number of cursors allowed
+ * @nb_nodes: number of nodes playing
+ * @max_nb_nodes: max number of nodes allowed
+ * @game_screenshot_size: size of screenshot (bytes)
+ * @game_screenshot_data: screenshot data (byte buffer, contains JPEG)
+ *
+ * Updates node info, that is, all the data/metadata which can be displayed
+ * to other peers and are, by nature, dynamic.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6p2p_node_update_info (lw6p2p_node_t * node,
+			 int round, char *level, int required_bench,
+			 int nb_colors, int max_nb_colors,
+			 int nb_cursors, int max_nb_cursors,
+			 int nb_nodes, int max_nb_nodes,
+			 int game_screenshot_size, void *game_screenshot_data)
+{
+  return _lw6p2p_node_update_info ((_lw6p2p_node_t *) node,
+				   round, level, required_bench,
+				   nb_colors, max_nb_colors,
+				   nb_cursors, max_nb_cursors,
+				   nb_nodes, max_nb_nodes,
+				   game_screenshot_size,
+				   game_screenshot_data);
+}
+
+int
+_lw6p2p_node_update_serialized (_lw6p2p_node_t * node, u_int64_t seq_id,
+				char *serialized_level,
+				char *serialized_game_struct,
+				char *serialized_game_state)
+{
+  int ret = 0;
+
+  // todo...
+
+  return ret;
+}
+
+/**
+ * lw6p2p_node_update_serialized
+ *
+ * @node: node to update
+ * @serialized_level: level object serialized serialized as an hexa string
+ * @serialized_game_struct: game struct object serialized as an hexa string
+ * @serialized_game_state: game state object serialized as an hexa string
+ *
+ * Updates the (rather heavy) serialized objects for the game, which are
+ * required to transmit game context to peers over the network.
+ *
+ * Return value: 1 on success, 0 on failure
+ */
+int
+lw6p2p_node_update_serialized (lw6p2p_node_t * node, u_int64_t seq_id,
+			       char *serialized_level,
+			       char *serialized_game_struct,
+			       char *serialized_game_state)
+{
+  return _lw6p2p_node_update_serialized ((_lw6p2p_node_t *) node, seq_id,
+					 serialized_level,
+					 serialized_game_struct,
+					 serialized_game_state);
+}

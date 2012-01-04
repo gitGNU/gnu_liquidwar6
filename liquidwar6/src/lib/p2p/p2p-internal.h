@@ -312,6 +312,22 @@ extern int _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node,
 extern int _lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node,
 					     u_int64_t remote_id);
 extern lw6sys_list_t *_lw6p2p_node_get_entries (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_server_start (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_client_join (_lw6p2p_node_t * node, char *remote_url);
+extern void _lw6p2p_node_disconnect (_lw6p2p_node_t * node);
+extern int _lw6p2p_node_update_info (_lw6p2p_node_t * node,
+				     int round, char *level,
+				     int required_bench, int nb_colors,
+				     int max_nb_colors, int nb_cursors,
+				     int max_nb_cursors, int nb_nodes,
+				     int max_nb_nodes,
+				     int game_screenshot_size,
+				     void *game_screenshot_data);
+extern int _lw6p2p_node_update_serialized (_lw6p2p_node_t * node,
+					   u_int64_t seq_id,
+					   char *serialized_level,
+					   char *serialized_game_struct,
+					   char *serialized_game_state);
 
 /* p2p-recv.c */
 extern void _lw6p2p_recv_process (_lw6p2p_node_t * node,

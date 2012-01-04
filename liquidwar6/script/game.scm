@@ -65,6 +65,8 @@
 	    )
 	(if dsp (c-lw6gui-input-reset dsp))
 	)
+      (lw6-set-game-global! "solo" #f)
+      (lw6-set-game-global! "network" #f)
       (lw6-game-param-update)
       )))
 
@@ -180,6 +182,12 @@
 	    )
 	  ))))
 
+(define lw6-game-start-network-step1
+  (lambda (step2-func)
+    (begin
+      (lw6-game-start-local-step1 step2-func)
+      )))
+
 (define lw6-game-start-solo-step2
   (lambda ()
     (let* (
@@ -232,6 +240,7 @@
 	    (lw6-set-game-global! "command-func" lw6-command-func-local)
 	    ))
 	(lw6-set-game-global! "solo" #t)
+	(lw6-set-game-global! "network" #f)
 	))))
 
 (define lw6-game-start-1on1-step2
@@ -272,6 +281,7 @@
 	    (lw6-set-game-global! "command-func" lw6-command-func-local)
 	    ))
 	(lw6-set-game-global! "solo" #f)
+	(lw6-set-game-global! "network" #f)
 	))))
 
 (define lw6-game-start-local-step2
@@ -325,6 +335,7 @@
 	    (lw6-game-running)
 	    (lw6-set-game-global! "command-func" lw6-command-func-local)))
 	(lw6-set-game-global! "solo" #f)
+	(lw6-set-game-global! "network" #f)
 	))))
 
 (define lw6-game-start-demo-step2
@@ -333,6 +344,7 @@
       (lw6-game-start-solo-step2)
       (lw6-cursor-init-bot-mover "1" "random")
       (lw6-set-game-global! "solo" #f)
+      (lw6-set-game-global! "network" #f)
       )))
 
 (define lw6-game-start-quick-step2 
@@ -340,5 +352,14 @@
     (begin
       (lw6-game-start-solo-step2)
       (lw6-set-game-global! "solo" #f)
+      (lw6-set-game-global! "network" #f)
+      )))
+
+(define lw6-game-start-server-step2 
+  (lambda ()
+    (begin
+      (lw6-game-start-local-step2)
+      (lw6-set-game-global! "solo" #f)
+      (lw6-set-game-global! "network" #t)
       )))
 

@@ -70,6 +70,7 @@
 					(_ "Start a server, DOES NOT WORK YET")))
 	  )
       (begin
+	(assoc-set! item "on-valid" (lambda (mi) (lw6-game-start-network-step1 lw6-game-start-server-step2)))
 	item
 	))))
 
