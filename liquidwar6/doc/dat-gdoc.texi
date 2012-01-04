@@ -21,12 +21,22 @@ Frees a warehouse object.
 @strong{Return value:}  new object, allocated dynamically
 @end deftypefun
 
+@deftypefun {void} {lw6dat_warehouse_clear} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the object to clear
+
+Clears a warehouse object. Clears means emptying everything
+and resetting the current seq_id to the minimal/start value.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6dat_warehouse_purge} (lw6dat_warehouse_t * @var{warehouse})
 @var{warehouse}:  the object to purge
 
-Purges a warehouse object.
+Purges a warehouse object. Purges means emptying everything
+but keeping the current seq_id unchanged.
 
-@strong{Return value:}  new object, allocated dynamically
+@strong{Return value:}  none.
 @end deftypefun
 
 @deftypefun {int} {lw6dat_warehouse_get_nb_nodes} (lw6dat_warehouse_t * @var{warehouse})

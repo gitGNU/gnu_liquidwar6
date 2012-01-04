@@ -194,6 +194,7 @@ typedef struct _lw6p2p_node_s
   _lw6p2p_explore_t explore;
   lw6cnx_ticket_table_t ticket_table;
   _lw6p2p_tentacle_t tentacles[LW6P2P_MAX_NB_TENTACLES];
+  lw6dat_warehouse_t *warehouse;
 } _lw6p2p_node_t;
 
 typedef struct _lw6p2p_srv_oob_callback_data_s

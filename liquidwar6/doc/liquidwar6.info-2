@@ -8602,13 +8602,23 @@ results on
 
      *Return value:*  new object, allocated dynamically
 
+ -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to clear
+
+     Clears a warehouse object. Clears means emptying everything and
+     resetting the current seq_id to the minimal/start value.
+
+     *Return value:*  none.
+
  -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
           WAREHOUSE)
      WAREHOUSE:  the object to purge
 
-     Purges a warehouse object.
+     Purges a warehouse object. Purges means emptying everything but
+     keeping the current seq_id unchanged.
 
-     *Return value:*  new object, allocated dynamically
+     *Return value:*  none.
 
  -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
           WAREHOUSE)

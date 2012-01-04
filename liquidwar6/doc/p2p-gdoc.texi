@@ -255,7 +255,7 @@ nodes, disconnect it from any peer.
 @strong{Return value:}  1 on success, 0 on failure.
 @end deftypefun
 
-@deftypefun {void} {lw6p2p_node_server_disconnect} (lw6p2p_node_t * @var{node})
+@deftypefun {void} {lw6p2p_node_disconnect} (lw6p2p_node_t * @var{node})
 @var{node}:  node to disconnect
 
 Disconnects a node, if node was previously connected to other

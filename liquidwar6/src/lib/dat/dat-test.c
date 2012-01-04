@@ -674,6 +674,7 @@ test_warehouse ()
 	    ret = 0;
 	  }
 	_lw6dat_warehouse_purge (_warehouse);
+	_lw6dat_warehouse_clear (_warehouse);
 	_lw6dat_warehouse_free (_warehouse);
       }
     else

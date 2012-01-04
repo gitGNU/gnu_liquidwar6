@@ -235,6 +235,12 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
     }
 
+  if (node && ret)
+    {
+      node->warehouse = lw6dat_warehouse_new (node->node_id_int);
+      ret = (node->warehouse != NULL);
+    }
+
   if ((!ret) && node)
     {
       _lw6p2p_node_free (node);
@@ -313,6 +319,10 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
       if (node->bind_ip)
 	{
 	  LW6SYS_FREE (node->bind_ip);
+	}
+      if (node->warehouse)
+	{
+	  lw6dat_warehouse_free (node->warehouse);
 	}
       LW6SYS_FREE (node);
     }
@@ -1493,7 +1503,16 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node)
 {
   int ret = 0;
 
-  // todo...
+  /*
+   * OK, so now start just calls disconnect, what's wrong?
+   * Nothing, actually, it's the fact that we use update function
+   * to set the dynamic params that will make the server alive
+   * else it's just a mere node, and "starting" is really equivalent
+   * to "restarting" so we just clear everything and hell, it's
+   * just ready to serve.
+   */
+  _lw6p2p_node_disconnect (node);
+  ret = 1;
 
   return ret;
 }
@@ -1519,6 +1538,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, char *node_url)
 {
   int ret = 0;
 
+  _lw6p2p_node_disconnect (node);
+
   // todo...
 
   return ret;
@@ -1543,13 +1564,21 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, char *remote_url)
 }
 
 void
-_lw6p2p_node_server_disconnect (_lw6p2p_node_t * node)
+_lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 {
+  int i;
   // todo...
+  TMP ("disconnect");
+  lw6dat_warehouse_clear (node->warehouse);
+
+  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
+    {
+      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+    }
 }
 
 /**
- * lw6p2p_node_server_disconnect
+ * lw6p2p_node_disconnect
  *
  * @node: node to disconnect
  * 
@@ -1560,9 +1589,9 @@ _lw6p2p_node_server_disconnect (_lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on failure.
  */
 void
-lw6p2p_node_server_disconnect (lw6p2p_node_t * node)
+lw6p2p_node_disconnect (lw6p2p_node_t * node)
 {
-  _lw6p2p_node_server_disconnect ((_lw6p2p_node_t *) node);
+  _lw6p2p_node_disconnect ((_lw6p2p_node_t *) node);
 }
 
 int

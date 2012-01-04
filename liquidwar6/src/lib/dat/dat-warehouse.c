@@ -83,14 +83,7 @@ lw6dat_warehouse_new (u_int64_t local_node_id)
 void
 _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
 {
-  int i;
-
-  _lw6dat_warehouse_purge (warehouse);
-
-  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
-    {
-      _lw6dat_stack_clear (&(warehouse->stacks[i]));
-    }
+  _lw6dat_warehouse_clear (warehouse);
 
   LW6SYS_FREE (warehouse);
 }
@@ -108,6 +101,36 @@ void
 lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse)
 {
   _lw6dat_warehouse_free ((_lw6dat_warehouse_t *) warehouse);
+}
+
+void
+_lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
+{
+  int i;
+
+  for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
+    {
+      if (warehouse->stacks[i].node_id != 0)
+	{
+	  _lw6dat_stack_clear (&(warehouse->stacks[i]));
+	}
+    }
+}
+
+/**
+ * lw6dat_warehouse_clear
+ *
+ * @warehouse: the object to clear
+ *
+ * Clears a warehouse object. Clears means emptying everything
+ * and resetting the current seq_id to the minimal/start value.
+ *
+ * Return value: none.
+ */
+void
+lw6dat_warehouse_clear (lw6dat_warehouse_t * warehouse)
+{
+  _lw6dat_warehouse_clear ((_lw6dat_warehouse_t *) warehouse);
 }
 
 void
@@ -129,9 +152,10 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
  *
  * @warehouse: the object to purge
  *
- * Purges a warehouse object.
+ * Purges a warehouse object. Purges means emptying everything
+ * but keeping the current seq_id unchanged.
  *
- * Return value: new object, allocated dynamically
+ * Return value: none.
  */
 void
 lw6dat_warehouse_purge (lw6dat_warehouse_t * warehouse)
@@ -708,7 +732,8 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t *
 	      if (warehouse->stacks[stack_index].node_id != 0)
 		{
 		  _lw6dat_stack_update_atom_str_list_not_sent (&
-							       (warehouse->stacks
+							       (warehouse->
+								stacks
 								[stack_index]),
 							       &ret,
 							       target_index);

@@ -236,6 +236,7 @@ _lw6dat_stack_get_block_index (_lw6dat_stack_t * stack, int serial)
 /* dat-warehouse.c */
 extern _lw6dat_warehouse_t *_lw6dat_warehouse_new (u_int64_t local_node_id);
 extern void _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse);
+extern void _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse);
 extern void _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse);
 extern int _lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse);
 extern u_int64_t _lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t *

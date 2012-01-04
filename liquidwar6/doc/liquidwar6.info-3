@@ -4612,7 +4612,7 @@ results on
 
      *Return value:*  1 on success, 0 on failure.
 
- -- Function: void lw6p2p_node_server_disconnect (lw6p2p_node_t * NODE)
+ -- Function: void lw6p2p_node_disconnect (lw6p2p_node_t * NODE)
      NODE:  node to disconnect
 
      Disconnects a node, if node was previously connected to other

@@ -104,6 +104,70 @@
 
 #define TEST_NODE_OOB_DURATION 9000
 #define TEST_NODE_CMD_DURATION 6000
+#define _TEST_ENTRY_HAS_PASSWORD 0
+#define _TEST_ENTRY_BENCH 10
+#define _TEST_ENTRY_OPEN_RELAY 0
+#define _TEST_ENTRY_COMMUNITY_ID "1234123412341234"
+#define _TEST_ENTRY_ROUND 1000
+#define _TEST_ENTRY_LEVEL "the-map"
+#define _TEST_ENTRY_REQUIRED_BENCH 5
+#define _TEST_ENTRY_NB_COLORS 0
+#define _TEST_ENTRY_MAX_NB_COLORS 5
+#define _TEST_ENTRY_NB_CURSORS 0
+#define _TEST_ENTRY_MAX_NB_CURSORS 5
+#define _TEST_ENTRY_NB_NODES 0
+#define _TEST_ENTRY_MAX_NB_NODES 5
+#define _TEST_ENTRY_IP "127.0.0.1"
+#define _TEST_ENTRY_PORT 1234
+#define _TEST_ENTRY_LAST_PING_TIMESTAMP 123456789
+#define _TEST_ENTRY_PING_DELAY_MSEC 500
+#define _TEST_ENTRY_AVAILABLE 1
+
+#define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
+#define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
+#define _TEST_NODE_BIND_PORT2 (LW6NET_DEFAULT_PORT + 12)
+#define _TEST_NODE_BIND_PORT3 (LW6NET_DEFAULT_PORT + 13)
+#define _TEST_NODE_BIND_PORT4 (LW6NET_DEFAULT_PORT + 14)
+#define _TEST_NODE_BIND_PORT5 (LW6NET_DEFAULT_PORT + 15)
+#define _TEST_NODE_BIND_PORT6 (LW6NET_DEFAULT_PORT + 16)
+#define _TEST_NODE_BROADCAST 1
+/*
+ * following depends on LW6NET_DEFAULT_PORT
+ */
+#define _TEST_NODE_PUBLIC_URL1 "http://localhost:8067/"
+#define _TEST_NODE_PUBLIC_URL2 "http://localhost:8068/"
+#define _TEST_NODE_PUBLIC_URL3 "http://localhost:8069/"
+#define _TEST_NODE_PUBLIC_URL4 "http://localhost:8070/"
+#define _TEST_NODE_PUBLIC_URL5 "http://localhost:8071/"
+#define _TEST_NODE_PUBLIC_URL6 "http://localhost:8072/"
+#define _TEST_NODE_IP1 NULL
+#define _TEST_NODE_IP2 NULL
+#define _TEST_NODE_IP3 LW6NET_ADDRESS_LOOPBACK
+#define _TEST_NODE_IP4 "127.1.2.3"
+#define _TEST_NODE_TITLE1 "Node 1"
+#define _TEST_NODE_TITLE2 "Node 2"
+#define _TEST_NODE_TITLE3 "Node 3"
+#define _TEST_NODE_TITLE4 "Node 4"
+#define _TEST_NODE_TITLE5 "Node 5"
+#define _TEST_NODE_TITLE6 "Node 6"
+#define _TEST_NODE_DESCRIPTION "This is the description of a node."
+#define _TEST_NODE_PASSWORD "toto"
+#define _TEST_NODE_BENCH 10
+#define _TEST_NODE_OPEN_RELAY 0
+#define _TEST_NODE_KNOWN_NODES1 "http://localhost:8068/"
+#define _TEST_NODE_KNOWN_NODES2 "http://localhost:8069/"
+#define _TEST_NODE_KNOWN_NODES3 "http://localhost:8070/"
+#define _TEST_NODE_KNOWN_NODES4 "http://localhost:8068/"
+#define _TEST_NODE_KNOWN_NODES5 "http://localhost:8067/,http://localhost:8068/"
+#define _TEST_NODE_KNOWN_NODES6 "http://localhost:8067/,http://localhost:8068/"
+#define _TEST_NODE_NETWORK_RELIABILITY 100
+#define _TEST_NODE_TROJAN 0
+#define _TEST_BOGUS_BACKEND "bogus"
+
+#define TEST_NODE_OOB_DURATION 9000
+#define TEST_NODE_CMD_DURATION 6000
+#define TEST_NODE_API_DURATION 3000
+#define TEST_NODE_POLL_DURATION 100
 
 /* 
  * Testing db
@@ -608,6 +672,44 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_db_t * db56,
 }
 
 static void
+_poll_nodes (lw6p2p_node_t * node1, lw6p2p_node_t * node2,
+	     lw6p2p_node_t * node3, lw6p2p_node_t * node4,
+	     lw6p2p_node_t * node5, lw6p2p_node_t * node6)
+{
+  int64_t next_timestamp = 00L;
+
+  next_timestamp = lw6sys_get_timestamp () + TEST_NODE_POLL_DURATION;
+  while (lw6sys_get_timestamp () < next_timestamp)
+    {
+      if (node1)
+	{
+	  lw6p2p_node_poll (node1);
+	}
+      if (node2)
+	{
+	  lw6p2p_node_poll (node2);
+	}
+      if (node3)
+	{
+	  lw6p2p_node_poll (node3);
+	}
+      if (node4)
+	{
+	  lw6p2p_node_poll (node4);
+	}
+      if (node5)
+	{
+	  lw6p2p_node_poll (node5);
+	}
+      if (node6)
+	{
+	  lw6p2p_node_poll (node6);
+	}
+    }
+  lw6sys_idle ();
+}
+
+static void
 _print_entry_callback (void *func_data, void *data)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -690,13 +792,7 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
 	{
 	  while (lw6sys_get_timestamp () < end_timestamp)
 	    {
-	      lw6p2p_node_poll (node1);
-	      lw6p2p_node_poll (node2);
-	      lw6p2p_node_poll (node3);
-	      lw6p2p_node_poll (node4);
-	      lw6p2p_node_poll (node5);
-	      lw6p2p_node_poll (node6);
-	      lw6sys_idle ();
+	      _poll_nodes (node1, node2, node3, node4, node5, node6);
 	    }
 
 	  entries = lw6p2p_node_get_entries (node1);
@@ -753,7 +849,7 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
   lw6p2p_node_t *node4 = NULL;
   lw6p2p_node_t *node5 = NULL;
   lw6p2p_node_t *node6 = NULL;
-  int64_t end_timestamp = 0;
+  int64_t end_timestamp = 0LL;
 
   lw6sys_log (LW6SYS_LOG_NOTICE,
 	      _x_ ("testing oob with backends \"%s\" and \"%s\""),
@@ -767,13 +863,7 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
     {
       while (lw6sys_get_timestamp () < end_timestamp)
 	{
-	  lw6p2p_node_poll (node1);
-	  lw6p2p_node_poll (node2);
-	  lw6p2p_node_poll (node3);
-	  lw6p2p_node_poll (node4);
-	  lw6p2p_node_poll (node5);
-	  lw6p2p_node_poll (node6);
-	  lw6sys_idle ();
+	  _poll_nodes (node1, node2, node3, node4, node5, node6);
 	}
 
       ret = 1;
@@ -802,6 +892,57 @@ _test_node_oob ()
     ret = ret && _oob_with_backends (lw6cli_default_backends (), "");
     _oob_with_backends ("", _TEST_BOGUS_BACKEND);
     _oob_with_backends (_TEST_BOGUS_BACKEND, "");
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
+/* 
+ * Testing node api
+ */
+static int
+_test_node_api ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6p2p_db_t *db12 = NULL;
+    lw6p2p_db_t *db34 = NULL;
+    lw6p2p_db_t *db56 = NULL;
+    lw6p2p_node_t *node1 = NULL;
+    lw6p2p_node_t *node2 = NULL;
+    lw6p2p_node_t *node3 = NULL;
+    lw6p2p_node_t *node4 = NULL;
+    lw6p2p_node_t *node5 = NULL;
+    lw6p2p_node_t *node6 = NULL;
+    int64_t end_timestamp = 0LL;
+
+    end_timestamp = lw6sys_get_timestamp () + TEST_NODE_API_DURATION;
+    if (_init_nodes
+	(lw6cli_default_backends (),
+	 lw6srv_default_backends (), &db12, &db34, &db56, &node1, &node2,
+	 &node3, &node4, &node5, &node6))
+      {
+	_poll_nodes (node1, node2, node3, node4, node5, node6);
+	if (lw6p2p_node_server_start (node1))
+	  {
+	    _poll_nodes (node1, node2, node3, node4, node5, node6);
+	    if (lw6p2p_node_client_join (node2, _TEST_NODE_PUBLIC_URL1))
+	      {
+		while (lw6sys_get_timestamp () < end_timestamp)
+		  {
+		    _poll_nodes (node1, node2, node3, node4, node5, node6);
+		  }
+		lw6p2p_node_disconnect (node2);
+	      }
+	    lw6p2p_node_disconnect (node1);
+	  }
+
+	_quit_nodes (db12, db34, db56, node1, node2, node3, node4, node5,
+		     node6);
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -847,7 +988,9 @@ lw6p2p_test (int mode)
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
       ret = _test_db () && _test_entry () && _test_node_init ()
-	&& _test_node_oob () && _test_node_cmd ();
+	&& _test_node_oob () && _test_node_cmd () && _test_node_api ();
+      // ret=_test_node_api();
+
       lw6net_quit (argc, argv);
     }
 
