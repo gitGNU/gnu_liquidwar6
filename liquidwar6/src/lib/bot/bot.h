@@ -49,9 +49,7 @@ typedef struct lw6bot_param_s
    * 200, means very clever. 
    */
   int iq;
-  /**
-   * The cursor ID, which is a 16-bit non-null integer.
-   */
+  /// The cursor ID, which is a 16-bit non-null integer.
   u_int16_t cursor_id;
 } lw6bot_param_t;
 
@@ -69,9 +67,7 @@ typedef struct lw6bot_data_s
    * logical game, that is, at least, same struct.
    */
   lw6ker_game_state_t *game_state;
-  /**
-   * Constant parameters passed to the bot at creation.
-   */
+  /// Constant parameters passed to the bot at creation.
   lw6bot_param_t param;
 } lw6bot_data_t;
 
@@ -92,13 +88,9 @@ typedef struct lw6bot_seed_s
    * we want to read the level on the fly without syncing.
    */
   lw6pil_pilot_t *pilot;
-  /**
-   * The dirty read mode (between 0 and 2).
-   */
+  /// The dirty read mode (between 0 and 2).
   int dirty_read;
-  /**
-   * Parameters given to the bot at creation.
-   */
+  /// Parameters given to the bot at creation.
   lw6bot_param_t param;
 } lw6bot_seed_t;
 
@@ -111,52 +103,32 @@ typedef struct lw6bot_seed_s
  */
 typedef struct lw6bot_backend_s
 {
-  /**
-   * Handle on dynamic library (if it makes sense).
-   */
+  /// Handle on dynamic library (if it makes sense).
   lw6dyn_dl_handle_t *dl_handle;
   /**
    * Bot specific data, what is behind this pointer really
    * depends on the bot engine.
    */
   void *bot_context;
-  /**
-   * The argc value passed to main.
-   */
+  /// The argc value passed to main.
   int argc;
-  /**
-   * The argv value passed to main.
-   */
+  /// The argv value passed to main.
   const char **argv;
   /**
    * The id of the object, this is non-zero and unique within one run session,
    * incremented at each object creation.
    */
   u_int32_t id;
-  /**
-   * Parameters passed at initialization.
-   */
+  /// Parameters passed at initialization.
   lw6bot_seed_t seed;
 
-  /**
-   * Pointer on init callback, this is the code used
-   * when calling lw6bot_init.
-   */
+  /// Pointer on lw6bot_init callback code.
   void *(*init) (int argc, const char *argv[], lw6bot_data_t * data);
-  /**
-   * Pointer on quit callback, this is the code used
-   * when calling lw6bot_quit.
-   */
+  /// Pointer on lw6bot_context callback code.
   void (*quit) (void *bot_context);
-  /**
-   * Pointer on next_move callback, this is the code used
-   * when calling lw6bot_next_move.
-   */
+  /// Pointer on lw6bot_next_move callback code.
   int (*next_move) (void *bot_context, int *x, int *y, lw6bot_data_t * data);
-  /**
-   * Pointer on repr callback, this is the code used
-   * when calling lw6bot_repr.
-   */
+  /// Pointer on lw6bot_repr callback code.
   char *(*repr) (void *bot_context, u_int32_t id);
 }
 lw6bot_backend_t;

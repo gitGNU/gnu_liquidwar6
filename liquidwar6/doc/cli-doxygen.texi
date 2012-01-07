@@ -152,7 +152,7 @@
 @deftp {Struct} {lw6cli_oob_data_s}
 
     
-    
+Holds the data for the process_oob function, this is merely a utility struct to simplify headers/     
 @end deftp
 
 @defcv {Member} {lw6cli_oob_data_s} {creation_timestamp}
@@ -162,7 +162,7 @@
 
 
         
-        
+Creation timestamp of the OOB request, this is used to know wether we have already timed out or not. This is not the node creation timestamp.         
 @end defcv
 
 @defcv {Member} {lw6cli_oob_data_s} {do_not_finish}
@@ -172,7 +172,7 @@
 
 
         
-        
+Flag used to force finish, for instance when we want to delete the object quickly and do not want to wait until a long polling-based network operation finishes completely.         
 @end defcv
 
 @defcv {Member} {lw6cli_oob_data_s} {public_url}
@@ -182,7 +182,7 @@
 
 
         
-        
+Public URL of the node, we need this at hand to serve it quickly to peers, and be able to perform basic checks.         
 @end defcv
 
 @defcv {Member} {lw6cli_oob_data_s} {verify_callback_func}
@@ -192,7 +192,7 @@
 
 
         
-        
+Pointer on a function which will verify if peer is OK, and act accordinlgy if it's OK or not. Note that the callback function might be called pretty much anytime in the heavily multithreaded context of LW6 so it must be reentrant and have mutexes if needed. Indeed, it's very likely to update some shared list of available nodes.         
 @end defcv
 
 @defcv {Member} {lw6cli_oob_data_s} {verify_callback_data}
@@ -201,7 +201,7 @@
 @strong{Definition:} @code{void* lw6cli_oob_data_s::verify_callback_data}
 
 
-        
+Data passed to the verify_callback function.         
         
 @end defcv
 
@@ -211,7 +211,7 @@
 @deftp {Struct} {lw6cli_oob_s}
 
     
-    
+Structure containing both the thread running an OOB request and its data. It was advantagious to separate thoses two and not make the thread a permanent member of the OOB data struct, since it allows the actual OOB code to be totally unaware of the thread running it, which is, to some extent, safer.     
 @end deftp
 
 @defcv {Member} {lw6cli_oob_s} {thread}
@@ -220,7 +220,7 @@
 @strong{Definition:} @code{void* lw6cli_oob_s::thread}
 
 
-        
+Pointer on thread running the OOB request.         
         
 @end defcv
 
@@ -230,7 +230,7 @@
 @strong{Definition:} @code{lw6cli_oob_data_t lw6cli_oob_s::data}
 
 
-        
+Data used by the OOB request.         
         
 @end defcv
 

@@ -39,19 +39,56 @@ typedef int (*lw6cli_verify_callback_func_t) (void *func_data, char *url,
 					      int ping_delay_msec,
 					      lw6sys_assoc_t * assoc);
 
+/**
+ * Holds the data for the process_oob function, this is
+ * merely a utility struct to simplify headers/
+ */
 typedef struct lw6cli_oob_data_s
 {
+  /**
+   * Creation timestamp of the OOB request, this is used
+   * to know wether we have already timed out or not. This is
+   * not the node creation timestamp.
+   */
   int64_t creation_timestamp;
+  /**
+   * Flag used to force finish, for instance when we want to
+   * delete the object quickly and do not want to wait until
+   * a long polling-based network operation finishes completely.
+   */
   int do_not_finish;
+  /**
+   * Public URL of the node, we need this at hand to serve
+   * it quickly to peers, and be able to perform basic checks.
+   */
   char *public_url;
+  /**
+   * Pointer on a function which will verify if peer is OK,
+   * and act accordinlgy if it's OK or not. Note that the
+   * callback function might be called pretty much anytime
+   * in the heavily multithreaded context of LW6 so it must
+   * be reentrant and have mutexes if needed. Indeed, it's very
+   * likely to update some shared list of available nodes.
+   */
   lw6cli_verify_callback_func_t verify_callback_func;
+  /// Data passed to the verify_callback function.
   void *verify_callback_data;
 }
 lw6cli_oob_data_t;
 
+/**
+ * Structure containing both the thread running an OOB request
+ * and its data. It was advantagious to separate thoses two
+ * and not make the thread a permanent member of the OOB data
+ * struct, since it allows the actual OOB code to be totally
+ * unaware of the thread running it, which is, to some extent,
+ * safer.
+ */
 typedef struct lw6cli_oob_s
 {
+  /// Pointer on thread running the OOB request.
   void *thread;
+  /// Data used by the OOB request.
   lw6cli_oob_data_t data;
 }
 lw6cli_oob_t;

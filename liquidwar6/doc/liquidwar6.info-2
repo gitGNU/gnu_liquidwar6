@@ -7303,6 +7303,7 @@ results on
 
      Handle on dynamic library (if it makes sense).
 
+
  -- Member of lw6bot_backend_s: bot_context
      *Type:* `void *'
 
@@ -7318,12 +7319,14 @@ results on
 
      The argc value passed to main.
 
+
  -- Member of lw6bot_backend_s: argv
      *Type:* `const char **'
 
      *Definition:* `const char** lw6bot_backend_s::argv'
 
      The argv value passed to main.
+
 
  -- Member of lw6bot_backend_s: id
      *Type:* `u_int32_t'
@@ -7340,22 +7343,23 @@ results on
 
      Parameters passed at initialization.
 
+
  -- Member of lw6bot_backend_s: init
      *Type:* `void *(*'
 
      *Definition:* `void*(* lw6bot_backend_s::init)(int argc, const
      char *argv[], lw6bot_data_t *data)'
 
-     Pointer on init callback, this is the code used when calling
-     lw6bot_init.
+     Pointer on lw6bot_init callback code.
+
 
  -- Member of lw6bot_backend_s: quit
      *Type:* `void(*'
 
      *Definition:* `void(* lw6bot_backend_s::quit)(void *bot_context)'
 
-     Pointer on quit callback, this is the code used when calling
-     lw6bot_quit.
+     Pointer on lw6bot_context callback code.
+
 
  -- Member of lw6bot_backend_s: next_move
      *Type:* `int(*'
@@ -7363,8 +7367,8 @@ results on
      *Definition:* `int(* lw6bot_backend_s::next_move)(void
      *bot_context, int *x, int *y, lw6bot_data_t *data)'
 
-     Pointer on next_move callback, this is the code used when calling
-     lw6bot_next_move.
+     Pointer on lw6bot_next_move callback code.
+
 
  -- Member of lw6bot_backend_s: repr
      *Type:* `char *(*'
@@ -7372,8 +7376,8 @@ results on
      *Definition:* `char*(* lw6bot_backend_s::repr)(void *bot_context,
      u_int32_t id)'
 
-     Pointer on repr callback, this is the code used when calling
-     lw6bot_repr.
+     Pointer on lw6bot_repr callback code.
+
 
  -- Struct: lw6bot_data_s
      Data used by a bot, those are essentially stable data passed as an
@@ -7395,6 +7399,7 @@ results on
      *Definition:* `lw6bot_param_t lw6bot_data_s::param'
 
      Constant parameters passed to the bot at creation.
+
 
  -- Struct: lw6bot_param_s
      Parameters usable by a bot engine. Those are the stable, fixed
@@ -7426,6 +7431,7 @@ results on
 
      The cursor ID, which is a 16-bit non-null integer.
 
+
  -- Struct: lw6bot_seed_s
      Parameters passed at bot creation, the only use for this is to
      simplify the protoype of the init function.
@@ -7454,12 +7460,14 @@ results on
 
      The dirty read mode (between 0 and 2).
 
+
  -- Member of lw6bot_seed_s: param
      *Type:* `lw6bot_param_t'
 
      *Definition:* `lw6bot_param_t lw6bot_seed_s::param'
 
      Parameters given to the bot at creation.
+
 
 
 File: liquidwar6.info,  Node: mod-brute,  Next: mod-follow,  Prev: libbot,  Up: C API
@@ -8432,24 +8440,34 @@ results on
 
 
  -- Struct: lw6cli_oob_data_s
+     Holds the data for the process_oob function, this is merely a
+     utility struct to simplify headers/
 
  -- Member of lw6cli_oob_data_s: creation_timestamp
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6cli_oob_data_s::creation_timestamp'
 
+     Creation timestamp of the OOB request, this is used to know wether
+     we have already timed out or not. This is not the node creation
+     timestamp.
 
  -- Member of lw6cli_oob_data_s: do_not_finish
      *Type:* `int'
 
      *Definition:* `int lw6cli_oob_data_s::do_not_finish'
 
+     Flag used to force finish, for instance when we want to delete the
+     object quickly and do not want to wait until a long polling-based
+     network operation finishes completely.
 
  -- Member of lw6cli_oob_data_s: public_url
      *Type:* `char *'
 
      *Definition:* `char* lw6cli_oob_data_s::public_url'
 
+     Public URL of the node, we need this at hand to serve it quickly
+     to peers, and be able to perform basic checks.
 
  -- Member of lw6cli_oob_data_s: verify_callback_func
      *Type:* `lw6cli_verify_callback_func_t'
@@ -8457,25 +8475,42 @@ results on
      *Definition:* `lw6cli_verify_callback_func_t
      lw6cli_oob_data_s::verify_callback_func'
 
+     Pointer on a function which will verify if peer is OK, and act
+     accordinlgy if it's OK or not. Note that the callback function
+     might be called pretty much anytime in the heavily multithreaded
+     context of LW6 so it must be reentrant and have mutexes if needed.
+     Indeed, it's very likely to update some shared list of available
+     nodes.
 
  -- Member of lw6cli_oob_data_s: verify_callback_data
      *Type:* `void *'
 
      *Definition:* `void* lw6cli_oob_data_s::verify_callback_data'
 
+     Data passed to the verify_callback function.
+
 
  -- Struct: lw6cli_oob_s
+     Structure containing both the thread running an OOB request and
+     its data. It was advantagious to separate thoses two and not make
+     the thread a permanent member of the OOB data struct, since it
+     allows the actual OOB code to be totally unaware of the thread
+     running it, which is, to some extent, safer.
 
  -- Member of lw6cli_oob_s: thread
      *Type:* `void *'
 
      *Definition:* `void* lw6cli_oob_s::thread'
 
+     Pointer on thread running the OOB request.
+
 
  -- Member of lw6cli_oob_s: data
      *Type:* `lw6cli_oob_data_t'
 
      *Definition:* `lw6cli_oob_data_t lw6cli_oob_s::data'
+
+     Data used by the OOB request.
 
 
 
@@ -8889,11 +8924,20 @@ results on
      *Return value:*  NULL
 
  -- Struct: lw6cnx_connection_s
+     This structure holds all data associated to a physical connexion
+     with a remote peer. This includes informations about the local
+     node, informations about the peer, and protocol specific details.
+     Depending on which backend is used to handle the connection, it
+     will behave differently. If you search for attributes such as
+     socket id, search for them in backend_specific_data which is, in
+     fact, handle by the backend code.
 
  -- Member of lw6cnx_connection_s: local_url
      *Type:* `char *'
 
      *Definition:* `char* lw6cnx_connection_s::local_url'
+
+     URL of our local node.
 
 
  -- Member of lw6cnx_connection_s: remote_url
@@ -8901,11 +8945,15 @@ results on
 
      *Definition:* `char* lw6cnx_connection_s::remote_url'
 
+     URL of the remote node.
+
 
  -- Member of lw6cnx_connection_s: remote_ip
      *Type:* `char *'
 
      *Definition:* `char* lw6cnx_connection_s::remote_ip'
+
+     IP address of the remote node.
 
 
  -- Member of lw6cnx_connection_s: remote_port
@@ -8913,11 +8961,15 @@ results on
 
      *Definition:* `int lw6cnx_connection_s::remote_port'
 
+     IP port of the remote node.
+
 
  -- Member of lw6cnx_connection_s: password
      *Type:* `char *'
 
      *Definition:* `char* lw6cnx_connection_s::password'
+
+     Password as clear text.
 
 
  -- Member of lw6cnx_connection_s: password_send_checksum
@@ -8925,11 +8977,15 @@ results on
 
      *Definition:* `char* lw6cnx_connection_s::password_send_checksum'
 
+     Password as a checksum, what will be sent on the network.
+
 
  -- Member of lw6cnx_connection_s: local_id_int
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6cnx_connection_s::local_id_int'
+
+     ID of the local node, as an unsigned 64-bit integer.
 
 
  -- Member of lw6cnx_connection_s: local_id_str
@@ -8937,11 +8993,15 @@ results on
 
      *Definition:* `char* lw6cnx_connection_s::local_id_str'
 
+     ID of the local node, as an hexa string.
+
 
  -- Member of lw6cnx_connection_s: remote_id_int
      *Type:* `int64_t'
 
      *Definition:* `int64_t lw6cnx_connection_s::remote_id_int'
+
+     ID of the remote node, as an unsigned 64-bit integer.
 
 
  -- Member of lw6cnx_connection_s: remote_id_str
@@ -8949,18 +9009,31 @@ results on
 
      *Definition:* `char* lw6cnx_connection_s::remote_id_str'
 
+     ID of the local node, as an hexa string.
+
 
  -- Member of lw6cnx_connection_s: dns_ok
      *Type:* `int'
 
      *Definition:* `int lw6cnx_connection_s::dns_ok'
 
+     Will be set to 1 if the peer domain name is the same as the one
+     reported in the URL. For instance, if we get a connection from
+     23.45.23.45, but this host claims to be on www.foo.bar and DNS
+     reports www.foo.bar as being 111.222.111.222 then there's
+     something strange. It could just be someone doing NAT, but in all
+     cases it's worth mentionning, so we keep the information here.
+     Having 0 here is a bad point for the connection.
 
  -- Member of lw6cnx_connection_s: network_reliability
      *Type:* `int'
 
      *Definition:* `int lw6cnx_connection_s::network_reliability'
 
+     The higher, the most reliable message sending will be. It can
+     never be perfect, LW6 will always drop some packets from time to
+     time, just to simulate real packet loss and be sure if it happens,
+     it's handled nicely.
 
  -- Member of lw6cnx_connection_s: recv_callback_func
      *Type:* `lw6cnx_recv_callback_t'
@@ -8968,11 +9041,16 @@ results on
      *Definition:* `lw6cnx_recv_callback_t
      lw6cnx_connection_s::recv_callback_func'
 
+     Function which will be called when receiving data. This one must
+     clearly be reentrant, depending on the backend it could be called
+     in a separate thread, at any time.
 
  -- Member of lw6cnx_connection_s: recv_callback_data
      *Type:* `void *'
 
      *Definition:* `void* lw6cnx_connection_s::recv_callback_data'
+
+     Data passed to recv_callback_func.
 
 
  -- Member of lw6cnx_connection_s: send_mutex
@@ -8980,18 +9058,29 @@ results on
 
      *Definition:* `void* lw6cnx_connection_s::send_mutex'
 
+     Send mutex, this will be used so that sending operations are
+     properly serialized. Indeed, threads that respond on the fly could
+     be likely to call this concurrently.
 
  -- Member of lw6cnx_connection_s: foo_bar_key
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6cnx_connection_s::foo_bar_key'
 
+     This is used to handle keepalive. Actually, the protocol is that
+     from time to time FOO key is sent and then each connection (in a
+     tentacle object, typically) is supposed to respond BAR key to show
+     it has received the latest message. This field just stores the
+     value so that when we receive a BAR message we know which key to
+     check against.
 
  -- Member of lw6cnx_connection_s: last_send_foo_timestamp
      *Type:* `int64_t'
 
      *Definition:* `int64_t
      lw6cnx_connection_s::last_send_foo_timestamp'
+
+     The last time FOO was sent.
 
 
  -- Member of lw6cnx_connection_s: next_send_foo_timestamp
@@ -9000,11 +9089,15 @@ results on
      *Definition:* `int64_t
      lw6cnx_connection_s::next_send_foo_timestamp'
 
+     The next time FOO needs to be sent.
+
 
  -- Member of lw6cnx_connection_s: ping_msec
      *Type:* `int'
 
      *Definition:* `int lw6cnx_connection_s::ping_msec'
+
+     The current ping, updated when receiving BAR message.
 
 
  -- Member of lw6cnx_connection_s: last_recv_timestamp
@@ -9012,51 +9105,30 @@ results on
 
      *Definition:* `int64_t lw6cnx_connection_s::last_recv_timestamp'
 
+     Last time something was received on this connection.
+
 
  -- Member of lw6cnx_connection_s: backend_specific_data
      *Type:* `void *'
 
      *Definition:* `void* lw6cnx_connection_s::backend_specific_data'
 
-
- -- Struct: lw6cnx_send_param_s
-
- -- Member of lw6cnx_send_param_s: physical_ticket_sig
-     *Type:* `u_int32_t'
-
-     *Definition:* `u_int32_t lw6cnx_send_param_s::physical_ticket_sig'
-
-
- -- Member of lw6cnx_send_param_s: logical_ticket_sig
-     *Type:* `u_int32_t'
-
-     *Definition:* `u_int32_t lw6cnx_send_param_s::logical_ticket_sig'
-
-
- -- Member of lw6cnx_send_param_s: logical_from_id
-     *Type:* `u_int64_t'
-
-     *Definition:* `u_int64_t lw6cnx_send_param_s::logical_from_id'
-
-
- -- Member of lw6cnx_send_param_s: logical_to_id
-     *Type:* `u_int64_t'
-
-     *Definition:* `u_int64_t lw6cnx_send_param_s::logical_to_id'
-
-
- -- Member of lw6cnx_send_param_s: message
-     *Type:* `char *'
-
-     *Definition:* `char* lw6cnx_send_param_s::message'
-
+     Store backend data, this is when, for instance, a socket handle
+     will be kept, or a library handle (CURL, to name it). Common code
+     does not know what's in there.
 
  -- Struct: lw6cnx_ticket_table_s
+     A common, shared table, to store all the tickets associated with
+     various connections. This needs to be in-memory and quite fast for
+     it's called very often (at each message, in fact) to perform
+     sanity checks and avoid fakes/cheaters.
 
  -- Member of lw6cnx_ticket_table_s: recv_spinlock
      *Type:* `void *'
 
      *Definition:* `void* lw6cnx_ticket_table_s::recv_spinlock'
+
+     Lock for the recv_table hash.
 
 
  -- Member of lw6cnx_ticket_table_s: recv_ack_spinlock
@@ -9064,11 +9136,15 @@ results on
 
      *Definition:* `void* lw6cnx_ticket_table_s::recv_ack_spinlock'
 
+     Lock for the recv_ack_table hash.
+
 
  -- Member of lw6cnx_ticket_table_s: send_spinlock
      *Type:* `void *'
 
      *Definition:* `void* lw6cnx_ticket_table_s::send_spinlock'
+
+     Lock for the send_table hash.
 
 
  -- Member of lw6cnx_ticket_table_s: recv_table
@@ -9076,6 +9152,10 @@ results on
 
      *Definition:* `lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table'
 
+     Hash table containing the tickets for recv operations. This table
+     is auto-generated, if one asks for a ticket for an unknown host,
+     one is generated. The key is the ID (64-bit integer) of the host,
+     as an hexa string.
 
  -- Member of lw6cnx_ticket_table_s: recv_ack_table
      *Type:* `lw6sys_hash_t *'
@@ -9083,381 +9163,20 @@ results on
      *Definition:* `lw6sys_hash_t*
      lw6cnx_ticket_table_s::recv_ack_table'
 
+     Hash table containing wether the send ticket was received by a
+     given host. The data is just a NULL pointer, only if the key is
+     present, we know we don't need to resend our key to the peer. An
+     easy way to know that the key was sent is if the peer was abled to
+     produce a valid message/checksum. The key is the ID (64-bit
+     integer) of the host, as an hexa string.
 
  -- Member of lw6cnx_ticket_table_s: send_table
      *Type:* `lw6sys_hash_t *'
 
      *Definition:* `lw6sys_hash_t* lw6cnx_ticket_table_s::send_table'
 
-
-
-File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcnx,  Up: C API
-
-5.14 libdat
-===========
-
-5.14.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html'.
-
-5.14.2 API
-----------
-
- -- Function: int lw6dat_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `dat' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
-          LOCAL_NODE_ID)
-     Creates a new warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to free
-
-     Frees a warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to clear
-
-     Clears a warehouse object. Clears means emptying everything and
-     resetting the current seq_id to the minimal/start value.
-
-     *Return value:*  none.
-
- -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to purge
-
-     Purges a warehouse object. Purges means emptying everything but
-     keeping the current seq_id unchanged.
-
-     *Return value:*  none.
-
- -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Tells how many nodes are registered in the object.
-
-     *Return value:*  integer, number of nodes
-
- -- Function: u_int64_t lw6dat_warehouse_get_local_id
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the local id.
-
-     *Return value:*  64-bit id.
-
- -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
-          * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the latest (highest) serial number given for local node.
-
-     *Return value:*  integer, latest serial number
-
- -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
-     WAREHOUSE:  warehouse object to use
-
-     LOGICAL_FROM:  from who the message came from originally
-
-     FULL_STR:  message of the form serial i n seq from cmd
-
-     Puts an atomic string in the object, this kind of string is
-     typically received on the network.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to work on
-
-     The various `get_seq' functions can perform slowly if we don't
-     pre-calculate the serial number of draft and reference atoms. So
-     this calculation is not within the functions themselves but can be
-     cached by using this function. Just call it and after you might
-     query the object for reference and draft info.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
-          WAREHOUSE, char * MSG)
-     WAREHOUSE:  warehouse object to use
-
-     MSG:  message
-
-     Puts a message in the object. The message will be splitted into
-     several atoms if needed, it can be arbitrary long.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the lowest seq referenced in the warehouse. Does not mean
-     this is the lowest ever received, only we really have no chances
-     of going below that point, nothing is stored, either complete or
-     partial, below that.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq referenced in the warehouse. Does not mean
-     an actual message can be built from it, only we've got some traces
-     of such a high seq.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a valid draft.
-     This is not exactly the maximimum seq encountered, for here we
-     want at least one complete message and not just one chunk of data
-     (an atom) referring to a high seq, we want the complete stuff.
-     However there can be missing messages in between.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a reference.
-     Being considered as a reference means we received all messages for
-     this seq *and* at least one message from the following seq, and
-     this for every node involved. This being said, we're sure to have
-     the right information, nothing is missing.
-
-     *Return value:*  integer.
-
- -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
-          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
-     WAREHOUSE:  object to query
-
-     SEQ_MIN:  lowest sequence number (round or chat index)
-
-     SEQ_MAX:  highest sequence number (round or chat index)
-
-     Gets the list of messages for a given sequence (round or chat
-     index), polling all the nodes. The from and to boundaries are
-     included.
-
-     *Return value:*  a list of strings.
-
- -- Function: lw6sys_list_t *
-lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_TO)
-     WAREHOUSE:  object to query
-
-     LOGICAL_TO:  the id of the node that we want to send data to
-
-     Returns all the messages that were not sent for the given
-     warehouse.
-
-     *Return value:*  a list of strings, containing atoms.
-
- -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
-          LOCAL_NODE_ID)
-     Creates a new warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to free
-
-     Frees a warehouse object.
-
-     *Return value:*  new object, allocated dynamically
-
- -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to clear
-
-     Clears a warehouse object. Clears means emptying everything and
-     resetting the current seq_id to the minimal/start value.
-
-     *Return value:*  none.
-
- -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the object to purge
-
-     Purges a warehouse object. Purges means emptying everything but
-     keeping the current seq_id unchanged.
-
-     *Return value:*  none.
-
- -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Tells how many nodes are registered in the object.
-
-     *Return value:*  integer, number of nodes
-
- -- Function: u_int64_t lw6dat_warehouse_get_local_id
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the local id.
-
-     *Return value:*  64-bit id.
-
- -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
-          * WAREHOUSE)
-     WAREHOUSE:  the warehouse object to query.
-
-     Returns the latest (highest) serial number given for local node.
-
-     *Return value:*  integer, latest serial number
-
- -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
-     WAREHOUSE:  warehouse object to use
-
-     LOGICAL_FROM:  from who the message came from originally
-
-     FULL_STR:  message of the form serial i n seq from cmd
-
-     Puts an atomic string in the object, this kind of string is
-     typically received on the network.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to work on
-
-     The various `get_seq' functions can perform slowly if we don't
-     pre-calculate the serial number of draft and reference atoms. So
-     this calculation is not within the functions themselves but can be
-     cached by using this function. Just call it and after you might
-     query the object for reference and draft info.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
-          WAREHOUSE, char * MSG)
-     WAREHOUSE:  warehouse object to use
-
-     MSG:  message
-
-     Puts a message in the object. The message will be splitted into
-     several atoms if needed, it can be arbitrary long.
-
-     *Return value:*  1 on success, 0 on error
-
- -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the lowest seq referenced in the warehouse. Does not mean
-     this is the lowest ever received, only we really have no chances
-     of going below that point, nothing is stored, either complete or
-     partial, below that.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq referenced in the warehouse. Does not mean
-     an actual message can be built from it, only we've got some traces
-     of such a high seq.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
-          WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a valid draft.
-     This is not exactly the maximimum seq encountered, for here we
-     want at least one complete message and not just one chunk of data
-     (an atom) referring to a high seq, we want the complete stuff.
-     However there can be missing messages in between.
-
-     *Return value:*  integer.
-
- -- Function: int lw6dat_warehouse_get_seq_reference
-          (lw6dat_warehouse_t * WAREHOUSE)
-     WAREHOUSE:  object to query
-
-     Tells the highest seq that can be considered as a reference.
-     Being considered as a reference means we received all messages for
-     this seq *and* at least one message from the following seq, and
-     this for every node involved. This being said, we're sure to have
-     the right information, nothing is missing.
-
-     *Return value:*  integer.
-
- -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
-          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
-     WAREHOUSE:  object to query
-
-     SEQ_MIN:  lowest sequence number (round or chat index)
-
-     SEQ_MAX:  highest sequence number (round or chat index)
-
-     Gets the list of messages for a given sequence (round or chat
-     index), polling all the nodes. The from and to boundaries are
-     included.
-
-     *Return value:*  a list of strings.
-
- -- Function: lw6sys_list_t *
-lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
-          WAREHOUSE, u_int64_t LOGICAL_TO)
-     WAREHOUSE:  object to query
-
-     LOGICAL_TO:  the id of the node that we want to send data to
-
-     Returns all the messages that were not sent for the given
-     warehouse.
-
-     *Return value:*  a list of strings, containing atoms.
-
- -- Struct: lw6dat_warehouse_s
-
- -- Member of lw6dat_warehouse_s: dummy
-     *Type:* `int'
-
-     *Definition:* `int lw6dat_warehouse_s::dummy'
-
-
-
-File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
-
-5.15 libdef
-===========
-
-5.15.1 Overview
----------------
-
-5.15.2 API
-----------
-
-There are no functions in `libdef', only a header file with constants.
+     Hash table containing the tickets for send operations. Those
+     tickets are typically received from the peers themselves who
+     generate them on the fly. The key is the ID (64-bit integer) of
+     the host, as an hexa string.
 

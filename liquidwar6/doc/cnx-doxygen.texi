@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6cnx_connection_s}
 
     
-    
+This structure holds all data associated to a physical connexion with a remote peer. This includes informations about the local node, informations about the peer, and protocol specific details. Depending on which backend is used to handle the connection, it will behave differently. If you search for attributes such as socket id, search for them in backend_specific_data which is, in fact, handle by the backend code.     
 @end deftp
 
 @defcv {Member} {lw6cnx_connection_s} {local_url}
@@ -12,7 +12,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::local_url}
 
 
-        
+URL of our local node.         
         
 @end defcv
 
@@ -22,7 +22,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::remote_url}
 
 
-        
+URL of the remote node.         
         
 @end defcv
 
@@ -32,7 +32,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::remote_ip}
 
 
-        
+IP address of the remote node.         
         
 @end defcv
 
@@ -42,7 +42,7 @@
 @strong{Definition:} @code{int lw6cnx_connection_s::remote_port}
 
 
-        
+IP port of the remote node.         
         
 @end defcv
 
@@ -52,7 +52,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::password}
 
 
-        
+Password as clear text.         
         
 @end defcv
 
@@ -62,7 +62,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::password_send_checksum}
 
 
-        
+Password as a checksum, what will be sent on the network.         
         
 @end defcv
 
@@ -72,7 +72,7 @@
 @strong{Definition:} @code{int64_t lw6cnx_connection_s::local_id_int}
 
 
-        
+ID of the local node, as an unsigned 64-bit integer.         
         
 @end defcv
 
@@ -82,7 +82,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::local_id_str}
 
 
-        
+ID of the local node, as an hexa string.         
         
 @end defcv
 
@@ -92,7 +92,7 @@
 @strong{Definition:} @code{int64_t lw6cnx_connection_s::remote_id_int}
 
 
-        
+ID of the remote node, as an unsigned 64-bit integer.         
         
 @end defcv
 
@@ -102,7 +102,7 @@
 @strong{Definition:} @code{char* lw6cnx_connection_s::remote_id_str}
 
 
-        
+ID of the local node, as an hexa string.         
         
 @end defcv
 
@@ -113,7 +113,7 @@
 
 
         
-        
+Will be set to 1 if the peer domain name is the same as the one reported in the URL. For instance, if we get a connection from 23.45.23.45, but this host claims to be on www.foo.bar and DNS reports www.foo.bar as being 111.222.111.222 then there's something strange. It could just be someone doing NAT, but in all cases it's worth mentionning, so we keep the information here. Having 0 here is a bad point for the connection.         
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {network_reliability}
@@ -123,7 +123,7 @@
 
 
         
-        
+The higher, the most reliable message sending will be. It can never be perfect, LW6 will always drop some packets from time to time, just to simulate real packet loss and be sure if it happens, it's handled nicely.         
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {recv_callback_func}
@@ -133,7 +133,7 @@
 
 
         
-        
+Function which will be called when receiving data. This one must clearly be reentrant, depending on the backend it could be called in a separate thread, at any time.         
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {recv_callback_data}
@@ -142,7 +142,7 @@
 @strong{Definition:} @code{void* lw6cnx_connection_s::recv_callback_data}
 
 
-        
+Data passed to recv_callback_func.         
         
 @end defcv
 
@@ -153,7 +153,7 @@
 
 
         
-        
+Send mutex, this will be used so that sending operations are properly serialized. Indeed, threads that respond on the fly could be likely to call this concurrently.         
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {foo_bar_key}
@@ -163,7 +163,7 @@
 
 
         
-        
+This is used to handle keepalive. Actually, the protocol is that from time to time FOO key is sent and then each connection (in a tentacle object, typically) is supposed to respond BAR key to show it has received the latest message. This field just stores the value so that when we receive a BAR message we know which key to check against.         
 @end defcv
 
 @defcv {Member} {lw6cnx_connection_s} {last_send_foo_timestamp}
@@ -172,7 +172,7 @@
 @strong{Definition:} @code{int64_t lw6cnx_connection_s::last_send_foo_timestamp}
 
 
-        
+The last time FOO was sent.         
         
 @end defcv
 
@@ -182,7 +182,7 @@
 @strong{Definition:} @code{int64_t lw6cnx_connection_s::next_send_foo_timestamp}
 
 
-        
+The next time FOO needs to be sent.         
         
 @end defcv
 
@@ -192,7 +192,7 @@
 @strong{Definition:} @code{int lw6cnx_connection_s::ping_msec}
 
 
-        
+The current ping, updated when receiving BAR message.         
         
 @end defcv
 
@@ -202,7 +202,7 @@
 @strong{Definition:} @code{int64_t lw6cnx_connection_s::last_recv_timestamp}
 
 
-        
+Last time something was received on this connection.         
         
 @end defcv
 
@@ -213,66 +213,7 @@
 
 
         
-        
-@end defcv
-
-
-
-  
-@deftp {Struct} {lw6cnx_send_param_s}
-
-    
-    
-@end deftp
-
-@defcv {Member} {lw6cnx_send_param_s} {physical_ticket_sig}
-@strong{Type:} @code{u_int32_t}
-
-@strong{Definition:} @code{u_int32_t lw6cnx_send_param_s::physical_ticket_sig}
-
-
-        
-        
-@end defcv
-
-@defcv {Member} {lw6cnx_send_param_s} {logical_ticket_sig}
-@strong{Type:} @code{u_int32_t}
-
-@strong{Definition:} @code{u_int32_t lw6cnx_send_param_s::logical_ticket_sig}
-
-
-        
-        
-@end defcv
-
-@defcv {Member} {lw6cnx_send_param_s} {logical_from_id}
-@strong{Type:} @code{u_int64_t}
-
-@strong{Definition:} @code{u_int64_t lw6cnx_send_param_s::logical_from_id}
-
-
-        
-        
-@end defcv
-
-@defcv {Member} {lw6cnx_send_param_s} {logical_to_id}
-@strong{Type:} @code{u_int64_t}
-
-@strong{Definition:} @code{u_int64_t lw6cnx_send_param_s::logical_to_id}
-
-
-        
-        
-@end defcv
-
-@defcv {Member} {lw6cnx_send_param_s} {message}
-@strong{Type:} @code{char *}
-
-@strong{Definition:} @code{char* lw6cnx_send_param_s::message}
-
-
-        
-        
+Store backend data, this is when, for instance, a socket handle will be kept, or a library handle (CURL, to name it). Common code does not know what's in there.         
 @end defcv
 
 
@@ -281,7 +222,7 @@
 @deftp {Struct} {lw6cnx_ticket_table_s}
 
     
-    
+A common, shared table, to store all the tickets associated with various connections. This needs to be in-memory and quite fast for it's called very often (at each message, in fact) to perform sanity checks and avoid fakes/cheaters.     
 @end deftp
 
 @defcv {Member} {lw6cnx_ticket_table_s} {recv_spinlock}
@@ -290,7 +231,7 @@
 @strong{Definition:} @code{void* lw6cnx_ticket_table_s::recv_spinlock}
 
 
-        
+Lock for the recv_table hash.         
         
 @end defcv
 
@@ -300,7 +241,7 @@
 @strong{Definition:} @code{void* lw6cnx_ticket_table_s::recv_ack_spinlock}
 
 
-        
+Lock for the recv_ack_table hash.         
         
 @end defcv
 
@@ -310,7 +251,7 @@
 @strong{Definition:} @code{void* lw6cnx_ticket_table_s::send_spinlock}
 
 
-        
+Lock for the send_table hash.         
         
 @end defcv
 
@@ -321,7 +262,7 @@
 
 
         
-        
+Hash table containing the tickets for recv operations. This table is auto-generated, if one asks for a ticket for an unknown host, one is generated. The key is the ID (64-bit integer) of the host, as an hexa string.         
 @end defcv
 
 @defcv {Member} {lw6cnx_ticket_table_s} {recv_ack_table}
@@ -331,7 +272,7 @@
 
 
         
-        
+Hash table containing wether the send ticket was received by a given host. The data is just a NULL pointer, only if the key is present, we know we don't need to resend our key to the peer. An easy way to know that the key was sent is if the peer was abled to produce a valid message/checksum. The key is the ID (64-bit integer) of the host, as an hexa string.         
 @end defcv
 
 @defcv {Member} {lw6cnx_ticket_table_s} {send_table}
@@ -341,7 +282,7 @@
 
 
         
-        
+Hash table containing the tickets for send operations. Those tickets are typically received from the peers themselves who generate them on the fly. The key is the ID (64-bit integer) of the host, as an hexa string.         
 @end defcv
 
 

@@ -12,8 +12,8 @@ The bot bakckend is the first argument passed to any bot function, it contains r
 @strong{Definition:} @code{lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle}
 
 
-        
 Handle on dynamic library (if it makes sense).         
+        
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {bot_context}
@@ -32,8 +32,8 @@ Bot specific data, what is behind this pointer really depends on the bot engine.
 @strong{Definition:} @code{int lw6bot_backend_s::argc}
 
 
-        
 The argc value passed to main.         
+        
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {argv}
@@ -42,8 +42,8 @@ The argc value passed to main.
 @strong{Definition:} @code{const char** lw6bot_backend_s::argv}
 
 
-        
 The argv value passed to main.         
+        
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {id}
@@ -62,8 +62,8 @@ The id of the object, this is non-zero and unique within one run session, increm
 @strong{Definition:} @code{lw6bot_seed_t lw6bot_backend_s::seed}
 
 
-        
 Parameters passed at initialization.         
+        
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {init}
@@ -72,8 +72,8 @@ Parameters passed at initialization.
 @strong{Definition:} @code{void*(* lw6bot_backend_s::init)(int argc, const char *argv[], lw6bot_data_t *data)}
 
 
+Pointer on lw6bot_init callback code.         
         
-Pointer on init callback, this is the code used when calling lw6bot_init.         
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {quit}
@@ -82,8 +82,8 @@ Pointer on init callback, this is the code used when calling lw6bot_init.
 @strong{Definition:} @code{void(* lw6bot_backend_s::quit)(void *bot_context)}
 
 
+Pointer on lw6bot_context callback code.         
         
-Pointer on quit callback, this is the code used when calling lw6bot_quit.         
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {next_move}
@@ -92,8 +92,8 @@ Pointer on quit callback, this is the code used when calling lw6bot_quit.
 @strong{Definition:} @code{int(* lw6bot_backend_s::next_move)(void *bot_context, int *x, int *y, lw6bot_data_t *data)}
 
 
+Pointer on lw6bot_next_move callback code.         
         
-Pointer on next_move callback, this is the code used when calling lw6bot_next_move.         
 @end defcv
 
 @defcv {Member} {lw6bot_backend_s} {repr}
@@ -102,8 +102,8 @@ Pointer on next_move callback, this is the code used when calling lw6bot_next_mo
 @strong{Definition:} @code{char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)}
 
 
+Pointer on lw6bot_repr callback code.         
         
-Pointer on repr callback, this is the code used when calling lw6bot_repr.         
 @end defcv
 
 
@@ -131,8 +131,8 @@ Game state the bot will have to base its reflexion upon. This not need be always
 @strong{Definition:} @code{lw6bot_param_t lw6bot_data_s::param}
 
 
-        
 Constant parameters passed to the bot at creation.         
+        
 @end defcv
 
 
@@ -170,8 +170,8 @@ IQ is supposed to reflect the cleverness of the bot. The default is 100 (this va
 @strong{Definition:} @code{u_int16_t lw6bot_param_s::cursor_id}
 
 
-        
 The cursor ID, which is a 16-bit non-null integer.         
+        
 @end defcv
 
 
@@ -209,8 +209,8 @@ This can be NULL, it's a pilot object which can be used in some case, when, for 
 @strong{Definition:} @code{int lw6bot_seed_s::dirty_read}
 
 
-        
 The dirty read mode (between 0 and 2).         
+        
 @end defcv
 
 @defcv {Member} {lw6bot_seed_s} {param}
@@ -219,8 +219,8 @@ The dirty read mode (between 0 and 2).
 @strong{Definition:} @code{lw6bot_param_t lw6bot_seed_s::param}
 
 
-        
 Parameters given to the bot at creation.         
+        
 @end defcv
 
 
