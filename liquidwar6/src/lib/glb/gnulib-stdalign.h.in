@@ -43,10 +43,14 @@
    want to be portable to HP-UX 10.20 cc and AIX 3.2.5 xlc.  */
 #include <stddef.h>
 #if defined __cplusplus
-   template <class __t> struct __alignof_helper { char __a; __t __b; };
-# define _Alignof(type) offsetof (__alignof_helper<type>, __b)
+template < class __t > struct __alignof_helper
+{
+  char __a;
+  __t __b;
+};
+#define _Alignof(type) offsetof (__alignof_helper<type>, __b)
 #else
-# define _Alignof(type) offsetof (struct { char __a; type __b; }, __b)
+#define _Alignof(type) offsetof (struct { char __a; type __b; }, __b)
 #endif
 #define alignof _Alignof
 #define __alignof_is_defined 1
@@ -77,13 +81,13 @@
    */
 
 #if __GNUC__ || __IBMC__ || __IBMCPP__ || 0x5110 <= __SUNPRO_C
-# define _Alignas(a) __attribute__ ((__aligned__ (a)))
+#define _Alignas(a) __attribute__ ((__aligned__ (a)))
 #elif 1300 <= _MSC_VER
-# define _Alignas(a) __declspec (align (a))
+#define _Alignas(a) __declspec (align (a))
 #endif
 #ifdef _Alignas
-# define alignas _Alignas
-# define __alignas_is_defined 1
+#define alignas _Alignas
+#define __alignas_is_defined 1
 #endif
 
 #endif /* _GL_STDALIGN_H */

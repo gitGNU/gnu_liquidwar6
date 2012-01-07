@@ -1,8 +1,0 @@
-@FILE_PATTERNS = *.h
-@INPUT = /home/ufoot/Home/_/liquidwar6/src
-@RECURSIVE = YES
-@EXCLUDE_SYMBOLS = _*
-@EXCLUDE_PATTERNS = *internal*
-@GENERATE_XML = YES
-@GENERATE_HTML = YES
-@GENERATE_LATEX = NO
