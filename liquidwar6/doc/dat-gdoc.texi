@@ -167,3 +167,164 @@ Returns all the messages that were not sent for the given warehouse.
 @strong{Return value:}  a list of strings, containing atoms.
 @end deftypefun
 
+@deftypefun {lw6dat_warehouse_t *} {lw6dat_warehouse_new} (u_int64_t @var{local_node_id})
+
+Creates a new warehouse object.
+
+@strong{Return value:}  new object, allocated dynamically
+@end deftypefun
+
+@deftypefun {void} {lw6dat_warehouse_free} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the object to free
+
+Frees a warehouse object.
+
+@strong{Return value:}  new object, allocated dynamically
+@end deftypefun
+
+@deftypefun {void} {lw6dat_warehouse_clear} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the object to clear
+
+Clears a warehouse object. Clears means emptying everything
+and resetting the current seq_id to the minimal/start value.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {void} {lw6dat_warehouse_purge} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the object to purge
+
+Purges a warehouse object. Purges means emptying everything
+but keeping the current seq_id unchanged.
+
+@strong{Return value:}  none.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_nb_nodes} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the warehouse object to query.
+
+Tells how many nodes are registered in the object.
+
+@strong{Return value:}  integer, number of nodes
+@end deftypefun
+
+@deftypefun {u_int64_t} {lw6dat_warehouse_get_local_id} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the warehouse object to query.
+
+Returns the local id.
+
+@strong{Return value:}  64-bit id.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_local_serial} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  the warehouse object to query.
+
+Returns the latest (highest) serial number given for local node.
+
+@strong{Return value:}  integer, latest serial number
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_put_atom_str} (lw6dat_warehouse_t * @var{warehouse}, u_int64_t @var{logical_from}, char * @var{full_str})
+@var{warehouse}:  warehouse object to use
+
+@var{logical_from}:  from who the message came from originally
+
+@var{full_str}:  message of the form serial i n seq from cmd
+
+Puts an atomic string in the object, this kind of string is
+typically received on the network.
+
+@strong{Return value:}  1 on success, 0 on error
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_calc_serial_draft_and_reference} (lw6dat_warehouse_t *         @var{warehouse})
+@var{warehouse}:  object to work on
+
+The various @code{get_seq} functions can perform slowly if 
+we don't pre-calculate the serial number of draft and reference
+atoms. So this calculation is not within the functions themselves
+but can be cached by using this function. Just call it and
+after you might query the object for reference and draft info.
+
+@strong{Return value:}  1 on success, 0 on failure.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_put_local_msg} (lw6dat_warehouse_t * @var{warehouse}, char * @var{msg})
+@var{warehouse}:  warehouse object to use
+
+@var{msg}:  message
+
+Puts a message in the object. The message will be splitted into
+several atoms if needed, it can be arbitrary long.
+
+@strong{Return value:}  1 on success, 0 on error
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_seq_min} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  object to query
+
+Tells the lowest seq referenced in the warehouse. Does not
+mean this is the lowest ever received, only we really have
+no chances of going below that point, nothing is stored, either
+complete or partial, below that.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_seq_max} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  object to query
+
+Tells the highest seq referenced in the warehouse. Does not
+mean an actual message can be built from it, only we've
+got some traces of such a high seq.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_seq_draft} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  object to query
+
+Tells the highest seq that can be considered as a valid draft.
+This is not exactly the maximimum seq encountered, for here we
+want at least one complete message and not just one chunk of
+data (an atom) referring to a high seq, we want the complete
+stuff. However there can be missing messages in between.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {int} {lw6dat_warehouse_get_seq_reference} (lw6dat_warehouse_t * @var{warehouse})
+@var{warehouse}:  object to query
+
+Tells the highest seq that can be considered as a reference.
+Being considered as a reference means we received all messages
+for this seq *and* at least one message from the following seq,
+and this for every node involved. This being said, we're sure
+to have the right information, nothing is missing.
+
+@strong{Return value:}  integer.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_msg_list_by_seq} (lw6dat_warehouse_t * @var{warehouse}, int @var{seq_min}, int @var{seq_max})
+@var{warehouse}:  object to query
+
+@var{seq_min}:  lowest sequence number (round or chat index)
+
+@var{seq_max}:  highest sequence number (round or chat index)
+
+Gets the list of messages for a given sequence (round or chat index),
+polling all the nodes. The from and to boundaries are included.
+
+@strong{Return value:}  a list of strings.
+@end deftypefun
+
+@deftypefun {lw6sys_list_t *} {lw6dat_warehouse_get_atom_str_list_not_sent} (lw6dat_warehouse_t *           @var{warehouse}, u_int64_t @var{logical_to})
+@var{warehouse}:  object to query
+
+@var{logical_to}:  the id of the node that we want to send data to
+
+Returns all the messages that were not sent for the given warehouse.
+
+@strong{Return value:}  a list of strings, containing atoms.
+@end deftypefun
+

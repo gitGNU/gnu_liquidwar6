@@ -137,15 +137,25 @@ typedef struct lw6ker_game_struct_s
 }
 lw6ker_game_struct_t;
 
+/**
+ * Game structure containing all changeable data state, this will
+ * hold the fighter positions, their health, the cursors position,
+ * the gradient, anything that is dynamic.
+ * Note that this structure is a wrapper over the internal structure
+ * which contains the real members, the first two members need be
+ * the same as it is casted internally.
+ */
 typedef struct lw6ker_game_state_s
 {
-  /*
-   * The 2 first members, id and game struct, are the same as the internal
-   * _lw6ker_game_state_t structure. The rest of it is hidden.
-   * The program will cast from lw6ker_game_state_t to _lw6ker_game_state_t
-   * internally.
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation
    */
   u_int32_t id;
+  /**
+   * Pointer on the game non-mutable structure, which holds the
+   * data that is never changed within a game.
+   */
   lw6ker_game_struct_t *game_struct;
 }
 lw6ker_game_state_t;

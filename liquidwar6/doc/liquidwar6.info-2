@@ -6497,6 +6497,10 @@ interfaces:
      cyclomatic complexity of functions. It enables the programmer to
      spots the "ugly" and dangerous parts of the program.
 
+   * `http://www.gnu.org/software/liquidwar6/doxygen/': the Doxygen
+     (http://www.stack.nl/~dimitri/doxygen/) documentation essentially
+     describes the C structures and their attributes.
+
 * Menu:
 
 * libliquidwar6::       Top-level functions.
@@ -8751,6 +8755,169 @@ lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 
      *Return value:*  a list of strings, containing atoms.
 
+ -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
+          LOCAL_NODE_ID)
+     Creates a new warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to free
+
+     Frees a warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to clear
+
+     Clears a warehouse object. Clears means emptying everything and
+     resetting the current seq_id to the minimal/start value.
+
+     *Return value:*  none.
+
+ -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to purge
+
+     Purges a warehouse object. Purges means emptying everything but
+     keeping the current seq_id unchanged.
+
+     *Return value:*  none.
+
+ -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Tells how many nodes are registered in the object.
+
+     *Return value:*  integer, number of nodes
+
+ -- Function: u_int64_t lw6dat_warehouse_get_local_id
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the local id.
+
+     *Return value:*  64-bit id.
+
+ -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
+          * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the latest (highest) serial number given for local node.
+
+     *Return value:*  integer, latest serial number
+
+ -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
+     WAREHOUSE:  warehouse object to use
+
+     LOGICAL_FROM:  from who the message came from originally
+
+     FULL_STR:  message of the form serial i n seq from cmd
+
+     Puts an atomic string in the object, this kind of string is
+     typically received on the network.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to work on
+
+     The various `get_seq' functions can perform slowly if we don't
+     pre-calculate the serial number of draft and reference atoms. So
+     this calculation is not within the functions themselves but can be
+     cached by using this function. Just call it and after you might
+     query the object for reference and draft info.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
+          WAREHOUSE, char * MSG)
+     WAREHOUSE:  warehouse object to use
+
+     MSG:  message
+
+     Puts a message in the object. The message will be splitted into
+     several atoms if needed, it can be arbitrary long.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the lowest seq referenced in the warehouse. Does not mean
+     this is the lowest ever received, only we really have no chances
+     of going below that point, nothing is stored, either complete or
+     partial, below that.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq referenced in the warehouse. Does not mean
+     an actual message can be built from it, only we've got some traces
+     of such a high seq.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a valid draft.
+     This is not exactly the maximimum seq encountered, for here we
+     want at least one complete message and not just one chunk of data
+     (an atom) referring to a high seq, we want the complete stuff.
+     However there can be missing messages in between.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a reference.
+     Being considered as a reference means we received all messages for
+     this seq *and* at least one message from the following seq, and
+     this for every node involved. This being said, we're sure to have
+     the right information, nothing is missing.
+
+     *Return value:*  integer.
+
+ -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
+          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
+     WAREHOUSE:  object to query
+
+     SEQ_MIN:  lowest sequence number (round or chat index)
+
+     SEQ_MAX:  highest sequence number (round or chat index)
+
+     Gets the list of messages for a given sequence (round or chat
+     index), polling all the nodes. The from and to boundaries are
+     included.
+
+     *Return value:*  a list of strings.
+
+ -- Function: lw6sys_list_t *
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_TO)
+     WAREHOUSE:  object to query
+
+     LOGICAL_TO:  the id of the node that we want to send data to
+
+     Returns all the messages that were not sent for the given
+     warehouse.
+
+     *Return value:*  a list of strings, containing atoms.
+
 
 File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
 
@@ -9045,218 +9212,4 @@ results on
      LW6-expected functions.
 
      *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: libgfx,  Next: mod-gl,  Prev: libdyn,  Up: C API
-
-5.18 libgfx
-===========
-
-5.18.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/index.html'.
-
-5.18.2 API
-----------
-
- -- Function: int lw6gfx_init (lw6gfx_backend_t * BACKEND,
-          lw6gui_video_mode_t * VIDEO_MODE,
-          lw6gui_resize_callback_func_t RESIZE_CALLBACK)
-     BACKEND:  the graphical backend to use
-
-     VIDEO_MODE:  the video mode to use at start up
-
-     RESIZE_CALLBACK:  a callback function which will be called at each
-     resize event
-
-     Sets up the graphical backend for good, initializing a video mode
-     and allocating ressources. This call can typically fail if there's
-     no device available, if the user doesn't have enough rights to
-     access the hardware, and so on.
-
-     *Return value:*  1 on success, 0 if not
-
- -- Function: void lw6gfx_quit (lw6gfx_backend_t * BACKEND)
-     BACKEND:  the backend to quit
-
-     Uninitializes the backend, that is, exits the graphical mode. All
-     threads that use graphics must be closed when this is called.
-
-     *Return value:*  none.
-
- -- Function: char * lw6gfx_repr (lw6gfx_backend_t * BACKEND)
-     BACKEND:  the backend to represent
-
-     Returns a readable version of the backend object.
-
-     *Return value:*  a newly allocated pointer.
-
- -- Function: int lw6gfx_set_video_mode (lw6gfx_backend_t * BACKEND,
-          lw6gui_video_mode_t * VIDEO_MODE)
-     BACKEND:  the backend to use
-
-     VIDEO_MODE:  the new video mode
-
-     This function changes the video mode. Note that the first time you
-     set up the graphical environment you must call `lw6gfx_init' but
-     to change the current mode, use this function. It should reload
-     backend data automatically if needed (textures for instance). Note
-     that before giving up and failing this function will try alternate
-     video modes, and you're not garanteed to have the right mode after
-     the call, even if it returns true. To check this, use
-     `lw6gfx_get_video_mode'.
-
-     *Return value:*  1 on success, 0 on failure;
-
- -- Function: int lw6gfx_get_video_mode (lw6gfx_backend_t * BACKEND,
-          lw6gui_video_mode_t * VIDEO_MODE)
-     BACKEND:  the backend to use
-
-     VIDEO_MODE:  the current video mode (will be overwritten, out
-     parameter)
-
-     This function returns the current video mode.
-
-     *Return value:*  1 on success, 0 on failure;
-
- -- Function: int lw6gfx_get_fullscreen_modes (lw6gfx_backend_t *
-          BACKEND, lw6gui_fullscreen_modes_t * FULLSCREEN_MODES)
-     BACKEND:  the backend to use
-
-     FULLSCREEN_MODES:  the available fullscreen modes (will be
-     overwritten, out parameter)
-
-     This function returns the current video mode.
-
-     *Return value:*  1 on success, 0 on failure;
-
- -- Function: lw6gui_input_t * lw6gfx_pump_events (lw6gfx_backend_t *
-          BACKEND)
-     BACKEND:  the backend to use
-
-     This function "pumps" events, that is gets pending events, puts
-     them in queues, maintains internal states up to date. You really
-     must call this very often or no input will be processed at all.
-
-     *Return value:*  a pointer on the internal input state, musn't be
-     freed.
-
- -- Function: int lw6gfx_display (lw6gfx_backend_t * BACKEND, int MASK,
-          lw6gui_look_t * LOOK, lw6map_level_t * LEVEL,
-          lw6ker_game_struct_t * GAME_STRUCT, lw6ker_game_state_t *
-          GAME_STATE, lw6pil_local_cursors_t * LOCAL_CURSORS,
-          lw6gui_menu_t * MENU, float PROGRESS, float FPS, float MPS,
-          char ** LOG_LIST, int CAPTURE, int GFX_DEBUG, int
-          DEBUG_TEAM_ID, int DEBUG_LAYER_ID)
-     BACKEND:  the graphical backend to use
-
-     MASK:  display flag, tells what to display
-
-     LOOK:  the look, the skin, contains display options
-
-     LEVEL:  the level to display
-
-     GAME_STRUCT:  the game_struct associated with the level
-
-     GAME_STATE:  the game_state associated with the level
-
-     LOCAL_CURSORS:  the cursor to center the focus on
-
-     MENU:  the menu to display
-
-     PROGRESS:  the value of the progress indicator
-
-     FPS:  the number of frames per second to display
-
-     MPS:  the number of moves per second to display
-
-     LOG_LIST:  log messages to display
-
-     CAPTURE:  wether to enable capture mode or not
-
-     GFX_DEBUG:  wether to enable gfx debugging tools
-
-     DEBUG_TEAM_ID:  for debug display, team to display informations
-     about
-
-     DEBUG_LAYER_ID:  for debug display, layer to display
-
-     This is the major drawing function, the one that encapsulates all
-     others. As the program uses a separate thread to display things,
-     we just pass this function many parameters, and let it do its job
-     alone. So many parameters might sometimes be useless. It also
-     allows the graphics backend decide wether menus and hud and
-     background should interact. Or not.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: lw6sys_assoc_t * lw6gfx_get_backends (int ARGC, const
-          char * [] ARGV)
-     ARGC:  argc, as passed to `main'
-
-     ARGV:  argv, as passed to `main'
-
-     List available gfx backends. The hash contains pairs with id and
-     name for each backend. The id is the technical key you can use to
-     load the backend, the name is something more readable you can
-     display in an interface. The backend objects themselves are not
-     instanciated by this (in fact, they are, but released on the fly)
-     you need to load and initialize them afterwards.
-
-     *Return value:*  hash containing id/name pairs.
-
- -- Function: lw6gfx_backend_t * lw6gfx_create_backend (int ARGC, const
-          char * [] ARGV, char * NAME)
-     ARGC:  argc, as passed to `main'
-
-     ARGV:  argv, as passed to `main'
-
-     NAME:  string containing gfx key, typically got from
-     `lw6gfx_get_backends'
-
-     Creates a gfx backend, this is just about loading the dynamic
-     library if needed, and/or check gfx engine is available, and
-     connect to it. It does not perform initialization.
-
-     *Return value:*  gfx backend.
-
- -- Function: void lw6gfx_destroy_backend (lw6gfx_backend_t * BACKEND)
-     BACKEND:  gfx backend to destroy
-
-     Frees the ressources associated to a gfx, which must have been
-     properly uninitialized before.
-
-     *Return value:*  none.
-
- -- Function: int lw6gfx_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `gfx' module test suite. In check-only mode, this
-     function won't test many things, for it requires a graphical mode
-     to be available to perform the complete test.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
-
-File: liquidwar6.info,  Node: mod-gl,  Next: libglb,  Prev: libgfx,  Up: C API
-
-5.19 mod-gl
-===========
-
-5.19.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl/gl-utils/index.html'
-(as there are many sub-directories in this module, please refer to the
-test coverage directory index
-(http://www.gnu.org/software/liquidwar6/coverage/index.html) for
-complete information).
-
-5.19.2 API
-----------
 

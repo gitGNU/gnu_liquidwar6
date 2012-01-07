@@ -704,7 +704,50 @@ SDL-related libraries are required. The rest is truely optional.
      requests, the idea being not to re-invent the wheel but use a
      robust standards-compliant generic library.
 
-2.3.3 Installing requirements using RPM/DEB packages
+2.3.3 Optional tools
+--------------------
+
+Those tools are used upstream to maintain the game, you normally do not
+need them to build the game "as is" but if you modify the source code
+and hack the game, you might be interested in installing them.
+
+   * Perl 5 (http://www.perl.org/).  Liquid War 6 uses Perl for many
+     tedious task, including, but not limited to, parsing documentation.
+
+   * GNU Indent (http://www.gnu.org/software/indent/).  Code is
+     regularly indented using the script `src/indent.sh' which calls
+     `indent' automatically and recursively on the whole source tree.
+
+   * md5sum (GNU core utilities)
+     (http://www.gnu.org/software/coreutils/) This is used to stamp the
+     source code and help tracking exact build versions.
+
+   * Doxygen (http://www.stack.nl/~dimitri/doxygen/).  Used to generate
+     documentation concerning C structs, more precisely, include the
+     struct members documentation into the official texinfo manual.
+
+   * xsltproc (http://xmlsoft.org/XSLT/xsltproc2.htm).  Used to
+     post-process Doxygen output and transform it to texinfo.
+
+   * Google Performance Tools
+     (http://code.google.com/p/google-perftools/).  This tool is
+     convenient to optimize the program and find out what parts of it
+     take most of the CPU power to execute.
+
+   * lcov (http://ltp.sourceforge.net/coverage/lcov.php).  Gives nice
+     output about code coverage.
+
+   * GNU global (http://www.gnu.org/software/liquidwar6/global/).
+     Shows global references through the code.
+
+   * pmccabe (http://parisc-linux.org/~bame/pmccabe/).  Cyclomatic
+     complexity, shows what part of the code are bloated.
+
+   * Valgrind (http://www.valgrind.org/).  Usefull to track down memory
+     leaks and many other programming errors.
+
+
+2.3.4 Installing requirements using RPM/DEB packages
 ----------------------------------------------------
 
 You might find it convenient not to install all the requirements from
@@ -727,8 +770,11 @@ Fedora (http://www.fedoraproject.org/) 15 "Lovelock") could be:
      SDL_mixer SDL_mixer-devel \
      freetype freetype-devel SDL_ttf SDL_ttf-devel \
      libcurl libcurl-devel \
-     perl lcov global valgrind graphviz gv texinfo-tex \
-     gtk2-devel rpm-build
+     gtk2-devel \
+     perl lcov global valgrind graphviz gv \
+     texinfo-tex \
+     indent emacs doxygen libxml \
+     rpm-build
 
    On a DEB package based GNU/Linux system this command (tested with
 Debian (http://www.debian.org/) 6.0 "squeeze") would be:
@@ -747,14 +793,16 @@ Debian (http://www.debian.org/) 6.0 "squeeze") would be:
      libsdl-mixer1.2 libsdl-mixer1.2-dev \
      libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
      libcurl4-gnutls-dev \
+     libgtk2.0-dev \
      perl lcov global valgrind graphviz gv \
      texinfo texlive-base texlive-generic-extra \
-     libgtk2.0-dev debhelper
+     indent emacs doxygen xlstproc \
+     debhelper
 
    Note that those requirements really depend on the exact distribution
 you have, package names may vary from one to another.
 
-2.3.4 Compiling
+2.3.5 Compiling
 ---------------
 
 Liquid War 6 uses GNU Automake (http://www.gnu.org/software/automake/),

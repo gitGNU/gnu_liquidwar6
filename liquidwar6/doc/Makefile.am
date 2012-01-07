@@ -18,16 +18,17 @@
 # Liquid War 6 homepage : http://www.gnu.org/software/liquidwar6/
 # Contact author        : ufoot@ufoot.org
 
-SUBDIRS = coverage global cyclo example dtd
+SUBDIRS = coverage global cyclo doxygen example dtd
 
 info_TEXINFOS = liquidwar6.texi
 gdoc_TEXINFOS = liquidwar6-gdoc.texi bot-gdoc.texi cfg-gdoc.texi cli-gdoc.texi cns-gdoc.texi cnx-gdoc.texi dat-gdoc.texi dsp-gdoc.texi dyn-gdoc.texi fdl.texi gfx-gdoc.texi glb-gdoc.texi gpl.texi gui-gdoc.texi hlp-gdoc.texi img-gdoc.texi ker-gdoc.texi ldr-gdoc.texi liquidwar6-gdoc.texi map-gdoc.texi mod-brute-gdoc.texi mod-csound-gdoc.texi mod-follow-gdoc.texi mod-gl-gdoc.texi mod-httpd-gdoc.texi mod-http-gdoc.texi mod-idiot-gdoc.texi mod-ogg-gdoc.texi mod-random-gdoc.texi mod-tcpd-gdoc.texi mod-tcp-gdoc.texi mod-udpd-gdoc.texi mod-udp-gdoc.texi msg-gdoc.texi net-gdoc.texi nod-gdoc.texi p2p-gdoc.texi pil-gdoc.texi scm-gdoc.texi sim-gdoc.texi snd-gdoc.texi srv-gdoc.texi sys-gdoc.texi tsk-gdoc.texi vox-gdoc.texi
+doxygen_TEXINFOS = liquidwar6-doxygen.texi
 selfdoc_TEXINFOS = quick-selfdoc.texi doc-selfdoc.texi show-selfdoc.texi path-selfdoc.texi players-selfdoc.texi input-selfdoc.texi graphics-selfdoc.texi sound-selfdoc.texi network-selfdoc.texi map-selfdoc.texi map-rules-selfdoc.texi map-hints-selfdoc.texi map-style-selfdoc.texi map-teams-selfdoc.texi funcs-selfdoc.texi hooks-selfdoc.texi advanced-selfdoc.texi aliases-selfdoc.texi team-colors-selfdoc.texi weapons-selfdoc.texi
-liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi stamp.texi const.texi $(gdoc_TEXINFOS) $(selfdoc_TEXINFOS)
+liquidwar6_TEXINFOS = gpl.texi fdl.texi version.texi stamp.texi const.texi $(gdoc_TEXINFOS) $(doxygen_TEXINFOS) $(selfdoc_TEXINFOS)
 
 man6_MANS = liquidwar6.man
 
-EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh deps.dot deps.eps deps.txt mod-gl-layout.xcf mod-gl-layout.ods
+EXTRA_DIST = COPYING gdoc.pl gdoc-update.sh selfdoc.pl selfdoc-update.sh doxygen-update.sh deps.dot deps.eps deps.txt mod-gl-layout.xcf mod-gl-layout.ods
 
 deps.eps: deps.dot
 	if which dot ; then dot -Kdot -Teps -o$@ $< ; fi ; if which rsync ; then rsync $@ ${srcdir} ; fi
@@ -73,3 +74,6 @@ if LW6_SELFDOC
 include Makefile.selfdoc
 endif
 
+if LW6_DOXYGEN
+include Makefile.doxygen
+endif

@@ -697,6 +697,10 @@ LW6_MS_WINDOWS_FALSE
 LW6_MS_WINDOWS_TRUE
 LW6_GNU_FALSE
 LW6_GNU_TRUE
+LW6_DOXYGEN_FALSE
+LW6_DOXYGEN_TRUE
+XSLTPROC
+DOXYGEN
 MD5SUM
 LW6_SELFDOC_FALSE
 LW6_SELFDOC_TRUE
@@ -14304,6 +14308,116 @@ $as_echo "$as_me: WARNING:
 " >&2;}
 fi
 
+lw6_doxygen=yes
+# Extract the first word of "doxygen", so it can be a program name with args.
+set dummy doxygen; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_DOXYGEN+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$DOXYGEN"; then
+  ac_cv_prog_DOXYGEN="$DOXYGEN" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_DOXYGEN="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_DOXYGEN" && ac_cv_prog_DOXYGEN="no"
+fi
+fi
+DOXYGEN=$ac_cv_prog_DOXYGEN
+if test -n "$DOXYGEN"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DOXYGEN" >&5
+$as_echo "$DOXYGEN" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test x${DOXYGEN} != xyes; then
+   lw6_doxygen=no
+   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+*** Liquid War 6 recommends Doxygen (http://www.stack.nl/~dimitri/doxygen/)
+" >&5
+$as_echo "$as_me: WARNING:
+*** Liquid War 6 recommends Doxygen (http://www.stack.nl/~dimitri/doxygen/)
+" >&2;}
+fi
+
+# Extract the first word of "xsltproc", so it can be a program name with args.
+set dummy xsltproc; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_XSLTPROC+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$XSLTPROC"; then
+  ac_cv_prog_XSLTPROC="$XSLTPROC" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_XSLTPROC="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_XSLTPROC" && ac_cv_prog_XSLTPROC="no"
+fi
+fi
+XSLTPROC=$ac_cv_prog_XSLTPROC
+if test -n "$XSLTPROC"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XSLTPROC" >&5
+$as_echo "$XSLTPROC" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test x${XSLTPROC} != xyes; then
+   lw6_doxygen=no
+   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+*** Liquid War 6 recommends xsltproc (http://xmlsoft.org/XSLT/xsltproc2.html)
+" >&5
+$as_echo "$as_me: WARNING:
+*** Liquid War 6 recommends xsltproc (http://xmlsoft.org/XSLT/xsltproc2.html)
+" >&2;}
+fi
+
+if test x${lw6_doxygen} != xyes ; then
+   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: \"No Doxygen support\"" >&5
+$as_echo "$as_me: WARNING: \"No Doxygen support\"" >&2;}
+fi
+ if test x${lw6_doxygen} = xyes; then
+  LW6_DOXYGEN_TRUE=
+  LW6_DOXYGEN_FALSE='#'
+else
+  LW6_DOXYGEN_TRUE='#'
+  LW6_DOXYGEN_FALSE=
+fi
+
+
 
 lw6_unix=yes
 
@@ -16810,7 +16924,7 @@ LW6_LDFLAGS="${ALLINONE_LDFLAGS} ${FULLSTATIC_LDFLAGS} ${OPENMP_LDFLAGS} ${GPROF
 
 
 
-ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in doc/Makefile doc/liquidwar6.man doc/const.texi.in doc/coverage/Makefile doc/global/Makefile doc/cyclo/Makefile doc/example/Makefile doc/dtd/Makefile src/Makefile src/lib/Makefile src/lib/liquidwar6.h src/lib/def/Makefile src/lib/sys/Makefile src/lib/sys/sys-build.h src/lib/glb/Makefile src/lib/glb/gnulib-stdalign.h src/lib/dyn/Makefile src/lib/cns/Makefile src/lib/hlp/Makefile src/lib/cfg/Makefile src/lib/map/Makefile src/lib/ker/Makefile src/lib/pil/Makefile src/lib/bot/Makefile src/lib/bot/mod-brute/Makefile src/lib/bot/mod-follow/Makefile src/lib/bot/mod-idiot/Makefile src/lib/bot/mod-random/Makefile src/lib/sim/Makefile src/lib/ldr/Makefile src/lib/ldr/ldr-png.h src/lib/tsk/Makefile src/lib/gui/Makefile src/lib/vox/Makefile src/lib/gfx/Makefile src/lib/gfx/mod-gl/Makefile src/lib/gfx/mod-gl/gl-utils/Makefile src/lib/gfx/mod-gl/gl-splash/Makefile src/lib/gfx/mod-gl/gl-background/Makefile src/lib/gfx/mod-gl/gl-background/gl-bubbles/Makefile src/lib/gfx/mod-gl/gl-background/gl-void/Makefile src/lib/gfx/mod-gl/gl-hud/Makefile src/lib/gfx/mod-gl/gl-hud/gl-floating/Makefile src/lib/gfx/mod-gl/gl-hud/gl-tactical/Makefile src/lib/gfx/mod-gl/gl-menu/Makefile src/lib/gfx/mod-gl/gl-menu/gl-cylinder/Makefile src/lib/gfx/mod-gl/gl-view/Makefile src/lib/gfx/mod-gl/gl-view/gl-flat/Makefile src/lib/dsp/Makefile src/lib/snd/Makefile src/lib/snd/mod-csound/Makefile src/lib/snd/mod-ogg/Makefile src/lib/net/Makefile src/lib/nod/Makefile src/lib/cnx/Makefile src/lib/msg/Makefile src/lib/img/Makefile src/lib/cli/Makefile src/lib/cli/mod-tcp/Makefile src/lib/cli/mod-udp/Makefile src/lib/cli/mod-http/Makefile src/lib/srv/Makefile src/lib/srv/mod-tcpd/Makefile src/lib/srv/mod-udpd/Makefile src/lib/srv/mod-httpd/Makefile src/lib/dat/Makefile src/lib/p2p/Makefile src/lib/scm/Makefile src/mswindows.rc script/Makefile data/Makefile data/icon/Makefile data/gfx/Makefile data/gfx/gl/Makefile data/gfx/gl/utils/Makefile data/gfx/gl/utils/font/Makefile data/gfx/gl/utils/icon/Makefile data/gfx/gl/splash/Makefile data/gfx/gl/splash/image/Makefile data/gfx/gl/background/Makefile data/gfx/gl/background/bubbles/Makefile data/gfx/gl/background/bubbles/image/Makefile data/gfx/gl/hud/Makefile data/gfx/gl/hud/floating/Makefile data/gfx/gl/hud/floating/image/Makefile data/gfx/gl/hud/tactical/Makefile data/gfx/gl/hud/tactical/image/Makefile data/gfx/gl/menu/Makefile data/gfx/gl/menu/cylinder/Makefile data/gfx/gl/view/Makefile data/gfx/gl/view/flat/Makefile data/snd/Makefile data/snd/csound/Makefile data/snd/ogg/Makefile data/snd/ogg/fx/Makefile data/snd/ogg/water/Makefile data/net/Makefile data/srv/Makefile data/srv/tcpd/Makefile data/srv/udpd/Makefile data/srv/httpd/Makefile data/srv/httpd/htdocs/Makefile data/cli/Makefile data/cli/tcp/Makefile data/cli/udp/Makefile data/cli/http/Makefile data/p2p/Makefile data/p2p/sql/Makefile data/p2p/screenshot/Makefile music/Makefile map/Makefile map/acadia/Makefile map/fish/Makefile map/fishy/Makefile map/five-points/Makefile map/ink-and-oil/Makefile map/january/Makefile map/liquid-dream/Makefile map/nine-points/Makefile map/pizza-face/Makefile map/playfield/Makefile map/strange-new-world/Makefile map/subflower/Makefile debian/Makefile debian/liquidwar6.dirs debian/liquidwar6.install pkg/Makefile pkg/liquidwar6.spec pkg/liquidwar6.nsi pkg/Info.plist pkg/liquidwar6.desktop"
+ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in doc/Makefile doc/liquidwar6.man doc/const.texi.in doc/coverage/Makefile doc/global/Makefile doc/cyclo/Makefile doc/doxygen/Makefile doc/doxygen/doxygen.cfg doc/example/Makefile doc/dtd/Makefile src/Makefile src/lib/Makefile src/lib/liquidwar6.h src/lib/def/Makefile src/lib/sys/Makefile src/lib/sys/sys-build.h src/lib/glb/Makefile src/lib/glb/gnulib-stdalign.h src/lib/dyn/Makefile src/lib/cns/Makefile src/lib/hlp/Makefile src/lib/cfg/Makefile src/lib/map/Makefile src/lib/ker/Makefile src/lib/pil/Makefile src/lib/bot/Makefile src/lib/bot/mod-brute/Makefile src/lib/bot/mod-follow/Makefile src/lib/bot/mod-idiot/Makefile src/lib/bot/mod-random/Makefile src/lib/sim/Makefile src/lib/ldr/Makefile src/lib/ldr/ldr-png.h src/lib/tsk/Makefile src/lib/gui/Makefile src/lib/vox/Makefile src/lib/gfx/Makefile src/lib/gfx/mod-gl/Makefile src/lib/gfx/mod-gl/gl-utils/Makefile src/lib/gfx/mod-gl/gl-splash/Makefile src/lib/gfx/mod-gl/gl-background/Makefile src/lib/gfx/mod-gl/gl-background/gl-bubbles/Makefile src/lib/gfx/mod-gl/gl-background/gl-void/Makefile src/lib/gfx/mod-gl/gl-hud/Makefile src/lib/gfx/mod-gl/gl-hud/gl-floating/Makefile src/lib/gfx/mod-gl/gl-hud/gl-tactical/Makefile src/lib/gfx/mod-gl/gl-menu/Makefile src/lib/gfx/mod-gl/gl-menu/gl-cylinder/Makefile src/lib/gfx/mod-gl/gl-view/Makefile src/lib/gfx/mod-gl/gl-view/gl-flat/Makefile src/lib/dsp/Makefile src/lib/snd/Makefile src/lib/snd/mod-csound/Makefile src/lib/snd/mod-ogg/Makefile src/lib/net/Makefile src/lib/nod/Makefile src/lib/cnx/Makefile src/lib/msg/Makefile src/lib/img/Makefile src/lib/cli/Makefile src/lib/cli/mod-tcp/Makefile src/lib/cli/mod-udp/Makefile src/lib/cli/mod-http/Makefile src/lib/srv/Makefile src/lib/srv/mod-tcpd/Makefile src/lib/srv/mod-udpd/Makefile src/lib/srv/mod-httpd/Makefile src/lib/dat/Makefile src/lib/p2p/Makefile src/lib/scm/Makefile src/mswindows.rc script/Makefile data/Makefile data/icon/Makefile data/gfx/Makefile data/gfx/gl/Makefile data/gfx/gl/utils/Makefile data/gfx/gl/utils/font/Makefile data/gfx/gl/utils/icon/Makefile data/gfx/gl/splash/Makefile data/gfx/gl/splash/image/Makefile data/gfx/gl/background/Makefile data/gfx/gl/background/bubbles/Makefile data/gfx/gl/background/bubbles/image/Makefile data/gfx/gl/hud/Makefile data/gfx/gl/hud/floating/Makefile data/gfx/gl/hud/floating/image/Makefile data/gfx/gl/hud/tactical/Makefile data/gfx/gl/hud/tactical/image/Makefile data/gfx/gl/menu/Makefile data/gfx/gl/menu/cylinder/Makefile data/gfx/gl/view/Makefile data/gfx/gl/view/flat/Makefile data/snd/Makefile data/snd/csound/Makefile data/snd/ogg/Makefile data/snd/ogg/fx/Makefile data/snd/ogg/water/Makefile data/net/Makefile data/srv/Makefile data/srv/tcpd/Makefile data/srv/udpd/Makefile data/srv/httpd/Makefile data/srv/httpd/htdocs/Makefile data/cli/Makefile data/cli/tcp/Makefile data/cli/udp/Makefile data/cli/http/Makefile data/p2p/Makefile data/p2p/sql/Makefile data/p2p/screenshot/Makefile music/Makefile map/Makefile map/acadia/Makefile map/fish/Makefile map/fishy/Makefile map/five-points/Makefile map/ink-and-oil/Makefile map/january/Makefile map/liquid-dream/Makefile map/nine-points/Makefile map/pizza-face/Makefile map/playfield/Makefile map/strange-new-world/Makefile map/subflower/Makefile debian/Makefile debian/liquidwar6.dirs debian/liquidwar6.install pkg/Makefile pkg/liquidwar6.spec pkg/liquidwar6.nsi pkg/Info.plist pkg/liquidwar6.desktop"
 
 
 cat >confcache <<\_ACEOF
@@ -16952,6 +17066,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LW6_SELFDOC_TRUE}" && test -z "${LW6_SELFDOC_FALSE}"; then
   as_fn_error $? "conditional \"LW6_SELFDOC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${LW6_DOXYGEN_TRUE}" && test -z "${LW6_DOXYGEN_FALSE}"; then
+  as_fn_error $? "conditional \"LW6_DOXYGEN\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LW6_GNU_TRUE}" && test -z "${LW6_GNU_FALSE}"; then
@@ -17911,6 +18029,8 @@ do
     "doc/coverage/Makefile") CONFIG_FILES="$CONFIG_FILES doc/coverage/Makefile" ;;
     "doc/global/Makefile") CONFIG_FILES="$CONFIG_FILES doc/global/Makefile" ;;
     "doc/cyclo/Makefile") CONFIG_FILES="$CONFIG_FILES doc/cyclo/Makefile" ;;
+    "doc/doxygen/Makefile") CONFIG_FILES="$CONFIG_FILES doc/doxygen/Makefile" ;;
+    "doc/doxygen/doxygen.cfg") CONFIG_FILES="$CONFIG_FILES doc/doxygen/doxygen.cfg" ;;
     "doc/example/Makefile") CONFIG_FILES="$CONFIG_FILES doc/example/Makefile" ;;
     "doc/dtd/Makefile") CONFIG_FILES="$CONFIG_FILES doc/dtd/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
@@ -19680,6 +19800,27 @@ $as_echo "$as_me: enable htmldoc... yes" >&6;}
 else
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: enable htmldoc... no" >&5
 $as_echo "$as_me: enable htmldoc... no" >&6;}
+fi
+if test -z "${LW6_GDOC}"; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: gdoc support... yes" >&5
+$as_echo "$as_me: gdoc support... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: gdoc support... no" >&5
+$as_echo "$as_me: gdoc support... no" >&6;}
+fi
+if test -z "${LW6_SELFDOC}"; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: selfdoc support... yes" >&5
+$as_echo "$as_me: selfdoc support... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: selfdoc support... no" >&5
+$as_echo "$as_me: selfdoc support... no" >&6;}
+fi
+if test -z "${LW6_DOXYGEN}"; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: doxygen support... yes" >&5
+$as_echo "$as_me: doxygen support... yes" >&6;}
+else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: doxygen support... no" >&5
+$as_echo "$as_me: doxygen support... no" >&6;}
 fi
 
 ${srcdir}/src/stamp.sh auto

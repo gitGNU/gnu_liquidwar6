@@ -1,5 +1,7 @@
 2012-01-07 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Added Doxygen support.
+
 	* Trying to fix SHA1 support on PPC.
 
 2012-01-04 : Christian Mauduit <ufoot@ufoot.org>

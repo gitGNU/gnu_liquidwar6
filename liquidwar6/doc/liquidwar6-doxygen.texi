@@ -1,0 +1,642 @@
+
+  
+@deftp struct lw6_bot_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_bot_smob_sc_bot
+@example
+lw6bot_backend_t* lw6_bot_smob_s::c_bot
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_bot_smob_sgame_state
+@example
+SCM lw6_bot_smob_s::game_state
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_bot_smob_spilot
+@example
+SCM lw6_bot_smob_s::pilot
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_db_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_db_smob_sc_db
+@example
+lw6p2p_db_t* lw6_db_smob_s::c_db
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_dsp_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_dsp_smob_sc_dsp
+@example
+lw6dsp_backend_t* lw6_dsp_smob_s::c_dsp
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_dsp_smob_slevel
+@example
+SCM lw6_dsp_smob_s::level
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_dsp_smob_sgame_struct
+@example
+SCM lw6_dsp_smob_s::game_struct
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_dsp_smob_sgame_state
+@example
+SCM lw6_dsp_smob_s::game_state
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_dsp_smob_spilot
+@example
+SCM lw6_dsp_smob_s::pilot
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_game_state_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_game_state_smob_sc_game_state
+@example
+lw6ker_game_state_t* lw6_game_state_smob_s::c_game_state
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_game_state_smob_sgame_struct
+@example
+SCM lw6_game_state_smob_s::game_struct
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_game_struct_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_game_struct_smob_sc_game_struct
+@example
+lw6ker_game_struct_t* lw6_game_struct_smob_s::c_game_struct
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_game_struct_smob_smap
+@example
+SCM lw6_game_struct_smob_s::map
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_global_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_global_smutex
+@example
+pthread_mutex_t lw6_global_s::mutex
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_scfg_context
+@example
+void* lw6_global_s::cfg_context
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_scfg_initialized
+@example
+int lw6_global_s::cfg_initialized
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_scns_initialized
+@example
+int lw6_global_s::cns_initialized
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_snet_initialized
+@example
+int lw6_global_s::net_initialized
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sstart_time
+@example
+int lw6_global_s::start_time
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sargc
+@example
+int lw6_global_s::argc
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sargv
+@example
+const char** lw6_global_s::argv
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sprogress
+@example
+float lw6_global_s::progress
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_ssmob_types
+@example
+lw6_smob_types_t lw6_global_s::smob_types
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sdsp_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::dsp_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_ssnd_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::snd_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_smap_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::map_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_smenu_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::menu_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sgame_struct_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::game_struct_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sgame_state_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::game_state_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_spilot_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::pilot_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sbot_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::bot_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_slook_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::look_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sloader_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::loader_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sdb_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::db_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_snode_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::node_smobs
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_global_sjpeg_smobs
+@example
+lw6sys_assoc_t* lw6_global_s::jpeg_smobs
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_jpeg_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_jpeg_smob_sc_jpeg
+@example
+lw6img_jpeg_t* lw6_jpeg_smob_s::c_jpeg
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_loader_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_loader_smob_sc_loader
+@example
+lw6tsk_loader_t* lw6_loader_smob_s::c_loader
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_look_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_look_smob_sc_look
+@example
+lw6gui_look_t* lw6_look_smob_s::c_look
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_map_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_map_smob_sc_map
+@example
+lw6map_level_t* lw6_map_smob_s::c_map
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_menu_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_menu_smob_sc_menu
+@example
+lw6gui_menu_t* lw6_menu_smob_s::c_menu
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_node_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_node_smob_sc_node
+@example
+lw6p2p_node_t* lw6_node_smob_s::c_node
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_node_smob_sdb
+@example
+SCM lw6_node_smob_s::db
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_pilot_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_pilot_smob_sc_pilot
+@example
+lw6pil_pilot_t* lw6_pilot_smob_s::c_pilot
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_smob_types_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_smob_types_sdsp
+@example
+scm_t_bits lw6_smob_types_s::dsp
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_ssnd
+@example
+scm_t_bits lw6_smob_types_s::snd
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_smap
+@example
+scm_t_bits lw6_smob_types_s::map
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_smenu
+@example
+scm_t_bits lw6_smob_types_s::menu
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sgame_struct
+@example
+scm_t_bits lw6_smob_types_s::game_struct
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sgame_state
+@example
+scm_t_bits lw6_smob_types_s::game_state
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_spilot
+@example
+scm_t_bits lw6_smob_types_s::pilot
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sbot
+@example
+scm_t_bits lw6_smob_types_s::bot
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_slook
+@example
+scm_t_bits lw6_smob_types_s::look
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sloader
+@example
+scm_t_bits lw6_smob_types_s::loader
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sdb
+@example
+scm_t_bits lw6_smob_types_s::db
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_snode
+@example
+scm_t_bits lw6_smob_types_s::node
+@end example
+
+        
+        
+@end defcv
+
+@defcv {member} lw6_smob_types_sjpeg
+@example
+scm_t_bits lw6_smob_types_s::jpeg
+@end example
+
+        
+        
+@end defcv
+
+
+
+  
+@deftp struct lw6_snd_smob_s
+    
+    
+@end deftp
+
+@defcv {member} lw6_snd_smob_sc_snd
+@example
+lw6snd_backend_t* lw6_snd_smob_s::c_snd
+@end example
+
+        
+        
+@end defcv
+
+

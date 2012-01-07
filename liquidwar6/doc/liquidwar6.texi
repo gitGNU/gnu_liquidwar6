@@ -754,6 +754,63 @@ Used to handle HTTP requests, the idea being not to re-invent the
 wheel but use a robust standards-compliant generic library.
 @end itemize
 
+@subsection Optional tools
+
+Those tools are used upstream to maintain the game, you normally
+do not need them to build the game ``as is'' but if you modify the
+source code and hack the game, you might be interested in installing
+them.
+
+@itemize
+
+@item
+@uref{http://www.perl.org/, Perl 5}.
+Liquid War 6 uses Perl for many tedious task, including, but not
+limited to, parsing documentation.
+
+@item
+@uref{http://www.gnu.org/software/indent/, GNU Indent}.
+Code is regularly indented using the script @code{src/indent.sh} which
+calls @code{indent} automatically and recursively on the whole source tree.
+
+@item
+@uref{http://www.gnu.org/software/coreutils/, md5sum (GNU core utilities)}
+This is used to stamp the source code and help tracking exact
+build versions. 
+
+@item
+@uref{http://www.stack.nl/~dimitri/doxygen/, Doxygen}.
+Used to generate documentation concerning C structs, more precisely,
+include the struct members documentation into the official texinfo
+manual.
+
+@item
+@uref{http://xmlsoft.org/XSLT/xsltproc2.htm, xsltproc}.
+Used to post-process Doxygen output and transform it to texinfo.
+
+@item
+@uref{http://code.google.com/p/google-perftools/, Google Performance Tools}.
+This tool is convenient to optimize the program and find out what
+parts of it take most of the CPU power to execute.
+
+@item
+@uref{http://ltp.sourceforge.net/coverage/lcov.php,lcov}.
+Gives nice output about code coverage.
+
+@item
+@uref{http://www.gnu.org/software/liquidwar6/global/, GNU global}.
+Shows global references through the code.
+
+@item
+@uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe}.
+Cyclomatic complexity, shows what part of the code are bloated.
+
+@item
+@uref{http://www.valgrind.org/,Valgrind}.
+Usefull to track down memory leaks and many other programming errors.
+
+@end itemize
+
 @subsection Installing requirements using RPM/DEB packages
 
 You might find it convenient not to install all the requirements
@@ -779,8 +836,11 @@ SDL SDL-devel SDL_image SDL_image-devel \
 SDL_mixer SDL_mixer-devel \
 freetype freetype-devel SDL_ttf SDL_ttf-devel \
 libcurl libcurl-devel \
-perl lcov global valgrind graphviz gv texinfo-tex \
-gtk2-devel rpm-build
+gtk2-devel \
+perl lcov global valgrind graphviz gv \
+texinfo-tex \
+indent emacs doxygen libxml \
+rpm-build
 @end example
 
 On a DEB package based GNU/Linux system this command
@@ -802,9 +862,11 @@ libsdl1.2debian libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev \
 libsdl-mixer1.2 libsdl-mixer1.2-dev \
 libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
 libcurl4-gnutls-dev \
+libgtk2.0-dev \
 perl lcov global valgrind graphviz gv \
 texinfo texlive-base texlive-generic-extra \
-libgtk2.0-dev debhelper
+indent emacs doxygen xlstproc \
+debhelper
 @end example
 
 Note that those requirements really depend on the exact distribution you
@@ -4273,6 +4335,10 @@ macros, headers, contants declaration. It's a very good place to start browsing 
 @uref{http://www.gnu.org/software/liquidwar6/cyclo/}:
 the @uref{http://parisc-linux.org/~bame/pmccabe/, pmccabe} output shows the cyclomatic complexity
 of functions. It enables the programmer to spots the ``ugly'' and dangerous parts of the program.
+@item
+@uref{http://www.gnu.org/software/liquidwar6/doxygen/}:
+the @uref{http://www.stack.nl/~dimitri/doxygen/, Doxygen} documentation essentially
+describes the C structures and their attributes.
 @end itemize
 
 @menu
@@ -4365,11 +4431,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/index.html}
 
 @ifinfo
 @include bot-gdoc.texi
+@include bot-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include bot-gdoc.texi
+@include bot-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4393,11 +4461,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-brute/i
 
 @ifinfo
 @include mod-brute-gdoc.texi
+@include mod-brute-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-brute-gdoc.texi
+@include mod-brute-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4421,11 +4491,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-follow/
 
 @ifinfo
 @include mod-follow-gdoc.texi
+@include mod-follow-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-follow-gdoc.texi
+@include mod-follow-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4449,11 +4521,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-idiot/i
 
 @ifinfo
 @include mod-idiot-gdoc.texi
+@include mod-idiot-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-idiot-gdoc.texi
+@include mod-idiot-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4477,11 +4551,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-random/
 
 @ifinfo
 @include mod-random-gdoc.texi
+@include mod-random-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-random-gdoc.texi
+@include mod-random-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4505,11 +4581,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cfg/index.html}
 
 @ifinfo
 @include cfg-gdoc.texi
+@include cfg-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include cfg-gdoc.texi
+@include cfg-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4534,11 +4612,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/index.html}
 
 @ifinfo
 @include cli-gdoc.texi
+@include cli-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include cli-gdoc.texi
+@include cli-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4562,11 +4642,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-http/in
 
 @ifinfo
 @include mod-http-gdoc.texi
+@include mod-http-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-http-gdoc.texi
+@include mod-http-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4590,11 +4672,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-tcp/ind
 
 @ifinfo
 @include mod-tcp-gdoc.texi
+@include mod-tcp-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-tcp-gdoc.texi
+@include mod-tcp-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4618,11 +4702,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-udp/ind
 
 @ifinfo
 @include mod-udp-gdoc.texi
+@include mod-udp-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-udp-gdoc.texi
+@include mod-udp-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4646,11 +4732,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cns/index.html}
 
 @ifinfo
 @include cns-gdoc.texi
+@include cns-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include cns-gdoc.texi
+@include cns-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4674,11 +4762,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/cnx/index.html}
 
 @ifinfo
 @include cnx-gdoc.texi
+@include cnx-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include cnx-gdoc.texi
+@include cnx-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4702,11 +4792,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html}
 
 @ifinfo
 @include dat-gdoc.texi
+@include dat-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include dat-gdoc.texi
+@include dat-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4743,11 +4835,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dsp/index.html}
 
 @ifinfo
 @include dsp-gdoc.texi
+@include dsp-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include dsp-gdoc.texi
+@include dsp-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4771,11 +4865,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/dyn/index.html}
 
 @ifinfo
 @include dyn-gdoc.texi
+@include dyn-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include dyn-gdoc.texi
+@include dyn-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4799,11 +4895,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/index.html}
 
 @ifinfo
 @include gfx-gdoc.texi
+@include gfx-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include gfx-gdoc.texi
+@include gfx-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4829,11 +4927,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl/gl-u
 
 @ifinfo
 @include mod-gl-gdoc.texi
+@include mod-gl-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-gl-gdoc.texi
+@include mod-gl-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4857,11 +4957,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/glb/index.html}
 
 @ifinfo
 @include glb-gdoc.texi
+@include glb-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include glb-gdoc.texi
+@include glb-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4883,9 +4985,15 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/gui/index.html}
 
 @subsection API
 
+@ifinfo
+@include gui-gdoc.texi
+@include gui-doxygen.texi
+@end ifinfo
+
 @ifnotinfo
 @ifhtml
 @include gui-gdoc.texi
+@include gui-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4909,11 +5017,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/hlp/index.html}
 
 @ifinfo
 @include hlp-gdoc.texi
+@include hlp-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include hlp-gdoc.texi
+@include hlp-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4937,11 +5047,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/img/index.html}
 
 @ifinfo
 @include img-gdoc.texi
+@include img-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include img-gdoc.texi
+@include img-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4965,11 +5077,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/ker/index.html}
 
 @ifinfo
 @include ker-gdoc.texi
+@include ker-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include ker-gdoc.texi
+@include ker-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -4993,11 +5107,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/ldr/index.html}
 
 @ifinfo
 @include ldr-gdoc.texi
+@include ldr-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include ldr-gdoc.texi
+@include ldr-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5021,11 +5137,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/map/index.html}
 
 @ifinfo
 @include map-gdoc.texi
+@include map-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include map-gdoc.texi
+@include map-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5049,11 +5167,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/msg/index.html}
 
 @ifinfo
 @include msg-gdoc.texi
+@include msg-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include msg-gdoc.texi
+@include msg-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5077,11 +5197,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/net/index.html}
 
 @ifinfo
 @include net-gdoc.texi
+@include net-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include net-gdoc.texi
+@include net-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5105,11 +5227,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html}
 
 @ifinfo
 @include nod-gdoc.texi
+@include nod-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include nod-gdoc.texi
+@include nod-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5133,11 +5257,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/p2p/index.html}
 
 @ifinfo
 @include p2p-gdoc.texi
+@include p2p-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include p2p-gdoc.texi
+@include p2p-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5161,11 +5287,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/pil/index.html}
 
 @ifinfo
 @include pil-gdoc.texi
+@include pil-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include pil-gdoc.texi
+@include pil-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5189,11 +5317,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/scm/index.html}
 
 @ifinfo
 @include scm-gdoc.texi
+@include scm-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include scm-gdoc.texi
+@include scm-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5217,11 +5347,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/sim/index.html}
 
 @ifinfo
 @include sim-gdoc.texi
+@include sim-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include sim-gdoc.texi
+@include sim-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5245,11 +5377,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/index.html}
 
 @ifinfo
 @include snd-gdoc.texi
+@include snd-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include snd-gdoc.texi
+@include snd-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5273,11 +5407,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-csound/
 
 @ifinfo
 @include mod-csound-gdoc.texi
+@include mod-csound-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-csound-gdoc.texi
+@include mod-csound-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5301,11 +5437,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/snd/mod-ogg/ind
 
 @ifinfo
 @include mod-ogg-gdoc.texi
+@include mod-ogg-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-ogg-gdoc.texi
+@include mod-ogg-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5329,11 +5467,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/index.html}
 
 @ifinfo
 @include srv-gdoc.texi
+@include srv-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include srv-gdoc.texi
+@include srv-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5357,11 +5497,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-httpd/i
 
 @ifinfo
 @include mod-httpd-gdoc.texi
+@include mod-httpd-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-httpd-gdoc.texi
+@include mod-httpd-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5385,11 +5527,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-tcpd/in
 
 @ifinfo
 @include mod-tcpd-gdoc.texi
+@include mod-tcpd-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-tcpd-gdoc.texi
+@include mod-tcpd-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5413,11 +5557,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/srv/mod-udpd/in
 
 @ifinfo
 @include mod-udpd-gdoc.texi
+@include mod-udpd-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include mod-udpd-gdoc.texi
+@include mod-udpd-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5441,11 +5587,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/sys/index.html}
 
 @ifinfo
 @include sys-gdoc.texi
+@include sys-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include sys-gdoc.texi
+@include sys-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5469,11 +5617,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/tsk/index.html}
 
 @ifinfo
 @include tsk-gdoc.texi
+@include tsk-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include tsk-gdoc.texi
+@include tsk-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
@@ -5497,11 +5647,13 @@ on @uref{http://www.gnu.org/software/liquidwar6/coverage/src/lib/vox/index.html}
 
 @ifinfo
 @include vox-gdoc.texi
+@include vox-doxygen.texi
 @end ifinfo
 
 @ifnotinfo
 @ifhtml
 @include vox-gdoc.texi
+@include vox-doxygen.texi
 @end ifhtml
 @ifnothtml
 Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on

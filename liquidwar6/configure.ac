@@ -76,6 +76,29 @@ if test x${MD5SUM} != xyes; then
 ])
 fi
 
+dnl To generate struct documentation
+lw6_doxygen=yes
+AC_CHECK_PROG(DOXYGEN, doxygen, yes, no)
+if test x${DOXYGEN} != xyes; then
+   lw6_doxygen=no
+   AC_MSG_WARN([
+*** Liquid War 6 recommends Doxygen (http://www.stack.nl/~dimitri/doxygen/)
+])
+fi
+
+AC_CHECK_PROG(XSLTPROC, xsltproc, yes, no)
+if test x${XSLTPROC} != xyes; then
+   lw6_doxygen=no
+   AC_MSG_WARN([
+*** Liquid War 6 recommends xsltproc (http://xmlsoft.org/XSLT/xsltproc2.html)
+])
+fi
+
+if test x${lw6_doxygen} != xyes ; then
+   AC_MSG_WARN(["No Doxygen support"])
+fi
+AM_CONDITIONAL(LW6_DOXYGEN, test x${lw6_doxygen} = xyes)
+
 dnl Target conditionals
 
 lw6_unix=yes
@@ -765,6 +788,8 @@ AC_CONFIG_FILES([Makefile
           doc/coverage/Makefile
           doc/global/Makefile
           doc/cyclo/Makefile
+          doc/doxygen/Makefile
+          doc/doxygen/doxygen.cfg
           doc/example/Makefile
           doc/dtd/Makefile
           src/Makefile
@@ -1013,6 +1038,21 @@ if test x${enable_htmldoc} = xyes; then
 	AC_MSG_NOTICE([enable htmldoc... yes])
 else
 	AC_MSG_NOTICE([enable htmldoc... no])
+fi
+if test -z "${LW6_GDOC}"; then
+	AC_MSG_NOTICE([gdoc support... yes])
+else
+	AC_MSG_NOTICE([gdoc support... no])
+fi
+if test -z "${LW6_SELFDOC}"; then
+	AC_MSG_NOTICE([selfdoc support... yes])
+else
+	AC_MSG_NOTICE([selfdoc support... no])
+fi
+if test -z "${LW6_DOXYGEN}"; then
+	AC_MSG_NOTICE([doxygen support... yes])
+else
+	AC_MSG_NOTICE([doxygen support... no])
 fi
 
 ${srcdir}/src/stamp.sh auto

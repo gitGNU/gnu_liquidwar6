@@ -19,6 +19,220 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libgfx,  Next: mod-gl,  Prev: libdyn,  Up: C API
+
+5.18 libgfx
+===========
+
+5.18.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/index.html'.
+
+5.18.2 API
+----------
+
+ -- Function: int lw6gfx_init (lw6gfx_backend_t * BACKEND,
+          lw6gui_video_mode_t * VIDEO_MODE,
+          lw6gui_resize_callback_func_t RESIZE_CALLBACK)
+     BACKEND:  the graphical backend to use
+
+     VIDEO_MODE:  the video mode to use at start up
+
+     RESIZE_CALLBACK:  a callback function which will be called at each
+     resize event
+
+     Sets up the graphical backend for good, initializing a video mode
+     and allocating ressources. This call can typically fail if there's
+     no device available, if the user doesn't have enough rights to
+     access the hardware, and so on.
+
+     *Return value:*  1 on success, 0 if not
+
+ -- Function: void lw6gfx_quit (lw6gfx_backend_t * BACKEND)
+     BACKEND:  the backend to quit
+
+     Uninitializes the backend, that is, exits the graphical mode. All
+     threads that use graphics must be closed when this is called.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6gfx_repr (lw6gfx_backend_t * BACKEND)
+     BACKEND:  the backend to represent
+
+     Returns a readable version of the backend object.
+
+     *Return value:*  a newly allocated pointer.
+
+ -- Function: int lw6gfx_set_video_mode (lw6gfx_backend_t * BACKEND,
+          lw6gui_video_mode_t * VIDEO_MODE)
+     BACKEND:  the backend to use
+
+     VIDEO_MODE:  the new video mode
+
+     This function changes the video mode. Note that the first time you
+     set up the graphical environment you must call `lw6gfx_init' but
+     to change the current mode, use this function. It should reload
+     backend data automatically if needed (textures for instance). Note
+     that before giving up and failing this function will try alternate
+     video modes, and you're not garanteed to have the right mode after
+     the call, even if it returns true. To check this, use
+     `lw6gfx_get_video_mode'.
+
+     *Return value:*  1 on success, 0 on failure;
+
+ -- Function: int lw6gfx_get_video_mode (lw6gfx_backend_t * BACKEND,
+          lw6gui_video_mode_t * VIDEO_MODE)
+     BACKEND:  the backend to use
+
+     VIDEO_MODE:  the current video mode (will be overwritten, out
+     parameter)
+
+     This function returns the current video mode.
+
+     *Return value:*  1 on success, 0 on failure;
+
+ -- Function: int lw6gfx_get_fullscreen_modes (lw6gfx_backend_t *
+          BACKEND, lw6gui_fullscreen_modes_t * FULLSCREEN_MODES)
+     BACKEND:  the backend to use
+
+     FULLSCREEN_MODES:  the available fullscreen modes (will be
+     overwritten, out parameter)
+
+     This function returns the current video mode.
+
+     *Return value:*  1 on success, 0 on failure;
+
+ -- Function: lw6gui_input_t * lw6gfx_pump_events (lw6gfx_backend_t *
+          BACKEND)
+     BACKEND:  the backend to use
+
+     This function "pumps" events, that is gets pending events, puts
+     them in queues, maintains internal states up to date. You really
+     must call this very often or no input will be processed at all.
+
+     *Return value:*  a pointer on the internal input state, musn't be
+     freed.
+
+ -- Function: int lw6gfx_display (lw6gfx_backend_t * BACKEND, int MASK,
+          lw6gui_look_t * LOOK, lw6map_level_t * LEVEL,
+          lw6ker_game_struct_t * GAME_STRUCT, lw6ker_game_state_t *
+          GAME_STATE, lw6pil_local_cursors_t * LOCAL_CURSORS,
+          lw6gui_menu_t * MENU, float PROGRESS, float FPS, float MPS,
+          char ** LOG_LIST, int CAPTURE, int GFX_DEBUG, int
+          DEBUG_TEAM_ID, int DEBUG_LAYER_ID)
+     BACKEND:  the graphical backend to use
+
+     MASK:  display flag, tells what to display
+
+     LOOK:  the look, the skin, contains display options
+
+     LEVEL:  the level to display
+
+     GAME_STRUCT:  the game_struct associated with the level
+
+     GAME_STATE:  the game_state associated with the level
+
+     LOCAL_CURSORS:  the cursor to center the focus on
+
+     MENU:  the menu to display
+
+     PROGRESS:  the value of the progress indicator
+
+     FPS:  the number of frames per second to display
+
+     MPS:  the number of moves per second to display
+
+     LOG_LIST:  log messages to display
+
+     CAPTURE:  wether to enable capture mode or not
+
+     GFX_DEBUG:  wether to enable gfx debugging tools
+
+     DEBUG_TEAM_ID:  for debug display, team to display informations
+     about
+
+     DEBUG_LAYER_ID:  for debug display, layer to display
+
+     This is the major drawing function, the one that encapsulates all
+     others. As the program uses a separate thread to display things,
+     we just pass this function many parameters, and let it do its job
+     alone. So many parameters might sometimes be useless. It also
+     allows the graphics backend decide wether menus and hud and
+     background should interact. Or not.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: lw6sys_assoc_t * lw6gfx_get_backends (int ARGC, const
+          char * [] ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available gfx backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6gfx_backend_t * lw6gfx_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing gfx key, typically got from
+     `lw6gfx_get_backends'
+
+     Creates a gfx backend, this is just about loading the dynamic
+     library if needed, and/or check gfx engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  gfx backend.
+
+ -- Function: void lw6gfx_destroy_backend (lw6gfx_backend_t * BACKEND)
+     BACKEND:  gfx backend to destroy
+
+     Frees the ressources associated to a gfx, which must have been
+     properly uninitialized before.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gfx_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `gfx' module test suite. In check-only mode, this
+     function won't test many things, for it requires a graphical mode
+     to be available to perform the complete test.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: mod-gl,  Next: libglb,  Prev: libgfx,  Up: C API
+
+5.19 mod-gl
+===========
+
+5.19.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/gfx/mod-gl/gl-utils/index.html'
+(as there are many sub-directories in this module, please refer to the
+test coverage directory index
+(http://www.gnu.org/software/liquidwar6/coverage/index.html) for
+complete information).
+
+5.19.2 API
+----------
+
+
 File: liquidwar6.info,  Node: libglb,  Next: libgui,  Prev: mod-gl,  Up: C API
 
 5.20 libglb
@@ -185,6 +399,1480 @@ results on
 
 5.21.2 API
 ----------
+
+ -- Function: void lw6gui_button_register_down (lw6gui_button_t *
+          BUTTON, int64_t TIMESTAMP)
+     BUTTON:  the button to update
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Registers a "down" (press) event on a button.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_button_register_up (lw6gui_button_t * BUTTON)
+     BUTTON:  the button to update
+
+     Registers a "up" (release) event on a button.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_button_is_pressed (lw6gui_button_t * BUTTON)
+     BUTTON:  the button to query
+
+     Tells wether a button is pressed or not.
+
+     *Return value:*  1 if pressed, 0 if not.
+
+ -- Function: int lw6gui_button_pop_press (lw6gui_button_t * BUTTON)
+     BUTTON:  the button to query
+
+     Tells how many times the button has been pressed. Typical usage:
+     the button is pressed, released, pressed, released several times.
+     Then, after all this, you want to know how many times it has been
+     pressed.  Querying its state with `lw6gui_button_is_pressed' won't
+     tell you much but this `pop_press' function will return 1 for each
+     press there's been.
+
+     *Return value:*  1 if there's a press event in the queue, 0 if
+     empty.
+
+ -- Function: int lw6gui_button_pop_simple_click (lw6gui_button_t *
+          BUTTON)
+     BUTTON:  the button to query
+
+     Tells how many times the button has been simpleclicked. This is
+     different from a simple press, in fact, there's a delay, we must
+     wait until the double-click delay is elapsed to make sure this is
+     a simple click...  Designed for use with mouse to differentiate
+     fire and alternate fire.
+
+     *Return value:*  1 if there's a simpleclick event in the queue, 0
+     if empty.
+
+ -- Function: int lw6gui_button_pop_double_click (lw6gui_button_t *
+          BUTTON)
+     BUTTON:  the button to query
+
+     Tells how many times the button has been doubleclicked. Typical
+     usage: the button is doubleclicked, released, doubleclicked,
+     released several times. Then, after all this, you want to know how
+     many times it has been doubleclicked.
+
+     *Return value:*  1 if there's a doubleclick event in the queue, 0
+     if empty.
+
+ -- Function: int lw6gui_button_pop_triple_click (lw6gui_button_t *
+          BUTTON)
+     BUTTON:  the button to query
+
+     Tells how many times the button has been tripleclicked. Typical
+     usage: the button is tripleclicked, released, tripleclicked,
+     released several times. Then, after all this, you want to know how
+     many times it has been tripleclicked.
+
+     *Return value:*  1 if there's a tripleclick event in the queue, 0
+     if empty.
+
+ -- Function: void lw6gui_button_update_repeat (lw6gui_button_t *
+          BUTTON, lw6gui_repeat_settings_t * REPEAT_SETTINGS, int64_t
+          TIMESTAMP)
+     BUTTON:  the button to update
+
+     REPEAT_SETTINGS:  the repeat settings
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Updates the repeat informations for a button, must be called
+     regularly, as often as possible.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_button_sync (lw6gui_button_t * DST,
+          lw6gui_button_t * SRC)
+     DST:  the target button object
+
+     SRC:  the source button object
+
+     Synchronizes two button objects. This is typically used to pass
+     data from one thread to another. This is not a simple copy, it
+     will handle data such as "when was it pressed last" it an
+     intelligent manner, popping src data to put it in dst, and
+     clearing src.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: int lw6gui_coord_calc_xy (float * DST_X, float * DST_Y,
+          float DST_X0, float DST_Y0, float DST_W, float DST_H, float
+          SRC_X, float SRC_Y, float SRC_X0, float SRC_Y0, float SRC_W,
+          float SRC_H)
+     DST_X:  the x coord to return
+
+     DST_Y:  the y coord to return
+
+     DST_X0:  the x coord of point 0 in destination coord system
+
+     DST_Y0:  the y coord of point 0 in destination coord system
+
+     DST_W:  the width of the area in destination coord system
+
+     DST_H:  the width of the area in destination coord system
+
+     SRC_X:  the x coord in source coord system
+
+     SRC_Y:  the y coord in source coord system
+
+     SRC_X0:  the x coord of point 0 in source coord system
+
+     SRC_Y0:  the y coord of point 0 in source coord system
+
+     SRC_W:  the width of the area in source coord system
+
+     SRC_H:  the width of the area in source coord system
+
+     Registers a "down" (press) event on a button.
+
+     *Return value:*  1 if OK, 0 if error (unable to calculate).
+
+ -- Function: void lw6gui_coords_fix_xy_float (float * X, float * Y,
+          int * X_FLIP, int * Y_FLIP, float W, float H, int X_POLARITY,
+          int Y_POLARITY)
+     X:  x coord (in/out param)
+
+     Y:  y coord (in/out param)
+
+     X_FLIP:  flip on x (out param, -1 or +1)
+
+     Y_FLIP:  flip on y (out param, -1 or +1)
+
+     W:  width
+
+     H:  height
+
+     X_POLARITY:  x polarity (-1, 0 or 1)
+
+     Y_POLARITY:  y polarity (-1, 0 or 1)
+
+     Same as `lw6map_fix_coords' except it operates on floats.  Usefull
+     for cursor and other rendering operations. Additionnally, will
+     keep track of inversions, that is to say if map is flip in one or
+     another way. Be carefull, the flip values are -1 or 1 so that it's
+     easy to multiply an offset by it, for instance, but this means
+     testing if flip is not 0 will always return true, you must test if
+     flip is stritly positive or negative.
+
+     *Return value:*  none
+
+ -- Function: int lw6gui_input_init (lw6gui_input_t * INPUT)
+     INPUT:  the input struct to initialise
+
+     Initialises an input structure, don't use twice, it won't free a
+     previous init.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: void lw6gui_input_quit (lw6gui_input_t * INPUT)
+     INPUT:  the input struct to uninitialise
+
+     Unitialises an input structure, need to call it to free event
+     queue.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: lw6gui_input_t * lw6gui_input_new ()
+     Creates an input structure, which can be used to handle input
+     state & buffer.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: void lw6gui_input_free (lw6gui_input_t * INPUT)
+     INPUT:  the input object to free.
+
+     Deletes an input structure.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_input_reset (lw6gui_input_t * INPUT)
+     INPUT:  the input struct to reset
+
+     Resets an input structure. Must have been initialized before. It
+     will empty all queues and mark everything as unpressed.
+
+     *Return value:*  1 on success, 0 if failure.
+
+ -- Function: void lw6gui_input_update_repeat (lw6gui_input_t * INPUT,
+          lw6gui_repeat_settings_t * REPEAT_SETTINGS, int64_t TIMESTAMP)
+     INPUT:  the input to update
+
+     REPEAT_SETTINGS:  the repeat settings (delay + interval)
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Updates the repeat informations for an input, must be called
+     regularly, as often as possible.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_input_register_change (lw6gui_input_t * INPUT)
+     INPUT:  the input to update
+
+     Tells an input object that one of its descendants has been
+     modified. This will affect the return value of
+     `lw6gui_input_need_sync'
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_input_need_sync (lw6gui_input_t * INPUT)
+     INPUT:  the input to test
+
+     Tests wether an input object contains was modified and needs
+     synchronisation.
+
+     *Return value:*  1 if sync is need, 0 if not.
+
+ -- Function: int lw6gui_input_sync (lw6gui_input_t * DST,
+          lw6gui_input_t * SRC)
+     DST:  the target input object
+
+     SRC:  the source input object
+
+     Synchronizes two input objects. This is typically used to pass
+     data from one thread to another. This is not a copy, it will
+     brute-force copy the static data such as mouse position, but
+     anything like a queue will be treated in a "empty source and fill
+     target with data" scheme. So source will be affected by this, the
+     key buffer will be emptied, and so on.  And if there are key in
+     the target buffer, they won't be overwritten but kept in front of
+     the FIFO list.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: int lw6gui_joystick_check_index (int I)
+     I:  index to check
+
+     Checks wether the index is correct. Does not mean the joystick
+     exists, it's just to avoid out of bounds errors.
+
+     *Return value:*  1 if within range, 0 if not.
+
+ -- Function: void lw6gui_joystick_update_axis_x (lw6gui_joystick_t *
+          JOYSTICK, int X, int LIMIT, int64_t TIMESTAMP)
+     JOYSTICK:  joystick to update
+
+     X:  x-axis position, as returned by the driver
+
+     LIMIT:  the limit, under this, buttons are considered unpressed.
+
+     TIMESTAMP:  current ticks (timestamp in ms)
+
+     Updates the x axis of a joystick, this will convert an information
+     of analog type such as "joystick is here" to a pad-like
+     information such as "pressed in that direction".
+
+     *Return value:*  1 if within range, 0 if not.
+
+ -- Function: void lw6gui_joystick_update_axis_y (lw6gui_joystick_t *
+          JOYSTICK, int Y, int LIMIT, int64_t TIMESTAMP)
+     JOYSTICK:  joystick to update
+
+     LIMIT:  the limit, under this, buttons are considered unpressed.
+
+     TIMESTAMP:  current ticks (timestamp in ms)
+
+     Updates the y axis of a joystick, this will convert an information
+     of analog type such as "joystick is here" to a pad-like
+     information such as "pressed in that direction".
+
+     *Return value:*  1 if within range, 0 if not.
+
+ -- Function: void lw6gui_joystick_update_repeat (lw6gui_joystick_t *
+          JOYSTICK, lw6gui_repeat_settings_t * REPEAT_SETTINGS, int64_t
+          TIMESTAMP)
+     JOYSTICK:  the joystick to update
+
+     REPEAT_SETTINGS:  the repeat settings (delay + interval)
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Updates the repeat informations for a joystick, must be called
+     regularly, as often as possible.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_joystick_sync (lw6gui_joystick_t * DST,
+          lw6gui_joystick_t * SRC)
+     DST:  the target joystick object
+
+     SRC:  the source joystick object
+
+     Synchronizes two joystick objects. This is typically used to pass
+     data from one thread to another.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: void lw6gui_joystick_get_move_pad (lw6gui_joystick_t *
+          JOYSTICK, lw6gui_move_pad_t * MOVE_PAD)
+     JOYSTICK:  the joystick to query
+
+     MOVE_PAD:  the structure which will contain the results
+
+     Returns the state of the joystick in a uniform, non-device
+     specific structure containing only the up/down/left/right
+     information.
+
+     *Return value:*  none, the value are stored in `move_pad'.
+
+ -- Function: int lw6gui_keyboard_check_keysym (int KEYSYM)
+     KEYSYM:  the keysym to check
+
+     Tells wether the keysym is valid or not.
+
+     *Return value:*  1 if valid, 0 if not
+
+ -- Function: lw6gui_keypress_t * lw6gui_keyboard_pop_keypress
+          (lw6gui_keyboard_t * KEYBOARD)
+     KEYBOARD:  the keyboard structure which stores keyboard state
+
+     Pops (in FIFO mode) a keypress stored in the keyboard buffer. You
+     must free the obtained keypress object after you're done with it.
+
+     *Return value:*  a newly allocated pointer, or NULL if no keypress
+     pending.
+
+ -- Function: int lw6gui_keyboard_is_pressed (lw6gui_keyboard_t *
+          KEYBOARD, int KEYSYM)
+     KEYBOARD:  the keyboard structure which stores keyboard state
+
+     Tells wether a key is pressed or not. The function will test out of
+     bound values.
+
+     *Return value:*  1 if pressed, 0 if not.
+
+ -- Function: int lw6gui_keyboard_register_key_down (lw6gui_keyboard_t
+          * KEYBOARD, int KEYSYM, int UNICODE, char * LABEL, int64_t
+          TIMESTAMP)
+     KEYBOARD:  the keyboard structure which will store the keypress
+
+     KEYSYM:  the keysym for the keypress
+
+     UNICODE:  the ASCII/unicode code for the keypress
+
+     LABEL:  the label for the keypress
+
+     TIMESTAMP:  the current ticks (timestamp in ms)
+
+     Registers a keypress event, that is, puts it in the event queue.
+     This function does not take an `lw6gui_keypress_t' structure but
+     separated args, this is because it will construct the object
+     internally. You may free `label' after calling this, an internal
+     copy will be done.  This function will also maintain the array of
+     key states up to date.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: int lw6gui_keyboard_register_key_up (lw6gui_keyboard_t *
+          KEYBOARD, int KEYSYM)
+     KEYBOARD:  the keyboard structure which will store the keypress
+
+     KEYSYM:  the keysym for the keypress
+
+     Registers a key release event.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: void lw6gui_keyboard_update_repeat (lw6gui_keyboard_t *
+          KEYBOARD, lw6gui_repeat_settings_t * REPEAT_SETTINGS, int64_t
+          TIMESTAMP)
+     KEYBOARD:  the keyboard to update
+
+     REPEAT_SETTINGS:  the repeat settings (delay + interval)
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Updates the repeat informations for a keyboard, must be called
+     regularly, as often as possible.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_keyboard_sync (lw6gui_keyboard_t * DST,
+          lw6gui_keyboard_t * SRC)
+     DST:  the target keyboard object
+
+     SRC:  the source keyboard object
+
+     Synchronizes two keyboard objects. This is typically used to pass
+     data from one thread to another. Will pop the src queue to fill
+     the dst queue.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: void lw6gui_keyboard_get_move_pad (lw6gui_keyboard_t *
+          KEYBOARD, lw6gui_move_pad_t * MOVE_PAD)
+     KEYBOARD:  the keyboard to query
+
+     MOVE_PAD:  the structure which will contain the results
+
+     Returns the state of the keyboard in a uniform, non-device
+     specific structure containing only the up/down/left/right
+     information.
+
+     *Return value:*  none, the value are stored in `move_pad'.
+
+ -- Function: lw6gui_keypress_t * lw6gui_keypress_new (int KEYSYM, int
+          UNICODE, char * LABEL)
+     KEYSYM:  the keysym to use
+
+     UNICODE:  the unicode value for this keysym
+
+     LABEL:  the label (optional, might be NULL)
+
+     Creates a keypress structure, the only reason for needing a
+     contructor is that the label field needs be duplicated.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: void lw6gui_keypress_free (lw6gui_keypress_t * KEYPRESS)
+     KEYPRESS:  the keypress object to free.
+
+     Deletes a keypress structure.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6gui_keypress_repr (lw6gui_keypress_t * KEYPRESS)
+     KEYPRESS:  the keypress to work on
+
+     Returns a human-readable representation of the keypress.
+
+     *Return value:*  a newly allocated string
+
+ -- Function: lw6gui_menu_t * lw6gui_menu_new (char * TITLE, char *
+          HELP, char * POPUP, char * ESC, int ENABLE_ESC)
+     TITLE:  the string to be displayed, what the user sees. Can be
+     freed after the call is done, function will make a copy internally.
+
+     HELP:  a string introducing the menu, describing what it does,
+     giving hints on how to use it.
+
+     POPUP:  a string to be displayed in popup mode when menu is
+     displayed for the first time.
+
+     ESC:  the label to be displayed in the ESC button
+
+     ENABLE_ESC:  wether to enable the escape button.
+
+     Constructs a new menu object. Note that you can always call other
+     functions to modify it afterwards.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: void lw6gui_menu_free (lw6gui_menu_t * MENU)
+     MENU:  a pointer to the menu.
+
+     Frees the menu, checking if things are OK before doing so.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_menu_memory_footprint (lw6gui_menu_t * MENU)
+     MENU:  a pointer to the menu.
+
+     Gets the memory occupied by the menu. Could be usefull to help a
+     garbage collector taking decisions or reporting erros, for
+     instance.
+
+     *Return value:*  the number of bytes used.
+
+ -- Function: char * lw6gui_menu_repr (lw6gui_menu_t * MENU)
+     MENU:  a pointer to the menu.
+
+     Constructs a readable description of the object. Usefull for
+     debugging, or to introspect things using scripts, at run-time.
+     Does not necessarly describe all the informations about the
+     object, but helps knowing what it is.
+
+     *Return value:*  a string describing the object, must be freed.
+
+ -- Function: void lw6gui_menu_set_title (lw6gui_menu_t * MENU, char *
+          TITLE)
+     MENU:  a pointer to the menu.
+
+     TITLE:  the new title, you can free it after calling the function,
+     an internal copy will be made.
+
+     Change the title of the menu.  Use this function to change the
+     title, don't try to access the struct directly. The idea is to
+     have safe memory management.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menu_set_help (lw6gui_menu_t * MENU, char *
+          HELP)
+     MENU:  a pointer to the menu.
+
+     HELP:  the new help, you can free it after calling the function,
+     an internal copy will be made.
+
+     Change the help of the menu.  Use this function to change the
+     help, don't try to access the struct directly. The idea is to have
+     safe memory management.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menu_set_popup (lw6gui_menu_t * MENU, char *
+          POPUP)
+     MENU:  a pointer to the menu.
+
+     POPUP:  the new popup, you can free it after calling the function,
+     an internal copy will be made.
+
+     Change the popup of the menu. That is to say, its popup.  Use this
+     function to change the popup, don't try to access the struct
+     directly. The idea is to have safe memory management.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menu_close_popup (lw6gui_menu_t * MENU)
+     MENU:  a pointer to the menu.
+
+     Closes the popup, in practice, this is equivalent to setting the
+     popup string to "" or NULL.
+
+     *Return value:*  none
+
+ -- Function: int lw6gui_menu_has_popup (lw6gui_menu_t * MENU)
+     MENU:  a pointer to the menu.
+
+     Tells wether a popup is defined. Behavior is simplistic, at
+     creation (when a non-NULL non-empty popup string has been set)
+     then the popup is displayed. In this state, popup is considered to
+     be defined. Then it can be close, and after this action the popup
+     ain't here anymore, program continues the way it started.
+
+     *Return value:*  1 if has popup, 0 if does not
+
+ -- Function: lw6gui_menuitem_t * lw6gui_menu_get_item (lw6gui_menu_t *
+          MENU, int POSITION)
+     MENU:  the menu we want to query
+
+     POSITION:  the order of the item we want
+
+     Gets the menu item at the given position. First item is 0, last is
+     N-1.  Returns a pointer on the real object, not a copy.
+
+     *Return value:*  a pointer to a menu item, NULL if out of range.
+
+ -- Function: int lw6gui_menu_select (lw6gui_menu_t * MENU, int
+          POSITION, int ALLOW_SCROLL, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     POSITION:  the position of the item we want to select
+
+     ALLOW_SCROLL:  wether scrolling should be allowed when displaying
+     it
+
+     NOW:  the current time, as a timestamp.
+
+     Selects the item at the given position. Use this function to be
+     sure that only one item is selected, and all other states are
+     consistent.  Timestamp is needed for the sake of eye-candy.
+
+     *Return value:*  1 if success, 0 if failure (out of range).
+
+ -- Function: void lw6gui_menu_select_esc (lw6gui_menu_t * MENU, int
+          STATE, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     STATE:  1 to select, 0 to unselect
+
+     NOW:  the current time, as a timestamp.
+
+     Selects the escape item, this does not affect other items, it's
+     mostly.  to handle eye candy.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_menu_enable_esc (lw6gui_menu_t * MENU, int
+          STATE, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     STATE:  1 to enable, 0 to disable
+
+     NOW:  the current time, as a timestamp.
+
+     Enables the escape item, this does not affect other items, it's
+     mostly.  to handle eye candy.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_menu_scroll_up (lw6gui_menu_t * MENU)
+     MENU:  the menu to scroll
+
+     Scrolls a menu up, used as a callback for mouse wheel up for
+     instance.  The idea is just to decrement the first displayed item
+     index.
+
+     *Return value:*  1 if OK, 0 if failed (out of range).
+
+ -- Function: int lw6gui_menu_scroll_down (lw6gui_menu_t * MENU)
+     MENU:  the menu to scroll
+
+     Scrolls a menu down, used as a callback for mouse wheel down for
+     instance.  The idea is just to increment the first displayed item
+     index.
+
+     *Return value:*  1 if OK, 0 if failed (out of range).
+
+ -- Function: int lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * MENU,
+          lw6sys_list_t * BREADCRUMBS)
+     MENU:  the menu to scroll
+
+     BREADCRUMBS:  list of strings containing breadcrumbs
+
+     Set the breadcrumbs, that's to say the readable, logical path to
+     get to a given menu. This is just eye candy, not linked to any
+     logic at this level.
+
+     *Return value:*  1 if OK, 0 if failed.
+
+ -- Function: void lw6gui_menu_center (lw6gui_menu_t * MENU, int
+          POSITION, int MAX_DISPLAYED_ITEMS)
+     MENU:  the menu to center
+
+     POSITION:  the position of the menuitem to be put in the center
+
+     MAX_DISPLAYED_ITEMS:  the maximum number of items displayed
+
+     Centers the menu on a given menuitem. Typically used when pushing
+     a menu with a menuitem selected 'anywhere' in the list.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_menu_insert (lw6gui_menu_t * MENU,
+          lw6gui_menuitem_t * MENUITEM, int POSITION, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     MENUITEM:  the item to insert
+
+     POSITION:  the position the new item will occupy ("insert before"
+     mode)
+
+     NOW:  the current time, as a timestamp.
+
+     Inserts the given item in the menu. All items starting at the
+     insert position will be "pushed" (that is, their position
+     incremented by 1).  Once the menuitem is inserted, the menu object
+     will take care of memory management and automatically free it when
+     needed.
+
+     *Return value:*  1 if success, 0 if failure (memory problem, out
+     of range).
+
+ -- Function: int lw6gui_menu_append (lw6gui_menu_t * MENU,
+          lw6gui_menuitem_t * MENUITEM, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     MENUITEM:  the item to insert
+
+     NOW:  the current time, as a timestamp.
+
+     Appends the given item to the menu.  Once the menuitem is
+     appended, the menu object will take care of memory management and
+     automatically free it when needed.
+
+     *Return value:*  1 if success, 0 if failure (memory problem).
+
+ -- Function: int lw6gui_menu_remove (lw6gui_menu_t * MENU, int
+          POSITION, int64_t NOW)
+     MENU:  the menu we want to modify
+
+     POSITION:  the item to insert
+
+     NOW:  the current time, as a timestamp.
+
+     Removes an item from the menu. It will automatically be freed.
+
+     *Return value:*  1 if success, 0 if failure (out of range).
+
+ -- Function: void lw6gui_menu_update_display_range (lw6gui_menu_t *
+          MENU, int MAX_DISPLAYED_ITEMS)
+     MENU:  the menu concerned
+
+     MAX_DISPLAYED_ITEMS:  the maximum number of items to display at
+     once
+
+     Updates the display range. The reason for having this is that the
+     first item, that is, how far we scroll in a very long menu, depends
+     on the previous position. Plus you have to handle limit cases
+     (begin/end).  Thus, this function, which will automatically
+     pick-up a suitable position. Of course, `first_item_displayed' is
+     not necessarly equal to `selected_item'.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_menu_insert_for_id_use (lw6gui_menu_t * MENU,
+          char * LABEL, char * TOOLTIP, int VALUE, int ENABLED, int
+          SELECTED, int COLORED, int POSITION, int64_t NOW)
+     MENU:  the menu to work on
+
+     LABEL:  the label of the menuitem to append
+
+     TOOLTIP:  the tooltip of the menuitem to append
+
+     VALUE:  the value of the menuitem to append
+
+     ENABLED:  wether the inserted menuitem should be enabled
+
+     SELECTED:  wether the inserted menuitem should be selected
+
+     COLORED:  wether the inserted menuitem should use value as its
+     color
+
+     NOW:  current time (timestamp)
+
+     Inserts a menu item at the given position. The idea is that the
+     menu item object is automatically constructed on the fly, and an
+     id is returned, which can be passed to '_using_id' menu-related
+     functions. This is typically for using in scripts. The idea is
+     that the script just keeps a copy of the id returned, and can this
+     way operate directly on the menuitem without keeping a pointer, a
+     smob or anything internally. From the C point of view, having a
+     real C structure enables persistent data from one display to the
+     other, and this is nice and conveninent. I acknowledge the
+     prototype is scary.
+
+     *Return value:*  0 if error, or else an id which will later be
+     used with '_using_id' functions.
+
+ -- Function: int lw6gui_menu_append_for_id_use (lw6gui_menu_t * MENU,
+          char * LABEL, char * TOOLTIP, int VALUE, int ENABLED, int
+          SELECTED, int COLORED, int64_t NOW)
+     MENU:  the menu to work on
+
+     LABEL:  the label of the menuitem to append
+
+     TOOLTIP:  the tooltip of the menuitem to append
+
+     VALUE:  the value of the menuitem to append
+
+     ENABLED:  wether the appended menuitem should be enabled
+
+     SELECTED:  wether the appended menuitem should be selected
+
+     COLORED:  wether the appended menuitem should use value as its
+     color
+
+     NOW:  current time (timestamp)
+
+     Appends a menuitem using the same logic as
+     `lw6gui_menu_insert_for_id_use' that is to say a parameter is
+     returned which can later be used to directly operate on a given
+     menuitem, without having its pointer, and even if its position
+     changes.
+
+     *Return value:*  0 if error, or else an id which will later be
+     used with '_using_id' functions.
+
+ -- Function: int lw6gui_menu_remove_using_id (lw6gui_menu_t * MENU,
+          int MENUITEM_ID, int64_t NOW)
+     MENU:  the menu to work on
+
+     MENUITEM_ID:  the id of the menuitem to remove
+
+     NOW:  current time (timestamp)
+
+     Deletes the menuitem with the given id. Very important: the id is
+     not the position. Id are arbitrary numbers that stick to
+     menuitems, but they are not directly linked with the position.
+     This function is practical to use if, for some reason, you don't
+     have the pointer on the menuitem.
+
+     *Return value:*  1 if success, 0 if failure (out of range).
+
+ -- Function: void lw6gui_menu_sync_using_id (lw6gui_menu_t * MENU, int
+          MENUITEM_ID, char * LABEL, char * TOOLTIP, int VALUE, int
+          ENABLED, int SELECTED, int COLORED, int64_t NOW)
+     MENU:  the menu to work on
+
+     MENUITEM_ID:  the id of the menuitem to synchronize
+
+     LABEL:  menu label
+
+     TOOLTIP:  menu tooltip
+
+     VALUE:  value
+
+     ENABLED:  wether it's usable or not
+
+     SELECTED:  1 if the menuite is current item
+
+     COLORED:  wether to use color
+
+     NOW:  current time (timestamp)
+
+     Updates the menuitem with the given id. Very important: the id is
+     not the position. Id are arbitrary numbers that stick to
+     menuitems, but they are not directly linked with the position.
+     This function is practical to use if, for some reason, you don't
+     have the pointer on the menuitem.  In practice, it's heavily used
+     in the game to transmit informations from the scripts to the core
+     C engine. Additionnaly, this function will automatically
+     synchronize the `selected_item' field of the menu struct.
+
+     *Return value:*  1 if success, 0 if failure (out of range).
+
+ -- Function: int lw6gui_menu_is_same (const lw6gui_menu_t * MENU_A,
+          const lw6gui_menu_t * MENU_B)
+     MENU_A:  first item to compare
+
+     MENU_B:  second item to compare
+
+     Compares two menus.
+
+     *Return value:*  1 if they are the same, 0 if not
+
+ -- Function: lw6gui_menu_t * lw6gui_menu_dup (lw6gui_menu_t * MENU)
+     MENU:  the menu to duplicate
+
+     Duplicates a menu structure.
+
+     *Return value:*  a pointer to the new menu.
+
+ -- Function: int lw6gui_menu_sync (lw6gui_menu_t * DST, lw6gui_menu_t
+          * SRC)
+     DST:  the target menu
+
+     SRC:  the source menu
+
+     Synchronizes two menus, this supposes that they represent the same
+     menu, but simply in a different state. This function does not
+     really copy src to dst, it has a special behavior, indeed
+     everything is copied from src to dst, except the
+     `first_item_displayed' and `nb_items_displayed' which are taken
+     from dst and copied to src. This is because in practise, those
+     values are updated in the display loop/thread, which is the one
+     which uses the target. This is not very orthodox, but should work.
+
+     *Return value:*  1 if success, 0 if failure
+
+ -- Function: lw6gui_menuitem_t * lw6gui_menuitem_new (char * LABEL,
+          char * TOOLTIP, int VALUE, int ENABLED, int SELECTED, int
+          COLORED)
+     LABEL:  the string to be displayed, what the user sees. Can be
+     freed after the call is done, function will make a copy internally.
+
+     TOOLTIP:  the string to be displayed as a tooltip, describing the
+     menu item in detail. Can be NULL if you don't want to use this
+     feature.
+
+     VALUE:  the value. No GUI function uses this, this is the "real"
+     value associated to the item.
+
+     ENABLED:  wether the menu item can be selected, used, and so on
+
+     SELECTED:  wether the menu item is the item selected among all
+     menu items.
+
+     COLORED:  wetherr the menu item must, when drawn, be colored
+     according to its value.
+
+     Constructs a new menuitem object. Note that you can always call
+     other functions to modify these values afterwards, this might
+     change rendering since `lw6gui_menuitem_set_value' or
+     `lw6gui_menuitem_set_label' will, for instance, modify the "when
+     was that item last modified" information.
+
+     *Return value:*  a pointer to the newly allocated object.
+
+ -- Function: void lw6gui_menuitem_free (lw6gui_menuitem_t * MENUITEM)
+     MENUITEM:  a pointer to the menuitem.
+
+     Frees the menuitem, checking if things are OK before doing so.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_menuitem_memory_footprint (lw6gui_menuitem_t *
+          MENUITEM)
+     MENUITEM:  a pointer to the menuitem.
+
+     Gets the memory occupied by the menuitem. Could be usefull to help
+     a garbage collector taking decisions or reporting erros, for
+     instance.
+
+     *Return value:*  the number of bytes used.
+
+ -- Function: char * lw6gui_menuitem_repr (lw6gui_menuitem_t * MENUITEM)
+     MENUITEM:  a pointer to the menuitem.
+
+     Constructs a readable description of the object. Usefull for
+     debugging, or to introspect things using scripts, at run-time.
+     Does not necessarly describe all the informations about the
+     object, but helps knowing what it is.
+
+     *Return value:*  a string describing the object, must be freed.
+
+ -- Function: void lw6gui_menuitem_set_label (lw6gui_menuitem_t *
+          MENUITEM, char * LABEL, int64_t NOW)
+     MENUITEM:  a pointer to the menuitem.
+
+     LABEL:  the new label, you can free it after calling the function,
+     an internal copy will be made.
+
+     NOW:  the current time, as a timestamp.
+
+     Change the label of the menu item. That is to say, what the user
+     sees.  Use this function to change the menuitem value, don't try
+     to access the struct directly. The idea is 1) to have safe memory
+     management and 2) to keep the `last_change' member up to date.  It
+     can be later used for eye-candy effects.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menuitem_set_tooltip (lw6gui_menuitem_t *
+          MENUITEM, char * TOOLTIP, int64_t NOW)
+     MENUITEM:  a pointer to the menuitem.
+
+     TOOLTIP:  the new tooltip, you can free it after calling the
+     function, an internal copy will be made.
+
+     NOW:  the current time, as a timestamp.
+
+     Change the tooltip of the menu item (the explanation of what the
+     item is about) Use this function to change the menuitem value,
+     don't try to access the struct directly. The idea is 1) to have
+     safe memory management and 2) to keep the `last_change' member up
+     to date.  It can be later used for eye-candy effects.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menuitem_set_value (lw6gui_menuitem_t *
+          MENUITEM, int VALUE, int64_t NOW)
+     MENUITEM:  a pointer to the menuitem.
+
+     VALUE:  the new value.
+
+     NOW:  the current time, as a timestamp.
+
+     Changes the value of a menuitem. This is the internal value, not
+     what the user sees. Use this function to change the menuitem
+     value, don't try to access the struct directly. The idea is to keep
+     the `last_change' member up to date.  It can be later used for
+     eye-candy effects.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menuitem_select (lw6gui_menuitem_t *
+          MENUITEM, int STATE, int64_t NOW)
+     MENUITEM:  a pointer to the menuitem.
+
+     STATE:  1 to select, 0 to unselect
+
+     NOW:  the current time, as a timestamp.
+
+     Switches the menuitem to (un)selected state. Use this function,
+     don't try to modify the struct members directly. The idea is to
+     have the `last_select' parameter up to date.  It can be later used
+     for eye-candy effects.
+
+     *Return value:*  none
+
+ -- Function: void lw6gui_menuitem_enable (lw6gui_menuitem_t *
+          MENUITEM, int STATE, int64_t NOW)
+     MENUITEM:  a pointer to the menuitem.
+
+     STATE:  1 to enable, 0 to disable
+
+     NOW:  the current time, as a timestamp.
+
+     Switches the menuitem to enabled/disabled state. Use this
+     function, don't try to modify the struct members directly. The
+     idea is to have the `last_select' parameter up to date.  It can be
+     later used for eye-candy effects.
+
+     *Return value:*  none
+
+ -- Function: u_int32_t lw6gui_menuitem_checksum (lw6gui_menuitem_t *
+          MENUITEM, lw6gui_look_t * LOOK)
+     MENUITEM:  the menuitem we want to identify
+
+     Returns a checksum which can be used to know, for instance, wether
+     the menuitem has changed or not, and if we should redraw it.
+
+     *Return value:*  a checksum.
+
+ -- Function: int lw6gui_menuitem_is_same (const lw6gui_menuitem_t *
+          MENUITEM_A, const lw6gui_menuitem_t * MENUITEM_B)
+     MENUITEM_A:  first item to compare
+
+     MENUITEM_B:  second item to compare
+
+     Compares two menuitems.
+
+     *Return value:*  1 if they are the same, 0 if not
+
+ -- Function: lw6gui_menuitem_t * lw6gui_menuitem_dup
+          (lw6gui_menuitem_t * MENUITEM)
+     MENUITEM:  the menuitem to duplicate
+
+     The menuitem to duplicate.
+
+     *Return value:*  a pointer to the duplicted menuitem.
+
+ -- Function: int lw6gui_menuitem_sync (lw6gui_menuitem_t * DST,
+          lw6gui_menuitem_t * SRC)
+     DST:  the target menuitem
+
+     SRC:  the source menuitem
+
+     Synchronizes two menuitems, this supposes that they represent the
+     same item, but simply in a different state.
+
+     *Return value:*  1 if success, 0 if failure
+
+ -- Function: void lw6gui_mouse_register_move (lw6gui_mouse_t * MOUSE,
+          int SCREEN_POS_X, int SCREEN_POS_Y, int64_t TIMESTAMP)
+     MOUSE:  the mouse object to work on
+
+     SCREEN_POS_X:  the x position on screen
+
+     SCREEN_POS_Y:  the y position on screen
+
+     TIMESTAMP:  current timestamp
+
+     Registers a mouse move event.
+
+     *Return value:*  note.
+
+ -- Function: int lw6gui_mouse_poll_move (lw6gui_mouse_t * MOUSE, int *
+          SCREEN_POS_X, int * SCREEN_POS_Y)
+     MOUSE:  the mouse object to poll
+
+     SCREEN_POS_X:  pointer to the x position (can be NULL), will be
+     updated even if no move
+
+     SCREEN_POS_Y:  pointer to the y position (can be NULL), will be
+     updated even if no move
+
+     Asks wether the mouse has moved or not.
+
+     *Return value:*  1 if mouse was moved since last call, 0 if not.
+
+ -- Function: void lw6gui_mouse_update_repeat (lw6gui_mouse_t * MOUSE,
+          lw6gui_repeat_settings_t * REPEAT_SETTINGS, int64_t TIMESTAMP)
+     MOUSE:  the mouse to update
+
+     REPEAT_SETTINGS:  the repeat settings (delay + interval)
+
+     TIMESTAMP:  the current ticks (milliseconds)
+
+     Updates the repeat informations for a mouse, must be called
+     regularly, as often as possible.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_mouse_sync (lw6gui_mouse_t * DST,
+          lw6gui_mouse_t * SRC)
+     DST:  the target mouse object
+
+     SRC:  the source mouse object
+
+     Synchronizes two mouse objects. This is typically used to pass
+     data from one thread to another. Will handle "mouse move"
+     attribute and clear it in src if needed while setting it in dst.
+
+     *Return value:*  1 if success, O if failure.
+
+ -- Function: void lw6gui_mouse_drag_begin (lw6gui_mouse_t * MOUSE)
+     MOUSE:  mouse struct to update
+
+     To be called when one wants to start recording a drag session,
+     typically when left button is pressed.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_mouse_drag_end (lw6gui_mouse_t * MOUSE)
+     MOUSE:  mouse struct to update
+
+     To be called when one wants to stop recording a drag session,
+     typically when left button is released.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_mouse_drag_pop (lw6gui_mouse_t * MOUSE, int *
+          DELTA_X, int * DELTA_Y, int * POS_X, int * POS_Y, int *
+          SPEED_X, int * SPEED_Y)
+     MOUSE:  mouse struct to query
+
+     DELTA_X:  x movement (on screen, out param can be NULL)
+
+     DELTA_Y:  y movement (on screen, out param can be NULL)
+
+     POS_X:  x pos (on screen, out param can be NULL)
+
+     POS_Y:  y pos (on screen, out param can be NULL)
+
+     SPEED_X:  x speed (on screen, out param can be NULL)
+
+     SPEED_Y:  y speed (on screen, out param can be NULL)
+
+     To be called when one wants to stop recording a drag session,
+     typically when left button is released.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_point_is_inside_rect (lw6gui_point_t POINT,
+          lw6gui_rect_t * RECT)
+     POINT:  point to test
+
+     RECT:  rectangle in which point is supposed to be
+
+     Tests wether a point is inside a rectangle, this is typically used
+     to know if a point is inside the right texture or if we're outside.
+
+     *Return value:*  1 if OK, 0 if outside
+
+ -- Function: int lw6gui_quad_is_inside_rect (lw6gui_quad_t * QUAD,
+          lw6gui_rect_t * RECT)
+     QUAD:  quad to test
+
+     RECT:  rectangle in which quad is supposed to be
+
+     Tests wether a quad is inside a rectangle, this is typically used
+     to know if a quad is inside the right texture or if we're outside.
+
+     *Return value:*  1 if OK, 0 if outside
+
+ -- Function: void lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * RECT, int
+          X1, int Y1, int X2, int Y2)
+     RECT:  the structure to initialize
+
+     X1:  x for top left corner
+
+     Y1:  y for top left corner
+
+     X2:  x for bottom right corner
+
+     Y2:  y for bottom right corner
+
+     Initializes a rect structure, will calculate w & h.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_rect_init_xywh (lw6gui_rect_t * RECT, int X,
+          int Y, int W, int H)
+     RECT:  the structure to initialize
+
+     X:  x for top left corner
+
+     Y:  y for top left corner
+
+     W:  width
+
+     H:  height
+
+     Initializes a rect structure, will calculate x2 & y2.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_rect_clip (lw6gui_rect_t * DST, lw6gui_rect_t
+          * SRC, lw6gui_rect_t * CLIP)
+     DST:  the structure which will contain the result
+
+     SRC:  the source rect
+
+     CLIP:  the clipping rect (boundaries)
+
+     Clips a rect (think of rectangle clips).
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_segment_is_inside_rect (lw6gui_segment_t *
+          SEGMENT, lw6gui_rect_t * RECT)
+     SEGMENT:  segment to test
+
+     RECT:  rectangle in which segment is supposed to be
+
+     Tests wether a segment is inside a rectangle, this is typically
+     used to know if a segment is inside the right texture or if we're
+     outside.
+
+     *Return value:*  1 if OK, 0 if outside
+
+ -- Function: void lw6gui_smoother_init (lw6gui_smoother_t * SMOOTHER,
+          float VALUE, int DURATION)
+     SMOOTHER:  the structure to initialize
+
+     VALUE:  the value to use for now
+
+     DURATION:  the duration of a standard move, in ticks (msec)
+
+     Initializes a smoother object, with a default value. The important
+     point is the duration which will condition all the behavior of the
+     object.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_smoother_immediate_force (lw6gui_smoother_t *
+          SMOOTHER, float VALUE)
+     SMOOTHER:  the structure to use
+
+     VALUE:  the target value
+
+     Forces a smoother object to immediately point on a value.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_smoother_set_target (lw6gui_smoother_t *
+          SMOOTHER, float VALUE, int64_t NOW)
+     SMOOTHER:  the structure to use
+
+     VALUE:  the target value
+
+     NOW:  the current timestamp
+
+     Sets a new target, will automatically calculate current speed to
+     smooth the next returned values.
+
+     *Return value:*  none.
+
+ -- Function: float lw6gui_smoother_get_value (lw6gui_smoother_t *
+          SMOOTHER, int64_t NOW)
+     SMOOTHER:  the structure to use
+
+     NOW:  the current timestamp
+
+     Returns the current value of the smoother.
+
+     *Return value:*  a float.
+
+ -- Function: void lw6gui_smoother_fix_overflow (lw6gui_smoother_t *
+          SMOOTHER, int STEP)
+     SMOOTHER:  object to modify
+
+     STEP:  step size, typically twice the map size
+
+     Companion function of `lw6pil_coords_fix_x10', this one will fix a
+     smoother target to avoid crazy scrolls when cursor is on a map
+     edge.
+
+     *Return value:*  none.
+
+ -- Function: int lw6gui_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Run tests in the gui module.
+
+     *Return value:*  1 if successfull, 0 if failed.
+
+ -- Function: int lw6gui_triangle_is_inside_rect (lw6gui_triangle_t *
+          TRIANGLE, lw6gui_rect_t * RECT)
+     TRIANGLE:  triangle to test
+
+     RECT:  rectangle in which triangle is supposed to be
+
+     Tests wether a triangle is inside a rectangle, this is typically
+     used to know if a triangle is inside the right texture or if we're
+     outside.
+
+     *Return value:*  1 if OK, 0 if outside
+
+ -- Function: int lw6gui_video_mode_find_closest (lw6gui_video_mode_t *
+          CLOSEST, lw6gui_video_mode_t * WISHED, lw6sys_list_t *
+          AVAILABLE)
+     CLOSEST:  the closest video_mode found
+
+     WISHED:  the wished video_mode
+
+     AVAILABLE:  a list of available video_modes (list of
+     lw6gui_video_mode_t *)
+
+     Finds the closest video_mode available, this is just a small
+     utility to cope with different screen shapes and avoid requesting
+     640x480 when it's just not available but there's a 640x400 instead.
+
+     *Return value:*  1 if the wished video_mode exists in available
+     list and was found, else 0 if the wished video_mode doesn't exist
+     and an approximative match was picked.
+
+ -- Function: int lw6gui_video_mode_is_same (const lw6gui_video_mode_t
+          * MODE_A, const lw6gui_video_mode_t * MODE_B)
+     MODE_A:  first mode to compare
+
+     MODE_B:  second mode to compare
+
+     Compares two video modes, to know if they're the same.
+
+     *Return value:*  1 if equal, 0 if not.
+
+ -- Function: int lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t *
+          DST, lw6gui_video_mode_t * SRC)
+     DST:  the target video mode
+
+     SRC:  the source video mode
+
+     Applies the ratio of src to dst, for instance if src is 16/9, then
+     dst will be made 16/9 too, trying to keep the same surface.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6gui_viewport_init (lw6gui_viewport_t * VIEWPORT,
+          int SCREEN_W, int SCREEN_H, float DRAWABLE_X1, float
+          DRAWABLE_Y1, float DRAWABLE_X2, float DRAWABLE_Y2, float
+          CENTER_X, float CENTER_Y, int MAP_W, int MAP_H, int
+          X_POLARITY, int Y_POLARITY, int X_WRAP, int Y_WRAP, int
+          KEEP_RATIO, float GLOBAL_ZOOM, float SCROLL_LIMIT, int
+          USE_OLD_CENTER)
+     VIEWPORT:  the viewport to initalize
+
+     SCREEN_W:  screen width
+
+     SCREEN_H:  screen height
+
+     DRAWABLE_X1:  viewport min x
+
+     DRAWABLE_Y1:  viewport min y
+
+     DRAWABLE_X2:  viewport max x
+
+     DRAWABLE_Y2:  viewport max y
+
+     CENTER_X:  center of display (in map coordinates)
+
+     CENTER_Y:  center of display (in map coordinates)
+
+     MAP_W:  map width (shape)
+
+     MAP_H:  map height (shape)
+
+     X_POLARITY:  x polarity
+
+     Y_POLARITY:  y polarity
+
+     X_WRAP:  wether to wrap horizontally
+
+     Y_WRAP:  wether to wrap vertically
+
+     KEEP_RATIO:  wether to adapt to viewport shape or keep original
+
+     GLOBAL_ZOOM:  global zoom is style_zoom * dynamic_zoom
+
+     SCROLL_LIMIT:  inside this zone, don't scroll
+
+     USE_OLD_CENTER:  wether to take previous center in account
+
+     Initializes all the (jumbo?) viewport structure which will contain
+     valuable informations for a simple "flat" display.  Special
+     renderers might not find usefull some fields and handle wrapping
+     and zooming their own way, but this offers a basic skeleton.
+
+     *Return value:*  1 if ok, 0 on failure
+
+ -- Function: void lw6gui_viewport_map_to_screen (lw6gui_viewport_t *
+          VIEWPORT, float * SCREEN_X, float * SCREEN_Y, float MAP_X,
+          float MAP_Y, int CLIP)
+     VIEWPORT:  the viewport to use
+
+     SCREEN_X:  the x coord on the screen
+
+     SCREEN_Y:  the y coord on the screen
+
+     MAP_X:  the x coord in map coordinates
+
+     MAP_Y:  the y coord in map coordinates
+
+     CLIP:  wether to clip returned values
+
+     Translates from map coords to screen coords. Returned values might
+     be outside screen boundaries if clip is 0. If screen coords are
+     outside drawable area anc clip is 1, then they will be clipped.
+
+     *Return value:*  NULL
+
+ -- Function: void lw6gui_viewport_screen_to_map (lw6gui_viewport_t *
+          VIEWPORT, float * MAP_X, float * MAP_Y, float SCREEN_X, float
+          SCREEN_Y, int WRAP)
+     VIEWPORT:  the viewport to use
+
+     MAP_X:  the x coord in map coordinates
+
+     MAP_Y:  the y coord in map coordinates
+
+     SCREEN_X:  the x coord on the screen
+
+     SCREEN_Y:  the y coord on the screen
+
+     WRAP:  wether to use polarity informations to wrap coords.
+
+     Translates from screen coords to map coords. If wrap is set, it
+     will interpret coords the way `lw6map_coords_fix_xy' would, only
+     it can still be formally outside map boundaries for it can return
+     a value exactly equal to w,h while in interger mode it would be
+     w-1,h-1.
+
+     *Return value:*  NULL
+
+ -- Function: void lw6gui_viewport_calc_drag (lw6gui_viewport_t *
+          VIEWPORT, float * MAP_DST_X, float * MAP_DST_Y, float
+          MAP_SRC_X, float MAP_SRC_Y, int SCREEN_DX, int SCREEN_DY)
+     VIEWPORT:  viewport to work on
+
+     MAP_DST_X:  map det x coord (out param)
+
+     MAP_DST_Y:  map dst y coord (out param)
+
+     MAP_SRC_X:  map src x coord
+
+     MAP_SRC_Y:  map src y coord
+
+     SCREEN_DX:  drag x (on screen)
+
+     SCREEN_DY:  drag y (on screen)
+
+     Used to calculate the new "center" when in drag mode.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * ZONE,
+          float X1, float Y1, float X2, float Y2)
+     ZONE:  the structure to initialize
+
+     X1:  x for top left corner
+
+     Y1:  y for top left corner
+
+     X2:  x for bottom right corner
+
+     Y2:  y for bottom right corner
+
+     Initializes a zone structure, will calculate w & h.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_zone_init_xywh (lw6gui_zone_t * ZONE, float
+          X, float Y, float W, float H)
+     ZONE:  the structure to initialize
+
+     X:  x for top left corner
+
+     Y:  y for top left corner
+
+     W:  width
+
+     H:  height
+
+     Initializes a zone structure, will calculate x2 & y2.
+
+     *Return value:*  none.
+
+ -- Function: void lw6gui_zone_clip (lw6gui_zone_t * DST, lw6gui_zone_t
+          * SRC, lw6gui_zone_t * CLIP)
+     DST:  the structure which will contain the result
+
+     SRC:  the source zone
+
+     CLIP:  the clipping zone (boundaries)
+
+     Clips a zone (think of rectangle clips).
+
+     *Return value:*  none.
 
 
 File: liquidwar6.info,  Node: libhlp,  Next: libimg,  Prev: libgui,  Up: C API
