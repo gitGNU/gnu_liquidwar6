@@ -7289,7 +7289,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6bot_backend_s
+ -- Struct: lw6bot_backend_s
 
  -- member of lw6bot_backend_s: dl_handle
           lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle
@@ -7331,7 +7331,7 @@ results on
           char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)
 
 
- -- struct: lw6bot_data_s
+ -- Struct: lw6bot_data_s
 
  -- member of lw6bot_data_s: game_state
           lw6ker_game_state_t* lw6bot_data_s::game_state
@@ -7341,21 +7341,31 @@ results on
           lw6bot_param_t lw6bot_data_s::param
 
 
- -- struct: lw6bot_param_s
+ -- Struct: lw6bot_param_s
+     Parameters usable by a bot engine. Those are the stable, fixed
+     parameters passed at bot creation, they don't change during the
+     bot life.
 
  -- member of lw6bot_param_s: speed
           float lw6bot_param_s::speed
 
+     Speed of the bot, this is a value between 0.0f and 1.0f, 1 means
+     normal speed, 0 is as slow as possible. Values over 1 will make
+     the bot act/move faster than usual.
 
  -- member of lw6bot_param_s: iq
           int lw6bot_param_s::iq
 
+     IQ is supposed to reflect the cleverness of the bot. The default
+     is 100 (this value is basically a percentage), 0 means just so
+     stupid, and a high value, for instance 200, means very clever.
 
  -- member of lw6bot_param_s: cursor_id
           u_int16_t lw6bot_param_s::cursor_id
 
+     The cursor ID, which is a 16-bit non-null integer.
 
- -- struct: lw6bot_seed_s
+ -- Struct: lw6bot_seed_s
 
  -- member of lw6bot_seed_s: game_state
           lw6ker_game_state_t* lw6bot_seed_s::game_state
@@ -8243,7 +8253,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6cli_backend_s
+ -- Struct: lw6cli_backend_s
 
  -- member of lw6cli_backend_s: dl_handle
           lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
@@ -8301,7 +8311,7 @@ results on
           char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)
 
 
- -- struct: lw6cli_oob_data_s
+ -- Struct: lw6cli_oob_data_s
 
  -- member of lw6cli_oob_data_s: creation_timestamp
           int64_t lw6cli_oob_data_s::creation_timestamp
@@ -8323,7 +8333,7 @@ results on
           void* lw6cli_oob_data_s::verify_callback_data
 
 
- -- struct: lw6cli_oob_s
+ -- Struct: lw6cli_oob_s
 
  -- member of lw6cli_oob_s: thread
           void* lw6cli_oob_s::thread
@@ -8743,7 +8753,7 @@ results on
 
      *Return value:*  NULL
 
- -- struct: lw6cnx_connection_s
+ -- Struct: lw6cnx_connection_s
 
  -- member of lw6cnx_connection_s: local_url
           char* lw6cnx_connection_s::local_url
@@ -8829,7 +8839,7 @@ results on
           void* lw6cnx_connection_s::backend_specific_data
 
 
- -- struct: lw6cnx_send_param_s
+ -- Struct: lw6cnx_send_param_s
 
  -- member of lw6cnx_send_param_s: physical_ticket_sig
           u_int32_t lw6cnx_send_param_s::physical_ticket_sig
@@ -8851,7 +8861,7 @@ results on
           char* lw6cnx_send_param_s::message
 
 
- -- struct: lw6cnx_ticket_table_s
+ -- Struct: lw6cnx_ticket_table_s
 
  -- member of lw6cnx_ticket_table_s: recv_spinlock
           void* lw6cnx_ticket_table_s::recv_spinlock
@@ -9226,7 +9236,7 @@ lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 
      *Return value:*  a list of strings, containing atoms.
 
- -- struct: lw6dat_warehouse_s
+ -- Struct: lw6dat_warehouse_s
 
  -- member of lw6dat_warehouse_s: dummy
           int lw6dat_warehouse_s::dummy

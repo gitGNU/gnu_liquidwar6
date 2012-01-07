@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6img_jpeg_s
+@deftp {Struct} {lw6img_jpeg_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6img_jpeg_s {id}
+@defcv {member} {lw6img_jpeg_s} {id}
 @example
 u_int32_t lw6img_jpeg_s::id
 @end example
@@ -14,7 +15,7 @@ u_int32_t lw6img_jpeg_s::id
         
 @end defcv
 
-@defcv {member} lw6img_jpeg_s {shape}
+@defcv {member} {lw6img_jpeg_s} {shape}
 @example
 lw6sys_whd_t lw6img_jpeg_s::shape
 @end example
@@ -23,7 +24,7 @@ lw6sys_whd_t lw6img_jpeg_s::shape
         
 @end defcv
 
-@defcv {member} lw6img_jpeg_s {jpeg_size}
+@defcv {member} {lw6img_jpeg_s} {jpeg_size}
 @example
 int lw6img_jpeg_s::jpeg_size
 @end example
@@ -32,7 +33,7 @@ int lw6img_jpeg_s::jpeg_size
         
 @end defcv
 
-@defcv {member} lw6img_jpeg_s {jpeg_data}
+@defcv {member} {lw6img_jpeg_s} {jpeg_data}
 @example
 void* lw6img_jpeg_s::jpeg_data
 @end example

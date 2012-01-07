@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6dsp_backend_s
+@deftp {Struct} {lw6dsp_backend_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6dsp_backend_s {id}
+@defcv {member} {lw6dsp_backend_s} {id}
 @example
 u_int32_t lw6dsp_backend_s::id
 @end example
@@ -14,7 +15,7 @@ u_int32_t lw6dsp_backend_s::id
         
 @end defcv
 
-@defcv {member} lw6dsp_backend_s {thread}
+@defcv {member} {lw6dsp_backend_s} {thread}
 @example
 void* lw6dsp_backend_s::thread
 @end example
@@ -23,7 +24,7 @@ void* lw6dsp_backend_s::thread
         
 @end defcv
 
-@defcv {member} lw6dsp_backend_s {data}
+@defcv {member} {lw6dsp_backend_s} {data}
 @example
 void* lw6dsp_backend_s::data
 @end example
@@ -32,7 +33,7 @@ void* lw6dsp_backend_s::data
         
 @end defcv
 
-@defcv {member} lw6dsp_backend_s {input}
+@defcv {member} {lw6dsp_backend_s} {input}
 @example
 lw6gui_input_t* lw6dsp_backend_s::input
 @end example
@@ -44,12 +45,13 @@ lw6gui_input_t* lw6dsp_backend_s::input
 
 
   
-@deftp struct lw6dsp_misc_s
+@deftp {Struct} {lw6dsp_misc_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6dsp_misc_s {mask}
+@defcv {member} {lw6dsp_misc_s} {mask}
 @example
 int lw6dsp_misc_s::mask
 @end example
@@ -58,7 +60,7 @@ int lw6dsp_misc_s::mask
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {target_fps}
+@defcv {member} {lw6dsp_misc_s} {target_fps}
 @example
 int lw6dsp_misc_s::target_fps
 @end example
@@ -67,7 +69,7 @@ int lw6dsp_misc_s::target_fps
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {gfx_cpu_usage}
+@defcv {member} {lw6dsp_misc_s} {gfx_cpu_usage}
 @example
 float lw6dsp_misc_s::gfx_cpu_usage
 @end example
@@ -76,7 +78,7 @@ float lw6dsp_misc_s::gfx_cpu_usage
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {dirty_read}
+@defcv {member} {lw6dsp_misc_s} {dirty_read}
 @example
 int lw6dsp_misc_s::dirty_read
 @end example
@@ -85,7 +87,7 @@ int lw6dsp_misc_s::dirty_read
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {capture}
+@defcv {member} {lw6dsp_misc_s} {capture}
 @example
 int lw6dsp_misc_s::capture
 @end example
@@ -94,7 +96,7 @@ int lw6dsp_misc_s::capture
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {gfx_debug}
+@defcv {member} {lw6dsp_misc_s} {gfx_debug}
 @example
 int lw6dsp_misc_s::gfx_debug
 @end example
@@ -103,7 +105,7 @@ int lw6dsp_misc_s::gfx_debug
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {debug_team_id}
+@defcv {member} {lw6dsp_misc_s} {debug_team_id}
 @example
 int lw6dsp_misc_s::debug_team_id
 @end example
@@ -112,7 +114,7 @@ int lw6dsp_misc_s::debug_team_id
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {debug_layer_id}
+@defcv {member} {lw6dsp_misc_s} {debug_layer_id}
 @example
 int lw6dsp_misc_s::debug_layer_id
 @end example
@@ -121,7 +123,7 @@ int lw6dsp_misc_s::debug_layer_id
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {repeat_settings}
+@defcv {member} {lw6dsp_misc_s} {repeat_settings}
 @example
 lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings
 @end example
@@ -130,7 +132,7 @@ lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {log_timeout}
+@defcv {member} {lw6dsp_misc_s} {log_timeout}
 @example
 int lw6dsp_misc_s::log_timeout
 @end example
@@ -139,7 +141,7 @@ int lw6dsp_misc_s::log_timeout
         
 @end defcv
 
-@defcv {member} lw6dsp_misc_s {progress}
+@defcv {member} {lw6dsp_misc_s} {progress}
 @example
 volatile float* lw6dsp_misc_s::progress
 @end example
@@ -151,12 +153,13 @@ volatile float* lw6dsp_misc_s::progress
 
 
   
-@deftp struct lw6dsp_param_s
+@deftp {Struct} {lw6dsp_param_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6dsp_param_s {misc}
+@defcv {member} {lw6dsp_param_s} {misc}
 @example
 lw6dsp_misc_t lw6dsp_param_s::misc
 @end example
@@ -165,7 +168,7 @@ lw6dsp_misc_t lw6dsp_param_s::misc
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {video_mode}
+@defcv {member} {lw6dsp_param_s} {video_mode}
 @example
 lw6gui_video_mode_t lw6dsp_param_s::video_mode
 @end example
@@ -174,7 +177,7 @@ lw6gui_video_mode_t lw6dsp_param_s::video_mode
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {look}
+@defcv {member} {lw6dsp_param_s} {look}
 @example
 lw6gui_look_t* lw6dsp_param_s::look
 @end example
@@ -183,7 +186,7 @@ lw6gui_look_t* lw6dsp_param_s::look
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {menu}
+@defcv {member} {lw6dsp_param_s} {menu}
 @example
 lw6gui_menu_t* lw6dsp_param_s::menu
 @end example
@@ -192,7 +195,7 @@ lw6gui_menu_t* lw6dsp_param_s::menu
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {level}
+@defcv {member} {lw6dsp_param_s} {level}
 @example
 lw6map_level_t* lw6dsp_param_s::level
 @end example
@@ -201,7 +204,7 @@ lw6map_level_t* lw6dsp_param_s::level
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {game_struct}
+@defcv {member} {lw6dsp_param_s} {game_struct}
 @example
 lw6ker_game_struct_t* lw6dsp_param_s::game_struct
 @end example
@@ -210,7 +213,7 @@ lw6ker_game_struct_t* lw6dsp_param_s::game_struct
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {game_state}
+@defcv {member} {lw6dsp_param_s} {game_state}
 @example
 lw6ker_game_state_t* lw6dsp_param_s::game_state
 @end example
@@ -219,7 +222,7 @@ lw6ker_game_state_t* lw6dsp_param_s::game_state
         
 @end defcv
 
-@defcv {member} lw6dsp_param_s {pilot}
+@defcv {member} {lw6dsp_param_s} {pilot}
 @example
 lw6pil_pilot_t* lw6dsp_param_s::pilot
 @end example

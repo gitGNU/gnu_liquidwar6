@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6dat_warehouse_s
+@deftp {Struct} {lw6dat_warehouse_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6dat_warehouse_s {dummy}
+@defcv {member} {lw6dat_warehouse_s} {dummy}
 @example
 int lw6dat_warehouse_s::dummy
 @end example

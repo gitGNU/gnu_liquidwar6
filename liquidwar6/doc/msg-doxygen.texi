@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6msg_word_s
+@deftp {Struct} {lw6msg_word_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6msg_word_s {len}
+@defcv {member} {lw6msg_word_s} {len}
 @example
 int lw6msg_word_s::len
 @end example
@@ -14,7 +15,7 @@ int lw6msg_word_s::len
         
 @end defcv
 
-@defcv {member} lw6msg_word_s {buf}
+@defcv {member} {lw6msg_word_s} {buf}
 @example
 char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]
 @end example

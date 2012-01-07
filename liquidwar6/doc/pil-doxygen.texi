@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6pil_add_args_s
+@deftp {Struct} {lw6pil_add_args_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_add_args_s {cursor_id}
+@defcv {member} {lw6pil_add_args_s} {cursor_id}
 @example
 u_int16_t lw6pil_add_args_s::cursor_id
 @end example
@@ -14,7 +15,7 @@ u_int16_t lw6pil_add_args_s::cursor_id
         
 @end defcv
 
-@defcv {member} lw6pil_add_args_s {team_color}
+@defcv {member} {lw6pil_add_args_s} {team_color}
 @example
 int lw6pil_add_args_s::team_color
 @end example
@@ -26,12 +27,13 @@ int lw6pil_add_args_s::team_color
 
 
   
-@deftp struct lw6pil_command_s
+@deftp {Struct} {lw6pil_command_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_command_s {seq}
+@defcv {member} {lw6pil_command_s} {seq}
 @example
 int64_t lw6pil_command_s::seq
 @end example
@@ -40,7 +42,7 @@ int64_t lw6pil_command_s::seq
         
 @end defcv
 
-@defcv {member} lw6pil_command_s {round}
+@defcv {member} {lw6pil_command_s} {round}
 @example
 int lw6pil_command_s::round
 @end example
@@ -49,7 +51,7 @@ int lw6pil_command_s::round
         
 @end defcv
 
-@defcv {member} lw6pil_command_s {node_id}
+@defcv {member} {lw6pil_command_s} {node_id}
 @example
 u_int64_t lw6pil_command_s::node_id
 @end example
@@ -58,7 +60,7 @@ u_int64_t lw6pil_command_s::node_id
         
 @end defcv
 
-@defcv {member} lw6pil_command_s {code}
+@defcv {member} {lw6pil_command_s} {code}
 @example
 lw6pil_command_code_t lw6pil_command_s::code
 @end example
@@ -67,7 +69,7 @@ lw6pil_command_code_t lw6pil_command_s::code
         
 @end defcv
 
-@defcv {member} lw6pil_command_s {args}
+@defcv {member} {lw6pil_command_s} {args}
 @example
 lw6pil_command_args_t lw6pil_command_s::args
 @end example
@@ -76,7 +78,7 @@ lw6pil_command_args_t lw6pil_command_s::args
         
 @end defcv
 
-@defcv {member} lw6pil_command_s {text}
+@defcv {member} {lw6pil_command_s} {text}
 @example
 char* lw6pil_command_s::text
 @end example
@@ -88,12 +90,13 @@ char* lw6pil_command_s::text
 
 
   
-@deftp struct lw6pil_local_cursors_s
+@deftp {Struct} {lw6pil_local_cursors_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_local_cursors_s {main_cursor_id}
+@defcv {member} {lw6pil_local_cursors_s} {main_cursor_id}
 @example
 u_int16_t lw6pil_local_cursors_s::main_cursor_id
 @end example
@@ -102,7 +105,7 @@ u_int16_t lw6pil_local_cursors_s::main_cursor_id
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursors_s {main_i}
+@defcv {member} {lw6pil_local_cursors_s} {main_i}
 @example
 int lw6pil_local_cursors_s::main_i
 @end example
@@ -111,7 +114,7 @@ int lw6pil_local_cursors_s::main_i
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursors_s {nb_cursors}
+@defcv {member} {lw6pil_local_cursors_s} {nb_cursors}
 @example
 int lw6pil_local_cursors_s::nb_cursors
 @end example
@@ -120,7 +123,7 @@ int lw6pil_local_cursors_s::nb_cursors
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursors_s {cursors}
+@defcv {member} {lw6pil_local_cursors_s} {cursors}
 @example
 lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
 @end example
@@ -132,12 +135,13 @@ lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
 
 
   
-@deftp struct lw6pil_local_cursor_s
+@deftp {Struct} {lw6pil_local_cursor_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_local_cursor_s {cursor_id}
+@defcv {member} {lw6pil_local_cursor_s} {cursor_id}
 @example
 u_int16_t lw6pil_local_cursor_s::cursor_id
 @end example
@@ -146,7 +150,7 @@ u_int16_t lw6pil_local_cursor_s::cursor_id
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursor_s {x}
+@defcv {member} {lw6pil_local_cursor_s} {x}
 @example
 int lw6pil_local_cursor_s::x
 @end example
@@ -155,7 +159,7 @@ int lw6pil_local_cursor_s::x
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursor_s {y}
+@defcv {member} {lw6pil_local_cursor_s} {y}
 @example
 int lw6pil_local_cursor_s::y
 @end example
@@ -164,7 +168,7 @@ int lw6pil_local_cursor_s::y
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursor_s {mouse_controlled}
+@defcv {member} {lw6pil_local_cursor_s} {mouse_controlled}
 @example
 int lw6pil_local_cursor_s::mouse_controlled
 @end example
@@ -173,7 +177,7 @@ int lw6pil_local_cursor_s::mouse_controlled
         
 @end defcv
 
-@defcv {member} lw6pil_local_cursor_s {is_main}
+@defcv {member} {lw6pil_local_cursor_s} {is_main}
 @example
 int lw6pil_local_cursor_s::is_main
 @end example
@@ -185,12 +189,13 @@ int lw6pil_local_cursor_s::is_main
 
 
   
-@deftp struct lw6pil_pilot_s
+@deftp {Struct} {lw6pil_pilot_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_pilot_s {id}
+@defcv {member} {lw6pil_pilot_s} {id}
 @example
 u_int32_t lw6pil_pilot_s::id
 @end example
@@ -202,12 +207,13 @@ u_int32_t lw6pil_pilot_s::id
 
 
   
-@deftp struct lw6pil_remove_args_s
+@deftp {Struct} {lw6pil_remove_args_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_remove_args_s {cursor_id}
+@defcv {member} {lw6pil_remove_args_s} {cursor_id}
 @example
 u_int16_t lw6pil_remove_args_s::cursor_id
 @end example
@@ -219,12 +225,13 @@ u_int16_t lw6pil_remove_args_s::cursor_id
 
 
   
-@deftp struct lw6pil_set_args_s
+@deftp {Struct} {lw6pil_set_args_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_set_args_s {cursor_id}
+@defcv {member} {lw6pil_set_args_s} {cursor_id}
 @example
 u_int64_t lw6pil_set_args_s::cursor_id
 @end example
@@ -233,7 +240,7 @@ u_int64_t lw6pil_set_args_s::cursor_id
         
 @end defcv
 
-@defcv {member} lw6pil_set_args_s {x}
+@defcv {member} {lw6pil_set_args_s} {x}
 @example
 int lw6pil_set_args_s::x
 @end example
@@ -242,7 +249,7 @@ int lw6pil_set_args_s::x
         
 @end defcv
 
-@defcv {member} lw6pil_set_args_s {y}
+@defcv {member} {lw6pil_set_args_s} {y}
 @example
 int lw6pil_set_args_s::y
 @end example
@@ -251,7 +258,7 @@ int lw6pil_set_args_s::y
         
 @end defcv
 
-@defcv {member} lw6pil_set_args_s {fire}
+@defcv {member} {lw6pil_set_args_s} {fire}
 @example
 int lw6pil_set_args_s::fire
 @end example
@@ -260,7 +267,7 @@ int lw6pil_set_args_s::fire
         
 @end defcv
 
-@defcv {member} lw6pil_set_args_s {fire2}
+@defcv {member} {lw6pil_set_args_s} {fire2}
 @example
 int lw6pil_set_args_s::fire2
 @end example
@@ -272,12 +279,13 @@ int lw6pil_set_args_s::fire2
 
 
   
-@deftp struct lw6pil_worker_s
+@deftp {Struct} {lw6pil_worker_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6pil_worker_s {run}
+@defcv {member} {lw6pil_worker_s} {run}
 @example
 int lw6pil_worker_s::run
 @end example
@@ -286,7 +294,7 @@ int lw6pil_worker_s::run
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {current_round}
+@defcv {member} {lw6pil_worker_s} {current_round}
 @example
 int lw6pil_worker_s::current_round
 @end example
@@ -295,7 +303,7 @@ int lw6pil_worker_s::current_round
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {target_round}
+@defcv {member} {lw6pil_worker_s} {target_round}
 @example
 int lw6pil_worker_s::target_round
 @end example
@@ -304,7 +312,7 @@ int lw6pil_worker_s::target_round
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {computed_rounds}
+@defcv {member} {lw6pil_worker_s} {computed_rounds}
 @example
 int lw6pil_worker_s::computed_rounds
 @end example
@@ -313,7 +321,7 @@ int lw6pil_worker_s::computed_rounds
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {over}
+@defcv {member} {lw6pil_worker_s} {over}
 @example
 int lw6pil_worker_s::over
 @end example
@@ -322,7 +330,7 @@ int lw6pil_worker_s::over
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {compute_thread}
+@defcv {member} {lw6pil_worker_s} {compute_thread}
 @example
 void* lw6pil_worker_s::compute_thread
 @end example
@@ -331,7 +339,7 @@ void* lw6pil_worker_s::compute_thread
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {global_mutex}
+@defcv {member} {lw6pil_worker_s} {global_mutex}
 @example
 void* lw6pil_worker_s::global_mutex
 @end example
@@ -340,7 +348,7 @@ void* lw6pil_worker_s::global_mutex
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {compute_mutex}
+@defcv {member} {lw6pil_worker_s} {compute_mutex}
 @example
 void* lw6pil_worker_s::compute_mutex
 @end example
@@ -349,7 +357,7 @@ void* lw6pil_worker_s::compute_mutex
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {commands_spinlock}
+@defcv {member} {lw6pil_worker_s} {commands_spinlock}
 @example
 void* lw6pil_worker_s::commands_spinlock
 @end example
@@ -358,7 +366,7 @@ void* lw6pil_worker_s::commands_spinlock
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {game_state}
+@defcv {member} {lw6pil_worker_s} {game_state}
 @example
 lw6ker_game_state_t* lw6pil_worker_s::game_state
 @end example
@@ -367,7 +375,7 @@ lw6ker_game_state_t* lw6pil_worker_s::game_state
         
 @end defcv
 
-@defcv {member} lw6pil_worker_s {commands}
+@defcv {member} {lw6pil_worker_s} {commands}
 @example
 lw6sys_list_t* lw6pil_worker_s::commands
 @end example

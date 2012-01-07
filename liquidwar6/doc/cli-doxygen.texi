@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6cli_backend_s
+@deftp {Struct} {lw6cli_backend_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cli_backend_s {dl_handle}
+@defcv {member} {lw6cli_backend_s} {dl_handle}
 @example
 lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
 @end example
@@ -14,7 +15,7 @@ lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {cli_context}
+@defcv {member} {lw6cli_backend_s} {cli_context}
 @example
 void* lw6cli_backend_s::cli_context
 @end example
@@ -23,7 +24,7 @@ void* lw6cli_backend_s::cli_context
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {argc}
+@defcv {member} {lw6cli_backend_s} {argc}
 @example
 int lw6cli_backend_s::argc
 @end example
@@ -32,7 +33,7 @@ int lw6cli_backend_s::argc
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {argv}
+@defcv {member} {lw6cli_backend_s} {argv}
 @example
 const char** lw6cli_backend_s::argv
 @end example
@@ -41,7 +42,7 @@ const char** lw6cli_backend_s::argv
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {id}
+@defcv {member} {lw6cli_backend_s} {id}
 @example
 u_int32_t lw6cli_backend_s::id
 @end example
@@ -50,7 +51,7 @@ u_int32_t lw6cli_backend_s::id
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {name}
+@defcv {member} {lw6cli_backend_s} {name}
 @example
 char* lw6cli_backend_s::name
 @end example
@@ -59,7 +60,7 @@ char* lw6cli_backend_s::name
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {init}
+@defcv {member} {lw6cli_backend_s} {init}
 @example
 void*(* lw6cli_backend_s::init)(int argc, const char *argv[])
 @end example
@@ -68,7 +69,7 @@ void*(* lw6cli_backend_s::init)(int argc, const char *argv[])
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {quit}
+@defcv {member} {lw6cli_backend_s} {quit}
 @example
 void(* lw6cli_backend_s::quit)(void *cli_context)
 @end example
@@ -77,7 +78,7 @@ void(* lw6cli_backend_s::quit)(void *cli_context)
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {process_oob}
+@defcv {member} {lw6cli_backend_s} {process_oob}
 @example
 int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)
 @end example
@@ -86,7 +87,7 @@ int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {open}
+@defcv {member} {lw6cli_backend_s} {open}
 @example
 lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 @end example
@@ -95,7 +96,7 @@ lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_ur
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {close}
+@defcv {member} {lw6cli_backend_s} {close}
 @example
 void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)
 @end example
@@ -104,7 +105,7 @@ void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connecti
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {send}
+@defcv {member} {lw6cli_backend_s} {send}
 @example
 int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 @end example
@@ -113,7 +114,7 @@ int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {poll}
+@defcv {member} {lw6cli_backend_s} {poll}
 @example
 void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)
 @end example
@@ -122,7 +123,7 @@ void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connectio
         
 @end defcv
 
-@defcv {member} lw6cli_backend_s {repr}
+@defcv {member} {lw6cli_backend_s} {repr}
 @example
 char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)
 @end example
@@ -134,12 +135,13 @@ char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connecti
 
 
   
-@deftp struct lw6cli_oob_data_s
+@deftp {Struct} {lw6cli_oob_data_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cli_oob_data_s {creation_timestamp}
+@defcv {member} {lw6cli_oob_data_s} {creation_timestamp}
 @example
 int64_t lw6cli_oob_data_s::creation_timestamp
 @end example
@@ -148,7 +150,7 @@ int64_t lw6cli_oob_data_s::creation_timestamp
         
 @end defcv
 
-@defcv {member} lw6cli_oob_data_s {do_not_finish}
+@defcv {member} {lw6cli_oob_data_s} {do_not_finish}
 @example
 int lw6cli_oob_data_s::do_not_finish
 @end example
@@ -157,7 +159,7 @@ int lw6cli_oob_data_s::do_not_finish
         
 @end defcv
 
-@defcv {member} lw6cli_oob_data_s {public_url}
+@defcv {member} {lw6cli_oob_data_s} {public_url}
 @example
 char* lw6cli_oob_data_s::public_url
 @end example
@@ -166,7 +168,7 @@ char* lw6cli_oob_data_s::public_url
         
 @end defcv
 
-@defcv {member} lw6cli_oob_data_s {verify_callback_func}
+@defcv {member} {lw6cli_oob_data_s} {verify_callback_func}
 @example
 lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func
 @end example
@@ -175,7 +177,7 @@ lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func
         
 @end defcv
 
-@defcv {member} lw6cli_oob_data_s {verify_callback_data}
+@defcv {member} {lw6cli_oob_data_s} {verify_callback_data}
 @example
 void* lw6cli_oob_data_s::verify_callback_data
 @end example
@@ -187,12 +189,13 @@ void* lw6cli_oob_data_s::verify_callback_data
 
 
   
-@deftp struct lw6cli_oob_s
+@deftp {Struct} {lw6cli_oob_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cli_oob_s {thread}
+@defcv {member} {lw6cli_oob_s} {thread}
 @example
 void* lw6cli_oob_s::thread
 @end example
@@ -201,7 +204,7 @@ void* lw6cli_oob_s::thread
         
 @end defcv
 
-@defcv {member} lw6cli_oob_s {data}
+@defcv {member} {lw6cli_oob_s} {data}
 @example
 lw6cli_oob_data_t lw6cli_oob_s::data
 @end example

@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6dyn_dl_handle_s
+@deftp {Struct} {lw6dyn_dl_handle_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6dyn_dl_handle_s {handle}
+@defcv {member} {lw6dyn_dl_handle_s} {handle}
 @example
 lt_dlhandle lw6dyn_dl_handle_s::handle
 @end example
@@ -14,7 +15,7 @@ lt_dlhandle lw6dyn_dl_handle_s::handle
         
 @end defcv
 
-@defcv {member} lw6dyn_dl_handle_s {library_path}
+@defcv {member} {lw6dyn_dl_handle_s} {library_path}
 @example
 char* lw6dyn_dl_handle_s::library_path
 @end example

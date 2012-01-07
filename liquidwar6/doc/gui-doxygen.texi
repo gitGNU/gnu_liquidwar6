@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6gui_button_s
+@deftp {Struct} {lw6gui_button_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_button_s {is_pressed}
+@defcv {member} {lw6gui_button_s} {is_pressed}
 @example
 int lw6gui_button_s::is_pressed
 @end example
@@ -14,7 +15,7 @@ int lw6gui_button_s::is_pressed
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {press_queue}
+@defcv {member} {lw6gui_button_s} {press_queue}
 @example
 int lw6gui_button_s::press_queue
 @end example
@@ -23,7 +24,7 @@ int lw6gui_button_s::press_queue
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {simple_click_queue}
+@defcv {member} {lw6gui_button_s} {simple_click_queue}
 @example
 int lw6gui_button_s::simple_click_queue
 @end example
@@ -32,7 +33,7 @@ int lw6gui_button_s::simple_click_queue
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {double_click_queue}
+@defcv {member} {lw6gui_button_s} {double_click_queue}
 @example
 int lw6gui_button_s::double_click_queue
 @end example
@@ -41,7 +42,7 @@ int lw6gui_button_s::double_click_queue
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {triple_click_queue}
+@defcv {member} {lw6gui_button_s} {triple_click_queue}
 @example
 int lw6gui_button_s::triple_click_queue
 @end example
@@ -50,7 +51,7 @@ int lw6gui_button_s::triple_click_queue
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {last_press}
+@defcv {member} {lw6gui_button_s} {last_press}
 @example
 int64_t lw6gui_button_s::last_press
 @end example
@@ -59,7 +60,7 @@ int64_t lw6gui_button_s::last_press
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {last_repeat}
+@defcv {member} {lw6gui_button_s} {last_repeat}
 @example
 int64_t lw6gui_button_s::last_repeat
 @end example
@@ -68,7 +69,7 @@ int64_t lw6gui_button_s::last_repeat
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {double_click_t1}
+@defcv {member} {lw6gui_button_s} {double_click_t1}
 @example
 int64_t lw6gui_button_s::double_click_t1
 @end example
@@ -77,7 +78,7 @@ int64_t lw6gui_button_s::double_click_t1
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {double_click_t2}
+@defcv {member} {lw6gui_button_s} {double_click_t2}
 @example
 int64_t lw6gui_button_s::double_click_t2
 @end example
@@ -86,7 +87,7 @@ int64_t lw6gui_button_s::double_click_t2
         
 @end defcv
 
-@defcv {member} lw6gui_button_s {double_click_t3}
+@defcv {member} {lw6gui_button_s} {double_click_t3}
 @example
 int64_t lw6gui_button_s::double_click_t3
 @end example
@@ -98,12 +99,13 @@ int64_t lw6gui_button_s::double_click_t3
 
 
   
-@deftp struct lw6gui_fullscreen_modes_s
+@deftp {Struct} {lw6gui_fullscreen_modes_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_fullscreen_modes_s {low}
+@defcv {member} {lw6gui_fullscreen_modes_s} {low}
 @example
 lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low
 @end example
@@ -112,7 +114,7 @@ lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low
         
 @end defcv
 
-@defcv {member} lw6gui_fullscreen_modes_s {standard}
+@defcv {member} {lw6gui_fullscreen_modes_s} {standard}
 @example
 lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard
 @end example
@@ -121,7 +123,7 @@ lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard
         
 @end defcv
 
-@defcv {member} lw6gui_fullscreen_modes_s {high}
+@defcv {member} {lw6gui_fullscreen_modes_s} {high}
 @example
 lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
 @end example
@@ -133,12 +135,13 @@ lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
 
 
   
-@deftp struct lw6gui_input_s
+@deftp {Struct} {lw6gui_input_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_input_s {need_sync}
+@defcv {member} {lw6gui_input_s} {need_sync}
 @example
 int lw6gui_input_s::need_sync
 @end example
@@ -147,7 +150,7 @@ int lw6gui_input_s::need_sync
         
 @end defcv
 
-@defcv {member} lw6gui_input_s {keyboard}
+@defcv {member} {lw6gui_input_s} {keyboard}
 @example
 lw6gui_keyboard_t lw6gui_input_s::keyboard
 @end example
@@ -156,7 +159,7 @@ lw6gui_keyboard_t lw6gui_input_s::keyboard
         
 @end defcv
 
-@defcv {member} lw6gui_input_s {mouse}
+@defcv {member} {lw6gui_input_s} {mouse}
 @example
 lw6gui_mouse_t lw6gui_input_s::mouse
 @end example
@@ -165,7 +168,7 @@ lw6gui_mouse_t lw6gui_input_s::mouse
         
 @end defcv
 
-@defcv {member} lw6gui_input_s {joysticks}
+@defcv {member} {lw6gui_input_s} {joysticks}
 @example
 lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
 @end example
@@ -177,12 +180,13 @@ lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
 
 
   
-@deftp struct lw6gui_joystick_s
+@deftp {Struct} {lw6gui_joystick_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_joystick_s {pad_up}
+@defcv {member} {lw6gui_joystick_s} {pad_up}
 @example
 lw6gui_button_t lw6gui_joystick_s::pad_up
 @end example
@@ -191,7 +195,7 @@ lw6gui_button_t lw6gui_joystick_s::pad_up
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {pad_down}
+@defcv {member} {lw6gui_joystick_s} {pad_down}
 @example
 lw6gui_button_t lw6gui_joystick_s::pad_down
 @end example
@@ -200,7 +204,7 @@ lw6gui_button_t lw6gui_joystick_s::pad_down
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {pad_left}
+@defcv {member} {lw6gui_joystick_s} {pad_left}
 @example
 lw6gui_button_t lw6gui_joystick_s::pad_left
 @end example
@@ -209,7 +213,7 @@ lw6gui_button_t lw6gui_joystick_s::pad_left
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {pad_right}
+@defcv {member} {lw6gui_joystick_s} {pad_right}
 @example
 lw6gui_button_t lw6gui_joystick_s::pad_right
 @end example
@@ -218,7 +222,7 @@ lw6gui_button_t lw6gui_joystick_s::pad_right
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_a}
+@defcv {member} {lw6gui_joystick_s} {button_a}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_a
 @end example
@@ -227,7 +231,7 @@ lw6gui_button_t lw6gui_joystick_s::button_a
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_b}
+@defcv {member} {lw6gui_joystick_s} {button_b}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_b
 @end example
@@ -236,7 +240,7 @@ lw6gui_button_t lw6gui_joystick_s::button_b
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_c}
+@defcv {member} {lw6gui_joystick_s} {button_c}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_c
 @end example
@@ -245,7 +249,7 @@ lw6gui_button_t lw6gui_joystick_s::button_c
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_d}
+@defcv {member} {lw6gui_joystick_s} {button_d}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_d
 @end example
@@ -254,7 +258,7 @@ lw6gui_button_t lw6gui_joystick_s::button_d
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_e}
+@defcv {member} {lw6gui_joystick_s} {button_e}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_e
 @end example
@@ -263,7 +267,7 @@ lw6gui_button_t lw6gui_joystick_s::button_e
         
 @end defcv
 
-@defcv {member} lw6gui_joystick_s {button_f}
+@defcv {member} {lw6gui_joystick_s} {button_f}
 @example
 lw6gui_button_t lw6gui_joystick_s::button_f
 @end example
@@ -275,12 +279,13 @@ lw6gui_button_t lw6gui_joystick_s::button_f
 
 
   
-@deftp struct lw6gui_keyboard_s
+@deftp {Struct} {lw6gui_keyboard_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_keyboard_s {arrow_up}
+@defcv {member} {lw6gui_keyboard_s} {arrow_up}
 @example
 lw6gui_button_t lw6gui_keyboard_s::arrow_up
 @end example
@@ -289,7 +294,7 @@ lw6gui_button_t lw6gui_keyboard_s::arrow_up
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {arrow_down}
+@defcv {member} {lw6gui_keyboard_s} {arrow_down}
 @example
 lw6gui_button_t lw6gui_keyboard_s::arrow_down
 @end example
@@ -298,7 +303,7 @@ lw6gui_button_t lw6gui_keyboard_s::arrow_down
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {arrow_left}
+@defcv {member} {lw6gui_keyboard_s} {arrow_left}
 @example
 lw6gui_button_t lw6gui_keyboard_s::arrow_left
 @end example
@@ -307,7 +312,7 @@ lw6gui_button_t lw6gui_keyboard_s::arrow_left
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {arrow_right}
+@defcv {member} {lw6gui_keyboard_s} {arrow_right}
 @example
 lw6gui_button_t lw6gui_keyboard_s::arrow_right
 @end example
@@ -316,7 +321,7 @@ lw6gui_button_t lw6gui_keyboard_s::arrow_right
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_enter}
+@defcv {member} {lw6gui_keyboard_s} {key_enter}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_enter
 @end example
@@ -325,7 +330,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_enter
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_esc}
+@defcv {member} {lw6gui_keyboard_s} {key_esc}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_esc
 @end example
@@ -334,7 +339,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_esc
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_ctrl}
+@defcv {member} {lw6gui_keyboard_s} {key_ctrl}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_ctrl
 @end example
@@ -343,7 +348,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_ctrl
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_alt}
+@defcv {member} {lw6gui_keyboard_s} {key_alt}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_alt
 @end example
@@ -352,7 +357,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_alt
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_pgup}
+@defcv {member} {lw6gui_keyboard_s} {key_pgup}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_pgup
 @end example
@@ -361,7 +366,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_pgup
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {key_pgdown}
+@defcv {member} {lw6gui_keyboard_s} {key_pgdown}
 @example
 lw6gui_button_t lw6gui_keyboard_s::key_pgdown
 @end example
@@ -370,7 +375,7 @@ lw6gui_button_t lw6gui_keyboard_s::key_pgdown
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {queue}
+@defcv {member} {lw6gui_keyboard_s} {queue}
 @example
 lw6sys_list_t* lw6gui_keyboard_s::queue
 @end example
@@ -379,7 +384,7 @@ lw6sys_list_t* lw6gui_keyboard_s::queue
         
 @end defcv
 
-@defcv {member} lw6gui_keyboard_s {keys_state}
+@defcv {member} {lw6gui_keyboard_s} {keys_state}
 @example
 lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
 @end example
@@ -391,12 +396,13 @@ lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
 
 
   
-@deftp struct lw6gui_keypress_s
+@deftp {Struct} {lw6gui_keypress_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_keypress_s {keysym}
+@defcv {member} {lw6gui_keypress_s} {keysym}
 @example
 int lw6gui_keypress_s::keysym
 @end example
@@ -405,7 +411,7 @@ int lw6gui_keypress_s::keysym
         
 @end defcv
 
-@defcv {member} lw6gui_keypress_s {unicode}
+@defcv {member} {lw6gui_keypress_s} {unicode}
 @example
 int lw6gui_keypress_s::unicode
 @end example
@@ -414,7 +420,7 @@ int lw6gui_keypress_s::unicode
         
 @end defcv
 
-@defcv {member} lw6gui_keypress_s {label}
+@defcv {member} {lw6gui_keypress_s} {label}
 @example
 char* lw6gui_keypress_s::label
 @end example
@@ -426,12 +432,13 @@ char* lw6gui_keypress_s::label
 
 
   
-@deftp struct lw6gui_look_s
+@deftp {Struct} {lw6gui_look_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_look_s {id}
+@defcv {member} {lw6gui_look_s} {id}
 @example
 u_int32_t lw6gui_look_s::id
 @end example
@@ -440,7 +447,7 @@ u_int32_t lw6gui_look_s::id
         
 @end defcv
 
-@defcv {member} lw6gui_look_s {dynamic_zoom}
+@defcv {member} {lw6gui_look_s} {dynamic_zoom}
 @example
 float lw6gui_look_s::dynamic_zoom
 @end example
@@ -449,7 +456,7 @@ float lw6gui_look_s::dynamic_zoom
         
 @end defcv
 
-@defcv {member} lw6gui_look_s {gfx_quality}
+@defcv {member} {lw6gui_look_s} {gfx_quality}
 @example
 int lw6gui_look_s::gfx_quality
 @end example
@@ -458,7 +465,7 @@ int lw6gui_look_s::gfx_quality
         
 @end defcv
 
-@defcv {member} lw6gui_look_s {style}
+@defcv {member} {lw6gui_look_s} {style}
 @example
 lw6map_style_t lw6gui_look_s::style
 @end example
@@ -470,12 +477,13 @@ lw6map_style_t lw6gui_look_s::style
 
 
   
-@deftp struct lw6gui_menuitem_s
+@deftp {Struct} {lw6gui_menuitem_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_menuitem_s {id}
+@defcv {member} {lw6gui_menuitem_s} {id}
 @example
 u_int32_t lw6gui_menuitem_s::id
 @end example
@@ -484,7 +492,7 @@ u_int32_t lw6gui_menuitem_s::id
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {label}
+@defcv {member} {lw6gui_menuitem_s} {label}
 @example
 char* lw6gui_menuitem_s::label
 @end example
@@ -493,7 +501,7 @@ char* lw6gui_menuitem_s::label
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {tooltip}
+@defcv {member} {lw6gui_menuitem_s} {tooltip}
 @example
 char* lw6gui_menuitem_s::tooltip
 @end example
@@ -502,7 +510,7 @@ char* lw6gui_menuitem_s::tooltip
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {value}
+@defcv {member} {lw6gui_menuitem_s} {value}
 @example
 int lw6gui_menuitem_s::value
 @end example
@@ -511,7 +519,7 @@ int lw6gui_menuitem_s::value
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {enabled}
+@defcv {member} {lw6gui_menuitem_s} {enabled}
 @example
 int lw6gui_menuitem_s::enabled
 @end example
@@ -520,7 +528,7 @@ int lw6gui_menuitem_s::enabled
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {selected}
+@defcv {member} {lw6gui_menuitem_s} {selected}
 @example
 int lw6gui_menuitem_s::selected
 @end example
@@ -529,7 +537,7 @@ int lw6gui_menuitem_s::selected
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {colored}
+@defcv {member} {lw6gui_menuitem_s} {colored}
 @example
 int lw6gui_menuitem_s::colored
 @end example
@@ -538,7 +546,7 @@ int lw6gui_menuitem_s::colored
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {last_change}
+@defcv {member} {lw6gui_menuitem_s} {last_change}
 @example
 int lw6gui_menuitem_s::last_change
 @end example
@@ -547,7 +555,7 @@ int lw6gui_menuitem_s::last_change
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {last_select}
+@defcv {member} {lw6gui_menuitem_s} {last_select}
 @example
 int lw6gui_menuitem_s::last_select
 @end example
@@ -556,7 +564,7 @@ int lw6gui_menuitem_s::last_select
         
 @end defcv
 
-@defcv {member} lw6gui_menuitem_s {last_unselect}
+@defcv {member} {lw6gui_menuitem_s} {last_unselect}
 @example
 int lw6gui_menuitem_s::last_unselect
 @end example
@@ -568,12 +576,13 @@ int lw6gui_menuitem_s::last_unselect
 
 
   
-@deftp struct lw6gui_menu_s
+@deftp {Struct} {lw6gui_menu_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_menu_s {id}
+@defcv {member} {lw6gui_menu_s} {id}
 @example
 u_int32_t lw6gui_menu_s::id
 @end example
@@ -582,7 +591,7 @@ u_int32_t lw6gui_menu_s::id
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {title}
+@defcv {member} {lw6gui_menu_s} {title}
 @example
 char* lw6gui_menu_s::title
 @end example
@@ -591,7 +600,7 @@ char* lw6gui_menu_s::title
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {help}
+@defcv {member} {lw6gui_menu_s} {help}
 @example
 char* lw6gui_menu_s::help
 @end example
@@ -600,7 +609,7 @@ char* lw6gui_menu_s::help
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {popup}
+@defcv {member} {lw6gui_menu_s} {popup}
 @example
 char* lw6gui_menu_s::popup
 @end example
@@ -609,7 +618,7 @@ char* lw6gui_menu_s::popup
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {nb_items}
+@defcv {member} {lw6gui_menu_s} {nb_items}
 @example
 int lw6gui_menu_s::nb_items
 @end example
@@ -618,7 +627,7 @@ int lw6gui_menu_s::nb_items
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {esc_item}
+@defcv {member} {lw6gui_menu_s} {esc_item}
 @example
 lw6gui_menuitem_t* lw6gui_menu_s::esc_item
 @end example
@@ -627,7 +636,7 @@ lw6gui_menuitem_t* lw6gui_menu_s::esc_item
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {items}
+@defcv {member} {lw6gui_menu_s} {items}
 @example
 lw6gui_menuitem_t** lw6gui_menu_s::items
 @end example
@@ -636,7 +645,7 @@ lw6gui_menuitem_t** lw6gui_menu_s::items
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {selected_item}
+@defcv {member} {lw6gui_menu_s} {selected_item}
 @example
 int lw6gui_menu_s::selected_item
 @end example
@@ -645,7 +654,7 @@ int lw6gui_menu_s::selected_item
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {first_item_displayed}
+@defcv {member} {lw6gui_menu_s} {first_item_displayed}
 @example
 int lw6gui_menu_s::first_item_displayed
 @end example
@@ -654,7 +663,7 @@ int lw6gui_menu_s::first_item_displayed
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {nb_items_displayed}
+@defcv {member} {lw6gui_menu_s} {nb_items_displayed}
 @example
 int lw6gui_menu_s::nb_items_displayed
 @end example
@@ -663,7 +672,7 @@ int lw6gui_menu_s::nb_items_displayed
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {order_of_selected_on_display}
+@defcv {member} {lw6gui_menu_s} {order_of_selected_on_display}
 @example
 int lw6gui_menu_s::order_of_selected_on_display
 @end example
@@ -672,7 +681,7 @@ int lw6gui_menu_s::order_of_selected_on_display
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {allow_scroll}
+@defcv {member} {lw6gui_menu_s} {allow_scroll}
 @example
 int lw6gui_menu_s::allow_scroll
 @end example
@@ -681,7 +690,7 @@ int lw6gui_menu_s::allow_scroll
         
 @end defcv
 
-@defcv {member} lw6gui_menu_s {breadcrumbs}
+@defcv {member} {lw6gui_menu_s} {breadcrumbs}
 @example
 lw6sys_list_t* lw6gui_menu_s::breadcrumbs
 @end example
@@ -693,12 +702,13 @@ lw6sys_list_t* lw6gui_menu_s::breadcrumbs
 
 
   
-@deftp struct lw6gui_mouse_pointer_s
+@deftp {Struct} {lw6gui_mouse_pointer_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_mouse_pointer_s {pos_x}
+@defcv {member} {lw6gui_mouse_pointer_s} {pos_x}
 @example
 int lw6gui_mouse_pointer_s::pos_x
 @end example
@@ -707,7 +717,7 @@ int lw6gui_mouse_pointer_s::pos_x
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_pointer_s {pos_y}
+@defcv {member} {lw6gui_mouse_pointer_s} {pos_y}
 @example
 int lw6gui_mouse_pointer_s::pos_y
 @end example
@@ -716,7 +726,7 @@ int lw6gui_mouse_pointer_s::pos_y
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_pointer_s {speed_x}
+@defcv {member} {lw6gui_mouse_pointer_s} {speed_x}
 @example
 int lw6gui_mouse_pointer_s::speed_x
 @end example
@@ -725,7 +735,7 @@ int lw6gui_mouse_pointer_s::speed_x
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_pointer_s {speed_y}
+@defcv {member} {lw6gui_mouse_pointer_s} {speed_y}
 @example
 int lw6gui_mouse_pointer_s::speed_y
 @end example
@@ -737,12 +747,13 @@ int lw6gui_mouse_pointer_s::speed_y
 
 
   
-@deftp struct lw6gui_mouse_s
+@deftp {Struct} {lw6gui_mouse_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_mouse_s {moved}
+@defcv {member} {lw6gui_mouse_s} {moved}
 @example
 int lw6gui_mouse_s::moved
 @end example
@@ -751,7 +762,7 @@ int lw6gui_mouse_s::moved
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {last_moved}
+@defcv {member} {lw6gui_mouse_s} {last_moved}
 @example
 int64_t lw6gui_mouse_s::last_moved
 @end example
@@ -760,7 +771,7 @@ int64_t lw6gui_mouse_s::last_moved
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {screen_pointer}
+@defcv {member} {lw6gui_mouse_s} {screen_pointer}
 @example
 lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_pointer
 @end example
@@ -769,7 +780,7 @@ lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_pointer
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {map_pointer}
+@defcv {member} {lw6gui_mouse_s} {map_pointer}
 @example
 lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer
 @end example
@@ -778,7 +789,7 @@ lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {screen_drag_start}
+@defcv {member} {lw6gui_mouse_s} {screen_drag_start}
 @example
 lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_drag_start
 @end example
@@ -787,7 +798,7 @@ lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_drag_start
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {drag_mode}
+@defcv {member} {lw6gui_mouse_s} {drag_mode}
 @example
 lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode
 @end example
@@ -796,7 +807,7 @@ lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {menu_position}
+@defcv {member} {lw6gui_mouse_s} {menu_position}
 @example
 int lw6gui_mouse_s::menu_position
 @end example
@@ -805,7 +816,7 @@ int lw6gui_mouse_s::menu_position
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {menu_scroll}
+@defcv {member} {lw6gui_mouse_s} {menu_scroll}
 @example
 int lw6gui_mouse_s::menu_scroll
 @end example
@@ -814,7 +825,7 @@ int lw6gui_mouse_s::menu_scroll
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {menu_esc}
+@defcv {member} {lw6gui_mouse_s} {menu_esc}
 @example
 int lw6gui_mouse_s::menu_esc
 @end example
@@ -823,7 +834,7 @@ int lw6gui_mouse_s::menu_esc
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {button_left}
+@defcv {member} {lw6gui_mouse_s} {button_left}
 @example
 lw6gui_button_t lw6gui_mouse_s::button_left
 @end example
@@ -832,7 +843,7 @@ lw6gui_button_t lw6gui_mouse_s::button_left
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {button_right}
+@defcv {member} {lw6gui_mouse_s} {button_right}
 @example
 lw6gui_button_t lw6gui_mouse_s::button_right
 @end example
@@ -841,7 +852,7 @@ lw6gui_button_t lw6gui_mouse_s::button_right
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {button_middle}
+@defcv {member} {lw6gui_mouse_s} {button_middle}
 @example
 lw6gui_button_t lw6gui_mouse_s::button_middle
 @end example
@@ -850,7 +861,7 @@ lw6gui_button_t lw6gui_mouse_s::button_middle
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {wheel_up}
+@defcv {member} {lw6gui_mouse_s} {wheel_up}
 @example
 lw6gui_button_t lw6gui_mouse_s::wheel_up
 @end example
@@ -859,7 +870,7 @@ lw6gui_button_t lw6gui_mouse_s::wheel_up
         
 @end defcv
 
-@defcv {member} lw6gui_mouse_s {wheel_down}
+@defcv {member} {lw6gui_mouse_s} {wheel_down}
 @example
 lw6gui_button_t lw6gui_mouse_s::wheel_down
 @end example
@@ -871,12 +882,13 @@ lw6gui_button_t lw6gui_mouse_s::wheel_down
 
 
   
-@deftp struct lw6gui_move_pad_s
+@deftp {Struct} {lw6gui_move_pad_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_move_pad_s {up}
+@defcv {member} {lw6gui_move_pad_s} {up}
 @example
 int lw6gui_move_pad_s::up
 @end example
@@ -885,7 +897,7 @@ int lw6gui_move_pad_s::up
         
 @end defcv
 
-@defcv {member} lw6gui_move_pad_s {down}
+@defcv {member} {lw6gui_move_pad_s} {down}
 @example
 int lw6gui_move_pad_s::down
 @end example
@@ -894,7 +906,7 @@ int lw6gui_move_pad_s::down
         
 @end defcv
 
-@defcv {member} lw6gui_move_pad_s {left}
+@defcv {member} {lw6gui_move_pad_s} {left}
 @example
 int lw6gui_move_pad_s::left
 @end example
@@ -903,7 +915,7 @@ int lw6gui_move_pad_s::left
         
 @end defcv
 
-@defcv {member} lw6gui_move_pad_s {right}
+@defcv {member} {lw6gui_move_pad_s} {right}
 @example
 int lw6gui_move_pad_s::right
 @end example
@@ -915,12 +927,13 @@ int lw6gui_move_pad_s::right
 
 
   
-@deftp struct lw6gui_point_s
+@deftp {Struct} {lw6gui_point_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_point_s {x}
+@defcv {member} {lw6gui_point_s} {x}
 @example
 float lw6gui_point_s::x
 @end example
@@ -929,7 +942,7 @@ float lw6gui_point_s::x
         
 @end defcv
 
-@defcv {member} lw6gui_point_s {y}
+@defcv {member} {lw6gui_point_s} {y}
 @example
 float lw6gui_point_s::y
 @end example
@@ -938,7 +951,7 @@ float lw6gui_point_s::y
         
 @end defcv
 
-@defcv {member} lw6gui_point_s {z}
+@defcv {member} {lw6gui_point_s} {z}
 @example
 float lw6gui_point_s::z
 @end example
@@ -950,12 +963,13 @@ float lw6gui_point_s::z
 
 
   
-@deftp struct lw6gui_quad_s
+@deftp {Struct} {lw6gui_quad_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_quad_s {p1}
+@defcv {member} {lw6gui_quad_s} {p1}
 @example
 lw6gui_point_t lw6gui_quad_s::p1
 @end example
@@ -964,7 +978,7 @@ lw6gui_point_t lw6gui_quad_s::p1
         
 @end defcv
 
-@defcv {member} lw6gui_quad_s {p2}
+@defcv {member} {lw6gui_quad_s} {p2}
 @example
 lw6gui_point_t lw6gui_quad_s::p2
 @end example
@@ -973,7 +987,7 @@ lw6gui_point_t lw6gui_quad_s::p2
         
 @end defcv
 
-@defcv {member} lw6gui_quad_s {p3}
+@defcv {member} {lw6gui_quad_s} {p3}
 @example
 lw6gui_point_t lw6gui_quad_s::p3
 @end example
@@ -982,7 +996,7 @@ lw6gui_point_t lw6gui_quad_s::p3
         
 @end defcv
 
-@defcv {member} lw6gui_quad_s {p4}
+@defcv {member} {lw6gui_quad_s} {p4}
 @example
 lw6gui_point_t lw6gui_quad_s::p4
 @end example
@@ -994,12 +1008,13 @@ lw6gui_point_t lw6gui_quad_s::p4
 
 
   
-@deftp struct lw6gui_rect_array_s
+@deftp {Struct} {lw6gui_rect_array_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_rect_array_s {source}
+@defcv {member} {lw6gui_rect_array_s} {source}
 @example
 lw6sys_whd_t lw6gui_rect_array_s::source
 @end example
@@ -1008,7 +1023,7 @@ lw6sys_whd_t lw6gui_rect_array_s::source
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {limits}
+@defcv {member} {lw6gui_rect_array_s} {limits}
 @example
 lw6gui_rect_t lw6gui_rect_array_s::limits
 @end example
@@ -1017,7 +1032,7 @@ lw6gui_rect_t lw6gui_rect_array_s::limits
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {tile_size}
+@defcv {member} {lw6gui_rect_array_s} {tile_size}
 @example
 int lw6gui_rect_array_s::tile_size
 @end example
@@ -1026,7 +1041,7 @@ int lw6gui_rect_array_s::tile_size
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {border_size}
+@defcv {member} {lw6gui_rect_array_s} {border_size}
 @example
 int lw6gui_rect_array_s::border_size
 @end example
@@ -1035,7 +1050,7 @@ int lw6gui_rect_array_s::border_size
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {tile_spacing}
+@defcv {member} {lw6gui_rect_array_s} {tile_spacing}
 @example
 int lw6gui_rect_array_s::tile_spacing
 @end example
@@ -1044,7 +1059,7 @@ int lw6gui_rect_array_s::tile_spacing
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {nb_tiles_w}
+@defcv {member} {lw6gui_rect_array_s} {nb_tiles_w}
 @example
 int lw6gui_rect_array_s::nb_tiles_w
 @end example
@@ -1053,7 +1068,7 @@ int lw6gui_rect_array_s::nb_tiles_w
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {nb_tiles_h}
+@defcv {member} {lw6gui_rect_array_s} {nb_tiles_h}
 @example
 int lw6gui_rect_array_s::nb_tiles_h
 @end example
@@ -1062,7 +1077,7 @@ int lw6gui_rect_array_s::nb_tiles_h
         
 @end defcv
 
-@defcv {member} lw6gui_rect_array_s {nb_tiles}
+@defcv {member} {lw6gui_rect_array_s} {nb_tiles}
 @example
 int lw6gui_rect_array_s::nb_tiles
 @end example
@@ -1074,12 +1089,13 @@ int lw6gui_rect_array_s::nb_tiles
 
 
   
-@deftp struct lw6gui_rect_s
+@deftp {Struct} {lw6gui_rect_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_rect_s {x1}
+@defcv {member} {lw6gui_rect_s} {x1}
 @example
 int lw6gui_rect_s::x1
 @end example
@@ -1088,7 +1104,7 @@ int lw6gui_rect_s::x1
         
 @end defcv
 
-@defcv {member} lw6gui_rect_s {y1}
+@defcv {member} {lw6gui_rect_s} {y1}
 @example
 int lw6gui_rect_s::y1
 @end example
@@ -1097,7 +1113,7 @@ int lw6gui_rect_s::y1
         
 @end defcv
 
-@defcv {member} lw6gui_rect_s {x2}
+@defcv {member} {lw6gui_rect_s} {x2}
 @example
 int lw6gui_rect_s::x2
 @end example
@@ -1106,7 +1122,7 @@ int lw6gui_rect_s::x2
         
 @end defcv
 
-@defcv {member} lw6gui_rect_s {y2}
+@defcv {member} {lw6gui_rect_s} {y2}
 @example
 int lw6gui_rect_s::y2
 @end example
@@ -1115,7 +1131,7 @@ int lw6gui_rect_s::y2
         
 @end defcv
 
-@defcv {member} lw6gui_rect_s {w}
+@defcv {member} {lw6gui_rect_s} {w}
 @example
 int lw6gui_rect_s::w
 @end example
@@ -1124,7 +1140,7 @@ int lw6gui_rect_s::w
         
 @end defcv
 
-@defcv {member} lw6gui_rect_s {h}
+@defcv {member} {lw6gui_rect_s} {h}
 @example
 int lw6gui_rect_s::h
 @end example
@@ -1136,12 +1152,13 @@ int lw6gui_rect_s::h
 
 
   
-@deftp struct lw6gui_repeat_settings_s
+@deftp {Struct} {lw6gui_repeat_settings_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_repeat_settings_s {delay}
+@defcv {member} {lw6gui_repeat_settings_s} {delay}
 @example
 int lw6gui_repeat_settings_s::delay
 @end example
@@ -1150,7 +1167,7 @@ int lw6gui_repeat_settings_s::delay
         
 @end defcv
 
-@defcv {member} lw6gui_repeat_settings_s {interval}
+@defcv {member} {lw6gui_repeat_settings_s} {interval}
 @example
 int lw6gui_repeat_settings_s::interval
 @end example
@@ -1159,7 +1176,7 @@ int lw6gui_repeat_settings_s::interval
         
 @end defcv
 
-@defcv {member} lw6gui_repeat_settings_s {double_click_delay}
+@defcv {member} {lw6gui_repeat_settings_s} {double_click_delay}
 @example
 int lw6gui_repeat_settings_s::double_click_delay
 @end example
@@ -1171,12 +1188,13 @@ int lw6gui_repeat_settings_s::double_click_delay
 
 
   
-@deftp struct lw6gui_segment_s
+@deftp {Struct} {lw6gui_segment_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_segment_s {p1}
+@defcv {member} {lw6gui_segment_s} {p1}
 @example
 lw6gui_point_t lw6gui_segment_s::p1
 @end example
@@ -1185,7 +1203,7 @@ lw6gui_point_t lw6gui_segment_s::p1
         
 @end defcv
 
-@defcv {member} lw6gui_segment_s {p2}
+@defcv {member} {lw6gui_segment_s} {p2}
 @example
 lw6gui_point_t lw6gui_segment_s::p2
 @end example
@@ -1197,12 +1215,13 @@ lw6gui_point_t lw6gui_segment_s::p2
 
 
   
-@deftp struct lw6gui_smoother_s
+@deftp {Struct} {lw6gui_smoother_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_smoother_s {s1}
+@defcv {member} {lw6gui_smoother_s} {s1}
 @example
 float lw6gui_smoother_s::s1
 @end example
@@ -1211,7 +1230,7 @@ float lw6gui_smoother_s::s1
         
 @end defcv
 
-@defcv {member} lw6gui_smoother_s {y1}
+@defcv {member} {lw6gui_smoother_s} {y1}
 @example
 float lw6gui_smoother_s::y1
 @end example
@@ -1220,7 +1239,7 @@ float lw6gui_smoother_s::y1
         
 @end defcv
 
-@defcv {member} lw6gui_smoother_s {y2}
+@defcv {member} {lw6gui_smoother_s} {y2}
 @example
 float lw6gui_smoother_s::y2
 @end example
@@ -1229,7 +1248,7 @@ float lw6gui_smoother_s::y2
         
 @end defcv
 
-@defcv {member} lw6gui_smoother_s {t1}
+@defcv {member} {lw6gui_smoother_s} {t1}
 @example
 int64_t lw6gui_smoother_s::t1
 @end example
@@ -1238,7 +1257,7 @@ int64_t lw6gui_smoother_s::t1
         
 @end defcv
 
-@defcv {member} lw6gui_smoother_s {duration}
+@defcv {member} {lw6gui_smoother_s} {duration}
 @example
 int lw6gui_smoother_s::duration
 @end example
@@ -1250,12 +1269,13 @@ int lw6gui_smoother_s::duration
 
 
   
-@deftp struct lw6gui_triangle_s
+@deftp {Struct} {lw6gui_triangle_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_triangle_s {p1}
+@defcv {member} {lw6gui_triangle_s} {p1}
 @example
 lw6gui_point_t lw6gui_triangle_s::p1
 @end example
@@ -1264,7 +1284,7 @@ lw6gui_point_t lw6gui_triangle_s::p1
         
 @end defcv
 
-@defcv {member} lw6gui_triangle_s {p2}
+@defcv {member} {lw6gui_triangle_s} {p2}
 @example
 lw6gui_point_t lw6gui_triangle_s::p2
 @end example
@@ -1273,7 +1293,7 @@ lw6gui_point_t lw6gui_triangle_s::p2
         
 @end defcv
 
-@defcv {member} lw6gui_triangle_s {p3}
+@defcv {member} {lw6gui_triangle_s} {p3}
 @example
 lw6gui_point_t lw6gui_triangle_s::p3
 @end example
@@ -1285,12 +1305,13 @@ lw6gui_point_t lw6gui_triangle_s::p3
 
 
   
-@deftp struct lw6gui_video_mode_s
+@deftp {Struct} {lw6gui_video_mode_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_video_mode_s {width}
+@defcv {member} {lw6gui_video_mode_s} {width}
 @example
 int lw6gui_video_mode_s::width
 @end example
@@ -1299,7 +1320,7 @@ int lw6gui_video_mode_s::width
         
 @end defcv
 
-@defcv {member} lw6gui_video_mode_s {height}
+@defcv {member} {lw6gui_video_mode_s} {height}
 @example
 int lw6gui_video_mode_s::height
 @end example
@@ -1308,7 +1329,7 @@ int lw6gui_video_mode_s::height
         
 @end defcv
 
-@defcv {member} lw6gui_video_mode_s {fullscreen}
+@defcv {member} {lw6gui_video_mode_s} {fullscreen}
 @example
 int lw6gui_video_mode_s::fullscreen
 @end example
@@ -1320,12 +1341,13 @@ int lw6gui_video_mode_s::fullscreen
 
 
   
-@deftp struct lw6gui_viewport_s
+@deftp {Struct} {lw6gui_viewport_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_viewport_s {map_shape}
+@defcv {member} {lw6gui_viewport_s} {map_shape}
 @example
 lw6sys_whd_t lw6gui_viewport_s::map_shape
 @end example
@@ -1334,7 +1356,7 @@ lw6sys_whd_t lw6gui_viewport_s::map_shape
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {screen_shape}
+@defcv {member} {lw6gui_viewport_s} {screen_shape}
 @example
 lw6sys_whd_t lw6gui_viewport_s::screen_shape
 @end example
@@ -1343,7 +1365,7 @@ lw6sys_whd_t lw6gui_viewport_s::screen_shape
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {center_x}
+@defcv {member} {lw6gui_viewport_s} {center_x}
 @example
 float lw6gui_viewport_s::center_x
 @end example
@@ -1352,7 +1374,7 @@ float lw6gui_viewport_s::center_x
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {center_y}
+@defcv {member} {lw6gui_viewport_s} {center_y}
 @example
 float lw6gui_viewport_s::center_y
 @end example
@@ -1361,7 +1383,7 @@ float lw6gui_viewport_s::center_y
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {old_center_x}
+@defcv {member} {lw6gui_viewport_s} {old_center_x}
 @example
 float lw6gui_viewport_s::old_center_x
 @end example
@@ -1370,7 +1392,7 @@ float lw6gui_viewport_s::old_center_x
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {old_center_y}
+@defcv {member} {lw6gui_viewport_s} {old_center_y}
 @example
 float lw6gui_viewport_s::old_center_y
 @end example
@@ -1379,7 +1401,7 @@ float lw6gui_viewport_s::old_center_y
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {speed_x}
+@defcv {member} {lw6gui_viewport_s} {speed_x}
 @example
 float lw6gui_viewport_s::speed_x
 @end example
@@ -1388,7 +1410,7 @@ float lw6gui_viewport_s::speed_x
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {speed_y}
+@defcv {member} {lw6gui_viewport_s} {speed_y}
 @example
 float lw6gui_viewport_s::speed_y
 @end example
@@ -1397,7 +1419,7 @@ float lw6gui_viewport_s::speed_y
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {x_polarity}
+@defcv {member} {lw6gui_viewport_s} {x_polarity}
 @example
 int lw6gui_viewport_s::x_polarity
 @end example
@@ -1406,7 +1428,7 @@ int lw6gui_viewport_s::x_polarity
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {y_polarity}
+@defcv {member} {lw6gui_viewport_s} {y_polarity}
 @example
 int lw6gui_viewport_s::y_polarity
 @end example
@@ -1415,7 +1437,7 @@ int lw6gui_viewport_s::y_polarity
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {x_wrap}
+@defcv {member} {lw6gui_viewport_s} {x_wrap}
 @example
 int lw6gui_viewport_s::x_wrap
 @end example
@@ -1424,7 +1446,7 @@ int lw6gui_viewport_s::x_wrap
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {y_wrap}
+@defcv {member} {lw6gui_viewport_s} {y_wrap}
 @example
 int lw6gui_viewport_s::y_wrap
 @end example
@@ -1433,7 +1455,7 @@ int lw6gui_viewport_s::y_wrap
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {drawable}
+@defcv {member} {lw6gui_viewport_s} {drawable}
 @example
 lw6gui_zone_t lw6gui_viewport_s::drawable
 @end example
@@ -1442,7 +1464,7 @@ lw6gui_zone_t lw6gui_viewport_s::drawable
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {map_main}
+@defcv {member} {lw6gui_viewport_s} {map_main}
 @example
 lw6gui_zone_t lw6gui_viewport_s::map_main
 @end example
@@ -1451,7 +1473,7 @@ lw6gui_zone_t lw6gui_viewport_s::map_main
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {map_main_clipped}
+@defcv {member} {lw6gui_viewport_s} {map_main_clipped}
 @example
 lw6gui_zone_t lw6gui_viewport_s::map_main_clipped
 @end example
@@ -1460,7 +1482,7 @@ lw6gui_zone_t lw6gui_viewport_s::map_main_clipped
         
 @end defcv
 
-@defcv {member} lw6gui_viewport_s {map_visible}
+@defcv {member} {lw6gui_viewport_s} {map_visible}
 @example
 lw6gui_zone_t lw6gui_viewport_s::map_visible
 @end example
@@ -1472,12 +1494,13 @@ lw6gui_zone_t lw6gui_viewport_s::map_visible
 
 
   
-@deftp struct lw6gui_zone_s
+@deftp {Struct} {lw6gui_zone_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6gui_zone_s {x1}
+@defcv {member} {lw6gui_zone_s} {x1}
 @example
 float lw6gui_zone_s::x1
 @end example
@@ -1486,7 +1509,7 @@ float lw6gui_zone_s::x1
         
 @end defcv
 
-@defcv {member} lw6gui_zone_s {y1}
+@defcv {member} {lw6gui_zone_s} {y1}
 @example
 float lw6gui_zone_s::y1
 @end example
@@ -1495,7 +1518,7 @@ float lw6gui_zone_s::y1
         
 @end defcv
 
-@defcv {member} lw6gui_zone_s {x2}
+@defcv {member} {lw6gui_zone_s} {x2}
 @example
 float lw6gui_zone_s::x2
 @end example
@@ -1504,7 +1527,7 @@ float lw6gui_zone_s::x2
         
 @end defcv
 
-@defcv {member} lw6gui_zone_s {y2}
+@defcv {member} {lw6gui_zone_s} {y2}
 @example
 float lw6gui_zone_s::y2
 @end example
@@ -1513,7 +1536,7 @@ float lw6gui_zone_s::y2
         
 @end defcv
 
-@defcv {member} lw6gui_zone_s {w}
+@defcv {member} {lw6gui_zone_s} {w}
 @example
 float lw6gui_zone_s::w
 @end example
@@ -1522,7 +1545,7 @@ float lw6gui_zone_s::w
         
 @end defcv
 
-@defcv {member} lw6gui_zone_s {h}
+@defcv {member} {lw6gui_zone_s} {h}
 @example
 float lw6gui_zone_s::h
 @end example

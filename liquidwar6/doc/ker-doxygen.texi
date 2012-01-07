@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6ker_cursor_control_s
+@deftp {Struct} {lw6ker_cursor_control_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_cursor_control_s {pos}
+@defcv {member} {lw6ker_cursor_control_s} {pos}
 @example
 lw6sys_xyz_t lw6ker_cursor_control_s::pos
 @end example
@@ -14,7 +15,7 @@ lw6sys_xyz_t lw6ker_cursor_control_s::pos
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_control_s {fire}
+@defcv {member} {lw6ker_cursor_control_s} {fire}
 @example
 int lw6ker_cursor_control_s::fire
 @end example
@@ -23,7 +24,7 @@ int lw6ker_cursor_control_s::fire
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_control_s {fire2}
+@defcv {member} {lw6ker_cursor_control_s} {fire2}
 @example
 int lw6ker_cursor_control_s::fire2
 @end example
@@ -35,12 +36,13 @@ int lw6ker_cursor_control_s::fire2
 
 
   
-@deftp struct lw6ker_cursor_s
+@deftp {Struct} {lw6ker_cursor_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_cursor_s {node_id}
+@defcv {member} {lw6ker_cursor_s} {node_id}
 @example
 u_int64_t lw6ker_cursor_s::node_id
 @end example
@@ -49,7 +51,7 @@ u_int64_t lw6ker_cursor_s::node_id
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {cursor_id}
+@defcv {member} {lw6ker_cursor_s} {cursor_id}
 @example
 u_int16_t lw6ker_cursor_s::cursor_id
 @end example
@@ -58,7 +60,7 @@ u_int16_t lw6ker_cursor_s::cursor_id
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {letter}
+@defcv {member} {lw6ker_cursor_s} {letter}
 @example
 char lw6ker_cursor_s::letter
 @end example
@@ -67,7 +69,7 @@ char lw6ker_cursor_s::letter
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {enabled}
+@defcv {member} {lw6ker_cursor_s} {enabled}
 @example
 int lw6ker_cursor_s::enabled
 @end example
@@ -76,7 +78,7 @@ int lw6ker_cursor_s::enabled
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {team_color}
+@defcv {member} {lw6ker_cursor_s} {team_color}
 @example
 int lw6ker_cursor_s::team_color
 @end example
@@ -85,7 +87,7 @@ int lw6ker_cursor_s::team_color
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {pos}
+@defcv {member} {lw6ker_cursor_s} {pos}
 @example
 lw6sys_xyz_t lw6ker_cursor_s::pos
 @end example
@@ -94,7 +96,7 @@ lw6sys_xyz_t lw6ker_cursor_s::pos
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {fire}
+@defcv {member} {lw6ker_cursor_s} {fire}
 @example
 int lw6ker_cursor_s::fire
 @end example
@@ -103,7 +105,7 @@ int lw6ker_cursor_s::fire
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {fire2}
+@defcv {member} {lw6ker_cursor_s} {fire2}
 @example
 int lw6ker_cursor_s::fire2
 @end example
@@ -112,7 +114,7 @@ int lw6ker_cursor_s::fire2
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {apply_pos}
+@defcv {member} {lw6ker_cursor_s} {apply_pos}
 @example
 lw6sys_xyz_t lw6ker_cursor_s::apply_pos
 @end example
@@ -121,7 +123,7 @@ lw6sys_xyz_t lw6ker_cursor_s::apply_pos
         
 @end defcv
 
-@defcv {member} lw6ker_cursor_s {pot_offset}
+@defcv {member} {lw6ker_cursor_s} {pot_offset}
 @example
 int32_t lw6ker_cursor_s::pot_offset
 @end example
@@ -133,12 +135,13 @@ int32_t lw6ker_cursor_s::pot_offset
 
 
   
-@deftp struct lw6ker_fighter_s
+@deftp {Struct} {lw6ker_fighter_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_fighter_s {team_color}
+@defcv {member} {lw6ker_fighter_s} {team_color}
 @example
 u_int32_t lw6ker_fighter_s::team_color
 @end example
@@ -147,7 +150,7 @@ u_int32_t lw6ker_fighter_s::team_color
         
 @end defcv
 
-@defcv {member} lw6ker_fighter_s {last_direction}
+@defcv {member} {lw6ker_fighter_s} {last_direction}
 @example
 int32_t lw6ker_fighter_s::last_direction
 @end example
@@ -156,7 +159,7 @@ int32_t lw6ker_fighter_s::last_direction
         
 @end defcv
 
-@defcv {member} lw6ker_fighter_s {health}
+@defcv {member} {lw6ker_fighter_s} {health}
 @example
 int32_t lw6ker_fighter_s::health
 @end example
@@ -165,7 +168,7 @@ int32_t lw6ker_fighter_s::health
         
 @end defcv
 
-@defcv {member} lw6ker_fighter_s {act_counter}
+@defcv {member} {lw6ker_fighter_s} {act_counter}
 @example
 int32_t lw6ker_fighter_s::act_counter
 @end example
@@ -174,7 +177,7 @@ int32_t lw6ker_fighter_s::act_counter
         
 @end defcv
 
-@defcv {member} lw6ker_fighter_s {pad}
+@defcv {member} {lw6ker_fighter_s} {pad}
 @example
 int32_t lw6ker_fighter_s::pad
 @end example
@@ -183,7 +186,7 @@ int32_t lw6ker_fighter_s::pad
         
 @end defcv
 
-@defcv {member} lw6ker_fighter_s {pos}
+@defcv {member} {lw6ker_fighter_s} {pos}
 @example
 lw6sys_xyz_t lw6ker_fighter_s::pos
 @end example
@@ -195,12 +198,13 @@ lw6sys_xyz_t lw6ker_fighter_s::pos
 
 
   
-@deftp struct lw6ker_game_state_s
+@deftp {Struct} {lw6ker_game_state_s}
+
     
 Game structure containing all changeable data state, this will hold the fighter positions, their health, the cursors position, the gradient, anything that is dynamic. Note that this structure is a wrapper over the internal structure which contains the real members, the first two members need be the same as it is casted internally.     
 @end deftp
 
-@defcv {member} lw6ker_game_state_s {id}
+@defcv {member} {lw6ker_game_state_s} {id}
 @example
 u_int32_t lw6ker_game_state_s::id
 @end example
@@ -209,7 +213,7 @@ u_int32_t lw6ker_game_state_s::id
 The id of the object, this is non-zero and unique within one run session, incremented at each object creation         
 @end defcv
 
-@defcv {member} lw6ker_game_state_s {game_struct}
+@defcv {member} {lw6ker_game_state_s} {game_struct}
 @example
 lw6ker_game_struct_t* lw6ker_game_state_s::game_struct
 @end example
@@ -221,12 +225,13 @@ Pointer on the game non-mutable structure, which holds the data that is never ch
 
 
   
-@deftp struct lw6ker_game_struct_s
+@deftp {Struct} {lw6ker_game_struct_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_game_struct_s {id}
+@defcv {member} {lw6ker_game_struct_s} {id}
 @example
 u_int32_t lw6ker_game_struct_s::id
 @end example
@@ -235,7 +240,7 @@ u_int32_t lw6ker_game_struct_s::id
         
 @end defcv
 
-@defcv {member} lw6ker_game_struct_s {level}
+@defcv {member} {lw6ker_game_struct_s} {level}
 @example
 lw6map_level_t* lw6ker_game_struct_s::level
 @end example
@@ -244,7 +249,7 @@ lw6map_level_t* lw6ker_game_struct_s::level
         
 @end defcv
 
-@defcv {member} lw6ker_game_struct_s {rules}
+@defcv {member} {lw6ker_game_struct_s} {rules}
 @example
 lw6map_rules_t lw6ker_game_struct_s::rules
 @end example
@@ -256,12 +261,13 @@ lw6map_rules_t lw6ker_game_struct_s::rules
 
 
   
-@deftp struct lw6ker_score_array_s
+@deftp {Struct} {lw6ker_score_array_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_score_array_s {active_fighters}
+@defcv {member} {lw6ker_score_array_s} {active_fighters}
 @example
 int lw6ker_score_array_s::active_fighters
 @end example
@@ -270,7 +276,7 @@ int lw6ker_score_array_s::active_fighters
         
 @end defcv
 
-@defcv {member} lw6ker_score_array_s {nb_scores}
+@defcv {member} {lw6ker_score_array_s} {nb_scores}
 @example
 int lw6ker_score_array_s::nb_scores
 @end example
@@ -279,7 +285,7 @@ int lw6ker_score_array_s::nb_scores
         
 @end defcv
 
-@defcv {member} lw6ker_score_array_s {scores}
+@defcv {member} {lw6ker_score_array_s} {scores}
 @example
 lw6ker_score_t lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]
 @end example
@@ -291,12 +297,13 @@ lw6ker_score_t lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]
 
 
   
-@deftp struct lw6ker_score_s
+@deftp {Struct} {lw6ker_score_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ker_score_s {has_been_active}
+@defcv {member} {lw6ker_score_s} {has_been_active}
 @example
 int lw6ker_score_s::has_been_active
 @end example
@@ -305,7 +312,7 @@ int lw6ker_score_s::has_been_active
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {team_color}
+@defcv {member} {lw6ker_score_s} {team_color}
 @example
 int lw6ker_score_s::team_color
 @end example
@@ -314,7 +321,7 @@ int lw6ker_score_s::team_color
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {fighters_percent}
+@defcv {member} {lw6ker_score_s} {fighters_percent}
 @example
 int lw6ker_score_s::fighters_percent
 @end example
@@ -323,7 +330,7 @@ int lw6ker_score_s::fighters_percent
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {fighters_absolute}
+@defcv {member} {lw6ker_score_s} {fighters_absolute}
 @example
 int lw6ker_score_s::fighters_absolute
 @end example
@@ -332,7 +339,7 @@ int lw6ker_score_s::fighters_absolute
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {fighters_ratio}
+@defcv {member} {lw6ker_score_s} {fighters_ratio}
 @example
 float lw6ker_score_s::fighters_ratio
 @end example
@@ -341,7 +348,7 @@ float lw6ker_score_s::fighters_ratio
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {frags}
+@defcv {member} {lw6ker_score_s} {frags}
 @example
 int lw6ker_score_s::frags
 @end example
@@ -350,7 +357,7 @@ int lw6ker_score_s::frags
         
 @end defcv
 
-@defcv {member} lw6ker_score_s {consolidated_percent}
+@defcv {member} {lw6ker_score_s} {consolidated_percent}
 @example
 int lw6ker_score_s::consolidated_percent
 @end example

@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6srv_backend_s
+@deftp {Struct} {lw6srv_backend_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_backend_s {dl_handle}
+@defcv {member} {lw6srv_backend_s} {dl_handle}
 @example
 lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle
 @end example
@@ -14,7 +15,7 @@ lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {srv_context}
+@defcv {member} {lw6srv_backend_s} {srv_context}
 @example
 void* lw6srv_backend_s::srv_context
 @end example
@@ -23,7 +24,7 @@ void* lw6srv_backend_s::srv_context
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {argc}
+@defcv {member} {lw6srv_backend_s} {argc}
 @example
 int lw6srv_backend_s::argc
 @end example
@@ -32,7 +33,7 @@ int lw6srv_backend_s::argc
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {argv}
+@defcv {member} {lw6srv_backend_s} {argv}
 @example
 const char** lw6srv_backend_s::argv
 @end example
@@ -41,7 +42,7 @@ const char** lw6srv_backend_s::argv
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {id}
+@defcv {member} {lw6srv_backend_s} {id}
 @example
 u_int32_t lw6srv_backend_s::id
 @end example
@@ -50,7 +51,7 @@ u_int32_t lw6srv_backend_s::id
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {name}
+@defcv {member} {lw6srv_backend_s} {name}
 @example
 char* lw6srv_backend_s::name
 @end example
@@ -59,7 +60,7 @@ char* lw6srv_backend_s::name
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {info}
+@defcv {member} {lw6srv_backend_s} {info}
 @example
 lw6nod_info_t* lw6srv_backend_s::info
 @end example
@@ -68,7 +69,7 @@ lw6nod_info_t* lw6srv_backend_s::info
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {init}
+@defcv {member} {lw6srv_backend_s} {init}
 @example
 void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6srv_listener_t *listener)
 @end example
@@ -77,7 +78,7 @@ void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6srv_listener_t 
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {quit}
+@defcv {member} {lw6srv_backend_s} {quit}
 @example
 void(* lw6srv_backend_s::quit)(void *srv_context)
 @end example
@@ -86,7 +87,7 @@ void(* lw6srv_backend_s::quit)(void *srv_context)
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {analyse_tcp}
+@defcv {member} {lw6srv_backend_s} {analyse_tcp}
 @example
 int(* lw6srv_backend_s::analyse_tcp)(void *srv_context, lw6srv_tcp_accepter_t *tcp_accepter, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)
 @end example
@@ -95,7 +96,7 @@ int(* lw6srv_backend_s::analyse_tcp)(void *srv_context, lw6srv_tcp_accepter_t *t
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {analyse_udp}
+@defcv {member} {lw6srv_backend_s} {analyse_udp}
 @example
 int(* lw6srv_backend_s::analyse_udp)(void *srv_context, lw6srv_udp_buffer_t *udp_buffer, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)
 @end example
@@ -104,7 +105,7 @@ int(* lw6srv_backend_s::analyse_udp)(void *srv_context, lw6srv_udp_buffer_t *udp
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {process_oob}
+@defcv {member} {lw6srv_backend_s} {process_oob}
 @example
 int(* lw6srv_backend_s::process_oob)(void *srv_context, lw6nod_info_t *node_info, lw6srv_oob_data_t *oob_data)
 @end example
@@ -113,7 +114,7 @@ int(* lw6srv_backend_s::process_oob)(void *srv_context, lw6nod_info_t *node_info
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {open}
+@defcv {member} {lw6srv_backend_s} {open}
 @example
 lw6cnx_connection_t*(* lw6srv_backend_s::open)(void *srv_context, lw6srv_listener_t *listener, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 @end example
@@ -122,7 +123,7 @@ lw6cnx_connection_t*(* lw6srv_backend_s::open)(void *srv_context, lw6srv_listene
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {feed_with_tcp}
+@defcv {member} {lw6srv_backend_s} {feed_with_tcp}
 @example
 int(* lw6srv_backend_s::feed_with_tcp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_tcp_accepter_t *tcp_accepter)
 @end example
@@ -131,7 +132,7 @@ int(* lw6srv_backend_s::feed_with_tcp)(void *srv_context, lw6cnx_connection_t *c
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {feed_with_udp}
+@defcv {member} {lw6srv_backend_s} {feed_with_udp}
 @example
 int(* lw6srv_backend_s::feed_with_udp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_udp_buffer_t *udp_buffer)
 @end example
@@ -140,7 +141,7 @@ int(* lw6srv_backend_s::feed_with_udp)(void *srv_context, lw6cnx_connection_t *c
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {close}
+@defcv {member} {lw6srv_backend_s} {close}
 @example
 void(* lw6srv_backend_s::close)(void *srv_context, lw6cnx_connection_t *connection)
 @end example
@@ -149,7 +150,7 @@ void(* lw6srv_backend_s::close)(void *srv_context, lw6cnx_connection_t *connecti
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {send}
+@defcv {member} {lw6srv_backend_s} {send}
 @example
 int(* lw6srv_backend_s::send)(void *srv_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
 @end example
@@ -158,7 +159,7 @@ int(* lw6srv_backend_s::send)(void *srv_context, lw6cnx_connection_t *connection
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {poll}
+@defcv {member} {lw6srv_backend_s} {poll}
 @example
 void(* lw6srv_backend_s::poll)(void *srv_context, lw6cnx_connection_t *connection)
 @end example
@@ -167,7 +168,7 @@ void(* lw6srv_backend_s::poll)(void *srv_context, lw6cnx_connection_t *connectio
         
 @end defcv
 
-@defcv {member} lw6srv_backend_s {repr}
+@defcv {member} {lw6srv_backend_s} {repr}
 @example
 char*(* lw6srv_backend_s::repr)(void *srv_context, lw6cnx_connection_t *connection)
 @end example
@@ -179,12 +180,13 @@ char*(* lw6srv_backend_s::repr)(void *srv_context, lw6cnx_connection_t *connecti
 
 
   
-@deftp struct lw6srv_client_id_s
+@deftp {Struct} {lw6srv_client_id_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_client_id_s {client_ip}
+@defcv {member} {lw6srv_client_id_s} {client_ip}
 @example
 char* lw6srv_client_id_s::client_ip
 @end example
@@ -193,7 +195,7 @@ char* lw6srv_client_id_s::client_ip
         
 @end defcv
 
-@defcv {member} lw6srv_client_id_s {client_port}
+@defcv {member} {lw6srv_client_id_s} {client_port}
 @example
 int lw6srv_client_id_s::client_port
 @end example
@@ -205,12 +207,13 @@ int lw6srv_client_id_s::client_port
 
 
   
-@deftp struct lw6srv_listener_s
+@deftp {Struct} {lw6srv_listener_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_listener_s {ip}
+@defcv {member} {lw6srv_listener_s} {ip}
 @example
 char* lw6srv_listener_s::ip
 @end example
@@ -219,7 +222,7 @@ char* lw6srv_listener_s::ip
         
 @end defcv
 
-@defcv {member} lw6srv_listener_s {port}
+@defcv {member} {lw6srv_listener_s} {port}
 @example
 int lw6srv_listener_s::port
 @end example
@@ -228,7 +231,7 @@ int lw6srv_listener_s::port
         
 @end defcv
 
-@defcv {member} lw6srv_listener_s {tcp_sock}
+@defcv {member} {lw6srv_listener_s} {tcp_sock}
 @example
 int lw6srv_listener_s::tcp_sock
 @end example
@@ -237,7 +240,7 @@ int lw6srv_listener_s::tcp_sock
         
 @end defcv
 
-@defcv {member} lw6srv_listener_s {tcp_accepters}
+@defcv {member} {lw6srv_listener_s} {tcp_accepters}
 @example
 lw6sys_list_t* lw6srv_listener_s::tcp_accepters
 @end example
@@ -246,7 +249,7 @@ lw6sys_list_t* lw6srv_listener_s::tcp_accepters
         
 @end defcv
 
-@defcv {member} lw6srv_listener_s {udp_sock}
+@defcv {member} {lw6srv_listener_s} {udp_sock}
 @example
 int lw6srv_listener_s::udp_sock
 @end example
@@ -255,7 +258,7 @@ int lw6srv_listener_s::udp_sock
         
 @end defcv
 
-@defcv {member} lw6srv_listener_s {udp_buffers}
+@defcv {member} {lw6srv_listener_s} {udp_buffers}
 @example
 lw6sys_list_t* lw6srv_listener_s::udp_buffers
 @end example
@@ -267,12 +270,13 @@ lw6sys_list_t* lw6srv_listener_s::udp_buffers
 
 
   
-@deftp struct lw6srv_oob_data_s
+@deftp {Struct} {lw6srv_oob_data_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_oob_data_s {creation_timestamp}
+@defcv {member} {lw6srv_oob_data_s} {creation_timestamp}
 @example
 int64_t lw6srv_oob_data_s::creation_timestamp
 @end example
@@ -281,7 +285,7 @@ int64_t lw6srv_oob_data_s::creation_timestamp
         
 @end defcv
 
-@defcv {member} lw6srv_oob_data_s {do_not_finish}
+@defcv {member} {lw6srv_oob_data_s} {do_not_finish}
 @example
 int lw6srv_oob_data_s::do_not_finish
 @end example
@@ -290,7 +294,7 @@ int lw6srv_oob_data_s::do_not_finish
         
 @end defcv
 
-@defcv {member} lw6srv_oob_data_s {remote_ip}
+@defcv {member} {lw6srv_oob_data_s} {remote_ip}
 @example
 char* lw6srv_oob_data_s::remote_ip
 @end example
@@ -299,7 +303,7 @@ char* lw6srv_oob_data_s::remote_ip
         
 @end defcv
 
-@defcv {member} lw6srv_oob_data_s {remote_port}
+@defcv {member} {lw6srv_oob_data_s} {remote_port}
 @example
 int lw6srv_oob_data_s::remote_port
 @end example
@@ -308,7 +312,7 @@ int lw6srv_oob_data_s::remote_port
         
 @end defcv
 
-@defcv {member} lw6srv_oob_data_s {sock}
+@defcv {member} {lw6srv_oob_data_s} {sock}
 @example
 int lw6srv_oob_data_s::sock
 @end example
@@ -317,7 +321,7 @@ int lw6srv_oob_data_s::sock
         
 @end defcv
 
-@defcv {member} lw6srv_oob_data_s {first_line}
+@defcv {member} {lw6srv_oob_data_s} {first_line}
 @example
 char* lw6srv_oob_data_s::first_line
 @end example
@@ -329,12 +333,13 @@ char* lw6srv_oob_data_s::first_line
 
 
   
-@deftp struct lw6srv_oob_s
+@deftp {Struct} {lw6srv_oob_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_oob_s {thread}
+@defcv {member} {lw6srv_oob_s} {thread}
 @example
 void* lw6srv_oob_s::thread
 @end example
@@ -343,7 +348,7 @@ void* lw6srv_oob_s::thread
         
 @end defcv
 
-@defcv {member} lw6srv_oob_s {data}
+@defcv {member} {lw6srv_oob_s} {data}
 @example
 lw6srv_oob_data_t lw6srv_oob_s::data
 @end example
@@ -355,12 +360,13 @@ lw6srv_oob_data_t lw6srv_oob_s::data
 
 
   
-@deftp struct lw6srv_tcp_accepter_s
+@deftp {Struct} {lw6srv_tcp_accepter_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_tcp_accepter_s {client_id}
+@defcv {member} {lw6srv_tcp_accepter_s} {client_id}
 @example
 lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id
 @end example
@@ -369,7 +375,7 @@ lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id
         
 @end defcv
 
-@defcv {member} lw6srv_tcp_accepter_s {sock}
+@defcv {member} {lw6srv_tcp_accepter_s} {sock}
 @example
 int lw6srv_tcp_accepter_s::sock
 @end example
@@ -378,7 +384,7 @@ int lw6srv_tcp_accepter_s::sock
         
 @end defcv
 
-@defcv {member} lw6srv_tcp_accepter_s {first_line}
+@defcv {member} {lw6srv_tcp_accepter_s} {first_line}
 @example
 char lw6srv_tcp_accepter_s::first_line[LW6SRV_PROTOCOL_BUFFER_SIZE+1]
 @end example
@@ -387,7 +393,7 @@ char lw6srv_tcp_accepter_s::first_line[LW6SRV_PROTOCOL_BUFFER_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6srv_tcp_accepter_s {creation_timestamp}
+@defcv {member} {lw6srv_tcp_accepter_s} {creation_timestamp}
 @example
 int64_t lw6srv_tcp_accepter_s::creation_timestamp
 @end example
@@ -399,12 +405,13 @@ int64_t lw6srv_tcp_accepter_s::creation_timestamp
 
 
   
-@deftp struct lw6srv_udp_buffer_s
+@deftp {Struct} {lw6srv_udp_buffer_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6srv_udp_buffer_s {client_id}
+@defcv {member} {lw6srv_udp_buffer_s} {client_id}
 @example
 lw6srv_client_id_t lw6srv_udp_buffer_s::client_id
 @end example
@@ -413,7 +420,7 @@ lw6srv_client_id_t lw6srv_udp_buffer_s::client_id
         
 @end defcv
 
-@defcv {member} lw6srv_udp_buffer_s {line}
+@defcv {member} {lw6srv_udp_buffer_s} {line}
 @example
 char* lw6srv_udp_buffer_s::line
 @end example

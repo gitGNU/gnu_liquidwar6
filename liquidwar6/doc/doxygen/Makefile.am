@@ -26,7 +26,7 @@ if LW6_DOXYGEN
 all: opt
 endif
 
-html/index.html: doxygen.cfg
+html/index.html: doxygen.cfg ${top_srcdir}/doc/stamp.texi
 	export DOXYGEN_INPUT=${top_srcdir}/src ; doxygen doxygen.cfg
 
 clean-local:

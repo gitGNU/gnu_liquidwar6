@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6ldr_entry_s
+@deftp {Struct} {lw6ldr_entry_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ldr_entry_s {metadata}
+@defcv {member} {lw6ldr_entry_s} {metadata}
 @example
 lw6map_metadata_t lw6ldr_entry_s::metadata
 @end example
@@ -14,7 +15,7 @@ lw6map_metadata_t lw6ldr_entry_s::metadata
         
 @end defcv
 
-@defcv {member} lw6ldr_entry_s {absolute_path}
+@defcv {member} {lw6ldr_entry_s} {absolute_path}
 @example
 char* lw6ldr_entry_s::absolute_path
 @end example
@@ -23,7 +24,7 @@ char* lw6ldr_entry_s::absolute_path
         
 @end defcv
 
-@defcv {member} lw6ldr_entry_s {relative_path}
+@defcv {member} {lw6ldr_entry_s} {relative_path}
 @example
 char* lw6ldr_entry_s::relative_path
 @end example
@@ -32,7 +33,7 @@ char* lw6ldr_entry_s::relative_path
         
 @end defcv
 
-@defcv {member} lw6ldr_entry_s {has_subdirs}
+@defcv {member} {lw6ldr_entry_s} {has_subdirs}
 @example
 int lw6ldr_entry_s::has_subdirs
 @end example
@@ -41,7 +42,7 @@ int lw6ldr_entry_s::has_subdirs
         
 @end defcv
 
-@defcv {member} lw6ldr_entry_s {nb_submaps}
+@defcv {member} {lw6ldr_entry_s} {nb_submaps}
 @example
 int lw6ldr_entry_s::nb_submaps
 @end example
@@ -50,7 +51,7 @@ int lw6ldr_entry_s::nb_submaps
         
 @end defcv
 
-@defcv {member} lw6ldr_entry_s {forbidden}
+@defcv {member} {lw6ldr_entry_s} {forbidden}
 @example
 int lw6ldr_entry_s::forbidden
 @end example
@@ -62,12 +63,13 @@ int lw6ldr_entry_s::forbidden
 
 
   
-@deftp struct lw6ldr_hints_s
+@deftp {Struct} {lw6ldr_hints_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ldr_hints_s {resample}
+@defcv {member} {lw6ldr_hints_s} {resample}
 @example
 int lw6ldr_hints_s::resample
 @end example
@@ -76,7 +78,7 @@ int lw6ldr_hints_s::resample
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {min_map_width}
+@defcv {member} {lw6ldr_hints_s} {min_map_width}
 @example
 int lw6ldr_hints_s::min_map_width
 @end example
@@ -85,7 +87,7 @@ int lw6ldr_hints_s::min_map_width
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {max_map_width}
+@defcv {member} {lw6ldr_hints_s} {max_map_width}
 @example
 int lw6ldr_hints_s::max_map_width
 @end example
@@ -94,7 +96,7 @@ int lw6ldr_hints_s::max_map_width
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {min_map_height}
+@defcv {member} {lw6ldr_hints_s} {min_map_height}
 @example
 int lw6ldr_hints_s::min_map_height
 @end example
@@ -103,7 +105,7 @@ int lw6ldr_hints_s::min_map_height
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {max_map_height}
+@defcv {member} {lw6ldr_hints_s} {max_map_height}
 @example
 int lw6ldr_hints_s::max_map_height
 @end example
@@ -112,7 +114,7 @@ int lw6ldr_hints_s::max_map_height
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {min_map_surface}
+@defcv {member} {lw6ldr_hints_s} {min_map_surface}
 @example
 int lw6ldr_hints_s::min_map_surface
 @end example
@@ -121,7 +123,7 @@ int lw6ldr_hints_s::min_map_surface
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {max_map_surface}
+@defcv {member} {lw6ldr_hints_s} {max_map_surface}
 @example
 int lw6ldr_hints_s::max_map_surface
 @end example
@@ -130,7 +132,7 @@ int lw6ldr_hints_s::max_map_surface
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {fighter_scale}
+@defcv {member} {lw6ldr_hints_s} {fighter_scale}
 @example
 float lw6ldr_hints_s::fighter_scale
 @end example
@@ -139,7 +141,7 @@ float lw6ldr_hints_s::fighter_scale
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {downsize_using_fighter_scale}
+@defcv {member} {lw6ldr_hints_s} {downsize_using_fighter_scale}
 @example
 int lw6ldr_hints_s::downsize_using_fighter_scale
 @end example
@@ -148,7 +150,7 @@ int lw6ldr_hints_s::downsize_using_fighter_scale
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {upsize_using_fighter_scale}
+@defcv {member} {lw6ldr_hints_s} {upsize_using_fighter_scale}
 @example
 int lw6ldr_hints_s::upsize_using_fighter_scale
 @end example
@@ -157,7 +159,7 @@ int lw6ldr_hints_s::upsize_using_fighter_scale
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {downsize_using_bench_value}
+@defcv {member} {lw6ldr_hints_s} {downsize_using_bench_value}
 @example
 int lw6ldr_hints_s::downsize_using_bench_value
 @end example
@@ -166,7 +168,7 @@ int lw6ldr_hints_s::downsize_using_bench_value
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {upsize_using_bench_value}
+@defcv {member} {lw6ldr_hints_s} {upsize_using_bench_value}
 @example
 int lw6ldr_hints_s::upsize_using_bench_value
 @end example
@@ -175,7 +177,7 @@ int lw6ldr_hints_s::upsize_using_bench_value
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {guess_colors}
+@defcv {member} {lw6ldr_hints_s} {guess_colors}
 @example
 int lw6ldr_hints_s::guess_colors
 @end example
@@ -184,7 +186,7 @@ int lw6ldr_hints_s::guess_colors
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {background_color_auto}
+@defcv {member} {lw6ldr_hints_s} {background_color_auto}
 @example
 int lw6ldr_hints_s::background_color_auto
 @end example
@@ -193,7 +195,7 @@ int lw6ldr_hints_s::background_color_auto
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {hud_color_auto}
+@defcv {member} {lw6ldr_hints_s} {hud_color_auto}
 @example
 int lw6ldr_hints_s::hud_color_auto
 @end example
@@ -202,7 +204,7 @@ int lw6ldr_hints_s::hud_color_auto
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {menu_color_auto}
+@defcv {member} {lw6ldr_hints_s} {menu_color_auto}
 @example
 int lw6ldr_hints_s::menu_color_auto
 @end example
@@ -211,7 +213,7 @@ int lw6ldr_hints_s::menu_color_auto
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {view_color_auto}
+@defcv {member} {lw6ldr_hints_s} {view_color_auto}
 @example
 int lw6ldr_hints_s::view_color_auto
 @end example
@@ -220,7 +222,7 @@ int lw6ldr_hints_s::view_color_auto
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {system_color_auto}
+@defcv {member} {lw6ldr_hints_s} {system_color_auto}
 @example
 int lw6ldr_hints_s::system_color_auto
 @end example
@@ -229,7 +231,7 @@ int lw6ldr_hints_s::system_color_auto
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {wall_grease}
+@defcv {member} {lw6ldr_hints_s} {wall_grease}
 @example
 int lw6ldr_hints_s::wall_grease
 @end example
@@ -238,7 +240,7 @@ int lw6ldr_hints_s::wall_grease
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {guess_moves_per_sec}
+@defcv {member} {lw6ldr_hints_s} {guess_moves_per_sec}
 @example
 int lw6ldr_hints_s::guess_moves_per_sec
 @end example
@@ -247,7 +249,7 @@ int lw6ldr_hints_s::guess_moves_per_sec
         
 @end defcv
 
-@defcv {member} lw6ldr_hints_s {speed}
+@defcv {member} {lw6ldr_hints_s} {speed}
 @example
 float lw6ldr_hints_s::speed
 @end example
@@ -259,12 +261,13 @@ float lw6ldr_hints_s::speed
 
 
   
-@deftp struct lw6ldr_resampler_s
+@deftp {Struct} {lw6ldr_resampler_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ldr_resampler_s {target_w}
+@defcv {member} {lw6ldr_resampler_s} {target_w}
 @example
 int lw6ldr_resampler_s::target_w
 @end example
@@ -273,7 +276,7 @@ int lw6ldr_resampler_s::target_w
         
 @end defcv
 
-@defcv {member} lw6ldr_resampler_s {target_h}
+@defcv {member} {lw6ldr_resampler_s} {target_h}
 @example
 int lw6ldr_resampler_s::target_h
 @end example
@@ -282,7 +285,7 @@ int lw6ldr_resampler_s::target_h
         
 @end defcv
 
-@defcv {member} lw6ldr_resampler_s {source_w}
+@defcv {member} {lw6ldr_resampler_s} {source_w}
 @example
 int lw6ldr_resampler_s::source_w
 @end example
@@ -291,7 +294,7 @@ int lw6ldr_resampler_s::source_w
         
 @end defcv
 
-@defcv {member} lw6ldr_resampler_s {source_h}
+@defcv {member} {lw6ldr_resampler_s} {source_h}
 @example
 int lw6ldr_resampler_s::source_h
 @end example
@@ -300,7 +303,7 @@ int lw6ldr_resampler_s::source_h
         
 @end defcv
 
-@defcv {member} lw6ldr_resampler_s {scale_x}
+@defcv {member} {lw6ldr_resampler_s} {scale_x}
 @example
 float lw6ldr_resampler_s::scale_x
 @end example
@@ -309,7 +312,7 @@ float lw6ldr_resampler_s::scale_x
         
 @end defcv
 
-@defcv {member} lw6ldr_resampler_s {scale_y}
+@defcv {member} {lw6ldr_resampler_s} {scale_y}
 @example
 float lw6ldr_resampler_s::scale_y
 @end example
@@ -321,12 +324,13 @@ float lw6ldr_resampler_s::scale_y
 
 
   
-@deftp struct lw6ldr_use_s
+@deftp {Struct} {lw6ldr_use_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6ldr_use_s {use_texture}
+@defcv {member} {lw6ldr_use_s} {use_texture}
 @example
 int lw6ldr_use_s::use_texture
 @end example
@@ -335,7 +339,7 @@ int lw6ldr_use_s::use_texture
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_cursor_texture}
+@defcv {member} {lw6ldr_use_s} {use_cursor_texture}
 @example
 int lw6ldr_use_s::use_cursor_texture
 @end example
@@ -344,7 +348,7 @@ int lw6ldr_use_s::use_cursor_texture
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_rules_xml}
+@defcv {member} {lw6ldr_use_s} {use_rules_xml}
 @example
 int lw6ldr_use_s::use_rules_xml
 @end example
@@ -353,7 +357,7 @@ int lw6ldr_use_s::use_rules_xml
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_hints_xml}
+@defcv {member} {lw6ldr_use_s} {use_hints_xml}
 @example
 int lw6ldr_use_s::use_hints_xml
 @end example
@@ -362,7 +366,7 @@ int lw6ldr_use_s::use_hints_xml
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_style_xml}
+@defcv {member} {lw6ldr_use_s} {use_style_xml}
 @example
 int lw6ldr_use_s::use_style_xml
 @end example
@@ -371,7 +375,7 @@ int lw6ldr_use_s::use_style_xml
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_teams_xml}
+@defcv {member} {lw6ldr_use_s} {use_teams_xml}
 @example
 int lw6ldr_use_s::use_teams_xml
 @end example
@@ -380,7 +384,7 @@ int lw6ldr_use_s::use_teams_xml
         
 @end defcv
 
-@defcv {member} lw6ldr_use_s {use_music_file}
+@defcv {member} {lw6ldr_use_s} {use_music_file}
 @example
 int lw6ldr_use_s::use_music_file
 @end example

@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6snd_backend_s
+@deftp {Struct} {lw6snd_backend_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6snd_backend_s {dl_handle}
+@defcv {member} {lw6snd_backend_s} {dl_handle}
 @example
 lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle
 @end example
@@ -14,7 +15,7 @@ lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {snd_context}
+@defcv {member} {lw6snd_backend_s} {snd_context}
 @example
 void* lw6snd_backend_s::snd_context
 @end example
@@ -23,7 +24,7 @@ void* lw6snd_backend_s::snd_context
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {argc}
+@defcv {member} {lw6snd_backend_s} {argc}
 @example
 int lw6snd_backend_s::argc
 @end example
@@ -32,7 +33,7 @@ int lw6snd_backend_s::argc
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {argv}
+@defcv {member} {lw6snd_backend_s} {argv}
 @example
 const char** lw6snd_backend_s::argv
 @end example
@@ -41,7 +42,7 @@ const char** lw6snd_backend_s::argv
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {id}
+@defcv {member} {lw6snd_backend_s} {id}
 @example
 u_int32_t lw6snd_backend_s::id
 @end example
@@ -50,7 +51,7 @@ u_int32_t lw6snd_backend_s::id
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {play_fx}
+@defcv {member} {lw6snd_backend_s} {play_fx}
 @example
 int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)
 @end example
@@ -59,7 +60,7 @@ int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {is_music_file}
+@defcv {member} {lw6snd_backend_s} {is_music_file}
 @example
 int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)
 @end example
@@ -68,7 +69,7 @@ int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {play_music_file}
+@defcv {member} {lw6snd_backend_s} {play_music_file}
 @example
 int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)
 @end example
@@ -77,7 +78,7 @@ int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {play_music_random}
+@defcv {member} {lw6snd_backend_s} {play_music_random}
 @example
 int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, char *music_filter, char *music_exclude)
 @end example
@@ -86,7 +87,7 @@ int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, 
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {stop_music}
+@defcv {member} {lw6snd_backend_s} {stop_music}
 @example
 void(* lw6snd_backend_s::stop_music)(void *snd_context)
 @end example
@@ -95,7 +96,7 @@ void(* lw6snd_backend_s::stop_music)(void *snd_context)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {init}
+@defcv {member} {lw6snd_backend_s} {init}
 @example
 void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 @end example
@@ -104,7 +105,7 @@ void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, f
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {set_fx_volume}
+@defcv {member} {lw6snd_backend_s} {set_fx_volume}
 @example
 void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)
 @end example
@@ -113,7 +114,7 @@ void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {set_water_volume}
+@defcv {member} {lw6snd_backend_s} {set_water_volume}
 @example
 void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)
 @end example
@@ -122,7 +123,7 @@ void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {set_music_volume}
+@defcv {member} {lw6snd_backend_s} {set_music_volume}
 @example
 void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)
 @end example
@@ -131,7 +132,7 @@ void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {poll}
+@defcv {member} {lw6snd_backend_s} {poll}
 @example
 void(* lw6snd_backend_s::poll)(void *snd_context)
 @end example
@@ -140,7 +141,7 @@ void(* lw6snd_backend_s::poll)(void *snd_context)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {quit}
+@defcv {member} {lw6snd_backend_s} {quit}
 @example
 void(* lw6snd_backend_s::quit)(void *snd_context)
 @end example
@@ -149,7 +150,7 @@ void(* lw6snd_backend_s::quit)(void *snd_context)
         
 @end defcv
 
-@defcv {member} lw6snd_backend_s {repr}
+@defcv {member} {lw6snd_backend_s} {repr}
 @example
 char*(* lw6snd_backend_s::repr)(void *snd_context, u_int32_t id)
 @end example

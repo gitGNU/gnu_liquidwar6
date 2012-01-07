@@ -505,7 +505,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6pil_add_args_s
+ -- Struct: lw6pil_add_args_s
 
  -- member of lw6pil_add_args_s: cursor_id
           u_int16_t lw6pil_add_args_s::cursor_id
@@ -515,7 +515,7 @@ results on
           int lw6pil_add_args_s::team_color
 
 
- -- struct: lw6pil_command_s
+ -- Struct: lw6pil_command_s
 
  -- member of lw6pil_command_s: seq
           int64_t lw6pil_command_s::seq
@@ -541,7 +541,7 @@ results on
           char* lw6pil_command_s::text
 
 
- -- struct: lw6pil_local_cursors_s
+ -- Struct: lw6pil_local_cursors_s
 
  -- member of lw6pil_local_cursors_s: main_cursor_id
           u_int16_t lw6pil_local_cursors_s::main_cursor_id
@@ -559,7 +559,7 @@ results on
           lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
 
 
- -- struct: lw6pil_local_cursor_s
+ -- Struct: lw6pil_local_cursor_s
 
  -- member of lw6pil_local_cursor_s: cursor_id
           u_int16_t lw6pil_local_cursor_s::cursor_id
@@ -581,19 +581,19 @@ results on
           int lw6pil_local_cursor_s::is_main
 
 
- -- struct: lw6pil_pilot_s
+ -- Struct: lw6pil_pilot_s
 
  -- member of lw6pil_pilot_s: id
           u_int32_t lw6pil_pilot_s::id
 
 
- -- struct: lw6pil_remove_args_s
+ -- Struct: lw6pil_remove_args_s
 
  -- member of lw6pil_remove_args_s: cursor_id
           u_int16_t lw6pil_remove_args_s::cursor_id
 
 
- -- struct: lw6pil_set_args_s
+ -- Struct: lw6pil_set_args_s
 
  -- member of lw6pil_set_args_s: cursor_id
           u_int64_t lw6pil_set_args_s::cursor_id
@@ -615,7 +615,7 @@ results on
           int lw6pil_set_args_s::fire2
 
 
- -- struct: lw6pil_worker_s
+ -- Struct: lw6pil_worker_s
 
  -- member of lw6pil_worker_s: run
           int lw6pil_worker_s::run
@@ -804,7 +804,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6sim_results_s
+ -- Struct: lw6sim_results_s
 
  -- member of lw6sim_results_s: nb_teams
           int lw6sim_results_s::nb_teams
@@ -1013,7 +1013,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6snd_backend_s
+ -- Struct: lw6snd_backend_s
 
  -- member of lw6snd_backend_s: dl_handle
           lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle
@@ -1448,7 +1448,7 @@ results on
 
      *Return value:*  none
 
- -- struct: lw6srv_backend_s
+ -- Struct: lw6srv_backend_s
 
  -- member of lw6srv_backend_s: dl_handle
           lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle
@@ -1526,7 +1526,7 @@ results on
           char*(* lw6srv_backend_s::repr)(void *srv_context, lw6cnx_connection_t *connection)
 
 
- -- struct: lw6srv_client_id_s
+ -- Struct: lw6srv_client_id_s
 
  -- member of lw6srv_client_id_s: client_ip
           char* lw6srv_client_id_s::client_ip
@@ -1536,7 +1536,7 @@ results on
           int lw6srv_client_id_s::client_port
 
 
- -- struct: lw6srv_listener_s
+ -- Struct: lw6srv_listener_s
 
  -- member of lw6srv_listener_s: ip
           char* lw6srv_listener_s::ip
@@ -1562,7 +1562,7 @@ results on
           lw6sys_list_t* lw6srv_listener_s::udp_buffers
 
 
- -- struct: lw6srv_oob_data_s
+ -- Struct: lw6srv_oob_data_s
 
  -- member of lw6srv_oob_data_s: creation_timestamp
           int64_t lw6srv_oob_data_s::creation_timestamp
@@ -1588,7 +1588,7 @@ results on
           char* lw6srv_oob_data_s::first_line
 
 
- -- struct: lw6srv_oob_s
+ -- Struct: lw6srv_oob_s
 
  -- member of lw6srv_oob_s: thread
           void* lw6srv_oob_s::thread
@@ -1598,7 +1598,7 @@ results on
           lw6srv_oob_data_t lw6srv_oob_s::data
 
 
- -- struct: lw6srv_tcp_accepter_s
+ -- Struct: lw6srv_tcp_accepter_s
 
  -- member of lw6srv_tcp_accepter_s: client_id
           lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id
@@ -1616,7 +1616,7 @@ results on
           int64_t lw6srv_tcp_accepter_s::creation_timestamp
 
 
- -- struct: lw6srv_udp_buffer_s
+ -- Struct: lw6srv_udp_buffer_s
 
  -- member of lw6srv_udp_buffer_s: client_id
           lw6srv_client_id_t lw6srv_udp_buffer_s::client_id
@@ -5720,7 +5720,7 @@ results on
 
      *Return value:*  none.
 
- -- struct: lw6sys_assoc_s
+ -- Struct: lw6sys_assoc_s
 
  -- member of lw6sys_assoc_s: key
           char* lw6sys_assoc_s::key
@@ -5738,7 +5738,7 @@ results on
           void* lw6sys_assoc_s::next_item
 
 
- -- struct: lw6sys_color_8_s
+ -- Struct: lw6sys_color_8_s
 
  -- member of lw6sys_color_8_s: r
           u_int8_t lw6sys_color_8_s::r
@@ -5756,7 +5756,7 @@ results on
           u_int8_t lw6sys_color_8_s::a
 
 
- -- struct: lw6sys_color_f_s
+ -- Struct: lw6sys_color_f_s
 
  -- member of lw6sys_color_f_s: r
           float lw6sys_color_f_s::r
@@ -5774,7 +5774,7 @@ results on
           float lw6sys_color_f_s::a
 
 
- -- struct: lw6sys_color_hsv_s
+ -- Struct: lw6sys_color_hsv_s
 
  -- member of lw6sys_color_hsv_s: h
           float lw6sys_color_hsv_s::h
@@ -5792,7 +5792,7 @@ results on
           float lw6sys_color_hsv_s::a
 
 
- -- struct: lw6sys_hash_s
+ -- Struct: lw6sys_hash_s
 
  -- member of lw6sys_hash_s: size
           int lw6sys_hash_s::size
@@ -5806,7 +5806,7 @@ results on
           lw6sys_free_func_t lw6sys_hash_s::free_func
 
 
- -- struct: lw6sys_hexa_serializer_s
+ -- Struct: lw6sys_hexa_serializer_s
 
  -- member of lw6sys_hexa_serializer_s: buf
           char* lw6sys_hexa_serializer_s::buf
@@ -5820,7 +5820,7 @@ results on
           int lw6sys_hexa_serializer_s::pos
 
 
- -- struct: lw6sys_list_s
+ -- Struct: lw6sys_list_s
 
  -- member of lw6sys_list_s: data
           void* lw6sys_list_s::data
@@ -5834,7 +5834,7 @@ results on
           void* lw6sys_list_s::next_item
 
 
- -- struct: lw6sys_module_pedigree_s
+ -- Struct: lw6sys_module_pedigree_s
 
  -- member of lw6sys_module_pedigree_s: id
           char* lw6sys_module_pedigree_s::id
@@ -5872,7 +5872,7 @@ results on
           char* lw6sys_module_pedigree_s::time
 
 
- -- struct: lw6sys_progress_s
+ -- Struct: lw6sys_progress_s
 
  -- member of lw6sys_progress_s: min
           float lw6sys_progress_s::min
@@ -5886,7 +5886,7 @@ results on
           volatile float* lw6sys_progress_s::value
 
 
- -- struct: lw6sys_url_s
+ -- Struct: lw6sys_url_s
 
  -- member of lw6sys_url_s: use_ssl
           int lw6sys_url_s::use_ssl
@@ -5904,7 +5904,7 @@ results on
           char* lw6sys_url_s::uri
 
 
- -- struct: lw6sys_whd_s
+ -- Struct: lw6sys_whd_s
 
  -- member of lw6sys_whd_s: w
           u_int32_t lw6sys_whd_s::w
@@ -5918,7 +5918,7 @@ results on
           u_int32_t lw6sys_whd_s::d
 
 
- -- struct: lw6sys_xyz_s
+ -- Struct: lw6sys_xyz_s
 
  -- member of lw6sys_xyz_s: x
           int32_t lw6sys_xyz_s::x
@@ -6037,7 +6037,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6tsk_loader_s
+ -- Struct: lw6tsk_loader_s
 
  -- member of lw6tsk_loader_s: id
           u_int32_t lw6tsk_loader_s::id
@@ -6089,7 +6089,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6vox_renderer_s
+ -- Struct: lw6vox_renderer_s
 
  -- member of lw6vox_renderer_s: dummy
           int lw6vox_renderer_s::dummy

@@ -191,7 +191,7 @@ results on
 
      *Return value:*  1 if OK, 0 if error.
 
- -- struct: lw6dsp_backend_s
+ -- Struct: lw6dsp_backend_s
 
  -- member of lw6dsp_backend_s: id
           u_int32_t lw6dsp_backend_s::id
@@ -209,7 +209,7 @@ results on
           lw6gui_input_t* lw6dsp_backend_s::input
 
 
- -- struct: lw6dsp_misc_s
+ -- Struct: lw6dsp_misc_s
 
  -- member of lw6dsp_misc_s: mask
           int lw6dsp_misc_s::mask
@@ -255,7 +255,7 @@ results on
           volatile float* lw6dsp_misc_s::progress
 
 
- -- struct: lw6dsp_param_s
+ -- Struct: lw6dsp_param_s
 
  -- member of lw6dsp_param_s: misc
           lw6dsp_misc_t lw6dsp_param_s::misc
@@ -397,7 +397,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6dyn_dl_handle_s
+ -- Struct: lw6dyn_dl_handle_s
 
  -- member of lw6dyn_dl_handle_s: handle
           lt_dlhandle lw6dyn_dl_handle_s::handle
@@ -601,7 +601,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6gfx_backend_s
+ -- Struct: lw6gfx_backend_s
 
  -- member of lw6gfx_backend_s: dl_handle
           lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle
@@ -675,7 +675,7 @@ complete information).
 5.19.2 API
 ----------
 
- -- struct: mod_gl_background_backend_s
+ -- Struct: mod_gl_background_backend_s
 
  -- member of mod_gl_background_backend_s: background_context
           void* mod_gl_background_backend_s::background_context
@@ -697,7 +697,7 @@ complete information).
           void(* mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t *utils_context, void *background_context, lw6gui_look_t *look)
 
 
- -- struct: mod_gl_hud_backend_s
+ -- Struct: mod_gl_hud_backend_s
 
  -- member of mod_gl_hud_backend_s: hud_context
           void* mod_gl_hud_backend_s::hud_context
@@ -723,7 +723,7 @@ complete information).
           void(* mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
 
 
- -- struct: mod_gl_menu_backend_s
+ -- Struct: mod_gl_menu_backend_s
 
  -- member of mod_gl_menu_backend_s: menu_context
           void* mod_gl_menu_backend_s::menu_context
@@ -753,7 +753,7 @@ complete information).
           void(* mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)
 
 
- -- struct: mod_gl_utils_bitmap_array_s
+ -- Struct: mod_gl_utils_bitmap_array_s
 
  -- member of mod_gl_utils_bitmap_array_s: layout
           lw6gui_rect_array_t mod_gl_utils_bitmap_array_s::layout
@@ -763,7 +763,7 @@ complete information).
           mod_gl_utils_bitmap_t** mod_gl_utils_bitmap_array_s::bitmaps
 
 
- -- struct: mod_gl_utils_bitmap_s
+ -- Struct: mod_gl_utils_bitmap_s
 
  -- member of mod_gl_utils_bitmap_s: id
           u_int32_t mod_gl_utils_bitmap_s::id
@@ -841,13 +841,13 @@ complete information).
           int mod_gl_utils_bitmap_s::need_another_refresh
 
 
- -- struct: mod_gl_utils_cache_s
+ -- Struct: mod_gl_utils_cache_s
 
  -- member of mod_gl_utils_cache_s: color_set
           lw6map_color_set_t mod_gl_utils_cache_s::color_set
 
 
- -- struct: mod_gl_utils_caps_s
+ -- Struct: mod_gl_utils_caps_s
 
  -- member of mod_gl_utils_caps_s: max_texture_size
           GLint mod_gl_utils_caps_s::max_texture_size
@@ -857,7 +857,7 @@ complete information).
           int mod_gl_utils_caps_s::bpp
 
 
- -- struct: mod_gl_utils_const_data_s
+ -- Struct: mod_gl_utils_const_data_s
 
  -- member of mod_gl_utils_const_data_s: warp_x
           float mod_gl_utils_const_data_s::warp_x
@@ -1143,7 +1143,7 @@ complete information).
           int mod_gl_utils_const_data_s::smoother_drawable_duration
 
 
- -- struct: mod_gl_utils_context_s
+ -- Struct: mod_gl_utils_context_s
 
  -- member of mod_gl_utils_context_s: resize_callback
           lw6gui_resize_callback_func_t mod_gl_utils_context_s::resize_callback
@@ -1245,13 +1245,13 @@ complete information).
           mod_gl_utils_cache_t mod_gl_utils_context_s::cache
 
 
- -- struct: mod_gl_utils_counter_s
+ -- Struct: mod_gl_utils_counter_s
 
  -- member of mod_gl_utils_counter_s: nb_frames
           int mod_gl_utils_counter_s::nb_frames
 
 
- -- struct: mod_gl_utils_font_data_s
+ -- Struct: mod_gl_utils_font_data_s
 
  -- member of mod_gl_utils_font_data_s: menu
           TTF_Font* mod_gl_utils_font_data_s::menu
@@ -1269,13 +1269,13 @@ complete information).
           TTF_Font* mod_gl_utils_font_data_s::system
 
 
- -- struct: mod_gl_utils_icon_s
+ -- Struct: mod_gl_utils_icon_s
 
  -- member of mod_gl_utils_icon_s: bitmap
           mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap
 
 
- -- struct: mod_gl_utils_joysticks_info_s
+ -- Struct: mod_gl_utils_joysticks_info_s
 
  -- member of mod_gl_utils_joysticks_info_s: supported
           int mod_gl_utils_joysticks_info_s::supported
@@ -1289,7 +1289,7 @@ complete information).
           SDL_Joystick* mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]
 
 
- -- struct: mod_gl_utils_last_action_s
+ -- Struct: mod_gl_utils_last_action_s
 
  -- member of mod_gl_utils_last_action_s: game_bitmap_array_update_id
           int mod_gl_utils_last_action_s::game_bitmap_array_update_id
@@ -1300,7 +1300,7 @@ game_bitmap_array_update_rounds
           int mod_gl_utils_last_action_s::game_bitmap_array_update_rounds
 
 
- -- struct: mod_gl_utils_mem_counter_s
+ -- Struct: mod_gl_utils_mem_counter_s
 
  -- member of mod_gl_utils_mem_counter_s: new_counter
           int mod_gl_utils_mem_counter_s::new_counter
@@ -1310,7 +1310,7 @@ game_bitmap_array_update_rounds
           int mod_gl_utils_mem_counter_s::delete_counter
 
 
- -- struct: mod_gl_utils_menucache_array_s
+ -- Struct: mod_gl_utils_menucache_array_s
 
  -- member of mod_gl_utils_menucache_array_s: color_set
           lw6map_color_set_t mod_gl_utils_menucache_array_s::color_set
@@ -1356,7 +1356,7 @@ game_bitmap_array_update_rounds
           mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::popup_bitmap
 
 
- -- struct: mod_gl_utils_menucache_item_s
+ -- Struct: mod_gl_utils_menucache_item_s
 
  -- member of mod_gl_utils_menucache_item_s: key
           char* mod_gl_utils_menucache_item_s::key
@@ -1366,13 +1366,13 @@ game_bitmap_array_update_rounds
           mod_gl_utils_bitmap_t* mod_gl_utils_menucache_item_s::bitmap
 
 
- -- struct: mod_gl_utils_mouse_state_s
+ -- Struct: mod_gl_utils_mouse_state_s
 
  -- member of mod_gl_utils_mouse_state_s: shown
           int mod_gl_utils_mouse_state_s::shown
 
 
- -- struct: mod_gl_utils_multiline_text_callback_data_s
+ -- Struct: mod_gl_utils_multiline_text_callback_data_s
 
  -- member of mod_gl_utils_multiline_text_callback_data_s: utils_context
           mod_gl_utils_context_t* mod_gl_utils_multiline_text_callback_data_s::utils_context
@@ -1402,7 +1402,7 @@ game_bitmap_array_update_rounds
           SDL_Surface* mod_gl_utils_multiline_text_callback_data_s::target
 
 
- -- struct: mod_gl_utils_path_s
+ -- Struct: mod_gl_utils_path_s
 
  -- member of mod_gl_utils_path_s: data_dir
           char* mod_gl_utils_path_s::data_dir
@@ -1420,7 +1420,7 @@ game_bitmap_array_update_rounds
           char* mod_gl_utils_path_s::bitmap_frame_dir
 
 
- -- struct: mod_gl_utils_rect_array_s
+ -- Struct: mod_gl_utils_rect_array_s
 
  -- member of mod_gl_utils_rect_array_s: tile_size
           int mod_gl_utils_rect_array_s::tile_size
@@ -1454,7 +1454,7 @@ game_bitmap_array_update_rounds
           int mod_gl_utils_rect_array_s::source_h
 
 
- -- struct: mod_gl_utils_render_param_s
+ -- Struct: mod_gl_utils_render_param_s
 
  -- member of mod_gl_utils_render_param_s: mode
           mod_gl_utils_render_mode_t mod_gl_utils_render_param_s::mode
@@ -1464,7 +1464,7 @@ game_bitmap_array_update_rounds
           int mod_gl_utils_render_param_s::gfx_quality
 
 
- -- struct: mod_gl_utils_shaded_text_s
+ -- Struct: mod_gl_utils_shaded_text_s
 
  -- member of mod_gl_utils_shaded_text_s: font
           TTF_Font* mod_gl_utils_shaded_text_s::font
@@ -1494,7 +1494,7 @@ game_bitmap_array_update_rounds
           int mod_gl_utils_shaded_text_s::texture_h
 
 
- -- struct: mod_gl_utils_team_color_map_s
+ -- Struct: mod_gl_utils_team_color_map_s
 
  -- member of mod_gl_utils_team_color_map_s: team_colors_f
           lw6sys_color_f_t mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]
@@ -1504,7 +1504,7 @@ game_bitmap_array_update_rounds
           Uint32 mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]
 
 
- -- struct: mod_gl_utils_texture_1x1_s
+ -- Struct: mod_gl_utils_texture_1x1_s
 
  -- member of mod_gl_utils_texture_1x1_s: color_base_fg
           mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_fg
@@ -1614,13 +1614,13 @@ game_bitmap_array_update_rounds
           mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]
 
 
- -- struct: mod_gl_utils_texture_data_s
+ -- Struct: mod_gl_utils_texture_data_s
 
  -- member of mod_gl_utils_texture_data_s: to_delete
           lw6sys_list_t* mod_gl_utils_texture_data_s::to_delete
 
 
- -- struct: mod_gl_utils_timer_s
+ -- Struct: mod_gl_utils_timer_s
 
  -- member of mod_gl_utils_timer_s: timestamp
           int64_t mod_gl_utils_timer_s::timestamp
@@ -1638,7 +1638,7 @@ game_bitmap_array_update_rounds
           int64_t mod_gl_utils_timer_s::bitmap_refresh
 
 
- -- struct: mod_gl_view_backend_s
+ -- Struct: mod_gl_view_backend_s
 
  -- member of mod_gl_view_backend_s: view_context
           void* mod_gl_view_backend_s::view_context
@@ -3314,7 +3314,7 @@ results on
 
      *Return value:*  none.
 
- -- struct: lw6gui_button_s
+ -- Struct: lw6gui_button_s
 
  -- member of lw6gui_button_s: is_pressed
           int lw6gui_button_s::is_pressed
@@ -3356,7 +3356,7 @@ results on
           int64_t lw6gui_button_s::double_click_t3
 
 
- -- struct: lw6gui_fullscreen_modes_s
+ -- Struct: lw6gui_fullscreen_modes_s
 
  -- member of lw6gui_fullscreen_modes_s: low
           lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low
@@ -3370,7 +3370,7 @@ results on
           lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
 
 
- -- struct: lw6gui_input_s
+ -- Struct: lw6gui_input_s
 
  -- member of lw6gui_input_s: need_sync
           int lw6gui_input_s::need_sync
@@ -3388,7 +3388,7 @@ results on
           lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
 
 
- -- struct: lw6gui_joystick_s
+ -- Struct: lw6gui_joystick_s
 
  -- member of lw6gui_joystick_s: pad_up
           lw6gui_button_t lw6gui_joystick_s::pad_up
@@ -3430,7 +3430,7 @@ results on
           lw6gui_button_t lw6gui_joystick_s::button_f
 
 
- -- struct: lw6gui_keyboard_s
+ -- Struct: lw6gui_keyboard_s
 
  -- member of lw6gui_keyboard_s: arrow_up
           lw6gui_button_t lw6gui_keyboard_s::arrow_up
@@ -3480,7 +3480,7 @@ results on
           lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
 
 
- -- struct: lw6gui_keypress_s
+ -- Struct: lw6gui_keypress_s
 
  -- member of lw6gui_keypress_s: keysym
           int lw6gui_keypress_s::keysym
@@ -3494,7 +3494,7 @@ results on
           char* lw6gui_keypress_s::label
 
 
- -- struct: lw6gui_look_s
+ -- Struct: lw6gui_look_s
 
  -- member of lw6gui_look_s: id
           u_int32_t lw6gui_look_s::id
@@ -3512,7 +3512,7 @@ results on
           lw6map_style_t lw6gui_look_s::style
 
 
- -- struct: lw6gui_menuitem_s
+ -- Struct: lw6gui_menuitem_s
 
  -- member of lw6gui_menuitem_s: id
           u_int32_t lw6gui_menuitem_s::id
@@ -3554,7 +3554,7 @@ results on
           int lw6gui_menuitem_s::last_unselect
 
 
- -- struct: lw6gui_menu_s
+ -- Struct: lw6gui_menu_s
 
  -- member of lw6gui_menu_s: id
           u_int32_t lw6gui_menu_s::id
@@ -3608,7 +3608,7 @@ results on
           lw6sys_list_t* lw6gui_menu_s::breadcrumbs
 
 
- -- struct: lw6gui_mouse_pointer_s
+ -- Struct: lw6gui_mouse_pointer_s
 
  -- member of lw6gui_mouse_pointer_s: pos_x
           int lw6gui_mouse_pointer_s::pos_x
@@ -3626,7 +3626,7 @@ results on
           int lw6gui_mouse_pointer_s::speed_y
 
 
- -- struct: lw6gui_mouse_s
+ -- Struct: lw6gui_mouse_s
 
  -- member of lw6gui_mouse_s: moved
           int lw6gui_mouse_s::moved
@@ -3684,7 +3684,7 @@ results on
           lw6gui_button_t lw6gui_mouse_s::wheel_down
 
 
- -- struct: lw6gui_move_pad_s
+ -- Struct: lw6gui_move_pad_s
 
  -- member of lw6gui_move_pad_s: up
           int lw6gui_move_pad_s::up
@@ -3702,7 +3702,7 @@ results on
           int lw6gui_move_pad_s::right
 
 
- -- struct: lw6gui_point_s
+ -- Struct: lw6gui_point_s
 
  -- member of lw6gui_point_s: x
           float lw6gui_point_s::x
@@ -3716,7 +3716,7 @@ results on
           float lw6gui_point_s::z
 
 
- -- struct: lw6gui_quad_s
+ -- Struct: lw6gui_quad_s
 
  -- member of lw6gui_quad_s: p1
           lw6gui_point_t lw6gui_quad_s::p1
@@ -3734,7 +3734,7 @@ results on
           lw6gui_point_t lw6gui_quad_s::p4
 
 
- -- struct: lw6gui_rect_array_s
+ -- Struct: lw6gui_rect_array_s
 
  -- member of lw6gui_rect_array_s: source
           lw6sys_whd_t lw6gui_rect_array_s::source
@@ -3768,7 +3768,7 @@ results on
           int lw6gui_rect_array_s::nb_tiles
 
 
- -- struct: lw6gui_rect_s
+ -- Struct: lw6gui_rect_s
 
  -- member of lw6gui_rect_s: x1
           int lw6gui_rect_s::x1
@@ -3794,7 +3794,7 @@ results on
           int lw6gui_rect_s::h
 
 
- -- struct: lw6gui_repeat_settings_s
+ -- Struct: lw6gui_repeat_settings_s
 
  -- member of lw6gui_repeat_settings_s: delay
           int lw6gui_repeat_settings_s::delay
@@ -3808,7 +3808,7 @@ results on
           int lw6gui_repeat_settings_s::double_click_delay
 
 
- -- struct: lw6gui_segment_s
+ -- Struct: lw6gui_segment_s
 
  -- member of lw6gui_segment_s: p1
           lw6gui_point_t lw6gui_segment_s::p1
@@ -3818,7 +3818,7 @@ results on
           lw6gui_point_t lw6gui_segment_s::p2
 
 
- -- struct: lw6gui_smoother_s
+ -- Struct: lw6gui_smoother_s
 
  -- member of lw6gui_smoother_s: s1
           float lw6gui_smoother_s::s1
@@ -3840,7 +3840,7 @@ results on
           int lw6gui_smoother_s::duration
 
 
- -- struct: lw6gui_triangle_s
+ -- Struct: lw6gui_triangle_s
 
  -- member of lw6gui_triangle_s: p1
           lw6gui_point_t lw6gui_triangle_s::p1
@@ -3854,7 +3854,7 @@ results on
           lw6gui_point_t lw6gui_triangle_s::p3
 
 
- -- struct: lw6gui_video_mode_s
+ -- Struct: lw6gui_video_mode_s
 
  -- member of lw6gui_video_mode_s: width
           int lw6gui_video_mode_s::width
@@ -3868,7 +3868,7 @@ results on
           int lw6gui_video_mode_s::fullscreen
 
 
- -- struct: lw6gui_viewport_s
+ -- Struct: lw6gui_viewport_s
 
  -- member of lw6gui_viewport_s: map_shape
           lw6sys_whd_t lw6gui_viewport_s::map_shape
@@ -3934,7 +3934,7 @@ results on
           lw6gui_zone_t lw6gui_viewport_s::map_visible
 
 
- -- struct: lw6gui_zone_s
+ -- Struct: lw6gui_zone_s
 
  -- member of lw6gui_zone_s: x1
           float lw6gui_zone_s::x1
@@ -4278,7 +4278,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6img_jpeg_s
+ -- Struct: lw6img_jpeg_s
 
  -- member of lw6img_jpeg_s: id
           u_int32_t lw6img_jpeg_s::id
@@ -5290,7 +5290,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6ker_cursor_control_s
+ -- Struct: lw6ker_cursor_control_s
 
  -- member of lw6ker_cursor_control_s: pos
           lw6sys_xyz_t lw6ker_cursor_control_s::pos
@@ -5304,7 +5304,7 @@ results on
           int lw6ker_cursor_control_s::fire2
 
 
- -- struct: lw6ker_cursor_s
+ -- Struct: lw6ker_cursor_s
 
  -- member of lw6ker_cursor_s: node_id
           u_int64_t lw6ker_cursor_s::node_id
@@ -5346,7 +5346,7 @@ results on
           int32_t lw6ker_cursor_s::pot_offset
 
 
- -- struct: lw6ker_fighter_s
+ -- Struct: lw6ker_fighter_s
 
  -- member of lw6ker_fighter_s: team_color
           u_int32_t lw6ker_fighter_s::team_color
@@ -5372,7 +5372,7 @@ results on
           lw6sys_xyz_t lw6ker_fighter_s::pos
 
 
- -- struct: lw6ker_game_state_s
+ -- Struct: lw6ker_game_state_s
      Game structure containing all changeable data state, this will
      hold the fighter positions, their health, the cursors position,
      the gradient, anything that is dynamic. Note that this structure
@@ -5392,7 +5392,7 @@ results on
      Pointer on the game non-mutable structure, which holds the data
      that is never changed within a game.
 
- -- struct: lw6ker_game_struct_s
+ -- Struct: lw6ker_game_struct_s
 
  -- member of lw6ker_game_struct_s: id
           u_int32_t lw6ker_game_struct_s::id
@@ -5406,7 +5406,7 @@ results on
           lw6map_rules_t lw6ker_game_struct_s::rules
 
 
- -- struct: lw6ker_score_array_s
+ -- Struct: lw6ker_score_array_s
 
  -- member of lw6ker_score_array_s: active_fighters
           int lw6ker_score_array_s::active_fighters
@@ -5420,7 +5420,7 @@ results on
           lw6ker_score_t lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]
 
 
- -- struct: lw6ker_score_s
+ -- Struct: lw6ker_score_s
 
  -- member of lw6ker_score_s: has_been_active
           int lw6ker_score_s::has_been_active
@@ -6186,7 +6186,7 @@ results on
 
      *Return value:*  1 if success, 0 if failed.
 
- -- struct: lw6ldr_entry_s
+ -- Struct: lw6ldr_entry_s
 
  -- member of lw6ldr_entry_s: metadata
           lw6map_metadata_t lw6ldr_entry_s::metadata
@@ -6212,7 +6212,7 @@ results on
           int lw6ldr_entry_s::forbidden
 
 
- -- struct: lw6ldr_hints_s
+ -- Struct: lw6ldr_hints_s
 
  -- member of lw6ldr_hints_s: resample
           int lw6ldr_hints_s::resample
@@ -6298,7 +6298,7 @@ results on
           float lw6ldr_hints_s::speed
 
 
- -- struct: lw6ldr_resampler_s
+ -- Struct: lw6ldr_resampler_s
 
  -- member of lw6ldr_resampler_s: target_w
           int lw6ldr_resampler_s::target_w
@@ -6324,7 +6324,7 @@ results on
           float lw6ldr_resampler_s::scale_y
 
 
- -- struct: lw6ldr_use_s
+ -- Struct: lw6ldr_use_s
 
  -- member of lw6ldr_use_s: use_texture
           int lw6ldr_use_s::use_texture
@@ -7285,7 +7285,7 @@ results on
 
      *Return value:*  a string, must *not* be freed.
 
- -- struct: lw6map_body_s
+ -- Struct: lw6map_body_s
 
  -- member of lw6map_body_s: checksum
           int lw6map_body_s::checksum
@@ -7331,7 +7331,7 @@ results on
           lw6map_meta_layer_t lw6map_body_s::one_way_west
 
 
- -- struct: lw6map_bot_info_s
+ -- Struct: lw6map_bot_info_s
 
  -- member of lw6map_bot_info_s: color
           int lw6map_bot_info_s::color
@@ -7341,7 +7341,7 @@ results on
           char* lw6map_bot_info_s::ai
 
 
- -- struct: lw6map_color_couple_s
+ -- Struct: lw6map_color_couple_s
 
  -- member of lw6map_color_couple_s: fg
           lw6sys_color_8_t lw6map_color_couple_s::fg
@@ -7351,7 +7351,7 @@ results on
           lw6sys_color_8_t lw6map_color_couple_s::bg
 
 
- -- struct: lw6map_color_set_s
+ -- Struct: lw6map_color_set_s
 
  -- member of lw6map_color_set_s: color_base
           lw6map_color_couple_t lw6map_color_set_s::color_base
@@ -7409,13 +7409,13 @@ results on
           lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]
 
 
- -- struct: lw6map_cursor_texture_layer_s
+ -- Struct: lw6map_cursor_texture_layer_s
 
  -- member of lw6map_cursor_texture_layer_s: data
           lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]
 
 
- -- struct: lw6map_cursor_texture_s
+ -- Struct: lw6map_cursor_texture_s
 
  -- member of lw6map_cursor_texture_s: fg_bg_layer
           lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::fg_bg_layer
@@ -7425,7 +7425,7 @@ results on
           lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer
 
 
- -- struct: lw6map_layer_s
+ -- Struct: lw6map_layer_s
 
  -- member of lw6map_layer_s: shape
           lw6sys_whd_t lw6map_layer_s::shape
@@ -7435,7 +7435,7 @@ results on
           u_int8_t* lw6map_layer_s::data
 
 
- -- struct: lw6map_level_s
+ -- Struct: lw6map_level_s
 
  -- member of lw6map_level_s: id
           u_int32_t lw6map_level_s::id
@@ -7465,13 +7465,13 @@ results on
           lw6map_param_t lw6map_level_s::param
 
 
- -- struct: lw6map_local_info_s
+ -- Struct: lw6map_local_info_s
 
  -- member of lw6map_local_info_s: music_dir
           char* lw6map_local_info_s::music_dir
 
 
- -- struct: lw6map_metadata_s
+ -- Struct: lw6map_metadata_s
 
  -- member of lw6map_metadata_s: title
           char* lw6map_metadata_s::title
@@ -7493,7 +7493,7 @@ results on
           int lw6map_metadata_s::vanilla_exp
 
 
- -- struct: lw6map_meta_layer_s
+ -- Struct: lw6map_meta_layer_s
 
  -- member of lw6map_meta_layer_s: shape
           lw6sys_whd_t lw6map_meta_layer_s::shape
@@ -7503,7 +7503,7 @@ results on
           u_int8_t* lw6map_meta_layer_s::data
 
 
- -- struct: lw6map_param_s
+ -- Struct: lw6map_param_s
 
  -- member of lw6map_param_s: rules
           lw6map_rules_t lw6map_param_s::rules
@@ -7517,7 +7517,7 @@ results on
           lw6map_teams_t lw6map_param_s::teams
 
 
- -- struct: lw6map_rules_s
+ -- Struct: lw6map_rules_s
 
  -- member of lw6map_rules_s: total_time
           int32_t lw6map_rules_s::total_time
@@ -7759,7 +7759,7 @@ results on
           int32_t lw6map_rules_s::weapon_tune_turbo_power
 
 
- -- struct: lw6map_style_s
+ -- Struct: lw6map_style_s
 
  -- member of lw6map_style_s: keep_ratio
           int lw6map_style_s::keep_ratio
@@ -7853,7 +7853,7 @@ results on
           int lw6map_style_s::waves
 
 
- -- struct: lw6map_teams_s
+ -- Struct: lw6map_teams_s
 
  -- member of lw6map_teams_s: player_color
           int lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]
@@ -7875,7 +7875,7 @@ results on
           lw6map_bot_info_t lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]
 
 
- -- struct: lw6map_texture_s
+ -- Struct: lw6map_texture_s
 
  -- member of lw6map_texture_s: w
           int lw6map_texture_s::w
@@ -8480,7 +8480,7 @@ results on
      *Return value:*  newly allocated string, 0 terminated, NULL on
      error.
 
- -- struct: lw6msg_word_s
+ -- Struct: lw6msg_word_s
 
  -- member of lw6msg_word_s: len
           int lw6msg_word_s::len
@@ -9086,7 +9086,7 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6nod_const_info_s
+ -- Struct: lw6nod_const_info_s
 
  -- member of lw6nod_const_info_s: program
           char* lw6nod_const_info_s::program
@@ -9152,7 +9152,7 @@ results on
           void* lw6nod_const_info_s::idle_screenshot_data
 
 
- -- struct: lw6nod_dyn_info_s
+ -- Struct: lw6nod_dyn_info_s
 
  -- member of lw6nod_dyn_info_s: community_id_int
           u_int64_t lw6nod_dyn_info_s::community_id_int
@@ -9206,7 +9206,7 @@ results on
           void* lw6nod_dyn_info_s::game_screenshot_data
 
 
- -- struct: lw6nod_info_s
+ -- Struct: lw6nod_info_s
 
  -- member of lw6nod_info_s: mutex
           void* lw6nod_info_s::mutex
@@ -9573,13 +9573,13 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
- -- struct: lw6p2p_db_s
+ -- Struct: lw6p2p_db_s
 
  -- member of lw6p2p_db_s: id
           u_int32_t lw6p2p_db_s::id
 
 
- -- struct: lw6p2p_entry_s
+ -- Struct: lw6p2p_entry_s
 
  -- member of lw6p2p_entry_s: creation_timestamp
           int lw6p2p_entry_s::creation_timestamp
@@ -9685,7 +9685,7 @@ results on
           int lw6p2p_entry_s::available
 
 
- -- struct: lw6p2p_node_s
+ -- Struct: lw6p2p_node_s
 
  -- member of lw6p2p_node_s: id
           u_int32_t lw6p2p_node_s::id

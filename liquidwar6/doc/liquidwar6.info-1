@@ -2417,56 +2417,56 @@ big picture is here. Each module is testable separately.
    Below is a Graphviz (http://www.graphviz.org/) diagram, which shows
 the modules dependencies.
 
- [image src="deps.png" alt="Diagram showing modules and libraries dependencies" text="digraph g {
-	node [label=\"\\N\"];
+digraph g {
+	node [label="\N"];
 	subgraph cluster_bot {
-		graph [label=\"bot backends\"];
-		\"mod-brute\" [shape=hexagon];
-		\"mod-follow\" [shape=hexagon];
-		\"mod-idiot\" [shape=hexagon];
-		\"mod-random\" [shape=hexagon];
-		bot -> \"mod-brute\" [dir=both];
-		bot -> \"mod-follow\" [dir=both];
-		bot -> \"mod-idiot\" [dir=both];
-		bot -> \"mod-random\" [dir=both];
+		graph [label="bot backends"];
+		"mod-brute" [shape=hexagon];
+		"mod-follow" [shape=hexagon];
+		"mod-idiot" [shape=hexagon];
+		"mod-random" [shape=hexagon];
+		bot -> "mod-brute" [dir=both];
+		bot -> "mod-follow" [dir=both];
+		bot -> "mod-idiot" [dir=both];
+		bot -> "mod-random" [dir=both];
 	}
 	subgraph cluster_cli {
-		graph [label=\"cli backends\"];
-		\"mod-tcp\" [shape=hexagon];
-		\"mod-udp\" [shape=hexagon];
-		\"mod-http\" [shape=hexagon];
-		cli -> \"mod-tcp\" [dir=both];
-		cli -> \"mod-udp\" [dir=both];
-		cli -> \"mod-http\" [dir=both];
+		graph [label="cli backends"];
+		"mod-tcp" [shape=hexagon];
+		"mod-udp" [shape=hexagon];
+		"mod-http" [shape=hexagon];
+		cli -> "mod-tcp" [dir=both];
+		cli -> "mod-udp" [dir=both];
+		cli -> "mod-http" [dir=both];
 	}
 	subgraph cluster_gfx {
-		graph [label=\"gfx backends\"];
-		\"mod-gl\" [style=filled, fillcolor=lightgrey, shape=hexagon];
-		gfx -> \"mod-gl\" [dir=both];
+		graph [label="gfx backends"];
+		"mod-gl" [style=filled, fillcolor=lightgrey, shape=hexagon];
+		gfx -> "mod-gl" [dir=both];
 	}
 	subgraph cluster_snd {
-		graph [label=\"snd backends\"];
-		\"mod-ogg\" [shape=hexagon];
-		\"mod-csound\" [shape=hexagon];
-		snd -> \"mod-ogg\" [dir=both];
-		snd -> \"mod-csound\" [dir=both];
+		graph [label="snd backends"];
+		"mod-ogg" [shape=hexagon];
+		"mod-csound" [shape=hexagon];
+		snd -> "mod-ogg" [dir=both];
+		snd -> "mod-csound" [dir=both];
 	}
 	subgraph cluster_srv {
-		graph [label=\"srv backends\"];
-		\"mod-tcpd\" [shape=hexagon];
-		\"mod-udpd\" [shape=hexagon];
-		\"mod-httpd\" [shape=hexagon];
-		srv -> \"mod-tcpd\" [dir=both];
-		srv -> \"mod-udpd\" [dir=both];
-		srv -> \"mod-httpd\" [dir=both];
+		graph [label="srv backends"];
+		"mod-tcpd" [shape=hexagon];
+		"mod-udpd" [shape=hexagon];
+		"mod-httpd" [shape=hexagon];
+		srv -> "mod-tcpd" [dir=both];
+		srv -> "mod-udpd" [dir=both];
+		srv -> "mod-httpd" [dir=both];
 	}
 	subgraph cluster_script {
-		graph [label=\"Guile scripts\"];
+		graph [label="Guile scripts"];
 		script [style=filled, fillcolor=lightgrey, shape=triangle];
 		scm -> script;
 	}
 	subgraph cluster_ext {
-		graph [label=\"external libraries\",
+		graph [label="external libraries",
 			color=grey,
 			fontcolor=grey];
 		expat [color=grey, fontcolor=grey];
@@ -2503,7 +2503,7 @@ the modules dependencies.
 	cli -> dyn;
 	cli -> msg;
 	cli -> net;
-	\"mod-http\" -> curl;
+	"mod-http" -> curl;
 	cns -> sys;
 	cnx -> glb;
 	cns -> readline;
@@ -2514,10 +2514,10 @@ the modules dependencies.
 	gfx -> dyn;
 	gfx -> vox;
 	gfx -> pil;
-	\"mod-gl\" -> SDL;
-	\"mod-gl\" -> GL;
-	\"mod-gl\" -> SDL_image;
-	\"mod-gl\" -> SDL_ttf;
+	"mod-gl" -> SDL;
+	"mod-gl" -> GL;
+	"mod-gl" -> SDL_image;
+	"mod-gl" -> SDL_ttf;
 	glb -> sys;
 	glb -> gnulib;
 	gui -> map;
@@ -2548,9 +2548,9 @@ the modules dependencies.
 	sim -> bot;
 	snd -> dyn;
 	snd -> cfg;
-	\"mod-ogg\" -> SDL;
-	\"mod-ogg\" -> SDL_mixer;
-	\"mod-csound\" -> csound;
+	"mod-ogg" -> SDL;
+	"mod-ogg" -> SDL_mixer;
+	"mod-csound" -> csound;
 	srv -> dyn;
 	srv -> msg;
 	srv -> net;
@@ -2575,7 +2575,6 @@ the modules dependencies.
 	SDL_ttf -> data;
 	SDL_mixer -> data;
 }
-" ]
 
 3.4 Memory structures
 =====================

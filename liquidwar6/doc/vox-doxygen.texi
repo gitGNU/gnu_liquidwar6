@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6vox_renderer_s
+@deftp {Struct} {lw6vox_renderer_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6vox_renderer_s {dummy}
+@defcv {member} {lw6vox_renderer_s} {dummy}
 @example
 int lw6vox_renderer_s::dummy
 @end example

@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6bot_backend_s
+@deftp {Struct} {lw6bot_backend_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6bot_backend_s {dl_handle}
+@defcv {member} {lw6bot_backend_s} {dl_handle}
 @example
 lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle
 @end example
@@ -14,7 +15,7 @@ lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {bot_context}
+@defcv {member} {lw6bot_backend_s} {bot_context}
 @example
 void* lw6bot_backend_s::bot_context
 @end example
@@ -23,7 +24,7 @@ void* lw6bot_backend_s::bot_context
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {argc}
+@defcv {member} {lw6bot_backend_s} {argc}
 @example
 int lw6bot_backend_s::argc
 @end example
@@ -32,7 +33,7 @@ int lw6bot_backend_s::argc
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {argv}
+@defcv {member} {lw6bot_backend_s} {argv}
 @example
 const char** lw6bot_backend_s::argv
 @end example
@@ -41,7 +42,7 @@ const char** lw6bot_backend_s::argv
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {id}
+@defcv {member} {lw6bot_backend_s} {id}
 @example
 u_int32_t lw6bot_backend_s::id
 @end example
@@ -50,7 +51,7 @@ u_int32_t lw6bot_backend_s::id
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {seed}
+@defcv {member} {lw6bot_backend_s} {seed}
 @example
 lw6bot_seed_t lw6bot_backend_s::seed
 @end example
@@ -59,7 +60,7 @@ lw6bot_seed_t lw6bot_backend_s::seed
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {init}
+@defcv {member} {lw6bot_backend_s} {init}
 @example
 void*(* lw6bot_backend_s::init)(int argc, const char *argv[], lw6bot_data_t *data)
 @end example
@@ -68,7 +69,7 @@ void*(* lw6bot_backend_s::init)(int argc, const char *argv[], lw6bot_data_t *dat
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {quit}
+@defcv {member} {lw6bot_backend_s} {quit}
 @example
 void(* lw6bot_backend_s::quit)(void *bot_context)
 @end example
@@ -77,7 +78,7 @@ void(* lw6bot_backend_s::quit)(void *bot_context)
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {next_move}
+@defcv {member} {lw6bot_backend_s} {next_move}
 @example
 int(* lw6bot_backend_s::next_move)(void *bot_context, int *x, int *y, lw6bot_data_t *data)
 @end example
@@ -86,7 +87,7 @@ int(* lw6bot_backend_s::next_move)(void *bot_context, int *x, int *y, lw6bot_dat
         
 @end defcv
 
-@defcv {member} lw6bot_backend_s {repr}
+@defcv {member} {lw6bot_backend_s} {repr}
 @example
 char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)
 @end example
@@ -98,12 +99,13 @@ char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)
 
 
   
-@deftp struct lw6bot_data_s
+@deftp {Struct} {lw6bot_data_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6bot_data_s {game_state}
+@defcv {member} {lw6bot_data_s} {game_state}
 @example
 lw6ker_game_state_t* lw6bot_data_s::game_state
 @end example
@@ -112,7 +114,7 @@ lw6ker_game_state_t* lw6bot_data_s::game_state
         
 @end defcv
 
-@defcv {member} lw6bot_data_s {param}
+@defcv {member} {lw6bot_data_s} {param}
 @example
 lw6bot_param_t lw6bot_data_s::param
 @end example
@@ -124,47 +126,49 @@ lw6bot_param_t lw6bot_data_s::param
 
 
   
-@deftp struct lw6bot_param_s
+@deftp {Struct} {lw6bot_param_s}
+
     
-    
+Parameters usable by a bot engine. Those are the stable, fixed parameters passed at bot creation, they don't change during the bot life.     
 @end deftp
 
-@defcv {member} lw6bot_param_s {speed}
+@defcv {member} {lw6bot_param_s} {speed}
 @example
 float lw6bot_param_s::speed
 @end example
 
         
-        
+Speed of the bot, this is a value between 0.0f and 1.0f, 1 means normal speed, 0 is as slow as possible. Values over 1 will make the bot act/move faster than usual.         
 @end defcv
 
-@defcv {member} lw6bot_param_s {iq}
+@defcv {member} {lw6bot_param_s} {iq}
 @example
 int lw6bot_param_s::iq
 @end example
 
         
-        
+IQ is supposed to reflect the cleverness of the bot. The default is 100 (this value is basically a percentage), 0 means just so stupid, and a high value, for instance 200, means very clever.         
 @end defcv
 
-@defcv {member} lw6bot_param_s {cursor_id}
+@defcv {member} {lw6bot_param_s} {cursor_id}
 @example
 u_int16_t lw6bot_param_s::cursor_id
 @end example
 
         
-        
+The cursor ID, which is a 16-bit non-null integer.         
 @end defcv
 
 
 
   
-@deftp struct lw6bot_seed_s
+@deftp {Struct} {lw6bot_seed_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6bot_seed_s {game_state}
+@defcv {member} {lw6bot_seed_s} {game_state}
 @example
 lw6ker_game_state_t* lw6bot_seed_s::game_state
 @end example
@@ -173,7 +177,7 @@ lw6ker_game_state_t* lw6bot_seed_s::game_state
         
 @end defcv
 
-@defcv {member} lw6bot_seed_s {pilot}
+@defcv {member} {lw6bot_seed_s} {pilot}
 @example
 lw6pil_pilot_t* lw6bot_seed_s::pilot
 @end example
@@ -182,7 +186,7 @@ lw6pil_pilot_t* lw6bot_seed_s::pilot
         
 @end defcv
 
-@defcv {member} lw6bot_seed_s {dirty_read}
+@defcv {member} {lw6bot_seed_s} {dirty_read}
 @example
 int lw6bot_seed_s::dirty_read
 @end example
@@ -191,7 +195,7 @@ int lw6bot_seed_s::dirty_read
         
 @end defcv
 
-@defcv {member} lw6bot_seed_s {param}
+@defcv {member} {lw6bot_seed_s} {param}
 @example
 lw6bot_param_t lw6bot_seed_s::param
 @end example

@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6cnx_connection_s
+@deftp {Struct} {lw6cnx_connection_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cnx_connection_s {local_url}
+@defcv {member} {lw6cnx_connection_s} {local_url}
 @example
 char* lw6cnx_connection_s::local_url
 @end example
@@ -14,7 +15,7 @@ char* lw6cnx_connection_s::local_url
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {remote_url}
+@defcv {member} {lw6cnx_connection_s} {remote_url}
 @example
 char* lw6cnx_connection_s::remote_url
 @end example
@@ -23,7 +24,7 @@ char* lw6cnx_connection_s::remote_url
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {remote_ip}
+@defcv {member} {lw6cnx_connection_s} {remote_ip}
 @example
 char* lw6cnx_connection_s::remote_ip
 @end example
@@ -32,7 +33,7 @@ char* lw6cnx_connection_s::remote_ip
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {remote_port}
+@defcv {member} {lw6cnx_connection_s} {remote_port}
 @example
 int lw6cnx_connection_s::remote_port
 @end example
@@ -41,7 +42,7 @@ int lw6cnx_connection_s::remote_port
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {password}
+@defcv {member} {lw6cnx_connection_s} {password}
 @example
 char* lw6cnx_connection_s::password
 @end example
@@ -50,7 +51,7 @@ char* lw6cnx_connection_s::password
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {password_send_checksum}
+@defcv {member} {lw6cnx_connection_s} {password_send_checksum}
 @example
 char* lw6cnx_connection_s::password_send_checksum
 @end example
@@ -59,7 +60,7 @@ char* lw6cnx_connection_s::password_send_checksum
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {local_id_int}
+@defcv {member} {lw6cnx_connection_s} {local_id_int}
 @example
 int64_t lw6cnx_connection_s::local_id_int
 @end example
@@ -68,7 +69,7 @@ int64_t lw6cnx_connection_s::local_id_int
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {local_id_str}
+@defcv {member} {lw6cnx_connection_s} {local_id_str}
 @example
 char* lw6cnx_connection_s::local_id_str
 @end example
@@ -77,7 +78,7 @@ char* lw6cnx_connection_s::local_id_str
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {remote_id_int}
+@defcv {member} {lw6cnx_connection_s} {remote_id_int}
 @example
 int64_t lw6cnx_connection_s::remote_id_int
 @end example
@@ -86,7 +87,7 @@ int64_t lw6cnx_connection_s::remote_id_int
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {remote_id_str}
+@defcv {member} {lw6cnx_connection_s} {remote_id_str}
 @example
 char* lw6cnx_connection_s::remote_id_str
 @end example
@@ -95,7 +96,7 @@ char* lw6cnx_connection_s::remote_id_str
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {dns_ok}
+@defcv {member} {lw6cnx_connection_s} {dns_ok}
 @example
 int lw6cnx_connection_s::dns_ok
 @end example
@@ -104,7 +105,7 @@ int lw6cnx_connection_s::dns_ok
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {network_reliability}
+@defcv {member} {lw6cnx_connection_s} {network_reliability}
 @example
 int lw6cnx_connection_s::network_reliability
 @end example
@@ -113,7 +114,7 @@ int lw6cnx_connection_s::network_reliability
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {recv_callback_func}
+@defcv {member} {lw6cnx_connection_s} {recv_callback_func}
 @example
 lw6cnx_recv_callback_t lw6cnx_connection_s::recv_callback_func
 @end example
@@ -122,7 +123,7 @@ lw6cnx_recv_callback_t lw6cnx_connection_s::recv_callback_func
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {recv_callback_data}
+@defcv {member} {lw6cnx_connection_s} {recv_callback_data}
 @example
 void* lw6cnx_connection_s::recv_callback_data
 @end example
@@ -131,7 +132,7 @@ void* lw6cnx_connection_s::recv_callback_data
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {send_mutex}
+@defcv {member} {lw6cnx_connection_s} {send_mutex}
 @example
 void* lw6cnx_connection_s::send_mutex
 @end example
@@ -140,7 +141,7 @@ void* lw6cnx_connection_s::send_mutex
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {foo_bar_key}
+@defcv {member} {lw6cnx_connection_s} {foo_bar_key}
 @example
 u_int32_t lw6cnx_connection_s::foo_bar_key
 @end example
@@ -149,7 +150,7 @@ u_int32_t lw6cnx_connection_s::foo_bar_key
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {last_send_foo_timestamp}
+@defcv {member} {lw6cnx_connection_s} {last_send_foo_timestamp}
 @example
 int64_t lw6cnx_connection_s::last_send_foo_timestamp
 @end example
@@ -158,7 +159,7 @@ int64_t lw6cnx_connection_s::last_send_foo_timestamp
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {next_send_foo_timestamp}
+@defcv {member} {lw6cnx_connection_s} {next_send_foo_timestamp}
 @example
 int64_t lw6cnx_connection_s::next_send_foo_timestamp
 @end example
@@ -167,7 +168,7 @@ int64_t lw6cnx_connection_s::next_send_foo_timestamp
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {ping_msec}
+@defcv {member} {lw6cnx_connection_s} {ping_msec}
 @example
 int lw6cnx_connection_s::ping_msec
 @end example
@@ -176,7 +177,7 @@ int lw6cnx_connection_s::ping_msec
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {last_recv_timestamp}
+@defcv {member} {lw6cnx_connection_s} {last_recv_timestamp}
 @example
 int64_t lw6cnx_connection_s::last_recv_timestamp
 @end example
@@ -185,7 +186,7 @@ int64_t lw6cnx_connection_s::last_recv_timestamp
         
 @end defcv
 
-@defcv {member} lw6cnx_connection_s {backend_specific_data}
+@defcv {member} {lw6cnx_connection_s} {backend_specific_data}
 @example
 void* lw6cnx_connection_s::backend_specific_data
 @end example
@@ -197,12 +198,13 @@ void* lw6cnx_connection_s::backend_specific_data
 
 
   
-@deftp struct lw6cnx_send_param_s
+@deftp {Struct} {lw6cnx_send_param_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cnx_send_param_s {physical_ticket_sig}
+@defcv {member} {lw6cnx_send_param_s} {physical_ticket_sig}
 @example
 u_int32_t lw6cnx_send_param_s::physical_ticket_sig
 @end example
@@ -211,7 +213,7 @@ u_int32_t lw6cnx_send_param_s::physical_ticket_sig
         
 @end defcv
 
-@defcv {member} lw6cnx_send_param_s {logical_ticket_sig}
+@defcv {member} {lw6cnx_send_param_s} {logical_ticket_sig}
 @example
 u_int32_t lw6cnx_send_param_s::logical_ticket_sig
 @end example
@@ -220,7 +222,7 @@ u_int32_t lw6cnx_send_param_s::logical_ticket_sig
         
 @end defcv
 
-@defcv {member} lw6cnx_send_param_s {logical_from_id}
+@defcv {member} {lw6cnx_send_param_s} {logical_from_id}
 @example
 u_int64_t lw6cnx_send_param_s::logical_from_id
 @end example
@@ -229,7 +231,7 @@ u_int64_t lw6cnx_send_param_s::logical_from_id
         
 @end defcv
 
-@defcv {member} lw6cnx_send_param_s {logical_to_id}
+@defcv {member} {lw6cnx_send_param_s} {logical_to_id}
 @example
 u_int64_t lw6cnx_send_param_s::logical_to_id
 @end example
@@ -238,7 +240,7 @@ u_int64_t lw6cnx_send_param_s::logical_to_id
         
 @end defcv
 
-@defcv {member} lw6cnx_send_param_s {message}
+@defcv {member} {lw6cnx_send_param_s} {message}
 @example
 char* lw6cnx_send_param_s::message
 @end example
@@ -250,12 +252,13 @@ char* lw6cnx_send_param_s::message
 
 
   
-@deftp struct lw6cnx_ticket_table_s
+@deftp {Struct} {lw6cnx_ticket_table_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6cnx_ticket_table_s {recv_spinlock}
+@defcv {member} {lw6cnx_ticket_table_s} {recv_spinlock}
 @example
 void* lw6cnx_ticket_table_s::recv_spinlock
 @end example
@@ -264,7 +267,7 @@ void* lw6cnx_ticket_table_s::recv_spinlock
         
 @end defcv
 
-@defcv {member} lw6cnx_ticket_table_s {recv_ack_spinlock}
+@defcv {member} {lw6cnx_ticket_table_s} {recv_ack_spinlock}
 @example
 void* lw6cnx_ticket_table_s::recv_ack_spinlock
 @end example
@@ -273,7 +276,7 @@ void* lw6cnx_ticket_table_s::recv_ack_spinlock
         
 @end defcv
 
-@defcv {member} lw6cnx_ticket_table_s {send_spinlock}
+@defcv {member} {lw6cnx_ticket_table_s} {send_spinlock}
 @example
 void* lw6cnx_ticket_table_s::send_spinlock
 @end example
@@ -282,7 +285,7 @@ void* lw6cnx_ticket_table_s::send_spinlock
         
 @end defcv
 
-@defcv {member} lw6cnx_ticket_table_s {recv_table}
+@defcv {member} {lw6cnx_ticket_table_s} {recv_table}
 @example
 lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table
 @end example
@@ -291,7 +294,7 @@ lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table
         
 @end defcv
 
-@defcv {member} lw6cnx_ticket_table_s {recv_ack_table}
+@defcv {member} {lw6cnx_ticket_table_s} {recv_ack_table}
 @example
 lw6sys_hash_t* lw6cnx_ticket_table_s::recv_ack_table
 @end example
@@ -300,7 +303,7 @@ lw6sys_hash_t* lw6cnx_ticket_table_s::recv_ack_table
         
 @end defcv
 
-@defcv {member} lw6cnx_ticket_table_s {send_table}
+@defcv {member} {lw6cnx_ticket_table_s} {send_table}
 @example
 lw6sys_hash_t* lw6cnx_ticket_table_s::send_table
 @end example

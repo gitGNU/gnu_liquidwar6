@@ -29,10 +29,29 @@
 #include "../pil/pil.h"
 #include "../dyn/dyn.h"
 
+/**
+ * Parameters usable by a bot engine. Those are the
+ * stable, fixed parameters passed at bot creation, they
+ * don't change during the bot life.
+ */
 typedef struct lw6bot_param_s
 {
+  /**
+   * Speed of the bot, this is a value between 0.0f and 1.0f,
+   * 1 means normal speed, 0 is as slow as possible. Values
+   * over 1 will make the bot act/move faster than usual.
+   */
   float speed;
+  /**
+   * IQ is supposed to reflect the cleverness of the bot.
+   * The default is 100 (this value is basically a percentage),
+   * 0 means just so stupid, and a high value, for instance
+   * 200, means very clever. 
+   */
   int iq;
+  /**
+   * The cursor ID, which is a 16-bit non-null integer.
+   */
   u_int16_t cursor_id;
 } lw6bot_param_t;
 

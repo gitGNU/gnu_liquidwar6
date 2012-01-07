@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6sim_results_s
+@deftp {Struct} {lw6sim_results_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6sim_results_s {nb_teams}
+@defcv {member} {lw6sim_results_s} {nb_teams}
 @example
 int lw6sim_results_s::nb_teams
 @end example
@@ -14,7 +15,7 @@ int lw6sim_results_s::nb_teams
         
 @end defcv
 
-@defcv {member} lw6sim_results_s {absolute}
+@defcv {member} {lw6sim_results_s} {absolute}
 @example
 int lw6sim_results_s::absolute[LW6MAP_MAX_NB_TEAMS]
 @end example
@@ -23,7 +24,7 @@ int lw6sim_results_s::absolute[LW6MAP_MAX_NB_TEAMS]
         
 @end defcv
 
-@defcv {member} lw6sim_results_s {percent}
+@defcv {member} {lw6sim_results_s} {percent}
 @example
 float lw6sim_results_s::percent[LW6MAP_MAX_NB_TEAMS]
 @end example

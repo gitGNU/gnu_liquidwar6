@@ -1,11 +1,12 @@
 
   
-@deftp struct lw6p2p_db_s
+@deftp {Struct} {lw6p2p_db_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6p2p_db_s {id}
+@defcv {member} {lw6p2p_db_s} {id}
 @example
 u_int32_t lw6p2p_db_s::id
 @end example
@@ -17,12 +18,13 @@ u_int32_t lw6p2p_db_s::id
 
 
   
-@deftp struct lw6p2p_entry_s
+@deftp {Struct} {lw6p2p_entry_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6p2p_entry_s {creation_timestamp}
+@defcv {member} {lw6p2p_entry_s} {creation_timestamp}
 @example
 int lw6p2p_entry_s::creation_timestamp
 @end example
@@ -31,7 +33,7 @@ int lw6p2p_entry_s::creation_timestamp
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {version}
+@defcv {member} {lw6p2p_entry_s} {version}
 @example
 char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]
 @end example
@@ -40,7 +42,7 @@ char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {codename}
+@defcv {member} {lw6p2p_entry_s} {codename}
 @example
 char lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]
 @end example
@@ -49,7 +51,7 @@ char lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {stamp}
+@defcv {member} {lw6p2p_entry_s} {stamp}
 @example
 int lw6p2p_entry_s::stamp
 @end example
@@ -58,7 +60,7 @@ int lw6p2p_entry_s::stamp
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {id}
+@defcv {member} {lw6p2p_entry_s} {id}
 @example
 char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]
 @end example
@@ -67,7 +69,7 @@ char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {url}
+@defcv {member} {lw6p2p_entry_s} {url}
 @example
 char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]
 @end example
@@ -76,7 +78,7 @@ char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {title}
+@defcv {member} {lw6p2p_entry_s} {title}
 @example
 char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]
 @end example
@@ -85,7 +87,7 @@ char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {description}
+@defcv {member} {lw6p2p_entry_s} {description}
 @example
 char lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]
 @end example
@@ -94,7 +96,7 @@ char lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {has_password}
+@defcv {member} {lw6p2p_entry_s} {has_password}
 @example
 int lw6p2p_entry_s::has_password
 @end example
@@ -103,7 +105,7 @@ int lw6p2p_entry_s::has_password
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {bench}
+@defcv {member} {lw6p2p_entry_s} {bench}
 @example
 int lw6p2p_entry_s::bench
 @end example
@@ -112,7 +114,7 @@ int lw6p2p_entry_s::bench
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {open_relay}
+@defcv {member} {lw6p2p_entry_s} {open_relay}
 @example
 int lw6p2p_entry_s::open_relay
 @end example
@@ -121,7 +123,7 @@ int lw6p2p_entry_s::open_relay
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {community_id}
+@defcv {member} {lw6p2p_entry_s} {community_id}
 @example
 char lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]
 @end example
@@ -130,7 +132,7 @@ char lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {round}
+@defcv {member} {lw6p2p_entry_s} {round}
 @example
 int lw6p2p_entry_s::round
 @end example
@@ -139,7 +141,7 @@ int lw6p2p_entry_s::round
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {level}
+@defcv {member} {lw6p2p_entry_s} {level}
 @example
 char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]
 @end example
@@ -148,7 +150,7 @@ char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {required_bench}
+@defcv {member} {lw6p2p_entry_s} {required_bench}
 @example
 int lw6p2p_entry_s::required_bench
 @end example
@@ -157,7 +159,7 @@ int lw6p2p_entry_s::required_bench
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {nb_colors}
+@defcv {member} {lw6p2p_entry_s} {nb_colors}
 @example
 int lw6p2p_entry_s::nb_colors
 @end example
@@ -166,7 +168,7 @@ int lw6p2p_entry_s::nb_colors
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {max_nb_colors}
+@defcv {member} {lw6p2p_entry_s} {max_nb_colors}
 @example
 int lw6p2p_entry_s::max_nb_colors
 @end example
@@ -175,7 +177,7 @@ int lw6p2p_entry_s::max_nb_colors
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {nb_cursors}
+@defcv {member} {lw6p2p_entry_s} {nb_cursors}
 @example
 int lw6p2p_entry_s::nb_cursors
 @end example
@@ -184,7 +186,7 @@ int lw6p2p_entry_s::nb_cursors
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {max_nb_cursors}
+@defcv {member} {lw6p2p_entry_s} {max_nb_cursors}
 @example
 int lw6p2p_entry_s::max_nb_cursors
 @end example
@@ -193,7 +195,7 @@ int lw6p2p_entry_s::max_nb_cursors
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {nb_nodes}
+@defcv {member} {lw6p2p_entry_s} {nb_nodes}
 @example
 int lw6p2p_entry_s::nb_nodes
 @end example
@@ -202,7 +204,7 @@ int lw6p2p_entry_s::nb_nodes
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {max_nb_nodes}
+@defcv {member} {lw6p2p_entry_s} {max_nb_nodes}
 @example
 int lw6p2p_entry_s::max_nb_nodes
 @end example
@@ -211,7 +213,7 @@ int lw6p2p_entry_s::max_nb_nodes
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {ip}
+@defcv {member} {lw6p2p_entry_s} {ip}
 @example
 char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]
 @end example
@@ -220,7 +222,7 @@ char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {port}
+@defcv {member} {lw6p2p_entry_s} {port}
 @example
 int lw6p2p_entry_s::port
 @end example
@@ -229,7 +231,7 @@ int lw6p2p_entry_s::port
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {last_ping_timestamp}
+@defcv {member} {lw6p2p_entry_s} {last_ping_timestamp}
 @example
 int lw6p2p_entry_s::last_ping_timestamp
 @end example
@@ -238,7 +240,7 @@ int lw6p2p_entry_s::last_ping_timestamp
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {ping_delay_msec}
+@defcv {member} {lw6p2p_entry_s} {ping_delay_msec}
 @example
 int lw6p2p_entry_s::ping_delay_msec
 @end example
@@ -247,7 +249,7 @@ int lw6p2p_entry_s::ping_delay_msec
         
 @end defcv
 
-@defcv {member} lw6p2p_entry_s {available}
+@defcv {member} {lw6p2p_entry_s} {available}
 @example
 int lw6p2p_entry_s::available
 @end example
@@ -259,12 +261,13 @@ int lw6p2p_entry_s::available
 
 
   
-@deftp struct lw6p2p_node_s
+@deftp {Struct} {lw6p2p_node_s}
+
     
     
 @end deftp
 
-@defcv {member} lw6p2p_node_s {id}
+@defcv {member} {lw6p2p_node_s} {id}
 @example
 u_int32_t lw6p2p_node_s::id
 @end example
