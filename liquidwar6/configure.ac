@@ -774,6 +774,7 @@ AC_CONFIG_FILES([Makefile
 	  src/lib/sys/Makefile
 	  src/lib/sys/sys-build.h
 	  src/lib/glb/Makefile
+	  src/lib/glb/gnulib-stdalign.h
 	  src/lib/dyn/Makefile
 	  src/lib/cns/Makefile
 	  src/lib/hlp/Makefile
