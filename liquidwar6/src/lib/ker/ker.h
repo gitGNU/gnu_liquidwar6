@@ -149,7 +149,7 @@ typedef struct lw6ker_game_state_s
 {
   /**
    * The id of the object, this is non-zero and unique within one run session,
-   * incremented at each object creation
+   * incremented at each object creation.
    */
   u_int32_t id;
   /**

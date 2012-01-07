@@ -6,19 +6,21 @@
     
 @end deftp
 
-@defcv {member} {lw6pil_add_args_s} {cursor_id}
-@example
-u_int16_t lw6pil_add_args_s::cursor_id
-@end example
+@defcv {Member} {lw6pil_add_args_s} {cursor_id}
+@strong{Type:} @code{u_int16_t}
+
+@strong{Definition:} @code{u_int16_t lw6pil_add_args_s::cursor_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_add_args_s} {team_color}
-@example
-int lw6pil_add_args_s::team_color
-@end example
+@defcv {Member} {lw6pil_add_args_s} {team_color}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_add_args_s::team_color}
+
 
         
         
@@ -33,55 +35,61 @@ int lw6pil_add_args_s::team_color
     
 @end deftp
 
-@defcv {member} {lw6pil_command_s} {seq}
-@example
-int64_t lw6pil_command_s::seq
-@end example
+@defcv {Member} {lw6pil_command_s} {seq}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6pil_command_s::seq}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_command_s} {round}
-@example
-int lw6pil_command_s::round
-@end example
+@defcv {Member} {lw6pil_command_s} {round}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_command_s::round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_command_s} {node_id}
-@example
-u_int64_t lw6pil_command_s::node_id
-@end example
+@defcv {Member} {lw6pil_command_s} {node_id}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6pil_command_s::node_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_command_s} {code}
-@example
-lw6pil_command_code_t lw6pil_command_s::code
-@end example
+@defcv {Member} {lw6pil_command_s} {code}
+@strong{Type:} @code{lw6pil_command_code_t}
+
+@strong{Definition:} @code{lw6pil_command_code_t lw6pil_command_s::code}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_command_s} {args}
-@example
-lw6pil_command_args_t lw6pil_command_s::args
-@end example
+@defcv {Member} {lw6pil_command_s} {args}
+@strong{Type:} @code{lw6pil_command_args_t}
+
+@strong{Definition:} @code{lw6pil_command_args_t lw6pil_command_s::args}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_command_s} {text}
-@example
-char* lw6pil_command_s::text
-@end example
+@defcv {Member} {lw6pil_command_s} {text}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6pil_command_s::text}
+
 
         
         
@@ -96,37 +104,41 @@ char* lw6pil_command_s::text
     
 @end deftp
 
-@defcv {member} {lw6pil_local_cursors_s} {main_cursor_id}
-@example
-u_int16_t lw6pil_local_cursors_s::main_cursor_id
-@end example
+@defcv {Member} {lw6pil_local_cursors_s} {main_cursor_id}
+@strong{Type:} @code{u_int16_t}
+
+@strong{Definition:} @code{u_int16_t lw6pil_local_cursors_s::main_cursor_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursors_s} {main_i}
-@example
-int lw6pil_local_cursors_s::main_i
-@end example
+@defcv {Member} {lw6pil_local_cursors_s} {main_i}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursors_s::main_i}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursors_s} {nb_cursors}
-@example
-int lw6pil_local_cursors_s::nb_cursors
-@end example
+@defcv {Member} {lw6pil_local_cursors_s} {nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursors_s::nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursors_s} {cursors}
-@example
-lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
-@end example
+@defcv {Member} {lw6pil_local_cursors_s} {cursors}
+@strong{Type:} @code{lw6pil_local_cursor_t}
+
+@strong{Definition:} @code{lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]}
+
 
         
         
@@ -141,46 +153,51 @@ lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
     
 @end deftp
 
-@defcv {member} {lw6pil_local_cursor_s} {cursor_id}
-@example
-u_int16_t lw6pil_local_cursor_s::cursor_id
-@end example
+@defcv {Member} {lw6pil_local_cursor_s} {cursor_id}
+@strong{Type:} @code{u_int16_t}
+
+@strong{Definition:} @code{u_int16_t lw6pil_local_cursor_s::cursor_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursor_s} {x}
-@example
-int lw6pil_local_cursor_s::x
-@end example
+@defcv {Member} {lw6pil_local_cursor_s} {x}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursor_s::x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursor_s} {y}
-@example
-int lw6pil_local_cursor_s::y
-@end example
+@defcv {Member} {lw6pil_local_cursor_s} {y}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursor_s::y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursor_s} {mouse_controlled}
-@example
-int lw6pil_local_cursor_s::mouse_controlled
-@end example
+@defcv {Member} {lw6pil_local_cursor_s} {mouse_controlled}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursor_s::mouse_controlled}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_local_cursor_s} {is_main}
-@example
-int lw6pil_local_cursor_s::is_main
-@end example
+@defcv {Member} {lw6pil_local_cursor_s} {is_main}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_local_cursor_s::is_main}
+
 
         
         
@@ -195,10 +212,11 @@ int lw6pil_local_cursor_s::is_main
     
 @end deftp
 
-@defcv {member} {lw6pil_pilot_s} {id}
-@example
-u_int32_t lw6pil_pilot_s::id
-@end example
+@defcv {Member} {lw6pil_pilot_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6pil_pilot_s::id}
+
 
         
         
@@ -213,10 +231,11 @@ u_int32_t lw6pil_pilot_s::id
     
 @end deftp
 
-@defcv {member} {lw6pil_remove_args_s} {cursor_id}
-@example
-u_int16_t lw6pil_remove_args_s::cursor_id
-@end example
+@defcv {Member} {lw6pil_remove_args_s} {cursor_id}
+@strong{Type:} @code{u_int16_t}
+
+@strong{Definition:} @code{u_int16_t lw6pil_remove_args_s::cursor_id}
+
 
         
         
@@ -231,46 +250,51 @@ u_int16_t lw6pil_remove_args_s::cursor_id
     
 @end deftp
 
-@defcv {member} {lw6pil_set_args_s} {cursor_id}
-@example
-u_int64_t lw6pil_set_args_s::cursor_id
-@end example
+@defcv {Member} {lw6pil_set_args_s} {cursor_id}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6pil_set_args_s::cursor_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_set_args_s} {x}
-@example
-int lw6pil_set_args_s::x
-@end example
+@defcv {Member} {lw6pil_set_args_s} {x}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_set_args_s::x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_set_args_s} {y}
-@example
-int lw6pil_set_args_s::y
-@end example
+@defcv {Member} {lw6pil_set_args_s} {y}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_set_args_s::y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_set_args_s} {fire}
-@example
-int lw6pil_set_args_s::fire
-@end example
+@defcv {Member} {lw6pil_set_args_s} {fire}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_set_args_s::fire}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_set_args_s} {fire2}
-@example
-int lw6pil_set_args_s::fire2
-@end example
+@defcv {Member} {lw6pil_set_args_s} {fire2}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_set_args_s::fire2}
+
 
         
         
@@ -285,100 +309,111 @@ int lw6pil_set_args_s::fire2
     
 @end deftp
 
-@defcv {member} {lw6pil_worker_s} {run}
-@example
-int lw6pil_worker_s::run
-@end example
+@defcv {Member} {lw6pil_worker_s} {run}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::run}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {current_round}
-@example
-int lw6pil_worker_s::current_round
-@end example
+@defcv {Member} {lw6pil_worker_s} {current_round}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::current_round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {target_round}
-@example
-int lw6pil_worker_s::target_round
-@end example
+@defcv {Member} {lw6pil_worker_s} {target_round}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::target_round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {computed_rounds}
-@example
-int lw6pil_worker_s::computed_rounds
-@end example
+@defcv {Member} {lw6pil_worker_s} {computed_rounds}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::computed_rounds}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {over}
-@example
-int lw6pil_worker_s::over
-@end example
+@defcv {Member} {lw6pil_worker_s} {over}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6pil_worker_s::over}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {compute_thread}
-@example
-void* lw6pil_worker_s::compute_thread
-@end example
+@defcv {Member} {lw6pil_worker_s} {compute_thread}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6pil_worker_s::compute_thread}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {global_mutex}
-@example
-void* lw6pil_worker_s::global_mutex
-@end example
+@defcv {Member} {lw6pil_worker_s} {global_mutex}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6pil_worker_s::global_mutex}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {compute_mutex}
-@example
-void* lw6pil_worker_s::compute_mutex
-@end example
+@defcv {Member} {lw6pil_worker_s} {compute_mutex}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6pil_worker_s::compute_mutex}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {commands_spinlock}
-@example
-void* lw6pil_worker_s::commands_spinlock
-@end example
+@defcv {Member} {lw6pil_worker_s} {commands_spinlock}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6pil_worker_s::commands_spinlock}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {game_state}
-@example
-lw6ker_game_state_t* lw6pil_worker_s::game_state
-@end example
+@defcv {Member} {lw6pil_worker_s} {game_state}
+@strong{Type:} @code{lw6ker_game_state_t *}
+
+@strong{Definition:} @code{lw6ker_game_state_t* lw6pil_worker_s::game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6pil_worker_s} {commands}
-@example
-lw6sys_list_t* lw6pil_worker_s::commands
-@end example
+@defcv {Member} {lw6pil_worker_s} {commands}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* lw6pil_worker_s::commands}
+
 
         
         

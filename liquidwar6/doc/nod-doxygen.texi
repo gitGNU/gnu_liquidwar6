@@ -6,145 +6,161 @@
     
 @end deftp
 
-@defcv {member} {lw6nod_const_info_s} {program}
-@example
-char* lw6nod_const_info_s::program
-@end example
+@defcv {Member} {lw6nod_const_info_s} {program}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::program}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {version}
-@example
-char* lw6nod_const_info_s::version
-@end example
+@defcv {Member} {lw6nod_const_info_s} {version}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::version}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {codename}
-@example
-char* lw6nod_const_info_s::codename
-@end example
+@defcv {Member} {lw6nod_const_info_s} {codename}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::codename}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {stamp}
-@example
-int lw6nod_const_info_s::stamp
-@end example
+@defcv {Member} {lw6nod_const_info_s} {stamp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_const_info_s::stamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {id_int}
-@example
-u_int64_t lw6nod_const_info_s::id_int
-@end example
+@defcv {Member} {lw6nod_const_info_s} {id_int}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6nod_const_info_s::id_int}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {id_str}
-@example
-char* lw6nod_const_info_s::id_str
-@end example
+@defcv {Member} {lw6nod_const_info_s} {id_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::id_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {url}
-@example
-char* lw6nod_const_info_s::url
-@end example
+@defcv {Member} {lw6nod_const_info_s} {url}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::url}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {title}
-@example
-char* lw6nod_const_info_s::title
-@end example
+@defcv {Member} {lw6nod_const_info_s} {title}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::title}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {description}
-@example
-char* lw6nod_const_info_s::description
-@end example
+@defcv {Member} {lw6nod_const_info_s} {description}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::description}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {has_password}
-@example
-int lw6nod_const_info_s::has_password
-@end example
+@defcv {Member} {lw6nod_const_info_s} {has_password}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_const_info_s::has_password}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {password}
-@example
-char* lw6nod_const_info_s::password
-@end example
+@defcv {Member} {lw6nod_const_info_s} {password}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_const_info_s::password}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {bench}
-@example
-int lw6nod_const_info_s::bench
-@end example
+@defcv {Member} {lw6nod_const_info_s} {bench}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_const_info_s::bench}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {open_relay}
-@example
-int lw6nod_const_info_s::open_relay
-@end example
+@defcv {Member} {lw6nod_const_info_s} {open_relay}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_const_info_s::open_relay}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {creation_timestamp}
-@example
-int64_t lw6nod_const_info_s::creation_timestamp
-@end example
+@defcv {Member} {lw6nod_const_info_s} {creation_timestamp}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6nod_const_info_s::creation_timestamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {idle_screenshot_size}
-@example
-int lw6nod_const_info_s::idle_screenshot_size
-@end example
+@defcv {Member} {lw6nod_const_info_s} {idle_screenshot_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_const_info_s::idle_screenshot_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_const_info_s} {idle_screenshot_data}
-@example
-void* lw6nod_const_info_s::idle_screenshot_data
-@end example
+@defcv {Member} {lw6nod_const_info_s} {idle_screenshot_data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6nod_const_info_s::idle_screenshot_data}
+
 
         
         
@@ -159,118 +175,131 @@ void* lw6nod_const_info_s::idle_screenshot_data
     
 @end deftp
 
-@defcv {member} {lw6nod_dyn_info_s} {community_id_int}
-@example
-u_int64_t lw6nod_dyn_info_s::community_id_int
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {community_id_int}
+@strong{Type:} @code{u_int64_t}
+
+@strong{Definition:} @code{u_int64_t lw6nod_dyn_info_s::community_id_int}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {community_id_str}
-@example
-char* lw6nod_dyn_info_s::community_id_str
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {community_id_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_dyn_info_s::community_id_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {round}
-@example
-int lw6nod_dyn_info_s::round
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {round}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {level}
-@example
-char* lw6nod_dyn_info_s::level
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {level}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6nod_dyn_info_s::level}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {required_bench}
-@example
-int lw6nod_dyn_info_s::required_bench
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {required_bench}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::required_bench}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {nb_colors}
-@example
-int lw6nod_dyn_info_s::nb_colors
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {nb_colors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::nb_colors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {max_nb_colors}
-@example
-int lw6nod_dyn_info_s::max_nb_colors
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {max_nb_colors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_colors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {nb_cursors}
-@example
-int lw6nod_dyn_info_s::nb_cursors
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {max_nb_cursors}
-@example
-int lw6nod_dyn_info_s::max_nb_cursors
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {max_nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {nb_nodes}
-@example
-int lw6nod_dyn_info_s::nb_nodes
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {nb_nodes}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::nb_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {max_nb_nodes}
-@example
-int lw6nod_dyn_info_s::max_nb_nodes
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {max_nb_nodes}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {game_screenshot_size}
-@example
-int lw6nod_dyn_info_s::game_screenshot_size
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {game_screenshot_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6nod_dyn_info_s::game_screenshot_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_dyn_info_s} {game_screenshot_data}
-@example
-void* lw6nod_dyn_info_s::game_screenshot_data
-@end example
+@defcv {Member} {lw6nod_dyn_info_s} {game_screenshot_data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6nod_dyn_info_s::game_screenshot_data}
+
 
         
         
@@ -285,46 +314,51 @@ void* lw6nod_dyn_info_s::game_screenshot_data
     
 @end deftp
 
-@defcv {member} {lw6nod_info_s} {mutex}
-@example
-void* lw6nod_info_s::mutex
-@end example
+@defcv {Member} {lw6nod_info_s} {mutex}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6nod_info_s::mutex}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_info_s} {const_info}
-@example
-lw6nod_const_info_t lw6nod_info_s::const_info
-@end example
+@defcv {Member} {lw6nod_info_s} {const_info}
+@strong{Type:} @code{lw6nod_const_info_t}
+
+@strong{Definition:} @code{lw6nod_const_info_t lw6nod_info_s::const_info}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_info_s} {dyn_info}
-@example
-lw6nod_dyn_info_t lw6nod_info_s::dyn_info
-@end example
+@defcv {Member} {lw6nod_info_s} {dyn_info}
+@strong{Type:} @code{lw6nod_dyn_info_t}
+
+@strong{Definition:} @code{lw6nod_dyn_info_t lw6nod_info_s::dyn_info}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_info_s} {discovered_nodes}
-@example
-lw6sys_hash_t* lw6nod_info_s::discovered_nodes
-@end example
+@defcv {Member} {lw6nod_info_s} {discovered_nodes}
+@strong{Type:} @code{lw6sys_hash_t *}
+
+@strong{Definition:} @code{lw6sys_hash_t* lw6nod_info_s::discovered_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6nod_info_s} {verified_nodes}
-@example
-lw6sys_list_t* lw6nod_info_s::verified_nodes
-@end example
+@defcv {Member} {lw6nod_info_s} {verified_nodes}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* lw6nod_info_s::verified_nodes}
+
 
         
         

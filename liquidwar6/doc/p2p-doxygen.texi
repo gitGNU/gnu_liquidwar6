@@ -6,10 +6,11 @@
     
 @end deftp
 
-@defcv {member} {lw6p2p_db_s} {id}
-@example
-u_int32_t lw6p2p_db_s::id
-@end example
+@defcv {Member} {lw6p2p_db_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6p2p_db_s::id}
+
 
         
         
@@ -24,235 +25,261 @@ u_int32_t lw6p2p_db_s::id
     
 @end deftp
 
-@defcv {member} {lw6p2p_entry_s} {creation_timestamp}
-@example
-int lw6p2p_entry_s::creation_timestamp
-@end example
+@defcv {Member} {lw6p2p_entry_s} {creation_timestamp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::creation_timestamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {version}
-@example
-char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {version}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {codename}
-@example
-char lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {codename}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {stamp}
-@example
-int lw6p2p_entry_s::stamp
-@end example
+@defcv {Member} {lw6p2p_entry_s} {stamp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::stamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {id}
-@example
-char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {id}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {url}
-@example
-char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {url}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {title}
-@example
-char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {title}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {description}
-@example
-char lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {description}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {has_password}
-@example
-int lw6p2p_entry_s::has_password
-@end example
+@defcv {Member} {lw6p2p_entry_s} {has_password}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::has_password}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {bench}
-@example
-int lw6p2p_entry_s::bench
-@end example
+@defcv {Member} {lw6p2p_entry_s} {bench}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::bench}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {open_relay}
-@example
-int lw6p2p_entry_s::open_relay
-@end example
+@defcv {Member} {lw6p2p_entry_s} {open_relay}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::open_relay}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {community_id}
-@example
-char lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {community_id}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {round}
-@example
-int lw6p2p_entry_s::round
-@end example
+@defcv {Member} {lw6p2p_entry_s} {round}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {level}
-@example
-char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {level}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {required_bench}
-@example
-int lw6p2p_entry_s::required_bench
-@end example
+@defcv {Member} {lw6p2p_entry_s} {required_bench}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::required_bench}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {nb_colors}
-@example
-int lw6p2p_entry_s::nb_colors
-@end example
+@defcv {Member} {lw6p2p_entry_s} {nb_colors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::nb_colors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {max_nb_colors}
-@example
-int lw6p2p_entry_s::max_nb_colors
-@end example
+@defcv {Member} {lw6p2p_entry_s} {max_nb_colors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::max_nb_colors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {nb_cursors}
-@example
-int lw6p2p_entry_s::nb_cursors
-@end example
+@defcv {Member} {lw6p2p_entry_s} {nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {max_nb_cursors}
-@example
-int lw6p2p_entry_s::max_nb_cursors
-@end example
+@defcv {Member} {lw6p2p_entry_s} {max_nb_cursors}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::max_nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {nb_nodes}
-@example
-int lw6p2p_entry_s::nb_nodes
-@end example
+@defcv {Member} {lw6p2p_entry_s} {nb_nodes}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::nb_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {max_nb_nodes}
-@example
-int lw6p2p_entry_s::max_nb_nodes
-@end example
+@defcv {Member} {lw6p2p_entry_s} {max_nb_nodes}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::max_nb_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {ip}
-@example
-char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]
-@end example
+@defcv {Member} {lw6p2p_entry_s} {ip}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {port}
-@example
-int lw6p2p_entry_s::port
-@end example
+@defcv {Member} {lw6p2p_entry_s} {port}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::port}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {last_ping_timestamp}
-@example
-int lw6p2p_entry_s::last_ping_timestamp
-@end example
+@defcv {Member} {lw6p2p_entry_s} {last_ping_timestamp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::last_ping_timestamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {ping_delay_msec}
-@example
-int lw6p2p_entry_s::ping_delay_msec
-@end example
+@defcv {Member} {lw6p2p_entry_s} {ping_delay_msec}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::ping_delay_msec}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6p2p_entry_s} {available}
-@example
-int lw6p2p_entry_s::available
-@end example
+@defcv {Member} {lw6p2p_entry_s} {available}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6p2p_entry_s::available}
+
 
         
         
@@ -267,10 +294,11 @@ int lw6p2p_entry_s::available
     
 @end deftp
 
-@defcv {member} {lw6p2p_node_s} {id}
-@example
-u_int32_t lw6p2p_node_s::id
-@end example
+@defcv {Member} {lw6p2p_node_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6p2p_node_s::id}
+
 
         
         

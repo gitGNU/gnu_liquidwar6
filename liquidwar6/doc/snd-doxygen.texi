@@ -6,154 +6,171 @@
     
 @end deftp
 
-@defcv {member} {lw6snd_backend_s} {dl_handle}
-@example
-lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle
-@end example
+@defcv {Member} {lw6snd_backend_s} {dl_handle}
+@strong{Type:} @code{lw6dyn_dl_handle_t *}
+
+@strong{Definition:} @code{lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {snd_context}
-@example
-void* lw6snd_backend_s::snd_context
-@end example
+@defcv {Member} {lw6snd_backend_s} {snd_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6snd_backend_s::snd_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {argc}
-@example
-int lw6snd_backend_s::argc
-@end example
+@defcv {Member} {lw6snd_backend_s} {argc}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6snd_backend_s::argc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {argv}
-@example
-const char** lw6snd_backend_s::argv
-@end example
+@defcv {Member} {lw6snd_backend_s} {argv}
+@strong{Type:} @code{const char **}
+
+@strong{Definition:} @code{const char** lw6snd_backend_s::argv}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {id}
-@example
-u_int32_t lw6snd_backend_s::id
-@end example
+@defcv {Member} {lw6snd_backend_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6snd_backend_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {play_fx}
-@example
-int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)
-@end example
+@defcv {Member} {lw6snd_backend_s} {play_fx}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {is_music_file}
-@example
-int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)
-@end example
+@defcv {Member} {lw6snd_backend_s} {is_music_file}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {play_music_file}
-@example
-int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)
-@end example
+@defcv {Member} {lw6snd_backend_s} {play_music_file}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {play_music_random}
-@example
-int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, char *music_filter, char *music_exclude)
-@end example
+@defcv {Member} {lw6snd_backend_s} {play_music_random}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, char *music_filter, char *music_exclude)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {stop_music}
-@example
-void(* lw6snd_backend_s::stop_music)(void *snd_context)
-@end example
+@defcv {Member} {lw6snd_backend_s} {stop_music}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::stop_music)(void *snd_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {init}
-@example
-void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
-@end example
+@defcv {Member} {lw6snd_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {set_fx_volume}
-@example
-void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)
-@end example
+@defcv {Member} {lw6snd_backend_s} {set_fx_volume}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {set_water_volume}
-@example
-void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)
-@end example
+@defcv {Member} {lw6snd_backend_s} {set_water_volume}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {set_music_volume}
-@example
-void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)
-@end example
+@defcv {Member} {lw6snd_backend_s} {set_music_volume}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {poll}
-@example
-void(* lw6snd_backend_s::poll)(void *snd_context)
-@end example
+@defcv {Member} {lw6snd_backend_s} {poll}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::poll)(void *snd_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {quit}
-@example
-void(* lw6snd_backend_s::quit)(void *snd_context)
-@end example
+@defcv {Member} {lw6snd_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6snd_backend_s::quit)(void *snd_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6snd_backend_s} {repr}
-@example
-char*(* lw6snd_backend_s::repr)(void *snd_context, u_int32_t id)
-@end example
+@defcv {Member} {lw6snd_backend_s} {repr}
+@strong{Type:} @code{char *(*}
+
+@strong{Definition:} @code{char*(* lw6snd_backend_s::repr)(void *snd_context, u_int32_t id)}
+
 
         
         

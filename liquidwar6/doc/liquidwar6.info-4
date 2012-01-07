@@ -19,6 +19,963 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
+
+5.29 libnod
+===========
+
+5.29.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
+
+5.29.2 API
+----------
+
+ -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
+     DYN_INFO:  the dyn info struct to free
+
+     Frees a dyn info object, to be used after a call to
+     `lw6nod_info_dup_dyn' for instance.
+
+     *Return value:*  none
+
+ -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
+          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
+          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
+          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
+          void * IDLE_SCREENSHOT_DATA)
+     PROGRAM:  the program (normally it's liquidwar6)
+
+     VERSION:  the version
+
+     CODENAME:  the codename
+
+     STAMP:  the stamp
+
+     ID:  the node id
+
+     URL:  the node public url
+
+     TITLE:  the node title
+
+     DESCRIPTION:  the node description
+
+     PASSWORD:  the node password
+
+     BENCH:  the node bench
+
+     OPEN_RELAY:  open relay or not
+
+     UPTIME:  uptime in seconds
+
+     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
+     when game is idle
+
+     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
+     when game is idle
+
+     Creates a node info object. The arguments correspond to the
+     immutable node attributes, other properties such as how many
+     players are connected or set in other functions like
+     `lw6nod_info_update' which can be called later.
+
+     *Return value:*  newly allocated object, NULL on error.
+
+ -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
+     INFO:  the node info to free
+
+     Frees a node info object.
+
+     *Return value:*  none
+
+ -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
+     INFO:  the node info to lock
+
+     Locks a node info object, this is usefull for some members,
+     typically list of servers, can be accessed by separated threads,
+     one reading, many writing, and these objects (chained lists)
+     certainly do not want to be modified while being read.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
+     INFO:  the node info to unlock
+
+     Unlocks a node info object, this is the compation of the
+     `lw6nod_info_lock' function.
+
+     *Return value:*  1 if ok, 0 if not.
+
+ -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
+     INFO:  the node info to modify
+
+     Clears a node info object and sets all its variable attributes to
+     NULL/default values. This is what we want when the node is idle,
+     not playing.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
+          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
+          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
+          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
+          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
+     INFO:  the node info to update
+
+     COMMUNITY_ID:  the id of the community the node belongs to
+
+     ROUND:  the current round (can have an offset with real round
+     number)
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED_BENCH:  the bench required to connect
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  max number of colors allowed
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  max number of nodes allowed
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Set a node info object variable attributes. Call this whenever the
+     node has changed some parameter. Not too often for it's not needed
+     and some operations such as modying the screenshot, can be time
+     consuming.
+
+     *Return value:*  1 if OK, 0 if error.
+
+ -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
+          INFO)
+     INFO:  the node info containing the dyn info to duplicate
+
+     Extracts the dynamic part of an info struct and duplicates it,
+     this is to avoid protection fault error when concurrent threads
+     access this info.
+
+     *Return value:*  newly allocated object, must be freed.
+
+ -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
+     Creates a new hash, to be used as a discovered nodes list.  Using
+     this function has the advantage of setting the hash options to
+     their defaults.  We use a hash to avoid having uselessly long
+     lists containing always the same node due to multiple detections.
+
+     *Return value:*  an empty hash
+
+ -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
+          INFO, char * PUBLIC_URL)
+     INFO:  the node info to update
+
+     PUBLIC_URL:  the address of the discovered node
+
+     Registers a new server, and queues it as something that should be
+     checked later because it's interesting. We can't insert in the
+     database all the servers we suspect to exist so network threads
+     should use this, then main thread will process discovered servers
+     afterwards. This is also a good way to avoid trivial DOS attacks.
+
+     *Return value:*  1 if OK, O if error.
+
+ -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
+          (lw6nod_info_t * INFO)
+     INFO:  the node info to query
+
+     Returns a list of all discovered nodes (their public URL) and
+     empties the current queue as well.
+
+     *Return value:*  a list of dynamically allocated strings.
+
+ -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
+     Creates a new list, to be filled with nodes and typically passed
+     to `lw6nod_info_set_verified_nodes'. Using this function has the
+     advantage of setting the listh options to their defaults.
+
+     *Return value:*  an empty list
+
+ -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
+          lw6sys_list_t * LIST)
+     INFO:  the node info to modify
+
+     LIST:  the list of verified nodes, will be freed by this function
+
+     Sets the list of verified nodes, that is, the list of nodes we are
+     sure to exist, this is typically the list we will display later on
+     a web page. We can't directly display any discovered node, one
+     needs to filter them through main thread.  Something very
+     important about this function is that `list' will be freed by
+     function, that is, if you call this, then you can (you should)
+     forget your object, it will disappear any time soon.
+
+     *Return value:*  1 if OK, 0 on error.
+
+ -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
+          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
+     INFO:  the node info concerned
+
+     FUNC:  the function to apply
+
+     FUNC_DATA:  arbitrary pointer holding data to pass to function
+
+     Calls `lw6sys_hash_map' with `func' on every member of the list of
+     verified nodes. The reason there's a function for this is that it
+     is very important that list object is locked when doing this.
+     This function does perform a lock/unlock so it is safe.
+
+     *Return value:*  none.
+
+ -- Function: int lw6nod_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `nod' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Struct: lw6nod_const_info_s
+
+ -- Member of lw6nod_const_info_s: program
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::program'
+
+
+ -- Member of lw6nod_const_info_s: version
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::version'
+
+
+ -- Member of lw6nod_const_info_s: codename
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::codename'
+
+
+ -- Member of lw6nod_const_info_s: stamp
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::stamp'
+
+
+ -- Member of lw6nod_const_info_s: id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_const_info_s::id_int'
+
+
+ -- Member of lw6nod_const_info_s: id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::id_str'
+
+
+ -- Member of lw6nod_const_info_s: url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::url'
+
+
+ -- Member of lw6nod_const_info_s: title
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::title'
+
+
+ -- Member of lw6nod_const_info_s: description
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::description'
+
+
+ -- Member of lw6nod_const_info_s: has_password
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::has_password'
+
+
+ -- Member of lw6nod_const_info_s: password
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_const_info_s::password'
+
+
+ -- Member of lw6nod_const_info_s: bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::bench'
+
+
+ -- Member of lw6nod_const_info_s: open_relay
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::open_relay'
+
+
+ -- Member of lw6nod_const_info_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6nod_const_info_s::creation_timestamp'
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_const_info_s::idle_screenshot_size'
+
+
+ -- Member of lw6nod_const_info_s: idle_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_const_info_s::idle_screenshot_data'
+
+
+ -- Struct: lw6nod_dyn_info_s
+
+ -- Member of lw6nod_dyn_info_s: community_id_int
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6nod_dyn_info_s::community_id_int'
+
+
+ -- Member of lw6nod_dyn_info_s: community_id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::community_id_str'
+
+
+ -- Member of lw6nod_dyn_info_s: round
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::round'
+
+
+ -- Member of lw6nod_dyn_info_s: level
+     *Type:* `char *'
+
+     *Definition:* `char* lw6nod_dyn_info_s::level'
+
+
+ -- Member of lw6nod_dyn_info_s: required_bench
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::required_bench'
+
+
+ -- Member of lw6nod_dyn_info_s: nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_colors'
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_colors'
+
+
+ -- Member of lw6nod_dyn_info_s: nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_cursors'
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_cursors'
+
+
+ -- Member of lw6nod_dyn_info_s: nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::nb_nodes'
+
+
+ -- Member of lw6nod_dyn_info_s: max_nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::max_nb_nodes'
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_size
+     *Type:* `int'
+
+     *Definition:* `int lw6nod_dyn_info_s::game_screenshot_size'
+
+
+ -- Member of lw6nod_dyn_info_s: game_screenshot_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_dyn_info_s::game_screenshot_data'
+
+
+ -- Struct: lw6nod_info_s
+
+ -- Member of lw6nod_info_s: mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6nod_info_s::mutex'
+
+
+ -- Member of lw6nod_info_s: const_info
+     *Type:* `lw6nod_const_info_t'
+
+     *Definition:* `lw6nod_const_info_t lw6nod_info_s::const_info'
+
+
+ -- Member of lw6nod_info_s: dyn_info
+     *Type:* `lw6nod_dyn_info_t'
+
+     *Definition:* `lw6nod_dyn_info_t lw6nod_info_s::dyn_info'
+
+
+ -- Member of lw6nod_info_s: discovered_nodes
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* lw6nod_info_s::discovered_nodes'
+
+
+ -- Member of lw6nod_info_s: verified_nodes
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6nod_info_s::verified_nodes'
+
+
+
+File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: C API
+
+5.30 libp2p
+===========
+
+5.30.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/p2p/index.html'.
+
+5.30.2 API
+----------
+
+ -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, const char * []
+          ARGV, char * NAME)
+     ARGC:  number of args, as passed to `main'
+
+     ARGV:  args array, as passed to `main'
+
+     NAME:  the database name
+
+     Creates a new database object. Normally there's only one object
+     like this at a given time, it can be shared among various nodes.
+     The database name is appended to user directory path, this allows
+     different databases to be created, in theory.
+
+     *Return value:*  a pointer on the newly created object.
+
+ -- Function: void lw6p2p_db_close (lw6p2p_db_t * DB)
+     DB:  the db to close
+
+     Closes a db object, memory ressources will be freed.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6p2p_db_repr (lw6p2p_db_t * DB)
+     DB:  the db to work on
+
+     Gives a readable representation of the db
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6p2p_db_reset (int ARGC, const char * [] ARGV, char
+          * NAME)
+     ARGC:  number of args, as passed to `main'
+
+     ARGV:  args array, as passed to `main'
+
+     NAME:  the database name
+
+     Clears the database. Simply removes the db file, in fact. Do not
+     call while database is used...
+
+     *Return value:*  1 on success, 0 if failed.
+
+ -- Function: char * lw6p2p_db_default_name ()
+     Returns the default database name, should be p2p.db (this is a
+     relative path, not an absolute path, will be appended to user dir).
+
+     *Return value:*  the default database name, need not (must not) be
+     freed.
+
+ -- Function: int _lw6p2p_db_now (_lw6p2p_db_t * DB)
+     DB:  the db object concerned (used to calculate time origin)
+
+     Returns a timestamp suitable for db usage. The reason we don't use
+     regular timestamps is that they are 1) too accurate (msec is
+     useless for what's involved here) and 2) too big and likely to be
+     negative in signed mode even if converted to seconds.
+
+     *Return value:*  a timestamp, 0 means "beginning of program"
+     (think of it as uptime)
+
+ -- Function: lw6p2p_entry_t * lw6p2p_entry_new (int
+          CREATION_TIMESTAMP, char * VERSION, char * CODENAME, int
+          STAMP, char * ID, char * URL, char * TITLE, char *
+          DESCRIPTION, int HAS_PASSWORD, int BENCH, int OPEN_RELAY,
+          char * COMMUNITY_ID, int ROUND, char * LEVEL, int
+          REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS, int
+          NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
+          MAX_NB_NODES, char * IP, int PORT, int LAST_PING_TIMESTAMP,
+          int PING_DELAY_MSEC, int AVAILABLE)
+     CREATION_TIMESTAMP:  when it has been created, UNIX timestamp
+
+     VERSION:  version of the node
+
+     CODENAME:  codename of the node
+
+     STAMP:  stamp of the node
+
+     ID:  id of the node (string representation)
+
+     URL:  public url of the node
+
+     TITLE:  title of the node
+
+     DESCRIPTION:  description of the node
+
+     HAS_PASSWORD:  wether node is password protected or not
+
+     BENCH:  node bench
+
+     OPEN_RELAY:  wether the node is in open relay mode or not
+
+     ROUND:  current round
+
+     LEVEL:  current level played
+
+     REQUIRED_BENCH:  current bench
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  maximum number of colors
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  maximum number of cursors
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  maximum number of nodes
+
+     IP:  node ip (string representation)
+
+     PORT:  node port
+
+     LAST_PING_TIMESTAMP:  UNIX timestamp of last contact with node
+
+     PING_DELAY_MSEC:  ping delay, in milliseconds
+
+     AVAILABLE:  wether node is available, wether we can connect to it
+
+     Creates a new p2p entry. Will accept NULL parameters for strings
+     as well as arbitrary long strings, will simply cut them short if
+     there aren't already limited to max size.
+
+     *Return value:*  newly allocated object
+
+ -- Function: void lw6p2p_entry_free (lw6p2p_entry_t * ENTRY)
+     ENTRY:  entry to free
+
+     Frees a p2p entry.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6p2p_entry_repr (lw6p2p_entry_t * ENTRY)
+     ENTRY:  entry to represent
+
+     Gives a human-readable representation of the entry
+
+     *Return value:*  dynamically allocated string
+
+ -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, const char *
+          [] ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
+          SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
+          BROADCAST, char * PUBLIC_URL, char * TITLE, char *
+          DESCRIPTION, char * PASSWORD, int BENCH, int OPEN_RELAY, char
+          * KNOWN_NODES, int NETWORK_RELIABILITY, int TROJAN)
+     ARGC:  number of args, as passed to `main'
+
+     ARGV:  args array, as passed to `main'
+
+     DB:  the database to use
+
+     CLIENT_BACKENDS:  the list of client backends to use
+
+     SERVER_BACKENDS:  the list of server backends to use
+
+     BIND_IP:  the IP address to bind on
+
+     BIND_PORT:  the IP port to listen on
+
+     BROADCAST:  wether broadcast is allowed on this node
+
+     PUBLIC_URL:  the public URL we want to show
+
+     TITLE:  the title of the node
+
+     DESCRIPTION:  the description of the node
+
+     PASSWORD:  the password to use
+
+     BENCH:  the bench of the node (its power)
+
+     OPEN_RELAY:  act as an open relay or not
+
+     KNOWN_NODES:  list of already known nodes
+
+     NETWORK_RELIABILITY:  drop 1 packet out of X
+
+     TROJAN:  act as a stupid trojan to test out automatic kick-off
+
+     Creates a new "pear to pear" node. This will fire the server and
+     allow client access, on demand. A lot of stuff can be done in the
+     background once this is called.
+
+     *Return value:*  a pointer on the newly created objects.
+
+ -- Function: void lw6p2p_node_free (lw6p2p_node_t * NODE)
+     NODE:  the node to free
+
+     Frees a node object, all network communications will be shut.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6p2p_node_repr (lw6p2p_node_t * NODE)
+     NODE:  the node to work on
+
+     Gives a readable representation of the node
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6p2p_node_poll (lw6p2p_node_t * NODE)
+     NODE:  the node to poll
+
+     Polls a p2p node. This must be called on a regular basis, else
+     network communication is stalled.
+
+     *Return value:*  1 on success, 0 on error.
+
+ -- Function: void lw6p2p_node_close (lw6p2p_node_t * NODE)
+     NODE:  the node to close
+
+     Closes a p2p node. Closing is necessary in some contexts, for
+     instance scheme/smob instanciation when you want to release the
+     object ressources (sockets, ports, threads...) *before* it is
+     deleted by, for instance, a garbage collector.
+
+     *Return value:*  1 on success, 0 on error.
+
+ -- Function: u_int64_t lw6p2p_node_get_id (lw6p2p_node_t * NODE)
+     NODE:  the node to query
+
+     Returns the node id, an id which is supposed to uniquely identify
+     the node at run-time.
+
+     *Return value:*  numerical id.
+
+ -- Function: lw6sys_list_t * lw6p2p_node_get_entries (lw6p2p_node_t *
+          NODE)
+     NODE:  node to query
+
+     Returns a list of all known nodes, this is a plain table dump,
+     sorted so that the most likely to be interesting to connect
+     oneself to are listed *last*, this is just a (little)
+     optimization, since we know we'll need to parse this list to
+     construct a Guile object, we reverse the order.
+
+     *Return value:*  list object containing `lw6p2p_entry_t' objects
+
+ -- Function: int lw6p2p_node_server_start (lw6p2p_node_t * NODE)
+     NODE:  node to start
+
+     Starts a node in server mode, if node was previously connected to
+     other nodes, disconnect it from any peer.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6p2p_node_client_join (lw6p2p_node_t * NODE, char *
+          REMOTE_URL)
+     NODE:  node to use
+
+     REMOTE_URL:  url of remote node to join
+
+     Starts a node in client mode, joins the given node, if node was
+     previously connected to other nodes, disconnect it from any peer.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6p2p_node_disconnect (lw6p2p_node_t * NODE)
+     NODE:  node to disconnect
+
+     Disconnects a node, if node was previously connected to other
+     nodes, disconnect it from any peer. Note that this does not affect
+     out-of-band connections, only real game-related links.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6p2p_node_update_info (lw6p2p_node_t * NODE, int
+          ROUND, char * LEVEL, int REQUIRED_BENCH, int NB_COLORS, int
+          MAX_NB_COLORS, int NB_CURSORS, int MAX_NB_CURSORS, int
+          NB_NODES, int MAX_NB_NODES, int GAME_SCREENSHOT_SIZE, void *
+          GAME_SCREENSHOT_DATA)
+     NODE:  node to update
+
+     ROUND:  the current round (can have an offset with real round
+     number)
+
+     LEVEL:  the name of the current level (map)
+
+     REQUIRED_BENCH:  the bench required to connect
+
+     NB_COLORS:  number of colors playing
+
+     MAX_NB_COLORS:  max number of colors allowed
+
+     NB_CURSORS:  number of cursors playing
+
+     MAX_NB_CURSORS:  max number of cursors allowed
+
+     NB_NODES:  number of nodes playing
+
+     MAX_NB_NODES:  max number of nodes allowed
+
+     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
+
+     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
+
+     Updates node info, that is, all the data/metadata which can be
+     displayed to other peers and are, by nature, dynamic.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6p2p_node_update_serialized (lw6p2p_node_t * NODE,
+          u_int64_t SEQ_ID, char * SERIALIZED_LEVEL, char *
+          SERIALIZED_GAME_STRUCT, char * SERIALIZED_GAME_STATE)
+     NODE:  node to update
+
+     SERIALIZED_LEVEL:  level object serialized serialized as an hexa
+     string
+
+     SERIALIZED_GAME_STRUCT:  game struct object serialized as an hexa
+     string
+
+     SERIALIZED_GAME_STATE:  game state object serialized as an hexa
+     string
+
+     Updates the (rather heavy) serialized objects for the game, which
+     are required to transmit game context to peers over the network.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6p2p_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `p2p' module test suite. This test can fail if one cannot
+     bind on some network port, in a general manner it is dependent on
+     the network environment, so it's better if there's some sort of
+     human control on it.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Struct: lw6p2p_db_s
+
+ -- Member of lw6p2p_db_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6p2p_db_s::id'
+
+
+ -- Struct: lw6p2p_entry_s
+
+ -- Member of lw6p2p_entry_s: creation_timestamp
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::creation_timestamp'
+
+
+ -- Member of lw6p2p_entry_s: version
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: codename
+     *Type:* `char'
+
+     *Definition:* `char
+     lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: stamp
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::stamp'
+
+
+ -- Member of lw6p2p_entry_s: id
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: url
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: title
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: description
+     *Type:* `char'
+
+     *Definition:* `char
+     lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: has_password
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::has_password'
+
+
+ -- Member of lw6p2p_entry_s: bench
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::bench'
+
+
+ -- Member of lw6p2p_entry_s: open_relay
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::open_relay'
+
+
+ -- Member of lw6p2p_entry_s: community_id
+     *Type:* `char'
+
+     *Definition:* `char
+     lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: round
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::round'
+
+
+ -- Member of lw6p2p_entry_s: level
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: required_bench
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::required_bench'
+
+
+ -- Member of lw6p2p_entry_s: nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::nb_colors'
+
+
+ -- Member of lw6p2p_entry_s: max_nb_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::max_nb_colors'
+
+
+ -- Member of lw6p2p_entry_s: nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::nb_cursors'
+
+
+ -- Member of lw6p2p_entry_s: max_nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::max_nb_cursors'
+
+
+ -- Member of lw6p2p_entry_s: nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::nb_nodes'
+
+
+ -- Member of lw6p2p_entry_s: max_nb_nodes
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::max_nb_nodes'
+
+
+ -- Member of lw6p2p_entry_s: ip
+     *Type:* `char'
+
+     *Definition:* `char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]'
+
+
+ -- Member of lw6p2p_entry_s: port
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::port'
+
+
+ -- Member of lw6p2p_entry_s: last_ping_timestamp
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::last_ping_timestamp'
+
+
+ -- Member of lw6p2p_entry_s: ping_delay_msec
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::ping_delay_msec'
+
+
+ -- Member of lw6p2p_entry_s: available
+     *Type:* `int'
+
+     *Definition:* `int lw6p2p_entry_s::available'
+
+
+ -- Struct: lw6p2p_node_s
+
+ -- Member of lw6p2p_node_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6p2p_node_s::id'
+
+
+
 File: liquidwar6.info,  Node: libpil,  Next: libscm,  Prev: libp2p,  Up: C API
 
 5.31 libpil
@@ -507,158 +1464,229 @@ results on
 
  -- Struct: lw6pil_add_args_s
 
- -- member of lw6pil_add_args_s: cursor_id
-          u_int16_t lw6pil_add_args_s::cursor_id
+ -- Member of lw6pil_add_args_s: cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6pil_add_args_s::cursor_id'
 
 
- -- member of lw6pil_add_args_s: team_color
-          int lw6pil_add_args_s::team_color
+ -- Member of lw6pil_add_args_s: team_color
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_add_args_s::team_color'
 
 
  -- Struct: lw6pil_command_s
 
- -- member of lw6pil_command_s: seq
-          int64_t lw6pil_command_s::seq
+ -- Member of lw6pil_command_s: seq
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6pil_command_s::seq'
 
 
- -- member of lw6pil_command_s: round
-          int lw6pil_command_s::round
+ -- Member of lw6pil_command_s: round
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_command_s::round'
 
 
- -- member of lw6pil_command_s: node_id
-          u_int64_t lw6pil_command_s::node_id
+ -- Member of lw6pil_command_s: node_id
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6pil_command_s::node_id'
 
 
- -- member of lw6pil_command_s: code
-          lw6pil_command_code_t lw6pil_command_s::code
+ -- Member of lw6pil_command_s: code
+     *Type:* `lw6pil_command_code_t'
+
+     *Definition:* `lw6pil_command_code_t lw6pil_command_s::code'
 
 
- -- member of lw6pil_command_s: args
-          lw6pil_command_args_t lw6pil_command_s::args
+ -- Member of lw6pil_command_s: args
+     *Type:* `lw6pil_command_args_t'
+
+     *Definition:* `lw6pil_command_args_t lw6pil_command_s::args'
 
 
- -- member of lw6pil_command_s: text
-          char* lw6pil_command_s::text
+ -- Member of lw6pil_command_s: text
+     *Type:* `char *'
+
+     *Definition:* `char* lw6pil_command_s::text'
 
 
  -- Struct: lw6pil_local_cursors_s
 
- -- member of lw6pil_local_cursors_s: main_cursor_id
-          u_int16_t lw6pil_local_cursors_s::main_cursor_id
+ -- Member of lw6pil_local_cursors_s: main_cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6pil_local_cursors_s::main_cursor_id'
 
 
- -- member of lw6pil_local_cursors_s: main_i
-          int lw6pil_local_cursors_s::main_i
+ -- Member of lw6pil_local_cursors_s: main_i
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursors_s::main_i'
 
 
- -- member of lw6pil_local_cursors_s: nb_cursors
-          int lw6pil_local_cursors_s::nb_cursors
+ -- Member of lw6pil_local_cursors_s: nb_cursors
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursors_s::nb_cursors'
 
 
- -- member of lw6pil_local_cursors_s: cursors
-          lw6pil_local_cursor_t lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]
+ -- Member of lw6pil_local_cursors_s: cursors
+     *Type:* `lw6pil_local_cursor_t'
+
+     *Definition:* `lw6pil_local_cursor_t
+     lw6pil_local_cursors_s::cursors[LW6MAP_MAX_NB_CURSORS]'
 
 
  -- Struct: lw6pil_local_cursor_s
 
- -- member of lw6pil_local_cursor_s: cursor_id
-          u_int16_t lw6pil_local_cursor_s::cursor_id
+ -- Member of lw6pil_local_cursor_s: cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6pil_local_cursor_s::cursor_id'
 
 
- -- member of lw6pil_local_cursor_s: x
-          int lw6pil_local_cursor_s::x
+ -- Member of lw6pil_local_cursor_s: x
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursor_s::x'
 
 
- -- member of lw6pil_local_cursor_s: y
-          int lw6pil_local_cursor_s::y
+ -- Member of lw6pil_local_cursor_s: y
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursor_s::y'
 
 
- -- member of lw6pil_local_cursor_s: mouse_controlled
-          int lw6pil_local_cursor_s::mouse_controlled
+ -- Member of lw6pil_local_cursor_s: mouse_controlled
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursor_s::mouse_controlled'
 
 
- -- member of lw6pil_local_cursor_s: is_main
-          int lw6pil_local_cursor_s::is_main
+ -- Member of lw6pil_local_cursor_s: is_main
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_local_cursor_s::is_main'
 
 
  -- Struct: lw6pil_pilot_s
 
- -- member of lw6pil_pilot_s: id
-          u_int32_t lw6pil_pilot_s::id
+ -- Member of lw6pil_pilot_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6pil_pilot_s::id'
 
 
  -- Struct: lw6pil_remove_args_s
 
- -- member of lw6pil_remove_args_s: cursor_id
-          u_int16_t lw6pil_remove_args_s::cursor_id
+ -- Member of lw6pil_remove_args_s: cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6pil_remove_args_s::cursor_id'
 
 
  -- Struct: lw6pil_set_args_s
 
- -- member of lw6pil_set_args_s: cursor_id
-          u_int64_t lw6pil_set_args_s::cursor_id
+ -- Member of lw6pil_set_args_s: cursor_id
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6pil_set_args_s::cursor_id'
 
 
- -- member of lw6pil_set_args_s: x
-          int lw6pil_set_args_s::x
+ -- Member of lw6pil_set_args_s: x
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_set_args_s::x'
 
 
- -- member of lw6pil_set_args_s: y
-          int lw6pil_set_args_s::y
+ -- Member of lw6pil_set_args_s: y
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_set_args_s::y'
 
 
- -- member of lw6pil_set_args_s: fire
-          int lw6pil_set_args_s::fire
+ -- Member of lw6pil_set_args_s: fire
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_set_args_s::fire'
 
 
- -- member of lw6pil_set_args_s: fire2
-          int lw6pil_set_args_s::fire2
+ -- Member of lw6pil_set_args_s: fire2
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_set_args_s::fire2'
 
 
  -- Struct: lw6pil_worker_s
 
- -- member of lw6pil_worker_s: run
-          int lw6pil_worker_s::run
+ -- Member of lw6pil_worker_s: run
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_worker_s::run'
 
 
- -- member of lw6pil_worker_s: current_round
-          int lw6pil_worker_s::current_round
+ -- Member of lw6pil_worker_s: current_round
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_worker_s::current_round'
 
 
- -- member of lw6pil_worker_s: target_round
-          int lw6pil_worker_s::target_round
+ -- Member of lw6pil_worker_s: target_round
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_worker_s::target_round'
 
 
- -- member of lw6pil_worker_s: computed_rounds
-          int lw6pil_worker_s::computed_rounds
+ -- Member of lw6pil_worker_s: computed_rounds
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_worker_s::computed_rounds'
 
 
- -- member of lw6pil_worker_s: over
-          int lw6pil_worker_s::over
+ -- Member of lw6pil_worker_s: over
+     *Type:* `int'
+
+     *Definition:* `int lw6pil_worker_s::over'
 
 
- -- member of lw6pil_worker_s: compute_thread
-          void* lw6pil_worker_s::compute_thread
+ -- Member of lw6pil_worker_s: compute_thread
+     *Type:* `void *'
+
+     *Definition:* `void* lw6pil_worker_s::compute_thread'
 
 
- -- member of lw6pil_worker_s: global_mutex
-          void* lw6pil_worker_s::global_mutex
+ -- Member of lw6pil_worker_s: global_mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6pil_worker_s::global_mutex'
 
 
- -- member of lw6pil_worker_s: compute_mutex
-          void* lw6pil_worker_s::compute_mutex
+ -- Member of lw6pil_worker_s: compute_mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6pil_worker_s::compute_mutex'
 
 
- -- member of lw6pil_worker_s: commands_spinlock
-          void* lw6pil_worker_s::commands_spinlock
+ -- Member of lw6pil_worker_s: commands_spinlock
+     *Type:* `void *'
+
+     *Definition:* `void* lw6pil_worker_s::commands_spinlock'
 
 
- -- member of lw6pil_worker_s: game_state
-          lw6ker_game_state_t* lw6pil_worker_s::game_state
+ -- Member of lw6pil_worker_s: game_state
+     *Type:* `lw6ker_game_state_t *'
+
+     *Definition:* `lw6ker_game_state_t* lw6pil_worker_s::game_state'
 
 
- -- member of lw6pil_worker_s: commands
-          lw6sys_list_t* lw6pil_worker_s::commands
+ -- Member of lw6pil_worker_s: commands
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6pil_worker_s::commands'
 
 
 
@@ -806,16 +1834,23 @@ results on
 
  -- Struct: lw6sim_results_s
 
- -- member of lw6sim_results_s: nb_teams
-          int lw6sim_results_s::nb_teams
+ -- Member of lw6sim_results_s: nb_teams
+     *Type:* `int'
+
+     *Definition:* `int lw6sim_results_s::nb_teams'
 
 
- -- member of lw6sim_results_s: absolute
-          int lw6sim_results_s::absolute[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6sim_results_s: absolute
+     *Type:* `int'
+
+     *Definition:* `int lw6sim_results_s::absolute[LW6MAP_MAX_NB_TEAMS]'
 
 
- -- member of lw6sim_results_s: percent
-          float lw6sim_results_s::percent[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6sim_results_s: percent
+     *Type:* `float'
+
+     *Definition:* `float
+     lw6sim_results_s::percent[LW6MAP_MAX_NB_TEAMS]'
 
 
 
@@ -1015,72 +2050,118 @@ results on
 
  -- Struct: lw6snd_backend_s
 
- -- member of lw6snd_backend_s: dl_handle
-          lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle
+ -- Member of lw6snd_backend_s: dl_handle
+     *Type:* `lw6dyn_dl_handle_t *'
+
+     *Definition:* `lw6dyn_dl_handle_t* lw6snd_backend_s::dl_handle'
 
 
- -- member of lw6snd_backend_s: snd_context
-          void* lw6snd_backend_s::snd_context
+ -- Member of lw6snd_backend_s: snd_context
+     *Type:* `void *'
+
+     *Definition:* `void* lw6snd_backend_s::snd_context'
 
 
- -- member of lw6snd_backend_s: argc
-          int lw6snd_backend_s::argc
+ -- Member of lw6snd_backend_s: argc
+     *Type:* `int'
+
+     *Definition:* `int lw6snd_backend_s::argc'
 
 
- -- member of lw6snd_backend_s: argv
-          const char** lw6snd_backend_s::argv
+ -- Member of lw6snd_backend_s: argv
+     *Type:* `const char **'
+
+     *Definition:* `const char** lw6snd_backend_s::argv'
 
 
- -- member of lw6snd_backend_s: id
-          u_int32_t lw6snd_backend_s::id
+ -- Member of lw6snd_backend_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6snd_backend_s::id'
 
 
- -- member of lw6snd_backend_s: play_fx
-          int(* lw6snd_backend_s::play_fx)(void *snd_context, int fx_id)
+ -- Member of lw6snd_backend_s: play_fx
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6snd_backend_s::play_fx)(void *snd_context,
+     int fx_id)'
 
 
- -- member of lw6snd_backend_s: is_music_file
-          int(* lw6snd_backend_s::is_music_file)(void *snd_context, char *music_file)
+ -- Member of lw6snd_backend_s: is_music_file
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6snd_backend_s::is_music_file)(void
+     *snd_context, char *music_file)'
 
 
- -- member of lw6snd_backend_s: play_music_file
-          int(* lw6snd_backend_s::play_music_file)(void *snd_context, char *music_file)
+ -- Member of lw6snd_backend_s: play_music_file
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6snd_backend_s::play_music_file)(void
+     *snd_context, char *music_file)'
 
 
- -- member of lw6snd_backend_s: play_music_random
-          int(* lw6snd_backend_s::play_music_random)(void *snd_context, char *music_path, char *music_filter, char *music_exclude)
+ -- Member of lw6snd_backend_s: play_music_random
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6snd_backend_s::play_music_random)(void
+     *snd_context, char *music_path, char *music_filter, char
+     *music_exclude)'
 
 
- -- member of lw6snd_backend_s: stop_music
-          void(* lw6snd_backend_s::stop_music)(void *snd_context)
+ -- Member of lw6snd_backend_s: stop_music
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::stop_music)(void
+     *snd_context)'
 
 
- -- member of lw6snd_backend_s: init
-          void*(* lw6snd_backend_s::init)(int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+ -- Member of lw6snd_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(* lw6snd_backend_s::init)(int argc, const
+     char *argv[], float fx_volume, float water_volume, float
+     music_volume)'
 
 
- -- member of lw6snd_backend_s: set_fx_volume
-          void(* lw6snd_backend_s::set_fx_volume)(void *snd_context, float volume)
+ -- Member of lw6snd_backend_s: set_fx_volume
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::set_fx_volume)(void
+     *snd_context, float volume)'
 
 
- -- member of lw6snd_backend_s: set_water_volume
-          void(* lw6snd_backend_s::set_water_volume)(void *snd_context, float volume)
+ -- Member of lw6snd_backend_s: set_water_volume
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::set_water_volume)(void
+     *snd_context, float volume)'
 
 
- -- member of lw6snd_backend_s: set_music_volume
-          void(* lw6snd_backend_s::set_music_volume)(void *snd_context, float volume)
+ -- Member of lw6snd_backend_s: set_music_volume
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::set_music_volume)(void
+     *snd_context, float volume)'
 
 
- -- member of lw6snd_backend_s: poll
-          void(* lw6snd_backend_s::poll)(void *snd_context)
+ -- Member of lw6snd_backend_s: poll
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::poll)(void *snd_context)'
 
 
- -- member of lw6snd_backend_s: quit
-          void(* lw6snd_backend_s::quit)(void *snd_context)
+ -- Member of lw6snd_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6snd_backend_s::quit)(void *snd_context)'
 
 
- -- member of lw6snd_backend_s: repr
-          char*(* lw6snd_backend_s::repr)(void *snd_context, u_int32_t id)
+ -- Member of lw6snd_backend_s: repr
+     *Type:* `char *(*'
+
+     *Definition:* `char*(* lw6snd_backend_s::repr)(void *snd_context,
+     u_int32_t id)'
 
 
 
@@ -1450,180 +2531,285 @@ results on
 
  -- Struct: lw6srv_backend_s
 
- -- member of lw6srv_backend_s: dl_handle
-          lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle
+ -- Member of lw6srv_backend_s: dl_handle
+     *Type:* `lw6dyn_dl_handle_t *'
+
+     *Definition:* `lw6dyn_dl_handle_t* lw6srv_backend_s::dl_handle'
 
 
- -- member of lw6srv_backend_s: srv_context
-          void* lw6srv_backend_s::srv_context
+ -- Member of lw6srv_backend_s: srv_context
+     *Type:* `void *'
+
+     *Definition:* `void* lw6srv_backend_s::srv_context'
 
 
- -- member of lw6srv_backend_s: argc
-          int lw6srv_backend_s::argc
+ -- Member of lw6srv_backend_s: argc
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_backend_s::argc'
 
 
- -- member of lw6srv_backend_s: argv
-          const char** lw6srv_backend_s::argv
+ -- Member of lw6srv_backend_s: argv
+     *Type:* `const char **'
+
+     *Definition:* `const char** lw6srv_backend_s::argv'
 
 
- -- member of lw6srv_backend_s: id
-          u_int32_t lw6srv_backend_s::id
+ -- Member of lw6srv_backend_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6srv_backend_s::id'
 
 
- -- member of lw6srv_backend_s: name
-          char* lw6srv_backend_s::name
+ -- Member of lw6srv_backend_s: name
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_backend_s::name'
 
 
- -- member of lw6srv_backend_s: info
-          lw6nod_info_t* lw6srv_backend_s::info
+ -- Member of lw6srv_backend_s: info
+     *Type:* `lw6nod_info_t *'
+
+     *Definition:* `lw6nod_info_t* lw6srv_backend_s::info'
 
 
- -- member of lw6srv_backend_s: init
-          void*(* lw6srv_backend_s::init)(int argc, const char *argv[], lw6srv_listener_t *listener)
+ -- Member of lw6srv_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(* lw6srv_backend_s::init)(int argc, const
+     char *argv[], lw6srv_listener_t *listener)'
 
 
- -- member of lw6srv_backend_s: quit
-          void(* lw6srv_backend_s::quit)(void *srv_context)
+ -- Member of lw6srv_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6srv_backend_s::quit)(void *srv_context)'
 
 
- -- member of lw6srv_backend_s: analyse_tcp
-          int(* lw6srv_backend_s::analyse_tcp)(void *srv_context, lw6srv_tcp_accepter_t *tcp_accepter, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)
+ -- Member of lw6srv_backend_s: analyse_tcp
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::analyse_tcp)(void
+     *srv_context, lw6srv_tcp_accepter_t *tcp_accepter, lw6nod_info_t
+     *node_info, u_int64_t *remote_id, char **remote_url)'
 
 
- -- member of lw6srv_backend_s: analyse_udp
-          int(* lw6srv_backend_s::analyse_udp)(void *srv_context, lw6srv_udp_buffer_t *udp_buffer, lw6nod_info_t *node_info, u_int64_t *remote_id, char **remote_url)
+ -- Member of lw6srv_backend_s: analyse_udp
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::analyse_udp)(void
+     *srv_context, lw6srv_udp_buffer_t *udp_buffer, lw6nod_info_t
+     *node_info, u_int64_t *remote_id, char **remote_url)'
 
 
- -- member of lw6srv_backend_s: process_oob
-          int(* lw6srv_backend_s::process_oob)(void *srv_context, lw6nod_info_t *node_info, lw6srv_oob_data_t *oob_data)
+ -- Member of lw6srv_backend_s: process_oob
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::process_oob)(void
+     *srv_context, lw6nod_info_t *node_info, lw6srv_oob_data_t
+     *oob_data)'
 
 
- -- member of lw6srv_backend_s: open
-          lw6cnx_connection_t*(* lw6srv_backend_s::open)(void *srv_context, lw6srv_listener_t *listener, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+ -- Member of lw6srv_backend_s: open
+     *Type:* `lw6cnx_connection_t *(*'
+
+     *Definition:* `lw6cnx_connection_t*(* lw6srv_backend_s::open)(void
+     *srv_context, lw6srv_listener_t *listener, char *local_url, char
+     *remote_url, char *remote_ip, int remote_port, char *password,
+     u_int64_t local_id, u_int64_t remote_id, int dns_ok, int
+     network_reliability, lw6cnx_recv_callback_t recv_callback_func,
+     void *recv_callback_data)'
 
 
- -- member of lw6srv_backend_s: feed_with_tcp
-          int(* lw6srv_backend_s::feed_with_tcp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_tcp_accepter_t *tcp_accepter)
+ -- Member of lw6srv_backend_s: feed_with_tcp
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::feed_with_tcp)(void
+     *srv_context, lw6cnx_connection_t *connection,
+     lw6srv_tcp_accepter_t *tcp_accepter)'
 
 
- -- member of lw6srv_backend_s: feed_with_udp
-          int(* lw6srv_backend_s::feed_with_udp)(void *srv_context, lw6cnx_connection_t *connection, lw6srv_udp_buffer_t *udp_buffer)
+ -- Member of lw6srv_backend_s: feed_with_udp
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::feed_with_udp)(void
+     *srv_context, lw6cnx_connection_t *connection, lw6srv_udp_buffer_t
+     *udp_buffer)'
 
 
- -- member of lw6srv_backend_s: close
-          void(* lw6srv_backend_s::close)(void *srv_context, lw6cnx_connection_t *connection)
+ -- Member of lw6srv_backend_s: close
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6srv_backend_s::close)(void *srv_context,
+     lw6cnx_connection_t *connection)'
 
 
- -- member of lw6srv_backend_s: send
-          int(* lw6srv_backend_s::send)(void *srv_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
+ -- Member of lw6srv_backend_s: send
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6srv_backend_s::send)(void *srv_context,
+     lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig,
+     u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t
+     logical_to_id, char *message)'
 
 
- -- member of lw6srv_backend_s: poll
-          void(* lw6srv_backend_s::poll)(void *srv_context, lw6cnx_connection_t *connection)
+ -- Member of lw6srv_backend_s: poll
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6srv_backend_s::poll)(void *srv_context,
+     lw6cnx_connection_t *connection)'
 
 
- -- member of lw6srv_backend_s: repr
-          char*(* lw6srv_backend_s::repr)(void *srv_context, lw6cnx_connection_t *connection)
+ -- Member of lw6srv_backend_s: repr
+     *Type:* `char *(*'
+
+     *Definition:* `char*(* lw6srv_backend_s::repr)(void *srv_context,
+     lw6cnx_connection_t *connection)'
 
 
  -- Struct: lw6srv_client_id_s
 
- -- member of lw6srv_client_id_s: client_ip
-          char* lw6srv_client_id_s::client_ip
+ -- Member of lw6srv_client_id_s: client_ip
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_client_id_s::client_ip'
 
 
- -- member of lw6srv_client_id_s: client_port
-          int lw6srv_client_id_s::client_port
+ -- Member of lw6srv_client_id_s: client_port
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_client_id_s::client_port'
 
 
  -- Struct: lw6srv_listener_s
 
- -- member of lw6srv_listener_s: ip
-          char* lw6srv_listener_s::ip
+ -- Member of lw6srv_listener_s: ip
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_listener_s::ip'
 
 
- -- member of lw6srv_listener_s: port
-          int lw6srv_listener_s::port
+ -- Member of lw6srv_listener_s: port
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_listener_s::port'
 
 
- -- member of lw6srv_listener_s: tcp_sock
-          int lw6srv_listener_s::tcp_sock
+ -- Member of lw6srv_listener_s: tcp_sock
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_listener_s::tcp_sock'
 
 
- -- member of lw6srv_listener_s: tcp_accepters
-          lw6sys_list_t* lw6srv_listener_s::tcp_accepters
+ -- Member of lw6srv_listener_s: tcp_accepters
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6srv_listener_s::tcp_accepters'
 
 
- -- member of lw6srv_listener_s: udp_sock
-          int lw6srv_listener_s::udp_sock
+ -- Member of lw6srv_listener_s: udp_sock
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_listener_s::udp_sock'
 
 
- -- member of lw6srv_listener_s: udp_buffers
-          lw6sys_list_t* lw6srv_listener_s::udp_buffers
+ -- Member of lw6srv_listener_s: udp_buffers
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6srv_listener_s::udp_buffers'
 
 
  -- Struct: lw6srv_oob_data_s
 
- -- member of lw6srv_oob_data_s: creation_timestamp
-          int64_t lw6srv_oob_data_s::creation_timestamp
+ -- Member of lw6srv_oob_data_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6srv_oob_data_s::creation_timestamp'
 
 
- -- member of lw6srv_oob_data_s: do_not_finish
-          int lw6srv_oob_data_s::do_not_finish
+ -- Member of lw6srv_oob_data_s: do_not_finish
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_oob_data_s::do_not_finish'
 
 
- -- member of lw6srv_oob_data_s: remote_ip
-          char* lw6srv_oob_data_s::remote_ip
+ -- Member of lw6srv_oob_data_s: remote_ip
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_oob_data_s::remote_ip'
 
 
- -- member of lw6srv_oob_data_s: remote_port
-          int lw6srv_oob_data_s::remote_port
+ -- Member of lw6srv_oob_data_s: remote_port
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_oob_data_s::remote_port'
 
 
- -- member of lw6srv_oob_data_s: sock
-          int lw6srv_oob_data_s::sock
+ -- Member of lw6srv_oob_data_s: sock
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_oob_data_s::sock'
 
 
- -- member of lw6srv_oob_data_s: first_line
-          char* lw6srv_oob_data_s::first_line
+ -- Member of lw6srv_oob_data_s: first_line
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_oob_data_s::first_line'
 
 
  -- Struct: lw6srv_oob_s
 
- -- member of lw6srv_oob_s: thread
-          void* lw6srv_oob_s::thread
+ -- Member of lw6srv_oob_s: thread
+     *Type:* `void *'
+
+     *Definition:* `void* lw6srv_oob_s::thread'
 
 
- -- member of lw6srv_oob_s: data
-          lw6srv_oob_data_t lw6srv_oob_s::data
+ -- Member of lw6srv_oob_s: data
+     *Type:* `lw6srv_oob_data_t'
+
+     *Definition:* `lw6srv_oob_data_t lw6srv_oob_s::data'
 
 
  -- Struct: lw6srv_tcp_accepter_s
 
- -- member of lw6srv_tcp_accepter_s: client_id
-          lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id
+ -- Member of lw6srv_tcp_accepter_s: client_id
+     *Type:* `lw6srv_client_id_t'
+
+     *Definition:* `lw6srv_client_id_t lw6srv_tcp_accepter_s::client_id'
 
 
- -- member of lw6srv_tcp_accepter_s: sock
-          int lw6srv_tcp_accepter_s::sock
+ -- Member of lw6srv_tcp_accepter_s: sock
+     *Type:* `int'
+
+     *Definition:* `int lw6srv_tcp_accepter_s::sock'
 
 
- -- member of lw6srv_tcp_accepter_s: first_line
-          char lw6srv_tcp_accepter_s::first_line[LW6SRV_PROTOCOL_BUFFER_SIZE+1]
+ -- Member of lw6srv_tcp_accepter_s: first_line
+     *Type:* `char'
+
+     *Definition:* `char
+     lw6srv_tcp_accepter_s::first_line[LW6SRV_PROTOCOL_BUFFER_SIZE+1]'
 
 
- -- member of lw6srv_tcp_accepter_s: creation_timestamp
-          int64_t lw6srv_tcp_accepter_s::creation_timestamp
+ -- Member of lw6srv_tcp_accepter_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6srv_tcp_accepter_s::creation_timestamp'
 
 
  -- Struct: lw6srv_udp_buffer_s
 
- -- member of lw6srv_udp_buffer_s: client_id
-          lw6srv_client_id_t lw6srv_udp_buffer_s::client_id
+ -- Member of lw6srv_udp_buffer_s: client_id
+     *Type:* `lw6srv_client_id_t'
+
+     *Definition:* `lw6srv_client_id_t lw6srv_udp_buffer_s::client_id'
 
 
- -- member of lw6srv_udp_buffer_s: line
-          char* lw6srv_udp_buffer_s::line
+ -- Member of lw6srv_udp_buffer_s: line
+     *Type:* `char *'
+
+     *Definition:* `char* lw6srv_udp_buffer_s::line'
 
 
 
@@ -5722,214 +6908,308 @@ results on
 
  -- Struct: lw6sys_assoc_s
 
- -- member of lw6sys_assoc_s: key
-          char* lw6sys_assoc_s::key
+ -- Member of lw6sys_assoc_s: key
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_assoc_s::key'
 
 
- -- member of lw6sys_assoc_s: value
-          void* lw6sys_assoc_s::value
+ -- Member of lw6sys_assoc_s: value
+     *Type:* `void *'
+
+     *Definition:* `void* lw6sys_assoc_s::value'
 
 
- -- member of lw6sys_assoc_s: free_func
-          lw6sys_free_func_t lw6sys_assoc_s::free_func
+ -- Member of lw6sys_assoc_s: free_func
+     *Type:* `lw6sys_free_func_t'
+
+     *Definition:* `lw6sys_free_func_t lw6sys_assoc_s::free_func'
 
 
- -- member of lw6sys_assoc_s: next_item
-          void* lw6sys_assoc_s::next_item
+ -- Member of lw6sys_assoc_s: next_item
+     *Type:* `void *'
+
+     *Definition:* `void* lw6sys_assoc_s::next_item'
 
 
  -- Struct: lw6sys_color_8_s
 
- -- member of lw6sys_color_8_s: r
-          u_int8_t lw6sys_color_8_s::r
+ -- Member of lw6sys_color_8_s: r
+     *Type:* `u_int8_t'
+
+     *Definition:* `u_int8_t lw6sys_color_8_s::r'
 
 
- -- member of lw6sys_color_8_s: g
-          u_int8_t lw6sys_color_8_s::g
+ -- Member of lw6sys_color_8_s: g
+     *Type:* `u_int8_t'
+
+     *Definition:* `u_int8_t lw6sys_color_8_s::g'
 
 
- -- member of lw6sys_color_8_s: b
-          u_int8_t lw6sys_color_8_s::b
+ -- Member of lw6sys_color_8_s: b
+     *Type:* `u_int8_t'
+
+     *Definition:* `u_int8_t lw6sys_color_8_s::b'
 
 
- -- member of lw6sys_color_8_s: a
-          u_int8_t lw6sys_color_8_s::a
+ -- Member of lw6sys_color_8_s: a
+     *Type:* `u_int8_t'
+
+     *Definition:* `u_int8_t lw6sys_color_8_s::a'
 
 
  -- Struct: lw6sys_color_f_s
 
- -- member of lw6sys_color_f_s: r
-          float lw6sys_color_f_s::r
+ -- Member of lw6sys_color_f_s: r
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_f_s::r'
 
 
- -- member of lw6sys_color_f_s: g
-          float lw6sys_color_f_s::g
+ -- Member of lw6sys_color_f_s: g
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_f_s::g'
 
 
- -- member of lw6sys_color_f_s: b
-          float lw6sys_color_f_s::b
+ -- Member of lw6sys_color_f_s: b
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_f_s::b'
 
 
- -- member of lw6sys_color_f_s: a
-          float lw6sys_color_f_s::a
+ -- Member of lw6sys_color_f_s: a
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_f_s::a'
 
 
  -- Struct: lw6sys_color_hsv_s
 
- -- member of lw6sys_color_hsv_s: h
-          float lw6sys_color_hsv_s::h
+ -- Member of lw6sys_color_hsv_s: h
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_hsv_s::h'
 
 
- -- member of lw6sys_color_hsv_s: s
-          float lw6sys_color_hsv_s::s
+ -- Member of lw6sys_color_hsv_s: s
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_hsv_s::s'
 
 
- -- member of lw6sys_color_hsv_s: v
-          float lw6sys_color_hsv_s::v
+ -- Member of lw6sys_color_hsv_s: v
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_hsv_s::v'
 
 
- -- member of lw6sys_color_hsv_s: a
-          float lw6sys_color_hsv_s::a
+ -- Member of lw6sys_color_hsv_s: a
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_color_hsv_s::a'
 
 
  -- Struct: lw6sys_hash_s
 
- -- member of lw6sys_hash_s: size
-          int lw6sys_hash_s::size
+ -- Member of lw6sys_hash_s: size
+     *Type:* `int'
+
+     *Definition:* `int lw6sys_hash_s::size'
 
 
- -- member of lw6sys_hash_s: entries
-          lw6sys_assoc_t** lw6sys_hash_s::entries
+ -- Member of lw6sys_hash_s: entries
+     *Type:* `lw6sys_assoc_t **'
+
+     *Definition:* `lw6sys_assoc_t** lw6sys_hash_s::entries'
 
 
- -- member of lw6sys_hash_s: free_func
-          lw6sys_free_func_t lw6sys_hash_s::free_func
+ -- Member of lw6sys_hash_s: free_func
+     *Type:* `lw6sys_free_func_t'
+
+     *Definition:* `lw6sys_free_func_t lw6sys_hash_s::free_func'
 
 
  -- Struct: lw6sys_hexa_serializer_s
 
- -- member of lw6sys_hexa_serializer_s: buf
-          char* lw6sys_hexa_serializer_s::buf
+ -- Member of lw6sys_hexa_serializer_s: buf
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_hexa_serializer_s::buf'
 
 
- -- member of lw6sys_hexa_serializer_s: buf_size
-          int lw6sys_hexa_serializer_s::buf_size
+ -- Member of lw6sys_hexa_serializer_s: buf_size
+     *Type:* `int'
+
+     *Definition:* `int lw6sys_hexa_serializer_s::buf_size'
 
 
- -- member of lw6sys_hexa_serializer_s: pos
-          int lw6sys_hexa_serializer_s::pos
+ -- Member of lw6sys_hexa_serializer_s: pos
+     *Type:* `int'
+
+     *Definition:* `int lw6sys_hexa_serializer_s::pos'
 
 
  -- Struct: lw6sys_list_s
 
- -- member of lw6sys_list_s: data
-          void* lw6sys_list_s::data
+ -- Member of lw6sys_list_s: data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6sys_list_s::data'
 
 
- -- member of lw6sys_list_s: free_func
-          lw6sys_free_func_t lw6sys_list_s::free_func
+ -- Member of lw6sys_list_s: free_func
+     *Type:* `lw6sys_free_func_t'
+
+     *Definition:* `lw6sys_free_func_t lw6sys_list_s::free_func'
 
 
- -- member of lw6sys_list_s: next_item
-          void* lw6sys_list_s::next_item
+ -- Member of lw6sys_list_s: next_item
+     *Type:* `void *'
+
+     *Definition:* `void* lw6sys_list_s::next_item'
 
 
  -- Struct: lw6sys_module_pedigree_s
 
- -- member of lw6sys_module_pedigree_s: id
-          char* lw6sys_module_pedigree_s::id
+ -- Member of lw6sys_module_pedigree_s: id
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::id'
 
 
- -- member of lw6sys_module_pedigree_s: category
-          char* lw6sys_module_pedigree_s::category
+ -- Member of lw6sys_module_pedigree_s: category
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::category'
 
 
- -- member of lw6sys_module_pedigree_s: name
-          char* lw6sys_module_pedigree_s::name
+ -- Member of lw6sys_module_pedigree_s: name
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::name'
 
 
- -- member of lw6sys_module_pedigree_s: readme
-          char* lw6sys_module_pedigree_s::readme
+ -- Member of lw6sys_module_pedigree_s: readme
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::readme'
 
 
- -- member of lw6sys_module_pedigree_s: version
-          char* lw6sys_module_pedigree_s::version
+ -- Member of lw6sys_module_pedigree_s: version
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::version'
 
 
- -- member of lw6sys_module_pedigree_s: copyright
-          char* lw6sys_module_pedigree_s::copyright
+ -- Member of lw6sys_module_pedigree_s: copyright
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::copyright'
 
 
- -- member of lw6sys_module_pedigree_s: license
-          char* lw6sys_module_pedigree_s::license
+ -- Member of lw6sys_module_pedigree_s: license
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::license'
 
 
- -- member of lw6sys_module_pedigree_s: date
-          char* lw6sys_module_pedigree_s::date
+ -- Member of lw6sys_module_pedigree_s: date
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::date'
 
 
- -- member of lw6sys_module_pedigree_s: time
-          char* lw6sys_module_pedigree_s::time
+ -- Member of lw6sys_module_pedigree_s: time
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_module_pedigree_s::time'
 
 
  -- Struct: lw6sys_progress_s
 
- -- member of lw6sys_progress_s: min
-          float lw6sys_progress_s::min
+ -- Member of lw6sys_progress_s: min
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_progress_s::min'
 
 
- -- member of lw6sys_progress_s: max
-          float lw6sys_progress_s::max
+ -- Member of lw6sys_progress_s: max
+     *Type:* `float'
+
+     *Definition:* `float lw6sys_progress_s::max'
 
 
- -- member of lw6sys_progress_s: value
-          volatile float* lw6sys_progress_s::value
+ -- Member of lw6sys_progress_s: value
+     *Type:* `float *'
+
+     *Definition:* `volatile float* lw6sys_progress_s::value'
 
 
  -- Struct: lw6sys_url_s
 
- -- member of lw6sys_url_s: use_ssl
-          int lw6sys_url_s::use_ssl
+ -- Member of lw6sys_url_s: use_ssl
+     *Type:* `int'
+
+     *Definition:* `int lw6sys_url_s::use_ssl'
 
 
- -- member of lw6sys_url_s: host
-          char* lw6sys_url_s::host
+ -- Member of lw6sys_url_s: host
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_url_s::host'
 
 
- -- member of lw6sys_url_s: port
-          int lw6sys_url_s::port
+ -- Member of lw6sys_url_s: port
+     *Type:* `int'
+
+     *Definition:* `int lw6sys_url_s::port'
 
 
- -- member of lw6sys_url_s: uri
-          char* lw6sys_url_s::uri
+ -- Member of lw6sys_url_s: uri
+     *Type:* `char *'
+
+     *Definition:* `char* lw6sys_url_s::uri'
 
 
  -- Struct: lw6sys_whd_s
 
- -- member of lw6sys_whd_s: w
-          u_int32_t lw6sys_whd_s::w
+ -- Member of lw6sys_whd_s: w
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6sys_whd_s::w'
 
 
- -- member of lw6sys_whd_s: h
-          u_int32_t lw6sys_whd_s::h
+ -- Member of lw6sys_whd_s: h
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6sys_whd_s::h'
 
 
- -- member of lw6sys_whd_s: d
-          u_int32_t lw6sys_whd_s::d
+ -- Member of lw6sys_whd_s: d
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6sys_whd_s::d'
 
 
  -- Struct: lw6sys_xyz_s
 
- -- member of lw6sys_xyz_s: x
-          int32_t lw6sys_xyz_s::x
+ -- Member of lw6sys_xyz_s: x
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6sys_xyz_s::x'
 
 
- -- member of lw6sys_xyz_s: y
-          int32_t lw6sys_xyz_s::y
+ -- Member of lw6sys_xyz_s: y
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6sys_xyz_s::y'
 
 
- -- member of lw6sys_xyz_s: z
-          int32_t lw6sys_xyz_s::z
+ -- Member of lw6sys_xyz_s: z
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6sys_xyz_s::z'
 
 
 
@@ -6039,16 +7319,22 @@ results on
 
  -- Struct: lw6tsk_loader_s
 
- -- member of lw6tsk_loader_s: id
-          u_int32_t lw6tsk_loader_s::id
+ -- Member of lw6tsk_loader_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6tsk_loader_s::id'
 
 
- -- member of lw6tsk_loader_s: thread
-          void* lw6tsk_loader_s::thread
+ -- Member of lw6tsk_loader_s: thread
+     *Type:* `void *'
+
+     *Definition:* `void* lw6tsk_loader_s::thread'
 
 
- -- member of lw6tsk_loader_s: data
-          void* lw6tsk_loader_s::data
+ -- Member of lw6tsk_loader_s: data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6tsk_loader_s::data'
 
 
 
@@ -6091,8 +7377,10 @@ results on
 
  -- Struct: lw6vox_renderer_s
 
- -- member of lw6vox_renderer_s: dummy
-          int lw6vox_renderer_s::dummy
+ -- Member of lw6vox_renderer_s: dummy
+     *Type:* `int'
+
+     *Definition:* `int lw6vox_renderer_s::dummy'
 
 
 
@@ -6614,1213 +7902,4 @@ informations for those who enjoy digging into the past.
 
    * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git': Gitweb
      interface, cgit seems to be Savannah's default now.
-
-
-File: liquidwar6.info,  Node: Copying,  Next: GNU Free Documentation License,  Prev: Links,  Up: Top
-
-Appendix D GNU GENERAL PUBLIC LICENSE
-*************************************
-
-                        Version 3, 29 June 2007
-
-     Copyright (C) 2007 Free Software Foundation, Inc. `http://fsf.org/'
-
-     Everyone is permitted to copy and distribute verbatim copies of this
-     license document, but changing it is not allowed.
-
-Preamble
-========
-
-The GNU General Public License is a free, copyleft license for software
-and other kinds of works.
-
-   The licenses for most software and other practical works are designed
-to take away your freedom to share and change the works.  By contrast,
-the GNU General Public License is intended to guarantee your freedom to
-share and change all versions of a program--to make sure it remains
-free software for all its users.  We, the Free Software Foundation, use
-the GNU General Public License for most of our software; it applies
-also to any other work released this way by its authors.  You can apply
-it to your programs, too.
-
-   When we speak of free software, we are referring to freedom, not
-price.  Our General Public Licenses are designed to make sure that you
-have the freedom to distribute copies of free software (and charge for
-them if you wish), that you receive source code or can get it if you
-want it, that you can change the software or use pieces of it in new
-free programs, and that you know you can do these things.
-
-   To protect your rights, we need to prevent others from denying you
-these rights or asking you to surrender the rights.  Therefore, you
-have certain responsibilities if you distribute copies of the software,
-or if you modify it: responsibilities to respect the freedom of others.
-
-   For example, if you distribute copies of such a program, whether
-gratis or for a fee, you must pass on to the recipients the same
-freedoms that you received.  You must make sure that they, too, receive
-or can get the source code.  And you must show them these terms so they
-know their rights.
-
-   Developers that use the GNU GPL protect your rights with two steps:
-(1) assert copyright on the software, and (2) offer you this License
-giving you legal permission to copy, distribute and/or modify it.
-
-   For the developers' and authors' protection, the GPL clearly explains
-that there is no warranty for this free software.  For both users' and
-authors' sake, the GPL requires that modified versions be marked as
-changed, so that their problems will not be attributed erroneously to
-authors of previous versions.
-
-   Some devices are designed to deny users access to install or run
-modified versions of the software inside them, although the
-manufacturer can do so.  This is fundamentally incompatible with the
-aim of protecting users' freedom to change the software.  The
-systematic pattern of such abuse occurs in the area of products for
-individuals to use, which is precisely where it is most unacceptable.
-Therefore, we have designed this version of the GPL to prohibit the
-practice for those products.  If such problems arise substantially in
-other domains, we stand ready to extend this provision to those domains
-in future versions of the GPL, as needed to protect the freedom of
-users.
-
-   Finally, every program is threatened constantly by software patents.
-States should not allow patents to restrict development and use of
-software on general-purpose computers, but in those that do, we wish to
-avoid the special danger that patents applied to a free program could
-make it effectively proprietary.  To prevent this, the GPL assures that
-patents cannot be used to render the program non-free.
-
-   The precise terms and conditions for copying, distribution and
-modification follow.
-
-TERMS AND CONDITIONS
-====================
-
-  0. Definitions.
-
-     "This License" refers to version 3 of the GNU General Public
-     License.
-
-     "Copyright" also means copyright-like laws that apply to other
-     kinds of works, such as semiconductor masks.
-
-     "The Program" refers to any copyrightable work licensed under this
-     License.  Each licensee is addressed as "you".  "Licensees" and
-     "recipients" may be individuals or organizations.
-
-     To "modify" a work means to copy from or adapt all or part of the
-     work in a fashion requiring copyright permission, other than the
-     making of an exact copy.  The resulting work is called a "modified
-     version" of the earlier work or a work "based on" the earlier work.
-
-     A "covered work" means either the unmodified Program or a work
-     based on the Program.
-
-     To "propagate" a work means to do anything with it that, without
-     permission, would make you directly or secondarily liable for
-     infringement under applicable copyright law, except executing it
-     on a computer or modifying a private copy.  Propagation includes
-     copying, distribution (with or without modification), making
-     available to the public, and in some countries other activities as
-     well.
-
-     To "convey" a work means any kind of propagation that enables other
-     parties to make or receive copies.  Mere interaction with a user
-     through a computer network, with no transfer of a copy, is not
-     conveying.
-
-     An interactive user interface displays "Appropriate Legal Notices"
-     to the extent that it includes a convenient and prominently visible
-     feature that (1) displays an appropriate copyright notice, and (2)
-     tells the user that there is no warranty for the work (except to
-     the extent that warranties are provided), that licensees may
-     convey the work under this License, and how to view a copy of this
-     License.  If the interface presents a list of user commands or
-     options, such as a menu, a prominent item in the list meets this
-     criterion.
-
-  1. Source Code.
-
-     The "source code" for a work means the preferred form of the work
-     for making modifications to it.  "Object code" means any
-     non-source form of a work.
-
-     A "Standard Interface" means an interface that either is an
-     official standard defined by a recognized standards body, or, in
-     the case of interfaces specified for a particular programming
-     language, one that is widely used among developers working in that
-     language.
-
-     The "System Libraries" of an executable work include anything,
-     other than the work as a whole, that (a) is included in the normal
-     form of packaging a Major Component, but which is not part of that
-     Major Component, and (b) serves only to enable use of the work
-     with that Major Component, or to implement a Standard Interface
-     for which an implementation is available to the public in source
-     code form.  A "Major Component", in this context, means a major
-     essential component (kernel, window system, and so on) of the
-     specific operating system (if any) on which the executable work
-     runs, or a compiler used to produce the work, or an object code
-     interpreter used to run it.
-
-     The "Corresponding Source" for a work in object code form means all
-     the source code needed to generate, install, and (for an executable
-     work) run the object code and to modify the work, including
-     scripts to control those activities.  However, it does not include
-     the work's System Libraries, or general-purpose tools or generally
-     available free programs which are used unmodified in performing
-     those activities but which are not part of the work.  For example,
-     Corresponding Source includes interface definition files
-     associated with source files for the work, and the source code for
-     shared libraries and dynamically linked subprograms that the work
-     is specifically designed to require, such as by intimate data
-     communication or control flow between those subprograms and other
-     parts of the work.
-
-     The Corresponding Source need not include anything that users can
-     regenerate automatically from other parts of the Corresponding
-     Source.
-
-     The Corresponding Source for a work in source code form is that
-     same work.
-
-  2. Basic Permissions.
-
-     All rights granted under this License are granted for the term of
-     copyright on the Program, and are irrevocable provided the stated
-     conditions are met.  This License explicitly affirms your unlimited
-     permission to run the unmodified Program.  The output from running
-     a covered work is covered by this License only if the output,
-     given its content, constitutes a covered work.  This License
-     acknowledges your rights of fair use or other equivalent, as
-     provided by copyright law.
-
-     You may make, run and propagate covered works that you do not
-     convey, without conditions so long as your license otherwise
-     remains in force.  You may convey covered works to others for the
-     sole purpose of having them make modifications exclusively for
-     you, or provide you with facilities for running those works,
-     provided that you comply with the terms of this License in
-     conveying all material for which you do not control copyright.
-     Those thus making or running the covered works for you must do so
-     exclusively on your behalf, under your direction and control, on
-     terms that prohibit them from making any copies of your
-     copyrighted material outside their relationship with you.
-
-     Conveying under any other circumstances is permitted solely under
-     the conditions stated below.  Sublicensing is not allowed; section
-     10 makes it unnecessary.
-
-  3. Protecting Users' Legal Rights From Anti-Circumvention Law.
-
-     No covered work shall be deemed part of an effective technological
-     measure under any applicable law fulfilling obligations under
-     article 11 of the WIPO copyright treaty adopted on 20 December
-     1996, or similar laws prohibiting or restricting circumvention of
-     such measures.
-
-     When you convey a covered work, you waive any legal power to forbid
-     circumvention of technological measures to the extent such
-     circumvention is effected by exercising rights under this License
-     with respect to the covered work, and you disclaim any intention
-     to limit operation or modification of the work as a means of
-     enforcing, against the work's users, your or third parties' legal
-     rights to forbid circumvention of technological measures.
-
-  4. Conveying Verbatim Copies.
-
-     You may convey verbatim copies of the Program's source code as you
-     receive it, in any medium, provided that you conspicuously and
-     appropriately publish on each copy an appropriate copyright notice;
-     keep intact all notices stating that this License and any
-     non-permissive terms added in accord with section 7 apply to the
-     code; keep intact all notices of the absence of any warranty; and
-     give all recipients a copy of this License along with the Program.
-
-     You may charge any price or no price for each copy that you convey,
-     and you may offer support or warranty protection for a fee.
-
-  5. Conveying Modified Source Versions.
-
-     You may convey a work based on the Program, or the modifications to
-     produce it from the Program, in the form of source code under the
-     terms of section 4, provided that you also meet all of these
-     conditions:
-
-       a. The work must carry prominent notices stating that you
-          modified it, and giving a relevant date.
-
-       b. The work must carry prominent notices stating that it is
-          released under this License and any conditions added under
-          section 7.  This requirement modifies the requirement in
-          section 4 to "keep intact all notices".
-
-       c. You must license the entire work, as a whole, under this
-          License to anyone who comes into possession of a copy.  This
-          License will therefore apply, along with any applicable
-          section 7 additional terms, to the whole of the work, and all
-          its parts, regardless of how they are packaged.  This License
-          gives no permission to license the work in any other way, but
-          it does not invalidate such permission if you have separately
-          received it.
-
-       d. If the work has interactive user interfaces, each must display
-          Appropriate Legal Notices; however, if the Program has
-          interactive interfaces that do not display Appropriate Legal
-          Notices, your work need not make them do so.
-
-     A compilation of a covered work with other separate and independent
-     works, which are not by their nature extensions of the covered
-     work, and which are not combined with it such as to form a larger
-     program, in or on a volume of a storage or distribution medium, is
-     called an "aggregate" if the compilation and its resulting
-     copyright are not used to limit the access or legal rights of the
-     compilation's users beyond what the individual works permit.
-     Inclusion of a covered work in an aggregate does not cause this
-     License to apply to the other parts of the aggregate.
-
-  6. Conveying Non-Source Forms.
-
-     You may convey a covered work in object code form under the terms
-     of sections 4 and 5, provided that you also convey the
-     machine-readable Corresponding Source under the terms of this
-     License, in one of these ways:
-
-       a. Convey the object code in, or embodied in, a physical product
-          (including a physical distribution medium), accompanied by the
-          Corresponding Source fixed on a durable physical medium
-          customarily used for software interchange.
-
-       b. Convey the object code in, or embodied in, a physical product
-          (including a physical distribution medium), accompanied by a
-          written offer, valid for at least three years and valid for
-          as long as you offer spare parts or customer support for that
-          product model, to give anyone who possesses the object code
-          either (1) a copy of the Corresponding Source for all the
-          software in the product that is covered by this License, on a
-          durable physical medium customarily used for software
-          interchange, for a price no more than your reasonable cost of
-          physically performing this conveying of source, or (2) access
-          to copy the Corresponding Source from a network server at no
-          charge.
-
-       c. Convey individual copies of the object code with a copy of
-          the written offer to provide the Corresponding Source.  This
-          alternative is allowed only occasionally and noncommercially,
-          and only if you received the object code with such an offer,
-          in accord with subsection 6b.
-
-       d. Convey the object code by offering access from a designated
-          place (gratis or for a charge), and offer equivalent access
-          to the Corresponding Source in the same way through the same
-          place at no further charge.  You need not require recipients
-          to copy the Corresponding Source along with the object code.
-          If the place to copy the object code is a network server, the
-          Corresponding Source may be on a different server (operated
-          by you or a third party) that supports equivalent copying
-          facilities, provided you maintain clear directions next to
-          the object code saying where to find the Corresponding Source.
-          Regardless of what server hosts the Corresponding Source, you
-          remain obligated to ensure that it is available for as long
-          as needed to satisfy these requirements.
-
-       e. Convey the object code using peer-to-peer transmission,
-          provided you inform other peers where the object code and
-          Corresponding Source of the work are being offered to the
-          general public at no charge under subsection 6d.
-
-
-     A separable portion of the object code, whose source code is
-     excluded from the Corresponding Source as a System Library, need
-     not be included in conveying the object code work.
-
-     A "User Product" is either (1) a "consumer product", which means
-     any tangible personal property which is normally used for personal,
-     family, or household purposes, or (2) anything designed or sold for
-     incorporation into a dwelling.  In determining whether a product
-     is a consumer product, doubtful cases shall be resolved in favor of
-     coverage.  For a particular product received by a particular user,
-     "normally used" refers to a typical or common use of that class of
-     product, regardless of the status of the particular user or of the
-     way in which the particular user actually uses, or expects or is
-     expected to use, the product.  A product is a consumer product
-     regardless of whether the product has substantial commercial,
-     industrial or non-consumer uses, unless such uses represent the
-     only significant mode of use of the product.
-
-     "Installation Information" for a User Product means any methods,
-     procedures, authorization keys, or other information required to
-     install and execute modified versions of a covered work in that
-     User Product from a modified version of its Corresponding Source.
-     The information must suffice to ensure that the continued
-     functioning of the modified object code is in no case prevented or
-     interfered with solely because modification has been made.
-
-     If you convey an object code work under this section in, or with,
-     or specifically for use in, a User Product, and the conveying
-     occurs as part of a transaction in which the right of possession
-     and use of the User Product is transferred to the recipient in
-     perpetuity or for a fixed term (regardless of how the transaction
-     is characterized), the Corresponding Source conveyed under this
-     section must be accompanied by the Installation Information.  But
-     this requirement does not apply if neither you nor any third party
-     retains the ability to install modified object code on the User
-     Product (for example, the work has been installed in ROM).
-
-     The requirement to provide Installation Information does not
-     include a requirement to continue to provide support service,
-     warranty, or updates for a work that has been modified or
-     installed by the recipient, or for the User Product in which it
-     has been modified or installed.  Access to a network may be denied
-     when the modification itself materially and adversely affects the
-     operation of the network or violates the rules and protocols for
-     communication across the network.
-
-     Corresponding Source conveyed, and Installation Information
-     provided, in accord with this section must be in a format that is
-     publicly documented (and with an implementation available to the
-     public in source code form), and must require no special password
-     or key for unpacking, reading or copying.
-
-  7. Additional Terms.
-
-     "Additional permissions" are terms that supplement the terms of
-     this License by making exceptions from one or more of its
-     conditions.  Additional permissions that are applicable to the
-     entire Program shall be treated as though they were included in
-     this License, to the extent that they are valid under applicable
-     law.  If additional permissions apply only to part of the Program,
-     that part may be used separately under those permissions, but the
-     entire Program remains governed by this License without regard to
-     the additional permissions.
-
-     When you convey a copy of a covered work, you may at your option
-     remove any additional permissions from that copy, or from any part
-     of it.  (Additional permissions may be written to require their own
-     removal in certain cases when you modify the work.)  You may place
-     additional permissions on material, added by you to a covered work,
-     for which you have or can give appropriate copyright permission.
-
-     Notwithstanding any other provision of this License, for material
-     you add to a covered work, you may (if authorized by the copyright
-     holders of that material) supplement the terms of this License
-     with terms:
-
-       a. Disclaiming warranty or limiting liability differently from
-          the terms of sections 15 and 16 of this License; or
-
-       b. Requiring preservation of specified reasonable legal notices
-          or author attributions in that material or in the Appropriate
-          Legal Notices displayed by works containing it; or
-
-       c. Prohibiting misrepresentation of the origin of that material,
-          or requiring that modified versions of such material be
-          marked in reasonable ways as different from the original
-          version; or
-
-       d. Limiting the use for publicity purposes of names of licensors
-          or authors of the material; or
-
-       e. Declining to grant rights under trademark law for use of some
-          trade names, trademarks, or service marks; or
-
-       f. Requiring indemnification of licensors and authors of that
-          material by anyone who conveys the material (or modified
-          versions of it) with contractual assumptions of liability to
-          the recipient, for any liability that these contractual
-          assumptions directly impose on those licensors and authors.
-
-     All other non-permissive additional terms are considered "further
-     restrictions" within the meaning of section 10.  If the Program as
-     you received it, or any part of it, contains a notice stating that
-     it is governed by this License along with a term that is a further
-     restriction, you may remove that term.  If a license document
-     contains a further restriction but permits relicensing or
-     conveying under this License, you may add to a covered work
-     material governed by the terms of that license document, provided
-     that the further restriction does not survive such relicensing or
-     conveying.
-
-     If you add terms to a covered work in accord with this section, you
-     must place, in the relevant source files, a statement of the
-     additional terms that apply to those files, or a notice indicating
-     where to find the applicable terms.
-
-     Additional terms, permissive or non-permissive, may be stated in
-     the form of a separately written license, or stated as exceptions;
-     the above requirements apply either way.
-
-  8. Termination.
-
-     You may not propagate or modify a covered work except as expressly
-     provided under this License.  Any attempt otherwise to propagate or
-     modify it is void, and will automatically terminate your rights
-     under this License (including any patent licenses granted under
-     the third paragraph of section 11).
-
-     However, if you cease all violation of this License, then your
-     license from a particular copyright holder is reinstated (a)
-     provisionally, unless and until the copyright holder explicitly
-     and finally terminates your license, and (b) permanently, if the
-     copyright holder fails to notify you of the violation by some
-     reasonable means prior to 60 days after the cessation.
-
-     Moreover, your license from a particular copyright holder is
-     reinstated permanently if the copyright holder notifies you of the
-     violation by some reasonable means, this is the first time you have
-     received notice of violation of this License (for any work) from
-     that copyright holder, and you cure the violation prior to 30 days
-     after your receipt of the notice.
-
-     Termination of your rights under this section does not terminate
-     the licenses of parties who have received copies or rights from
-     you under this License.  If your rights have been terminated and
-     not permanently reinstated, you do not qualify to receive new
-     licenses for the same material under section 10.
-
-  9. Acceptance Not Required for Having Copies.
-
-     You are not required to accept this License in order to receive or
-     run a copy of the Program.  Ancillary propagation of a covered work
-     occurring solely as a consequence of using peer-to-peer
-     transmission to receive a copy likewise does not require
-     acceptance.  However, nothing other than this License grants you
-     permission to propagate or modify any covered work.  These actions
-     infringe copyright if you do not accept this License.  Therefore,
-     by modifying or propagating a covered work, you indicate your
-     acceptance of this License to do so.
-
- 10. Automatic Licensing of Downstream Recipients.
-
-     Each time you convey a covered work, the recipient automatically
-     receives a license from the original licensors, to run, modify and
-     propagate that work, subject to this License.  You are not
-     responsible for enforcing compliance by third parties with this
-     License.
-
-     An "entity transaction" is a transaction transferring control of an
-     organization, or substantially all assets of one, or subdividing an
-     organization, or merging organizations.  If propagation of a
-     covered work results from an entity transaction, each party to that
-     transaction who receives a copy of the work also receives whatever
-     licenses to the work the party's predecessor in interest had or
-     could give under the previous paragraph, plus a right to
-     possession of the Corresponding Source of the work from the
-     predecessor in interest, if the predecessor has it or can get it
-     with reasonable efforts.
-
-     You may not impose any further restrictions on the exercise of the
-     rights granted or affirmed under this License.  For example, you
-     may not impose a license fee, royalty, or other charge for
-     exercise of rights granted under this License, and you may not
-     initiate litigation (including a cross-claim or counterclaim in a
-     lawsuit) alleging that any patent claim is infringed by making,
-     using, selling, offering for sale, or importing the Program or any
-     portion of it.
-
- 11. Patents.
-
-     A "contributor" is a copyright holder who authorizes use under this
-     License of the Program or a work on which the Program is based.
-     The work thus licensed is called the contributor's "contributor
-     version".
-
-     A contributor's "essential patent claims" are all patent claims
-     owned or controlled by the contributor, whether already acquired or
-     hereafter acquired, that would be infringed by some manner,
-     permitted by this License, of making, using, or selling its
-     contributor version, but do not include claims that would be
-     infringed only as a consequence of further modification of the
-     contributor version.  For purposes of this definition, "control"
-     includes the right to grant patent sublicenses in a manner
-     consistent with the requirements of this License.
-
-     Each contributor grants you a non-exclusive, worldwide,
-     royalty-free patent license under the contributor's essential
-     patent claims, to make, use, sell, offer for sale, import and
-     otherwise run, modify and propagate the contents of its
-     contributor version.
-
-     In the following three paragraphs, a "patent license" is any
-     express agreement or commitment, however denominated, not to
-     enforce a patent (such as an express permission to practice a
-     patent or covenant not to sue for patent infringement).  To
-     "grant" such a patent license to a party means to make such an
-     agreement or commitment not to enforce a patent against the party.
-
-     If you convey a covered work, knowingly relying on a patent
-     license, and the Corresponding Source of the work is not available
-     for anyone to copy, free of charge and under the terms of this
-     License, through a publicly available network server or other
-     readily accessible means, then you must either (1) cause the
-     Corresponding Source to be so available, or (2) arrange to deprive
-     yourself of the benefit of the patent license for this particular
-     work, or (3) arrange, in a manner consistent with the requirements
-     of this License, to extend the patent license to downstream
-     recipients.  "Knowingly relying" means you have actual knowledge
-     that, but for the patent license, your conveying the covered work
-     in a country, or your recipient's use of the covered work in a
-     country, would infringe one or more identifiable patents in that
-     country that you have reason to believe are valid.
-
-     If, pursuant to or in connection with a single transaction or
-     arrangement, you convey, or propagate by procuring conveyance of, a
-     covered work, and grant a patent license to some of the parties
-     receiving the covered work authorizing them to use, propagate,
-     modify or convey a specific copy of the covered work, then the
-     patent license you grant is automatically extended to all
-     recipients of the covered work and works based on it.
-
-     A patent license is "discriminatory" if it does not include within
-     the scope of its coverage, prohibits the exercise of, or is
-     conditioned on the non-exercise of one or more of the rights that
-     are specifically granted under this License.  You may not convey a
-     covered work if you are a party to an arrangement with a third
-     party that is in the business of distributing software, under
-     which you make payment to the third party based on the extent of
-     your activity of conveying the work, and under which the third
-     party grants, to any of the parties who would receive the covered
-     work from you, a discriminatory patent license (a) in connection
-     with copies of the covered work conveyed by you (or copies made
-     from those copies), or (b) primarily for and in connection with
-     specific products or compilations that contain the covered work,
-     unless you entered into that arrangement, or that patent license
-     was granted, prior to 28 March 2007.
-
-     Nothing in this License shall be construed as excluding or limiting
-     any implied license or other defenses to infringement that may
-     otherwise be available to you under applicable patent law.
-
- 12. No Surrender of Others' Freedom.
-
-     If conditions are imposed on you (whether by court order,
-     agreement or otherwise) that contradict the conditions of this
-     License, they do not excuse you from the conditions of this
-     License.  If you cannot convey a covered work so as to satisfy
-     simultaneously your obligations under this License and any other
-     pertinent obligations, then as a consequence you may not convey it
-     at all.  For example, if you agree to terms that obligate you to
-     collect a royalty for further conveying from those to whom you
-     convey the Program, the only way you could satisfy both those
-     terms and this License would be to refrain entirely from conveying
-     the Program.
-
- 13. Use with the GNU Affero General Public License.
-
-     Notwithstanding any other provision of this License, you have
-     permission to link or combine any covered work with a work licensed
-     under version 3 of the GNU Affero General Public License into a
-     single combined work, and to convey the resulting work.  The terms
-     of this License will continue to apply to the part which is the
-     covered work, but the special requirements of the GNU Affero
-     General Public License, section 13, concerning interaction through
-     a network will apply to the combination as such.
-
- 14. Revised Versions of this License.
-
-     The Free Software Foundation may publish revised and/or new
-     versions of the GNU General Public License from time to time.
-     Such new versions will be similar in spirit to the present
-     version, but may differ in detail to address new problems or
-     concerns.
-
-     Each version is given a distinguishing version number.  If the
-     Program specifies that a certain numbered version of the GNU
-     General Public License "or any later version" applies to it, you
-     have the option of following the terms and conditions either of
-     that numbered version or of any later version published by the
-     Free Software Foundation.  If the Program does not specify a
-     version number of the GNU General Public License, you may choose
-     any version ever published by the Free Software Foundation.
-
-     If the Program specifies that a proxy can decide which future
-     versions of the GNU General Public License can be used, that
-     proxy's public statement of acceptance of a version permanently
-     authorizes you to choose that version for the Program.
-
-     Later license versions may give you additional or different
-     permissions.  However, no additional obligations are imposed on any
-     author or copyright holder as a result of your choosing to follow a
-     later version.
-
- 15. Disclaimer of Warranty.
-
-     THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-     APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE
-     COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
-     WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
-     INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE
-     RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
-     SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
-     NECESSARY SERVICING, REPAIR OR CORRECTION.
-
- 16. Limitation of Liability.
-
-     IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
-     WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES
-     AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU
-     FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR
-     CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
-     THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA
-     BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
-     PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
-     PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF
-     THE POSSIBILITY OF SUCH DAMAGES.
-
- 17. Interpretation of Sections 15 and 16.
-
-     If the disclaimer of warranty and limitation of liability provided
-     above cannot be given local legal effect according to their terms,
-     reviewing courts shall apply local law that most closely
-     approximates an absolute waiver of all civil liability in
-     connection with the Program, unless a warranty or assumption of
-     liability accompanies a copy of the Program in return for a fee.
-
-
-END OF TERMS AND CONDITIONS
-===========================
-
-How to Apply These Terms to Your New Programs
-=============================================
-
-If you develop a new program, and you want it to be of the greatest
-possible use to the public, the best way to achieve this is to make it
-free software which everyone can redistribute and change under these
-terms.
-
-   To do so, attach the following notices to the program.  It is safest
-to attach them to the start of each source file to most effectively
-state the exclusion of warranty; and each file should have at least the
-"copyright" line and a pointer to where the full notice is found.
-
-     ONE LINE TO GIVE THE PROGRAM'S NAME AND A BRIEF IDEA OF WHAT IT DOES.
-     Copyright (C) YEAR NAME OF AUTHOR
-
-     This program is free software: you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation, either version 3 of the License, or (at
-     your option) any later version.
-
-     This program is distributed in the hope that it will be useful, but
-     WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-     General Public License for more details.
-
-     You should have received a copy of the GNU General Public License
-     along with this program.  If not, see `http://www.gnu.org/licenses/'.
-
-   Also add information on how to contact you by electronic and paper
-mail.
-
-   If the program does terminal interaction, make it output a short
-notice like this when it starts in an interactive mode:
-
-     PROGRAM Copyright (C) YEAR NAME OF AUTHOR
-     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
-     This is free software, and you are welcome to redistribute it
-     under certain conditions; type `show c' for details.
-
-   The hypothetical commands `show w' and `show c' should show the
-appropriate parts of the General Public License.  Of course, your
-program's commands might be different; for a GUI interface, you would
-use an "about box".
-
-   You should also get your employer (if you work as a programmer) or
-school, if any, to sign a "copyright disclaimer" for the program, if
-necessary.  For more information on this, and how to apply and follow
-the GNU GPL, see `http://www.gnu.org/licenses/'.
-
-   The GNU General Public License does not permit incorporating your
-program into proprietary programs.  If your program is a subroutine
-library, you may consider it more useful to permit linking proprietary
-applications with the library.  If this is what you want to do, use the
-GNU Lesser General Public License instead of this License.  But first,
-please read `http://www.gnu.org/philosophy/why-not-lgpl.html'.
-
-
-File: liquidwar6.info,  Node: GNU Free Documentation License,  Next: Indexes,  Prev: Copying,  Up: Top
-
-Appendix E GNU Free Documentation License
-*****************************************
-
-                     Version 1.3, 3 November 2008
-
-     Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
-     `http://fsf.org/'
-
-     Everyone is permitted to copy and distribute verbatim copies
-     of this license document, but changing it is not allowed.
-
-  0. PREAMBLE
-
-     The purpose of this License is to make a manual, textbook, or other
-     functional and useful document "free" in the sense of freedom: to
-     assure everyone the effective freedom to copy and redistribute it,
-     with or without modifying it, either commercially or
-     noncommercially.  Secondarily, this License preserves for the
-     author and publisher a way to get credit for their work, while not
-     being considered responsible for modifications made by others.
-
-     This License is a kind of "copyleft", which means that derivative
-     works of the document must themselves be free in the same sense.
-     It complements the GNU General Public License, which is a copyleft
-     license designed for free software.
-
-     We have designed this License in order to use it for manuals for
-     free software, because free software needs free documentation: a
-     free program should come with manuals providing the same freedoms
-     that the software does.  But this License is not limited to
-     software manuals; it can be used for any textual work, regardless
-     of subject matter or whether it is published as a printed book.
-     We recommend this License principally for works whose purpose is
-     instruction or reference.
-
-  1. APPLICABILITY AND DEFINITIONS
-
-     This License applies to any manual or other work, in any medium,
-     that contains a notice placed by the copyright holder saying it
-     can be distributed under the terms of this License.  Such a notice
-     grants a world-wide, royalty-free license, unlimited in duration,
-     to use that work under the conditions stated herein.  The
-     "Document", below, refers to any such manual or work.  Any member
-     of the public is a licensee, and is addressed as "you".  You
-     accept the license if you copy, modify or distribute the work in a
-     way requiring permission under copyright law.
-
-     A "Modified Version" of the Document means any work containing the
-     Document or a portion of it, either copied verbatim, or with
-     modifications and/or translated into another language.
-
-     A "Secondary Section" is a named appendix or a front-matter section
-     of the Document that deals exclusively with the relationship of the
-     publishers or authors of the Document to the Document's overall
-     subject (or to related matters) and contains nothing that could
-     fall directly within that overall subject.  (Thus, if the Document
-     is in part a textbook of mathematics, a Secondary Section may not
-     explain any mathematics.)  The relationship could be a matter of
-     historical connection with the subject or with related matters, or
-     of legal, commercial, philosophical, ethical or political position
-     regarding them.
-
-     The "Invariant Sections" are certain Secondary Sections whose
-     titles are designated, as being those of Invariant Sections, in
-     the notice that says that the Document is released under this
-     License.  If a section does not fit the above definition of
-     Secondary then it is not allowed to be designated as Invariant.
-     The Document may contain zero Invariant Sections.  If the Document
-     does not identify any Invariant Sections then there are none.
-
-     The "Cover Texts" are certain short passages of text that are
-     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
-     that says that the Document is released under this License.  A
-     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
-     be at most 25 words.
-
-     A "Transparent" copy of the Document means a machine-readable copy,
-     represented in a format whose specification is available to the
-     general public, that is suitable for revising the document
-     straightforwardly with generic text editors or (for images
-     composed of pixels) generic paint programs or (for drawings) some
-     widely available drawing editor, and that is suitable for input to
-     text formatters or for automatic translation to a variety of
-     formats suitable for input to text formatters.  A copy made in an
-     otherwise Transparent file format whose markup, or absence of
-     markup, has been arranged to thwart or discourage subsequent
-     modification by readers is not Transparent.  An image format is
-     not Transparent if used for any substantial amount of text.  A
-     copy that is not "Transparent" is called "Opaque".
-
-     Examples of suitable formats for Transparent copies include plain
-     ASCII without markup, Texinfo input format, LaTeX input format,
-     SGML or XML using a publicly available DTD, and
-     standard-conforming simple HTML, PostScript or PDF designed for
-     human modification.  Examples of transparent image formats include
-     PNG, XCF and JPG.  Opaque formats include proprietary formats that
-     can be read and edited only by proprietary word processors, SGML or
-     XML for which the DTD and/or processing tools are not generally
-     available, and the machine-generated HTML, PostScript or PDF
-     produced by some word processors for output purposes only.
-
-     The "Title Page" means, for a printed book, the title page itself,
-     plus such following pages as are needed to hold, legibly, the
-     material this License requires to appear in the title page.  For
-     works in formats which do not have any title page as such, "Title
-     Page" means the text near the most prominent appearance of the
-     work's title, preceding the beginning of the body of the text.
-
-     The "publisher" means any person or entity that distributes copies
-     of the Document to the public.
-
-     A section "Entitled XYZ" means a named subunit of the Document
-     whose title either is precisely XYZ or contains XYZ in parentheses
-     following text that translates XYZ in another language.  (Here XYZ
-     stands for a specific section name mentioned below, such as
-     "Acknowledgements", "Dedications", "Endorsements", or "History".)
-     To "Preserve the Title" of such a section when you modify the
-     Document means that it remains a section "Entitled XYZ" according
-     to this definition.
-
-     The Document may include Warranty Disclaimers next to the notice
-     which states that this License applies to the Document.  These
-     Warranty Disclaimers are considered to be included by reference in
-     this License, but only as regards disclaiming warranties: any other
-     implication that these Warranty Disclaimers may have is void and
-     has no effect on the meaning of this License.
-
-  2. VERBATIM COPYING
-
-     You may copy and distribute the Document in any medium, either
-     commercially or noncommercially, provided that this License, the
-     copyright notices, and the license notice saying this License
-     applies to the Document are reproduced in all copies, and that you
-     add no other conditions whatsoever to those of this License.  You
-     may not use technical measures to obstruct or control the reading
-     or further copying of the copies you make or distribute.  However,
-     you may accept compensation in exchange for copies.  If you
-     distribute a large enough number of copies you must also follow
-     the conditions in section 3.
-
-     You may also lend copies, under the same conditions stated above,
-     and you may publicly display copies.
-
-  3. COPYING IN QUANTITY
-
-     If you publish printed copies (or copies in media that commonly
-     have printed covers) of the Document, numbering more than 100, and
-     the Document's license notice requires Cover Texts, you must
-     enclose the copies in covers that carry, clearly and legibly, all
-     these Cover Texts: Front-Cover Texts on the front cover, and
-     Back-Cover Texts on the back cover.  Both covers must also clearly
-     and legibly identify you as the publisher of these copies.  The
-     front cover must present the full title with all words of the
-     title equally prominent and visible.  You may add other material
-     on the covers in addition.  Copying with changes limited to the
-     covers, as long as they preserve the title of the Document and
-     satisfy these conditions, can be treated as verbatim copying in
-     other respects.
-
-     If the required texts for either cover are too voluminous to fit
-     legibly, you should put the first ones listed (as many as fit
-     reasonably) on the actual cover, and continue the rest onto
-     adjacent pages.
-
-     If you publish or distribute Opaque copies of the Document
-     numbering more than 100, you must either include a
-     machine-readable Transparent copy along with each Opaque copy, or
-     state in or with each Opaque copy a computer-network location from
-     which the general network-using public has access to download
-     using public-standard network protocols a complete Transparent
-     copy of the Document, free of added material.  If you use the
-     latter option, you must take reasonably prudent steps, when you
-     begin distribution of Opaque copies in quantity, to ensure that
-     this Transparent copy will remain thus accessible at the stated
-     location until at least one year after the last time you
-     distribute an Opaque copy (directly or through your agents or
-     retailers) of that edition to the public.
-
-     It is requested, but not required, that you contact the authors of
-     the Document well before redistributing any large number of
-     copies, to give them a chance to provide you with an updated
-     version of the Document.
-
-  4. MODIFICATIONS
-
-     You may copy and distribute a Modified Version of the Document
-     under the conditions of sections 2 and 3 above, provided that you
-     release the Modified Version under precisely this License, with
-     the Modified Version filling the role of the Document, thus
-     licensing distribution and modification of the Modified Version to
-     whoever possesses a copy of it.  In addition, you must do these
-     things in the Modified Version:
-
-       A. Use in the Title Page (and on the covers, if any) a title
-          distinct from that of the Document, and from those of
-          previous versions (which should, if there were any, be listed
-          in the History section of the Document).  You may use the
-          same title as a previous version if the original publisher of
-          that version gives permission.
-
-       B. List on the Title Page, as authors, one or more persons or
-          entities responsible for authorship of the modifications in
-          the Modified Version, together with at least five of the
-          principal authors of the Document (all of its principal
-          authors, if it has fewer than five), unless they release you
-          from this requirement.
-
-       C. State on the Title page the name of the publisher of the
-          Modified Version, as the publisher.
-
-       D. Preserve all the copyright notices of the Document.
-
-       E. Add an appropriate copyright notice for your modifications
-          adjacent to the other copyright notices.
-
-       F. Include, immediately after the copyright notices, a license
-          notice giving the public permission to use the Modified
-          Version under the terms of this License, in the form shown in
-          the Addendum below.
-
-       G. Preserve in that license notice the full lists of Invariant
-          Sections and required Cover Texts given in the Document's
-          license notice.
-
-       H. Include an unaltered copy of this License.
-
-       I. Preserve the section Entitled "History", Preserve its Title,
-          and add to it an item stating at least the title, year, new
-          authors, and publisher of the Modified Version as given on
-          the Title Page.  If there is no section Entitled "History" in
-          the Document, create one stating the title, year, authors,
-          and publisher of the Document as given on its Title Page,
-          then add an item describing the Modified Version as stated in
-          the previous sentence.
-
-       J. Preserve the network location, if any, given in the Document
-          for public access to a Transparent copy of the Document, and
-          likewise the network locations given in the Document for
-          previous versions it was based on.  These may be placed in
-          the "History" section.  You may omit a network location for a
-          work that was published at least four years before the
-          Document itself, or if the original publisher of the version
-          it refers to gives permission.
-
-       K. For any section Entitled "Acknowledgements" or "Dedications",
-          Preserve the Title of the section, and preserve in the
-          section all the substance and tone of each of the contributor
-          acknowledgements and/or dedications given therein.
-
-       L. Preserve all the Invariant Sections of the Document,
-          unaltered in their text and in their titles.  Section numbers
-          or the equivalent are not considered part of the section
-          titles.
-
-       M. Delete any section Entitled "Endorsements".  Such a section
-          may not be included in the Modified Version.
-
-       N. Do not retitle any existing section to be Entitled
-          "Endorsements" or to conflict in title with any Invariant
-          Section.
-
-       O. Preserve any Warranty Disclaimers.
-
-     If the Modified Version includes new front-matter sections or
-     appendices that qualify as Secondary Sections and contain no
-     material copied from the Document, you may at your option
-     designate some or all of these sections as invariant.  To do this,
-     add their titles to the list of Invariant Sections in the Modified
-     Version's license notice.  These titles must be distinct from any
-     other section titles.
-
-     You may add a section Entitled "Endorsements", provided it contains
-     nothing but endorsements of your Modified Version by various
-     parties--for example, statements of peer review or that the text
-     has been approved by an organization as the authoritative
-     definition of a standard.
-
-     You may add a passage of up to five words as a Front-Cover Text,
-     and a passage of up to 25 words as a Back-Cover Text, to the end
-     of the list of Cover Texts in the Modified Version.  Only one
-     passage of Front-Cover Text and one of Back-Cover Text may be
-     added by (or through arrangements made by) any one entity.  If the
-     Document already includes a cover text for the same cover,
-     previously added by you or by arrangement made by the same entity
-     you are acting on behalf of, you may not add another; but you may
-     replace the old one, on explicit permission from the previous
-     publisher that added the old one.
-
-     The author(s) and publisher(s) of the Document do not by this
-     License give permission to use their names for publicity for or to
-     assert or imply endorsement of any Modified Version.
-
-  5. COMBINING DOCUMENTS
-
-     You may combine the Document with other documents released under
-     this License, under the terms defined in section 4 above for
-     modified versions, provided that you include in the combination
-     all of the Invariant Sections of all of the original documents,
-     unmodified, and list them all as Invariant Sections of your
-     combined work in its license notice, and that you preserve all
-     their Warranty Disclaimers.
-
-     The combined work need only contain one copy of this License, and
-     multiple identical Invariant Sections may be replaced with a single
-     copy.  If there are multiple Invariant Sections with the same name
-     but different contents, make the title of each such section unique
-     by adding at the end of it, in parentheses, the name of the
-     original author or publisher of that section if known, or else a
-     unique number.  Make the same adjustment to the section titles in
-     the list of Invariant Sections in the license notice of the
-     combined work.
-
-     In the combination, you must combine any sections Entitled
-     "History" in the various original documents, forming one section
-     Entitled "History"; likewise combine any sections Entitled
-     "Acknowledgements", and any sections Entitled "Dedications".  You
-     must delete all sections Entitled "Endorsements."
-
-  6. COLLECTIONS OF DOCUMENTS
-
-     You may make a collection consisting of the Document and other
-     documents released under this License, and replace the individual
-     copies of this License in the various documents with a single copy
-     that is included in the collection, provided that you follow the
-     rules of this License for verbatim copying of each of the
-     documents in all other respects.
-
-     You may extract a single document from such a collection, and
-     distribute it individually under this License, provided you insert
-     a copy of this License into the extracted document, and follow
-     this License in all other respects regarding verbatim copying of
-     that document.
-
-  7. AGGREGATION WITH INDEPENDENT WORKS
-
-     A compilation of the Document or its derivatives with other
-     separate and independent documents or works, in or on a volume of
-     a storage or distribution medium, is called an "aggregate" if the
-     copyright resulting from the compilation is not used to limit the
-     legal rights of the compilation's users beyond what the individual
-     works permit.  When the Document is included in an aggregate, this
-     License does not apply to the other works in the aggregate which
-     are not themselves derivative works of the Document.
-
-     If the Cover Text requirement of section 3 is applicable to these
-     copies of the Document, then if the Document is less than one half
-     of the entire aggregate, the Document's Cover Texts may be placed
-     on covers that bracket the Document within the aggregate, or the
-     electronic equivalent of covers if the Document is in electronic
-     form.  Otherwise they must appear on printed covers that bracket
-     the whole aggregate.
-
-  8. TRANSLATION
-
-     Translation is considered a kind of modification, so you may
-     distribute translations of the Document under the terms of section
-     4.  Replacing Invariant Sections with translations requires special
-     permission from their copyright holders, but you may include
-     translations of some or all Invariant Sections in addition to the
-     original versions of these Invariant Sections.  You may include a
-     translation of this License, and all the license notices in the
-     Document, and any Warranty Disclaimers, provided that you also
-     include the original English version of this License and the
-     original versions of those notices and disclaimers.  In case of a
-     disagreement between the translation and the original version of
-     this License or a notice or disclaimer, the original version will
-     prevail.
-
-     If a section in the Document is Entitled "Acknowledgements",
-     "Dedications", or "History", the requirement (section 4) to
-     Preserve its Title (section 1) will typically require changing the
-     actual title.
-
-  9. TERMINATION
-
-     You may not copy, modify, sublicense, or distribute the Document
-     except as expressly provided under this License.  Any attempt
-     otherwise to copy, modify, sublicense, or distribute it is void,
-     and will automatically terminate your rights under this License.
-
-     However, if you cease all violation of this License, then your
-     license from a particular copyright holder is reinstated (a)
-     provisionally, unless and until the copyright holder explicitly
-     and finally terminates your license, and (b) permanently, if the
-     copyright holder fails to notify you of the violation by some
-     reasonable means prior to 60 days after the cessation.
-
-     Moreover, your license from a particular copyright holder is
-     reinstated permanently if the copyright holder notifies you of the
-     violation by some reasonable means, this is the first time you have
-     received notice of violation of this License (for any work) from
-     that copyright holder, and you cure the violation prior to 30 days
-     after your receipt of the notice.
-
-     Termination of your rights under this section does not terminate
-     the licenses of parties who have received copies or rights from
-     you under this License.  If your rights have been terminated and
-     not permanently reinstated, receipt of a copy of some or all of
-     the same material does not give you any rights to use it.
-
- 10. FUTURE REVISIONS OF THIS LICENSE
-
-     The Free Software Foundation may publish new, revised versions of
-     the GNU Free Documentation License from time to time.  Such new
-     versions will be similar in spirit to the present version, but may
-     differ in detail to address new problems or concerns.  See
-     `http://www.gnu.org/copyleft/'.
-
-     Each version of the License is given a distinguishing version
-     number.  If the Document specifies that a particular numbered
-     version of this License "or any later version" applies to it, you
-     have the option of following the terms and conditions either of
-     that specified version or of any later version that has been
-     published (not as a draft) by the Free Software Foundation.  If
-     the Document does not specify a version number of this License,
-     you may choose any version ever published (not as a draft) by the
-     Free Software Foundation.  If the Document specifies that a proxy
-     can decide which future versions of this License can be used, that
-     proxy's public statement of acceptance of a version permanently
-     authorizes you to choose that version for the Document.
-
- 11. RELICENSING
-
-     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
-     World Wide Web server that publishes copyrightable works and also
-     provides prominent facilities for anybody to edit those works.  A
-     public wiki that anybody can edit is an example of such a server.
-     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
-     site means any set of copyrightable works thus published on the MMC
-     site.
-
-     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
-     license published by Creative Commons Corporation, a not-for-profit
-     corporation with a principal place of business in San Francisco,
-     California, as well as future copyleft versions of that license
-     published by that same organization.
-
-     "Incorporate" means to publish or republish a Document, in whole or
-     in part, as part of another Document.
-
-     An MMC is "eligible for relicensing" if it is licensed under this
-     License, and if all works that were first published under this
-     License somewhere other than this MMC, and subsequently
-     incorporated in whole or in part into the MMC, (1) had no cover
-     texts or invariant sections, and (2) were thus incorporated prior
-     to November 1, 2008.
-
-     The operator of an MMC Site may republish an MMC contained in the
-     site under CC-BY-SA on the same site at any time before August 1,
-     2009, provided the MMC is eligible for relicensing.
-
-
-ADDENDUM: How to use this License for your documents
-====================================================
-
-To use this License in a document you have written, include a copy of
-the License in the document and put the following copyright and license
-notices just after the title page:
-
-       Copyright (C)  YEAR  YOUR NAME.
-       Permission is granted to copy, distribute and/or modify this document
-       under the terms of the GNU Free Documentation License, Version 1.3
-       or any later version published by the Free Software Foundation;
-       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-       Texts.  A copy of the license is included in the section entitled ``GNU
-       Free Documentation License''.
-
-   If you have Invariant Sections, Front-Cover Texts and Back-Cover
-Texts, replace the "with...Texts." line with this:
-
-         with the Invariant Sections being LIST THEIR TITLES, with
-         the Front-Cover Texts being LIST, and with the Back-Cover Texts
-         being LIST.
-
-   If you have Invariant Sections without Cover Texts, or some other
-combination of the three, merge those two alternatives to suit the
-situation.
-
-   If your document contains nontrivial examples of program code, we
-recommend releasing these examples in parallel under your choice of
-free software license, such as the GNU General Public License, to
-permit their use in free software.
 

@@ -193,100 +193,147 @@ results on
 
  -- Struct: lw6dsp_backend_s
 
- -- member of lw6dsp_backend_s: id
-          u_int32_t lw6dsp_backend_s::id
+ -- Member of lw6dsp_backend_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6dsp_backend_s::id'
 
 
- -- member of lw6dsp_backend_s: thread
-          void* lw6dsp_backend_s::thread
+ -- Member of lw6dsp_backend_s: thread
+     *Type:* `void *'
+
+     *Definition:* `void* lw6dsp_backend_s::thread'
 
 
- -- member of lw6dsp_backend_s: data
-          void* lw6dsp_backend_s::data
+ -- Member of lw6dsp_backend_s: data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6dsp_backend_s::data'
 
 
- -- member of lw6dsp_backend_s: input
-          lw6gui_input_t* lw6dsp_backend_s::input
+ -- Member of lw6dsp_backend_s: input
+     *Type:* `lw6gui_input_t *'
+
+     *Definition:* `lw6gui_input_t* lw6dsp_backend_s::input'
 
 
  -- Struct: lw6dsp_misc_s
 
- -- member of lw6dsp_misc_s: mask
-          int lw6dsp_misc_s::mask
+ -- Member of lw6dsp_misc_s: mask
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::mask'
 
 
- -- member of lw6dsp_misc_s: target_fps
-          int lw6dsp_misc_s::target_fps
+ -- Member of lw6dsp_misc_s: target_fps
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::target_fps'
 
 
- -- member of lw6dsp_misc_s: gfx_cpu_usage
-          float lw6dsp_misc_s::gfx_cpu_usage
+ -- Member of lw6dsp_misc_s: gfx_cpu_usage
+     *Type:* `float'
+
+     *Definition:* `float lw6dsp_misc_s::gfx_cpu_usage'
 
 
- -- member of lw6dsp_misc_s: dirty_read
-          int lw6dsp_misc_s::dirty_read
+ -- Member of lw6dsp_misc_s: dirty_read
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::dirty_read'
 
 
- -- member of lw6dsp_misc_s: capture
-          int lw6dsp_misc_s::capture
+ -- Member of lw6dsp_misc_s: capture
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::capture'
 
 
- -- member of lw6dsp_misc_s: gfx_debug
-          int lw6dsp_misc_s::gfx_debug
+ -- Member of lw6dsp_misc_s: gfx_debug
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::gfx_debug'
 
 
- -- member of lw6dsp_misc_s: debug_team_id
-          int lw6dsp_misc_s::debug_team_id
+ -- Member of lw6dsp_misc_s: debug_team_id
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::debug_team_id'
 
 
- -- member of lw6dsp_misc_s: debug_layer_id
-          int lw6dsp_misc_s::debug_layer_id
+ -- Member of lw6dsp_misc_s: debug_layer_id
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::debug_layer_id'
 
 
- -- member of lw6dsp_misc_s: repeat_settings
-          lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings
+ -- Member of lw6dsp_misc_s: repeat_settings
+     *Type:* `lw6gui_repeat_settings_t'
+
+     *Definition:* `lw6gui_repeat_settings_t
+     lw6dsp_misc_s::repeat_settings'
 
 
- -- member of lw6dsp_misc_s: log_timeout
-          int lw6dsp_misc_s::log_timeout
+ -- Member of lw6dsp_misc_s: log_timeout
+     *Type:* `int'
+
+     *Definition:* `int lw6dsp_misc_s::log_timeout'
 
 
- -- member of lw6dsp_misc_s: progress
-          volatile float* lw6dsp_misc_s::progress
+ -- Member of lw6dsp_misc_s: progress
+     *Type:* `float *'
+
+     *Definition:* `volatile float* lw6dsp_misc_s::progress'
 
 
  -- Struct: lw6dsp_param_s
 
- -- member of lw6dsp_param_s: misc
-          lw6dsp_misc_t lw6dsp_param_s::misc
+ -- Member of lw6dsp_param_s: misc
+     *Type:* `lw6dsp_misc_t'
+
+     *Definition:* `lw6dsp_misc_t lw6dsp_param_s::misc'
 
 
- -- member of lw6dsp_param_s: video_mode
-          lw6gui_video_mode_t lw6dsp_param_s::video_mode
+ -- Member of lw6dsp_param_s: video_mode
+     *Type:* `lw6gui_video_mode_t'
+
+     *Definition:* `lw6gui_video_mode_t lw6dsp_param_s::video_mode'
 
 
- -- member of lw6dsp_param_s: look
-          lw6gui_look_t* lw6dsp_param_s::look
+ -- Member of lw6dsp_param_s: look
+     *Type:* `lw6gui_look_t *'
+
+     *Definition:* `lw6gui_look_t* lw6dsp_param_s::look'
 
 
- -- member of lw6dsp_param_s: menu
-          lw6gui_menu_t* lw6dsp_param_s::menu
+ -- Member of lw6dsp_param_s: menu
+     *Type:* `lw6gui_menu_t *'
+
+     *Definition:* `lw6gui_menu_t* lw6dsp_param_s::menu'
 
 
- -- member of lw6dsp_param_s: level
-          lw6map_level_t* lw6dsp_param_s::level
+ -- Member of lw6dsp_param_s: level
+     *Type:* `lw6map_level_t *'
+
+     *Definition:* `lw6map_level_t* lw6dsp_param_s::level'
 
 
- -- member of lw6dsp_param_s: game_struct
-          lw6ker_game_struct_t* lw6dsp_param_s::game_struct
+ -- Member of lw6dsp_param_s: game_struct
+     *Type:* `lw6ker_game_struct_t *'
+
+     *Definition:* `lw6ker_game_struct_t* lw6dsp_param_s::game_struct'
 
 
- -- member of lw6dsp_param_s: game_state
-          lw6ker_game_state_t* lw6dsp_param_s::game_state
+ -- Member of lw6dsp_param_s: game_state
+     *Type:* `lw6ker_game_state_t *'
+
+     *Definition:* `lw6ker_game_state_t* lw6dsp_param_s::game_state'
 
 
- -- member of lw6dsp_param_s: pilot
-          lw6pil_pilot_t* lw6dsp_param_s::pilot
+ -- Member of lw6dsp_param_s: pilot
+     *Type:* `lw6pil_pilot_t *'
+
+     *Definition:* `lw6pil_pilot_t* lw6dsp_param_s::pilot'
 
 
 
@@ -399,12 +446,16 @@ results on
 
  -- Struct: lw6dyn_dl_handle_s
 
- -- member of lw6dyn_dl_handle_s: handle
-          lt_dlhandle lw6dyn_dl_handle_s::handle
+ -- Member of lw6dyn_dl_handle_s: handle
+     *Type:* `lt_dlhandle'
+
+     *Definition:* `lt_dlhandle lw6dyn_dl_handle_s::handle'
 
 
- -- member of lw6dyn_dl_handle_s: library_path
-          char* lw6dyn_dl_handle_s::library_path
+ -- Member of lw6dyn_dl_handle_s: library_path
+     *Type:* `char *'
+
+     *Definition:* `char* lw6dyn_dl_handle_s::library_path'
 
 
 
@@ -603,56 +654,94 @@ results on
 
  -- Struct: lw6gfx_backend_s
 
- -- member of lw6gfx_backend_s: dl_handle
-          lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle
+ -- Member of lw6gfx_backend_s: dl_handle
+     *Type:* `lw6dyn_dl_handle_t *'
+
+     *Definition:* `lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle'
 
 
- -- member of lw6gfx_backend_s: gfx_context
-          void* lw6gfx_backend_s::gfx_context
+ -- Member of lw6gfx_backend_s: gfx_context
+     *Type:* `void *'
+
+     *Definition:* `void* lw6gfx_backend_s::gfx_context'
 
 
- -- member of lw6gfx_backend_s: argc
-          int lw6gfx_backend_s::argc
+ -- Member of lw6gfx_backend_s: argc
+     *Type:* `int'
+
+     *Definition:* `int lw6gfx_backend_s::argc'
 
 
- -- member of lw6gfx_backend_s: argv
-          const char** lw6gfx_backend_s::argv
+ -- Member of lw6gfx_backend_s: argv
+     *Type:* `const char **'
+
+     *Definition:* `const char** lw6gfx_backend_s::argv'
 
 
- -- member of lw6gfx_backend_s: id
-          u_int32_t lw6gfx_backend_s::id
+ -- Member of lw6gfx_backend_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6gfx_backend_s::id'
 
 
- -- member of lw6gfx_backend_s: init
-          void*(* lw6gfx_backend_s::init)(int argc, const char *argv[], lw6gui_video_mode_t *video_mode, lw6gui_resize_callback_func_t resize_callback)
+ -- Member of lw6gfx_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(* lw6gfx_backend_s::init)(int argc, const
+     char *argv[], lw6gui_video_mode_t *video_mode,
+     lw6gui_resize_callback_func_t resize_callback)'
 
 
- -- member of lw6gfx_backend_s: quit
-          void(* lw6gfx_backend_s::quit)(void *gfx_context)
+ -- Member of lw6gfx_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6gfx_backend_s::quit)(void *gfx_context)'
 
 
- -- member of lw6gfx_backend_s: repr
-          char*(* lw6gfx_backend_s::repr)(void *gfx_context, u_int32_t id)
+ -- Member of lw6gfx_backend_s: repr
+     *Type:* `char *(*'
+
+     *Definition:* `char*(* lw6gfx_backend_s::repr)(void *gfx_context,
+     u_int32_t id)'
 
 
- -- member of lw6gfx_backend_s: set_video_mode
-          int(* lw6gfx_backend_s::set_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)
+ -- Member of lw6gfx_backend_s: set_video_mode
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6gfx_backend_s::set_video_mode)(void
+     *gfx_context, lw6gui_video_mode_t *video_mode)'
 
 
- -- member of lw6gfx_backend_s: get_video_mode
-          int(* lw6gfx_backend_s::get_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)
+ -- Member of lw6gfx_backend_s: get_video_mode
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6gfx_backend_s::get_video_mode)(void
+     *gfx_context, lw6gui_video_mode_t *video_mode)'
 
 
- -- member of lw6gfx_backend_s: get_fullscreen_modes
-          int(* lw6gfx_backend_s::get_fullscreen_modes)(void *gfx_context, lw6gui_fullscreen_modes_t *modes)
+ -- Member of lw6gfx_backend_s: get_fullscreen_modes
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6gfx_backend_s::get_fullscreen_modes)(void
+     *gfx_context, lw6gui_fullscreen_modes_t *modes)'
 
 
- -- member of lw6gfx_backend_s: pump_events
-          lw6gui_input_t*(* lw6gfx_backend_s::pump_events)(void *gfx_context)
+ -- Member of lw6gfx_backend_s: pump_events
+     *Type:* `lw6gui_input_t *(*'
+
+     *Definition:* `lw6gui_input_t*(*
+     lw6gfx_backend_s::pump_events)(void *gfx_context)'
 
 
- -- member of lw6gfx_backend_s: display
-          int(* lw6gfx_backend_s::display)(void *gfx_context, int mask, lw6gui_look_t *look, lw6map_level_t *level, lw6ker_game_struct_t *game_struct, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t *menu, float progress, float fps, float mps, char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
+ -- Member of lw6gfx_backend_s: display
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6gfx_backend_s::display)(void *gfx_context,
+     int mask, lw6gui_look_t *look, lw6map_level_t *level,
+     lw6ker_game_struct_t *game_struct, lw6ker_game_state_t
+     *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t
+     *menu, float progress, float fps, float mps, char **log_list, int
+     capture, int gfx_debug, int debug_team_id, int debug_layer_id)'
 
 
 
@@ -677,999 +766,1609 @@ complete information).
 
  -- Struct: mod_gl_background_backend_s
 
- -- member of mod_gl_background_backend_s: background_context
-          void* mod_gl_background_backend_s::background_context
+ -- Member of mod_gl_background_backend_s: background_context
+     *Type:* `void *'
+
+     *Definition:* `void*
+     mod_gl_background_backend_s::background_context'
 
 
- -- member of mod_gl_background_backend_s: backend_name
-          char* mod_gl_background_backend_s::backend_name
+ -- Member of mod_gl_background_backend_s: backend_name
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_background_backend_s::backend_name'
 
 
- -- member of mod_gl_background_backend_s: init
-          void*(* mod_gl_background_backend_s::init)(mod_gl_utils_context_t *utils_context)
+ -- Member of mod_gl_background_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(*
+     mod_gl_background_backend_s::init)(mod_gl_utils_context_t
+     *utils_context)'
 
 
- -- member of mod_gl_background_backend_s: quit
-          void(* mod_gl_background_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *background_context)
+ -- Member of mod_gl_background_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_background_backend_s::quit)(mod_gl_utils_context_t
+     *utils_context, void *background_context)'
 
 
- -- member of mod_gl_background_backend_s: display_background
-          void(* mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t *utils_context, void *background_context, lw6gui_look_t *look)
+ -- Member of mod_gl_background_backend_s: display_background
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t
+     *utils_context, void *background_context, lw6gui_look_t *look)'
 
 
  -- Struct: mod_gl_hud_backend_s
 
- -- member of mod_gl_hud_backend_s: hud_context
-          void* mod_gl_hud_backend_s::hud_context
+ -- Member of mod_gl_hud_backend_s: hud_context
+     *Type:* `void *'
+
+     *Definition:* `void* mod_gl_hud_backend_s::hud_context'
 
 
- -- member of mod_gl_hud_backend_s: backend_name
-          char* mod_gl_hud_backend_s::backend_name
+ -- Member of mod_gl_hud_backend_s: backend_name
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_hud_backend_s::backend_name'
 
 
- -- member of mod_gl_hud_backend_s: init
-          void*(* mod_gl_hud_backend_s::init)(mod_gl_utils_context_t *utils_context)
+ -- Member of mod_gl_hud_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(*
+     mod_gl_hud_backend_s::init)(mod_gl_utils_context_t *utils_context)'
 
 
- -- member of mod_gl_hud_backend_s: quit
-          void(* mod_gl_hud_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *hud_context)
+ -- Member of mod_gl_hud_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_hud_backend_s::quit)(mod_gl_utils_context_t *utils_context,
+     void *hud_context)'
 
 
- -- member of mod_gl_hud_backend_s: display_hud
-          void(* mod_gl_hud_backend_s::display_hud)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
+ -- Member of mod_gl_hud_backend_s: display_hud
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_hud_backend_s::display_hud)(mod_gl_utils_context_t
+     *utils_context, void *hud_context, lw6gui_look_t *look,
+     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
+     *local_cursors)'
 
 
- -- member of mod_gl_hud_backend_s: display_score
-          void(* mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
+ -- Member of mod_gl_hud_backend_s: display_score
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t
+     *utils_context, void *hud_context, lw6gui_look_t *look,
+     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
+     *local_cursors)'
 
 
  -- Struct: mod_gl_menu_backend_s
 
- -- member of mod_gl_menu_backend_s: menu_context
-          void* mod_gl_menu_backend_s::menu_context
+ -- Member of mod_gl_menu_backend_s: menu_context
+     *Type:* `void *'
+
+     *Definition:* `void* mod_gl_menu_backend_s::menu_context'
 
 
- -- member of mod_gl_menu_backend_s: backend_name
-          char* mod_gl_menu_backend_s::backend_name
+ -- Member of mod_gl_menu_backend_s: backend_name
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_menu_backend_s::backend_name'
 
 
- -- member of mod_gl_menu_backend_s: init
-          void*(* mod_gl_menu_backend_s::init)(mod_gl_utils_context_t *utils_context)
+ -- Member of mod_gl_menu_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(*
+     mod_gl_menu_backend_s::init)(mod_gl_utils_context_t
+     *utils_context)'
 
 
- -- member of mod_gl_menu_backend_s: quit
-          void(* mod_gl_menu_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *menu_context)
+ -- Member of mod_gl_menu_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_menu_backend_s::quit)(mod_gl_utils_context_t
+     *utils_context, void *menu_context)'
 
 
- -- member of mod_gl_menu_backend_s: display_menu
-          void(* mod_gl_menu_backend_s::display_menu)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)
+ -- Member of mod_gl_menu_backend_s: display_menu
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_menu_backend_s::display_menu)(mod_gl_utils_context_t
+     *utils_context, void *menu_context, lw6gui_look_t *look,
+     lw6gui_menu_t *menu)'
 
 
- -- member of mod_gl_menu_backend_s: display_progress
-          void(* mod_gl_menu_backend_s::display_progress)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, float progress)
+ -- Member of mod_gl_menu_backend_s: display_progress
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_menu_backend_s::display_progress)(mod_gl_utils_context_t
+     *utils_context, void *menu_context, lw6gui_look_t *look, float
+     progress)'
 
 
- -- member of mod_gl_menu_backend_s: display_meta
-          void(* mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)
+ -- Member of mod_gl_menu_backend_s: display_meta
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t
+     *utils_context, void *menu_context, lw6gui_look_t *look,
+     lw6gui_menu_t *menu)'
 
 
  -- Struct: mod_gl_utils_bitmap_array_s
 
- -- member of mod_gl_utils_bitmap_array_s: layout
-          lw6gui_rect_array_t mod_gl_utils_bitmap_array_s::layout
+ -- Member of mod_gl_utils_bitmap_array_s: layout
+     *Type:* `lw6gui_rect_array_t'
+
+     *Definition:* `lw6gui_rect_array_t
+     mod_gl_utils_bitmap_array_s::layout'
 
 
- -- member of mod_gl_utils_bitmap_array_s: bitmaps
-          mod_gl_utils_bitmap_t** mod_gl_utils_bitmap_array_s::bitmaps
+ -- Member of mod_gl_utils_bitmap_array_s: bitmaps
+     *Type:* `mod_gl_utils_bitmap_t **'
+
+     *Definition:* `mod_gl_utils_bitmap_t**
+     mod_gl_utils_bitmap_array_s::bitmaps'
 
 
  -- Struct: mod_gl_utils_bitmap_s
 
- -- member of mod_gl_utils_bitmap_s: id
-          u_int32_t mod_gl_utils_bitmap_s::id
+ -- Member of mod_gl_utils_bitmap_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t mod_gl_utils_bitmap_s::id'
 
 
- -- member of mod_gl_utils_bitmap_s: desc
-          char* mod_gl_utils_bitmap_s::desc
+ -- Member of mod_gl_utils_bitmap_s: desc
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_bitmap_s::desc'
 
 
- -- member of mod_gl_utils_bitmap_s: surface
-          SDL_Surface* mod_gl_utils_bitmap_s::surface
+ -- Member of mod_gl_utils_bitmap_s: surface
+     *Type:* `SDL_Surface *'
+
+     *Definition:* `SDL_Surface* mod_gl_utils_bitmap_s::surface'
 
 
- -- member of mod_gl_utils_bitmap_s: has_alpha
-          int mod_gl_utils_bitmap_s::has_alpha
+ -- Member of mod_gl_utils_bitmap_s: has_alpha
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::has_alpha'
 
 
- -- member of mod_gl_utils_bitmap_s: colorized_surface
-          SDL_Surface* mod_gl_utils_bitmap_s::colorized_surface
+ -- Member of mod_gl_utils_bitmap_s: colorized_surface
+     *Type:* `SDL_Surface *'
+
+     *Definition:* `SDL_Surface*
+     mod_gl_utils_bitmap_s::colorized_surface'
 
 
- -- member of mod_gl_utils_bitmap_s: colorize
-          int mod_gl_utils_bitmap_s::colorize
+ -- Member of mod_gl_utils_bitmap_s: colorize
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::colorize'
 
 
- -- member of mod_gl_utils_bitmap_s: colorize_color
-          lw6map_color_couple_t mod_gl_utils_bitmap_s::colorize_color
+ -- Member of mod_gl_utils_bitmap_s: colorize_color
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     mod_gl_utils_bitmap_s::colorize_color'
 
 
- -- member of mod_gl_utils_bitmap_s: mipmap
-          int mod_gl_utils_bitmap_s::mipmap
+ -- Member of mod_gl_utils_bitmap_s: mipmap
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::mipmap'
 
 
- -- member of mod_gl_utils_bitmap_s: wrap
-          GLint mod_gl_utils_bitmap_s::wrap
+ -- Member of mod_gl_utils_bitmap_s: wrap
+     *Type:* `GLint'
+
+     *Definition:* `GLint mod_gl_utils_bitmap_s::wrap'
 
 
- -- member of mod_gl_utils_bitmap_s: filter
-          GLint mod_gl_utils_bitmap_s::filter
+ -- Member of mod_gl_utils_bitmap_s: filter
+     *Type:* `GLint'
+
+     *Definition:* `GLint mod_gl_utils_bitmap_s::filter'
 
 
- -- member of mod_gl_utils_bitmap_s: texture
-          GLuint mod_gl_utils_bitmap_s::texture
+ -- Member of mod_gl_utils_bitmap_s: texture
+     *Type:* `GLuint'
+
+     *Definition:* `GLuint mod_gl_utils_bitmap_s::texture'
 
 
- -- member of mod_gl_utils_bitmap_s: texture_w
-          int mod_gl_utils_bitmap_s::texture_w
+ -- Member of mod_gl_utils_bitmap_s: texture_w
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::texture_w'
 
 
- -- member of mod_gl_utils_bitmap_s: texture_h
-          int mod_gl_utils_bitmap_s::texture_h
+ -- Member of mod_gl_utils_bitmap_s: texture_h
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::texture_h'
 
 
- -- member of mod_gl_utils_bitmap_s: s1
-          float mod_gl_utils_bitmap_s::s1
+ -- Member of mod_gl_utils_bitmap_s: s1
+     *Type:* `float'
+
+     *Definition:* `float mod_gl_utils_bitmap_s::s1'
 
 
- -- member of mod_gl_utils_bitmap_s: t1
-          float mod_gl_utils_bitmap_s::t1
+ -- Member of mod_gl_utils_bitmap_s: t1
+     *Type:* `float'
+
+     *Definition:* `float mod_gl_utils_bitmap_s::t1'
 
 
- -- member of mod_gl_utils_bitmap_s: s2
-          float mod_gl_utils_bitmap_s::s2
+ -- Member of mod_gl_utils_bitmap_s: s2
+     *Type:* `float'
+
+     *Definition:* `float mod_gl_utils_bitmap_s::s2'
 
 
- -- member of mod_gl_utils_bitmap_s: t2
-          float mod_gl_utils_bitmap_s::t2
+ -- Member of mod_gl_utils_bitmap_s: t2
+     *Type:* `float'
+
+     *Definition:* `float mod_gl_utils_bitmap_s::t2'
 
 
- -- member of mod_gl_utils_bitmap_s: last_refresh
-          int64_t mod_gl_utils_bitmap_s::last_refresh
+ -- Member of mod_gl_utils_bitmap_s: last_refresh
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t mod_gl_utils_bitmap_s::last_refresh'
 
 
- -- member of mod_gl_utils_bitmap_s: need_another_refresh
-          int mod_gl_utils_bitmap_s::need_another_refresh
+ -- Member of mod_gl_utils_bitmap_s: need_another_refresh
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_bitmap_s::need_another_refresh'
 
 
  -- Struct: mod_gl_utils_cache_s
 
- -- member of mod_gl_utils_cache_s: color_set
-          lw6map_color_set_t mod_gl_utils_cache_s::color_set
+ -- Member of mod_gl_utils_cache_s: color_set
+     *Type:* `lw6map_color_set_t'
+
+     *Definition:* `lw6map_color_set_t mod_gl_utils_cache_s::color_set'
 
 
  -- Struct: mod_gl_utils_caps_s
 
- -- member of mod_gl_utils_caps_s: max_texture_size
-          GLint mod_gl_utils_caps_s::max_texture_size
+ -- Member of mod_gl_utils_caps_s: max_texture_size
+     *Type:* `GLint'
+
+     *Definition:* `GLint mod_gl_utils_caps_s::max_texture_size'
 
 
- -- member of mod_gl_utils_caps_s: bpp
-          int mod_gl_utils_caps_s::bpp
+ -- Member of mod_gl_utils_caps_s: bpp
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_caps_s::bpp'
 
 
  -- Struct: mod_gl_utils_const_data_s
 
- -- member of mod_gl_utils_const_data_s: warp_x
-          float mod_gl_utils_const_data_s::warp_x
+ -- Member of mod_gl_utils_const_data_s: warp_x
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::warp_x'
 
- -- member of mod_gl_utils_const_data_s: warp_y
-          float mod_gl_utils_const_data_s::warp_y
 
+ -- Member of mod_gl_utils_const_data_s: warp_y
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: mode_sleep
-          float mod_gl_utils_const_data_s::mode_sleep
+     *Definition:* `float mod_gl_utils_const_data_s::warp_y'
 
 
- -- member of mod_gl_utils_const_data_s: quit_sleep
-          float mod_gl_utils_const_data_s::quit_sleep
+ -- Member of mod_gl_utils_const_data_s: mode_sleep
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::mode_sleep'
 
- -- member of mod_gl_utils_const_data_s: persp_fovy
-          float mod_gl_utils_const_data_s::persp_fovy
 
+ -- Member of mod_gl_utils_const_data_s: quit_sleep
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: persp_znear
-          float mod_gl_utils_const_data_s::persp_znear
+     *Definition:* `float mod_gl_utils_const_data_s::quit_sleep'
 
 
- -- member of mod_gl_utils_const_data_s: persp_zfar
-          float mod_gl_utils_const_data_s::persp_zfar
+ -- Member of mod_gl_utils_const_data_s: persp_fovy
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::persp_fovy'
 
- -- member of mod_gl_utils_const_data_s: menu_font_size
-          int mod_gl_utils_const_data_s::menu_font_size
 
+ -- Member of mod_gl_utils_const_data_s: persp_znear
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: hud_font_size
-          int mod_gl_utils_const_data_s::hud_font_size
+     *Definition:* `float mod_gl_utils_const_data_s::persp_znear'
 
 
- -- member of mod_gl_utils_const_data_s: cursor_font_size
-          int mod_gl_utils_const_data_s::cursor_font_size
+ -- Member of mod_gl_utils_const_data_s: persp_zfar
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::persp_zfar'
 
- -- member of mod_gl_utils_const_data_s: system_font_size
-          int mod_gl_utils_const_data_s::system_font_size
 
+ -- Member of mod_gl_utils_const_data_s: menu_font_size
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: system_font_dh
-          int mod_gl_utils_const_data_s::system_font_dh
+     *Definition:* `int mod_gl_utils_const_data_s::menu_font_size'
 
 
- -- member of mod_gl_utils_const_data_s: system_font_dw
-          int mod_gl_utils_const_data_s::system_font_dw
+ -- Member of mod_gl_utils_const_data_s: hud_font_size
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::hud_font_size'
 
- -- member of mod_gl_utils_const_data_s: system_font_hcoef
-          float mod_gl_utils_const_data_s::system_font_hcoef
 
+ -- Member of mod_gl_utils_const_data_s: cursor_font_size
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: gradient_opacity
-          float mod_gl_utils_const_data_s::gradient_opacity
+     *Definition:* `int mod_gl_utils_const_data_s::cursor_font_size'
 
 
- -- member of mod_gl_utils_const_data_s: zones_opacity
-          float mod_gl_utils_const_data_s::zones_opacity
+ -- Member of mod_gl_utils_const_data_s: system_font_size
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::system_font_size'
 
- -- member of mod_gl_utils_const_data_s: mainlight_r
-          float mod_gl_utils_const_data_s::mainlight_r
 
+ -- Member of mod_gl_utils_const_data_s: system_font_dh
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: mainlight_g
-          float mod_gl_utils_const_data_s::mainlight_g
+     *Definition:* `int mod_gl_utils_const_data_s::system_font_dh'
 
 
- -- member of mod_gl_utils_const_data_s: mainlight_b
-          float mod_gl_utils_const_data_s::mainlight_b
+ -- Member of mod_gl_utils_const_data_s: system_font_dw
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::system_font_dw'
 
- -- member of mod_gl_utils_const_data_s: mainlight_a
-          float mod_gl_utils_const_data_s::mainlight_a
 
+ -- Member of mod_gl_utils_const_data_s: system_font_hcoef
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: mainlight_x
-          float mod_gl_utils_const_data_s::mainlight_x
+     *Definition:* `float mod_gl_utils_const_data_s::system_font_hcoef'
 
 
- -- member of mod_gl_utils_const_data_s: mainlight_y
-          float mod_gl_utils_const_data_s::mainlight_y
+ -- Member of mod_gl_utils_const_data_s: gradient_opacity
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::gradient_opacity'
 
- -- member of mod_gl_utils_const_data_s: mainlight_z
-          float mod_gl_utils_const_data_s::mainlight_z
 
+ -- Member of mod_gl_utils_const_data_s: zones_opacity
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: keysym1_up
-          int mod_gl_utils_const_data_s::keysym1_up
+     *Definition:* `float mod_gl_utils_const_data_s::zones_opacity'
 
 
- -- member of mod_gl_utils_const_data_s: keysym2_up
-          int mod_gl_utils_const_data_s::keysym2_up
+ -- Member of mod_gl_utils_const_data_s: mainlight_r
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_r'
 
- -- member of mod_gl_utils_const_data_s: keysym3_up
-          int mod_gl_utils_const_data_s::keysym3_up
 
+ -- Member of mod_gl_utils_const_data_s: mainlight_g
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: keysym4_up
-          int mod_gl_utils_const_data_s::keysym4_up
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_g'
 
 
- -- member of mod_gl_utils_const_data_s: keysym1_down
-          int mod_gl_utils_const_data_s::keysym1_down
+ -- Member of mod_gl_utils_const_data_s: mainlight_b
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_b'
 
- -- member of mod_gl_utils_const_data_s: keysym2_down
-          int mod_gl_utils_const_data_s::keysym2_down
 
+ -- Member of mod_gl_utils_const_data_s: mainlight_a
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: keysym3_down
-          int mod_gl_utils_const_data_s::keysym3_down
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_a'
 
 
- -- member of mod_gl_utils_const_data_s: keysym4_down
-          int mod_gl_utils_const_data_s::keysym4_down
+ -- Member of mod_gl_utils_const_data_s: mainlight_x
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_x'
 
- -- member of mod_gl_utils_const_data_s: keysym1_left
-          int mod_gl_utils_const_data_s::keysym1_left
 
+ -- Member of mod_gl_utils_const_data_s: mainlight_y
+     *Type:* `float'
 
- -- member of mod_gl_utils_const_data_s: keysym2_left
-          int mod_gl_utils_const_data_s::keysym2_left
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_y'
 
 
- -- member of mod_gl_utils_const_data_s: keysym3_left
-          int mod_gl_utils_const_data_s::keysym3_left
+ -- Member of mod_gl_utils_const_data_s: mainlight_z
+     *Type:* `float'
 
+     *Definition:* `float mod_gl_utils_const_data_s::mainlight_z'
 
- -- member of mod_gl_utils_const_data_s: keysym4_left
-          int mod_gl_utils_const_data_s::keysym4_left
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_up
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym1_right
-          int mod_gl_utils_const_data_s::keysym1_right
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_up'
 
 
- -- member of mod_gl_utils_const_data_s: keysym2_right
-          int mod_gl_utils_const_data_s::keysym2_right
+ -- Member of mod_gl_utils_const_data_s: keysym2_up
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_up'
 
- -- member of mod_gl_utils_const_data_s: keysym3_right
-          int mod_gl_utils_const_data_s::keysym3_right
 
+ -- Member of mod_gl_utils_const_data_s: keysym3_up
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym4_right
-          int mod_gl_utils_const_data_s::keysym4_right
+     *Definition:* `int mod_gl_utils_const_data_s::keysym3_up'
 
 
- -- member of mod_gl_utils_const_data_s: keysym1_enter
-          int mod_gl_utils_const_data_s::keysym1_enter
+ -- Member of mod_gl_utils_const_data_s: keysym4_up
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym4_up'
 
- -- member of mod_gl_utils_const_data_s: keysym2_enter
-          int mod_gl_utils_const_data_s::keysym2_enter
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_down
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym1_esc
-          int mod_gl_utils_const_data_s::keysym1_esc
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_down'
 
 
- -- member of mod_gl_utils_const_data_s: keysym2_esc
-          int mod_gl_utils_const_data_s::keysym2_esc
+ -- Member of mod_gl_utils_const_data_s: keysym2_down
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_down'
 
- -- member of mod_gl_utils_const_data_s: keysym1_ctrl
-          int mod_gl_utils_const_data_s::keysym1_ctrl
 
+ -- Member of mod_gl_utils_const_data_s: keysym3_down
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym2_ctrl
-          int mod_gl_utils_const_data_s::keysym2_ctrl
+     *Definition:* `int mod_gl_utils_const_data_s::keysym3_down'
 
 
- -- member of mod_gl_utils_const_data_s: keysym1_alt
-          int mod_gl_utils_const_data_s::keysym1_alt
+ -- Member of mod_gl_utils_const_data_s: keysym4_down
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym4_down'
 
- -- member of mod_gl_utils_const_data_s: keysym2_alt
-          int mod_gl_utils_const_data_s::keysym2_alt
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_left
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym1_pgup
-          int mod_gl_utils_const_data_s::keysym1_pgup
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_left'
 
 
- -- member of mod_gl_utils_const_data_s: keysym2_pgup
-          int mod_gl_utils_const_data_s::keysym2_pgup
+ -- Member of mod_gl_utils_const_data_s: keysym2_left
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_left'
 
- -- member of mod_gl_utils_const_data_s: keysym1_pgdown
-          int mod_gl_utils_const_data_s::keysym1_pgdown
 
+ -- Member of mod_gl_utils_const_data_s: keysym3_left
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: keysym2_pgdown
-          int mod_gl_utils_const_data_s::keysym2_pgdown
+     *Definition:* `int mod_gl_utils_const_data_s::keysym3_left'
 
 
- -- member of mod_gl_utils_const_data_s: keysym_quit
-          int mod_gl_utils_const_data_s::keysym_quit
+ -- Member of mod_gl_utils_const_data_s: keysym4_left
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym4_left'
 
- -- member of mod_gl_utils_const_data_s: joystick_limit
-          int mod_gl_utils_const_data_s::joystick_limit
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_right
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: joystick1_index
-          int mod_gl_utils_const_data_s::joystick1_index
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_right'
 
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_a_index
-          int mod_gl_utils_const_data_s::joystick1_button_a_index
+ -- Member of mod_gl_utils_const_data_s: keysym2_right
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_right'
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_b_index
-          int mod_gl_utils_const_data_s::joystick1_button_b_index
 
+ -- Member of mod_gl_utils_const_data_s: keysym3_right
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_c_index
-          int mod_gl_utils_const_data_s::joystick1_button_c_index
+     *Definition:* `int mod_gl_utils_const_data_s::keysym3_right'
 
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_d_index
-          int mod_gl_utils_const_data_s::joystick1_button_d_index
+ -- Member of mod_gl_utils_const_data_s: keysym4_right
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym4_right'
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_e_index
-          int mod_gl_utils_const_data_s::joystick1_button_e_index
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_enter
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: joystick1_button_f_index
-          int mod_gl_utils_const_data_s::joystick1_button_f_index
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_enter'
 
 
- -- member of mod_gl_utils_const_data_s: joystick2_index
-          int mod_gl_utils_const_data_s::joystick2_index
+ -- Member of mod_gl_utils_const_data_s: keysym2_enter
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_enter'
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_a_index
-          int mod_gl_utils_const_data_s::joystick2_button_a_index
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_esc
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_b_index
-          int mod_gl_utils_const_data_s::joystick2_button_b_index
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_esc'
 
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_c_index
-          int mod_gl_utils_const_data_s::joystick2_button_c_index
+ -- Member of mod_gl_utils_const_data_s: keysym2_esc
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_esc'
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_d_index
-          int mod_gl_utils_const_data_s::joystick2_button_d_index
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_ctrl
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_e_index
-          int mod_gl_utils_const_data_s::joystick2_button_e_index
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_ctrl'
 
 
- -- member of mod_gl_utils_const_data_s: joystick2_button_f_index
-          int mod_gl_utils_const_data_s::joystick2_button_f_index
+ -- Member of mod_gl_utils_const_data_s: keysym2_ctrl
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_ctrl'
 
- -- member of mod_gl_utils_const_data_s: joystick_all_buttons
-          int mod_gl_utils_const_data_s::joystick_all_buttons
 
+ -- Member of mod_gl_utils_const_data_s: keysym1_alt
+     *Type:* `int'
 
- -- member of mod_gl_utils_const_data_s: smoother_global_zoom_duration
-          int mod_gl_utils_const_data_s::smoother_global_zoom_duration
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_alt'
 
 
- -- member of mod_gl_utils_const_data_s: smoother_center_duration
-          int mod_gl_utils_const_data_s::smoother_center_duration
+ -- Member of mod_gl_utils_const_data_s: keysym2_alt
+     *Type:* `int'
 
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_alt'
 
- -- member of mod_gl_utils_const_data_s: smoother_drawable_duration
-          int mod_gl_utils_const_data_s::smoother_drawable_duration
+
+ -- Member of mod_gl_utils_const_data_s: keysym1_pgup
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_pgup'
+
+
+ -- Member of mod_gl_utils_const_data_s: keysym2_pgup
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_pgup'
+
+
+ -- Member of mod_gl_utils_const_data_s: keysym1_pgdown
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::keysym1_pgdown'
+
+
+ -- Member of mod_gl_utils_const_data_s: keysym2_pgdown
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::keysym2_pgdown'
+
+
+ -- Member of mod_gl_utils_const_data_s: keysym_quit
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::keysym_quit'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick_limit
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::joystick_limit'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_index
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::joystick1_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_a_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_a_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_b_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_b_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_c_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_c_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_d_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_d_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_e_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_e_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick1_button_f_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick1_button_f_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_index
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::joystick2_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_a_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_a_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_b_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_b_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_c_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_c_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_d_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_d_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_e_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_e_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick2_button_f_index
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::joystick2_button_f_index'
+
+
+ -- Member of mod_gl_utils_const_data_s: joystick_all_buttons
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_const_data_s::joystick_all_buttons'
+
+
+ -- Member of mod_gl_utils_const_data_s: smoother_global_zoom_duration
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::smoother_global_zoom_duration'
+
+
+ -- Member of mod_gl_utils_const_data_s: smoother_center_duration
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::smoother_center_duration'
+
+
+ -- Member of mod_gl_utils_const_data_s: smoother_drawable_duration
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_const_data_s::smoother_drawable_duration'
 
 
  -- Struct: mod_gl_utils_context_s
 
- -- member of mod_gl_utils_context_s: resize_callback
-          lw6gui_resize_callback_func_t mod_gl_utils_context_s::resize_callback
+ -- Member of mod_gl_utils_context_s: resize_callback
+     *Type:* `lw6gui_resize_callback_func_t'
+
+     *Definition:* `lw6gui_resize_callback_func_t
+     mod_gl_utils_context_s::resize_callback'
 
 
- -- member of mod_gl_utils_context_s: path
-          mod_gl_utils_path_t mod_gl_utils_context_s::path
+ -- Member of mod_gl_utils_context_s: path
+     *Type:* `mod_gl_utils_path_t'
+
+     *Definition:* `mod_gl_utils_path_t mod_gl_utils_context_s::path'
 
 
- -- member of mod_gl_utils_context_s: surface_counter
-          mod_gl_utils_mem_counter_t mod_gl_utils_context_s::surface_counter
+ -- Member of mod_gl_utils_context_s: surface_counter
+     *Type:* `mod_gl_utils_mem_counter_t'
+
+     *Definition:* `mod_gl_utils_mem_counter_t
+     mod_gl_utils_context_s::surface_counter'
 
 
- -- member of mod_gl_utils_context_s: texture_counter
-          mod_gl_utils_mem_counter_t mod_gl_utils_context_s::texture_counter
+ -- Member of mod_gl_utils_context_s: texture_counter
+     *Type:* `mod_gl_utils_mem_counter_t'
+
+     *Definition:* `mod_gl_utils_mem_counter_t
+     mod_gl_utils_context_s::texture_counter'
 
 
- -- member of mod_gl_utils_context_s: caps
-          mod_gl_utils_caps_t mod_gl_utils_context_s::caps
+ -- Member of mod_gl_utils_context_s: caps
+     *Type:* `mod_gl_utils_caps_t'
+
+     *Definition:* `mod_gl_utils_caps_t mod_gl_utils_context_s::caps'
 
 
- -- member of mod_gl_utils_context_s: video_mode
-          lw6gui_video_mode_t mod_gl_utils_context_s::video_mode
+ -- Member of mod_gl_utils_context_s: video_mode
+     *Type:* `lw6gui_video_mode_t'
+
+     *Definition:* `lw6gui_video_mode_t
+     mod_gl_utils_context_s::video_mode'
 
 
- -- member of mod_gl_utils_context_s: viewport
-          lw6gui_zone_t mod_gl_utils_context_s::viewport
+ -- Member of mod_gl_utils_context_s: viewport
+     *Type:* `lw6gui_zone_t'
+
+     *Definition:* `lw6gui_zone_t mod_gl_utils_context_s::viewport'
 
 
- -- member of mod_gl_utils_context_s: render_param
-          mod_gl_utils_render_param_t mod_gl_utils_context_s::render_param
+ -- Member of mod_gl_utils_context_s: render_param
+     *Type:* `mod_gl_utils_render_param_t'
+
+     *Definition:* `mod_gl_utils_render_param_t
+     mod_gl_utils_context_s::render_param'
 
 
- -- member of mod_gl_utils_context_s: texture_data
-          mod_gl_utils_texture_data_t mod_gl_utils_context_s::texture_data
+ -- Member of mod_gl_utils_context_s: texture_data
+     *Type:* `mod_gl_utils_texture_data_t'
+
+     *Definition:* `mod_gl_utils_texture_data_t
+     mod_gl_utils_context_s::texture_data'
 
 
- -- member of mod_gl_utils_context_s: font_data
-          mod_gl_utils_font_data_t mod_gl_utils_context_s::font_data
+ -- Member of mod_gl_utils_context_s: font_data
+     *Type:* `mod_gl_utils_font_data_t'
+
+     *Definition:* `mod_gl_utils_font_data_t
+     mod_gl_utils_context_s::font_data'
 
 
- -- member of mod_gl_utils_context_s: const_data
-          mod_gl_utils_const_data_t mod_gl_utils_context_s::const_data
+ -- Member of mod_gl_utils_context_s: const_data
+     *Type:* `mod_gl_utils_const_data_t'
+
+     *Definition:* `mod_gl_utils_const_data_t
+     mod_gl_utils_context_s::const_data'
 
 
- -- member of mod_gl_utils_context_s: textures_1x1
-          mod_gl_utils_texture_1x1_t mod_gl_utils_context_s::textures_1x1
+ -- Member of mod_gl_utils_context_s: textures_1x1
+     *Type:* `mod_gl_utils_texture_1x1_t'
+
+     *Definition:* `mod_gl_utils_texture_1x1_t
+     mod_gl_utils_context_s::textures_1x1'
 
 
- -- member of mod_gl_utils_context_s: menucache_array
-          mod_gl_utils_menucache_array_t mod_gl_utils_context_s::menucache_array
+ -- Member of mod_gl_utils_context_s: menucache_array
+     *Type:* `mod_gl_utils_menucache_array_t'
+
+     *Definition:* `mod_gl_utils_menucache_array_t
+     mod_gl_utils_context_s::menucache_array'
 
 
- -- member of mod_gl_utils_context_s: team_color_map
-          mod_gl_utils_team_color_map_t mod_gl_utils_context_s::team_color_map
+ -- Member of mod_gl_utils_context_s: team_color_map
+     *Type:* `mod_gl_utils_team_color_map_t'
+
+     *Definition:* `mod_gl_utils_team_color_map_t
+     mod_gl_utils_context_s::team_color_map'
 
 
- -- member of mod_gl_utils_context_s: last_action
-          mod_gl_utils_last_action_t mod_gl_utils_context_s::last_action
+ -- Member of mod_gl_utils_context_s: last_action
+     *Type:* `mod_gl_utils_last_action_t'
+
+     *Definition:* `mod_gl_utils_last_action_t
+     mod_gl_utils_context_s::last_action'
 
 
- -- member of mod_gl_utils_context_s: joysticks_info
-          mod_gl_utils_joysticks_info_t mod_gl_utils_context_s::joysticks_info
+ -- Member of mod_gl_utils_context_s: joysticks_info
+     *Type:* `mod_gl_utils_joysticks_info_t'
+
+     *Definition:* `mod_gl_utils_joysticks_info_t
+     mod_gl_utils_context_s::joysticks_info'
 
 
- -- member of mod_gl_utils_context_s: mouse_state
-          mod_gl_utils_mouse_state_t mod_gl_utils_context_s::mouse_state
+ -- Member of mod_gl_utils_context_s: mouse_state
+     *Type:* `mod_gl_utils_mouse_state_t'
+
+     *Definition:* `mod_gl_utils_mouse_state_t
+     mod_gl_utils_context_s::mouse_state'
 
 
- -- member of mod_gl_utils_context_s: timer
-          mod_gl_utils_timer_t mod_gl_utils_context_s::timer
+ -- Member of mod_gl_utils_context_s: timer
+     *Type:* `mod_gl_utils_timer_t'
+
+     *Definition:* `mod_gl_utils_timer_t mod_gl_utils_context_s::timer'
 
 
- -- member of mod_gl_utils_context_s: input
-          lw6gui_input_t mod_gl_utils_context_s::input
+ -- Member of mod_gl_utils_context_s: input
+     *Type:* `lw6gui_input_t'
+
+     *Definition:* `lw6gui_input_t mod_gl_utils_context_s::input'
 
 
- -- member of mod_gl_utils_context_s: smoothers
-          _mod_gl_utils_smoothers_t mod_gl_utils_context_s::smoothers
+ -- Member of mod_gl_utils_context_s: smoothers
+     *Type:* `_mod_gl_utils_smoothers_t'
+
+     *Definition:* `_mod_gl_utils_smoothers_t
+     mod_gl_utils_context_s::smoothers'
 
 
- -- member of mod_gl_utils_context_s: smoothed
-          _mod_gl_utils_smoothed_t mod_gl_utils_context_s::smoothed
+ -- Member of mod_gl_utils_context_s: smoothed
+     *Type:* `_mod_gl_utils_smoothed_t'
+
+     *Definition:* `_mod_gl_utils_smoothed_t
+     mod_gl_utils_context_s::smoothed'
 
 
- -- member of mod_gl_utils_context_s: icon
-          mod_gl_utils_icon_t mod_gl_utils_context_s::icon
+ -- Member of mod_gl_utils_context_s: icon
+     *Type:* `mod_gl_utils_icon_t'
+
+     *Definition:* `mod_gl_utils_icon_t mod_gl_utils_context_s::icon'
 
 
- -- member of mod_gl_utils_context_s: counter
-          mod_gl_utils_counter_t mod_gl_utils_context_s::counter
+ -- Member of mod_gl_utils_context_s: counter
+     *Type:* `mod_gl_utils_counter_t'
+
+     *Definition:* `mod_gl_utils_counter_t
+     mod_gl_utils_context_s::counter'
 
 
- -- member of mod_gl_utils_context_s: bitmap_hash
-          lw6sys_hash_t* mod_gl_utils_context_s::bitmap_hash
+ -- Member of mod_gl_utils_context_s: bitmap_hash
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* mod_gl_utils_context_s::bitmap_hash'
 
 
- -- member of mod_gl_utils_context_s: cache
-          mod_gl_utils_cache_t mod_gl_utils_context_s::cache
+ -- Member of mod_gl_utils_context_s: cache
+     *Type:* `mod_gl_utils_cache_t'
+
+     *Definition:* `mod_gl_utils_cache_t mod_gl_utils_context_s::cache'
 
 
  -- Struct: mod_gl_utils_counter_s
 
- -- member of mod_gl_utils_counter_s: nb_frames
-          int mod_gl_utils_counter_s::nb_frames
+ -- Member of mod_gl_utils_counter_s: nb_frames
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_counter_s::nb_frames'
 
 
  -- Struct: mod_gl_utils_font_data_s
 
- -- member of mod_gl_utils_font_data_s: menu
-          TTF_Font* mod_gl_utils_font_data_s::menu
+ -- Member of mod_gl_utils_font_data_s: menu
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::menu'
 
 
- -- member of mod_gl_utils_font_data_s: hud
-          TTF_Font* mod_gl_utils_font_data_s::hud
+ -- Member of mod_gl_utils_font_data_s: hud
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::hud'
 
 
- -- member of mod_gl_utils_font_data_s: cursor
-          TTF_Font* mod_gl_utils_font_data_s::cursor
+ -- Member of mod_gl_utils_font_data_s: cursor
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::cursor'
 
 
- -- member of mod_gl_utils_font_data_s: system
-          TTF_Font* mod_gl_utils_font_data_s::system
+ -- Member of mod_gl_utils_font_data_s: system
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font* mod_gl_utils_font_data_s::system'
 
 
  -- Struct: mod_gl_utils_icon_s
 
- -- member of mod_gl_utils_icon_s: bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap
+ -- Member of mod_gl_utils_icon_s: bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap'
 
 
  -- Struct: mod_gl_utils_joysticks_info_s
 
- -- member of mod_gl_utils_joysticks_info_s: supported
-          int mod_gl_utils_joysticks_info_s::supported
+ -- Member of mod_gl_utils_joysticks_info_s: supported
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_joysticks_info_s::supported'
 
 
- -- member of mod_gl_utils_joysticks_info_s: driver_nb_joysticks
-          int mod_gl_utils_joysticks_info_s::driver_nb_joysticks
+ -- Member of mod_gl_utils_joysticks_info_s: driver_nb_joysticks
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_joysticks_info_s::driver_nb_joysticks'
 
 
- -- member of mod_gl_utils_joysticks_info_s: sdl_joysticks
-          SDL_Joystick* mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]
+ -- Member of mod_gl_utils_joysticks_info_s: sdl_joysticks
+     *Type:* `SDL_Joystick *'
+
+     *Definition:* `SDL_Joystick*
+     mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]'
 
 
  -- Struct: mod_gl_utils_last_action_s
 
- -- member of mod_gl_utils_last_action_s: game_bitmap_array_update_id
-          int mod_gl_utils_last_action_s::game_bitmap_array_update_id
+ -- Member of mod_gl_utils_last_action_s: game_bitmap_array_update_id
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_last_action_s::game_bitmap_array_update_id'
 
 
- -- member of mod_gl_utils_last_action_s:
+ -- Member of mod_gl_utils_last_action_s:
 game_bitmap_array_update_rounds
-          int mod_gl_utils_last_action_s::game_bitmap_array_update_rounds
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_last_action_s::game_bitmap_array_update_rounds'
 
 
  -- Struct: mod_gl_utils_mem_counter_s
 
- -- member of mod_gl_utils_mem_counter_s: new_counter
-          int mod_gl_utils_mem_counter_s::new_counter
+ -- Member of mod_gl_utils_mem_counter_s: new_counter
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_mem_counter_s::new_counter'
 
 
- -- member of mod_gl_utils_mem_counter_s: delete_counter
-          int mod_gl_utils_mem_counter_s::delete_counter
+ -- Member of mod_gl_utils_mem_counter_s: delete_counter
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_mem_counter_s::delete_counter'
 
 
  -- Struct: mod_gl_utils_menucache_array_s
 
- -- member of mod_gl_utils_menucache_array_s: color_set
-          lw6map_color_set_t mod_gl_utils_menucache_array_s::color_set
+ -- Member of mod_gl_utils_menucache_array_s: color_set
+     *Type:* `lw6map_color_set_t'
+
+     *Definition:* `lw6map_color_set_t
+     mod_gl_utils_menucache_array_s::color_set'
 
 
- -- member of mod_gl_utils_menucache_array_s: last_stored_item
-          int mod_gl_utils_menucache_array_s::last_stored_item
+ -- Member of mod_gl_utils_menucache_array_s: last_stored_item
+     *Type:* `int'
+
+     *Definition:* `int
+     mod_gl_utils_menucache_array_s::last_stored_item'
 
 
- -- member of mod_gl_utils_menucache_array_s: item_array
-          mod_gl_utils_menucache_item_t mod_gl_utils_menucache_array_s::item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE]
+ -- Member of mod_gl_utils_menucache_array_s: item_array
+     *Type:* `mod_gl_utils_menucache_item_t'
+
+     *Definition:* `mod_gl_utils_menucache_item_t
+     mod_gl_utils_menucache_array_s::item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE]'
 
 
- -- member of mod_gl_utils_menucache_array_s: tooltip_str
-          char* mod_gl_utils_menucache_array_s::tooltip_str
+ -- Member of mod_gl_utils_menucache_array_s: tooltip_str
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_menucache_array_s::tooltip_str'
 
 
- -- member of mod_gl_utils_menucache_array_s: tooltip_bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::tooltip_bitmap
+ -- Member of mod_gl_utils_menucache_array_s: tooltip_bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_menucache_array_s::tooltip_bitmap'
 
 
- -- member of mod_gl_utils_menucache_array_s: help_str
-          char* mod_gl_utils_menucache_array_s::help_str
+ -- Member of mod_gl_utils_menucache_array_s: help_str
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_menucache_array_s::help_str'
 
 
- -- member of mod_gl_utils_menucache_array_s: help_bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::help_bitmap
+ -- Member of mod_gl_utils_menucache_array_s: help_bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_menucache_array_s::help_bitmap'
 
 
- -- member of mod_gl_utils_menucache_array_s: breadcrumbs_str
-          char* mod_gl_utils_menucache_array_s::breadcrumbs_str
+ -- Member of mod_gl_utils_menucache_array_s: breadcrumbs_str
+     *Type:* `char *'
+
+     *Definition:* `char*
+     mod_gl_utils_menucache_array_s::breadcrumbs_str'
 
 
- -- member of mod_gl_utils_menucache_array_s: breadcrumbs_bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::breadcrumbs_bitmap
+ -- Member of mod_gl_utils_menucache_array_s: breadcrumbs_bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_menucache_array_s::breadcrumbs_bitmap'
 
 
- -- member of mod_gl_utils_menucache_array_s: popup_str
-          char* mod_gl_utils_menucache_array_s::popup_str
+ -- Member of mod_gl_utils_menucache_array_s: popup_str
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_menucache_array_s::popup_str'
 
 
- -- member of mod_gl_utils_menucache_array_s: popup_bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::popup_bitmap
+ -- Member of mod_gl_utils_menucache_array_s: popup_bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_menucache_array_s::popup_bitmap'
 
 
  -- Struct: mod_gl_utils_menucache_item_s
 
- -- member of mod_gl_utils_menucache_item_s: key
-          char* mod_gl_utils_menucache_item_s::key
+ -- Member of mod_gl_utils_menucache_item_s: key
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_menucache_item_s::key'
 
 
- -- member of mod_gl_utils_menucache_item_s: bitmap
-          mod_gl_utils_bitmap_t* mod_gl_utils_menucache_item_s::bitmap
+ -- Member of mod_gl_utils_menucache_item_s: bitmap
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_menucache_item_s::bitmap'
 
 
  -- Struct: mod_gl_utils_mouse_state_s
 
- -- member of mod_gl_utils_mouse_state_s: shown
-          int mod_gl_utils_mouse_state_s::shown
+ -- Member of mod_gl_utils_mouse_state_s: shown
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_mouse_state_s::shown'
 
 
  -- Struct: mod_gl_utils_multiline_text_callback_data_s
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: utils_context
-          mod_gl_utils_context_t* mod_gl_utils_multiline_text_callback_data_s::utils_context
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: utils_context
+     *Type:* `mod_gl_utils_context_t *'
+
+     *Definition:* `mod_gl_utils_context_t*
+     mod_gl_utils_multiline_text_callback_data_s::utils_context'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: font
-          TTF_Font* mod_gl_utils_multiline_text_callback_data_s::font
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: font
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font*
+     mod_gl_utils_multiline_text_callback_data_s::font'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_bg
-          SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_bg
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_bg
+     *Type:* `SDL_Color'
+
+     *Definition:* `SDL_Color
+     mod_gl_utils_multiline_text_callback_data_s::sdl_color_bg'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_fg
-          SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_fg
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: sdl_color_fg
+     *Type:* `SDL_Color'
+
+     *Definition:* `SDL_Color
+     mod_gl_utils_multiline_text_callback_data_s::sdl_color_fg'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: shape
-          lw6sys_whd_t mod_gl_utils_multiline_text_callback_data_s::shape
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t
+     mod_gl_utils_multiline_text_callback_data_s::shape'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: pos
-          lw6sys_xyz_t mod_gl_utils_multiline_text_callback_data_s::pos
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: pos
+     *Type:* `lw6sys_xyz_t'
+
+     *Definition:* `lw6sys_xyz_t
+     mod_gl_utils_multiline_text_callback_data_s::pos'
 
 
- -- member of mod_gl_utils_multiline_text_callback_data_s: target
-          SDL_Surface* mod_gl_utils_multiline_text_callback_data_s::target
+ -- Member of mod_gl_utils_multiline_text_callback_data_s: target
+     *Type:* `SDL_Surface *'
+
+     *Definition:* `SDL_Surface*
+     mod_gl_utils_multiline_text_callback_data_s::target'
 
 
  -- Struct: mod_gl_utils_path_s
 
- -- member of mod_gl_utils_path_s: data_dir
-          char* mod_gl_utils_path_s::data_dir
+ -- Member of mod_gl_utils_path_s: data_dir
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_path_s::data_dir'
 
 
- -- member of mod_gl_utils_path_s: capture_dir
-          char* mod_gl_utils_path_s::capture_dir
+ -- Member of mod_gl_utils_path_s: capture_dir
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_path_s::capture_dir'
 
 
- -- member of mod_gl_utils_path_s: bitmap_dir
-          char* mod_gl_utils_path_s::bitmap_dir
+ -- Member of mod_gl_utils_path_s: bitmap_dir
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_path_s::bitmap_dir'
 
 
- -- member of mod_gl_utils_path_s: bitmap_frame_dir
-          char* mod_gl_utils_path_s::bitmap_frame_dir
+ -- Member of mod_gl_utils_path_s: bitmap_frame_dir
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_path_s::bitmap_frame_dir'
 
 
  -- Struct: mod_gl_utils_rect_array_s
 
- -- member of mod_gl_utils_rect_array_s: tile_size
-          int mod_gl_utils_rect_array_s::tile_size
+ -- Member of mod_gl_utils_rect_array_s: tile_size
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::tile_size'
 
 
- -- member of mod_gl_utils_rect_array_s: border_size
-          int mod_gl_utils_rect_array_s::border_size
+ -- Member of mod_gl_utils_rect_array_s: border_size
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::border_size'
 
 
- -- member of mod_gl_utils_rect_array_s: tile_spacing
-          int mod_gl_utils_rect_array_s::tile_spacing
+ -- Member of mod_gl_utils_rect_array_s: tile_spacing
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::tile_spacing'
 
 
- -- member of mod_gl_utils_rect_array_s: nb_tiles_w
-          int mod_gl_utils_rect_array_s::nb_tiles_w
+ -- Member of mod_gl_utils_rect_array_s: nb_tiles_w
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles_w'
 
 
- -- member of mod_gl_utils_rect_array_s: nb_tiles_h
-          int mod_gl_utils_rect_array_s::nb_tiles_h
+ -- Member of mod_gl_utils_rect_array_s: nb_tiles_h
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles_h'
 
 
- -- member of mod_gl_utils_rect_array_s: nb_tiles
-          int mod_gl_utils_rect_array_s::nb_tiles
+ -- Member of mod_gl_utils_rect_array_s: nb_tiles
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::nb_tiles'
 
 
- -- member of mod_gl_utils_rect_array_s: source_w
-          int mod_gl_utils_rect_array_s::source_w
+ -- Member of mod_gl_utils_rect_array_s: source_w
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::source_w'
 
 
- -- member of mod_gl_utils_rect_array_s: source_h
-          int mod_gl_utils_rect_array_s::source_h
+ -- Member of mod_gl_utils_rect_array_s: source_h
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_rect_array_s::source_h'
 
 
  -- Struct: mod_gl_utils_render_param_s
 
- -- member of mod_gl_utils_render_param_s: mode
-          mod_gl_utils_render_mode_t mod_gl_utils_render_param_s::mode
+ -- Member of mod_gl_utils_render_param_s: mode
+     *Type:* `mod_gl_utils_render_mode_t'
+
+     *Definition:* `mod_gl_utils_render_mode_t
+     mod_gl_utils_render_param_s::mode'
 
 
- -- member of mod_gl_utils_render_param_s: gfx_quality
-          int mod_gl_utils_render_param_s::gfx_quality
+ -- Member of mod_gl_utils_render_param_s: gfx_quality
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_render_param_s::gfx_quality'
 
 
  -- Struct: mod_gl_utils_shaded_text_s
 
- -- member of mod_gl_utils_shaded_text_s: font
-          TTF_Font* mod_gl_utils_shaded_text_s::font
+ -- Member of mod_gl_utils_shaded_text_s: font
+     *Type:* `TTF_Font *'
+
+     *Definition:* `TTF_Font* mod_gl_utils_shaded_text_s::font'
 
 
- -- member of mod_gl_utils_shaded_text_s: text
-          char* mod_gl_utils_shaded_text_s::text
+ -- Member of mod_gl_utils_shaded_text_s: text
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_utils_shaded_text_s::text'
 
 
- -- member of mod_gl_utils_shaded_text_s: color
-          lw6map_color_couple_t mod_gl_utils_shaded_text_s::color
+ -- Member of mod_gl_utils_shaded_text_s: color
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     mod_gl_utils_shaded_text_s::color'
 
 
- -- member of mod_gl_utils_shaded_text_s: bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::bg
+ -- Member of mod_gl_utils_shaded_text_s: bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_shaded_text_s::bg'
 
 
- -- member of mod_gl_utils_shaded_text_s: fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::fg
+ -- Member of mod_gl_utils_shaded_text_s: fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_shaded_text_s::fg'
 
 
- -- member of mod_gl_utils_shaded_text_s: texture_w
-          int mod_gl_utils_shaded_text_s::texture_w
+ -- Member of mod_gl_utils_shaded_text_s: texture_w
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_shaded_text_s::texture_w'
 
 
- -- member of mod_gl_utils_shaded_text_s: texture_h
-          int mod_gl_utils_shaded_text_s::texture_h
+ -- Member of mod_gl_utils_shaded_text_s: texture_h
+     *Type:* `int'
+
+     *Definition:* `int mod_gl_utils_shaded_text_s::texture_h'
 
 
  -- Struct: mod_gl_utils_team_color_map_s
 
- -- member of mod_gl_utils_team_color_map_s: team_colors_f
-          lw6sys_color_f_t mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]
+ -- Member of mod_gl_utils_team_color_map_s: team_colors_f
+     *Type:* `lw6sys_color_f_t'
+
+     *Definition:* `lw6sys_color_f_t
+     mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]'
 
 
- -- member of mod_gl_utils_team_color_map_s: team_colors
-          Uint32 mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]
+ -- Member of mod_gl_utils_team_color_map_s: team_colors
+     *Type:* `Uint32'
+
+     *Definition:* `Uint32
+     mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]'
 
 
  -- Struct: mod_gl_utils_texture_1x1_s
 
- -- member of mod_gl_utils_texture_1x1_s: color_base_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_fg
+ -- Member of mod_gl_utils_texture_1x1_s: color_base_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::color_base_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: color_base_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_bg
+ -- Member of mod_gl_utils_texture_1x1_s: color_base_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::color_base_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: color_alternate_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_fg
+ -- Member of mod_gl_utils_texture_1x1_s: color_alternate_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::color_alternate_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: color_alternate_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_bg
+ -- Member of mod_gl_utils_texture_1x1_s: color_alternate_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::color_alternate_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: background_color_root_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_fg
+ -- Member of mod_gl_utils_texture_1x1_s: background_color_root_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::background_color_root_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: background_color_root_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_bg
+ -- Member of mod_gl_utils_texture_1x1_s: background_color_root_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::background_color_root_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: background_color_stuff_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_fg
+ -- Member of mod_gl_utils_texture_1x1_s: background_color_stuff_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::background_color_stuff_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: background_color_stuff_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_bg
+ -- Member of mod_gl_utils_texture_1x1_s: background_color_stuff_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::background_color_stuff_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: hud_color_frame_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_fg
+ -- Member of mod_gl_utils_texture_1x1_s: hud_color_frame_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::hud_color_frame_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: hud_color_frame_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_bg
+ -- Member of mod_gl_utils_texture_1x1_s: hud_color_frame_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::hud_color_frame_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: hud_color_text_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_fg
+ -- Member of mod_gl_utils_texture_1x1_s: hud_color_text_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::hud_color_text_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: hud_color_text_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_bg
+ -- Member of mod_gl_utils_texture_1x1_s: hud_color_text_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::hud_color_text_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_default_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_fg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_default_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_default_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_default_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_bg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_default_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_default_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_selected_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_fg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_selected_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_selected_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_selected_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_bg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_selected_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_selected_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_disabled_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_fg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_disabled_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_disabled_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: menu_color_disabled_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_bg
+ -- Member of mod_gl_utils_texture_1x1_s: menu_color_disabled_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::menu_color_disabled_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: view_color_cursor_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_fg
+ -- Member of mod_gl_utils_texture_1x1_s: view_color_cursor_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::view_color_cursor_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: view_color_cursor_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_bg
+ -- Member of mod_gl_utils_texture_1x1_s: view_color_cursor_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::view_color_cursor_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: view_color_map_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_fg
+ -- Member of mod_gl_utils_texture_1x1_s: view_color_map_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::view_color_map_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: view_color_map_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_bg
+ -- Member of mod_gl_utils_texture_1x1_s: view_color_map_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::view_color_map_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: system_color_fg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_fg
+ -- Member of mod_gl_utils_texture_1x1_s: system_color_fg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::system_color_fg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: system_color_bg
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_bg
+ -- Member of mod_gl_utils_texture_1x1_s: system_color_bg
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::system_color_bg'
 
 
- -- member of mod_gl_utils_texture_1x1_s: team_color_dead
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_color_dead
+ -- Member of mod_gl_utils_texture_1x1_s: team_color_dead
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::team_color_dead'
 
 
- -- member of mod_gl_utils_texture_1x1_s: team_colors
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors[LW6MAP_NB_TEAM_COLORS]
+ -- Member of mod_gl_utils_texture_1x1_s: team_colors
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::team_colors[LW6MAP_NB_TEAM_COLORS]'
 
 
- -- member of mod_gl_utils_texture_1x1_s: team_colors_transparency
-          mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]
+ -- Member of mod_gl_utils_texture_1x1_s: team_colors_transparency
+     *Type:* `mod_gl_utils_bitmap_t *'
+
+     *Definition:* `mod_gl_utils_bitmap_t*
+     mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]'
 
 
  -- Struct: mod_gl_utils_texture_data_s
 
- -- member of mod_gl_utils_texture_data_s: to_delete
-          lw6sys_list_t* mod_gl_utils_texture_data_s::to_delete
+ -- Member of mod_gl_utils_texture_data_s: to_delete
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t*
+     mod_gl_utils_texture_data_s::to_delete'
 
 
  -- Struct: mod_gl_utils_timer_s
 
- -- member of mod_gl_utils_timer_s: timestamp
-          int64_t mod_gl_utils_timer_s::timestamp
+ -- Member of mod_gl_utils_timer_s: timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t mod_gl_utils_timer_s::timestamp'
 
 
- -- member of mod_gl_utils_timer_s: uptime
-          int64_t mod_gl_utils_timer_s::uptime
+ -- Member of mod_gl_utils_timer_s: uptime
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t mod_gl_utils_timer_s::uptime'
 
 
- -- member of mod_gl_utils_timer_s: cycle
-          int32_t mod_gl_utils_timer_s::cycle
+ -- Member of mod_gl_utils_timer_s: cycle
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t mod_gl_utils_timer_s::cycle'
 
 
- -- member of mod_gl_utils_timer_s: bitmap_refresh
-          int64_t mod_gl_utils_timer_s::bitmap_refresh
+ -- Member of mod_gl_utils_timer_s: bitmap_refresh
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t mod_gl_utils_timer_s::bitmap_refresh'
 
 
  -- Struct: mod_gl_view_backend_s
 
- -- member of mod_gl_view_backend_s: view_context
-          void* mod_gl_view_backend_s::view_context
+ -- Member of mod_gl_view_backend_s: view_context
+     *Type:* `void *'
+
+     *Definition:* `void* mod_gl_view_backend_s::view_context'
 
 
- -- member of mod_gl_view_backend_s: backend_name
-          char* mod_gl_view_backend_s::backend_name
+ -- Member of mod_gl_view_backend_s: backend_name
+     *Type:* `char *'
+
+     *Definition:* `char* mod_gl_view_backend_s::backend_name'
 
 
- -- member of mod_gl_view_backend_s: init
-          void*(* mod_gl_view_backend_s::init)(mod_gl_utils_context_t *utils_context)
+ -- Member of mod_gl_view_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(*
+     mod_gl_view_backend_s::init)(mod_gl_utils_context_t
+     *utils_context)'
 
 
- -- member of mod_gl_view_backend_s: quit
-          void(* mod_gl_view_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *view_context)
+ -- Member of mod_gl_view_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_view_backend_s::quit)(mod_gl_utils_context_t
+     *utils_context, void *view_context)'
 
 
- -- member of mod_gl_view_backend_s: display_preview
-          void(* mod_gl_view_backend_s::display_preview)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6map_level_t *level)
+ -- Member of mod_gl_view_backend_s: display_preview
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_view_backend_s::display_preview)(mod_gl_utils_context_t
+     *utils_context, void *view_context, lw6gui_look_t *look,
+     lw6map_level_t *level)'
 
 
- -- member of mod_gl_view_backend_s: display_map
-          void(* mod_gl_view_backend_s::display_map)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
+ -- Member of mod_gl_view_backend_s: display_map
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_view_backend_s::display_map)(mod_gl_utils_context_t
+     *utils_context, void *view_context, lw6gui_look_t *look,
+     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
+     *local_cursors)'
 
 
- -- member of mod_gl_view_backend_s: display_fighters
-          void(* mod_gl_view_backend_s::display_fighters)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
+ -- Member of mod_gl_view_backend_s: display_fighters
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_view_backend_s::display_fighters)(mod_gl_utils_context_t
+     *utils_context, void *view_context, lw6gui_look_t *look,
+     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
+     *local_cursors)'
 
 
- -- member of mod_gl_view_backend_s: display_cursors
-          void(* mod_gl_view_backend_s::display_cursors)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
+ -- Member of mod_gl_view_backend_s: display_cursors
+     *Type:* `void(*'
+
+     *Definition:* `void(*
+     mod_gl_view_backend_s::display_cursors)(mod_gl_utils_context_t
+     *utils_context, void *view_context, lw6gui_look_t *look,
+     lw6ker_game_state_t *game_state, lw6pil_local_cursors_t
+     *local_cursors)'
 
 
 
@@ -3316,648 +4015,953 @@ results on
 
  -- Struct: lw6gui_button_s
 
- -- member of lw6gui_button_s: is_pressed
-          int lw6gui_button_s::is_pressed
+ -- Member of lw6gui_button_s: is_pressed
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_button_s::is_pressed'
 
 
- -- member of lw6gui_button_s: press_queue
-          int lw6gui_button_s::press_queue
+ -- Member of lw6gui_button_s: press_queue
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_button_s::press_queue'
 
 
- -- member of lw6gui_button_s: simple_click_queue
-          int lw6gui_button_s::simple_click_queue
+ -- Member of lw6gui_button_s: simple_click_queue
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_button_s::simple_click_queue'
 
 
- -- member of lw6gui_button_s: double_click_queue
-          int lw6gui_button_s::double_click_queue
+ -- Member of lw6gui_button_s: double_click_queue
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_button_s::double_click_queue'
 
 
- -- member of lw6gui_button_s: triple_click_queue
-          int lw6gui_button_s::triple_click_queue
+ -- Member of lw6gui_button_s: triple_click_queue
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_button_s::triple_click_queue'
 
 
- -- member of lw6gui_button_s: last_press
-          int64_t lw6gui_button_s::last_press
+ -- Member of lw6gui_button_s: last_press
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_button_s::last_press'
 
 
- -- member of lw6gui_button_s: last_repeat
-          int64_t lw6gui_button_s::last_repeat
+ -- Member of lw6gui_button_s: last_repeat
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_button_s::last_repeat'
 
 
- -- member of lw6gui_button_s: double_click_t1
-          int64_t lw6gui_button_s::double_click_t1
+ -- Member of lw6gui_button_s: double_click_t1
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_button_s::double_click_t1'
 
 
- -- member of lw6gui_button_s: double_click_t2
-          int64_t lw6gui_button_s::double_click_t2
+ -- Member of lw6gui_button_s: double_click_t2
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_button_s::double_click_t2'
 
 
- -- member of lw6gui_button_s: double_click_t3
-          int64_t lw6gui_button_s::double_click_t3
+ -- Member of lw6gui_button_s: double_click_t3
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_button_s::double_click_t3'
 
 
  -- Struct: lw6gui_fullscreen_modes_s
 
- -- member of lw6gui_fullscreen_modes_s: low
-          lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low
+ -- Member of lw6gui_fullscreen_modes_s: low
+     *Type:* `lw6gui_video_mode_t'
+
+     *Definition:* `lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low'
 
 
- -- member of lw6gui_fullscreen_modes_s: standard
-          lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard
+ -- Member of lw6gui_fullscreen_modes_s: standard
+     *Type:* `lw6gui_video_mode_t'
+
+     *Definition:* `lw6gui_video_mode_t
+     lw6gui_fullscreen_modes_s::standard'
 
 
- -- member of lw6gui_fullscreen_modes_s: high
-          lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
+ -- Member of lw6gui_fullscreen_modes_s: high
+     *Type:* `lw6gui_video_mode_t'
+
+     *Definition:* `lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high'
 
 
  -- Struct: lw6gui_input_s
 
- -- member of lw6gui_input_s: need_sync
-          int lw6gui_input_s::need_sync
+ -- Member of lw6gui_input_s: need_sync
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_input_s::need_sync'
 
 
- -- member of lw6gui_input_s: keyboard
-          lw6gui_keyboard_t lw6gui_input_s::keyboard
+ -- Member of lw6gui_input_s: keyboard
+     *Type:* `lw6gui_keyboard_t'
+
+     *Definition:* `lw6gui_keyboard_t lw6gui_input_s::keyboard'
 
 
- -- member of lw6gui_input_s: mouse
-          lw6gui_mouse_t lw6gui_input_s::mouse
+ -- Member of lw6gui_input_s: mouse
+     *Type:* `lw6gui_mouse_t'
+
+     *Definition:* `lw6gui_mouse_t lw6gui_input_s::mouse'
 
 
- -- member of lw6gui_input_s: joysticks
-          lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
+ -- Member of lw6gui_input_s: joysticks
+     *Type:* `lw6gui_joystick_t'
+
+     *Definition:* `lw6gui_joystick_t
+     lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]'
 
 
  -- Struct: lw6gui_joystick_s
 
- -- member of lw6gui_joystick_s: pad_up
-          lw6gui_button_t lw6gui_joystick_s::pad_up
+ -- Member of lw6gui_joystick_s: pad_up
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_up'
 
 
- -- member of lw6gui_joystick_s: pad_down
-          lw6gui_button_t lw6gui_joystick_s::pad_down
+ -- Member of lw6gui_joystick_s: pad_down
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_down'
 
 
- -- member of lw6gui_joystick_s: pad_left
-          lw6gui_button_t lw6gui_joystick_s::pad_left
+ -- Member of lw6gui_joystick_s: pad_left
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_left'
 
 
- -- member of lw6gui_joystick_s: pad_right
-          lw6gui_button_t lw6gui_joystick_s::pad_right
+ -- Member of lw6gui_joystick_s: pad_right
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::pad_right'
 
 
- -- member of lw6gui_joystick_s: button_a
-          lw6gui_button_t lw6gui_joystick_s::button_a
+ -- Member of lw6gui_joystick_s: button_a
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_a'
 
 
- -- member of lw6gui_joystick_s: button_b
-          lw6gui_button_t lw6gui_joystick_s::button_b
+ -- Member of lw6gui_joystick_s: button_b
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_b'
 
 
- -- member of lw6gui_joystick_s: button_c
-          lw6gui_button_t lw6gui_joystick_s::button_c
+ -- Member of lw6gui_joystick_s: button_c
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_c'
 
 
- -- member of lw6gui_joystick_s: button_d
-          lw6gui_button_t lw6gui_joystick_s::button_d
+ -- Member of lw6gui_joystick_s: button_d
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_d'
 
 
- -- member of lw6gui_joystick_s: button_e
-          lw6gui_button_t lw6gui_joystick_s::button_e
+ -- Member of lw6gui_joystick_s: button_e
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_e'
 
 
- -- member of lw6gui_joystick_s: button_f
-          lw6gui_button_t lw6gui_joystick_s::button_f
+ -- Member of lw6gui_joystick_s: button_f
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_joystick_s::button_f'
 
 
  -- Struct: lw6gui_keyboard_s
 
- -- member of lw6gui_keyboard_s: arrow_up
-          lw6gui_button_t lw6gui_keyboard_s::arrow_up
+ -- Member of lw6gui_keyboard_s: arrow_up
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_up'
 
 
- -- member of lw6gui_keyboard_s: arrow_down
-          lw6gui_button_t lw6gui_keyboard_s::arrow_down
+ -- Member of lw6gui_keyboard_s: arrow_down
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_down'
 
 
- -- member of lw6gui_keyboard_s: arrow_left
-          lw6gui_button_t lw6gui_keyboard_s::arrow_left
+ -- Member of lw6gui_keyboard_s: arrow_left
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_left'
 
 
- -- member of lw6gui_keyboard_s: arrow_right
-          lw6gui_button_t lw6gui_keyboard_s::arrow_right
+ -- Member of lw6gui_keyboard_s: arrow_right
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::arrow_right'
 
 
- -- member of lw6gui_keyboard_s: key_enter
-          lw6gui_button_t lw6gui_keyboard_s::key_enter
+ -- Member of lw6gui_keyboard_s: key_enter
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_enter'
 
 
- -- member of lw6gui_keyboard_s: key_esc
-          lw6gui_button_t lw6gui_keyboard_s::key_esc
+ -- Member of lw6gui_keyboard_s: key_esc
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_esc'
 
 
- -- member of lw6gui_keyboard_s: key_ctrl
-          lw6gui_button_t lw6gui_keyboard_s::key_ctrl
+ -- Member of lw6gui_keyboard_s: key_ctrl
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_ctrl'
 
 
- -- member of lw6gui_keyboard_s: key_alt
-          lw6gui_button_t lw6gui_keyboard_s::key_alt
+ -- Member of lw6gui_keyboard_s: key_alt
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_alt'
 
 
- -- member of lw6gui_keyboard_s: key_pgup
-          lw6gui_button_t lw6gui_keyboard_s::key_pgup
+ -- Member of lw6gui_keyboard_s: key_pgup
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_pgup'
 
 
- -- member of lw6gui_keyboard_s: key_pgdown
-          lw6gui_button_t lw6gui_keyboard_s::key_pgdown
+ -- Member of lw6gui_keyboard_s: key_pgdown
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_keyboard_s::key_pgdown'
 
 
- -- member of lw6gui_keyboard_s: queue
-          lw6sys_list_t* lw6gui_keyboard_s::queue
+ -- Member of lw6gui_keyboard_s: queue
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6gui_keyboard_s::queue'
 
 
- -- member of lw6gui_keyboard_s: keys_state
-          lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
+ -- Member of lw6gui_keyboard_s: keys_state
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t
+     lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]'
 
 
  -- Struct: lw6gui_keypress_s
 
- -- member of lw6gui_keypress_s: keysym
-          int lw6gui_keypress_s::keysym
+ -- Member of lw6gui_keypress_s: keysym
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_keypress_s::keysym'
 
 
- -- member of lw6gui_keypress_s: unicode
-          int lw6gui_keypress_s::unicode
+ -- Member of lw6gui_keypress_s: unicode
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_keypress_s::unicode'
 
 
- -- member of lw6gui_keypress_s: label
-          char* lw6gui_keypress_s::label
+ -- Member of lw6gui_keypress_s: label
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_keypress_s::label'
 
 
  -- Struct: lw6gui_look_s
 
- -- member of lw6gui_look_s: id
-          u_int32_t lw6gui_look_s::id
+ -- Member of lw6gui_look_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6gui_look_s::id'
 
 
- -- member of lw6gui_look_s: dynamic_zoom
-          float lw6gui_look_s::dynamic_zoom
+ -- Member of lw6gui_look_s: dynamic_zoom
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_look_s::dynamic_zoom'
 
 
- -- member of lw6gui_look_s: gfx_quality
-          int lw6gui_look_s::gfx_quality
+ -- Member of lw6gui_look_s: gfx_quality
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_look_s::gfx_quality'
 
 
- -- member of lw6gui_look_s: style
-          lw6map_style_t lw6gui_look_s::style
+ -- Member of lw6gui_look_s: style
+     *Type:* `lw6map_style_t'
+
+     *Definition:* `lw6map_style_t lw6gui_look_s::style'
 
 
  -- Struct: lw6gui_menuitem_s
 
- -- member of lw6gui_menuitem_s: id
-          u_int32_t lw6gui_menuitem_s::id
+ -- Member of lw6gui_menuitem_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6gui_menuitem_s::id'
 
 
- -- member of lw6gui_menuitem_s: label
-          char* lw6gui_menuitem_s::label
+ -- Member of lw6gui_menuitem_s: label
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_menuitem_s::label'
 
 
- -- member of lw6gui_menuitem_s: tooltip
-          char* lw6gui_menuitem_s::tooltip
+ -- Member of lw6gui_menuitem_s: tooltip
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_menuitem_s::tooltip'
 
 
- -- member of lw6gui_menuitem_s: value
-          int lw6gui_menuitem_s::value
+ -- Member of lw6gui_menuitem_s: value
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::value'
 
 
- -- member of lw6gui_menuitem_s: enabled
-          int lw6gui_menuitem_s::enabled
+ -- Member of lw6gui_menuitem_s: enabled
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::enabled'
 
 
- -- member of lw6gui_menuitem_s: selected
-          int lw6gui_menuitem_s::selected
+ -- Member of lw6gui_menuitem_s: selected
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::selected'
 
 
- -- member of lw6gui_menuitem_s: colored
-          int lw6gui_menuitem_s::colored
+ -- Member of lw6gui_menuitem_s: colored
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::colored'
 
 
- -- member of lw6gui_menuitem_s: last_change
-          int lw6gui_menuitem_s::last_change
+ -- Member of lw6gui_menuitem_s: last_change
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::last_change'
 
 
- -- member of lw6gui_menuitem_s: last_select
-          int lw6gui_menuitem_s::last_select
+ -- Member of lw6gui_menuitem_s: last_select
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::last_select'
 
 
- -- member of lw6gui_menuitem_s: last_unselect
-          int lw6gui_menuitem_s::last_unselect
+ -- Member of lw6gui_menuitem_s: last_unselect
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menuitem_s::last_unselect'
 
 
  -- Struct: lw6gui_menu_s
 
- -- member of lw6gui_menu_s: id
-          u_int32_t lw6gui_menu_s::id
+ -- Member of lw6gui_menu_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6gui_menu_s::id'
 
 
- -- member of lw6gui_menu_s: title
-          char* lw6gui_menu_s::title
+ -- Member of lw6gui_menu_s: title
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_menu_s::title'
 
 
- -- member of lw6gui_menu_s: help
-          char* lw6gui_menu_s::help
+ -- Member of lw6gui_menu_s: help
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_menu_s::help'
 
 
- -- member of lw6gui_menu_s: popup
-          char* lw6gui_menu_s::popup
+ -- Member of lw6gui_menu_s: popup
+     *Type:* `char *'
+
+     *Definition:* `char* lw6gui_menu_s::popup'
 
 
- -- member of lw6gui_menu_s: nb_items
-          int lw6gui_menu_s::nb_items
+ -- Member of lw6gui_menu_s: nb_items
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::nb_items'
 
 
- -- member of lw6gui_menu_s: esc_item
-          lw6gui_menuitem_t* lw6gui_menu_s::esc_item
+ -- Member of lw6gui_menu_s: esc_item
+     *Type:* `lw6gui_menuitem_t *'
+
+     *Definition:* `lw6gui_menuitem_t* lw6gui_menu_s::esc_item'
 
 
- -- member of lw6gui_menu_s: items
-          lw6gui_menuitem_t** lw6gui_menu_s::items
+ -- Member of lw6gui_menu_s: items
+     *Type:* `lw6gui_menuitem_t **'
+
+     *Definition:* `lw6gui_menuitem_t** lw6gui_menu_s::items'
 
 
- -- member of lw6gui_menu_s: selected_item
-          int lw6gui_menu_s::selected_item
+ -- Member of lw6gui_menu_s: selected_item
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::selected_item'
 
 
- -- member of lw6gui_menu_s: first_item_displayed
-          int lw6gui_menu_s::first_item_displayed
+ -- Member of lw6gui_menu_s: first_item_displayed
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::first_item_displayed'
 
 
- -- member of lw6gui_menu_s: nb_items_displayed
-          int lw6gui_menu_s::nb_items_displayed
+ -- Member of lw6gui_menu_s: nb_items_displayed
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::nb_items_displayed'
 
 
- -- member of lw6gui_menu_s: order_of_selected_on_display
-          int lw6gui_menu_s::order_of_selected_on_display
+ -- Member of lw6gui_menu_s: order_of_selected_on_display
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::order_of_selected_on_display'
 
 
- -- member of lw6gui_menu_s: allow_scroll
-          int lw6gui_menu_s::allow_scroll
+ -- Member of lw6gui_menu_s: allow_scroll
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_menu_s::allow_scroll'
 
 
- -- member of lw6gui_menu_s: breadcrumbs
-          lw6sys_list_t* lw6gui_menu_s::breadcrumbs
+ -- Member of lw6gui_menu_s: breadcrumbs
+     *Type:* `lw6sys_list_t *'
+
+     *Definition:* `lw6sys_list_t* lw6gui_menu_s::breadcrumbs'
 
 
  -- Struct: lw6gui_mouse_pointer_s
 
- -- member of lw6gui_mouse_pointer_s: pos_x
-          int lw6gui_mouse_pointer_s::pos_x
+ -- Member of lw6gui_mouse_pointer_s: pos_x
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_pointer_s::pos_x'
 
 
- -- member of lw6gui_mouse_pointer_s: pos_y
-          int lw6gui_mouse_pointer_s::pos_y
+ -- Member of lw6gui_mouse_pointer_s: pos_y
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_pointer_s::pos_y'
 
 
- -- member of lw6gui_mouse_pointer_s: speed_x
-          int lw6gui_mouse_pointer_s::speed_x
+ -- Member of lw6gui_mouse_pointer_s: speed_x
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_pointer_s::speed_x'
 
 
- -- member of lw6gui_mouse_pointer_s: speed_y
-          int lw6gui_mouse_pointer_s::speed_y
+ -- Member of lw6gui_mouse_pointer_s: speed_y
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_pointer_s::speed_y'
 
 
  -- Struct: lw6gui_mouse_s
 
- -- member of lw6gui_mouse_s: moved
-          int lw6gui_mouse_s::moved
+ -- Member of lw6gui_mouse_s: moved
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_s::moved'
 
 
- -- member of lw6gui_mouse_s: last_moved
-          int64_t lw6gui_mouse_s::last_moved
+ -- Member of lw6gui_mouse_s: last_moved
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_mouse_s::last_moved'
 
 
- -- member of lw6gui_mouse_s: screen_pointer
-          lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_pointer
+ -- Member of lw6gui_mouse_s: screen_pointer
+     *Type:* `lw6gui_mouse_pointer_t'
+
+     *Definition:* `lw6gui_mouse_pointer_t
+     lw6gui_mouse_s::screen_pointer'
 
 
- -- member of lw6gui_mouse_s: map_pointer
-          lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer
+ -- Member of lw6gui_mouse_s: map_pointer
+     *Type:* `lw6gui_mouse_pointer_t'
+
+     *Definition:* `lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer'
 
 
- -- member of lw6gui_mouse_s: screen_drag_start
-          lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_drag_start
+ -- Member of lw6gui_mouse_s: screen_drag_start
+     *Type:* `lw6gui_mouse_pointer_t'
+
+     *Definition:* `lw6gui_mouse_pointer_t
+     lw6gui_mouse_s::screen_drag_start'
 
 
- -- member of lw6gui_mouse_s: drag_mode
-          lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode
+ -- Member of lw6gui_mouse_s: drag_mode
+     *Type:* `lw6gui_drag_mode_t'
+
+     *Definition:* `lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode'
 
 
- -- member of lw6gui_mouse_s: menu_position
-          int lw6gui_mouse_s::menu_position
+ -- Member of lw6gui_mouse_s: menu_position
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_s::menu_position'
 
 
- -- member of lw6gui_mouse_s: menu_scroll
-          int lw6gui_mouse_s::menu_scroll
+ -- Member of lw6gui_mouse_s: menu_scroll
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_s::menu_scroll'
 
 
- -- member of lw6gui_mouse_s: menu_esc
-          int lw6gui_mouse_s::menu_esc
+ -- Member of lw6gui_mouse_s: menu_esc
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_mouse_s::menu_esc'
 
 
- -- member of lw6gui_mouse_s: button_left
-          lw6gui_button_t lw6gui_mouse_s::button_left
+ -- Member of lw6gui_mouse_s: button_left
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_left'
 
 
- -- member of lw6gui_mouse_s: button_right
-          lw6gui_button_t lw6gui_mouse_s::button_right
+ -- Member of lw6gui_mouse_s: button_right
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_right'
 
 
- -- member of lw6gui_mouse_s: button_middle
-          lw6gui_button_t lw6gui_mouse_s::button_middle
+ -- Member of lw6gui_mouse_s: button_middle
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_mouse_s::button_middle'
 
 
- -- member of lw6gui_mouse_s: wheel_up
-          lw6gui_button_t lw6gui_mouse_s::wheel_up
+ -- Member of lw6gui_mouse_s: wheel_up
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_mouse_s::wheel_up'
 
 
- -- member of lw6gui_mouse_s: wheel_down
-          lw6gui_button_t lw6gui_mouse_s::wheel_down
+ -- Member of lw6gui_mouse_s: wheel_down
+     *Type:* `lw6gui_button_t'
+
+     *Definition:* `lw6gui_button_t lw6gui_mouse_s::wheel_down'
 
 
  -- Struct: lw6gui_move_pad_s
 
- -- member of lw6gui_move_pad_s: up
-          int lw6gui_move_pad_s::up
+ -- Member of lw6gui_move_pad_s: up
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_move_pad_s::up'
 
 
- -- member of lw6gui_move_pad_s: down
-          int lw6gui_move_pad_s::down
+ -- Member of lw6gui_move_pad_s: down
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_move_pad_s::down'
 
 
- -- member of lw6gui_move_pad_s: left
-          int lw6gui_move_pad_s::left
+ -- Member of lw6gui_move_pad_s: left
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_move_pad_s::left'
 
 
- -- member of lw6gui_move_pad_s: right
-          int lw6gui_move_pad_s::right
+ -- Member of lw6gui_move_pad_s: right
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_move_pad_s::right'
 
 
  -- Struct: lw6gui_point_s
 
- -- member of lw6gui_point_s: x
-          float lw6gui_point_s::x
+ -- Member of lw6gui_point_s: x
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_point_s::x'
 
 
- -- member of lw6gui_point_s: y
-          float lw6gui_point_s::y
+ -- Member of lw6gui_point_s: y
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_point_s::y'
 
 
- -- member of lw6gui_point_s: z
-          float lw6gui_point_s::z
+ -- Member of lw6gui_point_s: z
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_point_s::z'
 
 
  -- Struct: lw6gui_quad_s
 
- -- member of lw6gui_quad_s: p1
-          lw6gui_point_t lw6gui_quad_s::p1
+ -- Member of lw6gui_quad_s: p1
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_quad_s::p1'
 
 
- -- member of lw6gui_quad_s: p2
-          lw6gui_point_t lw6gui_quad_s::p2
+ -- Member of lw6gui_quad_s: p2
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_quad_s::p2'
 
 
- -- member of lw6gui_quad_s: p3
-          lw6gui_point_t lw6gui_quad_s::p3
+ -- Member of lw6gui_quad_s: p3
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_quad_s::p3'
 
 
- -- member of lw6gui_quad_s: p4
-          lw6gui_point_t lw6gui_quad_s::p4
+ -- Member of lw6gui_quad_s: p4
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_quad_s::p4'
 
 
  -- Struct: lw6gui_rect_array_s
 
- -- member of lw6gui_rect_array_s: source
-          lw6sys_whd_t lw6gui_rect_array_s::source
+ -- Member of lw6gui_rect_array_s: source
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6gui_rect_array_s::source'
 
 
- -- member of lw6gui_rect_array_s: limits
-          lw6gui_rect_t lw6gui_rect_array_s::limits
+ -- Member of lw6gui_rect_array_s: limits
+     *Type:* `lw6gui_rect_t'
+
+     *Definition:* `lw6gui_rect_t lw6gui_rect_array_s::limits'
 
 
- -- member of lw6gui_rect_array_s: tile_size
-          int lw6gui_rect_array_s::tile_size
+ -- Member of lw6gui_rect_array_s: tile_size
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::tile_size'
 
 
- -- member of lw6gui_rect_array_s: border_size
-          int lw6gui_rect_array_s::border_size
+ -- Member of lw6gui_rect_array_s: border_size
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::border_size'
 
 
- -- member of lw6gui_rect_array_s: tile_spacing
-          int lw6gui_rect_array_s::tile_spacing
+ -- Member of lw6gui_rect_array_s: tile_spacing
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::tile_spacing'
 
 
- -- member of lw6gui_rect_array_s: nb_tiles_w
-          int lw6gui_rect_array_s::nb_tiles_w
+ -- Member of lw6gui_rect_array_s: nb_tiles_w
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::nb_tiles_w'
 
 
- -- member of lw6gui_rect_array_s: nb_tiles_h
-          int lw6gui_rect_array_s::nb_tiles_h
+ -- Member of lw6gui_rect_array_s: nb_tiles_h
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::nb_tiles_h'
 
 
- -- member of lw6gui_rect_array_s: nb_tiles
-          int lw6gui_rect_array_s::nb_tiles
+ -- Member of lw6gui_rect_array_s: nb_tiles
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_array_s::nb_tiles'
 
 
  -- Struct: lw6gui_rect_s
 
- -- member of lw6gui_rect_s: x1
-          int lw6gui_rect_s::x1
+ -- Member of lw6gui_rect_s: x1
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::x1'
 
 
- -- member of lw6gui_rect_s: y1
-          int lw6gui_rect_s::y1
+ -- Member of lw6gui_rect_s: y1
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::y1'
 
 
- -- member of lw6gui_rect_s: x2
-          int lw6gui_rect_s::x2
+ -- Member of lw6gui_rect_s: x2
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::x2'
 
 
- -- member of lw6gui_rect_s: y2
-          int lw6gui_rect_s::y2
+ -- Member of lw6gui_rect_s: y2
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::y2'
 
 
- -- member of lw6gui_rect_s: w
-          int lw6gui_rect_s::w
+ -- Member of lw6gui_rect_s: w
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::w'
 
 
- -- member of lw6gui_rect_s: h
-          int lw6gui_rect_s::h
+ -- Member of lw6gui_rect_s: h
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_rect_s::h'
 
 
  -- Struct: lw6gui_repeat_settings_s
 
- -- member of lw6gui_repeat_settings_s: delay
-          int lw6gui_repeat_settings_s::delay
+ -- Member of lw6gui_repeat_settings_s: delay
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_repeat_settings_s::delay'
 
 
- -- member of lw6gui_repeat_settings_s: interval
-          int lw6gui_repeat_settings_s::interval
+ -- Member of lw6gui_repeat_settings_s: interval
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_repeat_settings_s::interval'
 
 
- -- member of lw6gui_repeat_settings_s: double_click_delay
-          int lw6gui_repeat_settings_s::double_click_delay
+ -- Member of lw6gui_repeat_settings_s: double_click_delay
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_repeat_settings_s::double_click_delay'
 
 
  -- Struct: lw6gui_segment_s
 
- -- member of lw6gui_segment_s: p1
-          lw6gui_point_t lw6gui_segment_s::p1
+ -- Member of lw6gui_segment_s: p1
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_segment_s::p1'
 
 
- -- member of lw6gui_segment_s: p2
-          lw6gui_point_t lw6gui_segment_s::p2
+ -- Member of lw6gui_segment_s: p2
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_segment_s::p2'
 
 
  -- Struct: lw6gui_smoother_s
 
- -- member of lw6gui_smoother_s: s1
-          float lw6gui_smoother_s::s1
+ -- Member of lw6gui_smoother_s: s1
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_smoother_s::s1'
 
 
- -- member of lw6gui_smoother_s: y1
-          float lw6gui_smoother_s::y1
+ -- Member of lw6gui_smoother_s: y1
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_smoother_s::y1'
 
 
- -- member of lw6gui_smoother_s: y2
-          float lw6gui_smoother_s::y2
+ -- Member of lw6gui_smoother_s: y2
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_smoother_s::y2'
 
 
- -- member of lw6gui_smoother_s: t1
-          int64_t lw6gui_smoother_s::t1
+ -- Member of lw6gui_smoother_s: t1
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6gui_smoother_s::t1'
 
 
- -- member of lw6gui_smoother_s: duration
-          int lw6gui_smoother_s::duration
+ -- Member of lw6gui_smoother_s: duration
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_smoother_s::duration'
 
 
  -- Struct: lw6gui_triangle_s
 
- -- member of lw6gui_triangle_s: p1
-          lw6gui_point_t lw6gui_triangle_s::p1
+ -- Member of lw6gui_triangle_s: p1
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_triangle_s::p1'
 
 
- -- member of lw6gui_triangle_s: p2
-          lw6gui_point_t lw6gui_triangle_s::p2
+ -- Member of lw6gui_triangle_s: p2
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_triangle_s::p2'
 
 
- -- member of lw6gui_triangle_s: p3
-          lw6gui_point_t lw6gui_triangle_s::p3
+ -- Member of lw6gui_triangle_s: p3
+     *Type:* `lw6gui_point_t'
+
+     *Definition:* `lw6gui_point_t lw6gui_triangle_s::p3'
 
 
  -- Struct: lw6gui_video_mode_s
 
- -- member of lw6gui_video_mode_s: width
-          int lw6gui_video_mode_s::width
+ -- Member of lw6gui_video_mode_s: width
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_video_mode_s::width'
 
 
- -- member of lw6gui_video_mode_s: height
-          int lw6gui_video_mode_s::height
+ -- Member of lw6gui_video_mode_s: height
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_video_mode_s::height'
 
 
- -- member of lw6gui_video_mode_s: fullscreen
-          int lw6gui_video_mode_s::fullscreen
+ -- Member of lw6gui_video_mode_s: fullscreen
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_video_mode_s::fullscreen'
 
 
  -- Struct: lw6gui_viewport_s
 
- -- member of lw6gui_viewport_s: map_shape
-          lw6sys_whd_t lw6gui_viewport_s::map_shape
+ -- Member of lw6gui_viewport_s: map_shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6gui_viewport_s::map_shape'
 
 
- -- member of lw6gui_viewport_s: screen_shape
-          lw6sys_whd_t lw6gui_viewport_s::screen_shape
+ -- Member of lw6gui_viewport_s: screen_shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6gui_viewport_s::screen_shape'
 
 
- -- member of lw6gui_viewport_s: center_x
-          float lw6gui_viewport_s::center_x
+ -- Member of lw6gui_viewport_s: center_x
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::center_x'
 
 
- -- member of lw6gui_viewport_s: center_y
-          float lw6gui_viewport_s::center_y
+ -- Member of lw6gui_viewport_s: center_y
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::center_y'
 
 
- -- member of lw6gui_viewport_s: old_center_x
-          float lw6gui_viewport_s::old_center_x
+ -- Member of lw6gui_viewport_s: old_center_x
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::old_center_x'
 
 
- -- member of lw6gui_viewport_s: old_center_y
-          float lw6gui_viewport_s::old_center_y
+ -- Member of lw6gui_viewport_s: old_center_y
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::old_center_y'
 
 
- -- member of lw6gui_viewport_s: speed_x
-          float lw6gui_viewport_s::speed_x
+ -- Member of lw6gui_viewport_s: speed_x
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::speed_x'
 
 
- -- member of lw6gui_viewport_s: speed_y
-          float lw6gui_viewport_s::speed_y
+ -- Member of lw6gui_viewport_s: speed_y
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_viewport_s::speed_y'
 
 
- -- member of lw6gui_viewport_s: x_polarity
-          int lw6gui_viewport_s::x_polarity
+ -- Member of lw6gui_viewport_s: x_polarity
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_viewport_s::x_polarity'
 
 
- -- member of lw6gui_viewport_s: y_polarity
-          int lw6gui_viewport_s::y_polarity
+ -- Member of lw6gui_viewport_s: y_polarity
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_viewport_s::y_polarity'
 
 
- -- member of lw6gui_viewport_s: x_wrap
-          int lw6gui_viewport_s::x_wrap
+ -- Member of lw6gui_viewport_s: x_wrap
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_viewport_s::x_wrap'
 
 
- -- member of lw6gui_viewport_s: y_wrap
-          int lw6gui_viewport_s::y_wrap
+ -- Member of lw6gui_viewport_s: y_wrap
+     *Type:* `int'
+
+     *Definition:* `int lw6gui_viewport_s::y_wrap'
 
 
- -- member of lw6gui_viewport_s: drawable
-          lw6gui_zone_t lw6gui_viewport_s::drawable
+ -- Member of lw6gui_viewport_s: drawable
+     *Type:* `lw6gui_zone_t'
+
+     *Definition:* `lw6gui_zone_t lw6gui_viewport_s::drawable'
 
 
- -- member of lw6gui_viewport_s: map_main
-          lw6gui_zone_t lw6gui_viewport_s::map_main
+ -- Member of lw6gui_viewport_s: map_main
+     *Type:* `lw6gui_zone_t'
+
+     *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_main'
 
 
- -- member of lw6gui_viewport_s: map_main_clipped
-          lw6gui_zone_t lw6gui_viewport_s::map_main_clipped
+ -- Member of lw6gui_viewport_s: map_main_clipped
+     *Type:* `lw6gui_zone_t'
+
+     *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_main_clipped'
 
 
- -- member of lw6gui_viewport_s: map_visible
-          lw6gui_zone_t lw6gui_viewport_s::map_visible
+ -- Member of lw6gui_viewport_s: map_visible
+     *Type:* `lw6gui_zone_t'
+
+     *Definition:* `lw6gui_zone_t lw6gui_viewport_s::map_visible'
 
 
  -- Struct: lw6gui_zone_s
 
- -- member of lw6gui_zone_s: x1
-          float lw6gui_zone_s::x1
+ -- Member of lw6gui_zone_s: x1
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::x1'
 
 
- -- member of lw6gui_zone_s: y1
-          float lw6gui_zone_s::y1
+ -- Member of lw6gui_zone_s: y1
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::y1'
 
 
- -- member of lw6gui_zone_s: x2
-          float lw6gui_zone_s::x2
+ -- Member of lw6gui_zone_s: x2
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::x2'
 
 
- -- member of lw6gui_zone_s: y2
-          float lw6gui_zone_s::y2
+ -- Member of lw6gui_zone_s: y2
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::y2'
 
 
- -- member of lw6gui_zone_s: w
-          float lw6gui_zone_s::w
+ -- Member of lw6gui_zone_s: w
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::w'
 
 
- -- member of lw6gui_zone_s: h
-          float lw6gui_zone_s::h
+ -- Member of lw6gui_zone_s: h
+     *Type:* `float'
+
+     *Definition:* `float lw6gui_zone_s::h'
 
 
 
@@ -4280,20 +5284,28 @@ results on
 
  -- Struct: lw6img_jpeg_s
 
- -- member of lw6img_jpeg_s: id
-          u_int32_t lw6img_jpeg_s::id
+ -- Member of lw6img_jpeg_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6img_jpeg_s::id'
 
 
- -- member of lw6img_jpeg_s: shape
-          lw6sys_whd_t lw6img_jpeg_s::shape
+ -- Member of lw6img_jpeg_s: shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6img_jpeg_s::shape'
 
 
- -- member of lw6img_jpeg_s: jpeg_size
-          int lw6img_jpeg_s::jpeg_size
+ -- Member of lw6img_jpeg_s: jpeg_size
+     *Type:* `int'
+
+     *Definition:* `int lw6img_jpeg_s::jpeg_size'
 
 
- -- member of lw6img_jpeg_s: jpeg_data
-          void* lw6img_jpeg_s::jpeg_data
+ -- Member of lw6img_jpeg_s: jpeg_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6img_jpeg_s::jpeg_data'
 
 
 
@@ -5292,84 +6304,122 @@ results on
 
  -- Struct: lw6ker_cursor_control_s
 
- -- member of lw6ker_cursor_control_s: pos
-          lw6sys_xyz_t lw6ker_cursor_control_s::pos
+ -- Member of lw6ker_cursor_control_s: pos
+     *Type:* `lw6sys_xyz_t'
+
+     *Definition:* `lw6sys_xyz_t lw6ker_cursor_control_s::pos'
 
 
- -- member of lw6ker_cursor_control_s: fire
-          int lw6ker_cursor_control_s::fire
+ -- Member of lw6ker_cursor_control_s: fire
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_control_s::fire'
 
 
- -- member of lw6ker_cursor_control_s: fire2
-          int lw6ker_cursor_control_s::fire2
+ -- Member of lw6ker_cursor_control_s: fire2
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_control_s::fire2'
 
 
  -- Struct: lw6ker_cursor_s
 
- -- member of lw6ker_cursor_s: node_id
-          u_int64_t lw6ker_cursor_s::node_id
+ -- Member of lw6ker_cursor_s: node_id
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6ker_cursor_s::node_id'
 
 
- -- member of lw6ker_cursor_s: cursor_id
-          u_int16_t lw6ker_cursor_s::cursor_id
+ -- Member of lw6ker_cursor_s: cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6ker_cursor_s::cursor_id'
 
 
- -- member of lw6ker_cursor_s: letter
-          char lw6ker_cursor_s::letter
+ -- Member of lw6ker_cursor_s: letter
+     *Type:* `char'
+
+     *Definition:* `char lw6ker_cursor_s::letter'
 
 
- -- member of lw6ker_cursor_s: enabled
-          int lw6ker_cursor_s::enabled
+ -- Member of lw6ker_cursor_s: enabled
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_s::enabled'
 
 
- -- member of lw6ker_cursor_s: team_color
-          int lw6ker_cursor_s::team_color
+ -- Member of lw6ker_cursor_s: team_color
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_s::team_color'
 
 
- -- member of lw6ker_cursor_s: pos
-          lw6sys_xyz_t lw6ker_cursor_s::pos
+ -- Member of lw6ker_cursor_s: pos
+     *Type:* `lw6sys_xyz_t'
+
+     *Definition:* `lw6sys_xyz_t lw6ker_cursor_s::pos'
 
 
- -- member of lw6ker_cursor_s: fire
-          int lw6ker_cursor_s::fire
+ -- Member of lw6ker_cursor_s: fire
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_s::fire'
 
 
- -- member of lw6ker_cursor_s: fire2
-          int lw6ker_cursor_s::fire2
+ -- Member of lw6ker_cursor_s: fire2
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_cursor_s::fire2'
 
 
- -- member of lw6ker_cursor_s: apply_pos
-          lw6sys_xyz_t lw6ker_cursor_s::apply_pos
+ -- Member of lw6ker_cursor_s: apply_pos
+     *Type:* `lw6sys_xyz_t'
+
+     *Definition:* `lw6sys_xyz_t lw6ker_cursor_s::apply_pos'
 
 
- -- member of lw6ker_cursor_s: pot_offset
-          int32_t lw6ker_cursor_s::pot_offset
+ -- Member of lw6ker_cursor_s: pot_offset
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6ker_cursor_s::pot_offset'
 
 
  -- Struct: lw6ker_fighter_s
 
- -- member of lw6ker_fighter_s: team_color
-          u_int32_t lw6ker_fighter_s::team_color
+ -- Member of lw6ker_fighter_s: team_color
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6ker_fighter_s::team_color'
 
 
- -- member of lw6ker_fighter_s: last_direction
-          int32_t lw6ker_fighter_s::last_direction
+ -- Member of lw6ker_fighter_s: last_direction
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6ker_fighter_s::last_direction'
 
 
- -- member of lw6ker_fighter_s: health
-          int32_t lw6ker_fighter_s::health
+ -- Member of lw6ker_fighter_s: health
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6ker_fighter_s::health'
 
 
- -- member of lw6ker_fighter_s: act_counter
-          int32_t lw6ker_fighter_s::act_counter
+ -- Member of lw6ker_fighter_s: act_counter
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6ker_fighter_s::act_counter'
 
 
- -- member of lw6ker_fighter_s: pad
-          int32_t lw6ker_fighter_s::pad
+ -- Member of lw6ker_fighter_s: pad
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6ker_fighter_s::pad'
 
 
- -- member of lw6ker_fighter_s: pos
-          lw6sys_xyz_t lw6ker_fighter_s::pos
+ -- Member of lw6ker_fighter_s: pos
+     *Type:* `lw6sys_xyz_t'
+
+     *Definition:* `lw6sys_xyz_t lw6ker_fighter_s::pos'
 
 
  -- Struct: lw6ker_game_state_s
@@ -5380,74 +6430,106 @@ results on
      members, the first two members need be the same as it is casted
      internally.
 
- -- member of lw6ker_game_state_s: id
-          u_int32_t lw6ker_game_state_s::id
+ -- Member of lw6ker_game_state_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6ker_game_state_s::id'
 
      The id of the object, this is non-zero and unique within one run
-     session, incremented at each object creation
+     session, incremented at each object creation.
 
- -- member of lw6ker_game_state_s: game_struct
-          lw6ker_game_struct_t* lw6ker_game_state_s::game_struct
+ -- Member of lw6ker_game_state_s: game_struct
+     *Type:* `lw6ker_game_struct_t *'
+
+     *Definition:* `lw6ker_game_struct_t*
+     lw6ker_game_state_s::game_struct'
 
      Pointer on the game non-mutable structure, which holds the data
      that is never changed within a game.
 
  -- Struct: lw6ker_game_struct_s
 
- -- member of lw6ker_game_struct_s: id
-          u_int32_t lw6ker_game_struct_s::id
+ -- Member of lw6ker_game_struct_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6ker_game_struct_s::id'
 
 
- -- member of lw6ker_game_struct_s: level
-          lw6map_level_t* lw6ker_game_struct_s::level
+ -- Member of lw6ker_game_struct_s: level
+     *Type:* `lw6map_level_t *'
+
+     *Definition:* `lw6map_level_t* lw6ker_game_struct_s::level'
 
 
- -- member of lw6ker_game_struct_s: rules
-          lw6map_rules_t lw6ker_game_struct_s::rules
+ -- Member of lw6ker_game_struct_s: rules
+     *Type:* `lw6map_rules_t'
+
+     *Definition:* `lw6map_rules_t lw6ker_game_struct_s::rules'
 
 
  -- Struct: lw6ker_score_array_s
 
- -- member of lw6ker_score_array_s: active_fighters
-          int lw6ker_score_array_s::active_fighters
+ -- Member of lw6ker_score_array_s: active_fighters
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_array_s::active_fighters'
 
 
- -- member of lw6ker_score_array_s: nb_scores
-          int lw6ker_score_array_s::nb_scores
+ -- Member of lw6ker_score_array_s: nb_scores
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_array_s::nb_scores'
 
 
- -- member of lw6ker_score_array_s: scores
-          lw6ker_score_t lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]
+ -- Member of lw6ker_score_array_s: scores
+     *Type:* `lw6ker_score_t'
+
+     *Definition:* `lw6ker_score_t
+     lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]'
 
 
  -- Struct: lw6ker_score_s
 
- -- member of lw6ker_score_s: has_been_active
-          int lw6ker_score_s::has_been_active
+ -- Member of lw6ker_score_s: has_been_active
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::has_been_active'
 
 
- -- member of lw6ker_score_s: team_color
-          int lw6ker_score_s::team_color
+ -- Member of lw6ker_score_s: team_color
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::team_color'
 
 
- -- member of lw6ker_score_s: fighters_percent
-          int lw6ker_score_s::fighters_percent
+ -- Member of lw6ker_score_s: fighters_percent
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::fighters_percent'
 
 
- -- member of lw6ker_score_s: fighters_absolute
-          int lw6ker_score_s::fighters_absolute
+ -- Member of lw6ker_score_s: fighters_absolute
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::fighters_absolute'
 
 
- -- member of lw6ker_score_s: fighters_ratio
-          float lw6ker_score_s::fighters_ratio
+ -- Member of lw6ker_score_s: fighters_ratio
+     *Type:* `float'
+
+     *Definition:* `float lw6ker_score_s::fighters_ratio'
 
 
- -- member of lw6ker_score_s: frags
-          int lw6ker_score_s::frags
+ -- Member of lw6ker_score_s: frags
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::frags'
 
 
- -- member of lw6ker_score_s: consolidated_percent
-          int lw6ker_score_s::consolidated_percent
+ -- Member of lw6ker_score_s: consolidated_percent
+     *Type:* `int'
+
+     *Definition:* `int lw6ker_score_s::consolidated_percent'
 
 
 
@@ -6188,170 +7270,250 @@ results on
 
  -- Struct: lw6ldr_entry_s
 
- -- member of lw6ldr_entry_s: metadata
-          lw6map_metadata_t lw6ldr_entry_s::metadata
+ -- Member of lw6ldr_entry_s: metadata
+     *Type:* `lw6map_metadata_t'
+
+     *Definition:* `lw6map_metadata_t lw6ldr_entry_s::metadata'
 
 
- -- member of lw6ldr_entry_s: absolute_path
-          char* lw6ldr_entry_s::absolute_path
+ -- Member of lw6ldr_entry_s: absolute_path
+     *Type:* `char *'
+
+     *Definition:* `char* lw6ldr_entry_s::absolute_path'
 
 
- -- member of lw6ldr_entry_s: relative_path
-          char* lw6ldr_entry_s::relative_path
+ -- Member of lw6ldr_entry_s: relative_path
+     *Type:* `char *'
+
+     *Definition:* `char* lw6ldr_entry_s::relative_path'
 
 
- -- member of lw6ldr_entry_s: has_subdirs
-          int lw6ldr_entry_s::has_subdirs
+ -- Member of lw6ldr_entry_s: has_subdirs
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_entry_s::has_subdirs'
 
 
- -- member of lw6ldr_entry_s: nb_submaps
-          int lw6ldr_entry_s::nb_submaps
+ -- Member of lw6ldr_entry_s: nb_submaps
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_entry_s::nb_submaps'
 
 
- -- member of lw6ldr_entry_s: forbidden
-          int lw6ldr_entry_s::forbidden
+ -- Member of lw6ldr_entry_s: forbidden
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_entry_s::forbidden'
 
 
  -- Struct: lw6ldr_hints_s
 
- -- member of lw6ldr_hints_s: resample
-          int lw6ldr_hints_s::resample
+ -- Member of lw6ldr_hints_s: resample
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::resample'
 
 
- -- member of lw6ldr_hints_s: min_map_width
-          int lw6ldr_hints_s::min_map_width
+ -- Member of lw6ldr_hints_s: min_map_width
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::min_map_width'
 
 
- -- member of lw6ldr_hints_s: max_map_width
-          int lw6ldr_hints_s::max_map_width
+ -- Member of lw6ldr_hints_s: max_map_width
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::max_map_width'
 
 
- -- member of lw6ldr_hints_s: min_map_height
-          int lw6ldr_hints_s::min_map_height
+ -- Member of lw6ldr_hints_s: min_map_height
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::min_map_height'
 
 
- -- member of lw6ldr_hints_s: max_map_height
-          int lw6ldr_hints_s::max_map_height
+ -- Member of lw6ldr_hints_s: max_map_height
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::max_map_height'
 
 
- -- member of lw6ldr_hints_s: min_map_surface
-          int lw6ldr_hints_s::min_map_surface
+ -- Member of lw6ldr_hints_s: min_map_surface
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::min_map_surface'
 
 
- -- member of lw6ldr_hints_s: max_map_surface
-          int lw6ldr_hints_s::max_map_surface
+ -- Member of lw6ldr_hints_s: max_map_surface
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::max_map_surface'
 
 
- -- member of lw6ldr_hints_s: fighter_scale
-          float lw6ldr_hints_s::fighter_scale
+ -- Member of lw6ldr_hints_s: fighter_scale
+     *Type:* `float'
+
+     *Definition:* `float lw6ldr_hints_s::fighter_scale'
 
 
- -- member of lw6ldr_hints_s: downsize_using_fighter_scale
-          int lw6ldr_hints_s::downsize_using_fighter_scale
+ -- Member of lw6ldr_hints_s: downsize_using_fighter_scale
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::downsize_using_fighter_scale'
 
 
- -- member of lw6ldr_hints_s: upsize_using_fighter_scale
-          int lw6ldr_hints_s::upsize_using_fighter_scale
+ -- Member of lw6ldr_hints_s: upsize_using_fighter_scale
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::upsize_using_fighter_scale'
 
 
- -- member of lw6ldr_hints_s: downsize_using_bench_value
-          int lw6ldr_hints_s::downsize_using_bench_value
+ -- Member of lw6ldr_hints_s: downsize_using_bench_value
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::downsize_using_bench_value'
 
 
- -- member of lw6ldr_hints_s: upsize_using_bench_value
-          int lw6ldr_hints_s::upsize_using_bench_value
+ -- Member of lw6ldr_hints_s: upsize_using_bench_value
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::upsize_using_bench_value'
 
 
- -- member of lw6ldr_hints_s: guess_colors
-          int lw6ldr_hints_s::guess_colors
+ -- Member of lw6ldr_hints_s: guess_colors
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::guess_colors'
 
 
- -- member of lw6ldr_hints_s: background_color_auto
-          int lw6ldr_hints_s::background_color_auto
+ -- Member of lw6ldr_hints_s: background_color_auto
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::background_color_auto'
 
 
- -- member of lw6ldr_hints_s: hud_color_auto
-          int lw6ldr_hints_s::hud_color_auto
+ -- Member of lw6ldr_hints_s: hud_color_auto
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::hud_color_auto'
 
 
- -- member of lw6ldr_hints_s: menu_color_auto
-          int lw6ldr_hints_s::menu_color_auto
+ -- Member of lw6ldr_hints_s: menu_color_auto
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::menu_color_auto'
 
 
- -- member of lw6ldr_hints_s: view_color_auto
-          int lw6ldr_hints_s::view_color_auto
+ -- Member of lw6ldr_hints_s: view_color_auto
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::view_color_auto'
 
 
- -- member of lw6ldr_hints_s: system_color_auto
-          int lw6ldr_hints_s::system_color_auto
+ -- Member of lw6ldr_hints_s: system_color_auto
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::system_color_auto'
 
 
- -- member of lw6ldr_hints_s: wall_grease
-          int lw6ldr_hints_s::wall_grease
+ -- Member of lw6ldr_hints_s: wall_grease
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::wall_grease'
 
 
- -- member of lw6ldr_hints_s: guess_moves_per_sec
-          int lw6ldr_hints_s::guess_moves_per_sec
+ -- Member of lw6ldr_hints_s: guess_moves_per_sec
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_hints_s::guess_moves_per_sec'
 
 
- -- member of lw6ldr_hints_s: speed
-          float lw6ldr_hints_s::speed
+ -- Member of lw6ldr_hints_s: speed
+     *Type:* `float'
+
+     *Definition:* `float lw6ldr_hints_s::speed'
 
 
  -- Struct: lw6ldr_resampler_s
 
- -- member of lw6ldr_resampler_s: target_w
-          int lw6ldr_resampler_s::target_w
+ -- Member of lw6ldr_resampler_s: target_w
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_resampler_s::target_w'
 
 
- -- member of lw6ldr_resampler_s: target_h
-          int lw6ldr_resampler_s::target_h
+ -- Member of lw6ldr_resampler_s: target_h
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_resampler_s::target_h'
 
 
- -- member of lw6ldr_resampler_s: source_w
-          int lw6ldr_resampler_s::source_w
+ -- Member of lw6ldr_resampler_s: source_w
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_resampler_s::source_w'
 
 
- -- member of lw6ldr_resampler_s: source_h
-          int lw6ldr_resampler_s::source_h
+ -- Member of lw6ldr_resampler_s: source_h
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_resampler_s::source_h'
 
 
- -- member of lw6ldr_resampler_s: scale_x
-          float lw6ldr_resampler_s::scale_x
+ -- Member of lw6ldr_resampler_s: scale_x
+     *Type:* `float'
+
+     *Definition:* `float lw6ldr_resampler_s::scale_x'
 
 
- -- member of lw6ldr_resampler_s: scale_y
-          float lw6ldr_resampler_s::scale_y
+ -- Member of lw6ldr_resampler_s: scale_y
+     *Type:* `float'
+
+     *Definition:* `float lw6ldr_resampler_s::scale_y'
 
 
  -- Struct: lw6ldr_use_s
 
- -- member of lw6ldr_use_s: use_texture
-          int lw6ldr_use_s::use_texture
+ -- Member of lw6ldr_use_s: use_texture
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_texture'
 
 
- -- member of lw6ldr_use_s: use_cursor_texture
-          int lw6ldr_use_s::use_cursor_texture
+ -- Member of lw6ldr_use_s: use_cursor_texture
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_cursor_texture'
 
 
- -- member of lw6ldr_use_s: use_rules_xml
-          int lw6ldr_use_s::use_rules_xml
+ -- Member of lw6ldr_use_s: use_rules_xml
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_rules_xml'
 
 
- -- member of lw6ldr_use_s: use_hints_xml
-          int lw6ldr_use_s::use_hints_xml
+ -- Member of lw6ldr_use_s: use_hints_xml
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_hints_xml'
 
 
- -- member of lw6ldr_use_s: use_style_xml
-          int lw6ldr_use_s::use_style_xml
+ -- Member of lw6ldr_use_s: use_style_xml
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_style_xml'
 
 
- -- member of lw6ldr_use_s: use_teams_xml
-          int lw6ldr_use_s::use_teams_xml
+ -- Member of lw6ldr_use_s: use_teams_xml
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_teams_xml'
 
 
- -- member of lw6ldr_use_s: use_music_file
-          int lw6ldr_use_s::use_music_file
+ -- Member of lw6ldr_use_s: use_music_file
+     *Type:* `int'
+
+     *Definition:* `int lw6ldr_use_s::use_music_file'
 
 
 
@@ -7287,618 +8449,942 @@ results on
 
  -- Struct: lw6map_body_s
 
- -- member of lw6map_body_s: checksum
-          int lw6map_body_s::checksum
+ -- Member of lw6map_body_s: checksum
+     *Type:* `int'
+
+     *Definition:* `int lw6map_body_s::checksum'
 
 
- -- member of lw6map_body_s: shape
-          lw6sys_whd_t lw6map_body_s::shape
+ -- Member of lw6map_body_s: shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6map_body_s::shape'
 
 
- -- member of lw6map_body_s: layers
-          lw6map_layer_t lw6map_body_s::layers[LW6MAP_MAX_BODY_DEPTH]
+ -- Member of lw6map_body_s: layers
+     *Type:* `lw6map_layer_t'
+
+     *Definition:* `lw6map_layer_t
+     lw6map_body_s::layers[LW6MAP_MAX_BODY_DEPTH]'
 
 
- -- member of lw6map_body_s: glue
-          lw6map_meta_layer_t lw6map_body_s::glue
+ -- Member of lw6map_body_s: glue
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::glue'
 
 
- -- member of lw6map_body_s: boost
-          lw6map_meta_layer_t lw6map_body_s::boost
+ -- Member of lw6map_body_s: boost
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::boost'
 
 
- -- member of lw6map_body_s: danger
-          lw6map_meta_layer_t lw6map_body_s::danger
+ -- Member of lw6map_body_s: danger
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::danger'
 
 
- -- member of lw6map_body_s: medicine
-          lw6map_meta_layer_t lw6map_body_s::medicine
+ -- Member of lw6map_body_s: medicine
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::medicine'
 
 
- -- member of lw6map_body_s: one_way_north
-          lw6map_meta_layer_t lw6map_body_s::one_way_north
+ -- Member of lw6map_body_s: one_way_north
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::one_way_north'
 
 
- -- member of lw6map_body_s: one_way_east
-          lw6map_meta_layer_t lw6map_body_s::one_way_east
+ -- Member of lw6map_body_s: one_way_east
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::one_way_east'
 
 
- -- member of lw6map_body_s: one_way_south
-          lw6map_meta_layer_t lw6map_body_s::one_way_south
+ -- Member of lw6map_body_s: one_way_south
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::one_way_south'
 
 
- -- member of lw6map_body_s: one_way_west
-          lw6map_meta_layer_t lw6map_body_s::one_way_west
+ -- Member of lw6map_body_s: one_way_west
+     *Type:* `lw6map_meta_layer_t'
+
+     *Definition:* `lw6map_meta_layer_t lw6map_body_s::one_way_west'
 
 
  -- Struct: lw6map_bot_info_s
 
- -- member of lw6map_bot_info_s: color
-          int lw6map_bot_info_s::color
+ -- Member of lw6map_bot_info_s: color
+     *Type:* `int'
+
+     *Definition:* `int lw6map_bot_info_s::color'
 
 
- -- member of lw6map_bot_info_s: ai
-          char* lw6map_bot_info_s::ai
+ -- Member of lw6map_bot_info_s: ai
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_bot_info_s::ai'
 
 
  -- Struct: lw6map_color_couple_s
 
- -- member of lw6map_color_couple_s: fg
-          lw6sys_color_8_t lw6map_color_couple_s::fg
+ -- Member of lw6map_color_couple_s: fg
+     *Type:* `lw6sys_color_8_t'
+
+     *Definition:* `lw6sys_color_8_t lw6map_color_couple_s::fg'
 
 
- -- member of lw6map_color_couple_s: bg
-          lw6sys_color_8_t lw6map_color_couple_s::bg
+ -- Member of lw6map_color_couple_s: bg
+     *Type:* `lw6sys_color_8_t'
+
+     *Definition:* `lw6sys_color_8_t lw6map_color_couple_s::bg'
 
 
  -- Struct: lw6map_color_set_s
 
- -- member of lw6map_color_set_s: color_base
-          lw6map_color_couple_t lw6map_color_set_s::color_base
+ -- Member of lw6map_color_set_s: color_base
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::color_base'
 
 
- -- member of lw6map_color_set_s: color_alternate
-          lw6map_color_couple_t lw6map_color_set_s::color_alternate
+ -- Member of lw6map_color_set_s: color_alternate
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::color_alternate'
 
 
- -- member of lw6map_color_set_s: background_color_root
-          lw6map_color_couple_t lw6map_color_set_s::background_color_root
+ -- Member of lw6map_color_set_s: background_color_root
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::background_color_root'
 
 
- -- member of lw6map_color_set_s: background_color_stuff
-          lw6map_color_couple_t lw6map_color_set_s::background_color_stuff
+ -- Member of lw6map_color_set_s: background_color_stuff
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::background_color_stuff'
 
 
- -- member of lw6map_color_set_s: hud_color_frame
-          lw6map_color_couple_t lw6map_color_set_s::hud_color_frame
+ -- Member of lw6map_color_set_s: hud_color_frame
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::hud_color_frame'
 
 
- -- member of lw6map_color_set_s: hud_color_text
-          lw6map_color_couple_t lw6map_color_set_s::hud_color_text
+ -- Member of lw6map_color_set_s: hud_color_text
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::hud_color_text'
 
 
- -- member of lw6map_color_set_s: menu_color_default
-          lw6map_color_couple_t lw6map_color_set_s::menu_color_default
+ -- Member of lw6map_color_set_s: menu_color_default
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::menu_color_default'
 
 
- -- member of lw6map_color_set_s: menu_color_selected
-          lw6map_color_couple_t lw6map_color_set_s::menu_color_selected
+ -- Member of lw6map_color_set_s: menu_color_selected
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::menu_color_selected'
 
 
- -- member of lw6map_color_set_s: menu_color_disabled
-          lw6map_color_couple_t lw6map_color_set_s::menu_color_disabled
+ -- Member of lw6map_color_set_s: menu_color_disabled
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::menu_color_disabled'
 
 
- -- member of lw6map_color_set_s: view_color_cursor
-          lw6map_color_couple_t lw6map_color_set_s::view_color_cursor
+ -- Member of lw6map_color_set_s: view_color_cursor
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::view_color_cursor'
 
 
- -- member of lw6map_color_set_s: view_color_map
-          lw6map_color_couple_t lw6map_color_set_s::view_color_map
+ -- Member of lw6map_color_set_s: view_color_map
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::view_color_map'
 
 
- -- member of lw6map_color_set_s: system_color
-          lw6map_color_couple_t lw6map_color_set_s::system_color
+ -- Member of lw6map_color_set_s: system_color
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_color_set_s::system_color'
 
 
- -- member of lw6map_color_set_s: team_color_dead
-          lw6sys_color_8_t lw6map_color_set_s::team_color_dead
+ -- Member of lw6map_color_set_s: team_color_dead
+     *Type:* `lw6sys_color_8_t'
+
+     *Definition:* `lw6sys_color_8_t
+     lw6map_color_set_s::team_color_dead'
 
 
- -- member of lw6map_color_set_s: team_colors
-          lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]
+ -- Member of lw6map_color_set_s: team_colors
+     *Type:* `lw6sys_color_8_t'
+
+     *Definition:* `lw6sys_color_8_t
+     lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]'
 
 
  -- Struct: lw6map_cursor_texture_layer_s
 
- -- member of lw6map_cursor_texture_layer_s: data
-          lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]
+ -- Member of lw6map_cursor_texture_layer_s: data
+     *Type:* `lw6sys_color_8_t'
+
+     *Definition:* `lw6sys_color_8_t
+     lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]'
 
 
  -- Struct: lw6map_cursor_texture_s
 
- -- member of lw6map_cursor_texture_s: fg_bg_layer
-          lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::fg_bg_layer
+ -- Member of lw6map_cursor_texture_s: fg_bg_layer
+     *Type:* `lw6map_cursor_texture_layer_t'
+
+     *Definition:* `lw6map_cursor_texture_layer_t
+     lw6map_cursor_texture_s::fg_bg_layer'
 
 
- -- member of lw6map_cursor_texture_s: color_layer
-          lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer
+ -- Member of lw6map_cursor_texture_s: color_layer
+     *Type:* `lw6map_cursor_texture_layer_t'
+
+     *Definition:* `lw6map_cursor_texture_layer_t
+     lw6map_cursor_texture_s::color_layer'
 
 
  -- Struct: lw6map_layer_s
 
- -- member of lw6map_layer_s: shape
-          lw6sys_whd_t lw6map_layer_s::shape
+ -- Member of lw6map_layer_s: shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6map_layer_s::shape'
 
 
- -- member of lw6map_layer_s: data
-          u_int8_t* lw6map_layer_s::data
+ -- Member of lw6map_layer_s: data
+     *Type:* `u_int8_t *'
+
+     *Definition:* `u_int8_t* lw6map_layer_s::data'
 
 
  -- Struct: lw6map_level_s
 
- -- member of lw6map_level_s: id
-          u_int32_t lw6map_level_s::id
+ -- Member of lw6map_level_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6map_level_s::id'
 
 
- -- member of lw6map_level_s: metadata
-          lw6map_metadata_t lw6map_level_s::metadata
+ -- Member of lw6map_level_s: metadata
+     *Type:* `lw6map_metadata_t'
+
+     *Definition:* `lw6map_metadata_t lw6map_level_s::metadata'
 
 
- -- member of lw6map_level_s: local_info
-          lw6map_local_info_t lw6map_level_s::local_info
+ -- Member of lw6map_level_s: local_info
+     *Type:* `lw6map_local_info_t'
+
+     *Definition:* `lw6map_local_info_t lw6map_level_s::local_info'
 
 
- -- member of lw6map_level_s: body
-          lw6map_body_t lw6map_level_s::body
+ -- Member of lw6map_level_s: body
+     *Type:* `lw6map_body_t'
+
+     *Definition:* `lw6map_body_t lw6map_level_s::body'
 
 
- -- member of lw6map_level_s: texture
-          lw6map_texture_t lw6map_level_s::texture
+ -- Member of lw6map_level_s: texture
+     *Type:* `lw6map_texture_t'
+
+     *Definition:* `lw6map_texture_t lw6map_level_s::texture'
 
 
- -- member of lw6map_level_s: cursor_texture
-          lw6map_cursor_texture_t lw6map_level_s::cursor_texture
+ -- Member of lw6map_level_s: cursor_texture
+     *Type:* `lw6map_cursor_texture_t'
+
+     *Definition:* `lw6map_cursor_texture_t
+     lw6map_level_s::cursor_texture'
 
 
- -- member of lw6map_level_s: param
-          lw6map_param_t lw6map_level_s::param
+ -- Member of lw6map_level_s: param
+     *Type:* `lw6map_param_t'
+
+     *Definition:* `lw6map_param_t lw6map_level_s::param'
 
 
  -- Struct: lw6map_local_info_s
 
- -- member of lw6map_local_info_s: music_dir
-          char* lw6map_local_info_s::music_dir
+ -- Member of lw6map_local_info_s: music_dir
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_local_info_s::music_dir'
 
 
  -- Struct: lw6map_metadata_s
 
- -- member of lw6map_metadata_s: title
-          char* lw6map_metadata_s::title
+ -- Member of lw6map_metadata_s: title
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_metadata_s::title'
 
 
- -- member of lw6map_metadata_s: author
-          char* lw6map_metadata_s::author
+ -- Member of lw6map_metadata_s: author
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_metadata_s::author'
 
 
- -- member of lw6map_metadata_s: description
-          char* lw6map_metadata_s::description
+ -- Member of lw6map_metadata_s: description
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_metadata_s::description'
 
 
- -- member of lw6map_metadata_s: license
-          char* lw6map_metadata_s::license
+ -- Member of lw6map_metadata_s: license
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_metadata_s::license'
 
 
- -- member of lw6map_metadata_s: vanilla_exp
-          int lw6map_metadata_s::vanilla_exp
+ -- Member of lw6map_metadata_s: vanilla_exp
+     *Type:* `int'
+
+     *Definition:* `int lw6map_metadata_s::vanilla_exp'
 
 
  -- Struct: lw6map_meta_layer_s
 
- -- member of lw6map_meta_layer_s: shape
-          lw6sys_whd_t lw6map_meta_layer_s::shape
+ -- Member of lw6map_meta_layer_s: shape
+     *Type:* `lw6sys_whd_t'
+
+     *Definition:* `lw6sys_whd_t lw6map_meta_layer_s::shape'
 
 
- -- member of lw6map_meta_layer_s: data
-          u_int8_t* lw6map_meta_layer_s::data
+ -- Member of lw6map_meta_layer_s: data
+     *Type:* `u_int8_t *'
+
+     *Definition:* `u_int8_t* lw6map_meta_layer_s::data'
 
 
  -- Struct: lw6map_param_s
 
- -- member of lw6map_param_s: rules
-          lw6map_rules_t lw6map_param_s::rules
+ -- Member of lw6map_param_s: rules
+     *Type:* `lw6map_rules_t'
+
+     *Definition:* `lw6map_rules_t lw6map_param_s::rules'
 
 
- -- member of lw6map_param_s: style
-          lw6map_style_t lw6map_param_s::style
+ -- Member of lw6map_param_s: style
+     *Type:* `lw6map_style_t'
+
+     *Definition:* `lw6map_style_t lw6map_param_s::style'
 
 
- -- member of lw6map_param_s: teams
-          lw6map_teams_t lw6map_param_s::teams
+ -- Member of lw6map_param_s: teams
+     *Type:* `lw6map_teams_t'
+
+     *Definition:* `lw6map_teams_t lw6map_param_s::teams'
 
 
  -- Struct: lw6map_rules_s
 
- -- member of lw6map_rules_s: total_time
-          int32_t lw6map_rules_s::total_time
+ -- Member of lw6map_rules_s: total_time
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::total_time'
 
- -- member of lw6map_rules_s: respawn_team
-          int32_t lw6map_rules_s::respawn_team
 
+ -- Member of lw6map_rules_s: respawn_team
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: respawn_position_mode
-          int32_t lw6map_rules_s::respawn_position_mode
+     *Definition:* `int32_t lw6map_rules_s::respawn_team'
 
 
- -- member of lw6map_rules_s: respawn_delay
-          int32_t lw6map_rules_s::respawn_delay
+ -- Member of lw6map_rules_s: respawn_position_mode
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::respawn_position_mode'
 
- -- member of lw6map_rules_s: moves_per_round
-          int32_t lw6map_rules_s::moves_per_round
 
+ -- Member of lw6map_rules_s: respawn_delay
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: spreads_per_round
-          int32_t lw6map_rules_s::spreads_per_round
+     *Definition:* `int32_t lw6map_rules_s::respawn_delay'
 
 
- -- member of lw6map_rules_s: rounds_per_sec
-          int32_t lw6map_rules_s::rounds_per_sec
+ -- Member of lw6map_rules_s: moves_per_round
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::moves_per_round'
 
- -- member of lw6map_rules_s: fighter_attack
-          int32_t lw6map_rules_s::fighter_attack
 
+ -- Member of lw6map_rules_s: spreads_per_round
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: fighter_defense
-          int32_t lw6map_rules_s::fighter_defense
+     *Definition:* `int32_t lw6map_rules_s::spreads_per_round'
 
 
- -- member of lw6map_rules_s: fighter_new_health
-          int32_t lw6map_rules_s::fighter_new_health
+ -- Member of lw6map_rules_s: rounds_per_sec
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::rounds_per_sec'
 
- -- member of lw6map_rules_s: fighter_regenerate
-          int32_t lw6map_rules_s::fighter_regenerate
 
+ -- Member of lw6map_rules_s: fighter_attack
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: side_attack_factor
-          int32_t lw6map_rules_s::side_attack_factor
+     *Definition:* `int32_t lw6map_rules_s::fighter_attack'
 
 
- -- member of lw6map_rules_s: side_defense_factor
-          int32_t lw6map_rules_s::side_defense_factor
+ -- Member of lw6map_rules_s: fighter_defense
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::fighter_defense'
 
- -- member of lw6map_rules_s: nb_move_tries
-          int32_t lw6map_rules_s::nb_move_tries
 
+ -- Member of lw6map_rules_s: fighter_new_health
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: nb_attack_tries
-          int32_t lw6map_rules_s::nb_attack_tries
+     *Definition:* `int32_t lw6map_rules_s::fighter_new_health'
 
 
- -- member of lw6map_rules_s: nb_defense_tries
-          int32_t lw6map_rules_s::nb_defense_tries
+ -- Member of lw6map_rules_s: fighter_regenerate
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::fighter_regenerate'
 
- -- member of lw6map_rules_s: vertical_move
-          int32_t lw6map_rules_s::vertical_move
 
+ -- Member of lw6map_rules_s: side_attack_factor
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: spread_mode
-          int32_t lw6map_rules_s::spread_mode
+     *Definition:* `int32_t lw6map_rules_s::side_attack_factor'
 
 
- -- member of lw6map_rules_s: single_army_size
-          int32_t lw6map_rules_s::single_army_size
+ -- Member of lw6map_rules_s: side_defense_factor
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::side_defense_factor'
 
- -- member of lw6map_rules_s: total_armies_size
-          int32_t lw6map_rules_s::total_armies_size
 
+ -- Member of lw6map_rules_s: nb_move_tries
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: max_nb_teams
-          int32_t lw6map_rules_s::max_nb_teams
+     *Definition:* `int32_t lw6map_rules_s::nb_move_tries'
 
 
- -- member of lw6map_rules_s: max_nb_cursors
-          int32_t lw6map_rules_s::max_nb_cursors
+ -- Member of lw6map_rules_s: nb_attack_tries
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::nb_attack_tries'
 
- -- member of lw6map_rules_s: max_nb_nodes
-          int32_t lw6map_rules_s::max_nb_nodes
 
+ -- Member of lw6map_rules_s: nb_defense_tries
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: exp
-          int32_t lw6map_rules_s::exp
+     *Definition:* `int32_t lw6map_rules_s::nb_defense_tries'
 
 
- -- member of lw6map_rules_s: highest_team_color_allowed
-          int32_t lw6map_rules_s::highest_team_color_allowed
+ -- Member of lw6map_rules_s: vertical_move
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::vertical_move'
 
- -- member of lw6map_rules_s: highest_weapon_allowed
-          int32_t lw6map_rules_s::highest_weapon_allowed
 
+ -- Member of lw6map_rules_s: spread_mode
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: x_polarity
-          int32_t lw6map_rules_s::x_polarity
+     *Definition:* `int32_t lw6map_rules_s::spread_mode'
 
 
- -- member of lw6map_rules_s: y_polarity
-          int32_t lw6map_rules_s::y_polarity
+ -- Member of lw6map_rules_s: single_army_size
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::single_army_size'
 
- -- member of lw6map_rules_s: z_polarity
-          int32_t lw6map_rules_s::z_polarity
 
+ -- Member of lw6map_rules_s: total_armies_size
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: max_zone_size
-          int32_t lw6map_rules_s::max_zone_size
+     *Definition:* `int32_t lw6map_rules_s::total_armies_size'
 
 
- -- member of lw6map_rules_s: round_delta
-          int32_t lw6map_rules_s::round_delta
+ -- Member of lw6map_rules_s: max_nb_teams
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::max_nb_teams'
 
- -- member of lw6map_rules_s: max_round_delta
-          int32_t lw6map_rules_s::max_round_delta
 
+ -- Member of lw6map_rules_s: max_nb_cursors
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: max_cursor_pot
-          int32_t lw6map_rules_s::max_cursor_pot
+     *Definition:* `int32_t lw6map_rules_s::max_nb_cursors'
 
 
- -- member of lw6map_rules_s: cursor_pot_init
-          int32_t lw6map_rules_s::cursor_pot_init
+ -- Member of lw6map_rules_s: max_nb_nodes
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::max_nb_nodes'
 
- -- member of lw6map_rules_s: max_cursor_pot_offset
-          int32_t lw6map_rules_s::max_cursor_pot_offset
 
+ -- Member of lw6map_rules_s: exp
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: start_x
-          int32_t lw6map_rules_s::start_x[LW6MAP_MAX_NB_TEAMS]
+     *Definition:* `int32_t lw6map_rules_s::exp'
 
 
- -- member of lw6map_rules_s: start_y
-          int32_t lw6map_rules_s::start_y[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6map_rules_s: highest_team_color_allowed
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::highest_team_color_allowed'
 
- -- member of lw6map_rules_s: start_position_mode
-          int32_t lw6map_rules_s::start_position_mode
 
+ -- Member of lw6map_rules_s: highest_weapon_allowed
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: color_conflict_mode
-          int32_t lw6map_rules_s::color_conflict_mode
+     *Definition:* `int32_t lw6map_rules_s::highest_weapon_allowed'
 
 
- -- member of lw6map_rules_s: spread_thread
-          int32_t lw6map_rules_s::spread_thread
+ -- Member of lw6map_rules_s: x_polarity
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::x_polarity'
 
- -- member of lw6map_rules_s: glue_power
-          int32_t lw6map_rules_s::glue_power
 
+ -- Member of lw6map_rules_s: y_polarity
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: boost_power
-          int32_t lw6map_rules_s::boost_power
+     *Definition:* `int32_t lw6map_rules_s::y_polarity'
 
 
- -- member of lw6map_rules_s: danger_power
-          int32_t lw6map_rules_s::danger_power
+ -- Member of lw6map_rules_s: z_polarity
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::z_polarity'
 
- -- member of lw6map_rules_s: medicine_power
-          int32_t lw6map_rules_s::medicine_power
 
+ -- Member of lw6map_rules_s: max_zone_size
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: frags_mode
-          int32_t lw6map_rules_s::frags_mode
+     *Definition:* `int32_t lw6map_rules_s::max_zone_size'
 
 
- -- member of lw6map_rules_s: frags_to_distribute
-          int32_t lw6map_rules_s::frags_to_distribute
+ -- Member of lw6map_rules_s: round_delta
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::round_delta'
 
- -- member of lw6map_rules_s: frags_fade_out
-          int32_t lw6map_rules_s::frags_fade_out
 
+ -- Member of lw6map_rules_s: max_round_delta
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: use_team_profiles
-          int32_t lw6map_rules_s::use_team_profiles
+     *Definition:* `int32_t lw6map_rules_s::max_round_delta'
 
 
- -- member of lw6map_rules_s: team_profile_aggressive
-          int32_t lw6map_rules_s::team_profile_aggressive[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6map_rules_s: max_cursor_pot
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::max_cursor_pot'
 
- -- member of lw6map_rules_s: team_profile_vulnerable
-          int32_t lw6map_rules_s::team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS]
 
+ -- Member of lw6map_rules_s: cursor_pot_init
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: team_profile_mobile
-          int32_t lw6map_rules_s::team_profile_mobile[LW6MAP_MAX_NB_TEAMS]
+     *Definition:* `int32_t lw6map_rules_s::cursor_pot_init'
 
 
- -- member of lw6map_rules_s: team_profile_fast
-          int32_t lw6map_rules_s::team_profile_fast[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6map_rules_s: max_cursor_pot_offset
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::max_cursor_pot_offset'
 
- -- member of lw6map_rules_s: team_profile_weapon_id
-          int32_t lw6map_rules_s::team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS]
 
+ -- Member of lw6map_rules_s: start_x
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: team_profile_weapon_alternate_id
-          int32_t lw6map_rules_s::team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS]
+     *Definition:* `int32_t
+     lw6map_rules_s::start_x[LW6MAP_MAX_NB_TEAMS]'
 
 
- -- member of lw6map_rules_s: team_profile_weapon_mode
-          int32_t lw6map_rules_s::team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS]
+ -- Member of lw6map_rules_s: start_y
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t
+     lw6map_rules_s::start_y[LW6MAP_MAX_NB_TEAMS]'
 
- -- member of lw6map_rules_s: weapon_duration
-          int32_t lw6map_rules_s::weapon_duration
 
+ -- Member of lw6map_rules_s: start_position_mode
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: weapon_charge_delay
-          int32_t lw6map_rules_s::weapon_charge_delay
+     *Definition:* `int32_t lw6map_rules_s::start_position_mode'
 
 
- -- member of lw6map_rules_s: weapon_charge_max
-          int32_t lw6map_rules_s::weapon_charge_max
+ -- Member of lw6map_rules_s: color_conflict_mode
+     *Type:* `int32_t'
 
+     *Definition:* `int32_t lw6map_rules_s::color_conflict_mode'
 
- -- member of lw6map_rules_s: weapon_tune_berzerk_power
-          int32_t lw6map_rules_s::weapon_tune_berzerk_power
 
+ -- Member of lw6map_rules_s: spread_thread
+     *Type:* `int32_t'
 
- -- member of lw6map_rules_s: weapon_tune_turbo_power
-          int32_t lw6map_rules_s::weapon_tune_turbo_power
+     *Definition:* `int32_t lw6map_rules_s::spread_thread'
+
+
+ -- Member of lw6map_rules_s: glue_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::glue_power'
+
+
+ -- Member of lw6map_rules_s: boost_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::boost_power'
+
+
+ -- Member of lw6map_rules_s: danger_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::danger_power'
+
+
+ -- Member of lw6map_rules_s: medicine_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::medicine_power'
+
+
+ -- Member of lw6map_rules_s: frags_mode
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::frags_mode'
+
+
+ -- Member of lw6map_rules_s: frags_to_distribute
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::frags_to_distribute'
+
+
+ -- Member of lw6map_rules_s: frags_fade_out
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::frags_fade_out'
+
+
+ -- Member of lw6map_rules_s: use_team_profiles
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::use_team_profiles'
+
+
+ -- Member of lw6map_rules_s: team_profile_aggressive
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_aggressive[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_vulnerable
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_mobile
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_mobile[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_fast
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_fast[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_weapon_id
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_weapon_alternate_id
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: team_profile_weapon_mode
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t
+     lw6map_rules_s::team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS]'
+
+
+ -- Member of lw6map_rules_s: weapon_duration
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::weapon_duration'
+
+
+ -- Member of lw6map_rules_s: weapon_charge_delay
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::weapon_charge_delay'
+
+
+ -- Member of lw6map_rules_s: weapon_charge_max
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::weapon_charge_max'
+
+
+ -- Member of lw6map_rules_s: weapon_tune_berzerk_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::weapon_tune_berzerk_power'
+
+
+ -- Member of lw6map_rules_s: weapon_tune_turbo_power
+     *Type:* `int32_t'
+
+     *Definition:* `int32_t lw6map_rules_s::weapon_tune_turbo_power'
 
 
  -- Struct: lw6map_style_s
 
- -- member of lw6map_style_s: keep_ratio
-          int lw6map_style_s::keep_ratio
+ -- Member of lw6map_style_s: keep_ratio
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::keep_ratio'
 
 
- -- member of lw6map_style_s: zoom
-          float lw6map_style_s::zoom
+ -- Member of lw6map_style_s: zoom
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::zoom'
 
 
- -- member of lw6map_style_s: zoom_min
-          float lw6map_style_s::zoom_min
+ -- Member of lw6map_style_s: zoom_min
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::zoom_min'
 
 
- -- member of lw6map_style_s: zoom_max
-          float lw6map_style_s::zoom_max
+ -- Member of lw6map_style_s: zoom_max
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::zoom_max'
 
 
- -- member of lw6map_style_s: x_wrap
-          int lw6map_style_s::x_wrap
+ -- Member of lw6map_style_s: x_wrap
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::x_wrap'
 
 
- -- member of lw6map_style_s: y_wrap
-          int lw6map_style_s::y_wrap
+ -- Member of lw6map_style_s: y_wrap
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::y_wrap'
 
 
- -- member of lw6map_style_s: background_style
-          char* lw6map_style_s::background_style
+ -- Member of lw6map_style_s: background_style
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::background_style'
 
 
- -- member of lw6map_style_s: hud_style
-          char* lw6map_style_s::hud_style
+ -- Member of lw6map_style_s: hud_style
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::hud_style'
 
 
- -- member of lw6map_style_s: menu_style
-          char* lw6map_style_s::menu_style
+ -- Member of lw6map_style_s: menu_style
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::menu_style'
 
 
- -- member of lw6map_style_s: view_style
-          char* lw6map_style_s::view_style
+ -- Member of lw6map_style_s: view_style
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::view_style'
 
 
- -- member of lw6map_style_s: animation_density
-          float lw6map_style_s::animation_density
+ -- Member of lw6map_style_s: animation_density
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::animation_density'
 
 
- -- member of lw6map_style_s: animation_speed
-          float lw6map_style_s::animation_speed
+ -- Member of lw6map_style_s: animation_speed
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::animation_speed'
 
 
- -- member of lw6map_style_s: cursor_size
-          float lw6map_style_s::cursor_size
+ -- Member of lw6map_style_s: cursor_size
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::cursor_size'
 
 
- -- member of lw6map_style_s: colorize_cursor
-          int lw6map_style_s::colorize_cursor
+ -- Member of lw6map_style_s: colorize_cursor
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::colorize_cursor'
 
 
- -- member of lw6map_style_s: blink_cursor
-          int lw6map_style_s::blink_cursor
+ -- Member of lw6map_style_s: blink_cursor
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::blink_cursor'
 
 
- -- member of lw6map_style_s: hidden_layer_alpha
-          float lw6map_style_s::hidden_layer_alpha
+ -- Member of lw6map_style_s: hidden_layer_alpha
+     *Type:* `float'
+
+     *Definition:* `float lw6map_style_s::hidden_layer_alpha'
 
 
- -- member of lw6map_style_s: colorize
-          int lw6map_style_s::colorize
+ -- Member of lw6map_style_s: colorize
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::colorize'
 
 
- -- member of lw6map_style_s: pixelize
-          int lw6map_style_s::pixelize
+ -- Member of lw6map_style_s: pixelize
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::pixelize'
 
 
- -- member of lw6map_style_s: color_set
-          lw6map_color_set_t lw6map_style_s::color_set
+ -- Member of lw6map_style_s: color_set
+     *Type:* `lw6map_color_set_t'
+
+     *Definition:* `lw6map_color_set_t lw6map_style_s::color_set'
 
 
- -- member of lw6map_style_s: music_file
-          char* lw6map_style_s::music_file
+ -- Member of lw6map_style_s: music_file
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::music_file'
 
 
- -- member of lw6map_style_s: music_filter
-          char* lw6map_style_s::music_filter
+ -- Member of lw6map_style_s: music_filter
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::music_filter'
 
 
- -- member of lw6map_style_s: music_exclude
-          char* lw6map_style_s::music_exclude
+ -- Member of lw6map_style_s: music_exclude
+     *Type:* `char *'
+
+     *Definition:* `char* lw6map_style_s::music_exclude'
 
 
- -- member of lw6map_style_s: waves
-          int lw6map_style_s::waves
+ -- Member of lw6map_style_s: waves
+     *Type:* `int'
+
+     *Definition:* `int lw6map_style_s::waves'
 
 
  -- Struct: lw6map_teams_s
 
- -- member of lw6map_teams_s: player_color
-          int lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]
+ -- Member of lw6map_teams_s: player_color
+     *Type:* `int'
+
+     *Definition:* `int
+     lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]'
 
 
- -- member of lw6map_teams_s: nb_bots
-          int lw6map_teams_s::nb_bots
+ -- Member of lw6map_teams_s: nb_bots
+     *Type:* `int'
+
+     *Definition:* `int lw6map_teams_s::nb_bots'
 
 
- -- member of lw6map_teams_s: bot_speed
-          float lw6map_teams_s::bot_speed
+ -- Member of lw6map_teams_s: bot_speed
+     *Type:* `float'
+
+     *Definition:* `float lw6map_teams_s::bot_speed'
 
 
- -- member of lw6map_teams_s: bot_iq
-          int lw6map_teams_s::bot_iq
+ -- Member of lw6map_teams_s: bot_iq
+     *Type:* `int'
+
+     *Definition:* `int lw6map_teams_s::bot_iq'
 
 
- -- member of lw6map_teams_s: bot
-          lw6map_bot_info_t lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]
+ -- Member of lw6map_teams_s: bot
+     *Type:* `lw6map_bot_info_t'
+
+     *Definition:* `lw6map_bot_info_t
+     lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]'
 
 
  -- Struct: lw6map_texture_s
 
- -- member of lw6map_texture_s: w
-          int lw6map_texture_s::w
+ -- Member of lw6map_texture_s: w
+     *Type:* `int'
+
+     *Definition:* `int lw6map_texture_s::w'
 
 
- -- member of lw6map_texture_s: h
-          int lw6map_texture_s::h
+ -- Member of lw6map_texture_s: h
+     *Type:* `int'
+
+     *Definition:* `int lw6map_texture_s::h'
 
 
- -- member of lw6map_texture_s: has_alpha
-          int lw6map_texture_s::has_alpha
+ -- Member of lw6map_texture_s: has_alpha
+     *Type:* `int'
+
+     *Definition:* `int lw6map_texture_s::has_alpha'
 
 
- -- member of lw6map_texture_s: data
-          lw6sys_color_8_t* lw6map_texture_s::data
+ -- Member of lw6map_texture_s: data
+     *Type:* `lw6sys_color_8_t *'
+
+     *Definition:* `lw6sys_color_8_t* lw6map_texture_s::data'
 
 
- -- member of lw6map_texture_s: guessed_color_base
-          lw6map_color_couple_t lw6map_texture_s::guessed_color_base
+ -- Member of lw6map_texture_s: guessed_color_base
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_texture_s::guessed_color_base'
 
 
- -- member of lw6map_texture_s: guessed_color_alternate
-          lw6map_color_couple_t lw6map_texture_s::guessed_color_alternate
+ -- Member of lw6map_texture_s: guessed_color_alternate
+     *Type:* `lw6map_color_couple_t'
+
+     *Definition:* `lw6map_color_couple_t
+     lw6map_texture_s::guessed_color_alternate'
 
 
 
@@ -8482,12 +9968,16 @@ results on
 
  -- Struct: lw6msg_word_s
 
- -- member of lw6msg_word_s: len
-          int lw6msg_word_s::len
+ -- Member of lw6msg_word_s: len
+     *Type:* `int'
+
+     *Definition:* `int lw6msg_word_s::len'
 
 
- -- member of lw6msg_word_s: buf
-          char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]
+ -- Member of lw6msg_word_s: buf
+     *Type:* `char'
+
+     *Definition:* `char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]'
 
 
 
@@ -8860,834 +10350,4 @@ results on
      Receives a UDP datagram. Will remove the data from queue.
 
      *Return value:*  number of bytes received
-
-
-File: liquidwar6.info,  Node: libnod,  Next: libp2p,  Prev: libnet,  Up: C API
-
-5.29 libnod
-===========
-
-5.29.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/nod/index.html'.
-
-5.29.2 API
-----------
-
- -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
-     DYN_INFO:  the dyn info struct to free
-
-     Frees a dyn info object, to be used after a call to
-     `lw6nod_info_dup_dyn' for instance.
-
-     *Return value:*  none
-
- -- Function: lw6nod_info_t * lw6nod_info_new (char * PROGRAM, char *
-          VERSION, char * CODENAME, int STAMP, u_int64_t ID, char *
-          URL, char * TITLE, char * DESCRIPTION, char * PASSWORD, int
-          BENCH, int OPEN_RELAY, int UPTIME, int IDLE_SCREENSHOT_SIZE,
-          void * IDLE_SCREENSHOT_DATA)
-     PROGRAM:  the program (normally it's liquidwar6)
-
-     VERSION:  the version
-
-     CODENAME:  the codename
-
-     STAMP:  the stamp
-
-     ID:  the node id
-
-     URL:  the node public url
-
-     TITLE:  the node title
-
-     DESCRIPTION:  the node description
-
-     PASSWORD:  the node password
-
-     BENCH:  the node bench
-
-     OPEN_RELAY:  open relay or not
-
-     UPTIME:  uptime in seconds
-
-     IDLE_SCREENSHOT_SIZE:  the size (bytes) of the image to display
-     when game is idle
-
-     IDLE_SCREENSHOT_DATA:  the data (jpeg) of the image to display
-     when game is idle
-
-     Creates a node info object. The arguments correspond to the
-     immutable node attributes, other properties such as how many
-     players are connected or set in other functions like
-     `lw6nod_info_update' which can be called later.
-
-     *Return value:*  newly allocated object, NULL on error.
-
- -- Function: void lw6nod_info_free (lw6nod_info_t * INFO)
-     INFO:  the node info to free
-
-     Frees a node info object.
-
-     *Return value:*  none
-
- -- Function: int lw6nod_info_lock (lw6nod_info_t * INFO)
-     INFO:  the node info to lock
-
-     Locks a node info object, this is usefull for some members,
-     typically list of servers, can be accessed by separated threads,
-     one reading, many writing, and these objects (chained lists)
-     certainly do not want to be modified while being read.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: int lw6nod_info_unlock (lw6nod_info_t * INFO)
-     INFO:  the node info to unlock
-
-     Unlocks a node info object, this is the compation of the
-     `lw6nod_info_lock' function.
-
-     *Return value:*  1 if ok, 0 if not.
-
- -- Function: void lw6nod_info_idle (lw6nod_info_t * INFO)
-     INFO:  the node info to modify
-
-     Clears a node info object and sets all its variable attributes to
-     NULL/default values. This is what we want when the node is idle,
-     not playing.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_info_update (lw6nod_info_t * INFO, u_int64_t
-          COMMUNITY_ID, int ROUND, char * LEVEL, int REQUIRED_BENCH,
-          int NB_COLORS, int MAX_NB_COLORS, int NB_CURSORS, int
-          MAX_NB_CURSORS, int NB_NODES, int MAX_NB_NODES, int
-          GAME_SCREENSHOT_SIZE, void * GAME_SCREENSHOT_DATA)
-     INFO:  the node info to update
-
-     COMMUNITY_ID:  the id of the community the node belongs to
-
-     ROUND:  the current round (can have an offset with real round
-     number)
-
-     LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  max number of colors allowed
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  max number of cursors allowed
-
-     NB_NODES:  number of nodes playing
-
-     MAX_NB_NODES:  max number of nodes allowed
-
-     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
-
-     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
-
-     Set a node info object variable attributes. Call this whenever the
-     node has changed some parameter. Not too often for it's not needed
-     and some operations such as modying the screenshot, can be time
-     consuming.
-
-     *Return value:*  1 if OK, 0 if error.
-
- -- Function: lw6nod_dyn_info_t * lw6nod_info_dup_dyn (lw6nod_info_t *
-          INFO)
-     INFO:  the node info containing the dyn info to duplicate
-
-     Extracts the dynamic part of an info struct and duplicates it,
-     this is to avoid protection fault error when concurrent threads
-     access this info.
-
-     *Return value:*  newly allocated object, must be freed.
-
- -- Function: lw6sys_hash_t * lw6nod_info_new_discovered_nodes ()
-     Creates a new hash, to be used as a discovered nodes list.  Using
-     this function has the advantage of setting the hash options to
-     their defaults.  We use a hash to avoid having uselessly long
-     lists containing always the same node due to multiple detections.
-
-     *Return value:*  an empty hash
-
- -- Function: int lw6nod_info_add_discovered_node (lw6nod_info_t *
-          INFO, char * PUBLIC_URL)
-     INFO:  the node info to update
-
-     PUBLIC_URL:  the address of the discovered node
-
-     Registers a new server, and queues it as something that should be
-     checked later because it's interesting. We can't insert in the
-     database all the servers we suspect to exist so network threads
-     should use this, then main thread will process discovered servers
-     afterwards. This is also a good way to avoid trivial DOS attacks.
-
-     *Return value:*  1 if OK, O if error.
-
- -- Function: lw6sys_list_t * lw6nod_info_pop_discovered_nodes
-          (lw6nod_info_t * INFO)
-     INFO:  the node info to query
-
-     Returns a list of all discovered nodes (their public URL) and
-     empties the current queue as well.
-
-     *Return value:*  a list of dynamically allocated strings.
-
- -- Function: lw6sys_list_t * lw6nod_info_new_verified_nodes ()
-     Creates a new list, to be filled with nodes and typically passed
-     to `lw6nod_info_set_verified_nodes'. Using this function has the
-     advantage of setting the listh options to their defaults.
-
-     *Return value:*  an empty list
-
- -- Function: int lw6nod_info_set_verified_nodes (lw6nod_info_t * INFO,
-          lw6sys_list_t * LIST)
-     INFO:  the node info to modify
-
-     LIST:  the list of verified nodes, will be freed by this function
-
-     Sets the list of verified nodes, that is, the list of nodes we are
-     sure to exist, this is typically the list we will display later on
-     a web page. We can't directly display any discovered node, one
-     needs to filter them through main thread.  Something very
-     important about this function is that `list' will be freed by
-     function, that is, if you call this, then you can (you should)
-     forget your object, it will disappear any time soon.
-
-     *Return value:*  1 if OK, 0 on error.
-
- -- Function: void lw6nod_info_map_verified_nodes (lw6nod_info_t *
-          INFO, lw6sys_list_callback_func_t FUNC, void * FUNC_DATA)
-     INFO:  the node info concerned
-
-     FUNC:  the function to apply
-
-     FUNC_DATA:  arbitrary pointer holding data to pass to function
-
-     Calls `lw6sys_hash_map' with `func' on every member of the list of
-     verified nodes. The reason there's a function for this is that it
-     is very important that list object is locked when doing this.
-     This function does perform a lock/unlock so it is safe.
-
-     *Return value:*  none.
-
- -- Function: int lw6nod_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `nod' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Struct: lw6nod_const_info_s
-
- -- member of lw6nod_const_info_s: program
-          char* lw6nod_const_info_s::program
-
-
- -- member of lw6nod_const_info_s: version
-          char* lw6nod_const_info_s::version
-
-
- -- member of lw6nod_const_info_s: codename
-          char* lw6nod_const_info_s::codename
-
-
- -- member of lw6nod_const_info_s: stamp
-          int lw6nod_const_info_s::stamp
-
-
- -- member of lw6nod_const_info_s: id_int
-          u_int64_t lw6nod_const_info_s::id_int
-
-
- -- member of lw6nod_const_info_s: id_str
-          char* lw6nod_const_info_s::id_str
-
-
- -- member of lw6nod_const_info_s: url
-          char* lw6nod_const_info_s::url
-
-
- -- member of lw6nod_const_info_s: title
-          char* lw6nod_const_info_s::title
-
-
- -- member of lw6nod_const_info_s: description
-          char* lw6nod_const_info_s::description
-
-
- -- member of lw6nod_const_info_s: has_password
-          int lw6nod_const_info_s::has_password
-
-
- -- member of lw6nod_const_info_s: password
-          char* lw6nod_const_info_s::password
-
-
- -- member of lw6nod_const_info_s: bench
-          int lw6nod_const_info_s::bench
-
-
- -- member of lw6nod_const_info_s: open_relay
-          int lw6nod_const_info_s::open_relay
-
-
- -- member of lw6nod_const_info_s: creation_timestamp
-          int64_t lw6nod_const_info_s::creation_timestamp
-
-
- -- member of lw6nod_const_info_s: idle_screenshot_size
-          int lw6nod_const_info_s::idle_screenshot_size
-
-
- -- member of lw6nod_const_info_s: idle_screenshot_data
-          void* lw6nod_const_info_s::idle_screenshot_data
-
-
- -- Struct: lw6nod_dyn_info_s
-
- -- member of lw6nod_dyn_info_s: community_id_int
-          u_int64_t lw6nod_dyn_info_s::community_id_int
-
-
- -- member of lw6nod_dyn_info_s: community_id_str
-          char* lw6nod_dyn_info_s::community_id_str
-
-
- -- member of lw6nod_dyn_info_s: round
-          int lw6nod_dyn_info_s::round
-
-
- -- member of lw6nod_dyn_info_s: level
-          char* lw6nod_dyn_info_s::level
-
-
- -- member of lw6nod_dyn_info_s: required_bench
-          int lw6nod_dyn_info_s::required_bench
-
-
- -- member of lw6nod_dyn_info_s: nb_colors
-          int lw6nod_dyn_info_s::nb_colors
-
-
- -- member of lw6nod_dyn_info_s: max_nb_colors
-          int lw6nod_dyn_info_s::max_nb_colors
-
-
- -- member of lw6nod_dyn_info_s: nb_cursors
-          int lw6nod_dyn_info_s::nb_cursors
-
-
- -- member of lw6nod_dyn_info_s: max_nb_cursors
-          int lw6nod_dyn_info_s::max_nb_cursors
-
-
- -- member of lw6nod_dyn_info_s: nb_nodes
-          int lw6nod_dyn_info_s::nb_nodes
-
-
- -- member of lw6nod_dyn_info_s: max_nb_nodes
-          int lw6nod_dyn_info_s::max_nb_nodes
-
-
- -- member of lw6nod_dyn_info_s: game_screenshot_size
-          int lw6nod_dyn_info_s::game_screenshot_size
-
-
- -- member of lw6nod_dyn_info_s: game_screenshot_data
-          void* lw6nod_dyn_info_s::game_screenshot_data
-
-
- -- Struct: lw6nod_info_s
-
- -- member of lw6nod_info_s: mutex
-          void* lw6nod_info_s::mutex
-
-
- -- member of lw6nod_info_s: const_info
-          lw6nod_const_info_t lw6nod_info_s::const_info
-
-
- -- member of lw6nod_info_s: dyn_info
-          lw6nod_dyn_info_t lw6nod_info_s::dyn_info
-
-
- -- member of lw6nod_info_s: discovered_nodes
-          lw6sys_hash_t* lw6nod_info_s::discovered_nodes
-
-
- -- member of lw6nod_info_s: verified_nodes
-          lw6sys_list_t* lw6nod_info_s::verified_nodes
-
-
-
-File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: C API
-
-5.30 libp2p
-===========
-
-5.30.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/p2p/index.html'.
-
-5.30.2 API
-----------
-
- -- Function: lw6p2p_db_t * lw6p2p_db_open (int ARGC, const char * []
-          ARGV, char * NAME)
-     ARGC:  number of args, as passed to `main'
-
-     ARGV:  args array, as passed to `main'
-
-     NAME:  the database name
-
-     Creates a new database object. Normally there's only one object
-     like this at a given time, it can be shared among various nodes.
-     The database name is appended to user directory path, this allows
-     different databases to be created, in theory.
-
-     *Return value:*  a pointer on the newly created object.
-
- -- Function: void lw6p2p_db_close (lw6p2p_db_t * DB)
-     DB:  the db to close
-
-     Closes a db object, memory ressources will be freed.
-
-     *Return value:*  none.
-
- -- Function: char * lw6p2p_db_repr (lw6p2p_db_t * DB)
-     DB:  the db to work on
-
-     Gives a readable representation of the db
-
-     *Return value:*  a dynamically allocated string
-
- -- Function: int lw6p2p_db_reset (int ARGC, const char * [] ARGV, char
-          * NAME)
-     ARGC:  number of args, as passed to `main'
-
-     ARGV:  args array, as passed to `main'
-
-     NAME:  the database name
-
-     Clears the database. Simply removes the db file, in fact. Do not
-     call while database is used...
-
-     *Return value:*  1 on success, 0 if failed.
-
- -- Function: char * lw6p2p_db_default_name ()
-     Returns the default database name, should be p2p.db (this is a
-     relative path, not an absolute path, will be appended to user dir).
-
-     *Return value:*  the default database name, need not (must not) be
-     freed.
-
- -- Function: int _lw6p2p_db_now (_lw6p2p_db_t * DB)
-     DB:  the db object concerned (used to calculate time origin)
-
-     Returns a timestamp suitable for db usage. The reason we don't use
-     regular timestamps is that they are 1) too accurate (msec is
-     useless for what's involved here) and 2) too big and likely to be
-     negative in signed mode even if converted to seconds.
-
-     *Return value:*  a timestamp, 0 means "beginning of program"
-     (think of it as uptime)
-
- -- Function: lw6p2p_entry_t * lw6p2p_entry_new (int
-          CREATION_TIMESTAMP, char * VERSION, char * CODENAME, int
-          STAMP, char * ID, char * URL, char * TITLE, char *
-          DESCRIPTION, int HAS_PASSWORD, int BENCH, int OPEN_RELAY,
-          char * COMMUNITY_ID, int ROUND, char * LEVEL, int
-          REQUIRED_BENCH, int NB_COLORS, int MAX_NB_COLORS, int
-          NB_CURSORS, int MAX_NB_CURSORS, int NB_NODES, int
-          MAX_NB_NODES, char * IP, int PORT, int LAST_PING_TIMESTAMP,
-          int PING_DELAY_MSEC, int AVAILABLE)
-     CREATION_TIMESTAMP:  when it has been created, UNIX timestamp
-
-     VERSION:  version of the node
-
-     CODENAME:  codename of the node
-
-     STAMP:  stamp of the node
-
-     ID:  id of the node (string representation)
-
-     URL:  public url of the node
-
-     TITLE:  title of the node
-
-     DESCRIPTION:  description of the node
-
-     HAS_PASSWORD:  wether node is password protected or not
-
-     BENCH:  node bench
-
-     OPEN_RELAY:  wether the node is in open relay mode or not
-
-     ROUND:  current round
-
-     LEVEL:  current level played
-
-     REQUIRED_BENCH:  current bench
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  maximum number of colors
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  maximum number of cursors
-
-     NB_NODES:  number of nodes playing
-
-     MAX_NB_NODES:  maximum number of nodes
-
-     IP:  node ip (string representation)
-
-     PORT:  node port
-
-     LAST_PING_TIMESTAMP:  UNIX timestamp of last contact with node
-
-     PING_DELAY_MSEC:  ping delay, in milliseconds
-
-     AVAILABLE:  wether node is available, wether we can connect to it
-
-     Creates a new p2p entry. Will accept NULL parameters for strings
-     as well as arbitrary long strings, will simply cut them short if
-     there aren't already limited to max size.
-
-     *Return value:*  newly allocated object
-
- -- Function: void lw6p2p_entry_free (lw6p2p_entry_t * ENTRY)
-     ENTRY:  entry to free
-
-     Frees a p2p entry.
-
-     *Return value:*  none.
-
- -- Function: char * lw6p2p_entry_repr (lw6p2p_entry_t * ENTRY)
-     ENTRY:  entry to represent
-
-     Gives a human-readable representation of the entry
-
-     *Return value:*  dynamically allocated string
-
- -- Function: lw6p2p_node_t * lw6p2p_node_new (int ARGC, const char *
-          [] ARGV, lw6p2p_db_t * DB, char * CLIENT_BACKENDS, char *
-          SERVER_BACKENDS, char * BIND_IP, int BIND_PORT, int
-          BROADCAST, char * PUBLIC_URL, char * TITLE, char *
-          DESCRIPTION, char * PASSWORD, int BENCH, int OPEN_RELAY, char
-          * KNOWN_NODES, int NETWORK_RELIABILITY, int TROJAN)
-     ARGC:  number of args, as passed to `main'
-
-     ARGV:  args array, as passed to `main'
-
-     DB:  the database to use
-
-     CLIENT_BACKENDS:  the list of client backends to use
-
-     SERVER_BACKENDS:  the list of server backends to use
-
-     BIND_IP:  the IP address to bind on
-
-     BIND_PORT:  the IP port to listen on
-
-     BROADCAST:  wether broadcast is allowed on this node
-
-     PUBLIC_URL:  the public URL we want to show
-
-     TITLE:  the title of the node
-
-     DESCRIPTION:  the description of the node
-
-     PASSWORD:  the password to use
-
-     BENCH:  the bench of the node (its power)
-
-     OPEN_RELAY:  act as an open relay or not
-
-     KNOWN_NODES:  list of already known nodes
-
-     NETWORK_RELIABILITY:  drop 1 packet out of X
-
-     TROJAN:  act as a stupid trojan to test out automatic kick-off
-
-     Creates a new "pear to pear" node. This will fire the server and
-     allow client access, on demand. A lot of stuff can be done in the
-     background once this is called.
-
-     *Return value:*  a pointer on the newly created objects.
-
- -- Function: void lw6p2p_node_free (lw6p2p_node_t * NODE)
-     NODE:  the node to free
-
-     Frees a node object, all network communications will be shut.
-
-     *Return value:*  none.
-
- -- Function: char * lw6p2p_node_repr (lw6p2p_node_t * NODE)
-     NODE:  the node to work on
-
-     Gives a readable representation of the node
-
-     *Return value:*  a dynamically allocated string
-
- -- Function: int lw6p2p_node_poll (lw6p2p_node_t * NODE)
-     NODE:  the node to poll
-
-     Polls a p2p node. This must be called on a regular basis, else
-     network communication is stalled.
-
-     *Return value:*  1 on success, 0 on error.
-
- -- Function: void lw6p2p_node_close (lw6p2p_node_t * NODE)
-     NODE:  the node to close
-
-     Closes a p2p node. Closing is necessary in some contexts, for
-     instance scheme/smob instanciation when you want to release the
-     object ressources (sockets, ports, threads...) *before* it is
-     deleted by, for instance, a garbage collector.
-
-     *Return value:*  1 on success, 0 on error.
-
- -- Function: u_int64_t lw6p2p_node_get_id (lw6p2p_node_t * NODE)
-     NODE:  the node to query
-
-     Returns the node id, an id which is supposed to uniquely identify
-     the node at run-time.
-
-     *Return value:*  numerical id.
-
- -- Function: lw6sys_list_t * lw6p2p_node_get_entries (lw6p2p_node_t *
-          NODE)
-     NODE:  node to query
-
-     Returns a list of all known nodes, this is a plain table dump,
-     sorted so that the most likely to be interesting to connect
-     oneself to are listed *last*, this is just a (little)
-     optimization, since we know we'll need to parse this list to
-     construct a Guile object, we reverse the order.
-
-     *Return value:*  list object containing `lw6p2p_entry_t' objects
-
- -- Function: int lw6p2p_node_server_start (lw6p2p_node_t * NODE)
-     NODE:  node to start
-
-     Starts a node in server mode, if node was previously connected to
-     other nodes, disconnect it from any peer.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6p2p_node_client_join (lw6p2p_node_t * NODE, char *
-          REMOTE_URL)
-     NODE:  node to use
-
-     REMOTE_URL:  url of remote node to join
-
-     Starts a node in client mode, joins the given node, if node was
-     previously connected to other nodes, disconnect it from any peer.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: void lw6p2p_node_disconnect (lw6p2p_node_t * NODE)
-     NODE:  node to disconnect
-
-     Disconnects a node, if node was previously connected to other
-     nodes, disconnect it from any peer. Note that this does not affect
-     out-of-band connections, only real game-related links.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6p2p_node_update_info (lw6p2p_node_t * NODE, int
-          ROUND, char * LEVEL, int REQUIRED_BENCH, int NB_COLORS, int
-          MAX_NB_COLORS, int NB_CURSORS, int MAX_NB_CURSORS, int
-          NB_NODES, int MAX_NB_NODES, int GAME_SCREENSHOT_SIZE, void *
-          GAME_SCREENSHOT_DATA)
-     NODE:  node to update
-
-     ROUND:  the current round (can have an offset with real round
-     number)
-
-     LEVEL:  the name of the current level (map)
-
-     REQUIRED_BENCH:  the bench required to connect
-
-     NB_COLORS:  number of colors playing
-
-     MAX_NB_COLORS:  max number of colors allowed
-
-     NB_CURSORS:  number of cursors playing
-
-     MAX_NB_CURSORS:  max number of cursors allowed
-
-     NB_NODES:  number of nodes playing
-
-     MAX_NB_NODES:  max number of nodes allowed
-
-     GAME_SCREENSHOT_SIZE:  size of screenshot (bytes)
-
-     GAME_SCREENSHOT_DATA:  screenshot data (byte buffer, contains JPEG)
-
-     Updates node info, that is, all the data/metadata which can be
-     displayed to other peers and are, by nature, dynamic.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6p2p_node_update_serialized (lw6p2p_node_t * NODE,
-          u_int64_t SEQ_ID, char * SERIALIZED_LEVEL, char *
-          SERIALIZED_GAME_STRUCT, char * SERIALIZED_GAME_STATE)
-     NODE:  node to update
-
-     SERIALIZED_LEVEL:  level object serialized serialized as an hexa
-     string
-
-     SERIALIZED_GAME_STRUCT:  game struct object serialized as an hexa
-     string
-
-     SERIALIZED_GAME_STATE:  game state object serialized as an hexa
-     string
-
-     Updates the (rather heavy) serialized objects for the game, which
-     are required to transmit game context to peers over the network.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6p2p_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `p2p' module test suite. This test can fail if one cannot
-     bind on some network port, in a general manner it is dependent on
-     the network environment, so it's better if there's some sort of
-     human control on it.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Struct: lw6p2p_db_s
-
- -- member of lw6p2p_db_s: id
-          u_int32_t lw6p2p_db_s::id
-
-
- -- Struct: lw6p2p_entry_s
-
- -- member of lw6p2p_entry_s: creation_timestamp
-          int lw6p2p_entry_s::creation_timestamp
-
-
- -- member of lw6p2p_entry_s: version
-          char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: codename
-          char lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: stamp
-          int lw6p2p_entry_s::stamp
-
-
- -- member of lw6p2p_entry_s: id
-          char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: url
-          char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: title
-          char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: description
-          char lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: has_password
-          int lw6p2p_entry_s::has_password
-
-
- -- member of lw6p2p_entry_s: bench
-          int lw6p2p_entry_s::bench
-
-
- -- member of lw6p2p_entry_s: open_relay
-          int lw6p2p_entry_s::open_relay
-
-
- -- member of lw6p2p_entry_s: community_id
-          char lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: round
-          int lw6p2p_entry_s::round
-
-
- -- member of lw6p2p_entry_s: level
-          char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: required_bench
-          int lw6p2p_entry_s::required_bench
-
-
- -- member of lw6p2p_entry_s: nb_colors
-          int lw6p2p_entry_s::nb_colors
-
-
- -- member of lw6p2p_entry_s: max_nb_colors
-          int lw6p2p_entry_s::max_nb_colors
-
-
- -- member of lw6p2p_entry_s: nb_cursors
-          int lw6p2p_entry_s::nb_cursors
-
-
- -- member of lw6p2p_entry_s: max_nb_cursors
-          int lw6p2p_entry_s::max_nb_cursors
-
-
- -- member of lw6p2p_entry_s: nb_nodes
-          int lw6p2p_entry_s::nb_nodes
-
-
- -- member of lw6p2p_entry_s: max_nb_nodes
-          int lw6p2p_entry_s::max_nb_nodes
-
-
- -- member of lw6p2p_entry_s: ip
-          char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]
-
-
- -- member of lw6p2p_entry_s: port
-          int lw6p2p_entry_s::port
-
-
- -- member of lw6p2p_entry_s: last_ping_timestamp
-          int lw6p2p_entry_s::last_ping_timestamp
-
-
- -- member of lw6p2p_entry_s: ping_delay_msec
-          int lw6p2p_entry_s::ping_delay_msec
-
-
- -- member of lw6p2p_entry_s: available
-          int lw6p2p_entry_s::available
-
-
- -- Struct: lw6p2p_node_s
-
- -- member of lw6p2p_node_s: id
-          u_int32_t lw6p2p_node_s::id
-
 

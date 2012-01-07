@@ -6,91 +6,101 @@
     
 @end deftp
 
-@defcv {member} {lw6gui_button_s} {is_pressed}
-@example
-int lw6gui_button_s::is_pressed
-@end example
+@defcv {Member} {lw6gui_button_s} {is_pressed}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_button_s::is_pressed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {press_queue}
-@example
-int lw6gui_button_s::press_queue
-@end example
+@defcv {Member} {lw6gui_button_s} {press_queue}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_button_s::press_queue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {simple_click_queue}
-@example
-int lw6gui_button_s::simple_click_queue
-@end example
+@defcv {Member} {lw6gui_button_s} {simple_click_queue}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_button_s::simple_click_queue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {double_click_queue}
-@example
-int lw6gui_button_s::double_click_queue
-@end example
+@defcv {Member} {lw6gui_button_s} {double_click_queue}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_button_s::double_click_queue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {triple_click_queue}
-@example
-int lw6gui_button_s::triple_click_queue
-@end example
+@defcv {Member} {lw6gui_button_s} {triple_click_queue}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_button_s::triple_click_queue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {last_press}
-@example
-int64_t lw6gui_button_s::last_press
-@end example
+@defcv {Member} {lw6gui_button_s} {last_press}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_button_s::last_press}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {last_repeat}
-@example
-int64_t lw6gui_button_s::last_repeat
-@end example
+@defcv {Member} {lw6gui_button_s} {last_repeat}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_button_s::last_repeat}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {double_click_t1}
-@example
-int64_t lw6gui_button_s::double_click_t1
-@end example
+@defcv {Member} {lw6gui_button_s} {double_click_t1}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_button_s::double_click_t1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {double_click_t2}
-@example
-int64_t lw6gui_button_s::double_click_t2
-@end example
+@defcv {Member} {lw6gui_button_s} {double_click_t2}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_button_s::double_click_t2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_button_s} {double_click_t3}
-@example
-int64_t lw6gui_button_s::double_click_t3
-@end example
+@defcv {Member} {lw6gui_button_s} {double_click_t3}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_button_s::double_click_t3}
+
 
         
         
@@ -105,28 +115,31 @@ int64_t lw6gui_button_s::double_click_t3
     
 @end deftp
 
-@defcv {member} {lw6gui_fullscreen_modes_s} {low}
-@example
-lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low
-@end example
+@defcv {Member} {lw6gui_fullscreen_modes_s} {low}
+@strong{Type:} @code{lw6gui_video_mode_t}
+
+@strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::low}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_fullscreen_modes_s} {standard}
-@example
-lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard
-@end example
+@defcv {Member} {lw6gui_fullscreen_modes_s} {standard}
+@strong{Type:} @code{lw6gui_video_mode_t}
+
+@strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::standard}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_fullscreen_modes_s} {high}
-@example
-lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
-@end example
+@defcv {Member} {lw6gui_fullscreen_modes_s} {high}
+@strong{Type:} @code{lw6gui_video_mode_t}
+
+@strong{Definition:} @code{lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high}
+
 
         
         
@@ -141,37 +154,41 @@ lw6gui_video_mode_t lw6gui_fullscreen_modes_s::high
     
 @end deftp
 
-@defcv {member} {lw6gui_input_s} {need_sync}
-@example
-int lw6gui_input_s::need_sync
-@end example
+@defcv {Member} {lw6gui_input_s} {need_sync}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_input_s::need_sync}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_input_s} {keyboard}
-@example
-lw6gui_keyboard_t lw6gui_input_s::keyboard
-@end example
+@defcv {Member} {lw6gui_input_s} {keyboard}
+@strong{Type:} @code{lw6gui_keyboard_t}
+
+@strong{Definition:} @code{lw6gui_keyboard_t lw6gui_input_s::keyboard}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_input_s} {mouse}
-@example
-lw6gui_mouse_t lw6gui_input_s::mouse
-@end example
+@defcv {Member} {lw6gui_input_s} {mouse}
+@strong{Type:} @code{lw6gui_mouse_t}
+
+@strong{Definition:} @code{lw6gui_mouse_t lw6gui_input_s::mouse}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_input_s} {joysticks}
-@example
-lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
-@end example
+@defcv {Member} {lw6gui_input_s} {joysticks}
+@strong{Type:} @code{lw6gui_joystick_t}
+
+@strong{Definition:} @code{lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]}
+
 
         
         
@@ -186,91 +203,101 @@ lw6gui_joystick_t lw6gui_input_s::joysticks[LW6GUI_NB_JOYSTICKS]
     
 @end deftp
 
-@defcv {member} {lw6gui_joystick_s} {pad_up}
-@example
-lw6gui_button_t lw6gui_joystick_s::pad_up
-@end example
+@defcv {Member} {lw6gui_joystick_s} {pad_up}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::pad_up}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {pad_down}
-@example
-lw6gui_button_t lw6gui_joystick_s::pad_down
-@end example
+@defcv {Member} {lw6gui_joystick_s} {pad_down}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::pad_down}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {pad_left}
-@example
-lw6gui_button_t lw6gui_joystick_s::pad_left
-@end example
+@defcv {Member} {lw6gui_joystick_s} {pad_left}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::pad_left}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {pad_right}
-@example
-lw6gui_button_t lw6gui_joystick_s::pad_right
-@end example
+@defcv {Member} {lw6gui_joystick_s} {pad_right}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::pad_right}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_a}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_a
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_a}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_a}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_b}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_b
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_b}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_b}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_c}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_c
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_c}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_c}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_d}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_d
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_d}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_d}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_e}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_e
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_e}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_e}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_joystick_s} {button_f}
-@example
-lw6gui_button_t lw6gui_joystick_s::button_f
-@end example
+@defcv {Member} {lw6gui_joystick_s} {button_f}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_joystick_s::button_f}
+
 
         
         
@@ -285,109 +312,121 @@ lw6gui_button_t lw6gui_joystick_s::button_f
     
 @end deftp
 
-@defcv {member} {lw6gui_keyboard_s} {arrow_up}
-@example
-lw6gui_button_t lw6gui_keyboard_s::arrow_up
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {arrow_up}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::arrow_up}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {arrow_down}
-@example
-lw6gui_button_t lw6gui_keyboard_s::arrow_down
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {arrow_down}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::arrow_down}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {arrow_left}
-@example
-lw6gui_button_t lw6gui_keyboard_s::arrow_left
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {arrow_left}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::arrow_left}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {arrow_right}
-@example
-lw6gui_button_t lw6gui_keyboard_s::arrow_right
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {arrow_right}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::arrow_right}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_enter}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_enter
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_enter}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_enter}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_esc}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_esc
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_esc}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_esc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_ctrl}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_ctrl
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_ctrl}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_ctrl}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_alt}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_alt
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_alt}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_alt}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_pgup}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_pgup
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_pgup}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_pgup}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {key_pgdown}
-@example
-lw6gui_button_t lw6gui_keyboard_s::key_pgdown
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {key_pgdown}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::key_pgdown}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {queue}
-@example
-lw6sys_list_t* lw6gui_keyboard_s::queue
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {queue}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* lw6gui_keyboard_s::queue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keyboard_s} {keys_state}
-@example
-lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
-@end example
+@defcv {Member} {lw6gui_keyboard_s} {keys_state}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]}
+
 
         
         
@@ -402,28 +441,31 @@ lw6gui_button_t lw6gui_keyboard_s::keys_state[LW6GUI_NB_KEYS]
     
 @end deftp
 
-@defcv {member} {lw6gui_keypress_s} {keysym}
-@example
-int lw6gui_keypress_s::keysym
-@end example
+@defcv {Member} {lw6gui_keypress_s} {keysym}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_keypress_s::keysym}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keypress_s} {unicode}
-@example
-int lw6gui_keypress_s::unicode
-@end example
+@defcv {Member} {lw6gui_keypress_s} {unicode}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_keypress_s::unicode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_keypress_s} {label}
-@example
-char* lw6gui_keypress_s::label
-@end example
+@defcv {Member} {lw6gui_keypress_s} {label}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_keypress_s::label}
+
 
         
         
@@ -438,37 +480,41 @@ char* lw6gui_keypress_s::label
     
 @end deftp
 
-@defcv {member} {lw6gui_look_s} {id}
-@example
-u_int32_t lw6gui_look_s::id
-@end example
+@defcv {Member} {lw6gui_look_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6gui_look_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_look_s} {dynamic_zoom}
-@example
-float lw6gui_look_s::dynamic_zoom
-@end example
+@defcv {Member} {lw6gui_look_s} {dynamic_zoom}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_look_s::dynamic_zoom}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_look_s} {gfx_quality}
-@example
-int lw6gui_look_s::gfx_quality
-@end example
+@defcv {Member} {lw6gui_look_s} {gfx_quality}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_look_s::gfx_quality}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_look_s} {style}
-@example
-lw6map_style_t lw6gui_look_s::style
-@end example
+@defcv {Member} {lw6gui_look_s} {style}
+@strong{Type:} @code{lw6map_style_t}
+
+@strong{Definition:} @code{lw6map_style_t lw6gui_look_s::style}
+
 
         
         
@@ -483,91 +529,101 @@ lw6map_style_t lw6gui_look_s::style
     
 @end deftp
 
-@defcv {member} {lw6gui_menuitem_s} {id}
-@example
-u_int32_t lw6gui_menuitem_s::id
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6gui_menuitem_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {label}
-@example
-char* lw6gui_menuitem_s::label
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {label}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menuitem_s::label}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {tooltip}
-@example
-char* lw6gui_menuitem_s::tooltip
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {tooltip}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menuitem_s::tooltip}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {value}
-@example
-int lw6gui_menuitem_s::value
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {value}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::value}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {enabled}
-@example
-int lw6gui_menuitem_s::enabled
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {enabled}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::enabled}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {selected}
-@example
-int lw6gui_menuitem_s::selected
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {selected}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::selected}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {colored}
-@example
-int lw6gui_menuitem_s::colored
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {colored}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::colored}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {last_change}
-@example
-int lw6gui_menuitem_s::last_change
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {last_change}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_change}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {last_select}
-@example
-int lw6gui_menuitem_s::last_select
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {last_select}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_select}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menuitem_s} {last_unselect}
-@example
-int lw6gui_menuitem_s::last_unselect
-@end example
+@defcv {Member} {lw6gui_menuitem_s} {last_unselect}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menuitem_s::last_unselect}
+
 
         
         
@@ -582,118 +638,131 @@ int lw6gui_menuitem_s::last_unselect
     
 @end deftp
 
-@defcv {member} {lw6gui_menu_s} {id}
-@example
-u_int32_t lw6gui_menu_s::id
-@end example
+@defcv {Member} {lw6gui_menu_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6gui_menu_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {title}
-@example
-char* lw6gui_menu_s::title
-@end example
+@defcv {Member} {lw6gui_menu_s} {title}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menu_s::title}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {help}
-@example
-char* lw6gui_menu_s::help
-@end example
+@defcv {Member} {lw6gui_menu_s} {help}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menu_s::help}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {popup}
-@example
-char* lw6gui_menu_s::popup
-@end example
+@defcv {Member} {lw6gui_menu_s} {popup}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6gui_menu_s::popup}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {nb_items}
-@example
-int lw6gui_menu_s::nb_items
-@end example
+@defcv {Member} {lw6gui_menu_s} {nb_items}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::nb_items}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {esc_item}
-@example
-lw6gui_menuitem_t* lw6gui_menu_s::esc_item
-@end example
+@defcv {Member} {lw6gui_menu_s} {esc_item}
+@strong{Type:} @code{lw6gui_menuitem_t *}
+
+@strong{Definition:} @code{lw6gui_menuitem_t* lw6gui_menu_s::esc_item}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {items}
-@example
-lw6gui_menuitem_t** lw6gui_menu_s::items
-@end example
+@defcv {Member} {lw6gui_menu_s} {items}
+@strong{Type:} @code{lw6gui_menuitem_t **}
+
+@strong{Definition:} @code{lw6gui_menuitem_t** lw6gui_menu_s::items}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {selected_item}
-@example
-int lw6gui_menu_s::selected_item
-@end example
+@defcv {Member} {lw6gui_menu_s} {selected_item}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::selected_item}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {first_item_displayed}
-@example
-int lw6gui_menu_s::first_item_displayed
-@end example
+@defcv {Member} {lw6gui_menu_s} {first_item_displayed}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::first_item_displayed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {nb_items_displayed}
-@example
-int lw6gui_menu_s::nb_items_displayed
-@end example
+@defcv {Member} {lw6gui_menu_s} {nb_items_displayed}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::nb_items_displayed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {order_of_selected_on_display}
-@example
-int lw6gui_menu_s::order_of_selected_on_display
-@end example
+@defcv {Member} {lw6gui_menu_s} {order_of_selected_on_display}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::order_of_selected_on_display}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {allow_scroll}
-@example
-int lw6gui_menu_s::allow_scroll
-@end example
+@defcv {Member} {lw6gui_menu_s} {allow_scroll}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_menu_s::allow_scroll}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_menu_s} {breadcrumbs}
-@example
-lw6sys_list_t* lw6gui_menu_s::breadcrumbs
-@end example
+@defcv {Member} {lw6gui_menu_s} {breadcrumbs}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* lw6gui_menu_s::breadcrumbs}
+
 
         
         
@@ -708,37 +777,41 @@ lw6sys_list_t* lw6gui_menu_s::breadcrumbs
     
 @end deftp
 
-@defcv {member} {lw6gui_mouse_pointer_s} {pos_x}
-@example
-int lw6gui_mouse_pointer_s::pos_x
-@end example
+@defcv {Member} {lw6gui_mouse_pointer_s} {pos_x}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_pointer_s::pos_x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_pointer_s} {pos_y}
-@example
-int lw6gui_mouse_pointer_s::pos_y
-@end example
+@defcv {Member} {lw6gui_mouse_pointer_s} {pos_y}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_pointer_s::pos_y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_pointer_s} {speed_x}
-@example
-int lw6gui_mouse_pointer_s::speed_x
-@end example
+@defcv {Member} {lw6gui_mouse_pointer_s} {speed_x}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_pointer_s::speed_x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_pointer_s} {speed_y}
-@example
-int lw6gui_mouse_pointer_s::speed_y
-@end example
+@defcv {Member} {lw6gui_mouse_pointer_s} {speed_y}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_pointer_s::speed_y}
+
 
         
         
@@ -753,127 +826,141 @@ int lw6gui_mouse_pointer_s::speed_y
     
 @end deftp
 
-@defcv {member} {lw6gui_mouse_s} {moved}
-@example
-int lw6gui_mouse_s::moved
-@end example
+@defcv {Member} {lw6gui_mouse_s} {moved}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_s::moved}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {last_moved}
-@example
-int64_t lw6gui_mouse_s::last_moved
-@end example
+@defcv {Member} {lw6gui_mouse_s} {last_moved}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_mouse_s::last_moved}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {screen_pointer}
-@example
-lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_pointer
-@end example
+@defcv {Member} {lw6gui_mouse_s} {screen_pointer}
+@strong{Type:} @code{lw6gui_mouse_pointer_t}
+
+@strong{Definition:} @code{lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_pointer}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {map_pointer}
-@example
-lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer
-@end example
+@defcv {Member} {lw6gui_mouse_s} {map_pointer}
+@strong{Type:} @code{lw6gui_mouse_pointer_t}
+
+@strong{Definition:} @code{lw6gui_mouse_pointer_t lw6gui_mouse_s::map_pointer}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {screen_drag_start}
-@example
-lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_drag_start
-@end example
+@defcv {Member} {lw6gui_mouse_s} {screen_drag_start}
+@strong{Type:} @code{lw6gui_mouse_pointer_t}
+
+@strong{Definition:} @code{lw6gui_mouse_pointer_t lw6gui_mouse_s::screen_drag_start}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {drag_mode}
-@example
-lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode
-@end example
+@defcv {Member} {lw6gui_mouse_s} {drag_mode}
+@strong{Type:} @code{lw6gui_drag_mode_t}
+
+@strong{Definition:} @code{lw6gui_drag_mode_t lw6gui_mouse_s::drag_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {menu_position}
-@example
-int lw6gui_mouse_s::menu_position
-@end example
+@defcv {Member} {lw6gui_mouse_s} {menu_position}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_s::menu_position}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {menu_scroll}
-@example
-int lw6gui_mouse_s::menu_scroll
-@end example
+@defcv {Member} {lw6gui_mouse_s} {menu_scroll}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_s::menu_scroll}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {menu_esc}
-@example
-int lw6gui_mouse_s::menu_esc
-@end example
+@defcv {Member} {lw6gui_mouse_s} {menu_esc}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_mouse_s::menu_esc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {button_left}
-@example
-lw6gui_button_t lw6gui_mouse_s::button_left
-@end example
+@defcv {Member} {lw6gui_mouse_s} {button_left}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_mouse_s::button_left}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {button_right}
-@example
-lw6gui_button_t lw6gui_mouse_s::button_right
-@end example
+@defcv {Member} {lw6gui_mouse_s} {button_right}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_mouse_s::button_right}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {button_middle}
-@example
-lw6gui_button_t lw6gui_mouse_s::button_middle
-@end example
+@defcv {Member} {lw6gui_mouse_s} {button_middle}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_mouse_s::button_middle}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {wheel_up}
-@example
-lw6gui_button_t lw6gui_mouse_s::wheel_up
-@end example
+@defcv {Member} {lw6gui_mouse_s} {wheel_up}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_mouse_s::wheel_up}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_mouse_s} {wheel_down}
-@example
-lw6gui_button_t lw6gui_mouse_s::wheel_down
-@end example
+@defcv {Member} {lw6gui_mouse_s} {wheel_down}
+@strong{Type:} @code{lw6gui_button_t}
+
+@strong{Definition:} @code{lw6gui_button_t lw6gui_mouse_s::wheel_down}
+
 
         
         
@@ -888,37 +975,41 @@ lw6gui_button_t lw6gui_mouse_s::wheel_down
     
 @end deftp
 
-@defcv {member} {lw6gui_move_pad_s} {up}
-@example
-int lw6gui_move_pad_s::up
-@end example
+@defcv {Member} {lw6gui_move_pad_s} {up}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_move_pad_s::up}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_move_pad_s} {down}
-@example
-int lw6gui_move_pad_s::down
-@end example
+@defcv {Member} {lw6gui_move_pad_s} {down}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_move_pad_s::down}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_move_pad_s} {left}
-@example
-int lw6gui_move_pad_s::left
-@end example
+@defcv {Member} {lw6gui_move_pad_s} {left}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_move_pad_s::left}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_move_pad_s} {right}
-@example
-int lw6gui_move_pad_s::right
-@end example
+@defcv {Member} {lw6gui_move_pad_s} {right}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_move_pad_s::right}
+
 
         
         
@@ -933,28 +1024,31 @@ int lw6gui_move_pad_s::right
     
 @end deftp
 
-@defcv {member} {lw6gui_point_s} {x}
-@example
-float lw6gui_point_s::x
-@end example
+@defcv {Member} {lw6gui_point_s} {x}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_point_s::x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_point_s} {y}
-@example
-float lw6gui_point_s::y
-@end example
+@defcv {Member} {lw6gui_point_s} {y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_point_s::y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_point_s} {z}
-@example
-float lw6gui_point_s::z
-@end example
+@defcv {Member} {lw6gui_point_s} {z}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_point_s::z}
+
 
         
         
@@ -969,37 +1063,41 @@ float lw6gui_point_s::z
     
 @end deftp
 
-@defcv {member} {lw6gui_quad_s} {p1}
-@example
-lw6gui_point_t lw6gui_quad_s::p1
-@end example
+@defcv {Member} {lw6gui_quad_s} {p1}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_quad_s::p1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_quad_s} {p2}
-@example
-lw6gui_point_t lw6gui_quad_s::p2
-@end example
+@defcv {Member} {lw6gui_quad_s} {p2}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_quad_s::p2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_quad_s} {p3}
-@example
-lw6gui_point_t lw6gui_quad_s::p3
-@end example
+@defcv {Member} {lw6gui_quad_s} {p3}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_quad_s::p3}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_quad_s} {p4}
-@example
-lw6gui_point_t lw6gui_quad_s::p4
-@end example
+@defcv {Member} {lw6gui_quad_s} {p4}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_quad_s::p4}
+
 
         
         
@@ -1014,73 +1112,81 @@ lw6gui_point_t lw6gui_quad_s::p4
     
 @end deftp
 
-@defcv {member} {lw6gui_rect_array_s} {source}
-@example
-lw6sys_whd_t lw6gui_rect_array_s::source
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {source}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6gui_rect_array_s::source}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {limits}
-@example
-lw6gui_rect_t lw6gui_rect_array_s::limits
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {limits}
+@strong{Type:} @code{lw6gui_rect_t}
+
+@strong{Definition:} @code{lw6gui_rect_t lw6gui_rect_array_s::limits}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {tile_size}
-@example
-int lw6gui_rect_array_s::tile_size
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {tile_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::tile_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {border_size}
-@example
-int lw6gui_rect_array_s::border_size
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {border_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::border_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {tile_spacing}
-@example
-int lw6gui_rect_array_s::tile_spacing
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {tile_spacing}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::tile_spacing}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {nb_tiles_w}
-@example
-int lw6gui_rect_array_s::nb_tiles_w
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {nb_tiles_w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::nb_tiles_w}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {nb_tiles_h}
-@example
-int lw6gui_rect_array_s::nb_tiles_h
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {nb_tiles_h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::nb_tiles_h}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_array_s} {nb_tiles}
-@example
-int lw6gui_rect_array_s::nb_tiles
-@end example
+@defcv {Member} {lw6gui_rect_array_s} {nb_tiles}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_array_s::nb_tiles}
+
 
         
         
@@ -1095,55 +1201,61 @@ int lw6gui_rect_array_s::nb_tiles
     
 @end deftp
 
-@defcv {member} {lw6gui_rect_s} {x1}
-@example
-int lw6gui_rect_s::x1
-@end example
+@defcv {Member} {lw6gui_rect_s} {x1}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::x1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_s} {y1}
-@example
-int lw6gui_rect_s::y1
-@end example
+@defcv {Member} {lw6gui_rect_s} {y1}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::y1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_s} {x2}
-@example
-int lw6gui_rect_s::x2
-@end example
+@defcv {Member} {lw6gui_rect_s} {x2}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::x2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_s} {y2}
-@example
-int lw6gui_rect_s::y2
-@end example
+@defcv {Member} {lw6gui_rect_s} {y2}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::y2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_s} {w}
-@example
-int lw6gui_rect_s::w
-@end example
+@defcv {Member} {lw6gui_rect_s} {w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::w}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_rect_s} {h}
-@example
-int lw6gui_rect_s::h
-@end example
+@defcv {Member} {lw6gui_rect_s} {h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_rect_s::h}
+
 
         
         
@@ -1158,28 +1270,31 @@ int lw6gui_rect_s::h
     
 @end deftp
 
-@defcv {member} {lw6gui_repeat_settings_s} {delay}
-@example
-int lw6gui_repeat_settings_s::delay
-@end example
+@defcv {Member} {lw6gui_repeat_settings_s} {delay}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_repeat_settings_s::delay}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_repeat_settings_s} {interval}
-@example
-int lw6gui_repeat_settings_s::interval
-@end example
+@defcv {Member} {lw6gui_repeat_settings_s} {interval}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_repeat_settings_s::interval}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_repeat_settings_s} {double_click_delay}
-@example
-int lw6gui_repeat_settings_s::double_click_delay
-@end example
+@defcv {Member} {lw6gui_repeat_settings_s} {double_click_delay}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_repeat_settings_s::double_click_delay}
+
 
         
         
@@ -1194,19 +1309,21 @@ int lw6gui_repeat_settings_s::double_click_delay
     
 @end deftp
 
-@defcv {member} {lw6gui_segment_s} {p1}
-@example
-lw6gui_point_t lw6gui_segment_s::p1
-@end example
+@defcv {Member} {lw6gui_segment_s} {p1}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_segment_s::p1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_segment_s} {p2}
-@example
-lw6gui_point_t lw6gui_segment_s::p2
-@end example
+@defcv {Member} {lw6gui_segment_s} {p2}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_segment_s::p2}
+
 
         
         
@@ -1221,46 +1338,51 @@ lw6gui_point_t lw6gui_segment_s::p2
     
 @end deftp
 
-@defcv {member} {lw6gui_smoother_s} {s1}
-@example
-float lw6gui_smoother_s::s1
-@end example
+@defcv {Member} {lw6gui_smoother_s} {s1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_smoother_s::s1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_smoother_s} {y1}
-@example
-float lw6gui_smoother_s::y1
-@end example
+@defcv {Member} {lw6gui_smoother_s} {y1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_smoother_s::y1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_smoother_s} {y2}
-@example
-float lw6gui_smoother_s::y2
-@end example
+@defcv {Member} {lw6gui_smoother_s} {y2}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_smoother_s::y2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_smoother_s} {t1}
-@example
-int64_t lw6gui_smoother_s::t1
-@end example
+@defcv {Member} {lw6gui_smoother_s} {t1}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6gui_smoother_s::t1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_smoother_s} {duration}
-@example
-int lw6gui_smoother_s::duration
-@end example
+@defcv {Member} {lw6gui_smoother_s} {duration}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_smoother_s::duration}
+
 
         
         
@@ -1275,28 +1397,31 @@ int lw6gui_smoother_s::duration
     
 @end deftp
 
-@defcv {member} {lw6gui_triangle_s} {p1}
-@example
-lw6gui_point_t lw6gui_triangle_s::p1
-@end example
+@defcv {Member} {lw6gui_triangle_s} {p1}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_triangle_s::p1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_triangle_s} {p2}
-@example
-lw6gui_point_t lw6gui_triangle_s::p2
-@end example
+@defcv {Member} {lw6gui_triangle_s} {p2}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_triangle_s::p2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_triangle_s} {p3}
-@example
-lw6gui_point_t lw6gui_triangle_s::p3
-@end example
+@defcv {Member} {lw6gui_triangle_s} {p3}
+@strong{Type:} @code{lw6gui_point_t}
+
+@strong{Definition:} @code{lw6gui_point_t lw6gui_triangle_s::p3}
+
 
         
         
@@ -1311,28 +1436,31 @@ lw6gui_point_t lw6gui_triangle_s::p3
     
 @end deftp
 
-@defcv {member} {lw6gui_video_mode_s} {width}
-@example
-int lw6gui_video_mode_s::width
-@end example
+@defcv {Member} {lw6gui_video_mode_s} {width}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_video_mode_s::width}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_video_mode_s} {height}
-@example
-int lw6gui_video_mode_s::height
-@end example
+@defcv {Member} {lw6gui_video_mode_s} {height}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_video_mode_s::height}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_video_mode_s} {fullscreen}
-@example
-int lw6gui_video_mode_s::fullscreen
-@end example
+@defcv {Member} {lw6gui_video_mode_s} {fullscreen}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_video_mode_s::fullscreen}
+
 
         
         
@@ -1347,145 +1475,161 @@ int lw6gui_video_mode_s::fullscreen
     
 @end deftp
 
-@defcv {member} {lw6gui_viewport_s} {map_shape}
-@example
-lw6sys_whd_t lw6gui_viewport_s::map_shape
-@end example
+@defcv {Member} {lw6gui_viewport_s} {map_shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6gui_viewport_s::map_shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {screen_shape}
-@example
-lw6sys_whd_t lw6gui_viewport_s::screen_shape
-@end example
+@defcv {Member} {lw6gui_viewport_s} {screen_shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6gui_viewport_s::screen_shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {center_x}
-@example
-float lw6gui_viewport_s::center_x
-@end example
+@defcv {Member} {lw6gui_viewport_s} {center_x}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::center_x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {center_y}
-@example
-float lw6gui_viewport_s::center_y
-@end example
+@defcv {Member} {lw6gui_viewport_s} {center_y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::center_y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {old_center_x}
-@example
-float lw6gui_viewport_s::old_center_x
-@end example
+@defcv {Member} {lw6gui_viewport_s} {old_center_x}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::old_center_x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {old_center_y}
-@example
-float lw6gui_viewport_s::old_center_y
-@end example
+@defcv {Member} {lw6gui_viewport_s} {old_center_y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::old_center_y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {speed_x}
-@example
-float lw6gui_viewport_s::speed_x
-@end example
+@defcv {Member} {lw6gui_viewport_s} {speed_x}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::speed_x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {speed_y}
-@example
-float lw6gui_viewport_s::speed_y
-@end example
+@defcv {Member} {lw6gui_viewport_s} {speed_y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_viewport_s::speed_y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {x_polarity}
-@example
-int lw6gui_viewport_s::x_polarity
-@end example
+@defcv {Member} {lw6gui_viewport_s} {x_polarity}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_viewport_s::x_polarity}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {y_polarity}
-@example
-int lw6gui_viewport_s::y_polarity
-@end example
+@defcv {Member} {lw6gui_viewport_s} {y_polarity}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_viewport_s::y_polarity}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {x_wrap}
-@example
-int lw6gui_viewport_s::x_wrap
-@end example
+@defcv {Member} {lw6gui_viewport_s} {x_wrap}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_viewport_s::x_wrap}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {y_wrap}
-@example
-int lw6gui_viewport_s::y_wrap
-@end example
+@defcv {Member} {lw6gui_viewport_s} {y_wrap}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gui_viewport_s::y_wrap}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {drawable}
-@example
-lw6gui_zone_t lw6gui_viewport_s::drawable
-@end example
+@defcv {Member} {lw6gui_viewport_s} {drawable}
+@strong{Type:} @code{lw6gui_zone_t}
+
+@strong{Definition:} @code{lw6gui_zone_t lw6gui_viewport_s::drawable}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {map_main}
-@example
-lw6gui_zone_t lw6gui_viewport_s::map_main
-@end example
+@defcv {Member} {lw6gui_viewport_s} {map_main}
+@strong{Type:} @code{lw6gui_zone_t}
+
+@strong{Definition:} @code{lw6gui_zone_t lw6gui_viewport_s::map_main}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {map_main_clipped}
-@example
-lw6gui_zone_t lw6gui_viewport_s::map_main_clipped
-@end example
+@defcv {Member} {lw6gui_viewport_s} {map_main_clipped}
+@strong{Type:} @code{lw6gui_zone_t}
+
+@strong{Definition:} @code{lw6gui_zone_t lw6gui_viewport_s::map_main_clipped}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_viewport_s} {map_visible}
-@example
-lw6gui_zone_t lw6gui_viewport_s::map_visible
-@end example
+@defcv {Member} {lw6gui_viewport_s} {map_visible}
+@strong{Type:} @code{lw6gui_zone_t}
+
+@strong{Definition:} @code{lw6gui_zone_t lw6gui_viewport_s::map_visible}
+
 
         
         
@@ -1500,55 +1644,61 @@ lw6gui_zone_t lw6gui_viewport_s::map_visible
     
 @end deftp
 
-@defcv {member} {lw6gui_zone_s} {x1}
-@example
-float lw6gui_zone_s::x1
-@end example
+@defcv {Member} {lw6gui_zone_s} {x1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::x1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_zone_s} {y1}
-@example
-float lw6gui_zone_s::y1
-@end example
+@defcv {Member} {lw6gui_zone_s} {y1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::y1}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_zone_s} {x2}
-@example
-float lw6gui_zone_s::x2
-@end example
+@defcv {Member} {lw6gui_zone_s} {x2}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::x2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_zone_s} {y2}
-@example
-float lw6gui_zone_s::y2
-@end example
+@defcv {Member} {lw6gui_zone_s} {y2}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::y2}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_zone_s} {w}
-@example
-float lw6gui_zone_s::w
-@end example
+@defcv {Member} {lw6gui_zone_s} {w}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::w}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gui_zone_s} {h}
-@example
-float lw6gui_zone_s::h
-@end example
+@defcv {Member} {lw6gui_zone_s} {h}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6gui_zone_s::h}
+
 
         
         

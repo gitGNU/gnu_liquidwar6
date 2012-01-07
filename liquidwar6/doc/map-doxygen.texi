@@ -6,100 +6,111 @@
     
 @end deftp
 
-@defcv {member} {lw6map_body_s} {checksum}
-@example
-int lw6map_body_s::checksum
-@end example
+@defcv {Member} {lw6map_body_s} {checksum}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_body_s::checksum}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {shape}
-@example
-lw6sys_whd_t lw6map_body_s::shape
-@end example
+@defcv {Member} {lw6map_body_s} {shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6map_body_s::shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {layers}
-@example
-lw6map_layer_t lw6map_body_s::layers[LW6MAP_MAX_BODY_DEPTH]
-@end example
+@defcv {Member} {lw6map_body_s} {layers}
+@strong{Type:} @code{lw6map_layer_t}
+
+@strong{Definition:} @code{lw6map_layer_t lw6map_body_s::layers[LW6MAP_MAX_BODY_DEPTH]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {glue}
-@example
-lw6map_meta_layer_t lw6map_body_s::glue
-@end example
+@defcv {Member} {lw6map_body_s} {glue}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::glue}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {boost}
-@example
-lw6map_meta_layer_t lw6map_body_s::boost
-@end example
+@defcv {Member} {lw6map_body_s} {boost}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::boost}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {danger}
-@example
-lw6map_meta_layer_t lw6map_body_s::danger
-@end example
+@defcv {Member} {lw6map_body_s} {danger}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::danger}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {medicine}
-@example
-lw6map_meta_layer_t lw6map_body_s::medicine
-@end example
+@defcv {Member} {lw6map_body_s} {medicine}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::medicine}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {one_way_north}
-@example
-lw6map_meta_layer_t lw6map_body_s::one_way_north
-@end example
+@defcv {Member} {lw6map_body_s} {one_way_north}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_north}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {one_way_east}
-@example
-lw6map_meta_layer_t lw6map_body_s::one_way_east
-@end example
+@defcv {Member} {lw6map_body_s} {one_way_east}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_east}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {one_way_south}
-@example
-lw6map_meta_layer_t lw6map_body_s::one_way_south
-@end example
+@defcv {Member} {lw6map_body_s} {one_way_south}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_south}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_body_s} {one_way_west}
-@example
-lw6map_meta_layer_t lw6map_body_s::one_way_west
-@end example
+@defcv {Member} {lw6map_body_s} {one_way_west}
+@strong{Type:} @code{lw6map_meta_layer_t}
+
+@strong{Definition:} @code{lw6map_meta_layer_t lw6map_body_s::one_way_west}
+
 
         
         
@@ -114,19 +125,21 @@ lw6map_meta_layer_t lw6map_body_s::one_way_west
     
 @end deftp
 
-@defcv {member} {lw6map_bot_info_s} {color}
-@example
-int lw6map_bot_info_s::color
-@end example
+@defcv {Member} {lw6map_bot_info_s} {color}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_bot_info_s::color}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_bot_info_s} {ai}
-@example
-char* lw6map_bot_info_s::ai
-@end example
+@defcv {Member} {lw6map_bot_info_s} {ai}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_bot_info_s::ai}
+
 
         
         
@@ -141,19 +154,21 @@ char* lw6map_bot_info_s::ai
     
 @end deftp
 
-@defcv {member} {lw6map_color_couple_s} {fg}
-@example
-lw6sys_color_8_t lw6map_color_couple_s::fg
-@end example
+@defcv {Member} {lw6map_color_couple_s} {fg}
+@strong{Type:} @code{lw6sys_color_8_t}
+
+@strong{Definition:} @code{lw6sys_color_8_t lw6map_color_couple_s::fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_couple_s} {bg}
-@example
-lw6sys_color_8_t lw6map_color_couple_s::bg
-@end example
+@defcv {Member} {lw6map_color_couple_s} {bg}
+@strong{Type:} @code{lw6sys_color_8_t}
+
+@strong{Definition:} @code{lw6sys_color_8_t lw6map_color_couple_s::bg}
+
 
         
         
@@ -168,127 +183,141 @@ lw6sys_color_8_t lw6map_color_couple_s::bg
     
 @end deftp
 
-@defcv {member} {lw6map_color_set_s} {color_base}
-@example
-lw6map_color_couple_t lw6map_color_set_s::color_base
-@end example
+@defcv {Member} {lw6map_color_set_s} {color_base}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::color_base}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {color_alternate}
-@example
-lw6map_color_couple_t lw6map_color_set_s::color_alternate
-@end example
+@defcv {Member} {lw6map_color_set_s} {color_alternate}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::color_alternate}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {background_color_root}
-@example
-lw6map_color_couple_t lw6map_color_set_s::background_color_root
-@end example
+@defcv {Member} {lw6map_color_set_s} {background_color_root}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::background_color_root}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {background_color_stuff}
-@example
-lw6map_color_couple_t lw6map_color_set_s::background_color_stuff
-@end example
+@defcv {Member} {lw6map_color_set_s} {background_color_stuff}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::background_color_stuff}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {hud_color_frame}
-@example
-lw6map_color_couple_t lw6map_color_set_s::hud_color_frame
-@end example
+@defcv {Member} {lw6map_color_set_s} {hud_color_frame}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::hud_color_frame}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {hud_color_text}
-@example
-lw6map_color_couple_t lw6map_color_set_s::hud_color_text
-@end example
+@defcv {Member} {lw6map_color_set_s} {hud_color_text}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::hud_color_text}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {menu_color_default}
-@example
-lw6map_color_couple_t lw6map_color_set_s::menu_color_default
-@end example
+@defcv {Member} {lw6map_color_set_s} {menu_color_default}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_default}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {menu_color_selected}
-@example
-lw6map_color_couple_t lw6map_color_set_s::menu_color_selected
-@end example
+@defcv {Member} {lw6map_color_set_s} {menu_color_selected}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_selected}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {menu_color_disabled}
-@example
-lw6map_color_couple_t lw6map_color_set_s::menu_color_disabled
-@end example
+@defcv {Member} {lw6map_color_set_s} {menu_color_disabled}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::menu_color_disabled}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {view_color_cursor}
-@example
-lw6map_color_couple_t lw6map_color_set_s::view_color_cursor
-@end example
+@defcv {Member} {lw6map_color_set_s} {view_color_cursor}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::view_color_cursor}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {view_color_map}
-@example
-lw6map_color_couple_t lw6map_color_set_s::view_color_map
-@end example
+@defcv {Member} {lw6map_color_set_s} {view_color_map}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::view_color_map}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {system_color}
-@example
-lw6map_color_couple_t lw6map_color_set_s::system_color
-@end example
+@defcv {Member} {lw6map_color_set_s} {system_color}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_color_set_s::system_color}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {team_color_dead}
-@example
-lw6sys_color_8_t lw6map_color_set_s::team_color_dead
-@end example
+@defcv {Member} {lw6map_color_set_s} {team_color_dead}
+@strong{Type:} @code{lw6sys_color_8_t}
+
+@strong{Definition:} @code{lw6sys_color_8_t lw6map_color_set_s::team_color_dead}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_color_set_s} {team_colors}
-@example
-lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]
-@end example
+@defcv {Member} {lw6map_color_set_s} {team_colors}
+@strong{Type:} @code{lw6sys_color_8_t}
+
+@strong{Definition:} @code{lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]}
+
 
         
         
@@ -303,10 +332,11 @@ lw6sys_color_8_t lw6map_color_set_s::team_colors[LW6MAP_NB_TEAM_COLORS]
     
 @end deftp
 
-@defcv {member} {lw6map_cursor_texture_layer_s} {data}
-@example
-lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]
-@end example
+@defcv {Member} {lw6map_cursor_texture_layer_s} {data}
+@strong{Type:} @code{lw6sys_color_8_t}
+
+@strong{Definition:} @code{lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE][LW6MAP_CURSOR_TEXTURE_SIZE]}
+
 
         
         
@@ -321,19 +351,21 @@ lw6sys_color_8_t lw6map_cursor_texture_layer_s::data[LW6MAP_CURSOR_TEXTURE_SIZE]
     
 @end deftp
 
-@defcv {member} {lw6map_cursor_texture_s} {fg_bg_layer}
-@example
-lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::fg_bg_layer
-@end example
+@defcv {Member} {lw6map_cursor_texture_s} {fg_bg_layer}
+@strong{Type:} @code{lw6map_cursor_texture_layer_t}
+
+@strong{Definition:} @code{lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::fg_bg_layer}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_cursor_texture_s} {color_layer}
-@example
-lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer
-@end example
+@defcv {Member} {lw6map_cursor_texture_s} {color_layer}
+@strong{Type:} @code{lw6map_cursor_texture_layer_t}
+
+@strong{Definition:} @code{lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer}
+
 
         
         
@@ -348,19 +380,21 @@ lw6map_cursor_texture_layer_t lw6map_cursor_texture_s::color_layer
     
 @end deftp
 
-@defcv {member} {lw6map_layer_s} {shape}
-@example
-lw6sys_whd_t lw6map_layer_s::shape
-@end example
+@defcv {Member} {lw6map_layer_s} {shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6map_layer_s::shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_layer_s} {data}
-@example
-u_int8_t* lw6map_layer_s::data
-@end example
+@defcv {Member} {lw6map_layer_s} {data}
+@strong{Type:} @code{u_int8_t *}
+
+@strong{Definition:} @code{u_int8_t* lw6map_layer_s::data}
+
 
         
         
@@ -375,64 +409,71 @@ u_int8_t* lw6map_layer_s::data
     
 @end deftp
 
-@defcv {member} {lw6map_level_s} {id}
-@example
-u_int32_t lw6map_level_s::id
-@end example
+@defcv {Member} {lw6map_level_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6map_level_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {metadata}
-@example
-lw6map_metadata_t lw6map_level_s::metadata
-@end example
+@defcv {Member} {lw6map_level_s} {metadata}
+@strong{Type:} @code{lw6map_metadata_t}
+
+@strong{Definition:} @code{lw6map_metadata_t lw6map_level_s::metadata}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {local_info}
-@example
-lw6map_local_info_t lw6map_level_s::local_info
-@end example
+@defcv {Member} {lw6map_level_s} {local_info}
+@strong{Type:} @code{lw6map_local_info_t}
+
+@strong{Definition:} @code{lw6map_local_info_t lw6map_level_s::local_info}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {body}
-@example
-lw6map_body_t lw6map_level_s::body
-@end example
+@defcv {Member} {lw6map_level_s} {body}
+@strong{Type:} @code{lw6map_body_t}
+
+@strong{Definition:} @code{lw6map_body_t lw6map_level_s::body}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {texture}
-@example
-lw6map_texture_t lw6map_level_s::texture
-@end example
+@defcv {Member} {lw6map_level_s} {texture}
+@strong{Type:} @code{lw6map_texture_t}
+
+@strong{Definition:} @code{lw6map_texture_t lw6map_level_s::texture}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {cursor_texture}
-@example
-lw6map_cursor_texture_t lw6map_level_s::cursor_texture
-@end example
+@defcv {Member} {lw6map_level_s} {cursor_texture}
+@strong{Type:} @code{lw6map_cursor_texture_t}
+
+@strong{Definition:} @code{lw6map_cursor_texture_t lw6map_level_s::cursor_texture}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_level_s} {param}
-@example
-lw6map_param_t lw6map_level_s::param
-@end example
+@defcv {Member} {lw6map_level_s} {param}
+@strong{Type:} @code{lw6map_param_t}
+
+@strong{Definition:} @code{lw6map_param_t lw6map_level_s::param}
+
 
         
         
@@ -447,10 +488,11 @@ lw6map_param_t lw6map_level_s::param
     
 @end deftp
 
-@defcv {member} {lw6map_local_info_s} {music_dir}
-@example
-char* lw6map_local_info_s::music_dir
-@end example
+@defcv {Member} {lw6map_local_info_s} {music_dir}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_local_info_s::music_dir}
+
 
         
         
@@ -465,46 +507,51 @@ char* lw6map_local_info_s::music_dir
     
 @end deftp
 
-@defcv {member} {lw6map_metadata_s} {title}
-@example
-char* lw6map_metadata_s::title
-@end example
+@defcv {Member} {lw6map_metadata_s} {title}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_metadata_s::title}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_metadata_s} {author}
-@example
-char* lw6map_metadata_s::author
-@end example
+@defcv {Member} {lw6map_metadata_s} {author}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_metadata_s::author}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_metadata_s} {description}
-@example
-char* lw6map_metadata_s::description
-@end example
+@defcv {Member} {lw6map_metadata_s} {description}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_metadata_s::description}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_metadata_s} {license}
-@example
-char* lw6map_metadata_s::license
-@end example
+@defcv {Member} {lw6map_metadata_s} {license}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_metadata_s::license}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_metadata_s} {vanilla_exp}
-@example
-int lw6map_metadata_s::vanilla_exp
-@end example
+@defcv {Member} {lw6map_metadata_s} {vanilla_exp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_metadata_s::vanilla_exp}
+
 
         
         
@@ -519,19 +566,21 @@ int lw6map_metadata_s::vanilla_exp
     
 @end deftp
 
-@defcv {member} {lw6map_meta_layer_s} {shape}
-@example
-lw6sys_whd_t lw6map_meta_layer_s::shape
-@end example
+@defcv {Member} {lw6map_meta_layer_s} {shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t lw6map_meta_layer_s::shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_meta_layer_s} {data}
-@example
-u_int8_t* lw6map_meta_layer_s::data
-@end example
+@defcv {Member} {lw6map_meta_layer_s} {data}
+@strong{Type:} @code{u_int8_t *}
+
+@strong{Definition:} @code{u_int8_t* lw6map_meta_layer_s::data}
+
 
         
         
@@ -546,28 +595,31 @@ u_int8_t* lw6map_meta_layer_s::data
     
 @end deftp
 
-@defcv {member} {lw6map_param_s} {rules}
-@example
-lw6map_rules_t lw6map_param_s::rules
-@end example
+@defcv {Member} {lw6map_param_s} {rules}
+@strong{Type:} @code{lw6map_rules_t}
+
+@strong{Definition:} @code{lw6map_rules_t lw6map_param_s::rules}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_param_s} {style}
-@example
-lw6map_style_t lw6map_param_s::style
-@end example
+@defcv {Member} {lw6map_param_s} {style}
+@strong{Type:} @code{lw6map_style_t}
+
+@strong{Definition:} @code{lw6map_style_t lw6map_param_s::style}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_param_s} {teams}
-@example
-lw6map_teams_t lw6map_param_s::teams
-@end example
+@defcv {Member} {lw6map_param_s} {teams}
+@strong{Type:} @code{lw6map_teams_t}
+
+@strong{Definition:} @code{lw6map_teams_t lw6map_param_s::teams}
+
 
         
         
@@ -582,541 +634,601 @@ lw6map_teams_t lw6map_param_s::teams
     
 @end deftp
 
-@defcv {member} {lw6map_rules_s} {total_time}
-@example
-int32_t lw6map_rules_s::total_time
-@end example
+@defcv {Member} {lw6map_rules_s} {total_time}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::total_time}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {respawn_team}
-@example
-int32_t lw6map_rules_s::respawn_team
-@end example
+@defcv {Member} {lw6map_rules_s} {respawn_team}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::respawn_team}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {respawn_position_mode}
-@example
-int32_t lw6map_rules_s::respawn_position_mode
-@end example
+@defcv {Member} {lw6map_rules_s} {respawn_position_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::respawn_position_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {respawn_delay}
-@example
-int32_t lw6map_rules_s::respawn_delay
-@end example
+@defcv {Member} {lw6map_rules_s} {respawn_delay}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::respawn_delay}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {moves_per_round}
-@example
-int32_t lw6map_rules_s::moves_per_round
-@end example
+@defcv {Member} {lw6map_rules_s} {moves_per_round}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::moves_per_round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {spreads_per_round}
-@example
-int32_t lw6map_rules_s::spreads_per_round
-@end example
+@defcv {Member} {lw6map_rules_s} {spreads_per_round}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::spreads_per_round}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {rounds_per_sec}
-@example
-int32_t lw6map_rules_s::rounds_per_sec
-@end example
+@defcv {Member} {lw6map_rules_s} {rounds_per_sec}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::rounds_per_sec}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {fighter_attack}
-@example
-int32_t lw6map_rules_s::fighter_attack
-@end example
+@defcv {Member} {lw6map_rules_s} {fighter_attack}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::fighter_attack}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {fighter_defense}
-@example
-int32_t lw6map_rules_s::fighter_defense
-@end example
+@defcv {Member} {lw6map_rules_s} {fighter_defense}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::fighter_defense}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {fighter_new_health}
-@example
-int32_t lw6map_rules_s::fighter_new_health
-@end example
+@defcv {Member} {lw6map_rules_s} {fighter_new_health}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::fighter_new_health}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {fighter_regenerate}
-@example
-int32_t lw6map_rules_s::fighter_regenerate
-@end example
+@defcv {Member} {lw6map_rules_s} {fighter_regenerate}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::fighter_regenerate}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {side_attack_factor}
-@example
-int32_t lw6map_rules_s::side_attack_factor
-@end example
+@defcv {Member} {lw6map_rules_s} {side_attack_factor}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::side_attack_factor}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {side_defense_factor}
-@example
-int32_t lw6map_rules_s::side_defense_factor
-@end example
+@defcv {Member} {lw6map_rules_s} {side_defense_factor}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::side_defense_factor}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {nb_move_tries}
-@example
-int32_t lw6map_rules_s::nb_move_tries
-@end example
+@defcv {Member} {lw6map_rules_s} {nb_move_tries}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::nb_move_tries}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {nb_attack_tries}
-@example
-int32_t lw6map_rules_s::nb_attack_tries
-@end example
+@defcv {Member} {lw6map_rules_s} {nb_attack_tries}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::nb_attack_tries}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {nb_defense_tries}
-@example
-int32_t lw6map_rules_s::nb_defense_tries
-@end example
+@defcv {Member} {lw6map_rules_s} {nb_defense_tries}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::nb_defense_tries}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {vertical_move}
-@example
-int32_t lw6map_rules_s::vertical_move
-@end example
+@defcv {Member} {lw6map_rules_s} {vertical_move}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::vertical_move}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {spread_mode}
-@example
-int32_t lw6map_rules_s::spread_mode
-@end example
+@defcv {Member} {lw6map_rules_s} {spread_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::spread_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {single_army_size}
-@example
-int32_t lw6map_rules_s::single_army_size
-@end example
+@defcv {Member} {lw6map_rules_s} {single_army_size}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::single_army_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {total_armies_size}
-@example
-int32_t lw6map_rules_s::total_armies_size
-@end example
+@defcv {Member} {lw6map_rules_s} {total_armies_size}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::total_armies_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_nb_teams}
-@example
-int32_t lw6map_rules_s::max_nb_teams
-@end example
+@defcv {Member} {lw6map_rules_s} {max_nb_teams}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_teams}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_nb_cursors}
-@example
-int32_t lw6map_rules_s::max_nb_cursors
-@end example
+@defcv {Member} {lw6map_rules_s} {max_nb_cursors}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_cursors}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_nb_nodes}
-@example
-int32_t lw6map_rules_s::max_nb_nodes
-@end example
+@defcv {Member} {lw6map_rules_s} {max_nb_nodes}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_nb_nodes}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {exp}
-@example
-int32_t lw6map_rules_s::exp
-@end example
+@defcv {Member} {lw6map_rules_s} {exp}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::exp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {highest_team_color_allowed}
-@example
-int32_t lw6map_rules_s::highest_team_color_allowed
-@end example
+@defcv {Member} {lw6map_rules_s} {highest_team_color_allowed}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::highest_team_color_allowed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {highest_weapon_allowed}
-@example
-int32_t lw6map_rules_s::highest_weapon_allowed
-@end example
+@defcv {Member} {lw6map_rules_s} {highest_weapon_allowed}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::highest_weapon_allowed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {x_polarity}
-@example
-int32_t lw6map_rules_s::x_polarity
-@end example
+@defcv {Member} {lw6map_rules_s} {x_polarity}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::x_polarity}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {y_polarity}
-@example
-int32_t lw6map_rules_s::y_polarity
-@end example
+@defcv {Member} {lw6map_rules_s} {y_polarity}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::y_polarity}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {z_polarity}
-@example
-int32_t lw6map_rules_s::z_polarity
-@end example
+@defcv {Member} {lw6map_rules_s} {z_polarity}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::z_polarity}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_zone_size}
-@example
-int32_t lw6map_rules_s::max_zone_size
-@end example
+@defcv {Member} {lw6map_rules_s} {max_zone_size}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_zone_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {round_delta}
-@example
-int32_t lw6map_rules_s::round_delta
-@end example
+@defcv {Member} {lw6map_rules_s} {round_delta}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::round_delta}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_round_delta}
-@example
-int32_t lw6map_rules_s::max_round_delta
-@end example
+@defcv {Member} {lw6map_rules_s} {max_round_delta}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_round_delta}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_cursor_pot}
-@example
-int32_t lw6map_rules_s::max_cursor_pot
-@end example
+@defcv {Member} {lw6map_rules_s} {max_cursor_pot}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_cursor_pot}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {cursor_pot_init}
-@example
-int32_t lw6map_rules_s::cursor_pot_init
-@end example
+@defcv {Member} {lw6map_rules_s} {cursor_pot_init}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::cursor_pot_init}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {max_cursor_pot_offset}
-@example
-int32_t lw6map_rules_s::max_cursor_pot_offset
-@end example
+@defcv {Member} {lw6map_rules_s} {max_cursor_pot_offset}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::max_cursor_pot_offset}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {start_x}
-@example
-int32_t lw6map_rules_s::start_x[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {start_x}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::start_x[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {start_y}
-@example
-int32_t lw6map_rules_s::start_y[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {start_y}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::start_y[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {start_position_mode}
-@example
-int32_t lw6map_rules_s::start_position_mode
-@end example
+@defcv {Member} {lw6map_rules_s} {start_position_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::start_position_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {color_conflict_mode}
-@example
-int32_t lw6map_rules_s::color_conflict_mode
-@end example
+@defcv {Member} {lw6map_rules_s} {color_conflict_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::color_conflict_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {spread_thread}
-@example
-int32_t lw6map_rules_s::spread_thread
-@end example
+@defcv {Member} {lw6map_rules_s} {spread_thread}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::spread_thread}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {glue_power}
-@example
-int32_t lw6map_rules_s::glue_power
-@end example
+@defcv {Member} {lw6map_rules_s} {glue_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::glue_power}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {boost_power}
-@example
-int32_t lw6map_rules_s::boost_power
-@end example
+@defcv {Member} {lw6map_rules_s} {boost_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::boost_power}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {danger_power}
-@example
-int32_t lw6map_rules_s::danger_power
-@end example
+@defcv {Member} {lw6map_rules_s} {danger_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::danger_power}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {medicine_power}
-@example
-int32_t lw6map_rules_s::medicine_power
-@end example
+@defcv {Member} {lw6map_rules_s} {medicine_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::medicine_power}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {frags_mode}
-@example
-int32_t lw6map_rules_s::frags_mode
-@end example
+@defcv {Member} {lw6map_rules_s} {frags_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::frags_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {frags_to_distribute}
-@example
-int32_t lw6map_rules_s::frags_to_distribute
-@end example
+@defcv {Member} {lw6map_rules_s} {frags_to_distribute}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::frags_to_distribute}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {frags_fade_out}
-@example
-int32_t lw6map_rules_s::frags_fade_out
-@end example
+@defcv {Member} {lw6map_rules_s} {frags_fade_out}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::frags_fade_out}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {use_team_profiles}
-@example
-int32_t lw6map_rules_s::use_team_profiles
-@end example
+@defcv {Member} {lw6map_rules_s} {use_team_profiles}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::use_team_profiles}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_aggressive}
-@example
-int32_t lw6map_rules_s::team_profile_aggressive[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_aggressive}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_aggressive[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_vulnerable}
-@example
-int32_t lw6map_rules_s::team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_vulnerable}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_vulnerable[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_mobile}
-@example
-int32_t lw6map_rules_s::team_profile_mobile[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_mobile}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_mobile[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_fast}
-@example
-int32_t lw6map_rules_s::team_profile_fast[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_fast}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_fast[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_weapon_id}
-@example
-int32_t lw6map_rules_s::team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_weapon_id}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_id[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_weapon_alternate_id}
-@example
-int32_t lw6map_rules_s::team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_weapon_alternate_id}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_alternate_id[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {team_profile_weapon_mode}
-@example
-int32_t lw6map_rules_s::team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {lw6map_rules_s} {team_profile_weapon_mode}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::team_profile_weapon_mode[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {weapon_duration}
-@example
-int32_t lw6map_rules_s::weapon_duration
-@end example
+@defcv {Member} {lw6map_rules_s} {weapon_duration}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::weapon_duration}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {weapon_charge_delay}
-@example
-int32_t lw6map_rules_s::weapon_charge_delay
-@end example
+@defcv {Member} {lw6map_rules_s} {weapon_charge_delay}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::weapon_charge_delay}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {weapon_charge_max}
-@example
-int32_t lw6map_rules_s::weapon_charge_max
-@end example
+@defcv {Member} {lw6map_rules_s} {weapon_charge_max}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::weapon_charge_max}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {weapon_tune_berzerk_power}
-@example
-int32_t lw6map_rules_s::weapon_tune_berzerk_power
-@end example
+@defcv {Member} {lw6map_rules_s} {weapon_tune_berzerk_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::weapon_tune_berzerk_power}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_rules_s} {weapon_tune_turbo_power}
-@example
-int32_t lw6map_rules_s::weapon_tune_turbo_power
-@end example
+@defcv {Member} {lw6map_rules_s} {weapon_tune_turbo_power}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6map_rules_s::weapon_tune_turbo_power}
+
 
         
         
@@ -1131,208 +1243,231 @@ int32_t lw6map_rules_s::weapon_tune_turbo_power
     
 @end deftp
 
-@defcv {member} {lw6map_style_s} {keep_ratio}
-@example
-int lw6map_style_s::keep_ratio
-@end example
+@defcv {Member} {lw6map_style_s} {keep_ratio}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::keep_ratio}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {zoom}
-@example
-float lw6map_style_s::zoom
-@end example
+@defcv {Member} {lw6map_style_s} {zoom}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::zoom}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {zoom_min}
-@example
-float lw6map_style_s::zoom_min
-@end example
+@defcv {Member} {lw6map_style_s} {zoom_min}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::zoom_min}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {zoom_max}
-@example
-float lw6map_style_s::zoom_max
-@end example
+@defcv {Member} {lw6map_style_s} {zoom_max}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::zoom_max}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {x_wrap}
-@example
-int lw6map_style_s::x_wrap
-@end example
+@defcv {Member} {lw6map_style_s} {x_wrap}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::x_wrap}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {y_wrap}
-@example
-int lw6map_style_s::y_wrap
-@end example
+@defcv {Member} {lw6map_style_s} {y_wrap}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::y_wrap}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {background_style}
-@example
-char* lw6map_style_s::background_style
-@end example
+@defcv {Member} {lw6map_style_s} {background_style}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::background_style}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {hud_style}
-@example
-char* lw6map_style_s::hud_style
-@end example
+@defcv {Member} {lw6map_style_s} {hud_style}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::hud_style}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {menu_style}
-@example
-char* lw6map_style_s::menu_style
-@end example
+@defcv {Member} {lw6map_style_s} {menu_style}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::menu_style}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {view_style}
-@example
-char* lw6map_style_s::view_style
-@end example
+@defcv {Member} {lw6map_style_s} {view_style}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::view_style}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {animation_density}
-@example
-float lw6map_style_s::animation_density
-@end example
+@defcv {Member} {lw6map_style_s} {animation_density}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::animation_density}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {animation_speed}
-@example
-float lw6map_style_s::animation_speed
-@end example
+@defcv {Member} {lw6map_style_s} {animation_speed}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::animation_speed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {cursor_size}
-@example
-float lw6map_style_s::cursor_size
-@end example
+@defcv {Member} {lw6map_style_s} {cursor_size}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::cursor_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {colorize_cursor}
-@example
-int lw6map_style_s::colorize_cursor
-@end example
+@defcv {Member} {lw6map_style_s} {colorize_cursor}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::colorize_cursor}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {blink_cursor}
-@example
-int lw6map_style_s::blink_cursor
-@end example
+@defcv {Member} {lw6map_style_s} {blink_cursor}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::blink_cursor}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {hidden_layer_alpha}
-@example
-float lw6map_style_s::hidden_layer_alpha
-@end example
+@defcv {Member} {lw6map_style_s} {hidden_layer_alpha}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_style_s::hidden_layer_alpha}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {colorize}
-@example
-int lw6map_style_s::colorize
-@end example
+@defcv {Member} {lw6map_style_s} {colorize}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::colorize}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {pixelize}
-@example
-int lw6map_style_s::pixelize
-@end example
+@defcv {Member} {lw6map_style_s} {pixelize}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::pixelize}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {color_set}
-@example
-lw6map_color_set_t lw6map_style_s::color_set
-@end example
+@defcv {Member} {lw6map_style_s} {color_set}
+@strong{Type:} @code{lw6map_color_set_t}
+
+@strong{Definition:} @code{lw6map_color_set_t lw6map_style_s::color_set}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {music_file}
-@example
-char* lw6map_style_s::music_file
-@end example
+@defcv {Member} {lw6map_style_s} {music_file}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::music_file}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {music_filter}
-@example
-char* lw6map_style_s::music_filter
-@end example
+@defcv {Member} {lw6map_style_s} {music_filter}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::music_filter}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {music_exclude}
-@example
-char* lw6map_style_s::music_exclude
-@end example
+@defcv {Member} {lw6map_style_s} {music_exclude}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6map_style_s::music_exclude}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_style_s} {waves}
-@example
-int lw6map_style_s::waves
-@end example
+@defcv {Member} {lw6map_style_s} {waves}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_style_s::waves}
+
 
         
         
@@ -1347,46 +1482,51 @@ int lw6map_style_s::waves
     
 @end deftp
 
-@defcv {member} {lw6map_teams_s} {player_color}
-@example
-int lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]
-@end example
+@defcv {Member} {lw6map_teams_s} {player_color}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_teams_s::player_color[LW6MAP_TEAMS_NB_PLAYERS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_teams_s} {nb_bots}
-@example
-int lw6map_teams_s::nb_bots
-@end example
+@defcv {Member} {lw6map_teams_s} {nb_bots}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_teams_s::nb_bots}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_teams_s} {bot_speed}
-@example
-float lw6map_teams_s::bot_speed
-@end example
+@defcv {Member} {lw6map_teams_s} {bot_speed}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6map_teams_s::bot_speed}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_teams_s} {bot_iq}
-@example
-int lw6map_teams_s::bot_iq
-@end example
+@defcv {Member} {lw6map_teams_s} {bot_iq}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_teams_s::bot_iq}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_teams_s} {bot}
-@example
-lw6map_bot_info_t lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]
-@end example
+@defcv {Member} {lw6map_teams_s} {bot}
+@strong{Type:} @code{lw6map_bot_info_t}
+
+@strong{Definition:} @code{lw6map_bot_info_t lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]}
+
 
         
         
@@ -1401,55 +1541,61 @@ lw6map_bot_info_t lw6map_teams_s::bot[LW6MAP_TEAMS_MAX_NB_BOTS]
     
 @end deftp
 
-@defcv {member} {lw6map_texture_s} {w}
-@example
-int lw6map_texture_s::w
-@end example
+@defcv {Member} {lw6map_texture_s} {w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_texture_s::w}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_texture_s} {h}
-@example
-int lw6map_texture_s::h
-@end example
+@defcv {Member} {lw6map_texture_s} {h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_texture_s::h}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_texture_s} {has_alpha}
-@example
-int lw6map_texture_s::has_alpha
-@end example
+@defcv {Member} {lw6map_texture_s} {has_alpha}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6map_texture_s::has_alpha}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_texture_s} {data}
-@example
-lw6sys_color_8_t* lw6map_texture_s::data
-@end example
+@defcv {Member} {lw6map_texture_s} {data}
+@strong{Type:} @code{lw6sys_color_8_t *}
+
+@strong{Definition:} @code{lw6sys_color_8_t* lw6map_texture_s::data}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_texture_s} {guessed_color_base}
-@example
-lw6map_color_couple_t lw6map_texture_s::guessed_color_base
-@end example
+@defcv {Member} {lw6map_texture_s} {guessed_color_base}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_texture_s::guessed_color_base}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6map_texture_s} {guessed_color_alternate}
-@example
-lw6map_color_couple_t lw6map_texture_s::guessed_color_alternate
-@end example
+@defcv {Member} {lw6map_texture_s} {guessed_color_alternate}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t lw6map_texture_s::guessed_color_alternate}
+
 
         
         

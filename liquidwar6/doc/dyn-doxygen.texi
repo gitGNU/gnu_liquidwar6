@@ -6,19 +6,21 @@
     
 @end deftp
 
-@defcv {member} {lw6dyn_dl_handle_s} {handle}
-@example
-lt_dlhandle lw6dyn_dl_handle_s::handle
-@end example
+@defcv {Member} {lw6dyn_dl_handle_s} {handle}
+@strong{Type:} @code{lt_dlhandle}
+
+@strong{Definition:} @code{lt_dlhandle lw6dyn_dl_handle_s::handle}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dyn_dl_handle_s} {library_path}
-@example
-char* lw6dyn_dl_handle_s::library_path
-@end example
+@defcv {Member} {lw6dyn_dl_handle_s} {library_path}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6dyn_dl_handle_s::library_path}
+
 
         
         

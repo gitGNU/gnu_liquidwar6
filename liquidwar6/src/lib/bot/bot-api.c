@@ -139,6 +139,12 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
     {
       memset (&data, 0, sizeof (lw6bot_data_t));
       data.param = backend->seed.param;
+      /*
+       * We set the game_state to NULL to avoid referencing
+       * some old stuff passed at creation, which
+       * could have disappeared.
+       */
+      data.game_state = NULL;
       switch (backend->seed.dirty_read)
 	{
 	case LW6PIL_DIRTY_READ_NEVER:
@@ -153,6 +159,10 @@ lw6bot_next_move (lw6bot_backend_t * backend, int *x, int *y)
 	  if (backend->seed.pilot)
 	    {
 	      data.game_state = lw6pil_pilot_dirty_read (backend->seed.pilot);
+	    }
+	  else
+	    {
+	      data.game_state = backend->seed.game_state;
 	    }
 	  break;
 	default:

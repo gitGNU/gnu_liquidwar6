@@ -6,37 +6,41 @@
     
 @end deftp
 
-@defcv {member} {lw6dsp_backend_s} {id}
-@example
-u_int32_t lw6dsp_backend_s::id
-@end example
+@defcv {Member} {lw6dsp_backend_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6dsp_backend_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_backend_s} {thread}
-@example
-void* lw6dsp_backend_s::thread
-@end example
+@defcv {Member} {lw6dsp_backend_s} {thread}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6dsp_backend_s::thread}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_backend_s} {data}
-@example
-void* lw6dsp_backend_s::data
-@end example
+@defcv {Member} {lw6dsp_backend_s} {data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6dsp_backend_s::data}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_backend_s} {input}
-@example
-lw6gui_input_t* lw6dsp_backend_s::input
-@end example
+@defcv {Member} {lw6dsp_backend_s} {input}
+@strong{Type:} @code{lw6gui_input_t *}
+
+@strong{Definition:} @code{lw6gui_input_t* lw6dsp_backend_s::input}
+
 
         
         
@@ -51,100 +55,111 @@ lw6gui_input_t* lw6dsp_backend_s::input
     
 @end deftp
 
-@defcv {member} {lw6dsp_misc_s} {mask}
-@example
-int lw6dsp_misc_s::mask
-@end example
+@defcv {Member} {lw6dsp_misc_s} {mask}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::mask}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {target_fps}
-@example
-int lw6dsp_misc_s::target_fps
-@end example
+@defcv {Member} {lw6dsp_misc_s} {target_fps}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::target_fps}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {gfx_cpu_usage}
-@example
-float lw6dsp_misc_s::gfx_cpu_usage
-@end example
+@defcv {Member} {lw6dsp_misc_s} {gfx_cpu_usage}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6dsp_misc_s::gfx_cpu_usage}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {dirty_read}
-@example
-int lw6dsp_misc_s::dirty_read
-@end example
+@defcv {Member} {lw6dsp_misc_s} {dirty_read}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::dirty_read}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {capture}
-@example
-int lw6dsp_misc_s::capture
-@end example
+@defcv {Member} {lw6dsp_misc_s} {capture}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::capture}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {gfx_debug}
-@example
-int lw6dsp_misc_s::gfx_debug
-@end example
+@defcv {Member} {lw6dsp_misc_s} {gfx_debug}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::gfx_debug}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {debug_team_id}
-@example
-int lw6dsp_misc_s::debug_team_id
-@end example
+@defcv {Member} {lw6dsp_misc_s} {debug_team_id}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::debug_team_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {debug_layer_id}
-@example
-int lw6dsp_misc_s::debug_layer_id
-@end example
+@defcv {Member} {lw6dsp_misc_s} {debug_layer_id}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::debug_layer_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {repeat_settings}
-@example
-lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings
-@end example
+@defcv {Member} {lw6dsp_misc_s} {repeat_settings}
+@strong{Type:} @code{lw6gui_repeat_settings_t}
+
+@strong{Definition:} @code{lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {log_timeout}
-@example
-int lw6dsp_misc_s::log_timeout
-@end example
+@defcv {Member} {lw6dsp_misc_s} {log_timeout}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dsp_misc_s::log_timeout}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_misc_s} {progress}
-@example
-volatile float* lw6dsp_misc_s::progress
-@end example
+@defcv {Member} {lw6dsp_misc_s} {progress}
+@strong{Type:} @code{float *}
+
+@strong{Definition:} @code{volatile float* lw6dsp_misc_s::progress}
+
 
         
         
@@ -159,73 +174,81 @@ volatile float* lw6dsp_misc_s::progress
     
 @end deftp
 
-@defcv {member} {lw6dsp_param_s} {misc}
-@example
-lw6dsp_misc_t lw6dsp_param_s::misc
-@end example
+@defcv {Member} {lw6dsp_param_s} {misc}
+@strong{Type:} @code{lw6dsp_misc_t}
+
+@strong{Definition:} @code{lw6dsp_misc_t lw6dsp_param_s::misc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {video_mode}
-@example
-lw6gui_video_mode_t lw6dsp_param_s::video_mode
-@end example
+@defcv {Member} {lw6dsp_param_s} {video_mode}
+@strong{Type:} @code{lw6gui_video_mode_t}
+
+@strong{Definition:} @code{lw6gui_video_mode_t lw6dsp_param_s::video_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {look}
-@example
-lw6gui_look_t* lw6dsp_param_s::look
-@end example
+@defcv {Member} {lw6dsp_param_s} {look}
+@strong{Type:} @code{lw6gui_look_t *}
+
+@strong{Definition:} @code{lw6gui_look_t* lw6dsp_param_s::look}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {menu}
-@example
-lw6gui_menu_t* lw6dsp_param_s::menu
-@end example
+@defcv {Member} {lw6dsp_param_s} {menu}
+@strong{Type:} @code{lw6gui_menu_t *}
+
+@strong{Definition:} @code{lw6gui_menu_t* lw6dsp_param_s::menu}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {level}
-@example
-lw6map_level_t* lw6dsp_param_s::level
-@end example
+@defcv {Member} {lw6dsp_param_s} {level}
+@strong{Type:} @code{lw6map_level_t *}
+
+@strong{Definition:} @code{lw6map_level_t* lw6dsp_param_s::level}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {game_struct}
-@example
-lw6ker_game_struct_t* lw6dsp_param_s::game_struct
-@end example
+@defcv {Member} {lw6dsp_param_s} {game_struct}
+@strong{Type:} @code{lw6ker_game_struct_t *}
+
+@strong{Definition:} @code{lw6ker_game_struct_t* lw6dsp_param_s::game_struct}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {game_state}
-@example
-lw6ker_game_state_t* lw6dsp_param_s::game_state
-@end example
+@defcv {Member} {lw6dsp_param_s} {game_state}
+@strong{Type:} @code{lw6ker_game_state_t *}
+
+@strong{Definition:} @code{lw6ker_game_state_t* lw6dsp_param_s::game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6dsp_param_s} {pilot}
-@example
-lw6pil_pilot_t* lw6dsp_param_s::pilot
-@end example
+@defcv {Member} {lw6dsp_param_s} {pilot}
+@strong{Type:} @code{lw6pil_pilot_t *}
+
+@strong{Definition:} @code{lw6pil_pilot_t* lw6dsp_param_s::pilot}
+
 
         
         

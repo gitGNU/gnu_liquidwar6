@@ -7290,98 +7290,176 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6bot_backend_s
+     The bot bakckend is the first argument passed to any bot function,
+     it contains reference to all the functions which can be used as
+     well as a pointer on associated data. In OO, this would just be an
+     object, with members and methods, using polymorphism through
+     opaque pointers.
 
- -- member of lw6bot_backend_s: dl_handle
-          lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle
+ -- Member of lw6bot_backend_s: dl_handle
+     *Type:* `lw6dyn_dl_handle_t *'
 
+     *Definition:* `lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle'
 
- -- member of lw6bot_backend_s: bot_context
-          void* lw6bot_backend_s::bot_context
+     Handle on dynamic library (if it makes sense).
 
+ -- Member of lw6bot_backend_s: bot_context
+     *Type:* `void *'
 
- -- member of lw6bot_backend_s: argc
-          int lw6bot_backend_s::argc
+     *Definition:* `void* lw6bot_backend_s::bot_context'
 
+     Bot specific data, what is behind this pointer really depends on
+     the bot engine.
 
- -- member of lw6bot_backend_s: argv
-          const char** lw6bot_backend_s::argv
+ -- Member of lw6bot_backend_s: argc
+     *Type:* `int'
 
+     *Definition:* `int lw6bot_backend_s::argc'
 
- -- member of lw6bot_backend_s: id
-          u_int32_t lw6bot_backend_s::id
+     The argc value passed to main.
 
+ -- Member of lw6bot_backend_s: argv
+     *Type:* `const char **'
 
- -- member of lw6bot_backend_s: seed
-          lw6bot_seed_t lw6bot_backend_s::seed
+     *Definition:* `const char** lw6bot_backend_s::argv'
 
+     The argv value passed to main.
 
- -- member of lw6bot_backend_s: init
-          void*(* lw6bot_backend_s::init)(int argc, const char *argv[], lw6bot_data_t *data)
+ -- Member of lw6bot_backend_s: id
+     *Type:* `u_int32_t'
 
+     *Definition:* `u_int32_t lw6bot_backend_s::id'
 
- -- member of lw6bot_backend_s: quit
-          void(* lw6bot_backend_s::quit)(void *bot_context)
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
+ -- Member of lw6bot_backend_s: seed
+     *Type:* `lw6bot_seed_t'
 
- -- member of lw6bot_backend_s: next_move
-          int(* lw6bot_backend_s::next_move)(void *bot_context, int *x, int *y, lw6bot_data_t *data)
+     *Definition:* `lw6bot_seed_t lw6bot_backend_s::seed'
 
+     Parameters passed at initialization.
 
- -- member of lw6bot_backend_s: repr
-          char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)
+ -- Member of lw6bot_backend_s: init
+     *Type:* `void *(*'
 
+     *Definition:* `void*(* lw6bot_backend_s::init)(int argc, const
+     char *argv[], lw6bot_data_t *data)'
+
+     Pointer on init callback, this is the code used when calling
+     lw6bot_init.
+
+ -- Member of lw6bot_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6bot_backend_s::quit)(void *bot_context)'
+
+     Pointer on quit callback, this is the code used when calling
+     lw6bot_quit.
+
+ -- Member of lw6bot_backend_s: next_move
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6bot_backend_s::next_move)(void
+     *bot_context, int *x, int *y, lw6bot_data_t *data)'
+
+     Pointer on next_move callback, this is the code used when calling
+     lw6bot_next_move.
+
+ -- Member of lw6bot_backend_s: repr
+     *Type:* `char *(*'
+
+     *Definition:* `char*(* lw6bot_backend_s::repr)(void *bot_context,
+     u_int32_t id)'
+
+     Pointer on repr callback, this is the code used when calling
+     lw6bot_repr.
 
  -- Struct: lw6bot_data_s
+     Data used by a bot, those are essentially stable data passed as an
+     argument plus changing data, that is, the game state.
 
- -- member of lw6bot_data_s: game_state
-          lw6ker_game_state_t* lw6bot_data_s::game_state
+ -- Member of lw6bot_data_s: game_state
+     *Type:* `lw6ker_game_state_t *'
 
+     *Definition:* `lw6ker_game_state_t* lw6bot_data_s::game_state'
 
- -- member of lw6bot_data_s: param
-          lw6bot_param_t lw6bot_data_s::param
+     Game state the bot will have to base its reflexion upon. This not
+     need be always the same game state, the pointer might change, but
+     it should always refer to the same logical game, that is, at
+     least, same struct.
 
+ -- Member of lw6bot_data_s: param
+     *Type:* `lw6bot_param_t'
+
+     *Definition:* `lw6bot_param_t lw6bot_data_s::param'
+
+     Constant parameters passed to the bot at creation.
 
  -- Struct: lw6bot_param_s
      Parameters usable by a bot engine. Those are the stable, fixed
      parameters passed at bot creation, they don't change during the
      bot life.
 
- -- member of lw6bot_param_s: speed
-          float lw6bot_param_s::speed
+ -- Member of lw6bot_param_s: speed
+     *Type:* `float'
+
+     *Definition:* `float lw6bot_param_s::speed'
 
      Speed of the bot, this is a value between 0.0f and 1.0f, 1 means
      normal speed, 0 is as slow as possible. Values over 1 will make
      the bot act/move faster than usual.
 
- -- member of lw6bot_param_s: iq
-          int lw6bot_param_s::iq
+ -- Member of lw6bot_param_s: iq
+     *Type:* `int'
+
+     *Definition:* `int lw6bot_param_s::iq'
 
      IQ is supposed to reflect the cleverness of the bot. The default
      is 100 (this value is basically a percentage), 0 means just so
      stupid, and a high value, for instance 200, means very clever.
 
- -- member of lw6bot_param_s: cursor_id
-          u_int16_t lw6bot_param_s::cursor_id
+ -- Member of lw6bot_param_s: cursor_id
+     *Type:* `u_int16_t'
+
+     *Definition:* `u_int16_t lw6bot_param_s::cursor_id'
 
      The cursor ID, which is a 16-bit non-null integer.
 
  -- Struct: lw6bot_seed_s
+     Parameters passed at bot creation, the only use for this is to
+     simplify the protoype of the init function.
 
- -- member of lw6bot_seed_s: game_state
-          lw6ker_game_state_t* lw6bot_seed_s::game_state
+ -- Member of lw6bot_seed_s: game_state
+     *Type:* `lw6ker_game_state_t *'
 
+     *Definition:* `lw6ker_game_state_t* lw6bot_seed_s::game_state'
 
- -- member of lw6bot_seed_s: pilot
-          lw6pil_pilot_t* lw6bot_seed_s::pilot
+     Game state, that is, the level used, the fighters on it, the other
+     cursors positions, and so on.
 
+ -- Member of lw6bot_seed_s: pilot
+     *Type:* `lw6pil_pilot_t *'
 
- -- member of lw6bot_seed_s: dirty_read
-          int lw6bot_seed_s::dirty_read
+     *Definition:* `lw6pil_pilot_t* lw6bot_seed_s::pilot'
 
+     This can be NULL, it's a pilot object which can be used in some
+     case, when, for instance, in dirty read mode, we want to read the
+     level on the fly without syncing.
 
- -- member of lw6bot_seed_s: param
-          lw6bot_param_t lw6bot_seed_s::param
+ -- Member of lw6bot_seed_s: dirty_read
+     *Type:* `int'
 
+     *Definition:* `int lw6bot_seed_s::dirty_read'
+
+     The dirty read mode (between 0 and 2).
+
+ -- Member of lw6bot_seed_s: param
+     *Type:* `lw6bot_param_t'
+
+     *Definition:* `lw6bot_param_t lw6bot_seed_s::param'
+
+     Parameters given to the bot at creation.
 
 
 File: liquidwar6.info,  Node: mod-brute,  Next: mod-follow,  Prev: libbot,  Up: C API
@@ -8255,92 +8333,149 @@ results on
 
  -- Struct: lw6cli_backend_s
 
- -- member of lw6cli_backend_s: dl_handle
-          lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
+ -- Member of lw6cli_backend_s: dl_handle
+     *Type:* `lw6dyn_dl_handle_t *'
+
+     *Definition:* `lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle'
 
 
- -- member of lw6cli_backend_s: cli_context
-          void* lw6cli_backend_s::cli_context
+ -- Member of lw6cli_backend_s: cli_context
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cli_backend_s::cli_context'
 
 
- -- member of lw6cli_backend_s: argc
-          int lw6cli_backend_s::argc
+ -- Member of lw6cli_backend_s: argc
+     *Type:* `int'
+
+     *Definition:* `int lw6cli_backend_s::argc'
 
 
- -- member of lw6cli_backend_s: argv
-          const char** lw6cli_backend_s::argv
+ -- Member of lw6cli_backend_s: argv
+     *Type:* `const char **'
+
+     *Definition:* `const char** lw6cli_backend_s::argv'
 
 
- -- member of lw6cli_backend_s: id
-          u_int32_t lw6cli_backend_s::id
+ -- Member of lw6cli_backend_s: id
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6cli_backend_s::id'
 
 
- -- member of lw6cli_backend_s: name
-          char* lw6cli_backend_s::name
+ -- Member of lw6cli_backend_s: name
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cli_backend_s::name'
 
 
- -- member of lw6cli_backend_s: init
-          void*(* lw6cli_backend_s::init)(int argc, const char *argv[])
+ -- Member of lw6cli_backend_s: init
+     *Type:* `void *(*'
+
+     *Definition:* `void*(* lw6cli_backend_s::init)(int argc, const
+     char *argv[])'
 
 
- -- member of lw6cli_backend_s: quit
-          void(* lw6cli_backend_s::quit)(void *cli_context)
+ -- Member of lw6cli_backend_s: quit
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6cli_backend_s::quit)(void *cli_context)'
 
 
- -- member of lw6cli_backend_s: process_oob
-          int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)
+ -- Member of lw6cli_backend_s: process_oob
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6cli_backend_s::process_oob)(void
+     *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t
+     *oob_data)'
 
 
- -- member of lw6cli_backend_s: open
-          lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+ -- Member of lw6cli_backend_s: open
+     *Type:* `lw6cnx_connection_t *(*'
+
+     *Definition:* `lw6cnx_connection_t*(* lw6cli_backend_s::open)(void
+     *cli_context, char *local_url, char *remote_url, char *remote_ip,
+     int remote_port, char *password, u_int64_t local_id, u_int64_t
+     remote_id, int dns_ok, int network_reliability,
+     lw6cnx_recv_callback_t recv_callback_func, void
+     *recv_callback_data)'
 
 
- -- member of lw6cli_backend_s: close
-          void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)
+ -- Member of lw6cli_backend_s: close
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6cli_backend_s::close)(void *cli_context,
+     lw6cnx_connection_t *connection)'
 
 
- -- member of lw6cli_backend_s: send
-          int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
+ -- Member of lw6cli_backend_s: send
+     *Type:* `int(*'
+
+     *Definition:* `int(* lw6cli_backend_s::send)(void *cli_context,
+     lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig,
+     u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t
+     logical_to_id, char *message)'
 
 
- -- member of lw6cli_backend_s: poll
-          void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)
+ -- Member of lw6cli_backend_s: poll
+     *Type:* `void(*'
+
+     *Definition:* `void(* lw6cli_backend_s::poll)(void *cli_context,
+     lw6cnx_connection_t *connection)'
 
 
- -- member of lw6cli_backend_s: repr
-          char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)
+ -- Member of lw6cli_backend_s: repr
+     *Type:* `char *(*'
+
+     *Definition:* `char*(* lw6cli_backend_s::repr)(void *cli_context,
+     lw6cnx_connection_t *connection)'
 
 
  -- Struct: lw6cli_oob_data_s
 
- -- member of lw6cli_oob_data_s: creation_timestamp
-          int64_t lw6cli_oob_data_s::creation_timestamp
+ -- Member of lw6cli_oob_data_s: creation_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6cli_oob_data_s::creation_timestamp'
 
 
- -- member of lw6cli_oob_data_s: do_not_finish
-          int lw6cli_oob_data_s::do_not_finish
+ -- Member of lw6cli_oob_data_s: do_not_finish
+     *Type:* `int'
+
+     *Definition:* `int lw6cli_oob_data_s::do_not_finish'
 
 
- -- member of lw6cli_oob_data_s: public_url
-          char* lw6cli_oob_data_s::public_url
+ -- Member of lw6cli_oob_data_s: public_url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cli_oob_data_s::public_url'
 
 
- -- member of lw6cli_oob_data_s: verify_callback_func
-          lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func
+ -- Member of lw6cli_oob_data_s: verify_callback_func
+     *Type:* `lw6cli_verify_callback_func_t'
+
+     *Definition:* `lw6cli_verify_callback_func_t
+     lw6cli_oob_data_s::verify_callback_func'
 
 
- -- member of lw6cli_oob_data_s: verify_callback_data
-          void* lw6cli_oob_data_s::verify_callback_data
+ -- Member of lw6cli_oob_data_s: verify_callback_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cli_oob_data_s::verify_callback_data'
 
 
  -- Struct: lw6cli_oob_s
 
- -- member of lw6cli_oob_s: thread
-          void* lw6cli_oob_s::thread
+ -- Member of lw6cli_oob_s: thread
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cli_oob_s::thread'
 
 
- -- member of lw6cli_oob_s: data
-          lw6cli_oob_data_t lw6cli_oob_s::data
+ -- Member of lw6cli_oob_s: data
+     *Type:* `lw6cli_oob_data_t'
+
+     *Definition:* `lw6cli_oob_data_t lw6cli_oob_s::data'
 
 
 
@@ -8755,136 +8890,204 @@ results on
 
  -- Struct: lw6cnx_connection_s
 
- -- member of lw6cnx_connection_s: local_url
-          char* lw6cnx_connection_s::local_url
+ -- Member of lw6cnx_connection_s: local_url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::local_url'
 
 
- -- member of lw6cnx_connection_s: remote_url
-          char* lw6cnx_connection_s::remote_url
+ -- Member of lw6cnx_connection_s: remote_url
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::remote_url'
 
 
- -- member of lw6cnx_connection_s: remote_ip
-          char* lw6cnx_connection_s::remote_ip
+ -- Member of lw6cnx_connection_s: remote_ip
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::remote_ip'
 
 
- -- member of lw6cnx_connection_s: remote_port
-          int lw6cnx_connection_s::remote_port
+ -- Member of lw6cnx_connection_s: remote_port
+     *Type:* `int'
+
+     *Definition:* `int lw6cnx_connection_s::remote_port'
 
 
- -- member of lw6cnx_connection_s: password
-          char* lw6cnx_connection_s::password
+ -- Member of lw6cnx_connection_s: password
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::password'
 
 
- -- member of lw6cnx_connection_s: password_send_checksum
-          char* lw6cnx_connection_s::password_send_checksum
+ -- Member of lw6cnx_connection_s: password_send_checksum
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::password_send_checksum'
 
 
- -- member of lw6cnx_connection_s: local_id_int
-          int64_t lw6cnx_connection_s::local_id_int
+ -- Member of lw6cnx_connection_s: local_id_int
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6cnx_connection_s::local_id_int'
 
 
- -- member of lw6cnx_connection_s: local_id_str
-          char* lw6cnx_connection_s::local_id_str
+ -- Member of lw6cnx_connection_s: local_id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::local_id_str'
 
 
- -- member of lw6cnx_connection_s: remote_id_int
-          int64_t lw6cnx_connection_s::remote_id_int
+ -- Member of lw6cnx_connection_s: remote_id_int
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6cnx_connection_s::remote_id_int'
 
 
- -- member of lw6cnx_connection_s: remote_id_str
-          char* lw6cnx_connection_s::remote_id_str
+ -- Member of lw6cnx_connection_s: remote_id_str
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_connection_s::remote_id_str'
 
 
- -- member of lw6cnx_connection_s: dns_ok
-          int lw6cnx_connection_s::dns_ok
+ -- Member of lw6cnx_connection_s: dns_ok
+     *Type:* `int'
+
+     *Definition:* `int lw6cnx_connection_s::dns_ok'
 
 
- -- member of lw6cnx_connection_s: network_reliability
-          int lw6cnx_connection_s::network_reliability
+ -- Member of lw6cnx_connection_s: network_reliability
+     *Type:* `int'
+
+     *Definition:* `int lw6cnx_connection_s::network_reliability'
 
 
- -- member of lw6cnx_connection_s: recv_callback_func
-          lw6cnx_recv_callback_t lw6cnx_connection_s::recv_callback_func
+ -- Member of lw6cnx_connection_s: recv_callback_func
+     *Type:* `lw6cnx_recv_callback_t'
+
+     *Definition:* `lw6cnx_recv_callback_t
+     lw6cnx_connection_s::recv_callback_func'
 
 
- -- member of lw6cnx_connection_s: recv_callback_data
-          void* lw6cnx_connection_s::recv_callback_data
+ -- Member of lw6cnx_connection_s: recv_callback_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_connection_s::recv_callback_data'
 
 
- -- member of lw6cnx_connection_s: send_mutex
-          void* lw6cnx_connection_s::send_mutex
+ -- Member of lw6cnx_connection_s: send_mutex
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_connection_s::send_mutex'
 
 
- -- member of lw6cnx_connection_s: foo_bar_key
-          u_int32_t lw6cnx_connection_s::foo_bar_key
+ -- Member of lw6cnx_connection_s: foo_bar_key
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6cnx_connection_s::foo_bar_key'
 
 
- -- member of lw6cnx_connection_s: last_send_foo_timestamp
-          int64_t lw6cnx_connection_s::last_send_foo_timestamp
+ -- Member of lw6cnx_connection_s: last_send_foo_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t
+     lw6cnx_connection_s::last_send_foo_timestamp'
 
 
- -- member of lw6cnx_connection_s: next_send_foo_timestamp
-          int64_t lw6cnx_connection_s::next_send_foo_timestamp
+ -- Member of lw6cnx_connection_s: next_send_foo_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t
+     lw6cnx_connection_s::next_send_foo_timestamp'
 
 
- -- member of lw6cnx_connection_s: ping_msec
-          int lw6cnx_connection_s::ping_msec
+ -- Member of lw6cnx_connection_s: ping_msec
+     *Type:* `int'
+
+     *Definition:* `int lw6cnx_connection_s::ping_msec'
 
 
- -- member of lw6cnx_connection_s: last_recv_timestamp
-          int64_t lw6cnx_connection_s::last_recv_timestamp
+ -- Member of lw6cnx_connection_s: last_recv_timestamp
+     *Type:* `int64_t'
+
+     *Definition:* `int64_t lw6cnx_connection_s::last_recv_timestamp'
 
 
- -- member of lw6cnx_connection_s: backend_specific_data
-          void* lw6cnx_connection_s::backend_specific_data
+ -- Member of lw6cnx_connection_s: backend_specific_data
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_connection_s::backend_specific_data'
 
 
  -- Struct: lw6cnx_send_param_s
 
- -- member of lw6cnx_send_param_s: physical_ticket_sig
-          u_int32_t lw6cnx_send_param_s::physical_ticket_sig
+ -- Member of lw6cnx_send_param_s: physical_ticket_sig
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6cnx_send_param_s::physical_ticket_sig'
 
 
- -- member of lw6cnx_send_param_s: logical_ticket_sig
-          u_int32_t lw6cnx_send_param_s::logical_ticket_sig
+ -- Member of lw6cnx_send_param_s: logical_ticket_sig
+     *Type:* `u_int32_t'
+
+     *Definition:* `u_int32_t lw6cnx_send_param_s::logical_ticket_sig'
 
 
- -- member of lw6cnx_send_param_s: logical_from_id
-          u_int64_t lw6cnx_send_param_s::logical_from_id
+ -- Member of lw6cnx_send_param_s: logical_from_id
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6cnx_send_param_s::logical_from_id'
 
 
- -- member of lw6cnx_send_param_s: logical_to_id
-          u_int64_t lw6cnx_send_param_s::logical_to_id
+ -- Member of lw6cnx_send_param_s: logical_to_id
+     *Type:* `u_int64_t'
+
+     *Definition:* `u_int64_t lw6cnx_send_param_s::logical_to_id'
 
 
- -- member of lw6cnx_send_param_s: message
-          char* lw6cnx_send_param_s::message
+ -- Member of lw6cnx_send_param_s: message
+     *Type:* `char *'
+
+     *Definition:* `char* lw6cnx_send_param_s::message'
 
 
  -- Struct: lw6cnx_ticket_table_s
 
- -- member of lw6cnx_ticket_table_s: recv_spinlock
-          void* lw6cnx_ticket_table_s::recv_spinlock
+ -- Member of lw6cnx_ticket_table_s: recv_spinlock
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_ticket_table_s::recv_spinlock'
 
 
- -- member of lw6cnx_ticket_table_s: recv_ack_spinlock
-          void* lw6cnx_ticket_table_s::recv_ack_spinlock
+ -- Member of lw6cnx_ticket_table_s: recv_ack_spinlock
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_ticket_table_s::recv_ack_spinlock'
 
 
- -- member of lw6cnx_ticket_table_s: send_spinlock
-          void* lw6cnx_ticket_table_s::send_spinlock
+ -- Member of lw6cnx_ticket_table_s: send_spinlock
+     *Type:* `void *'
+
+     *Definition:* `void* lw6cnx_ticket_table_s::send_spinlock'
 
 
- -- member of lw6cnx_ticket_table_s: recv_table
-          lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table
+ -- Member of lw6cnx_ticket_table_s: recv_table
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table'
 
 
- -- member of lw6cnx_ticket_table_s: recv_ack_table
-          lw6sys_hash_t* lw6cnx_ticket_table_s::recv_ack_table
+ -- Member of lw6cnx_ticket_table_s: recv_ack_table
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t*
+     lw6cnx_ticket_table_s::recv_ack_table'
 
 
- -- member of lw6cnx_ticket_table_s: send_table
-          lw6sys_hash_t* lw6cnx_ticket_table_s::send_table
+ -- Member of lw6cnx_ticket_table_s: send_table
+     *Type:* `lw6sys_hash_t *'
+
+     *Definition:* `lw6sys_hash_t* lw6cnx_ticket_table_s::send_table'
 
 
 
@@ -9238,8 +9441,10 @@ lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 
  -- Struct: lw6dat_warehouse_s
 
- -- member of lw6dat_warehouse_s: dummy
-          int lw6dat_warehouse_s::dummy
+ -- Member of lw6dat_warehouse_s: dummy
+     *Type:* `int'
+
+     *Definition:* `int lw6dat_warehouse_s::dummy'
 
 
 

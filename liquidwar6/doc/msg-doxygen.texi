@@ -6,19 +6,21 @@
     
 @end deftp
 
-@defcv {member} {lw6msg_word_s} {len}
-@example
-int lw6msg_word_s::len
-@end example
+@defcv {Member} {lw6msg_word_s} {len}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6msg_word_s::len}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6msg_word_s} {buf}
-@example
-char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]
-@end example
+@defcv {Member} {lw6msg_word_s} {buf}
+@strong{Type:} @code{char}
+
+@strong{Definition:} @code{char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]}
+
 
         
         

@@ -6,28 +6,31 @@
     
 @end deftp
 
-@defcv {member} {lw6tsk_loader_s} {id}
-@example
-u_int32_t lw6tsk_loader_s::id
-@end example
+@defcv {Member} {lw6tsk_loader_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6tsk_loader_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6tsk_loader_s} {thread}
-@example
-void* lw6tsk_loader_s::thread
-@end example
+@defcv {Member} {lw6tsk_loader_s} {thread}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6tsk_loader_s::thread}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6tsk_loader_s} {data}
-@example
-void* lw6tsk_loader_s::data
-@end example
+@defcv {Member} {lw6tsk_loader_s} {data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6tsk_loader_s::data}
+
 
         
         

@@ -6,37 +6,41 @@
     
 @end deftp
 
-@defcv {member} {lw6sys_assoc_s} {key}
-@example
-char* lw6sys_assoc_s::key
-@end example
+@defcv {Member} {lw6sys_assoc_s} {key}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_assoc_s::key}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_assoc_s} {value}
-@example
-void* lw6sys_assoc_s::value
-@end example
+@defcv {Member} {lw6sys_assoc_s} {value}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6sys_assoc_s::value}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_assoc_s} {free_func}
-@example
-lw6sys_free_func_t lw6sys_assoc_s::free_func
-@end example
+@defcv {Member} {lw6sys_assoc_s} {free_func}
+@strong{Type:} @code{lw6sys_free_func_t}
+
+@strong{Definition:} @code{lw6sys_free_func_t lw6sys_assoc_s::free_func}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_assoc_s} {next_item}
-@example
-void* lw6sys_assoc_s::next_item
-@end example
+@defcv {Member} {lw6sys_assoc_s} {next_item}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6sys_assoc_s::next_item}
+
 
         
         
@@ -51,37 +55,41 @@ void* lw6sys_assoc_s::next_item
     
 @end deftp
 
-@defcv {member} {lw6sys_color_8_s} {r}
-@example
-u_int8_t lw6sys_color_8_s::r
-@end example
+@defcv {Member} {lw6sys_color_8_s} {r}
+@strong{Type:} @code{u_int8_t}
+
+@strong{Definition:} @code{u_int8_t lw6sys_color_8_s::r}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_8_s} {g}
-@example
-u_int8_t lw6sys_color_8_s::g
-@end example
+@defcv {Member} {lw6sys_color_8_s} {g}
+@strong{Type:} @code{u_int8_t}
+
+@strong{Definition:} @code{u_int8_t lw6sys_color_8_s::g}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_8_s} {b}
-@example
-u_int8_t lw6sys_color_8_s::b
-@end example
+@defcv {Member} {lw6sys_color_8_s} {b}
+@strong{Type:} @code{u_int8_t}
+
+@strong{Definition:} @code{u_int8_t lw6sys_color_8_s::b}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_8_s} {a}
-@example
-u_int8_t lw6sys_color_8_s::a
-@end example
+@defcv {Member} {lw6sys_color_8_s} {a}
+@strong{Type:} @code{u_int8_t}
+
+@strong{Definition:} @code{u_int8_t lw6sys_color_8_s::a}
+
 
         
         
@@ -96,37 +104,41 @@ u_int8_t lw6sys_color_8_s::a
     
 @end deftp
 
-@defcv {member} {lw6sys_color_f_s} {r}
-@example
-float lw6sys_color_f_s::r
-@end example
+@defcv {Member} {lw6sys_color_f_s} {r}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_f_s::r}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_f_s} {g}
-@example
-float lw6sys_color_f_s::g
-@end example
+@defcv {Member} {lw6sys_color_f_s} {g}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_f_s::g}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_f_s} {b}
-@example
-float lw6sys_color_f_s::b
-@end example
+@defcv {Member} {lw6sys_color_f_s} {b}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_f_s::b}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_f_s} {a}
-@example
-float lw6sys_color_f_s::a
-@end example
+@defcv {Member} {lw6sys_color_f_s} {a}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_f_s::a}
+
 
         
         
@@ -141,37 +153,41 @@ float lw6sys_color_f_s::a
     
 @end deftp
 
-@defcv {member} {lw6sys_color_hsv_s} {h}
-@example
-float lw6sys_color_hsv_s::h
-@end example
+@defcv {Member} {lw6sys_color_hsv_s} {h}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_hsv_s::h}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_hsv_s} {s}
-@example
-float lw6sys_color_hsv_s::s
-@end example
+@defcv {Member} {lw6sys_color_hsv_s} {s}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_hsv_s::s}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_hsv_s} {v}
-@example
-float lw6sys_color_hsv_s::v
-@end example
+@defcv {Member} {lw6sys_color_hsv_s} {v}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_hsv_s::v}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_color_hsv_s} {a}
-@example
-float lw6sys_color_hsv_s::a
-@end example
+@defcv {Member} {lw6sys_color_hsv_s} {a}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_color_hsv_s::a}
+
 
         
         
@@ -186,28 +202,31 @@ float lw6sys_color_hsv_s::a
     
 @end deftp
 
-@defcv {member} {lw6sys_hash_s} {size}
-@example
-int lw6sys_hash_s::size
-@end example
+@defcv {Member} {lw6sys_hash_s} {size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_hash_s::size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_hash_s} {entries}
-@example
-lw6sys_assoc_t** lw6sys_hash_s::entries
-@end example
+@defcv {Member} {lw6sys_hash_s} {entries}
+@strong{Type:} @code{lw6sys_assoc_t **}
+
+@strong{Definition:} @code{lw6sys_assoc_t** lw6sys_hash_s::entries}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_hash_s} {free_func}
-@example
-lw6sys_free_func_t lw6sys_hash_s::free_func
-@end example
+@defcv {Member} {lw6sys_hash_s} {free_func}
+@strong{Type:} @code{lw6sys_free_func_t}
+
+@strong{Definition:} @code{lw6sys_free_func_t lw6sys_hash_s::free_func}
+
 
         
         
@@ -222,28 +241,31 @@ lw6sys_free_func_t lw6sys_hash_s::free_func
     
 @end deftp
 
-@defcv {member} {lw6sys_hexa_serializer_s} {buf}
-@example
-char* lw6sys_hexa_serializer_s::buf
-@end example
+@defcv {Member} {lw6sys_hexa_serializer_s} {buf}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_hexa_serializer_s::buf}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_hexa_serializer_s} {buf_size}
-@example
-int lw6sys_hexa_serializer_s::buf_size
-@end example
+@defcv {Member} {lw6sys_hexa_serializer_s} {buf_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_hexa_serializer_s::buf_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_hexa_serializer_s} {pos}
-@example
-int lw6sys_hexa_serializer_s::pos
-@end example
+@defcv {Member} {lw6sys_hexa_serializer_s} {pos}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_hexa_serializer_s::pos}
+
 
         
         
@@ -258,28 +280,31 @@ int lw6sys_hexa_serializer_s::pos
     
 @end deftp
 
-@defcv {member} {lw6sys_list_s} {data}
-@example
-void* lw6sys_list_s::data
-@end example
+@defcv {Member} {lw6sys_list_s} {data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6sys_list_s::data}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_list_s} {free_func}
-@example
-lw6sys_free_func_t lw6sys_list_s::free_func
-@end example
+@defcv {Member} {lw6sys_list_s} {free_func}
+@strong{Type:} @code{lw6sys_free_func_t}
+
+@strong{Definition:} @code{lw6sys_free_func_t lw6sys_list_s::free_func}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_list_s} {next_item}
-@example
-void* lw6sys_list_s::next_item
-@end example
+@defcv {Member} {lw6sys_list_s} {next_item}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6sys_list_s::next_item}
+
 
         
         
@@ -294,82 +319,91 @@ void* lw6sys_list_s::next_item
     
 @end deftp
 
-@defcv {member} {lw6sys_module_pedigree_s} {id}
-@example
-char* lw6sys_module_pedigree_s::id
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {id}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {category}
-@example
-char* lw6sys_module_pedigree_s::category
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {category}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::category}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {name}
-@example
-char* lw6sys_module_pedigree_s::name
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::name}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {readme}
-@example
-char* lw6sys_module_pedigree_s::readme
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {readme}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::readme}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {version}
-@example
-char* lw6sys_module_pedigree_s::version
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {version}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::version}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {copyright}
-@example
-char* lw6sys_module_pedigree_s::copyright
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {copyright}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::copyright}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {license}
-@example
-char* lw6sys_module_pedigree_s::license
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {license}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::license}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {date}
-@example
-char* lw6sys_module_pedigree_s::date
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {date}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::date}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_module_pedigree_s} {time}
-@example
-char* lw6sys_module_pedigree_s::time
-@end example
+@defcv {Member} {lw6sys_module_pedigree_s} {time}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_module_pedigree_s::time}
+
 
         
         
@@ -384,28 +418,31 @@ char* lw6sys_module_pedigree_s::time
     
 @end deftp
 
-@defcv {member} {lw6sys_progress_s} {min}
-@example
-float lw6sys_progress_s::min
-@end example
+@defcv {Member} {lw6sys_progress_s} {min}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_progress_s::min}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_progress_s} {max}
-@example
-float lw6sys_progress_s::max
-@end example
+@defcv {Member} {lw6sys_progress_s} {max}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6sys_progress_s::max}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_progress_s} {value}
-@example
-volatile float* lw6sys_progress_s::value
-@end example
+@defcv {Member} {lw6sys_progress_s} {value}
+@strong{Type:} @code{float *}
+
+@strong{Definition:} @code{volatile float* lw6sys_progress_s::value}
+
 
         
         
@@ -420,37 +457,41 @@ volatile float* lw6sys_progress_s::value
     
 @end deftp
 
-@defcv {member} {lw6sys_url_s} {use_ssl}
-@example
-int lw6sys_url_s::use_ssl
-@end example
+@defcv {Member} {lw6sys_url_s} {use_ssl}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_url_s::use_ssl}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_url_s} {host}
-@example
-char* lw6sys_url_s::host
-@end example
+@defcv {Member} {lw6sys_url_s} {host}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_url_s::host}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_url_s} {port}
-@example
-int lw6sys_url_s::port
-@end example
+@defcv {Member} {lw6sys_url_s} {port}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6sys_url_s::port}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_url_s} {uri}
-@example
-char* lw6sys_url_s::uri
-@end example
+@defcv {Member} {lw6sys_url_s} {uri}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6sys_url_s::uri}
+
 
         
         
@@ -465,28 +506,31 @@ char* lw6sys_url_s::uri
     
 @end deftp
 
-@defcv {member} {lw6sys_whd_s} {w}
-@example
-u_int32_t lw6sys_whd_s::w
-@end example
+@defcv {Member} {lw6sys_whd_s} {w}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_whd_s::w}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_whd_s} {h}
-@example
-u_int32_t lw6sys_whd_s::h
-@end example
+@defcv {Member} {lw6sys_whd_s} {h}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_whd_s::h}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_whd_s} {d}
-@example
-u_int32_t lw6sys_whd_s::d
-@end example
+@defcv {Member} {lw6sys_whd_s} {d}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6sys_whd_s::d}
+
 
         
         
@@ -501,28 +545,31 @@ u_int32_t lw6sys_whd_s::d
     
 @end deftp
 
-@defcv {member} {lw6sys_xyz_s} {x}
-@example
-int32_t lw6sys_xyz_s::x
-@end example
+@defcv {Member} {lw6sys_xyz_s} {x}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6sys_xyz_s::x}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_xyz_s} {y}
-@example
-int32_t lw6sys_xyz_s::y
-@end example
+@defcv {Member} {lw6sys_xyz_s} {y}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6sys_xyz_s::y}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6sys_xyz_s} {z}
-@example
-int32_t lw6sys_xyz_s::z
-@end example
+@defcv {Member} {lw6sys_xyz_s} {z}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t lw6sys_xyz_s::z}
+
 
         
         

@@ -6,118 +6,131 @@
     
 @end deftp
 
-@defcv {member} {lw6gfx_backend_s} {dl_handle}
-@example
-lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle
-@end example
+@defcv {Member} {lw6gfx_backend_s} {dl_handle}
+@strong{Type:} @code{lw6dyn_dl_handle_t *}
+
+@strong{Definition:} @code{lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {gfx_context}
-@example
-void* lw6gfx_backend_s::gfx_context
-@end example
+@defcv {Member} {lw6gfx_backend_s} {gfx_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6gfx_backend_s::gfx_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {argc}
-@example
-int lw6gfx_backend_s::argc
-@end example
+@defcv {Member} {lw6gfx_backend_s} {argc}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6gfx_backend_s::argc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {argv}
-@example
-const char** lw6gfx_backend_s::argv
-@end example
+@defcv {Member} {lw6gfx_backend_s} {argv}
+@strong{Type:} @code{const char **}
+
+@strong{Definition:} @code{const char** lw6gfx_backend_s::argv}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {id}
-@example
-u_int32_t lw6gfx_backend_s::id
-@end example
+@defcv {Member} {lw6gfx_backend_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6gfx_backend_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {init}
-@example
-void*(* lw6gfx_backend_s::init)(int argc, const char *argv[], lw6gui_video_mode_t *video_mode, lw6gui_resize_callback_func_t resize_callback)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* lw6gfx_backend_s::init)(int argc, const char *argv[], lw6gui_video_mode_t *video_mode, lw6gui_resize_callback_func_t resize_callback)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {quit}
-@example
-void(* lw6gfx_backend_s::quit)(void *gfx_context)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6gfx_backend_s::quit)(void *gfx_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {repr}
-@example
-char*(* lw6gfx_backend_s::repr)(void *gfx_context, u_int32_t id)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {repr}
+@strong{Type:} @code{char *(*}
+
+@strong{Definition:} @code{char*(* lw6gfx_backend_s::repr)(void *gfx_context, u_int32_t id)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {set_video_mode}
-@example
-int(* lw6gfx_backend_s::set_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {set_video_mode}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6gfx_backend_s::set_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {get_video_mode}
-@example
-int(* lw6gfx_backend_s::get_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {get_video_mode}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6gfx_backend_s::get_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {get_fullscreen_modes}
-@example
-int(* lw6gfx_backend_s::get_fullscreen_modes)(void *gfx_context, lw6gui_fullscreen_modes_t *modes)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {get_fullscreen_modes}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6gfx_backend_s::get_fullscreen_modes)(void *gfx_context, lw6gui_fullscreen_modes_t *modes)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {pump_events}
-@example
-lw6gui_input_t*(* lw6gfx_backend_s::pump_events)(void *gfx_context)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {pump_events}
+@strong{Type:} @code{lw6gui_input_t *(*}
+
+@strong{Definition:} @code{lw6gui_input_t*(* lw6gfx_backend_s::pump_events)(void *gfx_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6gfx_backend_s} {display}
-@example
-int(* lw6gfx_backend_s::display)(void *gfx_context, int mask, lw6gui_look_t *look, lw6map_level_t *level, lw6ker_game_struct_t *game_struct, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t *menu, float progress, float fps, float mps, char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
-@end example
+@defcv {Member} {lw6gfx_backend_s} {display}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6gfx_backend_s::display)(void *gfx_context, int mask, lw6gui_look_t *look, lw6map_level_t *level, lw6ker_game_struct_t *game_struct, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t *menu, float progress, float fps, float mps, char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)}
+
 
         
         

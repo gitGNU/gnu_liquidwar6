@@ -6,10 +6,11 @@
     
 @end deftp
 
-@defcv {member} {lw6dat_warehouse_s} {dummy}
-@example
-int lw6dat_warehouse_s::dummy
-@end example
+@defcv {Member} {lw6dat_warehouse_s} {dummy}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6dat_warehouse_s::dummy}
+
 
         
         

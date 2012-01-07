@@ -6,46 +6,51 @@
     
 @end deftp
 
-@defcv {member} {mod_gl_background_backend_s} {background_context}
-@example
-void* mod_gl_background_backend_s::background_context
-@end example
+@defcv {Member} {mod_gl_background_backend_s} {background_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* mod_gl_background_backend_s::background_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_background_backend_s} {backend_name}
-@example
-char* mod_gl_background_backend_s::backend_name
-@end example
+@defcv {Member} {mod_gl_background_backend_s} {backend_name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_background_backend_s::backend_name}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_background_backend_s} {init}
-@example
-void*(* mod_gl_background_backend_s::init)(mod_gl_utils_context_t *utils_context)
-@end example
+@defcv {Member} {mod_gl_background_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* mod_gl_background_backend_s::init)(mod_gl_utils_context_t *utils_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_background_backend_s} {quit}
-@example
-void(* mod_gl_background_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *background_context)
-@end example
+@defcv {Member} {mod_gl_background_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_background_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *background_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_background_backend_s} {display_background}
-@example
-void(* mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t *utils_context, void *background_context, lw6gui_look_t *look)
-@end example
+@defcv {Member} {mod_gl_background_backend_s} {display_background}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t *utils_context, void *background_context, lw6gui_look_t *look)}
+
 
         
         
@@ -60,55 +65,61 @@ void(* mod_gl_background_backend_s::display_background)(mod_gl_utils_context_t *
     
 @end deftp
 
-@defcv {member} {mod_gl_hud_backend_s} {hud_context}
-@example
-void* mod_gl_hud_backend_s::hud_context
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {hud_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* mod_gl_hud_backend_s::hud_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_hud_backend_s} {backend_name}
-@example
-char* mod_gl_hud_backend_s::backend_name
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {backend_name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_hud_backend_s::backend_name}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_hud_backend_s} {init}
-@example
-void*(* mod_gl_hud_backend_s::init)(mod_gl_utils_context_t *utils_context)
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* mod_gl_hud_backend_s::init)(mod_gl_utils_context_t *utils_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_hud_backend_s} {quit}
-@example
-void(* mod_gl_hud_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *hud_context)
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_hud_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *hud_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_hud_backend_s} {display_hud}
-@example
-void(* mod_gl_hud_backend_s::display_hud)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {display_hud}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_hud_backend_s::display_hud)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_hud_backend_s} {display_score}
-@example
-void(* mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
-@end example
+@defcv {Member} {mod_gl_hud_backend_s} {display_score}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t *utils_context, void *hud_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)}
+
 
         
         
@@ -123,64 +134,71 @@ void(* mod_gl_hud_backend_s::display_score)(mod_gl_utils_context_t *utils_contex
     
 @end deftp
 
-@defcv {member} {mod_gl_menu_backend_s} {menu_context}
-@example
-void* mod_gl_menu_backend_s::menu_context
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {menu_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* mod_gl_menu_backend_s::menu_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {backend_name}
-@example
-char* mod_gl_menu_backend_s::backend_name
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {backend_name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_menu_backend_s::backend_name}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {init}
-@example
-void*(* mod_gl_menu_backend_s::init)(mod_gl_utils_context_t *utils_context)
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* mod_gl_menu_backend_s::init)(mod_gl_utils_context_t *utils_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {quit}
-@example
-void(* mod_gl_menu_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *menu_context)
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_menu_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *menu_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {display_menu}
-@example
-void(* mod_gl_menu_backend_s::display_menu)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {display_menu}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_menu_backend_s::display_menu)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {display_progress}
-@example
-void(* mod_gl_menu_backend_s::display_progress)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, float progress)
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {display_progress}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_menu_backend_s::display_progress)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, float progress)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_menu_backend_s} {display_meta}
-@example
-void(* mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)
-@end example
+@defcv {Member} {mod_gl_menu_backend_s} {display_meta}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t *utils_context, void *menu_context, lw6gui_look_t *look, lw6gui_menu_t *menu)}
+
 
         
         
@@ -195,19 +213,21 @@ void(* mod_gl_menu_backend_s::display_meta)(mod_gl_utils_context_t *utils_contex
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_bitmap_array_s} {layout}
-@example
-lw6gui_rect_array_t mod_gl_utils_bitmap_array_s::layout
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_array_s} {layout}
+@strong{Type:} @code{lw6gui_rect_array_t}
+
+@strong{Definition:} @code{lw6gui_rect_array_t mod_gl_utils_bitmap_array_s::layout}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_array_s} {bitmaps}
-@example
-mod_gl_utils_bitmap_t** mod_gl_utils_bitmap_array_s::bitmaps
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_array_s} {bitmaps}
+@strong{Type:} @code{mod_gl_utils_bitmap_t **}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t** mod_gl_utils_bitmap_array_s::bitmaps}
+
 
         
         
@@ -222,172 +242,191 @@ mod_gl_utils_bitmap_t** mod_gl_utils_bitmap_array_s::bitmaps
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_bitmap_s} {id}
-@example
-u_int32_t mod_gl_utils_bitmap_s::id
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t mod_gl_utils_bitmap_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {desc}
-@example
-char* mod_gl_utils_bitmap_s::desc
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {desc}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_bitmap_s::desc}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {surface}
-@example
-SDL_Surface* mod_gl_utils_bitmap_s::surface
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {surface}
+@strong{Type:} @code{SDL_Surface *}
+
+@strong{Definition:} @code{SDL_Surface* mod_gl_utils_bitmap_s::surface}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {has_alpha}
-@example
-int mod_gl_utils_bitmap_s::has_alpha
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {has_alpha}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::has_alpha}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {colorized_surface}
-@example
-SDL_Surface* mod_gl_utils_bitmap_s::colorized_surface
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {colorized_surface}
+@strong{Type:} @code{SDL_Surface *}
+
+@strong{Definition:} @code{SDL_Surface* mod_gl_utils_bitmap_s::colorized_surface}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {colorize}
-@example
-int mod_gl_utils_bitmap_s::colorize
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {colorize}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::colorize}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {colorize_color}
-@example
-lw6map_color_couple_t mod_gl_utils_bitmap_s::colorize_color
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {colorize_color}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t mod_gl_utils_bitmap_s::colorize_color}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {mipmap}
-@example
-int mod_gl_utils_bitmap_s::mipmap
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {mipmap}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::mipmap}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {wrap}
-@example
-GLint mod_gl_utils_bitmap_s::wrap
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {wrap}
+@strong{Type:} @code{GLint}
+
+@strong{Definition:} @code{GLint mod_gl_utils_bitmap_s::wrap}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {filter}
-@example
-GLint mod_gl_utils_bitmap_s::filter
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {filter}
+@strong{Type:} @code{GLint}
+
+@strong{Definition:} @code{GLint mod_gl_utils_bitmap_s::filter}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {texture}
-@example
-GLuint mod_gl_utils_bitmap_s::texture
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {texture}
+@strong{Type:} @code{GLuint}
+
+@strong{Definition:} @code{GLuint mod_gl_utils_bitmap_s::texture}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {texture_w}
-@example
-int mod_gl_utils_bitmap_s::texture_w
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {texture_w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::texture_w}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {texture_h}
-@example
-int mod_gl_utils_bitmap_s::texture_h
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {texture_h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::texture_h}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {s1}
-@example
-float mod_gl_utils_bitmap_s::s1
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {s1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_bitmap_s::s1}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {t1}
-@example
-float mod_gl_utils_bitmap_s::t1
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {t1}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_bitmap_s::t1}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {s2}
-@example
-float mod_gl_utils_bitmap_s::s2
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {s2}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_bitmap_s::s2}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {t2}
-@example
-float mod_gl_utils_bitmap_s::t2
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {t2}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_bitmap_s::t2}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {last_refresh}
-@example
-int64_t mod_gl_utils_bitmap_s::last_refresh
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {last_refresh}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t mod_gl_utils_bitmap_s::last_refresh}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_bitmap_s} {need_another_refresh}
-@example
-int mod_gl_utils_bitmap_s::need_another_refresh
-@end example
+@defcv {Member} {mod_gl_utils_bitmap_s} {need_another_refresh}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_bitmap_s::need_another_refresh}
+
 
         
         
@@ -402,10 +441,11 @@ int mod_gl_utils_bitmap_s::need_another_refresh
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_cache_s} {color_set}
-@example
-lw6map_color_set_t mod_gl_utils_cache_s::color_set
-@end example
+@defcv {Member} {mod_gl_utils_cache_s} {color_set}
+@strong{Type:} @code{lw6map_color_set_t}
+
+@strong{Definition:} @code{lw6map_color_set_t mod_gl_utils_cache_s::color_set}
+
 
         
         
@@ -420,19 +460,21 @@ lw6map_color_set_t mod_gl_utils_cache_s::color_set
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_caps_s} {max_texture_size}
-@example
-GLint mod_gl_utils_caps_s::max_texture_size
-@end example
+@defcv {Member} {mod_gl_utils_caps_s} {max_texture_size}
+@strong{Type:} @code{GLint}
+
+@strong{Definition:} @code{GLint mod_gl_utils_caps_s::max_texture_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_caps_s} {bpp}
-@example
-int mod_gl_utils_caps_s::bpp
-@end example
+@defcv {Member} {mod_gl_utils_caps_s} {bpp}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_caps_s::bpp}
+
 
         
         
@@ -447,640 +489,711 @@ int mod_gl_utils_caps_s::bpp
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_const_data_s} {warp_x}
-@example
-float mod_gl_utils_const_data_s::warp_x
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {warp_x}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::warp_x}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {warp_y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::warp_y}
 
-@defcv {member} {mod_gl_utils_const_data_s} {warp_y}
-@example
-float mod_gl_utils_const_data_s::warp_y
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {mode_sleep}
-@example
-float mod_gl_utils_const_data_s::mode_sleep
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {mode_sleep}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mode_sleep}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {quit_sleep}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::quit_sleep}
 
-@defcv {member} {mod_gl_utils_const_data_s} {quit_sleep}
-@example
-float mod_gl_utils_const_data_s::quit_sleep
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {persp_fovy}
-@example
-float mod_gl_utils_const_data_s::persp_fovy
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {persp_fovy}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::persp_fovy}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {persp_znear}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::persp_znear}
 
-@defcv {member} {mod_gl_utils_const_data_s} {persp_znear}
-@example
-float mod_gl_utils_const_data_s::persp_znear
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {persp_zfar}
-@example
-float mod_gl_utils_const_data_s::persp_zfar
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {persp_zfar}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::persp_zfar}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {menu_font_size}
-@example
-int mod_gl_utils_const_data_s::menu_font_size
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {menu_font_size}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::menu_font_size}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {hud_font_size}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {hud_font_size}
-@example
-int mod_gl_utils_const_data_s::hud_font_size
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::hud_font_size}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {cursor_font_size}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {cursor_font_size}
-@example
-int mod_gl_utils_const_data_s::cursor_font_size
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::cursor_font_size}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {system_font_size}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {system_font_size}
-@example
-int mod_gl_utils_const_data_s::system_font_size
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::system_font_size}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {system_font_dh}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {system_font_dh}
-@example
-int mod_gl_utils_const_data_s::system_font_dh
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::system_font_dh}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {system_font_dw}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::system_font_dw}
 
-@defcv {member} {mod_gl_utils_const_data_s} {system_font_dw}
-@example
-int mod_gl_utils_const_data_s::system_font_dw
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {system_font_hcoef}
-@example
-float mod_gl_utils_const_data_s::system_font_hcoef
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {system_font_hcoef}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::system_font_hcoef}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {gradient_opacity}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::gradient_opacity}
 
-@defcv {member} {mod_gl_utils_const_data_s} {gradient_opacity}
-@example
-float mod_gl_utils_const_data_s::gradient_opacity
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {zones_opacity}
-@example
-float mod_gl_utils_const_data_s::zones_opacity
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {zones_opacity}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::zones_opacity}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_r}
-@example
-float mod_gl_utils_const_data_s::mainlight_r
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_r}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_r}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_g}
+@strong{Type:} @code{float}
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_g}
-@example
-float mod_gl_utils_const_data_s::mainlight_g
-@end example
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_g}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_b}
+@strong{Type:} @code{float}
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_b}
-@example
-float mod_gl_utils_const_data_s::mainlight_b
-@end example
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_b}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_a}
+@strong{Type:} @code{float}
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_a}
-@example
-float mod_gl_utils_const_data_s::mainlight_a
-@end example
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_a}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_x}
+@strong{Type:} @code{float}
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_x}
-@example
-float mod_gl_utils_const_data_s::mainlight_x
-@end example
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_x}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_y}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_y}
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_y}
-@example
-float mod_gl_utils_const_data_s::mainlight_y
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {mainlight_z}
-@example
-float mod_gl_utils_const_data_s::mainlight_z
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {mainlight_z}
+@strong{Type:} @code{float}
 
+@strong{Definition:} @code{float mod_gl_utils_const_data_s::mainlight_z}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_up}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_up}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_up}
-@example
-int mod_gl_utils_const_data_s::keysym1_up
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_up}
-@example
-int mod_gl_utils_const_data_s::keysym2_up
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_up}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_up}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym3_up}
-@example
-int mod_gl_utils_const_data_s::keysym3_up
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym3_up}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym3_up}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym4_up}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym4_up}
-@example
-int mod_gl_utils_const_data_s::keysym4_up
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym4_up}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_down}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_down}
-@example
-int mod_gl_utils_const_data_s::keysym1_down
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_down}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_down}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_down}
-@example
-int mod_gl_utils_const_data_s::keysym2_down
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_down}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym3_down}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym3_down}
-@example
-int mod_gl_utils_const_data_s::keysym3_down
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym3_down}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym4_down}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym4_down}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym4_down}
-@example
-int mod_gl_utils_const_data_s::keysym4_down
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_left}
-@example
-int mod_gl_utils_const_data_s::keysym1_left
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_left}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_left}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_left}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_left}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_left}
-@example
-int mod_gl_utils_const_data_s::keysym2_left
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym3_left}
-@example
-int mod_gl_utils_const_data_s::keysym3_left
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym3_left}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym3_left}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym4_left}
-@example
-int mod_gl_utils_const_data_s::keysym4_left
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym4_left}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym4_left}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_right}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_right}
-@example
-int mod_gl_utils_const_data_s::keysym1_right
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_right}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_right}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_right}
-@example
-int mod_gl_utils_const_data_s::keysym2_right
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_right}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym3_right}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym3_right}
-@example
-int mod_gl_utils_const_data_s::keysym3_right
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym3_right}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym4_right}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym4_right}
-@example
-int mod_gl_utils_const_data_s::keysym4_right
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym4_right}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_enter}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_enter}
-@example
-int mod_gl_utils_const_data_s::keysym1_enter
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_enter}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_enter}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_enter}
-@example
-int mod_gl_utils_const_data_s::keysym2_enter
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_enter}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_esc}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_esc}
-@example
-int mod_gl_utils_const_data_s::keysym1_esc
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_esc}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_esc}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_esc}
-@example
-int mod_gl_utils_const_data_s::keysym2_esc
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_esc}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_ctrl}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_ctrl}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_ctrl}
-@example
-int mod_gl_utils_const_data_s::keysym1_ctrl
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_ctrl}
-@example
-int mod_gl_utils_const_data_s::keysym2_ctrl
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_ctrl}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_ctrl}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_alt}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_alt}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_alt}
-@example
-int mod_gl_utils_const_data_s::keysym1_alt
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_alt}
-@example
-int mod_gl_utils_const_data_s::keysym2_alt
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_alt}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_alt}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_pgup}
-@example
-int mod_gl_utils_const_data_s::keysym1_pgup
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_pgup}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_pgup}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_pgup}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_pgup}
-@example
-int mod_gl_utils_const_data_s::keysym2_pgup
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_pgup}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym1_pgdown}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym1_pgdown}
-@example
-int mod_gl_utils_const_data_s::keysym1_pgdown
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym1_pgdown}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym2_pgdown}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym2_pgdown}
-@example
-int mod_gl_utils_const_data_s::keysym2_pgdown
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym2_pgdown}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {keysym_quit}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {keysym_quit}
-@example
-int mod_gl_utils_const_data_s::keysym_quit
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::keysym_quit}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick_limit}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick_limit}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick_limit}
-@example
-int mod_gl_utils_const_data_s::joystick_limit
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_index}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_a_index}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_a_index}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_a_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_a_index
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_b_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_b_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_b_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_b_index}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_c_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_c_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_c_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_c_index}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_d_index}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_d_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_d_index
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_d_index}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_e_index}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_e_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_e_index
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_e_index}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick1_button_f_index}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick1_button_f_index}
-@example
-int mod_gl_utils_const_data_s::joystick1_button_f_index
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick1_button_f_index}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_index}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_index
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_index}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_a_index}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_a_index}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_a_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_a_index
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_b_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_b_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_b_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_b_index}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_c_index}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_c_index}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_c_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_c_index
-@end example
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_d_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_d_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_d_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_d_index}
+
+
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_e_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_e_index
-@end example
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_e_index}
+@strong{Type:} @code{int}
 
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_e_index}
+
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick2_button_f_index}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick2_button_f_index}
-@example
-int mod_gl_utils_const_data_s::joystick2_button_f_index
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick2_button_f_index}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {joystick_all_buttons}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {joystick_all_buttons}
-@example
-int mod_gl_utils_const_data_s::joystick_all_buttons
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::joystick_all_buttons}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {smoother_global_zoom_duration}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {smoother_global_zoom_duration}
-@example
-int mod_gl_utils_const_data_s::smoother_global_zoom_duration
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::smoother_global_zoom_duration}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {smoother_center_duration}
+@strong{Type:} @code{int}
 
-@defcv {member} {mod_gl_utils_const_data_s} {smoother_center_duration}
-@example
-int mod_gl_utils_const_data_s::smoother_center_duration
-@end example
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::smoother_center_duration}
 
+
         
         
 @end defcv
+
+@defcv {Member} {mod_gl_utils_const_data_s} {smoother_drawable_duration}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_const_data_s::smoother_drawable_duration}
 
-@defcv {member} {mod_gl_utils_const_data_s} {smoother_drawable_duration}
-@example
-int mod_gl_utils_const_data_s::smoother_drawable_duration
-@end example
 
         
         
@@ -1095,226 +1208,251 @@ int mod_gl_utils_const_data_s::smoother_drawable_duration
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_context_s} {resize_callback}
-@example
-lw6gui_resize_callback_func_t mod_gl_utils_context_s::resize_callback
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {resize_callback}
+@strong{Type:} @code{lw6gui_resize_callback_func_t}
+
+@strong{Definition:} @code{lw6gui_resize_callback_func_t mod_gl_utils_context_s::resize_callback}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {path}
-@example
-mod_gl_utils_path_t mod_gl_utils_context_s::path
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {path}
+@strong{Type:} @code{mod_gl_utils_path_t}
+
+@strong{Definition:} @code{mod_gl_utils_path_t mod_gl_utils_context_s::path}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {surface_counter}
-@example
-mod_gl_utils_mem_counter_t mod_gl_utils_context_s::surface_counter
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {surface_counter}
+@strong{Type:} @code{mod_gl_utils_mem_counter_t}
+
+@strong{Definition:} @code{mod_gl_utils_mem_counter_t mod_gl_utils_context_s::surface_counter}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {texture_counter}
-@example
-mod_gl_utils_mem_counter_t mod_gl_utils_context_s::texture_counter
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {texture_counter}
+@strong{Type:} @code{mod_gl_utils_mem_counter_t}
+
+@strong{Definition:} @code{mod_gl_utils_mem_counter_t mod_gl_utils_context_s::texture_counter}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {caps}
-@example
-mod_gl_utils_caps_t mod_gl_utils_context_s::caps
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {caps}
+@strong{Type:} @code{mod_gl_utils_caps_t}
+
+@strong{Definition:} @code{mod_gl_utils_caps_t mod_gl_utils_context_s::caps}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {video_mode}
-@example
-lw6gui_video_mode_t mod_gl_utils_context_s::video_mode
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {video_mode}
+@strong{Type:} @code{lw6gui_video_mode_t}
+
+@strong{Definition:} @code{lw6gui_video_mode_t mod_gl_utils_context_s::video_mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {viewport}
-@example
-lw6gui_zone_t mod_gl_utils_context_s::viewport
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {viewport}
+@strong{Type:} @code{lw6gui_zone_t}
+
+@strong{Definition:} @code{lw6gui_zone_t mod_gl_utils_context_s::viewport}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {render_param}
-@example
-mod_gl_utils_render_param_t mod_gl_utils_context_s::render_param
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {render_param}
+@strong{Type:} @code{mod_gl_utils_render_param_t}
+
+@strong{Definition:} @code{mod_gl_utils_render_param_t mod_gl_utils_context_s::render_param}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {texture_data}
-@example
-mod_gl_utils_texture_data_t mod_gl_utils_context_s::texture_data
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {texture_data}
+@strong{Type:} @code{mod_gl_utils_texture_data_t}
+
+@strong{Definition:} @code{mod_gl_utils_texture_data_t mod_gl_utils_context_s::texture_data}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {font_data}
-@example
-mod_gl_utils_font_data_t mod_gl_utils_context_s::font_data
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {font_data}
+@strong{Type:} @code{mod_gl_utils_font_data_t}
+
+@strong{Definition:} @code{mod_gl_utils_font_data_t mod_gl_utils_context_s::font_data}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {const_data}
-@example
-mod_gl_utils_const_data_t mod_gl_utils_context_s::const_data
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {const_data}
+@strong{Type:} @code{mod_gl_utils_const_data_t}
+
+@strong{Definition:} @code{mod_gl_utils_const_data_t mod_gl_utils_context_s::const_data}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {textures_1x1}
-@example
-mod_gl_utils_texture_1x1_t mod_gl_utils_context_s::textures_1x1
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {textures_1x1}
+@strong{Type:} @code{mod_gl_utils_texture_1x1_t}
+
+@strong{Definition:} @code{mod_gl_utils_texture_1x1_t mod_gl_utils_context_s::textures_1x1}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {menucache_array}
-@example
-mod_gl_utils_menucache_array_t mod_gl_utils_context_s::menucache_array
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {menucache_array}
+@strong{Type:} @code{mod_gl_utils_menucache_array_t}
+
+@strong{Definition:} @code{mod_gl_utils_menucache_array_t mod_gl_utils_context_s::menucache_array}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {team_color_map}
-@example
-mod_gl_utils_team_color_map_t mod_gl_utils_context_s::team_color_map
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {team_color_map}
+@strong{Type:} @code{mod_gl_utils_team_color_map_t}
+
+@strong{Definition:} @code{mod_gl_utils_team_color_map_t mod_gl_utils_context_s::team_color_map}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {last_action}
-@example
-mod_gl_utils_last_action_t mod_gl_utils_context_s::last_action
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {last_action}
+@strong{Type:} @code{mod_gl_utils_last_action_t}
+
+@strong{Definition:} @code{mod_gl_utils_last_action_t mod_gl_utils_context_s::last_action}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {joysticks_info}
-@example
-mod_gl_utils_joysticks_info_t mod_gl_utils_context_s::joysticks_info
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {joysticks_info}
+@strong{Type:} @code{mod_gl_utils_joysticks_info_t}
+
+@strong{Definition:} @code{mod_gl_utils_joysticks_info_t mod_gl_utils_context_s::joysticks_info}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {mouse_state}
-@example
-mod_gl_utils_mouse_state_t mod_gl_utils_context_s::mouse_state
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {mouse_state}
+@strong{Type:} @code{mod_gl_utils_mouse_state_t}
+
+@strong{Definition:} @code{mod_gl_utils_mouse_state_t mod_gl_utils_context_s::mouse_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {timer}
-@example
-mod_gl_utils_timer_t mod_gl_utils_context_s::timer
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {timer}
+@strong{Type:} @code{mod_gl_utils_timer_t}
+
+@strong{Definition:} @code{mod_gl_utils_timer_t mod_gl_utils_context_s::timer}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {input}
-@example
-lw6gui_input_t mod_gl_utils_context_s::input
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {input}
+@strong{Type:} @code{lw6gui_input_t}
+
+@strong{Definition:} @code{lw6gui_input_t mod_gl_utils_context_s::input}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {smoothers}
-@example
-_mod_gl_utils_smoothers_t mod_gl_utils_context_s::smoothers
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {smoothers}
+@strong{Type:} @code{_mod_gl_utils_smoothers_t}
+
+@strong{Definition:} @code{_mod_gl_utils_smoothers_t mod_gl_utils_context_s::smoothers}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {smoothed}
-@example
-_mod_gl_utils_smoothed_t mod_gl_utils_context_s::smoothed
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {smoothed}
+@strong{Type:} @code{_mod_gl_utils_smoothed_t}
+
+@strong{Definition:} @code{_mod_gl_utils_smoothed_t mod_gl_utils_context_s::smoothed}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {icon}
-@example
-mod_gl_utils_icon_t mod_gl_utils_context_s::icon
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {icon}
+@strong{Type:} @code{mod_gl_utils_icon_t}
+
+@strong{Definition:} @code{mod_gl_utils_icon_t mod_gl_utils_context_s::icon}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {counter}
-@example
-mod_gl_utils_counter_t mod_gl_utils_context_s::counter
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {counter}
+@strong{Type:} @code{mod_gl_utils_counter_t}
+
+@strong{Definition:} @code{mod_gl_utils_counter_t mod_gl_utils_context_s::counter}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {bitmap_hash}
-@example
-lw6sys_hash_t* mod_gl_utils_context_s::bitmap_hash
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {bitmap_hash}
+@strong{Type:} @code{lw6sys_hash_t *}
+
+@strong{Definition:} @code{lw6sys_hash_t* mod_gl_utils_context_s::bitmap_hash}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_context_s} {cache}
-@example
-mod_gl_utils_cache_t mod_gl_utils_context_s::cache
-@end example
+@defcv {Member} {mod_gl_utils_context_s} {cache}
+@strong{Type:} @code{mod_gl_utils_cache_t}
+
+@strong{Definition:} @code{mod_gl_utils_cache_t mod_gl_utils_context_s::cache}
+
 
         
         
@@ -1329,10 +1467,11 @@ mod_gl_utils_cache_t mod_gl_utils_context_s::cache
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_counter_s} {nb_frames}
-@example
-int mod_gl_utils_counter_s::nb_frames
-@end example
+@defcv {Member} {mod_gl_utils_counter_s} {nb_frames}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_counter_s::nb_frames}
+
 
         
         
@@ -1347,37 +1486,41 @@ int mod_gl_utils_counter_s::nb_frames
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_font_data_s} {menu}
-@example
-TTF_Font* mod_gl_utils_font_data_s::menu
-@end example
+@defcv {Member} {mod_gl_utils_font_data_s} {menu}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_font_data_s::menu}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_font_data_s} {hud}
-@example
-TTF_Font* mod_gl_utils_font_data_s::hud
-@end example
+@defcv {Member} {mod_gl_utils_font_data_s} {hud}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_font_data_s::hud}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_font_data_s} {cursor}
-@example
-TTF_Font* mod_gl_utils_font_data_s::cursor
-@end example
+@defcv {Member} {mod_gl_utils_font_data_s} {cursor}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_font_data_s::cursor}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_font_data_s} {system}
-@example
-TTF_Font* mod_gl_utils_font_data_s::system
-@end example
+@defcv {Member} {mod_gl_utils_font_data_s} {system}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_font_data_s::system}
+
 
         
         
@@ -1392,10 +1535,11 @@ TTF_Font* mod_gl_utils_font_data_s::system
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_icon_s} {bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap
-@end example
+@defcv {Member} {mod_gl_utils_icon_s} {bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap}
+
 
         
         
@@ -1410,28 +1554,31 @@ mod_gl_utils_bitmap_t* mod_gl_utils_icon_s::bitmap
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_joysticks_info_s} {supported}
-@example
-int mod_gl_utils_joysticks_info_s::supported
-@end example
+@defcv {Member} {mod_gl_utils_joysticks_info_s} {supported}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_joysticks_info_s::supported}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_joysticks_info_s} {driver_nb_joysticks}
-@example
-int mod_gl_utils_joysticks_info_s::driver_nb_joysticks
-@end example
+@defcv {Member} {mod_gl_utils_joysticks_info_s} {driver_nb_joysticks}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_joysticks_info_s::driver_nb_joysticks}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_joysticks_info_s} {sdl_joysticks}
-@example
-SDL_Joystick* mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]
-@end example
+@defcv {Member} {mod_gl_utils_joysticks_info_s} {sdl_joysticks}
+@strong{Type:} @code{SDL_Joystick *}
+
+@strong{Definition:} @code{SDL_Joystick* mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]}
+
 
         
         
@@ -1446,19 +1593,21 @@ SDL_Joystick* mod_gl_utils_joysticks_info_s::sdl_joysticks[LW6GUI_NB_JOYSTICKS]
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_last_action_s} {game_bitmap_array_update_id}
-@example
-int mod_gl_utils_last_action_s::game_bitmap_array_update_id
-@end example
+@defcv {Member} {mod_gl_utils_last_action_s} {game_bitmap_array_update_id}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_last_action_s::game_bitmap_array_update_id}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_last_action_s} {game_bitmap_array_update_rounds}
-@example
-int mod_gl_utils_last_action_s::game_bitmap_array_update_rounds
-@end example
+@defcv {Member} {mod_gl_utils_last_action_s} {game_bitmap_array_update_rounds}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_last_action_s::game_bitmap_array_update_rounds}
+
 
         
         
@@ -1473,19 +1622,21 @@ int mod_gl_utils_last_action_s::game_bitmap_array_update_rounds
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_mem_counter_s} {new_counter}
-@example
-int mod_gl_utils_mem_counter_s::new_counter
-@end example
+@defcv {Member} {mod_gl_utils_mem_counter_s} {new_counter}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_mem_counter_s::new_counter}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_mem_counter_s} {delete_counter}
-@example
-int mod_gl_utils_mem_counter_s::delete_counter
-@end example
+@defcv {Member} {mod_gl_utils_mem_counter_s} {delete_counter}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_mem_counter_s::delete_counter}
+
 
         
         
@@ -1500,100 +1651,111 @@ int mod_gl_utils_mem_counter_s::delete_counter
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {color_set}
-@example
-lw6map_color_set_t mod_gl_utils_menucache_array_s::color_set
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {color_set}
+@strong{Type:} @code{lw6map_color_set_t}
+
+@strong{Definition:} @code{lw6map_color_set_t mod_gl_utils_menucache_array_s::color_set}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {last_stored_item}
-@example
-int mod_gl_utils_menucache_array_s::last_stored_item
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {last_stored_item}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_menucache_array_s::last_stored_item}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {item_array}
-@example
-mod_gl_utils_menucache_item_t mod_gl_utils_menucache_array_s::item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE]
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {item_array}
+@strong{Type:} @code{mod_gl_utils_menucache_item_t}
+
+@strong{Definition:} @code{mod_gl_utils_menucache_item_t mod_gl_utils_menucache_array_s::item_array[MOD_GL_UTILS_MENUCACHE_ARRAY_SIZE]}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {tooltip_str}
-@example
-char* mod_gl_utils_menucache_array_s::tooltip_str
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {tooltip_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_menucache_array_s::tooltip_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {tooltip_bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::tooltip_bitmap
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {tooltip_bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::tooltip_bitmap}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {help_str}
-@example
-char* mod_gl_utils_menucache_array_s::help_str
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {help_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_menucache_array_s::help_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {help_bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::help_bitmap
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {help_bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::help_bitmap}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {breadcrumbs_str}
-@example
-char* mod_gl_utils_menucache_array_s::breadcrumbs_str
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {breadcrumbs_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_menucache_array_s::breadcrumbs_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {breadcrumbs_bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::breadcrumbs_bitmap
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {breadcrumbs_bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::breadcrumbs_bitmap}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {popup_str}
-@example
-char* mod_gl_utils_menucache_array_s::popup_str
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {popup_str}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_menucache_array_s::popup_str}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_array_s} {popup_bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::popup_bitmap
-@end example
+@defcv {Member} {mod_gl_utils_menucache_array_s} {popup_bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::popup_bitmap}
+
 
         
         
@@ -1608,19 +1770,21 @@ mod_gl_utils_bitmap_t* mod_gl_utils_menucache_array_s::popup_bitmap
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_menucache_item_s} {key}
-@example
-char* mod_gl_utils_menucache_item_s::key
-@end example
+@defcv {Member} {mod_gl_utils_menucache_item_s} {key}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_menucache_item_s::key}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_menucache_item_s} {bitmap}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_menucache_item_s::bitmap
-@end example
+@defcv {Member} {mod_gl_utils_menucache_item_s} {bitmap}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_menucache_item_s::bitmap}
+
 
         
         
@@ -1635,10 +1799,11 @@ mod_gl_utils_bitmap_t* mod_gl_utils_menucache_item_s::bitmap
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_mouse_state_s} {shown}
-@example
-int mod_gl_utils_mouse_state_s::shown
-@end example
+@defcv {Member} {mod_gl_utils_mouse_state_s} {shown}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_mouse_state_s::shown}
+
 
         
         
@@ -1653,64 +1818,71 @@ int mod_gl_utils_mouse_state_s::shown
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {utils_context}
-@example
-mod_gl_utils_context_t* mod_gl_utils_multiline_text_callback_data_s::utils_context
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {utils_context}
+@strong{Type:} @code{mod_gl_utils_context_t *}
+
+@strong{Definition:} @code{mod_gl_utils_context_t* mod_gl_utils_multiline_text_callback_data_s::utils_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {font}
-@example
-TTF_Font* mod_gl_utils_multiline_text_callback_data_s::font
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {font}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_multiline_text_callback_data_s::font}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {sdl_color_bg}
-@example
-SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_bg
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {sdl_color_bg}
+@strong{Type:} @code{SDL_Color}
+
+@strong{Definition:} @code{SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {sdl_color_fg}
-@example
-SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_fg
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {sdl_color_fg}
+@strong{Type:} @code{SDL_Color}
+
+@strong{Definition:} @code{SDL_Color mod_gl_utils_multiline_text_callback_data_s::sdl_color_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {shape}
-@example
-lw6sys_whd_t mod_gl_utils_multiline_text_callback_data_s::shape
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {shape}
+@strong{Type:} @code{lw6sys_whd_t}
+
+@strong{Definition:} @code{lw6sys_whd_t mod_gl_utils_multiline_text_callback_data_s::shape}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {pos}
-@example
-lw6sys_xyz_t mod_gl_utils_multiline_text_callback_data_s::pos
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {pos}
+@strong{Type:} @code{lw6sys_xyz_t}
+
+@strong{Definition:} @code{lw6sys_xyz_t mod_gl_utils_multiline_text_callback_data_s::pos}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_multiline_text_callback_data_s} {target}
-@example
-SDL_Surface* mod_gl_utils_multiline_text_callback_data_s::target
-@end example
+@defcv {Member} {mod_gl_utils_multiline_text_callback_data_s} {target}
+@strong{Type:} @code{SDL_Surface *}
+
+@strong{Definition:} @code{SDL_Surface* mod_gl_utils_multiline_text_callback_data_s::target}
+
 
         
         
@@ -1725,37 +1897,41 @@ SDL_Surface* mod_gl_utils_multiline_text_callback_data_s::target
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_path_s} {data_dir}
-@example
-char* mod_gl_utils_path_s::data_dir
-@end example
+@defcv {Member} {mod_gl_utils_path_s} {data_dir}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_path_s::data_dir}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_path_s} {capture_dir}
-@example
-char* mod_gl_utils_path_s::capture_dir
-@end example
+@defcv {Member} {mod_gl_utils_path_s} {capture_dir}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_path_s::capture_dir}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_path_s} {bitmap_dir}
-@example
-char* mod_gl_utils_path_s::bitmap_dir
-@end example
+@defcv {Member} {mod_gl_utils_path_s} {bitmap_dir}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_path_s::bitmap_dir}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_path_s} {bitmap_frame_dir}
-@example
-char* mod_gl_utils_path_s::bitmap_frame_dir
-@end example
+@defcv {Member} {mod_gl_utils_path_s} {bitmap_frame_dir}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_path_s::bitmap_frame_dir}
+
 
         
         
@@ -1770,73 +1946,81 @@ char* mod_gl_utils_path_s::bitmap_frame_dir
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_rect_array_s} {tile_size}
-@example
-int mod_gl_utils_rect_array_s::tile_size
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {tile_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::tile_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {border_size}
-@example
-int mod_gl_utils_rect_array_s::border_size
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {border_size}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::border_size}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {tile_spacing}
-@example
-int mod_gl_utils_rect_array_s::tile_spacing
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {tile_spacing}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::tile_spacing}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {nb_tiles_w}
-@example
-int mod_gl_utils_rect_array_s::nb_tiles_w
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {nb_tiles_w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::nb_tiles_w}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {nb_tiles_h}
-@example
-int mod_gl_utils_rect_array_s::nb_tiles_h
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {nb_tiles_h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::nb_tiles_h}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {nb_tiles}
-@example
-int mod_gl_utils_rect_array_s::nb_tiles
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {nb_tiles}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::nb_tiles}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {source_w}
-@example
-int mod_gl_utils_rect_array_s::source_w
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {source_w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::source_w}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_rect_array_s} {source_h}
-@example
-int mod_gl_utils_rect_array_s::source_h
-@end example
+@defcv {Member} {mod_gl_utils_rect_array_s} {source_h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_rect_array_s::source_h}
+
 
         
         
@@ -1851,19 +2035,21 @@ int mod_gl_utils_rect_array_s::source_h
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_render_param_s} {mode}
-@example
-mod_gl_utils_render_mode_t mod_gl_utils_render_param_s::mode
-@end example
+@defcv {Member} {mod_gl_utils_render_param_s} {mode}
+@strong{Type:} @code{mod_gl_utils_render_mode_t}
+
+@strong{Definition:} @code{mod_gl_utils_render_mode_t mod_gl_utils_render_param_s::mode}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_render_param_s} {gfx_quality}
-@example
-int mod_gl_utils_render_param_s::gfx_quality
-@end example
+@defcv {Member} {mod_gl_utils_render_param_s} {gfx_quality}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_render_param_s::gfx_quality}
+
 
         
         
@@ -1878,64 +2064,71 @@ int mod_gl_utils_render_param_s::gfx_quality
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {font}
-@example
-TTF_Font* mod_gl_utils_shaded_text_s::font
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {font}
+@strong{Type:} @code{TTF_Font *}
+
+@strong{Definition:} @code{TTF_Font* mod_gl_utils_shaded_text_s::font}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {text}
-@example
-char* mod_gl_utils_shaded_text_s::text
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {text}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_utils_shaded_text_s::text}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {color}
-@example
-lw6map_color_couple_t mod_gl_utils_shaded_text_s::color
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {color}
+@strong{Type:} @code{lw6map_color_couple_t}
+
+@strong{Definition:} @code{lw6map_color_couple_t mod_gl_utils_shaded_text_s::color}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::bg
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::fg
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_shaded_text_s::fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {texture_w}
-@example
-int mod_gl_utils_shaded_text_s::texture_w
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {texture_w}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_shaded_text_s::texture_w}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_shaded_text_s} {texture_h}
-@example
-int mod_gl_utils_shaded_text_s::texture_h
-@end example
+@defcv {Member} {mod_gl_utils_shaded_text_s} {texture_h}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int mod_gl_utils_shaded_text_s::texture_h}
+
 
         
         
@@ -1950,19 +2143,21 @@ int mod_gl_utils_shaded_text_s::texture_h
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_team_color_map_s} {team_colors_f}
-@example
-lw6sys_color_f_t mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]
-@end example
+@defcv {Member} {mod_gl_utils_team_color_map_s} {team_colors_f}
+@strong{Type:} @code{lw6sys_color_f_t}
+
+@strong{Definition:} @code{lw6sys_color_f_t mod_gl_utils_team_color_map_s::team_colors_f[LW6MAP_MAX_NB_TEAMS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_team_color_map_s} {team_colors}
-@example
-Uint32 mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]
-@end example
+@defcv {Member} {mod_gl_utils_team_color_map_s} {team_colors}
+@strong{Type:} @code{Uint32}
+
+@strong{Definition:} @code{Uint32 mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SHADES_FOR_FIGHTERS_SCALE+1]}
+
 
         
         
@@ -1977,244 +2172,271 @@ Uint32 mod_gl_utils_team_color_map_s::team_colors[LW6MAP_MAX_NB_TEAMS][MOD_GL_SH
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {color_base_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {color_base_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {color_base_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {color_base_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_base_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {color_alternate_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {color_alternate_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {color_alternate_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {color_alternate_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::color_alternate_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {background_color_root_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {background_color_root_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {background_color_root_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {background_color_root_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_root_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {background_color_stuff_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {background_color_stuff_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {background_color_stuff_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {background_color_stuff_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::background_color_stuff_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {hud_color_frame_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {hud_color_frame_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {hud_color_frame_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {hud_color_frame_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_frame_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {hud_color_text_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {hud_color_text_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {hud_color_text_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {hud_color_text_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::hud_color_text_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_default_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_default_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_default_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_default_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_default_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_selected_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_selected_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_selected_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_selected_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_selected_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_disabled_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_disabled_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {menu_color_disabled_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {menu_color_disabled_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::menu_color_disabled_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {view_color_cursor_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {view_color_cursor_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {view_color_cursor_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {view_color_cursor_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_cursor_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {view_color_map_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {view_color_map_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {view_color_map_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {view_color_map_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::view_color_map_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {system_color_fg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_fg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {system_color_fg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_fg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {system_color_bg}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_bg
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {system_color_bg}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::system_color_bg}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {team_color_dead}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_color_dead
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {team_color_dead}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_color_dead}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {team_colors}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors[LW6MAP_NB_TEAM_COLORS]
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {team_colors}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors[LW6MAP_NB_TEAM_COLORS]}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_texture_1x1_s} {team_colors_transparency}
-@example
-mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]
-@end example
+@defcv {Member} {mod_gl_utils_texture_1x1_s} {team_colors_transparency}
+@strong{Type:} @code{mod_gl_utils_bitmap_t *}
+
+@strong{Definition:} @code{mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6MAP_NB_TEAM_COLORS][MOD_GL_UTILS_TRANSPARENCY_SCALE+1]}
+
 
         
         
@@ -2229,10 +2451,11 @@ mod_gl_utils_bitmap_t* mod_gl_utils_texture_1x1_s::team_colors_transparency[LW6M
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_texture_data_s} {to_delete}
-@example
-lw6sys_list_t* mod_gl_utils_texture_data_s::to_delete
-@end example
+@defcv {Member} {mod_gl_utils_texture_data_s} {to_delete}
+@strong{Type:} @code{lw6sys_list_t *}
+
+@strong{Definition:} @code{lw6sys_list_t* mod_gl_utils_texture_data_s::to_delete}
+
 
         
         
@@ -2247,37 +2470,41 @@ lw6sys_list_t* mod_gl_utils_texture_data_s::to_delete
     
 @end deftp
 
-@defcv {member} {mod_gl_utils_timer_s} {timestamp}
-@example
-int64_t mod_gl_utils_timer_s::timestamp
-@end example
+@defcv {Member} {mod_gl_utils_timer_s} {timestamp}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t mod_gl_utils_timer_s::timestamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_timer_s} {uptime}
-@example
-int64_t mod_gl_utils_timer_s::uptime
-@end example
+@defcv {Member} {mod_gl_utils_timer_s} {uptime}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t mod_gl_utils_timer_s::uptime}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_timer_s} {cycle}
-@example
-int32_t mod_gl_utils_timer_s::cycle
-@end example
+@defcv {Member} {mod_gl_utils_timer_s} {cycle}
+@strong{Type:} @code{int32_t}
+
+@strong{Definition:} @code{int32_t mod_gl_utils_timer_s::cycle}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_utils_timer_s} {bitmap_refresh}
-@example
-int64_t mod_gl_utils_timer_s::bitmap_refresh
-@end example
+@defcv {Member} {mod_gl_utils_timer_s} {bitmap_refresh}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t mod_gl_utils_timer_s::bitmap_refresh}
+
 
         
         
@@ -2292,73 +2519,81 @@ int64_t mod_gl_utils_timer_s::bitmap_refresh
     
 @end deftp
 
-@defcv {member} {mod_gl_view_backend_s} {view_context}
-@example
-void* mod_gl_view_backend_s::view_context
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {view_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* mod_gl_view_backend_s::view_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {backend_name}
-@example
-char* mod_gl_view_backend_s::backend_name
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {backend_name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* mod_gl_view_backend_s::backend_name}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {init}
-@example
-void*(* mod_gl_view_backend_s::init)(mod_gl_utils_context_t *utils_context)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* mod_gl_view_backend_s::init)(mod_gl_utils_context_t *utils_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {quit}
-@example
-void(* mod_gl_view_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *view_context)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_view_backend_s::quit)(mod_gl_utils_context_t *utils_context, void *view_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {display_preview}
-@example
-void(* mod_gl_view_backend_s::display_preview)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6map_level_t *level)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {display_preview}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_view_backend_s::display_preview)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6map_level_t *level)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {display_map}
-@example
-void(* mod_gl_view_backend_s::display_map)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {display_map}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_view_backend_s::display_map)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {display_fighters}
-@example
-void(* mod_gl_view_backend_s::display_fighters)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {display_fighters}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_view_backend_s::display_fighters)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)}
+
 
         
         
 @end defcv
 
-@defcv {member} {mod_gl_view_backend_s} {display_cursors}
-@example
-void(* mod_gl_view_backend_s::display_cursors)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)
-@end example
+@defcv {Member} {mod_gl_view_backend_s} {display_cursors}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* mod_gl_view_backend_s::display_cursors)(mod_gl_utils_context_t *utils_context, void *view_context, lw6gui_look_t *look, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors)}
+
 
         
         

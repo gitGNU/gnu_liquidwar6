@@ -6,127 +6,141 @@
     
 @end deftp
 
-@defcv {member} {lw6cli_backend_s} {dl_handle}
-@example
-lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
-@end example
+@defcv {Member} {lw6cli_backend_s} {dl_handle}
+@strong{Type:} @code{lw6dyn_dl_handle_t *}
+
+@strong{Definition:} @code{lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {cli_context}
-@example
-void* lw6cli_backend_s::cli_context
-@end example
+@defcv {Member} {lw6cli_backend_s} {cli_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6cli_backend_s::cli_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {argc}
-@example
-int lw6cli_backend_s::argc
-@end example
+@defcv {Member} {lw6cli_backend_s} {argc}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6cli_backend_s::argc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {argv}
-@example
-const char** lw6cli_backend_s::argv
-@end example
+@defcv {Member} {lw6cli_backend_s} {argv}
+@strong{Type:} @code{const char **}
+
+@strong{Definition:} @code{const char** lw6cli_backend_s::argv}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {id}
-@example
-u_int32_t lw6cli_backend_s::id
-@end example
+@defcv {Member} {lw6cli_backend_s} {id}
+@strong{Type:} @code{u_int32_t}
+
+@strong{Definition:} @code{u_int32_t lw6cli_backend_s::id}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {name}
-@example
-char* lw6cli_backend_s::name
-@end example
+@defcv {Member} {lw6cli_backend_s} {name}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6cli_backend_s::name}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {init}
-@example
-void*(* lw6cli_backend_s::init)(int argc, const char *argv[])
-@end example
+@defcv {Member} {lw6cli_backend_s} {init}
+@strong{Type:} @code{void *(*}
+
+@strong{Definition:} @code{void*(* lw6cli_backend_s::init)(int argc, const char *argv[])}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {quit}
-@example
-void(* lw6cli_backend_s::quit)(void *cli_context)
-@end example
+@defcv {Member} {lw6cli_backend_s} {quit}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6cli_backend_s::quit)(void *cli_context)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {process_oob}
-@example
-int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)
-@end example
+@defcv {Member} {lw6cli_backend_s} {process_oob}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {open}
-@example
-lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
-@end example
+@defcv {Member} {lw6cli_backend_s} {open}
+@strong{Type:} @code{lw6cnx_connection_t *(*}
+
+@strong{Definition:} @code{lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {close}
-@example
-void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)
-@end example
+@defcv {Member} {lw6cli_backend_s} {close}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {send}
-@example
-int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
-@end example
+@defcv {Member} {lw6cli_backend_s} {send}
+@strong{Type:} @code{int(*}
+
+@strong{Definition:} @code{int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {poll}
-@example
-void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)
-@end example
+@defcv {Member} {lw6cli_backend_s} {poll}
+@strong{Type:} @code{void(*}
+
+@strong{Definition:} @code{void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_backend_s} {repr}
-@example
-char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)
-@end example
+@defcv {Member} {lw6cli_backend_s} {repr}
+@strong{Type:} @code{char *(*}
+
+@strong{Definition:} @code{char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)}
+
 
         
         
@@ -141,46 +155,51 @@ char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connecti
     
 @end deftp
 
-@defcv {member} {lw6cli_oob_data_s} {creation_timestamp}
-@example
-int64_t lw6cli_oob_data_s::creation_timestamp
-@end example
+@defcv {Member} {lw6cli_oob_data_s} {creation_timestamp}
+@strong{Type:} @code{int64_t}
+
+@strong{Definition:} @code{int64_t lw6cli_oob_data_s::creation_timestamp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_oob_data_s} {do_not_finish}
-@example
-int lw6cli_oob_data_s::do_not_finish
-@end example
+@defcv {Member} {lw6cli_oob_data_s} {do_not_finish}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6cli_oob_data_s::do_not_finish}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_oob_data_s} {public_url}
-@example
-char* lw6cli_oob_data_s::public_url
-@end example
+@defcv {Member} {lw6cli_oob_data_s} {public_url}
+@strong{Type:} @code{char *}
+
+@strong{Definition:} @code{char* lw6cli_oob_data_s::public_url}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_oob_data_s} {verify_callback_func}
-@example
-lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func
-@end example
+@defcv {Member} {lw6cli_oob_data_s} {verify_callback_func}
+@strong{Type:} @code{lw6cli_verify_callback_func_t}
+
+@strong{Definition:} @code{lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_oob_data_s} {verify_callback_data}
-@example
-void* lw6cli_oob_data_s::verify_callback_data
-@end example
+@defcv {Member} {lw6cli_oob_data_s} {verify_callback_data}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6cli_oob_data_s::verify_callback_data}
+
 
         
         
@@ -195,19 +214,21 @@ void* lw6cli_oob_data_s::verify_callback_data
     
 @end deftp
 
-@defcv {member} {lw6cli_oob_s} {thread}
-@example
-void* lw6cli_oob_s::thread
-@end example
+@defcv {Member} {lw6cli_oob_s} {thread}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6cli_oob_s::thread}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6cli_oob_s} {data}
-@example
-lw6cli_oob_data_t lw6cli_oob_s::data
-@end example
+@defcv {Member} {lw6cli_oob_s} {data}
+@strong{Type:} @code{lw6cli_oob_data_t}
+
+@strong{Definition:} @code{lw6cli_oob_data_t lw6cli_oob_s::data}
+
 
         
         

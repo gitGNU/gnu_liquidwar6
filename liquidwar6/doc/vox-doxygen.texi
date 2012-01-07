@@ -6,10 +6,11 @@
     
 @end deftp
 
-@defcv {member} {lw6vox_renderer_s} {dummy}
-@example
-int lw6vox_renderer_s::dummy
-@end example
+@defcv {Member} {lw6vox_renderer_s} {dummy}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6vox_renderer_s::dummy}
+
 
         
         

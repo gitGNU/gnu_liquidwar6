@@ -6,10 +6,11 @@
 <xsl:value-of select="detaileddescription"/>
 @end deftp
 <xsl:for-each select="/doxygen/compounddef/sectiondef/memberdef">
-@defcv {member} {<xsl:value-of select="../../compoundname"/>} {<xsl:value-of select="name"/>}
-@example
-<xsl:value-of select="definition"/>
-@end example
+@defcv {Member} {<xsl:value-of select="../../compoundname"/>} {<xsl:value-of select="name"/>}
+@strong{Type:} @code{<xsl:value-of select="type"/>}
+
+@strong{Definition:} @code{<xsl:value-of select="definition"/>}
+
 <xsl:value-of select="briefdescription"/>
 <xsl:value-of select="detaileddescription"/>
 @end defcv

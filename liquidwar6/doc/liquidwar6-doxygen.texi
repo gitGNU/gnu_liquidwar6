@@ -6,28 +6,31 @@
     
 @end deftp
 
-@defcv {member} {lw6_bot_smob_s} {c_bot}
-@example
-lw6bot_backend_t* lw6_bot_smob_s::c_bot
-@end example
+@defcv {Member} {lw6_bot_smob_s} {c_bot}
+@strong{Type:} @code{lw6bot_backend_t *}
+
+@strong{Definition:} @code{lw6bot_backend_t* lw6_bot_smob_s::c_bot}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_bot_smob_s} {game_state}
-@example
-SCM lw6_bot_smob_s::game_state
-@end example
+@defcv {Member} {lw6_bot_smob_s} {game_state}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_bot_smob_s::game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_bot_smob_s} {pilot}
-@example
-SCM lw6_bot_smob_s::pilot
-@end example
+@defcv {Member} {lw6_bot_smob_s} {pilot}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_bot_smob_s::pilot}
+
 
         
         
@@ -42,10 +45,11 @@ SCM lw6_bot_smob_s::pilot
     
 @end deftp
 
-@defcv {member} {lw6_db_smob_s} {c_db}
-@example
-lw6p2p_db_t* lw6_db_smob_s::c_db
-@end example
+@defcv {Member} {lw6_db_smob_s} {c_db}
+@strong{Type:} @code{lw6p2p_db_t *}
+
+@strong{Definition:} @code{lw6p2p_db_t* lw6_db_smob_s::c_db}
+
 
         
         
@@ -60,46 +64,51 @@ lw6p2p_db_t* lw6_db_smob_s::c_db
     
 @end deftp
 
-@defcv {member} {lw6_dsp_smob_s} {c_dsp}
-@example
-lw6dsp_backend_t* lw6_dsp_smob_s::c_dsp
-@end example
+@defcv {Member} {lw6_dsp_smob_s} {c_dsp}
+@strong{Type:} @code{lw6dsp_backend_t *}
+
+@strong{Definition:} @code{lw6dsp_backend_t* lw6_dsp_smob_s::c_dsp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_dsp_smob_s} {level}
-@example
-SCM lw6_dsp_smob_s::level
-@end example
+@defcv {Member} {lw6_dsp_smob_s} {level}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_dsp_smob_s::level}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_dsp_smob_s} {game_struct}
-@example
-SCM lw6_dsp_smob_s::game_struct
-@end example
+@defcv {Member} {lw6_dsp_smob_s} {game_struct}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_dsp_smob_s::game_struct}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_dsp_smob_s} {game_state}
-@example
-SCM lw6_dsp_smob_s::game_state
-@end example
+@defcv {Member} {lw6_dsp_smob_s} {game_state}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_dsp_smob_s::game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_dsp_smob_s} {pilot}
-@example
-SCM lw6_dsp_smob_s::pilot
-@end example
+@defcv {Member} {lw6_dsp_smob_s} {pilot}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_dsp_smob_s::pilot}
+
 
         
         
@@ -114,19 +123,21 @@ SCM lw6_dsp_smob_s::pilot
     
 @end deftp
 
-@defcv {member} {lw6_game_state_smob_s} {c_game_state}
-@example
-lw6ker_game_state_t* lw6_game_state_smob_s::c_game_state
-@end example
+@defcv {Member} {lw6_game_state_smob_s} {c_game_state}
+@strong{Type:} @code{lw6ker_game_state_t *}
+
+@strong{Definition:} @code{lw6ker_game_state_t* lw6_game_state_smob_s::c_game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_game_state_smob_s} {game_struct}
-@example
-SCM lw6_game_state_smob_s::game_struct
-@end example
+@defcv {Member} {lw6_game_state_smob_s} {game_struct}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_game_state_smob_s::game_struct}
+
 
         
         
@@ -141,19 +152,21 @@ SCM lw6_game_state_smob_s::game_struct
     
 @end deftp
 
-@defcv {member} {lw6_game_struct_smob_s} {c_game_struct}
-@example
-lw6ker_game_struct_t* lw6_game_struct_smob_s::c_game_struct
-@end example
+@defcv {Member} {lw6_game_struct_smob_s} {c_game_struct}
+@strong{Type:} @code{lw6ker_game_struct_t *}
+
+@strong{Definition:} @code{lw6ker_game_struct_t* lw6_game_struct_smob_s::c_game_struct}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_game_struct_smob_s} {map}
-@example
-SCM lw6_game_struct_smob_s::map
-@end example
+@defcv {Member} {lw6_game_struct_smob_s} {map}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_game_struct_smob_s::map}
+
 
         
         
@@ -168,208 +181,231 @@ SCM lw6_game_struct_smob_s::map
     
 @end deftp
 
-@defcv {member} {lw6_global_s} {mutex}
-@example
-pthread_mutex_t lw6_global_s::mutex
-@end example
+@defcv {Member} {lw6_global_s} {mutex}
+@strong{Type:} @code{pthread_mutex_t}
+
+@strong{Definition:} @code{pthread_mutex_t lw6_global_s::mutex}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {cfg_context}
-@example
-void* lw6_global_s::cfg_context
-@end example
+@defcv {Member} {lw6_global_s} {cfg_context}
+@strong{Type:} @code{void *}
+
+@strong{Definition:} @code{void* lw6_global_s::cfg_context}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {cfg_initialized}
-@example
-int lw6_global_s::cfg_initialized
-@end example
+@defcv {Member} {lw6_global_s} {cfg_initialized}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::cfg_initialized}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {cns_initialized}
-@example
-int lw6_global_s::cns_initialized
-@end example
+@defcv {Member} {lw6_global_s} {cns_initialized}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::cns_initialized}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {net_initialized}
-@example
-int lw6_global_s::net_initialized
-@end example
+@defcv {Member} {lw6_global_s} {net_initialized}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::net_initialized}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {start_time}
-@example
-int lw6_global_s::start_time
-@end example
+@defcv {Member} {lw6_global_s} {start_time}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::start_time}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {argc}
-@example
-int lw6_global_s::argc
-@end example
+@defcv {Member} {lw6_global_s} {argc}
+@strong{Type:} @code{int}
+
+@strong{Definition:} @code{int lw6_global_s::argc}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {argv}
-@example
-const char** lw6_global_s::argv
-@end example
+@defcv {Member} {lw6_global_s} {argv}
+@strong{Type:} @code{const char **}
+
+@strong{Definition:} @code{const char** lw6_global_s::argv}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {progress}
-@example
-float lw6_global_s::progress
-@end example
+@defcv {Member} {lw6_global_s} {progress}
+@strong{Type:} @code{float}
+
+@strong{Definition:} @code{float lw6_global_s::progress}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {smob_types}
-@example
-lw6_smob_types_t lw6_global_s::smob_types
-@end example
+@defcv {Member} {lw6_global_s} {smob_types}
+@strong{Type:} @code{lw6_smob_types_t}
+
+@strong{Definition:} @code{lw6_smob_types_t lw6_global_s::smob_types}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {dsp_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::dsp_smobs
-@end example
+@defcv {Member} {lw6_global_s} {dsp_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::dsp_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {snd_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::snd_smobs
-@end example
+@defcv {Member} {lw6_global_s} {snd_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::snd_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {map_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::map_smobs
-@end example
+@defcv {Member} {lw6_global_s} {map_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::map_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {menu_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::menu_smobs
-@end example
+@defcv {Member} {lw6_global_s} {menu_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::menu_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {game_struct_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::game_struct_smobs
-@end example
+@defcv {Member} {lw6_global_s} {game_struct_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::game_struct_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {game_state_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::game_state_smobs
-@end example
+@defcv {Member} {lw6_global_s} {game_state_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::game_state_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {pilot_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::pilot_smobs
-@end example
+@defcv {Member} {lw6_global_s} {pilot_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::pilot_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {bot_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::bot_smobs
-@end example
+@defcv {Member} {lw6_global_s} {bot_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::bot_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {look_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::look_smobs
-@end example
+@defcv {Member} {lw6_global_s} {look_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::look_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {loader_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::loader_smobs
-@end example
+@defcv {Member} {lw6_global_s} {loader_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::loader_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {db_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::db_smobs
-@end example
+@defcv {Member} {lw6_global_s} {db_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::db_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {node_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::node_smobs
-@end example
+@defcv {Member} {lw6_global_s} {node_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::node_smobs}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_global_s} {jpeg_smobs}
-@example
-lw6sys_assoc_t* lw6_global_s::jpeg_smobs
-@end example
+@defcv {Member} {lw6_global_s} {jpeg_smobs}
+@strong{Type:} @code{lw6sys_assoc_t *}
+
+@strong{Definition:} @code{lw6sys_assoc_t* lw6_global_s::jpeg_smobs}
+
 
         
         
@@ -384,10 +420,11 @@ lw6sys_assoc_t* lw6_global_s::jpeg_smobs
     
 @end deftp
 
-@defcv {member} {lw6_jpeg_smob_s} {c_jpeg}
-@example
-lw6img_jpeg_t* lw6_jpeg_smob_s::c_jpeg
-@end example
+@defcv {Member} {lw6_jpeg_smob_s} {c_jpeg}
+@strong{Type:} @code{lw6img_jpeg_t *}
+
+@strong{Definition:} @code{lw6img_jpeg_t* lw6_jpeg_smob_s::c_jpeg}
+
 
         
         
@@ -402,10 +439,11 @@ lw6img_jpeg_t* lw6_jpeg_smob_s::c_jpeg
     
 @end deftp
 
-@defcv {member} {lw6_loader_smob_s} {c_loader}
-@example
-lw6tsk_loader_t* lw6_loader_smob_s::c_loader
-@end example
+@defcv {Member} {lw6_loader_smob_s} {c_loader}
+@strong{Type:} @code{lw6tsk_loader_t *}
+
+@strong{Definition:} @code{lw6tsk_loader_t* lw6_loader_smob_s::c_loader}
+
 
         
         
@@ -420,10 +458,11 @@ lw6tsk_loader_t* lw6_loader_smob_s::c_loader
     
 @end deftp
 
-@defcv {member} {lw6_look_smob_s} {c_look}
-@example
-lw6gui_look_t* lw6_look_smob_s::c_look
-@end example
+@defcv {Member} {lw6_look_smob_s} {c_look}
+@strong{Type:} @code{lw6gui_look_t *}
+
+@strong{Definition:} @code{lw6gui_look_t* lw6_look_smob_s::c_look}
+
 
         
         
@@ -438,10 +477,11 @@ lw6gui_look_t* lw6_look_smob_s::c_look
     
 @end deftp
 
-@defcv {member} {lw6_map_smob_s} {c_map}
-@example
-lw6map_level_t* lw6_map_smob_s::c_map
-@end example
+@defcv {Member} {lw6_map_smob_s} {c_map}
+@strong{Type:} @code{lw6map_level_t *}
+
+@strong{Definition:} @code{lw6map_level_t* lw6_map_smob_s::c_map}
+
 
         
         
@@ -456,10 +496,11 @@ lw6map_level_t* lw6_map_smob_s::c_map
     
 @end deftp
 
-@defcv {member} {lw6_menu_smob_s} {c_menu}
-@example
-lw6gui_menu_t* lw6_menu_smob_s::c_menu
-@end example
+@defcv {Member} {lw6_menu_smob_s} {c_menu}
+@strong{Type:} @code{lw6gui_menu_t *}
+
+@strong{Definition:} @code{lw6gui_menu_t* lw6_menu_smob_s::c_menu}
+
 
         
         
@@ -474,19 +515,21 @@ lw6gui_menu_t* lw6_menu_smob_s::c_menu
     
 @end deftp
 
-@defcv {member} {lw6_node_smob_s} {c_node}
-@example
-lw6p2p_node_t* lw6_node_smob_s::c_node
-@end example
+@defcv {Member} {lw6_node_smob_s} {c_node}
+@strong{Type:} @code{lw6p2p_node_t *}
+
+@strong{Definition:} @code{lw6p2p_node_t* lw6_node_smob_s::c_node}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_node_smob_s} {db}
-@example
-SCM lw6_node_smob_s::db
-@end example
+@defcv {Member} {lw6_node_smob_s} {db}
+@strong{Type:} @code{SCM}
+
+@strong{Definition:} @code{SCM lw6_node_smob_s::db}
+
 
         
         
@@ -501,10 +544,11 @@ SCM lw6_node_smob_s::db
     
 @end deftp
 
-@defcv {member} {lw6_pilot_smob_s} {c_pilot}
-@example
-lw6pil_pilot_t* lw6_pilot_smob_s::c_pilot
-@end example
+@defcv {Member} {lw6_pilot_smob_s} {c_pilot}
+@strong{Type:} @code{lw6pil_pilot_t *}
+
+@strong{Definition:} @code{lw6pil_pilot_t* lw6_pilot_smob_s::c_pilot}
+
 
         
         
@@ -519,118 +563,131 @@ lw6pil_pilot_t* lw6_pilot_smob_s::c_pilot
     
 @end deftp
 
-@defcv {member} {lw6_smob_types_s} {dsp}
-@example
-scm_t_bits lw6_smob_types_s::dsp
-@end example
+@defcv {Member} {lw6_smob_types_s} {dsp}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::dsp}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {snd}
-@example
-scm_t_bits lw6_smob_types_s::snd
-@end example
+@defcv {Member} {lw6_smob_types_s} {snd}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::snd}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {map}
-@example
-scm_t_bits lw6_smob_types_s::map
-@end example
+@defcv {Member} {lw6_smob_types_s} {map}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::map}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {menu}
-@example
-scm_t_bits lw6_smob_types_s::menu
-@end example
+@defcv {Member} {lw6_smob_types_s} {menu}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::menu}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {game_struct}
-@example
-scm_t_bits lw6_smob_types_s::game_struct
-@end example
+@defcv {Member} {lw6_smob_types_s} {game_struct}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::game_struct}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {game_state}
-@example
-scm_t_bits lw6_smob_types_s::game_state
-@end example
+@defcv {Member} {lw6_smob_types_s} {game_state}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::game_state}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {pilot}
-@example
-scm_t_bits lw6_smob_types_s::pilot
-@end example
+@defcv {Member} {lw6_smob_types_s} {pilot}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::pilot}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {bot}
-@example
-scm_t_bits lw6_smob_types_s::bot
-@end example
+@defcv {Member} {lw6_smob_types_s} {bot}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::bot}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {look}
-@example
-scm_t_bits lw6_smob_types_s::look
-@end example
+@defcv {Member} {lw6_smob_types_s} {look}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::look}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {loader}
-@example
-scm_t_bits lw6_smob_types_s::loader
-@end example
+@defcv {Member} {lw6_smob_types_s} {loader}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::loader}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {db}
-@example
-scm_t_bits lw6_smob_types_s::db
-@end example
+@defcv {Member} {lw6_smob_types_s} {db}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::db}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {node}
-@example
-scm_t_bits lw6_smob_types_s::node
-@end example
+@defcv {Member} {lw6_smob_types_s} {node}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::node}
+
 
         
         
 @end defcv
 
-@defcv {member} {lw6_smob_types_s} {jpeg}
-@example
-scm_t_bits lw6_smob_types_s::jpeg
-@end example
+@defcv {Member} {lw6_smob_types_s} {jpeg}
+@strong{Type:} @code{scm_t_bits}
+
+@strong{Definition:} @code{scm_t_bits lw6_smob_types_s::jpeg}
+
 
         
         
@@ -645,10 +702,11 @@ scm_t_bits lw6_smob_types_s::jpeg
     
 @end deftp
 
-@defcv {member} {lw6_snd_smob_s} {c_snd}
-@example
-lw6snd_backend_t* lw6_snd_smob_s::c_snd
-@end example
+@defcv {Member} {lw6_snd_smob_s} {c_snd}
+@strong{Type:} @code{lw6snd_backend_t *}
+
+@strong{Definition:} @code{lw6snd_backend_t* lw6_snd_smob_s::c_snd}
+
 
         
         
