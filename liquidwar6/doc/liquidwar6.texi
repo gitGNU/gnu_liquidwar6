@@ -6023,6 +6023,9 @@ for those who enjoy digging into the past.
 @section Function and keyword index
 @printindex fn
 
+@section Data types index
+@printindex tp
+
 @bye
 
 @c lquidwar6.texi ends here

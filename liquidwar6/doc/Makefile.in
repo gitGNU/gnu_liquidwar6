@@ -1251,130 +1251,130 @@ uninstall-local:
 @LW6_SELFDOC_TRUE@	echo selfdoc weapons && for k in `$(top_builddir)/src/liquidwar6 --list-weapons` ; do $(PERL) $(top_srcdir)/doc/selfdoc.pl $(top_builddir)/src/liquidwar6 item $$k ; done > $(srcdir)/weapons-selfdoc.texi
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/liquidwar6-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/liquidwar6.h.in
-@LW6_DOXYGEN_TRUE@	echo doxygen liquidwar6 && rm -f $@; for k in doxygen/xml/structlw6__* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen liquidwar6 && rm -f $@; touch $@; for l in doxygen/xml/structlw6__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/bot-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/bot/bot.h
-@LW6_DOXYGEN_TRUE@	echo doxygen bot && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen bot && rm -f $@; touch $@; for l in doxygen/xml/structlw6bot__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/cfg-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cfg/cfg.h $(top_srcdir)/src/lib/cfg/cfg-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen cfg && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen cfg && rm -f $@; touch $@; for l in doxygen/xml/structlw6cfg__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/cli-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cli/cli.h
-@LW6_DOXYGEN_TRUE@	echo doxygen cli && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen cli && rm -f $@; touch $@; for l in doxygen/xml/structlw6cli__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/cns-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cns/cns.h
-@LW6_DOXYGEN_TRUE@	echo doxygen cns && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen cns && rm -f $@; touch $@; for l in doxygen/xml/structlw6cns__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/cnx-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cnx/cnx.h
-@LW6_DOXYGEN_TRUE@	echo doxygen cnx && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen cnx && rm -f $@; touch $@; for l in doxygen/xml/structlw6cnx__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/dat-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/dat/dat.h $(top_srcdir)/src/lib/dat/dat-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen dat && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen dat && rm -f $@; touch $@; for l in doxygen/xml/structlw6dat__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/dsp-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/dsp/dsp.h $(top_srcdir)/src/lib/dsp/dsp-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen dsp && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen dsp && rm -f $@; touch $@; for l in doxygen/xml/structlw6dsp__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/dyn-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/dyn/dyn.h $(top_srcdir)/src/lib/dyn/dyn-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen dyn && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen dyn && rm -f $@; touch $@; for l in doxygen/xml/structlw6dyn__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/gfx-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/gfx/gfx.h
-@LW6_DOXYGEN_TRUE@	echo doxygen gfx && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen gfx && rm -f $@; touch $@; for l in doxygen/xml/structlw6gfx__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/glb-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/glb/glb.h $(top_srcdir)/src/lib/glb/glb-internal.h $(top_srcdir)/src/lib/glb/gnulib-base64.h $(top_srcdir)/src/lib/glb/gnulib-hmac.h $(top_srcdir)/src/lib/glb/gnulib-memxor.h $(top_srcdir)/src/lib/glb/gnulib-sha1.h $(top_srcdir)/src/lib/glb/gnulib-stdalign.h.in
-@LW6_DOXYGEN_TRUE@	echo doxygen glb && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen glb && rm -f $@; touch $@; for l in doxygen/xml/structlw6glb__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/gui-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/gui/gui.h
-@LW6_DOXYGEN_TRUE@	echo doxygen gui && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen gui && rm -f $@; touch $@; for l in doxygen/xml/structlw6gui__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/hlp-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/hlp/hlp.h $(top_srcdir)/src/lib/hlp/hlp-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen hlp && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen hlp && rm -f $@; touch $@; for l in doxygen/xml/structlw6hlp__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/img-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/img/img.h
-@LW6_DOXYGEN_TRUE@	echo doxygen img && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen img && rm -f $@; touch $@; for l in doxygen/xml/structlw6img__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/ker-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/ker/ker.h $(top_srcdir)/src/lib/ker/ker-internal.h $(top_srcdir)/src/lib/ker/ker-trigo.h
-@LW6_DOXYGEN_TRUE@	echo doxygen ker && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen ker && rm -f $@; touch $@; for l in doxygen/xml/structlw6ker__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/ldr-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/ldr/ldr.h $(top_srcdir)/src/lib/ldr/ldr-internal.h $(top_srcdir)/src/lib/ldr/ldr-png.h.in
-@LW6_DOXYGEN_TRUE@	echo doxygen ldr && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen ldr && rm -f $@; touch $@; for l in doxygen/xml/structlw6ldr__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/map-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/map/map.h
-@LW6_DOXYGEN_TRUE@	echo doxygen map && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen map && rm -f $@; touch $@; for l in doxygen/xml/structlw6map__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/msg-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/msg/msg.h
-@LW6_DOXYGEN_TRUE@	echo doxygen msg && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen msg && rm -f $@; touch $@; for l in doxygen/xml/structlw6msg__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/net-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/net/net.h $(top_srcdir)/src/lib/net/net-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen net && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen net && rm -f $@; touch $@; for l in doxygen/xml/structlw6net__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/nod-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/nod/nod.h $(top_srcdir)/src/lib/nod/nod-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen nod && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen nod && rm -f $@; touch $@; for l in doxygen/xml/structlw6nod__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/p2p-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/p2p/p2p.h $(top_srcdir)/src/lib/p2p/p2p-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen p2p && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen p2p && rm -f $@; touch $@; for l in doxygen/xml/structlw6p2p__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/pil-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/pil/pil.h $(top_srcdir)/src/lib/pil/pil-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen pil && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen pil && rm -f $@; touch $@; for l in doxygen/xml/structlw6pil__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/scm-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/scm/scm.h
-@LW6_DOXYGEN_TRUE@	echo doxygen scm && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen scm && rm -f $@; touch $@; for l in doxygen/xml/structlw6scm__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/sim-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/sim/sim.h $(top_srcdir)/src/lib/sim/sim-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen sim && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen sim && rm -f $@; touch $@; for l in doxygen/xml/structlw6sim__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/snd-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/snd/snd.h
-@LW6_DOXYGEN_TRUE@	echo doxygen snd && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen snd && rm -f $@; touch $@; for l in doxygen/xml/structlw6snd__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/srv-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/srv/srv.h
-@LW6_DOXYGEN_TRUE@	echo doxygen srv && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen srv && rm -f $@; touch $@; for l in doxygen/xml/structlw6srv__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/sys-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/sys/sys-build.h.in $(top_srcdir)/src/lib/sys/sys-build-md5sum.h $(top_srcdir)/src/lib/sys/sys-build-stamp.h $(top_srcdir)/src/lib/sys/sys-gettext.h $(top_srcdir)/src/lib/sys/sys.h $(top_srcdir)/src/lib/sys/sys-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen sys && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen sys && rm -f $@; touch $@; for l in doxygen/xml/structlw6sys__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/tsk-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/tsk/tsk.h $(top_srcdir)/src/lib/tsk/tsk-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen tsk && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen tsk && rm -f $@; touch $@; for l in doxygen/xml/structlw6tsk__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/vox-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/vox/vox.h $(top_srcdir)/src/lib/vox/vox-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen vox && rm -f $@; for k in doxygen/xml/structlw6* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen vox && rm -f $@; touch $@; for l in doxygen/xml/structlw6vox__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-brute-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/bot/mod-brute/mod-brute.h $(top_srcdir)/src/lib/bot/mod-brute/mod-brute-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-brute && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-brute mod__brute && rm -f $@; touch $@; for l in doxygen/xml/structmod__brute__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-follow-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/bot/mod-follow/mod-follow.h $(top_srcdir)/src/lib/bot/mod-follow/mod-follow-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-follow && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-follow mod__follow && rm -f $@; touch $@; for l in doxygen/xml/structmod__follow__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-idiot-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/bot/mod-idiot/mod-idiot.h $(top_srcdir)/src/lib/bot/mod-idiot/mod-idiot-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-idiot && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-idiot mod__idiot && rm -f $@; touch $@; for l in doxygen/xml/structmod__idiot__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-random-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/bot/mod-random/mod-random.h $(top_srcdir)/src/lib/bot/mod-random/mod-random-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-random && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-random mod__random && rm -f $@; touch $@; for l in doxygen/xml/structmod__random__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-gl-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/gfx/mod-gl/gl-background/gl-background.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-background/gl-bubbles/gl-bubbles.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-background/gl-bubbles/gl-bubbles-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-background/gl-void/gl-void.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-background/gl-void/gl-void-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-hud/gl-floating/gl-floating.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-hud/gl-floating/gl-floating-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-hud/gl-hud.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-hud/gl-tactical/gl-tactical.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-hud/gl-tactical/gl-tactical-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-menu/gl-cylinder/gl-cylinder.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-menu/gl-cylinder/gl-cylinder-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-menu/gl-menu.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-splash/gl-splash.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-splash/gl-splash-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-utils/gl-utils.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-view/gl-flat/gl-flat.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-view/gl-flat/gl-flat-internal.h $(top_srcdir)/src/lib/gfx/mod-gl/gl-view/gl-view.h $(top_srcdir)/src/lib/gfx/mod-gl/mod-gl.h $(top_srcdir)/src/lib/gfx/mod-gl/mod-gl-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-gl && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-gl mod__gl && rm -f $@; touch $@; for l in doxygen/xml/structmod__gl__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-csound-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/snd/mod-csound/mod-csound.h $(top_srcdir)/src/lib/snd/mod-csound/mod-csound-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-csound && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-csound mod__csound && rm -f $@; touch $@; for l in doxygen/xml/structmod__csound__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-ogg-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/snd/mod-ogg/mod-ogg.h $(top_srcdir)/src/lib/snd/mod-ogg/mod-ogg-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-ogg && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-ogg mod__ogg && rm -f $@; touch $@; for l in doxygen/xml/structmod__ogg__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-tcp-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cli/mod-tcp/mod-tcp.h $(top_srcdir)/src/lib/cli/mod-tcp/mod-tcp-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-tcp && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-tcp mod__tcp && rm -f $@; touch $@; for l in doxygen/xml/structmod__tcp__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-udp-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cli/mod-udp/mod-udp.h $(top_srcdir)/src/lib/cli/mod-udp/mod-udp-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-udp && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-udp mod__udp && rm -f $@; touch $@; for l in doxygen/xml/structmod__udp__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-http-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/cli/mod-http/mod-http.h $(top_srcdir)/src/lib/cli/mod-http/mod-http-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-http && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-http mod__http && rm -f $@; touch $@; for l in doxygen/xml/structmod__http__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-tcpd-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/srv/mod-tcpd/mod-tcpd.h $(top_srcdir)/src/lib/srv/mod-tcpd/mod-tcpd-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-tcpd && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-tcpd mod__tcpd && rm -f $@; touch $@; for l in doxygen/xml/structmod__tcpd__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-udpd-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/srv/mod-udpd/mod-udpd.h $(top_srcdir)/src/lib/srv/mod-udpd/mod-udpd-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-udpd && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-udpd mod__udpd && rm -f $@; touch $@; for l in doxygen/xml/structmod__udpd__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 @LW6_DOXYGEN_TRUE@$(top_srcdir)/doc/mod-httpd-doxygen.texi: doxygen/html/index.html $(top_srcdir)/src/lib/srv/mod-httpd/mod-httpd.h $(top_srcdir)/src/lib/srv/mod-httpd/mod-httpd-internal.h
-@LW6_DOXYGEN_TRUE@	echo doxygen mod-httpd && rm -f $@; for k in doxygen/xml/struct* ; do if test -f "$$k"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$k" | grep -v "<?xml" >> $@; fi; done
+@LW6_DOXYGEN_TRUE@	echo doxygen mod-httpd mod__httpd && rm -f $@; touch $@; for l in doxygen/xml/structmod__httpd__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" >> $@; fi; done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

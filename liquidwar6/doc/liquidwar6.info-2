@@ -7189,3 +7189,2060 @@ results on
 
      *Return value:*  1 if test is successfull, 0 on error.
 
+
+File: liquidwar6.info,  Node: libbot,  Next: mod-brute,  Prev: libliquidwar6,  Up: C API
+
+5.2 libbot
+==========
+
+5.2.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/index.html'.
+
+5.2.2 API
+---------
+
+ -- Function: int lw6bot_init (lw6bot_backend_t * BACKEND,
+          lw6bot_seed_t * SEED)
+     BACKEND:  backend to use
+
+     SEED:  parameters required to build bot (game state, among other
+     things)
+
+     Initializes a bot object. Must be performed before any other call.
+     The seed is absolutely required, for a bot really needs to know
+     what map/context it's working on, including at creation time
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6bot_quit (lw6bot_backend_t * BACKEND)
+     BACKEND:  unitialize a bot backend
+
+     Closes a bot, but does not free all ressources.
+
+ -- Function: int lw6bot_next_move (lw6bot_backend_t * BACKEND, int *
+          X, int * Y)
+     BACKEND:  bot to work on
+
+     X:  next x position (out param)
+
+     Y:  next y position (out param)
+
+     Queries the bot for its next move, this is actually the one
+     interesting function in the whole bot API.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: char * lw6bot_repr (lw6bot_backend_t * BACKEND)
+     BACKEND:  bot to represent
+
+     Gives a human readable representation of bot
+
+     *Return value:*  dynamically allocated string.
+
+ -- Function: lw6sys_assoc_t * lw6bot_get_backends (int ARGC, const
+          char * [] ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available bot backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6bot_backend_t * lw6bot_create_backend (int ARGC, const
+          char * [] ARGV, const char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing bot key, typically got from
+     `lw6bot_get_backends'
+
+     Creates a bot backend, this is just about loading the dynamic
+     library if needed, and/or check bot engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  bot backend.
+
+ -- Function: void lw6bot_destroy_backend (lw6bot_backend_t * BACKEND)
+     BACKEND:  bot backend to destroy
+
+     Frees the ressources associated to a bot, which must have been
+     properly uninitialized before.
+
+     *Return value:*  none.
+
+ -- Function: int lw6bot_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `bot' module test suite. Will try several engines and
+     query basic moves.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- struct: lw6bot_backend_s
+
+ -- member of lw6bot_backend_s: dl_handle
+          lw6dyn_dl_handle_t* lw6bot_backend_s::dl_handle
+
+
+ -- member of lw6bot_backend_s: bot_context
+          void* lw6bot_backend_s::bot_context
+
+
+ -- member of lw6bot_backend_s: argc
+          int lw6bot_backend_s::argc
+
+
+ -- member of lw6bot_backend_s: argv
+          const char** lw6bot_backend_s::argv
+
+
+ -- member of lw6bot_backend_s: id
+          u_int32_t lw6bot_backend_s::id
+
+
+ -- member of lw6bot_backend_s: seed
+          lw6bot_seed_t lw6bot_backend_s::seed
+
+
+ -- member of lw6bot_backend_s: init
+          void*(* lw6bot_backend_s::init)(int argc, const char *argv[], lw6bot_data_t *data)
+
+
+ -- member of lw6bot_backend_s: quit
+          void(* lw6bot_backend_s::quit)(void *bot_context)
+
+
+ -- member of lw6bot_backend_s: next_move
+          int(* lw6bot_backend_s::next_move)(void *bot_context, int *x, int *y, lw6bot_data_t *data)
+
+
+ -- member of lw6bot_backend_s: repr
+          char*(* lw6bot_backend_s::repr)(void *bot_context, u_int32_t id)
+
+
+ -- struct: lw6bot_data_s
+
+ -- member of lw6bot_data_s: game_state
+          lw6ker_game_state_t* lw6bot_data_s::game_state
+
+
+ -- member of lw6bot_data_s: param
+          lw6bot_param_t lw6bot_data_s::param
+
+
+ -- struct: lw6bot_param_s
+
+ -- member of lw6bot_param_s: speed
+          float lw6bot_param_s::speed
+
+
+ -- member of lw6bot_param_s: iq
+          int lw6bot_param_s::iq
+
+
+ -- member of lw6bot_param_s: cursor_id
+          u_int16_t lw6bot_param_s::cursor_id
+
+
+ -- struct: lw6bot_seed_s
+
+ -- member of lw6bot_seed_s: game_state
+          lw6ker_game_state_t* lw6bot_seed_s::game_state
+
+
+ -- member of lw6bot_seed_s: pilot
+          lw6pil_pilot_t* lw6bot_seed_s::pilot
+
+
+ -- member of lw6bot_seed_s: dirty_read
+          int lw6bot_seed_s::dirty_read
+
+
+ -- member of lw6bot_seed_s: param
+          lw6bot_param_t lw6bot_seed_s::param
+
+
+
+File: liquidwar6.info,  Node: mod-brute,  Next: mod-follow,  Prev: libbot,  Up: C API
+
+5.3 mod-brute
+=============
+
+5.3.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-brute/index.html'.
+
+5.3.2 API
+---------
+
+ -- Function: void mod_brute_is_GPL_compatible ()
+     Defined to tell mod_brute is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_brute_get_pedigree ()
+     Returns the pedigree for mod-brute, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_brute_create_backend ()
+     Creates a mod-brute backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: mod-follow,  Next: mod-idiot,  Prev: mod-brute,  Up: C API
+
+5.4 mod-follow
+==============
+
+5.4.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-follow/index.html'.
+
+5.4.2 API
+---------
+
+ -- Function: void mod_follow_is_GPL_compatible ()
+     Defined to tell mod_follow is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_follow_get_pedigree ()
+     Returns the pedigree for mod-follow, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_follow_create_backend ()
+     Creates a mod-follow backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: mod-idiot,  Next: mod-random,  Prev: mod-follow,  Up: C API
+
+5.5 mod-idiot
+=============
+
+5.5.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-idiot/index.html'.
+
+5.5.2 API
+---------
+
+ -- Function: void mod_idiot_is_GPL_compatible ()
+     Defined to tell mod_idiot is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_idiot_get_pedigree ()
+     Returns the pedigree for mod-idiot, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_idiot_create_backend ()
+     Creates a mod-idiot backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: mod-random,  Next: libcfg,  Prev: mod-idiot,  Up: C API
+
+5.6 mod-random
+==============
+
+5.6.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/bot/mod-random/index.html'.
+
+5.6.2 API
+---------
+
+ -- Function: void mod_random_is_GPL_compatible ()
+     Defined to tell mod_random is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_random_get_pedigree ()
+     Returns the pedigree for mod-random, giving details about the
+     module, including name, description, licence, date/time of
+     compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6bot_backend_t * mod_random_create_backend ()
+     Creates a mod-random backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: libcfg,  Next: libcli,  Prev: mod-random,  Up: C API
+
+5.7 libcfg
+==========
+
+5.7.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cfg/index.html'.
+
+5.7.2 API
+---------
+
+ -- Function: int lw6cfg_parse_command_line (void * CONTEXT)
+     CONTEXT:  opaque pointer on a context
+
+     Overwrites any existing option with command line args
+
+     *Return value:*  1 if success, 0 if error
+
+ -- Function: int lw6cfg_defaults (void * CONTEXT)
+     CONTEXT:  opaque pointer on a context
+
+     Sets all values to their defaults.
+
+     *Return value:*  1 if success, 0 if error
+
+ -- Function: int lw6cfg_merge_env (void * CFG_CONTEXT)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     Overwrites any existing vale in the config with environment
+     variables prefixed by LW6_.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: int lw6cfg_load_exp (const char * USER_DIR, int * EXP)
+     USER_DIR:  the user directory
+
+     EXP:  the exp (out param)
+
+     Gets exp from file.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: int lw6cfg_save_exp (const char * USER_DIR, int EXP)
+     USER_DIR:  the user directory
+
+     EXP:  the exp
+
+     Saves exp to file.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: char * lw6cfg_format (const char * KEY, const char *
+          VALUE, lw6hlp_type_t TYPE)
+     KEY:  the key of the value to format
+
+     VALUE:  the value to format
+
+     TYPE:  the type of the value to format
+
+     Formats, converts, a given value to its cannonical representation.
+     Booleans will be converted to true/false, strings containing
+     integers will be stripped from junk, and so on. This is a
+     performance killer but will ensure everything is correct.
+
+     *Return value:*  a newly allocated string, containing the same as
+     the input, but reformatted the pedantic way.
+
+ -- Function: char * lw6cfg_format_guess_type (const char * KEY, const
+          char * VALUE)
+     KEY:  the key of the value to format
+
+     VALUE:  the value to format
+
+     Formats, converts, a given value to its cannonical representation.
+     Booleans will be converted to true/false, strings containing
+     integers will be stripped from junk, and so on. This is a
+     performance killer but will ensure everything is correct. This
+     function will automatically guess the type of the value from its
+     description in the help system.
+
+     *Return value:*  a newly allocated string, containing the same as
+     the input, but reformatted the pedantic way.
+
+ -- Function: int lw6cfg_load (void * CFG_CONTEXT, const char *
+          FILENAME)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     FILENAME:  a file path, absolute or relative
+
+     Loads the given config file, and stores its values into the current
+     context. Parameters which are both in the config file and given as
+     command line parameters, will be taken from the command-line.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: int lw6cfg_option_exists (void * CONTEXT, const char *
+          KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns wether a key exists within context or not.
+
+     *Return value:*  1 if exists, 0 if not
+
+ -- Function: char * lw6cfg_get_option (void * CONTEXT, const char *
+          KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns the current value for a given query, the returned value is
+     always a string, typically the string one would pass on the
+     command line or set in a config file
+
+     *Return value:*  pointer to string, must not be freed.
+
+ -- Function: void lw6cfg_set_option (void * CONTEXT, const char * KEY,
+          const char * VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Sets a given key to the specified value, this is a string only
+     function, pass the value you would pass on the command line or set
+     in a config file.
+
+     *Return value:*  none
+
+ -- Function: int lw6cfg_get_option_int (void * CONTEXT, const char *
+          KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns an option as an integer. Note that this function does not
+     know wether the parameter should really be an integer or not, so
+     you can call it even on non-integer values, but of course results
+     will have no real meaning.
+
+     *Return value:*  option value converted to int
+
+ -- Function: void lw6cfg_set_option_int (void * CONTEXT, const char *
+          KEY, int VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Set a config option to an integer value. Note that this function
+     does not know wether the parameter should really be an integer or
+     not, so you can call it even on non-integer values, at your own
+     risk.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_get_option_bool (void * CONTEXT, const char *
+          KEY)
+     CONTEXT:  context to query
+
+     KEY:  key to search
+
+     Returns an option as a boolean. Note that this function does not
+     know wether the parameter should really be a boolean or not, so
+     you can call it even on non-boolean values, but of course results
+     will have no real meaning.
+
+     *Return value:*  option value converted to boolean
+
+ -- Function: void lw6cfg_set_option_bool (void * CONTEXT, const char *
+          KEY, int VALUE)
+     CONTEXT:  context to modify
+
+     KEY:  key to search and change
+
+     VALUE:  new value
+
+     Set a config option to a boolean value. Note that this function
+     does not know wether the parameter should really be a boolean or
+     not, so you can call it even on non-boolean values, at your own
+     risk.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_must_be_saved (const char * KEY)
+     KEY:  key to test
+
+     Tells wether a key should be saved in the config file.  Typically,
+     some options you don't want to savem such as the location of the
+     config file itself. Most of those non-savable parameters are
+     path-related. This does not mean no paths are saved in the config
+     file.
+
+     *Return value:*  1 if must be saved, 0 if not
+
+ -- Function: int lw6cfg_save (void * CFG_CONTEXT, const char *
+          FILENAME)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     FILENAME:  a file path, absolute or relative
+
+     Save current options into the given config file. Before saving the
+     file, all command line arguments will be read and will override
+     current values. This means the saved file will contain values
+     given as command line arguments.
+
+     *Return value:*  1 if successfull, 0 if error.
+
+ -- Function: void * lw6cfg_init (int ARGC, const char * [] ARGV)
+     ARGC:  number of command line arguments, as given to `main'
+
+     ARGV:  a list of command line arguments, as given to `main'
+
+     Initializes a config context object. This object is hidden behind
+     an opaque void * pointer to avoid direct access to its elements.
+
+     *Return value:*  an opaque pointer, must be freed with
+     `lw6cfg_quit'.
+
+ -- Function: void lw6cfg_quit (void * CFG_CONTEXT)
+     CFG_CONTEXT:  a context returned by `lw6cfg_init'
+
+     Frees a config cfg_context object. You must call this once you're
+     done with the context.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_reset (int ARGC, const char * [] ARGV)
+     ARGC:  number of command line arguments, as given to `main'
+
+     ARGV:  a list of command line arguments, as given to `main'
+
+     Overwrites the config file with defaults.  Use this to get rid of
+     old configurations.
+
+ -- Function: int lw6cfg_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cfg' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: char * lw6cfg_unified_get_value (int ARGC, const char *
+          [] ARGV, char * KEY)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     KEY:  the key to query
+
+     Unified "value" getter, which gets informations from environment
+     variables, command line, and config file. The rules is that the
+     command-line argument always has the last word. It will override
+     any other value.  Follows environment variables, which will be
+     used if no command-line argument is supplied. Note that these are
+     "LW6_" prefixed and uppercased environment variables as opposed to
+     lowercased and "dash-separated" keys. Finally, if there's no
+     environment variable, nor any config-file corresponding entry, the
+     value will be searched in the config file.  If there's no
+     information in the config file, NULL is returned.
+
+     *Return value:*  a string with the value. Can be NULL. Must be
+     freed.
+
+ -- Function: char * lw6cfg_unified_get_user_dir (int ARGC, const char
+          * [] ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_USER_DIR" env value, the "-user-dir" command-line
+     paramater and the LW6DEF_USER_DIR config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_log_file (int ARGC, const char
+          * [] ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the log file, taking all parameters in account, that's to say
+     the "LW6_LOG_FILE" env value, the "-log-file" command-line
+     paramater and the LW6DEF_LOG_FILE config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_music_path (int ARGC, const
+          char * [] ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_MUSIC_PATH" env value, the "-music-path" command-line
+     paramater and the LW6DEF_MUSIC_PATH config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_unified_get_map_path (int ARGC, const char
+          * [] ARGV)
+     ARGC:  number of command-line args, as passed to `main'
+
+     ARGV:  arry of command-line args, as passed to `main'
+
+     Gets the user dir, taking all parameters in account, that's to say
+     the "LW6_MAP_PATH" env value, the "-map-path" command-line
+     paramater and the LW6DEF_MAP_PATH config file entry.
+
+     *Return value:*  the directory path, might be NULL, must be freed.
+
+ -- Function: char * lw6cfg_xml_element (lw6hlp_type_t TYPE)
+     TYPE:  type as an enum
+
+     Returns the string corresponding to a given type, suitable for use
+     in XML files. For instance if you pass `LW6HLP_TYPE_INT' then you
+     will obtain the string int (string of 3 chars containing i, n and
+     t.
+
+     *Return value:*  string, must not be freed.
+
+ -- Function: void lw6cfg_read_xml_int (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, int * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to int) in the `value' param. Typically, you would call
+     this in a loop on every single entry found in an XML file, in an
+     expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_bool (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, int * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to boolean) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_float (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, float * VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to float) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_string (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, char ** VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value (as a
+     string) in the `value' param. Typically, you would call this in a
+     loop on every single entry found in an XML file, in an expat
+     callback.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_read_xml_color (const char * XML_KEY, const
+          char * XML_VALUE, const char * TARGET_KEY, lw6sys_color_8_t *
+          VALUE)
+     XML_KEY:  key found in XML file
+
+     XML_VALUE:  value found in XML file
+
+     TARGET_KEY:  key we're searching for
+
+     VALUE:  the value if found (out param)
+
+     Tries to find a value in a key/value pair. If `xml_key' and
+     `target_key' match, then will put the corresponding value
+     (converted to a color) in the `value' param. Typically, you would
+     call this in a loop on every single entry found in an XML file, in
+     an expat callback.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cfg_read_key_value_xml_file (const char *
+          FILENAME, lw6cfg_read_xml_callback_func_t CALLBACK_FUNC, void
+          * CALLBACK_DATA)
+     FILENAME:  full path of file to read
+
+     CALLBACK_FUNC:  callback function to be called on each element
+
+     CALLBACK_DATA:  additionnal pointer passed to callback function
+
+     Will parse a file and call the given callback on each element.
+     This is an over-simplified way to read XML file, in fact we just
+     explain plain non-nested simple elements but this is exactly what
+     LW config files are made of.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6cfg_write_xml_int (FILE * F, const char * KEY,
+          int VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes an int entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_bool (FILE * F, const char * KEY,
+          int VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a boolean entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_float (FILE * F, const char * KEY,
+          float VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a float entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_string (FILE * F, const char * KEY,
+          const char * VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a string entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_color (FILE * F, const char * KEY,
+          lw6sys_color_8_t VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes a color entry into an opened XML file.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cfg_write_xml_guess_type (FILE * F, const char *
+          KEY, const char * VALUE)
+     F:  file to write data to (append mode)
+
+     KEY:  key to write
+
+     VALUE:  value to write
+
+     Writes an entry into an opened XML file, will try and guess type
+     from the internal help system, typically, if this is a standard
+     config file entry (the one documented by the about command line
+     function) it will pick up the right type. The reason not to use
+     this all the times is that sometimes, one might to to store
+     non-standard options, and additionnally, guessing the type does
+     consume some CPU.
+
+     *Return value:*  none.
+
+
+File: liquidwar6.info,  Node: libcli,  Next: mod-http,  Prev: libcfg,  Up: C API
+
+5.8 libcli
+==========
+
+5.8.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/index.html'.
+
+5.8.2 API
+---------
+
+ -- Function: int lw6cli_init (lw6cli_backend_t * BACKEND)
+     BACKEND:  backend to use
+
+     Initializes a client backend. Must be performed before any other
+     call.
+
+     *Return value:*  1 on success, 0 on failure
+
+ -- Function: void lw6cli_quit (lw6cli_backend_t * BACKEND)
+     BACKEND:  unitialize a cli backend
+
+     Closes a cli, but does not free all ressources.
+
+ -- Function: int lw6cli_process_oob (lw6cli_backend_t * BACKEND,
+          lw6nod_info_t * NODE_INFO, lw6cli_oob_data_t * OOB_DATA)
+     BACKEND:  backend to use
+
+     NODE_INFO:  information on the current node
+
+     OOB_DATA:  data of the out-of-band request
+
+     Processes the required out-of-band tasks, this typically, for a
+     client, includes broadcasting. Depending on parameters passed in
+     oob_data, might actually do a broadcast or simply call a given
+     host and see what's the answer.  A typicall exchange is PING then
+     INFO and finally LIST. It's the responsability of the client to
+     take the OOB initiative and contact the server.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: lw6cnx_connection_t * lw6cli_open (lw6cli_backend_t *
+          BACKEND, char * LOCAL_URL, char * REMOTE_URL, char *
+          REMOTE_IP, int REMOTE_PORT, char * PASSWORD, u_int64_t
+          LOCAL_ID, u_int64_t REMOTE_ID, int DNS_OK, int
+          NETWORK_RELIABILITY, lw6cnx_recv_callback_t
+          RECV_CALLBACK_FUNC, void * RECV_CALLBACK_DATA)
+     BACKEND:  backend to use
+
+     LOCAL_URL:  our local public url
+
+     REMOTE_URL:  the remote url we want to connect to
+
+     REMOTE_IP:  remote IP address
+
+     REMOTE_PORT:  remote IP port
+
+     PASSWORD:  password to use (if needed)
+
+     LOCAL_ID:  our local id
+
+     REMOTE_ID:  the remote id
+
+     DNS_OK:  wether the remote announced URL matches DNS information
+
+     NETWORK_RELIABILITY:  network reliability (the highest, the better)
+
+     RECV_CALLBACK_FUNC:  callback func to be called when data is
+     received
+
+     RECV_CALLBACK_DATA:  pointer on additionnal data to pass to
+     callback func
+
+     Opens a connection with a remote host. Be carefull with the
+     implementation of `recv_callback_func', it should be at least
+     reentrant, and when it accesses shared data, use locks.
+
+     *Return value:*  new object.
+
+ -- Function: void lw6cli_close (lw6cli_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  backend to use
+
+     CONNECTION:  connection to use
+
+     Closes a connection, this will free the connection object.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cli_send (lw6cli_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION, u_int32_t
+          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
+          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MESSAGE)
+     BACKEND:  backend to use
+
+     CONNECTION:  connection to use
+
+     PHYSICAL_TICKET_SIG:  signature of physical sender
+
+     LOGICAL_TICKET_SIG:  signature of logical sender
+
+     LOGICAL_FROM_ID:  id of logical sender
+
+     LOGICAL_TO_ID:  id of logicial target
+
+     MESSAGE:  text of message to send
+
+     Sends a message to a peer over a given connection.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: void lw6cli_poll (lw6cli_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  backend to use
+
+     CONNECTION:  connection to use
+
+     Performs required duty on connection, depending on the backend,
+     this can include sending messages and/or receiving them.  Must be
+     called on a regular basis.
+
+     *Return value:*  none.
+
+ -- Function: char * lw6cli_repr (lw6cli_backend_t * BACKEND,
+          lw6cnx_connection_t * CONNECTION)
+     BACKEND:  backend to use
+
+     CONNECTION:  connection to represent
+
+     Gives a human readable representation of the connection.
+
+     *Return value:*  dynamically allocated string.
+
+ -- Function: lw6cli_oob_t * lw6cli_oob_new (char * PUBLIC_URL,
+          lw6cli_verify_callback_func_t VERIFY_CALLBACK_FUNC, void *
+          VERIFY_CALLBACK_DATA)
+     PUBLIC_URL:  the address of the distant server to test
+
+     VERIFY_CALLBACK_FUNC:  a function which will be called when a node
+     has been verified
+
+     VERIFY_CALLBACK_DATA:  additionnal data passed to the callback func
+
+     Create a new OOB structure, copying required objects.  We need to
+     make copies for this is for usage in a separate thread. The thread
+     member is not set here since the right way to do things is first to
+     set up data then to fire the thread.
+
+     *Return value:*  new object
+
+ -- Function: void lw6cli_oob_free (lw6cli_oob_t * OOB)
+     OOB:  the object to free
+
+     Frees an OOB structure.
+
+     *Return value:*  none
+
+ -- Function: char * lw6cli_default_backends ()
+     Returns the list of the default cli backends.
+
+     *Return value:*  comma separated string, must not be freed.
+
+ -- Function: lw6sys_assoc_t * lw6cli_get_backends (int ARGC, const
+          char * [] ARGV)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     List available cli backends. The hash contains pairs with id and
+     name for each backend. The id is the technical key you can use to
+     load the backend, the name is something more readable you can
+     display in an interface. The backend objects themselves are not
+     instanciated by this (in fact, they are, but released on the fly)
+     you need to load and initialize them afterwards.
+
+     *Return value:*  hash containing id/name pairs.
+
+ -- Function: lw6cli_backend_t * lw6cli_create_backend (int ARGC, const
+          char * [] ARGV, char * NAME)
+     ARGC:  argc, as passed to `main'
+
+     ARGV:  argv, as passed to `main'
+
+     NAME:  string containing cli key, typically got from
+     `lw6cli_get_backends'
+
+     Creates a cli backend, this is just about loading the dynamic
+     library if needed, and/or check cli engine is available, and
+     connect to it. It does not perform initialization.
+
+     *Return value:*  cli backend.
+
+ -- Function: void lw6cli_destroy_backend (lw6cli_backend_t * BACKEND)
+     BACKEND:  backend to destroy
+
+     Destroys a cli backend.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cli_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cli' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- struct: lw6cli_backend_s
+
+ -- member of lw6cli_backend_s: dl_handle
+          lw6dyn_dl_handle_t* lw6cli_backend_s::dl_handle
+
+
+ -- member of lw6cli_backend_s: cli_context
+          void* lw6cli_backend_s::cli_context
+
+
+ -- member of lw6cli_backend_s: argc
+          int lw6cli_backend_s::argc
+
+
+ -- member of lw6cli_backend_s: argv
+          const char** lw6cli_backend_s::argv
+
+
+ -- member of lw6cli_backend_s: id
+          u_int32_t lw6cli_backend_s::id
+
+
+ -- member of lw6cli_backend_s: name
+          char* lw6cli_backend_s::name
+
+
+ -- member of lw6cli_backend_s: init
+          void*(* lw6cli_backend_s::init)(int argc, const char *argv[])
+
+
+ -- member of lw6cli_backend_s: quit
+          void(* lw6cli_backend_s::quit)(void *cli_context)
+
+
+ -- member of lw6cli_backend_s: process_oob
+          int(* lw6cli_backend_s::process_oob)(void *cli_context, lw6nod_info_t *node_info, lw6cli_oob_data_t *oob_data)
+
+
+ -- member of lw6cli_backend_s: open
+          lw6cnx_connection_t*(* lw6cli_backend_s::open)(void *cli_context, char *local_url, char *remote_url, char *remote_ip, int remote_port, char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+
+
+ -- member of lw6cli_backend_s: close
+          void(* lw6cli_backend_s::close)(void *cli_context, lw6cnx_connection_t *connection)
+
+
+ -- member of lw6cli_backend_s: send
+          int(* lw6cli_backend_s::send)(void *cli_context, lw6cnx_connection_t *connection, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, char *message)
+
+
+ -- member of lw6cli_backend_s: poll
+          void(* lw6cli_backend_s::poll)(void *cli_context, lw6cnx_connection_t *connection)
+
+
+ -- member of lw6cli_backend_s: repr
+          char*(* lw6cli_backend_s::repr)(void *cli_context, lw6cnx_connection_t *connection)
+
+
+ -- struct: lw6cli_oob_data_s
+
+ -- member of lw6cli_oob_data_s: creation_timestamp
+          int64_t lw6cli_oob_data_s::creation_timestamp
+
+
+ -- member of lw6cli_oob_data_s: do_not_finish
+          int lw6cli_oob_data_s::do_not_finish
+
+
+ -- member of lw6cli_oob_data_s: public_url
+          char* lw6cli_oob_data_s::public_url
+
+
+ -- member of lw6cli_oob_data_s: verify_callback_func
+          lw6cli_verify_callback_func_t lw6cli_oob_data_s::verify_callback_func
+
+
+ -- member of lw6cli_oob_data_s: verify_callback_data
+          void* lw6cli_oob_data_s::verify_callback_data
+
+
+ -- struct: lw6cli_oob_s
+
+ -- member of lw6cli_oob_s: thread
+          void* lw6cli_oob_s::thread
+
+
+ -- member of lw6cli_oob_s: data
+          lw6cli_oob_data_t lw6cli_oob_s::data
+
+
+
+File: liquidwar6.info,  Node: mod-http,  Next: mod-tcp,  Prev: libcli,  Up: C API
+
+5.9 mod-http
+============
+
+5.9.1 Overview
+--------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-http/index.html'.
+
+5.9.2 API
+---------
+
+ -- Function: void mod_http_is_GPL_compatible ()
+     Defined to tell mod_http is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_http_get_pedigree ()
+     Returns the pedigree for mod-http, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_http_create_backend ()
+     Creates a mod-http backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: mod-tcp,  Next: mod-udp,  Prev: mod-http,  Up: C API
+
+5.10 mod-tcp
+============
+
+5.10.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-tcp/index.html'.
+
+5.10.2 API
+----------
+
+ -- Function: void mod_tcp_is_GPL_compatible ()
+     Defined to tell mod_tcp is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_tcp_get_pedigree ()
+     Returns the pedigree for mod-tcp, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_tcp_create_backend ()
+     Creates a mod-tcp backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: mod-udp,  Next: libcns,  Prev: mod-tcp,  Up: C API
+
+5.11 mod-udp
+============
+
+5.11.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cli/mod-udp/index.html'.
+
+5.11.2 API
+----------
+
+ -- Function: void mod_udp_is_GPL_compatible ()
+     Defined to tell mod_udp is compatible with GNU General Public
+     License.  Of course it is. This function does nothing, but the
+     fact it's declared makes its GPL compatibility obvious. Having
+     this declared is required.
+
+     *Return value:*  none
+
+ -- Function: lw6sys_module_pedigree_t * mod_udp_get_pedigree ()
+     Returns the pedigree for mod-udp, giving details about the module,
+     including name, description, licence, date/time of compilation.
+
+     *Return value:*  dynamically allocated object.
+
+ -- Function: lw6cli_backend_t * mod_udp_create_backend ()
+     Creates a mod-udp backend.
+
+     *Return value:*  backend pointer.
+
+
+File: liquidwar6.info,  Node: libcns,  Next: libcnx,  Prev: mod-udp,  Up: C API
+
+5.12 libcns
+===========
+
+5.12.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cns/index.html'.
+
+5.12.2 API
+----------
+
+ -- Function: void lw6cns_handler_install (lw6cns_callback_func_t
+          CALLBACK)
+     CALLBACK:  handler function.
+
+     Installs a console handler.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_handler_poll ()
+     Polling function for console, must be called on a regular basis.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_handler_remove ()
+     Remove console handler.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cns_history_add_if_needed (char * LINE)
+     LINE:  line to add
+
+     Adds a line to the console history, won't add it if it's NULL or
+     empty.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cns_support ()
+     Tells wether console is supported.
+
+     *Return value:*  1 if console can be enabled, 0 if not
+
+ -- Function: int lw6cns_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cns' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+
+File: liquidwar6.info,  Node: libcnx,  Next: libdat,  Prev: libcns,  Up: C API
+
+5.13 libcnx
+===========
+
+5.13.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/cnx/index.html'.
+
+5.13.2 API
+----------
+
+ -- Function: lw6cnx_connection_t * lw6cnx_connection_new (char *
+          LOCAL_URL, char * REMOTE_URL, char * REMOTE_IP, int
+          REMOTE_PORT, char * PASSWORD, u_int64_t LOCAL_ID, u_int64_t
+          REMOTE_ID, int DNS_OK, int NETWORK_RELIABILITY,
+          lw6cnx_recv_callback_t RECV_CALLBACK_FUNC, void *
+          RECV_CALLBACK_DATA)
+     LOCAL_URL:  the local public URL
+
+     REMOTE_URL:  the remote public URL
+
+     REMOTE_IP:  the remote IP address
+
+     REMOTE_PORT:  the remote port
+
+     PASSWORD:  the password to use
+
+     LOCAL_ID:  the local ID
+
+     REMOTE_ID:  the remote ID
+
+     DNS_OK:  1 if no DNS mismatch, 0 if IP does not match public URL
+
+     NETWORK_RELIABILITY:  drop 1 out of X packets
+
+     RECV_CALLBACK_FUNC:  a callback to call when data is received
+
+     RECV_CALLBACK_DATA:  additionnal data to pass to the callback
+
+     Create a connection object. This object in itself does nothing,
+     it's just to share common structures among modules, more
+     precisely, between cli and srv code.  It's the responsability off
+     the caller/backend to handle the `backend_specific_data' field
+     which is NULL after this call.
+
+     *Return value:*  newly allocated object.
+
+ -- Function: void lw6cnx_connection_free (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  object to free
+
+     Frees a connection object. It's the responsibility of the
+     caller/backend to handle the `backend_specific_data' field.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_connection_should_send_foo
+          (lw6cnx_connection_t * CONNECTION, int64_t NOW)
+     CONNECTION:  the connection concerned
+
+     NOW:  the current timestamp
+
+     Tells wether a new foo message must be issued.
+
+     *Return value:*  1 if true, 0 if false.
+
+ -- Function: void lw6cnx_connection_init_foo_bar_key
+          (lw6cnx_connection_t * CONNECTION, int64_t NOW, int
+          NEXT_FOO_DELAY)
+     CONNECTION:  the connection concerned
+
+     NOW:  the current timestamp
+
+     NEXT_FOO_DELAY:  the delay (msec) before next foo message is sent
+
+     Generates a new foo_bar_key, and schedules the next foo message
+     send timestamp.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_connection_lock_send (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  the connexion to lock
+
+     Acquires a "send" lock on the connexion, the idea is to avoid too
+     threads sending data using the same socket at the same time.  Note
+     that each backend must call this when accessing the socket,
+     there's no top-level lock for the sake of performance.
+
+     *Return value:*  1 on success, 0 if not.
+
+ -- Function: void lw6cnx_connection_unlock_send (lw6cnx_connection_t *
+          CONNECTION)
+     CONNECTION:  the connexion to lock
+
+     Releases a "send" lock on the connexion, the idea is to avoid too
+     threads sending data using the same socket at the same time.  Note
+     that each backend must call this when accessing the socket,
+     there's no top-level lock for the sake of performance.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_connection_reliability_filter
+          (lw6cnx_connection_t * CONNECTION)
+     CONNECTION:  the connexion concerned
+
+     Will filter and return true only in "rare" cases when packets must
+     be artificially dropped for testing purpose.
+
+     *Return value:*  1 if message must be sent/received, 0 if not
+
+ -- Function: char * lw6cnx_password_checksum (char * SEED, char *
+          PASSWORD)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD:  the password, can be NULL
+
+     Calculates the checksum of a password, and returns it as a string,
+     ready to be sent on the network.  If password is empty or NULL,
+     then an empty (but not NULL unless internal error) string will be
+     returned. All LW6 protocols should send these checksums instead of
+     real passwords, then on server side value can be checked against
+     both real password and its checksum. The seed is here so that
+     eavesdropper can't reuse the checksum to connect on random
+     sessions. Seed can typically be the node 'public_url' value.
+
+     *Return value:*  a dynamically allocated string
+
+ -- Function: int lw6cnx_password_verify (char * SEED, char *
+          PASSWORD_HERE, char * PASSWORD_RECEIVED)
+     SEED:  a seed to blur the password, can be NULL
+
+     PASSWORD_HERE:  the local password, can be NULL
+
+     PASSWORD_RECEIVED:  the password received from network, can be NULL
+
+     Tells wether a password received over the network is valid.  The
+     `password_here' argument (the local password) will be checksumed
+     so that `password_received' is checked against both clear and
+     checksumed values, so it can be in any form.
+
+     *Return value:*  1 if OK, passwords are the same, 0 if not.
+
+ -- Function: int lw6cnx_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `cnx' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: void lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t *
+          TICKET_TABLE)
+     TICKET_TABLE:  the ticket table to fill with zero
+
+     Fills the ticket table struct with 0s.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_ticket_table_init (lw6cnx_ticket_table_t *
+          TICKET_TABLE, int HASH_SIZE)
+     TICKET_TABLE:  the ticket table to init
+
+     HASH_SIZE:  the hash size for both recv/send hashs
+
+     Initialize a ticket table, that is, set it up with two empty
+     hashs. Recv hash is filled automatically as it's queried for
+     tickets, send hash must be filled explicitely with info from the
+     network.
+
+     *Return value:*  none.
+
+ -- Function: void lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t *
+          TICKET_TABLE)
+     TICKET_TABLE:  the ticket table to clear
+
+     Clears the object (frees memory).
+
+     *Return value:*  none.
+
+ -- Function: u_int64_t lw6cnx_ticket_table_get_recv
+          (lw6cnx_ticket_table_t * TICKET_TABLE, char * PEER_ID)
+     TICKET_TABLE:  the ticket table to query
+
+     PEER_ID:  the id of remote node
+
+     Gets the ticket used to communicate with peer, to check its
+     incoming (recv) messages. If ticket does not exist yet, it's
+     automatically generated so tunction will always return a non-zero
+     value.
+
+     *Return value:*  the ticket used to check incoming messages.
+
+ -- Function: void lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t
+          * TICKET_TABLE, char * PEER_ID)
+     TICKET_TABLE:  the ticket table to query
+
+     PEER_ID:  the id of remote node
+
+     Acknowledges the ticket used to communicate with peer, to check
+     its incoming (recv) messages has been received. This is to avoid
+     sending it again when it has been received, as it's kept "forever"
+     by peer, we never need to send it again.
+
+     *Return value:*  none.
+
+ -- Function: int lw6cnx_ticket_table_was_recv_exchanged
+          (lw6cnx_ticket_table_t * TICKET_TABLE, char * PEER_ID)
+     TICKET_TABLE:  the ticket table to query
+
+     PEER_ID:  the id of remote node
+
+     Acknowledges the ticket used to communicate with peer, to check
+     its incoming (recv) messages has been received. This is to avoid
+     sending it again when it has been received, as it's kept "forever"
+     by peer, we never need to send it again.
+
+     *Return value:*  the ticket used to check incoming messages.
+
+ -- Function: u_int64_t lw6cnx_ticket_table_get_send
+          (lw6cnx_ticket_table_t * TICKET_TABLE, char * PEER_ID)
+     TICKET_TABLE:  the ticket table to query
+
+     PEER_ID:  the id of remote node
+
+     Gets the ticket used to communicate with peer, to stamp the
+     outgoing messages. If ticket does not exist yet, 0 is returned,
+     indeed this value must be initialized with the value the peer
+     gives us.
+
+     *Return value:*  the ticket used to stamp outgoing messages.
+
+ -- Function: void lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t
+          * TICKET_TABLE, char * PEER_ID, u_int64_t SEND_TICKET)
+     TICKET_TABLE:  the ticket table to query
+
+     PEER_ID:  the id of remote node
+
+     SEND_TICKET:  the ticket to use to stamp outgoing messages
+
+     Sets the ticket used to communicate with peer, to stamp the
+     outgoing (send) messages. This value should be received from the
+     network. Note that once it's set, it's impossible to change it, it
+     will remain the same for the whole duration of the node existence.
+
+     *Return value:*  NULL
+
+ -- struct: lw6cnx_connection_s
+
+ -- member of lw6cnx_connection_s: local_url
+          char* lw6cnx_connection_s::local_url
+
+
+ -- member of lw6cnx_connection_s: remote_url
+          char* lw6cnx_connection_s::remote_url
+
+
+ -- member of lw6cnx_connection_s: remote_ip
+          char* lw6cnx_connection_s::remote_ip
+
+
+ -- member of lw6cnx_connection_s: remote_port
+          int lw6cnx_connection_s::remote_port
+
+
+ -- member of lw6cnx_connection_s: password
+          char* lw6cnx_connection_s::password
+
+
+ -- member of lw6cnx_connection_s: password_send_checksum
+          char* lw6cnx_connection_s::password_send_checksum
+
+
+ -- member of lw6cnx_connection_s: local_id_int
+          int64_t lw6cnx_connection_s::local_id_int
+
+
+ -- member of lw6cnx_connection_s: local_id_str
+          char* lw6cnx_connection_s::local_id_str
+
+
+ -- member of lw6cnx_connection_s: remote_id_int
+          int64_t lw6cnx_connection_s::remote_id_int
+
+
+ -- member of lw6cnx_connection_s: remote_id_str
+          char* lw6cnx_connection_s::remote_id_str
+
+
+ -- member of lw6cnx_connection_s: dns_ok
+          int lw6cnx_connection_s::dns_ok
+
+
+ -- member of lw6cnx_connection_s: network_reliability
+          int lw6cnx_connection_s::network_reliability
+
+
+ -- member of lw6cnx_connection_s: recv_callback_func
+          lw6cnx_recv_callback_t lw6cnx_connection_s::recv_callback_func
+
+
+ -- member of lw6cnx_connection_s: recv_callback_data
+          void* lw6cnx_connection_s::recv_callback_data
+
+
+ -- member of lw6cnx_connection_s: send_mutex
+          void* lw6cnx_connection_s::send_mutex
+
+
+ -- member of lw6cnx_connection_s: foo_bar_key
+          u_int32_t lw6cnx_connection_s::foo_bar_key
+
+
+ -- member of lw6cnx_connection_s: last_send_foo_timestamp
+          int64_t lw6cnx_connection_s::last_send_foo_timestamp
+
+
+ -- member of lw6cnx_connection_s: next_send_foo_timestamp
+          int64_t lw6cnx_connection_s::next_send_foo_timestamp
+
+
+ -- member of lw6cnx_connection_s: ping_msec
+          int lw6cnx_connection_s::ping_msec
+
+
+ -- member of lw6cnx_connection_s: last_recv_timestamp
+          int64_t lw6cnx_connection_s::last_recv_timestamp
+
+
+ -- member of lw6cnx_connection_s: backend_specific_data
+          void* lw6cnx_connection_s::backend_specific_data
+
+
+ -- struct: lw6cnx_send_param_s
+
+ -- member of lw6cnx_send_param_s: physical_ticket_sig
+          u_int32_t lw6cnx_send_param_s::physical_ticket_sig
+
+
+ -- member of lw6cnx_send_param_s: logical_ticket_sig
+          u_int32_t lw6cnx_send_param_s::logical_ticket_sig
+
+
+ -- member of lw6cnx_send_param_s: logical_from_id
+          u_int64_t lw6cnx_send_param_s::logical_from_id
+
+
+ -- member of lw6cnx_send_param_s: logical_to_id
+          u_int64_t lw6cnx_send_param_s::logical_to_id
+
+
+ -- member of lw6cnx_send_param_s: message
+          char* lw6cnx_send_param_s::message
+
+
+ -- struct: lw6cnx_ticket_table_s
+
+ -- member of lw6cnx_ticket_table_s: recv_spinlock
+          void* lw6cnx_ticket_table_s::recv_spinlock
+
+
+ -- member of lw6cnx_ticket_table_s: recv_ack_spinlock
+          void* lw6cnx_ticket_table_s::recv_ack_spinlock
+
+
+ -- member of lw6cnx_ticket_table_s: send_spinlock
+          void* lw6cnx_ticket_table_s::send_spinlock
+
+
+ -- member of lw6cnx_ticket_table_s: recv_table
+          lw6sys_hash_t* lw6cnx_ticket_table_s::recv_table
+
+
+ -- member of lw6cnx_ticket_table_s: recv_ack_table
+          lw6sys_hash_t* lw6cnx_ticket_table_s::recv_ack_table
+
+
+ -- member of lw6cnx_ticket_table_s: send_table
+          lw6sys_hash_t* lw6cnx_ticket_table_s::send_table
+
+
+
+File: liquidwar6.info,  Node: libdat,  Next: libdef,  Prev: libcnx,  Up: C API
+
+5.14 libdat
+===========
+
+5.14.1 Overview
+---------------
+
+View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
+results on
+`http://www.gnu.org/software/liquidwar6/coverage/src/lib/dat/index.html'.
+
+5.14.2 API
+----------
+
+ -- Function: int lw6dat_test (int MODE)
+     MODE:  0 for check only, 1 for full test
+
+     Runs the `dat' module test suite.
+
+     *Return value:*  1 if test is successfull, 0 on error.
+
+ -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
+          LOCAL_NODE_ID)
+     Creates a new warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to free
+
+     Frees a warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to clear
+
+     Clears a warehouse object. Clears means emptying everything and
+     resetting the current seq_id to the minimal/start value.
+
+     *Return value:*  none.
+
+ -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to purge
+
+     Purges a warehouse object. Purges means emptying everything but
+     keeping the current seq_id unchanged.
+
+     *Return value:*  none.
+
+ -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Tells how many nodes are registered in the object.
+
+     *Return value:*  integer, number of nodes
+
+ -- Function: u_int64_t lw6dat_warehouse_get_local_id
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the local id.
+
+     *Return value:*  64-bit id.
+
+ -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
+          * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the latest (highest) serial number given for local node.
+
+     *Return value:*  integer, latest serial number
+
+ -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
+     WAREHOUSE:  warehouse object to use
+
+     LOGICAL_FROM:  from who the message came from originally
+
+     FULL_STR:  message of the form serial i n seq from cmd
+
+     Puts an atomic string in the object, this kind of string is
+     typically received on the network.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to work on
+
+     The various `get_seq' functions can perform slowly if we don't
+     pre-calculate the serial number of draft and reference atoms. So
+     this calculation is not within the functions themselves but can be
+     cached by using this function. Just call it and after you might
+     query the object for reference and draft info.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
+          WAREHOUSE, char * MSG)
+     WAREHOUSE:  warehouse object to use
+
+     MSG:  message
+
+     Puts a message in the object. The message will be splitted into
+     several atoms if needed, it can be arbitrary long.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the lowest seq referenced in the warehouse. Does not mean
+     this is the lowest ever received, only we really have no chances
+     of going below that point, nothing is stored, either complete or
+     partial, below that.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq referenced in the warehouse. Does not mean
+     an actual message can be built from it, only we've got some traces
+     of such a high seq.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a valid draft.
+     This is not exactly the maximimum seq encountered, for here we
+     want at least one complete message and not just one chunk of data
+     (an atom) referring to a high seq, we want the complete stuff.
+     However there can be missing messages in between.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a reference.
+     Being considered as a reference means we received all messages for
+     this seq *and* at least one message from the following seq, and
+     this for every node involved. This being said, we're sure to have
+     the right information, nothing is missing.
+
+     *Return value:*  integer.
+
+ -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
+          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
+     WAREHOUSE:  object to query
+
+     SEQ_MIN:  lowest sequence number (round or chat index)
+
+     SEQ_MAX:  highest sequence number (round or chat index)
+
+     Gets the list of messages for a given sequence (round or chat
+     index), polling all the nodes. The from and to boundaries are
+     included.
+
+     *Return value:*  a list of strings.
+
+ -- Function: lw6sys_list_t *
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_TO)
+     WAREHOUSE:  object to query
+
+     LOGICAL_TO:  the id of the node that we want to send data to
+
+     Returns all the messages that were not sent for the given
+     warehouse.
+
+     *Return value:*  a list of strings, containing atoms.
+
+ -- Function: lw6dat_warehouse_t * lw6dat_warehouse_new (u_int64_t
+          LOCAL_NODE_ID)
+     Creates a new warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_free (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to free
+
+     Frees a warehouse object.
+
+     *Return value:*  new object, allocated dynamically
+
+ -- Function: void lw6dat_warehouse_clear (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to clear
+
+     Clears a warehouse object. Clears means emptying everything and
+     resetting the current seq_id to the minimal/start value.
+
+     *Return value:*  none.
+
+ -- Function: void lw6dat_warehouse_purge (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the object to purge
+
+     Purges a warehouse object. Purges means emptying everything but
+     keeping the current seq_id unchanged.
+
+     *Return value:*  none.
+
+ -- Function: int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Tells how many nodes are registered in the object.
+
+     *Return value:*  integer, number of nodes
+
+ -- Function: u_int64_t lw6dat_warehouse_get_local_id
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the local id.
+
+     *Return value:*  64-bit id.
+
+ -- Function: int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t
+          * WAREHOUSE)
+     WAREHOUSE:  the warehouse object to query.
+
+     Returns the latest (highest) serial number given for local node.
+
+     *Return value:*  integer, latest serial number
+
+ -- Function: int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_FROM, char * FULL_STR)
+     WAREHOUSE:  warehouse object to use
+
+     LOGICAL_FROM:  from who the message came from originally
+
+     FULL_STR:  message of the form serial i n seq from cmd
+
+     Puts an atomic string in the object, this kind of string is
+     typically received on the network.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_calc_serial_draft_and_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to work on
+
+     The various `get_seq' functions can perform slowly if we don't
+     pre-calculate the serial number of draft and reference atoms. So
+     this calculation is not within the functions themselves but can be
+     cached by using this function. Just call it and after you might
+     query the object for reference and draft info.
+
+     *Return value:*  1 on success, 0 on failure.
+
+ -- Function: int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t *
+          WAREHOUSE, char * MSG)
+     WAREHOUSE:  warehouse object to use
+
+     MSG:  message
+
+     Puts a message in the object. The message will be splitted into
+     several atoms if needed, it can be arbitrary long.
+
+     *Return value:*  1 on success, 0 on error
+
+ -- Function: int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the lowest seq referenced in the warehouse. Does not mean
+     this is the lowest ever received, only we really have no chances
+     of going below that point, nothing is stored, either complete or
+     partial, below that.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq referenced in the warehouse. Does not mean
+     an actual message can be built from it, only we've got some traces
+     of such a high seq.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
+          WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a valid draft.
+     This is not exactly the maximimum seq encountered, for here we
+     want at least one complete message and not just one chunk of data
+     (an atom) referring to a high seq, we want the complete stuff.
+     However there can be missing messages in between.
+
+     *Return value:*  integer.
+
+ -- Function: int lw6dat_warehouse_get_seq_reference
+          (lw6dat_warehouse_t * WAREHOUSE)
+     WAREHOUSE:  object to query
+
+     Tells the highest seq that can be considered as a reference.
+     Being considered as a reference means we received all messages for
+     this seq *and* at least one message from the following seq, and
+     this for every node involved. This being said, we're sure to have
+     the right information, nothing is missing.
+
+     *Return value:*  integer.
+
+ -- Function: lw6sys_list_t * lw6dat_warehouse_get_msg_list_by_seq
+          (lw6dat_warehouse_t * WAREHOUSE, int SEQ_MIN, int SEQ_MAX)
+     WAREHOUSE:  object to query
+
+     SEQ_MIN:  lowest sequence number (round or chat index)
+
+     SEQ_MAX:  highest sequence number (round or chat index)
+
+     Gets the list of messages for a given sequence (round or chat
+     index), polling all the nodes. The from and to boundaries are
+     included.
+
+     *Return value:*  a list of strings.
+
+ -- Function: lw6sys_list_t *
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
+          WAREHOUSE, u_int64_t LOGICAL_TO)
+     WAREHOUSE:  object to query
+
+     LOGICAL_TO:  the id of the node that we want to send data to
+
+     Returns all the messages that were not sent for the given
+     warehouse.
+
+     *Return value:*  a list of strings, containing atoms.
+
+ -- struct: lw6dat_warehouse_s
+
+ -- member of lw6dat_warehouse_s: dummy
+          int lw6dat_warehouse_s::dummy
+
+
+
+File: liquidwar6.info,  Node: libdef,  Next: libdsp,  Prev: libdat,  Up: C API
+
+5.15 libdef
+===========
+
+5.15.1 Overview
+---------------
+
+5.15.2 API
+----------
+
+There are no functions in `libdef', only a header file with constants.
+
