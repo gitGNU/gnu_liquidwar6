@@ -3804,7 +3804,7 @@ Summary off all operations required for a release:
 
    * in `./src', run `./indent.sh'.
 
-   * in `./doc', run `./gdoc-update.sh'.
+   * in `./doc', run `./gdoc-update.sh' and `./doxygen-update.sh'.
 
    * edit `NEWS' file, in both `liquidwar6' and
      `liquidwar6-extra-maps'. Check `ChangeLog' is OK.
@@ -3833,9 +3833,9 @@ Summary off all operations required for a release:
 
    * upload files (doc on
      `http://savannah.gnu.org/maintenance/DownloadArea'), with a
-     command like `rsync --rsh=ssh --recursive ./version/
-     login@dl.sv.nongnu.org:/releases/liquidwar6/version/'. Each file
-     must have its `.sig' corresponding file.
+     command like `rsync --rsh=ssh --recursive --verbose --progress
+     ./X.Y.Z/ login@dl.sv.nongnu.org:/releases/liquidwar6/X.Y.Z/'. Each
+     file must have its `.sig' corresponding file.
 
    * update online docs with `gendocs.sh', carefull, `liquidwar6.html'
      is suppressed by this, need to re-create it from previous version
@@ -3855,9 +3855,16 @@ Summary off all operations required for a release:
    * cd to `./doc/cyclo' and run `make opt'. Copy files to web CVS,
      sync them.
 
+   * copy Doxygen HTML documentation files from `./doc/doxygen/html' to
+     web CVS, sync them.
+
    * post news on `https://savannah.gnu.org/news/?group=liquidwar6',
      `http://lists.gnu.org/mailman/listinfo/help-liquidwar6' and
      `http://lists.gnu.org/mailman/listinfo/info-liquidwar6'.
+
+   * after everything did work, upload files on `ftp://ftp.gnu.org/',
+     for instance use `gnupload --to ftp.gnu.org:liquidwar6
+     liquidwar6-X.Y.Z.tar.gz'.
 
 3.14.2 Add a new option
 -----------------------
@@ -3927,7 +3934,15 @@ This describes how to add a new `libxyz' internal library:
 
    * edit `doc/Makefile.am' and add `xyz-gdoc.texi' in `gdoc_TEXINFOS'.
 
-   * in `./doc', run `./gdoc-update.sh'.
+   * edit `doc/doxygen-update.sh' and add the entry for `xyz'.
+
+   * edit `doc/Makefile.am' and add `xyz-doxygen.texi' in
+     `doxygen_TEXINFOS'.
+
+   * type `touch doc/xyz-gdoc.texi doc/xyz-doxygen.texi' else
+     dependencies checking will fail.
+
+   * in `./doc', run `./gdoc-update.sh' and `./doxygen-update.sh'.
 
    * edit `doc/liquidwar6.texi' to and a new node/section for this
      internal library.
@@ -3955,9 +3970,17 @@ bot, but gfx, snd, cli or srv backends should work pretty much the same:
    * edit `doc/Makefile.am' and add `mod-ab-gdoc.texi' in
      `gdoc_TEXINFOS'.
 
-   * in `./doc', run `./gdoc-update.sh'.
+   * edit `doc/doxygen-update.sh' and add an entry for `mod-ab'
 
-   * edit `doc/liquidwar6texi' to add a new node/section for this
+   * edit `doc/Makefile.am' and add `mod-ab-doxygen.texi' in
+     `doxygen_TEXINFOS'.
+
+   * type `touch doc/mod-ab-gdoc.texi doc/mod-ab-doxygen.texi' else
+     dependencies checking will fail.
+
+   * in `./doc', run `./gdoc-update.sh' and `./doxygen-update.sh'.
+
+   * edit `doc/liquidwar6.texi' to add a new node/section for this
      module.
 
    * edit `doc/deps.dot' to update dependencies.

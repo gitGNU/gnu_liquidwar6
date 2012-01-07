@@ -3756,7 +3756,7 @@ check the value of @code{LW6MAP_RULES_DEFAULT_EXP} and default for @code{--skip-
 @item
 in @code{./src}, run @code{./indent.sh}.
 @item
-in @code{./doc}, run @code{./gdoc-update.sh}.
+in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
 @item
 edit @code{NEWS} file, in both @code{liquidwar6} and @code{liquidwar6-extra-maps}. Check @code{ChangeLog} is OK.
 @item
@@ -3772,7 +3772,7 @@ build @code{.exe} main binary on Microsoft Windows then go back to GNU/Linux and
 @item
 build @code{.dmg} Mac OS X disk image, check it works even when @code{/opt} and @code{/usr/local} or (re)moved, this is important, else execution might rely on binaries which are only on the development machine and do not ship with game.
 @item
-upload files (doc on @uref{http://savannah.gnu.org/maintenance/DownloadArea}), with a command like @code{rsync --rsh=ssh --recursive ./version/ login@@dl.sv.nongnu.org:/releases/liquidwar6/version/}. Each file must have its @code{.sig} corresponding file.
+upload files (doc on @uref{http://savannah.gnu.org/maintenance/DownloadArea}), with a command like @code{rsync --rsh=ssh --recursive --verbose --progress ./X.Y.Z/ login@@dl.sv.nongnu.org:/releases/liquidwar6/X.Y.Z/}. Each file must have its @code{.sig} corresponding file.
 @item
 update online docs with @code{gendocs.sh}, carefull, @code{liquidwar6.html} is suppressed by this, need to re-create it from previous version and/or @code{index.html} which is the same.
 @item
@@ -3784,7 +3784,11 @@ cd to @code{./doc/global} and run @code{make opt}. Copy files to web CVS, sync t
 @item
 cd to @code{./doc/cyclo} and run @code{make opt}. Copy files to web CVS, sync them.
 @item
+copy Doxygen HTML documentation files from @code{./doc/doxygen/html} to web CVS, sync them.
+@item
 post news on @uref{https://savannah.gnu.org/news/?group=liquidwar6}, @uref{http://lists.gnu.org/mailman/listinfo/help-liquidwar6} and @uref{http://lists.gnu.org/mailman/listinfo/info-liquidwar6}.
+@item
+after everything did work, upload files on @uref{ftp://ftp.gnu.org/}, for instance use @code{gnupload --to ftp.gnu.org:liquidwar6 liquidwar6-X.Y.Z.tar.gz}.
 @end itemize
 
 @subsection Add a new option
@@ -3838,7 +3842,13 @@ edit @code{doc/gdoc-update.sh} and add the entry for @code{xyz}.
 @item
 edit @code{doc/Makefile.am} and add @code{xyz-gdoc.texi} in @code{gdoc_TEXINFOS}.
 @item
-in @code{./doc}, run @code{./gdoc-update.sh}.
+edit @code{doc/doxygen-update.sh} and add the entry for @code{xyz}.
+@item
+edit @code{doc/Makefile.am} and add @code{xyz-doxygen.texi} in @code{doxygen_TEXINFOS}.
+@item
+type @code{touch doc/xyz-gdoc.texi doc/xyz-doxygen.texi} else dependencies checking will fail.
+@item
+in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
 @item
 edit @code{doc/liquidwar6.texi} to and a new node/section for this internal library.
 @item
@@ -3863,9 +3873,15 @@ edit @code{doc/gdoc-update.sh} and add an entry for @code{mod-ab}
 @item
 edit @code{doc/Makefile.am} and add @code{mod-ab-gdoc.texi} in @code{gdoc_TEXINFOS}.
 @item
-in @code{./doc}, run @code{./gdoc-update.sh}.
+edit @code{doc/doxygen-update.sh} and add an entry for @code{mod-ab}
 @item
-edit @code{doc/liquidwar6texi} to add a new node/section for this module.
+edit @code{doc/Makefile.am} and add @code{mod-ab-doxygen.texi} in @code{doxygen_TEXINFOS}.
+@item
+type @code{touch doc/mod-ab-gdoc.texi doc/mod-ab-doxygen.texi} else dependencies checking will fail.
+@item
+in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
+@item
+edit @code{doc/liquidwar6.texi} to add a new node/section for this module.
 @item
 edit @code{doc/deps.dot} to update dependencies.
 @item
