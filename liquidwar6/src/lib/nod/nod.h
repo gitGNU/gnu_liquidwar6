@@ -25,6 +25,8 @@
 
 #include "../sys/sys.h"
 
+#define LW6NOD_COMMUNITY_ID_NONE 0LL
+
 typedef struct lw6nod_const_info_s
 {
   char *program;

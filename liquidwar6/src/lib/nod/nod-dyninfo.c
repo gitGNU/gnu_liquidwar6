@@ -27,10 +27,49 @@
 #include "nod.h"
 #include "nod-internal.h"
 
+static int
+_set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
+{
+  int ret = 0;
+
+  if (dyninfo->community_id_str)
+    {
+      LW6SYS_FREE (dyninfo->community_id_str);
+      dyninfo->community_id_str = NULL;
+    }
+  if (community_id != LW6NOD_COMMUNITY_ID_NONE)
+    {
+      if (lw6sys_check_id (community_id))
+	{
+	  dyninfo->community_id_str = lw6sys_id_ltoa (community_id);
+	}
+      if (dyninfo->community_id_str != NULL)
+	{
+	  dyninfo->community_id_int = community_id;
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_WARNING,
+		      _x_ ("invalid community id \"%" LW6SYS_PRINTF_LL "x\""),
+		      community_id);
+	  dyninfo->community_id_int = LW6NOD_COMMUNITY_ID_NONE;
+	}
+    }
+  else
+    {
+      // OK, no community, set to NONE
+      dyninfo->community_id_int = LW6NOD_COMMUNITY_ID_NONE;
+      ret = 1;
+    }
+
+  return ret;
+}
+
 void
 _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
 {
-  dyn_info->community_id_int = 0;
+  _set_community_id (dyn_info, LW6NOD_COMMUNITY_ID_NONE);
   if (dyn_info->community_id_str)
     {
       LW6SYS_FREE (dyn_info->community_id_str);
@@ -65,22 +104,7 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 {
   int ret = 0;
 
-  if (dyn_info->community_id_str)
-    {
-      dyn_info->community_id_int = 0;
-      LW6SYS_FREE (dyn_info->community_id_str);
-      dyn_info->community_id_str = NULL;
-    }
-  if (lw6sys_check_id (community_id))
-    {
-      dyn_info->community_id_int = community_id;
-      dyn_info->community_id_str = lw6sys_id_ltoa (community_id);
-    }
-  else
-    {
-      dyn_info->community_id_int = 0;
-      dyn_info->community_id_str = lw6sys_str_copy (LW6SYS_STR_EMPTY);
-    }
+  _set_community_id (dyn_info, community_id);
   dyn_info->round = round;
   if (dyn_info->level)
     {

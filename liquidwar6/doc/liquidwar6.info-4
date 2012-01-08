@@ -1170,25 +1170,36 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6p2p_db_s
+     Handler on a database connection, this must be used to pass order
+     to store/retrieve persistent informations about peers.
 
  -- Member of lw6p2p_db_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6p2p_db_s::id'
 
+     The first member, id, is the same as the internal _lw6p2p_db_t
+     structure. The rest of it is hidden. The program will cast from
+     lw6p2p_db_t to _lw6p2p_db_t internally.
 
  -- Struct: lw6p2p_entry_s
+     This entry object matches as close as possible the corresponding
+     (node) entry in the database.
 
  -- Member of lw6p2p_entry_s: creation_timestamp
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::creation_timestamp'
 
+     Node creation timestamp.
+
 
  -- Member of lw6p2p_entry_s: version
      *Type:* `char'
 
      *Definition:* `char lw6p2p_entry_s::version[LW6P2P_VERSION_SIZE+1]'
+
+     Node version.
 
 
  -- Member of lw6p2p_entry_s: codename
@@ -1197,11 +1208,15 @@ results on
      *Definition:* `char
      lw6p2p_entry_s::codename[LW6P2P_CODENAME_SIZE+1]'
 
+     Node codename.
+
 
  -- Member of lw6p2p_entry_s: stamp
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::stamp'
+
+     Node stamp.
 
 
  -- Member of lw6p2p_entry_s: id
@@ -1209,17 +1224,23 @@ results on
 
      *Definition:* `char lw6p2p_entry_s::id[LW6P2P_ID_SIZE+1]'
 
+     Node id, 64-bit integer as an hexa string.
+
 
  -- Member of lw6p2p_entry_s: url
      *Type:* `char'
 
      *Definition:* `char lw6p2p_entry_s::url[LW6P2P_URL_SIZE+1]'
 
+     Node URL, the public URL it displays to others.
+
 
  -- Member of lw6p2p_entry_s: title
      *Type:* `char'
 
      *Definition:* `char lw6p2p_entry_s::title[LW6P2P_TITLE_SIZE+1]'
+
+     Node title, the short readable name for the node.
 
 
  -- Member of lw6p2p_entry_s: description
@@ -1228,11 +1249,15 @@ results on
      *Definition:* `char
      lw6p2p_entry_s::description[LW6P2P_DESCRIPTION_SIZE+1]'
 
+     Node description, mode details about this node.
+
 
  -- Member of lw6p2p_entry_s: has_password
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::has_password'
+
+     Wether it requires a password or not.
 
 
  -- Member of lw6p2p_entry_s: bench
@@ -1240,11 +1265,15 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::bench'
 
+     Node bench, reflects how powerfull it is.
+
 
  -- Member of lw6p2p_entry_s: open_relay
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::open_relay'
+
+     Wether this node acts as an open relay or not.
 
 
  -- Member of lw6p2p_entry_s: community_id
@@ -1253,11 +1282,15 @@ results on
      *Definition:* `char
      lw6p2p_entry_s::community_id[LW6P2P_COMMUNITY_ID_SIZE+1]'
 
+     Community id, 64-bit integer as an hexa string.
+
 
  -- Member of lw6p2p_entry_s: round
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::round'
+
+     Current round.
 
 
  -- Member of lw6p2p_entry_s: level
@@ -1265,11 +1298,15 @@ results on
 
      *Definition:* `char lw6p2p_entry_s::level[LW6P2P_LEVEL_SIZE+1]'
 
+     Level used.
+
 
  -- Member of lw6p2p_entry_s: required_bench
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::required_bench'
+
+     Required bench to connect to this community.
 
 
  -- Member of lw6p2p_entry_s: nb_colors
@@ -1277,11 +1314,15 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::nb_colors'
 
+     Number of colors playing.
+
 
  -- Member of lw6p2p_entry_s: max_nb_colors
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::max_nb_colors'
+
+     Maximum number of colors allowed to play.
 
 
  -- Member of lw6p2p_entry_s: nb_cursors
@@ -1289,11 +1330,15 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::nb_cursors'
 
+     Number of cursors playing.
+
 
  -- Member of lw6p2p_entry_s: max_nb_cursors
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::max_nb_cursors'
+
+     Maximum number of cursors allowed to play.
 
 
  -- Member of lw6p2p_entry_s: nb_nodes
@@ -1301,11 +1346,15 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::nb_nodes'
 
+     Number of nodes playing.
+
 
  -- Member of lw6p2p_entry_s: max_nb_nodes
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::max_nb_nodes'
+
+     Maximum number of nodes playing.
 
 
  -- Member of lw6p2p_entry_s: ip
@@ -1313,11 +1362,15 @@ results on
 
      *Definition:* `char lw6p2p_entry_s::ip[LW6P2P_IP_SIZE+1]'
 
+     IP addess of node.
+
 
  -- Member of lw6p2p_entry_s: port
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::port'
+
+     IP port of node.
 
 
  -- Member of lw6p2p_entry_s: last_ping_timestamp
@@ -1325,11 +1378,15 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::last_ping_timestamp'
 
+     Last time this node has been pinged.
+
 
  -- Member of lw6p2p_entry_s: ping_delay_msec
      *Type:* `int'
 
      *Definition:* `int lw6p2p_entry_s::ping_delay_msec'
+
+     Ping delay, in milliseconds.
 
 
  -- Member of lw6p2p_entry_s: available
@@ -1337,14 +1394,22 @@ results on
 
      *Definition:* `int lw6p2p_entry_s::available'
 
+     Wether this node is ready to accept connections.
+
 
  -- Struct: lw6p2p_node_s
+     Node object, the main network object, this one will encaspulate
+     everything else, the node can connect to other peers, listen on
+     the network, it's the high-level interface.
 
  -- Member of lw6p2p_node_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6p2p_node_s::id'
 
+     The first member, id, is the same as the internal _lw6p2p_node_t
+     structure. The rest of it is hidden. The program will cast from
+     lw6p2p_node_t to _lw6p2p_node_t internally.
 
 
 File: liquidwar6.info,  Node: libpil,  Next: libscm,  Prev: libp2p,  Up: C API

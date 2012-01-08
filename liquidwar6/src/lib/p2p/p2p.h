@@ -39,6 +39,8 @@
  */
 #define LW6P2P_MAX_NB_TENTACLES 100
 
+#define LW6P2P_BENCH_NETWORK_DIVIDE 2
+
 /*
  * Hardcoded size for database stored data, carefull
  * that these match the sizes in create-database.sql
@@ -53,9 +55,14 @@
 #define LW6P2P_LEVEL_SIZE 1024
 #define LW6P2P_IP_SIZE 64
 
+/**
+ * Handler on a database connection, this must be used to
+ * pass order to store/retrieve persistent informations
+ * about peers.
+ */
 typedef struct lw6p2p_db_s
 {
-  /*
+  /**
    * The first member, id, is the same as the internal
    * _lw6p2p_db_t structure. The rest of it is hidden.
    * The program will cast from lw6p2p_db_t to _lw6p2p_db_t
@@ -64,9 +71,15 @@ typedef struct lw6p2p_db_s
   u_int32_t id;
 } lw6p2p_db_t;
 
+/**
+ * Node object, the main network object, this one will
+ * encaspulate everything else, the node can connect to
+ * other peers, listen on the network, it's the high-level
+ * interface.
+ */
 typedef struct lw6p2p_node_s
 {
-  /*
+  /**
    * The first member, id, is the same as the internal
    * _lw6p2p_node_t structure. The rest of it is hidden.
    * The program will cast from lw6p2p_node_t to _lw6p2p_node_t
@@ -75,40 +88,72 @@ typedef struct lw6p2p_node_s
   u_int32_t id;
 } lw6p2p_node_t;
 
-/*
- * This entry should match as close as possible the
+/**
+ * This entry object matches as close as possible the
  * corresponding (node) entry in the database.
  */
 typedef struct lw6p2p_entry_s
 {
-  // constant data 
+  /*
+   * constant data
+   */
+  /// Node creation timestamp.
   int creation_timestamp;
+  /// Node version.
   char version[LW6P2P_VERSION_SIZE + 1];
+  /// Node codename.
   char codename[LW6P2P_CODENAME_SIZE + 1];
+  /// Node stamp.
   int stamp;
+  /// Node id, 64-bit integer as an hexa string.
   char id[LW6P2P_ID_SIZE + 1];
+  /// Node URL, the public URL it displays to others.
   char url[LW6P2P_URL_SIZE + 1];
+  /// Node title, the short readable name for the node.
   char title[LW6P2P_TITLE_SIZE + 1];
+  /// Node description, mode details about this node.
   char description[LW6P2P_DESCRIPTION_SIZE + 1];
+  /// Wether it requires a password or not.
   int has_password;
+  /// Node bench, reflects how powerfull it is.
   int bench;
+  /// Wether this node acts as an open relay or not.
   int open_relay;
-  // variable data
+  /*
+   * variable data
+   */
+  /// Community id, 64-bit integer as an hexa string.
   char community_id[LW6P2P_COMMUNITY_ID_SIZE + 1];
+  /// Current round.
   int round;
+  /// Level used.
   char level[LW6P2P_LEVEL_SIZE + 1];
+  /// Required bench to connect to this community.
   int required_bench;
+  /// Number of colors playing.
   int nb_colors;
+  /// Maximum number of colors allowed to play.
   int max_nb_colors;
+  /// Number of cursors playing.
   int nb_cursors;
+  /// Maximum number of cursors allowed to play.
   int max_nb_cursors;
+  /// Number of nodes playing.
   int nb_nodes;
+  /// Maximum number of nodes playing.
   int max_nb_nodes;
-  // additionnal data
+  /* 
+   * additionnal data
+   */
+  /// IP addess of node.
   char ip[LW6P2P_IP_SIZE + 1];
+  /// IP port of node.
   int port;
+  /// Last time this node has been pinged.
   int last_ping_timestamp;
+  /// Ping delay, in milliseconds.
   int ping_delay_msec;
+  /// Wether this node is ready to accept connections.
   int available;
 } lw6p2p_entry_t;
 

@@ -1512,6 +1512,13 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node)
    * just ready to serve.
    */
   _lw6p2p_node_disconnect (node);
+
+  lw6nod_info_update (node->node_info, lw6sys_generate_id_64 (),
+		      0,
+		      NULL,
+		      node->node_info->const_info.bench /
+		      LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, 0, NULL);
+
   ret = 1;
 
   return ret;
@@ -1575,6 +1582,8 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
     {
       _lw6p2p_tentacle_clear (&(node->tentacles[i]));
     }
+  lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
+		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 }
 
 /**
