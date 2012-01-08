@@ -39,8 +39,20 @@ run (void *data)
   _ret = lw6dsp_test (_mode);
 }
 
+/*
+ * On Mac OS X, SDL/SDL.h will redefine main, override it, whatever,
+ * anyway it needs it to be "int argc, char **argv" so *without* the
+ * const attribute on argv. On the other hand, using const is nice
+ * on other platforms since, in reality, it *is* const. So the
+ * workarround is to have the #define below.
+ */
+#ifdef LW6_MAC_OS_X
+int
+main (int argc, char *argv[])
+#else
 int
 main (int argc, const char *argv[])
+#endif
 {
   int ret = 0;
 
@@ -48,7 +60,7 @@ main (int argc, const char *argv[])
   LW6HLP_MAIN_BEGIN;
 
   lw6sys_log_clear (NULL);
-  _mode = lw6sys_arg_test_mode (argc, argv);
+  _mode = lw6sys_arg_test_mode (argc, (const char **) argv);
 #ifdef LW6_MAC_OS_X
   lw6sys_vthread_run (run, NULL, NULL);
 #else
