@@ -26,6 +26,16 @@
 
 #include "img.h"
 
+/*
+ * On Mac OS X, the libjpeg header (the one I use...) has HAVE_STDLIB_H
+ * defined and this causes a stupid warning (redefined). So here it's
+ * undefed, shouldn't change much anyway, the code here does not really
+ * use stdlib.
+ */
+#ifdef LW6_MAC_OS_X
+#undef HAVE_STDLIB_H
+#endif
+
 #include <jpeglib.h>
 
 #define _JPEG_3 3
