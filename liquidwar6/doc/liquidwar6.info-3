@@ -6683,11 +6683,15 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6ker_cursor_control_s
+     Contains a cursor controls state, basically a cursor is a position
+     plus a fire and fire2 booleans.
 
  -- Member of lw6ker_cursor_control_s: pos
      *Type:* `lw6sys_xyz_t'
 
      *Definition:* `lw6sys_xyz_t lw6ker_cursor_control_s::pos'
+
+     Cursor position, z isn't relevant for now.
 
 
  -- Member of lw6ker_cursor_control_s: fire
@@ -6695,11 +6699,15 @@ results on
 
      *Definition:* `int lw6ker_cursor_control_s::fire'
 
+     Fire, 1 if primary weapon must be used.
+
 
  -- Member of lw6ker_cursor_control_s: fire2
      *Type:* `int'
 
      *Definition:* `int lw6ker_cursor_control_s::fire2'
+
+     Fire2, 1 if secondary weapon must be used.
 
 
  -- Struct: lw6ker_cursor_s
@@ -6709,11 +6717,15 @@ results on
 
      *Definition:* `u_int64_t lw6ker_cursor_s::node_id'
 
+     The id of the node this cursor belongs to.
+
 
  -- Member of lw6ker_cursor_s: cursor_id
      *Type:* `u_int16_t'
 
      *Definition:* `u_int16_t lw6ker_cursor_s::cursor_id'
+
+     The id of this cursor.
 
 
  -- Member of lw6ker_cursor_s: letter
@@ -6721,11 +6733,15 @@ results on
 
      *Definition:* `char lw6ker_cursor_s::letter'
 
+     ASCII code of the letter associated to the cursor.
+
 
  -- Member of lw6ker_cursor_s: enabled
      *Type:* `int'
 
      *Definition:* `int lw6ker_cursor_s::enabled'
+
+     Wether the cursor is enabled/active or not.
 
 
  -- Member of lw6ker_cursor_s: team_color
@@ -6733,11 +6749,15 @@ results on
 
      *Definition:* `int lw6ker_cursor_s::team_color'
 
+     Team associated with this cursor.
+
 
  -- Member of lw6ker_cursor_s: pos
      *Type:* `lw6sys_xyz_t'
 
      *Definition:* `lw6sys_xyz_t lw6ker_cursor_s::pos'
+
+     Cursor position, z isn't relevant for now.
 
 
  -- Member of lw6ker_cursor_s: fire
@@ -6745,11 +6765,15 @@ results on
 
      *Definition:* `int lw6ker_cursor_s::fire'
 
+     Primary fire button state.
+
 
  -- Member of lw6ker_cursor_s: fire2
      *Type:* `int'
 
      *Definition:* `int lw6ker_cursor_s::fire2'
+
+     Alternate fire button state.
 
 
  -- Member of lw6ker_cursor_s: apply_pos
@@ -6757,19 +6781,31 @@ results on
 
      *Definition:* `lw6sys_xyz_t lw6ker_cursor_s::apply_pos'
 
+     Position to apply cursor on. Problem follows: cursor might be
+     hanging on a wall, somewhere fighters can't go. In that case an
+     alternate position is find, usually the closest free space. But
+     this can take time to calculate so we cache this value here, as it
+     is convenient to have it at hand.
 
  -- Member of lw6ker_cursor_s: pot_offset
      *Type:* `int32_t'
 
      *Definition:* `int32_t lw6ker_cursor_s::pot_offset'
 
+     Potential offset. Whenever the cursor is applied to some place,
+     one can add a potential to it, this can be used to make some
+     cursor more attractive than others.
 
  -- Struct: lw6ker_fighter_s
+     Contains the parameters of a fighter, one of those little squares
+     that are that at the very heart of Liquid War.
 
  -- Member of lw6ker_fighter_s: team_color
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6ker_fighter_s::team_color'
+
+     Team color from 0 to 9, -1 if invalid.
 
 
  -- Member of lw6ker_fighter_s: last_direction
@@ -6777,11 +6813,16 @@ results on
 
      *Definition:* `int32_t lw6ker_fighter_s::last_direction'
 
+     Last direction this fighter used, this is important for in some
+     cases we want to know where the fighter was heading before, our
+     current choice might rely on previous state.
 
  -- Member of lw6ker_fighter_s: health
      *Type:* `int32_t'
 
      *Definition:* `int32_t lw6ker_fighter_s::health'
+
+     Fighter health from 0 to 10000.
 
 
  -- Member of lw6ker_fighter_s: act_counter
@@ -6789,11 +6830,16 @@ results on
 
      *Definition:* `int32_t lw6ker_fighter_s::act_counter'
 
+     This counter is used to handle speed up/slow down. At each round
+     it's incremented, whenever it reaches 100 then the fighter really
+     acts. Basically, there's a Bresenham algorithm behind all that.
 
  -- Member of lw6ker_fighter_s: pad
      *Type:* `int32_t'
 
      *Definition:* `int32_t lw6ker_fighter_s::pad'
+
+     Free for later use.
 
 
  -- Member of lw6ker_fighter_s: pos
@@ -6828,31 +6874,55 @@ results on
      that is never changed within a game.
 
  -- Struct: lw6ker_game_struct_s
+     Game struct is very similar to the level struct of the lw6map
+     module. Indeed, it's immutable and won't change during the game.
+     The difference with lw6map_level is that game_struct is algorithm
+     aware and has many tricks, special internals, cached data, so that
+     it speeds up the overall algorithm. In fact it contains everything
+     lw6ker_game_state needs to have but need not change during the
+     game. The 3 first members, id, level, rules are the same as the
+     internal _lw6ker_game_struct_t structure. The rest of it is
+     hidden. The program will cast from lw6ker_game_struct_t to
+     _lw6ker_game_struct_t internally.
 
  -- Member of lw6ker_game_struct_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6ker_game_struct_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6ker_game_struct_s: level
      *Type:* `lw6map_level_t *'
 
      *Definition:* `lw6map_level_t* lw6ker_game_struct_s::level'
 
+     Pointer on the level source structure. This one might still retain
+     informations we don't want to duplicate here, for instance the
+     textures, which are of no use for the core algorithm so are
+     pointless to backup here, but are still of interest for high-level
+     functions such as display stuff.
 
  -- Member of lw6ker_game_struct_s: rules
      *Type:* `lw6map_rules_t'
 
      *Definition:* `lw6map_rules_t lw6ker_game_struct_s::rules'
 
+     Game rules, this is just a cached copy to avoid derefencing the
+     level pointer any time we need to query a parameter.
 
  -- Struct: lw6ker_score_array_s
+     This is an array which contains all scores for all teams, it's
+     calculated from game_state and should be used read only by code
+     which is not within lw6ker.
 
  -- Member of lw6ker_score_array_s: active_fighters
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_array_s::active_fighters'
+
+     Number of fighters on the battlefield.
 
 
  -- Member of lw6ker_score_array_s: nb_scores
@@ -6860,6 +6930,9 @@ results on
 
      *Definition:* `int lw6ker_score_array_s::nb_scores'
 
+     Number of score items. This can be greater than the number of
+     active teams, since it retains informations about teams which have
+     disappeared.
 
  -- Member of lw6ker_score_array_s: scores
      *Type:* `lw6ker_score_t'
@@ -6867,19 +6940,34 @@ results on
      *Definition:* `lw6ker_score_t
      lw6ker_score_array_s::scores[LW6MAP_NB_TEAM_COLORS]'
 
+     Scores for each team, they are sorted, the first one with index 0
+     is the current winner, then all other teams follow, the last one
+     being Mr Looser.
 
  -- Struct: lw6ker_score_s
+     Stores the score information about a team, this structure is used
+     to get informations from the game, and display them.
 
  -- Member of lw6ker_score_s: has_been_active
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_s::has_been_active'
 
+     Wether this team (this color) has been active at some point during
+     the game. This is important for at score time, many teams might
+     have been disabled, this is typical of dead teams in the LW5 last
+     player wins scheme. It can also happen in network games after a
+     team leaves. Note that this way of counting active teams does not
+     allow fine grain knowledge of who played, for the yellow team
+     might have been played by different nodes through a single game
+     session.
 
  -- Member of lw6ker_score_s: team_color
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_s::team_color'
+
+     The color of the team this score is about.
 
 
  -- Member of lw6ker_score_s: fighters_percent
@@ -6887,11 +6975,17 @@ results on
 
      *Definition:* `int lw6ker_score_s::fighters_percent'
 
+     Percentage of fighters for this team. The global score array
+     object will take care of making the sum of fighters_percent be
+     exactly 100, regardless of exactitude, it will round this number
+     to make a nice total and hide rounding errors.
 
  -- Member of lw6ker_score_s: fighters_absolute
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_s::fighters_absolute'
+
+     Absolute number of fighters for this team.
 
 
  -- Member of lw6ker_score_s: fighters_ratio
@@ -6899,18 +6993,31 @@ results on
 
      *Definition:* `float lw6ker_score_s::fighters_ratio'
 
+     One of the rare float in lw6ker, only for eye candy, this is the
+     equivalent of fighters_percent but as a float between 0.0f and
+     1.0f. It gives the possibility of more precise graphical displays,
+     will its integer companion value is usefull for writing down
+     scores.
 
  -- Member of lw6ker_score_s: frags
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_s::frags'
 
+     Number of frags. Note that depending on game rules, this can have
+     very different meanings.
 
  -- Member of lw6ker_score_s: consolidated_percent
      *Type:* `int'
 
      *Definition:* `int lw6ker_score_s::consolidated_percent'
 
+     OK, this is probably the most non-intuitive number but still the
+     most usefull. It will show a percentage that is greater as we
+     estimate the team in a stronger position. For instance, it can be
+     higher if the team has very few fighters on the field but has a
+     great number of frags. The one who has the greatest number here is
+     the winner.
 
 
 File: liquidwar6.info,  Node: libldr,  Next: libmap,  Prev: libker,  Up: C API
@@ -9765,598 +9872,5 @@ results on
 
      *Definition:* `lw6map_color_couple_t
      lw6map_texture_s::guessed_color_alternate'
-
-
-
-File: liquidwar6.info,  Node: libmsg,  Next: libnet,  Prev: libmap,  Up: C API
-
-5.27 libmsg
-===========
-
-5.27.1 Overview
----------------
-
-View lcov (http://ltp.sourceforge.net/coverage/lcov.php) test coverage
-results on
-`http://www.gnu.org/software/liquidwar6/coverage/src/lib/msg/index.html'.
-
-5.27.2 API
-----------
-
- -- Function: char * lw6msg_cmd_generate_hello (lw6nod_info_t * INFO)
-     INFO:  the node info to use
-
-     Generate a HELLO command.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_cmd_generate_ticket (lw6nod_info_t * INFO,
-          u_int64_t TICKET)
-     INFO:  the node info to use
-
-     TICKET:  the ticket to send
-
-     Generate a TICKET command.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_cmd_generate_foo (lw6nod_info_t * INFO,
-          u_int32_t KEY)
-     INFO:  the node info to use
-
-     KEY:  the key to identify the message
-
-     Generate a FOO command.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_cmd_generate_bar (lw6nod_info_t * INFO,
-          u_int32_t KEY)
-     INFO:  the node info to use
-
-     KEY:  the key to identify the message
-
-     Generate a BAR command.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_cmd_generate_goodbye (lw6nod_info_t * INFO)
-     INFO:  the node info to use
-
-     Generate a GOODBYE command.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_cmd_generate_data (int SERIAL, int I, int
-          N, int ROUND, char * KER_MSG)
-     SERIAL:  the message serial number
-
-     I:  the message index in the group
-
-     N:  the number of messages in the group
-
-     ROUND:  the message round (can have an offset with real round)
-
-     KER_MSG:  the actual content of the message (passed to core algo)
-
-     Generate a DATA command. Serial is an ever increasing number, i
-     and n are most of the time 1 and 1, they are usefull only in long
-     multipart messages.
-
-     *Return value:*  newly allocated string.
-
- -- Function: int lw6msg_cmd_analyse_hello (lw6nod_info_t ** INFO, char
-          * MSG)
-     INFO:  will contain (remote) node info on success
-
-     MSG:  the message to analyse
-
-     Analyzes a HELLO message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6msg_cmd_analyse_ticket (lw6nod_info_t ** INFO,
-          u_int64_t * TICKET, char * MSG)
-     INFO:  will contain (remote) node info on success
-
-     TICKET:  if not NULL, will contain the ticket value on success
-
-     MSG:  the message to analyse
-
-     Analyzes a TICKET message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6msg_cmd_analyse_foo (lw6nod_info_t ** INFO,
-          u_int32_t * KEY, char * MSG)
-     INFO:  will contain (remote) node info on success
-
-     KEY:  if not NULL, will contain the foo/bar key on success
-
-     MSG:  the message to analyse
-
-     Analyzes a FOO message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6msg_cmd_analyse_bar (lw6nod_info_t ** INFO,
-          u_int32_t * KEY, char * MSG)
-     INFO:  will contain (remote) node info on success
-
-     KEY:  if not NULL, will contain the foo/bar key on success
-
-     MSG:  the message to analyse
-
-     Analyzes a BAR message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** INFO,
-          char * MSG)
-     INFO:  will contain (remote) node info on success
-
-     MSG:  the message to analyse
-
-     Analyzes a GOODBYE message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: int lw6msg_cmd_analyse_data (int * SERIAL, int * I, int *
-          N, int * ROUND, char ** KER_MSG, char * MSG)
-     SERIAL:  will contain serial number on success
-
-     I:  will contain group index on success
-
-     N:  will contain group size on success
-
-     ROUND:  will contain round on success (can have an offset with
-     real round)
-
-     KER_MSG:  will contain actual message on success
-
-     Analyzes a DATA message.
-
-     *Return value:*  1 on success, 0 on failure
-
- -- Function: char * lw6msg_cmd_guess_from_url (char * MSG)
-     MSG:  the message to analyse
-
-     Analyzes a GOODBYE message.
-
-     *Return value:*  the from url, if found (dynamically allocated)
-
- -- Function: char * lw6msg_envelope_generate (lw6msg_envelope_mode_t
-          MODE, char * VERSION, char * PASSWORD_CHECKSUM, u_int32_t
-          PHYSICAL_TICKET_SIG, u_int32_t LOGICAL_TICKET_SIG, u_int64_t
-          PHYSICAL_FROM_ID, u_int64_t PHYSICAL_TO_ID, u_int64_t
-          LOGICAL_FROM_ID, u_int64_t LOGICAL_TO_ID, char * MSG)
-     MODE:  mode to use (a la TELNET or URL compatible)
-
-     VERSION:  the program version to use (note: can be changed when
-     testing)
-
-     PASSWORD_CHECKSUM:  the password string to send
-
-     PHYSICAL_TICKET_SIG:  the signature of the message, calculated
-     with ticket + physical from/to
-
-     LOGICAL_TICKET_SIG:  the signature of the message, calculated with
-     ticket + logical from/to
-
-     PHYSICAL_FROM_ID:  the sender id
-
-     PHYSICAL_TO_ID:  the receiver id
-
-     LOGICAL_FROM_ID:  the message creator id
-
-     LOGICAL_TO_ID:  the message final destination id
-
-     MSG:  the body of the message
-
-     Generate an envelope, that is, the complete message sendable on the
-     network.
-
-     *Return value:*  newly allocated string.
-
- -- Function: int lw6msg_envelope_analyse (char * ENVELOPE,
-          lw6msg_envelope_mode_t MODE, char * LOCAL_URL, char *
-          PASSWORD, u_int64_t EXPECTED_PHYSICAL_FROM_ID, u_int64_t
-          EXPECTED_PHYSICAL_TO_ID, char ** MSG, u_int32_t *
-          PHYSICAL_TICKET_SIG, u_int32_t * LOGICAL_TICKET_SIG,
-          u_int64_t * PHYSICAL_FROM_ID, u_int64_t * PHYSICAL_TO_ID,
-          u_int64_t * LOGICAL_FROM_ID, u_int64_t * LOGICAL_TO_ID, char
-          ** PHYSICAL_FROM_URL)
-     ENVELOPE:  the envelope to analyse
-
-     MODE:  mode to use (a la TELNET or URL compatible)
-
-     LOCAL_URL:  the url of local server (usefull for password)
-
-     PASSWORD:  the password to check against
-
-     EXPECTED_PHYSICAL_FROM_ID:  the sender id, if NULL, no check
-     performed
-
-     EXPECTED_PHYSICAL_TO_ID:  the receiver id, if NULL, no check
-     performed
-
-     MSG:  if not NULL, will contain body of the message
-
-     PHYSICAL_TICKET_SIG:  if not NULL, will contain signature of
-     message, calculated with ticket
-
-     LOGICAL_TICKET_SIG:  if not NULL, will contain signature of
-     message, calculated with ticket
-
-     PHYSICAL_FROM_ID:  if not NULL, will contain sender id
-
-     PHYSICAL_TO_ID:  if not NULL, will contain receiver id
-
-     LOGICAL_FROM_ID:  if not NULL, will contain message creator id
-
-     LOGICAL_TO_ID:  if not NULL, will contain message final
-     destination id
-
-     PHYSICAL_FROM_URL:  if not NULL and if message allows, will
-     contain sender public URL
-
-     Generate an envelope, that is, the complete message sendable on the
-     network.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_oob_generate_info (lw6nod_info_t * INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the INFO question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_oob_generate_list (lw6nod_info_t * INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the LIST question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed. There's a max length because we don't want the udp
-     buffer to be saturated + too long lists do not really mean
-     anything anyway.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_oob_generate_pong (lw6nod_info_t * INFO)
-     INFO:  the node to generate info about
-
-     Generates a standard response to the PING question for OOB (out of
-     band) messages. The same message is sent, be it on http or tcp or
-     udp, so it's factorized here. Function will lock the info object
-     when needed.
-
-     *Return value:*  newly allocated string.
-
- -- Function: char * lw6msg_oob_generate_request (char * COMMAND, char
-          * REMOTE_URL, char * PASSWORD, char * LOCAL_URL)
-     COMMAND:  the command to send (PING, INFO, LIST)
-
-     REMOTE_URL:  the remote URL (used to seed password)
-
-     PASSWORD:  the password, can be NULL or ""
-
-     LOCAL_URL:  the public URL to send along with the message, can be
-     NULL or ""
-
-     Generates a simple clear text OOB request, with a password if
-     needed.
-
-     *Return value:*  a newly allocated string
-
- -- Function: int lw6msg_oob_analyse_request (int * SYNTAX_OK, char **
-          COMMAND, int * PASSWORD_OK, char ** REMOTE_URL, char *
-          REQUEST, char * LOCAL_URL, char * PASSWORD)
-     SYNTAX_OK:  will contain 1 if syntax is OK, 0 if not
-
-     COMMAND:  the command (out param, needs *not* to be freed)
-
-     PASSWORD_OK:  will contain 1 if password is OK, 0 if not
-
-     REMOTE_URL:  the URL detected, if provided (out param, does needs
-     to be freed)
-
-     REQUEST:  the request to analyse
-
-     LOCAL_URL:  the local url (used to seed password)
-
-     PASSWORD:  the password to check against
-
-     Analyses a simple OOB message of the form COMMAND <passwd> <url>.
-
-     *Return value:*  1 if OK, 0 if not. If 0, check the value of
-     password_ok.
-
- -- Function: char * lw6msg_oob_analyse_pong (char * TEXT)
-     TEXT:  the text of the message to parse
-
-     Analyses a PONG message and gets the public_url from it, if it
-     exists.
-
-     *Return value:*  newly allocated string containing public_url if
-     OK, NULL on error.
-
- -- Function: int lw6msg_test (int MODE)
-     MODE:  0 for check only, 1 for full test
-
-     Runs the `nod' module test suite.
-
-     *Return value:*  1 if test is successfull, 0 on error.
-
- -- Function: u_int32_t lw6msg_ticket_calc_sig (u_int64_t TICKET,
-          u_int64_t FROM_ID, u_int64_t TO_ID, char * MSG)
-     TICKET:  the (private) ticket to use
-
-     FROM_ID:  the sender/creator
-
-     TO_ID:  the receiver/target
-
-     MSG:  the message to sign
-
-     Produces a little signature, which is clearly vulnerable to
-     brute-force attacks but makes it possible to be 100% sure if it's
-     wrong, someone is trying to do something nasty (or there's a
-     serious bug!).
-
-     *Return value:*  the sig, always non-zero
-
- -- Function: int lw6msg_ticket_check_sig (u_int64_t TICKET, u_int64_t
-          FROM_ID, u_int64_t TO_ID, char * MSG, u_int32_t TICKET_SIG)
-     TICKET:  the (private) ticket to use
-
-     FROM_ID:  the sender/creator
-
-     TO_ID:  the receiver/target
-
-     MSG:  the message to sign
-
-     TICKET_SIG:  the signature to check against
-
-     Checks a sig is OK.
-
-     *Return value:*  1 if they are the same, 0 if not.
-
- -- Function: int lw6msg_utils_parse_key_value_to_ptr (char ** KEY,
-          char ** VALUE, char * LINE)
-     KEY:  will contain the key detected
-
-     VALUE:  will contain the value detected
-
-     LINE:  the line to analyse
-
-     Analyses a trivial "KEY value" line and returns the key and the
-     value in the passed pointers.
-
-     *Return value:*  1 if line OK (and in this case `key' and `value'
-     are set), 0 if not.
-
- -- Function: int lw6msg_utils_parse_key_value_to_assoc (lw6sys_assoc_t
-          ** ASSOC, char * LINE)
-     ASSOC:  an assoc object which will contain the result
-
-     LINE:  the line to analyse
-
-     Analyses a trivial "KEY value" line and sets the `assoc' parameter
-     according to detected values. Note that `assoc' must be set to
-     contain string, and free them automatically with
-     `lw6sys_free_callback' for instance.
-
-     *Return value:*  1 if line OK (and in this case `assoc' is
-     updated), 0 if not.
-
- -- Function: char * lw6msg_utils_get_assoc_str_with_default
-          (lw6sys_assoc_t * ASSOC, char * KEY, char * DEFAULT_VALUE)
-     ASSOC:  the string assoc to query
-
-     KEY:  the key to find in the assoc
-
-     DEFAULT_VALUE:  the default value to return
-
-     Queries a string assoc for a given value, and if not available,
-     returns default value. Not that default value (nor the assoc
-     value) is copied, so you must take care all remain valid until
-     usage of returned value is over.
-
-     *Return value:*  a string, must not be freed.
-
- -- Function: int lw6msg_utils_get_assoc_int_with_default
-          (lw6sys_assoc_t * ASSOC, char * KEY, int DEFAULT_VALUE)
-     ASSOC:  the string assoc to query
-
-     KEY:  the key to find in the assoc
-
-     DEFAULT_VALUE:  the default value to return
-
-     Queries a string assoc for a given value, and if not available,
-     returns default value. Not that default value (nor the assoc
-     value) is copied, so you must take care all remain valid until
-     usage of returned value is over. This one will returned an int
-     converted with `lw6sys_atoi'.
-
-     *Return value:*  a string, must not be freed.
-
- -- Function: int lw6msg_word_first (lw6msg_word_t * WORD, char **
-          NEXT, char * MSG)
-     WORD:  will contain the parsed word
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message and gets the first word. This word is put in
-     `buf' member with its length. `next' is usefull if you want to
-     parse the rest of the message, it points at the beginning of it.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_x (lw6msg_word_t * WORD, char **
-          NEXT, char * MSG)
-     WORD:  will contain the parsed word
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message and gets the first word. This word is put in
-     `buf' member with its length. `next' is usefull if you want to
-     parse the rest of the message, it points at the beginning of it.
-     This special `x' function will consider slash ("/") as valid
-     separator. It can't be used all the time but for almost every
-     field but URLs, it's fine. Internally, this one is used to parse
-     integers, IDs, etc.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_base64 (lw6msg_word_t * WORD, char
-          ** NEXT, char * MSG)
-     WORD:  will contain the parsed word
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message and gets the first word. This word is put in
-     `buf' member with its length. `next' is usefull if you want to
-     parse the rest of the message, it points at the beginning of it.
-     The word is expected to be base64 encoded and is decoded
-     on-the-fly.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_int (int * PARSED_VALUE, char **
-          NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an int.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_int_ge0 (int * PARSED_VALUE, char
-          ** NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an int.
-     The value must be strictly greater than 0.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_int_gt0 (int * PARSED_VALUE, char
-          ** NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an int.
-     The value must be strictly greater than 0.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_id_16 (u_int16_t * PARSED_VALUE,
-          char ** NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an
-     16-bit id.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_id_32 (u_int32_t * PARSED_VALUE,
-          char ** NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an
-     32-bit id.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: int lw6msg_word_first_id_64 (u_int64_t * PARSED_VALUE,
-          char ** NEXT, char * MSG)
-     PARSED_VALUE:  will contain the parsed value
-
-     NEXT:  if NOT NULL, will contain a (non freeable) pointer on
-     remaining message
-
-     MSG:  the message to parse
-
-     Analyses a message, gets the first word and interpret it as an
-     64-bit id.
-
-     *Return value:*  1 on success, 0 on failure.
-
- -- Function: char * lw6msg_z_encode (char * MSG, int LIMIT)
-     MSG:  message to encode
-
-     LIMIT:  if under this limit (length in bytes), do not encode,
-     return as is
-
-     Z-encode a message, by "Z-encoding" we mean pass the string through
-     1) zlib then 2) base64 encoding, this way we get a string without
-     any blank and/or special character, and of reasonnable length.
-     There's an optional limit *not* to encode anything, just when we
-     know there are no special characters to escape and string is
-     small, it's useless to fire this big artillery.
-
-     *Return value:*  newly allocated string, 0 terminated, NULL on
-     error.
-
- -- Function: char * lw6msg_z_decode (char * MSG)
-     MSG:  message to decode
-
-     Z-decode a message, by "Z-encoding" we mean pass the string through
-     1) zlib then 2) base64 encoding, this way we get a string without
-     any blank and/or special character, and of reasonnable length.
-     This decode string does it the reverse way, un64-encode the string
-     then uncompress it back to a readable string.
-
-     *Return value:*  newly allocated string, 0 terminated, NULL on
-     error.
-
- -- Struct: lw6msg_word_s
-
- -- Member of lw6msg_word_s: len
-     *Type:* `int'
-
-     *Definition:* `int lw6msg_word_s::len'
-
-
- -- Member of lw6msg_word_s: buf
-     *Type:* `char'
-
-     *Definition:* `char lw6msg_word_s::buf[LW6MSG_MAX_WORD_SIZE+1]'
 
 

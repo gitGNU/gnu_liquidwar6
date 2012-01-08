@@ -70,69 +70,198 @@
 
 #include "ker-trigo.h"
 
+/**
+ * Contains the parameters of a fighter, one of those
+ * little squares that are that at the very heart of
+ * Liquid War.
+ */
 typedef struct lw6ker_fighter_s
 {
+  /// Team color from 0 to 9, -1 if invalid.
   u_int32_t team_color:8;
+  /**
+   * Last direction this fighter used, this is important
+   * for in some cases we want to know where the fighter
+   * was heading before, our current choice might rely
+   * on previous state.
+   */
   int32_t last_direction:8;
+  /// Fighter health from 0 to 10000.
   int32_t health:16;
+  /**
+   * This counter is used to handle speed up/slow down.
+   * At each round it's incremented, whenever it reaches 100
+   * then the fighter really acts. Basically, there's a Bresenham
+   * algorithm behind all that.
+   */
   int32_t act_counter:16;
-  int32_t pad:16;		// free for later use
+  /// Free for later use.
+  int32_t pad:16;
   lw6sys_xyz_t pos;
 }
 lw6ker_fighter_t;
 
+/**
+ * Contains a cursor controls state, basically a cursor is
+ * a position plus a fire and fire2 booleans.
+ */
 typedef struct lw6ker_cursor_control_s
 {
+  /// Cursor position, z isn't relevant for now.
   lw6sys_xyz_t pos;
+  /// Fire, 1 if primary weapon must be used.
   int fire;
+  /// Fire2, 1 if secondary weapon must be used.
   int fire2;
 } lw6ker_cursor_control_t;
 
 typedef struct lw6ker_cursor_s
 {
+  /// The id of the node this cursor belongs to.
   u_int64_t node_id;
+  /// The id of this cursor.
   u_int16_t cursor_id;
+  /// ASCII code of the letter associated to the cursor.
   char letter;
+  /// Wether the cursor is enabled/active or not.
   int enabled;
+  /// Team associated with this cursor.
   int team_color;
+  /// Cursor position, z isn't relevant for now.
   lw6sys_xyz_t pos;
+  /// Primary fire button state
   int fire;
+  /// Alternate fire button state.
   int fire2;
+  /**
+   * Position to apply cursor on. Problem follows: cursor
+   * might be hanging on a wall, somewhere fighters can't go.
+   * In that case an alternate position is find, usually
+   * the closest free space. But this can take time to calculate
+   * so we cache this value here, as it is convenient to
+   * have it at hand.
+   */
   lw6sys_xyz_t apply_pos;
+  /**
+   * Potential offset. Whenever the cursor is applied to some
+   * place, one can add a potential to it, this can be used
+   * to make some cursor more attractive than others.
+   */
   int32_t pot_offset;
 }
 lw6ker_cursor_t;
 
+/**
+ * Stores the score information about a team, this structure
+ * is used to get informations from the game, and display them.
+ */
 typedef struct lw6ker_score_s
 {
+  /**
+   * Wether this team (this color) has been active at some
+   * point during the game. This is important for at score
+   * time, many teams might have been disabled, this is
+   * typical of dead teams in the LW5 last player wins scheme.
+   * It can also happen in network games after a team leaves.
+   * Note that this way of counting active teams does not
+   * allow fine grain knowledge of who played, for the yellow
+   * team might have been played by different nodes through
+   * a single game session.
+   */
   int has_been_active;
+  /// The color of the team this score is about.
   int team_color;
+  /** 
+   * Percentage of fighters for this team. The global score
+   * array object will take care of making the sum of
+   * fighters_percent be exactly 100, regardless of exactitude,
+   * it will round this number to make a nice total and
+   * hide rounding errors.
+   */
   int fighters_percent;
+  /// Absolute number of fighters for this team.
   int fighters_absolute;
-  float fighters_ratio;		// one of the rare float in lw6ker, only for eye candy 
+  /**
+   * One of the rare float in lw6ker, only for eye candy, this
+   * is the equivalent of fighters_percent but as a float between
+   * 0.0f and 1.0f. It gives the possibility of more precise
+   * graphical displays, will its integer companion value is usefull
+   * for writing down scores.
+   */
+  float fighters_ratio;
+  /**
+   * Number of frags. Note that depending on game rules, this
+   * can have very different meanings.
+   */
   int frags;
+  /**
+   * OK, this is probably the most non-intuitive number but
+   * still the most usefull. It will show a percentage that is
+   * greater as we estimate the team in a stronger position.
+   * For instance, it can be higher if the team has very few
+   * fighters on the field but has a great number of frags.
+   * The one who has the greatest number here is the winner.
+   */
   int consolidated_percent;
 }
 lw6ker_score_t;
 
+/**
+ * This is an array which contains all scores for all teams,
+ * it's calculated from game_state and should be used read
+ * only by code which is not within lw6ker.
+ */
 typedef struct lw6ker_score_array_s
 {
+  /// Number of fighters on the battlefield.
   int active_fighters;
+  /**
+   * Number of score items. This can be greater than the
+   * number of active teams, since it retains informations
+   * about teams which have disappeared.
+   */
   int nb_scores;
+  /**
+   * Scores for each team, they are sorted, the first
+   * one with index 0 is the current winner, then all
+   * other teams follow, the last one being Mr Looser.
+   */
   lw6ker_score_t scores[LW6MAP_NB_TEAM_COLORS];
 }
 lw6ker_score_array_t;
 
+/**
+ * Game struct is very similar to the level struct of the
+ * lw6map module. Indeed, it's immutable and won't change
+ * during the game. The difference with lw6map_level is that
+ * game_struct is algorithm aware and has many tricks, special
+ * internals, cached data, so that it speeds up the overall
+ * algorithm. In fact it contains everything lw6ker_game_state
+ * needs to have but need not change during the game.
+ * The 3 first members, id, level, rules are the same as the internal
+ * _lw6ker_game_struct_t structure. The rest of it is hidden.
+ * The program will cast from lw6ker_game_struct_t to _lw6ker_game_struct_t
+ * internally.
+ */
 typedef struct lw6ker_game_struct_s
 {
-  /*
-   * The 3 first members, id, level, rules are the same as the internal
-   * _lw6ker_game_struct_t structure. The rest of it is hidden.
-   * The program will cast from lw6ker_game_struct_t to _lw6ker_game_struct_t
-   * internally.
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
    */
   u_int32_t id;
+  /**
+   * Pointer on the level source structure. This one might still
+   * retain informations we don't want to duplicate here, for
+   * instance the textures, which are of no use for the core
+   * algorithm so are pointless to backup here, but are still of
+   * interest for high-level functions such as display stuff.
+   */
   lw6map_level_t *level;
+  /**
+   * Game rules, this is just a cached copy to avoid derefencing
+   * the level pointer any time we need to query a parameter.
+   */
   lw6map_rules_t rules;
 }
 lw6ker_game_struct_t;
