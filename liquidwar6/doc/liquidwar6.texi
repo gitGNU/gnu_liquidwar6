@@ -3850,6 +3850,8 @@ type @code{touch doc/xyz-gdoc.texi doc/xyz-doxygen.texi} else dependencies check
 @item
 in @code{./doc}, run @code{./gdoc-update.sh} and @code{./doxygen-update.sh}.
 @item
+edit @code{doc/doxygen/Makefile.am} and add the dependency on @code{src/lib/xyz/xyz.h}.
+@item
 edit @code{doc/liquidwar6.texi} to and a new node/section for this internal library.
 @item
 edit @code{doc/deps.dot} to update dependencies.

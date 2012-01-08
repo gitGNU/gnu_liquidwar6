@@ -3943,6 +3943,9 @@ This describes how to add a new `libxyz' internal library:
 
    * in `./doc', run `./gdoc-update.sh' and `./doxygen-update.sh'.
 
+   * edit `doc/doxygen/Makefile.am' and add the dependency on
+     `src/lib/xyz/xyz.h'.
+
    * edit `doc/liquidwar6.texi' to and a new node/section for this
      internal library.
 

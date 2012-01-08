@@ -35,8 +35,18 @@
  */
 #define LW6DAT_MAX_NB_STACKS 30
 
+/**
+ * Contains all recent messages sent to peers, and received
+ * from them, int fact this is a local database, think of it as
+ * a giant array, containing all messages. This is usefull both
+ * resend messages if one peer wants one and also to check wether
+ * informations are consistent and nobody is cheating. This structure
+ * is hiddent, casted to the real stuff internally if needed, so
+ * that other parts of the code don't rely on specific implementation.
+ */
 typedef struct lw6dat_warehouse_s
 {
+  /// Dummy field, unused.
   int dummy;
 } lw6dat_warehouse_t;
 
