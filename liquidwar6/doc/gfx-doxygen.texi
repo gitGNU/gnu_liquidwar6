@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6gfx_backend_s}
 
     
-    
+The gfx backend is the first argument passed to any gfx function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6gfx_backend_s} {dl_handle}
@@ -12,7 +12,7 @@
 @strong{Definition:} @code{lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle}
 
 
-        
+Handle on dynamic library (if it makes sense).         
         
 @end defcv
 
@@ -23,7 +23,7 @@
 
 
         
-        
+Gfx specific data, what is behind this pointer really depends on the gfx engine.         
 @end defcv
 
 @defcv {Member} {lw6gfx_backend_s} {argc}
@@ -32,7 +32,7 @@
 @strong{Definition:} @code{int lw6gfx_backend_s::argc}
 
 
-        
+The argc value passed to main.         
         
 @end defcv
 
@@ -42,7 +42,7 @@
 @strong{Definition:} @code{const char** lw6gfx_backend_s::argv}
 
 
-        
+The argv value passed to main.         
         
 @end defcv
 
@@ -53,7 +53,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6gfx_backend_s} {init}
@@ -62,7 +62,7 @@
 @strong{Definition:} @code{void*(* lw6gfx_backend_s::init)(int argc, const char *argv[], lw6gui_video_mode_t *video_mode, lw6gui_resize_callback_func_t resize_callback)}
 
 
-        
+Pointer on lw6gfx_init callback code.         
         
 @end defcv
 
@@ -72,7 +72,7 @@
 @strong{Definition:} @code{void(* lw6gfx_backend_s::quit)(void *gfx_context)}
 
 
-        
+Pointer on lw6gfx_quit callback code.         
         
 @end defcv
 
@@ -82,7 +82,7 @@
 @strong{Definition:} @code{char*(* lw6gfx_backend_s::repr)(void *gfx_context, u_int32_t id)}
 
 
-        
+Pointer on lw6gfx_repr callback code.         
         
 @end defcv
 
@@ -92,7 +92,7 @@
 @strong{Definition:} @code{int(* lw6gfx_backend_s::set_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)}
 
 
-        
+Pointer on lw6gfx_set_video_mode callback code.         
         
 @end defcv
 
@@ -102,7 +102,7 @@
 @strong{Definition:} @code{int(* lw6gfx_backend_s::get_video_mode)(void *gfx_context, lw6gui_video_mode_t *video_mode)}
 
 
-        
+Pointer on lw6gfx_get_video_mode callback code.         
         
 @end defcv
 
@@ -112,7 +112,7 @@
 @strong{Definition:} @code{int(* lw6gfx_backend_s::get_fullscreen_modes)(void *gfx_context, lw6gui_fullscreen_modes_t *modes)}
 
 
-        
+Pointer on lw6gfx_get_fullscreen_modes callback code.         
         
 @end defcv
 
@@ -122,7 +122,7 @@
 @strong{Definition:} @code{lw6gui_input_t*(* lw6gfx_backend_s::pump_events)(void *gfx_context)}
 
 
-        
+Pointer on lw6gfx_pump_events code.         
         
 @end defcv
 
@@ -132,7 +132,7 @@
 @strong{Definition:} @code{int(* lw6gfx_backend_s::display)(void *gfx_context, int mask, lw6gui_look_t *look, lw6map_level_t *level, lw6ker_game_struct_t *game_struct, lw6ker_game_state_t *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t *menu, float progress, float fps, float mps, char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)}
 
 
-        
+Pointer on lw6gfx_display code.         
         
 @end defcv
 

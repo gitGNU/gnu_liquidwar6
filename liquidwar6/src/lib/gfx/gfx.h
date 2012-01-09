@@ -34,24 +34,50 @@
 #include "../gui/gui.h"
 #include "../vox/vox.h"
 
+/**
+ * The gfx backend is the first argument passed to any gfx function,
+ * it contains reference to all the functions which can be used
+ * as well as a pointer on associated data. In OO, this would just 
+ * be an object, with members and methods, using polymorphism through
+ * opaque pointers.
+ */
 typedef struct lw6gfx_backend_s
 {
+  /// Handle on dynamic library (if it makes sense).
   lw6dyn_dl_handle_t *dl_handle;
+  /**
+   * Gfx specific data, what is behind this pointer really
+   * depends on the gfx engine.
+   */
   void *gfx_context;
+  /// The argc value passed to main.
   int argc;
+  /// The argv value passed to main.
   const char **argv;
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
   u_int32_t id;
 
+  /// Pointer on lw6gfx_init callback code.
   void *(*init) (int argc, const char *argv[],
 		 lw6gui_video_mode_t * video_mode,
 		 lw6gui_resize_callback_func_t resize_callback);
+  /// Pointer on lw6gfx_quit callback code.
   void (*quit) (void *gfx_context);
+  /// Pointer on lw6gfx_repr callback code.
   char *(*repr) (void *gfx_context, u_int32_t id);
+  /// Pointer on lw6gfx_set_video_mode callback code.
   int (*set_video_mode) (void *gfx_context, lw6gui_video_mode_t * video_mode);
+  /// Pointer on lw6gfx_get_video_mode callback code.
   int (*get_video_mode) (void *gfx_context, lw6gui_video_mode_t * video_mode);
+  /// Pointer on lw6gfx_get_fullscreen_modes callback code.
   int (*get_fullscreen_modes) (void *gfx_context,
 			       lw6gui_fullscreen_modes_t * modes);
+  /// Pointer on lw6gfx_pump_events code.
   lw6gui_input_t *(*pump_events) (void *gfx_context);
+  /// Pointer on lw6gfx_display code.
   int (*display) (void *gfx_context, int mask, lw6gui_look_t * look,
 		  lw6map_level_t * level,
 		  lw6ker_game_struct_t * game_struct,

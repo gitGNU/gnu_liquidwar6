@@ -204,7 +204,7 @@ extern int lw6p2p_node_client_join (lw6p2p_node_t * node, char *remote_url);
 extern void lw6p2p_node_disconnect (lw6p2p_node_t * node);
 extern int lw6p2p_node_update_info (lw6p2p_node_t * node,
 				    int round, char *level,
-				    int required_bench, int nb_colors,
+				    int nb_colors,
 				    int max_nb_colors, int nb_cursors,
 				    int max_nb_cursors, int nb_nodes,
 				    int max_nb_nodes,

@@ -31,9 +31,22 @@
 #define LW6DYN_CREATE_BACKEND_FUNC_FORMAT "mod_%s_create_backend"
 #define LW6DYN_IS_GPL_COMPATIBLE_SYM_FORMAT "mod_%s_is_GPL_compatible"
 
+/**
+ * Handle on dynamic library. Well, actually, ltdl does already
+ * provide something like, so why use our own wrapper? It happens
+ * storing the library path, that's to say what .so files it comes
+ * from, is usefull for debugging, so this structure bundles those
+ * two informations together.
+ */
 typedef struct lw6dyn_dl_handle_s
 {
+  /// Libtool handler.
   lt_dlhandle handle;
+  /**
+   * Path to .so file containing the code, or whatever file
+   * is relevant on the current platform, the idea is to keep
+   * track of where the library comes from.
+   */
   char *library_path;
 }
 lw6dyn_dl_handle_t;

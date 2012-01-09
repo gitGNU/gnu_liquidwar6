@@ -95,7 +95,7 @@ typedef struct lw6bot_seed_s
 } lw6bot_seed_t;
 
 /**
- * The bot bakckend is the first argument passed to any bot function,
+ * The bot backend is the first argument passed to any bot function,
  * it contains reference to all the functions which can be used
  * as well as a pointer on associated data. In OO, this would just 
  * be an object, with members and methods, using polymorphism through

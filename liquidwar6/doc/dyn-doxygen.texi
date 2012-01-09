@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6dyn_dl_handle_s}
 
     
-    
+Handle on dynamic library. Well, actually, ltdl does already provide something like, so why use our own wrapper? It happens storing the library path, that's to say what .so files it comes from, is usefull for debugging, so this structure bundles those two informations together.     
 @end deftp
 
 @defcv {Member} {lw6dyn_dl_handle_s} {handle}
@@ -12,7 +12,7 @@
 @strong{Definition:} @code{lt_dlhandle lw6dyn_dl_handle_s::handle}
 
 
-        
+Libtool handler.         
         
 @end defcv
 
@@ -23,7 +23,7 @@
 
 
         
-        
+Path to .so file containing the code, or whatever file is relevant on the current platform, the idea is to keep track of where the library comes from.         
 @end defcv
 
 

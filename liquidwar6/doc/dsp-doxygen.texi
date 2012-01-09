@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6dsp_backend_s}
 
     
-The dsp bakckend is the first argument passed to any dsp function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
+The dsp backend is the first argument passed to any dsp function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6dsp_backend_s} {id}

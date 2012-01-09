@@ -572,7 +572,7 @@ results on
      *Return value:*  1 if OK, 0 if error.
 
  -- Struct: lw6dsp_backend_s
-     The dsp bakckend is the first argument passed to any dsp function,
+     The dsp backend is the first argument passed to any dsp function,
      it contains reference to all the functions which can be used as
      well as a pointer on associated data. In OO, this would just be an
      object, with members and methods, using polymorphism through
@@ -891,11 +891,18 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6dyn_dl_handle_s
+     Handle on dynamic library. Well, actually, ltdl does already
+     provide something like, so why use our own wrapper? It happens
+     storing the library path, that's to say what .so files it comes
+     from, is usefull for debugging, so this structure bundles those
+     two informations together.
 
  -- Member of lw6dyn_dl_handle_s: handle
      *Type:* `lt_dlhandle'
 
      *Definition:* `lt_dlhandle lw6dyn_dl_handle_s::handle'
+
+     Libtool handler.
 
 
  -- Member of lw6dyn_dl_handle_s: library_path
@@ -903,6 +910,9 @@ results on
 
      *Definition:* `char* lw6dyn_dl_handle_s::library_path'
 
+     Path to .so file containing the code, or whatever file is relevant
+     on the current platform, the idea is to keep track of where the
+     library comes from.
 
 
 File: liquidwar6.info,  Node: libgfx,  Next: mod-gl,  Prev: libdyn,  Up: C API
@@ -1099,11 +1109,18 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6gfx_backend_s
+     The gfx backend is the first argument passed to any gfx function,
+     it contains reference to all the functions which can be used as
+     well as a pointer on associated data. In OO, this would just be an
+     object, with members and methods, using polymorphism through
+     opaque pointers.
 
  -- Member of lw6gfx_backend_s: dl_handle
      *Type:* `lw6dyn_dl_handle_t *'
 
      *Definition:* `lw6dyn_dl_handle_t* lw6gfx_backend_s::dl_handle'
+
+     Handle on dynamic library (if it makes sense).
 
 
  -- Member of lw6gfx_backend_s: gfx_context
@@ -1111,11 +1128,15 @@ results on
 
      *Definition:* `void* lw6gfx_backend_s::gfx_context'
 
+     Gfx specific data, what is behind this pointer really depends on
+     the gfx engine.
 
  -- Member of lw6gfx_backend_s: argc
      *Type:* `int'
 
      *Definition:* `int lw6gfx_backend_s::argc'
+
+     The argc value passed to main.
 
 
  -- Member of lw6gfx_backend_s: argv
@@ -1123,12 +1144,16 @@ results on
 
      *Definition:* `const char** lw6gfx_backend_s::argv'
 
+     The argv value passed to main.
+
 
  -- Member of lw6gfx_backend_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6gfx_backend_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6gfx_backend_s: init
      *Type:* `void *(*'
@@ -1137,11 +1162,15 @@ results on
      char *argv[], lw6gui_video_mode_t *video_mode,
      lw6gui_resize_callback_func_t resize_callback)'
 
+     Pointer on lw6gfx_init callback code.
+
 
  -- Member of lw6gfx_backend_s: quit
      *Type:* `void(*'
 
      *Definition:* `void(* lw6gfx_backend_s::quit)(void *gfx_context)'
+
+     Pointer on lw6gfx_quit callback code.
 
 
  -- Member of lw6gfx_backend_s: repr
@@ -1150,12 +1179,16 @@ results on
      *Definition:* `char*(* lw6gfx_backend_s::repr)(void *gfx_context,
      u_int32_t id)'
 
+     Pointer on lw6gfx_repr callback code.
+
 
  -- Member of lw6gfx_backend_s: set_video_mode
      *Type:* `int(*'
 
      *Definition:* `int(* lw6gfx_backend_s::set_video_mode)(void
      *gfx_context, lw6gui_video_mode_t *video_mode)'
+
+     Pointer on lw6gfx_set_video_mode callback code.
 
 
  -- Member of lw6gfx_backend_s: get_video_mode
@@ -1164,6 +1197,8 @@ results on
      *Definition:* `int(* lw6gfx_backend_s::get_video_mode)(void
      *gfx_context, lw6gui_video_mode_t *video_mode)'
 
+     Pointer on lw6gfx_get_video_mode callback code.
+
 
  -- Member of lw6gfx_backend_s: get_fullscreen_modes
      *Type:* `int(*'
@@ -1171,12 +1206,16 @@ results on
      *Definition:* `int(* lw6gfx_backend_s::get_fullscreen_modes)(void
      *gfx_context, lw6gui_fullscreen_modes_t *modes)'
 
+     Pointer on lw6gfx_get_fullscreen_modes callback code.
+
 
  -- Member of lw6gfx_backend_s: pump_events
      *Type:* `lw6gui_input_t *(*'
 
      *Definition:* `lw6gui_input_t*(*
      lw6gfx_backend_s::pump_events)(void *gfx_context)'
+
+     Pointer on lw6gfx_pump_events code.
 
 
  -- Member of lw6gfx_backend_s: display
@@ -1188,6 +1227,8 @@ results on
      *game_state, lw6pil_local_cursors_t *local_cursors, lw6gui_menu_t
      *menu, float progress, float fps, float mps, char **log_list, int
      capture, int gfx_debug, int debug_team_id, int debug_layer_id)'
+
+     Pointer on lw6gfx_display code.
 
 
 

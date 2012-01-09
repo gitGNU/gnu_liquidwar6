@@ -1605,7 +1605,7 @@ lw6p2p_node_disconnect (lw6p2p_node_t * node)
 
 int
 _lw6p2p_node_update_info (_lw6p2p_node_t * node,
-			  int round, char *level, int required_bench,
+			  int round, char *level,
 			  int nb_colors, int max_nb_colors,
 			  int nb_cursors, int max_nb_cursors,
 			  int nb_nodes, int max_nb_nodes,
@@ -1614,7 +1614,13 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 {
   int ret = 0;
 
-  // todo...
+  ret =
+    lw6nod_info_update (node->node_info,
+			node->node_info->dyn_info.community_id_int, round,
+			level, node->node_info->dyn_info.required_bench,
+			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,
+			nb_nodes, max_nb_nodes, game_screenshot_size,
+			game_screenshot_data);
 
   return ret;
 }
@@ -1625,7 +1631,6 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
  * @node: node to update
  * @round: the current round (can have an offset with real round number)
  * @level: the name of the current level (map)
- * @required_bench: the bench required to connect
  * @nb_colors: number of colors playing
  * @max_nb_colors: max number of colors allowed
  * @nb_cursors: number of cursors playing
@@ -1642,14 +1647,14 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
  */
 int
 lw6p2p_node_update_info (lw6p2p_node_t * node,
-			 int round, char *level, int required_bench,
+			 int round, char *level,
 			 int nb_colors, int max_nb_colors,
 			 int nb_cursors, int max_nb_cursors,
 			 int nb_nodes, int max_nb_nodes,
 			 int game_screenshot_size, void *game_screenshot_data)
 {
   return _lw6p2p_node_update_info ((_lw6p2p_node_t *) node,
-				   round, level, required_bench,
+				   round, level,
 				   nb_colors, max_nb_colors,
 				   nb_cursors, max_nb_cursors,
 				   nb_nodes, max_nb_nodes,
