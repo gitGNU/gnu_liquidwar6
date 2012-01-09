@@ -1674,6 +1674,7 @@ _lw6p2p_node_update_serialized (_lw6p2p_node_t * node, u_int64_t seq_id,
  * lw6p2p_node_update_serialized
  *
  * @node: node to update
+ * @seq_id: sequence id this serialized data corresponds to
  * @serialized_level: level object serialized serialized as an hexa string
  * @serialized_game_struct: game struct object serialized as an hexa string
  * @serialized_game_state: game state object serialized as an hexa string

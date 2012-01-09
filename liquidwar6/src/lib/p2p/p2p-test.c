@@ -987,9 +987,9 @@ lw6p2p_test (int mode)
 
   if (lw6net_init (argc, argv, _TEST_NET_LOG))
     {
-      ret = _test_db () && _test_entry () && _test_node_init ()
-	&& _test_node_oob () && _test_node_cmd () && _test_node_api ();
-      // ret=_test_node_api();
+      //ret = _test_db () && _test_entry () && _test_node_init ()
+      //        && _test_node_oob () && _test_node_cmd () && _test_node_api ();
+      ret = _test_node_api ();
 
       lw6net_quit (argc, argv);
     }

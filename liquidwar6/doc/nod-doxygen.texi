@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6nod_const_info_s}
 
     
-    
+Constant informations about a node, these are informations that do not vary through the node's life, so they are set object creation then left unchanged.     
 @end deftp
 
 @defcv {Member} {lw6nod_const_info_s} {program}
@@ -12,7 +12,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::program}
 
 
-        
+Program, this should be set to liquidwar6.         
         
 @end defcv
 
@@ -22,7 +22,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::version}
 
 
-        
+The version of the program.         
         
 @end defcv
 
@@ -32,7 +32,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::codename}
 
 
-        
+The codename of the program.         
         
 @end defcv
 
@@ -42,7 +42,7 @@
 @strong{Definition:} @code{int lw6nod_const_info_s::stamp}
 
 
-        
+The stamp of the program.         
         
 @end defcv
 
@@ -52,7 +52,7 @@
 @strong{Definition:} @code{u_int64_t lw6nod_const_info_s::id_int}
 
 
-        
+The id of the node, as an integer (64-bit unsigned).         
         
 @end defcv
 
@@ -62,7 +62,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::id_str}
 
 
-        
+The id of the node, as a string (64-bit converted to hexa).         
         
 @end defcv
 
@@ -72,7 +72,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::url}
 
 
-        
+The public URL of the node.         
         
 @end defcv
 
@@ -82,7 +82,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::title}
 
 
-        
+The title of the node, its readable short name.         
         
 @end defcv
 
@@ -92,7 +92,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::description}
 
 
-        
+More details about the node.         
         
 @end defcv
 
@@ -102,7 +102,7 @@
 @strong{Definition:} @code{int lw6nod_const_info_s::has_password}
 
 
-        
+Wether the node is password protected or not.         
         
 @end defcv
 
@@ -112,7 +112,7 @@
 @strong{Definition:} @code{char* lw6nod_const_info_s::password}
 
 
-        
+The password used, cleartext.         
         
 @end defcv
 
@@ -122,7 +122,7 @@
 @strong{Definition:} @code{int lw6nod_const_info_s::bench}
 
 
-        
+The node bench.         
         
 @end defcv
 
@@ -132,7 +132,7 @@
 @strong{Definition:} @code{int lw6nod_const_info_s::open_relay}
 
 
-        
+Wether the node acts as an open relay or not.         
         
 @end defcv
 
@@ -142,7 +142,7 @@
 @strong{Definition:} @code{int64_t lw6nod_const_info_s::creation_timestamp}
 
 
-        
+The node creation timestamp.         
         
 @end defcv
 
@@ -152,7 +152,7 @@
 @strong{Definition:} @code{int lw6nod_const_info_s::idle_screenshot_size}
 
 
-        
+Size of the screenshot (in bytes) when in idle mode.         
         
 @end defcv
 
@@ -163,7 +163,7 @@
 
 
         
-        
+Idle mode screenshot data. This is just a plain JPEG buffer, which will be used as a fallback if there's no real screenshot available.         
 @end defcv
 
 
@@ -172,7 +172,7 @@
 @deftp {Struct} {lw6nod_dyn_info_s}
 
     
-    
+Dynamic informations about a node, these are informations that vary through the node's life, so they are unset at object creation and can then be updated from game context.     
 @end deftp
 
 @defcv {Member} {lw6nod_dyn_info_s} {community_id_int}
@@ -182,7 +182,7 @@
 
 
         
-        
+The ID of the community this node belongs to, as a 64-bit unsigned integer.         
 @end defcv
 
 @defcv {Member} {lw6nod_dyn_info_s} {community_id_str}
@@ -192,7 +192,7 @@
 
 
         
-        
+The ID of the community this node belongs to, as a string (64-bit integer converted to hexa).         
 @end defcv
 
 @defcv {Member} {lw6nod_dyn_info_s} {round}
@@ -201,7 +201,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::round}
 
 
-        
+The current round.         
         
 @end defcv
 
@@ -211,7 +211,7 @@
 @strong{Definition:} @code{char* lw6nod_dyn_info_s::level}
 
 
-        
+The current level.         
         
 @end defcv
 
@@ -221,7 +221,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::required_bench}
 
 
-        
+The required bench to connect to this node.         
         
 @end defcv
 
@@ -231,7 +231,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::nb_colors}
 
 
-        
+Number of colors playing.         
         
 @end defcv
 
@@ -241,7 +241,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_colors}
 
 
-        
+Maximum number of colors allowed to play.         
         
 @end defcv
 
@@ -251,7 +251,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::nb_cursors}
 
 
-        
+Number of cursors playing.         
         
 @end defcv
 
@@ -261,7 +261,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_cursors}
 
 
-        
+Maximum number of cursors allowed to play.         
         
 @end defcv
 
@@ -271,7 +271,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::nb_nodes}
 
 
-        
+Number of nodes playing.         
         
 @end defcv
 
@@ -281,7 +281,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::max_nb_nodes}
 
 
-        
+Maximum number of nodes allowed to play.         
         
 @end defcv
 
@@ -291,7 +291,7 @@
 @strong{Definition:} @code{int lw6nod_dyn_info_s::game_screenshot_size}
 
 
-        
+Size of the screenshot, in bytes.         
         
 @end defcv
 
@@ -302,7 +302,7 @@
 
 
         
-        
+Game screenshot data. This is just a plain JPEG buffer, which will be served when peers and/or web clients want to gather informations about the game. This can be NULL, in that the fallback constant data will be used.         
 @end defcv
 
 
@@ -311,7 +311,7 @@
 @deftp {Struct} {lw6nod_info_s}
 
     
-    
+Informations about a node. Note that in practice this structure is just used to describe our current node, there might be several instances of this if a program instanciates several nodes, but another data structure is used to store information about peers.typedef struct lw6nod_info_s     
 @end deftp
 
 @defcv {Member} {lw6nod_info_s} {mutex}
@@ -320,7 +320,7 @@
 @strong{Definition:} @code{void* lw6nod_info_s::mutex}
 
 
-        
+Mutex used to access dynamic informations.         
         
 @end defcv
 
@@ -330,7 +330,7 @@
 @strong{Definition:} @code{lw6nod_const_info_t lw6nod_info_s::const_info}
 
 
-        
+Constant informations, never changes.         
         
 @end defcv
 
@@ -341,7 +341,7 @@
 
 
         
-        
+Dynamic informations, can be updated. Do not modify this directly, instead use appropriate functions which will use mutexes properly.         
 @end defcv
 
 @defcv {Member} {lw6nod_info_s} {discovered_nodes}
@@ -351,7 +351,7 @@
 
 
         
-        
+List of discovered nodes, do not access this directly, instead use proper query functions which, in turn, will use mutexes properly.         
 @end defcv
 
 @defcv {Member} {lw6nod_info_s} {verified_nodes}
@@ -361,7 +361,7 @@
 
 
         
-        
+List of verified nodes, do not access this directly, instead use proper query functions which, in turn, will use mutexes properly.         
 @end defcv
 
 

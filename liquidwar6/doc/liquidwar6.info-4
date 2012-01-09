@@ -1208,11 +1208,16 @@ results on
      *Return value:*  1 if test is successfull, 0 on error.
 
  -- Struct: lw6nod_const_info_s
+     Constant informations about a node, these are informations that do
+     not vary through the node's life, so they are set object creation
+     then left unchanged.
 
  -- Member of lw6nod_const_info_s: program
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_const_info_s::program'
+
+     Program, this should be set to liquidwar6.
 
 
  -- Member of lw6nod_const_info_s: version
@@ -1220,11 +1225,15 @@ results on
 
      *Definition:* `char* lw6nod_const_info_s::version'
 
+     The version of the program.
+
 
  -- Member of lw6nod_const_info_s: codename
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_const_info_s::codename'
+
+     The codename of the program.
 
 
  -- Member of lw6nod_const_info_s: stamp
@@ -1232,11 +1241,15 @@ results on
 
      *Definition:* `int lw6nod_const_info_s::stamp'
 
+     The stamp of the program.
+
 
  -- Member of lw6nod_const_info_s: id_int
      *Type:* `u_int64_t'
 
      *Definition:* `u_int64_t lw6nod_const_info_s::id_int'
+
+     The id of the node, as an integer (64-bit unsigned).
 
 
  -- Member of lw6nod_const_info_s: id_str
@@ -1244,11 +1257,15 @@ results on
 
      *Definition:* `char* lw6nod_const_info_s::id_str'
 
+     The id of the node, as a string (64-bit converted to hexa).
+
 
  -- Member of lw6nod_const_info_s: url
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_const_info_s::url'
+
+     The public URL of the node.
 
 
  -- Member of lw6nod_const_info_s: title
@@ -1256,11 +1273,15 @@ results on
 
      *Definition:* `char* lw6nod_const_info_s::title'
 
+     The title of the node, its readable short name.
+
 
  -- Member of lw6nod_const_info_s: description
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_const_info_s::description'
+
+     More details about the node.
 
 
  -- Member of lw6nod_const_info_s: has_password
@@ -1268,11 +1289,15 @@ results on
 
      *Definition:* `int lw6nod_const_info_s::has_password'
 
+     Wether the node is password protected or not.
+
 
  -- Member of lw6nod_const_info_s: password
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_const_info_s::password'
+
+     The password used, cleartext.
 
 
  -- Member of lw6nod_const_info_s: bench
@@ -1280,11 +1305,15 @@ results on
 
      *Definition:* `int lw6nod_const_info_s::bench'
 
+     The node bench.
+
 
  -- Member of lw6nod_const_info_s: open_relay
      *Type:* `int'
 
      *Definition:* `int lw6nod_const_info_s::open_relay'
+
+     Wether the node acts as an open relay or not.
 
 
  -- Member of lw6nod_const_info_s: creation_timestamp
@@ -1292,11 +1321,15 @@ results on
 
      *Definition:* `int64_t lw6nod_const_info_s::creation_timestamp'
 
+     The node creation timestamp.
+
 
  -- Member of lw6nod_const_info_s: idle_screenshot_size
      *Type:* `int'
 
      *Definition:* `int lw6nod_const_info_s::idle_screenshot_size'
+
+     Size of the screenshot (in bytes) when in idle mode.
 
 
  -- Member of lw6nod_const_info_s: idle_screenshot_data
@@ -1304,25 +1337,36 @@ results on
 
      *Definition:* `void* lw6nod_const_info_s::idle_screenshot_data'
 
+     Idle mode screenshot data. This is just a plain JPEG buffer, which
+     will be used as a fallback if there's no real screenshot available.
 
  -- Struct: lw6nod_dyn_info_s
+     Dynamic informations about a node, these are informations that
+     vary through the node's life, so they are unset at object creation
+     and can then be updated from game context.
 
  -- Member of lw6nod_dyn_info_s: community_id_int
      *Type:* `u_int64_t'
 
      *Definition:* `u_int64_t lw6nod_dyn_info_s::community_id_int'
 
+     The ID of the community this node belongs to, as a 64-bit unsigned
+     integer.
 
  -- Member of lw6nod_dyn_info_s: community_id_str
      *Type:* `char *'
 
      *Definition:* `char* lw6nod_dyn_info_s::community_id_str'
 
+     The ID of the community this node belongs to, as a string (64-bit
+     integer converted to hexa).
 
  -- Member of lw6nod_dyn_info_s: round
      *Type:* `int'
 
      *Definition:* `int lw6nod_dyn_info_s::round'
+
+     The current round.
 
 
  -- Member of lw6nod_dyn_info_s: level
@@ -1330,11 +1374,15 @@ results on
 
      *Definition:* `char* lw6nod_dyn_info_s::level'
 
+     The current level.
+
 
  -- Member of lw6nod_dyn_info_s: required_bench
      *Type:* `int'
 
      *Definition:* `int lw6nod_dyn_info_s::required_bench'
+
+     The required bench to connect to this node.
 
 
  -- Member of lw6nod_dyn_info_s: nb_colors
@@ -1342,11 +1390,15 @@ results on
 
      *Definition:* `int lw6nod_dyn_info_s::nb_colors'
 
+     Number of colors playing.
+
 
  -- Member of lw6nod_dyn_info_s: max_nb_colors
      *Type:* `int'
 
      *Definition:* `int lw6nod_dyn_info_s::max_nb_colors'
+
+     Maximum number of colors allowed to play.
 
 
  -- Member of lw6nod_dyn_info_s: nb_cursors
@@ -1354,11 +1406,15 @@ results on
 
      *Definition:* `int lw6nod_dyn_info_s::nb_cursors'
 
+     Number of cursors playing.
+
 
  -- Member of lw6nod_dyn_info_s: max_nb_cursors
      *Type:* `int'
 
      *Definition:* `int lw6nod_dyn_info_s::max_nb_cursors'
+
+     Maximum number of cursors allowed to play.
 
 
  -- Member of lw6nod_dyn_info_s: nb_nodes
@@ -1366,11 +1422,15 @@ results on
 
      *Definition:* `int lw6nod_dyn_info_s::nb_nodes'
 
+     Number of nodes playing.
+
 
  -- Member of lw6nod_dyn_info_s: max_nb_nodes
      *Type:* `int'
 
      *Definition:* `int lw6nod_dyn_info_s::max_nb_nodes'
+
+     Maximum number of nodes allowed to play.
 
 
  -- Member of lw6nod_dyn_info_s: game_screenshot_size
@@ -1378,19 +1438,32 @@ results on
 
      *Definition:* `int lw6nod_dyn_info_s::game_screenshot_size'
 
+     Size of the screenshot, in bytes.
+
 
  -- Member of lw6nod_dyn_info_s: game_screenshot_data
      *Type:* `void *'
 
      *Definition:* `void* lw6nod_dyn_info_s::game_screenshot_data'
 
+     Game screenshot data. This is just a plain JPEG buffer, which will
+     be served when peers and/or web clients want to gather
+     informations about the game. This can be NULL, in that the
+     fallback constant data will be used.
 
  -- Struct: lw6nod_info_s
+     Informations about a node. Note that in practice this structure is
+     just used to describe our current node, there might be several
+     instances of this if a program instanciates several nodes, but
+     another data structure is used to store information about
+     peers.typedef struct lw6nod_info_s
 
  -- Member of lw6nod_info_s: mutex
      *Type:* `void *'
 
      *Definition:* `void* lw6nod_info_s::mutex'
+
+     Mutex used to access dynamic informations.
 
 
  -- Member of lw6nod_info_s: const_info
@@ -1398,24 +1471,32 @@ results on
 
      *Definition:* `lw6nod_const_info_t lw6nod_info_s::const_info'
 
+     Constant informations, never changes.
+
 
  -- Member of lw6nod_info_s: dyn_info
      *Type:* `lw6nod_dyn_info_t'
 
      *Definition:* `lw6nod_dyn_info_t lw6nod_info_s::dyn_info'
 
+     Dynamic informations, can be updated. Do not modify this directly,
+     instead use appropriate functions which will use mutexes properly.
 
  -- Member of lw6nod_info_s: discovered_nodes
      *Type:* `lw6sys_hash_t *'
 
      *Definition:* `lw6sys_hash_t* lw6nod_info_s::discovered_nodes'
 
+     List of discovered nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
 
  -- Member of lw6nod_info_s: verified_nodes
      *Type:* `lw6sys_list_t *'
 
      *Definition:* `lw6sys_list_t* lw6nod_info_s::verified_nodes'
 
+     List of verified nodes, do not access this directly, instead use
+     proper query functions which, in turn, will use mutexes properly.
 
 
 File: liquidwar6.info,  Node: libp2p,  Next: libpil,  Prev: libnod,  Up: C API
@@ -8854,81 +8935,4 @@ before his life force completely failed and his own weary eyes closed
 in defeat he snarled,
 
    "What!? This is not a game!" were the General's dying words.
-
-
-File: liquidwar6.info,  Node: Links,  Next: Copying,  Prev: Fanfic,  Up: Top
-
-Appendix C Links
-****************
-
-This section lists various Internet Liquid War related links.
-
-C.1 Official links
-==================
-
-These are the "official" links, hopefully you'll find everything you
-need here:
-
-   * `http://www.gnu.org/software/liquidwar6/': Liquid War 6 homepage
-
-   * `http://www.gnu.org/software/liquidwar6/manual/': Online manual
-
-   * `http://download.savannah.gnu.org/releases/liquidwar6/': Savannah
-     downloads
-
-   * `http://www.ufoot.org/download/liquidwar/v6/': ufoot.org downloads
-     (mirror)
-
-   * `http://www.ufoot.org/liquidwar/v6/snapshots/': daily snapshots
-
-   * `http://git.savannah.gnu.org/cgit/liquidwar6.git': GIT repository
-
-   * `http://savannah.gnu.org/projects/liquidwar6/': Project on Savannah
-
-   * `http://savannah.gnu.org/bugs/?func=additem&group=liquidwar6':
-     Submit a bug report
-
-   * `http://lists.gnu.org/archive/html/help-liquidwar6/': Mailing-list
-     archives
-
-   * `http://ufoot.org:8056/': Permanent "seed" server running latest
-     snapshot
-
-C.2 Other sites
-===============
-
-Note that some of these links might link to and/or promote proprietary
-software. It's important to emphasize Liquid War 6 is free software,
-free as in speech, and you are encouraged to use software that protects
-your freedom. However, for your convenience, those links are provided,
-they might give you a hopefully neutral idea of what the game is all
-about.
-
-   This list is also by no way extensive, it's provided "as is".
-
-   * `http://en.wikipedia.org/wiki/Liquid_War': Liquid War entry on
-     Wikipedia
-
-   * `http://fr.wikipedia.org/wiki/Liquid_War': Liquid War entry on
-     Wikipedia (French)
-
-   * `http://freecode.com/projects/liquid-war-6': Liquid War 6 on
-     Freecode.
-
-   * `http://www.ohloh.net/p/liquidwar6': Liquid War 6 on ohloh.
-
-C.3 Old stuff
-=============
-
-Various links that are deprecated, but still might contain interesting
-informations for those who enjoy digging into the past.
-
-   * `http://arch.sv.gnu.org/archives/liquidwar6/': GNU Arch repository
-     (replaced by Git as for this project)
-
-   * `http://www.ufoot.org/liquidwar/v5': Liquid War 5, the previous
-     version of the game.
-
-   * `http://git.savannah.gnu.org/gitweb/?p=liquidwar6.git': Gitweb
-     interface, cgit seems to be Savannah's default now.
 
