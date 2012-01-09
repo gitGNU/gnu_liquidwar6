@@ -136,7 +136,7 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 	       * and avoid rewritting it each time we need to read it.
 	       */
 	      (*seq_from_cmd_str_offset) = next - full_str;
-	      if (lw6msg_word_first_int_32_ge0 (seq, &next, next))
+	      if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
 		{
 		  if (lw6msg_word_first_id_64 (logical_from, &next, next))
 		    {
@@ -179,28 +179,3 @@ _lw6dat_atom_parse_serial_i_n_seq_from_cmd (int *serial, int *order_i,
 
   return ret;
 }
-
-/*
-char *
-_lw6dat_atom_recreate_atom_str_from_atom (_lw6dat_atom_t * atom,
-					  char *logical_from_str)
-{
-  char *ret = NULL;
-  char *full_str = NULL;
-
-  full_str = _lw6dat_atom_get_full_str (atom);
-  if (full_str != NULL)
-    {
-      
-      //ret =
-      //	lw6sys_new_sprintf ("%d %d %d %d %s %s", atom->serial, atom->order_i,
-      //			    atom->order_n, atom->seq, logical_from_str, full_str);
-      //
-      ret =
-	lw6sys_new_sprintf ("%d %d %d %s", atom->serial, atom->order_i,
-			    atom->order_n, full_str);
-    }
-
-  return ret;
-}
-*/
