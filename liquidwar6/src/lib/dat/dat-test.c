@@ -34,7 +34,7 @@
 
 #define _TEST_BLOCK_SERIAL_0 456
 #define _TEST_BLOCK_ORDER_N 7
-#define _TEST_BLOCK_ROUND 2
+#define _TEST_BLOCK_SEQ 10000000000002LL
 #define _TEST_BLOCK_STEP 3
 #define _TEST_BLOCK_TEXT_1 "0+0=zero"
 #define _TEST_BLOCK_TEXT_2 "2+2=4"
@@ -46,7 +46,7 @@
 #define _TEST_STACK_SERIAL_0 123
 #define _TEST_STACK_ORDER_I 0
 #define _TEST_STACK_ORDER_N 1
-#define _TEST_STACK_ROUND 5
+#define _TEST_STACK_SEQ 10000000000005LL
 #define _TEST_STACK_TEXT "..."
 #define _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET 0
 #define _TEST_STACK_CMD_STR_OFFSET 0
@@ -54,14 +54,14 @@
 #define _TEST_STACK_RANDOM_RANGE (_LW6DAT_MAX_NB_ATOMS-_LW6DAT_NB_ATOMS_PER_BLOCK)
 #define _TEST_STACK_SEND_FLAG 5
 #define _TEST_STACK_TARGET_INDEX 2
-#define _TEST_STACK_MSG_1 "2 2345234523452345 first message, short one"
-#define _TEST_STACK_MSG_2 "3 2345234523452345 second message, short one too"
-#define _TEST_STACK_MSG_3 "11 2345234523452345 third message, short one again"
-#define _TEST_STACK_MSG_4 "11 2345234523452345 fourth message, this one is long, will be filled with random string %s"
+#define _TEST_STACK_MSG_1 "10000000000002 2345234523452345 first message, short one"
+#define _TEST_STACK_MSG_2 "10000000000003 2345234523452345 second message, short one too"
+#define _TEST_STACK_MSG_3 "10000000000011 2345234523452345 third message, short one again"
+#define _TEST_STACK_MSG_4 "10000000000011 2345234523452345 fourth message, this one is long, will be filled with random string %s"
 #define _TEST_STACK_MSG_4_RANDOM_PART_SIZE 500000
-#define _TEST_STACK_MSG_5 "11 2345234523452345 fifth message, with same round/seq than the two previous ones"
-#define _TEST_STACK_MSG_6 "13 2345234523452345 last message"
-#define _TEST_STACK_MSG_GET_SEQ 11
+#define _TEST_STACK_MSG_5 "10000000000011 2345234523452345 fifth message, with same round/seq than the two previous ones"
+#define _TEST_STACK_MSG_6 "10000000000013 2345234523452345 last message"
+#define _TEST_STACK_MSG_GET_SEQ 10000000000011LL
 #define _TEST_STACK_MSG_GET_NB 3
 
 #define _TEST_WAREHOUSE_LOCAL_NODE_ID 0x1234123412341234LL
@@ -69,7 +69,7 @@
 #define _TEST_WAREHOUSE_SERIAL 789
 #define _TEST_WAREHOUSE_ORDER_I 0
 #define _TEST_WAREHOUSE_ORDER_N 1
-#define _TEST_WAREHOUSE_ROUND 7
+#define _TEST_WAREHOUSE_SEQ 10000000000007LL
 #define _TEST_WAREHOUSE_TEXT "spam and ham"
 #define _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET 0
 #define _TEST_WAREHOUSE_CMD_STR_OFFSET 0
@@ -190,7 +190,7 @@ test_block ()
 	  {
 	    if (_lw6dat_block_put_atom
 		(block, serial, order_i, _TEST_BLOCK_ORDER_N,
-		 _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1,
+		 _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
 		 _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_BLOCK_CMD_STR_OFFSET, _TEST_BLOCK_SEND_FLAG))
 	      {
@@ -213,7 +213,7 @@ test_block ()
 		    _x_ ("trying various invalid atom \"put\" calls"));
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_2,
+	     _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_2,
 	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
 	     _TEST_BLOCK_SEND_FLAG))
 	  {
@@ -227,13 +227,13 @@ test_block ()
 	  }
 	if (_lw6dat_block_put_atom
 	    (block, _TEST_BLOCK_SERIAL_0 - 1, 0, _TEST_BLOCK_ORDER_N,
-	     _TEST_BLOCK_ROUND, _TEST_BLOCK_TEXT_1,
+	     _TEST_BLOCK_SEQ, _TEST_BLOCK_TEXT_1,
 	     _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET, _TEST_BLOCK_CMD_STR_OFFSET,
 	     _TEST_BLOCK_SEND_FLAG)
 	    || _lw6dat_block_put_atom (block,
 				       _TEST_BLOCK_SERIAL_0 +
 				       _LW6DAT_NB_ATOMS_PER_BLOCK, 0,
-				       _TEST_BLOCK_ORDER_N, _TEST_BLOCK_ROUND,
+				       _TEST_BLOCK_ORDER_N, _TEST_BLOCK_SEQ,
 				       _TEST_BLOCK_TEXT_1,
 				       _TEST_BLOCK_SEQ_FROM_CMD_STR_OFFSET,
 				       _TEST_BLOCK_CMD_STR_OFFSET,
@@ -319,8 +319,8 @@ test_stack ()
     _lw6dat_stack_t stack;
     int i;
     int serial = _LW6DAT_SERIAL_INVALID;
-    int seq = _LW6DAT_SEQ_INVALID;
-    int tmp;
+    int64_t seq = _LW6DAT_SEQ_INVALID;
+    int64_t tmp;
     int found_null = 0;
     int found_not_null = 0;
     lw6sys_list_t *msg_list = NULL;
@@ -338,7 +338,7 @@ test_stack ()
       {
 	serial =
 	  _TEST_STACK_SERIAL_0 + lw6sys_random (_TEST_STACK_RANDOM_RANGE);
-	seq = _TEST_STACK_ROUND + i;
+	seq = _TEST_STACK_SEQ + i;
 	if (!_lw6dat_stack_put_atom
 	    (&stack, serial, _TEST_STACK_ORDER_I, _TEST_STACK_ORDER_N,
 	     seq, _TEST_STACK_TEXT, _TEST_STACK_SEQ_FROM_CMD_STR_OFFSET,
@@ -350,7 +350,8 @@ test_stack ()
 	    ret = 0;
 	  }
       }
-    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("last put serial=%d seq=%d"), serial,
+    lw6sys_log (LW6SYS_LOG_NOTICE,
+		_x_ ("last put serial=%d seq=%" LW6SYS_PRINTF_LL "d"), serial,
 		seq);
     if (ret)
       {
@@ -389,27 +390,31 @@ test_stack ()
 	tmp = _lw6dat_stack_serial2seq (&stack, serial);
 	if (tmp == seq)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("serial2seq OK %d->%d"),
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("serial2seq OK %d->%" LW6SYS_PRINTF_LL "d"),
 			serial, seq);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("serial2seq problem %d->%d instead of %d"),
-			serial, tmp, seq);
+			_x_ ("serial2seq problem %d->%" LW6SYS_PRINTF_LL
+			     "d instead of %" LW6SYS_PRINTF_LL "d"), serial,
+			tmp, seq);
 	    ret = 0;
 	  }
 	tmp = _lw6dat_stack_seq2serial (&stack, seq);
 	if (tmp == serial)
 	  {
-	    lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("seq2serial OK %d->%d"), seq,
+	    lw6sys_log (LW6SYS_LOG_NOTICE,
+			_x_ ("seq2serial OK %d->%" LW6SYS_PRINTF_LL "d"), seq,
 			serial);
 	  }
 	else
 	  {
 	    lw6sys_log (LW6SYS_LOG_WARNING,
-			_x_ ("seq2serial problem %d->%d instead of %d"), seq,
-			tmp, serial);
+			_x_ ("seq2serial problem %d->%" LW6SYS_PRINTF_LL
+			     "d instead of %" LW6SYS_PRINTF_LL "d"), seq, tmp,
+			serial);
 	    ret = 0;
 	  }
 	for (serial = stack.serial_0; serial <= stack.serial_n_1; ++serial)
@@ -631,10 +636,10 @@ test_warehouse ()
     lw6sys_list_t *list_by_seq2 = NULL;
     int length = 0;
     int length2 = 0;
-    int seq_min = 0;
-    int seq_max = 0;
-    int seq_draft = 0;
-    int seq_reference = 0;
+    int64_t seq_min = 0;
+    int64_t seq_max = 0;
+    int64_t seq_draft = 0;
+    int64_t seq_reference = 0;
 
     _warehouse = _lw6dat_warehouse_new (_TEST_WAREHOUSE_LOCAL_NODE_ID);
     if (_warehouse)
@@ -642,7 +647,7 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_LOCAL_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
 	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
@@ -655,7 +660,7 @@ test_warehouse ()
 	    if (!_lw6dat_warehouse_put_atom
 		(_warehouse, lw6sys_generate_id_64 (), _TEST_WAREHOUSE_SERIAL,
 		 _TEST_WAREHOUSE_ORDER_I, _TEST_WAREHOUSE_ORDER_N,
-		 _TEST_WAREHOUSE_ROUND, _TEST_WAREHOUSE_TEXT,
+		 _TEST_WAREHOUSE_SEQ, _TEST_WAREHOUSE_TEXT,
 		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	      {
@@ -692,7 +697,7 @@ test_warehouse ()
 	if (_lw6dat_warehouse_put_atom
 	    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 	     _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+	     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
 	     _TEST_WAREHOUSE_TEXT, _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 	     _TEST_WAREHOUSE_CMD_STR_OFFSET))
 	  {
@@ -701,7 +706,7 @@ test_warehouse ()
 		if (!_lw6dat_warehouse_put_atom
 		    (_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		     _TEST_WAREHOUSE_SERIAL + i, _TEST_WAREHOUSE_ORDER_I,
-		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+		     _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
 		     _TEST_WAREHOUSE_TEXT,
 		     _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		     _TEST_WAREHOUSE_CMD_STR_OFFSET))
@@ -714,7 +719,7 @@ test_warehouse ()
 	    if (_lw6dat_warehouse_put_atom
 		(_warehouse, _TEST_WAREHOUSE_OTHER_NODE_ID,
 		 _TEST_WAREHOUSE_SERIAL, _TEST_WAREHOUSE_ORDER_I,
-		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_ROUND,
+		 _TEST_WAREHOUSE_ORDER_N, _TEST_WAREHOUSE_SEQ,
 		 _TEST_WAREHOUSE_TEXT,
 		 _TEST_WAREHOUSE_SEQ_FROM_CMD_STR_OFFSET,
 		 _TEST_WAREHOUSE_CMD_STR_OFFSET))
@@ -783,9 +788,10 @@ test_warehouse ()
 		if (cmd)
 		  {
 		    msg =
-		      lw6sys_new_sprintf ("%d %s %s",
-					  _TEST_WAREHOUSE_ROUND +
-					  (int) sqrt (i), id_str, cmd);
+		      lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
+					  (int64_t) (_TEST_WAREHOUSE_SEQ +
+						     (int) sqrt (i)), id_str,
+					  cmd);
 		    if (msg)
 		      {
 			if (lw6dat_warehouse_put_local_msg (warehouse, msg))
@@ -817,8 +823,10 @@ test_warehouse ()
 	seq_draft = lw6dat_warehouse_get_seq_draft (warehouse);
 	seq_reference = lw6dat_warehouse_get_seq_reference (warehouse);
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("seq info min=%d max=%d draft=%d reference=%d"),
-		    seq_min, seq_max, seq_draft, seq_reference);
+		    _x_ ("seq info min=%" LW6SYS_PRINTF_LL "d max=%"
+			 LW6SYS_PRINTF_LL "d draft=%" LW6SYS_PRINTF_LL
+			 "d reference=%" LW6SYS_PRINTF_LL "d"), seq_min,
+		    seq_max, seq_draft, seq_reference);
 
 	warehouse2 = lw6dat_warehouse_new (_TEST_WAREHOUSE_OTHER_NODE_ID);
 	if (warehouse2)
@@ -827,8 +835,8 @@ test_warehouse ()
 	    if (id_str)
 	      {
 		msg =
-		  lw6sys_new_sprintf ("%d %s %s",
-				      _TEST_WAREHOUSE_ROUND,
+		  lw6sys_new_sprintf ("%" LW6SYS_PRINTF_LL "d %s %s",
+				      (int64_t) (_TEST_WAREHOUSE_SEQ),
 				      id_str, _TEST_WAREHOUSE_OTHER_NODE_MSG);
 		if (msg)
 		  {
@@ -859,8 +867,11 @@ test_warehouse ()
 			      lw6dat_warehouse_get_seq_reference (warehouse2);
 			    lw6sys_log (LW6SYS_LOG_NOTICE,
 					_x_
-					("seq info min=%d max=%d draft=%d reference=%d"),
-					seq_min, seq_max, seq_draft,
+					("seq info min=%" LW6SYS_PRINTF_LL
+					 "d max=%" LW6SYS_PRINTF_LL
+					 "d draft=%" LW6SYS_PRINTF_LL
+					 "d reference=%" LW6SYS_PRINTF_LL
+					 "d"), seq_min, seq_max, seq_draft,
 					seq_reference);
 			    list_by_seq =
 			      lw6dat_warehouse_get_msg_list_by_seq (warehouse,

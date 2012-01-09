@@ -26,6 +26,8 @@
 
 #include "dat-internal.h"
 
+#define _SEQ_RANGE_CHECK_LIMIT 1000
+
 _lw6dat_warehouse_t *
 _lw6dat_warehouse_new (u_int64_t local_node_id)
 {
@@ -487,16 +489,18 @@ int64_t
 _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = LLONG_MAX;
+  int64_t seq_min;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  ret =
-	    lw6sys_llmin (ret,
-			  _lw6dat_stack_get_seq_min (&
-						     (warehouse->stacks[i])));
+	  seq_min = _lw6dat_stack_get_seq_min (&(warehouse->stacks[i]));
+	  if (seq_min > _LW6DAT_SEQ_INVALID)
+	    {
+	      ret = lw6sys_llmin (ret, seq_min);
+	    }
 	}
     }
 
@@ -528,7 +532,7 @@ lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse)
 int64_t
 _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
 {
-  int64_t ret = 0LL;
+  int64_t ret = _LW6DAT_SEQ_INVALID;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -667,6 +671,24 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
   int stack_index = 0;
   int64_t seq = 0;
 
+  if (seq_max - seq_min > _SEQ_RANGE_CHECK_LIMIT)
+    {
+      int64_t warehouse_seq_min = 0LL;
+      int64_t warehouse_seq_max = 0LL;
+
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("before range check seq_min=%" LW6SYS_PRINTF_LL
+		       "d seq_max=%" LW6SYS_PRINTF_LL "d"), seq_min, seq_max);
+
+      warehouse_seq_min = _lw6dat_warehouse_get_seq_min (warehouse);
+      warehouse_seq_max = _lw6dat_warehouse_get_seq_max (warehouse);
+      seq_min = lw6sys_llmax (warehouse_seq_min - 1, seq_min);
+      seq_max = lw6sys_llmin (warehouse_seq_max + 1, seq_max);
+
+      lw6sys_log (LW6SYS_LOG_DEBUG,
+		  _x_ ("after range check seq_min=%" LW6SYS_PRINTF_LL
+		       "d seq_max=%" LW6SYS_PRINTF_LL "d"), seq_min, seq_max);
+    }
   ret = _lw6dat_stack_init_list ();
   if (ret)
     {

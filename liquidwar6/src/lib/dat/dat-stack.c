@@ -313,12 +313,6 @@ _lw6dat_stack_put_atom (_lw6dat_stack_t * stack,
 	}
       if (block)
 	{
-	  /*
-	     stack->serial_n_1 =
-	     lw6sys_imax (stack->serial_n_1, block->serial_n_1);
-	     stack->serial_0 =
-	     lw6sys_imin (stack->serial_0, block->serial_0);
-	   */
 	  ret =
 	    _lw6dat_block_put_atom (block, serial, order_i, order_n, seq,
 				    full_str, seq_from_cmd_str_offset,
@@ -736,8 +730,13 @@ _lw6dat_stack_seq2serial (_lw6dat_stack_t * stack, int64_t seq)
 	}
       if (seq_min != _LW6DAT_SEQ_INVALID && seq_max != _LW6DAT_SEQ_INVALID)
 	{
-	  if (seq_min < seq_max && seq_min <= seq && seq <= seq_max &&
-	      seq - seq_min < seq_max - seq)
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("seq_min=%" LW6SYS_PRINTF_LL "d seq=%"
+			   LW6SYS_PRINTF_LL "d seq_max=%" LW6SYS_PRINTF_LL
+			   "d serial_min=%d serial_max=%d"), seq_min, seq,
+		      seq_max, stack->serial_min, stack->serial_max);
+	  if (seq_min < seq_max && seq_min <= seq && seq <= seq_max
+	      && seq - seq_min < seq_max - seq)
 	    {
 	      /*
 	       * Loop with i increasing since we suspect we'd
