@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2012-01-04 22:18+0100\n"
+"POT-Creation-Date: 2012-01-09 14:59+0100\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Floating point exception"
 msgstr ""
 
-#: src/lib/sys/sys-test.c:2030
+#: src/lib/sys/sys-test.c:2039
 msgid "this is a /TEST/ error"
 msgstr "dette er ein /TEST/-feil"
 
