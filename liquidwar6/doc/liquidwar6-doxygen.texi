@@ -1,4 +1,5 @@
 
+
   
 @deftp {Struct} {lw6_bot_smob_s}
 
