@@ -80,7 +80,7 @@ lw6sys_backtrace (int skip)
   int i = 0, n = 0;
   char *tmp = NULL;
 
-  skip = lw6sys_max (skip, 0);
+  skip = lw6sys_imax (skip, 0);
   memset (callstack, 0, sizeof (void *) * _CALLSTACK_SIZE);
   n = backtrace (callstack, _CALLSTACK_SIZE);
   if (n > 1)

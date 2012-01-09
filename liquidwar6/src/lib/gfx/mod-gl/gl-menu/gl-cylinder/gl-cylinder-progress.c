@@ -71,8 +71,8 @@ draw_cylinder_with_color (mod_gl_utils_context_t * utils_context,
     {
       mod_gl_utils_clear_surface_with_color (surface, sdl_todo);
       limit = progress * (MOD_GL_UTILS_MENU_TEXTURE_W - 1);
-      limit = lw6sys_min (limit, MOD_GL_UTILS_MENU_TEXTURE_W - 1);
-      limit = lw6sys_max (limit, 0);
+      limit = lw6sys_imin (limit, MOD_GL_UTILS_MENU_TEXTURE_W - 1);
+      limit = lw6sys_imax (limit, 0);
       mod_gl_utils_draw_rectfill (surface, 0, 0, limit,
 				  MOD_GL_UTILS_MENU_TEXTURE_H - 1, i_done);
       mod_gl_utils_draw_rectfill (surface, limit, 0,

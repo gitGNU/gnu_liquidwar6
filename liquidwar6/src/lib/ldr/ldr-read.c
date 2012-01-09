@@ -118,15 +118,16 @@ lw6ldr_read (const char *dirname, lw6sys_assoc_t * default_param,
       level->metadata.vanilla_exp = map_exp;
 
       level->param.rules.highest_team_color_allowed =
-	lw6sys_min (LW6MAP_MAX_NB_TEAMS - 1,
-		    lw6sys_min (level->param.rules.highest_team_color_allowed,
-				lw6map_exp_get_highest_team_color_allowed
-				(player_exp)));
+	lw6sys_imin (LW6MAP_MAX_NB_TEAMS - 1,
+		     lw6sys_imin (level->param.
+				  rules.highest_team_color_allowed,
+				  lw6map_exp_get_highest_team_color_allowed
+				  (player_exp)));
       level->param.rules.highest_weapon_allowed =
-	lw6sys_min (LW6MAP_MAX_WEAPON_ID,
-		    lw6sys_min (level->param.rules.highest_weapon_allowed,
-				lw6map_exp_get_highest_weapon_allowed
-				(player_exp)));
+	lw6sys_imin (LW6MAP_MAX_WEAPON_ID,
+		     lw6sys_imin (level->param.rules.highest_weapon_allowed,
+				  lw6map_exp_get_highest_weapon_allowed
+				  (player_exp)));
 
       if (use.use_hints_xml)
 	{

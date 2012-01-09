@@ -144,8 +144,8 @@ lw6cfg_load_exp (const char *user_dir, int *exp)
     }
 
   exp_t.exp =
-    lw6sys_min (LW6MAP_RULES_MAX_EXP,
-		lw6sys_max (LW6MAP_RULES_MIN_EXP, exp_t.exp));
+    lw6sys_imin (LW6MAP_RULES_MAX_EXP,
+		 lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp_t.exp));
   (*exp) = exp_t.exp;
 
   return ret;
@@ -182,8 +182,8 @@ lw6cfg_save_exp (const char *user_dir, int exp)
 				   ("This is where your exp is kept. Please do not edit, this would be assimilated to cheating, while it's not that hard to fool the game and make it believe you're super strong when you are not, such practice is not encouraged. It's believed it's more fun to wait until this number increases naturally."));
 
 	  exp =
-	    lw6sys_min (LW6MAP_RULES_MAX_EXP,
-			lw6sys_max (LW6MAP_RULES_MIN_EXP, exp));
+	    lw6sys_imin (LW6MAP_RULES_MAX_EXP,
+			 lw6sys_imax (LW6MAP_RULES_MIN_EXP, exp));
 	  checksum = _calc_checksum (exp);
 	  fprintf (f, "<int key=\"%s\" value=\"%d\" />%s", _EXP_KEY, exp,
 		   lw6sys_eol ());

@@ -64,8 +64,8 @@ mod_gl_utils_get_fullscreen_modes (mod_gl_utils_context_t *
       ret = 1;
     }
 
-  modes->low.width = lw6sys_min (modes->low.width, modes->high.width / 2);
-  modes->low.height = lw6sys_min (modes->low.height, modes->high.height / 2);
+  modes->low.width = lw6sys_imin (modes->low.width, modes->high.width / 2);
+  modes->low.height = lw6sys_imin (modes->low.height, modes->high.height / 2);
 
   modes->standard.width = (modes->low.width + modes->high.width) / 2;
   modes->standard.height = (modes->low.height + modes->high.height) / 2;

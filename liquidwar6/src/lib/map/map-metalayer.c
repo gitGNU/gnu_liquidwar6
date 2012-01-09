@@ -126,8 +126,8 @@ lw6map_meta_layer_builtin_custom (lw6map_meta_layer_t * meta_layer, int w,
     }
   else
     {
-      noise_percent = lw6sys_max (1, noise_percent);
-      noise_percent = lw6sys_min (100, noise_percent);
+      noise_percent = lw6sys_imax (1, noise_percent);
+      noise_percent = lw6sys_imin (100, noise_percent);
       seed = lw6sys_checksum_int32 (seed);
       meta_layer->data =
 	(u_int8_t *) LW6SYS_CALLOC (w * h * sizeof (u_int8_t));

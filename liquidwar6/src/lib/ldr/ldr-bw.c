@@ -112,11 +112,11 @@ _lw6ldr_bw_read (_lw6ldr_image_bw_t * image, const char *png_file,
 		    }
 
 		  max_width =
-		    lw6sys_max (LW6MAP_MAX_BODY_WIDTH,
-				LW6MAP_MAX_TEXTURE_WIDTH);
+		    lw6sys_imax (LW6MAP_MAX_BODY_WIDTH,
+				 LW6MAP_MAX_TEXTURE_WIDTH);
 		  max_height =
-		    lw6sys_max (LW6MAP_MAX_BODY_HEIGHT,
-				LW6MAP_MAX_TEXTURE_HEIGHT);
+		    lw6sys_imax (LW6MAP_MAX_BODY_HEIGHT,
+				 LW6MAP_MAX_TEXTURE_HEIGHT);
 		  if (width > max_width || height > max_height)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,

@@ -129,9 +129,9 @@ lw6map_texture_coord_from_body (lw6map_level_t * level, int *texture_x,
       (*texture_x) = (body_x * level->texture.w) / level->body.shape.w;
       (*texture_y) = (body_y * level->texture.h) / level->body.shape.h;
       (*texture_x) =
-	lw6sys_max (0, lw6sys_min (level->texture.w - 1, *texture_x));
+	lw6sys_imax (0, lw6sys_imin (level->texture.w - 1, *texture_x));
       (*texture_y) =
-	lw6sys_max (0, lw6sys_min (level->texture.h - 1, *texture_y));
+	lw6sys_imax (0, lw6sys_imin (level->texture.h - 1, *texture_y));
       ret = 1;
     }
   else

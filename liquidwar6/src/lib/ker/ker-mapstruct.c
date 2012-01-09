@@ -969,7 +969,7 @@ init_places (_lw6ker_map_struct_t * map_struct, lw6map_level_t * level,
 	    {
 	      i = _lw6ker_map_struct_place_index (map_struct, x, y);
 	      map_struct->places[i].act_incr =
-		lw6sys_max (1, map_struct->places[i].act_incr);
+		lw6sys_imax (1, map_struct->places[i].act_incr);
 	      /*
 	       * health_correction need not be fixed
 	       */

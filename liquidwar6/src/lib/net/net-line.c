@@ -184,8 +184,8 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
   if (sock >= 0)
     {
       line_size =
-	lw6sys_min (_lw6net_global_context->const_data.line_size,
-		    LW6NET_PPPOE_MTU - TRAIL_SIZE);
+	lw6sys_imin (_lw6net_global_context->const_data.line_size,
+		     LW6NET_PPPOE_MTU - TRAIL_SIZE);
       memset (line_buf, 0, line_size + TRAIL_SIZE + 1);
       available_size =
 	lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE,
@@ -258,8 +258,8 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
       if (ret)
 	{
 	  line_size =
-	    lw6sys_min (_lw6net_global_context->const_data.line_size,
-			LW6NET_PPPOE_MTU - TRAIL_SIZE);
+	    lw6sys_imin (_lw6net_global_context->const_data.line_size,
+			 LW6NET_PPPOE_MTU - TRAIL_SIZE);
 	  memset (line_buf, 0, line_size + TRAIL_SIZE + 1);
 	  available_size =
 	    lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE,
@@ -360,8 +360,8 @@ lw6net_send_line_udp (int sock, char *line, char *ip, int port)
   if (sock >= 0 && line)
     {
       line_size =
-	lw6sys_min (_lw6net_global_context->const_data.line_size,
-		    LW6NET_PPPOE_MTU - TRAIL_SIZE);
+	lw6sys_imin (_lw6net_global_context->const_data.line_size,
+		     LW6NET_PPPOE_MTU - TRAIL_SIZE);
       copied_line = lw6sys_str_copy (line);
       if (copied_line)
 	{

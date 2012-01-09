@@ -58,7 +58,7 @@ lw6ldr_exp_validate (lw6map_level_t * level, const char *user_dir)
       /*
        * OK, upgrading...
        */
-      new_player_exp = lw6sys_min (LW6MAP_RULES_MAX_EXP, player_exp + 1);
+      new_player_exp = lw6sys_imin (LW6MAP_RULES_MAX_EXP, player_exp + 1);
       if (new_player_exp > player_exp)
 	{
 	  lw6sys_log (LW6SYS_LOG_NOTICE,
@@ -87,11 +87,11 @@ void
 _lw6ldr_exp_fix (lw6map_rules_t * rules, int exp)
 {
   rules->exp =
-    lw6sys_max (LW6MAP_RULES_MIN_EXP, lw6sys_max (exp, rules->exp));
+    lw6sys_imax (LW6MAP_RULES_MIN_EXP, lw6sys_imax (exp, rules->exp));
   rules->highest_team_color_allowed =
-    lw6sys_min (rules->highest_team_color_allowed,
-		lw6map_exp_get_highest_team_color_allowed (exp));
+    lw6sys_imin (rules->highest_team_color_allowed,
+		 lw6map_exp_get_highest_team_color_allowed (exp));
   rules->highest_weapon_allowed =
-    lw6sys_min (rules->highest_weapon_allowed,
-		lw6map_exp_get_highest_weapon_allowed (exp));
+    lw6sys_imin (rules->highest_weapon_allowed,
+		 lw6map_exp_get_highest_weapon_allowed (exp));
 }

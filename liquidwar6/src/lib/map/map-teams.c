@@ -203,9 +203,9 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
       else if (!strcmp (LW6DEF_NB_BOTS, formatted_key))
 	{
 	  teams->nb_bots =
-	    lw6sys_max (LW6MAP_TEAMS_MIN_NB_BOTS,
-			lw6sys_min (LW6MAP_TEAMS_MAX_NB_BOTS,
-				    lw6sys_atoi (value)));
+	    lw6sys_imax (LW6MAP_TEAMS_MIN_NB_BOTS,
+			 lw6sys_imin (LW6MAP_TEAMS_MAX_NB_BOTS,
+				      lw6sys_atoi (value)));
 	}
       else if (!strcmp (LW6DEF_BOT_SPEED, formatted_key))
 	{
@@ -214,9 +214,9 @@ lw6map_teams_set (lw6map_teams_t * teams, const char *key, const char *value)
       else if (!strcmp (LW6DEF_BOT_IQ, formatted_key))
 	{
 	  teams->bot_iq =
-	    lw6sys_max (LW6MAP_TEAMS_MIN_BOT_IQ,
-			lw6sys_min (LW6MAP_TEAMS_MAX_BOT_IQ,
-				    lw6sys_atoi (value)));
+	    lw6sys_imax (LW6MAP_TEAMS_MIN_BOT_IQ,
+			 lw6sys_imin (LW6MAP_TEAMS_MAX_BOT_IQ,
+				      lw6sys_atoi (value)));
 	}
       else if (!strcmp (LW6DEF_BOT1_COLOR, formatted_key))
 	{

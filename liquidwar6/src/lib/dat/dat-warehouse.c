@@ -300,7 +300,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse,
 int
 _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
-			    int serial, int order_i, int order_n, int seq,
+			    int serial, int order_i, int order_n, int64_t seq,
 			    char *full_str, int seq_from_cmd_str_offset,
 			    int cmd_str_offset)
 {
@@ -340,7 +340,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse,
   int serial = 0;
   int order_i = 0;
   int order_n = 0;
-  int seq = 0;
+  int64_t seq = 0;
   u_int64_t logical_from2 = 0L;
   int seq_from_cmd_str_offset = 0;
   int cmd_str_offset = 0;
@@ -483,10 +483,10 @@ lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, char *msg)
   return ret;
 }
 
-int
+int64_t
 _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
 {
-  int ret = INT_MAX;
+  int64_t ret = LLONG_MAX;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -494,8 +494,9 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
       if (warehouse->stacks[i].node_id)
 	{
 	  ret =
-	    lw6sys_min (ret,
-			_lw6dat_stack_get_seq_min (&(warehouse->stacks[i])));
+	    lw6sys_llmin (ret,
+			  _lw6dat_stack_get_seq_min (&
+						     (warehouse->stacks[i])));
 	}
     }
 
@@ -514,20 +515,20 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
  *
  * Return value: integer.
  */
-int
+int64_t
 lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0LL;
 
   ret = _lw6dat_warehouse_get_seq_min ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
-int
+int64_t
 _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0LL;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -535,8 +536,9 @@ _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
       if (warehouse->stacks[i].node_id)
 	{
 	  ret =
-	    lw6sys_max (ret,
-			_lw6dat_stack_get_seq_max (&(warehouse->stacks[i])));
+	    lw6sys_llmax (ret,
+			  _lw6dat_stack_get_seq_max (&
+						     (warehouse->stacks[i])));
 	}
     }
 
@@ -554,20 +556,20 @@ _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
  *
  * Return value: integer.
  */
-int
+int64_t
 lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0LL;
 
   ret = _lw6dat_warehouse_get_seq_max ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
-int
+int64_t
 _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0LL;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -575,9 +577,10 @@ _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
       if (warehouse->stacks[i].node_id)
 	{
 	  ret =
-	    lw6sys_max (ret,
-			_lw6dat_stack_get_seq_draft (&
-						     (warehouse->stacks[i])));
+	    lw6sys_llmax (ret,
+			  _lw6dat_stack_get_seq_draft (&
+						       (warehouse->stacks
+							[i])));
 	}
     }
 
@@ -597,20 +600,20 @@ _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
  *
  * Return value: integer.
  */
-int
+int64_t
 lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
   ret = _lw6dat_warehouse_get_seq_draft ((_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
-int
+int64_t
 _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 {
-  int ret = INT_MAX;
+  int64_t ret = LLONG_MAX;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -618,10 +621,10 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
       if (warehouse->stacks[i].node_id)
 	{
 	  ret =
-	    lw6sys_min (ret,
-			_lw6dat_stack_get_seq_reference (&
-							 (warehouse->stacks
-							  [i])));
+	    lw6sys_llmin (ret,
+			  _lw6dat_stack_get_seq_reference (&
+							   (warehouse->stacks
+							    [i])));
 	}
     }
   if (ret >= INT_MAX)
@@ -645,10 +648,10 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
  *
  * Return value: integer.
  */
-int
+int64_t
 lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
 {
-  int ret = 0;
+  int64_t ret = 0;
 
   ret =
     _lw6dat_warehouse_get_seq_reference ((_lw6dat_warehouse_t *) warehouse);
@@ -658,11 +661,11 @@ lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
 
 lw6sys_list_t *
 _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
-				       int seq_min, int seq_max)
+				       int64_t seq_min, int64_t seq_max)
 {
   lw6sys_list_t *ret = NULL;
   int stack_index = 0;
-  int seq = 0;
+  int64_t seq = 0;
 
   ret = _lw6dat_stack_init_list ();
   if (ret)
@@ -700,7 +703,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse,
  */
 lw6sys_list_t *
 lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t * warehouse,
-				      int seq_min, int seq_max)
+				      int64_t seq_min, int64_t seq_max)
 {
   lw6sys_list_t *ret = NULL;
 

@@ -502,7 +502,7 @@ lw6net_tcp_send (int sock, char *buf, int len, int delay_msec, int loop)
 		{
 		  sent = send (sock,
 			       buf + total_sent,
-			       lw6sys_min (len - total_sent, chunk_size), 0);
+			       lw6sys_imin (len - total_sent, chunk_size), 0);
 		  if (sent > 0 && sent <= len - total_sent)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,
@@ -673,8 +673,8 @@ lw6net_tcp_recv (int sock, char *buf, int len, int delay_msec, int loop)
 		{
 		  received = recv (sock,
 				   buf + total_received,
-				   lw6sys_min (len - total_received,
-					       chunk_size), 0);
+				   lw6sys_imin (len - total_received,
+						chunk_size), 0);
 		  if (received > 0 && received <= len - total_received)
 		    {
 		      lw6sys_log (LW6SYS_LOG_DEBUG,

@@ -46,7 +46,7 @@ lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value, int duration)
   memset (smoother, 0, sizeof (lw6gui_smoother_t));
 
   lw6gui_smoother_immediate_force (smoother, value);
-  smoother->duration = lw6sys_max (1, duration);
+  smoother->duration = lw6sys_imax (1, duration);
 }
 
 /**

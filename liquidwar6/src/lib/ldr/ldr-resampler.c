@@ -96,17 +96,17 @@ _check_limits (lw6ldr_hints_t * hints, int *w, int *h)
 	}
     }
 
-  *w = lw6sys_min (*w, hints->max_map_width);
-  *h = lw6sys_min (*h, hints->max_map_height);
+  *w = lw6sys_imin (*w, hints->max_map_width);
+  *h = lw6sys_imin (*h, hints->max_map_height);
 
-  *w = lw6sys_max (*w, hints->min_map_width);
-  *h = lw6sys_max (*h, hints->min_map_height);
+  *w = lw6sys_imax (*w, hints->min_map_width);
+  *h = lw6sys_imax (*h, hints->min_map_height);
 
-  *w = lw6sys_min (*w, LW6MAP_MAX_BODY_WIDTH);
-  *h = lw6sys_min (*h, LW6MAP_MAX_BODY_HEIGHT);
+  *w = lw6sys_imin (*w, LW6MAP_MAX_BODY_WIDTH);
+  *h = lw6sys_imin (*h, LW6MAP_MAX_BODY_HEIGHT);
 
-  *w = lw6sys_max (*w, LW6MAP_MIN_BODY_WIDTH);
-  *h = lw6sys_max (*h, LW6MAP_MIN_BODY_HEIGHT);
+  *w = lw6sys_imax (*w, LW6MAP_MIN_BODY_WIDTH);
+  *h = lw6sys_imax (*h, LW6MAP_MIN_BODY_HEIGHT);
 }
 
 static float
@@ -424,10 +424,10 @@ lw6ldr_resampler_init (lw6ldr_resampler_t * resampler,
 static void
 check_bounds (int *x, int *y, int w, int h)
 {
-  (*x) = lw6sys_min ((*x), w - 1);
-  (*y) = lw6sys_min ((*y), h - 1);
-  (*x) = lw6sys_max ((*x), 0);
-  (*y) = lw6sys_max ((*y), 0);
+  (*x) = lw6sys_imin ((*x), w - 1);
+  (*y) = lw6sys_imin ((*y), h - 1);
+  (*x) = lw6sys_imax ((*x), 0);
+  (*y) = lw6sys_imax ((*y), 0);
 }
 
 /**

@@ -76,12 +76,18 @@
 #define _TEST_WORD_BASE64_ITEM " spaces /slashes/"
 #define _TEST_WORD_BASE64_OK "%s just before this was base64"
 #define _TEST_WORD_BASE64_KO "j*k$lmjk %s I said BASE64 first!"
-#define _TEST_WORD_INT_OK "0 is a number"
-#define _TEST_WORD_INT_KO "\n"
-#define _TEST_WORD_INT_GE0_OK "0 is greater or equal to 0"
-#define _TEST_WORD_INT_GE0_KO "-1 is lower than 0"
-#define _TEST_WORD_INT_GT0_OK "1 is greater than 0"
-#define _TEST_WORD_INT_GT0_KO "zero can't be parsed as a number so will fail"
+#define _TEST_WORD_INT_32_OK "0 is a number"
+#define _TEST_WORD_INT_32_KO "\n"
+#define _TEST_WORD_INT_32_GE0_OK "0 is greater or equal to 0"
+#define _TEST_WORD_INT_32_GE0_KO "-1 is lower than 0"
+#define _TEST_WORD_INT_32_GT0_OK "1 is greater than 0"
+#define _TEST_WORD_INT_32_GT0_KO "zero can't be parsed as a number so will fail"
+#define _TEST_WORD_INT_64_OK "1000000000000 is a number"
+#define _TEST_WORD_INT_64_KO "\n"
+#define _TEST_WORD_INT_64_GE0_OK "0 is greater or equal to 0"
+#define _TEST_WORD_INT_64_GE0_KO "-1 is lower than 0"
+#define _TEST_WORD_INT_64_GT0_OK "1 is greater than 0"
+#define _TEST_WORD_INT_64_GT0_KO "zero can't be parsed as a number so will fail"
 #define _TEST_WORD_ID_16_OK "12ab foo bar"
 #define _TEST_WORD_ID_16_KO "12345 is too long"
 #define _TEST_WORD_ID_32_OK "12345678"
@@ -1222,6 +1228,7 @@ test_word ()
     lw6msg_word_t word;
     char *next = NULL;
     int i = 0;
+    int64_t ll = 0LL;
     u_int16_t id_16 = 0;
     u_int32_t id_32 = 0;
     u_int64_t id_64 = 0;
@@ -1322,82 +1329,166 @@ test_word ()
 	LW6SYS_FREE (base64_item);
       }
 
-    if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_OK))
+    if (lw6msg_word_first_int_32 (&i, &next, _TEST_WORD_INT_32_OK))
       {
-	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parsed int=%d, next=\"%s\""), i,
-		    next);
+	lw6sys_log (LW6SYS_LOG_NOTICE, _x_ ("parsed int32=%d, next=\"%s\""),
+		    i, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int from \"%s\""),
-		    _TEST_WORD_INT_OK);
+		    _x_ ("unable to parse int32 from \"%s\""),
+		    _TEST_WORD_INT_32_OK);
 	ret = 0;
       }
-    if (lw6msg_word_first_int (&i, &next, _TEST_WORD_INT_KO))
+    if (lw6msg_word_first_int_32 (&i, &next, _TEST_WORD_INT_32_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_KO);
+		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_32_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
 		    _x_ ("unable to parse \"%s\", that's right"),
-		    _TEST_WORD_INT_KO);
+		    _TEST_WORD_INT_32_KO);
       }
 
-    if (lw6msg_word_first_int_ge0 (&i, &next, _TEST_WORD_INT_GE0_OK))
+    if (lw6msg_word_first_int_32_ge0 (&i, &next, _TEST_WORD_INT_32_GE0_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int=%d (>0), next=\"%s\""), i, next);
+		    _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int (>0) from \"%s\""),
-		    _TEST_WORD_INT_GE0_OK);
+		    _x_ ("unable to parse int32 (>0) from \"%s\""),
+		    _TEST_WORD_INT_32_GE0_OK);
 	ret = 0;
       }
-    if (lw6msg_word_first_int_ge0 (&i, &next, _TEST_WORD_INT_GE0_KO))
+    if (lw6msg_word_first_int_32_ge0 (&i, &next, _TEST_WORD_INT_32_GE0_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_GE0_KO);
+		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_32_GE0_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int from \"%s\", that's right"),
-		    _TEST_WORD_INT_GE0_KO);
+		    _x_ ("unable to parse int32 from \"%s\", that's right"),
+		    _TEST_WORD_INT_32_GE0_KO);
       }
 
-    if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_OK))
+    if (lw6msg_word_first_int_32_gt0 (&i, &next, _TEST_WORD_INT_32_GT0_OK))
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("parsed int=%d (>0), next=\"%s\""), i, next);
+		    _x_ ("parsed int32=%d (>0), next=\"%s\""), i, next);
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("unable to parse int (>0) from \"%s\""),
-		    _TEST_WORD_INT_GT0_OK);
+		    _x_ ("unable to parse int32 (>0) from \"%s\""),
+		    _TEST_WORD_INT_32_GT0_OK);
 	ret = 0;
       }
-    if (lw6msg_word_first_int_gt0 (&i, &next, _TEST_WORD_INT_GT0_KO))
+    if (lw6msg_word_first_int_32_gt0 (&i, &next, _TEST_WORD_INT_32_GT0_KO))
       {
 	lw6sys_log (LW6SYS_LOG_WARNING,
-		    _x_ ("parsed int=%d from \"%s\", this is wrong"), i,
-		    _TEST_WORD_INT_GT0_KO);
+		    _x_ ("parsed int32=%d from \"%s\", this is wrong"), i,
+		    _TEST_WORD_INT_32_GT0_KO);
 	ret = 0;
       }
     else
       {
 	lw6sys_log (LW6SYS_LOG_NOTICE,
-		    _x_ ("unable to parse int from \"%s\", that's right"),
-		    _TEST_WORD_INT_GT0_KO);
+		    _x_ ("unable to parse int32 from \"%s\", that's right"),
+		    _TEST_WORD_INT_32_GT0_KO);
+      }
+
+    if (lw6msg_word_first_int_64 (&ll, &next, _TEST_WORD_INT_64_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL "d, next=\"%s\""),
+		    ll, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to parse int64 from \"%s\""),
+		    _TEST_WORD_INT_64_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int_64 (&ll, &next, _TEST_WORD_INT_64_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
+			 "d from \"%s\", this is wrong"), ll,
+		    _TEST_WORD_INT_64_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("unable to parse \"%s\", that's right"),
+		    _TEST_WORD_INT_64_KO);
+      }
+
+    if (lw6msg_word_first_int_64_ge0 (&ll, &next, _TEST_WORD_INT_64_GE0_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
+			 "d (>0), next=\"%s\""), ll, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to parse int64 (>0) from \"%s\""),
+		    _TEST_WORD_INT_64_GE0_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int_64_ge0 (&ll, &next, _TEST_WORD_INT_64_GE0_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
+			 "d from \"%s\", this is wrong"), ll,
+		    _TEST_WORD_INT_64_GE0_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("unable to parse int64 from \"%s\", that's right"),
+		    _TEST_WORD_INT_64_GE0_KO);
+      }
+
+    if (lw6msg_word_first_int_64_gt0 (&ll, &next, _TEST_WORD_INT_64_GT0_OK))
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
+			 "d (>0), next=\"%s\""), ll, next);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("unable to parse int64 (>0) from \"%s\""),
+		    _TEST_WORD_INT_64_GT0_OK);
+	ret = 0;
+      }
+    if (lw6msg_word_first_int_64_gt0 (&ll, &next, _TEST_WORD_INT_64_GT0_KO))
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("parsed int64=%" LW6SYS_PRINTF_LL
+			 "d from \"%s\", this is wrong"), ll,
+		    _TEST_WORD_INT_64_GT0_KO);
+	ret = 0;
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("unable to parse int64 from \"%s\", that's right"),
+		    _TEST_WORD_INT_64_GT0_KO);
       }
 
     if (lw6msg_word_first_id_16 (&id_16, &next, _TEST_WORD_ID_16_OK))

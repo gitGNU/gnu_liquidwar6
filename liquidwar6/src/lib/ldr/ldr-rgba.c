@@ -113,11 +113,11 @@ _lw6ldr_rgba_read_png (_lw6ldr_image_rgba_t * image, const char *png_file,
 		    }
 
 		  max_width =
-		    lw6sys_max (LW6MAP_MAX_BODY_WIDTH,
-				LW6MAP_MAX_TEXTURE_WIDTH);
+		    lw6sys_imax (LW6MAP_MAX_BODY_WIDTH,
+				 LW6MAP_MAX_TEXTURE_WIDTH);
 		  max_height =
-		    lw6sys_max (LW6MAP_MAX_BODY_HEIGHT,
-				LW6MAP_MAX_TEXTURE_HEIGHT);
+		    lw6sys_imax (LW6MAP_MAX_BODY_HEIGHT,
+				 LW6MAP_MAX_TEXTURE_HEIGHT);
 		  if (width > max_width || height > max_height)
 		    {
 		      lw6sys_log (LW6SYS_LOG_WARNING,
@@ -254,9 +254,9 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
       size_ok = 1;
 
       max_width =
-	lw6sys_max (LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_TEXTURE_WIDTH);
+	lw6sys_imax (LW6MAP_MAX_BODY_WIDTH, LW6MAP_MAX_TEXTURE_WIDTH);
       max_height =
-	lw6sys_max (LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_TEXTURE_HEIGHT);
+	lw6sys_imax (LW6MAP_MAX_BODY_HEIGHT, LW6MAP_MAX_TEXTURE_HEIGHT);
       if (cinfo.output_width > max_width || cinfo.output_height > max_height)
 	{
 	  lw6sys_log (LW6SYS_LOG_WARNING,
@@ -306,9 +306,9 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 					      cinfo.output_height,
 					      cinfo.output_scanline);
 		      j =
-			lw6sys_max (lw6sys_min
-				    (cinfo.output_scanline,
-				     cinfo.output_height - 1), 0);
+			lw6sys_imax (lw6sys_imin
+				     (cinfo.output_scanline,
+				      cinfo.output_height - 1), 0);
 
 		      jpeg_read_scanlines (&cinfo, buffer, 1);
 		      for (i = 0; i < cinfo.output_width; i++)
@@ -335,9 +335,9 @@ _lw6ldr_rgba_read_jpeg (_lw6ldr_image_rgba_t * image, const char *jpeg_file,
 					      cinfo.output_height,
 					      cinfo.output_scanline);
 		      j =
-			lw6sys_max (lw6sys_min
-				    (cinfo.output_scanline,
-				     cinfo.output_height - 1), 0);
+			lw6sys_imax (lw6sys_imin
+				     (cinfo.output_scanline,
+				      cinfo.output_height - 1), 0);
 
 		      jpeg_read_scanlines (&cinfo, buffer, 1);
 		      for (i = 0; i < cinfo.output_width; i++)

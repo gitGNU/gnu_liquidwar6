@@ -79,8 +79,8 @@ _lw6ker_score_array_update (lw6ker_score_array_t * score_array,
 	      score_array->scores[i].team_color = i;
 	      score_array->scores[i].fighters_absolute = fighters_per_team;
 	      score_array->scores[i].fighters_percent =
-		lw6sys_max ((fighters_per_team > 0) ? 1 : 0,
-			    (100 * fighters_per_team) / active_fighters);
+		lw6sys_imax ((fighters_per_team > 0) ? 1 : 0,
+			     (100 * fighters_per_team) / active_fighters);
 	      score_array->scores[i].fighters_ratio =
 		((float) fighters_per_team) / ((float) active_fighters);
 	      score_array->scores[i].frags = frags;

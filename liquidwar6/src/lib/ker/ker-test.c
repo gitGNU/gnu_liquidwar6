@@ -423,9 +423,9 @@ test_algorithm ()
 		      }
 		  }
 		for (i = 0;
-		     i < lw6sys_min (LW6KER_HISTORY_SIZE,
-				     lw6ker_game_state_get_rounds
-				     (game_state)); ++i)
+		     i < lw6sys_imin (LW6KER_HISTORY_SIZE,
+				      lw6ker_game_state_get_rounds
+				      (game_state)); ++i)
 		  {
 		    lw6sys_log (LW6SYS_LOG_NOTICE,
 				_x_

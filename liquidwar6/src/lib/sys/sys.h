@@ -1049,14 +1049,50 @@ extern void lw6sys_vthread_join ();
 
 
 /* inline utils */
-static inline int
-lw6sys_min (int a, int b)
+static inline int32_t
+lw6sys_imin (int32_t a, int32_t b)
 {
   return (a < b) ? a : b;
 }
 
-static inline int
-lw6sys_max (int a, int b)
+static inline int32_t
+lw6sys_imax (int32_t a, int32_t b)
+{
+  return (a > b) ? a : b;
+}
+
+static inline float
+lw6sys_fmin (float a, float b)
+{
+  return (a < b) ? a : b;
+}
+
+static inline float
+lw6sys_fmax (float a, float b)
+{
+  return (a > b) ? a : b;
+}
+
+static inline int64_t
+lw6sys_llmin (int64_t a, int64_t b)
+{
+  return (a < b) ? a : b;
+}
+
+static inline int64_t
+lw6sys_llmax (int64_t a, int64_t b)
+{
+  return (a > b) ? a : b;
+}
+
+static inline double
+lw6sys_dmin (double a, double b)
+{
+  return (a < b) ? a : b;
+}
+
+static inline double
+lw6sys_dmax (double a, double b)
 {
   return (a > b) ? a : b;
 }

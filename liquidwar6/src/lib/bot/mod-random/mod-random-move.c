@@ -40,9 +40,9 @@ _mod_random_next_move (_mod_random_context_t * random_context, int *x, int *y,
   lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("random bot move rounds=%d"), rounds);
 
   d_move =
-    lw6sys_max (1,
-		(float) _MOD_RANDOM_DEFAULT_ROUNDS_BETWEEN_MOVE /
-		data->param.speed);
+    lw6sys_imax (1,
+		 (float) _MOD_RANDOM_DEFAULT_ROUNDS_BETWEEN_MOVE /
+		 data->param.speed);
   next_move_round = random_context->last_move_round + d_move;
   if (random_context->pos_x < 0 || random_context->pos_y < 0
       || rounds > next_move_round)

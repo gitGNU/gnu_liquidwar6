@@ -1503,7 +1503,7 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
   nb_teams = _lw6ker_game_state_get_nb_teams (game_state);
 
   game_state->max_reached_teams =
-    lw6sys_max (game_state->max_reached_teams, nb_teams);
+    lw6sys_imax (game_state->max_reached_teams, nb_teams);
 
   for (team_color = 0; team_color < LW6MAP_MAX_NB_TEAMS; ++team_color)
     {
@@ -1565,13 +1565,13 @@ _lw6ker_game_state_finish_round (_lw6ker_game_state_t * game_state)
 		       * we do need to delete some.
 		       */
 		      nb_fighters_to_delete =
-			lw6sys_min (lw6ker_per100_2
-				    (game_state->map_state.map_struct->
-				     room_for_armies,
-				     game_state->game_struct->rules.
-				     single_army_size),
-				    _lw6ker_game_state_get_nb_active_fighters
-				    (game_state) / 2);
+			lw6sys_imin (lw6ker_per100_2
+				     (game_state->map_state.map_struct->
+				      room_for_armies,
+				      game_state->game_struct->rules.
+				      single_army_size),
+				     _lw6ker_game_state_get_nb_active_fighters
+				     (game_state) / 2);
 		      _lw6ker_map_state_remove_fighters (&
 							 (game_state->map_state),
 							 nb_fighters_to_delete);

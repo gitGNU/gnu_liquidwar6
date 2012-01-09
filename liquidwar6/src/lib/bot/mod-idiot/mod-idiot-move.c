@@ -148,13 +148,13 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
 
   average_size = (shape.w + shape.h) / 2.0f;
   d_move =
-    lw6sys_max (1,
-		(((float) _MOD_IDIOT_DEFAULT_MOVE_ROUNDS) * average_size) /
-		(((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
+    lw6sys_imax (1,
+		 (((float) _MOD_IDIOT_DEFAULT_MOVE_ROUNDS) * average_size) /
+		 (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
   d_wait =
-    lw6sys_max (1,
-		(((float) _MOD_IDIOT_DEFAULT_WAIT_ROUNDS) * average_size) /
-		(((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
+    lw6sys_imax (1,
+		 (((float) _MOD_IDIOT_DEFAULT_WAIT_ROUNDS) * average_size) /
+		 (((float) _MOD_IDIOT_REFERENCE_SIZE) * data->param.speed));
   if (idiot_context->last_move_round < 0
       || (rounds >= idiot_context->last_move_round + d_move + d_wait))
     {
@@ -174,7 +174,7 @@ _mod_idiot_next_move (_mod_idiot_context_t * idiot_context, int *x, int *y,
 
   if (rounds > start_of_move && rounds < end_of_move)
     {
-      dt = lw6sys_max (1, end_of_move - start_of_move);
+      dt = lw6sys_imax (1, end_of_move - start_of_move);
       (*x) =
 	((end_of_move - rounds) * idiot_context->start_pos_x +
 	 (rounds - start_of_move) * idiot_context->target_pos_x) / dt;

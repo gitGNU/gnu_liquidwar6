@@ -531,10 +531,14 @@ _display_cursor (mod_gl_utils_context_t * utils_context,
 					 local_cursor->y, 0);
 	}
 
-      cursor_x = lw6sys_max (cursor_x, flat_context->viewport.map_visible.x1);
-      cursor_x = lw6sys_min (cursor_x, flat_context->viewport.map_visible.x2);
-      cursor_y = lw6sys_max (cursor_y, flat_context->viewport.map_visible.y1);
-      cursor_y = lw6sys_min (cursor_y, flat_context->viewport.map_visible.y2);
+      cursor_x =
+	lw6sys_imax (cursor_x, flat_context->viewport.map_visible.x1);
+      cursor_x =
+	lw6sys_imin (cursor_x, flat_context->viewport.map_visible.x2);
+      cursor_y =
+	lw6sys_imax (cursor_y, flat_context->viewport.map_visible.y1);
+      cursor_y =
+	lw6sys_imin (cursor_y, flat_context->viewport.map_visible.y2);
     }
   else
     {

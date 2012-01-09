@@ -220,6 +220,15 @@
 #define TEST_URL_CANONIZE_6 ""
 #define TEST_URL_NOT_CANONIZED "ftp://truc"
 
+#define _TEST_UTILS_IA 1
+#define _TEST_UTILS_IB 2
+#define _TEST_UTILS_FA 3.0f
+#define _TEST_UTILS_FB 4.0f
+#define _TEST_UTILS_LLA 10LL
+#define _TEST_UTILS_LLB 20LL
+#define _TEST_UTILS_DA 30.0f
+#define _TEST_UTILS_DB 40.0f
+
 /*
  * Testing functions in arg.c
  */
@@ -3839,6 +3848,104 @@ test_vthread ()
   return ret;
 }
 
+/*
+ * Testing inline utils functions in sys.h
+ */
+static int
+test_utils ()
+{
+  int ret = 1;
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int32_t ia = _TEST_UTILS_IA;
+    int32_t ib = _TEST_UTILS_IB;
+    int32_t imin = 0;
+    int32_t imax = 0;
+    float fa = _TEST_UTILS_FA;
+    float fb = _TEST_UTILS_FB;
+    float fmin = 0.0f;
+    float fmax = 0.0f;
+    int64_t lla = _TEST_UTILS_LLA;
+    int64_t llb = _TEST_UTILS_LLB;
+    int64_t llmin = 0LL;
+    int64_t llmax = 0LL;
+    double da = _TEST_UTILS_FA;
+    double db = _TEST_UTILS_FB;
+    double dmin = 0.0f;
+    double dmax = 0.0f;
+
+    imin = lw6sys_imin (ia, ib);
+    imax = lw6sys_imax (ia, ib);
+    if (imin == ia && imax == ib)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("imin/imax OK, a=%d b=%d min=%d max=%d"), ia, ib,
+		    imin, imax);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("imax/imax failed, a=%d b=%d min=%d max=%d"), ia, ib,
+		    imin, imax);
+	ret = 0;
+      }
+
+    fmin = lw6sys_fmin (fa, fb);
+    fmax = lw6sys_fmax (fa, fb);
+    if (fmin == fa && fmax == fb)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("fmin/fmax OK, a=%f b=%f min=%f max=%f"), fa, fb,
+		    fmin, fmax);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("fmax/fmax failed, a=%f b=%f min=%f max=%f"), fa, fb,
+		    fmin, fmax);
+	ret = 0;
+      }
+
+    llmin = lw6sys_llmin (lla, llb);
+    llmax = lw6sys_llmax (lla, llb);
+    if (llmin == lla && llmax == llb)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("llmin/llmax OK, a=%d b=%d min=%d max=%d"),
+		    (int32_t) lla, (int32_t) llb, (int32_t) llmin,
+		    (int32_t) llmax);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("llmax/llmax failed, a=%d b=%d min=%d max=%d"),
+		    (int32_t) lla, (int32_t) llb, (int32_t) llmin,
+		    (int32_t) llmax);
+	ret = 0;
+      }
+
+    dmin = lw6sys_dmin (da, db);
+    dmax = lw6sys_dmax (da, db);
+    if (dmin == da && dmax == db)
+      {
+	lw6sys_log (LW6SYS_LOG_NOTICE,
+		    _x_ ("dmin/dmax OK, a=%f b=%f min=%f max=%f"), (float) da,
+		    (float) db, (float) dmin, (float) dmax);
+      }
+    else
+      {
+	lw6sys_log (LW6SYS_LOG_WARNING,
+		    _x_ ("dmax/dmax failed, a=%f b=%f min=%f max=%f"),
+		    (float) da, (float) db, (float) dmin, (float) dmax);
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+  return ret;
+}
+
 /**
  * lw6sys_test_exec
  *
@@ -3890,7 +3997,7 @@ lw6sys_test (int mode)
     && test_random () && test_sdl () && test_serial () && test_shape ()
     && _lw6sys_test_signal (mode) && test_sort () && test_spinlock ()
     && test_str () && test_stream () && test_thread () && test_time ()
-    && test_url () && test_vthread ();
+    && test_url () && test_utils () && test_vthread ();
 
   return ret;
 }

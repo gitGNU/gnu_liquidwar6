@@ -143,11 +143,11 @@ bazooka_register_malloc (char *ptr, int size, char *file, int line, int erase)
   bazooka_malloc_count++;
   bazooka_malloc_current_count++;
   bazooka_malloc_max_count =
-    lw6sys_max (bazooka_malloc_max_count, bazooka_malloc_current_count);
+    lw6sys_imax (bazooka_malloc_max_count, bazooka_malloc_current_count);
   bazooka_malloc_bytes += size;
   bazooka_malloc_current_bytes += size;
   bazooka_malloc_max_bytes =
-    lw6sys_max (bazooka_malloc_max_bytes, bazooka_malloc_current_bytes);
+    lw6sys_imax (bazooka_malloc_max_bytes, bazooka_malloc_current_bytes);
   if (bazooka_data)
     {
       int i;
@@ -212,8 +212,8 @@ report_line (_lw6sys_bazooka_t * bazooka)
   if (local_bazooka.size > 0)
     {
       memcpy (sample_str, local_bazooka.ptr,
-	      lw6sys_min (local_bazooka.size - 1,
-			  _LW6SYS_BAZOOKA_SAMPLE_SIZE - 1));
+	      lw6sys_imin (local_bazooka.size - 1,
+			   _LW6SYS_BAZOOKA_SAMPLE_SIZE - 1));
     }
   sample_void = (void *) sample_str;
   sample_int = *((int *) sample_void);
@@ -479,8 +479,8 @@ _lw6sys_bazooka_register_realloc_1 (char *ptr, int size, char *file, int line)
 	      bazooka_malloc_bytes += size - bazooka_data[i].size;
 	      bazooka_malloc_current_bytes += size - bazooka_data[i].size;
 	      bazooka_malloc_max_bytes =
-		lw6sys_max (bazooka_malloc_max_bytes,
-			    bazooka_malloc_current_bytes);
+		lw6sys_imax (bazooka_malloc_max_bytes,
+			     bazooka_malloc_current_bytes);
 	      if (bazooka_eraser && bazooka_data[i].size > size)
 		{
 		  memset (bazooka_data[i].ptr + size,

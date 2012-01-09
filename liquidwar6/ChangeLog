@@ -1,5 +1,7 @@
 2012-01-09 : Christian Mauduit <ufoot@ufoot.org>
 
+	* Module lw6dat now uses 64-bit seq.
+
 	* Fully documented dsp/dsp.h and nod/nod.h.
 
 2012-01-08 : Christian Mauduit <ufoot@ufoot.org>

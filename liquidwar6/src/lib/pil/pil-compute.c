@@ -68,7 +68,7 @@ _lw6pil_compute_thread_func (lw6pil_worker_t * worker)
 		 && (command = lw6sys_list_pop_front (&commands)) != NULL)
 	    {
 	      command->round =
-		lw6sys_max (command->round, worker->current_round);
+		lw6sys_imax (command->round, worker->current_round);
 	      while (worker->run && worker->current_round < command->round)
 		{
 		  lw6sys_log (LW6SYS_LOG_DEBUG,

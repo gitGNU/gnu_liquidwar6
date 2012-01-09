@@ -387,9 +387,9 @@ lw6map_body_coord_from_texture (lw6map_level_t * level, int *body_x,
       (*body_x) = (texture_x * level->body.shape.w) / level->texture.w;
       (*body_y) = (texture_y * level->body.shape.h) / level->texture.h;
       (*body_x) =
-	lw6sys_max (0, lw6sys_min (level->body.shape.w - 1, *body_x));
+	lw6sys_imax (0, lw6sys_imin (level->body.shape.w - 1, *body_x));
       (*body_y) =
-	lw6sys_max (0, lw6sys_min (level->body.shape.h - 1, *body_y));
+	lw6sys_imax (0, lw6sys_imin (level->body.shape.h - 1, *body_y));
       ret = 1;
     }
   else

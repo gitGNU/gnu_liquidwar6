@@ -95,10 +95,10 @@ lw6gui_rect_clip (lw6gui_rect_t * dst, lw6gui_rect_t * src,
   int min_x2 = 0;
   int min_y2 = 0;
 
-  max_x1 = lw6sys_max (src->x1, clip->x1);
-  max_y1 = lw6sys_max (src->y1, clip->y1);
-  min_x2 = lw6sys_min (src->x2, clip->x2);
-  min_y2 = lw6sys_min (src->y2, clip->y2);
+  max_x1 = lw6sys_imax (src->x1, clip->x1);
+  max_y1 = lw6sys_imax (src->y1, clip->y1);
+  min_x2 = lw6sys_imin (src->x2, clip->x2);
+  min_y2 = lw6sys_imin (src->y2, clip->y2);
 
   lw6gui_rect_init_x1y1x2y2 (dst, max_x1, max_y1, min_x2, min_y2);
 }

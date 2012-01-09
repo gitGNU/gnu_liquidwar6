@@ -39,7 +39,7 @@ mod_gl_utils_bitmap_array_init (mod_gl_utils_context_t *
   int i;
   mod_gl_utils_bitmap_t *bitmap;
 
-  tile_size = lw6sys_min (tile_size, utils_context->caps.max_texture_size);
+  tile_size = lw6sys_imin (tile_size, utils_context->caps.max_texture_size);
   if (lw6gui_rect_array_init
       (&(bitmap_array->layout), w, h, tile_size, border_size))
     {

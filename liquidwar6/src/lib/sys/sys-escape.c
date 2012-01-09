@@ -70,7 +70,7 @@ lw6sys_escape_http_uri (char *src)
   char *hexa;
 
   src = lw6sys_str_empty_if_null (src);
-  len = lw6sys_min (strlen (src), _ESCAPE_HTTP_URI_MAX_LEN);
+  len = lw6sys_imin (strlen (src), _ESCAPE_HTTP_URI_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTTP_URI_LEN * len + 1);
   if (ret)
     {
@@ -149,14 +149,14 @@ lw6sys_escape_html_attribute (char *src)
   char *quot = NULL;
 
   src = lw6sys_str_empty_if_null (src);
-  len = lw6sys_min (strlen (src), _ESCAPE_HTML_ATTRIBUTE_MAX_LEN);
+  len = lw6sys_imin (strlen (src), _ESCAPE_HTML_ATTRIBUTE_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_HTML_ATTRIBUTE_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_HTML_ATTRIBUTE_MAX_LEN; ++i)
 	{
 	  c = src[i];
-	  c = lw6sys_max (' ', c);
+	  c = lw6sys_imax (' ', c);
 	  if (c != _ESCAPE_HTML_ATTRIBUTE_QUOT_CHAR
 	      && c != _ESCAPE_HTML_ATTRIBUTE_LT_CHAR
 	      && c != _ESCAPE_HTML_ATTRIBUTE_GT_CHAR
@@ -230,14 +230,14 @@ lw6sys_escape_sql_value (char *src)
   char *quot = NULL;
 
   src = lw6sys_str_empty_if_null (src);
-  len = lw6sys_min (strlen (src), _ESCAPE_SQL_VALUE_MAX_LEN);
+  len = lw6sys_imin (strlen (src), _ESCAPE_SQL_VALUE_MAX_LEN);
   ret = (char *) LW6SYS_CALLOC (_ESCAPE_SQL_VALUE_LEN * len + 1);
   if (ret)
     {
       for (i = 0, j = 0; i < len && j < _ESCAPE_SQL_VALUE_MAX_LEN; ++i)
 	{
 	  c = src[i];
-	  c = lw6sys_max (' ', c);
+	  c = lw6sys_imax (' ', c);
 	  if (c != _ESCAPE_SQL_VALUE_QUOT_CHAR)
 	    {
 	      ret[j++] = c;

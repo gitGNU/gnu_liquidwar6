@@ -202,8 +202,8 @@ lw6ldr_grease_apply (lw6map_layer_t * layer,
       if (hints->wall_grease > 0)
 	{
 	  i =
-	    lw6sys_min (hints->wall_grease - 1,
-			LW6LDR_HINTS_MAX_WALL_GREASE - 1);
+	    lw6sys_imin (hints->wall_grease - 1,
+			 LW6LDR_HINTS_MAX_WALL_GREASE - 1);
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("positive grease %d using table %d"),
 		      hints->wall_grease, i);
@@ -212,8 +212,8 @@ lw6ldr_grease_apply (lw6map_layer_t * layer,
       else
 	{
 	  i =
-	    lw6sys_min (-hints->wall_grease - 1,
-			LW6LDR_HINTS_MAX_WALL_GREASE - 1);
+	    lw6sys_imin (-hints->wall_grease - 1,
+			 LW6LDR_HINTS_MAX_WALL_GREASE - 1);
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
 		      _x_ ("negative grease %d using table %d"),
 		      hints->wall_grease, i);

@@ -174,8 +174,8 @@ _lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
   n = team->map_struct->nb_zones;
   for (i = 0; i < n; ++i)
     {
-      min_pot = lw6sys_min (min_pot, zone_states[i].potential);
-      max_pot = lw6sys_max (max_pot, zone_states[i].potential);
+      min_pot = lw6sys_imin (min_pot, zone_states[i].potential);
+      max_pot = lw6sys_imax (max_pot, zone_states[i].potential);
     }
 
   /*
@@ -185,7 +185,7 @@ _lw6ker_team_normalize_pot (_lw6ker_team_t * team, lw6map_rules_t * rules)
    * fallback on max_pot/2, that is we divide by 2
    * the cursor potential.
    */
-  delta = lw6sys_max (min_pot, max_pot / 2);
+  delta = lw6sys_imax (min_pot, max_pot / 2);
 
   for (i = 0; i < n; ++i)
     {
@@ -250,8 +250,9 @@ _lw6ker_team_get_weapon_per1000_left (_lw6ker_team_t * team, int round)
       && team->weapon_id >= LW6MAP_MIN_WEAPON_ID
       && team->weapon_id <= LW6MAP_MAX_WEAPON_ID)
     {
-      duration = lw6sys_max (1, rounds_done + rounds_left);
-      ret = lw6sys_max (1, lw6sys_min (1000, rounds_left * 1000 / duration));
+      duration = lw6sys_imax (1, rounds_done + rounds_left);
+      ret =
+	lw6sys_imax (1, lw6sys_imin (1000, rounds_left * 1000 / duration));
     }
 
   return ret;

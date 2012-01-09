@@ -48,9 +48,9 @@ lw6map_exp_get_highest_team_color_allowed (int exp)
   if (_EXP_PER_TEAM_COLOR > 0)
     {
       ret =
-	lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED,
-		    LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED +
-		    lw6sys_max (exp, 0) / _EXP_PER_TEAM_COLOR);
+	lw6sys_imin (LW6MAP_RULES_MAX_HIGHEST_TEAM_COLOR_ALLOWED,
+		     LW6MAP_RULES_MIN_HIGHEST_TEAM_COLOR_ALLOWED +
+		     lw6sys_imax (exp, 0) / _EXP_PER_TEAM_COLOR);
     }
   else
     {
@@ -77,10 +77,9 @@ lw6map_exp_get_highest_weapon_allowed (int exp)
   if (_EXP_PER_WEAPON > 0)
     {
       ret =
-	lw6sys_min (LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED,
-		    LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED + lw6sys_max (exp,
-									  0) /
-		    _EXP_PER_WEAPON);
+	lw6sys_imin (LW6MAP_RULES_MAX_HIGHEST_WEAPON_ALLOWED,
+		     LW6MAP_RULES_MIN_HIGHEST_WEAPON_ALLOWED +
+		     lw6sys_imax (exp, 0) / _EXP_PER_WEAPON);
     }
   else
     {

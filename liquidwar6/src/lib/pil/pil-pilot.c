@@ -358,9 +358,9 @@ _commit_reference (_lw6pil_pilot_t * pilot)
 		}
 	      else
 		{
-		  min_round = lw6sys_max (command->round, min_round);
+		  min_round = lw6sys_imax (command->round, min_round);
 		}
-	      max_round = lw6sys_max (command->round, max_round);
+	      max_round = lw6sys_imax (command->round, max_round);
 	      lw6sys_list_push_front (&(pilot->reference.commands), command);
 	    }
 	  LW6SYS_FREE (command_text);
@@ -1100,8 +1100,8 @@ _lw6pil_pilot_get_max_seq (_lw6pil_pilot_t * pilot)
 
   ret =
     _lw6pil_pilot_round2seq (pilot,
-			     lw6sys_max (pilot->reference.current_round,
-					 pilot->draft.current_round));
+			     lw6sys_imax (pilot->reference.current_round,
+					  pilot->draft.current_round));
 
   return ret;
 }

@@ -506,7 +506,7 @@ lw6sys_log_set_file (char *filename)
 {
   memset (static_log_filename, 0, sizeof (static_log_filename));
   memcpy (static_log_filename, filename,
-	  lw6sys_min (sizeof (static_log_filename) - 1, strlen (filename)));
+	  lw6sys_imin (sizeof (static_log_filename) - 1, strlen (filename)));
 }
 
 /**
@@ -633,7 +633,7 @@ _lw6sys_msgbox_alert (char *level_str, char *file, int line, char *fmt,
   bt = lw6sys_backtrace (2);	// skip this function & caller  
   if (bt)
     {
-      bt_width = lw6sys_max (MSGBOX_WIDTH, sqrt (strlen (bt)) * BT_FACTOR);
+      bt_width = lw6sys_imax (MSGBOX_WIDTH, sqrt (strlen (bt)) * BT_FACTOR);
       lw6sys_str_reformat_this (bt, bt_width);
       free_bt = 1;
     }
@@ -959,8 +959,8 @@ lw6sys_log_get_level ()
 void
 lw6sys_log_set_level (int level)
 {
-  level = lw6sys_min (level, LW6SYS_LOG_DEBUG_ID);
-  level = lw6sys_max (level, LW6SYS_LOG_ERROR_ID);
+  level = lw6sys_imin (level, LW6SYS_LOG_DEBUG_ID);
+  level = lw6sys_imax (level, LW6SYS_LOG_ERROR_ID);
 
   _lw6sys_global.log_level = level;
 }

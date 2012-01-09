@@ -102,15 +102,15 @@ _display_gauges (mod_gl_utils_context_t * utils_context,
 		(floating_context->game_state, team_color);
 	      if (weapon_per1000_left > 0)
 		{
-		  charge = lw6sys_min (1000, weapon_per1000_left) / 1000.0f;
+		  charge = lw6sys_imin (1000, weapon_per1000_left) / 1000.0f;
 		}
 	      else
 		{
 		  charge =
-		    lw6sys_min (1000,
-				lw6ker_game_state_get_charge_per1000
-				(floating_context->game_state,
-				 team_color)) / 1000.0f;
+		    lw6sys_imin (1000,
+				 lw6ker_game_state_get_charge_per1000
+				 (floating_context->game_state,
+				  team_color)) / 1000.0f;
 		}
 	      size_factor_score =
 		ratio * floating_context->const_data.gauge_max_size + (1.0f -
@@ -330,9 +330,9 @@ _display_weapon (mod_gl_utils_context_t * utils_context,
 	  floating_context->const_data.weapon_ambiance_alpha2) *
 	 MOD_GL_UTILS_TRANSPARENCY_SCALE) / 1000;
       transparency =
-	lw6sys_max (0,
-		    lw6sys_min (MOD_GL_UTILS_TRANSPARENCY_SCALE,
-				transparency));
+	lw6sys_imax (0,
+		     lw6sys_imin (MOD_GL_UTILS_TRANSPARENCY_SCALE,
+				  transparency));
       bitmap =
 	utils_context->
 	textures_1x1.team_colors_transparency[team_color][transparency];

@@ -385,8 +385,8 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 			  _x_ ("can't handle target_fps of %d"),
 			  data->param.misc.target_fps);
 	    }
-	  frames_increment = lw6sys_max (frames_increment, 1);
-	  delay_skip = lw6sys_max (delay_skip, 1);
+	  frames_increment = lw6sys_imax (frames_increment, 1);
+	  delay_skip = lw6sys_imax (delay_skip, 1);
 
 	  nb_ticks = ticks - data->start_ticks;
 
@@ -397,8 +397,8 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	       * it will avoid going too fast after a slowdown
 	       */
 	      frames_counter =
-		lw6sys_max (frames_counter + frames_increment,
-			    nb_ticks - frames_increment);
+		lw6sys_imax (frames_counter + frames_increment,
+			     nb_ticks - frames_increment);
 	      data->nb_frames++;
 
 	      delta_ticks = ticks - last_display_ticks;
@@ -500,10 +500,10 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	  if (do_skip || (delay_cpu > 0))
 	    {
 	      delay_real =
-		lw6sys_min (LW6SYS_TICKS_PER_SEC,
-			    lw6sys_max (1,
-					lw6sys_max (do_skip ? delay_skip : 0,
-						    delay_cpu)));
+		lw6sys_imin (LW6SYS_TICKS_PER_SEC,
+			     lw6sys_imax (1,
+					  lw6sys_imax (do_skip ? delay_skip :
+						       0, delay_cpu)));
 	      lw6sys_log (LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("sleeping %d ms (delay_skip=%d, delay_cpu=%d)"),

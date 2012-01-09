@@ -122,7 +122,7 @@ _multiline_text_size_callback (void *func_data, void *data)
     {
       _get_text_wh (text_callback_data->font, line, &w, &h);
       text_callback_data->shape.w =
-	lw6sys_max (text_callback_data->shape.w, w);
+	lw6sys_imax (text_callback_data->shape.w, w);
       text_callback_data->shape.h += h;
     }
 }
@@ -155,8 +155,8 @@ _multiline_text_draw_callback (void *func_data, void *data)
 	      src_rect.x = 0;
 	      src_rect.y = 0;
 	      src_rect.w =
-		lw6sys_min (buffer->w,
-			    text_callback_data->shape.w - 2 * src_rect.x);
+		lw6sys_imin (buffer->w,
+			     text_callback_data->shape.w - 2 * src_rect.x);
 	      src_rect.h = buffer->h;
 	      dst_rect.x = text_callback_data->pos.x;
 	      dst_rect.y = text_callback_data->pos.y;
@@ -218,11 +218,11 @@ mod_gl_utils_multiline_text_write (mod_gl_utils_context_t *
 	  data.pos.x = border_size + margin_size;
 	  data.pos.y = border_size + margin_size;
 	  data.shape.w =
-	    lw6sys_max (1 + 2 * (border_size + margin_size),
-			lw6sys_min (data.shape.w, max_width));
+	    lw6sys_imax (1 + 2 * (border_size + margin_size),
+			 lw6sys_imin (data.shape.w, max_width));
 	  data.shape.h =
-	    lw6sys_max (1 + 2 * (border_size + margin_size),
-			lw6sys_min (data.shape.h, max_height));
+	    lw6sys_imax (1 + 2 * (border_size + margin_size),
+			 lw6sys_imin (data.shape.h, max_height));
 
 	  data.target =
 	    mod_gl_utils_create_surface (utils_context, data.shape.w,

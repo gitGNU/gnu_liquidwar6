@@ -257,7 +257,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, char *msg)
 }
 
 /**
- * lw6msg_word_first_int
+ * lw6msg_word_first_int_32
  *
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -268,7 +268,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int (int *parsed_value, char **next, char *msg)
+lw6msg_word_first_int_32 (int32_t * parsed_value, char **next, char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -284,7 +284,7 @@ lw6msg_word_first_int (int *parsed_value, char **next, char *msg)
 }
 
 /**
- * lw6msg_word_first_int_ge0
+ * lw6msg_word_first_int_32_ge0
  *
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -296,13 +296,13 @@ lw6msg_word_first_int (int *parsed_value, char **next, char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_ge0 (int *parsed_value, char **next, char *msg)
+lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next, char *msg)
 {
   int ret = 0;
-  int tmp_value = 0;
+  int32_t tmp_value = 0;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first_int (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
     {
       if (tmp_value >= 0)
 	{
@@ -312,7 +312,7 @@ lw6msg_word_first_int_ge0 (int *parsed_value, char **next, char *msg)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int value %d, not greater or equal to 0"),
+		      _x_ ("bad int32 value %d, not greater or equal to 0"),
 		      tmp_value);
 	}
     }
@@ -321,7 +321,7 @@ lw6msg_word_first_int_ge0 (int *parsed_value, char **next, char *msg)
 }
 
 /**
- * lw6msg_word_first_int_gt0
+ * lw6msg_word_first_int_32_gt0
  *
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
@@ -333,13 +333,13 @@ lw6msg_word_first_int_ge0 (int *parsed_value, char **next, char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_gt0 (int *parsed_value, char **next, char *msg)
+lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next, char *msg)
 {
   int ret = 0;
-  int tmp_value = 0;
+  int32_t tmp_value = 0;
 
   (*parsed_value) = 0;
-  if (lw6msg_word_first_int (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
     {
       if (tmp_value > 0)
 	{
@@ -349,7 +349,108 @@ lw6msg_word_first_int_gt0 (int *parsed_value, char **next, char *msg)
       else
 	{
 	  lw6sys_log (LW6SYS_LOG_DEBUG,
-		      _x_ ("bad int value %d, not strictly greater than 0"),
+		      _x_ ("bad int32 value %d, not strictly greater than 0"),
+		      tmp_value);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_word_first_int_64
+ *
+ * @parsed_value: will contain the parsed value
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message, gets the first word and interpret it as an int.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_int_64 (int64_t * parsed_value, char **next, char *msg)
+{
+  int ret = 0;
+  lw6msg_word_t word;
+
+  (*parsed_value) = 0LL;
+  if (lw6msg_word_first_x (&word, next, msg))
+    {
+      (*parsed_value) = lw6sys_atoll (word.buf);
+      ret = 1;
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_word_first_int_64_ge0
+ *
+ * @parsed_value: will contain the parsed value
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message, gets the first word and interpret it as an int.
+ * The value must be strictly greater than 0.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next, char *msg)
+{
+  int64_t ret = 0;
+  int64_t tmp_value = 0;
+
+  (*parsed_value) = 0LL;
+  if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
+    {
+      if (tmp_value >= 0)
+	{
+	  (*parsed_value) = tmp_value;
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad int64 value %d, not greater or equal to 0"),
+		      tmp_value);
+	}
+    }
+
+  return ret;
+}
+
+/**
+ * lw6msg_word_first_int_64_gt0
+ *
+ * @parsed_value: will contain the parsed value
+ * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
+ * @msg: the message to parse
+ *
+ * Analyses a message, gets the first word and interpret it as an int.
+ * The value must be strictly greater than 0.
+ *
+ * Return value: 1 on success, 0 on failure.
+ */
+int
+lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next, char *msg)
+{
+  int ret = 0;
+  int64_t tmp_value = 0;
+
+  (*parsed_value) = 0LL;
+  if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
+    {
+      if (tmp_value > 0)
+	{
+	  (*parsed_value) = tmp_value;
+	  ret = 1;
+	}
+      else
+	{
+	  lw6sys_log (LW6SYS_LOG_DEBUG,
+		      _x_ ("bad int64 value %d, not strictly greater than 0"),
 		      tmp_value);
 	}
     }

@@ -75,8 +75,8 @@ lw6sys_progress_update (lw6sys_progress_t * progress, int min, int max,
 {
   if (progress && progress->value && (max > min))
     {
-      value = lw6sys_max (min, value);
-      value = lw6sys_min (max, value);
+      value = lw6sys_imax (min, value);
+      value = lw6sys_imin (max, value);
       (*(progress->value)) =
 	((((float) value) - ((float) min)) / (((float) max) -
 					      ((float) min))) *

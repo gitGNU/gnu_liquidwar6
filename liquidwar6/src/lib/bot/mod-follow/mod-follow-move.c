@@ -55,10 +55,10 @@ new_path (_mod_follow_context_t * follow_context, lw6bot_data_t * data)
 	      lw6ker_move_get_best_next_pos
 		(data->game_state, &next_pos, &current_pos, looser);
 	      for (i =
-		   lw6sys_max (0,
-			       follow_context->nb_steps
-			       -
-			       _MOD_FOLLOW_LOOPING_BUFFER_SIZE);
+		   lw6sys_imax (0,
+				follow_context->nb_steps
+				-
+				_MOD_FOLLOW_LOOPING_BUFFER_SIZE);
 		   i < follow_context->nb_steps && !looping; ++i)
 		{
 		  if (follow_context->step[i].x ==
@@ -115,7 +115,7 @@ _mod_follow_next_move (_mod_follow_context_t * follow_context, int *x, int *y,
 					 (data->param.iq *
 					  _MOD_FOLLOW_IQ_100_SPEED)) / 100;
   follow_context->last_move_round = rounds;
-  delta_step = lw6sys_min (delta_step, 1);
+  delta_step = lw6sys_imin (delta_step, 1);
   follow_context->current_step += delta_step;
 
   if (follow_context->current_step >= follow_context->nb_steps)

@@ -77,16 +77,16 @@ mod_gl_utils_create_gradient_surface (mod_gl_utils_context_t * utils_context,
       for (i = 1; i < nb_zones; ++i)
 	{
 	  pot_min =
-	    lw6sys_min (pot_min,
-			lw6ker_game_state_get_zone_potential (game_state, i,
-							      team_id));
+	    lw6sys_imin (pot_min,
+			 lw6ker_game_state_get_zone_potential (game_state, i,
+							       team_id));
 	  pot_max =
-	    lw6sys_max (pot_max,
-			lw6ker_game_state_get_zone_potential (game_state, i,
-							      team_id));
+	    lw6sys_imax (pot_max,
+			 lw6ker_game_state_get_zone_potential (game_state, i,
+							       team_id));
 	}
 
-      pot_max = lw6sys_max (pot_min + 1, pot_max);
+      pot_max = lw6sys_imax (pot_min + 1, pot_max);
 
       for (i = 0; i < nb_zones; ++i)
 	{

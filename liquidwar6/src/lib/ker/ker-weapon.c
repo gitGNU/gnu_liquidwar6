@@ -280,9 +280,9 @@ _register_weapon_instant (_lw6ker_map_state_t * map_state,
   map_state->teams[team_color].weapon_first_round = round;
   map_state->teams[team_color].weapon_last_round =
     round +
-    lw6sys_min ((rules->rounds_per_sec * rules->weapon_duration) /
-		_INSTANT_DURATION_DIV1,
-		rules->rounds_per_sec / _INSTANT_DURATION_DIV2);
+    lw6sys_imin ((rules->rounds_per_sec * rules->weapon_duration) /
+		 _INSTANT_DURATION_DIV1,
+		 rules->rounds_per_sec / _INSTANT_DURATION_DIV2);
 }
 
 int

@@ -299,7 +299,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""), pos);
-      if (lw6msg_word_first_int_gt0 (&stamp, &seek, pos))
+      if (lw6msg_word_first_int_32_gt0 (&stamp, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -372,7 +372,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("analyzing has_password \"%s\""), pos);
-      if (lw6msg_word_first_int (&has_password, &seek, pos))
+      if (lw6msg_word_first_int_32 (&has_password, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -386,7 +386,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing bench \"%s\""), pos);
-      if (lw6msg_word_first_int (&bench, &seek, pos))
+      if (lw6msg_word_first_int_32 (&bench, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -400,7 +400,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing open_relay \"%s\""), pos);
-      if (lw6msg_word_first_int (&open_relay, &seek, pos))
+      if (lw6msg_word_first_int_32 (&open_relay, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -414,7 +414,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing uptime \"%s\""), pos);
-      if (lw6msg_word_first_int (&uptime, &seek, pos))
+      if (lw6msg_word_first_int_32 (&uptime, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -436,7 +436,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     }
   else
     {
-      if (lw6msg_word_first_int (&tmp_int, &seek, pos))
+      if (lw6msg_word_first_int_32 (&tmp_int, &seek, pos))
 	{
 	  if (!tmp_int)
 	    {
@@ -460,7 +460,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing round \"%s\""), pos);
-      if (lw6msg_word_first_int (&round, &seek, pos))
+      if (lw6msg_word_first_int_32 (&round, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -489,7 +489,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("analyzing required_bench \"%s\""), pos);
-      if (lw6msg_word_first_int (&required_bench, &seek, pos))
+      if (lw6msg_word_first_int_32 (&required_bench, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -504,7 +504,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_colors \"%s\""), pos);
-      if (lw6msg_word_first_int (&nb_colors, &seek, pos))
+      if (lw6msg_word_first_int_32 (&nb_colors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -519,7 +519,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("analyzing max_nb_colors \"%s\""), pos);
-      if (lw6msg_word_first_int (&max_nb_colors, &seek, pos))
+      if (lw6msg_word_first_int_32 (&max_nb_colors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -534,7 +534,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_cursors \"%s\""), pos);
-      if (lw6msg_word_first_int (&nb_cursors, &seek, pos))
+      if (lw6msg_word_first_int_32 (&nb_cursors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -549,7 +549,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("analyzing max_nb_cursors \"%s\""), pos);
-      if (lw6msg_word_first_int (&max_nb_cursors, &seek, pos))
+      if (lw6msg_word_first_int_32 (&max_nb_cursors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -564,7 +564,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
   if (still_ok)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_nodes \"%s\""), pos);
-      if (lw6msg_word_first_int (&nb_nodes, &seek, pos))
+      if (lw6msg_word_first_int_32 (&nb_nodes, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -579,7 +579,7 @@ _analyse_info (lw6nod_info_t ** info, char **next, char *msg)
     {
       lw6sys_log (LW6SYS_LOG_DEBUG,
 		  _x_ ("analyzing max_nb_nodes \"%s\""), pos);
-      if (lw6msg_word_first_int (&max_nb_nodes, &seek, pos))
+      if (lw6msg_word_first_int_32 (&max_nb_nodes, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -850,13 +850,13 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int *round,
 
   seek = pos = msg;
 
-  if (lw6msg_word_first_int_gt0 (&read_serial, &seek, pos))
+  if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
     {
-      if (lw6msg_word_first_int_gt0 (&read_i, &seek, pos))
+      if (lw6msg_word_first_int_32_gt0 (&read_i, &seek, pos))
 	{
-	  if (lw6msg_word_first_int_gt0 (&read_n, &seek, pos))
+	  if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
 	    {
-	      if (lw6msg_word_first_int_gt0 (&read_round, &seek, pos))
+	      if (lw6msg_word_first_int_32_gt0 (&read_round, &seek, pos))
 		{
 		  if (lw6msg_word_first (&ker_msg_word, &seek, pos))
 		    {

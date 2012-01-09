@@ -100,9 +100,20 @@ typedef enum lw6msg_envelope_mode_e
   LW6MSG_ENVELOPE_MODE_URL = 1
 } lw6msg_envelope_mode_t;
 
+/**
+ * This structure is used to retrieve words from messages.
+ * We use a structure here with a fixed sized buffer and
+ * a len member, this is to avoid mallocating too often
+ * when parsing.
+ */
 typedef struct lw6msg_word_s
 {
+  /// Length of word, in bytes.
   int len;
+  /**
+   * Word data, containing a 0 char at the end, so
+   * it is safe to call standard C string functions on it.
+   */
   char buf[LW6MSG_MAX_WORD_SIZE + 1];
 } lw6msg_word_t;
 
@@ -189,11 +200,18 @@ extern int lw6msg_word_first (lw6msg_word_t * word, char **next, char *msg);
 extern int lw6msg_word_first_x (lw6msg_word_t * word, char **next, char *msg);
 extern int lw6msg_word_first_base64 (lw6msg_word_t * word, char **next,
 				     char *msg);
-extern int lw6msg_word_first_int (int *parsed_value, char **next, char *msg);
-extern int lw6msg_word_first_int_ge0 (int *parsed_value, char **next,
-				      char *msg);
-extern int lw6msg_word_first_int_gt0 (int *parsed_value, char **next,
-				      char *msg);
+extern int lw6msg_word_first_int_32 (int32_t * parsed_value, char **next,
+				     char *msg);
+extern int lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next,
+					 char *msg);
+extern int lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next,
+					 char *msg);
+extern int lw6msg_word_first_int_64 (int64_t * parsed_value, char **next,
+				     char *msg);
+extern int lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next,
+					 char *msg);
+extern int lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next,
+					 char *msg);
 extern int lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next,
 				    char *msg);
 extern int lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next,

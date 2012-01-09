@@ -71,8 +71,8 @@ average_color (color_info_t * ret, int size, color_info_t * color_info,
 
   ret->color_8 = LW6SYS_COLOR_8_BLACK;
 
-  i2 = lw6sys_max (0, lw6sys_min (size - 1, end * size));
-  i1 = lw6sys_max (0, lw6sys_min (i2, begin * size));
+  i2 = lw6sys_imax (0, lw6sys_imin (size - 1, end * size));
+  i1 = lw6sys_imax (0, lw6sys_imin (i2, begin * size));
   n = i2 - i1;
 
   if (n > 0)
@@ -129,11 +129,11 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
   float distance_alternate;
 
   step =
-    lw6sys_max (MIN_STEP,
-		(int)
-		sqrt ((((float) level->texture.w) *
-		       ((float) level->texture.h)) / (MAX_STEP_NB *
-						      MAX_STEP_NB)));
+    lw6sys_imax (MIN_STEP,
+		 (int)
+		 sqrt ((((float) level->texture.w) *
+			((float) level->texture.h)) / (MAX_STEP_NB *
+						       MAX_STEP_NB)));
   size = ((level->texture.w + 1) * (level->texture.h + 1)) / (step * step);
   if (size > 0)
     {
@@ -224,18 +224,18 @@ _lw6ldr_guess_colors (lw6map_level_t * level, lw6sys_progress_t * progress)
 	      if (ok_fg && ok_bg)
 		{
 		  ret = 1;
-		  distance_regular = lw6sys_min (lw6sys_color_distance
-						 (light_bg.color_8,
-						  light_fg.color_8),
-						 lw6sys_color_distance
-						 (dark_bg.color_8,
-						  dark_fg.color_8));
-		  distance_goofy = lw6sys_min (lw6sys_color_distance
-					       (light_bg.color_8,
-						dark_fg.color_8),
-					       lw6sys_color_distance
-					       (dark_bg.color_8,
-						light_fg.color_8));
+		  distance_regular = lw6sys_imin (lw6sys_color_distance
+						  (light_bg.color_8,
+						   light_fg.color_8),
+						  lw6sys_color_distance
+						  (dark_bg.color_8,
+						   dark_fg.color_8));
+		  distance_goofy = lw6sys_imin (lw6sys_color_distance
+						(light_bg.color_8,
+						 dark_fg.color_8),
+						lw6sys_color_distance
+						(dark_bg.color_8,
+						 light_fg.color_8));
 		  base_bg = dark_bg;
 		  alternate_bg = light_bg;
 		  if (distance_regular <

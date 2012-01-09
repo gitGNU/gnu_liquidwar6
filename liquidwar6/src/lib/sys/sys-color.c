@@ -406,7 +406,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t * color_hsv,
       else
 	{
 	  /* r>g and r>b */
-	  delta = color_8.r - lw6sys_min (color_8.g, color_8.b);
+	  delta = color_8.r - lw6sys_imin (color_8.g, color_8.b);
 	  color_hsv->h = ((color_8.g - color_8.b) * 60) / (float) delta;
 	  if (color_hsv->h < 0.0f)
 	    color_hsv->h += 360.0f;
@@ -428,7 +428,7 @@ lw6sys_color_rgb_to_hsv (lw6sys_color_hsv_t * color_hsv,
       else
 	{
 	  /* g>=b and g>=r */
-	  delta = color_8.g - lw6sys_min (color_8.r, color_8.b);
+	  delta = color_8.g - lw6sys_imin (color_8.r, color_8.b);
 	  if (delta == 0)
 	    {
 	      color_hsv->h = 0.0f;

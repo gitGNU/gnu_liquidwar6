@@ -120,8 +120,8 @@ lw6map_coords_fix_xy (const lw6map_rules_t * rules,
        * Last, we check for absolute limits, this will also
        * handle the 0 polarity case.
        */
-      tmp_x = lw6sys_max (0, lw6sys_min (tmp_x, w - 1));
-      tmp_y = lw6sys_max (0, lw6sys_min (tmp_y, h - 1));
+      tmp_x = lw6sys_imax (0, lw6sys_imin (tmp_x, w - 1));
+      tmp_y = lw6sys_imax (0, lw6sys_imin (tmp_y, h - 1));
 
       // done, affect values
       (*x) = tmp_x;

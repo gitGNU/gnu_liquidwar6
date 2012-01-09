@@ -37,13 +37,13 @@ lw6gui_rect_array_init (lw6gui_rect_array_t * rect_array, int w,
   memset (rect_array, 0, sizeof (lw6gui_rect_array_t));
 
   tile_size = lw6gui_power_of_two_le (tile_size);
-  // tile_size = lw6sys_min (tile_size, utils_context->caps.max_texture_size); to be reported in GL module
-  tile_size = lw6sys_min (tile_size, LW6GUI_MAX_TILE_SIZE);
-  tile_size = lw6sys_max (tile_size, LW6GUI_MIN_TILE_SIZE);
+  // tile_size = lw6sys_imin (tile_size, utils_context->caps.max_texture_size); to be reported in GL module
+  tile_size = lw6sys_imin (tile_size, LW6GUI_MAX_TILE_SIZE);
+  tile_size = lw6sys_imax (tile_size, LW6GUI_MIN_TILE_SIZE);
 
-  border_size = lw6sys_min (border_size, (tile_size / 2) - 1);
-  border_size = lw6sys_min (border_size, LW6GUI_MAX_BORDER_SIZE);
-  border_size = lw6sys_max (border_size, LW6GUI_MIN_BORDER_SIZE);
+  border_size = lw6sys_imin (border_size, (tile_size / 2) - 1);
+  border_size = lw6sys_imin (border_size, LW6GUI_MAX_BORDER_SIZE);
+  border_size = lw6sys_imax (border_size, LW6GUI_MIN_BORDER_SIZE);
 
   rect_array->source.w = w;
   rect_array->source.h = h;

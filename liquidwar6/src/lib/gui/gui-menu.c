@@ -546,8 +546,8 @@ lw6gui_menu_center (lw6gui_menu_t * menu, int position,
 {
   menu->first_item_displayed = position - (max_displayed_items / 2);
   menu->first_item_displayed =
-    lw6sys_min (menu->first_item_displayed, menu->nb_items - 1);
-  menu->first_item_displayed = lw6sys_max (menu->first_item_displayed, 0);
+    lw6sys_imin (menu->first_item_displayed, menu->nb_items - 1);
+  menu->first_item_displayed = lw6sys_imax (menu->first_item_displayed, 0);
 }
 
 /**
@@ -1003,7 +1003,7 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a,
       ret = ret && menu_a->nb_items == menu_b->nb_items;
       ret = ret
 	&& lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
-      for (i = 0; ret && i < lw6sys_min (menu_a->nb_items, menu_b->nb_items);
+      for (i = 0; ret && i < lw6sys_imin (menu_a->nb_items, menu_b->nb_items);
 	   ++i)
 	{
 	  if (i < menu_a->nb_items && i < menu_b->nb_items

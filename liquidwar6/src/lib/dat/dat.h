@@ -67,15 +67,16 @@ extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse,
 extern int
 lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t *
 						  warehouse);
-extern int lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t *
+extern int64_t lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t *
 					       warehouse);
+extern int64_t lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t *
+						   warehouse);
 extern lw6sys_list_t *lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t
 							    * warehouse,
-							    int seq_min,
-							    int seq_max);
+							    int64_t seq_min,
+							    int64_t seq_max);
 extern lw6sys_list_t
   * lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t *
 						 warehouse,

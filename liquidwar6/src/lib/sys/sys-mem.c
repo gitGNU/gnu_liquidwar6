@@ -70,7 +70,7 @@ lw6sys_malloc (int size, char *file, int line)
   void *ptr;
 
 #ifdef LW6_PARANOID
-  size = lw6sys_max (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
+  size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
 #endif
 
   ptr = malloc (size);
@@ -113,7 +113,7 @@ lw6sys_calloc (int size, char *file, int line)
   void *ptr;
 
 #ifdef LW6_PARANOID
-  size = lw6sys_max (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
+  size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
 #endif
 
   ptr = calloc (size, sizeof (char));
@@ -156,7 +156,7 @@ lw6sys_realloc (void *ptr, int size, char *file, int line)
   void *ptr2;
 
 #ifdef LW6_PARANOID
-  size = lw6sys_max (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
+  size = lw6sys_imax (size, _LW6SYS_BAZOOKA_ALLOC_MIN);
 #endif
 
 #ifndef LW6_OPTIMIZE

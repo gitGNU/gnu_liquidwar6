@@ -40,13 +40,13 @@ _lw6ker_history_set (_lw6ker_history_t * history,
       /*
        * We tolerate i==LW6KER_HISTORY_SIZE, will be set to -1
        */
-      i = lw6sys_min (i, LW6KER_HISTORY_SIZE - 1);
+      i = lw6sys_imin (i, LW6KER_HISTORY_SIZE - 1);
 
       for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
 	{
 	  history->nb_fighters[i][j] = armies->fighters_per_team[j];
 	}
-      history->nb_entries = lw6sys_max (i + 1, history->nb_entries);
+      history->nb_entries = lw6sys_imax (i + 1, history->nb_entries);
     }
   else
     {
@@ -61,8 +61,8 @@ _lw6ker_history_add (_lw6ker_history_t * history, _lw6ker_armies_t * armies)
 
   i = history->nb_entries;
   history->nb_entries++;
-  history->nb_entries = lw6sys_max (0, history->nb_entries);
-  i = lw6sys_max (0, i);
+  history->nb_entries = lw6sys_imax (0, history->nb_entries);
+  i = lw6sys_imax (0, i);
   i = i % LW6KER_HISTORY_SIZE;
 
   for (j = 0; j < LW6MAP_MAX_NB_TEAMS; ++j)
@@ -83,11 +83,11 @@ _lw6ker_history_get (_lw6ker_history_t * history, int i, int team_id)
 	{
 	  offset = history->nb_entries % LW6KER_HISTORY_SIZE;
 	  /*
-	   * TODO lw6sys_min below is probably lw6sys_max but
+	   * TODO lw6sys_imin below is probably lw6sys_imax but
 	   * I'd better wait code revamp of end of july 2011 before
 	   * touching this (could change checksums?)
 	   */
-	  i = lw6sys_min (0, (i + offset)) % LW6KER_HISTORY_SIZE;
+	  i = lw6sys_imin (0, (i + offset)) % LW6KER_HISTORY_SIZE;
 	}
       ret = history->nb_fighters[i][team_id];
     }
@@ -113,7 +113,7 @@ _lw6ker_history_get_max (_lw6ker_history_t * history)
 	{
 	  sub_total += history->nb_fighters[i][j];
 	}
-      ret = lw6sys_max (ret, sub_total);
+      ret = lw6sys_imax (ret, sub_total);
     }
 
   return ret;

@@ -194,15 +194,16 @@ _default_source (lw6map_layer_t * layer, int width, int height)
 	  for (x = 0; x < width; ++x)
 	    {
 	      source_x =
-		lw6sys_max (0,
-			    lw6sys_min ((x * LW6MAP_BUILTIN_DEFAULT_WIDTH) /
-					width,
-					LW6MAP_BUILTIN_DEFAULT_WIDTH - 1));
+		lw6sys_imax (0,
+			     lw6sys_imin ((x * LW6MAP_BUILTIN_DEFAULT_WIDTH) /
+					  width,
+					  LW6MAP_BUILTIN_DEFAULT_WIDTH - 1));
 	      source_y =
-		lw6sys_max (0,
-			    lw6sys_min ((y * LW6MAP_BUILTIN_DEFAULT_HEIGHT) /
-					height,
-					LW6MAP_BUILTIN_DEFAULT_HEIGHT - 1));
+		lw6sys_imax (0,
+			     lw6sys_imin ((y *
+					   LW6MAP_BUILTIN_DEFAULT_HEIGHT) /
+					  height,
+					  LW6MAP_BUILTIN_DEFAULT_HEIGHT - 1));
 	      c = _LAYER_DEFAULT_SOURCE[source_y][source_x];
 	      switch (c)
 		{
