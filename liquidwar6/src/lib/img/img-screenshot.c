@@ -155,6 +155,8 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir,
 		    }
 		}
 
+	      memset (&cinfo, 0, sizeof (struct jpeg_compress_struct));
+	      memset (&jerr, 0, sizeof (struct jpeg_error_mgr));
 	      cinfo.err = jpeg_std_error (&jerr);
 	      jpeg_create_compress (&cinfo);
 
