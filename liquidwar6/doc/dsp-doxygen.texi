@@ -3,7 +3,7 @@
 @deftp {Struct} {lw6dsp_backend_s}
 
     
-    
+The dsp bakckend is the first argument passed to any dsp function, it contains reference to all the functions which can be used as well as a pointer on associated data. In OO, this would just be an object, with members and methods, using polymorphism through opaque pointers.     
 @end deftp
 
 @defcv {Member} {lw6dsp_backend_s} {id}
@@ -13,7 +13,7 @@
 
 
         
-        
+The id of the object, this is non-zero and unique within one run session, incremented at each object creation.         
 @end defcv
 
 @defcv {Member} {lw6dsp_backend_s} {thread}
@@ -23,7 +23,7 @@
 
 
         
-        
+Thread running the display code. In fact running in a separate thread is the whole point of this display object.         
 @end defcv
 
 @defcv {Member} {lw6dsp_backend_s} {data}
@@ -33,7 +33,7 @@
 
 
         
-        
+Data used by the display code. This is an opaque pointer, the internal structure will store details such as mutexes, parameters, information about the graphics backend, and so on.         
 @end defcv
 
 @defcv {Member} {lw6dsp_backend_s} {input}
@@ -43,7 +43,7 @@
 
 
         
-        
+Input structure, will be updated by the display thread, so that it contains up-to-date information. This is actually the only way to get input from the user.         
 @end defcv
 
 
@@ -52,7 +52,7 @@
 @deftp {Struct} {lw6dsp_misc_s}
 
     
-    
+Miscellaneous parameters for display. One of the idea with this structure is that one must be able to compare two of them with a simple memcmp. Even the progress pointer can be compared this way, the rest is just plain data.     
 @end deftp
 
 @defcv {Member} {lw6dsp_misc_s} {mask}
@@ -61,7 +61,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::mask}
 
 
-        
+Display mask, define what must be displayed.         
         
 @end defcv
 
@@ -71,7 +71,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::target_fps}
 
 
-        
+How many frames per second the engine needs to display.         
         
 @end defcv
 
@@ -82,7 +82,7 @@
 
 
         
-        
+How much CPU need be used, the maximum is 1.0f, the idea behind this parameter is that if you set it to a low value, the display thread will yield timeslices letting other threads speed up. On a single-core CPU this can be usefull if the main calculation thread, the one that updates the game state, is falling behind.         
 @end defcv
 
 @defcv {Member} {lw6dsp_misc_s} {dirty_read}
@@ -91,7 +91,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::dirty_read}
 
 
-        
+Dirty read mode.         
         
 @end defcv
 
@@ -101,7 +101,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::capture}
 
 
-        
+Wether we want to capture screen and dump it on disk.         
         
 @end defcv
 
@@ -111,7 +111,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::gfx_debug}
 
 
-        
+Wether to enable GFX debug mode.         
         
 @end defcv
 
@@ -121,7 +121,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::debug_team_id}
 
 
-        
+Parameter for debug mode, team ID to show info about.         
         
 @end defcv
 
@@ -131,7 +131,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::debug_layer_id}
 
 
-        
+Parameter for debug mode, layer ID to show info about.         
         
 @end defcv
 
@@ -141,7 +141,7 @@
 @strong{Definition:} @code{lw6gui_repeat_settings_t lw6dsp_misc_s::repeat_settings}
 
 
-        
+Repeat settings, used by the input module.         
         
 @end defcv
 
@@ -151,7 +151,7 @@
 @strong{Definition:} @code{int lw6dsp_misc_s::log_timeout}
 
 
-        
+Delay after which messages disappear, in milliseconds.         
         
 @end defcv
 
@@ -161,7 +161,7 @@
 @strong{Definition:} @code{volatile float* lw6dsp_misc_s::progress}
 
 
-        
+Pointer on progress float, provides feedback to user.         
         
 @end defcv
 
@@ -171,7 +171,7 @@
 @deftp {Struct} {lw6dsp_param_s}
 
     
-    
+Parameters used by the display thread. Be carefull, those need be modify with adequate functions, else a (serious) race condition could occur.     
 @end deftp
 
 @defcv {Member} {lw6dsp_param_s} {misc}
@@ -180,7 +180,7 @@
 @strong{Definition:} @code{lw6dsp_misc_t lw6dsp_param_s::misc}
 
 
-        
+Miscellaneous parameters, things that didn't fit elsewhere.         
         
 @end defcv
 
@@ -191,7 +191,7 @@
 
 
         
-        
+Video mode. This is separated from the misc parameters for it requires special handling, indeed changing resolution might need calls to special functions to set up a new graphical context.         
 @end defcv
 
 @defcv {Member} {lw6dsp_param_s} {look}
@@ -200,7 +200,7 @@
 @strong{Definition:} @code{lw6gui_look_t* lw6dsp_param_s::look}
 
 
-        
+Visual parameters.         
         
 @end defcv
 
@@ -211,7 +211,7 @@
 
 
         
-        
+Menu object, the main interface to gather and transmit informations to the user, when not playing.         
 @end defcv
 
 @defcv {Member} {lw6dsp_param_s} {level}
@@ -220,7 +220,7 @@
 @strong{Definition:} @code{lw6map_level_t* lw6dsp_param_s::level}
 
 
-        
+The level, as loaded from disk.         
         
 @end defcv
 
@@ -231,7 +231,7 @@
 
 
         
-        
+The game struct, that is the level post-processed to be usable by game algorithms.         
 @end defcv
 
 @defcv {Member} {lw6dsp_param_s} {game_state}
@@ -241,7 +241,7 @@
 
 
         
-        
+Changeable state of the game. Not that this pointer must really always be available, you can technically change its value but any value passed to it must be available and valid as long as the display is running, else you end up with a good old segfault.         
 @end defcv
 
 @defcv {Member} {lw6dsp_param_s} {pilot}
@@ -251,7 +251,7 @@
 
 
         
-        
+If in dirty-read mode, then game_state will be fetched from this object. It can be NULL if you don't want to use the pilot.         
 @end defcv
 
 

@@ -572,37 +572,58 @@ results on
      *Return value:*  1 if OK, 0 if error.
 
  -- Struct: lw6dsp_backend_s
+     The dsp bakckend is the first argument passed to any dsp function,
+     it contains reference to all the functions which can be used as
+     well as a pointer on associated data. In OO, this would just be an
+     object, with members and methods, using polymorphism through
+     opaque pointers.
 
  -- Member of lw6dsp_backend_s: id
      *Type:* `u_int32_t'
 
      *Definition:* `u_int32_t lw6dsp_backend_s::id'
 
+     The id of the object, this is non-zero and unique within one run
+     session, incremented at each object creation.
 
  -- Member of lw6dsp_backend_s: thread
      *Type:* `void *'
 
      *Definition:* `void* lw6dsp_backend_s::thread'
 
+     Thread running the display code. In fact running in a separate
+     thread is the whole point of this display object.
 
  -- Member of lw6dsp_backend_s: data
      *Type:* `void *'
 
      *Definition:* `void* lw6dsp_backend_s::data'
 
+     Data used by the display code. This is an opaque pointer, the
+     internal structure will store details such as mutexes, parameters,
+     information about the graphics backend, and so on.
 
  -- Member of lw6dsp_backend_s: input
      *Type:* `lw6gui_input_t *'
 
      *Definition:* `lw6gui_input_t* lw6dsp_backend_s::input'
 
+     Input structure, will be updated by the display thread, so that it
+     contains up-to-date information. This is actually the only way to
+     get input from the user.
 
  -- Struct: lw6dsp_misc_s
+     Miscellaneous parameters for display. One of the idea with this
+     structure is that one must be able to compare two of them with a
+     simple memcmp. Even the progress pointer can be compared this way,
+     the rest is just plain data.
 
  -- Member of lw6dsp_misc_s: mask
      *Type:* `int'
 
      *Definition:* `int lw6dsp_misc_s::mask'
+
+     Display mask, define what must be displayed.
 
 
  -- Member of lw6dsp_misc_s: target_fps
@@ -610,17 +631,26 @@ results on
 
      *Definition:* `int lw6dsp_misc_s::target_fps'
 
+     How many frames per second the engine needs to display.
+
 
  -- Member of lw6dsp_misc_s: gfx_cpu_usage
      *Type:* `float'
 
      *Definition:* `float lw6dsp_misc_s::gfx_cpu_usage'
 
+     How much CPU need be used, the maximum is 1.0f, the idea behind
+     this parameter is that if you set it to a low value, the display
+     thread will yield timeslices letting other threads speed up. On a
+     single-core CPU this can be usefull if the main calculation
+     thread, the one that updates the game state, is falling behind.
 
  -- Member of lw6dsp_misc_s: dirty_read
      *Type:* `int'
 
      *Definition:* `int lw6dsp_misc_s::dirty_read'
+
+     Dirty read mode.
 
 
  -- Member of lw6dsp_misc_s: capture
@@ -628,11 +658,15 @@ results on
 
      *Definition:* `int lw6dsp_misc_s::capture'
 
+     Wether we want to capture screen and dump it on disk.
+
 
  -- Member of lw6dsp_misc_s: gfx_debug
      *Type:* `int'
 
      *Definition:* `int lw6dsp_misc_s::gfx_debug'
+
+     Wether to enable GFX debug mode.
 
 
  -- Member of lw6dsp_misc_s: debug_team_id
@@ -640,11 +674,15 @@ results on
 
      *Definition:* `int lw6dsp_misc_s::debug_team_id'
 
+     Parameter for debug mode, team ID to show info about.
+
 
  -- Member of lw6dsp_misc_s: debug_layer_id
      *Type:* `int'
 
      *Definition:* `int lw6dsp_misc_s::debug_layer_id'
+
+     Parameter for debug mode, layer ID to show info about.
 
 
  -- Member of lw6dsp_misc_s: repeat_settings
@@ -653,11 +691,15 @@ results on
      *Definition:* `lw6gui_repeat_settings_t
      lw6dsp_misc_s::repeat_settings'
 
+     Repeat settings, used by the input module.
+
 
  -- Member of lw6dsp_misc_s: log_timeout
      *Type:* `int'
 
      *Definition:* `int lw6dsp_misc_s::log_timeout'
+
+     Delay after which messages disappear, in milliseconds.
 
 
  -- Member of lw6dsp_misc_s: progress
@@ -665,13 +707,20 @@ results on
 
      *Definition:* `volatile float* lw6dsp_misc_s::progress'
 
+     Pointer on progress float, provides feedback to user.
+
 
  -- Struct: lw6dsp_param_s
+     Parameters used by the display thread. Be carefull, those need be
+     modify with adequate functions, else a (serious) race condition
+     could occur.
 
  -- Member of lw6dsp_param_s: misc
      *Type:* `lw6dsp_misc_t'
 
      *Definition:* `lw6dsp_misc_t lw6dsp_param_s::misc'
+
+     Miscellaneous parameters, things that didn't fit elsewhere.
 
 
  -- Member of lw6dsp_param_s: video_mode
@@ -679,11 +728,16 @@ results on
 
      *Definition:* `lw6gui_video_mode_t lw6dsp_param_s::video_mode'
 
+     Video mode. This is separated from the misc parameters for it
+     requires special handling, indeed changing resolution might need
+     calls to special functions to set up a new graphical context.
 
  -- Member of lw6dsp_param_s: look
      *Type:* `lw6gui_look_t *'
 
      *Definition:* `lw6gui_look_t* lw6dsp_param_s::look'
+
+     Visual parameters.
 
 
  -- Member of lw6dsp_param_s: menu
@@ -691,11 +745,15 @@ results on
 
      *Definition:* `lw6gui_menu_t* lw6dsp_param_s::menu'
 
+     Menu object, the main interface to gather and transmit
+     informations to the user, when not playing.
 
  -- Member of lw6dsp_param_s: level
      *Type:* `lw6map_level_t *'
 
      *Definition:* `lw6map_level_t* lw6dsp_param_s::level'
+
+     The level, as loaded from disk.
 
 
  -- Member of lw6dsp_param_s: game_struct
@@ -703,18 +761,26 @@ results on
 
      *Definition:* `lw6ker_game_struct_t* lw6dsp_param_s::game_struct'
 
+     The game struct, that is the level post-processed to be usable by
+     game algorithms.
 
  -- Member of lw6dsp_param_s: game_state
      *Type:* `lw6ker_game_state_t *'
 
      *Definition:* `lw6ker_game_state_t* lw6dsp_param_s::game_state'
 
+     Changeable state of the game. Not that this pointer must really
+     always be available, you can technically change its value but any
+     value passed to it must be available and valid as long as the
+     display is running, else you end up with a good old segfault.
 
  -- Member of lw6dsp_param_s: pilot
      *Type:* `lw6pil_pilot_t *'
 
      *Definition:* `lw6pil_pilot_t* lw6dsp_param_s::pilot'
 
+     If in dirty-read mode, then game_state will be fetched from this
+     object. It can be NULL if you don't want to use the pilot.
 
 
 File: liquidwar6.info,  Node: libdyn,  Next: libgfx,  Prev: libdsp,  Up: C API
