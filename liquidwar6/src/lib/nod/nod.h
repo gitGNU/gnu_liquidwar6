@@ -191,6 +191,7 @@ extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info,
 extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info,
 						char *url);
 extern int lw6nod_info_community_count (lw6nod_info_t * info);
+extern void lw6nod_info_community_reset (lw6nod_info_t * info);
 
 /* nod-dyninfo.c */
 extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);

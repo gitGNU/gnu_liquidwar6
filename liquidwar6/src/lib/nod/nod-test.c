@@ -634,6 +634,7 @@ test_community ()
 	    lw6sys_log (LW6SYS_LOG_WARNING, _x_ ("wrong count=%d"), count);
 	    ret = 0;
 	  }
+	lw6nod_info_community_reset (info);
 	if (!lw6nod_info_community_remove_by_url (info, _TEST_URL_1))
 	  {
 	    lw6sys_log (LW6SYS_LOG_NOTICE,

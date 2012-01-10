@@ -4,7 +4,7 @@
 @deftp {Struct} {lw6sys_assoc_s}
 
     
-    
+Assoc is a basic key/pair structure where key is a string. Use it for basic associations, it's not fast when there are many keys, in that case, prefer a hash.     
 @end deftp
 
 @defcv {Member} {lw6sys_assoc_s} {key}
@@ -13,7 +13,7 @@
 @strong{Definition:} @code{char* lw6sys_assoc_s::key}
 
 
-        
+The key, a 0 terminated standard C string.         
         
 @end defcv
 
@@ -23,7 +23,7 @@
 @strong{Definition:} @code{void* lw6sys_assoc_s::value}
 
 
-        
+The value, pointer to arbitrary data.         
         
 @end defcv
 
@@ -34,17 +34,17 @@
 
 
         
-        
+This function will be called whenever the element is deleted. You can set it to NULL in that case no callback will be called on deletion.         
 @end defcv
 
 @defcv {Member} {lw6sys_assoc_s} {next_item}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_assoc_p}
 
-@strong{Definition:} @code{void* lw6sys_assoc_s::next_item}
+@strong{Definition:} @code{lw6sys_assoc_p lw6sys_assoc_s::next_item}
 
 
         
-        
+Pointer on the next item, will be NULL on last element, there's a difference between a NULL pointer and a valid assoc with only one item being EOL.         
 @end defcv
 
 
@@ -200,7 +200,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @deftp {Struct} {lw6sys_hash_s}
 
     
-    
+Hash is a basic hash structure, relying on assoc for implementation. Actually, what it does is storing an array of assoc, the number of assoc elements is given at construction. Then when accessing a member, a quick checksum is made from the key, which enables finding out which assoc must be queried. If the hash is properly sized, then once one has found the right assoc, finding the right key is fast, since there are only a few of them in each assoc, and it avoids scanning for for all keys, which is the very purpose of the hash.     
 @end deftp
 
 @defcv {Member} {lw6sys_hash_s} {size}
@@ -209,7 +209,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @strong{Definition:} @code{int lw6sys_hash_s::size}
 
 
-        
+Number of assoc used for this hash, passed at construction.         
         
 @end defcv
 
@@ -219,7 +219,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @strong{Definition:} @code{lw6sys_assoc_t** lw6sys_hash_s::entries}
 
 
-        
+Array of assoc holding the actual data.         
         
 @end defcv
 
@@ -230,7 +230,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 
 
         
-        
+This function will be called whenever the element is deleted. You can set it to NULL in that case no callback will be called on deletion.         
 @end defcv
 
 
@@ -239,7 +239,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @deftp {Struct} {lw6sys_hexa_serializer_s}
 
     
-    
+The hexa (for hexadecimal) serializer is a tool used to simplify serialization processes, you can just push/pop basic data types on it, it will concatenate the string, allocate memory, do all this dirty stuff without requiring you to plan the size of the buffer, among other things.     
 @end deftp
 
 @defcv {Member} {lw6sys_hexa_serializer_s} {buf}
@@ -248,7 +248,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @strong{Definition:} @code{char* lw6sys_hexa_serializer_s::buf}
 
 
-        
+Data buffer.         
         
 @end defcv
 
@@ -258,7 +258,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @strong{Definition:} @code{int lw6sys_hexa_serializer_s::buf_size}
 
 
-        
+Size of data buffer, in bytes.         
         
 @end defcv
 
@@ -269,7 +269,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 
 
         
-        
+Current position within the buffer, this is, typically, the place where data will be appended at the next push call, or where it will be fetched from at the next pop call.         
 @end defcv
 
 
@@ -278,7 +278,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @deftp {Struct} {lw6sys_list_s}
 
     
-    
+List is a basic list system, with a void * pointer to hold arbitrary data and a callback function for deletion. Provides basic functions to push, pop, walk, any array-like call will of course be very slow. As of current implementation, front operations are fast, but back operations are slow.     
 @end deftp
 
 @defcv {Member} {lw6sys_list_s} {data}
@@ -287,7 +287,7 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 @strong{Definition:} @code{void* lw6sys_list_s::data}
 
 
-        
+Opaque pointer on element data.         
         
 @end defcv
 
@@ -298,17 +298,17 @@ Alpha [0 ... 1.0f]. 1.0f is opaque, 0.0f is transparent.
 
 
         
-        
+This function will be called whenever the element is deleted. You can set it to NULL in that case no callback will be called on deletion.         
 @end defcv
 
 @defcv {Member} {lw6sys_list_s} {next_item}
-@strong{Type:} @code{void *}
+@strong{Type:} @code{lw6sys_list_p}
 
-@strong{Definition:} @code{void* lw6sys_list_s::next_item}
+@strong{Definition:} @code{lw6sys_list_p lw6sys_list_s::next_item}
 
 
         
-        
+Pointer on the next item, will be NULL on last element, there's a difference between a NULL pointer and a valid list with only one item being EOL. Other way to state it: NULL and empty list are two different things.         
 @end defcv
 
 
@@ -455,7 +455,7 @@ Somewhere between min and max.
 @deftp {Struct} {lw6sys_url_s}
 
     
-    
+Describes an URL, with its elements splitted, this is just to be able to use half-parsed URLs and avoid redoing this parsing everytime.     
 @end deftp
 
 @defcv {Member} {lw6sys_url_s} {use_ssl}
@@ -464,7 +464,7 @@ Somewhere between min and max.
 @strong{Definition:} @code{int lw6sys_url_s::use_ssl}
 
 
-        
+1 if in https, 0 if in http.         
         
 @end defcv
 
@@ -474,7 +474,7 @@ Somewhere between min and max.
 @strong{Definition:} @code{char* lw6sys_url_s::host}
 
 
-        
+Host name.         
         
 @end defcv
 
@@ -484,7 +484,7 @@ Somewhere between min and max.
 @strong{Definition:} @code{int lw6sys_url_s::port}
 
 
-        
+IP port.         
         
 @end defcv
 
@@ -494,7 +494,7 @@ Somewhere between min and max.
 @strong{Definition:} @code{char* lw6sys_url_s::uri}
 
 
-        
+URI, that is, everything after the port.         
         
 @end defcv
 

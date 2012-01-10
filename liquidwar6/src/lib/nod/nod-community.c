@@ -261,6 +261,26 @@ lw6nod_info_community_count (lw6nod_info_t * info)
   return ret;
 }
 
+/**
+ * lw6nod_info_community_reset
+ *
+ * @info: node info object to modify
+ *
+ * Resets all peers, set community to only one member, ourselves.
+ *
+ * Return value: none.
+ */
+void
+lw6nod_info_community_reset (lw6nod_info_t * info)
+{
+  int i = 0;
+
+  for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
+    {
+      _lw6nod_ref_info_reset (&(info->dyn_info.community_peers[i]));
+    }
+}
+
 lw6nod_ref_info_t *
 _lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info,
 				       u_int64_t id)

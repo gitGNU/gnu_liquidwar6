@@ -328,47 +328,128 @@ typedef void *(*lw6sys_dup_func_t) (void *data);
 typedef void (*lw6sys_thread_callback_func_t) (void *callback_data);
 typedef int (*lw6sys_dir_list_filter_func_t) (void *func_data, char *file);
 
+typedef struct lw6sys_assoc_s *lw6sys_assoc_p;
+
+/**
+ * Assoc is a basic key/pair structure where key is a string.
+ * Use it for basic associations, it's not fast when there are
+ * many keys, in that case, prefer a hash.
+ */
 typedef struct lw6sys_assoc_s
 {
+  /// The key, a 0 terminated standard C string.
   char *key;
+  /// The value, pointer to arbitrary data.
   void *value;
+  /**
+   * This function will be called whenever the element is
+   * deleted. You can set it to NULL in that case no callback
+   * will be called on deletion.
+   */
   lw6sys_free_func_t free_func;
-  void *next_item;		// lw6sys_assoc_t *
+  /** 
+   * Pointer on the next item, will be NULL on last element,
+   * there's a difference between a NULL pointer and a valid
+   * assoc with only one item being EOL.
+   */
+  lw6sys_assoc_p next_item;
 }
 lw6sys_assoc_t;
 
+/**
+ * Hash is a basic hash structure, relying on assoc for
+ * implementation. Actually, what it does is storing an array
+ * of assoc, the number of assoc elements is given at construction.
+ * Then when accessing a member, a quick checksum is made from
+ * the key, which enables finding out which assoc must be queried.
+ * If the hash is properly sized, then once one has found the
+ * right assoc, finding the right key is fast, since there are
+ * only a few of them in each assoc, and it avoids scanning for
+ * for all keys, which is the very purpose of the hash.
+ */
 typedef struct lw6sys_hash_s
 {
+  /// Number of assoc used for this hash, passed at construction.
   int size;
+  /// Array of assoc holding the actual data.
   lw6sys_assoc_t **entries;
+  /**
+   * This function will be called whenever the element is
+   * deleted. You can set it to NULL in that case no callback
+   * will be called on deletion.
+   */
   lw6sys_free_func_t free_func;
 }
 lw6sys_hash_t;
 
+typedef struct lw6sys_list_s *lw6sys_list_p;
+
+/**
+ * List is a basic list system, with a void * pointer to
+ * hold arbitrary data and a callback function for deletion.
+ * Provides basic functions to push, pop, walk, any array-like
+ * call will of course be very slow. As of current implementation,
+ * front operations are fast, but back operations are slow.
+ */
 typedef struct lw6sys_list_s
 {
+  /// Opaque pointer on element data.
   void *data;
+  /**
+   * This function will be called whenever the element is
+   * deleted. You can set it to NULL in that case no callback
+   * will be called on deletion.
+   */
   lw6sys_free_func_t free_func;
-  void *next_item;		// lw6sys_list_t *
+  /** 
+   * Pointer on the next item, will be NULL on last element,
+   * there's a difference between a NULL pointer and a valid
+   * list with only one item being EOL. Other way to state it:
+   * NULL and empty list are two different things.
+   */
+  lw6sys_list_p next_item;
 }
 lw6sys_list_t;
 
 typedef int (*lw6sys_sort_callback_func_t) (lw6sys_list_t ** list_a,
 					    lw6sys_list_t ** list_b);
 
+/**
+ * The hexa (for hexadecimal) serializer is a tool used
+ * to simplify serialization processes, you can just push/pop
+ * basic data types on it, it will concatenate the string,
+ * allocate memory, do all this dirty stuff without requiring
+ * you to plan the size of the buffer, among other things.
+ */
 typedef struct lw6sys_hexa_serializer_s
 {
+  /// Data buffer.
   char *buf;
+  /// Size of data buffer, in bytes.
   int buf_size;
+  /**
+   * Current position within the buffer, this is, typically,
+   * the place where data will be appended at the next push call,
+   * or where it will be fetched from at the next pop call.
+   */
   int pos;
 }
 lw6sys_hexa_serializer_t;
 
+/**
+ * Describes an URL, with its elements splitted, this is
+ * just to be able to use half-parsed URLs and avoid redoing
+ * this parsing everytime.
+ */
 typedef struct lw6sys_url_s
 {
+  /// 1 if in https, 0 if in http.
   int use_ssl;
+  /// Host name.
   char *host;
+  /// IP port.
   int port;
+  /// URI, that is, everything after the port.
   char *uri;
 }
 lw6sys_url_t;

@@ -1642,14 +1642,14 @@ void
 _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 {
   int i;
-  // todo...
-  TMP ("disconnect");
+
   lw6dat_warehouse_clear (node->warehouse);
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
       _lw6p2p_tentacle_clear (&(node->tentacles[i]));
     }
+  lw6nod_info_community_reset (node->node_info);
   lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE,
 		      0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 }

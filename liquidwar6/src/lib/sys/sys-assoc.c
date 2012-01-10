@@ -86,7 +86,7 @@ lw6sys_assoc_free (lw6sys_assoc_t * assoc)
        * Keep a copy of next_item for we are about to
        * free the pointer to it.
        */
-      lw6sys_assoc_t *next_item = (void *) assoc->next_item;
+      lw6sys_assoc_t *next_item = assoc->next_item;
 
       if (assoc->key)
 	{
@@ -242,7 +242,7 @@ lw6sys_assoc_set (lw6sys_assoc_t ** assoc, const char *key, void *value)
 	  new_assoc = LW6SYS_MALLOC (sizeof (lw6sys_assoc_t));
 	  if (new_assoc)
 	    {
-	      new_assoc->next_item = (void *) (*assoc);
+	      new_assoc->next_item = (*assoc);
 	      new_assoc->key = lw6sys_str_copy (key);
 	      new_assoc->value = value;
 	      new_assoc->free_func = (*assoc)->free_func;

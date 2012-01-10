@@ -81,6 +81,14 @@ from time to time from game_state information.
 @strong{Return value:}  number of community members, including this node (us).
 @end deftypefun
 
+@deftypefun {void} {lw6nod_info_community_reset} (lw6nod_info_t * @var{info})
+@var{info}:  node info object to modify
+
+Resets all peers, set community to only one member, ourselves.
+
+@strong{Return value:}  none.
+@end deftypefun
+
 @deftypefun {void} {lw6nod_dyn_info_free} (lw6nod_dyn_info_t * @var{dyn_info})
 @var{dyn_info}:  the dyn info struct to free
 

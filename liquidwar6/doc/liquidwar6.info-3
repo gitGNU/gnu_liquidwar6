@@ -9106,6 +9106,13 @@ results on
      *Return value:*  number of community members, including this node
      (us).
 
+ -- Function: void lw6nod_info_community_reset (lw6nod_info_t * INFO)
+     INFO:  node info object to modify
+
+     Resets all peers, set community to only one member, ourselves.
+
+     *Return value:*  none.
+
  -- Function: void lw6nod_dyn_info_free (lw6nod_dyn_info_t * DYN_INFO)
      DYN_INFO:  the dyn info struct to free
 

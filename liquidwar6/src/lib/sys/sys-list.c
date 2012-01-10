@@ -80,7 +80,7 @@ lw6sys_list_free (lw6sys_list_t * list)
        * Keep a copy of next_item for we are about to
        * free the pointer to it.
        */
-      lw6sys_list_t *next_item = (void *) list->next_item;
+      lw6sys_list_t *next_item = list->next_item;
 
       /*
        * It's legal to have free_func or data set to NULL,
@@ -336,7 +336,7 @@ lw6sys_list_push_front (lw6sys_list_t ** list, void *data)
       new_list = LW6SYS_MALLOC (sizeof (lw6sys_list_t));
       if (new_list)
 	{
-	  new_list->next_item = (void *) (*list);
+	  new_list->next_item = (*list);
 	  new_list->data = data;
 	  new_list->free_func = (*list)->free_func;
 	  (*list) = new_list;
